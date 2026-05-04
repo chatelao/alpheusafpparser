@@ -8,9 +8,9 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - Ensure all artifacts (JARs, POM) are correctly generated.
 
 ## Phase 1: Setup GitHub Actions Workflow
-- [ ] Create `.github/workflows/ci.yml`.
-- [ ] Define the workflow to trigger on `push` and `pull_request` to the `master` branch.
-- [ ] Set up a job running on `ubuntu-latest`.
+- [x] Create `.github/workflows/ci.yml`.
+- [x] Define the workflow to trigger on `push` and `pull_request` to the `master` branch.
+- [x] Set up a job running on `ubuntu-latest`.
 
 ## Phase 2: Build and Test Configuration
 - [ ] Configure Java 8 setup using `actions/setup-java`.
