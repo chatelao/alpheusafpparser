@@ -13,10 +13,10 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [x] Set up a job running on `ubuntu-latest`.
 
 ## Phase 2: Build and Test Configuration
-- [ ] Configure Java 8 setup using `actions/setup-java`.
-- [ ] Grant execution permissions to `./gradlew`.
-- [ ] Implement a step to run `./gradlew build` and `./gradlew test`.
-- [ ] Ensure `checkstyle` runs as part of the build.
+- [x] Configure Java 8 setup using `actions/setup-java`.
+- [x] Grant execution permissions to `./gradlew`.
+- [x] Implement a step to run `./gradlew build` and `./gradlew test`.
+- [x] Ensure `checkstyle` runs as part of the build.
 
 ## Phase 3: Artifact Management
 - [ ] Configure steps to upload build artifacts (JARs) using `actions/upload-artifact`.
