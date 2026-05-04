@@ -19,10 +19,10 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [x] Ensure `checkstyle` runs as part of the build.
 
 ## Phase 3: Artifact Management
-- [ ] Configure steps to upload build artifacts (JARs) using `actions/upload-artifact`.
+- [x] Configure steps to upload build artifacts (JARs) using `actions/upload-artifact`.
 - [ ] Verify that `javadocJar` and `sourcesJar` are correctly generated and included.
 
 ## Phase 4: Cleanup and Finalization
-- [ ] Remove `.travis.yml` from the repository.
-- [ ] Update `README.md` to replace the Travis CI build badge with the GitHub Actions badge.
+- [x] Remove `.travis.yml` from the repository.
+- [x] Update `README.md` to replace the Travis CI build badge with the GitHub Actions badge.
 - [ ] Verify the entire pipeline by running a test pull request.
