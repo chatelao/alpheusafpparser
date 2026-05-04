@@ -19,18 +19,18 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         cache: gradle
+    - name: Validate Gradle Wrapper
+      uses: gradle/wrapper-validation-action@v2
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
+    - name: Build and Test with Gradle
       run: ./gradlew build sourcesJar javadocJar writeNewPom
-    - name: Run tests with Gradle
-      run: ./gradlew test
     - name: Verify Artifacts
       run: |
-        test -f build/libs/alpheusafpparser-0.2.2.jar
-        test -f build/libs/alpheusafpparser-0.2.2-sources.jar
-        test -f build/libs/alpheusafpparser-0.2.2-javadoc.jar
-        test -f build/libs/alpheusafpparser-0.2.2.pom
+        ls build/libs/alpheusafpparser-*.jar | grep -v "sources" | grep -v "javadoc" | xargs test -f
+        test -f build/libs/alpheusafpparser-*-sources.jar
+        test -f build/libs/alpheusafpparser-*-javadoc.jar
+        test -f build/libs/alpheusafpparser-*.pom
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
