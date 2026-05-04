@@ -35,3 +35,26 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [x] Consolidate build and test steps.
 - [x] Implement version-agnostic artifact verification.
 - [x] Add Gradle Wrapper validation.
+
+## Phase 6: Modernization of Build System and Language
+- [ ] Upgrade Gradle to 8.x or latest version.
+- [ ] Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts`).
+- [ ] Update Java version to 21 (LTS) or latest available.
+- [ ] Refactor source code to use modern Java features (records, sealed classes, pattern matching, etc.).
+
+## Phase 7: Testing and Quality Assurance
+- [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
+- [ ] Integrate JaCoCo for code coverage reporting.
+- [ ] Add GitHub Actions job for CodeQL analysis.
+- [ ] Update Checkstyle to a modern version and use standard Google or Sun style.
+
+## Phase 8: Modernized Publishing and Distribution
+- [ ] Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.
+- [ ] Configure automated publishing to Maven Central via GitHub Actions.
+- [ ] Set up automated release notes generation using GitHub Releases.
+
+## Phase 9: Project Documentation and Maintenance
+- [ ] Set up Dependabot or Renovate for automated dependency and Gradle updates.
+- [ ] Migrate project documentation to MkDocs or Docusaurus, hosted on GitHub Pages.
+- [ ] Add a comprehensive contributing guide (`CONTRIBUTING.md`).
+- [ ] Implement a SECURITY.md policy.
