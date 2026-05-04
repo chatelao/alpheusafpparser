@@ -36,3 +36,9 @@ jobs:
       with:
         name: alpheus-afp-parser-artifacts
         path: build/libs/
+    - name: Upload Reports on Failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-reports
+        path: build/reports/

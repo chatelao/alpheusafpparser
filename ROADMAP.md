@@ -27,7 +27,9 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [x] Update `README.md` to replace the Travis CI build badge with the GitHub Actions badge.
 - [ ] Verify the entire pipeline.
     - [x] Manual workflow syntax and consistency check.
-    - [ ] Final verification via automated build.
+    - [ ] Trigger CI via push or workflow_dispatch.
+    - [ ] Confirm successful completion of CI job.
+    - [ ] Verify uploaded artifacts in GitHub Actions UI.
 
 ## Phase 5: CI/CD Optimizations
 - [x] Enable Gradle caching in GitHub Actions.
@@ -35,3 +37,7 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [x] Consolidate build and test steps.
 - [x] Implement version-agnostic artifact verification.
 - [x] Add Gradle Wrapper validation.
+
+## Phase 6: Maintenance and CI Enhancements
+- [x] Configure Dependabot for automated updates.
+- [x] Upload build reports (tests, checkstyle) on failure.
