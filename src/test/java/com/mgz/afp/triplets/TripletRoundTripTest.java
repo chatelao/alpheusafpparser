@@ -14,7 +14,16 @@ import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet;
 import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet.MODCAInterchangeSet_Identifier;
 import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet.MODCAInterchangeSet_Type;
 import com.mgz.afp.triplets.Triplet.MappingOption;
+import com.mgz.afp.triplets.Triplet.CMRTagFidelity;
+import com.mgz.afp.triplets.Triplet.ColorFidelity;
+import com.mgz.afp.triplets.Triplet.ColorManagementResourceDescriptor;
+import com.mgz.afp.triplets.Triplet.ColorSpecification;
+import com.mgz.afp.triplets.Triplet.DeviceAppearance;
 import com.mgz.afp.triplets.Triplet.MappingOption.DataObjecMapingOption;
+import com.mgz.afp.triplets.Triplet.PresentationSpaceMixingRule;
+import com.mgz.afp.triplets.Triplet.PresentationSpaceResetMixing;
+import com.mgz.afp.triplets.Triplet.RenderingIntent;
+import com.mgz.afp.triplets.Triplet.TonerSaver;
 import com.mgz.afp.triplets.Triplet.TripletID;
 import org.junit.Test;
 
@@ -134,6 +143,123 @@ public class TripletRoundTripTest {
         // Length(1) | ID(1) | Factor(2)
         byte[] data = new byte[] {
             0x04, 0x5D, 0x03, (byte) 0xE8 // 1000
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testColorSpecificationRoundTrip() throws Exception {
+        ColorSpecification triplet = new ColorSpecification();
+        triplet.setTripletID(TripletID.ColorSpecification);
+
+        // Length(1) | ID(1) | Reserved(1) | Space(1) | Reserved(4) | C1Size(1) | C2Size(1) | C3Size(1) | C4Size(1) | Value(3)
+        byte[] data = new byte[] {
+            0x0F, 0x4E, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08, 0x00, (byte) 0xFF, 0x00, 0x00 // RGB(1), 8-bit, Red
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testPresentationSpaceResetMixingRoundTrip() throws Exception {
+        PresentationSpaceResetMixing triplet = new PresentationSpaceResetMixing();
+        triplet.setTripletID(TripletID.PresentationSpaceResetMixing);
+
+        // Length(1) | ID(1) | Flag(1)
+        byte[] data = new byte[] {
+            0x03, 0x70, (byte) 0x80 // ResetColor
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testPresentationSpaceMixingRuleRoundTrip() throws Exception {
+        PresentationSpaceMixingRule triplet = new PresentationSpaceMixingRule();
+        triplet.setTripletID(TripletID.PresentationSpaceMixingRule);
+
+        // Length(1) | ID(1) | (Keyword(1) | Rule(1))*2
+        byte[] data = new byte[] {
+            0x06, 0x71, 0x70, 0x01, 0x71, 0x02 // BackOnBack Overpaint, BackOnFore Underpaint
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testTonerSaverRoundTrip() throws Exception {
+        TonerSaver triplet = new TonerSaver();
+        triplet.setTripletID(TripletID.TonerSaver);
+
+        // Length(1) | ID(1) | Reserved(1) | Function(1) | Reserved(2)
+        byte[] data = new byte[] {
+            0x06, 0x74, 0x00, 0x01, 0x00, 0x00 // Activate
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testColorFidelityRoundTrip() throws Exception {
+        ColorFidelity triplet = new ColorFidelity();
+        triplet.setTripletID(TripletID.ColorFidelity);
+
+        // Length(1) | ID(1) | Continuation(1) | Reserved(1) | Reporting(1) | Reserved(1) | Substitution(1) | Reserved(1)
+        byte[] data = new byte[] {
+            0x08, 0x75, 0x01, 0x00, 0x01, 0x00, 0x01, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testColorManagementResourceDescriptorRoundTrip() throws Exception {
+        ColorManagementResourceDescriptor triplet = new ColorManagementResourceDescriptor();
+        triplet.setTripletID(TripletID.ColorManagementResourceDescriptor);
+
+        // Length(1) | ID(1) | Reserved(1) | Mode(1) | Scope(1)
+        byte[] data = new byte[] {
+            0x05, (byte) 0x91, 0x00, 0x01, 0x01 // Audit, DataObject
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testRenderingIntentRoundTrip() throws Exception {
+        RenderingIntent triplet = new RenderingIntent();
+        triplet.setTripletID(TripletID.RenderingIntent);
+
+        // Length(1) | ID(1) | Reserved(2) | IOCA(1) | Container(1) | PTOCA(1) | GOCA(1) | Reserved(2)
+        byte[] data = new byte[] {
+            0x0A, (byte) 0x95, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testCMRTagFidelityRoundTrip() throws Exception {
+        CMRTagFidelity triplet = new CMRTagFidelity();
+        triplet.setTripletID(TripletID.CMRTagFidelity);
+
+        // Length(1) | ID(1) | Continuation(1) | Reserved(1) | Reporting(1) | Reserved(2)
+        byte[] data = new byte[] {
+            0x07, (byte) 0x96, 0x01, 0x00, 0x01, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testDeviceAppearanceRoundTrip() throws Exception {
+        DeviceAppearance triplet = new DeviceAppearance();
+        triplet.setTripletID(TripletID.DeviceAppearance);
+
+        // Length(1) | ID(1) | Reserved(1) | Appearance(1) | Reserved(3)
+        byte[] data = new byte[] {
+            0x07, (byte) 0x97, 0x00, 0x01, 0x00, 0x00, 0x00
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);

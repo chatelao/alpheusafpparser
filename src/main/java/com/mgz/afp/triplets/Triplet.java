@@ -3988,6 +3988,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       length = 5;
       os.write(length);
       os.write(tripletID.toByte());
+      os.write(reserved2);
       os.write(cmrProcessingMode.toByte());
       os.write(cmrScope.toByte());
     }
@@ -4187,6 +4188,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(reserved2);
       os.write(appearance.toByte());
+      os.write(0);
       os.write(reserved5_6);
     }
 
