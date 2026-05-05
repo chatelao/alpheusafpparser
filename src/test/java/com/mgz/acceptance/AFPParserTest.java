@@ -24,7 +24,6 @@ import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -60,7 +59,6 @@ import static org.junit.Assert.*;
  If you know other publicly available AFP files, please send a link to following email
  address so I can add it to this list: afpdev@mogozine.com
 */
-@Ignore
 public class AFPParserTest {
   private static File[] filesSuite = {};
 
