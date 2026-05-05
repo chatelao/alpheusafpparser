@@ -55,7 +55,7 @@ public class AFPWriterTest {
       OutputStream os = new FileOutputStream("./output/" + AFPWriterTest.class.getSimpleName() + ".tmp");
 
       for (File afpFile : filesSuite) {
-        LOG.log(Level.INFO, "File: {}", afpFile.getAbsolutePath());
+        LOG.log(Level.INFO, "File: {0}", afpFile.getAbsolutePath());
         pc.setInputStream(new FileInputStream(afpFile));
 
         AFPParser parser = new AFPParser(pc);
