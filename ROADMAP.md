@@ -36,20 +36,31 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [x] Implement version-agnostic artifact verification.
 - [x] Add Gradle Wrapper validation.
 
-## Phase 6: Modernization of Build System and Language
+## Phase 6a: Testing and Quality Assurance (i)
+- [ ] Restore and expand the test suite.
+    - [ ] Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
+    - [ ] Implement unit tests for each Structured Field, Triplet, and Control Sequence.
+- [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
+
+## Phase 6b: Complete AFP Syntax Implementation and Coverage
+- [ ] Complete payload parsing for all Structured Fields.
+    - [ ] Identify all Structured Fields currently using "shallow" implementations (e.g., those only inheriting from `StructuredFieldBaseNameAndTriplets` without overriding `decodeAFP` for their specific payload).
+    - [ ] Implement full `decodeAFP` and `writeAFP` for these fields according to the AFP specifications.
+- [ ] Enhance GOCA and IOCA support.
+    - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
+    - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
+- [ ] Ensure 100% coverage of the AFP specification as claimed in the project description.
+
+## Phase 6c: Testing and Quality Assurance (ii)
+- [ ] Integrate JaCoCo for code coverage reporting.
+- [ ] Add GitHub Actions job for CodeQL analysis.
+- [ ] Update Checkstyle to a modern version and use standard Google or Sun style.
+
+## Phase 7: Modernization of Build System and Language
 - [ ] Upgrade Gradle to 8.x or latest version.
 - [ ] Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts`).
 - [ ] Update Java version to 21 (LTS) or latest available.
 - [ ] Refactor source code to use modern Java features (records, sealed classes, pattern matching, etc.).
-
-## Phase 7: Testing and Quality Assurance
-- [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
-- [ ] Integrate JaCoCo for code coverage reporting.
-- [ ] Restore and expand the test suite.
-    - [ ] Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
-    - [ ] Implement unit tests for each Structured Field, Triplet, and Control Sequence.
-- [ ] Add GitHub Actions job for CodeQL analysis.
-- [ ] Update Checkstyle to a modern version and use standard Google or Sun style.
 
 ## Phase 8: Modernized Publishing and Distribution
 - [ ] Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.
@@ -61,12 +72,3 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Migrate project documentation to MkDocs or Docusaurus, hosted on GitHub Pages.
 - [ ] Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - [ ] Implement a SECURITY.md policy.
-
-## Phase 10: Complete AFP Syntax Implementation and Coverage
-- [ ] Complete payload parsing for all Structured Fields.
-    - [ ] Identify all Structured Fields currently using "shallow" implementations (e.g., those only inheriting from `StructuredFieldBaseNameAndTriplets` without overriding `decodeAFP` for their specific payload).
-    - [ ] Implement full `decodeAFP` and `writeAFP` for these fields according to the AFP specifications.
-- [ ] Enhance GOCA and IOCA support.
-    - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
-    - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
-- [ ] Ensure 100% coverage of the AFP specification as claimed in the project description.
