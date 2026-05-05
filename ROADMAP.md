@@ -44,8 +44,11 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
 - [ ] Complete payload parsing for all Structured Fields.
-    - [ ] Identify all Structured Fields currently using "shallow" implementations (e.g., those only inheriting from `StructuredFieldBaseNameAndTriplets` without overriding `decodeAFP` for their specific payload).
-    - [ ] Implement full `decodeAFP` and `writeAFP` for these fields according to the AFP specifications.
+    - [x] Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
+    - [ ] Implement full `decodeAFP` and `writeAFP` for identified shallow fields.
+        - [ ] MODCA Begin/End and Administrative fields (e.g., BPG, EPG, BFM, EFM).
+        - [ ] FOCA, BCOCA, and PTOCA fields.
+        - [ ] Color-related fields (Color Attribute Table, etc.).
 - [ ] Enhance GOCA and IOCA support.
     - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
@@ -54,6 +57,7 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 ## Phase 6c: Testing and Quality Assurance (ii)
 - [ ] Integrate JaCoCo for code coverage reporting.
 - [ ] Add GitHub Actions job for CodeQL analysis.
+    - [ ] Create `.github/workflows/codeql.yml`.
 - [ ] Update Checkstyle to a modern version and use standard Google or Sun style.
 
 ## Phase 7: Modernization of Build System and Language
