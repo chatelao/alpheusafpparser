@@ -101,16 +101,18 @@ jobs:
 
           # 5. Create new issue if needed
           if [ -n "$NEW_ITERATION_LABEL" ]; then
-            # Use Go templates to extract title, body, assignees, and milestone safely
+            # Use Go templates to extract title, body, and milestone safely
             TITLE=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{.title}}')
             gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{.body}}' > issue_body.md
-            ASSIGNEES=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{range .assignees}}{{.login}} {{end}}' | xargs | tr ' ' ',' || true)
             MILESTONE=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{if .milestone}}{{.milestone.title}}{{end}}')
 
-            # Create the issue without labels first to ensure it's "opened"
-            # Carrying over assignees and milestone if they exist
+            # Collect assignees from both the closed issue and the PR author
+            ISSUE_ASSIGNEES=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{range .assignees}}{{.login}} {{end}}')
+            PR_AUTHOR=$(gh pr view "$PR_NUMBER" --repo "$REPOSITORY" --template '{{.author.login}}')
+            ASSIGNEE_LIST=$(echo "$ISSUE_ASSIGNEES $PR_AUTHOR" | xargs -n1 | sort -u | xargs | tr ' ' ',' || true)
+
+            # Create the issue without labels or assignees first to ensure it's "opened"
             CREATE_ARGS=(--repo "$REPOSITORY" --title "$TITLE" --body-file issue_body.md)
-            if [ -n "$ASSIGNEES" ]; then CREATE_ARGS+=(--assignee "$ASSIGNEES"); fi
             if [ -n "$MILESTONE" ]; then CREATE_ARGS+=(--milestone "$MILESTONE"); fi
 
             NEW_ISSUE_URL=$(gh issue create "${CREATE_ARGS[@]}")
@@ -131,6 +133,8 @@ jobs:
               NEW_LABELS="$NEW_LABELS,$OTHER_LABELS"
             fi
 
-            # Add labels in a separate step to ensure "labeled" event is triggered
-            gh issue edit "$NEW_ISSUE_NUMBER" --repo "$REPOSITORY" --add-label "$NEW_LABELS"
+            # Add labels and assignees in a separate step to ensure "labeled" and "assigned" events are triggered
+            EDIT_ARGS=(--repo "$REPOSITORY" --add-label "$NEW_LABELS")
+            if [ -n "$ASSIGNEE_LIST" ]; then EDIT_ARGS+=(--add-assignee "$ASSIGNEE_LIST"); fi
+            gh issue edit "$NEW_ISSUE_NUMBER" "${EDIT_ARGS[@]}"
           fi
