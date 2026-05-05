@@ -43,8 +43,12 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
     - [ ] Implement round-trip unit tests for all MO:DCA Triplets.
         - [x] Mapping and Identification Triplets (e.g., FQN, Mapping Option, Comment).
         - [x] Font and Character Triplets (e.g., Font Descriptor, Character Rotation).
-        - [ ] Color and Presentation Triplets (e.g., Color Specification, Presentation Space Mixing).
-        - [ ] Measurement and Area Triplets (e.g., Measurement Units, Object Area Size).
+        - [x] Color and Presentation Triplets (e.g., Color Specification, Presentation Space Mixing).
+        - [ ] Measurement and Area Triplets (e.g., Measurement Units, Object Area Size, Image Resolution).
+        - [ ] Object and Resource Triplets (e.g., Object Classification, Resource Object Type).
+        - [ ] Positioning and Size Triplets (e.g., Object Offset, Object Byte Extent, Descriptor Position).
+        - [ ] Date and Control Triplets (e.g., Universal Date and Time Stamp, Presentation Control).
+        - [ ] Fidelity and Finishing Triplets (e.g., Text Fidelity, Finishing Operation).
     - [ ] Implement round-trip unit tests for all PTOCA Control Sequences.
         - [ ] Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - [ ] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
