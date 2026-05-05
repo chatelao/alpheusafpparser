@@ -25,9 +25,9 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 ## Phase 4: Cleanup and Finalization
 - [x] Remove `.travis.yml` from the repository.
 - [x] Update `README.md` to replace the Travis CI build badge with the GitHub Actions badge.
-- [ ] Verify the entire pipeline.
+- [x] Verify the entire pipeline.
     - [x] Manual workflow syntax and consistency check.
-    - [ ] Final verification via automated build.
+    - [x] Final verification via automated build.
 
 ## Phase 5: CI/CD Optimizations
 - [x] Enable Gradle caching in GitHub Actions.
@@ -38,7 +38,7 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - [ ] Restore and expand the test suite.
-    - [ ] Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
+    - [x] Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
     - [ ] Implement unit tests for each Structured Field, Triplet, and Control Sequence.
 - [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 
@@ -66,13 +66,13 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Update Checkstyle to a modern version and use standard Google or Sun style.
 
 ## Phase 7: Modernization of Build System and Language
-- [ ] Upgrade Gradle to 8.x or latest version.
+- [x] Upgrade Gradle to 8.x or latest version.
 - [ ] Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts`).
 - [ ] Update Java version to 21 (LTS) or latest available.
 - [ ] Refactor source code to use modern Java features (records, sealed classes, pattern matching, etc.).
 
 ## Phase 8: Modernized Publishing and Distribution
-- [ ] Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.
+- [x] Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.
 - [ ] Configure automated publishing to Maven Central via GitHub Actions.
 - [ ] Set up automated release notes generation using GitHub Releases.
 
