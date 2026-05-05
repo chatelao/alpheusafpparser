@@ -1,0 +1,136 @@
+name: Auto Repeat
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  iterate:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' }}
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract PR and Issue Information
+        id: info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -ex
+          PR_NUMBER="${{ github.event.workflow_run.pull_requests[0].number }}"
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
+            PR_NUMBER=$(gh api "/repos/$REPOSITORY/actions/runs/${{ github.event.workflow_run.id }}/pull_requests" --jq '.pull_requests[0].number // empty')
+          fi
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
+            HEAD_SHA=$(gh api "/repos/$REPOSITORY/actions/runs/${{ github.event.workflow_run.id }}" --jq '.head_sha // empty')
+            if [ -n "$HEAD_SHA" ]; then
+              PR_NUMBER=$(gh api "/repos/$REPOSITORY/commits/$HEAD_SHA/pulls" --jq '.[0].number // empty')
+            fi
+          fi
+
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
+            echo "PR not found."
+            exit 0
+          fi
+
+          ISSUE_NUMBER=$(gh pr view "$PR_NUMBER" --repo "$REPOSITORY" --json closingIssuesReferences --template '{{range .closingIssuesReferences}}{{.number}}{{"\n"}}{{end}}' | head -n 1)
+          if [ -z "$ISSUE_NUMBER" ]; then
+            ISSUE_NUMBER=$(gh pr view "$PR_NUMBER" --repo "$REPOSITORY" --json body,title --template '{{.body}} {{.title}}' | grep -oE '#[0-9]+' | tr -d '#' | grep -v "^$PR_NUMBER$" | head -n 1 || true)
+          fi
+
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "issue_number=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+
+      - name: Perform Auto-Repeat
+        if: steps.info.outputs.pr_number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.info.outputs.pr_number }}
+          ISSUE_NUMBER: ${{ steps.info.outputs.issue_number }}
+        run: |
+          set -ex
+
+          # 1. Gather all labels from PR and Issue
+          LABELS=$(gh pr view "$PR_NUMBER" --repo "$REPOSITORY" --json labels --jq '.labels[].name')
+          if [ -n "$ISSUE_NUMBER" ]; then
+            ISSUE_LABELS=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --json labels --jq '.labels[].name')
+            LABELS=$(echo -e "$LABELS\n$ISSUE_LABELS" | grep . | sort -u || true)
+          else
+            LABELS=$(echo "$LABELS" | grep . | sort -u || true)
+          fi
+
+          # 2. Identify iteration label
+          ITERATION_LABEL=$(echo "$LABELS" | grep . | grep -E '^Auto-Repeat(-[0-9]+)?$' | head -n 1 || true)
+
+          if [ -z "$ITERATION_LABEL" ]; then
+            echo "No iteration label found. Skipping."
+            exit 0
+          fi
+
+          # 3. Merge PR
+          gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --merge --auto --delete-branch
+
+          if [ -z "$ISSUE_NUMBER" ]; then
+            echo "No associated issue found for duplication. Skipping issue creation."
+            exit 0
+          fi
+
+          gh issue close "$ISSUE_NUMBER" --repo "$REPOSITORY"
+
+          # 4. Handle Issue Duplication and Counter Management
+          NEW_ITERATION_LABEL=""
+          if [ "$ITERATION_LABEL" == "Auto-Repeat" ]; then
+            NEW_ITERATION_LABEL="Auto-Repeat"
+          else
+            COUNTER=$(echo "$ITERATION_LABEL" | grep -oE '[0-9]+')
+            NEXT_COUNTER=$((COUNTER - 1))
+            if [ "$NEXT_COUNTER" -gt 0 ]; then
+              NEW_ITERATION_LABEL="Auto-Repeat-$NEXT_COUNTER"
+            fi
+          fi
+
+          # 5. Create new issue if needed
+          if [ -n "$NEW_ITERATION_LABEL" ]; then
+            # Use Go templates to extract title, body, assignees, and milestone safely
+            TITLE=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{.title}}')
+            gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{.body}}' > issue_body.md
+            ASSIGNEES=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{range .assignees}}{{.login}} {{end}}' | xargs | tr ' ' ',' || true)
+            MILESTONE=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --template '{{if .milestone}}{{.milestone.title}}{{end}}')
+
+            # Create the issue without labels first to ensure it's "opened"
+            # Carrying over assignees and milestone if they exist
+            CREATE_ARGS=(--repo "$REPOSITORY" --title "$TITLE" --body-file issue_body.md)
+            if [ -n "$ASSIGNEES" ]; then CREATE_ARGS+=(--assignee "$ASSIGNEES"); fi
+            if [ -n "$MILESTONE" ]; then CREATE_ARGS+=(--milestone "$MILESTONE"); fi
+
+            NEW_ISSUE_URL=$(gh issue create "${CREATE_ARGS[@]}")
+            NEW_ISSUE_NUMBER=$(echo "$NEW_ISSUE_URL" | grep -oE '[0-9]+$' | head -n 1)
+
+            # Collect other labels (excluding the current iteration label)
+            OTHER_LABELS=$(echo "$LABELS" | grep -v "^$ITERATION_LABEL$" | grep . | paste -sd "," - || true)
+
+            # Ensure the new label exists
+            if ! gh label list --repo "$REPOSITORY" --json name --jq '.[].name' | grep -q "^$NEW_ITERATION_LABEL$"; then
+              COLOR=$(gh label list --repo "$REPOSITORY" --json name,color --jq ".[] | select(.name == \"$ITERATION_LABEL\") | .color")
+              if [ -z "$COLOR" ]; then COLOR="EDEDED"; fi
+              gh label create "$NEW_ITERATION_LABEL" --repo "$REPOSITORY" --color "$COLOR" || true
+            fi
+
+            NEW_LABELS="$NEW_ITERATION_LABEL"
+            if [ -n "$OTHER_LABELS" ]; then
+              NEW_LABELS="$NEW_LABELS,$OTHER_LABELS"
+            fi
+
+            # Add labels in a separate step to ensure "labeled" event is triggered
+            gh issue edit "$NEW_ISSUE_NUMBER" --repo "$REPOSITORY" --add-label "$NEW_LABELS"
+          fi
