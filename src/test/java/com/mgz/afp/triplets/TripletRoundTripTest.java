@@ -14,6 +14,7 @@ import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet;
 import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet.MODCAInterchangeSet_Identifier;
 import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet.MODCAInterchangeSet_Type;
 import com.mgz.afp.triplets.Triplet.MappingOption;
+import com.mgz.afp.triplets.Triplet.AreaDefinition;
 import com.mgz.afp.triplets.Triplet.CMRTagFidelity;
 import com.mgz.afp.triplets.Triplet.ColorFidelity;
 import com.mgz.afp.triplets.Triplet.ColorManagementResourceDescriptor;
@@ -25,6 +26,9 @@ import com.mgz.afp.triplets.Triplet.PresentationSpaceResetMixing;
 import com.mgz.afp.triplets.Triplet.RenderingIntent;
 import com.mgz.afp.triplets.Triplet.TonerSaver;
 import com.mgz.afp.triplets.Triplet.TripletID;
+import com.mgz.afp.triplets.Triplet.ImageResolution;
+import com.mgz.afp.triplets.Triplet.MeasurementUnits;
+import com.mgz.afp.triplets.Triplet.ObjectAreaSize;
 import org.junit.Test;
 
 public class TripletRoundTripTest {
@@ -260,6 +264,58 @@ public class TripletRoundTripTest {
         // Length(1) | ID(1) | Reserved(1) | Appearance(1) | Reserved(3)
         byte[] data = new byte[] {
             0x07, (byte) 0x97, 0x00, 0x01, 0x00, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testMeasurementUnitsRoundTrip() throws Exception {
+        MeasurementUnits triplet = new MeasurementUnits();
+        triplet.setTripletID(TripletID.MeasurementUnits);
+
+        // Length(1) | ID(1) | XBase(1) | YBase(1) | XUnits(2) | YUnits(2)
+        byte[] data = new byte[] {
+            0x08, 0x4B, 0x00, 0x00, 0x05, (byte) 0x78, 0x05, (byte) 0x78 // Inches10, 1440 units/base
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectAreaSizeRoundTrip() throws Exception {
+        ObjectAreaSize triplet = new ObjectAreaSize();
+        triplet.setTripletID(TripletID.ObjectAreaSize);
+
+        // Length(1) | ID(1) | Type(1) | XSize(3) | YSize(3)
+        byte[] data = new byte[] {
+            0x09, 0x4C, 0x02, 0x00, 0x20, 0x00, 0x00, 0x30, 0x00 // Type 2, XSize 8192, YSize 12288
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testAreaDefinitionRoundTrip() throws Exception {
+        AreaDefinition triplet = new AreaDefinition();
+        triplet.setTripletID(TripletID.AreaDefinition);
+
+        // Length(1) | ID(1) | Reserved(1) | XOrigin(3) | YOrigin(3) | XSize(3) | YSize(3)
+        byte[] data = new byte[] {
+            0x0F, 0x4D, 0x00, 0x00, 0x01, 0x00, 0x00, 0x02, 0x00, 0x00, 0x03, 0x00, 0x00, 0x04, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testImageResolutionRoundTrip() throws Exception {
+        ImageResolution triplet = new ImageResolution();
+        triplet.setTripletID(TripletID.ImageResolution);
+
+        // Length(1) | ID(1) | Reserved(2) | XBase(1) | YBase(1) | XUnits(2) | YUnits(2)
+        byte[] data = new byte[] {
+            0x0A, (byte) 0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0x90, 0x00, (byte) 0x90 // 144 PPI
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);

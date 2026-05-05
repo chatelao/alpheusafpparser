@@ -38,10 +38,6 @@ public enum AFPUnitBase {
   }
 
   public byte toByte() {
-    if (this == Inches10) {
-      return 0x00;
-    } else {
-      return 0x01;
-    }
+    return (byte) code;
   }
 }
