@@ -43,12 +43,17 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
-- [ ] Complete payload parsing for all Structured Fields.
+- [ ] Complete payload parsing for all identified "shallow" Structured Fields.
     - [x] Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
-    - [ ] Implement full `decodeAFP` and `writeAFP` for identified shallow fields.
-        - [ ] MODCA Begin/End and Administrative fields (e.g., BPG, EPG, BFM, EFM).
-        - [ ] FOCA, BCOCA, and PTOCA fields.
-        - [ ] Color-related fields (Color Attribute Table, etc.).
+    - [ ] Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
+        - [ ] MO:DCA Document and Page Structure (e.g., BDT/EDT, BPG/EPG, BNG/ENG, BDI/EDI).
+        - [ ] MO:DCA Environment and Resource Groups (e.g., BDG/EDG, BFM/EFM, BMM/EMM, BRG/ERG).
+        - [ ] MO:DCA Object Containers and Image Data (e.g., BOC/EOC, BIM/EIM, BII/EII, IRD).
+        - [ ] MO:DCA Descriptors and Control Fields (e.g., OBD, PEC, TLE, IEL, IMM).
+        - [ ] FOCA Coded Font, Code Page, and Font Character Set fields (e.g., BCF/ECF, BCP/ECP, BFN/EFN, FNG, FNN).
+        - [ ] BCOCA and PTOCA Begin/End objects (e.g., BBC/EBC, BPT/EPT).
+        - [ ] CMOCA and MO:DCA Color Attribute Table fields (e.g., CMR, BCA, CAT, ECA).
+        - [ ] Line Data related fields (e.g., BDX/EDX, BPM/EPM, DXD, IDM).
 - [ ] Enhance GOCA and IOCA support.
     - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
@@ -56,8 +61,8 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 
 ## Phase 6c: Testing and Quality Assurance (ii)
 - [ ] Integrate JaCoCo for code coverage reporting.
-- [ ] Add GitHub Actions job for CodeQL analysis.
-    - [ ] Create `.github/workflows/codeql.yml`.
+- [x] Add GitHub Actions job for CodeQL analysis.
+    - [x] Create `.github/workflows/codeql.yml`.
 - [ ] Update Checkstyle to a modern version and use standard Google or Sun style.
 
 ## Phase 7: Modernization of Build System and Language
