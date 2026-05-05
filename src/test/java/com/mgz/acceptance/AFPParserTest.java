@@ -60,7 +60,6 @@ import static org.junit.Assert.*;
  If you know other publicly available AFP files, please send a link to following email
  address so I can add it to this list: afpdev@mogozine.com
 */
-@Ignore
 public class AFPParserTest {
   private static File[] filesSuite = {};
 
