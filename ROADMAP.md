@@ -39,7 +39,10 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 ## Phase 6a: Testing and Quality Assurance (i)
 - [ ] Restore and expand the test suite.
     - [x] Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
-    - [ ] Implement unit tests for each Structured Field, Triplet, and Control Sequence.
+    - [x] Establish a base for granular structure unit testing (round-trip verification).
+    - [ ] Implement round-trip unit tests for all MO:DCA Triplets.
+    - [ ] Implement round-trip unit tests for all PTOCA Control Sequences.
+    - [ ] Implement round-trip unit tests for all Structured Fields.
 - [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
