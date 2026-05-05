@@ -38,7 +38,7 @@ public class CPD_CodePageDescriptor extends StructuredField {
    * format), or a user-assigned GCGID.
    */
   @AFPField
-  public short graphicCharacterGIDLength;
+  private short graphicCharacterGIDLength;
   /**
    * The character string assigned to this field is intended to aid the end user, who may need to
    * edit the code page, in identifying the set of characters represented by the code page. The name

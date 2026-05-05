@@ -1,9 +1,12 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
 group 'com.github.afpdev'
 version '0.2.2'
-
-apply plugin: 'java'
-apply plugin: 'checkstyle'
-apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -109,4 +112,13 @@ checkstyle {
     config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
     ignoreFailures = true
     showViolations = false
+}
+
+shadowJar {
+    archiveBaseName.set('alpheus-afp-parser-cli')
+    archiveClassifier.set('')
+    archiveVersion.set(version)
+    manifest {
+        attributes 'Main-Class': 'com.mgz.cli.AFP2XML'
+    }
 }
