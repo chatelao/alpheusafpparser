@@ -46,8 +46,13 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Complete payload parsing for all identified "shallow" Structured Fields.
     - [x] Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
     - [ ] Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
-        - [ ] MO:DCA Document and Page Structure (e.g., BDT/EDT, BPG/EPG, BNG/ENG, BDI/EDI).
-        - [ ] MO:DCA Environment and Resource Groups (e.g., BDG/EDG, BFM/EFM, BMM/EMM, BRG/ERG).
+        - [ ] MO:DCA Document and Page Structure.
+            - [ ] BDT (partially complete, needs verification)
+            - [x] EDT, BPG, EPG, BNG, ENG, BDI, EDI.
+        - [ ] MO:DCA Environment and Resource Groups.
+            - [x] EDG, EFM, EMM, ERG.
+            - [ ] BDG, BFM, BMM, BRG.
+            - [ ] BAG, BFG, BSG, EAG, EFG, ESG.
         - [ ] MO:DCA Object Containers and Image Data (e.g., BOC/EOC, BIM/EIM, BII/EII, IRD).
         - [ ] MO:DCA Descriptors and Control Fields (e.g., OBD, PEC, TLE, IEL, IMM).
         - [ ] FOCA Coded Font, Code Page, and Font Character Set fields (e.g., BCF/ECF, BCP/ECP, BFN/EFN, FNG, FNN).
