@@ -18,13 +18,17 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.xml;
 
+import com.mgz.afp.base.AFPDocument;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParserConfiguration;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AFP2XMLWriter {
 
@@ -35,5 +39,26 @@ public class AFP2XMLWriter {
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
     jaxbMarshaller.marshal(sf, osw);
+  }
+
+  public static void writeXML(OutputStream osw, AFPDocument doc) throws JAXBException {
+    List<Class<?>> classes = new ArrayList<>();
+    classes.add(AFPDocument.class);
+    for (Object obj : doc.getStructuredFields()) {
+        if (obj instanceof JAXBElement) {
+            Class<?> declaredType = ((JAXBElement<?>) obj).getDeclaredType();
+            if (!classes.contains(declaredType)) {
+                classes.add(declaredType);
+            }
+        } else if (!classes.contains(obj.getClass())) {
+            classes.add(obj.getClass());
+        }
+    }
+
+    JAXBContext jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+    jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+    jaxbMarshaller.marshal(doc, osw);
   }
 }
