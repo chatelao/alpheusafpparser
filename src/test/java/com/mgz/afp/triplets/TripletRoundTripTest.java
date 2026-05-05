@@ -1,8 +1,12 @@
 package com.mgz.afp.triplets;
 
 import com.mgz.afp.RoundTripTestUtils;
+import com.mgz.afp.triplets.Triplet.CharacterRotation;
 import com.mgz.afp.triplets.Triplet.CodedGraphicCharacterSetGlobalID;
 import com.mgz.afp.triplets.Triplet.Comment;
+import com.mgz.afp.triplets.Triplet.FontCodedGraphicCharacterSetGlobalID;
+import com.mgz.afp.triplets.Triplet.FontDescriptorSpecification;
+import com.mgz.afp.triplets.Triplet.FontHorizontalScaleFactor;
 import com.mgz.afp.triplets.Triplet.FullyQualifiedName;
 import com.mgz.afp.triplets.Triplet.GlobalID_Format;
 import com.mgz.afp.triplets.Triplet.GlobalID_Use;
@@ -78,6 +82,58 @@ public class TripletRoundTripTest {
         // Comment "TEST" in EBCDIC: 0xE3, 0xC5, 0xE2, 0xE3
         byte[] data = new byte[] {
             0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFontDescriptorSpecificationRoundTrip() throws Exception {
+        FontDescriptorSpecification triplet = new FontDescriptorSpecification();
+        triplet.setTripletID(TripletID.FontDescriptorSpecification);
+
+        // Length(1) | ID(1) | Weight(1) | Width(1) | Height(2) | Width(2) | Flags(1)
+        byte[] data = new byte[] {
+            0x09, 0x1F, 0x05, 0x05, 0x00, 0x78, 0x00, 0x48, 0x01
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFontCodedGraphicCharacterSetGlobalIDRoundTrip() throws Exception {
+        FontCodedGraphicCharacterSetGlobalID triplet = new FontCodedGraphicCharacterSetGlobalID();
+        triplet.setTripletID(TripletID.FontCodedGraphicCharacterSetGlobalID);
+
+        // Length(1) | ID(1) | GCSGID(2) | CPGID(2)
+        byte[] data = new byte[] {
+            0x06, 0x20, 0x00, 0x01, 0x01, (byte) 0xF4 // GCSGID 1, CPGID 500
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testCharacterRotationRoundTrip() throws Exception {
+        CharacterRotation triplet = new CharacterRotation();
+        triplet.setTripletID(TripletID.CharacterRotation);
+
+        // Length(1) | ID(1) | Rotation(2)
+        byte[] data = new byte[] {
+            0x04, 0x26, 0x2D, 0x00 // 90 degrees
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFontHorizontalScaleFactorRoundTrip() throws Exception {
+        FontHorizontalScaleFactor triplet = new FontHorizontalScaleFactor();
+        triplet.setTripletID(TripletID.FontHorizontalScaleFactor);
+
+        // Length(1) | ID(1) | Factor(2)
+        byte[] data = new byte[] {
+            0x04, 0x5D, 0x03, (byte) 0xE8 // 1000
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);
