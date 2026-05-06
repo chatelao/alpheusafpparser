@@ -42,7 +42,7 @@ public abstract class StructuredFieldBaseNameAndTriplets extends StructuredField
     super.decodeAFP(sfData, offset, length, config);
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 8) {
-      triplets = TripletParser.parseTriplets(sfData, 8, sfData.length - 8, config);
+      triplets = TripletParser.parseTriplets(sfData, offset + 8, actualLength - 8, config);
     } else {
       triplets = null;
     }
