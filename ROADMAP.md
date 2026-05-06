@@ -54,11 +54,11 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [x] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
     - [ ] Implement round-trip unit tests for all Structured Fields.
         - [x] Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI).
-        - [ ] Page and Overlay Structured Fields.
-            - [ ] Begin/End Overlay (BMO, EMO).
-            - [ ] Begin/End Page Segment (BPS, EPS).
-            - [ ] Include Page/Overlay/Segment (IPG, IPO, IPS).
-            - [ ] Map Page/Overlay/Segment (MPG, MPO, MPS).
+        - [x] Page and Overlay Structured Fields.
+            - [x] Begin/End Overlay (BMO, EMO).
+            - [x] Begin/End Page Segment (BPS, EPS).
+            - [x] Include Page/Overlay/Segment (IPG, IPO, IPS).
+            - [x] Map Page/Overlay/Segment (MPG, MPO, MPS).
         - [x] Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG).
         - [ ] Object and Data Structured Fields.
             - [ ] Begin/End Object Container (BOC, EOC).
@@ -76,8 +76,8 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
             - [ ] End Image Object (EIM).
             - [ ] End Object Container (EOC) and data (OCD).
         - [ ] MO:DCA Overlay and Page Segment.
-            - [ ] End Overlay (EMO).
-            - [ ] End Page Segment (EPS).
+            - [x] End Overlay (EMO).
+            - [x] End Page Segment (EPS).
         - [ ] MO:DCA Other structures.
             - [ ] End Object Environment Group (EOG).
             - [ ] End Print File (EPF).
