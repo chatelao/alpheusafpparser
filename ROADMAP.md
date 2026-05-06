@@ -53,9 +53,9 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [x] Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - [x] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
     - [ ] Implement round-trip unit tests for all Structured Fields.
-        - [ ] Document and Page Group Structured Fields.
+        - [x] Document and Page Group Structured Fields.
         - [ ] Page and Overlay Structured Fields.
-        - [ ] Environment and Resource Group Structured Fields.
+        - [x] Environment and Resource Group Structured Fields.
         - [ ] Object and Data Structured Fields.
 - [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 

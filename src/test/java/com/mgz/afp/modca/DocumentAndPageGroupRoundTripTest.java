@@ -1,0 +1,91 @@
+package com.mgz.afp.modca;
+
+import com.mgz.afp.RoundTripTestUtils;
+import org.junit.Test;
+
+public class DocumentAndPageGroupRoundTripTest {
+
+    @Test
+    public void testBDTRoundTrip() throws Exception {
+        // 0x5A | SFLen(2) | SFType(3) | Flag(1) | Res(2) | Name(8) | Res(2) | CommentTriplet(6)
+        // Total Len: 1 + 8 + 8 + 2 + 6 = 25. SFLen = 24 (0x0018)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x18, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, 0x00, 0x00, 0x00,
+            (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3, 0x40, 0x40, 0x40, 0x40, // "TEST"
+            0x00, 0x00,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // Comment "TEST"
+        };
+        RoundTripTestUtils.assertRoundTrip(new BDT_BeginDocument(), data);
+    }
+
+    @Test
+    public void testEDTRoundTrip() throws Exception {
+        // 0x5A | SFLen(2) | SFType(3) | Flag(1) | Res(2) | Name(8)
+        // Total Len: 1 + 8 + 8 = 17. SFLen = 16 (0x0010)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xA9, (byte) 0xA8, 0x00, 0x00, 0x00,
+            (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3, 0x40, 0x40, 0x40, 0x40 // "TEST"
+        };
+        RoundTripTestUtils.assertRoundTrip(new EDT_EndDocument(), data);
+    }
+
+    @Test
+    public void testBPGRoundTrip() throws Exception {
+        // Total Len: 1 + 8 + 8 + 6 = 23. SFLen = 22 (0x0016)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA8, (byte) 0xAF, 0x00, 0x00, 0x00,
+            (byte) 0xD7, (byte) 0xC1, (byte) 0xC7, (byte) 0xC5, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF1, // "PAGE0001"
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // Comment "TEST"
+        };
+        RoundTripTestUtils.assertRoundTrip(new BPG_BeginPage(), data);
+    }
+
+    @Test
+    public void testEPGRoundTrip() throws Exception {
+        // Total Len: 1 + 8 + 8 = 17. SFLen = 16 (0x0010)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xA9, (byte) 0xAF, 0x00, 0x00, 0x00,
+            (byte) 0xD7, (byte) 0xC1, (byte) 0xC7, (byte) 0xC5, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF1 // "PAGE0001"
+        };
+        RoundTripTestUtils.assertRoundTrip(new EPG_EndPage(), data);
+    }
+
+    @Test
+    public void testBNGRoundTrip() throws Exception {
+        // Total Len: 1 + 8 + 8 + 6 = 23. SFLen = 22 (0x0016)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA8, (byte) 0xAD, 0x00, 0x00, 0x00,
+            (byte) 0xC7, (byte) 0xD9, (byte) 0xD7, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF1, // "GRP00001"
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // Comment "TEST"
+        };
+        RoundTripTestUtils.assertRoundTrip(new BNG_BeginNamedPageGroup(), data);
+    }
+
+    @Test
+    public void testENGRoundTrip() throws Exception {
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xA9, (byte) 0xAD, 0x00, 0x00, 0x00,
+            (byte) 0xC7, (byte) 0xD9, (byte) 0xD7, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF1 // "GRP00001"
+        };
+        RoundTripTestUtils.assertRoundTrip(new ENG_EndNamedPageGroup(), data);
+    }
+
+    @Test
+    public void testBDIRoundTrip() throws Exception {
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA8, (byte) 0xA7, 0x00, 0x00, 0x00,
+            (byte) 0xC9, (byte) 0xD5, (byte) 0xC4, (byte) 0xC5, (byte) 0xD7, 0x40, 0x40, 0x40, // "INDEX"
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // Comment "TEST"
+        };
+        RoundTripTestUtils.assertRoundTrip(new BDI_BeginDocumentIndex(), data);
+    }
+
+    @Test
+    public void testEDIRoundTrip() throws Exception {
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xA9, (byte) 0xA7, 0x00, 0x00, 0x00,
+            (byte) 0xC9, (byte) 0xD5, (byte) 0xC4, (byte) 0xC5, (byte) 0xD7, 0x40, 0x40, 0x40 // "INDEX"
+        };
+        RoundTripTestUtils.assertRoundTrip(new EDI_EndDocumentIndex(), data);
+    }
+}

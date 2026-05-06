@@ -40,7 +40,7 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength >= 8) {
-      name = new String(sfData, 0, 8, config.getAfpCharSet());
+      name = new String(sfData, offset, 8, config.getAfpCharSet());
     } else {
       name = null;
     }
