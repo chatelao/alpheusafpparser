@@ -104,6 +104,39 @@ import com.mgz.xml.AFP2XMLWriter;
 AFP2XMLWriter.writeXML(System.out, sf, config);
 ```
 
+## Command Line Interface (CLI)
+
+The Alpheus AFP Parser includes a CLI tool to convert AFP files to XML.
+
+### Prerequisites
+
+You must have Java 8 or higher installed.
+
+### Using the CLI JAR
+
+You can run the CLI tool using the following command:
+
+```bash
+java -jar alpheus-afp-parser-cli-<version>.jar <input-afp-file> [output-xml-file]
+```
+
+- `<input-afp-file>`: The path to the AFP file you want to convert.
+- `[output-xml-file]`: (Optional) The path where the XML output should be saved. If omitted, the XML is printed to standard output.
+
+### Examples
+
+**Convert an AFP file and print XML to console:**
+
+```bash
+java -jar alpheus-afp-parser-cli-0.2.2.jar example.afp
+```
+
+**Convert an AFP file and save XML to a file:**
+
+```bash
+java -jar alpheus-afp-parser-cli-0.2.2.jar example.afp output.xml
+```
+
 ## Error Handling
 
 By default, the parser throws an `AFPParserException` when it encounters an error in the AFP stream. You can change this behavior to continue parsing even if errors occur.
