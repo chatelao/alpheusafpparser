@@ -520,6 +520,11 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       baos.write(objectClass.toByte());
       baos.write(reserved4_5);
       baos.write(StructureFlag.toBytes(structureFlags));
+      if (registeredObjectID != null) {
+        baos.write(registeredObjectID);
+      } else {
+        baos.write(new byte[16]);
+      }
       if (objectTypeName != null) {
         baos.write(UtilCharacterEncoding.stringToByteArray(objectTypeName, config.getAfpCharSet(), 32, Constants.EBCDIC_BLANK));
         if (objectVersion != null) {

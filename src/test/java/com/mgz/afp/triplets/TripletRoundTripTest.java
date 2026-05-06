@@ -29,6 +29,11 @@ import com.mgz.afp.triplets.Triplet.TripletID;
 import com.mgz.afp.triplets.Triplet.ImageResolution;
 import com.mgz.afp.triplets.Triplet.MeasurementUnits;
 import com.mgz.afp.triplets.Triplet.ObjectAreaSize;
+import com.mgz.afp.triplets.Triplet.ObjectClassification;
+import com.mgz.afp.triplets.Triplet.ResourceObjectType;
+import com.mgz.afp.triplets.Triplet.ExtendedResourceLocalIdentifier;
+import com.mgz.afp.triplets.Triplet.ResourceLocalIdentifier;
+import com.mgz.afp.triplets.Triplet.ResourceSectionNumber;
 import org.junit.Test;
 
 public class TripletRoundTripTest {
@@ -316,6 +321,73 @@ public class TripletRoundTripTest {
         // Length(1) | ID(1) | Reserved(2) | XBase(1) | YBase(1) | XUnits(2) | YUnits(2)
         byte[] data = new byte[] {
             0x0A, (byte) 0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0x90, 0x00, (byte) 0x90 // 144 PPI
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectClassificationRoundTrip() throws Exception {
+        ObjectClassification triplet = new ObjectClassification();
+        triplet.setTripletID(TripletID.ObjectClassification);
+
+        // Length(1) | ID(1) | Reserved(1) | Class(1) | Reserved(2) | Flags(2) | RegObjID(16)
+        byte[] data = new byte[] {
+            0x18, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testResourceObjectTypeRoundTrip() throws Exception {
+        ResourceObjectType triplet = new ResourceObjectType();
+        triplet.setTripletID(TripletID.ResourceObjectType);
+
+        // Length(1) | ID(1) | ObjType(1) | Constant(variable)
+        byte[] data = new byte[] {
+            0x04, 0x21, 0x02, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testExtendedResourceLocalIdentifierRoundTrip() throws Exception {
+        ExtendedResourceLocalIdentifier triplet = new ExtendedResourceLocalIdentifier();
+        triplet.setTripletID(TripletID.ExtendedResourceLocalIdentifier);
+
+        // Length(1) | ID(1) | ResType(1) | LID(4)
+        byte[] data = new byte[] {
+            0x07, 0x22, 0x40, 0x00, 0x00, 0x00, 0x01 // MediaTypeResource, LID 1
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testResourceLocalIdentifierRoundTrip() throws Exception {
+        ResourceLocalIdentifier triplet = new ResourceLocalIdentifier();
+        triplet.setTripletID(TripletID.ResourceLocalIdentifier);
+
+        // Length(1) | ID(1) | ResType(1) | LID(1)
+        byte[] data = new byte[] {
+            0x04, 0x24, 0x02, 0x01 // PageOverlay, LID 1
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testResourceSectionNumberRoundTrip() throws Exception {
+        ResourceSectionNumber triplet = new ResourceSectionNumber();
+        triplet.setTripletID(TripletID.ResourceSectionNumber);
+
+        // Length(1) | ID(1) | RSN(1)
+        byte[] data = new byte[] {
+            0x03, 0x25, 0x01
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);
