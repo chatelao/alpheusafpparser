@@ -2320,7 +2320,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      length = 4;
+      length = 6;
       os.write(length);
       os.write(tripletID.toByte());
       os.write(UtilBinaryDecoding.intToByteArray(pageNumber, 4));
@@ -2437,7 +2437,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       objectType = ObjectType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 2, 1));
       reserved3 = sfData[offset + 3];
       nrOfPrecedingObjectsLow = UtilBinaryDecoding.parseLong(sfData, offset + 4, 4);
-      if (this.length > 7) {
+      if (this.length > 8) {
         nrOfPrecedingObjectsHigh = UtilBinaryDecoding.parseLong(sfData, offset + 8, 4);
       } else {
         nrOfPrecedingObjectsHigh = null;
@@ -3214,7 +3214,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       reserved2 = sfData[offset + 2];
       parameterSyntax = ParameterSyntax.valueOf(sfData[offset + 3]);
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
-      if (actualLength < 4) {
+      if (actualLength > 4) {
         parameterValue = new byte[actualLength - 4];
         System.arraycopy(sfData, offset + 4, parameterValue, 0, parameterValue.length);
       } else {
@@ -3224,13 +3224,16 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      length = (short) (parameterValue == null ? 4 : 4 + parameterValue.length);
-      os.write(length);
-      os.write(tripletID.toByte());
-      os.write(parameterSyntax.toByte());
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      baos.write(tripletID.toByte());
+      baos.write(0x00); // reserved2
+      baos.write(parameterSyntax.toByte());
       if (parameterValue != null) {
-        os.write(parameterValue);
+        baos.write(parameterValue);
       }
+      length = (short) (baos.size() + 1);
+      os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
+      os.write(baos.toByteArray());
     }
 
     public enum ParameterSyntax {
@@ -3336,10 +3339,10 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
         }
         int result = 0;
         if (flags.contains(ViewControl_DoNotView)) {
-          result |= 80;
+          result |= 0x80;
         }
         if (flags.contains(IndexingControl_NoIndexing)) {
-          result |= 40;
+          result |= 0x40;
         }
         return result;
       }
@@ -3421,10 +3424,10 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       super.decodeAFP(sfData, offset, length, config);
       operationType = OperationType.valueOf(sfData[offset + 2]);
       reserved3_4 = new byte[2];
-      System.arraycopy(sfData, offset + 2, reserved3_4, 0, reserved3_4.length);
+      System.arraycopy(sfData, offset + 3, reserved3_4, 0, reserved3_4.length);
       referenceCorner = ReferenceCorner.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 5, 1));
       operationCount = sfData[offset + 6];
-      offset = UtilBinaryDecoding.parseInt(sfData, offset + 7, 2);
+      offsetOfOperation = UtilBinaryDecoding.parseInt(sfData, offset + 7, 2);
       if (this.length > 9) {
         positions = new ArrayList<Short>();
         int pos = 9;
@@ -3439,7 +3442,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      length = (short) (positions == null ? 9 : 9 + positions.size());
+      length = (short) (positions == null ? 9 : 9 + positions.size() * 2);
       os.write(length);
       os.write(tripletID.toByte());
       os.write(operationType.toByte());
@@ -3740,7 +3743,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       scriptCode = new String(sfData, offset + 12, 8);
       regionCode = new String(sfData, offset + 20, 8);
       reserved28_35 = new byte[8];
-      System.arraycopy(sfData, offset + 21, reserved28_35, 0, reserved28_35.length);
+      System.arraycopy(sfData, offset + 28, reserved28_35, 0, reserved28_35.length);
       if (this.length > 36) {
         variantCode = new String(sfData, offset + 36, this.length - 36);
       } else {
@@ -3752,7 +3755,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       byte[] variantCodeData = variantCode != null ? variantCode.getBytes(Charset.defaultCharset()) : null;
       length = (short) (variantCodeData == null ? 36 : 36 + variantCodeData.length);
-      os.write(length);
+      os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(tripletID.toByte());
       os.write(reserved2);
       os.write(LocalSelectorFlag.toByte(flags));

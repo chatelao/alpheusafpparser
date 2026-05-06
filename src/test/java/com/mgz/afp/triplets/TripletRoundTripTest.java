@@ -34,6 +34,49 @@ import com.mgz.afp.triplets.Triplet.ResourceObjectType;
 import com.mgz.afp.triplets.Triplet.ExtendedResourceLocalIdentifier;
 import com.mgz.afp.triplets.Triplet.ResourceLocalIdentifier;
 import com.mgz.afp.triplets.Triplet.ResourceSectionNumber;
+import com.mgz.afp.triplets.Triplet.ObjectByteOffset;
+import com.mgz.afp.triplets.Triplet.DescriptorPosition;
+import com.mgz.afp.triplets.Triplet.ObjectByteExtent;
+import com.mgz.afp.triplets.Triplet.ObjectStructuredFieldOffset;
+import com.mgz.afp.triplets.Triplet.ObjectStructuredFieldExtent;
+import com.mgz.afp.triplets.Triplet.ObjectOffset;
+import com.mgz.afp.triplets.Triplet.ObjectOffset.ObjectType;
+import com.mgz.afp.triplets.Triplet.AttributeValue;
+import com.mgz.afp.triplets.Triplet.MediaEjectControl;
+import com.mgz.afp.triplets.Triplet.MediaEjectControl.MediaEjectControlType;
+import com.mgz.afp.triplets.Triplet.PageOverlayConditionalProcessing;
+import com.mgz.afp.triplets.Triplet.PageOverlayConditionalProcessing.PageOverlayType;
+import com.mgz.afp.triplets.Triplet.ResourceUsageAttribute;
+import com.mgz.afp.triplets.Triplet.ResourceUsageAttribute.FrequencyOfUse;
+import com.mgz.afp.triplets.Triplet.MediumMapPageNumber;
+import com.mgz.afp.triplets.Triplet.ObjectCount;
+import com.mgz.afp.triplets.Triplet.LocalObjectDateAndTimeStamp;
+import com.mgz.afp.triplets.Triplet.LocalObjectDateAndTimeStamp.DateAndTimeStampType;
+import com.mgz.afp.triplets.Triplet.MediumOrientation;
+import com.mgz.afp.triplets.Triplet.MediumOrientation.MediumOrientationValue;
+import com.mgz.afp.triplets.Triplet.ResourceObjectInclude;
+import com.mgz.afp.triplets.Triplet.UniversalDateAndTimeStamp;
+import com.mgz.afp.triplets.Triplet.UniversalDateAndTimeStamp.TimeZone;
+import com.mgz.afp.triplets.Triplet.AttributeQualifier;
+import com.mgz.afp.triplets.Triplet.PagePositionInformation;
+import com.mgz.afp.triplets.Triplet.ParameterValue;
+import com.mgz.afp.triplets.Triplet.ParameterValue.ParameterSyntax;
+import com.mgz.afp.triplets.Triplet.PresentationControl;
+import com.mgz.afp.triplets.Triplet.LocaleSelector;
+import com.mgz.afp.triplets.Triplet.LocaleSelector.LocalSelectorFlag;
+import com.mgz.afp.triplets.Triplet.FontFidelity;
+import com.mgz.afp.triplets.Triplet.FinishingOperation;
+import com.mgz.afp.triplets.Triplet.FinishingOperation.OperationType;
+import com.mgz.afp.triplets.Triplet.FinishingOperation.ReferenceCorner;
+import com.mgz.afp.triplets.Triplet.TextFidelity;
+import com.mgz.afp.triplets.Triplet.MediaFidelity;
+import com.mgz.afp.triplets.Triplet.FinishingFidelity;
+import com.mgz.afp.triplets.Triplet.UP3iFinishingOperation;
+import com.mgz.afp.triplets.Triplet.EncodingSchemeID;
+import com.mgz.afp.triplets.Triplet.FontResolutionAndMetricTechnology;
+import com.mgz.afp.triplets.Triplet.FontResolutionAndMetricTechnology.MetricTechnology;
+import com.mgz.afp.triplets.Triplet.DataObjectFontDescriptor;
+import java.util.Arrays;
 import org.junit.Test;
 
 public class TripletRoundTripTest {
@@ -388,6 +431,412 @@ public class TripletRoundTripTest {
         // Length(1) | ID(1) | RSN(1)
         byte[] data = new byte[] {
             0x03, 0x25, 0x01
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectByteOffsetRoundTrip() throws Exception {
+        ObjectByteOffset triplet = new ObjectByteOffset();
+        triplet.setTripletID(TripletID.ObjectByteOffset);
+
+        // Length(1) | ID(1) | OffsetLow(4) | [OffsetHigh(4)]
+        byte[] data = new byte[] {
+            0x06, 0x2D, 0x00, 0x00, 0x10, 0x00 // Offset 4096
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+
+        byte[] dataLarge = new byte[] {
+            0x0A, 0x2D, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02
+        };
+        RoundTripTestUtils.assertRoundTrip(triplet, dataLarge);
+    }
+
+    @Test
+    public void testDescriptorPositionRoundTrip() throws Exception {
+        DescriptorPosition triplet = new DescriptorPosition();
+        triplet.setTripletID(TripletID.DescriptorPosition);
+
+        // Length(1) | ID(1) | ID(1)
+        byte[] data = new byte[] {
+            0x03, 0x43, 0x05
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectByteExtentRoundTrip() throws Exception {
+        ObjectByteExtent triplet = new ObjectByteExtent();
+        triplet.setTripletID(TripletID.ObjectByteExtent);
+
+        // Length(1) | ID(1) | Low(4) | High(4)
+        byte[] data = new byte[] {
+            0x0A, 0x57, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectStructuredFieldOffsetRoundTrip() throws Exception {
+        ObjectStructuredFieldOffset triplet = new ObjectStructuredFieldOffset();
+        triplet.setTripletID(TripletID.ObjectStructuredFieldOffset);
+
+        // Length(1) | ID(1) | Low(4) | [High(4)]
+        byte[] data = new byte[] {
+            0x06, 0x58, 0x00, 0x00, 0x00, 0x01
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectStructuredFieldExtentRoundTrip() throws Exception {
+        ObjectStructuredFieldExtent triplet = new ObjectStructuredFieldExtent();
+        triplet.setTripletID(TripletID.ObjectStructuredFieldExtent);
+
+        // Length(1) | ID(1) | Low(4) | [High(4)]
+        byte[] data = new byte[] {
+            0x06, 0x59, 0x00, 0x00, 0x00, 0x05
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectOffsetRoundTrip() throws Exception {
+        ObjectOffset triplet = new ObjectOffset();
+        triplet.setTripletID(TripletID.ObjectOffset);
+
+        // Length(1) | ID(1) | Type(1) | Reserved(1) | Low(4) | [High(4)]
+        byte[] data = new byte[] {
+            0x08, 0x5A, (byte) 0xA8, 0x00, 0x00, 0x00, 0x00, 0x0A // Document, 10 preceding
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testAttributeValueRoundTrip() throws Exception {
+        AttributeValue triplet = new AttributeValue();
+        triplet.setTripletID(TripletID.AttributeValue);
+
+        // Length(1) | ID(1) | Reserved(2) | Value(variable)
+        byte[] data = new byte[] {
+            0x08, 0x36, 0x00, 0x00, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // "TEST"
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testMediaEjectControlRoundTrip() throws Exception {
+        MediaEjectControl triplet = new MediaEjectControl();
+        triplet.setTripletID(TripletID.MediaEjectControl);
+
+        // Length(1) | ID(1) | Reserved(1) | Control(1)
+        byte[] data = new byte[] {
+            0x04, 0x45, 0x00, 0x01 // EjectToNewSheet
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testPageOverlayConditionalProcessingRoundTrip() throws Exception {
+        PageOverlayConditionalProcessing triplet = new PageOverlayConditionalProcessing();
+        triplet.setTripletID(TripletID.PageOverlayConditionalProcessing);
+
+        // Length(1) | ID(1) | Type(1) | [Level(1)]
+        byte[] data = new byte[] {
+            0x04, 0x46, 0x01, 0x0A // Annotation, Level 10
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testResourceUsageAttributeRoundTrip() throws Exception {
+        ResourceUsageAttribute triplet = new ResourceUsageAttribute();
+        triplet.setTripletID(TripletID.ResourceUsageAttribute);
+
+        // Length(1) | ID(1) | Frequency(1)
+        byte[] data = new byte[] {
+            0x03, 0x47, 0x00 // Low
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testMediumMapPageNumberRoundTrip() throws Exception {
+        MediumMapPageNumber triplet = new MediumMapPageNumber();
+        triplet.setTripletID(TripletID.MediumMapPageNumber);
+
+        // Length(1) | ID(1) | Number(4)
+        byte[] data = new byte[] {
+            0x06, 0x56, 0x00, 0x00, 0x00, 0x05
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectCountRoundTrip() throws Exception {
+        ObjectCount triplet = new ObjectCount();
+        triplet.setTripletID(TripletID.ObjectCount);
+
+        // Length(1) | ID(1) | Type(1) | Reserved(1) | Low(4) | [High(4)]
+        byte[] data = new byte[] {
+            0x08, 0x5E, (byte) 0xFA, 0x00, 0x00, 0x00, 0x00, 0x14 // 20 objects
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testLocalObjectDateAndTimeStampRoundTrip() throws Exception {
+        LocalObjectDateAndTimeStamp triplet = new LocalObjectDateAndTimeStamp();
+        triplet.setTripletID(TripletID.LocalObjectDateAndTimeStamp);
+
+        // Length(1) | ID(1) | Type(1) | YearH(1) | YearT(2) | Day(3) | Hour(2) | Minute(2) | Second(2) | Hund(2)
+        byte[] data = new byte[] {
+            0x11, 0x62, 0x00, 0x14, 0x00, 0x18, 0x00, 0x00, 0x01, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testMediumOrientationRoundTrip() throws Exception {
+        MediumOrientation triplet = new MediumOrientation();
+        triplet.setTripletID(TripletID.MediumOrientation);
+
+        // Length(1) | ID(1) | Orientation(1)
+        byte[] data = new byte[] {
+            0x03, 0x68, 0x01 // Landscape
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testResourceObjectIncludeRoundTrip() throws Exception {
+        ResourceObjectInclude triplet = new ResourceObjectInclude();
+        triplet.setTripletID(TripletID.ResourceObjectInclude);
+
+        // Length(1) | ID(1) | Type(1) | Name(8) | X(3) | Y(3) | [Orient(2)]
+        byte[] data = new byte[] {
+            0x11, 0x6C, (byte) 0xDF,
+            (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3, 0x40, 0x40, 0x40, 0x40, // "TEST"
+            0x00, 0x01, 0x00, 0x00, 0x02, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testUniversalDateAndTimeStampRoundTrip() throws Exception {
+        UniversalDateAndTimeStamp triplet = new UniversalDateAndTimeStamp();
+        triplet.setTripletID(TripletID.UniversalDateAndTimeStamp);
+
+        // Length(1) | ID(1) | Reserved(1) | Year(2) | Month(1) | Day(1) | Hour(1) | Min(1) | Sec(1) | TZ(1) | DH(1) | DM(1)
+        byte[] data = new byte[] {
+            0x0D, 0x72, 0x00, 0x07, (byte) 0xE8, 0x0C, 0x01, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00 // 2024-12-01 12:00:00 UTC
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testAttributeQualifierRoundTrip() throws Exception {
+        AttributeQualifier triplet = new AttributeQualifier();
+        triplet.setTripletID(TripletID.AttributeQualifier);
+
+        // Length(1) | ID(1) | Seq(4) | Level(4)
+        byte[] data = new byte[] {
+            0x0A, (byte) 0x80, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testPagePositionInformationRoundTrip() throws Exception {
+        PagePositionInformation triplet = new PagePositionInformation();
+        triplet.setTripletID(TripletID.PagePositionInformation);
+
+        // Length(1) | ID(1) | Number(1)
+        byte[] data = new byte[] {
+            0x03, (byte) 0x81, 0x05
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testParameterValueRoundTrip() throws Exception {
+        ParameterValue triplet = new ParameterValue();
+        triplet.setTripletID(TripletID.ParameterValue);
+
+        // Length(1) | ID(1) | Reserved(1) | Syntax(1) | Value(variable)
+        byte[] data = new byte[] {
+            0x08, (byte) 0x82, 0x00, 0x05, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // CharacterString "TEST"
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testPresentationControlRoundTrip() throws Exception {
+        PresentationControl triplet = new PresentationControl();
+        triplet.setTripletID(TripletID.PresentationControl);
+
+        // Length(1) | ID(1) | Flags(1)
+        byte[] data = new byte[] {
+            0x03, (byte) 0x83, (byte) 0xC0 // DoNotView, NoIndexing
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testLocaleSelectorRoundTrip() throws Exception {
+        LocaleSelector triplet = new LocaleSelector();
+        triplet.setTripletID(TripletID.LocaleSelector);
+
+        // Length(1) | ID(1) | Reserved(1) | Flags(1) | Lang(8) | Script(8) | Region(8) | Reserved(8) | [Variant(variable)]
+        byte[] data = new byte[] {
+            0x24, (byte) 0x8C, 0x00, 0x00,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFontFidelityRoundTrip() throws Exception {
+        FontFidelity triplet = new FontFidelity();
+        triplet.setTripletID(TripletID.FontFidelity);
+
+        // Length(1) | ID(1) | Continuation(1) | Reserved(4)
+        byte[] data = new byte[] {
+            0x07, 0x78, 0x01, 0x00, 0x00, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFinishingOperationRoundTrip() throws Exception {
+        FinishingOperation triplet = new FinishingOperation();
+        triplet.setTripletID(TripletID.FinishingOperation);
+
+        // Length(1) | ID(1) | Type(1) | Reserved(2) | Corner(1) | Count(1) | Offset(2) | [Positions(2*N)]
+        byte[] data = new byte[] {
+            0x09, (byte) 0x85, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+
+        byte[] dataWithPositions = new byte[] {
+            0x0D, (byte) 0x85, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02
+        };
+        RoundTripTestUtils.assertRoundTrip(triplet, dataWithPositions);
+    }
+
+    @Test
+    public void testTextFidelityRoundTrip() throws Exception {
+        TextFidelity triplet = new TextFidelity();
+        triplet.setTripletID(TripletID.TextFidelity);
+
+        // Length(1) | ID(1) | Continuation(1) | Reserved(1) | Reporting(1) | Reserved(2)
+        byte[] data = new byte[] {
+            0x07, (byte) 0x86, 0x01, 0x00, 0x01, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testMediaFidelityRoundTrip() throws Exception {
+        MediaFidelity triplet = new MediaFidelity();
+        triplet.setTripletID(TripletID.MediaFidelity);
+
+        // Length(1) | ID(1) | Continuation(1) | Reserved(1) | Reporting(1) | Reserved(2)
+        byte[] data = new byte[] {
+            0x07, (byte) 0x87, 0x01, 0x00, 0x01, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFinishingFidelityRoundTrip() throws Exception {
+        FinishingFidelity triplet = new FinishingFidelity();
+        triplet.setTripletID(TripletID.FinishingFidelity);
+
+        // Length(1) | ID(1) | Continuation(1) | Reserved(1) | Reporting(1) | Reserved(2)
+        byte[] data = new byte[] {
+            0x07, (byte) 0x88, 0x01, 0x00, 0x01, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testUP3iFinishingOperationRoundTrip() throws Exception {
+        UP3iFinishingOperation triplet = new UP3iFinishingOperation();
+        triplet.setTripletID(TripletID.UP3iFinishingOperation);
+
+        // Length(1) | ID(1) | Seq(1) | Reserved(1) | Data(variable)
+        byte[] data = new byte[] {
+            0x06, (byte) 0x8E, 0x01, 0x00, 0x01, 0x02
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testEncodingSchemeIDRoundTrip() throws Exception {
+        EncodingSchemeID triplet = new EncodingSchemeID();
+        triplet.setTripletID(TripletID.EncodingSchemeID);
+
+        // Length(1) | ID(1) | CodePage(2) | [UserData(2)]
+        byte[] data = new byte[] {
+            0x04, 0x50, 0x61, 0x00 // EBCDIC Presentation, Fixed Single-Byte
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFontResolutionAndMetricTechnologyRoundTrip() throws Exception {
+        FontResolutionAndMetricTechnology triplet = new FontResolutionAndMetricTechnology();
+        triplet.setTripletID(TripletID.FontResolutionAndMetricTechnology);
+
+        // Length(1) | ID(1) | Tech(1) | Base(1) | Units(2)
+        byte[] data = new byte[] {
+            0x06, (byte) 0x84, 0x01, 0x00, 0x00, (byte) 0xF0 // Fixed, Inches10, 240 units
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testDataObjectFontDescriptorRoundTrip() throws Exception {
+        DataObjectFontDescriptor triplet = new DataObjectFontDescriptor();
+        triplet.setTripletID(TripletID.DataObjectFontDescriptor);
+
+        // Length(1) | ID(1) | Flags(1) | Tech(1) | Size(2) | Scale(2) | Orient(2) | Env(2) | Ident(2) | Res(2)
+        byte[] data = new byte[] {
+            0x10, (byte) 0x8B, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);
