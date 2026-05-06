@@ -106,35 +106,54 @@ AFP2XMLWriter.writeXML(System.out, sf, config);
 
 ## Command Line Interface (CLI)
 
-The Alpheus AFP Parser includes a CLI tool to convert AFP files to XML.
+The Alpheus AFP Parser includes a Command Line Interface (CLI) tool that allows you to easily convert IBM AFP files into a structured XML format. This is particularly useful for inspecting the contents of AFP files without writing any code.
+
+### Obtaining the CLI Tool
+
+The CLI tool is distributed as a "fat JAR" (a standalone executable JAR containing all necessary dependencies). You can obtain it in two ways:
+
+1.  **Download from GitHub Releases:** Navigate to the [Releases](https://github.com/afpdev/alpheusafpparser/releases) page and download the `alpheus-afp-parser-cli-<version>.jar` asset from the latest release.
+2.  **Build from Source:** If you have the source code, you can build the CLI JAR using Gradle:
+    ```bash
+    ./gradlew shadowJar
+    ```
+    The generated JAR will be located in `build/libs/alpheus-afp-parser-cli-<version>.jar`.
 
 ### Prerequisites
 
-You must have Java 8 or higher installed.
+You must have Java 8 or higher installed on your system.
 
 ### Using the CLI JAR
 
-You can run the CLI tool using the following command:
+Run the CLI tool using the following command:
 
 ```bash
 java -jar alpheus-afp-parser-cli-<version>.jar <input-afp-file> [output-xml-file]
 ```
 
-- `<input-afp-file>`: The path to the AFP file you want to convert.
-- `[output-xml-file]`: (Optional) The path where the XML output should be saved. If omitted, the XML is printed to standard output.
+- **`<input-afp-file>`**: The path to the input AFP file you wish to process.
+- **`[output-xml-file]`**: (Optional) The path where the generated XML output will be saved. If this argument is omitted, the XML content will be printed directly to the standard output (console).
+
+### XML Output Format
+
+The CLI tool generates an XML representation where:
+- The root element is `<AFPDocument>`.
+- Each AFP Structured Field is represented as a child element (e.g., `<BDT_BeginDocument>`, `<PGD_PageDescriptor>`).
+- Fields within each Structured Field are mapped to XML elements.
+- The `structuredFieldIntroducer` (containing length, type, and flags) is included for every field.
 
 ### Examples
 
-**Convert an AFP file and print XML to console:**
+**Convert an AFP file and view the XML in the console:**
 
 ```bash
-java -jar alpheus-afp-parser-cli-0.2.2.jar example.afp
+java -jar alpheus-afp-parser-cli-0.2.2.jar my_document.afp
 ```
 
-**Convert an AFP file and save XML to a file:**
+**Convert an AFP file and save the result to a file:**
 
 ```bash
-java -jar alpheus-afp-parser-cli-0.2.2.jar example.afp output.xml
+java -jar alpheus-afp-parser-cli-0.2.2.jar my_document.afp my_document.xml
 ```
 
 ## Error Handling

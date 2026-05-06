@@ -34,6 +34,10 @@ jobs:
         test -f build/libs/alpheusafpparser-*-javadoc.jar
         test -f build/libs/alpheusafpparser-*.pom
         test -f build/libs/alpheus-afp-parser-cli-*.jar
+    - name: CLI Smoke Test
+      run: |
+        CLI_JAR=$(ls build/libs/alpheus-afp-parser-cli-*.jar)
+        java -jar $CLI_JAR src/test/resources/afp/minimal.afp | grep "<AFPDocument>"
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
