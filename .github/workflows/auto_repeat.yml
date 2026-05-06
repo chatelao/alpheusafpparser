@@ -137,4 +137,7 @@ jobs:
             EDIT_ARGS=(--repo "$REPOSITORY" --add-label "$NEW_LABELS")
             if [ -n "$ASSIGNEE_LIST" ]; then EDIT_ARGS+=(--add-assignee "$ASSIGNEE_LIST"); fi
             gh issue edit "$NEW_ISSUE_NUMBER" "${EDIT_ARGS[@]}"
+
+            # Explicitly trigger google-labs-jules[bot] to work on the new issue
+            gh issue comment "$NEW_ISSUE_NUMBER" --repo "$REPOSITORY" --body "@google-labs-jules[bot] please take over this task for execution."
           fi
