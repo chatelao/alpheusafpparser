@@ -105,7 +105,7 @@ def identify_shallow_fields(root_dir):
                     content = f.read()
 
                     # Skip non-StructuredField classes
-                    if 'extends StructuredField' not in content:
+                    if 'extends StructuredField' not in content and 'extends StructuredFieldBase' not in content:
                         continue
 
                     match = class_regex.search(content)
@@ -113,6 +113,11 @@ def identify_shallow_fields(root_dir):
                         classname = match.group(1)
                         # Check if it overrides decodeAFP
                         if not decode_regex.search(content):
+                            # Special case: classes extending StructuredFieldBaseNameAndTriplets
+                            # or StructuredFieldBaseTriplets are often considered "full" for simple fields.
+                            if match.group(2) in ['StructuredFieldBaseNameAndTriplets', 'StructuredFieldBaseTriplets']:
+                                continue
+
                             package = os.path.relpath(root, root_dir).replace(os.sep, '.')
                             if package not in shallow_fields:
                                 shallow_fields[package] = []

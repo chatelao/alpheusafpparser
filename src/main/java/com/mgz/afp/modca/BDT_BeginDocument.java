@@ -18,7 +18,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca;
 
+import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.base.StructuredFieldBaseName;
+import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.TripletParser;
@@ -33,8 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BDT_BeginDocument extends StructuredFieldBaseName {
+public class BDT_BeginDocument extends StructuredFieldBaseName implements IHasTriplets {
+  @AFPField
   protected List<Triplet> triplets;
+  @AFPField(maxSize = 2)
   byte[] reserved8_9 = {0x00, 0x00};
 
   @Override
@@ -69,14 +73,17 @@ public class BDT_BeginDocument extends StructuredFieldBaseName {
     writeFullStructuredField(os, baos.toByteArray());
   }
 
+  @Override
   public final List<Triplet> getTriplets() {
     return triplets;
   }
 
+  @Override
   public final void setTriplets(List<Triplet> triplets) {
     this.triplets = triplets;
   }
 
+  @Override
   public final void addTriplet(Triplet triplet) {
     if (triplet == null) {
       return;
@@ -87,6 +94,7 @@ public class BDT_BeginDocument extends StructuredFieldBaseName {
     triplets.add(triplet);
   }
 
+  @Override
   public final void removeTriplet(Triplet triplet) {
     if (triplet == null || triplets == null) {
       return;
