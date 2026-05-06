@@ -128,16 +128,18 @@ jobs:
               gh label create "$NEW_ITERATION_LABEL" --repo "$REPOSITORY" --color "$COLOR" || true
             fi
 
-            NEW_LABELS="$NEW_ITERATION_LABEL"
+            NEW_LABELS="$NEW_ITERATION_LABEL,jules"
             if [ -n "$OTHER_LABELS" ]; then
               NEW_LABELS="$NEW_LABELS,$OTHER_LABELS"
             fi
+            # Remove potential duplicates and format as comma-separated list
+            NEW_LABELS=$(echo "$NEW_LABELS" | tr ',' '\n' | grep . | sort -u | paste -sd "," -)
 
             # Add labels and assignees in a separate step to ensure "labeled" and "assigned" events are triggered
             EDIT_ARGS=(--repo "$REPOSITORY" --add-label "$NEW_LABELS")
             if [ -n "$ASSIGNEE_LIST" ]; then EDIT_ARGS+=(--add-assignee "$ASSIGNEE_LIST"); fi
             gh issue edit "$NEW_ISSUE_NUMBER" "${EDIT_ARGS[@]}"
 
-            # Explicitly trigger google-labs-jules[bot] to work on the new issue
-            gh issue comment "$NEW_ISSUE_NUMBER" --repo "$REPOSITORY" --body "@google-labs-jules[bot] please take over this task for execution."
+            # Explicitly assign Jules to the new issue using the jules action
+            gh jules assign "$NEW_ISSUE_NUMBER" --repo "$REPOSITORY"
           fi
