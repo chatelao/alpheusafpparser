@@ -40,7 +40,7 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Restore and expand the test suite.
     - [x] Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
     - [x] Establish a base for granular structure unit testing (round-trip verification).
-    - [ ] Implement round-trip unit tests for all MO:DCA Triplets.
+    - [x] Implement round-trip unit tests for all MO:DCA Triplets.
         - [x] Mapping and Identification Triplets (e.g., FQN, Mapping Option, Comment).
         - [x] Font and Character Triplets (e.g., Font Descriptor, Character Rotation).
         - [x] Color and Presentation Triplets (e.g., Color Specification, Presentation Space Mixing).
@@ -49,9 +49,9 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [x] Positioning and Size Triplets (e.g., Object Offset, Object Byte Extent, Descriptor Position).
         - [x] Date and Control Triplets (e.g., Universal Date and Time Stamp, Presentation Control).
         - [x] Fidelity and Finishing Triplets (e.g., Text Fidelity, Finishing Operation).
-    - [ ] Implement round-trip unit tests for all PTOCA Control Sequences.
-        - [ ] Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
-        - [ ] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
+    - [x] Implement round-trip unit tests for all PTOCA Control Sequences.
+        - [x] Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
+        - [x] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
     - [ ] Implement round-trip unit tests for all Structured Fields.
         - [ ] Document and Page Group Structured Fields.
         - [ ] Page and Overlay Structured Fields.
