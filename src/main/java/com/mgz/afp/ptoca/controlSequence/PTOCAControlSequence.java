@@ -366,9 +366,13 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       this.length = UtilBinaryDecoding.parseShort(sfData, offset, 2);
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
-      if (actualLength > 1) {
+      if (actualLength >= 4) {
         width = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-        widthFraction = sfData[offset + 4];
+        if (actualLength >= 5) {
+          widthFraction = sfData[offset + 4];
+        } else {
+          widthFraction = null;
+        }
       } else {
         width = null;
         widthFraction = null;
@@ -420,9 +424,13 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       this.length = UtilBinaryDecoding.parseShort(sfData, offset, 2);
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
-      if (actualLength > 2) {
+      if (actualLength >= 4) {
         width = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-        widthFraction = sfData[offset + 4];
+        if (actualLength >= 5) {
+          widthFraction = sfData[offset + 4];
+        } else {
+          widthFraction = null;
+        }
       } else {
         width = null;
         widthFraction = null;
@@ -810,8 +818,8 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       adjustment = UtilBinaryDecoding.parseShort(sfData, offset, 2);
-      if (StructuredField.getActualLength(sfData, offset, length) > 2) {
-        direction = SIA_Direction.valueOf(sfData[offset + 1]);
+      if (StructuredField.getActualLength(sfData, offset, length) >= 3) {
+        direction = SIA_Direction.valueOf(sfData[offset + 2]);
       } else {
         direction = null;
       }
