@@ -19,6 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Extract PR and Issue Information
         id: info
         env:
@@ -54,6 +59,7 @@ jobs:
         if: steps.info.outputs.pr_number != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JULES_TOKEN: ${{ secrets.JULES_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ steps.info.outputs.pr_number }}
           ISSUE_NUMBER: ${{ steps.info.outputs.issue_number }}
@@ -140,6 +146,11 @@ jobs:
             if [ -n "$ASSIGNEE_LIST" ]; then EDIT_ARGS+=(--add-assignee "$ASSIGNEE_LIST"); fi
             gh issue edit "$NEW_ISSUE_NUMBER" "${EDIT_ARGS[@]}"
 
-            # Explicitly assign Jules to the new issue using the jules action
-            gh jules assign "$NEW_ISSUE_NUMBER" --repo "$REPOSITORY"
+            # Trigger Jules for the new issue
+            npm config set @google:registry https://wombat-dressing-room.appspot.com
+            npm install -g @google/jules
+            jules remote new --repo "$REPOSITORY" --session "Fix Issue $NEW_ISSUE_NUMBER: $TITLE"
+
+            # Explicitly comment to ensure activation if needed
+            gh issue comment "$NEW_ISSUE_NUMBER" --repo "$REPOSITORY" --body "Triggering Jules for this issue. @google-labs-jules[bot] please take over."
           fi
