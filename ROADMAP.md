@@ -53,29 +53,50 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [x] Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - [x] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
     - [ ] Implement round-trip unit tests for all Structured Fields.
-        - [x] Document and Page Group Structured Fields.
+        - [x] Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI).
         - [ ] Page and Overlay Structured Fields.
-        - [x] Environment and Resource Group Structured Fields.
+            - [ ] Begin/End Overlay (BMO, EMO).
+            - [ ] Begin/End Page Segment (BPS, EPS).
+            - [ ] Include Page/Overlay/Segment (IPG, IPO, IPS).
+            - [ ] Map Page/Overlay/Segment (MPG, MPO, MPS).
+        - [x] Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG).
         - [ ] Object and Data Structured Fields.
+            - [ ] Begin/End Object Container (BOC, EOC).
+            - [ ] Begin/End Image/IM Image (BIM, EIM, BII, EII).
+            - [ ] Include Object (IOB).
+            - [ ] Object/Image Data (OCD, IRD).
 - [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
 - [ ] Complete payload parsing for all identified "shallow" Structured Fields.
     - [x] Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
     - [ ] Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
-        - [ ] MO:DCA Document and Page Structure.
-            - [x] BDT.
-            - [x] EDT, BPG, EPG, BNG, ENG, BDI, EDI.
-        - [ ] MO:DCA Environment and Resource Groups.
-            - [x] EDG, EFM, EMM, ERG.
-            - [x] BDG, BFM, BMM, BRG.
-            - [x] BAG, BFG, BSG, EAG, EFG, ESG.
-        - [ ] MO:DCA Object Containers and Image Data (e.g., BOC/EOC, BIM/EIM, BII/EII, IRD).
-        - [ ] MO:DCA Descriptors and Control Fields (e.g., OBD, PEC, TLE, IEL, IMM).
-        - [ ] FOCA Coded Font, Code Page, and Font Character Set fields (e.g., BCF/ECF, BCP/ECP, BFN/EFN, FNG, FNN).
-        - [ ] BCOCA and PTOCA Begin/End objects (e.g., BBC/EBC, BPT/EPT).
-        - [ ] CMOCA and MO:DCA Color Attribute Table fields (e.g., CMR, BCA, CAT, ECA).
-        - [ ] Line Data related fields (e.g., BDX/EDX, BPM/EPM, DXD, IDM).
+        - [ ] MO:DCA Object Containers and Image Data.
+            - [ ] Begin/End IM Image Object (BII, EII) and raster data (IRD).
+            - [ ] End Image Object (EIM).
+            - [ ] End Object Container (EOC) and data (OCD).
+        - [ ] MO:DCA Overlay and Page Segment.
+            - [ ] End Overlay (EMO).
+            - [ ] End Page Segment (EPS).
+        - [ ] MO:DCA Other structures.
+            - [ ] End Object Environment Group (EOG).
+            - [ ] End Print File (EPF).
+            - [ ] End Resource (ERS).
+        - [ ] FOCA Coded Font, Code Page, and Font Character Set fields.
+            - [ ] Begin/End Coded Font (BCF, ECF).
+            - [ ] End Code Page (ECP).
+            - [ ] End Font (EFN).
+            - [ ] Font Patterns (FNG) and Name Map (FNN).
+        - [ ] BCOCA End Bar Code Object (EBC).
+        - [ ] CMOCA Color Management Resource (CMR).
+        - [ ] MO:DCA Color Attribute Table (CAT).
+        - [ ] GOCA Graphics Data (GAD) and End Graphics Object (EGR).
+        - [ ] Line Data related fields.
+            - [ ] Begin/End Data Map Transmition Subcase (BDX, EDX).
+            - [ ] Begin/End Page Map (BPM, EPM).
+            - [ ] Data Map Transmition Subcase Descriptor (DXD).
+            - [ ] End Data Map (EDM).
+            - [ ] Invoke Data Map (IDM).
 - [ ] Enhance GOCA and IOCA support.
     - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
