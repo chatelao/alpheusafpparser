@@ -60,11 +60,11 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
             - [x] Include Page/Overlay/Segment (IPG, IPO, IPS).
             - [x] Map Page/Overlay/Segment (MPG, MPO, MPS).
         - [x] Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG).
-        - [ ] Object and Data Structured Fields.
-            - [ ] Begin/End Object Container (BOC, EOC).
-            - [ ] Begin/End Image/IM Image (BIM, EIM, BII, EII).
-            - [ ] Include Object (IOB).
-            - [ ] Object/Image Data (OCD, IRD).
+        - [x] Object and Data Structured Fields.
+            - [x] Begin/End Object Container (BOC, EOC).
+            - [x] Begin/End Image/IM Image (BIM, EIM, BII, EII).
+            - [x] Include Object (IOB).
+            - [x] Object/Image Data (OCD, IRD).
 - [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
