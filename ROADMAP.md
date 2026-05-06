@@ -96,7 +96,7 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 ## Phase 8: Modernized Publishing and Distribution
 - [x] Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.
 - [ ] Configure automated publishing to Maven Central via GitHub Actions.
-- [ ] Set up automated release notes generation using GitHub Releases.
+- [x] Set up automated release notes and asset generation using GitHub Releases.
 
 ## Phase 9: Project Documentation and Maintenance
 - [ ] Set up Dependabot or Renovate for automated dependency and Gradle updates.
