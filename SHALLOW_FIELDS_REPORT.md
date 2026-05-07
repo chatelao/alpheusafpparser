@@ -2,17 +2,7 @@
 
 This report lists all Structured Field classes that do not provide their own payload parsing logic (shallow implementations).
 
-**Total Shallow Fields Identified: 13**
-
-## Package: bcoca
-*Bar Code Object Content Architecture - Provides the structures for bar code data objects.*
-
-## Package: foca
-*Font Object Content Architecture - Defines resources for fonts, character sets, and code pages.*
-- BCF_BeginCodedFont: Names and begins a coded font object.
-- ECF_EndCodedFont: Terminates a coded font object.
-- ECP_EndCodePage: Terminates a code page object.
-- EFN_EndFont: Terminates a font character set object.
+**Total Shallow Fields Identified: 9**
 
 ## Package: goca
 *Graphics Object Content Architecture - Provides the structures for vector graphics objects.*
