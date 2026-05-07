@@ -104,6 +104,20 @@ public class ObjectAndDataRoundTripTest {
     }
 
     @Test
+    public void testEOGRoundTrip() throws Exception {
+        // EOG: D3A9C7
+        // Name (8): OBJENVG1 (D6 C2 D1 C5 D5 E5 C7 F1)
+        // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
+        // Total Len: 1 + 8 + 14 = 23. SFLen = 22 (0x0016)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA9, (byte) 0xC7, 0x00, 0x00, 0x00,
+            (byte) 0xD6, (byte) 0xC2, (byte) 0xD1, (byte) 0xC5, (byte) 0xD5, (byte) 0xE5, (byte) 0xC7, (byte) 0xF1,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        RoundTripTestUtils.assertRoundTrip(new EOG_EndObjectEnvironmentGroup(), data);
+    }
+
+    @Test
     public void testIOBRoundTrip() throws Exception {
         // IOB: D3AFC3
         // Name (8): OBJ00001 (D6 C2 D1 F0 F0 F0 F0 F1)
