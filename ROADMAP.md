@@ -71,10 +71,10 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Complete payload parsing for all identified "shallow" Structured Fields.
     - [x] Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
     - [ ] Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
-        - [ ] MO:DCA Object Containers and Image Data.
-            - [ ] Begin/End IM Image Object (BII, EII) and raster data (IRD).
-            - [ ] End Image Object (EIM).
-            - [ ] End Object Container (EOC) and data (OCD).
+        - [x] MO:DCA Object Containers and Image Data.
+            - [x] Begin/End IM Image Object (BII, EII) and raster data (IRD).
+            - [x] End Image Object (EIM).
+            - [x] End Object Container (EOC) and data (OCD).
         - [ ] MO:DCA Overlay and Page Segment.
             - [x] End Overlay (EMO).
             - [x] End Page Segment (EPS).
