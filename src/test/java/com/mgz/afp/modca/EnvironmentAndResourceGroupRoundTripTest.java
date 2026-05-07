@@ -137,4 +137,18 @@ public class EnvironmentAndResourceGroupRoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new ESG_EndResourceEnvironmentGroup(), data);
     }
+
+    @Test
+    public void testERSRoundTrip() throws Exception {
+        // ERS: D3A9CE
+        // Name (8): RESOURCE1 (D9 C5 E2 D6 E4 D9 C3 C5)
+        // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
+        // Total Len: 1 + 8 + 14 = 23. SFLen = 22 (0x0016)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA9, (byte) 0xCE, 0x00, 0x00, 0x00,
+            (byte) 0xD9, (byte) 0xC5, (byte) 0xE2, (byte) 0xD6, (byte) 0xE4, (byte) 0xD9, (byte) 0xC3, (byte) 0xC5,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        RoundTripTestUtils.assertRoundTrip(new ERS_EndResource(), data);
+    }
 }

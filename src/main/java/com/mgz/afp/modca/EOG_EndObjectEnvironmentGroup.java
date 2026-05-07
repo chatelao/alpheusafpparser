@@ -18,8 +18,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca;
 
-import com.mgz.afp.base.StructuredFieldBaseName;
+import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
 
-public class EOG_EndObjectEnvironmentGroup extends StructuredFieldBaseName {
+public class EOG_EndObjectEnvironmentGroup extends StructuredFieldBaseNameAndTriplets {
 }

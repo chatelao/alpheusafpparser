@@ -79,9 +79,9 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
             - [x] End Overlay (EMO).
             - [x] End Page Segment (EPS).
         - [ ] MO:DCA Other structures.
-            - [ ] End Object Environment Group (EOG).
-            - [ ] End Print File (EPF).
-            - [ ] End Resource (ERS).
+            - [x] End Object Environment Group (EOG).
+            - [x] End Print File (EPF).
+            - [x] End Resource (ERS).
         - [ ] FOCA Coded Font, Code Page, and Font Character Set fields.
             - [ ] Begin/End Coded Font (BCF, ECF).
             - [ ] End Code Page (ECP).

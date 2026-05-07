@@ -2,7 +2,7 @@
 
 This report lists all Structured Field classes that do not provide their own payload parsing logic (shallow implementations).
 
-**Total Shallow Fields Identified: 32**
+**Total Shallow Fields Identified: 23**
 
 ## Package: base
 *Internal base classes and common structured field implementations for the Alpheus AFP Parser.*
@@ -42,15 +42,6 @@ This report lists all Structured Field classes that do not provide their own pay
 
 ## Package: modca
 *Mixed Object Document Content Architecture - The primary data stream architecture for AFP documents, defining the document's structure and component objects.*
-- BII_BeginIMImageObject: Names and begins an IM image object.
-- EII_EndIMImageObject: Terminates an IM image object.
-- EIM_EndImageObject: Terminates an image object.
-- EMO_EndOverlay: Terminates an overlay object.
-- EOC_EndObjectContainer: Terminates an object container.
-- EOG_EndObjectEnvironmentGroup: Terminates an Object Environment Group.
-- EPF_EndPrintFile: Terminates a print file.
-- EPS_EndPageSegment: Terminates a page segment object.
-- ERS_EndResource: Terminates a resource object.
 - IRD_IMImageRasterData: Carries the raster pattern for an IM image.
 - NOP_NoOperation: Carries unarchitected data and has no architectural effect.
 - OCD_ObjectContainerData: Carries the data for an object container.
