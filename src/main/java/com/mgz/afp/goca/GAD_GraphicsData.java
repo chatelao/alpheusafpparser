@@ -50,6 +50,8 @@ import java.util.List;
  * optional in a MO:DCA graphics object and may be repeated multiple times.
  */
 public class GAD_GraphicsData extends StructuredField {
+  @AFPField
+  private List<GAD_DrawingOrder> drawingOrders;
 
   private static final List<GAD_DrawingOrder> buildDrawingOrders(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
 
@@ -352,10 +354,33 @@ public class GAD_GraphicsData extends StructuredField {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    int actualLength = getActualLength(sfData, offset, length);
+    if (actualLength > 0) {
+      drawingOrders = buildDrawingOrders(sfData, offset, actualLength, config);
+    } else {
+      drawingOrders = null;
+    }
   }
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+    if (drawingOrders != null && !drawingOrders.isEmpty()) {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      for (GAD_DrawingOrder order : drawingOrders) {
+        order.writeAFP(baos, config);
+      }
+      writeFullStructuredField(os, baos.toByteArray());
+    } else {
+      writeFullStructuredField(os, null);
+    }
+  }
+
+  public List<GAD_DrawingOrder> getDrawingOrders() {
+    return drawingOrders;
+  }
+
+  public void setDrawingOrders(List<GAD_DrawingOrder> drawingOrders) {
+    this.drawingOrders = drawingOrders;
   }
 
   public static class BeginSegment implements IAFPDecodeableWriteable {

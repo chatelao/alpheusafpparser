@@ -90,8 +90,8 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [x] BCOCA End Bar Code Object (EBC).
         - [x] PTOCA End Presentation Text Object (EPT).
         - [ ] CMOCA Color Management Resource (CMR).
-        - [ ] MO:DCA Color Attribute Table (CAT).
-        - [ ] GOCA Graphics Data (GAD) and End Graphics Object (EGR).
+        - [x] MO:DCA Color Attribute Table (CAT).
+        - [x] GOCA Graphics Data (GAD) and End Graphics Object (EGR).
         - [ ] Line Data related fields.
             - [ ] Begin/End Data Map Transmition Subcase (BDX, EDX).
             - [ ] Begin/End Page Map (BPM, EPM).
