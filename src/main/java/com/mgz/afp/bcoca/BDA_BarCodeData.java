@@ -94,8 +94,12 @@ public class BDA_BarCodeData extends StructuredField {
     baos.write(BarCodeFlag.toByte(barCodeFlags));
     baos.write(UtilBinaryDecoding.intToByteArray(xOffset, 2));
     baos.write(UtilBinaryDecoding.intToByteArray(yOffset, 2));
-    parametersData.writeAFP(baos, config);
-    baos.write(barCodeData);
+    if (parametersData != null) {
+      parametersData.writeAFP(baos, config);
+    }
+    if (barCodeData != null) {
+      baos.write(barCodeData);
+    }
 
     writeFullStructuredField(os, baos.toByteArray());
   }

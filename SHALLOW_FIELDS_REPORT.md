@@ -2,11 +2,10 @@
 
 This report lists all Structured Field classes that do not provide their own payload parsing logic (shallow implementations).
 
-**Total Shallow Fields Identified: 15**
+**Total Shallow Fields Identified: 13**
 
 ## Package: bcoca
 *Bar Code Object Content Architecture - Provides the structures for bar code data objects.*
-- EBC_EndBarCodeObject: Terminates a bar code data object.
 
 ## Package: foca
 *Font Object Content Architecture - Defines resources for fonts, character sets, and code pages.*
@@ -33,6 +32,3 @@ This report lists all Structured Field classes that do not provide their own pay
 *MO:DCA Color Attribute Table (CAT) extensions, typically used for legacy or specific color-to-grayscale mapping.*
 - CAT_ColorAttributeTable (Minimal/Empty override): Carries the color-to-grayscale mapping definitions.
 
-## Package: ptoca
-*Presentation Text Object Content Architecture - Defines the structures for presentation text objects.*
-- EPT_EndPresentationTextObject: Terminates a presentation text object.
