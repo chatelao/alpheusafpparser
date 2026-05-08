@@ -101,6 +101,14 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Enhance GOCA and IOCA support.
     - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
+- [ ] Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
+    - [ ] Implement missing PTOCA Control Sequences:
+        - [ ] Unicode Complex Text (UCT).
+        - [ ] Glyph Layout Control (GLC) and associated runs (GIR, GAR, GOR).
+        - [ ] Encrypted Data (ENC) and associated controls (SEA, SKI).
+    - [ ] Enhance text extraction for XML output:
+        - [x] Extract text from Transparent Data (TRN).
+        - [x] Extract text from Repeat String (RPS).
 - [ ] Ensure 100% coverage of the AFP specification as claimed in the project description.
 
 ## Phase 6c: Testing and Quality Assurance (ii)
