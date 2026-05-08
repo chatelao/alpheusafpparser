@@ -21,4 +21,3 @@ This report lists all Structured Field classes that do not provide their own pay
 ## Package: modca_L
 *MO:DCA Color Attribute Table (CAT) extensions, typically used for legacy or specific color-to-grayscale mapping.*
 - CAT_ColorAttributeTable (Minimal/Empty override): Carries the color-to-grayscale mapping definitions.
-
