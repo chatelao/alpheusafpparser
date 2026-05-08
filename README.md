@@ -17,7 +17,11 @@ To use Alpheus in your project add the following dependency:
 
 For support contact afpdev@mogozine.com
 
-Copyright 2015 Rudolf Fiala, 
+## Acknowledgements
+
+This project is a continuation of the [Alpheus AFP Parser](https://github.com/afpdev/alpheusafpparser) originally developed by Rudolf Fiala. We gratefully acknowledge his work in creating this comprehensive AFP parsing library.
+
+Copyright 2015-2026 Rudolf Fiala
 
 Alpheus AFP Parser is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
