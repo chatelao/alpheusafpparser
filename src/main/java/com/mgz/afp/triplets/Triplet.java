@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.triplets;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
@@ -25,14 +26,9 @@ import com.mgz.afp.enums.*;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import com.mgz.afp.triplets.Triplet.ColorFidelity.ExceptionContinuationRule;
-import com.mgz.afp.triplets.Triplet.ColorFidelity.ExceptionReportingRule;
-import com.mgz.afp.triplets.Triplet.ResourceObjectType.ROT_ObjectType;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
-
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -1089,13 +1085,13 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class ResourceObjectType extends Triplet {
-    ROT_ObjectType objectType;
+    ResourceObjectType.ROT_ObjectType objectType;
     byte[] constantData;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      objectType = ROT_ObjectType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 2, 1));
+      objectType = ResourceObjectType.ROT_ObjectType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 2, 1));
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       constantData = new byte[actualLength - 3];
       System.arraycopy(sfData, offset + 3, constantData, 0, constantData.length);
@@ -1138,13 +1134,13 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
         this.code = code;
       }
 
-      public static ROT_ObjectType valueOf(short codeByte) throws AFPParserException {
-        for (ROT_ObjectType t : values()) {
+      public static ResourceObjectType.ROT_ObjectType valueOf(short codeByte) throws AFPParserException {
+        for (ResourceObjectType.ROT_ObjectType t : values()) {
           if (t.code == codeByte) {
             return t;
           }
         }
-        throw new AFPParserException(ROT_ObjectType.class.getSimpleName() + ": type 0x" + Integer.toHexString(codeByte) + " is unknown.");
+        throw new AFPParserException(ResourceObjectType.ROT_ObjectType.class.getSimpleName() + ": type 0x" + Integer.toHexString(codeByte) + " is unknown.");
       }
 
       public int toByte() {
@@ -1161,7 +1157,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class ObjectFunctionSetSpecification_Retired extends Triplet {
-    ROT_ObjectType objectType;
+    ResourceObjectType.ROT_ObjectType objectType;
     byte ocaArchitectureLevel;
     int modcaFunctionSetIdentifier;
     OCAFunctionSet ocaFunctionSet;
@@ -1170,7 +1166,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      objectType = ROT_ObjectType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 2, 1));
+      objectType = ResourceObjectType.ROT_ObjectType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 2, 1));
       ocaArchitectureLevel = sfData[offset + 3];
       modcaFunctionSetIdentifier = UtilBinaryDecoding.parseInt(sfData, offset + 4, 2);
       ocaFunctionSet = OCAFunctionSet.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 6, 2));
@@ -3079,9 +3075,9 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class ColorFidelity extends Triplet {
-    ExceptionContinuationRule exceptionContinuationRule;
+    ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
-    ExceptionReportingRule exceptionReportingRule;
+    ColorFidelity.ExceptionReportingRule exceptionReportingRule;
     byte reserved5 = 0x00;
     ExceptionSubstitutionRule exceptionSubstitutionRule;
     byte reserved7 = 0x00;
@@ -3089,9 +3085,9 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      exceptionContinuationRule = ExceptionContinuationRule.valueOf(sfData[offset + 2]);
+      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(sfData[offset + 2]);
       reserved3 = sfData[offset + 3];
-      exceptionReportingRule = ExceptionReportingRule.valueOf(sfData[offset + 4]);
+      exceptionReportingRule = ColorFidelity.ExceptionReportingRule.valueOf(sfData[offset + 4]);
       reserved5 = sfData[offset + 5];
       exceptionSubstitutionRule = ExceptionSubstitutionRule.valueOf(sfData[offset + 6]);
       reserved7 = sfData[offset + 7];
@@ -3114,13 +3110,13 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       Stop,
       DoNotStop;
 
-      public static ExceptionContinuationRule valueOf(byte ruleByte) throws AFPParserException {
-        for (ExceptionContinuationRule ecr : values()) {
+      public static ColorFidelity.ExceptionContinuationRule valueOf(byte ruleByte) throws AFPParserException {
+        for (ColorFidelity.ExceptionContinuationRule ecr : values()) {
           if (ecr.ordinal() + 1 == ruleByte) {
             return ecr;
           }
         }
-        throw new AFPParserException(ExceptionContinuationRule.class.getSimpleName() + ": continuation rule 0x" + Integer.toHexString(ruleByte) + " is undefined.");
+        throw new AFPParserException(ColorFidelity.ExceptionContinuationRule.class.getSimpleName() + ": continuation rule 0x" + Integer.toHexString(ruleByte) + " is undefined.");
       }
 
       public int toByte() {
@@ -3132,13 +3128,13 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       Report,
       DoNotReport;
 
-      public static ExceptionReportingRule valueOf(byte ruleByte) throws AFPParserException {
-        for (ExceptionReportingRule ecr : values()) {
+      public static ColorFidelity.ExceptionReportingRule valueOf(byte ruleByte) throws AFPParserException {
+        for (ColorFidelity.ExceptionReportingRule ecr : values()) {
           if (ecr.ordinal() + 1 == ruleByte) {
             return ecr;
           }
         }
-        throw new AFPParserException(ExceptionReportingRule.class.getSimpleName() + ": reporting rule 0x" + Integer.toHexString(ruleByte) + " is undefined.");
+        throw new AFPParserException(ColorFidelity.ExceptionReportingRule.class.getSimpleName() + ": reporting rule 0x" + Integer.toHexString(ruleByte) + " is undefined.");
       }
 
       public int toByte() {
@@ -3170,13 +3166,13 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class FontFidelity extends Triplet {
-    ExceptionContinuationRule exceptionContinuationRule;
+    ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte[] reserved3_6 = new byte[4];
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      exceptionContinuationRule = ExceptionContinuationRule.valueOf(sfData[offset + 2]);
+      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(sfData[offset + 2]);
       reserved3_6 = new byte[] {
           sfData[offset + 3], sfData[offset + 4],
           sfData[offset + 5], sfData[offset + 6],
@@ -3581,17 +3577,17 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class TextFidelity extends Triplet {
-    ExceptionContinuationRule exceptionContinuationRule;
+    ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
-    ExceptionReportingRule exceptionReportingRule;
+    ColorFidelity.ExceptionReportingRule exceptionReportingRule;
     byte[] reserved5_6 = {0x00, 0x00};
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      exceptionContinuationRule = ExceptionContinuationRule.valueOf(sfData[offset + 2]);
+      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(sfData[offset + 2]);
       reserved3 = sfData[offset + 3];
-      exceptionReportingRule = ExceptionReportingRule.valueOf(sfData[offset + 4]);
+      exceptionReportingRule = ColorFidelity.ExceptionReportingRule.valueOf(sfData[offset + 4]);
       reserved5_6 = new byte[2];
       System.arraycopy(sfData, offset + 5, reserved5_6, 0, reserved5_6.length);
     }
@@ -3616,17 +3612,17 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class MediaFidelity extends Triplet {
-    ExceptionContinuationRule exceptionContinuationRule;
+    ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
-    ExceptionReportingRule exceptionReportingRule;
+    ColorFidelity.ExceptionReportingRule exceptionReportingRule;
     byte[] reserved5_6 = {0x00, 0x00};
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      exceptionContinuationRule = ExceptionContinuationRule.valueOf(sfData[offset + 2]);
+      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(sfData[offset + 2]);
       reserved3 = sfData[offset + 3];
-      exceptionReportingRule = ExceptionReportingRule.valueOf(sfData[offset + 4]);
+      exceptionReportingRule = ColorFidelity.ExceptionReportingRule.valueOf(sfData[offset + 4]);
       reserved5_6 = new byte[2];
       System.arraycopy(sfData, offset + 5, reserved5_6, 0, reserved5_6.length);
     }
@@ -3652,17 +3648,17 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class FinishingFidelity extends Triplet {
-    ExceptionContinuationRule exceptionContinuationRule;
+    ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
-    ExceptionReportingRule exceptionReportingRule;
+    ColorFidelity.ExceptionReportingRule exceptionReportingRule;
     byte[] reserved5_6 = {0x00, 0x00};
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      exceptionContinuationRule = ExceptionContinuationRule.valueOf(sfData[offset + 2]);
+      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(sfData[offset + 2]);
       reserved3 = sfData[offset + 3];
-      exceptionReportingRule = ExceptionReportingRule.valueOf(sfData[offset + 4]);
+      exceptionReportingRule = ColorFidelity.ExceptionReportingRule.valueOf(sfData[offset + 4]);
       reserved5_6 = new byte[2];
       System.arraycopy(sfData, offset + 5, reserved5_6, 0, reserved5_6.length);
     }
@@ -4206,17 +4202,17 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class CMRTagFidelity extends Triplet {
-    ExceptionContinuationRule exceptionContinuationRule;
+    ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
-    ExceptionReportingRule exceptionReportingRule;
+    ColorFidelity.ExceptionReportingRule exceptionReportingRule;
     byte[] reserved5_6 = {0x00, 0x00};
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      exceptionContinuationRule = ExceptionContinuationRule.valueOf(sfData[offset + 2]);
+      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(sfData[offset + 2]);
       reserved3 = sfData[offset + 3];
-      exceptionReportingRule = ExceptionReportingRule.valueOf(sfData[offset + 4]);
+      exceptionReportingRule = ColorFidelity.ExceptionReportingRule.valueOf(sfData[offset + 4]);
       reserved5_6 = new byte[2];
       System.arraycopy(sfData, offset + 5, reserved5_6, 0, reserved5_6.length);
     }
