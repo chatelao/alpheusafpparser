@@ -635,6 +635,24 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     short repeatLength;
     byte[] repeatData;
 
+    @XmlElement(name = "text")
+    public String getText() {
+      if (repeatData == null || repeatData.length == 0 || repeatLength <= 0) {
+        return null;
+      }
+      int len = repeatLength & 0xFFFF;
+      byte[] fullData = new byte[len];
+      for (int i = 0; i < len; i++) {
+        fullData[i] = repeatData[i % repeatData.length];
+      }
+
+      Charset charset = Constants.cpIBM500;
+      if (UtilCharacterEncoding.isHumanReadable(fullData, charset)) {
+        return new String(fullData, charset);
+      }
+      return null;
+    }
+
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       repeatLength = UtilBinaryDecoding.parseShort(sfData, offset, 2);
@@ -1137,6 +1155,18 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     byte[] transparentDataEBCDIC;
 
     volatile boolean isUseEBCDICData;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (transparentDataEBCDIC == null || transparentDataEBCDIC.length == 0) {
+        return null;
+      }
+      Charset charset = Constants.cpIBM500;
+      if (UtilCharacterEncoding.isHumanReadable(transparentDataEBCDIC, charset)) {
+        return transparentData;
+      }
+      return null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
