@@ -24,8 +24,11 @@ import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -197,6 +200,17 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     public void setComment(byte[] comment) {
       this.comment = comment;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (comment == null || comment.length == 0) {
+        return null;
+      }
+      if (UtilCharacterEncoding.isHumanReadable(comment, Constants.cpIBM500)) {
+        return new String(comment, Constants.cpIBM500);
+      }
+      return null;
     }
   }
 
@@ -1242,6 +1256,17 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     public void setLengthOfFollowingData(short lengthOfFollowingData) {
       this.lengthOfFollowingData = lengthOfFollowingData;
     }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (data == null || data.length == 0) {
+        return null;
+      }
+      if (UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
+        return new String(data, Constants.cpIBM500);
+      }
+      return null;
+    }
   }
 
   public static class GBAR_BeginArea extends GAD_DrawingOrder {
@@ -1462,6 +1487,17 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     public void setCodePoints(byte[] codePoints) {
       this.codePoints = codePoints;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (codePoints == null || codePoints.length == 0) {
+        return null;
+      }
+      if (UtilCharacterEncoding.isHumanReadable(codePoints, Constants.cpIBM500)) {
+        return new String(codePoints, Constants.cpIBM500);
+      }
+      return null;
     }
   }
 
@@ -2163,6 +2199,17 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     public void setCodePoints(byte[] codePoints) {
       this.codePoints = codePoints;
       lengthOfFollowingData = codePoints != null ? (short) (4 + codePoints.length) : 4;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (codePoints == null || codePoints.length == 0) {
+        return null;
+      }
+      if (UtilCharacterEncoding.isHumanReadable(codePoints, Constants.cpIBM500)) {
+        return new String(codePoints, Constants.cpIBM500);
+      }
+      return null;
     }
   }
 

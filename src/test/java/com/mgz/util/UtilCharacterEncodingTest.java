@@ -21,9 +21,12 @@ package com.mgz.util;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class UtilCharacterEncodingTest {
@@ -63,5 +66,45 @@ public class UtilCharacterEncodingTest {
         }
       }
     }
+  }
+
+  @Test
+  public void testIsHumanReadableEBCDIC() {
+    // "Hello World" in EBCDIC (CP500)
+    byte[] ebcdicData = new byte[] {
+        (byte) 0xC8, (byte) 0x85, (byte) 0x93, (byte) 0x93, (byte) 0x96, (byte) 0x40,
+        (byte) 0xE6, (byte) 0x96, (byte) 0x99, (byte) 0x93, (byte) 0x84
+    };
+    assertTrue(UtilCharacterEncoding.isHumanReadable(ebcdicData, Constants.cpIBM500));
+
+    // Binary data (random)
+    byte[] binaryData = new byte[] {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+    assertFalse(UtilCharacterEncoding.isHumanReadable(binaryData, Constants.cpIBM500));
+  }
+
+  @Test
+  public void testIsHumanReadableUTF8() {
+    // "Hello World" in UTF-8
+    byte[] utf8Data = "Hello World".getBytes(StandardCharsets.UTF_8);
+    assertTrue(UtilCharacterEncoding.isHumanReadable(utf8Data, StandardCharsets.UTF_8));
+
+    // Binary data
+    byte[] binaryData = new byte[] {0x00, (byte) 0xFF, (byte) 0xFE, 0x00};
+    assertFalse(UtilCharacterEncoding.isHumanReadable(binaryData, StandardCharsets.UTF_8));
+  }
+
+  @Test
+  public void testIsHumanReadableThreshold() {
+    // 9 printable, 1 control (90%) -> True
+    byte[] thresholdData = new byte[] {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 0x00
+    };
+    assertTrue(UtilCharacterEncoding.isHumanReadable(thresholdData, StandardCharsets.UTF_8));
+
+    // 8 printable, 2 control (80%) -> False
+    byte[] belowThresholdData = new byte[] {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 0x00, 0x01
+    };
+    assertFalse(UtilCharacterEncoding.isHumanReadable(belowThresholdData, StandardCharsets.UTF_8));
   }
 }

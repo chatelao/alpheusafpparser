@@ -176,6 +176,28 @@ public class UtilCharacterEncoding {
     return new String(sfData, offset, actualLength, config.getAfpCharSet());
   }
 
+  public static boolean isHumanReadable(byte[] data, Charset charset) {
+    if (data == null || data.length == 0) {
+      return false;
+    }
+    String s = new String(data, charset);
+    int printableCount = 0;
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (isPrintable(c)) {
+        printableCount++;
+      }
+    }
+    return (double) printableCount / s.length() >= 0.9;
+  }
+
+  private static boolean isPrintable(char c) {
+    if (Character.isISOControl(c)) {
+      return c == '\r' || c == '\n' || c == '\t';
+    }
+    return true;
+  }
+
   public static boolean isEBCDIC(byte[] data) {
     for (int i = 0; i < data.length; i++) {
       if (!Character.isDefined((char) data[i])) {
