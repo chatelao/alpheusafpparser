@@ -10,3 +10,8 @@
 - [Metadata Object Content Architecture Reference](moca-reference-02.pdf) ([Markdown](markdown/moca-reference-02.md))
 - [Mixed Object Document Content Architecture (MO:DCA) Reference](modca-reference-10.pdf) ([Markdown](markdown/modca-reference-10.md))
 - [Presentation Text Object Content Architecture Reference](ptoca-reference-04.pdf) ([Markdown](markdown/ptoca-reference-04.md))
+
+## Supplemental References
+
+- [IBM Tamino - Supported character encodings](https://www.ibm.com/docs/en/tamino/10.7.0?topic=reference-supported-character-encodings)
+- [Compart - IBM500 Character Set](https://www.compart.com/en/unicode/charsets/IBM500)
