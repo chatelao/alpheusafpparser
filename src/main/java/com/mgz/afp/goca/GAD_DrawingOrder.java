@@ -24,8 +24,11 @@ import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -1217,6 +1220,14 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     public byte[] getData() {
       return data;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
+        return new String(data, Constants.cpIBM500);
+      }
+      return null;
     }
 
     /**

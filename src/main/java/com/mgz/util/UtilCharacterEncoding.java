@@ -185,6 +185,32 @@ public class UtilCharacterEncoding {
     return false;
   }
 
+  /**
+   * Returns true if the given data, when decoded with the given charset, consists mostly of
+   * printable characters.
+   *
+   * @param data    byte array to test.
+   * @param charset Charset used for decoding.
+   * @return true if data is human-readable.
+   */
+  public static boolean isHumanReadable(byte[] data, Charset charset) {
+    if (data == null || data.length == 0) {
+      return false;
+    }
+    if (charset == null) {
+      charset = Constants.cpIBM500;
+    }
+    String decoded = new String(data, charset);
+    int printableCount = 0;
+    for (int i = 0; i < decoded.length(); i++) {
+      char c = decoded.charAt(i);
+      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t') {
+        printableCount++;
+      }
+    }
+    return (double) printableCount / decoded.length() >= 0.9;
+  }
+
   public static String reduceLabel(String s) {
     if (s == null) {
       return "null";
