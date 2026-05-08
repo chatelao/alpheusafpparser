@@ -53,18 +53,21 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [x] Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - [x] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
     - [ ] Implement round-trip unit tests for all Structured Fields.
-        - [x] Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI).
+    - [x] Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF).
         - [x] Page and Overlay Structured Fields.
             - [x] Begin/End Overlay (BMO, EMO).
             - [x] Begin/End Page Segment (BPS, EPS).
             - [x] Include Page/Overlay/Segment (IPG, IPO, IPS).
             - [x] Map Page/Overlay/Segment (MPG, MPO, MPS).
-        - [x] Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG).
+    - [x] Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG, ERS).
         - [x] Object and Data Structured Fields.
             - [x] Begin/End Object Container (BOC, EOC).
             - [x] Begin/End Image/IM Image (BIM, EIM, BII, EII).
             - [x] Include Object (IOB).
             - [x] Object/Image Data (OCD, IRD).
+    - [x] Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
+    - [x] Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
+    - [x] Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN).
 - [ ] Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
@@ -112,7 +115,7 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Ensure 100% coverage of the AFP specification as claimed in the project description.
 
 ## Phase 6c: Testing and Quality Assurance (ii)
-- [ ] Integrate JaCoCo for code coverage reporting.
+- [x] Integrate JaCoCo for code coverage reporting.
 - [x] Add GitHub Actions job for CodeQL analysis.
     - [x] Create `.github/workflows/codeql.yml`.
 - [ ] Update Checkstyle to a modern version and use standard Google or Sun style.
