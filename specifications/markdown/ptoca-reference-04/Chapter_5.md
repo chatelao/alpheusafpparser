@@ -1,22 +1,22 @@
-Chapter 5. Exception Handling in PT OCA
+Chapter 5. Exception Handling in PTOCA
 This chapter:
 • Describes exception condition detection
 • Describes exception responses and standard actions
-• Lists the PTO CA exception condition codes
+• Lists the PTOCA exception condition codes
 Faithful Reproduction
-PTO CA is intended to be precise enough to permit multiple products to reproduce the Presentation T ext object
+PTOCA is intended to be precise enough to permit multiple products to reproduce the Presentation Text object
 faithfully . Faithful reproduction includes such aspects as the size and relative positions of graphic characters
 and strings of graphic characters. Examples are the placement of columns in tables, mathematical constructs
-such as subscripts or limits of integrals, and the appearance of graphic characters. PTO CA can only make
+such as subscripts or limits of integrals, and the appearance of graphic characters. PTOCA can only make
 faithful reproduction possible. The responsibility for faithful reproduction belongs to the process that presents
 the object.
-PTO CA is also designed to permit less than faithful reproduction of the Presentation T ext object. It is possible
+PTOCA is also designed to permit less than faithful reproduction of the Presentation Text object. It is possible
 to specify those exception conditions for which continuation of processing is acceptable. This permits a
 process that cannot faithfully reproduce the object to continue with its best approximation. If less than faithful
 reproduction is acceptable for an application, interchange among a larger set of receivers is possible.
 If a requirement for faithful reproduction is specified, and if a process cannot present a faithful reproduction,
 reproduction is not continued.
-T o satisfy these objectives, PT OCA anticipates the existence of exception conditions, specifies how each is to
+T o satisfy these objectives, PTOCA anticipates the existence of exception conditions, specifies how each is to
 be handled so that results are predictable, and lets the controlling environment control exception condition
 actions.
 Exception Conditions
@@ -24,7 +24,7 @@ An exception condition in the object is the appearance of the following:
 • Invalid or unsupported parameter value
 • Invalid or unsupported parameter
 • Invalid or unsupported control sequence
-PTO CA specifies valid values for parameters, appropriate and inappropriate parameters, and valid and invalid
+PTOCA specifies valid values for parameters, appropriate and inappropriate parameters, and valid and invalid
 combinations of control sequences. In addition, an implementation may accept only a subset of valid values or
 only a subset of appropriate parameters and control sequences. However , PTOC A specifies, by subsetting,
 which of its controls and parameters are to be supported by the implementations of a subset.
@@ -33,12 +33,12 @@ Exception conditions can be classified as:
 • Semantic
 • Pragmatic
 A syntactic exception condition is a violation of a structural architectural specification.
-Syntactic exception conditions defined for PTO CA include:
+Syntactic exception conditions defined for PTOCA include:
 • Invalid control sequence
 • Invalid parameter value
 • Control sequence appearing in invalid context
 
-## Page 164
+<!-- Page 164 -->
 
 146 PTOCA Reference
 A semantic exception condition is a violation of a functional architectural specification, that is, what a
@@ -47,59 +47,59 @@ Semantic exception conditions defined for PTOCA include:
 • Selection of inconsistent or contradictory functions
 • Loss of presentation information
 A pragmatic exception condition is an incorrect usage of an architectural specification that is valid structurally
-and semantically . It is normally caused by an incompatibility between a Presentation T ext object and a product
+and semantically . It is normally caused by an incompatibility between a Presentation Text object and a product
 that processes or presents it. Pragmatic exception conditions are not defined by PTOCA and cannot be
-detected by inspection of a Presentation T ext object.
+detected by inspection of a Presentation Text object.
 Pragmatic exception conditions include:
-• Mismatch of characteristics of Presentation T ext object and presentation product
+• Mismatch of characteristics of Presentation Text object and presentation product
 • Unavailable resource, for example, coded font
 • Unavailable function, for example, overstrike
 • Unsupported control sequence
 A product may be unable to distinguish between a syntactic exception and a pragmatic exception, for example,
 between an invalid parameter value and a parameter value out of the product's range.
 Exception Condition Detection
-A potential exception condition may exist, yet not be detected during processing of a Presentation T ext object.
-A receiver is not required to process a Presentation T ext object beyond its need to perform a specified function.
+A potential exception condition may exist, yet not be detected during processing of a Presentation Text object.
+A receiver is not required to process a Presentation Text object beyond its need to perform a specified function.
 Therefore, a process usually detects only those exception conditions that pertain to the function it is
-performing. PT OCA defines specific exception conditions that occur within the object, and enables the
+performing. PTOCA defines specific exception conditions that occur within the object, and enables the
 controlling environment to provide a continuation capability by specifying standard action values to use when
 no other source is available for the parameter values. In addition, PTOCA does not require that an
 implementation of the controlling environment do anything more than receive exception conditions and
-terminate processing the Presentation T ext object as a result of them. However , the controlling environment
+terminate processing the Presentation Text object as a result of them. However , the controlling environment
 may place more stringent requirements.
 Syntactic exception conditions can be detected without regard to the value of any other parameter or
 structured field. A syntactic or semantic exception condition can be detected by inspection of a Presentation
-T ext object. A pragmatic exception condition cannot be detected by inspection of a Presentation T ext object
+T ext object. A pragmatic exception condition cannot be detected by inspection of a Presentation Text object
 alone, but requires knowledge of characteristics of the receiver . If a product that produces or processes a
-Presentation T ext object knows the characteristics of one or more receivers, it can avoid or detect pragmatic
+Presentation Text object knows the characteristics of one or more receivers, it can avoid or detect pragmatic
 exception conditions. If it does not, this detection must be performed by the receiver .
 Exception Condition Handling
-All processors of a Presentation T ext object need not have the same capability for detecting, processing, or
+All processors of a Presentation Text object need not have the same capability for detecting, processing, or
 reporting exception conditions. Processors of similar capabilities may handle the same exception condition in
 diffe rent ways. A processor may provide alternative ways to handle an exception condition; however , the
 processor's capabilities are limited by PTOCA.
-The controlling environment of a Presentation T ext object can specify the response a receiver should make
+The controlling environment of a Presentation Text object can specify the response a receiver should make
 when exception conditions are encountered. This is specified in structures contained in the controlling
 environment. These structures identify one or more exception conditions, and specify the exception response
 or effe ct the exception condition will have on the document presentation process. For example, a document
 may be terminated when an exception condition is encountered, or processing may continue using the
 architected standard action for the exception condition.
-A standard action is specified in PTO CA for many exception conditions. For example, if an implementation
-cannot process some of the Presentation T ext object, the standard action could be to present it with
+A standard action is specified in PTOCA for many exception conditions. For example, if an implementation
+cannot process some of the Presentation Text object, the standard action could be to present it with
 Exception Conditions
 
-## Page 165
+<!-- Page 165 -->
 
-PT OCA Reference 147
+PTOCA Reference 147
 unrecognized control sequences omitted or with specified valid parameters substituted for invalid parameters.
 The standard actions are defined independent of where the exception condition is detected. That is, the
 receiver may be an application, program product, mechanical device, and so forth. The process always
 initiates the specified action, and is responsible for its satisfactory completion.
 Exception Responses
 When an exception condition is detected by a receiver , an exception response is assumed. Exception
-responses are not specified by PTO CA. The exception condition codes specified are for reference purposes. If
+responses are not specified by PTOCA. The exception condition codes specified are for reference purposes. If
 the controlling environment specifies a different exception condition code for the same exception condition, the
-controlling environment's exception condition code overrides the code specified by PTO CA. For example, if a
+controlling environment's exception condition code overrides the code specified by PTOCA. For example, if a
 DBR control sequence will cause a rule to extend outside the boundaries of the object space, PTOCA specifies
 that exception condition code EC-0103 be recognized. However , in the IPDS environment, exception ID
 08C1..00 would be recognized. Please see Appendix A, “MO:DCA Environment”, on page 163 and Appendix
@@ -107,7 +107,7 @@ B, “IPDS Environment”, on page 169. See “Related Publications” on page v
 Some exception responses can be common to all exception conditions. Others are specific to particular
 exception conditions.
 Exception responses that can be common to all exception conditions include the following:
-• T erminate processing Presentation T ext object
+• T erminate processing Presentation Text object
 • Ignore the control that caused the exception condition and continue processing the object
 • Partially process the control that caused the exception condition
 • Report exception condition back to generator or forward it to the presenter of the object
@@ -122,23 +122,23 @@ of an exception condition.
 A response for each exception condition may be selected in a manner independent of any other exception
 condition. Multiple responses may be selected for one exception condition. Certain exception condition actions
 are mutually exclusive by their nature. PTOCA assumes that the controlling environment provides structures
-external to the Presentation T ext object for handling the responses to exception classes or specific exception
+external to the Presentation Text object for handling the responses to exception classes or specific exception
 conditions received from the object processor .
 Standard Actions
-PTO CA specifies the standard actions that it assumes to be taken by the Presentation T ext object processor
+PTOCA specifies the standard actions that it assumes to be taken by the Presentation Text object processor
 for specific exception conditions that can occur in the object. The receiver is expected to implement the
-PTO CA standard action for those exception conditions it can recognize as part of the support of the subset
+PTOCA standard action for those exception conditions it can recognize as part of the support of the subset
 level. If the controlling environment specifies a different standard action for the same exception condition, the
-action specified by the controlling environment overrides the action specified by PTO CA. For example, if an
-invalid control sequence generates an exception condition, PTO CA may specify that the presentation process
+action specified by the controlling environment overrides the action specified by PTOCA. For example, if an
+invalid control sequence generates an exception condition, PTOCA may specify that the presentation process
 ignore the invalid control sequence and continue presenting. However , for the same exception condition, IPDS
-may require the presentation process to stop processing the Presentation T ext object. Thus the PT OCA
+may require the presentation process to stop processing the Presentation Text object. Thus the PTOCA
 processor has two options when it recognizes an exception condition: it can simply report the exception
 condition to the controlling environment, and let the environment handle it; or it can apply the PTOCA standard
 action.
 Exception Conditions
 
-## Page 166
+<!-- Page 166 -->
 
 148 PTOCA Reference
 Exception Condition Codes
@@ -147,7 +147,7 @@ The codes are consistent with those of the data streams, and conform to the regi
 codes found in IPDS. Please see the appendixes for information about exception conditions in the controlling
 environment.
 T able 18. PTOCA Exception Conditions
-PT OCA
+PTOCA
 Exception
 Condition
 Meaning Comments
@@ -206,18 +206,18 @@ number of bits for a color
 component in SEC.
 Exception Conditions
 
-## Page 167
+<!-- Page 167 -->
 
-PT OCA Reference 149
+PTOCA Reference 149
 T able 18 PTOCA Exception Conditions (cont'd.)
-PT OCA
+PTOCA
 Exception
 Condition
 Meaning Comments
 EC-0F01 Invalid text orientation in
 ST O.
 • Baseline or inline orientation specified is not a valid or supported value.
-• The I and B orientations are identical.
+• The I and Borientations are identical.
 • Neither the I-direction nor the B-direction is parallel to the X
 p
 –direction.
@@ -264,11 +264,11 @@ even for double-byte fonts.
 number . It must be even for double–byte encoded data.
 Exception Conditions
 
-## Page 168
+<!-- Page 168 -->
 
 150 PTOCA Reference
 T able 18 PTOCA Exception Conditions (cont'd.)
-PT OCA
+PTOCA
 Exception
 Condition
 Meaning Comments
@@ -297,7 +297,7 @@ condition parameter .
 • Part of an optional parameter in a control sequence is missing.
 • A Coded Font LID has been omitted in a SCFL control sequence or in a
 Coded Font Local ID initial text condition parameter .
-• SVI control sequence increment parameter is missing.
+• SVIcontrol sequence increment parameter is missing.
 • DBR or DIR length parameter is missing.
 • SIM displacement parameter is missing.
 • I-orientation parameter or B-orientation parameter is missing in an ST O
@@ -329,11 +329,11 @@ specified is not a valid or
 supported value.
 Exception Conditions
 
-## Page 169
+<!-- Page 169 -->
 
-PT OCA Reference 151
+PTOCA Reference 151
 T able 18 PTOCA Exception Conditions (cont'd.)
-PT OCA
+PTOCA
 Exception
 Condition
 Meaning Comments
@@ -371,10 +371,10 @@ EC-9D03 No key information has
 been set for decryption.
 Exception Conditions
 
-## Page 170
+<!-- Page 170 -->
 
 152 PTOCA Reference
 
-## Page 171
+<!-- Page 171 -->
 
 Copyright © AFP Consortium 1997, 2025 153

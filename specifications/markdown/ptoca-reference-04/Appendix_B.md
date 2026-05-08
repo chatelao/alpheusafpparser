@@ -1,21 +1,21 @@
 Appendix B. IPDS Environment
-The Intelligent Printer Data Stream (IPDS) provides the printer subsystem environment for Presentation T ext
+The Intelligent Printer Data Stream (IPDS) provides the printer subsystem environment for Presentation Text
 objects. This appendix describes:
-• The context of Presentation T ext objects in the IPDS environment; as either text-major text or as independent
+• The context of Presentation Text objects in the IPDS environment; as either text-major text or as independent
 text objects
 • A comparison of PTOCA and IPDS exception conditions
 • IPDS commands specific to presentation text
 For further information about the IPDS Architecture, refer to Intelligent Printer Data Stream Reference, AFPC-
 0001.
-IPDS Presentation T ext
-Presentation T ext objects are transmitted to print devices acting as receivers as part of an IPDS data stream so
+IPDS Presentation Text
+Presentation Text objects are transmitted to print devices acting as receivers as part of an IPDS data stream so
 that a presentation on the print device may be made with visual fidelity . The IPDS Architecture is expressly
 designed to support all points addressable (AP A) printing function that allows text, image, graphics, and bar
 code to be positioned and presented at any point on the printed page.
-T ext is described to the IPDS printers in terms of Presentation T ext data within Write T ext commands. The
-Presentation T ext data is comprised of graphic characters and control sequences in the same format as carried
+T ext is described to the IPDS printers in terms of Presentation Text data within Write T ext commands. The
+Presentation Text data is comprised of graphic characters and control sequences in the same format as carried
 in MO:DCA data streams except that the containing IPDS structure has a diffe rent syntax. The printers that
-receive the Presentation T ext object are expected to process the object contents accurately according to the
+receive the Presentation Text object are expected to process the object contents accurately according to the
 semantic definitions for the supported PTOC A subset.
 IPDS Architecture provides the following for the object:
 • Command structure and syntax
@@ -40,17 +40,17 @@ Architecture Note: The Extended T ext Color parameter is not supported as an ini
 environments for text-major text. This parameter is supported in IPDS environments when the text is
 specified in a text object.
 
-## Page 188
+<!-- Page 188 -->
 
 170 PTOCA Reference
 IPDS T ext Command Set
-Presentation T ext Data Descriptor for T ext-Major T ext
-The following table describes the contents of the PT OCA Presentation T ext Data Descriptor and the
+Presentation Text Data Descriptor for T ext-Major T ext
+The following table describes the contents of the PTOCA Presentation Text Data Descriptor and the
 corresponding parameter location within the IPDS Logical Page Descriptor (LPD) command.
-The of fset in the table indicates the beginning of the parameter data relative to the beginning of the data
-portion of the LPD command. This table reflects the descriptor subset syntax for the Presentation T ext Data
+The offset in the table indicates the beginning of the parameter data relative to the beginning of the data
+portion of the LPD command. This table reflects the descriptor subset syntax for the Presentation Text Data
 Descriptor .
-PT OCA Parameter IPDS LPD Offset Notes
+PTOCA Parameter IPDS LPD Offset Notes
 UNITBASE 0
 XPUNITVL 2-3
 YPUNITVL 4-5
@@ -86,14 +86,14 @@ page 103 defined in the STC control sequence.
 4. DIRCTION is always defaulted to X'00', that is, the positive direction, so this parameter is not carried in the
 Logical Page Descriptor (LPD) command.
 5. The default indicator is not allowed for this parameter in this subset.
-IPDS Presentation T ext Data Descriptor for T ext Objects
-When a text object is used within an IPDS data stream, the PTOCA Presentation T ext Data Descriptor is
+IPDS Presentation Text Data Descriptor for T ext Objects
+When a text object is used within an IPDS data stream, the PTOCA Presentation Text Data Descriptor is
 carried within the Wr ite T ext Control (WTC) command. This portion of the WTC command is called the T ext
 IPDS T ext Command Set
 
-## Page 189
+<!-- Page 189 -->
 
-PT OCA Reference 171
+PTOCA Reference 171
 Data Descriptor (TDD) and specifies parameters that define the text presentation space size and initial text
 default conditions. The format of the TDD is as follows:
 Offset T ype Name Range Meaning Required
@@ -149,10 +149,10 @@ Initial text
 conditions
 Initial text conditions, in the same syntax as
 bytes 14 to end of the MO:DCA PTD found in
-the table under “Presentation T ext Data
+the table under “Presentation Text Data
 Descriptor (PTD)” on page 164
-Presentation T ext Data
-Presentation T ext data, which contains the graphic characters and the control sequences that position the
+Presentation Text Data
+Presentation Text data, which contains the graphic characters and the control sequences that position the
 graphic characters, is carried in the IPDS Write T ext (WT) command. The subsets of PTOC A that are used by
 IPDS printers are the PT1, PT2, PT3, and PT4 subsets. Notice that each subset contains all of the lower
 number subsets; for example, PT3 contains all of PT2 (and therefore all of PT1).
@@ -160,7 +160,7 @@ The contents of the PTX structured field in a MO:DCA architecture data stream, t
 control sequences, may be included directly into one or more IPDS Wr ite T ext (WT) commands. Remove the
 MO:DCA structured field introducer , replace it with the IPDS WT command syntax, and correct the length
 information to reflect the length of the WT command.
-Presentation T ext data can span multiple WT commands. That is, a control sequence or chain of control
+Presentation Text data can span multiple WT commands. That is, a control sequence or chain of control
 sequences can be started in the data sent by one WT command and can be completed in the data sent by the
 WT commands that follow .
 A WT command may end in the middle of an embedded control sequence or a double-byte code point. In this
@@ -168,19 +168,19 @@ event, an exception results if any commands other than Execute Order Anystate, N
 State, or Sense T ype and Model are received before the next WT command.
 Presentation Exception Conditions
 The IPDS Architecture defines its own exception condition codes, called exception IDs, which consist of three
-bytes. PTO CA exception condition codes are mapped to IPDS exception IDs by mapping the two-byte PT OCA
+bytes. PTOCA exception condition codes are mapped to IPDS exception IDs by mapping the two-byte PTOCA
 code to the last two bytes of the IPDS exception code. In most cases, this mapping is one-to-one. Where it is
 Presentation Exception Conditions
 
-## Page 190
+<!-- Page 190 -->
 
 172 PTOCA Reference
 not, the IPDS exception ID overrides the PTOC A exception condition code. The IPDS Architecture also defines
 its own exception responses. In some cases, this exception response is the same as the standard exception
-action defined by PTO CA. Where it is not, the IPDS exception response overrides the PT OCA standard
+action defined by PTOCA. Where it is not, the IPDS exception response overrides the PTOCA standard
 exception action. T able 20 shows the mapping of PTOCA exception condition codes to IPDS exception IDs.
 T able 20. PTOCA Exception Conditions in an IPDS Environment
-PT OCA Exception Condition Code IPDS Exception ID
+PTOCA Exception Condition Code IPDS Exception ID
 EC-0001 0200..01
 EC-0103 08C1..00 for text major
 0201..03 for text objects
@@ -218,11 +218,11 @@ EC-3F02 023F ..02
 EC-5803 0258..03
 Presentation Exception Conditions
 
-## Page 191
+<!-- Page 191 -->
 
-PT OCA Reference 173
+PTOCA Reference 173
 T able 20 PTOCA Exception Conditions in an IPDS Environment (cont'd.)
-PT OCA Exception Condition Code IPDS Exception ID
+PTOCA Exception Condition Code IPDS Exception ID
 EC-6802 0268..02
 EC-6902 0269..02
 EC-6A02 026A..02
@@ -256,15 +256,15 @@ command.
 The mapping function provided by this command is independent of the specific font technology employed by
 the printer . For example, the device may resolve the mapping to stored font patterns downloaded from the host
 or to permanently resident font patterns.
-The coded font resource used for Presentation T ext objects may be used by other data objects, such as
+The coded font resource used for Presentation Text objects may be used by other data objects, such as
 graphics, as well.
 Load Equivalence (LE) and Load Copy Control (LCC): The LE command permits physical values
 embedded in printer data to be referenced externally using different values, and the LCC command specifies
 external suppression values to be used in conjunction with the presentation text. These two functions are used
-to control the suppression function in PT OCA.
+to control the suppression function in PTOCA.
 Additional Related Commands
 
-## Page 192
+<!-- Page 192 -->
 
 174 PTOCA Reference
 Suppression is started by external suppression values specified in the current Load Copy Control (LCC)
@@ -315,9 +315,9 @@ The following IPDS commands are used with FOCA outline fonts:
 • Load Font Character Set Control (LFCSC)
 Font Commands
 
-## Page 193
+<!-- Page 193 -->
 
-PT OCA Reference 175
+PTOCA Reference 175
 • Load Font Equivalence (LFE)
 • XOH Erase Residual Font Data (ERFD)
 The following IPDS commands are used with FOCA raster fonts:
@@ -335,10 +335,10 @@ The following IPDS commands are used with symbol set fonts:
 • Load Symbol Set (LSS)
 Font Commands
 
-## Page 194
+<!-- Page 194 -->
 
 176 PTOCA Reference
 
-## Page 195
+<!-- Page 195 -->
 
 Copyright © AFP Consortium 1997, 2025 177

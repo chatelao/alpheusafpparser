@@ -1,42 +1,42 @@
 Appendix A. MO:DCA Environment
-This appendix describes how Presentation T ext objects may be included within a MO:DCA document for the
-purpose of interchanging Presentation T ext objects between a generating node and a receiving node. See
+This appendix describes how Presentation Text objects may be included within a MO:DCA document for the
+purpose of interchanging Presentation Text objects between a generating node and a receiving node. See
 Mixed Object Document Content Architecture Reference, AFPC-0004, for a full description of the MO:DCA
 architecture.
-The Presentation T ext Data Descriptor (PTD) and Presentation T ext Data (PTX) structured fields, which carry
-Presentation T ext objects in MO:DCA architecture documents, are defined in the following pages.
-T o guarantee interchange, a MO:DCA document carrying a Presentation T ext object must include all
+The Presentation Text Data Descriptor (PTD) and Presentation Text Data (PTX) structured fields, which carry
+Presentation Text objects in MO:DCA architecture documents, are defined in the following pages.
+T o guarantee interchange, a MO:DCA document carrying a Presentation Text object must include all
 information related to the object. The MO:DCA document must therefore contain not only the definition of the
-Presentation T ext object, but it must also provide linkage to the resources the object references.
+Presentation Text object, but it must also provide linkage to the resources the object references.
 The discussion of MO:DCA structured fields is included in this appendix solely for setting the context of their
-use by PTO CA.
+use by PTOCA.
 Compliance with MO:DCA Interchange Sets
-When Presentation T ext objects are interchanged with the purpose of outputting the objects on a display ,
+When Presentation Text objects are interchanged with the purpose of outputting the objects on a display ,
 printer , or other output device, it is very important that visual fidelity be maintained as far as possible. In an
 attempt to satisfy this objective, PTOC A defines the following for the MO:DCA environment:
-• A set of rules that must be followed by all generators when constructing Presentation T ext objects.
-• A set of Presentation T ext processing capabilities that are guaranteed to be supported by all receivers.
-In order to comply with a particular MO:DCA Interchange Set, products that generate Presentation T ext objects
-must only generate objects that contain Presentation T ext items and values defined in that interchange set.
+• A set of rules that must be followed by all generators when constructing Presentation Text objects.
+• A set of Presentation Text processing capabilities that are guaranteed to be supported by all receivers.
+In order to comply with a particular MO:DCA Interchange Set, products that generate Presentation Text objects
+must only generate objects that contain Presentation Text items and values defined in that interchange set.
 Including items or values not in the interchange set can result in processing exceptions being raised by the
 receiving processor , and exception actions being taken. However , a generator must not rely on a receiver
 taking these actions.
-In order to conform to a particular MO:DCA Interchange Set, products that receive Presentation T ext objects
-and convert them using a processor for output to some device are required to support all the Presentation T ext
+In order to conform to a particular MO:DCA Interchange Set, products that receive Presentation Text objects
+and convert them using a processor for output to some device are required to support all the Presentation Text
 facilities defined in that interchange set.
-It is optional whether the processor in the receiving node checks each Presentation T ext object for compliance
+It is optional whether the processor in the receiving node checks each Presentation Text object for compliance
 with the relevant interchange set. A receiver can optionally raise warnings, in the form of errors, if a non-
-compliant Presentation T ext object is detected.
-The Presentation T ext object space is the presentation space within which the object generator may position
+compliant Presentation Text object is detected.
+The Presentation Text object space is the presentation space within which the object generator may position
 graphic characters without error , and it is the responsibility of the generator to ensure that the graphic
 characters it places in the object space are positioned so that they do not exceed the object space.
 
-## Page 182
+<!-- Page 182 -->
 
 164 PTOCA Reference
-Presentation T ext Structured Fields in the MO:DCA Architecture
-Presentation T ext Data Descriptor (PTD)
-The PT OCA Presentation T ext Data Descriptor is carried in the MO:DCA Presentation T ext Data Descriptor
+Presentation Text Structured Fields in the MO:DCA Architecture
+Presentation Text Data Descriptor (PTD)
+The PTOCA Presentation Text Data Descriptor is carried in the MO:DCA Presentation Text Data Descriptor
 (PTD) structured field.
 Structured Field Introducer
 SF Length SF Identifier
@@ -44,7 +44,7 @@ X'D3B19B'
 Flags Reserved
 X'0000'
 PTD Data
-The following table describes the contents of the Presentation T ext Data Descriptor (PTD) structured field in
+The following table describes the contents of the Presentation Text Data Descriptor (PTD) structured field in
 the MO:DCA architecture, which has a structured field identifier of X'D3B19B'.
 Offset T ype Name Range Meaning M/O Def Ind
 0 CODE XPBASE X'00'–X'01' Unit base for X axis; must
@@ -98,15 +98,15 @@ measurement unit, please see the conversion routine described in “Interpreting
 3. The TEXTFLAGS parameter is reserved. Generators should set this parameter to X'0000', and receivers
 should ignore it.
 4. See the description of the control sequence that specifies the initial text condition.
-Presentation T ext Structured Fields
+Presentation Text Structured Fields
 
-## Page 183
+<!-- Page 183 -->
 
-PT OCA Reference 165
-When the Presentation T ext Data Descriptor (PTD) is included in the Active Environment Group (AEG) for a
-MO:DCA page, the PT OCA object space and object area coincide with the page presentation space, therefore
-the size of the Presentation T ext object space is set equal to the size of the page presentation space. When a
-Presentation T ext object is transformed into an IPDS data stream, the PTD parameters are mapped to IPDS
+PTOCA Reference 165
+When the Presentation Text Data Descriptor (PTD) is included in the Active Environment Group (AEG) for a
+MO:DCA page, the PTOCA object space and object area coincide with the page presentation space, therefore
+the size of the Presentation Text object space is set equal to the size of the page presentation space. When a
+Presentation Text object is transformed into an IPDS data stream, the PTD parameters are mapped to IPDS
 Logical Page Descriptor (LPD) command parameters. Optionally , some PTD parameters may be transformed
 into control sequences as part of an IPDS Wr ite T ext command. When the PTD is specified in the OEG of a
 MO:DCA text object, the extents of the text object space are defined by the XPEXTENT and YPEXTENT
@@ -146,12 +146,12 @@ Architecture Note: The Extended T ext Color parameter is not supported as an ini
 environments when text is specified as text-major , that is, when the PTD for the text is specified in the
 AEG for the page. This parameter is supported in IPDS environments when the text is specified in a text
 object with OEG and the PTD is specified in the OEG.
-Presentation T ext Data Descriptor (PTD)
+Presentation Text Data Descriptor (PTD)
 
-## Page 184
+<!-- Page 184 -->
 
 166 PTOCA Reference
-Architecture Note: The following format 1 version of the Presentation T ext Data Descriptor is a coexistence
+Architecture Note: The following format 1 version of the Presentation Text Data Descriptor is a coexistence
 MO:DCA structured field and may only be used for migration purposes. The PTD format 1 structured
 field is not allowed in the OEG of a MO:DCA presentation text object.
 Structured Field Introducer
@@ -190,14 +190,14 @@ p
 10–1 1 BITS TEXTFLAGS Reserved. Must be set to
 zeros
 O Y N
-Presentation T ext Data (PTX)
+Presentation Text Data (PTX)
 Structured Field Introducer
 SF Length SF Identifier
 X'D3EE9B'
 Flags Reserved
 X'0000'
 PTD Data
-The Presentation T ext Data (PTX) structured field has a structured field identifier of X'D3EE9B'. It contains the
+The Presentation Text Data (PTX) structured field has a structured field identifier of X'D3EE9B'. It contains the
 graphic characters and the control sequences that position the graphic characters.
 The contents of the PTX structured field, that is, graphic characters and control sequences, may be included
 directly into one or more IPDS Wr ite T ext (WT) commands by removing the MO:DCA structured field introducer
@@ -206,15 +206,15 @@ be changed to reflect the correct length in the WT command.
 Presentation text data can span multiple PTX structured fields and can be split on any byte boundary .
 Therefore, a control sequence or chain of control sequences, or a sequence of single- or multi-byte code points
 can start in one PTX and continue or terminate in a following PTX.
-Presentation T ext Data (PTX)
+Presentation Text Data (PTX)
 
-## Page 185
+<!-- Page 185 -->
 
-PT OCA Reference 167
+PTOCA Reference 167
 Presentation Exception Conditions
-An implementation of the MO:DCA architecture may detect and report PTO CA exception conditions as
+An implementation of the MO:DCA architecture may detect and report PTOCA exception conditions as
 required to perform or assure the function for which it was designed. The MO:DCA architecture expects a
-PTO CA processor to handle exception conditions, either by using PTOCA standard actions or by recovering in
+PTOCA processor to handle exception conditions, either by using PTOCA standard actions or by recovering in
 some other manner .
 Presentation Suppression Handling
 Suppression of graphic characters is activated by referencing the local ID from the Begin Suppression and End
@@ -231,10 +231,10 @@ For further information about these structured fields, please refer to Mixed Obj
 Architecture Reference, AFPC-0004.
 Additional Related Structured Fields
 
-## Page 186
+<!-- Page 186 -->
 
 168 PTOCA Reference
 
-## Page 187
+<!-- Page 187 -->
 
 Copyright © AFP Consortium 1997, 2025 169
