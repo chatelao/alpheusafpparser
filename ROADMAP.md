@@ -95,12 +95,12 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [ ] CMOCA Color Management Resource (CMR).
         - [x] MO:DCA Color Attribute Table (CAT).
         - [x] GOCA Graphics Data (GAD) and End Graphics Object (EGR).
-        - [ ] Line Data related fields.
-            - [ ] Begin/End Data Map Transmition Subcase (BDX, EDX).
-            - [ ] Begin/End Page Map (BPM, EPM).
-            - [ ] Data Map Transmition Subcase Descriptor (DXD).
-            - [ ] End Data Map (EDM).
-            - [ ] Invoke Data Map (IDM).
+        - [x] Line Data related fields.
+            - [x] Begin/End Data Map Transmition Subcase (BDX, EDX).
+            - [x] Begin/End Page Map (BPM, EPM).
+            - [x] Data Map Transmition Subcase Descriptor (DXD).
+            - [x] End Data Map (EDM).
+            - [x] Invoke Data Map (IDM).
 - [ ] Enhance GOCA and IOCA support.
     - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
