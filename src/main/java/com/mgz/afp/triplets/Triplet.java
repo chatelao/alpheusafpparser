@@ -266,6 +266,9 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       if (length > 2) {
         tripletData = new byte[length];
         System.arraycopy(sfData, offset, tripletData, 0, tripletData.length);
+        if (config.getDiscardedDataLogger() != null) {
+          config.getDiscardedDataLogger().log(-1, "Payload of Undefined Triplet", tripletData, config.getAfpCharSet());
+        }
       } else {
         tripletData = null;
       }

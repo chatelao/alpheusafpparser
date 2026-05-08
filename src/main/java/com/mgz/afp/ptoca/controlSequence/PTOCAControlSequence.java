@@ -259,6 +259,9 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (actualLength > 0) {
         undefinedData = new byte[actualLength];
         System.arraycopy(sfData, offset, undefinedData, 0, actualLength);
+        if (config.getDiscardedDataLogger() != null) {
+          config.getDiscardedDataLogger().log(-1, "Payload of Undefined Control Sequence: " + csi.getControlSequenceFunctionType().name(), undefinedData, config.getAfpCharSet());
+        }
       } else {
         undefinedData = null;
       }
@@ -524,6 +527,9 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (actualLength > 0) {
         ignoredData = new byte[actualLength];
         System.arraycopy(sfData, offset, ignoredData, 0, actualLength);
+        if (config.getDiscardedDataLogger() != null) {
+          config.getDiscardedDataLogger().log(-1, "Payload of NOP Control Sequence", ignoredData, config.getAfpCharSet());
+        }
       } else {
         ignoredData = null;
       }

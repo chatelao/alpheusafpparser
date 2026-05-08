@@ -25,6 +25,7 @@ import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.foca.CPC_CodePageControl;
 import com.mgz.afp.foca.CPD_CodePageDescriptor;
 import com.mgz.afp.foca.FNC_FontControl;
+import com.mgz.util.DiscardedDataLogger;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -45,6 +46,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   boolean isBuildShallow;
   boolean escalateParsingErrors = true;
   File afpFile;
+  private DiscardedDataLogger discardedDataLogger;
   private CPD_CodePageDescriptor currentCodePageDescriptor;
   private CPC_CodePageControl currentPageControl;
   private FNC_FontControl currentFontControl;
@@ -235,6 +237,14 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
 
   public void setAFPFile(File afpFile) {
     this.afpFile = afpFile;
+  }
+
+  public DiscardedDataLogger getDiscardedDataLogger() {
+    return discardedDataLogger;
+  }
+
+  public void setDiscardedDataLogger(DiscardedDataLogger discardedDataLogger) {
+    this.discardedDataLogger = discardedDataLogger;
   }
 
   /**

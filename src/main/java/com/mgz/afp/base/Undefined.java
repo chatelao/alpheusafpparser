@@ -43,6 +43,9 @@ public class Undefined extends StructuredField {
     if (actualLength > 0) {
       payload = new byte[actualLength];
       System.arraycopy(sfData, offset, payload, 0, actualLength);
+      if (config.getDiscardedDataLogger() != null) {
+        config.getDiscardedDataLogger().log(structuredFieldIntroducer.getFileOffset(), "Payload of Undefined SF: " + structuredFieldIntroducer.getSFTypeID().name(), payload, config.getAfpCharSet());
+      }
     }
   }
 

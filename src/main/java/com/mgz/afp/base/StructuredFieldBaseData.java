@@ -47,6 +47,11 @@ public class StructuredFieldBaseData extends StructuredField {
     }
     if (UtilCharacterEncoding.isHumanReadable(data, charset)) {
       return new String(data, charset);
+    } else if (getStructuredFieldIntroducer() != null && getStructuredFieldIntroducer().getActualConfig() != null) {
+      AFPParserConfiguration config = getStructuredFieldIntroducer().getActualConfig();
+      if (config.getDiscardedDataLogger() != null) {
+        config.getDiscardedDataLogger().log(getStructuredFieldIntroducer().getFileOffset(), "Non-human-readable text data in " + getStructuredFieldIntroducer().getSFTypeID().name(), data, charset);
+      }
     }
     return null;
   }

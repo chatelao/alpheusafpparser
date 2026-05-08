@@ -31,6 +31,7 @@ import com.mgz.afp.foca.FNC_FontControl;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -139,6 +140,10 @@ public class AFPParser {
             System.arraycopy(grossPayload, 0, sfData, 0, lenOfSFData);
             System.arraycopy(grossPayload, lenOfSFData, padding, 0, lenOfPadding);
 
+            if (padding.length > 0 && conf.getDiscardedDataLogger() != null) {
+              conf.getDiscardedDataLogger().log(sfi.getFileOffset() + 1 + sfi.getLengthOfStructuredFieldIntroducerIncludingExtension() + lenOfSFData, "Padding data in " + sfi.getSFTypeID().name(), padding, conf.getAfpCharSet());
+            }
+
           } else {
             sfData = grossPayload;
             padding = null;
@@ -180,13 +185,21 @@ public class AFPParser {
       int tmp;
       byte[] sfData;
       byte[] padding;
+      ByteArrayOutputStream skippedBytes = new ByteArrayOutputStream();
       do {
         tmp = is.read();
         if (tmp != -1) {
           nrOfBytesRead++;
+          if (tmp != Constants.AFPBeginByte_0xA5) {
+            skippedBytes.write(tmp);
+          }
         }
       }
       while (tmp != Constants.AFPBeginByte_0xA5 && tmp != -1); // Move to the begin of next SF, or EOF.
+
+      if (skippedBytes.size() > 0 && parserConf.getDiscardedDataLogger() != null) {
+        parserConf.getDiscardedDataLogger().log(nrOfBytesRead - 1 - skippedBytes.size(), "Skipped bytes between SFs", skippedBytes.toByteArray(), parserConf.getAfpCharSet());
+      }
 
       if (tmp != -1) {
         sfi = StructuredFieldIntroducer.parse(is);
@@ -242,6 +255,10 @@ public class AFPParser {
 
                 System.arraycopy(grossPayload, 0, sfData, 0, lenOfSFData);
                 System.arraycopy(grossPayload, lenOfSFData, padding, 0, lenOfPadding);
+
+                if (padding.length > 0 && parserConf.getDiscardedDataLogger() != null) {
+                  parserConf.getDiscardedDataLogger().log(sfi.getFileOffset() + 1 + sfi.getLengthOfStructuredFieldIntroducerIncludingExtension() + lenOfSFData, "Padding data in " + sfi.getSFTypeID().name(), padding, parserConf.getAfpCharSet());
+                }
 
               } else {
                 sfData = grossPayload;

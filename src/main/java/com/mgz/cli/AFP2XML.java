@@ -22,6 +22,7 @@ import com.mgz.afp.base.AFPDocument;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.DiscardedDataLogger;
 import com.mgz.xml.AFP2XMLWriter;
 
 import javax.xml.bind.JAXBElement;
@@ -32,16 +33,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 public class AFP2XML {
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar <input-afp-file> [output-xml-file]");
+            System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar <input-afp-file> [output-xml-file] [log-file]");
             System.exit(1);
         }
 
         String inputPath = args[0];
         String outputPath = (args.length > 1) ? args[1] : null;
+        String logPath = (args.length > 2) ? args[2] : null;
 
         try {
             File inputFile = new File(inputPath);
@@ -50,9 +53,15 @@ public class AFP2XML {
                 System.exit(1);
             }
 
-            try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile))) {
+            try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile));
+                 PrintWriter pw = logPath != null ? new PrintWriter(new FileOutputStream(logPath)) : null) {
                 AFPParserConfiguration config = new AFPParserConfiguration();
                 config.setInputStream(is);
+
+                if (pw != null) {
+                    config.setDiscardedDataLogger(new DiscardedDataLogger(pw));
+                }
+
                 AFPParser parser = new AFPParser(config);
 
                 AFPDocument doc = new AFPDocument();

@@ -1230,6 +1230,14 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       return null;
     }
 
+    public void logDiscardedData(AFPParserConfiguration config) {
+      if (config != null && config.getDiscardedDataLogger() != null && data != null && data.length > 0) {
+        if (!UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
+          config.getDiscardedDataLogger().log(-1, "Non-human-readable text data in GCOMT_Comment", data, Constants.cpIBM500);
+        }
+      }
+    }
+
     /**
      * Sets the data value of this {@link GEAR_EndArea}. The value of {@link #lengthOfFollowingData}
      * is set accordingly.
