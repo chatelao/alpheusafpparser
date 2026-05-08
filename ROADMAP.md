@@ -89,7 +89,8 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
             - [x] Begin/End Coded Font (BCF, ECF).
             - [x] End Code Page (ECP).
             - [x] End Font (EFN).
-            - [ ] Font Patterns (FNG) and Name Map (FNN).
+            - [x] Font Name Map (FNN).
+            - [ ] Font Patterns (FNG).
         - [x] BCOCA End Bar Code Object (EBC).
         - [x] PTOCA End Presentation Text Object (EPT).
         - [ ] CMOCA Color Management Resource (CMR).

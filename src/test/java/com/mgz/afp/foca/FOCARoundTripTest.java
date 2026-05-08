@@ -77,4 +77,29 @@ public class FOCARoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new EFN_EndFont(), data);
     }
+
+    @Test
+    public void testFNNRoundTrip() throws Exception {
+        // FNN: D3AB89
+        // Section 1: 02 03
+        // Section 2 (12 bytes): LA010000 (D3 C1 F0 F1 F0 F0 F0 F0) 00 00 00 5F
+        // Section 3 (2 bytes): 02 61 ('a')
+        // Total Len: 1 + 8 + 2 + 12 + 2 = 25. SFLen = 24 (0x0018)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x18, (byte) 0xD3, (byte) 0xAB, (byte) 0x89, 0x00, 0x00, 0x00,
+            0x02, 0x03,
+            (byte) 0xD3, (byte) 0xC1, (byte) 0xF0, (byte) 0xF1, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0,
+            0x00, 0x00, 0x00, 0x5F,
+            0x02, 0x61
+        };
+
+        // We need an AFPParserConfiguration with FNC set to parse Section 2
+        com.mgz.afp.parser.AFPParserConfiguration config = new com.mgz.afp.parser.AFPParserConfiguration();
+        FNC_FontControl fnc = new FNC_FontControl();
+        fnc.setFnnIBMNameGCGIDCount(1);
+        fnc.setFnnRepeatingGroupLength((byte) 12);
+        config.setCurrentFontControl(fnc);
+
+        RoundTripTestUtils.assertRoundTrip(new FNN_FontNameMap(), data, config);
+    }
 }
