@@ -18,9 +18,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.foca;
 
-import com.mgz.afp.base.StructuredFieldBaseName;
+import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
 
-public class BCF_BeginCodedFont extends StructuredFieldBaseName {
+public class BCF_BeginCodedFont extends StructuredFieldBaseNameAndTriplets {
 
 }
