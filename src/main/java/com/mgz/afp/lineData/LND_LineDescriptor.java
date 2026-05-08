@@ -69,8 +69,8 @@ public class LND_LineDescriptor extends StructuredFieldBaseTriplets {
     } else {
       baselinePosition = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2); // Relative position: value is signed.
     }
-    inlineOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 6, 4));
-    baselineOrientation = null;
+    inlineOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 6, 2));
+    baselineOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 8, 2));
     primaryFontLocalId = UtilBinaryDecoding.parseShort(sfData, offset + 10, 1);
     channelCode = sfData[offset + 11];
     nextLNDIfSkipping = UtilBinaryDecoding.parseInt(sfData, offset + 12, 2);
@@ -110,7 +110,7 @@ public class LND_LineDescriptor extends StructuredFieldBaseTriplets {
     baos.write(shiftOutLocalFontID);
     baos.write(UtilBinaryDecoding.intToByteArray(dataStartPosition, 4));
     baos.write(UtilBinaryDecoding.intToByteArray(dataLength, 2));
-    baos.write(textColor.toByte());
+    baos.write(textColor.toByte2());
     baos.write(UtilBinaryDecoding.intToByteArray(nextLNDIfConditionalProcessing, 2));
     baos.write(subpageID);
     baos.write(UtilBinaryDecoding.intToByteArray(ccpIdentifier, 2));
