@@ -10,7 +10,7 @@ Add the following dependency to your `pom.xml`:
 
 ```xml
 <dependency>
-  <groupId>com.github.afpdev</groupId>
+  <groupId>com.github.chatelao</groupId>
   <artifactId>alpheusafpparser</artifactId>
   <version>0.2.2</version>
 </dependency>
@@ -22,7 +22,7 @@ Add the following to your `build.gradle`:
 
 ```gradle
 dependencies {
-    compile 'com.github.afpdev:alpheusafpparser:0.2.2'
+    compile 'com.github.chatelao:alpheusafpparser:0.2.2'
 }
 ```
 
@@ -112,7 +112,7 @@ The Alpheus AFP Parser includes a Command Line Interface (CLI) tool that allows 
 
 The CLI tool is distributed as a "fat JAR" (a standalone executable JAR containing all necessary dependencies). You can obtain it in two ways:
 
-1.  **Download from GitHub Releases:** Navigate to the [Releases](https://github.com/afpdev/alpheusafpparser/releases) page and download the `alpheus-afp-parser-cli-<version>.jar` asset from the latest release.
+1.  **Download from GitHub Releases:** Navigate to the [Releases](https://github.com/chatelao/alpheusafpparser/releases) page and download the `alpheus-afp-parser-cli-<version>.jar` asset from the latest release.
 2.  **Build from Source:** If you have the source code, you can build the CLI JAR using Gradle:
     ```bash
     ./gradlew shadowJar
