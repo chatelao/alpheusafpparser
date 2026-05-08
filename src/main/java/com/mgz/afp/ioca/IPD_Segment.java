@@ -27,8 +27,11 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.ioca.IPD_Segment.AlgorithmSpecificationCompression.CompressionAlgorithmID;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -202,6 +205,14 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
   public static class UnknownSegmentLong extends IPD_Segment.IPD_SegmentLong {
     byte[] data;
 
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
+        return new String(data, Constants.cpIBM500);
+      }
+      return null;
+    }
+
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -231,6 +242,14 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
 
   public static class UnknownSegmentExtended extends IPD_Segment.IPD_SegmentExtended {
     byte[] data;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
+        return new String(data, Constants.cpIBM500);
+      }
+      return null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

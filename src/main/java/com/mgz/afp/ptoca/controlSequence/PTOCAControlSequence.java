@@ -27,8 +27,11 @@ import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -241,6 +244,14 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
   public static class Undefined extends PTOCAControlSequence {
     @AFPField
     byte[] undefinedData;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(undefinedData, Constants.cpIBM500)) {
+        return new String(undefinedData, Constants.cpIBM500);
+      }
+      return null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -498,6 +509,14 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
   /* PTOCA, Page 63. <br> */
   public static class NOP_NoOperation extends PTOCAControlSequence {
     byte[] ignoredData;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(ignoredData, Constants.cpIBM500)) {
+        return new String(ignoredData, Constants.cpIBM500);
+      }
+      return null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

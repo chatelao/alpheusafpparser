@@ -21,9 +21,13 @@ package com.mgz.afp.base;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.Constants;
+import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 /**
  * Base class for {@link StructuredField}s that consists only of opaque data.
@@ -31,6 +35,21 @@ import java.io.OutputStream;
 public class StructuredFieldBaseData extends StructuredField {
   @AFPField(maxSize = 32759)
   protected byte[] data;
+
+  @XmlElement(name = "text")
+  public String getText() {
+    if (data == null || data.length == 0) {
+      return null;
+    }
+    Charset charset = Constants.cpIBM500;
+    if (getStructuredFieldIntroducer() != null && getStructuredFieldIntroducer().getActualConfig() != null) {
+      charset = getStructuredFieldIntroducer().getActualConfig().getAfpCharSet();
+    }
+    if (UtilCharacterEncoding.isHumanReadable(data, charset)) {
+      return new String(data, charset);
+    }
+    return null;
+  }
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
