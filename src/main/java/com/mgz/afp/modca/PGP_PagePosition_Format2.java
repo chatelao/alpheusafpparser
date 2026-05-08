@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupBase;
@@ -91,6 +92,7 @@ public class PGP_PagePosition_Format2 extends StructuredFieldBaseRepeatingGroups
     this.constant0 = constant0;
   }
 
+  @XmlRootElement
   public static class PGP_RepeatingGroup extends RepeatingGroupBase {
 
     int xOrigin;

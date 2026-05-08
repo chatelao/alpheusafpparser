@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca_L;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IHasRepeatingGroups;
 import com.mgz.afp.base.IRepeatingGroup;
@@ -68,6 +69,7 @@ public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroup
     writeFullStructuredField(os, baos.toByteArray());
   }
 
+  @XmlRootElement
   public static class MCA_RepeatinGroup extends RepeatingGroupWithTriplets {
   }
 }

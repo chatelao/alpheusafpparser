@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.foca;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
@@ -87,6 +88,7 @@ public class FNP_FontPosition extends StructuredField {
     this.repeatingGroups.remove(rg);
   }
 
+  @XmlRootElement
   public static class FNP_RepeatingGroup implements IAFPDecodeableWriteable {
     @AFPField(size = 2)
     byte[] reserved0_1 = new byte[] {0x00, 0x00};
