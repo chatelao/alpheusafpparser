@@ -29,6 +29,7 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -241,9 +242,11 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
   public static class Undefined extends PTOCAControlSequence {
     @AFPField
     byte[] undefinedData;
+    private transient Charset charset;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.charset = config.getAfpCharSet();
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
         undefinedData = new byte[actualLength];
@@ -258,6 +261,14 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (undefinedData != null) {
         os.write(undefinedData);
       }
+    }
+
+    @XmlElement(name = "ebcdic-unicode")
+    public String getEbcdicUnicode() {
+      if (undefinedData != null && charset != null) {
+        return new String(undefinedData, charset);
+      }
+      return null;
     }
 
   }
@@ -498,9 +509,11 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
   /* PTOCA, Page 63. <br> */
   public static class NOP_NoOperation extends PTOCAControlSequence {
     byte[] ignoredData;
+    private transient Charset charset;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.charset = config.getAfpCharSet();
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
         ignoredData = new byte[actualLength];
@@ -515,6 +528,14 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (ignoredData != null) {
         os.write(ignoredData);
       }
+    }
+
+    @XmlElement(name = "ebcdic-unicode")
+    public String getEbcdicUnicode() {
+      if (ignoredData != null && charset != null) {
+        return new String(ignoredData, charset);
+      }
+      return null;
     }
 
 
@@ -1116,11 +1137,13 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
   public static class TRN_TransparentData extends PTOCAControlSequence {
     String transparentData;
     byte[] transparentDataEBCDIC;
+    private transient Charset charset;
 
     volatile boolean isUseEBCDICData;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.charset = config.getAfpCharSet();
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
         transparentDataEBCDIC = new byte[actualLength];
@@ -1143,6 +1166,14 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       } else if (transparentData != null) {
         os.write(transparentData.getBytes(config.getAfpCharSet()));
       }
+    }
+
+    @XmlElement(name = "ebcdic-unicode")
+    public String getEbcdicUnicode() {
+      if (transparentDataEBCDIC != null && charset != null) {
+        return new String(transparentDataEBCDIC, charset);
+      }
+      return null;
     }
 
     public String getTransparentData() {

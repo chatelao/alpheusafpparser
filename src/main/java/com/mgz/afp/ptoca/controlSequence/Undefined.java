@@ -23,16 +23,20 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 public class Undefined extends PTOCAControlSequence {
   short undefinedControlSequenceFunctionType;
   byte[] data;
+  private transient Charset charset;
 
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    this.charset = config.getAfpCharSet();
     if (offset > 0) {
       // Read one byte before actual offset of given data to determine what CSFT code has bin given.
       undefinedControlSequenceFunctionType = UtilBinaryDecoding.parseShort(sfData, offset - 1, 1);
@@ -57,5 +61,13 @@ public class Undefined extends PTOCAControlSequence {
     }
     os.write(csi.getLength());
     os.write(undefinedControlSequenceFunctionType);
+  }
+
+  @XmlElement(name = "ebcdic-unicode")
+  public String getEbcdicUnicode() {
+    if (data != null && charset != null) {
+      return new String(data, charset);
+    }
+    return null;
   }
 }

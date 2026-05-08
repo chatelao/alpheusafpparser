@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AFPDocument>
+    <BDT_BeginDocument>
+        <structuredFieldIntroducer>
+            <fileOffset>0</fileOffset>
+            <reserved>0</reserved>
+            <SFLength>16</SFLength>
+            <SFTypeID>BDT_BeginDocument</SFTypeID>
+        </structuredFieldIntroducer>
+        <name>DOC00001</name>
+    </BDT_BeginDocument>
+    <EDT_EndDocument>
+        <structuredFieldIntroducer>
+            <fileOffset>17</fileOffset>
+            <reserved>0</reserved>
+            <SFLength>16</SFLength>
+            <SFTypeID>EDT_EndDocument</SFTypeID>
+        </structuredFieldIntroducer>
+        <name>DOC00001</name>
+    </EDT_EndDocument>
+</AFPDocument>

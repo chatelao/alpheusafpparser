@@ -29,9 +29,11 @@ import com.mgz.afp.ioca.IPD_Segment.AlgorithmSpecificationCompression.Compressio
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -201,9 +203,11 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
 
   public static class UnknownSegmentLong extends IPD_Segment.IPD_SegmentLong {
     byte[] data;
+    private transient Charset charset;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.charset = config.getAfpCharSet();
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
       if (lengthOfFollowingData > 0) {
@@ -227,13 +231,23 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
         os.write(data);
       }
     }
+
+    @XmlElement(name = "ebcdic-unicode")
+    public String getEbcdicUnicode() {
+      if (data != null && charset != null) {
+        return new String(data, charset);
+      }
+      return null;
+    }
   }
 
   public static class UnknownSegmentExtended extends IPD_Segment.IPD_SegmentExtended {
     byte[] data;
+    private transient Charset charset;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.charset = config.getAfpCharSet();
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 2));
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
       if (lengthOfFollowingData > 0) {
@@ -256,6 +270,14 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
       if (data != null) {
         os.write(data);
       }
+    }
+
+    @XmlElement(name = "ebcdic-unicode")
+    public String getEbcdicUnicode() {
+      if (data != null && charset != null) {
+        return new String(data, charset);
+      }
+      return null;
     }
   }
 

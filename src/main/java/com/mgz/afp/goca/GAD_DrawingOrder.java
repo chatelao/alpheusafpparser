@@ -26,9 +26,11 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1195,9 +1197,11 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
     byte[] data;
+    private transient Charset charset;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.charset = config.getAfpCharSet();
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
@@ -1241,6 +1245,14 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     public void setLengthOfFollowingData(short lengthOfFollowingData) {
       this.lengthOfFollowingData = lengthOfFollowingData;
+    }
+
+    @XmlElement(name = "ebcdic-unicode")
+    public String getEbcdicUnicode() {
+      if (data != null && charset != null) {
+        return new String(data, charset);
+      }
+      return null;
     }
   }
 

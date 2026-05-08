@@ -22,8 +22,10 @@ import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 /**
  * Base class for {@link StructuredField}s that consists only of opaque data.
@@ -31,9 +33,11 @@ import java.io.OutputStream;
 public class StructuredFieldBaseData extends StructuredField {
   @AFPField(maxSize = 32759)
   protected byte[] data;
+  protected transient Charset charset;
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    this.charset = config.getAfpCharSet();
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 0) {
       data = new byte[actualLength];
@@ -55,6 +59,14 @@ public class StructuredFieldBaseData extends StructuredField {
 
   public void setData(byte[] data) {
     this.data = data;
+  }
+
+  @XmlElement(name = "ebcdic-unicode")
+  public String getEbcdicUnicode() {
+    if (data != null && charset != null) {
+      return new String(data, charset);
+    }
+    return null;
   }
 
 }
