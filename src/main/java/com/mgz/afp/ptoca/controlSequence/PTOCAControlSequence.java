@@ -75,6 +75,7 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     SCFL_SetCodedFontLocal(0xF0), // (SCFL)” on page 77
     BSU_BeginSuppression(0xF2), // (BSU)” on page 56
     ESU_EndSuppression(0xF4), // (ESU)” on page 62
+    UCT_UnicodeComplexText(0x6A), // (UCT)” on page 123
     // Field Controls
     OVS_Overstrike(0x72), // (OVS)” on page 64
     USC_Underscore(0x76), // (USC)” on page 105
@@ -1227,6 +1228,112 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
      */
     public void setUseEBCDICData(boolean isUseEBCDICData) {
       this.isUseEBCDICData = isUseEBCDICData;
+    }
+  }
+
+  /**
+   * PTOCA, Page 123. <br>The Unicode Complex Text control sequence marks the start of a string of
+   * code points, all of which are to be processed as graphic characters.
+   */
+  public static class UCT_UnicodeComplexText extends PTOCAControlSequence {
+    byte uctVers = 0x01;
+    int ctLength;
+    byte ctFlags;
+    byte bidiCt;
+    byte glyphCt;
+    short altiPos;
+    byte[] complexText;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (complexText == null || complexText.length == 0) {
+        return null;
+      }
+      return new String(complexText, java.nio.charset.StandardCharsets.UTF_16BE);
+    }
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
+      uctVers = sfData[offset];
+      ctLength = UtilBinaryDecoding.parseInt(sfData, offset + 2, 2);
+      ctFlags = sfData[offset + 4];
+      bidiCt = sfData[offset + 6];
+      glyphCt = sfData[offset + 7];
+      altiPos = UtilBinaryDecoding.parseShort(sfData, offset + 12, 2);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(uctVers);
+      os.write(0x00); // Reserved
+      os.write(UtilBinaryDecoding.intToByteArray(ctLength, 2));
+      os.write(ctFlags);
+      os.write(0x00); // Reserved
+      os.write(bidiCt);
+      os.write(glyphCt);
+      os.write(new byte[4]); // Reserved
+      os.write(UtilBinaryDecoding.shortToByteArray(altiPos, 2));
+      if (complexText != null) {
+        os.write(complexText);
+      }
+    }
+
+    public byte getUctVers() {
+      return uctVers;
+    }
+
+    public void setUctVers(byte uctVers) {
+      this.uctVers = uctVers;
+    }
+
+    public int getCtLength() {
+      return ctLength;
+    }
+
+    public void setCtLength(int ctLength) {
+      this.ctLength = ctLength;
+    }
+
+    public byte getCtFlags() {
+      return ctFlags;
+    }
+
+    public void setCtFlags(byte ctFlags) {
+      this.ctFlags = ctFlags;
+    }
+
+    public byte getBidiCt() {
+      return bidiCt;
+    }
+
+    public void setBidiCt(byte bidiCt) {
+      this.bidiCt = bidiCt;
+    }
+
+    public byte getGlyphCt() {
+      return glyphCt;
+    }
+
+    public void setGlyphCt(byte glyphCt) {
+      this.glyphCt = glyphCt;
+    }
+
+    public short getAltiPos() {
+      return altiPos;
+    }
+
+    public void setAltiPos(short altiPos) {
+      this.altiPos = altiPos;
+    }
+
+    public byte[] getComplexText() {
+      return complexText;
+    }
+
+    public void setComplexText(byte[] complexText) {
+      this.complexText = complexText;
+      this.ctLength = (complexText != null) ? complexText.length : 0;
     }
   }
 

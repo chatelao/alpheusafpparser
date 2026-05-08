@@ -1,14 +1,16 @@
 package com.mgz.afp.ptoca.controlSequence;
 
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.parser.PTOCAControlSequenceParser;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.*;
 import com.mgz.util.UtilBinaryDecoding;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 
 public class PTOCAControlSequenceRoundTripTest {
 
@@ -165,6 +167,67 @@ public class PTOCAControlSequenceRoundTripTest {
     @Test
     public void testUSC_UnderscoreRoundTrip() throws Exception {
         assertCSRoundTrip(new USC_Underscore(), new byte[]{0x01}, false);
+    }
+
+    @Test
+    public void testUCT_UnicodeComplexTextRoundTrip() throws Exception {
+        UCT_UnicodeComplexText uct = new UCT_UnicodeComplexText();
+        byte[] params = new byte[14];
+        params[0] = 0x01; // UCTVERS
+        params[2] = 0x00;
+        params[3] = 0x04; // CTLNGTH = 4
+        params[4] = 0x00; // CTFLGS
+        params[6] = 0x02; // BIDICT
+        params[7] = 0x01; // GLYPHCT
+        params[12] = 0x05;
+        params[13] = (byte) 0xA0; // ALTIPOS = 1440
+
+        byte[] text = new byte[] {0x00, 0x41, 0x00, 0x42}; // "AB" in UTF-16BE
+
+        ControlSequenceIntroducer csi = new ControlSequenceIntroducer();
+        csi.setControlSequenceFunctionType(ControlSequenceFunctionType.UCT_UnicodeComplexText);
+        csi.setLength((short) 16);
+        csi.setCsPrefix((short) 0x2B);
+        csi.setCsClass((short) 0xD3);
+        uct.setCsi(csi);
+
+        uct.decodeAFP(params, 0, params.length, new AFPParserConfiguration());
+        uct.setComplexText(text);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        uct.writeAFP(baos, new AFPParserConfiguration());
+
+        byte[] expected = new byte[14 + 4];
+        System.arraycopy(params, 0, expected, 0, 14);
+        System.arraycopy(text, 0, expected, 14, 4);
+
+        assertArrayEquals(expected, baos.toByteArray());
+        assertEquals("AB", uct.getText());
+    }
+
+    @Test
+    public void testUCTThroughParser() throws Exception {
+        byte[] data = new byte[] {
+            0x2B, (byte)0xD3, 0x10, 0x6A, // CSI: length 16, type UCT
+            0x01, 0x00, 0x00, 0x04, // UCTVERS, Reserved, CTLNGTH=4
+            0x00, 0x00, 0x02, 0x01, // CTFLGS, Reserved, BIDICT, GLYPHCT
+            0x00, 0x00, 0x00, 0x00, // Reserved
+            0x05, (byte)0xA0,        // ALTIPOS
+            0x00, 0x41, 0x00, 0x42  // "AB"
+        };
+
+        List<PTOCAControlSequence> list = PTOCAControlSequenceParser.parseControlSequences(data, 0, data.length, new AFPParserConfiguration());
+        assertEquals(1, list.size());
+        assertTrue(list.get(0) instanceof UCT_UnicodeComplexText);
+        UCT_UnicodeComplexText uct = (UCT_UnicodeComplexText) list.get(0);
+        assertEquals(4, uct.getCtLength());
+        assertArrayEquals(new byte[]{0x00, 0x41, 0x00, 0x42}, uct.getComplexText());
+        assertEquals("AB", uct.getText());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write(uct.getCsi().toBytes());
+        uct.writeAFP(baos, new AFPParserConfiguration());
+        assertArrayEquals(data, baos.toByteArray());
     }
 
     @Test

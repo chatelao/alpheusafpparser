@@ -22,6 +22,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,20 @@ public class PTOCAControlSequenceParser {
       }
 
       cs.decodeAFP(sfData, offset + pos, csi.getLength() - 2, config);
-      isChained = cs.getCsi().isChained();
+
+      if (cs instanceof UCT_UnicodeComplexText) {
+        UCT_UnicodeComplexText uct = (UCT_UnicodeComplexText) cs;
+        int ctLen = uct.getCtLength();
+        if (ctLen > 0 && (pos + (csi.getLength() - 2) + ctLen) <= actualLength) {
+          byte[] text = new byte[ctLen];
+          System.arraycopy(sfData, offset + pos + (csi.getLength() - 2), text, 0, ctLen);
+          uct.setComplexText(text);
+        }
+        pos += ctLen;
+        isChained = false; // The UCT control sequence always terminates chaining.
+      } else {
+        isChained = cs.getCsi().isChained();
+      }
 
       controlSequences.add(cs);
       pos += csi.getLength() - 2;
