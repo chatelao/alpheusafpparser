@@ -74,7 +74,7 @@ public class XMD_XMLDescriptor extends StructuredFieldBaseTriplets {
     System.arraycopy(sfData, offset + 16, reserved16_17, 0, reserved16_17.length);
     suppressionTokenName = new String(sfData, offset + 18, 8, config.getAfpCharSet());
     reserved26 = sfData[offset + 26];
-    dataStartPosition = UtilBinaryDecoding.parseInt(sfData, offset + 27, 3);
+    dataStartPosition = UtilBinaryDecoding.parseInt(sfData, offset + 27, 4);
     dataLength = UtilBinaryDecoding.parseInt(sfData, offset + 31, 2);
     conditionalProcessingRCDPointer = UtilBinaryDecoding.parseInt(sfData, offset + 33, 2);
     subpageID = sfData[offset + 35];
@@ -89,8 +89,10 @@ public class XMD_XMLDescriptor extends StructuredFieldBaseTriplets {
     System.arraycopy(sfData, offset + 49, reserved49_61, 0, reserved49_61.length);
 
     int actualLength = getActualLength(sfData, offset, length);
-    if (actualLength > 63) {
-      super.decodeAFP(sfData, offset, actualLength, config);
+    if (actualLength > 62) {
+      super.decodeAFP(sfData, offset + 62, actualLength - 62, config);
+    } else {
+      triplets = null;
     }
   }
 
@@ -109,7 +111,7 @@ public class XMD_XMLDescriptor extends StructuredFieldBaseTriplets {
     baos.write(reserved16_17);
     baos.write(UtilCharacterEncoding.stringToByteArray(suppressionTokenName, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
     baos.write(reserved26);
-    baos.write(UtilBinaryDecoding.intToByteArray(dataStartPosition, 3));
+    baos.write(UtilBinaryDecoding.intToByteArray(dataStartPosition, 4));
     baos.write(UtilBinaryDecoding.intToByteArray(dataLength, 2));
     baos.write(UtilBinaryDecoding.intToByteArray(conditionalProcessingRCDPointer, 2));
     baos.write(subpageID);

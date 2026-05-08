@@ -36,6 +36,7 @@ public class LNC_LineDescriptorCount extends StructuredField {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    checkDataLength(sfData, offset, length, 2);
     numberOfSFInBDX = UtilBinaryDecoding.parseInt(sfData, offset, 2);
   }
 

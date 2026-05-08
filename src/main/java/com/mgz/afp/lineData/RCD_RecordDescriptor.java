@@ -95,7 +95,7 @@ public class RCD_RecordDescriptor extends StructuredFieldBaseTriplets {
     fieldNumber = UtilBinaryDecoding.parseInt(sfData, offset + 53, 2);
     additionalBaselineIncrement = UtilBinaryDecoding.parseInt(sfData, offset + 55, 2);
     reserved57_69 = new byte[13];
-    System.arraycopy(sfData, offset + 48, reserved57_69, 0, reserved57_69.length);
+    System.arraycopy(sfData, offset + 57, reserved57_69, 0, reserved57_69.length);
 
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 71) {

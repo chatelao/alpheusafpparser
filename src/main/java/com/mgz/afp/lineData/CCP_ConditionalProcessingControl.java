@@ -22,7 +22,9 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.util.UtilCharacterEncoding;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -166,7 +168,7 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
 
     public static CCP_Flag valueOf(byte flagByte) {
       for (CCP_Flag flag : values()) {
-        if (flag.code == flagByte) {
+        if (flag.code == (flagByte & 0xFF)) {
           return flag;
         }
       }
@@ -198,12 +200,12 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
       if (actualLength >= 1) {
         timingOfAction = CCP_TimingOfAction.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       } else {
-        timingOfAction = null;
+        timingOfAction = CCP_TimingOfAction.Default_Immediately;
       }
       if (actualLength >= 2) {
         mediumMapAction = CCP_MediumMapAction.valueOf(sfData[offset + 1]);
       } else {
-        mediumMapAction = null;
+        mediumMapAction = CCP_MediumMapAction.Ignore;
       }
       if (actualLength >= 10) {
         mediumMapName = new String(sfData, offset + 2, 8, config.getAfpCharSet());
@@ -213,7 +215,7 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
       if (actualLength >= 11) {
         dataMapAction = CCP_DataMapAction.valueOf(sfData[offset + 10]);
       } else {
-        dataMapAction = null;
+        dataMapAction = CCP_DataMapAction.Ignore;
       }
       if (actualLength >= 19) {
         dataMapName = new String(sfData, offset + 11, 8, config.getAfpCharSet());
@@ -223,7 +225,7 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
       if (actualLength >= 20) {
         comparison = CCP_Comparison.valueOf(sfData[offset + 19]);
       } else {
-        comparison = null;
+        comparison = CCP_Comparison.AnyChange;
       }
       if (actualLength >= 21) {
         comparisonString = new String(sfData, offset + 20, actualLength - 20, config.getAfpCharSet());
@@ -234,26 +236,14 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      if (timingOfAction != null) {
-        os.write(timingOfAction.toByte());
-        if (mediumMapAction != null) {
-          os.write(mediumMapAction.toByte());
-          if (mediumMapName != null) {
-            os.write(mediumMapName.getBytes(config.getAfpCharSet()));
-            if (dataMapAction != null) {
-              os.write(dataMapAction.toByte());
-              if (dataMapName != null) {
-                os.write(dataMapName.getBytes(config.getAfpCharSet()));
-                if (comparison != null) {
-                  os.write(comparison.toByte());
-                  if (comparisonString != null) {
-                    os.write(comparisonString.getBytes(config.getAfpCharSet()));
-                  }
-                }
-              }
-            }
-          }
-        }
+      os.write(timingOfAction != null ? timingOfAction.toByte() : CCP_TimingOfAction.Default_Immediately.toByte());
+      os.write(mediumMapAction != null ? mediumMapAction.toByte() : CCP_MediumMapAction.Ignore.toByte());
+      os.write(UtilCharacterEncoding.stringToByteArray(mediumMapName, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
+      os.write(dataMapAction != null ? dataMapAction.toByte() : CCP_DataMapAction.Ignore.toByte());
+      os.write(UtilCharacterEncoding.stringToByteArray(dataMapName, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
+      os.write(comparison != null ? comparison.toByte() : CCP_Comparison.AnyChange.toByte());
+      if (comparisonString != null) {
+        os.write(comparisonString.getBytes(config.getAfpCharSet()));
       }
     }
 

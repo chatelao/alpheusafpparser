@@ -19,9 +19,38 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredFieldBaseData;
+import com.mgz.afp.exceptions.AFPParserException;
+import com.mgz.afp.parser.AFPParserConfiguration;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Programming Guide and Line Data Reference (ha3l3r04.pdf), page 87<br> <br>
  */
 public class DXD_DataMapTransmitionSubcaseDescriptor extends StructuredFieldBaseData {
+
+  byte[] constantData = new byte[] {0x00, 0x01, 0x00, (byte) 0xFF};
+
+  @Override
+  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    int actualLength = getActualLength(sfData, offset, length);
+    if (actualLength >= 4) {
+      constantData = new byte[4];
+      System.arraycopy(sfData, offset, constantData, 0, 4);
+    }
+  }
+
+  @Override
+  public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+    writeFullStructuredField(os, constantData);
+  }
+
+  public byte[] getConstantData() {
+    return constantData;
+  }
+
+  public void setConstantData(byte[] constantData) {
+    this.constantData = constantData;
+  }
 }
