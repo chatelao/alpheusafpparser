@@ -25,6 +25,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -66,6 +67,7 @@ public class MSU_MapSuppression extends StructuredFieldBaseRepeatingGroups {
     writeFullStructuredField(os, baos.toByteArray());
   }
 
+  @XmlRootElement
   public static class MSU_RepeatingGroup implements IRepeatingGroup {
     String nameOfTextSuppresstion;
     byte reserved8 = 0x00;

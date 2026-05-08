@@ -26,6 +26,7 @@ import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -89,6 +90,7 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
     this.reserved1_3 = reserved1_3;
   }
 
+  @XmlRootElement
   public static class MMO_PrepeatingGroup implements IRepeatingGroup {
     short mediumOverlayLocalId;
     MMO_Flag flag;

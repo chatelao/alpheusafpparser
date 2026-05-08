@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.goca;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
@@ -383,6 +384,7 @@ public class GAD_GraphicsData extends StructuredField {
     this.drawingOrders = drawingOrders;
   }
 
+  @XmlRootElement
   public static class BeginSegment implements IAFPDecodeableWriteable {
     public static short COMMANDCODE_BeginSegment = 0x70;
     @AFPField

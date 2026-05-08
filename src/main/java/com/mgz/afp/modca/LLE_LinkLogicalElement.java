@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.base.StructuredField;
@@ -144,6 +145,7 @@ public class LLE_LinkLogicalElement extends StructuredField {
     }
   }
 
+  @XmlRootElement
   public static class LLE_RepeatingGroup implements IAFPDecodeableWriteable, IHasTriplets {
     int lengthOfRepeatingGroup;
     LLE_RepeatingGroupFunction repeatingGroupFunction;

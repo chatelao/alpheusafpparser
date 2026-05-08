@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPType;
@@ -118,6 +119,7 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
   }
 
   @AFPType
+  @XmlRootElement
   public static class MCF_RepeatingGroup implements IAFPDecodeableWriteable {
     short codedFontLocalID;
     byte reserved1 = 0x00;

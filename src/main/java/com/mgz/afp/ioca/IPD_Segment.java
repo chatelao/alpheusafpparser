@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.ioca;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPUnitBase;
@@ -1210,7 +1211,8 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
       }
     }
 
-    public static class TileTOC_RepeatingGroup implements IAFPDecodeableWriteable {
+    @XmlRootElement
+  public static class TileTOC_RepeatingGroup implements IAFPDecodeableWriteable {
       int horizontalOffset;
       int verticalOffset;
       int horizontalSize;

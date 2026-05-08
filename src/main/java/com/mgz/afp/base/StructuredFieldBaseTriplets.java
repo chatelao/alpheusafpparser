@@ -19,6 +19,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.base;
 
 import com.mgz.afp.base.annotations.AFPField;
+
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlTransient;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.TripletParser;
@@ -32,8 +35,19 @@ import java.util.List;
 
 public abstract class StructuredFieldBaseTriplets extends StructuredField implements IHasTriplets {
   @AFPField
+  @XmlTransient
   protected List<Triplet> triplets;
 
+  @XmlTransient
+  @Override
+  public final List<Triplet> getTriplets() {
+    return triplets;
+  }
+
+  @XmlAnyElement(lax = true)
+  public final List<Triplet> getTripletsXml() {
+    return triplets;
+  }
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -56,10 +70,6 @@ public abstract class StructuredFieldBaseTriplets extends StructuredField implem
     writeFullStructuredField(os, baos.toByteArray());
   }
 
-  @Override
-  public final List<Triplet> getTriplets() {
-    return triplets;
-  }
 
   @Override
   public final void setTriplets(List<Triplet> triplets) {
