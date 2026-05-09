@@ -1,12 +1,12 @@
-Appendix C. Image Compression and Recording Algorithms
+# Appendix C. Image Compression and Recording Algorithms
 The IO-Image command set uses the following algorithms for image compression:
 • Modified ITU—TSS Modified READ algorithm (IBM MMR)
 • Run-Length 4 compression algorithm (RL4)
 • ABIC (Bilevel Q-Coder) compression algorithm (ABIC)
 • Concatenated ABIC
-• ITU—TSS T .4 Facsimile Coding Scheme (G3 MH, one-dimensional) compression algorithm
-• ITU—TSS T .4 Facsimile Coding Scheme (G3 MR, two-dimensional) compression algorithm
-• ITU—TSS T .6 Facsimile Coding Scheme (G4 MMR) compression algorithm
+• ITU—TSS T.4 Facsimile Coding Scheme (G3 MH, one-dimensional) compression algorithm
+• ITU—TSS T.4 Facsimile Coding Scheme (G3 MR, two-dimensional) compression algorithm
+• ITU—TSS T.6 Facsimile Coding Scheme (G4 MMR) compression algorithm
 • ISO/ITU—TSS JPEG algorithms
 • JBIG2 compression algorithm
 • Solid Fill Rectangle
@@ -29,9 +29,7 @@ When one of the three coding modes is identified by the coding procedure, an app
 from the code table.
 2. READ stands for Relative Element Address Designate
 
-## Page 1036
 
-1002 IPDS Reference
 Run-Length 4 Compression Algorithm (RL4)
 The Run-Length 4 (RL4) algorithm is a binary, one-dimensional, run-length coding method of compression. It is
 based on code words using four bits. The code words used are common to both white runs and black runs.
@@ -60,9 +58,7 @@ must be put in the encoded string. If a line ends with a sequence of white image
 the case), the last white run need not be encoded, because it can be calculated from the horizontal size of the
 image content and the total length of the preceding runs.
 
-## Page 1037
 
-IPDS Reference 1003
 ABIC (Bilevel Q-Coder) Compression Algorithm (ABIC)
 The ABIC algorithm provides an invertible mapping between any data file and a more compact representation
 of the same information.
@@ -70,21 +66,21 @@ Concatenated ABIC Compression Algorithm
 The image data is first rearranged in IDE bit order so that the first bit of each IDE is sequentially retrieved
 followed by the second bit of each IDE and so on until all of the IDE bits are retrieved. Then the data is
 compressed using the ABIC compression algorithm.
-ITU—TSS T .4 Facsimile Coding Scheme (G3 MH, One-Dimensional)
-The ITU—TSS T .4 Facsimile Coding Scheme (G3 MH, one-dimensional) compression algorithm, also called
+ITU—TSS T.4 Facsimile Coding Scheme (G3 MH, One-Dimensional)
+The ITU—TSS T.4 Facsimile Coding Scheme (G3 MH, one-dimensional) compression algorithm, also called
 the G3 Modified Huffman compression algorithm (G3 MH) is a method of compression standardized by the
-International T elecommunications Union—T elecommunications Standardization Sector (ITU-TSS), previously
+International Telecommunications Union—Telecommunications Standardization Sector (ITU-TSS), previously
 known as CCITT , that enables image data to be compressed one-dimensionally.
-ITU—TSS T .4 Facsimile Coding Scheme (G3 MR, Two-Dimensional)
-The ITU—TSS T .4 Facsimile Coding Scheme (G3 MR, two-dimensional) compression algorithm, also called
+ITU—TSS T.4 Facsimile Coding Scheme (G3 MR, Two-Dimensional)
+The ITU—TSS T.4 Facsimile Coding Scheme (G3 MR, two-dimensional) compression algorithm, also called
 the G3 Modified Read compression algorithm (G3 MR) is a method of compression standardized by the
-International T elecommunications Union—T elecommunications Standardization Sector (ITU—TSS), previously
+International Telecommunications Union—Telecommunications Standardization Sector (ITU—TSS), previously
 known as CCITT , that enables image data to be compressed two-dimensionally.
-ITU—TSS T .6 Facsimile Coding Scheme (G4 MMR) Compression
+ITU—TSS T.6 Facsimile Coding Scheme (G4 MMR) Compression
 Algorithm
-The ITU—TSS T .6 Facsimile Coding Scheme (G4 MMR) compression algorithm, also known as the G4
+The ITU—TSS T.6 Facsimile Coding Scheme (G4 MMR) compression algorithm, also known as the G4
 Modified MR compression algorithm (G4 MMR) is a method of compression standardized by the International
-T elecommunications Union—T elecommunications Standardization Sector (ITU-TSS), previously known as
+Telecommunications Union—Telecommunications Standardization Sector (ITU-TSS), previously known as
 CCITT , that enables image data to be compressed two-dimensionally.
 ISO/ITU—TSS JPEG Compression Algorithms
 The JPEG (Joint Photographic Experts Group) technical specification describes a series of algorithms that can
@@ -92,9 +88,7 @@ be applied to arbitrary source image resolutions, many color models, multiple im
 sampling formats, and continuous-tone renditions of text. The algorithms are not applicable to bilevel images.
 Some of the JPEG compression algorithms are lossy.
 
-## Page 1038
 
-1004 IPDS Reference
 JBIG2 (Joint Bi-level Image Experts Group) Compression Algorithm
 The JBIG (Joint Bi-level Image experts Group) technical specification JBIG2, details a set of algorithms
 specialized for bilevel (1 bit/pixel) source image data at arbitrary spatial resolutions; with separate methods
@@ -102,13 +96,13 @@ and particular emphasis on textual and halftone bilevel images, in addition to g
 bilevel image (for example, additional image types like line art, pie charts, etc.).
 Most algorithms are lossless, with the exception of a near-lossless capability for scanned textual images that
 can be extended to lossless.
-The JBIG2 compression is defined by ITU—T Recommendation T .88 and ISO/IEC International Standard
+The JBIG2 compression is defined by ITU—T Recommendation T.88 and ISO/IEC International Standard
 14492:2000.
 Note: JBIG2 stores the actual image size in the compressed datastream, thus allowing the IOCA Process
 Model to determine the number of horizontal and vertical image points from the image data. HSIZE and
 VSIZE can therefore be zero in the Image Size Parameter.
-For more details about the JBIG2 algorithm, refer to International T elecommunication Union, Recommendation
-T .88,Information technology—Coded representation of picture and audio information— Lossy/lossless coding
+For more details about the JBIG2 algorithm, refer to International Telecommunication Union, Recommendation
+T.88,Information technology—Coded representation of picture and audio information— Lossy/lossless coding
 of bilevel images.
 Solid Fill Rectangle
 The Solid Fill Rectangle compression algorithm is applicable only to bilevel tiles within a tiled image. When
@@ -128,9 +122,7 @@ compression algorithm, compressing values that are the differences between pixel
 values themselves. All information in the “TIFF LZW Compression Algorithm” section just above is applicable
 to this compression algorithm as well.
 
-## Page 1039
 
-IPDS Reference 1005
 RIDIC Recording Algorithm
 The Recorded Image Data Inline Coding recording algorithm (RIDIC) formats a single image in the binary
 element sequence of a unidirectional raster scan with no interlaced fields and with parallel raster lines, from left
@@ -158,10 +150,6 @@ will be built without padding, but incorrectly marked as RIDIC (or padded but in
 unpadded RIDIC). Some IPDS implementations can detect this error and tolerate the image by internally
 assuming that it was mismarked.
 
-## Page 1040
 
-1006 IPDS Reference
 
-## Page 1041
 
-Copyright © AFP Consortium 1987, 2023 1007

@@ -1,4 +1,4 @@
-Appendix A. IPDS Commands Sorted by Command Code
+# Appendix A. IPDS Commands Sorted by Command Code
 The following table lists the command codes in numeric order, the meaning of the codes, and the section in this
 document where they are described.
 Table 70. IPDS Command Code Summary
@@ -15,7 +15,7 @@ X'D61B' Load Code Page (LCP) “Load Code Page” on page 652
 X'D61D' Load Equivalence (LE) “Load Equivalence” on page 460
 X'D61E' Load Symbol Set (LSS) “Load Symbol Set” on page 698
 X'D61F' Load Font Control (LFC) “Load Font Control” on page 675
-X'D62D' Write T ext (WT) “Write T ext” on page 472
+X'D62D' Write Text (WT) “Write Text” on page 472
 X'D62E' Activate Resource (AR) “Activate Resource” on page 134
 X'D62F' Load Font (LF) “Load Font” on page 662
 X'D633' Execute Order Anystate (XOA) “Execute Order Anystate” on page 268
@@ -36,9 +36,7 @@ X'D65B' Deactivate Data-Object-Font Component
 “Deactivate Data-Object-Font Component” on
 page 573
 
-## Page 1024
 
-990 IPDS Reference
 Table 70 IPDS Command Code Summary (cont'd.)
 Command Code Command Name Command Description
 X'D65C' Deactivate Data Object Resource (DDOR) “Deactivate Data Object Resource” on page 574
@@ -59,7 +57,7 @@ X'D680' Write Bar Code Control (WBCC) “Write Bar Code Control” on page 550
 X'D681' Write Bar Code (WBC) “Write Bar Code” on page 562
 X'D684' Write Graphics Control (WGC) “Write Graphics Control” on page 526
 X'D685' Write Graphics (WG) “Write Graphics” on page 543
-X'D688' Write T ext Control (WTC) “Write T ext Control” on page 462
+X'D688' Write Text Control (WTC) “Write Text Control” on page 462
 X'D68A' Write Metadata Control (WMC) “Write Metadata Control” on page 617
 X'D68B' Write Metadata (WM) “Write Metadata” on page 619
 X'D68F' Execute Order Home State (XOH) “Execute Order Home State” on page 313
@@ -75,18 +73,12 @@ X'D6EF' Deactivate Overlay (DO) “Deactivate Overlay” on page 625
 Retired Command Codes
 X'D61C' Retired item 134
 
-## Page 1025
 
-IPDS Reference 991
 The following table lists the Acknowledge Reply:
 Table 71. IPDS Acknowledge Reply
 Reply Code Reply Name Reply Description
 X'D6FF' Acknowledge Reply (ACK) “Acknowledge Reply” on page 124
 
-## Page 1026
 
-992 IPDS Reference
 
-## Page 1027
 
-Copyright © AFP Consortium 1987, 2023 993

@@ -1,4 +1,4 @@
-Chapter 4. Device-Control Command Set
+# Chapter 4. Device-Control Command Set
 The Device-Control command set is composed of commands and an acknowledge protocol. The commands
 are used to set up the logical page environment, to manage resources, and to communicate device controls.
 The acknowledge protocol is used to transmit printer characteristics, status, resource information, and error
@@ -36,9 +36,7 @@ ACK or
 NACK
 X'D6FF' “Acknowledge Reply” on page 124 Yes
 
-## Page 158
 
-124 IPDS Reference
 Acknowledge Reply
 The printer uses the Acknowledge Reply to return information such as page counters, copy counters, sense
 data, and any requested information to the presentation services program. The presentation services program
@@ -59,7 +57,9 @@ Both the ACK and the NACK are returned using the same format. Even though the re
 printer to the presentation services program, they use the same format as the IPDS commands:
 Length X'D6FF' Flag Data
 or
+```
 Length X'D6FF' Flag CID Data
+```
 The length field is the total length of the ACK or NACK reply, including the length field itself. All IPDS devices
 must support short Acknowledge Replies (up to 256 bytes long); some IPDS devices can also return longer
 Acknowledge Replies (up to 65,535 bytes long). Property pair X'F003' is returned in the Device-Control
@@ -68,9 +68,7 @@ the long ACK method is used by setting the long ACK flag (byte 4, bit 3) in any 
 (ARQ flag is B'1').
 Acknowledge Reply
 
-## Page 159
 
-IPDS Reference 125
 The flag field is a one-byte field that specifies the flags. Bits 1, 2, 6, and 7 are the only bits used in this byte. All
 other bits are reserved and should be set to B'0'.
 • If bit 1 of the flag byte is B'1', a correlation ID is present. If bit 1 of the flag byte is B'0', no correlation ID is
@@ -107,7 +105,7 @@ B'0', B'1' Additional exception information available flag
 If this bit is B'1', this indicates that additional information is
 available for the exception reported by this NACK. This additional
 information can be obtained by sending the XOA Obtain
-Additional Exception Information (OAEI)
+## Additional Exception Information (OAEI)
 command. A printer can
 make additional exception information available—and thus this bit
 can be B'1'—only if the printer is ready to respond to an
@@ -120,7 +118,7 @@ B'0', B'1' Persistent NACK flag
 This flag has meaning only in DSC-Mode NACKs; the flag has no
 meaning in all other attachment environments.
 Note: If the printer determines that the complete response exceeds the maximum size of the Special Data
-Area, the Acknowledgment Continuation bit is set to B'1'. T o obtain the next segment of the response
+Area, the Acknowledgment Continuation bit is set to B'1'. To obtain the next segment of the response
 from the printer, the presentation services program must issue a command (any command) with both the
 Acknowledgment Continuation bit and the ARQ bit set to B'1'. In this case, the command code is ignored
 by the printer and the next segment of the response is sent to the presentation services program.
@@ -128,9 +126,7 @@ If the printer returns a correlation ID, it is the correlation ID provided in th
 acknowledgment. The informational response continues starting with the first byte in the Special Data
 Acknowledge Reply
 
-## Page 160
 
-126 IPDS Reference
 Area of the next segment of the Acknowledge Reply; the Acktype and Counters fields are present in
 each segment of the Acknowledge Reply. The Acknowledge Reply length is used to determine how
 much data is available in each Special Data Area. The total length of the data returned by the printer can
@@ -167,9 +163,7 @@ The data field follows either the CID field or the flag byte. The data field con
 and copy counters, and can also contain a special data area.
 Acknowledge Reply
 
-## Page 161
 
-IPDS Reference 127
 Acknowledge Reply Data Format
 The Acknowledge Reply data field contains the acknowledge type, the page and copy counters, and the
 special data area. The two formats of the Acknowledge Reply data field are as follows:
@@ -222,9 +216,7 @@ Special data area Depends on
 acktype (byte 0)
 Acknowledge Reply
 
-## Page 162
 
-128 IPDS Reference
 Byte 0 Acknowledge type
 This one-byte field identifies the acknowledge type, the contents of the page and copy
 counters, and the special data area. The values that can be returned in this field are as
@@ -305,9 +297,7 @@ Note: The format of the counters is modulo-64K. These counters are further descr
 “Page and Copy Counter Adjustments” on page 926.
 Acknowledge Reply
 
-## Page 163
 
-IPDS Reference 129
 Some printers use 4 bytes for the page and copy counters; others use 18 bytes. The specific
 format can be determined from the acknowledge type in byte 0 and from your printer
 documentation.
@@ -356,9 +346,7 @@ committed for printing. This counter resets to zero when the committed page
 counter increments.
 Acknowledge Reply
 
-## Page 164
 
-130 IPDS Reference
 Bytes 7–8 Operator viewing page counter
 This counter contains the number of pages that have passed the view of the
 printer operator. This counter increments by the number of pages on a sheet
@@ -409,9 +397,7 @@ or when an ARQ is received in any of the following query commands:
 • XOA Obtain Additional Exception Information
 Acknowledge Reply
 
-## Page 165
 
-IPDS Reference 131
 • XOA Request Resource List
 • XOA Request Setup Name List
 • XOH Obtain Printer Characteristics
@@ -456,9 +442,7 @@ page 789. The reply from a Sense Type and Model command indicates whether 3 byte
 bytes of sense data are returned by a printer in the special data area of each NACK.
 Acknowledge Reply
 
-## Page 166
 
-132 IPDS Reference
 General Rules for the Acknowledge Reply
 • An ACK indicates that the data stream up to and including the command with the Acknowledgment Request
 (ARQ) has been syntax-checked except for the following conditions:
@@ -508,9 +492,7 @@ emptied.
 Adjustments” on page 926 for a description of what is discarded.
 Acknowledge Reply
 
-## Page 167
 
-IPDS Reference 133
 • Positive acknowledgment of page segments or overlays and the data they contain means that the command
 sequence is a valid IPDS command sequence and has been accepted for processing; see Figure 45 on page
 87. This acknowledgment does not necessarily mean that the commands have been syntax-checked. The
@@ -519,9 +501,7 @@ syntax exceptions might be detected when the object is included on a logical pag
 described above are cleared by the protocols of the underlying communications system.
 Acknowledge Reply
 
-## Page 168
 
-134 IPDS Reference
 Activate Resource
 The Activate Resource (AR) command, previously known as Load Resource Equivalence (LRE), requests the
 activation of resident resources in the printer or intermediate device.
@@ -565,11 +545,9 @@ type X'05' is processed. Once activation takes place, the activation request has
 AR entry no longer remains in effect; but the printer keeps activation information in the form of the HARID-to-
 resource-ID mapping for resource management purposes. If activation fails, the activation request specified by
 the AR entry remains in effect.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 169
 
-IPDS Reference 135
 Each AR entry remains in effect until one of the following occurs:
 • The resource is successfully activated.
 • An AR entry is encountered with the Reset Bit set; refer to byte 11.
@@ -617,18 +595,18 @@ activation is incompatible with the resource type in a previous activation, the 
 indicating that the resource specified by the HARID is not activated. However, if the activation fails because
 the HARID is already in use, the XOA-RRL reply indicates that the resource originally activated with that
 HARID is activated.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 170
 
-136 IPDS Reference
 Note: Under certain circumstances, a raster-font activation (RT = X'01' or RT = X'03') can partially succeed.
 The fully described font part might successfully activate, but the index activation (specified in AR
 command bytes 7–8) might fail. In this case, a subsequent XOA-RRL query shows a successful
 activation, and there is no activation-failed NACK (X'028F ..02'). It is safest to follow this type of activation
 with a separate AR entry for the index (RT = X'08' or RT = X'09').
 There are no default resource activations.
+```
 Length X'D62E' Flag CID Data
+```
 The length of the AR command can be:
 Without CID X'0005', X'0007', X'0009', X'000B', X'000D', X'000F', or X'0011'–X'7FFF'
 With CID X'0007', X'0009', X'000B', X'000D', X'000F', X'0011', or X'0013'–X'7FFF'
@@ -694,11 +672,9 @@ Double-byte font section ID;
 see note following table
 See byte
 description
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 171
 
-IPDS Reference 137
 Offset Type Name Range Meaning Required
 6 CODE RIDF X'00'
 X'03'
@@ -794,11 +770,9 @@ X'8D' Linked Font triplet
 X'91' Color Management Resource
 Descriptor triplet
 A value
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 172
 
-138 IPDS Reference
 Note: The Host-Assigned ID is assigned dynamically by the presentation services program. This ID in
 conjunction with the Section Identifier and/or the Font Inline Sequence fields serves to uniquely identify
 a specific resource. Some Resource Types do not require the Section Identifier or the Font Inline
@@ -845,11 +819,9 @@ X'10' X'07' X'001E' plus length of triplets
 X'40' X'09' X'000E'–X'008D' plus length of triplets
 X'41' X'0A' X'0012' plus length of triplets
 X'42' X'09' X'000E'–X'008D' plus length of triplets
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 173
 
-IPDS Reference 139
 Byte 2 Resource Type (RT)
 This parameter specifies one of the following resource types:
 X'00'—no resource type specified; valid only when the AR entry length is X'000C'
@@ -899,11 +871,9 @@ The value of this parameter depends on the Resource Type (RT):
 • RT = X'03'—Section Identifier of the double-byte LF1-type coded-font section
 • RT = X'04'—Section Identifier field is ignored
 • RT = X'05'—Section Identifier field is ignored
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 174
 
-140 IPDS Reference
 • RT = X'06'—Section Identifier field is ignored
 • RT = X'07'—Section Identifier field is ignored
 • RT = X'08'—Section Identifier field is ignored
@@ -951,11 +921,9 @@ character set must also have the same date and time stamp.
 For font character sets
 Two-byte GCSGID
 Followed by two-byte FGID
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 175
 
-IPDS Reference 141
 Resource ID triplets can be added after the 4-byte ID to specify a particular version of
 the font character set.
 If an exact GCSGID match is not found, the printer may look for a version of the
@@ -987,11 +955,9 @@ Followed by two-byte font width
 The section ID (byte 5 of the AR command) is also used for this resource type. If a
 Font Resolution and Metric T echnology (X'84') triplet is present and supported, it is
 also used to locate the resource.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 176
 
-142 IPDS Reference
 For coded fonts
 Two-byte GCSGID
 Followed by two-byte CPGID
@@ -1040,17 +1006,15 @@ Any fractional value resulting from the division is truncated.
 53,247 inclusive, and between 61,440 and 65,534 inclusive (typographic,
 proportionally spaced fonts), both the horizontal scale factor and the vertical scale
 factor are three times the font width.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 177
 
-IPDS Reference 143
 • For fonts with FGID values between 53,248 and 61,439 inclusive, both the
 horizontal scale factor and the vertical scale factor are equal to the font width.
-T o convert the scale factor values from 1440ths to points, the scale factor value is
+To convert the scale factor values from 1440ths to points, the scale factor value is
 divided by 20 and rounded off to the nearest integer. If the result is zero, it is changed
 to 1.
-Note: T o avoid undefined character data-check exceptions when printing with an LF3-
+Note: To avoid undefined character data-check exceptions when printing with an LF3-
 type coded font, the components of the GRID should be carefully matched to
 ensure that all of the GCGIDs used in the code page are also available in the
 font character set.
@@ -1093,11 +1057,9 @@ blanks to the right.
 Note: The printer uses as many of these fields as is necessary to find the requested
 resource. The IPDS Architecture does not require a printer to use all of the
 subfields of the resource ID.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 178
 
-144 IPDS Reference
 X'05' Extended Remote PrintManager MVS format (86 bytes/resource)
 This format is composed of the following 86-byte subfield group. The format is used
 for page segments only.
@@ -1137,11 +1099,9 @@ blanks to the right.
 Note: The printer uses as many of these fields as is necessary to find the requested
 resource. The IPDS Architecture does not require a printer to use all of the
 subfields of the resource ID.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 179
 
-IPDS Reference 145
 X'06' MVS Host Unalterable Remote Font environment (172 bytes/font)
 This format is composed of the following two 86-byte subfield groups. The two font
 subfield groups identify the code page and font character set. The code page is
@@ -1185,11 +1145,9 @@ by the Font Width (2 bytes). For a description of these fields, refer to GRID (b
 Note: The printer uses as many of these fields as is necessary to find the requested
 resource. The IPDS Architecture does not require a printer to use all of the
 subfields of the resource ID.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 180
 
-146 IPDS Reference
 X'07' Coded-font format
 This naming format is used to activate a coded font from its component parts. The
 resource ID field consists of the information needed to find the component parts (AR
@@ -1225,7 +1183,7 @@ X'0001' –
 X'FFFE'
 X'FFFF'
 No value supplied
-Font Typeface Global ID (FGID)
+## Font Typeface Global ID (FGID)
 Printer default FGID
 22–23 CODE FW X'0000'
 X'0001' –
@@ -1255,11 +1213,9 @@ No value supplied
 Horizontal scale factor in 1440ths of an inch
 The vertical scale factor, also known as the specified vertical font size, is the desired
 distance between adjacent character baselines when character rotation is zero
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 181
 
-IPDS Reference 147
 degrees and no external leading is used. The horizontal scale factor can be used for
 anamorphic scaling.
 The printer uses the information provided in the resource ID field to locate the
@@ -1309,12 +1265,10 @@ proportionally spaced fonts), the vertical scale factor is three times the font 
 factor is equal to the font width.
 • If an FGID was not supplied in the AR command but a font character set was found,
 the printer may obtain the FGID from the font character set.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 182
 
-148 IPDS Reference
-T o convert the scale factor values from 1440ths to points, the scale factor value is
+To convert the scale factor values from 1440ths to points, the scale factor value is
 divided by 20. If the scale factor was provided in the VSF or HSF field, this value is
 used without rounding. However, if the scale factor was derived from the font-width
 value, the derived value in points is then rounded off to the nearest positive integer; if
@@ -1335,11 +1289,9 @@ Offset Type Name Range Meaning
 0 CODE Identifier X'06' This is a definite-short-form OID
 1 UBIN Length X'00'–X'7F' Length of the following content bytes
 2 to end Content Any value Content bytes that provide a unique ID for this object
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 183
 
-IPDS Reference 149
 X'0A' Data-object-font format
 This naming format is used to activate a data-object font from its component parts.
 Three different methods are provided to identify the scheme used to encode the
@@ -1395,11 +1347,9 @@ single-byte code points or fixed double-byte code points.
 The code page is used to map code points to IBM GCGIDs, and then
 the printer maps GCGIDs to appropriate values using an internal
 table. Any IPDS code page can be used (either fixed single byte or
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 184
 
-150 IPDS Reference
 fixed double byte); however, only those GCGIDs that are used in
 IBM-supplied code pages are supported within the printer.
 Some IPDS printers support an extended code page that includes a
@@ -1418,12 +1368,12 @@ command description.
 Bytes 16–17 TTC font index for the base font
 This parameter identifies a specific TrueType/OpenType font within a
 TrueType/OpenType collection. The index value is a zero-based
-index into the T ableDirectory array of Directory offsets that comprise
+index into the TableDirectory array of Directory offsets that comprise
 the 4th parameter in a TTC header (refer to the OpenType
 Specification description of TrueType collections). An index value of
 X'0000' selects the first font in the directory array, an index value of
 X'0001' selects the second font in the directory array, and so forth. If
-an index value is specified that is invalid for the T ableDirectory, the
+an index value is specified that is invalid for the TableDirectory, the
 activation fails.
 An alternate method of identifying a specific TrueType/OpenType font
 within a TrueType/OpenType collection is to specify a full font name
@@ -1453,11 +1403,9 @@ Encoding Scheme ID (X'50') triplet
 This triplet must be specified once when the data to be
 printed is encoded in a form different from the font's encoding
 (as specified in the X'8B' triplet) and is not encoded with a
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 185
 
-IPDS Reference 151
 code page. For example, if the data to be printed is encoded
 with UTF-8, this triplet is required.
 Data Object Font Descriptor (X'8B') triplet
@@ -1485,11 +1433,9 @@ These triplets are fully described in the triplets chapter:
 “Encoding Scheme ID (X'50') Triplet” on page 720
 “Data Object Font Descriptor (X'8B') Triplet” on page 759
 “Linked Font (X'8D') Triplet” on page 765
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 186
 
-152 IPDS Reference
 Bytes 7–8 Font Inline Sequence
 This parameter specifies a qualifier of the Host-Assigned ID. Some Resource Types do not
 require a Font Inline Sequence, in which case this field is ignored by the printer and should
@@ -1535,11 +1481,9 @@ from right-to-left), Preview & Print embedding (bit 2), and Editable embedding
 (bit 3).
 When a resource is captured, the resource ID value specified in this AR command
 entry is saved with the resource. All resource ID triplets are also saved with the
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 187
 
-IPDS Reference 153
 resource. A date and time stamp must be supplied for an LF1 or LF3 font resource to
 be captured.
 The physical presence column in the “Resource Management Summary” on page 111
@@ -1550,7 +1494,7 @@ If this bit is B'1' in any AR entry, all previously received AR entries are disc
 including previous entries within this AR command. The discarded entries include
 activation requests that have previously failed and activation requests that have not
 yet been attempted. Once a reset has been accomplished, the remaining entries in
-the AR command, including the entry with the reset bit set, are processed. T o reset all
+the AR command, including the entry with the reset bit set, are processed. To reset all
 AR entries for unactivated resources without creating a new equivalence, specify an
 AR entry of length X'000C' with the reset bit set.
 If this bit is B'0' in an AR entry, the entry is processed without a reset taking place.
@@ -1589,12 +1533,10 @@ If an outline font is substituted because this flag was B'1', a subsequent XOA-R
 activation query for this resource indicates a successful activation regardless of
 whether the XOA-RRL query is for a raster resource type or for a coded-font resource
 type.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 188
 
-154 IPDS Reference
-Note: T o avoid problems with half-width characters and other double-byte font
+Note: To avoid problems with half-width characters and other double-byte font
 complications, font substitution is not done in the following situations:
 • When a double-byte coded-font section (RT = X'03') is being activated
 • When a CID-keyed outline font is the only substitution candidate
@@ -1644,11 +1586,9 @@ The Activate Resource triplets are fully described in the triplets chapter:
 “Metric Adjustment (X'79') Triplet” on page 737
 “Font Resolution and Metric T echnology (X'84') Triplet” on page 740
 “Data Object Font Descriptor (X'8B') Triplet” on page 759
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 189
 
-IPDS Reference 155
 “Linked Font (X'8D') Triplet” on page 765
 “Color Management Resource Descriptor (X'91') Triplet” on page 769
 The following table specifies the triplets that can be used with each RT/RIDF combination:
@@ -1707,11 +1647,9 @@ Optional
 Encoding Scheme ID (X'50') triplet
 -- used to specify how the data to be printed is encoded
 Optional
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 190
 
-156 IPDS Reference
 Table 23 RT/RIDF Triplet Combinations (cont'd.)
 Triplet Required?
 Data Object Font Descriptor (X'8B') triplet
@@ -1735,11 +1673,9 @@ If a data-object font is activated by means of an AR command, but a Data Object 
 is not provided, exception ID X'028F ..20' exists. If a Color Management Resource (CMR) is activated by means
 of an AR command, but a Color Management Resource Descriptor (X'91') triplet is not provided, exception ID
 X'025E..01' exists.
-Activate Resource (AR)
+## Activate Resource (AR)
 
-## Page 191
 
-IPDS Reference 157
 Activate Setup Name
 The Activate Setup Name (ASN) command is valid only in home state and causes the printer to activate a
 setup name. The setup name is identified with a name that is assigned by the user, known to the printer, and
@@ -1779,15 +1715,15 @@ and is not already activated, the Activate Setup Name command is a synchronizing
 command following a synchronizing command is not processed until all preceding commands have
 been completely processed. In addition, the ACK of the ASN is not returned until ASN processing is
 complete.
+```
 Length X'D60A' Flag CID Data
+```
 The length of the ASN command can be:
 Without CID X'0007' or X'000D'–X'00D3' odd values
 With CID X'0009' or X'000F'–X'00D5' odd values
-Activate Setup Name (ASN)
+## Activate Setup Name (ASN)
 
-## Page 192
 
-158 IPDS Reference
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The format of the data field for this command is as follows:
 Offset Type Name Range Meaning Required
@@ -1830,22 +1766,18 @@ would cause X'010A..00':
 • A change from one active setup name to another active setup name
 • A change from no active setup name to an active setup name
 • A change from an active setup name to no active setup name
-Activate Setup Name (ASN)
+## Activate Setup Name (ASN)
 
-## Page 193
 
-IPDS Reference 159
 • A change from an active setup name to the same active setup name but the settings
 corresponding to the setup name have been modified, for example if an operator edits the
 active setup name’s definition
 Note that exception ID X'010A..00' is not reported for changes due to the ASN command.
 The triplet is fully described in the triplets chapter:
 “Setup Name (X'9E') Triplet ” on page 786
-Activate Setup Name (ASN)
+## Activate Setup Name (ASN)
 
-## Page 194
 
-160 IPDS Reference
 Apply Finishing Operations
 The Apply Finishing Operations (AFO) command is valid only in home state and directs the printer to apply
 zero or more finishing operations to the current sheet and each copy of that sheet. The current sheet is the
@@ -1857,7 +1789,9 @@ Specific finishing operations are specified in Finishing Operation (X'85') tripl
 (X'8E') triplets. If no triplets are specified, this command completely replaces any previously sent AFO
 command for the current sheet and is then treated as if it were a No Operation (NOP) command; this provides
 a reset function.
+```
 Length X'D602' Flag CID Data
+```
 The length of the AFO command can be:
 Without CID X'0005' or X'0007'–X'7FFF'
 With CID X'0007' or X'0009'–X'7FFF'
@@ -1884,11 +1818,9 @@ The Apply Finishing Operation triplets are fully described in the triplets chapt
 “Finishing Operation (X'85') Triplet” on page 742
 “UP
 3I Finishing Operation (X'8E') Triplet” on page 767
-Apply Finishing Operations (AFO)
+## Apply Finishing Operations (AFO)
 
-## Page 195
 
-IPDS Reference 161
 Apply Finishing Operations Triplet Considerations
 The two finishing triplets (X'85' and X'8E') can coexist. For example, a hole-punch operation identified by a
 X'8E' triplet on an AFO command might be followed by a Z-fold operation identified by a X'85' triplet.
@@ -1916,16 +1848,16 @@ cutter that also performs a perforation cut at a location selected by the operat
 cut a horizontal perforation with the first cutter and a vertical perforation with the second cutter and the finishing
 operations would be specified in two finishing operation triplets. Because duplicate finishing operation triplets
 are ignored, a sequence number must be used to ensure that the triplets are not identical.
-Apply Finishing Operations (AFO)
+## Apply Finishing Operations (AFO)
 
-## Page 196
 
-162 IPDS Reference
 Begin Page
 The Begin Page (BP) command is valid only in home state and causes the printer to enter page state. This
 command identifies the beginning of a page. The End Page command ends the page.
 Exception ID X'0255..09' exists if the printer has been asked to save pages, but this page is too large to save.
+```
 Length X'D6AF' Flag CID Data
+```
 The length of the BP command can be:
 Without CID X'0009'
 With CID X'000B'
@@ -1941,11 +1873,9 @@ These bytes can be returned in the sense bytes of the NACK if an exception is re
 host. Refer to “Sense Byte Information” on page 796.
 The Page ID value should be between X'00000001' and X'FFFFFFFF'. The printer returns the
 value X'00000000' for exceptions that occur outside the scope of a page.
-Begin Page (BP)
+## Begin Page (BP)
 
-## Page 197
 
-IPDS Reference 163
 Deactivate Font
 The Deactivate Font (DF) command, previously known as Delete Font, transmits one to six bytes of data and
 provides a means for the host to deactivate one or more coded fonts, data-object fonts, font indexes, font
@@ -1976,7 +1906,9 @@ resources are not affected by the Deactivate Font command.
 The DF command has no effect on the LID-to-HAID mappings specified in the Load Font Equivalence (LFE)
 command. In addition, changing the LID-to-HAID mapping with an LFE command does not cause the coded
 font or data-object font to be deactivated.
+```
 Length X'D64F' Flag CID Data
+```
 The length of the DF command can be:
 Without CID X'0006', X'0008', X'0009', or X'000B'
 With CID X'0008', X'000A', X'000B', or X'000D'
@@ -1984,11 +1916,9 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The data for the DF command contains from 1 to 6 bytes. The description of byte 0 identifies the fields that
 must be provided for each deactivation type. Data that is provided in bytes 1–5 but is not needed for the
 specified deactivation type is ignored.
-Deactivate Font (DF)
+## Deactivate Font (DF)
 
-## Page 198
 
-164 IPDS Reference
 Offset Type Name Range Meaning Loaded-Font
 Subset
 Range
@@ -2071,11 +2001,9 @@ types X'12' and X'22'
 180 degrees
 270 degrees
 X'0000'
-Deactivate Font (DF)
+## Deactivate Font (DF)
 
-## Page 199
 
-IPDS Reference 165
 Note: The deactivation types required for the LF1, LF2, LFE3, and LF4 subsets, and those that are optional
 are listed in the following table:
 Table 24. Required and Optional Deactivation Types
@@ -2123,11 +2051,9 @@ X'21' This value deactivates the specified LF1-type coded-font section, sections
 numbers higher than that specified, and all associated LF1-type font indexes of the
 specified double-byte coded font. Bytes 1–2 contain the coded-font identifier, and byte
 3 contains the starting section number.
-Deactivate Font (DF)
+## Deactivate Font (DF)
 
-## Page 200
 
-166 IPDS Reference
 The specified starting section need not be present. However, exception ID X'0214..02'
 exists if this deactivation type is specified for a double-byte coded font with no
 sections currently activated. Any other use of this deactivation type is valid. For
@@ -2163,7 +2089,7 @@ X'5E' This value deactivates all coded fonts (must provide byte 0).
 X'5F' This value deactivates all coded fonts and all associated components (must provide
 byte 0).
 Code pages and font character sets that are not associated with a coded font are not
-deactivated by X'5F'. T o deactivate all font parts, issue three Deactivate Font
+deactivated by X'5F'. To deactivate all font parts, issue three Deactivate Font
 commands with deactivation types X'5F', X'3F', and X'4F'.
 X'60' This value deactivates the data-object font specified in bytes 1–2 (must provide bytes
 0–2).
@@ -2174,11 +2100,9 @@ X'6E' This value deactivates all data-object fonts (must provide byte 0).
 This deactivation type does not deactivate any of the component parts of the data-
 object fonts. Use the DF command to deactivate code pages and the DDOFC
 command to deactivate data-object-font components.
-Deactivate Font (DF)
+## Deactivate Font (DF)
 
-## Page 201
 
-IPDS Reference 167
 Bytes 1–2 Host-Assigned ID
 This field is required only for deactivation types X'11', X'12', X'20', X'21', X'22', X'30', X'40',
 X'50', X'51', and X'60'. It is ignored if specified for other deactivation types. Exception ID
@@ -2194,11 +2118,9 @@ This parameter specifies the specific LF1-type font index to be deactivated. Thi
 required only for deactivation types X'12' and X'22'; it is ignored if specified for other
 deactivation types. Exception ID X'0215..02' exists if this parameter is required, but not
 supplied. Exception ID X'0240..02' exists if an invalid or unsupported value is specified.
-Deactivate Font (DF)
+## Deactivate Font (DF)
 
-## Page 202
 
-168 IPDS Reference
 Define User Area
 The Define User Area (DUA) command establishes the position and size of an area in the medium
 presentation space called the user printable area (UPA) that can be used to specify the portion of the medium
@@ -2222,16 +2144,16 @@ The user printable area specified by a DUA command remains in effect until it is
 command. If no DUA command has been received by a printer, the default user printable area is the physical
 printable area.
 Exception ID X'025C..02' exists if one or more of the DUA parameters contain an invalid or unsupported value.
+```
 Length X'D6CE' Flag CID Data
+```
 The length of the DUA command can be:
 Without CID X'0015'
 With CID X'0017'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-Define User Area (DUA)
+## Define User Area (DUA)
 
-## Page 203
 
-IPDS Reference 169
 The format of the data field for the DUA command is as follows:
 Offset Type Name Range Meaning Required
 0 CODE Reset
@@ -2247,20 +2169,20 @@ X'01'
 X'00'
 X'01'
 Unit base for this command:
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 X'00'
 2–3 UBIN UPUB X'0001' –
 X'7FFF'
 X
 m and Ym units per unit base X'3840'
-4–6 SBIN X m offset X'FF8000'–
+4–6 SBIN Xm offset X'FF8000'–
 X'007FFF'
 Xm coordinate of the UPA origin specified in L-
 units
 X'000000'–
 X'007FFF'
-7–9 SBIN Y m offset X'FF8000'–
+7–9 SBIN Ym offset X'FF8000'–
 X'007FFF'
 Ym coordinate of the UPA origin specified in L-
 units
@@ -2271,7 +2193,7 @@ m extent X'000001'–
 X'007FFF'
 Xm extent of the UPA specified in L-units X'000001'–
 X'007FFF'
-13–15 UBIN Y m extent X'000001'–
+13–15 UBIN Ym extent X'000001'–
 X'007FFF'
 Ym extent of the UPA specified in L-units X'000001'–
 X'007FFF'
@@ -2286,12 +2208,12 @@ Property pair X'FB00' in the Device-Control command-set vector of an STM reply i
 support for all architected units of measure.
 Bytes 2–3 X
 m and Ym units per unit base for this command
-This parameter specifies the number of units per unit base in both the X m and Ym directions.
+This parameter specifies the number of units per unit base in both the Xm and Ym directions.
 Bytes 4–6 Xm coordinate of the user-printable-area origin
-This parameter specifies the offset in the X m direction of the user printable area origin from the
+This parameter specifies the offset in the Xm direction of the user printable area origin from the
 current medium presentation space origin as specified in L-units.
 Bytes 7–9 Ym coordinate of the user-printable-area origin
-This parameter specifies the offset in the Y m direction of the user printable area origin from the
+This parameter specifies the offset in the Ym direction of the user printable area origin from the
 current medium presentation space origin as specified in L-units.
 Bytes 10–12 Xm extent of the user printable area in L-units
 Exception ID X'02A4..02' exists if the user printable area boundary in the X-direction cannot
@@ -2300,11 +2222,9 @@ Bytes 13–15 Y
 m extent of the user printable area in L-units
 Exception ID X'02A5..02' exists if the user printable area boundary in the Y-direction cannot be
 represented in the printer.
-Define User Area (DUA)
+## Define User Area (DUA)
 
-## Page 204
 
-170 IPDS Reference
 End
 Length X'D65D' Flag CID Binary data
 The length of the END command can be:
@@ -2315,7 +2235,7 @@ The End (END) command is the ending control for a series of Write Image, Write I
 Write Bar Code, Write Object Container, Write Metadata, Load Code Page, or Load Font commands and
 marks either the end of an image object, a graphics object, a bar code object, an object container object, or a
 metadata object, or the end of a downloaded font sequence. For text objects, the End command is the ending
-control for a series of Write T ext commands; note that the End command is not used with text-major text in a
+control for a series of Write Text commands; note that the End command is not used with text-major text in a
 logical page. Zero or more data bytes can be transmitted but are ignored.
 Some objects require at least one command between the control command that begins the object and the End
 command; exception ID X'8002..00' exists in the following cases:
@@ -2323,11 +2243,9 @@ command; exception ID X'8002..00' exists in the following cases:
 • When an LFC command is not followed by at least one LF command
 • When an LFCSC command is not followed by at least one LF command
 • When a WIC command is not followed by at least one WI command
-End (END)
+## End (END)
 
-## Page 205
 
-IPDS Reference 171
 End Page
 Length X'D6BF' Flag CID Binary data
 The length of the EP command can be:
@@ -2338,11 +2256,9 @@ The End Page (EP) command causes the printer to return to home state from page s
 or overlay state and thus marks the end of a page, a page segment, or an overlay. The EP command is an
 implicit command to schedule that page for printing if the command is being used to exit page state; all data for
 that page is available to the printer. Zero or more data bytes can be transmitted but are ignored.
-End Page (EP)
+## End Page (EP)
 
-## Page 206
 
-172 IPDS Reference
 Include Saved Page
 The Include Saved Page (ISP) command is a page state command that causes a previously saved page to be
 presented at the origin of the current page presentation space. If page overlays were also saved with the
@@ -2378,12 +2294,12 @@ Note: When using saved pages, a preprinted form overlay can be invoked for a pag
 following sequences of commands:
 • BP , IO-with PFO parameter, ISP , EP
 • BP , ISP , IO-with PFO parameter, EP
-Include Saved Page (ISP)
+## Include Saved Page (ISP)
 
-## Page 207
 
-IPDS Reference 173
+```
 Length X'D67E' Flag CID Data
+```
 The length of the ISP command can be:
 Without CID X'000B'–X'7FFF'
 With CID X'000D'–X'7FFF'
@@ -2424,11 +2340,9 @@ The Group ID (X'00') triplet with a variable-length group ID is mandatory and id
 pages. If more than one Group ID (X'00') triplet with a variable-length group ID is present in the ISP command,
 the last one is used and the others are ignored. If a group of saved pages cannot be found, or if this triplet is
 absent, exception ID X'0255..03' exists.
-Include Saved Page (ISP)
+## Include Saved Page (ISP)
 
-## Page 208
 
-174 IPDS Reference
 Invoke CMR
 Invoke CMR (ICMR) is a home state command used to invoke (or reset) one or more CMRs at the home-state
 level of the CMR-usage hierarchy; refer to “CMR-Usage Hierarchy” on page 35 for a description of the
@@ -2448,11 +2362,13 @@ the printer selects the first CMR when processing CMYK data and the second CMR w
 data.
 This command is used to invoke audit, instruction, and ICC DeviceLink CMRs. Link color-conversion (subset
 “LK”) CMRs must be activated, but do not need to be invoked. Invoking a link color-conversion (subset “LK”)
-CMR is not an error, but it performs no function. Refer to the CMR-Processing-Modes table, T able 62 on page
+CMR is not an error, but it performs no function. Refer to the CMR-Processing-Modes table, Table 62 on page
 769, for a description of which processing mode is appropriate for each type of CMR.
 Support for this optional command is indicated by the X'706B' property pair in the Device-Control command-set
 vector of an STM reply.
+```
 Length X'D66B' Flag CID Data
+```
 The length of the ICMR command can be:
 Without CID X'000A'–X'7FFE' even values
 With CID X'000C'–X'7FFE' even values
@@ -2475,11 +2391,9 @@ Host-Assigned ID of previously activated
 CMR
 X'0001' –
 X'7EFF'
-Invoke CMR (ICMR)
+## Invoke CMR (ICMR)
 
-## Page 209
 
-IPDS Reference 175
 Byte 0 Invocation flags
 This byte is bit mapped; bit values are as follows:
 Bit 0 Reset flag
@@ -2509,11 +2423,9 @@ CMR or is not currently activated.
 Later, when this CMR is selected for use with presentation data, the CMR
 must still be activated. Note that when a CMR is deactivated, all invocations
 of that HAID are also removed.
-Invoke CMR (ICMR)
+## Invoke CMR (ICMR)
 
-## Page 210
 
-176 IPDS Reference
 Load Copy Control
 The Load Copy Control (LCC) command resets the printer to a new sheet and controls the production of
 printed output from subsequently received page data. This command transmits two or more bytes of data to
@@ -2559,11 +2471,9 @@ mode, the printer emulates cut-sheet output, two sheetlets per sheet, until one 
 • An LCC command without the X'C3nn' keyword (CSE) is encountered.
 • An LCC command with the X'C2nn' keyword (N-up) is encountered.
 • More than one copy is specified in any copy subgroup.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 211
 
-IPDS Reference 177
 When a subsequent LCC command is received that contains the X'C3nn' keyword and specifies only one copy
 in each copy subgroup, the printer returns to the emulation mode.
 If an XOA Discard Buffered Data command or an XOA Discard Unstacked Pages command is received before
@@ -2608,13 +2518,13 @@ values apply. Each LCC command initializes to the default values; these values s
 • No text suppressions
 • Media selected from the media source specified by an XOH-SIMS command or, if no XOH-SIMS command
 has been received, from the printer-default media source
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 212
 
-178 IPDS Reference
 • Media stacked in the printer-default media destination
+```
 Length X'D69F' Flag CID Data
+```
 The length of the LCC command can be:
 Without CID X'0007'–X'7FFF' odd values
 With CID X'0009'–X'7FFF' odd values
@@ -2669,11 +2579,9 @@ X'E4' X'00'–X'7E' High-order byte of a medium overlay HAID Not in DC1
 X'E5' X'00'–X'FF' Low-order byte of a medium overlay HAID Not in DC1
 X'E6' X'00'–X'7E' High-order byte of a preprinted form overlay HAID Not in DC1
 X'E7' X'00'–X'FF' Low-order byte of a preprinted form overlay HAID Not in DC1
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 213
 
-IPDS Reference 179
 Byte 0 Entry byte count
 This byte indicates the number of bytes in this copy-subgroup definition entry. The value
 includes the count byte itself. Exception ID X'0234..01' exists if an invalid or unsupported
@@ -2717,11 +2625,9 @@ portion contains the media source ID that is unavailable.
 The media-source keyword pair may be specified only once per copy
 subgroup; exception ID X'02C2..02' exists if more than one such keyword pair
 is specified in a copy subgroup.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 214
 
-180 IPDS Reference
 Note: The following example shows how the LCC and XOH-SIMS commands
 work together:
 Table 26. Media Source Commands
@@ -2752,11 +2658,9 @@ supported by the printer. The XOH-OPC Media-Destinations self-defining field
 specifies the range of media-destination IDs supported by the printer.
 Exception ID X'0237..03' exists if the media-destination ID specified is not
 supported by the printer.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 215
 
-IPDS Reference 181
 X'91nn' Low-order byte of the media-destination ID
 This keyword specifies the low-order byte of a two-byte media-destination ID;
 the high-order byte is specified in the X'90' keyword. The resulting two-byte ID
@@ -2793,22 +2697,20 @@ keyword is specified in a copy subgroup.
 is routed to specific media destinations. In this case, when finishing is
 selected and an incompatible media destination is selected or defaulted
 to, exception ID X'027C..09' exists.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 216
 
-182 IPDS Reference
 X'C1nn' Simplex and duplex printing-control parameters:
 X'00' specifies simplex printing. Simplex is the default if the printer has not
 received an LCC command.
 X'01' specifies Ym-axis duplex printing. This type of duplex printing causes a
 sheet to print in a normal duplex orientation. See Figure 50 on page 183. The
 medium presentation space for the back side is oriented as if it had been
-physically turned around the edge that corresponds to the front-side Y m axis.
+physically turned around the edge that corresponds to the front-side Ym axis.
 X'02' specifies Xm-axis duplex printing. This type of duplex printing causes a
 sheet to print in a tumble duplex orientation. See Figure 50 on page 183. The
 medium presentation space for the back side is oriented as if it had been
-physically turned around the edge that corresponds to the front-side X m axis.
+physically turned around the edge that corresponds to the front-side Xm axis.
 Note: The LCC N-up keyword pair together with the simplex/duplex keyword
 pair indicates how many pages are to be placed on the sheet. The LPP
 command specifies where on the sheet each page is positioned. If
@@ -2825,17 +2727,15 @@ subgroup; exception ID X'02C1..01' exists if more than one such keyword pair
 is specified in a copy subgroup. Mixing simplex and duplex copy subgroups
 within an LCC command causes exception ID X'02C3..01' to exist. Exception
 ID X'02C0..01' exists if the type of duplex (X
-m-axis or Y m-axis) is not the same
+m-axis or Ym-axis) is not the same
 for both copy subgroups of a copy-subgroup pair. Exception ID X'02C2..01'
 exists if an odd number of duplex copy subgroups is specified. Exception ID
 X'0236..01' exists if an invalid or unsupported simplex/duplex parameter is
 specified.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 217
 
-IPDS Reference 183
-Figure 50. Xm-Axis and Y m-Axis for Duplex Printing
+Figure 50. Xm-Axis and Ym-Axis for Duplex Printing
 I
 B
 ii
@@ -2872,11 +2772,9 @@ ii
 bi
 Xm
 Ym
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 218
 
-184 IPDS Reference
 X'C2nn' N-up control
 This keyword specifies the number of partitions into which the medium
 presentation space on the front side is to be divided. If duplex is also
@@ -2905,11 +2803,9 @@ Figure 51. N-up Partitions for Various Physical Media
 2 Up
 3 Up
 4 Up
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 219
 
-IPDS Reference 185
 If an invalid N-up parameter value is specified, exception ID X'0237..01'
 exists. Valid parameters for the N-up control are:
 X'01' Specifies 1-up partitioning. The printer does not divide the medium
@@ -2960,11 +2856,9 @@ calculations. In other cases, a page positioned from a particular partition
 origin can overlap into other partitions. Refer to the description of page
 placement in the LPP command on page 214 for a description of this
 situation.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 220
 
-186 IPDS Reference
 Figure 52. N-up Partition Layouts with SMO = X'00'
 Medium Presentation Space Origin
 Partition Origin
@@ -3014,11 +2908,9 @@ Partition Origin
 3       4
 1       2
 3       4
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 221
 
-IPDS Reference 187
 Figure 54. N-up Partition Layouts with SMO = X'02'
 2 Up
 1 Up
@@ -3061,11 +2953,9 @@ Partition Origin
 1        2
 3        4
 1        2 3        4
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 222
 
-188 IPDS Reference
 X'C3nn' Enable cut-sheet emulation mode and proceed as specified in the keyword
 parameter. If an invalid (non-zero) keyword value is specified, some printers
 ignore the invalid CSE keyword pair, but other printers report exception ID
@@ -3083,7 +2973,7 @@ property pair X'F902' is returned in the Device-Control command-set vector of
 an STM reply when this function is supported by the printer. Exception ID
 X'0232..01' exists if this keyword is sent to a printer that does not support the
 emulation mode.
-T o take effect, the X'C3nn' keyword must be specified in the first copy
+To take effect, the X'C3nn' keyword must be specified in the first copy
 subgroup of an LCC command. It can be specified in subsequent copy
 subgroups, but these extra keywords are ignored.
 When cut-sheet emulation is used, there are two sheetlets on each physical
@@ -3098,7 +2988,7 @@ sheet emulation mode.
 X'D1nn' Suppression control
 X'01'–X'FF' specifies a suppression ID. This identifier allows the later
 suppression of text data and activates one or more sets of Begin Suppression
-and End Suppression pairs within the Write T ext data. This value activates
+and End Suppression pairs within the Write Text data. This value activates
 text suppressions for all text within all medium overlays, preprinted form
 overlays, pages, page segments, and page overlays on the sheet side. Refer
 to the Presentation Text Object Content Architecture Reference for a
@@ -3106,14 +2996,12 @@ description of the suppression function. Exception ID X'0298..01' exists if an
 invalid or unsupported suppression ID parameter is specified. Exception ID
 X'0239..01' exists if the number of suppressions is greater than that
 supported by the printer.
-Property pair X'2002' in the T ext command-set vector of an STM reply
+Property pair X'2002' in the Text command-set vector of an STM reply
 indicates support for text suppression IDs in the range X'80'–X'FF' in the LCC
 X'D1nn' keyword.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 223
 
-IPDS Reference 189
 X'D2nn' Preprinted form overlay control
 X'01'–X'FE' specifies an overlay ID. This parameter contains the overlay
 identifier from a Begin Overlay command and specifies that the overlay is to
@@ -3166,11 +3054,9 @@ presentation space. Medium overlays are independent of any partitioning
 done by the N-up keyword. If the LCC command specifies multiple overlays,
 the overlay logical pages are mapped to the medium before any other logical
 pages in the order in which they appear in the LCC command. The media
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 224
 
-190 IPDS Reference
 origin is located at coordinates x m=0, ym=0. The host is not required to load
 the specified overlays prior to sending an LCC command, but exception ID
 X'0292..01' exists if the printer has not yet received the specified overlays by
@@ -3220,11 +3106,9 @@ If the X'E6' keyword is specified, the next keyword in the LCC command must
 be a X'E7' keyword or exception ID X'0238..04' exists. The combined value
 from the X'E6' and X'E7' keywords must be in the range X'0001'–X'7EFF';
 exception ID X'0290..01' exists if an invalid overlay HAID value is specified.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 225
 
-IPDS Reference 191
 Support for the X'E6' and X'E7' keywords is indicated by having both the
 extended-overlay-support property pair (X'1102') and the preprinted-form-
 overlay-support property pair (X'1600') in the Overlay command-set vector of
@@ -3247,11 +3131,9 @@ LCC copy subgroups and keywords as will fit into the LCC command.
 Note: Early IPDS printers did not support full-length LCC commands (length field values up to X'7FFF'). Since
 additional keywords have been added and customers are using longer, more complicated LCC
 commands, new IPDS printers must support full-length LCC commands.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 226
 
-192 IPDS Reference
 Rules for Copy Subgroup Exception Processing
 The following rules for copy subgroup processing apply when the printer completes processing a page and
 detects at least one reportable data-stream exception on the page. If the printer:
@@ -3292,11 +3174,9 @@ command associated with the page in which the exception occurred.
 If the data stream exception was asynchronous, processes the next page, starting with the first copy
 subgroup, using the most recently-received LCC command.
 8. Enters home state.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 227
 
-IPDS Reference 193
 When The Page Is Not To Be Printed:
 The printer reports the exception, remembers all pages that have committed copies, and waits for direction
 from the host. The printer:
@@ -3321,11 +3201,9 @@ description of page and copy counter adjustments.
 8. Reports any queued NACKs.
 9. Continues to process as determined by the next command received from the host, as shown in the
 following table:
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 228
 
-194 IPDS Reference
 Table 27. Exception Continuation Rules
 If the data-stream exception
 is:
@@ -3404,11 +3282,9 @@ first exception is B'1'. The XOA-EHC command used for a given synchronous data-s
 one most recently processed prior to detection of the exception. The adjustments to the NACK counters for
 the exception are specified in “Page and Copy Counter Adjustments When a Data-Stream Exception
 Occurs” on page 929.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 229
 
-IPDS Reference 195
 2. If an out of storage exception is detected on a page, the copy subgroup rules that apply when the page is
 not to be printed are used.
 3. If an asynchronous non-data-stream exception is detected, the host must ensure that the copy counters
@@ -3419,11 +3295,9 @@ issue a new LCC command to reflect the remaining copies and then resend the page
 finished sheet.
 The next page received from the host is considered to be the first page of the next sheet and is processed
 against the most recently received LCC command beginning with copy subgroup one.
-Load Copy Control (LCC)
+## Load Copy Control (LCC)
 
-## Page 230
 
-196 IPDS Reference
 Load Font Equivalence
 Mapping a font local identifier to a HAID is called establishing a font equivalence. The LFE command is used to
 establish font equivalences for both coded fonts and for data-object fonts. The pool of font local IDs for a page
@@ -3466,11 +3340,9 @@ font. If the components are found, step 3 is skipped. If not enough information 
 the components were not found, step 3 in the hierarchy is used.
 3. If LF2-type coded fonts are supported, the printer attempts to find a symbol set coded font using the
 GCSGID, CPGID, FGID, and font width values.
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 231
 
-IPDS Reference 197
 In addition, the character shapes and metrics of an outline coded font must be scaled to a specific size; the font
 width value is used to derive the scale factors, as follows:
 • For fonts with FGID values less than 750 and with FGID values between 3840 and 4095 inclusive (fixed-
@@ -3486,7 +3358,7 @@ between 61,440 and 65,534 inclusive (typographic, proportionally spaced fonts), 
 factor and the vertical scale factor are three times the font width.
 • For fonts with FGID values between 53,248 and 61,439 inclusive, both the horizontal scale factor and the
 vertical scale factor are equal to the font width.
-T o convert the scale factor values from 1440ths to points, the scale factor value is divided by 20 and rounded
+To convert the scale factor values from 1440ths to points, the scale factor value is divided by 20 and rounded
 off to the nearest integer. If the result is zero, it is changed to 1.
 If a resident coded font activation is not requested by an LFE command, the HAID and FIS values specified by
 the LFE command in a font equivalence can still be used in an Activate Resource (AR) command to activate a
@@ -3518,11 +3390,9 @@ corresponding HARID-to-resource-ID mapping is removed, but the resident coded fo
 means of the other HARID.
 • When the requested activation fails, a subsequent XOA-RRL activation query normally receives a reply
 indicating that the resource specified by the HARID is not activated. However, if the activation failed because
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 232
 
-198 IPDS Reference
 the HARID was already in use, the XOA-RRL reply indicates that the resource originally activated with that
 HARID is activated.
 The font equivalences for a page are those in effect when the Begin Page command is processed, plus those
@@ -3539,7 +3409,9 @@ processed, plus those added in page segment state and saved with the page segmen
 page segment, the font equivalences remain the same as they were within the page segment. The effect of
 including a page segment is identical to embedding the same string of commands directly.
 There are no specified default font equivalences.
+```
 Length X'D63F' Flag CID Data
+```
 The length of the LFE command can be:
 Without CID X'0005' –X'7FF5' in increments of 16
 With CID X'0007' –X'7FF7' in increments of 16
@@ -3549,11 +3421,9 @@ mappings. Property pair X'6009' in the Device-Control command-set vector of an S
 for empty LFE commands.
 Note: Some IPDS printers require at least one LFE entry. These printers generate exception ID X'0202..02' if
 an empty LFE command is received.
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 233
 
-IPDS Reference 199
 The data in a Load Font Equivalence command consists of zero or more font equivalence entries that are
 processed in the order that they appear in the command. If a syntax error is encountered in one of the entries,
 that entry and all following entries in the LFE command are discarded; preceding entries remain in effect.
@@ -3596,7 +3466,7 @@ X'0001' –
 X'FFFE'
 X'FFFF'
 No value supplied; see note 1
-Font Typeface Global ID (FGID)
+## Font Typeface Global ID (FGID)
 Use default value
 See note 2
 11–12 CODE FW X'0000'
@@ -3604,7 +3474,7 @@ X'0001' –
 X'7FFF'
 X'FFFF'
 No value supplied; see note 1
-Font Width (FW)
+## Font Width (FW)
 Use default value
 See note 2
 13 X'00' Reserved X'00'
@@ -3617,11 +3487,9 @@ bit 5 B'0', B'1' Double strike B'0'
 bit 6 B'0', B'1' Bold B'0'
 bit 7 B'0', B'1' Double wide B'0'
 15 X'00' Reserved X'00'
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 234
 
-200 IPDS Reference
 Notes:
 1. If bytes 5–12 contain zeros, the LFE command is not requesting the activation of a resident, raster fully
 described coded font. Bytes 5–12 are called the Global Resource ID (GRID).
@@ -3666,11 +3534,9 @@ an Activate Resource command. Any value in the range X'0001' through X'7EFF' is 
 Exception ID X'0218..02' exists if an invalid HAID is specified. Exception ID X'021F ..02' exists
 if an LFE activation is attempted (that is, if the LFE command GRID fields are not zero) and
 the HAID value is already in use.
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 235
 
-IPDS Reference 201
 Bytes 3–4 Font inline sequence
 Note: The LFE font inline sequence parameter is used for coded fonts and is ignored for data-
 object fonts.
@@ -3719,13 +3585,11 @@ downloaded fonts ignore this field.
 Note: Code pages and font character sets can each be associated with
 multiple character sets. Since the GRID only specifies a single
 character set, all graphic characters in the specified character set
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 236
 
-202 IPDS Reference
 should also belong to a character set associated with the code page
-and to a character set associated with the font character set. T o
+and to a character set associated with the font character set. To
 optimize coded-font selection, generators of the GRID should specify
 the smallest character set that is a subset of both a character set
 associated with the code page and a character set associated with the
@@ -3772,11 +3636,9 @@ symbol set with the same HAID can be downloaded with an LSS command.
 A value of B'1' indicates that the symbol set referred to in this LFE entry is not
 downloaded because it is currently present in the printer; for example, it is resident or
 it has been previously downloaded.
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 237
 
-IPDS Reference 203
 Bits 1–2 Reserved
 Bits 3–7 Font-modification flags
 The font-modification flags apply to resident font character sets that have
@@ -3824,11 +3686,9 @@ double wide, using a device-dependent mechanism. This mechanism
 is independent of other character attributes (bold, for example) and
 applies equally to all characters in the font.
 Byte 15 Reserved
-Load Font Equivalence (LFE)
+## Load Font Equivalence (LFE)
 
-## Page 238
 
-204 IPDS Reference
 Logical Page Descriptor
 The Logical Page Descriptor (LPD) command, previously known as the Load Page Descriptor command,
 establishes the characteristics of the current logical page for a subsequently sent page or overlay. These
@@ -3843,18 +3703,20 @@ attempts to print outside the valid printable area cause exception ID X'08C1..00
 Valid Printable Area” on page 62 for more information.
 The initialization values for text-major text data, such as margin settings and line spacing, are also specified by
 the LPD command. These values remain in effect until the next LPD command is received, unless superseded
-for a given logical page by explicit controls in other commands (for example, the Write T ext command control
+for a given logical page by explicit controls in other commands (for example, the Write Text command control
 sequences). If no LPD command is received, the LPD parameters are set through PTOCA-defined defaults or
 printer defaults. PTOCA default values are defined for the initial text conditions (bytes 24–42); refer to
 Presentation Text Object Content Architecture Reference for a description of these defaults. Printer default
 values are used for all other LPD fields; refer to your printer documentation for a description of these defaults.
-Note: T ext objects specify their own initialization values. Refer to “Interaction Between T ext Objects and T ext-
-Major T ext” on page 459 for more information about the two methods of specifying text.
+Note: Text objects specify their own initialization values. Refer to “Interaction Between Text Objects and Text-
+Major Text” on page 459 for more information about the two methods of specifying text.
 The LPD that is current when a Begin Overlay command is received becomes part of the overlay. When this
 overlay is included on a page, the LPD values stored with the overlay redefine the current logical page for the
 extent of the overlay.
 The LPD command is valid only when the printer is in home state.
+```
 Length X'D6CF' Flag CID Data
+```
 The length of the LPD command can be:
 Without CID X'001D', X'0021', X'0025', X'0027', X'0029', X'002B', X'002D', X'002E', X'0030', or X'0032'–
 X'7FFF'
@@ -3871,19 +3733,17 @@ Note: Not all IPDS printers support short LPD commands. Property pair X'6007' in
 command-set vector of an STM reply indicates that the printer will accept short LPD commands.
 • Optional triplets can be placed at the end of the LPD command (bytes 43 to end) if support for these triplets
 is indicated by property pairs in the Device-Control command-set vector of an STM reply.
-Logical Page Descriptor (LPD)
+## Logical Page Descriptor (LPD)
 
-## Page 239
 
-IPDS Reference 205
 If a short LPD command is sent to a printer that does not support short LPD commands, or if a triplet is sent to
 a printer that does not support LPD triplets, exception ID X'0202..02' exists.
 The format of the data field for the LPD command is as follows:
 Offset Type Name Range Meaning DC1 Range
 0 CODE Unit base X'00'
 X'01'
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 X'00'
 1 X'00' Reserved X'00'
 2–3 UBIN XUPUB X'0001' –
@@ -3895,7 +3755,7 @@ Ym, Yp, and B units per unit base; must equal
 the value in bytes 2–3
 X'3840'
 6 X'00' Reserved X'00'
-7–9 UBIN X p extent X'000001'–
+7–9 UBIN Xp extent X'000001'–
 X'007FFF'
 Xp extent of the logical page X'000001'–
 X'007FFF'
@@ -3903,7 +3763,7 @@ Refer to the note
 following the
 table.
 10 X'00' Reserved X'00'
-11–13 UBIN Y p extent X'000001'–
+11–13 UBIN Yp extent X'000001'–
 X'007FFF'
 Yp extent of the logical page X'000001'–
 X'007FFF'
@@ -3958,11 +3818,9 @@ X'7FFF'
 Refer to the note
 following the
 table.
-Logical Page Descriptor (LPD)
+## Logical Page Descriptor (LPD)
 
-## Page 240
 
-206 IPDS Reference
 Offset Type Name Range Meaning DC1 Range
 32–33 UBIN Inline margin X'0000' –
 X'7FFF'
@@ -4011,7 +3869,7 @@ X'FF'
 41–42 CODE Color See byte
 description
 X'FFFF'
-T ext color
+Text color
 Printer default
 X'FF07'
 End of initial text-major conditions
@@ -4031,11 +3889,9 @@ additional units of measure, the IPDS architecture requires the receiver to at l
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
 page 68.
-Logical Page Descriptor (LPD)
+## Logical Page Descriptor (LPD)
 
-## Page 241
 
-IPDS Reference 207
 Byte 0 Unit base
 A value of X'00' indicates that the unit base is ten inches. A value of X'01' indicates that the
 unit base is ten centimeters.
@@ -4045,17 +3901,17 @@ support for all architected units of measure.
 Exception ID X'0264..02' exists if an invalid or unsupported unit base value is specified.
 Byte 1 Retired item 5
 Bytes 2–3 Xm, Xp, and I units per unit base
-This parameter specifies the number of units per unit base in the X m direction for positioning
+This parameter specifies the number of units per unit base in the Xm direction for positioning
 the logical page within the medium coordinate system using the LPP command.
-It also specifies the number of units per unit base in both the X p and I directions for positioning
+It also specifies the number of units per unit base in both the Xp and I directions for positioning
 data objects and text. The PTOCA control sequences that use these units of measure
 include: AMB, AMI, DBR, DIR, RMB, RMI, SBI, SIM, SIA, SVI, and TBM.
 Exception ID X'0260..02' exists if an invalid or unsupported units per unit base value is
 specified.
 Bytes 4–5 Ym, Yp, and B units per unit base
-This parameter specifies the number of units per unit base in the Y m direction for positioning
+This parameter specifies the number of units per unit base in the Ym direction for positioning
 the logical page within the medium coordinate system using the LPP command.
-It also specifies the number of units per unit base in both the Y p and B directions for
+It also specifies the number of units per unit base in both the Yp and B directions for
 positioning data objects and text. The PTOCA control sequences that use these units of
 measure include: AMB, AMI, DBR, DIR, RMB, RMI, SBI, SIM, SIA, SVI, and TBM.
 The value in bytes 4–5 must equal the value in bytes 2–3.
@@ -4073,13 +3929,11 @@ p extent value is specified.
 Byte 10 Reserved
 Bytes 11–13 Yp extent of the logical page
 This parameter is specified in L-units.
-Exception ID X'0263..02' exists if an invalid or unsupported Y p extent value is specified.
+Exception ID X'0263..02' exists if an invalid or unsupported Yp extent value is specified.
 Byte 14 Reserved
-Logical Page Descriptor (LPD)
+## Logical Page Descriptor (LPD)
 
-## Page 242
 
-208 IPDS Reference
 Byte 15 Ordered data flags
 These flags indicate the degree of ordering (sequentially) in the data. This information allows
 some printers to improve performance by not buffering sequential data; other printers ignore
@@ -4106,12 +3960,12 @@ Byte 19 Reserved
 Byte 20 Retired item 7
 Byte 21 Retired item 8
 Bytes 22–23 Reserved
-Bytes 24–42 Initial T ext Conditions
+Bytes 24–42 Initial Text Conditions
 Values specified in these bytes are initial control sequence settings for each page or overlay.
 In other words, all control sequence values are reset to the latest LPD data with each Begin
 Page (BP) command and Begin Overlay (BO) command. Control sequences that are
 unspecified in the LPD command are set to PTOCA-defined defaults with each Begin Page or
-Begin Overlay command. Control sequences embedded in the Write T ext can change these
+Begin Overlay command. Control sequences embedded in the Write Text can change these
 initial values as the page or overlay is built.
 Since the direction parameter of the Set Intercharacter Adjustment control sequence cannot
 be specified in the LPD command, this value defaults to X'00'.
@@ -4128,11 +3982,9 @@ end
 LPD triplets
 Optional triplets can be placed at the end of the LPD command (bytes 43 to end of LPD) if
 support for these triplets is indicated by property pairs returned in the Device-Control
-Logical Page Descriptor (LPD)
+## Logical Page Descriptor (LPD)
 
-## Page 243
 
-IPDS Reference 209
 command-set vector of an STM reply. If triplets are sent to a printer that does not support LPD
 triplets, exception ID X'0202..02' exists.
 Printers that support LPD triplets ignore any triplet that is not supported and no exception is
@@ -4166,11 +4018,9 @@ Multiple Invoke CMR (X'92') triplets can be specified. However, only the last sp
 triplet is used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the LPD command.
-Logical Page Descriptor (LPD)
+## Logical Page Descriptor (LPD)
 
-## Page 244
 
-210 IPDS Reference
 Logical Page Position
 The Logical Page Position (LPP) command, previously known as the Load Page Position command, positions
 the logical page origin of a page with respect to the origin of the medium presentation space, or when N-up is
@@ -4207,11 +4057,9 @@ Logical Page
 (X = 0, Y = 0)m m
 (X = 0, Y = 0)p p
 Logical Page Origin
-Logical Page Position (LPP)
+## Logical Page Position (LPP)
 
-## Page 245
 
-IPDS Reference 211
 Subsequently received pages are positioned as specified by the most recently received LCC and LPP
 commands. The LCC command specifies whether simplexing or duplexing is in effect and specifies how many
 pages are placed on the sheet. The LPP command specifies the origin in the medium coordinate system of a
@@ -4267,11 +4115,9 @@ p
 Yp
 Yp
 Xp
-Logical Page Position (LPP)
+## Logical Page Position (LPP)
 
-## Page 246
 
-212 IPDS Reference
 Figure 58 shows a more useful example in which the four pages have been placed on continuous-forms media.
 After printing, the media can be burst, trimmed, slit, and collated so that the resulting sheets look as if they had
 been printed by a duplex, cut-sheet printer. This is accomplished using some of the defaulting capabilities of
@@ -4313,12 +4159,12 @@ X
 m
 Ym
 Partition 1 Partition 2
-Logical Page Position (LPP)
+## Logical Page Position (LPP)
 
-## Page 247
 
-IPDS Reference 213
+```
 Length X'D66D' Flag CID Data
+```
 The length of the LPP command can be:
 Without CID X'000F'
 With CID X'0011'
@@ -4326,7 +4172,7 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The format of the data field for the LPP command is as follows:
 Offset Type Name Range Meaning DC1 Range
 0 X'00' Reserved X'00'
-1–3 SBIN X m page offset X'FF8000'–
+1–3 SBIN Xm page offset X'FF8000'–
 X'007FFF'
 Xm offset for the logical page origin specified
 in L-units
@@ -4386,20 +4232,18 @@ page 68.
 Byte 0 Reserved
 Bytes 1–3 X
 m page offset
-This parameter specifies the offset in the X m direction of a logical page origin specified in L-
+This parameter specifies the offset in the Xm direction of a logical page origin specified in L-
 units using the units of measure specified in the LPD command. If the printer has not received
 an LPD command, the printer default units of measure are used. This is an offset from either
-the current media origin or, if N-up is in effect, from the current partition origin. T ogether, the
+the current media origin or, if N-up is in effect, from the current partition origin. Together, the
 X
 m and Ym offset values position the origin of a page's logical page presentation space on one
 side of a sheet.
-Logical Page Position (LPP)
+## Logical Page Position (LPP)
 
-## Page 248
 
-214 IPDS Reference
 Exception ID X'02AD..01' exists if an invalid or unsupported offset value is specified.
-Exception ID X'02A4..01' exists if the X m-offset value specified together with the logical page
+Exception ID X'02A4..01' exists if the Xm-offset value specified together with the logical page
 extent or IO offset value exceeds the maximum supported by the printer.
 Property pair X'6008' in the Device-Control command-set vector of an STM reply indicates that
 the printer supports the full range of logical-page-offset values.
@@ -4437,27 +4281,25 @@ When explicit page placement is selected, it is important to send the LCC comman
 printer before any LPP commands for the sheet are sent.
 Bytes 5–7 Y
 m page offset
-This parameter specifies the offset in the Y m direction of a logical page origin specified in L-
+This parameter specifies the offset in the Ym direction of a logical page origin specified in L-
 units using the units of measure specified in the LPD command. If the printer has not received
 an LPD command, the printer default units of measure are used. This is an offset from either
-the current media origin or, if N-up is in effect, from the current partition origin. T ogether, the
+the current media origin or, if N-up is in effect, from the current partition origin. Together, the
 X
 m and Ym offset values position the origin of a page's logical page presentation space on one
 side of a sheet.
 Exception ID X'02AD..01' exists if an invalid or unsupported offset value is specified.
-Exception ID X'02A5..01' exists if the Y m-offset value specified together with the logical page
+Exception ID X'02A5..01' exists if the Ym-offset value specified together with the logical page
 extent or IO offset value exceeds the maximum supported by the printer.
 Property pair X'6008' in the Device-Control command-set vector of an STM reply indicates that
 the printer supports the full range of logical-page-offset values.
-Logical Page Position (LPP)
+## Logical Page Position (LPP)
 
-## Page 249
 
-IPDS Reference 215
 Bytes 8–9 Page orientation
 This parameter specifies the orientation of the logical page presentation space in the medium
-presentation space. The X p axis is oriented in terms of an angle measured clockwise from the
-Xm axis. The positive Yp axis is rotated 90° clockwise relative to the positive X p axis. This
+presentation space. The Xp axis is oriented in terms of an angle measured clockwise from the
+Xm axis. The positive Yp axis is rotated 90° clockwise relative to the positive Xp axis. This
 parameter effectively rotates the logical page around the logical page origin; it is important to
 take this rotation into account when specifying the placement and offset of the logical page.
 Not all IPDS printers support page orientation, support for this function is indicated by property
@@ -4465,11 +4307,9 @@ pair X'6101' in the Device-Control command-set vector of an STM reply. Printers 
 support this function ignore this parameter and orient the logical page at 0°. For printers that
 do support this function, exception ID X'02AD..03' exists when an invalid or unsupported
 orientation value is specified.
-Logical Page Position (LPP)
+## Logical Page Position (LPP)
 
-## Page 250
 
-216 IPDS Reference
 Manage IPDS Dialog
 The Manage IPDS Dialog (MID) command is valid only in home state and causes the printer to either start or
 end an IPDS dialog.
@@ -4488,11 +4328,13 @@ an appropriate action code X'1D' NACK or exception ID X'0100..00' (normal printe
 command is received.
 A printer can request the presentation services program to end the current IPDS dialog by issuing exception ID
 X'0180..00'.
-Note: T o avoid problems with older IPDS implementations, some printers do not issue exception ID X'0180..00'
+Note: To avoid problems with older IPDS implementations, some printers do not issue exception ID X'0180..00'
 unless a MID command has been received. Therefore, if the printer reports support for the MID
 command and the printer can be shared with other host programs, the MID command should be sent to
 the printer to signal the start of a dialog.
+```
 Length X'D601' Flag CID Data
+```
 The length of the MID command can be:
 Without CID X'0006'
 With CID X'0008'
@@ -4508,24 +4350,22 @@ X'01'
 Bytes 0 Type
 This byte specifies either to start or to stop an IPDS dialog. If an invalid value is specified,
 exception ID X'025B..01' exists.
-Manage IPDS Dialog (MID)
+## Manage IPDS Dialog (MID)
 
-## Page 251
 
-IPDS Reference 217
 No Operation
+```
 Length X'D603' Flag CID Binary Data
+```
 The length of the NOP command can be:
 Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The No Operation (NOP) command has no effect on presentation. Zero or more data bytes may be present but
 are ignored. This command is valid in any printer state.
-No Operation (NOP)
+## No Operation (NOP)
 
-## Page 252
 
-218 IPDS Reference
 Presentation Fidelity Control
 The Presentation Fidelity Control (PFC) command is valid only in home state and specifies the fidelity
 requirements for certain presentation functions. The desired fidelity for each supported presentation function
@@ -4536,7 +4376,9 @@ The exception-handling control flowchart, Figure 60 on page 285, shows the relat
 command and the XOA-EHC command.
 The Presentation Fidelity Control command applies when data is being printed and not when resources are
 activated or are being downloaded.
+```
 Length X'D634' Flag CID Data
+```
 The length of the PFC command can be:
 Without CID X'0009' or X'000B'–X'7FFF'
 With CID X'000B' or X'000D'–X'7FFF'
@@ -4559,11 +4401,11 @@ bits 1–7 B'0000000' Reserved B'0000000'
 end of
 PFC
 Triplets Zero or more optional PFC triplets:
-X'74' T oner Saver triplet
+X'74' Toner Saver triplet
 X'75' Color Fidelity triplet
-X'86' T ext Fidelity triplet
+X'86' Text Fidelity triplet
 X'88' Finishing Fidelity triplet
-X'96' CMR T ag Fidelity triplet
+X'96' CMR Tag Fidelity triplet
 Byte 0 Reserved
 Byte 1 Flags
 If the activate flag is set to B'0', all fidelity controls are reset to their default settings, then the
@@ -4572,11 +4414,9 @@ If the activate flag is set to B'1', the supported triplets are used to set spec
 unsupported triplets are ignored. In this case, all other fidelity controls remain at their current
 settings.
 Bytes 2–3 Reserved
-Presentation Fidelity Control (PFC)
+## Presentation Fidelity Control (PFC)
 
-## Page 253
 
-IPDS Reference 219
 Bytes 4 to end
 of PFC
 Triplets
@@ -4590,16 +4430,14 @@ Printers ignore any triplet that is not supported and no exception is reported. 
 first byte after a triplet is X'00' or X'01' (an invalid triplet length), exception ID X'0254..05'
 exists.
 The Presentation Fidelity Control triplets are fully described in the triplets chapter:
-“T oner Saver (X'74') Triplet” on page 732
+“Toner Saver (X'74') Triplet” on page 732
 “Color Fidelity (X'75') Triplet” on page 734
-“T ext Fidelity (X'86') Triplet” on page 755
+“Text Fidelity (X'86') Triplet” on page 755
 “Finishing Fidelity (X'88') Triplet” on page 757
-“CMR T ag Fidelity (X'96') Triplet” on page 777
-Presentation Fidelity Control (PFC)
+“CMR Tag Fidelity (X'96') Triplet” on page 777
+## Presentation Fidelity Control (PFC)
 
-## Page 254
 
-220 IPDS Reference
 Rasterize Presentation Object
 The Rasterize Presentation Object (RPO) command is a home state command that requests that a previously
 activated presentation data object resource or overlay be rasterized and cached using the specific orientation
@@ -4624,14 +4462,16 @@ The RPO command can be used to rasterize any of the following types of presentat
 • PDF single page without transparency
 • PNG (Portable Network Graphics) AFPC PNG Subset
 • SVG (Scalable Vector Graphics) AFPC SVG Subset
-• TIFF (T ag Image File Format) AFPC TIFF Subset
+• TIFF (Tag Image File Format) AFPC TIFF Subset
 • TIFF with transparency
 • TIFF without transparency
 • TIFF multiple-image file with transparency
 • TIFF multiple-image file without transparency
 Support for this optional command is indicated by the X'707B' property pair in the Device-Control command-set
 vector of an STM reply.
+```
 Length X'D67B' Flag CID Data
+```
 The length of the RPO command can be:
 Without CID X'0005', X'000C', X'0013', X'0018', or X'001A'–X'7FFF'
 With CID X'0007', X'000E', X'0015', X'001A', or X'001C'–X'7FFF'
@@ -4641,14 +4481,12 @@ The parameters of this command identify zero or more activated presentation obje
 overlays) to be rasterized and cached. For each object, parameters are specified to describe a desired
 orientation relative to the sheet's leading edge. For each data object resource, additional parameters specify
 overrides for the object area size and presentation-space-to-object-area mapping.
-The current fidelity information (such as a Color Fidelity (X'75') triplet or a T oner Saver (X'74') triplet) is used
+The current fidelity information (such as a Color Fidelity (X'75') triplet or a Toner Saver (X'74') triplet) is used
 while rasterizing the presentation object. Therefore, host software must activate appropriate fidelity information
 before issuing the RPO command.
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 255
 
-IPDS Reference 221
 Some presentation objects require secondary resources; in this case, each secondary resource must be
 activated and identified in a DORE or DORE2 command before the RPO command. When an RPO command
 is processed, the current DORE or DORE2 command applies to all RPO entries within the RPO command;
@@ -4691,20 +4529,18 @@ identified in the MO:DCA object-type OID registry.
 When printing a previously cached object, the XOA-EHC command in effect at print time controls error
 handling.
 Implementation Note: A good technique for controlling the cache within the printer is to use a least-recently-
-used algorithm when the cache becomes full so as to make room for new cache entries. T o allow the
+used algorithm when the cache becomes full so as to make room for new cache entries. To allow the
 host some idea of how long a cached object remains in the cache when a least-recently-used algorithm
 is used, the printer considers an object to be in use each time an object is included (by means of IDO or
 IO) and each time the object is selected in an RPO command (but is already in the cache).
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 256
 
-222 IPDS Reference
 An empty RPO command (that is, one with no entries) is treated as a NOP . If the parameters for an RPO entry
 match an already cached version of the resource, the RPO entry does not cause the object to be cached
 again. If a syntax error is encountered in one of the entries, that entry and all following entries in the RPO
 command are discarded; preceding entries remain in effect.
-Processing Rules
+## Processing Rules
 The purpose of the RPO command is to improve system printing throughput by allowing the printer to
 preprocess and cache presentation resource objects before they are actually needed on a page or overlay. If
 the resource is subsequently included using an IO or IDO command, a presentation-ready bit map is available.
@@ -4744,11 +4580,9 @@ trim, and selects one of the preprocessed orientations, the cached version of th
 IDO command selects an object area size and mapping option that requires trimming, the trimming is done
 at include time with a potential performance penalty. For the position mapping, the cached object
 presentation space must fit within the object area, or the cached object cannot be used.
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 257
 
-IPDS Reference 223
 • If the mapping control is position-and-trim, the object is first preprocessed into the object presentation
 space.
 – If Xoa extent, Yoa extent, Xoa offset, and Yoa offset values are specified in the RPO command, the
@@ -4777,7 +4611,7 @@ trimming is done at include time with a potential performance penalty. For the p
 object presentation space must fit within the object area, or the cached object cannot be used.
 • If the mapping control is one of the migration mapping options (point-to-pel, point-to-pel-with-double-dot,
 or replicate-and-trim), the object is not preprocessed and is not cached.
-Limitations
+## Limitations
 The RPO command supports most presentation parameters that can be in effect when the preprocessed
 object is actually presented. However there are circumstances in which the preprocessed object cannot be
 used for presentation and therefore the system throughput improvement is not realized.
@@ -4797,11 +4631,9 @@ provided in the initial RPO support.
 grayscale image color in an object container or the color in the Set Bilevel Image Color IOCA self-defining
 field (or the Set Extended Bilevel Image Color IOCA self-defining field) in an IO-Image object, the printer
 might not be able to use any previously cached variations of this object.
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 258
 
-224 IPDS Reference
 • When an image-migration mapping control is specified in an IDO command for an IO Image, the printer might
 not be able to use any previously cached variations of this object. Migration mapping controls include: point-
 to-pel (X'41') mapping, point-to-pel-with-double-dot (X'42') mapping, and replicate-and-trim (X'50') mapping.
@@ -4817,11 +4649,11 @@ all four edges or corners. These printers cannot physically perform the operatio
 corners and therefore automatically rotate presentation data to effectively reposition the requested edge to a
 position where the operation can be performed. This automatic rotation must be accounted for when
 specifying the desired orientation in the RPO command.
-• T ext suppressions within an overlay are not activated during RPO processing and therefore the overlay is
+• Text suppressions within an overlay are not activated during RPO processing and therefore the overlay is
 cached with no text suppression.
 • The XOA-PQC command is ignored during RPO processing and the printer's default print-quality level is
 assumed.
-Command Syntax
+## Command Syntax
 The format of the RPO data is as follows:
 Offset Type Name Range Meaning Required
 Zero or more entries in the following format:
@@ -4858,11 +4690,9 @@ bit 7 Others B'0', B'1' Report all other exceptions with AEAs B'0', B'1'
 bit 0 0 degrees B'0', B'1' Orient 0 degrees B'0', B'1'
 bit 1 90 degrees B'0', B'1' Orient 90 degrees B'0', B'1'
 bit 2 180 degrees B'0', B'1' Orient 180 degrees B'0', B'1'
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 259
 
-IPDS Reference 225
 Offset Type Name Range Meaning Required
 bit 3 270 degrees B'0', B'1' Orient 270 degrees B'0', B'1'
 bit 4 All objects B'0', B'1' Process all objects of a
@@ -4873,8 +4703,8 @@ Data-object-resource override parameters
 7 CODE Unit base X'00'
 X'01'
 X'FF'
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 Not specified
 X'00'
 X'FF'
@@ -4885,10 +4715,10 @@ Xoa and Yoa units per unit base
 Not specified
 X'3840'
 X'FFFF'
-10–11 UBIN X oa extent X'0001' –
+10–11 UBIN Xoa extent X'0001' –
 X'7FFF'
 X'FFFF'
-Override for X oa extent of
+Override for Xoa extent of
 object area in L-units
 Not specified
 X'0001' –
@@ -4897,7 +4727,7 @@ X'7FFF'
 following the
 table.)
 X'FFFF'
-12–13 UBIN Y oa extent X'0001' –
+12–13 UBIN Yoa extent X'0001' –
 X'7FFF'
 X'FFFF'
 Override for Yoa extent of
@@ -4932,7 +4762,7 @@ X'FF'
 oa offset X'8000' –
 X'7FFF'
 X'FFFF'
-Override for X oa offset in L-units; (for the
+Override for Xoa offset in L-units; (for the
 position-and-trim and
 position mappings only)
 Not specified
@@ -4967,11 +4797,9 @@ X'95' Rendering Intent triplet
 X'9A' Image Resolution triplet
 X'9C' Object Container Presentation
 Space Size triplet
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 260
 
-226 IPDS Reference
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the specified range in 1440ths plus an equivalent range for
 additional units of measure. If a receiver supports additional units of measure, the IPDS architecture
@@ -5015,16 +4843,14 @@ command. Valid resources for the RPO command include:
 • PDF single page without transparency
 • PNG (Portable Network Graphics) AFPC PNG Subset
 • SVG (Scalable Vector Graphics) AFPC SVG Subset
-• TIFF (T ag Image File Format) AFPC TIFF Subset
+• TIFF (Tag Image File Format) AFPC TIFF Subset
 • TIFF with transparency
 • TIFF without transparency
 • TIFF multiple-image file with transparency
 • TIFF multiple-image file without transparency
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 261
 
-IPDS Reference 227
 Note: All necessary secondary resources must also have been previously activated and must
 be identified in a prior DORE or DORE2 command. If an appropriate DORE or DORE2
 equivalence entry is not found or if the secondary resource has not been activated,
@@ -5061,11 +4887,9 @@ EHC command is B'0', the cached object is a candidate to be used. Also, if the c
 EHC command specifies that AEAs are not to be taken or if the position-check highlight flag in
 the XOA-EHC and RPO commands do not match, then only error free cached objects can be
 used.
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 262
 
-228 IPDS Reference
 Byte 6 Process flags
 Bits 0–3 Desired orientation(s)
 This 4-bit field specifies one or more desired orientations, measured in a
@@ -5086,7 +4910,7 @@ Bytes 7–18 Data-object-resource override parameters
 The following parameters are used only for data object resources and are ignored if specified
 for an overlay. Refer to “Processing Rules” on page 222 for a description of how these
 parameters are used to process the RPO entry.
-Note: T o ensure that a cached object is used for a subsequent IDO command, the data-
+Note: To ensure that a cached object is used for a subsequent IDO command, the data-
 object-resource override parameters specified in the RPO command should match
 those of the IDO command. When the units of measure values are different in the RPO
 and IDO commands, the printer might calculate the sizes and offsets differently when
@@ -5114,27 +4938,25 @@ this value is X'3840', there are 14,400 units per ten inches (1440 units per
 inch); in this case, the measurement units are called twips.
 X'FFFF' is a special value that indicates that this parameter has not been
 specified. Since a units-per-unit-base value is required to interpret bytes 10–
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 263
 
-IPDS Reference 229
 13 and bytes 15–18, a value of X'FFFF' in bytes 8–9 causes the printer to
 ignore bytes 10–13 and bytes 15–18 and these bytes are also treated as
 unspecified.
 If an invalid or unsupported value is specified, exception ID X'0257..06' exists.
-Bytes 10–11 Override for X oa extent of the object area
-This field specifies an override for the X oa extent of the object area in L-units
+Bytes 10–11 Override for Xoa extent of the object area
+This field specifies an override for the Xoa extent of the object area in L-units
 using the units of measure specified in bytes 7–9. X'FFFF' is a special value
 that indicates that this parameter has not been specified.
-For this parameter to be used, both the X oa extent and the Yoa extent must be
+For this parameter to be used, both the Xoa extent and the Yoa extent must be
 specified in the RPO entry.
 If an invalid or unsupported value is specified, exception ID X'0257..07' exists.
 Bytes 12–13 Override for Yoa extent of the object area
-This field specifies an override for the Y oa extent of the object area in L-units
+This field specifies an override for the Yoa extent of the object area in L-units
 using the units of measure specified in bytes 7–9. X'FFFF' is a special value
 that indicates that this parameter has not been specified.
-For this parameter to be used, both the X oa extent and the Yoa extent must be
+For this parameter to be used, both the Xoa extent and the Yoa extent must be
 specified in the RPO entry.
 If an invalid or unsupported value is specified, exception ID X'0257..07' exists.
 Byte 14 Override for mapping control option
@@ -5161,28 +4983,26 @@ pair X'F301' in the IO-Image and Object Container command-set vector of an
 STM reply.
 Bytes 15–16 Override for X
 oa offset from object area origin
-This field specifies an override in L-units for the X oa offset from the object area
+This field specifies an override in L-units for the Xoa offset from the object area
 origin. The units of measure used to interpret this offset are specified in bytes
 7–9. The X
 oa offset field is ignored when the actual mapping option used is
 not position or position and trim. X'FFFF' is a special value that indicates that
-this parameter has not been specified; an X oa offset of -1 cannot be specified.
-Rasterize Presentation Object (RPO)
+this parameter has not been specified; an Xoa offset of -1 cannot be specified.
+## Rasterize Presentation Object (RPO)
 
-## Page 264
 
-230 IPDS Reference
-For this parameter to be used, all four of the object area parameters (X oa
+For this parameter to be used, all four of the object area parameters (Xoa
 extent, Yoa extent, Xoa offset, Yoa offset) must be specified in the RPO entry.
 If an unsupported value is specified, exception ID X'0257..09' exists.
 Bytes 17–18 Override for Yoa offset from object area origin
-This field specifies an override in L-units for the Y oa offset from the object area
+This field specifies an override in L-units for the Yoa offset from the object area
 origin. The units of measure used to interpret this offset are specified in bytes
 7–9. The Yoa offset field is ignored when the actual mapping option used is not
 position or position and trim. X'FFFF' is a special value that indicates that this
 parameter has not been specified; a Y
 oa offset of -1 cannot be specified.
-For this parameter to be used, all four of the object area parameters (X oa
+For this parameter to be used, all four of the object area parameters (Xoa
 extent, Yoa extent, Xoa offset, Yoa offset) must be specified in the RPO entry.
 If an unsupported value is specified, exception ID X'0257..09' exists.
 Bytes 19 to
@@ -5221,11 +5041,9 @@ supported.
 restricted form of the X'4E' triplet to override the Set Bilevel Image Color (X'F6') IOCA self-defining field in
 an IO-Image object, or to set the image color if no X'F6' IOCA self-defining field is specified in the object. In
 this case, the triplet must specify the Standard OCA color space (X'40') or the triplet is ignored.
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 265
 
-IPDS Reference 231
 • The Color Specification (X'4E') triplet is not used with grayscale IO-Image objects.
 • For object-container objects that contain bilevel image but do not specify an internal color value, the Color
 Specification (X'4E') triplet specifies the color of the bilevel image. Note that 1-bit indexed color is considered
@@ -5272,12 +5090,10 @@ Since data-object-level CMR invocations and rendering intent are not saved with 
 can be provided on the IDO and RPO commands for a presentation data object. However, because overlay-
 level CMRs and rendering intent are saved with the LPD command for an overlay, there is no need to specify
 them on the RPO command; all X'92' and X'95' triplets specified on an RPO command for an overlay are
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 266
 
-232 IPDS Reference
-ignored. T o ensure that an overlay is rendered consistently regardless of how and where the overlay is
+ignored. To ensure that an overlay is rendered consistently regardless of how and where the overlay is
 included, appropriate CMRs and rendering intents should be contained within the overlay or in the overlay's
 LPD command. Note that home-state-level CMRs and rendering intent (or device defaults) are used when
 preRIPping an overlay if none are specified on the overlay's LPD command and none are specified on the data
@@ -5318,11 +5134,9 @@ Property pair X'1203' in the Object Container command-set vector of an STM reply
 supports the Object Container Presentation Space Size (X'9C') triplet for a PDF object. STM property pair
 X'1209' in the Object Container command-set vector indicates that the printer supports the Object Container
 Presentation Space Size (X'9C') triplet for an SVG object.
-Rasterize Presentation Object (RPO)
+## Rasterize Presentation Object (RPO)
 
-## Page 267
 
-IPDS Reference 233
 Sense Type and Model
 Length X'D6E4' Flag CID
 The length of the STM command can be:
@@ -5340,7 +5154,7 @@ Acknowledge Reply for Sense Type and Model
 The STM data returned in the special data area of one or more Acknowledge Replies contains six bytes of
 general information, followed by one or more command-set vectors. These command-set vectors identify the
 IPDS command sets and subsets supported by the printer. For example, the STM data might consist of a
-Device-Control vector, a T ext vector, a Loaded-Font vector for the LF1 subset, and a Loaded-Font vector for
+Device-Control vector, a Text vector, a Loaded-Font vector for the LF1 subset, and a Loaded-Font vector for
 the LF3 subset.
 If a command or property is supported by a printer, the support must be indicated in the command-set vectors.
 The support for commands and properties as indicated in the STM reply does not change while the printer is
@@ -5361,11 +5175,9 @@ encountered whose data bytes are bit mapped, the last encountered property ID an
 property. Also, a printer may return more than one instance of a particular command-set vector. Property ID
 and data pairs within subsequent instances of these command-set vectors should be interpreted as if they
 were found at the end of the preceding instance of that command-set vector.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 268
 
-234 IPDS Reference
 All intermediate devices in the host-to-printer configuration must individually indicate their presence by
 generating the “intermediate device present” property pair in the Device-Control command-set vector and may
 optionally provide more detailed identification information by generating the IPDS Intermediate Device
@@ -5394,11 +5206,9 @@ command sets, the subset ID of a command set.
 end
 CODE Property pairs Zero or more command-set property ID and data pairs.
 The following command-set vectors can be returned in the STM Acknowledge Reply:
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 269
 
-IPDS Reference 235
 Device-Control Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -5446,11 +5256,9 @@ Explicit page placement and orientation support
 in the LPP command
 Logical page and object area coloring support; see
 note 7 on page 239
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 270
 
-236 IPDS Reference
 Offset Type Name Range Meaning
 Optional
 command
@@ -5523,11 +5331,9 @@ Exception-Handling Control; see note 11 on page 240
 Print-Quality Control
 Obtain Additional Exception Information
 Request Setup Name List; see note 9 on page 240
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 271
 
-IPDS Reference 237
 Offset Type Name Range Meaning
 XOH
 property
@@ -5619,11 +5425,9 @@ device appearance; see note 20 on page 241
 An IPDS intermediate device is present.
 An instance of this property pair must be generated by each
 intermediate device in the configuration.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 272
 
-238 IPDS Reference
 Offset Type Name Range Meaning
 X'F101'
 X'F102'
@@ -5687,11 +5491,9 @@ Simplex and duplex N-up supported in the LCC command; see
 note 29 on page 243
 Basic cut-sheet emulation mode supported; see
 note 30 on page 243
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 273
 
-IPDS Reference 239
 Offset Type Name Range Meaning
 X'FA00'
 X'FB00'
@@ -5742,11 +5544,9 @@ information:
 • Property pair X'706B' (ICMR command support) in the STM Device-Control command-set vector.
 • Property pair X'F205' (Color Management triplet support) in the STM Device-Control command-set
 vector, including support for the Color Management Resource Descriptor (X'91') triplet, the Invoke CMR
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 274
 
-240 IPDS Reference
 (X'92') triplet, the Rendering Intent (X'95') triplet, and the Fully Qualified Name (X'02') triplet (with FQN
 Type X'41').
 • Property pair X'F206' (Device Appearance (X'97') triplet support) in the STM Device-Control command-
@@ -5797,11 +5597,9 @@ CMRs is indicated by support for the CMR object-type OID.
 Some IPDS printers do not support host-activated CMRs under all circumstances. If a CMR is invoked and
 selected for use, but the printer does not use the CMR, exception ID X'025E..05' exists. Reporting of this
 exception ID can be controlled with the Color Fidelity (X'75') triplet in the PFC command.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 275
 
-IPDS Reference 241
 14. Presence of X'E003' indicates that the printer uses host-activated tone-transfer-curve CMRs; absence of
 X'E003' indicates that the printer ignores all non-generic, downloaded, and host-activated tone-transfer-
 curve CMRs. When a CMR is ignored, the printer must accept it but does not error check the contents and
@@ -5829,7 +5627,7 @@ NACK upon receipt of an Only-In-Chain IPDS command of length less than 256 bytes
 Persistent NACKs are an NDS attachment, DSC Mode only function.
 18. This printer cannot immediately stop paper movement on a sheet boundary and emits a few blank sheets
 each time the paper path is stopped.
-T o minimize unwanted blank sheets within a print job, the presentation services software should activate
+To minimize unwanted blank sheets within a print job, the presentation services software should activate
 any large or complex resources needed by the job before sending any of the pages for that job (including
 header pages). In addition, the presentation services software should avoid long pauses or stops within
 groups of pages that should be kept together. The Keep-Group-T ogether-as-a-Recovery-Unit group
@@ -5854,11 +5652,9 @@ device-default-monochrome device appearance (but will not return property pair X
 Unstacked Pages command, sense-data format 8, and UP 3I-specific exception IDs (X'nn7E..00') are
 supported. In addition, when the UP 3I interface is enabled in the printer, the XOH-OPC reply contains UP 3I
 Tupel self-defining fields (X'0019') and UP 3I Paper Input Media self-defining fields (X'001A').
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 276
 
-242 IPDS Reference
 Support for the UP 3I Print Data object (to be printed by a pre-processing or post-processing device) is
 indicated in the XOH-OPC Object-Container Type Support self-defining field.
 22. Presence of X'F102' indicates that bit 10 of OPC bytes 22–23 provides the media-source feed direction
@@ -5897,7 +5693,7 @@ and allows capture, the printer might capture that resource and remember the hum
 along with the OID. If another AR entry is specified later that uses the same OID, the resident (captured)
 resource will be activated using the OID; however, a human-readable name in the second AR entry is
 ignored since this later entry does not cause a capture.
-25. Presence of X'F212' indicates support for the QR Code with Image bar code type, for the Invoke T ertiary
+25. Presence of X'F212' indicates support for the QR Code with Image bar code type, for the Invoke Tertiary
 Resource (X'A2') triplet with TRType=X'01' and IDType=X'01' on the WBCC-BCOC, and for the ability to
 ignore Resident Color Profiles when processing secondary resource image objects of a QR Code with
 Image bar code.
@@ -5910,11 +5706,9 @@ NACKs that cause the printer to discard buffered data. For further information, 
 command Byte 3, Bit 6 on page 280.
 28. Property pairs X'F604' (Page-Continuation Actions) and X'F605' (Skip-and-Continue Actions) indicate the
 supported method of continuation after an exception condition when an AEA is not taken. Only one of
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 277
 
-IPDS Reference 243
 these property pairs should be returned by the printer; if neither is returned the printer has not identified the
 supported continuation method.
 29. Absence of both the X'F7nn' and the X'F8nn' property pairs indicates that only one page can be placed on
@@ -5943,18 +5737,16 @@ sense data in each NACK.
 33. Support for internal rendering intent in the XOH Trace command includes support for the X'FD' and X'FE'
 values (when applicable) of the rendering-intent field, and the X'06' value of the RI-hierarchy field, in the
 CMRs-Used trace entry.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 278
 
-244 IPDS Reference
 Text Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
 even values
-Length of the T ext command-set vector, including this length field
-8–9 CODE Subset ID X'D7E3' TX1 subset of the T ext command set
+Length of the Text command-set vector, including this length field
+8–9 CODE Subset ID X'D7E3' TX1 subset of the Text command set
 10–11 CODE Level ID X'FF10'
 X'FF20'
 X'FF30'
@@ -5973,7 +5765,7 @@ X'2002'
 X'40nn'
 Optimum performance if text data is in an ordered page
 Unordered text supported
-T ext object support; includes support for the WTC command
+Text object support; includes support for the WTC command
 Full range of text suppression IDs supported in LCC and LE
 commands; see note 1 on page 246
 Standard OCA color-support property ID,
@@ -5985,7 +5777,7 @@ result in a device-dependent simulation of the specified
 color without the generation of unsupported color
 exceptions. Simulated colors need not be
 distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value T able” on page 489. This
+“Standard OCA Color-Value Table” on page 489. This
 property overrides the precision parameter in all STC
 control sequences.
 Bits 3–5 Reserved
@@ -5993,11 +5785,9 @@ Bit 6 Color of medium support. Color of medium (also known
 as reset color) supported for text data
 Bit 7 Multiple-color support. Multiple-color support for text
 data; see note 2 on page 246.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 279
 
-IPDS Reference 245
 Offset Type Name Range Meaning
 X'4303'
 X'4304'
@@ -6023,7 +5813,7 @@ bit-mapped byte:
 Bit 0 0 degree orientation supported with respect to the X
 p,Yp
 coordinate system
-Bit 1 90 degree orientation supported with respect to the X p,Yp
+Bit 1 90 degree orientation supported with respect to the Xp,Yp
 coordinate system
 Bit 2 180 degree orientation supported with respect to the
 Xp,Yp coordinate system
@@ -6031,18 +5821,16 @@ Bit 3 270 degree orientation supported with respect to the
 Xp,Yp coordinate system
 Bit 4 Reserved
 Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the X p,Yp coordinate system.
+supported with respect to the Xp,Yp coordinate system.
 As a result, all four object area orientations are
 supported with respect to all supported I,B orientations.
 Bit 6 All values of degrees and minutes for object area
 orientation are supported.
 Bit 7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 280
 
-246 IPDS Reference
 Notes:
 1. Property pair X'2002' indicates support for text suppression IDs in the range X'80'–X'FF' in the LCC
 X'D1nn' keyword and text suppression IDs in the range X'0080'–X'00FF' in the Load Equivalence (LE)
@@ -6065,16 +5853,16 @@ X'FF07' Printer default
 3. Presence of property pair X'4303' indicates support for all of the glyph layout controls defined within
 PTOCA including the GLC, GIR, GAR, and GOR control sequences. This property pair also indicates that
 the printer will recognize and tolerate UCT control sequences as described in “PTOCA Unicode Complex
-T ext (UCT) Control Sequence” on page 473.
-IPDS printers that support glyph layout controls are also required to support the T ext Fidelity(X'86') triplet.
+Text (UCT) Control Sequence” on page 473.
+IPDS printers that support glyph layout controls are also required to support the Text Fidelity(X'86') triplet.
 4. Presence of property pair X'4304' indicates that the implementation understands PTOCA encrypted text
 strings and will perform correct exception condition processing, based on the current settings from the
-EHC and T ext Fidelity (X'86') triplet. The current status of decryption support on the printer can be found in
+EHC and Text Fidelity (X'86') triplet. The current status of decryption support on the printer can be found in
 the Installed Features and Available Features self-defining fields of the XOH Obtain Printer Characteristics
 (OPC) reply.
 IPDS printers that report the X'4304' property pair are required to support the PTOCA SKI, SEA, and ENC
-control sequences, as well as the T ext Fidelity (X'86') triplet.
-5. Object area orientation with respect to the X p,Yp coordinate system also implies a level of object area
+control sequences, as well as the Text Fidelity (X'86') triplet.
+5. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 O
 i, that is supported by the printer, bits 0–3 carry the following implications:
@@ -6088,11 +5876,9 @@ modulo 360 is equal to 180 degrees.
 modulo 360 is equal to 270 degrees.
 6. When setting the bits in the second byte of the X'A0nn' property pair, it is recommended that the minimum
 number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–3 and 5 should not be set.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 281
 
-IPDS Reference 247
 IM-Image Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -6119,7 +5905,7 @@ accepted and result in a device-dependent simulation of
 the specified color without the generation of unsupported
 color exceptions. Simulated colors need not be
 distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value T able” on page 489.
+“Standard OCA Color-Value Table” on page 489.
 Bits 3–5 Reserved
 Bit 6 Color of medium support. Color of medium (also known
 as reset color) supported for IM-Image data
@@ -6140,11 +5926,9 @@ Bit 5 All four scan-line direction/scan-line sequence direction
 combinations supported in the WIC command
 Bits 6–7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 282
 
-248 IPDS Reference
 Note: Multiple-color support for IM-Image data means that from the table that follows, color value X'FF07'
 (printer default) and at least two additional color values corresponding to two distinct colors are
 supported for IM-Image data and result in a reasonable rendition of the specified colors.
@@ -6157,11 +5941,9 @@ X'0006' or X'FF06' Yellow
 X'0008' Black
 X'0010' Brown
 X'FF07' Printer default
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 283
 
-IPDS Reference 249
 IO-Image Command-Set Vector
 A separate command-set vector is returned for each supported function set, except that a separate vector is
 not required for proper subsets. For example, if a printer supports FS10 and FS45, two vectors would be
@@ -6216,7 +5998,7 @@ accepted and result in a device-dependent simulation of
 the specified color without the generation of unsupported
 color exceptions. Simulated colors need not be
 distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value T able” on page 489.
+“Standard OCA Color-Value Table” on page 489.
 Bits 3–5 Reserved
 Bit 6 Color of medium support for bilevel IO Images. Color of
 medium (also known as reset color) supported for bilevel
@@ -6232,11 +6014,9 @@ present, the printer supports Set Extended Bilevel Image
 Color (X'F4') IOCA self-defining field on the WIC2-IDD
 Extended IOCA Tile-Set-Color support; see note 5 on page 251
 Bilevel IO-Image color support on the RPO command
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 284
 
-250 IPDS Reference
 Offset Type Name Range Meaning
 X'5001'
 X'5003'
@@ -6261,11 +6041,11 @@ Concatenated ABIC
 TIFF LZW
 TIFF LZW with Differencing Predictor
 Solid Fill Rectangle
-ITU-TSS T .4 Facsimile Coding Scheme
+ITU-TSS T.4 Facsimile Coding Scheme
 (G3 MH, one dimensional)
-ITU-TSS T .4 Facsimile Coding Scheme
+ITU-TSS T.4 Facsimile Coding Scheme
 (G3 MR, two dimensional)
-ITU-TSS T .6 Facsimile Coding Scheme (G4 MMR)
+ITU-TSS T.6 Facsimile Coding Scheme (G4 MMR)
 ISO/ITU-TSS JPEG algorithms
 JBIG2 Compression Algorithm
 X'5101'
@@ -6283,9 +6063,9 @@ nColor Names parameter supported
 X'A0nn' WIC2–IAP object area orientation support property ID
 (see notes 7 on page 252 and 8 on page 252); where nn is a
 bit-mapped byte:
-Bit 0 0 degree orientation supported with respect to the X p,Yp
+Bit 0 0 degree orientation supported with respect to the Xp,Yp
 coordinate system
-Bit 1 90 degree orientation supported with respect to the X p,Yp
+Bit 1 90 degree orientation supported with respect to the Xp,Yp
 coordinate system
 Bit 2 180 degree orientation supported with respect to the
 Xp,Yp coordinate system
@@ -6293,7 +6073,7 @@ Bit 3 270 degree orientation supported with respect to the
 Xp,Yp coordinate system
 Bit 4 Reserved
 Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the X p,Yp coordinate system.
+supported with respect to the Xp,Yp coordinate system.
 As a result, all four object area orientations are
 supported with respect to all supported I,B orientations.
 Bit 6 All values of degrees and minutes for object area
@@ -6304,11 +6084,9 @@ X'F300'
 X'F301'
 Replicate-and-trim mapping supported; see note 10 on page 252.
 Scale-to-fill mapping supported
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 285
 
-IPDS Reference 251
 Notes:
 1. When the level ID is X'0010', all of the first level (IOCA FS10) is supported except for some of the
 compression algorithms. In this case, supported compression algorithms are identified by compression
@@ -6358,12 +6136,10 @@ segment for all IOCA images. When a printer supports multiple image contents, th
 included in each returned IO-Image command-set vector. For example, a printer that supports FS10, FS42,
 and FS45 would return at least two IOCA vectors: one vector for FS10 that includes the X'5505' property
 pair, and one vector for FS45 that includes the X'5505' property pair.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 286
 
-252 IPDS Reference
-7. Object area orientation with respect to the X p,Yp coordinate system also implies a level of object area
+7. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 Oi, that is supported by the printer, bits 0–3 carry the following implications:
 • Bit 0: An object area orientation of O oa is supported with respect to the I axis such that the sum (O oa + Oi)
@@ -6384,11 +6160,9 @@ minutes when IO-Image resources are included.
 10. Property pair X'F300' indicates that the printer supports the replicate-and-trim mapping option for FS10
 images. This mapping option is used for migration from IM Images to IOCA FS10 images. X'F300' must not
 be specified for any other IOCA function set.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 287
 
-IPDS Reference 253
 Graphics Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -6420,7 +6194,7 @@ as an AEA for graphics area fill. The simulation
 technique is device dependent and generates
 distinguishable simulated colors. This bit and bit 2
 cannot both be set to B'1'. For a list of valid color values,
-see the “Standard OCA Color-Value T able” on page 489.
+see the “Standard OCA Color-Value Table” on page 489.
 Bit 2 Limited simulated-color support. All valid but
 unsupported color values for graphics data are accepted
 and result in a device-dependent simulation of the
@@ -6428,17 +6202,15 @@ specified color without the generation of unsupported
 color exceptions. Simulated colors need not be
 distinguishable. This bit and bit 1 cannot both be set to
 B'1'. For a list of valid color values, see the “Standard
-OCA Color-Value T able” on page 489.
+OCA Color-Value Table” on page 489.
 Bits 3–5 Reserved
 Bit 6 Color of medium support. Color of medium (also known
 as reset color) supported for graphics data
 Bit 7 Multiple-color support. Multiple-color support for
 graphics; see note 2 on page 254
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 288
 
-254 IPDS Reference
 Offset Type Name Range Meaning
 X'4100'
 X'4101'
@@ -6487,7 +6259,7 @@ bit-mapped byte:
 Bit 0 0 degree orientation supported with respect to the X
 p,Yp
 coordinate system
-Bit 1 90 degree orientation supported with respect to the X p,Yp
+Bit 1 90 degree orientation supported with respect to the Xp,Yp
 coordinate system
 Bit 2 180 degree orientation supported with respect to the
 Xp,Yp coordinate system
@@ -6495,7 +6267,7 @@ Bit 3 270 degree orientation supported with respect to the
 Xp,Yp coordinate system
 Bit 4 Reserved
 Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the X p,Yp coordinate system.
+supported with respect to the Xp,Yp coordinate system.
 As a result, all four object area orientations are
 supported with respect to all supported I,B orientations.
 Bit 6 All values of degrees and minutes for object area
@@ -6514,11 +6286,9 @@ default) and at least two additional color values corresponding to two distinct 
 graphics data and result in a reasonable rendition of the specified colors.
 X'0001' or X'FF01' Blue
 X'0002' or X'FF02' Red
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 289
 
-IPDS Reference 255
 X'0003' or X'FF03' Pink/magenta
 X'0004' or X'FF04' Green
 X'0005' or X'FF05' Turquoise/cyan
@@ -6540,7 +6310,7 @@ Delete Pattern drawing orders.
 • Not processing the Set Marker Cell (GSMC) drawing order as a No-Op
 • Treating the marker precision attribute and Set Marker Precision (GSMP) drawing order as obsolete
 • Following the recommendation for standard default marker cell-size
-8. Object area orientation with respect to the X p,Yp coordinate system also implies a level of object area
+8. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 Oi, that is supported by the printer, bits 0–3 carry the following implications:
 • Bit 0: An object area orientation of O oa is supported with respect to the I axis such that the sum (O oa + Oi)
@@ -6553,11 +6323,9 @@ modulo 360 is equal to 180 degrees.
 modulo 360 is equal to 270 degrees.
 9. When setting the bits in the second byte of the X'A0nn' property pair, it is recommended that the minimum
 number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–3 and 5 should not be set.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 290
 
-256 IPDS Reference
 Bar Code Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -6607,17 +6375,15 @@ and result in a device-dependent simulation of the
 specified color without the generation of unsupported
 color exceptions. Simulated colors need not be
 distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value T able” on page 489.
+“Standard OCA Color-Value Table” on page 489.
 Bits 3-5 Reserved
 Bit 6 Color of medium support. Color of medium (also known
 as reset color) supported for bar code data
 Bit 7 Multiple-color support for bar code data; see note 6 on
 page 257
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 291
 
-IPDS Reference 257
 Offset Type Name Range Meaning
 X'4400'
 X'A0nn'
@@ -6627,9 +6393,9 @@ triplet on the WBCC-BCDD.
 WBCC–BCAP object area orientation support property ID
 (see note 7 on page 258 and note 8 on page 258), where nn
 is a bit-mapped byte:
-Bit 0 0 degree orientation supported with respect to the X p,Yp
+Bit 0 0 degree orientation supported with respect to the Xp,Yp
 coordinate system
-Bit 1 90 degree orientation supported with respect to the X p,Yp
+Bit 1 90 degree orientation supported with respect to the Xp,Yp
 coordinate system
 Bit 2 180 degree orientation supported with respect to the
 Xp,Yp coordinate system
@@ -6637,7 +6403,7 @@ Bit 3 270 degree orientation supported with respect to the
 Xp,Yp coordinate system
 Bit 4 Reserved
 Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the X p,Yp coordinate system.
+supported with respect to the Xp,Yp coordinate system.
 As a result, all four object area orientations are
 supported with respect to all supported I,B orientations.
 Bit 6 All values of degrees and minutes for object area
@@ -6670,11 +6436,9 @@ default) and at least two additional color values corresponding to two distinct 
 graphics data and result in a reasonable rendition of the specified colors.
 X'0001' or X'FF01' Blue
 X'0002' or X'FF02' Red
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 292
 
-258 IPDS Reference
 X'0003' or X'FF03' Pink/magenta
 X'0004' or X'FF04' Green
 X'0005' or X'FF05' Turquoise/cyan
@@ -6682,7 +6446,7 @@ X'0006' or X'FF06' Yellow
 X'0008' Black
 X'0010' Brown
 X'FF07' Printer default
-7. Object area orientation with respect to the X p,Yp coordinate system also implies a level of object area
+7. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 Oi, that is supported by the printer, bits 0–3 carry the following implications:
 • Bit 0: An object area orientation of O oa is supported with respect to the I axis such that the sum (O oa + Oi)
@@ -6695,15 +6459,13 @@ modulo 360 is equal to 180 degrees.
 modulo 360 is equal to 270 degrees.
 8. When setting the bits in the second byte of the X'A0nn' property pair, it is recommended that the minimum
 number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–3 and 5 should not be set.
-9. Printers that implement the common bar code types and modifiers that are listed in T able 34 on page 349
+9. Printers that implement the common bar code types and modifiers that are listed in Table 34 on page 349
 and implement one or more additional bar code types and associated modifiers that are listed in the
 Common Bar Code Type/Modifier self-defining field respond to the XOH-OPC command with the
 appropriately encoded Common Bar Code Type/Modifier Self-Defining Field.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 293
 
-IPDS Reference 259
 Object Container Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -6749,26 +6511,24 @@ Image Resolution (X'9A') triplet supported in IDO, RPO,
 and WOCC commands
 Bilevel and grayscale image color support for object containers;
 see note 6 on page 261
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 294
 
-260 IPDS Reference
 Offset Type Name Range Meaning
 X'A0nn' WOCC-OCAP and IDO-DOAP object area orientation support
 property ID (see notes 7 on page 261, 8 on page 261, and
 9 on page 261), where nn is a bit-mapped byte:
 Bit 0 0 degree orientation supported in the WOCC-OCAP with
-respect to the X p,Yp coordinate system
+respect to the Xp,Yp coordinate system
 Bit 1 90 degree orientation supported in the WOCC-OCAP
-with respect to the X p,Yp coordinate system
+with respect to the Xp,Yp coordinate system
 Bit 2 180 degree orientation supported in the WOCC-OCAP
-with respect to the X p,Yp coordinate system
+with respect to the Xp,Yp coordinate system
 Bit 3 270 degree orientation supported in the WOCC-OCAP
-with respect to the X p,Yp coordinate system
+with respect to the Xp,Yp coordinate system
 Bit 4 Reserved
 Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported in the WOCC-OCAP with respect to the X p,Yp
+supported in the WOCC-OCAP with respect to the Xp,Yp
 coordinate system. As a result, all four object area
 orientations are supported with respect to all supported I,
 B orientations.
@@ -6778,11 +6538,9 @@ the IDO-DOAP .
 Bit 7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
 X'F301' Scale-to-fill mapping supported
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 295
 
-IPDS Reference 261
 Notes:
 1. Property pair X'1201' indicates support for data object resources and includes support for the DDOR,
 DORE, IDO, and home-state WOCC commands. The DORE command is supported in page, page
@@ -6833,11 +6591,9 @@ resources included using the IDO command; such support is instead reported using
 property pair of the IO-Image command-set vector.
 9. When setting the bits in the second byte of the X'A0nn' property pair, it is recommended that the minimum
 number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–3 and 5 should not be set.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 296
 
-262 IPDS Reference
 Metadata Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -6850,7 +6606,7 @@ field
 12 to
 end of
 vector
-CODE Property pairs X'D001' Support for the AFP T agging format
+CODE Property pairs X'D001' Support for the AFP Tagging format
 Overlay Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -6890,11 +6646,9 @@ printer issues a X'0297..01' exception.
 A printer may support more levels of overlay nesting than are reported, or assumed, in this command-set
 vector.
 2. Support of overlay invocation via LCC is implied by support of OL1.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 297
 
-IPDS Reference 263
 Page Segment Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
@@ -6949,11 +6703,9 @@ Bit 5 All four Font Inline Sequences supported for all
 supported text orientations in the LFI command
 Bits 6–7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 298
 
-264 IPDS Reference
 Offset Type Name Range Meaning
 X'B001'
 X'B002'
@@ -6999,11 +6751,9 @@ assigned a specific meaning.
 The LF2 command subset supports only fixed-metric technology. The LF3 command subset supports
 either technology, but the relative-metric technology is used with outline fonts.
 The printer need not return the X'C1nn' property pair for LF2 or LF3 command subsets.
-Sense Type and Model (STM)
+## Sense Type and Model (STM)
 
-## Page 299
 
-IPDS Reference 265
 Set Home State
 Length X'D697' Flag CID
 The length of the SHS command can be:
@@ -7017,11 +6767,9 @@ syntactically correct, no exceptions can result from its execution.
 If the printer is in any resource state, such as page-segment state, overlay state, font state, or any derivative of
 these states, the partial resource is deleted before the printer returns to home state. In home state, an SHS
 command is treated as a No Operation (NOP) command.
-Set Home State (SHS)
+## Set Home State (SHS)
 
-## Page 300
 
-266 IPDS Reference
 Set Presentation Environment
 Set Presentation Environment (SPE) is a home state command used to set specific presentation attributes for
 use on the pages that follow. For each specified triplet, the specified presentation attributes completely replace
@@ -7046,7 +6794,9 @@ SPE4 is used for all data on page 2 (including any included overlays). However, 
 can change device appearance only at a sheet boundary; in this case SPE3 would be used for page 2.
 Support for this optional command is indicated by the X'7008' property pair in the Device-Control command-set
 vector of an STM reply.
+```
 Length X'D608' Flag CID Data
+```
 The length of the SPE command can be:
 Without CID X'0007' or X'0009'–X'7FFF'
 With CID X'0009' or X'000B'–X'7FFF'
@@ -7065,11 +6815,9 @@ Bytes 0–1 Reserved
 Bytes 2 to end
 of command
 Zero or more triplets
-Set Presentation Environment (SPE)
+## Set Presentation Environment (SPE)
 
-## Page 301
 
-IPDS Reference 267
 The SPE command contains zero or more triplets used to set specific presentation attributes
 for use on the pages that follow. This command can be used in two different ways:
 1. If no triplets are specified in the SPE command, all presentation attributes are set to the
@@ -7093,13 +6841,13 @@ Used to establish a temporary device appearance.
 The Presentation Environment triplets are fully described in the triplets chapter:
 “Rendering Intent (X'95') Triplet” on page 774
 “Device Appearance (X'97') Triplet” on page 779
-Set Presentation Environment (SPE)
+## Set Presentation Environment (SPE)
 
-## Page 302
 
-268 IPDS Reference
 Execute Order Anystate
+```
 Length X'D633' Flag CID Data
+```
 The Execute Order Anystate (XOA) command identifies a set of orders that take effect immediately, regardless
 of the current command state of the printer. This command is valid in any printer state.
 Each XOA data field contains a two-byte order code, followed by zero or more parameter bytes for that order.
@@ -7131,20 +6879,16 @@ X'7BF5' Retired item 23 No
 X'CACA' Retired item 24 No
 X'CE00' Retired item 143 No
 X'F100' Retired item 25 No
-Execute Order Anystate (XOA)
+## Execute Order Anystate (XOA)
 
-## Page 303
 
-IPDS Reference 269
 Table 28 XOA Order Summary (cont'd.)
 Code Order In DC1 subset?
 X'F300' Retired item 26 No
 Unknown or unsupported orders are treated as No Operation (NOP) commands.
-Execute Order Anystate (XOA)
+## Execute Order Anystate (XOA)
 
-## Page 304
 
-270 IPDS Reference
 XOA Activate Printer Alarm
 The XOA Activate Printer Alarm (APA) command signals the printer to activate its alarm mechanism (for
 example, a beep, bell, or light) for a device specific amount of time.
@@ -7156,11 +6900,9 @@ With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'1000' Activate Printer Alarm (APA) order code X'1000'
-XOA Activate Printer Alarm (APA)
+## XOA Activate Printer Alarm (APA)
 
-## Page 305
 
-IPDS Reference 271
 XOA Alternate Offset Stacker
 The XOA Alternate Offset Stacker (AOS) command signals the printer to jog the current sheet. If copies of the
 current sheet are stacked in more than one media destination, the jogging occurs in each selected media
@@ -7186,11 +6928,9 @@ XOA-AOS command conflicts with the finishing operation, the XOA-AOS command is i
 operation is performed.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0A00' Alternate Offset Stacker (AOS) order code X'0A00'
-XOA Alternate Offset Stacker (AOS)
+## XOA Alternate Offset Stacker (AOS)
 
-## Page 306
 
-272 IPDS Reference
 XOA Control Edge Marks
 The XOA Control Edge Marks (CEM) command causes a printer that is using continuous-forms media to mark
 the front side of the current sheet and the front side of the next sheet with edge marks. The mark can optionally
@@ -7225,11 +6965,9 @@ of the previous sheet. However, in the case where multiple identical copies is s
 marks at the top and bottom of each copy is identical (as if this sheet were taken to a copier and the number of
 copies requested made). For example, if one edge mark is at the top of the sheet and two edge marks are at
 the bottom of the sheet, all identical copies of this sheet have one edge mark at the top and two edge marks at
-XOA Control Edge Marks (CEM)
+## XOA Control Edge Marks (CEM)
 
-## Page 307
 
-IPDS Reference 273
 the bottom. On the other hand, in the case of multiple copy subgroups, the rule applies that the number of edge
 marks at the top of a sheet must match the number of edge marks at the bottom of the previous sheet. For
 example, the sheet that results from applying the first copy subgroup has one edge mark at the top of the sheet
@@ -7286,11 +7024,9 @@ X'F3' Three edge marks
 Start printing three edge marks regardless of how edge marks are currently being
 controlled. Print three edge marks on all subsequent sheets until another XOA-CEM
 command is received.
-XOA Control Edge Marks (CEM)
+## XOA Control Edge Marks (CEM)
 
-## Page 308
 
-274 IPDS Reference
 X'FE' Alternate
 Change the number of edge marks from one to two, or from two to three, or from three
 to one. If edge marks are currently inhibited, this parameter has no effect.
@@ -7308,11 +7044,9 @@ The recommended method of handling multiple XOA-CEM commands that apply to
 the same sheet is to process each one as it is received and use the resultant edge
 mark.
 Exception ID X'0299..02' exists if an invalid edge mark value is specified.
-XOA Control Edge Marks (CEM)
+## XOA Control Edge Marks (CEM)
 
-## Page 309
 
-IPDS Reference 275
 XOA Discard Buffered Data
 The XOA Discard Buffered Data (DBD) command, sometimes called Discard Buffered Pages, deletes all
 buffered data from the printer storage and returns the printer to home state. Any data currently being received
@@ -7333,11 +7067,9 @@ command is not processed until all preceding commands have been completely proce
 ACK of the DBD order is not returned until DBD processing is complete.
 Offset Type Name Range Meaning DC1 Range
 0–1 CODE Order code X'F200' Discard Buffered Data (DBD) order code X'F200'
-XOA Discard Buffered Data (DBD)
+## XOA Discard Buffered Data (DBD)
 
-## Page 310
 
-276 IPDS Reference
 XOA Discard Unstacked Pages
 The XOA Discard Unstacked Pages (DUP) command deletes all buffered data from the printer storage (just
 like DBD), discards all printed but unstacked pages, and returns the printer to home state. Any data currently
@@ -7361,11 +7093,9 @@ synchronizing command is not processed until all preceding commands have been co
 processed. Also, the ACK of the DUP order is not returned until DUP processing is complete.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'F500' Discard Unstacked Pages (DUP) order code X'F500'
-XOA Discard Unstacked Pages (DUP)
+## XOA Discard Unstacked Pages (DUP)
 
-## Page 311
 
-IPDS Reference 277
 XOA Exception-Handling Control
 The XOA Exception-Handling Control (EHC) command allows the host to control how the printer reports and
 processes exceptions. A data-stream exception exists when the printer detects an invalid or unsupported
@@ -7414,9 +7144,7 @@ incremented. Therefore, errors that exist within a group of pages to be saved ca
 pages to be saved.
 XOA Exception-Handling Control (EHC)
 
-## Page 312
 
-278 IPDS Reference
 While saving a page due to the XOH-SGO operation Save Pages, the printer does not increment the received
 page counter nor does it adjust the counters when processing a synchronous data-stream exception.
 When a synchronous data-stream exception is reported for a page to be saved the page sequence number
@@ -7463,9 +7191,7 @@ reports an exception, it discards all upstream data that it has received, before
 receive another command.
 XOA Exception-Handling Control (EHC)
 
-## Page 313
 
-IPDS Reference 279
 Note: The host can determine which pages have been discarded by examining the page and
 copy counters in an ACK of a synchronizing command. Any pages not reflected in the
 counters have been discarded. Refer to “Page and Copy Counter Adjustments” on
@@ -7512,9 +7238,7 @@ other than those defined by bits 0 and 1. If this bit is set to B'0' and the AEA
 taken, the exceptions with AEAs are not reported.
 XOA Exception-Handling Control (EHC)
 
-## Page 314
 
-280 IPDS Reference
 Byte 3 Automatic recovery
 This byte is bit-mapped; bit values are as follows:
 Bits 0–5 Reserved
@@ -7565,9 +7289,7 @@ defined) and continues processing. If an AEA has not been defined for the
 exception, the printer proceeds as though this bit contained a B'1'.
 XOA Exception-Handling Control (EHC)
 
-## Page 315
 
-IPDS Reference 281
 If bit 7 is set to B'1', the printer reports the exception, regardless of the value
 in byte 2 (exception reporting). The printer continues processing as defined in
 byte 4 (exception-presentation processing).
@@ -7621,12 +7343,10 @@ command with an ARQ is received. A partial page is printed if the printer
 supports Independent Exception Page Print and if the Exception Page
 XOA Exception-Handling Control (EHC)
 
-## Page 316
 
-282 IPDS Reference
 Print bit is set to B'1'. The following conditions determine the next valid
 command:
-• If the exception occurs in a text-major Write T ext command within a
+• If the exception occurs in a text-major Write Text command within a
 page, page segment, or overlay, in a Load Font Equivalence command,
 or in an Include Page Segment command, the next valid command is
 End Page, Set Home State, XOA Discard Buffered Data, or XOA
@@ -7639,10 +7359,10 @@ resource state, object-container resource state, or metadata state, the
 next valid command is End.
 • If the exception occurs in any other command, the next valid command
 is one of the following (if supported):
-– Write T ext
+– Write Text
 – Include Overlay
 – Include Page Segment
-– Write T ext Control
+– Write Text Control
 – Write Image Control
 – Write Image Control 2
 – Write Bar Code Control
@@ -7676,9 +7396,7 @@ the exception is reported, and the printer returns to home state.
 subsequent non-Anystate, non-next-valid commands are skipped.
 XOA Exception-Handling Control (EHC)
 
-## Page 317
 
-IPDS Reference 283
 Exceptions detected in included overlays or page segments are treated
 as though the commands were received as part of the page.
 A printer may choose to consider all included overlays as independent of
@@ -7730,9 +7448,7 @@ commands are treated as follows:
 They are processed, the Page Continuation Action processing is
 XOA Exception-Handling Control (EHC)
 
-## Page 318
 
-284 IPDS Reference
 terminated, the exception is reported, and normal command processing
 resumes.
 • Anystate commands with the ARQ bit set on are terminating conditions.
@@ -7779,9 +7495,7 @@ character in place of the undefined character.
 Figure 60 on page 285 is a 4–page flowchart that depicts the exception-handling decision path.
 XOA Exception-Handling Control (EHC)
 
-## Page 319
 
-IPDS Reference 285
 Figure 60. Exception-Handling Control (spans four pages)
 (Part 1 of figure)
 Exception
@@ -7876,9 +7590,7 @@ but keep previously
 saved pages
 XOA Exception-Handling Control (EHC)
 
-## Page 320
 
-286 IPDS Reference
 (Part 2 of figure)
 AEA
 defined
@@ -7951,9 +7663,7 @@ A
 F
 XOA Exception-Handling Control (EHC)
 
-## Page 321
 
-IPDS Reference 287
 (Part 3 of figure)
 Printers may delay discarding partial
 resources until an End or End Page
@@ -8028,9 +7738,7 @@ with the next
 received command
 XOA Exception-Handling Control (EHC)
 
-## Page 322
 
-288 IPDS Reference
 (Part 4 of figure)
 Skip-and-Continue Actions Page-Continuation Actions
 Yes
@@ -8077,9 +7785,7 @@ E
 A
 XOA Exception-Handling Control (EHC)
 
-## Page 323
 
-IPDS Reference 289
 XOA Mark Form
 The XOA Mark Form (MF) command causes the printer to mark the current or the next sheet with a device-
 specific form. This form is analogous to an overlay that is permanently stored in the printer; however, it is
@@ -8102,11 +7808,9 @@ visibility. The marks are not made on sheets created by any IPDS command that ca
 Front Facing or on sheets created by a hardware nonprocess runout (NPRO).
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0800' Mark Form (MF) order code X'0800'
-XOA Mark Form (MF)
+## XOA Mark Form (MF)
 
-## Page 324
 
-290 IPDS Reference
 XOA Obtain Additional Exception Information
 The XOA Obtain Additional Exception Information (OAEI) command requests that the printer return additional
 information about an exception that the printer has just reported. The printer responds by placing available
@@ -8138,11 +7842,9 @@ Offset Type Name Range Meaning Required
 0–1 CODE Order code X'F900' Obtain Additional Exception Information
 (OAEI) order code
 X'F900'
-XOA Obtain Additional Exception Information (OAEI)
+## XOA Obtain Additional Exception Information (OAEI)
 
-## Page 325
 
-IPDS Reference 291
 OAEI Reply
 An OAEI reply returns additional exception information for one exception. The reply can contain more than one
 piece of additional information for that exception.
@@ -8194,11 +7896,9 @@ Entry byte 4 Format
 This field identifies the format that the additional information in the following
 bytes will take.
 X'01' Unarchitected text
-XOA Obtain Additional Exception Information (OAEI)
+## XOA Obtain Additional Exception Information (OAEI)
 
-## Page 326
 
-292 IPDS Reference
 Entry bytes 5 to end Additional exception information
 This field contains the additional exception information, in the format specified
 in entry byte 4. The possible formats are described just below.
@@ -8213,13 +7913,11 @@ UTF-16BE
 + 8 to
 end of
 entry
-T ext information Any valid text Unarchitected text containing the additional exception
+Text information Any valid text Unarchitected text containing the additional exception
 information
-XOA Obtain Additional Exception Information (OAEI)
+## XOA Obtain Additional Exception Information (OAEI)
 
-## Page 327
 
-IPDS Reference 293
 XOA Print-Quality Control
 The XOA Print-Quality Control (PQC) command transfers three bytes that indicate the level of quality with
 which the following data is to be printed. For text data, this order specifies the level of quality the printer
@@ -8261,9 +7959,7 @@ image data is printed at this quality level for any specified value from 1 throu
 Exception ID X'0292..02' exists if a quality-level value of X'00' is specified.
 XOA Print-Quality Control (PQC)
 
-## Page 328
 
-294 IPDS Reference
 XOA Request Resource List
 The XOA Request Resource List (RRL) command requests information about the printer's current resources.
 The printer responds by placing the requested information in the special data area of a subsequent
@@ -8281,11 +7977,9 @@ Acknowledgment Request (ARQ), this command is treated as a No Operation (NOP) co
 RRL has a query format that is sent in the data portion of the RRL order, and it has a reply format that is
 returned to the host in the special data area of the ACK(s). The query format is shown in “Resource List Query”
 on page 295. The reply format is shown in “Resource List Reply” on page 303.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 329
 
-IPDS Reference 295
 Resource List Query
 The data in an XOA Request Resource List command consists of 5 bytes of control information followed by
 one or more resource query entries that are processed in the order that they appear in the command. If a
@@ -8370,11 +8064,9 @@ sequence and that indicate support of the AR command by property pair X'702E'
 in
 the Device-Control command-set vector of an STM reply. This query type can be
 issued following an AR command to interrogate the device on the activation status of
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 330
 
-296 IPDS Reference
 the resources that the AR command attempted to activate. A reply to this query
 specifying “activated” indicates that the resource was activated. A reply to this query
 specifying “not activated” indicates that the resource was not activated, and might be
@@ -8422,17 +8114,15 @@ value (RRL-continuation method), the printer returns the next portion of the res
 both methods are used simultaneously, the acknowledgment-continuation flag in the XOA-
 RRL command is ignored and the RRL-continuation method is used by the printer; an XOA-
 RRL reply sequence is ended with a reply-list entry with a length of X'01'.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 331
 
-IPDS Reference 297
 Byte 5 Entry length
 This byte specifies the length of this entry, that includes itself. Therefore, this byte indicates
 either the location of the end of the command or the location of the entry length for the next
 entry. If there are multiple entries, these entries must be queries of individual resources rather
 than list queries and must be of query type X'05'.
-T able 29 on page 298 lists the currently valid resource ID lengths. Additional RT/RIDF
+Table 29 on page 298 lists the currently valid resource ID lengths. Additional RT/RIDF
 combinations might be added in the future and therefore all values in the range X'03'–X'FF'
 should be accepted for this byte; unrecognized RT/RIDF combinations are identified as
 “resource not present” or “resource not activated” in the RRL reply.
@@ -8472,13 +8162,11 @@ your printer documentation for restrictions. If the resource type value is an un
 unsupported value, the reply sets the resource type to zero, echoes all other values, and
 indicates that the resource is not present and cannot be activated by setting the resource size
 byte (byte 4) in the Request Resource List reply to zero.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 332
 
-298 IPDS Reference
 The printer identifies supported queries in the XOA-RRL RT & RIDF Support self-defining field
-in an XOH-OPC reply. T able 29shows the architecturally-valid RT and RIDF combinations:
+in an XOH-OPC reply. Table 29shows the architecturally-valid RT and RIDF combinations:
 Table 29. Architecturally-Valid RT and RIDF Query Combinations
 RT RIDF Individual Query Resource
 ID Length
@@ -8518,11 +8206,9 @@ X'41' Data-object font X'00' HAID format X'02'
 X'42' Data-object-font component X'00' HAID format X'02'
 X'09' Object-OID format X'02'–X'81'
 X'FF' All resources X'00' HAID format N/A
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 333
 
-IPDS Reference 299
 Byte 7 Resource ID format
 This byte describes the format of the Resource ID (bytes 8 through end of entry) for the
 Resource Type (byte 6). Exception ID X'0291..02' exists if an invalid resource-ID-format value
@@ -8564,11 +8250,9 @@ Four-byte ID consisting of a two-byte coded font Host-Assigned ID followed
 by the two-byte coded font inline sequence value from one of the following:
 – An Activate Resource command
 – A Load Font Index command
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 334
 
-300 IPDS Reference
 • All FISes of a particular single-byte raster, single-byte outline, or double-
 byte outline coded font (RT = X'08')
 Two-byte coded font Host-Assigned ID from one of the following:
@@ -8614,11 +8298,9 @@ Two-byte data-object-font-component Host-Assigned ID from one of the
 following:
 – An Activate Resource command
 – A home state Write Object Container Control command
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 335
 
-IPDS Reference 301
 RIDF = X'01',
 X'02'
 Retired items 28 and 29
@@ -8666,11 +8348,9 @@ set, or coded font selection.
 RIDF = X'06' Retired item 30
 RIDF = X'08' Variable-length Group ID (X'00') triplet
 This triplet is described in “Group ID (X'00') Triplet” on page 705.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 336
 
-302 IPDS Reference
 RIDF = X'09' Object-OID format
 This naming format is used to uniquely identify resident data object resources
 and resident data-object-font components. An OID is a variable length (2 to
@@ -8718,11 +8398,9 @@ your printer documentation for restrictions. If the resource ID is inconsistent 
 printer expects based on the resource type (byte 6) and resource ID format (byte 7), the reply
 sets the resource type to zero, echoes all other values, and indicates that the resource is not
 present and cannot be activated by setting the resource size byte to zero.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 337
 
-IPDS Reference 303
 Resource List Reply
 Resource list replies are categorized as follows:
 Query type X'05'
@@ -8758,14 +8436,12 @@ Note: More than one version of a resident resource can exist in a printer or int
 • Multiple versions of a font character set or code page with different date and time stamps
 • Multiple versions of a raster font with different resolutions or different date and time stamps
 A RRL query for an individual resource using the GRID-parts format returns an RRL reply for only one of
-the multiple versions. T o single out a specific one of multiple versions, use the AR command to identify
+the multiple versions. To single out a specific one of multiple versions, use the AR command to identify
 the specific version of the resource to be activated and then query using the XOA-RRL command with a
 Host-assigned resource ID format.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 338
 
-304 IPDS Reference
 When the reply data is larger than fits in one Acknowledge Reply (that is, when there are more than 256 bytes
 of reply data), a sequence of Acknowledge Replies can be obtained using one of two methods:
 1. RRL-continuation method
@@ -8820,14 +8496,12 @@ This byte specifies the length of this entry, including itself. Therefore, this 
 location of either the end of the reply or the entry length of the next entry. A length of X'01'
 indicates the end of the list; this value is only returned for a list query and is not used with
 single-resource queries.
-T able 29 on page 298 lists the currently valid resource ID lengths. Additional RT/RIDF
+Table 29 on page 298 lists the currently valid resource ID lengths. Additional RT/RIDF
 combinations might be added in the future and therefore all values in the range X'01' and
 X'04'–X'FF' should be accepted for this byte.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 339
 
-IPDS Reference 305
 Byte 2 Resource type
 This byte specifies the following:
 X'00' The query is unsupported or inconsistent
@@ -8876,11 +8550,9 @@ of entry
 Resource ID
 This field contains the resource ID of a queried resource of the type specified in byte 2 and in
 the format specified in byte 3.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 340
 
-306 IPDS Reference
 For an outline coded font or outline font character set identified by a GRID-parts RIDF , X'0000'
 is returned for the font-width component to indicate that the coded font is scalable to any font
 width.
@@ -8893,11 +8565,9 @@ saved page group exists when an XOH-DGB command with a Variable-length group ID 
 been processed for a group to be saved. If a query is done before the first page has been
 saved, a sequence number of X'00000000' is returned in the XOA-RRL reply indicating an
 empty group.
-XOA Request Resource List (RRL)
+## XOA Request Resource List (RRL)
 
-## Page 341
 
-IPDS Reference 307
 XOA Request Setup Name List
 The XOA Request Setup Name List (RSNL) command requests that the printer return information about the
 setup names supported by the printer. The printer responds by placing available information, if any, in the
@@ -8950,11 +8620,9 @@ printer.
 X'01' The reply will report the active setup name but will also include a list of setup names,
 tailored to the contents of bytes 3 through the end of the RSNL.
 If an invalid value is specified, exception ID X'02A2..00' exists.
-XOA Request Setup Name List (RSNL)
+## XOA Request Setup Name List (RSNL)
 
-## Page 342
 
-308 IPDS Reference
 Byte 3 Setup name information requested
 This byte contains flags that define the information that is being requested about each setup
 name returned. If no flags are set, only a Setup Name (X'9E') triplet is returned for each setup
@@ -8985,11 +8653,9 @@ triplet length), the printer ignores the remaining data within the optional trip
 The triplet is fully described in the triplets chapter:
 “Setup Name (X'9E') Triplet
 ” on page 786
-XOA Request Setup Name List (RSNL)
+## XOA Request Setup Name List (RSNL)
 
-## Page 343
 
-IPDS Reference 309
 RSNL Reply
 An RSNL reply returns information about the setup names defined on the printer. This information is tailored to
 the request and can thus vary considerably in format from one reply to another.
@@ -9065,11 +8731,9 @@ This field contains the total length of the data, including the length field its
 be more than can be contained in the special data area of one Acknowledge Reply, in which
 case the additional bytes are obtained using the ACK-continuation method.
 Bytes 4–5 Reserved
-XOA Request Setup Name List (RSNL)
+## XOA Request Setup Name List (RSNL)
 
-## Page 344
 
-310 IPDS Reference
 Byte 6 Setup name information returned
 This byte contains flags that define the information that is being returned in the RSNL reply.
 Because many fields are optional, this byte is required to be able to correctly read the reply.
@@ -9117,11 +8781,9 @@ Note that exception ID X'010A..00' is not reported for changes due to the ASN co
 The triplet is fully described in the triplets chapter:
 “Setup Name (X'9E') Triplet
 ” on page 786
-XOA Request Setup Name List (RSNL)
+## XOA Request Setup Name List (RSNL)
 
-## Page 345
 
-IPDS Reference 311
 Setup Name Information entry
 Zero or more Setup Name Information entries return the setup name information requested in the RSNL
 command.
@@ -9166,11 +8828,9 @@ or if the printer does not support returning detailed settings, this field is om
 byte 6 must be B'0'.
 Support for returning detailed settings is indicated by the X'F403' property pair in the Device-
 Control command-set vector in an STM reply.
-XOA Request Setup Name List (RSNL)
+## XOA Request Setup Name List (RSNL)
 
-## Page 346
 
-312 IPDS Reference
 Bytes +m+6–n Detailed settings
 This field contains the detailed settings data for the setup name from bytes +0–m.
 If detailed settings were not requested using the detailed-settings flag in the RSNL command,
@@ -9220,13 +8880,13 @@ info
 Additional information
 This is a reserved field that might be used for future expansion. Receivers of this reply should
 accept, but ignore this field; senders of this reply should not specify this field.
-XOA Request Setup Name List (RSNL)
+## XOA Request Setup Name List (RSNL)
 
-## Page 347
 
-IPDS Reference 313
 Execute Order Home State
+```
 Length X'D68F' Flag CID Data
+```
 The Execute Order Home State (XOH) command identifies a set of orders that may be received only when the
 printer is in home state.
 Each XOH command consists of a two-byte order code followed by 0 or more parameter bytes. Each XOH
@@ -9259,22 +8919,18 @@ X'1C00' Retired item 144 No
 X'1D00' Retired item 145 No
 X'4C00' Retired item 146 No
 X'4D00' Retired item 147 No
-Execute Order Home State (XOH)
+## Execute Order Home State (XOH)
 
-## Page 348
 
-314 IPDS Reference
 Table 30 XOH Order Summary (cont'd.)
 Code Order In DC1 subset?
 X'4E00' Retired item 148 No
 X'D000' Retired item 127 No
 X'F400' Retired item 33 No
 Unknown or unsupported orders are treated as No Operation (NOP) commands.
-Execute Order Home State (XOH)
+## Execute Order Home State (XOH)
 
-## Page 349
 
-IPDS Reference 315
 XOH Deactivate Saved Page Group
 The XOH Deactivate Saved Page Group (DSPG) command directs the printer to deactivate one or more
 previously saved page groups.
@@ -9314,11 +8970,9 @@ of command
 Zero or more triplets
 The Deactivate Saved Page Group triplets are fully described in the triplets chapter:
 “Group ID (X'00') Triplet” on page 705
-XOH Deactivate Saved Page Group (DSPG)
+## XOH Deactivate Saved Page Group (DSPG)
 
-## Page 350
 
-316 IPDS Reference
 Group ID (X'00') Triplet Considerations
 This portion of the XOH-DSPG command contains zero or more Group ID (X'00') triplets that specify which
 saved page groups to deactivate. If no triplets are specified, all open saved page groups are terminated and all
@@ -9331,11 +8985,9 @@ Exception ID X'0255..08' exists if any of the following occurs in the triplets f
 • Byte 2 or the first byte after a valid triplet was X'00' or X'01' (an invalid triplet length).
 • A triplet other than a Group ID (X'00') triplet was specified.
 • A Group ID (X'00') triplet without a variable-length group ID was specified.
-XOH Deactivate Saved Page Group (DSPG)
+## XOH Deactivate Saved Page Group (DSPG)
 
-## Page 351
 
-IPDS Reference 317
 XOH Define Group Boundary
 The XOH Define Group Boundary (DGB) command initiates or terminates a grouping of pages. When a
 grouping is initiated, the sheet containing the first copy of the next-received page, that is, the page that next
@@ -9371,11 +9023,9 @@ the grouping is ignored when no group operation for the group has been specified
 command indicates whether or not the printer supports these two XOH orders. The Supported Group
 Operations self-defining field in the reply to an XOH-OPC command specifies which group operations are
 supported.
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 352
 
-318 IPDS Reference
 In most cases, group operations apply to all of the pages of a group including those pages within nested
 groups; however some group operations are incompatible with each other. In this case, the operation on the
 inner group is ignored. The various combinations are shown in the following table:
@@ -9419,11 +9069,9 @@ determines the nesting. The previous table shows how inner and outer groups are 
 Triplets specified on the XOH-DGB command provide additional information for carrying out a group operation.
 In some cases, absence of a required triplet causes the group operation to be ignored; for example, a finishing
 group requires a finishing triplet.
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 353
 
-IPDS Reference 319
 Figure 61. Examples of Groups and Group Operations
 SGO  Level =  X'80',  Operation =  X'01'  (Keep group together as a print unit)
 SGO  Level =  X'60',  Operation =  X'03'  (Save pages)
@@ -9466,11 +9114,9 @@ Two groups of pages are saved:
 One group of pages is stapled in the top-left corner:
 1) Page10 - Page12
 Results:
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 354
 
-320 IPDS Reference
 Figure 62. Examples of Nested Finishing Operations
 SGO  Level =  X'90',  Operation =  X'04'  (Finish)
 DGB  Initiate,  Level =  X'90',
@@ -9507,11 +9153,9 @@ Each time a new nesting level is needed, an XOH SGO command is specified.
 Two operations are specified in the first XOH DGB command using two
 Finishing Operation (X'85') triplets.
 Results:
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 355
 
-IPDS Reference 321
 The format of the XOH-DGB command is as follows:
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0400' Define Group Boundary (DGB) order code X'0400'
@@ -9573,11 +9217,9 @@ about the operation specified by a preceding XOH-SGO command. The operation in e
 a group determines the relationship among the triplets in an XOH-DGB command that initiates
 a group boundary to those in the XOH-DGB command that terminates the group boundary.
 Each group operation defines the relationship among the triplets.
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 356
 
-322 IPDS Reference
 Table 32. Triplets Used With Each Group Operation
 Group Operation Triplets Used Triplet Formats
 Keep group together
@@ -9593,7 +9235,7 @@ Copy set number format
 Extended copy set number format
 Page count format
 Keep Group
-T ogether as a
+Together as a
 Recovery Unit
 Group Information (X'6E') triplet Group name format (one)
 Additional information format (zero or more)
@@ -9643,11 +9285,9 @@ The Define Group Boundary triplets are fully described in the triplets chapter:
 “Finishing Operation (X'85') Triplet” on page 742
 “UP
 3I Finishing Operation (X'8E') Triplet” on page 767
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 357
 
-IPDS Reference 323
 Coded Graphic Character Set Global Identifier (X'01') Triplet Considerations
 When a CGCSGID (X'01') triplet is specified in an XOH-DGB command, it specifies the code page and
 character set used to interpret character data within subsequent DGB triplets. The CGCSGID (X'01') triplet
@@ -9687,11 +9327,9 @@ group, the prematurely stacked pages might or might not have the finishing opera
 3. For some printers, alternate offset stacking cannot be combined with a finishing operation. In this case, if
 the XOA-AOS command conflicts with the finishing operation, the XOA-AOS command is ignored and the
 finishing operation is performed.
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 358
 
-324 IPDS Reference
 UP3I Finishing Operation (X'8E') Triplet Considerations
 The UP3I Finishing Operations (X'8E') triplet is used to specify finishing operations. Support for this triplet is
 indicated by property pair X'F101' in the Device-Control command-set vector of an STM reply.
@@ -9726,11 +9364,9 @@ cut a horizontal perforation with the first cutter and a vertical perforation wi
 operations would be specified in two Finishing Operation (X'85') triplets. Because duplicate Finishing
 Operation (X'85') triplets are ignored, a sequence number must be used to ensure that the triplets are not
 identical.
-XOH Define Group Boundary (DGB)
+## XOH Define Group Boundary (DGB)
 
-## Page 359
 
-IPDS Reference 325
 XOH Eject to Front Facing
 The XOH Eject to Front Facing (EFF) command performs one of two functions, depending on whether the
 current media is cut sheet (sheets that are not connected) or continuous form (sheets that are connected,
@@ -9751,11 +9387,9 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 This order is not cumulative; consecutive EFF orders produce the same effect as a single order.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'1300' Eject to Front Facing (EFF) order code X'1300'
-XOH Eject to Front Facing (EFF)
+## XOH Eject to Front Facing (EFF)
 
-## Page 360
 
-326 IPDS Reference
 XOH Erase Residual Font Data
 The XOH Erase Residual Font Data (ERFD) order is a data security and privacy order that prohibits access to
 residual downloaded font data. This order causes the printer to do the following in the specified order:
@@ -9769,7 +9403,7 @@ LFC, LFI, LF , and LSS commands.
 4. For resident fonts activated by an AR command, clear HARID-to-global-name mappings.
 Notes:
 1. Information about activated coded fonts and activated data-object fonts is erased by this command.
-However, data-object-font components are not erased by this command. T o erase activation information for
+However, data-object-font components are not erased by this command. To erase activation information for
 data-object-font components, use either the XOH Erase Residual Print Data command or the Deactivate
 Data-Object-Font Component command.
 2. TrueType/OpenType fonts used as secondary resources in presentation data objects such as a PDF or
@@ -9788,11 +9422,9 @@ command is not processed until all preceding commands have been completely proce
 ACK of the XOH-ERFD command is not returned until the command's processing is complete.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0700' Erase Residual Font Data (ERFD) order code X'0700'
-XOH Erase Residual Font Data (ERFD)
+## XOH Erase Residual Font Data (ERFD)
 
-## Page 361
 
-IPDS Reference 327
 XOH Erase Residual Print Data
 The XOH Erase Residual Print Data (ERPD) order is a data security and privacy order that prohibits access to
 residual print data. This order causes the printer to do the following in the specified order:
@@ -9821,11 +9453,9 @@ command is not processed until all preceding commands have been completely proce
 ACK of the XOH-ERPD command is not returned until the command's processing is complete.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0500' Erase Residual Print Data (ERPD) order code X'0500'
-XOH Erase Residual Print Data (ERPD)
+## XOH Erase Residual Print Data (ERPD)
 
-## Page 362
 
-328 IPDS Reference
 XOH Obtain Printer Characteristics
 OPC Command
 The XOH Obtain Printer Characteristics (OPC) command, previously known as XOH Request Printer
@@ -9846,11 +9476,9 @@ Offset Type Name Range Meaning DC1 Range
 0–1 CODE Order code X'F300' Obtain Printer Characteristics (OPC) order
 code
 X'F300'
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 363
 
-IPDS Reference 329
 OPC Reply
 Printers return as many of the self-defining fields as are applicable. The self-defining fields can be in any order,
 but all fields that apply must be returned.
@@ -9890,11 +9518,9 @@ X'0017' “Printer Setup Self-Defining Field” on page 367
 X'0018' “Finishing Operations Self-Defining Field” on page 368
 X'0019' “UP3I Tupel Self-Defining Field” on page 369
 X'001A' “UP3I Paper Input Media Self-Defining Field” on page 369
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 364
 
-330 IPDS Reference
 Table 33 OPC Self-Defining Field Summary (cont'd.)
 SDF ID Self-Defining Field
 X'0021' “Colorant-Identification Self-Defining Field” on page 370
@@ -9906,11 +9532,9 @@ X'0027' “Object-Container Version Support Self-Defining Field” on page 376
 X'0028' “Finishing Options Self-Defining Field” on page 378
 X'0029' “Printer Speed Self-Defining Field ” on page 379
 X'002A' “Active Setup Name Self-Defining Field ” on page 380
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 365
 
-IPDS Reference 331
 Printable-Area Self-Defining Field
 The Printable-Area self-defining field returns information about the printer's physical media sources, hereafter
 referred to simply as media sources or input media sources. This information includes sheet-source
@@ -9950,18 +9574,16 @@ X'00'
 X'01'
 X'02'
 Unit base for this self-defining field:
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 Retired item 34
 7 X'00' Reserved
 8–9 UBIN UPUB X'0001' –
 X'7FFF'
 Units per unit base value for this self-defining field
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 366
 
-332 IPDS Reference
 Offset Type Name Range Meaning
 10–11 UBIN Actual
 medium
@@ -9996,7 +9618,7 @@ X'0001' –
 X'7FFF'
 Actual length of the medium presentation space in L-units. When
 the medium presentation space origin corresponds to the printer
-default media origin, this parameter determines the Y m extent of the
+default media origin, this parameter determines the Ym extent of the
 medium presentation space in all cases but one. In the case of
 continuous-forms printers that define the top edge of the sheet to
 be perpendicular to the leading edge, this parameter determines
@@ -10014,13 +9636,13 @@ area.
 m PPAoffset X'0000' –
 X'7FFF'
 Xm offset of the physical printable area in L-units
-16–17 UBIN Y m PPAoffset X'0000' –
+16–17 UBIN Ym PPAoffset X'0000' –
 X'7FFF'
 Ym offset of the physical printable area in L-units
-18–19 UBIN X m PPAextent X'0001' –
+18–19 UBIN Xm PPAextent X'0001' –
 X'7FFF'
 Xm extent of the physical printable area in L-units
-20–21 UBIN Y m PPAextent X'0001' –
+20–21 UBIN Ym PPAextent X'0001' –
 X'7FFF'
 Ym extent of the physical printable area in L-units
 22–23 BITS Input media source characteristic flags
@@ -10042,11 +9664,9 @@ commands such as XOH EFF , XOH SCF , and XOA CEM, as well
 as informing the host of the location of the top edge of the sheet.
 See the following envelope and COM bits for a description of the
 top edge of the sheet.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 367
 
-IPDS Reference 333
 Offset Type Name Range Meaning
 bit 3 Available B'1'
 B'0'
@@ -10112,11 +9732,9 @@ end of entry
 Length of input media identification (bytes 24 to end)
 Note: This value is limited by the maximum length of data in a
 MO:DCA triplet (250 bytes).
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 368
 
-334 IPDS Reference
 Offset Type Name Range Meaning
 26 CODE Media ID type
 X'00'
@@ -10148,11 +9766,9 @@ ID
 Any value Input media identification
 Bytes 24 to end are optional and are not returned by all printers.
 The input media ID is data whose meaning is printer specific.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 369
 
-IPDS Reference 335
 Symbol-Set Support Self-Defining Field
 The Symbol-Set Support self-defining field specifies the limits of support for the Load Symbol Set command.
 Offset Type Name Range Meaning
@@ -10188,11 +9804,9 @@ One to 124 entries in the following format:
 + 0–1 CODE FGID X'0001' –
 X'FFFE'
 Font Typeface Global ID (FGID) supporting the box size
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 370
 
-336 IPDS Reference
 Variable-Box Size Values
 This value entry defines the acceptable character-box size for any proportional symbol-set identifiers that can
 be downloaded. The font identifiers in bytes 10 to end are the same as the font identifiers in bytes 9 and 10 of
@@ -10208,8 +9822,8 @@ Length of this value entry, including this length field
 2 CODE Unit base X'00'
 X'01'
 X'02'
-T en-inch increments
-T en-centimeter increments
+Ten-inch increments
+Ten-centimeter increments
 Retired item 35
 3 X'00' Reserved
 4–5 UBIN PPUB X'0001' –
@@ -10223,11 +9837,9 @@ One to 120 entries in the following format:
 + 0–1 CODE FGID X'0001' –
 X'FFFE'
 Font Typeface Global ID (FGID) supporting this box size
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 371
 
-IPDS Reference 337
 IM-Image and Coded-Font Resolution Self-Defining Field
 The IM-Image and Coded-Font Resolution self-defining field specifies the supported resolutions in pels per unit
 base for IM Image and downloaded LF1-type and LF2-type coded-font pattern data. Most other data is
@@ -10242,8 +9854,8 @@ X'00'
 X'01'
 X'02'
 Unit base for this self-defining field:
-T en-inch increments
-T en-centimeter increments
+Ten-inch increments
+Ten-centimeter increments
 Retired item 36
 5 CODE Font
 resolutions X'00'
@@ -10264,11 +9876,9 @@ Resolution and Metric T echnology (X'84') triplet.
 2. The resolution values specified in bytes 6–7 and 8–9 are not necessarily the same as the current device
 resolution; if necessary, the printer will resolution correct all data to match the current device resolution.
 The “Supported Device Resolutions Self-Defining Field” on page 375 lists the current device resolutions.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 372
 
-338 IPDS Reference
 Storage Pools Self-Defining Field
 The Storage Pools self-defining field specifies storage pools within the printer. Each storage pool is defined
 with an entry that specifies total storage and the objects that are stored within the pool.
@@ -10344,11 +9954,9 @@ Double-byte coded-font patterns
 Code pages
 Font character sets
 Coded fonts
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 373
 
-IPDS Reference 339
 Retired Item 130 (Standard OCA Color Value Support Self-Defining Field)
 The Standard OCA Color Value Support self-defining field specifies the set of Standard OCA color values that
 are supported by the printer. This self-defining field has no meaning for other color spaces.
@@ -10396,11 +10004,9 @@ Dark turquoise
 Mustard
 Gray
 Brown
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 374
 
-340 IPDS Reference
 Installed Features Self-Defining Field
 The Installed Features self-defining field specifies features installed in the device. If a feature is installed, any
 commands and properties associated with this feature must be specified in the STM reply as being supported.
@@ -10450,11 +10056,9 @@ Continuous-forms output
 Continuous-forms separation capability
 PTOCA text decryption capability
 Note: The absence of both X'0300' and X'0B00' specifies that continuous-forms output is installed.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 375
 
-IPDS Reference 341
 Available Features Self-Defining Field
 The Available Features self-defining field specifies features immediately available in the device. If a feature is
 specified as being available, it must also be specified in the Installed Features self-defining field as being
@@ -10518,18 +10122,14 @@ MICR text on one side of the media, but not on the other side; in this case, tex
 MICR font that is placed on the non-MICR side of the media causes this exception to occur.
 Note: Some of the features are defined to apply to the printer as a whole as opposed to applying to an
 individual media source or media destination; these features include: manual two-channel switch, tightly
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 376
 
-342 IPDS Reference
 coupled two-channel switch, cut-sheet output, offset stacker, MICR, burster-trimmer-stacker/cutter-
 trimmer-stacker, continuous-forms output, continuous-forms separation capability.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 377
 
-IPDS Reference 343
 Resident Symbol-Set Support Self-Defining Field
 The Resident Symbol-Set Support self-defining field specifies that symbol sets are resident in the printer.
 Offset Type Name Range Meaning
@@ -10542,7 +10142,7 @@ maximum length X'7FFE'
 One or more Resident Symbol-Set Repeating Group Lists in the following format:
 + 0 UBIN Length X'0A'–X'FE'
 even values
-T otal Length of Code Page/Font ID Repeating Group List,
+Total Length of Code Page/Font ID Repeating Group List,
 including this length field
 + 1 CODE Code page ID X'01' Code Page Support ID
 + 2 UBIN Code page list
@@ -10576,11 +10176,9 @@ List and Font ID List each have their own length (these need not be the same). T
 pairs are themselves repeating groups. Additional Code Page/Font ID List pairs specify those code pages that
 are available in other (different) fonts, or perhaps available only in a subset of the fonts for a preceding group
 entry.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 378
 
-344 IPDS Reference
 Print-Quality Support Self-Defining Field
 The Print-Quality Support self-defining field specifies the minimum values for print quality supported by the
 printer. This field need not be returned by printers that have only one print quality.
@@ -10593,11 +10191,9 @@ One or more print quality boundaries in the following format:
 + 0 UBIN Boundary X'01'–X'FE' The lower boundary of an implemented print quality, as specified
 by the Print-Quality Control order in the Execute Order Anystate
 command. See “XOA Print-Quality Control” on page 293.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 379
 
-IPDS Reference 345
 XOA-RRL RT & RIDF Support Self-Defining Field
 The Execute Order Anystate RRL RT & RIDF Support self-defining field specifies the combinations of resource
 types and resource ID formats that the printer supports in an XOA-RRL command.
@@ -10669,11 +10265,9 @@ subsets
 • X'0700'—font character set queried by Host-Assigned ID; implicit in support of the LF3 subset
 • X'1000'—coded font queried by Host-Assigned ID; implicit in support of the LF3 subset
 • X'1200'—specific code page queried by Host-Assigned ID; implicit in support of the LF3 and LF4 subsets
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 380
 
-346 IPDS Reference
 Activate Resource RT & RIDF Support Self-Defining Field
 This self-defining field specifies the combinations of Resource Types and Resource ID Formats supported by
 the printer, within the Activate Resource command. If this self-defining field is returned, the printer must also
@@ -10730,11 +10324,9 @@ MVS Host Unalterable Remote Font Environment
 Coded-font format
 Object-OID format
 Data-object-font format
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 381
 
-IPDS Reference 347
 Medium Modification IDs Supported Self-Defining Field
 This self-defining field lists the medium modification IDs that are currently supported by the XOH-SMM
 command. If this self-defining field is returned, the printer must also return the Select-Medium-Modifications-
@@ -10756,11 +10348,9 @@ ID of a currently-supported medium modification
 Note: Medium modification ID X'A0FF' should not be returned in the XOH-OPC reply unless there is at least
 one other supported fixed medium information modification ID. X'A0FF' is used by the host only if it is
 returned in the XOH-OPC reply.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 382
 
-348 IPDS Reference
 Deprecated (Common Bar Code Type/Modifier Self-Defining Field)
 Note: This self-defining field has been deprecated and replaced with the Bar Code Type/Modifier self-defining
 field (X'000F'). The deprecated self-defining field is based on an IPDS-defined subset (called the
@@ -10770,10 +10360,10 @@ today. The Interleaved 2-of-5 bar code can be used instead of the obsolete bar c
 supports the same input data and also produces a smaller bar code symbol.
 Many older IPDS printers return X'000E'; new implementations must use X'000F'. Printers can report
 both X'000E' and X'000F' so as to be compatible with older presentation services programs that only
-recognize X'000E'. Refer to Figure 63 on page 352 for a diagram of the bar code subsets and to T able
+recognize X'000E'. Refer to Figure 63 on page 352 for a diagram of the bar code subsets and to Table
 35 on page 353 for a comparison of the two self-defining fields.
 The Common Bar Code Type/Modifier self-defining field lists those bar codes that are supported by the printer,
-but are not in the set of common bar codes listed in T able 34 on page 349. Presence of the Common Bar Code
+but are not in the set of common bar codes listed in Table 34 on page 349. Presence of the Common Bar Code
 Type/Modifier self-defining field implies support of all of the common bar code type and modifier combinations
 plus the additional bar code type and modifier combinations listed in the self-defining field.
 Offset Type Name Range Meaning
@@ -10839,11 +10429,9 @@ EAN Two-digit Supplemental, modifier-byte option X'01'
 EAN Five-digit Supplemental, modifier-byte option X'01'
 POSTNET (PLANET , deprecated), modifier-byte option X'04'
 RM4SCC, modifier-byte option X'01'
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 383
 
-IPDS Reference 349
 Table 34. Common Values for Bar Code Types and Modifiers
 Type Description Modifier values
 X'01' 3-of-9 code X'01' and X'02'
@@ -10862,11 +10450,9 @@ X'17' EAN Five-digit Supplemental X'00'
 Note: The BCOCA BCD1 subset requires support of a subset of the common set that consists of the common
 set minus Industrial 2-of-5 and Matrix 2-of-5. Refer to the Bar Code Object Content Architecture
 Reference for a description of the BCOCA bar code types and modifiers.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 384
 
-350 IPDS Reference
 Bar Code Type/Modifier Self-Defining Field
 The Bar Code Type/Modifier self-defining field lists the optional bar codes that are supported by the printer in
 addition to those required by the listed BCOCA subset (either BCD1 or BCD2). Type/Modifier combinations
@@ -10875,7 +10461,7 @@ The STM reply for BCOCA can contain one vector for the highest level subset supp
 multiple vectors (one for each supported subset). Providing multiple subsets in the STM reply allows the printer
 to indicate optional property pairs supported by each subset (which can be different for each subset). Multiple
 vectors are also used to ensure that BCOCA will be supported by older print server software that does not
-recognize the new subset (but does support the older one). T o minimize the size of the OPC reply, it is
+recognize the new subset (but does support the older one). To minimize the size of the OPC reply, it is
 recommended that the highest supported BCOCA subset be listed in the X'000F' self-defining field.
 BCOCA subset support is indicated in the STM reply and is shown in Figure 63 on page 352.
 Note: The Common Bar Code Type/Modifier self-defining field (X'000E') has been deprecated; new
@@ -10944,11 +10530,9 @@ Royal Mail RED TAG (deprecated)
 GS1 DataBar
 Royal Mail Mailmark
 Aztec Code
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 385
 
-IPDS Reference 351
 Offset Type Name Range Meaning
 + 1 CODE Code value
 for modifiers X'00'
@@ -11013,11 +10597,9 @@ Australia Post Bar Code
 X'03' and X'04' for the following type:
 Interleaved 2-of-5, ITF-14 and AIM USS-I 2/5
 (to show Bearer Bars)
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 386
 
-352 IPDS Reference
 Figure 63. BCOCA Bar Code Subsets
 BCOCAKey:
 BCD2
@@ -11088,11 +10670,9 @@ MSI (modified Plessey code)
 UPC/CGPC Version A and UPC/CGPC Version E
 UPC Five-digit Supplemental - modifier X'00'
 UPC Two-digit Supplemental - modifier X'00'
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 387
 
-IPDS Reference 353
 The following cross-reference table shows how the bar code type/modifier combinations are specified with the
 two OPC SDFs:
 X'000E' – Deprecated (Common Bar Code Type/Modifier self-defining field)
@@ -11138,11 +10718,9 @@ deprecated)
 X'98' X'1804'
 RM4SCC X'00' X'1A' X'1A00'
 X'01' (Dutch KIX) X'9A' X'1A01'
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 388
 
-354 IPDS Reference
 Table 35 Relationship Between SDF X'000E' and X'000F' (cont'd.)
 Type/Modifier Combinations Code Value Used in OPC Reply
 Type Modifier For SDF X'000E' For SDF X'000F'
@@ -11164,11 +10742,9 @@ X'11' through X'1B'
 X'24' X'2482'
 Royal Mail Mailmark X'00' and X'01' not supported X'2580'
 Aztec Code (2D bar code) X'00' through X'03' not supported X'2681'
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 389
 
-IPDS Reference 355
 Media-Destinations Self-Defining Field
 This self-defining field specifies the available media-destination IDs that can be selected by a Load Copy
 Control command. It contains non-overlapping ranges of contiguous media-destination IDs in ascending order.
@@ -11198,18 +10774,16 @@ X'FFFF'
 Last number in a range of available, contiguous media-destination
 IDs; this ID must be greater than or equal to the value specified in
 bytes +0–1 for this set.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 390
 
-356 IPDS Reference
 Supported Group Operations Self-Defining Field
 This self-defining field specifies the group operations supported by a printer, pre-processor, or post-processor
 in the XOH Specify Group Operation command. If this self-defining field is returned, the printer must also return
 the XOH-DGB-supported property pair (X'9004') and the XOH-SGO-supported property pair (X'9003') in the
 Device-Control command-set vector of an STM reply.
 Support for a group operation also implies support for all triplets defined for that group operation. The
-relationship between group operations and triplets is shown in T able 32 on page 322.
+relationship between group operations and triplets is shown in Table 32 on page 322.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0005' –
 X'7FFF'
@@ -11243,11 +10817,9 @@ information about connected UP 3I devices that can also support finishing operat
 allowed within a recovery-unit group; these sheets include sheets containing pages and copies of such
 sheets. Printers that do not support this group operation or have no maximum do not return this self-
 defining field.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 391
 
-IPDS Reference 357
 Product Identifier Self-Defining Field
 The Product Identifier self-defining field is an optional field that specifies parameters that contain product-
 identification data. Each parameter is defined with a product-identifier parameter ID that specifies what the
@@ -11297,11 +10869,9 @@ The format of the parameter value field (bytes + 3 to end) depends on the value 
 + 1–2), as follows:
 Parameter ID = X'0000'
 There is no parameter value for this parameter ID. The parameter length must be X'03'.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 392
 
-358 IPDS Reference
 Parameter ID = X'0001'
 The parameter length must be in the range X'28'–X'38'. The parameter value contains a unique product
 identifier in the following format:
@@ -11331,7 +10901,7 @@ X'F0' if necessary. The sequence number along with the plant of
 manufacture make up the serial number imprinted on the serial
 number plate that is physically attached to the printer. If this
 information is not available, bytes 17–28 contain binary zeros.
-+ 29–30 UNDF T ag Used to differentiate between devices whose IDs specified in
++ 29–30 UNDF Tag Used to differentiate between devices whose IDs specified in
 bytes 3–28 are otherwise identical, as in the case of two print
 mechanisms on the same printer control unit. This field is set to
 X'0000' if this level of differentiation is unnecessary.
@@ -11363,11 +10933,9 @@ Device-type and model-number parameters were originally numeric, but many device
 alphanumeric values.
 2. The device serial number is represented by a combination of the plant-of-manufacture and sequence-
 number fields.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 393
 
-IPDS Reference 359
 Parameter ID = X'0002'
 The parameter length must be in the range X'11'–X'21'. The parameter value contains a IPDS intermediate
 device identifier in the following format:
@@ -11433,11 +11001,9 @@ CHAR Printer name External name of the printer in the form of a variable number 
 EBCDIC characters; names can be from 1 to 252 bytes long.
 This optional name should be supplied when the printer name is
 different from the device type.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 394
 
-360 IPDS Reference
 Parameter ID = X'0004'
 The parameter length must be in the range X'07'–X'FF'. The parameter value contains information about one
 subsystem of the product in the following format:
@@ -11472,15 +11038,13 @@ Notes:
 1. Because the subsystem information fields are variable length, no padding or justification rules need be
 specified.
 2. Multiple X'0004' entries can be used to report subsystem information for multiple subsystems.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 395
 
-IPDS Reference 361
 Object-Container Type Support Self-Defining Field
 This self-defining field lists the object containers supported by the printer and for each type of object indicates
 whether the object is supported in home state, in page or overlay state, or in all three states. The object-type
-OIDs also indicate whether an object container is a presentation object or a non-presentation object. T able 17
+OIDs also indicate whether an object container is a presentation object or a non-presentation object. Table 17
 on page 99 summarizes characteristics of the currently defined object containers.
 Non-presentation object containers are downloaded in home state and are either used immediately (as in the
 case of a setup file) or are later invoked in page or overlay state (as in the case of a PostScript resource
@@ -11526,11 +11090,9 @@ on the right with zeroes.
 Anacomp COM Setup File
 Anacomp COM T ape Label Setup File
 AnaStack Record Setup File
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 396
 
-362 IPDS Reference
 Offset Type Name Range Meaning
 X'0607 2B12
 0004 0101
@@ -11580,8 +11142,8 @@ X'0607 2B12
 0004 0101
 4000 0000
 0000 0000'
-Color Management Resource (CMR)
-Color Mapping T able Setup File
+## Color Management Resource (CMR)
+Color Mapping Table Setup File
 EPS (Encapsulated PostScript) without transparency
 EPS (Encapsulated PostScript) with transparency
 GIF (Graphics Interchange Format)
@@ -11593,11 +11155,9 @@ Non-OCA Resource object; see note 1 on page 364
 PCL page object
 PDF multiple-page file without transparency
 PDF multiple-page file with transparency
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 397
 
-IPDS Reference 363
 Offset Type Name Range Meaning
 X'0607 2B12
 0004 0101
@@ -11655,18 +11215,16 @@ AFPC PNG Subset
 Resident Color Profile
 SVG (Scalable Vector Graphics)
 AFPC SVG Subset; see note 2 on page 364
-TIFF (T ag Image File Format)
+TIFF (Tag Image File Format)
 AFPC TIFF Subset
-TIFF (T ag Image File Format) with transparency
-TIFF (T ag Image File Format) without transparency
+TIFF (Tag Image File Format) with transparency
+TIFF (Tag Image File Format) without transparency
 TIFF multiple-image file with transparency
 TIFF multiple-image file without transparency
 TrueType/OpenType Collection
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 398
 
-364 IPDS Reference
 Offset Type Name Range Meaning
 X'0607 2B12
 0004 0101
@@ -11710,14 +11268,12 @@ support” was X'120B', which reported such support was provided by the DORE com
 However, that property pair has been retired (retired item 149) in favor of property pair X'120D',
 which reports such support provided by the DORE2 command. See the description of the X'120D'
 property pair in note 4 on page 261 for more information.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 399
 
-IPDS Reference 365
 DF Deactivation Types Supported Self-Defining Field
 The DF Deactivation Types Supported self-defining field lists the optional deactivation types that are supported
-by the printer. These types are in addition to those listed as required in T able 24 on page 165.
+by the printer. These types are in addition to those listed as required in Table 24 on page 165.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0005' –
 X'000A'
@@ -11739,11 +11295,9 @@ Deactivate all resident coded fonts and all
 associated components
 Deactivate all coded fonts
 Deactivate all coded fonts and all associated components
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 400
 
-366 IPDS Reference
 PFC Triplets Supported Self-Defining Field
 The PFC Triplets Supported self-defining field lists the optional triplets that are supported by the printer on the
 Presentation Fidelity Control command. If the PFC command is supported by a printer, this self-defining field
@@ -11761,16 +11315,14 @@ X'86'
 X'88'
 X'96'
 Supported triplet ID:
-T oner Saver triplet
+Toner Saver triplet
 Color Fidelity triplet
-T ext Fidelity triplet
+Text Fidelity triplet
 Finishing Fidelity triplet
-CMR T ag Fidelity triplet
-XOH Obtain Printer Characteristics (OPC)
+CMR Tag Fidelity triplet
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 401
 
-IPDS Reference 367
 Printer Setup Self-Defining Field
 The Printer Setup self-defining field lists all setup IDs that are currently active in the printer. There can be
 multiple IDs, each of which identifies a particular, implementation-defined setup in the printer or post-
@@ -11789,11 +11341,9 @@ One or more entries in the following format:
 + 0–1 CODE Setup ID X'0000' –
 X'FFFF'
 Currently active setup ID
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 402
 
-368 IPDS Reference
 Finishing Operations Self-Defining Field
 The Finishing Operations self-defining field lists all the different types of finishing operations that the printer
 supports with the Finishing Operation (X'85') triplet. Presence of this OPC self-defining field indicates support
@@ -11861,11 +11411,9 @@ Double parallel-fold out
 Double gate-fold out
 Single gate-fold out
 Exception ID X'0109..00' exists when a finishing operation is enabled or disabled.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 403
 
-IPDS Reference 369
 UP3I Tupel Self-Defining Field
 This self-defining field reports the physical order and properties of the UP 3I devices connected to the printer.
 One of these self-defining fields is returned for each possible paper path combination in the line of UP 3I
@@ -11916,11 +11464,9 @@ available at www.afpcinc.org. Refer to the section titled
 The Printable-Area self-defining field and the UP 3I Paper Input Media self-defining field both provide
 descriptions of a media source and the media in that source. The printer must provide non-conflicting
 information in each pair of these self-defining fields that are related by a media source ID.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 404
 
-370 IPDS Reference
 Colorant-Identification Self-Defining Field
 This self-defining field lists all colorants available in the printer. Colorants and combinations of colorants can be
 selected using a highlight-color value in the range X'0100'–X'FFFF' along with an indexed CMR.
@@ -11989,11 +11535,9 @@ naming conventions supported in EPS and PDF , that restrict names mainly to the 
 bit ASCII.
 3. The colorant name here is limited by the self-defining field to be 250 bytes in length (each Colorant-
 Identification entry is limited to 255 bytes and there are 5 bytes taken before the name). It is also possible
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 405
 
-IPDS Reference 371
 to list colorant names in the Colorant Identification List tag in CMOCA and in the nColor Names parameter
 in IOCA, and in both of those places the names are also encoded in UTF-16BE and limited to 250 bytes.
 When appropriate, the same colorant names should be used in all of these places. In particular, the
@@ -12007,11 +11551,9 @@ AFPC_Device_R Device Red
 AFPC_Device_G Device Green
 AFPC_Device_B Device Blue
 AFPC_Device_Gray Device Gray
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 406
 
-372 IPDS Reference
 Device-Appearance Self-Defining Field
 This self-defining field lists optional device-appearance values that are supported by the printer. A device
 appearance can be selected with the Device Appearance (X'97') triplet in a Set Presentation Environment
@@ -12028,11 +11570,9 @@ One or more appearance values in the following format:
 Note: Printers that support the Device Appearance (X'97') triplet must support at least the device-default
 appearance (X'0000'). Printers that support the triplet but do not support any of the optional device-
 appearance values also do not return this OPC self-defining field.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 407
 
-IPDS Reference 373
 Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field
 This self-defining field identifies the maximum number of sheets allowed within a recovery-unit group; these
 sheets include sheets containing pages and copies of such sheets. Support for this group operation is
@@ -12057,8 +11597,8 @@ Maximum value is finite, but larger than 65,534 sheets
 X'00'
 X'01'
 Unit base for this self-defining field:
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 7–8 UBIN UPUB X'0001' –
 X'7FFF'
 Units per unit base value for this self-defining field
@@ -12072,7 +11612,7 @@ Maximum length of media that can be kept together as a
 recovery unit:
 Value not specified; refer to maximum number of
 sheets value
-T otal length of media that can be kept together as a
+Total length of media that can be kept together as a
 recovery unit
 Note: For a printer using cut-sheet media, the value is the sum
 of the sheet lengths. For a printer using continuous-forms
@@ -12083,11 +11623,9 @@ Note: Printers that do not support the Keep-Group-T ogether-as-a-Recovery-Unit g
 maximum do not return this self-defining field. If both a non-zero maximum number of sheets and a non-
 zero maximum total group length is specified, the printer is responsible for ensuring that these values
 are consistent and the presentation services program can use either value (and ignore the other value).
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 408
 
-374 IPDS Reference
 Recognized Group ID Formats Self-Defining Field
 This self-defining field specifies the group ID formats that are recognized by the printer in the Group ID (X'00')
 triplet. The printer must accept all formats (but unrecognized formats are ignored and don't need to be
@@ -12116,11 +11654,9 @@ AIX and OS/2 COM-data format
 AIX and Windows print-data
 Variable-length Group ID format
 Extended OS/400 print-data format
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 409
 
-IPDS Reference 375
 Supported Device Resolutions Self-Defining Field
 This self-defining field lists the resolution (or resolutions) controlled by the printer; this includes the resolution
 to which sheet-side data is RIPped and the number of printed pels per inch (often called the print-head
@@ -12156,15 +11692,13 @@ End of current device resolutions
 end of
 SDF
 Data without architectural definition
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 410
 
-376 IPDS Reference
 Object-Container Version Support Self-Defining Field
 This self-defining field lists the object container versions supported by the printer.
 The object containers supported by the printer are listed in the Object-Container Type Support self-defining
-field. T o supplement that self-defining field, this self-defining field optionally lists the supported versions of each
+field. To supplement that self-defining field, this self-defining field optionally lists the supported versions of each
 of the object containers listed in the Object-Container Type Support self-defining field.
 Every version record in this self-defining field specifies the version support using either a numeric version
 number (bytes +18 to +23), or a version name string (bytes +24 to end), or both. However, a version record
@@ -12185,7 +11719,7 @@ The following object containers have multiple object-type OIDs defined for varia
 – Single-page, without transparency (OID=X'0607 2B12 0004 0101 1900 0000 0000 0000')
 – Single-page, with transparency (OID=X'0607 2B12 0004 0101 3100 0000 0000 0000')
 – Resource object (OID=X'0607 2B12 0004 0101 1A00 0000 0000 0000')
-• TIFF (T ag Image File Format)
+• TIFF (Tag Image File Format)
 – With transparency (OID=X'0607 2B12 0004 0101 0E00 0000 0000 0000')
 – Without transparency (OID=X'0607 2B12 0004 0101 3C00 0000 0000 0000')
 – Multiple-image, with transparency (OID=X'0607 2B12 0004 0101 3D00 0000 0000 0000')
@@ -12204,11 +11738,9 @@ use the first method for the variations of one object container (for example, PD
 for the variations of a different object container (for example, TIFF). Returning version information for any
 specific variation is optional. The all-variations flag is ignored for object containers other than those in the
 above list.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 411
 
-IPDS Reference 377
 A list of recommended values to be returned in this self-defining field for known versions of object containers
 can be found in the publication Recommended IPDS Values for Object Container Versions.
 Offset Type Name Range Meaning
@@ -12259,11 +11791,9 @@ CHAR Version name Any UTF-16BE
 characters
 Name of the version supported. This field is optional in the
 version record.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 412
 
-378 IPDS Reference
 Finishing Options Self-Defining Field
 The Finishing Options self-defining field lists all the finishing options that the printer supports with the Finishing
 Operation (X'85') triplet. Presence of this OPC self-defining field must always be accompanied by presence of
@@ -12278,11 +11808,9 @@ Length of this self-defining field, including this length field
 One or more option-description entries in the following format:
 + 0 CODE Option type X'01' Crease
 Exception ID X'0109..00' exists when a finishing option is enabled or disabled.
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 413
 
-IPDS Reference 379
 Printer Speed Self-Defining Field
 This self-defining field reports the speed of the printer.
 The reported speed should match the marketing literature for the printer. As such, the value does not depend
@@ -12315,11 +11843,9 @@ X'00000000'
 Number of feet of continuous-forms media that can be printed per
 minute
 No feet-per-minute value reported
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 414
 
-380 IPDS Reference
 Active Setup Name Self-Defining Field
 This self-defining field reports the active setup name on the printer, if any. If there is an active setup name, it is
 returned using a Setup Name (X'9E') triplet in the active-setup-name field. If there is no active setup name, the
@@ -12341,11 +11867,9 @@ SDF
 Active setup
 name
 Zero or one Setup Name (X'9E') triplet
-XOH Obtain Printer Characteristics (OPC)
+## XOH Obtain Printer Characteristics (OPC)
 
-## Page 415
 
-IPDS Reference 381
 XOH Page Counters Control
 The XOH Page Counters Control (PCC) command provides a counter-synchronization function that should
 only be used to recover from an exception or after an XOA Discard Buffered Data command. The host sends
@@ -12385,11 +11909,9 @@ stacked-page station.
 Support of this optional function is indicated by the X'FA00' property pair in the
 Device-Control command-set vector of an STM reply.
 Exception ID X'0295..02' exists if the host program specifies any other value in this field.
-XOH Page Counters Control (PCC)
+## XOH Page Counters Control (PCC)
 
-## Page 416
 
-382 IPDS Reference
 XOH Print Buffered Data
 The XOH Print Buffered Data (PBD) command causes the printer to schedule all buffered data for printing prior
 to sending an Acknowledge Reply, if requested. Buffered data is page data not reflected by the committed
@@ -12407,11 +11929,9 @@ is not processed until all preceding commands have been completely processed. In
 PBD order is not returned until PBD processing is complete.
 Offset Type Name Range Meaning DC1 Range
 0–1 CODE Order code X'0100' Print Buffered Data (PBD) order code X'0100'
-XOH Print Buffered Data (PBD)
+## XOH Print Buffered Data (PBD)
 
-## Page 417
 
-IPDS Reference 383
 XOH Remove Saved Page Group
 The XOH Remove Saved Page Group (RSPG) command directs the printer to deactivate and remove one or
 more previously saved page groups.
@@ -12459,18 +11979,14 @@ The groups to be removed are identified by Group ID (X'00') triplets containing 
 the printer does not find the saved page group identified by a Group ID (X'00') triplet, the triplet is ignored.
 Exception ID X'0255..0A' exists if any of the following occurs in the triplets field:
 • Byte 2 or the first byte after a valid triplet is X'00' or X'01' (an invalid triplet length).
-XOH Remove Saved Page Group (RSPG)
+## XOH Remove Saved Page Group (RSPG)
 
-## Page 418
 
-384 IPDS Reference
 • A triplet other than a Group ID (X'00') triplet is specified.
 • A Group ID (X'00') triplet without a variable-length group ID is specified.
-XOH Remove Saved Page Group (RSPG)
+## XOH Remove Saved Page Group (RSPG)
 
-## Page 419
 
-IPDS Reference 385
 XOH Select Input Media Source
 The XOH Select Input Media Source (SIMS) command selects an input media source ID and indirectly selects
 the physical media contained in the media source that is mapped to this ID for subsequent sheets. This
@@ -12510,11 +12026,9 @@ ID of X'00' is mapped to an input media source with duplex capability. Whereas, 
 other printers, a non-duplexable input media source is used. The Printable-Area self-
 defining field in the XOH-OPC Acknowledge Reply contains some of the characteristics
 of the input media source that is associated with a particular input media source ID.
-XOH Select Input Media Source (SIMS)
+## XOH Select Input Media Source (SIMS)
 
-## Page 420
 
-386 IPDS Reference
 XOH Select Medium Modifications
 The XOH Select Medium Modifications (SMM) command selects one or more medium modifications to be
 either applied or inhibited on the current sheet of physical media. The current sheet is the sheet on which the
@@ -12576,11 +12090,9 @@ Zero or more bytes of medium-modification
 parameters
 See byte
 description
-XOH Select Medium Modifications (SMM)
+## XOH Select Medium Modifications (SMM)
 
-## Page 421
 
-IPDS Reference 387
 Bytes 0–1 SMM order code
 Bytes 2–9 Reserved
 Bytes 10 to end of command
@@ -12619,11 +12131,9 @@ Entry bytes 5 to end of entry
 Modification parameters
 These bytes are reserved for modification parameters. Currently, no medium
 modification IDs require any parameters.
-XOH Select Medium Modifications (SMM)
+## XOH Select Medium Modifications (SMM)
 
-## Page 422
 
-388 IPDS Reference
 XOH Separate Continuous Forms
 The XOH Separate Continuous Forms (SCF) command signals the printer to separate the continuous-forms
 media that is currently selected. This command signals the printer to separate the sheet on which the next
@@ -12642,13 +12152,11 @@ Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0900' Separate Continuous Forms (SCF) order
 code
 X'0900'
-XOH Separate Continuous Forms (SCF)
+## XOH Separate Continuous Forms (SCF)
 
-## Page 423
 
-IPDS Reference 389
 XOH Set Media Origin
-The XOH Set Media Origin (SMO) command sets the origin of the X m,Ym coordinate system to one of the four
+The XOH Set Media Origin (SMO) command sets the origin of the Xm,Ym coordinate system to one of the four
 corners of the medium presentation space. An XOH-SMO command can cause the physical printable area
 offset and extent values reported in the XOH-OPC command to change. This order takes effect on the next
 side of a sheet that is selected.
@@ -12660,9 +12168,9 @@ This is an optional command that is not supported by all printers. If this comma
 the printer does not support the command, the origin corresponds to the top-left corner of the sheet, where the
 viewpoint is at the center of the physical medium. This is called the printer default media origin. In this case,
 the X
-m axis of the medium presentation space corresponds to the top edge of the sheet, and positive X m values
-begin at the origin and increase from left to right. The Y m axis of the medium presentation space corresponds
-to the left edge of the sheet and positive Y m values begin at the origin and increase from top to bottom.
+m axis of the medium presentation space corresponds to the top edge of the sheet, and positive Xm values
+begin at the origin and increase from left to right. The Ym axis of the medium presentation space corresponds
+to the left edge of the sheet and positive Ym values begin at the origin and increase from top to bottom.
 For printers using continuous-forms media that implement the command, the top edge of the sheet is the short
 side whose left corner is closest to the leading edge of the sheet as it moves through the printer. For printers
 using continuous-forms media that do not support the command, the printer defines the top edge of the sheet.
@@ -12677,21 +12185,19 @@ top edge of the sheet for COM for various frame arrangements.
 Note that the top edge of the sheet is fixed for each printer and for envelopes, and the XOH-SMO command
 does not change the location of the top edge of the sheet. In addition, the XOH-SMO command does not alter
 the relationship between the X
-m axis and the Y m axis. The Ym axis is rotated 90 degrees clockwise from the X m
+m axis and the Ym axis. The Ym axis is rotated 90 degrees clockwise from the Xm
 axis regardless of the positioning of the medium presentation space origin with respect to the physical medium.
 When Xm-axis duplex is in effect, the top edge of the sheet for the back side of a duplex sheet is the opposite
-edge as that used for the front side. When Y m-axis duplex is in effect, the top edge of the sheet for the back
+edge as that used for the front side. When Ym-axis duplex is in effect, the top edge of the sheet for the back
 side of a duplex sheet is the same edge as that used for the front side.
 For the front side of a duplex sheet, the origin of the medium presentation space moves in a clockwise
 direction with respect to the top edge of the sheet. For the back side of a duplex sheet, the origin of the
 medium presentation space moves in a counter-clockwise direction with respect to the top edge of the sheet.
 Figure 64 on page 390 through Figure 70 on page 394 illustrate the XOH Set Media Origin command for the
 various kinds of media.
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 424
 
-390 IPDS Reference
 Figure 64. The XOH Set Media Origin Command (Cut-Sheet Media)
 Back Side of the Sheet
 Note: The shaded circles in the illustration represent holes punched through the sheet and
@@ -12708,11 +12214,9 @@ X -Axis Duplex (Tumble)m
 SMO=X'00' SMO=X'03'
 SMO=X'01' SMO=X'02'
 Top
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 425
 
-IPDS Reference 391
 Figure 65. The XOH Set Media Origin Command (Wide Continuous-Forms Media)
 Front Side of Sheets
 SMO=X'00'
@@ -12735,11 +12239,9 @@ p
 Top
 Top
 Top
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 426
 
-392 IPDS Reference
 Figure 66. The XOH Set Media Origin Command (Narrow Continuous-Forms Media)
 Front Side of Sheets
 SMO=X'00'
@@ -12763,11 +12265,9 @@ SMO=X'03'
 SMO=X'01'
 SMO=X'00'Top
 Top
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 427
 
-IPDS Reference 393
 Figure 67. Examples of Commonly Used SMO/Duplex Combinations
 Note: The shaded circles in the illustration represent holes punched through the sheets and
 show how the sheets were flipped from front side to back side.
@@ -12826,11 +12326,9 @@ Page 2
 Ym
 X
 m
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 428
 
-394 IPDS Reference
 Figure 68. The XOH Set Media Origin Command (Front Side of an Envelope)
 SMO=X’00’ SMO=X’01’
 SMO=X’02’SMO=X’03’
@@ -12858,7 +12356,7 @@ T
 T
 O
 M
-Figure 69. The XOH Set Media Origin Command (Back Side of an X m-Axis Duplex Envelope)
+Figure 69. The XOH Set Media Origin Command (Back Side of an Xm-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’SMO=X’02’
 SMO=X’03’
@@ -12887,7 +12385,7 @@ T
 T
 O
 M
-Figure 70. The XOH Set Media Origin Command (Back Side of a Y m-Axis Duplex Envelope)
+Figure 70. The XOH Set Media Origin Command (Back Side of a Ym-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’ SMO=X’02’
 SMO=X’03’
@@ -12916,11 +12414,9 @@ T
 T
 O
 M
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 429
 
-IPDS Reference 395
 The medium presentation space origin does not change until either another XOH-SMO command is processed
 or the printer is reinitialized (returns an IML NACK).
 The XOH-SMO command does not alter the orientation of the physical medium and the physical printable
@@ -12941,7 +12437,7 @@ X'01'
 X'02'
 X'03'
 Medium presentation space origin:
-T op-left corner
+Top-left corner
 See byte description
 Bottom-right corner
 See byte description
@@ -12954,15 +12450,15 @@ Byte 2 Medium Presentation Space Origin
 This parameter specifies the medium presentation space origin. Exception ID X'026F ..02'
 exists if an invalid origin value is specified.
 X'00' Set the medium presentation space origin to correspond to the top-left corner of the
-medium presentation space. The X m axis of the medium presentation space
-corresponds to the top edge of the sheet and positive X m values begin at the origin
-and increase from left to right. The Y m axis of the medium presentation space
-corresponds to the left edge of the sheet and positive Y m values begin at the origin
+medium presentation space. The Xm axis of the medium presentation space
+corresponds to the top edge of the sheet and positive Xm values begin at the origin
+and increase from left to right. The Ym axis of the medium presentation space
+corresponds to the left edge of the sheet and positive Ym values begin at the origin
 and increase from top to bottom.
 X'01' For the front side of a duplex sheet, set the medium presentation space origin to
-correspond to the top-right corner of the medium presentation space. The X m axis of
+correspond to the top-right corner of the medium presentation space. The Xm axis of
 the medium presentation space corresponds to the right edge of the sheet and
-positive Xm values begin at the origin and increase from top to bottom. The Y m axis of
+positive Xm values begin at the origin and increase from top to bottom. The Ym axis of
 the medium presentation space corresponds to the top edge of the sheet and positive
 Ym values begin at the origin and increase from right to left.
 For the back side of a duplex sheet, set the medium presentation space origin to
@@ -12970,25 +12466,23 @@ correspond to the bottom left corner of the medium presentation space. The X
 m axis of
 the medium presentation space corresponds to the left edge of the sheet and positive
 X
-m values begin at the origin and increase from bottom to top. The Y m axis of the
+m values begin at the origin and increase from bottom to top. The Ym axis of the
 medium presentation space corresponds to the bottom edge of the sheet and positive
 Ym values begin at the origin and increase from left to right.
 X'02' Set the medium presentation space origin to correspond to the bottom-right corner of
-the medium presentation space. The X m axis of the medium presentation space
-corresponds to the bottom edge of the sheet and positive X m values begin at the origin
-and increase from right to left. The Y m axis of the medium presentation space
-corresponds to the right edge of the sheet and positive Y m values begin at the origin
+the medium presentation space. The Xm axis of the medium presentation space
+corresponds to the bottom edge of the sheet and positive Xm values begin at the origin
+and increase from right to left. The Ym axis of the medium presentation space
+corresponds to the right edge of the sheet and positive Ym values begin at the origin
 and increase from bottom to top.
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 430
 
-396 IPDS Reference
 X'03' For the front side of a duplex sheet, set the medium presentation space origin to
-correspond to the bottom left corner of the medium presentation space. The X m axis of
+correspond to the bottom left corner of the medium presentation space. The Xm axis of
 the medium presentation space corresponds to the left edge of the sheet and positive
 X
-m values begin at the origin and increase from bottom to top. The Y m axis of the
+m values begin at the origin and increase from bottom to top. The Ym axis of the
 medium presentation space corresponds to the bottom edge of the sheet and positive
 Y
 m values begin at the origin and increase from left to right.
@@ -12997,15 +12491,13 @@ correspond to the top right corner of the medium presentation space. The X
 m axis of
 the medium presentation space corresponds to the right edge of the sheet and
 positive X
-m values begin at the origin and increase from top to bottom. The Y m axis of
+m values begin at the origin and increase from top to bottom. The Ym axis of
 the medium presentation space corresponds to the top edge of the sheet and positive
 Y
 m values begin at the origin and increase from right to left.
-XOH Set Media Origin (SMO)
+## XOH Set Media Origin (SMO)
 
-## Page 431
 
-IPDS Reference 397
 XOH Set Media Size
 The XOH Set Media Size (SMS) command specifies a desired medium presentation space size to be used for
 valid printable area calculations and N-up partitioning. This command applies to the sheet that the next
@@ -13056,13 +12548,11 @@ m extent by Ym
 extent whose origin is at the default media origin. If duplexing, the back-side medium presentation space
 should be physically lined up with the front-side presentation space as if the physical media had been cut to the
 new size.
-XOH Set Media Size (SMS)
+## XOH Set Media Size (SMS)
 
-## Page 432
 
-398 IPDS Reference
 Notes:
-1. If an XOH-SMS command changes the X m and Ym extents of the medium presentation space and the
+1. If an XOH-SMS command changes the Xm and Ym extents of the medium presentation space and the
 medium presentation space origin as set by a previous XOH-SMO command does not correspond to the
 default physical media origin, the printer must recompute the origin of the medium presentation space.
 2. The medium presentation space size specified in accordance with these rules is used in all valid printable
@@ -13073,13 +12563,13 @@ Offset Type Name Range Meaning Required
 0–1 CODE Order code X'1700' Set Media Size (SMS) order code X'1700'
 2 CODE Unit base X'00'
 X'01'
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 X'00'
 3–4 UBIN UPUB X'0001' –
 X'7FFF'
 Units per unit base X'3840'
-5–6 UBIN X m extent X'0001' –
+5–6 UBIN Xm extent X'0001' –
 X'7FFF'
 X'FFFF'
 Xm extent of the medium presentation space
@@ -13120,30 +12610,26 @@ Bytes 3–4 Units per unit base
 These bytes specify the number of units per unit base for this command.
 Exception ID X'0270..02' exists if an invalid or unsupported units-per-unit-base value is
 specified.
-XOH Set Media Size (SMS)
+## XOH Set Media Size (SMS)
 
-## Page 433
 
-IPDS Reference 399
 Bytes 5–6 Xm extent
-These bytes specify the X m extent of the medium presentation space to be used for printable-
+These bytes specify the Xm extent of the medium presentation space to be used for printable-
 area calculations in accordance with the specified hierarchical rules. Refer to “Xm,Ym
 Coordinate System (Medium)” on page 48 for a description of how the medium presentation
 space relates to the physical media, the physical printable area, the medium presentation
 space origin, and the XOH-OPC width and length values.
-Exception ID X'0272..02' or X'0262..02' exists if an invalid or unsupported X m extent value is
+Exception ID X'0272..02' or X'0262..02' exists if an invalid or unsupported Xm extent value is
 specified; the preferred exception ID is X'0272..02'.
 Bytes 7–8 Ym extent
-These bytes specify the Y m extent of the medium presentation space to be used for printable-
+These bytes specify the Ym extent of the medium presentation space to be used for printable-
 area calculations in accordance with the specified hierarchical rules.
 Exception ID X'0273..02' or X'0263..02' exists if an invalid or unsupported Y
 m extent value is
 specified; the preferred exception ID is X'0273..02'.
-XOH Set Media Size (SMS)
+## XOH Set Media Size (SMS)
 
-## Page 434
 
-400 IPDS Reference
 Figure 71. Examples Showing the Effect of SMS (Method 3) and SMO Command Combinations
 Width = 11"
 Length = 8.5"
@@ -13232,11 +12718,9 @@ m
 2nd sheet 2nd sheet
 Xm
 Ym
-XOH Set Media Size (SMS)
+## XOH Set Media Size (SMS)
 
-## Page 435
 
-IPDS Reference 401
 XOH Specify Group Operation
 The XOH Specify Group Operation (SGO) command indicates to an attached printer, pre-processor, or post-
 processor that the specified processing option is to be performed upon subsequent boundary groups of the
@@ -13283,11 +12767,9 @@ operation
 operation is to be applied.
 X'00'–X'FF'
 Bytes 0–1 SGO order code
-XOH Specify Group Operation (SGO)
+## XOH Specify Group Operation (SGO)
 
-## Page 436
 
-402 IPDS Reference
 Byte 2 SGO Operation Identifier
 This byte identifies the operation the printer, pre-processor, or post-processor is to perform on
 the specified group. The types of group operations supported by a printer are returned in the
@@ -13336,11 +12818,9 @@ the page, and appropriate exceptions reported.
 All appropriate CMRs are applied when the page is saved. When a saved page is
 later included with an ISP command, no additional color management or color
 simulation is done by the IPDS receiver.
-XOH Specify Group Operation (SGO)
+## XOH Specify Group Operation (SGO)
 
-## Page 437
 
-IPDS Reference 403
 Metadata received in a saved page, either directly in the page or in any object
 included on the page, is associated with the appropriate object(s) as if the page
 were being printed. Similarly, home-state metadata in effect at the time the saved
@@ -13394,11 +12874,9 @@ physical printable area and user printable area are ignored. Page overlays are s
 with the page data; using only the overlay's current logical page for VPA checking. If
 data extends outside of the appropriate current logical page, exception ID X'08C3..00'
 exists.
-XOH Specify Group Operation (SGO)
+## XOH Specify Group Operation (SGO)
 
-## Page 438
 
-404 IPDS Reference
 Note: The goal of this semantic is to ensure that a saved page that includes overlays
 will print the same way with a later ISP command as it would have printed when
 it was saved (assuming the same size paper). There are several ways that this
@@ -13451,12 +12929,10 @@ X'05' Identify Named Group
 This operation directs the printer to associate a group name with a group. The name is
 specified in the XOH-DGB command that initiates the group and contains a Group
 Information (X'6E') triplet using the Group Name format.
-XOH Specify Group Operation (SGO)
+## XOH Specify Group Operation (SGO)
 
-## Page 439
 
-IPDS Reference 405
-X'06' Keep Group T ogether as a Recovery Unit
+X'06' Keep Group Together as a Recovery Unit
 This operation directs the printer to keep the printed pages of the group together with
 no intervening blank sheets.
 A new generation of very fast printers have been designed such that the printer
@@ -13468,7 +12944,7 @@ groups cannot be finished correctly and often must be reprinted. This even happe
 when the printer pauses briefly to wait for data while remaining ready. Even with
 conventional printers that are able to stop without emitting blank pages, the end of
 paper or a paper jam will split such groups into two separate parts. The Keep-Group-
-T ogether-as-a-Recovery-Unit operation allows the printer to manage such groups and
+Together-as-a-Recovery-Unit operation allows the printer to manage such groups and
 to provide recovery on a group boundary. If a stop or a pause within such a group
 does occur, the printer will issue an appropriate NACK to cause appropriate host-level
 recovery.
@@ -13508,11 +12984,9 @@ Stacked page counter
 Assuming the group operation has not been suspended, the printer
 will delay incrementing the stacked page counter until the last copy of
 the last page in the group has been stacked and will then increment
-XOH Specify Group Operation (SGO)
+## XOH Specify Group Operation (SGO)
 
-## Page 440
 
-406 IPDS Reference
 the counter by the number of pages in the group plus any additional
 pages on the last sheet of the group. This will allow the presentation
 services program to recover on a group boundary if either the printer
@@ -13553,7 +13027,7 @@ group to be reprinted.
 • If the presentation services program sends more pages within a
 recovery-unit group than the printer can keep together, exception
 ID X'0141..00' will be reported. The OPC reply Keep-Group-
-T ogether-as-a-Recovery-Unit self-defining field identifies the
+Together-as-a-Recovery-Unit self-defining field identifies the
 maximum number of sheets allowed within a recovery-unit group;
 these sheets include sheets containing pages and copies of such
 sheets.
@@ -13565,11 +13039,9 @@ recovery-unit group can cause blank sheets to be emitted (which
 results in exception ID X'0140..00'); also, if the host repositions to the
 beginning of the partial group, there will be extra (waste) pages of
 that group in the paper path. Printers that delay incrementing the
-XOH Specify Group Operation (SGO)
+## XOH Specify Group Operation (SGO)
 
-## Page 441
 
-IPDS Reference 407
 committed page counter until all pages of a group have been
 processed will be able to discard all received pages of the group; in
 this case, any blank sheets will be between recovery-unit groups.
@@ -13620,11 +13092,9 @@ operation as described previously).
 Byte 3 Group Level
 This byte contains the Group Level, contained in subsequent XOH-DGB commands,
 delimiting the group of pages upon which the specified operation is to be performed.
-XOH Specify Group Operation (SGO)
+## XOH Specify Group Operation (SGO)
 
-## Page 442
 
-408 IPDS Reference
 XOH Stack Received Pages
 The XOH Stack Received Pages (SRP) command causes the printer to do the following in the specified order:
 1. Eject to the next sheet if not already on a new sheet. The next received page will be the first page on the
@@ -13648,11 +13118,9 @@ stacked and the group is unaffected. However, for finishing operations that are 
 the prematurely stacked pages might or might not have the finishing operation applied.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0D00' Stack Received Pages order code X'0D00'
-XOH Stack Received Pages (SRP)
+## XOH Stack Received Pages (SRP)
 
-## Page 443
 
-IPDS Reference 409
 XOH Trace
 XOH Trace is a home state command used to start, stop, and obtain IPDS traces. When an IPDS trace is
 started, the printer records a trace entry for each requested trace option as it processes IPDS commands.
@@ -13681,16 +13149,14 @@ IPDS command.
 processing commands until an XOH Trace command is encountered.
 • The printer is reinitialized (returns an IML NACK). What happens to trace entries after an IML occurs is
 printer-specific.
-T o obtain a trace, the command must be sent to the printer with the Obtain Trace function selected and with the
+To obtain a trace, the command must be sent to the printer with the Obtain Trace function selected and with the
 ARQ flag set to B'1'. Since traces can contain many entries, it is recommended that the Long Acknowledge
 Reply flag also be set to B'1' for printers that support long Acknowledge Replies.
 Support for this optional command is indicated by the X'90F2' property pair in the Device-Control command-set
 vector of an STM reply.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 444
 
-410 IPDS Reference
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'F200' Trace order code X'F200'
 2 CODE Function
@@ -13763,7 +13229,7 @@ Include-Overlay entries
 Include-Data-Object entries
 Device-Appearance entries
 Color-Fidelity entries
-CMR-T ag-Fidelity entries
+CMR-Tag-Fidelity entries
 Begin-Print-Unit entries
 X'00'
 X'01'
@@ -13796,11 +13262,9 @@ trace function is received, this command does nothing and is ignored.
 the Acknowledge Reply. The host can obtain the remaining portions of the trace (if any)
 by using the acknowledge continuation method. The trace entries are returned in the
 sequence they occurred beginning with the Begin-Trace trace entry.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 445
 
-IPDS Reference 411
 If the ARQ flag is B'0', this step is skipped.
 3. Delete all trace entries.
 Exception ID X'025F ..01' exists if an invalid trace-function value is specified.
@@ -13837,7 +13301,7 @@ Byte 4 Reserved
 Bytes 5 to end of trace order
 Zero or more trace options
 When starting a trace, trace options specify what is to be traced; these options are not used
-and are ignored when stopping or obtaining a trace. T o select all defined options (except for
+and are ignored when stopping or obtaining a trace. To select all defined options (except for
 Free-Form entries), specify complete trace; in this case addition options can be specified but
 are ignored. Any combination of trace options can be specified:
 X'00' Complete trace
@@ -13846,11 +13310,9 @@ the trace. This is the default if no options are specified.
 X'01' Page entries
 This option causes BP and EP commands to be traced. Begin-Page trace entries and
 End-Object trace entries are generated.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 446
 
-412 IPDS Reference
 X'02' Overlay entries
 This option causes BO and EP commands to be traced. Begin-Overlay trace entries
 and End-Object trace entries are generated.
@@ -13873,7 +13335,7 @@ X'05' CMR Activation and Deactivation entries
 This option causes CMR-related AR, home-state WOCC, and DDOR commands to be
 traced. CMR-Activation and CMR-Deactivation trace entries are generated.
 X'06' CMR-Invocation entries
-This option causes ICMR commands, Invoke CMR (X'92') triplets, and Invoke T ertiary
+This option causes ICMR commands, Invoke CMR (X'92') triplets, and Invoke Tertiary
 Resource (X'A2') triplets to be traced. CMR-Invocation trace entries are generated.
 X'07' Media-Source-Selection entries
 This option causes XOH-SIMS commands and LCC commands that select a media
@@ -13885,14 +13347,12 @@ X'09' Free-Form entries
 This option causes printer-defined trace entries to be generated for printer-specific
 events. Refer to your printer documentation for information about this type of trace
 entry.
-Warning: T o avoid privacy and security problems, user data must not be included
+Warning: To avoid privacy and security problems, user data must not be included
 within a Free-Form entry unless that information can be appropriately
 controlled.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 447
 
-IPDS Reference 413
 X'0A' Include-Saved-Page entries
 This option causes ISP commands to be traced. An Include-Saved-Page trace entry is
 generated for each ISP command.
@@ -13910,9 +13370,9 @@ X'0E' Color-Fidelity entries
 This option causes Color Fidelity (X'75') triplets to be traced. A Color-Fidelity-Control
 trace entry is generated for each PFC command that contains a Color Fidelity (X'75')
 triplet.
-X'0F' CMR-T ag-Fidelity entries
-This option causes CMR T ag Fidelity (X'96') triplets to be traced. A CMR-T ag-Fidelity
-trace entry is generated for each PFC command that contains a CMR T ag Fidelity
+X'0F' CMR-Tag-Fidelity entries
+This option causes CMR Tag Fidelity (X'96') triplets to be traced. A CMR-Tag-Fidelity
+trace entry is generated for each PFC command that contains a CMR Tag Fidelity
 (X'96') triplet.
 X'10' Begin-Print-Unit entries
 This option causes Group ID (X'00') triplets to be traced. A Begin-Print-Unit trace entry
@@ -13921,13 +13381,11 @@ Group ID (X'00') triplet. Print units are begun with an XOH-DGB command that
 initiates a group using the keep group together as a print unit group operation.
 Exception ID X'025F ..02' exists if an invalid trace-option value is specified. Duplicate trace-
 option values are ignored.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 448
 
-414 IPDS Reference
 Acknowledge Reply for the XOH Trace Command
-T o obtain a trace, the XOH Trace command must be sent to the printer with the Obtain Trace function selected
+To obtain a trace, the XOH Trace command must be sent to the printer with the Obtain Trace function selected
 and with the ARQ flag set to B'1'. Since traces can contain many entries, it is recommended that the Long
 Acknowledge Reply flag also be set to B'1' for printers that support long Acknowledge Replies.
 Trace entries are returned in the special data area of Acknowledge Replies in sequence starting with the oldest
@@ -13954,17 +13412,15 @@ X'000B' Include Overlay
 X'000C' Include Data Object
 X'000D' Device Appearance
 X'000E' Color Fidelity
-X'000F' CMR T ag Fidelity
+X'000F' CMR Tag Fidelity
 X'0010' Begin Print Unit
 X'8000' Trace Full
 X'8001' End Object
 X'8002' CMR Deactivation
 The trace entries are defined as follows.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 449
 
-IPDS Reference 415
 Begin-Trace Trace Entry
 The first entry in each IPDS trace is a Begin-Trace entry.
 Offset Type Name Range Meaning
@@ -14015,7 +13471,7 @@ EBCDIC Sequence number of printer in EBCDIC
 32–33
 or
 45–46
-UNDF T ag T ag information
+UNDF Tag Tag information
 34–42
 or
 47–55
@@ -14033,11 +13489,9 @@ If the host-information flag is B'1', the following information is provided by t
 X'01F4'
 even values
 Length of host name for printer
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 450
 
-416 IPDS Reference
 Offset Type Name Range Meaning
 + 2 to
 end
@@ -14103,11 +13557,9 @@ Product Identifier SDF parameter ID X'0003'; refer to page 359 for a full defini
 The external name can be from 1 to 252 bytes long.
 Byte 43 (or 56) contains the length of the printer name; if no name is provided, the length is
 X'00'.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 451
 
-IPDS Reference 417
 Optional host-provided information
 The following parameters contain host-provided information to further describe printer-
 attachment information. Printers do not return this information; it is added to the trace entry
@@ -14139,11 +13591,9 @@ encoded as UTF-16BE characters and can be from 1 to 5 characters long.
 The port number is provided when the printer is TCP-attached.
 Bytes +++ 0–1 contains the length of the port number; if no port number is
 provided, the length is X'0000'.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 452
 
-418 IPDS Reference
 Begin-Page Trace Entry
 When tracing page entries, a Begin-Page trace entry is generated each time a Begin Page (BP) command is
 processed. Also, an End-Object trace entry is generated at the end of each page when the End Page (EP)
@@ -14180,11 +13630,9 @@ end
 CHAR Page name Any UTF-
 16BE value
 Host-provided page name
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 453
 
-IPDS Reference 419
 Note: The Begin-Page trace entry shown below contains the optional date and time stamp fields (bytes 6–18)
 that can be selected with a control flag in the XOH Trace command (bit 0, byte 4). Because these date
 and time stamp fields are identical when present in all other types of trace entries, they are laid out and
@@ -14226,7 +13674,7 @@ X'02'
 X'03'
 Relationship of time to UTC:
 No relationship—device time
-Coordinated Universal Time (UTC)
+## Coordinated Universal Time (UTC)
 Ahead of UTC
 Behind UTC
 17 UBIN UTCDiffH X'00'–X'17' Hours ahead of or behind UTC
@@ -14244,11 +13692,9 @@ Bytes 0–1 Trace entry length
 This field contains the length of this trace entry, including the length field itself.
 Bytes 2–3 Trace entry ID
 This field identifies this as a Begin-Page trace entry.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 454
 
-420 IPDS Reference
 Byte 4 Trace entry flags
 The trace entry flags identify whether or not optional information is present in the trace entry.
 The trace-control flags in the XOH Trace command are used to control whether optional,
@@ -14293,11 +13739,9 @@ component of a time in the format hhmmssMM.
 Byte 13–15 Microseconds
 This parameter contains millionths of the second and represents the MM
 component of a time in the format hhmmssMM.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 455
 
-IPDS Reference 421
 Examples of times: the time 4:35:21:15 PM is specified as X'10231500000F'
 and the time 2:12:59:20 AM is specified as X'020C3B000014'.
 Byte 16 Timezone
@@ -14347,11 +13791,9 @@ Byte 18 Minutes ahead of or behind UTC
 This parameter indicates how many minutes the specified time is ahead of
 UTC or behind UTC. If the Timezone parameter is X'00' or X'01', this value is
 not used and contains X'00'.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 456
 
-422 IPDS Reference
 Bytes 19–22 Page ID
 This parameter contains the host-specified page ID from a Begin Page (BP) command.
 Bytes 23 to
@@ -14361,11 +13803,9 @@ This parameter contains a host-provided page name; the name can contain up to 25
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided page name can be obtained from a MO:DCA
 Begin Page (BPG) structured field.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 457
 
-IPDS Reference 423
 Begin-Overlay Trace Entry
 When tracing overlay entries, a Begin-Overlay trace entry is generated each time a Begin Overlay (BO)
 command is processed. Processing occurs when the overlay is RIPped for use with an IO command or when a
@@ -14416,11 +13856,9 @@ Bytes 0–1 Trace entry length
 This field contains the length of this trace entry, including the length field itself.
 Bytes 2–3 Trace entry ID
 This field identifies this as a Begin-Overlay trace entry.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 458
 
-424 IPDS Reference
 Byte 4 Trace entry flags
 The trace entry flags identify whether or not optional information is present in the trace entry.
 The trace-control flags in the XOH Trace command are used to control whether optional,
@@ -14446,11 +13884,9 @@ This parameter contains a host-provided overlay name; the name can contain up to
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided overlay name can be obtained from a MO:DCA
 Map Page Overlay (MPO) or Map Medium Overlay (MMO) structured field.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 459
 
-IPDS Reference 425
 Begin-Presentation-Object Trace Entry
 When tracing presentation-object entries, a Begin-Presentation-Object trace entry (and later an End-Object
 trace entry) is generated each time one of the following presentation object commands is processed:
@@ -14497,11 +13933,9 @@ X'7EFF'
 Host-Assigned ID of presentation object:
 No HAID provided (object in page, page segment, or overlay)
 Object HAID (resource object)
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 460
 
-426 IPDS Reference
 Offset Type Name Range Meaning
 8 or 21 CODE Object type
 X'01'
@@ -14581,11 +14015,9 @@ HAID
 For presentation objects used as resources, this parameter contains the presentation object's
 Host-Assigned ID from the IPDS command that began the object. When the presentation
 object is inline in a page, page segment, or overlay, the HAID field contains X'0000'.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 461
 
-IPDS Reference 427
 Bytes 8 or 21 Object type
 This field identifies the type of presentation object, as follows:
 X'01' PTOCA
@@ -14631,11 +14063,9 @@ object is encountered. There can be multiple presentation data objects within a 
 page segment, or overlay.
 Object containers can be used as resources; the HAID identifies the specific data
 object resource.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 462
 
-428 IPDS Reference
 Bytes 9 to end
 or 22 to end
 Host-provided object name
@@ -14643,17 +14073,15 @@ This parameter contains a host-provided object name; the name can contain up to 
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided object name can be obtained from one of the
 following MO:DCA structured fields:
-Begin Presentation T ext Object (BPT)
-Begin Graphics Object (BGR)
-Begin Image Object (BIM)
-Begin Bar Code Object (BBC)
-Begin Object Container (BOC)
-Map Data Resource (MDR)
-XOH Trace (TRC)
+## Begin Presentation Text Object (BPT)
+## Begin Graphics Object (BGR)
+## Begin Image Object (BIM)
+## Begin Bar Code Object (BBC)
+## Begin Object Container (BOC)
+## Map Data Resource (MDR)
+## XOH Trace (TRC)
 
-## Page 463
 
-IPDS Reference 429
 CMRs-Used Trace Entry
 A CMRs-Used trace entry is generated each time the printer uses the CMR-usage hierarchy to select a new
 set of CMRs. The hierarchy can be used at the beginning of each presentation object and can also be used
@@ -14723,11 +14151,9 @@ Home state
 Default
 Internal rendering intent
 Not specified
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 464
 
-430 IPDS Reference
 Offset Type Name Range Meaning
 CMR entries (for CC-audit, CC-instruction, Link, HT-audit, HT-instruction, TC-audit, TC-instruction) in the
 following format:
@@ -14793,11 +14219,9 @@ rendering intent was used, and that rendering intent is known, the rendering int
 returned in this parameter. If it is known that multiple internal rendering intents were used,
 X'FD' is returned. If it is unknown exactly which internal rendering intent or intents were used,
 X'FE' is returned.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 465
 
-IPDS Reference 431
 Byte 7 or 20 Rendering intent hierarchy
 This parameter identifies the hierarchy level at which the rendering intent was selected. If an
 ICC DeviceLink CMR was used, no rendering intent was selected and this field contains X'FF'.
@@ -14835,7 +14259,7 @@ When a host-invoked CMR is selected, the HAID of that
 resource is specified in this field. The CMR HAID was
 specified in an Invoke CMR command,
 Invoke CMR (X'92')
-triplet, or Invoke T ertiary Resource (X'A2') triplet.
+triplet, or Invoke Tertiary Resource (X'A2') triplet.
 X'DDDD' Default CMR
 This special value is used to indicate that no appropriate
 CMR was invoked by the host for this entry and the printer
@@ -14849,11 +14273,9 @@ also be used. For example, the default audit halftone CMR
 for an IBM 4100 model HS3 printer would be named:
 default@ HT 001.000 IBM@@ 4100@@ HS3 @@@ @@@ @@
 @@@ @@@@@ @@@@@@ @@@@ @@@@ @@@@ @@@@@@@@
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 466
 
-432 IPDS Reference
 (Spaces, that do not actually appear in the name, have
 been added between fields to aid readability.)
 X'EEEE' Printer-generated object (used only for the link CMR entry)
@@ -14874,11 +14296,9 @@ Byte + 3 to 148 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR
 header. The CMR Names flag in byte 4 indicates whether the name is present
 or omitted.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 467
 
-IPDS Reference 433
 CMR-Activation Trace Entry
 When tracing activation and deactivation entries, a CMR-Activation trace entry is generated each time a CMR
 is activated via a home state WOCC command or an AR command. Also, a CMR-Deactivation trace entry is
@@ -14937,11 +14357,9 @@ Bit 0 Date and time stamp
 If bit 0 = B'1', the date and time stamp fields are present; otherwise these
 fields are omitted. The date and time stamp fields are fully described in the
 Begin-Page trace entry description (on page 419).
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 468
 
-434 IPDS Reference
 Bit 1 CMR name
 If bit 1 = B'1', the CMR name is present; otherwise the CMR name is omitted.
 Bits 2–7 Reserved
@@ -14958,14 +14376,12 @@ or 22–167
 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR header. The CMR
 Name flag in byte 4 indicates whether the name is present or omitted.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 469
 
-IPDS Reference 435
 CMR-Invocation Trace Entry
 When tracing invocation entries, a CMR-Invocation trace entry is generated each time a CMR is invoked via an
-ICMR command, Invoke CMR (X'92') triplet, or Invoke T ertiary Resource (X'A2') triplet . There can be multiple
+ICMR command, Invoke CMR (X'92') triplet, or Invoke Tertiary Resource (X'A2') triplet . There can be multiple
 CMR-Invocation trace entries for each invoking command.
 Offset Type Name Range Meaning
 0–1 UBIN Length X'0009',
@@ -15025,16 +14441,14 @@ Bit 1 CMR name
 If bit 1 = B'1', the CMR name is present; otherwise the CMR name is omitted.
 Bits 2–7 Reserved
 Byte 5 Reserved
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 470
 
-436 IPDS Reference
 Bytes 6–7 or
 19–20
 HAID
 This parameter contains the CMR's Host-Assigned ID from the ICMR command, Invoke CMR
-(X'92') triplet, or Invoke T ertiary Resource (X'A2') triplet.
+(X'92') triplet, or Invoke Tertiary Resource (X'A2') triplet.
 Byte 8 or 21 CMR hierarchy level
 This parameter identifies the hierarchy level at which the CMR was invoked and is determined
 by the command used for the invocation, as follows:
@@ -15046,11 +14460,9 @@ or 22–167
 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR header. The CMR
 Name flag in byte 4 indicates whether the name is present or omitted.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 471
 
-IPDS Reference 437
 Media-Source-Selection Trace Entry
 When tracing media-source-selection entries, a Media-Source-Selection trace entry is generated each time a
 new media source is selected via an XOH-SIMS or LCC command.
@@ -15102,11 +14514,9 @@ characteristics:
 • MediaFinish
 • MediaWeight
 When a media characteristic is not known, the field is filled with @ characters.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 472
 
-438 IPDS Reference
 Exception-ID Trace Entry
 When tracing exception ID entries, an Exception-ID trace entry is generated each time a NACK is returned to
 the host.
@@ -15144,11 +14554,9 @@ Bytes 6–29
 or 19–42
 Sense data
 This parameter contains the 24-byte sense data from the NACK.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 473
 
-IPDS Reference 439
 Free-Form Trace Entry
 When tracing free-form entries, a Free-Form trace entry is generated for printer-specific events.
 Offset Type Name Range Meaning
@@ -15200,23 +14608,19 @@ the full-stop character (EBCDIC, ASCII, Unicode, etc.) is the same as the
 encoding for the user data being replaced.
 Bits3–7 Reserved
 Byte 5 Reserved
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 474
 
-440 IPDS Reference
 Bytes 6 to end
 or 19 to end
 Data
 This parameter contains printer-defined trace data. Refer to your printer documentation for
 information about this type of trace entry.
-Warning: T o avoid privacy and security problems, user data must not be included within a
+Warning: To avoid privacy and security problems, user data must not be included within a
 Free-Form trace entry unless that information can be appropriately controlled.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 475
 
-IPDS Reference 441
 Include-Saved-Page Trace Entry
 When tracing saved-page entries, an Include-Saved-Page trace entry is generated each time an Include
 Saved Page (ISP) command is processed.
@@ -15260,11 +14664,9 @@ or 19–22
 Page sequence number
 This parameter contains the host-specified page sequence number from an Include Saved
 Page (ISP) command.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 476
 
-442 IPDS Reference
 Include-Overlay Trace Entry
 When tracing included overlays, an Include-Overlay trace entry is generated each time an Include Overlay (IO)
 command is processed and each time a medium or preprinted form overlay is processed from an LCC
@@ -15321,11 +14723,9 @@ If bit 0 = B'1', the date and time stamp fields are present; otherwise these
 fields are omitted. The date and time stamp fields are fully described in the
 Begin-Page trace entry description (on page 419).
 Bits 1–6 Reserved
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 477
 
-IPDS Reference 443
 Bit 7 Host-provided information
 If bit 7 = B'1', host-provided information is present; otherwise this information
 is omitted. Printers do not return this information; it is added to the trace entry
@@ -15345,11 +14745,9 @@ This parameter contains a host-provided overlay name; the name can contain up to
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided overlay name can be obtained from a MO:DCA
 Map Page Overlay (MPO) or Map Medium Overlay (MMO) structured field.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 478
 
-444 IPDS Reference
 Include-Data-Object Trace Entry
 When tracing included data objects, an Include-Data-Object trace entry is generated each time an Include
 Data Object command is processed.
@@ -15433,11 +14831,9 @@ Any UTF-
 Host-provided object name
 Bytes 0–1 Trace entry length
 This field contains the length of this trace entry, including the length field itself.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 479
 
-IPDS Reference 445
 Bytes 2–3 Trace entry ID
 This field identifies this as an Include-Data-Object trace entry.
 Byte 4 Trace entry flags
@@ -15486,11 +14882,9 @@ This parameter contains a host-provided object name; the name can contain up to 
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided overlay name can be obtained from a MO:DCA
 Begin Object Container (BOC) or Map Data Resource (MDR) structured field.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 480
 
-446 IPDS Reference
 Device-Appearance Trace Entry
 When tracing device appearance, a Device-Appearance trace entry is generated each time a Set-
 Presentation-Environment command is processed that contains a Device Appearance (X'97') triplet.
@@ -15534,11 +14928,9 @@ Bytes 6–7 or
 Appearance
 This parameter contains the device appearance specified in the Device Appearance (X'97')
 triplet being traced.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 481
 
-IPDS Reference 447
 Color-Fidelity Trace Entry
 When tracing color fidelity, a Color-Fidelity trace entry is generated each time a Presentation Fidelity Control
 command is processed that contains a Color Fidelity (X'75') triplet.
@@ -15594,19 +14986,17 @@ traced.
 Byte 8 or 21 Substitute
 This parameter contains the substitution rule specified in the Color Fidelity (X'75') triplet being
 traced.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 482
 
-448 IPDS Reference
 CMR-Tag-Fidelity Trace Entry
-When tracing CMR T ag fidelity, a CMR-T ag-Fidelity trace entry is generated each time a Presentation Fidelity
-Control command is processed that contains a CMR T ag Fidelity (X'96') triplet.
+When tracing CMR Tag fidelity, a CMR-Tag-Fidelity trace entry is generated each time a Presentation Fidelity
+Control command is processed that contains a CMR Tag Fidelity (X'96') triplet.
 Offset Type Name Range Meaning
 0–1 UBIN Length X'0008' or
 X'0015'
 Length of trace entry, including this length field
-2–3 CODE Entry ID X'000F' CMR-T ag-Fidelity trace entry
+2–3 CODE Entry ID X'000F' CMR-Tag-Fidelity trace entry
 4 BITS Entry flags
 bit 0 Stamp
 B'0'
@@ -15632,7 +15022,7 @@ Do not report X'025D..04' exceptions
 Bytes 0–1 Trace entry length
 This field contains the length of this trace entry, including the length field itself.
 Bytes 2–3 Trace entry ID
-This field identifies this as a CMR-T ag-Fidelity trace entry.
+This field identifies this as a CMR-Tag-Fidelity trace entry.
 Byte 4 Trace entry flags
 The trace entry flags identify whether or not optional information is present in the trace entry.
 The trace-control flags in the XOH Trace command are used to control whether optional,
@@ -15642,16 +15032,14 @@ The date and time stamp fields are fully described in the Begin-Page trace entry
 (on page 419).
 Byte 5 Reserved
 Byte 6 or 19 Continue
-This parameter contains the continuation rule specified in the CMR T ag Fidelity (X'96') triplet
+This parameter contains the continuation rule specified in the CMR Tag Fidelity (X'96') triplet
 being traced.
 Byte 7 or 20 Report
-This parameter contains the reporting rule specified in the CMR T ag Fidelity (X'96') triplet
+This parameter contains the reporting rule specified in the CMR Tag Fidelity (X'96') triplet
 being traced.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 483
 
-IPDS Reference 449
 Begin-Print-Unit Trace Entry
 When tracing print units, a Begin-Print-Unit trace entry is generated for each XOH-DGB command that begins
 a print unit and contains a Group ID (X'00') triplet. Print units are begun with an XOH-DGB command that
@@ -15705,22 +15093,18 @@ The date and time stamp fields are fully described in the Begin-Page trace entry
 Byte 5 Reserved
 Byte 6 or 19 Group ID format
 This parameter identifies the format of the Group ID information that follows.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 484
 
-450 IPDS Reference
 Bytes 7 to end
 or 20 to end
 Group ID
 This parameter contains group ID information as defined in the Group ID (X'00') triplet being
 traced. The data is ASCII for the AIX and Windows format and is EBCDIC for all other formats;
 refer to page 706 for a description of each of the formats.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 485
 
-IPDS Reference 451
 Trace-Full Trace Entry
 When the maximum amount of space available for tracing is reached, exception ID X'0113..00' exists and one
 final Trace Full entry is added at the end of the trace.
@@ -15751,11 +15135,9 @@ If bit 0 = B'1', the date and time stamp fields are present; otherwise these fie
 The date and time stamp fields are fully described in the Begin-Page trace entry description
 (on page 419).
 Byte 5 Reserved
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 486
 
-452 IPDS Reference
 End-Object Trace Entry
 When tracing pages, overlays, or presentation objects, an End-Object trace entry is generated at the end of
 each object when the ending command for that object is processed:
@@ -15833,11 +15215,9 @@ Byte 4 Trace entry flags
 The trace entry flags identify whether or not optional information is present in the trace entry.
 The trace-control flags in the XOH Trace command are used to control whether optional,
 printer-provided information is present or is omitted.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 487
 
-IPDS Reference 453
 If bit 0 = B'1', the date and time stamp fields are present; otherwise these fields are omitted.
 The date and time stamp fields are fully described in the Begin-Page trace entry description
 (on page 419).
@@ -15867,11 +15247,9 @@ X'14' AFPC SVG Subset
 X'15' AFPC TIFF Subset
 X'F0' Page
 X'F1' Overlay
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 488
 
-454 IPDS Reference
 CMR-Deactivation Trace Entry
 When tracing activation/deactivation entries, a CMR-Deactivation trace entry is generated each time a CMR is
 deactivated via a DDOR or XOH-ERPD command. Also, a CMR-Activation trace entry is generated each time
@@ -15928,11 +15306,9 @@ Bit 1 CMR name
 If bit 1 = B'1', the CMR name is present; otherwise the CMR name is omitted.
 Bits 2–7 Reserved
 Byte 5 Reserved
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 489
 
-IPDS Reference 455
 Bytes 6–7 or
 19–20
 HAID
@@ -15945,12 +15321,8 @@ or 21–166
 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR header. The CMR
 Name flag in byte 4 indicates whether the name is present or omitted.
-XOH Trace (TRC)
+## XOH Trace (TRC)
 
-## Page 490
 
-456 IPDS Reference
 
-## Page 491
 
-Copyright © AFP Consortium 1987, 2023 457

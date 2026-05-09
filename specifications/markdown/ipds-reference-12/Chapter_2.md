@@ -1,4 +1,4 @@
-Chapter 2. Introduction to IPDS
+# Chapter 2. Introduction to IPDS
 The Intelligent Printer Data Stream (IPDS) is the host-to-printer data stream for Advanced Function
 Presentation subsystems. It provides an attachment-independent interface for controlling and managing all-
 points-addressable (APA) printers that allows the presentation of pages containing an architecturally unlimited
@@ -31,9 +31,7 @@ Interface (UP
 color output across different devices and to provide flexible controls that enable the tuning of output to exact
 specifications.
 
-## Page 42
 
-8 IPDS Reference
 IPDS Architecture as a Component of Printing Subsystems
 Each of the printer environments shown in the following four figures contains a printing subsystem.
 Presentation Services is the component where IPDS commands are generated in each of the diagrammed
@@ -65,9 +63,7 @@ The same IPDS data structures can be used in a broad range of printer environmen
 • The intelligent workstation or departmental system environment
 • The local area network environment
 
-## Page 43
 
-IPDS Reference 9
 The Spooled System Environment
 A host application creates and sends print data either to the spool or directly to presentation services.
 Presentation services takes the print data from the spool or application and generates the IPDS commands
@@ -100,9 +96,7 @@ Note: In the spooled system environment, applications should not generate IPDS c
 most presentation-services programs accept AFP data streams or data created for line printers and
 convert it into IPDS commands for the application.
 
-## Page 44
 
-10 IPDS Reference
 The Mainframe Interactive Environment
 A controller interfaces with a display cluster, a printer, and a host. A host application creates print data and,
 using the host presentation services, generates IPDS commands that reach the printer through the controller.
@@ -127,9 +121,7 @@ provides presentation-services functions for 327x-attached IPDS printers. Becaus
 application programming interfaces of GDDM, applications can create complex pages with a mixture of text,
 graphics, and image, that GDDM sends to the printer in the form of IPDS commands.
 
-## Page 45
 
-IPDS Reference 11
 The Intelligent Workstation or Departmental System Environment
 Applications in an independent workstation or in a small departmental system can create print data to be sent
 to the workstation's presentation services. The workstations's presentation services generate IPDS commands
@@ -154,9 +146,7 @@ In the workstation environment, presentation-services functions are typically pr
 Functions provided include converting SNA Character String (SCS) data into IPDS data, and creating or
 transporting IPDS commands with a mixture of text, image, graphics, and bar code data.
 
-## Page 46
 
-12 IPDS Reference
 The Local Area Network Environment
 A personal computer workstation connected to a local area network (LAN) sends print data to a print server on
 the LAN. Presentation services in the print server controls the spooling of data files and generates the IPDS
@@ -183,9 +173,7 @@ In the LAN environment, presentation-services functions are provided by AFP soft
 functions provided is the conversion of other data, such as MO:DCA, ASCII, ditroff, TIFF , GIF , JPEG, EPS,
 PDF , and PostScript, into IPDS data.
 
-## Page 47
 
-IPDS Reference 13
 Communication with an IPDS Device
 Communication between an IPDS device and a presentation services program involves two logical
 concepts: a carrying-protocol session and an IPDS dialog. The carrying-protocol session uses one of many
@@ -205,8 +193,8 @@ FDDI (TCP/IP)
 FICON
 ® channel (CCWs)
 RS232 (SNA/LU6.2)
-T oken Ring (SNA/LU6.2)
-T oken Ring (TCP/IP)
+Token Ring (SNA/LU6.2)
+Token Ring (TCP/IP)
 Twinax (Arctic)
 Wireless Ethernet (TCP/IP)
 370 and 390 parallel channel (CCWs)
@@ -218,9 +206,7 @@ conveniently switch between multiple communication sessions.
 There can be multiple independent sessions, each with an IPDS dialog. When a printer receives a Manage
 IPDS Dialog command to end a dialog, the printer can then safely switch to a different dialog or session.
 
-## Page 48
 
-14 IPDS Reference
 IPDS Functional Divisions
 The IPDS architecture is divided into several functional areas called command sets, each representing a major
 printer capability. A command set consists of IPDS commands, including semantics, syntax, and the
@@ -264,15 +250,13 @@ containing text, graphics, image, and bar code information. These stored constru
 overlays.
 Loaded Font This command set contains the IPDS commands to load font information.
 
-## Page 49
 
-IPDS Reference 15
 For the following IPDS command sets, a data tower defines the data carried. A data tower is divided into levels.
 A higher level of a data tower consists of all lower levels plus some set of additional function. Some data tower
 levels are defined and controlled by other architectures and are simply registered by the IPDS architecture.
 The data towers are:
-Text This data tower contains Presentation T ext Object Content Architecture (PTOCA) control
-sequences, contained in the data field of the Write T ext command, and used to present text
+Text This data tower contains Presentation Text Object Content Architecture (PTOCA) control
+sequences, contained in the data field of the Write Text command, and used to present text
 information in a page, a page segment, or an overlay. The text data tower contains four
 presentation text (PT) levels, PT1, PT2, PT3, and PT4, defined by the PTOCA architecture.
 IM Image This data tower contains image data, contained in the data field of the Write Image command.
@@ -296,9 +280,7 @@ the data field of the Write Metadata command. Metadata is associated with object
 its location in the datastream. The metadata data tower contains one level, MS1, defined by
 the MOCA architecture.
 
-## Page 50
 
-16 IPDS Reference
 Figure 8. IPDS Functional Divisions
 Device Control - DC1 (mandatory)
 Defined Subsets within IPDS Command Sets
@@ -369,6 +351,4 @@ Metadata
 Each data tower contains at least one level. Some IPDS printers support additional (optional) data-tower
 function for text, IO-Image, graphics, and bar code data.
 
-## Page 51
 
-Copyright © AFP Consortium 1987, 2023 17

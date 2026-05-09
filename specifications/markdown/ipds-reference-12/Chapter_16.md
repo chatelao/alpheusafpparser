@@ -1,4 +1,4 @@
-Chapter 16. Exception Reporting
+# Chapter 16. Exception Reporting
 This chapter provides additional information about the Acknowledge Reply, that is used by IPDS products for
 exception reporting. The chapter begins with general information, that is followed by a complete description of
 the exception-reporting codes. The chapter concludes with a section on page-counter and copy-counter
@@ -43,9 +43,7 @@ printer is emptying its NACK queue. When a printer returns a NACK, if the next c
 anything other than an OAEI command with an ARQ, the general rule described above is followed: while
 there are NACKs remaining, the command is not processed and the next NACK is returned. If, however, the
 
-## Page 824
 
-790 IPDS Reference
 next command is an OAEI command with an ARQ, the OAEI command is processed normally. Such
 processing will result in an OAEI reply being returned to the host, and this reply might necessitate a series of
 Acknowledge Replies using the ACK continuation method. Once the OAEI reply is fully sent and the host
@@ -96,9 +94,7 @@ copy subgroup specified in the LCC that applies to the page has been syntax-chec
 data-stream exceptions. The acknowledgment for the last page of a sheet indicates that all copies of all
 pages on the sheet have been syntax-checked for synchronous data-stream exceptions.
 
-## Page 825
 
-IPDS Reference 791
 – When an exception in a page segment or an overlay is reported according to the XOA-EHC command with
 the page on which it is included. An exception in a copy subgroup may be reported after the EP command
 for the page to which the copy subgroup applies (but no later than on the next IPDS command).
@@ -115,9 +111,7 @@ on page 277.
 • If a command-reject exception is detected by the printer, no portion of the command is accepted by the
 printer; that is, the entire command is discarded.
 
-## Page 826
 
-792 IPDS Reference
 Exception-Handling Control
 The XOA-EHC command allows you to control several exception-handling functions. Brief descriptions of the
 functions follow.
@@ -156,9 +150,7 @@ specify:
 The exception-handling control flowchart, Figure 60 on page 285, shows the relationship between the PFC
 command and the XOA-EHC command.
 
-## Page 827
 
-IPDS Reference 793
 Exception Reporting
 Use the exception reporting byte (byte 2) to control the reporting of exceptions that have defined AEAs:
 • Undefined characters
@@ -190,9 +182,7 @@ minimize reporting of many occurrences of the same data-stream exception.
 For complete information about alternate exception actions, refer to “XOA Exception-Handling Control” on
 page 277.
 
-## Page 828
 
-794 IPDS Reference
 Exception-Presentation Processing
 Page Continuation
 Use the exception-presentation processing byte (byte 4) to tell the printer whether or not to continue
@@ -209,7 +199,7 @@ the AEA for the exception.
 When the printer has been instructed to take the SCA or PCA, it reports the exception the next time it enters
 home state or processes a command with the ARQ bit set to B'1'. Thus, exceptions that occur within a page
 are queued but not reported until the printer has processed the EP command, an XOA command that changes
-the printer state to home state, or a command with the ARQ bit set to B'1'. T o minimize reporting many
+the printer state to home state, or a command with the ARQ bit set to B'1'. To minimize reporting many
 occurrences of the same data-stream exception, the exception sense data has a count field for recording
 multiple occurrences of a given exception.
 Note: An exception in a copy subgroup may be reported after the EP command for the page to which the copy
@@ -229,9 +219,7 @@ print process.
 For complete information about the exception-page-print function, refer to “XOA Exception-Handling Control”
 on page 277.
 
-## Page 829
 
-IPDS Reference 795
 Classes of Exceptions
 Exceptions are returned in either 3 or 24 bytes of detailed sense information in the special data area of the
 NACK. The exception identifier comprises three bytes: 0, 1, and 19 for printers that return 24 bytes; and 0, 1,
@@ -251,10 +239,8 @@ The classes of exceptions are:
 • General specification check
 • Conditions requiring host notification
 
-## Page 830
 
-796 IPDS Reference
-Sense Byte Information
+## Sense Byte Information
 The following describes the information in each sense byte. Some printers return only bytes 0–2. Figure 117 on
 page 797 shows the layout of sense bytes within a Negative Acknowledge Reply (NACK).
 Byte 0 The first byte of each three-byte exception ID, that defines the exception class for the specific
@@ -289,9 +275,7 @@ exception ID; together with sense byte 1, defines the specific exception within 
 class.
 Bytes 20–23 Contains the page identifier for the page that has the exception (except for format 2).
 
-## Page 831
 
-IPDS Reference 797
 Figure 117. Layout of a Negative Acknowledge Reply (NACK)
 Length
 X’D6FF’ if CID flag
@@ -356,9 +340,7 @@ Nine counters
 Code Flags CID Type Page & Copy Counters Sense Data
 3-byte exception ID
 
-## Page 832
 
-798 IPDS Reference
 Formats for Sense Bytes 4-18 and 20-23
 These formats apply only to printers that return 24 bytes of sense data.
 Sense bytes 4–18 and 20–23 describe the cause of each exception. Sense byte 19 is the third byte of the
@@ -406,9 +388,7 @@ these fields.
 command, sense byte 14 is reserved and should contain X'00', sense byte 15 contains a media-source ID,
 and sense bytes 16–17 contain the media-destination ID that is inconsistent with the media-source ID.
 
-## Page 833
 
-IPDS Reference 799
 3. Sense bytes 16–17 contain additional useful information that is specific to the particular NACK, as follows:
 Table 63. Exception ID Specific Information
 Exception ID Information in Sense Bytes 16–17
@@ -444,16 +424,14 @@ X'0115..00'
 Bytes 16–17 contain an object-specific error code. Refer to “Error Codes for Other Data Objects”
 on page 922 for a list of object-specific error codes.
 X'0237..04' Bytes 16–17 contain the inconsistent media destination ID.
-X'025D..ee' Bytes 16–17 contain a CMR T agID value as defined in the Color Management Object Content
+X'025D..ee' Bytes 16–17 contain a CMR TagID value as defined in the Color Management Object Content
 Architecture Reference.
 X'029C..02' Bytes 16–17 contain the glyph ID that caused the error.
 Note: For sense format 0 exceptions (not listed in the table) whose explanation lists multiple causes, sense bytes
 16–17 contains the number of the specific cause; printers that do not provide this bonus information return
 X'0000' in sense bytes 16–17.
 
-## Page 834
 
-800 IPDS Reference
 Format 1
 For some printers, format 1 provides detailed information for all data-stream positioning exceptions, that is,
 X'08C1..00', X'08C2..00', X'08C3..00', X'0411..00', and X'020A..05'. Property pair X'FF01' in the Device-
@@ -467,7 +445,7 @@ occurrence; other printers make use of this field to minimize the number of NACK
 Bytes 8–9 ID of overlay that has the exception
 Bytes 10–11 ID of page segment that has the exception
 Bytes 12–13 Command in process when exception found
-Byte 14 T ext position exception count (maximum 255, no wrap)
+Byte 14 Text position exception count (maximum 255, no wrap)
 Byte 15 Image position exception count (maximum 255, no wrap)
 Byte 16 Rule position or bar-code-symbol bar position exception count (maximum 255, no wrap)
 Byte 17 Graphics position exception count (maximum 255, no wrap)
@@ -494,9 +472,7 @@ Format 3 Retired item 80
 Format 4 Retired item 81
 Format 5 Retired item 82
 
-## Page 835
 
-IPDS Reference 801
 Format 7
 For some printers, format 7 provides detailed information for data-stream positioning exceptions, that is,
 X'08C1..00', X'08C2..00', X'08C3..00', X'0411..00', and X'020A..05'. Property pair X'FF01' in the Device-
@@ -541,9 +517,7 @@ particular page, this field contains X'00000000'.
 sequence number that is associated with the page to be saved. If the exception is not
 associated with a particular page, this field contains X'00000000'.
 
-## Page 836
 
-802 IPDS Reference
 Action Codes (Sense Byte 2 for Printers That Return 24 Sense Bytes)
 Action codes classify the exception to assist host-exception recovery and allow printing to continue. Action
 codes are included only if the printer returns 24 bytes of sense data.
@@ -590,9 +564,7 @@ The printer detected that a previously requested function can no longer be
 performed. The host recovery depends on the specific exception and on host-support
 requirements. This condition does not adjust the page or copy counters.
 
-## Page 837
 
-IPDS Reference 803
 Table 64 Action Codes (cont'd.)
 Action Code Exception Recovery Action
 X'08'
@@ -661,9 +633,7 @@ media source, has become unusable. Printing might still be possible if the unusa
 mechanism is bypassed. The printer has discarded all buffered pages and modified
 the page and copy counters. Host software should take appropriate action.
 
-## Page 838
 
-804 IPDS Reference
 Table 64 Action Codes (cont'd.)
 Action Code Exception Recovery Action
 X'19'
@@ -722,9 +692,7 @@ Deactivate all resources not necessary to continue printing and retransmit the n
 page after the one at the Received Page Counter. If this action fails, the recovery
 action depends on host-support requirements.
 
-## Page 839
 
-IPDS Reference 805
 Table 64 Action Codes (cont'd.)
 Action Code Exception Recovery Action
 X'1F'
@@ -775,9 +743,7 @@ unit group did not start on a sheet boundary, the host cannot reposition to a gr
 boundary; therefore, the entire group is printed, but with blank sheets within the
 group.
 
-## Page 840
 
-806 IPDS Reference
 Exception Reporting Codes
 The following sections describe all printer exception IDs and action codes that are returned to the host in the
 special data area of a NACK.
@@ -801,9 +767,7 @@ The reporting of all exceptions, whether classified as mandatory, optional, or O
 the XOA-EHC command.
 The subsequent sections provide detailed information about each of the classes listed.
 
-## Page 841
 
-IPDS Reference 807
 Exception Classes
 Sense Byte 0 Exception Class and Description
 X'80' Command Reject: an IPDS command has been rejected at the printer without the data within
@@ -842,9 +806,7 @@ continuation action is listed followed by an indication of whether or not the ex
 printers.
 Within each exception class, the exceptions are listed in ascending numeric order.
 
-## Page 842
 
-808 IPDS Reference
 Command-Reject Exceptions
 A command-reject exception indicates that an IPDS
 command has been rejected at the printer without the
@@ -900,9 +862,7 @@ exceptions.
 number of a specific cause for the error.
 8001..00 • 80E0..00
 
-## Page 843
 
-IPDS Reference 809
 Equipment Check with Intervention Required Exceptions
 An Equipment Check with Intervention Required
 exception indicates that the printer has detected a
@@ -992,9 +952,7 @@ Support: Optional
 Action code: X'17'
 5010..00 • 50F6..00
 
-## Page 844
 
-810 IPDS Reference
 Explanation: The Offset Stacker is not available (has
 been disabled).
 Alternate Exception Action: None
@@ -1031,9 +989,7 @@ Page Continuation Action: None
 Support: Optional
 50F7..00 • 50FA..00
 
-## Page 845
 
-IPDS Reference 811
 Intervention-Required Exceptions
 An intervention-required exception indicates that the
 printer has detected a condition that requires manual
@@ -1117,9 +1073,7 @@ Support: Optional
 Action code: X'22'
 4000..00 • 4005..00
 
-## Page 846
 
-812 IPDS Reference
 Explanation: The fuser oil supply is empty, and no fuser
 oil has been added by the operator after a specified
 amount of time.
@@ -1215,9 +1169,7 @@ the XOA Exception-Handling Control command.
 4017..00 Ribbon Fault
 4006..00 • 4017..00
 
-## Page 847
 
-IPDS Reference 813
 Action code: X'1A'
 Explanation: A problem with the printer ribbon has
 occurred that requires operator intervention.
@@ -1311,9 +1263,7 @@ Support: Mandatory if the Keep-Group-T ogether-as-a-
 Recovery-Unit operation is supported.
 4020..00 • 4040..00
 
-## Page 848
 
-814 IPDS Reference
 4050..00 Fuser oil supply empty
 Action code: X'1A'
 Explanation: The fuser oil supply is empty.
@@ -1399,9 +1349,7 @@ the XOA Exception-Handling Control command.
 Action code: X'22'
 4050..00 • 407C..00
 
-## Page 849
 
-IPDS Reference 815
 Explanation: The printer has been out of staples for a
 specified amount of time, and the host should terminate
 communication with the printer.
@@ -1495,9 +1443,7 @@ Support: Optional
 407D..00 Post-processor has discarded pages
 407C..01 • 407D..00
 
-## Page 850
 
-816 IPDS Reference
 Action code: X'0A'
 Explanation: The printer has detected a condition in a
 post-processor that has caused all pages that would have
@@ -1596,9 +1542,7 @@ Page Continuation Action: None
 Support: Optional
 407D..00 • 40E0..00
 
-## Page 851
 
-IPDS Reference 817
 Notes:
 1. Some printers report this error as exception ID
 X'40E5..00'. The preferred exception ID is X'40E5..00'.
@@ -1689,9 +1633,7 @@ specified time.
 Alternate Exception Action: None
 40E0..00 • 40E5..00
 
-## Page 852
 
-818 IPDS Reference
 Page Continuation Action: None
 Support: Optional
 40E6..00 Door open
@@ -1750,9 +1692,7 @@ Page Continuation Action: None
 Support: Optional
 40E6..00 • 40E9..00
 
-## Page 853
 
-IPDS Reference 819
 Equipment-Check Exceptions
 An equipment-check exception indicates that the
 printer has detected an equipment malfunction or a
@@ -1840,9 +1780,7 @@ controlled by the operator-directed recovery bit in
 the XOA Exception-Handling Control command.
 107E..00 • 10F5..00
 
-## Page 854
 
-820 IPDS Reference
 Data-Check Exceptions
 A data-check exception indicates that the printer has
 detected an undefined character or position check.
@@ -1863,7 +1801,7 @@ exists:
 WBC command bar code data.
 • An undefined character has been detected in the font
 specified for text or bar code HRI data.
-• A character has been detected in Write T ext command
+• A character has been detected in Write Text command
 data that is undefined at the quality level specified by the
 XOA-PQC command.
 Alternate Exception Action: For an undefined character
@@ -1927,7 +1865,7 @@ or more of the following conditions exists:
 WBC command bar code data.
 • An undefined character has been detected in the font
 specified for text or bar code HRI data.
-• A character has been detected in Write T ext command
+• A character has been detected in Write Text command
 data that is undefined at the quality level specified by the
 XOA-PQC command.
 Alternate Exception Action: For an undefined character
@@ -1947,9 +1885,7 @@ that contains a default character is used with a data object
 font and when the printer supports a default character in a
 0821..00 • 0821..00
 
-## Page 855
 
-IPDS Reference 821
 code page (indicated by property pair X'B004' in the
 Loaded-Font command-set vector of an STM reply), the
 default character is used instead of glyph index 0.
@@ -2053,9 +1989,7 @@ Notes:
 blank (no toned pels), some printers suppress this
 0829..00 • 08C1..00
 
-## Page 856
 
-822 IPDS Reference
 exception ID, and other printers generate it. The
 preferred action is to suppress the exception ID.
 2. Some printers report this exception as X'0411..00' for
@@ -2159,17 +2093,13 @@ Notes:
 page is returned in sense bytes 20–23.
 08C1..00 • 08C3..00
 
-## Page 857
 
-IPDS Reference 823
 2. Reporting of this exception is controlled by the Report
 Page Position Check bit in the XOA Exception-
 Handling Control command.
 08C3..00 • 08C3..00
 
-## Page 858
 
-824 IPDS Reference
 Specification Checks—Metadata Exceptions
 A specification check—metadata exception indicates
 the IPDS receiver has received a metadata
@@ -2255,18 +2185,14 @@ Alternate Exception Action: Skip to END command.
 Page Continuation Action: Skip to END command.
 0601..00 • 0603..00
 
-## Page 859
 
-IPDS Reference 825
 Support: Refer to Metadata Object Content Architecture
 Reference.
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0603..00 • 0603..00
 
-## Page 860
 
-826 IPDS Reference
 Specification Checks—IO-Image Exceptions
 A specification check—IO-Image exception indicates
 the printer has received an IO-Image command with
@@ -2309,7 +2235,7 @@ IDE Structure Parameter
 Image Data Element Size Parameter
 Image Data self-defining field
 Image Encoding Parameter
-Image Look Up T able ID Parameter
+Image Look Up Table ID Parameter
 Image Size Parameter
 Image Subsampling Parameter
 Include Tile Parameter
@@ -2363,9 +2289,7 @@ Alternate Exception Action: None
 Page Continuation Action: Skip to END command.
 0500..01 • 0570..0F
 
-## Page 861
 
-IPDS Reference 827
 Support: Refer to Image Object Content Architecture
 Reference.
 0571..0F IO-Image End Segment out of sequence
@@ -2462,9 +2386,7 @@ sequence
 Action code: X'01' or X'1F'
 0571..0F • 0593..0F
 
-## Page 862
 
-828 IPDS Reference
 Explanation: The sequence of IOCA self-defining fields
 within a series of WI2 commands is invalid. Either an End
 Image Content was missing, was encountered out of
@@ -2563,9 +2485,7 @@ using the size values specified in the Image Size
 Parameter. This condition applies to compression or
 0594..01 • 0595..11
 
-## Page 863
 
-IPDS Reference 829
 recording algorithms that do not permit the image size
 to be encoded in the image data.
 3. The image data was not in complete accordance with
@@ -2623,7 +2543,7 @@ Parameter out of sequence
 Action code: X'01' or X'1F'
 Explanation: The sequence of IOCA self-defining fields
 within a series of WI2 commands is invalid. An Image Look
-Up T able ID Parameter was encountered out of sequence
+Up Table ID Parameter was encountered out of sequence
 or appeared more than once.
 Alternate Exception Action: None
 Page Continuation Action: Skip to END command.
@@ -2632,8 +2552,8 @@ Reference.
 0597..10 IO-Image Image Look Up Table ID
 Parameter value unsupported
 Action code: X'01' or X'1F'
-Explanation: A value in an Image Look Up T able ID
-Parameter is unsupported. An unsupported Look Up T able
+Explanation: A value in an Image Look Up Table ID
+Parameter is unsupported. An unsupported Look Up Table
 ID value was specified.
 Alternate Exception Action: None
 Page Continuation Action: Skip to END command.
@@ -2664,9 +2584,7 @@ Support: Refer to Image Object Content Architecture
 Reference.
 0596..0F • 0598..0F
 
-## Page 864
 
-830 IPDS Reference
 0598..10 IO-Image Band Image Parameter value
 invalid or unsupported
 Action code: X'01' or X'1F'
@@ -2723,7 +2641,7 @@ Page Continuation Action: Skip to END command.
 Support: Refer to Image Object Content Architecture
 Reference.
 Note: Sense bytes 16–17 should contain the explanation
-number of a specific cause for the error. T o report a
+number of a specific cause for the error. To report a
 problem with field SIZEn, bytes 16–17 should
 contain the value 3+n; for example, for the SIZE2
 field, bytes 16–17 would be set to X'0005'.
@@ -2760,9 +2678,7 @@ Alternate Exception Action: None
 Page Continuation Action: Skip to END command.
 0598..10 • 059C..01
 
-## Page 865
 
-IPDS Reference 831
 Support: Refer to Image Object Content Architecture
 Reference.
 059C..0F IO-Image Band Image Data self-defining
@@ -2861,9 +2777,7 @@ Reference.
 Action code: X'01' or X'1F'
 059C..0F • 05B3..0F
 
-## Page 866
 
-832 IPDS Reference
 Explanation: The sequence of IOCA self-defining fields
 within a series of WI2 commands is invalid. An nColor
 Names Parameter has been encountered out of sequence
@@ -2959,9 +2873,7 @@ value
 Action code: X'01' or X'1F'
 05B3..10 • 05B6..10
 
-## Page 867
 
-IPDS Reference 833
 Explanation: A value within a Tile Size Parameter is
 invalid or unsupported. Some IOCA function sets restrict
 support for some values of the relative resolution
@@ -3057,9 +2969,7 @@ Alternate Exception Action: None
 Page Continuation Action: Skip to END command.
 05B6..11 • 05BB..0F
 
-## Page 868
 
-834 IPDS Reference
 Support: Refer to Image Object Content Architecture
 Reference.
 05BB..10 Invalid Tile TOC Parameter value
@@ -3143,9 +3053,7 @@ of this exception can be controlled by the Color Fidelity
 number of a specific cause for the error.
 05BB..10 • 05F4..10
 
-## Page 869
 
-IPDS Reference 835
 Specification Checks—Bar Code Exceptions
 A specification check—bar code exception indicates
 the printer has received a bar code command with an
@@ -3242,9 +3150,7 @@ Reference
 value
 0403..00 • 0406..10
 
-## Page 870
 
-836 IPDS Reference
 Action code: X'01' or X'1F'
 Explanation: The desired-symbol-width value specified in
 the bar code data-descriptor self-defining field is invalid.
@@ -3345,9 +3251,7 @@ number of a specific cause for the error.
 Action code: X'01' or X'1F'
 0406..11 • 040B..00
 
-## Page 871
 
-IPDS Reference 837
 Explanation: The bar code modifier in byte 17 of the bar
 code data-descriptor self-defining field is invalid or
 unsupported for the bar code type specified in byte 16 of
@@ -3451,9 +3355,7 @@ Aztec Code symbol, the total number of symbols must be
 between 2 and 26, inclusive.
 040C..00 • 040F ..04
 
-## Page 872
 
-838 IPDS Reference
 Alternate Exception Action: The bar code symbol is
 printed without structured append information.
 Page Continuation Action: The bar code symbol is
@@ -3551,9 +3453,7 @@ value
 Action code: X'01' or X'1F'
 040F ..05 • 040F ..0B
 
-## Page 873
 
-IPDS Reference 839
 Explanation: An invalid structured append file
 identification value is specified in the WBC command.
 Each byte of the 2-byte file identification value must be in
@@ -3652,9 +3552,7 @@ invalid.
 Alternate Exception Action: None
 040F ..0C • 040F ..12
 
-## Page 874
 
-840 IPDS Reference
 Page Continuation Action: Ignore the WBC command
 and continue with the next command.
 Support: Refer to Bar Code Object Content Architecture
@@ -3700,7 +3598,7 @@ Support: Mandatory if the Intelligent Mail Package
 Barcode is supported.
 040F ..16 Too much data for a QR Code
 Action code: X'01' or X'1F'
-Explanation: T oo much data is specified in the BSA data
+Explanation: Too much data is specified in the BSA data
 structure in a Write Bar Code command, and the too-much-
 data flag in the BSA forbids making the QR Code version
 bigger to fit the data.
@@ -3711,7 +3609,7 @@ Support: Mandatory if the QR Code with Image bar code
 is supported.
 040F ..17 Too much data for an Aztec Code
 Action code: X'01' or X'1F'
-Explanation: T oo much data is specified in the BSA data
+Explanation: Too much data is specified in the BSA data
 structure in a Write Bar Code command, and the too-much-
 data flag in the BSA forbids making the Aztec Code version
 bigger to fit the data.
@@ -3751,9 +3649,7 @@ Write Bar Code command. Only one of the FNC1 flags can
 be B'1'.
 040F ..13 • 040F ..1A
 
-## Page 875
 
-IPDS Reference 841
 Alternate Exception Action: None
 Page Continuation Action: Ignore the WBC command
 and continue with the next command.
@@ -3806,7 +3702,7 @@ Support: Mandatory if the Aztec Code bar code is
 supported.
 040F ..20 Too much data for a Data Matrix bar code
 Action code: X'01' or X'1F'
-Explanation: T oo much data is specified in the BSA data
+Explanation: Too much data is specified in the BSA data
 structure in a Write Bar Code command, and the too-much-
 data flag in the BSA forbids making the Data Matrix symbol
 bigger to fit the data.
@@ -3852,9 +3748,7 @@ unsupported.
 Alternate Exception Action: None
 040F ..1B • 040F ..32
 
-## Page 876
 
-842 IPDS Reference
 Page Continuation Action: Ignore the WBC command
 and continue with the next command.
 Support: Mandatory if the QR Code with Image bar code
@@ -3953,9 +3847,7 @@ Support: Mandatory if the QR Code with Image bar code
 is supported.
 040F ..33 • 040F ..39
 
-## Page 877
 
-IPDS Reference 843
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 040F ..3A Invalid or unsupported QR Code with
@@ -4054,9 +3946,7 @@ Notes:
 blank (no toned pels), some printers suppress this
 040F ..3A • 0411..00
 
-## Page 878
 
-844 IPDS Reference
 exception ID, and other printers generate it. The
 preferred action is to suppress the exception ID.
 2. Some printers report this as exception ID X'020A..05',
@@ -4080,7 +3970,7 @@ and GS1-128 symbols only)
 • Invalid application identifier (ai) value encountered
 • Data for an ai doesn't match the ai definition
 • Insufficient (or no) data following an ai
-• T oo much data for an ai
+• Too much data for an ai
 • Invalid use of FNC1 character
 Alternate Exception Action: None
 Page Continuation Action: Ignore the WBC command
@@ -4097,7 +3987,7 @@ bytes 16–17.
 scheme
 Action code: X'01' or X'1F'
 Explanation: Within a Data Matrix bar code object, a C40,
-T ext, X12, or EDIFACT encodation scheme was selected
+Text, X12, or EDIFACT encodation scheme was selected
 and a character was encountered within the bar code data
 that is not valid for that encodation scheme. These
 encodation schemes do not support all 256 possible input
@@ -4113,7 +4003,7 @@ command-set vector of an STM reply)
 bar code
 Action code: X'01' or X'1F'
 Explanation: Invalid or insufficient data was encountered
-in a Royal Mail Red T ag bar code object. There must be
+in a Royal Mail Red Tag bar code object. There must be
 exactly 21 numeric digits in the input data. The printer
 validity checks each field of the input data using the
 BCOCA range.
@@ -4128,7 +4018,7 @@ Action code: X'01' or X'1F'
 Explanation: Invalid or insufficient data was encountered
 in an Intelligent Mail Container Barcode object. One or
 more of the following conditions has been encountered:
-1. T oo many or too few characters were specified; there
+1. Too many or too few characters were specified; there
 must be exactly 22 characters in the input data.
 2. An invalid character was encountered in the data;
 specific ranges are defined for each field defined for
@@ -4159,16 +4049,14 @@ Support: Mandatory if the Royal Mail Mailmark bar code
 is supported.
 0412..00 • 0412..04
 
-## Page 879
 
-IPDS Reference 845
 0412..05 Invalid or insufficient data for an Intelligent
 Mail Package Barcode
 Action code: X'01' or X'1F'
 Explanation: Invalid or insufficient data was encountered
 in an Intelligent Mail Package Barcode object. One or more
 of the following conditions has been encountered:
-1. T oo many or too few characters were specified; there
+1. Too many or too few characters were specified; there
 must be exactly 22, 26, 30, or 34 characters in the
 input data.
 2. An invalid character was encountered in the data.
@@ -4184,9 +4072,7 @@ Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0412..05 • 0412..05
 
-## Page 880
 
-846 IPDS Reference
 Specification Checks—Graphics Data Exceptions
 A specification check—graphics exception indicates
 the printer has received a graphics command with an
@@ -4279,9 +4165,7 @@ instruction contains X'8F' and the Length field (byte 1)
 contains the value implied by the Mask field (bytes 3–
 0300..01 • 0300..03
 
-## Page 881
 
-IPDS Reference 847
 4) but the amount of immediate data (bytes 6–n) does
 not match that specified in the Length field.
 Alternate Exception Action: None
@@ -4380,9 +4264,7 @@ Support: Refer to Graphics Object Content Architecture
 for Advanced Function Presentation Reference.
 0300..04 • 0300..0E
 
-## Page 882
 
-848 IPDS Reference
 Notes:
 1. For printers that support color fidelity control, reporting
 of this exception for unsupported color values can be
@@ -4479,9 +4361,7 @@ Page Continuation Action: The area is closed and filled.
 Processing continues with the next segment.
 0300..21 • 0368..01
 
-## Page 883
 
-IPDS Reference 849
 Support: Refer to Graphics Object Content Architecture
 for Advanced Function Presentation Reference.
 0368..02 Supported order invalid in area
@@ -4578,9 +4458,7 @@ the next segment, or IPDS command if the END command
 is received.
 0368..02 • 0370..C5
 
-## Page 884
 
-850 IPDS Reference
 Support: Refer to Graphics Object Content Architecture
 for Advanced Function Presentation Reference.
 0392..00 Graphics image order sequence exception
@@ -4676,9 +4554,7 @@ identified by the current marker set attribute, with the
 lowest value of precision the marker set can support.
 0392..00 • 03C2..02
 
-## Page 885
 
-IPDS Reference 851
 Page Continuation Action: Use the marker set identified
 by the current marker set attribute, with the lowest value of
 precision the marker set can support.
@@ -4781,9 +4657,7 @@ X'7F' and X'C2'–X'F4').
 sequence is not in the legal UTF-8 range
 03C3..00 • 03C3..03
 
-## Page 886
 
-852 IPDS Reference
 allowed by the value in the first byte. The valid
 ranges for the second byte are as follows:
 1st byte 2nd byte
@@ -4881,9 +4755,7 @@ received that specifies a pattern set that is invalid as a
 gradient pattern set.
 03C6..01 • 03DC..00
 
-## Page 887
 
-IPDS Reference 853
 Alternate Exception Action: Ignore the Linear Gradient
 order.
 Page Continuation Action: Ignore the Linear Gradient
@@ -4981,9 +4853,7 @@ Page Continuation Action: Ignore the Radial Gradient
 order.
 03DC..01 • 03DD..00
 
-## Page 888
 
-854 IPDS Reference
 Support: Refer to Graphics Object Content Architecture
 for Advanced Function Presentation Reference.
 03DD..01 Invalid pattern symbol in a Radial Gradient
@@ -5079,9 +4949,7 @@ Page Continuation Action: The in-progress custom
 pattern is closed and saved, as if an End Custom Pattern
 03DD..01 • 03DE..00
 
-## Page 889
 
-IPDS Reference 855
 drawing order had been received. Processing continues
 with the new Begin Custom Pattern drawing order.
 Support: Refer to Graphics Object Content Architecture
@@ -5179,9 +5047,7 @@ Alternate Exception Action: Ignore the invalid order.
 Page Continuation Action: Ignore the invalid order.
 03DE..01 • 03DE..07
 
-## Page 890
 
-856 IPDS Reference
 Support: Refer to Graphics Object Content Architecture
 for Advanced Function Presentation Reference.
 03DF ..00 Pattern does not exist
@@ -5253,9 +5119,7 @@ Support: Refer to Graphics Object Content Architecture
 for Advanced Function Presentation Reference.
 03DF ..00 • 03E3..03
 
-## Page 891
 
-IPDS Reference 857
 Specification Checks—General Exceptions
 A specification check—general exception indicates
 that the printer has received a command with an
@@ -5275,8 +5139,8 @@ exceptions, except for the following:
 0200..01 Text control-sequence code exception
 Action code: X'01' or X'1F'
 Explanation: An undefined or unsupported control-
-sequence code is found in the data of a Write T ext
-command or in the initial text conditions of a Write T ext
+sequence code is found in the data of a Write Text
+command or in the initial text conditions of a Write Text
 Control command.
 Alternate Exception Action: None
 Page Continuation Action: Skip to the next DORE,
@@ -5287,7 +5151,7 @@ Notes:
 1. This corresponds to an exception code defined by
 PTOCA.
 2. For printers that support text fidelity control, reporting
-of this exception can be controlled by the T ext Fidelity
+of this exception can be controlled by the Text Fidelity
 (X'86') triplet in the PFC command.
 3. Sense bytes 16–17 contain the unsupported or
 unrecognized PTOCA control sequence function type
@@ -5329,7 +5193,7 @@ same as that specified in the ESU control sequence.
 2. There is no active suppression ID when an ESU
 control sequence is received.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Notes:
@@ -5342,9 +5206,7 @@ length
 Action code: X'01'
 0200..01 • 0202..02
 
-## Page 892
 
-858 IPDS Reference
 Explanation: One or more of the following conditions
 exists:
 1. The length value of a command is less than X'05' (or
@@ -5441,9 +5303,7 @@ Support: Mandatory
 0205..01 Invalid spanning sequence
 0202..05 • 0205..01
 
-## Page 893
 
-IPDS Reference 859
 Action code: X'01' or X'1F'
 Explanation: One or more of the following conditions
 exists:
@@ -5505,7 +5365,7 @@ Explanation: A text BSU control sequence is encountered
 in a page, page segment, overlay, or text object before a
 previous suppression ends.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -5545,20 +5405,18 @@ not identified an object-specific exception code.
 extents
 0205..02 • 0207..05
 
-## Page 894
 
-860 IPDS Reference
 Action code: X'01' or X'1F'
 Explanation: One or more of the following conditions
 exists:
-1. The extents (X g and Yg limits for WGC-GDD) specified
+1. The extents (Xg and Yg limits for WGC-GDD) specified
 in either the output-control or the data-descriptor self-
 defining field of an IDO, WBCC, WGC, WIC2, WOCC,
 or WTC command are invalid or unsupported.
 2. The graphics presentation space window specified in
-the WGC-GDD is ill defined (X g left limit is equal to or
-to the right of X g right limit, or Y g bottom limit is equal to
-or above Y g top limit).
+the WGC-GDD is ill defined (Xg left limit is equal to or
+to the right of Xg right limit, or Yg bottom limit is equal to
+or above Yg top limit).
 Alternate Exception Action: None
 Page Continuation Action: For errors in an IDO
 command, skip the IDO command. For errors in other
@@ -5650,9 +5508,7 @@ the symbol to destroy readability.
 Support: Optional
 0208..05 • 020A..05
 
-## Page 895
 
-IPDS Reference 861
 Notes:
 1. This exception is used by printers that cannot detect
 an attempt to print outside the VPA, but can detect that
@@ -5753,9 +5609,7 @@ type OID
 Action code: X'01' or X'1F'
 020A..06 • 020D..02
 
-## Page 896
 
-862 IPDS Reference
 Explanation: One or more of the following conditions
 exists:
 1. The registered object-type OID specified in the WOCC
@@ -5848,19 +5702,17 @@ corresponding HAID is not activated.
 3. The resource identified by a DORE or DORE2
 equivalence entry with only a HAID is not activated
 when the resource is required to present a data object.
-4. An Invoke T ertiary Resource (X'A2') triplet references
+4. An Invoke Tertiary Resource (X'A2') triplet references
 a data object resource by an internal resource ID, but
 there is no active DORE or DORE2 equivalence entry
 containing the referenced internal resource ID.
-5. An Invoke T ertiary Resource (X'A2') triplet references
+5. An Invoke Tertiary Resource (X'A2') triplet references
 a data object resource by an internal resource ID, a
 DORE or DORE2
 equivalence entry with that internal
 020D..05 • 020D..10
 
-## Page 897
 
-IPDS Reference 863
 resource ID is found, but the resource identified by the
 corresponding HAID is not activated.
 Alternate Exception Action: None
@@ -5933,7 +5785,7 @@ transparency
 • PDF single page without transparency
 • PNG (Portable Network Graphics) AFPC PNG Subset
 • SVG (Scalable Vector Graphics) AFPC SVG Subset
-• TIFF (T ag Image File Format) AFPC TIFF Subset
+• TIFF (Tag Image File Format) AFPC TIFF Subset
 • TIFF with transparency
 • TIFF without transparency
 • TIFF multiple-image file with transparency
@@ -5964,9 +5816,7 @@ Page Continuation Action: Ignore the IDO command
 Support: Mandatory
 020D..11 • 020D..15
 
-## Page 898
 
-864 IPDS Reference
 020D..16 Data object resource Host-Assigned ID
 already assigned
 Action code: X'01'
@@ -6061,9 +5911,7 @@ Explanation: A Remove Resident Resource (RRR)
 command specified an invalid OID. The value specified in
 020D..16 • 020D..32
 
-## Page 899
 
-IPDS Reference 865
 the object-OID field is not a valid ASN.1 definite-short-form
 OID.
 Alternate Exception Action: None
@@ -6094,10 +5942,10 @@ Explanation: One of the following conditions exists:
 triplet contains an invalid or unsupported value. The
 triplet occurs in either an IDO, LPD, RPO, WBCC,
 WGC, WIC2, WOCC, or WTC command.
-2. The color space field in a PTOCA Set Extended T ext
+2. The color space field in a PTOCA Set Extended Text
 Color (SEC) control sequence contains an invalid or
 unsupported value. The control sequence occurs in a
-Write T ext command.
+Write Text command.
 3. The color space field in a GOCA Set Process Color
 (GSPCOL), Linear Gradient (GLGD), or Radial
 Gradient (GRGD) drawing order contains an invalid or
@@ -6132,10 +5980,10 @@ Explanation: One of the following conditions exists:
 triplet contains an invalid or unsupported value. The
 triplet occurs in either an IDO, LPD, RPO, WBCC,
 WGC, WIC2, WOCC, or WTC command.
-2. The color value field in a PTOCA Set Extended T ext
+2. The color value field in a PTOCA Set Extended Text
 Color (SEC) control sequence contains an invalid or
 unsupported value. The control sequence occurs in a
-Write T ext command.
+Write Text command.
 3. The color value field in a GOCA Set Process Color
 (GSPCOL), Linear Gradient (GLGD), or Radial
 Gradient (GRGD) drawing order contains an invalid or
@@ -6166,9 +6014,7 @@ Notes:
 GOCA and PTOCA.
 020E..01 • 020E..03
 
-## Page 900
 
-866 IPDS Reference
 2. For printers that support color fidelity control, reporting
 of this exception can be controlled by the Color Fidelity
 (X'75') triplet in the PFC command.
@@ -6183,9 +6029,9 @@ contains an invalid value. The triplet occurs in either an
 IDO, LPD, RPO, WBCC, WGC, WIC2, WOCC, or
 WTC command.
 2. Either the coverage field, the shading field, or both in a
-PTOCA Set Extended T ext Color (SEC) control
+PTOCA Set Extended Text Color (SEC) control
 sequence for a highlight color contains an invalid
-value. The control sequence occurs in a Write T ext
+value. The control sequence occurs in a Write Text
 command.
 3. Either the coverage field, the shading field, or both in a
 GOCA Set Process Color (GSPCOL), Linear Gradient
@@ -6222,10 +6068,10 @@ specify length values that are inconsistent with the
 triplet length value.
 3. An invalid or unsupported value is specified in the
 Colsize1, Colsize2, Colsize3, or Colsize4 field of a
-PTOCA Set Extended T ext Color (SEC) control
+PTOCA Set Extended Text Color (SEC) control
 sequence. The control sequence occurs in a Write
-T ext command.
-4. The Colsize fields in a PTOCA Set Extended T ext
+Text command.
+4. The Colsize fields in a PTOCA Set Extended Text
 Color (SEC) control sequence specify length values
 that are inconsistent with the control sequence length
 value.
@@ -6265,13 +6111,11 @@ GOCA and PTOCA.
 2. Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 020F ..01 Invalid or unsupported Set Text
-Orientation (STO)
+## Orientation (STO)
 Action code: X'01' or X'1F'
 020E..04 • 020F ..01
 
-## Page 901
 
-IPDS Reference 867
 Explanation: One or more of the following conditions
 exists:
 1. The inline or baseline orientation specified in a text
@@ -6296,19 +6140,19 @@ Explanation: The inline margin value specified in a text
 Set Inline Margin control sequence or in an LPD or WTC
 command is invalid or unsupported.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence. LPD and WTC errors have no PCA.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
 PTOCA.
 0211..01 Invalid or unsupported Set Baseline
-Increment (SBI)
+## Increment (SBI)
 Action code: X'01' or X'1F'
 Explanation: The baseline increment value specified in a
 text Set Baseline Increment control sequence or in an LPD
 or WTC command is invalid or unsupported.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence. LPD and WTC errors have no PCA.
 Support: Mandatory
 0212..01 Invalid or unsupported intercharacter
@@ -6324,7 +6168,7 @@ adjustment value is valid but not supported, the printer
 uses the next smallest supported value. If the direction
 value is invalid or not supported, the printer uses X'00'
 (increment).
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence. LPD and WTC errors have no PCA.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -6349,30 +6193,28 @@ X'02AF ..01'. The preferred exception ID is X'02AF ..01'.
 2. Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0213..01 Invalid or unsupported Absolute Move
-Baseline (AMB)
+## Baseline (AMB)
 Action code: X'01' or X'1F'
 Explanation: The position value specified in a text
 Absolute Move Baseline control sequence is invalid or
 unsupported.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
 PTOCA.
 0214..01 Invalid or unsupported Absolute Move
-Inline (AMI)
+## Inline (AMI)
 Action code: X'01' or X'1F'
 0210..01 • 0214..01
 
-## Page 902
 
-868 IPDS Reference
 Explanation: The position value specified in a text
 Absolute Move Inline control sequence is invalid or
 unsupported.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -6402,13 +6244,13 @@ The preferred exception is X'0205..02'.
 2. This corresponds to an exception code defined by
 PTOCA.
 0215..01 Invalid or unsupported Relative Move
-Inline (RMI)
+## Inline (RMI)
 Action code: X'01' or X'1F'
 Explanation: The displacement value specified in a text
 Relative Move Inline control sequence is invalid or
 unsupported.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Refer to Presentation Text Object Content
 Architecture Reference.
@@ -6436,13 +6278,13 @@ Support: Mandatory
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0216..01 Invalid or unsupported Relative Move
-Baseline (RMB)
+## Baseline (RMB)
 Action code: X'01' or X'1F'
 Explanation: The displacement value specified in a text
 Relative Move Baseline control sequence is invalid or
 unsupported.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Refer to Presentation Text Object Content
 Architecture Reference.
@@ -6452,20 +6294,18 @@ The preferred exception ID is X'0860..00'.
 2. This corresponds to an exception code defined by
 PTOCA.
 0217..01 Invalid or unsupported Set Variable-Space
-Character Increment (SVI)
+## Character Increment (SVI)
 Action code: X'01' or X'1F'
 Explanation: The increment value specified in a text Set
 Variable-Space Character Increment control sequence is
 invalid or unsupported.
 0214..02 • 0217..01
 
-## Page 903
 
-IPDS Reference 869
 Alternate Exception Action: If invalid, none. If
 unsupported, the printer uses the next-smallest supported
 value.
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -6539,7 +6379,7 @@ Action code: X'01' or X'1F'
 Explanation: A text Repeat String control sequence target
 count is invalid or unsupported.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -6557,22 +6397,20 @@ Support: Mandatory
 Action code: X'01' or X'1F'
 Explanation: An odd number of data bytes was specified
 for a PTOCA Repeat String (RPS), Transparent Data
-(TRN), or Unicode Complex T ext (UCT) control sequence,
+(TRN), or Unicode Complex Text (UCT) control sequence,
 but the font specified double-byte code points. This
 exception can also occur in two cases when dealing with
 encrypted text and the font specified double-byte code
 0217..02 • 021A..01
 
-## Page 904
 
-870 IPDS Reference
 points: either after decryption, there was an odd number of
 decrypted bytes for a PTOCA Encrypted Data (ENC)
 string, or if decryption fails, an odd number of bytes was
 specified for a PTOCA Set Encrypted Alternate (SEA)
 string that was used as alternate text.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -6580,7 +6418,7 @@ PTOCA.
 021A..03 Invalid Unicode data
 Action code: X'01' or X'1F'
 Explanation: One of the following errors exists in PTOCA
-text data within a Write T ext command:
+text data within a Write Text command:
 • A high-order surrogate code value is not immediately
 followed by a low-order surrogate code value. The high-
 order surrogate range is U+D800 through U+DBFF .
@@ -6642,7 +6480,7 @@ Explanation: The target-string length for a text Repeat
 String control sequence must be an even number for
 double-byte coded fonts.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -6671,9 +6509,7 @@ PTOCA.
 Action code: X'01'
 021A..03 • 021C..02
 
-## Page 905
 
-IPDS Reference 871
 Explanation: An invalid value is specified in the byte-
 count field (bytes 18–20) of a Load Font Control command.
 Alternate Exception Action: None
@@ -6691,7 +6527,7 @@ Support: Optional
 021E..01 Invalid text control-sequence length
 Action code: X'01' or X'1F'
 Explanation: The length of a text control sequence in a
-Write T ext command is invalid.
+Write Text command is invalid.
 Alternate Exception Action: None
 Page Continuation Action: Skip to the next DORE,
 DORE2,
@@ -6732,7 +6568,7 @@ Explanation: A text Repeat String control sequence in a
 WT command has a nonzero fill count, but a zero string
 length.
 Alternate Exception Action: None
-Page Continuation Action: Ignore the Write T ext control
+Page Continuation Action: Ignore the Write Text control
 sequence.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -6769,9 +6605,7 @@ Control font-index format
 Action code: X'01'
 021D..02 • 0221..02
 
-## Page 906
 
-872 IPDS Reference
 Explanation: The font-control record and font-index table-
 format value (byte 3) in an LFC command is invalid or
 unsupported.
@@ -6864,9 +6698,7 @@ Page Continuation Action: None
 Support: Mandatory
 0222..02 • 022A..02
 
-## Page 907
 
-IPDS Reference 873
 022B..02 Invalid or unsupported value for Load Font
 Control units per unit base in the Y
 direction
@@ -6949,9 +6781,7 @@ exists:
 1. The number of bytes in the LCC command copy
 022B..02 • 0234..01
 
-## Page 908
 
-874 IPDS Reference
 subgroup is not a multiple of two-byte pairs or is invalid
 or unsupported.
 2. The number of bytes in the LCC command copy
@@ -7052,9 +6882,7 @@ destination IDs in a duplex copy-subgroup
 pair
 0236..01 • 0237..05
 
-## Page 909
 
-IPDS Reference 875
 Action code: X'01'
 Explanation: One or more of the following conditions
 exists:
@@ -7149,9 +6977,7 @@ Page Continuation Action: None
 Support: Mandatory
 0238..01 • 0239..01
 
-## Page 910
 
-876 IPDS Reference
 0239..02 LFC font Host-Assigned Resource ID
 already assigned
 Action code: X'01'
@@ -7250,9 +7076,7 @@ Alternate Exception Action: None
 Page Continuation Action: None
 0239..02 • 023C..02
 
-## Page 911
 
-IPDS Reference 877
 Support: Mandatory for all parameters used by the
 printer. Some IPDS printers can properly present character
 data without using some of the information in the LFI
@@ -7307,12 +7131,12 @@ Explanation: One or more of the following conditions
 exists:
 1. A fully described font or font index required as a result
 of combining a Set Coded-Font Local (SCFL) control
-sequence or an LPD or WTC command with a Set T ext
+sequence or an LPD or WTC command with a Set Text
 Orientation (STO) control sequence and an LFE
 command does not exist within the printer when
 needed.
 2. The printer does not support the requested
-combination of Set T ext Orientation and Font Inline
+combination of Set Text Orientation and Font Inline
 Sequence for the requested symbol set coded font.
 3. The font-inline-sequence field of an LFE command is
 invalid, unsupported, or is unsupported within the
@@ -7351,9 +7175,7 @@ the maximum supported value
 Action code: X'01' or X'1F'
 023E..02 • 0243..01
 
-## Page 912
 
-878 IPDS Reference
 Explanation: The pels-per-scan-line value in a Write
 Image Control command for either the input or output
 image is greater than the valid or supported maximum.
@@ -7448,9 +7270,7 @@ Page Continuation Action: None
 Support: Optional
 0243..02 • 0246..03
 
-## Page 913
 
-IPDS Reference 879
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0247..01 Invalid or unsupported value for Write
@@ -7525,7 +7345,7 @@ command is invalid or unsupported.
 2. The first pel location X
 p or I value (bytes 17–19) in a
 WIC command is invalid or unsupported.
-3. The first pel location Y p or B value (bytes 21–23) in a
+3. The first pel location Yp or B value (bytes 21–23) in a
 WIC command is invalid or unsupported.
 Alternate Exception Action: None
 Page Continuation Action: Skip to END command.
@@ -7544,9 +7364,7 @@ Support: Mandatory
 Symbol Set flag bytes
 0247..01 • 024B..02
 
-## Page 914
 
-880 IPDS Reference
 Action code: X'01'
 Explanation: One or more of the bits in the two flag bytes
 of the LSS command are invalid or unsupported.
@@ -7640,9 +7458,7 @@ Presentation Fidelity Control command.
 Alternate Exception Action: None
 024C..02 • 0254..04
 
-## Page 915
 
-IPDS Reference 881
 Page Continuation Action: None
 Support: Mandatory when the Color Fidelity (X'75') triplet
 is supported
@@ -7660,15 +7476,15 @@ value
 Action code: X'01'
 Explanation: One or more of the following conditions
 exists:
-1. The triplet-length field in a T oner Saver (X'74') triplet
+1. The triplet-length field in a Toner Saver (X'74') triplet
 contains an invalid value.
-2. A T oner Saver (X'74') triplet is too long to fit in the
+2. A Toner Saver (X'74') triplet is too long to fit in the
 containing command.
 The triplet is contained in a Presentation Fidelity Control
 command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory when the T oner Saver (X'74') triplet
+Support: Mandatory when the Toner Saver (X'74') triplet
 is supported
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
@@ -7677,27 +7493,27 @@ page
 Action code: X'01'
 Explanation: For performance reasons, some printers
 that support saved pages rasterize each page before the
-page is saved; in this case, when a T oner Saver (X'74')
+page is saved; in this case, when a Toner Saver (X'74')
 triplet is in effect at save-page time, that toner saver setting
 is used during the rasterizing process. Later, when a
 previously saved page is included with an Include Saved
-Page command, the T oner Saver (X'74') triplet in effect at
+Page command, the Toner Saver (X'74') triplet in effect at
 that time must contain the same setting; to print the saved
 page correctly, the page must be rasterized using the toner
 saver settings in effect at the time of presentation.
 Alternate Exception Action: None
 Page Continuation Action: Print the saved page
-Support: Mandatory when the T oner Saver (X'74') triplet
+Support: Mandatory when the Toner Saver (X'74') triplet
 is supported
 0254..33 Invalid Toner Saver (X'74') triplet control
 value
 Action code: X'01'
-Explanation: The toner saver control field in a T oner
+Explanation: The toner saver control field in a Toner
 Saver (X'74') triplet contains an invalid value. The triplet is
 contains in a Presentation Fidelity Control command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory when the T oner Saver (X'74') triplet
+Support: Mandatory when the Toner Saver (X'74') triplet
 is supported
 0254..41 Invalid Finishing Fidelity (X'88') triplet
 length value
@@ -7740,58 +7556,56 @@ triplet is supported
 value
 0254..05 • 0254..51
 
-## Page 916
 
-882 IPDS Reference
 Action code: X'01'
 Explanation: One or more of the following conditions
 exists:
-1. The triplet-length field in a T ext Fidelity (X'86') triplet
+1. The triplet-length field in a Text Fidelity (X'86') triplet
 contains an invalid value.
-2. A T ext Fidelity (X'86') triplet is too long to fit in the
+2. A Text Fidelity (X'86') triplet is too long to fit in the
 containing command.
 The triplet is contained in a Presentation Fidelity Control
 command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory when the T ext Fidelity (X'86') triplet is
+Support: Mandatory when the Text Fidelity (X'86') triplet is
 supported
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0254..52 Invalid Text Fidelity (X'86') triplet continue
 value
 Action code: X'01'
-Explanation: The continuation-rule field (byte 2) in a T ext
+Explanation: The continuation-rule field (byte 2) in a Text
 Fidelity (X'86') triplet contains an invalid value. The triplet is
 contained in a Presentation Fidelity Control command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory when the T ext Fidelity (X'86') triplet is
+Support: Mandatory when the Text Fidelity (X'86') triplet is
 supported
 0254..53 Invalid Text Fidelity (X'86') triplet report
 value
 Action code: X'01'
-Explanation: The report field (byte 4) in a T ext Fidelity
+Explanation: The report field (byte 4) in a Text Fidelity
 (X'86') triplet contains an invalid value. The triplet is
 contained in a Presentation Fidelity Control command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory when the T ext Fidelity (X'86') triplet is
+Support: Mandatory when the Text Fidelity (X'86') triplet is
 supported
 0254..71 Invalid CMR Tag Fidelity (X'96') triplet
 length value
 Action code: X'01'
 Explanation: One or more of the following conditions
 exists:
-1. The triplet-length field in a CMR T ag Fidelity (X'96')
+1. The triplet-length field in a CMR Tag Fidelity (X'96')
 triplet contains an invalid value.
-2. A CMR T ag Fidelity (X'96') triplet is too long to fit in the
+2. A CMR Tag Fidelity (X'96') triplet is too long to fit in the
 containing command.
 The triplet is contained in a Presentation Fidelity Control
 command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory, when the CMR T ag Fidelity (X'96')
+Support: Mandatory, when the CMR Tag Fidelity (X'96')
 triplet is supported
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
@@ -7799,22 +7613,22 @@ number of a specific cause for the error.
 continue value
 Action code: X'01'
 Explanation: The continuation-rule field (byte 2) in a CMR
-T ag Fidelity (X'96') triplet contains an invalid value. The
+Tag Fidelity (X'96') triplet contains an invalid value. The
 triplet is contained in a Presentation Fidelity Control
 command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory, when the CMR T ag Fidelity (X'96')
+Support: Mandatory, when the CMR Tag Fidelity (X'96')
 triplet is supported
 0254..73 Invalid CMR Tag Fidelity (X'96') triplet
 report value
 Action code: X'01'
-Explanation: The report field (byte 4) in a CMR T ag
+Explanation: The report field (byte 4) in a CMR Tag
 Fidelity (X'96') triplet contains an invalid value. The triplet is
 contained in a Presentation Fidelity Control command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory, when the CMR T ag Fidelity (X'96')
+Support: Mandatory, when the CMR Tag Fidelity (X'96')
 triplet is supported
 0255..00 Page group already saved
 Action code: X'01'
@@ -7838,9 +7652,7 @@ skipped.
 Support: Mandatory
 0254..52 • 0255..01
 
-## Page 917
 
-IPDS Reference 883
 0255..02 Invalid page sequence number in an ISP
 command
 Action code: X'01'
@@ -7933,9 +7745,7 @@ Page Continuation Action: None
 Support: Mandatory
 0255..02 • 0255..09
 
-## Page 918
 
-884 IPDS Reference
 0255..0A Invalid triplet information in an XOH-RSPG
 command
 Action code: X'01'
@@ -8032,9 +7842,7 @@ HAID of the linked font with the invalid full-font-name
 value.
 0255..0A • 0256..14
 
-## Page 919
 
-IPDS Reference 885
 0256..21 Invalid FQN type value in a Fully Qualified
 Name (X'02') triplet
 Action code: X'01'
@@ -8131,9 +7939,7 @@ Alternate Exception Action: None
 Page Continuation Action: None
 0256..21 • 0256..61
 
-## Page 920
 
-886 IPDS Reference
 Support: Mandatory, if CMRs are supported
 0256..71 Invalid rendering-intent value in a
 Rendering Intent (X'95') triplet
@@ -8228,9 +8034,7 @@ Support: Mandatory if the Object Container Presentation
 Space Size (X'9C') triplet is supported for PDF objects.
 0256..71 • 0256..B1
 
-## Page 921
 
-IPDS Reference 887
 0256..B2 Invalid or unsupported unit base value in
 an Object Container Presentation Space
 Size (X'9C') triplet
@@ -8285,36 +8089,36 @@ Space Size (X'9C') triplet is supported for SVG objects.
 Resource (X'A2') triplet
 Action code: X'01' or X'1F'
 Explanation: An invalid or unsupported tertiary resource
-type value is specified in an Invoke T ertiary Resource
+type value is specified in an Invoke Tertiary Resource
 (X'A2') triplet. The triplet is specified on a WBCC
 command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Invoke T ertiary Resource
+Support: Mandatory if the Invoke Tertiary Resource
 (X'A2') triplet is supported.
 0256..C2 Invalid HAID value in an Invoke Tertiary
 Resource (X'A2') triplet
 Action code: X'01' or X'1F'
 Explanation: An invalid HAID value is specified in an
-Invoke T ertiary Resource (X'A2') triplet. The triplet is
+Invoke Tertiary Resource (X'A2') triplet. The triplet is
 specified on a WBCC command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Invoke T ertiary Resource
+Support: Mandatory if the Invoke Tertiary Resource
 (X'A2') triplet is supported.
 0256..C3 Invalid tertiary resource invoked in an
 Invoke Tertiary Resource (X'A2') triplet
 Action code: X'01' or X'1F'
 Explanation: One of the following conditions exists:
-1. The Host-Assigned ID specified in an Invoke T ertiary
+1. The Host-Assigned ID specified in an Invoke Tertiary
 Resource (X'A2') triplet is not currently activated.
-2. The Host-Assigned ID specified in an Invoke T ertiary
+2. The Host-Assigned ID specified in an Invoke Tertiary
 Resource (X'A2') triplet is activated, but is not of the type
 named in the TRType field of the triplet.
 The triplet is specified on a WBCC command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Invoke T ertiary Resource
+Support: Mandatory if the Invoke Tertiary Resource
 (X'A2') triplet is supported.
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
@@ -8322,39 +8126,37 @@ number of a specific cause for the error.
 Resource (X'A2') triplet
 Action code: X'01' or X'1F'
 Explanation: An invalid or unsupported internal resource
-ID type value is specified in an Invoke T ertiary Resource
+ID type value is specified in an Invoke Tertiary Resource
 (X'A2') triplet. The triplet is specified on a WBCC
 command.
 Alternate Exception Action: None
 0256..B2 • 0256..C4
 
-## Page 922
 
-888 IPDS Reference
 Page Continuation Action: None
-Support: Mandatory if the Invoke T ertiary Resource
+Support: Mandatory if the Invoke Tertiary Resource
 (X'A2') triplet is supported.
 0256..C5 Invalid internal resource ID length in an
 Invoke Tertiary Resource (X'A2') triplet
 Action code: X'01' or X'1F'
 Explanation: The internal resource ID specified in an
-Invoke T ertiary Resource (X'A2') triplet is not the length
+Invoke Tertiary Resource (X'A2') triplet is not the length
 defined by the IDType field of the triplet. The triplet is
 specified on a WBCC command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Invoke T ertiary Resource
+Support: Mandatory if the Invoke Tertiary Resource
 (X'A2') triplet is supported.
 0256..C6 Invalid secondary resource mapped in an
 Invoke Tertiary Resource (X'A2') triplet
 Action code: X'01' or X'1F'
 Explanation: The secondary resource object mapped by
-the internal resource ID specified in an Invoke T ertiary
+the internal resource ID specified in an Invoke Tertiary
 Resource (X'A2') triplet is not a valid type for the current
 context. The triplet is specified on a WBCC command.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Invoke T ertiary Resource
+Support: Mandatory if the Invoke Tertiary Resource
 (X'A2') triplet is supported.
 0257..01 Invalid RPO entry-length value
 Action code: X'01'
@@ -8395,7 +8197,7 @@ with transparency
 • PNG (Portable Network Graphics) AFPC PNG
 Subset
 • SVG (Scalable Vector Graphics) AFPC SVG Subset
-• TIFF (T ag Image File Format) AFPC TIFF Subset
+• TIFF (Tag Image File Format) AFPC TIFF Subset
 • TIFF with transparency
 • TIFF without transparency
 • TIFF multiple-image file with transparency
@@ -8428,9 +8230,7 @@ current use.
 Alternate Exception Action: None
 0256..C5 • 0257..04
 
-## Page 923
 
-IPDS Reference 889
 Page Continuation Action: None
 Support: Mandatory
 0257..05 Invalid or unsupported RPO unit-base
@@ -8459,7 +8259,7 @@ exists:
 1. An invalid or unsupported X
 oa-extent value is specified
 in a Rasterize Presentation Object (RPO) command.
-2. An invalid or unsupported Y oa-extent value is specified
+2. An invalid or unsupported Yoa-extent value is specified
 in a Rasterize Presentation Object (RPO) command.
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -8487,7 +8287,7 @@ exists:
 oa-offset or Yoa-offset value is specified in
 a Rasterize Presentation Object (RPO) command, but
 the printer does not support negative offsets.
-2. A valid X oa-offset or Yoa-offset value is specified in a
+2. A valid Xoa-offset or Yoa-offset value is specified in a
 Rasterize Presentation Object (RPO) command, but
 the printer does not support that value with the
 specified units of measure.
@@ -8500,11 +8300,11 @@ number of a specific cause for the error.
 Action code: X'01' or X'1F'
 Explanation: One or more of the following conditions
 exists:
-1. The color field in the Set T ext Color (STC) control
+1. The color field in the Set Text Color (STC) control
 sequence is invalid or is unsupported.
 2. The text-color field in an LPD or WTC command is
 invalid or unsupported.
-3. The precision field in the Set T ext Color (STC) control
+3. The precision field in the Set Text Color (STC) control
 sequence is invalid or is unsupported.
 Alternate Exception Action: For an invalid or
 unsupported color value, use a highlight color if one is
@@ -8529,9 +8329,7 @@ IPDS printers.
 number of a specific cause for the error.
 0257..05 • 0258..03
 
-## Page 924
 
-890 IPDS Reference
 025B..01 Invalid type value in a MID command
 Action code: X'01'
 Explanation: The type parameter in a Manage IPDS
@@ -8563,7 +8361,7 @@ Management Resource (CMR). The specific error code
 Content Architecture Reference; X'ee' can be one of the
 following:
 X'03' Invalid Length value in a CMR header
-X'04' Unsupported T agID value in a CMR tag
+X'04' Unsupported TagID value in a CMR tag
 X'05' Invalid Count value in a CMR tag
 X'06' Invalid FieldType value in a CMR tag
 X'0E' Missing required CMR tag
@@ -8580,14 +8378,14 @@ of the CMR in error. For link color-conversion (subset “LK”)
 CMRs, rebuild the needed link LUT .
 Support: Mandatory, if CMRs are supported
 Notes:
-1. Sense bytes 16–17 contain the CMR T agID value for
+1. Sense bytes 16–17 contain the CMR TagID value for
 the tag that caused the error.
 2. For printers that support color fidelity control, reporting
 of this exception (except for X'025D..04') is controlled
 by the Color Fidelity (X'75') triplet in the PFC
 command.
 3. For printers that support CMR tag fidelity control,
-reporting of X'025D..04' is controlled by the CMR T ag
+reporting of X'025D..04' is controlled by the CMR Tag
 Fidelity (X'96') triplet in the PFC command.
 4. This corresponds to an exception code defined by
 CMOCA as identified by the X'ee' value.
@@ -8630,9 +8428,7 @@ specified an inappropriate processing mode for that CMR.
 Refer to the Color Management Object Content
 025B..01 • 025E..02
 
-## Page 925
 
-IPDS Reference 891
 Architecture Reference for a description of appropriate
 processing modes for the various types of CMRs.
 Alternate Exception Action: None
@@ -8728,13 +8524,11 @@ Alternate Exception Action: None
 Page Continuation Action: None
 025E..03 • 025F ..02
 
-## Page 926
 
-892 IPDS Reference
 Support: Mandatory, if the XOH Trace command is
 supported
 0260..02 Invalid or unsupported value for Logical
-Page Descriptor units per unit base (X p
+Page Descriptor units per unit base (Xp
 and I)
 Action code: X'01'
 Explanation: In an LPD command, the units-per-unit base
@@ -8745,7 +8539,7 @@ Support: Mandatory
 Note: This corresponds to an exception code defined by
 PTOCA.
 0261..02 Invalid or unsupported value for Logical
-Page Descriptor units per unit base (Y p and
+Page Descriptor units per unit base (Yp and
 B)
 Action code: X'01'
 Explanation: In an LPD command, the units-per-unit base
@@ -8756,15 +8550,15 @@ Page Continuation Action: None
 Support: Mandatory
 Note: This corresponds to an exception code defined by
 PTOCA.
-0262..02 Invalid or unsupported value for LPD X p
-extent or XOH-SMS X m extent
+0262..02 Invalid or unsupported value for LPD Xp
+extent or XOH-SMS Xm extent
 Action code: X'01'
 Explanation: One or more of the following conditions
 exists:
 1. The X
 p extent in a Logical Page Descriptor command
 is invalid or unsupported.
-2. The X m extent in an XOH Set Media Size command is
+2. The Xm extent in an XOH Set Media Size command is
 invalid or unsupported.
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -8786,13 +8580,13 @@ Note: Some printers report this exception as X'02AF ..01'.
 The preferred exception ID is X'02AF ..01'.
 0263..02 Invalid or unsupported value for LPD Y
 p
-extent or XOH-SMS Y m extent
+extent or XOH-SMS Ym extent
 Action code: X'01'
 Explanation: One or more of the following conditions
 exists:
-1. The Y p extent in a Logical Page Descriptor command
+1. The Yp extent in a Logical Page Descriptor command
 is invalid or unsupported.
-2. The Y m extent in an XOH Set Media Size command is
+2. The Ym extent in an XOH Set Media Size command is
 invalid or unsupported.
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -8824,9 +8618,7 @@ Note: This corresponds to an exception code defined by
 PTOCA.
 0260..02 • 0264..02
 
-## Page 927
 
-IPDS Reference 893
 0268..02 Invalid or unsupported value for LPD or
 WTC inline-sequence direction
 Action code: X'01'
@@ -8918,14 +8710,12 @@ Alternate Exception Action: None
 Page Continuation Action: None
 0268..02 • 0270..02
 
-## Page 928
 
-894 IPDS Reference
 Support: Mandatory
 0272..02 Invalid or unsupported value for XOH Set
 Media Size Xm extent
 Action code: X'01'
-Explanation: In an XOH-SMS command, the X m extent is
+Explanation: In an XOH-SMS command, the Xm extent is
 invalid or unsupported.
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -8935,7 +8725,7 @@ exception. The preferred Exception ID is X'0272..02'.
 0273..02 Invalid or unsupported value for XOH Set
 Media Size Ym extent
 Action code: X'01'
-Explanation: In an XOH-SMS command, the Y m extent is
+Explanation: In an XOH-SMS command, the Ym extent is
 invalid or unsupported.
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -9002,7 +8792,7 @@ WOCC command
 triplet in an IDO, RPO, or WOCC command
 16. A Setup Name (X'9E') triplet in an ASN or XOA-RSNL
 command
-17. An Invoke T ertiary Resource (X'A2') triplet in a WBCC
+17. An Invoke Tertiary Resource (X'A2') triplet in a WBCC
 command
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -9014,9 +8804,7 @@ Action code: X'01'
 Explanation: One of the following conditions exists:
 0272..02 • 027B..01
 
-## Page 929
 
-IPDS Reference 895
 • The number of data bytes specified in a triplet length field
 is greater than the number of bytes remaining in the
 command.
@@ -9057,7 +8845,7 @@ WOCC command
 triplet in an IDO, RPO, or WOCC command
 16. A Setup Name (X'9E') triplet in an ASN or XOA-RSNL
 command
-17. An Invoke T ertiary Resource (X'A2') triplet in a WBCC
+17. An Invoke Tertiary Resource (X'A2') triplet in a WBCC
 command
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -9117,9 +8905,7 @@ reporting of this exception can be controlled by the
 Finishing Fidelity (X'88') triplet in the PFC command.
 027C..01 • 027C..01
 
-## Page 930
 
-896 IPDS Reference
 2. Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 027C..02 Too many or too few sheets for a finishing
@@ -9219,9 +9005,7 @@ reporting of this exception can be controlled by the
 Finishing Fidelity (X'88') triplet in the PFC command.
 027C..02 • 027C..04
 
-## Page 931
 
-IPDS Reference 897
 027C..05 Unsupported finishing operation count
 Action code: X'01'
 Explanation: The finish operation count field (byte 6) in a
@@ -9319,9 +9103,7 @@ sheet and the Finishing Operation (X'85') triplet is
 discarded.
 027C..05 • 027C..08
 
-## Page 932
 
-898 IPDS Reference
 Alternate Exception Action: None
 Page Continuation Action: None
 Support: Mandatory
@@ -9424,9 +9206,7 @@ command is processed and the received page counter is
 incremented. The finishing operation is not applied to the
 027C..09 • 027C..0D
 
-## Page 933
 
-IPDS Reference 899
 sheet and the Finishing Operation (X'85') triplet is
 discarded.
 Alternate Exception Action: None
@@ -9534,9 +9314,7 @@ yet reached the Jam-Recovery Station have been
 discarded or marked as waste without any human
 027E..00 • 027E..00
 
-## Page 934
 
-900 IPDS Reference
 interaction. When operator intervention is required for post-
 processor-detected syntax or position-check errors,
 exception ID X'407E..00' is used.
@@ -9632,9 +9410,7 @@ segment Host-Assigned ID
 Action code: X'01'
 0280..02 • 028A..01
 
-## Page 935
 
-IPDS Reference 901
 Explanation: The page segment Host-Assigned ID in a
 DPS command is invalid or unsupported.
 Alternate Exception Action: None
@@ -9727,9 +9503,7 @@ contains an invalid or unsupported value.
 3. The XUPUB value is not equal to the YUPUB value.
 028A..02 • 028F ..10
 
-## Page 936
 
-902 IPDS Reference
 Alternate Exception Action: None
 Page Continuation Action: None
 Support: Mandatory if Metric Adjustment (X'79') triplets
@@ -9823,9 +9597,7 @@ Explanation: In an AR command to activate a data-object
 font, an invalid environment-specific encoding identifier
 028F ..11 • 028F ..26
 
-## Page 937
 
-IPDS Reference 903
 value is specified in a Data Object Font Descriptor (X'8B')
 triplet.
 Alternate Exception Action: None
@@ -9918,9 +9690,7 @@ Request Resource List entry
 Action code: X'01'
 028F ..30 • 0291..02
 
-## Page 938
 
-904 IPDS Reference
 Explanation: One or more of the following conditions
 exists:
 1. The length of a Request Resource List entry is invalid
@@ -10015,9 +9785,7 @@ following conditions exists:
 1. More than one Include Overlay command specified a
 0292..01 • 0293..03
 
-## Page 939
 
-IPDS Reference 905
 preprinted form overlay; there can be only one
 preprinted form overlay for a page.
 2. A PFO has already been invoked via an LCC
@@ -10112,9 +9880,7 @@ number of a specific cause for the error.
 Action code: X'01' or X'1F'
 0293..04 • 0298..01
 
-## Page 940
 
-906 IPDS Reference
 Explanation: One of the following conditions exists:
 1. The suppression ID in an LCC command is invalid or
 unsupported.
@@ -10163,7 +9929,7 @@ Support: Mandatory
 Action code: X'01' or X'1F'
 Explanation: One or more of the following conditions
 exists in a text Overstrike control sequence within a Write
-T ext command:
+Text command:
 1. (Mandatory) The character increment of the selected
 overstrike character is less than or equal to zero.
 2. (Optional) The character increment of the selected
@@ -10173,7 +9939,7 @@ size.
 character.
 Alternate Exception Action: None
 Page Continuation Action: Ignore the OVS control
-sequence in the Write T ext command.
+sequence in the Write Text command.
 Support: Specific to the condition as shown in the
 explanation
 Notes:
@@ -10185,7 +9951,7 @@ number of a specific cause for the error.
 parameter value
 Action code: X'01' or X'1F'
 Explanation: An invalid parameter value was specified in
-a PTOCA UCT control sequence within a Write T ext
+a PTOCA UCT control sequence within a Write Text
 command.
 Alternate Exception Action: None
 Page Continuation Action: Skip to the next non-WT
@@ -10196,7 +9962,7 @@ Notes:
 1. This corresponds to an exception code defined by
 PTOCA.
 2. IPDS printers that return property pair X'4303' in the
-T ext command-set vector of an STM reply only check
+Text command-set vector of an STM reply only check
 for an invalid complex-text data length value
 (CTLNGTH). Since the UCT version level, bidi layout
 processing control, glyph processing control, and
@@ -10204,13 +9970,11 @@ alternate current inline position are ignored by these
 IPDS printers, these parameters are not checked for
 validity.
 029C..00 Wrong font used with a Glyph Layout
-Control (GLC)
+## Control (GLC)
 Action code: X'01' or X'1F'
 0298..03 • 029C..00
 
-## Page 941
 
-IPDS Reference 907
 Explanation: One of the following conditions exists:
 1. The object OID specified in the GLC control sequence
 does not match the object OID of the current font or
@@ -10271,7 +10035,7 @@ Explanation: An unexpected control sequence was
 encountered within a GLC chain. A PTOCA Glyph Layout
 Control (GLC) control sequence must be followed by a
 series of Glyph ID Run (GIR), Glyph Advance Run (GAR),
-Glyph Offset Run (GOR), and Unicode Complex T ext
+Glyph Offset Run (GOR), and Unicode Complex Text
 (UCT) control sequences. These control sequences must
 be provided within a chain and be specified in the following
 order (the square brackets indicate an optional control):
@@ -10292,7 +10056,7 @@ PTOCA.
 029C..05 Unsupported UCT control sequence found
 outside of a GLC chain
 Action code: X'01' or X'1F'
-Explanation: A Unicode Complex T ext (UCT) control
+Explanation: A Unicode Complex Text (UCT) control
 sequence was found outside of a GLC chain. Printers that
 support glyph layout controls will ignore UCT s that are
 chained to a GLC chain and will recognize but not support
@@ -10303,7 +10067,7 @@ WGC, WIC, WIC2, WBCC, or EP command.
 Support: Mandatory if PTOCA glyph layout controls are
 supported
 Note: Reporting of this exception can be controlled by the
-T ext Fidelity (X'86') triplet in the PFC command. The
+Text Fidelity (X'86') triplet in the PFC command. The
 continuation rule is to process the Unicode code
 points associated with the UCT in a one-code-point
 to one-glyph manner.
@@ -10312,9 +10076,7 @@ outside of a GLC chain
 Action code: X'01' or X'1F'
 029C..01 • 029C..06
 
-## Page 942
 
-908 IPDS Reference
 Explanation: A Glyph ID Run (GIR), Glyph Advance Run
 (GAR), or Glyph Offset Run (GOR) control sequence was
 encountered outside of a Glyph Layout Control (GLC)
@@ -10412,9 +10174,7 @@ sequence, if any; otherwise, skip the ENC control
 sequence.
 029C..08 • 029D..01
 
-## Page 943
 
-IPDS Reference 909
 Page Continuation Action: For the SKI, skip the SKI
 control sequence. For the ENC, use the alternate text from
 the PTOCA Set Encrypted Alternate (SEA) control
@@ -10426,7 +10186,7 @@ Notes:
 1. This corresponds to an exception code defined by
 PTOCA.
 2. For printers that support text fidelity control, reporting
-of this exception can be controlled by the T ext Fidelity
+of this exception can be controlled by the Text Fidelity
 (X'86') triplet in the PFC command.
 029D..02 Text string decryption failed
 Action code: X'01' or X'1F'
@@ -10497,8 +10257,8 @@ supported
 02A4..01 Logical-page boundary in the X-direction
 cannot be represented in the printer
 Action code: X'01' or X'1F'
-Explanation: The sum of the X p-extent value in the LPD
-command or the X p-coordinate value of an IO command
+Explanation: The sum of the Xp-extent value in the LPD
+command or the Xp-coordinate value of an IO command
 and the Xm-coordinate value in the LPP command exceed
 the maximum supported value.
 Alternate Exception Action: None
@@ -10508,16 +10268,14 @@ Support: Optional
 direction cannot be represented in the
 printer
 Action code: X'01'
-Explanation: The sum of the X m-coordinate of the user
-printable area origin and the X m-extent of the user printable
+Explanation: The sum of the Xm-coordinate of the user
+printable area origin and the Xm-extent of the user printable
 area specified in a Define User Area command exceed the
 maximum value that can be represented in the printer.
 Alternate Exception Action: None
 029D..02 • 02A4..02
 
-## Page 944
 
-910 IPDS Reference
 Page Continuation Action: None
 Support: Mandatory
 Note: Checking for this condition can be done when a
@@ -10532,8 +10290,8 @@ received or the printer is restarted.
 02A5..01 Logical-page boundary in the Y-direction
 cannot be represented in the printer
 Action code: X'01' or X'1F'
-Explanation: The sum of the Y p-extent value in the LPD
-command or the Y p-coordinate value of an IO command
+Explanation: The sum of the Yp-extent value in the LPD
+command or the Yp-coordinate value of an IO command
 and the Ym-coordinate value in the LPP command exceed
 the maximum supported value.
 Alternate Exception Action: None
@@ -10543,8 +10301,8 @@ Support: Optional
 direction cannot be represented in the
 printer
 Action code: X'01'
-Explanation: The sum of the Y m-coordinate of the user
-printable area origin and the Y m-extent of the user printable
+Explanation: The sum of the Ym-coordinate of the user
+printable area origin and the Ym-extent of the user printable
 area specified in a Define User Area command exceeded
 the maximum value that can be represented in the printer.
 Alternate Exception Action: None
@@ -10617,9 +10375,7 @@ an LPP command
 Action code: X'01'
 02A5..01 • 02AD..03
 
-## Page 945
 
-IPDS Reference 911
 Explanation: The orientation value specified in a Logical
 Page Position command is invalid or unsupported.
 Alternate Exception Action: None
@@ -10631,7 +10387,7 @@ command
 Action code: X'01' or X'1F'
 Explanation: One or more of the following conditions
 exists:
-1. The X p coordinate or Yp coordinate in an IO command
+1. The Xp coordinate or Yp coordinate in an IO command
 is invalid or unsupported.
 2. The Overlay Type parameter in an IO command is
 invalid or unsupported.
@@ -10716,9 +10472,7 @@ page is selected.
 Alternate Exception Action: None
 02AE..01 • 02B0..03
 
-## Page 946
 
-912 IPDS Reference
 Page Continuation Action: None
 Support: Optional
 Note: Sense bytes 16–17 should contain the explanation
@@ -10813,9 +10567,7 @@ selected.
 Alternate Exception Action: None
 02B0..04 • 02B0..0D
 
-## Page 947
 
-IPDS Reference 913
 Page Continuation Action: None
 Support: Optional
 Note: Sense bytes 16–17 should contain the explanation
@@ -10910,9 +10662,7 @@ Support: Mandatory
 set
 02B0..0E • 02B1..09
 
-## Page 948
 
-914 IPDS Reference
 Action code: X'01' or X'1F'
 Explanation: The checksum specified in a technology-
 specific object within an LF3-type Load Font command or
@@ -11008,19 +10758,17 @@ colors, usually black or a specific highlight color.
 Alternate Exception Action: None
 02B1..0A • 02B3..01
 
-## Page 949
 
-IPDS Reference 915
 Page Continuation Action: None
 Support: Mandatory for MICR-supporting printers for
 which this exception condition can occur
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
-02C0..01 Mixture of X m-axis duplex and Y m-axis
+02C0..01 Mixture of Xm-axis duplex and Ym-axis
 duplex copy subgroups
 Action code: X'01'
 Explanation: A copy-subgroup pair in an LCC command
-contains a mixture of X m-axis duplex and Y m-axis duplex
+contains a mixture of Xm-axis duplex and Ym-axis duplex
 copy subgroups.
 Alternate Exception Action: None
 Page Continuation Action: None
@@ -11103,9 +10851,7 @@ media-source keyword is specified in a copy subgroup.
 media-destination keyword is specified in a copy
 02C0..01 • 02C2..02
 
-## Page 950
 
-916 IPDS Reference
 subgroup. Either more than one X'90' keyword or more
 than one X'91' keyword is specified.
 Alternate Exception Action: None
@@ -11197,9 +10943,7 @@ Support: Mandatory when metadata objects are
 supported
 02C3..01 • 02D0..00
 
-## Page 951
 
-IPDS Reference 917
 02D0..01 Invalid metadata level specified
 Action code: X'01'
 Explanation: A WMC is received in home state but the
@@ -11219,9 +10963,7 @@ Page Continuation Action: None
 Support: Optional
 02D0..01 • 02FF ..02
 
-## Page 952
 
-918 IPDS Reference
 Conditions Requiring Host Notification
 A condition requiring host notification indicates that
 the printer has detected a condition that, while not an
@@ -11308,9 +11050,7 @@ Alternate Exception Action: None
 Page Continuation Action: None
 0100..00 • 0106..00
 
-## Page 953
 
-IPDS Reference 919
 Support: Mandatory
 0108..00 Printer setup changed
 Action code: X'1D'
@@ -11403,9 +11143,7 @@ Incorrectly compressed JPEG image data within a data
 object or an IOCA image can cause this exception.
 0108..00 • 0114..00
 
-## Page 954
 
-920 IPDS Reference
 The printer must finish committing prior sheets (if any),
 discard the pages of the error sheet, and discard all
 upstream data before reporting this NACK.
@@ -11509,9 +11247,7 @@ Support: Mandatory if the Keep-Group-T ogether-as-a-
 Recovery-Unit operation is supported.
 0115..00 • 0141..00
 
-## Page 955
 
-IPDS Reference 921
 017E..00 Condition requiring host notification on a
 UP3I-controlled device
 Action code: X'09', X'0A', X'1A', or X'1D'
@@ -11573,9 +11309,7 @@ controlled by the Operator-Directed Recovery bit in
 the XOA Exception-Handling Control command.
 017E..00 • 01E8..00
 
-## Page 956
 
-922 IPDS Reference
 Data Object Error Codes
 Error Codes for Anacomp and AnaStack Objects
 None
@@ -11593,8 +11327,8 @@ Error Number Explanation
 PostScript Object Errors
 30 X'001E' PostScript Object Error: Setpagedevice or setdevparams request cannot be satisfied
 31 X'001F' PostScript Object Error: Dictionary has no more room in it to store entry
-32 X'0020' PostScript Object Error: T oo many begin operators detected
-33 X'0021' PostScript Object Error: T oo many end operators detected
+32 X'0020' PostScript Object Error: Too many begin operators detected
+33 X'0021' PostScript Object Error: Too many end operators detected
 34 X'0022' PostScript Object Error: Executive stack nesting too deep
 35 X'0023' PostScript Object Error: External interrupt request detected
 36 X'0024' PostScript Object Error: Attempt to violate access attribute
@@ -11609,9 +11343,7 @@ PostScript Object Errors
 45 X'002D' PostScript Object Error: An operand stack overflow has been detected
 46 X'002E' PostScript Object Error: An operand stack underflow has been detected
 
-## Page 957
 
-IPDS Reference 923
 Table 65 Error Codes for Data Objects (cont'd.)
 Error Number Explanation
 47 X'002F' PostScript Object Error: A PostScript language syntax error has been detected
@@ -11684,9 +11416,7 @@ X'018F'
 TrueType/OpenType Object Error: An error that the printer control unit is not currently prepared
 to handle has occurred
 
-## Page 958
 
-924 IPDS Reference
 Table 65 Error Codes for Data Objects (cont'd.)
 Error Number Explanation
 TIFF Object Errors (X'0200'–X'02FF')
@@ -11725,9 +11455,7 @@ PNG Object Errors (X'0600'–X'06FF')
 1600 X'0640' PNG Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
 page 925
 
-## Page 959
 
-IPDS Reference 925
 Table 65 Error Codes for Data Objects (cont'd.)
 Error Number Explanation
 AFP SVG Subset Object Errors (X'0700'–X'07FF')
@@ -11761,11 +11489,9 @@ Notes:
 • Image too large
 • Processing requires too much memory
 
-## Page 960
 
-926 IPDS Reference
 Page and Copy Counter Adjustments
-T o identify which pages to send to the printer after an exception occurs, the host must determine the position of
+To identify which pages to send to the printer after an exception occurs, the host must determine the position of
 pages and copies of pages in the logical paper path. Various stations in the logical paper path are identified by
 the page and copy counters.
 Page and copy counter fields in an Acknowledge Reply identify the state of the logical paper path that includes
@@ -11862,9 +11588,7 @@ No change
 No change
 No change
 
-## Page 961
 
-IPDS Reference 927
 Table 66 Method of Adjusting the Counters (cont'd.)
 Condition Counters Counter Adjustments
 Action code
@@ -11962,9 +11686,7 @@ No change
 No change
 No change
 
-## Page 962
 
-928 IPDS Reference
 Table 66 Method of Adjusting the Counters (cont'd.)
 Condition Counters Counter Adjustments
 Action code
@@ -12070,9 +11792,7 @@ Stacked Copy Counter
 Refer to “XOH Page Counters Control” on page
 381.
 
-## Page 963
 
-IPDS Reference 929
 Page and Copy Counter Adjustments When a Data-Stream Exception
 Occurs
 Table 67. Method of Adjusting the Counters When a Data-Stream Exception Occurs
@@ -12127,9 +11847,7 @@ Jam Recovery Copy Counter No Change
 Stacked Page Counter No Change
 Stacked Copy Counter No Change
 
-## Page 964
 
-930 IPDS Reference
 Table 67 Method of Adjusting the Counters When a Data-Stream Exception Occurs (cont'd.)
 Condition Counters Counter Adjustments
 Action code X'19' and the
@@ -12158,9 +11876,7 @@ Jam Recovery Copy Counter No Change
 Stacked Page Counter No Change
 Stacked Copy Counter No Change
 
-## Page 965
 
-IPDS Reference 931
 Page Counter Scenarios
 Introduction
 The following page-counter scenarios reflect page-counter implementation on a hypothetical IPDS printer and
@@ -12222,9 +11938,7 @@ through copy subgroup 4 has
 been stacked
 1 1 0 1 0
 
-## Page 966
 
-932 IPDS Reference
 Scenario 2
 The host sends down an LCC specifying two copy subgroups, one copy of each page, and duplex printing. The
 host then sends two pages (BP–EP sequences) with no errors of any kind on any of the pages.
@@ -12284,9 +11998,7 @@ After processing XOA DBD with
 ARQ
 0 0 0 0 0
 
-## Page 967
 
-IPDS Reference 933
 Scenario 4
 The host sends down an LCC specifying two copy subgroups, one copy of each page, and duplex printing. The
 host then sends two pages (BP–EP sequences). There is a synchronous (action code X'01') error on the back
@@ -12331,9 +12043,7 @@ Receive status that pages 1 and
 2 have been stacked
 2 2 0 2 0
 
-## Page 968
 
-934 IPDS Reference
 Scenario 5
 The host sends down an LCC specifying four copy subgroups, one copy of each page, and duplex printing.
 The host then sends two pages (BP–EP sequences). There is a synchronous (action code X'01') error in copy
@@ -12389,9 +12099,7 @@ Receive status that pages 1 and
 4 have been stacked
 2 2 0 2 0
 
-## Page 969
 
-IPDS Reference 935
 Scenario 6
 The host sends down an LCC specifying two copy subgroups, one copy of each page, and duplex printing. The
 host then sends two pages (BP–EP sequences). There is an asynchronous (action code X'19') error on the
@@ -12459,9 +12167,7 @@ After processing XOA DBD with
 ARQ
 0 0 0 0 0
 
-## Page 970
 
-936 IPDS Reference
 Scenario 8
 The host sends down an LCC specifying four copy subgroups, one copy of each page, and duplex printing.
 The host then sends two pages (BP–EP sequences). There is an asynchronous (action code X'19') error in
@@ -12514,9 +12220,7 @@ X'01' specified in byte 2 and
 ARQ
 2 2 0 2 0
 
-## Page 971
 
-IPDS Reference 937
 Scenario 9
 The host sends down an LCC specifying four copy subgroups, one copy of each page, and simplex printing.
 The host then sends one page (BP–EP sequence). There is a synchronous (action code X'01') error in copy
@@ -12588,9 +12292,7 @@ through copy subgroup 4 has
 been stacked
 1 1 0 1 0
 
-## Page 972
 
-938 IPDS Reference
 Scenario 10
 The host sends down an LCC specifying four copy subgroups, one copy of each page, and simplex printing.
 The host then sends one page (BP–EP sequence). There is an asynchronous (action code X'19') error in copy
@@ -12658,9 +12360,7 @@ X'01' specified in byte 2 and
 ARQ
 1 1 0 1 0
 
-## Page 973
 
-IPDS Reference 939
 Scenario 11
 The host sends down an LCC specifying four copy subgroups, one copy of each page, and duplex printing.
 The host then sends two pages (BP–EP sequences). There is an asynchronous (action code X'19') error in
@@ -12702,9 +12402,7 @@ After processing XOH PBD with
 ARQ
 2 2 0 0 0
 
-## Page 974
 
-940 IPDS Reference
 Scenario 12
 The host sends down an LCC specifying four copy subgroups, one copy of each page, and duplex printing.
 The host then sends two pages (BP–EP sequences). There is an asynchronous (action code X'19') error in
@@ -12753,9 +12451,7 @@ After processing XOH DBD with
 ARQ
 0 0 2 0 2
 
-## Page 975
 
-IPDS Reference 941
 Non-IPDS Sense Data
 While most sense data is returned by printers within an IPDS Negative Acknowledge Reply (NACK), there is
 additional sense data returned at other levels of the communications protocol. For example, when an IPDS
@@ -12763,7 +12459,7 @@ printer is attached to the host computer via a TCP/IP or channel connection, sen
 IP or channel link level. Also, sense data was defined for the IBM 3800 printer that is not currently used within
 IPDS printers; but since much of the design for the IPDS architecture is based on the 3800 printer, these sense
 data codes are reserved for possible future use.
-T o ensure that each exception ID is unique for all types of printer sense data, the link level sense codes are
+To ensure that each exception ID is unique for all types of printer sense data, the link level sense codes are
 defined in the same way as is IPDS sense data and are listed as retired codes so that they are not
 inadvertently used as IPDS sense data. This section lists all of the defined printer sense data that is not used
 within IPDS NACKs.
@@ -12806,9 +12502,7 @@ The printer was in the not ready state when this action code was generated. Afte
 printer is made ready, restart the channel program with the failing CCW (or restart the
 flow of TCP/IP data).
 
-## Page 976
 
-942 IPDS Reference
 Table 68 Retired Non-IPDS Action Codes (cont'd.)
 Action Code Exception Recovery Action
 X'04'
@@ -12883,9 +12577,7 @@ Purge the channel program, obtain and send the Acknowledge Reply to presentation
 software. The printer might either be in the ready or not ready state when this action
 code is received.
 
-## Page 977
 
-IPDS Reference 943
 Table 68 Retired Non-IPDS Action Codes (cont'd.)
 Action Code Exception Recovery Action
 X'24'
@@ -12908,9 +12600,7 @@ A resetting event has occurred at the printer. Reestablish the path group ID and
 mode and reissue the failing CCW. The printer might either be in the ready or not
 ready state when this action code is received.
 
-## Page 978
 
-944 IPDS Reference
 Command-Reject Exceptions
 A command-reject exception indicates that a
 command was rejected at the printer without the data
@@ -12949,9 +12639,7 @@ Reason for IPDS Retirement: Used in serial-channel-
 attached printers
 8003..00 • 8006..00
 
-## Page 979
 
-IPDS Reference 945
 Equipment Check with Intervention Required Exceptions
 An Equipment Check with Intervention Required
 exception indicates that the printer has detected a
@@ -12968,9 +12656,7 @@ Reason for IPDS Retirement: Used in channel-attached
 printers
 5010..00 • 5010..00
 
-## Page 980
 
-946 IPDS Reference
 Intervention-Required Exceptions
 An intervention-required exception indicates that the
 printer has detected a condition that requires manual
@@ -13052,9 +12738,7 @@ Action code: X'03'
 Explanation: The continuous-forms stacker is not ready.
 4000..nn • 4009..nn
 
-## Page 981
 
-IPDS Reference 947
 Reason for IPDS Retirement: Used in IBM 3800 printers
 400A..nn Retired (forms overlay check)
 Action code: X'03'
@@ -13143,9 +12827,7 @@ Reason for IPDS Retirement: Used in IBM 3800 printers
 Action code: X'02'
 400A..nn • 4030..nn
 
-## Page 982
 
-948 IPDS Reference
 Explanation: A forms length selector check has occurred.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 4031..nn Retired (paper length check)
@@ -13229,9 +12911,7 @@ protocols (such as TCP/IP and channel)
 4063..nn Retired (vacuum system check)
 4031..nn • 4063..nn
 
-## Page 983
 
-IPDS Reference 949
 Action code: X'02'
 Explanation: A vacuum system check has occurred
 (maximum retry count value = 4).
@@ -13322,9 +13002,7 @@ Explanation: A user specified operator panel message
 code of X'F4' has been displayed.
 407C..00 • 40F4..00
 
-## Page 984
 
-950 IPDS Reference
 Reason for IPDS Retirement: Used in IBM 3800 printers
 40F5..00 Retired (user specified operator panel
 message code)
@@ -13363,9 +13041,7 @@ Explanation: The printer is being reinitialized.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 40F5..00 • 40FE..nn
 
-## Page 985
 
-IPDS Reference 951
 Reserved for Bus-Out Parity Check Exceptions
 This class of exceptions is reserved for compatibility
 with channel-attached printers (IBM 3800 printers,
@@ -13412,9 +13088,7 @@ Reason for IPDS Retirement: Used in channel-attached
 printers
 2001..01 • 2012..00
 
-## Page 986
 
-952 IPDS Reference
 Equipment-Check Exceptions
 An equipment-check exception indicates that the
 printer has detected an equipment malfunction or a
@@ -13494,9 +13168,7 @@ transfer to fuser.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 1011..nn • 102B..nn
 
-## Page 987
 
-IPDS Reference 953
 104B..nn Retired (burster-trimmer-stacker loop
 check)
 Action code: X'02'
@@ -13579,9 +13251,7 @@ Reason for IPDS Retirement: Used in IBM 3800 printers
 Action code: X'02'
 104B..nn • 1074..nn
 
-## Page 988
 
-954 IPDS Reference
 Explanation: A strip buffer check has occurred.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 1075..nn Retired (character table cycle-steal check)
@@ -13669,9 +13339,7 @@ occurred; this error does not cause an equipment check
 Reason for IPDS Retirement: Used in IBM 3800 printers
 1075..nn • 1084..nn
 
-## Page 989
 
-IPDS Reference 955
 1085..nn Retired (temporary lEU parity check)
 Action code: N/A
 Explanation: A temporary lEU parity check X'85' has
@@ -13756,9 +13424,7 @@ Reason for IPDS Retirement: Used in IBM 3800 printers
 1097..nn Retired (mirror drive check)
 1085..nn • 1097..nn
 
-## Page 990
 
-956 IPDS Reference
 Action code: X'02'
 Explanation: A mirror drive check has occurred.
 Reason for IPDS Retirement: Used in IBM 3800 printers
@@ -13845,9 +13511,7 @@ Reason for IPDS Retirement: Used in IBM 3800 printers
 motor thermal switch check)
 1098..nn • 10B1..nn
 
-## Page 991
 
-IPDS Reference 957
 Action code: X'0B'
 Explanation: A burster-trimmer-stacker cam motor
 thermal switch check has occurred.
@@ -13935,9 +13599,7 @@ Reason for IPDS Retirement: Used in IBM 3800 model 8
 printers
 10B2..nn • 10D1..nn
 
-## Page 992
 
-958 IPDS Reference
 10D2..nn Retired (EXGRF buffer check)
 Action code: X'02'
 Explanation: An EXGRF buffer check has occurred.
@@ -14027,9 +13689,7 @@ Reason for IPDS Retirement: Used in channel-attached
 printers
 10D2..nn • 10F2..00
 
-## Page 993
 
-IPDS Reference 959
 10F5..00 Retired (transparent image generator
 error; successful retry)
 Action code: X'18'
@@ -14059,9 +13719,7 @@ presented to the host system's program.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 10F5..00 • 10FF ..nn
 
-## Page 994
 
-960 IPDS Reference
 Data-Check Exceptions
 A data-check exception indicates that the printer has
 detected an undefined character or position check.
@@ -14149,9 +13807,7 @@ outside the print window for an inline rule)
 Action code: X'01'
 0824..00 • 0830..00
 
-## Page 995
 
-IPDS Reference 961
 Explanation: A position check has occurred; the print
 position is outside the print window for an inline rule.
 Reason for IPDS Retirement: Used in IBM 3800 printers
@@ -14245,9 +13901,7 @@ extends beyond the print window in the -X direction.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 0831..00 • 083E..00
 
-## Page 996
 
-962 IPDS Reference
 083F ..00 Retired (position check; rule length
 extends beyond the print window in the -Y
 direction)
@@ -14342,9 +13996,7 @@ Explanation: An accumulator check has occurred; the
 raster overlay in accumulator storage must be reloaded.
 083F ..00 • 0853..00
 
-## Page 997
 
-IPDS Reference 963
 Reason for IPDS Retirement: Used in IBM 3800 printers
 0854..00 Retired (position check; rule width extends
 beyond the logical page in the +X
@@ -14437,9 +14089,7 @@ Reason for IPDS Retirement: Used in IBM 3800 printers
 printing position error markers)
 0854..00 • 0868..00
 
-## Page 998
 
-964 IPDS Reference
 Action code: X'01'
 Explanation: There is not enough control store is
 available while printing position error markers (PEM's) and
@@ -14447,9 +14097,7 @@ an accumulator feature is not installed.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 0868..00 • 0868..00
 
-## Page 999
 
-IPDS Reference 965
 Specification Checks—IO-Image Exceptions
 A specification check—IO-Image exception indicates
 the printer has received an IO-Image command with
@@ -14463,9 +14111,7 @@ Content are not equal to zero.
 Reason for IPDS Retirement: Used in IOCA
 0500..02 • 0500..02
 
-## Page 1000
 
-966 IPDS Reference
 Specification Checks—Bar Code Exceptions
 A specification check—bar code exception indicates
 the printer has received a bar code command with an
@@ -14505,9 +14151,7 @@ Reason for IPDS Retirement: Used in IBM 4224 and
 4234 printers
 0401..00 • 040D..00
 
-## Page 1001
 
-IPDS Reference 967
 Specification Checks—Graphics Data Exceptions
 A specification check—graphics exception indicates
 the printer has received a graphics command with an
@@ -14595,9 +14239,7 @@ ZF and/or ZN parameters are specified in a Set Segment
 Boundary order.
 0300..05 • 0332..00
 
-## Page 1002
 
-968 IPDS Reference
 Reason for IPDS Retirement: Used in the GOCA subset
 DR/3
 0332..02 Retired (invalid segment boundary)
@@ -14660,9 +14302,7 @@ Reason for IPDS Retirement: Used in the GOCA subset
 DR/3
 0332..02 • 03C6..02
 
-## Page 1003
 
-IPDS Reference 969
 Specification Check—General Exceptions
 A specification check—general exception indicates
 that the printer has received a command with an
@@ -14698,7 +14338,7 @@ Reason for IPDS Retirement: Used in IBM 4224 and
 0201..01 Retired (Set Text Orientation without Set
 Coded Font Local)
 Action code: X'01'
-Explanation: For single-byte fonts only, a Set T ext
+Explanation: For single-byte fonts only, a Set Text
 Orientation text control was received and no Set Coded
 Font Local text control was specified.
 Reason for IPDS Retirement: Used in IBM 3800 printers
@@ -14751,9 +14391,7 @@ Explanation: A font equivalence table exists, but the font
 is not loaded.
 0200..02 • 0213..02
 
-## Page 1004
 
-970 IPDS Reference
 Reason for IPDS Retirement: Used in IBM 3800 printers
 0216..02 Retired (invalid Delete Font command)
 Action code: X'01'
@@ -14841,9 +14479,7 @@ be 2048).
 Reason for IPDS Retirement: Used in IBM 3800 printers
 0216..02 • 022C..02
 
-## Page 1005
 
-IPDS Reference 971
 022D..01 Retired (not enough control storage for
 character table expansion at print time.)
 Action code: X'0C'
@@ -14854,8 +14490,8 @@ Reason for IPDS Retirement: Used in IBM 3800 printers
 needed to complete a double-byte
 character code)
 Action code: X'01'
-Explanation: A non-Write-T ext command was received
-and an additional Write T ext command is needed to
+Explanation: A non-Write-Text command was received
+and an additional Write Text command is needed to
 complete a double-byte character code.
 Reason for IPDS Retirement: Used in IBM 3800 model 8
 printers
@@ -14931,9 +14567,7 @@ Image Control command)
 Action code: X'01'
 022D..01 • 024B..01
 
-## Page 1006
 
-972 IPDS Reference
 Explanation: In a Write Image Control command, the first
 pel location value and L-units value produce too large an I
 or X value.
@@ -15019,7 +14653,7 @@ Space Orientation Initial Text Condition
 parameter invalid or unsupported)
 Action code: X'01'
 Explanation: The Yp orientation specified in the
-Presentation Space Orientation Initial T ext Condition
+Presentation Space Orientation Initial Text Condition
 parameter is invalid or unsupported.
 Reason for IPDS Retirement: Used in PTOCA; also
 retired in PTOCA
@@ -15028,9 +14662,7 @@ invalid or unsupported)
 Action code: X'01'
 024C..01 • 0254..10
 
-## Page 1007
 
-IPDS Reference 973
 Explanation: A control-sequence prefix code is invalid or
 unsupported.
 Reason for IPDS Retirement: Used in PTOCA; also
@@ -15124,9 +14756,7 @@ smaller than the last location number.
 Reason for IPDS Retirement: Used in IBM 3800 printers
 0259..01 • 0279..02
 
-## Page 1008
 
-974 IPDS Reference
 0281..02 Retired (inline rule thickness less than one
 pel)
 Action code: X'01'
@@ -15151,7 +14781,7 @@ Action code: X'01'
 Explanation: The baseline rule length is outside the valid
 range.
 Reason for IPDS Retirement: Used in IBM 3800 printers
-0290..02 Retired (X p adjustment range value outside
+0290..02 Retired (Xp adjustment range value outside
 valid range)
 Action code: X'01'
 Explanation: The Xp adjustment range value is outside
@@ -15217,9 +14847,7 @@ Reason for IPDS Retirement: Used in some Océ printers
 ID)
 0281..02 • 02EC..01
 
-## Page 1009
 
-IPDS Reference 975
 Action code: X'01'
 Explanation: This is a proprietary code.
 Reason for IPDS Retirement: Used in some Océ printers
@@ -15230,9 +14858,7 @@ Explanation: This is a proprietary code.
 Reason for IPDS Retirement: Used in some Océ printers
 02EC..02 • 02EC..02
 
-## Page 1010
 
-976 IPDS Reference
 Conditions Requiring Host Notification
 A condition requiring host notification indicates that
 the printer has detected a condition that, while not an
@@ -15266,6 +14892,4 @@ Reason for IPDS Retirement: Used in serial-channel-
 attached printers
 01A0..00 • 01A3..00
 
-## Page 1011
 
-Copyright © AFP Consortium 1987, 2023 977

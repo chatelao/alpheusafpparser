@@ -1,4 +1,4 @@
-Chapter 12. Overlay Command Set
+# Chapter 12. Overlay Command Set
 The Overlay command set allows frequently accessed user data, in the form of an overlay resource, to be
 downloaded and temporarily stored in the printer. An overlay is defined within a logical page presentation
 space. Overlay logical pages are either merged with a page's logical page on the medium presentation space
@@ -8,7 +8,7 @@ preprinted form overlays is indicated by the X'1600' property pair in the Overla
 STM reply. Refer to “Using an Overlay as a Preprinted Form” on page 26 for a description of preprinted form
 overlays.
 Color Management Resources (CMRs) can be associated directly with an overlay by specifying Invoke CMR
-(X'92') triplets in the LPD command that is saved as part of the overlay environment. T o ensure that the
+(X'92') triplets in the LPD command that is saved as part of the overlay environment. To ensure that the
 presentation data within an overlay is managed in the same manner each time the overlay is printed, all
 appropriate CMRs should be specified in the overlay's LPD command.
 The following commands are used in the Overlay command set.
@@ -35,25 +35,21 @@ values that exist at the time the Begin Overlay command is received become part 
 overlay. The definition of an overlay is terminated by an End Page command.
 Medium overlays are oriented relative to the medium presentation space and cannot be rotated. For example,
 the X
-p axis of a medium overlay is parallel to and in the same direction as the X m axis; the Yp axis of a medium
-overlay is parallel to and in the same direction as the Y m axis.
+p axis of a medium overlay is parallel to and in the same direction as the Xm axis; the Yp axis of a medium
+overlay is parallel to and in the same direction as the Ym axis.
 Some IPDS printers allow page overlays to be rotated by specifying an orientation value in the IO command.
 Support for page-overlay rotation is indicated by a X'A004' property pair in the Overlay command-set vector of
 
-## Page 656
 
-622 IPDS Reference
-an STM reply. For printers that do not support page-overlay rotation, the X p axis of the page overlay is parallel
-to and in the same direction as the X p axis of the including logical page; and the same applies for the Y p axis.
-T ext suppression that is delimited by the PTOCA Begin Suppression (BS) and End Suppression (ES) control
+an STM reply. For printers that do not support page-overlay rotation, the Xp axis of the page overlay is parallel
+to and in the same direction as the Xp axis of the including logical page; and the same applies for the Yp axis.
+Text suppression that is delimited by the PTOCA Begin Suppression (BS) and End Suppression (ES) control
 sequences does not cross overlay boundaries. Overlay boundaries are opaque to the suppression function.
 Data within an overlay is not affected by BS and ES pairs outside the overlay. Suppressions that are active
 during the time an overlay is included are reactivated afterward. Within an overlay, the suppression function
 operates exactly as it does on a page.
 
-## Page 657
 
-IPDS Reference 623
 Begin Overlay
 The Begin Overlay (BO) command causes the printer to leave home state and enter overlay state. The
 command sequence that follows defines the data that the printer saves as an overlay resource. The current
@@ -63,7 +59,7 @@ later merged with a page by means of either an Include Overlay command or a Load
 Exception ID X'8002..00' exists if an overlay definition sequence deviates from the sequence defined in Figure
 45 on page 87. While an overlay is being defined, the level of exception detection is printer defined. Refer to
 your printer documentation for details.
-T o associate metadata with an overlay resource, one or more metadata objects can immediately follow the BO
+To associate metadata with an overlay resource, one or more metadata objects can immediately follow the BO
 command, before any other commands. Each Write Metadata Control (WMC) command causes the printer to
 enter metadata state, where exactly one metadata object is included. Metadata state ends when the printer
 receives the End command, at which point the printer returns to overlay state.
@@ -74,7 +70,9 @@ and is identified by the X'15nn' property pair in the Overlay command-set vector
 The End Page (EP) command terminates the definition of the overlay. The overlay is contained between the
 BO and the EP commands. Any intervening Execute Order Anystate commands are processed as they are
 received; they are not saved as part of the overlay.
+```
 Length X'D6DF' Flag CID Data
+```
 For basic support, the length of the BO command can be:
 Without CID X'0006'
 With CID X'0008'
@@ -82,11 +80,9 @@ For extended support, the length of the BO command can be:
 Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-Begin Overlay (BO)
+## Begin Overlay (BO)
 
-## Page 658
 
-624 IPDS Reference
 All IPDS printers that support overlays allow up to 254 overlays to be activated at one time (basic support).
 Some IPDS printers support even more overlays, up to 32,511 at a time (extended support). The data for the
 Begin Overlay command is specified differently for the two types of support, as follows:
@@ -111,11 +107,9 @@ field contains an overlay HAID for an overlay that is already activated in the p
 Printers that provide extended overlay support can accept either of the two forms of this
 command interchangeably. Exception ID X'0202..02' exists if the extended form of this
 command is sent to a printer that provides only basic support.
-Begin Overlay (BO)
+## Begin Overlay (BO)
 
-## Page 659
 
-IPDS Reference 625
 Deactivate Overlay
 The Deactivate Overlay (DO) command, previously known as Delete Overlay, deactivates either a single
 overlay or all activated overlays. When overlays are deactivated, they are no longer available for merging. The
@@ -126,7 +120,9 @@ sheet, for example). This exception need not be detected or reported synchronous
 When an overlay is deactivated, any activation information for that overlay created by a previous BO or AR
 command is also deleted. AR entries for unactivated overlays are not affected by the Deactivate Overlay
 command.
+```
 Length X'D6EF' Flag CID Data
+```
 For basic support, the length of the DO command can be:
 Without CID X'0006'
 With CID X'0008'
@@ -163,21 +159,17 @@ X'7EFF'
 Bytes 0–1 Overlay HAID or deactivate all indicator
 This field either specifies a specific overlay to be deactivated or specifies the deactivation of all
 overlays. The value X'0000' and all values in the range X'0001' – X'7EFF' are supported by the
-Deactivate Overlay (DO)
+## Deactivate Overlay (DO)
 
-## Page 660
 
-626 IPDS Reference
 printer. Exception ID X'0285..01' exists if an invalid overlay HAID is specified. Exception ID
 X'0292..01' exists if the overlay specified is not currently activated.
 Printers that provide extended overlay support can accept either of the two forms of this
 command interchangeably. Exception ID X'0202..02' exists if the extended form of this
 command is sent to a printer that provides only basic support.
-Deactivate Overlay (DO)
+## Deactivate Overlay (DO)
 
-## Page 661
 
-IPDS Reference 627
 Include Overlay
 The Include Overlay (IO) command causes a previously activated overlay to be presented on the current
 logical page at the specified presentation position. All exceptions for a secure overlay specified by an Include
@@ -192,7 +184,7 @@ Some IPDS printers allow page overlays to be rotated by specifying an orientatio
 Support for page-overlay rotation is indicated by a X'A004' property pair in the Overlay command-set vector of
 an STM reply. For printers that do not support page-overlay rotation, the X
 p axis of the page overlay is parallel
-to and in the same direction as the X p axis of the including logical page; and the same applies for the Y p axis.
+to and in the same direction as the Xp axis of the including logical page; and the same applies for the Yp axis.
 Some IPDS printers support preprinted form overlays (PFO) that are used to simulate a preprinted form. If a
 PFO was not already invoked via the LCC command, there can be one preprinted form overlay for each page
 on a sheet side. In this case, the overlay is specified in an Include Overlay command that must occur between
@@ -206,7 +198,7 @@ property pair in the Overlay command-set vector of an STM reply.
 After the including and processing of an overlay, the current logical page environment remains as it was prior to
 the overlay processing. All logical page description values, font and suppression equivalences, and control
 sequence values are restored to the values that existed before the overlay was processed.
-T ext suppression that is delimited by the Begin Suppression (BS) and End Suppression (ES) control
+Text suppression that is delimited by the Begin Suppression (BS) and End Suppression (ES) control
 sequences does not cross overlay boundaries. Overlay boundaries are opaque to the suppression function.
 Data within an overlay is not affected by BS and ES pairs outside the overlay. Suppressions that are active
 during the time an overlay is included are reactivated afterward. Within an overlay, the suppression function
@@ -220,18 +212,18 @@ exception ID X'0293..00' exists.
 Recursive overlay inclusion is not valid; for example, an overlay cannot include itself. If an IO command
 specifies an overlay ID that has already been included in the current nested-overlay chain, exception ID
 X'0293..01' exists.
-T o associate metadata with an overlay, the metadata must be passed just after the Begin Overlay (BO)
+To associate metadata with an overlay, the metadata must be passed just after the Begin Overlay (BO)
 command when the overlay was defined. Here in the IO command, additional metadata cannot be associated
 specifically with the overlay.
-Include Overlay (IO)
+## Include Overlay (IO)
 
-## Page 662
 
-628 IPDS Reference
-T o improve print performance, if a previous Rasterize Presentation Object (RPO) command had preprocessed
+To improve print performance, if a previous Rasterize Presentation Object (RPO) command had preprocessed
 and cached an appropriate variation of the overlay to be included, the printer can simply use the cached
 variation rather than rasterizing the overlay at include time.
+```
 Length X'D67D' Flag CID Data
+```
 The length of the IO command can be:
 Without CID X'000F'
 With CID X'0011'
@@ -252,7 +244,7 @@ Overlay type:
 Nonsecure overlay
 Secure overlay
 X'00'
-3–5 SBIN X p offset X'FF8000' –
+3–5 SBIN Xp offset X'FF8000' –
 X'007FFF'
 X'FFFFFF'
 Xp offset from the logical-page origin
@@ -269,7 +261,7 @@ Intended use for this overlay:
 Page overlay
 Preprinted form overlay
 X'00'
-7–9 SBIN Y p offset X'FF8000' –
+7–9 SBIN Yp offset X'FF8000' –
 X'007FFF'
 X'FFFFFF'
 Yp offset from the logical-page origin
@@ -298,11 +290,9 @@ additional units of measure, the IPDS architecture requires the receiver to at l
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
 page 68.
-Include Overlay (IO)
+## Include Overlay (IO)
 
-## Page 663
 
-IPDS Reference 629
 Bytes 0–1 Overlay Host-Assigned ID
 These bytes identify the overlay to be included. The value must have been previously
 specified in a Begin Overlay command either as a two-byte HAID or as a one-byte overlay ID
@@ -327,12 +317,12 @@ Not all IPDS printers support secure overlays. Support for secure overlays is in
 property pair X'70CE' in the Device-Control command-set vector of an STM reply.
 Bytes 3–5 X
 p Offset
-This three-byte parameter defines the X p position of the overlay as an offset from the origin of
+This three-byte parameter defines the Xp position of the overlay as an offset from the origin of
 the containing logical page. This parameter is expressed in L-units (defined by the LPD data).
 A value of X'FFFFFF' causes this coordinate to default to the X
 p value of the current text
 coordinate (Ic, Bc); to interpret X'FFFFFF', the current text position (I c, Bc) must be first
-converted to an (X p,Yp) coordinate value. Exception ID X'02AE..01' exists if an invalid or
+converted to an (Xp,Yp) coordinate value. Exception ID X'02AE..01' exists if an invalid or
 unsupported Xp-offset value is specified.
 Note: Since X'FFFFFF' has been used as a default indicator, it is not available for use as an
 offset value. Therefore you cannot position an overlay at any of the points (x,-1) and (-1,
@@ -355,11 +345,9 @@ specified in an Include Overlay command that must occur between the Begin Page
 command and the End Page command. The PFO is not merged with the page data
 until the End Page command has been received and syntax checked; the PFO is
 merged before returning to home state and updating page and copy counters. If a
-Include Overlay (IO)
+## Include Overlay (IO)
 
-## Page 664
 
-630 IPDS Reference
 PFO has already been invoked via the LCC command for a sheet side or if more than
 one Include Overlay command within a page specifies X'01', exception ID X'0293..03'
 exists.
@@ -384,18 +372,18 @@ a message).
 Exception ID X'0293..04' exists if an invalid value is specified.
 Bytes 7–9 Y
 p Offset
-This three-byte parameter defines the Y p position of the overlay as an offset from the origin of
+This three-byte parameter defines the Yp position of the overlay as an offset from the origin of
 the containing logical page. This parameter is expressed in L-units (defined by the LPD data).
 A value of X'FFFFFF' causes this coordinate to default to the Y
 p value of the current text
 coordinate (Ic, Bc); to interpret X'FFFFFF', the current text position (I c, Bc) must be first
-converted to an (X p,Yp) coordinate value. Exception ID X'02AE..01' exists if an invalid or
+converted to an (Xp,Yp) coordinate value. Exception ID X'02AE..01' exists if an invalid or
 unsupported Yp-offset value is specified.
 Bytes 10–11 Orientation (optional, only allowed when page-overlay rotation is supported)
 This parameter specifies the orientation of the page-overlay presentation space in the
-including logical page. The page overlay's X p axis is oriented in terms of an angle measured
-clockwise from the including logical page's X p axis. The page overlay's positive Y p axis is
-rotated 90° clockwise relative to the page overlay's positive X p axis. This parameter effectively
+including logical page. The page overlay's Xp axis is oriented in terms of an angle measured
+clockwise from the including logical page's Xp axis. The page overlay's positive Yp axis is
+rotated 90° clockwise relative to the page overlay's positive Xp axis. This parameter effectively
 rotates the page overlay around the overlay origin; it is important to take this rotation into
 account when specifying the X
 p offset and Yp offset values, and when calculating the overlay's
@@ -403,15 +391,13 @@ valid printable area. Exception ID X'0293..02' exists when an invalid orientatio
 specified.
 If this optional parameter is not specified, the X
 p axis of the page overlay is parallel to and in
-the same direction as the X p axis of the including logical page; and the same applies for the Y p
+the same direction as the Xp axis of the including logical page; and the same applies for the Yp
 axis.
 Not all IPDS printers allow page overlays to be rotated; support for page-overlay rotation is
 indicated by a X'A004' property pair in the Overlay command-set vector of an STM reply. For
 printers that do not support page-overlay rotation, this parameter (bytes 10–11) must not be
 specified. If bytes 10–11 is specified for a printer that does not support page-overlay rotation,
 exception ID X'0202..02' exists.
-Include Overlay (IO)
+## Include Overlay (IO)
 
-## Page 665
 
-Copyright © AFP Consortium 1987, 2023 631
