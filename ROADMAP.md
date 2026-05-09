@@ -112,13 +112,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Implement PTOCA Control Sequences:
         - ✅ Unicode Complex Text (UCT).
         - ✅ Encryption controls (SEA, SKI, ENC).
-    - 🚧 Implement XML text extraction (`getText()`) for identified human-readable text sources (see `PRINTED_TEXT_SOURCES.md`):
-        - 🚧 GOCA: `GCHST`, `GCCHST`, `GCOMT`.
-        - 🚧 MO:DCA: `TLE`, Triplet `X'36'`, Triplet `X'65'`, `COMT`.
-        - 🚧 BCOCA: `BDA`.
-        - 🚧 Line Data: `CCP`.
-        - 🚧 CMOCA: `CMR Header`.
-        - 🚧 FOCA: `CPDesc`, `TypeFcDesc`, `Resource Names`.
+    - ✅ Implement XML text extraction (`getText()`) for identified human-readable text sources (see `PRINTED_TEXT_SOURCES.md`):
+        - ✅ GOCA: `GCHST`, `GCCHST`, `GCOMT`.
+        - ✅ MO:DCA: `TLE`, Triplet `X'36'`, Triplet `X'65'`, `COMT`.
+        - ✅ BCOCA: `BDA`.
+        - ✅ Line Data: `CCP`.
+        - ✅ CMOCA: `CMR Header`.
+        - ✅ FOCA: `CPDesc`, `TypeFcDesc`, `Resource Names`.
 - ⏳ Ensure 100% coverage of the AFP specification.
 
 ## Phase 6c: Testing and Quality Assurance (ii)

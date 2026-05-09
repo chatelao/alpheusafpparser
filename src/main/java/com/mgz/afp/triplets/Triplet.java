@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.triplets;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
@@ -65,6 +66,10 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
   public void setTripletID(TripletID tripletID) {
     this.tripletID = tripletID;
+  }
+
+  public String getText() {
+    return null;
   }
 
   public enum TripletID {
@@ -413,6 +418,11 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
     public void setNameAsString(String nameAsString) {
       this.nameAsString = nameAsString;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return nameAsString;
     }
   }
 
@@ -1485,6 +1495,11 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
     public void setAttributeValue(String attributeValue) {
       this.attributeValue = attributeValue;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return attributeValue;
     }
   }
 
@@ -2662,6 +2677,11 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
   @XmlRootElement
   public static class Comment extends Triplet {
     String comment;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return comment;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
