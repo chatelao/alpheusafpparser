@@ -1,6 +1,6 @@
-Chapter 4. Mixed Documents: Adding MO:DCA Structured
+# Chapter 4. Mixed Documents: Adding MO:DCA Structured
 Fields to Line Data
-Chapter 3, “Using a Page Definition to Print Data” describes how Page Definitions can be used to format
+# Chapter 3, “Using a Page Definition to Print Data” describes how Page Definitions can be used to format
 traditional application line data without the need to make any application programming changes. Under certain
 circumstances, however, functions are needed that can only be accomplished by changing the application.
 These functions can be invoked by using one of a small set of MO:DCA structured fields, any of which can be
@@ -39,10 +39,8 @@ orientation or font selection used to print line-data records. These characteris
 defined in the Page Definition. Only when the application generates fully composed documents is a Page
 Definition not used.
 
-## Page 58
 
-40 AFP Programming Guide and Line Data Reference
-X'5A' Carriage Control Character
+## X'5A' Carriage Control Character
 When printing in a z/OS system environment, if MO:DCA structured fields are used either in a fully composed
 document or intermixed with line data, each MO:DCA structured field must be prefixed with a X'5A' character.
 The X'5A' appears in the first byte position and provides a signal to a presentation services program that the
@@ -58,7 +56,7 @@ In an AIX environment, the carriage control character is optional. The New Line 
 (X'25' in EBCDIC, X'0A' in ASCII),
 is used to determine end-of-record in AIX. The use of the Linefeed carriage
 control to determine end-of-record allows variable-length records to be easily created in AIX environments.
-Print File Structure
+## Print File Structure
 An AFP print file consists of an optional inline resource group followed by one or more documents. Each
 document may, in turn, be preceded by an optional document index. All resources in an inline resource group
 must precede all other data in the print file. The group of resources is delimited by the Begin Resource Group
@@ -70,9 +68,7 @@ fields. Note that mixed line-page documents and composed documents can occur in 
 inline resource group. Figure 15 on page 41 shows the structure of an AFP print file.
 Mixed Documents
 
-## Page 59
 
-AFP Programming Guide and Line Data Reference 41
 Figure 15. Structure of a Print File
 *  =  optional
 s  =  can appear more than once
@@ -137,9 +133,7 @@ an internal Medium Map may not invoke an internal Medium Map elsewhere in the do
 assumed to reference a Medium Map in the current Form Definition.
 Mixed Documents
 
-## Page 60
 
-42 AFP Programming Guide and Line Data Reference
 The objects that comprise an AFP print file are as follows:
 Inline Resource Group
 Contains one or more resource objects to be associated with printing this file. See “Inline
@@ -163,7 +157,7 @@ composed-page documents, line-mode documents, or mixed-mode documents, in any or
 If multiple composed-page documents appear, each one must be delimited by a BDT and an
 EDT structured field. For the complete definitions of document structure, see Appendix A,
 “Document and Resource Object Diagrams”, on page 169.
-Finishing Operations for a Print File
+## Finishing Operations for a Print File
 A Form Definition may be used to specify finishing operations to be applied to the documents in a print file. The
 scope of the finishing operations as well as the type of operation is specified with a Medium Finishing Control
 (MFC) structured field in the Document Environment Group (DEG) of the Form Definition. For a definition of the
@@ -192,13 +186,11 @@ might
 itself be an implied document. The media in the selected document are collected for finishing and the
 Mixed Documents
 
-## Page 61
 
-AFP Programming Guide and Line Data Reference 43
 finishing operations are applied to the single collection; that is, the single document. If the same document is
 selected multiple times, finishing operations are applied in the order specified. Note that, using this type of
 MFC, unique finishing operations may be specified for each document in the print file.
-Inline Resource Group Structure
+## Inline Resource Group Structure
 A resource group begins with the Begin Resource Group (BRG) structured field and ends with the End
 Resource Group (ERG) structured field. Inline resources are included in the inline resource group and can be
 referred to by name within the print file. They override objects of the same name stored in resource libraries
@@ -240,9 +232,7 @@ A resource object can be one of the following:
 • A font object (a code page, a font character set, or a coded font)
 Mixed Documents
 
-## Page 62
 
-44 AFP Programming Guide and Line Data Reference
 See the description of the BRS structured field in the Mixed Object Document Content
 Architecture (MO:DCA) Reference for the hexadecimal codes used to identify each type of
 resource object.
@@ -257,7 +247,7 @@ Programming Considerations for Inline Resources
 Because most resource objects consist of variable-length records, any print file that includes these resources
 inline must be in variable-length-record format and must use data records beginning with a carriage control
 byte.
-Invoke Data Map
+## Invoke Data Map
 The Invoke Data Map (IDM) structured field selects a new Data Map for printing line data and ends the current
 line-format page.
 Note: When using machine carriage control characters, care must be taken to prevent a blank page from being
@@ -281,9 +271,7 @@ of this structured field must be eight bytes long. If the name of the actual Dat
 than eight bytes, trailing blanks must be added.
 Mixed Documents
 
-## Page 63
 
-AFP Programming Guide and Line Data Reference 45
 Sample IDM Structured Field
 The Invoke Data Map structured field shown in Figure 17 causes a presentation services program to select
 Data Map SUMMARY.
@@ -301,7 +289,7 @@ active Page Definition contains a Data Map with the name SUMMARY in its Begin Da
 no such Data Map exists, an error is generated.
 Figure 17. Sample Invoke Data Map Structured Field
 X'5A' X'0010' X'D3ABCA' X'00' X'0000' X'E2E4D4D4C1D9E840'
-Invoke Medium Map
+## Invoke Medium Map
 The Invoke Medium Map (IMM) structured field is similar to the IDM structured field except that it causes a
 presentation services program to select a new Medium Map, or Copy Group, in the current Form Definition at
 the point where the IMM structured field appears in the print file. The presentation services program ends
@@ -326,9 +314,7 @@ records, control for presentation is returned to the first Medium Map in the For
 Figure 18 on page 46.
 Mixed Documents
 
-## Page 64
 
-46 AFP Programming Guide and Line Data Reference
 Figure 18. Returning Control to First Medium Map in Form Definition
 Form Definition
 Medium Map M1
@@ -359,7 +345,7 @@ Map with that name in the Begin Medium Map structured field, an error is generat
 Figure 19. Sample Invoke Medium Map Structured Field
 X'5A' X'0010' X'D3ABCC' X'00' X'0000' X'C2C9D5F240404040'
 Using Structured Fields to Skip to a New Page or Sheet
-Chapter 3, “Using a Page Definition to Print Data” described the use of conditional processing in a Page
+# Chapter 3, “Using a Page Definition to Print Data” described the use of conditional processing in a Page
 Definition to perform a skip-to-new-page or skip-to-new-sheet operation based on a change in the value of a
 control field in an application data stream. The conditional processing function was added to the Page
 Definition to provide another way of producing the same output as by e
@@ -373,9 +359,7 @@ Figure 13 on page 32 and the data stream shown in Figure 21 on page 47 provides 
 Page Definition shown in Figure 14 on page 32.
 Mixed Documents
 
-## Page 65
 
-AFP Programming Guide and Line Data Reference 47
 Figure 20. Using an IDM Structured Field to Skip to a New Page
 Line data records (with carriage control)
 ⋮
@@ -422,9 +406,7 @@ return to the original Medium Map (PRIBIN) for the next portion of the data. Thi
 structured fields can be included in the output data stream as often as necessary.
 Mixed Documents
 
-## Page 66
 
-48 AFP Programming Guide and Line Data Reference
 Figure 23. Form Definition With Two IMMs to Force a Blank Sheet
 FORMDEF BLANKT
 OFFSET 0 0
@@ -434,7 +416,7 @@ DUPLEX NO BIN 1;
 COPYGROUP ALTBIN
 CONSTANT FRONT
 DUPLEX NO BIN 2;
-Variable-Length and Fixed-Length Records
+## Variable-Length and Fixed-Length Records
 MO:DCA structured fields are variable in length so their lengths can differ. Line data records intermixed with
 MO:DCA structured fields might also have different lengths. Fully composed MO:DCA documents may consist
 of records up to 32K bytes long. However , variable-length data is not always desirable. Programming
@@ -484,14 +466,12 @@ fixed-length 80-byte records and no errors would result in a z/OS system
 environment.
 Mixed Documents
 
-## Page 67
 
-AFP Programming Guide and Line Data Reference 49
 Of course, fixed-length records that are longer than the number of bytes actually used to contain the MO:DCA
 structured field information will result in a data set that is larger than one containing variable-length records,
 each one no longer than necessary. This might be a consideration if the resulting data set is to be sent across
 a network.
-Position and Orientation of Objects
+## Position and Orientation of Objects
 Two coordinate systems are used to position and rotate objects in line data: the page (X p,Yp) coordinate
 system and the text (I,B) coordinate system. The page coordinate system is based on the fourth quadrant of a
 standard Cartesian coordinate system with the origin in the top-left corner, the X axis increasing from left to
@@ -547,9 +527,7 @@ object origin. The offset is measured using the temporary
 (X,Y) coordinate system.
 Mixed Documents
 
-## Page 68
 
-50 AFP Programming Guide and Line Data Reference
 Table 10 Position and Rotation of Objects in Line Data and MO:DCA Data (cont'd.)
 OBJECTS IN LINE DATA OBJECTS WITH X'27' TRIPLET IN MO:DCA DATA
 TRANSFORMED FROM LINE DATA
@@ -631,9 +609,7 @@ origin (Xp=0,Yp=0). The offset is measured using the page
 p,Yp) coordinate system.
 Mixed Documents
 
-## Page 69
 
-AFP Programming Guide and Line Data Reference 51
 Table 10 Position and Rotation of Objects in Line Data and MO:DCA Data (cont'd.)
 OBJECTS IN LINE DATA OBJECTS WITH X'27' TRIPLET IN MO:DCA DATA
 TRANSFORMED FROM LINE DATA
@@ -653,7 +629,7 @@ system Xp-axis.
 measured with respect to the page (X
 p,Yp) coordinate
 system Xp-axis.
-Positioning With Respect to Current Descriptor
+## Positioning With Respect to Current Descriptor
 When objects are included in line data, they occur between line-data records and can be positioned with
 respect to the inline/baseline position specified by the LNDs or RCDs used to process the records. More
 precisely, an included object can be positioned with respect to the current LND, or current RCD. This is also
@@ -669,7 +645,7 @@ current LND does not generate a position, the LND used is the last LND that did 
 Current RCD Position
 Because carriage controls are ignored in record-format line data, the current RCD is always the last record
 RCD that was used to process a data record.
-Include Page Segment
+## Include Page Segment
 The Include Page Segment (IPS) structured field is used to place a page segment resource anywhere on the
 page. It contains the full eight-character name of the page segment (with trailing blanks if necessary) and the
 position of the page segment, often referred to as the page segment origin. The page segment might be
@@ -681,9 +657,7 @@ be positioned with respect to the page segment origin. The page
 segment inherits the Active Environment Group definition of the including page.
 Mixed Documents
 
-## Page 70
 
-52 AFP Programming Guide and Line Data Reference
 AFP print servers initialize the following PTOCA control sequences as shown prior to processing a text object
 in an AFP page segment:
 Control Sequence Value
@@ -723,17 +697,14 @@ rotation be set to (0°,90°). For page segments in mixed data, the rotation sho
 current text orientation.
 Mixed Documents
 
-## Page 71
 
-AFP Programming Guide and Line Data Reference 53
 Position and Orientation of Image, Graphics, and Bar Code Objects in a Page
 Segment
 If the Object Area Position (OBP) structured field specifies byte 23 (RefCSys) = X'00' (current), the object area
 offset is measured with respect to the page segment origin, using the text (I,B) coordinate system specified in
 the current LND or RCD. The object area rotation is measured with respect to the I-axis of the current text (I,B)
 coordinate system.
-If OBP byte 23 = X'01' (page or overlay), the object area offset is measured with respect to the page origin (top-
-left corner of page) using the page coordinate system. The object area rotation is measured with respect to the
+If OBP byte 23 = X'01' (page or overlay), the object area offset is measured with respect to the page origin (topleft corner of page) using the page coordinate system. The object area rotation is measured with respect to the
 page coordinate system X p-axis (origin is top-left corner of page).
 Note: When line data that includes an IPS structured field is transformed into a MO:DCA document by an AFP
 application program, the text orientation that was set when the page segment and its objects were
@@ -753,10 +724,8 @@ The current line position is unchanged after the page segment is printed. Additi
 the application to place subsequent print lines so that they do not overprint the page segment.
 Mixed Documents
 
-## Page 72
 
-54 AFP Programming Guide and Line Data Reference
-Include Page Overlay
+## Include Page Overlay
 The Include Page Overlay (IPO) structured field functions in a manner similar to Include Page Segment. The
 IPO structured field specifies the full name of the overlay (any O1 prefix in the overlay name must be included)
 and the position of the overlay origin. The IPO references an overlay resource that is to be positioned on the
@@ -797,9 +766,7 @@ system X-axis (origin is top-left corner of overlay).
 Note: If the IM image is complex (celled), AFP print servers require the rotation set to 0°,90°.
 Mixed Documents
 
-## Page 73
 
-AFP Programming Guide and Line Data Reference 55
 Position and Orientation of IO Image, Graphics, and Bar Code Objects in an Overlay
 If the Object Area Position (OBP) structured field specifies byte 23 (RefCSys) = X'00' (current) or X'01' (page or
 overlay), the object area offset is measured with respect to the overlay origin (top-left corner of overlay) using
@@ -811,7 +778,7 @@ A sample IPO structured field appears in Figure 26. It places overlay O1SIGNAT a
 the page.
 Figure 26. Include Page Overlay Structured Field
 X'5A' X'0016' X'D3AFD8' X'00' X'0000' X'D6F1E2C9C7D5C1E3' X'FFFFFF' X'FFFFFF'
-Include Object
+## Include Object
 The Include Object (IOB) structured field references an object that is to be positioned on the page. In general,
 the IOB may be used to include two classes of objects:
 • OCA objects (BCOCA, GOCA, IOCA, PTOCA) that specify an Object Environment Group (OEG) or MO:DCA
@@ -834,10 +801,8 @@ page (Xp,Yp) coordinate system. The object area rotation in the IOB is measured 
 (Xp,Yp) coordinate system X p-axis.
 Mixed Documents
 
-## Page 74
 
-56 AFP Programming Guide and Line Data Reference
-Including Data Objects Directly in Line Data
+## Including Data Objects Directly in Line Data
 Previously it was described how complete AFP resources can be included in the resource group of a print file
 rather than having to be stored in an external resource library. This is one approach that can be used with
 applications where many different resources must be included in the print stream and where it might
@@ -879,9 +844,7 @@ Segment structured fields from the object. The remaining structured fields can b
 at the point where the image or graphic should appear.
 Mixed Documents
 
-## Page 75
 
-AFP Programming Guide and Line Data Reference 57
 Including IM Image Objects
 Page segments containing IM image data do not have an Object Environment Group, so somewhat different
 considerations apply to them. Between the BPS and EPS structured fields are the records that provide
@@ -937,9 +900,7 @@ software could add an unacceptable amount of processing overhead when the data s
 bar code and image placed on the page interact, so the programmer must keep careful track of the page
 Mixed Documents
 
-## Page 76
 
-58 AFP Programming Guide and Line Data Reference
 position and fonts in effect as records are written. For example, if the text position, text orientation, or font is
 not defined in a structured field or object, the values specified in the Page Definition for the current line-data
 record will be used. Depending on the complexity of the application, it might be easier to write fully composed
@@ -949,8 +910,7 @@ Length X'D3EE9B' Flag
 byte
 Sequence number Data
 Record Format When Using PTX Structured Fields
-When creating a mixed-mode data set that includes PTX structured fields, it is generally easier to use variable-
-length records. The PTX structured field length ranges up to 32,759 bytes. Much spool space is wasted if every
+When creating a mixed-mode data set that includes PTX structured fields, it is generally easier to use variablelength records. The PTX structured field length ranges up to 32,759 bytes. Much spool space is wasted if every
 record is padded out to this length, regardless of whether or not the entire 32K bytes contain valid data.
 Using the PTX Structured Field
 The PTX structured field contains PTOCA data, as defined in the Mixed Object Document Content Architecture
@@ -983,9 +943,7 @@ to be printed. Use of the TRN control sequence allows data whose encoding scheme
 X'2B' or X'D3' to be included in a PTX without having these code points interpreted as an escape sequence.
 Mixed Documents
 
-## Page 77
 
-AFP Programming Guide and Line Data Reference 59
 The usual sequences for placing text on a page are as follows:
 • Specify the beginning print position using Absolute Move Inline (AMI) and Absolute Move Baseline (AMB)
 control sequences
@@ -1022,9 +980,7 @@ even function type for the last control sequence or by ending every PTX with a N
 with an even function type (X'02F8').
 Mixed Documents
 
-## Page 78
 
-60 AFP Programming Guide and Line Data Reference
 Use of Fonts
 Either fixed-pitch or proportionally spaced fonts can be used to present text with the PTX structured field.
 Positioning of the first character in a string of data contained in the TRN control sequence can be
@@ -1070,9 +1026,7 @@ PT3 Control Sequences
 Set Extended T ext Color xx80 xx81
 Mixed Documents
 
-## Page 79
 
-AFP Programming Guide and Line Data Reference 61
 Table 11 Control Sequences Used in PTX Structured Field (cont'd.)
 PTOCA Control Sequence Function Unchained
 (Even Function)
@@ -1097,8 +1051,7 @@ expressing the length and thickness is used. If the rules are to be drawn in the
 direction (“up” relative to the data on the page) or the direction opposite the inline direction (“backward” relative
 to the data on the page), the line length or thickness must be coded in two's complement form.
 The two's complement of a two-byte hexadecimal number is obtained by inverting each bit of the number and
-adding a one to the low-order bit position. For example, a one-inch rule is 240 logical units long, or X'F0' L-
-units, when using 240 units per inch. This value can be placed directly in a Draw Inline Rule control sequence.
+adding a one to the low-order bit position. For example, a one-inch rule is 240 logical units long, or X'F0' Lunits, when using 240 units per inch. This value can be placed directly in a Draw Inline Rule control sequence.
 T o obtain the value to use when drawing this rule in the opposite direction, you calculate the two's complement
 of X'F0' by inverting to get X'FF0F' and then adding X'0001'. The result is X'FF10'. The full, chained control
 sequence that draws a 3-unit thick rule one inch long in the “backward” direction is X'07E5FF10000300'.
@@ -1118,9 +1071,7 @@ rules that generate the box are four pels thick, so the lengths of the rules in 
 have been extended by 4 pels where necessary to make sure the corners are complete.
 Mixed Documents
 
-## Page 80
 
-62 AFP Programming Guide and Line Data Reference
 Figure 28. Text Controls to Draw a Box
 … 04C7000F04D300F007E501E000040007E700F0000400…
 < AMI >< AMB ><Inline Rule><Baseline Rule>
@@ -1130,10 +1081,8 @@ Figure 28. Text Controls to Draw a Box
 (top side)        (right side)
 Mixed Documents
 
-## Page 81
 
-AFP Programming Guide and Line Data Reference 63
-Composed Documents
+## Composed Documents
 The discussion up to this point has described how line-mode data can be printed in any desired format by
 using an appropriate Page Definition. Information has also been provided on how formatting can be changed
 at selected points in the output by using conditional processing or e
@@ -1175,9 +1124,7 @@ be aware of throughput considerations associated with the MO:DCA structure. Such
 highlighted in this chapter in boxes titled “Programming Tip”.
 Mixed Documents
 
-## Page 82
 
-64 AFP Programming Guide and Line Data Reference
 Overall Document Structure
 A fully composed document will conform to the structure shown on the right side of Figure 30 on page 170.
 Each document is composed of one or more pages that have the format shown in Figure 32 on page 171.
@@ -1211,6 +1158,4 @@ term's definition. Such links are specified using Link Logical Element (LLE) str
 fields are not supported in line-data or mixed-data documents.
 Mixed Documents
 
-## Page 83
 
-Copyright © AFP Consortium 1994, 2018 65

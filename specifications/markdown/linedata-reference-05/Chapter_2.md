@@ -1,8 +1,7 @@
-Chapter 2. Line Data and MO:DCA (AFP) Data
+# Chapter 2. Line Data and MO:DCA (AFP) Data
 The Advanced Function Presentation (AFP) products have been developed to be consistent with a set of
 architectures that define the format of documents and the nature of the commands sent from the host software
-to the supported printers. The Mixed Object Document Content Architecture (MO:DCA) defines a device-
-independent data stream format for interchanging documents among AFP products. Data to be printed can
+to the supported printers. The Mixed Object Document Content Architecture (MO:DCA) defines a deviceindependent data stream format for interchanging documents among AFP products. Data to be printed can
 include text, graphics, images, and bar codes.
 The objects used for Advanced Function Presentation include:
 • Font objects, which consist of font character sets containing the patterns for letters, numbers, and special
@@ -27,12 +26,12 @@ documents and resources and in turn generate Intelligent Printer Data Stream (IP
 printers. Presentation services programs
 can also accept other forms of data as input. One of the most widely
 used of these is called line data.
-Line Data
+## Line Data
 Line data, meaning application output to be printed that is not already in MO:DCA format, is supported by
 presentation services programs
 and formatted by Page Definition resource objects in all system environments
 except IBM OS/2. The nature of line data is slightly different in the system environments where it appears.
-IBM Mainframe Environments
+## IBM Mainframe Environments
 IBM mainframe applications written in programming languages such as Assembler, COBOL, FORTRAN, PL/I,
 RPG, or others have historically produced output files to be printed on line-mode printers such as the IBM
 1403, 3211, or 3800-1. These line data files consist of individual print records, each of which corresponds to
@@ -43,9 +42,7 @@ no capability of formatting print output records. Unformatted line data records 
 be printed. With unformatted line data records, the data is not formatted into lines, columns, paragraphs or
 other structures that determine how the records will appear on paper. AFP print server products support
 
-## Page 24
 
-6 AFP Programming Guide and Line Data Reference
 printing of both formatted and unformatted line data records using the Page Definition (also called PageDef)
 resource object.
 Figure 2 illustrates the difference between formatted and unformatted line data records.
@@ -100,9 +97,7 @@ continues at the first print position of a new page. That is, the spacing action
 page.
 Line Data and MO:DCA data
 
-## Page 25
 
-AFP Programming Guide and Line Data Reference 7
 Table 5. ANSI Carriage Control Characters
 Control Character Value
 (in hexadecimal)
@@ -145,9 +140,7 @@ X'A9' Print the data, then skip to the line position defined as Channel 5
 X'B1' Print the data, then skip to the line position defined as Channel 6
 Line Data and MO:DCA data
 
-## Page 26
 
-8 AFP Programming Guide and Line Data Reference
 Table 6 Machine Code Control Characters (cont'd.)
 Control Character Value
 (in hexadecimal)
@@ -191,21 +184,19 @@ IBM Print Services Facility™ (PSF) products
 .
 Line Data and MO:DCA data
 
-## Page 27
 
-AFP Programming Guide and Line Data Reference 9
-AIX, Linux, and Windows Environments
+## AIX, Linux, and Windows Environments
 Data in an AIX, Linux, or Windows environment can be in stream format, with each record or line to be printed
 delimited by a line separator; or it can be in record-based format. In record-based format, the line separator is
 not required, as the length of each record is contained in a two-byte prefix to the record. Either of these formats
 is considered line data and can be mapped for printing by presentation services programs if a Page Definition
 is used.
 Note: The line separator is described in Line Data Summary.
-IBM i Environment
+## IBM i Environment
 In IBM i (previously known as OS/400) print environments, line data and mixed data is written to the system
 spool using a Printer File. This file may also reference the Page Definition and Form Definition to be used for
 formatting and printing the data.
-IBM OS/2 Environment
+## IBM OS/2 Environment
 There is no known support on IBM OS/2 systems for Page Definitions. A presentation services program in the
 IBM OS/2 environment can accept data in a MO:DCA format or it can print IPDS data streams sent from
 another AFP system.
@@ -218,7 +209,7 @@ Notes:
 1. Only supported when input data is XML.
 2. Only supported when the length of each record is contained in a two byte prefix to the record or when each record is
 the same size.
-Line Data Summary
+## Line Data Summary
 T o print line data,presentation services programs must know the dimensions of the page, the exact position on
 that page where each record must be printed, and the fonts to be used. This information is provided for line
 data records in an AFP resource object called the Page Definition (PageDef). The Page Definition is described
@@ -234,9 +225,7 @@ line separators are:
 • UTF-16BE: Line Feed (X'000A') or Carriage Return (X'000D') and Line Feed (X'000A') pair.
 Line Data and MO:DCA data
 
-## Page 28
 
-10 AFP Programming Guide and Line Data Reference
 • UTF-16LE: Line Feed (X'0A00') or Carriage Return (X'0D00') and Line Feed (X'0A00') pair. Note that
 when the input data is UTF-16LE (little-endian byte order), the program that processes the line data
 needs to convert the data to big-endian byte order. Big-endian byte order is the only byte order
@@ -263,9 +252,7 @@ Note: The data portion and line separators of the valid records above can be enc
 encoding UTF-16 or UTF-8.
 Line Data and MO:DCA data
 
-## Page 29
 
-AFP Programming Guide and Line Data Reference 11
 (Part 2 of figure)
 BOM D A T A
 Unicode data line with Byte Order Mark
@@ -288,10 +275,8 @@ Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data”
 allowed only on the first record and applies to all records in the print file.
 Line Data and MO:DCA data
 
-## Page 30
 
-12 AFP Programming Guide and Line Data Reference
-Record-Format Line Data
+## Record-Format Line Data
 Another form of line data that is supported by presentation services programs and formatted by a Page
 Definition resource is record-format line data. With this format, each line data record contains a 1 to 250-byte
 record identifier, which selects the Record Descriptor (RCD) in a record-format Data Map that is used to format
@@ -324,10 +309,8 @@ Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data”
 allowed only on the first record and applies to all records in the print file.
 Line Data and MO:DCA data
 
-## Page 31
 
-AFP Programming Guide and Line Data Reference 13
-Unicode Line Data
+## Unicode Line Data
 The data portion of the valid line data formats shown in Figure 3 on page 10 and in Figure 4 on page 12 can be
 encoded using Unicode Standard encodings UTF-16 or UTF-8. The Unicode Standard recommends that a
 byte order mark (BOM) be the first sequence of bytes in the data. This is to accommodate platforms, such as
@@ -350,7 +333,7 @@ either the whole field is treated as Unicode-encoded, or none of it is treated a
 process the UTF-16 data will need to convert little-endian to big-endian byte order.
 • If carriage control bytes (CC) or table reference character bytes (TRC) are used with UTF-16 encoded data,
 the CC and TRC bytes remain 1 byte fields and are not encoded in UTF-16.
-XML Data
+## XML Data
 XML data may be formatted using a Page Definition resource, however this is subject to the following
 restrictions:
 • Carriage Control (CC) and T able Reference Characters (TRC) are not supported.
@@ -371,17 +354,15 @@ For a description of XML Data, refer to the XML specification, Extensible Markup
 can be found at the World Wide Web Consortium web site, http://www.w3.org/.
 Line Data and MO:DCA data
 
-## Page 32
 
-14 AFP Programming Guide and Line Data Reference
-MO:DCA Data Summary
+## MO:DCA Data Summary
 In contrast to line data, fully composed page data, or MO:DCA (AFP) data, contains control information such
 as position, orientation, and font selection intermixed with the data to be printed. Presentation services
 programs accept a MO:DCA document and generate the corresponding IPDS commands needed to drive a
 printer. An external Page Definition resource is not needed with MO:DCA data because all the formatting
 information is already included in the document.
 MO:DCA data is fully described in the Mixed Object Document Content Architecture (MO:DCA) Reference.
-Combining Line Data with MO:DCA Structured Fields
+## Combining Line Data with MO:DCA Structured Fields
 It is possible to intermix line data records and MO:DCA structured fields in a single file and send the mixed
 data to a presentation services program for printing. This permits the addition of image, graphics, and bar code
 objects to existing line data output. Applications can be written to generate line data or other objects as needed
@@ -389,7 +370,7 @@ to produce the desired final print product.
 Note: MO:DCA structured fields cannot be combined with XML data.
 Line data and MO:DCA records cannot be mixed haphazardly. Chapter 4, “Mixed Documents: Adding MO:DCA
 Structured Fields to Line Data”, on page 39 provides guidelines on the valid combinations.
-The Function of the Page Definition
+## The Function of the Page Definition
 Any print file that contains line data, whether alone or in combination with MO:DCA structured fields, requires a
 Page Definition for printing using presentation services programs . The Page Definition is necessary to
 establish the environment for each page and to position each line of print.
@@ -397,6 +378,4 @@ A number of Page Definitions mapping common page layouts are provided with some 
 and some AFP products allow users to create their own Page Definitions.
 Line Data and MO:DCA data
 
-## Page 33
 
-Copyright © AFP Consortium 1994, 2018 15

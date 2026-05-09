@@ -1,4 +1,3 @@
-## Page 1
 
 Advanced Function Presentation Consortium
 Data Stream and Object Architectures
@@ -6,9 +5,7 @@ AFP Programming Guide and
 Line Data Reference
 AFPC-0010-05
 
-## Page 2
 
-Copyright © AFP Consortium 1994, 2018 ii
 Note:
 Before using this information, read the information in “Notices” on page 191.
 AFPC-0010-05
@@ -21,9 +18,7 @@ Changes” on page vii.
 Internet
 Visit our home page: www.afpcinc.org
 
-## Page 3
 
-Copyright © AFP Consortium 1994, 2018 iii
 Preface
 This book is a reference for printing line-mode and mixed-mode data in an AFP environment. It describes the
 presentation of line-mode data streams using the Page Definition (PageDef) print control object. Line-mode
@@ -69,56 +64,56 @@ a new set of bylaws with tiered membership and shared governance resulting in th
 standards body called the AFP Consortium (AFPC). Ownership of and responsibility for the AFP architectures
 was transferred at that time to the AFP Consortium.
 
-## Page 4
 
 iv AFP Programming Guide and Line Data Reference
 Related Publications
 Several other publications can help you understand the architecture concepts described in this book. AFP
 Consortium publications and a few other AFP publications are available on the AFP Consortium website,
 www.afpcinc.org.
-Table 1. AFP Consortium Architecture References
-AFP Architecture Publication Order Number
-AFP Programming Guide and Line Data Reference AFPC-0010
-Bar Code Object Content Architecture Reference AFPC-0005
-Color Management Object Content Architecture Reference AFPC-0006
-Font Object Content Architecture Reference AFPC-0007
-Graphics Object Content Architecture for Advanced Function Presentation Reference AFPC-0008
-Image Object Content Architecture Reference AFPC-0003
-Intelligent Printer Data Stream Reference AFPC-0001
-Metadata Object Content Architecture Reference AFPC-0013
-Mixed Object Document Content Architecture (MO:DCA) Reference AFPC-0004
-Presentation Text Object Content Architecture Reference AFPC-0009
-Table 2. Additional AFP Consortium Documentation
-AFPC Publication Order Number
-AFP Color Management Architecture™ (ACMA™) G550-1046 (IBM)
-AFPC Company Abbreviation Registry AFPC-0012
-AFPC Font Typeface Registry AFPC-0016
-BCOCA Frequently Asked Questions AFPC-0011
-MO:DCA-L: The OS/2 PM Metafile (.met) Format AFPC-0014
-Presentation Object Subsets for AFP AFPC-0002
-Recommended IPDS Values for Object Container Versions AFPC-0017
-Table 3. AFP Font-Related Documentation
-Publication Order Number
-Character Data Representation Architecture Reference and Registry;
-please refer to the online version for the most current information
-(http://www-306.ibm.com/software/globalization/cdra/index.jsp)
-SC09-2190 (IBM)
-Font Summary for AFP Font Collection S544-5633 (IBM)
-Technical Reference for Code Pages S544-3802 (IBM)
+### Table 1. AFP Consortium Architecture References
 
-## Page 5
+| AFP Architecture Publication | Order Number |
+| :--- | :--- |
+| AFP Programming Guide and Line Data Reference | AFPC-0010 |
+| Bar Code Object Content Architecture Reference | AFPC-0005 |
+| Color Management Object Content Architecture Reference | AFPC-0006 |
+| Font Object Content Architecture Reference | AFPC-0007 |
+| Graphics Object Content Architecture for Advanced Function Presentation Reference | AFPC-0008 |
+| Image Object Content Architecture Reference | AFPC-0003 |
+| Intelligent Printer Data Stream Reference | AFPC-0001 |
+| Metadata Object Content Architecture Reference | AFPC-0013 |
+| Mixed Object Document Content Architecture (MO:DCA) Reference | AFPC-0004 |
+| Presentation Text Object Content Architecture Reference | AFPC-0009 |
 
-AFP Programming Guide and Line Data Reference v
-Table 4. UP3I™ Architecture Documentation
-UP3I Publication Order Number
-Universal Printer Pre- and Post-Processing Interface (UP 3I) Specification Available at
-www.afpcinc.org
+### Table 2. Additional AFP Consortium Documentation
 
-## Page 6
+| AFPC Publication | Order Number |
+| :--- | :--- |
+| AFP Color Management Architecture™ (ACMA™) | G550-1046 (IBM) |
+| AFPC Company Abbreviation Registry | AFPC-0012 |
+| AFPC Font Typeface Registry | AFPC-0016 |
+| BCOCA Frequently Asked Questions | AFPC-0011 |
+| MO:DCA-L: The OS/2 PM Metafile (.met) Format | AFPC-0014 |
+| Presentation Object Subsets for AFP | AFPC-0002 |
+| Recommended IPDS Values for Object Container Versions | AFPC-0017 |
+
+### Table 3. AFP Font-Related Documentation
+
+| Publication | Order Number |
+| :--- | :--- |
+| Character Data Representation Architecture Reference and Registry; please refer to the online version for the most current information (http://www-306.ibm.com/software/globalization/cdra/index.jsp) | SC09-2190 (IBM) |
+| Font Summary for AFP Font Collection | S544-5633 (IBM) |
+| Technical Reference for Code Pages | S544-3802 (IBM) |
+
+### Table 4. UP3I™ Architecture Documentation
+
+| UP3I Publication | Order Number |
+| :--- | :--- |
+| Universal Printer Pre- and Post-Processing Interface (UP3I) Specification | Available at www.afpcinc.org |
+
 
 vi AFP Programming Guide and Line Data Reference
 
-## Page 7
 
 AFP Programming Guide and Line Data Reference vii
 Summary of Changes
@@ -141,13 +136,10 @@ Note: The AFP Line Data architecture has been stabilized such that it can be ful
 and environments, but will not be extended. Many AFP products support both line data and Mixed
 Object Document Content Architecture (MO:DCA) documents.
 
-## Page 8
 
 viii AFP Programming Guide and Line Data Reference
 
-## Page 9
 
-Copyright © AFP Consortium 1994, 2018 ix
 Contents
 Preface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . iii
 AFP Consortium (AFPC) ...........................................................................................................................iii
@@ -155,11 +147,11 @@ Related Publications ...........................................................
 Summary of Changes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . vii
 Figures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . xv
 Tables . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . xvii
-Chapter 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1
+# Chapter 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1
 Related Architectures ............................................................................................................................... 2
 System Model......................................................................................................................................... 2
 Supported Environments........................................................................................................................... 3
-Chapter 2. Line Data and MO:DCA (AFP) Data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .5
+# Chapter 2. Line Data and MO:DCA (AFP) Data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .5
 Line Data............................................................................................................................................... 5
 IBM Mainframe Environments ................................................................................................................ 5
 AIX, Linux, and Windows Environments ................................................................................................... 9
@@ -172,7 +164,7 @@ XML Data .......................................................................
 MO:DCA Data Summary ......................................................................................................................... 14
 Combining Line Data with MO:DCA Structured Fields ................................................................................... 14
 The Function of the Page Definition ........................................................................................................... 14
-Chapter 3. Using a Page Definition to Print Data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+# Chapter 3. Using a Page Definition to Print Data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
 Common Examples of Page Definition Use ................................................................................................. 15
 Using More than One Page Definition ........................................................................................................ 15
 Page Definition Structure ........................................................................................................................ 16
@@ -204,7 +196,6 @@ Using Different Formats for Different Subsets of Output ........................
 Conditionally Skipping to a New Page or a New Sheet .............................................................................. 31
 Processing Line Data with Shift-Out/Shift-In (SOSI) Controls .......................................................................... 32
 
-## Page 10
 
 x AFP Programming Guide and Line Data Reference
 Printing Bar Codes with a Page Definition ................................................................................................... 34
@@ -215,7 +206,7 @@ Relative Baseline Positioning—RCD Processing .................................
 Relative Baseline Positioning—XMD Processing.......................................................................................... 37
 Relative Inline Positioning—XMD Processing .............................................................................................. 37
 The Function of the Form Definition ........................................................................................................... 38
-Chapter 4. Mixed Documents: Adding MO:DCA Structured Fields to Line Data . . . . . . . . . . 39
+# Chapter 4. Mixed Documents: Adding MO:DCA Structured Fields to Line Data . . . . . . . . . . 39
 X'5A' Carriage Control Character .............................................................................................................. 40
 Print File Structure ................................................................................................................................. 40
 Finishing Operations for a Print File ........................................................................................................... 42
@@ -260,7 +251,7 @@ Programming Options ............................................................
 Overall Document Structure ................................................................................................................ 64
 Document Indexing................................................................................................................................ 64
 Document Links .................................................................................................................................... 64
-Chapter 5. Structured Fields in a Page Definition and in Line Data . . . . . . . . . . . . . . . . . . . 65
+# Chapter 5. Structured Fields in a Page Definition and in Line Data . . . . . . . . . . . . . . . . . . . 65
 Structured Field Format .......................................................................................................................... 65
 Structured Field Descriptions ................................................................................................................... 66
 Notation Conventions......................................................................................................................... 66
@@ -270,7 +261,6 @@ Begin and End Structured Fields ................................................
 Begin Data Map (BDM)........................................................................................................................... 69
 BDM (X'D3A8CA') Syntax ................................................................................................................... 69
 
-## Page 11
 
 AFP Programming Guide and Line Data Reference xi
 BDM Semantics ................................................................................................................................ 69
@@ -336,7 +326,6 @@ Fully Qualified Name (X'02') Triplet ...........................................
 Triplet X'02' Syntax ................................................................................................................. 107
 Triplet X'02' Semantics ............................................................................................................ 107
 
-## Page 12
 
 xii AFP Programming Guide and Line Data Reference
 Extended Resource Local Identifier (X'22') Triplet .............................................................................. 108
@@ -405,7 +394,6 @@ Concatenate Bar Code Data (X'93') Triplet
 .................................................................................... 167
 Rendering Intent (X'95') Triplet....................................................................................................... 168
 
-## Page 13
 
 AFP Programming Guide and Line Data Reference xiii
 Appendix A. Document and Resource Object Diagrams . . . . . . . . . . . . . . . . . . . . . . . . . . 169
@@ -419,13 +407,10 @@ Trademarks......................................................................
 Glossary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195
 Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 237
 
-## Page 14
 
 xiv AFP Programming Guide and Line Data Reference
 
-## Page 15
 
-Copyright © AFP Consortium 1994, 2018 xv
 Figures
 1. AFP System Printing Relationships ............................................................................................................ 2
 2. Formatted and Unformatted Line Data Records ............................................................................................ 6
@@ -470,13 +455,10 @@ Figures
 41. Structure of a Form Definition Resource Object....................................................................................... 176
 42. Structure of a Page Definition Resource Object....................................................................................... 177
 
-## Page 16
 
 xvi AFP Programming Guide and Line Data Reference
 
-## Page 17
 
-Copyright © AFP Consortium 1994, 2018 xvii
 Tables
 1. AFP Consortium Architecture References .................................................................................................. iv
 2. Additional AFP Consortium Documentation ................................................................................................ iv
@@ -496,10 +478,7 @@ Tables
 16. Structured Fields Arranged Numerically by Hexadecimal Code................................................................... 183
 17. PTOCA Control Sequences Arranged Alphabetically................................................................................ 187
 
-## Page 18
 
 xviii AFP Programming Guide and Line Data Reference
 
-## Page 19
 
-Copyright © AFP Consortium 1994, 2018 1

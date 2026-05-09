@@ -1,4 +1,4 @@
-Chapter 3. Using a Page Definition to Print Data
+# Chapter 3. Using a Page Definition to Print Data
 One of the major enhancements provided by AFP to existing line-data applications is the ability to print
 application-generated output in different formats without making any application changes. This function is
 called outboard formatting, and is provided by the Page Definition resource object.
@@ -10,7 +10,7 @@ formatting information is already included internally in these documents.
 Page Definition names are provided in job control statements. Any print file can be associated with a Page
 Definition by using the appropriate parameters in the job control statements for the applicable operating
 system. See the reference publications for your print server and operating system for complete information.
-Common Examples of Page Definition Use
+## Common Examples of Page Definition Use
 Many users want to take advantage of AFP capabilities that provide multiple-up printing or rotated printing
 without any need to change the application that generates the output. Line data can be printed in any desired
 format by creating a Page Definition that describes that format. Presentation services program
@@ -26,7 +26,7 @@ printers always printed in the ACROSS direction on paper whose width exceeded it
 printing on cut-sheet paper is generally considered to mean printing parallel to the narrow edge, not the wide
 edge. A Page Definition that prints in the DOWN direction, or in the landscape orientation, can be used to get
 the same result with letter-size paper on a cut-sheet printer as with larger forms on an impact printer.
-Using More than One Page Definition
+## Using More than One Page Definition
 When a line-data file (such as a SYSOUT file produced by a System/370 application program) is printed, only
 one Page Definition can be used to map the output format of that file. However, multiple copies of the file can
 be printed, each one using a different Page Definition, if the appropriate job control statements are used. The
@@ -43,9 +43,7 @@ structure of Page Definitions and Form Definitions includes multiple sets of for
 rules are called Data Maps (also called Page Formats) in the Page Definition and Medium Maps (also called
 copy groups) in the Form Definition. The Invoke Data Map and Invoke Medium Map structured fields can be
 
-## Page 34
 
-16 AFP Programming Guide and Line Data Reference
 written in the output by an application program and used to switch between maps as printing proceeds. This
 makes it possible for subsets of the file to be presented in different formats. Examples will be provided later in
 this chapter and in Chapter 4, “Mixed Documents: Adding MO:DCA Structured Fields to Line Data”, on page
@@ -59,14 +57,14 @@ Figure 5. Printing a Data Set in z/OS Multiple Times with Different Page Definit
 //OUT3 OUTPUT PAGEDEF=PD3
 ⋮
 //SYSUT2 DD SYSOUT=A,OUTPUT=(*.OUT1,*.OUT2,*.OUT3)
-Page Definition Structure
+## Page Definition Structure
 A Page Definition is required to compose line data into pages for printing on page printers. A Page Definition
 consists of one or more Data Maps that define the page environment and provide instructions for mapping
 each line of data to the page.
 A Page Definition object can be referenced from a library defined to a presentation services program or can be
 included inline at the beginning of a print file in some system environments. The structured fields in the Page
 Definition conform to the MO:DCA architecture rules for structured fields. These rules are summarized in
-Chapter 5, “Structured Fields in a Page Definition and in Line Data”, on page 65 of this publication and are
+# Chapter 5, “Structured Fields in a Page Definition and in Line Data”, on page 65 of this publication and are
 formally defined in the Mixed Object Document Content Architecture (MO:DCA) Reference.
 A Page Definition optionally can contain one or more Conditional Processing Control (CCP) structured fields.
 Conditional processing permits the application programmer to define tests on selected data fields in the input
@@ -86,15 +84,13 @@ Page Definition
 ** s s
 Using a Page Definition
 
-## Page 35
 
-AFP Programming Guide and Line Data Reference 17
 The structured fields and objects that compose a Page Definition are as follows. (Chapter 5, “Structured Fields
 in a Page Definition and in Line Data”, on page 65 describes the structured fields.)
 BPM (Begin Page Map)
 Begins a Page Definition resource object. An optional token name may be specified to identify
 the object.
-Resource Environment Group
+## Resource Environment Group
 The Resource Environment Group (REG) identifies complex resources that need to be loaded
 in the presentation device before the pages that follow are processed.
 CCP (Conditional Processing Control)
@@ -129,10 +125,8 @@ Ends a Page Definition resource object. Any name specified in the EPM must match
 specified in the BPM.
 Using a Page Definition
 
-## Page 36
 
-18 AFP Programming Guide and Line Data Reference
-Resource Environment Group
+## Resource Environment Group
 Figure 7 shows the structure of a Resource Environment Group (REG) in the Page Definition.
 Figure 7. Resource Environment Group Structure for a Page Definition
 *  =  optional
@@ -174,9 +168,7 @@ or internal identifier for the resource object. Such a local identifier may be e
 an object's data.
 Using a Page Definition
 
-## Page 37
 
-AFP Programming Guide and Line Data Reference 19
 MPO (Map Page Overlay)
 The MPO specifies overlay resources required for presentation. It is optional and can occur multiple times in a
 REG.
@@ -194,7 +186,7 @@ document. Examples of such objects are medium overlays and PMC overlays, both of
 included with structures in the Form Definition.
 ESG (End Resource Environment Group)
 Ends a Resource Environment Group.
-Data Map Structure
+## Data Map Structure
 Figure 8 shows the structure of a Data Map, also called a Page Format.
 Figure 8. Data Map Structure for a Page Definition
 Data Map
@@ -219,9 +211,7 @@ The Data Maps in a Page Definition can select two types of line data processing:
 Transmission Subcase.
 Using a Page Definition
 
-## Page 38
 
-20 AFP Programming Guide and Line Data Reference
 • Record-format line data containing record IDs and optional CCs are processed using RCDs in the Data Map
 Transmission Subcase.
 All Data Maps in the Page Definition must specify the same line data processing.
@@ -246,7 +236,7 @@ names of resources, such as fonts and page segments, that are to be mapped. The 
 Subcase specifies the position, orientation, color, and font selection for text, the identification of data fields to
 be suppressed, any “fixed text” for the page, and any conditional processing tests and actions. It may also
 specify objects to be included on the page.
-Active Environment Group Structure
+## Active Environment Group Structure
 Figure 9 shows the structure of an Active Environment Group (AEG) in the Data Map.
 Figure 9. Data Map Active Environment Group Structure for a Page Definition
 *  =  optional
@@ -276,9 +266,7 @@ PEC
 *
 Using a Page Definition
 
-## Page 39
 
-AFP Programming Guide and Line Data Reference 21
 The Active Environment Group contains structured fields that describe the features and characteristics of the
 entire page. Page size, names of fonts, page segments, page overlays, and identifiers of objects to be used
 are all part of the AEG. Because a page might consist entirely of text or entirely of image (as in a page
@@ -331,9 +319,7 @@ The code points used for printing page numbers are:
 – X'0030'–X'0039' for Unicode Presentation or UTF-16
 Using a Page Definition
 
-## Page 40
 
-22 AFP Programming Guide and Line Data Reference
 Table Reference Characters
 If the data to be printed contains 3800-style table reference characters, font information is required to map
 each table reference character to the name of the font to be used when the data is printed. This information
@@ -377,9 +363,7 @@ The rules for coding T able Reference Characters are different for page mode pri
 in compatibility mode. T able 8 on page 23 summarizes the differences.
 Using a Page Definition
 
-## Page 41
 
-AFP Programming Guide and Line Data Reference 23
 Table 8. Use of TRCs in Page Mode and 3800 Compatibility Mode
 Function Compatibility Mode Page Mode
 Number of table reference characters
@@ -431,9 +415,7 @@ Data objects that are included with an IOB structured field, such as EPS objects
 mapped using the MDR structured field. An MDR for such objects is not required in the AEG of the Data Map,
 Using a Page Definition
 
-## Page 42
 
-24 AFP Programming Guide and Line Data Reference
 but might improve printer throughput if used. Mapped data objects are loaded to the printer the first time they
 are included and are not reloaded on subsequent includes.
 Color Management
@@ -484,9 +466,7 @@ optional. If specified, the units of measure must be the same as those specified
 the PGD, and the output area size must be the same size as the page.
 Using a Page Definition
 
-## Page 43
 
-AFP Programming Guide and Line Data Reference 25
 OBP (Object Area Position)
 Specifies the origin and orientation of the text output area on the page, as well as the origin
 and orientation of the text presentation space on the output area. The OBP is optional. If
@@ -533,9 +513,7 @@ T ext Color Set T ext Color (STC)
 T ext Orientation Set T ext Orientation (STO)
 Using a Page Definition
 
-## Page 44
 
-26 AFP Programming Guide and Line Data Reference
 Data Map Transmission Subcase
 A Data Map Transmission Subcase can contain LNDs, RCDs, or XMDs, but not a mixture.
 Data Map Transmission Subcase with LNDs
@@ -561,8 +539,7 @@ Page Segment or Include Page Overlay structured field that
 contains a value of X'FFFFFF' in the X-axis
 positioning parameter, the Y-axis positioning parameter, or both indicates that the page segment or overlay is
 to be placed at the X-axis or Y-axis position specified by the current LND.
-Functions that originated with older printers are also implemented in Line Descriptors. If carriage control skip-
-to-channel codes are used with the data, each channel code must be defined in at least one Line Descriptor
+Functions that originated with older printers are also implemented in Line Descriptors. If carriage control skipto-channel codes are used with the data, each channel code must be defined in at least one Line Descriptor
 (LND) in the Page Definition; this LND defines the page position associated with that channel code number.
 Carriage control characters that call for double spacing, triple spacing, or space suppression cause a
 presentation services program
@@ -575,9 +552,7 @@ only “print with single spacing”. The type of carriage control being used mu
 associated with the print file, just as in a non-AFP environment.
 Using a Page Definition
 
-## Page 45
 
-AFP Programming Guide and Line Data Reference 27
 The following new functions are provided in Page Definitions that are not available in FCBs. These functions
 are triggered by information in the Line Descriptor structured field.
 • Field formatting, which is the ability to separate specific fields in a line-data record and place them anywhere
@@ -626,9 +601,7 @@ that has to be traversed in order to process the content of an XML element. If a
 Qualified T ag is found, the content of the XML element is formatted with that XMD. If an XMD with a matching
 Using a Page Definition
 
-## Page 46
 
-28 AFP Programming Guide and Line Data Reference
 Qualified T ag is not found, processing resumes with the next start tag. Note that as the processor parses the
 XML, it must buffer the XML start tags traversed in order to have a current Qualified T ag. Each time an end tag
 is found, the last matching start tag is removed. For example, in the following XML hierarchy:
@@ -678,9 +651,7 @@ Specifies how the record with matching record ID should be processed. The Data M
 Transmission Subcase can contain more than one RCD.
 Using a Page Definition
 
-## Page 47
 
-AFP Programming Guide and Line Data Reference 29
 With RCD processing, carriage controls in the data record are ignored. Processing begins with
 the first RCD that matches the Record ID of the first record. If a matching RCD is not found, an
 error is generated.
@@ -710,7 +681,7 @@ line data. More than one FDX structured field is allowed.
 EDX (End Data Map Transmission Subcase)
 Ends the Data Map Transmission Subcase. Any name specified in the EDX must match the
 name specified in the BDX.
-Field Formatting—LND Processing
+## Field Formatting—LND Processing
 A Page Definition may be used to break line-data records into fields that are formatted individually. This is done
 by building a chain of LND structured fields called a reuse chain.
 The first LND used to process an input record is called the base LND. If this LND specifies flag byte bit 6=B'1'
@@ -719,26 +690,24 @@ This next LND is used to select and process a field in the same record. If addit
 the next LND also specifies flag byte bit 6=B'1' and points to another LND to select and process another field in
 the record, and so on. All LNDs in a reuse chain are called reuse LNDs. The last LND in a reuse chain
 specifies flag byte bit 6=B'0' and bytes 16–17=X'0000'. This LND terminates the reuse chain.
-Field Formatting—RCD Processing
+## Field Formatting—RCD Processing
 Field formatting is also supported when RCDs are used to process record-format line data. The first RCD used
 to process an input record is called a record RCD. It is identified by RCDFlgs bit 6=B'0' and RCDFlgs bit 11=
 B'0'. If the FLDrcd parameter in a record RCD is non-zero, it specifies the RCD number of a field RCD that is to
 be used to process a field in this record. A field RCD is identified by RCDFlgs bit 6=B'1' and RCDFlgs bit 11=
 Using a Page Definition
 
-## Page 48
 
-30 AFP Programming Guide and Line Data Reference
 B'0'. Multiple field RCDs can be chained to a record RCD in this manner. The last field RCD in this chain must
 specify FLDrcd= X'0000'.
-Field Formatting—XMD Processing
+## Field Formatting—XMD Processing
 Field formatting is also supported when XMDs are used to process XML data. The first XMD used to process a
 start tag is called an element XMD. It is identified by XMDFlgs bit 6=B'0', XMDFlgs bit 10=B'0', and XMDFlgs
 bit 11=B'0'. If the FLDxmd parameter in an element XMD is non-zero, it specifies the XMD number of a field
 XMD that is to be used to process a field in this element data. A field XMD is identified by XMDFlgs bit 6=B'1'
 and XMDFlgs bit 11=B'0'. Multiple field XMDs can be chained to an element XMD in this manner. The last field
 XMD in this chain must specify FLDxmd=X'0000'.
-Using Conditional Processing in a Page Definition
+## Using Conditional Processing in a Page Definition
 The conditional processing function allows a different Data Map in the current Page Definition, a different
 Medium Map in the current Form Definition, or both to be selected for use with the next page based on
 characteristics of the application data stream. This provides a way to change Data Maps or Medium Maps as
@@ -777,9 +746,7 @@ Definition to test these positions and to print the detail pages in the ACROSS d
 in the DOWN direction.
 Using a Page Definition
 
-## Page 49
 
-AFP Programming Guide and Line Data Reference 31
 Figure 12. PPFA Code for Page Definition with Conditional Processing
 SETUNITS 1 IN 1 IN ;
 LINESP 6 LPI ;
@@ -831,9 +798,7 @@ the new “sheet” might
 actually be a new N-up partition on the sheet.
 Using a Page Definition
 
-## Page 50
 
-32 AFP Programming Guide and Line Data Reference
 The example in Figure 13 shows PPFA source code to accomplish a skip to a new page when the department
 number in character positions 1 through 3 changes.
 Figure 13. PPFA Code for Page Definition to Skip to New Page
@@ -882,9 +847,7 @@ primary font specified in byte 10 of the LND or byte 23 of the RCD and use of th
 flag bit 4 = B'1'. An error condition exists if flag bit 4 = B'0'. Note that an implicit SI is assumed at the start of
 Using a Page Definition
 
-## Page 51
 
-AFP Programming Guide and Line Data Reference 33
 every record. This selects the primary font specified in byte 10 of the LND or byte 23 of the RCD, if it is
 enabled with flag bit 4 = B'1'.
 • Page-based font selection. In this mode, the font to be used following an SO is the same for all records and
@@ -930,14 +893,11 @@ are removed and are not converted to blanks and Set Coded Font Local text contro
 output. The converted data is then used as the QR Code bar code data. This processing is the same for all
 SOSI processing modes. For SOSI4, each shift-out and shift-in control is not counted when computing offsets
 to various fields within the data.
-When processing data with SOSI controls, the processor assumes that each line or record starts with single-
-byte code points. This means that the data is scanned for SOSI controls one byte at a time. After processing a
+When processing data with SOSI controls, the processor assumes that each line or record starts with singlebyte code points. This means that the data is scanned for SOSI controls one byte at a time. After processing a
 shift-out control, the data is scanned two bytes at a time. The first byte of each pair is checked to see if it is a
 Using a Page Definition
 
-## Page 52
 
-34 AFP Programming Guide and Line Data Reference
 shift-in control. If a line is to start with double-byte data, the first byte in the line must be a shift-out control. This
 is due to the fact that single-byte code points are assumed at the start of each line. The processor also
 assumes that each field (including fixed text fields) starts with a single-byte code point when processing in
@@ -954,8 +914,7 @@ using page-based font selection.
 2. Shift-out/Shift-in controls are not used in Unicode data to signify a shift into and out of DBCS processing.
 Therefore, it is not possible to switch processing between Unicode encoding and single-byte (SBCS)
 encoding within a line data field or record. That is, when a line data field is processed with a Page
-Definition, either the whole field is treated as Unicode-encoded or none of it is treated as Unicode-
-encoded.
+Definition, either the whole field is treated as Unicode-encoded or none of it is treated as Unicodeencoded.
 3. When building bar codes from line data, SOSI input data is not appropriate for bar code symbologies other
 than QR Code. Refer to the Bar Code Object Content Architecture Reference for information about the
 valid encoding for each bar code.
@@ -989,9 +948,7 @@ RCD, or XMD text orientation. The bar code presentation space origin is therefor
 current text coordinate system (I,B) origin. For example, if an LND specifies a (90°,180°) text orientation, the
 Using a Page Definition
 
-## Page 53
 
-AFP Programming Guide and Line Data Reference 35
 symbol rotation is 90° and the origin of the bar code object presentation space is the top-right corner of the
 page. The extents of the bar code object presentation space are determined by the extents of the page
 presentation space. For example, if the origin of the object presentation space is the top-right corner of the
@@ -1046,9 +1003,7 @@ coordinate system depends on the current text orientation. The baseline position
 relative offset depends on whether the LND that specifies relative positioning is a base LND and on whether a
 Using a Page Definition
 
-## Page 54
 
-36 AFP Programming Guide and Line Data Reference
 page or subpage boundary was crossed since the last LND was used to print. The baseline position used as a
 reference for the relative offset is determined as follows:
 • For base LNDs, offsets are defined relative to the last base LND processed, either by printing or by spacing.
@@ -1071,8 +1026,7 @@ LNDs in order to achieve the proper line spacing. If an LND that specifies absol
 position is reset to the absolute position and the relative offsets of any additional skipped LNDs are
 accumulated with respect to the absolute position. When a page boundary is crossed, printing resumes at the
 first LND.
-Application Note: When relative baseline positioning is used, the PageDef generator cannot check for off-
-page errors, since the data normally determines, with skip-to-channel carriage controls, when the
+Application Note: When relative baseline positioning is used, the PageDef generator cannot check for offpage errors, since the data normally determines, with skip-to-channel carriage controls, when the
 relative baseline LNDs are invoked. AFP print servers will generate a page break if the active Data Map
 is about to position data past the page's y-extent. This will not cause the generation of an error message.
 Note that the page's y-extent is specified in the PGD of the Data Map.
@@ -1094,9 +1048,7 @@ was crossed after the last record RCD was processed, offsets are defined relativ
 • For field RCDs, the offset is defined relative to the last RCD used to print.
 Using a Page Definition
 
-## Page 55
 
-AFP Programming Guide and Line Data Reference 37
 • If the first RCD of a Data Map specifies relative positioning, the offset is defined relative to the top margin.
 The following restriction applies to relative baseline positioning:
 • The text orientation of an RCD that specifies relative baseline positioning must be the same as the text
@@ -1132,10 +1084,8 @@ Note: Data must not exceed the boundaries of the page, which are defined in the 
 structured field. If the new print position is outside these boundaries, printing of the page stops.
 Using a Page Definition
 
-## Page 56
 
-38 AFP Programming Guide and Line Data Reference
-The Function of the Form Definition
+## The Function of the Form Definition
 A Form Definition is a MO:DCA print control object that is used to place pages on sheets and is always
 required for printing with presentation services programs . Form Definitions contain information about the
 physical environment in which the output is to be printed, such as the paper drawer to be used and whether
@@ -1165,6 +1115,4 @@ address standard requirements is provided
 with presentation services program software, but users can also create customized Form Definitions.
 Using a Page Definition
 
-## Page 57
 
-Copyright © AFP Consortium 1994, 2018 39
