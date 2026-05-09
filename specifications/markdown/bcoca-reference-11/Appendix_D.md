@@ -33,9 +33,7 @@ X'04' Present a UPC Version D-5 (Block-2 + Block-5 + Block-7) bar code with thre
 check digits, one for each block. Blocks-2, -5 and -7 contain twenty-nine data characters
 and the three check digits.
 
-## Page 208
 
-184 BCOCA Reference
 Retired item 8 (1992): This retired item was unretired in 1993.
 This item was previously retired for Bar Code Symbol Descriptor type (byte 12) X'06' – UPC-Two-digit
 Supplemental (Periodicals), modifiers (byte 13) X'01' through X'02'.
@@ -69,9 +67,7 @@ X'01' Present the bar code symbol without a generated check digit.
 X'02' Generate two check digits and present them with the bar code.
 Retired Items
 
-## Page 209
 
-BCOCA Reference 185
 Retired item 14 (1992): Bar Code Symbol Descriptor type (byte 12) X'13' – Code 11, MHI/AIM USD-8,
 modifiers (byte 13) X'01' through X'03' is retired with the following meaning:
 Modifier Meaning
@@ -114,9 +110,7 @@ Note: Restricted to books and paperbacks.
 X'03' Reserved for future periodical use.
 Retired Items
 
-## Page 210
 
-186 BCOCA Reference
 Retired item 19 (1992): Bar Code Symbol Descriptor type (byte 12) X'19' – Facing Identification Mark (FIM)
 - United States Postal Service, modifiers (byte 13) X'00' through X'03' is retired with the following meaning:
 For all FIM modifiers that follow, the BSA HRI flag field and the BSD module width, element height, height
@@ -162,9 +156,7 @@ The ZIP+4 code is obtained from the address information when scanned by an OCR
 reader.
 Retired Items
 
-## Page 211
 
-BCOCA Reference 187
 Retired item 20 (1993): Bar Code Symbol Descriptor type (byte 12) X'11' – Code 128, AIM USS-128,
 modifier (byte 13) X'01' is retired with the following meaning:
 Modifier Meaning
@@ -198,9 +190,7 @@ If bit 4 is B'0', an EBCDIC-based code page is used.
 If bit 4 is B'1', an ASCII-based code page is used.
 Retired Items
 
-## Page 212
 
-188 BCOCA Reference
 Table 41. Valid Code Pages and Type Styles
 Type Bar Code Symbology
 EBCDIC-Based
@@ -271,9 +261,7 @@ X'22' USPS Four-State 500 850 Device specific
 X'23' Reduced Space Symbology (RSS) 1303 None Device specific
 Retired Items
 
-## Page 213
 
-BCOCA Reference 189
 Retired item 22 (2011): Bar Code Symbol Descriptor type (byte 12) X'EC', modifier (byte 13) X'02' is retired
 as Océ private-use values to indicate QR Code.
 Retired item 23 (2011): Bar Code Symbol Descriptor type (byte 12) X'ED', modifier (byte 13) X'00' is retired
@@ -284,11 +272,8 @@ Retired item 25 (2011): Bar Code Symbol Descriptor type (byte 12) X'EF', modifie
 X'01' is retired as Océ private-use values to indicate PDF417.
 Retired Items
 
-## Page 214
 
-190 BCOCA Reference
 
-## Page 215
 
 Copyright © AFP Consortium 1991, 2025 191
 Notices
@@ -315,9 +300,7 @@ a complete manner, some examples include the names of individuals, companies, br
 names are fictitious and any similarity to the names and addresses used by an actual business enterprise is
 entirely coincidental.
 
-## Page 216
 
-192 BCOCA Reference
 Trademarks
 These terms are trademarks or registered trademarks of Adobe Systems Incorporated in the United States, in
 other countries, or both:
@@ -362,16 +345,11 @@ Mailmark
 Royal Mail Mailmark
 Intelligent Mail is a registered trademark of the United States Postal Service.
 
-## Page 217
 
-BCOCA Reference 193
 Other company, product, or service names may be trademarks or service marks of others.
 
-## Page 218
 
-194 BCOCA Reference
 
-## Page 219
 
 Copyright © AFP Consortium 1991, 2025 195
 Glossary
@@ -469,9 +447,7 @@ that develops and maintains AFP architecture. Information
 about the consortium can be found at
 www.afpconsortium.org.
 
-## Page 220
 
-196 BCOCA Reference
 AFP data stream. A presentation data stream that is
 processed in AFP environments. The MO:DCA
 architecture defines the strategic AFP interchange data
@@ -573,9 +549,7 @@ AFP documents in an archiving system. For archive
 systems, the key requirement is to make each page stand
 AFP data stream • archive interchange set
 
-## Page 221
 
-BCOCA Reference 197
 alone by eliminating the use of resolution-dependent fonts
 and images, device-default fonts, and external resources.
 See AFP/A.
@@ -670,9 +644,7 @@ three to ten cpi. See also character density, density, and
 information density.
 arc parameters • bar code density
 
-## Page 222
 
-198 BCOCA Reference
 bar code object area. The rectangular area on a logical
 page into which a bar code presentation space is mapped.
 Bar Code Object Content Architecture (BCOCA). An
@@ -773,9 +745,7 @@ code symbol through its top or bottom edge. When plates
 are used in the printing process, Bearer Bars help equalize
 bar code object area • Bearer Bars
 
-## Page 223
 
-BCOCA Reference 199
 the pressure exerted by the printing plate over the entire
 surface of the symbol to improve print quality. There are
 two styles: 1) four bars that completely surround the
@@ -873,9 +843,7 @@ can be either a graphic character or a control character.
 See also graphic character and control character. (2) In
 Begin Segment Introducer (BSI) • character
 
-## Page 224
 
-200 BCOCA Reference
 bar codes, a single group of bar code elements that
 represent an individual number, letter, punctuation mark, or
 other symbol.
@@ -980,9 +948,7 @@ sequence is a counter-clockwise rotation. Contrast with
 rotation.
 character angle • character rotation
 
-## Page 225
 
-BCOCA Reference 201
 character set. A finite set of different graphic characters
 or control characters that is complete for a given purpose.
 For example, the character set in ISO Standard 646, 7-Bit
@@ -1083,9 +1049,7 @@ coded font. (1) A resource containing elements of a code
 page and a font character set, used for presenting text,
 character set • coded font
 
-## Page 226
 
-202 BCOCA Reference
 graphics character strings, and bar code HRI. See also
 code page and font character set. (2) In FOCA, a resource
 containing the resource names of a valid pair of font
@@ -1189,9 +1153,7 @@ color management resource. An object that provides
 color management in presentation environments.
 coded font local identifier • color management resource
 
-## Page 227
 
-BCOCA Reference 203
 color management system. A set of software designed
 to increase the accuracy and consistency of color between
 color devices like a scanner, display, and printer.
@@ -1292,9 +1254,7 @@ control sequence function type. The coded character
 occupying the fourth byte of an unchained control
 color management system • control sequence function type
 
-## Page 228
 
-204 BCOCA Reference
 sequence introducer. This code defines the function whose
 semantics can be prescribed by succeeding control
 sequence parameters.
@@ -1401,9 +1361,7 @@ position is the summation of the increments of all inline
 controls since the inline coordinate was established in the
 control sequence introducer • current inline coordinate
 
-## Page 229
 
-BCOCA Reference 205
 presentation space. An inline presentation position is
 established in a presentation space either as part of the
 initialization procedures for processing an object or by an
@@ -1506,9 +1464,7 @@ command; examples include: PDF single-page objects,
 Encapsulated PostScript objects, and IO Images
 current inline presentation coordinate (I c) • data object resource
 
-## Page 230
 
-206 BCOCA Reference
 • Invoked from within a data object; examples
 include: PDF Resource objects and Non-OCA Resource
 objects
@@ -1609,9 +1565,7 @@ device-version code page. In the IPDS architecture, a
 device version of a code page contains all of the
 data stream • device-version code page
 
-## Page 231
 
-BCOCA Reference 207
 characters that were registered for the CPGID at the time
 the printer was developed; since then, more characters
 might have been added to the registry for that CPGID. A
@@ -1710,9 +1664,7 @@ example, clicking on a window border, and dragging it to
 make the window larger.
 digital halftoning • drag
 
-## Page 232
 
-208 BCOCA Reference
 draw functions. Functions that can be done during the
 drawing of a picture. Examples of draw functions are
 displaying a picture, boundary computation, and erasing a
@@ -1812,9 +1764,7 @@ files among applications in a variety of heterogeneous
 environments.
 draw functions • EPS
 
-## Page 233
 
-BCOCA Reference 209
 error diffusion halftone. A specific halftone method in
 which quantization errors are diffused spatially in a quasi-
 random manner.
@@ -1914,9 +1864,7 @@ fixed metrics. Graphic character measurements in
 physical units such as pels, inches, or centimeters.
 error diffusion halftone • fixed metrics
 
-## Page 234
 
-210 BCOCA Reference
 FNN linked. In FOCA, the FNN (Font Name map)
 structured field permits the mapping of a set of IBM
 GCGIDs to the character index values that occur in either a
@@ -2026,9 +1974,7 @@ font width (FW). (1) A characteristic value, parallel to the
 character baseline, that represents the size of all graphic
 FNN linked • font width (FW)
 
-## Page 235
 
-BCOCA Reference 211
 characters in a font. Synonymous with horizontal font
 size. (2) In a font character set, nominal font width is a
 font-designer defined value corresponding to the nominal
@@ -2145,9 +2091,7 @@ one fully described font and one font index. See also font
 index.
 foreground • fully described font
 
-## Page 236
 
-212 BCOCA Reference
 function set. (1) A collection of architecture constructs
 and associated values. Function sets can be defined
 across or within subsets. (2) In the MO:DCA architecture,
@@ -2246,9 +2190,7 @@ gradient. In GOCA, an area fill where one color gradually
 changes to another. A gradient is a type of pattern.
 function set • gradient
 
-## Page 237
 
-BCOCA Reference 213
 grapheme. (1) A minimally distinctive unit of writing in the
 context of a particular writing system. For example, å (“a +
 Combining Ring Above” or “Latin Small Letter A with Ring
@@ -2352,9 +2294,7 @@ EAN, JAN, or UPC symbol, that provide reference points
 for scanning.
 grapheme • guard bars
 
-## Page 238
 
-214 BCOCA Reference
 gzip. A widely-used, free software compression
 algorithm.
 H
@@ -2461,9 +2401,7 @@ translation of bar code characters into equivalent Latin
 alphabetic characters, Arabic numeral decimal digits, and
 gzip • human-readable interpretation (HRI)
 
-## Page 239
 
-BCOCA Reference 215
 common special characters normally used for printed
 human communication.
 hypermedia. Interlinked pieces of information consisting
@@ -2558,9 +2496,7 @@ image object area. A rectangular area on a logical page
 into which an image presentation space is mapped.
 hypermedia • image object area
 
-## Page 240
 
-216 BCOCA Reference
 Image Object Content Architecture (IOCA). An
 architected collection of constructs used to interchange
 and present images.
@@ -2658,9 +2594,7 @@ applied in the positive I direction from the current
 presentation position. See also intercharacter adjustment.
 Image Object Content Architecture (IOCA) • intercharacter increment
 
-## Page 241
 
-BCOCA Reference 217
 intercharacter space. In bar codes, the space between
 two adjacent bar code characters in a discrete code, for
 example, the space between two characters in Code 39.
@@ -2759,9 +2693,7 @@ Kanji. A graphic character set for symbols used in
 Japanese ideographic alphabets.
 intercharacter space • Kanji
 
-## Page 242
 
-218 BCOCA Reference
 kerning. The design of graphic characters so that their
 character boxes overlap, resulting in the reduction of space
 between characters. This allows characters to be designed
@@ -2857,9 +2789,7 @@ fields from the beginning of a data stream, or in the number
 of bytes from another location within the data stream.
 kerning • location
 
-## Page 243
 
-BCOCA Reference 219
 logical page. A presentation space. One or more object
 areas can be mapped to a logical page. A logical page has
 specifiable characteristics, such as size, shape,
@@ -2953,9 +2883,7 @@ of a construct. A meaning entry can be a long name, a
 description, or a brief statement of function.
 logical page • meaning
 
-## Page 244
 
-220 BCOCA Reference
 measurement base. A base unit of measure from which
 other units of measure are derived.
 media. Plural of medium. See also medium.
@@ -3053,9 +2981,7 @@ subset of MO:DCA that defines an interchange format for
 presentation documents.
 measurement base • MO:DCA IS/2
 
-## Page 245
 
-BCOCA Reference 221
 MO:DCA IS/3. MO:DCA Interchange Set 3. A subset of
 MO:DCA that defines an interchange format for print files
 that supersedes MO:DCA IS/1.
@@ -3155,9 +3081,7 @@ non-presentation object. An object that is not a
 presentation object.
 MO:DCA IS/3 • non-presentation object
 
-## Page 246
 
-222 BCOCA Reference
 nonprocess runout (NPRO). An operation that moves
 sheets of physical media through the printer without
 printing on them. This operation is used to stack the last
@@ -3260,9 +3184,7 @@ m axis of the Xm,Ym coordinate system. See also
 presentation space orientation and text orientation.
 nonprocess runout (NPRO) • orientation
 
-## Page 247
 
-BCOCA Reference 223
 origin. The point in a coordinate system where the axes
 intersect. Examples of origins are the addressable position
 in an Xm,Ym coordinate system where both coordinate
@@ -3364,9 +3286,7 @@ page or overlay. (3) The final representation of such an
 object on a physical medium. Contrast with overlay.
 origin • page segment
 
-## Page 248
 
-224 BCOCA Reference
 Page-Segment command set. In the IPDS architecture,
 a collection of commands used to load, deactivate, and
 include page segments.
@@ -3469,9 +3389,7 @@ smallest element of a physical medium that can be
 independently assigned color and intensity. Picture
 Page-Segment command set • picture element
 
-## Page 249
 
-BCOCA Reference 225
 elements per inch is often used as a measurement of
 presentation granularity. Synonymous with pel and pixel.
 pixel. The smallest printable or displayable unit on a
@@ -3575,9 +3493,7 @@ presentation system. A system for presenting data. In
 AFP environments such a system normally contains at
 pixel • presentation system
 
-## Page 250
 
-226 BCOCA Reference
 least a formatting application, a print server, and a printer.
 Synonymous with presentation process.
 presentation text object. An object that contains
@@ -3675,9 +3591,7 @@ quiet zone. A clear space that contains no machine-
 readable marks preceding the start character of a bar code
 presentation text object • quiet zone
 
-## Page 251
 
-BCOCA Reference 227
 symbol or following the stop character. Synonymous with
 clear area. Contrast with intercharacter gap and space.
 R
@@ -3780,9 +3694,7 @@ direction, or baseline along the B axis in the B direction, or
 both.
 radial gradient • relative move
 
-## Page 252
 
-228 BCOCA Reference
 relative positioning. The establishment of a position
 within a coordinate system as an offset from the current
 position. Contrast with absolute positioning.
@@ -3882,9 +3794,7 @@ Kingdom's Royal Mail postal service for use in automated
 mail-sorting processes.
 relative positioning • Royal Mail 4 State Customer Code (RM4SCC)
 
-## Page 253
 
-BCOCA Reference 229
 rule. A solid line of any line width.
 S
 sans serif. A type style characterized by strokes that end
@@ -3980,9 +3890,7 @@ character baseline. Synonymous with baseline and printing
 baseline.
 rule • sequential baseline
 
-## Page 254
 
-230 BCOCA Reference
 sequential baseline position. The current addressable
 position for a baseline in a presentation space or on a
 physical medium. See also baseline coordinate and current
@@ -4082,9 +3990,7 @@ combination of process color primaries. See also highlight
 color. Contrast with process color.
 sequential baseline position • spot color
 
-## Page 255
 
-BCOCA Reference 231
 sRGB. One of the standard RGB color spaces, a means
 of specifying precisely how any given RGB value should
 appear on a display or printed paper or any other output
@@ -4187,9 +4093,7 @@ documents. Synonymous with bar code symbology. See
 also Canadian Grocery Product Code (CGPC), European
 sRGB • symbology
 
-## Page 256
 
-232 BCOCA Reference
 Article Numbering (EAN), Japanese Article Numbering
 (JAN), and Universal Product Code (UPC).
 symbol set. A coded font that is usually simpler in
@@ -4288,9 +4192,7 @@ transform matrix. A matrix that is applied to a set of
 coordinates to produce a transform.
 symbol set • transform matrix
 
-## Page 257
 
-BCOCA Reference 233
 translating. In computer graphics, moving all or part of a
 picture in the presentation space from one location to
 another without rotating.
@@ -4391,9 +4293,7 @@ contains from one to four bytes. All
 Unicode code points can be encoded in
 translating • UTF-8
 
-## Page 258
 
-234 BCOCA Reference
 UTF-8 and all 7-bit ASCII characters can
 be encoded in one byte.
 UTF-16 The default Unicode encoding. A fixed,
@@ -4497,9 +4397,7 @@ character increment parameter is used to provide spacing.
 See also variable space character increment.
 UTF-16 • variable space character
 
-## Page 259
 
-BCOCA Reference 235
 variable space character increment. The variable value
 associated with a variable space character. The variable
 space character increment is used to calculate the
@@ -4601,9 +4499,7 @@ X dimension. In bar codes, the nominal dimension of the
 narrow bars and spaces in a bar code symbol.
 variable space character increment • X dimension
 
-## Page 260
 
-236 BCOCA Reference
 Xg,Yg coordinate system. In the IPDS architecture, the
 graphics presentation space coordinate system.
 X height. The nominal height above the baseline,
@@ -4673,7 +4569,6 @@ and y chromaticity coordinates, somewhat analogous to
 the hue and saturation coordinates of the HSV color space.
 Xg,Yg coordinate system • Yxy color space
 
-## Page 261
 
 Copyright © AFP Consortium 1991, 2025 237
 Index
@@ -4797,9 +4692,7 @@ DMRE
 See Data Matrix (DMRE)
 Dutch KIX . . .. . .. . 23, 33, 40–41, 46, 67, 92, 98, 149, 153, 171–172
 
-## Page 262
 
-238 BCOCA Reference
 E
 EAN . . .. xii, 7, 26–27, 34, 36, 38, 42, 44–46, 53, 64–65, 91, 95, 97,
 149, 151, 172
@@ -4928,9 +4821,7 @@ offset unit base .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .
 offset units per unit base .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 147
 reference coordinate system. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 148
 
-## Page 263
 
-BCOCA Reference 239
 X extent . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 148
 Y extent. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 148
 Industrial 2-of-5 .. . .. . . .. . ..26, 34, 36, 43, 45, 54, 91, 149, 151, 171
@@ -5050,9 +4941,7 @@ QR Code special-function parameters . .. . .. . . .. . . .. . .. . . .. . .. . .
 QR Code with Image . . . .. 19–20, 22–23, 27, 35, 37–38, 40, 42–44,
 46, 75, 92, 95, 139–145, 149, 154, 179
 
-## Page 264
 
-240 BCOCA Reference
 Image Information Block. . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 146–148
 QR Code with Image special-function parameters .. . .. . . .. . . .. . . 139
 quiet zones . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .8, 19
@@ -5125,11 +5014,8 @@ Xqr, Yqr coordinate system. . .. . .. . . .. . .. . . .. . .. . . .. . . .. . ..
 Z
 zipper.. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. 18, 23, 120, 123–124, 166, 177
 
-## Page 265
 
-BCOCA Reference 241
 
-## Page 266
 
 Advanced Function Presentation Consortium
 Bar Code Object Content

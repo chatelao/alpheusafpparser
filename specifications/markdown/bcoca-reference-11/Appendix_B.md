@@ -19,9 +19,7 @@ Zero or more Bar Code Data structured fields (contains the BCOCA BSA structure);
 Data structured field per bar code symbol
 End Bar Code Object structured field
 
-## Page 200
 
-176 BCOCA Reference
 Bar Code Data Object Structured Fields
 The following sections describe two structured fields: Bar Code Data Descriptor (BDD) and Bar Code Data
 (BDA).
@@ -65,6 +63,5 @@ Introducer to specify a sequence number for the structured field. This is an una
 bytes and should be avoided.
 MO:DCA Environment
 
-## Page 201
 
 Copyright © AFP Consortium 1991, 2025 177

@@ -110,155 +110,25 @@ BCOCA Data Structures
 Bar Code Symbol Descriptor (BSD)
 The BSD specifies the size of the bar code presentation space, the type of bar code to be generated, and the
 parameters used to generate the bar code symbols.
-Table 8. Bar Code Symbol Descriptor (BSD) Data Structure
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-0 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00' X'00'
-1 X'00' Reserved X'00' X'00'
-2–3 UBIN XUPUB X'0001'–
-X'7FFF'
-Units per unit base in the X bc
-direction
-X'3840' X'0001'–X'7FFF'
-4–5 UBIN YUPUB X'0001'–
-X'7FFF'
-Units per unit base in the Y bc
-direction; must be the same as
-XUPUB
-X'3840' X'0001'–X'7FFF'
-6–7 UBIN X extent X'0001'–
-X'7FFF'
-X'FFFF'
-Width of bar code
-presentation space
-in L-units
-Default
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-8–9 UBIN Y extent X'0001'–
-X'7FFF'
-X'FFFF'
-Length of bar code
-presentation space
-in L-units
-Default
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-10–11 UBIN Symbol
-width X'0000'
-X'0001'–
-X'7FFF'
-Desired symbol width:
-Not specified (use
-module width)
-Desired width of
-symbol in L-units
-Not supported by all
-BCOCA receivers
-X'0000' X'0000'
-12 CODE Type X'01'–X'03',
-X'05'–X'0D',
-X'11',
-X'16'–X'18',
-X'1A'–X'27'
-Bar code type Specified in
-Table 9 on page
-34
-Specified in
-Table 9 on page
-34
-13 CODE Modifier See field
-description
-Bar code modifier Specified in
-Table 10 on
-page 36
-Specified in
-Table 10 on
-page 36
-14 CODE Local ID X'00'–X'FE'
-X'FF'
-Font Local ID for HRI
-Default
-X'01'–X'7F'
-X'FF'
-X'00'–X'FE'
-X'FF'
-15–16 CODE Color X'0000'–
-X'0010'
-X'FF00'–
-X'FF08'
-X'FFFF'
-Color X'FF07' X'FF07'
-17 UBIN Module
-width
-X'01'–X'FE'
-X'FF'
-Module width in mils
-Default
-Device specific
-X'FF'
-Device specific
-X'FF'
-Bar Code Symbol Descriptor (BSD)
+### Table 8. Bar Code Symbol Descriptor (BSD) Data Structure
 
-
-
-
-Table 8 Bar Code Symbol Descriptor (BSD) Data Structure (cont'd.)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-18–19 UBIN Element
-height
-X'0001'–
-X'7FFF'
-X'FFFF'
-Element height in L-units
-Default
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-20 UBIN Multiplier X'01'–X'FF' Height multiplier X'01'–X'FF' X'01'–X'FF'
-21–22 UBIN WE:NE X'0000'
-X'0001'–
-X'7FFF'
-X'FFFF'
-Bar code (see byte 12)
-does not use ratio
-Wide-to-narrow ratio
-Default
-X'0000'
-At least one
-value
-X'FFFF'
-X'0000'
-At least one
-value
-X'FFFF'
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' | X'00' |
+| 1 | | | X'00' | Reserved | X'00' | X'00' |
+| 2–3 | UBIN | $X_{UPUB}$ | X'0001'–X'7FFF' | Units per unit base in the $X_{bc}$ direction | X'3840' | X'0001'–X'7FFF' |
+| 4–5 | UBIN | $Y_{UPUB}$ | X'0001'–X'7FFF' | Units per unit base in the $Y_{bc}$ direction; must be the same as $X_{UPUB}$ | X'3840' | X'0001'–X'7FFF' |
+| 6–7 | UBIN | $X$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Width of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
+| 8–9 | UBIN | $Y$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Length of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
+| 10–11 | UBIN | Symbol width | X'0000'<br>X'0001'–X'7FFF' | Desired symbol width:<br>Not specified (use module width)<br>Desired width of symbol in L-units<br>Not supported by all BCOCA receivers | X'0000' | X'0000' |
+| 12 | CODE | Type | X'01'–X'03',<br>X'05'–X'0D',<br>X'11',<br>X'16'–X'18',<br>X'1A'–X'27' | Bar code type | Specified in Table 9 on page 34 | Specified in Table 9 on page 34 |
+| 13 | CODE | Modifier | See field description | Bar code modifier | Specified in Table 10 on page 36 | Specified in Table 10 on page 36 |
+| 14 | CODE | Local ID | X'00'–X'FE'<br>X'FF' | Font Local ID for HRI<br>Default | X'01'–X'7F'<br>X'FF' | X'00'–X'FE'<br>X'FF' |
+| 15–16 | CODE | Color | X'0000'–X'0010'<br>X'FF00'–X'FF08'<br>X'FFFF' | Color | X'FF07' | X'FF07' |
+| 17 | UBIN | Module width | X'01'–X'FE'<br>X'FF' | Module width in mils<br>Default | Device specific<br>X'FF' | Device specific<br>X'FF' |
+| 18–19 | UBIN | Element height | X'0001'–X'7FFF'<br>X'FFFF' | Element height in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
+| 20 | UBIN | Multiplier | X'01'–X'FF' | Height multiplier | X'01'–X'FF' | X'01'–X'FF' |
+| 21–22 | UBIN | WE:NE | X'0000'<br>X'0001'–X'7FFF'<br>X'FFFF' | Bar code (see byte 12) does not use ratio<br>Wide-to-narrow ratio<br>Default | X'0000'<br>At least one value<br>X'FFFF' | X'0000'<br>At least one value<br>X'FFFF' |
 Note: The BCD1 and BCD2 range for these fields has been specified assuming a unit of measure of 1/1440 of
 an inch. Many receivers support the BCD1 or BCD2 subset plus additional function. If a receiver
 supports additional units of measure, the BCOCA architecture requires the receiver to at least support a
@@ -276,18 +146,17 @@ base is ten centimeters. Exception condition EC-0505 exists if the unit base spe
 or unsupported.
 The value X'02' is retired as Retired item 1.
 Byte 1 Reserved
-Bytes 2–3 XUPUB
-Specifies the number of units per unit base in the X
-bc direction. Exception condition EC-0605
+Bytes 2–3 $X_{UPUB}$
+Specifies the number of units per unit base in the $X_{bc}$ direction. Exception condition EC-0605
 exists if the units per unit base value specified is invalid or unsupported.
-Bytes 4–5 YUPUB
-Specifies the number of units per unit base in the Y bc direction and must be equal to the value
-specified in XUPUB. Exception condition EC-0605 exists if the units per unit base value
+Bytes 4–5 $Y_{UPUB}$
+Specifies the number of units per unit base in the $Y_{bc}$ direction and must be equal to the value
+specified in $X_{UPUB}$. Exception condition EC-0605 exists if the units per unit base value
 specified is invalid or unsupported.
-Bytes 6–7 X extent
-Specifies the width in the X bc direction of the presentation space in L-units. The measurement
+Bytes 6–7 $X$ extent
+Specifies the width in the $X_{bc}$ direction of the presentation space in L-units. The measurement
 base is specified in bytes 0–5. A value of X'FFFF' indicates that the width of the controlling
-environment area in the X bc direction is to be used. Exception condition EC-0705 exists if the
+environment area in the $X_{bc}$ direction is to be used. Exception condition EC-0705 exists if the
 presentation space extent specified is invalid or unsupported.
 Note: The size of a bar code symbol is not always known in advance. It is good practice to
 specify the size of the bar code presentation space large enough to include plenty of
@@ -297,10 +166,10 @@ Bar Code Symbol Descriptor (BSD)
 
 
 
-Bytes 8–9 Y extent
-Specifies the length in the Y bc direction of the presentation space in L-units. The measurement
+Bytes 8–9 $Y$ extent
+Specifies the length in the $Y_{bc}$ direction of the presentation space in L-units. The measurement
 base is specified in bytes 0–5. A value of X'FFFF' indicates that the length of the controlling
-environment area in the Y bc direction is to be used. Exception condition EC-0705 exists if the
+environment area in the $Y_{bc}$ direction is to be used. Exception condition EC-0705 exists if the
 presentation space extent specified is invalid or unsupported.
 Bytes 10–11 Desired symbol width (not supported by all BCOCA receivers)
 Note: This is an optional parameter that is not supported by all BCOCA receivers; this
@@ -368,64 +237,58 @@ portion of the bar code symbol extends beyond the bar code presentation space, t
 intersection of the mapped bar code presentation space and the controlling environment
 object area, or beyond the maximum presentation area.
 The bar code types are defined as follows:
-Table 9. Bar Code Types
-Type Bar Code Symbology In BCD1 Subset? In BCD2 Subset?
-X'01' Code 39 (3-of-9 Code), AIM USS-39 Yes Yes
-X'02' MSI (modified Plessey code) Yes Yes
-X'03' UPC/CGPC—Version A Yes Yes
-X'05' UPC/CGPC—Version E Yes Yes
-X'06' UPC—Two-Digit Supplemental (Periodicals) Yes Yes
-X'07' UPC—Five-Digit Supplemental (Paperbacks) Yes Yes
-X'08' EAN-8 (includes JAN-short) Yes Yes
-X'09' EAN-13 (includes JAN-standard) Yes Yes
-X'0A' Industrial 2-of-5 No No
-X'0B' Matrix 2-of-5 No No
-X'0C' Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 Yes Yes
-X'0D' Codabar, 2-of-7, AIM USS-Codabar No Yes
-X'11' Code 128, GS1-128, UCC/EAN 128, AIM USS-
-128, Intelligent Mail Container Barcode, Intelligent
-Mail Package Barcode
-No Yes
-X'16' EAN Two-Digit Supplemental Yes Yes
-X'17' EAN Five-Digit Supplemental Yes Yes
-X'18' POSTNET (deprecated) and
-PLANET (deprecated)
-No No
-X'1A' RM4SCC and Dutch KIX No Yes
-X'1B' Japan Postal Bar Code No Yes
-Bar Code Symbol Descriptor (BSD)
+### Table 9. Bar Code Types
 
+| Type | Bar Code Symbology | In BCD1 Subset? | In BCD2 Subset? |
+| :--- | :--- | :--- | :--- |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | Yes | Yes |
+| X'02' | MSI (modified Plessey code) | Yes | Yes |
+| X'03' | UPC/CGPC—Version A | Yes | Yes |
+| X'05' | UPC/CGPC—Version E | Yes | Yes |
+| X'06' | UPC—Two-Digit Supplemental (Periodicals) | Yes | Yes |
+| X'07' | UPC—Five-Digit Supplemental (Paperbacks) | Yes | Yes |
+| X'08' | EAN-8 (includes JAN-short) | Yes | Yes |
+| X'09' | EAN-13 (includes JAN-standard) | Yes | Yes |
+| X'0A' | Industrial 2-of-5 | No | No |
+| X'0B' | Matrix 2-of-5 | No | No |
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | Yes | Yes |
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | No | Yes |
+| X'11' | Code 128, GS1-128, UCC/EAN 128, AIM USS-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode | No | Yes |
+| X'16' | EAN Two-Digit Supplemental | Yes | Yes |
+| X'17' | EAN Five-Digit Supplemental | Yes | Yes |
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | No | No |
+| X'1A' | RM4SCC and Dutch KIX | No | Yes |
+| X'1B' | Japan Postal Bar Code | No | Yes |
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | No | Yes |
+| X'1D' | MaxiCode (2D bar code) | No | Yes |
+| X'1E' | PDF417 (2D bar code) | No | Yes |
+| X'1F' | Australia Post Bar Code | No | Yes |
+| X'20' | QR Code, QR Code with Image (2D bar code) | No | Yes |
+| X'21' | Code 93 | No | Yes |
+| X'22' | Intelligent Mail Barcode | No | Yes |
+| X'23' | Royal Mail RED TAG (deprecated) | No | No |
+| X'24' | GS1 DataBar | No | No |
+| X'25' | Royal Mail Mailmark | No | No |
+| X'26' | Aztec Code | No | No |
+| X'27' | Han Xin Code | No | No |
 
+**Retired Bar Code Types**
 
-
-Table 9 Bar Code Types (cont'd.)
-Type Bar Code Symbology In BCD1 Subset? In BCD2 Subset?
-X'1C' Data Matrix, GS1 DataMatrix (2D bar code) No Yes
-X'1D' MaxiCode (2D bar code) No Yes
-X'1E' PDF417 (2D bar code) No Yes
-X'1F' Australia Post Bar Code No Yes
-X'20' QR Code, QR Code with Image (2D bar code) No Yes
-X'21' Code 93 No Yes
-X'22' Intelligent Mail Barcode No Yes
-X'23' Royal Mail RED TAG (deprecated) No No
-X'24' GS1 DataBar No No
-X'25' Royal Mail Mailmark No No
-X'26' Aztec Code No No
-X'27' Han Xin Code No No
-Retired Bar Code Types
-X'04' Retired item 7 No No
-X'0E' Retired item 10 No No
-X'0F' Retired item 11 No No
-X'10' Retired item 12 No No
-X'12' Retired item 13 No No
-X'13' Retired item 14 No No
-X'14' Retired item 15 No No
-X'15' Retired item 16 No No
-X'19' Retired item 19 No No
-X'EC' Retired item 22 No No
-X'ED' Retired item 23 No No
-X'EE' Retired item 24 No No
-X'EF' Retired item 25 No No
+| Type | Bar Code Symbology | In BCD1 Subset? | In BCD2 Subset? |
+| :--- | :--- | :--- | :--- |
+| X'04' | Retired item 7 | No | No |
+| X'0E' | Retired item 10 | No | No |
+| X'0F' | Retired item 11 | No | No |
+| X'10' | Retired item 12 | No | No |
+| X'12' | Retired item 13 | No | No |
+| X'13' | Retired item 14 | No | No |
+| X'14' | Retired item 15 | No | No |
+| X'15' | Retired item 16 | No | No |
+| X'19' | Retired item 19 | No | No |
+| X'EC' | Retired item 22 | No | No |
+| X'ED' | Retired item 23 | No | No |
+| X'EE' | Retired item 24 | No | No |
+| X'EF' | Retired item 25 | No | No |
 Note: In the table above, when a given bar code type is said to be in a subset, that means that
 at least one combination of that bar code type and some modifier value (byte 13) is in
 the subset.

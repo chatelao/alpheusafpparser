@@ -44,9 +44,7 @@ Aztec Code bar code symbology specification
 • Bar Code Scanning Reference Guide, MSI Data Corporation, Costa Mesa, CA.
 – MSI (modified Plessey code)
 
-## Page 196
 
-172 BCOCA Reference
 – UPC/EAN
 – Code 39
 – Interleaved 2-of-5
@@ -97,9 +95,7 @@ Symbol Study Group (DSSG), Chicago, IL.
 • Reduced Space Symbol bar codes (now called GS1 DataBar):
 Bar Code Symbology Specification References
 
-## Page 197
 
-BCOCA Reference 173
 – AIM International Symbology Specification – Reduced Space Symbology (RSS)
 – ISO/IEC 24724 – GS1 DataBar bar code specification
 • Royal Mail RM4SCC bar codes:
@@ -128,10 +124,7 @@ Section (MHI/AIM), Pittsburgh, PA.
 – CGPC-A, CGPC-E
 Bar Code Symbology Specification References
 
-## Page 198
 
-174 BCOCA Reference
 
-## Page 199
 
 Copyright © AFP Consortium 1991, 2025 175

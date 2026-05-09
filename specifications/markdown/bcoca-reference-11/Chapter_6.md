@@ -16,10 +16,7 @@ Appendix A, “Bar Code Symbology Specification References”, on page 171
 A compliant receiver may in addition receive and process any BCOCA data structure value not in BCD1 or
 BCD2.
 
-## Page 194
 
-170 BCOCA Reference
 
-## Page 195
 
 Copyright © AFP Consortium 1991, 2025 171
