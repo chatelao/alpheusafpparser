@@ -249,4 +249,44 @@ public class PTOCAControlSequenceRoundTripTest {
     public void testSEA_SetEncryptedAlternateRoundTrip() throws Exception {
         assertCSRoundTrip(new SEA_SetEncryptedAlternate(), new byte[]{0x00, 0x00, 0x00, 0x00, (byte) 0xC1, (byte) 0xC2, (byte) 0xC3}, false);
     }
+
+    @Test
+    public void testGraphicCharactersRoundTrip() throws Exception {
+        GraphicCharacters gc = new GraphicCharacters();
+        byte[] payload = new byte[]{(byte) 0xC1, (byte) 0xC2, (byte) 0xC3}; // "ABC" in CP500
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        gc.decodeAFP(payload, 0, payload.length, config);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        gc.writeAFP(baos, config);
+        assertArrayEquals(payload, baos.toByteArray());
+        assertEquals("ABC", gc.getText());
+    }
+
+    @Test
+    public void testInterleavedGraphicCharactersThroughParser() throws Exception {
+        // "ABC" followed by AMI(100)
+        // "ABC" = C1 C2 C3
+        // AMI = 2B D3 04 C6 00 64
+        byte[] data = new byte[]{
+            (byte) 0xC1, (byte) 0xC2, (byte) 0xC3,
+            0x2B, (byte) 0xD3, 0x04, (byte) 0xC6, 0x00, 0x64
+        };
+
+        List<PTOCAControlSequence> list = PTOCAControlSequenceParser.parseControlSequences(data, 0, data.length, new AFPParserConfiguration());
+        assertEquals(2, list.size());
+        assertTrue(list.get(0) instanceof GraphicCharacters);
+        assertEquals("ABC", ((GraphicCharacters) list.get(0)).getText());
+        assertTrue(list.get(1) instanceof AMI_AbsoluteMoveInline);
+        assertEquals(100, ((AMI_AbsoluteMoveInline) list.get(1)).getDisplacement());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        for (PTOCAControlSequence cs : list) {
+            if (cs.getCsi() != null) {
+                baos.write(cs.getCsi().toBytes());
+            }
+            cs.writeAFP(baos, new AFPParserConfiguration());
+        }
+        assertArrayEquals(data, baos.toByteArray());
+    }
 }

@@ -82,7 +82,8 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     // Field Controls
     OVS_Overstrike(0x72), // (OVS)” on page 64
     USC_Underscore(0x76), // (USC)” on page 105
-    TBM_TemporaryBaselineMove(0x78); // (TBM)” on page 97
+    TBM_TemporaryBaselineMove(0x78), // (TBM)” on page 97
+    GraphicCharacters(0xFF);
 
 
     int typeCode;
@@ -1514,6 +1515,52 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
 
     public void setBypassFlag(PTOCA_BypassFlag bypassFlag) {
       this.bypassFlag = bypassFlag;
+    }
+  }
+
+  /**
+   * Represents a run of free-standing graphic characters in a PTX field.
+   */
+  public static class GraphicCharacters extends PTOCAControlSequence {
+    @AFPField
+    byte[] data;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (data == null || data.length == 0) {
+        return null;
+      }
+      Charset charset = Constants.cpIBM500;
+      if (UtilCharacterEncoding.isHumanReadable(data, charset)) {
+        return new String(data, charset);
+      }
+      return null;
+    }
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      if (actualLength > 0) {
+        data = new byte[actualLength];
+        System.arraycopy(sfData, offset, data, 0, actualLength);
+      } else {
+        data = null;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      if (data != null) {
+        os.write(data);
+      }
+    }
+
+    public byte[] getData() {
+      return data;
+    }
+
+    public void setData(byte[] data) {
+      this.data = data;
     }
   }
 }

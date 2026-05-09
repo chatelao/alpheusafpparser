@@ -22,6 +22,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 
 import java.util.ArrayList;
@@ -36,6 +37,20 @@ public class PTOCAControlSequenceParser {
     int pos = 0;
     boolean isChained = false;
     while (pos < actualLength) {
+      if (!isChained && (pos + 1 >= actualLength || sfData[offset + pos] != 0x2B || sfData[offset + pos + 1] != (byte) 0xD3)) {
+        int runStart = pos;
+        while (pos < actualLength) {
+          if (pos + 1 < actualLength && sfData[offset + pos] == 0x2B && sfData[offset + pos + 1] == (byte) 0xD3) {
+            break;
+          }
+          pos++;
+        }
+        GraphicCharacters gc = new GraphicCharacters();
+        gc.decodeAFP(sfData, offset + runStart, pos - runStart, config);
+        controlSequences.add(gc);
+        continue;
+      }
+
       ControlSequenceIntroducer csi = ControlSequenceIntroducer.parseCSI(isChained, sfData, offset + pos, -1, config);
 
       PTOCAControlSequence cs = createControlSequenceInstance(csi);

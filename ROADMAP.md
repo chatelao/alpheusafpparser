@@ -119,7 +119,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
 - 🚧 Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
     - 🚧 Fix PTOCA Text Visibility Gaps (see `PTOCA_GAP.md`):
-        - ⏳ Support **free-standing graphic characters** interleaved with control sequences in `PTX`.
+        - ✅ Support **free-standing graphic characters** interleaved with control sequences in `PTX`.
         - ⏳ Implement missing PT4 Glyph Layout sequences: `GLC` (X'6D'), `GIR` (X'8B'), `GAR` (X'8C/8D'), `GOR` (X'8E/8F').
         - ⏳ Support **concatenated payloads** for `SEA` (Alternate Text) and `SKI` (Key Info).
         - ⏳ Improve text extraction heuristics to use the **active font's encoding** instead of hardcoded CP500.

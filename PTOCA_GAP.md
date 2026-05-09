@@ -7,12 +7,12 @@ This document identifies where missing visible texts in the final XML could be h
 **Rule:** PTOCA Reference 04, Chapter 4, "Graphic Character Processing".
 Graphic character code points can appear directly in the `PTX` (Presentation Text Data) structured field, interleaved with control sequences.
 
-**Status:** Not Implemented.
-**Findings:** The `PTOCAControlSequenceParser.java` currently assumes the entire `PTX` payload consists of control sequences starting with a Control Sequence Introducer (CSI), typically identified by the `X'2B'` prefix. If a `PTX` starts with or contains free-standing graphic characters (e.g., EBCDIC text), the parser will either:
-- Attempt to parse the text as a CSI, leading to `ArrayIndexOutOfBoundsException` or `AFPParserException` (failed to instantiate class).
-- Skip the data if it doesn't match the expected `X'2BD3'` pattern.
+**Status:** ✅ Implemented.
+**Findings:** The `PTOCAControlSequenceParser.java` was updated to detect bytes that do not form a `X'2BD3'` Control Sequence Introducer (CSI) when not in a chained state. These bytes are consumed as a `GraphicCharacters` run.
+- `GraphicCharacters` class was added to `PTOCAControlSequence.java` to handle these runs.
+- XML extraction via `getText()` is supported (defaults to CP500).
 
-**Recommendation:** Update `PTOCAControlSequenceParser` to detect non-`X'2B'` bytes and treat them as a "GraphicCharacter" run until the next `X'2B'` or the end of the field.
+**Recommendation:** -
 
 ## 2. Complex Text Glyph Runs (PT4 Gap)
 
@@ -91,7 +91,7 @@ Several control sequences contain text or text-like data that is partially or no
 | Temporary Baseline Move | TBM | OK | Metadata |
 | Underscore | USC | OK | Metadata |
 | Overstrike | OVS | OK | Metadata (Code point hidden) |
-| Graphic Characters | - | **MISSING** | No (Parsing failure) |
+| Graphic Characters | - | OK | Text extracted (CP500) |
 
 ## Conclusion
 
