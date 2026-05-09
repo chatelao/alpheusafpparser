@@ -21,13 +21,12 @@ parameter, e.g. FctSetID=X'0001': MO:DCA GA.
 This edition of the Mixed Object Document Content Architecture Reference contains one function set
 definition:
 • MO:DCA GA (Graphic Arts)
-MO:DCA Function Set X'0001': MO:DCA GA (Graphic Arts)
+### MO:DCA Function Set X'0001': MO:DCA GA (Graphic Arts)
 The FctSetID parameter in the MO:DCA Function Set (X'8F') triplet is set to X'0001' for this function set.
 MO:DCA GA and IS/3
 The following defines the extensions made by the MO:DCA GA function set to IS/3. Compliance with IS/3 +
 MO:DCA GA requires compliance with the IS/3 definition and compliance with these extensions.
-Table 38. IS/3 + MO:DCA GA Containers - Presentation Objects. This table contains rows that extend Table 28 on page
-498.
+Table 38. IS/3 + MO:DCA GA Containers - Presentation Objects. This table contains rows that extend Table 28.
 Component
 ID
 Object Type Encoded Object-type OID
@@ -36,11 +35,9 @@ Object Type Encoded Object-type OID
 63 PDF Multiple Page File X'06072B12000401013F'
 64 PDF Multiple Page - with Transparency - File X'06072B120004010140'
 
-## Page 550
 
-518 MO:DCA Reference
 Table 39. IS/3 + MO:DCA GA IOB and DOR RAT Presentation Object Containers. This table contains rows that extend
-Table 30 on page 499.
+Table 30.
 Component
 ID
 Object Type Encoded Object-type OID
@@ -58,7 +55,7 @@ Color Management Resource
 Identifier with syntax defined
 by PDF
 None
-Table 41. IS/3 + MO:DCA GA Begin Structured Fields. This table contains rows that extend Table 33 on page 501.
+Table 41. IS/3 + MO:DCA GA Begin Structured Fields. This table contains rows that extend Table 33.
 IS/3 Begin Structured Fields
 Structured Field Name
 Structured
@@ -73,7 +70,7 @@ Begin Print File (BPF) X'D3A8A5' X'18' 1 occurrence; must specify ISID = X'0D80'
 IS/3 + function set
 X'8F' 1 occurrence; must specify FctSetID = X'0001' -
 MO:DCA GA function set
-Table 42. IS/3 + MO:DCA GA Structured Fields with Triplets. This table contains rows that extend Table 36 on page 507.
+Table 42. IS/3 + MO:DCA GA Structured Fields with Triplets. This table contains rows that extend Table 36.
 IS/3 Structured Fields with Triplets
 Structured Field Name
 Structured
@@ -84,18 +81,16 @@ Container Data Descriptor
 (CDD)
 X'D3A692' X'5A' 0 or 1 occurrences with ObjTpe=X'AF' if the container
 contains one of the multi-page TIFF object types
-supported in IS/3 (see T able 28 on page 498) or multi-
+supported in IS/3 (see T able 28) or multi-
 page PDF object types supported in MO:DCA GA (see
-T able 40 on page 518); otherwise should not be
+T able 40); otherwise should not be
 specified.
 X'9C' 0 or 1 occurrences if the container contains one of the
-PDF object types listed in T able 40 on page 518;
+PDF object types listed in T able 40;
 otherwise should not be specified.
 MO:DCA Function Sets
 
-## Page 551
 
-MO:DCA Reference 519
 Table 42 IS/3 + MO:DCA GA Structured Fields with Triplets (cont'd.)
 IS/3 Structured Fields with Triplets
 Structured Field Name
@@ -105,30 +100,26 @@ IS/3 triplets (listed by ID) and their allowed occurrence; differences
 from IS/3 noted
 Include Object (IOB) X'D3AFC3' X'5A' 0 or 1 occurrences with ObjTpe=X'AF' if the container
 contains one of the multi-page TIFF object types
-supported in IS/3 (see T able 28 on page 498) or multi-
+supported in IS/3 (see T able 28) or multi-
 page PDF object types supported in MO:DCA GA (see
-T able 40 on page 518); otherwise should not be
+T able 40); otherwise should not be
 specified.
 X'9C' 0 or 1 occurrences if the container contains one of the
-PDF object types listed in T able 40 on page 518;
+PDF object types listed in T able 40;
 otherwise should not be specified.
 Preprocess Presentation
 Object (PPO)
 X'D3ADC3' X'5A' 0 or 1 occurrences with ObjTpe=X'AF' if the container
 contains one of the multi-page TIFF object types
-supported in IS/3 (see T able 28 on page 498) or multi-
+supported in IS/3 (see T able 28) or multi-
 page PDF object types supported in MO:DCA GA (see
-T able 40 on page 518); otherwise should not be
+T able 40); otherwise should not be
 specified.
 X'9C' 0 or 1 occurrences if the container contains one of the
-PDF object types listed in T able 40 on page 518;
+PDF object types listed in T able 40;
 otherwise should not be specified.
 MO:DCA Function Sets
 
-## Page 552
 
-520 MO:DCA Reference
 
-## Page 553
 
-Copyright © AFP Consortium 1990, 2023 521

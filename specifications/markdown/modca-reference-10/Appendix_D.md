@@ -1,4 +1,4 @@
-Appendix D. MO:DCA Registry
+# Appendix D. MO:DCA Registry
 This appendix provides a registry for the following object type identifiers:
 • non-OCA object-type identifiers, which can identify either presentation object types or non-presentation
 object types
@@ -32,9 +32,7 @@ Application Note: The definition of an encoded object-type OID in this registry 
 object type identified by the OID is supported in an AFP system. T o see which encoded object-type OIDs
 are supported, consult the product documentation.
 
-## Page 642
 
-610 MO:DCA Reference
 Registered Encoded Object-type OIDs
 • IOCA FS10: Image Object Content Architecture, subset FS10. This is an IOCA subset for bilevel raster
 image.
@@ -74,9 +72,7 @@ Component ID (12)
 Encoded Object-type OID X'06072B12000401010C'
 Registry
 
-## Page 643
 
-MO:DCA Reference 611
 • EPS: Encapsulated Postscript.
 Definition Encapsulated Postscript is defined in Appendix H of the Postscript
 Language Reference Manual (Second Edition, Adobe Systems
@@ -118,9 +114,7 @@ Object Type Non-presentation
 Presentation Space Size N/A; this is not a page level presentation object
 Registry
 
-## Page 644
 
-612 MO:DCA Reference
 Foreground N/A; this is not a page level presentation object
 Background N/A; this is not a page level presentation object
 Component ID (16)
@@ -162,9 +156,7 @@ Component ID (19)
 Encoded Object-type OID X'06072B120004010113'
 Registry
 
-## Page 645
 
-MO:DCA Reference 613
 • Color Mapping Table (CMT): This is a set-up file that provides mappings for color values specified in
 one or more documents.
 Definition The Color Mapping T able is defined in the Mixed Object Document Content
@@ -208,9 +200,7 @@ Foreground All image points.
 Note: This definition has not changed.
 Registry
 
-## Page 646
 
-614 MO:DCA Reference
 Background None.
 Note: This definition has not changed.
 Component ID (23)
@@ -254,9 +244,7 @@ Object Type Non-presentation
 Presentation Space Size N/A; this is not a page level presentation object
 Registry
 
-## Page 647
 
-MO:DCA Reference 615
 Foreground N/A; this is not a page level presentation object
 Background N/A; this is not a page level presentation object
 Component ID (26)
@@ -296,9 +284,7 @@ not supported by the presentation device, AFP print servers will issue a warning
 presentation to proceed without the color profile.
 Registry
 
-## Page 648
 
-616 MO:DCA Reference
 • IOCA Tile Resource: This is an IOCA tile resource.
 Definition The IOCA resource tile is defined in Image Object Content Architecture
 Reference.
@@ -341,9 +327,7 @@ Definition The TrueType Font format is defined in the TrueType Reference Manual
 (Apple Computer, Inc., 1999). It is a subset of the OpenType Font Format,
 Registry
 
-## Page 649
 
-MO:DCA Reference 617
 which is defined in the OpenType Specification (Microsoft Corporation and
 Adobe Systems Incorporated, 2000).
 Object Type Non-presentation
@@ -385,9 +369,7 @@ Background Insignificant image points; all portions of object space not covered 
 points
 Registry
 
-## Page 650
 
-618 MO:DCA Reference
 Component ID (55)
 Encoded Object-type OID X'06072B120004010137'
 • UP3i Print Data Object: This is an object that contains data to be processed and presented by a UP3i-
@@ -437,9 +419,7 @@ Object Type Non-presentation
 Presentation Space Size N/A; this is not a page level presentation object
 Registry
 
-## Page 651
 
-MO:DCA Reference 619
 Foreground N/A; this is not a page level presentation object
 Background N/A; this is not a page level presentation object
 Component ID (57)
@@ -480,9 +460,7 @@ Component ID (61)
 Encoded Object-type OID X'06072B12000401013D'
 Registry
 
-## Page 652
 
-620 MO:DCA Reference
 • TIFF Multiple Image - without Transparency - File: This is a TIFF file containing multiple TIFF
 images in bilevel, grayscale, or color format. Each TIFF image is assumed to be a paginated object and is
 defined by encoded object-type OID X'06072B12000401013C' (component ID 60). Image-like structures
@@ -526,9 +504,7 @@ available from the AFP Consortium (AFPC) at www.afpcinc.org.
 Object Type Presentation
 Registry
 
-## Page 653
 
-MO:DCA Reference 621
 Presentation Space Size The width and height of the image in pixels are specified by the Width and
 Height parameters in the Image Header (IHDR chunk).
 Application Note: Image resolution information specified inside the object
@@ -576,9 +552,7 @@ Component ID (67)
 Encoded Object-type OID X'06072B120004010143'
 Registry
 
-## Page 654
 
-622 MO:DCA Reference
 • AFPC SVG Subset: This is a presentation object consisting of an SVG (Scalable Vector Graphics) file
 that defines a single page containing text, image, and graphics.
 Definition The SVG definition is available from the W3C at:
@@ -626,9 +600,7 @@ image points in the tile, except image points for which a transparency mask
 specifies B'0'
 Registry
 
-## Page 655
 
-MO:DCA Reference 623
 Background Insignificant image points (bilevel image), image points for which a
 transparency mask specifies B'0', and all portions of the presentation space
 not covered by image points or tiles
@@ -648,9 +620,7 @@ Component ID (71)
 Encoded Object-type OID X'06072B120004010147'
 Registry
 
-## Page 656
 
-624 MO:DCA Reference
 Object Type Summary
 T able 47lists the object types registered in the MO:DCA architecture along with their component identifier and
 their encoded object-type OID.
@@ -692,9 +662,7 @@ File
 X'06072B12000401013E'
 Registry
 
-## Page 657
 
-MO:DCA Reference 625
 Table 47 Registered Object Types Sorted by Component ID (cont'd.)
 Component ID Object Type Encoded Object-type OID
 63 PDF Multiple Page File X'06072B12000401013F'
@@ -708,9 +676,7 @@ Component ID Object Type Encoded Object-type OID
 71 IOCA FS14 X'06072B120004010147'
 Registry
 
-## Page 658
 
-626 MO:DCA Reference
 Non-OCA Object Types Supported by the IOB Structured Field
 T able 48lists the object types that can be included for presentation by the Include Object (IOB) structured field
 with ObjType = X'92'—Other object data. All object types in this table are not supported by all presentation
@@ -755,9 +721,7 @@ None
 None
 Registry
 
-## Page 659
 
-MO:DCA Reference 627
 Table 49 Data Objects and Secondary Resources (cont'd.)
 Data Object Secondary Resource Internal Resource Identifier
 PDF Single-Page Object or Multi-page
@@ -812,13 +776,11 @@ processed like other secondary resources.
 triplet on the IOB/PPO/MDR must specify the full font name of the font.
 3. The potential secondary resource object types used by a BCOCA QR Code with Image bar code are the
 presentation data object resources, which are defined to be IOCA images along with the object types shown in T able
-48 on page 626. When such a secondary resource is a multi-page resource object, such as a PDF Multi-page File or
+48. When such a secondary resource is a multi-page resource object, such as a PDF Multi-page File or
 TIFF Multi-image File, then only the first paginated object in the file is presented.
 Registry
 
-## Page 660
 
-628 MO:DCA Reference
 Media Type Identifiers
 Media types supported in MO:DCA document interchange may be identified using ASN.1 Object Identifiers
 (OIDs) defined in ISO/IEC 8824:1990(E), whose last component identifier is registered in this appendix. Such
@@ -844,11 +806,9 @@ Byte Description
 2–n Content bytes that encode the OID component identifiers
 Registry
 
-## Page 661
 
-MO:DCA Reference 629
 Media Type Summary
-T able 50 on page 629 and T able 51 on page 631 list the media types registered in the MO:DCA architecture
+T able 50 and T able 51 list the media types registered in the MO:DCA architecture
 along with their component identifier and their encoded media-type OID.
 Table 50. Registered Media Types Sorted by Component ID
 Component ID Media Name Media Type Encoded Media-type OID
@@ -892,9 +852,7 @@ X'06072B120004030145'
 77 DL ENV DL envelope (220 × 110 mm) X'06072B12000403014D'
 Registry
 
-## Page 662
 
-630 MO:DCA Reference
 Table 50 Registered Media Types Sorted by Component ID (cont'd.)
 Component ID Media Name Media Type Encoded Media-type OID
 79 C5 ENV C5 envelope (229 × 162 mm) X'06072B12000403014F'
@@ -938,9 +896,7 @@ X'06082B1200040301810F'
 170 11×15 MED Media (11 × 15 in) X'06082B1200040301812A'
 Registry
 
-## Page 663
 
-MO:DCA Reference 631
 Table 50 Registered Media Types Sorted by Component ID (cont'd.)
 Component ID Media Name Media Type Encoded Media-type OID
 171 ISO B6 ISO B6 (128 × 182 mm) X'06082B1200040301812B'
@@ -982,9 +938,7 @@ ISO B6 ISO B6 (128 × 182 mm) 171 X'06082B1200040301812B'
 ISO C4 ENV ISO C4 envelope (229 × 324 mm) 93 X'06072B12000403015D'
 Registry
 
-## Page 664
 
-632 MO:DCA Reference
 Table 51 Registered Media Types Sorted by Media Names (cont'd.)
 Media Name Media Type Component ID Encoded Media-type OID
 ISO C5 ENV ISO C5 envelope (162 × 229 mm) 103 X'06072B120004030167'
@@ -1032,9 +986,7 @@ US PC US Postcard 151 X'06082B12000403018117'
 9×14 MED Media (9 × 14 in.) 149 X'06082B12000403018115'
 Registry
 
-## Page 665
 
-MO:DCA Reference 633
 Table 51 Registered Media Types Sorted by Media Names (cont'd.)
 Media Name Media Type Component ID Encoded Media-type OID
 10×13 ENV North American 10×13 envelope 123 X'06072B12000403017B'
@@ -1061,9 +1013,7 @@ ID. This registry will support a maximum of 4 bytes for the encoding of the comp
 X'060A2B1200040301FFFFFF7F' (component ID 268,435,455) is reserved for user-defined media types.
 Registry
 
-## Page 666
 
-634 MO:DCA Reference
 Resident Color Profile Identifiers
 Resident color profiles may be identified using ASN.1 Object Identifiers (OIDs) defined in ISO/IEC 8824:1990
 (E), whose last component identifier is registered in this appendix. Such identifiers are referred to as object
@@ -1085,11 +1035,9 @@ Byte Description
 2–n Content bytes that encode the OID component identifiers
 Registry
 
-## Page 667
 
-MO:DCA Reference 635
 Resident Color Profile Summary
-T able 52 on page 635 lists the color profiles registered in the MO:DCA architecture along with their component
+T able 52 lists the color profiles registered in the MO:DCA architecture along with their component
 identifier and their object OID.
 Table 52. Color Profile Registry
 Component ID Profile Name Object OID
@@ -1107,10 +1055,6 @@ that is normally defined by a color swatch. The CMYK SWOP and CMYK Euroscale col
 supported in AFP environments for EPS objects and PDF objects.
 Registry
 
-## Page 668
 
-636 MO:DCA Reference
 
-## Page 669
 
-Copyright © AFP Consortium 1990, 2023 637

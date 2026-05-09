@@ -1,4 +1,4 @@
-Chapter 3. MO:DCA Overview
+# Chapter 3. MO:DCA Overview
 This chapter:
 • Describes the general syntax and semantics for MO:DCA structured fields
 • Describes state, as defined by the MO:DCA architecture
@@ -12,14 +12,14 @@ rotation units
 • Describes MO:DCA document indexing
 • Describes other aspects of MO:DCA document presentation
 • Describes and defines the MO:DCA exception conditions
-MO:DCA Data Structures
+## MO:DCA Data Structures
 Each component of a mixed object document is explicitly defined and delimited in the data stream that
 transmits it. This is accomplished through the use of MO:DCA data structures, called structured fields, that
 reside in the data stream. Structured fields are used to envelop document components and to provide
 commands and information to applications using the data stream. Structured fields may contain one or more
 parameters. Each parameter provides one value from a set of values defined by the architecture.
-Notation Conventions
-In addition to the information provided in “How to Read the Syntax Diagrams” on page v , the following notation
+## Notation Conventions
+In addition to the information provided in “How to Read the Syntax Diagrams” , the following notation
 conventions apply throughout this document:
 • Bytes are numbered from left to right beginning with byte zero, which is considered the high order (most
 significant) byte position. This is referred to as big-endian byte order. For example, a three-byte field would
@@ -31,17 +31,14 @@ continuing through bit seven, the least significant bit. This is referred to as 
 seven and the bits of the additional bytes are numbered eight to n, where n is equal to one less than the total
 number of bytes multiplied by eight. For example, a two-byte field would consist of bits zero to fifteen and a
 four-byte field would consist of bits zero to thirty-one.
-• Negative numbers are expressed in two's-complement form. See “Number” on page 32 for details.
+• Negative numbers are expressed in two's-complement form. See “Number” for details.
 • Field values are expressed in hexadecimal or binary notation:
 B'01111110' = X'7E' = +126
 X'7FFF' = +32,767
 X'8000' = -32,768 (when signed binary is used)
 X'8000' = +32,768 (when unsigned binary is used)
 
-## Page 52
-
-20 MO:DCA Reference
-MO:DCA Structured Field Syntax
+## MO:DCA Structured Field Syntax
 MO:DCA structured fields consist of two parts: an introducer that identifies the length and type of the structured
 field, and data that provides the structured field's effect. The data is contained in a set of parameters, which
 can consist of other data structures and data elements. The maximum length of a structured field is 32,767
@@ -62,7 +59,7 @@ introducer
 M X'82'
 2–4 CODE SFTypeID A three-byte code that uniquely
 identifies the structured field. See
-“SFI Semantics” on page 21 for a
+“SFI Semantics” for a
 description.
 M X'78'
 5 BITS FlagByte Used to indicate whether an
@@ -82,9 +79,6 @@ Bits 5–7 Reserved; should be zero
 The following optional extension appears only if bit 0 of FlagByte is B'1':
 Structured Field Syntax
 
-## Page 53
-
-MO:DCA Reference 21
 Table 6 Structured Field Introducer (SFI) (cont'd.)
 Offset Type Name Range Meaning M/O Exc
 8 UBIN ExtLength 1–255 Length of the extension including
@@ -116,27 +110,24 @@ environment group, page, or object. The same category code point assigned
 to a component's begin structured field also is assigned to that component's
 end structured field. These code points identify and delimit an entire
 component within a data stream or an encompassing component. See
-“Category Codes” on page 23 for a description of category codes.
+“Category Codes” for a description of category codes.
 FlagByte Specifies the value of the optional indicators. Indicator bits are defined as follows:
 Bit Indicator name and meaning
 0 ExtFlag is the SFI extension flag. See “Structured Field Introducer Extension”
-on page 24 for details.
+for details.
 B'0' No SFI extension exists.
 B'1' This structured field has an SFI extension.
 2 SegFlag is the segmentation flag. See “Structured Field Segmentation” on
 page 24 for details.
 B'0' No segmentation in effect.
 B'1' The data for this structured field has been segmented.
-4 PadFlag is the padding flag. See “Structured Field Padding” on page 24 for
+4 PadFlag is the padding flag. See “Structured Field Padding” for
 details.
 B'0' No padding data appended.
 B'1' Padding data has been appended to the end of this
 structured field.
 Structured Field Syntax
 
-## Page 54
-
-22 MO:DCA Reference
 All others Reserved; should be binary zero
 Bytes 6–7 Reserved; should be zero
 Application Note: In AFP environments, some applications use bytes 6–7 of the Structured
@@ -187,9 +178,6 @@ X'AC' Position A position structured field specifies the coordinate offset value
 orientation for presentation spaces.
 Structured Field Syntax
 
-## Page 55
-
-MO:DCA Reference 23
 Table 7 Type Codes (cont'd.)
 Type Code Function Description
 X'AD' Process A process structured field specifies processing to be performed on
@@ -240,9 +228,6 @@ X'CD' Form Map
 X'CE' Name Resource
 Structured Field Syntax
 
-## Page 56
-
-24 MO:DCA Reference
 X'D8' Page Overlay
 X'D9' Resource Environment Group (REG)
 X'DC' Preprinted Form Overlay
@@ -254,7 +239,7 @@ X'FB' Image
 Structured Field Data
 The structured field's data is contained in a parameter set that immediately follows the structured field's
 introducer. The syntax and semantics for each MO:DCA structured field parameter set is given in Chapter 5,
-“MO:DCA Structured Fields”, on page 119. Depending on the structured field and its purpose, the parameter
+“MO:DCA Structured Fields”,. Depending on the structured field and its purpose, the parameter
 set may contain zero or more parameters. If parameters are present, they contain specific information
 appropriate for the structured field. The data occupies as many bytes as needed, up to a maximum of 32,759
 bytes.
@@ -289,9 +274,6 @@ If padding is indicated, the length of the padding is specified in the following
 last byte must be X'00' and the two preceding bytes specify the padding length.
 Structured Field Syntax
 
-## Page 57
-
-MO:DCA Reference 25
 • For 3 to 255 bytes of padding, the length can be specified by either method.
 When padding is indicated:
 • The structured field length value specifies the total length of the structured field, including the padding data.
@@ -321,13 +303,13 @@ process only one type of data stream format.
 MO:DCA Data Stream States
 The MO:DCA architecture defines a state to be a domain within the data stream, bounded by a begin-end
 structured field pair, within which certain structured fields are permitted. This is also called a MO:DCA Object
-(see Chapter 4, “MO:DCA Objects”, on page 75, for more information) . The processor of a MO:DCA data
+(see Chapter 4, “MO:DCA Objects”,, for more information) . The processor of a MO:DCA data
 stream is required to check the validity of the structured field sequence received. A valid structured field
 sequence is one in which each structured field that is processed belongs to the set of permissible structured
 fields for the begin-end envelope in which it is found. If a structured field other than one belonging to the set of
 permissible structured fields is detected, a violation of the state has occurred, and the processor is required to
 raise an exception condition.
-See “MO:DCA Interchange Set 1” on page 473 and “MO:DCA Interchange Set 3 (IS/3)” on page 489 for details
+See “MO:DCA Interchange Set 1” and “MO:DCA Interchange Set 3 (IS/3)” for details
 of the structured fields that may be encountered in each state in MO:DCA, MO:DCA IS/1, and MO:DCA IS/3
 data streams respectively.
 Environment Hierarchies
@@ -336,9 +318,6 @@ specified in the OEG override like parameters specified in the AEG, while like p
 same environment—whenever this is allowed—replace the previous specification. T o illustrate this point,
 Data Stream States
 
-## Page 58
-
-26 MO:DCA Reference
 consider the following example. Note that the same LID mapping rules apply when a resource object is
 mapped with a Map Data Resource (MDR) structured field.
 • A page contains an AEG with the following two Map Coded Font structured fields:
@@ -381,24 +360,18 @@ parameters are also processed in the order in which they appear in the structure
 Resource Search Order
 Resources used by a MO:DCA document may be located in resource groups that are internal to the document
 (such resource groups are only supported in the retired MO:DCA IS/2 interchange set, see “Retired
-Interchange Set” on page 575), in resource groups that are external to the document (print file level resource
+Interchange Set”), in resource groups that are external to the document (print file level resource
 groups), or in resource libraries.
 Data Stream States
 
-## Page 59
-
-MO:DCA Reference 27
 The general search order for MO:DCA resources is as follows:
 1. Internal (page level) resource groups (such resource groups are only supported in the retired MO:DCA IS/2
-interchange set, see “Retired Interchange Set” on page 575)
+interchange set, see “Retired Interchange Set”)
 2. External (print file level) resource groups
 3. External resource libraries
-For the formal definition of resource groups in MO:DCA data streams, see “Resource Groups” on page 87.
+For the formal definition of resource groups in MO:DCA data streams, see “Resource Groups”.
 Data Stream States
 
-## Page 60
-
-28 MO:DCA Reference
 Structured Field Parameters
 A structured field is composed of a set of parameters that provides data and control information to processors
 of the data stream. The MO:DCA architecture has established a length, a set of permissible values and a
@@ -438,9 +411,6 @@ repeating group consists of specific fixed or self-identifying parameters that h
 group. This group then becomes a data structure that may be specified multiple times.
 Structured Field Parameters
 
-## Page 61
-
-MO:DCA Reference 29
 When the repeating group contains self-identifying parameters, the first parameter in the repeating group is a
 length parameter that indicates how many bytes comprise that repeating group. This length parameter is called
 the RGLength parameter and the value specified always includes the length of the RGLength parameter itself,
@@ -454,7 +424,7 @@ or all of the positional parameters may be defined as optional. Optional paramet
 the end, after all mandatory parameters. When optional self-identifying parameters such as triplets are
 added to a structured field that has optional positional parameters defined, all of the positional
 parameters are considered mandatory and must appear before the first self-identifying parameter. See
-“Include Page Overlay (IPO)” on page 222 for an example of this type of structured field.
+“Include Page Overlay (IPO)” for an example of this type of structured field.
 Parameter Values
 A parameter's value can be specified directly, or it can be obtained indirectly through the use of defaults.
 Specified Values
@@ -483,9 +453,6 @@ given defaults are identified in the structured field descriptions in Chapter 5,
 page 119. If a default is not listed for a parameter, no architected default exists.
 Structured Field Parameters
 
-## Page 62
-
-30 MO:DCA Reference
 Default Indicator
 One of the values that usually can be given to a parameter is the default indicator. Use of the default indicator
 for a parameter's value specifies that the current default value for the parameter is to be used. In the MO:DCA
@@ -498,7 +465,7 @@ must be valid for the parameter, is used when the default indicator is specified
 whose parameter values are all default indicators has no effect and can be omitted from the data stream.
 Parameter Occurrence
 Parameters may be single-occurrence or multiple-occurrence. The syntax tables in Chapter 5, “MO:DCA
-Structured Fields”, on page 119 identify which parameters are single-occurrence and which are multiple-
+Structured Fields”, identify which parameters are single-occurrence and which are multiple-
 occurrence.
 Single-Occurrence Parameters
 Single-occurrence parameters can occur only once in a structured field. Single-occurrence parameters can be
@@ -523,7 +490,7 @@ structured field.
 Parameter Types
 The term parameter type refers to a parameter's function rather than to the data type of the parameter's data.
 For a listing of the six basic data types used by the MO:DCA architecture, see “How to Read the Syntax
-Diagrams” on page v. A parameter's function may be closely related to a data type, for example, in the case of
+Diagrams”. A parameter's function may be closely related to a data type, for example, in the case of
 a bit string parameter and the BITS data type. A MO:DCA parameter may be a bit string, character string,
 code, global identifier, local identifier, name, number, or an undefined type.
 One of the most important functions for certain types of parameters is their use in referencing other document
@@ -531,9 +498,6 @@ components. A reference is the use of an identifier to refer to a component, str
 parameter group. References are usually found in structured fields that map component identifiers to local
 Structured Field Parameters
 
-## Page 63
-
-MO:DCA Reference 31
 identifiers, and that invoke or include components at specific data-stream locations. The effect is the same as if
 the component appeared at the location in the data stream that contains the structured field that invokes or
 includes it. Components that are referenced by include structured fields provide resource definitions or object
@@ -578,9 +542,6 @@ Structured fields, known as map structured fields, that specify a global to loca
 MO:DCA environment hierarchy rules.
 Structured Field Parameters
 
-## Page 64
-
-32 MO:DCA Reference
 Name
 A name is an identifier composed of alphanumeric characters, and is closely related to the CHAR data type. A
 name parameter type can relate either to a global or a local identifier. Names are compared on the basis of the
@@ -618,15 +579,12 @@ represented by the two's complement of the positive number. The two's-complement
 by inverting each bit of the number and adding a one to the low-order bit position.
 Since the MO:DCA architecture defines X'F…F' as a default indicator, the arithmetic value -1 generally is not
 permitted. However, in the case where a parameter cannot be defaulted, the value which normally is the
-default indicator is interpreted as -1. Chapter 5, “MO:DCA Structured Fields”, on page 119 and Chapter 6, “MO:
-DCA Triplets”, on page 345 identify parameters that cannot be defaulted. The maximum absolute values for
+default indicator is interpreted as -1. Chapter 5, “MO:DCA Structured Fields”, and Chapter 6, “MO:
+DCA Triplets”, identify parameters that cannot be defaulted. The maximum absolute values for
 numbers that can be assigned to data elements that also can be assigned the default indicator are listed in
-T able 8 on page 33.
+T able 8.
 Structured Field Parameters
 
-## Page 65
-
-MO:DCA Reference 33
 Table 8. Maximum Absolute Values of Numbers in the MO:DCA Architecture
 Number of Bytes Data Type Absolute Values
 Hexadecimal Decimal
@@ -639,13 +597,10 @@ Hexadecimal Decimal
 4 SBIN X'7FFFFFFF' 2,147,483,647
 4 UBIN X'FFFFFFFE' 4,294,967,294
 Unique syntax is used for the expression of values that pertain to units of measurement and to rotation. See
-“Measurement Units” on page 35 and “Rotation Units” on page 40 for details of this syntax.
+“Measurement Units” and “Rotation Units” for details of this syntax.
 Structured Field Parameters
 
-## Page 66
-
-34 MO:DCA Reference
-Coordinate Systems
+## Coordinate Systems
 The MO:DCA architecture defines a multi-level coordinate system hierarchy that allows a large degree of
 flexibility in presenting data on a physical medium. A MO:DCA coordinate system is an orthogonal coordinate
 system based on the fourth quadrant of a standard Cartesian coordinate system. Both the X axis and the Y
@@ -670,7 +625,7 @@ Data Object Presentation Space
 The presentation space for a data object. This presentation space is defined by the
 corresponding data object architecture. For details on data object presentation spaces, refer
 to the reference manual for each specific data object architecture.
-The coordinate systems that correspond to the MO:DCA presentation spaces are listed in T able 9 on page 34.
+The coordinate systems that correspond to the MO:DCA presentation spaces are listed in T able 9.
 Each coordinate system defines its own coordinate axes, measurement units, and extents.
 Table 9. MO:DCA Coordinate Systems
 Coordinate System Notation for Axes
@@ -680,17 +635,13 @@ Page Xpg Ypg
 Overlay Xol Yol
 Object Area Xoa Yoa
 The origin of all MO:DCA coordinate systems is the point (0,0) where X equals zero and Y equals zero. The X
-and Y axes form the top and left edges, respectively, of the presentation space, as shown in Figure 5 on page
-35.
+and Y axes form the top and left edges, respectively, of the presentation space, as shown in Figure 5.
 The presentation space associated with the MO:DCA page can be specified to exist on either side of a sheet,
 and multiple page presentation spaces can exist on the same side of a sheet.
-Coordinate Systems
+## Coordinate Systems
 
-## Page 67
-
-MO:DCA Reference 35
 Figure 5. A MO:DCA Presentation Space Coordinate System
-Measurement and Rotation
+## Measurement and Rotation
 Measurement and rotation conventions are essential to the specification and interpretation of layout
 information for data-stream documents. MO:DCA's conventions for measurement include data element
 formats and definitions for units, extent, and position. Its conventions for rotation include data element formats
@@ -713,11 +664,8 @@ Units per unit base
 This value represents the number of units in the measurement base. It is specified as a two-
 byte numeric value between 1 and 32,767.
 The term units of measure is defined as the measurement base value divided by the units per unit base value.
-Measurement and Rotation
+## Measurement and Rotation
 
-## Page 68
-
-36 MO:DCA Reference
 For example, if the measurement base is 10 inches and the units per unit base is 5000, then the units of
 measure is 10 inches / 5000 or one five-hundredth of an inch.
 The base measurement units for each axis is specified as part of the definition of a presentation space. Each
@@ -743,13 +691,10 @@ Each presentation space has two extents: the X extent, which parallels the X axi
 and the Y extent, which parallels the Y axis as it currently is oriented. Extents start at the origin of a
 presentation space and end at a point determined by summing the extent value and the origin value. Negative
 extent values are not permitted since the area enclosed by a MO:DCA coordinate system always starts at the
-origin and proceeds in positive X and Y directions within its current orientation. In Figure 6 on page 37 the X
+origin and proceeds in positive X and Y directions within its current orientation. In Figure 6 the X
 extent of the presentation area is represented by line segment 0R and the Y extent by line segment 0D.
-Measurement and Rotation
+## Measurement and Rotation
 
-## Page 69
-
-MO:DCA Reference 37
 Figure 6. Presentation Space Extents
 The bottom edge of a presentation space is a line parallel to the X axis of the presentation space that
 intercepts the Y axis at the end point of the Y extent. The right edge of a presentation space is a line parallel to
@@ -770,15 +715,11 @@ system. Since each MO:DCA coordinate system can be expressed in different base m
 offset of the origin of a subordinate coordinate system, relative to the origin of the reference coordinate system,
 is always measured in the reference system's base measurement units. This permits the reference system to
 influence the placement of the contained system.
-The offset coordinate system inherits the orientation of the reference coordinate system. In Figure 7 on page
-38, the origin for coordinate system B is offset ten X units and ten Y units from the reference coordinate system
+The offset coordinate system inherits the orientation of the reference coordinate system. In Figure 7the origin for coordinate system B is offset ten X units and ten Y units from the reference coordinate system
 A. Coordinate system B's origin is specified as the intersection of the lines drawn perpendicular to the X and Y
 axes at the specified X and Y offset values from coordinate system A.
-Measurement and Rotation
+## Measurement and Rotation
 
-## Page 70
-
-38 MO:DCA Reference
 Figure 7. Offset of a Coordinate System
 Any portion of a coordinate system may be overlapped by one or more peer coordinate systems. For example,
 two different object areas could be defined with the same origin so that one completely overlapped the other, or
@@ -791,29 +732,23 @@ coordinate system that contains it. After a MO:DCA coordinate system's origin an
 established, the orientation value of the coordinate definition may cause the defined space to rotate in a
 clockwise direction around its origin. Orientation is expressed in degrees and minutes, with the Y axis
 orientation value being 90 degrees greater than the X axis orientation value.
-Figure 8 on page 39 shows the effect of rotating one coordinate system, shown as a series of rectangles,
+Figure 8 shows the effect of rotating one coordinate system, shown as a series of rectangles,
 within a containing coordinate system. Note how the X and Y extents, and thus the rectangle formed by these
 extents, rotate around the contained coordinate system's origin point of 3 and 4 units from the origin of the
 containing coordinate system.
-Measurement and Rotation
+## Measurement and Rotation
 
-## Page 71
-
-MO:DCA Reference 39
 Figure 8. Examples of Coordinate System Orientation
 Figure 9. Inheritance of Coordinate System Orientation
 The orientation characteristics possessed by a MO:DCA coordinate system do not have to be the same as
 those of its reference coordinate system. Any MO:DCA coordinate system may possess orientation
 characteristics that are the same as, or different from, their reference coordinate system or any other MO:DCA
-coordinate system. Figure 9 on page 39 shows the effect of offsetting a page from a medium, then rotating it 90
+coordinate system. Figure 9 shows the effect of offsetting a page from a medium, then rotating it 90
 degrees and then offsetting an object area from the page and rotating it 90 degrees. The object area inherited
 the 90 degree page rotation which, when added to its 90 degrees rotation, produced a cumulative orientation
 value of 180 degrees.
-Measurement and Rotation
+## Measurement and Rotation
 
-## Page 72
-
-40 MO:DCA Reference
 Rotation Units
 The rotation of the X and Y axes of an object area are specified in terms of rotation units. Rotation unit values
 are expressed in degrees and minutes using two-byte, three-part binary numbers as shown in T able 10 on
@@ -829,20 +764,17 @@ A rotation value of zero specifies no rotation with respect to the X axis of the
 origin of the page, page overlay, object area, or object is located. Increasing values indicate increasing
 clockwise rotation. The four major orientations, plus-X, plus-Y , minus-X, and minus-Y , have values of 0
 degrees, 90 degrees, 180 degrees, 270 degrees respectively. They are encoded as X'0000', X'2D00', X'5A00',
-and X'8700'. Most structured fields limit rotation to one of these four orientations. See Figure 10 on page 40.
+and X'8700'. Most structured fields limit rotation to one of these four orientations. See Figure 10.
 Figure 10. Rotation of the X and Y Axes
 In addition, the data object area is subject to the full range of rotation. T o obtain the rotation values one must
 take into careful consideration the multi-part bit-expanded derivation of the 2–byte CODE. For example, 123
 degrees, 30 minutes rotation is represented as degrees (B'001111011') and minutes (B'011110') with the last bit
 (B'0') reserved. See Figure 11 .
-Measurement and Rotation
+## Measurement and Rotation
 
-## Page 73
-
-MO:DCA Reference 41
 Figure 11. Rotation Units for the Data Object Area — Arbitrary Orientation
 Overlays for a page are always positioned relative to the current orientation of the page coordinate system.
-However, their X and Y extent values remain constant regardless of the orientation. Figure 12 on page 41
+However, their X and Y extent values remain constant regardless of the orientation. Figure 12
 shows this graphically.
 Shape
 The X and Y axes are perpendicular to each other, and the rotation of the Y axis is exactly 90 degrees more
@@ -857,7 +789,7 @@ Overlay Orientation 0º
 Xpo
 Ypo
 Page Orientation 90º
-Presentation Space Mixing
+## Presentation Space Mixing
 Foreground and Background
 MO:DCA presentation spaces such as the medium, page, overlay, and data object presentation spaces consist
 of two parts: foreground and background. Foreground is the part of the presentation space that is occupied
@@ -866,9 +798,6 @@ text. Background is the part of the presentation space that is not occupied with
 presentation spaces, the data object defines foreground and background, and may specify a color attribute for
 Mixing
 
-## Page 74
-
-42 MO:DCA Reference
 both. For each data object type, foreground, background, and color attributes are defined by the architecture
 that defines the object content. For example, in a text presentation space, characters and rules are foreground,
 everything else is background. Foreground is assigned a color attribute using the “Set Extended T ext Color”
@@ -876,7 +805,7 @@ control sequence. Background cannot be assigned a color and is therefore implici
 medium. When no color is specified for the background of a presentation space, the background is implicitly
 assigned the color of the medium. The medium, page, and overlay presentation spaces are initially empty.
 Empty MO:DCA presentation spaces contain only background, which is assigned the color of the medium.
-T able 11 on page 42summarizes the definition of foreground and background in AFP OCA-based object
+T able 11summarizes the definition of foreground and background in AFP OCA-based object
 presentation spaces:
 Table 11. Foreground/Background in Data Object Presentation Spaces
 Data Type Foreground Background
@@ -935,12 +864,9 @@ presentation space
 None Complete presentation space
 Non-OCA
 Presentation Objects
-See “Object Type Identifiers” on page 609 See “Object Type Identifiers” on page 609
+See “Object Type Identifiers” See “Object Type Identifiers”
 Mixing
 
-## Page 75
-
-MO:DCA Reference 43
 Merging Presentation Spaces
 Presentation spaces in a MO:DCA document are merged in the order in which the document components that
 define these presentation spaces appear in the data stream, as follows:
@@ -963,12 +889,9 @@ objects or overlays included via an IPO are merged.
 • Object area presentation space. Merged on the overlay presentation space in the order in which the
 corresponding data object is included on the overlay.
 • Data object presentation space. Merged on the corresponding object area presentation space.
-The MO:DCA presentation space merge-order is shown in Figure 13 on page 44.
+The MO:DCA presentation space merge-order is shown in Figure 13.
 Mixing
 
-## Page 76
-
-44 MO:DCA Reference
 Figure 13. Merging Presentation Spaces
 Figure Notes (numbers shown circled in the Figure):
 1. Merged first on the medium presentation space as specified in a Medium Map print control object.
@@ -988,9 +911,6 @@ spaces mix. The resultant foreground is the union of all presentation space fore
 is defined to be foreground, it remains foreground even if its color attribute is changed due to an “underpaint”
 Mixing
 
-## Page 77
-
-MO:DCA Reference 45
 mixing rule. The resultant background is everything else. The color of the resultant foreground and background
 is determined by the mixing rules specified in the MO:DCA architecture.
 When a new presentation space P n is merged onto an existing presentation space P e, four types of mixing
@@ -1034,9 +954,6 @@ associated (the medium presentation space for an M-PFO, the page presentation sp
 Formblend mixing rule is defined as follows:
 Mixing
 
-## Page 78
-
-46 MO:DCA Reference
 Formblend This mixing rule is only used when a simulated preprinted form, which is simulated as either a
 Medium Preprinted Form overlay (M-PFO) or a PMC Preprinted Form overlay (PMC-PFO), is
 merged as a new presentation space P n, onto an existing presentation space P e. The
@@ -1086,10 +1003,7 @@ underlying data (i.e. the Print Data is transparent). Print Data format 'y' migh
 MICR ink is used to stroke the characters and overpaints all underlying data (i.e. the Print Data is opaque).
 Mixing
 
-## Page 79
-
-MO:DCA Reference 47
-Color Management
+## Color Management
 The AFP Color Management Architecture (ACMA) is based on the concept of a color management resource
 (CMR). A CMR is an architected resource that is used to carry all of the color management information
 required to render a print file, document, group of pages or sheets, page, or data object with color fidelity.
@@ -1137,11 +1051,8 @@ CMRs.
 Link LK CMRs are resources that are generated and processed internally in AFP
 systems; they are not exposed to the AFP application or the job submitter, and they
 cannot be referenced in the data stream. A Link LK CMR is created by combining the
-Color Management
+## Color Management
 
-## Page 80
-
-48 MO:DCA Reference
 CC CMR that defines an input color space with the CC CMR that defines the output
 color space. Link LK CMRs can be important for presentation device performance;
 therefore a goal of the AFP color management system is to provide Link LK CMRs for
@@ -1190,11 +1101,8 @@ generic audit HT and TTC CMRs.
 Color Conversion CMRs can be generated to force a passthrough of the colors in a presentation device without
 being subject to color management. This is done by specifying the character string “pasthru” in the version field
 of the CMR name. CMRs identified in this manner must be CC CMRs and must be referenced as audit CMRs.
-Color Management
+## Color Management
 
-## Page 81
-
-MO:DCA Reference 49
 The Prop4 property in the CMR name should be specified and indicates the color space is to be “passed
 through” to the presentation device. A passthrough CC CMR contains no data. When such a CC CMR is
 referenced as an audit CMR and is used for rendering data, if the color space specified matches the color
@@ -1204,7 +1112,7 @@ specified, or if the CMR is an instruction CC CMR, it is ignored and not used fo
 passthrough CC CMR is treated like other audit CC CMRs in terms of selecting an audit CC CMR from the
 hierarchy. There is no device-specific CMR which can be substituted for the passthrough CC CMR; it merely
 instructs the device to not do a color conversion on the data.
-T able 14 on page 49 shows what processing modes are valid for each CMR type and whether the CMR type
+T able 14 shows what processing modes are valid for each CMR type and whether the CMR type
 can be specified as a generic CMR.
 Table 14. CMR Type: Processing Mode and Generic Capability
 CMR type
@@ -1243,11 +1151,8 @@ generation of Link LK CMRs that convert from the input color space defined by th
 spaces, defined by other CMRs, of all target presentation devices that are configured to the install program and
 that are to be used on the target print servers. These Link LK CMRs are then mapped to the color conversion
 CMR in the CMR RAT . For generic CMRs, the install program automatically builds a CMR RAT entry for each
-Color Management
+## Color Management
 
-## Page 82
-
-50 MO:DCA Reference
 architected generic CMR name that points to a dummy generic CMR object and to an object OID for the
 dummy generic CMR object. This entry allows users to map device-specific CMRs to the generic CMR in the
 RAT .
@@ -1296,11 +1201,8 @@ Resource Access T able (RAT). When this program builds the RAT entry for the dat
 object, it can also specify one or more CMRs that are to be associated with the
 object. Each CMR reference indicates the processing mode of the CMR (audit or
 instruction).
-Color Management
+## Color Management
 
-## Page 83
-
-MO:DCA Reference 51
 • If the data object is included on a page/overlay with an IOB, or if it is in a page
 segment that is included on a page/overlay with an IOB, a CMR can be associated
 with this object by specifying the name of the CMR on the IOB as an external
@@ -1353,11 +1255,8 @@ object when rendered need to be associated with the object on the PPO. This is d
 by specifying the CMRs on the PPO as external resource references and by mapping
 the CMRs with a MDR in the Resource Environment Group (REG) that contains the
 PPO.
-Color Management
+## Color Management
 
-## Page 84
-
-52 MO:DCA Reference
 Rendering intent
 The proper use of CC CMRs and LK CMRs in a presentation device involves the concept of rendering intent.
 Rendering intent is used to modify the appearance of color data. Rendering intents supported in AFP color
@@ -1399,11 +1298,8 @@ document hierarchy as CMRs, as follows:
 – By the data object containing embedded rendering intent information; such information is used by the
 presentation device when a rendering intent is not specified at the data object level using an RI triplet or a
 data object RAT table vector.
-Color Management
+## Color Management
 
-## Page 85
-
-MO:DCA Reference 53
 Normal MO:DCA hierarchy rules apply for processing rendering intents. That is, a rendering intent specified for
 a document component at a lower level in the hierarchy applies only to that document component and
 overrides any other rendering intent specified at a higher level in the hierarchy.
@@ -1446,11 +1342,8 @@ CMR Processing
 CMR association and scope
 CMRs are associated with a document component implicitly. That is, that document component does not call
 out the associated CMRs directly.
-Color Management
+## Color Management
 
-## Page 86
-
-54 MO:DCA Reference
 • At the print file level, a CMR is associated by referencing the CMR in a MDR in the DEG for the form
 definition. The CMR applies to all documents in the print file.
 • At the document level, the CMR is associated by referencing the CMR in a MDR in the DEG for the form
@@ -1495,11 +1388,8 @@ specified in multiple ways:
 • With a CMR Descriptor triplet on the MDR in the OEG for the object
 • With a CMR Descriptor triplet on the IOB that includes the object
 • With a CMR Descriptor triplet on the PPO that is used to preprocess the object
-Color Management
+## Color Management
 
-## Page 87
-
-MO:DCA Reference 55
 • With a CMR Descriptor table vector (TV) in the data object RAT entry for the object
 IX CMRs should be processed as instruction CMRs. IX CMRs that are to be processed as audit CMRs are
 ignored by the output device.
@@ -1546,11 +1436,8 @@ mapping could occur inline as well by placing the generic CMR in an inline resou
 device-specific CMR replacements that match the device type and model of the target printer on the BRS of
 the container. If no matching device-specific CMR is mapped to the generic CMR either inline or in the CMR
 RAT , the server downloads (if necessary), activates, and invokes the generic CMR.
-Color Management
+## Color Management
 
-## Page 88
-
-56 MO:DCA Reference
 • The printer processes the CMR hierarchy in the normal manner, with one exception. If the active instruction
 halftone CMR or TTC CMR is a generic CMR, the printer substitutes an appropriate version of a device-
 specific default CMR.
@@ -1582,18 +1469,14 @@ envelope. The BRS specifies the CMR name, and may also specify the names of CMRs
 the inline CMR. When resolving a CMR reference in the data stream, the print server must always search the
 print file resource group—if one exists—first. The CMRname is matched against the CMRname that is
 specified on the BRS structured field of the resource container. For a definition of the algorithm used by a print
-server to process inline CMRs, see “Using the MDR to Map a Color Management Resource (CMR)” on page
-259.
-Metadata Objects in AFP
+server to process inline CMRs, see “Using the MDR to Map a Color Management Resource (CMR)”.
+## Metadata Objects in AFP
 A Metadata Object (MO) is an architected object used to carry descriptive metadata of predefined type and
 format. Metadata can be associated with a MO:DCA print file. MOs are defined in the Metadata Object Content
 Architecture (MOCA). This architecture is defined in the Metadata Object Content Architecture Reference.
 In AFP environments, the MOs have no presentation semantic and may be ignored by print servers or printers.
 Metadata
 
-## Page 89
-
-MO:DCA Reference 57
 Associating MOs with an AFP print file
 MO association and scope
 Metadata is optional. When metadata is present, one or more contiguous MOs may be associated with a
@@ -1625,7 +1508,7 @@ Metrics: Implementation Issues
 It is important to have consistent presentation results regardless of the font technology used. The FOCA
 Architecture defines the basic concepts and provides a rich set of font and character metrics; these FOCA
 concepts lay out the presentation goals. The PTOCA architecture provides the capability to present strings of
-text at various orientations as shown in Figure 78 on page 449. The following describes the relationship
+text at various orientations as shown in Figure 78. The following describes the relationship
 between various TrueType metrics and the corresponding FOCA-defined metrics and provides
 recommendations for simulating metrics that are needed for presentation but are not directly provided in some
 TrueType fonts.
@@ -1635,12 +1518,9 @@ provided for positioning the bitmaps horizontally within a line of text. These m
 information to calculate the metrics defined by FOCA for the 0 degree character rotation. This information
 Fonts
 
-## Page 90
-
-58 MO:DCA Reference
 includes the width and depth of the bitmap, the distance from the character origin to a corner of the bitmap, and
 the distance to the origin of the next character.
-Figure 14 on page 58 compares the parameters commonly used with TrueType fonts to the horizontal (0
+Figure 14 compares the parameters commonly used with TrueType fonts to the horizontal (0
 degree) metrics provided by a FOCA font. In practice, many TrueType fonts are built so that there is no top
 indent or left indent; in this case, the bitmap is a tight box around the character and the indent values are zero.
 Figure 14. Horizontal Metrics: TrueType/OpenType Fonts and FOCA Fonts
@@ -1662,9 +1542,6 @@ A-space (HAS) = Left Indent - X Origin = Left Indent + xorigin
 Baseline Offset (HBO) = Y Origin - Top Indent = yorigin - Top Indent
 Fonts
 
-## Page 91
-
-MO:DCA Reference 59
 Vertical Metrics
 Character rotations of 90 and 270 degrees are used to support vertical forms of writing. In addition to the
 metrics mentioned earlier, vertical positioning and character increment metrics are needed to place characters
@@ -1676,23 +1553,17 @@ When the vtmx metrics are available they can be used to calculate the equivalent
 when the font designer omitted them or when they can't be obtained from the TrueType rasterizer, a method is
 needed to estimate appropriate FOCA equivalent values.
 Simulating Vertical Metrics
-Figure 15 on page 60 shows again the TrueType horizontal metrics and some additional TrueType metrics that
+Figure 15 shows again the TrueType horizontal metrics and some additional TrueType metrics that
 can be obtained to describe the em-square. The figure also shows the target FOCA vertical metrics and a
 method for simulating 270 degree FOCA vertical metrics from TrueType horizontal metrics.
 Fonts
 
-## Page 92
-
-60 MO:DCA Reference
 Figure 15. Vertical Metrics: TrueType/OpenType Fonts and FOCA Fonts
 Any approach taken to approximate these metrics is well served to consider the scripts in which vertical writing
 is most popular: East Asian scripts which use ideographic characters. These full width characters have
 properties that can be utilized to make these estimations. First, they typically have an equal, or fixed,
 Fonts
 
-## Page 93
-
-MO:DCA Reference 61
 increment. Second, they are designed on a square grid, so their width and height are equal. Third, they are
 usually the largest characters in the font.
 For these reasons, using a fixed vertical character increment (VCI) equal to the largest horizontal increment
@@ -1742,10 +1613,7 @@ The vertical metrics for 90-degree character rotation can be directly deduced fr
 the same manner used to convert 0-degree metrics to 180-degree metrics.
 Fonts
 
-## Page 94
-
-62 MO:DCA Reference
-Document Indexing
+## Document Indexing
 The document index defined by the MO:DCA architecture provides functions for indexing the document based
 on document structure and on application-defined document tags. The index is delimited by a Begin Document
 Index structured field and an End Document Index structured field and may be located within the document or
@@ -1754,7 +1622,7 @@ referenced by an index, they are called indexed objects. The MO:DCA elements wit
 reference indexed objects are Index Element (IEL) structured fields. The MO:DCA elements within a document
 index that support content-based tagging are T ag Logical Element (TLE) structured fields.
 A MO:DCA document index consists of the following structured fields. These structured fields are described in
-detail in Chapter 5, “MO:DCA Structured Fields”, on page 119. Note that the IEL and TLE structured fields may
+detail in Chapter 5, “MO:DCA Structured Fields”,. Note that the IEL and TLE structured fields may
 occur multiple times.
 Begin Document Index (BDI)
 Index Element (IEL)
@@ -1789,11 +1657,8 @@ parameter may specify the number of pages that precede an indexed page group in 
 • Object extent of the indexed object, using a specified subordinate object type. For example, if the
 subordinate object is a page, this parameter may specify the number of pages in an indexed page group.
 • If the indexed object is a page:
-Document Indexing
+## Document Indexing
 
-## Page 95
-
-MO:DCA Reference 63
 – The name of the medium map object that is active for formatting the indexed page on a physical medium
 – The number of the indexed page in the set of sequential pages controlled by the active medium map,
 where the first page in the set is number 1
@@ -1807,17 +1672,14 @@ on a physical medium
 map, where the first page in the set is number 1, and where “active medium map” refers to the medium
 map that is active at the beginning of the page-group
 – The PGP repeating group used to process the first page-group page
-An example of a page level IEL that specifies page offset and page extent is shown in Figure 16 on page 63.
+An example of a page level IEL that specifies page offset and page extent is shown in Figure 16.
 Figure 16. Page level IEL: Offset and Extent
 An example of a page group level IEL that specifies page group offset and page group extent is shown in
-Figure 17 on page 63.
+Figure 17.
 Figure 17. Page group level IEL: Offset and Extent
-Document Indexing
+## Document Indexing
 
-## Page 96
-
-64 MO:DCA Reference
-Figure 18 on page 64 shows how the Medium Map information in a page level IEL is used to determine page
+Figure 18 shows how the Medium Map information in a page level IEL is used to determine page
 placement on a side of a sheet.
 Tag Logical Elements
 The T ag Logical Element (TLE) structured field supports the tagging of pages and page groups with an
@@ -1833,18 +1695,15 @@ group, or that inherits a page group reference from the last preceding IEL, is c
 Figure 18. Page level IEL: Use of Medium Map Information
 The TLE structured field tags the referenced element with the following information:
 • Name of the attribute
-Document Indexing
+## Document Indexing
 
-## Page 97
-
-MO:DCA Reference 65
 • Value of the attribute
 • Sequence number of the attribute, used to distinguish otherwise identical attributes
 • Level number of the attribute, used to logically position the attribute in an application-defined hierarchy
-Figure 19 on page 65 shows how logical tags are applied to pages in a document using TLEs in an external
+Figure 19 shows how logical tags are applied to pages in a document using TLEs in an external
 document index.
 Figure 19. A Document with Logical Tags
-Document Links
+## Document Links
 Online, interactive forms of document processing require that linkages be established among components
 within the document and from components within the document to components external to the document. One
 example of such processing is the use of hypertext links, which are logical connections from one string of text
@@ -1859,9 +1718,6 @@ existing page in the document, which requires a link from the existing page to t
 contains the late phone bill.
 Links
 
-## Page 98
-
-66 MO:DCA Reference
 Document links in the MO:DCA architecture are supported with Link Logical Element (LLE) structured fields.
 Link Logical Elements
 Link Logical Elements (LLE) structured fields are process elements that provide a general and extendable
@@ -1891,12 +1747,9 @@ in a separate window next to the source page. On the other hand, a print subsyst
 gather all annotations and print them at the end of the source document with appropriate pointers to the source
 pages.
 An example showing how an LLE can be embedded in a document index to link an area on a page in the
-source document to a text annotation is shown in Figure 20 on page 67.
+source document to a text annotation is shown in Figure 20.
 Links
 
-## Page 99
-
-MO:DCA Reference 67
 Figure 20. Document Annotation using the LLE
 Annotations and Appends
 An annotation is a comment or explanation that is associated with the contents of a source document.
@@ -1913,16 +1766,13 @@ The location of document components that carry annotations and appends follows t
 structure rules. For example, if an annotation is built using a page or a page group, it must be carried in a
 document. If it is built using a data object, resource object, or object container, it can be carried in a resource
 group.
-N-up Presentation
+## N-up Presentation
 N-up is a presentation format where multiple pages are presented on a single physical medium. This format
 provides the user with a high degree of flexibility for composing page objects onto sheets. When used on a
 continuous-forms printer with a wide carriage, it can result in significant paper savings and improvements in
 print reliability. In N-up presentation, each side of the physical medium is divided into a number of equal-size
-N-up Presentation
+## N-up Presentation
 
-## Page 100
-
-68 MO:DCA Reference
 partitions, where the number of partitions is indicated by the number “N” in “N-up”. If duplex is specified, the
 same N-up partitioning is applied to the back side as is applied to the front side. With simplex N-up
 presentation, N pages are placed on the physical medium, and with duplex N-up presentation, 2N pages are
@@ -1930,32 +1780,29 @@ placed on the physical medium. Pages are placed into partitions using either a d
 an explicit N-up page placement, as specified in the Page Position (PGP) structured field. In the default N-up
 page placement, consecutive pages in the data stream are placed into consecutively-numbered partitions. In
 explicit N-up page placement, consecutive pages in the data stream are placed into explicitly-specified
-partitions. For more information on page placement, see “Page Position (PGP) Format 2” on page 313. Pages
+partitions. For more information placement, see “Page Position (PGP) Format 2”. Pages
 may be rotated within their partitions, and Page Modification Control (PMC) overlays may be applied to pages
-before they are placed in their partition. Figure 21 on page 68 shows the partitioning for wide continuous-forms
+before they are placed in their partition. Figure 21 shows the partitioning for wide continuous-forms
 media, narrow continuous-forms media, and cut-sheet media; partitioning is not used with envelope media.
-Partition numbering for various media is shown in Figure 61 on page 320 to Figure 72 on page 326.
+Partition numbering for various media is shown in Figure 61 to Figure 72.
 Figure 21. N-up Partitions for Various Physical Media
 1 Up
 2 Up
 3 Up
 4 Up
 Physical Media Width Physical Media Width Physical Media Width
-Cut-sheet Emulation (CSE) Print Mode
+## Cut-sheet Emulation (CSE) Print Mode
 Some IPDS printers provide a cut-sheet emulation mode that can be used to print on continuous-forms media
 that, once slit and collated, emulates two sheets of cut-sheet output. In this mode, the printer logically divides
 the continuous-forms media in half parallel to the carrier strips and controls the placement of pages on either
 the left side or the right side of the physical media as defined by a printer configuration option. The two portions
 of the physical media are called sheetlets and are treated as if they were two separate pieces of cut-sheet
-media. This logical division of the continuous-forms media is shown in Figure 22 on page 69. When a MO:DCA
+media. This logical division of the continuous-forms media is shown in Figure 22. When a MO:DCA
 document is sent to a print server for printing in CSE mode, MO:DCA sheets and their content are mapped to
 cut-sheet CSE sheetlets at the printer. Note that the top of each sheetlet is a narrow edge, and the default
 sheetlet origin is the top-left corner of the sheetlet.
 CSE Print Mode
 
-## Page 101
-
-MO:DCA Reference 69
 Figure 22. Logical Division of Continuous Forms for Cut-sheet Emulation
 The printer is configured for cut-sheet emulation mode by the printer operator while the printer is disconnected
 from the print server. Cut-sheet emulation mode is activated by the print server after the printer has indicated
@@ -1966,7 +1813,7 @@ When finishing operations are specified for a printer operating in CSE mode, the
 and applied to each CSE sheetlet. That is, for finishing operations in CSE mode, the media is the sheetlet. This
 is true whether the finishing operation is specified with a Finishing Operation (X'85') triplet or a UP3i Finishing
 Operation (X'8E') triplet.
-Simulation of Preprinted Forms
+## Simulation of Preprinted Forms
 Preprinted forms are often simulated with overlays. T o ensure that this simulation works correctly with any type
 and color of page data, a new type of overlay, called a preprinted form overlay (PFO) is defined. In particular,
 there are two types of preprinted form overlays:
@@ -1988,11 +1835,8 @@ single page, and should not overlap data from another page, because such overlap
 preprinted forms. If a PMC-PFO specified for one page overlaps data from another page, whether this data is
 actual page data or PMC-PFO data for the other page, the appearance of the overlap area is presentation-
 system dependent.
-Simulation of Preprinted Forms
+## Simulation of Preprinted Forms
 
-## Page 102
-
-70 MO:DCA Reference
 PFOs are presented using a special mixing rule, called Formblend, that is designed to address the following
 inherent characteristics of preprinted forms:
 1. The color of preprinted forms cannot be knocked out. That is, the color of a preprinted form is its “color of
@@ -2013,7 +1857,7 @@ RGB = X'FFFFFF'), the resultant color is the PFO color
 • Wherever the color of the underlying data is not color of medium or white, the resultant color is a device-
 specific blending of the underlying color with the PFO color that simulates how that device would blend the
 underlying data onto a real preprinted form that has the PFO color.
-Document Finishing
+## Document Finishing
 Finishing operations, such as stapling and folding, for a print file may be specified using structures in the form
 definition invoked for the print file. Such finishing operations may be applied at different levels of the print file,
 and at each level the finishing operations have a defined scope:
@@ -2037,17 +1881,13 @@ collection), and second by the order of the operation in the data stream. Finish
 broader scope, for example, operations at the print file level, are nested outside of finishing operations with an
 inherently narrower scope, for example, operations at the medium map level. If more than one operation is
 specified with the same scope, the order of the finishing operation triplets defines the order of the nesting. The
-Document Finishing
+## Document Finishing
 
-## Page 103
-
-MO:DCA Reference 71
 first finishing operation specified defines the outermost nesting, and the last finishing operation specified
 defines the innermost nesting. When a finishing operation is applied, all finishing operations nested inside this
 operation are also applied. Finishing operations that are nested outside this operation are not affected. For a
-complete definition of the finishing operation nesting rules, see “Finishing Operation Nesting Rules” on page
-270.
-Exception Conditions
+complete definition of the finishing operation nesting rules, see “Finishing Operation Nesting Rules”.
+## Exception Conditions
 The application creating the data stream is responsible for producing a valid MO:DCA data stream, and the
 application using the MO:DCA data stream is responsible for preserving a valid format. Nonetheless, exception
 conditions may arise. A valid MO:DCA data stream is one that does not violate the architecture. A MO:DCA
@@ -2065,7 +1905,7 @@ Exception conditions can be classified as:
 • Syntactic
 • Semantic
 Syntactic exception conditions defined for this architecture include:
-• Invalid or unknown structured field introducer (SFI); see “MO:DCA Structured Field Syntax” on page 20 for
+• Invalid or unknown structured field introducer (SFI); see “MO:DCA Structured Field Syntax” for
 further discussion
 • Invalid or unknown parameter within a recognized structured field
 • Invalid parameter value within a recognized structured field
@@ -2075,11 +1915,8 @@ further discussion
 Semantic exception conditions defined for this architecture include:
 • Inconsistent or contradictory specifications
 • Invalid relationships among the data-stream structured fields
-Exception Conditions
+## Exception Conditions
 
-## Page 104
-
-72 MO:DCA Reference
 Detection
 A MO:DCA-compliant product must detect the exception conditions defined by the architecture that apply to
 the interchange set supported, within the scope of the supported OCAs. Exception conditions detected in the
@@ -2134,23 +1971,20 @@ Required parameter missing A parameter or parameter group, required in a specifi
 set of structured fields, is missing from the document component where it is
 required. An example is a Begin Document structured field missing a Coded
 Graphic Character Set Global Identifier triplet.
-Exception Conditions
+## Exception Conditions
 
-## Page 105
-
-MO:DCA Reference 73
 Unacceptable parameter value A parameter contains a value that is not valid in this architecture, or it
 contains a value that is valid in this architecture, but that is not acceptable in
 the particular interchange set being used. An example is a value of 254 for
 the X page units-base parameter in a Page Descriptor structured field. See
-“PGD (X'D3A6AF') Syntax” on page 310.
+“PGD (X'D3A6AF') Syntax”.
 Inconsistent parameter values A parameter contains a value that is inconsistent with the value of another
 parameter in the structured field, or a parameter in another structured field.
 An example is a name in an end structured field that does not match the
 name in the corresponding begin structured field.
 MO:DCA syntax tables identify the categories of exception conditions that can occur for each data element
 through the use of a code listed in the Exc column. Each of the exception conditions is related to a bit position,
-as shown in T able 15 on page 73. The value assigned to Exc is based on the positions of the bits that
+as shown in T able 15. The value assigned to Exc is based on the positions of the bits that
 represent the exception condition categories that can apply to the data element. If no exception condition is
 possible, the Exc column will contain X'00'.
 For example, if it is possible for the data element to contain a value outside of the prescribed range, or if it is
@@ -2175,12 +2009,5 @@ Bit 7 Inconsistent parameter values B'00000001' X'01'
 None None B'00000000' X'00'
 Exception Action
 The action to be performed by a product that detects an exception condition is presentation-system dependent.
-Exception Conditions
+## Exception Conditions
 
-## Page 106
-
-74 MO:DCA Reference
-
-## Page 107
-
-Copyright © AFP Consortium 1990, 2023 75

@@ -1,8 +1,8 @@
-Chapter 2. Introduction to the MO:DCA Architecture
+# Chapter 2. Introduction to the MO:DCA Architecture
 This chapter:
 • Provides a definition of the MO:DCA architecture
 • Describes the MO:DCA document component hierarchy
-What is the Mixed Object Document Content Architecture?
+## What is the Mixed Object Document Content Architecture?
 A mixed object document is the collection of data objects that comprise the document's content, and the
 resources and formatting specifications that dictate the processing functions to be performed on the content.
 The term Mixed in the MO:DCA architecture refers both to the mixture of data objects and the mixture of
@@ -35,18 +35,12 @@ be known to all other processes.
 The MO:DCA architecture is designed to integrate the different data object types into documents that can be
 interchanged as a single data stream. The MO:DCA architecture provides the data-stream structures needed
 to carry the data objects. It also provides syntactic and semantic rules governing their use to ensure that
-different applications process them in a consistent manner. Figure 4 on page 8 illustrates the relationship of
+different applications process them in a consistent manner. Figure 4 illustrates the relationship of
 MO:DCA data structures to a presentation document composed of pages and data objects.
 
-## Page 40
-
-8 MO:DCA Reference
 Figure 4. MO:DCA Presentation Document Components
 What Is MO:DCA?
 
-## Page 41
-
-MO:DCA Reference 9
 Two forms of the MO:DCA document format were defined in 1990 and have been documented in the MO:DCA
 reference since that time:
 • the presentation form, called MO:DCA-P , which describes final-form documents in terms of a document
@@ -70,7 +64,7 @@ parameters that consist of a one-byte unique keyword identifier followed by a on
 are self-identifying parameters that contain a one-byte length, a one-byte unique triplet identifier, and up to 252
 data bytes. Keywords and triplets have the same semantics wherever they are used. T ogether, these
 structures define a syntax for MO:DCA data streams that provides for orderly parsing and flexible extensibility.
-Organization of the Architecture
+## Organization of the Architecture
 The MO:DCA definition in this document is organized into five parts:
 • Definition of the general architecture
 • Definition of MO:DCA interchange sets
@@ -95,26 +89,23 @@ defined in Appendix C. These constructs may appear in MO:DCA data streams, but t
 be part of the formal architecture definition and may not be supported by all MO:DCA products.
 Architecture Organization
 
-## Page 42
-
-10 MO:DCA Reference
 Architected tables, algorithms, and registries are defined in the appendices. The standard OCA color value
 table is defined in Appendix A. The Color Mapping T able is defined in Appendix A. The Resource Access T able
 (RAT) is defined in Appendix B. The MO:DCA Registry for object types and media types is defined in Appendix
 D. The algorithms used to calculate object identifiers (OIDs) are defined in Appendix F.
-Compliance with the Architecture
+## Compliance with the Architecture
 MO:DCA-compliant products do not necessarily support all of the structures and functions defined in this
 document. MO:DCA compliance may be based on document interchange, in which case a product must
 support one of the defined interchange sets plus optionally one or more function sets in accordance with the
-rules specified in “Interchange Set Compliance Requirements” on page 472. MO:DCA compliance may also be
+rules specified in “Interchange Set Compliance Requirements”. MO:DCA compliance may also be
 based on document exchange, in which case a product must support a subset of the general architecture and
 must define, in its product documentation, which MO:DCA structures and functions are supported.
-MO:DCA Concepts
+## MO:DCA Concepts
 The print file is the highest level of the MO:DCA data-stream document component hierarchy. Print files can
 contain multiple documents and a resource group. Documents can be made up of pages, and the pages, which
 are at the intermediate level, can be made up of objects. Objects are at the lowest level, and can be bar codes,
 graphics, images, and presentation text. The MO:DCA document component hierarchy for a document
-containing image, graphics, and presentation text objects is illustrated in Figure 4 on page 8.
+containing image, graphics, and presentation text objects is illustrated in Figure 4.
 At each level of the hierarchy certain sets of MO:DCA data structures, called structured fields, are permissible.
 The document, pages and objects are bounded by structured fields that define their beginnings and their ends.
 These structured fields, called begin-end pairs, provide an envelope for the data-stream components. This
@@ -131,7 +122,7 @@ document content in the same format on different printers or display devices dep
 capabilities of each of the printers or display devices. A presentation document can reference resources that
 are to be included as part of the document to be presented.
 Pages
-Pages contain the data objects that comprise a presentation document. Figure 4 on page 8 portrays the
+Pages contain the data objects that comprise a presentation document. Figure 4 portrays the
 location of the page within the data-stream hierarchy. Each page has a set of data objects associated with it.
 Each page within a document is independent from any other page, and each must establish its own
 environment parameters.
@@ -140,9 +131,6 @@ content. The data objects contained in the page envelope in the data stream are 
 presented. Each data object has layout information associated with it that directs the placement and orientation
 Compliance
 
-## Page 43
-
-MO:DCA Reference 11
 of the data on the page. In addition, each page contains layout information that specifies the measurement
 units, page width, and page depth.
 The presentation of a document by a presentation device is a process that consists of presenting the
@@ -162,7 +150,7 @@ Medium overlays and PMC overlays may be identified as Preprinted Form Overlays (
 (M-PFO) may be included on a sheet-side; additional M-PFOs are ignored. One PMC PFO (PMC-PFO) may
 be included on each page on a sheet-side; additional PMC-PFOs for that page are ignored. PFOs are always
 included last on a presentation space, after all other data has been applied for that presentation space, and are
-merged using special mixing rules; see “Mixing Rules” on page 44. For a given sheet-side, an M-PFO always
+merged using special mixing rules; see “Mixing Rules”. For a given sheet-side, an M-PFO always
 overrides any PMC-PFOs. That is, if an M-PFO is specified for a sheet-side, any PMC-PFOs specified for
 pages on that sheet-side are ignored.
 Page Segments
@@ -170,12 +158,12 @@ Page segments are resource objects that contain data objects but that do not def
 parameters. Page segments can be included on the logical page presentation space or on the overlay
 presentation space using the Include Page Segment (IPS) structured field, and inherit the environment
 parameters defined by the including page or overlay.
-Objects
+## Objects
 Objects contain the data that is to be presented. They also may contain environment information needed to
 establish the proper location and orientation for the data on the presentation surface. Objects in the data
 stream are bounded by delimiters that identify their type, such as graphics, image, or text. The MO:DCA
 architecture supports two categories of objects: data objects and resource objects.
-Data Objects
+## Data Objects
 In general, data objects consist of data to be presented and the directives required to present it. The content of
 each type of data object is defined by an object architecture that specifies presentation functions that can be
 used within its MO:DCA coordinate space. All data objects function as equals in the MO:DCA data-stream
@@ -183,12 +171,9 @@ environment. Data objects are carried as separate entities with no dependencies 
 structures or on the containing data-stream environment.
 The object area is the space on a page that is used to present the data object. An object area is defined by
 layout information, such as the object area's origin, width, depth, and orientation on the page.
-MO:DCA Concepts
+## MO:DCA Concepts
 
-## Page 44
-
-12 MO:DCA Reference
-Resource Objects
+## Resource Objects
 Resource objects are named objects or named collections of objects that can be referenced from within the
 document. In general, the referenced resources can reside in a resource group or an external library and can
 be referenced repeatedly. They may be used in numerous places in a document or in several documents. They
@@ -226,13 +211,10 @@ system. If there is also an explicit reference to the secondary resource from wi
 identifier is specified in an FQN type X'BE' triplet. The FQN type X'DE', X'84', or X'CE' triplet is paired with the
 FQN type X'BE' triplet at object include time (when the Include Object structured field that includes the data
 object is processed) to match up the internal and external identifiers.
-See “Data Objects and Supported Secondary Resources” on page 626 for more information on data objects
+See “Data Objects and Supported Secondary Resources” for more information on data objects
 and their secondary resources.
-MO:DCA Concepts
+## MO:DCA Concepts
 
-## Page 45
-
-MO:DCA Reference 13
 Tertiary Resource Objects
 In the case of a QR Code with Image bar code, a data object that is processed as a secondary image resource
 may itself require additional resources for presentation. Such additional resources are called tertiary
@@ -273,11 +255,8 @@ multiple pages and TIFF files that contain multiple paginated image objects.
 Architecture Note: When a page, such as a PDF page, or a paginated object is included on a MO:DCA page,
 it becomes a data object on that MO:DCA page and is no longer considered a “page”. That is, it is not
 subject to MO:DCA page level functions such as page level indexing.
-MO:DCA Concepts
+## MO:DCA Concepts
 
-## Page 46
-
-14 MO:DCA Reference
 Implementation Note: When a resource-collection application processes multi-page resource objects, it may
 choose to collect the complete file, not just the pages in the file that are actually selected for
 presentation.
@@ -318,15 +297,12 @@ Resource preloading and preprocessing does come at a cost. The undesirable effec
 and preprocessing is that the time to first print is increased. T o achieve optimum throughput, an application
 should be tuned to preload and preprocess only those resources whose downloading and processing between
 pages would cause an unacceptable device underrun.
-Object Containers
+## Object Containers
 An object container is an envelope for object data. The object data may or may not be defined by an AFP
 architecture. The container consists of a mandatory Begin/End structured field pair, an optional Object
 Environment Group (OEG), and mandatory Object Container Data (OCD) structured fields. The Begin
-MO:DCA Concepts
+## MO:DCA Concepts
 
-## Page 47
-
-MO:DCA Reference 15
 structured field specifies information about the object data such as object-type identifier, class, type, level, and
 structure, so that a MO:DCA receiver can determine whether it is an object that can be processed given its
 capabilities. The OCD structured fields are used to carry the object data.
@@ -335,8 +311,7 @@ by a Begin/End pair, the Object Classification (X'10') triplet on the Begin stru
 registered object-type identifier (encoded object-type OID) for the object data format, and all object data must
 be partitioned into OCDs. If the object container is to appear directly in a page or overlay, the container must be
 structured in accordance with the MO:DCA syntax for data objects supported directly in pages and overlays,
-such as IOCA, GOCA, and BCOCA objects. For a definition of this structure, see “Object Containers” on page
-114. Object containers can be included indirectly by name in a document using the Include Object (IOB)
+such as IOCA, GOCA, and BCOCA objects. For a definition of this structure, see “Object Containers”. Object containers can be included indirectly by name in a document using the Include Object (IOB)
 structured field.
 If the object data is traditional time-invariant presentation data, it must be paginated, that is the presentation
 space within which the object data is presented must be restricted to a single page. However, the object data
@@ -364,21 +339,18 @@ of a REG is optional. Identifying a resource in a REG does not remove the need t
 environment groups for the pages and objects that use the resource.
 Active Environment Groups
 An Active Environment Group (AEG) is associated with each page, and is contained in the page's begin-end
-envelope in the data stream. Figure 4 on page 8 depicts the relationship of the active environment group to the
+envelope in the data stream. Figure 4 depicts the relationship of the active environment group to the
 page. The active environment group contains layout and formatting information that defines the measurement
 units and size of the page, and may contain resource information. Any objects that are required for page
 presentation and that are to be treated as resource objects must be mapped with a map structured field in the
 AEG. The scope of an active environment group is the scope of its containing page or overlay. In many cases
 the information contained in an active environment group can be inherited by objects contained in the page.
-See “Default Values” on page 29 for a discussion of defaults and inheritance.
-MO:DCA Concepts
+See “Default Values” for a discussion of defaults and inheritance.
+## MO:DCA Concepts
 
-## Page 48
-
-16 MO:DCA Reference
 Object Environment Groups
 An Object Environment Group (OEG) may be associated with an object and is contained within the object's
-begin-end envelope. Figure 4 on page 8 depicts the relationship of the object environment group to its
+begin-end envelope. Figure 4 depicts the relationship of the object environment group to its
 corresponding object. The object environment group defines the object's origin and orientation on the page,
 and can contain resource information.
 Any objects that are required for object presentation and that are to be treated as resource objects must be
@@ -392,8 +364,8 @@ or it may specify that one or more default values are to be used. The values to 
 • Inherited from the active environment group on the current page
 • Supplied by default values defined by the MO:DCA architecture
 • Supplied by default values defined by the application
-See “Default Values” on page 29 for a discussion of defaults and inheritance.
-Resource Groups
+See “Default Values” for a discussion of defaults and inheritance.
+## Resource Groups
 A resource group is used in the data stream to contain resources during transmission. The resources can be
 referenced or included at other locations within the data stream.
 Resource groups can exist at the print file level. The retired IS/2 interchange set also allows resource groups to
@@ -421,19 +393,16 @@ locate a specific resource. When searching for a resource, the first resource lo
 criteria ends the search. Thus, although two different versions of the same resource type with the same name
 may exist in different resource groups, the MO:DCA resource scope and search rules remove any uncertainty
 as to which of the resources will be selected.
-MO:DCA Concepts
+## MO:DCA Concepts
 
-## Page 49
-
-MO:DCA Reference 17
 The MO:DCA search order for resources referenced within a print file is as follows:
 1. The current page level resource group, if one exists (only supported in the retired MO:DCA IS/2
-interchange set, see “Retired Interchange Set” on page 575)
+interchange set, see “Retired Interchange Set”)
 2. The print file level resource group, if one exists
 If no resource groups exist or if the referenced resource object is not found in any of the resource groups
 searched, the search is extended to an external library. The search convention does not include library access
 methods, since these are dependent upon the implementing system. For the formal definition of resource
-groups in MO:DCA data streams, see “Resource Groups” on page 87.
+groups in MO:DCA data streams, see “Resource Groups”.
 Page Groups
 A page group is used in the data stream to define a named, logical grouping of sequential pages. Page groups
 are delimited by begin-end structured fields that carry the name of the page group. Page groups are defined so
@@ -441,7 +410,7 @@ that the pages that comprise the group can be referenced or processed as a singl
 group processing are:
 • Assigning a set of common indexing attributes to the page group
 • Retrieving the page group from an archive system for viewing
-Print Control Objects
+## Print Control Objects
 Print control objects are resource objects that contain formatting, layout, and resource-mapping information
 used to present the document's pages on physical media. Print control objects may be selected at the time of
 the print request, or they may be invoked directly from the document. There are two types of print control
@@ -456,12 +425,5 @@ T ag Logical Element (TLE), which specifies object attribute information that ca
 based document indexing and attribute-based document navigation. Another example is a Link Logical
 Element (LLE), which specifies a linkage from a source document component to a target document
 component.
-MO:DCA Concepts
+## MO:DCA Concepts
 
-## Page 50
-
-18 MO:DCA Reference
-
-## Page 51
-
-Copyright © AFP Consortium 1990, 2023 19

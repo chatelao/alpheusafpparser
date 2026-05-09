@@ -16,10 +16,10 @@ that has been superseded or which has never materialized in terms of implementat
 the subject of a very narrow market segment.
 Function sets provide a means for incrementally modifying an interchange set, often in the interim. A function
 set may address a specific market or business need or may represent a universal alteration while there is
-insufficient motivation for a new interchange set; see Chapter 8, “MO:DCA Function Sets”, on page 517.
+insufficient motivation for a new interchange set; see Chapter 8, “MO:DCA Function Sets”,.
 This edition of the Mixed Object Document Content Architecture (MO:DCA) Reference contains detailed
 descriptions of two MO:DCA interchange sets: MO:DCA IS/1 and MO:DCA IS/3. Note that MO:DCA
-Interchange Set 2 (MO:DCA IS/2) has been retired; see “Retired Interchange Set” on page 575. Note also that
+Interchange Set 2 (MO:DCA IS/2) has been retired; see “Retired Interchange Set”. Note also that
 the MO:DCA AFP Archive (AFP/A) interchange set is not defined in this Reference. See the ISO 18565:2015
 “Document management – AFP/Archive” standard for a definition of this interchange set.
 While an interchange set cannot be defined that violates the overall MO:DCA architecture, the interchange set
@@ -31,9 +31,7 @@ definition can include restrictions that are not part of the overall architectur
 • The order in which the structured field parameters may or must appear
 • What structured field parameter values may or must appear
 
-## Page 504
 
-472 MO:DCA Reference
 Interchange Set Compliance Requirements
 Two general classes of products may claim compliance with an interchange set, as follows:
 Generator Any product that is capable of producing print files containing a valid subset of the interchange
@@ -53,10 +51,8 @@ one or more defined interchange sets. However, products may also use MO:DCA data
 own private use or for data exchange with other known products.
 Compliance Requirements
 
-## Page 505
 
-MO:DCA Reference 473
-MO:DCA Interchange Set 1
+### MO:DCA Interchange Set 1
 This section defines the MO:DCA Interchange Set 1 (MO:DCA IS/1) used for presentation documents.
 For information on the level of function required for the OCAs included in this interchange set, refer to the
 MO:DCA environment appendix in the following AFP documents:
@@ -86,7 +82,7 @@ order is as listed.
 structured field, at least one occurrence of the structured field is required, but multiple instances of it
 may occur.
 F2 An F2 indicates that the structured field is a format two structured field. See “Structured Field Formats”
-on page 25 for further details.
+for further details.
 Notes:
 1. The Begin Document and End Document structured fields are required in a MO:DCA data stream.
 2. The No Operation structured field may appear within any begin-end domain and thus is not listed in the
@@ -98,9 +94,7 @@ documentation for further details.
 support SFI extension, structured field segmentation, or structured field padding.
 MO:DCA IS/1
 
-## Page 506
 
-474 MO:DCA Reference
 Document
 Figure 79. MO:DCA IS/1: Document Structure
 Begin Document (BDT, D3A8A8)
@@ -139,9 +133,7 @@ must be specified in the OEG associated with the graphic or image object.
 4. Required only when the associated page contains one or more presentation text objects.
 MO:DCA IS/1
 
-## Page 507
 
-MO:DCA Reference 475
 Graphics Object (GOCA DR/2V0)
 Figure 82. MO:DCA IS/1: Graphics Object Structure
 Begin Graphics Object (BGR, D3A8BB)
@@ -182,9 +174,7 @@ Begin Object Environment Group (BOG, D3A8C7)
 End Object Environment Group (EOG, D3A9C7)
 MO:DCA IS/1
 
-## Page 508
 
-476 MO:DCA Reference
 Presentation Text Object (PTOCA PT1)
 Figure 86. MO:DCA IS/1: Presentation Text Object Structure
 Begin Presentation Text Object (BPT, D3A89B)
@@ -221,9 +211,7 @@ specified, followed by “→” and an explanation or description of the parame
 • When no specific value is required, or when a choice of values is required, the parameter name or a
 MO:DCA IS/1
 
-## Page 509
 
-MO:DCA Reference 477
 description of the parameter is given. If a choice of values is required, the choices are identified in the
 table.
 3. For those parameters defined and owned by the MO:DCA architecture, occurrence is specified either as a
@@ -256,30 +244,27 @@ being valid for that structured field should be ignored and should not cause an 
 specified in the name parameter on its matching Begin structured field, or a X'01' exception condition
 exists.
 Begin Active Environment Group
-BAG X'D3A8C9' Begin Active Environment Group (See “Begin Active Environment Group (BAG)” on page 120)
+BAG X'D3A8C9' Begin Active Environment Group (See “Begin Active Environment Group (BAG)”)
 0–7 Active Environment Group name (8 characters) 1 O
 Begin Document
-BDT X'D3A8A8' Begin Document (See “Begin Document (BDT)” on page 128)
+BDT X'D3A8A8' Begin Document (See “Begin Document (BDT)”)
 0–7 Document name (8 characters) 1 M
 8–9 X'0000' → Reserved; must be binary zero 1 M
 10–n The following triplets, in any order:
 Coded Graphic Character Set Global Identifier Triplet (See “Coded Graphic Character
-Set Global Identifier Triplet X'01'” on page 348)
+Set Global Identifier Triplet X'01'”)
 1 M
 MO:DCA IS/1
 
-## Page 510
 
-478 MO:DCA Reference
-BDT X'D3A8A8' Begin Document (See “Begin Document (BDT)” on page 128)
+BDT X'D3A8A8' Begin Document (See “Begin Document (BDT)”)
 0–1 X'0601' → Triplet length and identifier 1 M
 2–5 Character set and code page identification 1 M
-Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'” on page 351) 1 O
+Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”) 1 O
 0–1 X'nn02' → Triplet length and identifier 1 M
 2–3 X'0100' → FQN type and format. Replace first GID Name. 1 M
 4–n Name of the document. It may be 1 to 250 bytes in length. 1 M
-MO:DCA Interchange Set Triplet (See “MO:DCA Interchange Set Triplet X'18'” on page
-367)
+MO:DCA Interchange Set Triplet (See “MO:DCA Interchange Set Triplet X'18'”)
 1 M
 0–1 X'0518' → Triplet length and identifier 1 M
 2 X'01' → Interchange set type, presentation 1 M
@@ -316,79 +301,73 @@ page 374)
 6–7 X'8000' → Image function set definition (FS10) 1 M
 MO:DCA IS/1
 
-## Page 511
 
-MO:DCA Reference 479
-BDT X'D3A8A8' Begin Document (See “Begin Document (BDT)” on page 128)
+BDT X'D3A8A8' Begin Document (See “Begin Document (BDT)”)
 8–n Reserved, not checked 1 O
 Note: One and only one instance of this triplet is mandatory when the data stream contains an image object. If the data
 stream does not contain an image object, this triplet should not appear.
 Begin Graphics Object
-BGR X'D3A8BB' Begin Graphics Object (See “Begin Graphics Object (BGR)” on page 132)
+BGR X'D3A8BB' Begin Graphics Object (See “Begin Graphics Object (BGR)”)
 0–7 Graphics Object name (8 characters) 1 O
 Begin Image Object
-BIM X'D3A8FB' Begin Image Object (See “Begin Image Object (BIM)” on page 134)
+BIM X'D3A8FB' Begin Image Object (See “Begin Image Object (BIM)”)
 0–7 Image Object name (8 characters) 1 O
 Begin Object Environment Group
-BOG X'D3A8C7' Begin Object Environment Group (See “Begin Object Environment Group (BOG)” on page 149)
+BOG X'D3A8C7' Begin Object Environment Group (See “Begin Object Environment Group (BOG)”)
 0–7 Object Environment Group name (8 characters) 1 O
 Begin Overlay
-BMO X'D3A8DF' Begin Overlay (See “Begin Overlay (BMO)” on page 138)
+BMO X'D3A8DF' Begin Overlay (See “Begin Overlay (BMO)”)
 0–7 Overlay name (8 characters) 1 M
 Begin Page
-BPG X'D3A8AF' Begin Page (See “Begin Page (BPG)” on page 152)
+BPG X'D3A8AF' Begin Page (See “Begin Page (BPG)”)
 0–7 Page name (8 characters) 1 O
 Begin Presentation Text Object
-BPT X'D3A89B' Begin Presentation Text Object (See “Begin Presentation Text Object (BPT)” on page 157)
+BPT X'D3A89B' Begin Presentation Text Object (See “Begin Presentation Text Object (BPT)”)
 0–7 Presentation T ext Object name (8 characters) 1 O
 End Active Environment Group
-EAG X'D3A9C9' End Active Environment Group (See “End Active Environment Group (EAG)” on page 173)
+EAG X'D3A9C9' End Active Environment Group (See “End Active Environment Group (EAG)”)
 0–7 Active Environment Group name (8 characters) 1 O
 MO:DCA IS/1
 
-## Page 512
 
-480 MO:DCA Reference
 End Document
-EDT X'D3A9A8' End Document (See “End Document (EDT)” on page 177)
+EDT X'D3A9A8' End Document (See “End Document (EDT)”)
 0–7 Document name (8 characters) 1 O
 End Graphics Object
-EGR X'D3A9BB' End Graphics Object (See “End Graphics Object (EGR)” on page 179)
+EGR X'D3A9BB' End Graphics Object (See “End Graphics Object (EGR)”)
 0–7 Graphics Object name (8 characters) 1 O
 End Image Object
-EIM X'D3A9FB' End Image Object (See “End Image Object (EIM)” on page 180)
+EIM X'D3A9FB' End Image Object (See “End Image Object (EIM)”)
 0–7 Image Object name (8 characters) 1 O
 End Object Environment Group
-EOG X'D3A9C7' End Object Environment Group (See “End Object Environment Group (EOG)” on page 186)
+EOG X'D3A9C7' End Object Environment Group (See “End Object Environment Group (EOG)”)
 0–7 Object Environment Group name (8 characters) 1 O
 End Overlay
-EMO X'D3A9DF' End Overlay (See “End Overlay (EMO)” on page 182)
+EMO X'D3A9DF' End Overlay (See “End Overlay (EMO)”)
 0–7 Overlay name (8 characters) 1 O
 End Page
-EPG X'D3A9AF' End Page (See “End Page (EPG)” on page 188)
+EPG X'D3A9AF' End Page (See “End Page (EPG)”)
 0–7 Page name (8 characters) 1 O
 End Presentation Text Object
-EPT X'D3A99B' End Presentation Text Object (See “End Presentation Text Object (EPT)” on page 190)
+EPT X'D3A99B' End Presentation Text Object (See “End Presentation Text Object (EPT)”)
 0–7 Presentation T ext Object name (8 characters) 1 O
 Graphics Data
-GAD X'D3EEBB' Graphics Data (See “Graphics Data (GAD)” on page 194)
+GAD X'D3EEBB' Graphics Data (See “Graphics Data (GAD)”)
 0–n Up to 8,192 bytes of graphics data as defined by GOCA DR/2V0
 MO:DCA IS/1
 
-## Page 513
 
-MO:DCA Reference 481
 Graphics Data Descriptor
-GDD X'D3A6BB' Graphics Data Descriptor (See “Graphics Data Descriptor (GDD)” on page 195)
+GDD X'D3A6BB' Graphics Data Descriptor (See “Graphics Data Descriptor (GDD)”)
 0–n Graphics descriptor data as defined by GOCA
 Image Data Descriptor
-IDD X'D3A6FB' Image Data Descriptor (See “Image Data Descriptor (IDD)” on page 196)
+IDD X'D3A6FB' Image Data Descriptor (See “Image Data Descriptor (IDD)”)
 0–n Image descriptor data as defined by IOCA FS10
 Image Picture Data
-IPD X'D3EEFB' Image Picture Data (See “Image Picture Data (IPD)” on page 218)
+IPD X'D3EEFB' Image Picture Data (See “Image Picture Data (IPD)”)
 0–n Up to 8,192 bytes of image segment data as defined by IOCA FS10
 Include Page Overlay
-IPO X'D3AFD8' Include Page Overlay (See “Include Page Overlay (IPO)” on page 222)
+IPO X'D3AFD8' Include Page Overlay (See “Include Page Overlay (IPO)”)
 0–7 Page overlay reference name. 1 M
 8–10 Page overlay origin, X-coordinate. It must be one of the following:
 X'000000'–X'001555' → In the range of 0 to 5,461 when using 240 units
@@ -405,21 +384,19 @@ units per inch for the page Y measurement
 units
 1 M
 Invoke Medium Map
-IMM X'D3ABCC' Invoke Medium Map (See “Invoke Medium Map (IMM)” on page 199)
+IMM X'D3ABCC' Invoke Medium Map (See “Invoke Medium Map (IMM)”)
 0–7 External name of the medium map to be invoked (8 characters) 1 M
 Map Coded Font, Format 2
-MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2” on page 237)
+MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2”)
 0–1 X'00nn' → Length of this repeating group 254 M
 2–n The following triplets, in any order:
-Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'” on page 351)
-Note: See “MCF Font Names” on page 483 for details.
+Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”)
+Note: See “MCF Font Names” for details.
 2 M
 MO:DCA IS/1
 
-## Page 514
 
-482 MO:DCA Reference
-MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2” on page 237)
+MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2”)
 0–1 X'0C02' → Triplet length and identifier 1 M
 2 The FQN type. It must be one of the following:
 X'84' → Coded Font Reference
@@ -428,12 +405,12 @@ X'86' → Font Character Set Reference
 1 M
 3 X'00' → FQN format 1 M
 4–11 External name of the coded font, code page, or font character set. 1 M
-Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'” on page 351) 1 O
+Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”) 1 O
 0–1 X'nn02' → Triplet length and identifier 1 M
 2–3 X'0800' → FQN type and format, Font Typeface Name 1 M
 4–n External name of the font typeface. It may be 1 to 32 bytes in length. 1 M
 Font Descriptor Specification Triplet (See “Font Descriptor Specification Triplet X'1F'”
-on page 369)
+)
 1 O
 0–1 X'141F' → Triplet length and identifier 1 M
 2 X'01'–X'09' → Font Weight Class. It must be in the range of 1 to 9. 1 M
@@ -457,12 +434,11 @@ Bit Description
 1 M
 9–19 Reserved 1 M
 Font Coded Graphic Character Set Global Identifier Triplet (See “Font Coded Graphic
-Character Set Global Identifier Triplet X'20'” on page 373)
+Character Set Global Identifier Triplet X'20'”)
 1 O
 0–1 X'0620' → Triplet length and identifier 1 M
 2–5 The GCSGID and CPGID for the font 1 M
-Resource Local Identifier Triplet (See “Resource Local Identifier Triplet X'24'” on page
-378)
+Resource Local Identifier Triplet (See “Resource Local Identifier Triplet X'24'”)
 1 M
 0–1 X'0424' → Architecture version 1 M
 2 X'05' → Resource type, coded font 1 M
@@ -474,10 +450,8 @@ management purposes in the AEG.
 1 M
 MO:DCA IS/1
 
-## Page 515
 
-MO:DCA Reference 483
-MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2” on page 237)
+MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2”)
 Resource Section Number Triplet (See “Resource Section Number Triplet X'25'” on
 page 379)
 1 O
@@ -491,7 +465,7 @@ X'41'–X'FE' → It must be in the range of 65 to 254 when referencing a
 specific section of an EBCDIC Presentation double-byte
 coded font (encoding scheme ID X'62xx').
 1 M
-Character Rotation Triplet (See “Character Rotation Triplet X'26'” on page 380) 1 O
+Character Rotation Triplet (See “Character Rotation Triplet X'26'”) 1 O
 0–1 X'0426' → Triplet length and identifier 1 M
 2–3 Character Rotation. It must be one of the following:
 X'0000' → 0-degree character rotation
@@ -503,16 +477,16 @@ MCF Font Names
 The MCF must have one of the following:
 • A type X'84' (Coded Font Reference) Fully Qualified Name (X'02') triplet. T o support existing products, the
 coded font name must be specified as a global resource identifier (GRID). For a definition of the GRID, see
-“Global Resource Identifier (GRID) Definition” on page 358.
+“Global Resource Identifier (GRID) Definition”.
 • Both a type X'85' (Code Page Name Reference) and a type X'86' (Font Character Set Name Reference)
 Fully Qualified Name (X'02') triplet. T o support existing products, the names of the code page and font
 character set must be eight characters in length and must match the external names of these objects in their
 respective resource libraries.
 Map Graphics Object
-MGO X'D3ABBB' Map Graphics Object (See “Map Graphics Object (MGO)” on page 273)
+MGO X'D3ABBB' Map Graphics Object (See “Map Graphics Object (MGO)”)
 0–1 X'0005' →Length of this repeating group is 5 bytes 1 M
 2–4 The following triplet:
-Mapping Option Triplet (See “Mapping Option Triplet X'04'” on page 360) 1 M
+Mapping Option Triplet (See “Mapping Option Triplet X'04'”) 1 M
 0–1 X'0304' →Triplet length and identifier 1 M
 2 Output Option. It must be one of the following:
 X'10' → Position and trim
@@ -522,14 +496,12 @@ X'30' → Center and trim
 Note: If this structured field is not specified, the architected default is scale to fit.
 MO:DCA IS/1
 
-## Page 516
 
-484 MO:DCA Reference
 Map Image Object
-MIO X'D3ABFB' Map Image Object (See “Map Image Object (MIO)” on page 274)
+MIO X'D3ABFB' Map Image Object (See “Map Image Object (MIO)”)
 0–1 X'0005' →Length of this repeating group is 5 bytes 1 M
 2–4 The following triplet:
-Mapping Option Triplet (See “Mapping Option Triplet X'04'” on page 360) 1 M
+Mapping Option Triplet (See “Mapping Option Triplet X'04'”) 1 M
 0–1 X'0304' →Triplet length and identifier 1 M
 2 Output Option. It must be one of the following:
 X'10' → Position and trim
@@ -538,10 +510,10 @@ X'30' → Center and trim
 1 M
 Note: If this structured field is not specified, the architected default is scale to fit.
 Map Page Overlay
-MPO X'D3ABD8' Map Page Overlay (See “Map Page Overlay (MPO)” on page 294)
+MPO X'D3ABD8' Map Page Overlay (See “Map Page Overlay (MPO)”)
 0–1 X'0012' →Length of this repeating group is 18 bytes 127 M
 2–17 The following triplet:
-Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'” on page 351) 1 M
+Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”) 1 M
 0–1 X'0C02' →Triplet length and identifier 1 M
 2–3 X'8400' →FQN type and format, reference to overlay 1 M
 4–11 External name of the overlay. 1 M
@@ -552,21 +524,19 @@ page 378)
 2 X'02' →Resource type, page overlay 1 M
 3 X'01'–X'7F' →Resource Local Identifier. It must be in the range of 1 to 127. 1 M
 No Operation
-NOP X'D3EEEE' No Operation (See “No Operation (NOP)” on page 299)
+NOP X'D3EEEE' No Operation (See “No Operation (NOP)”)
 0–n Up to 32,759 bytes of data.
 Object Area Descriptor
-OBD X'D3A66B' Object Area Descriptor (See “Object Area Descriptor (OBD)” on page 300)
+OBD X'D3A66B' Object Area Descriptor (See “Object Area Descriptor (OBD)”)
 0–n The following triplets, in any order:
-Descriptor Position Triplet (See “Descriptor Position Triplet X'43'” on page 383) 1 M
+Descriptor Position Triplet (See “Descriptor Position Triplet X'43'”) 1 M
 0–1 X'0343' →Triplet length and identifier 1 M
 2 X'01'–X'7F' →Descriptor position ID. It must be in the range of 1 to 127. 1 M
 MO:DCA IS/1
 
-## Page 517
 
-MO:DCA Reference 485
-OBD X'D3A66B' Object Area Descriptor (See “Object Area Descriptor (OBD)” on page 300)
-Measurement Units Triplet (See “Measurement Units Triplet X'4B'” on page 388) 1 M
+OBD X'D3A66B' Object Area Descriptor (See “Object Area Descriptor (OBD)”)
+Measurement Units Triplet (See “Measurement Units Triplet X'4B'”) 1 M
 0–1 X'084B' →Triplet length and identifier 1 M
 2–3 X'0000' →Object area measurement units base for X and Y 1 M
 4–5 Object area measurement units value for X. It must be one of the following:
@@ -575,7 +545,7 @@ X'3840' → 14400 units per unit base (1440 units per inch)
 6–7 Object area measurement units value for Y . It must be identical to bytes 4–
 5.
 1 M
-Object Area Size Triplet (See “Object Area Size Triplet X'4C'” on page 389) 1 M
+Object Area Size Triplet (See “Object Area Size Triplet X'4C'”) 1 M
 0–1 X'094C' →Triplet length and identifier 1 M
 2 X'02' →Type, actual object area size 1 M
 3–5 Object area size in the X direction. It must be one of the following:
@@ -602,7 +572,7 @@ structured field for the presentation text object area. Thus, the presentation t
 page are always the same size and points within their respective coordinate systems are always
 coincident.
 Object Area Position
-OBP X'D3AC6B' Object Area Position (See “Object Area Position (OBP)” on page 302)
+OBP X'D3AC6B' Object Area Position (See “Object Area Position (OBP)”)
 0 X'01'–X'7F' →Object Area Position ID. It must be in the range of 1 to 127. 1 M
 1 X'17' →Length of this repeating group is 23 bytes 1 M
 2–4 Object area origin for X. It must be one of the following:
@@ -614,10 +584,8 @@ units
 1 M
 MO:DCA IS/1
 
-## Page 518
 
-486 MO:DCA Reference
-OBP X'D3AC6B' Object Area Position (See “Object Area Position (OBP)” on page 302)
+OBP X'D3AC6B' Object Area Position (See “Object Area Position (OBP)”)
 5–7 Object area origin for Y . It must be one of the following:
 X'000000'–X'001555' → In the range of 0 to 5,461 when using 240 units per
 inch for the page or overlay Y measurement units
@@ -666,11 +634,9 @@ specify that the object area is to be positioned with respect to the including p
 system.
 MO:DCA IS/1
 
-## Page 519
 
-MO:DCA Reference 487
 Page Descriptor
-PGD X'D3A6AF' Page Descriptor (See “Page Descriptor (PGD)” on page 310)
+PGD X'D3A6AF' Page Descriptor (See “Page Descriptor (PGD)”)
 0–1 X'0000' →Page measurement units base for X and Y 1 M
 2–3 Page measurement units value for X. It must be one of the following:
 X'0960' → 2400 units per unit base (240 units per inch)
@@ -697,7 +663,7 @@ Y directions of 136.5 inches, is supported by all IPDS printers, and keeps the c
 presentation space within the range of two-byte addressing parameters in the IPDS and PTOCA
 architectures.
 Presentation Text Data
-PTX X'D3EE9B' Presentation Text Data (See “Presentation Text Data (PTX)” on page 341)
+PTX X'D3EE9B' Presentation Text Data (See “Presentation Text Data (PTX)”)
 0–n Up to 8,192 bytes of presentation text data as defined by PTOCA PT1
 Presentation Text Data Descriptor, Format 2
 PTD X'D3B19B' Presentation Text Data Descriptor (See “Presentation Text Data Descriptor (PTD) Format 2” on
@@ -709,19 +675,15 @@ recommended that whenever the PTD is included in the AEG, the same measurement u
 specified in both the PTD and PGD.
 MO:DCA IS/1
 
-## Page 520
 
-488 MO:DCA Reference
 MO:DCA Presentation Interchange Set 2 (IS/2)
 The MO:DCA Interchange Set 2 (MO:DCA IS/2) has been retired for products that implemented this set before
-2012; see “Retired Interchange Set” on page 575. This interchange set is no longer part of the MO:DCA
+2012; see “Retired Interchange Set”. This interchange set is no longer part of the MO:DCA
 interchange set hierarchy.
 MO:DCA IS/2
 
-## Page 521
 
-MO:DCA Reference 489
-MO:DCA Interchange Set 3 (IS/3)
+### MO:DCA Interchange Set 3 (IS/3)
 This section defines the MO:DCA Interchange Set 3 (MO:DCA IS/3) used for presentation documents.
 MO:DCA IS/3 is based on MO:DCA Presentation Interchange Set 1 (MO:DCA IS/1) and contains most of the
 functions added to the MO:DCA architecture since the IS/1 interchange set was defined in 1991. IS/3 does not
@@ -742,7 +704,6 @@ that are also included in IS/3. These subsets are:
 • AFPC TIFF
 • AFPC JPEG
 Both are formally defined in Presentation Object Subsets for AFP, available from the AFP Consortium.
-Note: This version of the MO:DCA Reference includes all published Errata for the prior version of this
 Reference.
 1.0 Functional Subsets
 The MO:DCA IS/3 interchange set comprises the following major MO:DCA functional subsets above and
@@ -756,7 +717,7 @@ beyond the functional subsets contained in MO:DCA IS/1:
 • Color management
 2.0 Compliance
 General compliance with MO:DCA interchange sets is defined in “Interchange Set Compliance Requirements”
-on page 472. The MO:DCA architecture definition of compliance with the IS/3 interchange set is limited to what
+. The MO:DCA architecture definition of compliance with the IS/3 interchange set is limited to what
 compliance means for MO:DCA print files, it does not include definitions of IS/3 compliance for product
 compliance classes, e.g. generators and receivers. That is, the architecture defines the content of IS/3-
 compliant print files in terms of what is permitted (may), what is recommended (should), what is mandatory
@@ -764,17 +725,14 @@ compliant print files in terms of what is permitted (may), what is recommended (
 be provided in documentation that is outside the scope of the MO:DCA architecture.
 MO:DCA IS/3
 
-## Page 522
 
-490 MO:DCA Reference
 A MO:DCA print file is compliant with the IS/3 interchange set definition if all the following conditions are met:
 • all objects and their content must be in IS/3 and must comply with the IS/3 object structure definitions
 • all structured fields must be in IS/3 and must comply with the IS/3 parameter and triplet definitions
 • all structured field triplets must be in IS/3 and must comply with applicable IS/3 restrictions
 • all parameter values must fall within the ranges defined by IS/3
 • the print file must not include any migration functions (as defined in Appendix C - MO:DCA Migration
-Functions), unless they are explicitly allowed in IS/3 (see “7.0 Migration Functions included in IS/3” on page
-515)
+Functions), unless they are explicitly allowed in IS/3 (see “7.0 Migration Functions included in IS/3”)
 • the maximum structured field length must be limited to X'7FF0' = 32,752
 • all Begin Document (BDT) structured fields must specify the MO:DCA Interchange Set (X'18') triplet with ISid
 = X'0D00' (MO:DCA IS/3)
@@ -783,7 +741,7 @@ the Begin Print File (BPF) structured field must specify the MO:DCA Interchange 
 X'0D00' (MO:DCA IS/3)
 2.1 Migration Functions (as defined in Appendix C - MO:DCA Migration Functions)
 In general, MO:DCA IS/3 does not include any obsolete, retired, or coexistence parameters, triplets, structured
-fields, or objects. For exceptions, see “7.0 Migration Functions included in IS/3” on page 515.
+fields, or objects. For exceptions, see “7.0 Migration Functions included in IS/3”.
 2.2 Structured Field Introducer
 The Flag byte (byte 5) in the Structured Field Introducer (SFI) must be set to X'00'. MO:DCA IS/3 does not
 include support for the following functions:
@@ -808,9 +766,7 @@ structured field, but not because the print file claimed to be IS/3 compliant an
 not part of IS/3.
 MO:DCA IS/3
 
-## Page 523
 
-MO:DCA Reference 491
 3.0 Data Stream Object Structure
 This section defines the objects that make up an IS/3 data stream.
 Notes:
@@ -821,7 +777,7 @@ structured field groupings.
 4. Object content must not include functions that are not in IS/3. That is, a print file is not IS/3-compliant if it
 includes such content.
 5. T able 27contains summaries of the IS/3 object structure. All syntax, semantics, and notes in the object
-structure definitions in Chapter 4, “MO:DCA Objects”, on page 75 apply, unless explicitly specified
+structure definitions in Chapter 4, “MO:DCA Objects”, apply, unless explicitly specified
 otherwise.
 Table 27. IS/3 Objects
 IS/3 Data Stream Object Structure
@@ -855,9 +811,7 @@ group. Such consumers should generate a presentation-system-specific
 exception if the physical file contains more than one BPF/EPF pair.
 MO:DCA IS/3
 
-## Page 524
 
-492 MO:DCA Reference
 Table 27 IS/3 Objects (cont'd.)
 IS/3 Data Stream Object Structure
 Object Name Object Envelope
@@ -947,9 +901,7 @@ restrictions.
 (ESG, D3A9D9)
 MO:DCA IS/3
 
-## Page 525
 
-MO:DCA Reference 493
 Table 27 IS/3 Objects (cont'd.)
 IS/3 Data Stream Object Structure
 Object Name Object Envelope
@@ -1019,9 +971,7 @@ restrictions.
 [ (TLE, D3A090) (S) ]
 MO:DCA IS/3
 
-## Page 526
 
-494 MO:DCA Reference
 Table 27 IS/3 Objects (cont'd.)
 IS/3 Data Stream Object Structure
 Object Name Object Envelope
@@ -1086,9 +1036,7 @@ IS/3 may limit the function in the data objects; for details see the individual
 IS/3 object definitions in this table.
 MO:DCA IS/3
 
-## Page 527
 
-MO:DCA Reference 495
 Table 27 IS/3 Objects (cont'd.)
 IS/3 Data Stream Object Structure
 Object Name Object Envelope
@@ -1157,9 +1105,7 @@ Note: If the boundary for an area is to be drawn but is not properly closed,
 IS/3 receivers should not draw a line to close the figure.
 MO:DCA IS/3
 
-## Page 528
 
-496 MO:DCA Reference
 Table 27 IS/3 Objects (cont'd.)
 IS/3 Data Stream Object Structure
 Object Name Object Envelope
@@ -1206,7 +1152,7 @@ retired
 • New Exception id EC-1A03: Invalid Unicode Data
 • Highlight Color Space, range X'0100' - X'FFFF', for Indexed CMRs
 • Support for the full range of color values, as defined in the “Standard
-OCA Color Value T able” on page 521, in the STC control sequence
+OCA Color Value T able”, in the STC control sequence
 • Support for the full PTOCA parameter ranges in the DBR, DIR, SIA, and
 SVI control sequences
 The text object contains only the following structured fields, as defined in
@@ -1217,9 +1163,7 @@ Text Object
 (EPT, D3A99B)
 MO:DCA IS/3
 
-## Page 529
 
-MO:DCA Reference 497
 Table 27 IS/3 Objects (cont'd.)
 IS/3 Data Stream Object Structure
 Object Name Object Envelope
@@ -1233,7 +1177,7 @@ Container (BOC)
 X'D3A892' - End
 Object Container
 (EOC) X'D3A992'
-See T able 28 on page 498 for the presentation object containers included
+See T able 28 for the presentation object containers included
 in IS/3. The object container contains only the following structured fields,
 as defined in the general architecture subject to all applicable IS/3
 restrictions.
@@ -1260,7 +1204,7 @@ mandatory and all object data must be carried in OCDs; OEG is optional.
 wrapped: with a BOC/EOC wrapper, all object data in OCDs, and an
 optional OEG; or unwrapped: where the data is unaltered in its original
 form. If installed with a RAT , the object must not be wrapped.
-See T able 30 on page 499 for the IS/3 presentation object containers that
+See T able 30 for the IS/3 presentation object containers that
 can be referenced with an IOB structured field and that can be processed
 with a Data Object Resource (DOR) RAT (Resource Access T able).
 Object Container
@@ -1272,7 +1216,7 @@ Container (BOC)
 X'D3A892' - End
 Object Container
 (EOC) X'D3A992'
-See T able 29 on page 498 for the non-presentation object containers
+See T able 29 for the non-presentation object containers
 included in IS/3. The object container contains only the following
 structured fields, as defined in the general architecture subject to all
 applicable IS/3 restrictions.
@@ -1301,9 +1245,7 @@ structured field that specifies the name of the code page:
 – Single-byte and double-byte with Unicode values
 MO:DCA IS/3
 
-## Page 530
 
-498 MO:DCA Reference
 Table 27 IS/3 Objects (cont'd.)
 IS/3 Data Stream Object Structure
 Object Name Object Envelope
@@ -1346,14 +1288,12 @@ supported:
 • Indexed (IX) CMRs
 Support for the CMYK passthru function.
 X'06072B120004010139'
-T able 30 on page 499 lists the IS/3 presentation object containers that can be referenced for presentation by
+T able 30 lists the IS/3 presentation object containers that can be referenced for presentation by
 the Include Object (IOB) structured field with ObjType = X'92'— other object data. This is also the list of IS/3
 presentation object containers that can be processed with a Data Object Resource (DOR) RAT .
 MO:DCA IS/3
 
-## Page 531
 
-MO:DCA Reference 499
 Table 30. IS/3 IOB and DOR RAT Presentation Object Containers
 Component
 ID
@@ -1367,7 +1307,7 @@ X'06072B120004010117'
 61 TIFF Multiple Image File X'06072B12000401013D'
 62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E'
 66 AFPC TIFF X'06072B120004010142'
-T able 31 on page 499 lists the secondary resources that are supported by various IS/3 data object resources.
+T able 31 lists the secondary resources that are supported by various IS/3 data object resources.
 Table 31. IS/3 Data Objects and Secondary Resources
 Data Object Resource Secondary Resource Internal Resource Identifier
 IOCA Image IOCA Tile Resource
@@ -1394,9 +1334,7 @@ and BCOCA objects currently cannot be processed as resource objects. However, th
 processed like other secondary resources.
 MO:DCA IS/3
 
-## Page 532
 
-500 MO:DCA Reference
 4.0 Print Control Object Structure
 This section defines the objects that are used to control the presentation of an IS/3 data stream.
 Table 32. IS/3 Print Control Objects
@@ -1469,17 +1407,15 @@ the Medium Map, the Medium Map overrides.
 3. IS/3 does not include support for UP3i finishing operations.
 MO:DCA IS/3
 
-## Page 533
 
-MO:DCA Reference 501
 5.0 Structured Fields and Triplets
 This section lists the IS/3 structured fields and their supported triplets. Triplets that are not listed but that are
 allowed in the general architecture must not be specified in an IS/3-compliant print file. Unless otherwise
 noted, all non-migration structured field positional parameters are supported in IS/3. Also, unless otherwise
 noted, the complete architected parameter range is supported in IS/3 for all structured field positional
 parameters and triplets. In general, IS/3 does not include any obsolete, retired, or coexistence parameters or
-triplets as defined in Appendix C, “MO:DCA Migration Functions”, on page 553; for exceptions, see “7.0
-Migration Functions included in IS/3” on page 515. For brevity the tables in this section are only intended to
+triplets as defined in Appendix C, “MO:DCA Migration Functions”,; for exceptions, see “7.0
+Migration Functions included in IS/3”. For brevity the tables in this section are only intended to
 summarize the triplets that are allowed on a structured field; for a complete definition of how these triplets are
 used on a structured field and what restrictions may apply, the general architecture must be consulted. Note
 that if a triplet is allowed to have 0 occurrences, it is an optional triplet. If it is allowed to have 1 or 1 or more
@@ -1526,9 +1462,7 @@ Environment Group (BDG)
 X'D3A8C4' X'65' 0 or more
 MO:DCA IS/3
 
-## Page 534
 
-502 MO:DCA Reference
 Table 33 IS/3 Begin Structured Fields (cont'd.)
 IS/3 Begin Structured Fields
 Structured Field Name
@@ -1588,9 +1522,7 @@ X'65' 0 or more
 X'83' 0 or 1
 MO:DCA IS/3
 
-## Page 535
 
-MO:DCA Reference 503
 Table 33 IS/3 Begin Structured Fields (cont'd.)
 IS/3 Begin Structured Fields
 Structured Field Name
@@ -1653,9 +1585,7 @@ X'65' 0 or more
 X'72' 0 or 1
 MO:DCA IS/3
 
-## Page 536
 
-504 MO:DCA Reference
 Table 33 IS/3 Begin Structured Fields (cont'd.)
 IS/3 Begin Structured Fields
 Structured Field Name
@@ -1717,9 +1647,7 @@ End Bar Code Object
 X'D3A9EB'
 MO:DCA IS/3
 
-## Page 537
 
-MO:DCA Reference 505
 Table 34 IS/3 End Structured Fields (cont'd.)
 IS/3 End Structured Fields
 Structured Field Name
@@ -1772,9 +1700,7 @@ Field ID Differences from general MO:DCA Architecture
 Bar Code Data (BDA) X'D3EEEB'
 MO:DCA IS/3
 
-## Page 538
 
-506 MO:DCA Reference
 Table 35 IS/3 Structured Fields without Triplets (cont'd.)
 IS/3 Structured Fields without Triplets
 Structured Field Name
@@ -1830,14 +1756,12 @@ Map Medium Overlay
 (MMO)
 X'D3B1DF'
 Map Page Segment (MPS) X'D3B15F' The page segment must be a MO:DCA page segment subject to all
-applicable IS/3 restrictions; see T able 27 on page 491.
+applicable IS/3 restrictions; see T able 27.
 Map Suppression (MSU) X'D3ABEA'
 No Operation (NOP) X'D3EEEE'
 MO:DCA IS/3
 
-## Page 539
 
-MO:DCA Reference 507
 Table 35 IS/3 Structured Fields without Triplets (cont'd.)
 IS/3 Structured Fields without Triplets
 Structured Field Name
@@ -1854,8 +1778,8 @@ page segment at the IPS reference point using RefCSys = X'00', which
 IS/1 did not support.
 Object Container Data
 (OCD)
-X'D3EE92' Content as defined by the object types listed in T able 28 on page 498 for
-presentation object containers and T able 29 on page 498 for non-
+X'D3EE92' Content as defined by the object types listed in T able 28 for
+presentation object containers and T able 29 for non-
 presentation object containers.
 Page Position Format 2
 (PGP)
@@ -1894,9 +1818,9 @@ Container Data Descriptor
 (CDD)
 X'D3A692' X'5A' 0 or 1 occurrences with ObjTpe=X'AF' if the container contains
 one of the multi-page TIFF object types supported in IS/3 (see
-T able 28 on page 498); otherwise should not be specified.
+T able 28); otherwise should not be specified.
 X'9A' 0 or 1 occurrences if the container contains one of the object
-types listed in T able 28 on page 498; otherwise should not be
+types listed in T able 28; otherwise should not be
 specified. Measurement unit restrictions:
 • X unit base = Y unit base = 10 inches
 • X units per unit base and Y units per unit base can be different
@@ -1904,9 +1828,7 @@ specified. Measurement unit restrictions:
 32,767
 MO:DCA IS/3
 
-## Page 540
 
-508 MO:DCA Reference
 Table 36 IS/3 Structured Fields with Triplets (cont'd.)
 IS/3 Structured Fields with Triplets
 Structured Field Name
@@ -1931,9 +1853,7 @@ X'83' 0 or 1
 Invoke Medium Map (IMM) X'D3ABCC'
 MO:DCA IS/3
 
-## Page 541
 
-MO:DCA Reference 509
 Table 36 IS/3 Structured Fields with Triplets (cont'd.)
 IS/3 Structured Fields with Triplets
 Structured Field Name
@@ -1968,14 +1888,14 @@ X'4C' 0 or 1
 X'4E' 0 or 1
 X'5A' 0 or 1 occurrences with ObjTpe=X'AF' if the IOB
 includes one of the multi-page TIFF object types
-supported in IS/3 (see T able 28 on page 498); otherwise
+supported in IS/3 (see T able 28); otherwise
 should not be specified.
 X'70' 0 or 1
 X'91' 1 occurrence for each FQN type X'DE' that references a
 CMR; otherwise should not be specified.
 X'95' 0 or 1
 X'9A' 0 or 1 occurrences if the container contains one of the
-object types listed in T able 28 on page 498; otherwise
+object types listed in T able 28; otherwise
 should not be specified. Measurement unit restrictions:
 • X unit base = Y unit base = 10 inches
 • X units per unit base and Y units per unit base can be
@@ -1991,12 +1911,10 @@ orientation and origin, as was done in IS/1.
 Include Page Segment
 (IPS)
 X'D3AF5F' The page segment must be a MO:DCA page segment subject to all
-applicable IS/3 restrictions; see T able 27 on page 491.
+applicable IS/3 restrictions; see T able 27.
 MO:DCA IS/3
 
-## Page 542
 
-510 MO:DCA Reference
 Table 36 IS/3 Structured Fields with Triplets (cont'd.)
 IS/3 Structured Fields with Triplets
 Structured Field Name
@@ -2042,9 +1960,7 @@ Measurement unit restrictions:
 • range for X units per unit base and Y units per unit base is 1-32,767
 MO:DCA IS/3
 
-## Page 543
 
-MO:DCA Reference 511
 Table 36 IS/3 Structured Fields with Triplets (cont'd.)
 IS/3 Structured Fields with Triplets
 Structured Field Name
@@ -2109,9 +2025,7 @@ equal to 8 characters (bytes) in length.
 X'24' 1 in each RG. The LID range is limited to X'01' - X'7F'.
 MO:DCA IS/3
 
-## Page 544
 
-512 MO:DCA Reference
 Table 36 IS/3 Structured Fields with Triplets (cont'd.)
 IS/3 Structured Fields with Triplets
 Structured Field Name
@@ -2160,9 +2074,7 @@ base is 1-32,767
 X'6C' 0 or more
 MO:DCA IS/3
 
-## Page 545
 
-MO:DCA Reference 513
 Table 36 IS/3 Structured Fields with Triplets (cont'd.)
 IS/3 Structured Fields with Triplets
 Structured Field Name
@@ -2198,13 +2110,13 @@ X'04' 0 or 1 in each RG
 X'4C' 0 or 1 in each RG
 X'5A' 0 or 1 occurrences with ObjTpe=X'AF' if the RG
 processes one of the multi-page TIFF object types
-supported in IS/3 (see T able 28 on page 498); otherwise
+supported in IS/3 (see T able 28); otherwise
 should not be specified.
 X'91' 1 occurrence for each FQN type X'DE' in the RG that
 references a CMR; otherwise should not be specified.
 X'95' 0 or 1 in each RG
 X'9A' 0 or 1 occurrences in the RG if the container contains
-one of the object types listed in T able 28 on page 498;
+one of the object types listed in T able 28;
 otherwise should not be specified. Measurement unit
 restrictions:
 • X unit base = Y unit base = 10 inches
@@ -2224,9 +2136,7 @@ X'02' Tpe X'0C' 0 or 1
 X'80' 0 or 1
 MO:DCA IS/3
 
-## Page 546
 
-514 MO:DCA Reference
 6.0 Architected Tables
 The following tables are part of the IS/3 definition.
 6.1 Standard OCA Color Value Table
@@ -2253,7 +2163,7 @@ X'08' 1
 X'18' 0 or 1
 X'24' 1 or more
 Data Object Resource (DOR) Repeating Group
-All objects defined in T able 37 on page 515.
+All objects defined in T able 37.
 • Flag bits 1-5
 • The following table vectors, listed by ID and showing their allowed occurrences:
 X'01' 1
@@ -2264,13 +2174,11 @@ X'18' 1
 X'1C' 1
 X'24' 1 or more; must be paired with TV X'28'
 X'28' 1 or more; must be paired with TV X'24'
-X'30' 0 or 1 for one of the non-IOCA object types listed in T able 37 on page 515, with the following
+X'30' 0 or 1 for one of the non-IOCA object types listed in T able 37, with the following
 restrictions:
 MO:DCA IS/3
 
-## Page 547
 
-MO:DCA Reference 515
 – X unit base = Y unit base = 10 inches
 – X units per unit base and Y units per unit base can be different
 – range for X units per unit base and Y units per unit base is 1-32,767
@@ -2290,7 +2198,7 @@ X'06072B120004010117'
 62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E'
 66 AFPC TIFF X'06072B120004010142'
 7.0 Migration Functions included in IS/3
-MO:DCA migration functions are defined in Appendix C, “MO:DCA Migration Functions”, on page 553.
+MO:DCA migration functions are defined in Appendix C, “MO:DCA Migration Functions”,.
 7.1 Obsolete Functions
 No obsolete parameters, triplets, structured fields or objects are included in the IS/3 definition.
 7.2 Retired Functions
@@ -2299,14 +2207,10 @@ No retired parameters, triplets, structured fields or objects are included in th
 No coexistence parameters, triplets, structured fields or objects are included in the IS/3 definition.
 MO:DCA IS/3
 
-## Page 548
 
-516 MO:DCA Reference
 MO:DCA AFP Archive Interchange Set (AFP/A)
 The MO:DCA AFP Archive (AFP/A) interchange set is defined in the ISO 18565:2015 “Document management
 – AFP/Archive” standard. Refer to this standard for a complete definition of AFP/A.
 MO:DCA AFP/A
 
-## Page 549
 
-Copyright © AFP Consortium 1990, 2023 517
