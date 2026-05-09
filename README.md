@@ -20,6 +20,7 @@ To use Alpheus in your project add the following dependency:
 This project is a continuation of the [Alpheus AFP Parser](https://github.com/afpdev/alpheusafpparser) originally developed by Rudolf Fiala. We gratefully acknowledge his work in creating this comprehensive AFP parsing library.
 
 Copyright since 2026 Olivier Chatelain
+
 Copyright 2015-2019  Rudolf Fiala
 
 Alpheus AFP Parser is free software: you can redistribute it and/or modify
