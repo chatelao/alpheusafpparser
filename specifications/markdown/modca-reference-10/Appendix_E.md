@@ -1,4 +1,4 @@
-Appendix E. Cross-References
+# Appendix E. Cross-References
 This appendix provides tables that list:
 • MO:DCA structured fields sorted by identifier
 • MO:DCA structured fields sorted by acronym
@@ -37,9 +37,7 @@ X'D3A6FB' IDD Image Data Descriptor 196
 X'D3A77B' IOC IM Image Output Control (C) 605
 X'D3A788' MMC Medium Modification Control 276
 
-## Page 670
 
-638 MO:DCA Reference
 Table 53 Structured Fields Sorted by ID (cont'd.)
 Identifier Acronym Structured Field Name Page
 X'D3A79B' CTC Composed T ext Control (O) 554
@@ -79,9 +77,7 @@ X'D3A9AF' EPG End Page 188
 X'D3A9BB' EGR End Graphics Object 179
 Cross-References
 
-## Page 671
 
-MO:DCA Reference 639
 Table 53 Structured Fields Sorted by ID (cont'd.)
 Identifier Acronym Structured Field Name Page
 X'D3A9C4' EDG End Document Environment Group 175
@@ -120,9 +116,7 @@ X'D3AFD8' IPO Include Page Overlay 222
 X'D3B15F' MPS Map Page Segment 296
 Cross-References
 
-## Page 672
 
-640 MO:DCA Reference
 Table 53 Structured Fields Sorted by ID (cont'd.)
 Identifier Acronym Structured Field Name Page
 X'D3B18A' MCF-1 Map Coded Font Format-1 (C) 598
@@ -145,9 +139,7 @@ R Retired
 C Coexistence
 Cross-References
 
-## Page 673
 
-MO:DCA Reference 641
 MO:DCA Structured Fields Sorted by Acronym
 Table 54. Structured Fields Sorted by Acronym
 Acronym Identifier Structured Field Name Page
@@ -185,9 +177,7 @@ EDT X'D3A9A8' End Document 177
 EFG X'D3A9C5' End Form Environment Group (O) 555
 Cross-References
 
-## Page 674
 
-642 MO:DCA Reference
 Table 54 Structured Fields Sorted by Acronym (cont'd.)
 Acronym Identifier Structured Field Name Page
 EFM X'D3A9CD' End Form Map 178
@@ -227,9 +217,7 @@ MCC X'D3A288' Medium Copy Count 233
 MCD X'D3AB92' Map Container Data 235
 Cross-References
 
-## Page 675
 
-MO:DCA Reference 643
 Table 54 Structured Fields Sorted by Acronym (cont'd.)
 Acronym Identifier Structured Field Name Page
 MCF X'D3AB8A' Map Coded Font 237
@@ -269,9 +257,7 @@ R Retired
 C Coexistence
 Cross-References
 
-## Page 676
 
-644 MO:DCA Reference
 MO:DCA Triplets Sorted by Identifier
 Table 55. Triplets Sorted by ID
 Triplet ID Triplet Name Page
@@ -310,9 +296,7 @@ X'5A' Object Offset 402
 X'5D' Font Horizontal Scale Factor 404
 Cross-References
 
-## Page 677
 
-MO:DCA Reference 645
 Table 55 Triplets Sorted by ID (cont'd.)
 Triplet ID Triplet Name Page
 X'5E' Object Count 405
@@ -352,9 +336,7 @@ X'9D' Keep Group T ogether 468
 X'9E' Setup Name 469
 Cross-References
 
-## Page 678
 
-646 MO:DCA Reference
 Table 55 Triplets Sorted by ID (cont'd.)
 Triplet ID Triplet Name Page
 X'FF' Triplet Extender 470
@@ -364,9 +346,7 @@ R Retired
 C Coexistence
 Cross-References
 
-## Page 679
 
-MO:DCA Reference 647
 MO:DCA Triplets Sorted by Name
 Table 56. Triplets Sorted by Name
 Triplet Name Triplet ID Page
@@ -405,9 +385,7 @@ Media Eject Control X'45' 384
 Media Fidelity X'87' 444
 Cross-References
 
-## Page 680
 
-648 MO:DCA Reference
 Table 56 Triplets Sorted by Name (cont'd.)
 Triplet Name Triplet ID Page
 Medium Map Page Number X'56' 398
@@ -447,9 +425,7 @@ Triplet Extender X'FF' 470
 Universal Date and Time Stamp X'72' 418
 Cross-References
 
-## Page 681
 
-MO:DCA Reference 649
 Table 56 Triplets Sorted by Name (cont'd.)
 Triplet Name Triplet ID Page
 UP3i Finishing Operation X'8E' 454
@@ -459,10 +435,6 @@ R Retired
 C Coexistence
 Cross-References
 
-## Page 682
 
-650 MO:DCA Reference
 
-## Page 683
 
-Copyright © AFP Consortium 1990, 2023 651

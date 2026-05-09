@@ -1,4 +1,4 @@
-Chapter 4. MO:DCA Objects
+# Chapter 4. MO:DCA Objects
 This chapter:
 • Defines the structure of a MO:DCA print file
 • Defines the structure of a MO:DCA document
@@ -10,7 +10,7 @@ This chapter:
 • Defines the structure of print control resource objects
 • Describes the data objects that may be included in a MO:DCA document and defines their structure
 • Defines the structure of object containers
-Object Syntax Structure
+## Object Syntax Structure
 This section specifies the syntax used to define MO:DCA objects.
 If a structured field that is not identified as being part of the object appears anywhere within the object, a X'40'
 exception condition exists. If a structured field appears out of the stated order or more than the permitted
@@ -30,17 +30,14 @@ sign. In that case, the order is as listed.
 required structured field, at least one occurrence of the structured field is required, but multiple
 instances of it may occur.
 F2 An F2 indicates that the structured field is a format two structured field. See “Structured Field
-Formats” on page 25
+Formats”
 Note: The No Operation structured field may appear within any begin-end domain. Therefore, it is not listed in
 the structured field groupings.
-Print File
+## Print File
 The print file is an object that contains one or more documents to be printed. A print file may also optionally
 contain an external resource group, also referred to as a print file level resource group, as well as document
 indexes. Resources carried in a print file level resource group are sometimes referred to as inline resources.
 
-## Page 108
-
-76 MO:DCA Reference
 Figure 23. Print File Structure
 [ Begin Print File (BPF, D3A8A5) ]
 [ ( D3..C6) Resource Group ]
@@ -49,9 +46,9 @@ Figure 23. Print File Structure
 Index + Document Structure
 [ ( D3..A7) Document Index ]
 ( D3..A8) Document (S)
-Figure 23 on page 76 shows the interchange form of a MO:DCA print file.
+Figure 23 shows the interchange form of a MO:DCA print file.
 Warning: Any other form may cause inconsistent, presentation-system-dependent results.
-For a definition of the Resource Group structure, see “Resource Groups” on page 87.
+For a definition of the Resource Group structure, see “Resource Groups”.
 Notes:
 1. The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as
 well.
@@ -89,14 +86,11 @@ interchange print file format and its use is discouraged.
 objects (MO) may be included within the resource group of the print file. The MO Type object container(s)
 Print file
 
-## Page 109
-
-MO:DCA Reference 77
 must directly follow the Begin Resource Group (BRG), otherwise they are ignored. When including multiple
 MOs the series of object containers must be contiguous and, as a whole, constitutes the metadata for the
 print file. The MO: DCA architecture places no restriction on or significance to the sequence or order of
 included metadata.
-Document
+## Document
 The document is the highest level object in the MO:DCA document component hierarchy. A document is
 delimited by Begin Document and End Document structured fields.
 Figure 24. Document Structure
@@ -112,9 +106,9 @@ Begin Document (BDT, D3A8A8)
 End Document (EDT, D3A9A8)
 Architecture Note: The retired MO:DCA IS/2 interchange set allows an optional Document Index, bounded by
 BDI/EDI, to occur once directly following BDT . The content of the document index structure is defined in
-the IS/2 definition; see “Retired Functions” on page 557. This structure is still allowed in products that
+the IS/2 definition; see “Retired Functions”. This structure is still allowed in products that
 support MO:DCA IS/2.
-Figure 24 on page 77 shows the general form of a MO:DCA document. MO:DCA interchange sets may specify
+Figure 24 shows the general form of a MO:DCA document. MO:DCA interchange sets may specify
 a more restrictive document structure; however, such a structure must be a proper subset of the general form.
 Notes:
 1. At the beginning of a document, if a document does not invoke a medium map by name, and if it does not
@@ -135,11 +129,8 @@ IPG in the document.
 follow. Resources mapped in a REG must still be mapped in the AEG for the page that uses the resources.
 The scope of the resource mapping in the REG is from the point where it occurs up to the next REG, which
 is a complete replacement for the current REG, or the end of the document, whichever occurs first.
-Document
+## Document
 
-## Page 110
-
-78 MO:DCA Reference
 5. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
 the document structure. The MO Type object container(s) must directly follow the Begin Document (BDT),
 otherwise they are ignored. When including multiple MOs the series of object containers must be
@@ -155,7 +146,7 @@ if the internal Medium Map specifies conditional media ejects using the Media Ej
 3. For optimum performance a REG is normally placed at the beginning of the document before the first page.
 4. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA
 receivers also issue a message when this occurs.
-Document Index
+## Document Index
 A document index is an object that provides functions for indexing the document based on document structure
 and on application-defined document tags. A document index is delimited by Begin Document Index and End
 Document Index structured fields.
@@ -167,7 +158,7 @@ Begin Document Index (BDI, D3A8A7)
 + [ (LLE, D3B490) Link Logical Element (S) ]
 + [ (TLE, D3A090) Tag Logical Element (S) ]
 End Document Index (EDI, D3A9A7)
-Resource Environment Group
+## Resource Environment Group
 A resource environment group (REG) is associated with a document or a group of pages in a document. It is
 contained in the document's begin-end envelope in the data stream. The REG is used to identify complex
 resources, such as high-resolution color images, that need to be downloaded to the presentation device before
@@ -181,11 +172,8 @@ Begin Resource Environment Group (BSG, D3A8D9)
 [ (MDR, D3ABC3) Map Data Resource (S) ]
 [ (MPO, D3ABD8) Map Page Overlay (S) ]
 [ (PPO, D3ADC3) Preprocess Presentation Object (S) ]
-Document Index
+## Document Index
 
-## Page 111
-
-MO:DCA Reference 79
 End Resource Environment Group (ESG, D3A9D9)
 Notes:
 1. When an MDR is specified in a REG, the FQN type X'BE' triplet, which specifies the internal identifier used
@@ -210,7 +198,7 @@ is ignored and must be established in an ensuing mapping of the same CMR with th
 mode at the page/sheet group (Medium Map) level, page/overlay level, or data object level.
 Application Note: For optimum performance a REG is normally placed at the beginning of the document
 before the first page.
-Page
+
 A page is an object that contains the data objects to be presented. A page establishes its own environment and
 is independent of any other page in the document. A page is delimited by Begin Page and End Page structured
 fields. A MO:DCA page object has the following syntax structure:
@@ -232,11 +220,7 @@ Begin Page (BPG, D3A8AF)
 End Page (EPG, D3A9AF)
 Active Environment Group (AEG)
 Begin Active Environment Group (BAG, D3A8C9)
-Page
 
-## Page 112
-
-80 MO:DCA Reference
 [ (PEC, D3A7A8) Presentation Environment Control ]
 [ (MCF, D3AB8A) Map Coded Font F2 (S) ]
 [ (MDR, D3ABC3) Map Data Resource (S) ]
@@ -250,9 +234,9 @@ Page
 End Active Environment Group (EAG, D3A9C9)
 Architecture Note: The retired MO:DCA IS/2 interchange set allowed an optional Resource Group, bounded
 by BRG/ERG, to occur once directly following BPG. The content of the resource group structure is
-defined in the IS/2 definition; see “Retired Functions” on page 557. This structure is still allowed in
+defined in the IS/2 definition; see “Retired Functions”. This structure is still allowed in
 products that support MO:DCA IS/2.
-Figure 27 on page 79 shows the general form of a MO:DCA page object. MO:DCA interchange sets may
+Figure 27 shows the general form of a MO:DCA page object. MO:DCA interchange sets may
 specify a more restrictive page structure; however, such a structure must be a proper subset of the general
 form.
 Notes:
@@ -279,16 +263,12 @@ environment default font, the font local ID must be mapped to a font global name
 structured field in the AEG for the page. This mapping must be unique, that is, the font local ID can only be
 mapped to one font in the AEG. However different font local IDs can be mapped to the same font. For rules
 on mapping local IDs (LIDs) to resource identifiers such as font global names, see “Environment
-Hierarchies” on page 25.
+Hierarchies”.
 5. If a presentation text object contains an OEG, each MCF or MDR that maps a font in the text object's OEG
 must have a corresponding MCF or MDR mapping the same font in the AEG for that page. Local ID X'FE'
 may be used for such font mappings in the AEG to distinguish them from font mappings for presentation
 text objects without OEG.
-Page
 
-## Page 113
-
-MO:DCA Reference 81
 6. If a presentation object container is included directly in a page, it must specify, at minimum, BOC/EOC, an
 OEG with OBD, OBP , CDD, and the object data must be carried in OCDs. If the object container data
 object is metadata (MO) then the object container must follow the Active Environment Group (AEG).
@@ -306,7 +286,7 @@ reference to a specific CMR resource done using an FQN type X'DE' triplet and an
 same CMR resource done using an FQN type X'EE' triplet are considered separate and can both be
 specified in the same AEG.
 11. The retired MO:DCA IS/2 interchange set supports a resource group following BPG, called an internal
-resource group or a page level resource group, see “Retired Interchange Set” on page 575.
+resource group or a page level resource group, see “Retired Interchange Set”.
 12. The PEC structured field in the AEG for the page is only used to specify the rendering intent for the page
 using the Rendering Intent triplet; all other PEC triplets are ignored.
 13. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
@@ -334,12 +314,8 @@ object and is called a hard page segment. If such a mapping does not exist, the 
 the presentation device as part of the page and is called a soft page segment.
 4. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA
 receivers also issue a message when this occurs.
-Page
 
-## Page 114
-
-82 MO:DCA Reference
-Page Group
+## Page Group
 A page group object is a named set of sequential pages in a document. All pages in a page group inherit the
 attributes and processing characteristics that are assigned to the page group. A page group is delimited by
 Begin Named Page Group and End Named Page Group structured fields.
@@ -355,7 +331,7 @@ Begin Named Page Group (BNG, D3A8AD)
 + [ ( D3..AF) Page (S) ]
 + [ ( D3..AD) Page Group (S) ]
 End Named Page Group (ENG, D3A9AD)
-Figure 28 on page 82 shows the general form of a MO:DCA page group object. MO:DCA interchange sets may
+Figure 28 shows the general form of a MO:DCA page group object. MO:DCA interchange sets may
 specify a more restrictive page group structure; however, such a structure must be a proper subset of the
 general form.
 Notes:
@@ -370,7 +346,7 @@ follow. Resources mapped in a REG must still be mapped in the AEG for the page t
 The scope of the resource mapping in the REG is from the point where it occurs up to the next REG, which
 is a complete replacement for the current REG, or the end of the document, whichever occurs first.
 4. If the Keep Group T ogether (X'9D') triplet is specified on a BNG, that page group is subject to special
-nesting rules. See the “Begin Named Page Group (BNG)” on page 140 Semantics section for details.
+nesting rules. See the “Begin Named Page Group (BNG)” Semantics section for details.
 5. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
 the page group structure. The MO Type object container(s) must directly follow the one or more optional
 T ag Logical Elements (TLE), otherwise they are ignored. When including multiple MOs the series of MO
@@ -384,11 +360,8 @@ Application Notes:
 documentation.
 2. The use of internal medium maps may significantly decrease document processing throughput, especially
 if the internal Medium Map specifies conditional media ejects using the Media Eject Control (X'45') triplet.
-Page Group
+## Page Group
 
-## Page 115
-
-MO:DCA Reference 83
 3. Page groups are often processed in standalone fashion; that is, they are indexed, retrieved, and presented
 outside the context of the containing document. While the pages in the group are independent of each
 other and of any other pages in the document, their formatting on media depends on when the last medium
@@ -411,7 +384,7 @@ may not present the page group correctly if none is found. However, note that th
 document to print differently.
 6. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA
 receivers also issue a message when this occurs.
-Resource Objects
+## Resource Objects
 Objects are considered to be resource objects when they are explicitly referenced from the document instead
 of being directly included in the document. Resource objects may reside in external resource libraries, or in
 print file level resource groups. Note that data objects such as IOCA image objects and object containers
@@ -432,11 +405,8 @@ types of font objects:
 • Font character set objects
 Each object is bounded by begin and end structured fields that are registered as private structured fields in the
 MO:DCA architecture. The content of each object is carried in structured fields that are also registered as
-Resource Objects
+## Resource Objects
 
-## Page 116
-
-84 MO:DCA Reference
 private structured fields in the MO:DCA architecture. For a description of these objects and their structured
 fields, see the Font Object Content Architecture Reference.
 TrueType/OpenType Fonts
@@ -459,11 +429,8 @@ carry the formatting information needed to fully support Unicode. Additionally, 
 TrueType or Adobe Type 1 outlines to be packaged as an OpenType font. The OpenType font format was
 developed jointly by the Adobe and Microsoft Corporations, and it is described in the OpenType Specification,
 which is available on the Microsoft web site.
-Resource Objects
+## Resource Objects
 
-## Page 117
-
-MO:DCA Reference 85
 Overlay Objects
 An overlay is a MO:DCA resource object. It may be stored in an external resource library or it may be carried in
 a resource group. An overlay is similar to a page in that it defines its own environment and carries the same
@@ -493,7 +460,7 @@ Begin Active Environment Group (BAG, D3A8C9)
 [ (OBP, D3AC6B ) Object Area Position ]
 (PTD, D3B19B) Presentation Text Data Descriptor F2
 End Active Environment Group (EAG, D3A9C9)
-Figure 29 on page 85 shows the general form of a MO:DCA overlay object. MO:DCA interchange sets may
+Figure 29 shows the general form of a MO:DCA overlay object. MO:DCA interchange sets may
 specify a more restrictive overlay structure; however, such a structure must be a proper subset of the general
 form.
 Notes:
@@ -513,11 +480,8 @@ default is to set the object area origin and the object content origin to zeros,
 3. The PTD structured field in the AEG for the overlay is only used when the overlay contains one or more
 presentation text objects that do not contain an Object Environment Group (OEG), in which case it is
 mandatory. When the PTD is included in the AEG for an overlay, some AFP print servers require that the
-Resource Objects
+## Resource Objects
 
-## Page 118
-
-86 MO:DCA Reference
 measurement units in the PTD match the measurement units in the Page Descriptor (PGD). It is therefore
 strongly recommended that whenever the PTD is included in the AEG, the same measurement units are
 specified in both the PTD and PGD.
@@ -526,7 +490,7 @@ environment default font, the font local ID must be mapped to a font global name
 structured field in the AEG for the overlay. This mapping must be unique, that is, the font local ID can only
 be mapped to one font in the AEG. However different font local IDs can be mapped to the same font. For
 rules on mapping local IDs (LIDs) to resource identifiers such as font global names, see “Environment
-Hierarchies” on page 25.
+Hierarchies”.
 5. If a presentation text object contains an OEG, each MCF or MDR that maps a font in the text object's OEG
 must have a corresponding MCF or MDR mapping the same font in the AEG for that overlay. Local ID X'FE'
 may be used for such font mappings in the AEG to distinguish them from font mappings for presentation
@@ -554,12 +518,12 @@ on or significance to the sequence or order of included metadata.
 MO:DCA data streams support IM image objects on an overlay for migration purposes. One or more IM image
 objects may be included on an overlay in the same manner that IO image objects are included on an overlay.
 Both forms of image may coexist on the same overlay. For a definition of the IM image object, see Appendix C,
-“MO:DCA Migration Functions”, on page 553.
+“MO:DCA Migration Functions”,.
 MO:DCA data streams support the Map Coded Font format-1 (MCF-1) structured field in the AEG for migration
 purposes. An MCF-1 may appear in place of an MCF format-2 (MCF-2) structured field. If both MCF-1 and
 MCF-2 structured fields are in the same environment group, the MCF-1 structured fields must precede the
 MCF-2 structured fields. For a definition of the MCF-1 structured field, see Appendix C, “MO:DCA Migration
-Functions”, on page 553.
+Functions”,.
 Application Notes:
 1. For purposes of print server resource management, each MCF or MDR that maps a font in a data object
 OEG must have a corresponding MCF or MDR mapping the same font in the AEG for that overlay. The
@@ -567,11 +531,8 @@ local ID used in the overlay AEG need not match the ID in the object OEG. ID X'F
 AEG for fonts mapped in the AEG solely due to their presence in an object's OEG.
 2. A page segment included on an overlay with an IPS may optionally be mapped with an MPS in the AEG for
 that overlay. If such a mapping exists, the page segment is sent to the presentation device as a separate
-Resource Objects
+## Resource Objects
 
-## Page 119
-
-MO:DCA Reference 87
 object and is called a hard page segment. If such a mapping does not exist, the page segment is sent to
 the presentation device as part of the overlay and is called a soft page segment.
 3. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA
@@ -603,23 +564,20 @@ Begin Page Segment (BPS, D3A85F)
 + [ ( D3..FB) Image Object (S) ]
 End Page Segment (EPS, D3A95F)
 MO:DCA supports the AFP Page Segment object for migration purposes. For a definition of this object, see
-“AFP Page Segment” on page 594.
+“AFP Page Segment”.
 Application Note: For hard page segments included via IPS, the OEGs for all objects in the page segment
 must not contain any secondary resource mappings using MCF or MDR structured fields; such
 mappings are ignored. For page segments included via IOB, which are always processed as soft page
 segments, the OEGs for all objects in the page segment can only contain secondary resource mappings
 using MCFs to map FOCA fonts and MDRs to map data-object fonts (TrueType/OpenType fonts); all
 other secondary resource mappings are ignored.
-Resource Groups
+## Resource Groups
 A resource group is an object that contains a collection of resource objects, including:
 • Overlays
 • Page segments
 • Fonts
-Resource Groups
+## Resource Groups
 
-## Page 120
-
-88 MO:DCA Reference
 • Form maps
 • Referenced data objects
 • Object containers
@@ -629,7 +587,7 @@ group. Resources that are carried in a resource group are said to be inline. A r
 Begin Resource Group and End Resource Group structured fields.
 Architecture Note: The retired MO:DCA IS/2 interchange set allowed an optional Resource Group, bounded
 by BRG/ERG, to occur once directly following BPG. The content of the resource group structure is
-defined in the IS/2 definition; see “Retired Functions” on page 557. This structure is still allowed in
+defined in the IS/2 definition; see “Retired Functions”. This structure is still allowed in
 products that support MO:DCA IS/2.
 The scope of a resource group is the object or component that contains the resource group. That is, the
 resources within the resource group are available for use by the presentation system only for the duration of
@@ -659,24 +617,21 @@ Notes:
 resources.
 2. The retired MO:DCA IS/2 interchange set allowed an optional Resource Group, bounded by BRG/ERG, to
 occur once directly following BPG. The content of the resource group structure is defined in the IS/2
-definition; see “Retired Functions” on page 557. This structure is still allowed in products that support
+definition; see “Retired Functions”. This structure is still allowed in products that support
 MO:DCA IS/2.
 3. If an object container is included in a resource group, it must at a minimum be bounded by a BOC/EOC
 pair, an Object Classification (X'10') triplet must be specified on the BOC with a registered object-type
 identifier (encoded object-type OID) for the object data, and the data must be carried in OCDs.
 4. Within a resource group, resource objects of the same type must have unique identifiers.
-Resource Groups
+## Resource Groups
 
-## Page 121
-
-MO:DCA Reference 89
 5. Documents are carried as resource objects in a resource group so that pages in these documents can be
 processed and saved in the presentation device for fast subsequent retrieval using Include Page (IPG)
 structured fields.
 6. The only presentation text objects supported in this structure are those that include an Object Environment
 Group (PTOCA with OEG).
 In AFP environments, each resource object in an external resource group must be wrapped with a Begin
-Resource (BRS) and End Resource (ERS) envelope as shown in Figure 32 on page 89.
+Resource (BRS) and End Resource (ERS) envelope as shown in Figure 32.
 Figure 32. BRS/ERS Envelope for Resources in External (Print File Level) Resource Group
 [ (BRS, D3A8CE) Begin Resource ]
 ( D3..xx) Resource Object
@@ -710,15 +665,12 @@ Examples of such cases are the Code Page, Font Character Set, and Coded Font nam
 type X'85', X'86', and X'8E' triplets, respectively, which define a fixed EBCDIC encoding. The X'01' triplet can
 specify the encoding in two forms; use of the Coded Character Set Identifier (CCSID) form is recommended.
 For a definition of the X'01' triplet and its scope in the document hierarchy, see “Coded Graphic Character Set
-Global Identifier Triplet X'01'” on page 348. The X'01' triplet is mandatory on the Begin Document (BDT)
+Global Identifier Triplet X'01'”. The X'01' triplet is mandatory on the Begin Document (BDT)
 structured field and may be specified on most MO:DCA structured fields that contain character data such as an
 object name. Careful specification of code page and character set is essential for interchange since the system
 defaults for code page and character set may vary from one system environment to another.
-Resource Groups
+## Resource Groups
 
-## Page 122
-
-90 MO:DCA Reference
 Application Note: In AFP environments, print servers treat an external object name—other than a TrueType
 or OpenType full font name—as a resource library member name and attempt to process a resource
 library member with the same name. This means that the external names are subject to the system-
@@ -757,17 +709,14 @@ be used for a resource reference wherever in a print file that resource referenc
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same. For TrueType/OpenType fonts, optimal performance can be achieved by using UTF-16BE as
 the encoding scheme.
-Print Control Objects
+## Print Control Objects
 Print control objects are resource objects that are used to control the presentation of pages on physical media,
 also known as forms or sheets, in a printer. There are two types of print control objects, form maps, also known
 as form definitions or formdefs, and medium maps, also known as copy groups.
 Form Map
 A form map is a print control resource object that consists of:
-Print Control Objects
+## Print Control Objects
 
-## Page 123
-
-MO:DCA Reference 91
 • An optional document environment group (DEG) that defines the print environment for the form map
 • One or more medium map resource objects that are invokable on document and page boundaries and that
 specify a complete set of print controls. The name assigned to each medium map object is unique within the
@@ -811,11 +760,8 @@ apply to the pages/sheets processed with the inline medium map. Structured field
 can
 only be specified in the DEG and not in a medium map, such as the MSU, PFC, and Setup Name (X'9E')
 triplet in the PEC apply to the complete document or print file and are independent of internal medium
-Print Control Objects
+## Print Control Objects
 
-## Page 124
-
-92 MO:DCA Reference
 maps and medium maps in the form map. The MFC structured field can be specified in the DEG and/or
 a Medium Map and defines its scope explicitly.
 Figure 34. Document Environment Group Structure
@@ -862,11 +808,8 @@ Medium Map
 A medium map is a print control resource object that contains the print control parameters for presenting pages
 on a physical medium and for generating copies of the physical medium. Print control parameters may be
 grouped into two categories:
-Print Control Objects
+## Print Control Objects
 
-## Page 125
-
-MO:DCA Reference 93
 • Medium level controls
 • Page level controls
 Medium level controls are controls that affect the medium, such as the specification of medium overlays,
@@ -892,7 +835,7 @@ to be applied to the back side of each copy. The pairing of copy subgroups conti
 specified. Note that with simplex printing, each copy subgroup builds the front sheet-side on all sheet copies
 generated by the copy subgroup. With duplex printing, the first and second copy subgroup in each pair of copy
 subgroups build front and back sheet-sides, respectively, on all sheet copies generated by the pair of copy
-subgroups. Figure 35 on page 93 illustrates the copy subgroup concept.
+subgroups. Figure 35 illustrates the copy subgroup concept.
 Figure 35. Copy Subgroups
 Medium Modiﬁcation Control (MMC)
 Fixed
@@ -941,11 +884,8 @@ IMM (Invoke Medium Map) structured field in the document data stream. Multiple I
 single document.
 • A medium map can be directly included on any page boundary in the document data stream. Such a medium
 map is called an internal medium map. Multiple internal medium maps may be included in a document. An
-Print Control Objects
+## Print Control Objects
 
-## Page 126
-
-94 MO:DCA Reference
 internal medium map is activated by following it immediately with an IMM that invokes the internal medium
 map. If an internal medium map is not explicitly invoked with an immediately-following IMM, it is ignored.
 IMMs cannot be used to invoke internal medium maps elsewhere in the document. When an IMM does not
@@ -997,11 +937,8 @@ presentation of pages. If it does not, an exception is generated.
 preceding medium maps are ignored. For example, if the first invoked medium map specifies a conditional
 eject to the next front partition and the last invoked medium map specifies a conditional eject to the next
 partition, the page is placed into the next partition. Similarly, if the first invoked medium map specifies
-Print Control Objects
+## Print Control Objects
 
-## Page 127
-
-MO:DCA Reference 95
 “constant front” but allows page placement on the back, and if the last invoked medium map specifies
 “constant back” but allows page placement on the front, the first invoked medium map is ignored and the
 page is placed on the front, with constant data placed on the back. For a definition of the constant forms
@@ -1048,11 +985,8 @@ Notes:
 1. An MMO is required in either the document environment group or a medium map if an MMC structured field
 references a medium overlay. If specified in both, the structured field in the medium map takes
 precedence.
-Print Control Objects
+## Print Control Objects
 
-## Page 128
-
-96 MO:DCA Reference
 2. Within a medium map, a given media type local ID may only be mapped once to a media type OID and/or a
 media type name using an MMT .
 3. The MDR may only be used in a Medium Map to reference Color Management Resources (CMRs); MDR
@@ -1079,8 +1013,7 @@ modifications specified by all PMCs in the active medium map are applied to the 
 group specifies a PMC identifier, only the modifications included by the selected PMC are applied to the
 page.
 8. The actual presentation of the selected PMC modifications is controlled by the MMC Constant Forms
-Control (X'F9') keyword and the PGP PgFlgs parameter. See “Page Position (PGP) Format 2” on page
-313.
+Control (X'F9') keyword and the PGP PgFlgs parameter. See “Page Position (PGP) Format 2”.
 9. All overlays included with a PMC structured field are presented on the page presentation space before any
 variable page data is presented.
 10. MFCs can be specified in the document environment group, in a medium map, or in both places. When
@@ -1102,14 +1035,11 @@ must be contiguous and, as a whole, constitute the metadata for the document. Th
 places no restriction on or significance to the sequence or order of included metadata. If an object
 container is specified in medium map state, the ObjClass parameter on the mandatory Object
 Classification (X'10') triplet must be set to X'50'—Metadata; otherwise, the object container is ignored.
-Print Control Objects
+## Print Control Objects
 
-## Page 129
-
-MO:DCA Reference 97
 Application Note: When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some
 MO:DCA receivers also issue a message when this occurs.
-Data Objects
+## Data Objects
 Data objects contain presentation data and the controls to present this data. Data objects are generated in an
 object presentation space in accordance with controls defined by the data object architecture. The object
 presentation space is mapped to an object area on the page in accordance with controls defined in MO:DCA
@@ -1122,11 +1052,8 @@ levels are formally defined, they are called function sets or subsets. Wherever 
 MO:DCA is limited to particular function sets, the function-set level is indicated in the object structure definition.
 Wherever a MO:DCA interchange set further restricts the level of function set that is supported in the
 interchange set, such restriction is indicated in the interchange set definition.
-Data Objects
+## Data Objects
 
-## Page 130
-
-98 MO:DCA Reference
 Bar Code Objects
 Bar code data consists of patterns of bars and spaces that represent alphanumeric information. Characteristics
 of the patterns are defined by specific bar code symbologies. A bar code object carries the alphanumeric
@@ -1175,11 +1102,8 @@ OEG must always be factored up to a mapping in the AEG.
 5. The rendering intent for BCOCA objects is fixed as media-relative colorimetric.
 6. An MDR is used to map a presentation data object in a QR Code with Image bar code object. For purposes
 of print server resource management, each MDR that is specified in the bar code OEG must have a
-Data Objects
+## Data Objects
 
-## Page 131
-
-MO:DCA Reference 99
 corresponding MDR mapping the same resource in the AEG for that page or overlay. Each MDR in the bar
 code OEG must specify both external and internal identifiers in the OEG and the external identifiers are
 factored up to the AEG for the page or overlay.
@@ -1188,7 +1112,7 @@ mapped by the OEG. When the presentation data object resource is an IOCA image, 
 triplet would be paired with an FQN type X'84' triplet. When the presentation data object resource is a non-
 OCA presentation object, the FQN type X'BE' triplet would be paired with an FQN type X'CE' triplet.
 Presentation data object resources supported for this purpose are IOCA images along with the object
-types shown in T able 48 on page 626.
+types shown in T able 48.
 These secondary presentation data object resources may themselves contain OEGs with MDRs for non-
 presentation data object resources (IOCA tiles, CMRs, data object fonts, etc.), also known as tertiary
 objects. These tertiary MDRs have external names and some may have internal names. These tertiary
@@ -1217,19 +1141,13 @@ Bar Code
 Presentation Space
 Note: Refer to the Bar Code Object Content Architecture Reference for a full description of the BCOCA object
 content, syntax, and semantics for MO:DCA data streams.
-Data Objects
+## Data Objects
 
-## Page 132
-
-100 MO:DCA Reference
 Mapping the Bar Code Presentation Space
 The mapping option is specified by the Mapping Option (X'04') triplet on the Map Bar Code Object (MBC)
-structured field. The only valid option is position. This mapping is shown in Figure 39 on page 99.
-Data Objects
+structured field. The only valid option is position. This mapping is shown in Figure 39.
+## Data Objects
 
-## Page 133
-
-MO:DCA Reference 101
 Graphics Objects
 Graphics data consists of controls and parameters to generate pictures based on lines, characters, and
 shaded areas. The graphics data object is defined by the Graphics Object Content Architecture for Advanced
@@ -1277,21 +1195,15 @@ mapping the same CMR in the AEG for the page or overlay that includes the graphi
 4. The mapping of a font local ID to a font must be unique; that is, the font local ID can only be mapped to one
 font in the OEG. However, different font local IDs can be mapped to the same font. The font mapping in an
 OEG must always be factored up to a mapping in the AEG.
-Data Objects
+## Data Objects
 
-## Page 134
-
-102 MO:DCA Reference
 5. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA
 receivers also issue a message when this occurs.
 Architecture Note:
 1. The PEC structured field in the OEG for the graphics object is only used to specify the rendering intent for
 the object using the Rendering Intent triplet; all other PEC triplets are ignored.
-Data Objects
+## Data Objects
 
-## Page 135
-
-MO:DCA Reference 103
 Mapping the Graphics Presentation Space
 The mapping option is specified by the Mapping Option (X'04') triplet on the Map Graphics Object (MGO)
 structured field. The valid mapping options are:
@@ -1301,41 +1213,29 @@ structured field. The valid mapping options are:
 • Position and trim
 The replicate-and-trim mapping option has been retired for graphics objects; see “Retired Parameters” on
 page 570.
-These mapping options are shown in Figure 41 on page 103, Figure 42 on page 104, Figure 43 on page 105,
-and Figure 44 on page 106.
+These mapping options are shown in Figure 41, Figure 42, Figure 43,
+and Figure 44.
 Figure 41. Graphics Presentation Space Mapping: Scale to Fit
-Data Objects
+## Data Objects
 
-## Page 136
-
-104 MO:DCA Reference
 Figure 42. Graphics Presentation Space Mapping: Scale to Fill
 Note that the scale to fill mapping option is similar to scale to fit except that the Graphics presentation space
 window may be scaled asymmetrically to fill the object area completely. This means that the aspect ratio of the
 graphics picture may not be preserved.
-Data Objects
+## Data Objects
 
-## Page 137
-
-MO:DCA Reference 105
 Figure 43. Graphics Presentation Space Mapping: Center and Trim
-Data Objects
+## Data Objects
 
-## Page 138
-
-106 MO:DCA Reference
 Figure 44. Graphics Presentation Space Mapping: Position and Trim
-Data Objects
+## Data Objects
 
-## Page 139
-
-MO:DCA Reference 107
 Image Objects
 Image data consists of an electronic representation of a picture in the form of an array of raster data, along with
 the controls to present this data. The image data object is defined by the Image Object Content Architecture
 and is sometimes referred to as an IO image object.
 MO:DCA also supports the IM image object for migration purposes. For a definition of this object, see “IM
-Image Object” on page 595.
+Image Object”.
 Figure 45. Image Object Structure
 Begin Image Object (BIM, D3A8FB)
 ( D3..C7) Object Environment Group
@@ -1373,11 +1273,8 @@ receivers also issue a message when this occurs.
 Architecture Note:
 1. The PEC structured field in the OEG for the image object is only used to specify the rendering intent for the
 object using the Rendering Intent triplet; all other PEC triplets are ignored.
-Data Objects
+## Data Objects
 
-## Page 140
-
-108 MO:DCA Reference
 Mapping the Image Presentation Space
 The mapping option is specified by the Mapping Option (X'04') triplet on the Map Image Object (MIO)
 structured field. The valid mapping options are:
@@ -1385,32 +1282,23 @@ structured field. The valid mapping options are:
 • Scale to fill
 • Center and trim
 • Position and trim
-These mapping options are shown in Figure 46 on page 108, Figure 47 on page 109, Figure 48 on page 110,
-and Figure 49 on page 111.
+These mapping options are shown in Figure 46, Figure 47, Figure 48,
+and Figure 49.
 Figure 46. Image Presentation Space Mapping: Scale to Fit
-Data Objects
+## Data Objects
 
-## Page 141
-
-MO:DCA Reference 109
 Figure 47. Image Presentation Space Mapping: Scale to Fill
 Note that the scale to fill mapping option is similar to scale to fit except that the Image presentation space may
 be scaled asymmetrically to fill the object area completely. This means that the aspect ratio of the image may
 not be preserved.
-Data Objects
+## Data Objects
 
-## Page 142
-
-110 MO:DCA Reference
 Figure 48. Image Presentation Space Mapping: Center and Trim
-Data Objects
+## Data Objects
 
-## Page 143
-
-MO:DCA Reference 111
 Figure 49. Image Presentation Space Mapping: Position and Trim
 The MO:DCA architecture supports three additional mappings for the IOCA FS10 object for IM image migration
-purposes. For a definition of these mappings, see “Coexistence Triplets” on page 607.
+purposes. For a definition of these mappings, see “Coexistence Triplets”.
 Text Objects
 Presentation text data consists of graphic character code points and the controls required to position and
 present the corresponding graphic characters. The presentation text data object is defined by the Presentation
@@ -1427,11 +1315,8 @@ parameters normally specified in the OEG are specified in the Active Environment
 containing page or overlay as follows:
 • Object Area Descriptor (OBD). Optionally included once in the AEG, therefore it applies to all presentation
 text objects on the page or overlay that do not contain an OEG. Furthermore, MO:DCA interchange sets
-Data Objects
+## Data Objects
 
-## Page 144
-
-112 MO:DCA Reference
 require that the OBD specify measurement units and extents that match those specified for the page or
 overlay in the PGD. If the OBD is omitted, the architected default is to use the measurement units and
 extents specified in the PGD for the text object area measurement units and object area extents.
@@ -1449,7 +1334,7 @@ objects on the page or overlay that do not contain an OEG. When the BPT structur
 PTOCA object without OEG, all initial text conditions specified in the Presentation T ext Descriptor (PTD)
 structured field of the page or overlay's AEG are set prior to processing the text object.
 Application Note: Whenever a BPT is encountered for a text object without OEG, AFP servers set default
-page-level initial text conditions before the PTD initial conditions are set; see T able 16 on page 158.
+page-level initial text conditions before the PTD initial conditions are set; see T able 16.
 Note: Presentation text objects that do not contain an OEG that are found in a page or overlay may be referred
 to as text major.
 Figure 51. Presentation Text Object Structure - With OEG
@@ -1476,11 +1361,8 @@ Architecture Note: The coexistence PTD-1 structured field is not allowed in the 
 Object.
 Note: Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
 the data object structure. The MO Type object container(s) must directly follow the Object Environment
-Data Objects
+## Data Objects
 
-## Page 145
-
-MO:DCA Reference 113
 Group (OEG), otherwise they are ignored. When including multiple MOs the series of MO Type object
 containers must be contiguous and, as a whole, constitute the metadata for the data object. MO:DCA
 places no restriction on or significance to the sequence or order of included metadata.
@@ -1508,18 +1390,15 @@ specified in the active Medium Map.
 3. The mapping of a font local ID to a font must be unique; that is, the font local ID can only be mapped to one
 font in the OEG. However, different font local IDs can be mapped to the same font. The font mapping in an
 OEG must always be factored up to a mapping in the AEG.
-Data Objects
+## Data Objects
 
-## Page 146
-
-114 MO:DCA Reference
 Mapping the Text Presentation Space (Text Object with OEG)
 The mapping option is specified by the Mapping Option (X'04') triplet on the Map Presentation T ext (MPT)
 structured field. The valid mapping option is:
 • Position
 This mapping option is shown in Figure 52.
 Figure 52. Text Presentation Space Mapping: Position
-Object Containers
+## Object Containers
 Object containers are MO:DCA objects that envelop and carry object data. The object data may or may not be
 specified by an AFP architecture. The object data is not constrained to be traditional text, image, or graphics.
 However if it is a presentation object, it must have a well-defined processing semantic resulting in a fixed,
@@ -1527,17 +1406,14 @@ deterministic presentation when processed by a receiver capable of presenting th
 traditional time-invariant presentation object, it must be paginated, that is its presentation space must be
 constrained to a single page. For presentation objects, the object data in the container is presented when the
 object container is included on a page or overlay using the Include Object (IOB) structured field. The object
-container may also be included directly on a page or overlay. Figure 53 on page 115 shows how object
+container may also be included directly on a page or overlay. Figure 53 shows how object
 container data is included on a page using the Include Object (IOB) structured field.
 When a presentation object container is included on a page or overlay, the object is first completely processed
 into final-form in its own presentation space, including applying any transformations specified within the object,
 before that object presentation space is mapped into the MO:DCA object area and the MO:DCA position,
 rotation, and scaling parameters are applied to the object area.
-Object Containers
+## Object Containers
 
-## Page 147
-
-MO:DCA Reference 115
 Figure 53. Use of the IOB to Include Object Container Data
 The object container provides a range of functions that may be used to identify and structure the enveloped
 object data. At minimum, the container provides Begin and End structured fields, categorizes the object into a
@@ -1557,11 +1433,8 @@ level) resource group, the container must, at a minimum, have the following stru
 – BOC/EOC with the Object Classification (X'10') triplet on the BOC specifying the registered object-type
 identifier (encoded object-type OID) for the object data format
 – All object data partitioned into OCDs
-Object Containers
+## Object Containers
 
-## Page 148
-
-116 MO:DCA Reference
 • If the object is included using an Include Object (IOB) structured field and is stored in a resource library, there
 is no minimum container structure requirement, that is, the object may be stored and included in its
 unaltered, original form. However, if the included object is carried in a BOC/EOC container, the object data
@@ -1607,11 +1480,8 @@ the object using the Rendering Intent triplet; all other PEC triplets are ignore
 For non-presentation objects, the required container structure depends on where the object is stored:
 • If the object is carried in an external (print file level) resource group, the container must have the following
 structure:
-Object Containers
+## Object Containers
 
-## Page 149
-
-MO:DCA Reference 117
 – BOC/EOC with the Object Classification (X'10') triplet on the BOC specifying the registered object-type
 identifier (encoded object-type OID) for the object data format
 – All object data partitioned into OCDs
@@ -1650,20 +1520,14 @@ structured field. The valid mapping options are:
 • Position and trim
 • Position
 • UP3i Print Data mapping; only valid for the UP3i Print Data object
-For a description of the supported mapping options see “Mapping Option Triplet X'04'” on page 360. For the
+For a description of the supported mapping options see “Mapping Option Triplet X'04'”. For the
 scale-to-fit and scale-to-fill mapping of presentation data in an object container, a data object presentation
-space size is required. See “Object Type Identifiers” on page 609 for information on how the presentation
+space size is required. See “Object Type Identifiers” for information on how the presentation
 space size is specified by various data objects. If the presentation space size is not specified by the object, the
 architected default is the presentation space size of the including page or overlay.
-Object Containers
+## Object Containers
 
-## Page 150
-
-118 MO:DCA Reference
 The UP3i Print Data mapping is only valid for the UP3i Print Data object type; if any other mapping option is
 specified for this object type a X'02' exception condition exists.
-Object Containers
+## Object Containers
 
-## Page 151
-
-Copyright © AFP Consortium 1990, 2023 119

@@ -1,9 +1,10 @@
-Chapter 1. A Presentation Architecture Perspective
+# Chapter 1. A Presentation Architecture Perspective
+
 This chapter provides a brief overview of Presentation Architecture.
-The Presentation Environment
+
+## The Presentation Environment
 Figure 1 shows today's presentation environment.
-Figure 1. Presentation Environment. The environment is a coordinated set of services architected to meet the
-presentation needs of today's applications.
+**Figure 1. Presentation Environment.** The environment is a coordinated set of services architected to meet the presentation needs of today's applications.
 import/export
 edit/revise
 format
@@ -26,16 +27,16 @@ distribute
 manage
 print
 finish
-Document
+## Document
 Creation
 Services
-Document
+## Document
 Archiving
 Services
-Document
+## Document
 Printing
 Services
-Document
+## Document
 Viewing
 Services
 The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key
@@ -53,10 +54,7 @@ particular format used for physically transmitting or storing data. Where approp
 industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for
 compressed image data.
 
-## Page 34
-
-2 MO:DCA Reference
-Architecture Components
+## Architecture Components
 AFP architectures provide the means for representing documents in a data format that is independent of the
 methods used to capture or create them. Documents can contain combinations of text, image, graphics, and
 bar code objects in presentation-system-independent and resolution-independent formats. Documents can
@@ -64,7 +62,7 @@ contain fonts, overlays, and other resource objects required at presentation tim
 Finally, documents can contain resource objects, such as a document index and tagging elements supporting
 the search and navigation of document data, for a variety of application purposes.
 The presentation architecture components are divided into two major categories: data streams and objects.
-Data Streams
+### Data Streams
 A data stream is a continuous ordered stream of data elements and objects conforming to a given format.
 Application programs can generate data streams destined for a presentation service, archive library,
 presentation device, or another application program. The strategic presentation data stream architectures are:
@@ -83,22 +81,16 @@ can be carried in an IPDS data stream to be interpreted and presented by microco
 hardware. The IPDS architecture defines bidirectional command protocols for query, resource management,
 and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided
 by pre-processing and post-processing devices attached to IPDS printers.
-Architecture Components
+## Architecture Components
 
-## Page 35
-
-MO:DCA Reference 3
 Figure 2 shows a system model relating MO:DCA and IPDS data streams to the presentation environment
 previously described. Also shown in the model are the object content architectures that apply to all levels of
 presentation processing in a system.
 Figure 2. Presentation Model. This diagram shows the major components in a presentation system and their
 use of data stream and object architectures.
-Architecture Components
+## Architecture Components
 
-## Page 36
-
-4 MO:DCA Reference
-Objects
+### Objects
 Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object
 content architectures describe the structure and content of each type of data format that can exist in a
 document or appear in a data stream. Objects can be either data objects or resource objects.
@@ -141,11 +133,8 @@ of common value in the presentation environment. Examples of these are Form Defi
 managing the production of pages on the physical media, overlay resource objects that accommodate
 electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a
 document.
-Architecture Components
+## Architecture Components
 
-## Page 37
-
-MO:DCA Reference 5
 Figure 3 shows an example of an all-points-addressable page composed of multiple presentation objects.
 Figure 3. Presentation Page. This is an example of a mixed-object page that can be composed in a
 presentation-system-independent MO:DCA format and printed on an IPDS printer.
@@ -157,7 +146,7 @@ Plains, Iowa
 Sales have improved so dramatically since
 you have joined our team, I would like to
 know your techniques.
-Page
+
 Presentation
 Text Object(s)
 Graphics Object
@@ -168,12 +157,5 @@ Object areas
 can overlap
 Let’s get together and discuss your promotion!
 Jim D. Bolt
-Architecture Components
+## Architecture Components
 
-## Page 38
-
-6 MO:DCA Reference
-
-## Page 39
-
-Copyright © AFP Consortium 1990, 2023 7

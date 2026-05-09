@@ -1,30 +1,20 @@
-## Page 1
-
 Advanced Function Presentation Consortium
 Data Stream and Object Architectures
 Mixed Object Document
 Content Architecture (MO:DCA)
 Reference
-AFPC-0004-10
 
-## Page 2
-
-Copyright © AFP Consortium 1990, 2023 ii
 Note:
-Before using this information, read the information in “Notices” on page 655.
-AFPC-0004-10
+Before using this information, read the information in “Notices”.
 Eleventh Edition (June 2023)
 This edition applies to the Mixed Object Document Content Architecture™ (MO:DCA™). It replaces and makes obsolete
 the previous edition, AFPC-0004-09. This edition remains current until a new edition is published.
 T echnical changes are indicatedin green, with a green vertical bar to the left of the change. Editorial changes that have no
-technical significance are not noted. For a detailed list of changes, see “Summary of Changes” on page ix.
+technical significance are not noted. For a detailed list of changes, see “Summary of Changes”.
 Internet
 Visit our home page at: www.afpcinc.org
 
-## Page 3
-
-Copyright © AFP Consortium 1990, 2023 iii
-Preface
+# Preface
 This book describes the functions and services associated with the MO:DCA architecture.
 This book is a reference, not a tutorial. It complements individual product publications, but does not describe
 product implementations of the architecture.
@@ -57,9 +47,6 @@ new set of bylaws with tiered membership and shared governance resulting in the 
 standards body called the AFP Consortium™ (AFPC™). Ownership of and responsibility for the AFP
 architectures was transferred at that time to the AFP Consortium.
 
-## Page 4
-
-iv MO:DCA Reference
 How to Use This Book
 This book is divided into eight chapters, six appendixes, and a glossary.
 • Chapter 1, “A Presentation Architecture Perspective” introduces the AFP architectures and positions the
@@ -89,9 +76,6 @@ and by name.
 TrueType/OpenType font OIDs, Color Management Resource (CMR) OIDs, and data object OIDs.
 • The Glossary defines some of the terms used within this book.
 
-## Page 5
-
-MO:DCA Reference v
 How to Read the Syntax Diagrams
 Throughout this book, syntax is described using the following formats. The syntax of the structured field, the
 principal MODCA data structure, is shown with a horizontal representation, followed by a table that lists the
@@ -121,7 +105,7 @@ structured field extender or padding is to be used.
 • The Structured Field Data, which provides the structured field's effect, is contained in the set of parameters
 described in the table.
 For a detailed discussion of the data elements comprising MO:DCA structured fields, see “MO:DCA Structured
-Field Syntax” on page 20.
+Field Syntax”.
 Data
 The syntax for a MO:DCA data structure is as follows:
 Offset Type Name Range Meaning M/O Exc
@@ -138,7 +122,6 @@ values, if
 applicable.
 Meaning or purpose of the data
 element.
-M
 or
 O
 Code
@@ -147,13 +130,10 @@ functional definition at the current time, but may have at some time in the futu
 MO:DCA architecture defines as a reserved field should be given a value of zero by generating applications.
 Receiving applications should ignore any values contained in a reserved field.
 
-## Page 6
-
-vi MO:DCA Reference
 Additional columns appear to the right of the Meaning column. These columns are:
 M/O Mandatory or optional
 Exc Exception code for the exception conditions that are possible for the data element. See
-“Exception Conditions” on page 71 for further information concerning exception conditions.
+“Exception Conditions” for further information concerning exception conditions.
 The following is an example of the MO:DCA syntax:
 Structured Field Introducer
 SF Length (2B) ID = X'D3AFD8' Flags (1B) Reserved;
@@ -175,13 +155,9 @@ X'2D00' 90 degrees
 X'5A00' 180 degrees
 X'8700' 270 degrees
 O X'02'
-16–n Triplets See “IPO Semantics” on page
-222 for triplet applicability.
+16–n Triplets See “IPO Semantics”for triplet applicability.
 O X'10'
 
-## Page 7
-
-MO:DCA Reference vii
 Related Publications
 Following is a list of the AFP Architecture publications.
 AFP Architecture Publications
@@ -217,9 +193,6 @@ SC09-2190 (IBM)
 Font Summary for AFP Font Collection S544-5633 (IBM)
 Technical Reference for Code Pages S544-3802 (IBM)
 
-## Page 8
-
-viii MO:DCA Reference
 Table 4. UP3I Architecture Documentation
 UP3I Publication Book Identification
 Universal Printer Pre- and Post-Processing Interface (UP 3ITM) Specification Available at:
@@ -229,10 +202,7 @@ ISO Publication Book Identification
 Document management – AFP/Archive ISO 18565:2015, available at:
 www.iso.org
 
-## Page 9
-
-MO:DCA Reference ix
-Summary of Changes
+# Summary of Changes
 This eleventh edition of the Mixed Object Document Content Architecture (MO:DCA) Reference contains the
 following significant architecture extensions:
 • Support for metadata objects has been expanded to allow metadata to be associated with additional AFP
@@ -248,14 +218,7 @@ printed
 As stated in the edition notice, the additions are marked in this publication in green, with green revision bars
 located on the left-hand side of a page.
 
-## Page 10
-
-x MO:DCA Reference
-
-## Page 11
-
-Copyright © AFP Consortium 1990, 2023 xi
-Contents
+# Contents
 Preface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . iii
 Who Should Read This Book .....................................................................................................................iii
 AFP Consortium......................................................................................................................................iii
@@ -312,9 +275,6 @@ SFI Semantics...................................................................
 Type Codes ................................................................................................................................. 22
 Category Codes ........................................................................................................................... 23
 
-## Page 12
-
-xii MO:DCA Reference
 Structured Field Data ......................................................................................................................... 24
 Structured Field Introducer Extension .................................................................................................... 24
 Structured Field Segmentation ............................................................................................................. 24
@@ -378,9 +338,6 @@ Rendering intent ...............................................................
 CMRs and print media........................................................................................................................ 53
 CMR Processing............................................................................................................................... 53
 
-## Page 13
-
-MO:DCA Reference xiii
 CMR association and scope ............................................................................................................ 53
 CMR processing mode................................................................................................................... 54
 CMR hierarchy rules...................................................................................................................... 55
@@ -444,9 +401,6 @@ T ext Objects...................................................................
 Mapping the T ext Presentation Space (T ext Object with OEG) ...............................................................114
 Object Containers ............................................................................................................................114
 
-## Page 14
-
-xiv MO:DCA Reference
 Mapping the Container Data Presentation Space ................................................................................117
 Chapter 5. MO:DCA Structured Fields . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 119
 General Information ..............................................................................................................................119
@@ -510,9 +464,6 @@ BOG (X'D3A8C7') Syntax .........................................................
 BOG Semantics .............................................................................................................................. 149
 BOG Exception Condition Summary.................................................................................................... 149
 
-## Page 15
-
-MO:DCA Reference xv
 Begin Print File (BPF)........................................................................................................................... 150
 BPF (X'D3A8A5') Syntax .................................................................................................................. 150
 BPF Semantics............................................................................................................................... 150
@@ -576,9 +527,6 @@ EGR Semantics ..................................................................
 EGR Exception Condition Summary.................................................................................................... 179
 End Image Object (EIM)........................................................................................................................ 180
 
-## Page 16
-
-xvi MO:DCA Reference
 EIM (X'D3A9FB') Syntax................................................................................................................... 180
 EIM Semantics ............................................................................................................................... 180
 EIM Exception Condition Summary ..................................................................................................... 180
@@ -643,9 +591,6 @@ Index Element (IEL) ............................................................
 IEL (X'D3B2A7') Syntax.................................................................................................................... 197
 IEL Semantics ................................................................................................................................ 197
 
-## Page 17
-
-MO:DCA Reference xvii
 IEL Exception Condition Summary...................................................................................................... 198
 Invoke Medium Map (IMM) .................................................................................................................... 199
 IMM (X'D3ABCC') Syntax ................................................................................................................. 199
@@ -710,9 +655,6 @@ CMR Name .......................................................................
 Generic CMRs ........................................................................................................................... 259
 Link CMRs ................................................................................................................................ 259
 
-## Page 18
-
-xviii MO:DCA Reference
 CMR Install Program ................................................................................................................... 259
 CMRs in a Resource Library.......................................................................................................... 260
 CMRs in an External (Print file level) Resource Group......................................................................... 261
@@ -776,9 +718,6 @@ OBP (X'D3AC6B') Syntax .........................................................
 OBP Semantics .............................................................................................................................. 303
 OBP Exception Condition Summary .................................................................................................... 304
 
-## Page 19
-
-MO:DCA Reference xix
 Object Container Data (OCD)................................................................................................................. 305
 OCD (X'D3EE92') Syntax.................................................................................................................. 305
 OCD Semantics .............................................................................................................................. 305
@@ -842,9 +781,6 @@ Structured Fields Using Triplet X'04' ..........................................
 Object Classification Triplet X'10' ............................................................................................................ 363
 Triplet X'10' Syntax .......................................................................................................................... 363
 
-## Page 20
-
-xx MO:DCA Reference
 Triplet X'10' Semantics ..................................................................................................................... 363
 Structured Fields Using Triplet X'10' .................................................................................................... 366
 MO:DCA Interchange Set Triplet X'18' ..................................................................................................... 367
@@ -908,9 +844,6 @@ Triplet X'4D' Syntax ...........................................................
 Triplet X'4D' Semantics .................................................................................................................... 390
 Structured Field Using Triplet X'4D' ..................................................................................................... 390
 
-## Page 21
-
-MO:DCA Reference xxi
 Color Specification Triplet X'4E' .............................................................................................................. 391
 Triplet X'4E' Syntax ......................................................................................................................... 391
 Triplet X'4E' Semantics..................................................................................................................... 391
@@ -974,9 +907,6 @@ Structured Fields Using Triplet X'71' ..........................................
 Universal Date and Time Stamp Triplet X'72' ............................................................................................. 418
 Triplet X'72' Syntax .......................................................................................................................... 418
 
-## Page 22
-
-xxii MO:DCA Reference
 Triplet X'72' Semantics ..................................................................................................................... 418
 Structured Fields Using Triplet X'72' .................................................................................................... 419
 T oner Saver Triplet X'74' ....................................................................................................................... 420
@@ -1040,9 +970,6 @@ Triplet X'8E' Syntax ...........................................................
 Triplet X'8E' Semantics..................................................................................................................... 454
 Structured Field Using Triplet X'8E' ..................................................................................................... 454
 
-## Page 23
-
-MO:DCA Reference xxiii
 MO:DCA Function Set Triplet X'8F'.......................................................................................................... 455
 Triplet X'8F' Syntax.......................................................................................................................... 455
 Triplet X'8F' Semantics ..................................................................................................................... 455
@@ -1107,9 +1034,6 @@ Begin Graphics Object ..........................................................
 Begin Image Object..................................................................................................................... 479
 Begin Object Environment Group ................................................................................................... 479
 
-## Page 24
-
-xxiv MO:DCA Reference
 Begin Overlay ............................................................................................................................ 479
 Begin Page................................................................................................................................ 479
 Begin Presentation T ext Object ...................................................................................................... 479
@@ -1172,9 +1096,6 @@ Appendix A. Color Resources . . . . . . . . . . . . . . . . . . . . . . . . . . 
 Standard OCA Color Value T able ............................................................................................................ 521
 Converting Colors to Grayscale in MO:DCA Environments ........................................................................... 523
 
-## Page 25
-
-MO:DCA Reference xxv
 CIELab Color Space ........................................................................................................................ 523
 RGB Color Space............................................................................................................................ 523
 CMYK Color Space ......................................................................................................................... 523
@@ -1237,9 +1158,6 @@ Structured Field Using MDD Two-up Triplet X'10' ................................
 T ext Orientation Triplet X'1D' ......................................................................................................... 558
 Triplet X'1D' Syntax................................................................................................................. 558
 
-## Page 26
-
-xxvi MO:DCA Reference
 Triplet X'1D' Semantics ............................................................................................................ 559
 Structured Field Using Triplet X'1D' ............................................................................................ 559
 Object Function Set Specification Triplet X'21' ................................................................................... 559
@@ -1304,9 +1222,6 @@ Presentation T ext Object (PTOCA PT1) ..........................................
 Permitted Structured Fields........................................................................................................... 579
 Structured Field Parameters ..................................................................................................... 580
 
-## Page 27
-
-MO:DCA Reference xxvii
 Bar Code Data ....................................................................................................................... 580
 Bar Code Data Descriptor......................................................................................................... 581
 Begin Active Environment Group ............................................................................................... 581
@@ -1371,9 +1286,6 @@ Presentation T ext Data Descriptor (PTD-1) Format 1 ............................
 PTD-1 (X'D3A69B') Syntax ....................................................................................................... 600
 PTD-1 Semantics ................................................................................................................... 601
 
-## Page 28
-
-xxviii MO:DCA Reference
 Begin IM Image Object (BII) .......................................................................................................... 601
 BII (X'D3A87B') Syntax ............................................................................................................ 601
 BII Semantics ........................................................................................................................ 601
@@ -1420,10 +1332,7 @@ Trademarks......................................................................
 Glossary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 657
 Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 699
 
-## Page 29
-
-Copyright © AFP Consortium 1990, 2023 xxix
-Figures
+# Figures
 1. Presentation Environment ........................................................................................................................ 1
 2. Presentation Model ................................................................................................................................ 3
 3. Presentation Page.................................................................................................................................. 5
@@ -1484,9 +1393,6 @@ Figures
 58. Examples of MDR Repeating Groups.................................................................................................... 258
 59. Examples of MDR Repeating Groups.................................................................................................... 263
 
-## Page 30
-
-xxx MO:DCA Reference
 60. Normal Duplex and Tumble Duplex Printing ........................................................................................... 283
 61. 1-up Partition Numbering, Front Sheet-Side ........................................................................................... 320
 62. 2-up Partition Numbering, Front Sheet-Side ........................................................................................... 321
@@ -1534,10 +1440,7 @@ xxx MO:DCA Reference
 104. IM Image Object Structure: Simple (Non-celled) Image ........................................................................... 596
 105. IM Image Object Structure: Complex (Celled) Image .............................................................................. 597
 
-## Page 31
-
-Copyright © AFP Consortium 1990, 2023 xxxi
-Tables
+# Tables
 1. AFPC Architecture Documentation............................................................................................................vii
 2. Additional AFP Consortium Documentation ................................................................................................vii
 3. AFP Font-Related Documentation ............................................................................................................vii
@@ -1595,10 +1498,3 @@ Tables
 55. Triplets Sorted by ID.......................................................................................................................... 644
 56. Triplets Sorted by Name..................................................................................................................... 647
 
-## Page 32
-
-xxxii MO:DCA Reference
-
-## Page 33
-
-Copyright © AFP Consortium 1990, 2023 1

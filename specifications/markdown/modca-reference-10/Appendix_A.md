@@ -1,4 +1,4 @@
-Appendix A. Color Resources
+# Appendix A. Color Resources
 This appendix describes color resources that may be used in MO:DCA environments. For a discussion of font
 resources, see Font Object Content Architecture Reference.
 Standard OCA Color Value Table
@@ -9,7 +9,7 @@ mapped to the binary value range 0 to 255. Although all values in this table are
 objects, some objects support only a subset of the colors. For a definition of the supported colors, see the
 Object Content Architecture references for the individual objects. Note that this table defines the complete set
 of colors supported by the GOCA Set Extended Color drawing order. The Color Specification (X'4E') triplet also
-supports these colors for the Standard OCA color space; see “Color Specification Triplet X'4E'” on page 391.
+supports these colors for the Standard OCA color space; see “Color Specification Triplet X'4E'”.
 Table 43. Color Values
 Value Color Red
 (R)
@@ -18,14 +18,14 @@ Green
 Blue
 (B)
 X'0000' or X'FF00' Presentation-process default; see Note
-1 on page 522
+1
 X'0001' or X'FF01' Blue 0 0 255
 X'0002' or X'FF02' Red 255 0 0
 X'0003' or X'FF03' Pink/Magenta 255 0 255
 X'0004' or X'FF04' Green 0 255 0
 X'0005' or X'FF05' Turquoise/cyan 0 255 255
 X'0006' or X'FF06' Yellow 255 255 0
-X'0007' White; see Note 2 on page 522 255 255 255
+X'0007' White; see Note 2 255 255 255
 X'0008' Black 0 0 0
 X'0009' Dark blue 0 0 170
 X'000A' Orange 255 128 0
@@ -36,13 +36,11 @@ X'000E' Mustard 196 160 32
 X'000F' Gray 131 131 131
 X'0010' Brown 144 48 0
 X'FF07' Presentation-process default; see Note
-3 on page 522
+3
 — — —
 X'FF08' Color of medium — — —
 
-## Page 554
 
-522 MO:DCA Reference
 Table 43 Color Values (cont'd.)
 Value Color Red
 (R)
@@ -78,9 +76,7 @@ have been presentation-system dependent. Nevertheless, it is recommended that OC
 as C = M = Y = X'00', and K = X'FF'.
 Color Resources
 
-## Page 555
 
-MO:DCA Reference 523
 Converting Colors to Grayscale in MO:DCA Environments
 Documents containing color specifications may be sent to bilevel devices such as black and white printers. If
 the presentation process decides, based on user fidelity requirements or on defaults, that the document is to
@@ -122,12 +118,10 @@ assuming
 0 <= Y <= 1
 Color Resources
 
-## Page 556
 
-524 MO:DCA Reference
 Standard OCA Color Space (Named Colors)
 Named colors are first converted to RGB values using the mapping defined in the Standard OCA Color Value
-T able; see“Standard OCA Color Value T able” on page 521. Once the named color is converted to an RGB
+T able; see“Standard OCA Color Value T able”. Once the named color is converted to an RGB
 value, the equations for calculating lightness (L) from RGB are used.
 Note: The Standard OCA color space also supports a value for color of medium. This color is not simulated
 with a grayscale intensity.
@@ -135,7 +129,7 @@ Highlight Color Space
 In the absence of a color mapping, each highlight color is simulated with black, and % coverage is applied.
 The Color Mapping Table Resource
 The Color Mapping T able (CMT) is used to map color values specified in a source color space to color values
-specified in a target color space. This allows colors specified in one or more source documents to be mapped
+specified in a target color space. This allows colors specified in one or moresource documents to be mapped
 to colors more suitable to the selected presentation device without requiring changes to the applications that
 generate the documents.
 Color Mapping Table in MO:DCA Environments
@@ -163,9 +157,7 @@ selected presentation data that is printed from that time on until the CMT is re
 reset table. The CMT is not applied to data in a resource object, such as an overlay or page segment, until that
 Color Resources
 
-## Page 557
 
-MO:DCA Reference 525
 resource object is included on a logical page. This means that if the CMT changes between includes of an
 overlay, the overlay can be printed in different colors. However, this is not true for pages that are being
 processed and saved as resources in the presentation device. For that case, the CMT that is active when the
@@ -183,7 +175,7 @@ color space and a set of color values. Additionally, each repeating group specif
 to be treated as sources, in which case it is a source repeating group, or as targets, in which case it is a target
 repeating group. Source repeating groups also specify the type of source data the color values should be
 associated with. The color mapping table must contain at least one source repeating group and one target
-repeating group. One or more source repeating groups can be associated with a single target repeating group
+repeating group. One or moresource repeating groups can be associated with a single target repeating group
 by matching the repeating group IDs. While there may be multiple source repeating groups with the same
 repeating group ID, there cannot be more than one target repeating group with the same ID, and there must be
 a target repeating group for every source repeating group. If there is more than one target repeating group with
@@ -199,7 +191,7 @@ Once a source repeating group has been matched with a target repeating group, th
 repeating group are mapped sequentially to the color values in the target repeating group. That is, the first
 color value in the source repeating group is mapped to the first color value in the associated target repeating
 group, the second color value in the source repeating group is mapped to the second color value in the
-associated target repeating group, and so on. If there are more source color values than target color values,
+associated target repeating group, and so on. If there are moresource color values than target color values,
 the source color values that do not have targets are mapped to presentation process default color values. If
 there are more target color values than source color values, the extra target color values are ignored. If the
 same source color value is mapped to more than one target color value, the first-specified target color value is
@@ -208,126 +200,42 @@ The presentation device uses the color mapping table to search the specified dat
 values, and to replace the source color values with the target color values when rendering the data.
 Color Resources
 
-## Page 558
 
-526 MO:DCA Reference
 Color Mapping Table Syntax
-Offset Type Name Range Meaning M/O
-0–1 UBIN TBLlngth 6–65,535 T able length M
-2–3 CODE TBLid 1–65,534 T able ID M
-4 CODE TBLtpe X'01', X'81' T able type:
-X'01' Color mapping
-table
-X'81' Reset color
-mapping table
-M
-5 Reserved; should be zero M
-For a color mapping table (TBLtpe = X'01'), at least one source and one target repeating group in the following format:
-Source Repeating Group
-0–1 UBIN RGLngth 30–(n+1) Repeating group length M
-2 UBIN RGId 1–127 Repeating group ID M
-3 CODE RGTpe X'01' Repeating group type:
-X'01' Source color value
-repeating group
-All others Reserved
-M
-4 CODE ColSpce X'06', X'40', X'50' Color space:
-X'06' Highlight color
-space
-X'40' Standard OCA
-color space
-X'50' GOCA Pattern Fill
-space
-All others Reserved
-M
-5–8 Reserved; should be zero M
-9 UBIN ColSize1 X'08', X'10' Number of bits in component 1; see
-color space definitions
-M
-10 UBIN ColSize2 X'00', X'08' Number of bits in component 2; see
-color space definitions
-M
-11 UBIN ColSize3 X'00', X'08' Number of bits in component 3; see
-color space definitions
-M
-12 Reserved; should be zero M
-Color Resources
+| Offset | Type | Name | Range | Meaning | M/O |
+| --- | --- | --- | --- | --- | --- |
+| 0–1 | UBIN | TBLlngth | | 6–65,535 T able length | M |
+| 2–3 | CODE | TBLid | | 1–65,534 T able ID | M |
+| 4 CODE TBLtpe X'01', X'81' T able type: | | | | | X'01' Color mapping table X'81' Reset color mapping table |
+| 5 | Reserved; | should | | be zero | M For a color mapping table (TBLtpe = X'01'), at least one source and one target repeating group in the following format: Source Repeating Group |
+| 0–1 | UBIN | RGLngth | | 30–(n+1) Repeating group length | M |
+| 2 | UBIN | RGId | | 1–127 Repeating group ID | M |
+| 3 CODE RGTpe X'01' Repeating group type: | | | | | X'01' Source color value repeating group All others Reserved |
+| 4 CODE ColSpce X'06', X'40', X'50' Color space: | | | | | X'06' Highlight color space X'40' Standard OCA color space X'50' GOCA Pattern Fill space All others Reserved |
+| 5–8 | Reserved; | should | | be zero | M |
+| 9 UBIN ColSize1 X'08', X'10' Number of bits in component 1; see | | | | | color space definitions |
+| 10 UBIN ColSize2 X'00', X'08' Number of bits in component 2; see | | | | | color space definitions |
+| 11 UBIN ColSize3 X'00', X'08' Number of bits in component 3; see | | | | | color space definitions |
+| 12 | Reserved; | should | | be zero | M Color Resources |
 
-## Page 559
 
-MO:DCA Reference 527
-Offset Type Name Range Meaning M/O
-13 CODE ObjSel X'6B', X'7B', X'9B',
-X'AF', X'BB', X'DF',
-X'EB', X'FB', X'FE',
-X'FF'
-Source object type selector:
-X'6B' Object area
-X'7B' IM Image data
-X'9B' PTOCA data
-X'AF' Page presentation
-space
-X'BB' GOCA data
-X'DF' Overlay
-presentation
-space
-X'EB' BCOCA data
-X'FB' Non-tiled bilevel
-IOCA image data
-X'FE' All PTOCA,
-GOCA, BCOCA,
-non-tiled bilevel
-IOCA, and IM
-Image object data
-X'FF' All objects, object
-areas, and
-presentation
-spaces
-All others Reserved
-M
-14–29 Reserved; should be zero M
-30–n Color Values Sequential list of color values to be
-mapped
-O
-Target Repeating Group
-0–1 UBIN RGLngth 13–(m+1) Repeating group length M
-2 UBIN RGId 1–127 Repeating group ID M
-3 CODE RGTpe X'02' Repeating group type:
-X'02' T arget color value
-repeating group
-All others Reserved
-M
-4 CODE ColSpce X'01', X'04', X'06',
-X'08'
-Color space:
-X'01' RGB
-X'04' CMYK
-X'06' Highlight color
-space
-X'08' CIELAB
-All others Reserved
-M
-5–8 Reserved; should be zero M
-9 UBIN ColSize1 X'01'–X'08', X'10' Number of bits in component 1; see
-color space definitions
-M
-10 UBIN ColSize2 X'00'–X'08' Number of bits in component 2; see
-color space definitions
-M
-11 UBIN ColSize3 X'00'–X'08' Number of bits in component 3; see
-color space definitions
-M
-12 UBIN ColSize4 X'00'–X'08' Number of bits in component 4; see
-color space definitions
-M
-13–m Color Values Sequential list of color values to be
-mapped
-O
-Color Resources
+| Offset | Type | Name | Range | Meaning | M/O |
+| --- | --- | --- | --- | --- | --- |
+| 13 CODE ObjSel X'6B', X'7B', X'9B', | | | | | X'AF', X'BB', X'DF', X'EB', X'FB', X'FE', X'FF' Source object type selector: X'6B' Object area X'7B' IM Image data X'9B' PTOCA data X'AF' Page presentation space X'BB' GOCA data X'DF' Overlay presentation space X'EB' BCOCA data X'FB' Non-tiled bilevel IOCA image data X'FE' All PTOCA, GOCA, BCOCA, non-tiled bilevel IOCA, and IM Image object data X'FF' All objects, object areas, and presentation spaces All others Reserved |
+| 14–29 | Reserved; | should | | be zero | M |
+| 30–n Color Values Sequential list of color values to be | | | | | mapped O Target Repeating Group |
+| 0–1 | UBIN | RGLngth | | 13–(m+1) Repeating group length | M |
+| 2 | UBIN | RGId | | 1–127 Repeating group ID | M |
+| 3 CODE RGTpe X'02' Repeating group type: | | | | | X'02' T arget color value repeating group All others Reserved |
+| 4 CODE ColSpce X'01', X'04', X'06', | | | | | X'08' Color space: X'01' RGB X'04' CMYK X'06' Highlight color space X'08' CIELAB All others Reserved |
+| 5–8 | Reserved; | should | | be zero | M |
+| 9 UBIN ColSize1 X'01'–X'08', X'10' Number of bits in component 1; see | | | | | color space definitions |
+| 10 UBIN ColSize2 X'00'–X'08' Number of bits in component 2; see | | | | | color space definitions |
+| 11 UBIN ColSize3 X'00'–X'08' Number of bits in component 3; see | | | | | color space definitions |
+| 12 UBIN ColSize4 X'00'–X'08' Number of bits in component 4; see | | | | | color space definitions |
+| 13–m Color Values Sequential list of color values to be | | | | | mapped O Color Resources |
 
-## Page 560
 
-528 MO:DCA Reference
 Color Mapping Table Semantics
 TBLlngth Contains the length of the table, including this length field, in bytes.
 TBLid Contains the identifier for the table.
@@ -346,12 +254,12 @@ value repeating groups with a target color value repeating group.
 RGtpe Is a code that defines the type of repeating group.
 Value Description
 X'01' Source color value repeating group. The repeating group specifies a list of
-color values that are sources of a color mapping.
+color values that aresources of a color mapping.
 X'02' T arget color value repeating group. The repeating group specifies a list of
 color values that are targets of a color mapping.
 ColSpce Is a code that defines the color space and the encoding for the color specification. Color
 spaces are defined in the MO:DCA Color Specification (X'4E') triplet; see “Color Specification
-Triplet X'4E'” on page 391. Only color spaces that are not defined in the X'4E' triplet, or color
+Triplet X'4E'”. Only color spaces that are not defined in the X'4E' triplet, or color
 spaces that have a special meaning when used in a CMT , are described here.
 Value Description
 X'06' Highlight color space. This is the same color space as that defined in the
@@ -377,9 +285,7 @@ to select the GOCA default pattern set. ColSize1 is set to X'08' and defines
 the number of bits used to specify component 1. Component 2 defines a code
 Color Resources
 
-## Page 561
 
-MO:DCA Reference 529
 point, as specified by the Set Pattern Symbol drawing order, that selects a
 specific pattern symbol from the default pattern set and is in the range X'00'–
 X'10', X'40'. ColSize2 is set to X'08' and defines the number of bits used to
@@ -393,7 +299,7 @@ Content Architecture for AFP Reference.
 ColSize1–
 Colsize4
 For a definition of these parameters, see the description of the “Color Specification Triplet
-X'4E'” on page 391.
+X'4E'”.
 ObjSel Is a code that defines the data type to which the color values specified in the source repeating
 group apply.
 Value Description
@@ -426,10 +332,6 @@ target repeating group
 • The table contains invalid data
 Color Resources
 
-## Page 562
 
-530 MO:DCA Reference
 
-## Page 563
 
-Copyright © AFP Consortium 1990, 2023 531
