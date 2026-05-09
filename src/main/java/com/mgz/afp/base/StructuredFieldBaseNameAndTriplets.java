@@ -21,6 +21,7 @@ package com.mgz.afp.base;
 import com.mgz.afp.base.annotations.AFPField;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -49,6 +50,29 @@ public abstract class StructuredFieldBaseNameAndTriplets extends StructuredField
   @XmlAnyElement(lax = true)
   public final List<Triplet> getTripletsXml() {
     return triplets;
+  }
+
+  @Override
+  @XmlElement(name = "text")
+  public String getText() {
+    String nameText = super.getText();
+    StringBuilder sb = new StringBuilder();
+    if (nameText != null && !nameText.trim().isEmpty()) {
+      sb.append(nameText.trim());
+    }
+
+    if (triplets != null) {
+      for (Triplet triplet : triplets) {
+        String tText = triplet.getText();
+        if (tText != null && !tText.trim().isEmpty()) {
+          if (sb.length() > 0) {
+            sb.append(" ");
+          }
+          sb.append(tText.trim());
+        }
+      }
+    }
+    return sb.length() > 0 ? sb.toString() : null;
   }
 
   @Override

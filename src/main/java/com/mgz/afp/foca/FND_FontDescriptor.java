@@ -28,6 +28,7 @@ import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -158,6 +159,11 @@ public class FND_FontDescriptor extends StructuredField {
   }
 
   public String getTypefaceDescription() {
+    return typefaceDescription;
+  }
+
+  @XmlElement(name = "text")
+  public String getText() {
     return typefaceDescription;
   }
 

@@ -25,6 +25,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -176,6 +177,12 @@ public class CMR_ColorManagementResource extends StructuredField {
   public int getReserved1() { return reserved1; }
   public void setReserved1(int reserved1) { this.reserved1 = reserved1; }
   public String getAlias() { return alias; }
+
+  @XmlElement(name = "text")
+  public String getText() {
+    return alias;
+  }
+
   public void setAlias(String alias) { this.alias = alias; }
   public String getType() { return type; }
   public void setType(String type) { this.type = type; }

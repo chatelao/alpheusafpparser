@@ -24,8 +24,11 @@ import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor.BarCodeType;
 import com.mgz.afp.enums.SFFlag;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -142,6 +145,14 @@ public class BDA_BarCodeData extends StructuredField {
 
   public void setyOffset(int yOffset) {
     this.yOffset = yOffset;
+  }
+
+  @XmlElement(name = "text")
+  public String getText() {
+    if (UtilCharacterEncoding.isHumanReadable(barCodeData, Constants.cpIBM500)) {
+      return new String(barCodeData, Constants.cpIBM500);
+    }
+    return null;
   }
 
   public enum BarCodeFlag {

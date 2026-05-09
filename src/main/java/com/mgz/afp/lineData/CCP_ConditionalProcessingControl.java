@@ -24,6 +24,7 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -311,6 +312,11 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
 
     public void setComparisonString(String comparisonString) {
       this.comparisonString = comparisonString;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return comparisonString;
     }
 
     public enum CCP_TimingOfAction {
