@@ -22,6 +22,7 @@ import java.nio.charset.Charset;
 
 public class Constants {
   public static final Charset cpIBM500 = Charset.forName("IBM500");
+  public static final Charset utf16be = Charset.forName("UTF-16BE");
   public static final byte[] EMPTYBYTES_2 = new byte[] {0x00, 0x00};
   public static final byte[] EMPTYBYTES_3 = new byte[] {0x00, 0x00, 0x00};
   public static final byte[] EMPTYBYTES_4 = new byte[] {0x00, 0x00, 0x00, 0x00};

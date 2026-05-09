@@ -592,8 +592,8 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(drawingOrderType);
       os.write(lengthOfFollowingData);
-      os.write(coordinateX);
-      os.write(coordinateY);
+      os.write(UtilBinaryDecoding.shortToByteArray(coordinateX, 2));
+      os.write(UtilBinaryDecoding.shortToByteArray(coordinateY, 2));
     }
 
     public short getLengthOfFollowingData() {
@@ -1778,8 +1778,8 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       os.write(drawingOrderType);
       os.write(lengthOfFollowingData);
       os.write(arcCenter.toBytes());
-      os.write(multiplierIntegerPortion);
-      os.write(multiplierFractionalPortion);
+      os.write(UtilBinaryDecoding.shortToByteArray(multiplierIntegerPortion, 1));
+      os.write(UtilBinaryDecoding.shortToByteArray(multiplierFractionalPortion, 1));
       os.write(UtilBinaryDecoding.longToByteArray(startAngle, 4));
       os.write(UtilBinaryDecoding.longToByteArray(sweepAngle, 4));
     }
