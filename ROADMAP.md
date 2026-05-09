@@ -89,7 +89,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Implement round-trip unit tests for all Structured Fields.
     - ✅ GOCA Structured Fields (BGR, GAD, EGR).
     - ✅ IOCA Structured Fields (IDD, IPD).
-    - ✅ Line Data Structured Fields.
+    - ✅ Line Data Structured Fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
+        - ⏳ Other Line Data Structured Fields (BDM, XMD, FDS, FDX, LND, LNC, CCP, RCD).
+    - ✅ Medium Control Structured Fields (MCC, MMC, MMT, MFC).
+    - ✅ CMOCA and MO:DCA-L Structured Fields (BCA, ECA, MCA, CAT, CMR).
     - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR).
     - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
     - ✅ Presentation Control Structured Fields (PEC, PFC).
