@@ -1,149 +1,92 @@
 Appendix B. Intelligent Printer Data Stream (IPDS) Environment
-The Intelligent Printer Data Stream (IPDS) architecture is the strategic AFP data stream for controlling
-advanced function printer devices. It supports the all-points-addressable printing function that allows text and
-individual image, graphics, and barcode objects to be positioned and presented at any point on the printed
-page.
+The Intelligent Printer Data Stream (IPDS) architecture is the strategic AFP data stream for controlling advanced function printer devices. It supports the all-points-addressable printing function that allows text and individual image, graphics, and barcode objects to be positioned and presented at any point on the printed page.
 All IPDS printer commands are defined in self-defining field formats that are described in the Intelligent Printer
 Data Stream Reference. The reader is referred to this document for a definitive description of the architecture.
 Graphics in the IPDS Environment
-The Wr ite Graphics Control command is sent to the printer to establish the control parameters and initial
-drawing conditions to be used in presenting the picture data. The picture segments themselves are sent to the
-printer as data in one or more Wr ite Graphics commands.
-The IPDS architecture supports the GOCA subsets DR/2V0 and GRS3, as described in Chapter 9,
-“Compliance”, on page 175.
+The Wr ite Graphics Control command is sent to the printer to establish the control parameters and initial drawing conditions to be used in presenting the picture data. The picture segments themselves are sent to the printer as data in one or more Wr ite Graphics commands.
+The IPDS architecture supports the GOCA subsets DR/2V0 and GRS3, as described in Chapter 9, “Compliance”, on page 175.
 IPDS Graphics Command Set
 The IPDS Graphics Command Set consists of the following commands:
 • Write Graphics Control (X'D684')
 • Write Graphics (X'D685')
 W rite Graphics Control Command
-The Wr ite Graphics Control command is sent to the printer to indicate that the command sequence that follows
-is directed to a graphics object on the current page, overlay , or page segment that is being constructed by the
-device. The parameters of this command define the size, placement, and orientation of the graphics object
-area and establish the initial conditions for interpreting the graphics data.
-Upon receiving this command the printer enters the appropriate graphics state and initializes control for
-processing graphics picture segments that are sent in subsequent Wr ite Graphics commands. The End
-command received in graphics state terminates the processing of graphics data.
+The Wr ite Graphics Control command is sent to the printer to indicate that the command sequence that follows is directed to a graphics object on the current page, overlay , or page segment that is being constructed by the device. The parameters of this command define the size, placement, and orientation of the graphics object area and establish the initial conditions for interpreting the graphics data.
+Upon receiving this command the printer enters the appropriate graphics state and initializes control for processing graphics picture segments that are sent in subsequent Wr ite Graphics commands. The End command received in graphics state terminates the processing of graphics data.
 The drawing processor can be invoked in any one of three IPDS printer states, as follows:
 • Page state
 • Overlay state
 • Page Segment state
-When the drawing processor is invoked in Overlay or Page Segment state, the picture data sent to the printer
-is saved as part of the Overlay or Page Segment definition for later inclusion on pages via the Load Copy
+When the drawing processor is invoked in Overlay or Page Segment state, the picture data sent to the printer is saved as part of the Overlay or Page Segment definition for later inclusion on pages via the Load Copy
 Control, Include Overlay , or Include Page Segment commands.
-Positive acknowledgement of graphics commands in Overlay state or Page Segment state means that general
-syntax and validity checks have been made and that the command, or command sequence, has been
-accepted for processing. Additional exceptions that are detected when the data is included on the page are
-reported at that time, assuming that exception reporting is enabled.
+Positive acknowledgement of graphics commands in Overlay state or Page Segment state means that general syntax and validity checks have been made and that the command, or command sequence, has been accepted for processing. Additional exceptions that are detected when the data is included on the page are reported at that time, assuming that exception reporting is enabled.
 
-## Page 210
+---
 
-190 GOCA for AFP Reference
 Output Control Definitions
 Graphics Object Areas
-Pictures are presented in rectangular output areas called object areas. Object areas can be positioned
-at any addressable point on a page or in any Overlay or Page Segment definition and can be defined
-in any one of four orientations (0°, 90°, 180°, and 270°) relative to the axis of the reference system.
+Pictures are presented in rectangular output areas called object areas. Object areas can be positioned at any addressable point on a page or in any Overlay or Page Segment definition and can be defined in any one of four orientations (0°, 90°, 180°, and 270°) relative to the axis of the reference system.
 Object areas correspond to the Usable Area (UA) defined in “Usable Area (UA)” on page 14.
-The size, position, and orientation of object areas are defined to the printer by parameters that are
-specified in the Write Graphics Control command.
+The size, position, and orientation of object areas are defined to the printer by parameters that are specified in the Write Graphics Control command.
 GPS Window
-The GPS window is a rectangular area within the GPS specified in GPS coordinates. This is the part of
-the picture that is mapped to the object area. The graphics data within this window is always trimmed
-by the printer , before the data is mapped to the object area.
+The GPS window is a rectangular area within the GPS specified in GPS coordinates. This is the part of the picture that is mapped to the object area. The graphics data within this window is always trimmed by the printer , before the data is mapped to the object area.
 The GPS window parameters are specified to the printer in the Wr ite Graphics Control command.
 Mapping Control Options
 The data within the GPS Window can be mapped to the object area as specified by the Mapping
 Control Option parameter of the Wr ite Graphics Control command. These options are:
-Center and T rim Map the center of the GPS Window to the center of the object area and
-present to scale. Excess picture data, if any , is trimmed at object area
-boundaries.
+Center and T rim Map the center of the GPS Window to the center of the object area and present to scale. Excess picture data, if any , is trimmed at object area boundaries.
 Scale to Fit Map the center of the window to the center of the object area and scale to fit.
-The scaling is symmetric and the aspect ratio is preserved. All picture data
-within the window is always presented when this option is specified.
+The scaling is symmetric and the aspect ratio is preserved. All picture data within the window is always presented when this option is specified.
 Scale to Fill Map the center of the window to the center of the object area and scale to fill.
 The scaling may be asymmetric and the aspect ratio may not be preserved.
-All picture data within the window is always presented when this option is
-specified.
-Position and T rim Map the upper left-hand corner of the window to an off set point within the
-object area and present to scale. Excess picture data, if any , is trimmed at
-object area boundaries.
+All picture data within the window is always presented when this option is specified.
+Position and T rim Map the upper left-hand corner of the window to an off set point within the object area and present to scale. Excess picture data, if any , is trimmed at object area boundaries.
 Mapping Defaults
-If this parameter is omitted, Position and T rim is used. Excess picture data, if any , is trimmed at page
-boundaries and the off set position is defined to be the origin of the object area.
+If this parameter is omitted, Position and T rim is used. Excess picture data, if any , is trimmed at page boundaries and the off set position is defined to be the origin of the object area.
 W rite Graphics Control Data
 The Wr ite Graphics Control data is made up of three consecutive self-defining fields, as follows:
 • Graphics Area Position (GAP)
 • Graphics Output Control (GOC)
 • Graphics Data Descriptor (GDD)
 Graphics Area Position
-This self-defining field defines the position and orientation of the Graphics object area relative to a
-reference coordinate system. It is a mandatory field in the Wr ite Graphics Control command.
+This self-defining field defines the position and orientation of the Graphics object area relative to a reference coordinate system. It is a mandatory field in the Wr ite Graphics Control command.
 Graphics Output Control
-This self-defining field specifies the size of the graphics object area and the mapping option for the
-graphics object. It is an optional data field in the Write Graphics Control command. If this field is
-omitted, the size of the graphics object area is made equal to the size of the GPS window , as specified
-in the Graphics Data Descriptor , and the Position and T rim option applies, where the offs et origin
-position is defined to be the same as the object area origin.
+This self-defining field specifies the size of the graphics object area and the mapping option for the graphics object. It is an optional data field in the Write Graphics Control command. If this field is omitted, the size of the graphics object area is made equal to the size of the GPS window , as specified in the Graphics Data Descriptor , and the Position and T rim option applies, where the offs et origin position is defined to be the same as the object area origin.
 It is an exception if there is an attempt to present data outside the boundary of the logical page.
-IPDS Environment
 
-## Page 211
+---
 
-GOCA for AFP Reference 191
 Graphics Data Descriptor
-This is a mandatory self-defining field in the Write Graphics Control command. It specifies the
-parameters that define the GPS Window in GPS and sets the drawing default conditions.
+This is a mandatory self-defining field in the Write Graphics Control command. It specifies the parameters that define the GPS Window in GPS and sets the drawing default conditions.
 W rite Graphics Command
-The Wr ite Graphics command transmits graphics data to the printer . The data that is carried in this command
-consists of picture segments that in turn contain the drawing orders that define the picture in GPS.
+The Wr ite Graphics command transmits graphics data to the printer . The data that is carried in this command consists of picture segments that in turn contain the drawing orders that define the picture in GPS.
 The segments that are sent to the printer are of two types:
 • Chained
 • Unchained
 The type is indicated by the flag specified in the Begin Segment header .
-The chained segments are the picture. The unchained segments are ignored, since calling of segments is not
-supported in AFP GOCA.
-All segments sent to the printer are executed in immediate mode. That is, the drawing orders, except for
-unchained segments, are executed as they are received and are not retained or stored as named segments.
+The chained segments are the picture. The unchained segments are ignored, since calling of segments is not supported in AFP GOCA.
+All segments sent to the printer are executed in immediate mode. That is, the drawing orders, except for unchained segments, are executed as they are received and are not retained or stored as named segments.
 The receipt of the first “chained segment” is an implicit command to the printer to start the drawing process.
-There are no restrictions on how much, or how little, data is sent to the printer in a single IPDS Wr ite Graphics
-command, except for the 32K length limit of the command. A Wr ite Graphics command, for example, can
-transmit partial segments, full segments, multiple segments, or any combination of these. The only
-requirement is that the data itself is ordered in the sequence that is expected for immediate processing and
-that the last WG command completes the last segment.
-The Begin Segment command supported by IPDS printers is shown in “Begin Segment Command” on page
-75.
+There are no restrictions on how much, or how little, data is sent to the printer in a single IPDS Wr ite Graphics command, except for the 32K length limit of the command. A Wr ite Graphics command, for example, can transmit partial segments, full segments, multiple segments, or any combination of these. The only requirement is that the data itself is ordered in the sequence that is expected for immediate processing and that the last WG command completes the last segment.
+The Begin Segment command supported by IPDS printers is shown in “Begin Segment Command” on page 75.
 Additional Related Commands
-The following commands are used for query and resource management functions. Only an overview of these
-commands is presented in this document. They are described in detail in the Intelligent Printer Data Stream
+The following commands are used for query and resource management functions. Only an overview of these commands is presented in this document. They are described in detail in the Intelligent Printer Data Stream
 Reference.
-Sense T ype and Model (STM)
-Requests information from the printer that identifies the type and model of the device and the
-command sets supported. The information requested is returned in the Special Data Area of the
-Acknowledge Reply to the STM command. The command sets and data levels supported are also
-returned as part of the acknowledgement data.
+Sense Type and Model (STM)
+Requests information from the printer that identifies the type and model of the device and the command sets supported. The information requested is returned in the Special Data Area of the
+Acknowledge Reply to the STM command. The command sets and data levels supported are also returned as part of the acknowledgement data.
 Execute Order Homestate—Obtain Printer Characteristics (XOH OPC)
-Requests information from the printer that identifies various characteristics of the device. The
-characteristics include information about the printable area currently available, symbol-set support,
-image and font resolution, and other device characteristics.
+Requests information from the printer that identifies various characteristics of the device. The characteristics include information about the printable area currently available, symbol-set support, image and font resolution, and other device characteristics.
 Execute Order Anystate—Request Resource List (XOA RRL)
-Requests the printer to return a specified list of available resources—that is, fonts, overlays, and page
-segments—in the Acknowledge Reply to this command. This information can be used by host
-programs to perform a variety of resource management functions.
+Requests the printer to return a specified list of available resources—that is, fonts, overlays, and page segments—in the Acknowledge Reply to this command. This information can be used by host programs to perform a variety of resource management functions.
 Load Font Equivalence (LFE)
-This command is sent to the printer to map Local Identifiers referenced in graphics to a specified font
-in the printer .
-IPDS Environment
+This command is sent to the printer to map Local Identifiers referenced in graphics to a specified font in the printer .
 
-## Page 212
+---
 
-192 GOCA for AFP Reference
-The correlation function provided by this command is independent of any specific font technology
-implemented by the printing device. That is, the device can resolve this mapping to stored font
-patterns downloaded from the host, or from permanently resident patterns.
+The correlation function provided by this command is independent of any specific font technology implemented by the printing device. That is, the device can resolve this mapping to stored font patterns downloaded from the host, or from permanently resident patterns.
 The same font resource can be used for text, graphics, and bar code data.
 Font Commands
-The host can use commands defined in the IPDS Loaded Font command set and Device Control
-command set to download and manage fonts in the printer . The following commands are provided:
+The host can use commands defined in the IPDS Loaded Font command set and Device Control command set to download and manage fonts in the printer . The following commands are provided:
 • Activate Resource
 • Deactivate Font
 • Load Code Page
@@ -154,13 +97,9 @@ command set to download and manage fonts in the printer . The following commands
 • Load Font Index
 • Load Symbol Set
 IPDS Exceptions
-In the IPDS environment, GOCA exception conditions are mapped to IPDS exceptions and reported. The
-mapping is shown below in T able 15.
-T o map a GOCA exception condition to an IPDS exception, the general rule is simply to add a X'03' on the front
-of the four digits of the GOCA exception condition: GOCA exception condition EC-9301 becomes IPDS
-exception X'0393..01'. However , there are exception conditions that do not follow the general rule—these are
-noted in T able 15.
-T able 15. Mapping from GOCA Exception Condition to IPDS Exception
+In the IPDS environment, GOCA exception conditions are mapped to IPDS exceptions and reported. The mapping is shown below in Table 15.
+T o map a GOCA exception condition to an IPDS exception, the general rule is simply to add a X'03' on the front of the four digits of the GOCA exception condition: GOCA exception condition EC-9301 becomes IPDS exception X'0393..01'. However , there are exception conditions that do not follow the general rule—these are noted in Table 15.
+Table 15. Mapping from GOCA Exception Condition to IPDS Exception
 GOCA exception condition IPDS exception
 IPC-0002 X'0300..02'
 IPC-0003 X'0300..03'
@@ -175,16 +114,13 @@ EC-0002 (retired) X'0300..02'
 EC-0003 X'0300..03'
 EC-0004 X'0300..04'
 EC-0008 X'0300..08'
-EC-000A None; exception condition not reported in IPDS
-environment (see “Note” on page 194)
+EC-000A None; exception condition not reported in IPDS environment (see “Note” on page 194)
 EC-000C X'0300..0C'
 EC-000D X'0300..0D'
-IPDS Environment
 
-## Page 213
+---
 
-GOCA for AFP Reference 193
-T able 15 Mapping from GOCA Exception Condition to IPDS Exception (cont'd.)
+Table 15 Mapping from GOCA Exception Condition to IPDS Exception (cont'd.)
 GOCA exception condition IPDS exception
 EC-000E X'0300..0E'
 EC-0400 X'0304..00'
@@ -223,12 +159,10 @@ EC-D102 X'03D1..02'
 EC-D103 X'03D1..03'
 EC-D104 X'03D1..04'
 EC-DC00 X'03DC..00'
-IPDS Environment
 
-## Page 214
+---
 
-194 GOCA for AFP Reference
-T able 15 Mapping from GOCA Exception Condition to IPDS Exception (cont'd.)
+Table 15 Mapping from GOCA Exception Condition to IPDS Exception (cont'd.)
 GOCA exception condition IPDS exception
 EC-DC01 X'03DC..01'
 EC-DC02 X'03DC..02'
@@ -262,10 +196,8 @@ EC-E302 X'03E3..02'
 EC-E303 X'03E3..03'
 Note: This exception condition does not follow the general rule for mapping described above.
 If a GOCA exception condition has a Standard Action shown in this Reference, that action is ignored in the
-IPDS environment; instead, the IPDS Alternate Exception Action or Page Continuation Action is performed,
-when appropriate.
-IPDS Environment
+IPDS environment; instead, the IPDS Alternate Exception Action or Page Continuation Action is performed, when appropriate.
 
-## Page 215
+---
 
 Copyright © AFP Consortium 1997, 2017 195
