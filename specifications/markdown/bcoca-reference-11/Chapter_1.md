@@ -53,10 +53,7 @@ particular format used for physically transmitting or storing data. Where approp
 industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for
 compressed image data.
 
-## Page 26
 
-2 BCOCA Reference
-Architecture Components
 AFP architectures provide the means for representing documents in a data format that is independent of the
 methods used to capture or create them. Documents can contain combinations of text, image, graphics, and
 bar code objects in presentation-system-independent and resolution-independent formats. Documents can
@@ -83,11 +80,8 @@ can be carried in an IPDS data stream to be interpreted and presented by microco
 hardware. The IPDS architecture defines bidirectional command protocols for query, resource management,
 and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided
 by pre-processing and post-processing devices attached to IPDS printers.
-Architecture Components
 
-## Page 27
 
-BCOCA Reference 3
 Figure 2 shows a system model relating MO:DCA and IPDS data streams to the presentation environment
 previously described. Also shown in the model are the object content architectures that apply to all levels of
 presentation processing in a system.
@@ -131,11 +125,8 @@ Graphics
 Bar Codes
 Object Containers
 Other Objects
-Architecture Components
 
-## Page 28
 
-4 BCOCA Reference
 Objects
 Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object
 content architectures describe the structure and content of each type of data format that can exist in a
@@ -179,11 +170,8 @@ of common value in the presentation environment. Examples of these are Form Defi
 managing the production of pages on the physical media, overlay resource objects that accommodate
 electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a
 document.
-Architecture Components
 
-## Page 29
 
-BCOCA Reference 5
 Figure 3 shows an example of an all-points-addressable page composed of multiple presentation objects.
 Figure 3. Presentation Page. This is an example of a mixed-object page that can be composed in a
 presentation-system-independent MO:DCA format and printed on an IPDS printer.
@@ -206,12 +194,7 @@ Object areas
 can overlap
 Let’s get together and discuss your promotion!
 Jim D. Bolt
-Architecture Components
 
-## Page 30
 
-6 BCOCA Reference
 
-## Page 31
 
-Copyright © AFP Consortium 1991, 2025 7

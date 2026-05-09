@@ -29,7 +29,6 @@ a scanner. The scanning device develops logic signals corresponding to the diffe
 printed bars and the underlying physical media. The logic signals are translated from a serial pulse stream into
 digitized computer readable data by a device called a decoder. The digitized data is transmitted to the host
 computer for processing.
-Elements of a Bar Code System
 A bar code system consists of four major elements:
 1. The bar code symbology used to encode the data
 2. The physical media on which the bar code is printed
@@ -37,9 +36,7 @@ A bar code system consists of four major elements:
 4. The scanning device used to read the bar code.
 The following sections describe these elements in greater detail.
 
-## Page 32
 
-8 BCOCA Reference
 Bar Code Symbology
 Linear Symbologies
 A bar code symbol consists of six parts, as illustrated in Figure 4. The complete symbol consists of a start
@@ -82,11 +79,8 @@ The bar and space patterns used to encode the start and stop characters are gene
 is, the same bar and space pattern is not used for both characters. This feature enables a decoder to scan in
 the forward or reverse directions.
 Figure 5 on page 9 shows examples of linear bar code symbols.
-Elements of a Bar Code System
 
-## Page 33
 
-BCOCA Reference 9
 Figure 5. Examples of Linear Bar Code Symbols (spans three pages)
 (Part 1 of figure)
 Intelligent Mail Barcode
@@ -122,11 +116,8 @@ USPS TRACKING # eVS
 Intelligent Mail Package Barcode
 Code 128, Modifier X’06’
 (encoding 42021234 9374890100000003985039)
-Elements of a Bar Code System
 
-## Page 34
 
-10 BCOCA Reference
 (Part 2 of figure)
 0 512345 67890
 UPC Version A
@@ -180,11 +171,8 @@ F
 N
 C
 1
-Elements of a Bar Code System
 
-## Page 35
 
-BCOCA Reference 11
 (Part 3 of figure)
 GS1 DataBar Omnidirectional
 (encoding 20012345678909)
@@ -214,11 +202,8 @@ Code 39 (3-of-9 Code)
 (encoding 39OR93 with check character
 yielding a 2.32 inch wide symbol)
 39OR93W
-Elements of a Bar Code System
 
-## Page 36
 
-12 BCOCA Reference
 Two-Dimensional Matrix Symbologies
 Two-dimensional matrix symbologies (sometimes called area symbologies) allow large amounts of information
 to be encoded in a two-dimensional matrix. These symbologies are usually rectangular and usually require a
@@ -235,11 +220,8 @@ QR Code with Image 2D Symbol
 (Image is part of the AFP Consortium logo)
 Aztec Code 2D Symbol
 Han Xin Code 2D Symbol
-Elements of a Bar Code System
 
-## Page 37
 
-BCOCA Reference 13
 Two-Dimensional Stacked Symbologies
 Two-dimensional stacked symbologies allow large amounts of information to be encoded by effectively
 stacking short one-dimensional symbols in a row/column arrangement. This reduces the amount of space that
@@ -269,11 +251,8 @@ per Row
 3 Data Symbol Characters
 per Row
 13 Rows
-Elements of a Bar Code System
 
-## Page 38
 
-14 BCOCA Reference
 Bar Code Symbol Generation
 Generating a bar code symbol is a four-step process:
 1. Identify the bar code symbology to be used and the data to be encoded in the message.
@@ -313,11 +292,8 @@ generally separated into three groups: high resolution, medium resolution, and l
 module widths are typically less than 0.009 inch; medium-resolution module widths are between 0.009 inch
 and 0.020 inch; low-resolution module widths are greater than 0.020 inch. The criteria for selecting module
 widths are the application requirements and the printer characteristics.
-Elements of a Bar Code System
 
-## Page 39
 
-BCOCA Reference 15
 Physical Media
 Bar code symbols can be printed on a wide variety of physical media. The most common physical media are
 adhesive labels, cards, and documents. Since the physical media functions as an optical storage device, the
@@ -352,11 +328,8 @@ factors influencing print quality are:
 • Bar edge roughness
 All of these factors are potential sources of system errors. They must be closely controlled to ensure readable
 bar code symbols.
-Elements of a Bar Code System
 
-## Page 40
 
-16 BCOCA Reference
 Scanners
 Data stored in a bar code symbol is retrieved by the movement of an optical scanner across the symbol, or vice
 versa. The scanner can be statically mounted, as in a conveyor system, or movable, as with a hand-held wand.
@@ -369,7 +342,6 @@ low output current when the reflected signal is small. A low reflected signal oc
 bar. Conversely, a high reflected signal occurs when the beam is over a space. These changes in current result
 in an analog waveform. The waveform is processed by the decoder, that digitizes the information. The digitized
 information is then sent to the host computer for processing.
-Performance Measurement
 The performance of bar code systems is generally described in terms of two parameters. The first parameter is
 called the first read rate. The term is defined as the ratio of the number of good scans, or reads, to the number
 of scan attempts. Typically, a good bar code system should have a first read rate of better than 80%. A low first
@@ -378,8 +350,5 @@ The second parameter used to evaluate system performance is the substitution err
 the number of invalid, or incorrect, characters entered into the data base to the number of valid characters
 entered. Substitution error rate is dependent on the structure of the bar code symbology, the quality of the
 printed symbol, and the design of the decoding algorithm.
-Performance Measurement
 
-## Page 41
 
-Copyright © AFP Consortium 1991, 2025 17

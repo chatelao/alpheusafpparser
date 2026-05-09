@@ -26,9 +26,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ---
 
-## Phase 1: Specification Excellence
+## Phase 10: Specification Excellence
 - ⏳ **IPDS (Critical)**: Convert command text dumps to tables, purge PDF artifacts, and fix broken paragraphs.
-- ⏳ **BCOCA**: Remove physical page markers and format syntax tables.
+- 🚧 **BCOCA**:
+    - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
+    - ⏳ Purge physical page markers and PDF artifacts from remaining Chapters and Appendices.
+    - ⏳ Format syntax and registry tables in Chapter 4 and Appendices.
 - ⏳ **IOCA**: Implement Markdown table formatting for structural descriptors.
 - ⏳ **AFP GOCA**: Purge "on page XXX" physical cross-references.
 - ⏳ **Line Data**: Improve table quality and refine text-based diagrams.
