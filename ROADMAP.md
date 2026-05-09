@@ -28,21 +28,40 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ## Phase 10: Specification Excellence
 - ⏳ **IPDS (Critical)**:
-    - ⏳ Purge physical page markers, recurring PDF headers/footers, and fix OCR-induced broken paragraphs and split words.
-    - ⏳ Remove physical page references (e.g., "on page XXX").
+    - ⏳ Purge physical page markers and recurring PDF headers/footers:
+        - ⏳ Chapters 1–5.
+        - ⏳ Chapters 6–10.
+        - ⏳ Chapters 11–17.
+        - ⏳ Appendices A–D.
+    - ⏳ Fix OCR-induced broken paragraphs and split words:
+        - ⏳ Chapters 1–10.
+        - ⏳ Chapters 11–17 and Appendices.
+    - ⏳ Remove physical page references (e.g., "on page XXX") across all files.
     - ⏳ Convert command and syntax text dumps to Markdown tables:
         - ⏳ Device-Control Command Set (Chapter 4).
-        - ⏳ Presentation Object Command Sets (Chapters 5–10: Text, IM-Image, IO-Image, Graphics, Bar Code, Object Container).
-        - ⏳ Metadata and Resource Command Sets (Chapters 11–14: Metadata, Overlay, Page-Segment, Loaded-Font).
-        - ⏳ Triplets and Exception Reporting (Chapters 15–16).
+        - ⏳ Text Command Set (Chapter 5).
+        - ⏳ IM-Image and IO-Image Command Sets (Chapters 6–7).
+        - ⏳ Graphics Command Set (Chapter 8).
+        - ⏳ Bar Code Command Set (Chapter 9).
+        - ⏳ Object Container Command Set (Chapter 10).
+        - ⏳ Metadata, Overlay, and Page-Segment Command Sets (Chapters 11–13).
+        - ⏳ Loaded-Font Command Set (Chapter 14).
+        - ⏳ Triplets (Chapter 15).
+        - ⏳ Exception Reporting (Chapter 16).
         - ⏳ Compliance and Appendices (Chapter 17 and Appendices A–D).
 - 🚧 **BCOCA**:
     - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
     - ✅ Purge physical page markers and PDF artifacts from Chapter 4.
-    - ⏳ Purge physical page markers and PDF artifacts from Chapters 5 and 6.
-    - ⏳ Purge physical page markers and PDF artifacts from Appendices.
-    - ⏳ Format syntax and registry tables in Chapter 4.
-    - ⏳ Format syntax and registry tables in Appendices.
+    - ✅ Purge physical page markers and PDF artifacts from Chapters 5 and 6.
+    - ✅ Purge physical page markers and PDF artifacts from Appendices A–D.
+    - ✅ Fix OCR-induced split words (e.g., "T erminate") in Chapters 5, 6, and Appendices.
+    - ⏳ Format syntax and registry tables:
+        - ✅ Chapter 4: Table 8 (BSD), Table 9 (Types).
+        - ⏳ Chapter 4: Table 10 (Modifiers).
+        - ⏳ Chapter 4: Table 13 (Defaults), Table 19 (Check Digits), Table 20 (BSA).
+        - ⏳ Chapter 4: Tables 21–33 (Special-Function Parameters).
+        - ⏳ Chapter 4: Tables 34–36 (Code Pages, Characters).
+        - ⏳ Appendices B (MO:DCA), C (IPDS).
 - ⏳ **IOCA**: Implement Markdown table formatting for structural descriptors.
 - ⏳ **AFP GOCA**: Purge "on page XXX" physical cross-references.
 - ⏳ **Line Data**: Improve table quality and refine text-based diagrams.

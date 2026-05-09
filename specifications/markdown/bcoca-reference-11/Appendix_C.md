@@ -39,9 +39,7 @@ the bar code, including the bar and space patterns, the Bearer Bars (Interleaved
 Bars and USPS Banner (Intelligent Mail Container Barcode or Intelligent Mail Package Barcode), the RED
 TAG indicator (Royal Mail RED TAG (deprecated)), the zipper pattern and contrast block (MaxiCode), any
 
-## Page 202
 
-178 BCOCA Reference
 image printed in conjunction with a QR Code symbol (QR Code with Image), and the HRI, is not totally
 contained within the bar code object area.
 3. Bar Code Data Descriptor (BCDD) defines the bar code presentation space size, the bar code type to be
@@ -93,9 +91,7 @@ command also contains the parameters to position the bar code symbol within the 
 data portion of the WBC is defined in “Bar Code Symbol Data (BSA)” on page 94.
 IPDS Environment
 
-## Page 203
 
-BCOCA Reference 179
 Additional Related Commands
 The following commands are used for query and resource management functions. Only an overview of these
 commands is presented in this manual. The commands are described in detail in the Intelligent Printer Data
@@ -139,9 +135,7 @@ in conjunction with a QR Code symbol, it is the IPDS command that most closely r
 provided in BCOCA when placing the image object with the correct location, size, and orientation.
 IPDS Environment
 
-## Page 204
 
-180 BCOCA Reference
 BCOCA Exception Conditions and IPDS Exception IDs
 The IPDS Architecture defines its own exception condition codes, called exception IDs, which consist of three
 bytes. BCOCA exception conditions are mapped to IPDS exception IDs by mapping the two-byte BCOCA code
@@ -184,9 +178,7 @@ EC-0F0B X'040F ..0B'
 EC-0F0C X'040F ..0C'
 IPDS Environment
 
-## Page 205
 
-BCOCA Reference 181
 Table 40 BCOCA Exception Conditions and IPDS Exception IDs (cont'd.)
 BCOCA Exception Condition IPDS Exception ID
 EC-0F0D X'040F ..0D'
@@ -229,9 +221,7 @@ EC-1000 X'0410..00'
 EC-1100 X'0411..00'
 IPDS Environment
 
-## Page 206
 
-182 BCOCA Reference
 Table 40 BCOCA Exception Conditions and IPDS Exception IDs (cont'd.)
 BCOCA Exception Condition IPDS Exception ID
 EC-1200 X'0412..00'
@@ -243,6 +233,5 @@ EC-1205 X'0412..05'
 EC-2100 X'0821..00'
 IPDS Environment
 
-## Page 207
 
 Copyright © AFP Consortium 1991, 2025 183
