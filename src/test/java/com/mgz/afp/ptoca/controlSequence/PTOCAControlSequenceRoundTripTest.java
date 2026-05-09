@@ -234,4 +234,19 @@ public class PTOCAControlSequenceRoundTripTest {
     public void testChainedControlSequence() throws Exception {
         assertCSRoundTrip(new AMI_AbsoluteMoveInline(), new byte[]{0x00, 0x64}, true);
     }
+
+    @Test
+    public void testENC_EncryptedDataRoundTrip() throws Exception {
+        assertCSRoundTrip(new ENC_EncryptedData(), new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03}, false);
+    }
+
+    @Test
+    public void testSKI_SetKeyInformationRoundTrip() throws Exception {
+        assertCSRoundTrip(new SKI_SetKeyInformation(), new byte[]{0x00, 0x00, 0x00, 0x00, (byte) 0xAA, (byte) 0xBB, (byte) 0xCC}, false);
+    }
+
+    @Test
+    public void testSEA_SetEncryptedAlternateRoundTrip() throws Exception {
+        assertCSRoundTrip(new SEA_SetEncryptedAlternate(), new byte[]{0x00, 0x00, 0x00, 0x00, (byte) 0xC1, (byte) 0xC2, (byte) 0xC3}, false);
+    }
 }

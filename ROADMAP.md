@@ -115,8 +115,17 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
 - [ ] Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
     - [ ] Implement missing PTOCA Control Sequences:
         - [x] Unicode Complex Text (UCT).
-        - [ ] Glyph Layout Control (GLC) and associated runs (GIR, GAR, GOR).
-        - [ ] Encrypted Data (ENC) and associated controls (SEA, SKI).
+        - [ ] Glyph Layout Control (GLC) and associated runs.
+            - [ ] Implement GLC base control sequence (X'6D').
+            - [ ] Implement Glyph ID Run (GIR).
+            - [ ] Implement Glyph Association Run (GAR).
+            - [ ] Implement Glyph Offset Run (GOR).
+            - [ ] Implement round-trip unit tests for GLC and runs.
+        - [ ] Encrypted Data (ENC) and associated controls.
+            - [x] Implement Set Encrypted Alternate (SEA) (X'9C').
+            - [x] Implement Set Key Information (SKI) (X'9A').
+            - [x] Implement Encrypted Data (ENC) (X'98').
+            - [x] Implement round-trip unit tests for SEA, SKI, and ENC.
     - [ ] Enhance text extraction for XML output:
         - [x] Extract text from Transparent Data (TRN).
         - [x] Extract text from Repeat String (RPS).

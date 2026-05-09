@@ -1,4 +1,3 @@
-## Page 1
 
 Advanced Function Presentation Consortium
 Data Stream and Object Architectures
@@ -6,9 +5,7 @@ Intelligent Printer Data Stream
 Reference
 AFPC-0001-12
 
-## Page 2
 
-Copyright © AFP Consortium 1987, 2023 ii
 Note:
 Before using this information, read the information in “Notices” on page 1023.
 AFPC-0001-12
@@ -17,20 +14,18 @@ This edition applies to the Intelligent Printer Data Stream™ (IPDS™) archite
 Consortium™(AFPC™) and replaces and makes obsolete the previous edition (AFPC-0001-11). This edition remains
 current until a new edition is published. This publication also applies to any subsequent releases of Advanced Function
 Presentation™ (AFP™) products that use the IPDS architecture until otherwise indicated in a new edition.
-T echnicalchanges are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no
+Technicalchanges are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no
 technical significance are not noted. For a detailed list of changes, see “Changes in This Edition” on page xvii.
 Internet
 Visit our home page: www.afpcinc.org
 
-## Page 3
 
-Copyright © AFP Consortium 1987, 2023 iii
-Preface
-This book describes the functions and services associated with the Intelligent Printer Data Stream (IPDS)
+## Preface
+## This book describes the functions and services associated with the Intelligent Printer Data Stream (IPDS)
 architecture.
 This book is a reference, not a tutorial. It complements individual product publications, but does not describe
 product implementations of the architecture.
-Who Should Read This Book
+## Who Should Read This Book
 This book is for system programmers and other developers who need such information to develop or adapt a
 product or program to interoperate with other presentation products in an Advanced Function Presentation
 (AFP) environment.
@@ -45,7 +40,7 @@ Use this book in conjunction with your printer documentation to:
 • Support the design of programs that provide input for the data stream; for example, a text formatting program
 You should note that the IPDS architecture provides a host-to-printer interface intended to be used by
 programs requiring direct control over printers.
-AFP Consortium (AFPC)
+## AFP Consortium (AFPC)
 The Advanced Function Presentation (AFP) architectures began as the strategic, general purpose document
 and information presentation architecture for the IBM
 ® Corporation. The first specifications and products go
@@ -67,7 +62,6 @@ Since the cooperation between the members of the AFP Color Consortium turned out
 valuable, it was decided to broaden the scope of the consortium efforts and IBM soon announced its plans to
 open up the complete scope of the AFP architecture to the consortium. In June 2007, IBM's role as founding
 
-## Page 4
 
 iv IPDS Reference
 member of the consortium was transferred to the InfoPrint ® Solutions Company, an IBM/Ricoh® joint venture;
@@ -75,7 +69,7 @@ currently Ricoh holds the founding member position . In February 2009, the conso
 a new set of bylaws with tiered membership and shared governance resulting in the creation of a formal open
 standards body called the AFP Consortium (AFPC). Ownership of and responsibility for the AFP architectures
 was transferred at that time to the AFP Consortium.
-Publication History
+## Publication History
 The IPDS Reference was first published by IBM in 1987 and has had several enhancements and updates
 since that time. The first eight editions were published by IBM Corporation and later editions were published by
 the AFP Consortium.
@@ -117,9 +111,7 @@ Graphics Object Content Architecture Reference, SC31-6804
 Image Object Content Architecture Reference, SC31-6805
 Presentation Text Object Content Architecture Reference, SC31-6803
 
-## Page 5
 
-IPDS Reference v
 Fourth Edition published by IBM Corporation
 S544-3417-03 dated August 1991
 This edition was further restructured to improve readability and ease of reference; the following major
@@ -167,7 +159,6 @@ This edition provides enhanced detail and the following major new functions:
 – Several new exception IDs
 – The term “data block” renamed to “object area”
 
-## Page 6
 
 vi IPDS Reference
 • Input media identification
@@ -222,9 +213,7 @@ This edition provides enhanced detail and the following major new functions:
 • Postal bar codes (Australia Post, Dutch KIX, Japan Postal, and Royal Mail)
 • Presentation fidelity control
 
-## Page 7
 
-IPDS Reference vii
 • Printer-detected forms mismatch
 • Printer set-up verification
 • Resident color profiles
@@ -232,7 +221,7 @@ IPDS Reference vii
 • Saved pages
 • Scale-to-fill mapping option
 • Set Media Size enhancements
-• T oner saver
+• Toner saver
 • Two-dimensional (2D) bar codes (Data Matrix, MaxiCode, and PDF417)
 • UP 3ITM finishing
 • XOH Separate Continuous Forms command
@@ -252,7 +241,7 @@ This edition provides enhanced detail and the following major new functions:
 • PLANET bar code
 • QR Code 2D bar code
 • Rasterize Presentation Object command
-• T ext fidelity control
+• Text fidelity control
 • TrueType/OpenType font support (data-object fonts)
 • UCC/EAN 128 bar code
 • UP
@@ -276,21 +265,20 @@ This edition provides enhanced detail and the following major new functions:
 • Number of pages in a group
 • Partial arcs with clockwise drawing direction
 
-## Page 8
 
 viii IPDS Reference
 • Partial support for HT and TTC CMRs
 • Passthrough for audit color-conversion CMRs
 • Rasterize Presentation Object extensions for color management
 • Retired items identified
-• Royal Mail RED T ag bar code
+• Royal Mail RED Tag bar code
 • Scale-to-Fill mapping option for graphics objects
 • Set default support in GDD for normal line width
 • Set default support in GDD for process color
 • Set Line End GOCA drawing order
 • Set Line Join GOCA drawing order
 • Small bar code symbol support
-• T ag Image File Format (TIFF) without transparency
+• Tag Image File Format (TIFF) without transparency
 • Unicode values in IPDS code pages
 • UP 3I Enhancements
 Tenth Edition published by AFP Consortium
@@ -319,14 +307,12 @@ This edition provides enhanced detail and the following major new functions:
 • PTOCA subset PT4
 • Retired Exception IDs more fully described
 • Specific error condition identified in NACKs for multi-bulleted exception IDs
-• T ext glyph runs in PTOCA data
+• Text glyph runs in PTOCA data
 – Allows better user control over text layout
 – Supports Unicode complex text
 • User-selected presentation-space size for PDF objects
 
-## Page 9
 
-IPDS Reference ix
 Eleventh Edition published by AFP Consortium
 AFPC-0001-10 dated June 2014
 This edition provides enhanced detail and the following major new functions:
@@ -355,7 +341,7 @@ gate-fold in, and double gate-fold out)
 and used
 • Internal rendering intent supported in presentation data objects; includes more information in the
 CMRs-Used trace entry
-• Keep Group T ogether as a Recovery Unit (new SGO Group Operation that allows repositioning and
+• Keep Group Together as a Recovery Unit (new SGO Group Operation that allows repositioning and
 error recovery on a group boundary)
 • Media Feed Direction returned in the OPC reply
 • Metadata Object Content Architecture (MOCA) added; metadata can be carried in MO:DCA print
@@ -381,12 +367,11 @@ data-object-font components to be removed from the printer
 • Request Resident Resource List (RRRL) – new command to allow a print server to obtain a list of all
 printer-resident resources that includes information useful to a resource administrator
 
-## Page 10
 
 x IPDS Reference
 • Royal Mail Mailmark TM bar codes
-• T ext objects – allows text to be packaged in an object and positioned on a page or overlay like any
-other presentation object; defines a new command called Write T ext Control (WTC)
+• Text objects – allows text to be packaged in an object and positioned on a page or overlay like any
+other presentation object; defines a new command called Write Text Control (WTC)
 • TIFF LZW with Differencing Predictor compression algorithm for IOCA images
 • Updates to the description of unsupported IOCA function in an IPDS environment
 • XOA Obtain Additional Exception Information – new XOA order to allow a printer server to obtain
@@ -397,7 +382,7 @@ additional debug information after a NACK has been reported
 – Length field ranges
 – Mixing rules
 – Secondary resources
-– T ext-major text
+– Text-major text
 – Triplets
 Twelfth Edition published by AFP Consortium
 AFPC-0001-11 dated December 2016
@@ -435,9 +420,7 @@ X'03DE..00', X'03DE..01', X'03DE..02', X'03DE..03', X'03DE..04', X'03DE..05', X'
 X'03DE..07', X'03DF ..00', X'03DF ..01', X'03DF ..02', X'0500..04', and X'059B..10')
 • New finishing support:
 
-## Page 11
 
-IPDS Reference xi
 – New finishing operation for fold out
 – New finishing options field defined with a new option to crease instead of fold for all defined fold
 operations
@@ -466,10 +449,9 @@ objects
 • Two new STM property pairs to cover options and choices related to the GOCA architecture (font
 positioning and cell positioning)
 
-## Page 12
 
 xii IPDS Reference
-How to Use This Book
+## How to Use This Book
 This book is divided into sixteen chapters and four appendixes:
 • Chapter 1, “A Presentation Architecture Perspective”, on page 1 introduces the AFPC presentation
 architectures and describes the role of data streams and data objects.
@@ -479,7 +461,7 @@ of printing subsystems. This chapter also describes IPDS functional divisions.
 Architecture.
 • Chapter 4, “Device-Control Command Set”, on page 123 describes the commands used to set up a logical
 page, communicate device controls, manage resources, and handle the acknowledgment protocol.
-• Chapter 5, “T ext Command Set”, on page 457 describes the commands for presenting PTOCA text
+• Chapter 5, “Text Command Set”, on page 457 describes the commands for presenting PTOCA text
 information in a page, a page segment, or an overlay.
 • Chapter 6, “IM-Image Command Set”, on page 479 describes the commands for presenting image raster
 data in a page, a page segment, or an overlay.
@@ -514,15 +496,13 @@ are described.
 • Appendix B, “Examples of IPDS Command Sequences”, on page 993 provides examples of IPDS command
 sequences that could be used to drive an IPDS printer.
 
-## Page 13
 
-IPDS Reference xiii
 • Appendix C, “Image Compression and Recording Algorithms”, on page 1001 provides a brief description of
 the algorithms used in the IO-Image command set for image compression and recording.
 • Appendix D, “Retired Items”, on page 1007 lists each retired item that is mentioned within the body of this
 book and also lists those items that have been unretired.
 The “Glossary” on page 1027 defines terms used within the book.
-How to Read the Syntax Diagrams
+## How to Read the Syntax Diagrams
 Throughout this book, syntax is described using the following format that shows the syntax of a command in a
 horizontal representation followed by a table showing the data of the command. Refer to “Notation
 Conventions” on page 67 and “The IPDS Command Format” on page 70 for a detailed description of the
@@ -533,11 +513,11 @@ BITS Bit string
 UBIN Unsigned binary
 SBIN Signed binary
 UNDF Undefined type
-Command Syntax
+## Command Syntax
 Command
 Length
 Command ID Flags Correlation ID Data
-Data Syntax
+## Data Syntax
 Offset Type Name Range Meaning Subset Range
 The
 field's
@@ -558,7 +538,9 @@ set
 Note: The specific heading for the subset range column in a table will identify a specific subset, such as PS1
 Range, or will indicate Required when the command does not belong to a specific subset.
 The following is an example of IPDS syntax (for the Deactivate Page Segment command):
+```
 Length X'D66F' Flag CID Data
+```
 The data field is as follows:
 Offset Type Name Range Meaning PS1 Range
 0–1 CODE HAID X'0000'
@@ -570,10 +552,9 @@ X'0000'
 X'0001' –
 X'007F'
 
-## Page 14
 
 xiv IPDS Reference
-Related Publications
+## Related Publications
 Several other publications can help you understand the architecture concepts described in this book. AFP
 Consortium publications and a few other AFP publications are available on the AFP Consortium website,
 www.afpcinc.org.
@@ -607,22 +588,17 @@ SC09-2190 (IBM)
 Font Summary for AFP Font Collection S544-5633 (IBM)
 Technical Reference for Code Pages S544-3802 (IBM)
 
-## Page 15
 
-IPDS Reference xv
 Table 4. UP3I Architecture Documentation
 UP3I Publication Order Number
 Universal Printer Pre- and Post-Processing Interface (UP 3I) Specification Available at
 www.afpcinc.org
 
-## Page 16
 
 xvi IPDS Reference
 
-## Page 17
 
-IPDS Reference xvii
-Changes in This Edition
+## Changes in This Edition
 Changes between this edition and the previous edition are marked by a vertical bar “|” in the left margin.
 This edition provides enhanced detail to support the IPDS products that were introduced in the years 2017
 through 2023 and to support the work of the AFP Consortium. Specifically, the following new function and
@@ -639,7 +615,7 @@ triplet also specifies the PDF box that the PDF should be rendered to
 • Known colorant names defined for the CMOCA Colorant Identification List tag are also supported in the OPC
 Colorant-Identification self-defining field
 • Metadata now supported:
-– “AFP T agging” metadata format supported
+– “AFP Tagging” metadata format supported
 – New exception class: Metadata specification check
 – New Metadata command set, including an MO1 command set subset and an MS1 data tower level
 – New Metadata state, which can be entered from many other states
@@ -650,7 +626,7 @@ IPDS support
 – 1 new XOA Order:
 ◦ XOA Request Setup Name List (RSNL)
 – 2 new triplets:
-◦ Invoke T ertiary Resource (X'A2')
+◦ Invoke Tertiary Resource (X'A2')
 ◦ Setup Name (X'9E')
 – 2 new XOH-OPC self-defining fields (X'0029' and X'002A')
 – 4 new Acknowledge Reply acknowledge types (X'07', X'08', X'47', and X'48')
@@ -661,7 +637,6 @@ IPDS support
 ◦ Write Metadata Control (WMC), in the Metadata command set
 ◦ Write Metadata (WM), in the Metadata command set
 
-## Page 18
 
 xviii IPDS Reference
 – 14 new STM property pairs (X'1306', X'1307', X'120D', X'120E', X'4304', X'5501', X'5506', X'700A',
@@ -682,7 +657,7 @@ X'0602..20', X'0602..30', X'0602..40', X'0602..50', X'0603..00', and X'50FA..00'
 – Intelligent Mail Package Barcode
 – QR Code with Image, which allows printing images in conjunction with QR code bar codes; such images
 are secondary resources to a QR code bar code
-◦ New Invoke T ertiary Resource (X'A2') triplet is used to invoke CMRs for such images
+◦ New Invoke Tertiary Resource (X'A2') triplet is used to invoke CMRs for such images
 – “T oo much data” support for the QR Code and Data Matrix bar codes
 • New Data Object Resource Equivalence 2 (DORE2) command fixes a bug that was introduced when use of
 native object container TrueType/OpenType Fonts as secondary resources was added; DORE2 is very
@@ -709,399 +684,393 @@ supported, including:
 – Two new acknowledge types for the replies to the ASN and XOA-RSNL
 • STM property pair X'120B' retired, becoming retired item 149
 
-## Page 19
 
-Copyright © AFP Consortium 1987, 2023 xix
 Contents
-Preface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . iii
-Who Should Read This Book .....................................................................................................................iii
-AFP Consortium (AFPC) ...........................................................................................................................iii
-Publication History.................................................................................................................................. iv
-How to Use This Book .............................................................................................................................xii
-How to Read the Syntax Diagrams........................................................................................................ xiii
-Related Publications .............................................................................................................................. xiv
-Changes in This Edition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . xvii
-Figures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . xxix
-Tables . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .xxxiii
-Chapter 1. A Presentation Architecture Perspective. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1
-The Presentation Environment ................................................................................................................... 1
-Architecture Components.......................................................................................................................... 2
-Data Streams ..................................................................................................................................... 2
-Objects ............................................................................................................................................. 4
-Chapter 2. Introduction to IPDS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .7
-IPDS Architecture as a Component of Printing Subsystems .............................................................................. 8
-The Spooled System Environment .......................................................................................................... 9
-The Mainframe Interactive Environment ................................................................................................. 10
-The Intelligent Workstation or Departmental System Environment ............................................................... 11
-The Local Area Network Environment.................................................................................................... 12
-Communication with an IPDS Device ......................................................................................................... 13
-IPDS Functional Divisions ....................................................................................................................... 14
-Chapter 3. IPDS Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
-The IPDS Presentation Environment ......................................................................................................... 17
-Cut-Sheet Emulation Mode ................................................................................................................. 22
-Overlays and Page Segments.............................................................................................................. 24
-Using an Overlay as a Preprinted Form.................................................................................................. 26
-IPDS Mixing Rules ............................................................................................................................ 27
-Foreground and Background ........................................................................................................... 27
-Merging Presentation Spaces.......................................................................................................... 28
-General Mixing Rules .................................................................................................................... 30
-Formblend Mixing Rule .................................................................................................................. 30
-IPDS Default Mixing Rule ............................................................................................................... 31
-Logical Page and Object Area Coloring.................................................................................................. 32
-Specifying Color ............................................................................................................................... 33
-Color Management ............................................................................................................................ 35
-Basic Concepts ............................................................................................................................ 35
-CMR-Usage Hierarchy ................................................................................................................... 35
-Data-Object-Level CMRs ........................................................................................................... 37
-Medium-Overlay-Level CMRs ..................................................................................................... 38
-Page-Overlay-Level CMRs ......................................................................................................... 38
-Page-Level CMRs .................................................................................................................... 38
-Home-State-Level CMRs ........................................................................................................... 39
-Default CMRs .......................................................................................................................... 39
-CMR-Usage Hierarchy Processing ................................................................................................... 39
-Selecting Color-Conversion CMRs ................................................................................................... 40
-Pass-Through Audit Color-Conversion CMRs ..................................................................................... 41
-CMR-Usage Hierarchy Summary ..................................................................................................... 42
-Color Management Compliance ....................................................................................................... 43
-Required Color-Management Function .......................................................................................... 43
-Optional Color-Management Function ........................................................................................... 43
-Color Resource Relationships ......................................................................................................... 44
-Ordered Data ................................................................................................................................... 45
 
-## Page 20
 
-xx IPDS Reference
-Fixed Medium Information................................................................................................................... 45
-Fonts.............................................................................................................................................. 45
-Coded-Font Components ............................................................................................................... 46
-Data-Object-Font Components ........................................................................................................ 46
-Expressing Linear Measurements ............................................................................................................. 47
-Coordinate Systems............................................................................................................................... 48
-X
-m,Ym Coordinate System (Medium) ..................................................................................................... 48
-Xp,Yp Coordinate System (Logical Page) ................................................................................................ 53
-I,B Coordinate System (T ext) ............................................................................................................... 55
-Character Development ................................................................................................................. 55
-I,B Orientation .............................................................................................................................. 56
-The Four Basic Object Orientations .................................................................................................. 57
-Other Object Orientations ............................................................................................................... 59
-Xt,Yt Coordinate System (T ext)............................................................................................................. 60
-Xg,Yg Coordinate System (Graphics) ..................................................................................................... 60
-Xio,Yio Coordinate System (IO Image) .................................................................................................... 60
-Xbc,Ybc Coordinate System (Bar Code) .................................................................................................. 60
-Xoc,Yoc Coordinate System (Object Container) ......................................................................................... 60
-Xoa,Yoa Coordinate System (Object Area) ............................................................................................... 60
-Coordinate System Relationships ......................................................................................................... 61
-The Valid Printable Area ......................................................................................................................... 62
-The User-Printable Area ......................................................................................................................... 63
-Position Exceptions for Presentation Objects............................................................................................... 64
-Logical Positioning and Physical Pels ........................................................................................................ 65
-Processing IPDS Commands ................................................................................................................... 66
-Notation Conventions ............................................................................................................................. 67
-L-Unit Range Conversion Algorithm........................................................................................................... 68
-The IPDS Command Format.................................................................................................................... 70
-Host Acknowledgment Requests .............................................................................................................. 71
-Printer Acknowledge Replies ................................................................................................................... 71
-IPDS Operating States ........................................................................................................................... 72
-Home State ..................................................................................................................................... 72
-Presentation-
-Object States ................................................................................................................. 73
-Page State ...................................................................................................................................... 74
-Overlay State ................................................................................................................................... 75
-Page Segment State.......................................................................................................................... 76
-Font State ....................................................................................................................................... 77
-Code Page State............................................................................................................................... 78
-IO-Image Resource State ................................................................................................................... 79
-Object-Container Resource State ......................................................................................................... 80
-Metadata State ................................................................................................................................. 81
-Anystate.......................................................................................................................................... 82
-Summary of the IPDS States and Commands ......................................................................................... 83
-IPDS Resources ................................................................................................................................... 88
-Resource IDs ................................................................................................................................... 89
-HAID Pools.................................................................................................................................. 91
-Resource Management ...................................................................................................................... 92
-Physical Presence of Resources ...................................................................................................... 92
-Availability of Resources ................................................................................................................ 94
-Invocation of Resources ................................................................................................................. 97
-Data Object Resources, Data-Object-Font Components, and Setup Files ................................................. 99
-Multi-Page Resource Objects ........................................................................................................ 103
-Pre-Rasterizing and Caching Presentation Objects ............................................................................ 104
-Saving and Including Pages .......................................................................................................... 105
-Relationship Between FOCA Character Metrics and TrueType Character Metrics ......................................... 107
-Horizontal Metrics ....................................................................................................................... 107
-Vertical Metrics........................................................................................................................... 108
-Simulating Vertical Metrics ............................................................................................................ 109
-Resource Management Summary........................................................................................................ 111
-Metadata........................................................................................................................................112
-Exception Handling...............................................................................................................................115
-Pages Exactly-As-Requested .............................................................................................................115
 
-## Page 21
 
-IPDS Reference xxi
-Best-Possible Output ........................................................................................................................115
-Exception-Handling Combinations .......................................................................................................116
-Exception-Handling Control ................................................................................................................117
-Presentation Fidelity Control ...................................................................................................................118
-Color Simulation Guidelines....................................................................................................................119
-Simulating Out-of-Gamut Colors..........................................................................................................119
-Simulating Colors on a Black-Only Printer without Grayscale Capability .......................................................119
-Simulating Colors with Grayscale ........................................................................................................119
-Default Handling ................................................................................................................................. 121
-Chapter 4. Device-Control Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 123
-Acknowledge Reply ............................................................................................................................. 124
-Acknowledge Reply Data Format........................................................................................................ 127
-Four-Byte Page and Copy Counter Format ....................................................................................... 127
-Eighteen-Byte Page and Copy Counter Format ................................................................................. 127
-General Rules for the Acknowledge Reply ............................................................................................ 132
-Activate Resource ............................................................................................................................... 134
-Activate Resource Triplet Considerations ............................................................................................. 154
-Activate Setup Name
-........................................................................................................................... 157
-ASN Reply..................................................................................................................................... 158
-Apply Finishing Operations .................................................................................................................... 160
-Apply Finishing Operations Triplet Considerations.................................................................................. 161
-Begin Page ........................................................................................................................................ 162
-Deactivate Font................................................................................................................................... 163
-Define User Area................................................................................................................................. 168
-End .................................................................................................................................................. 170
-End Page .......................................................................................................................................... 171
-Include Saved Page............................................................................................................................. 172
-Group ID (X'00') Triplet Considerations ................................................................................................ 173
-Invoke CMR ....................................................................................................................................... 174
-Load Copy Control............................................................................................................................... 176
-Rules for Copy Subgroup Exception Processing .................................................................................... 192
-When The Page Is T o Be Printed: ................................................................................................... 192
-When The Page Is Not T o Be Printed: ............................................................................................. 193
-Load Font Equivalence ......................................................................................................................... 196
-Logical Page Descriptor ........................................................................................................................ 204
-Area Coloring Triplet Considerations ................................................................................................... 209
-Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations ...................................................... 209
-Logical Page Position ........................................................................................................................... 210
-Manage IPDS Dialog............................................................................................................................ 216
-No Operation...................................................................................................................................... 217
-Presentation Fidelity Control .................................................................................................................. 218
-Rasterize Presentation Object ................................................................................................................ 220
-Processing Rules ............................................................................................................................ 222
-Preprocessing Overlays ............................................................................................................... 222
-Preprocessing Data Object Resources ............................................................................................ 222
-Limitations................................................................................................................................. 223
-Command Syntax ........................................................................................................................... 224
-Color Specification (X'4E') Triplet Considerations............................................................................... 230
-Object Offset (X'5A') Triplet Considerations ...................................................................................... 231
-Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations.................................................. 231
-Image Resolution (X'9A') Triplet Considerations ................................................................................ 232
-Object Container Presentation Space Size (X'9C') Triplet Considerations................................................ 232
-Sense Type and Model ......................................................................................................................... 233
-Acknowledge Reply for Sense Type and Model...................................................................................... 233
-Device-Control Command-Set Vector.............................................................................................. 235
-T ext Command-Set Vector ............................................................................................................ 244
-IM-Image Command-Set Vector ..................................................................................................... 247
-IO-Image Command-Set Vector ..................................................................................................... 249
-Graphics Command-Set Vector...................................................................................................... 253
-Bar Code Command-Set Vector ..................................................................................................... 256
-Object Container Command-Set Vector ........................................................................................... 259
-Metadata Command-Set Vector
-..................................................................................................... 262
 
-## Page 22
+- Preface
+  - Who Should Read This Book
+  - AFP Consortium (AFPC)
+  - Publication History
+  - How to Use This Book
+  - How to Read the Syntax Diagrams
+  - Related Publications
+  - Changes in This Edition
+- Figures
+- Tables
+    [Chapter 1
+    The Presentation Environment
+    Architecture Components
+    Data Streams
+    Objects
+    # Chapter 2
+    IPDS Architecture as a Component of Printing Subsystems
+    The Spooled System Environment
+    The Mainframe Interactive Environment
+    The Intelligent Workstation or Departmental System Environment
+    The Local Area Network Environment
+    Communication with an IPDS Device
+    IPDS Functional Divisions
+    # Chapter 3
+    The IPDS Presentation Environment
+    Cut-Sheet Emulation Mode
+    Overlays and Page Segments
+    Using an Overlay as a Preprinted Form
+    IPDS Mixing Rules
+    Foreground and Background
+    Merging Presentation Spaces
+    General Mixing Rules
+    Formblend Mixing Rule
+    IPDS Default Mixing Rule
+    Logical Page and Object Area Coloring
+    Specifying Color
+    Color Management
+    Basic Concepts
+    CMR-Usage Hierarchy
+    Data-Object-Level CMRs
+    Medium-Overlay-Level CMRs
+    Page-Overlay-Level CMRs
+    Page-Level CMRs
+    Home-State-Level CMRs
+    Default CMRs
+    CMR-Usage Hierarchy Processing
+    Selecting Color-Conversion CMRs
+    Pass-Through Audit Color-Conversion CMRs
+    CMR-Usage Hierarchy Summary
+    Color Management Compliance
+    Required Color-Management Function
+    Optional Color-Management Function
+    Color Resource Relationships
+    Ordered Data
 
-xxii IPDS Reference
-Overlay Command-Set Vector ....................................................................................................... 262
-Page Segment Command-Set Vector .............................................................................................. 263
-Loaded-Font Command-Set Vector................................................................................................. 263
-Set Home State .................................................................................................................................. 265
-Set Presentation Environment ................................................................................................................ 266
-Presentation Environment Triplet Considerations ................................................................................... 267
-Execute Order Anystate ........................................................................................................................ 268
-XOA Activate Printer Alarm ............................................................................................................... 270
-XOA Alternate Offset Stacker ............................................................................................................ 271
-XOA Control Edge Marks.................................................................................................................. 272
-XOA Discard Buffered Data ............................................................................................................... 275
-XOA Discard Unstacked Pages.......................................................................................................... 276
-XOA Exception-Handling Control........................................................................................................ 277
-XOA Mark Form.............................................................................................................................. 289
-XOA Obtain Additional Exception Information........................................................................................ 290
-OAEI Reply ............................................................................................................................... 291
-XOA Print-Quality Control ................................................................................................................. 293
-XOA Request Resource List .............................................................................................................. 294
-Resource List Query.................................................................................................................... 295
-Resource List Reply .................................................................................................................... 303
-XOA Request Setup Name List
-.......................................................................................................... 307
-RSNL Reply............................................................................................................................... 309
-Setup Name Information entry ....................................................................................................311
-Execute Order Home State.................................................................................................................... 313
-XOH Deactivate Saved Page Group.................................................................................................... 315
-Group ID (X'00') Triplet Considerations ............................................................................................ 316
-XOH Define Group Boundary............................................................................................................. 317
-Coded Graphic Character Set Global Identifier (X'01') Triplet Considerations ........................................... 323
-Finishing Operation (X'85') Triplet Considerations .............................................................................. 323
-UP3I Finishing Operation (X'8E') Triplet Considerations ....................................................................... 324
-XOH Eject to Front Facing................................................................................................................. 325
-XOH Erase Residual Font Data .......................................................................................................... 326
-XOH Erase Residual Print Data.......................................................................................................... 327
-XOH Obtain Printer Characteristics ..................................................................................................... 328
-OPC Command .......................................................................................................................... 328
-OPC Reply ................................................................................................................................ 329
-Printable-Area Self-Defining Field .............................................................................................. 331
-Symbol-Set Support Self-Defining Field....................................................................................... 335
-IM-Image and Coded-Font Resolution Self-Defining Field................................................................ 337
-Storage Pools Self-Defining Field............................................................................................... 338
-Retired Item 130 (Standard OCA Color Value Support Self-Defining Field) .......................................... 339
-Installed Features Self-Defining Field.......................................................................................... 340
-Available Features Self-Defining Field......................................................................................... 341
-Resident Symbol-Set Support Self-Defining Field .......................................................................... 343
-Print-Quality Support Self-Defining Field...................................................................................... 344
-XOA-RRL RT & RIDF Support Self-Defining Field.......................................................................... 345
-Activate Resource RT & RIDF Support Self-Defining Field............................................................... 346
-Medium Modification IDs Supported Self-Defining Field .................................................................. 347
-Deprecated (Common Bar Code Type/Modifier Self-Defining Field) ................................................... 348
-Bar Code Type/Modifier Self-Defining Field .................................................................................. 350
-Media-Destinations Self-Defining Field ........................................................................................ 355
-Supported Group Operations Self-Defining Field ........................................................................... 356
-Product Identifier Self-Defining Field ........................................................................................... 357
-Object-Container Type Support Self-Defining Field ........................................................................ 361
-DF Deactivation Types Supported Self-Defining Field ..................................................................... 365
-PFC Triplets Supported Self-Defining Field .................................................................................. 366
-Printer Setup Self-Defining Field ................................................................................................ 367
-Finishing Operations Self-Defining Field ...................................................................................... 368
-UP3I Tupel Self-Defining Field ................................................................................................... 369
-UP3I Paper Input Media Self-Defining Field .................................................................................. 369
-Colorant-Identification Self-Defining Field .................................................................................... 370
-Device-Appearance Self-Defining Field ....................................................................................... 372
 
-## Page 23
+    xx IPDS Reference
+    Fixed Medium Information
+    Fonts
+    Coded-Font Components
+    Data-Object-Font Components
+    Expressing Linear Measurements
+    Coordinate Systems
+    X
+    m,Ym Coordinate System (Medium)
+    Xp,Yp Coordinate System (Logical Page)
+    I,B Coordinate System (Text)
+    Character Development
+    I,B Orientation
+    The Four Basic Object Orientations
+    Other Object Orientations
+    Xt,Yt Coordinate System (Text)
+    Xg,Yg Coordinate System (Graphics)
+    Xio,Yio Coordinate System (IO Image)
+    Xbc,Ybc Coordinate System (Bar Code)
+    Xoc,Yoc Coordinate System (Object Container)
+    Xoa,Yoa Coordinate System (Object Area)
+    Coordinate System Relationships
+    The Valid Printable Area
+    The User-Printable Area
+    Position Exceptions for Presentation Objects
+    Logical Positioning and Physical Pels
+    Processing IPDS Commands
+    Notation Conventions
+    L-Unit Range Conversion Algorithm
+    The IPDS Command Format
+    Host Acknowledgment Requests
+    Printer Acknowledge Replies
+    IPDS Operating States
+    Home State
+    Presentation-
+    Object States
+    Page State
+    Overlay State
+    Page Segment State
+    Font State
+    Code Page State
+    IO-Image Resource State
+    Object-Container Resource State
+    Metadata State
+    Anystate
+    Summary of the IPDS States and Commands
+    IPDS Resources
+    Resource IDs
+    HAID Pools
+    Resource Management
+    Physical Presence of Resources
+    Availability of Resources
+    Invocation of Resources
+    Data Object Resources, Data-Object-Font Components, and Setup Files
+    Multi-Page Resource Objects
+    Pre-Rasterizing and Caching Presentation Objects
+    Saving and Including Pages
+    Relationship Between FOCA Character Metrics and TrueType Character Metrics
+    Horizontal Metrics
+    Vertical Metrics
+    Simulating Vertical Metrics
+    Resource Management Summary
+    Metadata
+    Exception Handling
+    Pages Exactly-As-Requested
 
-IPDS Reference xxiii
-Keep-Group-T ogether-as-a-Recovery-Unit Self-Defining Field.......................................................... 373
-Recognized Group ID Formats Self-Defining Field ......................................................................... 374
-Supported Device Resolutions Self-Defining Field ......................................................................... 375
-Object-Container Version Support Self-Defining Field ..................................................................... 376
-Finishing Options Self-Defining Field .......................................................................................... 378
-Printer Speed Self-Defining Field ............................................................................................... 379
-Active Setup Name Self-Defining Field ........................................................................................ 380
-XOH Page Counters Control.............................................................................................................. 381
-XOH Print Buffered Data................................................................................................................... 382
-XOH Remove Saved Page Group....................................................................................................... 383
-Group ID (X'00') Triplet Considerations ............................................................................................ 383
-XOH Select Input Media Source ......................................................................................................... 385
-XOH Select Medium Modifications ...................................................................................................... 386
-XOH Separate Continuous Forms....................................................................................................... 388
-XOH Set Media Origin ...................................................................................................................... 389
-XOH Set Media Size ........................................................................................................................ 397
-XOH Specify Group Operation ........................................................................................................... 401
-XOH Stack Received Pages .............................................................................................................. 408
-XOH Trace .................................................................................................................................... 409
-Acknowledge Reply for the XOH Trace Command ............................................................................. 414
-Printer-Generated Trace Entries..................................................................................................... 414
-Begin-Trace Trace Entry .......................................................................................................... 415
-Begin-Page Trace Entry ........................................................................................................... 418
-Begin-Overlay Trace Entry........................................................................................................ 423
-Begin-Presentation-Object Trace Entry ....................................................................................... 425
-CMRs-Used Trace Entry .......................................................................................................... 429
-CMR-Activation Trace Entry...................................................................................................... 433
-CMR-Invocation Trace Entry ..................................................................................................... 435
-Media-Source-Selection Trace Entry........................................................................................... 437
-Exception-ID Trace Entry ......................................................................................................... 438
-Free-Form Trace Entry ............................................................................................................ 439
-Include-Saved-Page Trace Entry ............................................................................................... 441
-Include-Overlay Trace Entry...................................................................................................... 442
-Include-Data-Object Trace Entry ................................................................................................ 444
-Device-Appearance Trace Entry ................................................................................................ 446
-Color-Fidelity Trace Entry ......................................................................................................... 447
-CMR-T ag-Fidelity Trace Entry ................................................................................................... 448
-Begin-Print-Unit Trace Entry ..................................................................................................... 449
-Trace-Full Trace Entry ............................................................................................................. 451
-End-Object Trace Entry............................................................................................................ 452
-CMR-Deactivation Trace Entry .................................................................................................. 454
-Chapter 5. Text Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 457
-The T ext Presentation Space ................................................................................................................. 457
-The T ext Object Area............................................................................................................................ 458
-Mapping the T ext Presentation Space ...................................................................................................... 459
-Interaction Between T ext Objects and T ext-Major T ext ................................................................................. 459
-Load Equivalence................................................................................................................................ 460
-Write T ext Control ................................................................................................................................ 462
-T ext Area Position ........................................................................................................................... 463
-T ext Output Control.......................................................................................................................... 466
-Area Coloring Triplet Considerations ............................................................................................... 469
-Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations.................................................. 469
-T ext Data Descriptor ........................................................................................................................ 470
-Write T ext .......................................................................................................................................... 472
-Spanning....................................................................................................................................... 472
-Unicode Support ............................................................................................................................. 473
-Unicode Complex T ext ................................................................................................................. 473
-PTOCA Unicode Complex T ext (UCT) Control Sequence .................................................................... 473
-PTOCA Glyph Layout Controls ...................................................................................................... 474
-Control Sequence Summary.............................................................................................................. 476
-Chapter 6. IM-Image Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 479
 
-## Page 24
+    Best-Possible Output
+    Exception-Handling Combinations
+    Exception-Handling Control
+    Presentation Fidelity Control
+    Color Simulation Guidelines
+    Simulating Out-of-Gamut Colors
+    Simulating Colors on a Black-Only Printer without Grayscale Capability
+    Simulating Colors with Grayscale
+    Default Handling
+    # Chapter 4
+    Acknowledge Reply
+    Acknowledge Reply Data Format
+    Four-Byte Page and Copy Counter Format
+    Eighteen-Byte Page and Copy Counter Format
+    General Rules for the Acknowledge Reply
+    Activate Resource
+    Activate Resource Triplet Considerations
+    Activate Setup Name
 
-xxiv IPDS Reference
-Write Image Control ............................................................................................................................. 481
-Image Size .................................................................................................................................... 483
-Input Image Data Format .................................................................................................................. 484
-Image Magnification ........................................................................................................................ 485
-Output Image Orientation.................................................................................................................. 486
-Output Image Location ..................................................................................................................... 487
-Image Color ................................................................................................................................... 489
-Standard OCA Color-Value T able ................................................................................................... 489
-Write Image ....................................................................................................................................... 491
-Chapter 7. IO-Image Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 493
-The IO-Image Presentation Space .......................................................................................................... 495
-The IO-Image Object Area..................................................................................................................... 496
-Mapping the IO-Image Presentation Space ............................................................................................... 496
-Using IO Image as a Resource ............................................................................................................... 497
-Write Image Control 2........................................................................................................................... 498
-Image Area Position ........................................................................................................................ 500
-Image Output Control....................................................................................................................... 503
-Area Coloring Triplet Considerations ............................................................................................... 512
-Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations.................................................. 513
-Image Data Descriptor ..................................................................................................................... 514
-Write Image 2 ..................................................................................................................................... 517
-Unsupported IOCA function in an IPDS Environment .............................................................................. 519
-Chapter 8. Graphics Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 521
-Drawing-Order Coordinate System.......................................................................................................... 522
-Graphics Presentation Space Window ..................................................................................................... 523
-Graphics Object Area ........................................................................................................................... 523
-Positioning the Graphics Presentation Space Window ................................................................................. 524
-Write Graphics Control ......................................................................................................................... 526
-Graphics Area Position..................................................................................................................... 527
-Graphics Output Control ................................................................................................................... 531
-Area Coloring Triplet Considerations ............................................................................................... 534
-Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations.................................................. 534
-Mapping Control Options .............................................................................................................. 535
-Scale-to-Fit Mapping ............................................................................................................... 535
-Scale-to-Fill Mapping............................................................................................................... 537
-Center-and-Trim Mapping......................................................................................................... 538
-Position-and-Trim Mapping ....................................................................................................... 539
-Graphics Data Descriptor.................................................................................................................. 540
-Write Graphics.................................................................................................................................... 543
-Begin Segment Introducer................................................................................................................. 543
-Drawing Orders .............................................................................................................................. 544
-Chapter 9. Bar Code Command Set. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 547
-Bar Code Presentation Space ................................................................................................................ 547
-Bar Code Object Area .......................................................................................................................... 548
-Positioning the Bar Code Presentation Space............................................................................................ 549
-Write Bar Code Control......................................................................................................................... 550
-Self-Defining Fields within the Write Bar Code Control ............................................................................ 550
-Bar Code Area Position .................................................................................................................... 551
-Bar Code Output Control .................................................................................................................. 555
-Area Coloring Triplet Considerations ............................................................................................... 558
-Invoke CMR (X'92') and Invoke T ertiary Resource X'A2' Triplet Considerations ........................................ 558
-Bar Code Data Descriptor ................................................................................................................. 559
-Color Specification (X'4E') Triplet Considerations............................................................................... 561
-Write Bar Code ................................................................................................................................... 562
-Chapter 10. Object Container Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 563
+    ASN Reply
+    Apply Finishing Operations
+    Apply Finishing Operations Triplet Considerations
+    Begin Page
+    Deactivate Font
+    Define User Area
+    End
+    End Page
+    Include Saved Page
+    Group ID (X'00') Triplet Considerations
+    Invoke CMR
+    Load Copy Control
+    Rules for Copy Subgroup Exception Processing
+    When The Page Is To Be Printed:
+    When The Page Is Not To Be Printed:
+    Load Font Equivalence
+    Logical Page Descriptor
+    Area Coloring Triplet Considerations
+    Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
+    Logical Page Position
+    Manage IPDS Dialog
+    No Operation
+    Presentation Fidelity Control
+    Rasterize Presentation Object
+  - Processing Rules
+    Preprocessing Overlays
+    Preprocessing Data Object Resources
+  - Limitations
+  - Command Syntax
+    Color Specification (X'4E') Triplet Considerations
+    Object Offset (X'5A') Triplet Considerations
+    Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
+    Image Resolution (X'9A') Triplet Considerations
+    Object Container Presentation Space Size (X'9C') Triplet Considerations
+    Sense Type and Model
+    Acknowledge Reply for Sense Type and Model
+    Device-Control Command-Set Vector
+    Text Command-Set Vector
+    IM-Image Command-Set Vector
+    IO-Image Command-Set Vector
+    Graphics Command-Set Vector
+    Bar Code Command-Set Vector
+    Object Container Command-Set Vector
+    Metadata Command-Set Vector
+
+
+
+    xxii IPDS Reference
+    Overlay Command-Set Vector
+    Page Segment Command-Set Vector
+    Loaded-Font Command-Set Vector
+    Set Home State
+    Set Presentation Environment
+    Presentation Environment Triplet Considerations
+    Execute Order Anystate
+    XOA Activate Printer Alarm
+    XOA Alternate Offset Stacker
+    XOA Control Edge Marks
+    XOA Discard Buffered Data
+    XOA Discard Unstacked Pages
+    XOA Exception-Handling Control
+    XOA Mark Form
+    XOA Obtain Additional Exception Information
+    OAEI Reply
+    XOA Print-Quality Control
+    XOA Request Resource List
+    Resource List Query
+    Resource List Reply
+    XOA Request Setup Name List
+
+    RSNL Reply
+    Setup Name Information entry
+    Execute Order Home State
+    XOH Deactivate Saved Page Group
+    Group ID (X'00') Triplet Considerations
+    XOH Define Group Boundary
+    Coded Graphic Character Set Global Identifier (X'01') Triplet Considerations
+    Finishing Operation (X'85') Triplet Considerations
+    UP3I Finishing Operation (X'8E') Triplet Considerations
+    XOH Eject to Front Facing
+    XOH Erase Residual Font Data
+    XOH Erase Residual Print Data
+    XOH Obtain Printer Characteristics
+    OPC Command
+    OPC Reply
+    Printable-Area Self-Defining Field
+    Symbol-Set Support Self-Defining Field
+    IM-Image and Coded-Font Resolution Self-Defining Field
+    Storage Pools Self-Defining Field
+    Retired Item 130 (Standard OCA Color Value Support Self-Defining Field)
+    Installed Features Self-Defining Field
+    Available Features Self-Defining Field
+    Resident Symbol-Set Support Self-Defining Field
+    Print-Quality Support Self-Defining Field
+    XOA-RRL RT & RIDF Support Self-Defining Field
+    Activate Resource RT & RIDF Support Self-Defining Field
+    Medium Modification IDs Supported Self-Defining Field
+    Deprecated (Common Bar Code Type/Modifier Self-Defining Field)
+    Bar Code Type/Modifier Self-Defining Field
+    Media-Destinations Self-Defining Field
+    Supported Group Operations Self-Defining Field
+    Product Identifier Self-Defining Field
+    Object-Container Type Support Self-Defining Field
+    DF Deactivation Types Supported Self-Defining Field
+    PFC Triplets Supported Self-Defining Field
+    Printer Setup Self-Defining Field
+    Finishing Operations Self-Defining Field
+    UP3I Tupel Self-Defining Field
+    UP3I Paper Input Media Self-Defining Field
+    Colorant-Identification Self-Defining Field
+    Device-Appearance Self-Defining Field
+
+
+    Keep-Group-T ogether-as-a-Recovery-Unit Self-Defining Field
+    Recognized Group ID Formats Self-Defining Field
+    Supported Device Resolutions Self-Defining Field
+    Object-Container Version Support Self-Defining Field
+    Finishing Options Self-Defining Field
+    Printer Speed Self-Defining Field
+    Active Setup Name Self-Defining Field
+    XOH Page Counters Control
+    XOH Print Buffered Data
+    XOH Remove Saved Page Group
+    Group ID (X'00') Triplet Considerations
+    XOH Select Input Media Source
+    XOH Select Medium Modifications
+    XOH Separate Continuous Forms
+    XOH Set Media Origin
+    XOH Set Media Size
+    XOH Specify Group Operation
+    XOH Stack Received Pages
+    XOH Trace
+    Acknowledge Reply for the XOH Trace Command
+    Printer-Generated Trace Entries
+    Begin-Trace Trace Entry
+    Begin-Page Trace Entry
+    Begin-Overlay Trace Entry
+    Begin-Presentation-Object Trace Entry
+    CMRs-Used Trace Entry
+    CMR-Activation Trace Entry
+    CMR-Invocation Trace Entry
+    Media-Source-Selection Trace Entry
+    Exception-ID Trace Entry
+    Free-Form Trace Entry
+    Include-Saved-Page Trace Entry
+    Include-Overlay Trace Entry
+    Include-Data-Object Trace Entry
+    Device-Appearance Trace Entry
+    Color-Fidelity Trace Entry
+    CMR-Tag-Fidelity Trace Entry
+    Begin-Print-Unit Trace Entry
+    Trace-Full Trace Entry
+    End-Object Trace Entry
+    CMR-Deactivation Trace Entry
+    # Chapter 5
+    The Text Presentation Space
+    The Text Object Area
+    Mapping the Text Presentation Space
+    Interaction Between Text Objects and Text-Major Text
+    Load Equivalence
+    Write Text Control
+    Text Area Position
+    Text Output Control
+    Area Coloring Triplet Considerations
+    Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
+    Text Data Descriptor
+    Write Text
+    Spanning
+    Unicode Support
+    Unicode Complex Text
+    PTOCA Unicode Complex Text (UCT) Control Sequence
+    PTOCA Glyph Layout Controls
+    Control Sequence Summary
+    # Chapter 6
+
+
+    xxiv IPDS Reference
+    Write Image Control
+    Image Size
+    Input Image Data Format
+    Image Magnification
+    Output Image Orientation
+    Output Image Location
+    Image Color
+    Standard OCA Color-Value Table
+    Write Image
+    # Chapter 7
+    The IO-Image Presentation Space
+    The IO-Image Object Area
+    Mapping the IO-Image Presentation Space
+    Using IO Image as a Resource
+    Write Image Control 2
+    Image Area Position
+    Image Output Control
+    Area Coloring Triplet Considerations
+    Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
+    Image Data Descriptor
+    Write Image 2
+    Unsupported IOCA function in an IPDS Environment
+    # Chapter 8
+    Drawing-Order Coordinate System
+    Graphics Presentation Space Window
+    Graphics Object Area
+    Positioning the Graphics Presentation Space Window
+    Write Graphics Control
+    Graphics Area Position
+    Graphics Output Control
+    Area Coloring Triplet Considerations
+    Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
+    Mapping Control Options
+    Scale-to-Fit Mapping
+    Scale-to-Fill Mapping
+    Center-and-Trim Mapping
+    Position-and-Trim Mapping
+    Graphics Data Descriptor
+    Write Graphics
+    Begin Segment Introducer
+    Drawing Orders
+    # Chapter 9
+    Bar Code Presentation Space
+    Bar Code Object Area
+    Positioning the Bar Code Presentation Space
+    Write Bar Code Control
+    Self-Defining Fields within the Write Bar Code Control
+    Bar Code Area Position
+    Bar Code Output Control
+    Area Coloring Triplet Considerations
+    Invoke CMR (X'92') and Invoke Tertiary Resource X'A2' Triplet Considerations
+    Bar Code Data Descriptor
+    Color Specification (X'4E') Triplet Considerations
+    Write Bar Code
+# Chapter 10. Object Container Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 563
 Object Container Presentation Space ...................................................................................................... 564
 Object Container Object Area................................................................................................................. 564
 Data Object Resource Equivalence Entries ............................................................................................... 565
 Data Object Resource Equivalence ......................................................................................................... 569
 
-## Page 25
 
-IPDS Reference xxv
 Data Object Resource Equivalence 2 ....................................................................................................... 571
 Deactivate Data-Object-Font Component ................................................................................................. 573
 Deactivate Data Object Resource ........................................................................................................... 574
@@ -1139,22 +1108,22 @@ Object Offset (X'5A') Triplet Considerations ...................................
 Object Container Presentation Space Size (X'9C') Triplet Considerations................................................ 612
 TrueType/OpenType Font Triplet Considerations ............................................................................... 612
 Write Object Container ......................................................................................................................... 613
-Chapter 11. Metadata Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
+# Chapter 11. Metadata Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
 Delete Home-State Metadata ................................................................................................................. 616
 Write Metadata Control ......................................................................................................................... 617
 Metadata Data Descriptor ................................................................................................................. 618
 Write Metadata ................................................................................................................................... 619
-Chapter 12. Overlay Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 621
+# Chapter 12. Overlay Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 621
 Overlay Command-Set Commands ......................................................................................................... 621
 Begin Overlay..................................................................................................................................... 623
 Deactivate Overlay .............................................................................................................................. 625
 Include Overlay................................................................................................................................... 627
-Chapter 13. Page-Segment Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 631
+# Chapter 13. Page-Segment Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 631
 Page-Segment Command-Set Commands ............................................................................................... 631
 Begin Page Segment ........................................................................................................................... 632
 Deactivate Page Segment ..................................................................................................................... 633
 Include Page Segment ......................................................................................................................... 634
-Chapter 14. Loaded-Font Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 635
+# Chapter 14. Loaded-Font Command Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 635
 Graphic Character Placement Fundamentals ............................................................................................ 636
 Font Inline Sequences...................................................................................................................... 637
 Font Parameter Relationships............................................................................................................ 641
@@ -1163,7 +1132,6 @@ Characters Printed in the 90° Font Inline Sequence ............................
 Characters Printed in the 180° Font Inline Sequence .......................................................................... 643
 Characters Printed in the 270° Font Inline Sequence .......................................................................... 644
 
-## Page 26
 
 xxvi IPDS Reference
 Printing a Kerned Character .............................................................................................................. 645
@@ -1184,7 +1152,7 @@ Load Font Character Set Control ................................................
 Load Font Control................................................................................................................................ 675
 Load Font Index .................................................................................................................................. 687
 Load Symbol Set ................................................................................................................................. 698
-Chapter 15. Triplets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 703
+# Chapter 15. Triplets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 703
 Group ID (X'00') Triplet ......................................................................................................................... 705
 Coded Graphic Character Set Global Identifier (X'01') Triplet ........................................................................ 709
 Fully Qualified Name (X'02') Triplet...........................................................................................................711
@@ -1194,12 +1162,12 @@ Object Offset (X'5A') Triplet...................................................
 Local Date and Time Stamp (X'62') Triplet................................................................................................. 724
 Group Information (X'6E') Triplet ............................................................................................................. 727
 Presentation Space Reset Mixing (X'70') Triplet ......................................................................................... 731
-T oner Saver (X'74') Triplet ..................................................................................................................... 732
+Toner Saver (X'74') Triplet ..................................................................................................................... 732
 Color Fidelity (X'75') Triplet .................................................................................................................... 734
 Metric Adjustment (X'79') Triplet ............................................................................................................. 737
 Font Resolution and Metric T echnology (X'84') Triplet.................................................................................. 740
 Finishing Operation (X'85') Triplet ........................................................................................................... 742
-T ext Fidelity (X'86') Triplet ..................................................................................................................... 755
+Text Fidelity (X'86') Triplet ..................................................................................................................... 755
 Finishing Fidelity (X'88') Triplet ............................................................................................................... 757
 Data Object Font Descriptor (X'8B') Triplet ................................................................................................ 759
 Linked Font (X'8D') Triplet ..................................................................................................................... 765
@@ -1208,13 +1176,13 @@ UP
 Color Management Resource Descriptor (X'91') Triplet ................................................................................ 769
 Invoke CMR (X'92') Triplet ..................................................................................................................... 772
 Rendering Intent (X'95') Triplet ............................................................................................................... 774
-CMR T ag Fidelity (X'96') Triplet............................................................................................................... 777
+CMR Tag Fidelity (X'96') Triplet............................................................................................................... 777
 Device Appearance (X'97') Triplet ........................................................................................................... 779
 Image Resolution (X'9A') Triplet.............................................................................................................. 781
 Object Container Presentation Space Size (X'9C') Triplet ............................................................................. 783
 Setup Name (X'9E') Triplet .................................................................................................................... 786
-Invoke T ertiary Resource (X'A2') Triplet.................................................................................................... 787
-Chapter 16. Exception Reporting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 789
+Invoke Tertiary Resource (X'A2') Triplet.................................................................................................... 787
+# Chapter 16. Exception Reporting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 789
 General Rules for Exceptions................................................................................................................. 789
 Exception-Handling Control ................................................................................................................... 792
 Exception Reporting ........................................................................................................................ 793
@@ -1229,9 +1197,7 @@ Action Codes (Sense Byte 2 for Printers That Return 24 Sense Bytes) ............
 Exception Reporting Codes ................................................................................................................... 806
 Exception Classes........................................................................................................................... 807
 
-## Page 27
 
-IPDS Reference xxvii
 Printer Exception IDs ........................................................................................................................... 807
 Command-Reject Exceptions ............................................................................................................ 808
 Equipment Check with Intervention Required Exceptions......................................................................... 809
@@ -1246,7 +1212,7 @@ Specification Checks—General Exceptions ......................................
 Conditions Requiring Host Notification ................................................................................................. 918
 Data Object Error Codes ....................................................................................................................... 922
 Error Codes for Anacomp and AnaStack Objects ................................................................................... 922
-Error Codes for Color Mapping T able and Color Profile Objects ................................................................. 922
+Error Codes for Color Mapping Table and Color Profile Objects ................................................................. 922
 Error Codes for IO-Image Objects and IOCA Tile Resources..................................................................... 922
 Error Codes for Other Data Objects..................................................................................................... 922
 Page and Copy Counter Adjustments ...................................................................................................... 926
@@ -1278,37 +1244,36 @@ Specification Checks—Bar Code Exceptions .....................................
 Specification Checks—Graphics Data Exceptions .................................................................................. 967
 Specification Check—General Exceptions ............................................................................................ 969
 Conditions Requiring Host Notification ................................................................................................. 976
-Chapter 17. Compliance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 977
+# Chapter 17. Compliance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 977
 IPDS Functional Divisions ..................................................................................................................... 977
 IPDS Command Sets and Command-Set Subsets...................................................................................... 979
 Data Divisions .................................................................................................................................... 981
-Data T owers and Data-T ower Levels ................................................................................................... 981
+Data Towers and Data-T ower Levels ................................................................................................... 981
 IPDS Support Requirements .................................................................................................................. 983
 Command-Set Support Requirements ................................................................................................. 983
-Data T ower Support Requirements ..................................................................................................... 983
+Data Tower Support Requirements ..................................................................................................... 983
 IPDS Support for MO:DCA Interchange Set IS/3 ........................................................................................ 984
 Required IPDS Command Set support................................................................................................. 984
 Additional Required Support .............................................................................................................. 985
 Additional required support for the MO:DCA GA (Graphic Arts) Function Set .................................................... 986
 Migration Functions ............................................................................................................................. 987
-Appendix A. IPDS Commands Sorted by Command Code . . . . . . . . . . . . . . . . . . . . . . . . 989
+# Appendix A. IPDS Commands Sorted by Command Code . . . . . . . . . . . . . . . . . . . . . . . . 989
 
-## Page 28
 
 xxviii IPDS Reference
-Appendix B. Examples of IPDS Command Sequences . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
+# Appendix B. Examples of IPDS Command Sequences . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
 A Printer-Initialization Sequence ............................................................................................................. 995
 The Page-Segment Sequence ............................................................................................................... 996
 The Overlay Sequence ......................................................................................................................... 997
 The Page Sequence ............................................................................................................................ 999
-Appendix C. Image Compression and Recording Algorithms . . . . . . . . . . . . . . . . . . . . . 1001
+# Appendix C. Image Compression and Recording Algorithms . . . . . . . . . . . . . . . . . . . . . 1001
 Modified ITU—TSS Modified READ Algorithm (IBM MMR) .......................................................................... 1001
 Run-Length 4 Compression Algorithm (RL4) ............................................................................................ 1002
 ABIC (Bilevel Q-Coder) Compression Algorithm (ABIC) .............................................................................. 1003
 Concatenated ABIC Compression Algorithm ............................................................................................ 1003
-ITU—TSS T .4 Facsimile Coding Scheme (G3 MH, One-Dimensional)............................................................ 1003
-ITU—TSS T .4 Facsimile Coding Scheme (G3 MR, Two-Dimensional) ............................................................ 1003
-ITU—TSS T .6 Facsimile Coding Scheme (G4 MMR) Compression Algorithm .................................................. 1003
+ITU—TSS T.4 Facsimile Coding Scheme (G3 MH, One-Dimensional)............................................................ 1003
+ITU—TSS T.4 Facsimile Coding Scheme (G3 MR, Two-Dimensional) ............................................................ 1003
+ITU—TSS T.6 Facsimile Coding Scheme (G4 MMR) Compression Algorithm .................................................. 1003
 ISO/ITU—TSS JPEG Compression Algorithms ......................................................................................... 1003
 JBIG2 (Joint Bi-level Image Experts Group) Compression Algorithm.............................................................. 1004
 Solid Fill Rectangle ............................................................................................................................. 1004
@@ -1316,16 +1281,14 @@ TIFF LZW Compression Algorithm .................................................
 TIFF LZW with Differencing Predictor Compression Algorithm...................................................................... 1004
 RIDIC Recording Algorithm .................................................................................................................. 1005
 Unpadded RIDIC Recording Algorithm .................................................................................................... 1005
-Appendix D. Retired Items . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1007
+# Appendix D. Retired Items . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1007
 Notices . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1023
 Trademarks....................................................................................................................................... 1024
 Glossary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1027
 Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1069
 
-## Page 29
 
-Copyright © AFP Consortium 1987, 2023 xxix
-Figures
+## Figures
 1. Presentation Environment ........................................................................................................................ 1
 2. Presentation Model ................................................................................................................................ 3
 3. Presentation Page.................................................................................................................................. 5
@@ -1343,20 +1306,20 @@ Figures
 15. Examples of Shaded Areas .................................................................................................................. 32
 16. CMR-Usage Hierarchy ........................................................................................................................ 36
 17. Selecting Appropriate Color-Conversion CMRs ......................................................................................... 40
-18. X m,Ym Coordinate System: Recommended Default Media Origins................................................................. 49
-19. X m,Ym Coordinate System - Other Allowed Default Media Origins ................................................................. 50
-20. X m,Ym Coordinate System for Envelopes ................................................................................................. 51
+18. Xm,Ym Coordinate System: Recommended Default Media Origins................................................................. 49
+19. Xm,Ym Coordinate System - Other Allowed Default Media Origins ................................................................. 50
+20. Xm,Ym Coordinate System for Envelopes ................................................................................................. 51
 21. Default Media Origin for Computer Output on 105 mm Microfilm (Shown Cut into Microfiche).............................. 52
 22. Default Media Origin for Computer Output on 16 mm Microfilm (CINE Representation) ...................................... 52
 23. Default Media Origin for Computer Output on 16 mm Microfilm (COMIC Representation) ................................... 52
-24. Locating Data by X m,Ym and Xp,Yp Coordinates ......................................................................................... 53
-25. Object Area Rotation in X p,Yp Coordinate System ...................................................................................... 54
+24. Locating Data by Xm,Ym and Xp,Yp Coordinates ......................................................................................... 53
+25. Object Area Rotation in Xp,Yp Coordinate System ...................................................................................... 54
 26. The I,B Coordinate System on the Logical Page ........................................................................................ 55
-27. The Usable I,B T ext Orientations............................................................................................................ 56
+27. The Usable I,B Text Orientations............................................................................................................ 56
 28. Object Area Rotation in I,B Coordinate System, Part 1................................................................................ 57
 29. Object Area Rotation in I,B Coordinate System, Part 2................................................................................ 58
 30. 15 Degree Object Area Rotation in I,B Coordinate System........................................................................... 59
-31. Calculating the Current T ext Position ...................................................................................................... 61
+31. Calculating the Current Text Position ...................................................................................................... 61
 32. Example of the Valid Printable Area ........................................................................................................ 62
 33. Example of the User’s Valid Printable Area............................................................................................... 64
 34. Logical Position and Next Pel to Be Printed for Four I,B Orientations ............................................................. 65
@@ -1379,14 +1342,13 @@ Resource State and Metadata State ..............................................
 47. TrueType Font Horizontal Metrics......................................................................................................... 107
 48. TrueType Font Vertical Metrics ............................................................................................................ 109
 49. Some Exception-Handling Combinations ................................................................................................116
-50. X m-Axis and Y m-Axis for Duplex Printing ................................................................................................ 183
+50. Xm-Axis and Ym-Axis for Duplex Printing ................................................................................................ 183
 51. N-up Partitions for Various Physical Media ............................................................................................. 184
 52. N-up Partition Layouts with SMO = X'00'................................................................................................ 186
 53. N-up Partition Layouts with SMO = X'01'................................................................................................ 186
 54. N-up Partition Layouts with SMO = X'02'................................................................................................ 187
 55. N-up Partition Layouts with SMO = X'03'................................................................................................ 187
 
-## Page 30
 
 xxx IPDS Reference
 56. Using the LPP Command to Position the Logical Page When There Is One Page per Side ............................... 210
@@ -1404,11 +1366,11 @@ xxx IPDS Reference
 68. The XOH Set Media Origin Command (Front Side of an Envelope).............................................................. 394
 69. The XOH Set Media Origin Command (Back Side of an X
 m-Axis Duplex Envelope)......................................... 394
-70. The XOH Set Media Origin Command (Back Side of a Y m-Axis Duplex Envelope) .......................................... 394
+70. The XOH Set Media Origin Command (Back Side of a Ym-Axis Duplex Envelope) .......................................... 394
 71. Examples Showing the Effect of SMS (Method 3) and SMO Command Combinations ..................................... 400
-72. T ext Presentation Space .................................................................................................................... 457
-73. Locating, Sizing, and Orienting the T ext Object Area ................................................................................ 458
-74. Example of Position Mapping for T ext (Error Case) .................................................................................. 468
+72. Text Presentation Space .................................................................................................................... 457
+73. Locating, Sizing, and Orienting the Text Object Area ................................................................................ 458
+74. Example of Position Mapping for Text (Error Case) .................................................................................. 468
 75. IM Image Where the Output Size Is Less Than the Input Size..................................................................... 484
 76. IM Image Where the Output Size is Greater Than the Input Size ................................................................. 484
 77. Example of IM-Image Magnification and Replication Where the Output Size Is Greater Than the Input
@@ -1438,7 +1400,7 @@ Size ...........................................................................
 100. Example of Object Container UP 3I-Print-Data Mapping ........................................................................... 607
 101. Example of Various Font Inline Sequences Producing the Same Character Orientation.................................. 637
 102. Rotation of Character Patterns........................................................................................................... 638
-103. The 32 Ways to Print T ext ................................................................................................................. 639
+103. The 32 Ways to Print Text ................................................................................................................. 639
 104. Font Inline Sequence of 0° ................................................................................................................ 641
 105. Font Inline Sequence of 90° .............................................................................................................. 642
 106. Font Inline Sequence of 180°............................................................................................................. 643
@@ -1453,24 +1415,19 @@ Size ...........................................................................
 115. Reference Edges for Various Kinds of Media......................................................................................... 753
 116. Character Placement Based on Character Rotation, Inline Direction, and Baseline Direction ........................... 762
 
-## Page 31
 
-IPDS Reference xxxi
 117. Layout of a Negative Acknowledge Reply (NACK).................................................................................. 797
 118. Logical Paper Path and Page Counters................................................................................................ 802
 119. IPDS Functional Divisions ................................................................................................................. 978
-120. Data T owers and Data-T ower Levels ................................................................................................... 982
+120. Data Towers and Data-T ower Levels ................................................................................................... 982
 121. RIDIC Raster Scan......................................................................................................................... 1005
 122. Example of GOC Replicate-and-Trim Mapping (retired item 135).............................................................. 1020
 
-## Page 32
 
 xxxii IPDS Reference
 
-## Page 33
 
-Copyright © AFP Consortium 1987, 2023 xxxiii
-Tables
+## Tables
 1. AFP Consortium Architecture References ................................................................................................. xiv
 2. Additional AFP Consortium Documentation ............................................................................................... xiv
 3. AFP Font-Related Documentation ........................................................................................................... xiv
@@ -1507,11 +1464,11 @@ Tables
 34. Common Values for Bar Code Types and Modifiers.................................................................................. 349
 35. Relationship Between SDF X'000E' and X'000F'...................................................................................... 353
 36. Printer-Generated Trace Entries .......................................................................................................... 414
-37. T ext Commands ............................................................................................................................... 457
+37. Text Commands ............................................................................................................................... 457
 38. Summary of Control Sequences .......................................................................................................... 476
 39. IM-Image Commands ........................................................................................................................ 479
 40. IM-Image and IO-Image Comparison .................................................................................................... 479
-41. Standard OCA Color-Value T able ......................................................................................................... 489
+41. Standard OCA Color-Value Table ......................................................................................................... 489
 42. IO-Image Commands ........................................................................................................................ 493
 43. IM-Image and IO-Image Comparison .................................................................................................... 493
 44. IOCA Self-Defining Fields................................................................................................................... 517
@@ -1529,10 +1486,9 @@ Tables
 55. Loaded-Font Commands ................................................................................................................... 635
 56. Identifying the Baseline Offset Value ..................................................................................................... 640
 57. Triplets Summary ............................................................................................................................. 703
-58. Standard OCA Color-Value T able ......................................................................................................... 717
+58. Standard OCA Color-Value Table ......................................................................................................... 717
 59. Color Space Examples ...................................................................................................................... 718
 
-## Page 34
 
 xxxiv IPDS Reference
 60. Examples of the Date Fields ............................................................................................................... 726
@@ -1553,6 +1509,4 @@ xxxiv IPDS Reference
 75. Object Containers Used in the IPDS Environment (retired item 137) ........................................................... 1021
 76. Object Containers Used in the IPDS Environment (retired item 138) ........................................................... 1021
 
-## Page 35
 
-Copyright © AFP Consortium 1987, 2023 1

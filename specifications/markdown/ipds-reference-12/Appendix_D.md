@@ -1,4 +1,4 @@
-Appendix D. Retired Items
+# Appendix D. Retired Items
 This appendix lists each retired item that is mentioned within the body of this book and also lists those items
 that have been unretired.
 Retired item 1 (1991): This retired item was unretired in 1993.
@@ -39,9 +39,7 @@ IPDS products.
 Retired item 14 (1991): Bit 1 of the resource class flags field (byte 11) in the Activate Resource command is
 retired for the IBM RPM MVS product (used as a save/no save flag).
 
-## Page 1042
 
-1008 IPDS Reference
 Retired item 15 (1991): X'20nn' property pair in the IO-Image command-set vector of the Sense Type and
 Model reply is retired as a resolution-correction support property ID.
 Where “nn” is a bit-mapped byte:
@@ -88,9 +86,7 @@ Retired item 25 (1991): X'F100' order code of the Execute Order Anystate command
 3800 printer Display Operator Panel Message order. Refer to Reference Manual for the IBM 3800 Printing
 Subsystem Model 3 for a description of this order.
 
-## Page 1043
 
-IPDS Reference 1009
 Retired item 26 (1991): X'F300' order code of the Execute Order Anystate command is retired for the IBM
 3800 printer and IBM 3820 printer Request Printer Information order.
 The syntax of this order is different for the two printers; refer to the specific printer Reference Manual
@@ -137,9 +133,7 @@ Support self-defining field in the XOH-Obtain Printer Characteristics reply is r
 Retired item 36 (1991): X'02' in the unit base field (byte 4) of the IM-Image and Coded-Font Resolution self-
 defining field in the XOH-Obtain Printer Characteristics reply is retired for relative units.
 
-## Page 1044
 
-1010 IPDS Reference
 Retired item 37 (1991): This retired item was unretired in 1991.
 X'0200' in the Installed Features self-defining field in the XOH-Obtain Printer Characteristics reply had
 previously been retired for channel-attached printers. It is used to indicate a manual two-channel switch.
@@ -187,17 +181,15 @@ IPDS Architecture. There is no data in bytes 3–end, that is, byte 0 = X'03'.
 Retired item 51 (1991): X'02' in the unit base field (byte 2) of the XOH-Set Media Size command is retired
 for relative units.
 
-## Page 1045
 
-IPDS Reference 1011
 Retired item 52 (1991): X'0200' in the type field (bytes 0–1) of the Load Equivalence command is retired for
 the IBM Remote PrintManager product. It is used to map the current value of Host-Assigned IDs of page
 segments included within previously stored overlays onto the value in effect at the time they were first
 downloaded to IBM Remote PrintManager.
-Retired item 53 (1991): X'02' in the unit base field (byte 4) of the T ext Output Control self-defining field in the
-Write T ext Control command is retired for relative units.
-Retired item 54 (1991): X'02' in the unit base field (byte 6) of the T ext Data Descriptor self-defining field in
-the Write T ext Control command is retired for relative units.
+Retired item 53 (1991): X'02' in the unit base field (byte 4) of the Text Output Control self-defining field in the
+Write Text Control command is retired for relative units.
+Retired item 54 (1991): X'02' in the unit base field (byte 6) of the Text Data Descriptor self-defining field in
+the Write Text Control command is retired for relative units.
 Retired item 55 (1991): X'02' in the unit base field (byte 4) of the Image Output Control self-defining field in
 the Write Image Control 2 command is retired for relative units.
 Retired item 56 (1991): X'02' in the unit base field (byte 6) of the Image Data Descriptor self-defining field in
@@ -227,9 +219,7 @@ Retired item 66 (1991): Bit 0 of the flags1 field (byte 0) in the Load Symbol Se
 IBM 3270 architecture. This bit indicates “Extended Form” in the IBM 3270 architecture. That architecture
 allows a shorter form of this command, indicated by a value of B'0' in this bit.
 
-## Page 1046
 
-1012 IPDS Reference
 Retired item 67 (1991): Bit 1 of the flags1 field (byte 0) in the Load Symbol Set (LSS) command is retired for
 the IBM 3270 architecture.
 This is the Clear bit in IBM 3270 and IBM GOCA architectures. This value indicates that the LSS data
@@ -251,7 +241,7 @@ or, implicitly, by the font design.
 Retired item 69 (1991): Byte 1 in the Load Symbol Set command is retired for the IBM 3270 architecture.
 The local ID specified in this byte has no significance for IPDS printers since the one-byte local identifier
 used by the Graphics Set Character Set, Push and Set Character Set, Set Marker Set, and Push and Set
-Marker Set orders; by the Bar Code LID; and by the T ext SCFL are mapped to the Font Host-Assigned ID
+Marker Set orders; by the Bar Code LID; and by the Text SCFL are mapped to the Font Host-Assigned ID
 (LSS bytes 15–16) via the Load Font Equivalence command.
 Retired item 70 (1991): Byte 3 in the Load Symbol Set command is retired for the IBM 3270 architecture.
 This byte is the read/write storage (RWS) number in IBM GOCA and IBM 3270 architectures; it has no
@@ -266,7 +256,7 @@ IBM 3270 architecture; this bit has no significance for IPDS printers. This bit 
 (MULTID) setting in IBM GOCA and IBM 3270 architectures.
 Retired item 73 (1991): Bit 4 of the flags2 field (byte 5) in the Load Symbol Set command is retired for the
 IBM 3270 architecture; this bit has no significance for IPDS printers. Retired for “Use Symbol Envelope
-T able”. A value of B'1' indicates that the Symbol Envelope T able (SET) information (from a triplet specified in
+Table”. A value of B'1' indicates that the Symbol Envelope Table (SET) information (from a triplet specified in
 another LSS field) is to be applied to this symbol set when these symbols are used within graphics data. It is
 an exception if this value is specified and no SET exists in the triplet field. Refer to the IBM GOCA
 specification for a description of the SET . A value of B'0' indicates that the SET , if present, is not to be used.
@@ -280,20 +270,18 @@ Bit 7 Blue plane
 For example, a value of X'03' indicates that the blue and red planes are to be loaded. A value of X'00'
 indicates that all color planes are to be loaded.
 
-## Page 1047
 
-IPDS Reference 1013
 Retired item 75 (1991): Byte 10 in the Load Symbol Set command is retired for the IBM 3270 architecture.
 This byte specifies the Starting Subsection Identifier in the IBM 3270 architecture. It has no significance for
 IPDS printers.
 Retired item 76 (1991): Byte 12 in the Load Symbol Set command is retired for the IBM 3270 architecture.
 Retired for “Width pairs”; this byte indicates the number of pairs of width-indentation values specified in the
-Symbol Envelope T able (SET) parameter. IBM GOCA architecture specifies the form of the SET . If the SET is
+Symbol Envelope Table (SET) parameter. IBM GOCA architecture specifies the form of the SET . If the SET is
 not present or not supported (byte 5, bit 4), this field can be ignored. This field has no significance for IPDS
 printers.
 Retired item 77 (1991): Byte 13 in the Load Symbol Set command is retired for the IBM 3270 architecture.
 Retired for “Height pairs”; this byte indicates the number of pairs of height-indentation values specified in the
-Symbol Envelope T able (SET) parameter. The IBM GOCA architecture specifies the form of the SET . If the
+Symbol Envelope Table (SET) parameter. The IBM GOCA architecture specifies the form of the SET . If the
 SET is not present or not supported (byte 5, bit 4), this field can be ignored. This field has no significance for
 IPDS printers.
 Retired item 78 (1991): Byte 14 in the Load Symbol Set command is retired for the IBM 3270 architecture.
@@ -332,9 +320,7 @@ channel-attached printers.
 This format is used in channel-level sense data and is not used with IPDS sense data. Refer to “Non-IPDS
 Sense Data” on page 941 for more information about channel-level sense data.
 
-## Page 1048
 
-1014 IPDS Reference
 Format 5 provides detailed information for channel-level exceptions on a serial-channel-attached printer.
 This format applies to X'8006..00', X'2001..01', X'2001..02', X'2002..01', X'2002..02', X'10E2..01',
 X'10E2..02', X'0401..01', X'0401..02', X'01A0..00', X'01A1..00', X'01A2..00', and X'01A3..00'.
@@ -383,13 +369,11 @@ Check, reserved for compatibility with channel-attached printers.
 Retired item 93 (1991): IPDS command code X'D600' is retired for the IBM 3800 printer T est I/O command.
 Refer to Reference Manual for the IBM 3800 Printing Subsystem Model 3 for a description of this command.
 
-## Page 1049
 
-IPDS Reference 1015
 Retired item 94 (1991): IPDS command code X'D604' is retired for the IBM 3800 printer Sense I/O
 command. Refer to Reference Manual for the IBM 3800 Printing Subsystem Model 3 for a description of this
 command.
-Retired item 95 (1991): IPDS command code X'D60D' is retired for the IBM 3800 printer Write Factored T ext
+Retired item 95 (1991): IPDS command code X'D60D' is retired for the IBM 3800 printer Write Factored Text
 Control command. Refer to Reference Manual for the IBM 3800 Printing Subsystem Model 3 for a
 description of this command.
 Retired item 96 (1991): IPDS command code X'D614' is retired for the IBM 3800 printer Sense Intermediate
@@ -435,9 +419,7 @@ is retired for XOA-NOP; see retired item 18.
 Retired item 109 (1991): X'8001' property pair in the Device-Control vector of the Sense Type & Model reply
 is retired for environment printing; see retired item 19.
 
-## Page 1050
 
-1016 IPDS Reference
 Retired item 110 (1991): X'8002' property pair in the Device-Control vector of the Sense Type & Model reply
 is retired for ringing a bell and for IBM 3800 printer Read Font List; see retired items 20 and 21.
 Retired item 111 (1991): X'8006' property pair in the Device-Control vector of the Sense Type & Model reply
@@ -477,16 +459,14 @@ defining field parameter ID X'0002' is retired to indicate that the intermediate
 PPDS/HPCL Protocol Converter.
 Retired item 122 (1993): Byte 5 of the LFCSC command is retired for version of pattern technology.
 Retired item 123 (1994): This retired item was unretired in 2011.
-This item covers the Write T ext Control (WTC) command, which had been in the IPDS architecture, but
+This item covers the Write Text Control (WTC) command, which had been in the IPDS architecture, but
 was retired until a product implementation became available.
 
-## Page 1051
 
-IPDS Reference 1017
 Retired item 124 (1994): This retired item was unretired in 2011.
 X'2001' property pair in the text command-set vector of the Sense Type and Model reply had previously
-been retired for text block support using the Write T ext Control command. The property pair now indicates
-support for text objects and the Write T ext Control (WTC) command.
+been retired for text block support using the Write Text Control command. The property pair now indicates
+support for text objects and the Write Text Control (WTC) command.
 Retired item 125 (1992): Sense byte 3 is retired for use with IBM S/370 sense data. This byte is not used in
 the IPDS architecture.
 Sense byte 3 normally defines the printer environment at the time of the exception and not the printer
@@ -515,9 +495,7 @@ Retired item 129 (1994): StampType X'01' in the Local Date and Time Stamp (X'62'
 by the IBM RMARK utility programs. This StampType indicates that a resource object was marked by the
 IBM RMARK utility.
 
-## Page 1052
 
-1018 IPDS Reference
 Retired item 130 (1996): The Standard OCA Color Value Support self-defining field (formerly in the XOH-
 OPC reply) is retired for use by older IPDS printers. New IPDS printers should not return this self-defining
 field.
@@ -576,9 +554,7 @@ Implementation Notes:
 for specific data types even though the STM color-support property-pairs are generated for specific
 data types.
 
-## Page 1053
 
-IPDS Reference 1019
 Retired item 131 (1998): XOA-RRL query type X'FE' is retired for a single-entry general query with resource
 ID triplets.
 X'FE' General query with resource ID triplets, single entry only
@@ -607,7 +583,7 @@ This is an integer corresponding to the leaf element of the DPA Standard Object 
 physical medium identified under the medium object class. The input media ID (in bytes 27–end)
 contains only the characters 0–9 using the code points assigned in IBM code page 500.
 These values are defined in ISO Draft International Standard 10175-1 “Information T echnology -
-T ext and Office Systems - Document Printing Application (DPA)”.
+Text and Office Systems - Document Printing Application (DPA)”.
 Note: Type X'10' is recommended when an OID is used.
 Retired item 133 (2000): Bit 4 of LCPC byte n+13 (processing flags for the default GCGID) is retired for a
 flag to distinguish some code page types.
@@ -619,9 +595,7 @@ This command permits resources that are nested in a nesting resource via Include
 be referenced externally using a new Host-Assigned ID (HAID). The LHL command allows the replacement
 of an old HAID with a new HAID in the Include or LFE command for each nested resource.
 
-## Page 1054
 
-1020 IPDS Reference
 Retired item 135 (2001): Replicate-and-trim mapping option for graphics (property pair X'F300') is retired.
 This option was originally defined for both IO Image and for graphics, but was later restricted to just IO Image
 because no IPDS printer implemented this mapping option for graphics. This mapping option is described as
@@ -643,14 +617,12 @@ Figure 122. Example of GOC Replicate-and-Trim Mapping (retired item 135)
 Replicate-and-trim
 mapping specified in
 the Graphics Output
-Control (GOC)
+## Control (GOC)
 Graphics Presentation Space Window
 Logical Page
 Graphics Object Area
 
-## Page 1055
 
-IPDS Reference 1021
 Retired item 136 (2006): E-mail Setup File object OID (used by IBM Infoprint Manager)
 Table 74. Object Containers Used in the IPDS Environment (retired item 136)
 Registered
@@ -716,9 +688,7 @@ enable two-up.
 Retired item 143 (2011): XOA order X'CE00' is retired for use in Océ printers and server software; used for
 cancel synchronization.
 
-## Page 1056
 
-1022 IPDS Reference
 Retired item 144 (2011): XOH order X'1C00' is retired for use in Océ printers and server software; used for
 two-up control.
 Retired item 145 (2011): XOH order X'1D00' is retired for use in Océ printers and server software; used to
@@ -739,9 +709,7 @@ secondary resource uses a HAID in the data-object-font-component HAID pool, but 
 are only searched for in the data-object-resource HAID pool. Instead, the DORE2 command must be used
 for this purpose, and that functionality is reported with the X'120D' property pair.
 
-## Page 1057
 
-Copyright © AFP Consortium 1987, 2023 1023
 Notices
 The AFP Consortium or consortium member companies might have patents or pending patent applications
 covering subject matter described in this document. The furnishing of this document does not give you any
@@ -761,14 +729,12 @@ serve as an endorsement of those Web sites. The materials at those Web sites are
 this architecture and use of those Web sites is at your own risk.
 The AFP Consortium may use or distribute any information you supply in any way it believes appropriate
 without incurring any obligation to you.
-This information contains examples of data and reports used in daily business operations. T o illustrate them in
+This information contains examples of data and reports used in daily business operations. To illustrate them in
 a complete manner, some examples include the names of individuals, companies, brands, or products. These
 names are fictitious and any similarity to the names and addresses used by an actual business enterprise is
 entirely coincidental.
 
-## Page 1058
 
-1024 IPDS Reference
 Trademarks
 These terms are trademarks or registered trademarks of Adobe Systems Incorporated in the United States, in
 other countries, or both:
@@ -816,20 +782,14 @@ Mixed Object Document Content Architecture
 MO:DCA
 Ricoh
 
-## Page 1059
 
-IPDS Reference 1025
 Intelligent Mail is a registered trademark of the United States Postal Service.
 UP3I is a trademark of UP 3I Limited.
 Other company, product, or service names might be trademarks or service marks of others.
 
-## Page 1060
 
-1026 IPDS Reference
 
-## Page 1061
 
-Copyright © AFP Consortium 1987, 2023 1027
 Glossary
 This glossary contains terms that apply to the
 Advanced Function Presentation (AFP) Architecture
@@ -909,7 +869,7 @@ formerly referred to as AFPDS
 GOCA)
 • Image Object Content Architecture (IOCA)
 • Metadata Object Content Architecture (MOCA)
-• Presentation T ext Object Content Architecture (PTOCA)
+• Presentation Text Object Content Architecture (PTOCA)
 AEA. See alternate exception action.
 AFM file. A file containing the metric information required
 for positioning the characters of a font. The metric
@@ -924,9 +884,7 @@ about the consortium can be found at
 www.afpconsortium.org
 .
 
-## Page 1062
 
-1028 IPDS Reference
 AFP data stream. A presentation data stream that is
 processed in AFP environments. The MO:DCA
 architecture defines the strategic AFP interchange data
@@ -1028,9 +986,7 @@ AFP documents in an archiving system. For archive
 systems, the key requirement is to make each page stand
 AFP data stream • archive interchange set
 
-## Page 1063
 
-IPDS Reference 1029
 alone by eliminating the use of resolution-dependent fonts
 and images, device-default fonts, and external resources.
 See AFP/A.
@@ -1125,9 +1081,7 @@ three to ten cpi. See also character density, density, and
 information density.
 arc parameters • bar code density
 
-## Page 1064
 
-1030 IPDS Reference
 bar code object area. The rectangular area on a logical
 page into which a bar code presentation space is mapped.
 Bar Code Object Content Architecture (BCOCA). An
@@ -1207,7 +1161,7 @@ to be implemented. This is represented by a base with no
 towers. Synonymous with mandatory support level.
 B axis. The axis of the I,B coordinate system that extends
 in the baseline or B direction. The B axis does not have to
-be parallel to the Y p axis of its bounding Xp,Yp coordinate
+be parallel to the Yp axis of its bounding Xp,Yp coordinate
 space.
 Bc. See current baseline presentation coordinate.
 bc. See current baseline print coordinate.
@@ -1228,9 +1182,7 @@ code symbol through its top or bottom edge. When plates
 are used in the printing process, Bearer Bars help equalize
 bar code object area • Bearer Bars
 
-## Page 1065
 
-IPDS Reference 1031
 the pressure exerted by the printing plate over the entire
 surface of the symbol to improve print quality. There are
 two styles: 1) four bars that completely surround the
@@ -1247,8 +1199,8 @@ B extent. The extent in the B-axis direction of an I,B
 coordinate system. The B extent must be parallel to one of
 the axes of the coordinate system that contains the I,B
 coordinate system. The B extent is parallel to the Yp extent
-when the B axis is parallel to the Y p axis or to the Xp extent
-when the B axis is parallel to the X p axis.
+when the B axis is parallel to the Yp axis or to the Xp extent
+when the B axis is parallel to the Xp axis.
 bi. See initial baseline print coordinate.
 big endian. A format for storage or transmission of binary
 data in which the most significant bit (or byte) is placed
@@ -1303,7 +1255,7 @@ bits and indicating that each byte has no predefined
 interpretation. Therefore, in CMOCA, each byte is
 interpreted as defined in the tag explanation.
 C
-calibration. T o adjust the correct value of a reading by
+calibration. To adjust the correct value of a reading by
 comparison to a standard.
 Canadian Grocery Product Code (CGPC). The bar
 code symbology used to code grocery items in Canada.
@@ -1328,9 +1280,7 @@ can be either a graphic character or a control character.
 See also graphic character and control character. (2) In
 Begin Segment Introducer (BSI) • character
 
-## Page 1066
 
-1032 IPDS Reference
 bar codes, a single group of bar code elements that
 represent an individual number, letter, punctuation mark, or
 other symbol.
@@ -1435,9 +1385,7 @@ sequence is a counter-clockwise rotation. Contrast with
 rotation.
 character angle • character rotation
 
-## Page 1067
 
-IPDS Reference 1033
 character set. A finite set of different graphic characters
 or control characters that is complete for a given purpose.
 For example, the character set in ISO Standard 646, 7-Bit
@@ -1538,9 +1486,7 @@ number identifying a specific set consisting of an encoding
 scheme identifier, character set identifiers, code page
 character set • Coded Character Set Identifier (CCSID)
 
-## Page 1068
 
-1034 IPDS Reference
 identifiers, and other relevant information that uniquely
 identifies the coded graphic character representation used.
 coded font. (1) A resource containing elements of a code
@@ -1646,9 +1592,7 @@ of pages or sheets, page, overlay, or data object with color
 fidelity.
 coded font • Color Management Object Content Architecture (CMOCA)
 
-## Page 1069
 
-IPDS Reference 1035
 color management resource. An object that provides
 color management in presentation environments.
 color management system. A set of software designed
@@ -1749,9 +1693,7 @@ sequence class is X'D3', that identifies presentation text
 object control sequences.
 color management resource • control sequence class
 
-## Page 1070
 
-1036 IPDS Reference
 control sequence function type. The coded character
 occupying the fourth byte of an unchained control
 sequence introducer. This code defines the function whose
@@ -1857,9 +1799,7 @@ current inline coordinate. The inline presentation
 position at the present time. This inline presentation
 control sequence function type • current inline coordinate
 
-## Page 1071
 
-IPDS Reference 1037
 position is the summation of the increments of all inline
 controls since the inline coordinate was established in the
 presentation space. An inline presentation position is
@@ -1963,9 +1903,7 @@ command; examples include: PDF single-page objects,
 Encapsulated PostScript objects, and IO Images
 current inline presentation coordinate (I c) • data object resource
 
-## Page 1072
 
-1038 IPDS Reference
 • Invoked from within a data object; examples
 include: PDF Resource objects and Non-OCA Resource
 objects
@@ -2066,9 +2004,7 @@ device-version code page. In the IPDS architecture, a
 device version of a code page contains all of the
 data stream • device-version code page
 
-## Page 1073
 
-IPDS Reference 1039
 characters that were registered for the CPGID at the time
 the printer was developed; since then, more characters
 might have been added to the registry for that CPGID. A
@@ -2162,14 +2098,12 @@ name that is valid for the duration of the session between
 the presentation services program and the printer. Contrast
 with resident resource.
 dpi. See dots per inch.
-drag. T o use a pointing device to move an object. For
+drag. To use a pointing device to move an object. For
 example, clicking on a window border, and dragging it to
 make the window larger.
 digital halftoning • drag
 
-## Page 1074
 
-1040 IPDS Reference
 draw functions. Functions that can be done during the
 drawing of a picture. Examples of draw functions are
 displaying a picture, boundary computation, and erasing a
@@ -2257,7 +2191,7 @@ Encoding Scheme Identifier (ESID). A 16-bit number
 assigned to uniquely identify a particular encoding scheme
 specification. See also encoding scheme.
 encryption. A process to manipulate data to achieve data
-security. T o read an encrypted data string, access to key
+security. To read an encrypted data string, access to key
 information that enables decryption of the data is required.
 See also decryption.
 environment interface. The part of the graphics
@@ -2269,9 +2203,7 @@ files among applications in a variety of heterogeneous
 environments.
 draw functions • EPS
 
-## Page 1075
 
-IPDS Reference 1041
 error diffusion halftone. A specific halftone method in
 which quantization errors are diffused spatially in a quasi-
 random manner.
@@ -2371,9 +2303,7 @@ fixed metrics. Graphic character measurements in
 physical units such as pels, inches, or centimeters.
 error diffusion halftone • fixed metrics
 
-## Page 1076
 
-1042 IPDS Reference
 FNN linked. In FOCA, the FNN (Font Name map)
 structured field permits the mapping of a set of IBM
 GCGIDs to the character index values that occur in either a
@@ -2483,9 +2413,7 @@ font width (FW). (1) A characteristic value, parallel to the
 character baseline, that represents the size of all graphic
 FNN linked • font width (FW)
 
-## Page 1077
 
-IPDS Reference 1043
 characters in a font. Synonymous with horizontal font
 size. (2) In a font character set, nominal font width is a
 font-designer defined value corresponding to the nominal
@@ -2602,9 +2530,7 @@ one fully described font and one font index. See also font
 index.
 foreground • fully described font
 
-## Page 1078
 
-1044 IPDS Reference
 function set. (1) A collection of architecture constructs
 and associated values. Function sets can be defined
 across or within subsets. (2) In the MO:DCA architecture,
@@ -2703,9 +2629,7 @@ gradient. In GOCA, an area fill where one color gradually
 changes to another. A gradient is a type of pattern.
 function set • gradient
 
-## Page 1079
 
-IPDS Reference 1045
 grapheme. (1) A minimally distinctive unit of writing in the
 context of a particular writing system. For example, å (“a +
 Combining Ring Above” or “Latin Small Letter A with Ring
@@ -2809,9 +2733,7 @@ EAN, JAN, or UPC symbol, that provide reference points
 for scanning.
 grapheme • guard bars
 
-## Page 1080
 
-1046 IPDS Reference
 gzip. A widely-used, free software compression
 algorithm.
 H
@@ -2918,9 +2840,7 @@ translation of bar code characters into equivalent Latin
 alphabetic characters, Arabic numeral decimal digits, and
 gzip • human-readable interpretation (HRI)
 
-## Page 1081
 
-IPDS Reference 1047
 common special characters normally used for printed
 human communication.
 hypermedia. Interlinked pieces of information consisting
@@ -2933,7 +2853,7 @@ I
 I. See inline direction.
 I axis. The axis of an I,B coordinate system that extends
 in the inline direction. The I axis does not have to be
-parallel to the X p axis of its bounding Xp,Yp coordinate
+parallel to the Xp axis of its bounding Xp,Yp coordinate
 space.
 I,B coordinate system. The coordinate system used to
 present graphic characters. This coordinate system is used
@@ -2975,9 +2895,9 @@ direction specified by the character angle attribute.
 Synonymous with inline direction.
 IDP . See image data parameter.
 IEEE. Institute of Electrical and Electronics Engineers.
-I extent. The Xp extent when the I axis is parallel to the X p
-axis or the Yp extent when the I axis is parallel to the Y p
-axis. The definition of the I extent depends on the X p or Yp
+I extent. The Xp extent when the I axis is parallel to the Xp
+axis or the Yp extent when the I axis is parallel to the Yp
+axis. The definition of the I extent depends on the Xp or Yp
 extent because the I,B coordinate system is contained
 within an Xp,Yp coordinate system.
 ii. See initial inline print coordinate.
@@ -3015,9 +2935,7 @@ image object area. A rectangular area on a logical page
 into which an image presentation space is mapped.
 hypermedia • image object area
 
-## Page 1082
 
-1048 IPDS Reference
 Image Object Content Architecture (IOCA). An
 architected collection of constructs used to interchange
 and present images.
@@ -3115,9 +3033,7 @@ applied in the positive I direction from the current
 presentation position. See also intercharacter adjustment.
 Image Object Content Architecture (IOCA) • intercharacter increment
 
-## Page 1083
 
-IPDS Reference 1049
 intercharacter space. In bar codes, the space between
 two adjacent bar code characters in a discrete code, for
 example, the space between two characters in Code 39.
@@ -3186,7 +3102,7 @@ JAN. See Japanese Article Numbering.
 Japanese Article Numbering (JAN). The bar code
 symbology used to code grocery items in Japan.
 JFIF . See JPEG File Interchange Format.
-jog. T o cause printedsheets to be stacked in an output
+jog. To cause printedsheets to be stacked in an output
 stacker offset from previously stacked sheets. Jogging is
 requested by using an IPDS Execute Order Anystate
 Alternate Offset Stacker command.
@@ -3216,9 +3132,7 @@ Kanji. A graphic character set for symbols used in
 Japanese ideographic alphabets.
 intercharacter space • Kanji
 
-## Page 1084
 
-1050 IPDS Reference
 kerning. The design of graphic characters so that their
 character boxes overlap, resulting in the reduction of space
 between characters. This allows characters to be designed
@@ -3313,9 +3227,7 @@ fields from the beginning of a data stream, or in the number
 of bytes from another location within the data stream.
 kerning • location
 
-## Page 1085
 
-IPDS Reference 1051
 logical page. A presentation space. One or more object
 areas can be mapped to a logical page. A logical page has
 specifiable characteristics, such as size, shape,
@@ -3409,9 +3321,7 @@ of a construct. A meaning entry can be a long name, a
 description, or a brief statement of function.
 logical page • meaning
 
-## Page 1086
 
-1052 IPDS Reference
 measurement base. A base unit of measure from which
 other units of measure are derived.
 media. Plural of medium. See also medium.
@@ -3511,9 +3421,7 @@ subset of MO:DCA that defines an interchange format for
 presentation documents.
 measurement base • MO:DCA IS/2
 
-## Page 1087
 
-IPDS Reference 1053
 MO:DCA IS/3. MO:DCA Interchange Set 3. A subset of
 MO:DCA that defines an interchange format for print files
 that supersedes MO:DCA IS/1.
@@ -3614,9 +3522,7 @@ non-presentation object. An object that is not a
 presentation object.
 MO:DCA IS/3 • non-presentation object
 
-## Page 1088
 
-1054 IPDS Reference
 nonprocess runout (NPRO). An operation that moves
 sheets of physical media through the printer without
 printing on them. This operation is used to stack the last
@@ -3719,9 +3625,7 @@ m axis of the Xm,Ym coordinate system. See also
 presentation space orientation and text orientation.
 nonprocess runout (NPRO) • orientation
 
-## Page 1089
 
-IPDS Reference 1055
 origin. The point in a coordinate system where the axes
 intersect. Examples of origins are the addressable position
 in an Xm,Ym coordinate system where both coordinate
@@ -3823,9 +3727,7 @@ page or overlay. (3) The final representation of such an
 object on a physical medium. Contrast with overlay.
 origin • page segment
 
-## Page 1090
 
-1056 IPDS Reference
 Page-Segment command set. In the IPDS architecture,
 a collection of commands used to load, deactivate, and
 include page segments.
@@ -3928,9 +3830,7 @@ smallest element of a physical medium that can be
 independently assigned color and intensity. Picture
 Page-Segment command set • picture element
 
-## Page 1091
 
-IPDS Reference 1057
 elements per inch is often used as a measurement of
 presentation granularity. Synonymous with pel and pixel.
 pixel. The smallest printable or displayable unit on a
@@ -4034,9 +3934,7 @@ presentation system. A system for presenting data. In
 AFP environments such a system normally contains at
 pixel • presentation system
 
-## Page 1092
 
-1058 IPDS Reference
 least a formatting application, a print server, and a printer.
 Synonymous with presentation process.
 presentation text object. An object that contains
@@ -4083,7 +3981,7 @@ process element. In MO:DCA, a document component
 that is defined by a structured field and that facilitates a
 form of document processing that does not affect the
 presentation of the document. Examples of process
-elements are T ag Logical Elements (TLEs) that specify
+elements are Tag Logical Elements (TLEs) that specify
 document attributes and Link Logical Elements (LLEs) that
 specify linkages between document components.
 Profile Connection Space (PCS). The reference color
@@ -4116,7 +4014,7 @@ originating with the electric typewriter and having character
 increment values that are integer multiples of the narrowest
 character width.
 PSM font. See Proportional Spacing Machine font.
-PTOCA. See Presentation T ext Object Content
+PTOCA. See Presentation Text Object Content
 Architecture.
 Q
 quantization. The process of reducing an image with
@@ -4133,9 +4031,7 @@ quiet zone. A clear space that contains no machine-
 readable marks preceding the start character of a bar code
 presentation text object • quiet zone
 
-## Page 1093
 
-IPDS Reference 1059
 symbol or following the stop character. Synonymous with
 clear area. Contrast with intercharacter gap and space.
 R
@@ -4161,7 +4057,7 @@ raster direction. An attribute that controls the direction in
 which a character string grows relative to the inline
 direction. Values are: left-to-right, right-to-left, top-to-
 bottom, and bottom-to-top.
-rasterize. T o convert presentation data into raster
+rasterize. To convert presentation data into raster
 (bitmap) form for display or printing.
 raster pattern. A rectangular array of pels arranged in
 rows called scan lines.
@@ -4196,7 +4092,7 @@ location of image points in image data.
 recovery-unit group. (1) In the IPDS architecture, a
 group of pages identified by the XOH Define Group
 Boundary command and controlled by the Keep-Group-
-T ogether-as-a-Recovery-Unit group operation specified by
+Together-as-a-Recovery-Unit group operation specified by
 the XOH Specify Group Operation command. The
 recovery-unit group also includes all copies specified by
 the Load Copy Control command. (2) In the MO:DCA
@@ -4205,7 +4101,7 @@ recovery purposes, such as in cases of a printer recovery
 from an error that occurs in the middle of the group. A
 recovery-unit group is identified by a Begin Named Group
 (BNG) and End Named Group (ENG) pair that contains a
-Keep Group T ogether (X'9D') triplet.
+Keep Group Together (X'9D') triplet.
 redaction. The process of applying an opaque mask over
 a page so that a selected portion of the page is visible.
 Since this function is typically used to prevent unauthorized
@@ -4239,9 +4135,7 @@ direction, or baseline along the B axis in the B direction, or
 both.
 radial gradient • relative move
 
-## Page 1094
 
-1060 IPDS Reference
 relative positioning. The establishment of a position
 within a coordinate system as an offset from the current
 position. Contrast with absolute positioning.
@@ -4341,9 +4235,7 @@ Kingdom's Royal Mail postal service for use in automated
 mail-sorting processes.
 relative positioning • Royal Mail 4 State Customer Code (RM4SCC)
 
-## Page 1095
 
-IPDS Reference 1061
 rule. A solid line of any line width.
 S
 sans serif. A type style characterized by strokes that end
@@ -4439,9 +4331,7 @@ character baseline. Synonymous with baseline and printing
 baseline.
 rule • sequential baseline
 
-## Page 1096
 
-1062 IPDS Reference
 sequential baseline position. The current addressable
 position for a baseline in a presentation space or on a
 physical medium. See also baseline coordinate and current
@@ -4541,9 +4431,7 @@ combination of process color primaries. See also highlight
 color. Contrast with process color.
 sequential baseline position • spot color
 
-## Page 1097
 
-IPDS Reference 1063
 sRGB. One of the standard RGB color spaces, a means
 of specifying precisely how any given RGB value should
 appear on a display or printed paper or any other output
@@ -4646,9 +4534,7 @@ documents. Synonymous with bar code symbology. See
 also Canadian Grocery Product Code (CGPC), European
 sRGB • symbology
 
-## Page 1098
 
-1064 IPDS Reference
 Article Numbering (EAN), Japanese Article Numbering
 (JAN), and Universal Product Code (UPC).
 symbol set. A coded font that is usually simpler in
@@ -4676,7 +4562,7 @@ presentation information.
 T
 tag. A data structure that is used within the data portion of
 a color management resource (CMR). A CMR tag consists
-of T agID, FieldType, Count, and ValueOffset.
+of TagID, FieldType, Count, and ValueOffset.
 Tagged Image File Format (TIFF). A rich and flexible
 graphics image format.
 temporary baseline. The shifted baseline used for
@@ -4692,16 +4578,16 @@ increments might have been used to place a temporary
 baseline at the current baseline presentation coordinate.
 tertiary resource. A resource for an object that is itself a
 secondary resource to another resource.
-text. A graphic representation of information. T ext can
+text. A graphic representation of information. Text can
 consist of alphanumeric characters and symbols arranged
 in paragraphs, tables, columns, and other shapes. An
-example of text is the data sent in an IPDS Write T ext
+example of text is the data sent in an IPDS Write Text
 command.
 Text command set. In the IPDS architecture, a collection
 of commands used to present PTOCA text data in a page,
 page segment, or overlay.
 text major. A description for text where the Presentation
-T ext Data Descriptor (PTD) is specified in page controls. In
+Text Data Descriptor (PTD) is specified in page controls. In
 MO:DCA, the PTD is in the Active Environment Group
 (AEG) for the page; in IPDS, the PTD is specified as initial
 text-major conditions in the Logical Page Descriptor
@@ -4726,7 +4612,7 @@ space in which text is generated for presentation on an
 output medium.
 throughscore. A line parallel to the baseline and placed
 through the character.
-TIFF . See T agged Image File Format.
+TIFF . See Tagged Image File Format.
 tint. Variation of a color produced by mixing it with white.
 toned. Containing marking agents such as toner or ink.
 Contrast with untoned.
@@ -4747,9 +4633,7 @@ transform matrix. A matrix that is applied to a set of
 coordinates to produce a transform.
 symbol set • transform matrix
 
-## Page 1099
 
-IPDS Reference 1065
 translating. In computer graphics, moving all or part of a
 picture in the presentation space from one location to
 another without rotating.
@@ -4850,9 +4734,7 @@ contains from one to four bytes. All
 Unicode code points can be encoded in
 translating • UTF-8
 
-## Page 1100
 
-1066 IPDS Reference
 UTF-8 and all 7-bit ASCII characters can
 be encoded in one byte.
 UTF-16 The default Unicode encoding. A fixed,
@@ -4957,9 +4839,7 @@ character increment parameter is used to provide spacing.
 See also variable space character increment.
 UTF-16 • variable space character
 
-## Page 1101
 
-IPDS Reference 1067
 variable space character increment. The variable value
 associated with a variable space character. The variable
 space character increment is used to calculate the
@@ -5061,9 +4941,7 @@ X dimension. In bar codes, the nominal dimension of the
 narrow bars and spaces in a bar code symbol.
 variable space character increment • X dimension
 
-## Page 1102
 
-1068 IPDS Reference
 Xg,Yg coordinate system. In the IPDS architecture, the
 graphics presentation space coordinate system.
 X height. The nominal height above the baseline,
@@ -5084,7 +4962,7 @@ ol,Yol coordinate system. The overlay coordinate
 system.
 X
 p extent. The size of a presentation space or logical
-page in the X p dimension. See also presentation space and
+page in the Xp dimension. See also presentation space and
 logical page.
 Xpg,Ypg coordinate system. The coordinate system of a
 page presentation space. This coordinate system
@@ -5095,11 +4973,11 @@ system, for example, an Xm,Ym coordinate system.
 Xp,Yp coordinate system. The coordinate system of a
 presentation space or a logical page. This coordinate
 system describes the size, position, and orientation of a
-presentation space or a logical page. Orientation of an X p,
+presentation space or a logical page. Orientation of an Xp,
 Yp coordinate system is relative to an environment-
 specified coordinate system. An example of an
 environment-specified coordinate system is the Xm,Ym
-coordinate system. The X p,Yp coordinate system origin is
+coordinate system. The Xp,Yp coordinate system origin is
 specified by an IPDS Logical Page Position command. See
 also logical page, medium presentation space, and
 presentation space.
@@ -5122,7 +5000,7 @@ human visual system, with an intensity value and two color
 values. YCbCr and YCrCb use the same three values, but
 in a different order.
 Yp extent. The size of a presentation space or logical
-page in the Y p dimension. See also presentation space and
+page in the Yp dimension. See also presentation space and
 logical page.
 Yxy color space. A color space belonging to the XYZ
 base family that expresses the XYZ values in terms of x
@@ -5130,9 +5008,7 @@ and y chromaticity coordinates, somewhat analogous to
 the hue and saturation coordinates of the HSV color space.
 Xg,Yg coordinate system • Yxy color space
 
-## Page 1103
 
-Copyright © AFP Consortium 1987, 2023 1069
 Index
 A
 A-space . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 636
@@ -5176,11 +5052,11 @@ ABIC (Bilevel Q-Coder) compression algorithm .. . .. . . .. . . .. .1003
 Concatenated ABIC compression algorithm .. . . .. . .. . . .. . . .. .1003
 IBM MMR compression algorithm . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .1001
 Image Compression algorithms .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .1001
-ITU—TSS T .4 Facsimile Coding Scheme (G3 MH, one-
+ITU—TSS T.4 Facsimile Coding Scheme (G3 MH, one-
 dimensional).. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .1003
-ITU—TSS T .4 Facsimile Coding Scheme (G3 MR, two
+ITU—TSS T.4 Facsimile Coding Scheme (G3 MR, two
 dimensional).. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .1003
-ITU—TSS T .6 Facsimile Coding Scheme (G4 MMR)
+ITU—TSS T.6 Facsimile Coding Scheme (G4 MMR)
 compression algorithm . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .1003
 RIDIC Recording Algorithm . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .1005
 RL4 compression algorithm . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. .1002
@@ -5263,15 +5139,13 @@ center-fold in . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .
 center-fold out .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 368, 745
 character box. .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 636, 678
 
-## Page 1104
 
-1070 IPDS Reference
 character increment . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .55
 character pattern descriptors . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 684
 character raster patterns .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 702
 character reference point . . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 636
 character set ID .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 201
-CMR T ag Fidelity (X'96') triplet .. . . .. . . .. . .. . . .. . . 218–219, 366, 777
+CMR Tag Fidelity (X'96') triplet .. . . .. . . .. . .. . . .. . . 218–219, 366, 777
 code page . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .46
 code page global ID . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 202
 code page state .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .78
@@ -5308,7 +5182,7 @@ color management .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .
 Color Management Resource (CMR) object containers . .. . .99, 362
 Color Management Resource Descriptor (X'91') triplet . . . 137, 155,
 240, 609–610, 769
-Color Mapping T able (CMT) .. . .. . 44, 100, 120, 223, 362, 497, 716
+Color Mapping Table (CMT) .. . .. . 44, 100, 120, 223, 362, 497, 716
 Color Simulation Guidelines .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 119
 Color Specification (X'4E') triplet . . .. . 206, 209, 221, 225, 230, 235,
 466, 469, 504, 512, 532–534, 555, 557–558, 561, 585–586, 600–
@@ -5406,9 +5280,7 @@ data object resource .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . ..
 Data Object Resource Equivalence (DORE) command .. . .. . . .. 569
 Data Object Resource Equivalence 2 (DORE2) command . . . .. 571
 
-## Page 1105
 
-IPDS Reference 1071
 Data Object Resource equivalence entries . .. . .. . . .. . .. . . .. . . .. . . 565
 data security .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 326–327
 data storage .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 338
@@ -5547,9 +5419,7 @@ Exception IDs
 0201..01 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 969
 0201..02 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 969
 
-## Page 1106
 
-1072 IPDS Reference
 0201..03. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. 64, 457, 857
 0202..01. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 477, 857
 0202..02. . .. . . . 71, 136, 158, 160, 162–163, 168, 170–171, 173–
@@ -5691,9 +5561,7 @@ Exception IDs
 0237..03 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180–181, 874
 0237..04 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 181, 798–799, 874
 
-## Page 1107
 
-IPDS Reference 1073
 0237..05. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 177, 874
 0238..01. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . 190, 874–875
 0238..02. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 971
@@ -5835,9 +5703,7 @@ IPDS Reference 1073
 0260..02 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 207, 477, 892
 0261..02 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 207, 477, 892
 
-## Page 1108
 
-1074 IPDS Reference
 0262..02. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . . 207, 399, 892, 894
 0263..01. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 892, 911
 0263..02. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . . 207, 399, 892, 894
@@ -5979,9 +5845,7 @@ IPDS Reference 1073
 02B0..0B .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 672, 912
 02B0..0C .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 672, 912
 
-## Page 1109
 
-IPDS Reference 1075
 02B0..0D . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 674, 912
 02B0..0E . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 673, 913
 02B0..0F . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . 673–674, 913
@@ -6123,9 +5987,7 @@ IPDS Reference 1075
 0402..00 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 966
 0403..00 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 561, 835
 
-## Page 1110
 
-1076 IPDS Reference
 0404..00. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . 561, 835, 869
 0405..00. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . 561, 734, 835
 0406..00. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 561, 835
@@ -6267,9 +6129,7 @@ IPDS Reference 1075
 0821..00 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .151, 279, 765, 799, 820
 0824..00 . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 960
 
-## Page 1111
 
-IPDS Reference 1077
 0825..00. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 960
 0826..00. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 960
 0827..00. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 960
@@ -6411,9 +6271,7 @@ IPDS Reference 1077
 10B5..nn .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 957
 10B6..nn .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 957
 
-## Page 1112
 
-1078 IPDS Reference
 10B7..nn . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 957
 10B8..nn . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 957
 10B9..nn . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 957
@@ -6555,9 +6413,7 @@ exception reporting codes . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .
 Exception-Handling Control order. . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 277
 exception reporting. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 278
 
-## Page 1113
 
-IPDS Reference 1079
 Exception-Handling Control Flowchart. . . . .. . .. . . .. . .. . . .. . . .. . . 285
 Page Continuation Actions . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 283
 Skip and Continue Actions . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 281
@@ -6695,9 +6551,7 @@ fully described font. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . .
 Fully Qualified Name (X'02') triplet . . . 137, 149, 151, 154, 240, 593,
 609–610, 711
 
-## Page 1114
 
-1080 IPDS Reference
 G
 GAP (Graphics Area Position) self-defining field . . .. . .. . . .. . . .. . . 527
 GCSGID .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 201
@@ -6834,16 +6688,14 @@ presentation environment . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .
 structured fields . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. 7
 system environments .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 8–9
 
-## Page 1115
 
-IPDS Reference 1081
 intermediate device. . . .. . .24, 88, 92, 143–144, 233–234, 237, 328,
 359
 intervention-required exceptions . . .. . . .. . .. . . .. . .. . . .. . .807, 811, 946
 Invoke CMR (X'92') triplet . . . .. . . 206, 209, 225, 230, 240, 466, 469,
 504, 512, 532–533, 555, 557, 581, 583, 600–601, 772
 Invoke CMR (ICMR) command.. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 174
-Invoke T ertiary Resource (X'A2') triplet. . .. . . . 37, 98, 242, 513, 555,
+Invoke Tertiary Resource (X'A2') triplet. . .. . . . 37, 98, 242, 513, 555,
 557–558, 564, 567, 602, 787
 IO (Include Overlay) command.. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 627
 IO Image .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 119
@@ -6948,7 +6800,7 @@ Load Font command . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . 
 Load Font Control command. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 675
 Load Font Index command. .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 687
 Load Symbol Set command.. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 698
-Local Area Network (LAN)
+## Local Area Network (LAN)
 as an environment . . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. 8
 in the PC environment . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .8, 12
 Local Date and Time Stamp (X'62') triplet. .. . . .. 137, 154, 239, 724
@@ -6968,9 +6820,7 @@ logical positioning .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . 
 logical units .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .47
 long format font index . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 648, 687
 
-## Page 1116
 
-1082 IPDS Reference
 LPD (Logical Page Descriptor) command. . . .. . .. . . .. . .. . . .. . . .. . . 204
 LPP (Logical Page Position) command . .. . . .. . .. . . .. . .. . . .. . . .. . . 210
 LRE (Load Resource Equivalence) command. .. . . .. . .. . . .. . . .. . . 134
@@ -7104,9 +6954,7 @@ operator-viewing page counter . . . .. . .. . . .. . .. . . .. . . .. . .. . . .
 ordered data . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .45
 ordered page . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .45
 
-## Page 1117
 
-IPDS Reference 1083
 orders
 XOA Activate Printer Alarm . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 270
 XOA Alternate Offset Stacker. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 271
@@ -7175,7 +7023,7 @@ perforation cut . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 
 PFC (Presentation Fidelity Control) command .. . . .. . .. . . .. . . .. . . 218
 PFC Triplets Supported self-defining field. . . .. . .. . . .. . .. . . .. . . .. . . 366
 PFO
-See Preprinted Form Overlay (PFO)
+## See Preprinted Form Overlay (PFO)
 physical media jam . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 803
 physical pels. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .65
 Portable Document Format (PDF) object containers . . . .. . 91, 100–
@@ -7185,7 +7033,7 @@ Portable Network Graphics (PNG) object containers . . . .. . . 91, 101,
 104, 120, 220, 226, 363, 426, 444–445, 452–453, 575, 585, 733,
 863, 888, 924
 position exceptions
-See user printable area (UPA)
+## See user printable area (UPA)
 position mapping. .. . .. . . .. . . .. . .. . . .. . .. . . .. . .459, 468, 549, 557, 606
 position-and-trim mapping . .. . .. . . .. . .. . . .. . .496, 508, 524, 539, 605
 positioning . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .65
@@ -7203,7 +7051,7 @@ presentation space . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . ..
 Presentation Space Reset Mixing (X'70') triplet . . .. . .206, 209, 235,
 466, 469, 504, 512, 532–534, 555, 557–558, 581, 583–584, 600–
 602, 731
-Presentation T ext Object Content Architecture
+Presentation Text Object Content Architecture
 See architectures
 presentation-object states . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .73
 Print Buffered Data order . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 382
@@ -7245,9 +7093,7 @@ PTOCA
 See architectures
 punch. . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 368, 747
 
-## Page 1118
 
-1084 IPDS Reference
 Q
 quality of print . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 293
 R
@@ -7324,9 +7170,9 @@ Object Container Data Descriptor .. . . .. . .. . . .. . . .. . .. . . .. . .. .
 Object Container Output Control . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 599
 Set Bilevel Image Color . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 514
 Set Extended Bilevel Image Color.. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 514
-T ext Area Position .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 463
-T ext Data Descriptor . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 470
-T ext Output Control . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 466
+Text Area Position .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 463
+Text Data Descriptor . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 470
+Text Output Control . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 466
 sense bytes.. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 796
 Sense Type and Model (STM) command
 Acknowledge Reply to . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 130, 233
@@ -7382,9 +7228,7 @@ symbol set . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . 
 character raster patterns .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 702
 font identifier . . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 702
 
-## Page 1119
 
-IPDS Reference 1085
 horizontal download . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 700
 Load Symbol Set command. .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 698
 vertical download. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 700
@@ -7403,34 +7247,34 @@ Local Area Network environment. . . .. . .. . . .. . .. . . .. . .. . . .. . . .
 mainframe interactive environment .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .10
 spooled system environment . . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . 9
 T
-T ag Image File Format (TIFF) object containers. . . .. . . 91, 101, 104,
+Tag Image File Format (TIFF) object containers. . . .. . . 91, 101, 104,
 120, 220, 226, 363, 376, 426, 444, 452, 575, 585–586, 733, 863,
 888
-TAP (T ext Area Position self-defining field) . .. . .. . . .. . .. . . .. . . .. . . 463
+TAP (Text Area Position self-defining field) . .. . .. . . .. . .. . . .. . . .. . . 463
 TDD (text data descriptor) . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 470
 temporary hardware exception .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 805
 tertiary resource.. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 565, 787
 text.. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 120
 position mapping . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 459, 468
 positioning . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 459
-T ext Area Position self-defining field . . .. . . .. . .. . . .. . .. . . .. . . .. . . 463
+Text Area Position self-defining field . . .. . . .. . .. . . .. . .. . . .. . . .. . . 463
 text object area . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. 458, 463
-T ext Output Control self-defining field. .. . . .. . .. . . .. . .. . . .. . . .. . . 466
+Text Output Control self-defining field. .. . . .. . .. . . .. . .. . . .. . . .. . . 466
 text presentation space. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 457
-Write T ext Control command.. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 462
-T ext Area Position (TAP) self-defining field . .. . .. . . .. . .. . . .. . . .. . . 463
+Write Text Control command.. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 462
+Text Area Position (TAP) self-defining field . .. . .. . . .. . .. . . .. . . .. . . 463
 text commands
 Load Equivalence command.. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 460
-Write T ext command . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 472
-Write T ext Control command.. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 462
+Write Text command . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 472
+Write Text Control command.. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 462
 text data. .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .18
-T ext Data Descriptor (TDD) . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 470
-T ext Fidelity (X'86') triplet . . . .. . .. . . .. . . .. . .. . . .. . . 218–219, 366, 755
+Text Data Descriptor (TDD) . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 470
+Text Fidelity (X'86') triplet . . . .. . .. . . .. . . .. . .. . . .. . . 218–219, 366, 755
 text orientation . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .56
-T ext Output Control (TOC) self-defining field . . .. . . .. . .. . . .. . . .. . . 466
+Text Output Control (TOC) self-defining field . . .. . . .. . .. . . .. . . .. . . 466
 TIFF LZW . . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .250, 1004
-TOC (T ext Output Control self-defining field) . . .. . . .. . .. . . .. . . .. . . 466
-T oner Saver (X'74') triplet . . . .. . .. . . .. . . .. . .. . . .. . . 218–219, 366, 732
+TOC (Text Output Control self-defining field) . . .. . . .. . .. . . .. . . .. . . 466
+Toner Saver (X'74') triplet . . . .. . .. . . .. . . .. . .. . . .. . . 218–219, 366, 732
 trace entries
 Begin Overlay . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 423
 Begin Page . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 418
@@ -7440,7 +7284,7 @@ Begin Trace . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. .
 CMR Activation . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 433
 CMR Deactivation. . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 454
 CMR Invocation .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 435
-CMR T ag Fidelity . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 448
+CMR Tag Fidelity . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 448
 CMRs Used . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 429
 Color Fidelity. .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 447
 Device Appearance .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 446
@@ -7458,7 +7302,7 @@ transparent error . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . 
 trim . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 747
 trim after center fold or saddle stitch .. . . .. . .. . . .. . . .. . .. . . .. . 368, 748
 triplets
-CMR T ag Fidelity (X'96') triplet. .. . .. . . .. . .. . . .. 218–219, 366, 777
+CMR Tag Fidelity (X'96') triplet. .. . .. . . .. . .. . . .. 218–219, 366, 777
 Coded Graphic Character Set Global Identifier (X'01')
 triplet . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . ..137, 154, 321–322, 593, 709
 Color Fidelity (X'75') triplet . .. . . .. . .. . . .. . .. . . .. 218–219, 366, 734
@@ -7484,7 +7328,7 @@ Image Resolution (X'9A') triplet .. . . 221, 225, 230, 585–586, 588,
 609–610, 612, 781
 Invoke CMR (X'92') triplet . . .. 206, 209, 225, 230, 240, 466, 469,
 504, 512, 532–533, 555, 557, 581, 583, 600–601, 772
-Invoke T ertiary Resource (X'A2') triplet . .. . 37, 98, 242, 513, 555,
+Invoke Tertiary Resource (X'A2') triplet . .. . 37, 98, 242, 513, 555,
 557–558, 564, 567, 602, 787
 Linked Font (X'8D') triplet . . .. . . .. . .. 137, 149, 151, 155, 242, 765
 Local Date and Time Stamp (X'62') triplet . . .. 137, 154, 239, 724
@@ -7499,8 +7343,8 @@ Rendering Intent (X'95') triplet . .. . 206, 209, 225, 230, 240, 266–
 267, 466, 469, 504, 512–513, 532–533, 558, 581, 583, 600–
 602, 774
 Setup Name (X'9E') triplet. . .. . 157–159, 240, 307–311, 380, 786
-T ext Fidelity (X'86') triplet.. . .. . . .. . .. . . .. . .. . . .. 218–219, 366, 755
-T oner Saver (X'74') triplet . . .. . . .. . .. . . .. . .. . . .. 218–219, 366, 732
+Text Fidelity (X'86') triplet.. . .. . . .. . .. . . .. . .. . . .. 218–219, 366, 755
+Toner Saver (X'74') triplet . . .. . . .. . .. . . .. . .. . . .. 218–219, 366, 732
 UP³I Finishing Operation (X'8E') triplet . .. . . ..160, 239, 321–322,
 767
 TrueType/OpenType object containers . .. . 45–46, 89, 91, 101, 107,
@@ -7509,7 +7353,7 @@ U
 underscore .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 645–646
 underscore position. .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 693
 underscore width. .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 693
-Unicode Complex T ext (UCT) .. 246, 473, 475, 477, 756, 869–870,
+Unicode Complex Text (UCT) .. 246, 473, 475, 477, 756, 869–870,
 906–908
 Unicode support . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 473
 unit base . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .47
@@ -7520,9 +7364,7 @@ UP³I . . xv, 7, 28, 160–161, 241–242, 276, 320, 324, 355, 403–404,
 801, 809, 816, 819, 894–895, 899, 919, 921, 1066
 UP³I finishing . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 322
 
-## Page 1120
 
-1086 IPDS Reference
 UP³I Finishing Operation (X'8E') triplet . . .. .160, 239, 321–322, 767
 UP³I object containers.. . .. . . .. . .. . . .. . . . 91, 102, 364, 575, 586, 863
 UP³I Paper Input Media self-defining field. . . .. . .. . . .. . .. . . .. . . .. . . 369
@@ -7590,12 +7432,12 @@ Write Object Container Control (WOCC) command . .. . . 73–75, 80,
 Object Container Area Position (OCAP).. . . .. . . .. . .. . . .. . .. . . .. 596
 Object Container Data Descriptor (OCDD) . .. . . .. . .. . . .. . .. . . .. 609
 Object Container Output Control (OCOC) . . .. . . .. . .. . . .. . .. . . .. 599
-Write T ext (WT) command . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . 74–76, 472
+Write Text (WT) command . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . 74–76, 472
 control-sequence summary .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 476
 ending . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 170
-Write T ext Control (WTC) command .. . . .. . .. . . .. . . .. . .. . . 73–75, 462
-WT (Write T ext) command . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . 74–76, 472
-WTC (Write T ext Control) command .. . . .. . .. . . .. . . .. . .. . . 73–75, 462
+Write Text Control (WTC) command .. . . .. . .. . . .. . . .. . .. . . 73–75, 462
+WT (Write Text) command . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . 74–76, 472
+WTC (Write Text Control) command .. . . .. . .. . . .. . . .. . .. . . 73–75, 462
 X
 Xbc,Ybc coordinate system . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .60
 Xg,Yg coordinate system . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .60
@@ -7641,11 +7483,8 @@ Xt,Yt coordinate system .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .
 Z
 Z fold .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . 368, 748
 
-## Page 1121
 
-IPDS Reference 1087
 
-## Page 1122
 
 Advanced Function Presentation Consortium
 Intelligent Printer Data Stream
