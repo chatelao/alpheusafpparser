@@ -19,10 +19,7 @@ Environment”, on page 177. When multiple bar code symbols of the same type are
 symbols can be combined into a single object, which avoids having to repeat the same descriptor in multiple
 objects.
 
-## Page 42
 
-18 BCOCA Reference
-Bar Code Object Processor
 A BCOCA receiver consists of a bar code object processor. The primary function of the bar code object
 processor is to develop one or more bar code symbols of the same type within an abstract presentation space,
 as illustrated in Figure 8 on page 20. In turn, these abstract bar code presentation spaces are mapped into
@@ -68,11 +65,8 @@ intercharacter gap is required. The bar code object processor automatically inse
 intercharacter gap is one module width wide.
 • Generates, uses, and encodes check digit(s) according to the rules of the symbology and the check-digit
 option input parameter (modifier field).
-Bar Code Object Processor
 
-## Page 43
 
-BCOCA Reference 19
 • For 2D matrix symbologies, encodes and compacts the data, inserts codewords for special functions,
 generates ECC characters, determines the proper placement of the bits in the matrix, and generates the
 finder patterns.
@@ -97,12 +91,8 @@ Notes:
 zones. Some symbologies require extra space if a wand-type scanner is to be used.
 2. All bar code symbols must be presented in their entirety. Whenever a partial bar code pattern is presented,
 for whatever reason, it is obscured to make it unscannable.
-Bar Code Object Processor
 
-## Page 44
 
-20 BCOCA Reference
-Bar Code Presentation Space
 A bar code presentation space is a linear, two-dimensional space. An orthogonal coordinate system is used to
 define any point within the presentation space. Distances within the coordinate system are measured in logical
 units, also known as L-units. One or more bar code symbols of the same type may be placed within the
@@ -121,7 +111,6 @@ Presentation Space
 bc
 Bar Code
 Symbol Origin
-Bar Code Presentation Space
 +Ybc
 +Xbc
 S544-3
@@ -144,11 +133,8 @@ In BCOCA data structures, linear measurements are expressed as numbers called lo
 When a number is expressed in terms of L-units, an appropriate measurement base must be used to interpret
 the value of the number. The measurement base is separately supplied in the Bar Code Symbol Descriptor
 (BSD).
-Bar Code Presentation Space
 
-## Page 45
 
-BCOCA Reference 21
 Measurement bases used in BCOCA objects are expressed using a unit base field and a units per unit base
 field:
 Unit base A one-byte code that represents the length of the measurement base. A value
@@ -176,7 +162,7 @@ L-unit Range Conversion Algorithm
 Some field values within BCOCA data structures are specified assuming a unit of measure of 1/1440 of an
 inch. These fields are designated as such with a reference to this algorithm. If a BCOCA receiver supports
 additional units of measure, the BCOCA architecture requires the receiver to at least support a range
-equivalent to the specified range relative to each supported unit of measure. T able 6 on page 22 lists the
+equivalent to the specified range relative to each supported unit of measure. Table 6 on page 22 lists the
 equivalent field ranges for the most commonly used units of measure.
 The values required to be supported when 14,400 units per 10 inches is specified for a field are listed in the
 BCOCA data structure. If additional units of measure are supported, the field values that the BCOCA
@@ -191,11 +177,8 @@ number of decimeters per inch.
 2. Calculate the number of supported units per BCOCA unit as follows:
 • Divide the number of supported units per inch calculated in the previous step by 1440 (the number of
 BCOCA units per inch).
-Bar Code Presentation Space
 
-## Page 46
 
-22 BCOCA Reference
 3. Calculate the required value in the supported unit of measure as follows:
 • Multiply the BCOCA-specified subset range values for the desired field, after converting to base ten, by
 the supported units per BCOCA-specified unit calculated in the previous step.
@@ -211,7 +194,7 @@ a. X'0001' = 1 (converted to base ten)
 b. X'7FFF' = 32,767 (converted to base ten)
 (32,767)(1/6) = 5461.1667
 Therefore, the equivalent range at 2400 units per 10 inches is “1 to 5461” that in hexadecimal is X'0001' to
-X'1555'. T able 6shows the BCOCA-required ranges for several commonly supported measurement bases.
+X'1555'. Table 6shows the BCOCA-required ranges for several commonly supported measurement bases.
 Table 6. Field Ranges for Commonly-Supported Measurement Bases
 14,400 units per 10 inches 5670 units per 10
 centimeters
@@ -229,11 +212,8 @@ Furthermore, if the extent values for the image object area are specified as (X'
 decimal— that would indicate the image object area is one-quarter as wide and one-fifth as high as the QR
 Code symbol.
 For more on this measurement system, see “QR Code with Image Special-Function Parameters” on page 139.
-Bar Code Presentation Space
 
-## Page 47
 
-BCOCA Reference 23
 Symbol Placement
 One or more bar code symbols may be placed within the bar code presentation space. The origin of the bar
 code symbol is defined to be the top-left corner of an imaginary rectangle of minimum size that bounds the bar-
@@ -256,9 +236,7 @@ Barcode), the RED TAG indicator (Royal Mail RED TAG (deprecated)), the zipper pa
 extends outside of the bar code presentation space.
 Symbol Placement
 
-## Page 48
 
-24 BCOCA Reference
 Symbol Orientation
 Bar code users typically think of a bar code symbol in one of two orientations (picket fence or ladder) although
 linear symbols are usually defined in the picket fence orientation. Orientation of a bar code symbol into either
@@ -282,9 +260,7 @@ S544-3766-01
 S544-3766-01
 Symbol Orientation
 
-## Page 49
 
-BCOCA Reference 25
 Symbol Size
 The height of a bar code symbol is controlled by the bar code symbology definition, by the amount of data to be
 encoded, and by various BCOCA parameters. The width of the symbol is usually dependent on the amount of
@@ -337,16 +313,13 @@ controlled by the data-symbols and rows parameters and the amount of data to be 
 PDF417 symbol must contain at least 3 rows.
 Symbol Size
 
-## Page 50
 
-26 BCOCA Reference
-Human-Readable Interpretation (HRI) Guidelines
 Bar code symbols are meant to be read by machines and are usually difficult for a human to interpret; therefore
 some bar code symbols allow a human-readable interpretation (HRI) to be printed near the symbol. HRI is the
 printed translation of bar code characters into equivalent Latin alphabetic characters, Arabic numeral decimal
 digits, and common special characters normally used for printed human communication. The BCOCA
 architecture allows the bar code object to specify whether or not HRI is printed and whether the HRI is above
-or below the symbol. T able 7shows which bar code types allow HRI and recommends a font type style for
+or below the symbol. Table 7shows which bar code types allow HRI and recommends a font type style for
 each.
 The first place a BCOCA implementor should look for HRI guidelines is the bar code symbology specification; if
 the symbology specification does not provide enough details on HRI, the implementor should then use the
@@ -388,11 +361,8 @@ X'17' EAN Five-Digit Supplemental Yes; above only OCR B
 X'18' POSTNET (deprecated) and PLANET (deprecated) No None
 X'1A' RM4SCC and Dutch KIX No None
 X'1B' Japan Postal Bar Code No None
-Human-Readable Interpretation (HRI) Guidelines
 
-## Page 51
 
-BCOCA Reference 27
 Table 7 Human-Readable Interpretation Type Style Recommendations (cont'd.)
 Type Bar Code Symbology HRI Supported? Recommended
 Font Type Style
@@ -431,12 +401,7 @@ the presence or absence of the check digit in the HRI.
 Code 128 modifier X'04' causes left and right parentheses to be shown within the HRI string to distinguish each
 application identifier within a GS1-128 symbol. Application identifiers are also surrounded by parentheses in
 the HRI for GS1 DataBar symbols.
-Human-Readable Interpretation (HRI) Guidelines
 
-## Page 52
 
-28 BCOCA Reference
 
-## Page 53
 
-Copyright © AFP Consortium 1991, 2025 29
