@@ -38,7 +38,21 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapters 11–17 and Appendices.
     - ⏳ Remove physical page references (e.g., "on page XXX") across all files.
     - ⏳ Convert command and syntax text dumps to Markdown tables:
-        - ⏳ Device-Control Command Set (Chapter 4).
+        - ⏳ Device-Control Command Set (Chapter 4):
+            - ✅ Tables 19 (Summary), 20 (Protocol), 21 (Ack Types).
+            - ✅ Acknowledge Reply: Syntax, Flags, Data Formats, and Counters.
+            - ⏳ Activate Resource (AR): Entry Syntax and Tables 22–23.
+            - ⏳ Commands: ASN, AFO, BP, DF (Table 24), DUA.
+            - ⏳ Commands: END, EP, ISP, ICMR.
+            - ⏳ Commands: LCC (Tables 25–27), LFE, LPD, LPP.
+            - ⏳ Commands: MID, NOP, PFC, RPO, STM, SHS, SPE.
+            - ⏳ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
+            - ⏳ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, RRL (Table 29), RSNL.
+            - ⏳ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
+            - ⏳ XOH Obtain Printer Characteristics (OPC): Table 33 and all SDFs (Tables 34–35).
+            - ⏳ XOH orders: PCC, PBD, RSPG, SIMS, SMM, SCF, SMO, SMS.
+            - ⏳ XOH Specify Group Operation (SGO).
+            - ⏳ XOH Trace (TRC): Table 36 and all Trace Entry syntaxes.
         - ⏳ Text Command Set (Chapter 5).
         - ⏳ IM-Image and IO-Image Command Sets (Chapters 6–7).
         - ⏳ Graphics Command Set (Chapter 8).
