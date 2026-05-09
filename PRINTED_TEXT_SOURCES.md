@@ -11,7 +11,7 @@ This document lists the elements within the AFP (Advanced Function Presentation)
 | **UCT** | `X'6A'` | **Unicode Complex Text**: Identifies a sequence of Unicode code points (UTF-16BE) for complex text rendering. | `PTOCAControlSequence.UCT_UnicodeComplexText` | ✅ |
 | **Graphic Characters** | N/A | **Free-standing Characters**: Graphic character code points that appear between control sequences in a PTX structured field. | `PTOCAControlSequence.GraphicCharacters` | ✅ |
 | **NOP** | `X'F8'`, `X'F9'` | **No Operation**: A string of bytes to be ignored by the presentation process, often used for internal comments or padding. | `PTOCAControlSequence.NOP_NoOperation` | ✅ |
-| **OVS** | `X'72'`, `X'73'` | **Overstrike**: Specifies a character to be printed over the current text. | `PTOCAControlSequence.OVS_Overstrike` | 🚧 |
+| **OVS** | `X'72'`, `X'73'` | **Overstrike**: Specifies a character to be printed over the current text. | `PTOCAControlSequence.OVS_Overstrike` | ✅ |
 
 ## GOCA (Graphics Object Content Architecture)
 
