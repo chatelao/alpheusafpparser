@@ -19,12 +19,14 @@ Graphic character code points can appear directly in the `PTX` (Presentation Tex
 **Rule:** PTOCA Reference 04, Chapter 4, "Glyph Layout Control (GLC)", "Glyph ID Run (GIR)", etc.
 PT4 introduced glyph runs where text is rendered via Glyph IDs rather than code points.
 
-**Status:** Not Implemented.
+**Status:** ✅ Implemented.
 **Findings:**
-- `GLC` (X'6D'), `GIR` (X'8B'), `GAR` (X'8C/8D'), `GOR` (X'8E/8F') are not implemented.
+- `GLC` (X'6D'), `GIR` (X'8B'), `GAR` (X'8C/8D'), `GOR` (X'8E/8F') are implemented.
+- `GLC` extracts the Full Font Name as text.
+- `GIR`, `GAR`, and `GOR` handle their respective arrays of glyph IDs, advances, and offsets.
 - These sequences carry glyph IDs and positions. While glyph IDs themselves aren't "text" in a traditional sense, a `GLC` chain often ends with an optional `UCT` (Unicode Complex Text) sequence which *does* contain the original Unicode text for accessibility and searching.
 
-**Recommendation:** Implement the PT4 control sequence classes. Ensure `UCT` within a `GLC` chain is extracted as text.
+**Recommendation:** -
 
 ## 3. Control Sequences with "Hidden" Text
 
@@ -41,7 +43,8 @@ Several control sequences contain text or text-like data that is partially or no
 
 ### OVS (Overstrike)
 - **Rule:** Contains `OVERCHAR` (the character used for overstriking).
-- **Status:** Partially Implemented. The code point is stored, but not exposed as a `text` element in XML.
+- **Status:** ✅ Implemented.
+- **Findings:** `OVS_Overstrike.getText()` exposes the overstrike character as text in XML output.
 
 ### ENC (Encrypted Data)
 - **Rule:** Contains `ENCDATA`.
@@ -68,10 +71,10 @@ Several control sequences contain text or text-like data that is partially or no
 | Draw I-Axis Rule | DIR | OK | Graphic |
 | Encrypted Data | ENC | OK | Raw bytes only |
 | End Suppression | ESU | OK | Text extracted (CP500) |
-| Glyph Advance Run | GAR | **MISSING** | No |
-| Glyph ID Run | GIR | **MISSING** | No |
-| Glyph Layout Control | GLC | **MISSING** | No (FFONTNME is hidden) |
-| Glyph Offset Run | GOR | **MISSING** | No |
+| Glyph Advance Run | GAR | OK | No |
+| Glyph ID Run | GIR | OK | No |
+| Glyph Layout Control | GLC | OK | Text extracted (UTF-16BE) |
+| Glyph Offset Run | GOR | OK | No |
 | No Operation | NOP | OK | Text extracted (CP500) |
 | Relative Move Baseline | RMB | OK | Metadata only |
 | Relative Move Inline | RMI | OK | Metadata only |
@@ -90,7 +93,7 @@ Several control sequences contain text or text-like data that is partially or no
 | Set Var Space Inc | SVI | OK | Metadata |
 | Temporary Baseline Move | TBM | OK | Metadata |
 | Underscore | USC | OK | Metadata |
-| Overstrike | OVS | OK | Metadata (Code point hidden) |
+| Overstrike | OVS | OK | Text extracted (CP500) |
 | Graphic Characters | - | OK | Text extracted (CP500) |
 
 ## Conclusion

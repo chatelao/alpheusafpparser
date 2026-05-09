@@ -76,9 +76,13 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     BSU_BeginSuppression(0xF2), // (BSU)” on page 56
     ESU_EndSuppression(0xF4), // (ESU)” on page 62
     UCT_UnicodeComplexText(0x6A), // (UCT)” on page 123
+    GLC_GlyphLayoutControl(0x6C), // (GLC)” on page 84
     ENC_EncryptedData(0x98), // (ENC)” on page 101
     SKI_SetKeyInformation(0x9A), // (SKI)” on page 78
     SEA_SetEncryptedAlternate(0x9C), // (SEA)” on page 88
+    GIR_GlyphIdRun(0x8A), // (GIR)” on page 83
+    GAR_GlyphAdvanceRun(0x8C), // (GAR)” on page 82
+    GOR_GlyphOffsetRun(0x8E), // (GOR)” on page 89
     // Field Controls
     OVS_Overstrike(0x72), // (OVS)” on page 64
     USC_Underscore(0x76), // (USC)” on page 105
@@ -584,7 +588,16 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       this.overStrikeCharacterCodePoint = overStrikeCharacterCodePoint;
     }
 
-
+    @XmlElement(name = "text")
+    public String getText() {
+      if (overStrikeCharacterCodePoint <= 0xFF) {
+        return new String(new byte[] {(byte) overStrikeCharacterCodePoint}, Constants.cpIBM500);
+      } else {
+        return new String(
+            UtilBinaryDecoding.intToByteArray(overStrikeCharacterCodePoint, 2),
+            Constants.cpIBM500);
+      }
+    }
   }
 
   /* PTOCA, Page 69. <br> */
@@ -1561,6 +1574,199 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
 
     public void setData(byte[] data) {
       this.data = data;
+    }
+  }
+
+  public static class GLC_GlyphLayoutControl extends PTOCAControlSequence {
+    short iAdvance;
+    short oidLgth;
+    short ffnLgth;
+    byte[] fontOid;
+    String ffontName;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
+      iAdvance = UtilBinaryDecoding.parseShort(sfData, offset, 2);
+      oidLgth = (short) (sfData[offset + 2] & 0xFF);
+      ffnLgth = (short) (sfData[offset + 3] & 0xFF);
+
+      if (oidLgth > 0) {
+        fontOid = new byte[oidLgth];
+        System.arraycopy(sfData, offset + 8, fontOid, 0, oidLgth);
+      }
+      if (ffnLgth > 0) {
+        ffontName =
+            new String(
+                sfData,
+                offset + 8 + (oidLgth > 0 ? oidLgth : 0),
+                ffnLgth,
+                java.nio.charset.StandardCharsets.UTF_16BE);
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(UtilBinaryDecoding.shortToByteArray(iAdvance, 2));
+      os.write(oidLgth & 0xFF);
+      os.write(ffnLgth & 0xFF);
+      os.write(new byte[4]); // Reserved
+      if (fontOid != null) {
+        os.write(fontOid);
+      }
+      if (ffontName != null) {
+        os.write(ffontName.getBytes(java.nio.charset.StandardCharsets.UTF_16BE));
+      }
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return ffontName;
+    }
+
+    public short getIAdvance() {
+      return iAdvance;
+    }
+
+    public void setIAdvance(short iAdvance) {
+      this.iAdvance = iAdvance;
+    }
+
+    public short getOidLgth() {
+      return oidLgth;
+    }
+
+    public void setOidLgth(short oidLgth) {
+      this.oidLgth = oidLgth;
+    }
+
+    public short getFfnLgth() {
+      return ffnLgth;
+    }
+
+    public void setFfnLgth(short ffnLgth) {
+      this.ffnLgth = ffnLgth;
+    }
+
+    public byte[] getFontOid() {
+      return fontOid;
+    }
+
+    public void setFontOid(byte[] fontOid) {
+      this.fontOid = fontOid;
+    }
+
+    public String getFfontName() {
+      return ffontName;
+    }
+
+    public void setFfontName(String ffontName) {
+      this.ffontName = ffontName;
+    }
+  }
+
+  public static class GIR_GlyphIdRun extends PTOCAControlSequence {
+    int[] glyphIds;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
+      // PTOCA-04 (AFPC-0005-04), page 83: LL=4 + n*2. Bytes 2-3 are Reserved.
+      if (length >= 2) {
+        int count = (length - 2) / 2;
+        glyphIds = new int[count];
+        for (int i = 0; i < count; i++) {
+          glyphIds[i] = UtilBinaryDecoding.parseInt(sfData, offset + 2 + i * 2, 2);
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(new byte[2]); // Reserved
+      if (glyphIds != null) {
+        for (int id : glyphIds) {
+          os.write(UtilBinaryDecoding.intToByteArray(id, 2));
+        }
+      }
+    }
+
+    public int[] getGlyphIds() {
+      return glyphIds;
+    }
+
+    public void setGlyphIds(int[] glyphIds) {
+      this.glyphIds = glyphIds;
+    }
+  }
+
+  public static class GAR_GlyphAdvanceRun extends PTOCAControlSequence {
+    short[] advances;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
+      // PTOCA-04 (AFPC-0005-04), page 82: LL=4 + n*2. Bytes 2-3 are Reserved.
+      if (length >= 2) {
+        int count = (length - 2) / 2;
+        advances = new short[count];
+        for (int i = 0; i < count; i++) {
+          advances[i] = UtilBinaryDecoding.parseShort(sfData, offset + 2 + i * 2, 2);
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(new byte[2]); // Reserved
+      if (advances != null) {
+        for (short adv : advances) {
+          os.write(UtilBinaryDecoding.shortToByteArray(adv, 2));
+        }
+      }
+    }
+
+    public short[] getAdvances() {
+      return advances;
+    }
+
+    public void setAdvances(short[] advances) {
+      this.advances = advances;
+    }
+  }
+
+  public static class GOR_GlyphOffsetRun extends PTOCAControlSequence {
+    short[] offsets;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
+      // PTOCA-04 (AFPC-0005-04), page 89: LL=4 + n*2. Bytes 2-3 are Reserved.
+      if (length >= 2) {
+        int count = (length - 2) / 2;
+        offsets = new short[count];
+        for (int i = 0; i < count; i++) {
+          offsets[i] = UtilBinaryDecoding.parseShort(sfData, offset + 2 + i * 2, 2);
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(new byte[2]); // Reserved
+      if (offsets != null) {
+        for (short off : offsets) {
+          os.write(UtilBinaryDecoding.shortToByteArray(off, 2));
+        }
+      }
+    }
+
+    public short[] getOffsets() {
+      return offsets;
+    }
+
+    public void setOffsets(short[] offsets) {
+      this.offsets = offsets;
     }
   }
 }
