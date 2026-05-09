@@ -45,7 +45,8 @@ public class AFPParser {
       afpPackagePrefix + "goca.",
       afpPackagePrefix + "bcoca.",
       afpPackagePrefix + "lineData.",
-      afpPackagePrefix + "modca_L."
+      afpPackagePrefix + "modca_L.",
+      afpPackagePrefix + "cmoca."
   };
   AFPParserConfiguration parserConf;
   long nrOfBytesRead;

@@ -62,6 +62,7 @@ public enum SFTypeID {
   CAT_ColorAttributeTable(0xD3, 0xB0, 0x77),
   CCP_ConditionalProcessingControl(0xD3, 0xA7, 0xCA),
   CDD_ContainerDataDescriptor(0xD3, 0xA6, 0x92),
+  CMR_ColorManagementResource(0xD3, 0xA0, 0xA2),
   CFC_CodedFontControl(0xD3, 0xA7, 0x8A), // FOCA page 133
   CFI_CodedFontIndex(0xD3, 0x8C, 0x8A), // FOCA page 134
   CPC_CodePageControl(0xD3, 0xA7, 0x87),    // FOCA page 137
