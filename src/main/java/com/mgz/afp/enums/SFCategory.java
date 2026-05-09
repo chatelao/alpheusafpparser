@@ -45,6 +45,7 @@ public enum SFCategory {
   ProcessElement(0x90),
   ObjectContainer(0x92),
   PresentationText(0x9B),
+  ColorManagementResource(0xA2),
   PrintFile(0xA5),
   Index(0xA7),
   Document(0xA8),
