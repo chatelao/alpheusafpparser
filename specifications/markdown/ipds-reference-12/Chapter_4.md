@@ -4,37 +4,39 @@ are used to set up the logical page environment, to manage resources, and to com
 The acknowledge protocol is used to transmit printer characteristics, status, resource information, and error
 information to the presentation services program. This command set contains the following commands:
 Table 19. Device Control Commands
-Command Code Description In DC1 Subset?
-AR X'D62E' “Activate Resource” on page 134 No
-ASN X'D60A' “Activate Setup Name ” on page 157 No
-AFO X'D602' “Apply Finishing Operations” on page 160 No
-BP X'D6AF' “Begin Page” on page 162 Yes
-DF X'D64F' “Deactivate Font” on page 163 Yes
-DUA X'D6CE' “Define User Area” on page 168 No
-END X'D65D' “End” on page 170 Yes
-EP X'D6BF' “End Page” on page 171 Yes
-ISP X'D67E' “Include Saved Page” on page 172 No
-ICMR X'D66B' “Invoke CMR” on page 174 No
-LCC X'D69F' “Load Copy Control” on page 176 Yes
-LFE X'D63F' “Load Font Equivalence” on page 196 Yes
-LPD X'D6CF' “Logical Page Descriptor” on page 204 Yes
-LPP X'D66D' “Logical Page Position” on page 210 Yes
-MID X'D601' “Manage IPDS Dialog” on page 216 No
-NOP X'D603' “No Operation” on page 217 Yes
-PFC X'D634' “Presentation Fidelity Control” on page 218 No
-RPO X'D67B' “Rasterize Presentation Object” on page 220 No
-STM X'D6E4' “Sense Type and Model” on page 233 Yes
-SHS X'D697' “Set Home State” on page 265 Yes
-SPE X'D608' “Set Presentation Environment” on page 266 No
-XOA X'D633' “Execute Order Anystate” on page 268 See command description.
-XOH X'D68F' “Execute Order Home State” on page 313 See command description.
-Retired Command Codes
-X'D61C' Retired item 134 No
+
+| Command | Code | Description | In DC1 Subset? |
+| :--- | :---: | :--- | :---: |
+| AR | X'D62E' | Activate Resource | No |
+| ASN | X'D60A' | Activate Setup Name | No |
+| AFO | X'D602' | Apply Finishing Operations | No |
+| BP | X'D6AF' | Begin Page | Yes |
+| DF | X'D64F' | Deactivate Font | Yes |
+| DUA | X'D6CE' | Define User Area | No |
+| END | X'D65D' | End | Yes |
+| EP | X'D6BF' | End Page | Yes |
+| ISP | X'D67E' | Include Saved Page | No |
+| ICMR | X'D66B' | Invoke CMR | No |
+| LCC | X'D69F' | Load Copy Control | Yes |
+| LFE | X'D63F' | Load Font Equivalence | Yes |
+| LPD | X'D6CF' | Logical Page Descriptor | Yes |
+| LPP | X'D66D' | Logical Page Position | Yes |
+| MID | X'D601' | Manage IPDS Dialog | No |
+| NOP | X'D603' | No Operation | Yes |
+| PFC | X'D634' | Presentation Fidelity Control | No |
+| RPO | X'D67B' | Rasterize Presentation Object | No |
+| STM | X'D6E4' | Sense Type and Model | Yes |
+| SHS | X'D697' | Set Home State | Yes |
+| SPE | X'D608' | Set Presentation Environment | No |
+| XOA | X'D633' | Execute Order Anystate | See command description |
+| XOH | X'D68F' | Execute Order Home State | See command description |
+| | X'D61C' | Retired Command Code | No |
+
 Table 20. Acknowledge Protocol
-Reply Code Description In DC1 Subset?
-ACK or
-NACK
-X'D6FF' “Acknowledge Reply” on page 124 Yes
+
+| Reply | Code | Description | In DC1 Subset? |
+| :--- | :---: | :--- | :---: |
+| ACK or NACK | X'D6FF' | Acknowledge Reply | Yes |
 
 
 Acknowledge Reply
@@ -83,40 +85,15 @@ immediate OAEI command to retrieve that information. If bit 6 of the flag byte i
 information is available for the exception. This bit is ignored for ACKs.
 • Bit 7 is the Persistent NACK bit for DSC Mode NACKs, but this bit has no meaning in other attachment
 environments.
-Offset Type Name Range Meaning
-4 BITS IPDS Acknowledge Reply flags
-bit 0 B'0' Reserved
-bit 1 CID flag B'0', B'1' Correlation ID flag
-If this bit is B'1', a two-byte correlation ID follows the flag byte. If
-this bit is B'0', the optional correlation ID is not present, and the
-following byte or bytes, if any, contain the data field.
-bit 2 ACK
-continuation
-flag
-B'0', B'1' Acknowledgment continuation flag
-If this bit is B'1', this response can be continued in a subsequent
-Acknowledge Reply. If this bit is B'0', this response is complete in
-this Acknowledge Reply.
-bits 3–5 B'000' Reserved
-bit 6 Additional
-information
-flag
-B'0', B'1' Additional exception information available flag
-If this bit is B'1', this indicates that additional information is
-available for the exception reported by this NACK. This additional
-information can be obtained by sending the XOA Obtain
-## Additional Exception Information (OAEI)
-command. A printer can
-make additional exception information available—and thus this bit
-can be B'1'—only if the printer is ready to respond to an
-immediate OAEI command to retrieve that information. If this bit is
-B'0', no additional information is available. This bit is only valid for
-NACKs and is ignored for ACKs.
-bit 7 Persistent
-NACK flag
-B'0', B'1' Persistent NACK flag
-This flag has meaning only in DSC-Mode NACKs; the flag has no
-meaning in all other attachment environments.
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 4 | BITS | IPDS Acknowledge Reply flags | | |
+| | bit 0 | | B'0' | Reserved |
+| | bit 1 | CID flag | B'0', B'1' | Correlation ID flag. If this bit is B'1', a two-byte correlation ID follows the flag byte. If this bit is B'0', the optional correlation ID is not present, and the following byte or bytes, if any, contain the data field. |
+| | bit 2 | ACK continuation flag | B'0', B'1' | Acknowledgment continuation flag. If this bit is B'1', this response can be continued in a subsequent Acknowledge Reply. If this bit is B'0', this response is complete in this Acknowledge Reply. |
+| | bits 3–5 | | B'000' | Reserved |
+| | bit 6 | Additional information flag | B'0', B'1' | Additional exception information available flag. If this bit is B'1', this indicates that additional information is available for the exception reported by this NACK. This additional information can be obtained by sending the XOA Obtain Additional Exception Information (OAEI) command. A printer can make additional exception information available—and thus this bit can be B'1'—only if the printer is ready to respond to an immediate OAEI command to retrieve that information. If this bit is B'0', no additional information is available. This bit is only valid for NACKs and is ignored for ACKs. |
+| | bit 7 | Persistent NACK flag | B'0', B'1' | Persistent NACK flag. This flag has meaning only in DSC-Mode NACKs; the flag has no meaning in all other attachment environments. |
 Note: If the printer determines that the complete response exceeds the maximum size of the Special Data
 Area, the Acknowledgment Continuation bit is set to B'1'. To obtain the next segment of the response
 from the printer, the presentation services program must issue a command (any command) with both the
@@ -165,55 +142,24 @@ Acknowledge Reply
 
 
 Acknowledge Reply Data Format
-The Acknowledge Reply data field contains the acknowledge type, the page and copy counters, and the
-special data area. The two formats of the Acknowledge Reply data field are as follows:
-Four-Byte Page and Copy Counter Format
-Type Page and Copy Counters Special Data Area
-Eighteen-Byte Page and Copy Counter Format
-Type Page and Copy Counters Special Data Area
-The complete Acknowledge Reply is limited to either 256 bytes or 65,535 bytes depending on whether or not
-the printer supports long ACKs (indicated by property pair X'F003' in the Device-Control command-set vector
-of an STM reply). The maximum size of the special data area depends on the format used. Although an
-Acknowledge Reply is limited to a maximum of 256 bytes (or 65,535 bytes) successive Acknowledge Replies,
-each less than or equal to 256 bytes (or 65,535 bytes) in length, can be used to communicate responses
-longer than the Special Data Area in one Acknowledge Reply. The Acknowledgment Continuation bit is used to
-signal availability of more reply data.
-Offset Type Name Range Meaning DC1 Range
-0 CODE Acktype See byte
-description.
-Acknowledge type
-Determines the content of the remaining
-fields; see byte 0 description.
-Either all of the
-X'00', X'01',
-X'04', X'06', and
-X'80' values or
-all of the X'40',
-X'41', X'44',
-X'46', and X'C0'
-values; see byte
-0 description.
-1–4
--or-
-1–18
-UBIN Counters See byte
-description.
-Page and copy counters See byte
-description.
-5 to
-end of
-Ack
-Reply
--or-
-19 to
-end of
-Ack
-Reply
-SDA Depends on
-acktype
-(byte 0)
-Special data area Depends on
-acktype (byte 0)
+
+The Acknowledge Reply data field contains the acknowledge type, the page and copy counters, and the special data area. The two formats of the Acknowledge Reply data field are as follows:
+
+**Four-Byte Page and Copy Counter Format**
+| Type (Byte 0) | Page and Copy Counters (Bytes 1–4) | Special Data Area (Byte 5 to end) |
+| :---: | :---: | :--- |
+
+**Eighteen-Byte Page and Copy Counter Format**
+| Type (Byte 0) | Page and Copy Counters (Bytes 1–18) | Special Data Area (Byte 19 to end) |
+| :---: | :---: | :--- |
+
+The complete Acknowledge Reply is limited to either 256 bytes or 65,535 bytes depending on whether or not the printer supports long ACKs (indicated by property pair X'F003' in the Device-Control command-set vector of an STM reply). The maximum size of the special data area depends on the format used. Although an Acknowledge Reply is limited to a maximum of 256 bytes (or 65,535 bytes) successive Acknowledge Replies, each less than or equal to 256 bytes (or 65,535 bytes) in length, can be used to communicate responses longer than the Special Data Area in one Acknowledge Reply. The Acknowledgment Continuation bit is used to signal availability of more reply data.
+
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | Acktype | See byte description | Acknowledge type. Determines the content of the remaining fields; see byte 0 description. | Either all of the X'00', X'01', X'04', X'06', and X'80' values or all of the X'40', X'41', X'44', X'46', and X'C0' values; see byte 0 description. |
+| 1–4 -or- 1–18 | UBIN | Counters | See byte description | Page and copy counters. See byte description. | |
+| 5 to end -or- 19 to end | SDA | SDA | Depends on acktype (byte 0) | Special data area. Depends on acktype (byte 0). | |
 Acknowledge Reply
 
 
@@ -222,65 +168,30 @@ This one-byte field identifies the acknowledge type, the contents of the page an
 counters, and the special data area. The values that can be returned in this field are as
 follows:
 Table 21. Acknowledge Types
-Value Meaning Page and Copy
-Counter Format
-Special Data Area
-X'00'
-X'40'
-No data Four-byte
-Eighteen-byte
-None
-X'01'
-X'41'
-STM reply Four-byte
-Eighteen-byte
-Sense Type and Model reply
-X'02'
-X'42'
-Trace reply Four-byte
-Eighteen-byte
-Trace reply
-X'03'
-X'43'
-RRRL reply Four-byte
-Eighteen-byte
-Request Resident Resource List reply
-X'04'
-X'44'
-RRL reply Four-byte
-Eighteen-byte
-Request Resource List reply
-X'05'
-X'45'
-OAEI reply Four-byte
-Eighteen-byte
-Obtain Additional Exception Information reply
-X'06'
-X'46'
-OPC reply Four-byte
-Eighteen-byte
-Obtain Printer Characteristics reply
-X'07'
-X'47'
-ASN reply Four-byte
-Eighteen-byte
-Activate Setup Name reply
-X'08'
-X'48'
-RSNL reply Four-byte
-Eighteen-byte
-Request Setup Name List reply
-X'80'
-X'C0'
-Sense data Four-byte
-Eighteen-byte
-Sense bytes
-X'FF' Null ACK No counters provided This acknowledgment is returned if the presentation services
-program, using the communications protocol that carries
-IPDS commands, attempts to obtain a positive Acknowledge
-Reply (ACK) without first sending an IPDS command with the
-ARQ bit set to B'1'. This is considered to be an error at the
-IPDS level.
+
+| Value | Meaning | Page and Copy Counter Format | Special Data Area |
+| :---: | :--- | :--- | :--- |
+| X'00' | No data | Four-byte | None |
+| X'40' | No data | Eighteen-byte | None |
+| X'01' | STM reply | Four-byte | Sense Type and Model reply |
+| X'41' | STM reply | Eighteen-byte | Sense Type and Model reply |
+| X'02' | Trace reply | Four-byte | Trace reply |
+| X'42' | Trace reply | Eighteen-byte | Trace reply |
+| X'03' | RRRL reply | Four-byte | Request Resident Resource List reply |
+| X'43' | RRRL reply | Eighteen-byte | Request Resident Resource List reply |
+| X'04' | RRL reply | Four-byte | Request Resource List reply |
+| X'44' | RRL reply | Eighteen-byte | Request Resource List reply |
+| X'05' | OAEI reply | Four-byte | Obtain Additional Exception Information reply |
+| X'45' | OAEI reply | Eighteen-byte | Obtain Additional Exception Information reply |
+| X'06' | OPC reply | Four-byte | Obtain Printer Characteristics reply |
+| X'46' | OPC reply | Eighteen-byte | Obtain Printer Characteristics reply |
+| X'07' | ASN reply | Four-byte | Activate Setup Name reply |
+| X'47' | ASN reply | Eighteen-byte | Activate Setup Name reply |
+| X'08' | RSNL reply | Four-byte | Request Setup Name List reply |
+| X'48' | RSNL reply | Eighteen-byte | Request Setup Name List reply |
+| X'80' | Sense data | Four-byte | Sense bytes |
+| X'C0' | Sense data | Eighteen-byte | Sense bytes |
+| X'FF' | Null ACK | No counters provided | This acknowledgment is returned if the presentation services program, using the communications protocol that carries IPDS commands, attempts to obtain a positive Acknowledge Reply (ACK) without first sending an IPDS command with the ARQ bit set to B'1'. This is considered to be an error at the IPDS level. |
 Bytes 1–4 or
 1–18
 Page and Copy Counters
