@@ -2,6 +2,8 @@
 
 This report evaluates the quality of Markdown conversions for the AFP Architecture Specifications located in `specifications/markdown/`.
 
+To know the quality, compare the result to the original PDF resports to find the original structures.
+
 ## Summary Table
 
 | Specification | Quality | Key Strengths | Primary Issues |
