@@ -102,13 +102,7 @@ User control of Data Matrix encodation scheme
 BCOCAKey:
 BCD2
 BCD1
-BCOCA Data Structures
-
-
-
-
-Bar Code Symbol Descriptor (BSD)
-The BSD specifies the size of the bar code presentation space, the type of bar code to be generated, and the
+BCOCA Data StructuresThe BSD specifies the size of the bar code presentation space, the type of bar code to be generated, and the
 parameters used to generate the bar code symbols.
 ### Table 8. Bar Code Symbol Descriptor (BSD) Data Structure
 
@@ -121,8 +115,8 @@ parameters used to generate the bar code symbols.
 | 6–7 | UBIN | $X$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Width of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
 | 8–9 | UBIN | $Y$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Length of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
 | 10–11 | UBIN | Symbol width | X'0000'<br>X'0001'–X'7FFF' | Desired symbol width:<br>Not specified (use module width)<br>Desired width of symbol in L-units<br>Not supported by all BCOCA receivers | X'0000' | X'0000' |
-| 12 | CODE | Type | X'01'–X'03',<br>X'05'–X'0D',<br>X'11',<br>X'16'–X'18',<br>X'1A'–X'27' | Bar code type | Specified in Table 9 on page 34 | Specified in Table 9 on page 34 |
-| 13 | CODE | Modifier | See field description | Bar code modifier | Specified in Table 10 on page 36 | Specified in Table 10 on page 36 |
+| 12 | CODE | Type | X'01'–X'03',<br>X'05'–X'0D',<br>X'11',<br>X'16'–X'18',<br>X'1A'–X'27' | Bar code type | Specified in Table 9 | Specified in Table 9 |
+| 13 | CODE | Modifier | See field description | Bar code modifier | Specified in Table 10 | Specified in Table 10 |
 | 14 | CODE | Local ID | X'00'–X'FE'<br>X'FF' | Font Local ID for HRI<br>Default | X'01'–X'7F'<br>X'FF' | X'00'–X'FE'<br>X'FF' |
 | 15–16 | CODE | Color | X'0000'–X'0010'<br>X'FF00'–X'FF08'<br>X'FFFF' | Color | X'FF07' | X'FF07' |
 | 17 | UBIN | Module width | X'01'–X'FE'<br>X'FF' | Module width in mils<br>Default | Device specific<br>X'FF' | Device specific<br>X'FF' |
@@ -161,8 +155,6 @@ presentation space extent specified is invalid or unsupported.
 Note: The size of a bar code symbol is not always known in advance. It is good practice to
 specify the size of the bar code presentation space large enough to include plenty of
 white space around the expected symbols and HRI.
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -214,8 +206,6 @@ the desired symbol width.
 The fixed-size bar code types are: Australia Post Bar Code, Dutch KIX, Intelligent Mail
 Barcode, MaxiCode, PLANET (deprecated), POSTNET (deprecated), RM4SCC, Royal
 Mail RED TAG (deprecated), and Royal Mail Mailmark.
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -292,16 +282,14 @@ The bar code types are defined as follows:
 Note: In the table above, when a given bar code type is said to be in a subset, that means that
 at least one combination of that bar code type and some modifier value (byte 13) is in
 the subset.
-Bar Code Symbol Descriptor (BSD)
 
 
 
-
-Byte 13 Modifier
+### Byte 13 Modifier
 The modifier field gives additional processing information about the bar code symbol to be
 generated. For example, it indicates whether a check-digit is to be generated for the bar code
 symbol. The check digit algorithm and placement are defined in “Check Digit Calculation
-Methods” on page 90. Exception condition EC-0B00 exists if the bar code modifier is invalid or
+Methods”. Exception condition EC-0B00 exists if the bar code modifier is invalid or
 unsupported for the bar code type specified.
 Table 10 defines the BCD1 and BCD2 bar code modifier codes that must be supported for
 each bar code type specified.
@@ -340,8 +328,6 @@ PLANET (deprecated)
 X'00' through X'04' No No
 X'1A' RM4SCC and Dutch KIX X'00' and X'01' No Yes
 X'1B' Japan Postal Bar Code X'00' and X'01' No Yes
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -388,21 +374,18 @@ X'EC' Retired item 22 X'02' No No
 X'ED' Retired item 23 X'00' No No
 X'EE' Retired item 24 X'00' No No
 X'EF' Retired item 25 X'00' and X'01' No No
-Refer to “Bar Code Type and Modifier Descriptions” on page 48 for a detailed description of
+Refer to “Bar Code Type and Modifier Descriptions” for a detailed description of
 each bar code type and modifier combination.
-Bar Code Symbol Descriptor (BSD)
 
 
 
-
-Byte 14 Local ID
+### Byte 14 Local ID
 Specifies the local ID of a font to be used when HRI is requested. A value of X'FF' indicates
 that a presentation device selected font is to be used. Since most BCOCA receivers provide
 resident font resources for use with the supported bar code symbologies, specifying a local ID
 of X'FF' is recommended.
 Some bar code symbology specifications do not specify a type style for HRI information.
-However, the UPC and EAN symbologies specify OCR-B for HRI; refer to Table 34 on page
-149 . The location of the HRI is specified and varies depending on the symbology selected.
+However, the UPC and EAN symbologies specify OCR-B for HRI; refer to Table 34 . The location of the HRI is specified and varies depending on the symbology selected.
 For bar code types that do not allow HRI information, this field is ignored; these are: Aztec
 Code, Data Matrix, Han Xin Code,
 Japan Postal Bar Code, MaxiCode, PDF417, POSTNET
@@ -424,14 +407,12 @@ superset of the requested code page. Otherwise, terminate bar code object proces
 continue with the next object.
 Some bar code symbologies specify a set of type styles to be used for HRI data. Font
 substitution for HRI data must follow the bar code symbology specification being used.
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
 Bytes 15–16 Color
 Specifies the color in which the bars of the bar code symbol and the HRI is to be presented
-(note 4 on page 40 describes another way to specify color). Valid values for specifying color
+(note 4 describes another way to specify color). Valid values for specifying color
 include the OCA standard color values (X'0000'–X'0010' and X'FF00'–X'FF08') shown in Table
 11 and the special value X'FFFF' that selects the device default color. Exception condition EC-
 0500 exists if the color specified is invalid or unsupported. If the color is unsupported, the
@@ -469,8 +450,6 @@ Notes:
 For example, some printers simulate with color of medium, which results in white when
 white media is used.
 2. It is recommended that OCA Black (X'0008') be rendered as C=M=Y= X'00' and K = X'FF'.
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -485,8 +464,7 @@ Control.
 for the bar code symbol and HRI (using an RGB, CMYK, highlight, or CIELAB color value)
 can be specified with a Color Specification (X'4E') triplet. In this case, the Color
 Specification triplet overrides the color value specified in BSD bytes 15-16. Refer to
-Appendix C, “IPDS Environment”, on page 177 and Appendix B, “MO:DCA Environment”,
-on page 175 for more information about color specification in these environments.
+Appendix C, “IPDS Environment”, and Appendix B, “MO:DCA Environment”, for more information about color specification in these environments.
 5. Neither the color specified in the BSD, bytes 15–16, or in the Color Specification (X'4E')
 triplet discussed in the previous note, have any effect on the color of an image in a QR
 Code with Image bar code.
@@ -495,7 +473,7 @@ This parameter specifies the width in mils (thousandths of an inch) of the small
 code element (bar, space, or 2D module). Some bar code symbologies refer to this value as
 the unit or X-dimension width. The widths of all symbol elements are normally expressed as
 multiples (not necessarily integer multiples) of the module width. A value of X'FF' indicates the
-default module width of the presentation device is to be used; refer to Table 13 on page 45 for
+default module width of the presentation device is to be used; refer to Table 13 for
 a list of recommended default values. Exception condition EC-0600 exists if the module width
 specified is invalid or unsupported. For this condition, the bar code object processor uses the
 closest smaller width. If the smaller value is less than the smallest supported width or zero, the
@@ -525,8 +503,6 @@ Note that BCOCA receivers that do not provide “small-symbol support” simply 
 module-width value (with one exception) and produce an optimal size symbol. The exception
 is that both options (optimal and small) are supported for Intelligent Mail Barcodes.
 The following table describes this option for the fixed-size symbologies.
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -616,8 +592,6 @@ Symbol width (Bar code L) = 82.55 mm
 Symbol height = 4.22 mm
 The following equations can be used to convert between L-units, mils, and millimeters, where
 X is the symbol for multiplication and / is the symbol for division:
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -656,7 +630,7 @@ Bearer Bars placed above and below the symbol.
 square, the module width parameter specifies both dimensions, and the element height
 and height multiplier parameters are not used for these symbologies.
 A value of X'FFFF' indicates the default element height of the presentation device is to be
-used; refer to Table 13 on page 45 for a list of recommended default values. For bar code
+used; refer to Table 13 for a list of recommended default values. For bar code
 types that explicitly specify the element height, this field is ignored; these are: Australia Post
 Bar Code, Aztec Code, Data Matrix, Han Xin Code,
 Intelligent Mail Barcode, Japan Postal Bar
@@ -669,8 +643,6 @@ value.
 The height of GS1 DataBar symbols depends on the version of the symbol. Exception
 condition EC-0805 exists if the element height and height multiplier values specified are
 invalid for the modifier selected. Rules for GS1 DataBar symbol heights are as follows:
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -722,10 +694,8 @@ to-narrow ratio of 2.25 to 1. A particular wide-to-narrow ratio can be encoded i
 for example, the WE:NE values X'0015', X'00D2', X'0834', and X'5208' all represent a wide-to-
 narrow ratio of 2.1 to 1.
 The value X'FFFF' indicates that the bar code object processor is to use the default ratio for
-the specified bar code symbology or presentation device; refer to Table 13 on page 45 for a list
+the specified bar code symbology or presentation device; refer to Table 13 for a list
 of recommended default values. If the presentation device cannot present the specified
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -741,8 +711,6 @@ symbologies do not define a wide-to-narrow ratio. The Code 128, EAN, and UPC sym
 are referred to as four-level codes. A four-level bar code has four bar-and-space-width levels.
 The second, third, and fourth levels are automatically calculated as two, three, and four times
 the module width. When these bar code types are specified, this field is ignored.
-Bar Code Symbol Descriptor (BSD)
-
 
 
 
@@ -1310,7 +1278,7 @@ provided for each container.
 The printer will generate a GS1-128 symbol as described in the USPS symbology specification (BARCODE,
 CONTAINER INTELLIGENT MAIL); the GS1-128 Specification is used to produce the bar code symbol. The
 Code 128 code page is used to interpret the bar code symbol data (CPGID = 1303, GCSGID = 1454; refer to
-Figure 18 on page 160). The printer will also produce an appropriate USPS Banner (USPS SCAN REQUIRED)
+Figure 18). The printer will also produce an appropriate USPS Banner (USPS SCAN REQUIRED)
 and Identification Bars above and below the symbol. If requested, HRI will be printed below the symbol using
 two blanks as separators between each field of the HRI.
 The Intelligent Mail Container Barcode symbology allows for a variety of symbol sizes. The module width must
@@ -1392,7 +1360,7 @@ fields are included in the bar code based on the AI value. However, even within 
 vary in size, and the routing information is optional in all cases.
 The printer will generate a GS1-128 symbol as described in the USPS symbology specification (Barcode,
 Package, Intelligent Mail); the GS1-128 Specification is used to produce the bar code symbol. The Code 128
-code page (CPGID = 1303, GCSGID = 1454; refer to Figure 18 on page 160) is used to interpret the bar code
+code page (CPGID = 1303, GCSGID = 1454; refer to Figure 18) is used to interpret the bar code
 symbol data.
 HRI will be printed below the symbol, in groups of four digits separated by a blank space character; routing
 information is not included in the HRI, even when included in the bar code itself. The printer will also produce
@@ -1472,12 +1440,12 @@ PLANET Code
 (encoding 00123456789)
 Note: The POSTNET and PLANET symbologies have been retired by the United States Postal Service and
 have also been deprecated in the BCOCA architecture. For a description of the replacement, refer to the
-“Intelligent Mail Barcode (modifier values X'00' through X'03')” on page 78.
+“Intelligent Mail Barcode (modifier values X'00' through X'03')”.
 For all POSTNET modifiers that follow, the BSA HRI flag field and the BSD element height, height multiplier,
 and wide-to-narrow ratio fields are not applicable to the POSTNET bar code symbology. These fields are
 ignored because the POSTNET symbology defines specific values for these parameters.
 Some BCOCA implementations use the module width parameter to specify one of two symbol sizes (small or
-optimal); refer to the description of module width on page 40 for details. This function is called small-symbol
+optimal); refer to the description of module width for details. This function is called small-symbol
 support; printers that do not provide small-symbol support ignore the module width field.
 X'00' Present a POSTNET ZIP Code bar code symbol. The ZIP Code to be encoded is defined as a five-
 digit, numeric (0–9), data variable to the BSA data structure. The POSTNET ZIP Code bar code
@@ -1845,7 +1813,7 @@ QR Code
 
 
 
-See “QR Code with Image Special-Function Parameters” on page 139 for the details of how the images are
+See “QR Code with Image Special-Function Parameters” for the details of how the images are
 placed.
 QR Code
 
@@ -1928,7 +1896,7 @@ Royal Mail RED TAG
 O O
 Note: The RED TAG symbology has been retired by Royal Mail and has also been deprecated in the BCOCA
 architecture. For a description of the replacement, refer to “Royal Mail Mailmark (modifier values X'00'
-and X'01')” on page 86.
+and X'01')”.
 The RED TAG bar code symbology is defined and used by Royal Mail Group Ltd. for intelligent mail tracking
 and reporting. The RED TAG bar code is a four-state symbol with exactly 51 bars that includes a RED TAG
 indicator printed at each end of the symbol.
@@ -2193,7 +2161,7 @@ The Royal Mail Mailmark symbology limits the symbol size; therefore BSD element 
 and wide-to-narrow ratio fields are not applicable to this symbology and are ignored by BCOCA receivers. The
 module width field allows for two symbol sizes (small and optimal); the small symbol ranges from 2.8 inches
 wide to 3.3 inches wide (depending on the symbol variation) and the optimal symbol ranges from 3.1 inches
-wide to 3.7 inches wide. Refer to Table 12 on page 41 for the specific dimensions.
+wide to 3.7 inches wide. Refer to Table 12 for the specific dimensions.
 The input data for the bar code is alphanumeric and consists of the fields shown in the Royal Mail Mailmark
 Definition Document. The data is checked for validity and exception condition EC-1204 exists if there is invalid,
 insufficient, or too much data.
@@ -2851,15 +2819,15 @@ Exception condition EC-0A00 exists if the Y offset value is invalid or unsupport
 Bytes 5–n Special functions specific to the bar code type
 The following special-function parameters are only used with the following bar code types,
 refer to:
-“Aztec Code Special-Function Parameters” on page 100
-“Data Matrix Special-Function Parameters” on page 106
+“Aztec Code Special-Function Parameters”
+“Data Matrix Special-Function Parameters”
 “Han Xin Code Special-Function Parameters
-” on page 114
-“Intelligent Mail Package Barcode Special-Function Parameters” on page 118
-“MaxiCode Special-Function Parameters” on page 120
-“PDF417 Special-Function Parameters” on page 125
-“QR Code Special-Function Parameters” on page 131
-“QR Code with Image Special-Function Parameters” on page 139
+”
+“Intelligent Mail Package Barcode Special-Function Parameters”
+“MaxiCode Special-Function Parameters”
+“PDF417 Special-Function Parameters”
+“QR Code Special-Function Parameters”
+“QR Code with Image Special-Function Parameters”
 These special-function parameters must not be specified for any other bar code types.
 Bytes n+1 to
 end
@@ -2868,17 +2836,16 @@ Contains the variable data to be encoded and, if required, generated as HRI text
 above or below the bar code symbol. The length and type of data that can be encoded is
 defined by the bar code symbology. For more information, refer to the appropriate bar code
 symbology specification listed in Appendix A, “Bar Code Symbology Specification
-References”, on page 171. Exception condition EC-2100 exists if an invalid or undefined
+References”,. Exception condition EC-2100 exists if an invalid or undefined
 character, according to the rules of the bar code symbology specification, is encountered in
 the bar code data field. Exception condition EC-0C00 exists if the length of the data plus any
-bar code object processor generated check digit is invalid or unsupported. Refer to Table 35
-on page 151 for a description of the valid characters and data length for each symbology.
+bar code object processor generated check digit is invalid or unsupported. Refer to Table 35 for a description of the valid characters and data length for each symbology.
 The data is specified as a series of single-byte code points from a specific code page. Some
 symbologies limit the valid code points to just the ten numerals (0 through 9), other
 symbologies allow a richer set of code points. The bar code symbol is produced from these
 code points; the code points are also used, along with a particular type style, when producing
 the HRI.
-Table 34 on page 149 lists, for each symbology, the valid code page from which characters are
+Table 34 lists, for each symbology, the valid code page from which characters are
 chosen and the type style used when printing HRI in terms of an IBM registered CPGID and
 FGID. More information about these values can be found in the documents listed in Table 5 on
 page xiii.
@@ -3117,7 +3084,7 @@ bar code data.
 • If B'1', exception EC-0F17 exists.
 The potential values for this parameter are:
 X'00'–X'20' Specifies the desired number of layers, from 0 to 32. Not all values are valid in
-all cases; see Table 22 on page 103.
+all cases; see Table 22.
 X'FF' Specifies that an appropriate number of layers and Aztec Code format should
 be used based on the amount of symbol data and the requested error
 correction level; the smallest symbol that can accommodate the amount of
@@ -3341,7 +3308,6 @@ BCD1
 X'0000'
 All row sizes
 within Table 24
-on page 109
 8–9 UBIN Desired
 number of
 rows
@@ -3358,7 +3324,6 @@ X'0000'
 All number-of-
 rows values
 within Table 24
-on page 109
 10 UBIN Sequence
 indicator
 X'00'–X'10' Structured append sequence
@@ -3547,10 +3512,10 @@ including the finder pattern. There must be an even number of modules per row an
 number of rows.
 For modifier X'00' (BSD byte 13), there are 24 square symbols with sizes from 10x10 to
 144x144, and 6 rectangular symbols with sizes from 8x18 to 16x48, not including quiet zones.
-Table 24 on page 109 lists the complete set of supported sizes.
+Table 24 lists the complete set of supported sizes.
 For modifier X'01' (BSD byte 13), in addition to the symbols for modifier X'00' just above, there
 are an additional 18 rectangular symbols with sizes from 8x48 to 26x64, again not including
-quiet zones. Table 25 on page 110 lists the complete set of supported sizes.
+quiet zones. Table 25 lists the complete set of supported sizes.
 Exception condition EC-0F00 exists if an unsupported size value is specified.
 If X'0000' is specified for this parameter, an appropriate row size will be used based on the
 amount of symbol data.
@@ -3612,7 +3577,7 @@ Rows
 Row Size Size Number Number of
 Rows
 Row Size Size Number
-All supported sizes for a modifier X'00' Data Matrix symbol (found in Table 24 on page 109) are also supported for a
+All supported sizes for a modifier X'00' Data Matrix symbol (found in Table 24) are also supported for a
 modifier X'01' Data Matrix symbol (in this table); in addition, the sizes below are supported
 8 48 6x22 2
 8 64 6x14 4
@@ -4418,7 +4383,7 @@ right of the symbol. The zipper provides a quick visual check for printing disto
 the symbol presentation space is rotated, the zipper and contrast block are rotated
 along with the symbol.
 T o maintain consistency among printers, the zipper pattern and contrast block should
-approximate the guideline dimensions shown in Figure 11 on page 124. The zipper
+approximate the guideline dimensions shown in Figure 11. The zipper
 pattern and contrast block is made up of several filled rectangles that should be
 created such that each rectangle is as close to the specified dimensions as possible
 for the particular device resolution, then the pattern is repeated to yield an evenly
@@ -4534,7 +4499,7 @@ n) from a subset of EBCDIC code page 500 into the default character encodation (
 0) before this data is used to build the bar code symbol. This translation covers 181
 code points that include alphanumerics and many symbols; the 75 code points that
 are not covered by the translation do not occur in EBCDIC and are mapped to X'7F'
-(127). Refer to Figure 12 on page 126 for a picture showing the 181 EBCDIC code
+(127). Refer to Figure 12 for a picture showing the 181 EBCDIC code
 points that can be translated.
 The EBCDIC-to-ASCII translation flag should not be used if any of the 75 code points
 that have no EBCDIC equivalent are needed for the bar code data or for the Macro
@@ -5184,7 +5149,7 @@ code page), this parameter identifies the EBCDIC code page that encodes single-b
 EBCDIC bar code data. The following EBCDIC code pages are supported:
 X'01' Code page 500 (International #5)
 Only 128 of the characters within ECI 000020 can be specified in code page 500. The
-code page 500 characters that can be translated are shown in Figure 13 on page 135.
+code page 500 characters that can be translated are shown in Figure 13.
 X'02' Code page 290 (Japanese Katakana Extended)
 X'03' Code page 1027 (Japanese Latin Extended)
 For the remaining values (used when the input data is SOSI), this parameter identifies the
@@ -5596,11 +5561,11 @@ Also note that although the LR qr point can be used to specify offsets and exten
 and extents of the image object area can alternatively be specified in L-units, in which case, the LR qr point is
 not considered.
 Figures 14–17 illustrate the concepts involved in QR Code with Image. Figure 14 first shows the image that
-will be placed in conjunction with the QR Code symbol in the other figures. Figure 15 on page 141 shows
+will be placed in conjunction with the QR Code symbol in the other figures. Figure 15 shows
 both the X
 qr,Yqr coordinate system and the image object area, along with the specific bytes in the BSD, BSA,
-and these QR Code with Image special-function parameters that define them. Figure 16 on page 142 and
-Figure 17 on page 142 show the same QR Code and image used in Figure 15 on page 141, but with the
+and these QR Code with Image special-function parameters that define them. Figure 16 and
+Figure 17 show the same QR Code and image used in Figure 15, but with the
 image oriented at 90° and 45°, respectively; in order that the image still be centered on the QR Code symbol,
 the image object area origin must be adjusted, as shown in the figures.
 • Many of the parameters for presenting an image are contained in the QR Code with Image special-function
@@ -6094,7 +6059,7 @@ Not supported
 in BCD2
 Bytes 5–13 Bytes 5–13 are the same as bytes 5–13 in the QR Code special-function parameters and
 should be used in the same way, producing the same QR Code symbol. See “QR Code
-Special-Function Parameters” on page 131.
+Special-Function Parameters”.
 Note: The too much data flag (bit 2) in the control flags (byte 5) was added to the QR Code
 special-function parameters well after the QR Code was added to BCOCA. Therefore,
 some implementations might not support the flag in the context of the QR Code special-
@@ -6173,7 +6138,7 @@ This parameter indicates the length of the measurement unit base to be used to i
 offset values. The value X'00' indicates that the measurement unit base is ten inches. The
 value X'01' indicates that the measurement unit base is ten centimeters. The value X'64'
 indicates that the measurement unit base is one percent of the coordinates of the LR qr point in
-the Xqr,Yqr coordinate system; see “Percentage Measurements” on page 22 for more
+the Xqr,Yqr coordinate system; see “Percentage Measurements” for more
 information on the X'64' unit base.
 Exception condition EC-0F32 exists if the unit base specified is invalid or unsupported.
 Bytes +6–7 Offset UPUB
@@ -6243,7 +6208,7 @@ extent values. The value X'00' indicates that the measurement unit base is ten i
 value X'01' indicates that the measurement unit base is ten centimeters. The value X'64'
 indicates that the measurement unit base is one percent of the coordinates of the LR
 qr point in
-the Xqr,Yqr coordinate system; see “Percentage Measurements” on page 22 for more
+the Xqr,Yqr coordinate system; see “Percentage Measurements” for more
 information on the X'64' unit base.
 Exception condition EC-0F37 exists if the unit base specified is invalid or unsupported.
 Bytes +16–17 Extent UPUB
@@ -6366,7 +6331,7 @@ code symbol. Some bar code symbologies have special rules that identify where in
 characters are allowed. For example, the UPC/CGPC Version E symbol limits the range of valid values for the
 last 5 digits based on the value of the first 5 digits. Refer to the appropriate symbology specification for a full
 description of the rules for laying out bar code data; the symbology specifications are listed in Appendix A, “Bar
-Code Symbology Specification References”, on page 171.
+Code Symbology Specification References”,.
 Table 35. Valid Characters and Data Lengths
 Type Bar Code
 Symbology
@@ -6382,7 +6347,7 @@ A total of 43 valid input
 characters
 Symbology: unlimited
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 X'02' MSI (modified Plessey
 code)
 0123456789 3 to 15 characters for Modifier X'01'
@@ -6391,12 +6356,12 @@ code)
 X'03' UPC/CGPC -
 Version A
 0123456789
-(see note 1 on page 155)
+(see note 1)
 11 characters
 X'05' UPC/CGPC -
 Version E
 0123456789
-(see note 1 on page 155)
+(see note 1)
 10 characters
 X'06' UPC - Two-Digit
 Supplemental
@@ -6413,25 +6378,25 @@ Supplemental
 X'08' EAN-8 (includes
 JAN-short)
 0123456789
-(see note 1 on page 155)
+(see note 1)
 7 characters
 X'09' EAN-13 (includes
 JAN-standard)
 0123456789
-(see note 1 on page 155)
+(see note 1)
 12 characters
 X'0A' Industrial 2-of-5 0123456789 Symbology: unlimited
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 X'0B' Matrix 2-of-5 0123456789 Symbology: unlimited
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 X'0C' Interleaved 2-of-5,
 ITF-14, AIM USS-I 2/5
 0123456789 Interleaved 2-of-5 symbology: unlimited
 ITF-14 symbology: 13 digits
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 Valid Characters and Data Lengths
 
 
@@ -6447,10 +6412,10 @@ USS-Codabar
 -$:/.+ABCD
 16 characters plus 4 start/stop
 characters (ABCD)
-(see note 3 on page 156)
+(see note 3)
 Symbology: unlimited
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 X'11' Code 128, AIM USS-
 128
 (modifier X'02')
@@ -6459,7 +6424,7 @@ Code 128 code page
 (see page 160)
 Symbology: unlimited
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 UCC/EAN 128
 (modifier X'03')
 0123456789
@@ -6469,7 +6434,7 @@ abcdefghijklm
 nopqrstuvwxyz
 FNC1 (X'8F')
 Maximum of 48 characters
-(see note 4 on page 156)
+(see note 4)
 UCC/EAN 128,
 GS1-128
 (modifier X'04')
@@ -6480,7 +6445,7 @@ abcdefghijklm
 nopqrstuvwxyz
 FNC1 (X'8F')
 Maximum of 48 characters
-(see note 4 on page 156)
+(see note 4)
 Intelligent Mail
 Container Barcode
 (modifier X'05')
@@ -6494,7 +6459,7 @@ FNC1 (X'8F')
 Some fields restrict the range
 of characters; refer to the
 modifier X'05' description in
-Table 14 on page 61.
+Table 14.
 22 characters
 Intelligent Mail
 Package Barcode
@@ -6518,7 +6483,7 @@ PLANET (deprecated)
 11 characters for Modifier X'02'
 11 characters for Modifier X'04'
 BCOCA range for Modifier X'03': 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 X'1A' Royal Mail
 (RM4SCC,
 modifier X'00')
@@ -6527,7 +6492,7 @@ ABCDEFGHIJKLM
 NOPQRSTUVWXYZ
 Symbology: unlimited
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 Valid Characters and Data Lengths
 
 
@@ -6547,7 +6512,7 @@ abcdefghijklm
 nopqrstuvwxyz
 Symbology: maximum of 18 characters
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 X'1B' Japan Postal Bar
 Code (Modifier X'00')
 0123456789
@@ -6556,7 +6521,7 @@ NOPQRSTUVWXYZ
 -
 Symbology: 7 or more
 BCOCA range: 7 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 Japan Postal Bar
 Code (Modifier X'01')
 0123456789
@@ -6574,11 +6539,11 @@ Symbology: up to 3116 depending on whether the
 data is character or numeric; refer to the symbology
 specification
 BCOCA range: 0 to 3116 characters
-(see note 2 on page 156)
+(see note 2)
 X'1D' MaxiCode Any one-byte character
 allowed by the symbol mode;
 refer to the description of
-symbol modes on page 121
+symbol modes
 Symbology: up to 93 alphanumeric characters per
 symbol depending on encoding overhead or up to
 138 numeric characters per symbol; refer to the
@@ -6593,7 +6558,7 @@ symbology specification
 BCOCA range: 0 to 2710 characters
 X'1F' Australia Post Bar Code –
 refer to the modifier (byte 13) description in “Australia Post Bar Code (modifier values X'01'
-through X'08')” on page 74 for information about valid characters in specific parts of the
+through X'08')” for information about valid characters in specific parts of the
 symbol
 Modifier X'01' –
 Standard Customer
@@ -6676,7 +6641,7 @@ A total of 47 valid
 input characters
 Symbology: unlimited
 BCOCA range: 0 to 50 characters
-(see note 2 on page 156)
+(see note 2)
 X'22' Intelligent Mail
 Barcode
 0123456789 20 digits for Modifier X'00'
@@ -6806,8 +6771,8 @@ Characters and Code Points
 The following table (Table 36) is informational and is not a formal part of the BCOCA architecture. The table is
 intended as a convenient listing of some EBCDIC and ASCII codes points and is not intended to be complete
 or to show all possible EBCDIC or ASCII encodings for any particular code point. The specific code pages are
-listed, using CPGIDs, in Table 34 on page 149. For a formal definition of these codes pages and CPGIDs, refer
-to the Character Data Representation Architecture listed in Table 5 on page xiii. Note that this table does not
+listed, using CPGIDs, in Table 34. For a formal definition of these codes pages and CPGIDs, refer
+to the Character Data Representation Architecture listed in Table 5. Note that this table does not
 necessarily cover all of the code points used for 2D bar codes and does not contain all of the characters
 available with CPGID = 1303.
 Table 36. Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing)
