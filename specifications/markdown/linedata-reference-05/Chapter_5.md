@@ -1,4 +1,4 @@
-Chapter 5. Structured Fields in a Page Definition and in Line
+# Chapter 5. Structured Fields in a Page Definition and in Line
 Data
 This chapter defines the structured fields used in a Page Definition print control object. It also describes special
 functions used with certain MO:DCA structured fields when they occur in line-mode or mixed-mode data. Refer
@@ -38,9 +38,7 @@ byte is X'00', and the two preceding bytes specify the padding length.
 • For 3 to 255 bytes of padding, the length can be specified by either method.
 Note: The length count of the padding data includes the length field itself.
 
-## Page 84
 
-66 AFP Programming Guide and Line Data Reference
 Structured Field Descriptions
 The description for each structured field contains the following information:
 • Purpose
@@ -77,25 +75,18 @@ example, X'C1C2C3F1' in EBCDIC can represent ABC1.
 CODE Architected value: a code assigned to a specific item.
 Structured Fields
 
-## Page 85
 
-AFP Programming Guide and Line Data Reference 67
 Structured Field Triplets
 Several structured fields contain self-identifying parameters called triplets in their data field. A triplet contains
 three components: the triplet length, the triplet identifier, and the triplet values. See T able 12.
-Table 12. Structured Field Triplet Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Triplet
-Length
-3–254 Specifies the length of the triplet, including
-this byte
-M
-1 CODE Triplet
-Identifier
-Identifies the triplet M
-2–n Triplet
-Data
-Contains the data for this triplet M
+### Table 12. Structured Field Triplet Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Triplet Length | 3–254 | Specifies the length of the triplet, including this byte | M |
+| 1 | CODE | Triplet Identifier | | Identifies the triplet | M |
+| 2–n | | Triplet Data | | Contains the data for this triplet | M |
+
 External Resource Object Naming Conventions
 MO:DCA objects can be named using one of the following two formats:
 • T oken name. This name is specified using a fixed-length 8-byte parameter on Begin, Invoke, Map, and
@@ -127,9 +118,7 @@ the fixed-length 8-byte token name parameter, a trailing space character (X'40' 
 trailing null code point (X'00') is assumed to terminate the name.
 Structured Fields
 
-## Page 86
 
-68 AFP Programming Guide and Line Data Reference
 • T o ensure portability across older versions of print servers that do not support encoding definitions in the
 X'01' triplet, names should use only the recommended characters and be encoded in EBCDIC using code
 page 500 and a character set that includes the above-mentioned characters. The preferred character set is
@@ -147,8 +136,7 @@ TrueType and OpenType full font names specified in the MDR structured field are 
 characters and might
 be encoded as required by the AFP-generating application. However, since these names
 are used to search inline font containers and Resource Access T ables (RAT s) that use a fixed UTF-16BE
-encoding for full font names, efficiency is gained if the full font names in the MDR are also encoded in UTF-
-16BE. This avoids an encoding conversion. The UTF-16BE encoding can be identified with CCSID 1200. This
+encoding for full font names, efficiency is gained if the full font names in the MDR are also encoded in UTF16BE. This avoids an encoding conversion. The UTF-16BE encoding can be identified with CCSID 1200. This
 encoding needs to be specified with a X'01' triplet on the MDR that specifies the full font name.
 Begin and End Structured Fields
 Begin structured fields identify the beginning of an object in a print data stream or of a data stream resource.
@@ -165,28 +153,19 @@ although they might
 have meaning in other applications.
 Structured Fields
 
-## Page 87
 
-AFP Programming Guide and Line Data Reference 69
 Begin Data Map (BDM)
 The Begin Data Map structured field begins a Data Map resource object.
-BDM (X'D3A8CA') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A8CA' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR DMName Name of the Data Map M
-8 CODE DatFmt
-X'00'
-X'01'
-X'02'
-Data formatting specified by this Data Map:
-Data Map formats traditional line data using LNDs
-Data Map formats line data containing record format
-IDs using RCDs
-Data Map formats XML data containing start and end
-tags using XMDs
-O
-9–n Triplets See BDM Semantics for triplet applicability. M
+### BDM (X'D3A8CA') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A8CA', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | DMName | | Name of the Data Map | M |
+| 8 | CODE | DatFmt | X'00', X'01', X'02' | Data formatting specified by this Data Map: X'00': LNDs, X'01': RCDs, X'02': XMDs | O |
+| 9–n | | Triplets | | See BDM Semantics for triplet applicability | M |
+
 BDM Semantics
 DMName T oken name of the Data Map
 This is a mandatory parameter because an Invoke Data Map (IDM) structured field selects a
@@ -210,9 +189,7 @@ Notes:
 1. If a triplet is included on this structured field, the optional positional parameters become mandatory.
 Begin Data Map (BDM)
 
-## Page 88
 
-70 AFP Programming Guide and Line Data Reference
 2. If one of the Data Maps in a PageDef contains LNDs, then all of the Data Maps in a PageDef must be LND
 based.
 3. If one of the Data Maps in a PageDef contains RCDs, then all of the Data Maps in a PageDef must be RCD
@@ -252,21 +229,22 @@ specify the same encoding.
 font selected to print the data must match the encoding of the user data specified in this triplet.
 Begin Data Map (BDM)
 
-## Page 89
 
-AFP Programming Guide and Line Data Reference 71
 Page Count Control (X'7C') Triplet
 This is an optional triplet that may occur once. If this triplet is specified more than once, only the first is used. It
 is used only if DatFmt = X'01' (formatting with RCDs) or X'02' (formatting with XMDs). It is used to specify how
 the page count is initialized and maintained for the active Data Map. If this triplet is specified on a Data Map
 that contains LNDs, it is ignored.
-Triplet X'7C' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 7 Length of the triplet, including Tlength M
-1 CODE Tid X'7C' Identifies the Page Count Control triplet M
-2–3 CODE PageNum X'0001'–X'FFFF' Initial page number M
-4 0 Reserved; should be zero M
-5 CODE CountCtr
+### Triplet X'7C' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 7 Length of the triplet, including Tlength M |  |  |
+| 1 | CODE | Tid | X'7C' Identifies the Page Count Control triplet M |  |  |
+| 2–3 | CODE | PageNum | X'0001'–X'FFFF' Initial page number M |  |  |
+| 4 | 0 | Reserved; | should be zero M |  |  |
+| 5 CODE CountCtr |  |  |  |  |  |
+
 X'00'
 X'01'
 X'02'
@@ -305,9 +283,7 @@ When this Data Map is invoked, the page count is initialized to the last page nu
 used with the previous Data Map, which is the current page number. If there is no
 Begin Data Map (BDM)
 
-## Page 90
 
-72 AFP Programming Guide and Line Data Reference
 current page number, such as when this is the first Data Map invoked for the job, it is
 initialized to the value specified by PageNum. Once the page count is initialized, it is
 incremented for every page presented with this Data Map.
@@ -336,19 +312,20 @@ If this triplet is not specified, the defaults are CountCtr = X'02' (Continue) a
 MO:DCA pages and constant pages that occur in mixed-mode data).
 Begin Data Map (BDM)
 
-## Page 91
 
-AFP Programming Guide and Line Data Reference 73
 Margin Definition (X'7F') Triplet
 This is an optional triplet that is used only if DatFmt = X'01' (formatting with RCDs) or X'02' (formatting with
 XMDs). This triplet may occur once. If this triplet is specified more than once, only the first is used. It is used to
 specify the page margins for the Data Map. These margins are used for logical page eject processing and for
 graphics processing. If this triplet is specified on a Data Map that contains LNDs, it is ignored.
-Triplet X'7F' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 14 Length of the triplet, including Tlength M
-1 CODE Tid X'7F' Identifies the Margin Definition triplet M
-2–5 CODE TxtOrent
+### Triplet X'7F' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 14 Length of the triplet, including Tlength M |  |  |
+| 1 | CODE | Tid | X'7F' Identifies the Margin Definition triplet M |  |  |
+| 2–5 CODE TxtOrent |  |  |  |  |  |
+
 X'0000 2D00'
 X'2D00 5A00'
 X'5A00 8700'
@@ -390,9 +367,7 @@ ended at the margin defined by the LeftMar parameter, which is the bottom margin
 orientation.
 Begin Data Map (BDM)
 
-## Page 92
 
-74 AFP Programming Guide and Line Data Reference
 LeftMar Left Margin
 This field s pecifies the offset of the left margin along the i axis from the left edge of the page.
 The left edge of the page is the zero position on the i axis.
@@ -410,9 +385,7 @@ If this triplet is not specified, the default is a text orientation of (0,90) de
 X'0000'.
 Begin Data Map (BDM)
 
-## Page 93
 
-AFP Programming Guide and Line Data Reference 75
 Figure 29. Relationship of Margin Definition to Text Orientation
 Top Margin
 Bottom Margin
@@ -445,44 +418,42 @@ i
 b
 Begin Data Map (BDM)
 
-## Page 94
 
-76 AFP Programming Guide and Line Data Reference
 Begin Data Map Transmission Subcase (BDX)
 The Begin Data Map Transmission Subcase structured field begins a Data Map Transmission Subcase object,
 which contains the structured fields used to map lines of data to the page.
-BDX (X'D3A8E3') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A8E3' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR DMXName Name of the Data Map Transmission
-Subcase
-O
+### BDX (X'D3A8E3') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A8E3', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | DMXName |  | Name of the Data Map Transmission Subcase | O |
+
 BDX Semantics
 DMXame T oken name of the Data Map Transmission Subcase
 This is an optional parameter.
 Begin Data Map Transmission Subcase (BDX)
 
-## Page 95
 
-AFP Programming Guide and Line Data Reference 77
 Begin Page Map (BPM)
 The Begin Page Map structured field begins a Page Map resource object, also called a Page Definition or
 PageDef. A Page Definition is a print control resource object used to compose line data into pages for printing
 on page printers.
-BPM (X'D3A8CB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A8CB' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR PMName Name of the Page Map O
+### BPM (X'D3A8CB') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A8CB', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | PMName |  | Name of the Page Map | O |
+
 BPM Semantics
 PMName T oken name of the Page Map
 This is an optional parameter.
 Begin Page Map (BPM)
 
-## Page 96
 
-78 AFP Programming Guide and Line Data Reference
 Conditional Processing Control (CCP)
 The Conditional Processing Control structured field defines tests to be performed on selected input records in
 line data and specifies the actions to take based on the test results. This optional structured field is selected
@@ -492,24 +463,21 @@ CCP associated with it or it can reference a CCP that has already been used. In 
 referenced with the CCPID field of the LND, RCD,
 or XMD. If a CCP structured field is included in a Page
 Definition, it must appear before the Data Maps in the Page Definition.
-CCP (X'D3A7CA') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A7CA' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–1 CODE CCPid X'0001'–X'FFFF' CCP Identifier M
-2–3 CODE NxtCCPid X'0001'–X'FFFF' Next CCP Identifier M
-4 BITS CCPFlgs M
-Bit 0 B'0'–B'1' Before subpage actions
-Bit 1 B'0'–B'1' After subpage actions
-Bit 2 B'0'–B'1' Spacing actions
-Bits 3–7 B'00000' Reserved
-5 X'00' Reserved M
-6–7 UBIN NumRGs X'0001'–X'FFFF' Number of repeating groups M
-8–9 UBIN RGLgth X'0015'–X'FFFF' Length of each repeating group M
-10–11 UBIN CSLgth X'0000'–X'FFFF' Length of comparison string M
-12–n Repeating
-groups
-One or more repeating groups M
+### CCP (X'D3A7CA') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A7CA', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | CCPid | X'0001'–X'FFFF' | CCP Identifier | M |
+| 2–3 | CODE | NxtCCPid | X'0001'–X'FFFF' | Next CCP Identifier | M |
+| 4 | BITS | CCPFlgs |  | Conditional Processing Flags | M |
+| 5 |  |  | X'00' | Reserved | M |
+| 6–7 | UBIN | NumRGs | X'0001'–X'FFFF' | Number of repeating groups | M |
+| 8–9 | UBIN | RGLgth | X'0015'–X'FFFF' | Length of each repeating group | M |
+| 10–11 | UBIN | CSLgth | X'0000'–X'FFFF' | Length of comparison string | M |
+| 12–n |  | Repeating groups |  | One or more repeating groups | M |
+
 CCP Semantics
 CCPid CCP Identifier
 CCPs can be chained to handle complex data within multiple CCP records. If this is the first or
@@ -523,9 +491,7 @@ Bit 0 If B'1', this CCP requires action before a subpage boundary.
 Bit 1 If B'1', this CCP requires action after a subpage boundary.
 Conditional Processing Control (CCP)
 
-## Page 97
 
-AFP Programming Guide and Line Data Reference 79
 Bit 2 This field p rovides spacing action at the top of a page when the following conditions
 are present:
 • A new page is started by a true condition.
@@ -549,44 +515,18 @@ This field indicates the length of the text string in the Comparison String para
 repeating group.
 Each repeating group of the CCP contains action information. See T able 13for the definitions of the CCP
 repeating groups.
-Table 13. CCP Repeating Group Structure
-Bytes Parameter Name Type Description and Values
-0 Timing of Action UBIN 0 T ake default action; the default is for action to be
-taken immediately before presenting current line
-1 T ake action immediately before presenting current
-line
-2 T ake action before presenting current subpage
-129 T ake action immediately after presenting current line
-130 T ake action after presenting current subpage
-1 Medium Map Action UBIN 0 Ignore
-1 Continue using current medium map with page eject
-2 Invoke named Medium Map
-3 Invoke first Medium Map
-4 Invoke next Medium Map
-2–9 Medium Map Name CHAR Any 8-byte value
-10 Data Map Action UBIN 0 Ignore
-1 Continue using current Data Map with page eject
-2 Invoke named Data Map
-3 Invoke first Data Map
-4 Invoke next Data Map
-11–18 Data Map Name CHAR Any 8-byte value
-Conditional Processing Control (CCP)
+### Table 13. CCP Repeating Group Structure
 
-## Page 98
+| Bytes | Parameter Name | Type | Description and Values |
+| :--- | :--- | :--- | :--- |
+| 0 | Timing of Action | UBIN | 0: Take default action (immediately before presenting current line)<br>1: Take action immediately before presenting current line<br>2: Take action before presenting current subpage<br>129: Take action immediately after presenting current line<br>130: Take action after presenting current subpage |
+| 1 | Medium Map Action | UBIN | 0: Ignore<br>1: Continue using current medium map with page eject<br>2: Invoke named Medium Map<br>3: Invoke first Medium Map<br>4: Invoke next Medium Map |
+| 2–9 | Medium Map Name | CHAR | Any 8-byte value |
+| 10 | Data Map Action | UBIN | 0: Ignore<br>1: Continue using current Data Map with page eject<br>2: Invoke named Data Map<br>3: Invoke first Data Map<br>4: Invoke next Data Map |
+| 11–18 | Data Map Name | CHAR | Any 8-byte value |
+| 19 | Comparison | UBIN | 0: Any change<br>1: Equal to<br>2: Less than<br>3: Equal to or less than<br>4: Greater than<br>5: Equal to or greater than<br>6: Not equal<br>7: Take the action without comparison |
+| 20–nnn | Comparison String | CHAR | 1 to nnn bytes, where nnn plus the total length of the fixed-length fields in the CCP is less than, or equal to, 32,759 bytes |
 
-80 AFP Programming Guide and Line Data Reference
-Table 13 CCP Repeating Group Structure (cont'd.)
-Bytes Parameter Name Type Description and Values
-19 Comparison UBIN 0 Any change
-1 Equal to
-2 Less than
-3 Equal to or less than
-4 Greater than
-5 Equal to or greater than
-6 Not equal
-7 T ake the action without comparison
-20–nnn Comparison String CHAR 1 to nnn bytes, where nnn plus the total length of the fixed-
-length fields in the CCP is less than, or equal to, 32,759 bytes
 Byte 0 Timing of Action
 This parameter indicates when the action specified for the CCP is to be taken. Only values of
 0, 1, 2, 129 (X'81'), and 130 (X'82') are allowed.
@@ -623,39 +563,39 @@ The length of the text string is determined by a value contained in bytes 10–1
 structured field.
 Conditional Processing Control (CCP)
 
-## Page 99
 
-AFP Programming Guide and Line Data Reference 81
 Note: T o be able to match this Comparison String to input data, the encoding of the text
 specified in this parameter must match the encoding of the input data.
 Conditional Processing Control (CCP)
 
-## Page 100
 
-82 AFP Programming Guide and Line Data Reference
 Data Map Transmission Subcase Descriptor (DXD)
 The Data Map Transmission Subcase Descriptor structured field is supported only for migration purposes.
-DXD (X'D3A6E3') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A6E3' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–3 ConData Constant data M
+### DXD (X'D3A6E3') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A6E3', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–3 |  | ConData | X'0001 00FF' | Constant data | M |
+
 DXD Semantics
 ConData Constant data
 This field must be set to X'0001 00FF', but is not checked.
 Data Map Transmission Subcase Descriptor (DXD)
 
-## Page 101
 
-AFP Programming Guide and Line Data Reference 83
 End Data Map (EDM)
 The End Data Map structured field terminates the Data Map object initiated by a Begin Data Map structured
 field.
-EDM (X'D3A9CA') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9CA' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR DMName Name of the Data Map O
+### EDM (X'D3A9CA') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A9CA', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | DMName |  | Name of the Data Map | O |
+
 EDM Semantics
 DMName T oken name of the Data Map being terminated
 If a name is specified, it must match the name in the most recent Begin Data Map structured
@@ -663,19 +603,18 @@ field. If the first two bytes of this parameter contain the value X'FFFF', the n
 name specified on the corresponding Begin Data Map structured field.
 End Data Map (EDM)
 
-## Page 102
 
-84 AFP Programming Guide and Line Data Reference
 End Data Map Transmission Subcase (EDX)
 The End Data Map Transmission Subcase structured field terminates the Data Map Transmission Subcase
 initiated by a Begin Data Map Transmission Subcase structured field.
-EDX (X'D3A9E3') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9E3' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR DMXName Name of the Data Map Transmission
-Subcase
-O
+### EDX (X'D3A9E3') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A9E3', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | DMXName |  | Name of the Data Map Transmission Subcase | O |
+
 EDX Semantics
 DMXame T oken name of the Data Map Transmission Subcase being terminated
 If a name is specified, it must match the name in the most recent Begin Data Map
@@ -684,17 +623,18 @@ X'FFFF', the name matches any name specified on the corresponding Begin Data Map
 Transmission Subcase structured field.
 End Data Map Transmission Subcase (EDX)
 
-## Page 103
 
-AFP Programming Guide and Line Data Reference 85
 End Page Map (EPM)
 The End Page Map structured field terminates the Page Map object initiated by a Begin Page Map structured
 field.
-EPM (X'D3A9CB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9CB' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR PMName Name of the Page Map O
+### EPM (X'D3A9CB') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A9CB', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | PMName |  | Name of the Page Map | O |
+
 EPM Semantics
 PMName T oken name of the Page Map being terminated
 If a name is specified, it must match the name in the most recent Begin Page Map structured
@@ -702,28 +642,25 @@ field. If the first two bytes of this parameter contain the value X'FFFF', the n
 name specified on the corresponding Begin Page Map structured field.
 End Page Map (EPM)
 
-## Page 104
 
-86 AFP Programming Guide and Line Data Reference
 Fixed Data Size (FDS)
 The Fixed Data Size structured field specifies the number of bytes of text found in the following Fixed Data T ext
 (FDX) structured fields.
-FDS (X'D3AAEC') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AAEC' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–1 UBIN TxtLgth 1–65,535 Number of data bytes in following FDX
-structured fields
-M
+### FDS (X'D3AAEC') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3AAEC', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | TxtLgth | 1–65,535 | Number of data bytes in following FDX | M |
+
 FDS Semantics
 TxtLgth Number of bytes of text in the FDX structured fields that immediately follow
 If no fixed data text exists in this Data Map Transmission Subcase, the FDS and FDX
 structured fields should not be specified.
 Fixed Data Size (FDS)
 
-## Page 105
 
-AFP Programming Guide and Line Data Reference 87
 Fixed Data Text (FDX)
 The Fixed Data T ext structured field contains text that can be selected and presented with LND, RCD, or XMD
 structured fields in the Page Definition. This text is used when flag bit 7 of the LND, RCD, or XMD is set to B'1'.
@@ -731,42 +668,41 @@ Any number of FDX structured fields can appear, but the total number of data byt
 the Fixed Data Size (FDS) structured field. The output should fit on the page and the fit can be affected by the
 size of the font used.
 The DataStrt and DataLgth fields of the LND, RCD, or XMD specify the fixed data offset and length.
-FDX (X'D3EEEC') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3EEEC' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–n CHAR T ext Fixed text to be added O
+### FDX (X'D3EEEC') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3EEEC', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–n | CHAR | Text |  | Fixed text to be added | O |
+
 FDX Semantics
 Text Code points of the fixed text to be added to the page
 From 0 to 32,743 bytes may be specified.
 Fixed Data Text (FDX)
 
-## Page 106
 
-88 AFP Programming Guide and Line Data Reference
 Invoke Data Map (IDM)
-The Invoke Data Map structured field selects a new Data Map for printing line data and ends the current line-
-format page. With LND Data Maps, processing begins with the first Line Descriptor (LND) structured field of the
+The Invoke Data Map structured field selects a new Data Map for printing line data and ends the current lineformat page. With LND Data Maps, processing begins with the first Line Descriptor (LND) structured field of the
 invoked Data Map for the next line-format page. With RCD Data Maps, processing begins with the first Record
 Descriptor (RCD) structured field that matches the Record ID of the current line-data record. With XMD Data
 Maps, processing begins with the first XML Descriptor (XMD) structured field that matches the current
 Qualified T ag.
-IDM (X'D3ABCA') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3ABCA' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR DMName Name of the new Data Map in the Page
-Definition
-M
+### IDM (X'D3ABCA') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3ABCA', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | DMName |  | Name of the new Data Map | M |
+
 IDM Semantics
 DMName T oken name of the new Data Map in the currently active Page Definition
 This name must match the name on the Begin Data Map (BDM) structured field. If the name is
 shorter than eight bytes, trailing blanks must be added.
 Invoke Data Map (IDM)
 
-## Page 107
 
-AFP Programming Guide and Line Data Reference 89
 Include Object (IOB)
 Notes:
 1. The IOB is a MO:DCA structured field. The following description documents its use in line-mode and mixed
@@ -780,81 +716,27 @@ color. Where the presentation parameters conflict with parameters specified in t
 (OEG), the parameters in the Include Object structured field override. If the referenced object is a page
 segment, the IOB parameters override the corresponding environment group parameters on all data objects in
 the page segment.
-IOB (X'D3AFC3') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AFC3' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR ObjName Name of the object M
-8 Reserved; should be zero M
-9 CODE ObjType See the Mixed Object Document Content
-Architecture (MO:DCA) Reference for the
-supported object types.
-M
-10–12 SBIN XoaOset -32,768 – +32,767 X-axis origin of the object area M
-X'FFFFFF' Use the X axis origin defined in the object (not
-supported if RefCSys=X'00')
-13–15 SBIN YoaOset -32,768 – +32,767 Y-axis origin of the object area M
-X'FFFFFF' Use the Y-axis origin defined in the object (not
-supported if RefCSys=X'00')
-16–17 CODE XoaOrent
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-The object area's X-axis rotation from the
-X axis of the reference coordinate system:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-M
-X'FFFF' Use the X-axis rotation defined in the object
-(not supported if RefCSys=X'00')
-Include Object (IOB)
+### IOB (X'D3AFC3') Syntax
 
-## Page 108
+**Structured Field Introducer:** SF Length (2B), ID = X'D3AFC3', Flags (1B), Reserved X'0000'
 
-90 AFP Programming Guide and Line Data Reference
-Offset Type Name Range Meaning M/O
-18–19 CODE YoaOrent
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-The object area's Y-axis rotation from the
-X axis of the reference coordinate system:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-M
-X'FFFF' Use the Y axis rotation defined in the object
-(not supported if RefCSys=X'00')
-20–22 SBIN XocaOset
-See the Mixed Object Document Content
-Architecture (MO:DCA) Reference for the
-supported range.
-M
-23–25 SBIN YocaOset See the Mixed Object Document Content
-Architecture (MO:DCA) Reference for the
-supported range.
-M
-26 CODE RefCSys
-X'00'
-X'01'
-Reference coordinate system:
-T ext (I,B) coordinate system defined by
-current LND, RCD, or XMD
-Page or overlay coordinate system
-M
-27–n Triplets See the Mixed Object Document Content
-Architecture (MO:DCA) Reference for triplet
-applicability.
-M
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | ObjName |  | Name of the object | M |
+| 8 |  |  | 0 | Reserved | M |
+| 9 | CODE | ObjType |  | Object type | M |
+| 10–12 | SBIN | XoaOset | -32,768 – +32,767 | X-axis origin of the object area | M |
+| 13–15 | SBIN | YoaOset | -32,768 – +32,767 | Y-axis origin of the object area | M |
+| 16–17 | CODE | XoaOrent |  | X-axis rotation | M |
+| 18–19 | CODE | YoaOrent |  | Y-axis rotation | M |
+| 20–22 | SBIN | XocaOset |  | X-axis offset | M |
+| 23–25 | SBIN | YocaOset |  | Y-axis offset | M |
+| 26 | CODE | RefCSys | X'00', X'01' | Reference coordinate system | M |
+| 27–n |  | Triplets |  | Triplets | M |
+
 IOB Semantics
 For a complete definition of the IOB semantics, see the Mixed Object Document Content Architecture
-(MO:DCA) Reference. The following describes parameter values that are unique to the IOB when used in line-
-mode or mixed-mode environments.
+(MO:DCA) Reference. The following describes parameter values that are unique to the IOB when used in linemode or mixed-mode environments.
 XoaOset If RefCSys = X'01', this parameter specifies the offset along the X axis, X pg or Xol, of the
 including page or overlay coordinate system to the origin of the X axis, X oa, of the object area
 coordinate system. The value for this parameter is expressed in terms of the number of page
@@ -882,9 +764,7 @@ objects that comprise the page segment and specifies the object area offsets fro
 overlay origin for all data objects in the page segment. A value of X'FFFFFF' indicates that the
 Include Object (IOB)
 
-## Page 109
 
-AFP Programming Guide and Line Data Reference 91
 Y-axis offset specified in the object's OEG is to be used; therefore the offset value (-1) is
 excluded from the allowed range. If the object does not specify the Y-axis offset in an OEG,
 the architected default is X'000000'.
@@ -938,9 +818,7 @@ OEG is to be used, is not supported for {XoaOset,YoaOset} and {XoaOrent,YoaOrent
 when RefCSys = X'00'.
 Include Object (IOB)
 
-## Page 110
 
-92 AFP Programming Guide and Line Data Reference
 X'01' The object area offset in the IOB is measured with respect to the page origin (X p=0,
 Yp=0) using the page (X p,Yp) coordinate system. The object area rotation in the IOB is
 measured with respect to the page (Xp,Yp) coordinate system X p-axis.
@@ -957,21 +835,16 @@ once. If this triplet is specified more than once, only the first is used. It sp
 that
 is used to reference the IOB from one or more LND, RCD, or XMD structured fields. The ID specified for
 each IOB must be unique within the PageDef.
-Triplet X'22' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 7 Length of the triplet, including Tlength M
-1 CODE Tid X'22' Identifies the Extended Resource Local
-Identifier triplet
-M
-2 CODE ResType
-X'30'
-Specifies the resource type:
-IOB Reference
-M
-3–6 CODE ResLID X'00000000'–
-X'FFFFFFFF'
-Specifies the extended resource local ID M
-Triplet X'22' Semantics
+### Triplet X'22' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 7 | Length of the triplet | M |
+| 1 | CODE | Tid | X'22' | Identifies the Extended Resource Local Identifier triplet | M |
+| 2 | CODE | ResType | X'30' | Resource type: IOB Reference | M |
+| 3–6 | CODE | ResLID | X'00000000'–X'FFFFFFFF' | Specifies the extended resource local ID | M |
+
+### Triplet X'22' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Extended Resource Local Identifier triplet
 ResType Specifies the resource type associated with the extended local ID
@@ -986,9 +859,7 @@ ResLID Specifies a unique resource object Local ID
 It may be in the range of X'00000000' to X'FFFFFFFF'.
 Include Object (IOB)
 
-## Page 111
 
-AFP Programming Guide and Line Data Reference 93
 Include Page Overlay (IPO)
 Note: The IPO is a MO:DCA structured field. The following description documents its use in line-mode and
 mixed mode applications and introduces parameter values that are only valid in these environments. For
@@ -998,34 +869,18 @@ The Include Page Overlay structured field references an overlay resource object 
 page. The overlay contains its own Active Environment Group. For line-mode and mixed-mode applications
 only, a value of X'FFFFFF' may be used for either the X axis offset (bytes 8–10), the Y axis offset (bytes 11–
 13), or both.
-IPO (X'D3AFD8') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AFD8' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR OvlyName Name of the overlay resource M
-8–10 SBIN XolOset -32,768 – +32,767 X-axis origin for the page overlay M
-X'FFFFFF' Use X-axis position specified by current LND
-or RCD
-11–13 SBIN YolOset -32,768 – +32,767 Y-axis origin for the page overlay M
-X'FFFFFF' Use Y-axis position specified by current LND
-or RCD
-14–15 CODE OvlyOrent
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-The overlay's X-axis rotation from the X
-p axis
-of the page:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-O
-16–n Triplets See the Mixed Object Document Content
-Architecture (MO:DCA) Reference for triplet
-applicability.
-O
+### IPO (X'D3AFD8') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3AFD8', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | OvlyName |  | Name of the overlay resource | M |
+| 8–10 | SBIN | XolOset | -32,768 – +32,767 | X-axis origin for the page overlay | M |
+| 11–13 | SBIN | YolOset | -32,768 – +32,767 | Y-axis origin for the page overlay | M |
+| 14–15 | CODE | OvlyOrent |  | The overlay's X-axis rotation | O |
+| 16–n |  | Triplets |  | Triplets | O |
+
 IPO Semantics
 OvlyName T oken name of the overlay being referenced
 If the first two characters of the overlay name are O1 (capital letter O followed by the number
@@ -1039,9 +894,7 @@ YolOset Offset along the Y
 p axis from the page origin where the origin of the overlay is placed
 Include Page Overlay (IPO)
 
-## Page 112
 
-94 AFP Programming Guide and Line Data Reference
 The value for this offset is expressed in terms of the measurement units currently in effect for
 the active Data Map. A value of X'FFFFFF' indicates that the overlay is to be placed at the Y p
 axis point specified by the current LND or RCD; therefore the offset value (-1) is excluded from
@@ -1058,9 +911,7 @@ the product documentation to see which rotations are supported. Also note that t
 IS/1 and IS/2 interchange sets only support 0° rotation of a page overlay.
 Include Page Overlay (IPO)
 
-## Page 113
 
-AFP Programming Guide and Line Data Reference 95
 Include Page Segment (IPS)
 Note: The IPS is a MO:DCA structured field. The following description documents its use in line-mode and
 mixed mode applications and introduces parameter values that are only valid in these environments. For
@@ -1069,21 +920,17 @@ the formal definition of the IPS structured field, see the Mixed Object Document
 The Include Page Segment structured field references a page segment resource object that is to be positioned
 on the page or overlay. For line-mode or mixed-mode applications only, a value of X'FFFFFF' may be used for
 either the I-axis offset (bytes 8–10), the B-axis offset (bytes 11–13), or both.
-IPS (X'D3AF5F') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AF5F' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–7 CHAR PsegName Name of the page segment resource M
-8–10 SBIN IpsOset -32,768 – +32,767 I-axis origin for the page segment M
-X'FFFFFF' Use I-axis position specified by current LND or
-RCD
-11–13 SBIN BpsOset -32,768 – +32,767 B-axis origin for the page segment M
-X'FFFFFF' Use B-axis position specified by current LND
-or RCD
-14–n Triplets See the Mixed Object Document Content
-Architecture (MO:DCA) Reference for triplet
-applicability.
-O
+### IPS (X'D3AF5F') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3AF5F', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–7 | CHAR | PsegName |  | Name of the page segment resource | M |
+| 8–10 | SBIN | IpsOset | -32,768 – +32,767 | I-axis origin for the page segment | M |
+| 11–13 | SBIN | BpsOset | -32,768 – +32,767 | B-axis origin for the page segment | M |
+| 14–n |  | Triplets |  | Triplets | O |
+
 IPS Semantics
 PsegName T oken name of the page segment being referenced
 All eight bytes of the name must be specified.
@@ -1101,133 +948,63 @@ X'FFFFFF' indicates that the page segment origin is to be placed at the B-axis p
 by the current LND or RCD; therefore the offset value (-1) is excluded from the allowed range.
 Include Page Segment (IPS)
 
-## Page 114
 
-96 AFP Programming Guide and Line Data Reference
 Note: The MO:DCA Line Data Object Position Migration (X'27') triplet may be specified on the IPS in MO:DCA
 documents to capture the text orientation that was specified when the page segment referenced by the
 IPS was included in line data. The information in this triplet allows the page segment and its objects to
 be positioned and oriented correctly on the MO:DCA page.
 Include Page Segment (IPS)
 
-## Page 115
 
-AFP Programming Guide and Line Data Reference 97
 Line Descriptor Count (LNC)
 The Line Descriptor Count structured field specifies the number of Line Descriptor (LND), Record Descriptor
 (RCD) or XML Descriptor (XMD) structured fields in the Data Map Transmission Subcase.
-LNC (X'D3AAE7') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AAE7' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–1 UBIN NumDSC 1–65,535 Number of LND, RCD, or XMD structured
-fields in the Data Map Transmission Subcase
-M
+### LNC (X'D3AAE7') Syntax
+
+**Structured Field Introducer:** SF Length (2B), ID = X'D3AAE7', Flags (1B), Reserved X'0000'
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | NumDSC | 1–65,535 | Number of LND, RCD, or XMD structured fields | M |
+
 LNC Semantics
 NumDSC Number of LND, RCD, or XMD structured fields in the Data Map Transmission Subcase
 Note: The LND, RCD, or XMD in a Data Map are numbered sequentially, starting with 1.
 Values from 1 through the number of LND, RCD, or XMD are allowed.
 Line Descriptor Count (LNC)
 
-## Page 116
 
-98 AFP Programming Guide and Line Data Reference
 Line Descriptor (LND)
 The Line Descriptor structured field contains information, such as line position, text orientation, font selection,
 field selection, and conditional processing identification, used to format line data.
 Note: The LNDs in a Data Map are numbered sequentially, starting with 1. Values from 1 through the number
 of LNDs are allowed.
-LND (X'D3A6E7') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A6E7' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–1
-Bit 0
-Bit 1
-Bit 2
-Bit 3
-Bit 4
-Bit 5
-Bit 6
-Bit 7
-Bit 8
-Bit 9
-Bit 10
-Bit 11
-Bit 12
-Bit 13
-Bits 14–15
-BITS LNDFlgs
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'00'
-End Page if Skipping
-End Page if Spacing
-Generate Inline Position
-Generate Baseline Position
-Generate Font Change
-Generate Suppression
-Reuse Record
-Use Fixed Data
-Reserved; should
-be zero
-Use Compatibility TRC
-Set T ext Color
-Conditional Processing
-Resource Object Include
-Relative Baseline Position
-Reserved; should
-be zero
-M
-2–3 UBIN IPos 0 to page extent minus 1 Inline Position M
-4–5 UBIN BPos 0 to page extent minus 1 Absolute baseline position M
-SBIN X'8000'–X'7FFF' Relative baseline position
-6–9 CODE TxtOrent
-X'0000 2D00'
-X'2D00 5A00'
-X'5A00 8700'
-X'8700 0000'
-T ext (I,B) Orientation:
-0,90 degrees
-90,180 degrees
-180,270 degrees
-270,360 degrees
-M
-10 CODE FntLID X'01'–X'7F' Primary font local ID M
-X'FF' Presentation system default font
-11 CODE ChnlCde X'00'–X'0C' Channel code M
-12–13 UBIN NLNDskp X'0001'–X'FFFF' Next LND if skipping M
-14–15 UBIN NLNDsp X'0001'–X'FFFF' Next LND if spacing M
-16–17 UBIN NLNDreu X'0001'–X'FFFF' Next LND if reusing data M
-18–25 CHAR SupName Suppression token name
-A value of X'FF ...FF' (null value) is not valid.
-M
-Line Descriptor (LND)
+### LND (X'D3A6E7') Syntax
 
-## Page 117
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A6E7', Flags (1B), Reserved X'0000'
 
-AFP Programming Guide and Line Data Reference 99
-Offset Type Name Range Meaning M/O
-26 CODE SOLid X'01'–X'7F' Shift-out font local ID M
-X'00' Not specified
-27–30 UBIN DataStrt X'00000000'–
-X'00007FFF'
-Data start position M
-31–32 UBIN DataLgth X'0000'–X'FFFE' Data length M
-X'FFFF' Place remaining bytes
-33–34 CODE TxtColor See LND Semantics. T ext color value M
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | BITS | LNDFlgs |  | LND flags | M |
+| 2–3 | UBIN | IPos |  | Inline Position | M |
+| 4–5 | UBIN/SBIN | BPos |  | Baseline position | M |
+| 6–9 | CODE | TxtOrent |  | Text (I,B) Orientation | M |
+| 10 | CODE | FntLID |  | Primary font local ID | M |
+| 11 | CODE | ChnlCde |  | Channel code | M |
+| 12–13 | UBIN | NLNDskp |  | Next LND if skipping | M |
+| 14–15 | UBIN | NLNDsp |  | Next LND if spacing | M |
+| 16–17 | UBIN | NLNDreu |  | Next LND if reusing data | M |
+| 18–25 | CHAR | SupName |  | Suppression token name | M |
+| 26 | CODE | SOLid |  | Shift-out font local ID | M |
+| 27–30 | UBIN | DataStrt |  | Data start position | M |
+| 31–32 | UBIN | DataLgth |  | Data length | M |
+| 33–34 | CODE | TxtColor |  | Text color value | M |
+| 35–36 | UBIN | NLNDccp |  | Next LND if conditional processing | M |
+| 37 | CODE | SubpgID |  | Subpage ID | M |
+| 38–39 | CODE | CCPID |  | CCP Identifier | M |
+| 40–n |  | Triplets |  | Triplets | O |
+
+LND Semantics. T ext color value M
 35–36 UBIN NLNDccp X'0000'–X'FFFF' Next LND if conditional processing M
 37 CODE SubpgID X'00'–X'FF' Subpage ID M
 38–39 CODE CCPID X'0000'–X'FFFF' CCP Identifier M
@@ -1263,9 +1040,7 @@ This bit shows whether the data processed using this LND is placed on the page a
 the inline position specified in bytes 2–3. This position becomes the new print position.
 Line Descriptor (LND)
 
-## Page 118
 
-100 AFP Programming Guide and Line Data Reference
 Value Description
 B'0' The current inline position is used.
 B'1' Bytes 2–3 are used for the new inline position.
@@ -1313,9 +1088,7 @@ This bit shows whether to present text from the Fixed Data T ext (FDX) structure
 fields.
 Line Descriptor (LND)
 
-## Page 119
 
-AFP Programming Guide and Line Data Reference 101
 Value Description
 B'0' Fixed data is not presented.
 B'1' Fixed data is presented.
@@ -1365,9 +1138,7 @@ absolute position or a relative position. If an absolute baseline position is sp
 is measured as a positive offset in the baseline direction from the current text (I,B)
 Line Descriptor (LND)
 
-## Page 120
 
-102 AFP Programming Guide and Line Data Reference
 coordinate system origin. If a relative position is specified, it is measured as a positive
 or negative offset from a previous baseline position using the current text (I,B)
 coordinate system, which is defined by the text orientation specified in bytes 6–9.
@@ -1419,9 +1190,7 @@ The offset is measured using the measurement units specified for the page in the
 of byte 0 is B'1', this position is used and becomes the new print position.
 Line Descriptor (LND)
 
-## Page 121
 
-AFP Programming Guide and Line Data Reference 103
 Application Note: When relative baseline positioning is used, the PageDef generator cannot
 check for off-page errors, since the data normally determines, with skip-to-channel
 carriage controls, when the relative baseline LNDs are invoked. AFP print servers
@@ -1471,9 +1240,7 @@ The LNDs in a Data Map are numbered sequentially, starting with 1. Values from 1
 number of LNDs are allowed.
 Line Descriptor (LND)
 
-## Page 122
 
-104 AFP Programming Guide and Line Data Reference
 NLNDreu Next Line Descriptor if Reusing Data
 This parameter points to the LND used to continue processing the record when reusing data.
 If bit 6 of byte 0 = B'1', this parameter points to the next LND in a chain to process the same
@@ -1525,9 +1292,7 @@ If this parameter causes data to be positioned outside the boundaries of the pag
 defined in the Page Descriptor (PGD) structured field, the printing of the page stops.
 Line Descriptor (LND)
 
-## Page 123
 
-AFP Programming Guide and Line Data Reference 105
 If conditional processing is to be performed (bit 11 of byte 1 is B'1'), this parameter defines the
 length of the comparison field. The comparison is determined by the Conditional Processing
 Control (CCP) structured field identified in bytes 38–39 (CCPID).
@@ -1540,33 +1305,31 @@ the range of values defined in the Standard OCA Color Value T able. For a defini
 Standard OCA Color Value T able, see the Mixed Object Document Content Architecture
 (MO:DCA) Reference. RGB values are also defined for each color, assuming that the intensity
 range for each component is 0–255.
-Table 14. Color-Value Table
-Value Color Red
-(R)
-Green
-(G)
-Blue
-(B)
-X'0000' or X'FF00' Device default
-X'0001' or X'FF01' Blue 0 0 255
-X'0002' or X'FF02' Red 255 0 0
-X'0003' or X'FF03' Pink/magenta 255 0 255
-X'0004' or X'FF04' Green 0 255 0
-X'0005' or X'FF05' Turquoise/cyan 0 255 255
-X'0006' or X'FF06' Yellow 255 255 0
-X'0007' White; see note 1 255 255 255
-X'0008' Black 0 0 0
-X'0009' Dark blue 0 0 170
-X'000A' Orange 255 128 0
-X'000B' Purple 170 0 170
-X'000C' Dark green 0 146 0
-X'000D' Dark turquoise 0 146 170
-X'000E' Mustard 196 160 32
-X'000F' Gray 131 131 131
-X'0010' Brown 144 48 0
-X'FF07' Device default — — —
-X'FF08' Color of medium — — —
-All others Reserved — — —
+### Table 14. Color-Value Table
+
+| Value | Color | Red (R) | Green (G) | Blue (B) |
+| :--- | :--- | :--- | :--- | :--- |
+| X'0000' or X'FF00' | Device default | — | — | — |
+| X'0001' or X'FF01' | Blue | 0 | 0 | 255 |
+| X'0002' or X'FF02' | Red | 255 | 0 | 0 |
+| X'0003' or X'FF03' | Pink/magenta | 255 | 0 | 255 |
+| X'0004' or X'FF04' | Green | 0 | 255 | 0 |
+| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 |
+| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 |
+| X'0007' | White; see note 1 | 255 | 255 | 255 |
+| X'0008' | Black | 0 | 0 | 0 |
+| X'0009' | Dark blue | 0 | 0 | 170 |
+| X'000A' | Orange | 255 | 128 | 0 |
+| X'000B' | Purple | 170 | 0 | 170 |
+| X'000C' | Dark green | 0 | 146 | 0 |
+| X'000D' | Dark turquoise | 0 | 146 | 170 |
+| X'000E' | Mustard | 196 | 160 | 32 |
+| X'000F' | Gray | 131 | 131 | 131 |
+| X'0010' | Brown | 144 | 48 | 0 |
+| X'FF07' | Device default | — | — | — |
+| X'FF08' | Color of medium | — | — | — |
+| All others | Reserved | — | — | — |
+
 Notes:
 1. The color rendered on presentation devices that do not support white is device-dependent. For
 example, some printers simulate white with the color of the medium, which results in white if a
@@ -1575,9 +1338,7 @@ white medium is used.
 process default.
 Line Descriptor (LND)
 
-## Page 124
 
-106 AFP Programming Guide and Line Data Reference
 NLNDccp Next Line Descriptor if Conditional Processing
 A non-zero value in this parameter means that conditional processing is to be performed on
 the current line data record. This parameter points to the LND used to perform conditional
@@ -1617,9 +1378,7 @@ field:
 ” on page 122
 Line Descriptor (LND)
 
-## Page 125
 
-AFP Programming Guide and Line Data Reference 107
 LND Triplets
 Fully Qualified Name (X'02') Triplet
 The Fully Qualified Name (X'02') triplet is a MO:DCA triplet. For the formal definition of this triplet, see the
@@ -1628,21 +1387,20 @@ This triplet is optional and may occur one or more times when a Bar Code Symbol 
 specified on the LND, RCD, or XMD. The Fully Qualified Name type that may appear is X'DE'- Data Object
 External Resource Reference. The FQN triplet specifies the external identifier of a Color Management
 Resource (CMR) object that is used for the Bar Code object being generated. The identifier is used by the
-presentation system to locate the resource object in the resource hierarchy. The identifier is a character-
-encoded name that
+presentation system to locate the resource object in the resource hierarchy. The identifier is a characterencoded name that
 must be specified using FQNFmt = X'00'. The encoding for the external identifier of the
 CMR must be UTF-16BE.
-Triplet X'02' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 150 Length of the triplet, including Tlength M
-1 CODE Tid X'02' Identifies the Fully Qualified Name triplet M
-2 CODE FQNType X'DE' Data Object External Resource Reference M
-3 CODE FQNFmt X'00' GID format is character string M
-4–149 FQName GID of the CMR
-Must be 146 bytes in length and encoded
-using UTF-16BE
-M
-Triplet X'02' Semantics
+### Triplet X'02' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 5–254 | Length of the triplet | M |
+| 1 | CODE | Tid | X'02' | Identifies the Fully Qualified Name triplet | M |
+| 2 | CODE | FQNType |  | FQN type | M |
+| 3 | CODE | FQNFmt | X'00' | GID format is character string | M |
+| 4–n |  | FQName |  | GID of the Record Descriptor | M |
+
+### Triplet X'02' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Fully Qualified Name triplet
 FQNType Specifies how the fully qualified name is to be used
@@ -1658,9 +1416,7 @@ FQName Contains the Global Identifier (GID) to be used as the name of the CMR
 The encoding for the external identifier of the CMR must be UTF-16BE.
 Line Descriptor (LND)
 
-## Page 126
 
-108 AFP Programming Guide and Line Data Reference
 Extended Resource Local Identifier (X'22') Triplet
 The Extended Resource Local Identifier (X'22') triplet is a MO:DCA triplet. For the formal definition of this
 triplet, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
@@ -1668,21 +1424,16 @@ This triplet is optional and may occur one or more times to reference an IOB str
 The reference consists of a local identifier that must match the local identifier on an IOB in the PageDef. When
 an IOB with matching ID is found, the IOB is processed to present the object on the page. If an IOB with
 matching ID is not found, an exception is generated.
-Triplet X'22' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 7 Length of the triplet, including Tlength M
-1 CODE Tid X'22' Identifies the Extended Resource Local
-Identifier triplet
-M
-2 CODE ResType
-X'30'
-Resource type:
-IOB Reference
-M
-3–6 CODE ResLID X'00000000'–
-X'FFFFFFFF'
-Specifies the extended resource local ID M
-Triplet X'22' Semantics
+### Triplet X'22' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 7 | Length of the triplet | M |
+| 1 | CODE | Tid | X'22' | Identifies the Extended Resource Local Identifier triplet | M |
+| 2 | CODE | ResType | X'30' | Resource type: IOB Reference | M |
+| 3–6 | CODE | ResLID | X'00000000'–X'FFFFFFFF' | Specifies the extended resource local ID | M |
+
+### Triplet X'22' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Extended Resource Local Identifier triplet
 ResType Specifies the resource type associated with the extended local ID
@@ -1709,9 +1460,7 @@ p=0,Yp=0) using the page (X p,Yp) coordinate system. The object area rotation
 in the IOB is measured with respect to page (X p,Yp) coordinate system X p-axis.
 Line Descriptor (LND)
 
-## Page 127
 
-AFP Programming Guide and Line Data Reference 109
 Color Specification (X'4E') Triplet
 The Color Specification triplet is a MO:DCA triplet. For the formal definition of this triplet, see the Mixed Object
 Document Content Architecture (MO:DCA) Reference. Support for this triplet is tied to PTOCA PT3 support.
@@ -1733,9 +1482,7 @@ component encoding, the color value (255,255,255) specifies full intensity for e
 the color white.
 Line Descriptor (LND)
 
-## Page 128
 
-110 AFP Programming Guide and Line Data Reference
 Bar Code Symbol Descriptor (X'69') Triplet
 Architecture Note: The Bar Code Symbol Descriptor triplet is registered in the MO:DCA architecture as a
 private-use triplet since it is used only in the PageDef object, which is not a MO:DCA object.
@@ -1759,58 +1506,25 @@ Object Content Architecture Reference. Not all presentation services programs
 support this triplet.
 The data used for the bar code can be obtained from multiple fields using the Concatenate Bar Code Data
 (X'93') triplet.
-Triplet X'69' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 4 or 18 Length of the triplet, including Tlength M
-1 CODE Tid X'69' Identifies the Bar Code Symbol Descriptor
-triplet
-M
-2–3 CODE DescID X'0001'–X'FFFE' Identifies a bar code symbol descriptor M
-4 BITS SymbFlgs O
-Bit 0 HRI B'0'
-B'1'
-HRI is presented
-HRI is not presented
-Bits 1–2 HRIPos B'00'
-B'01'
-B'10'
-Default
-HRI below
-HRI above
-Bit 3 Astrsk B'0'
-B'1'
-Asterisk not presented
-Asterisk presented
-Bit 4 B'0' Reserved; should
-be zero
-Bit 5 SuppSym B'0'
-B'1'
-Present bar code symbol
-Suppress presentation of symbol
-Bit 6 TrlBlk B'0'
-B'1'
-Do not suppress trailing blanks in data
-Suppress trailing blanks in data and select
-type and modifier
-Bit 7 B'0' Reserved; should
-be zero
-5–6 UBIN BCWdth See BCOCA Reference. Desired symbol width O
-Line Descriptor (LND)
+### Triplet X'69' Syntax
 
-## Page 129
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 4 or 18 | Length of the triplet | M |
+| 1 | CODE | Tid | X'69' | Identifies the Bar Code Symbol Descriptor triplet | M |
+| 2–3 | CODE | DescID | X'0001'–X'FFFE' | Identifies a bar code symbol descriptor | M |
+| 4 | BITS | SymbFlgs |  | Symbol flags | O |
+| 5–6 | UBIN | BCWdth |  | Desired symbol width | O |
+| 7 | CODE | BCType |  | Bar code type | O |
+| 8 | CODE | BCMod |  | Bar code modifier | O |
+| 9 | CODE | FntLID | X'00'–X'FE', X'FF' | Font local identifier | O |
+| 10–11 | CODE | Color |  | Bar code color | O |
+| 12 | UBIN | ModWdth |  | Module width in mils | O |
+| 13–14 | UBIN | ElmtHt |  | Element Height in L-units | O |
+| 15 | UBIN | Mult |  | Height multiplier | O |
+| 16–17 | UBIN | WE:NE |  | Wide-to-narrow ratio | O |
 
-AFP Programming Guide and Line Data Reference 111
-Offset Type Name Range Meaning M/O
-7 CODE BCType See BCOCA Reference. Bar code type O
-8 CODE BCMod See BCOCA Reference. Bar code modifier O
-9 CODE FntLID X'00'–X'FE' Font local identifier O
-X'FF' BCOCA default font
-10–11 CODE Color See BCOCA Reference. Bar code color O
-12 UBIN ModWdth See BCOCA Reference. Module width in mils O
-13–14 UBIN ElmtHt See BCOCA Reference. Element Height in L-units O
-15 UBIN Mult See BCOCA Reference. Height multiplier O
-16–17 UBIN WE:NE See BCOCA Reference. Wide-to-narrow ratio O
-Triplet X'69' Semantics
+### Triplet X'69' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Bar Code Symbol Descriptor triplet
 DescID Specifies the ID of a bar code symbol descriptor
@@ -1847,9 +1561,7 @@ that has the same rotation about the page X
 p-axis as the bar code symbols in the object.
 Line Descriptor (LND)
 
-## Page 130
 
-112 AFP Programming Guide and Line Data Reference
 SymbFlgs These flags specify additional controls.
 Bits 0–3 These bits have the same syntax and semantics as the corresponding bits in
 byte 0 of the Bar Code Symbol Data (BSA) structure defined by the BCOCA
@@ -1899,9 +1611,7 @@ Bar Code Type Bar Code Modifier
 12 X'09'—EAN-13 X'00'
 Line Descriptor (LND)
 
-## Page 131
 
-AFP Programming Guide and Line Data Reference 113
 Resulting Data
 Length
 Bar Code Type Bar Code Modifier
@@ -1950,9 +1660,7 @@ Bar Code Type Bar Code Modifier
 25 X'22'—Intelligent Mail Barcode X'01'
 Line Descriptor (LND)
 
-## Page 132
 
-114 AFP Programming Guide and Line Data Reference
 Resulting Data
 Length
 Bar Code Type Bar Code Modifier
@@ -2001,9 +1709,7 @@ WE:NE Specifies the ratio of the wide-element dimension to the narrow-element di
 two different size elements exist, that is, for a two-level bar code
 Line Descriptor (LND)
 
-## Page 133
 
-AFP Programming Guide and Line Data Reference 115
 This parameter has the same syntax and semantics as bytes 21–22 of the Bar Code Symbol
 Descriptor (BSD) defined by the BCOCA architecture.
 Note: The last 14 bytes (bytes 4–17) in this triplet are optional as a group. That is, either they are all specified
@@ -2015,9 +1721,7 @@ architecture, except for the font local ID parameter, which must be set to X'FF'
 device default font.
 Line Descriptor (LND)
 
-## Page 134
 
-116 AFP Programming Guide and Line Data Reference
 Resource Object Include (X'6C') Triplet
 This is an optional triplet that identifies an overlay or page segment object to be presented on the page at a
 specified position. Multiple Resource Object Include triplets may be specified on the same LND.
@@ -2038,32 +1742,19 @@ data streams. Note also that when used on an LND, this triplet supports ObjType=
 This value is not supported in MO:DCA data streams. Not all presentation services programs
 support
 this triplet.
-Triplet X'6C' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 17 or 19 Length of the triplet, including Tlength M
-1 CODE Tid X'6C' Identifies the Resource Object Include triplet M
-2 CODE ObjType
-X'DF'
-X'5F'
-Object type:
-Overlay object
-Page Segment object
-M
-3–10 CHAR ObjName Name of the object M
-11–13 SBIN IobjOset -32,768 – +32,767 Relative I-axis offset M
-14–16 SBIN BobjOset -32,768 – +32,767 Relative B-axis offset M
-17–18 CODE ObOrent
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-The overlay's X axis rotation relative to the
-Xp axis of the page:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-OTriplet X'6C' Semantics
+### Triplet X'6C' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 17 or 19 | Length of the triplet | M |
+| 1 | CODE | Tid | X'6C' | Identifies the Resource Object Include triplet | M |
+| 2 | CODE | ObjType | X'DF', X'5F' | Object type | M |
+| 3–10 | CHAR | ObjName |  | Name of the object | M |
+| 11–13 | SBIN | IobjOset | -32,768 – +32,767 | Relative I-axis offset | M |
+| 14–16 | SBIN | BobjOset | -32,768 – +32,767 | Relative B-axis offset | M |
+| 17–18 | CODE | ObOrent |  | The overlay's X axis rotation | O |
+
+### Triplet X'6C' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Resource Object Include triplet
 ObjType Specifies the object type
@@ -2073,9 +1764,7 @@ X'5F' Page segment object
 ObjName Specifies the object name
 Line Descriptor (LND)
 
-## Page 135
 
-AFP Programming Guide and Line Data Reference 117
 IobjOset Relative I-axis offset
 Relative offset of the object origin along the I axis of the current text (I,B) coordinate system,
 measured from the current LND position using the page measurement units specified in the
@@ -2102,9 +1791,7 @@ zero degrees.
 the rotation of objects in the page segment is summarized in T able 10 on page 49.
 Line Descriptor (LND)
 
-## Page 136
 
-118 AFP Programming Guide and Line Data Reference
 Additional Bar Code Parameters (X'7B') Triplet
 This is an optional triplet that specifies additional parameters for non-linear bar code symbologies (for
 example, 2D bar codes). This triplet may occur one or more times when a Bar Code Symbol Descriptor (X'69')
@@ -2134,9 +1821,7 @@ Code Data (BDA) structured field for the resulting bar code object. For a descri
 the Bar Code Data structured field, see the Bar Code Object Content Architecture Reference.
 Line Descriptor (LND)
 
-## Page 137
 
-AFP Programming Guide and Line Data Reference 119
 Object Reference Qualifier (X'89') Triplet
 The Object Reference Qualifier (X'89') triplet is used to specify whether the name of an object is retrieved from
 the input data or retrieved using normal methods. If the name is to be retrieved from the input data, that name
@@ -2161,18 +1846,16 @@ record, then this Object Reference Qualifier (X'89') triplet and the Resource Ob
 the Extended Resource Local Identifier triplet that it applies to are ignored.
 This triplet is not supported on conditional processing LNDs or RCDs, that is LNDs or RCDs that specify flag bit
 11=B'1' if present, it is ignored.
-Triplet X'89' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 4 Length of the triplet, including Tlength M
-1 CODE Tid X'89' Identifies the Object Reference Qualifier
-triplet
-M
-2 Reserved; should be zero M
-3 BITS QualFlg See Triplet X'89'
-Semantics for bit
-definitions.
-Object reference qualifier flags M
-Triplet X'89' Semantics
+### Triplet X'89' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 4 | Length of the triplet | M |
+| 1 | CODE | Tid | X'89' | Identifies the Object Reference Qualifier triplet | M |
+| 2 |  |  | 0 | Reserved | M |
+| 3 | BITS | QualFlg |  | Object reference qualifier flags | M |
+
+### Triplet X'89' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Object Reference Qualifier triplet
 QualFlg Specifies object reference qualifier flags, as follows:
@@ -2183,9 +1866,7 @@ B'1' Use selected data to override object name
 1–7 Reserved
 Line Descriptor (LND)
 
-## Page 138
 
-120 AFP Programming Guide and Line Data Reference
 Notes:
 1. If this triplet is omitted, the architected default for QualFlg bit 0 is B'0'.
 2. When the QualFlag bit 0 is B'1', the encoding of the object name obtained from the input
@@ -2205,9 +1886,7 @@ group.
 • Must not contain any shift-in or shift-out characters.
 Line Descriptor (LND)
 
-## Page 139
 
-AFP Programming Guide and Line Data Reference 121
 Color Management Resource Descriptor (X'91') Triplet
 The Color Management Resource Descriptor (X'91') triplet is a MO:DCA triplet. For the formal definition of this
 triplet, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
@@ -2216,25 +1895,17 @@ Management Resource (CMR). This triplet is mandatory when the LND references a C
 Resource (CMR) with the FQN type X'DE' triplet, in which case this triplet specifies the processing mode for
 the CMR and must occur once for each FQN type X'DE' specified. It is ignored in all other cases. This triplet
 must immediately follow the FQN type X'DE' triplet that specifies the CMR name.
-Triplet X'91' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 5 Length of the triplet, including Tlength M
-1 CODE Tid X'91' Identifies the Color Management Descriptor
-triplet
-M
-2 Reserved; should be zero M
-3 CODE ProcMode
-X'01'
-X'02'
-X'03'
-Specifies the processing mode for the CMR:
-Process the CMR as an audit CMR
-Process the CMR as an instruction CMR
-Process the CMR as a link CMR; valid
-only for Link DL CMRs
-M
-4 CODE CMRScpe X'01' Scope of CMR is a data object in this page M
-Triplet X'91' Semantics
+### Triplet X'91' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 5 | Length of the triplet | M |
+| 1 | CODE | Tid | X'91' | Identifies the Color Management Descriptor triplet | M |
+| 2 |  |  | 0 | Reserved | M |
+| 3 | CODE | ProcMode |  | Processing mode for the CMR | M |
+| 4 | CODE | CMRScpe | X'01' | Scope of CMR | M |
+
+### Triplet X'91' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Color Management Descriptor triplet
 ProcMode Specifies the processing mode for the CMR
@@ -2256,9 +1927,7 @@ X'01' The scope of the CMR is a data object in this page.
 All others Reserved
 Line Descriptor (LND)
 
-## Page 140
 
-122 AFP Programming Guide and Line Data Reference
 Concatenate Bar Code Data (X'93') Triplet
 Architecture Note: The Concatenate Bar Code Data triplet is registered in the MO:DCA architecture as a
 private-use triplet since it is used only in the PageDef object, which is not a MO:DCA object.
@@ -2281,23 +1950,17 @@ is not specified. All other LND, RCD,
 or XMD position parameters will be ignored for the remaining segments.
 This triplet is not supported on conditional processing LNDs, RCDs or XMDs (LNDs, RCDs or XMDs that
 specify flag bit 11=B'1'). If the triplet is present, it is ignored.
-Triplet X'93' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 7 Length of the triplet, including Tlength M
-1 CODE Tid X'93' Identifies the Concatenate Bar Code Data
-triplet
-M
-2 BITS CBCFlgs See Triplet X'93'
-Semantics
-for bit
-definitions
-Flags that control the concatenation of bar
-code data fields
-M
-3–4 UBIN SymbID X'0001'–X'FFFF' Identifies a bar code symbol concatenation M
-5–6 UBIN SegOrder X'0001'–X'FFFF' Order of concatenation for this segment M
-X'0000' Not specified
-Triplet X'93' Semantics
+### Triplet X'93' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 7 | Length of the triplet | M |
+| 1 | CODE | Tid | X'93' | Identifies the Concatenate Bar Code Data triplet | M |
+| 2 | BITS | CBCFlgs |  | Concatenation flags | M |
+| 3–4 | UBIN | SymbID | X'0001'–X'FFFF' | Identifies a bar code symbol concatenation | M |
+| 5–6 | UBIN | SegOrder | X'0001'–X'FFFF', X'0000' | Order of concatenation | M |
+
+### Triplet X'93' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Concatenate Bar Code Data triplet
 CBCFlgs Specifies additional controls
@@ -2310,9 +1973,7 @@ Note: An RCD or XMD is reused when the same RCD or XMD is selected more than onc
 a single page.
 Line Descriptor (LND)
 
-## Page 141
 
-AFP Programming Guide and Line Data Reference 123
 SymbID Specifies the ID of a bar code symbol
 The symbol ID is used to identify multiple pieces of data to be collected, concatenated, and
 presented as a single bar code symbol. The SymbID of this triplet, combined with the DescID
@@ -2342,140 +2003,44 @@ segments must specify a value from X'0001' through X'FFFF'. It is an error to mi
 order types.
 Line Descriptor (LND)
 
-## Page 142
 
-124 AFP Programming Guide and Line Data Reference
 Record Descriptor (RCD)
 The Record Descriptor structured field contains information, such as record position, text orientation, font
 selection, field selection, and conditional processing identification, used to format line data that consists of
 records tagged with record identifiers.
 Note: The RCDs in a Data Map are numbered sequentially, starting with 1.
-RCD (X'D3A68D') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A68D' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0–9 CHAR RecID Record descriptor ID M
-10 CODE RecType X'00'–X'03' Record Type M
-11–13
-Bit 0
-Bit 1
-Bit 2
-Bit 3
-Bit 4
-Bit 5
-Bit 6
-Bit 7
-Bit 8
-Bit 9
-Bit 10
-Bit 11
-Bit 12
-Bit 13
-Bit 14–15
-Bit 16
-Bit 17
-Bit 18
-Bit 19
-Bit 20
-Bit 21
-Bit 22–23
-BITS RCDFlgs
-B'0'
-B'0'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'
-B'0'
-B'0'
-B'0'–B'1'
-B'0'
-B'0'–B'1'
-B'00'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'00'
-Reserved; should
-be zero
-Reserved; should be zero
-Generate Inline Position
-Generate Baseline Position
-Generate Font Change
-Generate Suppression
-Field RCD
-Use Fixed Data
-Reserved; should
-be zero
-Reserved; should be zero
-Reserved; should be zero
-Conditional Processing RCD
-Reserved; should be zero
-Relative Baseline Position
-Reserved; should
-be zero
-New Page
-Print Page Number
-Reset Page Number
-Group Indicator
-Field Delimiter Size
-Use Record ID
-Reserved; should
-be zero
-M
-14 Reserved; should be zero M
-15–16 UBIN IPos 0 to page extent minus 1 Inline Position M
-17–18 UBIN BPos 0 to page extent minus 1 Absolute baseline position M
-SBIN X'8000'–X'7FFF' Relative position
-19–22 CODE TxtOrent
-X'0000 2D00'
-X'2D00 5A00'
-X'5A00 8700'
-X'8700 0000'
-T ext (I,B) Orientation
-0,90 degrees
-90,180 degrees
-180,270 degrees
-270,360 degrees
-M
-Record Descriptor (RCD)
+### RCD (X'D3A68D') Syntax
 
-## Page 143
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A68D', Flags (1B), Reserved X'0000'
 
-AFP Programming Guide and Line Data Reference 125
-Offset Type Name Range Meaning M/O
-23 CODE FntLID X'01'–X'FE' Primary font local ID M
-X'FF' Presentation system default font
-24–25 UBIN FLDrcd X'0000'–X'FFFF' Field RCD Pointer M
-26–33 CHAR SupName Suppression token name
-A value of X'FF ...FF'(null value) is not valid.
-M
-34 CODE SOLid X'01'–X'FE' Shift-out font local ID M
-X'00' Not specified
-35–38 UBIN DataStrt X'00000000'–
-X'00007FFF'
-Data start position M
-39–40 UBIN DataLgth X'0000'–X'FFFE' Data length M
-X'FFFF' Place remaining bytes
-41–42 UBIN CONDrcd X'0000'–X'FFFF' Conditional Processing RCD Pointer M
-43 CODE SubpgID X'00' Subpage ID (a lways X'00' for RCDs) M
-44–45 CODE CCPID X'0000'–X'FFFF' CCP Identifier M
-46–47 UBIN Pgno X'0001'–X'FFFF' Starting page number M
-X'0000' Not specified
-48–49 UBIN ESpac 0 to page extent minus 1 End Space M
-50 CODE Align X'00'–X'01' Field Alignment M
-51–52 CODE FldDelim X'0000'–X'FFFF' Field Delimiter M
-53–54 UBIN Fldno X'0001'–X'FFFF' Field Number M
-X'0000' Not specified
-55–56 UBIN AdBIncr X'0000'–X'FFFF' Additional baseline increment M
-57–69 Reserved; should be zero M
-70–n Triplets See RCD Semantics for triplet applicability. O
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–9 | CHAR | RecID |  | Record descriptor ID | M |
+| 10 | CODE | RecType | X'00'–X'03' | Record Type | M |
+| 11–13 | BITS | RCDFlgs |  | RCD flags | M |
+| 14 |  |  | 0 | Reserved | M |
+| 15–16 | UBIN | IPos |  | Inline Position | M |
+| 17–18 | UBIN/SBIN | BPos |  | Baseline position | M |
+| 19–22 | CODE | TxtOrent |  | Text (I,B) Orientation | M |
+| 23 | CODE | FntLID |  | Primary font local ID | M |
+| 24–25 | UBIN | FLDrcd |  | Field RCD Pointer | M |
+| 26–33 | CHAR | SupName |  | Suppression token name | M |
+| 34 | CODE | SOLid |  | Shift-out font local ID | M |
+| 35–38 | UBIN | DataStrt |  | Data start position | M |
+| 39–40 | UBIN | DataLgth |  | Data length | M |
+| 41–42 | UBIN | CONDrcd |  | Conditional Processing RCD Pointer | M |
+| 43 | CODE | SubpgID |  | Subpage ID (always X'00' for RCDs) | M |
+| 44–45 | CODE | CCPID |  | CCP Identifier | M |
+| 46–47 | UBIN | Pgno |  | Starting page number | M |
+| 48–49 | UBIN | ESpac |  | End Space | M |
+| 50 | CODE | Align |  | Field Alignment | M |
+| 51–52 | CODE | FldDelim |  | Field Delimiter | M |
+| 53–54 | UBIN | Fldno |  | Field Number | M |
+| 55–56 | UBIN | AdBIncr |  | Additional baseline increment | M |
+| 57–69 |  |  | 0 | Reserved | M |
+| 70–n |  | Triplets |  | Triplets | O |
+
+RCD Semantics for triplet applicability. O
 RCD Semantics
 The RCD uses many parameters that are defined for the LND. The definition of such parameters is deferred to
 the LND. When such definitions are applied to the RCD, the term “LND” should be read as “RCD” and the byte
@@ -2492,9 +2057,7 @@ The identifier to be used with this RCD. This field in the RCD is used only if t
 contain a Fully Qualified Name (FQN) X'02' triplet type X'01'. The FQN type X'01' triplet is
 Record Descriptor (RCD)
 
-## Page 144
 
-126 AFP Programming Guide and Line Data Reference
 used to extend the identifier to a range of 1 to 250 bytes instead of 10 bytes. When an input
 record is processed with a Data Map containing RCDs, the first 1 to 250 data byte positions in
 the input record are assumed to contain a Record Descriptor ID and the Data Map's Record
@@ -2549,9 +2112,7 @@ a Page Trailer RCD, it is assumed to be a default Page Trailer RCD (only one def
 Page Trailer RCD can be specified in a Data Map, and no input record data is
 Record Descriptor (RCD)
 
-## Page 145
 
-AFP Programming Guide and Line Data Reference 127
 processed with a default RCD). See “Logical Page Eject Processing” on page 132 for
 page trailer and new page processing details.
 Note: Once a Page Trailer RCD is processed, the trailer record is saved for the
@@ -2604,9 +2165,7 @@ B'1' A
 page number is generated.
 Record Descriptor (RCD)
 
-## Page 146
 
-128 AFP Programming Guide and Line Data Reference
 The (I,B) position of the RCD indicates the position of the page
 number, which is maintained by the presentation process. The page
 number is rendered with the font selected by the FntLID parameter.
@@ -2617,8 +2176,7 @@ Map. For the page formatter to generate the page number
 code points without accessing the font object, it needs to know
 the encoding scheme (EBCDIC, ASCII, or Unicode) for the font.
 This information is specified on the MCF with an Encoding
-Scheme ID (X'50') triplet. Only single-byte EBCDIC, double-
-byte EBCDIC, single-byte ASCII, and Unicode (UTF-16)
+Scheme ID (X'50') triplet. Only single-byte EBCDIC, doublebyte EBCDIC, single-byte ASCII, and Unicode (UTF-16)
 encodings are supported for printing page numbers. The code
 points used for the page numbers are X'F0'–X'F9', X'42F0'–
 X'42F9', X'30'–X'39', and X'0030'–X'0039', respectively. If the
@@ -2653,9 +2211,7 @@ IPos Inline Position
 See “Line Descriptor (LND)” on page 98.
 Record Descriptor (RCD)
 
-## Page 147
 
-AFP Programming Guide and Line Data Reference 129
 BPos Baseline Position
 See “Line Descriptor (LND)” on page 98.
 • Relative Baseline Position for Record and Field RCDs
@@ -2705,9 +2261,7 @@ A non-zero value in this parameter on a Record RCD means that conditional proces
 be performed on the current input data record. This parameter specifies the relative RCD
 Record Descriptor (RCD)
 
-## Page 148
 
-130 AFP Programming Guide and Line Data Reference
 number of a Conditional Processing RCD. Multiple Conditional Processing RCDs can be
 chained to a Record RCD using this parameter. The last Conditional Processing RCD in the
 chain has a value of X'0000' in this parameter. A Field RCD has a value of X'0000' in this
@@ -2758,9 +2312,7 @@ fields used with a CCP are assumed to be padded on the right out to the CCP Comp
 String Length.
 Record Descriptor (RCD)
 
-## Page 149
 
-AFP Programming Guide and Line Data Reference 131
 Fldno Field Number
 Specifies the number of the field to be processed. The first field (field number 1) in the record
 is followed by the first delimiter; the second field is followed by the second delimiter; and so
@@ -2792,9 +2344,7 @@ Resource Reference)
 “Rendering Intent (X'95') Triplet” on page 149
 Record Descriptor (RCD)
 
-## Page 150
 
-132 AFP Programming Guide and Line Data Reference
 Logical Page Eject Processing
 A logical page eject can be caused by the following:
 • Any Record RCD with a specification of New Page
@@ -2837,9 +2387,7 @@ Note that the actual location of “top of page” and “top margin” is affec
 Definition (X'7F') Triplet” on page 73.
 Record Descriptor (RCD)
 
-## Page 151
 
-AFP Programming Guide and Line Data Reference 133
 RCD Triplets
 Fully Qualified Name (X'02') Triplet
 The Fully Qualified Name (X'02') triplet is a MO:DCA triplet. For the formal definition of this triplet, see the
@@ -2847,16 +2395,17 @@ Mixed Object Document Content Architecture (MO:DCA) Reference.
 This triplet is optional and may occur once. If this triplet is specified more than once, only the first is used. The
 Fully Qualified Name type that may appear is X'01' — Replace First GID Name. This GID overrides the Record
 Descriptor's RecID field and is used as the Record Descriptor ID.
-Triplet X'02' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 5–254 Length of the triplet, including Tlength M
-1 CODE Tid X'02' Identifies the Fully Qualified Name triplet M
-2 CODE FQNType X'01' Replace First GID name M
-3 CODE FQNFmt X'00' GID format is character string M
-4–n FQName GID of the Record Descriptor
-The GID can be up to 250 bytes in length.
-M
-Triplet X'02' Semantics
+### Triplet X'02' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 5–254 | Length of the triplet | M |
+| 1 | CODE | Tid | X'02' | Identifies the Fully Qualified Name triplet | M |
+| 2 | CODE | FQNType |  | FQN type | M |
+| 3 | CODE | FQNFmt | X'00' | GID format is character string | M |
+| 4–n |  | FQName |  | GID of the Record Descriptor | M |
+
+### Triplet X'02' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Fully Qualified Name triplet
 FQNType Specifies how the fully qualified name is to be used
@@ -2874,9 +2423,7 @@ Note: T o be able to find a matching Record Descriptor ID, the encoding of the i
 specified in this parameter must match the encoding of the input data.
 Record Descriptor (RCD)
 
-## Page 152
 
-134 AFP Programming Guide and Line Data Reference
 Fully Qualified Name (X'02') Triplet
 This triplet is optional and may occur one or more times when a Bar Code Symbol Descriptor (X'69') triplet or a
 Graphics Descriptor (X'7E') triplet is specified on the RCD. The Fully Qualified Name type that may appear is
@@ -2889,18 +2436,14 @@ external identifier of the CMR must be UTF-16BE.
 See “Fully Qualified Name (X'02') Triplet” on page 107.
 Record Descriptor (RCD)
 
-## Page 153
 
-AFP Programming Guide and Line Data Reference 135
 Extended Resource Local Identifier (X'22') Triplet
 This triplet is optional. It may occur one or more times to reference an IOB structured field in the PageDef. This
 triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the RCD.
 See “Extended Resource Local Identifier (X'22') Triplet” on page 108.
 Record Descriptor (RCD)
 
-## Page 154
 
-136 AFP Programming Guide and Line Data Reference
 Color Specification (X'4E') Triplet
 This is an optional triplet that specifies the color for text processed by this RCD, for a bar code generated by
 this RCD, and for graphics generated by this RCD. If this triplet is not specified, the record is presented in the
@@ -2933,9 +2476,7 @@ The Color Specification triplet is a MO:DCA triplet. For the formal definition o
 Document Content Architecture (MO:DCA) Reference.
 Record Descriptor (RCD)
 
-## Page 155
 
-AFP Programming Guide and Line Data Reference 137
 Bar Code Symbol Descriptor (X'69') Triplet
 This is an optional triplet. It may occur once. If this triplet is specified more than once, only the first is used. This
 triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the RCD.
@@ -2943,9 +2484,7 @@ See “Bar Code Symbol Descriptor (X'69') Triplet” on page 110. Note that the 
 this triplet may be at different offsets in the LND and RCD.
 Record Descriptor (RCD)
 
-## Page 156
 
-138 AFP Programming Guide and Line Data Reference
 Resource Object Include (X'6C') Triplet
 This is an optional triplet that identifies an overlay or page segment object to be presented on the page at a
 specified position. Multiple Resource Object Include triplets may be specified on the same RCD. This triplet is
@@ -2953,9 +2492,7 @@ ignored if the Graphics Descriptor (X'7E') triplet is specified on the RCD.
 See “Resource Object Include (X'6C') Triplet” on page 116.
 Record Descriptor (RCD)
 
-## Page 157
 
-AFP Programming Guide and Line Data Reference 139
 Additional Bar Code Parameters (X'7B') Triplet
 This is an optional triplet that may occur one or more times when a Bar Code Symbol Descriptor (X'69') triplet
 is specified. If this triplet is specified more than once, the data from each triplet is concatenated in the order it is
@@ -2963,9 +2500,7 @@ received.
 See “Additional Bar Code Parameters (X'7B') Triplet” on page 118.
 Record Descriptor (RCD)
 
-## Page 158
 
-140 AFP Programming Guide and Line Data Reference
 Graphics Descriptor (X'7E') Triplet
 Architecture Note: The Graphics Descriptor triplet is registered in the MO:DCA architecture as a private-use
 triplet because it is used only in the PageDef object, which is not a MO:DCA object.
@@ -2977,87 +2512,37 @@ This triplet is ignored on RCDs other than Field RCDs. This triplet specifies pr
 defined by the AFP GOCA architecture. For more information, see the Graphics Object Content Architecture
 for Advanced Function Presentation Reference
 . Not all presentation services programs support this triplet.
-Triplet X'7E' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 20 or 35 Length of the triplet, including Tlength M
-1 CODE Tid X'7E' Identifies the Graphics Descriptor triplet M
-2 CODE ParmSpc
-X'01'
-X'02'
-X'03'
-Parameter specification:
-Triplet specifies all parameters for
-graphics primitive
-Triplet specifies start parameters for
-graphics primitive
-Triplet specifies end parameters for
-graphics primitive
-M
-3–4 UBIN Graphid X'0000'–X'FFFE' ID for matching Start/End graphic pairs M
-5 CODE GrPrim
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-Graphics primitive:
-Horizontal line at current position
-Vertical line at current position
-Diagonal line at current position
-Full Arc at current position
-Box at current position
-M
-6 Reserved; should
-be zero M
-7 BITS GraFlgs M
-Bit 0 B'0' Reserved; should be zero
-Bit 1 Fill B'0'
-B'1'
-Interior of primitive is not filled
-Interior of primitive is filled
-Bit 2 Boundary B'0'
-B'1'
-Boundary of primitive is not drawn
-Boundary of primitive is drawn
-Bit 3–7 B'00000' Reserved; should
-be zero
-8–9 UBIN Iend 0 to page extent minus 1 I-coordinate for primitive end point M
-10–11 UBIN Bend 0 to page extent minus 1 B-coordinate for primitive end point M
-12–13 UBIN HAXIS 0–32,767 Length of ellipse X-axis (parallel to I-axis) for
-rounded corner on box
-M
-14–15 UBIN VAXIS 0–32,767 Length of ellipse Y-axis (parallel to B-axis) for
-rounded corner on box
-M
-16 UBIN MH X'00'–X'FF' Integer multiplier for radius of full arc M
-17 UBIN MFR X'00'–X'FF' Fractional multiplier for radius of full arc M
-Record Descriptor (RCD)
+### Triplet X'7E' Syntax
 
-## Page 159
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 20 or 35 | Length of the triplet | M |
+| 1 | CODE | Tid | X'7E' | Identifies the Graphics Descriptor triplet | M |
+| 2 | CODE | ParmSpc | X'01'–X'03' | Parameter specification | M |
+| 3–4 | UBIN | Graphid | X'0000'–X'FFFE' | ID for matching Start/End graphic pairs | M |
+| 5 | CODE | GrPrim | X'01'–X'05' | Graphics primitive | M |
+| 6 |  |  | 0 | Reserved | M |
+| 7 | BITS | GraFlgs |  | Graphics flags | M |
+| 8–9 | UBIN | Iend |  | I-coordinate for primitive end point | M |
+| 10–11 | UBIN | Bend |  | B-coordinate for primitive end point | M |
+| 12–13 | UBIN | HAXIS | 0–32,767 | Rounded corner X-axis | M |
+| 14–15 | UBIN | VAXIS | 0–32,767 | Rounded corner Y-axis | M |
+| 16 | UBIN | MH | X'00'–X'FF' | Integer multiplier for radius | M |
+| 17 | UBIN | MFR | X'00'–X'FF' | Fractional multiplier for radius | M |
+| 18–19 | CODE | DescID | X'0001'–X'FFFE' | Identifies a graphics descriptor | M |
+| 20 | CODE | FGMix | X'02' | Foreground mixing rule | O |
+| 21 |  |  | 0 | Reserved | O |
+| 22 | CODE | LineTpe |  | Line type | O |
+| 23 | CODE | LineWMH |  | Line width integral multiplier | O |
+| 24 | CODE | LineWMFR |  | Line width fractional multiplier | O |
+| 25 | CODE | PattSet | X'00' | Pattern set | O |
+| 26 | CODE | PattSymb |  | Pattern symbol | O |
+| 27–28 | SBIN | XMAJ |  | I-coordinate of major axis end point | O |
+| 29–30 | SBIN | YMIN |  | B-coordinate of minor axis end point | O |
+| 31–32 | SBIN | XMIN |  | I-coordinate of minor axis end point | O |
+| 33–34 | SBIN | YMAJ |  | B-coordinate of major axis end point | O |
 
-AFP Programming Guide and Line Data Reference 141
-Offset Type Name Range Meaning M/O
-18–19 CODE DescID X'0001'–X'FFFE' Identifies a graphics descriptor M
-20 CODE FGMix
-X'02'
-Foreground mixing rule:
-Overpaint
-O
-21 Reserved; should be zero O
-22 CODE LineTpe See AFP GOCA. Line type for primitive boundary O
-23 CODE LineWMH See AFP GOCA. Line width for primitive boundary: integral
-multiplier
-O
-24 CODE LineWMFR See AFP GOCA. Line width for primitive boundary: fractional
-multiplier
-O
-25 CODE PattSet X'00' Pattern set for primitive fill O
-26 CODE PattSymb See AFP GOCA. Pattern symbol for primitive fill O
-27–28 SBIN XMAJ See AFP GOCA. I-coordinate of arc major axis end point O
-29–30 SBIN YMIN See AFP GOCA. B-coordinate of arc minor axis end point O
-31–32 SBIN XMIN See AFP GOCA. I-coordinate of arc minor axis end point O
-33–34 SBIN YMAJ See AFP GOCA. B-coordinate of arc major axis end point O
-Triplet X'7E' Semantics
+### Triplet X'7E' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Graphics Descriptor triplet
 ParmSpc Specifies whether the triplet defines a complete primitive or whether it defines only the starting
@@ -3086,9 +2571,7 @@ For diagonal lines, both the start point and the ending inline position are
 specified in the start parameters. The RCD IPos/Bpos parameters specify the
 Record Descriptor (RCD)
 
-## Page 160
 
-142 AFP Programming Guide and Line Data Reference
 start point and the Iend value specifies the ending inline position. The ending
 baseline position is specified by a Graphics Descriptor triplet with ParmSpc =
 X'03' on an ensuing RCD with a matching Graphid.
@@ -3139,9 +2622,7 @@ Specification (X'4E') triplet on the RCD; if a X'4E' triplet is not specified, t
 color of the fill pattern is the presentation process default color.
 Record Descriptor (RCD)
 
-## Page 161
 
-AFP Programming Guide and Line Data Reference 143
 X'05' Box at current position
 A box is either specified by a single RCD or by a begin/end pair of RCDs. The
 box is generated with square corners or rounded corners, depending on the
@@ -3194,9 +2675,7 @@ Iend Specifies the I position of the end point for the primitive
 This parameter is ignored if ParmSpc does not equal X'01' or X'02'.
 Record Descriptor (RCD)
 
-## Page 162
 
-144 AFP Programming Guide and Line Data Reference
 Bend Specifies the B position of the end point for the primitive
 This parameter is ignored if ParmSpc does not equal X'01'. This parameter specifies a relative
 baseline position if the RCD specifies a relative baseline position.
@@ -3241,8 +2720,7 @@ mapping between graphics window and object area is position and trim.
 For example, if the RCD specifies a (90°,180°) text orientation, the upper left corner of the
 graphics window is at the top-right corner of the page and graphics primitives in this object are
 rotated 90° with respect to the page X
-p axis. The X-extent of the graphics window is the Y p-
-extent of the page and the Y-extent of the graphics window is the X p-extent of the page.
+p axis. The X-extent of the graphics window is the Y pextent of the page and the Y-extent of the graphics window is the X p-extent of the page.
 The units of measure for the graphics presentation space and for the graphics object area are
 the same as those defined on the page (X p,Yp) presentation space in the PGD structured field
 of the Active Environment Group (AEG) for the Data Map.
@@ -3251,9 +2729,7 @@ The only mixing supported is X'02' (Overpaint). This parameter is specified in a
 object with the GDD Set Current Defaults instruction and the Set Mix drawing order.
 Record Descriptor (RCD)
 
-## Page 163
 
-AFP Programming Guide and Line Data Reference 145
 LineTpe Specifies the type of line that is drawn
 For supported values, see the Graphics Object Content Architecture for Advanced Function
 Presentation Reference. This parameter is specified in an AFP GOCA object with the GDD
@@ -3298,9 +2774,7 @@ should not be specified.
 2. The X'22', X'69', and X'6C' triplets are ignored when this triplet is specified on an RCD.
 Record Descriptor (RCD)
 
-## Page 164
 
-146 AFP Programming Guide and Line Data Reference
 Object Reference Qualifier (X'89') Triplet
 The Object Reference Qualifier (X'89') triplet is used to specify whether the name of an object is retrieved from
 the input data or retrieved using normal methods. If the name is to be retrieved from the input data, that name
@@ -3309,9 +2783,7 @@ select an object. This triplet may occur once on an RCD structured field.
 See “Object Reference Qualifier (X'89') Triplet” on page 119.
 Record Descriptor (RCD)
 
-## Page 165
 
-AFP Programming Guide and Line Data Reference 147
 Color Management Resource Descriptor (X'91') Triplet
 The Color Management Resource Descriptor triplet specifies the processing mode and scope for a Color
 Management Resource (CMR). This triplet is mandatory when the RCD references a Color Management
@@ -3321,9 +2793,7 @@ must immediately follow the FQN type X'DE' triplet that specifies the CMR name.
 See “Color Management Resource Descriptor (X'91') Triplet” on page 121.
 Record Descriptor (RCD)
 
-## Page 166
 
-148 AFP Programming Guide and Line Data Reference
 Concatenate Bar Code Data (X'93') Triplet
 This is an optional triplet and may occur once. If this triplet is specified more than once, only the first will be
 used.
@@ -3332,9 +2802,7 @@ with the Start New Symbol flag (bit 0 of CBCFlgs) set in the X'93' triplet being
 See “Concatenate Bar Code Data (X'93') Triplet ” on page 122.
 Record Descriptor (RCD)
 
-## Page 167
 
-AFP Programming Guide and Line Data Reference 149
 Rendering Intent (X'95') Triplet
 The Rendering Intent (X'95') triplet is a MO:DCA triplet. For the formal definition of this triplet, see the Mixed
 Object Document Content Architecture (MO:DCA) Reference.
@@ -3345,28 +2813,18 @@ specified on the RCD. If this triplet is specified more than once, only the firs
 rendering intent that is to be used when presenting the Graphics object that is generated with this structured
 field. Only the rendering intent that applies to the object type of the referenced object is used; the other
 rendering intents are ignored.
-Triplet X'95' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 10 Length of the triplet, including Tlength M
-1 CODE Tid X'95' Identifies the Rendering Intent triplet M
-2–3 Reserved; should be zero M
-4–6 X'FFFFFF' Not used M
-7 CODE GOCARI
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-Rendering intent for AFP GOCA objects:
-Perceptual
-Media-relative colorimetric
-Saturation
-ICC-absolute colorimetric
-Not specified
-M
-8–9 Reserved; should
-be zero M
-Triplet X'95' Semantics
+### Triplet X'95' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 10 | Length of the triplet | M |
+| 1 | CODE | Tid | X'95' | Identifies the Rendering Intent triplet | M |
+| 2–3 |  |  | 0 | Reserved | M |
+| 4–6 |  |  | X'FFFFFF' | Not used | M |
+| 7 | CODE | GOCARI | X'00'–X'03', X'FF' | Rendering intent for AFP GOCA objects | M |
+| 8–9 |  |  | 0 | Reserved | M |
+
+### Triplet X'95' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Rendering Intent triplet
 GOCARI Specifies the rendering intent for AFP GOCA objects
@@ -3385,9 +2843,7 @@ vector graphics.
 X'02' Saturation
 Record Descriptor (RCD)
 
-## Page 168
 
-150 AFP Programming Guide and Line Data Reference
 Gamut mapping is vendor-specific and colors are adjusted to emphasize
 saturation. This intent results in vivid colors and is typically used for business
 graphics.
@@ -3403,135 +2859,44 @@ X'FF' Rendering intent not specified
 All others Reserved
 Record Descriptor (RCD)
 
-## Page 169
 
-AFP Programming Guide and Line Data Reference 151
 XML Descriptor (XMD)
 The XML Descriptor structured field contains information, such as data position, text orientation, font selection,
 field selection, and conditional processing identification, used to format XML data that consists of text delimited
 by start and end tags.
 Note: The XMDs in a Data Map are numbered sequentially, starting with 1.
-XMD (X'D3A68E') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A68E' Flags (1B) Reserved X'0000' Structured Field Data
-Offset Type Name Range Meaning M/O
-0 CODE ElmType X'00'–X'03' Element Type M
-1–3
-Bit 0–1
-Bit 2
-Bit 3
-Bit 4
-Bit 5
-Bit 6
-Bit 7
-Bit 8–9
-Bit 10
-Bit 11
-Bit 12
-Bit 13
-Bit 14–15
-Bit 16
-Bit 17
-Bit 18
-Bit 19
-Bit 20
-Bit 21
-Bit 22
-Bit 23
-BITS XMDFlgs
-B'00'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'00'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'00'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'–B'1'
-B'0'
-B'0'–B'1'
-Reserved; should
-be zero
-Generate Inline Position
-Generate Baseline Position
-Generate Font Change
-Generate Suppression
-Field XMD
-Use Fixed Data
-Reserved; should be zero
-Attribute XMD
-Conditional Processing XMD
-Relative Inline Position
-Relative Baseline Position
-Reserved, should be zero
-New Page
-Print Page Number
-Reset Page Number
-Group Indicator
-Field Delimiter Size
-Use Start T ag
-Reserved, should
-be zero
-Header/Trailer Continued
-M
-4 Reserved; should be zero M
-5–6 UBIN IPos 0 to page extent minus 1 Absolute inline position M
-SBIN X'8000'–X'7FFF' Relative inline position
-7–8 UBIN BPos 0 to page extent minus 1 Relative baseline position M
-SBIN X'8000'–X'7FFF'
-9–12 CODE TxtOrent
-X'0000 2D00'
-X'2D00 5A00'
-X'5A00 8700'
-X'8700 0000'
-T ext (I,B) Orientation:
-0,90 degrees
-90,180 degrees
-180,270 degrees
-270,360 degrees
-M
-XML Descriptor (XMD)
+### XMD (X'D3A68E') Syntax
 
-## Page 170
+**Structured Field Introducer:** SF Length (2B), ID = X'D3A68E', Flags (1B), Reserved X'0000'
 
-152 AFP Programming Guide and Line Data Reference
-Offset Type Name Range Meaning M/O
-13 CODE FntLID X'01'–X'FE' Primary font local ID M
-X'FF' Presentation system default font
-14–15 UBIN FLDxmd X'0000'–X'FFFF' Field XMD Pointer M
-16–17 Reserved; should be zero M
-18–25 CHAR SupName Suppression token name
-A value of X'FF ...FF'(null value) is not valid.
-M
-26 Reserved; should be zero M
-27–30 UBIN DataStrt X'00000000'–
-X'00007FFF'
-Data start position M
-31–32 UBIN DataLgth X'0000'–X'FFFE' Data length M
-X'FFFF' Place remaining bytes
-33–34 UBIN CONDxmd X'0000'–X'FFFF' Conditional Processing XMD Pointer M
-35 CODE SubpgID X'00' Subpage ID (Always X'00' for XMDs) M
-36–37 CODE CCPID X'0000'–X'FFFF' CCP Identifier M
-38–39 UBIN Pgno X'0001'–X'FFFF' Starting page number M
-X'0000' Not specified
-40–41 UBIN ESpac 0 to page extent minus 1 End Space M
-42 CODE Align X'00'–X'01' Field Alignment M
-43–44 CODE FldDelim X'0000'–X'FFFF' Field Delimiter M
-45–46 UBIN Fldno X'0001'–X'FFFF' Field Number M
-X'0000' Not specified
-47–48 UBIN AdBIncr X'0000'–X'FFFF' Additional baseline increment M
-49–61 Reserved; should be zero M
-62–n Triplets See XMD Semantics for triplet applicability. O
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | ElmType | X'00'–X'03' | Element Type | M |
+| 1–3 | BITS | XMDFlgs |  | XMD flags | M |
+| 4 |  |  | 0 | Reserved | M |
+| 5–6 | UBIN/SBIN | IPos |  | Inline position | M |
+| 7–8 | UBIN/SBIN | BPos |  | Baseline position | M |
+| 9–12 | CODE | TxtOrent |  | Text (I,B) Orientation | M |
+| 13 | CODE | FntLID |  | Primary font local ID | M |
+| 14–15 | UBIN | FLDxmd |  | Field XMD Pointer | M |
+| 16–17 |  |  | 0 | Reserved | M |
+| 18–25 | CHAR | SupName |  | Suppression token name | M |
+| 26 |  |  | 0 | Reserved | M |
+| 27–30 | UBIN | DataStrt |  | Data start position | M |
+| 31–32 | UBIN | DataLgth |  | Data length | M |
+| 33–34 | UBIN | CONDxmd |  | Conditional Processing XMD Pointer | M |
+| 35 | CODE | SubpgID |  | Subpage ID (Always X'00' for XMDs) | M |
+| 36–37 | CODE | CCPID |  | CCP Identifier | M |
+| 38–39 | UBIN | Pgno |  | Starting page number | M |
+| 40–41 | UBIN | ESpac |  | End Space | M |
+| 42 | CODE | Align |  | Field Alignment | M |
+| 43–44 | CODE | FldDelim |  | Field Delimiter | M |
+| 45–46 | UBIN | Fldno |  | Field Number | M |
+| 47–48 | UBIN | AdBIncr |  | Additional baseline increment | M |
+| 49–61 |  |  | 0 | Reserved | M |
+| 62–n |  | Triplets |  | Triplets | O |
+
+XMD Semantics for triplet applicability. O
 XMD Semantics
 The XMD uses many parameters that are defined for the LND or RCD. The definition of such parameters is
 deferred to the LND or RCD. When such definitions are applied to the XMD, the term “LND” or “RCD” should
@@ -3549,9 +2914,7 @@ Field XMD, Attribute XMD,
 nor the Conditional Processing XMD bits are on in the XMDFlgs byte.
 XML Descriptor (XMD)
 
-## Page 171
 
-AFP Programming Guide and Line Data Reference 153
 ElmType Element Type
 This parameter is ignored on XMDs other than Element XMDs.
 Value Description
@@ -3608,9 +2971,7 @@ Data Map, the group header element is saved by the presentation services
 program. Whenever the same Data Map is re-invoked, this saved group header
 XML Descriptor (XMD)
 
-## Page 172
 
-154 AFP Programming Guide and Line Data Reference
 element is presented again if the first body element after re-invoking the Data
 Map selects a Body Element XMD that has the Group Indicator on.
 Note: The formation of the Page Header, Group Header, or Page Trailer might require
@@ -3661,9 +3022,7 @@ B'1' The inline position specified in bytes 5–6 is a relative position.
 The following restriction applies to relative inline positioning:
 XML Descriptor (XMD)
 
-## Page 173
 
-AFP Programming Guide and Line Data Reference 155
 • The text orientation of an XMD that specifies relative inline positioning must
 be the same as the text orientation of the XMD that defines the inline
 position from which the relative offset is measured.
@@ -3708,9 +3067,7 @@ form the header or trailer.
 This function is ignored on Body Element XMDs.
 XML Descriptor (XMD)
 
-## Page 174
 
-156 AFP Programming Guide and Line Data Reference
 IPos Inline Position
 See “Line Descriptor (LND)” on page 98.
 Relative Inline Position for Element, Field, and Attribute XMDs: If the inline position is relative,
@@ -3756,9 +3113,7 @@ Fldno Field Number
 See “Record Descriptor (RCD)” on page 124.
 XML Descriptor (XMD)
 
-## Page 175
 
-AFP Programming Guide and Line Data Reference 157
 AdBIncr Additional baseline increment
 See “Record Descriptor (RCD)” on page 124.
 Triplets See the following:
@@ -3778,9 +3133,7 @@ See “Logical Page Eject Processing” on page 132, which describes page eject 
 Descriptor (RCD); note that page eject processing for RCD and XMD is identical .
 XML Descriptor (XMD)
 
-## Page 176
 
-158 AFP Programming Guide and Line Data Reference
 XMD Triplets
 Fully Qualified Name (X'02') Triplet
 This triplet is optional and may occur one or more times when a Bar Code Symbol Descriptor (X'69') triplet or a
@@ -3794,27 +3147,21 @@ external identifier of the CMR must be UTF-16BE.
 See “Fully Qualified Name (X'02') Triplet” on page 107.
 XML Descriptor (XMD)
 
-## Page 177
 
-AFP Programming Guide and Line Data Reference 159
 Extended Resource Local Identifier (X'22') Triplet
 This triplet is optional and may occur one or more times to reference an IOB structured field in the PageDef.
 This triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the XMD.
 See “Extended Resource Local Identifier (X'22') Triplet” on page 108.
 XML Descriptor (XMD)
 
-## Page 178
 
-160 AFP Programming Guide and Line Data Reference
 Color Specification (X'4E') Triplet
 This is an optional triplet that specifies the color for text processed by this XMD, bar code generated by this
 XMD, and for graphics generated by this XMD.
 See “Color Specification (X'4E') Triplet” on page 136.
 XML Descriptor (XMD)
 
-## Page 179
 
-AFP Programming Guide and Line Data Reference 161
 Bar Code Symbol Descriptor (X'69') Triplet
 This is an optional triplet and may occur once. If this triplet is specified more than once, only the first is used.
 This triplet specifies that the data selected by the descriptor is to be presented as a bar code symbol. This
@@ -3823,9 +3170,7 @@ See “Bar Code Symbol Descriptor (X'69') Triplet” on page 110. Note that the 
 by this triplet may be at different offsets in the LND, RCD, and XMD.
 XML Descriptor (XMD)
 
-## Page 180
 
-162 AFP Programming Guide and Line Data Reference
 Resource Object Include (X'6C') Triplet
 This is an optional triplet that identifies an overlay or page segment object to be presented on the page at a
 specified position. Multiple Resource Object Include triplets may be specified on the same XMD. This triplet is
@@ -3833,9 +3178,7 @@ ignored if the Graphics Descriptor (X'7E') triplet is specified on the XMD.
 See “Resource Object Include (X'6C') Triplet” on page 116.
 XML Descriptor (XMD)
 
-## Page 181
 
-AFP Programming Guide and Line Data Reference 163
 Additional Bar Code Parameters (X'7B') Triplet
 This is an optional triplet that specifies additional parameters for non-linear bar code symbologies (for
 example, 2D bar codes). This triplet may occur one or more times when a Bar Code Symbol Descriptor (X'69')
@@ -3843,9 +3186,7 @@ triplet is specified. This triplet is ignored if the Graphics Descriptor (X'7E')
 See “Additional Bar Code Parameters (X'7B') Triplet” on page 118.
 XML Descriptor (XMD)
 
-## Page 182
 
-164 AFP Programming Guide and Line Data Reference
 Graphics Descriptor (X'7E') Triplet
 This is an optional Field XMD triplet and may occur once. If this triplet is specified more than once, only the first
 is used. T ext input and fixed data text are ignored on a Field XMD that specifies a Graphics Descriptor triplet.
@@ -3855,9 +3196,7 @@ XMDs other than Field XMDs.
 See “Graphics Descriptor (X'7E') Triplet” on page 140.
 XML Descriptor (XMD)
 
-## Page 183
 
-AFP Programming Guide and Line Data Reference 165
 XML Name (X'8A') Triplet
 Architecture Note: The XML Name triplet is registered in MO:DCA as a private-use triplet since it is used only
 in the PageDef object, which is not a MO:DCA object.
@@ -3874,13 +3213,16 @@ on an XML start tag. If this triplet occurs more than once on an Attribute XMD, 
 This triplet is ignored on XMDs other than Element XMDs and Attribute XMDs.
 The name specified in this triplet must be encoded using the encoding specified on the Encoding Scheme ID
 (X'50') triplet of the BDM structured field.
-Triplet X'8A' Syntax
-Offset Type Name Range Meaning M/O
-0 UBIN Tlength 5–254 Length of the triplet, including Tlength M
-1 CODE Tid X'8A' Identifies the XML Name triplet M
-2–3 Reserved; should be zero M
-4–n CHAR XMLName Name of Start T ag or Attribute in XML data M
-Triplet X'8A' Semantics
+### Triplet X'8A' Syntax
+
+| Offset | Type | Name | Range | Meaning | M/O |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Tlength | 5–254 | Length of the triplet | M |
+| 1 | CODE | Tid | X'8A' | Identifies the XML Name triplet | M |
+| 2–3 |  |  | 0 | Reserved | M |
+| 4–n | CHAR | XMLName |  | Name of Start Tag or Attribute in XML data | M |
+
+### Triplet X'8A' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the XML Name triplet
 XMLName Specifies the name of the Start tag or the name of an attribute of a Start tag contained in the
@@ -3888,9 +3230,7 @@ XML data
 This XMLName is used to build Qualified T ags when used on Element XMDs.
 XML Descriptor (XMD)
 
-## Page 184
 
-166 AFP Programming Guide and Line Data Reference
 Color Management Resource Descriptor (X'91') Triplet
 The Color Management Resource Descriptor triplet specifies the processing mode and scope for a Color
 Management Resource (CMR). This triplet is mandatory when the XMD references a Color Management
@@ -3900,9 +3240,7 @@ must immediately follow the FQN type X'DE' triplet that specifies the CMR name.
 See “Color Management Resource Descriptor (X'91') Triplet” on page 121.
 XML Descriptor (XMD)
 
-## Page 185
 
-AFP Programming Guide and Line Data Reference 167
 Concatenate Bar Code Data (X'93') Triplet
 This is an optional triplet and may occur once. If this triplet is specified more than once, only the first will be
 used.
@@ -3911,9 +3249,7 @@ with the Start New Symbol flag (bit 0 of CBCFlgs) set in the X'93' triplet being
 See “Concatenate Bar Code Data (X'93') Triplet ” on page 122.
 XML Descriptor (XMD)
 
-## Page 186
 
-168 AFP Programming Guide and Line Data Reference
 Rendering Intent (X'95') Triplet
 The Rendering Intent triplet specifies the rendering intent parameter, which is used to modify the final
 appearance of color data. This parameter is based on the rendering intents defined by the International Color
@@ -3925,6 +3261,4 @@ rendering intents are ignored.
 See “Rendering Intent (X'95') Triplet” on page 149.
 XML Descriptor (XMD)
 
-## Page 187
 
-Copyright © AFP Consortium 1994, 2018 169

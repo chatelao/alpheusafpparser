@@ -1,4 +1,4 @@
-Chapter 1. Introduction
+# Chapter 1. Introduction
 Programmers can develop applications for Advanced Function Presentation (AFP) hardware and software,
 generating either traditional unformatted line data, fully composed Mixed Object Document Content
 Architecture (MO:DCA) data (also called AFP data), or a combination of both. This book contains examples
@@ -21,8 +21,7 @@ archived in a data base, then later retrieved, viewed, and printed in local or d
 Presentation services programs in the zSeries environments accept data in traditional line-printer format and
 generate page-mode output from the line data, using information contained in a Page Definition (PageDef)
 resource object. The line data mapped by the Page Definition might or might not include additional MO:DCA
-structured fields. A file that includes a combination of line data and MO:DCA structured fields is called a mixed-
-mode file. Only certain MO:DCA structured fields can be intermixed with line data. Detailed information on
+structured fields. A file that includes a combination of line data and MO:DCA structured fields is called a mixedmode file. Only certain MO:DCA structured fields can be intermixed with line data. Detailed information on
 coding those structured fields appears in Chapter 4, “Mixed Documents: Adding MO:DCA Structured Fields to
 Line Data”, on page 39.
 Presentation services programs in the AIX and Windows environments accept non-MO:DCA data streams that
@@ -36,10 +35,8 @@ zSeries platform and networked to an IBM i environment or created natively on an
 data is placed on the printer spool using a Printer File, which may also specify the Page Definition and Form
 Definition (Formdef) to be used for formatting and printing the data.
 
-## Page 20
 
-2 AFP Programming Guide and Line Data Reference
-Related Architectures
+## Related Architectures
 Mixed-mode data streams can include line data, MO:DCA structured fields, and objects of the following types:
 • Bar Code Object Content Architecture™ (BCOCA)
 • Color Management Object Content Architecture (CMOCA)
@@ -50,7 +47,7 @@ Mixed-mode data streams can include line data, MO:DCA structured fields, and obj
 • Non-OCA paginated presentation objects such as Encapsulated PostScript ® (EPS)
 A related architecture, but not a user programming language, is the Intelligent Printer Data Stream™ (IPDS™)
 architecture. This is the data stream architecture used by print server products to manage IPDS printers.
-System Model
+## System Model
 AFP print servers provide support for interpreting line data, mixed-mode data, and MO:DCA data, for resolving
 resource references, and for building printer data streams for driving IPDS printers. Figure 1 shows the general
 relationship between the AFP data streams, the print server products, and IPDS printers.
@@ -83,10 +80,8 @@ Print Control
 Each print server product has its own books that describe how to submit print jobs in its system environment.
 See these books for information on setting up jobs for printing.
 
-## Page 21
 
-AFP Programming Guide and Line Data Reference 3
-Supported Environments
+## Supported Environments
 Presentation services programs provide common printer support and print services in the following
 environments:
 • AIX
@@ -98,10 +93,6 @@ environments:
 • Linux
 • Windows
 
-## Page 22
 
-4 AFP Programming Guide and Line Data Reference
 
-## Page 23
 
-Copyright © AFP Consortium 1994, 2018 5
