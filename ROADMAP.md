@@ -41,7 +41,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Device-Control Command Set (Chapter 4):
             - ✅ Tables 19 (Summary), 20 (Protocol), 21 (Ack Types).
             - ✅ Acknowledge Reply: Syntax, Flags, Data Formats, and Counters.
-            - ⏳ Activate Resource (AR): Entry Syntax and Tables 22–23.
+            - ✅ Activate Resource (AR): Entry Syntax and Tables 22–23.
             - ⏳ Commands: ASN, AFO, BP, DF (Table 24), DUA.
             - ⏳ Commands: END, EP, ISP, ICMR.
             - ⏳ Commands: LCC (Tables 25–27), LFE, LPD, LPP.
