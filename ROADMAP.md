@@ -78,6 +78,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ IOCA Structured Fields (IDD, IPD).
     - ✅ Line Data Structured Fields.
     - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR).
+    - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
+    - ✅ Presentation Control Structured Fields (PEC, PFC).
     - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF).
         - ✅ Page and Overlay Structured Fields.
             - ✅ Begin/End Overlay (BMO, EMO).
