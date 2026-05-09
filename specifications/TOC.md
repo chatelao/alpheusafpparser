@@ -7,9 +7,9 @@
 - [Image Object Content Architecture Reference](ioca-reference-09.pdf) ([Markdown](markdown/ioca-reference-09/Front_Matter.md))
 - [Intelligent Printer Data Stream Reference](ipds-reference-12.pdf) ([Markdown](markdown/ipds-reference-12.md))
 - [AFP Programming Guide and Line Data Reference](linedata-reference-05.pdf) ([Markdown](markdown/linedata-reference-05/Front_Matter.md))
-- [Metadata Object Content Architecture Reference](moca-reference-02.pdf) ([Markdown](markdown/moca-reference-02.md))
-- [Mixed Object Document Content Architecture (MO:DCA) Reference](modca-reference-10.pdf) ([Markdown](markdown/modca-reference-10.md))
-- [Presentation Text Object Content Architecture Reference](ptoca-reference-04.pdf) ([Markdown](markdown/ptoca-reference-04.md))
+- [Metadata Object Content Architecture Reference](moca-reference-02.pdf) ([Markdown](markdown/moca-reference-02/Front_Matter.md))
+- [Mixed Object Document Content Architecture (MO:DCA) Reference](modca-reference-10.pdf) ([Markdown](markdown/modca-reference-10/Front_Matter.md))
+- [Presentation Text Object Content Architecture Reference](ptoca-reference-04.pdf) ([Markdown](markdown/ptoca-reference-04/Front_Matter.md))
 
 ## Supplemental References
 
