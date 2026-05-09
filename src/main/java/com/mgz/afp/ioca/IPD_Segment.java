@@ -257,7 +257,7 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
       if (lengthOfFollowingData > 0) {
         data = new byte[lengthOfFollowingData];
-        System.arraycopy(sfData, offset + 2, data, 0, data.length);
+        System.arraycopy(sfData, offset + 4, data, 0, data.length);
       } else {
         data = null;
       }

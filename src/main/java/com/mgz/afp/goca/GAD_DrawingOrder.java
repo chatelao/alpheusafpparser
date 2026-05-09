@@ -76,8 +76,8 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
           if (lp == null) {
             continue;
           }
-          UtilBinaryDecoding.shortToByteArray(lp.xCoordinate, 2);
-          UtilBinaryDecoding.shortToByteArray(lp.yCoordinate, 2);
+          baos.write(UtilBinaryDecoding.shortToByteArray(lp.xCoordinate, 2));
+          baos.write(UtilBinaryDecoding.shortToByteArray(lp.yCoordinate, 2));
         }
         lineEndpointsData = baos.toByteArray();
         lengthOfFollowingData = (short) lineEndpointsData.length;
@@ -585,7 +585,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
       coordinateX = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      coordinateY = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      coordinateY = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
     }
 
     @Override
@@ -1565,7 +1565,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       formatOfImageData = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
       reserved3 = UtilBinaryDecoding.parseShort(sfData, offset + 3, 1);
       widthOfImageInImagePoints = UtilBinaryDecoding.parseInt(sfData, offset + 4, 2);
-      heightOfImageInImagePoints = UtilBinaryDecoding.parseInt(sfData, offset + 4, 2);
+      heightOfImageInImagePoints = UtilBinaryDecoding.parseInt(sfData, offset + 6, 2);
     }
 
 
@@ -2368,6 +2368,8 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       os.write(arcCenter.toBytes());
       os.write(multiplierIntegerPortion);
       os.write(multiplierFractionalPortion);
+      os.write(UtilBinaryDecoding.longToByteArray(startAngle, 4));
+      os.write(UtilBinaryDecoding.longToByteArray(sweepAngle, 4));
     }
 
     public short getLengthOfFollowingData() {

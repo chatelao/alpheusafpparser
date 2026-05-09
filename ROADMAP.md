@@ -75,9 +75,11 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
     - [x] Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
     - [ ] Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
         - [x] MO:DCA Object Containers and Image Data.
-            - [x] Begin/End IM Image Object (BII, EII) and raster data (IRD).
+            - [x] Begin/End IM Image Object (BII, EII).
+            - [x] IM Image Raster Data (IRD).
             - [x] End Image Object (EIM).
-            - [x] End Object Container (EOC) and data (OCD).
+            - [x] End Object Container (EOC).
+            - [x] Object Container Data (OCD).
         - [ ] MO:DCA Overlay and Page Segment.
             - [x] End Overlay (EMO).
             - [x] End Page Segment (EPS).
@@ -90,12 +92,14 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
             - [x] End Code Page (ECP).
             - [x] End Font (EFN).
             - [x] Font Name Map (FNN).
-            - [ ] Font Patterns (FNG).
+            - [x] Font Patterns (FNG).
         - [x] BCOCA End Bar Code Object (EBC).
         - [x] PTOCA End Presentation Text Object (EPT).
         - [ ] CMOCA Color Management Resource (CMR).
+            - [ ] Investigate and implement full payload parsing for Color Management Resource (CMR).
         - [x] MO:DCA Color Attribute Table (CAT).
         - [x] GOCA Graphics Data (GAD) and End Graphics Object (EGR).
+        - [x] MO:DCA No Operation (NOP).
         - [x] Line Data related fields.
             - [x] Begin/End Data Map Transmition Subcase (BDX, EDX).
             - [x] Begin/End Page Map (BPM, EPM).
@@ -103,6 +107,8 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
             - [x] End Data Map (EDM).
             - [x] Invoke Data Map (IDM).
 - [ ] Enhance GOCA and IOCA support.
+    - [x] Fix encoding and decoding bugs in GOCA drawing orders (e.g., coordinate offsets) and IOCA segments (e.g., data copy offsets).
+    - [ ] Implement full payload parsing for missing IOCA segments and GOCA drawing orders.
     - [ ] Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - [ ] Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
 - [ ] Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
