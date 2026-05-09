@@ -2,7 +2,7 @@
 
 - [Graphics Object Content Architecture for Advanced Function Presentation Reference](afp-goca-reference-03.pdf) ([Markdown](markdown/afp-goca-reference-03.md))
 - [Bar Code Object Content Architecture Reference](bcoca-reference-11.pdf) ([Markdown](markdown/bcoca-reference-11.md))
-- [Color Management Object Content Architecture Reference](cmoca-reference-02.pdf) ([Markdown](markdown/cmoca-reference-02.md))
+- [Color Management Object Content Architecture Reference](cmoca-reference-02.pdf) ([Markdown](markdown/cmoca-reference-02/Front_Matter.md))
 - [Font Object Content Architecture Reference](foca-reference-06.pdf) ([Markdown](markdown/foca-reference-06.md))
 - [Image Object Content Architecture Reference](ioca-reference-09.pdf) ([Markdown](markdown/ioca-reference-09.md))
 - [Intelligent Printer Data Stream Reference](ipds-reference-12.pdf) ([Markdown](markdown/ipds-reference-12.md))
