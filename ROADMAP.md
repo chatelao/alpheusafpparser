@@ -28,11 +28,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ## Phase 10: Specification Excellence
 - ⏳ **IPDS (Critical)**:
-    - ⏳ Purge PDF artifacts and fix broken paragraphs (Chapters 1–5).
-    - ⏳ Purge PDF artifacts and fix broken paragraphs (Chapters 6–10).
-    - ⏳ Purge PDF artifacts and fix broken paragraphs (Chapters 11–17).
-    - ⏳ Purge PDF artifacts and fix broken paragraphs (Appendices).
-    - ⏳ Convert command text dumps to tables.
+    - ⏳ Purge physical page markers, recurring PDF headers/footers, and fix OCR-induced broken paragraphs and split words.
+    - ⏳ Remove physical page references (e.g., "on page XXX").
+    - ⏳ Convert command and syntax text dumps to Markdown tables:
+        - ⏳ Device-Control Command Set (Chapter 4).
+        - ⏳ Presentation Object Command Sets (Chapters 5–10: Text, IM-Image, IO-Image, Graphics, Bar Code, Object Container).
+        - ⏳ Metadata and Resource Command Sets (Chapters 11–14: Metadata, Overlay, Page-Segment, Loaded-Font).
+        - ⏳ Triplets and Exception Reporting (Chapters 15–16).
+        - ⏳ Compliance and Appendices (Chapter 17 and Appendices A–D).
 - 🚧 **BCOCA**:
     - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
     - ✅ Purge physical page markers and PDF artifacts from Chapter 4.
