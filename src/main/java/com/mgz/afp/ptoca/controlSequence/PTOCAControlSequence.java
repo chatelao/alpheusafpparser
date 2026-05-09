@@ -76,6 +76,9 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     BSU_BeginSuppression(0xF2), // (BSU)” on page 56
     ESU_EndSuppression(0xF4), // (ESU)” on page 62
     UCT_UnicodeComplexText(0x6A), // (UCT)” on page 123
+    ENC_EncryptedData(0x98), // (ENC)” on page 101
+    SKI_SetKeyInformation(0x9A), // (SKI)” on page 78
+    SEA_SetEncryptedAlternate(0x9C), // (SEA)” on page 88
     // Field Controls
     OVS_Overstrike(0x72), // (OVS)” on page 64
     USC_Underscore(0x76), // (USC)” on page 105
@@ -1334,6 +1337,160 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     public void setComplexText(byte[] complexText) {
       this.complexText = complexText;
       this.ctLength = (complexText != null) ? complexText.length : 0;
+    }
+  }
+
+  /**
+   * PTOCA, Page 101. <br>The Encrypted Data control sequence contains a sequence of bytes that are
+   * encrypted and must be decrypted into text strings for standard text processing.
+   */
+  public static class ENC_EncryptedData extends PTOCAControlSequence {
+    @AFPField
+    int reserved4_7 = 0x00;
+    @AFPField
+    byte[] encryptedData;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      reserved4_7 = UtilBinaryDecoding.parseInt(sfData, offset, 4);
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      if (actualLength > 4) {
+        encryptedData = new byte[actualLength - 4];
+        System.arraycopy(sfData, offset + 4, encryptedData, 0, encryptedData.length);
+      } else {
+        encryptedData = null;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+      if (encryptedData != null) {
+        os.write(encryptedData);
+      }
+    }
+
+    public int getReserved4_7() {
+      return reserved4_7;
+    }
+
+    public void setReserved4_7(int reserved4_7) {
+      this.reserved4_7 = reserved4_7;
+    }
+
+    public byte[] getEncryptedData() {
+      return encryptedData;
+    }
+
+    public void setEncryptedData(byte[] encryptedData) {
+      this.encryptedData = encryptedData;
+    }
+  }
+
+  /**
+   * PTOCA, Page 78. <br>The Set Key Information control sequence provides encryption key
+   * information to be used with Encrypted Data (ENC) controls.
+   */
+  public static class SKI_SetKeyInformation extends PTOCAControlSequence {
+    @AFPField
+    int reserved4_7 = 0x00;
+    @AFPField
+    byte[] keyInfo;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      reserved4_7 = UtilBinaryDecoding.parseInt(sfData, offset, 4);
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      if (actualLength > 4) {
+        keyInfo = new byte[actualLength - 4];
+        System.arraycopy(sfData, offset + 4, keyInfo, 0, keyInfo.length);
+      } else {
+        keyInfo = null;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+      if (keyInfo != null) {
+        os.write(keyInfo);
+      }
+    }
+
+    public int getReserved4_7() {
+      return reserved4_7;
+    }
+
+    public void setReserved4_7(int reserved4_7) {
+      this.reserved4_7 = reserved4_7;
+    }
+
+    public byte[] getKeyInfo() {
+      return keyInfo;
+    }
+
+    public void setKeyInfo(byte[] keyInfo) {
+      this.keyInfo = keyInfo;
+    }
+  }
+
+  /**
+   * PTOCA, Page 88. <br>The Set Encrypted Alternate control sequence contains the alternate text
+   * as a series of code points to be used if the decryption of the encrypted bytes in the ENC
+   * control fails.
+   */
+  public static class SEA_SetEncryptedAlternate extends PTOCAControlSequence {
+    @AFPField
+    int reserved4_7 = 0x00;
+    @AFPField
+    byte[] alternateText;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      reserved4_7 = UtilBinaryDecoding.parseInt(sfData, offset, 4);
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      if (actualLength > 4) {
+        alternateText = new byte[actualLength - 4];
+        System.arraycopy(sfData, offset + 4, alternateText, 0, alternateText.length);
+      } else {
+        alternateText = null;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+      if (alternateText != null) {
+        os.write(alternateText);
+      }
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (alternateText == null || alternateText.length == 0) {
+        return null;
+      }
+      Charset charset = Constants.cpIBM500;
+      if (UtilCharacterEncoding.isHumanReadable(alternateText, charset)) {
+        return new String(alternateText, charset);
+      }
+      return null;
+    }
+
+    public int getReserved4_7() {
+      return reserved4_7;
+    }
+
+    public void setReserved4_7(int reserved4_7) {
+      this.reserved4_7 = reserved4_7;
+    }
+
+    public byte[] getAlternateText() {
+      return alternateText;
+    }
+
+    public void setAlternateText(byte[] alternateText) {
+      this.alternateText = alternateText;
     }
   }
 
