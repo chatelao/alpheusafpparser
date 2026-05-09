@@ -53,6 +53,8 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
         - [x] Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - [x] Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
     - [ ] Implement round-trip unit tests for all Structured Fields.
+    - [x] GOCA Structured Fields (BGR, GAD, EGR).
+    - [x] IOCA Structured Fields (IDD, IPD).
     - [x] Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF).
         - [x] Page and Overlay Structured Fields.
             - [x] Begin/End Overlay (BMO, EMO).
@@ -95,8 +97,7 @@ This roadmap outlines the steps to migrate the Alpheus AFP Parser CI/CD pipeline
             - [x] Font Patterns (FNG).
         - [x] BCOCA End Bar Code Object (EBC).
         - [x] PTOCA End Presentation Text Object (EPT).
-        - [ ] CMOCA Color Management Resource (CMR).
-            - [ ] Investigate and implement full payload parsing for Color Management Resource (CMR).
+        - [x] CMOCA Color Management Resource (CMR).
         - [x] MO:DCA Color Attribute Table (CAT).
         - [x] GOCA Graphics Data (GAD) and End Graphics Object (EGR).
         - [x] MO:DCA No Operation (NOP).
