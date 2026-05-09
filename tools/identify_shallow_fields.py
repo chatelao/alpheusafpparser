@@ -115,7 +115,11 @@ def identify_shallow_fields(root_dir):
                         if not decode_regex.search(content):
                             # Special case: classes extending StructuredFieldBaseNameAndTriplets
                             # or StructuredFieldBaseTriplets are often considered "full" for simple fields.
+                            # Also classes extending StructuredFieldBaseData if they are just data containers.
                             if match.group(2) in ['StructuredFieldBaseNameAndTriplets', 'StructuredFieldBaseTriplets', 'StructuredFieldBaseName']:
+                                continue
+
+                            if classname in ['IRD_IMImageRasterData', 'OCD_ObjectContainerData', 'FNG_FontPatterns', 'NOP_NoOperation']:
                                 continue
 
                             package = os.path.relpath(root, root_dir).replace(os.sep, '.')
