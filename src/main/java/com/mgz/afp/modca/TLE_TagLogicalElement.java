@@ -19,6 +19,21 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseTriplets;
+import com.mgz.afp.triplets.Triplet;
+
+import javax.xml.bind.annotation.XmlElement;
 
 public class TLE_TagLogicalElement extends StructuredFieldBaseTriplets {
+
+  @XmlElement(name = "text")
+  public String getText() {
+    if (triplets != null) {
+      for (Triplet triplet : triplets) {
+        if (triplet instanceof Triplet.AttributeValue) {
+          return ((Triplet.AttributeValue) triplet).getAttributeValue();
+        }
+      }
+    }
+    return null;
+  }
 }

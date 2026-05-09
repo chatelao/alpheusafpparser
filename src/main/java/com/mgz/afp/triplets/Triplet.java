@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.triplets;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
@@ -1479,6 +1480,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       this.reserved2_3 = reserved2_3;
     }
 
+    @XmlElement(name = "text")
     public String getAttributeValue() {
       return attributeValue;
     }
@@ -2676,6 +2678,11 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(data);
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return comment;
     }
   }
 

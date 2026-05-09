@@ -198,6 +198,14 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       return comment;
     }
 
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(comment, Constants.cpIBM500)) {
+        return new String(comment, Constants.cpIBM500);
+      }
+      return null;
+    }
+
     public void setComment(byte[] comment) {
       this.comment = comment;
     }
@@ -1471,6 +1479,14 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       return codePoints;
     }
 
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(codePoints, Constants.cpIBM500)) {
+        return new String(codePoints, Constants.cpIBM500);
+      }
+      return null;
+    }
+
     public void setCodePoints(byte[] codePoints) {
       this.codePoints = codePoints;
     }
@@ -2169,6 +2185,14 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     public byte[] getCodePoints() {
       return codePoints;
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      if (UtilCharacterEncoding.isHumanReadable(codePoints, Constants.cpIBM500)) {
+        return new String(codePoints, Constants.cpIBM500);
+      }
+      return null;
     }
 
     public void setCodePoints(byte[] codePoints) {
