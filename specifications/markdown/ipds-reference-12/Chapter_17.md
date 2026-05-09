@@ -1,4 +1,4 @@
-Chapter 17. Compliance
+# Chapter 17. Compliance
 This chapter provides a complete description of the IPDS functional divisions, IPDS support requirements, and
 migration functions.
 IPDS Functional Divisions
@@ -14,9 +14,7 @@ The IPDS command-set design supports several printer, intermediate-device, pre-p
 processor technologies. Product developers can match command-set implementations to the specific needs of
 their product.
 
-## Page 1012
 
-978 IPDS Reference
 Figure 119 illustrates the IPDS functional divisions.
 Figure 119. IPDS Functional Divisions
 Device Control - DC1 (mandatory)
@@ -88,13 +86,11 @@ Metadata
 Each data tower contains at least one level. Some IPDS printers support additional (optional) data-tower
 function for text, IO-Image, graphics, and bar code data.
 
-## Page 1013
 
-IPDS Reference 979
 IPDS Command Sets and Command-Set Subsets
 The IPDS architecture contains the following command sets:
 • Device-Control command set
-• T ext command set
+• Text command set
 • IM-Image command set
 • IO-Image command set
 • Graphics command set
@@ -113,11 +109,11 @@ protocol. The Device-Control command set contains one subset, DC1.
 DC1: The DC1 subset contains the mandatory IPDS commands and corresponding
 mandatory field values in the Device-Control command set. All IPDS printers must support the
 DC1 subset.
-Text This command set contains the IPDS commands, excluding the data field of the Write T ext
-command, for presenting text information in a page, a page segment, or an overlay. The T ext
+Text This command set contains the IPDS commands, excluding the data field of the Write Text
+command, for presenting text information in a page, a page segment, or an overlay. The Text
 command set contains one subset, TX1.
 TX1: The TX1 subset contains the IPDS commands and corresponding field values, excluding
-the data field of the Write T ext command, that are mandatory if text is supported.
+the data field of the Write Text command, that are mandatory if text is supported.
 IM Image This command set contains the IPDS commands, excluding the data field of the Write Image
 command, for presenting images in a page, a page segment, or an overlay. The IM-Image
 command set contains one subset, IM1.
@@ -136,9 +132,7 @@ GR1: The GR1 subset contains the IPDS commands and corresponding field values,
 excluding the data field of the Write Graphics command, that are mandatory if graphics is
 supported.
 
-## Page 1014
 
-980 IPDS Reference
 Bar Code This command set contains the IPDS commands, excluding the data field of the Write Bar
 Code command, for presenting machine-readable bar code information in a page, a page
 segment, or an overlay. The Bar Code command set contains one subset, BC1.
@@ -184,14 +178,12 @@ LF4: The LF4 subset consists of the IPDS commands and corresponding field values
 Loaded-Font command set needed to support code pages. This subset is used when code
 pages are supported for TrueType/OpenType fonts, but the LF3 subset is not supported.
 
-## Page 1015
 
-IPDS Reference 981
 Data Divisions
 For some IPDS command sets, a data tower defines the data carried in the Write command of the
 corresponding IPDS command set. A data tower is divided into levels. A higher level of a data tower consists of
 all lower levels plus some set of additional function. Some data tower levels are defined and controlled by other
-architectures and are simply registered in the IPDS architecture. T able 69summarizes this.
+architectures and are simply registered in the IPDS architecture. Table 69summarizes this.
 Table 69. Command-Set and Data-Tower Summary
 IPDS
 Command Set
@@ -202,7 +194,7 @@ Levels
 Architecture Describing the Data
 Tower
 Device Control control printer DC1 none
-T ext print text data TX1 PT1, PT2, PT3,
+Text print text data TX1 PT1, PT2, PT3,
 PT4
 PTOCA
 IM Image print IM-Image data IM1 IMD1 IPDS
@@ -227,7 +219,7 @@ LF4
 none
 Data Towers and Data-Tower Levels
 There is a data tower for each of the following command sets:
-• T ext
+• Text
 • IM Image
 • IO Image
 • Graphics
@@ -236,15 +228,13 @@ There is a data tower for each of the following command sets:
 At least one level of every data tower is defined; some towers also include optional function. The Sense Type
 and Model reply specifies the level of each data tower supported by a printer. Figure 120 on page 982
 illustrates the data towers and data-tower levels. The data towers are:
-Text This data tower contains Presentation T ext Object Content Architecture (PTOCA) control
-sequences and code points, contained in the data field of the Write T ext command. The
+Text This data tower contains Presentation Text Object Content Architecture (PTOCA) control
+sequences and code points, contained in the data field of the Write Text command. The
 control sequences are used to present text information in a page, a page segment, or an
 overlay. The text data tower contains four presentation text (PT) levels, PT1, PT2, PT3, and
 PT4, defined by the PTOCA architecture.
 
-## Page 1016
 
-982 IPDS Reference
 IM Image This data tower contains IM-Image data contained in the data field of the Write Image
 command. IM-Image data can be presented in a page, a page segment, or an overlay. The IM-
 Image data tower contains one level, IMD1, defined by the IPDS architecture.
@@ -308,11 +298,9 @@ MOCA
 MS1
 Metadata
 
-## Page 1017
 
-IPDS Reference 983
 IPDS Support Requirements
-T o claim support of the IPDS architecture, a printer product must do the following:
+To claim support of the IPDS architecture, a printer product must do the following:
 • Implement the DC1 subset of the device control command set.
 • Implement at least one of the following IPDS command set subsets:
 – TX1
@@ -330,7 +318,7 @@ the conditions that are applicable to the functions and commands supported by th
 exception be generated regardless of whether the OCA specifies the exception to be mandatory or
 optional. For all other OCA-defined exceptions, the IPDS architecture defers the mandatory/optional
 specification to the appropriate OCA.
-T o claim support of the IPDS architecture, a presentation-services product must do the following:
+To claim support of the IPDS architecture, a presentation-services product must do the following:
 • All commands generated by the presentation services must conform to the IPDS state diagram.
 • The syntax for all commands generated by the presentation services must conform with that defined by the
 IPDS Architecture.
@@ -341,18 +329,16 @@ IPDS Architecture.
 – XOA-RRL reply
 – Exception IDs and sense data
 Command-Set Support Requirements
-T o claim support of the T ext, IM-Image, IO-Image, Graphics, Bar Code, or Metadata command sets, a printer
+To claim support of the Text, IM-Image, IO-Image, Graphics, Bar Code, or Metadata command sets, a printer
 product must implement a defined subset of the command set. Printers can support additional, optional
 elements of the command set. In addition, a level of the corresponding data tower must be implemented.
-T o claim support of any other IPDS command set, a printer product must implement a defined subset of the
+To claim support of any other IPDS command set, a printer product must implement a defined subset of the
 command set. Printers can support additional, optional elements of the command set.
 Data Tower Support Requirements
-T o claim support of a data tower, a printer product must implement at least one level of the data tower. Printers
+To claim support of a data tower, a printer product must implement at least one level of the data tower. Printers
 can support additional tower levels, and additional optional elements of the data tower.
 
-## Page 1018
 
-984 IPDS Reference
 IPDS Support for MO:DCA Interchange Set IS/3
 One of the fundamental promises of the AFP Consortium to customers is more consistent implementations and
 better interoperability of products. This goal has been addressed with the formal definition of a MO:DCA
@@ -360,8 +346,8 @@ interchange set (called IS/3) and the following list of the functions that an IP
 that all IS/3-compliant documents can be printed.
 Required IPDS Command Set support
 • Device Control command set at the DC1 level
-• T ext command set at the TX1 level plus support for the PTOCA PT3 subset, including the following:
-– Set T ext Color (STC) control sequence Precision parameter (byte 6) is retired
+• Text command set at the TX1 level plus support for the PTOCA PT3 subset, including the following:
+– Set Text Color (STC) control sequence Precision parameter (byte 6) is retired
 – Exception ID X'021A..03' (Invalid Unicode Data) is required if Unicode data is supported
 – Highlight color space clarifications for Indexed CMRs
 • IO-Image command set at the IO1 level plus support for the FS10 and FS45 function sets (an FS45 vector
@@ -374,13 +360,13 @@ additional support is required:
 • Object Container command set at the OC1 level plus support for the following object types:
 As resources (downloaded or activated in home state)
 – CMR (Color Management Resource)
-– CMT (Color Mapping T able)
+– CMT (Color Mapping Table)
 – GIF (Graphics Interchange Format)
 – IOCA Tile Resource
 – JPEG (Joint Photographic Experts Group) AFPC JPEG Subset
-– TIFF (T ag Image File Format) AFPC Subset
-– TIFF (T ag Image File Format) with transparency
-– TIFF (T ag Image File Format) without transparency
+– TIFF (Tag Image File Format) AFPC Subset
+– TIFF (Tag Image File Format) with transparency
+– TIFF (Tag Image File Format) without transparency
 – TIFF multiple-image file with transparency
 – TIFF multiple-image file without transparency
 – TrueType/OpenType Font
@@ -388,9 +374,9 @@ As resources (downloaded or activated in home state)
 As presentation objects (supported in page and overlay states and includable via IDO command)
 – GIF (Graphics Interchange Format)
 – JPEG (Joint Photographic Experts Group) AFPC JPEG Subset
-– TIFF (T ag Image File Format) AFPC Subset
-– TIFF (T ag Image File Format) with transparency
-– TIFF (T ag Image File Format) without transparency
+– TIFF (Tag Image File Format) AFPC Subset
+– TIFF (Tag Image File Format) with transparency
+– TIFF (Tag Image File Format) without transparency
 – TIFF multiple-image file with transparency
 – TIFF multiple-image file without transparency
 • Page Segment command set at the PS1 level
@@ -398,9 +384,7 @@ As presentation objects (supported in page and overlay states and includable via
 • Code pages (identified by support for the Loaded-font command set at the LF3 or LF4 level); note that this
 includes support for the LCP and LCPC commands, but excludes support for FOCA fonts.
 
-## Page 1019
 
-IPDS Reference 985
 Additional Required Support
 • Support for negative object-area offset values in the BCOC, DOOC, IOC, GOC, and OCOC self-defining
 fields
@@ -443,9 +427,7 @@ Operation: Finish
 recognized including color of medium, STM property pair X'4022' or property pair X'4003' along with all
 color values supported)
 
-## Page 1020
 
-986 IPDS Reference
 – Unpadded RIDIC recording algorithm support (STM property pair X'5204')
 – Image Resolution (X'9A') triplet support (STM property pair X'5800')
 – Scale to fill mapping option for IOCA, and Object Containers (STM property pair X'F301')
@@ -459,9 +441,9 @@ color values supported)
 – If at least one finishing operation is supported, Finish group-operation support (SDF X'0012')
 – Print Fidelity Control triplets supported (SDF X'0016')
 ◦ Color Fidelity (X'75') triplet
-◦ T ext Fidelity (X'86') triplet
+◦ Text Fidelity (X'86') triplet
 ◦ If at least one finishing operation is supported, Finishing Fidelity (X'88') triplet
-◦ CMR T ag Fidelity (X'96') triplet
+◦ CMR Tag Fidelity (X'96') triplet
 – If at least one setup ID is supported and active, Printer Setup (SDF X'0017') – no specific setups required
 – If at least one finishing operation is supported, Finishing Operations (SDF X'0018') – no specific operations
 required
@@ -485,9 +467,7 @@ is not covered by STM property pairs or OPC self-defining fields is implicitly c
 – Object Container Presentation Space Size (X'9C') triplet support for PDF objects (STM property pair
 X'1203')
 
-## Page 1021
 
-IPDS Reference 987
 Migration Functions
 Some IPDS functions are provided for migration and coexistence. IPDS products might not provide complete
 support for these functions in all AFP environments. The migration functions include:
@@ -498,10 +478,6 @@ support for these functions in all AFP environments. The migration functions inc
 • Font-modification parameters (bits 3–7 of LFE byte 14)
 • Ordered pages (bit 0 of LPD byte 15)
 
-## Page 1022
 
-988 IPDS Reference
 
-## Page 1023
 
-Copyright © AFP Consortium 1987, 2023 989

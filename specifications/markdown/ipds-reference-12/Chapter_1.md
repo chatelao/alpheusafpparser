@@ -1,4 +1,4 @@
-Chapter 1. A Presentation Architecture Perspective
+# Chapter 1. A Presentation Architecture Perspective
 This chapter provides a brief overview of Presentation Architecture.
 The Presentation Environment
 Figure 1 shows today's presentation environment.
@@ -54,9 +54,7 @@ particular format used for physically transmitting or storing data. Where approp
 industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for
 compressed image data.
 
-## Page 36
 
-2 IPDS Reference
 Architecture Components
 AFP architectures provide the means for representing documents in a data format that is independent of the
 methods used to capture or create them. Documents can contain combinations of text, image, graphics, and
@@ -86,9 +84,7 @@ hardware. The IPDS architecture defines bidirectional command protocols for quer
 and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided
 by pre-processing and post-processing devices attached to IPDS printers.
 
-## Page 37
 
-IPDS Reference 3
 Figure 2 shows a system model relating MO:DCA and IPDS data streams to the presentation environment
 previously described. Also shown in the model are the object content architectures that apply to all levels of
 presentation processing in a system.
@@ -133,9 +129,7 @@ Bar Codes
 Object Containers
 Other Objects
 
-## Page 38
 
-4 IPDS Reference
 Objects
 Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object
 content architectures describe the structure and content of each type of data format that can exist in a
@@ -170,7 +164,7 @@ management information required to render presentation data.
 • Metadata Object Content Architecture (MOCA): A resource architecture used to carry metadata in an AFP
 environment.
 The MO:DCA and IPDS architectures also support data objects that are not defined by object content
-architectures. Examples of such objects are T ag Image File Format (TIFF), Encapsulated PostScript
+architectures. Examples of such objects are Tag Image File Format (TIFF), Encapsulated PostScript
 ® (EPS),
 and Portable Document Format (PDF). Such objects can be carried in a MO:DCA envelope called an object
 container, or they can be referenced without being enveloped in MO:DCA structures.
@@ -180,9 +174,7 @@ managing the production of pages on the physical media, overlay resource objects
 electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a
 document.
 
-## Page 39
 
-IPDS Reference 5
 Figure 3 shows an example of an all-points-addressable page composed of multiple presentation objects.
 Figure 3. Presentation Page. This is an example of a mixed-object page that can be composed in a
 presentation-system-independent MO:DCA format and printed on an IPDS printer.
@@ -206,10 +198,6 @@ can overlap
 Let’s get together and discuss your promotion!
 Jim D. Bolt
 
-## Page 40
 
-6 IPDS Reference
 
-## Page 41
 
-Copyright © AFP Consortium 1987, 2023 7

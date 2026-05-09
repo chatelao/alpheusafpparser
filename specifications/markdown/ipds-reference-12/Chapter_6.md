@@ -1,4 +1,4 @@
-Chapter 6. IM-Image Command Set
+# Chapter 6. IM-Image Command Set
 The IM-Image command set contains the commands for presenting image raster data on a logical page, a
 page segment, or an overlay. This command set contains the following commands:
 Table 39. IM-Image Commands
@@ -34,9 +34,7 @@ Transparency masks O
 Bit allocation O
 Area coloring O
 
-## Page 514
 
-480 IPDS Reference
 Table 40 IM-Image and IO-Image Comparison (cont'd.)
 Functions or controls IM Image IO Image
 IOCA tile resources O
@@ -48,9 +46,7 @@ command. CMRs cannot be directly tied to an IM Image and the rendering intent us
 media-relative colorimetric; but IM-Image data can be processed with CMRs from another level of the
 hierarchy.
 
-## Page 515
 
-IPDS Reference 481
 Write Image Control
 The Write Image Control (WIC) command causes the printer to enter the IM-Image state. The image command
 sequence is directed to an IM Image object area on the current page, page segment, or overlay.
@@ -61,7 +57,9 @@ is followed by one or more Write Image (WI) commands. IM-Image processing ends w
 the End command in the IM-Image state following receipt of at least one WI command.
 Unlike IO Image, there is no resolution specified within an IM Image. The resolution used by the printer for all
 IM Images is indicated in the XOH-OPC IM-Image and Coded-Font Resolution self-defining field.
+```
 Length X'D63D' Flag CID Data
+```
 The length of the WIC command can be:
 Without CID X'001D' or X'001F'
 With CID X'001F' or X'0021'
@@ -114,11 +112,9 @@ Scan-line sequence direction:
 180 degrees
 270 degrees
 X'2D00'
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 516
 
-482 IPDS Reference
 Offset Type Name Range Meaning IM1 Range
 16 CODE RCS
 X'00'
@@ -170,11 +166,9 @@ additional units of measure, the IPDS architecture requires the receiver to at l
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
 page 68.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 517
 
-IPDS Reference 483
 Image Size
 If the IM-Image output image size is less than the input image size, the input image is truncated to fit the output
 image. If the output image size is equal to the input image size, all input pels are presented in a one-to-one
@@ -213,11 +207,9 @@ Note: Some IPDS printers support less than the IM1 range for this field when ima
 replication or image magnification is specified. IBM printers that limit the range in these
 cases include 3820, 3825, 3827, 3828, 3829, 3831, 3835, and 3900-001. See your
 printer documentation for information about a particular IPDS printer.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 518
 
-484 IPDS Reference
 Figure 75. IM Image Where the Output Size Is Less Than the Input Size
 Input Image
 Output Image
@@ -238,11 +230,9 @@ Byte 9 One bit per pel in the source image format
 This byte must be X'00', indicating that the image pel data is bilevel encoded. Bits with a value
 of 1 identify a toned pel; bits with a value of 0 identify an untoned pel.
 Exception ID X'0246..01' exists if an invalid value is specified.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 519
 
-IPDS Reference 485
 Image Magnification
 The input image can be magnified (scaled) by a factor of 2. Images are magnified before mapping to the output
 image by:
@@ -267,27 +257,25 @@ Input Image
 Output Image
 Legend: = Toned pel in the raster pattern
 = Untoned pel in the raster pattern
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 520
 
-486 IPDS Reference
 Output Image Orientation
 The following bytes define the output orientation of the image in the logical page. Note that, unlike the
 corresponding fields in the other object-data types, IM-Image orientation cannot be specified with respect to
-the I,B axes. The format of the following two-byte parameters is analogous to that of the Set T ext Orientation
-control in the Write T ext command, however they are independent. The specification of scan line direction has
+the I,B axes. The format of the following two-byte parameters is analogous to that of the Set Text Orientation
+control in the Write Text command, however they are independent. The specification of scan line direction has
 no effect on the direction of the I or B axes.
 Bytes 12–13 Scan-line direction
 This is the direction in which pels are added to create an image scan line (the inline direction
 equivalent for images). The four valid directions are: +X
 p, +Yp, -Xp, and -Yp. The scan-line
-direction is specified as a clockwise angle from the X p-axis.
+direction is specified as a clockwise angle from the Xp-axis.
 Valid scan-line-direction values are:
 Inline Direction Value
-0° rotation (+X p direction) X'0000'
+0° rotation (+Xp direction) X'0000'
 90° rotation (+Yp direction) X'2D00'
-180° rotation (-X p direction) X'5A00'
+180° rotation (-Xp direction) X'5A00'
 270° rotation (-Yp direction) X'8700'
 Exception ID X'0248..01' exists if an invalid or unsupported scan-line-direction value is
 specified.
@@ -299,23 +287,21 @@ p,
 Xp-axis.
 Valid values for the scan-line-sequence direction are:
 Baseline Direction Value
-0° rotation (+X p direction) X'0000'
+0° rotation (+Xp direction) X'0000'
 90° rotation (+Yp direction) X'2D00'
-180° rotation (-X p direction) X'5A00'
+180° rotation (-Xp direction) X'5A00'
 270° rotation (-Yp direction) X'8700'
 The scan-line-sequence direction must be +90° from the scan-line direction specified in bytes
 12 and 13.
 Exception ID X'0249..01' exists if an invalid or unsupported scan-line-sequence-direction
 value is specified.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 521
 
-IPDS Reference 487
 Output Image Location
 The IM-Image origin (bytes 17–23) is the coordinate position of the top left corner of the output image on the
-logical page. The output image origin may be represented by either an X p,Yp coordinate position or an inline-
-baseline (I,B) coordinate position, depending on the value specified in byte 16. The X p,Yp position is defined
+logical page. The output image origin may be represented by either an Xp,Yp coordinate position or an inline-
+baseline (I,B) coordinate position, depending on the value specified in byte 16. The Xp,Yp position is defined
 relative to the origin of the logical page. The I,B position is based on the currently active inline and baseline
 definition for text. Refer to “Coordinate Systems” on page 48 for more information.
 Byte 16 Reference coordinate system
@@ -335,7 +321,7 @@ Bytes 17–19 specify the text inline coordinate; bytes 21–23 specify the text
 coordinate.
 • If byte 16 equals X'20', the absolute inline and relative baseline coordinates determine the
 origin. Bytes 17–19 specify the text inline coordinate; bytes 21–23 are added to the current
-text baseline coordinate, as established in the last Write T ext (WT) command.
+text baseline coordinate, as established in the last Write Text (WT) command.
 • If byte 16 equals X'40', the relative inline and absolute baseline coordinates determine the
 origin. Bytes 17–19 are added to the current text inline coordinate, as established in the last
 WT command; bytes 21–23 specify the text baseline coordinate.
@@ -347,44 +333,40 @@ established in the last WT command.
 p and Yp coordinates determine the origin.
 When the output image is within a page, WIC bytes 17–19 and 21–23 specify the offset from
 the X
-p-coordinate and Y p-coordinate origin specified in a previously received LPP command
+p-coordinate and Yp-coordinate origin specified in a previously received LPP command
 (or from the printer default coordinates if no LPP command received). When the output
 image is within an overlay that is invoked using an LCC command, WIC bytes 17–19 and
 21–23 specify the offset from the X
-m-coordinate and Y m-coordinate origin. When the output
+m-coordinate and Ym-coordinate origin. When the output
 image is within an overlay that is invoked using an IO command, WIC bytes 17–19 and 21–
 23 specify the offset from the X
 p-coordinate and Yp-coordinate origin specified in the IO
 command.
 Exception ID X'024A..01' exists if an invalid or unsupported value is specified.
 Bytes 17–19 Xp, I, or I-offset coordinate of the output image origin
-These bytes specify the X p coordinate, inline coordinate, or inline-coordinate offset of the
+These bytes specify the Xp coordinate, inline coordinate, or inline-coordinate offset of the
 output image origin (first pel in the output image). The value in these bytes is either a location
 on the X
 p-axis, a location on the inline axis, or a location on the inline axis specified as an
 offset from the current inline text coordinate (i c). Byte 16 specifies which of the three types of
 measurement is used.
 Exception ID X'024A..01' exists if an invalid or unsupported value is specified.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 522
 
-488 IPDS Reference
 Byte 20 Reserved
 Bytes 21–23 Yp, B, or B-offset coordinate of the output image origin
-These bytes specify the Y p coordinate, baseline coordinate, or baseline-coordinate offset of
+These bytes specify the Yp coordinate, baseline coordinate, or baseline-coordinate offset of
 the output image origin (first pel in the output image.) The value in these bytes is either a
-location on the Y p-axis, a location on the baseline axis, or a location on the baseline axis
+location on the Yp-axis, a location on the baseline axis, or a location on the baseline axis
 specified as an offset from the current baseline text coordinate (b c). Byte 16 specifies which of
 the three types of measurement is used.
 Exception ID X'024A..01' exists if an invalid or unsupported value is specified.
 Note: The current text presentation coordinate (I c, Bc) is not changed by the printing of this
 object.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 523
 
-IPDS Reference 489
 Image Color
 Bytes 24–25 Color ID (optional)
 These bytes specify a two-byte ID of a single presentation color for the entire image. This field
@@ -422,32 +404,30 @@ Notes:
 • For graphics data, the current default is the drawing order default defined in the GDD self-defining field of
 the WGC command.
 • For text, IM-Image, bilevel IO-Image, and bar code data, the current default is the printer default.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 524
 
-490 IPDS Reference
 2. The color rendered on presentation devices that do not support white is device dependent. For example,
 some printers simulate with color of medium, which results in white when white media is used.
 3. It is recommended that OCA Black (X'0008') be rendered as C=M=Y= X'00' and K = X'FF'.
 4. The printer default color specified by X'FF07' is also known in GOCA as neutral white for compatibility with
 display devices.
-5. The value X'FFFF' is not defined in the Standard OCA Color-Value T able, but is used by some objects as a
+5. The value X'FFFF' is not defined in the Standard OCA Color-Value Table, but is used by some objects as a
 default indicator as follows:
-• For PTOCA text data, X'FFFF' can be specified in the Set T ext Color (STC) control sequence to indicate
+• For PTOCA text data, X'FFFF' can be specified in the Set Text Color (STC) control sequence to indicate
 that the PTOCA default hierarchy is used to generate the color value. Note that X'FFFF' is not supported
-in the Set Extended T ext Color (SEC) control sequence.
+in the Set Extended Text Color (SEC) control sequence.
 • For IM-Image data in MO:DCA environments, X'FFFF' can be specified to indicate use of a presentation
 process default color value. The value X'FFFF' is not valid for IM-Image data in IPDS environments.
 • For bilevel IOCA image data (FS10), X'FFFF' can be specified to indicate use of a printer default color.
 • For BCOCA bar code data, X'FFFF' can be specified to indicate use of a printer default color.
-Write Image Control (WIC)
+## Write Image Control (WIC)
 
-## Page 525
 
-IPDS Reference 491
 Write Image
+```
 Length X'D64D' Flag CID Data
+```
 The length of the WI command can be:
 Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
@@ -466,12 +446,8 @@ rounded-up quotient of the number of bits received divided by 8. Exception ID X'
 rounded-up quotient of this product divided by 8 is less than the rounded-up quotient of the number of bits
 received divided by 8. Exception ID X'0264..01' or X'02AF ..01' exists if there is insufficient storage to contain
 the image; the preferred exception ID is X'02AF ..01'.
-Write Image (WI)
+## Write Image (WI)
 
-## Page 526
 
-492 IPDS Reference
 
-## Page 527
 
-Copyright © AFP Consortium 1987, 2023 493

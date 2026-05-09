@@ -1,4 +1,4 @@
-Chapter 7. IO-Image Command Set
+# Chapter 7. IO-Image Command Set
 The IO-Image command set contains the commands for presenting IOCA image data in a page, a page
 segment, or an overlay; these commands can also be used to download an IO Image as a resource. This
 command set contains the following commands:
@@ -35,9 +35,7 @@ Transparency masks O
 Bit allocation O
 Area coloring O
 
-## Page 528
 
-494 IPDS Reference
 Table 43 IM-Image and IO-Image Comparison (cont'd.)
 Functions or Controls IM Image IO Image
 IOCA tile resources O
@@ -53,14 +51,12 @@ different in the two dimensions. Printers that accept IO Image are capable of co
 resolutions to their own device-specific pel resolutions in order to present the image at the size dictated by the
 IO-Image commands.
 
-## Page 529
 
-IPDS Reference 495
 The IO-Image Presentation Space
 IO-Image data is placed onto the logical page in much the same way as graphics data; refer to Chapter 8,
 “Graphics Command Set”. Like the graphics data and bar code data, IO-Image data is mapped from an
 abstract presentation space to the image object area on the logical page. The coordinate system for this
-presentation space is the X io,Yio coordinate system. Unlike graphics, the entire image presentation space is
+presentation space is the Xio,Yio coordinate system. Unlike graphics, the entire image presentation space is
 mapped to the IO-Image object area. There is no concept of a presentation space window in this command
 set. The size of the image presentation space is defined in the Image Data Descriptor (IDD) self-defining field
 of the WIC2 command. One image point of an IO-Image segment is mapped to one image point of the image
@@ -71,9 +67,7 @@ IO Image Presentation Space
 Yio
 Xio
 
-## Page 530
 
-496 IPDS Reference
 The IO-Image Object Area
 The IO-Image object area is a rectangular area on the current logical page that the image presentation space
 is mapped into. The IO-Image object area can be the same size, larger, or smaller than the image presentation
@@ -118,9 +112,7 @@ presented.
 Note: Not all printers support the replicate-and-trim mapping option; the X'F300' property pair is returned in the
 IO-Image command-set vector of an STM reply by those printers that do support the mapping option.
 
-## Page 531
 
-IPDS Reference 497
 This mapping option is used for migration from IM Images to IOCA FS10 images and is not supported
 with any other IOCA function set.
 With scale-to-fill mapping, the center of the image presentation space is made coincident with the center of the
@@ -141,9 +133,7 @@ When an IO Image is downloaded as a resource, no color mapping is done. However,
 later included in a page or overlay via an IDO command, the color mapping table (if any) that is in effect at
 include time is applied to the image.
 
-## Page 532
 
-498 IPDS Reference
 Write Image Control 2
 Length X'D63E' Flag CID Data (IAP , IOC, IDD)
 The length of the WIC2 command can be:
@@ -156,7 +146,7 @@ this command define the image presentation space, define the image object area, 
 the image presentation space into the image object area. The WIC2 command is followed by zero or more
 Write Image 2 (WI2) commands. Image data processing ends when the printer receives the End command in
 IO-Image state. If not enough data is specified, exception ID X'0205..01' exists.
-T o associate metadata with the image object, one or more metadata objects can immediately follow the WIC2
+To associate metadata with the image object, one or more metadata objects can immediately follow the WIC2
 command, before any other commands. Each Write Metadata Control (WMC) command causes the printer to
 enter metadata state, where exactly one metadata object is included. Metadata state ends when the printer
 receives the End command, at which point the printer returns to the IO-Image state it was in when the WMC
@@ -171,19 +161,17 @@ If an invalid self-defining field is specified, a self-defining field is out of 
 specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
 Write Image Control 2 (WIC2)
 
-## Page 533
 
-IPDS Reference 499
 Figure 79. Locating, Sizing, and Orienting the Image Object Area
 Origin of IO-Image Object
 Area specified in Image
-Area Position (IAP)
+## Area Position (IAP)
 Size of IO-Image Object
 Area specified in Image
-Output Control (IOC)
+## Output Control (IOC)
 Orientation of IO-Image
 Object Area specified in
-Image Area Position (IAP)
+## Image Area Position (IAP)
 IO-Image Object Area
 Logical Page
 Xp
@@ -194,9 +182,7 @@ I
 B
 Write Image Control 2 (WIC2)
 
-## Page 534
 
-500 IPDS Reference
 Image Area Position
 The IAP is a mandatory self-defining field in the WIC2 command. It defines the position and orientation of the
 image object area. The origin and orientation of the image object area are defined relative to the reference
@@ -210,7 +196,7 @@ IAP
 2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
 4–5 SBIN X offset X'8000' –
 X'7FFF'
-Image object area origin; an X p, I, or I-offset
+Image object area origin; an Xp, I, or I-offset
 coordinate position in L-units
 X'8000'–X'7FFF'
 Refer to the note
@@ -218,7 +204,7 @@ following the
 table.
 6–7 SBIN Y offset X'8000' –
 X'7FFF'
-Image object area origin; a Y p, B, or B-offset
+Image object area origin; a Yp, B, or B-offset
 coordinate position in L-units
 X'8000'–X'7FFF'
 Refer to the note
@@ -271,12 +257,10 @@ coordinate position. The units of measure used to interpret this L-unit value ar
 LPD command that is current when this object is printed in a page or overlay.
 Write Image Control 2 (WIC2)
 
-## Page 535
 
-IPDS Reference 501
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
 Bytes 6–7 IO-Image object area origin Y offset in L-units
-These bytes specify the image object area origin (top-left corner) as a Y p, B, or B-offset
+These bytes specify the image object area origin (top-left corner) as a Yp, B, or B-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
@@ -285,12 +269,12 @@ object.
 Bytes 8–9 Orientation of image object area
 This two-byte parameter specifies the orientation of the image object area, that is, the X
 oa axis
-of the image object area, in terms of an angle measured clockwise from the X p or I coordinate
+of the image object area, in terms of an angle measured clockwise from the Xp or I coordinate
 axis. This parameter rotates the image object area around the origin position specified in bytes
-4–7 above. The image presented in the object area is aligned such that the positive X io axis of
-the image presentation space is parallel to, and in the same direction as, the positive X oa axis
-of the object area. The positive Y oa axis of the image object area is rotated 90 degrees
-clockwise relative to the positive X oa axis and is in the same direction as the positive Y io axis.
+4–7 above. The image presented in the object area is aligned such that the positive Xio axis of
+the image presentation space is parallel to, and in the same direction as, the positive Xoa axis
+of the object area. The positive Yoa axis of the image object area is rotated 90 degrees
+clockwise relative to the positive Xoa axis and is in the same direction as the positive Yio axis.
 This parameter has no effect on the I-axis orientation or the B-axis orientation.
 The object area orientation is specified in terms of a number of degrees and a number of
 minutes.
@@ -320,7 +304,7 @@ B'010110100 000000 0'
 B'100001110 000000 0'
 Byte 10 Reference coordinate system.
 The reference coordinate system determines the origin and orientation of the image object
-area, using either the X p,Yp or the inline-baseline (I,B) coordinate system.
+area, using either the Xp,Yp or the inline-baseline (I,B) coordinate system.
 An inline coordinate value specified as absolute means that the value in bytes 4 and 5 of the
 IAP is an absolute inline coordinate location, that is, bytes 4 and 5 are offset from the I system
 origin. A baseline coordinate value specified as absolute means that the value in IAP bytes 6
@@ -332,9 +316,7 @@ relative means that the value in IAP bytes 6 and 7 is an offset from the current
 coordinate location. Therefore, the following applies:
 Write Image Control 2 (WIC2)
 
-## Page 536
 
-502 IPDS Reference
 • If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
 IAP bytes 4 and 5 specify the text inline coordinate; IAP bytes 6 and 7 specify the text
 baseline coordinate.
@@ -349,13 +331,13 @@ bytes 4 and 5 are added to the current text inline coordinate. IAP bytes 6 and 7
 the current text baseline coordinate.
 • If byte 10 equals X'A0', the current logical page X
 p and Yp coordinates determine the origin.
-When the image is within a page, IAP bytes 4–7 specify the offset from the X p-coordinate
+When the image is within a page, IAP bytes 4–7 specify the offset from the Xp-coordinate
 and Yp-coordinate origin specified in a previously received LPP command (or from the
 printer default coordinates if no LPP command received). When the image is within an
 overlay that is invoked using an LCC command, IAP bytes 4–7 specify the offset from the
 X
-m-coordinate and Y m-coordinate origin. When the image is within an overlay that is invoked
-using an IO command, IAP bytes 4–7 specify the offset from the X p-coordinate and Yp-
+m-coordinate and Ym-coordinate origin. When the image is within an overlay that is invoked
+using an IO command, IAP bytes 4–7 specify the offset from the Xp-coordinate and Yp-
 coordinate origin specified in the IO command.
 Exception ID X'0204..05' exists if an invalid reference-coordinate-system value is specified.
 Bytes 11 to
@@ -365,16 +347,14 @@ This is a reserved field that might be used for future expansion. IPDS receivers
 but ignore this field; generators should not specify this field.
 Write Image Control 2 (WIC2)
 
-## Page 537
 
-IPDS Reference 503
 Image Output Control
 The Image Output Control is a self-defining field that specifies the size of the image object area and the option
 for mapping the image presentation space into the image object area.
 This self-defining field is optional and can be omitted from the WIC2 command. If the IOC field is omitted, the
 printer uses the following:
 • Mapping option X'30' (position and trim).
-• X oa offset and Yoa offset equals 0.
+• Xoa offset and Yoa offset equals 0.
 • Image object area size equals the image presentation space size defined in the IDD self-defining field.
 • No coloring.
 • No object-level CMRs.
@@ -390,21 +370,21 @@ end of IOC
 2–3 CODE SDF ID X'A66B' Self-defining-field ID X'A66B'
 4 CODE Unit base X'00'
 X'01'
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 X'00'
 5–6 UBIN UPUB X'0001' –
 X'7FFF'
 X
 oa and Yoa units per unit base X'3840'
-7–8 UBIN X oa extent X'0001' –
+7–8 UBIN Xoa extent X'0001' –
 X'7FFF'
 X'FFFF'
 Xoa extent of IO-Image object area in L-units
 Use the LPD value.
 See byte
 description.
-9–10 UBIN Y oa extent X'0001' –
+9–10 UBIN Yoa extent X'0001' –
 X'7FFF'
 X'FFFF'
 Yoa extent of IO-Image object area in L-units
@@ -444,11 +424,9 @@ following the
 table.
 Write Image Control 2 (WIC2)
 
-## Page 538
 
-504 IPDS Reference
 Offset Type Name Range Meaning IO1 Range
-14–15 SBIN Y oa offset X'8000' –
+14–15 SBIN Yoa offset X'8000' –
 X'7FFF'
 Yoa offset in L-units
 (for position-and-trim only)
@@ -493,8 +471,8 @@ Note: Bytes 4–6 describe the resolution of the IO-Image object area; they do n
 resolution of the IOCA data.
 Bytes 7–8 X
 oa extent of object area in L-units
-These bytes specify the X oa extent of the IO-Image object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the X p extent and
+These bytes specify the Xoa extent of the IO-Image object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Xp extent and
 the Xp unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
@@ -503,16 +481,14 @@ The printer must support all values in the range X'0001'–X'7FFF'; refer to “
 Conversion Algorithm” on page 68. The printer must support X'FFFF' for pages and overlays.
 Write Image Control 2 (WIC2)
 
-## Page 539
 
-IPDS Reference 505
 The printer may optionally support X'FFFF' for page segments. Property pair X'1206' in the IO-
 Image command-set vector of an STM reply indicates that the value X'FFFF' (use LPD value)
 is supported within page segments.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
 Bytes 9–10 Yoa extent of object area in L-units
-These bytes specify the Y oa extent of the IO-Image object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Y p extent and
+These bytes specify the Yoa extent of the IO-Image object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp extent and
 the Yp unit base and units and units per unit base of the LPD command that is current when
 this object is printed in a page or overlay.
 The printer must support all values in the range X'0001'–X'7FFF'; refer to “L-Unit Range
@@ -541,9 +517,7 @@ measure specified in bytes 4–6 of the IOC.
 Exception ID X'0208..05' exists if an invalid or unsupported mapping option is specified.
 Write Image Control 2 (WIC2)
 
-## Page 540
 
-506 IPDS Reference
 X'10' Scale to fit
 The center of the image presentation space is mapped to the center of the image
 object area. The image presentation space is uniformly scaled so that it fits entirely
@@ -559,13 +533,11 @@ IO-Image Presentation Space
 Scale-to-fit
 mapping specified
 in the Image
-Output Control (IOC)
+## Output Control (IOC)
 Logical Page
 Write Image Control 2 (WIC2)
 
-## Page 541
 
-IPDS Reference 507
 X'20' Center and Trim
 The center of the image presentation space is mapped to the center of the image
 object area. The image data is presented at the size specified in the IDD self-defining
@@ -580,12 +552,10 @@ Logical Page
 Center-and-trim
 mapping specified
 in the Image Output
-Control (IOC)
+## Control (IOC)
 Write Image Control 2 (WIC2)
 
-## Page 542
 
-508 IPDS Reference
 X'30' Position and Trim
 The top-left corner of the image presentation space is mapped to the image object
 area using the specified offset from the image object area origin. The image data is
@@ -606,12 +576,10 @@ in IOC
 Position-and-trim
 mapping specified
 in the Image Output
-Control (IOC)
+## Control (IOC)
 Write Image Control 2 (WIC2)
 
-## Page 543
 
-IPDS Reference 509
 X'41' Image point-to-pel
 The origin of the image presentation space is mapped to the origin of the image object
 area. Each image point in the image presentation space is mapped to a pel in the
@@ -629,9 +597,7 @@ Note: No resolution correction is required, therefore the size of the image in t
 object area is dependent on the device resolution.
 Write Image Control 2 (WIC2)
 
-## Page 544
 
-510 IPDS Reference
 X'50' Replicate and trim
 This mapping option is used for migration from IM Images to IOCA FS10 images and
 is not supported with any other IOCA function set.
@@ -655,15 +621,13 @@ Figure 83. Example of Replicate-and-Trim Mapping
 Replicate-and-trim
 mapping specified in
 the Image Output
-Control (IOC)
+## Control (IOC)
 IO-Image Presentation Space
 Logical Page
 IO-Image Object Area
 Write Image Control 2 (WIC2)
 
-## Page 545
 
-IPDS Reference 511
 X'60' Scale to fill
 The center of the image presentation space is mapped to the center of the image
 object area, and the image presentation space is scaled independently in the X and Y
@@ -679,22 +643,20 @@ IO-Image Presentation Space
 Scale-to-fill
 mapping specified
 in the Image
-Output Control (IOC)
+## Output Control (IOC)
 Logical Page
 Write Image Control 2 (WIC2)
 
-## Page 546
 
-512 IPDS Reference
 Bytes 12–13 Xoa offset in L-units from object area origin
-The Xoa offset field is ignored unless byte 11 contains X'30'. This value is the X oa offset of the
+The Xoa offset field is ignored unless byte 11 contains X'30'. This value is the Xoa offset of the
 image presentation space (first image point) from the origin of the IO-Image object area. The
 units of measure used to interpret this offset are specified in bytes 4–6.
 Property pair X'1208' in the IO-Image command-set vector of an STM reply indicates support
 for negative object-area-offset values.
 If an unsupported value is specified, exception ID X'0209..05' exists.
 Bytes 14–15 Yoa offset in L-units from object area origin
-The Yoa offset field is ignored unless byte 11 contains X'30'. This value is the Y oa offset of the
+The Yoa offset field is ignored unless byte 11 contains X'30'. This value is the Yoa offset of the
 image presentation space (first image point) from the origin of the IO-Image object area. The
 units of measure used to interpret this offset are specified in bytes 4–6.
 Property pair X'1208' in the IO-Image command-set vector of an STM reply indicates support
@@ -718,7 +680,7 @@ The X'6201' property pair (logical page and object area coloring support) in the
 vector of an STM reply indicates that the X'4E' and X'70' triplets are supported.
 The Color Specification (X'4E') triplet and the Presentation Space Reset Mixing (X'70') triplet allow control over
 the color of the image object area before any image data is placed in the object area. The WIC2-IOC does not
-specify the color of the image data; refer to T able 8 on page 33 for more information about specifying IO-Image
+specify the color of the image data; refer to Table 8 on page 33 for more information about specifying IO-Image
 color.
 Triplets that affect the color of the object area are processed in the order that they occur. An instance of a
 particular triplet overrides all previous instances of that triplet. For example, if a Presentation Space Reset
@@ -729,9 +691,7 @@ triplet, the resulting color of the area depends on the reset flag. If the reset
 colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium.
 Write Image Control 2 (WIC2)
 
-## Page 547
 
-IPDS Reference 513
 Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
 The invoked CMRs and the specified IOCA rendering intent are associated only with this IOCA image, and are
 used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for a description of
@@ -745,11 +705,11 @@ presentation object will be printed only if the CMRs and rendering intent used d
 selected while processing the IDO command. Refer to the RPO command description for a list of attributes
 used to find an appropriate preRIPped object.
 When printing an IOCA image in conjunction with a QR Code with Image bar code, data-object-level CMRs
-can be invoked for the IOCA image using the Invoke T ertiary Resource (X'A2') triplet on the WBCC command
+can be invoked for the IOCA image using the Invoke Tertiary Resource (X'A2') triplet on the WBCC command
 for the bar code. In addition, CMRs invoked via the Invoke CMR (X'92') triplet on the WBCC are also invoked at
 the data-object-level for such IOCA images—that is, the CMRs invoked for the bar code itself are also invoked
 for any secondary resource image objects of the bar code. Data-object-level CMRs invoked via the Invoke
-T ertiary Resource (X'A2') triplet take precedence over data-object-level CMRs invoked via the Invoke CMR
+Tertiary Resource (X'A2') triplet take precedence over data-object-level CMRs invoked via the Invoke CMR
 (X'92') triplet on the WBCC. A rendering intent specified using the Rendering Intent (X'95') triplet on the WIC2
 is used as the data-object-level rendering intent for IOCA images printed in conjunction with a QR Code with
 Image bar code.
@@ -757,13 +717,11 @@ Multiple Invoke CMR (X'92') triplets can be specified. However, only the last sp
 triplet will be used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WIC2 command. The X'F212' property pair in
-the Device-Control command-set vector of an STM reply indicates support for Invoke T ertiary Resource (X'A2')
+the Device-Control command-set vector of an STM reply indicates support for Invoke Tertiary Resource (X'A2')
 triplets in the WBCC command.
 Write Image Control 2 (WIC2)
 
-## Page 548
 
-514 IPDS Reference
 Image Data Descriptor
 The IDD is a mandatory self-defining field in the WIC2 command. It specifies parameters that define the image
 presentation space size and resolution.
@@ -782,10 +740,10 @@ Data object resource Host-Assigned ID
 X'0000'
 6 CODE Unit base X'00'
 X'01'
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 X'00'
-7–8 UBIN X io resolution X'0001' –
+7–8 UBIN Xio resolution X'0001' –
 X'7FFF'
 Xio image points per unit base X'0001' –
 X'7FFF'
@@ -794,13 +752,13 @@ io resolution X'0001' –
 X'7FFF'
 Yio image points per unit base X'0001' –
 X'7FFF'
-11–12 UBIN X io extent X'0001' –
+11–12 UBIN Xio extent X'0001' –
 X'7FFF'
 Xio extent of the image presentation space in
 image points
 X'0001' –
 X'7FFF'
-13–14 UBIN Y io extent X'0001' –
+13–14 UBIN Yio extent X'0001' –
 X'7FFF'
 Yio extent of the image presentation space in
 image points
@@ -834,12 +792,10 @@ support for all architected units of measure.
 Exception ID X'0205..05' exists if an invalid or unsupported unit base value is specified.
 Write Image Control 2 (WIC2)
 
-## Page 549
 
-IPDS Reference 515
 Bytes 7–8 Xio image points per unit base
-These bytes specify the X io image points per unit base in the image presentation space. For
-example, if the unit base is ten inches and this value is 2000, the image presentation space X io
+These bytes specify the Xio image points per unit base in the image presentation space. For
+example, if the unit base is ten inches and this value is 2000, the image presentation space Xio
 resolution is 200 image points per inch.
 Exception ID X'0206..05' exists if an invalid or unsupported image-points-per-unit-base value
 is specified.
@@ -847,15 +803,15 @@ Note: Bytes 6–10 describe the resolution of the IO-Image presentation space; t
 describe the resolution of the IOCA image. The resolution specified in this self-defining
 field is used by the printer instead of the resolution specified for the IOCA image.
 Bytes 9–10 Yio image points per unit base
-These bytes specify the Y io image points per unit base in the image presentation space.
+These bytes specify the Yio image points per unit base in the image presentation space.
 Exception ID X'0206..05' exists if an invalid or unsupported image-points-per-unit-base value
 is specified.
 Bytes 11–12 X
 io extent of image presentation space
-These bytes specify the X io dimension of the image presentation space in image points.
+These bytes specify the Xio dimension of the image presentation space in image points.
 Exception ID X'0207..05' exists if an invalid extent value is specified.
 Bytes 13–14 Yio extent of image presentation space
-These bytes specify the Y io dimension of the image presentation space in image points.
+These bytes specify the Yio dimension of the image presentation space in image points.
 Exception ID X'0207..05' exists if an invalid extent value is specified.
 Note: Some printers encounter storage limitations when scaling image data for a very large
 image presentation space or image object area; for example, larger than 136 inches by
@@ -887,9 +843,7 @@ field, and print the image in the device-default color. Presence of the X'40nn' 
 the IO-Image command-set vector of an STM reply with any defined nn bit set to B'1'
 Write Image Control 2 (WIC2)
 
-## Page 550
 
-516 IPDS Reference
 indicates that the printer supports the Set Bilevel Image Color (X'F6') IOCA self-defining
 field.
 If an invalid or unsupported value is encountered in the length, applicability area, or named-
@@ -969,11 +923,11 @@ dependent. For example, some printers simulate with color of medium that results
 white when white media is used.
 Write Image Control 2 (WIC2)
 
-## Page 551
 
-IPDS Reference 517
 Write Image 2
+```
 Length X'D64E' Flag CID Data
+```
 The length of the WI2 command can be:
 Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
@@ -998,7 +952,7 @@ X'93' End Image Content All
 X'94' Image Size Parameter FS10, FS11, FS14, FS45, FS48
 X'95' Image Encoding Parameter All
 X'96' Image Data Element Size Parameter All
-X'97' Image Look Up T able ID Parameter FS10, FS11
+X'97' Image Look Up Table ID Parameter FS10, FS11
 X'98' Band Image Parameter FS11, FS14, FS42, FS45, FS48
 X'9B' Image Data Element Structure Parameter FS11, FS14, FS40, FS42, FS45,
 FS48
@@ -1011,9 +965,7 @@ X'FE9C' Band Image Data (one or more) FS11, FS14, FS42, FS45, FS48
 X'FEB3' nColor Names
 Write Image 2 (WI2)
 
-## Page 552
 
-518 IPDS Reference
 Table 44 IOCA Self-Defining Fields (cont'd.)
 CODE Name Function Set
 X'FEB8' Include Tile Parameter FS45, FS48
@@ -1028,13 +980,13 @@ or more consecutive WI2 commands. There is no restriction on how much or how lit
 printer in a single WI2 command, except for the length limit of the command.
 All image segments are executed in immediate mode. That is, segments are processed as they are received
 by the printer and are not retained or stored as named segments.
-The Look Up T able ID supported by IPDS printer implementations is X'00', the default Look Up T able ID. This
-ID specifies a Look Up T able with the following characteristics:
-• If the number of bits per image point of the Image Data Element size parameter is X'01', this Look-Up T able
+The Look Up Table ID supported by IPDS printer implementations is X'00', the default Look Up Table ID. This
+ID specifies a Look Up Table with the following characteristics:
+• If the number of bits per image point of the Image Data Element size parameter is X'01', this Look-Up Table
 specifies a bilevel image with B'1' representing significant bits, image points representing toned pels in the
 printer, and B'0' representing insignificant bits, image points representing untoned pels in the printer.
 • If the number of bits per image point of the Image Data Element size parameter is greater than X'01', this
-Look-Up T able specifies a grayscale image. Each Image Data Element is a positive binary number that
+Look-Up Table specifies a grayscale image. Each Image Data Element is a positive binary number that
 represents a grayscale value for an image point. A value of X'00' indicates maximum density, for example,
 black. Greater values represent increasingly lighter shades. Exception ID X'0596..11' exists if an Image Data
 Element Size other than X'01' bit per image point is specified for an IBM MMR, G4 MMR, or RL4 compressed
@@ -1044,7 +996,7 @@ Support for this optional IOCA parameter is indicated by property pair X'5101' i
 vector of an STM reply.
 Some IPDS printers support IOCA tile resources with IOCA images; support for these resource objects is
 indicated by an object-type OID value in the Object-Container Type Support self-defining field in an XOH-OPC
-reply. T o invoke one of these resource objects, the resource must first be activated using either an AR
+reply. To invoke one of these resource objects, the resource must first be activated using either an AR
 command or a download sequence (WOCC, WOC, ..., WOC, End) and secondly a DORE or DORE2
 command must contain an entry that maps the resource object's HAID to an internal resource ID specified
 within the IOCA image. IOCA defines the internal resource ID as a 4-byte local identifier value specified within
@@ -1058,9 +1010,7 @@ the Set Extended Bilevel Image Color IOCA self-defining field) as reported in th
 vector in an STM reply.
 Write Image 2 (WI2)
 
-## Page 553
 
-IPDS Reference 519
 Unsupported IOCA function in an IPDS Environment
 Not all IOCA printers support the full range of IOCA function; these printers will return an appropriate NACK if
 unsupported IOCA self-defining fields or values are included in an image. For example, if an IOCA FS11,
@@ -1104,9 +1054,7 @@ X'0598..14' X X X X X
 X'0598..15' X X X X X
 Write Image 2 (WI2)
 
-## Page 554
 
-520 IPDS Reference
 Table 45 Exception IDs for IOCA Function Sets (cont'd.)
 Exception ID FS10 FS11 FS14 FS40 FS42 FS45 FS48
 X'059B..0F' X X X X X X
@@ -1143,6 +1091,4 @@ X'05CE..10' X X
 X'05F4..10'
 Write Image 2 (WI2)
 
-## Page 555
 
-Copyright © AFP Consortium 1987, 2023 521

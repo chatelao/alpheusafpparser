@@ -1,4 +1,4 @@
-Chapter 10. Object Container Command Set
+# Chapter 10. Object Container Command Set
 The Object Container command set contains IPDS commands for downloading setup files and presentation
 object containers and for downloading, managing, deactivating, and including data object resources and data-
 object-font components. The Object Container command set consists of the following commands:
@@ -30,7 +30,7 @@ pages or paginated objects. When a multi-page file is referenced in the data str
 Object (IDO) command, the reference selects a single paginated object within the file for presentation.
 Similarly, when a multi-page file is carried in WOC commands specified directly within a page or overlay, the
 WOCC command selects a single paginated object within the file for presentation. For information on which
-multi-page resource objects can use secondary resources, refer to T able 51 on page 566. CMRs are used with
+multi-page resource objects can use secondary resources, refer to Table 51 on page 566. CMRs are used with
 multi-page resource objects. Examples of multi-page resource objects are PDF files that contain multiple
 pages and TIFF files that contain multiple paginated image objects.
 If an object container contains non-presentation data, the host sends a Write Object Container Control
@@ -41,16 +41,14 @@ If an object container contains presentation data, the host sends a Write Object
 command and one or more Write Object Container (WOC) commands. If the WOCC is sent in home state, the
 object container is saved as a data object resource to be presented later via an IDO command. If the WOCC is
 
-## Page 598
 
-564 IPDS Reference
 sent in page or overlay state, the object container is presented in the current page or overlay. Presentation
 object containers can reference activated printer-resident data object resources or data object resources that
 were previously downloaded; these secondary resources are identified in a Data Object Resource Equivalence
 (DORE) or Data Object Resource Equivalence 2 (DORE2) command.
 Color Management Resources (CMRs) are used to produce accurate colors or grayscale and to provide color-
 tuning capability. CMRs can be invoked with an Invoke CMR (X'92') triplet on the IDO or WOCC command for
-a presentation object container, with an Invoke T ertiary Resource (X'A2') triplet on the WBCC command for
+a presentation object container, with an Invoke Tertiary Resource (X'A2') triplet on the WBCC command for
 image presentation object containers to be printed in conjunction with a QR Code with Image bar code,
 or can
 be invoked at other layers in the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for a
@@ -65,7 +63,7 @@ The following pages explain the object container presentation space and the obje
 object containers that contain presentation data.
 Object Container Presentation Space
 Object container presentation data is placed in a presentation space in much the same way as image,
-graphics, and bar code data. The coordinate system for this presentation space is the X oc and the Yoc
+graphics, and bar code data. The coordinate system for this presentation space is the Xoc and the Yoc
 coordinate system. The size of the object container presentation space and how the data is placed in the
 presentation space is defined by the specific object; refer to the Object-Type Identifiers registry in the Mixed
 Object Document Content Architecture Reference for a description of the presentation space size for each
@@ -91,9 +89,7 @@ Some printers allow the object area to be colored before the object data is plac
 specified with triplets in the Object Container Output Control self-defining field. Support for this optional
 function is indicated by the X'6201' property pair that is returned in the Device-Control command-set vector of
 
-## Page 599
 
-IPDS Reference 565
 the Sense Type and Model command reply. Object area coloring for UP 3I Print Data objects is handled by the
 IPDS printer in the same manner as for all other object containers.
 Figure 95. Locating, Sizing, and Orienting the Object Container Object Area
@@ -101,18 +97,18 @@ Logical Page
 Origin of Object Container
 Object Area specified in
 Object Container Area
-Position (OCAP)
+## Position (OCAP)
 Object Container
 Object Area
 Size of Object Container
 Object Area specified in
 Object Container Output
-Control (OCOC)
+## Control (OCOC)
 Orientation of Object
 Container Object
 Area specified in
 Object Container
-Area Position (OCAP)
+## Area Position (OCAP)
 I
 B
 X
@@ -138,9 +134,7 @@ resources of secondary resources are called tertiary resources. In general, tert
 as secondary resources, and whenever words in this Reference discuss “secondary resources”, those words
 apply equally to tertiary resources, unless otherwise noted.
 
-## Page 600
 
-566 IPDS Reference
 The following table shows the valid secondary resources for each presentation data object:
 Table 51. Secondary Resource Usage
 Presentation Data Object Secondary Resource Internal Resource ID HAID pool*
@@ -149,7 +143,7 @@ Image)
 Presentation data object resource
 (see notes 2 and 3)
 Yes, 2-byte image local ID DOR
-Encapsulated PostScript (EPS)
+## Encapsulated PostScript (EPS)
 (with or without transparency)
 Resident Color Profile (see note 3) No DOR
 IOCA image IOCA Tile Resource Yes, 4-byte local ID DOR
@@ -183,24 +177,22 @@ Profiles are not supported as tertiary resources.
 4. Because TrueType/OpenType Font secondary resources use the data-object-font-component HAID pool, the
 DORE2 command must be used to establish equivalence entries for them.
 
-## Page 601
 
-IPDS Reference 567
 Note: Color Management Resources (CMRs) are another type of resource that is used with presentation data
 objects (and all other presentation objects) that contain color data. The DORE and DORE2 commands
 are not used to invoke Color Management Resources (CMRs). CMRs can be invoked with an Invoke
 CMR (X'92') triplet on the IDO or WOCC command for a presentation object container, with an Invoke
-T ertiary Resource (X'A2') triplet on the WBCC command for image presentation object containers to be
+Tertiary Resource (X'A2') triplet on the WBCC command for image presentation object containers to be
 printed in conjunction with a QR Code with Image bar code, or can be invoked at other layers in the
 CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for a description of the hierarchy
 and of Color Management Resources.
 Even though the DORE and DORE2 commands are not used to invoke CMRs, they are used in the
-process of invoking tertiary CMRs through the Invoke T ertiary Resource (X'A2') triplet. When printing an
+process of invoking tertiary CMRs through the Invoke Tertiary Resource (X'A2') triplet. When printing an
 image object in conjunction with a QR Code with Image bar code, the image object is a secondary
 resource to the bar code; any CMRs invoked for that image object are considered tertiary resources.
-The Invoke T ertiary Resource (X'A2') triplet provides the HAID of a CMR and also identifies an internal
+The Invoke Tertiary Resource (X'A2') triplet provides the HAID of a CMR and also identifies an internal
 image local ID from within the bar code; the two pieces of information establish for which secondary
-resource image object the tertiary CMR is being invoked. T o determine the HAID of the image, the
+resource image object the tertiary CMR is being invoked. To determine the HAID of the image, the
 DORE
 or DORE2 equivalence entries are searched for the internal image local ID.
 A Resident Color Profile and Color Management Resources can be specified for a presentation data
@@ -237,9 +229,7 @@ Before a data object is printed in a page, page segment, or overlay, the printer
 that have a zero length internal resource ID—known as HAID-only equivalence entries— and uses the object-
 type OID of the referenced secondary resource to determine the appropriate use for that resource. Only one
 
-## Page 602
 
-568 IPDS Reference
 Resident Color Profile resource can be used with a data object; therefore, if multiple Resident Color Profile
 resources are specified, the first is used and the others are ignored. Also, if multiple HAID-only equivalence
 entries are specified with the same HAID, the first one is used and the others are ignored. Note that Resident
@@ -258,14 +248,14 @@ command in page, page segment, and overlay states. That property pair in conjunc
 X'707B' in the STM Device-Control command-set vector indicates support for the DORE2 command in home
 state.
 
-## Page 603
 
-IPDS Reference 569
 Data Object Resource Equivalence
 The Data Object Resource Equivalence (DORE) command is one of two commands used to establish data-
 object-resource equivalence entries. See “Data Object Resource Equivalence Entries ” on page 565 for more
 information on equivalence entries and the DORE and DORE2 commands.
+```
 Length X'D66C' Flag CID Data
+```
 The length of the DORE command can be:
 Without CID X'0005' or X'0008'–X'7FFF'
 With CID X'0007' or X'000A'–X'7FFF'
@@ -312,11 +302,9 @@ resource ID was desired, it could be done with three entries: a first entry coul
 X'14' and contain the first 250 bytes of the internal resource ID, the next entry could specify
 HAID=X'E47D' and contain the next 250 bytes of the internal resource ID, and the next entry
 could specify HAID=X'E47D' and contain the last 100 bytes of the internal resource ID.
-Data Object Resource Equivalence (DORE)
+## Data Object Resource Equivalence (DORE)
 
-## Page 604
 
-570 IPDS Reference
 A non-X'E47D' entry followed by any number of X'E47D' entries make up one single
 equivalence entry. For example, if a syntax error occurs in an extender entry, that entry and all
 entries back to the last non-X'E47D' entry are discarded.
@@ -331,16 +319,16 @@ Bytes 3 to end of entry
 At the IPDS level, the internal resource ID is considered to be a binary string that uniquely
 identifies a secondary resource within the scope of the data object that invokes the secondary
 resource.
-Data Object Resource Equivalence (DORE)
+## Data Object Resource Equivalence (DORE)
 
-## Page 605
 
-IPDS Reference 571
 Data Object Resource Equivalence 2
 The Data Object Resource Equivalence 2 (DORE2) command is one of two commands used to establish data-
 object-resource equivalence entries. See “Data Object Resource Equivalence Entries ” on page 565 for more
 information on equivalence entries and the DORE and DORE2 commands.
+```
 Length X'D66E' Flag CID Data
+```
 The length of the DORE2 command can be:
 Without CID X'0005' or X'000C'–X'7FFF'
 With CID X'0007' or X'000E'–X'7FFF'
@@ -392,9 +380,7 @@ X'02' The data-object-font-component HAID pool is searched.
 Bytes 5–6 Reserved
 Data Object Resource Equivalence 2 (DORE2)
 
-## Page 606
 
-572 IPDS Reference
 Bytes 7 to end of entry
 1–32755 byte long internal resource ID
 At the IPDS level, the internal resource ID is considered to be a binary string that uniquely
@@ -402,9 +388,7 @@ identifies a secondary resource within the scope of the data object that invokes
 resource.
 Data Object Resource Equivalence 2 (DORE2)
 
-## Page 607
 
-IPDS Reference 573
 Deactivate Data-Object-Font Component
 The Deactivate Data-Object-Font Component (DDOFC) command directs the printer to deactivate one or more
 previously activated data-object-font components. Support for this optional command is indicated by the
@@ -414,7 +398,9 @@ previous WOCC, or AR command is also deleted. AR entries for unactivated data-ob
 not affected by the Deactivate Data-Object-Font Component command.
 The XOA-RRL command can be used to find out whether or not a data-object-font component is present in the
 printer or is currently activated.
+```
 Length X'D65B' Flag CID Data
+```
 The length of the DDOFC command can be:
 Without CID X'0007'
 With CID X'0009'
@@ -448,9 +434,7 @@ A deactivate-all command when there are no active data-object-font components is
 a NOP .
 Deactivate Data-Object-Font Component (DDOFC)
 
-## Page 608
 
-574 IPDS Reference
 Deactivate Data Object Resource
 The Deactivate Data Object Resource (DDOR) command directs the printer to deactivate one or more
 previously activated data object resources. Support for this optional command is indicated by the X'1201'
@@ -462,7 +446,9 @@ The XOA-RRL command can be used to find out whether or not a data object resourc
 or is currently activated.
 Note: Presentation Services Programs should take care when deactivating CMRs that are currently invoked.
 When a CMR is deactivated, all invocations of that CMR are also removed.
+```
 Length X'D65C' Flag CID Data
+```
 The length of the DDOR command can be:
 Without CID X'0007'
 With CID X'0009'
@@ -485,11 +471,9 @@ AR, home-state WIC2, or home-state WOCC command. If an invalid value is specifie
 field, exception ID X'020D..11' exists. Exception ID X'020D..14' exists if the data object
 resource specified is not currently activated.
 A deactivate-all command when there are no active data object resources is effectively a NOP .
-Deactivate Data Object Resource (DDOR)
+## Deactivate Data Object Resource (DDOR)
 
-## Page 609
 
-IPDS Reference 575
 Include Data Object
 The Include Data Object (IDO) command causes a previously activated data object resource to be presented
 in the current page or overlay. The data object is processed as if it had been included directly in the page or
@@ -509,7 +493,7 @@ an IDO command are:
 • PDF single page without transparency
 • PNG (Portable Network Graphics) AFPC PNG Subset
 • SVG (Scalable Vector Graphics) AFPC SVG Subset
-• TIFF (T ag Image File Format) AFPC TIFF Subset
+• TIFF (Tag Image File Format) AFPC TIFF Subset
 • TIFF with transparency
 • TIFF without transparency
 • TIFF multiple-image file with transparency
@@ -533,11 +517,9 @@ two, or three consecutive self-defining fields in the following order:
 1. Data Object Area Position (DOAP), optional
 2. Data Object Output Control (DOOC), optional
 3. Data Object Data Descriptor (DODD), mandatory
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 610
 
-576 IPDS Reference
 Note: It is recommended that the IDO command used to include a presentation object always provide
 overrides to ensure that the desired controls are used; if overrides are not supplied on the IDO
 command, the OCAP and OCOC values (or defaults) from the WOCC command (or the IAP and IOC
@@ -546,21 +528,19 @@ recommended that the presentation services program omit the OCAP and OCOC from t
 command so that the object is captured with known defaults for each of these controls. Since the
 application program cannot know what controls were saved when the resource was captured, the
 application program cannot know for certain what these WOCC (or WIC2) values might be at print time.
-T o associate metadata with a data object resource, the metadata must be passed just after the WOCC
+To associate metadata with a data object resource, the metadata must be passed just after the WOCC
 command (or the WIC2 command for IOCA images) when the data object resource was downloaded. Here in
 the IDO command, additional metadata cannot be associated specifically with the data object resource.
 If an invalid self-defining field is specified, a self-defining field is out of order, a required self-defining field is not
 specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
 The HAID parameter in the Data Object Data Descriptor identifies the data object to be included. All necessary
 secondary resources must be identified in a prior DORE or DORE2 command within the page or overlay.
-T o improve print performance, if a previous Rasterize Presentation Object (RPO) command had preprocessed
+To improve print performance, if a previous Rasterize Presentation Object (RPO) command had preprocessed
 and cached an appropriate variation of the data object resource to be included, the printer can simply use the
 cached variation rather than rasterizing the object at include time.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 611
 
-IPDS Reference 577
 Data Object Area Position
 The Data Object Area Position (DOAP) self-defining field, if present, is the first self-defining field in the data
 portion of the IDO command. This field provides overrides for the position and orientation of the data object's
@@ -581,7 +561,7 @@ DOAP
 X'7FFF'
 X'FFFF'
 Override for object area origin;
-an I, I-offset, or X p coordinate
+an I, I-offset, or Xp coordinate
 position in L-units
 Use X offset from object
 X'8000'–X'7FFF'
@@ -650,11 +630,9 @@ X'A0'
 end of
 DOAP
 UNDF Data without architectural definition
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 612
 
-578 IPDS Reference
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the specified range in 1440ths plus an equivalent range for
 additional units of measure. If a receiver supports additional units of measure, the IPDS architecture
@@ -692,11 +670,9 @@ WOCC command is omitted, an offset of 0 is used.
 Note: If an object-area-origin override value is specified and the other override value is
 X'FFFF', the printer first converts the origin-offset values in the object to the same
 reference coordinate system specified in the IDO before applying the override.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 613
 
-IPDS Reference 579
 Bytes 8–9 Override for the object area orientation
 This field specifies an override for the object area orientation; refer to the description in the
 WOCC-OCAP or the WIC2-IAP for more details. X'FFFF'—that is, all 16 bits are set to B'1'—
@@ -730,11 +706,9 @@ end of DOAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
 but ignore this field; generators should not specify this field.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 614
 
-580 IPDS Reference
 Data Object Output Control
 The Data Object Output Control (DOOC), if present, is the first or second self-defining field in the data portion
 of the IDO command; if the DOAP is specified, the DOOC is the second self-defining field. This self-defining
@@ -756,17 +730,17 @@ end of DOOC
 2–3 CODE SDF ID X'ABC3' Self-defining-field ID X'ABC3'
 4 CODE Unit base X'00'
 X'01'
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 X'00'
 5–6 UBIN UPUB X'0001' –
 X'7FFF'
 X
 oa and Yoa units per unit base X'3840'
-7–8 UBIN X oa extent X'0001' –
+7–8 UBIN Xoa extent X'0001' –
 X'7FFF'
 X'FFFF'
-Override for X oa extent of
+Override for Xoa extent of
 object area in L-units
 Use Xoa extent from object
 X'0001'–X'7FFF'
@@ -774,7 +748,7 @@ X'0001'–X'7FFF'
 note following
 the table.)
 X'FFFF'
-9–10 UBIN Y oa extent X'0001' –
+9–10 UBIN Yoa extent X'0001' –
 X'7FFF'
 X'FFFF'
 Override for Yoa extent of
@@ -814,7 +788,7 @@ X'FF'
 oa offset X'8000' –
 X'7FFF'
 X'FFFF'
-Override for X oa offset in
+Override for Xoa offset in
 L-units; (for the position and
 position-and-trim mappings only)
 Use Xoa offset from object
@@ -823,13 +797,11 @@ X'0000'–X'7FFF'
 note following
 the table.)
 X'FFFF'
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 615
 
-IPDS Reference 581
 Offset Type Name Range Meaning Required
-14–15 SBIN Y oa offset X'8000' –
+14–15 SBIN Yoa offset X'8000' –
 X'7FFF'
 X'FFFF'
 Override for Yoa offset in
@@ -874,9 +846,9 @@ units per ten inches (1440 units per inch); in this case, the measurement units 
 If an invalid or unsupported value is specified, exception ID X'0206..05' exists.
 Bytes 7–8 Override for X
 oa extent of the object area
-This field specifies an override for the X oa extent of the object area in L-units using the units of
+This field specifies an override for the Xoa extent of the object area in L-units using the units of
 measure specified in bytes 4–6.
-X'FFFF' is a special value that specifies that the X oa extent and the unit base and units per unit
+X'FFFF' is a special value that specifies that the Xoa extent and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted, the object's
 presentation space X extent is used. The IDD specifies the presentation space size for an IO
@@ -884,15 +856,13 @@ Image; the object itself normally specifies the presentation space for an object
 the object does not specify a presentation space size, the architected default is the
 presentation space size of the underlying page or overlay.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 616
 
-582 IPDS Reference
 Bytes 9–10 Override for Yoa extent of the object area
-This field specifies an override for the Y oa extent of the object area in L-units using the units of
+This field specifies an override for the Yoa extent of the object area in L-units using the units of
 measure specified in bytes 4–6.
-X'FFFF' is a special value that specifies that the Y oa extent and the unit base and units per unit
+X'FFFF' is a special value that specifies that the Yoa extent and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted, the object's
 presentation space Y extent is used. The IDD specifies the presentation space size for an IO
@@ -928,11 +898,9 @@ The option values supported only for IO Images include:
 • X'42'—Point to pel with double dot
 • X'50'—Replicate and trim
 Refer to pages 509–510 for a description of these mapping control options.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 617
 
-IPDS Reference 583
 Support within the IDO command for the following mapping control options is indicated as
 follows:
 • Point to pel (X'41') and point to pel with double dot (X'42') is indicated by property pair
@@ -941,25 +909,25 @@ X'1202' in the IO-Image command-set vector of an STM reply.
 vector of an STM reply.
 • Scale to fill (X'60') is indicated by property pair X'F301' in the IO-Image command-set vector
 of an STM reply or in the Object Container command-set vector of an STM reply.
-Bytes 12–13 Override for X oa offset from object area origin
-This field specifies an override in L-units for the X oa offset from the object area origin. The
-units of measure used to interpret this offset are specified in bytes 4–6. The X oa offset field is
+Bytes 12–13 Override for Xoa offset from object area origin
+This field specifies an override in L-units for the Xoa offset from the object area origin. The
+units of measure used to interpret this offset are specified in bytes 4–6. The Xoa offset field is
 ignored when the actual mapping option used is not position or position and trim.
 Property pair X'1208' in the Object Container command-set vector of an STM reply indicates
 support for negative object-area-offset values.
-X'FFFF' is a special value that specifies that the X oa offset and the unit base and units per unit
+X'FFFF' is a special value that specifies that the Xoa offset and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted and the position
 or position-and-trim mapping option is actually used, the architected default X
 oa offset is 0.
 If an unsupported value is specified, exception ID X'0209..05' exists.
 Bytes 14–15 Override for Yoa offset from object area origin
-This field specifies an override in L-units for the Y oa offset from the object area origin. The units
-of measure used to interpret this offset are specified in bytes 4–6. The Y oa offset field is
+This field specifies an override in L-units for the Yoa offset from the object area origin. The units
+of measure used to interpret this offset are specified in bytes 4–6. The Yoa offset field is
 ignored when the actual mapping option used is not position or position and trim.
 Property pair X'1208' in the Object Container command-set vector of an STM reply indicates
 support for negative object-area-offset values.
-X'FFFF' is a special value that specifies that the Y oa offset and the unit base and units per unit
+X'FFFF' is a special value that specifies that the Yoa offset and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted and the position
 or position-and-trim mapping option is actually used, the architected default Y
@@ -977,11 +945,9 @@ The Include Data Object triplets are fully described in the triplets chapter:
 “Presentation Space Reset Mixing (X'70') Triplet” on page 731
 “Invoke CMR (X'92') Triplet” on page 772
 “Rendering Intent (X'95') Triplet” on page 774
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 618
 
-584 IPDS Reference
 Override for Presentation Space Reset Mixing (X'70') triplet
 The X'6201' property pair (logical page and object area coloring support) in the Device-Control command-set
 vector of an STM reply indicates that the X'70' triplet is supported.
@@ -1003,11 +969,9 @@ Multiple Invoke CMR (X'92') triplets can be specified. However, only the last sp
 triplet will be used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the IDO command.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 619
 
-IPDS Reference 585
 Data Object Data Descriptor
 The Data Object Data Descriptor (DODD) is the last self-defining field in the data portion of the IDO command.
 This self-defining field specifies the HAID of a previously activated data object to be included in the current
@@ -1062,12 +1026,10 @@ data object types that can be included with an IDO command are:
 • PDF single page without transparency
 • PNG (Portable Network Graphics) AFPC PNG Subset
 • SVG (Scalable Vector Graphics) AFPC SVG Subset
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 620
 
-586 IPDS Reference
-• TIFF (T ag Image File Format) AFPC TIFF Subset
+• TIFF (Tag Image File Format) AFPC TIFF Subset
 • TIFF with transparency
 • TIFF without transparency
 • TIFF multiple-image file with transparency
@@ -1116,11 +1078,9 @@ this case, the triplet must specify the Standard OCA color space (X'40') or the 
 • For object-container objects that contain bilevel image but do not specify an internal color value, the Color
 Specification (X'4E') triplet specifies the color of the bilevel image. Note that 1-bit indexed color is considered
 to be bilevel. Some presentation object containers can specify color by constructs within the object and, if
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 621
 
-IPDS Reference 587
 present, these color specifications are used instead of the Color Specification (X'4E') triplet. The color
 specified in the Color Specification (X'4E') triplet is a default color and does not override a non-default color
 specified within the object data.
@@ -1156,11 +1116,9 @@ Notes:
 1. When specified in the DODD, the X'4E' triplet is used to override the default color of a bilevel or grayscale
 image; it is not used to specify an area color.
 2. Color Specification (X'4E') triplets that are ignored may be syntax checked before they are ignored.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 622
 
-588 IPDS Reference
 Override for Object Offset (X'5A') Triplet
 When processing a multi-page resource object (such as a multi-page PDF file or multi-image TIFF file), the
 printer uses an Object Offset (X'5A') triplet, to select a single paginated object within the file. The Object Offset
@@ -1191,11 +1149,9 @@ is not provided at all, the printer assumes that the image resolution is the sam
 exception ID X'020D..07' exists.
 If no Image Resolution (X'9A') triplets are specified on the IDO command, the printer uses the X'9A' triplet, if
 any, from the WOCC command.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 623
 
-IPDS Reference 589
 Override for Object Container Presentation Space Size (X'9C') Triplet
 An Object Container Presentation Space Size (X'9C') triplet can be specified in the IDO-DODD self-defining
 field to specify the presentation space size for an included PDF or SVG object; this triplet overrides the
@@ -1211,11 +1167,9 @@ Property pair X'1203' in the Object Container command-set vector of an STM reply
 supports the Object Container Presentation Space Size (X'9C') triplet for a PDF object. STM property pair
 X'1209' in the Object Container command-set vector indicates that the printer supports the Object Container
 Presentation Space Size (X'9C') triplet for an SVG object.
-Include Data Object (IDO)
+## Include Data Object (IDO)
 
-## Page 624
 
-590 IPDS Reference
 Remove Resident Resource
 The Remove Resident Resource (RRR) command is valid only in home state and causes the printer to remove
 a deactivated resident resource from printer storage. Resident resources can be installed and removed
@@ -1225,7 +1179,7 @@ Resident Resource command to remove unneeded resident resources. The following r
 removed with this command:
 • Data object resource
 • Data-object-font component
-Note: These resource types are listed in T able 16 on page 99 and T able 17 on page 99 and cover all resident
+Note: These resource types are listed in Table 16 on page 99 and Table 17 on page 99 and cover all resident
 resources that are identified by OID including IO-Image resources and object-container resources (note
 that setup files are not resources).
 Once a resident resource has been listed in an XOA-RRL reply, the resource cannot be removed during the
@@ -1242,7 +1196,9 @@ resources to be removed. Exception ID X'020D..31' exists if the command contains
 the requested resource cannot be removed.
 This is an optional command that is not supported by all IPDS printers. Support for the Remove Resident
 Resource command is indicated with property pair X'1204' in the STM Object Container command-set vector.
+```
 Length X'D65A' Flag CID Data
+```
 The length of the RRR command can be:
 Without CID X'0005' or X'0007'–X'0086'
 With CID X'0007' or X'0009'–X'0088'
@@ -1260,9 +1216,7 @@ object
 any value
 Remove Resident Resource
 
-## Page 625
 
-IPDS Reference 591
 Bytes 0 to
 end of OID
 Object OID
@@ -1273,9 +1227,7 @@ If the requested resource is not found, this command is treated as a NOP . If th
 resource is currently activated, exception ID X'020D..30' exists.
 Remove Resident Resource
 
-## Page 626
 
-592 IPDS Reference
 Request Resident Resource List
 Length X'D659' Flag CID
 The length of the RRRL command can be:
@@ -1294,7 +1246,7 @@ listed:
 • Data object resource
 • Data-object-font component
 Notes:
-1. These resource types are listed in T able 16 on page 99 and T able 17 on page 99 and cover all resident
+1. These resource types are listed in Table 16 on page 99 and Table 17 on page 99 and cover all resident
 resources that are identified by OID including IO-Image resources and object-container resources (note
 that setup files are not resources).
 2. Unlike the XOA-RRL command, deactivated resident resources that are listed in an RRRL reply can be
@@ -1306,9 +1258,7 @@ Resource List command is indicated with property pair X'1205' in the STM Object 
 vector.
 Request Resident Resource List
 
-## Page 627
 
-IPDS Reference 593
 Acknowledge Reply for Request Resident Resource List
 Length X'D6FF' Flag CID Type—Page and Copy Counters—Special Data Area
 The format of the Special Data Area for the reply is as follows:
@@ -1353,13 +1303,11 @@ This parameter contains the unique resource ID (object OID) for a resident resou
 format of an Object OID is described on page 148.
 Bytes + 0–7 Object type
 This parameter contains the component ID of a registered object-type OID. The component ID
-is the last 8 bytes of a registered object-type OID listed in T able 17 on page 99 or it is the value
+is the last 8 bytes of a registered object-type OID listed in Table 17 on page 99 or it is the value
 X'FFFFFFFFFFFFFFFF' to indicate an IO Image object.
 Request Resident Resource List
 
-## Page 628
 
-594 IPDS Reference
 Bytes + 8–9 Object information flags
 This parameter contains object information flags:
 Bit 0 Removable flag
@@ -1386,9 +1334,7 @@ which it is specified. When an entry contains a Fully Qualified Name (X'02') tri
 triplet, the FQN is a UTF-16BE character string.
 Request Resident Resource List
 
-## Page 629
 
-IPDS Reference 595
 Write Object Container Control
 Length X'D63C' Flag CID Data (OCAP , OCOC, OCDD)
 The length of the WOCC command can be:
@@ -1409,7 +1355,7 @@ commands; an empty object container can be used to color or shade a rectangular 
 without presenting any data within the area. However, if the object contains some WOC commands all of which
 are empty and this type of object requires some data, the object container is not considered to be empty and
 exception ID X'020D..01' or X'020D..05' exists.
-T o associate metadata with the object container, one or more metadata objects can immediately follow the
+To associate metadata with the object container, one or more metadata objects can immediately follow the
 WOCC command, before any other commands. Each Write Metadata Control (WMC) command causes the
 printer to enter metadata state, where exactly one metadata object is included. Metadata state ends when the
 printer receives the End command, at which point the printer returns to the object container state it was in
@@ -1430,11 +1376,9 @@ Each self-defining field contains a two-byte length field, a two-byte self-defin
 If an invalid self-defining field is specified, a self-defining field is out of order, a required self-defining field is not
 specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
 Each self-defining field contains a two-byte length field, a two-byte self-defining field ID, and a data field.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 630
 
-596 IPDS Reference
 Object Container Area Position
 The Object Container Area Position (OCAP) self-defining field, if present, is the first self-defining field in the
 data portion of the WOCC command. This field defines the position and orientation of the object container
@@ -1456,7 +1400,7 @@ OCAP
 2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
 4–5 SBIN X offset X'8000' –
 X'7FFF'
-Object container object area origin; an X p, I,
+Object container object area origin; an Xp, I,
 or I-offset coordinate position in L-units
 X'8000'–X'7FFF'
 Refer to the note
@@ -1508,11 +1452,9 @@ additional units of measure, the IPDS architecture requires the receiver to at l
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
 page 68.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 631
 
-IPDS Reference 597
 Bytes 0–1 Self-defining-field length. Bytes after byte 10 are ignored by the printer.
 If an invalid value is specified, exception ID X'0202..05' exists.
 Bytes 2–3 Self-defining-field ID
@@ -1538,9 +1480,9 @@ the Xp or I coordinate axis. This parameter rotates the object container object 
 origin specified in bytes 4–7. The object container picture presented in the object area is
 aligned such that the positive X
 oc axis of the object container presentation space is parallel to,
-and in the same direction as, the positive X oa axis of the object container object area. The
+and in the same direction as, the positive Xoa axis of the object container object area. The
 positive Yoa axis of the object container object area is rotated 90 degrees clockwise relative to
-the positive Xoa axis and is in the same direction as the positive Y oc axis. This parameter has
+the positive Xoa axis and is in the same direction as the positive Yoc axis. This parameter has
 no effect on the I-axis orientation or the B-axis orientation.
 The object area orientation is specified in terms of a number of degrees and a number of
 minutes.
@@ -1570,12 +1512,10 @@ B'010110100 000000 0'
 B'100001110 000000 0'
 Byte 10 Reference coordinate system
 The reference coordinate system determines the origin and orientation of the object container
-object area, using either the X p,Yp or the inline-baseline (I,B) coordinate system.
-Write Object Container Control (WOCC)
+object area, using either the Xp,Yp or the inline-baseline (I,B) coordinate system.
+## Write Object Container Control (WOCC)
 
-## Page 632
 
-598 IPDS Reference
 An inline coordinate value specified as absolute means that the value in bytes 4–5 of the
 OCAP is at an absolute inline coordinate location; that is, bytes 4–5 are offset from the I
 system origin. A baseline coordinate value specified as absolute means that the value in bytes
@@ -1598,7 +1538,7 @@ Bytes 4–5 are added to the current text inline coordinate; bytes 6–7 are add
 text baseline coordinate.
 • If byte 10 equals X'A0', the current logical page X
 p and Yp coordinates determine the origin.
-When the object area is within a page, OCAP bytes 4–7 specify the offset from the X p-
+When the object area is within a page, OCAP bytes 4–7 specify the offset from the Xp-
 coordinate and Yp-coordinate origin specified in a previously received LPP command (or
 from the printer default coordinates if no LPP command was received). When the object
 area is within an overlay that is invoked using an LCC command, OCAP bytes 4–7 specify
@@ -1613,11 +1553,9 @@ end of OCAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
 but ignore this field; generators should not specify this field.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 633
 
-IPDS Reference 599
 Object Container Output Control
 The Object Container Output Control (OCOC), if present, is the next self-defining field in the data portion of the
 WOCC command. This self-defining field specifies the size of the object container object area, in addition to
@@ -1644,14 +1582,14 @@ end of OCOC
 2–3 CODE SDF ID X'A66B' Self-defining-field ID X'A66B'
 4 CODE Unit base X'00'
 X'01'
-T en inches
-T en centimeters
+Ten inches
+Ten centimeters
 X'00'
 5–6 UBIN UPUB X'0001' –
 X'7FFF'
 X
 oa and Yoa units per unit base X'3840'
-7–8 UBIN X oa extent X'0001' –
+7–8 UBIN Xoa extent X'0001' –
 X'7FFF'
 X'FFFF'
 Xoa extent of object area in L-units
@@ -1700,13 +1638,11 @@ X'0000'–X'7FFF'
 Refer to the note
 following the
 table.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 634
 
-600 IPDS Reference
 Offset Type Name Range Meaning OC1 Range
-14–15 SBIN Y oa offset X'8000' –
+14–15 SBIN Yoa offset X'8000' –
 X'7FFF'
 Yoa offset in L-units; (for the position and
 position-and-trim mappings only)
@@ -1746,23 +1682,21 @@ X'00' and this value is X'3840', there are 14,400 units per ten inches (1440 uni
 If an invalid or unsupported value is specified, exception ID X'0206..05' exists.
 Bytes 7–8 X
 oa extent of object area in L-units
-These bytes specify the X oa extent of the object container object area in L-units using the units
-of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the X p extent
-and the X p unit base and units per unit base of the LPD command that is current when this
+These bytes specify the Xoa extent of the object container object area in L-units using the units
+of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Xp extent
+and the Xp unit base and units per unit base of the LPD command that is current when this
 object is printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
 logical page.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
 Bytes 9–10 Yoa extent of object area in L-units
-These bytes specify the Y oa extent of the object container object area in L-units using the units
-of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Y p extent
+These bytes specify the Yoa extent of the object container object area in L-units using the units
+of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp extent
 and the Yp unit base and units and units per unit base of the LPD command that is current
 when this object is printed in a page or overlay.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 635
 
-IPDS Reference 601
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
 Byte 11 Mapping control option
 This byte specifies how the object container presentation space is mapped to the object
@@ -1780,7 +1714,7 @@ Refer to “Mapping Control Options” on page 603 for a description of the mapp
 options.
 If an invalid or unsupported value is specified, exception ID X'0208..05' exists.
 Bytes 12–13 Xoa offset in L-units from object area origin
-The Xoa offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the X oa offset
+The Xoa offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the Xoa offset
 of the object container presentation space (top-left corner) from the origin of the object
 container object area. The units of measure used to interpret this offset are specified in bytes
 4–6.
@@ -1789,7 +1723,7 @@ support for negative object-area-offset values.
 If an unsupported value is specified, exception ID X'0209..05' exists.
 Bytes 14–15 Y
 oa offset in L-units from object area origin
-The Yoa offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the Y oa offset
+The Yoa offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the Yoa offset
 of the object container presentation space (top-left corner) from the origin of the object
 container object area. The units of measure used to interpret this offset are specified in bytes
 4–6.
@@ -1809,11 +1743,9 @@ The Write Object Container Control triplets are fully described in the triplets 
 “Presentation Space Reset Mixing (X'70') Triplet” on page 731
 “Invoke CMR (X'92') Triplet” on page 772
 “Rendering Intent (X'95') Triplet” on page 774
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 636
 
-602 IPDS Reference
 Area Coloring Triplet Considerations
 The X'6201' property pair (logical page and object area coloring support) in the Device-Control command-set
 vector of an STM reply indicates that the X'4E' and X'70' triplets are supported.
@@ -1847,11 +1779,11 @@ commands. A preRIPped presentation object will be printed only if the CMRs and r
 preRIP match those selected while processing the IDO command. Refer to the RPO command description for
 a list of attributes used to find an appropriate preRIPped object.
 When printing a presentation object-container image object in conjunction with a QR Code with Image bar
-code, data-object-level CMRs can be invoked for the image object using the Invoke T ertiary Resource (X'A2')
+code, data-object-level CMRs can be invoked for the image object using the Invoke Tertiary Resource (X'A2')
 triplet on the WBCC command for the bar code. In addition, CMRs invoked via the Invoke CMR (X'92') triplet
 on the WBCC are also invoked at the data-object-level for such image objects—that is, the CMRs invoked for
 the bar code itself are also invoked for any secondary resource image objects of the bar code. Data-object-
-level CMRs invoked via the Invoke T ertiary Resource (X'A2') triplet take precedence over data-object-level
+level CMRs invoked via the Invoke Tertiary Resource (X'A2') triplet take precedence over data-object-level
 CMRs invoked via the Invoke CMR (X'92') triplet on the WBCC. A rendering intent specified using the
 Rendering Intent (X'95') triplet on the WOCC is used as the data-object-level rendering intent for presentation
 object-container image objects printed in conjunction with a QR Code with Image bar code.
@@ -1859,13 +1791,11 @@ Multiple Invoke CMR (X'92') triplets can be specified. However, only the last sp
 triplet will be used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WOCC command. The X'F212' property pair in
-the Device-Control command-set vector of an STM reply indicates support for Invoke T ertiary Resource (X'A2')
+the Device-Control command-set vector of an STM reply indicates support for Invoke Tertiary Resource (X'A2')
 triplets in the WBCC command.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 637
 
-IPDS Reference 603
 Mapping Control Options
 Object container mapping control options are defined as follows:
 Scale-to-Fit Mapping
@@ -1887,14 +1817,12 @@ Object Container Presentation Space
 Scale-to-fit
 mapping specified
 in the Object Container
-Output Control (OCOC)
+## Output Control (OCOC)
 Object Container Object Area
 Logical Page
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 638
 
-604 IPDS Reference
 Center-and-Trim Mapping
 The center of the object container presentation space is mapped to the center of the object container object
 area. The object container data is presented at the size specified in the OCDD self-defining field. As a result,
@@ -1911,14 +1839,12 @@ Object Container Presentation Space
 Center-and-trim
 mapping specified
 in the Object Container
-Output Control (OCOC)
+## Output Control (OCOC)
 Object Container Object Area
 Logical Page
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 639
 
-IPDS Reference 605
 Position-and-Trim Mapping
 The top-left corner of the object container presentation space is mapped to the object container object area,
 using the specified offset from the object container object area origin. It is presented at the size specified in the
@@ -1935,16 +1861,14 @@ Object Container Presentation Space
 Position-and-trim
 mapping specified
 in the Object Container
-Output Control (OCOC)
+## Output Control (OCOC)
 Object Container Object Area
 Logical Page
 Y offset specified in OCOC
 X offset specified in OCOC
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 640
 
-606 IPDS Reference
 Position Mapping
 This mapping option is identical to the position-and-trim mapping option except that any data within the object
 container presentation space that falls outside the object container object area causes exception ID
@@ -1962,13 +1886,11 @@ Logical Page
 Scale-to-fill
 mapping specified
 in the Object Container
-Output Control (OCOC)
+## Output Control (OCOC)
 Object Container Object Area
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 641
 
-IPDS Reference 607
 UP3I-Print-Data Mapping
 This mapping option is only used for UP 3I Print Data objects; if specified for any other type of data object,
 exception ID X'0208..05' exists.
@@ -2024,21 +1946,17 @@ UP I Print Data (UP I value X'04') triplet
 The IPDS printer does not print UP 3I Print Data objects; these objects are passed to a pre-processing or post-
 processing device to be printed. Appropriate UP 3I constructs, such as frames and triplets, are built and sent
 across the UP 3I interface to the target device. The printer ensures that the UP 3I Print Data object is sent for
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 642
 
-608 IPDS Reference
 each sheet and for each copy of a sheet that includes this object. When the UP 3I Print Data object is found
 within a medium overlay, the printer can associate the object with any page on the sheet.
 Note: Not all printers support the UP 3I-Print-Data mapping option; support for this mapping option is indicated
 by support for the UP 3I Print Data object in the XOH-OPC Object-Container Type Support self-defining
 field.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 643
 
-IPDS Reference 609
 Object Container Data Descriptor
 The Object Container Data Descriptor (OCDD) is the last self-defining field in the data portion of the WOCC
 command. This self-defining field specifies a Host-Assigned ID, a Registered Object-Type OID, and data
@@ -2095,11 +2013,9 @@ The type of objects supported by a printer are indicated in the XOH-OPC Object-C
 Type Support self-defining field. The currently defined objects for the IPDS environment are
 listed in the overview section entitled “Data Object Resources, Data-Object-Font Components,
 and Setup Files” on page 99.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 644
 
-610 IPDS Reference
 Bytes 20–21 Host-Assigned ID
 This field specifies a Host-Assigned ID (HAID) for a data object resource or data-object-font
 component. Exception ID X'020D..11' exists if an invalid Host-Assigned ID value is specified.
@@ -2148,11 +2064,9 @@ An object OID should be provided for all color-conversion CMRs that will be used
 CMR; failure to provide an object OID for this type of CMR can cause degraded performance. For other types
 of CMRs, the object OID is optional.
 The X'91' triplet is not used with other data-object-resource types and, if specified, is ignored.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 645
 
-IPDS Reference 611
 Color Specification (X'4E') Triplet Considerations
 The Color Specification (X'4E') triplet provides a color value for an included bilevel or grayscale image object.
 This triplet is used only for objects that contain bilevel or grayscale image, and is ignored for all other object
@@ -2199,11 +2113,9 @@ is ignored. If more than one Image Resolution (X'9A') triplet is specified, the 
 ignored.
 If an image resolution is needed to process the object and the triplet is specified, the resolution specified within
 the triplet is used and overrides the resolution inside the image, if any. However, if an image resolution is not
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 646
 
-612 IPDS Reference
 needed to process the object, the triplet is ignored. If an image resolution is needed to process the object, but
 is not provided at all, the printer assumes that the image resolution is the same as the device resolution and
 exception ID X'020D..07' exists.
@@ -2241,13 +2153,13 @@ It is recommended that an OID be provided for a downloaded TrueType/OpenType fon
 when processing PTOCA glyph runs; printers can calculate the OID if it is not supplied in the WOCC-OCDD
 command, however not all printers do this calculation. Exception ID X'029C..00' exists if the printer does not
 have a font OID at the time a glyph run is processed.
-Write Object Container Control (WOCC)
+## Write Object Container Control (WOCC)
 
-## Page 647
 
-IPDS Reference 613
 Write Object Container
+```
 Length X'D64C' Flag CID Data
+```
 The length of the WOC command can be:
 Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
@@ -2265,12 +2177,8 @@ There are no restrictions on how much or how little data is sent to the printer 
 except for the 32K length limit of the command.
 Note: Only Anystate commands are valid between concatenated WOC commands; refer to Figure 45 on page
 87 for a list of Anystate commands.
-Write Object Container (WOC)
+## Write Object Container (WOC)
 
-## Page 648
 
-614 IPDS Reference
 
-## Page 649
 
-Copyright © AFP Consortium 1987, 2023 615

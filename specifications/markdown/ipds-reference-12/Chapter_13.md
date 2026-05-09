@@ -1,4 +1,4 @@
-Chapter 13. Page-Segment Command Set
+# Chapter 13. Page-Segment Command Set
 The Page-Segment command set allows frequently accessed user data, in the form of a page-segment
 resource, to be downloaded and temporarily stored in the printer. Page segments are merged with the pages
 during printing.
@@ -21,9 +21,7 @@ Print Services Facility™ (PSF), for example, can perform this page segment exp
 documentation refers to expanded page segments as soft page segments. This is a software-specific
 distinction. Soft page segments do not exist at the IPDS level.
 
-## Page 666
 
-632 IPDS Reference
 Begin Page Segment
 The Begin Page Segment (BPS) command causes the printer to leave home state and enter page segment
 state. The command sequence that follows defines data that the printer saves as a page segment resource
@@ -36,7 +34,9 @@ The End Page (EP) command terminates the definition of a page segment. The page 
 between the BPS and the EP commands. Any intervening Execute Order Anystate commands are processed
 as they are received; they are not saved as part of the page segment. The page segment must not contain any
 IO or IPS commands.
+```
 Length X'D65F' Flag CID Data
+```
 The length of the BPS command can be:
 Without CID X'0007'
 With CID X'0009'
@@ -54,11 +54,9 @@ one time. Some IPDS printers support even more page segments, up to 32,511 at a 
 support is specified by the X'1101' property pair in the Page Segment command-set vector of
 an STM reply. If an invalid or unsupported page segment HAID is specified, exception ID
 X'0294..01' exists.
-Begin Page Segment (BPS)
+## Begin Page Segment (BPS)
 
-## Page 667
 
-IPDS Reference 633
 Deactivate Page Segment
 The Deactivate Page Segment (DPS) command, previously known as Delete Page Segment, deactivates
 either a single page segment or all page segments. The host can immediately reuse the identification numbers
@@ -70,7 +68,9 @@ command.
 When a page segment is deactivated, any activation information for that page segment created by a previous
 BPS or AR command is also deleted. AR entries for unactivated page segments are not affected by the
 Deactivate Page Segment command.
+```
 Length X'D66F' Flag CID Data
+```
 The length of the DPS command can be:
 Without CID X'0007'
 With CID X'0009'
@@ -95,18 +95,18 @@ one time. Some IPDS printers support even more page segments, up to 32,511 at a 
 support is specified by the X'1101' property pair in the Page Segment command-set vector of
 an STM reply. If an invalid or unsupported page segment HAID is specified, exception ID
 X'028A..01' exists.
-Deactivate Page Segment (DPS)
+## Deactivate Page Segment (DPS)
 
-## Page 668
 
-634 IPDS Reference
 Include Page Segment
 The Include Page Segment (IPS) command causes a previously stored page segment resource to be
 processed in the input data stream as though its commands had just been received from the host. When the
 printer includes a page segment, the current print position (i
 c, bc) is inherited by the page segment and can be
 changed by text control sequences within the page segment.
+```
 Length X'D67F' Flag CID Data
+```
 The length of the IPS command can be:
 Without CID X'0007'
 With CID X'0009'
@@ -125,8 +125,6 @@ one time. Some IPDS printers support even more page segments, up to 32,511 at a 
 support is specified by the X'1101' property pair in the Page Segment command-set vector of
 an STM reply. If an invalid or unsupported page segment HAID is specified, exception ID
 X'0294..01' exists.
-Include Page Segment (IPS)
+## Include Page Segment (IPS)
 
-## Page 669
 
-Copyright © AFP Consortium 1987, 2023 635

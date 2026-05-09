@@ -1,4 +1,4 @@
-Chapter 11. Metadata Command Set
+# Chapter 11. Metadata Command Set
 The Metadata command set contains the IPDS commands for associating metadata with objects in the IPDS
 data stream. This command set contains the following commands:
 Table 52. Metadata Commands
@@ -15,16 +15,16 @@ object or objects. The metadata is sent to the IPDS receiver in one or more Writ
 For WMC commands received in home state, the metadata is added to the current home-state metadata; such
 metadata is deleted with a Delete Home-State Metadata (DHM) command.
 
-## Page 650
 
-616 IPDS Reference
 Delete Home-State Metadata
 The Delete Home-State Metadata (DHM) command directs the printer to delete home-state metadata. The
 home-state metadata had been previously added using a Write Metadata Control (WMC) command received in
 home state.
 The home-state metadata to be deleted is determined based on the MDLevel specified. A special MDLevel
 value, X'0000', is available to specify that all home-state metadata, at all levels, should be deleted.
+```
 Length X'D658' Flag CID Data
+```
 The length of the DHM command can be:
 Without CID X'0009'
 With CID X'000B'
@@ -52,9 +52,7 @@ deleted is effectively a NOP .
 Bytes 2–3 Reserved
 Delete Home-State Metadata (DHM)
 
-## Page 651
 
-IPDS Reference 617
 Write Metadata Control
 Length X'D68A' Flag CID Data (MDD)
 The length of the WMC command can be:
@@ -77,11 +75,9 @@ The WMC data field consists of one optional self-defining field:
 The MDD contains a two-byte length field, a two-byte self-defining field ID, and a data field.
 If an invalid self-defining field is specified, or the MDD appears more than once, exception ID X'020B..05'
 exists.
-Write Metadata Control (WMC)
+## Write Metadata Control (WMC)
 
-## Page 652
 
-618 IPDS Reference
 Metadata Data Descriptor
 The Metadata Data Descriptor (MDD) is the only self-defining field in the data portion of the WMC command.
 This self-defining field specifies how a WMC received in home state is to be processed. When a WMC is
@@ -124,11 +120,9 @@ of MDD
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
 but ignore this field; generators should not specify this field.
-Write Metadata Control (WMC)
+## Write Metadata Control (WMC)
 
-## Page 653
 
-IPDS Reference 619
 Write Metadata
 Length X'D68B' Flag CID Metadata object
 The length of the WM command can be:
@@ -147,12 +141,8 @@ IPDS exception IDs of the form X'06nn..nn' exist when problems are found within 
 Object Content Architecture Reference for more information about MO syntax and exception conditions.
 Note: Only Anystate commands are valid between concatenated WM commands; refer to Figure 45 on page
 87 for a list of Anystate commands.
-Write Metadata (WM)
+## Write Metadata (WM)
 
-## Page 654
 
-620 IPDS Reference
 
-## Page 655
 
-Copyright © AFP Consortium 1987, 2023 621
