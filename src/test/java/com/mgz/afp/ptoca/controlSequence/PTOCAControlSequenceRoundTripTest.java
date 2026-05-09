@@ -90,6 +90,9 @@ public class PTOCAControlSequenceRoundTripTest {
     @Test
     public void testOVS_OverstrikeRoundTrip() throws Exception {
         assertCSRoundTrip(new OVS_Overstrike(), new byte[]{0x01, 0x00, 0x64}, false);
+        OVS_Overstrike ovs = new OVS_Overstrike();
+        ovs.decodeAFP(new byte[]{0x01, 0x00, (byte) 0xC1}, 0, 3, new AFPParserConfiguration());
+        assertEquals("A", ovs.getText());
     }
 
     @Test
@@ -261,6 +264,37 @@ public class PTOCAControlSequenceRoundTripTest {
         gc.writeAFP(baos, config);
         assertArrayEquals(payload, baos.toByteArray());
         assertEquals("ABC", gc.getText());
+    }
+
+    @Test
+    public void testGLC_GlyphLayoutControlRoundTrip() throws Exception {
+        GLC_GlyphLayoutControl glc = new GLC_GlyphLayoutControl();
+        byte[] payload = new byte[8 + 13 + 4]; // 8 reserved/metadata + 13 OID + 4 name
+        payload[0] = 0x05; payload[1] = (byte) 0xA0; // iAdvance = 1440
+        payload[2] = 13; // oidLgth
+        payload[3] = 4; // ffnLgth
+        byte[] oid = new byte[]{0x06, 0x0B, 0x2B, 0x06, 0x01, 0x04, 0x01, (byte)0x82, 0x37, 0x11, 0x02, 0x03, 0x02};
+        System.arraycopy(oid, 0, payload, 8, 13);
+        byte[] name = "AB".getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
+        System.arraycopy(name, 0, payload, 8 + 13, 4);
+
+        assertCSRoundTrip(glc, payload, false);
+        assertEquals("AB", glc.getText());
+    }
+
+    @Test
+    public void testGIR_GlyphIdRunRoundTrip() throws Exception {
+        assertCSRoundTrip(new GIR_GlyphIdRun(), new byte[]{0x00, 0x00, 0x00, 0x01, 0x00, 0x02}, false);
+    }
+
+    @Test
+    public void testGAR_GlyphAdvanceRunRoundTrip() throws Exception {
+        assertCSRoundTrip(new GAR_GlyphAdvanceRun(), new byte[]{0x00, 0x00, 0x00, 0x64, 0x00, (byte) 0xC8}, false);
+    }
+
+    @Test
+    public void testGOR_GlyphOffsetRunRoundTrip() throws Exception {
+        assertCSRoundTrip(new GOR_GlyphOffsetRun(), new byte[]{0x00, 0x00, 0x00, 0x0A, (byte) 0xFF, (byte) 0xF6}, false);
     }
 
     @Test
