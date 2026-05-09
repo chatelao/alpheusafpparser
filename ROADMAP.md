@@ -20,42 +20,21 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 10 | Specification Excellence | ⏳ |
 
 ## Goals
-- ✅ Replace Travis CI with GitHub Actions for automated building and testing.
-- ✅ Maintain compatibility with Java 8 for the core library.
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
 - 🚧 Achieve 100% AFP specification coverage (MO:DCA, PTOCA, GOCA, etc.).
 - 🚧 Implement robust XML extraction for all human-readable text.
 
 ---
 
-## Phase 1: Setup GitHub Actions Workflow
-- ✅ Create `.github/workflows/ci.yml`.
-- ✅ Define the workflow to trigger on `push` and `pull_request` to the `master` branch.
-- ✅ Set up a job running on `ubuntu-latest`.
-
-## Phase 2: Build and Test Configuration
-- ✅ Configure Java 8 setup using `actions/setup-java`.
-- ✅ Grant execution permissions to `./gradlew`.
-- ✅ Implement a step to run `./gradlew build` and `./gradlew test`.
-- ✅ Ensure `checkstyle` runs as part of the build.
-
-## Phase 3: Artifact Management
-- ✅ Configure steps to upload build artifacts (JARs) using `actions/upload-artifact`.
-- ✅ Verify that `javadocJar` and `sourcesJar` are correctly generated and included.
-
-## Phase 4: Cleanup and Finalization
-- ✅ Remove `.travis.yml` from the repository.
-- ✅ Update `README.md` to replace the Travis CI build badge with the GitHub Actions badge.
-- ✅ Verify the entire pipeline.
-    - ✅ Manual workflow syntax and consistency check.
-    - ✅ Final verification via automated build.
-
-## Phase 5: CI/CD Optimizations
-- ✅ Enable Gradle caching in GitHub Actions.
-- ✅ Add `workflow_dispatch` for manual workflow triggers.
-- ✅ Consolidate build and test steps.
-- ✅ Implement version-agnostic artifact verification.
-- ✅ Add Gradle Wrapper validation.
+## Phase 1: Specification Excellence
+- ⏳ **IPDS (Critical)**: Convert command text dumps to tables, purge PDF artifacts, and fix broken paragraphs.
+- ⏳ **BCOCA**: Remove physical page markers and format syntax tables.
+- ⏳ **IOCA**: Implement Markdown table formatting for structural descriptors.
+- ⏳ **AFP GOCA**: Purge "on page XXX" physical cross-references.
+- ⏳ **Line Data**: Improve table quality and refine text-based diagrams.
+- ⏳ **MO:DCA**: Remove physical page references in subset chapters and appendices.
+- ⏳ **FOCA**: Fix OCR-induced paragraph merging in technical sections.
+- ⏳ **PTOCA**: Final cleanup of split-word remnants.
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.
@@ -164,12 +143,3 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ⏳ Implement a SECURITY.md policy.
 
-## Phase 10: Specification Excellence
-- ⏳ **IPDS (Critical)**: Convert command text dumps to tables, purge PDF artifacts, and fix broken paragraphs.
-- ⏳ **BCOCA**: Remove physical page markers and format syntax tables.
-- ⏳ **IOCA**: Implement Markdown table formatting for structural descriptors.
-- ⏳ **AFP GOCA**: Purge "on page XXX" physical cross-references.
-- ⏳ **Line Data**: Improve table quality and refine text-based diagrams.
-- ⏳ **MO:DCA**: Remove physical page references in subset chapters and appendices.
-- ⏳ **FOCA**: Fix OCR-induced paragraph merging in technical sections.
-- ⏳ **PTOCA**: Final cleanup of split-word remnants.
