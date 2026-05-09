@@ -17,6 +17,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 7 | Modernization of Build System and Language | 🚧 |
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | ⏳ |
+| 10 | Specification Excellence | ⏳ |
 
 ## Goals
 - ✅ Replace Travis CI with GitHub Actions for automated building and testing.
@@ -155,3 +156,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ⏳ Migrate project documentation to MkDocs or Docusaurus.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ⏳ Implement a SECURITY.md policy.
+
+## Phase 10: Specification Excellence
+- ⏳ **IPDS (Critical)**: Convert command text dumps to tables, purge PDF artifacts, and fix broken paragraphs.
+- ⏳ **BCOCA**: Remove physical page markers and format syntax tables.
+- ⏳ **IOCA**: Implement Markdown table formatting for structural descriptors.
+- ⏳ **AFP GOCA**: Purge "on page XXX" physical cross-references.
+- ⏳ **Line Data**: Improve table quality and refine text-based diagrams.
+- ⏳ **MO:DCA**: Remove physical page references in subset chapters and appendices.
+- ⏳ **FOCA**: Fix OCR-induced paragraph merging in technical sections.
+- ⏳ **PTOCA**: Final cleanup of split-word remnants.
