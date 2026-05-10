@@ -134,9 +134,9 @@ public class StructuredFieldIntroducer {
 
   public int getLengthOfStructuredFieldIntroducerIncludingExtension() {
     if (isFlagSet(SFFlag.hasExtension)) {
-      return 8;
-    } else {
       return 8 + extenstionLength;
+    } else {
+      return 8;
     }
   }
 

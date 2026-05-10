@@ -65,7 +65,11 @@ public class XMD_XMLDescriptor extends StructuredFieldBaseTriplets {
     flags = XMD_Flag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 1, 3));
     reserved4 = sfData[offset + 4];
     inlinePosition = UtilBinaryDecoding.parseInt(sfData, offset + 5, 2);
-    baselinePosition = UtilBinaryDecoding.parseInt(sfData, offset + 7, 2);
+    if (flags.contains(XMD_Flag.RelativeBaselinePosition_RelativePosition)) {
+      baselinePosition = UtilBinaryDecoding.parseShort(sfData, offset + 7, 2);
+    } else {
+      baselinePosition = UtilBinaryDecoding.parseInt(sfData, offset + 7, 2);
+    }
     inlineOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 9, 2));
     baselineOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 11, 2));
     primaryFontLocalId = UtilBinaryDecoding.parseShort(sfData, offset + 13, 1);
@@ -89,8 +93,8 @@ public class XMD_XMLDescriptor extends StructuredFieldBaseTriplets {
     System.arraycopy(sfData, offset + 49, reserved49_61, 0, reserved49_61.length);
 
     int actualLength = getActualLength(sfData, offset, length);
-    if (actualLength > 63) {
-      super.decodeAFP(sfData, offset, actualLength, config);
+    if (actualLength > 62) {
+      super.decodeAFP(sfData, offset + 62, actualLength - 62, config);
     }
   }
 
