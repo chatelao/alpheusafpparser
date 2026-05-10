@@ -72,10 +72,10 @@ public class RCD_RecordDescriptor extends StructuredFieldBaseTriplets {
     flags = RCD_Flag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 11, 3));
     reserved14 = sfData[offset + 14];
     inlinePosition = UtilBinaryDecoding.parseInt(sfData, offset + 15, 2);
-    if (flags.contains(RCD_Flag.RelativeBaselinePosition_AbsolutePosition)) {
-      baselinePosition = UtilBinaryDecoding.parseInt(sfData, offset + 17, 2);
-    } else {
+    if (flags.contains(RCD_Flag.RelativeBaselinePosition_RelativePosition)) {
       baselinePosition = UtilBinaryDecoding.parseShort(sfData, offset + 17, 2);
+    } else {
+      baselinePosition = UtilBinaryDecoding.parseInt(sfData, offset + 17, 2);
     }
     inlineOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 19, 2));
     baselineOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 21, 2));
@@ -95,7 +95,7 @@ public class RCD_RecordDescriptor extends StructuredFieldBaseTriplets {
     fieldNumber = UtilBinaryDecoding.parseInt(sfData, offset + 53, 2);
     additionalBaselineIncrement = UtilBinaryDecoding.parseInt(sfData, offset + 55, 2);
     reserved57_69 = new byte[13];
-    System.arraycopy(sfData, offset + 48, reserved57_69, 0, reserved57_69.length);
+    System.arraycopy(sfData, offset + 57, reserved57_69, 0, reserved57_69.length);
 
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 71) {
@@ -116,10 +116,10 @@ public class RCD_RecordDescriptor extends StructuredFieldBaseTriplets {
     baos.write(UtilBinaryDecoding.intToByteArray(baselinePosition, 2));
     baos.write(inlineOrientation.toBytes());
     baos.write(baselineOrientation.toBytes());
-    baos.write(primaryFontLocalId);
+    baos.write(UtilBinaryDecoding.shortToByteArray(primaryFontLocalId, 1));
     baos.write(UtilBinaryDecoding.intToByteArray(fieldRCDPointer, 2));
     baos.write(UtilCharacterEncoding.stringToByteArray(suppressionTokenName, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
-    baos.write(shiftOutFontLocalID);
+    baos.write(UtilBinaryDecoding.shortToByteArray(shiftOutFontLocalID, 1));
     baos.write(UtilBinaryDecoding.intToByteArray(dataStartPosition, 4));
     baos.write(UtilBinaryDecoding.intToByteArray(dataLength, 2));
     baos.write(UtilBinaryDecoding.intToByteArray(conditionalProcessingRCDPointer, 2));

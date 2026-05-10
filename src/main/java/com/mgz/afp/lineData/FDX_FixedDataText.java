@@ -42,7 +42,7 @@ public class FDX_FixedDataText extends StructuredField {
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 0) {
-      text = new String(sfData, 0, 8, config.getAfpCharSet());
+      text = new String(sfData, offset, actualLength, config.getAfpCharSet());
     } else {
       text = null;
     }
