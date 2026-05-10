@@ -5,7 +5,7 @@ The acknowledge protocol is used to transmit printer characteristics, status, re
 information to the presentation services program. This command set contains the following commands:
 Table 19. Device Control Commands
 
-| Command | Code | Descriptionon | In DC1 Subset? |
+| Command | Code | Description | In DC1 Subset? |
 | :--- | :---: | :--- | :---: |
 | AR | X'D62E' | Activate Resource | No |
 | ASN | X'D60A' | Activate Setup Name | No |
@@ -20,7 +20,7 @@ Table 19. Device Control Commands
 | LCC | X'D69F' | Load Copy Control | Yes |
 | LFE | X'D63F' | Load Font Equivalence | Yes |
 | LPD | X'D6CF' | Logical Page Descriptor | Yes |
-| LPP | X'D66D' | Logical Page Positionon | Yes |
+| LPP | X'D66D' | Logical Page Position | Yes |
 | MID | X'D601' | Manage IPDS Dialog | No |
 | NOP | X'D603' | No Operation | Yes |
 | PFC | X'D634' | Presentation Fidelity Control | No |
@@ -34,7 +34,7 @@ Table 19. Device Control Commands
 
 Table 20. Acknowledge Protocol
 
-| Reply | Code | Descriptionon | In DC1 Subset? |
+| Reply | Code | Description | In DC1 Subset? |
 | :--- | :---: | :--- | :---: |
 | ACK or NACK | X'D6FF' | Acknowledge Reply | Yes |
 
@@ -404,9 +404,7 @@ Adjustments” for a description of what is discarded.
 Acknowledge Reply
 
 
-• Positionve acknowledgment of page segments or overlays and the data they contain means that the command
-sequence is a valid IPDS command sequence and has been accepted for processing; see Figure 45
-87. This acknowledgment does not necessarily mean that the commands have been syntax-checked. The
+• Positive acknowledgment of page segments or overlays and the data they contain means that the command sequence is a valid IPDS command sequence and has been accepted for processing; see Figure 45. This acknowledgment does not necessarily mean that the commands have been syntax-checked. The
 syntax exceptions might be detected when the object is included on a logical page.
 • Logical lockouts that occur as the result of a presentation services program failing to adhere to the rules
 described above are cleared by the protocols of the underlying communications system.
@@ -1778,38 +1776,53 @@ represented in the printer.
 ## Define User Area (DUA)
 
 
-End
+## End (END)
+
+```
 Length X'D65D' Flag CID Binary data
+```
 The length of the END command can be:
-Without CID X'0005'–X'7FFF'
-With CID X'0007'–X'7FFF'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'0005'–X'7FFF' |
+| With CID | X'0007'–X'7FFF' |
+
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
+
 The End (END) command is the ending control for a series of Write Image, Write Image 2, Write Graphics,
 Write Bar Code, Write Object Container, Write Metadata, Load Code Page, or Load Font commands and
 marks either the end of an image object, a graphics object, a bar code object, an object container object, or a
 metadata object, or the end of a downloaded font sequence. For text objects, the End command is the ending
 control for a series of Write Text commands; note that the End command is not used with text-major text in a
 logical page. Zero or more data bytes can be transmitted but are ignored.
+
 Some objects require at least one command between the control command that begins the object and the End
 command; exception ID X'8002..00' exists in the following cases:
 • When an LCPC command is not followed by at least one LCP command
 • When an LFC command is not followed by at least one LF command
 • When an LFCSC command is not followed by at least one LF command
 • When a WIC command is not followed by at least one WI command
-## End (END)
 
 
-End Page
+## End Page (EP)
+
+```
 Length X'D6BF' Flag CID Binary data
+```
 The length of the EP command can be:
-Without CID X'0005'–X'7FFF'
-With CID X'0007'–X'7FFF'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'0005'–X'7FFF' |
+| With CID | X'0007'–X'7FFF' |
+
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
+
 The End Page (EP) command causes the printer to return to home state from page state, page segment state,
 or overlay state and thus marks the end of a page, a page segment, or an overlay. The EP command is an
 implicit command to schedule that page for printing if the command is being used to exit page state; all data for
 that page is available to the printer. Zero or more data bytes can be transmitted but are ignored.
-## End Page (EP)
 
 
 Include Saved Page
@@ -1849,61 +1862,59 @@ following sequences of commands:
 • BP , ISP , IO-with PFO parameter, EP
 ## Include Saved Page (ISP)
 
-
 ```
 Length X'D67E' Flag CID Data
 ```
+
 The length of the ISP command can be:
-Without CID X'000B'–X'7FFF'
-With CID X'000D'–X'7FFF'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'000B'–X'7FFF' |
+| With CID | X'000D'–X'7FFF' |
+
 However, each triplet length must also be valid. Exception ID X'0202..02' exists if the command length is
 invalid or unsupported.
+
 The format of the data field for this command is as follows:
-Offset Type Name Range Meaning Required
-0–3 UBIN Page
-sequence
-number
-X'00000001' –
-X'FFFFFFFF'
-Page sequence number for the page to be
-included
-X'00000001' –
-X'FFFFFFFF'
-4 to
-end of
-ISP
-Triplets One or more ISP triplets:
-X'00' Group ID triplet with variable-length
-group ID
-Bytes 0–3 Page sequence number
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–3 | UBIN | Page sequence number | X'00000001'–X'FFFFFFFF' | Page sequence number for the page to be included | X'00000001'–X'FFFFFFFF' |
+| 4 to end of ISP | | Triplets | | One or more ISP triplets:<br>X'00' Group ID triplet with variable-length group ID | |
+
+**Bytes 0–3 Page sequence number**
 The sequence number of the page in the selected saved page group. If the requested page
 had not been previously saved, exception ID X'0255..01' exists. If an invalid value is specified,
 exception ID X'0255..02' exists.
-Bytes 4 to
-end of ISP
-Triplets
+
+**Bytes 4 to end of ISP Triplets**
 One or more triplets can be placed at the end of the ISP command (bytes 4 to end).
 Printers ignore any triplet that is not supported and no exception is reported. If byte 4 or the
 first byte after a triplet is X'00' or X'01' (an invalid triplet length), exception ID X'027A..01'
 exists.
+
 The Include Saved Page triplets are fully described in the triplets chapter:
 “Group ID (X'00') Triplet”
-Group ID (X'00') Triplet Considerations
+
+**Group ID (X'00') Triplet Considerations**
 The Group ID (X'00') triplet with a variable-length group ID is mandatory and identifies the group of saved
 pages. If more than one Group ID (X'00') triplet with a variable-length group ID is present in the ISP command,
 the last one is used and the others are ignored. If a group of saved pages cannot be found, or if this triplet is
 absent, exception ID X'0255..03' exists.
-## Include Saved Page (ISP)
 
 
-Invoke CMR
+## Invoke CMR (ICMR)
+
 Invoke CMR (ICMR) is a home state command used to invoke (or reset) one or more CMRs at the home-state
 level of the CMR-usage hierarchy; refer to “CMR-Usage Hierarchy” for a description of the
 hierarchy and the home-state level.
+
 A CMR invoked with the ICMR command is used whenever there is no applicable data-object-level CMR,
 internal color management information, Resident Color Profile (for EPS and PDF page objects), page-level
 CMR, or overlay-level CMR in effect. Home-state-level CMRs remain invoked until they are reset by another
 ICMR command or until the printer is reinitialized (returns an IML NACK).
+
 When an ICMR command is processed by an IPDS printer, the printer first performs the reset (if any) specified
 in the invocation flags (byte 0). Then each ICMR entry is processed in sequence; an entry identifies a specific
 CMR for a specific CMR type. There can be any number of CMRs invoked at the home-state level, but when
@@ -1913,46 +1924,46 @@ an audit color-conversion CMR for RGB data invoked at the home-state level (both
 If following the hierarchy results in the first encountered color-conversion CMR being at the home-state level,
 the printer selects the first CMR when processing CMYK data and the second CMR when processing RGB
 data.
+
 This command is used to invoke audit, instruction, and ICC DeviceLink CMRs. Link color-conversion (subset
 “LK”) CMRs must be activated, but do not need to be invoked. Invoking a link color-conversion (subset “LK”)
-CMR is not an error, but it performs no function. Refer to the CMR-Processing-Modes table, Table 62
-769, for a description of which processing mode is appropriate for each type of CMR.
+CMR is not an error, but it performs no function. Refer to the CMR-Processing-Modes table, Table 62, for a description of which processing mode is appropriate for each type of CMR.
+
 Support for this optional command is indicated by the X'706B' property pair in the Device-Control command-set
 vector of an STM reply.
+
 ```
 Length X'D66B' Flag CID Data
 ```
+
 The length of the ICMR command can be:
-Without CID X'000A'–X'7FFE' even values
-With CID X'000C'–X'7FFE' even values
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'000A'–X'7FFE' even values |
+| With CID | X'000C'–X'7FFE' even values |
+
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
+
 The data in an ICMR command is defined as follows:
-Offset Type Name Range Meaning Required
-0 BITS Invocation flags
-bit 0 Reset B'0'
-B'1'
-Don't reset
-Reset to printer defaults
-B'0'
-B'1'
-bits 1–7 B'0000000' Reserved B'0000000'
-1–4 X'00000000' Reserved X'00000000'
-Zero or more entries in the following format:
-+ 0–1 CODE HAID X'0001' –
-X'7EFF'
-Host-Assigned ID of previously activated
-CMR
-X'0001' –
-X'7EFF'
-## Invoke CMR (ICMR)
 
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | BITS | Invocation flags | | bit 0: Reset<br>B'0' Don't reset<br>B'1' Reset to printer defaults<br>bits 1–7: Reserved (B'0000000') | B'0' or B'1' |
+| 1–4 | | Reserved | X'00000000' | Reserved | X'00000000' |
+| 5 to end | | ICMR entries | | Zero or more entries in the format below | |
 
-Byte 0 Invocation flags
+**ICMR Entry Format:**
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0001'–X'7EFF' | Host-Assigned ID of previously activated CMR | X'0001'–X'7EFF' |
+
+**Byte 0 Invocation flags**
 This byte is bit mapped; bit values are as follows:
-Bit 0 Reset flag
-When B'1', all previous home-state-level CMRs are reset so that there are no
-invoked CMRs at the home-state level. When B'0', this step is skipped (no
-resets occur).
+- **Bit 0 Reset flag**: When B'1', all previous home-state-level CMRs are reset so that there are no
+invoked CMRs at the home-state level. When B'0', this step is skipped (no resets occur).
+
 After the reset flag has been processed, each ICMR entry is processed in
 sequence to invoke additional home-state-level CMRs.
 It is not an error to have multiple CMR entries in an ICMR command that have
@@ -1961,11 +1972,14 @@ processing print data, the printer follows the CMR-usage hierarchy and
 selects only one invoked audit CMR and one invoked instruction CMR of each
 CMR type. At each level in the hierarchy, the invoked CMRs are searched in a
 LIFO manner (last-invoked to first-invoked).
-Bits 1–7 Reserved
-Bytes 1–4 Reserved
-Bytes 5 to end ICMR entries in the following format:
-Entry bytes 0–1
-Host-Assigned ID
+
+**Bits 1–7 Reserved**
+
+**Bytes 1–4 Reserved**
+
+**Bytes 5 to end ICMR entries**
+
+**Entry bytes 0–1 Host-Assigned ID**
 This field specifies the Host-Assigned ID (HAID) of a CMR data object
 resource to be invoked. Exception ID X'020D..11' exists if an invalid Host-
 Assigned ID value is specified.
@@ -1976,7 +1990,6 @@ CMR or is not currently activated.
 Later, when this CMR is selected for use with presentation data, the CMR
 must still be activated. Note that when a CMR is deactivated, all invocations
 of that HAID are also removed.
-## Invoke CMR (ICMR)
 
 
 Load Copy Control
@@ -3574,8 +3587,8 @@ Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the LPD command.
 ## Logical Page Descriptor (LPD)
 
 
-Logical Page Positionon
-The Logical Page Positionon (LPP) command, previously known as the Load Page Positionon command, positions
+Logical Page Position
+The Logical Page Position (LPP) command, previously known as the Load Page Position command, positions
 the logical page origin of a page with respect to the origin of the medium presentation space, or when N-up is
 selected in the LCC command, with respect to one of the N-up partition origins. Refer to page 184 for a
 description of N-up. Some printers also allow a page orientation to be specified in the LPP command. Page
@@ -3602,7 +3615,7 @@ printer, the default is to position at a printer assigned location; refer to you
 Figure 56 shows how the LPP command positions a logical page on the medium presentation space when
 there is one page per side. Similar positioning is done within each partition when there is more than one page
 per side.
-Figure 56. Using the LPP Command to Positionon the Logical Page When There Is One Page per Side
+Figure 56. Using the LPP Command to Position the Logical Page When There Is One Page per Side
 Medium Presentation Space Origin
 Specified offset
 Medium Presentation Space
@@ -3610,7 +3623,7 @@ Logical Page
 (X = 0, Y = 0)m m
 (X = 0, Y = 0)p p
 Logical Page Origin
-## Logical Page Positionon (LPP)
+## Logical Page Position (LPP)
 
 
 Subsequently received pages are positioned as specified by the most recently received LCC and LPP
@@ -3624,7 +3637,7 @@ each of the four pages on the sheet. Notice that each of the pages has been orie
 been placed on the back side in partition 2, but it also overlaps into partition 1; this is accomplished with
 negative positioning. Page 3 was placed on top of page 2; pages are placed on the sheet in the order that they
 are received in the data stream.
-Figure 57. Page Positiononing and Orientation Examples
+Figure 57. Page Positioning and Orientation Examples
 Front side Back side
 Partition 1
 Partition 1
@@ -3668,7 +3681,7 @@ p
 Yp
 Yp
 Xp
-## Logical Page Positionon (LPP)
+## Logical Page Position (LPP)
 
 
 Figure 58 shows a more useful example in which the four pages have been placed on continuous-forms media.
@@ -3712,7 +3725,7 @@ X
 m
 Ym
 Partition 1 Partition 2
-## Logical Page Positionon (LPP)
+## Logical Page Position (LPP)
 
 
 ```
@@ -3792,7 +3805,7 @@ the current media origin or, if N-up is in effect, from the current partition or
 X
 m and Ym offset values position the origin of a page's logical page presentation space on one
 side of a sheet.
-## Logical Page Positionon (LPP)
+## Logical Page Position (LPP)
 
 
 Exception ID X'02AD..01' exists if an invalid or unsupported offset value is specified.
@@ -3846,7 +3859,7 @@ Exception ID X'02A5..01' exists if the Ym-offset value specified together with t
 extent or IO offset value exceeds the maximum supported by the printer.
 Property pair X'6008' in the Device-Control command-set vector of an STM reply indicates that
 the printer supports the full range of logical-page-offset values.
-## Logical Page Positionon (LPP)
+## Logical Page Position (LPP)
 
 
 Bytes 8–9 Page orientation
@@ -3860,7 +3873,7 @@ pair X'6101' in the Device-Control command-set vector of an STM reply. Printers 
 support this function ignore this parameter and orient the logical page at 0°. For printers that
 do support this function, exception ID X'02AD..03' exists when an invalid or unsupported
 orientation value is specified.
-## Logical Page Positionon (LPP)
+## Logical Page Position (LPP)
 
 
 Manage IPDS Dialog
@@ -4237,7 +4250,7 @@ character
 B'0', B'1' Report undefined-character checks B'0', B'1'
 bit 1 Page position B'0', B'1' Report page-position checks B'0', B'1'
 bits 2–5 B'0000' Reserved B'0000'
-bit 6 Highlight B'0', B'1' Positionon-check highlight B'0', B'1'
+bit 6 Highlight B'0', B'1' Position-check highlight B'0', B'1'
 bit 7 Others B'0', B'1' Report all other exceptions with AEAs B'0', B'1'
 6 BITS Additional processing information flags
 bit 0 0 degrees B'0', B'1' Orient 0 degrees B'0', B'1'
@@ -4300,10 +4313,10 @@ X'30'
 X'60'
 X'FF'
 Override for mapping control option:
-Positionon (not valid for IO Image)
+Position (not valid for IO Image)
 Scale to fit
 Center and trim
-Positionon and trim
+Position and trim
 Scale to fill
 Not specified
 X'00'
@@ -4520,12 +4533,12 @@ both dimensions from the device resolution. X'FF' is a special value that
 indicates that this parameter has not been specified.
 If an invalid or unsupported value is specified, exception ID X'0257..08' exists.
 The position mapping option (X'00') is supported for object containers, but not
-for IO Images; refer to “Positionon Mapping” for a description of the
+for IO Images; refer to “Position Mapping” for a description of the
 position mapping option.
 The option values supported for all data objects include:
 • X'10'—Scale to fit
 • X'20'—Center and trim
-• X'30'—Positionon and trim
+• X'30'—Position and trim
 • X'60'—Scale to fill
 Refer to “Mapping Control Options” or “Mapping the IO-Image
 Presentation Space” for a description of these mapping control
@@ -5031,7 +5044,7 @@ XOA-RRL Multiple Entry Query Support; the printer supports
 multiple-entry queries of query type X'05', activation query
 Retired (for “XOA-RRL query type X'FE' supported”)
 Detailed settings support in XOA RSNL
-Positionon-Check Highlighting Support in XOA EHC
+Position-Check Highlighting Support in XOA EHC
 Independent Exception Page-Print in XOA EHC; see
 note 26
 Support for operator-directed recovery in XOA EHC; see
@@ -5065,7 +5078,7 @@ All function listed for MO:DCA GA is supported; see
 “Additional required support for the MO:DCA GA (Graphic Arts)
 Function Set”; property pair X'FC00' must also
 be specified
-Positiononing Exception Sense Format Supported
+Positioning Exception Sense Format Supported
 Presence indicates support for Sense Format 1
 Absence indicates support for Sense Format 7
 Three-Byte Sense Data Support; see note 32
@@ -6721,7 +6734,7 @@ character
 B'0', B'1' Report undefined-character checks B'0', B'1'
 bit 1 Page position B'0', B'1' Report page-position checks B'0', B'1'
 bits 2–5 B'0000' Reserved B'0000'
-bit 6 Highlight B'0', B'1' Positionon-check highlight (optional) B'0'
+bit 6 Highlight B'0', B'1' Position-check highlight (optional) B'0'
 bit 7 Others B'0', B'1' Report all other exceptions with AEAs B'0', B'1'
 3 BITS Automatic Recovery flags
 bits 0–5 B'000000' Reserved B'000000'
@@ -6738,7 +6751,7 @@ Byte 2 Exception reporting
 This byte defines those exceptions (with AEAs) that are reported to the host, and allows
 control over position-check highlighting. An exception is always reported, regardless of the
 value of this byte, if no AEA exists or the printer has been instructed not to take the AEA (bit 7
-of byte 3). Positionon-check highlighting is independent of Alternate Exception Actions.
+of byte 3). Position-check highlighting is independent of Alternate Exception Actions.
 Exceptions are reported with a negative Acknowledge Reply (NACK). Whenever the printer
 reports an exception, it discards all upstream data that it has received, before readying itself to
 receive another command.
@@ -6766,11 +6779,11 @@ of the object data is outside the valid printable area). If this bit is set to B
 the printer reports this exception to the host. If this bit is set to B'0' and the
 AEA is taken, an exception is not reported.
 Bits 2–5 Reserved
-Bit 6 Positionon-check highlight
-The Positionon-Check Highlight bit determines if the printer highlights a position-
+Bit 6 Position-check highlight
+The Position-Check Highlight bit determines if the printer highlights a position-
 check exception (X'08C1..00', X'0411..00', or X'020A..05') on a page.
 However, when a Page-Continuation Action is taken for a position-check
-exception, highlighting occurs regardless of the setting of the Positionon-Check
+exception, highlighting occurs regardless of the setting of the Position-Check
 Highlight bit. When this bit is set to B'1', each unique occurrence of a position-
 check exception on a page must be highlighted. The appearance of the
 highlighting on a page is determined by the printer.
@@ -7094,7 +7107,7 @@ Is this
 a position-check
 exception AND is position-
 check highlighting supported AND
-is the "Positionon-Check
+is the "Position-Check
 Highlight" flag
 B'1'?
 Page
@@ -9986,7 +9999,7 @@ RM4SCC, modifier-byte option X'01'
 
 
 Table 34. Common Values for Bar Code Types and Modifiers
-Type Descriptionon Modifier values
+Type Description Modifier values
 X'01' 3-of-9 code X'01' and X'02'
 X'02' MSI X'01' through X'09'
 X'03' UPC/CGPC, Version A X'00'
