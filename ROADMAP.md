@@ -73,7 +73,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Format syntax and registry tables:
         - ✅ Chapter 4: Table 8 (BSD), Table 9 (Types).
         - ✅ Chapter 4: Table 10 (Modifiers).
-        - ⏳ Chapter 4: Table 13 (Defaults), Table 19 (Check Digits), Table 20 (BSA).
+        - ✅ Chapter 4: Table 11 (Color), Table 12 (Sizing).
+        - ✅ Chapter 4: Table 13 (Defaults), Table 19 (Check Digits), Table 20 (BSA).
         - ⏳ Chapter 4: Tables 21–33 (Special-Function Parameters).
         - ⏳ Chapter 4: Tables 34–36 (Code Pages, Characters).
         - ⏳ Appendices B (MO:DCA), C (IPDS).
