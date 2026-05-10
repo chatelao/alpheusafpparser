@@ -39,7 +39,7 @@ Table 20. Acknowledge Protocol
 | ACK or NACK | X'D6FF' | Acknowledge Reply | Yes |
 
 
-Acknowledge Reply
+## Acknowledge Reply (ACK/NACK)
 The printer uses the Acknowledge Reply to return information such as page counters, copy counters, sense
 data, and any requested information to the presentation services program. The presentation services program
 uses the acknowledge data to maintain control over the printing process and to initiate exception-recovery
@@ -413,7 +413,7 @@ described above are cleared by the protocols of the underlying communications sy
 Acknowledge Reply
 
 
-Activate Resource
+## Activate Resource (AR)
 The Activate Resource (AR) command, previously known as Load Resource Equivalence (LRE), requests the
 activation of resident resources in the printer or intermediate device.
 The AR command can also be used to activate a complete font such as an LF3-type coded font or a data-
@@ -456,7 +456,6 @@ type X'05' is processed. Once activation takes place, the activation request has
 AR entry no longer remains in effect; but the printer keeps activation information in the form of the HARID-to-
 resource-ID mapping for resource management purposes. If activation fails, the activation request specified by
 the AR entry remains in effect.
-## Activate Resource (AR)
 
 
 Each AR entry remains in effect until one of the following occurs:
@@ -506,7 +505,6 @@ activation is incompatible with the resource type in a previous activation, the 
 indicating that the resource specified by the HARID is not activated. However, if the activation fails because
 the HARID is already in use, the XOA-RRL reply indicates that the resource originally activated with that
 HARID is activated.
-## Activate Resource (AR)
 
 
 Note: Under certain circumstances, a raster-font activation (RT = X'01' or RT = X'03') can partially succeed.
@@ -529,159 +527,19 @@ following entries in the AR command are discarded; preceding entries remain in e
 X'028F ..01' exists in this situation, but reporting of this exception is optional. Exception ID X'023A..02' exists
 when an attempt is made to activate more coded-font components than the printer can support; reporting of
 this exception is optional.
-Offset Type Name Range Meaning Required
 Zero or more AR entries in the following format:
-0–1 UBIN Length See byte
-description
-Entry length, including this length field See byte
-description
-2 CODE RT X'00'
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-X'10'
-X'40'
-X'41'
-X'42'
-No value supplied
-Single-byte LF1-type or LF2-type coded font
-Reserved
-Double-byte LF1-type coded-font section
-Page segment
-Overlay
-Code page
-Font character set
-Single-byte coded-font index
-Double-byte coded-font index
-Coded font
-Data object resource
-Data-object font
-Data-object-font component
-X'00' and
-at least one
-Resource
-Type
-3–4 CODE HAID X'0000'
-X'0001' –
-X'7EFF'
-No value supplied
-Host-Assigned ID
-see note following table
-X'0000'
-X'0001' –
-X'7EFF'
-5 CODE Section ID X'00'
-X'41'–X'FE'
-No value supplied
-Double-byte font section ID;
-see note following table
-See byte
-description
-## Activate Resource (AR)
 
-
-Offset Type Name Range Meaning Required
-6 CODE RIDF X'00'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'09'
-X'0A'
-No value supplied
-Resource ID Format (RIDF):
-GRID-parts format
-Remote PrintManager MVS format
-Extended Remote PrintManager MVS
-format
-MVS Host Unalterable
-Remote Font Environment
-Coded-font format
-Object-OID format
-Data-object-font format
-X'00' and
-at least one
-Resource
-ID Format
-7–8 CODE FIS
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-Font Inline Sequence:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-see note following table
-X'0000'
-9–10 X'0000' Reserved X'0000'
-11 BITS Resource class flags
-bit 0 Don't capture B'0'
-B'1'
-Resource may be captured
-Resource must not be captured
-B'0'
-B'1'
-bit 1 B'0' Reserved B'0'
-bit 2 Reset B'0'
-B'1'
-No Reset
-Reset
-B'0'
-B'1'
-bit 3 Activation
-failed NACK
-B'0'
-B'1'
-No NACK if activation fails
-NACK if activation fails (optional)
-B'0'
-bit 4 Substitution B'0'
-B'1'
-Font substitution not allowed
-Outline-font substitution allowed
-B'0'
-bit 5 Private object
-name
-B'0'
-B'1'
-Object name is tied to the object
-Object name is private
-Optional flag (ignored by some printers)
-B'0'
-B'1'
-bits 6–7 B'00' Reserved B'00'
-12 to
-end of
-entry
-Resource ID See byte
-description
-Resource ID of the resource to be activated. If
-the printer supports resource ID triplets, the
-fixed portion of the resource ID can be followed
-by one or more of the following triplets:
-X'01' Coded Graphic Character Set Global
-Identifier triplet
-X'02' Fully Qualified Name triplet
-X'50' Encoding Scheme ID triplet
-X'62' Local Date and Time Stamp triplet
-X'79' Metric Adjustment triplet
-X'84' Font Resolution and Metric
-T echnology triplet
-X'8B' Data Object Font Descriptor triplet
-X'8D' Linked Font triplet
-X'91' Color Management Resource
-Descriptor triplet
-A value
-## Activate Resource (AR)
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :---: | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | | Entry length, including this length field | See byte description |
+| 2 | CODE | RT | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'08'<br>X'09'<br>X'10'<br>X'40'<br>X'41'<br>X'42' | Resource Type (RT):<br>No value supplied<br>Single-byte LF1-type or LF2-type coded font<br>Reserved<br>Double-byte LF1-type coded-font section<br>Page segment<br>Overlay<br>Code page<br>Font character set<br>Single-byte coded-font index<br>Double-byte coded-font index<br>Coded font<br>Data object resource<br>Data-object font<br>Data-object-font component | X'00' and at least one Resource Type |
+| 3–4 | CODE | HAID | X'0000'<br>X'0001'–X'7EFF' | Host-Assigned ID (see note following table) | X'0000'<br>X'0001'–X'7EFF' |
+| 5 | CODE | Section ID | X'00'<br>X'41'–X'FE' | Section Identifier: No value supplied or Double-byte font section ID (see note following table) | See byte description |
+| 6 | CODE | RIDF | X'00'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'09'<br>X'0A' | Resource ID Format (RIDF):<br>No value supplied<br>GRID-parts format<br>Remote PrintManager MVS format<br>Extended Remote PrintManager MVS format<br>MVS Host Unalterable Remote Font Environment<br>Coded-font format<br>Object-OID format<br>Data-object-font format | X'00' and at least one Resource ID Format |
+| 7–8 | CODE | FIS | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Font Inline Sequence (see note following table):<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
+| 9–10 | X'0000' | Reserved | X'0000' | Reserved | X'0000' |
+| 11 | BITS | Resource class flags | bit 0<br><br>bit 1<br>bit 2<br><br>bit 3<br><br>bit 4<br><br>bit 5<br><br>bits 6–7 | bit 0: Don't capture (B'0' May be captured, B'1' Must not be captured)<br>bit 1: Reserved (B'0')<br>bit 2: Reset (B'0' No Reset, B'1' Reset)<br>bit 3: Activation failed NACK (B'0' No NACK, B'1' NACK if fails)<br>bit 4: Substitution (B'0' Not allowed, B'1' Outline-font allowed)<br>bit 5: Private object name (B'0' Tied to object, B'1' Private)<br>bits 6–7: Reserved (B'00') | bit 0: B'0', B'1'<br>bit 1: B'0'<br>bit 2: B'0', B'1'<br>bit 3: B'0'<br>bit 4: B'0'<br>bit 5: B'0', B'1'<br>bits 6–7: B'00' |
+| 12 to end | | Resource ID | | Resource ID of the resource to be activated. If the printer supports resource ID triplets, the fixed portion of the resource ID can be followed by one or more of the following triplets:<br>X'01' Coded Graphic Character Set Global Identifier triplet<br>X'02' Fully Qualified Name triplet<br>X'50' Encoding Scheme ID triplet<br>X'62' Local Date and Time Stamp triplet<br>X'79' Metric Adjustment triplet<br>X'84' Font Resolution and Metric Technology triplet<br>X'8B' Data Object Font Descriptor triplet<br>X'8D' Linked Font triplet<br>X'91' Color Management Resource Descriptor triplet | |
 
 
 Note: The Host-Assigned ID is assigned dynamically by the presentation services program. This ID in
@@ -700,37 +558,20 @@ Printers that support AR must support entry lengths of X'0002', X'000C', and the
 for each RT , RIDF combination supported. The valid entry lengths for RT , RIDF combinations
 follow:
 Table 22. Valid RID Entry Lengths
-RT RIDF Valid Entry Length
-X'01', or
-X'03', or
-X'08', or
-X'09', or
-X'10'
-X'03' X'0014' plus length of triplets
-X'06' X'03' X'000E' or
-X'0010' or
-X'0010' plus length of triplets
-X'07' X'03' X'0010' or
-X'0010' plus length of triplets
-X'01', or
-X'03', or
-X'08', or
-X'09'
-X'04' X'00B0'
-X'04', or
-X'05'
-X'04' X'005E'
-X'04' X'05' X'0062'
-X'01', or
-X'03', or
-X'08', or
-X'09'
-X'06' X'00B8' plus length of triplets
-X'10' X'07' X'001E' plus length of triplets
-X'40' X'09' X'000E'–X'008D' plus length of triplets
-X'41' X'0A' X'0012' plus length of triplets
-X'42' X'09' X'000E'–X'008D' plus length of triplets
-## Activate Resource (AR)
+
+| RT | RIDF | Valid Entry Length |
+| :--- | :---: | :--- |
+| X'01', X'03', X'08', X'09', or X'10' | X'03' | X'0014' plus length of triplets |
+| X'06' | X'03' | X'000E', X'0010', or X'0010' plus length of triplets |
+| X'07' | X'03' | X'0010' or X'0010' plus length of triplets |
+| X'01', X'03', X'08', or X'09' | X'04' | X'00B0' |
+| X'04' or X'05' | X'04' | X'005E' |
+| X'04' | X'05' | X'0062' |
+| X'01', X'03', X'08', or X'09' | X'06' | X'00B8' plus length of triplets |
+| X'10' | X'07' | X'001E' plus length of triplets |
+| X'40' | X'09' | X'000E'–X'008D' plus length of triplets |
+| X'41' | X'0A' | X'0012' plus length of triplets |
+| X'42' | X'09' | X'000E'–X'008D' plus length of triplets |
 
 
 Byte 2 Resource Type (RT)
@@ -782,7 +623,6 @@ The value of this parameter depends on the Resource Type (RT):
 • RT = X'03'—Section Identifier of the double-byte LF1-type coded-font section
 • RT = X'04'—Section Identifier field is ignored
 • RT = X'05'—Section Identifier field is ignored
-## Activate Resource (AR)
 
 
 • RT = X'06'—Section Identifier field is ignored
@@ -832,7 +672,6 @@ character set must also have the same date and time stamp.
 For font character sets
 Two-byte GCSGID
 Followed by two-byte FGID
-## Activate Resource (AR)
 
 
 Resource ID triplets can be added after the 4-byte ID to specify a particular version of
@@ -851,7 +690,7 @@ Two-byte GCSGID
 Followed by two-byte CPGID
 Followed by two-byte FGID
 Followed by two-byte font width
-If a Font Resolution and Metric T echnology (X'84') triplet is present and supported, it is
+If a Font Resolution and Metric Technology (X'84') triplet is present and supported, it is
 also used to locate the resource.
 For LF2-type coded-fonts
 Two-byte GCSGID
@@ -864,9 +703,8 @@ Followed by two-byte CPGID
 Followed by two-byte FGID
 Followed by two-byte font width
 The section ID (byte 5 of the AR command) is also used for this resource type. If a
-Font Resolution and Metric T echnology (X'84') triplet is present and supported, it is
+Font Resolution and Metric Technology (X'84') triplet is present and supported, it is
 also used to locate the resource.
-## Activate Resource (AR)
 
 
 For coded fonts
@@ -917,7 +755,6 @@ Any fractional value resulting from the division is truncated.
 53,247 inclusive, and between 61,440 and 65,534 inclusive (typographic,
 proportionally spaced fonts), both the horizontal scale factor and the vertical scale
 factor are three times the font width.
-## Activate Resource (AR)
 
 
 • For fonts with FGID values between 53,248 and 61,439 inclusive, both the
@@ -968,7 +805,6 @@ blanks to the right.
 Note: The printer uses as many of these fields as is necessary to find the requested
 resource. The IPDS Architecture does not require a printer to use all of the
 subfields of the resource ID.
-## Activate Resource (AR)
 
 
 X'05' Extended Remote PrintManager MVS format (86 bytes/resource)
@@ -1010,7 +846,6 @@ blanks to the right.
 Note: The printer uses as many of these fields as is necessary to find the requested
 resource. The IPDS Architecture does not require a printer to use all of the
 subfields of the resource ID.
-## Activate Resource (AR)
 
 
 X'06' MVS Host Unalterable Remote Font environment (172 bytes/font)
@@ -1020,7 +855,7 @@ defined in the first subfield group.
 The printer can use the Date and Time fields to determine if they differ from the EC-
 level dates of the remote version (if any) of that font. If the dates are different, the
 printer must respond to any XOA-RRL query of that resource by indicating that the
-resource is not present. If a Font Resolution and Metric T echnology (X'84') triplet is
+resource is not present. If a Font Resolution and Metric Technology (X'84') triplet is
 present and supported, it is also used to locate the resource.
 The fields within a subfield group consist of the following:
 • Cyclic Redundancy Check: 2 bytes.
@@ -1056,7 +891,6 @@ by the Font Width (2 bytes). For a description of these fields, refer to GRID (b
 Note: The printer uses as many of these fields as is necessary to find the requested
 resource. The IPDS Architecture does not require a printer to use all of the
 subfields of the resource ID.
-## Activate Resource (AR)
 
 
 X'07' Coded-font format
@@ -1124,7 +958,6 @@ No value supplied
 Horizontal scale factor in 1440ths of an inch
 The vertical scale factor, also known as the specified vertical font size, is the desired
 distance between adjacent character baselines when character rotation is zero
-## Activate Resource (AR)
 
 
 degrees and no external leading is used. The horizontal scale factor can be used for
@@ -1176,7 +1009,6 @@ proportionally spaced fonts), the vertical scale factor is three times the font 
 factor is equal to the font width.
 • If an FGID was not supplied in the AR command but a font character set was found,
 the printer may obtain the FGID from the font character set.
-## Activate Resource (AR)
 
 
 To convert the scale factor values from 1440ths to points, the scale factor value is
@@ -1200,7 +1032,6 @@ Offset Type Name Range Meaning
 0 CODE Identifier X'06' This is a definite-short-form OID
 1 UBIN Length X'00'–X'7F' Length of the following content bytes
 2 to end Content Any value Content bytes that provide a unique ID for this object
-## Activate Resource (AR)
 
 
 X'0A' Data-object-font format
@@ -1258,7 +1089,6 @@ single-byte code points or fixed double-byte code points.
 The code page is used to map code points to IBM GCGIDs, and then
 the printer maps GCGIDs to appropriate values using an internal
 table. Any IPDS code page can be used (either fixed single byte or
-## Activate Resource (AR)
 
 
 fixed double byte); however, only those GCGIDs that are used in
@@ -1314,7 +1144,6 @@ Encoding Scheme ID (X'50') triplet
 This triplet must be specified once when the data to be
 printed is encoded in a form different from the font's encoding
 (as specified in the X'8B' triplet) and is not encoded with a
-## Activate Resource (AR)
 
 
 code page. For example, if the data to be printed is encoded
@@ -1344,7 +1173,6 @@ These triplets are fully described in the triplets chapter:
 “Encoding Scheme ID (X'50') Triplet” on page 720
 “Data Object Font Descriptor (X'8B') Triplet” on page 759
 “Linked Font (X'8D') Triplet” on page 765
-## Activate Resource (AR)
 
 
 Bytes 7–8 Font Inline Sequence
@@ -1392,7 +1220,6 @@ from right-to-left), Preview & Print embedding (bit 2), and Editable embedding
 (bit 3).
 When a resource is captured, the resource ID value specified in this AR command
 entry is saved with the resource. All resource ID triplets are also saved with the
-## Activate Resource (AR)
 
 
 resource. A date and time stamp must be supplied for an LF1 or LF3 font resource to
@@ -1427,7 +1254,7 @@ This flag is used only for raster font activations (RT = X'01' and RT = X'03') a
 ignored for other resource types. IPDS printers that do not support resident outline
 fonts ignore this flag. Also, for a font substitution to take place, the printer must either
 support only one font resolution and metric technology or a Font Resolution and
-Metric T echnology (X'84') triplet must be present in the AR entry.
+Metric Technology (X'84') triplet must be present in the AR entry.
 If this bit is B'0', no font substitution is allowed.
 If this bit is B'1', an outline font that is selected by using the Resource ID can be
 substituted for the requested raster font. If the Resource ID contains date and time
@@ -1436,7 +1263,7 @@ that matches the specified date and time; if that search fails the printer may i
 date and time stamp fields and continue the search. All Resource ID triplets in the AR
 entry are ignored during the matching process.
 If a substitute outline font has been selected and there is a Font Resolution and Metric
-T echnology (X'84') triplet on the AR entry that specifies fixed metrics, the outline
+Technology (X'84') triplet on the AR entry that specifies fixed metrics, the outline
 character increments are adjusted using the triplet information to simulate raster
 character increments. Each character increment is rounded off to the nearest pel
 using the resolution specified in the triplet.
@@ -1444,7 +1271,6 @@ If an outline font is substituted because this flag was B'1', a subsequent XOA-R
 activation query for this resource indicates a successful activation regardless of
 whether the XOA-RRL query is for a raster resource type or for a coded-font resource
 type.
-## Activate Resource (AR)
 
 
 Note: To avoid problems with half-width characters and other double-byte font
@@ -1495,99 +1321,37 @@ The Activate Resource triplets are fully described in the triplets chapter:
 “Encoding Scheme ID (X'50') Triplet” on page 720
 “Local Date and Time Stamp (X'62') Triplet” on page 724
 “Metric Adjustment (X'79') Triplet” on page 737
-“Font Resolution and Metric T echnology (X'84') Triplet” on page 740
+“Font Resolution and Metric Technology (X'84') Triplet” on page 740
 “Data Object Font Descriptor (X'8B') Triplet” on page 759
-## Activate Resource (AR)
 
 
 “Linked Font (X'8D') Triplet” on page 765
 “Color Management Resource Descriptor (X'91') Triplet” on page 769
 The following table specifies the triplets that can be used with each RT/RIDF combination:
 Table 23. RT/RIDF Triplet Combinations
-Triplet Required?
-For RT = X'01' (single-byte LF1-type or LF2-type coded font) with
-RIDF = X'03' (GRID-parts format) or
-RIDF = X'06' (MVS Host Unalterable Remote Font environment):
-Font Resolution and Metric T echnology (X'84') triplet
--- used to find a single-byte LF1-type coded font
-Optional
-For RT = X'03' (double-byte LF1-type coded-font section) with
-RIDF = X'03' (GRID-parts format) or
-RIDF = X'06' (MVS Host Unalterable Remote Font environment):
-Font Resolution and Metric T echnology (X'84') triplet
--- used to find a double-byte LF1-type coded-font section
-Optional
-For RT = X'06' (code page) with
-RIDF = X'03' (GRID-parts format):
-Local Date and Time Stamp (X'62') triplet
--- used to identify a particular version of a specific code page
-Optional
-For RT = X'07' (font character set) with
-RIDF = X'03' (GRID-parts format):
-Local Date and Time Stamp (X'62') triplet
--- used to identify a particular version of a font character set
-Optional
-For RT = X'10' (coded font) with
-RIDF = X'03' (GRID-parts format) or
-RIDF = X'07' (coded-font format):
-Metric Adjustment (X'79') triplet
--- used to adjust metrics in an outline coded font
-Optional
-For RT = X'40' (data object resource) with
-RIDF = X'09' (object-OID format):
-Color Management Resource Descriptor (X'91') triplet
--- used to specify control information for color management resources
-Required for a
-CMR, ignored for
-other data-object-
-resource types
-Coded Graphic Character Set Global Identifier (X'01') triplet
--- used to identify the encoding of any following AR-command triplets that contain
-character-encoded data
-Optional
-Fully Qualified Name (X'02') triplet (FQN type X'DE' with a character-encoded name)
--- used to provide an optional object name for the resource (character encoding can be
-identified with a preceding X'01' triplet; however, if there is no preceding X'01' triplet,
-the name must be a character string that is encoded as UTF-16BE)
-Optional
-For RT = X'41' (data-object font) with
-RIDF = X'0A' (data-object-font format):
-Fully Qualified Name (X'02') triplet (FQN type = X'DE')
--- used to specify a Full Font Name for a TrueType/OpenType collection; for the base font
-Optional
-Encoding Scheme ID (X'50') triplet
--- used to specify how the data to be printed is encoded
-Optional
-## Activate Resource (AR)
 
-
-Table 23 RT/RIDF Triplet Combinations (cont'd.)
-Triplet Required?
-Data Object Font Descriptor (X'8B') triplet
--- used to specify activation parameters for a data-object font
-Required
-Linked Font (X'8D') triplet
--- used to specify a linked TrueType/OpenType object
-Optional
-For RT = X'42' (data-object-font component) with
-RIDF = X'09' (object-OID format):
-Coded Graphic Character Set Global Identifier (X'01') triplet
--- used to identify the encoding of any following AR-command triplets that contain
-character-encoded data
-Optional
-Fully Qualified Name (X'02') triplet (FQN type X'DE' with a character-encoded name)
--- used to provide an optional object name for the resource (character encoding can be
-identified with a preceding X'01' triplet; however, if there is no preceding X'01' triplet,
-the name must be a character string that is encoded as UTF-16BE)
-Optional
+| Combination | Triplet | Required? |
+| :--- | :--- | :--- |
+| **For RT = X'01'** (single-byte LF1-type or LF2-type coded font) with **RIDF = X'03'** (GRID-parts format) or **RIDF = X'06'** (MVS Host Unalterable Remote Font environment) | Font Resolution and Metric Technology (X'84') triplet<br>-- used to find a single-byte LF1-type coded font | Optional |
+| **For RT = X'03'** (double-byte LF1-type coded-font section) with **RIDF = X'03'** (GRID-parts format) or **RIDF = X'06'** (MVS Host Unalterable Remote Font environment) | Font Resolution and Metric Technology (X'84') triplet<br>-- used to find a double-byte LF1-type coded-font section | Optional |
+| **For RT = X'06'** (code page) with **RIDF = X'03'** (GRID-parts format) | Local Date and Time Stamp (X'62') triplet<br>-- used to identify a particular version of a specific code page | Optional |
+| **For RT = X'07'** (font character set) with **RIDF = X'03'** (GRID-parts format) | Local Date and Time Stamp (X'62') triplet<br>-- used to identify a particular version of a font character set | Optional |
+| **For RT = X'10'** (coded font) with **RIDF = X'03'** (GRID-parts format) or **RIDF = X'07'** (coded-font format) | Metric Adjustment (X'79') triplet<br>-- used to adjust metrics in an outline coded font | Optional |
+| **For RT = X'40'** (data object resource) with **RIDF = X'09'** (object-OID format) | Color Management Resource Descriptor (X'91') triplet<br>-- used to specify control information for color management resources | Required for a CMR, ignored for other data-object-resource types |
+| | Coded Graphic Character Set Global Identifier (X'01') triplet<br>-- used to identify the encoding of any following AR-command triplets that contain character-encoded data | Optional |
+| | Fully Qualified Name (X'02') triplet (FQN type X'DE' with a character-encoded name)<br>-- used to provide an optional object name for the resource (character encoding can be identified with a preceding X'01' triplet; however, if there is no preceding X'01' triplet, the name must be a character string that is encoded as UTF-16BE) | Optional |
+| **For RT = X'41'** (data-object font) with **RIDF = X'0A'** (data-object-font format) | Fully Qualified Name (X'02') triplet (FQN type = X'DE')<br>-- used to specify a Full Font Name for a TrueType/OpenType collection; for the base font | Optional |
+| | Encoding Scheme ID (X'50') triplet<br>-- used to specify how the data to be printed is encoded | Optional |
+| | Data Object Font Descriptor (X'8B') triplet<br>-- used to specify activation parameters for a data-object font | Required |
+| | Linked Font (X'8D') triplet<br>-- used to specify a linked TrueType/OpenType object | Optional |
+| **For RT = X'42'** (data-object-font component) with **RIDF = X'09'** (object-OID format) | Coded Graphic Character Set Global Identifier (X'01') triplet<br>-- used to identify the encoding of any following AR-command triplets that contain character-encoded data | Optional |
+| | Fully Qualified Name (X'02') triplet (FQN type X'DE' with a character-encoded name)<br>-- used to provide an optional object name for the resource (character encoding can be identified with a preceding X'01' triplet; however, if there is no preceding X'01' triplet, the name must be a character string that is encoded as UTF-16BE) | Optional |
 If a data-object font is activated by means of an AR command, but a Data Object Font Descriptor (X'8B') triplet
 is not provided, exception ID X'028F ..20' exists. If a Color Management Resource (CMR) is activated by means
 of an AR command, but a Color Management Resource Descriptor (X'91') triplet is not provided, exception ID
 X'025E..01' exists.
-## Activate Resource (AR)
 
-
-Activate Setup Name
+## Activate Setup Name (ASN)
 The Activate Setup Name (ASN) command is valid only in home state and causes the printer to activate a
 setup name. The setup name is identified with a name that is assigned by the user, known to the printer, and
 associated on the printer with some set of configuration settings. The printer attempts to configure itself to
@@ -1632,7 +1396,6 @@ Length X'D60A' Flag CID Data
 The length of the ASN command can be:
 Without CID X'0007' or X'000D'–X'00D3' odd values
 With CID X'0009' or X'000F'–X'00D5' odd values
-## Activate Setup Name (ASN)
 
 
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
@@ -1677,7 +1440,6 @@ would cause X'010A..00':
 • A change from one active setup name to another active setup name
 • A change from no active setup name to an active setup name
 • A change from an active setup name to no active setup name
-## Activate Setup Name (ASN)
 
 
 • A change from an active setup name to the same active setup name but the settings
@@ -1686,7 +1448,6 @@ active setup name’s definition
 Note that exception ID X'010A..00' is not reported for changes due to the ASN command.
 The triplet is fully described in the triplets chapter:
 “Setup Name (X'9E') Triplet ” on page 786
-## Activate Setup Name (ASN)
 
 
 Apply Finishing Operations
@@ -3091,7 +2852,7 @@ subgroup, using the most recently-received LCC command.
 When The Page Is Not To Be Printed:
 The printer reports the exception, remembers all pages that have committed copies, and waits for direction
 from the host. The printer:
-1. T erminates processing for the copy subgroup in which the exception occurs and for all subsequent copy
+1. Terminates processing for the copy subgroup in which the exception occurs and for all subsequent copy
 subgroups.
 2. Discards the copy of the page for the exception copy subgroup.
 3. Saves copies resulting from the previous copy subgroups.
@@ -5370,7 +5131,7 @@ Printable-Area self-defining field; see note 22 on page 242
 Local Date and Time Stamp (X'62') triplets supported in AR
 commands
 Activation-failed NACK support
-Font Resolution and Metric T echnology (X'84') triplets
+Font Resolution and Metric Technology (X'84') triplets
 supported in AR commands
 Metric Adjustment (X'79') triplets supported in AR commands
 Data-object font support; see note 23 on page 242
@@ -5541,7 +5302,7 @@ each time the paper path is stopped.
 To minimize unwanted blank sheets within a print job, the presentation services software should activate
 any large or complex resources needed by the job before sending any of the pages for that job (including
 header pages). In addition, the presentation services software should avoid long pauses or stops within
-groups of pages that should be kept together. The Keep-Group-T ogether-as-a-Recovery-Unit group
+groups of pages that should be kept together. The Keep-Group-Together-as-a-Recovery-Unit group
 operation can be used with some IPDS printers to identify such page groups to the printer so that the
 printer can use the group boundaries as an appropriate stopping point or recovery point.
 When cut-sheet emulation mode is in effect and no further jobs are waiting to print, to avoid blank sheets
@@ -7161,7 +6922,7 @@ If this bit is B'1', the printer suppresses the exception handling for exception
 IDs with the following action codes:
 X'08'—Physical media jam
 X'1A'—Redrive buffered pages
-X'23'—T emporary hardware exception
+X'23'—Temporary hardware exception
 These exceptions normally cause the printer to discard buffered data and
 adjust the station counters. When suppressed, however, no buffered data is
 discarded. For physical media jam exceptions, the stacked page and copy
@@ -9075,7 +8836,7 @@ X'00'
 X'01'
 DGB order type:
 Initiate group
-T erminate group
+Terminate group
 X'00'
 X'01'
 3 UBIN Group level X'00'–X'FF' Group level X'00'–X'FF'
@@ -9342,7 +9103,7 @@ residual print data. This order causes the printer to do the following in the sp
 1. Eject to the next sheet if not already on a new sheet. The next received page is the first page on the new
 sheet. This occurs whether or not cut-sheet emulation mode is in effect.
 2. Perform an XOH Print Buffered Data.
-3. T erminate all open groups, deactivate all saved page groups, and remove all previously received group
+3. Terminate all open groups, deactivate all saved page groups, and remove all previously received group
 operations. Any outstanding operations on the terminated groups are performed at this time.
 4. Deactivate all page segments, overlays, saved page groups, data object resources, and data-object-font
 components.
@@ -9436,7 +9197,7 @@ Table 33 OPC Self-Defining Field Summary (cont'd.)
 SDF ID Self-Defining Field
 X'0021' “Colorant-Identification Self-Defining Field” on page 370
 X'0022' “Device-Appearance Self-Defining Field” on page 372
-X'0024' “Keep-Group-T ogether-as-a-Recovery-Unit Self-Defining Field” on page 373
+X'0024' “Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field” on page 373
 X'0025' “Recognized Group ID Formats Self-Defining Field” on page 374
 X'0026' “Supported Device Resolutions Self-Defining Field” on page 375
 X'0027' “Object-Container Version Support Self-Defining Field” on page 376
@@ -9783,7 +9544,7 @@ X'7FFF'
 Y pels per unit base
 Notes:
 1. If all raster-pattern resolutions are supported (byte 5 = X'FF'), the printer must also support the Font
-Resolution and Metric T echnology (X'84') triplet.
+Resolution and Metric Technology (X'84') triplet.
 2. The resolution values specified in bytes 6–7 and 8–9 are not necessarily the same as the current device
 resolution; if necessary, the printer will resolution correct all data to match the current device resolution.
 The “Supported Device Resolutions Self-Defining Field” on page 375 lists the current device resolutions.
@@ -10724,7 +10485,7 @@ while the Finish group operation is still supported.
 UP
 3I Tupel self-defining fields (X'0019') and UP 3I Paper Input Media self-defining fields (X'001A') provide
 information about connected UP 3I devices that can also support finishing operations.
-3. The Keep-Group-T ogether-as-a-Recovery-Unit self-defining field identifies the maximum number of sheets
+3. The Keep-Group-Together-as-a-Recovery-Unit self-defining field identifies the maximum number of sheets
 allowed within a recovery-unit group; these sheets include sheets containing pages and copies of such
 sheets. Printers that do not support this group operation or have no maximum do not return this self-
 defining field.
@@ -11490,7 +11251,7 @@ sheets include sheets containing pages and copies of such sheets. Support for th
 indicated by the Supported Group Operations self-defining field.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'000B' Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0024' Keep-Group-T ogether-as-a-Recovery-Unit self-defining field ID
+2–3 CODE SDF ID X'0024' Keep-Group-Together-as-a-Recovery-Unit self-defining field ID
 4–5 UBIN Maximum
 number of
 sheets
@@ -11530,7 +11291,7 @@ of the sheet lengths. For a printer using continuous-forms
 media, the length can be changed with the XOH Set Media
 Size command. Exception ID X'0101..00' exists whenever
 media size changes.
-Note: Printers that do not support the Keep-Group-T ogether-as-a-Recovery-Unit group operation or have no
+Note: Printers that do not support the Keep-Group-Together-as-a-Recovery-Unit group operation or have no
 maximum do not return this self-defining field. If both a non-zero maximum number of sheets and a non-
 zero maximum total group length is specified, the printer is responsible for ensuring that these values
 are consistent and the presentation services program can use either value (and ignore the other value).
