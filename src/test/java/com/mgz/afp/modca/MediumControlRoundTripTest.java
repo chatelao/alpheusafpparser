@@ -18,6 +18,32 @@ public class MediumControlRoundTripTest {
     }
 
     @Test
+    public void testMMCMultiKeywordRoundTrip() throws Exception {
+        // MMC: D3A788
+        // MMCID(1)=1, Const(1)=0,
+        // Keyword 1: DuplexControl(0xF4), Param(1)=1
+        // Keyword 2: PrintQualityControl(0xF8), Param(1)=2
+        // Total Len: 1 + 8 + 2 + 2 + 2 = 15. SFLen = 14 (0x000E)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x0E, (byte) 0xD3, (byte) 0xA7, (byte) 0x88, 0x00, 0x00, 0x00,
+            0x01, 0x00, (byte) 0xF4, 0x01, (byte) 0xF8, 0x02
+        };
+        RoundTripTestUtils.assertRoundTrip(new MMC_MediumModificationControl(), data);
+    }
+
+    @Test
+    public void testMPTRoundTrip() throws Exception {
+        // MPT: D3AB9B
+        // RG: Len(2)=5 | Triplet: MappingOption(0x04)=0x00
+        // Total Len: 1 + 8 + 5 = 14. SFLen = 13 (0x000D)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x0D, (byte) 0xD3, (byte) 0xAB, (byte) 0x9B, 0x00, 0x00, 0x00,
+            0x00, 0x05, 0x03, 0x04, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new MPT_MapPresentationText(), data);
+    }
+
+    @Test
     public void testMMCRoundTrip() throws Exception {
         // MMC: D3A788
         // MMCID(1)=1, Const(1)=0, Keyword(2): DuplexControl(0xF4), Param(1)=1

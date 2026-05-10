@@ -149,13 +149,17 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
     FinishingFidelity(0x88),
     DataObjectFontDescriptor(0x8B),
     LocaleSelector(0x8C),
+    MODCAFunctionSet(0x8F),
     UP3iFinishingOperation(0x8E),
     ColorManagementResourceDescriptor(0x91),
     RenderingIntent(0x95),
     CMRTagFidelity(0x96),
     DeviceAppearance(0x97),
+    KeepGroupTogether(0x9D),
+    SetupName(0x9E),
     ImageResolution(0x9A),
-    ObjectContainerPresentationSpaceSize(0x9C);
+    ObjectContainerPresentationSpaceSize(0x9C),
+    TripletExtender(0xFF);
     int code;
 
     TripletID(int code) {
@@ -768,6 +772,32 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       }
     }
 
+  }
+
+  /**
+   * MO:DCA, page 464.<br><br> The MO:DCA Function Set triplet is used to specify the function
+   * set of the MO:DCA data stream.
+   */
+  @XmlRootElement
+  public static class MODCAFunctionSet extends Triplet {
+    byte[] reserved2_3 = {0x00, 0x00};
+    int fctSetID;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
+      reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
+      fctSetID = UtilBinaryDecoding.parseInt(sfData, offset + 4, 2);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      length = 6;
+      os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
+      os.write(tripletID.toByte());
+      os.write(reserved2_3);
+      os.write(UtilBinaryDecoding.intToByteArray(fctSetID, 2));
+    }
   }
 
   /**
@@ -1495,6 +1525,10 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
     public void setAttributeValue(String attributeValue) {
       this.attributeValue = attributeValue;
+    }
+
+    public byte[] getAttributeValueBytes(AFPParserConfiguration config) {
+      return attributeValue.getBytes(config.getAfpCharSet());
     }
 
     @XmlElement(name = "text")
@@ -2691,11 +2725,19 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      byte[] data = comment.getBytes(config.getAfpCharSet());
+      byte[] data = comment != null ? comment.getBytes(config.getAfpCharSet()) : new byte[0];
       length = (short) (data.length + 2);
-      os.write(length);
+      os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(tripletID.toByte());
       os.write(data);
+    }
+
+    public void setComment(String comment) {
+      this.comment = comment;
+    }
+
+    public byte[] getCommentBytes(AFPParserConfiguration config) {
+      return comment.getBytes(config.getAfpCharSet());
     }
   }
 
@@ -4049,6 +4091,69 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
   }
 
   /**
+   * MO:DCA, page 468.<br><br> The Keep Group Together triplet indicates that a group of pages
+   * is a complete logical entity that should be processed as a unit.
+   */
+  @XmlRootElement
+  public static class KeepGroupTogether extends Triplet {
+    byte[] reserved2_3 = {0x00, 0x00};
+    byte grpFnct;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
+      reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
+      grpFnct = sfData[offset + 4];
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      length = 5;
+      os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
+      os.write(tripletID.toByte());
+      os.write(reserved2_3);
+      os.write(grpFnct);
+    }
+  }
+
+  /**
+   * MO:DCA, page 469.<br><br> The Setup Name triplet specifies a setup name that encompasses
+   * some number of settings on a device.
+   */
+  @XmlRootElement
+  public static class SetupName extends Triplet {
+    byte[] reserved2_3 = {0x00, 0x00};
+    String setupName;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
+      reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      if (actualLength > 4) {
+        setupName = new String(sfData, offset + 4, actualLength - 4, Constants.utf16be);
+      } else {
+        setupName = null;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      byte[] nameBytes = setupName != null ? setupName.getBytes(Constants.utf16be) : new byte[0];
+      length = (short) (4 + nameBytes.length);
+      os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
+      os.write(tripletID.toByte());
+      os.write(reserved2_3);
+      os.write(nameBytes);
+    }
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return setupName;
+    }
+  }
+
+  /**
    * MODCA, page 466.<br><br>
    * <p>
    * The Color Management Resource Descriptor triplet specifies the processing mode and scope for a
@@ -4332,6 +4437,48 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       os.write(yUnitBase.toByte());
       os.write(UtilBinaryDecoding.shortToByteArray(xUnitsPerUnitBase, 2));
       os.write(UtilBinaryDecoding.shortToByteArray(yUnitsPerUnitBase, 2));
+    }
+  }
+
+  /**
+   * MO:DCA, page 470.<br><br> The Triplet Extender triplet is used to extend the data portion
+   * of the preceding triplet.
+   */
+  @XmlRootElement
+  public static class TripletExtender extends Triplet {
+    byte[] reserved2_3 = {0x00, 0x00};
+    byte[] datExt;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
+      reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      if (actualLength > 4) {
+        datExt = new byte[actualLength - 4];
+        System.arraycopy(sfData, offset + 4, datExt, 0, datExt.length);
+      } else {
+        datExt = null;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      length = (short) (4 + (datExt != null ? datExt.length : 0));
+      os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
+      os.write(tripletID.toByte());
+      os.write(reserved2_3);
+      if (datExt != null) {
+        os.write(datExt);
+      }
+    }
+
+    public byte[] getDatExt() {
+      return datExt;
+    }
+
+    public void setDatExt(byte[] datExt) {
+      this.datExt = datExt;
     }
   }
 

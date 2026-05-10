@@ -54,13 +54,52 @@ public class TripletParser {
         undef.setLength((short) (sfData[offset + pos] & 0xFF));
         undef.setTripletID(TripletID.Undefined);
       }
-      resultingTriplets.add(triplet);
+
+      if (triplet instanceof Triplet.TripletExtender && !resultingTriplets.isEmpty()) {
+        Triplet previous = resultingTriplets.get(resultingTriplets.size() - 1);
+        handleTripletExtension(previous, (Triplet.TripletExtender) triplet, config);
+      } else {
+        resultingTriplets.add(triplet);
+      }
 
       pos += triplet.getLength();
     }
 
 
     return resultingTriplets;
+  }
+
+  private static void handleTripletExtension(Triplet target, Triplet.TripletExtender extender, AFPParserConfiguration config) {
+    byte[] extraData = extender.getDatExt();
+    if (extraData == null || extraData.length == 0) {
+      return;
+    }
+
+    if (target instanceof Triplet.FullyQualifiedName) {
+      Triplet.FullyQualifiedName fqn = (Triplet.FullyQualifiedName) target;
+      byte[] oldBytes = fqn.getNameAsBytes();
+      byte[] newBytes = new byte[oldBytes.length + extraData.length];
+      System.arraycopy(oldBytes, 0, newBytes, 0, oldBytes.length);
+      System.arraycopy(extraData, 0, newBytes, oldBytes.length, extraData.length);
+      fqn.setNameAsBytes(newBytes);
+      fqn.setNameAsString(new String(newBytes, config.getAfpCharSet()));
+    } else if (target instanceof Triplet.AttributeValue) {
+      Triplet.AttributeValue av = (Triplet.AttributeValue) target;
+      String oldVal = av.getAttributeValue();
+      if (oldVal == null) {
+        oldVal = "";
+      }
+      String extraStr = new String(extraData, config.getAfpCharSet());
+      av.setAttributeValue(oldVal + extraStr);
+    } else if (target instanceof Triplet.Comment) {
+      Triplet.Comment c = (Triplet.Comment) target;
+      String oldComment = c.getText();
+      if (oldComment == null) {
+        oldComment = "";
+      }
+      String extraComment = new String(extraData, config.getAfpCharSet());
+      c.setComment(oldComment + extraComment);
+    }
   }
 
   public static Triplet parseTriplet(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
