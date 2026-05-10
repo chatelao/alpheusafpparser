@@ -423,27 +423,28 @@ Foreground areas consist of the following:
 – Bars and 2D modules
 – Stroked and filled portion of HRI characters
 All other areas of the bar code presentation space are background.
-Table 11. Standard OCA Color-Value Table
-Value Color Red (R) Green (G) Blue (B)
-X'0000' or X'FF00' Device default
-X'0001' or X'FF01' Blue 0 0 255
-X'0002' or X'FF02' Red 255 0 0
-X'0003' or X'FF03' Pink/magenta 255 0 255
-X'0004' or X'FF04' Green 0 255 0
-X'0005' or X'FF05' Turquoise/cyan 0 255 255
-X'0006' or X'FF06' Yellow 255 255 0
-X'0007' White; see note 1 255 255 255
-X'0008' Black; see note 2 0 0 0
-X'0009' Dark blue 0 0 170
-X'000A' Orange 255 128 0
-X'000B' Purple 170 0 170
-X'000C' Dark green 0 146 0
-X'000D' Dark turquoise 0 146 170
-X'000E' Mustard 196 160 32
-X'000F' Gray 131 131 131
-X'0010' Brown 144 48 0
-X'FF07' Device default
-X'FF08' Color of medium; also known as reset color
+### Table 11. Standard OCA Color-Value Table
+| Value | Color | Red (R) | Green (G) | Blue (B) |
+| :--- | :--- | :---: | :---: | :---: |
+| X'0000' or X'FF00' | Device default | | | |
+| X'0001' or X'FF01' | Blue | 0 | 0 | 255 |
+| X'0002' or X'FF02' | Red | 255 | 0 | 0 |
+| X'0003' or X'FF03' | Pink/magenta | 255 | 0 | 255 |
+| X'0004' or X'FF04' | Green | 0 | 255 | 0 |
+| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 |
+| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 |
+| X'0007' | White; see note 1 | 255 | 255 | 255 |
+| X'0008' | Black; see note 2 | 0 | 0 | 0 |
+| X'0009' | Dark blue | 0 | 0 | 170 |
+| X'000A' | Orange | 255 | 128 | 0 |
+| X'000B' | Purple | 170 | 0 | 170 |
+| X'000C' | Dark green | 0 | 146 | 0 |
+| X'000D' | Dark turquoise | 0 | 146 | 170 |
+| X'000E' | Mustard | 196 | 160 | 32 |
+| X'000F' | Gray | 131 | 131 | 131 |
+| X'0010' | Brown | 144 | 48 | 0 |
+| X'FF07' | Device default | | | |
+| X'FF08' | Color of medium; also known as reset color | | | |
 Note: The table specifies the RGB values for each named color; the actual printed color is device dependent.
 Notes:
 1. The color rendered on presentation devices that do not support white is device dependent.
@@ -511,58 +512,16 @@ specification (or recommendation) to an integer number of device pels. This mapp
 yields an approximation of the user request and can cause the actual width and height
 of a bar code symbol to be slightly different at different device resolutions. Refer to the
 symbology specification for bar code types that list multiple widths.
-Table 12. Sizing Targets for Fixed-Size Bar Code Types
-Bar Code Type Optimal-Symbol Size Small-Symbol Size
-Australia Post Bar
-Code Symbol width = 39.60 mm or 55.85 mm
-or 72.15 mm
-Symbol height = 5.00 mm
-(only with small-symbol support)
-Symbol width = 37.0 mm or 52.2 mm
-or 67.5 mm
-Symbol height = 4.2 mm
-MaxiCode
-Symbol width = 25.5 mm
-Symbol height = 24.38 mm
-(only with small-symbol support)
-Symbol width = 24.03 mm
-Symbol height = 22.98 mm
-POSTNET
-(deprecated) Symbol width = 1.429 in or 2.338 in
-or 2.793 in
-Symbol height = 0.125 in
-(only with small-symbol support)
-Symbol width = 1.307 in or 2.140 in
-or 2.557 in
-Symbol height = 0.115 in
-PLANET
-(deprecated) Symbol width = 2.793 in or 3.247 in
-Symbol height = 0.125 in
-(only with small-symbol support)
-Symbol width = 2.557 in or 2.973 in
-Symbol height = 0.115 in
-RM4SCC
-(for a 5 character
-symbol)
-Symbol width = 38.61 mm
-Symbol height = 5.03 mm
-(only with small-symbol support)
-Symbol width = 35.31 mm
-Symbol height = 4.22 mm
-Dutch KIX
-(for an 8 character
-symbol)
-Symbol width = 36.30 mm
-Symbol height = 5.03 mm
-(only with small-symbol support)
-Symbol width = 33.19 mm
-Symbol height = 4.22 mm
-Intelligent Mail
-Barcode
-Symbol width = 2.95 in
-Symbol height = 0.145 in
-Symbol width = 2.68 in
-Symbol height = 0.125 in
+### Table 12. Sizing Targets for Fixed-Size Bar Code Types
+| Bar Code Type | Optimal-Symbol Size | Small-Symbol Size |
+| :--- | :--- | :--- |
+| Australia Post Bar Code | Symbol width = 39.60 mm, 55.85 mm, or 72.15 mm<br>Symbol height = 5.00 mm | (only with small-symbol support)<br>Symbol width = 37.0 mm, 52.2 mm, or 67.5 mm<br>Symbol height = 4.2 mm |
+| MaxiCode | Symbol width = 25.5 mm<br>Symbol height = 24.38 mm | (only with small-symbol support)<br>Symbol width = 24.03 mm<br>Symbol height = 22.98 mm |
+| POSTNET (deprecated) | Symbol width = 1.429 in, 2.338 in, or 2.793 in<br>Symbol height = 0.125 in | (only with small-symbol support)<br>Symbol width = 1.307 in, 2.140 in, or 2.557 in<br>Symbol height = 0.115 in |
+| PLANET (deprecated) | Symbol width = 2.793 in or 3.247 in<br>Symbol height = 0.125 in | (only with small-symbol support)<br>Symbol width = 2.557 in or 2.973 in<br>Symbol height = 0.115 in |
+| RM4SCC (for a 5 character symbol) | Symbol width = 38.61 mm<br>Symbol height = 5.03 mm | (only with small-symbol support)<br>Symbol width = 35.31 mm<br>Symbol height = 4.22 mm |
+| Dutch KIX (for an 8 character symbol) | Symbol width = 36.30 mm<br>Symbol height = 5.03 mm | (only with small-symbol support)<br>Symbol width = 33.19 mm<br>Symbol height = 4.22 mm |
+| Intelligent Mail Barcode | Symbol width = 2.95 in<br>Symbol height = 0.145 in | Symbol width = 2.68 in<br>Symbol height = 0.125 in |
 Note: Some IPDS printers used the original
 USPS symbology specification that defined
 the smallest symbol size as 2.58 inches
@@ -725,164 +684,55 @@ Some bar code symbologies explicitly specify the module width or element height;
 table lists the module width or element height value defined for the symbology. Refer to the description of
 module width (byte 17) and element height (bytes 18–19) for a list of the symbologies that explicitly specify
 these values.
-Table 13. Recommended Default Values for Module Width, Element Height, and Wide-to-Narrow Ratio
-Type Bar Code Symbology Recommended
-Default Module
-Width1
-Recommended Default
-Element Height
-Recommended
-Default Wide-to-
-Narrow Ratio
-X'01' Code 39 (3-of-9 Code), AIM USS-39 13 mils Greater of 250 mils or
-15% of symbol width
-2.5
-X'02' MSI (modified Plessey code) 13 mils Greater of 300 mils or
-15% of symbol width
-2.0
-X'03' UPC/CGPC-Version A 13 mils 1020 mils Not applicable
-X'05' UPC/CGPC-Version E 13 mils 1020 mils Not applicable
-X'06' UPC—Two-Digit Supplemental
-(Periodicals)
-13 mils 770 mils (bar height) Not applicable
-X'07' UPC—Five-Digit Supplemental
-(Paperbacks)
-13 mils 770 mils (bar height) Not applicable
-X'08' EAN-8 (includes JAN-short) 13 mils 840 mils Not applicable
-X'09' EAN-13 (includes JAN-standard) 13 mils 1020 mils Not applicable
-X'0A' Industrial 2-of-5 13 mils Greater of 250 mils or
-15% of symbol width
-2.5
-X'0B' Matrix 2-of-5 13 mils Greater of 250 mils or
-15% of symbol width
-2.5
-X'0C' Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 13 mils
-2 Greater of 250 mils or
-15% of symbol width 2
-2.5
-X'0D' Codabar, 2-of-7, AIM USS-Codabar 13 mils Greater of 250 mils or
-15% of symbol width
-2.5
-X'11' Code 128, AIM USS-128
-Code 128 modifier X'02'
-13 mils Greater of 250 mils or
-15% of symbol width
-Not applicable
-UCC/EAN 128
-Code 128 modifier X'03'
-13 mils Greater of 250 mils or
-15% of symbol width
-Not applicable
-UCC/EAN 128 and GS1-128
-Code 128 modifier X'04'
-13 mils Greater of 250 mils or
-15% of symbol width
-Not applicable
-Intelligent Mail Container Barcode
-Code 128 modifier X'05'
-25 mils 925 mils Not applicable
-Intelligent Mail Package Barcode
-Code 128 modifier X'06'
-16 mils 750 mils Not applicable
-Default Value Recommendations
+### Table 13. Recommended Default Values for Module Width, Element Height, and Wide-to-Narrow Ratio
+| Type | Bar Code Symbology | Recommended Default Module Width<sup>1</sup> | Recommended Default Element Height | Recommended Default Wide-to-Narrow Ratio |
+| :--- | :--- | :--- | :--- | :--- |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
+| X'02' | MSI (modified Plessey code) | 13 mils | Greater of 300 mils or 15% of symbol width | 2.0 |
+| X'03' | UPC/CGPC-Version A | 13 mils | 1020 mils | Not applicable |
+| X'05' | UPC/CGPC-Version E | 13 mils | 1020 mils | Not applicable |
+| X'06' | UPC—Two-Digit Supplemental (Periodicals) | 13 mils | 770 mils (bar height) | Not applicable |
+| X'07' | UPC—Five-Digit Supplemental (Paperbacks) | 13 mils | 770 mils (bar height) | Not applicable |
+| X'08' | EAN-8 (includes JAN-short) | 13 mils | 840 mils | Not applicable |
+| X'09' | EAN-13 (includes JAN-standard) | 13 mils | 1020 mils | Not applicable |
+| X'0A' | Industrial 2-of-5 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
+| X'0B' | Matrix 2-of-5 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 13 mils<sup>2</sup> | Greater of 250 mils or 15% of symbol width<sup>2</sup> | 2.5 |
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
+| X'11' | Code 128, AIM USS-128 | | | |
+| | Code 128 modifier X'02' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
+| | UCC/EAN 128, Code 128 modifier X'03' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
+| | UCC/EAN 128 and GS1-128, Code 128 modifier X'04' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
+| | Intelligent Mail Container Barcode, Code 128 modifier X'05' | 25 mils | 925 mils | Not applicable |
+| | Intelligent Mail Package Barcode, Code 128 modifier X'06' | 16 mils | 750 mils | Not applicable |
+| X'16' | EAN Two-Digit Supplemental | 13 mils | 840 mils (bar height) | Not applicable |
+| X'17' | EAN Five-Digit Supplemental | 13 mils | 840 mils (bar height) | Not applicable |
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 20 mils with a horizontal pitch of 22 bars/inch | 125 mils | Not applicable |
+| X'1A' | RM4SCC and Dutch KIX | 20 mils with a horizontal pitch of 22 bars/inch | 198 mils | Not applicable |
+| X'1B' | Japan Postal Bar Code | 24 mils | 6 times module width | Not applicable |
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | 21 mils | 21 mils | Not applicable |
+| X'1D' | MaxiCode (2D bar code) | Defined in symbology | Defined in symbology | Not applicable |
+| X'1E' | PDF417 (2D bar code) | 14 mils | 4 times module width | Not applicable |
+| X'1F' | Australia Post Bar Code | 20 mils with a horizontal pitch of 23.5 bars/inch | 197 mils | Not applicable |
+| X'20' | QR Code, QR Code with Image (2D bar code) | 12 mils | 12 mils | Not applicable |
+| X'21' | Code 93 | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
+| X'22' | Intelligent Mail Barcode | 20 mils with a horizontal pitch of 22 bars/inch | 145 mils | Not applicable |
+| X'23' | Royal Mail RED TAG (deprecated) | 20 mils with a horizontal pitch of 23 bars/inch | 198 mils | Not applicable |
+| X'24' | GS1 DataBar: | 10 mils | | Not applicable |
+| | Omnidirectional (X'00') | | 33 times modwidth | |
+| | Truncated (X'01') | | 13 times modwidth | |
+| | Stacked (X'02') | | Not applicable | |
+| | Stacked - Omnidirectional (X'03') | | 33 times modwidth | |
+| | Limited (X'04') | | 10 times modwidth | |
+| | Expanded (X'11') | | 34 times modwidth | |
+| | Expanded - Stacked (X'12'–X'1B') | | Not applicable | |
+| X'25' | Royal Mail Mailmark | 21 mils with a horizontal pitch of 21.2 bars/inch | 201 mils | Not applicable |
+| X'26' | Aztec Code | 14 mils | 14 mils | Not applicable |
+| X'27' | Han Xin Code | 12 mils | 12 mils | Not applicable |
 
-
-
-
-Table 13 Recommended Default Values for Module Width, Element Height, and Wide-to-Narrow Ratio (cont'd.)
-Type Bar Code Symbology Recommended
-Default Module
-Width1
-Recommended Default
-Element Height
-Recommended
-Default Wide-to-
-Narrow Ratio
-X'16' EAN Two-Digit Supplemental 13 mils 840 mils (bar height) Not applicable
-X'17' EAN Five-Digit Supplemental 13 mils 840 mils (bar height) Not applicable
-X'18' POSTNET (deprecated) and
-PLANET (deprecated)
-20 mils with a
-horizontal pitch of
-22 bars/inch
-125 mils Not applicable
-X'1A' RM4SCC and Dutch KIX 20 mils with a
-horizontal pitch of
-22 bars/inch
-198 mils Not applicable
-X'1B' Japan Postal Bar Code 24 mils 6 times module width Not applicable
-X'1C' Data Matrix, GS1 DataMatrix
-(2D bar code)
-21 mils 21 mils Not applicable
-X'1D' MaxiCode (2D bar code) Defined in
-symbology
-Defined in symbology Not applicable
-X'1E' PDF417 (2D bar code) 14 mils 4 times module width Not applicable
-X'1F' Australia Post Bar Code 20 mils with a
-horizontal pitch of
-23.5 bars/inch
-197 mils Not applicable
-X'20' QR Code, QR Code with Image (2D bar
-code)
-12 mils 12 mils Not applicable
-X'21' Code 93 13 mils Greater of 250 mils or
-15% of symbol width
-Not applicable
-X'22' Intelligent Mail Barcode 20 mils with a
-horizontal pitch of
-22 bars/inch
-145 mils Not applicable
-X'23' Royal Mail RED TAG (deprecated) 20 mils with a
-horizontal pitch of
-23 bars/inch
-198 mils Not applicable
-X'24' GS1 DataBar:
-Omnidirectional (X'00')
-Truncated (X'01')
-Stacked (X'02')
-Stacked - Omnidirectional(X'03')
-Limited (X'04')
-Expanded (X'11')
-Expanded - Stacked (X'12'–X'1B')
-10 mils
-33 times modwidth
-13 times modwidth
-not applicable
-33 times modwidth
-10 times modwidth
-34 times modwidth
-not applicable
-Not applicable
-X'25' Royal Mail Mailmark 21 mils with a
-horizontal pitch of
-21.2 bars/inch
-201 mils Not applicable
-X'26' Aztec Code 14 mils 14 mils Not applicable
-Default Value Recommendations
-
-
-
-
-Table 13 Recommended Default Values for Module Width, Element Height, and Wide-to-Narrow Ratio (cont'd.)
-Type Bar Code Symbology Recommended
-Default Module
-Width1
-Recommended Default
-Element Height
-Recommended
-Default Wide-to-
-Narrow Ratio
-X'27'
-Han Xin Code 12 mils 12 mils Not applicable
-Notes:
-1. Module width measures the width of the smallest bar in the symbol and, for most bar codes, this is also the size of
-the smallest space. However, some postal bar codes specify symbol width in terms of bar width and also horizontal
-pitch. Horizontal pitch measures the number of bars per inch (or bars per 25.4 mm); this typically causes the spaces
-between bars to be different than the bar width.
-2. The module width and element height for ITF-14 symbols is defined by the application specification based on the
-needs of the application. Therefore, the default values might not be appropriate for all applications of the ITF-14
-symbol; refer to GS1 General Specifications for more information.
-Default Value Recommendations
+**Notes:**
+1. Module width measures the width of the smallest bar in the symbol and, for most bar codes, this is also the size of the smallest space. However, some postal bar codes specify symbol width in terms of bar width and also horizontal pitch. Horizontal pitch measures the number of bars per inch (or bars per 25.4 mm); this typically causes the spaces between bars to be different than the bar width.
+2. The module width and element height for ITF-14 symbols is defined by the application specification based on the needs of the application. Therefore, the default values might not be appropriate for all applications of the ITF-14 symbol; refer to GS1 General Specifications for more information.
 
 
 
@@ -2292,207 +2142,35 @@ method of verifying data integrity during the bar coding reading process. Except
 check digit is always presented in the bar code bar and space patterns, but is not always presented in the HRI.
 The following table shows the check digit calculation methods for each bar code type and the presence or
 absence of the check digit in the HRI.
-Table 19. Check Digit Calculation Methods
-Type Bar Code Symbology Modifier In HRI? Check Digit Calculation
-X'01' Code 39 (3-of-9 Code), AIM
-USS-39
-X'02' Yes Modulo 43 of the sum of the data characters'
-numerical values as described in a Code 39
-specification. The start and stop codes are not
-included in the calculation.
-X'02' MSI (modified Plessey code) X'02' – X'09' No IBM Modulus 10 check digit:
-1. Multiply each digit of the original number by
-a weighting factor of 1 or 2 as
-follows: multiply the units digit by 2, the tens
-digit by 1, the hundreds digit by 2, the
-thousands digit by 1, and so forth.
-2. Sum the digits of the products from step 1.
-This is not the same as summing the values
-of the products.
-3. The check digit is described by the following
-equation where “sum” is the resulting value
-of step 2:
-(10 - (sum modulo 10)) modulo 10
-IBM Modulus 11 check digit:
-1. Multiply each digit of the original number by
-a repeating weighting factor pattern of 2, 3,
-4, 5, 6, 7 as follows: multiply the units digit
-by 2, the tens digit by 3, the hundreds digit
-by 4, the thousands digit by 5, and so forth.
-2. Sum the products from step 1.
-3. The check digit depends on the bar code
-modifier. The check digit as the remainder is
-described by the following equation where
-“sum” is the resulting value of step 2:
-(sum modulo 11)
-The check digit as 11 minus the remainder is
-described by the following equation:
-(11 - (sum modulo 11)) modulo 11
-Check Digit Calculation Methods
-
-
-
-
-Table 19 Check Digit Calculation Methods (cont'd.)
-Type Bar Code Symbology Modifier In HRI? Check Digit Calculation
-NCR Modulus 11 check digit:
-1. Multiply each digit of the original number by
-a repeating weighting factor pattern of 2, 3,
-4, 5, 6, 7, 8, 9 as follows: multiply the units
-digit by 2, the tens digit by 3, the hundreds
-digit by 4, the thousands digit by 5, and so
-forth.
-2. Sum the products from step 1.
-3. The check digit depends on the bar code
-modifier. The check digit as the remainder is
-described by the following equation where
-“sum” is the resulting value of step 2:
-(sum modulo 11)
-The check digit as 11 minus the remainder is
-described by the following equation:
-(11 - (sum modulo 11)) modulo 11
-X'03' UPC/CGPC Version A X'00' Yes UPC/EAN check digit calculation:
-1. Multiply each digit of the original number by
-a weighting factor of 1 or 3 as
-follows: multiply the units digit by 3, the tens
-digit by 1, the hundreds digit by 3, the
-thousands digit by 1, and so forth.
-2. Sum the products from step 1.
-3. The check digit is described by the following
-equation, where “sum” is the resulting value
-of step 2:
-(10 - (sum modulo 10)) modulo 10
-X'05' UPC/CGPC Version E X'00' Yes See X'03' – UPC/CGPC Version A
-X'08' EAN 8 (includes JAN-short) X'00' Yes See X'03' – UPC/CGPC Version A
-X'09' EAN 13 (includes JAN-standard) X'00' Yes See X'03' – UPC/CGPC Version A
-X'0A' Industrial 2-of-5 X'02' Yes See X'03' – UPC/CGPC Version A
-X'0B' Matrix 2-of-5 X'02' Yes See X'03' – UPC/CGPC Version A
-X'0C' Interleaved 2-of-5, ITF-14, AIM
-USS-I 2/5
-X'02' – X'04' Yes See X'03' – UPC/CGPC Version A
-X'0D' Codabar, 2-of-7, AIM USS-
-Codabar
-X'02' Varies
-by
-receiver
-Codabar check digit calculation:
-1. Sum of the data characters' numerical
-values as described in a Codabar
-specification. All data characters are used,
-including the start and stop characters.
-2. The check digit is described by the following
-equation where “sum” is the resulting value
-of step 1:
-(16 - (sum modulo 16)) modulo 16
-Check Digit Calculation Methods
-
-
-
-
-Table 19 Check Digit Calculation Methods (cont'd.)
-Type Bar Code Symbology Modifier In HRI? Check Digit Calculation
-X'11' Code 128, GS1-128, Intelligent
-Mail Container Barcode,
-Intelligent Mail Package Barcode,
-UCC/EAN 128, AIM USS-128
-X'02' – X'06' No Code 128 check digit calculation:
-1. Going left to right starting at the start
-character, sum the value of the start
-character and the weighted values of data
-and special characters. The weights are 1
-for the first data or special character, 2 for
-the second, 3 for the third, and so forth. The
-stop character is not included in the
-calculation.
-2. The check digit is modulo 103 of the
-resulting value of step 1.
-X'18' POSTNET (deprecated) and
-PLANET (deprecated)
-X'00' – X'04' NA The check digit is (10 - (sum modulo 10))
-modulo 10, where sum is the sum of the user
-data from the BSA data field.
-X'1A' RM4SCC and Dutch KIX X'00' NA For RM4SCC, the checksum digit is calculated
-using an algorithm that weights each of the 4
-bars within a character in relation to its position
-within the character. Dutch KIX (modifier X'01')
-does not use a checksum digit.
-X'1B' Japan Postal Bar Code X'00' NA The Japan Postal Bar Code check digit
-calculation:
-1. Convert each character in the bar code data
-into decimal numbers. Numeric characters
-are converted to decimal, each hyphen
-character is converted to the number 10,
-each alphabetic character is converted to
-two numbers according to the symbology
-definition. For example, A becomes “11 and
-0”, B becomes “11 and 1”, ..., J becomes “11
-and 9”, K becomes “12 and 0”, L becomes
-“12 and 1”, ..., T becomes “12 and 9”, U
-becomes “13 and 0”, V becomes “13 and 1”,
-..., and Z becomes “13 and 5”.
-2. Sum the resulting decimal numbers and
-calculate the remainder modulo 19.
-3. The check digit is (19 minus the remainder)
-modulo 19.
-X'1C' Data Matrix, GS1 DataMatrix
-(2D bar code)
-X'00' – X'01' NA The Data Matrix symbology uses a Reed-
-Solomon Error Checking and Correcting (ECC)
-algorithm.
-X'1D' MaxiCode (2D bar code) X'00' NA The MaxiCode symbology uses a Reed-
-Solomon Error Checking and Correcting (ECC)
-algorithm.
-X'1E' PDF417 (2D bar code) X'00' – X'01' NA The PDF417 symbology uses a Reed-Solomon
-Error Checking and Correcting (ECC) algorithm.
-X'1F' Australia Post Bar Code X'01' – X'08' No The Australia Post Bar Code uses a Reed
-Solomon error correction code based on Galois
-Field 64.
-X'20' QR Code, QR Code with Image
-(2D bar code)
-X'02', X'12' NA The QR Code symbology uses a Reed-Solomon
-Error Checking and Correcting (ECC) algorithm.
-Check Digit Calculation Methods
-
-
-
-
-Table 19 Check Digit Calculation Methods (cont'd.)
-Type Bar Code Symbology Modifier In HRI? Check Digit Calculation
-X'21' Code 93 X'00' No Both check digits (C and K) are calculated as
-Modulo 47 of the sum of the products of the data-
-character numerical values as described in the
-Code 93 specification and a weighting sequence.
-The start and stop codes are not included in the
-calculation.
-X'22' Intelligent Mail Barcode X'00' – X'03' No There is no check digit, but error detection and
-correction is added as part of the encoding
-process. Refer to United States Postal Service
-Specification USPS-B-3200, Barcode, 4-State
-Customer.
-X'23' Royal Mail RED TAG
-(deprecated)
-X'00' No There is no check digit, but error detection and
-correction is added as part of the encoding
-process. Refer to Royal Mail RED TAG Mailpiece
-Requirements.
-X'24' GS1 DataBar X'00' – X'04'
-and
-X'11' – X'1B'
-No There is no check digit, but an error detection
-checksum is calculated and is contained within
-the finder patterns. Refer to GS1 General
-Specifications.
-X'25' Royal Mail Mailmark X'00'–X'01' No There is no check digit, but error detection and
-correction is added as part of the encoding
-process to ensure at least 25% error correction.
-X'26' Aztec Code (2D bar code) X'00' – X'03' NA The Aztec Code symbology uses a Reed-
-Solomon Error Checking and Correcting (ECC)
-algorithm.
-X'27'
-Han Xin Code (2D bar code) X'00' NA The Han Xin Code symbology uses a Reed-
-Solomon Error Checking and Correcting (ECC)
-algorithm.
-Check Digit Calculation Methods
+### Table 19. Check Digit Calculation Methods
+| Type | Bar Code Symbology | Modifier | In HRI? | Check Digit Calculation |
+| :--- | :--- | :--- | :---: | :--- |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | X'02' | Yes | Modulo 43 of the sum of the data characters' numerical values as described in a Code 39 specification. The start and stop codes are not included in the calculation. |
+| X'02' | MSI (modified Plessey code) | X'02' – X'09' | No | **IBM Modulus 10 check digit:**<br>1. Multiply each digit of the original number by a weighting factor of 1 or 2 as follows: multiply the units digit by 2, the tens digit by 1, the hundreds digit by 2, the thousands digit by 1, and so forth.<br>2. Sum the digits of the products from step 1. This is not the same as summing the values of the products.<br>3. The check digit is described by the following equation where "sum" is the resulting value of step 2:<br>(10 - (sum modulo 10)) modulo 10<br><br>**IBM Modulus 11 check digit:**<br>1. Multiply each digit of the original number by a repeating weighting factor pattern of 2, 3, 4, 5, 6, 7 as follows: multiply the units digit by 2, the tens digit by 3, the hundreds digit by 4, the thousands digit by 5, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit depends on the bar code modifier. The check digit as the remainder is described by the following equation where "sum" is the resulting value of step 2:<br>(sum modulo 11)<br>The check digit as 11 minus the remainder is described by the following equation:<br>(11 - (sum modulo 11)) modulo 11<br><br>**NCR Modulus 11 check digit:**<br>1. Multiply each digit of the original number by a repeating weighting factor pattern of 2, 3, 4, 5, 6, 7, 8, 9 as follows: multiply the units digit by 2, the tens digit by 3, the hundreds digit by 4, the thousands digit by 5, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit depends on the bar code modifier. The check digit as the remainder is described by the following equation where "sum" is the resulting value of step 2:<br>(sum modulo 11)<br>The check digit as 11 minus the remainder is described by the following equation:<br>(11 - (sum modulo 11)) modulo 11 |
+| X'03' | UPC/CGPC Version A | X'00' | Yes | **UPC/EAN check digit calculation:**<br>1. Multiply each digit of the original number by a weighting factor of 1 or 3 as follows: multiply the units digit by 3, the tens digit by 1, the hundreds digit by 3, the thousands digit by 1, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit is described by the following equation, where "sum" is the resulting value of step 2:<br>(10 - (sum modulo 10)) modulo 10 |
+| X'05' | UPC/CGPC Version E | X'00' | Yes | See X'03' – UPC/CGPC Version A |
+| X'08' | EAN 8 (includes JAN-short) | X'00' | Yes | See X'03' – UPC/CGPC Version A |
+| X'09' | EAN 13 (includes JAN-standard) | X'00' | Yes | See X'03' – UPC/CGPC Version A |
+| X'0A' | Industrial 2-of-5 | X'02' | Yes | See X'03' – UPC/CGPC Version A |
+| X'0B' | Matrix 2-of-5 | X'02' | Yes | See X'03' – UPC/CGPC Version A |
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | X'02' – X'04' | Yes | See X'03' – UPC/CGPC Version A |
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | X'02' | Varies by receiver | **Codabar check digit calculation:**<br>1. Sum of the data characters' numerical values as described in a Codabar specification. All data characters are used, including the start and stop characters.<br>2. The check digit is described by the following equation where "sum" is the resulting value of step 1:<br>(16 - (sum modulo 16)) modulo 16 |
+| X'11' | Code 128, GS1-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode, UCC/EAN 128, AIM USS-128 | X'02' – X'06' | No | **Code 128 check digit calculation:**<br>1. Going left to right starting at the start character, sum the value of the start character and the weighted values of data and special characters. The weights are 1 for the first data or special character, 2 for the second, 3 for the third, and so forth. The stop character is not included in the calculation.<br>2. The check digit is modulo 103 of the resulting value of step 1. |
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | X'00' – X'04' | NA | The check digit is (10 - (sum modulo 10)) modulo 10, where sum is the sum of the user data from the BSA data field. |
+| X'1A' | RM4SCC and Dutch KIX | X'00' | NA | For RM4SCC, the checksum digit is calculated using an algorithm that weights each of the 4 bars within a character in relation to its position within the character. Dutch KIX (modifier X'01') does not use a checksum digit. |
+| X'1B' | Japan Postal Bar Code | X'00' | NA | **The Japan Postal Bar Code check digit calculation:**<br>1. Convert each character in the bar code data into decimal numbers. Numeric characters are converted to decimal, each hyphen character is converted to the number 10, each alphabetic character is converted to two numbers according to the symbology definition. For example, A becomes "11 and 0", B becomes "11 and 1", ..., J becomes "11 and 9", K becomes "12 and 0", L becomes "12 and 1", ..., T becomes "12 and 9", U becomes "13 and 0", V becomes "13 and 1", ..., and Z becomes "13 and 5".<br>2. Sum the resulting decimal numbers and calculate the remainder modulo 19.<br>3. The check digit is (19 minus the remainder) modulo 19. |
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | X'00' – X'01' | NA | The Data Matrix symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
+| X'1D' | MaxiCode (2D bar code) | X'00' | NA | The MaxiCode symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
+| X'1E' | PDF417 (2D bar code) | X'00' – X'01' | NA | The PDF417 symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
+| X'1F' | Australia Post Bar Code | X'01' – X'08' | No | The Australia Post Bar Code uses a Reed Solomon error correction code based on Galois Field 64. |
+| X'20' | QR Code, QR Code with Image (2D bar code) | X'02', X'12' | NA | The QR Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
+| X'21' | Code 93 | X'00' | No | Both check digits (C and K) are calculated as Modulo 47 of the sum of the products of the data-character numerical values as described in the Code 93 specification and a weighting sequence. The start and stop codes are not included in the calculation. |
+| X'22' | Intelligent Mail Barcode | X'00' – X'03' | No | There is no check digit, but error detection and correction is added as part of the encoding process. Refer to United States Postal Service Specification USPS-B-3200, Barcode, 4-State Customer. |
+| X'23' | Royal Mail RED TAG (deprecated) | X'00' | No | There is no check digit, but error detection and correction is added as part of the encoding process. Refer to Royal Mail RED TAG Mailpiece Requirements. |
+| X'24' | GS1 DataBar | X'00' – X'04' and X'11' – X'1B' | No | There is no check digit, but an error detection checksum is calculated and is contained within the finder patterns. Refer to GS1 General Specifications. |
+| X'25' | Royal Mail Mailmark | X'00'–X'01' | No | There is no check digit, but error detection and correction is added as part of the encoding process to ensure at least 25% error correction. |
+| X'26' | Aztec Code (2D bar code) | X'00' – X'03' | NA | The Aztec Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
+| X'27' | Han Xin Code (2D bar code) | X'00' | NA | The Han Xin Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
 
 
 
@@ -2502,119 +2180,21 @@ The BSA data structure contains the parameters to position the bar code symbol w
 presentation space and the data to be encoded. The data is encoded according to the parameters specified in
 the Bar Code Symbol Descriptor (BSD) data structure.
 The format of the BSA data structure follows:
-Table 20. Bar Code Symbol Data (BSA) Data Structure
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-0 BITS Bar code flags
-bit 0 HRI B'0'
-B'1'
-HRI is presented
-HRI not presented
-B'0'
-B'1'
-B'0'
-B'1'
-bits 1–2 Position B'00'
-B'01'
-B'10'
-Default
-HRI below
-HRI above
-B'00'
-B'01'
-B'10'
-B'00'
-B'01'
-B'10'
-bit 3 SSCAST B'0'
-B'1'
-Asterisk is not presented
-Asterisk is presented
-B'0'
-B'1'
-B'0'
-B'1'
-bit 4 B'0' Retired item 21 B'0' B'0'
-bit 5 Suppress
-bar code
-symbol
-B'0'
-B'1'
-Bar code suppression:
-Present symbol
-Suppress symbol
-B'0' B'0'
-B'1'
-bit 6 Suppress
-blanks
-B'0'
-B'1'
-Desired method of adjusting
-for trailing blanks:
-Don't suppress
-Suppress and adjust
-B'0' B'0'
-bit 7 B'0' Retired item 3 B'0' B'0'
-1–2 UBIN X offset X'0001' –
-X'7FFF'
-X
-bc-coordinate of the symbol
-origin in the bar code
-presentation space
-X'0001'–X'7FFF'
-Refer to the note
-following the
-table.
-X'0001'–X'7FFF'
-Refer to the note
-following the
-table.
-3–4 UBIN Y offset X'0001' –
-X'7FFF'
-Y
-bc-coordinate of the symbol
-origin in the bar code
-presentation space
-X'0001'–X'7FFF'
-Refer to the note
-following the
-table.
-X'0001'–X'7FFF'
-Refer to the note
-following the
-table.
-The following special-function information is only used with the following bar code types:
-Aztec Code, Data Matrix, Han Xin Code,
-Intelligent Mail Package Barcode, MaxiCode, PDF417,
-QR Code, QR Code with Image
-5–n Special
-functions
-See field
-description
-Special-function information
-that is specific to the bar code
-type
-Not supported in
-BCD1
-See field
-description
-The following symbol data is specified for all bar code types
-n+1 to
-end
-UNDF Data Any value
-defined for
-the bar code
-type selected
-by the BSD
-Data to be encoded Any value
-defined for the
-bar code type
-selected by the
-BSD
-Any value
-defined for the
-bar code type
-selected by the
-BSD
+### Table 20. Bar Code Symbol Data (BSA) Data Structure
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | BITS | Bar code flags | | | | |
+| | bit 0 | HRI | B'0'<br>B'1' | HRI is presented<br>HRI not presented | B'0'<br>B'1' | B'0'<br>B'1' |
+| | bits 1–2 | Position | B'00'<br>B'01'<br>B'10' | Default<br>HRI below<br>HRI above | B'00'<br>B'01'<br>B'10' | B'00'<br>B'01'<br>B'10' |
+| | bit 3 | SSCAST | B'0'<br>B'1' | Asterisk is not presented<br>Asterisk is presented | B'0'<br>B'1' | B'0'<br>B'1' |
+| | bit 4 | | B'0' | Retired item 21 | B'0' | B'0' |
+| | bit 5 | Suppress bar code symbol | B'0'<br>B'1' | Bar code suppression:<br>Present symbol<br>Suppress symbol | B'0' | B'0'<br>B'1' |
+| | bit 6 | Suppress blanks | B'0'<br>B'1' | Desired method of adjusting for trailing blanks:<br>Don't suppress<br>Suppress and adjust | B'0' | B'0' |
+| | bit 7 | | B'0' | Retired item 3 | B'0' | B'0' |
+| 1–2 | UBIN | $X$ offset | X'0001'–X'7FFF' | $X_{bc}$-coordinate of the symbol origin in the bar code presentation space | X'0001'–X'7FFF' (Refer to note) | X'0001'–X'7FFF' (Refer to note) |
+| 3–4 | UBIN | $Y$ offset | X'0001'–X'7FFF' | $Y_{bc}$-coordinate of the symbol origin in the bar code presentation space | X'0001'–X'7FFF' (Refer to note) | X'0001'–X'7FFF' (Refer to note) |
+| 5–n | | Special functions | See field description | Special-function information that is specific to the bar code type (Only used with: Aztec Code, Data Matrix, Han Xin Code, Intelligent Mail Package Barcode, MaxiCode, PDF417, QR Code, QR Code with Image) | Not supported in BCD1 | See field description |
+| n+1 to end | UNDF | Data | Any value defined for the bar code type selected by the BSD | Data to be encoded | Any value defined for the bar code type selected by the BSD | Any value defined for the bar code type selected by the BSD |
 Bar Code Symbol Data (BSA)
 
 
