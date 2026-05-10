@@ -78,7 +78,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Appendices B (MO:DCA), C (IPDS).
 - ⏳ **IOCA**: Fair quality; missing Markdown table markers for many structures.
 - ⏳ **AFP GOCA**: Fair quality; heavy "on page XXX" physical cross-references.
-- ⏳ **Line Data**: Poor quality; explicit "## Page XX" markers in Appendices, diagrams as text.
+- 🚧 **Line Data**:
+    - ✅ Purge physical page markers and recurring PDF artifacts from Chapter 3 and Appendices.
+    - ✅ Fix OCR-induced split words and formatting artifacts across all files.
+    - ⏳ Convert text-based diagrams to standardized formats.
 - ✅ **MO:DCA**: Excellent quality; physical page references removed.
     - ⏳ Fix minor table fragmentation in Appendices.
 - 🚧 **FOCA**: Good quality; proper table formatting.

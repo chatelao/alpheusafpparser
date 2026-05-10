@@ -50,17 +50,17 @@ Figure 2. Formatted and Unformatted Line Data Records
 Line Data Input
 Formatted Print Records
 Unformatted Print Records
-Name ﬁeld
+Name field
 R O B I N S O N E . C R U S O E
 1 2 3 I S L A N D P L A C E
 K E Y W E S T , F L
 U S A
-Street ﬁeld City, State Zip Country
+Street field City, State Zip Country
 + PAGEDEF
 with line     =
 formatting
 + PAGEDEF
-with ﬁeld    =
+with field    =
 formatting
 Printed Output
 Printed output is same
@@ -84,9 +84,9 @@ values of 1 through 12. The IBM
 IBM 3800 Model 3 added 10 lines per inch.
 The carriage control character could be represented in either of two coding schemes:
 • American National Standards Institute (ANSI) carriage control is a standard representation used with printers
-from many different vendors. T able 5 on page 7 lists the ANSI codes and their functions.
+from many different vendors. Table 5 on page 7 lists the ANSI codes and their functions.
 • Machine code control characters were defined by IBM. They correspond to the channel command words
-issued by the operating system to accomplish the desired function. T able 6 on page 7 lists the IBM machine
+issued by the operating system to accomplish the desired function. Table 6 on page 7 lists the IBM machine
 code values and their functions.
 ANSI and machine codes may not be intermixed within a single data set.
 Line spacing is handled differently by ANSI and machine code carriage controls. ANSI conventions cause
@@ -210,7 +210,7 @@ Notes:
 2. Only supported when the length of each record is contained in a two byte prefix to the record or when each record is
 the same size.
 ## Line Data Summary
-T o print line data,presentation services programs must know the dimensions of the page, the exact position on
+To print line data,presentation services programs must know the dimensions of the page, the exact position on
 that page where each record must be printed, and the fonts to be used. This information is provided for line
 data records in an AFP resource object called the Page Definition (PageDef). The Page Definition is described
 in Chapter 3, “Using a Page Definition to Print Data”, on page 15.
@@ -336,7 +336,7 @@ the CC and TRC bytes remain 1 byte fields and are not encoded in UTF-16.
 ## XML Data
 XML data may be formatted using a Page Definition resource, however this is subject to the following
 restrictions:
-• Carriage Control (CC) and T able Reference Characters (TRC) are not supported.
+• Carriage Control (CC) and Table Reference Characters (TRC) are not supported.
 • The data is encoded using one of the following:
 – EBCDIC (Single-byte only)
 – ASCII (Single-byte only)

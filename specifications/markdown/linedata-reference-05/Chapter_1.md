@@ -43,7 +43,7 @@ Mixed-mode data streams can include line data, MO:DCA structured fields, and obj
 • Font Object Content Architecture (FOCA)
 • Graphics Object Content Architecture (GOCA)
 • Image Object Content Architecture (IOCA)
-• Presentation T ext Object Content Architecture (PTOCA)
+• Presentation Text Object Content Architecture (PTOCA)
 • Non-OCA paginated presentation objects such as Encapsulated PostScript ® (EPS)
 A related architecture, but not a user programming language, is the Intelligent Printer Data Stream™ (IPDS™)
 architecture. This is the data stream architecture used by print server products to manage IPDS printers.
@@ -58,9 +58,9 @@ Stream
 Print
 File
 Page
-Deﬁnitions
+Definitions
 Form
-Deﬁnitions
+Definitions
 Page
 Segments
 Overlays

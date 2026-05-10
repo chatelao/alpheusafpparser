@@ -78,7 +78,7 @@ Structured Fields
 
 Structured Field Triplets
 Several structured fields contain self-identifying parameters called triplets in their data field. A triplet contains
-three components: the triplet length, the triplet identifier, and the triplet values. See T able 12.
+three components: the triplet length, the triplet identifier, and the triplet values. See Table 12.
 ### Table 12. Structured Field Triplet Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O |
@@ -89,7 +89,7 @@ three components: the triplet length, the triplet identifier, and the triplet va
 
 External Resource Object Naming Conventions
 MO:DCA objects can be named using one of the following two formats:
-• T oken name. This name is specified using a fixed-length 8-byte parameter on Begin, Invoke, Map, and
+• Token name. This name is specified using a fixed-length 8-byte parameter on Begin, Invoke, Map, and
 Include structured fields
 • Fully qualified name. This name can be up to 250 bytes long and is specified using the Fully Qualified Name
 (FQN) X'02' triplet on Begin, Map, and Include structured fields, as well as on object-processing structured
@@ -111,7 +111,7 @@ vary from one system environment to another.
 In AFP environments, print servers treat the object name—other than TrueType and OpenType full font name
 —as an external resource library member name and attempt to process a resource library member with the
 same name. This means that the external names are subject to the system imposed file naming rules.
-T o ensure portability across all AFP platforms, external object names other than TrueType and OpenType full
+To ensure portability across all AFP platforms, external object names other than TrueType and OpenType full
 font names must be composed according to the following conventions:
 • Names consist only of the following characters: A–Z, 0–9, $, #, @. When the object name is specified using
 the fixed-length 8-byte token name parameter, a trailing space character (X'40' in the EBCDIC encoding) or a
@@ -119,7 +119,7 @@ trailing null code point (X'00') is assumed to terminate the name.
 Structured Fields
 
 
-• T o ensure portability across older versions of print servers that do not support encoding definitions in the
+• To ensure portability across older versions of print servers that do not support encoding definitions in the
 X'01' triplet, names should use only the recommended characters and be encoded in EBCDIC using code
 page 500 and a character set that includes the above-mentioned characters. The preferred character set is
 961, which includes only those characters, however character sets such as 697, which contain additional
@@ -135,7 +135,7 @@ code page 500 and character set 697.
 TrueType and OpenType full font names specified in the MDR structured field are not restricted to these
 characters and might
 be encoded as required by the AFP-generating application. However, since these names
-are used to search inline font containers and Resource Access T ables (RAT s) that use a fixed UTF-16BE
+are used to search inline font containers and Resource Access Tables (RAT s) that use a fixed UTF-16BE
 encoding for full font names, efficiency is gained if the full font names in the MDR are also encoded in UTF16BE. This avoids an encoding conversion. The UTF-16BE encoding can be identified with CCSID 1200. This
 encoding needs to be specified with a X'01' triplet on the MDR that specifies the full font name.
 Begin and End Structured Fields
@@ -167,7 +167,7 @@ The Begin Data Map structured field begins a Data Map resource object.
 | 9–n | | Triplets | | See BDM Semantics for triplet applicability | M |
 
 BDM Semantics
-DMName T oken name of the Data Map
+DMName Token name of the Data Map
 This is a mandatory parameter because an Invoke Data Map (IDM) structured field selects a
 Data Map by specifying its token name.
 DatFmt An optional parameter that determines how the Data Map is used to format line data
@@ -202,7 +202,7 @@ This triplet is an optional triplet when used with DatFmt X'00' (formatting with
 RCDs) but it is mandatory when used with DatFmt = X'02' (formatting with XMDs). It is used to specify the
 encoding scheme associated with the user data, the XML Name (X'8A') triplet specified on XMDs, the Record
 Descriptor ID field specified on RCDs, the Field Delimiter specified on RCDs and XMDs, the Fixed text
-specified in the Fixed Data T ext (FDX) structured field, and the Comparison String field of the Conditional
+specified in the Fixed Data Text (FDX) structured field, and the Comparison String field of the Conditional
 Processing Control (CCP) structured fields.
 The values supported in the ESidUD field of the Encoding Scheme ID triplet when formatting data with a Page
 Definition are:
@@ -262,10 +262,10 @@ Triplet X'7C' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Page Count Control triplet
 PageNum Initial page number
-This field s pecifies the initial page number to be set into the page count when the page count
+This field specifies the initial page number to be set into the page count when the page count
 control specifies X'01' (Resume) or X'03' (Reset).
 CountCtr Page count control
-This field s pecifies how the page count is initialized and maintained for the active Data Map.
+This field specifies how the page count is initialized and maintained for the active Data Map.
 Value Description
 X'00' Stop
 When this Data Map is invoked, the page count is initialized to the last page number
@@ -330,32 +330,32 @@ X'0000 2D00'
 X'2D00 5A00'
 X'5A00 8700'
 X'8700 0000'
-T ext (I,B) Orientation:
+Text (I,B) Orientation:
 0,90 degrees
 90,180 degrees
 180,270 degrees
 270,360 degrees
 M
 6–7 UBIN LeftMar 0 to page extent minus 1 Left Margin Offset from page edge M
-8–9 UBIN T opMar 0 to page extent minus 1 T op Margin Offset from page edge M
+8–9 UBIN TopMar 0 to page extent minus 1 Top Margin Offset from page edge M
 10–11 UBIN RightMar 0 to page extent minus 1 Right Margin Offset from page edge M
 12–13 UBIN BotMar 0 to page extent minus 1 Bottom Margin Offset from page edge M
 Triplet X'7F' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Margin Definition triplet
-TxtOrent T ext Orientation
+TxtOrent Text Orientation
 This field specifies the text orientation that is used to fix the page margins for this Data Map.
 See Figure 29 on page 75.
 The margins are fixed for the Data Map; that is, they do not change when the text orientation
 changes in the Data Map. For example, if this parameter specifies a (0,90) degree text
-orientation, the top-left diagram in Figure 29 on page 75 shows how the LeftMar, T opMar,
+orientation, the top-left diagram in Figure 29 on page 75 shows how the LeftMar, TopMar,
 RightMar, and BotMar parameters define the left, top, right, and bottom margins, respectively.
 Once specified, these margins define a bounding box for the Data Map that is indicated by the
 dashed lines.
 Note that if the text orientation is changed within the Data Map, the same bounding box
 applies to the new orientation, but the name of the margins change in the new orientation. For
 example, if the new text orientation is (90,180) degrees, as shown in the top-right diagram of
-Figure 29 on page 75, the left margin in the new orientation is actually defined by the T opMar
+Figure 29 on page 75, the left margin in the new orientation is actually defined by the TopMar
 parameter, the bottom margin is defined by the LeftMar parameter, and so on. Therefore,
 when a possible baseline overflow is evaluated in the new orientation, the print position is
 actually checked against the LeftMar parameter, which is the bottom margin for that text
@@ -369,17 +369,17 @@ Begin Data Map (BDM)
 
 
 LeftMar Left Margin
-This field s pecifies the offset of the left margin along the i axis from the left edge of the page.
+This field specifies the offset of the left margin along the i axis from the left edge of the page.
 The left edge of the page is the zero position on the i axis.
-TopMar T op Margin
-This field s pecifies the offset of the top margin along the b axis from the top edge of the page.
+TopMar Top Margin
+This field specifies the offset of the top margin along the b axis from the top edge of the page.
 The top edge of the page is the zero position on the b axis.
 RightMar Right Margin
 This field s
 pecifies the offset of the right margin along the i axis from the right edge of the
 page.
 BotMar Bottom Margin
-This field s pecifies the offset of the bottom margin along the b axis from the bottom edge of the
+This field specifies the offset of the bottom margin along the b axis from the bottom edge of the
 page.
 If this triplet is not specified, the default is a text orientation of (0,90) degrees and all margin offsets set to
 X'0000'.
@@ -431,7 +431,7 @@ which contains the structured fields used to map lines of data to the page.
 | 0–7 | CHAR | DMXName |  | Name of the Data Map Transmission Subcase | O |
 
 BDX Semantics
-DMXame T oken name of the Data Map Transmission Subcase
+DMXame Token name of the Data Map Transmission Subcase
 This is an optional parameter.
 Begin Data Map Transmission Subcase (BDX)
 
@@ -449,7 +449,7 @@ on page printers.
 | 0–7 | CHAR | PMName |  | Name of the Page Map | O |
 
 BPM Semantics
-PMName T oken name of the Page Map
+PMName Token name of the Page Map
 This is an optional parameter.
 Begin Page Map (BPM)
 
@@ -492,7 +492,7 @@ Bit 1 If B'1', this CCP requires action after a subpage boundary.
 Conditional Processing Control (CCP)
 
 
-Bit 2 This field p rovides spacing action at the top of a page when the following conditions
+Bit 2 This field provides spacing action at the top of a page when the following conditions
 are present:
 • A new page is started by a true condition.
 • Conditional processing is active.
@@ -513,7 +513,7 @@ bytes.
 CSLgth Length of Comparison String
 This field indicates the length of the text string in the Comparison String parameter within the
 repeating group.
-Each repeating group of the CCP contains action information. See T able 13for the definitions of the CCP
+Each repeating group of the CCP contains action information. See Table 13for the definitions of the CCP
 repeating groups.
 ### Table 13. CCP Repeating Group Structure
 
@@ -564,7 +564,7 @@ structured field.
 Conditional Processing Control (CCP)
 
 
-Note: T o be able to match this Comparison String to input data, the encoding of the text
+Note: To be able to match this Comparison String to input data, the encoding of the text
 specified in this parameter must match the encoding of the input data.
 Conditional Processing Control (CCP)
 
@@ -597,7 +597,7 @@ field.
 | 0–7 | CHAR | DMName |  | Name of the Data Map | O |
 
 EDM Semantics
-DMName T oken name of the Data Map being terminated
+DMName Token name of the Data Map being terminated
 If a name is specified, it must match the name in the most recent Begin Data Map structured
 field. If the first two bytes of this parameter contain the value X'FFFF', the name matches any
 name specified on the corresponding Begin Data Map structured field.
@@ -616,7 +616,7 @@ initiated by a Begin Data Map Transmission Subcase structured field.
 | 0–7 | CHAR | DMXName |  | Name of the Data Map Transmission Subcase | O |
 
 EDX Semantics
-DMXame T oken name of the Data Map Transmission Subcase being terminated
+DMXame Token name of the Data Map Transmission Subcase being terminated
 If a name is specified, it must match the name in the most recent Begin Data Map
 Transmission Subcase structured field. If the first two bytes of this parameter contain the value
 X'FFFF', the name matches any name specified on the corresponding Begin Data Map
@@ -636,7 +636,7 @@ field.
 | 0–7 | CHAR | PMName |  | Name of the Page Map | O |
 
 EPM Semantics
-PMName T oken name of the Page Map being terminated
+PMName Token name of the Page Map being terminated
 If a name is specified, it must match the name in the most recent Begin Page Map structured
 field. If the first two bytes of this parameter contain the value X'FFFF', the name matches any
 name specified on the corresponding Begin Page Map structured field.
@@ -644,7 +644,7 @@ End Page Map (EPM)
 
 
 Fixed Data Size (FDS)
-The Fixed Data Size structured field specifies the number of bytes of text found in the following Fixed Data T ext
+The Fixed Data Size structured field specifies the number of bytes of text found in the following Fixed Data Text
 (FDX) structured fields.
 ### FDS (X'D3AAEC') Syntax
 
@@ -662,7 +662,7 @@ Fixed Data Size (FDS)
 
 
 Fixed Data Text (FDX)
-The Fixed Data T ext structured field contains text that can be selected and presented with LND, RCD, or XMD
+The Fixed Data Text structured field contains text that can be selected and presented with LND, RCD, or XMD
 structured fields in the Page Definition. This text is used when flag bit 7 of the LND, RCD, or XMD is set to B'1'.
 Any number of FDX structured fields can appear, but the total number of data bytes must match bytes 0–1 of
 the Fixed Data Size (FDS) structured field. The output should fit on the page and the fit can be affected by the
@@ -687,7 +687,7 @@ The Invoke Data Map structured field selects a new Data Map for printing line da
 invoked Data Map for the next line-format page. With RCD Data Maps, processing begins with the first Record
 Descriptor (RCD) structured field that matches the Record ID of the current line-data record. With XMD Data
 Maps, processing begins with the first XML Descriptor (XMD) structured field that matches the current
-Qualified T ag.
+Qualified Tag.
 ### IDM (X'D3ABCA') Syntax
 
 **Structured Field Introducer:** SF Length (2B), ID = X'D3ABCA', Flags (1B), Reserved X'0000'
@@ -697,7 +697,7 @@ Qualified T ag.
 | 0–7 | CHAR | DMName |  | Name of the new Data Map | M |
 
 IDM Semantics
-DMName T oken name of the new Data Map in the currently active Page Definition
+DMName Token name of the new Data Map in the currently active Page Definition
 This name must match the name on the Begin Data Map (BDM) structured field. If the name is
 shorter than eight bytes, trailing blanks must be added.
 Invoke Data Map (IDM)
@@ -882,7 +882,7 @@ only, a value of X'FFFFFF' may be used for either the X axis offset (bytes 8–1
 | 16–n |  | Triplets |  | Triplets | O |
 
 IPO Semantics
-OvlyName T oken name of the overlay being referenced
+OvlyName Token name of the overlay being referenced
 If the first two characters of the overlay name are O1 (capital letter O followed by the number
 1), then bytes 0 and 1 must contain the characters O and 1, respectively.
 XolOset Offset along the X p axis from the page origin where the origin of the overlay is placed
@@ -932,7 +932,7 @@ either the I-axis offset (bytes 8–10), the B-axis offset (bytes 11–13), or b
 | 14–n |  | Triplets |  | Triplets | O |
 
 IPS Semantics
-PsegName T oken name of the page segment being referenced
+PsegName Token name of the page segment being referenced
 All eight bytes of the name must be specified.
 IpsOset Offset along the I axis from the current text coordinate system origin (I=0, B=0) to the origin of
 the page segment
@@ -1004,7 +1004,7 @@ of LNDs are allowed.
 | 38–39 | CODE | CCPID |  | CCP Identifier | M |
 | 40–n |  | Triplets |  | Triplets | O |
 
-LND Semantics. T ext color value M
+LND Semantics. Text color value M
 35–36 UBIN NLNDccp X'0000'–X'FFFF' Next LND if conditional processing M
 37 CODE SubpgID X'00'–X'FF' Subpage ID M
 38–39 CODE CCPID X'0000'–X'FFFF' CCP Identifier M
@@ -1084,7 +1084,7 @@ Value Description
 B'0' The record is not reused.
 B'1' The record is reused.
 Bit 7 Use Fixed Data
-This bit shows whether to present text from the Fixed Data T ext (FDX) structured
+This bit shows whether to present text from the Fixed Data Text (FDX) structured
 fields.
 Line Descriptor (LND)
 
@@ -1108,7 +1108,7 @@ font in the MCF .
 B'1' The compatibility TRC is used.
 Only the first four fonts specified are used when this bit is set. If the TRC
 value is greater than the number of fonts specified, use the first font.
-Bit 10 Set T ext Color
+Bit 10 Set Text Color
 If this bit is B'1', it specifies that the line data processed by this LND is to be presented
 in the color specified by the Color Specification (X'4E') triplet or by the value specified
 in bytes 33–34. The X'4E' triplet, if specified, takes precedence over the value in bytes
@@ -1197,7 +1197,7 @@ carriage controls, when the relative baseline LNDs are invoked. AFP print server
 generate a page break if the active Data Map is about to position data past the page's
 y-extent. This does not cause the generation of an error message. Note that the page's
 y-extent is specified in the PGD of the Data Map.
-TxtOrent T ext (I,B) Orientation
+TxtOrent Text (I,B) Orientation
 The four valid text orientations are:
 Orientation Value
 0°,90° X'0000 2D00'
@@ -1207,8 +1207,8 @@ Orientation Value
 Note that a change in text orientation means a change in the origin of the text (I,B) coordinate
 system:
 Orientation Value
-0°,90° T op-left corner of page
-90°,180° T op-right corner of page
+0°,90° Top-left corner of page
+90°,180° Top-right corner of page
 180°,270° Bottom-right corner of page
 270°,0° Bottom-left corner of page
 If relative Baseline positioning is specified in bit 13, this text orientation must be the same as
@@ -1274,7 +1274,7 @@ assumed at the start of every record.
 DataS
 trt Data Start Position
 This field specifies the offset of the first data byte to be processed by this LND. If bit 7 of byte 0
-is B'1', the data from the Fixed Data T ext (FDX) structured field is used. Otherwise, the data
+is B'1', the data from the Fixed Data Text (FDX) structured field is used. Otherwise, the data
 from the current record is used.
 A value of 0 indicates that the first byte is to be used. No data is placed if this value is greater
 than the length of the data source.
@@ -1285,7 +1285,7 @@ determined by the Conditional Processing Control (CCP) structured field identifi
 DataL
 gth Data Length
 This field specifies the number of bytes of data to be processed by this LND. If bit 7 of byte 0 is
-B'1', the data from the Fixed Data T ext (FDX) structured field is used. Otherwise, the data from
+B'1', the data from the Fixed Data Text (FDX) structured field is used. Otherwise, the data from
 the current record is used.
 If this value is X'FFFF', all the remaining data bytes are processed.
 If this parameter causes data to be positioned outside the boundaries of the page, which are
@@ -1296,13 +1296,13 @@ Line Descriptor (LND)
 If conditional processing is to be performed (bit 11 of byte 1 is B'1'), this parameter defines the
 length of the comparison field. The comparison is determined by the Conditional Processing
 Control (CCP) structured field identified in bytes 38–39 (CCPID).
-TxtColor T ext Color Value
+TxtColor Text Color Value
 The specified color is used to present text processed by this LND when LND byte 0, bit 10=
 B'1' and a Color Specification (X'4E') triplet is not specified for this LND. This color may also
 be used if the X'4E' triplet is specified but the PTOCA PT3 subset is not supported by the
-presentation device. Color values are defined as shown in T able 14 on page 105. They reflect
-the range of values defined in the Standard OCA Color Value T able. For a definition of the
-Standard OCA Color Value T able, see the Mixed Object Document Content Architecture
+presentation device. Color values are defined as shown in Table 14 on page 105. They reflect
+the range of values defined in the Standard OCA Color Value Table. For a definition of the
+Standard OCA Color Value Table, see the Mixed Object Document Content Architecture
 (MO:DCA) Reference. RGB values are also defined for each color, assuming that the intensity
 range for each component is 0–255.
 ### Table 14. Color-Value Table
@@ -1356,7 +1356,7 @@ LND structured fields of neighboring subpages. See Chapter 3, “Using a Page De
 Print Data”, on page 15 for more information on conditional processing and subpages.
 The presentation services program
 detects the beginning and end of subpages by checking
-for a change in the value of byte 37 (Subp gID). If conditional processing is to be performed (bit
+for a change in the value of byte 37 (SubpgID). If conditional processing is to be performed (bit
 11 of byte 1 is B'1'), this parameter is used to identify subpages when the timing of the
 conditional action is relative to the subpage.
 CCPID CCP Identifier
@@ -1788,7 +1788,7 @@ Notes:
 1. If this parameter is omitted, the architected default value for the overlay rotation is X'0000',
 zero degrees.
 2. When a page segment is included with this triplet, the ObOrent parameter is ignored and
-the rotation of objects in the page segment is summarized in T able 10 on page 49.
+the rotation of objects in the page segment is summarized in Table 10 on page 49.
 Line Descriptor (LND)
 
 
@@ -2073,7 +2073,7 @@ Processing RCDs. If this RCD contains a FQN type X'01' triplet, this 10 byte Rec
 Descriptor ID field is set to X'FF ...FF'
 .
 Notes:
-1. T o be able to find a matching Record Descriptor ID, the encoding of the identifier specified
+1. To be able to find a matching Record Descriptor ID, the encoding of the identifier specified
 in this parameter or in the FQN type X'01' triplet must match the encoding of the input
 data.
 2. If the FQN type X'01' triplet is used, all record type RCD structured fields must use the
@@ -2237,7 +2237,7 @@ data in a single Record RCD (with its chained Field RCDs) is too large to fit wi
 and bottom margins on a page, an error is generated. Note that the actual location of “top
 margin” and “bottom margin” on a page is affected by the text orientation; see “Margin
 Definition (X'7F') Triplet” on page 73.
-TxtOrent T ext (I,B) Orientation
+TxtOrent Text (I,B) Orientation
 See “Line Descriptor (LND)” on page 98.
 FntLID Primary Font Local Identifier
 See “Line Descriptor (LND)” on page 98.
@@ -2307,7 +2307,7 @@ parameter is used rather than DataStrt
 and DataLgth parameters to specify the location of
 input fields on Conditional Processing and Field RCDs that are chained to this Record RCD.
 DataStrt and DataLgth parameters are still used to select bytes in the field or in Fixed Data
-T ext. This parameter is ignored on all non-Record RCDs. For comparisons, any input record
+Text. This parameter is ignored on all non-Record RCDs. For comparisons, any input record
 fields used with a CCP are assumed to be padded on the right out to the CCP Comparison
 String Length.
 Record Descriptor (RCD)
@@ -2419,7 +2419,7 @@ Value Description
 X'00' The GID is a character-encoded name, which means the data type is CHAR.
 All others Reserved
 FQName Contains the Global Identifier (GID) to be used to override the RecID parameter
-Note: T o be able to find a matching Record Descriptor ID, the encoding of the identifier
+Note: To be able to find a matching Record Descriptor ID, the encoding of the identifier
 specified in this parameter must match the encoding of the input data.
 Record Descriptor (RCD)
 
@@ -2505,7 +2505,7 @@ Graphics Descriptor (X'7E') Triplet
 Architecture Note: The Graphics Descriptor triplet is registered in the MO:DCA architecture as a private-use
 triplet because it is used only in the PageDef object, which is not a MO:DCA object.
 This is an optional Field RCD triplet. It may occur once. If this triplet is specified more than once, only the first is
-used. T ext input and fixed data text are ignored on a Field RCD that specifies a Graphics Descriptor triplet.
+used. Text input and fixed data text are ignored on a Field RCD that specifies a Graphics Descriptor triplet.
 When present, the Graphics Descriptor triplet specifies the generation of a graphics primitive. The triplet may
 specify the complete primitive, or the start of the primitive, or the end of the primitive.
 This triplet is ignored on RCDs other than Field RCDs. This triplet specifies primitives and their parameters as
@@ -2757,7 +2757,7 @@ Presentation Reference
 Set Current Defaults instruction and the Set Pattern Symbol drawing order.
 XMAJ, XMIN,
 YMAJ, YMIN
-T ogether, these parameters define a circle or ellipse on the (I,B) coordinate system
+Together, these parameters define a circle or ellipse on the (I,B) coordinate system
 The center of the arc is at the (I,B) origin. When this triplet is used to generate a circle or
 ellipse, the center is moved to the (I,B) position specified by the RCD and the arc is scaled by
 the MH.MFR scale factor. Specifically, the four parameters specify the following:
@@ -2920,13 +2920,13 @@ This parameter is ignored on XMDs other than Element XMDs.
 Value Description
 X'00' Body Element
 This XMD does not have any special header or trailer properties associated with it and
-is used to format any input elements with a matching Qualified T ag.
+is used to format any input elements with a matching Qualified Tag.
 X'01' Page Header Element
 This XMD is used to automatically print a header (such as the current customer name)
 at the beginning of each new page. The baseline position of this XMD can be
 anywhere on a logical page and can be specified as relative. If an input element is
-received with a matching Qualified T ag, that input element is not presented on receipt
-but is saved as the active page header. If no Qualified T ag is specified for an XMD that
+received with a matching Qualified Tag, that input element is not presented on receipt
+but is saved as the active page header. If no Qualified Tag is specified for an XMD that
 has the Page Header element type, it is assumed to be a default Page Header XMD.
 Only one default Page Header XMD can be specified in a Data Map and no input
 element data is processed with a default XMD. See “Logical Page Eject Processing”
@@ -2941,8 +2941,8 @@ X'02' Page Trailer Element
 This XMD is used to automatically print a trailer (for example, a footnote or page
 number) at the end of each page. The baseline position of this XMD can be anywhere
 on a logical page and can be specified as relative. If an input element is received with
-a matching Qualified T ag, that input element is not presented on receipt but is saved
-as the active page trailer. If no Qualified T ag is specified for an XMD that has the Page
+a matching Qualified Tag, that input element is not presented on receipt but is saved
+as the active page trailer. If no Qualified Tag is specified for an XMD that has the Page
 Trailer element type, it is assumed to be a default Page Trailer XMD.
 Only one default
 Page Trailer XMD can be specified in a Data Map and no input element data is
@@ -2960,7 +2960,7 @@ headings for a group of elements) on a page. Note that the group header is not
 actually printed and causes no action until a Body Element XMD with Group Indicator
 (XMDFlgs bit 19) set to B'1' is processed for the page. The baseline position of this
 XMD can be specified as relative. If an input element is received with a matching
-Qualified T ag, that input element is saved as the active group header and then
+Qualified Tag, that input element is saved as the active group header and then
 presented. If that input element or XMD causes a page eject, that input element is
 used as the active group header for the new page. See “Logical Page Eject
 Processing” on page 132
@@ -3028,12 +3028,12 @@ be the same as the text orientation of the XMD that defines the inline
 position from which the relative offset is measured.
 Bits 13–15 For a definition of these flag bits see “Line Descriptor (LND)” on page 98.
 Bits 16–20 For a definition of these flag bits see “Record Descriptor (RCD)” on page 124.
-Bit 21 Use Start T ag
+Bit 21 Use Start Tag
 This bit selects the Start tag (including the angle brackets '<' and '>') as the
 data field to be used for presentation.
 Value Description
-B'0' Do not select the Start T ag
-B'1' Select the Start T ag
+B'0' Do not select the Start Tag
+B'1' Select the Start Tag
 This function is restricted to Field XMDs; it is ignored on all other XMDs.
 Bit 22 Reserved; should be zero
 Bit 23 Header/Trailer Continued
@@ -3080,7 +3080,7 @@ Note that the actual location of the “left margin” on a page is affected by 
 see “Margin Definition (X'7F') Triplet” on page 73.
 BPos Baseline Position
 See “Record Descriptor (RCD)” on page 124.
-TxtOrent T ext (I,B) Orientation
+TxtOrent Text (I,B) Orientation
 See “Line Descriptor (LND)” on page 98.
 FntLID Primary Font Local Identifier
 See “Line Descriptor (LND)” on page 98.
@@ -3189,7 +3189,7 @@ XML Descriptor (XMD)
 
 Graphics Descriptor (X'7E') Triplet
 This is an optional Field XMD triplet and may occur once. If this triplet is specified more than once, only the first
-is used. T ext input and fixed data text are ignored on a Field XMD that specifies a Graphics Descriptor triplet.
+is used. Text input and fixed data text are ignored on a Field XMD that specifies a Graphics Descriptor triplet.
 When present, the Graphics Descriptor triplet specifies the generation of a graphics primitive. The triplet may
 specify the complete primitive, or the start of the primitive, or the end of the primitive. This triplet is ignored on
 XMDs other than Field XMDs.
@@ -3200,12 +3200,12 @@ XML Descriptor (XMD)
 XML Name (X'8A') Triplet
 Architecture Note: The XML Name triplet is registered in MO:DCA as a private-use triplet since it is used only
 in the PageDef object, which is not a MO:DCA object.
-This triplet is used to build a Qualified T ag. A Qualified T ag is built by concatenating the names specified on
+This triplet is used to build a Qualified Tag. A Qualified Tag is built by concatenating the names specified on
 each XML Name triplet in the order the triplets are specified. Each XML Name used in the concatenation is
 separated by a single space character.
 Note: Multiple XML Name triplets do not have to be contiguous.
 This triplet is mandatory on Body and Group Header Element XMDs and must occur at least once to build a
-Qualified T ag.
+Qualified Tag.
 This triplet is optional for Page Header and Page Trailer Element XMDs. If omitted, this Page Header or Page
 Trailer XMD is the default Page Header or Page Trailer XMD.
 This triplet is mandatory on Attribute XMDs and must occur once to identify the name of an attribute specified
@@ -3227,7 +3227,7 @@ Tlength Contains the length of the triplet
 Tid Identifies the XML Name triplet
 XMLName Specifies the name of the Start tag or the name of an attribute of a Start tag contained in the
 XML data
-This XMLName is used to build Qualified T ags when used on Element XMDs.
+This XMLName is used to build Qualified Tags when used on Element XMDs.
 XML Descriptor (XMD)
 
 
