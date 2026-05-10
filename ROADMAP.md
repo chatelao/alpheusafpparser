@@ -17,7 +17,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 7 | Modernization of Build System and Language | 🚧 |
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | ⏳ |
-| 10 | Specification Excellence | ⏳ |
+| 10 | Specification Excellence | 🚧 |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -27,7 +27,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ---
 
 ## Phase 10: Specification Excellence
-- ⏳ **IPDS (Critical)**:
+- 🚧 **IPDS (Critical)**:
     - ⏳ Purge physical page markers and recurring PDF headers/footers:
         - ⏳ Chapters 1–5.
         - ⏳ Chapters 6–10.
@@ -76,12 +76,17 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapter 4: Tables 21–33 (Special-Function Parameters).
         - ⏳ Chapter 4: Tables 34–36 (Code Pages, Characters).
         - ⏳ Appendices B (MO:DCA), C (IPDS).
-- ⏳ **IOCA**: Implement Markdown table formatting for structural descriptors.
-- ⏳ **AFP GOCA**: Purge "on page XXX" physical cross-references.
-- ⏳ **Line Data**: Improve table quality and refine text-based diagrams.
-- ⏳ **MO:DCA**: Remove physical page references in subset chapters and appendices.
-- ⏳ **FOCA**: Fix OCR-induced paragraph merging in technical sections.
-- ⏳ **PTOCA**: Final cleanup of split-word remnants.
+- ⏳ **IOCA**: Fair quality; missing Markdown table markers for many structures.
+- ⏳ **AFP GOCA**: Fair quality; heavy "on page XXX" physical cross-references.
+- ⏳ **Line Data**: Poor quality; explicit "## Page XX" markers in Appendices, diagrams as text.
+- ✅ **MO:DCA**: Excellent quality; physical page references removed.
+    - ⏳ Fix minor table fragmentation in Appendices.
+- 🚧 **FOCA**: Good quality; proper table formatting.
+    - ⏳ Fix OCR-induced paragraph merging in technical sections.
+- 🚧 **PTOCA**: Excellent quality; LaTeX math and tables standardized.
+    - ⏳ Final cleanup of split-word remnants.
+- ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
+- ✅ **MOCA**: Excellent quality; cleanest conversion.
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.
