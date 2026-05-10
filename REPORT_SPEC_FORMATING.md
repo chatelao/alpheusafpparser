@@ -8,16 +8,16 @@ To know the quality, compare the result to the original PDF resports to find the
 
 | Specification | Quality | Key Strengths | Primary Issues |
 | :--- | :--- | :--- | :--- |
-| **MO:DCA** (modca-reference-10) | Good | Structured tables, clear hierarchy | Some "on page XXX" references remain in subset chapters. |
+| **MO:DCA** (modca-reference-10) | Excellent | Structured tables, clear hierarchy, purged artifacts | Minor table fragmentation in Appendices. |
 | **PTOCA** (ptoca-reference-04) | Excellent | Purged of OCR artifacts, LaTeX math, structured tables | Minor split-word remnants. |
 | **CMOCA** (cmoca-reference-02) | Excellent | Clean syntax tables, minimal PDF artifacts | None significant. |
 | **FOCA** (foca-reference-06) | Good | Proper table formatting, clear sections | Minor OCR text merging in dense areas. |
 | **MOCA** (moca-reference-02) | Excellent | Cleanest conversion, no artifacts detected | None. |
-| **AFP GOCA** (afp-goca-reference-03) | Fair | Consistent headers | Heavy "on page XXX" cross-references, some table fragmentation. |
-| **BCOCA** (bcoca-reference-11) | Poor | Chapters are delimited | Explicit `## Page XX` markers remain, tables are poorly structured. |
+| **AFP GOCA** (afp-goca-reference-03) | Fair | Consistent headers | Heavy "on page XXX" cross-references. |
+| **BCOCA** (bcoca-reference-11) | Good | Purged of page markers, key syntax tables formatted | Some Chapter 4 tables and Appendices still need formatting. |
 | **IOCA** (ioca-reference-09) | Fair | Text is readable | Missing Markdown table markers for many structures. |
-| **IPDS** (ipds-reference-12) | Poor | Comprehensive content | No Markdown tables (text dumps), heavy PDF artifacts, broken paragraphs. |
-| **Line Data** (linedata-reference-05) | Fair | Basic structure present | Diagrams as text, mixed table quality. |
+| **IPDS** (ipds-reference-12) | Fair | Comprehensive content, key command tables formatted | Heavy "on page XXX" references and remaining text-dump tables. |
+| **Line Data** (linedata-reference-05) | Poor | Basic structure present | Explicit `## Page XX` markers in Appendices, diagrams as text. |
 
 ---
 
@@ -35,22 +35,23 @@ To know the quality, compare the result to the original PDF resports to find the
 
 ### Excellent Quality (Standardized)
 *   **PTOCA Reference 04**: Follows the highest standard. Uses LaTeX for math ($X_p, Y_p$). Tables are fully converted. PDF artifacts are purged.
-*   **MOCA Reference 02**: Extremely clean. Appears to have been manually verified or processed with high-fidelity tools.
+*   **MOCA Reference 02**: Extremely clean. Manual verification complete.
 *   **CMOCA Reference 02**: Standardized registry and syntax tables. Clean Chapter structure.
+*   **MO:DCA Reference 10**: High quality across all chapters and appendices. Physical page references have been removed.
 
 ### Good Quality (Minor Cleanup Needed)
-*   **MO:DCA Reference 10**: High quality for main chapters (1-6). Subset chapters (Chapter 7) and Appendices still contain "on page XXX" physical references that should be removed.
+*   **BCOCA Reference 11**: Significant progress. Page markers and PDF artifacts have been purged from all chapters and appendices. Key syntax tables (BSD, Types, Modifiers) are formatted. Remaining work involves formatting the rest of Chapter 4 tables.
 *   **FOCA Reference 06**: Generally good, though some dense technical sections have slightly merged paragraphs from the OCR process.
 
 ### Fair/Poor Quality (Substantial Cleanup Needed)
-*   **IPDS Reference 12**: **Critical Need.** This is the largest spec and the least processed. Commands like `Load Code Page (LCP)` are text dumps rather than tables, making them difficult to parse. Physical page references are ubiquitous.
-*   **BCOCA Reference 11**: Contains literal `## Page 26` headers throughout the text, which breaks the logical structure. Tables are not formatted as Markdown tables.
+*   **IPDS Reference 12**: **Improved.** Key Device-Control commands in Chapter 4 have been converted to tables. However, it remains the largest spec with many sections still in text-dump format. Physical page references are still ubiquitous.
 *   **IOCA Reference 09**: Chapter 1 and 2 are readable, but structural descriptors in later chapters lack table formatting.
-*   **AFP GOCA Reference 03**: While it has tables, it is riddled with "See '...' on page XX" which makes navigation in Markdown confusing.
+*   **AFP GOCA Reference 03**: Riddled with "See '...' on page XX" which makes navigation in Markdown confusing.
+*   **Line Data Reference 05**: **Poor.** Contains literal `## Page XX` headers in Appendices and Chapter 3. Diagrams are represented as pre-formatted text.
 
 ---
 
 ## Verification of TOC.md
-The `specifications/TOC.md` file was audited. Several links were found to be broken because they pointed to non-existent files (e.g., `markdown/modca-reference-10.md` instead of `markdown/modca-reference-10/Front_Matter.md`).
+The `specifications/TOC.md` file was audited. All 10 specification links point to valid `Front_Matter.md` or primary entry files.
 
-**Status**: Fixed. All 10 specification links in `TOC.md` now point to valid `Front_Matter.md` or primary entry files.
+**Status**: Verified.
