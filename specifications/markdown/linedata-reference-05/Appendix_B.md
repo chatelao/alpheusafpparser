@@ -11,7 +11,7 @@ Reference.
 Table 15. Structured Fields Arranged Alphabetically
 BAG D3A8C9 Begin Active Environment Group
 BBC D3A8EB Begin Bar Code Object
-BCT D3A89B Begin Composed T ext Object (renamed BPT)
+BCT D3A89B Begin Composed Text Object (renamed BPT)
 BDA D3EEEB Bar Code Data
 BDD D3A6EB Bar Code Data Descriptor
 BDG D3A8C4 Begin Document Environment Group
@@ -33,24 +33,22 @@ BPF D3A8A5 Begin Print File
 BPG D3A8AF Begin Page
 BPM D3A8CB Begin Page Map
 BPS D3A85F Begin Page Segment
-BPT D3A89B Begin Presentation T ext Object
+BPT D3A89B Begin Presentation Text Object
 
-## Page 198
 
-180 AFP Programming Guide and Line Data Reference
 Table 15 Structured Fields Arranged Alphabetically (cont'd.)
 BRG D3A8C6 Begin Resource Group
 BRS D3A8CE Begin Resource
 BSG D3A8D9 Begin Resource Environment Group
 CCP D3A7CA Conditional Processing Control
 CDD D3A692 Container Data Descriptor
-CTC D3A79B Composed T ext Control (obsolete)
-CTD D3A69B Composed T ext Descriptor (renamed PTD Format 1)
-CTX D3EE9B Composed T ext Data (renamed PTX)
+CTC D3A79B Composed Text Control (obsolete)
+CTD D3A69B Composed Text Descriptor (renamed PTD Format 1)
+CTX D3EE9B Composed Text Data (renamed PTX)
 DXD D3A6E3 Data Map Transmission Subcase Descriptor
 EAG D3A9C9 End Active Environment Group
 EBC D3A9EB End Bar Code Object
-ECT D3A99B End Composed T ext Object (renamed EPT)
+ECT D3A99B End Composed Text Object (renamed EPT)
 EDG D3A9C4 End Document Environment Group
 EDI D3A9A7 End Document Index
 EDM D3A9CA End Data Map
@@ -70,18 +68,15 @@ EPF D3A9A5 End Print File
 EPG D3A9AF End Page
 EPM D3A9CB End Page Map
 EPS D3A95F End Page Segment
-EPT D3A99B End Presentation T ext
+EPT D3A99B End Presentation Text
 ERG D3A9C6 End Resource Group
 ERS D3A9CE End Resource
 ESG D3A9D9 End Resource Environment Group
 FDS D3AAEC Fixed Data Size
-Cross-References
 
-## Page 199
 
-AFP Programming Guide and Line Data Reference 181
 Table 15 Structured Fields Arranged Alphabetically (cont'd.)
-FDX D3EEEC Fixed Data T ext
+FDX D3EEEC Fixed Data Text
 FGD D3A6C5 Form Environment Group Descriptor (obsolete)
 GAD D3EEBB Graphics Data
 GDD D3A6BB Graphics Data Descriptor
@@ -117,17 +112,14 @@ MIO D3ABFB Map IO Image Object
 MMC D3A788 Medium Modification Control
 MMD D3ABCD Map Media Destination
 MMO D3B1DF Map Medium Overlay
-Cross-References
 
-## Page 200
 
-182 AFP Programming Guide and Line Data Reference
 Table 15 Structured Fields Arranged Alphabetically (cont'd.)
 MMT D3AB88 Map Media Type
 MPG D3ABAF Map Page
 MPO D3ABD8 Map Page Overlay
 MPS D3B15F Map Page Segment
-MPT D3AB9B Map Presentation T ext
+MPT D3AB9B Map Presentation Text
 MSU D3ABEA Map Suppression
 NOP D3EEEE No Operation
 OBD D3A66B Object Area Descriptor
@@ -140,21 +132,18 @@ PGP-1 D3ACAF Page Position (Format 1)
 PGP-2 D3B1AF Page Position (Format 2)
 PMC D3A7AF Page Modification Control
 PPO D3ADC3 Preprocess Presentation Object
-PTD-1 D3A69B Presentation T ext Descriptor (Format 1)
-PTD-2 D3B19B Presentation T ext Descriptor (Format 2)
-PTX D3EE9B Presentation T ext Data
+PTD-1 D3A69B Presentation Text Descriptor (Format 1)
+PTD-2 D3B19B Presentation Text Descriptor (Format 2)
+PTX D3EE9B Presentation Text Data
 RCD D3A68D Record Descriptor
-TLE D3A090 T ag Logical Element
+TLE D3A090 Tag Logical Element
 XMD D3A68E XML Descriptor
-Cross-References
 
-## Page 201
 
-AFP Programming Guide and Line Data Reference 183
 Structured Fields Arranged Numerically by Hexadecimal Code
 Table 16. Structured Fields Arranged Numerically by Hexadecimal Code
 D3A088 MFC Medium Finishing Control
-D3A090 TLE T ag Logical Element
+D3A090 TLE Tag Logical Element
 D3A288 MCC Medium Copy Count
 D3A66B OBD Object Area Descriptor
 D3A67B IID Image Input Descriptor
@@ -162,8 +151,8 @@ D3A688 MDD Medium Descriptor
 D3A68D RCD Record Descriptor
 D3A68E XMD XML Descriptor
 D3A692 CDD Container Data Descriptor
-D3A69B CTD Composed T ext Descriptor (renamed PTD Format 1)
-D3A69B PTD-1 Presentation T ext Descriptor (Format 1)
+D3A69B CTD Composed Text Descriptor (renamed PTD Format 1)
+D3A69B PTD-1 Presentation Text Descriptor (Format 1)
 D3A6AF PGD Page Descriptor
 D3A6BB GDD Graphics Data Descriptor
 D3A6C5 FGD Form Environment Group Descriptor (obsolete)
@@ -173,24 +162,21 @@ D3A6EB BDD Bar Code Data Descriptor
 D3A6FB IDD Image Data Descriptor IO
 D3A77B IOC Image Output Control
 D3A788 MMC Medium Modification Control
-D3A79B CTC Composed T ext Control (obsolete)
+D3A79B CTC Composed Text Control (obsolete)
 D3A7A8 PEC Presentation Environment Control
 D3A7AF PMC Page Modification Control
 D3A7CA CCP Conditional Processing Control
 D3A85F BPS Begin Page Segment
 D3A87B BII Begin Image Block
 D3A892 BOC Begin Object Container
-D3A89B BCT Begin Composed T ext Object (renamed BPT)
-D3A89B BPT Begin Presentation T ext Object
+D3A89B BCT Begin Composed Text Object (renamed BPT)
+D3A89B BPT Begin Presentation Text Object
 D3A8A5 BPF Begin Print File
 D3A8A7 BDI Begin Document Index
 D3A8A8 BDT Begin Document
 D3A8AD BNG Begin Named Page Group
-Cross-References
 
-## Page 202
 
-184 AFP Programming Guide and Line Data Reference
 Table 16 Structured Fields Arranged Numerically by Hexadecimal Code (cont'd.)
 D3A8AF BPG Begin Page
 D3A8BB BGR Begin Graphics Object
@@ -212,8 +198,8 @@ D3A8FB BIM Begin Image Object IO
 D3A95F EPS End Page Segment
 D3A97B EII End Image Block IM
 D3A992 EOC End Object Container
-D3A99B ECT End Composed T ext Object (renamed EPT)
-D3A99B EPT End Presentation T ext Object
+D3A99B ECT End Composed Text Object (renamed EPT)
+D3A99B EPT End Presentation Text Object
 D3A9A5 EPF End Print File
 D3A9A7 EDI End Document Index
 D3A9A8 EDT End Document
@@ -228,11 +214,8 @@ D3A9C9 EAG End Active Environment Group
 D3A9CA EDM End Data Map
 D3A9CB EPM End Page Map
 D3A9CC EMM End Medium Map
-Cross-References
 
-## Page 203
 
-AFP Programming Guide and Line Data Reference 185
 Table 16 Structured Fields Arranged Numerically by Hexadecimal Code (cont'd.)
 D3A9CD EFM End Form Map
 D3A9CE ERS End Resource
@@ -246,7 +229,7 @@ D3AAEC FDS Fixed Data Size
 D3AB88 MMT Map Media Type
 D3AB8A MCF-2 Map Coded Font (Format 2)
 D3AB92 MCD Map Container Data
-D3AB9B MPT Map Presentation T ext
+D3AB9B MPT Map Presentation Text
 D3ABAF MPG Map Page
 D3ABBB MGO Map Graphic Object
 D3ABC3 MDR Map Data Resource
@@ -267,13 +250,10 @@ D3AFC3 IOB Include Object
 D3AFD8 IPO Include Page Overlay
 D3B15F MPS Map Page Segment
 D3B18A MCF-1 Map Coded Font (Format 1)
-D3B19B PTD-2 Presentation T ext Descriptor (Format 2)
+D3B19B PTD-2 Presentation Text Descriptor (Format 2)
 D3B1AF PGP-2 Page Position (Format 2)
-Cross-References
 
-## Page 204
 
-186 AFP Programming Guide and Line Data Reference
 Table 16 Structured Fields Arranged Numerically by Hexadecimal Code (cont'd.)
 D3B1DF MMO Map Medium Overlay
 D3B288 PFC Presentation Fidelity Control
@@ -281,18 +261,15 @@ D3B2A7 IEL Index Element
 D3B490 LLE Link Logical Element
 D3EE7B IRD Image Raster Data
 D3EE92 OCD Object Container Data
-D3EE9B CTX Composed T ext Data (renamed PTX)
-D3EE9B PTX Presentation T ext Data
+D3EE9B CTX Composed Text Data (renamed PTX)
+D3EE9B PTX Presentation Text Data
 D3EEBB GAD Graphics Data
 D3EEEB BDA Bar Code Data
-D3EEEC FDX Fixed Data T ext
+D3EEEC FDX Fixed Data Text
 D3EEEE NOP No Operation
 D3EEFB IPD Image Picture Data IO
-Cross-References
 
-## Page 205
 
-AFP Programming Guide and Line Data Reference 187
 PTOCA Control Sequences Arranged Alphabetically
 This is a list in alphabetical order by abbreviation name of text control sequences that can appear in the
 presentation text (PTX) structured field. An even function-type code indicates that the control sequence is
@@ -322,36 +299,30 @@ RMI C8(C9) Relative Move Inline
 RPS EE(EF) Repeat String
 SBI D0(D1) Set Baseline Increment
 SCFL F0(F1) Set Coded Font Local
-SEC 80(81) Set Extended T ext Color
+SEC 80(81) Set Extended Text Color
 SIA C2(C3) Set Intercharacter Adjustment
 SIM C0(C1) Set Inline Margin
-STC 74(75) Set T ext Color
-STO F6(F7) Set T ext Orientation
+STC 74(75) Set Text Color
+STO F6(F7) Set Text Orientation
 SVI C4(C5) Set Variable Space Character Increment
-TBM 78(79) T emporary Baseline Move
+TBM 78(79) Temporary Baseline Move
 TRN DA(DB) Transparent Data
-Cross-References
 
-## Page 206
 
-188 AFP Programming Guide and Line Data Reference
 Table 17 PTOCA Control Sequences Arranged Alphabetically (cont'd.)
-UCT 6A(–) Unicode Complex T ext
+UCT 6A(–) Unicode Complex Text
 USC 76(77) Underscore
-Cross-References
 
-## Page 207
 
-AFP Programming Guide and Line Data Reference 189
 PTOCA Control Sequences Arranged Numerically
 These are the PTOCA control sequences listed in numerical order by hexadecimal code.
-6A(–) UCT Unicode Complex T ext
+6A(–) UCT Unicode Complex Text
 –(6D) GLC Glyph Layout Control
 72(73) OVS Overstrike
-74(75) STC Set T ext Color
+74(75) STC Set Text Color
 76(77) USC Underscore
-78(79) TBM T emporary Baseline Move
-80(81) SEC Set Extended T ext Color
+78(79) TBM Temporary Baseline Move
+80(81) SEC Set Extended Text Color
 –(8B) GIR Glyph ID Run
 8C(8D) GAR Glyph Advance Run
 8E(8F) GOR Glyph Offset Run
@@ -371,15 +342,11 @@ EE(EF) RPS Repeat String
 F0(F1) SCFL Set Coded Font Local
 F2(F3) BSI Begin Suppression
 F4(F5) ESU End Suppression
-F6(F7) STO Set T ext Orientation
+F6(F7) STO Set Text Orientation
 F8(F9) NOP No Operation
-Cross-References
 
-## Page 208
 
-190 AFP Programming Guide and Line Data Reference
 
-## Page 209
 
 Copyright © AFP Consortium 1994, 2018 191
 Notices
@@ -401,14 +368,12 @@ serve as an endorsement of those Web sites. The materials at those Web sites are
 this architecture and use of those Web sites is at your own risk.
 The AFP Consortium may use or distribute any information you supply in any way it believes appropriate
 without incurring any obligation to you.
-This information contains examples of data and reports used in daily business operations. T o illustrate them in
+This information contains examples of data and reports used in daily business operations. To illustrate them in
 a complete manner, some examples include the names of individuals, companies, brands, or products. These
 names are fictitious and any similarity to the names and addresses used by an actual business enterprise is
 entirely coincidental.
 
-## Page 210
 
-192 AFP Programming Guide and Line Data Reference
 Trademarks
 These terms are registered trademarks of Adobe Systems Incorporated in the United States and/or other
 countries:
@@ -438,7 +403,7 @@ System i5
 z/OS
 z/VM
 z/VSE
-Linux is a trademark of Linus T orvalds.
+Linux is a trademark of Linus Torvalds.
 These terms are registered trademarks of Microsoft Corporation in the United States, other countries, or both:
 Microsoft
 Windows
@@ -456,9 +421,7 @@ BCOCA
 CMOCA
 Trademarks
 
-## Page 211
 
-AFP Programming Guide and Line Data Reference 193
 Color Management Object Content Architecture
 InfoPrint
 Intelligent Printer Data Stream
@@ -471,11 +434,8 @@ UP3I is a trademark of UP 3I Limited.
 Other company, product, or service names might be the trademarks or service marks of others.
 Trademarks
 
-## Page 212
 
-194 AFP Programming Guide and Line Data Reference
 
-## Page 213
 
 Copyright © AFP Consortium 1994, 2018 195
 Glossary
@@ -563,16 +523,14 @@ formerly referred to as AFPDS
 GOCA)
 • Image Object Content Architecture (IOCA)
 • Metadata Object Content Architecture (MOCA)
-• Presentation T ext Object Content Architecture (PTOCA)
+• Presentation Text Object Content Architecture (PTOCA)
 AEA. See alternate exception action.
 AFM file. A file containing the metric information required
 for positioning the characters of a font. The metric
 information contained in this file was extracted from a PFB
 file, in an ASCII file format defined by Adobe ® Systems
 
-## Page 214
 
-196 AFP Programming Guide and Line Data Reference
 Inc., and used for character positioning and page
 formatting.
 AFP . See Advanced Function Presentation.
@@ -669,9 +627,7 @@ a color.
 ARQ. See acknowledgment-required flag.
 AFP • ARQ
 
-## Page 215
 
-AFP Programming Guide and Line Data Reference 197
 array. A structure that contains an ordered group of data
 elements. All elements in an array have the same data
 type.
@@ -770,9 +726,7 @@ bar code symbology. A bar code language. Bar code
 symbologies are defined and controlled by various industry
 array • bar code symbology
 
-## Page 216
 
-198 AFP Programming Guide and Line Data Reference
 groups and standards organizations. Bar code
 symbologies are described in public domain bar code
 specification documents. Synonymous with symbology.
@@ -875,9 +829,7 @@ coordinate system. The B extent is parallel to the Y
 p extent
 bar height • B extent
 
-## Page 217
 
-AFP Programming Guide and Line Data Reference 199
 when the B axis is parallel to the Y p axis or to the Xp extent
 when the B axis is parallel to the X p axis.
 bi. See initial baseline print coordinate.
@@ -933,7 +885,7 @@ bits and indicating that each byte has no predefined
 interpretation. Therefore, in CMOCA, each byte is
 interpreted as defined in the tag explanation.
 C
-calibration. T o adjust the correct value of a reading by
+calibration. To adjust the correct value of a reading by
 comparison to a standard.
 Canadian Grocery Product Code (CGPC). The bar
 code symbology used to code grocery items in Canada.
@@ -973,9 +925,7 @@ shape is formed within a character box by a presentation
 process, and the character box is then positioned in a
 bi • character box
 
-## Page 218
 
-200 AFP Programming Guide and Line Data Reference
 presentation space or on a physical medium. The
 character box can be rotated before it is positioned.
 character-box reference edges. The four edges of a
@@ -1078,9 +1028,7 @@ character shape. The visual representation of a graphic
 character.
 character-box reference edges • character shape
 
-## Page 219
 
-AFP Programming Guide and Line Data Reference 201
 character shape presentation. A method used to form a
 character shape on a physical medium at an addressable
 position.
@@ -1184,9 +1132,7 @@ In the IPDS architecture, a font resource containing
 descriptive information, a code page, font metrics, and a
 character shape presentation • coded font
 
-## Page 220
 
-202 AFP Programming Guide and Line Data Reference
 digital-technology representation of character shapes for a
 specific graphic character set.
 coded font local identifier. A binary identifier that is
@@ -1288,9 +1234,7 @@ before any data is added to it. Synonymous with reset
 color.
 coded font local identifier • color of medium
 
-## Page 221
 
-AFP Programming Guide and Line Data Reference 203
 color palette. A system of designated colors that are
 used in conjunction with each other to achieve visual
 consistency.
@@ -1393,9 +1337,7 @@ encode a control sequence excluding the control sequence
 prefix and class.
 color palette • control sequence length
 
-## Page 222
 
-204 AFP Programming Guide and Line Data Reference
 control sequence prefix. The escape character used to
 identify a control sequence. The control sequence prefix is
 the first byte of a control sequence. An example of a
@@ -1505,9 +1447,7 @@ an object or by an Absolute Move Inline control sequence.
 Synonymous with current inline coordinate.
 control sequence prefix • current inline presentation coordinate (I c)
 
-## Page 223
 
-AFP Programming Guide and Line Data Reference 205
 current inline print coordinate (i c). In the IPDS
 architecture, the inline coordinate corresponding to the
 current print position on a logical page. The current inline
@@ -1608,9 +1548,7 @@ exception and synchronous exception.
 DBCS. See double-byte character set.
 current inline print coordinate (i c) • DBCS
 
-## Page 224
 
-206 AFP Programming Guide and Line Data Reference
 decoder. In bar codes, the component of a bar code
 reading system that receives the signals from the scanner,
 performs the algorithm to interpret the signals into
@@ -1712,9 +1650,7 @@ bottom, and bottom-to-top. Synonymous with character
 direction.
 decoder • direction
 
-## Page 225
 
-AFP Programming Guide and Line Data Reference 207
 discrete code. A bar code symbology characterized by
 placing spaces that are not a part of the code between
 characters, that is, intercharacter gaps.
@@ -1790,7 +1726,7 @@ name that is valid for the duration of the session between
 the presentation services program and the printer. Contrast
 with resident resource.
 dpi. See dots per inch.
-drag. T o use a pointing device to move an object. For
+drag. To use a pointing device to move an object. For
 example, clicking on a window border, and dragging it to
 make the window larger.
 draw functions. Functions that can be done during the
@@ -1815,9 +1751,7 @@ drawn, a change to drawing attributes or drawing controls
 be effected, or a segment be called. One or more graphics
 discrete code • drawing order
 
-## Page 226
 
-208 AFP Programming Guide and Line Data Reference
 primitives can be used to draw a picture. Drawing orders
 can be included in a structured field. See also order.
 drawing order coordinate space (DOCS). A two-
@@ -1918,9 +1852,7 @@ European Article Numbering (EAN). The bar code
 symbology used to code grocery items in Europe.
 drawing order coordinate space (DOCS) • European Article Numbering (EAN)
 
-## Page 227
 
-AFP Programming Guide and Line Data Reference 209
 exception. (1) An invalid or unsupported data-stream
 construct. (2) In the IPDS architecture, a condition
 requiring host notification. (3) In the IPDS architecture, a
@@ -2022,9 +1954,7 @@ representation of character shapes for a specified graphic
 character set.
 exception • font character set
 
-## Page 228
 
-210 AFP Programming Guide and Line Data Reference
 font control record. The record sent in an IPDS Load
 Font Control command to specify a font ID and other font
 parameters that apply to the complete font.
@@ -2136,9 +2066,7 @@ color of the foreground of a primitive. Contrast with
 background color.
 font control record • foreground color
 
-## Page 229
 
-AFP Programming Guide and Line Data Reference 211
 foreground mix. An attribute used to determine how the
 foreground color of data is combined with the existing color
 of a graphics presentation space. An example of data is a
@@ -2245,9 +2173,7 @@ class.
 GID. See global identifier.
 foreground mix • GID
 
-## Page 230
 
-212 AFP Programming Guide and Line Data Reference
 GIF . See Graphic Interchange Format.
 given position. The coordinate position at which drawing
 is to begin. A given position is specified in a drawing order.
@@ -2351,9 +2277,7 @@ expressed as either a two-byte binary or a five-digit
 decimal value.
 GIF • Graphic Character Set Global Identifier (GCSGID)
 
-## Page 231
 
-AFP Programming Guide and Line Data Reference 213
 Graphic Character UCS Identifier (GCUID). An
 alphanumeric character string used to identify a specific
 graphic character. The GCUID naming scheme is used for
@@ -2452,9 +2376,7 @@ hierarchy. A series of elements that have been graded or
 ranked in some useful manner.
 Graphic Character UCS Identifier (GCUID) • hierarchy
 
-## Page 232
 
-214 AFP Programming Guide and Line Data Reference
 highlight color. A spot color that is used to accentuate or
 contrast monochromatic areas. See also spot color.
 highlighting. The emphasis of displayed or printed
@@ -2556,9 +2478,7 @@ ic. See current inline print coordinate.
 ICC. See International Color Consortium.
 highlight color • ICC
 
-## Page 233
 
-AFP Programming Guide and Line Data Reference 215
 ICC-absolute colorimetric. A rendering intent in which
 the chromatically adapted tristimulus values of the in-
 gamut colors are unchanged. It is useful for spot colors and
@@ -2656,9 +2576,7 @@ indexed object. An object in a MO:DCA document that is
 referenced by an Index Element structured field in a
 ICC-absolute colorimetric • indexed object
 
-## Page 234
 
-216 AFP Programming Guide and Line Data Reference
 MO:DCA index. Examples of indexed objects are pages
 and page groups.
 information density. The number of characters per inch
@@ -2759,9 +2677,7 @@ International Organization for Standardization
 (ISO). An organization of national standards bodies from
 information density • International Organization for Standardization (ISO)
 
-## Page 235
 
-AFP Programming Guide and Line Data Reference 217
 various countries established to promote development of
 standards to facilitate international exchange of goods and
 services, and develop cooperation in intellectual, scientific,
@@ -2800,7 +2716,7 @@ JAN. See Japanese Article Numbering.
 Japanese Article Numbering (JAN). The bar code
 symbology used to code grocery items in Japan.
 JFIF . See JPEG File Interchange Format.
-jog. T o cause printedsheets to be stacked in an output
+jog. To cause printedsheets to be stacked in an output
 stacker offset from previously stacked sheets. Jogging is
 requested by using an IPDS Execute Order Anystate
 Alternate Offset Stacker command.
@@ -2855,9 +2771,7 @@ axis is parallel to the long sides of a rectangular physical
 medium. Contrast with portrait.
 interoperability • landscape
 
-## Page 236
 
-218 AFP Programming Guide and Line Data Reference
 language. A set of symbols, conventions, and rules that
 is used for conveying information. See also pragmatics,
 semantics, and syntax.
@@ -2955,9 +2869,7 @@ from capital letters. Examples of small letters are a, b, and
 g. Contrast with uppercase.
 language • lowercase
 
-## Page 237
 
-AFP Programming Guide and Line Data Reference 219
 lpi. See lines per inch.
 L unit. A unit of linear measurement expressed with a unit
 base and units per unit-base value. For example, in
@@ -3056,9 +2968,7 @@ form, page placement on a form, and form copy
 generation. See also Form Map.
 lpi • Medium Map
 
-## Page 238
 
-220 AFP Programming Guide and Line Data Reference
 medium preprinted form overlay (M-PFO). In MO:DCA,
 a PFO that is designed to simulate a preprinted form for a
 sheet-side. An M-PFO is invoked with the MMC structured
@@ -3160,9 +3070,7 @@ spaced font. Contrast with proportionally spaced font and
 typographic font.
 medium preprinted form overlay (M-PFO) • monospaced font
 
-## Page 239
 
-AFP Programming Guide and Line Data Reference 221
 move order. A drawing order that specifies or implies
 movement from the current position to a given position.
 See also current position and given position.
@@ -3259,9 +3167,7 @@ identifier (X'06'), followed by a one-byte length (between
 X'00' and X'7F'), followed by 0–127 content bytes.
 move order • object identifier (OID)
 
-## Page 240
 
-222 AFP Programming Guide and Line Data Reference
 obsolete. Removed from the architecture, and thus
 ignored by receivers.
 OCR A. See Optical Character Recognition A.
@@ -3368,9 +3274,7 @@ This is also referred to as “opaque” mixing. See also mixing
 rule. Contrast with blend and underpaint.
 obsolete • overpaint
 
-## Page 241
 
-AFP Programming Guide and Line Data Reference 223
 overscore. A line parallel to the baseline and placed
 above the character.
 overstrike. In PTOCA, the presentation of a designated
@@ -3473,9 +3377,7 @@ PCL
 Packard®, that provide access to printer features.
 overscore • PCL ®
 
-## Page 242
 
-224 AFP Programming Guide and Line Data Reference
 PCS. (1) See Print Contrast Signal. (2) See Profile
 Connection Space.
 PDF . An acronym for Acrobat ® Portable Document
@@ -3579,9 +3481,7 @@ and graphics. It describes pages to any output device with
 a PostScript interpreter.
 PCS • PostScript
 
-## Page 243
 
-AFP Programming Guide and Line Data Reference 225
 posture. Inclination of a letter with respect to a vertical
 axis. Examples of inclination are upright and inclined. An
 example of upright is Roman. An example of inclined is
@@ -3679,14 +3579,12 @@ process element. In MO:DCA, a document component
 that is defined by a structured field and that facilitates a
 form of document processing that does not affect the
 presentation of the document. Examples of process
-elements are T ag Logical Elements (TLEs) that specify
+elements are Tag Logical Elements (TLEs) that specify
 document attributes and Link Logical Elements (LLEs) that
 specify linkages between document components.
 posture • process element
 
-## Page 244
 
-226 AFP Programming Guide and Line Data Reference
 Profile Connection Space (PCS). The reference color
 space defined by ICC, in which colors are encoded in order
 to provide an interface for connecting source and
@@ -3717,7 +3615,7 @@ originating with the electric typewriter and having character
 increment values that are integer multiples of the narrowest
 character width.
 PSM font. See Proportional Spacing Machine font.
-PTOCA. See Presentation T ext Object Content
+PTOCA. See Presentation Text Object Content
 Architecture.
 Q
 quantization. The process of reducing an image with
@@ -3757,7 +3655,7 @@ raster direction. An attribute that controls the direction in
 which a character string grows relative to the inline
 direction. Values are: left-to-right, right-to-left, top-to-
 bottom, and bottom-to-top.
-rasterize. T o convert presentation data into raster
+rasterize. To convert presentation data into raster
 (bitmap) form for display or printing.
 raster pattern. A rectangular array of pels arranged in
 rows called scan lines.
@@ -3783,9 +3681,7 @@ The mapping information in this file is in an ASCII file
 format defined by Adobe Systems Inc.
 Profile Connection Space (PCS) • rearranged file
 
-## Page 245
 
-AFP Programming Guide and Line Data Reference 227
 record-format line data. A form of line data where each
 record is preceded by a 10-byte identifier. The record is
 presented by matching its ID to the ID specified on a
@@ -3795,7 +3691,7 @@ relationship between the physical location and logical
 location of image points in image data.
 recovery-unit group. In the IPDS architecture, a group of
 pages identified by the XOH Define Group Boundary
-command and controlled by the Keep-Group-T ogether-as-
+command and controlled by the Keep-Group-Together-as-
 a-Recovery-Unit group operation specified by the XOH
 Specify Group Operation command. The recovery-unit
 group also includes all copies specified by the Load Copy
@@ -3890,9 +3786,7 @@ resources are captured and made resident in the printer or
 intermediate device.
 record-format line data • resource caching
 
-## Page 246
 
-228 AFP Programming Guide and Line Data Reference
 retired. Set aside for a particular purpose, and not
 available for any other purpose. Retired fields and values
 are specified for compatibility with existing products and
@@ -3988,9 +3882,7 @@ section is also called a code-page ward in some
 environments. See also code page and code point.
 retired • section
 
-## Page 247
 
-AFP Programming Guide and Line Data Reference 229
 section identifier. A value that identifies a section.
 Synonymous with section number.
 section number. A value that identifies a section.
@@ -4087,9 +3979,7 @@ set of all integers is usually denoted in mathematics by Z,
 which stands for Zahlen (German for “numbers”).
 section identifier • signed integers
 
-## Page 248
 
-230 AFP Programming Guide and Line Data Reference
 simplex printing. A method used to print data on one
 side of a sheet; the other side is left blank. Contrast with
 duplex printing.
@@ -4192,9 +4082,7 @@ architecture. A tower is independent of any other towers. A
 tower can be subdivided into subsets. A subset contains all
 simplex printing • subsetting tower
 
-## Page 249
 
-AFP Programming Guide and Line Data Reference 231
 the function of any subsets below it in the tower. See also
 subset.
 substrate. In bar codes, the surface on which a bar code
@@ -4261,7 +4149,7 @@ presentation information.
 T
 tag. A data structure that is used within the data portion of
 a color management resource (CMR). A CMR tag consists
-of T agID, FieldType, Count, and ValueOffset.
+of TagID, FieldType, Count, and ValueOffset.
 Tagged Image File Format (TIFF). A rich and flexible
 graphics image format.
 temporary baseline. The shifted baseline used for
@@ -4275,16 +4163,16 @@ coordinate to specify the position of a temporary baseline
 in a presentation space or on a physical medium. Several
 increments might have been used to place a temporary
 baseline at the current baseline presentation coordinate.
-text. A graphic representation of information. T ext can
+text. A graphic representation of information. Text can
 consist of alphanumeric characters and symbols arranged
 in paragraphs, tables, columns, and other shapes. An
-example of text is the data sent in an IPDS Write T ext
+example of text is the data sent in an IPDS Write Text
 command.
 Text command set. In the IPDS architecture, a collection
 of commands used to present PTOCA text data in a page,
 page segment, or overlay.
 text major. A description for text where the Presentation
-T ext Data Descriptor (PTD) is specified in page controls. In
+Text Data Descriptor (PTD) is specified in page controls. In
 MO:DCA, the PTD is in the Active Environment Group
 (AEG) for the page; in IPDS, the PTD is specified as initial
 text-major conditions in the Logical Page Descriptor
@@ -4295,9 +4183,7 @@ dimensional presentation space, called the text object
 space, which contains presentation text data.
 substrate • text object
 
-## Page 250
 
-232 AFP Programming Guide and Line Data Reference
 text object space. Synonymous with text presentation
 space.
 text orientation. A description of the appearance of text
@@ -4313,7 +4199,7 @@ space in which text is generated for presentation on an
 output medium.
 throughscore. A line parallel to the baseline and placed
 through the character.
-TIFF . See T agged Image File Format.
+TIFF . See Tagged Image File Format.
 tint. Variation of a color produced by mixing it with white.
 toned. Containing marking agents such as toner or ink.
 Contrast with untoned.
@@ -4394,9 +4280,7 @@ blank space around narrow characters. An example of a
 narrow character is the letter i. Synonymous with
 text object space • typographic font
 
-## Page 251
 
-AFP Programming Guide and Line Data Reference 233
 proportionally spaced font. Contrast with monospaced font
 and uniformly spaced font.
 U
@@ -4498,9 +4382,7 @@ usable area. An area on a physical medium that can be
 used to present data. See also viewport.
 UBIN • usable area
 
-## Page 252
 
-234 AFP Programming Guide and Line Data Reference
 user printable area (UPA). The portion of the physical
 printable area to which user-generated data is restricted.
 See also logical page, physical printable area, and valid
@@ -4605,9 +4487,7 @@ W
 ward. A deprecated term for section.
 user printable area (UPA) • ward
 
-## Page 253
 
-AFP Programming Guide and Line Data Reference 235
 weight class. A parameter indicating the degree of
 boldness of a typeface. A character's stroke thickness
 determines its weight class. Examples are light, medium,
@@ -4711,16 +4591,13 @@ page in the Y p dimension. See also presentation space and
 logical page.
 weight class • Y p extent
 
-## Page 254
 
-236 AFP Programming Guide and Line Data Reference
 Yxy color space. A color space belonging to the XYZ
 base family that expresses the XYZ values in terms of x
 and y chromaticity coordinates, somewhat analogous to
 the hue and saturation coordinates of the HSV color space.
 Yxy color space • Yxy color space
 
-## Page 255
 
 Copyright © AFP Consortium 1994, 2018 237
 Index
@@ -4760,9 +4637,9 @@ Color Management Resource . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . ..
 Color Management Resource Descriptor (X'91') triplet . . . 121, 147,
 166
 Color Specification (X'4E') triplet . . .. . . .. . .. . . .. . .. . . .. . 109, 136, 160
-Composed-T ext Control (CTC) .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
-Composed-T ext Data (CTX) .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
-Composed-T ext Descriptor (CTD) .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
+Composed-Text Control (CTC) .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
+Composed-Text Data (CTX) .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
+Composed-Text Descriptor (CTD) .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
 Concatenate Bar Code Data (X'93') triplet . . .. . .. . . .. . 122, 148, 167
 Conditional Processing Control (CCP) . . .. . . .. . .. . . .. . .. . . .. . . .. . .. .78
 in a Page Definition .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .16
@@ -4771,9 +4648,9 @@ example of . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. 
 in a Page Definition .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .30
 copy group
 invoked with IMM. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .45
-CTC (Composed-T ext Control) .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
-CTD (Composed-T ext Descriptor) .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
-CTX (Composed-T ext Data) .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
+CTC (Composed-Text Control) .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
+CTD (Composed-Text Descriptor) .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
+CTX (Composed-Text Data) .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 180
 current line position . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .53
 current LND position. . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .51
 current position. .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .51
@@ -4806,7 +4683,7 @@ Overlay resource object . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . .
 Page Definition resource object . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 177
 page segment resource object .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 174
 Presentation Page object . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 171
-Presentation T ext data object . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 172
+Presentation Text data object . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 172
 Print File. .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 170
 Document Environment Group (DEG). . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .42
 document index . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .64
@@ -4830,7 +4707,7 @@ Extended Resource Local Identifier (X'22') triplet .. . .. 92, 108, 135,
 159
 F
 FDS (Fixed Data Size) . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .86
-FDX (Fixed Data T ext). . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87
+FDX (Fixed Data Text). . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87
 FGD (Form Environment Group Descriptor) . . .. . . .. . .. . . .. . 181, 183
 field formatting . . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . 29–30
 field LND (reuse LND) . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .29
@@ -4838,11 +4715,9 @@ field RCD . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . .
 field XMD . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .30
 finishing operations for print file . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .42
 Fixed Data Size (FDS) . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .86
-Fixed Data T ext (FDX). . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87
+Fixed Data Text (FDX). . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87
 
-## Page 256
 
-238 AFP Programming Guide and Line Data Reference
 flag bytes in a structured field . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .65
 FOCA (Font Object Content Architecture) . . .. . .. . . .. . .. . . .. . . .. . .. . . 2
 font lists . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .21
@@ -4961,9 +4836,7 @@ printing graphics. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . ..
 relative baseline . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .35
 relative inline. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .37
 
-## Page 257
 
-AFP Programming Guide and Line Data Reference 239
 Resource Environment Group in one . .. . . .. . .. . . .. . .. . . .. . . .. . .. .18
 SOSI processing . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .32
 structure. . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .16
@@ -4975,23 +4848,23 @@ in a Page Definition .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. .
 page group . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .64
 page segment resource object .. . . .. . . .. . .. . . .. . .. . . .. . .. . . . 23, 51, 95
 parameters
-T oken Name . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .67
+Token Name . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .67
 positioning objects .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .49
 presentation text
 example of . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . . 59–60
-Presentation T ext Data (PTX) . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .57
+Presentation Text Data (PTX) . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .57
 presentation text data object. . . .. . . .. . . .. . .. . . .. . .. . 56, 171–172, 175
-Presentation T ext Descriptor (PTD). . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .25
+Presentation Text Descriptor (PTD). . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .25
 initial text conditions . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .25
 presentation text object . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 172
 presentation text objects with OEG .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .56
 standalone presentation text .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .57
-Presentation T ext Object Content Architecture (PTOCA) . . . .. . .. . . 2
+Presentation Text Object Content Architecture (PTOCA) . . . .. . .. . . 2
 print file finishing . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .42
 print file structure . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .40
-PTD (Presentation T ext Descriptor). . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .25
-PTOCA (Presentation T ext Object Content Architecture) . . . .. . .. . . 2
-PTX (Presentation T ext Data) . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .57
+PTD (Presentation Text Descriptor). . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .25
+PTOCA (Presentation Text Object Content Architecture) . . . .. . .. . . 2
+PTX (Presentation Text Data) . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .57
 R
 RCD (Record Descriptor) . . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 124
 Record Descriptor (RCD) . . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 124
@@ -5031,7 +4904,7 @@ End Data Map (EDM) . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. .
 End Data Map Transmission Subcase (EDX) . . .. . .. . . .. . .. . . .. . .84
 End Page Map (EPM) . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .85
 Fixed Data Size (FDS). . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .86
-Fixed Data T ext (FDX) . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87
+Fixed Data Text (FDX) . . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87
 format.. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .65
 data field. .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .65
 identifier field .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .65
@@ -5053,14 +4926,14 @@ subpage.. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . .
 syntax, overview
 structured fields . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .65
 T
-T able Reference Characters
+Table Reference Characters
 font list mapping . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .22
 for IBM 3800 . . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. 8
-T ag Logical Element (TLE). .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .64
+Tag Logical Element (TLE). .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .64
 text control sequences
 list of . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .60
 text suppression . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 104
-TLE (T ag Logical Element). .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .64
+TLE (Tag Logical Element). .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .64
 trademarks .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 192
 triplets
 BDM Encoding Scheme . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .70
@@ -5096,9 +4969,7 @@ XMD Extended Resource Local Identifier . . .. . . .. . .. . . .. . .. . . .. 159
 XMD Fully Qualified Name . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 158
 XMD Graphics Descriptor . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 164
 
-## Page 258
 
-240 AFP Programming Guide and Line Data Reference
 XMD Rendering Intent .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 168
 XMD Resource Object Include . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 162
 XMD XML Name . . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 165
@@ -5111,11 +4982,8 @@ XMD (XML Descriptor) . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . 
 XML Descriptor (XMD) . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 151
 XML Name (X'8A') triplet .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 165
 
-## Page 259
 
-AFP Programming Guide and Line Data Reference 241
 
-## Page 260
 
 Advanced Function Presentation Consortium
 AFP Programming Guide and Line Data

@@ -1,7 +1,7 @@
 Appendix A. Document and Resource Object Diagrams
 This appendix contains diagrams of the elements that make up a data stream accepted by presentation
 services program servers in the AFP environment. Some presentation services programs might accept
-additional elements and objects. For the formal definition of all valid AFP (MO:DCA ) object structures, see the
+additional elements and objects. For the formal definition of all valid AFP (MO:DCA) object structures, see the
 Mixed Object Document Content Architecture (MO:DCA) Reference.
 Unless otherwise noted, the objects and structured fields are presented from left to right in the order in which
 they must appear.
@@ -13,9 +13,7 @@ xx object
 A shaded box indicates objects that contain structured fields or other objects.
 Other All other symbols are explained in the figures.
 
-## Page 188
 
-170 AFP Programming Guide and Line Data Reference
 Figure 30. Structure of a Print File
 *  =  optional
 s  =  can appear more than once
@@ -66,23 +64,20 @@ Notes:
 well.
 2. The mixed line-page documents and composed documents can occur in any order following the inline
 resource group.
-3. Each AFP (MO:DCA ) document may optionally be preceded by a single document index that is implicitly
+3. Each AFP (MO:DCA) document may optionally be preceded by a single document index that is implicitly
 tied to the document and that indexes the document. For the formal definition of the MO:DCA document
 index see the Mixed Object Document Content Architecture (MO:DCA) Reference.
-4. An AFP (MO:DCA ) document may contain Link Logical Element (LLE) structured fields following the BDT
+4. An AFP (MO:DCA) document may contain Link Logical Element (LLE) structured fields following the BDT
 and may also group presentation pages into named page groups. MO:DCA page groups may in turn
-contain T ag Logical Element (TLE) structured fields following BNG. These structures do not affect the
+contain Tag Logical Element (TLE) structured fields following BNG. These structures do not affect the
 presentation of the document. For the formal definition of these structures, see the Mixed Object Document
 Content Architecture (MO:DCA) Reference.
 5. If a Medium Map is included internal (inline) to the document, it is activated by immediately following it with
 an IMM that explicitly invokes it, otherwise the internal Medium Map is ignored. An IMM that does not follow
 an internal Medium Map may not invoke an internal Medium Map elsewhere in the document and is
 assumed to reference a Medium Map in the current Form Definition.
-Document and Resource Object Diagrams
 
-## Page 189
 
-AFP Programming Guide and Line Data Reference 171
 Figure 31. Structure of a Mixed Line-Page Document
 Mixed Line-Page
 Documents
@@ -95,7 +90,7 @@ EDTBDT
 IDM
 * = optional
 s = can appear more than once
-† = an IMM or IDM may be speciﬁed before
+† = an IMM or IDM may be specified before
 any page; multiple IMMs and IDMs are allowed
 *
 * † s * † s * s
@@ -150,13 +145,10 @@ Page
 Active
 Environment
 Group
-Note: An AFP (MO:DCA ) presentation page can contain one or more T ag Logical Element (TLE) or Link
+Note: An AFP (MO:DCA) presentation page can contain one or more Tag Logical Element (TLE) or Link
 Logical Element (LLE) structured fields following the AEG. These structures do not affect the
-Document and Resource Object Diagrams
 
-## Page 190
 
-172 AFP Programming Guide and Line Data Reference
 presentation of the page. For the formal definition of these structures, see the Mixed Object Document
 Content Architecture (MO:DCA) Reference.
 Figure 33. Structure of Line Format Data
@@ -192,11 +184,8 @@ Group
 * s
 * s* s**
 *
-Document and Resource Object Diagrams
 
-## Page 191
 
-AFP Programming Guide and Line Data Reference 173
 Figure 35. Structure of an IM Image Data Object
 IRD
 s
@@ -225,11 +214,8 @@ Group
 BIM EIM
 Image Object (IO)
 * * * † s
-Document and Resource Object Diagrams
 
-## Page 192
 
-174 AFP Programming Guide and Line Data Reference
 Figure 37. Structure of a Graphics Data Object
 *  =  optional
 s  =  can appear more than once
@@ -255,11 +241,8 @@ Bar Code
 Object
 * s
 * s** s
-Document and Resource Object Diagrams
 
-## Page 193
 
-AFP Programming Guide and Line Data Reference 175
 Figure 39. Structure of a Page Segment Resource Object
 Graphic ObjectsImage Objects Presentation
 Text Object
@@ -276,16 +259,13 @@ with the MO:DCA page segment. For more information, see the Mixed Object Documen
 Architecture (MO:DCA) Reference.
 Figure 40. Structure of an Overlay Resource Object
 Notes:
-1. An AFP (MO:DCA ) overlay object may contain one or more T ag Logical Element (TLE) or Link Logical
+1. An AFP (MO:DCA) overlay object may contain one or more Tag Logical Element (TLE) or Link Logical
 Element (LLE) structured fields following the AEG. These structures do not affect the presentation of the
 overlay. For the formal definition of these structures, see the Mixed Object Document Content Architecture
 (MO:DCA) Reference.
 2. The MPG and MPO structured fields are not supported in the AEG for an overlay.
-Document and Resource Object Diagrams
 
-## Page 194
 
-176 AFP Programming Guide and Line Data Reference
 Figure 41. Structure of a Form Definition Resource Object
 *   =  optional
 S  =  can appear more than once
@@ -338,11 +318,8 @@ Environment
 Group
 EFMBFM
 Form Definition
-Document and Resource Object Diagrams
 
-## Page 195
 
-AFP Programming Guide and Line Data Reference 177
 Figure 42. Structure of a Page Definition Resource Object
 *  =  optional
 s  =  can appear more than once
@@ -412,14 +389,10 @@ MPS
 Notes:
 1. The Data Map Transmission Subcase may contain RCDs or XMDs instead of LNDs.
 2. The Data Maps in a Page Definition must all contain LNDs, RCDs, or XMDs. A mixture is not allowed.
-3. A Presentation T ext Descriptor (PTD) is required in the AEG when a presentation text object is used on a
+3. A Presentation Text Descriptor (PTD) is required in the AEG when a presentation text object is used on a
 page.
-Document and Resource Object Diagrams
 
-## Page 196
 
-178 AFP Programming Guide and Line Data Reference
 
-## Page 197
 
 Copyright © AFP Consortium 1994, 2018 179

@@ -82,7 +82,6 @@ Group
 *BPM
 Page Definition
 ** s s
-Using a Page Definition
 
 
 The structured fields and objects that compose a Page Definition are as follows. (Chapter 5, “Structured Fields
@@ -123,7 +122,6 @@ structured field or by using conditional processing.
 EPM (End Page Map)
 Ends a Page Definition resource object. Any name specified in the EPM must match the name
 specified in the BPM.
-Using a Page Definition
 
 
 ## Resource Environment Group
@@ -149,7 +147,7 @@ Definition is the line-format data in the print file. When a print file contains
 data documents, the REG applies only to the line-format data documents in the print file. For a definition of
 line-format data, see Figure 33 on page 172. Line-format data may be bounded by explicit BDT/EDT pairs or
 by implicit BDT/EDT pairs.
-Architecture Note: T o get the optimum performance benefit from the REG in the Page Definition, the print file
+Architecture Note: To get the optimum performance benefit from the REG in the Page Definition, the print file
 should contain only line-format data, and only large, complex objects should be mapped in the REG.
 This will allow the line-format data to be treated as a single document, and the REG will cause all
 mapped objects to be preloaded to the printer at the start of that document.
@@ -166,7 +164,6 @@ is required for presentation. The resource is identified with a file name, the i
 for the resource, or any other identifier associated with the resource. The MDR may additionally specify a local
 or internal identifier for the resource object. Such a local identifier may be embedded one or more times within
 an object's data.
-Using a Page Definition
 
 
 MPO (Map Page Overlay)
@@ -209,7 +206,6 @@ different Data Maps can be used from one page to the next with output produced b
 The Data Maps in a Page Definition can select two types of line data processing:
 • Traditional line data containing optional CCs and TRCs are processed using LNDs in the Data Map
 Transmission Subcase.
-Using a Page Definition
 
 
 • Record-format line data containing record IDs and optional CCs are processed using RCDs in the Data Map
@@ -264,7 +260,6 @@ Environment
 Group
 PEC
 *
-Using a Page Definition
 
 
 The Active Environment Group contains structured fields that describe the features and characteristics of the
@@ -317,7 +312,6 @@ The code points used for printing page numbers are:
 – X'F0'–X'F9' for EBCDIC Presentation SBCS
 – X'30'–X'39' for PC Data SBCS (ASCII) or UTF-8
 – X'0030'–X'0039' for Unicode Presentation or UTF-16
-Using a Page Definition
 
 
 Table Reference Characters
@@ -332,7 +326,7 @@ the maximum number of characters allowed in the character-set name (CHARS)
 parameter was four. This presented no problem when 3800 compatibility-mode character sets were used, as
 none of them had names of more than four characters. But the typographic fonts available for page-mode
 printing have eight-character names (including a two-character font prefix), and as a result cannot be coded in
-the CHARS parameter. T o associate a table reference character with an eight-character font name, a Page
+the CHARS parameter. To associate a table reference character with an eight-character font name, a Page
 Definition must be built that explicitly makes that mapping. A Page Definition is also required if five or more
 fonts are to be used. Page Printer Formatting Aid (PPFA) is a software product available from IBM and Ricoh.
 Figure 10 provides an example of PPFA source code that could be used to build a Page Definition that
@@ -359,9 +353,8 @@ TRCREF 5 FONT FIVE;
 PRINTLINE CHANNEL 1
 POSITION .1 IN .2 IN REPEAT 20;
 ENDSUBPAGE;
-The rules for coding T able Reference Characters are different for page mode printers and for the 3800 running
-in compatibility mode. T able 8 on page 23 summarizes the differences.
-Using a Page Definition
+The rules for coding Table Reference Characters are different for page mode printers and for the 3800 running
+in compatibility mode. Table 8 on page 23 summarizes the differences.
 
 
 Table 8. Use of TRCs in Page Mode and 3800 Compatibility Mode
@@ -390,7 +383,7 @@ PPFA and PMF set this bit to B'1' to indicate compatibility TRCs when four or fe
 Page Definition. These software programs set the bit to B'0' when more than four TRCs are used.
 Note: Regardless of whether font character set names are specified in the job control or not, if fonts are
 mapped in the AEG:
-• T able reference character 0 (X'00' or X'F0') selects the first font mapped in the Active Environment
+• Table reference character 0 (X'00' or X'F0') selects the first font mapped in the Active Environment
 Group (AEG) of the Data Map; table reference character 1 (X'01' or X'F1') selects the second font
 mapped in the AEG; and so on. This historically positional selection of fonts mapped in the AEG
 precludes the use of a mixture of fonts mapped with MCFs and fonts mapped with MDRs. TRCs may
@@ -413,7 +406,6 @@ segments.
 Data Objects
 Data objects that are included with an IOB structured field, such as EPS objects and IOCA objects, can be
 mapped using the MDR structured field. An MDR for such objects is not required in the AEG of the Data Map,
-Using a Page Definition
 
 
 but might improve printer throughput if used. Mapped data objects are loaded to the printer the first time they
@@ -464,7 +456,6 @@ OBD (Object Area Descriptor)
 Specifies the units of measure for the text output area and the size of the area. The OBD is
 optional. If specified, the units of measure must be the same as those specified for the page in
 the PGD, and the output area size must be the same size as the page.
-Using a Page Definition
 
 
 OBP (Object Area Position)
@@ -486,18 +477,18 @@ size.
 the presentation space extents from two bytes to three bytes, and allows initial text
 conditions to be specified for composed page text objects enveloped with BPT and EPT .
 These initial text conditions are set whenever a BPT structured field starts a new text object
-and may be specified on the PTD-2 using the PTOCA control sequences shown in T able 9.
+and may be specified on the PTD-2 using the PTOCA control sequences shown in Table 9.
 Note that whenever a BPT is encountered in the data stream, AFP servers
 set the following
 default page-level initial text conditions before the PTD initial conditions are set:
 Parameter Value
 Initial (I,B) Presentation Position (0,0)
-T ext Orientation 0°,90°
+Text Orientation 0°,90°
 Coded Font Local ID X'FF' (default font)
 Baseline Increment 6 lpi
 Inline Margin 0
 Intercharacter Adjustment 0
-T ext Color X'FFFF' (default color)
+Text Color X'FFFF' (default color)
 EAG (End Active Environment Group)
 Ends the AEG. Any name specified in the EAG must match the name specified in the BAG.
 Table 9. Initial Text Conditions in PTD-2
@@ -508,10 +499,9 @@ Initial Baseline Coordinate Absolute Move Baseline (AMB)
 Initial Inline Coordinate Absolute Move Inline (AMI)
 Inline Margin Set Inline Margin (SIM)
 Intercharacter Adjustment Set Intercharacter Adjustment (SIA)
-Extended T ext Color Set Extended T ext Color (SEC)
-T ext Color Set T ext Color (STC)
-T ext Orientation Set T ext Orientation (STO)
-Using a Page Definition
+Extended Text Color Set Extended Text Color (SEC)
+Text Color Set Text Color (STC)
+Text Orientation Set Text Orientation (STO)
 
 
 Data Map Transmission Subcase
@@ -550,7 +540,6 @@ contain ANSI carriage controls and another part contain machine code carriage co
 control characters are used, every record in the print file must begin with a carriage-control byte, even if it is
 only “print with single spacing”. The type of carriage control being used must be identified in the job control
 associated with the print file, just as in a non-AFP environment.
-Using a Page Definition
 
 
 The following new functions are provided in Page Definitions that are not available in FCBs. These functions
@@ -593,17 +582,16 @@ Data Map Transmission Subcase with XMDs
 A Data Map Transmission Subcase with XMDs has the same structure as one with LNDs except that the LNDs
 are replaced with XMDs. A Data Map Transmission Subcase with XMDs is used to process XML data instead
 of traditional line data.
-T o process XML data, the processor must build a Qualified T ag by concatenating XML start tags. These
-Qualified T ags are then compared to Qualified T ags in the Data Map. The Qualified T ags in the Data Map are
+To process XML data, the processor must build a Qualified Tag by concatenating XML start tags. These
+Qualified Tags are then compared to Qualified Tags in the Data Map. The Qualified Tags in the Data Map are
 built by specifying a separate XML Name (X'8A')
 triplet on each XML Descriptor (XMD) for each XML Start tag
 that has to be traversed in order to process the content of an XML element. If an XMD with a matching
-Qualified T ag is found, the content of the XML element is formatted with that XMD. If an XMD with a matching
-Using a Page Definition
+Qualified Tag is found, the content of the XML element is formatted with that XMD. If an XMD with a matching
 
 
-Qualified T ag is not found, processing resumes with the next start tag. Note that as the processor parses the
-XML, it must buffer the XML start tags traversed in order to have a current Qualified T ag. Each time an end tag
+Qualified Tag is not found, processing resumes with the next start tag. Note that as the processor parses the
+XML, it must buffer the XML start tags traversed in order to have a current Qualified Tag. Each time an end tag
 is found, the last matching start tag is removed. For example, in the following XML hierarchy:
 <person>
 <name>
@@ -611,12 +599,12 @@ is found, the last matching start tag is removed. For example, in the following 
 <last>Doe</last>
 </name>
 </person>
-The Qualified T ag for the element <first> is {person name first}. The Qualified T ag for the element <last> is
+The Qualified Tag for the element <first> is {person name first}. The Qualified Tag for the element <last> is
 {person name last}. Notice that the tag for element <first> has been removed since its end was received prior
-to the start tag for element <last>. T o process this “current” Qualified T ag, an XMD in the Data Map would also
-have a Qualified T ag made up from separate XML Name (X'8A')
+to the start tag for element <last>. To process this “current” Qualified Tag, an XMD in the Data Map would also
+have a Qualified Tag made up from separate XML Name (X'8A')
 triplets for each XML start tag. This Qualified
-T ag for this XMD would match the current Qualified T ag and the XMD would be used to present the XML
+Tag for this XMD would match the current Qualified Tag and the XMD would be used to present the XML
 element content “John” on the page.
 In addition to providing LND-like functions such as data position, orientation, font selection, coloring, bar code
 generation, and object includes, XMDs support additional functions like headers, trailers, page numbering, and
@@ -645,11 +633,10 @@ record, the LND specifies the field to be tested and the ID of the Conditional P
 Control (CCP) structured field that contains the test criteria and actions. Such LNDs do not
 place data on the page.
 When the LND specifies that fixed text data should be printed, the data is located in the Fixed
-Data T ext (FDX) structured field.
+Data Text (FDX) structured field.
 RCD (Record Descriptor)
 Specifies how the record with matching record ID should be processed. The Data Map
 Transmission Subcase can contain more than one RCD.
-Using a Page Definition
 
 
 With RCD processing, carriage controls in the data record are ignored. Processing begins with
@@ -659,7 +646,7 @@ If conditional processing is to be performed on the current record, the RCD spec
 to be tested and the ID of the CCP that contains the test criteria and actions. Such RCDs are
 called conditional processing RCDs and do not place data on the page.
 When the RCD specifies that fixed text data should be printed, the data is located in the Fixed
-Data T ext (FDX) structured field.
+Data Text (FDX) structured field.
 XMD (XML Descriptor)
 Specifies how the data with matching start tags should be processed. The Data Map
 Transmission Subcase can contain more than one XMD.
@@ -670,10 +657,10 @@ If conditional processing is to be performed on the current element, the XMD spe
 to be tested and the ID of the CCP that contains the test criteria and actions. Such XMDs are
 called conditional processing XMDs and do not place data on the page.
 When the XMD specifies that fixed text data should be printed, the data is located in the Fixed
-Data T ext (FDX) structured field.
+Data Text (FDX) structured field.
 FDS (Fixed Data Size)
 If constant text is to be included in line format data, this structured field is required. The FDS
-specifies the number of bytes of the text that will be found in the following Fixed Data T ext
+specifies the number of bytes of the text that will be found in the following Fixed Data Text
 (FDX) structured fields. One FDS structured field is used for all FDX structured fields.
 FDX (Fixed Data Text)
 Must follow an FDS structured field and contains data that can be added to or used instead of
@@ -695,7 +682,6 @@ Field formatting is also supported when RCDs are used to process record-format l
 to process an input record is called a record RCD. It is identified by RCDFlgs bit 6=B'0' and RCDFlgs bit 11=
 B'0'. If the FLDrcd parameter in a record RCD is non-zero, it specifies the RCD number of a field RCD that is to
 be used to process a field in this record. A field RCD is identified by RCDFlgs bit 6=B'1' and RCDFlgs bit 11=
-Using a Page Definition
 
 
 B'0'. Multiple field RCDs can be chained to a record RCD in this manner. The last field RCD in this chain must
@@ -744,7 +730,6 @@ product available from IBM and Ricoh.
 Figure 12 on page 31 shows the PPFA code that generates a Page
 Definition to test these positions and to print the detail pages in the ACROSS direction and the summary pages
 in the DOWN direction.
-Using a Page Definition
 
 
 Figure 12. PPFA Code for Page Definition with Conditional Processing
@@ -796,7 +781,6 @@ PPFA. More than one Data Map or Medium Map is required only if subsets of the ou
 handled differently based on the defined condition. Note that if the Medium Map specifies the N-up function,
 the new “sheet” might
 actually be a new N-up partition on the sheet.
-Using a Page Definition
 
 
 The example in Figure 13 shows PPFA source code to accomplish a skip to a new page when the department
@@ -845,7 +829,6 @@ selected for each record or field by specifying a non-zero shift-out font local 
 34 of the RCD that is used to process the line data. The font used following an explicit SI is then always the
 primary font specified in byte 10 of the LND or byte 23 of the RCD and use of this font must be enabled with
 flag bit 4 = B'1'. An error condition exists if flag bit 4 = B'0'. Note that an implicit SI is assumed at the start of
-Using a Page Definition
 
 
 every record. This selects the primary font specified in byte 10 of the LND or byte 23 of the RCD, if it is
@@ -895,7 +878,6 @@ SOSI processing modes. For SOSI4, each shift-out and shift-in control is not cou
 to various fields within the data.
 When processing data with SOSI controls, the processor assumes that each line or record starts with singlebyte code points. This means that the data is scanned for SOSI controls one byte at a time. After processing a
 shift-out control, the data is scanned two bytes at a time. The first byte of each pair is checked to see if it is a
-Using a Page Definition
 
 
 shift-in control. If a line is to start with double-byte data, the first byte in the line must be a shift-out control. This
@@ -941,12 +923,11 @@ supported on LNDs, RCDs, or XMDs that specify conditional processing (flag bit 1
 Symbol Descriptor triplet is specified it is ignored.
 For improved printer throughput, all bar code symbols on a page that use the same descriptor and that specify
 the same rotation are grouped into a single bar code object by the presentation services program before the
-page is presented. T o align the object presentation space X
+page is presented. To align the object presentation space X
 bc-axis with the X-axis of the bar code symbol, the
 origin of the object presentation space is selected as one of the four corners of the page based on the LND,
 RCD, or XMD text orientation. The bar code presentation space origin is therefore made coincident with the
 current text coordinate system (I,B) origin. For example, if an LND specifies a (90°,180°) text orientation, the
-Using a Page Definition
 
 
 symbol rotation is 90° and the origin of the bar code object presentation space is the top-right corner of the
@@ -1001,7 +982,6 @@ Relative baseline positioning is used when LND flag byte bit 13 is set to B'1'. 
 or negative and is measured using the current I,B coordinate system. Note that the origin of the current I,B
 coordinate system depends on the current text orientation. The baseline position used as a reference for the
 relative offset depends on whether the LND that specifies relative positioning is a base LND and on whether a
-Using a Page Definition
 
 
 page or subpage boundary was crossed since the last LND was used to print. The baseline position used as a
@@ -1046,7 +1026,6 @@ and is determined as follows:
 • For record RCDs, offsets are defined relative to the last record RCD processed. However, if a page boundary
 was crossed after the last record RCD was processed, offsets are defined relative to the top margin.
 • For field RCDs, the offset is defined relative to the last RCD used to print.
-Using a Page Definition
 
 
 • If the first RCD of a Data Map specifies relative positioning, the offset is defined relative to the top margin.
@@ -1082,7 +1061,6 @@ The following restriction applies to relative inline positioning:
 orientation of the XMD that defines the inline position from which the relative offset is measured.
 Note: Data must not exceed the boundaries of the page, which are defined in the Page Descriptor (PGD)
 structured field. If the new print position is outside these boundaries, printing of the page stops.
-Using a Page Definition
 
 
 ## The Function of the Form Definition
@@ -1113,6 +1091,5 @@ Details on Form Definitions and overlay objects can be found in the Mixed Object
 Architecture (MO:DCA) Reference. A set of Form Definitions that
 address standard requirements is provided
 with presentation services program software, but users can also create customized Form Definitions.
-Using a Page Definition
 
 
