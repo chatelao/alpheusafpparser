@@ -15,3 +15,4 @@
 
 - [IBM Tamino - Supported character encodings](https://www.ibm.com/docs/en/tamino/10.7.0?topic=reference-supported-character-encodings)
 - [Compart - IBM500 Character Set](https://www.compart.com/en/unicode/charsets/IBM500)
+- [Compart - IBM273 Character Set](https://www.compart.com/en/unicode/charsets/IBM273)
