@@ -49,10 +49,12 @@ public class MMC_MediumModificationControl extends StructuredField {
     if (actualLength > 2) {
       keywords = new ArrayList<MMC_KeyWord>();
       int pos = 2;
-      MMC_KeyWord kw = new MMC_KeyWord();
-      kw.decodeAFP(sfData, offset + pos, actualLength - pos, config);
-      keywords.add(kw);
-      pos += 2;
+      while (pos < actualLength) {
+        MMC_KeyWord kw = new MMC_KeyWord();
+        kw.decodeAFP(sfData, offset + pos, actualLength - pos, config);
+        keywords.add(kw);
+        pos += 2;
+      }
     } else {
       keywords = null;
     }

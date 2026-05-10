@@ -147,11 +147,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ⏳ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
-- 🚧 Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
-    - ⏳ Fix the keyword loop in `MMC_MediumModificationControl.decodeAFP`.
-    - ⏳ Implement missing `MPT` (Map Presentation Text, X'D3AB9B') Structured Field.
-    - ⏳ Implement missing Triplets: `X'8F'` (Function Set), `X'9D'` (Keep Group Together), `X'9E'` (Setup Name).
-    - ⏳ Implement `TripletExtender` (X'FF') logic in `TripletParser`.
+- ✅ Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
+    - ✅ Fix the keyword loop in `MMC_MediumModificationControl.decodeAFP`.
+    - ✅ Implement missing `MPT` (Map Presentation Text, X'D3AB9B') Structured Field.
+    - ✅ Implement missing Triplets: `X'8F'` (Function Set), `X'9D'` (Keep Group Together), `X'9E'` (Setup Name).
+    - ✅ Implement `TripletExtender` (X'FF') logic in `TripletParser`.
 - 🚧 Complete payload parsing for all identified "shallow" Structured Fields.
     - ✅ Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
     - 🚧 Implement full `decodeAFP` and `writeAFP` for identified shallow fields:

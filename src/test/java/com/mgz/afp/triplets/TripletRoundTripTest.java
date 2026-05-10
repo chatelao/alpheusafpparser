@@ -76,7 +76,12 @@ import com.mgz.afp.triplets.Triplet.EncodingSchemeID;
 import com.mgz.afp.triplets.Triplet.FontResolutionAndMetricTechnology;
 import com.mgz.afp.triplets.Triplet.FontResolutionAndMetricTechnology.MetricTechnology;
 import com.mgz.afp.triplets.Triplet.DataObjectFontDescriptor;
+import com.mgz.afp.triplets.Triplet.KeepGroupTogether;
+import com.mgz.afp.triplets.Triplet.MODCAFunctionSet;
+import com.mgz.afp.triplets.Triplet.SetupName;
+import com.mgz.afp.triplets.Triplet.TripletExtender;
 import java.util.Arrays;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TripletRoundTripTest {
@@ -837,6 +842,59 @@ public class TripletRoundTripTest {
         // Length(1) | ID(1) | Flags(1) | Tech(1) | Size(2) | Scale(2) | Orient(2) | Env(2) | Ident(2) | Res(2)
         byte[] data = new byte[] {
             0x10, (byte) 0x8B, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testMODCAFunctionSetRoundTrip() throws Exception {
+        MODCAFunctionSet triplet = new MODCAFunctionSet();
+        triplet.setTripletID(TripletID.MODCAFunctionSet);
+
+        // Length(1) | ID(1) | Reserved(2) | FctSetID(2)
+        byte[] data = new byte[] {
+            0x06, (byte) 0x8F, 0x00, 0x00, 0x00, 0x01
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testKeepGroupTogetherRoundTrip() throws Exception {
+        KeepGroupTogether triplet = new KeepGroupTogether();
+        triplet.setTripletID(TripletID.KeepGroupTogether);
+
+        // Length(1) | ID(1) | Reserved(2) | GrpFnct(1)
+        byte[] data = new byte[] {
+            0x05, (byte) 0x9D, 0x00, 0x00, 0x01
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testSetupNameRoundTrip() throws Exception {
+        SetupName triplet = new SetupName();
+        triplet.setTripletID(TripletID.SetupName);
+
+        // Length(1) | ID(1) | Reserved(2) | Name(variable)
+        // Name "Test" in UTF-16BE: 0x00, 0x54, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74
+        byte[] data = new byte[] {
+            0x0C, (byte) 0x9E, 0x00, 0x00, 0x00, 0x54, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testTripletExtenderRoundTrip() throws Exception {
+        TripletExtender triplet = new TripletExtender();
+        triplet.setTripletID(TripletID.TripletExtender);
+
+        // Length(1) | ID(1) | Reserved(2) | Data(variable)
+        byte[] data = new byte[] {
+            0x06, (byte) 0xFF, 0x00, 0x00, 0x01, 0x02
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);
