@@ -167,8 +167,9 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
     }
 
     public static CCP_Flag valueOf(byte flagByte) {
+      int val = flagByte & 0xFF;
       for (CCP_Flag flag : values()) {
-        if (flag.code == flagByte) {
+        if (flag.code == val) {
           return flag;
         }
       }
