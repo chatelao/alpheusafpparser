@@ -36,7 +36,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Fix OCR-induced broken paragraphs and split words:
         - ⏳ Chapters 1–10.
         - ⏳ Chapters 11–17 and Appendices.
-    - ⏳ Remove physical page references (e.g., "on page XXX") across all files.
+    - ⏳ Remove physical page references ("on page XXX"; ~500 found).
     - ⏳ Convert command and syntax text dumps to Markdown tables:
         - ⏳ Device-Control Command Set (Chapter 4):
             - ✅ Tables 19 (Summary), 20 (Protocol), 21 (Ack Types).
@@ -69,6 +69,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Purge physical page markers and PDF artifacts from Chapters 5 and 6.
     - ✅ Purge physical page markers and PDF artifacts from Appendices A–D.
     - ✅ Fix OCR-induced split words (e.g., "T erminate") in Chapters 5, 6, and Appendices.
+    - ⏳ Remove physical page references ("on page XXX").
     - ⏳ Format syntax and registry tables:
         - ✅ Chapter 4: Table 8 (BSD), Table 9 (Types).
         - ✅ Chapter 4: Table 10 (Modifiers).
@@ -76,18 +77,27 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapter 4: Tables 21–33 (Special-Function Parameters).
         - ⏳ Chapter 4: Tables 34–36 (Code Pages, Characters).
         - ⏳ Appendices B (MO:DCA), C (IPDS).
-- ⏳ **IOCA**: Fair quality; missing Markdown table markers for many structures.
-- ⏳ **AFP GOCA**: Fair quality; heavy "on page XXX" physical cross-references.
+- 🚧 **IOCA**:
+    - ⏳ Convert structural descriptors to Markdown tables.
+    - ⏳ Remove physical page references ("on page XXX").
+- 🚧 **AFP GOCA**:
+    - ⏳ Convert syntax and registry text dumps to Markdown tables.
+    - ⏳ Remove physical page references ("on page XXX").
 - 🚧 **Line Data**:
     - ✅ Purge physical page markers and recurring PDF artifacts from Chapter 3 and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
-    - ⏳ Convert text-based diagrams to standardized formats.
-- ✅ **MO:DCA**: Excellent quality; physical page references removed.
+    - ⏳ Remove physical page references ("on page XXX").
+    - ⏳ Convert text-based diagrams in Appendices to standardized formats.
+- 🚧 **MO:DCA**:
+    - ✅ Purge physical page markers and fix split words.
     - ⏳ Fix minor table fragmentation in Appendices.
-- 🚧 **FOCA**: Good quality; proper table formatting.
+    - ⏳ Remove remaining physical page references (4 found).
+- 🚧 **FOCA**:
     - ⏳ Fix OCR-induced paragraph merging in technical sections.
-- 🚧 **PTOCA**: Excellent quality; LaTeX math and tables standardized.
-    - ⏳ Final cleanup of split-word remnants.
+    - ⏳ Remove physical page references ("on page XXX").
+- 🚧 **PTOCA**:
+    - ✅ Purge physical page markers and fix split words.
+    - ⏳ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
 - ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
 
