@@ -1,4 +1,3 @@
-## Page 1
 
 Advanced Function Presentation Consortium
 Data Stream and Object Architectures
@@ -6,7 +5,6 @@ Bar Code Object Content
 Architecture Reference
 AFPC-0005-11
 
-## Page 2
 
 Copyright © AFP Consortium 1991, 2025 ii
 Note:
@@ -22,7 +20,6 @@ technical significance are not noted. For a detailed list of changes, see “Cha
 Internet
 Visit our home page: www.afpconsortium.org
 
-## Page 3
 
 Copyright © AFP Consortium 1991, 2025 iii
 Preface
@@ -68,7 +65,6 @@ a new set of bylaws with tiered membership and shared governance resulting in th
 standards body called the AFP Consortium (AFPC). Ownership of and responsibility for the AFP architectures
 was transferred at that time to the AFP Consortium.
 
-## Page 4
 
 iv BCOCA Reference
 Publication History
@@ -110,7 +106,6 @@ symbology specifications
 2. Dutch KIX postal bar code (a variation of the RM4SCC code)
 Publication History
 
-## Page 5
 
 BCOCA Reference v
 Fifth Edition published by IBM Corporation
@@ -162,7 +157,6 @@ This edition provides enhanced detail and the following major new functions:
 – Guidelines for printing HRI
 Publication History
 
-## Page 6
 
 vi BCOCA Reference
 – Retired items identified
@@ -213,7 +207,6 @@ new rectangular sizes (existing type X'1C', new modifier X'01')
 • As a result of adding the QR Code with Image bar code type:
 Publication History
 
-## Page 7
 
 BCOCA Reference vii
 – The Xqr,Yqr coordinate system
@@ -229,7 +222,6 @@ QR Code, and the new Aztec Code and QR Code with Image bar code types
 • Additional information and clarifications to improve readability
 Publication History
 
-## Page 8
 
 viii BCOCA Reference
 How to Use This Book
@@ -257,7 +249,6 @@ book and also lists those items that have been unretired.
 The “Glossary” on page 195 defines terms used within the book.
 How to Use This Book
 
-## Page 9
 
 BCOCA Reference ix
 How to Read the Syntax Diagrams
@@ -371,7 +362,6 @@ following the
 table.
 How to Read the Syntax Diagrams
 
-## Page 10
 
 x BCOCA Reference
 Table 2 Bar Code Symbol Data (BSA) Data Structure (cont'd.)
@@ -429,7 +419,6 @@ supported-range requirements is provided in the section titled “L-unit Range C
 page 21.
 How to Read the Syntax Diagrams
 
-## Page 11
 
 BCOCA Reference xi
 Notation Conventions
@@ -460,7 +449,6 @@ tables. The default values for these fields are described in the field descripti
 tables.
 Notation Conventions
 
-## Page 12
 
 xii BCOCA Reference
 Bar Code Abbreviations
@@ -484,7 +472,6 @@ USPS United States Postal Service
 USS Uniform Symbol Specification
 Bar Code Abbreviations
 
-## Page 13
 
 BCOCA Reference xiii
 Related Publications
@@ -520,11 +507,9 @@ Font Summary for AFP Font Collection S544-5633 (IBM)
 Technical Reference for Code Pages S544-3802 (IBM)
 Related Publications
 
-## Page 14
 
 xiv BCOCA Reference
 
-## Page 15
 
 BCOCA Reference xv
 Changes in This Edition
@@ -539,11 +524,9 @@ added:
 • Additional information and clarifications to improve readability
 Changes in This Edition
 
-## Page 16
 
 xvi BCOCA Reference
 
-## Page 17
 
 Copyright © AFP Consortium 1991, 2025 xvii
 Contents
@@ -601,7 +584,6 @@ Bar Code Type and Modifier Descriptions ........................................
 Code 39 (3-of-9 Code), AIM USS-39 (modifier values X'01' and X'02') ...................................................... 48
 MSI (modified Plessey code, modifier values X'01' through X'09') ............................................................ 49
 
-## Page 18
 
 xviii BCOCA Reference
 UPC/CGPC – Version A (modifier value X'00')..................................................................................... 50
@@ -666,7 +648,6 @@ Appendix B. MO:DCA Environment. . . . . . . . . . . . . . . . . . . . . . . . . 
 Bar Codes in MO:DCA Documents.......................................................................................................... 175
 Bar Code Data Object Structured Fields ................................................................................................... 176
 
-## Page 19
 
 BCOCA Reference xix
 Bar Code Data Descriptor (BDD) ........................................................................................................ 176
@@ -683,11 +664,9 @@ Trademarks......................................................................
 Glossary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195
 Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 237
 
-## Page 20
 
 xx BCOCA Reference
 
-## Page 21
 
 Copyright © AFP Consortium 1991, 2025 xxi
 Figures
@@ -710,11 +689,9 @@ Figures
 17. The same QR Code with Image, but with the image rotated 45° in relation to the QR Code symbol..................... 142
 18. Code 128 Code Page (CPGID = 1303, GCSGID = 1454) .......................................................................... 160
 
-## Page 22
 
 xxii BCOCA Reference
 
-## Page 23
 
 Copyright © AFP Consortium 1991, 2025 xxiii
 Tables
@@ -760,10 +737,8 @@ Tables
 40. BCOCA Exception Conditions and IPDS Exception IDs ............................................................................ 180
 41. Valid Code Pages and Type Styles ....................................................................................................... 188
 
-## Page 24
 
 xxiv BCOCA Reference
 
-## Page 25
 
 Copyright © AFP Consortium 1991, 2025 1
