@@ -80,7 +80,21 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ Command: IDO (Syntax and SDFs).
             - ⏳ Commands: RRR and RRRL (including ACK Reply).
             - ⏳ Commands: WOCC and WOC.
-        - ⏳ Metadata, Overlay, and Page-Segment Command Sets (Chapters 11–13).
+        - 🚧 Metadata Command Set (Chapter 11):
+            - ✅ Table 52 (Metadata Commands Summary).
+            - ✅ DHM (Delete Home-State Metadata) syntax and parameter table.
+            - ✅ WMC (Write Metadata Control) syntax and MDD (Metadata Data Descriptor) table.
+            - ✅ WM (Write Metadata) syntax and MO note.
+        - ⏳ Overlay Command Set (Chapter 12):
+            - ⏳ Table 53 (Overlay Commands Summary).
+            - ⏳ BO (Begin Overlay) syntax and basic/extended HAID tables.
+            - ⏳ DO (Deactivate Overlay) syntax and basic/extended HAID tables.
+            - ⏳ IO (Include Overlay) syntax, data field table, and orientation notes.
+        - ⏳ Page-Segment Command Set (Chapter 13):
+            - ⏳ Table 54 (Page Segment Commands Summary).
+            - ⏳ BPS (Begin Page Segment) syntax and HAID table.
+            - ⏳ DPS (Deactivate Page Segment) syntax and HAID table.
+            - ⏳ IPS (Include Page Segment) syntax and HAID table.
         - 🚧 Loaded-Font Command Set (Chapter 14):
             - ✅ Tables 55 (Summary) and 56 (Baseline Offset).
             - ✅ Commands: LCP and LCPC.
