@@ -7,7 +7,7 @@ AFPC-0010-05
 
 
 Note:
-Before using this information, read the information in “Notices” on page 191.
+Before using this information, read the information in “Notices”.
 AFPC-0010-05
 Sixth Edition (February 2018)
 This edition applies to the AFP™ Line Data architecture. It is the first edition produced by the AFP Consortium™ (AFPC™)

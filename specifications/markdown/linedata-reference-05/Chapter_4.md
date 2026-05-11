@@ -65,8 +65,7 @@ Begin Resource (BRS
 ) and End Resource (ERS ) structured fields. If multiple fully composed documents are
 present in the print file, they must be delimited by Begin Document (BDT) and End Document (EDT) structured
 fields. Note that mixed line-page documents and composed documents can occur in any order following the
-inline resource group. Figure 15 on page 41 shows the structure of an AFP print file.
-Mixed Documents
+inline resource group. Figure 15 shows the structure of an AFP print file.
 
 
 Figure 15. Structure of a Print File
@@ -131,13 +130,12 @@ Content Architecture (MO:DCA) Reference.
 an IMM that explicitly invokes it, otherwise the internal Medium Map is ignored. An IMM that does not follow
 an internal Medium Map may not invoke an internal Medium Map elsewhere in the document and is
 assumed to reference a Medium Map in the current Form Definition.
-Mixed Documents
 
 
 The objects that comprise an AFP print file are as follows:
 Inline Resource Group
 Contains one or more resource objects to be associated with printing this file. See “Inline
-Resource Group Structure” on page 43 for a detailed description of the structure of the
+Resource Group Structure” for a detailed description of the structure of the
 resource group and the objects it can contain.
 Note: In the MO:DCA architecture, these resource groups are called external resource groups
 because they occur outside a document.
@@ -156,7 +154,7 @@ The print file may contain one or more documents to be printed. These may be ful
 composed-page documents, line-mode documents, or mixed-mode documents, in any order.
 If multiple composed-page documents appear, each one must be delimited by a BDT and an
 EDT structured field. For the complete definitions of document structure, see Appendix A,
-“Document and Resource Object Diagrams”, on page 169.
+“Document and Resource Object Diagrams”.
 ## Finishing Operations for a Print File
 A Form Definition may be used to specify finishing operations to be applied to the documents in a print file. The
 scope of the finishing operations as well as the type of operation is specified with a Medium Finishing Control
@@ -184,7 +182,6 @@ set of documents in the same manner as when all documents are selected. The offs
 document is calculated by counting all documents, whether implied or explicit, and the selected document
 might
 itself be an implied document. The media in the selected document are collected for finishing and the
-Mixed Documents
 
 
 finishing operations are applied to the single collection; that is, the single document. If the same document is
@@ -230,7 +227,6 @@ A resource object can be one of the following:
 • A Form Definition
 • A Page Definition
 • A font object (a code page, a font character set, or a coded font)
-Mixed Documents
 
 
 See the description of the BRS structured field in the Mixed Object Document Content
@@ -269,7 +265,6 @@ such as the start of output for a different department or branch office.
 The IDM structured field always contains sixteen bytes of information. The Data Map name in the data portion
 of this structured field must be eight bytes long. If the name of the actual Data Map to be invoked is shorter
 than eight bytes, trailing blanks must be added.
-Mixed Documents
 
 
 Sample IDM Structured Field
@@ -311,8 +306,7 @@ processing to make the Data Map and Medium Map change without modifying the appl
 and IMM structured fields.
 Note that at the beginning of a new composed document and at the beginning of a new set of line-data
 records, control for presentation is returned to the first Medium Map in the Form Definition. This is shown in
-Figure 18 on page 46.
-Mixed Documents
+Figure 18.
 
 
 Figure 18. Returning Control to First Medium Map in Form Definition
@@ -354,10 +348,9 @@ in a line-data file to force a new page or sheet. When an IDM or IMM structured 
 data stream, the presentation services program ends the current page and resumes printing at the start of a
 new page, using the first Line Descriptor in the current Data Map. When the Data Map contains RCDs, printing
 resumes at the start of a new page using the first RCD whose Record ID matches the current data record.
-The data stream shown in Figure 20 on page 47 provides the same result as the Page Definition shown in
-Figure 13 on page 32 and the data stream shown in Figure 21 on page 47 provides the same result as the
-Page Definition shown in Figure 14 on page 32.
-Mixed Documents
+The data stream shown in Figure 20 provides the same result as the Page Definition shown in
+Figure 13 and the data stream shown in Figure 21 provides the same result as the
+Page Definition shown in Figure 14.
 
 
 Figure 20. Using an IDM Structured Field to Skip to a New Page
@@ -373,7 +366,7 @@ X'5A0010D3ABCC000001D5C5E6C6D4404040'
 More line data records
 ⋮
 The name of the Data Map invoked in Figure 20 is NEWPG. This is the name on the PAGEFORMAT statement in
-the PPFA example in Figure 13 on page 32. Re-invoking the same Data Map causes a skip to a new page. It is
+the PPFA example in Figure 13. Re-invoking the same Data Map causes a skip to a new page. It is
 not necessary to have multiple Data Maps in the Page Definition to achieve this result. Consequently, standard
 Page Definitions supplied with the print services software can be used with this method.
 The same is true of skipping to a new physical sheet. Figure 21 invokes a Medium Map named NEWFM. Even if
@@ -393,7 +386,7 @@ X'5A0010D3ABCC000000D7D9C9C2C9D54040'
 More line data records (with carriage control)
 ⋮
 This example assumes a Form Definition with two Medium Maps, as could be built using the PPFA code
-shown in Figure 23 on page 48. The first Medium Map coded in the example will be used for the initial pages.
+shown in Figure 23. The first Medium Map coded in the example will be used for the initial pages.
 They will contain user data (the CONSTANT parameter does not appear in this Medium Map) and are printed
 on paper selected from the primary bin. When the point is reached where a blank sheet is to be inserted, the
 application writes out an Invoke Medium Map that
@@ -404,7 +397,6 @@ CONSTANT BOTH and DUPLEX YES can be coded instead.
 Immediately following the IMM structured field to select the second Medium Map (ALTBIN) is a second IMM to
 return to the original Medium Map (PRIBIN) for the next portion of the data. This set of two consecutive IMM
 structured fields can be included in the output data stream as often as necessary.
-Mixed Documents
 
 
 Figure 23. Form Definition With Two IMMs to Force a Blank Sheet
@@ -464,7 +456,6 @@ The third structured field in Figure 24 is identical to the first, except that t
 the first 16 bytes in an 80-byte record. This format allows the IDM structured field to be included in a data set of
 fixed-length 80-byte records and no errors would result in a z/OS system
 environment.
-Mixed Documents
 
 
 Of course, fixed-length records that are longer than the number of bytes actually used to contain the MO:DCA
@@ -525,7 +516,6 @@ object origin. The offset is measured using the current text
 (XCOset,YCOset) in ICP specify an offset from the image
 object origin. The offset is measured using the temporary
 (X,Y) coordinate system.
-Mixed Documents
 
 
 Table 10 Position and Rotation of Objects in Line Data and MO:DCA Data (cont'd.)
@@ -607,7 +597,6 @@ origin (Xp=0,Yp=0). The offset is measured using the page
 origin (Xp=0,Yp=0). The offset is measured using the page
 (X
 p,Yp) coordinate system.
-Mixed Documents
 
 
 Table 10 Position and Rotation of Objects in Line Data and MO:DCA Data (cont'd.)
@@ -655,7 +644,6 @@ not mapped, the page segment data is loaded as part of the page.
 Objects within the page segment might
 be positioned with respect to the page segment origin. The page
 segment inherits the Active Environment Group definition of the including page.
-Mixed Documents
 
 
 AFP print servers initialize the following PTOCA control sequences as shown prior to processing a text object
@@ -695,7 +683,6 @@ p-axis (origin is top- left corner of page).
 Note: For page segments in MO:DCA data, if the IM image is complex (celled), it is recommended that the
 rotation be set to (0°,90°). For page segments in mixed data, the rotation should be set to match the
 current text orientation.
-Mixed Documents
 
 
 Position and Orientation of Image, Graphics, and Bar Code Objects in a Page
@@ -711,7 +698,7 @@ application program, the text orientation that was set when the page segment and
 positioned must be captured and retained in order to properly position the page segment on the
 MO:DCA page. This can be done using a Line Data Object Position Migration (X'27') triplet on the IPS
 structured field in the MO:DCA document. For a description of this triplet, see the description of “Include
-Page Segment (IPS)” on page 95.
+Page Segment (IPS)”.
 Sample IPS Structured Field
 Figure 25 contains a sample IPS structured field. This example places the segment SIGNAT at the current print
 position. If the name of the segment were S1SIGNAT, then all eight characters would have to be coded in the
@@ -722,7 +709,6 @@ X'5A' X'0016' X'D3AF5F' X'00' X'0000' X'E2C9C7D5C1E34040' X'FFFFFF' X'FFFFFF'
 Programming Tip
 The current line position is unchanged after the page segment is printed. Additional logic might be needed in
 the application to place subsequent print lines so that they do not overprint the page segment.
-Mixed Documents
 
 
 ## Include Page Overlay
@@ -764,7 +750,6 @@ system (origin is top-left corner of overlay).
 The rotation of the IM image is specified in the IOC and is measured with respect to the overlay coordinate
 system X-axis (origin is top-left corner of overlay).
 Note: If the IM image is complex (celled), AFP print servers require the rotation set to 0°,90°.
-Mixed Documents
 
 
 Position and Orientation of IO Image, Graphics, and Bar Code Objects in an Overlay
@@ -799,7 +784,6 @@ X'01' The object area offset in the IOB is measured with respect to the page ori
 p=0,Yp=0), using the
 page (Xp,Yp) coordinate system. The object area rotation in the IOB is measured with respect to page
 (Xp,Yp) coordinate system X p-axis.
-Mixed Documents
 
 
 ## Including Data Objects Directly in Line Data
@@ -842,7 +826,6 @@ corner of page).
 • If the image or graphic has been built as a page segment, delete the Begin Page Segment and End Page
 Segment structured fields from the object. The remaining structured fields can be placed in the print stream
 at the point where the image or graphic should appear.
-Mixed Documents
 
 
 Including IM Image Objects
@@ -898,7 +881,6 @@ services
 software could add an unacceptable amount of processing overhead when the data set is printed.
 • Page Definition information, PTX information, and any additional information contained in objects such as
 bar code and image placed on the page interact, so the programmer must keep careful track of the page
-Mixed Documents
 
 
 position and fonts in effect as records are written. For example, if the text position, text orientation, or font is
@@ -919,7 +901,7 @@ of data can follow the PTX structured field introducer:
 • The X'2BD3' escape sequence, followed by one or more text control sequences
 • “Free-standing text”, which is a series of code points representing data to be printed
 The first alternative is by far the most common use of PTX. A table of the control sequences that can be used
-with the PTX structured field appears in Table 11 on page 60.
+with the PTX structured field appears in Table 11.
 The PTOCA Architecture groups control sequences into function sets or subsets. PT1 is the base subset that
 is supported by all AFP page printers. PT2 is a superset of PT1 that contains three additional control
 sequences: Underscore (USC), Overstrike (OVS), and Temporary Baseline Move (TBM). PT3 is a superset of
@@ -941,7 +923,6 @@ One reason why free-standing text is seldom used is that one of the PTX control 
 Transparent Data (TRN), which has a string of code points as its data field, and thereby provides the actual text
 to be printed. Use of the TRN control sequence allows data whose encoding scheme uses the code points
 X'2B' or X'D3' to be included in a PTX without having these code points interpreted as an escape sequence.
-Mixed Documents
 
 
 The usual sequences for placing text on a page are as follows:
@@ -978,17 +959,16 @@ chaining. If PTX structured fields are intermixed with line data in a mixed-mode
 sequence in the PTX must also indicate end of chaining. This can be accomplished either by specifying an
 even function type for the last control sequence or by ending every PTX with a No Operation control sequence
 with an even function type (X'02F8').
-Mixed Documents
 
 
 Use of Fonts
 Either fixed-pitch or proportionally spaced fonts can be used to present text with the PTX structured field.
 Positioning of the first character in a string of data contained in the TRN control sequence can be
 accomplished by preceding the TRN with one of the absolute or relative move text controls, as shown in the
-example on page 59. If no move control sequences follow in the same PTX, data contained in any subsequent
+example. If no move control sequences follow in the same PTX, data contained in any subsequent
 TRN controls will be placed immediately following the text in the preceding TRN. Font information stored in the
 printer is used to ensure that data does not overlap. As a result, it is possible to highlight one word in a string
-simply by using a Set Coded Font text control. If the PTX record shown on page 59 is extended to print the
+simply by using a Set Coded Font text control. If the PTX record shown is extended to print the
 word DATA a second time in a different font, as in this example:
 X'…2BD304D3010004C700B403F10106DBC4C1E3C103F10206DAC4C1E3C1'
 then the resulting output will look like this:
@@ -1024,7 +1004,6 @@ Temporary Baseline Move xx78 xx79
 Underscore 0376 0377
 PT3 Control Sequences
 Set Extended Text Color xx80 xx81
-Mixed Documents
 
 
 Table 11 Control Sequences Used in PTX Structured Field (cont'd.)
@@ -1066,10 +1045,9 @@ not have a gap between the end of a baseline rule and the start of an inline rul
 have to
 change the origin point of the rule, the length of the rule, or the rule thickness from positive to negative. Gaps
 between inline and baseline rules become increasingly visible as the thickness of the rules increase.
-Figure 28 on page 62 illustrates a text-control sequence to draw a box one inch high by two inches wide. The
+Figure 28 illustrates a text-control sequence to draw a box one inch high by two inches wide. The
 rules that generate the box are four pels thick, so the lengths of the rules in the Draw Rule control sequences
 have been extended by 4 pels where necessary to make sure the corners are complete.
-Mixed Documents
 
 
 Figure 28. Text Controls to Draw a Box
@@ -1079,7 +1057,6 @@ Figure 28. Text Controls to Draw a Box
 … 04C901E004D500F007E5FE20FFFC0007E6FF10FFFC00
 < RMI >< RMB ><Inline Rule><Baseline Rule>
 (top side)        (right side)
-Mixed Documents
 
 
 ## Composed Documents
@@ -1122,12 +1099,11 @@ The MO:DCA data stream generated by such an application will be transformed dire
 services program. No optimizing is performed on MO:DCA data. As a result, the application developer should
 be aware of throughput considerations associated with the MO:DCA structure. Such considerations are
 highlighted in this chapter in boxes titled “Programming Tip”.
-Mixed Documents
 
 
 Overall Document Structure
-A fully composed document will conform to the structure shown on the right side of Figure 30 on page 170.
-Each document is composed of one or more pages that have the format shown in Figure 32 on page 171.
+A fully composed document will conform to the structure shown on the right side of Figure 30.
+Each document is composed of one or more pages that have the format shown in Figure 32.
 Each page must begin with an Active Environment Group, but the actual objects that appear on the page (text,
 image, graphics, or bar code) follow the AEG and can appear in any order. The application programmer works
 with these objects, so an understanding of their format, use, and placement on the page can be helpful when
@@ -1156,6 +1132,5 @@ Fully composed MO:DCA documents may contain logical links between document compo
 a hypertext link from an area on page N that contains a technical term to an area on page M that contains the
 term's definition. Such links are specified using Link Logical Element (LLE) structured fields. LLE structured
 fields are not supported in line-data or mixed-data documents.
-Mixed Documents
 
 

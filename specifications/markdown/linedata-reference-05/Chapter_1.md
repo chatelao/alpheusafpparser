@@ -23,7 +23,7 @@ generate page-mode output from the line data, using information contained in a P
 resource object. The line data mapped by the Page Definition might or might not include additional MO:DCA
 structured fields. A file that includes a combination of line data and MO:DCA structured fields is called a mixedmode file. Only certain MO:DCA structured fields can be intermixed with line data. Detailed information on
 coding those structured fields appears in Chapter 4, “Mixed Documents: Adding MO:DCA Structured Fields to
-Line Data”, on page 39.
+Line Data”.
 Presentation services programs in the AIX and Windows environments accept non-MO:DCA data streams that
 can be formatted using Page Definition resource objects. These data streams can be in any of the following
 formats:
