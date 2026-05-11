@@ -25,14 +25,20 @@ import com.mgz.afp.base.StructuredFieldIntroducer;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.enums.SFFlag;
 import com.mgz.afp.exceptions.AFPParserException;
+import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.foca.CPC_CodePageControl;
 import com.mgz.afp.foca.CPD_CodePageDescriptor;
 import com.mgz.afp.foca.FNC_FontControl;
+import com.mgz.afp.modca.MDR_MapDataResource;
+import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
+import com.mgz.util.UtilCharacterEncoding;
 import com.mgz.util.UtilBinaryDecoding;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class AFPParser {
 
@@ -274,6 +280,8 @@ public class AFPParser {
             parserConf.setCurrentPageControl((CPC_CodePageControl) sf);
           } else if (sf instanceof BDD_BarCodeDataDescriptor) {
             parserConf.setCurrentBarCodeDataDescriptor((BDD_BarCodeDataDescriptor) sf);
+          } else if (sf instanceof MDR_MapDataResource) {
+            handleMDR((MDR_MapDataResource) sf);
           }
 
           nrOfBytesRead += sf.getStructuredFieldIntroducer().getSFLength();
@@ -318,6 +326,30 @@ public class AFPParser {
    */
   public void error(AFPParserException afpExc) throws AFPParserException {
     throw afpExc;
+  }
+
+  private void handleMDR(MDR_MapDataResource mdr) {
+    if (mdr.getRepeatingGroups() == null) {
+      return;
+    }
+    for (IRepeatingGroup rg : mdr.getRepeatingGroups()) {
+      if (rg instanceof IHasTriplets) {
+        List<Triplet> triplets = ((IHasTriplets) rg).getTriplets();
+        if (triplets != null) {
+          for (Triplet t : triplets) {
+            if (t instanceof Triplet.FullyQualifiedName) {
+              Triplet.FullyQualifiedName fqn = (Triplet.FullyQualifiedName) t;
+              if (fqn.getType() == Triplet.GlobalID_Use.CodePageNameReference) {
+                java.nio.charset.Charset cs = UtilCharacterEncoding.getCharsetFromCodePageName(fqn.getNameAsString());
+                if (cs != null) {
+                  parserConf.setAfpCharSet(cs);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   public long getCountReadByte() {

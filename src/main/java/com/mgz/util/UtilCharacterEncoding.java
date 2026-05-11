@@ -23,8 +23,10 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
+import java.util.logging.Logger;
 
 public class UtilCharacterEncoding {
+  private static final Logger logger = Logger.getLogger(UtilCharacterEncoding.class.getName());
   public static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
   /**
@@ -317,6 +319,44 @@ public class UtilCharacterEncoding {
       return null;
     }
     return baos.toByteArray();
+  }
+
+  /**
+   * Maps an AFP Code Page name (e.g., T1V10500) to a Java Charset.
+   *
+   * @param cpName AFP Code Page name.
+   * @return The corresponding Charset, or null if not found.
+   */
+  public static Charset getCharsetFromCodePageName(String cpName) {
+    if (cpName == null || cpName.length() < 8) {
+      return null;
+    }
+    String cpNumStr = null;
+    if (cpName.startsWith("T1V10")) {
+      cpNumStr = cpName.substring(5).trim();
+    } else if (cpName.startsWith("T1")) {
+      // Common pattern is T1xxxxxx where last digits are the code page.
+      // We try to take all digits from the end.
+      int i = cpName.length() - 1;
+      while (i >= 0 && Character.isDigit(cpName.charAt(i))) {
+        i--;
+      }
+      cpNumStr = cpName.substring(i + 1);
+    }
+
+    if (cpNumStr != null && !cpNumStr.isEmpty()) {
+      try {
+        return Charset.forName("Cp" + cpNumStr);
+      } catch (Exception e) {
+        try {
+          return Charset.forName("IBM" + cpNumStr);
+        } catch (Exception e2) {
+          logger.warning("Failed to find charset for code page number: " + cpNumStr);
+          return null;
+        }
+      }
+    }
+    return null;
   }
 
 }
