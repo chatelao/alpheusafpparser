@@ -82,6 +82,24 @@ The following table demonstrates the mapping discrepancy for byte `X'C0'` depend
 | **IBM-273** | `T1V10273` | `X'C0'` | `LA040000` | `ä` |
 | **IBM-500** | `T1V10500` | `X'C0'` | `SM110000` | `{` |
 
+### 2.4. Real-world Case Study: TRN Transparent Data Mismatch
+
+A reported issue confirmed that German text in a `TRN_TransparentData` control sequence was incorrectly decoded using IBM-500, resulting in character mismatches for common German umlauts.
+
+**Data Example:** `F}r Sie pers¦nlich zust{ndig:` (as seen in XML)
+**Raw Bytes (Hex):** `c6 d0 99 40 e2 89 85 40 97 85 99 a2 6a 95 93 89 83 88 40 a9 a4 a2 a3 c0 95 84 89 87 7a`
+
+| Byte | IBM-500 (Current) | IBM-273 (Expected) |
+| :--- | :--- | :--- |
+| `X'D0'` | `}` | `ü` |
+| `X'6A'` | `¦` | `ö` |
+| `X'C0'` | `{` | `ä` |
+
+**Resulting String (IBM-500):** `F}r Sie pers¦nlich zust{ndig:`
+**Resulting String (IBM-273):** `Für Sie persönlich zuständig:`
+
+This case confirms the gap identified in Section 1.2: `TRN_TransparentData` relies on the global configuration and does not yet participate in the stateful "Blind Execution" logic required for correct localized text extraction.
+
 #### Engine Behavior
 Currently, the `getText()` methods in `TRN_TransparentData` and `GraphicCharacters` rely on:
 1.  A hardcoded default (often `cp500`).
