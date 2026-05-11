@@ -46,11 +46,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Commands: END, EP, ISP, ICMR.
             - ✅ Commands: LCC (Tables 25–27), LFE, LPD, LPP.
             - ✅ Commands: MID, NOP, PFC, SHS, SPE.
-            - ⏳ Command: Rasterize Presentation Object (RPO):
-                - ⏳ Syntax, Object Types, and Cache attributes.
-                - ⏳ Tables 25–26 (Entry Syntax and Object-Type IDs).
-                - ⏳ Table 27 (Orientation IDs).
-                - ⏳ Tables 28–29 (Object-Area Size and Mapping-Control IDs).
+            - ✅ Command: Rasterize Presentation Object (RPO):
+                - ✅ Syntax, Object Types, and Cache attributes.
+                - ✅ Tables 25–26 (Entry Syntax and Object-Type IDs).
+                - ✅ Table 27 (Orientation IDs).
+                - ✅ Tables 28–29 (Object-Area Size and Mapping-Control IDs).
             - ⏳ Command: Sense Type and Model (STM):
                 - ✅ Syntax and Main Reply Table.
                 - ✅ Device-Control Command-Set Vector.
