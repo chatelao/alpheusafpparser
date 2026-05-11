@@ -5827,80 +5827,44 @@ QR Code with Image Special-Function Parameters
 
 
 
-Valid Code Pages and Type Styles
-Table 34. Valid Code Pages and Type Styles
-Type Bar Code Symbology CPGID FGID (see note 1)
-X'01' Code 39 (3-of-9 Code), AIM USS-39 500 Device specific
-X'02' MSI (modified Plessey code) 500 Device specific
-X'03' UPC/CGPC – Version A 893 3 (OCR-B)
-X'05' UPC/CGPC – Version E 893 3 (OCR-B)
-X'06' UPC – Two-Digit Supplemental (Periodicals) 893 3 (OCR-B)
-X'07' UPC – Five-Digit Supplemental (Paperbacks) 893 3 (OCR-B)
-X'08' EAN-8 (includes JAN-short) 893 3 (OCR-B)
-X'09' EAN-13 (includes JAN-standard) 893 3 (OCR-B)
-X'0A' Industrial 2-of-5 500 Device specific
-X'0B' Matrix 2-of-5 500 Device specific
-X'0C' Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 500 Device specific
-X'0D' Codabar, 2-of-7, AIM USS-Codabar 500 Device specific
-X'11' Code 128, GS1-128, Intelligent Mail Container Barcode,
-Intelligent Mail Package Barcode, UCC/EAN 128, AIM USS-
-128
-1303 (see note 2) Device specific
-X'16' EAN Two-Digit Supplemental 893 3 (OCR-B)
-X'17' EAN Five-Digit Supplemental 893 3 (OCR-B)
-X'18' POSTNET (deprecated) and PLANET (deprecated) 500 None
-X'1A' RM4SCC and Dutch KIX 500 None
-X'1B' Japan Postal Bar Code 500 None
-X'1C' Data Matrix, GS1 DataMatrix (2D bar code) Default CPGID=819; code
-page is selectable within
-the symbol using ECI
-protocol
-None
-X'1D' MaxiCode (2D bar code) Default CPGID=819; code
-page is selectable within
-the symbol using ECI
-protocol
-None
-X'1E' PDF417 (2D bar code) Default CPGID=437; code
-page is selectable within
-the symbol using GLI
-protocol
-None
-X'1F' Australia Post Bar Code 500 Device specific
-X'20' QR Code, QR Code with Image (2D bar code) Default CPGID=897; code
-page is selectable within
-the symbol using ECI
-protocol
-None
-X'21' Code 93 500 Device specific
-X'22' Intelligent Mail Barcode 500 Device specific
-Valid Code Pages and Type Styles
+### Table 34. Valid Code Pages and Type Styles
 
+| Type | Bar Code Symbology | CPGID | FGID (see note 1) |
+| :--- | :--- | :--- | :--- |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 500 | Device specific |
+| X'02' | MSI (modified Plessey code) | 500 | Device specific |
+| X'03' | UPC/CGPC – Version A | 893 | 3 (OCR-B) |
+| X'05' | UPC/CGPC – Version E | 893 | 3 (OCR-B) |
+| X'06' | UPC – Two-Digit Supplemental (Periodicals) | 893 | 3 (OCR-B) |
+| X'07' | UPC – Five-Digit Supplemental (Paperbacks) | 893 | 3 (OCR-B) |
+| X'08' | EAN-8 (includes JAN-short) | 893 | 3 (OCR-B) |
+| X'09' | EAN-13 (includes JAN-standard) | 893 | 3 (OCR-B) |
+| X'0A' | Industrial 2-of-5 | 500 | Device specific |
+| X'0B' | Matrix 2-of-5 | 500 | Device specific |
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 500 | Device specific |
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 500 | Device specific |
+| X'11' | Code 128, GS1-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode, UCC/EAN 128, AIM USS-128 | 1303 (see note 2) | Device specific |
+| X'16' | EAN Two-Digit Supplemental | 893 | 3 (OCR-B) |
+| X'17' | EAN Five-Digit Supplemental | 893 | 3 (OCR-B) |
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 500 | None |
+| X'1A' | RM4SCC and Dutch KIX | 500 | None |
+| X'1B' | Japan Postal Bar Code | 500 | None |
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
+| X'1D' | MaxiCode (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
+| X'1E' | PDF417 (2D bar code) | Default CPGID=437; code page is selectable within the symbol using GLI protocol | None |
+| X'1F' | Australia Post Bar Code | 500 | Device specific |
+| X'20' | QR Code, QR Code with Image (2D bar code) | Default CPGID=897; code page is selectable within the symbol using ECI protocol | None |
+| X'21' | Code 93 | 500 | Device specific |
+| X'22' | Intelligent Mail Barcode | 500 | Device specific |
+| X'23' | Royal Mail RED TAG (deprecated) | 500 | None |
+| X'24' | GS1 DataBar | 1303 | Device specific |
+| X'25' | Royal Mail Mailmark | 500 | None |
+| X'26' | Aztec Code (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
+| X'27' | Han Xin Code (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
 
-
-
-Table 34 Valid Code Pages and Type Styles (cont'd.)
-Type Bar Code Symbology CPGID FGID (see note 1)
-X'23' Royal Mail RED TAG (deprecated) 500 None
-X'24' GS1 DataBar 1303 Device specific
-X'25' Royal Mail Mailmark 500 None
-X'26' Aztec Code (2D bar code) Default CPGID=819; code
-page is selectable within
-the symbol using ECI
-protocol
-None
-X'27' Han Xin Code (2D bar code) Default CPGID=819; code
-page is selectable within
-the symbol using ECI
-protocol
-None
-Notes:
-1. Some symbologies allow a variety of FGIDs, but individual printers restrict the choice; when “Device
-specific” is specified in the FGID column, refer to printer documentation for information about supported
-FGIDs.
-2. For the Intelligent Mail Package Barcode, while the data is encoded using CPGID 1303 as all other Code
-128 bar codes, the characters for the USPS Service Banner are encoded using UTF-16BE.
-Valid Code Pages and Type Styles
+**Notes:**
+1. Some symbologies allow a variety of FGIDs, but individual printers restrict the choice; when “Device specific” is specified in the FGID column, refer to printer documentation for information about supported FGIDs.
+2. For the Intelligent Mail Package Barcode, while the data is encoded using CPGID 1303 as all other Code 128 bar codes, the characters for the USPS Service Banner are encoded using UTF-16BE.
 
 
 
