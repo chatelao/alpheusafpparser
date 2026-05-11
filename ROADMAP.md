@@ -93,6 +93,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Purge physical page markers and fix split words.
     - ⏳ Fix minor table fragmentation in Appendices.
     - ⏳ Remove remaining physical page references (4 found).
+    - ⏳ **Note**: The project uses AFPC-0004-10 (MO:DCA Reference 10) as the primary specification. The IBM MO:DCA-P Reference (SC31-6802) is a related/legacy IBM version of this architecture.
 - 🚧 **FOCA**:
     - ⏳ Fix OCR-induced paragraph merging in technical sections.
     - ⏳ Remove physical page references ("on page XXX").
@@ -101,6 +102,18 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
 - ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
+- ⏳ **Db2 12 Internationalization Guide**:
+    - ⏳ Convert to Markdown:
+        - ⏳ Chapter 1 (Introduction to internationalization).
+        - ⏳ Chapter 2 (Unicode support).
+        - ⏳ Chapter 3 (Character conversion).
+        - ⏳ Chapter 4 (Sorting and collating).
+        - ⏳ Chapter 5 (Date and time formats).
+        - ⏳ Chapter 6 (Internationalization for applications).
+        - ⏳ Appendices A–F.
+    - ⏳ Purge physical page markers and PDF artifacts.
+    - ⏳ Fix OCR-induced split words and formatting artifacts.
+    - ⏳ Convert syntax and registry text dumps to Markdown tables.
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.
