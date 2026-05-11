@@ -4439,91 +4439,15 @@ CMRs-Used trace entry.
 
 
 ## Text Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Text command-set vector, including this length field
-8–9 CODE Subset ID X'D7E3' TX1 subset of the Text command set
-10–11 CODE Level ID X'FF10'
-X'FF20'
-X'FF30'
-X'FF40'
-PTOCA PT1 data
-PTOCA PT2 data
-PTOCA PT3 data
-PTOCA PT4 data
-12 to
-end of
-vector
-CODE Property pairs X'1000'
-X'1001'
-X'2001'
-X'2002'
-X'40nn'
-Optimum performance if text data is in an ordered page
-Unordered text supported
-Text object support; includes support for the WTC command
-Full range of text suppression IDs supported in LCC and LE
-commands; see note 1
-Standard OCA color-support property ID,
-where nn is a bit-mapped byte:
-Bits 0–1 Reserved
-Bit 2 Limited simulated-color support. All valid but
-unsupported color values for text data are accepted and
-result in a device-dependent simulation of the specified
-color without the generation of unsupported color
-exceptions. Simulated colors need not be
-distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value Table”. This
-property overrides the precision parameter in all STC
-control sequences.
-Bits 3–5 Reserved
-Bit 6 Color of medium support. Color of medium (also known
-as reset color) supported for text data
-Bit 7 Multiple-color support. Multiple-color support for text
-data; see note 2.
 
-
-Offset Type Name Range Meaning
-X'4303'
-X'4304'
-X'50nn'
-Support for PTOCA glyph layout controls; see
-note 3
-Support of encrypted text string control sequences; see
-note 4
-Multiple text-orientation support for all supported
-media origins, where nn is a
-bit-mapped byte:
-Bit 0 I = 270°, B = 180°
-Bit 1 I = 180°, B = 90°
-Bit 2 I = 90°, B = 0°
-Bit 3 I = 0°, B = 270°
-Bit 4 I = 270°, B = 0°
-Bit 5 I = 180°, B = 270°
-Bit 6 I = 90°, B = 180°
-Bit 7 I = 0°, B = 90°
-X'A0nn' WTC-TAP object area orientation support property ID
-(see notes 5 and 6), where nn is a
-bit-mapped byte:
-Bit 0 0 degree orientation supported with respect to the X
-p,Yp
-coordinate system
-Bit 1 90 degree orientation supported with respect to the Xp,Yp
-coordinate system
-Bit 2 180 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 3 270 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 4 Reserved
-Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the Xp,Yp coordinate system.
-As a result, all four object area orientations are
-supported with respect to all supported I,B orientations.
-Bit 6 All values of degrees and minutes for object area
-orientation are supported.
-Bit 7 Reserved
-If no X'A0nn' property pair is specified, the default is X'A080'.
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Text command-set vector, including this length field |
+| 8–9 | CODE | Subset ID | X'D7E3' | TX1 subset of the Text command set |
+| 10–11 | CODE | Level ID | X'FF10'<br>X'FF20'<br>X'FF30'<br>X'FF40' | PTOCA PT1 data<br>PTOCA PT2 data<br>PTOCA PT3 data<br>PTOCA PT4 data |
+| 12 to end of vector | CODE | Property pairs | X'1000'<br>X'1001'<br>X'2001'<br>X'2002'<br>X'40nn' | Optimum performance if text data is in an ordered page<br>Unordered text supported<br>Text object support; includes support for the WTC command<br>Full range of text suppression IDs supported in LCC and LE commands; see note 1<br>Standard OCA color-support property ID, where nn is a bit-mapped byte:<br>**Bit 0–1**: Reserved<br>**Bit 2**: Limited simulated-color support. All valid but unsupported color values for text data are accepted and result in a device-dependent simulation of the specified color without the generation of unsupported color exceptions. Simulated colors need not be distinguishable. For a list of valid color values, see the “Standard OCA Color-Value Table”. This property overrides the precision parameter in all STC control sequences.<br>**Bits 3–5**: Reserved<br>**Bit 6**: Color of medium support. Color of medium (also known as reset color) supported for text data<br>**Bit 7**: Multiple-color support. Multiple-color support for text data; see note 2. |
+| | | | X'4303'<br>X'4304'<br>X'50nn' | Support for PTOCA glyph layout controls; see note 3<br>Support of encrypted text string control sequences; see note 4<br>Multiple text-orientation support for all supported media origins, where nn is a bit-mapped byte:<br>**Bit 0**: I = 270°, B = 180°<br>**Bit 1**: I = 180°, B = 90°<br>**Bit 2**: I = 90°, B = 0°<br>**Bit 3**: I = 0°, B = 270°<br>**Bit 4**: I = 270°, B = 0°<br>**Bit 5**: I = 180°, B = 270°<br>**Bit 6**: I = 90°, B = 180°<br>**Bit 7**: I = 0°, B = 90° |
+| | | | X'A0nn' | WTC-TAP object area orientation support property ID (see notes 5 and 6), where nn is a bit-mapped byte:<br>**Bit 0**: 0 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 1**: 90 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 2**: 180 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 3**: 270 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 4**: Reserved<br>**Bit 5**: The four orientations 0, 90, 180, and 270 degrees are all supported with respect to the $X_{p}, Y_{p}$ coordinate system. As a result, all four object area orientations are supported with respect to all supported I,B orientations.<br>**Bit 6**: All values of degrees and minutes for object area orientation are supported.<br>**Bit 7**: Reserved<br>If no X'A0nn' property pair is specified, the default is X'A080'. |
 
 
 Notes:
@@ -4574,51 +4498,14 @@ number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–
 
 
 ## IM-Image Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the IM-Image command-set vector, including this length
-field
-8–9 CODE Subset ID X'C9D4' IM1 subset of the IM-Image command set
-10–11 CODE Level ID X'FF10' IMD1 data
-12 to
-end of
-vector
-CODE Property pairs X'1000'
-X'1001'
-X'40nn'
-Optimum performance when IM Image is in an ordered page
-IM-Image objects may be sent in any order
-Standard OCA color-support property ID,
-where nn is a bit-mapped byte:
-Bits 0–1 Reserved
-Bit 2 Limited simulated-color support. All valid but
-unsupported color values for IM-Image data are
-accepted and result in a device-dependent simulation of
-the specified color without the generation of unsupported
-color exceptions. Simulated colors need not be
-distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value Table”.
-Bits 3–5 Reserved
-Bit 6 Color of medium support. Color of medium (also known
-as reset color) supported for IM-Image data
-Bit 7 Multiple-color support. Multiple-color support for IM-
-Image data; see note.
-X'A0nn' Orientation-support property ID,
-where nn is a bit-mapped byte:
-Bit 0 0 degree scan-line direction and 90 degree scan-line
-sequence direction supported in the WIC command
-Bit 1 90 degree scan-line direction and 180 degree scan-line
-sequence direction supported in the WIC command
-Bit 2 180 degree scan-line direction and 270 degree
-sequence direction supported in the WIC command
-Bit 3 270 degree scan-line direction and 0 degree scan-line
-sequence direction supported in the WIC command
-Bit 4 Reserved
-Bit 5 All four scan-line direction/scan-line sequence direction
-combinations supported in the WIC command
-Bits 6–7 Reserved
-If no X'A0nn' property pair is specified, the default is X'A080'.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the IM-Image command-set vector, including this length field |
+| 8–9 | CODE | Subset ID | X'C9D4' | IM1 subset of the IM-Image command set |
+| 10–11 | CODE | Level ID | X'FF10' | IMD1 data |
+| 12 to end of vector | CODE | Property pairs | X'1000'<br>X'1001'<br>X'40nn' | Optimum performance when IM Image is in an ordered page<br>IM-Image objects may be sent in any order<br>Standard OCA color-support property ID, where nn is a bit-mapped byte:<br>**Bits 0–1**: Reserved<br>**Bit 2**: Limited simulated-color support. All valid but unsupported color values for IM-Image data are accepted and result in a device-dependent simulation of the specified color without the generation of unsupported color exceptions. Simulated colors need not be distinguishable. For a list of valid color values, see the “Standard OCA Color-Value Table”.<br>**Bits 3–5**: Reserved<br>**Bit 6**: Color of medium support. Color of medium (also known as reset color) supported for IM-Image data<br>**Bit 7**: Multiple-color support. Multiple-color support for IM-Image data; see note. |
+| | | | X'A0nn' | Orientation-support property ID, where nn is a bit-mapped byte:<br>**Bit 0**: 0 degree scan-line direction and 90 degree scan-line sequence direction supported in the WIC command<br>**Bit 1**: 90 degree scan-line direction and 180 degree scan-line sequence direction supported in the WIC command<br>**Bit 2**: 180 degree scan-line direction and 270 degree sequence direction supported in the WIC command<br>**Bit 3**: 270 degree scan-line direction and 0 degree scan-line sequence direction supported in the WIC command<br>**Bit 4**: Reserved<br>**Bit 5**: All four scan-line direction/scan-line sequence direction combinations supported in the WIC command<br>**Bits 6–7**: Reserved<br>If no X'A0nn' property pair is specified, the default is X'A080'. |
 
 
 Note: Multiple-color support for IM-Image data means that from the table that follows, color value X'FF07'
@@ -4639,140 +4526,18 @@ X'FF07' Printer default
 A separate command-set vector is returned for each supported function set, except that a separate vector is
 not required for proper subsets. For example, if a printer supports FS10 and FS45, two vectors would be
 returned (one for FS10 and one for FS45).
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the IO-Image command-set vector, including this length
-field
-8–9 CODE Subset ID X'C9D6' IO1 subset of the IO-Image command set
-10–11 CODE Level ID X'FF10'
-X'FF11'
-X'FF14'
-X'FF40'
-X'FF42'
-X'FF45'
-X'FF48'
-X'0010'
-X'0011'
-IOCA FS10 data; see note 1
-IOCA FS11 data; implies FS10 also supported
-IOCA FS14 data; implies FS11 also supported
-IOCA FS40 data
-IOCA FS42 data; implies FS40 also supported
-IOCA FS45 data; implies FS42 also supported
-IOCA FS48 data; implies FS45 also supported
-Subset of IOCA FS10 data
-Subset of IOCA FS11 data
-12 to
-end of
-vector
-CODE Property pairs X'1001'
-X'1202'
-X'1206'
-X'1208'
-X'20nn'
-X'30nn'
-X'40nn'
-IO-Image objects may be sent in any order
-IO-Image objects can be downloaded in home state as resources
-IO-Image support for LPD extents; see note 2
-Negative object-area positioning; see note 3
-Retired item 15
-Retired item 16
-Standard OCA color-support property ID,
-where nn is a bit-mapped byte:
-Bits 0–1 Reserved
-Bit 2 Limited simulated-color support. All valid but
-unsupported color values for bilevel IO Images are
-accepted and result in a device-dependent simulation of
-the specified color without the generation of unsupported
-color exceptions. Simulated colors need not be
-distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value Table”.
-Bits 3–5 Reserved
-Bit 6 Color of medium support for bilevel IO Images. Color of
-medium (also known as reset color) supported for bilevel
-IO Images; this color has the effect of erasing any data
-that is underneath the significant image points.
-Bit 7 Multiple-color support for bilevel IO Images. Multiple-
-color support for IO-Image data; see note 4.
-X'4401'
-X'4402'
-X'4403'
-Extended IOCA bilevel color support; when this property pair is
-present, the printer supports Set Extended Bilevel Image
-Color (X'F4') IOCA self-defining field on the WIC2-IDD
-Extended IOCA Tile-Set-Color support; see note 5
-Bilevel IO-Image color support on the RPO command
 
-
-Offset Type Name Range Meaning
-X'5001'
-X'5003'
-X'5006'
-X'5008'
-X'500A'
-X'500D'
-X'500E'
-X'5020'
-X'5080'
-X'5081'
-X'5082'
-X'5083'
-X'5084'
-Compression algorithm-support property IDs; see
-note 1:
-Modified ITU-TSS Modified READ Algorithm (IBM MMR)
-Uncompressed image
-Run-Length 4 Compression Algorithm
-ABIC (bilevel Q-coder) Compression Algorithm (ABIC)
-Concatenated ABIC
-TIFF LZW
-TIFF LZW with Differencing Predictor
-Solid Fill Rectangle
-ITU-TSS T.4 Facsimile Coding Scheme
-(G3 MH, one dimensional)
-ITU-TSS T.4 Facsimile Coding Scheme
-(G3 MR, two dimensional)
-ITU-TSS T.6 Facsimile Coding Scheme (G4 MMR)
-ISO/ITU-TSS JPEG algorithms
-JBIG2 Compression Algorithm
-X'5101'
-X'5204'
-X'5308'
-X'5501'
-X'5505'
-X'5506'
-Bit ordering supported in the IOCA Image Encoding Parameter
-Unpadded RIDIC recording algorithm
-IDE size = 8 supported
-Transparency masks
-Multiple image content support; see note 6
-nColor Names parameter supported
-X'A0nn' WIC2–IAP object area orientation support property ID
-(see notes 7 and 8); where nn is a
-bit-mapped byte:
-Bit 0 0 degree orientation supported with respect to the Xp,Yp
-coordinate system
-Bit 1 90 degree orientation supported with respect to the Xp,Yp
-coordinate system
-Bit 2 180 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 3 270 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 4 Reserved
-Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the Xp,Yp coordinate system.
-As a result, all four object area orientations are
-supported with respect to all supported I,B orientations.
-Bit 6 All values of degrees and minutes for object area
-orientation are supported; see note 9.
-Bit 7 Reserved
-If no X'A0nn' property pair is specified, the default is X'A080'.
-X'F300'
-X'F301'
-Replicate-and-trim mapping supported; see note 10.
-Scale-to-fill mapping supported
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the IO-Image command-set vector, including this length field |
+| 8–9 | CODE | Subset ID | X'C9D6' | IO1 subset of the IO-Image command set |
+| 10–11 | CODE | Level ID | X'FF10'<br>X'FF11'<br>X'FF14'<br>X'FF40'<br>X'FF42'<br>X'FF45'<br>X'FF48'<br>X'0010'<br>X'0011' | IOCA FS10 data; see note 1<br>IOCA FS11 data; implies FS10 also supported<br>IOCA FS14 data; implies FS11 also supported<br>IOCA FS40 data<br>IOCA FS42 data; implies FS40 also supported<br>IOCA FS45 data; implies FS42 also supported<br>IOCA FS48 data; implies FS45 also supported<br>Subset of IOCA FS10 data<br>Subset of IOCA FS11 data |
+| 12 to end of vector | CODE | Property pairs | X'1001'<br>X'1202'<br>X'1206'<br>X'1208'<br>X'20nn'<br>X'30nn'<br>X'40nn' | IO-Image objects may be sent in any order<br>IO-Image objects can be downloaded in home state as resources<br>IO-Image support for LPD extents; see note 2<br>Negative object-area positioning; see note 3<br>Retired item 15<br>Retired item 16<br>Standard OCA color-support property ID, where nn is a bit-mapped byte:<br>**Bits 0–1**: Reserved<br>**Bit 2**: Limited simulated-color support. All valid but unsupported color values for bilevel IO Images are accepted and result in a device-dependent simulation of the specified color without the generation of unsupported color exceptions. Simulated colors need not be distinguishable. For a list of valid color values, see the “Standard OCA Color-Value Table”.<br>**Bits 3–5**: Reserved<br>**Bit 6**: Color of medium support for bilevel IO Images. Color of medium (also known as reset color) supported for bilevel IO Images; this color has the effect of erasing any data that is underneath the significant image points.<br>**Bit 7**: Multiple-color support for bilevel IO Images. Multiple-color support for IO-Image data; see note 4. |
+| | | | X'4401'<br>X'4402'<br>X'4403' | Extended IOCA bilevel color support; when this property pair is present, the printer supports Set Extended Bilevel Image Color (X'F4') IOCA self-defining field on the WIC2-IDD<br>Extended IOCA Tile-Set-Color support; see note 5<br>Bilevel IO-Image color support on the RPO command |
+| | | | X'5001'<br>X'5003'<br>X'5006'<br>X'5008'<br>X'500A'<br>X'500D'<br>X'500E'<br>X'5020'<br>X'5080'<br>X'5081'<br>X'5082'<br>X'5083'<br>X'5084' | Compression algorithm-support property IDs; see note 1:<br>X'5001': Modified ITU-TSS Modified READ Algorithm (IBM MMR)<br>X'5003': Uncompressed image<br>X'5006': Run-Length 4 Compression Algorithm<br>X'5008': ABIC (bilevel Q-coder) Compression Algorithm (ABIC)<br>X'500A': Concatenated ABIC<br>X'500D': TIFF LZW<br>X'500E': TIFF LZW with Differencing Predictor<br>X'5020': Solid Fill Rectangle<br>X'5080': ITU-TSS T.4 Facsimile Coding Scheme (G3 MH, one dimensional)<br>X'5081': ITU-TSS T.4 Facsimile Coding Scheme (G3 MR, two dimensional)<br>X'5082': ITU-TSS T.6 Facsimile Coding Scheme (G4 MMR)<br>X'5083': ISO/ITU-TSS JPEG algorithms<br>X'5084': JBIG2 Compression Algorithm |
+| | | | X'5101'<br>X'5204'<br>X'5308'<br>X'5501'<br>X'5505'<br>X'5506' | Bit ordering supported in the IOCA Image Encoding Parameter<br>Unpadded RIDIC recording algorithm<br>IDE size = 8 supported<br>Transparency masks<br>Multiple image content support; see note 6<br>nColor Names parameter supported |
+| | | | X'A0nn' | WIC2–IAP object area orientation support property ID (see notes 7 and 8); where nn is a bit-mapped byte:<br>**Bit 0**: 0 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 1**: 90 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 2**: 180 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 3**: 270 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 4**: Reserved<br>**Bit 5**: The four orientations 0, 90, 180, and 270 degrees are all supported with respect to the $X_{p}, Y_{p}$ coordinate system. As a result, all four object area orientations are supported with respect to all supported I,B orientations.<br>**Bit 6**: All values of degrees and minutes for object area orientation are supported; see note 9.<br>**Bit 7**: Reserved<br>If no X'A0nn' property pair is specified, the default is X'A080'. |
+| | | | X'F300'<br>X'F301' | Replicate-and-trim mapping supported; see note 10.<br>Scale-to-fill mapping supported |
 
 
 Notes:
@@ -4850,118 +4615,16 @@ be specified for any other IOCA function set.
 
 
 ## Graphics Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Graphics command-set vector, including this length
-field
-8–9 CODE Subset ID X'E5C7' GR1 subset of the Graphics command set
-10–11 CODE Level ID X'FF20'
-X'FF30'
-GOCA DR/2V0 data
-GOCA GRS3 data
-12 to
-end of
-vector
-CODE Property pairs X'1001'
-X'1207'
-X'1208'
-X'40nn'
-Graphics objects may be sent in any order
-Support for GOCA image resolution in the WGC-GDD
-Negative object-area positioning; see note 1
-Standard OCA color-support property ID,
-where nn is a bit-mapped byte:
-Bit 0 Reserved
-Bit 1 Simulated area fill color support as an AEA. Simulated
-color support for all valid but unsupported color values
-as an AEA for graphics area fill. The simulation
-technique is device dependent and generates
-distinguishable simulated colors. This bit and bit 2
-cannot both be set to B'1'. For a list of valid color values,
-see the “Standard OCA Color-Value Table”.
-Bit 2 Limited simulated-color support. All valid but
-unsupported color values for graphics data are accepted
-and result in a device-dependent simulation of the
-specified color without the generation of unsupported
-color exceptions. Simulated colors need not be
-distinguishable. This bit and bit 1 cannot both be set to
-B'1'. For a list of valid color values, see the “Standard
-OCA Color-Value Table”.
-Bits 3–5 Reserved
-Bit 6 Color of medium support. Color of medium (also known
-as reset color) supported for graphics data
-Bit 7 Multiple-color support. Multiple-color support for
-graphics; see note 2
 
-
-Offset Type Name Range Meaning
-X'4100'
-X'4101'
-X'4102'
-X'4106'
-X'4107'
-X'4108'
-X'4109'
-X'4110'
-X'4111'
-X'4112'
-X'4113'
-X'4114'
-X'4115'
-X'4116'
-X'4117'
-X'4130'
-X'4131'
-X'4132'
-X'A0nn'
-Set Process Color drawing order supported
-Box drawing orders supported
-Partial Arc drawing orders supported
-Set Fractional Line Width drawing order supported (including
-support between Begin Area and End Area drawing orders
-and in segment prologs)
-Cubic Bézier Curve drawing orders
-Set default support in GDD for Normal Line Width
-Set default support in GDD for Process Color
-Set Line End drawing order supported
-Set Line Join drawing order supported
-Clockwise full and partial arcs supported
-Nonzero Winding mode supported; see note 3
-Clockwise boxes supported
-Custom line types supported
-Font positioning method used for GOCA character positioning;
-see note 4
-Cell positioning method used for GOCA character positioning;
-see note 4
-Custom patterns supported; see note 5
-Gradients supported for area fill; see note 6
-Marker size supported; see note 7
-WGC–GAP object area orientation support property ID
-(see notes 8 and 9), where nn is a
-bit-mapped byte:
-Bit 0 0 degree orientation supported with respect to the X
-p,Yp
-coordinate system
-Bit 1 90 degree orientation supported with respect to the Xp,Yp
-coordinate system
-Bit 2 180 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 3 270 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 4 Reserved
-Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the Xp,Yp coordinate system.
-As a result, all four object area orientations are
-supported with respect to all supported I,B orientations.
-Bit 6 All values of degrees and minutes for object area
-orientation are supported.
-Bit 7 Reserved
-If no X'A0nn' property pair is specified, the default is X'A080'.
-X'F300'
-X'F301'
-Retired item 135 (replicate-and-trim mapping)
-Scale-to-fill mapping supported
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Graphics command-set vector, including this length field |
+| 8–9 | CODE | Subset ID | X'E5C7' | GR1 subset of the Graphics command set |
+| 10–11 | CODE | Level ID | X'FF20'<br>X'FF30' | GOCA DR/2V0 data<br>GOCA GRS3 data |
+| 12 to end of vector | CODE | Property pairs | X'1001'<br>X'1207'<br>X'1208'<br>X'40nn' | Graphics objects may be sent in any order<br>Support for GOCA image resolution in the WGC-GDD<br>Negative object-area positioning; see note 1<br>Standard OCA color-support property ID, where nn is a bit-mapped byte:<br>**Bit 0**: Reserved<br>**Bit 1**: Simulated area fill color support as an AEA. Simulated color support for all valid but unsupported color values as an AEA for graphics area fill. The simulation technique is device dependent and generates distinguishable simulated colors. This bit and bit 2 cannot both be set to B'1'. For a list of valid color values, see the “Standard OCA Color-Value Table”.<br>**Bit 2**: Limited simulated-color support. All valid but unsupported color values for graphics data are accepted and result in a device-dependent simulation of the specified color without the generation of unsupported color exceptions. Simulated colors need not be distinguishable. This bit and bit 1 cannot both be set to B'1'. For a list of valid color values, see the “Standard OCA Color-Value Table”.<br>**Bits 3–5**: Reserved<br>**Bit 6**: Color of medium support. Color of medium (also known as reset color) supported for graphics data<br>**Bit 7**: Multiple-color support. Multiple-color support for graphics; see note 2 |
+| | | | X'4100'<br>X'4101'<br>X'4102'<br>X'4106'<br>X'4107'<br>X'4108'<br>X'4109'<br>X'4110'<br>X'4111'<br>X'4112'<br>X'4113'<br>X'4114'<br>X'4115'<br>X'4116'<br>X'4117'<br>X'4130'<br>X'4131'<br>X'4132' | Set Process Color drawing order supported<br>Box drawing orders supported<br>Partial Arc drawing orders supported<br>Set Fractional Line Width drawing order supported (including support between Begin Area and End Area drawing orders and in segment prologs)<br>Cubic Bézier Curve drawing orders<br>Set default support in GDD for Normal Line Width<br>Set default support in GDD for Process Color<br>Set Line End drawing order supported<br>Set Line Join drawing order supported<br>Clockwise full and partial arcs supported<br>Nonzero Winding mode supported; see note 3<br>Clockwise boxes supported<br>Custom line types supported<br>Font positioning method used for GOCA character positioning; see note 4<br>Cell positioning method used for GOCA character positioning; see note 4<br>Custom patterns supported; see note 5<br>Gradients supported for area fill; see note 6<br>Marker size supported; see note 7 |
+| | | | X'A0nn' | WGC–GAP object area orientation support property ID (see notes 8 and 9), where nn is a bit-mapped byte:<br>**Bit 0**: 0 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 1**: 90 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 2**: 180 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 3**: 270 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 4**: Reserved<br>**Bit 5**: The four orientations 0, 90, 180, and 270 degrees are all supported with respect to the $X_{p}, Y_{p}$ coordinate system. As a result, all four object area orientations are supported with respect to all supported I,B orientations.<br>**Bit 6**: All values of degrees and minutes for object area orientation are supported.<br>**Bit 7**: Reserved<br>If no X'A0nn' property pair is specified, the default is X'A080'. |
+| | | | X'F300'<br>X'F301' | Retired item 135 (replicate-and-trim mapping)<br>Scale-to-fill mapping supported |
 Notes:
 1. Property pair X'1208' indicates support for negative object-area-offset values in WGC-GOC self-defining
 fields.
@@ -5009,87 +4672,15 @@ number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–
 
 
 ## Bar Code Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Bar Code command-set vector, including this length
-field
-8–9 CODE Subset ID X'C2C3' BC1 subset of the Bar Code command set
-10–11 CODE Level ID X'FF10'
-X'FF20'
-BCOCA BCD1 data
-BCOCA BCD2 data
-12 to
-end of
-vector
-CODE Property pairs X'1001'
-X'1208'
-X'1300'
-X'1301'
-X'1302'
-X'1303'
-X'1304'
-X'1305'
-X'1306'
-X'1307'
-X'40nn'
-Bar code objects may be sent in any order
-Negative object-area positioning; see note 1
-Small-symbol support; see note 2
-Retired item 139
-Desired-symbol-width parameter supported
-in the Bar Code Symbol Descriptor
-Data Matrix encodation scheme support
-Full range of font local IDs supported in WBCC-BCDD; see
-note 3
-Support for bar code suppression; see note 4
-Support for the too-much-data flag in the QR Code
-Special-Function Parameters
-Support for the too-much-data flag in the Data Matrix
-Special-Function Parameters; see note 5
-Standard OCA color-support property ID,
-where nn is a bit-mapped byte:
-Bits 0–1 Reserved
-Bit 2 Limited simulated-color support. All valid but
-unsupported color values for bar code data are accepted
-and result in a device-dependent simulation of the
-specified color without the generation of unsupported
-color exceptions. Simulated colors need not be
-distinguishable. For a list of valid color values, see the
-“Standard OCA Color-Value Table”.
-Bits 3-5 Reserved
-Bit 6 Color of medium support. Color of medium (also known
-as reset color) supported for bar code data
-Bit 7 Multiple-color support for bar code data; see note 6 on
-page 257
 
-
-Offset Type Name Range Meaning
-X'4400'
-X'A0nn'
-Extended bar code color support; when this property pair is
-present, the printer supports the Color Specification (X'4E')
-triplet on the WBCC-BCDD.
-WBCC–BCAP object area orientation support property ID
-(see note 7 and note 8), where nn
-is a bit-mapped byte:
-Bit 0 0 degree orientation supported with respect to the Xp,Yp
-coordinate system
-Bit 1 90 degree orientation supported with respect to the Xp,Yp
-coordinate system
-Bit 2 180 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 3 270 degree orientation supported with respect to the
-Xp,Yp coordinate system
-Bit 4 Reserved
-Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported with respect to the Xp,Yp coordinate system.
-As a result, all four object area orientations are
-supported with respect to all supported I,B orientations.
-Bit 6 All values of degrees and minutes for object area
-orientation are supported.
-Bit 7 Reserved
-If no X'A0nn' property pair is specified, the default is X'A080'.
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Bar Code command-set vector, including this length field |
+| 8–9 | CODE | Subset ID | X'C2C3' | BC1 subset of the Bar Code command set |
+| 10–11 | CODE | Level ID | X'FF10'<br>X'FF20' | BCOCA BCD1 data<br>BCOCA BCD2 data |
+| 12 to end of vector | CODE | Property pairs | X'1001'<br>X'1208'<br>X'1300'<br>X'1301'<br>X'1302'<br>X'1303'<br>X'1304'<br>X'1305'<br>X'1306'<br>X'1307' | Bar code objects may be sent in any order<br>Negative object-area positioning; see note 1<br>Small-symbol support; see note 2<br>Retired item 139<br>Desired-symbol-width parameter supported in the Bar Code Symbol Descriptor<br>Data Matrix encodation scheme support<br>Full range of font local IDs supported in WBCC-BCDD; see note 3<br>Support for bar code suppression; see note 4<br>Support for the too-much-data flag in the QR Code Special-Function Parameters<br>Support for the too-much-data flag in the Data Matrix Special-Function Parameters; see note 5 |
+| | | | X'40nn' | Standard OCA color-support property ID, where nn is a bit-mapped byte:<br>**Bits 0–1**: Reserved<br>**Bit 2**: Limited simulated-color support. All valid but unsupported color values for bar code data are accepted and result in a device-dependent simulation of the specified color without the generation of unsupported color exceptions. Simulated colors need not be distinguishable. For a list of valid color values, see the “Standard OCA Color-Value Table”.<br>**Bits 3-5**: Reserved<br>**Bit 6**: Color of medium support. Color of medium (also known as reset color) supported for bar code data<br>**Bit 7**: Multiple-color support for bar code data; see note 6. |
+| | | | X'4400'<br>X'A0nn' | Extended bar code color support; when this property pair is present, the printer supports the Color Specification (X'4E') triplet on the WBCC-BCDD.<br>WBCC–BCAP object area orientation support property ID (see note 7 and note 8), where nn is a bit-mapped byte:<br>**Bit 0**: 0 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 1**: 90 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 2**: 180 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 3**: 270 degree orientation supported with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 4**: Reserved<br>**Bit 5**: The four orientations 0, 90, 180, and 270 degrees are all supported with respect to the $X_{p}, Y_{p}$ coordinate system. As a result, all four object area orientations are supported with respect to all supported I,B orientations.<br>**Bit 6**: All values of degrees and minutes for object area orientation are supported.<br>**Bit 7**: Reserved<br>If no X'A0nn' property pair is specified, the default is X'A080'. |
 Notes:
 1. Property pair X'1208' indicates support for negative object-area-offset values in WBCC-BCOC self-defining
 fields.
@@ -5145,75 +4736,15 @@ appropriately encoded Common Bar Code Type/Modifier Self-Defining Field.
 
 
 ## Object Container Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Object Container command-set vector, including this
-length field
-8–9 CODE Subset ID X'D6C3' OC1 subset of the Object Container command set
-10–11 CODE Level ID X'0000' No levels defined
-12 to
-end of
-vector
-CODE Property pairs X'1201'
-X'1203'
-X'1204'
-X'1205'
-X'1208'
-X'1209'
-X'120A'
-X'120B'
-X'120D'
-X'120E'
-X'5800'
-X'5801'
-Data-object-resource support; see note 1
-Object Container Presentation Space Size (X'9C') triplet
-supported for PDF objects in IDO, RPO, and WOCC
-commands
-Remove Resident Resource (RRR) command support
-Request Resident Resource List (RRRL) command support
-Negative object-area positioning; see note 2
-Object Container Presentation Space Size (X'9C') triplet
-supported for SVG objects in IDO, RPO, and WOCC
-commands
-Extension entries supported in the DORE command; see
-note 3
-Retired item 149 ; see note 4
-TrueType/OpenType Fonts supported as secondary resources in
-the DORE2 command; see note 4
-Data Object Resource Equivalence 2 (DORE2) command
-support; see note 5
-Image Resolution (X'9A') triplet supported in IDO, RPO,
-and WOCC commands
-Bilevel and grayscale image color support for object containers;
-see note 6
 
-
-Offset Type Name Range Meaning
-X'A0nn' WOCC-OCAP and IDO-DOAP object area orientation support
-property ID (see notes 7, 8, and
-9), where nn is a bit-mapped byte:
-Bit 0 0 degree orientation supported in the WOCC-OCAP with
-respect to the Xp,Yp coordinate system
-Bit 1 90 degree orientation supported in the WOCC-OCAP
-with respect to the Xp,Yp coordinate system
-Bit 2 180 degree orientation supported in the WOCC-OCAP
-with respect to the Xp,Yp coordinate system
-Bit 3 270 degree orientation supported in the WOCC-OCAP
-with respect to the Xp,Yp coordinate system
-Bit 4 Reserved
-Bit 5 The four orientations 0, 90, 180, and 270 degrees are all
-supported in the WOCC-OCAP with respect to the Xp,Yp
-coordinate system. As a result, all four object area
-orientations are supported with respect to all supported I,
-B orientations.
-Bit 6 All values of degrees and minutes for object area
-orientation are supported in both the WOCC-OCAP and
-the IDO-DOAP .
-Bit 7 Reserved
-If no X'A0nn' property pair is specified, the default is X'A080'.
-X'F301' Scale-to-fill mapping supported
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Object Container command-set vector, including this length field |
+| 8–9 | CODE | Subset ID | X'D6C3' | OC1 subset of the Object Container command set |
+| 10–11 | CODE | Level ID | X'0000' | No levels defined |
+| 12 to end of vector | CODE | Property pairs | X'1201'<br>X'1203'<br>X'1204'<br>X'1205'<br>X'1208'<br>X'1209'<br>X'120A'<br>X'120B'<br>X'120D'<br>X'120E'<br>X'5800'<br>X'5801' | Data-object-resource support; see note 1<br>Object Container Presentation Space Size (X'9C') triplet supported for PDF objects in IDO, RPO, and WOCC commands<br>Remove Resident Resource (RRR) command support<br>Request Resident Resource List (RRRL) command support<br>Negative object-area positioning; see note 2<br>Object Container Presentation Space Size (X'9C') triplet supported for SVG objects in IDO, RPO, and WOCC commands<br>Extension entries supported in the DORE command; see note 3<br>Retired item 149 ; see note 4<br>TrueType/OpenType Fonts supported as secondary resources in the DORE2 command; see note 4<br>Data Object Resource Equivalence 2 (DORE2) command support; see note 5<br>Image Resolution (X'9A') triplet supported in IDO, RPO, and WOCC commands<br>Bilevel and grayscale image color support for object containers; see note 6 |
+| | | | X'A0nn' | WOCC-OCAP and IDO-DOAP object area orientation support property ID (see notes 7, 8, and 9), where nn is a bit-mapped byte:<br>**Bit 0**: 0 degree orientation supported in the WOCC-OCAP with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 1**: 90 degree orientation supported in the WOCC-OCAP with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 2**: 180 degree orientation supported in the WOCC-OCAP with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 3**: 270 degree orientation supported in the WOCC-OCAP with respect to the $X_{p}, Y_{p}$ coordinate system<br>**Bit 4**: Reserved<br>**Bit 5**: The four orientations 0, 90, 180, and 270 degrees are all supported in the WOCC-OCAP with respect to the $X_{p}, Y_{p}$ coordinate system. As a result, all four object area orientations are supported with respect to all supported I, B orientations.<br>**Bit 6**: All values of degrees and minutes for object area orientation are supported in both the WOCC-OCAP and the IDO-DOAP.<br>**Bit 7**: Reserved<br>If no X'A0nn' property pair is specified, the default is X'A080'. |
+| | | | X'F301' | Scale-to-fill mapping supported |
 
 
 Notes:
@@ -5269,47 +4800,22 @@ number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–
 
 
 ## Metadata Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Metadata command-set vector, including this length
-field
-8–9 CODE Subset ID X'D4C4' MO1 subset of the Metadata command set
-10–11 CODE Level ID X'FF10' MOCA MS1 data
-12 to
-end of
-vector
-CODE Property pairs X'D001' Support for the AFP Tagging format
-Overlay Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Overlay command-set vector, including this length
-field
-8–9 CODE Command set
-ID
-X'D6D3' Overlay command-set ID
-10–11 CODE Subset ID X'FF10' OL1 subset ID
-12 to
-end of
-vector
-CODE Property pairs X'1102'
-X'15nn'
-Extended overlay support; up to 32,511 overlays
-can be activated at one time.
-Overlay nesting support; if not reported, two levels of
-nesting (X'02') are assumed; see note 1.
-Where nn is:
-X'01' No overlay nesting is supported. Overlays may not
-include other overlays.
-X'mm' Overlay nesting up to mm levels is supported. Valid
-values for mm are X'02'–X'FE'.
-X'FF' 255 or more levels of overlay nesting supported.
-X'1600'
-X'A004'
-Preprinted form overlay support in LCC and IO commands
-Page-overlay-rotation support; all 4 orientations
-supported in the IO command
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Metadata command-set vector, including this length field |
+| 8–9 | CODE | Subset ID | X'D4C4' | MO1 subset of the Metadata command set |
+| 10–11 | CODE | Level ID | X'FF10' | MOCA MS1 data |
+| 12 to end of vector | CODE | Property pairs | X'D001' | Support for the AFP Tagging format |
+## Overlay Command-Set Vector
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Overlay command-set vector, including this length field |
+| 8–9 | CODE | Command set ID | X'D6D3' | Overlay command-set ID |
+| 10–11 | CODE | Subset ID | X'FF10' | OL1 subset ID |
+| 12 to end of vector | CODE | Property pairs | X'1102'<br>X'15nn' | Extended overlay support; up to 32,511 overlays can be activated at one time.<br>Overlay nesting support; if not reported, two levels of nesting (X'02') are assumed; see note 1. Where nn is:<br>X'01': No overlay nesting is supported. Overlays may not include other overlays.<br>X'mm': Overlay nesting up to mm levels is supported. Valid values for mm are X'02'–X'FE'.<br>X'FF': 255 or more levels of overlay nesting supported. |
+| | | | X'1600'<br>X'A004' | Preprinted form overlay support in LCC and IO commands<br>Page-overlay-rotation support; all 4 orientations supported in the IO command |
 Notes:
 1. For example, if X'1503' is returned, the host can invoke an overlay by means of an IO or LCC command
 that contains an IO command, resulting in two levels of nesting. The included overlay might also contain an
@@ -5320,81 +4826,23 @@ vector.
 2. Support of overlay invocation via LCC is implied by support of OL1.
 
 
-Page Segment Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Page-Segment command-set vector, including this
-length field
-8–9 CODE Command set
-ID
-X'D7E2' Page-Segment command-set ID
-10–11 CODE Subset ID X'FF10' PS1 subset ID
-12 to
-end of
-vector
-CODE Property pairs X'1101' Extended page segment support; up to 32,511 page segments
-can be activated at one time.
+## Page-Segment Command-Set Vector
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Page-Segment command-set vector, including this length field |
+| 8–9 | CODE | Command set ID | X'D7E2' | Page-Segment command-set ID |
+| 10–11 | CODE | Subset ID | X'FF10' | PS1 subset ID |
+| 12 to end of vector | CODE | Property pairs | X'1101' | Extended page segment support; up to 32,511 page segments can be activated at one time. |
 ## Loaded-Font Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-Length of the Loaded-Font command-set vector, including this
-length field
-8–9 CODE Command set
-ID
-X'C3C6' Loaded-Font command-set ID
-10–11 CODE Subset ID X'FF10'
-X'FF20'
-X'FF30'
-X'FF40'
-LF1 subset ID; fully described font plus font index
-LF2 subset ID; symbol set coded font
-LF3 subset ID; code page plus font character set
-LF4 subset ID; code page
-There is no subset or superset relationship between the loaded-
-font subsets.
-12 to
-end of
-vector
-CODE Property pairs X'A0nn' Orientation-support property ID,
-where nn is a bit-mapped byte:
-Bit 0 0 degree Font Inline Sequence supported for all
-supported text orientations in the LFI command
-Bit 1 90 degree Font Inline Sequence supported for all
-supported text orientations in the LFI command
-Bit 2 180 degree Font Inline Sequence supported for all
-supported text orientations in the LFI command
-Bit 3 270 degree Font Inline Sequence supported for all
-supported text orientations in the LFI command
-Bit 4 Reserved
-Bit 5 All four Font Inline Sequences supported for all
-supported text orientations in the LFI command
-Bits 6–7 Reserved
-If no X'A0nn' property pair is specified, the default is X'A080'.
 
-
-Offset Type Name Range Meaning
-X'B001'
-X'B002'
-X'B003'
-X'B004'
-X'B005'
-X'C0nn'
-X'C1nn'
-Double-byte coded fonts and code pages
-Underscore width and position parameters
-in the LFI command are used by printer
-GRID-parts fields allowed in the LFC, LFCSC, and
-LCPC commands
-Default character parameters supported in the LCPC command
-(implies that X'B003' is also supported)
-Extended (Unicode mapping) code page
-support; see note 1.
-Coded-font pattern-technology ID (see note 2), nn is:
-X'05' – Bounded-box raster-font technology
-X'1E' – CID-keyed outline-font technology
-X'1F' – Type 1 PFB outline-font technology
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector | Length of the Loaded-Font command-set vector, including this length field |
+| 8–9 | CODE | Command set ID | X'C3C6' | Loaded-Font command-set ID |
+| 10–11 | CODE | Subset ID | X'FF10'<br>X'FF20'<br>X'FF30'<br>X'FF40' | LF1 subset ID; fully described font plus font index<br>LF2 subset ID; symbol set coded font<br>LF3 subset ID; code page plus font character set<br>LF4 subset ID; code page<br>There is no subset or superset relationship between the loaded-font subsets. |
+| 12 to end of vector | CODE | Property pairs | X'A0nn' | Orientation-support property ID, where nn is a bit-mapped byte:<br>**Bit 0**: 0 degree Font Inline Sequence supported for all supported text orientations in the LFI command<br>**Bit 1**: 90 degree Font Inline Sequence supported for all supported text orientations in the LFI command<br>**Bit 2**: 180 degree Font Inline Sequence supported for all supported text orientations in the LFI command<br>**Bit 3**: 270 degree Font Inline Sequence supported for all supported text orientations in the LFI command<br>**Bit 4**: Reserved<br>**Bit 5**: All four Font Inline Sequences supported for all supported text orientations in the LFI command<br>**Bits 6–7**: Reserved<br>If no X'A0nn' property pair is specified, the default is X'A080'. |
+| | | | X'B001'<br>X'B002'<br>X'B003'<br>X'B004'<br>X'B005'<br>X'C0nn'<br>X'C1nn' | Double-byte coded fonts and code pages<br>Underscore width and position parameters in the LFI command are used by printer<br>GRID-parts fields allowed in the LFC, LFCSC, and LCPC commands<br>Default character parameters supported in the LCPC command (implies that X'B003' is also supported)<br>Extended (Unicode mapping) code page support; see note 1.<br>Coded-font pattern-technology ID (see note 2), nn is:<br>X'05': Bounded-box raster-font technology<br>X'1E': CID-keyed outline-font technology<br>X'1F': Type 1 PFB outline-font technology |
 The Type 1 PFB and CID-keyed technologies are defined by
 Adobe Systems Incorporated. The Type 1 PFB technology is
 described in Adobe Type 1 Font Format published by Adobe
