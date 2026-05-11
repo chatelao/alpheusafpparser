@@ -8,7 +8,7 @@ implemented all the exception codes. For information and a list of specific exce
 individual printer, consult the documentation for that printer.
 The Acknowledge Reply is used by IPDS printers to return both positive and negative replies to the host.
 Positive replies are called ACKs. Negative replies are called NACKs and contain sense-byte information in the
-special data area. For more information about acknowledgments, refer to “Acknowledge Reply” on page 124.
+special data area. For more information about acknowledgments, refer to “Acknowledge Reply” .
 General Rules for Exceptions
 All of the exception reporting rules are intended to accomplish a simple result: the printer and the
 communications network (including direct-attachment protocols such as channel) will work together to ensure
@@ -74,7 +74,7 @@ upon receipt, the printer continues to remember the LPP positioning information.
 upstream data has been discarded continue to be positioned using this saved LPP information.
 Note: The host can determine which pages have been discarded by examining the page and copy counters
 in an ACK of a synchronizing command. Any pages not reflected in the counters have been discarded.
-Refer to “Page and Copy Counter Adjustments” on page 926.
+Refer to “Page and Copy Counter Adjustments” .
 • All synchronous exceptions for a given page must be reported to the host before any exceptions on
 subsequent pages may be reported.
 • When the printer has one or more asynchronous exceptions to report (exceptions with an action code other
@@ -107,7 +107,7 @@ page so that the previously detected data stream error can be redetected and rep
 • The Exception-Handling Control (EHC) order of the Execute Order Anystate (XOA) command is used to tell
 the printer how to handle exceptions. More information about the XOA-EHC command follows in the next
 section. For complete information about the XOA-EHC command, refer to “XOA Exception-Handling Control”
-on page 277.
+.
 • If a command-reject exception is detected by the printer, no portion of the command is accepted by the
 printer; that is, the entire command is discarded.
 
@@ -147,7 +147,7 @@ specify:
 • Whether or not printing should continue when an exception is detected
 • Whether or not an exception should be reported
 • For color exceptions, what type of color substitution is permitted
-The exception-handling control flowchart, Figure 60 on page 285, shows the relationship between the PFC
+The exception-handling control flowchart, Figure 60 , shows the relationship between the PFC
 command and the XOA-EHC command.
 
 
@@ -210,14 +210,14 @@ If the exception occurs while multiple copies are being generated at EP time, sh
 processed, exception-free copy subgroups are printed. The copy subgroups, that are specified as part of the
 LCC command, tell the printer how to modify a page before printing the specified number of copies.
 For complete information about the exception-presentation processing byte, refer to “XOA Exception-Handling
-Control” on page 277.
+Control” .
 Exception Page Print
 The exception-page-print bit under certain circumstances determines whether a page is partially printed or
 discarded for pages on which an exception is detected and reported to the host. When a page is to be printed,
 the printer performs the equivalent of an End Page command and prints the partial page within the limits of the
 print process.
 For complete information about the exception-page-print function, refer to “XOA Exception-Handling Control”
-on page 277.
+.
 
 
 Classes of Exceptions
@@ -363,7 +363,7 @@ command
 command
 – For a data object resource, this is the HAID from an AR, DDOR, DORE, DORE2, ICMR,
 IDO, LPD, RPO, WBCC, WGC, WIC2, or WOCC command
-Bytes 16–17 Exception-ID-specific information; see note 3 on page 799 for a list of exception IDs that
+Bytes 16–17 Exception-ID-specific information; see note 3  for a list of exception IDs that
 provide this information. A value of X'0000' in this field means that no exception-ID-specific
 information has been provided.
 Byte 18 This field indicates the type of object identified by the ID field in sense bytes 14–15 and 20–
@@ -391,42 +391,19 @@ and sense bytes 16–17 contain the media-destination ID that is inconsistent wi
 
 3. Sense bytes 16–17 contain additional useful information that is specific to the particular NACK, as follows:
 Table 63. Exception ID Specific Information
-Exception ID Information in Sense Bytes 16–17
-X'0821..00'
-X'0829..00'
-X'028F ..50'
-Bytes 16–17 contain the code point that caused the error. For double-byte fonts, byte 16
-contains the section ID and byte 17 contains the 2nd byte of the code point. For single-byte
-fonts, byte 17 contains the code point.
-X'0500..01'
-X'0500..03'
-X'0500..04'
-Bytes 16–17 contain the IOCA self-defining field code that caused the error. For one-byte codes,
-byte 16 contains X'00' and byte 17 contains the code.
-X'0406..11' Bytes 16–17 contain the size of the smallest valid symbol width in twips.
-X'0412..00' Bytes 16–17 contain the application ID (ai) value for the bad data. The ai value is read as four
-decimal digits, with leading zeroes if necessary. For example, ai = 01 is shown as X'0001' in
-bytes 16–17 and ai = 8005 is shown as X'8005' in bytes 16–17.
-X'03C3..03'
-X'021A..03'
-Bytes 16–17 contain the Unicode code value in error, as follows:
-• When a high-order surrogate code value was not immediately followed by a low-order
-surrogate code value, bytes 16–17 contain the high-order surrogate code value.
-• When a low-order surrogate code value was not immediately preceded by a high-order
-surrogate code value, bytes 16–17 contain the low-order surrogate code value.
-• When an illegal UTF-8 code value sequence was specified, bytes 16–17 contain the first two
-bytes of the UTF-8 code value sequence.
-X'0200..01' Bytes 16–17 contain the unsupported or unrecognized PTOCA control sequence function type
-that caused this error. Byte 16 contains X'00' and byte 17 contains the function-type value.
-X'020D..01'
-X'020D..05'
-X'0115..00'
-Bytes 16–17 contain an object-specific error code. Refer to “Error Codes for Other Data Objects”
-on page 922 for a list of object-specific error codes.
-X'0237..04' Bytes 16–17 contain the inconsistent media destination ID.
-X'025D..ee' Bytes 16–17 contain a CMR TagID value as defined in the Color Management Object Content
-Architecture Reference.
-X'029C..02' Bytes 16–17 contain the glyph ID that caused the error.
+
+| Exception ID | Information in Sense Bytes 16–17 |
+| :--- | :--- |
+| X'0821..00'<br>X'0829..00'<br>X'028F..50' | Bytes 16–17 contain the code point that caused the error. For double-byte fonts, byte 16 contains the section ID and byte 17 contains the 2nd byte of the code point. For single-byte fonts, byte 17 contains the code point. |
+| X'0500..01'<br>X'0500..03'<br>X'0500..04' | Bytes 16–17 contain the IOCA self-defining field code that caused the error. For one-byte codes, byte 16 contains X'00' and byte 17 contains the code. |
+| X'0406..11' | Bytes 16–17 contain the size of the smallest valid symbol width in twips. |
+| X'0412..00' | Bytes 16–17 contain the application ID (ai) value for the bad data. The ai value is read as four decimal digits, with leading zeroes if necessary. For example, ai = 01 is shown as X'0001' in bytes 16–17 and ai = 8005 is shown as X'8005' in bytes 16–17. |
+| X'03C3..03'<br>X'021A..03' | Bytes 16–17 contain the Unicode code value in error, as follows:<br>• When a high-order surrogate code value was not immediately followed by a low-order surrogate code value, bytes 16–17 contain the high-order surrogate code value.<br>• When a low-order surrogate code value was not immediately preceded by a high-order surrogate code value, bytes 16–17 contain the low-order surrogate code value.<br>• When an illegal UTF-8 code value sequence was specified, bytes 16–17 contain the first two bytes of the UTF-8 code value sequence. |
+| X'0200..01' | Bytes 16–17 contain the unsupported or unrecognized PTOCA control sequence function type that caused this error. Byte 16 contains X'00' and byte 17 contains the function-type value. |
+| X'020D..01'<br>X'020D..05'<br>X'0115..00' | Bytes 16–17 contain an object-specific error code. Refer to “Error Codes for Other Data Objects” for a list of object-specific error codes. |
+| X'0237..04' | Bytes 16–17 contain the inconsistent media destination ID. |
+| X'025D..ee' | Bytes 16–17 contain a CMR TagID value as defined in the Color Management Object Content Architecture Reference. |
+| X'029C..02' | Bytes 16–17 contain the glyph ID that caused the error. |
 Note: For sense format 0 exceptions (not listed in the table) whose explanation lists multiple causes, sense bytes
 16–17 contains the number of the specific cause; printers that do not provide this bonus information return
 X'0000' in sense bytes 16–17.
@@ -523,7 +500,7 @@ Action codes classify the exception to assist host-exception recovery and allow 
 codes are included only if the printer returns 24 bytes of sense data.
 Each exception is defined relative to a specific point in the logical paper path and is described as occurring
 relative to a specific page counter. These counters are adjusted as described in “Page and Copy Counter
-Adjustments” on page 926. The logical paper path and the page counters are shown in Figure 118.
+Adjustments” . The logical paper path and the page counters are shown in Figure 118.
 Figure 118. Logical Paper Path and Page Counters
 Received page counter
 Committed page counter
@@ -539,209 +516,29 @@ printer documentation for the list of action codes used by your printer.
 For each action code, a suggested host recovery action is provided. For the description of a particular host-
 program implementation, refer to your host-program documentation.
 Table 64. Action Codes
-Action Code Exception Recovery Action
-X'01'
-Data-Stream Exception
-A syntax error has been found in an IPDS command. The host recovery action
-depends on the specific exception and on host-support requirements. Data-stream
-exceptions are discovered while the printer is accepting and syntax checking IPDS
-commands. For commands containing page data, the page in which the error
-occurred is either the page just before the Received Page Counter or the page at the
-Received Page Counter depending upon the current XOA-EHC command and
-whether multiple pages are to be presented on the current sheet. Refer to “Load
-Copy Control” on page 176 for further details.
-X'05'
-End IPDS dialog
-The printer has received a request to print from another session and asks the
-presentation services program to end the current IPDS dialog (or the current
-carrying-protocol session) as soon as possible, such as at the end of the current print
-unit. If the printer is currently receiving a page or resource, the partial page or
-resource is discarded so that the host and printer are synchronized to the beginning
-of the page or resource. This condition does not affect the page or copy counters.
-X'06'
-Function no longer achievable
-The printer detected that a previously requested function can no longer be
-performed. The host recovery depends on the specific exception and on host-support
-requirements. This condition does not adjust the page or copy counters.
 
-
-Table 64 Action Codes (cont'd.)
-Action Code Exception Recovery Action
-X'08'
-Physical Media Jam
-The printer has detected a physical media jam. The printer has discarded all buffered
-pages and modified the page and copy counters. Retransmit all pages that have not
-passed the printer-defined jam-recovery point and any associated resources
-(overlays, page segments, fonts, saved page groups, and data object resources) that
-are not already in the printer. Physical media jams occur on the next sheet that would
-have reached the Jam-Recovery Page Counter.
-X'09'
-Data-Related Print
-Exception
-A sheet cannot be printed because of something within the data stream; for example,
-the data might be too complex, or too dense, or the media source selected might be
-incompatible with the media destination selected. The printer has discarded all
-buffered pages and modified the page and copy counters. Recovery depends on
-host-support requirements. Data-related print exceptions occur on the next sheet that
-would have reached the Committed Page Counter.
-X'0A'
-Pre-processor or
-post-processor exception
-The printer has detected a condition in a pre-processor or post-processor device that
-has caused all pages that would have reached the jam-recovery station to be
-discarded. The printer has discarded all buffered pages and modified the page and
-copy counters. Host recovery depends on the specific exception and on host-support
-requirements. Post-processor exceptions cause all pages that would have reached
-the Jam-Recovery Page Counter to be discarded.
-X'0C'
-Resource Storage Exception
-The printer cannot accept a page or resource (overlay, page segment, font, or data
-object resource) because the storage area is full; the printer has discarded the partial
-page or resource. If the exception occurred while saving a page, that page is
-discarded, but previously saved pages are kept. When an out-of-storage exception
-causes the first page of a group to be discarded, the group is terminated and
-information concerning the group is discarded.
-Deactivate unused resources and retry; if this action fails, the recovery action
-depends on host-support requirements. Resource storage exceptions occur on the
-next page that would have reached the Received Page Counter.
-X'0D'
-Printer Restart
-The printer has discarded all pages and downloaded resources (overlays, page
-segments, fonts, and data object resources) because of operator intervention or
-because of a hardware failure. All saved page groups are deactivated and might also
-be removed. All page and copy counters have been reset to zero. Recovery depends
-on host-support requirements.
-X'15'
-Cancel
-The printer operator has requested that the current print data be canceled. The
-printer has discarded all buffered pages and modified the page and copy counters. If
-the Committed Copy Counter is zero, cancel the print data containing the page at the
-Committed Page Counter. If the Committed Copy Counter is not zero, cancel the print
-data containing the page that will next reach the Committed Page Counter.
-X'16'
-Hardware-Related Print
-Exception
-The printer has discarded all buffered pages because of a condition detected at the
-printer. Retransmit all pages that have not been committed for printing and any
-associated resources that are not already in the printer. Hardware-related print
-exceptions occur on the next sheet that would have reached the Committed Page
-Counter.
-X'17'
-Printer Mechanism Unusable
-A printer mechanism, such as the offset stacker, a duplex media path, or an input
-media source, has become unusable. Printing might still be possible if the unusable
-mechanism is bypassed. The printer has discarded all buffered pages and modified
-the page and copy counters. Host software should take appropriate action.
-
-
-Table 64 Action Codes (cont'd.)
-Action Code Exception Recovery Action
-X'19'
-Asynchronous Data-Stream
-Exception
-An attempt was made to print outside the valid printable area or to print an undefined
-text, bar code HRI, or graphics character. The printer has discarded all buffered
-pages and modified the page and copy counters. The appropriate recovery action
-depends on host-support requirements. Asynchronous data-stream exceptions occur
-on a page that is between the Received and Committed Page Counters. The host
-must issue an XOH-PBD command to ensure that the page and copy counters are
-accurately adjusted. After the XOH-PBD command has successfully completed, the
-page in error is either one of the pages on the last sheet just before the Committed
-Page Counter or the page at the Committed Page Counter, depending on the
-appropriate XOA-EHC command.
-X'1A'
-Redrive Buffered Pages
-The printer has discarded buffered pages due to a printer operator action or a
-hardware problem. Retransmit all pages that have not been committed for printing
-and any associated resources (overlays, page segments, fonts, saved page groups,
-and data object resources) that are not already in the printer. Redrive-buffered-pages
-exceptions occur on the next sheet that would have reached the Committed Page
-Counter.
-X'1B'
-Recovery-Unit Group
-Exception
-The printer has detected a condition that has caused all pages that have not yet
-reached the jam-recovery point to be discarded while a recovery-unit group operation
-was active. The printer has discarded all pages that have not yet reached the jam-
-recovery point and has modified the page and copy counters. Retransmit pages from
-the jam recovery page counter plus one and reload any associated resources
-(overlays, page segments, fonts, saved page groups, and data object resources) that
-are not already in the printer. Recovery-unit group exceptions cause all pages that
-have not yet reached the jam-recovery point to be discarded so that host recovery
-can reposition to a group boundary.
-X'1D'
-Printer Characteristics
-Changed
-At least one of the printer characteristics that is reported in the reply to an XOH-OPC
-command has changed. The printer has discarded all buffered pages and modified
-the page and copy counters. The host should issue an XOH-OPC command to obtain
-the new printer characteristics. Retransmit all pages that have not been committed
-for printing and any associated resources (overlays, page segments, fonts, saved
-page groups, and data object resources) that are not already in the printer. Printer-
-characteristics-changed exceptions occur on the next sheet that would have reached
-the Committed Page Counter.
-X'1E'
-Asynchronous Out-of-Storage
-Exception
-A resource or a page that is not currently being received at the Received Page
-station caused an out-of-storage exception. The printer has discarded all buffered
-pages and reset the page and copy counters. If the exception occurred on a sheet,
-the sheet will not print and will be discarded. The host must issue an XOH-PBD
-command to ensure that the page and copy counters are accurately adjusted.
-Deactivate all resources not necessary to continue printing and retransmit the next
-page after the one at the Received Page Counter. If this action fails, the recovery
-action depends on host-support requirements.
-
-
-Table 64 Action Codes (cont'd.)
-Action Code Exception Recovery Action
-X'1F'
-Data-Stream Exception
-in a Secure Overlay
-A syntax error has been found in the IPDS data stream of a Secure Overlay. This
-action code is used to report Data-Stream Exceptions (action code X'01') that occur
-within a secure overlay, so that the host can perform special recovery for these
-exceptions.
-Action code X'1F' is used in place of action code X'01' when:
-• A data-stream exception is detected while processing a Secure Overlay that was
-specified by an Include Overlay command in page state, or
-• An Overlay ID Outside Valid Range exception (X'0290..01') or Overlay ID Not
-Activated (X'0292..01') is detected while processing an Include Overlay command
-for a Secure Overlay in page state. If one of these exceptions is detected while
-processing an Include Overlay command for a non-secure overlay, action code
-X'01' is used.
-Note: Printers that completely syntax-check images during download (such as, the
-IBM 3825 printer) do not return action code X'1F' for data-stream
-exceptions in an image.
-X'22'
-Printer Inoperative
-A printer condition, such as a permanent hardware exception or an uncleared
-operator-intervention condition, has occurred from which the printer cannot recover.
-The host should terminate communication with the printer.
-Note: An Action Code other than X'22' (such as X'1A') should be used for
-intervention-required conditions that require host-software recovery.
-X'23'
-T emporary Hardware
-Exception
-A temporary hardware exception has occurred. The printer has discarded all buffered
-pages and modified the page and copy counters. Retransmit all pages that have not
-been committed for printing and any associated resources (overlays, page segments,
-fonts, saved page groups, and data object resources) that are not already in the
-printer. T emporary hardware exceptions occur on the next sheet that would have
-reached the Committed Page Counter.
-X'2B'
-Suspended Recovery-Unit
-Group Exception
-The printer has detected a condition that has caused all pages that have not yet
-reached the jam-recovery point to be discarded while a suspended recovery-unit
-group operation was active. The printer has discarded all pages that have not yet
-reached the jam-recovery point and has modified the page and copy counters.
-Retransmit pages from the jam recovery page counter plus one and reload any
-associated resources (overlays, page segments, fonts, saved page groups, and data
-object resources) that are not already in the printer. Because a suspended recovery-
-unit group did not start on a sheet boundary, the host cannot reposition to a group
-boundary; therefore, the entire group is printed, but with blank sheets within the
-group.
+| Action Code | Exception Recovery Action |
+| :--- | :--- |
+| X'01' | **Data-Stream Exception**<br>A syntax error has been found in an IPDS command. The host recovery action depends on the specific exception and on host-support requirements. Data-stream exceptions are discovered while the printer is accepting and syntax checking IPDS commands. For commands containing page data, the page in which the error occurred is either the page just before the Received Page Counter or the page at the Received Page Counter depending upon the current XOA-EHC command and whether multiple pages are to be presented on the current sheet. Refer to “Load Copy Control” for further details. |
+| X'05' | **End IPDS dialog**<br>The printer has received a request to print from another session and asks the presentation services program to end the current IPDS dialog (or the current carrying-protocol session) as soon as possible, such as at the end of the current print unit. If the printer is currently receiving a page or resource, the partial page or resource is discarded so that the host and printer are synchronized to the beginning of the page or resource. This condition does not affect the page or copy counters. |
+| X'06' | **Function no longer achievable**<br>The printer detected that a previously requested function can no longer be performed. The host recovery depends on the specific exception and on host-support requirements. This condition does not adjust the page or copy counters. |
+| X'08' | **Physical Media Jam**<br>The printer has detected a physical media jam. The printer has discarded all buffered pages and modified the page and copy counters. Retransmit all pages that have not passed the printer-defined jam-recovery point and any associated resources (overlays, page segments, fonts, saved page groups, and data object resources) that are not already in the printer. Physical media jams occur on the next sheet that would have reached the Jam-Recovery Page Counter. |
+| X'09' | **Data-Related Print Exception**<br>A sheet cannot be printed because of something within the data stream; for example, the data might be too complex, or too dense, or the media source selected might be incompatible with the media destination selected. The printer has discarded all buffered pages and modified the page and copy counters. Recovery depends on host-support requirements. Data-related print exceptions occur on the next sheet that would have reached the Committed Page Counter. |
+| X'0A' | **Pre-processor or post-processor exception**<br>The printer has detected a condition in a pre-processor or post-processor device that has caused all pages that would have reached the jam-recovery station to be discarded. The printer has discarded all buffered pages and modified the page and copy counters. Host recovery depends on the specific exception and on host-support requirements. Post-processor exceptions cause all pages that would have reached the Jam-Recovery Page Counter to be discarded. |
+| X'0C' | **Resource Storage Exception**<br>The printer cannot accept a page or resource (overlay, page segment, font, or data object resource) because the storage area is full; the printer has discarded the partial page or resource. If the exception occurred while saving a page, that page is discarded, but previously saved pages are kept. When an out-of-storage exception causes the first page of a group to be discarded, the group is terminated and information concerning the group is discarded. Deactivate unused resources and retry; if this action fails, the recovery action depends on host-support requirements. Resource storage exceptions occur on the next page that would have reached the Received Page Counter. |
+| X'0D' | **Printer Restart**<br>The printer has discarded all pages and downloaded resources (overlays, page segments, fonts, and data object resources) because of operator intervention or because of a hardware failure. All saved page groups are deactivated and might also be removed. All page and copy counters have been reset to zero. Recovery depends on host-support requirements. |
+| X'15' | **Cancel**<br>The printer operator has requested that the current print data be canceled. The printer has discarded all buffered pages and modified the page and copy counters. If the Committed Copy Counter is zero, cancel the print data containing the page at the Committed Page Counter. If the Committed Copy Counter is not zero, cancel the print data containing the page that will next reach the Committed Page Counter. |
+| X'16' | **Hardware-Related Print Exception**<br>The printer has discarded all buffered pages because of a condition detected at the printer. Retransmit all pages that have not been committed for printing and any associated resources that are not already in the printer. Hardware-related print exceptions occur on the next sheet that would have reached the Committed Page Counter. |
+| X'17' | **Printer Mechanism Unusable**<br>A printer mechanism, such as the offset stacker, a duplex media path, or an input media source, has become unusable. Printing might still be possible if the unusable mechanism is bypassed. The printer has discarded all buffered pages and modified the page and copy counters. Host software should take appropriate action. |
+| X'19' | **Asynchronous Data-Stream Exception**<br>An attempt was made to print outside the valid printable area or to print an undefined text, bar code HRI, or graphics character. The printer has discarded all buffered pages and modified the page and copy counters. The appropriate recovery action depends on host-support requirements. Asynchronous data-stream exceptions occur on a page that is between the Received and Committed Page Counters. The host must issue an XOH-PBD command to ensure that the page and copy counters are accurately adjusted. After the XOH-PBD command has successfully completed, the page in error is either one of the pages on the last sheet just before the Committed Page Counter or the page at the Committed Page Counter, depending on the appropriate XOA-EHC command. |
+| X'1A' | **Redrive Buffered Pages**<br>The printer has discarded buffered pages due to a printer operator action or a hardware problem. Retransmit all pages that have not been committed for printing and any associated resources (overlays, page segments, fonts, saved page groups, and data object resources) that are not already in the printer. Redrive-buffered-pages exceptions occur on the next sheet that would have reached the Committed Page Counter. |
+| X'1B' | **Recovery-Unit Group Exception**<br>The printer has detected a condition that has caused all pages that have not yet reached the jam-recovery point to be discarded while a recovery-unit group operation was active. The printer has discarded all pages that have not yet reached the jam-recovery point and has modified the page and copy counters. Retransmit pages from the jam recovery page counter plus one and reload any associated resources (overlays, page segments, fonts, saved page groups, and data object resources) that are not already in the printer. Recovery-unit group exceptions cause all pages that have not yet reached the jam-recovery point to be discarded so that host recovery can reposition to a group boundary. |
+| X'1D' | **Printer Characteristics Changed**<br>At least one of the printer characteristics that is reported in the reply to an XOH-OPC command has changed. The printer has discarded all buffered pages and modified the page and copy counters. The host should issue an XOH-OPC command to obtain the new printer characteristics. Retransmit all pages that have not been committed for printing and any associated resources (overlays, page segments, fonts, saved page groups, and data object resources) that are not already in the printer. Printer-characteristics-changed exceptions occur on the next sheet that would have reached the Committed Page Counter. |
+| X'1E' | **Asynchronous Out-of-Storage Exception**<br>A resource or a page that is not currently being received at the Received Page station caused an out-of-storage exception. The printer has discarded all buffered pages and reset the page and copy counters. If the exception occurred on a sheet, the sheet will not print and will be discarded. The host must issue an XOH-PBD command to ensure that the page and copy counters are accurately adjusted. Deactivate all resources not necessary to continue printing and retransmit the next page after the one at the Received Page Counter. If this action fails, the recovery action depends on host-support requirements. |
+| X'1F' | **Data-Stream Exception in a Secure Overlay**<br>A syntax error has been found in the IPDS data stream of a Secure Overlay. This action code is used to report Data-Stream Exceptions (action code X'01') that occur within a secure overlay, so that the host can perform special recovery for these exceptions. Action code X'1F' is used in place of action code X'01' when:<br>• A data-stream exception is detected while processing a Secure Overlay that was specified by an Include Overlay command in page state, or<br>• An Overlay ID Outside Valid Range exception (X'0290..01') or Overlay ID Not Activated (X'0292..01') is detected while processing an Include Overlay command for a Secure Overlay in page state. If one of these exceptions is detected while processing an Include Overlay command for a non-secure overlay, action code X'01' is used.<br>Note: Printers that completely syntax-check images during download (such as, the IBM 3825 printer) do not return action code X'1F' for data-stream exceptions in an image. |
+| X'22' | **Printer Inoperative**<br>A printer condition, such as a permanent hardware exception or an uncleared operator-intervention condition, has occurred from which the printer cannot recover. The host should terminate communication with the printer. Note: An Action Code other than X'22' (such as X'1A') should be used for intervention-required conditions that require host-software recovery. |
+| X'23' | **Temporary Hardware Exception**<br>A temporary hardware exception has occurred. The printer has discarded all buffered pages and modified the page and copy counters. Retransmit all pages that have not been committed for printing and any associated resources (overlays, page segments, fonts, saved page groups, and data object resources) that are not already in the printer. Temporary hardware exceptions occur on the next sheet that would have reached the Committed Page Counter. |
+| X'2B' | **Suspended Recovery-Unit Group Exception**<br>The printer has detected a condition that has caused all pages that have not yet reached the jam-recovery point to be discarded while a suspended recovery-unit group operation was active. The printer has discarded all pages that have not yet reached the jam-recovery point and has modified the page and copy counters. Retransmit pages from the jam recovery page counter plus one and reload any associated resources (overlays, page segments, fonts, saved page groups, and data object resources) that are not already in the printer. Because a suspended recovery-unit group did not start on a sheet boundary, the host cannot reposition to a group boundary; therefore, the entire group is printed, but with blank sheets within the group. |
 
 
 Exception Reporting Codes
@@ -1232,7 +1029,7 @@ Support: Optional
 4040..00 Printer emitted blank sheets in the middle
 of a recovery-unit group
 Action code: X'1B'
-Explanation: The Keep-Group-T ogether-as-a-Recovery-
+Explanation: The Keep-Group-Together-as-a-Recovery-
 Unit operation was active for a group of pages and the
 printer emitted blank sheets in the middle of the group. In
 this case, pages of the group were committed but had not
@@ -1242,12 +1039,12 @@ recovery point; this allows the presentation services
 program to reposition to the beginning of a group.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Keep-Group-T ogether-as-a-
+Support: Mandatory if the Keep-Group-Together-as-a-
 Recovery-Unit operation is supported.
 4040..00 Printer emitted blank sheets in the middle
 of a suspended recovery-unit group
 Action code: X'2B'
-Explanation: The Keep-Group-T ogether-as-a-Recovery-
+Explanation: The Keep-Group-Together-as-a-Recovery-
 Unit operation was requested, but suspended for a group
 of pages and the printer emitted blank sheets in the middle
 of the group. In this case, pages of the group were
@@ -1259,7 +1056,7 @@ recovery station plus one, but since the group was
 suspended, this might not be the beginning of a group.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Keep-Group-T ogether-as-a-
+Support: Mandatory if the Keep-Group-Together-as-a-
 Recovery-Unit operation is supported.
 4020..00 • 4040..00
 
@@ -4679,7 +4476,7 @@ Character String drawing order and continue processing.
 Support: Refer to Graphics Object Content Architecture
 for Advanced Function Presentation Reference.
 Note: Sense bytes 16–17 contain the Unicode code value
-in error; see note 3 on page 799 for more information.
+in error; see note 3  for more information.
 03C6..01 Arc drawing check
 Action code: X'01' or X'1F'
 Explanation: The drawing processor has detected an
@@ -5267,9 +5064,9 @@ suppression ended
 Action code: X'01' or X'1F'
 Explanation: An EP or END command is encountered
 before a text suppression ends.
-Alternate Exception Action: T erminate suppression as if
+Alternate Exception Action: Terminate suppression as if
 an End Suppression had been received.
-Page Continuation Action: T erminate suppression as if
+Page Continuation Action: Terminate suppression as if
 an End Suppression had been received.
 Support: Mandatory
 Note: This corresponds to an exception code defined by
@@ -5591,7 +5388,7 @@ Support: Mandatory
 Notes:
 1. Sense bytes 16–17 can contain an object-specific
 error code; refer to “Error Codes for Other Data
-Objects” on page 922 for a list of object-specific error
+Objects”  for a list of object-specific error
 codes. X'0000' in sense bytes 16–17 indicates that no
 object-specific error code has been provided.
 2. This exception ID is used when a TrueType/OpenType
@@ -5637,7 +5434,7 @@ Support: Mandatory
 Notes:
 1. Sense bytes 16–17 can contain an object-specific
 error code; refer to “Error Codes for Other Data
-Objects” on page 922 for a list of object-specific error
+Objects”  for a list of object-specific error
 codes. X'0000' in sense bytes 16–17 indicates that no
 object-specific error code has been provided.
 2. This exception ID is used when a presentation object
@@ -6472,7 +6269,7 @@ Notes:
 1. This corresponds to an exception code defined by
 PTOCA.
 2. Sense bytes 16–17 contain the Unicode code value in
-error; see note 3 on page 799 for more information.
+error; see note 3  for more information.
 021B..01 Repeat String (RPS) target-string length
 exception
 Action code: X'01' or X'1F'
@@ -9466,7 +9263,7 @@ an invalid value.
 AR command.
 The triplet is either a Local Date and Time Stamp (X'62')
 triplet, a Metric Adjustment (X'79') triplet, or a Font
-Resolution and Metric T echnology (X'84') triplet.
+Resolution and Metric Technology (X'84') triplet.
 Alternate Exception Action: None
 Page Continuation Action: None
 Support: Mandatory when resource ID triplets are
@@ -9476,7 +9273,7 @@ number of a specific cause for the error.
 028F ..04 Invalid or unsupported resolution or
 metric-technology value
 Action code: X'01'
-Explanation: In a Font Resolution and Metric T echnology
+Explanation: In a Font Resolution and Metric Technology
 (X'84') triplet in an Activate Resource command, one or
 more of the following conditions exists:
 1. The metric technology field (byte 2) contains an invalid
@@ -10058,7 +9855,7 @@ outside of a GLC chain
 Action code: X'01' or X'1F'
 Explanation: A Unicode Complex Text (UCT) control
 sequence was found outside of a GLC chain. Printers that
-support glyph layout controls will ignore UCT s that are
+support glyph layout controls will ignore UCTs that are
 chained to a GLC chain and will recognize but not support
 other UCT control sequences.
 Alternate Exception Action: None
@@ -11198,7 +10995,7 @@ Support: Mandatory, if indexed CMRs are supported.
 0140..00 Printer paused in the middle of a recovery-
 unit group
 Action code: X'1B'
-Explanation: The Keep-Group-T ogether-as-a-Recovery-
+Explanation: The Keep-Group-Together-as-a-Recovery-
 Unit operation was active for a group of pages and the
 printer paused in the middle of the group such that blank
 sheets have occurred. The printer has discarded all pages
@@ -11207,12 +11004,12 @@ the presentation services program to reposition to the
 beginning of a group.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Keep-Group-T ogether-as-a-
+Support: Mandatory if the Keep-Group-Together-as-a-
 Recovery-Unit operation is supported.
 0140..00 Printer paused in the middle of a
 suspended recovery-unit group
 Action code: X'2B'
-Explanation: The Keep-Group-T ogether-as-a-Recovery-
+Explanation: The Keep-Group-Together-as-a-Recovery-
 Unit operation was requested, but suspended for a group
 of pages and the printer paused in the middle of the group
 such that blank sheets have occurred. The printer has
@@ -11223,12 +11020,12 @@ but since the group was suspended, this might not be the
 beginning of a group.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Keep-Group-T ogether-as-a-
+Support: Mandatory if the Keep-Group-Together-as-a-
 Recovery-Unit operation is supported.
 0141..00 Too many pages were sent for a recovery-
 unit group
 Action code: X'06'
-Explanation: The Keep-Group-T ogether-as-a-Recovery-
+Explanation: The Keep-Group-Together-as-a-Recovery-
 Unit operation was active for a group of pages and the
 printer received more pages than the printer can keep
 together as a recovery unit. In this case, the group will
@@ -11237,13 +11034,13 @@ and blank sheets might occur within this group in which
 case exception ID X'4040..00' or X'0140..00' exists. The
 operation will resume with subsequent recovery-unit
 groups that do begin on a sheet boundary. The OPC reply
-Keep-Group-T ogether-as-a-Recovery-Unit self-defining
+Keep-Group-Together-as-a-Recovery-Unit self-defining
 field identifies the maximum number of sheets allowed
 within a recovery-unit group; these sheets include sheets
 containing pages and copies of such sheets.
 Alternate Exception Action: None
 Page Continuation Action: None
-Support: Mandatory if the Keep-Group-T ogether-as-a-
+Support: Mandatory if the Keep-Group-Together-as-a-
 Recovery-Unit operation is supported.
 0115..00 • 0141..00
 
@@ -11317,7 +11114,7 @@ Error Codes for Color Mapping Table and Color Profile Objects
 None
 Error Codes for IO-Image Objects and IOCA Tile Resources
 None: all errors for IOCA images and IOCA secondary resources are reported with sense data as described
-in “Specification Checks—IO-Image Exceptions” on page 826.
+in “Specification Checks—IO-Image Exceptions” .
 Error Codes for Other Data Objects
 The error codes in the following table are contained in sense bytes 16–17 of exception IDs X'020D..01',
 X'020D..05', and X'0115..00'.
@@ -11421,36 +11218,36 @@ Table 65 Error Codes for Data Objects (cont'd.)
 Error Number Explanation
 TIFF Object Errors (X'0200'–X'02FF')
 512 X'0200' TIFF Object Error: An internal error was encountered while processing the image
-528 X'0210' TIFF Object Error: Object contains invalid controls; see note 1 on page 925
-544 X'0220' TIFF Object Error: Object contains invalid image data; see note 2 on page 925
+528 X'0210' TIFF Object Error: Object contains invalid controls; see note 1
+544 X'0220' TIFF Object Error: Object contains invalid image data; see note 2
 560 X'0230' TIFF Object Error: Object contains unsupported image
 576 X'0240' TIFF Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
 page 925
 JPEG Object Errors (X'0300'–X'03FF')
 768 X'0300' JPEG Object Error: An internal error was encountered while processing the image
-784 X'0310' JPEG Object Error: Object contains invalid controls; see note 1 on page 925
-800 X'0320' JPEG Object Error: Object contains invalid image data; see note 2 on page 925
+784 X'0310' JPEG Object Error: Object contains invalid controls; see note 1
+800 X'0320' JPEG Object Error: Object contains invalid image data; see note 2
 816 X'0330' JPEG Object Error: Object contains unsupported image
 832 X'0340' JPEG Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
 page 925
 JPEG2000 Object Errors (X'0400'–X'04FF')
 1024 X'0400' JPEG2000 Object Error: An internal error was encountered while processing the image
-1040 X'0410' JPEG2000 Object Error: Object contains invalid controls; see note 1 on page 925
-1056 X'0420' JPEG2000 Object Error: Object contains invalid image data; see note 2 on page 925
+1040 X'0410' JPEG2000 Object Error: Object contains invalid controls; see note 1
+1056 X'0420' JPEG2000 Object Error: Object contains invalid image data; see note 2
 1072 X'0430' JPEG2000 Object Error: Object contains unsupported image
 1088 X'0440' JPEG2000 Object Error: Image in the object exceeds the capabilities of the receiver; see note 3
-on page 925
+
 GIF Object Errors (X'0500'–X'05FF')
 1280 X'0500' GIF Object Error: An internal error was encountered while processing the image
-1296 X'0510' GIF Object Error: Object contains invalid controls; see note 1 on page 925
-1312 X'0520' GIF Object Error: Object contains invalid image data; see note 2 on page 925
+1296 X'0510' GIF Object Error: Object contains invalid controls; see note 1
+1312 X'0520' GIF Object Error: Object contains invalid image data; see note 2
 1328 X'0530' GIF Object Error: Object contains unsupported image
 1344 X'0540' GIF Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
 page 925
 PNG Object Errors (X'0600'–X'06FF')
 1536 X'0600' PNG Object Error: An internal error was encountered while processing the image
-1552 X'0610' PNG Object Error: Object contains invalid controls; see note 1 on page 925
-1568 X'0620' PNG Object Error: Object contains invalid image data; see note 2 on page 925
+1552 X'0610' PNG Object Error: Object contains invalid controls; see note 1
+1568 X'0620' PNG Object Error: Object contains invalid image data; see note 2
 1584 X'0630' PNG Object Error: Object contains unsupported image
 1600 X'0640' PNG Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
 page 925
@@ -12540,7 +12337,7 @@ X'10'
 Reload Electronic
 Overlay or Base Page
 Retired item 103; used in 3800-3,6,8 printers
-T erminate the print job.
+Terminate the print job.
 X'11'
 Count continuous-forms stacker
 fold wrong errors
