@@ -31,8 +31,7 @@ When a line-data file (such as a SYSOUT file produced by a System/370 applicatio
 one Page Definition can be used to map the output format of that file. However, multiple copies of the file can
 be printed, each one using a different Page Definition, if the appropriate job control statements are used. The
 actual syntax varies depending on the operating system. An example for z/OS
-is shown in Figure 5 on page
-16. By using a job stream similar to the one shown in the figure, multiple copies of a line-mode data set can be
+is shown in Figure 5. By using a job stream similar to the one shown in the figure, multiple copies of a line-mode data set can be
 generated, each one in a different format.
 This example produces three different collated copies of the entire output file, each one formatted using a
 different Page Definition. The same approach can be used with Form Definitions. Each OUTPUT statement
@@ -46,8 +45,7 @@ copy groups) in the Form Definition. The Invoke Data Map and Invoke Medium Map s
 
 written in the output by an application program and used to switch between maps as printing proceeds. This
 makes it possible for subsets of the file to be presented in different formats. Examples will be provided later in
-this chapter and in Chapter 4, “Mixed Documents: Adding MO:DCA Structured Fields to Line Data”, on page
-39.
+this chapter and in Chapter 4, “Mixed Documents: Adding MO:DCA Structured Fields to Line Data”.
 When a Page Definition containing more than one Data Map, or a Form Definition containing more than one
 Medium Map, is used, the one that appears physically first in the resource object is selected as the default.
 Figure 5. Printing a Data Set in z/OS Multiple Times with Different Page Definitions
@@ -64,7 +62,7 @@ each line of data to the page.
 A Page Definition object can be referenced from a library defined to a presentation services program or can be
 included inline at the beginning of a print file in some system environments. The structured fields in the Page
 Definition conform to the MO:DCA architecture rules for structured fields. These rules are summarized in
-# Chapter 5, “Structured Fields in a Page Definition and in Line Data”, on page 65 of this publication and are
+# Chapter 5, “Structured Fields in a Page Definition and in Line Data” of this publication and are
 formally defined in the Mixed Object Document Content Architecture (MO:DCA) Reference.
 A Page Definition optionally can contain one or more Conditional Processing Control (CCP) structured fields.
 Conditional processing permits the application programmer to define tests on selected data fields in the input
@@ -85,7 +83,7 @@ Page Definition
 
 
 The structured fields and objects that compose a Page Definition are as follows. (Chapter 5, “Structured Fields
-in a Page Definition and in Line Data”, on page 65 describes the structured fields.)
+in a Page Definition and in Line Data” describes the structured fields.)
 BPM (Begin Page Map)
 Begins a Page Definition resource object. An optional token name may be specified to identify
 the object.
@@ -106,7 +104,7 @@ Data Map use this identifier to invoke conditional processing. Each LND using co
 processing specifies the length and position of the field in the application data record to be
 tested. Different LNDs can invoke the same CCP multiple times in the same Data Map
 definition.
-See “Conditional Processing Control (CCP)” on page 78 for details about the CCP structured
+See “Conditional Processing Control (CCP)” for details about the CCP structured
 field.
 IOB (Include Object)
 The IOB structured field is optional but can occur multiple times in the Page Definition. The
@@ -145,7 +143,7 @@ REG is used to identify complex resources, such as high-resolution color images,
 to the presentation device before the pages that follow are processed. The scope of a REG in the Page
 Definition is the line-format data in the print file. When a print file contains multiple line-format data and mixed
 data documents, the REG applies only to the line-format data documents in the print file. For a definition of
-line-format data, see Figure 33 on page 172. Line-format data may be bounded by explicit BDT/EDT pairs or
+line-format data, see Figure 33. Line-format data may be bounded by explicit BDT/EDT pairs or
 by implicit BDT/EDT pairs.
 Architecture Note: To get the optimum performance benefit from the REG in the Page Definition, the print file
 should contain only line-format data, and only large, complex objects should be mapped in the REG.
@@ -214,7 +212,7 @@ All Data Maps in the Page Definition must specify the same line data processing.
 The application can select which Data Map to use by writing an Invoke Data Map structured field in the output
 file or by using conditional processing in the Page Definition to select a Data Map based on the value of a field
 in the application data stream. Examples of using an IDM can be found in Chapter 4, “Mixed Documents:
-Adding MO:DCA Structured Fields to Line Data”, on page 39. Examples of conditional processing appear at
+Adding MO:DCA Structured Fields to Line Data”. Examples of conditional processing appear at
 the end of this chapter.
 The Data Map consists of two parts: the Active Environment Group and the Data Map Transmission Subcase.
 Bracketing them are the Begin Data Map and End Data Map structured fields. The format of these structured
@@ -354,7 +352,7 @@ PRINTLINE CHANNEL 1
 POSITION .1 IN .2 IN REPEAT 20;
 ENDSUBPAGE;
 The rules for coding Table Reference Characters are different for page mode printers and for the 3800 running
-in compatibility mode. Table 8 on page 23 summarizes the differences.
+in compatibility mode. Table 8 summarizes the differences.
 
 
 Table 8. Use of TRCs in Page Mode and 3800 Compatibility Mode
@@ -611,7 +609,7 @@ generation, and object includes, XMDs support additional functions like headers,
 graphics generation.
 Data Map Transmission Subcase Structure
 The structured fields that compose the Data Map Transmission Subcase are as follows. (See Chapter 5,
-“Structured Fields in a Page Definition and in Line Data”, on page 65 for a formal description of these
+“Structured Fields in a Page Definition and in Line Data” for a formal description of these
 structured fields.)
 BDX (Begin Data Map Transmission Subcase)
 Begins the Data Map Transmission Subcase.
@@ -722,12 +720,12 @@ Using Different Formats for Different Subsets of Output
 A common example of this is an application program requirement to print detail pages of a report in a different
 format from summary pages. Assuming that a known field in the application data stream can be tested to
 identify the detail records and the summary records, a Page Definition with two Data Maps can be constructed
-to provide the different formats without changes to the application program. Figure 12 on page 31 assumes a
+to provide the different formats without changes to the application program. Figure 12 assumes a
 file where each record has identifying information in bytes 2 through 5. Records with the characters DETL in
 these positions are to use Data Map PF1 and Medium Map CG1. Records with the characters SUMM in these
 positions are to use Data Map PF2 and Medium Map CG2. Page Printer Formatting Aid (PPFA) is a software
 product available from IBM and Ricoh.
-Figure 12 on page 31 shows the PPFA code that generates a Page
+Figure 12 shows the PPFA code that generates a Page
 Definition to test these positions and to print the detail pages in the ACROSS direction and the summary pages
 in the DOWN direction.
 
@@ -1052,7 +1050,7 @@ coordinate system. With relative inline positioning, the IPos parameter may be u
 position relative to an established inline position. This allows data and objects to be positioned (in the inline
 direction) relative to data placed previously on the page. If no data were placed on the page prior to the current
 data, the relative inline position is relative to the left margin. Note that the actual location of the left margin on a
-page is affected by the text orientation; see “Margin Definition (X'7F') Triplet” on page 73.
+page is affected by the text orientation; see “Margin Definition (X'7F') Triplet”.
 Relative inline positioning is used when XMD flag byte bit 12 is set to B'1'. The relative offset may be positive or
 negative and is measured using the current I,B coordinate system. Note that the origin of the current I,B
 coordinate system depends on the current text orientation.
@@ -1079,13 +1077,13 @@ Form Definitions are like Page Definitions in that only one Form Definition can 
 file and also in that each Form Definition includes one or more components. While the components of a Page
 Definition are called Data Maps or Page Formats, the components of a Form Definition are called Medium
 Maps or Copy Groups. An application program can switch between Medium Maps by using conditional
-processing, as in the example in Figure 12 on page 31. Control for presentation starts with the first Medium
+processing, as in the example in Figure 12. Control for presentation starts with the first Medium
 Map in the Form Definition. Control for presentation can
 be changed to a different Medium Map by using an
 Invoke Medium Map (IMM) structured field. If the Form Definition is used to present multiple documents in a
 print file, control for presentation is returned to the first Medium Map whenever a new document is
 encountered.
-A file can be printed multiple times, each with a different Form Definition. The example in Figure 5 on page 16
+A file can be printed multiple times, each with a different Form Definition. The example in Figure 5
 can be modified to add Form Definition names in addition to Page Definition names.
 Details on Form Definitions and overlay objects can be found in the Mixed Object Document Content
 Architecture (MO:DCA) Reference. A set of Form Definitions that

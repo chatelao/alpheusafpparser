@@ -136,9 +136,29 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Convert syntax and registry text dumps to Markdown tables.
     - ⏳ Remove physical page references ("on page XXX").
 - 🚧 **Line Data**:
-    - ✅ Purge physical page markers and recurring PDF artifacts from Chapter 3 and Appendices.
+    - ✅ Purge physical page markers and recurring PDF artifacts from all Chapters and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
-    - ⏳ Remove physical page references ("on page XXX").
+    - ✅ Remove physical page references ("on page XXX").
+    - 🚧 Convert command and syntax text dumps to Markdown tables:
+        - ⏳ Chapter 5:
+            - ⏳ Structured Field: Begin Data Map (BDM).
+            - ⏳ Structured Field: Begin Data Map Transmission Subcase (BDX).
+            - ⏳ Structured Field: Begin Page Map (BPM).
+            - ⏳ Structured Field: Conditional Processing Control (CCP).
+            - ⏳ Structured Field: Data Map Transmission Subcase Descriptor (DXD).
+            - ⏳ Structured Field: End Data Map (EDM).
+            - ⏳ Structured Field: End Data Map Transmission Subcase (EDX).
+            - ⏳ Structured Field: End Page Map (EPM).
+            - ⏳ Structured Field: Fixed Data Size (FDS).
+            - ⏳ Structured Field: Fixed Data Text (FDX).
+            - ⏳ Structured Field: Invoke Data Map (IDM).
+            - ⏳ Structured Field: Include Object (IOB).
+            - ⏳ Structured Field: Include Page Overlay (IPO).
+            - ⏳ Structured Field: Include Page Segment (IPS).
+            - ⏳ Structured Field: Line Descriptor Count (LNC).
+            - ⏳ Structured Field: Line Descriptor (LND).
+            - ⏳ Structured Field: Record Descriptor (RCD).
+            - ⏳ Structured Field: XML Descriptor (XMD).
     - ⏳ Convert text-based diagrams in Appendices to standardized formats.
 - ✅ **MO:DCA**:
     - ✅ Purge physical page markers and fix split words.

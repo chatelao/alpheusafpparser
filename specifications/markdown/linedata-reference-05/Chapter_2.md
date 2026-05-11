@@ -84,9 +84,9 @@ values of 1 through 12. The IBM
 IBM 3800 Model 3 added 10 lines per inch.
 The carriage control character could be represented in either of two coding schemes:
 • American National Standards Institute (ANSI) carriage control is a standard representation used with printers
-from many different vendors. Table 5 on page 7 lists the ANSI codes and their functions.
+from many different vendors. Table 5 lists the ANSI codes and their functions.
 • Machine code control characters were defined by IBM. They correspond to the channel command words
-issued by the operating system to accomplish the desired function. Table 6 on page 7 lists the IBM machine
+issued by the operating system to accomplish the desired function. Table 6 lists the IBM machine
 code values and their functions.
 ANSI and machine codes may not be intermixed within a single data set.
 Line spacing is handled differently by ANSI and machine code carriage controls. ANSI conventions cause
@@ -95,7 +95,6 @@ then the spacing action is performed.
 Note that if a spacing control action moves the print position past the last line of the current page, processing
 continues at the first print position of a new page. That is, the spacing action is not carried over to the new
 page.
-Line Data and MO:DCA data
 
 
 Table 5. ANSI Carriage Control Characters
@@ -138,7 +137,6 @@ X'99' Print the data, then skip to the line position defined as Channel 3
 X'A1' Print the data, then skip to the line position defined as Channel 4
 X'A9' Print the data, then skip to the line position defined as Channel 5
 X'B1' Print the data, then skip to the line position defined as Channel 6
-Line Data and MO:DCA data
 
 
 Table 6 Machine Code Control Characters (cont'd.)
@@ -182,7 +180,6 @@ record. As with carriage control, if table reference characters are used, every 
 byte. More information on table reference characters can be found in the application programming guides for
 IBM Print Services Facility™ (PSF) products
 .
-Line Data and MO:DCA data
 
 
 ## AIX, Linux, and Windows Environments
@@ -213,9 +210,9 @@ the same size.
 To print line data,presentation services programs must know the dimensions of the page, the exact position on
 that page where each record must be printed, and the fonts to be used. This information is provided for line
 data records in an AFP resource object called the Page Definition (PageDef). The Page Definition is described
-in Chapter 3, “Using a Page Definition to Print Data”, on page 15.
-Figure 3 on page 10, and Figure 4 on page 12 summarize the valid forms of line data.
-Note: In Figure 3 on page 10 and Figure 4 on page 12, the stream formats are terminated with a line separator.
+in Chapter 3, “Using a Page Definition to Print Data”.
+Figure 3, and Figure 4 summarize the valid forms of line data.
+Note: In Figure 3 and Figure 4, the stream formats are terminated with a line separator.
 A line separator is normally a Line Feed character or a combined Carriage Return character and Line
 Feed character pair. Windows platforms typically use the Carriage Return and Line Feed pair as the line
 separator. The line separator code points vary based on the data encoding and platform. The supported
@@ -223,7 +220,6 @@ line separators are:
 • EBCDIC data: Line Feed (X'25').
 • ASCII and UTF-8 data: Line Feed (X'0A') or Carriage Return (X'0D') and Line Feed (X'0A') pair.
 • UTF-16BE: Line Feed (X'000A') or Carriage Return (X'000D') and Line Feed (X'000A') pair.
-Line Data and MO:DCA data
 
 
 • UTF-16LE: Line Feed (X'0A00') or Carriage Return (X'0D00') and Line Feed (X'0A00') pair. Note that
@@ -250,7 +246,6 @@ CC TRC D A T A LS
 Data line in stream format with carriage control byte, table reference character, and line separator
 Note: The data portion and line separators of the valid records above can be encoded using Unicode Standard
 encoding UTF-16 or UTF-8.
-Line Data and MO:DCA data
 
 
 (Part 2 of figure)
@@ -271,9 +266,8 @@ Unicode data line in stream format with table reference character, Byte Order Ma
 CC TRC BOM D A T A LS
 Unicode data line in stream format with carriage control byte, table reference character, Byte Order Mark, and
 line separator
-Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data” on page 13. The BOM is
+Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data”. The BOM is
 allowed only on the first record and applies to all records in the print file.
-Line Data and MO:DCA data
 
 
 ## Record-Format Line Data
@@ -305,13 +299,12 @@ Unicode Record format line data in stream format with Byte Order Mark and line s
 CC BOM Record ID D A T A LS
 Unicode Record format line data in stream format with carriage control byte, Byte Order Mark, and line
 separator
-Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data” on page 13. The BOM is
+Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data”. The BOM is
 allowed only on the first record and applies to all records in the print file.
-Line Data and MO:DCA data
 
 
 ## Unicode Line Data
-The data portion of the valid line data formats shown in Figure 3 on page 10 and in Figure 4 on page 12 can be
+The data portion of the valid line data formats shown in Figure 3 and in Figure 4 can be
 encoded using Unicode Standard encodings UTF-16 or UTF-8. The Unicode Standard recommends that a
 byte order mark (BOM) be the first sequence of bytes in the data. This is to accommodate platforms, such as
 Windows, that use the little-endian byte order. It also serves as a signature to identify Unicode text. The Byte
@@ -327,7 +320,7 @@ Unicode encoding is subject to these restrictions in an AFP environment:
 • Shift-out/Shift-in (SOSI) controls are not used in Unicode to signify a shift into and out-of DBCS processing.
 Therefore, it is not possible to switch processing between Unicode encoding and single-byte (SBCS)
 encoding within a line data field or record using SOSI as described in “Processing Line Data with Shift-Out/
-Shift-In (SOSI) Controls” on page 32. That is, when a line data field is processed with a Page Definition,
+Shift-In (SOSI) Controls”. That is, when a line data field is processed with a Page Definition,
 either the whole field is treated as Unicode-encoded, or none of it is treated as Unicode-encoded.
 • If the Byte Order Mark used in UTF-16 data indicates the data is in little-endian byte order, programs that
 process the UTF-16 data will need to convert little-endian to big-endian byte order.
@@ -352,7 +345,6 @@ unprintable code points.
 • MO:DCA data cannot be mixed with XML data.
 For a description of XML Data, refer to the XML specification, Extensible Markup Language (XML) 1.0, which
 can be found at the World Wide Web Consortium web site, http://www.w3.org/.
-Line Data and MO:DCA data
 
 
 ## MO:DCA Data Summary
@@ -369,13 +361,12 @@ objects to existing line data output. Applications can be written to generate li
 to produce the desired final print product.
 Note: MO:DCA structured fields cannot be combined with XML data.
 Line data and MO:DCA records cannot be mixed haphazardly. Chapter 4, “Mixed Documents: Adding MO:DCA
-Structured Fields to Line Data”, on page 39 provides guidelines on the valid combinations.
+Structured Fields to Line Data” provides guidelines on the valid combinations.
 ## The Function of the Page Definition
 Any print file that contains line data, whether alone or in combination with MO:DCA structured fields, requires a
 Page Definition for printing using presentation services programs . The Page Definition is necessary to
 establish the environment for each page and to position each line of print.
 A number of Page Definitions mapping common page layouts are provided with some AFP software products
 and some AFP products allow users to create their own Page Definitions.
-Line Data and MO:DCA data
 
 
