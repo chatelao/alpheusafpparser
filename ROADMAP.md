@@ -101,6 +101,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
 - ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
+- ⏳ **Db2 12 for z/OS: Internationalization Guide (db2z_12_charbook)**:
+    - ⏳ Convert each section to Markdown (Chapters 1–6, Appendices A–F, Glossary, etc.).
+    - ⏳ Purge physical page markers and recurring PDF headers/footers.
+    - ⏳ Fix OCR-induced broken paragraphs and split words.
+    - ⏳ Remove physical page references ("on page XXX").
+    - ⏳ Convert tables and character maps to Markdown.
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.
