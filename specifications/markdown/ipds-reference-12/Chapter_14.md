@@ -13,14 +13,16 @@ from Adobe Corporation. For more information about Adobe CID-keyed fonts, refer 
 Technology Overview from Adobe Corporation.
 The following commands are contained in the Loaded-Font command set:
 Table 55. Loaded-Font Commands
-Command Code Description Subset
-LCP X'D61B' “Load Code Page” on page 652 LF3, LF4
-LCPC X'D61A' “Load Code Page Control” on page 656 LF3, LF4
-LF X'D62F' “Load Font” on page 662 LF1, LF3
-LFCSC X'D619' “Load Font Character Set Control” on page 671 LF3
-LFC X'D61F' “Load Font Control” on page 675 LF1
-LFI X'D60F' “Load Font Index” on page 687 LF1
-LSS X'D61E' “Load Symbol Set” on page 698 LF2
+
+| Command | Code | Description | Subset |
+| :--- | :--- | :--- | :--- |
+| LCP | X'D61B' | Load Code Page | LF3, LF4 |
+| LCPC | X'D61A' | Load Code Page Control | LF3, LF4 |
+| LF | X'D62F' | Load Font | LF1, LF3 |
+| LFCSC | X'D619' | Load Font Character Set Control | LF3 |
+| LFC | X'D61F' | Load Font Control | LF1 |
+| LFI | X'D60F' | Load Font Index | LF1 |
+| LSS | X'D61E' | Load Symbol Set | LF2 |
 All graphic characters, whether invoked in text, graphics, or bar code human-readable data, are defined within
 a coded font resource. The coded font contains general information about the font as a whole and contains
 descriptive, metric, and shape data for each graphic character in the font.
@@ -299,28 +301,13 @@ baseline. Lowercase characters have descenders below the baseline. In vertically
 traditional Kanji, the character reference point is usually positioned so that the baseline passes vertically
 through the center of the character.
 Table 56. Identifying the Baseline Offset Value
-Font Inline
-Sequence
-Relationship between the Printing
-Baseline and the Character Box
-Reference Edges
-Baseline Offset Value
-0° Parallel to the top and bottom character box
-reference edges.
-The number of L-units from the character reference
-point to the top character box reference edge.
-90° Parallel to the left and right character box
-reference edges.
-The number of L-units from the character reference
-point to the right character box reference edge.
-180° Parallel to the top and bottom character box
-reference edges.
-The number of L-units from the character reference
-point to the bottom character box reference edge.
-270° Parallel to the left and right character box
-reference edges.
-The number of L-units from the character reference
-point to the left character box reference edge.
+
+| Font Inline Sequence | Relationship between the Printing Baseline and the Character Box Reference Edges | Baseline Offset Value |
+| :--- | :--- | :--- |
+| 0° | Parallel to the top and bottom character box reference edges. | The number of L-units from the character reference point to the top character box reference edge. |
+| 90° | Parallel to the left and right character box reference edges. | The number of L-units from the character reference point to the right character box reference edge. |
+| 180° | Parallel to the top and bottom character box reference edges. | The number of L-units from the character reference point to the bottom character box reference edge. |
+| 270° | Parallel to the left and right character box reference edges. | The number of L-units from the character reference point to the left character box reference edge. |
 
 
 Font Parameter Relationships
@@ -739,35 +726,21 @@ With CID X'0007'–X'7FFF'
 However, the length of each code point entry must also be valid. Exception ID X'0202..02' exists if the
 command length is invalid or unsupported.
 The data for the LCP command consists of LCP entries in the following format:
-Offset Type Name Range Meaning LF3, LF4 Range
-Zero or more code point entries in the following format:
-0–7 CHAR GCGID Any value Graphic Character Global ID Any value
-8 BITS Processing flags
-bit 0 Undefined B'0', B'1' Undefined B'0', B'1'
-bit 1 Noprint B'0', B'1' Nonprinting B'0', B'1'
-bit 2 Noincr B'0', B'1' Nonincrementing B'0', B'1'
-bits 3–7 B'00000' Reserved B'00000'
-9 or
-9–10
-CODE Code point Any value Code point Any value
-Zero or one Unicode-mapping-entry in the following format:
-## Load Code Page (LCP)
 
-
-Offset Type Name Range Meaning LF3, LF4 Range
-+ 0 UBIN Count X'00'–X'FF' Number of Unicode scalar values See byte
-description
-Zero or more Unicode-scalar-value entries (depending on count value) in the following format:
-++ 0–3 UBIN Unicode
-scalar value
-X'00000000' –
-X'FFFFFFFF'
-(excluding
-surrogates)
-Unicode scalar value to be mapped to the
-GCGID value and code point value
-See byte
-description
+| Offset | Type | Name | Range | Meaning | LF3, LF4 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Zero or more code point entries in the following format:** | | | | | |
+| 0–7 | CHAR | GCGID | Any value | Graphic Character Global ID | Any value |
+| 8 | BITS | Processing flags | | | |
+| | bit 0 | Undefined | B'0', B'1' | Undefined | B'0', B'1' |
+| | bit 1 | Noprint | B'0', B'1' | Nonprinting | B'0', B'1' |
+| | bit 2 | Noincr | B'0', B'1' | Nonincrementing | B'0', B'1' |
+| | bits 3–7 | | B'00000' | Reserved | B'00000' |
+| 9 or 9–10 | CODE | Code point | Any value | Code point | Any value |
+| **Zero or one Unicode-mapping-entry in the following format:** | | | | | |
+| + 0 | UBIN | Count | X'00'–X'FF' | Number of Unicode scalar values | See byte description |
+| **Zero or more Unicode-scalar-value entries (depending on count value) in the following format:** | | | | | |
+| ++ 0–3 | UBIN | Unicode scalar value | X'00000000' – X'FFFFFFFF' (excluding surrogates) | Unicode scalar value to be mapped to the GCGID value and code point value | See byte description |
 Bytes 0–7 Graphic Character Global ID
 This field, if present, contains the GCGID assigned to this code point. The Technical
 Reference for IBM Expanded Core Fonts specifies many commonly used GCGIDs.
@@ -899,86 +872,32 @@ Without CID X'0010', X'0011', X'0014', X'0015', X'001D', X'001E', X'0021', or X'
 With CID X'0012', X'0013', X'0016', X'0017', X'001F', X'0020', X'0023', or X'0024'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The data for the LCPC command contains the following information:
-Offset Type Name Range Meaning LF3, LF4 Range
-0–1 CODE HAID X'0001' –
-X'7EFF'
-Code Page Host-Assigned ID X'0001' –
-X'7EFF'
-2–3 BITS Encoding Scheme
-bits 0–3 B'0000' Reserved B'0000'
-bits 4–7 Code point
-size B'0001'
-B'0010'
-Number of bytes indicator:
-Fixed single byte
-Fixed double byte
-B'0001'
-bits 8–15 B'00000000' Reserved B'00000000'
-4–7 UBIN Byte count X'0000000A' –
-X'FFFFFFFF'
-Number of data bytes in subsequent LCP
-commands
-X'0000000A' –
-X'00000A00'
-8 BITS Extension flags
-bit 0 Unicode
-B'0'
-B'1'
-Unicode entries provided:
-No
-Yes
-B'0'
-B'1'
-bits 1–7 B'0000000' Reserved B'0000000'
-9 X'00' Reserved X'00'
-10–n CODE Space Any value Variable-space code point Any value
-GRID information if required (see byte description):
-n+1 to
-n+2
-CODE GCSGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied
-Graphic Character Set Global ID
-Use default value
-See byte
-description
-n+3 to
-n+4
-CODE CPGID X'0000'
-X'0001' –
-X'FFFE'
-No value supplied
-Code Page Global ID
-See byte
-description
-## Load Code Page Control (LCPC)
 
-
-Offset Type Name Range Meaning LF3, LF4 Range
-Default-character information (see byte description):
-n+5 to
-n+12
-CODE Default
-GCGID
-Any value Default Graphic Character Global ID Any value
-n+13 BITS Processing flags for the default GCGID
-bit 0 Undefined B'0', B'1' Undefined B'0', B'1'
-bit 1 Noprint B'0', B'1' Nonprinting B'0', B'1'
-bit 2 Noincr B'0', B'1' Nonincrementing B'0', B'1'
-bits 3–7 B'00000' Reserved; bit 4 retired B'00000'
-Zero or one Unicode scalar value for the default GCGID (only present when the Unicode flag (byte 8) is B'1')
-+ 0–3 UBIN Unicode
-scalar value
-X'00000000' –
-X'FFFFFFFF'
-(excluding
-surrogates)
-Unicode scalar value to be mapped to the
-default GCGID value
-See byte
-description
+| Offset | Type | Name | Range | Meaning | LF3, LF4 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Code Page Host-Assigned ID | X'0001' – X'7EFF' |
+| 2–3 | BITS | Encoding Scheme | | | |
+| | bits 0–3 | | B'0000' | Reserved | B'0000' |
+| | bits 4–7 | Code point size | B'0001', B'0010' | Number of bytes indicator:<br>Fixed single byte<br>Fixed double byte | B'0001' |
+| | bits 8–15 | | B'00000000' | Reserved | B'00000000' |
+| 4–7 | UBIN | Byte count | X'0000000A' – X'FFFFFFFF' | Number of data bytes in subsequent LCP commands | X'0000000A' – X'00000A00' |
+| 8 | BITS | Extension flags | | | |
+| | bit 0 | Unicode | B'0', B'1' | Unicode entries provided:<br>No<br>Yes | B'0', B'1' |
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' |
+| 9 | X'00' | | | Reserved | X'00' |
+| 10–n | CODE | Space | Any value | Variable-space code point | Any value |
+| **GRID information if required (see byte description):** | | | | | |
+| n+1 to n+2 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description |
+| n+3 to n+4 | CODE | CPGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Code Page Global ID | See byte description |
+| **Default-character information (see byte description):** | | | | | |
+| n+5 to n+12 | CODE | Default GCGID | Any value | Default Graphic Character Global ID | Any value |
+| n+13 | BITS | Processing flags for the default GCGID | | | |
+| | bit 0 | Undefined | B'0', B'1' | Undefined | B'0', B'1' |
+| | bit 1 | Noprint | B'0', B'1' | Nonprinting | B'0', B'1' |
+| | bit 2 | Noincr | B'0', B'1' | Nonincrementing | B'0', B'1' |
+| | bits 3–7 | | B'00000' | Reserved; bit 4 retired | B'00000' |
+| **Zero or one Unicode scalar value for the default GCGID (only present when the Unicode flag (byte 8) is B'1')** | | | | | |
+| + 0–3 | UBIN | Unicode scalar value | X'00000000' – X'FFFFFFFF' (excluding surrogates) | Unicode scalar value to be mapped to the default GCGID value | See byte description |
 Bytes 0–1 Code Page Host-Assigned ID
 A value that is assigned by the host to identify this code page. The HAIDs used for code pages
 come from a pool of IDs that is separate from the pool used for other resources such as font
@@ -1238,9 +1157,9 @@ description
 Zero or more technology-specific objects in the following format:
 n+1 to
 end
-T ech object See detail
+Tech object See detail
 description
-T echnology-specific object See detail
+Technology-specific object See detail
 description
 Character ID map
 The character ID map is used to map IBM character IDs (GCGIDs), as are found in code page objects, to the
@@ -1260,10 +1179,10 @@ Offset Type Name Range Meaning LF3 Range
 0 CODE IBM format X'02' IBM character ID format, IBM Registered
 EBCDIC GCGID
 X'02'
-1 CODE T echnology
+1 CODE Technology
 format X'03'
 X'05'
-T echnology-specific character ID format:
+Technology-specific character ID format:
 Font-specific ASCII character
 name, used with Type 1 PFB fonts
 CMAP binary code point,
@@ -1281,7 +1200,7 @@ Zero or more technology-specific ID entries in the following format:
 ++0 UBIN Length X'02' – X'80' Length of technology-specific ID entry,
 including this length field
 X'02' – X'80'
-++ 1–n UNDF T ech ID Any value T echnology-specific ID Any value
+++ 1–n UNDF Tech ID Any value Technology-specific ID Any value
 Note: When using a CMap binary code point technology format (X'05'), multiple CMap or Rearranged objects
 can be present in the font character set. The code points specified in the character ID map correspond
 to the code points in the CMap or Rearranged object that is linked to the character ID map. Refer to the
@@ -1290,7 +1209,7 @@ First part of Character ID map
 Byte 0 IBM format
 This field specifies that the 2nd part of the map contains IBM character IDs (GCGIDs). If an
 invalid value is specified in this field, exception ID X'02B1..01' exists.
-Byte 1 T echnology format
+Byte 1 Technology format
 This field specifies the technology-specific character ID format that is contained in the 3rd part
 of the map. If an invalid or unsupported technology format value is specified in this field,
 exception ID X'02B1..01' exists.
@@ -1314,7 +1233,7 @@ Byte ++0 Length of technology-specific ID entry
 This field specifies the length of the technology-specific ID entry; the length value includes the
 length field plus the technology-specific ID (bytes 0–n). If an invalid length value is specified in
 this field, exception ID X'02B1..03' exists.
-Bytes ++1 to n T echnology-specific ID
+Bytes ++1 to n Technology-specific ID
 This field specifies a technology-specific ID in the form specified by the technology format
 (byte 1).
 ## Load Font (LF)
@@ -1445,7 +1364,7 @@ Descriptor length
 This value specifies the length of the object descriptor; the length includes bytes n+1 to m.
 Exception ID X'02B1..0A' exists if an invalid value for this object type is specified in this field.
 Byte n+3 Object type
-This is the type of the technology-specific object. T echnology-specific objects are most often
+This is the type of the technology-specific object. Technology-specific objects are most often
 non-AFPC data objects that are architected by other companies or organizations. Specific
 descriptions of technology-specific objects can be obtained from the defining source.
 Unrecognized values are treated as if X'00' had been specified.
@@ -1662,7 +1581,7 @@ X'7EFF'
 4 CODE Pattern
 technology X'1E'
 X'1F'
-Pattern T echnology ID:
+Pattern Technology ID:
 CID-keyed technology
 Type 1 PFB technology
 At least one

@@ -59,7 +59,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Bar Code Command Set (Chapter 9).
         - ⏳ Object Container Command Set (Chapter 10).
         - ⏳ Metadata, Overlay, and Page-Segment Command Sets (Chapters 11–13).
-        - ⏳ Loaded-Font Command Set (Chapter 14).
+        - 🚧 Loaded-Font Command Set (Chapter 14):
+            - ✅ Tables 55 (Summary) and 56 (Baseline Offset).
+            - ✅ Commands: LCP and LCPC.
+            - ⏳ Commands: LF and LFCSC.
+            - ⏳ Commands: LFC and LFI.
+            - ⏳ Command: LSS.
         - ⏳ Triplets (Chapter 15).
         - ⏳ Exception Reporting (Chapter 16).
         - ⏳ Compliance and Appendices (Chapter 17 and Appendices A–D).
