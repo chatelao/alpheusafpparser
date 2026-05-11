@@ -84,8 +84,16 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapter 4: Tables 34–36 (Code Pages, Characters).
         - ⏳ Appendices B (MO:DCA), C (IPDS).
 - 🚧 **IOCA**:
-    - ⏳ Convert structural descriptors to Markdown tables.
-    - ⏳ Remove physical page references ("on page XXX").
+    - ✅ Remove physical page references ("on page XXX"):
+        - ✅ Chapter 3.
+        - ✅ Chapter 5.
+        - ✅ Chapter 6.
+        - ✅ Chapter 7.
+        - ✅ Appendices A, D, E, F, G.
+    - 🚧 Convert structural descriptors to Markdown tables:
+        - ✅ Chapter 4: Table 3 (Code Points).
+        - ✅ Chapter 5: Self-Defining Field Syntax tables (Begin/End Segment, Begin/End Image Content).
+        - ⏳ Chapter 7: Function Set tables (Tables 5–13).
 - 🚧 **AFP GOCA**:
     - ⏳ Convert syntax and registry text dumps to Markdown tables.
     - ⏳ Remove physical page references ("on page XXX").

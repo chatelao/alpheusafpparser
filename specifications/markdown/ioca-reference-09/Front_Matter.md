@@ -2,7 +2,7 @@
 AFPC-0003-09
 
 ## Note
-Before using this information, read the information in “Notices” on page 183.
+Before using this information, read the information in “Notices”.
 Ninth Edition (July 2024)
 
 ## Preface

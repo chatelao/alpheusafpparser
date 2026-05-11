@@ -1,6 +1,6 @@
 # Appendix A. Compression and Recording Algorithms
 This appendix describes in more detail the image compression and recording algorithms currently supported by the IOCA Image Encoding parameter.
-This chapter consists of the image compression and recording algorithms that are presently defined in “Image Encoding” on page 34. This appendix is not meant to be a complete description or specification of each algorithm, but is meant to be a short and concise outline of the characteristics of each image compression algorithm.
+This chapter consists of the image compression and recording algorithms that are presently defined in “Image Encoding”. This appendix is not meant to be a complete description or specification of each algorithm, but is meant to be a short and concise outline of the characteristics of each image compression algorithm.
 ## Compression Algorithms
 The following compression algorithms are described in this document. The number to the left of each algorithm is the value that the compression algorithm represents for the COMPRID parameter of the Image Encoding parameter.
 Value Algorithm X'01' IBM MMR-Modified Modified Read X'03' No compression X'06' RL4 (Run Length 4)
@@ -65,7 +65,7 @@ For image data with an IDE size of n bits, a processor begins the compression pr
 The raster data obtained from this process is compressed using the ABIC algorithm to form a single string of ABIC compressed image data. This compression may occur during the retrieval process, or after all the raster data has been retrieved. No break in the code indicating an End-of-Line, End-of-Page, or a flag may appear in the compressed data. Thus, the length of each line, the size of the image, and the number of bits per IDE cannot be determined from the concatenated ABIC compressed image data.
 Note: Concatenated ABIC does not allow the IOCA Process Model to determine the number of horizontal or vertical image points from the image data. Hence both HSIZE and VSIZE cannot be zero in the Image Size parameter.
 For more details about the concatenated ABIC algorithm, refer to Arps et al., “A multipurpose VLSI chip for adaptive data compression of bilevel images”.
-OS/2 Image Support Compression Algorithm The color compression algorithm supported by the OS/2 Image Support program, part number 49F4608, is based on an earlier revision (R5.0) of the JPEG draft specification. It is similar to the JPEG baseline system described in “JPEG Compression Algorithms” on page 144.
+OS/2 Image Support Compression Algorithm The color compression algorithm supported by the OS/2 Image Support program, part number 49F4608, is based on an earlier revision (R5.0) of the JPEG draft specification. It is similar to the JPEG baseline system described in “JPEG Compression Algorithms”.
 The OS/2 Image Support program supports data streams in RGB pixel interleaf format only: that is, the color pixels input to the encoder and the decoder output must be of the form RGBRGB...RGB.
 Note: The OS/2 Image Support implementation of the JPEG compression algorithm does not allow the IOCA Process Model to determine the number of horizontal or vertical image points from the image data.
 Hence both HSIZE and VSIZE cannot be zero in the Image Size parameter.

@@ -3,7 +3,7 @@ This chapter:
 • Briefly describes the IOCA Image Segment
 • States the purpose of each IOCA self-defining field in the Image Segment
 • Provides the syntax and semantics of each self-defining field, its parameter set, and its exception conditions
-For an explanation of the layout of the syntax diagrams in this chapter, see “How to Read the Syntax Diagrams” on page v. For an explanation of the notation conventions, see “Notation Conventions” on page vi.
+For an explanation of the layout of the syntax diagrams in this chapter, see “How to Read the Syntax Diagrams”. For an explanation of the notation conventions, see “Notation Conventions”.
 
 
 ## Image Segment
@@ -57,7 +57,8 @@ The Begin Segment parameter defines the beginning of the Image Segment.
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | ID | | X'70' Begin Segment M 1 UBIN LENGTH X'00' – X'04' Length of the parameters to follow | M |
+| 0 | CODE | ID | | X'70' Begin Segment | M |
+| 1 | UBIN | LENGTH | X'00' – X'04' | Length of the parameters to follow | M |
 | 2 | UBIN | NAME | | X'00000000' – X'FFFFFFFF' Name of the Image Segment | O |
 
 ## Exception Conditions
@@ -74,7 +75,8 @@ The End Segment parameter defines the end of the Image Segment.
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | ID | | X'71' End Segment M 1 UBIN LENGTH X'00' Length of the parameters to follow | M |
+| 0 | CODE | ID | | X'71' End Segment | M |
+| 1 | UBIN | LENGTH | X'00' | Length of the parameters to follow | M |
 
 ## Exception Conditions
 The following exception conditions cause the standard action to be taken:
@@ -118,8 +120,18 @@ The Begin Image Content parameter defines the beginning of the Image Content.
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | ID | | X'91' Begin Image Content M 1 UBIN LENGTH X'01' Length of the parameters to follow | M |
-| 2 | CODE | OBJTYPE | | X'FF' Object type: X'FF' IOCA image object All other values are reserved. M Notes: 1. IOCA allows multiple image contents in a single Image Segment, but the receivers are not required to support more than one image content in each image segment. If a receiver that does not support multiple image contents in a single image segment receives a second Begin Image Content Parameter in an image segment, exception EC-910F exists. 2. All receivers that support multiple image contents must support at least 128 image contents per image segment. 3. Architecture does not restrict the number of image contents contained within a single image segment. If an image segment contains too many image contents for a receiver to present, the receiver should take the same action as if too many image objects were specified on a page. 4. If a receiver supports multiple image contents, it must support them for any type of image. For example, such a receiver must process multiple image contents containing FS10 data without raising an exception, even though the FS10 definition specifies a single image content in each image segment. 5. Multiple image contents are treated by the receiver as if they were sent as multiple image objects, in the same order in which they appear in the image segment. 6. All of the image contents are presented using the same Image Presentation Space characteristics, as defined in the image data descriptor for the image object. 7. Function Sets 45 and 48 are the only current function sets that require receivers to support multiple image contents in a single image | segment. |
+| 0 | CODE | ID | | X'91' Begin Image Content | M |
+| 1 | UBIN | LENGTH | X'01' | Length of the parameters to follow | M |
+| 2 | CODE | OBJTYPE | | X'FF' Object type: X'FF' IOCA image object. All other values are reserved. | M |
+
+**Notes for Begin Image Content OBJTYPE:**
+1. IOCA allows multiple image contents in a single Image Segment, but the receivers are not required to support more than one image content in each image segment. If a receiver that does not support multiple image contents in a single image segment receives a second Begin Image Content Parameter in an image segment, exception EC-910F exists.
+2. All receivers that support multiple image contents must support at least 128 image contents per image segment.
+3. Architecture does not restrict the number of image contents contained within a single image segment. If an image segment contains too many image contents for a receiver to present, the receiver should take the same action as if too many image objects were specified on a page.
+4. If a receiver supports multiple image contents, it must support them for any type of image. For example, such a receiver must process multiple image contents containing FS10 data without raising an exception, even though the FS10 definition specifies a single image content in each image segment.
+5. Multiple image contents are treated by the receiver as if they were sent as multiple image objects, in the same order in which they appear in the image segment.
+6. All of the image contents are presented using the same Image Presentation Space characteristics, as defined in the image data descriptor for the image object.
+7. Function Sets 45 and 48 are the only current function sets that require receivers to support multiple image contents in a single image segment.
 
 ## Exception Conditions
 The following exception conditions cause the standard action to be taken:
@@ -142,7 +154,8 @@ The End Image Content parameter defines the end of the Image Content.
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | ID | | X'93' End Image Content M 1 UBIN LENGTH X'00' Length of the parameters to follow | M |
+| 0 | CODE | ID | | X'93' End Image Content | M |
+| 1 | UBIN | LENGTH | X'00' | Length of the parameters to follow | M |
 
 ## Exception Conditions
 The following exception conditions cause the standard action to be taken:
@@ -164,7 +177,7 @@ This section describes:
 • Image Subsampling parameter
 The Image Size parameter must exist in each untiled Image Content; the other Image Data parameters are optional. The Image Size parameter must not exist in a tiled image content. Some optional parameters are not permitted in some Function Sets. If you omit an optional parameter permissible in the function set, its default value is used.
 In a tiled Image Content, the Image Data parameters described in this section can appear either within Tiles or before the first tile. Any value set in an Image Data parameter specified before the first tile is used as a default in all the tiles. The same Image Data parameter can appear outside of tiles and within a tile, in which case the values specified within the tile are used.
-A function set is a set of self-defining fields that describes an Image Object. For more information on function sets, see “Function Sets” on page 85.
+A function set is a set of self-defining fields that describes an Image Object. For more information on function sets, see “Function Sets”.
 ## Begin Segment
 ## Begin Image Content
 ## Begin Image Content
@@ -204,9 +217,9 @@ This self-defining field, which is mandatory in non-tiled Image Contents, descri
 The total number of image points, excluding any padding bit and padding scan line, in the image data can be obtained by multiplying the nonzero HSIZE and VSIZE values.
 For non-tiled images, HSIZE=X'00' means that the image data has an unknown horizontal size, and VSIZE= X'00' means that it has an unknown vertical size. These are valid only for compression algorithms where the IOCA Process Model can determine the width or height of the image from the image data during decompression time.
 Note: The width or height determined by the IOCA Process Model may be larger than the actual image width or height, as the image data may include padding bits or padding scan lines.
-HSIZE=X'00' or VSIZE=X'00' for other compression algorithms raises exception condition EC-9411. See Appendix A, “Compression and Recording Algorithms”, on page 139 for details.
+HSIZE=X'00' or VSIZE=X'00' for other compression algorithms raises exception condition EC-9411. See Appendix A, “Compression and Recording Algorithms” for details.
 When VSIZE=X'00', the actual vertical size of such image data is determined after all image data is received.
-For example, with IBM MMR-Modified Modified Read, the vertical size is determined when the end-of-page (EOP) condition is detected. See Appendix A, “Compression and Recording Algorithms”, on page 139 for details.
+For example, with IBM MMR-Modified Modified Read, the vertical size is determined when the end-of-page (EOP) condition is detected. See Appendix A, “Compression and Recording Algorithms” for details.
 Note: IOCA generators should set HSIZE and VSIZE to the image's actual width and height regardless of the compression algorithm used. Setting either HSIZE or VSIZE to zero might cause some IOCA receivers to abort prematurely.
 ## Exception Conditions
 The following exception conditions cause the standard action to be taken:
@@ -223,7 +236,7 @@ System action: The size detected from the image data is used.
 
 
 ## Image Encoding
-This optional self-defining field describes the algorithms by which the image data is encoded. See Appendix A, “Compression and Recording Algorithms”, on page 139 for details.
+This optional self-defining field describes the algorithms by which the image data is encoded. See Appendix A, “Compression and Recording Algorithms” for details.
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O |
@@ -295,7 +308,7 @@ EC-9611 Inconsistent Image Data parameters, or inconsistent Image Data parameter
 
 ## Band Image
 This optional self-defining field describes the format of one or more bands that represent an image. A band is a plane where, typically, image data of similar attributes is placed. Certain bits of an IDE can be placed into separate bands, for example the bits that represent the red, green, and blue color components of each IDE.
-If the Band Image parameter is present, then the image data must be carried by the Band Image Data parameter. Each band of the image IDEs is carried by one or more Band Image Data parameters. The Band Image Data parameter is described in “Band Image Data” on page 74.
+If the Band Image parameter is present, then the image data must be carried by the Band Image Data parameter. Each band of the image IDEs is carried by one or more Band Image Data parameters. The Band Image Data parameter is described in “Band Image Data”.
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O |
@@ -333,7 +346,7 @@ EC-9815 Invalid IDE size Condition: The IDE size, determined by the Band Image p
 This optional self-defining field describes the structure of each IDE for a bilevel, grayscale, or color image.
 If the IDE Structure parameter is not present, each IDE of the image data consists of a single component whose size is dependent on the IDE Size parameter. If the IDE Size is 1, the IDE value of B'1' represents a significant (toned) pel, while the value of B'0' represents an insignificant (untoned) pel. If the IDE Size is more than 1, the color model is YCbCr and the value is expressed using the Y component. This is a grayscale color model, where the value of zero represents black, while the maximum value represents white.
 With this self-defining field, color images are expressed by using the RGB, YCrCb, YCbCr, CMYK, or nColor model, while grayscale images are expressed by using only the Y component of the YCrCb or YCbCr model.
-See Appendix B, “Bilevel, Grayscale, and Color Images”, on page 151 for details on the relationship with the IDE Size parameter.
+See Appendix B, “Bilevel, Grayscale, and Color Images” for details on the relationship with the IDE Size parameter.
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O |
@@ -352,7 +365,7 @@ You can specify whether increasing IDE values correspond to brighter or darker l
 value represents zero intensity. For example, in a black-and-white system, the minimum color value (usually zero) means black, and the maximum value means white.
 • Subtractive means that the minimum color value represents full intensity of that color, while the maximum
 color value represents zero intensity. For example, in a black-and-white system, the minimum color value (usually zero) means white, and the maximum value means black.
-See Appendix B, “Bilevel, Grayscale, and Color Images”, on page 151 for more information on the use of ASFLAG. Note in particular that ASFLAG is ignored for bilevel images and for images that use the nColor color model.
+See Appendix B, “Bilevel, Grayscale, and Color Images” for more information on the use of ASFLAG. Note in particular that ASFLAG is ignored for bilevel images and for images that use the nColor color model.
 FORMAT specifies the breakdown format for each IDE value:
 • RGB means that each value is to be treated as a set of red, green, blue intensity values, and the set is in the
 order red, green, blue.
@@ -523,7 +536,7 @@ EC-CE10 Invalid or unsupported Image Data parameter value Condition: The Image S
 
 
 ## Tiles
-Tiles are used when different parts of an image are described using different color spaces, resolutions, and compression algorithms. Tiles can also be used as resources (see Appendix C, “IOCA Tile Resource”, on page 153).
+Tiles are used when different parts of an image are described using different color spaces, resolutions, and compression algorithms. Tiles can also be used as resources (see Appendix C, “IOCA Tile Resource”).
 ## Begin Segment
 ## Begin Image Content
 ## Begin Image Content
@@ -599,7 +612,7 @@ The Tile Position parameter determines the position of the upper-left corner of 
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | ID | | X'B5' Tile Position parameter M 1 UBIN LENGTH X'08' Length of the parameters to follow M 2–5 UBIN XOFFSET X'00000000' – X'7FFFFFFF' Horizontal offset of the tile origin, relative to the presentation space origin M 6–9 UBIN YOFFSET X'00000000' – X'7FFFFFFF' Vertical offset of the tile origin, relative to the presentation space origin M Notes: 1. XOFFSET and YOFFSET are specified in presentation space image points. If subsampling is specified in the Tile Size parameter, it does not apply to XOFFSET and YOFFSET . 2. The upper-left corner of the tile must be contained in the presentation space; that is, XOFFSET and YOFFSET must be less than XSIZE and YSIZE, respectively, as specified in the Image Data Descriptor. For the definition of the Image Data Descriptor, see “Image Data Descriptor (IDD)” on page 156. 3. If the current tile is not the first tile specified, the YOFFSET value must be at least as large as any specified for the previous tiles. If YOFFSET is identical to the previous YOFFSET , XOFFSET must be greater than the previous XOFFSET . This requirement forces the tile order of top down (primary key) and left to right (secondary key). This condition applies only if the Tile TOC parameter does not contain the tile table of | contents. |
+| 0 | CODE | ID | | X'B5' Tile Position parameter M 1 UBIN LENGTH X'08' Length of the parameters to follow M 2–5 UBIN XOFFSET X'00000000' – X'7FFFFFFF' Horizontal offset of the tile origin, relative to the presentation space origin M 6–9 UBIN YOFFSET X'00000000' – X'7FFFFFFF' Vertical offset of the tile origin, relative to the presentation space origin M Notes: 1. XOFFSET and YOFFSET are specified in presentation space image points. If subsampling is specified in the Tile Size parameter, it does not apply to XOFFSET and YOFFSET . 2. The upper-left corner of the tile must be contained in the presentation space; that is, XOFFSET and YOFFSET must be less than XSIZE and YSIZE, respectively, as specified in the Image Data Descriptor. For the definition of the Image Data Descriptor, see “Image Data Descriptor (IDD)”. 3. If the current tile is not the first tile specified, the YOFFSET value must be at least as large as any specified for the previous tiles. If YOFFSET is identical to the previous YOFFSET , XOFFSET must be greater than the previous XOFFSET . This requirement forces the tile order of top down (primary key) and left to right (secondary key). This condition applies only if the Tile TOC parameter does not contain the tile table of | contents. |
 
 ## Exception Conditions
 The following exception conditions cause the standard action to be taken:
@@ -661,7 +674,7 @@ The Tile Set Color parameter specifies the color used to paint significant pels 
 | 2 | CODE | CSPACE | | X'01', X'04', X'06', X'08', X'40' Color space: X'01' RGB X'04' CMYK X'06' Highlight color space X'08' CIELAB X'40' Standard OCA color space M 3–5 X'000000' Reserved; should be zero M 6 UBIN SIZE1 X'01' – X'08', X'10' Number of bits/IDE for component 1; see color space definitions | M |
 | 7 | UBIN | SIZE2 | | X'00' – X'08' Number of bits/IDE for component 2; see color space definitions | M |
 | 8 | UBIN | SIZE3 | | X'00' – X'08' Number of bits/IDE for component 3; see color space definitions | M |
-| 9 | UBIN | SIZE4 | | X'00' – X'08' Number of bits/IDE for component 4; see color space definitions M 10–n Color Color specification; see “Tile Set Color Semantics” on page 61 for details M Notes: 1. The Tile Set Color Parameter serves two purposes. One purpose is to define the color of the significant pels in a bilevel tile. The other is to paint the whole tile with the specified color. In the second use, the tile does not contain any image data. 2. If the Tile Set Color Parameter is present, the significant image pels are painted with the specified color. Insignificant image pels are treated according to the rules for bilevel images. 3. If all pels are significant (that is, if the whole tile is to be painted), the compression algorithm must be set to Solid Fill Rectangle. In this case (solid fill), Image Data and Band Image Data cannot appear, or the exceptions EC-920F and EC-9C0F occur. 4. The Image Encoding parameter and IDE Structure parameter can appear for the tile, but must specify a bilevel image (the IDE size must be 1). The color space given in the IDE Structure parameter must be either YCbCr or YCrCb. Tile Set Color Semantics CSPACE Is a code that defines the color space and the encoding for the color specification. Value Description X'01' RGB color space. The color value is specified with three components. Components 1, 2, and 3 are unsigned binary numbers that specify the red, green, and blue intensity values, in that order. SIZE1, SIZE2, and SIZE3 are nonzero and define the number of bits used to specify each component. SIZE4 is reserved and should be set to | zero. |
+| 9 | UBIN | SIZE4 | | X'00' – X'08' Number of bits/IDE for component 4; see color space definitions M 10–n Color Color specification; see “Tile Set Color Semantics” for details M Notes: 1. The Tile Set Color Parameter serves two purposes. One purpose is to define the color of the significant pels in a bilevel tile. The other is to paint the whole tile with the specified color. In the second use, the tile does not contain any image data. 2. If the Tile Set Color Parameter is present, the significant image pels are painted with the specified color. Insignificant image pels are treated according to the rules for bilevel images. 3. If all pels are significant (that is, if the whole tile is to be painted), the compression algorithm must be set to Solid Fill Rectangle. In this case (solid fill), Image Data and Band Image Data cannot appear, or the exceptions EC-920F and EC-9C0F occur. 4. The Image Encoding parameter and IDE Structure parameter can appear for the tile, but must specify a bilevel image (the IDE size must be 1). The color space given in the IDE Structure parameter must be either YCbCr or YCrCb. Tile Set Color Semantics CSPACE Is a code that defines the color space and the encoding for the color specification. Value Description X'01' RGB color space. The color value is specified with three components. Components 1, 2, and 3 are unsigned binary numbers that specify the red, green, and blue intensity values, in that order. SIZE1, SIZE2, and SIZE3 are nonzero and define the number of bits used to specify each component. SIZE4 is reserved and should be set to | zero. |
 
 ## Tile Set Color
 
@@ -764,7 +777,7 @@ starts.
 
 ## Transparency Masks
 Transparency masks are bilevel images that are used to turn some image points into background.
-Function Sets 14, 45, and 48 are currently the only function sets that include transparency masks. For more information on function sets, see “Function Sets” on page 85.
+Function Sets 14, 45, and 48 are currently the only function sets that include transparency masks. For more information on function sets, see “Function Sets”.
 ## Begin Segment
 ## Begin Image Content
 ## Begin Image Content
@@ -882,7 +895,7 @@ EC-920F Invalid sequence Condition: Image Data is missing, or it appeared out of
 
 ## Band Image Data
 The Band Image Data is an element of the Image Content. It is a set of IDEs typically having similar attributes to each other.
-Band Image Data must appear within an Image Content or a tile for each band defined by the Band Image parameter. The bands must appear in the sequential order of their band numbers. The Band Image parameter must exist in the Image Content if this parameter is used. See “Band Image” on page 38 for more detail.
+Band Image Data must appear within an Image Content or a tile for each band defined by the Band Image parameter. The bands must appear in the sequential order of their band numbers. The Band Image parameter must exist in the Image Content if this parameter is used. See “Band Image” for more detail.
 If the data for a particular band exceeds the length of a single Band Image Data, the remaining data is contained in one or more Band Image Data parameters having the same band number, and following in sequence.
 ### Syntax
 

@@ -102,7 +102,7 @@ Longer text line 3 Still longer text line 4 Bigger space to some more text Image
 
 ## Function Sets
 For some applications, it is not necessary or feasible to implement all the features in the architecture, or support the entire range of values and parameters in a self-defining field.
-Chapter 7, “Compliance”, on page 85 defines several subsets of the architecture (called function sets) that satisfy some particular common needs. It is the responsibility of the application to determine which function set(s) it must provide to generate and receive IOCA Image Objects.
+Chapter 7, “Compliance” defines several subsets of the architecture (called function sets) that satisfy some particular common needs. It is the responsibility of the application to determine which function set(s) it must provide to generate and receive IOCA Image Objects.
 ## Function Sets
 
 

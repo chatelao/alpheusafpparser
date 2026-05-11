@@ -3,7 +3,7 @@ This chapter outlines the exception conditions and exception actions for IOCA, a
 • Exception conditions causing the common standard action
 • Exception conditions causing unique standard actions
 An exception condition is either mandatory or optional. If a function is supported and a mandatory exception condition for the function is detected, the process must notify the controlling environment. If an optional exception condition for the function is detected, the process might or might not need to notify the controlling environment.
-The table in “Mandatory or Optional Exception Conditions” on page 83 summarizes for each IOCA exception condition whether it is mandatory or optional. Also shown in the table is whether the two primary IOCA controlling environments–MO:DCA and IPDS–would consider the exception condition to be mandatory or optional.
+The table in “Mandatory or Optional Exception Conditions” summarizes for each IOCA exception condition whether it is mandatory or optional. Also shown in the table is whether the two primary IOCA controlling environments–MO:DCA and IPDS–would consider the exception condition to be mandatory or optional.
 ## Exception Conditions
 Exception conditions include violations of the following:
 • Syntax
@@ -49,7 +49,7 @@ The exception conditions are reset after the controlling environment has been no
 
 
 Exception Conditions Causing the Common Standard Action EC-0001 Invalid or unsupported code within an Image Segment Condition: An invalid or unsupported self-defining field is detected within the Image Segment.
-EC-0002 Retired Condition: Retired. See Appendix G, “Retired Architecture”, on page 177 for information about this retired exception condition.
+EC-0002 Retired Condition: Retired. See Appendix G, “Retired Architecture” for information about this retired exception condition.
 EC-0003 The LENGTH value is not in the valid range Condition: The LENGTH value is not in the valid range.
 EC-0004 Invalid parameter value Condition: A parameter value is not in the valid range.
 Note: In cases where this exception is being generated for self-defining fields for which an EC-xx10 exception is available, it is recommended that IOCA receivers generate the EC-xx10 exception instead of exception EC-0004. For example, for the IDE Size parameter, EC-9610 would be generated and not EC-0004.

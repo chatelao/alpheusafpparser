@@ -45,7 +45,7 @@ IPDS Environment
 Write Image 2 The Write Image 2 (WI2) command is identified by command code X'D64E'. One or more Write Image 2 commands carry one IOCA Image Segment to the printer.
 All Image Segments are executed in Immediate mode. That is, they are not retained or stored as named segments, but processed immediately when the printer receives them.
 There are no quantity restrictions on data sent to the printer in a single Write Image 2 command, except for the 32K-length limit of the command. An Image Segment, delimited by the Begin Segment and End Segment self- defining fields, may span two or more consecutive Write Image 2 commands.
-The IO-Image Command Set allows for Image Segments that conform to Function Sets, described in Chapter 7, “Compliance”, on page 85.
+The IO-Image Command Set allows for Image Segments that conform to Function Sets, described in Chapter 7, “Compliance”.
 Exception Handling A data-stream exception occurs when the printer detects an invalid or unsupported command, control, or parameter value in the data stream received from the controlling environment. The IPDS architecture assigns a unique exception code to each exception condition.
 The IPDS architecture defines exception conditions and actions that might be detected in IOCA Image Segments carried in the IPDS data stream. They are compatible with IOCA-defined exception conditions and actions.
 The IPDS Exception Identifier consists of the two-byte EC identifier defined by IOCA, prefixed by an IPDS exception class value of X'05'. The exception class value is used to distinguish between the two-byte EC identifiers assigned by IOCA, and other two-byte EC identifiers assigned to presentation text (PTOCA), graphics (GOCA), and bar code (BCOCA) objects.
@@ -67,7 +67,7 @@ compression algorithm other than IBM MMR-Modified Modified Read, JPEG, or JBIG2 
 • The size detected from the image data is different from that specified in the Image Size parameter. The IOCA
 exception action and the IPDS AEA is to use the size of the image detected from the image data.
 When the image size extends beyond the XSIZE or YSIZE of the Image Presentation Space, an exception condition occurs. The IOCA exception action and the IPDS AEA is to write only portions of the image that are within the Image Presentation Space, and discard all portions that extend outside it. The portions that are not written onto are filled with zeros.
-Each image point in IOCA Image Content is mapped to one image point in the Image Presentation Space. The relationship between the resolution and size parameters of the IDD and the Image Size parameter are further described in “Image Data Descriptor (IDD)” on page 156.
+Each image point in IOCA Image Content is mapped to one image point in the Image Presentation Space. The relationship between the resolution and size parameters of the IDD and the Image Size parameter are further described in “Image Data Descriptor (IDD)”.
 Interpretation of IDE Value Bilevel images are represented by an IDE size of one. Each IDE can represent two values, B'1' or B'0'. In the IPDS architecture, an IDE value of B'1' represents a significant bit that is an image point representing a toned pel in the printer, while B'0' represents an insignificant bit that is an image point representing an untoned pel in the printer.
 IPDS Environment
 

@@ -19,7 +19,7 @@ SIZE3=SIZE4=1, IDESZ=4).
 spot (IDESZ=4 or IDESZ=32).
 • Function Set 48 carries tiled bilevel, CMYK, and nColor images. CMYK images can be either one or eight
 bits per spot (IDESZ=4 or IDESZ=32). nColor images are eight bits per spot (IDESZ is a multiple of eight).
-Note: Function Set 20 is used only in MO:DCA-L and has been retired. See Appendix G, “Retired Architecture”, on page 177.
+Note: Function Set 20 is used only in MO:DCA-L and has been retired. See Appendix G, “Retired Architecture”.
 Function Set 14 is a superset of Function Set 11. Function Set 11 is a superset of Function Set 10. Function Set 48 is a superset of Function Set 45. Function Set 45 is a superset of Function Set 42. Function Set 42 is a superset of Function Set 40. There are no other relationships among the function sets.
 
 
@@ -52,7 +52,7 @@ IOCA Function Set 11 (IOCA FS11)
 Function Set 11 is a superset of Function Set 10, and describes bilevel, grayscale, and color images. This function set is carried by the MO:DCA and IPDS controlling environments. The permissible parameter groupings in FS11 are defined as follows:
 Table 8. Function Set 11 Structure X'70' Begin Segment parameter X'91' Begin Image Content parameter + X'94' Image Size parameter + [ X'95' Image Encoding parameter ] + [ X'96' IDE Size parameter ] + [ X'97' Retired (Image LUT-ID parameter) ] + [ X'98' Band Image parameter ]
 + [ X'9B' IDE Structure parameter ] + [ X'9F' External Algorithm Specification parameter ] + [ X'FECE' Image Subsampling parameter ] Image Data or Band Image Data (S)
-X'93' End Image Content parameter X'71' End Segment parameter Note: The External Algorithm Specification parameter is part of FS11, but in IOCA is no longer required for JPEG compression, as described in Note 2 in the description of the Image Encoding parameter on page 35. Thus, an FS11 receiver can ignore the External Algorithm Specification parameter if desired.
+X'93' End Image Content parameter X'71' End Segment parameter Note: The External Algorithm Specification parameter is part of FS11, but in IOCA is no longer required for JPEG compression, as described in Note 2 in the description of the Image Encoding parameter. Thus, an FS11 receiver can ignore the External Algorithm Specification parameter if desired.
 The self-defining fields and values acceptable for FS11 are shown in the following table.
 IOCA Self-defining Field Parameter (Bytes)
 Acceptable Value Comments Initial parameters:
@@ -360,7 +360,7 @@ X'8C' Begin Tile parameter X'B5' Tile Position parameter X'FEB8' Include Tile pa
 Table 19. IOCA Tile Resource Structure X'8C' Begin Tile parameter X'B5' Tile Position parameter X'B6' Tile Size parameter [ X'95' Image Encoding parameter ] [ X'96' IDE Size parameter ] [ X'98' Band Image parameter ] [ X'9B' IDE Structure parameter ]
 [ X'9F' External Algorithm Specification parameter (ignored) ] [ X'B7' Tile Set Color parameter ] [ Transparency Mask ] [ Image Data or Band Image Data (S) ] X'8D' End Tile parameter Table 20. Transparency Mask Structure X'8E' Begin Transparency Mask parameter X'94' Image Size parameter
 [ X'95' Image Encoding parameter ] X'FE92' Image Data X'8F' End Transparency Mask parameter Notes:
-1. Note that the parameters in T able 15 on page 114,T able 16 on page 114,T able 17 on page 114,T able 18 on page 114, T able 19, andT able 20must come in the specified order. Even though the general IOCA architecture allows different ordering for some of the parameters, the FS45 specification is more restrictive.
+1. Note that the parameters in T able 15,T able 16,T able 17,T able 18, T able 19, andT able 20must come in the specified order. Even though the general IOCA architecture allows different ordering for some of the parameters, the FS45 specification is more restrictive.
 If the parameters are given in a different order, an out-of-sequence exception is raised.
 2. The Image Encoding parameter, IDE Size parameter, Band Image parameter, and IDE Structure parameter are shown as optional and can possibly be specified in two places. Note that tile data might require that some of these parameters be specified.
 3. If the IDE Size parameter is not present neither in the tile nor in the image content, the default IDE size is one bit per pel (bilevel image).
@@ -485,7 +485,7 @@ X'8C' Begin Tile parameter X'B5' Tile Position parameter X'FEB8' Include Tile pa
 Table 25. IOCA Tile Resource Structure X'8C' Begin Tile parameter X'B5' Tile Position parameter X'B6' Tile Size parameter [ X'95' Image Encoding parameter ] [ X'96' IDE Size parameter ] [ X'98' Band Image parameter ] [ X'9B' IDE Structure parameter ]
 [ X'9F' External Algorithm Specification parameter (ignored) ] [ X'B7' Tile Set Color parameter ] [ Transparency Mask ] [ Image Data or Band Image Data (S) ] X'8D' End Tile parameter Table 26. Transparency Mask Structure X'8E' Begin Transparency Mask parameter X'94' Image Size parameter
 [ X'95' Image Encoding parameter ] X'FE92' Image Data X'8F' End Transparency Mask parameter Notes:
-1. Note that the parameters in T able 21 on page 125, T able 22 on page 125, T able 23 on page 125, T able 24 on page 125, T able 25, andT able 26must come in the specified order. Even though the general IOCA architecture allows different ordering for some of the parameters, the FS48 specification is more restrictive.
+1. Note that the parameters in T able 21, T able 22, T able 23, T able 24, T able 25, andT able 26must come in the specified order. Even though the general IOCA architecture allows different ordering for some of the parameters, the FS48 specification is more restrictive.
 If the parameters are given in a different order, an out-of-sequence exception is raised.
 2. The Image Encoding parameter, IDE Size parameter, Band Image parameter, and IDE Structure parameter are shown as optional and can possibly be specified in two places. Note that tile data might require that some of these parameters be specified.
 3. If the IDE Size parameter is not present neither in the tile nor in the image content, the default IDE size is one bit per pel (bilevel image).
@@ -500,7 +500,7 @@ Support of this parameter is not required in FS48 because FS48 became an officia
 Function Set 48
 
 
-The nColor Names parameter is optional, but when specified with an FS48 image, must immediately follow the IDE Structure parameter in T able 22 on page 125, T able 23 on page 125, and T able 25 on page 126.
+The nColor Names parameter is optional, but when specified with an FS48 image, must immediately follow the IDE Structure parameter in T able 22, T able 23, and T able 25.
 The effective syntax in those tables, then, would be:
 ...
 [ X'9B' IDE Structure parameter ] [ X'FEB3' nColor Names parameter ] ...
@@ -618,7 +618,7 @@ RESERVED (3) X'000000' Should be zero SIZE1 (1) X'08' 8 bits/IDE (1st component)
 SIZE2 (1) X'08' 8 bits/IDE (2nd component)
 ... ... ...
 SIZEn (1) X'08' 8 bits/IDE (nth component)
-Note on the parameters used when FORMAT=nColor: When using FORMAT=nColor, generating implementations are very strongly recommended to also include an nColor Names parameter here, just after the IDE Structure parameter, and receiving implementations are very strongly recommended to support that parameter here. This allows an nColor FS48 IOCA image to specify the names of the colors being used. For more information on this recommendation, see Note 9 on page 126.
+Note on the parameters used when FORMAT=nColor: When using FORMAT=nColor, generating implementations are very strongly recommended to also include an nColor Names parameter here, just after the IDE Structure parameter, and receiving implementations are very strongly recommended to support that parameter here. This allows an nColor FS48 IOCA image to specify the names of the colors being used. For more information on this recommendation, see Note 9.
 Function Set 48
 
 
