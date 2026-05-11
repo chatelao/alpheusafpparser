@@ -2682,197 +2682,28 @@ Aztec Code Special-Function Parameters
 
 
 Data Matrix Special-Function Parameters
+
 Table 23. Data Matrix Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported in
-BCD1 B'0'
-B'1'
-bit 2 T oo much
-data B'0'
-B'1'
-If too much data:
-Use a bigger Data Matrix
-symbol
-Exception EC-0F20 exists
-Not supported in
-BCD1
-Not supported in
-BCD2
-bits 3-7 B'00000' Reserved B'00000' B'00000'
-6–7 UBIN Desired
-row size
-X'0000'
-X'0001'–
-X'FFFF'
-No size specified
-Matrix row size as allowed by
-symbology; see field
-description
-Not supported in
-BCD1
-X'0000'
-All row sizes
-within Table 24
-8–9 UBIN Desired
-number of
-rows
-X'0000'
-X'0001'–
-X'FFFF'
-No size specified
-Number of rows as allowed by
-symbology; see field
-description
-Not supported in
-BCD1
-X'0000'
-All number-of-
-rows values
-within Table 24
-10 UBIN Sequence
-indicator
-X'00'–X'10' Structured append sequence
-indicator
-Not supported in
-BCD1
-X'00'–X'10'
-11 UBIN T otal
-symbols
-X'00' or
-X'02'–X'10'
-T otal number of structured-
-append symbols
-Not supported in
-BCD1
-X'00' or
-X'02'–X'10'
-12 UBIN File ID
-1st byte
-X'01' – X'FE' High-order byte of a 2-byte
-unique file identification for a
-set of structured-append
-symbols
-Not supported in
-BCD1
-X'01' – X'FE'
-13 UBIN File ID
-2nd byte
-X'01' – X'FE' Low-order byte of a 2-byte
-unique file identification for a
-set of structured-append
-symbols
-Not supported in
-BCD1
-X'01' – X'FE'
-14 BITS Special-function flags
-bit 0 GS1
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to GS1
-standards
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Industry
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to industry
-standards
-Not supported in
-BCD1 B'0'
-B'1'
-Data Matrix Special-Function Parameters
 
-
-
-
-Table 23 Data Matrix Special-Function Parameters (cont'd.)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-bit 2 Reader
-program-
-ming
-B'0'
-B'1'
-Reader programming symbol:
-Symbol encodes a data
-symbol
-Symbol encodes a message
-used to program the
-reader system
-Not supported in
-BCD1 B'0'
-B'1'
-bits 3–4 Hdr/Trl
-Macro
-B'00'
-B'01'
-B'10'
-B'11'
-Header and trailer instructions
-to the bar code reader:
-No header or trailer
-Use the 05 Macro
-header/trailer
-Use the 06 Macro
-header/trailer
-No header or trailer
-Not supported in
-BCD1
-B'00'
-B'01'
-B'10'
-B'11'
-bits 5–7 Encoda-
-tion
-scheme B'000'
-B'001'
-B'010'
-B'011'
-B'100'
-B'101'
-B'110'
-B'111'
-Encodation scheme used to
-produce the bar code symbol:
-Device default – usually Auto
-encoding
-ASCII
-C40
-Text
-X12
-EDIFACT
-Base 256
-Auto encoding
-B'000'
-Other values
-not supported
-in BCD1
-B'000'
-Other values
-not supported
-in BCD2
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger Data Matrix symbol<br>Exception EC-0F20 exists | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 3–7 | | B'00000' | Reserved | B'00000' | B'00000' |
+| 6–7 | UBIN | Desired row size | X'0000'<br>X'0001'–X'FFFF' | No size specified<br>Matrix row size as allowed by symbology; see field description | Not supported in BCD1 | X'0000'<br>All row sizes within Table 24 |
+| 8–9 | UBIN | Desired number of rows | X'0000'<br>X'0001'–X'FFFF' | No size specified<br>Number of rows as allowed by symbology; see field description | Not supported in BCD1 | X'0000'<br>All number-of-rows values within Table 24 |
+| 10 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'10' |
+| 11 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'10' |
+| 12 | UBIN | File ID 1st byte | X'01'–X'FE' | High-order byte of a 2-byte unique file identification for a set of structured-append symbols | Not supported in BCD1 | X'01'–X'FE' |
+| 13 | UBIN | File ID 2nd byte | X'01'–X'FE' | Low-order byte of a 2-byte unique file identification for a set of structured-append symbols | Not supported in BCD1 | X'01'–X'FE' |
+| 14 | BITS | Special-function flags | | | | |
+| | bit 0 | GS1 FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to GS1 standards | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 2 | Reader programming | B'0'<br>B'1' | Reader programming symbol:<br>Symbol encodes a data symbol<br>Symbol encodes a message used to program the reader system | Not supported in BCD1 | B'0'<br>B'1' |
+| | bits 3–4 | Hdr/Trl Macro | B'00'<br>B'01'<br>B'10'<br>B'11' | Header and trailer instructions to the bar code reader:<br>No header or trailer<br>Use the 05 Macro header/trailer<br>Use the 06 Macro header/trailer<br>No header or trailer | Not supported in BCD1 | B'00'<br>B'01'<br>B'10'<br>B'11' |
+| | bits 5–7 | Encodation scheme | B'000'<br>B'001'<br>B'010'<br>B'011'<br>B'100'<br>B'101'<br>B'110'<br>B'111' | Encodation scheme used to produce the bar code symbol:<br>Device default – usually Auto encoding<br>ASCII<br>C40<br>Text<br>X12<br>EDIFACT<br>Base 256<br>Auto encoding | B'000'<br>Other values not supported in BCD1 | B'000'<br>Other values not supported in BCD2 |
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -2956,70 +2787,61 @@ values are specified as X'0000'; note that this recommendation was added much la
 than DataMatrix support was added to BCOCA, so many BCOCA receivers might not
 follow this recommendation.
 Table 24. Supported Sizes for a Modifier X'00' Data Matrix Symbol
-Square Symbols Rectangular Symbols
-Symbol Size Data Region Symbol Size Data Region
-Number of
-Rows
-Row Size Size Number Number of
-Rows
-Row Size Size Number
-10 10 8x8 1 8 18 6x16 1
-12 12 10x10 1 8 32 6x14 2
-14 14 12x12 1 12 26 10x24 1
-16 16 14x14 1 12 36 10x16 2
-18 18 16x16 1 16 36 14x16 2
-20 20 18x18 1 16 48 14x22 2
-22 22 20x20 1
-24 24 22x22 1
-26 26 24x24 1
-32 32 14x14 4
-36 36 16x16 4
-40 40 18x18 4
-44 44 20x20 4
-48 48 22x22 4
-52 52 24x24 4
-64 64 14x14 16
-72 72 16x16 16
-80 80 18x18 16
-88 88 20x20 16
-96 96 22x22 16
-104 104 24x24 16
-120 120 18x18 36
-132 132 20x20 36
-144 144 22x22 36
-Data Matrix Special-Function Parameters
 
-
-
+| Square Symbols | | | | Rectangular Symbols | | | |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Symbol Size** | | **Data Region** | | **Symbol Size** | | **Data Region** | |
+| **Number of Rows** | **Row Size** | **Size** | **Number** | **Number of Rows** | **Row Size** | **Size** | **Number** |
+| 10 | 10 | 8x8 | 1 | 8 | 18 | 6x16 | 1 |
+| 12 | 12 | 10x10 | 1 | 8 | 32 | 6x14 | 2 |
+| 14 | 14 | 12x12 | 1 | 12 | 26 | 10x24 | 1 |
+| 16 | 16 | 14x14 | 1 | 12 | 36 | 10x16 | 2 |
+| 18 | 18 | 16x16 | 1 | 16 | 36 | 14x16 | 2 |
+| 20 | 20 | 18x18 | 1 | 16 | 48 | 14x22 | 2 |
+| 22 | 22 | 20x20 | 1 | | | | |
+| 24 | 24 | 22x22 | 1 | | | | |
+| 26 | 26 | 24x24 | 1 | | | | |
+| 32 | 32 | 14x14 | 4 | | | | |
+| 36 | 36 | 16x16 | 4 | | | | |
+| 40 | 40 | 18x18 | 4 | | | | |
+| 44 | 44 | 20x20 | 4 | | | | |
+| 48 | 48 | 22x22 | 4 | | | | |
+| 52 | 52 | 24x24 | 4 | | | | |
+| 64 | 64 | 14x14 | 16 | | | | |
+| 72 | 72 | 16x16 | 16 | | | | |
+| 80 | 80 | 18x18 | 16 | | | | |
+| 88 | 88 | 20x20 | 16 | | | | |
+| 96 | 96 | 22x22 | 16 | | | | |
+| 104 | 104 | 24x24 | 16 | | | | |
+| 120 | 120 | 18x18 | 36 | | | | |
+| 132 | 132 | 20x20 | 36 | | | | |
+| 144 | 144 | 22x22 | 36 | | | | |
 
 Table 25. Supported Sizes for a Modifier X'01' Data Matrix Symbol
-Square Symbols Rectangular Symbols
-Symbol Size Data Region Symbol Size Data Region
-Number of
-Rows
-Row Size Size Number Number of
-Rows
-Row Size Size Number
-All supported sizes for a modifier X'00' Data Matrix symbol (found in Table 24) are also supported for a
-modifier X'01' Data Matrix symbol (in this table); in addition, the sizes below are supported
-8 48 6x22 2
-8 64 6x14 4
-8 80 6x18 4
-8 96 6x22 4
-8 120 6x18 6
-8 144 6x22 6
-12 64 10x14 4
-12 88 10x20 4
-16 64 14x14 4
-20 36 18x16 2
-20 44 18x20 2
-20 64 18x14 4
-22 48 20x22 2
-24 48 22x22 2
-24 64 22x14 4
-26 40 24x18 2
-26 48 24x22 2
-26 64 24x14 4
+
+| Square Symbols | | | | Rectangular Symbols | | | |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Symbol Size** | | **Data Region** | | **Symbol Size** | | **Data Region** | |
+| **Number of Rows** | **Row Size** | **Size** | **Number** | **Number of Rows** | **Row Size** | **Size** | **Number** |
+| All supported sizes for a modifier X'00' Data Matrix symbol (found in Table 24) are also supported for a modifier X'01' Data Matrix symbol (in this table); in addition, the sizes below are supported: | | | | | | | |
+| | | | | 8 | 48 | 6x22 | 2 |
+| | | | | 8 | 64 | 6x14 | 4 |
+| | | | | 8 | 80 | 6x18 | 4 |
+| | | | | 8 | 96 | 6x22 | 4 |
+| | | | | 8 | 120 | 6x18 | 6 |
+| | | | | 8 | 144 | 6x22 | 6 |
+| | | | | 12 | 64 | 10x14 | 4 |
+| | | | | 12 | 88 | 10x20 | 4 |
+| | | | | 16 | 64 | 14x14 | 4 |
+| | | | | 20 | 36 | 18x16 | 2 |
+| | | | | 20 | 44 | 18x20 | 2 |
+| | | | | 20 | 64 | 18x14 | 4 |
+| | | | | 22 | 48 | 20x22 | 2 |
+| | | | | 24 | 48 | 22x22 | 2 |
+| | | | | 24 | 64 | 22x14 | 4 |
+| | | | | 26 | 40 | 24x18 | 2 |
+| | | | | 26 | 48 | 24x22 | 2 |
+| | | | | 26 | 64 | 24x14 | 4 |
 Bytes 8–9 Desired number of rows
 For a Data Matrix symbol, this parameter specifies the desired number of rows including the
 finder pattern. Exception condition EC-0F00 exists if an unsupported size value is specified.
@@ -3174,146 +2996,24 @@ Data Matrix Special-Function Parameters
 
 Han Xin Code Special-Function Parameters
 Table 26. Han Xin Code Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 1
-Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 2
-T oo much
-data
-B'0'
-B'1'
-If too much data:
-Use a bigger Han Xin Code
-symbol
-Exception EC-0F21 exists
-Not supported
-in BCD1
-Not supported
-in BCD2
-bits 3–7
-B'00000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-6
-X'00' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-7
-UBIN Version
-X'00'
-X'01' – X'54'
-Version of symbol:
-Smallest symbol
-Version number (1 to 84)
-Not supported
-in BCD1
-Not supported
-in BCD2
-8
-CODE Error
-correction
-level
-X'01'
-X'02'
-X'03'
-X'04'
-Level of error correction:
-Level 1 (8% recovery)
-Level 2 (15% recovery)
-Level 3 (23% recovery)
-Level 4 (30% recovery)
-Not supported
-in BCD1
-Not supported
-in BCD2
-9
-BITS Special-function flags
-bit 0 GS1
-FNC1
-B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to GS1
-standards
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 1
-Industry
-FNC1
-B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to industry
-standards
-Not supported
-in BCD1
-Not supported
-in BCD2
-bits 2–7
-B'000000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-10
-CODE Applica-
-tion
-indicator
-See field
-description
-Application indicator for Industry
-FNC1
-Not supported
-in BCD1
-Not supported
-in BCD2
-11
-UBIN Addl
-parms
-length
-X'00' – X'FF' Length of additional parameter
-bytes that follow
-Not supported
-in BCD1
-Not supported
-in BCD2
-12 to
-end
-Addl
-parms
-Reserved; data without current
-architectural definition
-Not supported
-in BCD1
-Not supported
-in BCD2
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger Han Xin Code symbol<br>Exception EC-0F21 exists | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 3–7 | | B'00000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| 6 | | | X'00' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| 7 | UBIN | Version | X'00'<br>X'01' – X'54' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 84) | Not supported in BCD1 | Not supported in BCD2 |
+| 8 | CODE | Error correction level | X'01'<br>X'02'<br>X'03'<br>X'04' | Level of error correction:<br>Level 1 (8% recovery)<br>Level 2 (15% recovery)<br>Level 3 (23% recovery)<br>Level 4 (30% recovery) | Not supported in BCD1 | Not supported in BCD2 |
+| 9 | BITS | Special-function flags | | | | |
+| | bit 0 | GS1 FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to GS1 standards | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| 10 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 |
+| 11 | UBIN | Addl parms length | X'00' – X'FF' | Length of additional parameter bytes that follow | Not supported in BCD1 | Not supported in BCD2 |
+| 12 to end | | Addl parms | | Reserved; data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 |
 Han Xin Code Special-Function Parameters
 
 
@@ -3373,37 +3073,31 @@ Han Xin Code Special-Function Parameters
 
 
 Table 27. Supported Versions for a Han Xin Code Symbol
-Version Symbol
-Size
-Version Symbol
-Size
-Version Symbol
-Size
-Version Symbol
-Size
-0 (X'00')
-smallest 22 (X'16') 65x65 44 (X'2C') 109x109 66 (X'42') 153x153
-1 (X'01') 23x23 23 (X'17') 67x67 45 (X'2D') 111x111 67 (X'43') 155x155
-2 (X'02') 25x25 24 (X'18') 69x69 46 (X'2E') 113x113 68 (X'44') 157x157
-3 (X'03') 27x27 25 (X'19') 71x71 47 (X'2F') 115x115 69 (X'45') 159x159
-4 (X'04') 29x29 26 (X'1A') 73x73 48 (X'30') 117x117 70 (X'46') 161x161
-5 (X'05') 31x31 27 (X'1B') 75x75 49 (X'31') 119x119 71 (X'47') 163x163
-6 (X'06') 33x33 28 (X'1C') 77x77 50 (X'32') 121x121 72 (X'48') 165x165
-7 (X'07') 35x35 29 (X'1D') 79x79 51 (X'33') 123x123 73 (X'49') 167x167
-8 (X'08') 37x37 30 (X'1E') 81x81 52 (X'34') 125x125 74 (X'4A') 169x169
-9 (X'09') 39x39 31 (X'1F') 83x83 53 (X'35') 127x127 75 (X'4B') 171x171
-10 (X'0A') 41x41 32 (X'20') 85x85 54 (X'36') 129x129 76 (X'4C') 173x173
-11 (X'0B') 43x43 33 (X'21') 87x87 55 (X'37') 131x131 77 (X'4D') 175x175
-12 (X'0C') 45x45 34 (X'22') 89x89 56 (X'38') 133x133 78 (X'4E') 177x177
-13 (X'0D') 47x47 35 (X'23') 91x91 57 (X'39') 135x135 79 (X'4F') 179x179
-14 (X'0E') 49x49 36 (X'24') 93x93 58 (X'3A') 137x137 80 (X'50') 181x181
-15 (X'0F') 51x51 37 (X'25') 95x95 59 (X'3B') 139x139 81 (X'51') 183x183
-16 (X'10') 53x53 38 (X'26') 97x97 60 (X'3C') 141x141 82 (X'52') 185x185
-17 (X'11') 55x55 39 (X'27') 99x99 61 (X'3D') 143x143 83 (X'53') 187x187
-18 (X'12') 57x57 40 (X'28') 101x101 62 (X'3E') 145x145 84 (X'54') 189x189
-19 (X'13') 59x59 41 (X'29') 103x103 63 (X'3F') 147x147
-20 (X'14') 61x61 42 (X'2A') 105x105 64 (X'40') 149x149
-21 (X'15') 63x63 43 (X'2B') 107x107 65 (X'41') 151x151
+
+| Version | Symbol Size | Version | Symbol Size | Version | Symbol Size | Version | Symbol Size |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 (X'00') | smallest | 22 (X'16') | 65x65 | 44 (X'2C') | 109x109 | 66 (X'42') | 153x153 |
+| 1 (X'01') | 23x23 | 23 (X'17') | 67x67 | 45 (X'2D') | 111x111 | 67 (X'43') | 155x155 |
+| 2 (X'02') | 25x25 | 24 (X'18') | 69x69 | 46 (X'2E') | 113x113 | 68 (X'44') | 157x157 |
+| 3 (X'03') | 27x27 | 25 (X'19') | 71x71 | 47 (X'2F') | 115x115 | 69 (X'45') | 159x159 |
+| 4 (X'04') | 29x29 | 26 (X'1A') | 73x73 | 48 (X'30') | 117x117 | 70 (X'46') | 161x161 |
+| 5 (X'05') | 31x31 | 27 (X'1B') | 75x75 | 49 (X'31') | 119x119 | 71 (X'47') | 163x163 |
+| 6 (X'06') | 33x33 | 28 (X'1C') | 77x77 | 50 (X'32') | 121x121 | 72 (X'48') | 165x165 |
+| 7 (X'07') | 35x35 | 29 (X'1D') | 79x79 | 51 (X'33') | 123x123 | 73 (X'49') | 167x167 |
+| 8 (X'08') | 37x37 | 30 (X'1E') | 81x81 | 52 (X'34') | 125x125 | 74 (X'4A') | 169x169 |
+| 9 (X'09') | 39x39 | 31 (X'1F') | 83x83 | 53 (X'35') | 127x127 | 75 (X'4B') | 171x171 |
+| 10 (X'0A') | 41x41 | 32 (X'20') | 85x85 | 54 (X'36') | 129x129 | 76 (X'4C') | 173x173 |
+| 11 (X'0B') | 43x43 | 33 (X'21') | 87x87 | 55 (X'37') | 131x131 | 77 (X'4D') | 175x175 |
+| 12 (X'0C') | 45x45 | 34 (X'22') | 89x89 | 56 (X'38') | 133x133 | 78 (X'4E') | 177x177 |
+| 13 (X'0D') | 47x47 | 35 (X'23') | 91x91 | 57 (X'39') | 135x135 | 79 (X'4F') | 179x179 |
+| 14 (X'0E') | 49x49 | 36 (X'24') | 93x93 | 58 (X'3A') | 137x137 | 80 (X'50') | 181x181 |
+| 15 (X'0F') | 51x51 | 37 (X'25') | 95x95 | 59 (X'3B') | 139x139 | 81 (X'51') | 183x183 |
+| 16 (X'10') | 53x53 | 38 (X'26') | 97x97 | 60 (X'3C') | 141x141 | 82 (X'52') | 185x185 |
+| 17 (X'11') | 55x55 | 39 (X'27') | 99x99 | 61 (X'3D') | 143x143 | 83 (X'53') | 187x187 |
+| 18 (X'12') | 57x57 | 40 (X'28') | 101x101 | 62 (X'3E') | 145x145 | 84 (X'54') | 189x189 |
+| 19 (X'13') | 59x59 | 41 (X'29') | 103x103 | 63 (X'3F') | 147x147 | | |
+| 20 (X'14') | 61x61 | 42 (X'2A') | 105x105 | 64 (X'40') | 149x149 | | |
+| 21 (X'15') | 63x63 | 43 (X'2B') | 107x107 | 65 (X'41') | 151x151 | | |
 If X'00' is specified for this parameter, an appropriate row/column size will be used based on
 the amount of symbol data; the smallest symbol that can accommodate the amount of data is
 produced.
