@@ -30,7 +30,7 @@ public class AFP2XMLWriterTest {
     @Test
     public void testWriteXMLWithMMO() throws JAXBException {
         MMO_MapMediumOverlay mmo = new MMO_MapMediumOverlay();
-        mmo.addRepeatingGroup(new MMO_MapMediumOverlay.MMO_PrepeatingGroup());
+        mmo.addRepeatingGroup(new MMO_MapMediumOverlay.MMO_RepeatingGroup());
         AFP2XMLWriter.writeXML(new ByteArrayOutputStream(), mmo, new AFPParserConfiguration());
     }
 

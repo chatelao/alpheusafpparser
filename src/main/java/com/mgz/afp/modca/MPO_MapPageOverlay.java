@@ -39,7 +39,7 @@ public class MPO_MapPageOverlay extends StructuredFieldBaseRepeatingGroups {
     int actualLength = getActualLength(sfData, offset, length);
     int pos = 0;
     while (pos < actualLength) {
-      MPO_RepeatinGroup rg = new MPO_RepeatinGroup();
+      MPO_RepeatingGroup rg = new MPO_RepeatingGroup();
       rg.decodeAFP(sfData, offset + pos, actualLength - pos, config);
       addRepeatingGroup(rg);
       pos += rg.getRepeatingGroupLength();
@@ -57,6 +57,6 @@ public class MPO_MapPageOverlay extends StructuredFieldBaseRepeatingGroups {
   }
 
   @XmlRootElement
-  public static class MPO_RepeatinGroup extends RepeatingGroupWithTriplets {
+  public static class MPO_RepeatingGroup extends RepeatingGroupWithTriplets {
   }
 }

@@ -11,44 +11,28 @@ Object Content Architecture references for the individual objects. Note that thi
 of colors supported by the GOCA Set Extended Color drawing order. The Color Specification (X'4E') triplet also
 supports these colors for the Standard OCA color space; see “Color Specification Triplet X'4E'”.
 Table 43. Color Values
-Value Color Red
-(R)
-Green
-(G)
-Blue
-(B)
-X'0000' or X'FF00' Presentation-process default; see Note
-1
-X'0001' or X'FF01' Blue 0 0 255
-X'0002' or X'FF02' Red 255 0 0
-X'0003' or X'FF03' Pink/Magenta 255 0 255
-X'0004' or X'FF04' Green 0 255 0
-X'0005' or X'FF05' Turquoise/cyan 0 255 255
-X'0006' or X'FF06' Yellow 255 255 0
-X'0007' White; see Note 2 255 255 255
-X'0008' Black 0 0 0
-X'0009' Dark blue 0 0 170
-X'000A' Orange 255 128 0
-X'000B' Purple 170 0 170
-X'000C' Dark green 0 146 0
-X'000D' Dark turquoise 0 146 170
-X'000E' Mustard 196 160 32
-X'000F' Gray 131 131 131
-X'0010' Brown 144 48 0
-X'FF07' Presentation-process default; see Note
-3
-— — —
-X'FF08' Color of medium — — —
-
-
-Table 43 Color Values (cont'd.)
-Value Color Red
-(R)
-Green
-(G)
-Blue
-(B)
-All others Reserved — — —
+| Value | Color | Red (R) | Green (G) | Blue (B) |
+| --- | --- | --- | --- | --- |
+| X'0000' or X'FF00' | Presentation-process default; see Note 1 | | | |
+| X'0001' or X'FF01' | Blue | 0 | 0 | 255 |
+| X'0002' or X'FF02' | Red | 255 | 0 | 0 |
+| X'0003' or X'FF03' | Pink/Magenta | 255 | 0 | 255 |
+| X'0004' or X'FF04' | Green | 0 | 255 | 0 |
+| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 |
+| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 |
+| X'0007' | White; see Note 2 | 255 | 255 | 255 |
+| X'0008' | Black | 0 | 0 | 0 |
+| X'0009' | Dark blue | 0 | 0 | 170 |
+| X'000A' | Orange | 255 | 128 | 0 |
+| X'000B' | Purple | 170 | 0 | 170 |
+| X'000C' | Dark green | 0 | 146 | 0 |
+| X'000D' | Dark turquoise | 0 | 146 | 170 |
+| X'000E' | Mustard | 196 | 160 | 32 |
+| X'000F' | Gray | 131 | 131 | 131 |
+| X'0010' | Brown | 144 | 48 | 0 |
+| X'FF07' | Presentation-process default; see Note 3 | — | — | — |
+| X'FF08' | Color of medium | — | — | — |
+| All others | Reserved | — | — | — |
 Notes:
 1. The presentation-process default specified by X'0000' and X'FF00' is resolved based on data type as follows:
 • For PTOCA text data, it is the presentation device default.
@@ -277,8 +261,7 @@ currently not supported in AFP environments.
 X'40' Standard OCA color space. This is the same color space as that defined in
 the Color Specification (X'4E') triplet. All syntactically valid color values
 defined in the Standard OCA Color Value T able are supported for mapping.
-For a list of all valid color values, see “Standard OCA Color Value T able” on
-page 521.
+For a list of all valid color values, see “Standard OCA Color Value T able”.
 X'50' GOCA Pattern Fill space. Component 1 defines the GOCA pattern set local
 ID as specified by the Set Pattern Set drawing order, and must be set to X'00'
 to select the GOCA default pattern set. ColSize1 is set to X'08' and defines

@@ -41,7 +41,7 @@ public class MMT_MapMediaType extends StructuredFieldBaseRepeatingGroups {
     int actualLength = getActualLength(sfData, offset, length);
     int pos = 0;
     while (pos < actualLength) {
-      MMT_RepeatinGroup rg = new MMT_RepeatinGroup();
+      MMT_RepeatingGroup rg = new MMT_RepeatingGroup();
       rg.decodeAFP(sfData, offset + pos, actualLength - pos, config);
       addRepeatingGroup(rg);
       pos += rg.getRepeatingGroupLength();
@@ -59,6 +59,6 @@ public class MMT_MapMediaType extends StructuredFieldBaseRepeatingGroups {
   }
 
   @XmlRootElement
-  public static class MMT_RepeatinGroup extends RepeatingGroupWithTriplets {
+  public static class MMT_RepeatingGroup extends RepeatingGroupWithTriplets {
   }
 }
