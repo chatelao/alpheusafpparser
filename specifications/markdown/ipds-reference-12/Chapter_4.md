@@ -532,7 +532,7 @@ Zero or more AR entries in the following format:
 | 0–1 | UBIN | Length | | Entry length, including this length field | See byte description |
 | 2 | CODE | RT | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'08'<br>X'09'<br>X'10'<br>X'40'<br>X'41'<br>X'42' | Resource Type (RT):<br>No value supplied<br>Single-byte LF1-type or LF2-type coded font<br>Reserved<br>Double-byte LF1-type coded-font section<br>Page segment<br>Overlay<br>Code page<br>Font character set<br>Single-byte coded-font index<br>Double-byte coded-font index<br>Coded font<br>Data object resource<br>Data-object font<br>Data-object-font component | X'00' and at least one Resource Type |
 | 3–4 | CODE | HAID | X'0000'<br>X'0001'–X'7EFF' | Host-Assigned ID (see note following table) | X'0000'<br>X'0001'–X'7EFF' |
-| 5 | CODE | Sectionon ID | X'00'<br>X'41'–X'FE' | Sectionon Identifier: No value supplied or Double-byte font section ID (see note following table) | See byte description |
+| 5 | CODE | Section ID | X'00'<br>X'41'–X'FE' | Section Identifier: No value supplied or Double-byte font section ID (see note following table) | See byte description |
 | 6 | CODE | RIDF | X'00'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'09'<br>X'0A' | Resource ID Format (RIDF):<br>No value supplied<br>GRID-parts format<br>Remote PrintManager MVS format<br>Extended Remote PrintManager MVS format<br>MVS Host Unalterable Remote Font Environment<br>Coded-font format<br>Object-OID format<br>Data-object-font format | X'00' and at least one Resource ID Format |
 | 7–8 | CODE | FIS | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Font Inline Sequence (see note following table):<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
 | 9–10 | X'0000' | Reserved | X'0000' | Reserved | X'0000' |
@@ -541,10 +541,10 @@ Zero or more AR entries in the following format:
 
 
 Note: The Host-Assigned ID is assigned dynamically by the presentation services program. This ID in
-conjunction with the Sectionon Identifier and/or the Font Inline Sequence fields serves to uniquely identify
-a specific resource. Some Resource Types do not require the Sectionon Identifier or the Font Inline
+conjunction with the Section Identifier and/or the Font Inline Sequence fields serves to uniquely identify
+a specific resource. Some Resource Types do not require the Section Identifier or the Font Inline
 Sequence fields, in which case, these fields are ignored by the printer and should contain binary zeros.
-The combination of the Host-Assigned ID, the Sectionon Identifier, and the Font Inline Sequence fields is
+The combination of the Host-Assigned ID, the Section Identifier, and the Font Inline Sequence fields is
 called the Host-Assigned Resource ID.
 Bytes 0–1 Entry length
 The length of this AR entry. This parameter includes the length of this field. Entry lengths must
@@ -591,11 +591,11 @@ X'42'—data-object-font component
 If the Resource Type is unsupported, the AR entry is ignored. An exception is not generated.
 Bytes 3–4 Host-Assigned ID
 This parameter specifies the Host-Assigned ID. The Host-Assigned ID is assigned
-dynamically by the presentation services program. This ID in conjunction with the Sectionon
+dynamically by the presentation services program. This ID in conjunction with the Section
 Identifier and the Font Inline Sequence fields serves to uniquely identify a specific resource.
-Some Resource Types do not require the Sectionon Identifier and the Font Inline Sequence
+Some Resource Types do not require the Section Identifier and the Font Inline Sequence
 fields, in which case, these fields are ignored by the printer and should contain binary zeros.
-The combination of the Host-Assigned ID, the Sectionon Identifier, and the Font Inline Sequence
+The combination of the Host-Assigned ID, the Section Identifier, and the Font Inline Sequence
 fields is called the Host-Assigned Resource ID.
 The value of this parameter depends on the Resource Type (RT):
 • RT = X'01'—Host-Assigned ID of the single-byte LF1-type or LF2-type coded font
@@ -611,26 +611,26 @@ The value of this parameter depends on the Resource Type (RT):
 • RT = X'41'—Host-Assigned ID of the data-object font
 • RT = X'42'—Host-Assigned ID of the data-object-font component
 A HAID value of X'0000' is valid only when the AR entry length is X'000C'.
-Byte 5 Sectionon Identifier
+Byte 5 Section Identifier
 This parameter specifies a qualifier of the Host-Assigned ID. Some Resource Types do not
-require a Sectionon Identifier, in which case this field is ignored by the printer and should contain
+require a Section Identifier, in which case this field is ignored by the printer and should contain
 binary zeros. Printers that support resource type X'03' or resource type X'09' must support
 values in the range X'41' through X'FE' in this field.
 The value of this parameter depends on the Resource Type (RT):
-• RT = X'01'—Sectionon Identifier field is ignored
-• RT = X'03'—Sectionon Identifier of the double-byte LF1-type coded-font section
-• RT = X'04'—Sectionon Identifier field is ignored
-• RT = X'05'—Sectionon Identifier field is ignored
+• RT = X'01'—Section Identifier field is ignored
+• RT = X'03'—Section Identifier of the double-byte LF1-type coded-font section
+• RT = X'04'—Section Identifier field is ignored
+• RT = X'05'—Section Identifier field is ignored
 
 
-• RT = X'06'—Sectionon Identifier field is ignored
-• RT = X'07'—Sectionon Identifier field is ignored
-• RT = X'08'—Sectionon Identifier field is ignored
-• RT = X'09'—Sectionon Identifier of the double-byte LF1-type coded-font section
-• RT = X'10'—Sectionon Identifier field is ignored
-• RT = X'40'—Sectionon Identifier field is ignored
-• RT = X'41'—Sectionon Identifier field is ignored
-• RT = X'42'—Sectionon Identifier field is ignored
+• RT = X'06'—Section Identifier field is ignored
+• RT = X'07'—Section Identifier field is ignored
+• RT = X'08'—Section Identifier field is ignored
+• RT = X'09'—Section Identifier of the double-byte LF1-type coded-font section
+• RT = X'10'—Section Identifier field is ignored
+• RT = X'40'—Section Identifier field is ignored
+• RT = X'41'—Section Identifier field is ignored
+• RT = X'42'—Section Identifier field is ignored
 Byte 6 Resource ID Format (RIDF)
 This parameter describes the format of the resource ID (bytes 12 to end) for the Resource
 Type (byte 2).
@@ -1586,7 +1586,7 @@ specified deactivation type is ignored.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0 | CODE | Deactivation type | X'11'<br>X'12'<br>X'1E'<br>X'1F'<br>X'20'<br>X'21'<br>X'22'<br>X'2F'<br>X'30'<br>X'3F'<br>X'40'<br>X'4F'<br>X'50'<br>X'51'<br>X'5D'<br>X'5E'<br>X'5F'<br>X'60'<br>X'6E' | Deactivate a single-byte LF1-type or LF2-type coded font and all indexes<br>Deactivate a single-byte font index<br>Deactivate all single-byte LF1-type or LF2-type coded fonts and all indexes<br>Deactivate all single-byte LF1-type or LF2-type coded fonts and all indexes; identical to X'1E'<br>Deactivate double-byte LF1-type coded font section and all indexes<br>Deactivate a double-byte LF1-type coded font section, all higher sections, and all indexes<br>Deactivate a font index for a double-byte coded font section<br>Deactivate all double-byte LF1-type coded fonts and all indexes<br>Deactivate a code page<br>Deactivate all code pages<br>Deactivate a font character set<br>Deactivate all font character sets<br>Deactivate a coded font<br>Deactivate a coded font and all associated components<br>Deactivate all resident coded fonts and all associated components<br>Deactivate all coded fonts<br>Deactivate all coded fonts and all associated components<br>Deactivate a data-object font<br>Deactivate all data-object fonts | Refer to the note following the table. |
 | 1–2 | CODE | HAID | X'0001' – X'7EFF' | Host-Assigned ID; needed for deactivation types X'11', X'12', X'20', X'21', X'22', X'30', X'40', X'50', X'51', and X'60' | X'0001' – X'7EFF' |
-| 3 | CODE | Sectionon ID | X'00', X'41'–X'FE' | Sectionon identifier; needed for deactivation types X'20', X'21', and X'22' | X'00' |
+| 3 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier; needed for deactivation types X'20', X'21', and X'22' | X'00' |
 | 4–5 | CODE | FIS | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Font inline sequence; needed for deactivation types X'12' and X'22':<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
 ## Deactivate Font (DF)
 
@@ -1691,7 +1691,7 @@ This field is required only for deactivation types X'11', X'12', X'20', X'21', X
 X'50', X'51', and X'60'. It is ignored if specified for other deactivation types. Exception ID
 X'0215..02' exists if this parameter is required, but not supplied; exception ID X'0215..02' also
 exists if an invalid or unsupported value is specified.
-Byte 3 Sectionon Identifier
+Byte 3 Section Identifier
 This field is required only for deactivation types X'20', X'21', and X'22'. It is ignored if specified
 for other deactivation types. Exception ID X'0215..02' exists if this parameter is required, but
 not supplied; exception ID X'0215..02' also exists if an invalid or unsupported value is
@@ -3710,8 +3710,7 @@ The Presentation Fidelity Control triplets are fully described in the triplets c
 “CMR Tag Fidelity (X'96') Triplet”
 ## Presentation Fidelity Control (PFC)
 
-
-Rasterize Presentation Object
+## Rasterize Presentation Object (RPO)
 The Rasterize Presentation Object (RPO) command is a home state command that requests that a previously
 activated presentation data object resource or overlay be rasterized and cached using the specific orientation
 and presentation-object overrides specified in the command. The presentation object is processed as if it had
@@ -3721,25 +3720,28 @@ used to improve print performance by rasterizing one or more variations of a pre
 variations are actually included in a page or overlay. This is especially useful when the presentation object is
 complex or is included multiple times in a print job.
 The RPO command can be used to rasterize any of the following types of presentation object:
-• EPS (Encapsulated PostScript) with transparency
-• EPS without transparency
-• GIF (Graphics Interchange Format)
-• IOCA (Image Object Content Architecture) image
-• JPEG (Joint Photographic Experts Group) AFPC JPEG Subset
-• JP2 (JPEG2000 File Format)
-• Overlay
-• PCL (Printer Command Language) page object
-• PDF (Portable Document Format) multiple-page file with transparency
-• PDF multiple-page file without transparency
-• PDF single page with transparency
-• PDF single page without transparency
-• PNG (Portable Network Graphics) AFPC PNG Subset
-• SVG (Scalable Vector Graphics) AFPC SVG Subset
-• TIFF (Tag Image File Format) AFPC TIFF Subset
-• TIFF with transparency
-• TIFF without transparency
-• TIFF multiple-image file with transparency
-• TIFF multiple-image file without transparency
+
+| Object Type | Description |
+| :--- | :--- |
+| EPS | Encapsulated PostScript with transparency |
+| EPS | Encapsulated PostScript without transparency |
+| GIF | Graphics Interchange Format |
+| IOCA | Image Object Content Architecture image |
+| JPEG | Joint Photographic Experts Group AFPC JPEG Subset |
+| JP2 | JPEG2000 File Format |
+| Overlay | IPDS Overlay |
+| PCL | Printer Command Language page object |
+| PDF | Portable Document Format multiple-page file with transparency |
+| PDF | Portable Document Format multiple-page file without transparency |
+| PDF | Portable Document Format single page with transparency |
+| PDF | Portable Document Format single page without transparency |
+| PNG | Portable Network Graphics AFPC PNG Subset |
+| SVG | Scalable Vector Graphics AFPC SVG Subset |
+| TIFF | Tag Image File Format AFPC TIFF Subset |
+| TIFF | TIFF with transparency |
+| TIFF | TIFF without transparency |
+| TIFF | TIFF multiple-image file with transparency |
+| TIFF | TIFF multiple-image file without transparency |
 Support for this optional command is indicated by the X'707B' property pair in the Device-Control command-set
 vector of an STM reply.
 ```
@@ -3757,7 +3759,7 @@ overrides for the object area size and presentation-space-to-object-area mapping
 The current fidelity information (such as a Color Fidelity (X'75') triplet or a Toner Saver (X'74') triplet) is used
 while rasterizing the presentation object. Therefore, host software must activate appropriate fidelity information
 before issuing the RPO command.
-## Rasterize Presentation Object (RPO)
+
 
 
 Some presentation objects require secondary resources; in this case, each secondary resource must be
@@ -3806,7 +3808,7 @@ used algorithm when the cache becomes full so as to make room for new cache entr
 host some idea of how long a cached object remains in the cache when a least-recently-used algorithm
 is used, the printer considers an object to be in use each time an object is included (by means of IDO or
 IO) and each time the object is selected in an RPO command (but is already in the cache).
-## Rasterize Presentation Object (RPO)
+
 
 
 An empty RPO command (that is, one with no entries) is treated as a NOP . If the parameters for an RPO entry
@@ -3835,8 +3837,7 @@ control from byte 11 of the WOCC-OCOC self-defining field (or from byte 11 of th
 field) is used; if the optional output control self-defining field was not provided with the object, the default
 mapping is used (position and trim for IOCA images and scale to fit for all other data object resources).
 • If the mapping control is scale to fit or scale to fill, the object is preprocessed into the object area.
-– If both X
-oa extent and Yoa extent values are specified in the RPO command, the preprocessed object is
+– If both $X_{oa}$ extent and $Y_{oa}$ extent values are specified in the RPO command, the preprocessed object is
 scaled using the object area size specified in the RPO command.
 – If either of the extent values is not specified in the RPO command, the extent is obtained from the object
 itself. However, if the optional output control self-defining field is not found in the object, the presentation
@@ -3844,7 +3845,7 @@ space size of the object is used.
 If a subsequent IDO command selects the same mapping option, one of the preprocessed orientations, and
 the same object area size, the cached version of the object can be used.
 • If the mapping control is center-and-trim, the object is first preprocessed into the object presentation space.
-– If both Xoa extent and Yoa extent values are specified in the RPO command, the preprocessed object is
+– If both $X_{oa}$ extent and $Y_{oa}$ extent values are specified in the RPO command, the preprocessed object is
 then trimmed to fit into the object area. If a subsequent IDO command selects center-and-trim, one of the
 preprocessed orientations, and the same object area size, the cached version of the object can be used.
 – If either of the extent values is not specified in the RPO command, the preprocessed object is cached at its
@@ -3853,12 +3854,12 @@ trim, and selects one of the preprocessed orientations, the cached version of th
 IDO command selects an object area size and mapping option that requires trimming, the trimming is done
 at include time with a potential performance penalty. For the position mapping, the cached object
 presentation space must fit within the object area, or the cached object cannot be used.
-## Rasterize Presentation Object (RPO)
+
 
 
 • If the mapping control is position-and-trim, the object is first preprocessed into the object presentation
 space.
-– If Xoa extent, Yoa extent, Xoa offset, and Yoa offset values are specified in the RPO command, the
+– If $X_{oa}$ extent, $Y_{oa}$ extent, $X_{oa}$ offset, and $Y_{oa}$ offset values are specified in the RPO command, the
 preprocessed presentation space is positioned in the RPO-specified object area, trimmed to fit the object
 area, and cached. If a subsequent IDO command selects position-and-trim, one of the preprocessed
 orientations, and the same object area size, the cached version of the object can be used.
@@ -3870,8 +3871,7 @@ trimming is done at include time with a potential performance penalty. For the p
 object presentation space must fit within the object area, or the cached object cannot be used.
 • If the mapping control is position, the object is first preprocessed into the object presentation space. Note
 that the position mapping option is not valid for an IO Image.
-– If X
-oa extent, Yoa extent, Xoa offset, and Yoa offset values are specified in the RPO command, the
+– If $X_{oa}$ extent, $Y_{oa}$ extent, $X_{oa}$ offset, and $Y_{oa}$ offset values are specified in the RPO command, the
 preprocessed presentation space is positioned in the RPO-specified object area, and as long as there is no
 overflow of the object area, is cached. If there is an overflow, no caching occurs. If a subsequent IDO
 command selects the position mapping option, one of the preprocessed orientations, and the same offset,
@@ -3904,7 +3904,7 @@ provided in the initial RPO support.
 grayscale image color in an object container or the color in the Set Bilevel Image Color IOCA self-defining
 field (or the Set Extended Bilevel Image Color IOCA self-defining field) in an IO-Image object, the printer
 might not be able to use any previously cached variations of this object.
-## Rasterize Presentation Object (RPO)
+
 
 
 • When an image-migration mapping control is specified in an IDO command for an IO Image, the printer might
@@ -3926,151 +3926,38 @@ specifying the desired orientation in the RPO command.
 cached with no text suppression.
 • The XOA-PQC command is ignored during RPO processing and the printer's default print-quality level is
 assumed.
-## Command Syntax
+### Command Syntax
 The format of the RPO data is as follows:
-Offset Type Name Range Meaning Required
-Zero or more entries in the following format:
-0–1 UBIN Length X'0007' or
-X'0013' to
-end of
-entry
-Length of RPO entry, including this length
-field
-X'0007' or
-X'0013' to
-end of entry
-2 CODE RT
-X'05'
-X'40'
-Resource type:
-Overlay
-Data Object Resource
-X'05'
-X'40'
-3–4 CODE HAID X'0001' –
-X'7EFF'
-Presentation object's Host-Assigned ID X'0001' – X'7EFF'
-Desired presentation environment
-5 BITS Exception reporting flags
-bit 0 Undefined
-character
-B'0', B'1' Report undefined-character checks B'0', B'1'
-bit 1 Page position B'0', B'1' Report page-position checks B'0', B'1'
-bits 2–5 B'0000' Reserved B'0000'
-bit 6 Highlight B'0', B'1' Position-check highlight B'0', B'1'
-bit 7 Others B'0', B'1' Report all other exceptions with AEAs B'0', B'1'
-6 BITS Additional processing information flags
-bit 0 0 degrees B'0', B'1' Orient 0 degrees B'0', B'1'
-bit 1 90 degrees B'0', B'1' Orient 90 degrees B'0', B'1'
-bit 2 180 degrees B'0', B'1' Orient 180 degrees B'0', B'1'
-## Rasterize Presentation Object (RPO)
 
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0007' or X'0013' to end of entry | Length of RPO entry, including this length field | X'0007' or X'0013' to end of entry |
+| 2 | CODE | RT | X'05'<br>X'40' | Resource type:<br>X'05' Overlay<br>X'40' Data Object Resource | X'05'<br>X'40' |
+| 3–4 | CODE | HAID | X'0001' – X'7EFF' | Presentation object's Host-Assigned ID | X'0001' – X'7EFF' |
+| **Desired presentation environment** | | | | | |
+| 5 | BITS | Exception reporting flags | | | |
+| | bit 0 | Undefined character | B'0', B'1' | Report undefined-character checks | B'0', B'1' |
+| | bit 1 | Page position | B'0', B'1' | Report page-position checks | B'0', B'1' |
+| | bits 2–5 | | B'0000' | Reserved | B'0000' |
+| | bit 6 | Highlight | B'0', B'1' | Position-check highlight | B'0', B'1' |
+| | bit 7 | Others | B'0', B'1' | Report all other exceptions with AEAs | B'0', B'1' |
+| 6 | BITS | Additional processing information flags | | | |
+| | bit 0 | 0 degrees | B'0', B'1' | Orient 0 degrees | B'0', B'1' |
+| | bit 1 | 90 degrees | B'0', B'1' | Orient 90 degrees | B'0', B'1' |
+| | bit 2 | 180 degrees | B'0', B'1' | Orient 180 degrees | B'0', B'1' |
+| | bit 3 | 270 degrees | B'0', B'1' | Orient 270 degrees | B'0', B'1' |
+| | bit 4 | All objects | B'0', B'1' | Process all objects of a multi-page resource file | B'0', B'1' |
+| | bits 5–7 | | B'000' | Reserved | B'000' |
+| **Data-object-resource override parameters** | | | | | |
+| 7 | CODE | Unit base | X'00'<br>X'01'<br>X'FF' | Unit base:<br>X'00' Ten inches<br>X'01' Ten centimeters<br>X'FF' Not specified | X'00'<br>X'FF' |
+| 8–9 | UBIN | UPUB | X'0001' – X'7FFF'<br>X'FFFF' | $X_{oa}$ and $Y_{oa}$ units per unit base<br>X'FFFF' Not specified | X'3840'<br>X'FFFF' |
+| 10–11 | UBIN | $X_{oa}$ extent | X'0001' – X'7FFF'<br>X'FFFF' | Override for $X_{oa}$ extent of object area in L-units<br>X'FFFF' Not specified | X'0001' – X'7FFF'<br>X'FFFF' |
+| 12–13 | UBIN | $Y_{oa}$ extent | X'0001' – X'7FFF'<br>X'FFFF' | Override for $Y_{oa}$ extent of object area in L-units<br>X'FFFF' Not specified | X'0001' – X'7FFF'<br>X'FFFF' |
+| 14 | CODE | Mapping control | X'00'<br>X'10'<br>X'20'<br>X'30'<br>X'60'<br>X'FF' | Override for mapping control option:<br>X'00' Position (not valid for IO Image)<br>X'10' Scale to fit<br>X'20' Center and trim<br>X'30' Position and trim<br>X'60' Scale to fill<br>X'FF' Not specified | X'00'<br>X'10'<br>X'20'<br>X'30'<br>X'FF' |
+| 15–16 | SBIN | $X_{oa}$ offset | X'8000' – X'7FFF'<br>X'FFFF' | Override for $X_{oa}$ offset in L-units; (for the position-and-trim and position mappings only)<br>X'FFFF' Not specified | X'0000' – X'7FFF'<br>X'FFFF' |
+| 17–18 | SBIN | $Y_{oa}$ offset | X'8000' – X'7FFF'<br>X'FFFF' | Override for $Y_{oa}$ offset in L-units; (for the position-and-trim and position mappings only)<br>X'FFFF' Not specified | X'0000' – X'7FFF'<br>X'FFFF' |
+| 19 to end | Triplets | | | Zero or more triplets:<br>X'4E' Color Specification triplet<br>X'5A' Object Offset triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet<br>X'9A' Image Resolution triplet<br>X'9C' Object Container Presentation Space Size triplet | |
 
-Offset Type Name Range Meaning Required
-bit 3 270 degrees B'0', B'1' Orient 270 degrees B'0', B'1'
-bit 4 All objects B'0', B'1' Process all objects of a
-multi-page resource file
-B'0', B'1'
-bits 5–7 B'000' Reserved B'000'
-Data-object-resource override parameters
-7 CODE Unit base X'00'
-X'01'
-X'FF'
-Ten inches
-Ten centimeters
-Not specified
-X'00'
-X'FF'
-8–9 UBIN UPUB X'0001' –
-X'7FFF'
-X'FFFF'
-Xoa and Yoa units per unit base
-Not specified
-X'3840'
-X'FFFF'
-10–11 UBIN Xoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Override for Xoa extent of
-object area in L-units
-Not specified
-X'0001' –
-X'7FFF'
-(Refer to the note
-following the
-table.)
-X'FFFF'
-12–13 UBIN Yoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Override for Yoa extent of
-object area in L-units
-Not specified
-X'0001' –
-X'7FFF'
-(Refer to the note
-following the
-table.)
-X'FFFF'
-14 CODE Mapping
-control X'00'
-X'10'
-X'20'
-X'30'
-X'60'
-X'FF'
-Override for mapping control option:
-Position (not valid for IO Image)
-Scale to fit
-Center and trim
-Position and trim
-Scale to fill
-Not specified
-X'00'
-X'10'
-X'20'
-X'30'
-X'FF'
-15–16 SBIN X
-oa offset X'8000' –
-X'7FFF'
-X'FFFF'
-Override for Xoa offset in L-units; (for the
-position-and-trim and
-position mappings only)
-Not specified
-X'0000' –
-X'7FFF'
-(Refer to the note
-following the
-table.)
-X'FFFF'
-17–18 SBIN Y
-oa offset X'8000' –
-X'7FFF'
-X'FFFF'
-Override for Yoa offset in L-units; (for the
-position-and-trim and
-position mappings only)
-Not specified
-X'0000' –
-X'7FFF'
-(Refer to the note
-following the
-table.)
-X'FFFF'
-19 to
-end of
-entry
-Triplets Zero or more triplets
-X'4E' Color Specification triplet
-X'5A' Object Offset triplet
-X'92' Invoke CMR triplet
-X'95' Rendering Intent triplet
-X'9A' Image Resolution triplet
-X'9C' Object Container Presentation
-Space Size triplet
-## Rasterize Presentation Object (RPO)
 
 
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
@@ -4102,26 +3989,29 @@ command, a home-state WIC2 command, or a BO command. Exception ID X'0257..04' ex
 if the resource identified by the resource-type and HAID fields has not been activated.
 Exception ID X'0257..02' exists if the object-type OID in the resource is not valid for the RPO
 command. Valid resources for the RPO command include:
-• EPS (Encapsulated PostScript) with transparency
-• EPS without transparency
-• GIF (Graphics Interchange Format)
-• IOCA (Image Object Content Architecture) image
-• JPEG (Joint Photographic Experts Group) AFPC JPEG Subset
-• JP2 (JPEG2000 File Format)
-• Overlay
-• PCL (Printer Command Language) page object
-• PDF (Portable Document Format) multiple-page file with transparency
-• PDF multiple-page file without transparency
-• PDF single page with transparency
-• PDF single page without transparency
-• PNG (Portable Network Graphics) AFPC PNG Subset
-• SVG (Scalable Vector Graphics) AFPC SVG Subset
-• TIFF (Tag Image File Format) AFPC TIFF Subset
-• TIFF with transparency
-• TIFF without transparency
-• TIFF multiple-image file with transparency
-• TIFF multiple-image file without transparency
-## Rasterize Presentation Object (RPO)
+
+| Object Type | Description |
+| :--- | :--- |
+| EPS | Encapsulated PostScript with transparency |
+| EPS | Encapsulated PostScript without transparency |
+| GIF | Graphics Interchange Format |
+| IOCA | Image Object Content Architecture image |
+| JPEG | Joint Photographic Experts Group AFPC JPEG Subset |
+| JP2 | JPEG2000 File Format |
+| Overlay | IPDS Overlay |
+| PCL | Printer Command Language page object |
+| PDF | Portable Document Format multiple-page file with transparency |
+| PDF | Portable Document Format multiple-page file without transparency |
+| PDF | Portable Document Format single page with transparency |
+| PDF | Portable Document Format single page without transparency |
+| PNG | Portable Network Graphics AFPC PNG Subset |
+| SVG | Scalable Vector Graphics AFPC SVG Subset |
+| TIFF | Tag Image File Format AFPC TIFF Subset |
+| TIFF | TIFF with transparency |
+| TIFF | TIFF without transparency |
+| TIFF | TIFF multiple-image file with transparency |
+| TIFF | TIFF multiple-image file without transparency |
+
 
 
 Note: All necessary secondary resources must also have been previously activated and must
@@ -4134,9 +4024,12 @@ However, the XOA-EHC command allows some errors to be ignored as long as an Alte
 Exception Action (AEA) exists and is applied. The RPO command flags in byte 5 specify three
 classes of synchronous errors that have defined AEAs and that can be ignored while
 processing the RPO entry:
-• Undefined-character checks (applies only to overlays)
-• Page-position checks (applies only to overlays)
-• All other exceptions with AEAs (applies to overlays and data object resources)
+
+| Bit | Exception Class | Applicable To |
+| :---: | :--- | :--- |
+| 0 | Undefined-character checks | Overlays |
+| 1 | Page-position checks | Overlays |
+| 7 | All other exceptions with AEAs | Overlays and data object resources |
 Bit 6 also specifies whether or not a position-check exception should be highlighted within the
 resulting bit map. Support for position-check highlighting is optional; support for this function is
 indicated by property pair X'F601' in the Device-Control command-set vector of an STM reply.
@@ -4160,24 +4053,28 @@ EHC command is B'0', the cached object is a candidate to be used. Also, if the c
 EHC command specifies that AEAs are not to be taken or if the position-check highlight flag in
 the XOA-EHC and RPO commands do not match, then only error free cached objects can be
 used.
-## Rasterize Presentation Object (RPO)
+
 
 
 Byte 6 Process flags
-Bits 0–3 Desired orientation(s)
-This 4-bit field specifies one or more desired orientations, measured in a
-clockwise direction, of the X axis of the object with respect to the leading edge
-of the media. Each bit that is set to B'1' causes a variation of the object to be
-rasterized and cached. For example, X'A0' yields a 0 degree variation of the
-object and a 180 degree variation of the object.
-If all 4 flags are B'0', this entry is processed at 0 degrees.
-Bit 4 Preprocess all objects within a multi-page resource object
-This flag is used only with multi-page resource objects and is ignored for all
-other object types.
-B'0' Preprocess only the selected paginated object. A single paginated
-object can be selected with an Object Offset (X'5A') triplet.
-B'1' Preprocess all paginated objects in the file. When this flag is set, all
-Object Offset (X'5A') triplets are ignored.
+
+**Bits 0–3 Desired orientation(s)**
+This 4-bit field specifies one or more desired orientations, measured in a clockwise direction, of the X axis of the object with respect to the leading edge of the media. Each bit that is set to B'1' causes a variation of the object to be rasterized and cached. For example, X'A0' yields a 0 degree variation of the object and a 180 degree variation of the object. If all 4 flags are B'0', this entry is processed at 0 degrees.
+
+| Bit | Orientation |
+| :---: | :--- |
+| 0 | 0 degrees |
+| 1 | 90 degrees |
+| 2 | 180 degrees |
+| 3 | 270 degrees |
+
+**Bit 4 Preprocess all objects within a multi-page resource object**
+This flag is used only with multi-page resource objects and is ignored for all other object types.
+
+| Bit 4 | Meaning |
+| :---: | :--- |
+| B'0' | Preprocess only the selected paginated object. A single paginated object can be selected with an Object Offset (X'5A') triplet. |
+| B'1' | Preprocess all paginated objects in the file. When this flag is set, all Object Offset (X'5A') triplets are ignored. |
 Bits 5-7 Reserved
 Bytes 7–18 Data-object-resource override parameters
 The following parameters are used only for data object resources and are ignored if specified
@@ -4203,33 +4100,32 @@ specified. Since a unit base value is required to interpret bytes 10–13 and
 bytes 15–18, a value of X'FF' in byte 7 causes the printer to ignore bytes 10–
 13 and bytes 15–18 and these bytes are also treated as unspecified.
 If an invalid or unsupported value is specified, exception ID X'0257..05' exists.
-Bytes 8–9 X
-oa and Yoa units per unit base
+Bytes 8–9 $X_{oa}$ and $Y_{oa}$ units per unit base
 This field specifies the units per unit base to be used to interpret bytes 10–13
 and bytes 15–18 of the RPO entry. For example, if the unit base is X'00' and
 this value is X'3840', there are 14,400 units per ten inches (1440 units per
 inch); in this case, the measurement units are called twips.
 X'FFFF' is a special value that indicates that this parameter has not been
 specified. Since a units-per-unit-base value is required to interpret bytes 10–
-## Rasterize Presentation Object (RPO)
+
 
 
 13 and bytes 15–18, a value of X'FFFF' in bytes 8–9 causes the printer to
 ignore bytes 10–13 and bytes 15–18 and these bytes are also treated as
 unspecified.
 If an invalid or unsupported value is specified, exception ID X'0257..06' exists.
-Bytes 10–11 Override for Xoa extent of the object area
-This field specifies an override for the Xoa extent of the object area in L-units
+Bytes 10–11 Override for $X_{oa}$ extent of the object area
+This field specifies an override for the $X_{oa}$ extent of the object area in L-units
 using the units of measure specified in bytes 7–9. X'FFFF' is a special value
 that indicates that this parameter has not been specified.
-For this parameter to be used, both the Xoa extent and the Yoa extent must be
+For this parameter to be used, both the $X_{oa}$ extent and the $Y_{oa}$ extent must be
 specified in the RPO entry.
 If an invalid or unsupported value is specified, exception ID X'0257..07' exists.
-Bytes 12–13 Override for Yoa extent of the object area
-This field specifies an override for the Yoa extent of the object area in L-units
+Bytes 12–13 Override for $Y_{oa}$ extent of the object area
+This field specifies an override for the $Y_{oa}$ extent of the object area in L-units
 using the units of measure specified in bytes 7–9. X'FFFF' is a special value
 that indicates that this parameter has not been specified.
-For this parameter to be used, both the Xoa extent and the Yoa extent must be
+For this parameter to be used, both the $X_{oa}$ extent and the $Y_{oa}$ extent must be
 specified in the RPO entry.
 If an invalid or unsupported value is specified, exception ID X'0257..07' exists.
 Byte 14 Override for mapping control option
@@ -4243,10 +4139,13 @@ The position mapping option (X'00') is supported for object containers, but not
 for IO Images; refer to “Position Mapping” for a description of the
 position mapping option.
 The option values supported for all data objects include:
-• X'10'—Scale to fit
-• X'20'—Center and trim
-• X'30'—Position and trim
-• X'60'—Scale to fill
+
+| Value | Meaning |
+| :---: | :--- |
+| X'10' | Scale to fit |
+| X'20' | Center and trim |
+| X'30' | Position and trim |
+| X'60' | Scale to fill |
 Refer to “Mapping Control Options” or “Mapping the IO-Image
 Presentation Space” for a description of these mapping control
 options.
@@ -4254,29 +4153,26 @@ The scale to fill option is supported in the RPO command only when it is
 supported for the object type; support for scale to fill is indicated by property
 pair X'F301' in the IO-Image and Object Container command-set vector of an
 STM reply.
-Bytes 15–16 Override for X
-oa offset from object area origin
-This field specifies an override in L-units for the Xoa offset from the object area
+Bytes 15–16 Override for $X_{oa}$ offset from object area origin
+This field specifies an override in L-units for the $X_{oa}$ offset from the object area
 origin. The units of measure used to interpret this offset are specified in bytes
-7–9. The X
-oa offset field is ignored when the actual mapping option used is
+7–9. The $X_{oa}$ offset field is ignored when the actual mapping option used is
 not position or position and trim. X'FFFF' is a special value that indicates that
-this parameter has not been specified; an Xoa offset of -1 cannot be specified.
-## Rasterize Presentation Object (RPO)
+this parameter has not been specified; an $X_{oa}$ offset of -1 cannot be specified.
 
 
-For this parameter to be used, all four of the object area parameters (Xoa
-extent, Yoa extent, Xoa offset, Yoa offset) must be specified in the RPO entry.
+
+For this parameter to be used, all four of the object area parameters ($X_{oa}$
+extent, $Y_{oa}$ extent, $X_{oa}$ offset, $Y_{oa}$ offset) must be specified in the RPO entry.
 If an unsupported value is specified, exception ID X'0257..09' exists.
-Bytes 17–18 Override for Yoa offset from object area origin
-This field specifies an override in L-units for the Yoa offset from the object area
+Bytes 17–18 Override for $Y_{oa}$ offset from object area origin
+This field specifies an override in L-units for the $Y_{oa}$ offset from the object area
 origin. The units of measure used to interpret this offset are specified in bytes
-7–9. The Yoa offset field is ignored when the actual mapping option used is not
+7–9. The $Y_{oa}$ offset field is ignored when the actual mapping option used is not
 position or position and trim. X'FFFF' is a special value that indicates that this
-parameter has not been specified; a Y
-oa offset of -1 cannot be specified.
-For this parameter to be used, all four of the object area parameters (Xoa
-extent, Yoa extent, Xoa offset, Yoa offset) must be specified in the RPO entry.
+parameter has not been specified; a $Y_{oa}$ offset of -1 cannot be specified.
+For this parameter to be used, all four of the object area parameters ($X_{oa}$
+extent, $Y_{oa}$ extent, $X_{oa}$ offset, $Y_{oa}$ offset) must be specified in the RPO entry.
 If an unsupported value is specified, exception ID X'0257..09' exists.
 Bytes 19 to
 end of entry
@@ -4314,7 +4210,7 @@ supported.
 restricted form of the X'4E' triplet to override the Set Bilevel Image Color (X'F6') IOCA self-defining field in
 an IO-Image object, or to set the image color if no X'F6' IOCA self-defining field is specified in the object. In
 this case, the triplet must specify the Standard OCA color space (X'40') or the triplet is ignored.
-## Rasterize Presentation Object (RPO)
+
 
 
 • The Color Specification (X'4E') triplet is not used with grayscale IO-Image objects.
@@ -4363,7 +4259,7 @@ Since data-object-level CMR invocations and rendering intent are not saved with 
 can be provided on the IDO and RPO commands for a presentation data object. However, because overlay-
 level CMRs and rendering intent are saved with the LPD command for an overlay, there is no need to specify
 them on the RPO command; all X'92' and X'95' triplets specified on an RPO command for an overlay are
-## Rasterize Presentation Object (RPO)
+
 
 
 ignored. To ensure that an overlay is rendered consistently regardless of how and where the overlay is
@@ -4407,7 +4303,7 @@ Property pair X'1203' in the Object Container command-set vector of an STM reply
 supports the Object Container Presentation Space Size (X'9C') triplet for a PDF object. STM property pair
 X'1209' in the Object Container command-set vector indicates that the printer supports the Object Container
 Presentation Space Size (X'9C') triplet for an SVG object.
-## Rasterize Presentation Object (RPO)
+
 
 
 Sense Type and Model
