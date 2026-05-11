@@ -87,144 +87,6 @@ BCOCA architectures define the presentation space for their respective data type
 
 
 Figure 9. IPDS Presentation Spaces
-IO-Image
-Presentation
-Space
-Bar Code
-Presentation
-Space
-Graphics
-Presentation
-Space
-Object
-Container
-Presentation
-Space
-Medium
-Overlay
-Page
-Overlay
-IO Image
-Output
-IM Image
-Input
-IM Image
-Bar Code
-Graphics
-Object
-Container
-Logical
-Page
-Presentation
-Space
-Logical
-Page
-Presentation
-Space
-X
-X
-X
-X
-X
-X X
-X
-X
-X
-X
-X
-Y
-Y
-Y
-Y
-Y
-Y
-Y
-Y
-Y
-Y
-Y
-Y
-io
-bc
-g
-oc
-oa
-oa p
-m
-oa
-oa
-p
-p
-io
-bc
-g
-oc
-oa
-oa
-p
-m
-m
-m
-oa
-oa
-p
-p
-Object Area
-Presentation
-Spaces
-Logical
-Page
-Presentation
-Space
-Physical
-Printable
-Area
-Physical
-Printable
-Area
-Page
-Medium
-Presentation
-Space
-Side of
-a Sheet
-Top Edge
-Printer-specific
-Mapping
-The Xm and Ym extents may also be set
-by the XOH SMS command or by default.
-Y
-extent
-X
-extent
-1
-1
-1
-LCC Command
-IO
-Command
-Text
-Presentation
-Space
-Text
-X X
-Y Y
-t oa
-t oa
-Preprinted
-Form
-Overlay
-Logical
-Page
-Presentation
-Space
-X
-Y
-p
-p
-LCC Command or
-IO Command for a PFO
-
 
 The IPDS architecture defines a hierarchical relationship between a medium presentation space, a logical
 page, and object areas. Note that, in Figure 10, the logical page boundaries do not correspond with the
@@ -255,32 +117,7 @@ Some IPDS printers allow multiple pages to be placed on a medium presentation sp
 The position of a page is determined by a combination of the Load Copy Control, Logical Page Position, and
 XOH Set Media Origin commands.
 Figure 11. Examples of Multiple Pages on a Medium Presentation Space
-Page n ... Page 4 Page 3 Page 2 Page 1
-/ /
-/ /
-Input Page Stream
-Page 4
-Page 3
-Page 2
-Page 1
-Page 7 Page 8
-Page 5 Page 6
-Page 3 Page 4
-Page 1 Page 2
-1 Up 2 Up
-Page 7
-Page 4
-Page 1
-Page 2
-Page 3
-3 Up
-Page 9 Page 10
-Page 9 Page 10
-Page 5 Page 6
-Page 9 Page 10
-Page 1 Page 2
-Page 3 Page 4
-4 Up
+
 Some IPDS printers allow pages to be independently placed in a fixed partition on either the front-side medium
 presentation space or the back-side medium presentation space. These printers also allow the page to be
 rotated into one of four possible orientations. This allows multiple pages per sheet, some of which can be
@@ -296,23 +133,7 @@ of the physical media are called sheetlets and are treated as if they were two s
 media. This logical division of the continuous-forms media is shown in Figure 12. Note that the top of each
 sheetlet is a narrow edge, and the default sheetlet origin is the top-left corner of the sheetlet.
 Figure 12. Logical Division of Continuous Forms for Cut-Sheet Emulation
-Wide continuous-forms
-media
-Narrow continuous-forms
-media
-Left
-Sheetlet
-Left
-Sheetlet
-Left
-Sheetlet
-Right
-Sheetlet
-Right
-Sheetlet
-Right
-Sheetlet
-Default sheetlet origin
+
 The printer operator configures the printer for cut-sheet emulation mode while the printer is disconnected from
 the presentation services program. Property pair X'F902' in the Device-Control command-set vector of an STM
 reply indicates that cut-sheet emulation mode can be used and that the X'C3nn' keyword is supported in the
@@ -385,25 +206,6 @@ object area within an overlay, and an object area within a page segment.
 
 
 Figure 13. A Sample Page with an Overlay and Page Segment
-To:  David E. Stone
-Dear David:
-Security Systems, Inc.
-2015 Main Street
-Fields, Kansas
-Sales have improved so dramatically since
-you have joined our team, I would like to
-know your techniques.
-Let’s get together and discuss your promotion!
-Jim D. Bolt
-Logical Page
-Text data
-Graphics data
-A page segment can
-contain an image.
-The letterhead is an overlay
-containing image data.
-Data can overlap.
-
 
 Using an Overlay as a Preprinted Form
 Preprinted forms are commonly used to provide a special appearance for a document or portion of a
@@ -555,79 +357,6 @@ option, into the corresponding object area presentation space.
 
 
 Figure 14. Merging Presentation Spaces
-Data Object
-Presentation
-Space
-Data Object
-Presentation
-Space
-Data Object
-Presentation
-Space
-Data Object
-Presentation
-Space
-Data Object
-Presentation
-Space
-Data Object
-Presentation
-Space
-Object Area
-Presentation
-Space
-Object Area
-Presentation
-Space
-Object Area
-Presentation
-Space
-Object Area
-Presentation
-Space
-Object Area
-Presentation
-Space
-Object Area
-Presentation
-Space
-Page Overlay
-Presentation
-Space
-Page Overlay
-Presentation
-Space
-Page Overlay
-Presentation
-Space
-Page Overlay
-Presentation
-Space
-Page
-Presentation
-Space
-Medium Overlay
-Presentation
-Space
-Medium
-Presentation
-Space
-13
-2
-2
-3 3 3 3 3 3
-3 2 3
-3 3
-1
-2
-3
-Medium overlays are merged before pages on the medium presentation space.
-Multiple medium overlays are merged in the order they are specified in the LCC command.
-Page overlays can be nested to the depth supported by the printer.  For example,
-some IPDS printers allow nesting up to 2 levels, others allow nesting up to 5 levels.
-Pages, data objects, and page overlays can occur multiple times and are merged in the order
-they occur in the data stream.
-
 
 General Mixing Rules
 When a new presentation space P new is merged into an existing presentation space P existing, four types of
@@ -3248,7 +2977,6 @@ Resource IDs
 A resource ID must be unique in the environment in which the resource is to be used for the duration of its
 intended use. The IPDS architecture defines a number of different naming conventions that provide
 uniqueness in the various IPDS environments:
-## Local ID (LID)
 A one-byte ID used to reference a coded font in text data or in graphics and bar code data
 objects. A LID must be mapped to a Host-Assigned ID before the corresponding resource can
 be used.
@@ -3261,7 +2989,6 @@ Host-assigned resource ID (HARID)
 A five-byte ID for a coded font resource consisting of host-assigned ID, font section ID, and
 font inline sequence. HARIDs are valid only for the duration of a particular host-to-printer
 session.
-## Global resource ID (GRID)
 An eight-byte ID for a resident coded font resource consisting of four subfields:
 • Graphic character set global ID (GCSGID)
 • Code page global ID (CPGID)
@@ -3270,7 +2997,6 @@ An eight-byte ID for a resident coded font resource consisting of four subfields
 The first three fields contain IBM registered IDs and are unique in IBM environments. GRIDs
 are valid for the duration of the resource's physical presence in the printer. For a definition of
 the GRID, see the description of the LFE command on page 201.
-## Global resource name (GRN)
 A multi-byte ID that includes date and time information as well as host information. The
 following formats are defined and range in size from 82 bytes to 172 bytes:
 • Remote PrintManager MVS™ format (82 or 164 bytes per resource)
@@ -3296,7 +3022,6 @@ Variable-length group ID
 A 1 to 244 byte long binary ID that identifies a group of saved pages. Variable-length group
 IDs are valid only for the duration of the resource's physical presence in the printer or
 intermediate device.
-## Object ID (OID)
 A variable length (2 bytes long to 129 bytes long) binary ID that uniquely identifies an object.
 OIDs use the ASN.1 definite-short-form object identifier format defined in the ISO/IEC
 8824:1990(E) international standard and described in the MO:DCA Registry Appendix of the
@@ -3688,7 +3413,6 @@ X'0607 2B12
 3900 0000
 0000 0000'
 Color Management
-## Resource (CMR)
 Non-presentation
 Not applicable Home state Color management
 

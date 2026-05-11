@@ -39,7 +39,6 @@ information to the presentation services program. This command set contains the 
 | ACK or NACK | X'D6FF' | Acknowledge Reply | Yes |
 
 
-## Acknowledge Reply (ACK/NACK)
 The printer uses the Acknowledge Reply to return information such as page counters, copy counters, sense
 data, and any requested information to the presentation services program. The presentation services program
 uses the acknowledge data to maintain control over the printing process and to initiate exception-recovery
@@ -411,7 +410,6 @@ described above are cleared by the protocols of the underlying communications sy
 Acknowledge Reply
 
 
-## Activate Resource (AR)
 The Activate Resource (AR) command, previously known as Load Resource Equivalence (LRE), requests the
 activation of resident resources in the printer or intermediate device.
 The AR command can also be used to activate a complete font such as an LF3-type coded font or a data-
@@ -926,7 +924,6 @@ X'0001' –
 X'FFFE'
 X'FFFF'
 No value supplied
-## Font Typeface Global ID (FGID)
 Printer default FGID
 22–23 CODE FW X'0000'
 X'0001' –
@@ -1349,7 +1346,6 @@ is not provided, exception ID X'028F ..20' exists. If a Color Management Resourc
 of an AR command, but a Color Management Resource Descriptor (X'91') triplet is not provided, exception ID
 X'025E..01' exists.
 
-## Activate Setup Name (ASN)
 The Activate Setup Name (ASN) command is valid only in home state and causes the printer to activate a
 setup name. The setup name is identified with a name that is assigned by the user, known to the printer, and
 associated on the printer with some set of configuration settings. The printer attempts to configure itself to
@@ -1481,7 +1477,6 @@ The Apply Finishing Operation triplets are fully described in the triplets chapt
 “Finishing Operation (X'85') Triplet”
 “UP
 3I Finishing Operation (X'8E') Triplet”
-## Apply Finishing Operations (AFO)
 
 
 Apply Finishing Operations Triplet Considerations
@@ -1511,7 +1506,6 @@ cutter that also performs a perforation cut at a location selected by the operat
 cut a horizontal perforation with the first cutter and a vertical perforation with the second cutter and the finishing
 operations would be specified in two finishing operation triplets. Because duplicate finishing operation triplets
 are ignored, a sequence number must be used to ensure that the triplets are not identical.
-## Apply Finishing Operations (AFO)
 
 
 Begin Page
@@ -1536,7 +1530,6 @@ These bytes can be returned in the sense bytes of the NACK if an exception is re
 host. Refer to “Sense Byte Information”.
 The Page ID value should be between X'00000001' and X'FFFFFFFF'. The printer returns the
 value X'00000000' for exceptions that occur outside the scope of a page.
-## Begin Page (BP)
 
 
 Deactivate Font
@@ -1579,7 +1572,6 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The data for the DF command contains from 1 to 6 bytes. The description of byte 0 identifies the fields that
 must be provided for each deactivation type. Data that is provided in bytes 1–5 but is not needed for the
 specified deactivation type is ignored.
-## Deactivate Font (DF)
 
 
 | Offset | Type | Name | Range | Meaning | Loaded-Font Subset Range |
@@ -1588,7 +1580,6 @@ specified deactivation type is ignored.
 | 1–2 | CODE | HAID | X'0001' – X'7EFF' | Host-Assigned ID; needed for deactivation types X'11', X'12', X'20', X'21', X'22', X'30', X'40', X'50', X'51', and X'60' | X'0001' – X'7EFF' |
 | 3 | CODE | Sectionon ID | X'00', X'41'–X'FE' | Sectionon identifier; needed for deactivation types X'20', X'21', and X'22' | X'00' |
 | 4–5 | CODE | FIS | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Font inline sequence; needed for deactivation types X'12' and X'22':<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
-## Deactivate Font (DF)
 
 
 Note: The deactivation types required for the LF1, LF2, LF3, and LF4 subsets, and those that are optional
@@ -1634,7 +1625,6 @@ X'21' This value deactivates the specified LF1-type coded-font section, sections
 numbers higher than that specified, and all associated LF1-type font indexes of the
 specified double-byte coded font. Bytes 1–2 contain the coded-font identifier, and byte
 3 contains the starting section number.
-## Deactivate Font (DF)
 
 
 The specified starting section need not be present. However, exception ID X'0214..02'
@@ -1683,7 +1673,6 @@ X'6E' This value deactivates all data-object fonts (must provide byte 0).
 This deactivation type does not deactivate any of the component parts of the data-
 object fonts. Use the DF command to deactivate code pages and the DDOFC
 command to deactivate data-object-font components.
-## Deactivate Font (DF)
 
 
 Bytes 1–2 Host-Assigned ID
@@ -1701,7 +1690,6 @@ This parameter specifies the specific LF1-type font index to be deactivated. Thi
 required only for deactivation types X'12' and X'22'; it is ignored if specified for other
 deactivation types. Exception ID X'0215..02' exists if this parameter is required, but not
 supplied. Exception ID X'0240..02' exists if an invalid or unsupported value is specified.
-## Deactivate Font (DF)
 
 
 Define User Area
@@ -1734,7 +1722,6 @@ The length of the DUA command can be:
 Without CID X'0015'
 With CID X'0017'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-## Define User Area (DUA)
 
 
 The format of the data field for the DUA command is as follows:
@@ -1773,10 +1760,8 @@ Bytes 13–15 Y
 m extent of the user printable area in L-units
 Exception ID X'02A5..02' exists if the user printable area boundary in the Y-direction cannot be
 represented in the printer.
-## Define User Area (DUA)
 
 
-## End (END)
 
 ```
 Length X'D65D' Flag CID Binary data
@@ -1805,7 +1790,6 @@ command; exception ID X'8002..00' exists in the following cases:
 • When a WIC command is not followed by at least one WI command
 
 
-## End Page (EP)
 
 ```
 Length X'D6BF' Flag CID Binary data
@@ -1860,7 +1844,6 @@ Note: When using saved pages, a preprinted form overlay can be invoked for a pag
 following sequences of commands:
 • BP , IO-with PFO parameter, ISP , EP
 • BP , ISP , IO-with PFO parameter, EP
-## Include Saved Page (ISP)
 
 ```
 Length X'D67E' Flag CID Data
@@ -1904,7 +1887,6 @@ the last one is used and the others are ignored. If a group of saved pages canno
 absent, exception ID X'0255..03' exists.
 
 
-## Invoke CMR (ICMR)
 
 Invoke CMR (ICMR) is a home state command used to invoke (or reset) one or more CMRs at the home-state
 level of the CMR-usage hierarchy; refer to “CMR-Usage Hierarchy” for a description of the
@@ -2037,7 +2019,6 @@ mode, the printer emulates cut-sheet output, two sheetlets per sheet, until one 
 • An LCC command without the X'C3nn' keyword (CSE) is encountered.
 • An LCC command with the X'C2nn' keyword (N-up) is encountered.
 • More than one copy is specified in any copy subgroup.
-## Load Copy Control (LCC)
 
 
 When a subsequent LCC command is received that contains the X'C3nn' keyword and specifies only one copy
@@ -2084,7 +2065,6 @@ values apply. Each LCC command initializes to the default values; these values s
 • No text suppressions
 • Media selected from the media source specified by an XOH-SIMS command or, if no XOH-SIMS command
 has been received, from the printer-default media source
-## Load Copy Control (LCC)
 
 
 • Media stacked in the printer-default media destination
@@ -2123,7 +2103,6 @@ command is discarded and the previously received LCC command remains in effect.
 | X'E5' | X'00'–X'FF' | Low-order byte of a medium overlay HAID | Not in DC1 |
 | X'E6' | X'00'–X'7E' | High-order byte of a preprinted form overlay HAID | Not in DC1 |
 | X'E7' | X'00'–X'FF' | Low-order byte of a preprinted form overlay HAID | Not in DC1 |
-## Load Copy Control (LCC)
 
 
 Byte 0 Entry byte count
@@ -2169,7 +2148,6 @@ portion contains the media source ID that is unavailable.
 The media-source keyword pair may be specified only once per copy
 subgroup; exception ID X'02C2..02' exists if more than one such keyword pair
 is specified in a copy subgroup.
-## Load Copy Control (LCC)
 
 
 Note: The following example shows how the LCC and XOH-SIMS commands
@@ -2204,7 +2182,6 @@ supported by the printer. The XOH-OPC Media-Destinations self-defining field
 specifies the range of media-destination IDs supported by the printer.
 Exception ID X'0237..03' exists if the media-destination ID specified is not
 supported by the printer.
-## Load Copy Control (LCC)
 
 
 X'91nn' Low-order byte of the media-destination ID
@@ -2243,7 +2220,6 @@ keyword is specified in a copy subgroup.
 is routed to specific media destinations. In this case, when finishing is
 selected and an incompatible media destination is selected or defaulted
 to, exception ID X'027C..09' exists.
-## Load Copy Control (LCC)
 
 
 X'C1nn' Simplex and duplex printing-control parameters:
@@ -2278,7 +2254,6 @@ for both copy subgroups of a copy-subgroup pair. Exception ID X'02C2..01'
 exists if an odd number of duplex copy subgroups is specified. Exception ID
 X'0236..01' exists if an invalid or unsupported simplex/duplex parameter is
 specified.
-## Load Copy Control (LCC)
 
 
 **Figure 50. $X_m$-Axis and $Y_m$-Axis for Duplex Printing**
@@ -2318,7 +2293,6 @@ ii
 bi
 Xm
 Ym
-## Load Copy Control (LCC)
 
 
 X'C2nn' N-up control
@@ -2349,7 +2323,6 @@ LCC command causes exception ID X'02C0..02' to exist.
 2 Up
 3 Up
 4 Up
-## Load Copy Control (LCC)
 
 
 If an invalid N-up parameter value is specified, exception ID X'0237..01'
@@ -2402,7 +2375,6 @@ calculations. In other cases, a page positioned from a particular partition
 origin can overlap into other partitions. Refer to the description of page
 placement in the LPP command for a description of this
 situation.
-## Load Copy Control (LCC)
 
 
 **Figure 52**. N-up Partition Layouts with SMO = X'00'
@@ -2454,7 +2426,6 @@ Partition Origin
 3       4
 1       2
 3       4
-## Load Copy Control (LCC)
 
 
 **Figure 54**. N-up Partition Layouts with SMO = X'02'
@@ -2499,7 +2470,6 @@ Partition Origin
 1        2
 3        4
 1        2 3        4
-## Load Copy Control (LCC)
 
 
 X'C3nn' Enable cut-sheet emulation mode and proceed as specified in the keyword
@@ -2545,7 +2515,6 @@ supported by the printer.
 Property pair X'2002' in the Text command-set vector of an STM reply
 indicates support for text suppression IDs in the range X'80'–X'FF' in the LCC
 X'D1nn' keyword.
-## Load Copy Control (LCC)
 
 
 X'D2nn' Preprinted form overlay control
@@ -2600,7 +2569,6 @@ presentation space. Medium overlays are independent of any partitioning
 done by the N-up keyword. If the LCC command specifies multiple overlays,
 the overlay logical pages are mapped to the medium before any other logical
 pages in the order in which they appear in the LCC command. The media
-## Load Copy Control (LCC)
 
 
 origin is located at coordinates x m=0, ym=0. The host is not required to load
@@ -2652,7 +2620,6 @@ If the X'E6' keyword is specified, the next keyword in the LCC command must
 be a X'E7' keyword or exception ID X'0238..04' exists. The combined value
 from the X'E6' and X'E7' keywords must be in the range X'0001'–X'7EFF';
 exception ID X'0290..01' exists if an invalid overlay HAID value is specified.
-## Load Copy Control (LCC)
 
 
 Support for the X'E6' and X'E7' keywords is indicated by having both the
@@ -2677,7 +2644,6 @@ LCC copy subgroups and keywords as will fit into the LCC command.
 Note: Early IPDS printers did not support full-length LCC commands (length field values up to X'7FFF'). Since
 additional keywords have been added and customers are using longer, more complicated LCC
 commands, new IPDS printers must support full-length LCC commands.
-## Load Copy Control (LCC)
 
 
 Rules for Copy Subgroup Exception Processing
@@ -2720,7 +2686,6 @@ command associated with the page in which the exception occurred.
 If the data stream exception was asynchronous, processes the next page, starting with the first copy
 subgroup, using the most recently-received LCC command.
 8. Enters home state.
-## Load Copy Control (LCC)
 
 
 When The Page Is Not To Be Printed:
@@ -2747,7 +2712,6 @@ description of page and copy counter adjustments.
 8. Reports any queued NACKs.
 9. Continues to process as determined by the next command received from the host, as shown in the
 following table:
-## Load Copy Control (LCC)
 
 
 **Table 27. Exception Continuation Rules**
@@ -2764,7 +2728,6 @@ first exception is B'1'. The XOA-EHC command used for a given synchronous data-s
 one most recently processed prior to detection of the exception. The adjustments to the NACK counters for
 the exception are specified in “Page and Copy Counter Adjustments When a Data-Stream Exception
 Occurs”.
-## Load Copy Control (LCC)
 
 
 2. If an out of storage exception is detected on a page, the copy subgroup rules that apply when the page is
@@ -2777,7 +2740,6 @@ issue a new LCC command to reflect the remaining copies and then resend the page
 finished sheet.
 The next page received from the host is considered to be the first page of the next sheet and is processed
 against the most recently received LCC command beginning with copy subgroup one.
-## Load Copy Control (LCC)
 
 
 Load Font Equivalence
@@ -2822,7 +2784,6 @@ font. If the components are found, step 3 is skipped. If not enough information 
 the components were not found, step 3 in the hierarchy is used.
 3. If LF2-type coded fonts are supported, the printer attempts to find a symbol set coded font using the
 GCSGID, CPGID, FGID, and font width values.
-## Load Font Equivalence (LFE)
 
 
 In addition, the character shapes and metrics of an outline coded font must be scaled to a specific size; the font
@@ -2872,7 +2833,6 @@ corresponding HARID-to-resource-ID mapping is removed, but the resident coded fo
 means of the other HARID.
 • When the requested activation fails, a subsequent XOA-RRL activation query normally receives a reply
 indicating that the resource specified by the HARID is not activated. However, if the activation failed because
-## Load Font Equivalence (LFE)
 
 
 the HARID was already in use, the XOA-RRL reply indicates that the resource originally activated with that
@@ -2903,7 +2863,6 @@ mappings. Property pair X'6009' in the Device-Control command-set vector of an S
 for empty LFE commands.
 Note: Some IPDS printers require at least one LFE entry. These printers generate exception ID X'0202..02' if
 an empty LFE command is received.
-## Load Font Equivalence (LFE)
 
 
 The data in a Load Font Equivalence command consists of zero or more font equivalence entries that are
@@ -2928,7 +2887,6 @@ that entry and all following entries in the LFE command are discarded; preceding
 | | bit 6 | | B'0', B'1' | Bold | B'0' |
 | | bit 7 | | B'0', B'1' | Double wide | B'0' |
 | 15 | X'00' | Reserved | X'00' | | |
-## Load Font Equivalence (LFE)
 
 
 Notes:
@@ -2975,7 +2933,6 @@ an Activate Resource command. Any value in the range X'0001' through X'7EFF' is 
 Exception ID X'0218..02' exists if an invalid HAID is specified. Exception ID X'021F ..02' exists
 if an LFE activation is attempted (that is, if the LFE command GRID fields are not zero) and
 the HAID value is already in use.
-## Load Font Equivalence (LFE)
 
 
 Bytes 3–4 Font inline sequence
@@ -3026,7 +2983,6 @@ downloaded fonts ignore this field.
 Note: Code pages and font character sets can each be associated with
 multiple character sets. Since the GRID only specifies a single
 character set, all graphic characters in the specified character set
-## Load Font Equivalence (LFE)
 
 
 should also belong to a character set associated with the code page
@@ -3077,7 +3033,6 @@ symbol set with the same HAID can be downloaded with an LSS command.
 A value of B'1' indicates that the symbol set referred to in this LFE entry is not
 downloaded because it is currently present in the printer; for example, it is resident or
 it has been previously downloaded.
-## Load Font Equivalence (LFE)
 
 
 Bits 1–2 Reserved
@@ -3127,7 +3082,6 @@ double wide, using a device-dependent mechanism. This mechanism
 is independent of other character attributes (bold, for example) and
 applies equally to all characters in the font.
 Byte 15 Reserved
-## Load Font Equivalence (LFE)
 
 
 Logical Page Descriptor
@@ -3174,7 +3128,6 @@ Note: Not all IPDS printers support short LPD commands. Property pair X'6007' in
 command-set vector of an STM reply indicates that the printer will accept short LPD commands.
 • Optional triplets can be placed at the end of the LPD command (bytes 43 to end) if support for these triplets
 is indicated by property pairs in the Device-Control command-set vector of an STM reply.
-## Logical Page Descriptor (LPD)
 
 
 If a short LPD command is sent to a printer that does not support short LPD commands, or if a triplet is sent to
@@ -3214,7 +3167,6 @@ additional units of measure, the IPDS architecture requires the receiver to at l
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
 page 68.
-## Logical Page Descriptor (LPD)
 
 
 Byte 0 Unit base
@@ -3256,7 +3208,6 @@ Bytes 11–13 $Y_p$ extent of the logical page
 This parameter is specified in L-units.
 Exception ID X'0263..02' exists if an invalid or unsupported $Y_p$ extent value is specified.
 Byte 14 Reserved
-## Logical Page Descriptor (LPD)
 
 
 Byte 15 Ordered data flags
@@ -3307,7 +3258,6 @@ end
 LPD triplets
 Optional triplets can be placed at the end of the LPD command (bytes 43 to end of LPD) if
 support for these triplets is indicated by property pairs returned in the Device-Control
-## Logical Page Descriptor (LPD)
 
 
 command-set vector of an STM reply. If triplets are sent to a printer that does not support LPD
@@ -3343,7 +3293,6 @@ Multiple Invoke CMR (X'92') triplets can be specified. However, only the last sp
 triplet is used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the LPD command.
-## Logical Page Descriptor (LPD)
 
 
 Logical Page Position
@@ -3382,7 +3331,6 @@ Logical Page
 (X = 0, Y = 0)m m
 (X = 0, Y = 0)p p
 Logical Page Origin
-## Logical Page Position (LPP)
 
 
 Subsequently received pages are positioned as specified by the most recently received LCC and LPP
@@ -3439,7 +3387,6 @@ p
 Yp
 Yp
 Xp
-## Logical Page Position (LPP)
 
 
 **Figure 58** shows a more useful example in which the four pages have been placed on continuous-forms media.
@@ -3482,7 +3429,6 @@ Leading edge
 $X_m$
 Ym
 Partition 1 Partition 2
-## Logical Page Position (LPP)
 
 
 ```
@@ -3516,7 +3462,6 @@ the current media origin or, if N-up is in effect, from the current partition or
 X
 m and $Y_m$ offset values position the origin of a page's logical page presentation space on one
 side of a sheet.
-## Logical Page Position (LPP)
 
 
 Exception ID X'02AD..01' exists if an invalid or unsupported offset value is specified.
@@ -3569,7 +3514,6 @@ Exception ID X'02A5..01' exists if the $Y_m$-offset value specified together wit
 extent or IO offset value exceeds the maximum supported by the printer.
 Property pair X'6008' in the Device-Control command-set vector of an STM reply indicates that
 the printer supports the full range of logical-page-offset values.
-## Logical Page Position (LPP)
 
 
 Bytes 8–9 Page orientation
@@ -3583,10 +3527,8 @@ pair X'6101' in the Device-Control command-set vector of an STM reply. Printers 
 support this function ignore this parameter and orient the logical page at 0°. For printers that
 do support this function, exception ID X'02AD..03' exists when an invalid or unsupported
 orientation value is specified.
-## Logical Page Position (LPP)
 
 
-## Manage IPDS Dialog (MID)
 The Manage IPDS Dialog (MID) command is valid only in home state and causes the printer to either start or
 end an IPDS dialog.
 Any IPDS command can be used to start an IPDS dialog. If an IPDS dialog has been started and a subsequent
@@ -3630,7 +3572,6 @@ The format of the data field for this command is as follows:
 This byte specifies either to start or to stop an IPDS dialog. If an invalid value is specified,
 exception ID X'025B..01' exists.
 
-## No Operation (NOP)
 
 ```
 Length X'D603' Flag CID Binary Data
@@ -3646,7 +3587,6 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The No Operation (NOP) command has no effect on presentation. Zero or more data bytes may be present but
 are ignored. This command is valid in any printer state.
 
-## Presentation Fidelity Control (PFC)
 The Presentation Fidelity Control (PFC) command is valid only in home state and specifies the fidelity
 requirements for certain presentation functions. The desired fidelity for each supported presentation function
 can be specified with a triplet on the PFC command. The activate flag can be used to reset all fidelity controls
@@ -3687,7 +3627,6 @@ unsupported triplets are ignored. In this case, all other fidelity controls rema
 settings.
 
 **Bytes 2–3 Reserved**
-## Presentation Fidelity Control (PFC)
 
 
 Bytes 4 to end
@@ -3708,7 +3647,6 @@ The Presentation Fidelity Control triplets are fully described in the triplets c
 “Text Fidelity (X'86') Triplet”
 “Finishing Fidelity (X'88') Triplet”
 “CMR Tag Fidelity (X'96') Triplet”
-## Presentation Fidelity Control (PFC)
 
 
 Rasterize Presentation Object
@@ -3757,7 +3695,6 @@ overrides for the object area size and presentation-space-to-object-area mapping
 The current fidelity information (such as a Color Fidelity (X'75') triplet or a Toner Saver (X'74') triplet) is used
 while rasterizing the presentation object. Therefore, host software must activate appropriate fidelity information
 before issuing the RPO command.
-## Rasterize Presentation Object (RPO)
 
 
 Some presentation objects require secondary resources; in this case, each secondary resource must be
@@ -3806,14 +3743,12 @@ used algorithm when the cache becomes full so as to make room for new cache entr
 host some idea of how long a cached object remains in the cache when a least-recently-used algorithm
 is used, the printer considers an object to be in use each time an object is included (by means of IDO or
 IO) and each time the object is selected in an RPO command (but is already in the cache).
-## Rasterize Presentation Object (RPO)
 
 
 An empty RPO command (that is, one with no entries) is treated as a NOP . If the parameters for an RPO entry
 match an already cached version of the resource, the RPO entry does not cause the object to be cached
 again. If a syntax error is encountered in one of the entries, that entry and all following entries in the RPO
 command are discarded; preceding entries remain in effect.
-## Processing Rules
 The purpose of the RPO command is to improve system printing throughput by allowing the printer to
 preprocess and cache presentation resource objects before they are actually needed on a page or overlay. If
 the resource is subsequently included using an IO or IDO command, a presentation-ready bit map is available.
@@ -3853,7 +3788,6 @@ trim, and selects one of the preprocessed orientations, the cached version of th
 IDO command selects an object area size and mapping option that requires trimming, the trimming is done
 at include time with a potential performance penalty. For the position mapping, the cached object
 presentation space must fit within the object area, or the cached object cannot be used.
-## Rasterize Presentation Object (RPO)
 
 
 • If the mapping control is position-and-trim, the object is first preprocessed into the object presentation
@@ -3884,7 +3818,6 @@ trimming is done at include time with a potential performance penalty. For the p
 object presentation space must fit within the object area, or the cached object cannot be used.
 • If the mapping control is one of the migration mapping options (point-to-pel, point-to-pel-with-double-dot,
 or replicate-and-trim), the object is not preprocessed and is not cached.
-## Limitations
 The RPO command supports most presentation parameters that can be in effect when the preprocessed
 object is actually presented. However there are circumstances in which the preprocessed object cannot be
 used for presentation and therefore the system throughput improvement is not realized.
@@ -3904,7 +3837,6 @@ provided in the initial RPO support.
 grayscale image color in an object container or the color in the Set Bilevel Image Color IOCA self-defining
 field (or the Set Extended Bilevel Image Color IOCA self-defining field) in an IO-Image object, the printer
 might not be able to use any previously cached variations of this object.
-## Rasterize Presentation Object (RPO)
 
 
 • When an image-migration mapping control is specified in an IDO command for an IO Image, the printer might
@@ -3926,7 +3858,6 @@ specifying the desired orientation in the RPO command.
 cached with no text suppression.
 • The XOA-PQC command is ignored during RPO processing and the printer's default print-quality level is
 assumed.
-## Command Syntax
 The format of the RPO data is as follows:
 Offset Type Name Range Meaning Required
 Zero or more entries in the following format:
@@ -3963,7 +3894,6 @@ bit 7 Others B'0', B'1' Report all other exceptions with AEAs B'0', B'1'
 bit 0 0 degrees B'0', B'1' Orient 0 degrees B'0', B'1'
 bit 1 90 degrees B'0', B'1' Orient 90 degrees B'0', B'1'
 bit 2 180 degrees B'0', B'1' Orient 180 degrees B'0', B'1'
-## Rasterize Presentation Object (RPO)
 
 
 Offset Type Name Range Meaning Required
@@ -4070,7 +4000,6 @@ X'95' Rendering Intent triplet
 X'9A' Image Resolution triplet
 X'9C' Object Container Presentation
 Space Size triplet
-## Rasterize Presentation Object (RPO)
 
 
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
@@ -4121,7 +4050,6 @@ command. Valid resources for the RPO command include:
 • TIFF without transparency
 • TIFF multiple-image file with transparency
 • TIFF multiple-image file without transparency
-## Rasterize Presentation Object (RPO)
 
 
 Note: All necessary secondary resources must also have been previously activated and must
@@ -4160,7 +4088,6 @@ EHC command is B'0', the cached object is a candidate to be used. Also, if the c
 EHC command specifies that AEAs are not to be taken or if the position-check highlight flag in
 the XOA-EHC and RPO commands do not match, then only error free cached objects can be
 used.
-## Rasterize Presentation Object (RPO)
 
 
 Byte 6 Process flags
@@ -4211,7 +4138,6 @@ this value is X'3840', there are 14,400 units per ten inches (1440 units per
 inch); in this case, the measurement units are called twips.
 X'FFFF' is a special value that indicates that this parameter has not been
 specified. Since a units-per-unit-base value is required to interpret bytes 10–
-## Rasterize Presentation Object (RPO)
 
 
 13 and bytes 15–18, a value of X'FFFF' in bytes 8–9 causes the printer to
@@ -4262,7 +4188,6 @@ origin. The units of measure used to interpret this offset are specified in byte
 oa offset field is ignored when the actual mapping option used is
 not position or position and trim. X'FFFF' is a special value that indicates that
 this parameter has not been specified; an Xoa offset of -1 cannot be specified.
-## Rasterize Presentation Object (RPO)
 
 
 For this parameter to be used, all four of the object area parameters (Xoa
@@ -4314,7 +4239,6 @@ supported.
 restricted form of the X'4E' triplet to override the Set Bilevel Image Color (X'F6') IOCA self-defining field in
 an IO-Image object, or to set the image color if no X'F6' IOCA self-defining field is specified in the object. In
 this case, the triplet must specify the Standard OCA color space (X'40') or the triplet is ignored.
-## Rasterize Presentation Object (RPO)
 
 
 • The Color Specification (X'4E') triplet is not used with grayscale IO-Image objects.
@@ -4363,7 +4287,6 @@ Since data-object-level CMR invocations and rendering intent are not saved with 
 can be provided on the IDO and RPO commands for a presentation data object. However, because overlay-
 level CMRs and rendering intent are saved with the LPD command for an overlay, there is no need to specify
 them on the RPO command; all X'92' and X'95' triplets specified on an RPO command for an overlay are
-## Rasterize Presentation Object (RPO)
 
 
 ignored. To ensure that an overlay is rendered consistently regardless of how and where the overlay is
@@ -4407,7 +4330,6 @@ Property pair X'1203' in the Object Container command-set vector of an STM reply
 supports the Object Container Presentation Space Size (X'9C') triplet for a PDF object. STM property pair
 X'1209' in the Object Container command-set vector indicates that the printer supports the Object Container
 Presentation Space Size (X'9C') triplet for an SVG object.
-## Rasterize Presentation Object (RPO)
 
 
 Sense Type and Model
@@ -4448,7 +4370,6 @@ encountered whose data bytes are bit mapped, the last encountered property ID an
 property. Also, a printer may return more than one instance of a particular command-set vector. Property ID
 and data pairs within subsequent instances of these command-set vectors should be interpreted as if they
 were found at the end of the preceding instance of that command-set vector.
-## Sense Type and Model (STM)
 
 
 All intermediate devices in the host-to-printer configuration must individually indicate their presence by
@@ -4474,10 +4395,9 @@ following pages.
 | 10–11 | CODE | Level or subset ID | | For data command sets, the level ID of a data tower. For other command sets, the subset ID of a command set. |
 | 12 to end | CODE | Property pairs | | Zero or more command-set property ID and data pairs. |
 The following command-set vectors can be returned in the STM Acknowledge Reply:
-## Sense Type and Model (STM)
 
 
-### Device-Control Command-Set Vector
+## Device-Control Command-Set Vector
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -4485,14 +4405,12 @@ The following command-set vectors can be returned in the STM Acknowledge Reply:
 | 8–9 | CODE | Command set ID | X'C4C3' | Device-Control command-set ID |
 | 10–11 | CODE | Subset ID | X'FF10' | DC1 subset ID |
 | 12 to end of vector | CODE | Command specific property pairs | X'6001'<br>X'6002'<br>X'6003'<br>X'6004'<br>X'6005'<br>X'6006'<br>X'6007'<br>X'6008'<br>X'6009'<br>X'6101'<br>X'6201' | Multiple copy & copy-subgroup support in LCC<br>Media-source-selection support in LCC; see note 1<br>Media-destination-selection support in LCC; see note 1<br>Full-length LCC commands supported; see note 2<br>Full range of font local IDs supported in LFE and LPD commands; see note 3<br>Font-modification flags supported in LFE commands (byte 14, bits 3–7)<br>Short LPD commands supported; see note 4<br>Full range of logical-page-offset values supported in LPP commands; see note 5<br>Empty LFE commands supported; see note 6<br>Explicit page placement and orientation support in the LPP command<br>Logical page and object area coloring support; see note 7 |
-## Sense Type and Model (STM)
 
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
 | | | Optional command property pairs | X'7001'<br>X'7002'<br>X'7008'<br>X'700A'<br>X'701C'<br>X'702E'<br>X'7034'<br>X'706B'<br>X'707B'<br>X'707E'<br>X'70CE' | Manage IPDS Dialog (MID) command support<br>Apply Finishing Operations (AFO) command<br>Set Presentation Environment (SPE) command support; see note 8<br>Activate Setup Name (ASN) command support; see note 9<br>Retired item 134<br>Activate Resource command support: indicates that the printer supports the AR command as well as XOA-RRL queries of query type X'05', activation query<br>Presentation Fidelity Control command support<br>Invoke CMR (ICMR) command support; see note 8<br>Rasterize Presentation Object (RPO) command support; see note 10<br>Include Saved Page (ISP) command support<br>DUA command-support property ID. If the DUA command and the Overlay command set is supported, secure overlays are also supported in the IO command. |
 | | | XOA property pairs | X'8000'<br>X'8001'<br>X'8002'<br>X'8006'<br>X'8008'<br>X'800A'<br>X'800C'<br>X'8010'<br>X'80F1'<br>X'80F2'<br>X'80F3'<br>X'80F4'<br>X'80F5'<br>X'80F6'<br>X'80F8'<br>X'80F9'<br>X'80FA' | Retired item 108<br>Retired item 109<br>Retired item 110<br>Retired item 111<br>Mark Form<br>Alternate Offset Stacker<br>Control Edge Marks<br>Activate Printer Alarm<br>Retired item 112<br>Discard Buffered Data; see note 11<br>Retired item 113<br>Request Resource List; see note 11<br>Discard Unstacked Pages<br>Exception-Handling Control; see note 11<br>Print-Quality Control<br>Obtain Additional Exception Information<br>Request Setup Name List; see note 9 |
-## Sense Type and Model (STM)
 
 
 | | | XOH property pairs | X'9000'<br>X'9001'<br>X'9002'<br>X'9003'<br>X'9004'<br>X'9005'<br>X'9007'<br>X'9009'<br>X'900A'<br>X'900B'<br>X'900D'<br>X'900E'<br>X'9013'<br>X'9015'<br>X'9016'<br>X'9017'<br>X'90D0'<br>X'90F2'<br>X'90F3'<br>X'90F4'<br>X'90F5' | Retired item 114<br>Print Buffered Data; see note 11<br>Deactivate Saved Page Group<br>Specify Group Operation<br>Define Group Boundary<br>Erase Residual Print Data<br>Erase Residual Font Data<br>Separate Continuous Forms<br>Remove Saved Page Group<br>Retired item 115<br>Stack Received Pages<br>Select Medium Modifications<br>Eject to Front Facing<br>Select Input Media Source<br>Set Media Origin<br>Set Media Size<br>Retired item 126<br>Trace<br>Obtain Printer Characteristics; see note 11<br>Retired item 116<br>Page Counters Control |
@@ -4526,7 +4444,6 @@ information:
 • Property pair X'706B' (ICMR command support) in the STM Device-Control command-set vector.
 • Property pair X'F205' (Color Management triplet support) in the STM Device-Control command-set
 vector, including support for the Color Management Resource Descriptor (X'91') triplet, the Invoke CMR
-## Sense Type and Model (STM)
 
 
 (X'92') triplet, the Rendering Intent (X'95') triplet, and the Fully Qualified Name (X'02') triplet (with FQN
@@ -4579,7 +4496,6 @@ CMRs is indicated by support for the CMR object-type OID.
 Some IPDS printers do not support host-activated CMRs under all circumstances. If a CMR is invoked and
 selected for use, but the printer does not use the CMR, exception ID X'025E..05' exists. Reporting of this
 exception ID can be controlled with the Color Fidelity (X'75') triplet in the PFC command.
-## Sense Type and Model (STM)
 
 
 14. Presence of X'E003' indicates that the printer uses host-activated tone-transfer-curve CMRs; absence of
@@ -4634,7 +4550,6 @@ device-default-monochrome device appearance (but will not return property pair X
 Unstacked Pages command, sense-data format 8, and UP3I-specific exception IDs (X'nn7E..00') are
 supported. In addition, when the UP3I interface is enabled in the printer, the XOH-OPC reply contains UP3I
 Tupel self-defining fields (X'0019') and UP3I Paper Input Media self-defining fields (X'001A').
-## Sense Type and Model (STM)
 
 
 Support for the UP3I Print Data object (to be printed by a pre-processing or post-processing device) is
@@ -4687,7 +4602,6 @@ NACKs that cause the printer to discard buffered data. For further information, 
 command Byte 3, Bit 6.
 28. Property pairs X'F604' (Page-Continuation Actions) and X'F605' (Skip-and-Continue Actions) indicate the
 supported method of continuation after an exception condition when an AEA is not taken. Only one of
-## Sense Type and Model (STM)
 
 
 these property pairs should be returned by the printer; if neither is returned the printer has not identified the
@@ -4718,14 +4632,12 @@ sense data in each NACK.
 33. Support for internal rendering intent in the XOH Trace command includes support for the X'FD' and X'FE'
 values (when applicable) of the rendering-intent field, and the X'06' value of the RI-hierarchy field, in the
 CMRs-Used trace entry.
-## Sense Type and Model (STM)
 
 
-Text Command-Set Vector
+## Text Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Text command-set vector, including this length field
 8–9 CODE Subset ID X'D7E3' TX1 subset of the Text command set
 10–11 CODE Level ID X'FF10'
@@ -4766,7 +4678,6 @@ Bit 6 Color of medium support. Color of medium (also known
 as reset color) supported for text data
 Bit 7 Multiple-color support. Multiple-color support for text
 data; see note 2.
-## Sense Type and Model (STM)
 
 
 Offset Type Name Range Meaning
@@ -4809,7 +4720,6 @@ Bit 6 All values of degrees and minutes for object area
 orientation are supported.
 Bit 7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
-## Sense Type and Model (STM)
 
 
 Notes:
@@ -4857,14 +4767,12 @@ modulo 360 is equal to 180 degrees.
 modulo 360 is equal to 270 degrees.
 6. When setting the bits in the second byte of the X'A0nn' property pair, it is recommended that the minimum
 number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–3 and 5 should not be set.
-## Sense Type and Model (STM)
 
 
-IM-Image Command-Set Vector
+## IM-Image Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the IM-Image command-set vector, including this length
 field
 8–9 CODE Subset ID X'C9D4' IM1 subset of the IM-Image command set
@@ -4907,7 +4815,6 @@ Bit 5 All four scan-line direction/scan-line sequence direction
 combinations supported in the WIC command
 Bits 6–7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
-## Sense Type and Model (STM)
 
 
 Note: Multiple-color support for IM-Image data means that from the table that follows, color value X'FF07'
@@ -4922,17 +4829,15 @@ X'0006' or X'FF06' Yellow
 X'0008' Black
 X'0010' Brown
 X'FF07' Printer default
-## Sense Type and Model (STM)
 
 
-IO-Image Command-Set Vector
+## IO-Image Command-Set Vector
 A separate command-set vector is returned for each supported function set, except that a separate vector is
 not required for proper subsets. For example, if a printer supports FS10 and FS45, two vectors would be
 returned (one for FS10 and one for FS45).
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the IO-Image command-set vector, including this length
 field
 8–9 CODE Subset ID X'C9D6' IO1 subset of the IO-Image command set
@@ -4995,7 +4900,6 @@ present, the printer supports Set Extended Bilevel Image
 Color (X'F4') IOCA self-defining field on the WIC2-IDD
 Extended IOCA Tile-Set-Color support; see note 5
 Bilevel IO-Image color support on the RPO command
-## Sense Type and Model (STM)
 
 
 Offset Type Name Range Meaning
@@ -5065,7 +4969,6 @@ X'F300'
 X'F301'
 Replicate-and-trim mapping supported; see note 10.
 Scale-to-fill mapping supported
-## Sense Type and Model (STM)
 
 
 Notes:
@@ -5117,7 +5020,6 @@ segment for all IOCA images. When a printer supports multiple image contents, th
 included in each returned IO-Image command-set vector. For example, a printer that supports FS10, FS42,
 and FS45 would return at least two IOCA vectors: one vector for FS10 that includes the X'5505' property
 pair, and one vector for FS45 that includes the X'5505' property pair.
-## Sense Type and Model (STM)
 
 
 7. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
@@ -5141,14 +5043,12 @@ minutes when IO-Image resources are included.
 10. Property pair X'F300' indicates that the printer supports the replicate-and-trim mapping option for FS10
 images. This mapping option is used for migration from IM Images to IOCA FS10 images. X'F300' must not
 be specified for any other IOCA function set.
-## Sense Type and Model (STM)
 
 
-Graphics Command-Set Vector
+## Graphics Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Graphics command-set vector, including this length
 field
 8–9 CODE Subset ID X'E5C7' GR1 subset of the Graphics command set
@@ -5189,7 +5089,6 @@ Bit 6 Color of medium support. Color of medium (also known
 as reset color) supported for graphics data
 Bit 7 Multiple-color support. Multiple-color support for
 graphics; see note 2
-## Sense Type and Model (STM)
 
 
 Offset Type Name Range Meaning
@@ -5267,7 +5166,6 @@ default) and at least two additional color values corresponding to two distinct 
 graphics data and result in a reasonable rendition of the specified colors.
 X'0001' or X'FF01' Blue
 X'0002' or X'FF02' Red
-## Sense Type and Model (STM)
 
 
 X'0003' or X'FF03' Pink/magenta
@@ -5304,14 +5202,12 @@ modulo 360 is equal to 180 degrees.
 modulo 360 is equal to 270 degrees.
 9. When setting the bits in the second byte of the X'A0nn' property pair, it is recommended that the minimum
 number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–3 and 5 should not be set.
-## Sense Type and Model (STM)
 
 
-Bar Code Command-Set Vector
+## Bar Code Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Bar Code command-set vector, including this length
 field
 8–9 CODE Subset ID X'C2C3' BC1 subset of the Bar Code command set
@@ -5362,7 +5258,6 @@ Bit 6 Color of medium support. Color of medium (also known
 as reset color) supported for bar code data
 Bit 7 Multiple-color support for bar code data; see note 6 on
 page 257
-## Sense Type and Model (STM)
 
 
 Offset Type Name Range Meaning
@@ -5417,7 +5312,6 @@ default) and at least two additional color values corresponding to two distinct 
 graphics data and result in a reasonable rendition of the specified colors.
 X'0001' or X'FF01' Blue
 X'0002' or X'FF02' Red
-## Sense Type and Model (STM)
 
 
 X'0003' or X'FF03' Pink/magenta
@@ -5444,14 +5338,12 @@ number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–
 and implement one or more additional bar code types and associated modifiers that are listed in the
 Common Bar Code Type/Modifier self-defining field respond to the XOH-OPC command with the
 appropriately encoded Common Bar Code Type/Modifier Self-Defining Field.
-## Sense Type and Model (STM)
 
 
-Object Container Command-Set Vector
+## Object Container Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Object Container command-set vector, including this
 length field
 8–9 CODE Subset ID X'D6C3' OC1 subset of the Object Container command set
@@ -5492,7 +5384,6 @@ Image Resolution (X'9A') triplet supported in IDO, RPO,
 and WOCC commands
 Bilevel and grayscale image color support for object containers;
 see note 6
-## Sense Type and Model (STM)
 
 
 Offset Type Name Range Meaning
@@ -5519,7 +5410,6 @@ the IDO-DOAP .
 Bit 7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
 X'F301' Scale-to-fill mapping supported
-## Sense Type and Model (STM)
 
 
 Notes:
@@ -5572,14 +5462,12 @@ resources included using the IDO command; such support is instead reported using
 property pair of the IO-Image command-set vector.
 9. When setting the bits in the second byte of the X'A0nn' property pair, it is recommended that the minimum
 number of bits necessary be set to B'1'. For example, if bit 6 is set, bits 0–3 and 5 should not be set.
-## Sense Type and Model (STM)
 
 
-Metadata Command-Set Vector
+## Metadata Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Metadata command-set vector, including this length
 field
 8–9 CODE Subset ID X'D4C4' MO1 subset of the Metadata command set
@@ -5592,7 +5480,6 @@ Overlay Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Overlay command-set vector, including this length
 field
 8–9 CODE Command set
@@ -5627,14 +5514,12 @@ printer issues a X'0297..01' exception.
 A printer may support more levels of overlay nesting than are reported, or assumed, in this command-set
 vector.
 2. Support of overlay invocation via LCC is implied by support of OL1.
-## Sense Type and Model (STM)
 
 
 Page Segment Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Page-Segment command-set vector, including this
 length field
 8–9 CODE Command set
@@ -5646,11 +5531,10 @@ end of
 vector
 CODE Property pairs X'1101' Extended page segment support; up to 32,511 page segments
 can be activated at one time.
-Loaded-Font Command-Set Vector
+## Loaded-Font Command-Set Vector
 Offset Type Name Range Meaning
 6–7 UBIN Length X'0006' to end
 of vector
-even values
 Length of the Loaded-Font command-set vector, including this
 length field
 8–9 CODE Command set
@@ -5684,7 +5568,6 @@ Bit 5 All four Font Inline Sequences supported for all
 supported text orientations in the LFI command
 Bits 6–7 Reserved
 If no X'A0nn' property pair is specified, the default is X'A080'.
-## Sense Type and Model (STM)
 
 
 Offset Type Name Range Meaning
@@ -5732,10 +5615,8 @@ assigned a specific meaning.
 The LF2 command subset supports only fixed-metric technology. The LF3 command subset supports
 either technology, but the relative-metric technology is used with outline fonts.
 The printer need not return the X'C1nn' property pair for LF2 or LF3 command subsets.
-## Sense Type and Model (STM)
 
 
-## Set Home State (SHS)
 
 ```
 Length X'D697' Flag CID
@@ -5755,9 +5636,7 @@ syntactically correct, no exceptions can result from its execution.
 If the printer is in any resource state, such as page-segment state, overlay state, font state, or any derivative of
 these states, the partial resource is deleted before the printer returns to home state. In home state, an SHS
 command is treated as a No Operation (NOP) command.
-## Set Home State (SHS)
 
-## Set Presentation Environment (SPE)
 Set Presentation Environment (SPE) is a home state command used to set specific presentation attributes for
 use on the pages that follow. For each specified triplet, the specified presentation attributes completely replace
 those presentation attributes; all other previously specified presentation attributes (from other triplets) stay in
@@ -5805,7 +5684,6 @@ The data in an SPE command is defined as follows:
 
 **Bytes 2 to end of command**
 **Zero or more triplets**
-## Set Presentation Environment (SPE)
 
 
 The SPE command contains zero or more triplets used to set specific presentation attributes
@@ -5831,7 +5709,6 @@ Used to establish a temporary device appearance.
 The Presentation Environment triplets are fully described in the triplets chapter:
 “Rendering Intent (X'95') Triplet”
 “Device Appearance (X'97') Triplet”
-## Set Presentation Environment (SPE)
 
 
 Execute Order Anystate
@@ -5869,14 +5746,12 @@ X'7BF5' Retired item 23 No
 X'CACA' Retired item 24 No
 X'CE00' Retired item 143 No
 X'F100' Retired item 25 No
-## Execute Order Anystate (XOA)
 
 
 **Table 28** XOA Order Summary (cont'd.)
 Code Order In DC1 subset?
 X'F300' Retired item 26 No
 Unknown or unsupported orders are treated as No Operation (NOP) commands.
-## Execute Order Anystate (XOA)
 
 
 XOA Activate Printer Alarm
@@ -5890,7 +5765,6 @@ With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'1000' Activate Printer Alarm (APA) order code X'1000'
-## XOA Activate Printer Alarm (APA)
 
 
 XOA Alternate Offset Stacker
@@ -5918,7 +5792,6 @@ XOA-AOS command conflicts with the finishing operation, the XOA-AOS command is i
 operation is performed.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0A00' Alternate Offset Stacker (AOS) order code X'0A00'
-## XOA Alternate Offset Stacker (AOS)
 
 
 XOA Control Edge Marks
@@ -5955,7 +5828,6 @@ of the previous sheet. However, in the case where multiple identical copies is s
 marks at the top and bottom of each copy is identical (as if this sheet were taken to a copier and the number of
 copies requested made). For example, if one edge mark is at the top of the sheet and two edge marks are at
 the bottom of the sheet, all identical copies of this sheet have one edge mark at the top and two edge marks at
-## XOA Control Edge Marks (CEM)
 
 
 the bottom. On the other hand, in the case of multiple copy subgroups, the rule applies that the number of edge
@@ -6014,7 +5886,6 @@ X'F3' Three edge marks
 Start printing three edge marks regardless of how edge marks are currently being
 controlled. Print three edge marks on all subsequent sheets until another XOA-CEM
 command is received.
-## XOA Control Edge Marks (CEM)
 
 
 X'FE' Alternate
@@ -6034,7 +5905,6 @@ The recommended method of handling multiple XOA-CEM commands that apply to
 the same sheet is to process each one as it is received and use the resultant edge
 mark.
 Exception ID X'0299..02' exists if an invalid edge mark value is specified.
-## XOA Control Edge Marks (CEM)
 
 
 XOA Discard Buffered Data
@@ -6057,7 +5927,6 @@ command is not processed until all preceding commands have been completely proce
 ACK of the DBD order is not returned until DBD processing is complete.
 Offset Type Name Range Meaning DC1 Range
 0–1 CODE Order code X'F200' Discard Buffered Data (DBD) order code X'F200'
-## XOA Discard Buffered Data (DBD)
 
 
 XOA Discard Unstacked Pages
@@ -6083,7 +5952,6 @@ synchronizing command is not processed until all preceding commands have been co
 processed. Also, the ACK of the DUP order is not returned until DUP processing is complete.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'F500' Discard Unstacked Pages (DUP) order code X'F500'
-## XOA Discard Unstacked Pages (DUP)
 
 
 XOA Exception-Handling Control
@@ -6798,7 +6666,6 @@ visibility. The marks are not made on sheets created by any IPDS command that ca
 Front Facing or on sheets created by a hardware nonprocess runout (NPRO).
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0800' Mark Form (MF) order code X'0800'
-## XOA Mark Form (MF)
 
 
 XOA Obtain Additional Exception Information
@@ -6832,7 +6699,6 @@ Offset Type Name Range Meaning Required
 0–1 CODE Order code X'F900' Obtain Additional Exception Information
 (OAEI) order code
 X'F900'
-## XOA Obtain Additional Exception Information (OAEI)
 
 
 OAEI Reply
@@ -6886,7 +6752,6 @@ Entry byte 4 Format
 This field identifies the format that the additional information in the following
 bytes will take.
 X'01' Unarchitected text
-## XOA Obtain Additional Exception Information (OAEI)
 
 
 Entry bytes 5 to end Additional exception information
@@ -6905,7 +6770,6 @@ end of
 entry
 Text information Any valid text Unarchitected text containing the additional exception
 information
-## XOA Obtain Additional Exception Information (OAEI)
 
 
 XOA Print-Quality Control
@@ -6967,7 +6831,6 @@ Acknowledgment Request (ARQ), this command is treated as a No Operation (NOP) co
 RRL has a query format that is sent in the data portion of the RRL order, and it has a reply format that is
 returned to the host in the special data area of the ACK(s). The query format is shown in “Resource List Query”
 . The reply format is shown in “Resource List Reply”.
-## XOA Request Resource List (RRL)
 
 
 Resource List Query
@@ -7054,7 +6917,6 @@ sequence and that indicate support of the AR command by property pair X'702E'
 in
 the Device-Control command-set vector of an STM reply. This query type can be
 issued following an AR command to interrogate the device on the activation status of
-## XOA Request Resource List (RRL)
 
 
 the resources that the AR command attempted to activate. A reply to this query
@@ -7104,7 +6966,6 @@ value (RRL-continuation method), the printer returns the next portion of the res
 both methods are used simultaneously, the acknowledgment-continuation flag in the XOA-
 RRL command is ignored and the RRL-continuation method is used by the printer; an XOA-
 RRL reply sequence is ended with a reply-list entry with a length of X'01'.
-## XOA Request Resource List (RRL)
 
 
 Byte 5 Entry length
@@ -7152,7 +7013,6 @@ your printer documentation for restrictions. If the resource type value is an un
 unsupported value, the reply sets the resource type to zero, echoes all other values, and
 indicates that the resource is not present and cannot be activated by setting the resource size
 byte (byte 4) in the Request Resource List reply to zero.
-## XOA Request Resource List (RRL)
 
 
 The printer identifies supported queries in the XOA-RRL RT & RIDF Support self-defining field
@@ -7196,7 +7056,6 @@ X'41' Data-object font X'00' HAID format X'02'
 X'42' Data-object-font component X'00' HAID format X'02'
 X'09' Object-OID format X'02'–X'81'
 X'FF' All resources X'00' HAID format N/A
-## XOA Request Resource List (RRL)
 
 
 Byte 7 Resource ID format
@@ -7240,7 +7099,6 @@ Four-byte ID consisting of a two-byte coded font Host-Assigned ID followed
 by the two-byte coded font inline sequence value from one of the following:
 – An Activate Resource command
 – A Load Font Index command
-## XOA Request Resource List (RRL)
 
 
 • All FISes of a particular single-byte raster, single-byte outline, or double-
@@ -7288,7 +7146,6 @@ Two-byte data-object-font-component Host-Assigned ID from one of the
 following:
 – An Activate Resource command
 – A home state Write Object Container Control command
-## XOA Request Resource List (RRL)
 
 
 RIDF = X'01',
@@ -7338,7 +7195,6 @@ set, or coded font selection.
 RIDF = X'06' Retired item 30
 RIDF = X'08' Variable-length Group ID (X'00') triplet
 This triplet is described in “Group ID (X'00') Triplet”.
-## XOA Request Resource List (RRL)
 
 
 RIDF = X'09' Object-OID format
@@ -7388,7 +7244,6 @@ your printer documentation for restrictions. If the resource ID is inconsistent 
 printer expects based on the resource type (byte 6) and resource ID format (byte 7), the reply
 sets the resource type to zero, echoes all other values, and indicates that the resource is not
 present and cannot be activated by setting the resource size byte to zero.
-## XOA Request Resource List (RRL)
 
 
 Resource List Reply
@@ -7429,7 +7284,6 @@ A RRL query for an individual resource using the GRID-parts format returns an RR
 the multiple versions. To single out a specific one of multiple versions, use the AR command to identify
 the specific version of the resource to be activated and then query using the XOA-RRL command with a
 Host-assigned resource ID format.
-## XOA Request Resource List (RRL)
 
 
 When the reply data is larger than fits in one Acknowledge Reply (that is, when there are more than 256 bytes
@@ -7489,7 +7343,6 @@ single-resource queries.
 **Table 29** lists the currently valid resource ID lengths. Additional RT/RIDF
 combinations might be added in the future and therefore all values in the range X'01' and
 X'04'–X'FF' should be accepted for this byte.
-## XOA Request Resource List (RRL)
 
 
 Byte 2 Resource type
@@ -7540,7 +7393,6 @@ of entry
 Resource ID
 This field contains the resource ID of a queried resource of the type specified in byte 2 and in
 the format specified in byte 3.
-## XOA Request Resource List (RRL)
 
 
 For an outline coded font or outline font character set identified by a GRID-parts RIDF , X'0000'
@@ -7555,7 +7407,6 @@ saved page group exists when an XOH-DGB command with a Variable-length group ID 
 been processed for a group to be saved. If a query is done before the first page has been
 saved, a sequence number of X'00000000' is returned in the XOA-RRL reply indicating an
 empty group.
-## XOA Request Resource List (RRL)
 
 
 XOA Request Setup Name List
@@ -7610,7 +7461,6 @@ printer.
 X'01' The reply will report the active setup name but will also include a list of setup names,
 tailored to the contents of bytes 3 through the end of the RSNL.
 If an invalid value is specified, exception ID X'02A2..00' exists.
-## XOA Request Setup Name List (RSNL)
 
 
 Byte 3 Setup name information requested
@@ -7643,7 +7493,6 @@ triplet length), the printer ignores the remaining data within the optional trip
 The triplet is fully described in the triplets chapter:
 “Setup Name (X'9E') Triplet
 ”
-## XOA Request Setup Name List (RSNL)
 
 
 RSNL Reply
@@ -7721,7 +7570,6 @@ This field contains the total length of the data, including the length field its
 be more than can be contained in the special data area of one Acknowledge Reply, in which
 case the additional bytes are obtained using the ACK-continuation method.
 Bytes 4–5 Reserved
-## XOA Request Setup Name List (RSNL)
 
 
 Byte 6 Setup name information returned
@@ -7771,7 +7619,6 @@ Note that exception ID X'010A..00' is not reported for changes due to the ASN co
 The triplet is fully described in the triplets chapter:
 “Setup Name (X'9E') Triplet
 ”
-## XOA Request Setup Name List (RSNL)
 
 
 Setup Name Information entry
@@ -7818,7 +7665,6 @@ or if the printer does not support returning detailed settings, this field is om
 byte 6 must be B'0'.
 Support for returning detailed settings is indicated by the X'F403' property pair in the Device-
 Control command-set vector in an STM reply.
-## XOA Request Setup Name List (RSNL)
 
 
 Bytes +m+6–n Detailed settings
@@ -7837,7 +7683,6 @@ Offset Type Name Range Meaning
 Zero or more Detailed Settings entries in the following format:
 ++ 0–1 UBIN Key length X'0004' –
 X'FFFF'
-even values
 Length of the key, including this
 length field
 ++ 2–k CHAR Key name any UTF-
@@ -7848,7 +7693,6 @@ character string
 ++ k+1–k+2
 UBIN Value length X'0002' –
 X'FFFF'
-even values
 Length of the value, including
 this length field
 ++ k+3 to end
@@ -7870,7 +7714,6 @@ info
 Additional information
 This is a reserved field that might be used for future expansion. Receivers of this reply should
 accept, but ignore this field; senders of this reply should not specify this field.
-## XOA Request Setup Name List (RSNL)
 
 
 Execute Order Home State
@@ -7909,7 +7752,6 @@ X'1C00' Retired item 144 No
 X'1D00' Retired item 145 No
 X'4C00' Retired item 146 No
 X'4D00' Retired item 147 No
-## Execute Order Home State (XOH)
 
 
 **Table 30** XOH Order Summary (cont'd.)
@@ -7918,7 +7760,6 @@ X'4E00' Retired item 148 No
 X'D000' Retired item 127 No
 X'F400' Retired item 33 No
 Unknown or unsupported orders are treated as No Operation (NOP) commands.
-## Execute Order Home State (XOH)
 
 
 XOH Deactivate Saved Page Group
@@ -7960,7 +7801,6 @@ of command
 Zero or more triplets
 The Deactivate Saved Page Group triplets are fully described in the triplets chapter:
 “Group ID (X'00') Triplet”
-## XOH Deactivate Saved Page Group (DSPG)
 
 
 Group ID (X'00') Triplet Considerations
@@ -7975,7 +7815,6 @@ Exception ID X'0255..08' exists if any of the following occurs in the triplets f
 • Byte 2 or the first byte after a valid triplet was X'00' or X'01' (an invalid triplet length).
 • A triplet other than a Group ID (X'00') triplet was specified.
 • A Group ID (X'00') triplet without a variable-length group ID was specified.
-## XOH Deactivate Saved Page Group (DSPG)
 
 
 XOH Define Group Boundary
@@ -8013,7 +7852,6 @@ the grouping is ignored when no group operation for the group has been specified
 command indicates whether or not the printer supports these two XOH orders. The Supported Group
 Operations self-defining field in the reply to an XOH-OPC command specifies which group operations are
 supported.
-## XOH Define Group Boundary (DGB)
 
 
 In most cases, group operations apply to all of the pages of a group including those pages within nested
@@ -8059,7 +7897,6 @@ determines the nesting. The previous table shows how inner and outer groups are 
 Triplets specified on the XOH-DGB command provide additional information for carrying out a group operation.
 In some cases, absence of a required triplet causes the group operation to be ignored; for example, a finishing
 group requires a finishing triplet.
-## XOH Define Group Boundary (DGB)
 
 
 **Figure 61**. Examples of Groups and Group Operations
@@ -8104,7 +7941,6 @@ Two groups of pages are saved:
 One group of pages is stapled in the top-left corner:
 1) Page10 - Page12
 Results:
-## XOH Define Group Boundary (DGB)
 
 
 **Figure 62**. Examples of Nested Finishing Operations
@@ -8143,7 +7979,6 @@ Each time a new nesting level is needed, an XOH SGO command is specified.
 Two operations are specified in the first XOH DGB command using two
 Finishing Operation (X'85') triplets.
 Results:
-## XOH Define Group Boundary (DGB)
 
 
 The format of the XOH-DGB command is as follows:
@@ -8207,7 +8042,6 @@ about the operation specified by a preceding XOH-SGO command. The operation in e
 a group determines the relationship among the triplets in an XOH-DGB command that initiates
 a group boundary to those in the XOH-DGB command that terminates the group boundary.
 Each group operation defines the relationship among the triplets.
-## XOH Define Group Boundary (DGB)
 
 
 **Table 32**. Triplets Used With Each Group Operation
@@ -8275,7 +8109,6 @@ The Define Group Boundary triplets are fully described in the triplets chapter:
 “Finishing Operation (X'85') Triplet”
 “UP
 3I Finishing Operation (X'8E') Triplet”
-## XOH Define Group Boundary (DGB)
 
 
 Coded Graphic Character Set Global Identifier (X'01') Triplet Considerations
@@ -8317,7 +8150,6 @@ group, the prematurely stacked pages might or might not have the finishing opera
 3. For some printers, alternate offset stacking cannot be combined with a finishing operation. In this case, if
 the XOA-AOS command conflicts with the finishing operation, the XOA-AOS command is ignored and the
 finishing operation is performed.
-## XOH Define Group Boundary (DGB)
 
 
 UP3I Finishing Operation (X'8E') Triplet Considerations
@@ -8354,7 +8186,6 @@ cut a horizontal perforation with the first cutter and a vertical perforation wi
 operations would be specified in two Finishing Operation (X'85') triplets. Because duplicate Finishing
 Operation (X'85') triplets are ignored, a sequence number must be used to ensure that the triplets are not
 identical.
-## XOH Define Group Boundary (DGB)
 
 
 XOH Eject to Front Facing
@@ -8377,7 +8208,6 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 This order is not cumulative; consecutive EFF orders produce the same effect as a single order.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'1300' Eject to Front Facing (EFF) order code X'1300'
-## XOH Eject to Front Facing (EFF)
 
 
 XOH Erase Residual Font Data
@@ -8412,7 +8242,6 @@ command is not processed until all preceding commands have been completely proce
 ACK of the XOH-ERFD command is not returned until the command's processing is complete.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0700' Erase Residual Font Data (ERFD) order code X'0700'
-## XOH Erase Residual Font Data (ERFD)
 
 
 XOH Erase Residual Print Data
@@ -8443,7 +8272,6 @@ command is not processed until all preceding commands have been completely proce
 ACK of the XOH-ERPD command is not returned until the command's processing is complete.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0500' Erase Residual Print Data (ERPD) order code X'0500'
-## XOH Erase Residual Print Data (ERPD)
 
 
 XOH Obtain Printer Characteristics
@@ -8466,7 +8294,6 @@ Offset Type Name Range Meaning DC1 Range
 0–1 CODE Order code X'F300' Obtain Printer Characteristics (OPC) order
 code
 X'F300'
-## XOH Obtain Printer Characteristics (OPC)
 
 
 OPC Reply
@@ -8508,7 +8335,6 @@ X'0017' “Printer Setup Self-Defining Field”
 X'0018' “Finishing Operations Self-Defining Field”
 X'0019' “UP3I Tupel Self-Defining Field”
 X'001A' “UP3I Paper Input Media Self-Defining Field”
-## XOH Obtain Printer Characteristics (OPC)
 
 
 **Table 33** OPC Self-Defining Field Summary (cont'd.)
@@ -8522,7 +8348,6 @@ X'0027' “Object-Container Version Support Self-Defining Field”
 X'0028' “Finishing Options Self-Defining Field”
 X'0029' “Printer Speed Self-Defining Field ”
 X'002A' “Active Setup Name Self-Defining Field ”
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Printable-Area Self-Defining Field
@@ -8571,7 +8396,6 @@ Retired item 34
 8–9 UBIN UPUB X'0001' –
 X'7FFF'
 Units per unit base value for this self-defining field
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Offset Type Name Range Meaning
@@ -8653,7 +8477,6 @@ commands such as XOH EFF , XOH SCF , and XOA CEM, as well
 as informing the host of the location of the top edge of the sheet.
 See the following envelope and COM bits for a description of the
 top edge of the sheet.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Offset Type Name Range Meaning
@@ -8721,7 +8544,6 @@ end of entry
 Length of input media identification (bytes 24 to end)
 Note: This value is limited by the maximum length of data in a
 MO:DCA triplet (250 bytes).
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Offset Type Name Range Meaning
@@ -8755,7 +8577,6 @@ ID
 Any value Input media identification
 Bytes 24 to end are optional and are not returned by all printers.
 The input media ID is data whose meaning is printer specific.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Symbol-Set Support Self-Defining Field
@@ -8763,7 +8584,6 @@ The Symbol-Set Support self-defining field specifies the limits of support for t
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'000C' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'0002' Symbol-Set Support self-defining field ID
 4 to
@@ -8782,7 +8602,6 @@ Offset Type Name Range Meaning
 0 UBIN Value entry
 length
 X'08'–X'FE'
-even values
 Length of this value entry, including this length field
 1 CODE Value entry ID X'01' Fixed-box size value entry ID
 2 UBIN X box size X'01'–X'FF' Character-box X size in pels
@@ -8793,7 +8612,6 @@ One to 124 entries in the following format:
 + 0–1 CODE FGID X'0001' –
 X'FFFE'
 Font Typeface Global ID (FGID) supporting the box size
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Variable-Box Size Values
@@ -8805,7 +8623,6 @@ Offset Type Name Range Meaning
 0 UBIN Value entry
 length
 X'0C'–X'FA'
-even values
 Length of this value entry, including this length field
 1 CODE Value entry ID X'02' Variable-box size value entry ID
 2 CODE Unit base X'00'
@@ -8826,7 +8643,6 @@ One to 120 entries in the following format:
 + 0–1 CODE FGID X'0001' –
 X'FFFE'
 Font Typeface Global ID (FGID) supporting this box size
-## XOH Obtain Printer Characteristics (OPC)
 
 
 IM-Image and Coded-Font Resolution Self-Defining Field
@@ -8865,7 +8681,6 @@ Resolution and Metric Technology (X'84') triplet.
 2. The resolution values specified in bytes 6–7 and 8–9 are not necessarily the same as the current device
 resolution; if necessary, the printer will resolution correct all data to match the current device resolution.
 The “Supported Device Resolutions Self-Defining Field” lists the current device resolutions.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Storage Pools Self-Defining Field
@@ -8943,7 +8758,6 @@ Double-byte coded-font patterns
 Code pages
 Font character sets
 Coded fonts
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Retired Item 130 (Standard OCA Color Value Support Self-Defining Field)
@@ -8955,7 +8769,6 @@ implementations returned this self-defining field.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'0005' Standard OCA Color Value Support self-defining field ID
 One or more color-table values in the following format:
@@ -8993,7 +8806,6 @@ Dark turquoise
 Mustard
 Gray
 Brown
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Installed Features Self-Defining Field
@@ -9011,7 +8823,6 @@ transition, must be communicated to the host by returning an action code X'1D' N
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'0006' Installed Features self-defining field ID
 One or more feature IDs in the following format:
@@ -9045,7 +8856,6 @@ Continuous-forms output
 Continuous-forms separation capability
 PTOCA text decryption capability
 Note: The absence of both X'0300' and X'0B00' specifies that continuous-forms output is installed.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Available Features Self-Defining Field
@@ -9056,7 +8866,6 @@ being supported.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'0007' Available Features self-defining field ID
 One or more feature IDs in the following format:
@@ -9111,12 +8920,10 @@ MICR text on one side of the media, but not on the other side; in this case, tex
 MICR font that is placed on the non-MICR side of the media causes this exception to occur.
 Note: Some of the features are defined to apply to the printer as a whole as opposed to applying to an
 individual media source or media destination; these features include: manual two-channel switch, tightly
-## XOH Obtain Printer Characteristics (OPC)
 
 
 coupled two-channel switch, cut-sheet output, offset stacker, MICR, burster-trimmer-stacker/cutter-
 trimmer-stacker, continuous-forms output, continuous-forms separation capability.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Resident Symbol-Set Support Self-Defining Field
@@ -9124,20 +8931,17 @@ The Resident Symbol-Set Support self-defining field specifies that symbol sets a
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'000E' to end
 of SDF
-even values
 Length of this self-defining field, including this length field
 maximum length X'7FFE'
 2–3 CODE SDF ID X'0008' Resident Symbol-Set Support Self-Defining Field ID
 One or more Resident Symbol-Set Repeating Group Lists in the following format:
 + 0 UBIN Length X'0A'–X'FE'
-even values
 Total Length of Code Page/Font ID Repeating Group List,
 including this length field
 + 1 CODE Code page ID X'01' Code Page Support ID
 + 2 UBIN Code page list
 length
 X'04'–X'F8'
-even values
 Length of Code Page List, including this length field
 + 3 UBIN Entry length X'02' Length of Code Page Repeating Group Entry
 One or more Code Page Global IDs (CPGIDs) in the following format:
@@ -9150,7 +8954,6 @@ One matching Font ID List for each Code Page List in the following format:
 + 0 UBIN Font ID list
 length
 X'04'–X'F8'
-even values
 Length of Font ID List, including this length field
 + 1 UBIN Entry length X'02' Length of Font ID Repeating Group Entry
 One or more Font Typeface Global IDs (FGIDs) in the following format:
@@ -9165,7 +8968,6 @@ List and Font ID List each have their own length (these need not be the same). T
 pairs are themselves repeating groups. Additional Code Page/Font ID List pairs specify those code pages that
 are available in other (different) fonts, or perhaps available only in a subset of the fonts for a preceding group
 entry.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Print-Quality Support Self-Defining Field
@@ -9180,7 +8982,6 @@ One or more print quality boundaries in the following format:
 + 0 UBIN Boundary X'01'–X'FE' The lower boundary of an implemented print quality, as specified
 by the Print-Quality Control order in the Execute Order Anystate
 command. See “XOA Print-Quality Control”.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 XOA-RRL RT & RIDF Support Self-Defining Field
@@ -9189,7 +8990,6 @@ types and resource ID formats that the printer supports in an XOA-RRL command.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'000A' XOA-RRL RT & RIDF Support Self-Defining Field ID
 One or more entries in the following format: The list of entries identifies those RRL query combinations to which the
@@ -9254,7 +9054,6 @@ subsets
 • X'0700'—font character set queried by Host-Assigned ID; implicit in support of the LF3 subset
 • X'1000'—coded font queried by Host-Assigned ID; implicit in support of the LF3 subset
 • X'1200'—specific code page queried by Host-Assigned ID; implicit in support of the LF3 and LF4 subsets
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Activate Resource RT & RIDF Support Self-Defining Field
@@ -9264,7 +9063,6 @@ return the AR-supported vector in the Sense Type and Model reply.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'000B' Activate Resource RT & RIDF Support Self-Defining Field ID
 One or more entries in the following format: These entries specify available AR command support. The first byte of
@@ -9313,7 +9111,6 @@ MVS Host Unalterable Remote Font Environment
 Coded-font format
 Object-OID format
 Data-object-font format
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Medium Modification IDs Supported Self-Defining Field
@@ -9323,7 +9120,6 @@ support property ID (X'900E') in the Sense Type and Model reply.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'000D' Medium Modifications ID Support Self-Defining Field ID
 One or more entries in the following format:
@@ -9337,7 +9133,6 @@ ID of a currently-supported medium modification
 Note: Medium modification ID X'A0FF' should not be returned in the XOH-OPC reply unless there is at least
 one other supported fixed medium information modification ID. X'A0FF' is used by the host only if it is
 returned in the XOH-OPC reply.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Deprecated (Common Bar Code Type/Modifier Self-Defining Field)
@@ -9418,7 +9213,6 @@ EAN Two-digit Supplemental, modifier-byte option X'01'
 EAN Five-digit Supplemental, modifier-byte option X'01'
 POSTNET (PLANET , deprecated), modifier-byte option X'04'
 RM4SCC, modifier-byte option X'01'
-## XOH Obtain Printer Characteristics (OPC)
 
 
 **Table 34**. Common Values for Bar Code Types and Modifiers
@@ -9439,7 +9233,6 @@ X'17' EAN Five-digit Supplemental X'00'
 Note: The BCOCA BCD1 subset requires support of a subset of the common set that consists of the common
 set minus Industrial 2-of-5 and Matrix 2-of-5. Refer to the Bar Code Object Content Architecture
 Reference for a description of the BCOCA bar code types and modifiers.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Bar Code Type/Modifier Self-Defining Field
@@ -9459,7 +9252,6 @@ with older presentation services programs that only recognize X'000E'.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'000F' Bar Code Type/Modifier Self-Defining Field ID
 4–5 CODE BCOCA
@@ -9519,7 +9311,6 @@ Royal Mail RED TAG (deprecated)
 GS1 DataBar
 Royal Mail Mailmark
 Aztec Code
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Offset Type Name Range Meaning
@@ -9586,7 +9377,6 @@ Australia Post Bar Code
 X'03' and X'04' for the following type:
 Interleaved 2-of-5, ITF-14 and AIM USS-I 2/5
 (to show Bearer Bars)
-## XOH Obtain Printer Characteristics (OPC)
 
 
 **Figure 63**. BCOCA Bar Code Subsets
@@ -9659,7 +9449,6 @@ MSI (modified Plessey code)
 UPC/CGPC Version A and UPC/CGPC Version E
 UPC Five-digit Supplemental - modifier X'00'
 UPC Two-digit Supplemental - modifier X'00'
-## XOH Obtain Printer Characteristics (OPC)
 
 
 The following cross-reference table shows how the bar code type/modifier combinations are specified with the
@@ -9707,7 +9496,6 @@ deprecated)
 X'98' X'1804'
 RM4SCC X'00' X'1A' X'1A00'
 X'01' (Dutch KIX) X'9A' X'1A01'
-## XOH Obtain Printer Characteristics (OPC)
 
 
 **Table 35** Relationship Between SDF X'000E' and X'000F' (cont'd.)
@@ -9731,7 +9519,6 @@ X'11' through X'1B'
 X'24' X'2482'
 Royal Mail Mailmark X'00' and X'01' not supported X'2580'
 Aztec Code (2D bar code) X'00' through X'03' not supported X'2681'
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Media-Destinations Self-Defining Field
@@ -9763,7 +9550,6 @@ X'FFFF'
 Last number in a range of available, contiguous media-destination
 IDs; this ID must be greater than or equal to the value specified in
 bytes +0–1 for this set.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Supported Group Operations Self-Defining Field
@@ -9806,7 +9592,6 @@ information about connected UP3I devices that can also support finishing operati
 allowed within a recovery-unit group; these sheets include sheets containing pages and copies of such
 sheets. Printers that do not support this group operation or have no maximum do not return this self-
 defining field.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Product Identifier Self-Defining Field
@@ -9858,7 +9643,6 @@ The format of the parameter value field (bytes + 3 to end) depends on the value 
 + 1–2), as follows:
 Parameter ID = X'0000'
 There is no parameter value for this parameter ID. The parameter length must be X'03'.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Parameter ID = X'0001'
@@ -9922,7 +9706,6 @@ Device-type and model-number parameters were originally numeric, but many device
 alphanumeric values.
 2. The device serial number is represented by a combination of the plant-of-manufacture and sequence-
 number fields.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Parameter ID = X'0002'
@@ -9990,7 +9773,6 @@ CHAR Printer name External name of the printer in the form of a variable number 
 EBCDIC characters; names can be from 1 to 252 bytes long.
 This optional name should be supplied when the printer name is
 different from the device type.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Parameter ID = X'0004'
@@ -10027,7 +9809,6 @@ Notes:
 1. Because the subsystem information fields are variable length, no padding or justification rules need be
 specified.
 2. Multiple X'0004' entries can be used to report subsystem information for multiple subsystems.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Object-Container Type Support Self-Defining Field
@@ -10079,7 +9860,6 @@ on the right with zeroes.
 Anacomp COM Setup File
 Anacomp COM T ape Label Setup File
 AnaStack Record Setup File
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Offset Type Name Range Meaning
@@ -10131,7 +9911,6 @@ X'0607 2B12
 0004 0101
 4000 0000
 0000 0000'
-## Color Management Resource (CMR)
 Color Mapping Table Setup File
 EPS (Encapsulated PostScript) without transparency
 EPS (Encapsulated PostScript) with transparency
@@ -10144,7 +9923,6 @@ Non-OCA Resource object; see note 1
 PCL page object
 PDF multiple-page file without transparency
 PDF multiple-page file with transparency
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Offset Type Name Range Meaning
@@ -10211,7 +9989,6 @@ TIFF (Tag Image File Format) without transparency
 TIFF multiple-image file with transparency
 TIFF multiple-image file without transparency
 TrueType/OpenType Collection
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Offset Type Name Range Meaning
@@ -10257,7 +10034,6 @@ support” was X'120B', which reported such support was provided by the DORE com
 However, that property pair has been retired (retired item 149) in favor of property pair X'120D',
 which reports such support provided by the DORE2 command. See the description of the X'120D'
 property pair in note 4 for more information.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 DF Deactivation Types Supported Self-Defining Field
@@ -10284,7 +10060,6 @@ Deactivate all resident coded fonts and all
 associated components
 Deactivate all coded fonts
 Deactivate all coded fonts and all associated components
-## XOH Obtain Printer Characteristics (OPC)
 
 
 PFC Triplets Supported Self-Defining Field
@@ -10309,7 +10084,6 @@ Color Fidelity triplet
 Text Fidelity triplet
 Finishing Fidelity triplet
 CMR Tag Fidelity triplet
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Printer Setup Self-Defining Field
@@ -10323,14 +10097,12 @@ Exception ID X'0108..00' is returned if one or more of the setups change.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'FFFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'0017' Printer Setup self-defining field ID
 One or more entries in the following format:
 + 0–1 CODE Setup ID X'0000' –
 X'FFFF'
 Currently active setup ID
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Finishing Operations Self-Defining Field
@@ -10400,7 +10172,6 @@ Double parallel-fold out
 Double gate-fold out
 Single gate-fold out
 Exception ID X'0109..00' exists when a finishing operation is enabled or disabled.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 UP3I Tupel Self-Defining Field
@@ -10453,7 +10224,6 @@ available at www.afpcinc.org. Refer to the section titled
 The Printable-Area self-defining field and the UP3I Paper Input Media self-defining field both provide
 descriptions of a media source and the media in that source. The printer must provide non-conflicting
 information in each pair of these self-defining fields that are related by a media source ID.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Colorant-Identification Self-Defining Field
@@ -10524,7 +10294,6 @@ naming conventions supported in EPS and PDF , that restrict names mainly to the 
 bit ASCII.
 3. The colorant name here is limited by the self-defining field to be 250 bytes in length (each Colorant-
 Identification entry is limited to 255 bytes and there are 5 bytes taken before the name). It is also possible
-## XOH Obtain Printer Characteristics (OPC)
 
 
 to list colorant names in the Colorant Identification List tag in CMOCA and in the nColor Names parameter
@@ -10540,7 +10309,6 @@ AFPC_Device_R Device Red
 AFPC_Device_G Device Green
 AFPC_Device_B Device Blue
 AFPC_Device_Gray Device Gray
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Device-Appearance Self-Defining Field
@@ -10551,7 +10319,6 @@ Device-Control command-set vector of an STM reply.
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'0006' –
 X'FFFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'0022' Device-Appearance self-defining field ID
 One or more appearance values in the following format:
@@ -10559,7 +10326,6 @@ One or more appearance values in the following format:
 Note: Printers that support the Device Appearance (X'97') triplet must support at least the device-default
 appearance (X'0000'). Printers that support the triplet but do not support any of the optional device-
 appearance values also do not return this OPC self-defining field.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field
@@ -10612,7 +10378,6 @@ Note: Printers that do not support the Keep-Group-Together-as-a-Recovery-Unit gr
 maximum do not return this self-defining field. If both a non-zero maximum number of sheets and a non-
 zero maximum total group length is specified, the printer is responsible for ensuring that these values
 are consistent and the presentation services program can use either value (and ignore the other value).
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Recognized Group ID Formats Self-Defining Field
@@ -10643,7 +10408,6 @@ AIX and OS/2 COM-data format
 AIX and Windows print-data
 Variable-length Group ID format
 Extended OS/400 print-data format
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Supported Device Resolutions Self-Defining Field
@@ -10681,7 +10445,6 @@ End of current device resolutions
 end of
 SDF
 Data without architectural definition
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Object-Container Version Support Self-Defining Field
@@ -10727,7 +10490,6 @@ use the first method for the variations of one object container (for example, PD
 for the variations of a different object container (for example, TIFF). Returning version information for any
 specific variation is optional. The all-variations flag is ignored for object containers other than those in the
 above list.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 A list of recommended values to be returned in this self-defining field for known versions of object containers
@@ -10735,14 +10497,12 @@ can be found in the publication Recommended IPDS Values for Object Container Ver
 Offset Type Name Range Meaning
 0–1 UBIN SDF length X'001C' –
 X'7FFE'
-even values
 Length of this self-defining field, including this length field
 2–3 CODE SDF ID X'0027' Object-Container Version Support self-defining field ID
 One or more version records in the following format:
 + 0 UBIN Version record
 length
 X'18'–X'FE'
-even values
 Length of the version record, including this length field
 + 1–16 CODE Object type
 OID
@@ -10780,7 +10540,6 @@ CHAR Version name Any UTF-16BE
 characters
 Name of the version supported. This field is optional in the
 version record.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Finishing Options Self-Defining Field
@@ -10797,7 +10556,6 @@ Length of this self-defining field, including this length field
 One or more option-description entries in the following format:
 + 0 CODE Option type X'01' Crease
 Exception ID X'0109..00' exists when a finishing option is enabled or disabled.
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Printer Speed Self-Defining Field
@@ -10832,7 +10590,6 @@ X'00000000'
 Number of feet of continuous-forms media that can be printed per
 minute
 No feet-per-minute value reported
-## XOH Obtain Printer Characteristics (OPC)
 
 
 Active Setup Name Self-Defining Field
@@ -10856,7 +10613,6 @@ SDF
 Active setup
 name
 Zero or one Setup Name (X'9E') triplet
-## XOH Obtain Printer Characteristics (OPC)
 
 
 XOH Page Counters Control
@@ -10898,7 +10654,6 @@ stacked-page station.
 Support of this optional function is indicated by the X'FA00' property pair in the
 Device-Control command-set vector of an STM reply.
 Exception ID X'0295..02' exists if the host program specifies any other value in this field.
-## XOH Page Counters Control (PCC)
 
 
 XOH Print Buffered Data
@@ -10918,7 +10673,6 @@ is not processed until all preceding commands have been completely processed. In
 PBD order is not returned until PBD processing is complete.
 Offset Type Name Range Meaning DC1 Range
 0–1 CODE Order code X'0100' Print Buffered Data (PBD) order code X'0100'
-## XOH Print Buffered Data (PBD)
 
 
 XOH Remove Saved Page Group
@@ -10968,12 +10722,10 @@ The groups to be removed are identified by Group ID (X'00') triplets containing 
 the printer does not find the saved page group identified by a Group ID (X'00') triplet, the triplet is ignored.
 Exception ID X'0255..0A' exists if any of the following occurs in the triplets field:
 • Byte 2 or the first byte after a valid triplet is X'00' or X'01' (an invalid triplet length).
-## XOH Remove Saved Page Group (RSPG)
 
 
 • A triplet other than a Group ID (X'00') triplet is specified.
 • A Group ID (X'00') triplet without a variable-length group ID is specified.
-## XOH Remove Saved Page Group (RSPG)
 
 
 XOH Select Input Media Source
@@ -11015,7 +10767,6 @@ ID of X'00' is mapped to an input media source with duplex capability. Whereas, 
 other printers, a non-duplexable input media source is used. The Printable-Area self-
 defining field in the XOH-OPC Acknowledge Reply contains some of the characteristics
 of the input media source that is associated with a particular input media source ID.
-## XOH Select Input Media Source (SIMS)
 
 
 XOH Select Medium Modifications
@@ -11079,7 +10830,6 @@ Zero or more bytes of medium-modification
 parameters
 See byte
 description
-## XOH Select Medium Modifications (SMM)
 
 
 Bytes 0–1 SMM order code
@@ -11120,7 +10870,6 @@ Entry bytes 5 to end of entry
 Modification parameters
 These bytes are reserved for modification parameters. Currently, no medium
 modification IDs require any parameters.
-## XOH Select Medium Modifications (SMM)
 
 
 XOH Separate Continuous Forms
@@ -11141,7 +10890,6 @@ Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0900' Separate Continuous Forms (SCF) order
 code
 X'0900'
-## XOH Separate Continuous Forms (SCF)
 
 
 XOH Set Media Origin
@@ -11183,7 +10931,6 @@ direction with respect to the top edge of the sheet. For the back side of a dupl
 medium presentation space moves in a counter-clockwise direction with respect to the top edge of the sheet.
 **Figure 64** through Figure 70 illustrate the XOH Set Media Origin command for the
 various kinds of media.
-## XOH Set Media Origin (SMO)
 
 
 **Figure 64**. The XOH Set Media Origin Command (Cut-Sheet Media)
@@ -11202,7 +10949,6 @@ X -Axis Duplex (Tumble)m
 SMO=X'00' SMO=X'03'
 SMO=X'01' SMO=X'02'
 Top
-## XOH Set Media Origin (SMO)
 
 
 **Figure 65**. The XOH Set Media Origin Command (Wide Continuous-Forms Media)
@@ -11227,7 +10973,6 @@ p
 Top
 Top
 Top
-## XOH Set Media Origin (SMO)
 
 
 **Figure 66**. The XOH Set Media Origin Command (Narrow Continuous-Forms Media)
@@ -11253,7 +10998,6 @@ SMO=X'03'
 SMO=X'01'
 SMO=X'00'Top
 Top
-## XOH Set Media Origin (SMO)
 
 
 **Figure 67**. Examples of Commonly Used SMO/Duplex Combinations
@@ -11313,7 +11057,6 @@ Page 2
 Ym
 X
 m
-## XOH Set Media Origin (SMO)
 
 
 **Figure 68**. The XOH Set Media Origin Command (Front Side of an Envelope)
@@ -11401,7 +11144,6 @@ T
 T
 O
 M
-## XOH Set Media Origin (SMO)
 
 
 The medium presentation space origin does not change until either another XOH-SMO command is processed
@@ -11461,7 +11203,6 @@ corresponds to the bottom edge of the sheet and positive Xm values begin at the 
 and increase from right to left. The $Y_m$ axis of the medium presentation space
 corresponds to the right edge of the sheet and positive Ym values begin at the origin
 and increase from bottom to top.
-## XOH Set Media Origin (SMO)
 
 
 X'03' For the front side of a duplex sheet, set the medium presentation space origin to
@@ -11479,7 +11220,6 @@ m values begin at the origin and increase from top to bottom. The $Y_m$ axis of
 the medium presentation space corresponds to the top edge of the sheet and positive
 Y
 m values begin at the origin and increase from right to left.
-## XOH Set Media Origin (SMO)
 
 
 XOH Set Media Size
@@ -11531,7 +11271,6 @@ It is recommended that the new front-side medium presentation space be a rectang
 extent whose origin is at the default media origin. If duplexing, the back-side medium presentation space
 should be physically lined up with the front-side presentation space as if the physical media had been cut to the
 new size.
-## XOH Set Media Size (SMS)
 
 
 Notes:
@@ -11593,7 +11332,6 @@ Bytes 3–4 Units per unit base
 These bytes specify the number of units per unit base for this command.
 Exception ID X'0270..02' exists if an invalid or unsupported units-per-unit-base value is
 specified.
-## XOH Set Media Size (SMS)
 
 
 Bytes 5–6 Xm extent
@@ -11610,7 +11348,6 @@ area calculations in accordance with the specified hierarchical rules.
 Exception ID X'0273..02' or X'0263..02' exists if an invalid or unsupported Y
 m extent value is
 specified; the preferred exception ID is X'0273..02'.
-## XOH Set Media Size (SMS)
 
 
 **Figure 71**. Examples Showing the Effect of SMS (Method 3) and SMO Command Combinations
@@ -11701,7 +11438,6 @@ m
 2nd sheet 2nd sheet
 Xm
 Ym
-## XOH Set Media Size (SMS)
 
 
 XOH Specify Group Operation
@@ -11750,7 +11486,6 @@ operation
 operation is to be applied.
 X'00'–X'FF'
 Bytes 0–1 SGO order code
-## XOH Specify Group Operation (SGO)
 
 
 Byte 2 SGO Operation Identifier
@@ -11801,7 +11536,6 @@ the page, and appropriate exceptions reported.
 All appropriate CMRs are applied when the page is saved. When a saved page is
 later included with an ISP command, no additional color management or color
 simulation is done by the IPDS receiver.
-## XOH Specify Group Operation (SGO)
 
 
 Metadata received in a saved page, either directly in the page or in any object
@@ -11857,7 +11591,6 @@ physical printable area and user printable area are ignored. Page overlays are s
 with the page data; using only the overlay's current logical page for VPA checking. If
 data extends outside of the appropriate current logical page, exception ID X'08C3..00'
 exists.
-## XOH Specify Group Operation (SGO)
 
 
 Note: The goal of this semantic is to ensure that a saved page that includes overlays
@@ -11912,7 +11645,6 @@ X'05' Identify Named Group
 This operation directs the printer to associate a group name with a group. The name is
 specified in the XOH-DGB command that initiates the group and contains a Group
 Information (X'6E') triplet using the Group Name format.
-## XOH Specify Group Operation (SGO)
 
 
 X'06' Keep Group Together as a Recovery Unit
@@ -11967,7 +11699,6 @@ Stacked page counter
 Assuming the group operation has not been suspended, the printer
 will delay incrementing the stacked page counter until the last copy of
 the last page in the group has been stacked and will then increment
-## XOH Specify Group Operation (SGO)
 
 
 the counter by the number of pages in the group plus any additional
@@ -12022,7 +11753,6 @@ recovery-unit group can cause blank sheets to be emitted (which
 results in exception ID X'0140..00'); also, if the host repositions to the
 beginning of the partial group, there will be extra (waste) pages of
 that group in the paper path. Printers that delay incrementing the
-## XOH Specify Group Operation (SGO)
 
 
 committed page counter until all pages of a group have been
@@ -12075,7 +11805,6 @@ operation as described previously).
 Byte 3 Group Level
 This byte contains the Group Level, contained in subsequent XOH-DGB commands,
 delimiting the group of pages upon which the specified operation is to be performed.
-## XOH Specify Group Operation (SGO)
 
 
 XOH Stack Received Pages
@@ -12101,7 +11830,6 @@ stacked and the group is unaffected. However, for finishing operations that are 
 the prematurely stacked pages might or might not have the finishing operation applied.
 Offset Type Name Range Meaning Required
 0–1 CODE Order code X'0D00' Stack Received Pages order code X'0D00'
-## XOH Stack Received Pages (SRP)
 
 
 XOH Trace
@@ -12137,7 +11865,6 @@ ARQ flag set to B'1'. Since traces can contain many entries, it is recommended t
 Reply flag also be set to B'1' for printers that support long Acknowledge Replies.
 Support for this optional command is indicated by the X'90F2' property pair in the Device-Control command-set
 vector of an STM reply.
-## XOH Trace (TRC)
 
 
 Offset Type Name Range Meaning Required
@@ -12245,7 +11972,6 @@ trace function is received, this command does nothing and is ignored.
 the Acknowledge Reply. The host can obtain the remaining portions of the trace (if any)
 by using the acknowledge continuation method. The trace entries are returned in the
 sequence they occurred beginning with the Begin-Trace trace entry.
-## XOH Trace (TRC)
 
 
 If the ARQ flag is B'0', this step is skipped.
@@ -12293,7 +12019,6 @@ the trace. This is the default if no options are specified.
 X'01' Page entries
 This option causes BP and EP commands to be traced. Begin-Page trace entries and
 End-Object trace entries are generated.
-## XOH Trace (TRC)
 
 
 X'02' Overlay entries
@@ -12333,7 +12058,6 @@ entry.
 Warning: To avoid privacy and security problems, user data must not be included
 within a Free-Form entry unless that information can be appropriately
 controlled.
-## XOH Trace (TRC)
 
 
 X'0A' Include-Saved-Page entries
@@ -12364,7 +12088,6 @@ Group ID (X'00') triplet. Print units are begun with an XOH-DGB command that
 initiates a group using the keep group together as a print unit group operation.
 Exception ID X'025F ..02' exists if an invalid trace-option value is specified. Duplicate trace-
 option values are ignored.
-## XOH Trace (TRC)
 
 
 Acknowledge Reply for the XOH Trace Command
@@ -12401,7 +12124,6 @@ X'8000' Trace Full
 X'8001' End Object
 X'8002' CMR Deactivation
 The trace entries are defined as follows.
-## XOH Trace (TRC)
 
 
 Begin-Trace Trace Entry
@@ -12470,9 +12192,7 @@ CHAR Printer name EBCDIC External name of printer in EBCDIC
 If the host-information flag is B'1', the following information is provided by the host:
 + 0–1 UBIN Name length X'0000' –
 X'01F4'
-even values
 Length of host name for printer
-## XOH Trace (TRC)
 
 
 Offset Type Name Range Meaning
@@ -12485,7 +12205,6 @@ Host name for printer
 length
 X'0000' –
 X'01F4'
-even values
 Length of attachment address
 ++ 2 to
 end
@@ -12500,7 +12219,6 @@ UBIN Port number
 length
 X'0000' –
 X'000A'
-even values
 Length of port number
 +++ 2
 to end
@@ -12540,7 +12258,6 @@ Product Identifier SDF parameter ID X'0003'; refer to page 359 for a full defini
 The external name can be from 1 to 252 bytes long.
 Byte 43 (or 56) contains the length of the printer name; if no name is provided, the length is
 X'00'.
-## XOH Trace (TRC)
 
 
 Optional host-provided information
@@ -12574,7 +12291,6 @@ encoded as UTF-16BE characters and can be from 1 to 5 characters long.
 The port number is provided when the printer is TCP-attached.
 Bytes +++ 0–1 contains the length of the port number; if no port number is
 provided, the length is X'0000'.
-## XOH Trace (TRC)
 
 
 Begin-Page Trace Entry
@@ -12588,7 +12304,6 @@ the date and time stamp fields.
 Offset Type Name Range Meaning
 0–1 UBIN Length X'000A' –
 X'01FE'
-even values
 Length of trace entry, including this length field
 2–3 CODE Entry ID X'0001' Begin-Page trace entry
 4 BITS Entry flags
@@ -12613,7 +12328,6 @@ end
 CHAR Page name Any UTF-
 16BE value
 Host-provided page name
-## XOH Trace (TRC)
 
 
 Note: The Begin-Page trace entry shown below contains the optional date and time stamp fields (bytes 6–18)
@@ -12657,7 +12371,6 @@ X'02'
 X'03'
 Relationship of time to UTC:
 No relationship—device time
-## Coordinated Universal Time (UTC)
 Ahead of UTC
 Behind UTC
 17 UBIN UTCDiffH X'00'–X'17' Hours ahead of or behind UTC
@@ -12675,7 +12388,6 @@ Bytes 0–1 Trace entry length
 This field contains the length of this trace entry, including the length field itself.
 Bytes 2–3 Trace entry ID
 This field identifies this as a Begin-Page trace entry.
-## XOH Trace (TRC)
 
 
 Byte 4 Trace entry flags
@@ -12722,7 +12434,6 @@ component of a time in the format hhmmssMM.
 Byte 13–15 Microseconds
 This parameter contains millionths of the second and represents the MM
 component of a time in the format hhmmssMM.
-## XOH Trace (TRC)
 
 
 Examples of times: the time 4:35:21:15 PM is specified as X'10231500000F'
@@ -12774,7 +12485,6 @@ Byte 18 Minutes ahead of or behind UTC
 This parameter indicates how many minutes the specified time is ahead of
 UTC or behind UTC. If the Timezone parameter is X'00' or X'01', this value is
 not used and contains X'00'.
-## XOH Trace (TRC)
 
 
 Bytes 19–22 Page ID
@@ -12786,7 +12496,6 @@ This parameter contains a host-provided page name; the name can contain up to 25
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided page name can be obtained from a MO:DCA
 Begin Page (BPG) structured field.
-## XOH Trace (TRC)
 
 
 Begin-Overlay Trace Entry
@@ -12800,7 +12509,6 @@ command is processed.
 Offset Type Name Range Meaning
 0–1 UBIN Length X'0008' –
 X'01FC'
-even values
 or X'0015' –
 X'0209'
 odd values
@@ -12839,7 +12547,6 @@ Bytes 0–1 Trace entry length
 This field contains the length of this trace entry, including the length field itself.
 Bytes 2–3 Trace entry ID
 This field identifies this as a Begin-Overlay trace entry.
-## XOH Trace (TRC)
 
 
 Byte 4 Trace entry flags
@@ -12867,7 +12574,6 @@ This parameter contains a host-provided overlay name; the name can contain up to
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided overlay name can be obtained from a MO:DCA
 Map Page Overlay (MPO) or Map Medium Overlay (MMO) structured field.
-## XOH Trace (TRC)
 
 
 Begin-Presentation-Object Trace Entry
@@ -12888,7 +12594,6 @@ X'01FD'
 odd values
 or X'0016' –
 X'020A'
-even values
 Length of trace entry, including this length field
 2–3 CODE Entry ID X'0003' Begin-Presentation-Object trace entry
 4 BITS Entry flags
@@ -12916,7 +12621,6 @@ X'7EFF'
 Host-Assigned ID of presentation object:
 No HAID provided (object in page, page segment, or overlay)
 Object HAID (resource object)
-## XOH Trace (TRC)
 
 
 Offset Type Name Range Meaning
@@ -12998,7 +12702,6 @@ HAID
 For presentation objects used as resources, this parameter contains the presentation object's
 Host-Assigned ID from the IPDS command that began the object. When the presentation
 object is inline in a page, page segment, or overlay, the HAID field contains X'0000'.
-## XOH Trace (TRC)
 
 
 Bytes 8 or 21 Object type
@@ -13046,7 +12749,6 @@ object is encountered. There can be multiple presentation data objects within a 
 page segment, or overlay.
 Object containers can be used as resources; the HAID identifies the specific data
 object resource.
-## XOH Trace (TRC)
 
 
 Bytes 9 to end
@@ -13056,13 +12758,6 @@ This parameter contains a host-provided object name; the name can contain up to 
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided object name can be obtained from one of the
 following MO:DCA structured fields:
-## Begin Presentation Text Object (BPT)
-## Begin Graphics Object (BGR)
-## Begin Image Object (BIM)
-## Begin Bar Code Object (BBC)
-## Begin Object Container (BOC)
-## Map Data Resource (MDR)
-## XOH Trace (TRC)
 
 
 CMRs-Used Trace Entry
@@ -13134,7 +12829,6 @@ Home state
 Default
 Internal rendering intent
 Not specified
-## XOH Trace (TRC)
 
 
 Offset Type Name Range Meaning
@@ -13202,7 +12896,6 @@ rendering intent was used, and that rendering intent is known, the rendering int
 returned in this parameter. If it is known that multiple internal rendering intents were used,
 X'FD' is returned. If it is unknown exactly which internal rendering intent or intents were used,
 X'FE' is returned.
-## XOH Trace (TRC)
 
 
 Byte 7 or 20 Rendering intent hierarchy
@@ -13256,7 +12949,6 @@ also be used. For example, the default audit halftone CMR
 for an IBM 4100 model HS3 printer would be named:
 default@ HT 001.000 IBM@@ 4100@@ HS3 @@@ @@@ @@
 @@@ @@@@@ @@@@@@ @@@@ @@@@ @@@@ @@@@@@@@
-## XOH Trace (TRC)
 
 
 (Spaces, that do not actually appear in the name, have
@@ -13279,7 +12971,6 @@ Byte + 3 to 148 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR
 header. The CMR Names flag in byte 4 indicates whether the name is present
 or omitted.
-## XOH Trace (TRC)
 
 
 CMR-Activation Trace Entry
@@ -13340,7 +13031,6 @@ Bit 0 Date and time stamp
 If bit 0 = B'1', the date and time stamp fields are present; otherwise these
 fields are omitted. The date and time stamp fields are fully described in the
 Begin-Page trace entry description ().
-## XOH Trace (TRC)
 
 
 Bit 1 CMR name
@@ -13359,7 +13049,6 @@ or 22–167
 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR header. The CMR
 Name flag in byte 4 indicates whether the name is present or omitted.
-## XOH Trace (TRC)
 
 
 CMR-Invocation Trace Entry
@@ -13424,7 +13113,6 @@ Bit 1 CMR name
 If bit 1 = B'1', the CMR name is present; otherwise the CMR name is omitted.
 Bits 2–7 Reserved
 Byte 5 Reserved
-## XOH Trace (TRC)
 
 
 Bytes 6–7 or
@@ -13443,7 +13131,6 @@ or 22–167
 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR header. The CMR
 Name flag in byte 4 indicates whether the name is present or omitted.
-## XOH Trace (TRC)
 
 
 Media-Source-Selection Trace Entry
@@ -13497,7 +13184,6 @@ characteristics:
 • MediaFinish
 • MediaWeight
 When a media characteristic is not known, the field is filled with @ characters.
-## XOH Trace (TRC)
 
 
 Exception-ID Trace Entry
@@ -13537,7 +13223,6 @@ Bytes 6–29
 or 19–42
 Sense data
 This parameter contains the 24-byte sense data from the NACK.
-## XOH Trace (TRC)
 
 
 Free-Form Trace Entry
@@ -13591,7 +13276,6 @@ the full-stop character (EBCDIC, ASCII, Unicode, etc.) is the same as the
 encoding for the user data being replaced.
 Bits3–7 Reserved
 Byte 5 Reserved
-## XOH Trace (TRC)
 
 
 Bytes 6 to end
@@ -13601,7 +13285,6 @@ This parameter contains printer-defined trace data. Refer to your printer docume
 information about this type of trace entry.
 Warning: To avoid privacy and security problems, user data must not be included within a
 Free-Form trace entry unless that information can be appropriately controlled.
-## XOH Trace (TRC)
 
 
 Include-Saved-Page Trace Entry
@@ -13647,7 +13330,6 @@ or 19–22
 Page sequence number
 This parameter contains the host-specified page sequence number from an Include Saved
 Page (ISP) command.
-## XOH Trace (TRC)
 
 
 Include-Overlay Trace Entry
@@ -13658,7 +13340,6 @@ presented, not when the LCC command is received.
 Offset Type Name Range Meaning
 0–1 UBIN Length X'0008' –
 X'01FC'
-even values
 or X'0015' –
 X'0209'
 odd values
@@ -13706,7 +13387,6 @@ If bit 0 = B'1', the date and time stamp fields are present; otherwise these
 fields are omitted. The date and time stamp fields are fully described in the
 Begin-Page trace entry description ().
 Bits 1–6 Reserved
-## XOH Trace (TRC)
 
 
 Bit 7 Host-provided information
@@ -13728,7 +13408,6 @@ This parameter contains a host-provided overlay name; the name can contain up to
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided overlay name can be obtained from a MO:DCA
 Map Page Overlay (MPO) or Map Medium Overlay (MMO) structured field.
-## XOH Trace (TRC)
 
 
 Include-Data-Object Trace Entry
@@ -13740,7 +13419,6 @@ X'01FD'
 odd values
 or X'0016' –
 X'020A'
-even values
 Length of trace entry, including this length field
 2–3 CODE Entry ID X'000C' Include-Data-Object trace entry
 4 BITS Entry flags
@@ -13814,7 +13492,6 @@ Any UTF-
 Host-provided object name
 Bytes 0–1 Trace entry length
 This field contains the length of this trace entry, including the length field itself.
-## XOH Trace (TRC)
 
 
 Bytes 2–3 Trace entry ID
@@ -13865,7 +13542,6 @@ This parameter contains a host-provided object name; the name can contain up to 
 16BE characters. Printers do not return this information; it is added to the trace entry after the
 host has obtained the entry. The host-provided overlay name can be obtained from a MO:DCA
 Begin Object Container (BOC) or Map Data Resource (MDR) structured field.
-## XOH Trace (TRC)
 
 
 Device-Appearance Trace Entry
@@ -13911,7 +13587,6 @@ Bytes 6–7 or
 Appearance
 This parameter contains the device appearance specified in the Device Appearance (X'97')
 triplet being traced.
-## XOH Trace (TRC)
 
 
 Color-Fidelity Trace Entry
@@ -13969,7 +13644,6 @@ traced.
 Byte 8 or 21 Substitute
 This parameter contains the substitution rule specified in the Color Fidelity (X'75') triplet being
 traced.
-## XOH Trace (TRC)
 
 
 CMR-Tag-Fidelity Trace Entry
@@ -14020,7 +13694,6 @@ being traced.
 Byte 7 or 20 Report
 This parameter contains the reporting rule specified in the CMR Tag Fidelity (X'96') triplet
 being traced.
-## XOH Trace (TRC)
 
 
 Begin-Print-Unit Trace Entry
@@ -14076,7 +13749,6 @@ The date and time stamp fields are fully described in the Begin-Page trace entry
 Byte 5 Reserved
 Byte 6 or 19 Group ID format
 This parameter identifies the format of the Group ID information that follows.
-## XOH Trace (TRC)
 
 
 Bytes 7 to end
@@ -14085,7 +13757,6 @@ Group ID
 This parameter contains group ID information as defined in the Group ID (X'00') triplet being
 traced. The data is ASCII for the AIX and Windows format and is EBCDIC for all other formats;
 refer to page 706 for a description of each of the formats.
-## XOH Trace (TRC)
 
 
 Trace-Full Trace Entry
@@ -14118,7 +13789,6 @@ If bit 0 = B'1', the date and time stamp fields are present; otherwise these fie
 The date and time stamp fields are fully described in the Begin-Page trace entry description
 ().
 Byte 5 Reserved
-## XOH Trace (TRC)
 
 
 End-Object Trace Entry
@@ -14198,7 +13868,6 @@ Byte 4 Trace entry flags
 The trace entry flags identify whether or not optional information is present in the trace entry.
 The trace-control flags in the XOH Trace command are used to control whether optional,
 printer-provided information is present or is omitted.
-## XOH Trace (TRC)
 
 
 If bit 0 = B'1', the date and time stamp fields are present; otherwise these fields are omitted.
@@ -14230,7 +13899,6 @@ X'14' AFPC SVG Subset
 X'15' AFPC TIFF Subset
 X'F0' Page
 X'F1' Overlay
-## XOH Trace (TRC)
 
 
 CMR-Deactivation Trace Entry
@@ -14289,7 +13957,6 @@ Bit 1 CMR name
 If bit 1 = B'1', the CMR name is present; otherwise the CMR name is omitted.
 Bits 2–7 Reserved
 Byte 5 Reserved
-## XOH Trace (TRC)
 
 
 Bytes 6–7 or
@@ -14304,7 +13971,6 @@ or 21–166
 CMR name (optional)
 This field, if present, contains the 146-byte CMR name from within the CMR header. The CMR
 Name flag in byte 4 indicates whether the name is present or omitted.
-## XOH Trace (TRC)
 
 
 
