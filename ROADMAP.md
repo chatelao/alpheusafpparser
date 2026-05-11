@@ -52,17 +52,17 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ✅ Tables 25–26 (Entry Syntax and Object-Type IDs).
                 - ✅ Table 27 (Orientation IDs).
                 - ✅ Tables 28–29 (Object-Area Size and Mapping-Control IDs).
-            - ⏳ Command: Sense Type and Model (STM):
+            - ✅ Command: Sense Type and Model (STM):
                 - ✅ Syntax and Main Reply Table.
                 - ✅ Device-Control Command-Set Vector.
-                - ⏳ Presentation-Text (PTOCA) Command-Set Vector.
-                - ⏳ IM-Image Command-Set Vector.
-                - ⏳ IO-Image (IOCA) Command-Set Vector.
-                - ⏳ Graphics (GOCA) Command-Set Vector.
-                - ⏳ Bar Code (BCOCA) Command-Set Vector.
-                - ⏳ Object Container Command-Set Vector.
-                - ⏳ Overlay and Page-Segment Command-Set Vectors.
-                - ⏳ Loaded-Font Command-Set Vectors.
+                - ✅ Presentation-Text (PTOCA) Command-Set Vector.
+                - ✅ IM-Image Command-Set Vector.
+                - ✅ IO-Image (IOCA) Command-Set Vector.
+                - ✅ Graphics (GOCA) Command-Set Vector.
+                - ✅ Bar Code (BCOCA) Command-Set Vector.
+                - ✅ Object Container Command-Set Vector.
+                - ✅ Overlay and Page-Segment Command-Set Vectors.
+                - ✅ Loaded-Font Command-Set Vectors.
             - ✅ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ⏳ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, RRL (Table 29), RSNL.
             - ⏳ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
@@ -178,26 +178,26 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Purge physical page markers and recurring PDF artifacts from all Chapters and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
     - ✅ Remove physical page references ("on page XXX").
-    - 🚧 Convert command and syntax text dumps to Markdown tables:
-        - ⏳ Chapter 5:
-            - ⏳ Structured Field: Begin Data Map (BDM).
-            - ⏳ Structured Field: Begin Data Map Transmission Subcase (BDX).
-            - ⏳ Structured Field: Begin Page Map (BPM).
-            - ⏳ Structured Field: Conditional Processing Control (CCP).
-            - ⏳ Structured Field: Data Map Transmission Subcase Descriptor (DXD).
-            - ⏳ Structured Field: End Data Map (EDM).
-            - ⏳ Structured Field: End Data Map Transmission Subcase (EDX).
-            - ⏳ Structured Field: End Page Map (EPM).
-            - ⏳ Structured Field: Fixed Data Size (FDS).
-            - ⏳ Structured Field: Fixed Data Text (FDX).
-            - ⏳ Structured Field: Invoke Data Map (IDM).
-            - ⏳ Structured Field: Include Object (IOB).
-            - ⏳ Structured Field: Include Page Overlay (IPO).
-            - ⏳ Structured Field: Include Page Segment (IPS).
-            - ⏳ Structured Field: Line Descriptor Count (LNC).
-            - ⏳ Structured Field: Line Descriptor (LND).
-            - ⏳ Structured Field: Record Descriptor (RCD).
-            - ⏳ Structured Field: XML Descriptor (XMD).
+    - ✅ Convert command and syntax text dumps to Markdown tables:
+        - ✅ Chapter 5:
+            - ✅ Structured Field: Begin Data Map (BDM).
+            - ✅ Structured Field: Begin Data Map Transmission Subcase (BDX).
+            - ✅ Structured Field: Begin Page Map (BPM).
+            - ✅ Structured Field: Conditional Processing Control (CCP).
+            - ✅ Structured Field: Data Map Transmission Subcase Descriptor (DXD).
+            - ✅ Structured Field: End Data Map (EDM).
+            - ✅ Structured Field: End Data Map Transmission Subcase (EDX).
+            - ✅ Structured Field: End Page Map (EPM).
+            - ✅ Structured Field: Fixed Data Size (FDS).
+            - ✅ Structured Field: Fixed Data Text (FDX).
+            - ✅ Structured Field: Invoke Data Map (IDM).
+            - ✅ Structured Field: Include Object (IOB).
+            - ✅ Structured Field: Include Page Overlay (IPO).
+            - ✅ Structured Field: Include Page Segment (IPS).
+            - ✅ Structured Field: Line Descriptor Count (LNC).
+            - ✅ Structured Field: Line Descriptor (LND).
+            - ✅ Structured Field: Record Descriptor (RCD).
+            - ✅ Structured Field: XML Descriptor (XMD).
     - ⏳ Convert text-based diagrams in Appendices to standardized formats.
 - ✅ **MO:DCA**:
     - ✅ Purge physical page markers and fix split words.

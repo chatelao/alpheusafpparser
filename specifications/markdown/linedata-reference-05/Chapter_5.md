@@ -152,7 +152,7 @@ although they might
 have meaning in other applications.
 
 
-Begin Data Map (BDM)
+## Begin Data Map (BDM)
 The Begin Data Map structured field begins a Data Map resource object.
 ### BDM (X'D3A8CA') Syntax
 
@@ -164,7 +164,7 @@ The Begin Data Map structured field begins a Data Map resource object.
 | 8 | CODE | DatFmt | X'00', X'01', X'02' | Data formatting specified by this Data Map: X'00': LNDs, X'01': RCDs, X'02': XMDs | O |
 | 9–n | | Triplets | | See BDM Semantics for triplet applicability | M |
 
-BDM Semantics
+### BDM Semantics
 DMName Token name of the Data Map
 This is a mandatory parameter because an Invoke Data Map (IDM) structured field selects a
 Data Map by specifying its token name.
@@ -193,8 +193,8 @@ based.
 based and subpages are not used (the Data Map contains only one subpage).
 4. If one of the Data Maps in a PageDef contains XMDs, then all of the Data Maps in a PageDef must be XMD
 based and subpages are not used (the Data Map contains only one subpage).
-BDM Triplets
-Encoding Scheme ID (X'50') Triplet
+### BDM Triplets
+#### Encoding Scheme ID (X'50') Triplet
 This triplet is an optional triplet when used with DatFmt X'00' (formatting with LNDs) and X'01' (formatting with
 RCDs) but it is mandatory when used with DatFmt = X'02' (formatting with XMDs). It is used to specify the
 encoding scheme associated with the user data, the XML Name (X'8A') triplet specified on XMDs, the Record
@@ -226,7 +226,7 @@ specify the same encoding.
 font selected to print the data must match the encoding of the user data specified in this triplet.
 
 
-Page Count Control (X'7C') Triplet
+#### Page Count Control (X'7C') Triplet
 This is an optional triplet that may occur once. If this triplet is specified more than once, only the first is used. It
 is used only if DatFmt = X'01' (formatting with RCDs) or X'02' (formatting with XMDs). It is used to specify how
 the page count is initialized and maintained for the active Data Map. If this triplet is specified on a Data Map
@@ -235,25 +235,12 @@ that contains LNDs, it is ignored.
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | UBIN | Tlength | 7 Length of the triplet, including Tlength M |  |  |
-| 1 | CODE | Tid | X'7C' Identifies the Page Count Control triplet M |  |  |
-| 2–3 | CODE | PageNum | X'0001'–X'FFFF' Initial page number M |  |  |
-| 4 | 0 | Reserved; | should be zero M |  |  |
-| 5 CODE CountCtr |  |  |  |  |  |
-
-X'00'
-X'01'
-X'02'
-X'03'
-Page count control for Data Map:
-Stop
-Resume
-Continue
-Reset
-M
-6 BITS CountFlgs Bits that specify additional page count controls
-See Triplet X'7C' Semantics for bit definitions.
-M
+| 0 | UBIN | Tlength | 7 | Length of the triplet, including Tlength | M |
+| 1 | CODE | Tid | X'7C' | Identifies the Page Count Control triplet | M |
+| 2–3 | CODE | PageNum | X'0001'–X'FFFF' | Initial page number | M |
+| 4 | | | 0 | Reserved; should be zero | M |
+| 5 | CODE | CountCtr | X'00', X'01', X'02', X'03' | Page count control for Data Map:<br>X'00': Stop<br>X'01': Resume<br>X'02': Continue<br>X'03': Reset | M |
+| 6 | BITS | CountFlgs | | Bits that specify additional page count controls. See Triplet X'7C' Semantics for bit definitions. | M |
 Triplet X'7C' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Page Count Control triplet
@@ -307,7 +294,7 @@ If this triplet is not specified, the defaults are CountCtr = X'02' (Continue) a
 MO:DCA pages and constant pages that occur in mixed-mode data).
 
 
-Margin Definition (X'7F') Triplet
+#### Margin Definition (X'7F') Triplet
 This is an optional triplet that is used only if DatFmt = X'01' (formatting with RCDs) or X'02' (formatting with
 XMDs). This triplet may occur once. If this triplet is specified more than once, only the first is used. It is used to
 specify the page margins for the Data Map. These margins are used for logical page eject processing and for
@@ -316,24 +303,13 @@ graphics processing. If this triplet is specified on a Data Map that contains LN
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | UBIN | Tlength | 14 Length of the triplet, including Tlength M |  |  |
-| 1 | CODE | Tid | X'7F' Identifies the Margin Definition triplet M |  |  |
-| 2–5 CODE TxtOrent |  |  |  |  |  |
-
-X'0000 2D00'
-X'2D00 5A00'
-X'5A00 8700'
-X'8700 0000'
-Text (I,B) Orientation:
-0,90 degrees
-90,180 degrees
-180,270 degrees
-270,360 degrees
-M
-6–7 UBIN LeftMar 0 to page extent minus 1 Left Margin Offset from page edge M
-8–9 UBIN TopMar 0 to page extent minus 1 Top Margin Offset from page edge M
-10–11 UBIN RightMar 0 to page extent minus 1 Right Margin Offset from page edge M
-12–13 UBIN BotMar 0 to page extent minus 1 Bottom Margin Offset from page edge M
+| 0 | UBIN | Tlength | 14 | Length of the triplet, including Tlength | M |
+| 1 | CODE | Tid | X'7F' | Identifies the Margin Definition triplet | M |
+| 2–5 | CODE | TxtOrent | X'0000 2D00', X'2D00 5A00', X'5A00 8700', X'8700 0000' | Text (I,B) Orientation:<br>X'0000 2D00': 0, 90 degrees<br>X'2D00 5A00': 90, 180 degrees<br>X'5A00 8700': 180, 270 degrees<br>X'8700 0000': 270, 360 degrees | M |
+| 6–7 | UBIN | LeftMar | 0 to page extent minus 1 | Left Margin Offset from page edge | M |
+| 8–9 | UBIN | TopMar | 0 to page extent minus 1 | Top Margin Offset from page edge | M |
+| 10–11 | UBIN | RightMar | 0 to page extent minus 1 | Right Margin Offset from page edge | M |
+| 12–13 | UBIN | BotMar | 0 to page extent minus 1 | Bottom Margin Offset from page edge | M |
 Triplet X'7F' Semantics
 Tlength Contains the length of the triplet
 Tid Identifies the Margin Definition triplet
@@ -410,7 +386,7 @@ i
 b
 
 
-Begin Data Map Transmission Subcase (BDX)
+## Begin Data Map Transmission Subcase (BDX)
 The Begin Data Map Transmission Subcase structured field begins a Data Map Transmission Subcase object,
 which contains the structured fields used to map lines of data to the page.
 ### BDX (X'D3A8E3') Syntax
@@ -421,13 +397,11 @@ which contains the structured fields used to map lines of data to the page.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–7 | CHAR | DMXName |  | Name of the Data Map Transmission Subcase | O |
 
-BDX Semantics
+### BDX Semantics
 DMXame Token name of the Data Map Transmission Subcase
 This is an optional parameter.
-Begin Data Map Transmission Subcase (BDX)
 
-
-Begin Page Map (BPM)
+## Begin Page Map (BPM)
 The Begin Page Map structured field begins a Page Map resource object, also called a Page Definition or
 PageDef. A Page Definition is a print control resource object used to compose line data into pages for printing
 on page printers.
@@ -439,13 +413,11 @@ on page printers.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–7 | CHAR | PMName |  | Name of the Page Map | O |
 
-BPM Semantics
+### BPM Semantics
 PMName Token name of the Page Map
 This is an optional parameter.
-Begin Page Map (BPM)
 
-
-Conditional Processing Control (CCP)
+## Conditional Processing Control (CCP)
 The Conditional Processing Control structured field defines tests to be performed on selected input records in
 line data and specifies the actions to take based on the test results. This optional structured field is selected
 with LND, RCD,
@@ -469,7 +441,7 @@ Definition, it must appear before the Data Maps in the Page Definition.
 | 10–11 | UBIN | CSLgth | X'0000'–X'FFFF' | Length of comparison string | M |
 | 12–n |  | Repeating groups |  | One or more repeating groups | M |
 
-CCP Semantics
+### CCP Semantics
 CCPid CCP Identifier
 CCPs can be chained to handle complex data within multiple CCP records. If this is the first or
 only CCP , this field matches the CCP Identifier in CCPID field of the LND, RCD, or XMD.
@@ -557,7 +529,7 @@ Note: To be able to match this Comparison String to input data, the encoding of 
 specified in this parameter must match the encoding of the input data.
 
 
-Data Map Transmission Subcase Descriptor (DXD)
+## Data Map Transmission Subcase Descriptor (DXD)
 The Data Map Transmission Subcase Descriptor structured field is supported only for migration purposes.
 ### DXD (X'D3A6E3') Syntax
 
@@ -567,13 +539,11 @@ The Data Map Transmission Subcase Descriptor structured field is supported only 
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–3 |  | ConData | X'0001 00FF' | Constant data | M |
 
-DXD Semantics
+### DXD Semantics
 ConData Constant data
 This field must be set to X'0001 00FF', but is not checked.
-Data Map Transmission Subcase Descriptor (DXD)
 
-
-End Data Map (EDM)
+## End Data Map (EDM)
 The End Data Map structured field terminates the Data Map object initiated by a Begin Data Map structured
 field.
 ### EDM (X'D3A9CA') Syntax
@@ -584,15 +554,13 @@ field.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–7 | CHAR | DMName |  | Name of the Data Map | O |
 
-EDM Semantics
+### EDM Semantics
 DMName Token name of the Data Map being terminated
 If a name is specified, it must match the name in the most recent Begin Data Map structured
 field. If the first two bytes of this parameter contain the value X'FFFF', the name matches any
 name specified on the corresponding Begin Data Map structured field.
-End Data Map (EDM)
 
-
-End Data Map Transmission Subcase (EDX)
+## End Data Map Transmission Subcase (EDX)
 The End Data Map Transmission Subcase structured field terminates the Data Map Transmission Subcase
 initiated by a Begin Data Map Transmission Subcase structured field.
 ### EDX (X'D3A9E3') Syntax
@@ -603,16 +571,14 @@ initiated by a Begin Data Map Transmission Subcase structured field.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–7 | CHAR | DMXName |  | Name of the Data Map Transmission Subcase | O |
 
-EDX Semantics
+### EDX Semantics
 DMXame Token name of the Data Map Transmission Subcase being terminated
 If a name is specified, it must match the name in the most recent Begin Data Map
 Transmission Subcase structured field. If the first two bytes of this parameter contain the value
 X'FFFF', the name matches any name specified on the corresponding Begin Data Map
 Transmission Subcase structured field.
-End Data Map Transmission Subcase (EDX)
 
-
-End Page Map (EPM)
+## End Page Map (EPM)
 The End Page Map structured field terminates the Page Map object initiated by a Begin Page Map structured
 field.
 ### EPM (X'D3A9CB') Syntax
@@ -623,15 +589,13 @@ field.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–7 | CHAR | PMName |  | Name of the Page Map | O |
 
-EPM Semantics
+### EPM Semantics
 PMName Token name of the Page Map being terminated
 If a name is specified, it must match the name in the most recent Begin Page Map structured
 field. If the first two bytes of this parameter contain the value X'FFFF', the name matches any
 name specified on the corresponding Begin Page Map structured field.
-End Page Map (EPM)
 
-
-Fixed Data Size (FDS)
+## Fixed Data Size (FDS)
 The Fixed Data Size structured field specifies the number of bytes of text found in the following Fixed Data Text
 (FDX) structured fields.
 ### FDS (X'D3AAEC') Syntax
@@ -642,14 +606,12 @@ The Fixed Data Size structured field specifies the number of bytes of text found
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–1 | UBIN | TxtLgth | 1–65,535 | Number of data bytes in following FDX | M |
 
-FDS Semantics
+### FDS Semantics
 TxtLgth Number of bytes of text in the FDX structured fields that immediately follow
 If no fixed data text exists in this Data Map Transmission Subcase, the FDS and FDX
 structured fields should not be specified.
-Fixed Data Size (FDS)
 
-
-Fixed Data Text (FDX)
+## Fixed Data Text (FDX)
 The Fixed Data Text structured field contains text that can be selected and presented with LND, RCD, or XMD
 structured fields in the Page Definition. This text is used when flag bit 7 of the LND, RCD, or XMD is set to B'1'.
 Any number of FDX structured fields can appear, but the total number of data bytes must match bytes 0–1 of
@@ -664,13 +626,11 @@ The DataStrt and DataLgth fields of the LND, RCD, or XMD specify the fixed data 
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–n | CHAR | Text |  | Fixed text to be added | O |
 
-FDX Semantics
+### FDX Semantics
 Text Code points of the fixed text to be added to the page
 From 0 to 32,743 bytes may be specified.
-Fixed Data Text (FDX)
 
-
-Invoke Data Map (IDM)
+## Invoke Data Map (IDM)
 The Invoke Data Map structured field selects a new Data Map for printing line data and ends the current lineformat page. With LND Data Maps, processing begins with the first Line Descriptor (LND) structured field of the
 invoked Data Map for the next line-format page. With RCD Data Maps, processing begins with the first Record
 Descriptor (RCD) structured field that matches the Record ID of the current line-data record. With XMD Data
@@ -684,14 +644,12 @@ Qualified Tag.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–7 | CHAR | DMName |  | Name of the new Data Map | M |
 
-IDM Semantics
+### IDM Semantics
 DMName Token name of the new Data Map in the currently active Page Definition
 This name must match the name on the Begin Data Map (BDM) structured field. If the name is
 shorter than eight bytes, trailing blanks must be added.
-Invoke Data Map (IDM)
 
-
-Include Object (IOB)
+## Include Object (IOB)
 Notes:
 1. The IOB is a MO:DCA structured field. The following description documents its use in line-mode and mixed
 mode applications and introduces parameter values that are only valid in these environments. For the
@@ -722,7 +680,7 @@ the page segment.
 | 26 | CODE | RefCSys | X'00', X'01' | Reference coordinate system | M |
 | 27–n |  | Triplets |  | Triplets | M |
 
-IOB Semantics
+### IOB Semantics
 For a complete definition of the IOB semantics, see the Mixed Object Document Content Architecture
 (MO:DCA) Reference. The following describes parameter values that are unique to the IOB when used in linemode or mixed-mode environments.
 XoaOset If RefCSys = X'01', this parameter specifies the offset along the X axis, X pg or Xol, of the
@@ -750,9 +708,6 @@ the Object Area Position (OBP) structured field of the OEG. If the object is a p
 this parameter overrides the corresponding OBP parameters in the environment groups of all
 objects that comprise the page segment and specifies the object area offsets from the page or
 overlay origin for all data objects in the page segment. A value of X'FFFFFF' indicates that the
-Include Object (IOB)
-
-
 Y-axis offset specified in the object's OEG is to be used; therefore the offset value (-1) is
 excluded from the allowed range. If the object does not specify the Y-axis offset in an OEG,
 the architected default is X'000000'.
@@ -804,9 +759,6 @@ I-axis. In this case, the object area offset and rotation parameters must be spe
 explicitly, that is, a value of X'FF ...FF', which indicates that the value in the object's
 OEG is to be used, is not supported for {XoaOset,YoaOset} and {XoaOrent,YoaOrent}
 when RefCSys = X'00'.
-Include Object (IOB)
-
-
 X'01' The object area offset in the IOB is measured with respect to the page origin (X p=0,
 Yp=0) using the page (X p,Yp) coordinate system. The object area rotation in the IOB is
 measured with respect to the page (Xp,Yp) coordinate system X p-axis.
@@ -814,8 +766,8 @@ When line data with IOBs is transformed into MO:DCA data, the IOBs are generated
 well. If an IOB specifies RefCSys=X'00', the position and orientation must be modified for the MO:DCA IOB to
 specify the equivalent position and orientation based on the page (X
 p,Yp) coordinate system.
-IOB Triplets
-Extended Resource Local Identifier (X'22') Triplet
+### IOB Triplets
+#### Extended Resource Local Identifier (X'22') Triplet
 The Extended Resource Local Identifier (X'22') triplet is a MO:DCA triplet. For the formal definition of this
 triplet, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
 This triplet is mandatory when the IOB structured field is specified in a PageDef, in which case it must occur
@@ -845,10 +797,7 @@ Definition in AFP line-data environments.
 All others Reserved
 ResLID Specifies a unique resource object Local ID
 It may be in the range of X'00000000' to X'FFFFFFFF'.
-Include Object (IOB)
-
-
-Include Page Overlay (IPO)
+## Include Page Overlay (IPO)
 Note: The IPO is a MO:DCA structured field. The following description documents its use in line-mode and
 mixed mode applications and introduces parameter values that are only valid in these environments. For
 the formal definition of the IPO structured field, see the Mixed Object Document Content Architecture
@@ -869,7 +818,7 @@ only, a value of X'FFFFFF' may be used for either the X axis offset (bytes 8–1
 | 14–15 | CODE | OvlyOrent |  | The overlay's X-axis rotation | O |
 | 16–n |  | Triplets |  | Triplets | O |
 
-IPO Semantics
+### IPO Semantics
 OvlyName Token name of the overlay being referenced
 If the first two characters of the overlay name are O1 (capital letter O followed by the number
 1), then bytes 0 and 1 must contain the characters O and 1, respectively.
@@ -880,9 +829,6 @@ axis point specified by the current LND or RCD; therefore the offset value (-1) 
 the allowed range.
 YolOset Offset along the Y
 p axis from the page origin where the origin of the overlay is placed
-Include Page Overlay (IPO)
-
-
 The value for this offset is expressed in terms of the measurement units currently in effect for
 the active Data Map. A value of X'FFFFFF' indicates that the overlay is to be placed at the Y p
 axis point specified by the current LND or RCD; therefore the offset value (-1) is excluded from
@@ -897,10 +843,7 @@ If no value is specified for this parameter, the architected default is 0 degree
 90°, 180°, 270° rotations of a page overlay are not supported in all AFP environments. Consult
 the product documentation to see which rotations are supported. Also note that the MO:DCA
 IS/1 and IS/2 interchange sets only support 0° rotation of a page overlay.
-Include Page Overlay (IPO)
-
-
-Include Page Segment (IPS)
+## Include Page Segment (IPS)
 Note: The IPS is a MO:DCA structured field. The following description documents its use in line-mode and
 mixed mode applications and introduces parameter values that are only valid in these environments. For
 the formal definition of the IPS structured field, see the Mixed Object Document Content Architecture
@@ -919,7 +862,7 @@ either the I-axis offset (bytes 8–10), the B-axis offset (bytes 11–13), or b
 | 11–13 | SBIN | BpsOset | -32,768 – +32,767 | B-axis origin for the page segment | M |
 | 14–n |  | Triplets |  | Triplets | O |
 
-IPS Semantics
+### IPS Semantics
 PsegName Token name of the page segment being referenced
 All eight bytes of the name must be specified.
 IpsOset Offset along the I axis from the current text coordinate system origin (I=0, B=0) to the origin of
@@ -934,17 +877,12 @@ The value for this offset is expressed in terms of the measurement units current
 the active Data Map and is measured using the current text (I,B) coordinate system. A value of
 X'FFFFFF' indicates that the page segment origin is to be placed at the B-axis point specified
 by the current LND or RCD; therefore the offset value (-1) is excluded from the allowed range.
-Include Page Segment (IPS)
-
-
 Note: The MO:DCA Line Data Object Position Migration (X'27') triplet may be specified on the IPS in MO:DCA
 documents to capture the text orientation that was specified when the page segment referenced by the
 IPS was included in line data. The information in this triplet allows the page segment and its objects to
 be positioned and oriented correctly on the MO:DCA page.
-Include Page Segment (IPS)
 
-
-Line Descriptor Count (LNC)
+## Line Descriptor Count (LNC)
 The Line Descriptor Count structured field specifies the number of Line Descriptor (LND), Record Descriptor
 (RCD) or XML Descriptor (XMD) structured fields in the Data Map Transmission Subcase.
 ### LNC (X'D3AAE7') Syntax
@@ -955,14 +893,12 @@ The Line Descriptor Count structured field specifies the number of Line Descript
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0–1 | UBIN | NumDSC | 1–65,535 | Number of LND, RCD, or XMD structured fields | M |
 
-LNC Semantics
+### LNC Semantics
 NumDSC Number of LND, RCD, or XMD structured fields in the Data Map Transmission Subcase
 Note: The LND, RCD, or XMD in a Data Map are numbered sequentially, starting with 1.
 Values from 1 through the number of LND, RCD, or XMD are allowed.
-Line Descriptor Count (LNC)
 
-
-Line Descriptor (LND)
+## Line Descriptor (LND)
 The Line Descriptor structured field contains information, such as line position, text orientation, font selection,
 field selection, and conditional processing identification, used to format line data.
 Note: The LNDs in a Data Map are numbered sequentially, starting with 1. Values from 1 through the number
@@ -1005,7 +941,7 @@ page definition processors. The valid length of the LND without the color and co
 fields was 33 bytes. Processors of page definitions may safely assume the value of
 each missing field is
 zero. LND triplets are not allowed on the shorter version of the LND.
-LND Semantics
+### LND Semantics
 LNDFlgs LND flags
 Bit 0 End Page if Skipping
 This bit shows whether the page ends if the control character is set for skipping. This
@@ -1359,7 +1295,7 @@ field:
 ”
 
 
-LND Triplets
+### LND Triplets
 Fully Qualified Name (X'02') Triplet
 The Fully Qualified Name (X'02') triplet is a MO:DCA triplet. For the formal definition of this triplet, see the
 Mixed Object Document Content Architecture (MO:DCA) Reference.
@@ -1439,7 +1375,7 @@ p=0,Yp=0) using the page (X p,Yp) coordinate system. The object area rotation
 in the IOB is measured with respect to page (X p,Yp) coordinate system X p-axis.
 
 
-Color Specification (X'4E') Triplet
+#### Color Specification (X'4E') Triplet
 The Color Specification triplet is a MO:DCA triplet. For the formal definition of this triplet, see the Mixed Object
 Document Content Architecture (MO:DCA) Reference. Support for this triplet is tied to PTOCA PT3 support.
 This is an optional triplet that specifies a color for text processed by this LND when LND byte 0 bit 10=B'1' or
@@ -1460,7 +1396,7 @@ component encoding, the color value (255,255,255) specifies full intensity for e
 the color white.
 
 
-Bar Code Symbol Descriptor (X'69') Triplet
+#### Bar Code Symbol Descriptor (X'69') Triplet
 Architecture Note: The Bar Code Symbol Descriptor triplet is registered in the MO:DCA architecture as a
 private-use triplet since it is used only in the PageDef object, which is not a MO:DCA object.
 This is an optional triplet and may occur once. If this triplet is specified more than once, only the first is used.
@@ -1694,7 +1630,7 @@ architecture, except for the font local ID parameter, which must be set to X'FF'
 device default font.
 
 
-Resource Object Include (X'6C') Triplet
+#### Resource Object Include (X'6C') Triplet
 This is an optional triplet that identifies an overlay or page segment object to be presented on the page at a
 specified position. Multiple Resource Object Include triplets may be specified on the same LND.
 If the triplet identifies an overlay, the overlay name must be mapped with an MPO structured field in the AEG of
@@ -1762,7 +1698,7 @@ zero degrees.
 the rotation of objects in the page segment is summarized in Table 10.
 
 
-Additional Bar Code Parameters (X'7B') Triplet
+#### Additional Bar Code Parameters (X'7B') Triplet
 This is an optional triplet that specifies additional parameters for non-linear bar code symbologies (for
 example, 2D bar codes). This triplet may occur one or more times when a Bar Code Symbol Descriptor (X'69')
 triplet is specified. If this triplet is specified more than once, the data from each triplet is concatenated in the
@@ -1791,7 +1727,7 @@ Code Data (BDA) structured field for the resulting bar code object. For a descri
 the Bar Code Data structured field, see the Bar Code Object Content Architecture Reference.
 
 
-Object Reference Qualifier (X'89') Triplet
+#### Object Reference Qualifier (X'89') Triplet
 The Object Reference Qualifier (X'89') triplet is used to specify whether the name of an object is retrieved from
 the input data or retrieved using normal methods. If the name is to be retrieved from the input data, that name
 overrides any ObjName field and any Fully Qualified Name (type X'01') triplet that would normally be used to
@@ -1854,7 +1790,7 @@ group.
 • Must not contain any shift-in or shift-out characters.
 
 
-Color Management Resource Descriptor (X'91') Triplet
+#### Color Management Resource Descriptor (X'91') Triplet
 The Color Management Resource Descriptor (X'91') triplet is a MO:DCA triplet. For the formal definition of this
 triplet, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
 The Color Management Resource Descriptor triplet specifies the processing mode and scope for a Color
@@ -1894,7 +1830,7 @@ X'01' The scope of the CMR is a data object in this page.
 All others Reserved
 
 
-Concatenate Bar Code Data (X'93') Triplet
+#### Concatenate Bar Code Data (X'93') Triplet
 Architecture Note: The Concatenate Bar Code Data triplet is registered in the MO:DCA architecture as a
 private-use triplet since it is used only in the PageDef object, which is not a MO:DCA object.
 This is an optional triplet and may occur once. If this triplet is specified more than once, only the first will be
@@ -1968,7 +1904,7 @@ segments must specify a value from X'0001' through X'FFFF'. It is an error to mi
 order types.
 
 
-Record Descriptor (RCD)
+## Record Descriptor (RCD)
 The Record Descriptor structured field contains information, such as record position, text orientation, font
 selection, field selection, and conditional processing identification, used to format line data that consists of
 records tagged with record identifiers.
@@ -2005,7 +1941,7 @@ Note: The RCDs in a Data Map are numbered sequentially, starting with 1.
 | 70–n |  | Triplets |  | Triplets | O |
 
 RCD Semantics for triplet applicability. O
-RCD Semantics
+### RCD Semantics
 The RCD uses many parameters that are defined for the LND. The definition of such parameters is deferred to
 the LND. When such definitions are applied to the RCD, the term “LND” should be read as “RCD” and the byte
 offsets of the parameters should be adjusted to the RCD.
@@ -2344,7 +2280,7 @@ Note that the actual location of “top of page” and “top margin” is affec
 Definition (X'7F') Triplet”.
 
 
-RCD Triplets
+### RCD Triplets
 Fully Qualified Name (X'02') Triplet
 The Fully Qualified Name (X'02') triplet is a MO:DCA triplet. For the formal definition of this triplet, see the
 Mixed Object Document Content Architecture (MO:DCA) Reference.
@@ -2450,7 +2386,7 @@ received.
 See “Additional Bar Code Parameters (X'7B') Triplet”.
 
 
-Graphics Descriptor (X'7E') Triplet
+#### Graphics Descriptor (X'7E') Triplet
 Architecture Note: The Graphics Descriptor triplet is registered in the MO:DCA architecture as a private-use
 triplet because it is used only in the PageDef object, which is not a MO:DCA object.
 This is an optional Field RCD triplet. It may occur once. If this triplet is specified more than once, only the first is
@@ -2799,7 +2735,7 @@ X'FF' Rendering intent not specified
 All others Reserved
 
 
-XML Descriptor (XMD)
+## XML Descriptor (XMD)
 The XML Descriptor structured field contains information, such as data position, text orientation, font selection,
 field selection, and conditional processing identification, used to format XML data that consists of text delimited
 by start and end tags.
@@ -2836,7 +2772,7 @@ Note: The XMDs in a Data Map are numbered sequentially, starting with 1.
 | 62–n |  | Triplets |  | Triplets | O |
 
 XMD Semantics for triplet applicability. O
-XMD Semantics
+### XMD Semantics
 The XMD uses many parameters that are defined for the LND or RCD. The definition of such parameters is
 deferred to the LND or RCD. When such definitions are applied to the XMD, the term “LND” or “RCD” should
 be read as “XMD” and the byte offsets of the parameters should be adjusted to the XMD.
@@ -3066,7 +3002,7 @@ See “Logical Page Eject Processing”, which describes page eject processing w
 Descriptor (RCD); note that page eject processing for RCD and XMD is identical .
 
 
-XMD Triplets
+### XMD Triplets
 Fully Qualified Name (X'02') Triplet
 This triplet is optional and may occur one or more times when a Bar Code Symbol Descriptor (X'69') triplet or a
 Graphics Descriptor (X'7E') triplet is specified on the XMD. The Fully Qualified Name type that may appear is
@@ -3122,7 +3058,7 @@ XMDs other than Field XMDs.
 See “Graphics Descriptor (X'7E') Triplet”.
 
 
-XML Name (X'8A') Triplet
+#### XML Name (X'8A') Triplet
 Architecture Note: The XML Name triplet is registered in MO:DCA as a private-use triplet since it is used only
 in the PageDef object, which is not a MO:DCA object.
 This triplet is used to build a Qualified Tag. A Qualified Tag is built by concatenating the names specified on
@@ -3172,7 +3108,7 @@ with the Start New Symbol flag (bit 0 of CBCFlgs) set in the X'93' triplet being
 See “Concatenate Bar Code Data (X'93') Triplet ”.
 
 
-Rendering Intent (X'95') Triplet
+#### Rendering Intent (X'95') Triplet
 The Rendering Intent triplet specifies the rendering intent parameter, which is used to modify the final
 appearance of color data. This parameter is based on the rendering intents defined by the International Color
 Consortium (ICC). This triplet is optional and may occur once when a Graphics Descriptor (X'7E') triplet is
