@@ -808,8 +808,15 @@ Images that are not tiled can have at most one transparency mask. In tiled image
 If the transparency mask is specified in a tile that contains the Include Tile parameter, it must be specified after both the Tile Position and Include Tile parameters.
 Tiles using the Include Tile parameter to invoke tile resources can have two transparency masks, one in the calling tile and one in the resource tile itself. The two transparency masks are combined using the logical AND operation; that is, an image point is in the foreground if it is in foreground in both masks. In other words, the caller can declare some of the resource image foreground points as background, but not the reverse.
 The transparency mask has a point for each underlying image or presentation space point. If the transparency mask has been specified, the receiver should apply it on a point by point basis. If, at an image point, the mask contains B'0', the point is treated as background. Otherwise, if the mask contains B'1', the image point is treated according to the rules of the current color space, as if no transparency mask has been specified.
-Table 5. Transparency Mask Structure X'8E' Begin Transparency Mask parameter X'94' Image Size parameter [ X'95' Image Encoding parameter ] X'FE92' Image Data (S)
-X'8F' End Transparency Mask parameter Transparency masks can be described using the following parameters:
+Table 5. Transparency Mask Structure
+
+| Code | Name |
+| :--- | :--- |
+| X'8E' | Begin Transparency Mask parameter |
+| X'94' | Image Size parameter |
+| [ X'95' ] | [ Image Encoding parameter ] |
+| X'FE92' | Image Data (S) |
+| X'8F' | End Transparency Mask parameter |
 • Begin Transparency Mask
 • Image Size
 • Image Encoding
