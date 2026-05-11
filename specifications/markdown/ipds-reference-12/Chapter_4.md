@@ -3586,7 +3586,7 @@ orientation value is specified.
 ## Logical Page Position (LPP)
 
 
-Manage IPDS Dialog
+## Manage IPDS Dialog (MID)
 The Manage IPDS Dialog (MID) command is valid only in home state and causes the printer to either start or
 end an IPDS dialog.
 Any IPDS command can be used to start an IPDS dialog. If an IPDS dialog has been started and a subsequent
@@ -3612,37 +3612,41 @@ the printer to signal the start of a dialog.
 Length X'D601' Flag CID Data
 ```
 The length of the MID command can be:
-Without CID X'0006'
-With CID X'0008'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'0006' |
+| With CID | X'0008' |
+
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
+
 The format of the data field for this command is as follows:
-Offset Type Name Range Meaning Required
-0 CODE Type X'00'
-X'01'
-Start IPDS dialog
-End IPDS dialog
-X'00'
-X'01'
-Bytes 0 Type
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | Type | X'00'<br>X'01' | Start IPDS dialog<br>End IPDS dialog | X'00'<br>X'01' |
+
+**Bytes 0 Type**
 This byte specifies either to start or to stop an IPDS dialog. If an invalid value is specified,
 exception ID X'025B..01' exists.
-## Manage IPDS Dialog (MID)
 
+## No Operation (NOP)
 
-No Operation
 ```
 Length X'D603' Flag CID Binary Data
 ```
+
 The length of the NOP command can be:
-Without CID X'0005'–X'7FFF'
-With CID X'0007'–X'7FFF'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'0005'–X'7FFF' |
+| With CID | X'0007'–X'7FFF' |
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The No Operation (NOP) command has no effect on presentation. Zero or more data bytes may be present but
 are ignored. This command is valid in any printer state.
-## No Operation (NOP)
 
-
-Presentation Fidelity Control
+## Presentation Fidelity Control (PFC)
 The Presentation Fidelity Control (PFC) command is valid only in home state and specifies the fidelity
 requirements for certain presentation functions. The desired fidelity for each supported presentation function
 can be specified with a triplet on the PFC command. The activate flag can be used to reset all fidelity controls
@@ -3656,40 +3660,33 @@ activated or are being downloaded.
 Length X'D634' Flag CID Data
 ```
 The length of the PFC command can be:
-Without CID X'0009' or X'000B'–X'7FFF'
-With CID X'000B' or X'000D'–X'7FFF'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'0009' or X'000B'–X'7FFF' |
+| With CID | X'000B' or X'000D'–X'7FFF' |
+
 However, each triplet length must also be valid. Exception ID X'0202..02' exists if the command length is
 invalid or unsupported.
+
 The format of the data field for this command is as follows:
-Offset Type Name Range Meaning Required
-0 X'00' Reserved X'00'
-1 BITS Fidelity control flags
-bit 0 Activate B'0'
-B'1'
-Reset to default fidelity controls
-and activate PFC triplets
-Just activate PFC triplets
-B'0'
-B'1'
-bits 1–7 B'0000000' Reserved B'0000000'
-2–3 X'0000' Reserved X'0000'
-4 to
-end of
-PFC
-Triplets Zero or more optional PFC triplets:
-X'74' Toner Saver triplet
-X'75' Color Fidelity triplet
-X'86' Text Fidelity triplet
-X'88' Finishing Fidelity triplet
-X'96' CMR Tag Fidelity triplet
-Byte 0 Reserved
-Byte 1 Flags
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | X'00' | Reserved | X'00' | Reserved | X'00' |
+| 1 | BITS | Fidelity control flags | | bit 0: Activate<br>B'0' Reset to default fidelity controls and activate PFC triplets<br>B'1' Just activate PFC triplets<br>bits 1–7: Reserved (B'0000000') | B'0'<br>B'1' |
+| 2–3 | X'0000' | Reserved | X'0000' | Reserved | X'0000' |
+| 4 to end of PFC | | Triplets | | Zero or more optional PFC triplets:<br>X'74' Toner Saver triplet<br>X'75' Color Fidelity triplet<br>X'86' Text Fidelity triplet<br>X'88' Finishing Fidelity triplet<br>X'96' CMR Tag Fidelity triplet | |
+**Byte 0 Reserved**
+
+**Byte 1 Flags**
 If the activate flag is set to B'0', all fidelity controls are reset to their default settings, then the
 PFC triplets are processed.
 If the activate flag is set to B'1', the supported triplets are used to set specific fidelity controls;
 unsupported triplets are ignored. In this case, all other fidelity controls remain at their current
 settings.
-Bytes 2–3 Reserved
+
+**Bytes 2–3 Reserved**
 ## Presentation Fidelity Control (PFC)
 
 
@@ -4460,340 +4457,49 @@ optionally provide more detailed identification information by generating the IP
 Identifier parameter in the XOH-OPC reply.
 Length X'D6FF' Flag CID Type—Page and Copy Counters—Special Data Area
 The following table shows the STM reply format contained in the special data area of the Acknowledge Reply:
-Offset Type Name Range Meaning
-0 CODE X'FF' System/370 convention
-1–2 CODE Type Device type of the printer, or of the printer that is being emulated
-or mimicked. For example, X'3820' for the 3820 page printer.
-3 CODE Model Model number; see your printer documentation
-4–5 X'0000' Reserved
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | | X'FF' | System/370 convention |
+| 1–2 | CODE | Type | | Device type of the printer, or of the printer that is being emulated or mimicked. For example, X'3820' for the 3820 page printer. |
+| 3 | CODE | Model | | Model number; see your printer documentation |
+| 4–5 | | Reserved | X'0000' | Reserved |
+
 One or more command-set vectors in the following format. Refer to individual command-set vectors on the
 following pages.
-6–7 UBIN Length Length of the command-set vector, including this length field
-8–9 CODE Subset ID or
-command set
-ID
-For data command sets, the subset ID of a command set. For
-other command sets, the command set ID.
-10–11 CODE Level or
-subset ID
-For data command sets, the level ID of a data tower. For other
-command sets, the subset ID of a command set.
-12 to
-end
-CODE Property pairs Zero or more command-set property ID and data pairs.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | | Length of the command-set vector, including this length field |
+| 8–9 | CODE | Subset ID or command set ID | | For data command sets, the subset ID of a command set. For other command sets, the command set ID. |
+| 10–11 | CODE | Level or subset ID | | For data command sets, the level ID of a data tower. For other command sets, the subset ID of a command set. |
+| 12 to end | CODE | Property pairs | | Zero or more command-set property ID and data pairs. |
 The following command-set vectors can be returned in the STM Acknowledge Reply:
 ## Sense Type and Model (STM)
 
 
-Device-Control Command-Set Vector
-Offset Type Name Range Meaning
-6–7 UBIN Length X'0006' to end
-of vector
-even values
-Length of the Device-Control command-set vector, including this
-length field
-8–9 CODE Command set
-ID
-X'C4C3' Device-Control command-set ID
-10–11 CODE Subset ID X'FF10' DC1 subset ID
-12 to
-end of
-vector
-CODE Command
-specific
-property
-pairs
-X'6001'
-X'6002'
-X'6003'
-X'6004'
-X'6005'
-X'6006'
-X'6007'
-X'6008'
-X'6009'
-X'6101'
-X'6201'
-Multiple copy & copy-subgroup support in LCC
-Media-source-selection support in LCC; see note 1
-Media-destination-selection support in LCC; see
-note 1
-Full-length LCC commands supported; see
-note 2
-Full range of font local IDs supported in LFE and LPD
-commands; see note 3
-Font-modification flags supported in LFE commands
-(byte 14, bits 3–7)
-Short LPD commands supported; see note 4
-Full range of logical-page-offset values supported in LPP
-commands; see note 5
-Empty LFE commands supported; see note 6
-Explicit page placement and orientation support
-in the LPP command
-Logical page and object area coloring support; see
-note 7
+### Device-Control Command-Set Vector
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector (even values) | Length of the Device-Control command-set vector, including this length field |
+| 8–9 | CODE | Command set ID | X'C4C3' | Device-Control command-set ID |
+| 10–11 | CODE | Subset ID | X'FF10' | DC1 subset ID |
+| 12 to end of vector | CODE | Command specific property pairs | X'6001'<br>X'6002'<br>X'6003'<br>X'6004'<br>X'6005'<br>X'6006'<br>X'6007'<br>X'6008'<br>X'6009'<br>X'6101'<br>X'6201' | Multiple copy & copy-subgroup support in LCC<br>Media-source-selection support in LCC; see note 1<br>Media-destination-selection support in LCC; see note 1<br>Full-length LCC commands supported; see note 2<br>Full range of font local IDs supported in LFE and LPD commands; see note 3<br>Font-modification flags supported in LFE commands (byte 14, bits 3–7)<br>Short LPD commands supported; see note 4<br>Full range of logical-page-offset values supported in LPP commands; see note 5<br>Empty LFE commands supported; see note 6<br>Explicit page placement and orientation support in the LPP command<br>Logical page and object area coloring support; see note 7 |
 ## Sense Type and Model (STM)
 
 
-Offset Type Name Range Meaning
-Optional
-command
-property
-pairs
-X'7001'
-X'7002'
-X'7008'
-X'700A'
-X'701C'
-X'702E'
-X'7034'
-X'706B'
-X'707B'
-X'707E'
-X'70CE'
-Manage IPDS Dialog (MID) command support
-Apply Finishing Operations (AFO) command
-Set Presentation Environment (SPE) command
-support; see note 8
-Activate Setup Name (ASN) command support; see
-note 9
-Retired item 134
-Activate Resource command support
-indicates that the printer supports the AR command as well as
-XOA-RRL queries of query type X'05', activation query
-Presentation Fidelity Control command support
-Invoke CMR (ICMR) command support; see note 8
-Rasterize Presentation Object (RPO) command support; see
-note 10
-Include Saved Page (ISP) command support
-DUA command-support property ID
-If the DUA command and the Overlay command set is
-supported, secure overlays are also supported in the
-IO command.
-XOA
-property
-pairs
-X'8000'
-X'8001'
-X'8002'
-X'8006'
-X'8008'
-X'800A'
-X'800C'
-X'8010'
-X'80F1'
-X'80F2'
-X'80F3'
-X'80F4'
-X'80F5'
-X'80F6'
-X'80F8'
-X'80F9'
-X'80FA'
-Retired item 108
-Retired item 109
-Retired item 110
-Retired item 111
-Mark Form
-Alternate Offset Stacker
-Control Edge Marks
-Activate Printer Alarm
-Retired item 112
-Discard Buffered Data; see note 11
-Retired item 113
-Request Resource List; see note 11
-Discard Unstacked Pages
-Exception-Handling Control; see note 11
-Print-Quality Control
-Obtain Additional Exception Information
-Request Setup Name List; see note 9
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| | | Optional command property pairs | X'7001'<br>X'7002'<br>X'7008'<br>X'700A'<br>X'701C'<br>X'702E'<br>X'7034'<br>X'706B'<br>X'707B'<br>X'707E'<br>X'70CE' | Manage IPDS Dialog (MID) command support<br>Apply Finishing Operations (AFO) command<br>Set Presentation Environment (SPE) command support; see note 8<br>Activate Setup Name (ASN) command support; see note 9<br>Retired item 134<br>Activate Resource command support: indicates that the printer supports the AR command as well as XOA-RRL queries of query type X'05', activation query<br>Presentation Fidelity Control command support<br>Invoke CMR (ICMR) command support; see note 8<br>Rasterize Presentation Object (RPO) command support; see note 10<br>Include Saved Page (ISP) command support<br>DUA command-support property ID. If the DUA command and the Overlay command set is supported, secure overlays are also supported in the IO command. |
+| | | XOA property pairs | X'8000'<br>X'8001'<br>X'8002'<br>X'8006'<br>X'8008'<br>X'800A'<br>X'800C'<br>X'8010'<br>X'80F1'<br>X'80F2'<br>X'80F3'<br>X'80F4'<br>X'80F5'<br>X'80F6'<br>X'80F8'<br>X'80F9'<br>X'80FA' | Retired item 108<br>Retired item 109<br>Retired item 110<br>Retired item 111<br>Mark Form<br>Alternate Offset Stacker<br>Control Edge Marks<br>Activate Printer Alarm<br>Retired item 112<br>Discard Buffered Data; see note 11<br>Retired item 113<br>Request Resource List; see note 11<br>Discard Unstacked Pages<br>Exception-Handling Control; see note 11<br>Print-Quality Control<br>Obtain Additional Exception Information<br>Request Setup Name List; see note 9 |
 ## Sense Type and Model (STM)
 
 
-Offset Type Name Range Meaning
-XOH
-property
-pairs
-X'9000'
-X'9001'
-X'9002'
-X'9003'
-X'9004'
-X'9005'
-X'9007'
-X'9009'
-X'900A'
-X'900B'
-X'900D'
-X'900E'
-X'9013'
-X'9015'
-X'9016'
-X'9017'
-X'90D0'
-X'90F2'
-X'90F3'
-X'90F4'
-X'90F5'
-Retired item 114
-Print Buffered Data; see note 11
-Deactivate Saved Page Group
-Specify Group Operation
-Define Group Boundary
-Erase Residual Print Data
-Erase Residual Font Data
-Separate Continuous Forms
-Remove Saved Page Group
-Retired item 115
-Stack Received Pages
-Select Medium Modifications
-Eject to Front Facing
-Select Input Media Source
-Set Media Origin
-Set Media Size
-Retired item 126
-Trace
-Obtain Printer Characteristics; see note 11
-Retired item 116
-Page Counters Control
-CMR
-property
-pairs
-X'E000'
-X'E001'
-X'E002'
-X'E003'
-X'E004'
-X'E006'
-X'E100'
-X'E102'
-CMRs can be captured
-Host-activated link color-conversion (subset “LK”) CMRs
-supported; see note 12
-Host-activated, non-generic halftone CMRs supported; see
-note 13
-Host-activated, non-generic tone-transfer-curve CMRs supported;
-see note 14
-Host-activated indexed CMRs supported; see
-note 15
-Host-activated ICC DeviceLink (subset “DL”) CMRs
-supported; see note 12
-CMRs can be reliably applied to all EPS/PDF objects; see
-note 16
-Pass-through audit color-conversion CMRs supported
-Miscellaneous
-property
-pairs
-X'F001'
-X'F002'
-X'F003'
-X'F004'
-X'F005'
-X'F100'
-End Persistent NACK without leaving IPDS mode; see
-note 17
-Blank sheets are emitted when paper movement is stopped;
-see note 18
-Long ACK support (up to 65,535 byte long Acknowledge Replies)
-Grayscale simulation supported; see note 19
-Grayscale simulation supported for device-default-monochrome
-device appearance; see note 20
-An IPDS intermediate device is present.
-An instance of this property pair must be generated by each
-intermediate device in the configuration.
-## Sense Type and Model (STM)
-
-
-Offset Type Name Range Meaning
-X'F101'
-X'F102'
-X'F200'
-X'F201'
-X'F202'
-X'F203'
-X'F204'
-X'F205'
-X'F206'
-X'F209'
-X'F211'
-X'F212'
-X'F401'
-X'F402'
-X'F403'
-X'F601'
-X'F602'
-X'F603'
-X'F604'
-X'F605'
-X'F7nn'
-X'F8nn'
-X'F902'
-UP
-3I finishing supported; see note 21
-Media feed direction returned in the XOH-OPC reply
-Printable-Area self-defining field; see note 22
-Local Date and Time Stamp (X'62') triplets supported in AR
-commands
-Activation-failed NACK support
-Font Resolution and Metric Technology (X'84') triplets
-supported in AR commands
-Metric Adjustment (X'79') triplets supported in AR commands
-Data-object font support; see note 23
-Color Management triplet support in IDO, LPD, RPO, SPE,
-WBCC, WGC, WIC2, WOCC, and WTC commands; see
-note 8
-Device Appearance (X'97') triplet support; see
-note 8
-Extended copy set number format supported
-in the Group Information (X'6E') triplet
-Character-encoded object names in AR commands; see
-note 24
-QR Code with Image tertiary resource support; see
-note 25
-XOA-RRL Multiple Entry Query Support; the printer supports
-multiple-entry queries of query type X'05', activation query
-Retired (for “XOA-RRL query type X'FE' supported”)
-Detailed settings support in XOA RSNL
-Position-Check Highlighting Support in XOA EHC
-Independent Exception Page-Print in XOA EHC; see
-note 26
-Support for operator-directed recovery in XOA EHC; see
-note 27
-Support for Page-Continuation Actions; see note 28
-Support for Skip-and-Continue Actions; see note 28
-Simplex N-up supported in the LCC command; see
-note 29
-Simplex and duplex N-up supported in the LCC command; see
-note 29
-Basic cut-sheet emulation mode supported; see
-note 30
-## Sense Type and Model (STM)
-
-
-Offset Type Name Range Meaning
-X'FA00'
-X'FB00'
-X'FC00'
-X'FC01'
-X'FF01'
-X'FF02'
-X'FF03'
-XOH PCC X'02' counter update support;
-property pair X'90F5' must also be specified
-All architected units of measure supported; see
-note 31
-All function listed for IS/3 is supported; see description on
-page 984
-All function listed for MO:DCA GA is supported; see
-“Additional required support for the MO:DCA GA (Graphic Arts)
-Function Set”; property pair X'FC00' must also
-be specified
-Positioning Exception Sense Format Supported
-Presence indicates support for Sense Format 1
-Absence indicates support for Sense Format 7
-Three-Byte Sense Data Support; see note 32
-Internal rendering intent support in XOH Trace; see
-note 33
+| | | XOH property pairs | X'9000'<br>X'9001'<br>X'9002'<br>X'9003'<br>X'9004'<br>X'9005'<br>X'9007'<br>X'9009'<br>X'900A'<br>X'900B'<br>X'900D'<br>X'900E'<br>X'9013'<br>X'9015'<br>X'9016'<br>X'9017'<br>X'90D0'<br>X'90F2'<br>X'90F3'<br>X'90F4'<br>X'90F5' | Retired item 114<br>Print Buffered Data; see note 11<br>Deactivate Saved Page Group<br>Specify Group Operation<br>Define Group Boundary<br>Erase Residual Print Data<br>Erase Residual Font Data<br>Separate Continuous Forms<br>Remove Saved Page Group<br>Retired item 115<br>Stack Received Pages<br>Select Medium Modifications<br>Eject to Front Facing<br>Select Input Media Source<br>Set Media Origin<br>Set Media Size<br>Retired item 126<br>Trace<br>Obtain Printer Characteristics; see note 11<br>Retired item 116<br>Page Counters Control |
+| | | CMR property pairs | X'E000'<br>X'E001'<br>X'E002'<br>X'E003'<br>X'E004'<br>X'E006'<br>X'E100'<br>X'E102' | CMRs can be captured<br>Host-activated link color-conversion (subset “LK”) CMRs supported; see note 12<br>Host-activated, non-generic halftone CMRs supported; see note 13<br>Host-activated, non-generic tone-transfer-curve CMRs supported; see note 14<br>Host-activated indexed CMRs supported; see note 15<br>Host-activated ICC DeviceLink (subset “DL”) CMRs supported; see note 12<br>CMRs can be reliably applied to all EPS/PDF objects; see note 16<br>Pass-through audit color-conversion CMRs supported |
+| | | Miscellaneous property pairs | X'F001'<br>X'F002'<br>X'F003'<br>X'F004'<br>X'F005'<br>X'F100' | End Persistent NACK without leaving IPDS mode; see note 17<br>Blank sheets are emitted when paper movement is stopped; see note 18<br>Long ACK support (up to 65,535 byte long Acknowledge Replies)<br>Grayscale simulation supported; see note 19<br>Grayscale simulation supported for device-default-monochrome device appearance; see note 20<br>An IPDS intermediate device is present. An instance of this property pair must be generated by each intermediate device in the configuration. |
+| | | | X'F101'<br>X'F102'<br>X'F200'<br>X'F201'<br>X'F202'<br>X'F203'<br>X'F204'<br>X'F205'<br>X'F206'<br>X'F209'<br>X'F211'<br>X'F212'<br>X'F401'<br>X'F402'<br>X'F403'<br>X'F601'<br>X'F602'<br>X'F603'<br>X'F604'<br>X'F605'<br>X'F7nn'<br>X'F8nn'<br>X'F902' | UP3I finishing supported; see note 21<br>Media feed direction returned in the XOH-OPC reply Printable-Area self-defining field; see note 22<br>Local Date and Time Stamp (X'62') triplets supported in AR commands<br>Activation-failed NACK support<br>Font Resolution and Metric Technology (X'84') triplets supported in AR commands<br>Metric Adjustment (X'79') triplets supported in AR commands<br>Data-object font support; see note 23<br>Color Management triplet support in IDO, LPD, RPO, SPE, WBCC, WGC, WIC2, WOCC, and WTC commands; see note 8<br>Device Appearance (X'97') triplet support; see note 8<br>Extended copy set number format supported in the Group Information (X'6E') triplet<br>Character-encoded object names in AR commands; see note 24<br>QR Code with Image tertiary resource support; see note 25<br>XOA-RRL Multiple Entry Query Support; the printer supports multiple-entry queries of query type X'05', activation query<br>Retired (for “XOA-RRL query type X'FE' supported”)<br>Detailed settings support in XOA RSNL<br>Position-Check Highlighting Support in XOA EHC<br>Independent Exception Page-Print in XOA EHC; see note 26<br>Support for operator-directed recovery in XOA EHC; see note 27<br>Support for Page-Continuation Actions; see note 28<br>Support for Skip-and-Continue Actions; see note 28<br>Simplex N-up supported in the LCC command; see note 29<br>Simplex and duplex N-up supported in the LCC command; see note 29<br>Basic cut-sheet emulation mode supported; see note 30 |
+| | | | X'FA00'<br>X'FB00'<br>X'FC00'<br>X'FC01'<br>X'FF01'<br>X'FF02'<br>X'FF03' | XOH PCC X'02' counter update support; property pair X'90F5' must also be specified<br>All architected units of measure supported; see note 31<br>All function listed for IS/3 is supported; see description on page 984<br>All function listed for MO:DCA GA is supported; see “Additional required support for the MO:DCA GA (Graphic Arts) Function Set”; property pair X'FC00' must also be specified<br>Positioning Exception Sense Format Supported. Presence indicates support for Sense Format 1. Absence indicates support for Sense Format 7.<br>Three-Byte Sense Data Support; see note 32<br>Internal rendering intent support in XOH Trace; see note 33 |
 Notes:
 1. Printers that support either X'6002' (media-source selection in LCC) or X'6003' (media-destination
 selection in LCC) must also support X'900D' (XOH Stack Received Pages command).
@@ -6029,11 +5735,18 @@ The printer need not return the X'C1nn' property pair for LF2 or LF3 command sub
 ## Sense Type and Model (STM)
 
 
-Set Home State
+## Set Home State (SHS)
+
+```
 Length X'D697' Flag CID
+```
+
 The length of the SHS command can be:
-Without CID X'0005'
-With CID X'0007'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'0005' |
+| With CID | X'0007' |
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The Set Home State (SHS) command is valid in any printer state. When the printer receives the SHS
 command in page state or any derivative of page state, the current page ends, the complete or partially
@@ -6044,8 +5757,7 @@ these states, the partial resource is deleted before the printer returns to home
 command is treated as a No Operation (NOP) command.
 ## Set Home State (SHS)
 
-
-Set Presentation Environment
+## Set Presentation Environment (SPE)
 Set Presentation Environment (SPE) is a home state command used to set specific presentation attributes for
 use on the pages that follow. For each specified triplet, the specified presentation attributes completely replace
 those presentation attributes; all other previously specified presentation attributes (from other triplets) stay in
@@ -6073,23 +5785,26 @@ vector of an STM reply.
 Length X'D608' Flag CID Data
 ```
 The length of the SPE command can be:
-Without CID X'0007' or X'0009'–X'7FFF'
-With CID X'0009' or X'000B'–X'7FFF'
+
+| Condition | Length |
+| :--- | :--- |
+| Without CID | X'0007' or X'0009'–X'7FFF' |
+| With CID | X'0009' or X'000B'–X'7FFF' |
+
 However, each triplet length must also be valid. Exception ID X'0202..02' exists if the command length is
 invalid or unsupported.
+
 The data in an SPE command is defined as follows:
-Offset Type Name Range Meaning Required
-0–1 X'0000' Reserved X'0000'
-2 to
-end of
-SPE
-Triplets Zero or more triplets:
-X'95' Rendering Intent triplet
-X'97' Device Appearance triplet
-Bytes 0–1 Reserved
-Bytes 2 to end
-of command
-Zero or more triplets
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | X'0000' | Reserved | X'0000' | Reserved | X'0000' |
+| 2 to end of SPE | | Triplets | | Zero or more triplets:<br>X'95' Rendering Intent triplet<br>X'97' Device Appearance triplet | |
+
+**Bytes 0–1 Reserved**
+
+**Bytes 2 to end of command**
+**Zero or more triplets**
 ## Set Presentation Environment (SPE)
 
 
