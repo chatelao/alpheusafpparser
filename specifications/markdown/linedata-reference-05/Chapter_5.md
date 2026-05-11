@@ -53,7 +53,7 @@ The following conventions apply in the descriptions of the structured fields:
 • The byte position of each structured field parameter is given. The first byte of the data field is byte 0.
 • If the parameter is a variable, the name and function of the parameter is given.
 • Each parameter is specified as either optional (O) or mandatory (M).
-• Any valid triplets (see “Structured Field Triplets” on page 67 for a description) listed in the tables are specified
+• Any valid triplets (see “Structured Field Triplets” for a description) listed in the tables are specified
 as either optional or mandatory. The definition of each triplet follows the description of the structured field in
 which it appears.
 • Any number not preceded by X (hexadecimal) or B (binary) is a decimal number.
@@ -116,7 +116,6 @@ font names must be composed according to the following conventions:
 • Names consist only of the following characters: A–Z, 0–9, $, #, @. When the object name is specified using
 the fixed-length 8-byte token name parameter, a trailing space character (X'40' in the EBCDIC encoding) or a
 trailing null code point (X'00') is assumed to terminate the name.
-Structured Fields
 
 
 • To ensure portability across older versions of print servers that do not support encoding definitions in the
@@ -151,7 +150,6 @@ Any triplet parameter encountered on any of the Begin structured fields that is 
 in the structured field definition is ignored. The document presenter assumes that these fields are informational
 although they might
 have meaning in other applications.
-Structured Fields
 
 
 Begin Data Map (BDM)
@@ -182,12 +180,11 @@ end tags.
 Triplets Optional triplets
 See the following for detailed information about the triplets permitted on the BDM structured
 field:
-“Encoding Scheme ID (X'50') Triplet” on page 70
-“Page Count Control (X'7C') Triplet” on page 71
-“Margin Definition (X'7F') Triplet” on page 73
+“Encoding Scheme ID (X'50') Triplet”
+“Page Count Control (X'7C') Triplet”
+“Margin Definition (X'7F') Triplet”
 Notes:
 1. If a triplet is included on this structured field, the optional positional parameters become mandatory.
-Begin Data Map (BDM)
 
 
 2. If one of the Data Maps in a PageDef contains LNDs, then all of the Data Maps in a PageDef must be LND
@@ -216,7 +213,7 @@ the first line or record of the line data are examined to see if the BOM has bee
 is in the data, it is removed so it is not considered part of the user data.
 For XMD processing, this triplet is mandatory and the first bytes of the first line or record of the print file are
 always examined to see if the BOM is in the data.
-For more information about BOM processing, see “Unicode Line Data” on page 13.
+For more information about BOM processing, see “Unicode Line Data”.
 The Encoding Scheme ID triplet is a MO:DCA triplet. For the formal definition of this triplet, see the Mixed
 Object Document Content Architecture (MO:DCA) Reference.
 Notes:
@@ -225,9 +222,8 @@ Notes:
 3. Each Encoding Scheme ID triplet specified on each BDM structured field of a single Page Definition must
 specify the same encoding.
 4. This Encoding Scheme ID triplet overrides the encoding specified in the XML data.
-5. Except for certain situations in processing XML data with FOCA fonts (see “XML Data” on page 13), the
+5. Except for certain situations in processing XML data with FOCA fonts (see “XML Data”), the
 font selected to print the data must match the encoding of the user data specified in this triplet.
-Begin Data Map (BDM)
 
 
 Page Count Control (X'7C') Triplet
@@ -281,7 +277,6 @@ presented with this Data Map.
 X'02' Continue
 When this Data Map is invoked, the page count is initialized to the last page number
 used with the previous Data Map, which is the current page number. If there is no
-Begin Data Map (BDM)
 
 
 current page number, such as when this is the first Data Map invoked for the job, it is
@@ -310,7 +305,6 @@ Bits 2–7
 Reserved; all bits should be B'0'
 If this triplet is not specified, the defaults are CountCtr = X'02' (Continue) and CountFlgs = B'00' (do not count
 MO:DCA pages and constant pages that occur in mixed-mode data).
-Begin Data Map (BDM)
 
 
 Margin Definition (X'7F') Triplet
@@ -345,17 +339,17 @@ Tlength Contains the length of the triplet
 Tid Identifies the Margin Definition triplet
 TxtOrent Text Orientation
 This field specifies the text orientation that is used to fix the page margins for this Data Map.
-See Figure 29 on page 75.
+See Figure 29.
 The margins are fixed for the Data Map; that is, they do not change when the text orientation
 changes in the Data Map. For example, if this parameter specifies a (0,90) degree text
-orientation, the top-left diagram in Figure 29 on page 75 shows how the LeftMar, TopMar,
+orientation, the top-left diagram in Figure 29 shows how the LeftMar, TopMar,
 RightMar, and BotMar parameters define the left, top, right, and bottom margins, respectively.
 Once specified, these margins define a bounding box for the Data Map that is indicated by the
 dashed lines.
 Note that if the text orientation is changed within the Data Map, the same bounding box
 applies to the new orientation, but the name of the margins change in the new orientation. For
 example, if the new text orientation is (90,180) degrees, as shown in the top-right diagram of
-Figure 29 on page 75, the left margin in the new orientation is actually defined by the TopMar
+Figure 29, the left margin in the new orientation is actually defined by the TopMar
 parameter, the bottom margin is defined by the LeftMar parameter, and so on. Therefore,
 when a possible baseline overflow is evaluated in the new orientation, the print position is
 actually checked against the LeftMar parameter, which is the bottom margin for that text
@@ -365,7 +359,6 @@ orientation for the graphics is (90,180) degrees, the bottom margin is defined b
 parameter. Therefore, active lines or boxes that are ended at the bottom margin are actually
 ended at the margin defined by the LeftMar parameter, which is the bottom margin for that text
 orientation.
-Begin Data Map (BDM)
 
 
 LeftMar Left Margin
@@ -383,7 +376,6 @@ This field specifies the offset of the bottom margin along the b axis from the b
 page.
 If this triplet is not specified, the default is a text orientation of (0,90) degrees and all margin offsets set to
 X'0000'.
-Begin Data Map (BDM)
 
 
 Figure 29. Relationship of Margin Definition to Text Orientation
@@ -416,7 +408,6 @@ Right Margin
 o o
 i
 b
-Begin Data Map (BDM)
 
 
 Begin Data Map Transmission Subcase (BDX)
@@ -489,7 +480,6 @@ this is the last or only CCP to process.
 CCPFlgs Conditional Processing Flags
 Bit 0 If B'1', this CCP requires action before a subpage boundary.
 Bit 1 If B'1', this CCP requires action after a subpage boundary.
-Conditional Processing Control (CCP)
 
 
 Bit 2 This field provides spacing action at the top of a page when the following conditions
@@ -561,12 +551,10 @@ This variable-length parameter indicates the text string against which a compari
 be performed, if the Comparison parameter has a value between 1 and 6.
 The length of the text string is determined by a value contained in bytes 10–11 of the CCP
 structured field.
-Conditional Processing Control (CCP)
 
 
 Note: To be able to match this Comparison String to input data, the encoding of the text
 specified in this parameter must match the encoding of the input data.
-Conditional Processing Control (CCP)
 
 
 Data Map Transmission Subcase Descriptor (DXD)
@@ -1038,7 +1026,6 @@ first LND in the Data Map.
 Bit 2 Generate Inline Position
 This bit shows whether the data processed using this LND is placed on the page at
 the inline position specified in bytes 2–3. This position becomes the new print position.
-Line Descriptor (LND)
 
 
 Value Description
@@ -1086,7 +1073,6 @@ B'1' The record is reused.
 Bit 7 Use Fixed Data
 This bit shows whether to present text from the Fixed Data Text (FDX) structured
 fields.
-Line Descriptor (LND)
 
 
 Value Description
@@ -1136,7 +1122,6 @@ Bit 13 Relative Baseline Position
 This bit indicates whether the baseline position specified in bytes 4–5 of this LND is an
 absolute position or a relative position. If an absolute baseline position is specified, it
 is measured as a positive offset in the baseline direction from the current text (I,B)
-Line Descriptor (LND)
 
 
 coordinate system origin. If a relative position is specified, it is measured as a positive
@@ -1168,7 +1153,7 @@ coordinate system, which is defined by the text orientation in bytes 6–9. The 
 used as a reference for the relative offset depends on whether the LND that specifies relative
 positioning is a base LND and on whether a page or subpage boundary was crossed since the
 last LND was used to print. For a definition of base LNDs see “Field Formatting—LND
-Processing” on page 29. The baseline position used as a reference for the relative offset is
+Processing”. The baseline position used as a reference for the relative offset is
 determined as follows:
 • For base LNDs, offsets are defined relative to the last base LND processed, that is, the last
 LND used to print or the last LND processed for spacing. However, if a page or subpage
@@ -1188,7 +1173,6 @@ relative position as well. This function allows a subpage to “float” relativ
 position.
 The offset is measured using the measurement units specified for the page in the PGD. If bit 3
 of byte 0 is B'1', this position is used and becomes the new print position.
-Line Descriptor (LND)
 
 
 Application Note: When relative baseline positioning is used, the PageDef generator cannot
@@ -1238,7 +1222,6 @@ Line Descriptor if Spacing values is followed until the number of entries follow
 number of spaces desired.
 The LNDs in a Data Map are numbered sequentially, starting with 1. Values from 1 through the
 number of LNDs are allowed.
-Line Descriptor (LND)
 
 
 NLNDreu Next Line Descriptor if Reusing Data
@@ -1290,7 +1273,6 @@ the current record is used.
 If this value is X'FFFF', all the remaining data bytes are processed.
 If this parameter causes data to be positioned outside the boundaries of the page, which are
 defined in the Page Descriptor (PGD) structured field, the printing of the page stops.
-Line Descriptor (LND)
 
 
 If conditional processing is to be performed (bit 11 of byte 1 is B'1'), this parameter defines the
@@ -1300,7 +1282,7 @@ TxtColor Text Color Value
 The specified color is used to present text processed by this LND when LND byte 0, bit 10=
 B'1' and a Color Specification (X'4E') triplet is not specified for this LND. This color may also
 be used if the X'4E' triplet is specified but the PTOCA PT3 subset is not supported by the
-presentation device. Color values are defined as shown in Table 14 on page 105. They reflect
+presentation device. Color values are defined as shown in Table 14. They reflect
 the range of values defined in the Standard OCA Color Value Table. For a definition of the
 Standard OCA Color Value Table, see the Mixed Object Document Content Architecture
 (MO:DCA) Reference. RGB values are also defined for each color, assuming that the intensity
@@ -1336,7 +1318,6 @@ example, some printers simulate white with the color of the medium, which result
 white medium is used.
 2. The value X'FFFF' is supported for migration purposes only and specifies the presentation
 process default.
-Line Descriptor (LND)
 
 
 NLNDccp Next Line Descriptor if Conditional Processing
@@ -1353,7 +1334,7 @@ For conditional processing, a page can be divided into subpages to specify bound
 which conditional processing actions can be taken. All LND structured fields of one subpage
 should have the same value in their Subpage Identifier byte, differing from the value in the
 LND structured fields of neighboring subpages. See Chapter 3, “Using a Page Definition to
-Print Data”, on page 15 for more information on conditional processing and subpages.
+Print Data” for more information on conditional processing and subpages.
 The presentation services program
 detects the beginning and end of subpages by checking
 for a change in the value of byte 37 (SubpgID). If conditional processing is to be performed (bit
@@ -1366,17 +1347,16 @@ this Page Definition.
 Triplets Optional triplets
 See the following for detailed information about the triplets permitted on the LND structured
 field:
-“Fully Qualified Name (X'02') Triplet” on page 107
-“Extended Resource Local Identifier (X'22') Triplet” on page 108
-“Color Specification (X'4E') Triplet” on page 109
-“Bar Code Symbol Descriptor (X'69') Triplet” on page 110
-“Resource Object Include (X'6C') Triplet” on page 116
-“Additional Bar Code Parameters (X'7B') Triplet” on page 118
-“Object Reference Qualifier (X'89') Triplet” on page 119
-“Color Management Resource Descriptor (X'91') Triplet” on page 121
+“Fully Qualified Name (X'02') Triplet”
+“Extended Resource Local Identifier (X'22') Triplet”
+“Color Specification (X'4E') Triplet”
+“Bar Code Symbol Descriptor (X'69') Triplet”
+“Resource Object Include (X'6C') Triplet”
+“Additional Bar Code Parameters (X'7B') Triplet”
+“Object Reference Qualifier (X'89') Triplet”
+“Color Management Resource Descriptor (X'91') Triplet”
 “Concatenate Bar Code Data (X'93') Triplet
-” on page 122
-Line Descriptor (LND)
+”
 
 
 LND Triplets
@@ -1414,7 +1394,6 @@ X'00' The GID is a character-encoded name that means the data type is CHAR.
 All others Reserved
 FQName Contains the Global Identifier (GID) to be used as the name of the CMR
 The encoding for the external identifier of the CMR must be UTF-16BE.
-Line Descriptor (LND)
 
 
 Extended Resource Local Identifier (X'22') Triplet
@@ -1458,7 +1437,6 @@ X'01' The object area offset in the IOB is measured with respect to the page ori
 (X
 p=0,Yp=0) using the page (X p,Yp) coordinate system. The object area rotation
 in the IOB is measured with respect to page (X p,Yp) coordinate system X p-axis.
-Line Descriptor (LND)
 
 
 Color Specification (X'4E') Triplet
@@ -1480,7 +1458,6 @@ color space, one supported encoding is 8 bits per component, which maps the comp
 1 to the binary values 0 to 255. The color value specifies the color. With the RGB color space and an 8 bit per
 component encoding, the color value (255,255,255) specifies full intensity for each component, which defines
 the color white.
-Line Descriptor (LND)
 
 
 Bar Code Symbol Descriptor (X'69') Triplet
@@ -1559,7 +1536,6 @@ presentation services program also defines an object area presentation space for
 that is identical in size, position, and units of measure to the bar code presentation space, and
 that has the same rotation about the page X
 p-axis as the bar code symbols in the object.
-Line Descriptor (LND)
 
 
 SymbFlgs These flags specify additional controls.
@@ -1609,7 +1585,6 @@ Bar Code Type Bar Code Modifier
 5 X'17'—five-digit supplemental X'00'
 7 X'08'—EAN-8 X'00'
 12 X'09'—EAN-13 X'00'
-Line Descriptor (LND)
 
 
 Resulting Data
@@ -1658,7 +1633,6 @@ Length
 Bar Code Type Bar Code Modifier
 20 X'22'—Intelligent Mail Barcode X'00'
 25 X'22'—Intelligent Mail Barcode X'01'
-Line Descriptor (LND)
 
 
 Resulting Data
@@ -1707,7 +1681,6 @@ This parameter has the same syntax and semantics as byte 20 of the Bar Code Symb
 Descriptor (BSD) defined by the BCOCA architecture.
 WE:NE Specifies the ratio of the wide-element dimension to the narrow-element dimension when only
 two different size elements exist, that is, for a two-level bar code
-Line Descriptor (LND)
 
 
 This parameter has the same syntax and semantics as bytes 21–22 of the Bar Code Symbol
@@ -1719,7 +1692,6 @@ Bar Code Symbol Data (BSA) structure defined by the BCOCA architecture. Bytes 5�
 syntax and semantics to bytes 10–22 of the Bar Code Symbol Descriptor (BSD) defined by the BCOCA
 architecture, except for the font local ID parameter, which must be set to X'FF' in the triplet to specify the
 device default font.
-Line Descriptor (LND)
 
 
 Resource Object Include (X'6C') Triplet
@@ -1762,7 +1734,6 @@ Value Description
 X'DF' Overlay object
 X'5F' Page segment object
 ObjName Specifies the object name
-Line Descriptor (LND)
 
 
 IobjOset Relative I-axis offset
@@ -1788,8 +1759,7 @@ Notes:
 1. If this parameter is omitted, the architected default value for the overlay rotation is X'0000',
 zero degrees.
 2. When a page segment is included with this triplet, the ObOrent parameter is ignored and
-the rotation of objects in the page segment is summarized in Table 10 on page 49.
-Line Descriptor (LND)
+the rotation of objects in the page segment is summarized in Table 10.
 
 
 Additional Bar Code Parameters (X'7B') Triplet
@@ -1819,7 +1789,6 @@ code object. The data carried by the Additional Bar Code Parameters triplet, alo
 parameter, the LND, RCD, or XMD position, and the LND, RCD, or XMD data, is used to build a Bar
 Code Data (BDA) structured field for the resulting bar code object. For a description of the contents of
 the Bar Code Data structured field, see the Bar Code Object Content Architecture Reference.
-Line Descriptor (LND)
 
 
 Object Reference Qualifier (X'89') Triplet
@@ -1864,7 +1833,6 @@ Bit Description
 B'0' Do not use selected input data to override object name
 B'1' Use selected data to override object name
 1–7 Reserved
-Line Descriptor (LND)
 
 
 Notes:
@@ -1884,7 +1852,6 @@ Resource Naming Conventions in the Mixed Object Document Content Architecture
 group.
 • Must not use double-byte encoding.
 • Must not contain any shift-in or shift-out characters.
-Line Descriptor (LND)
 
 
 Color Management Resource Descriptor (X'91') Triplet
@@ -1925,7 +1892,6 @@ Valid values are the following:
 Value Description
 X'01' The scope of the CMR is a data object in this page.
 All others Reserved
-Line Descriptor (LND)
 
 
 Concatenate Bar Code Data (X'93') Triplet
@@ -1971,7 +1937,6 @@ B'1' Start a new symbol
 Bits 1–7 Reserved; should be B'0000000'
 Note: An RCD or XMD is reused when the same RCD or XMD is selected more than once on
 a single page.
-Line Descriptor (LND)
 
 
 SymbID Specifies the ID of a bar code symbol
@@ -2001,7 +1966,6 @@ All segments in a concatenation must specify the same type of order. If one spec
 all segments must specify X'0000'. If one specifies a value from X'0001' through X'FFFF', all
 segments must specify a value from X'0001' through X'FFFF'. It is an error to mix segment
 order types.
-Line Descriptor (LND)
 
 
 Record Descriptor (RCD)
@@ -2055,7 +2019,6 @@ Conditional Processing RCD bits are on in the RCDFlgs byte.
 RecID Record Descriptor ID
 The identifier to be used with this RCD. This field in the RCD is used only if this RCD does not
 contain a Fully Qualified Name (FQN) X'02' triplet type X'01'. The FQN type X'01' triplet is
-Record Descriptor (RCD)
 
 
 used to extend the identifier to a range of 1 to 250 bytes instead of 10 bytes. When an input
@@ -2096,7 +2059,7 @@ receipt but is saved as the active page header record. If a default Record Descr
 ID is specified in a Page Header RCD, it is assumed to be a default Page Header
 RCD (only one default Page Header RCD can be specified in a Data Map and no
 input record data is processed with a default RCD). See “Logical Page Eject
-Processing” on page 132
+Processing”
 for page header and new page processing details.
 Note: Once a Page Header RCD is processed, the header record is saved for the
 duration of the job by the presentation services program. Whenever the same
@@ -2110,10 +2073,9 @@ matching Record Descriptor ID, that input record is not presented on receipt but
 saved as the active page trailer record. If a default Record Descriptor ID is specified in
 a Page Trailer RCD, it is assumed to be a default Page Trailer RCD (only one default
 Page Trailer RCD can be specified in a Data Map, and no input record data is
-Record Descriptor (RCD)
 
 
-processed with a default RCD). See “Logical Page Eject Processing” on page 132 for
+processed with a default RCD). See “Logical Page Eject Processing” for
 page trailer and new page processing details.
 Note: Once a Page Trailer RCD is processed, the trailer record is saved for the
 duration of the job by the presentation services program. Whenever the same
@@ -2128,7 +2090,7 @@ RCD can be specified as relative. If an input record is received with a matching
 Record Descriptor ID, that input record is saved as the active group header record
 and then presented. If that input record or RCD causes a page eject, that input record
 is used as the active group header record for the new page. See “Logical Page Eject
-Processing” on page 132
+Processing”
 for active group header and new page processing details.
 Note: Once a Group Header RCD is processed and is still active when leaving the
 Data Map, the group header record is saved by the presentation services
@@ -2136,13 +2098,13 @@ program. Whenever the same Data Map is re-invoked, this saved group header
 record is presented again if the first body record after re-invoking the Data Map
 selects a Body RCD that has the Group Indicator on.
 RCDFlgs Flag bits
-Bits 0–5 For a definition of these flag bits see “Line Descriptor (LND)” on page 98. LND
+Bits 0–5 For a definition of these flag bits see “Line Descriptor (LND)”. LND
 flag bit 0–1 is reserved in the RCD.
 Bit 6 Field RCD
 Value Description
 B'0' If this bit and bit 11 are both B'0', this is a Record RCD.
 B'1' This is a Field RCD. If both this bit and bit 11 are on, it is an error.
-Bits 7–15 For a definition of these flag bits see “Line Descriptor (LND)” on page 98. LND
+Bits 7–15 For a definition of these flag bits see “Line Descriptor (LND)”. LND
 flag bits 9–10 are reserved in the RCD. The color for the data presented by
 this RCD is always the color specified by the Color Specification (X'4E')
 triplet, if specified. If this triplet is not specified, the data is presented in the
@@ -2154,7 +2116,7 @@ B'1' A logical page eject should be executed before presenting any data
 for this RCD. If this is a header or trailer RCD, the print position is
 moved to the start of a new page before this header or trailer
 becomes the active header or trailer. (See “Logical Page Eject
-Processing” on page 132.) This bit is ignored on RCDs other than
+Processing”.) This bit is ignored on RCDs other than
 Record RCDs.
 Bit 17 Print Page Number
 This flag indicates whether a page number should be generated on the
@@ -2163,7 +2125,6 @@ Value Description
 B'0' This bit has no effect on this RCD.
 B'1' A
 page number is generated.
-Record Descriptor (RCD)
 
 
 The (I,B) position of the RCD indicates the position of the page
@@ -2208,12 +2169,11 @@ B'1' Select the Record ID.
 This function is restricted to Field RCDs; it is ignored on all other RCDs.
 Bits 22–23 Reserved; should be B'00'
 IPos Inline Position
-See “Line Descriptor (LND)” on page 98.
-Record Descriptor (RCD)
+See “Line Descriptor (LND)”.
 
 
 BPos Baseline Position
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 • Relative Baseline Position for Record and Field RCDs
 If the baseline position is relative, the offset is measured as follows:
 – For Page Header RCDs, the offset is relative to the top of the page.
@@ -2224,53 +2184,52 @@ RCD processed; if there is none, it is relative to the top margin.
 – For Page Trailer RCDs, it is relative to the last Record RCD processed; if there is none, it
 is relative to the top margin.
 Note that the actual location of “top” and “top margin” on a page is affected by the text
-orientation; see “Margin Definition (X'7F') Triplet” on page 73.
+orientation; see “Margin Definition (X'7F') Triplet”.
 • Overflow Processing for a Record RCD
 If the specified baseline position is relative, this Record RCD and any Field RCDs that are
 part of this Record RCD are scanned to determine the resulting absolute baseline position at
 the end of processing this Record RCD. This computed baseline position is checked to see
 if it overflows into the bottom margin area. If not, this Record RCD is processed with the
 current input record. If it overflows into the bottom margin, a logical page eject is executed.
-See “Logical Page Eject Processing” on page 132
+See “Logical Page Eject Processing”
 for page eject processing details. If the
 data in a single Record RCD (with its chained Field RCDs) is too large to fit within the top
 and bottom margins on a page, an error is generated. Note that the actual location of “top
 margin” and “bottom margin” on a page is affected by the text orientation; see “Margin
-Definition (X'7F') Triplet” on page 73.
+Definition (X'7F') Triplet”.
 TxtOrent Text (I,B) Orientation
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 FntLID Primary Font Local Identifier
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 FLDrcd RCD number of a Field RCD
 A non-zero value in this parameter on a Record RCD indicates that field processing is to be
 performed on the current input data record. This parameter specifies the RCD number of a
 Field RCD. Multiple Field RCDs can be chained to a Record RCD using this parameter. The
 last Field RCD in the chain has a value of X'0000' in this parameter.
 SupName Suppression token name
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 SOLid Shift-out Font Local Identifier
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 DataS
 trt Data Start Position
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 DataL
 gth Data Length
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 CONDrcd RCD number of a Conditional Processing RCD
 A non-zero value in this parameter on a Record RCD means that conditional processing is to
 be performed on the current input data record. This parameter specifies the relative RCD
-Record Descriptor (RCD)
 
 
 number of a Conditional Processing RCD. Multiple Conditional Processing RCDs can be
 chained to a Record RCD using this parameter. The last Conditional Processing RCD in the
 chain has a value of X'0000' in this parameter. A Field RCD has a value of X'0000' in this
 parameter.
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 SubpgID Subpage Identifier
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 CCPID CCP Identifier
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 Pgno Page Number
 This parameter specifies the starting page number that is used when RCDFlgs specifies reset
 page number. This parameter is ignored on RCDs other than Field RCDs.
@@ -2287,7 +2246,7 @@ that a group header does not print at the end of a page without the first data
 record of the group. This parameter is ignored on a Page Header or Page
 Trailer RCD and on RCDs other than Record RCDs. Note that the actual
 location of the bottom margin area is affected by the text orientation; see
-“Margin Definition (X'7F') Triplet” on page 73.
+“Margin Definition (X'7F') Triplet”.
 Align Field Alignment
 Value Description
 X'00' The field is left aligned to the position specified in IPos.
@@ -2310,7 +2269,6 @@ DataStrt and DataLgth parameters are still used to select bytes in the field or 
 Text. This parameter is ignored on all non-Record RCDs. For comparisons, any input record
 fields used with a CCP are assumed to be padded on the right out to the CCP Comparison
 String Length.
-Record Descriptor (RCD)
 
 
 Fldno Field Number
@@ -2328,21 +2286,20 @@ Header RCDs, and for Body RCDs that are record RCDs. It is ignored on all other 
 that this increment is not used when positioning MO:DCA objects with respect to the current
 RCD in mixed mode.
 Triplets See the following:
-“Fully Qualified Name (X'02') Triplet” on page 133 for FQN type X'01' (Replace First GID
+“Fully Qualified Name (X'02') Triplet” for FQN type X'01' (Replace First GID
 Name)
-“Fully Qualified Name (X'02') Triplet” on page 134 for FQN type X'DE' (Data Object External
+“Fully Qualified Name (X'02') Triplet” for FQN type X'DE' (Data Object External
 Resource Reference)
-“Extended Resource Local Identifier (X'22') Triplet” on page 135
-“Color Specification (X'4E') Triplet” on page 136
-“Bar Code Symbol Descriptor (X'69') Triplet” on page 137
-“Resource Object Include (X'6C') Triplet” on page 138
-“Additional Bar Code Parameters (X'7B') Triplet” on page 139
-“Graphics Descriptor (X'7E') Triplet” on page 140
-“Object Reference Qualifier (X'89') Triplet” on page 146
-“Color Management Resource Descriptor (X'91') Triplet” on page 147
-“Concatenate Bar Code Data (X'93') Triplet ” on page 148
-“Rendering Intent (X'95') Triplet” on page 149
-Record Descriptor (RCD)
+“Extended Resource Local Identifier (X'22') Triplet”
+“Color Specification (X'4E') Triplet”
+“Bar Code Symbol Descriptor (X'69') Triplet”
+“Resource Object Include (X'6C') Triplet”
+“Additional Bar Code Parameters (X'7B') Triplet”
+“Graphics Descriptor (X'7E') Triplet”
+“Object Reference Qualifier (X'89') Triplet”
+“Color Management Resource Descriptor (X'91') Triplet”
+“Concatenate Bar Code Data (X'93') Triplet ”
+“Rendering Intent (X'95') Triplet”
 
 
 Logical Page Eject Processing
@@ -2351,8 +2308,8 @@ A logical page eject can be caused by the following:
 • A relative baseline overflow
 The overflow is caused by a Body or Group Header RCD with a relative baseline position value that when
 processed against the current input record causes an overflow of the current print position into the bottom
-margin (see Baseline Position on page 129). Note that the actual location of “bottom margin” is affected by
-the text orientation; see “Margin Definition (X'7F') Triplet” on page 73.
+margin (see Baseline Position). Note that the actual location of “bottom margin” is affected by
+the text orientation; see “Margin Definition (X'7F') Triplet”.
 • A Data Map change or Medium Map change, or, in mixed-mode, a Begin Document or Begin Page
 structured field
 When a logical page eject occurs, the following actions are taken in the following order.
@@ -2384,8 +2341,7 @@ group header. If the RCD specifies relative positioning and is not preceded on t
 the baseline position of the RCD is offset from the top of the page (0 position on the B axis) by the top
 margin plus the RCD BPos value.
 Note that the actual location of “top of page” and “top margin” is affected by the text orientation; see “Margin
-Definition (X'7F') Triplet” on page 73.
-Record Descriptor (RCD)
+Definition (X'7F') Triplet”.
 
 
 RCD Triplets
@@ -2421,7 +2377,6 @@ All others Reserved
 FQName Contains the Global Identifier (GID) to be used to override the RecID parameter
 Note: To be able to find a matching Record Descriptor ID, the encoding of the identifier
 specified in this parameter must match the encoding of the input data.
-Record Descriptor (RCD)
 
 
 Fully Qualified Name (X'02') Triplet
@@ -2433,15 +2388,13 @@ The identifier is used by the presentation system to locate the resource object 
 identifier is a character-encoded name that
 must be specified using FQNFmt = X'00'. The encoding for the
 external identifier of the CMR must be UTF-16BE.
-See “Fully Qualified Name (X'02') Triplet” on page 107.
-Record Descriptor (RCD)
+See “Fully Qualified Name (X'02') Triplet”.
 
 
 Extended Resource Local Identifier (X'22') Triplet
 This triplet is optional. It may occur one or more times to reference an IOB structured field in the PageDef. This
 triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the RCD.
-See “Extended Resource Local Identifier (X'22') Triplet” on page 108.
-Record Descriptor (RCD)
+See “Extended Resource Local Identifier (X'22') Triplet”.
 
 
 Color Specification (X'4E') Triplet
@@ -2474,31 +2427,27 @@ component encoding, the color value (255,255,255) specifies full intensity for e
 the color white.
 The Color Specification triplet is a MO:DCA triplet. For the formal definition of this triplet, see the Mixed Object
 Document Content Architecture (MO:DCA) Reference.
-Record Descriptor (RCD)
 
 
 Bar Code Symbol Descriptor (X'69') Triplet
 This is an optional triplet. It may occur once. If this triplet is specified more than once, only the first is used. This
 triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the RCD.
-See “Bar Code Symbol Descriptor (X'69') Triplet” on page 110. Note that the LND/RCD parameters used by
+See “Bar Code Symbol Descriptor (X'69') Triplet”. Note that the LND/RCD parameters used by
 this triplet may be at different offsets in the LND and RCD.
-Record Descriptor (RCD)
 
 
 Resource Object Include (X'6C') Triplet
 This is an optional triplet that identifies an overlay or page segment object to be presented on the page at a
 specified position. Multiple Resource Object Include triplets may be specified on the same RCD. This triplet is
 ignored if the Graphics Descriptor (X'7E') triplet is specified on the RCD.
-See “Resource Object Include (X'6C') Triplet” on page 116.
-Record Descriptor (RCD)
+See “Resource Object Include (X'6C') Triplet”.
 
 
 Additional Bar Code Parameters (X'7B') Triplet
 This is an optional triplet that may occur one or more times when a Bar Code Symbol Descriptor (X'69') triplet
 is specified. If this triplet is specified more than once, the data from each triplet is concatenated in the order it is
 received.
-See “Additional Bar Code Parameters (X'7B') Triplet” on page 118.
-Record Descriptor (RCD)
+See “Additional Bar Code Parameters (X'7B') Triplet”.
 
 
 Graphics Descriptor (X'7E') Triplet
@@ -2569,7 +2518,6 @@ parameter is specified by a Graphics Descriptor triplet with ParmSpc = X'03'
 on an ensuing RCD with a matching Graphid.
 For diagonal lines, both the start point and the ending inline position are
 specified in the start parameters. The RCD IPos/Bpos parameters specify the
-Record Descriptor (RCD)
 
 
 start point and the Iend value specifies the ending inline position. The ending
@@ -2579,7 +2527,7 @@ If a logical page eject is processed while any lines or boxes are active (have
 been started but not ended), these lines or boxes are ended. The bottom
 margin is used as the ending baseline position. Note that the actual location
 of “bottom margin” on a page is affected by the text orientation; see “Margin
-Definition (X'7F') Triplet” on page 73.
+Definition (X'7F') Triplet”.
 X'03' End parameters
 The triplet specifies the ending baseline position for lines or boxes started by
 Graphics Descriptor (X'7E')
@@ -2620,7 +2568,6 @@ color of the boundary line is the presentation process default color. The color
 of the fill pattern for the interior of the arc is determined by the first Color
 Specification (X'4E') triplet on the RCD; if a X'4E' triplet is not specified, the
 color of the fill pattern is the presentation process default color.
-Record Descriptor (RCD)
 
 
 X'05' Box at current position
@@ -2673,7 +2620,6 @@ Bits 2–7 Reserved; all bits should
 be B'0'
 Iend Specifies the I position of the end point for the primitive
 This parameter is ignored if ParmSpc does not equal X'01' or X'02'.
-Record Descriptor (RCD)
 
 
 Bend Specifies the B position of the end point for the primitive
@@ -2727,7 +2673,6 @@ of the Active Environment Group (AEG) for the Data Map.
 FGMix Specifies how the graphics primitive mixes with underlying data
 The only mixing supported is X'02' (Overpaint). This parameter is specified in an AFP GOCA
 object with the GDD Set Current Defaults instruction and the Set Mix drawing order.
-Record Descriptor (RCD)
 
 
 LineTpe Specifies the type of line that is drawn
@@ -2772,7 +2717,6 @@ Notes:
 none are specified. If the descriptor ID is intended to match a previously-defined descriptor ID, these bytes
 should not be specified.
 2. The X'22', X'69', and X'6C' triplets are ignored when this triplet is specified on an RCD.
-Record Descriptor (RCD)
 
 
 Object Reference Qualifier (X'89') Triplet
@@ -2780,8 +2724,7 @@ The Object Reference Qualifier (X'89') triplet is used to specify whether the na
 the input data or retrieved using normal methods. If the name is to be retrieved from the input data, that name
 overrides any ObjName field and any Fully Qualified Name (type X'01') triplet that would normally be used to
 select an object. This triplet may occur once on an RCD structured field.
-See “Object Reference Qualifier (X'89') Triplet” on page 119.
-Record Descriptor (RCD)
+See “Object Reference Qualifier (X'89') Triplet”.
 
 
 Color Management Resource Descriptor (X'91') Triplet
@@ -2790,8 +2733,7 @@ Management Resource (CMR). This triplet is mandatory when the RCD references a C
 Resource (CMR) with the FQN type X'DE' triplet, in which case this triplet specifies the processing mode for
 the CMR and must occur once for each FQN type X'DE' specified. It is ignored in all other cases. This triplet
 must immediately follow the FQN type X'DE' triplet that specifies the CMR name.
-See “Color Management Resource Descriptor (X'91') Triplet” on page 121.
-Record Descriptor (RCD)
+See “Color Management Resource Descriptor (X'91') Triplet”.
 
 
 Concatenate Bar Code Data (X'93') Triplet
@@ -2799,8 +2741,7 @@ This is an optional triplet and may occur once. If this triplet is specified mor
 used.
 In the RCD, c ompletion of a given concatenated bar code symbol is defined as the end of the page or an RCD
 with the Start New Symbol flag (bit 0 of CBCFlgs) set in the X'93' triplet being reused.
-See “Concatenate Bar Code Data (X'93') Triplet ” on page 122.
-Record Descriptor (RCD)
+See “Concatenate Bar Code Data (X'93') Triplet ”.
 
 
 Rendering Intent (X'95') Triplet
@@ -2841,7 +2782,6 @@ colors printed on two different media with different white points do not match
 colorimetrically, but might match visually. This intent is typically used for
 vector graphics.
 X'02' Saturation
-Record Descriptor (RCD)
 
 
 Gamut mapping is vendor-specific and colors are adjusted to emphasize
@@ -2857,7 +2797,6 @@ not match visually. This intent is
 typically used for logos.
 X'FF' Rendering intent not specified
 All others Reserved
-Record Descriptor (RCD)
 
 
 XML Descriptor (XMD)
@@ -2912,7 +2851,6 @@ The Field XMDs, Attribute XMDs, and Conditional Processing XMDs associated with 
 chained to that XMD using XMD number pointers. An XMD is assumed to be an Element XMD if neither the
 Field XMD, Attribute XMD,
 nor the Conditional Processing XMD bits are on in the XMDFlgs byte.
-XML Descriptor (XMD)
 
 
 ElmType Element Type
@@ -2930,7 +2868,6 @@ but is saved as the active page header. If no Qualified Tag is specified for an 
 has the Page Header element type, it is assumed to be a default Page Header XMD.
 Only one default Page Header XMD can be specified in a Data Map and no input
 element data is processed with a default XMD. See “Logical Page Eject Processing”
-on page 132
 for page header and new page processing details (note that page eject
 processing for RCD and XMD is identical) .
 Note: Once a Page Header XMD is processed, the header element is saved for the
@@ -2946,7 +2883,7 @@ as the active page trailer. If no Qualified Tag is specified for an XMD that has
 Trailer element type, it is assumed to be a default Page Trailer XMD.
 Only one default
 Page Trailer XMD can be specified in a Data Map and no input element data is
-processed with a default XMD. See “Logical Page Eject Processing” on page 132
+processed with a default XMD. See “Logical Page Eject Processing”
 for
 page trailer and new page processing details (note that page eject processing for
 RCD and XMD is identical) .
@@ -2963,13 +2900,12 @@ XMD can be specified as relative. If an input element is received with a matchin
 Qualified Tag, that input element is saved as the active group header and then
 presented. If that input element or XMD causes a page eject, that input element is
 used as the active group header for the new page. See “Logical Page Eject
-Processing” on page 132
+Processing”
 for active group header and new page processing details
 (note that page eject processing for RCD and XMD is identical) .
 Note: Once a Group Header XMD is processed and is still active when leaving the
 Data Map, the group header element is saved by the presentation services
 program. Whenever the same Data Map is re-invoked, this saved group header
-XML Descriptor (XMD)
 
 
 element is presented again if the first body element after re-invoking the Data
@@ -2980,13 +2916,13 @@ XMDFlgs bit 23 (Header/Trailer Continued). Refer to the description of the
 Header/Trailer Continued flag for more information about continued headers and
 trailers.
 XMDFlgs Flag bits
-Bits 0–5 For a definition of these flag bits see “Line Descriptor (LND)” on page 98. LND
+Bits 0–5 For a definition of these flag bits see “Line Descriptor (LND)”. LND
 flag bits 0–1 are reserved in the XMD.
 Bit 6 Field XMD
 Value Description
 B'0' If this bit and bits 10 and 11 are all B'0', this is an Element XMD.
 B'1' This is a Field XMD. If this bit and bit 11 is on, it is an error.
-Bits 7–9 For a definition of these flag bits see “Line Descriptor (LND)” on page 98. LND
+Bits 7–9 For a definition of these flag bits see “Line Descriptor (LND)”. LND
 flag bit 9 is reserved in the XMD.
 Bit 10 Attribute XMD
 Value Description
@@ -3006,7 +2942,7 @@ used as a delimiter for that string.
 2. The color for the data presented by this XMD is always the color specified
 by the Color Specification (X'4E') triplet, if specified. If this triplet is not
 specified, the data is presented in the presentation process default color.
-Bit 11 For a definition of this flag bit see “Line Descriptor (LND)” on page 98.
+Bit 11 For a definition of this flag bit see “Line Descriptor (LND)”.
 Bit 12 Relative Inline Position
 This bit i
 ndicates whether the inline position specified in bytes 5–6 of this
@@ -3020,14 +2956,13 @@ Value Description
 B'0' The inline position specified in bytes 5–6 is an absolute position.
 B'1' The inline position specified in bytes 5–6 is a relative position.
 The following restriction applies to relative inline positioning:
-XML Descriptor (XMD)
 
 
 • The text orientation of an XMD that specifies relative inline positioning must
 be the same as the text orientation of the XMD that defines the inline
 position from which the relative offset is measured.
-Bits 13–15 For a definition of these flag bits see “Line Descriptor (LND)” on page 98.
-Bits 16–20 For a definition of these flag bits see “Record Descriptor (RCD)” on page 124.
+Bits 13–15 For a definition of these flag bits see “Line Descriptor (LND)”.
+Bits 16–20 For a definition of these flag bits see “Record Descriptor (RCD)”.
 Bit 21 Use Start Tag
 This bit selects the Start tag (including the angle brackets '<' and '>') as the
 data field to be used for presentation.
@@ -3065,11 +3000,10 @@ B'1' Continued Header or Trailer definition
 If the header or trailer has started, data continues to be collected to
 form the header or trailer.
 This function is ignored on Body Element XMDs.
-XML Descriptor (XMD)
 
 
 IPos Inline Position
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 Relative Inline Position for Element, Field, and Attribute XMDs: If the inline position is relative,
 the offset is relative to the current inline position. If there is no prior XMD, the relative inline
 position is relative to the left margin.
@@ -3077,61 +3011,59 @@ Note: Data must not exceed the boundaries of the page, which are defined in the 
 Descriptor (PGD) structured field. If the new print position is outside these boundaries,
 printing of the page stops.
 Note that the actual location of the “left margin” on a page is affected by the text orientation;
-see “Margin Definition (X'7F') Triplet” on page 73.
+see “Margin Definition (X'7F') Triplet”.
 BPos Baseline Position
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 TxtOrent Text (I,B) Orientation
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 FntLID Primary Font Local Identifier
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 FLDxmd XMD number of a Field XMD
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 SupName Suppression token name
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 DataS
 trt Data Start Position
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 DataL
 gth Data Length
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 CONDxmd XMD number of a Conditional Processing XMD
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 Subp
 gID Subpage Identifier
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 CCPID CCP Identifier
-See “Line Descriptor (LND)” on page 98.
+See “Line Descriptor (LND)”.
 Pgno Page Number
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 ESpac End Space
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 Align Field Alignment
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 FldDelim Field Delimiter
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 Fldno Field Number
-See “Record Descriptor (RCD)” on page 124.
-XML Descriptor (XMD)
+See “Record Descriptor (RCD)”.
 
 
 AdBIncr Additional baseline increment
-See “Record Descriptor (RCD)” on page 124.
+See “Record Descriptor (RCD)”.
 Triplets See the following:
-“Fully Qualified Name (X'02') Triplet” on page 158
-“Extended Resource Local Identifier (X'22') Triplet” on page 159
-“Color Specification (X'4E') Triplet” on page 160
-“Bar Code Symbol Descriptor (X'69') Triplet” on page 161
-“Resource Object Include (X'6C') Triplet” on page 162
-“Additional Bar Code Parameters (X'7B') Triplet” on page 163
-“Graphics Descriptor (X'7E') Triplet” on page 164
-“XML Name (X'8A') Triplet” on page 165
-“Color Management Resource Descriptor (X'91') Triplet” on page 166
-“Concatenate Bar Code Data (X'93') Triplet ” on page 167
-“Rendering Intent (X'95') Triplet” on page 168
+“Fully Qualified Name (X'02') Triplet”
+“Extended Resource Local Identifier (X'22') Triplet”
+“Color Specification (X'4E') Triplet”
+“Bar Code Symbol Descriptor (X'69') Triplet”
+“Resource Object Include (X'6C') Triplet”
+“Additional Bar Code Parameters (X'7B') Triplet”
+“Graphics Descriptor (X'7E') Triplet”
+“XML Name (X'8A') Triplet”
+“Color Management Resource Descriptor (X'91') Triplet”
+“Concatenate Bar Code Data (X'93') Triplet ”
+“Rendering Intent (X'95') Triplet”
 Logical Page Eject Processing
-See “Logical Page Eject Processing” on page 132, which describes page eject processing with a Record
+See “Logical Page Eject Processing”, which describes page eject processing with a Record
 Descriptor (RCD); note that page eject processing for RCD and XMD is identical .
-XML Descriptor (XMD)
 
 
 XMD Triplets
@@ -3144,47 +3076,41 @@ The identifier is used by the presentation system to locate the resource object 
 identifier is a character-encoded name that
 must be specified using FQNFmt = X'00'. The encoding for the
 external identifier of the CMR must be UTF-16BE.
-See “Fully Qualified Name (X'02') Triplet” on page 107.
-XML Descriptor (XMD)
+See “Fully Qualified Name (X'02') Triplet”.
 
 
 Extended Resource Local Identifier (X'22') Triplet
 This triplet is optional and may occur one or more times to reference an IOB structured field in the PageDef.
 This triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the XMD.
-See “Extended Resource Local Identifier (X'22') Triplet” on page 108.
-XML Descriptor (XMD)
+See “Extended Resource Local Identifier (X'22') Triplet”.
 
 
 Color Specification (X'4E') Triplet
 This is an optional triplet that specifies the color for text processed by this XMD, bar code generated by this
 XMD, and for graphics generated by this XMD.
-See “Color Specification (X'4E') Triplet” on page 136.
-XML Descriptor (XMD)
+See “Color Specification (X'4E') Triplet”.
 
 
 Bar Code Symbol Descriptor (X'69') Triplet
 This is an optional triplet and may occur once. If this triplet is specified more than once, only the first is used.
 This triplet specifies that the data selected by the descriptor is to be presented as a bar code symbol. This
 triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the XMD.
-See “Bar Code Symbol Descriptor (X'69') Triplet” on page 110. Note that the LND/RCD/XMD parameters used
+See “Bar Code Symbol Descriptor (X'69') Triplet”. Note that the LND/RCD/XMD parameters used
 by this triplet may be at different offsets in the LND, RCD, and XMD.
-XML Descriptor (XMD)
 
 
 Resource Object Include (X'6C') Triplet
 This is an optional triplet that identifies an overlay or page segment object to be presented on the page at a
 specified position. Multiple Resource Object Include triplets may be specified on the same XMD. This triplet is
 ignored if the Graphics Descriptor (X'7E') triplet is specified on the XMD.
-See “Resource Object Include (X'6C') Triplet” on page 116.
-XML Descriptor (XMD)
+See “Resource Object Include (X'6C') Triplet”.
 
 
 Additional Bar Code Parameters (X'7B') Triplet
 This is an optional triplet that specifies additional parameters for non-linear bar code symbologies (for
 example, 2D bar codes). This triplet may occur one or more times when a Bar Code Symbol Descriptor (X'69')
 triplet is specified. This triplet is ignored if the Graphics Descriptor (X'7E') triplet is specified on the XMD.
-See “Additional Bar Code Parameters (X'7B') Triplet” on page 118.
-XML Descriptor (XMD)
+See “Additional Bar Code Parameters (X'7B') Triplet”.
 
 
 Graphics Descriptor (X'7E') Triplet
@@ -3193,8 +3119,7 @@ is used. Text input and fixed data text are ignored on a Field XMD that specifie
 When present, the Graphics Descriptor triplet specifies the generation of a graphics primitive. The triplet may
 specify the complete primitive, or the start of the primitive, or the end of the primitive. This triplet is ignored on
 XMDs other than Field XMDs.
-See “Graphics Descriptor (X'7E') Triplet” on page 140.
-XML Descriptor (XMD)
+See “Graphics Descriptor (X'7E') Triplet”.
 
 
 XML Name (X'8A') Triplet
@@ -3228,7 +3153,6 @@ Tid Identifies the XML Name triplet
 XMLName Specifies the name of the Start tag or the name of an attribute of a Start tag contained in the
 XML data
 This XMLName is used to build Qualified Tags when used on Element XMDs.
-XML Descriptor (XMD)
 
 
 Color Management Resource Descriptor (X'91') Triplet
@@ -3237,8 +3161,7 @@ Management Resource (CMR). This triplet is mandatory when the XMD references a C
 Resource (CMR) with the FQN type X'DE' triplet, in which case this triplet specifies the processing mode for
 the CMR and must occur once for each FQN type X'DE' specified. It is ignored in all other cases. This triplet
 must immediately follow the FQN type X'DE' triplet that specifies the CMR name.
-See “Color Management Resource Descriptor (X'91') Triplet” on page 121.
-XML Descriptor (XMD)
+See “Color Management Resource Descriptor (X'91') Triplet”.
 
 
 Concatenate Bar Code Data (X'93') Triplet
@@ -3246,8 +3169,7 @@ This is an optional triplet and may occur once. If this triplet is specified mor
 used.
 In the XMD, c ompletion of a given concatenated bar code symbol is defined as the end of the page or an XMD
 with the Start New Symbol flag (bit 0 of CBCFlgs) set in the X'93' triplet being reused.
-See “Concatenate Bar Code Data (X'93') Triplet ” on page 122.
-XML Descriptor (XMD)
+See “Concatenate Bar Code Data (X'93') Triplet ”.
 
 
 Rendering Intent (X'95') Triplet
@@ -3258,7 +3180,6 @@ specified on the XMD. If this triplet is specified more than once, only the firs
 rendering intent that is to be used when presenting the Graphics object that is generated with this structured
 field. Only the rendering intent that applies to the object type of the referenced object is used; the other
 rendering intents are ignored.
-See “Rendering Intent (X'95') Triplet” on page 149.
-XML Descriptor (XMD)
+See “Rendering Intent (X'95') Triplet”.
 
 

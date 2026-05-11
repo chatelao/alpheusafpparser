@@ -3852,64 +3852,18 @@ MaxiCode Special-Function Parameters
 
 PDF417 Special-Function Parameters
 Table 30. PDF417 Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported in
-BCD1 B'0'
-B'1'
-bits 2–7 B'000000' Reserved B'000000' B'000000'
-6 UBIN Data
-symbols
-X'01' – X'1E' Number of data symbol
-characters per row
-Not supported in
-BCD1
-X'01' – X'1E'
-7 UBIN Rows X'03' – X'5A'
-X'FF'
-Desired number of rows
-Minimum necessary rows
-Not supported in
-BCD1
-X'03' – X'5A'
-X'FF'
-8 UBIN Security X'00' – X'08' Security level Not supported in
-BCD1
-X'00' – X'08'
-9–10 UBIN Macro
-length
-X'0000' –
-X'7FED'
-Length of Macro PDF417
-Control Block that follows
-Not supported in
-BCD1
-X'0000' –
-X'7FED'
-11–n UBIN Macro
-data
-Any value Data for a Macro PDF417
-Control Block
-Not supported in
-BCD1
-Any value
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | |
+| | | bit 0 | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>• Do not translate<br>• Convert data to ASCII | | B'0'<br>B'1' |
+| | | bit 1 | B'0'<br>B'1' | Escape-sequence handling:<br>• Process escape sequences<br>• Ignore all escape sequences | | B'0'<br>B'1' |
+| | | bits 2–7 | B'000000' | Reserved | B'000000' | B'000000' |
+| 6 | UBIN | Data symbols | X'01'–X'1E' | Number of data symbol characters per row | Not supported in BCD1 | X'01'–X'1E' |
+| 7 | UBIN | Rows | X'03'–X'5A'<br>X'FF' | Desired number of rows<br>Minimum necessary rows | Not supported in BCD1 | X'03'–X'5A'<br>X'FF' |
+| 8 | UBIN | Security | X'00'–X'08' | Security level | Not supported in BCD1 | X'00'–X'08' |
+| 9–10 | UBIN | Macro length | X'0000'–X'7FED' | Length of Macro PDF417 Control Block that follows | Not supported in BCD1 | X'0000'–X'7FED' |
+| 11–n | UBIN | Macro data | Any value | Data for a Macro PDF417 Control Block | Not supported in BCD1 | Any value |
 Byte 5 Control flags
 These flags control how the bar code data is processed by the BCOCA receiver; the receiver
 can be an IPDS printer or any other product that processes BCOCA objects.
@@ -6154,125 +6108,105 @@ Valid Characters and Data Lengths
 
 
 
-Characters and Code Points
-The following table (Table 36) is informational and is not a formal part of the BCOCA architecture. The table is
-intended as a convenient listing of some EBCDIC and ASCII codes points and is not intended to be complete
-or to show all possible EBCDIC or ASCII encodings for any particular code point. The specific code pages are
-listed, using CPGIDs, in Table 34. For a formal definition of these codes pages and CPGIDs, refer
-to the Character Data Representation Architecture listed in Table 5. Note that this table does not
-necessarily cover all of the code points used for 2D bar codes and does not contain all of the characters
-available with CPGID = 1303.
+### Characters and Code Points
+
+The following table (Table 36) is informational and is not a formal part of the BCOCA architecture. The table is intended as a convenient listing of some EBCDIC and ASCII codes points and is not intended to be complete or to show all possible EBCDIC or ASCII encodings for any particular code point. The specific code pages are listed, using CPGIDs, in Table 34. For a formal definition of these codes pages and CPGIDs, refer to the Character Data Representation Architecture listed in Table 5. Note that this table does not necessarily cover all of the code points used for 2D bar codes and does not contain all of the characters available with CPGID = 1303.
+
 Table 36. Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing)
-Character EBCDIC Code Point ASCII Code Point
-0 X'F0' X'30'
-1 X'F1' X'31'
-2 X'F2' X'32'
-3 X'F3' X'33'
-4 X'F4' X'34'
-5 X'F5' X'35'
-6 X'F6' X'36'
-7 X'F7' X'37'
-8 X'F8' X'38'
-9 X'F9' X'39'
-A X'C1' X'41'
-B X'C2' X'42'
-C X'C3' X'43'
-D X'C4' X'44'
-E X'C5' X'45'
-F X'C6' X'46'
-G X'C7' X'47'
-H X'C8' X'48'
-I X'C9' X'49'
-J X'D1' X'4A'
-K X'D2' X'4B'
-L X'D3' X'4C'
-M X'D4' X'4D'
-N X'D5' X'4E'
-O X'D6' X'4F'
-P X'D7' X'50'
-Q X'D8' X'51'
-R X'D9' X'52'
-S X'E2' X'53'
-T X'E3' X'54'
-U X'E4' X'55'
-Characters and Code Points
 
-
-
-
-Table 36 Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing) (cont'd.)
-Character EBCDIC Code Point ASCII Code Point
-V X'E5' X'56'
-W X'E6' X'57'
-X X'E7' X'58'
-Y X'E8' X'59'
-Z X'E9' X'5A'
-a X'81' X'61'
-b X'82' X'62'
-c X'83' X'63'
-d X'84' X'64'
-e X'85' X'65'
-f X'86' X'66'
-g X'87' X'67'
-h X'88' X'68'
-i X'89' X'69'
-j X'91' X'6A'
-k X'92' X'6B'
-l X'93' X'6C'
-m X'94' X'6D'
-n X'95' X'6E'
-o X'96' X'6F'
-p X'97' X'70'
-q X'98' X'71'
-r X'99' X'72'
-s X'A2' X'73'
-t X'A3' X'74'
-u X'A4' X'75'
-v X'A5' X'76'
-w X'A6' X'77'
-x X'A7' X'78'
-y X'A8' X'79'
-z X'A9' X'7A'
-- X'60' X'2D'
-# X'7B' X'23'
-. X'4B' X'2E'
-$ X'5B' X'24'
-/ X'61' X'2F'
-+ X'4E' X'2B'
-% X'6C' X'25'
-Characters and Code Points
-
-
-
-
-Table 36 Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing) (cont'd.)
-Character EBCDIC Code Point ASCII Code Point
-: X'7A' X'3A'
-! X'4F' for CPGID = 500
-X'4F' for CPGID = 893
-X'5A' for CPGID = 1303
-X'21'
-" X'7F' X'22'
-& X'50' X'26'
-' X'7D' X'27'
-( X'4D' X'28'
-) X'5D' X'29'
-[ X'4A' X'5B'
-* X'5C' X'2A'
-, X'6B' X'2C'
-; X'5E' X'3B'
-< X'4C' X'3C'
-= X'7E' X'3D'
-> X'6E' X'3E'
-? X'6F' X'3F'
-_ X'6D' X'5F'
-Space X'40' X'20'
-FNC1 X'8F' for CPGID = 1303
-RS (record separator) X'1E' X'1E'
-GS (group separator) X'1D' X'1D'
-US (unit separator) X'1F' X'1F'
-EOT (end of transmission) X'37' X'04'
-Characters and Code Points
+| Character | EBCDIC Code Point | ASCII Code Point |
+| :--- | :--- | :--- |
+| 0 | X'F0' | X'30' |
+| 1 | X'F1' | X'31' |
+| 2 | X'F2' | X'32' |
+| 3 | X'F3' | X'33' |
+| 4 | X'F4' | X'34' |
+| 5 | X'F5' | X'35' |
+| 6 | X'F6' | X'36' |
+| 7 | X'F7' | X'37' |
+| 8 | X'F8' | X'38' |
+| 9 | X'F9' | X'39' |
+| A | X'C1' | X'41' |
+| B | X'C2' | X'42' |
+| C | X'C3' | X'43' |
+| D | X'C4' | X'44' |
+| E | X'C5' | X'45' |
+| F | X'C6' | X'46' |
+| G | X'C7' | X'47' |
+| H | X'C8' | X'48' |
+| I | X'C9' | X'49' |
+| J | X'D1' | X'4A' |
+| K | X'D2' | X'4B' |
+| L | X'D3' | X'4C' |
+| M | X'D4' | X'4D' |
+| N | X'D5' | X'4E' |
+| O | X'D6' | X'4F' |
+| P | X'D7' | X'50' |
+| Q | X'D8' | X'51' |
+| R | X'D9' | X'52' |
+| S | X'E2' | X'53' |
+| T | X'E3' | X'54' |
+| U | X'E4' | X'55' |
+| V | X'E5' | X'56' |
+| W | X'E6' | X'57' |
+| X | X'E7' | X'58' |
+| Y | X'E8' | X'59' |
+| Z | X'E9' | X'5A' |
+| a | X'81' | X'61' |
+| b | X'82' | X'62' |
+| c | X'83' | X'63' |
+| d | X'84' | X'64' |
+| e | X'85' | X'65' |
+| f | X'86' | X'66' |
+| g | X'87' | X'67' |
+| h | X'88' | X'68' |
+| i | X'89' | X'69' |
+| j | X'91' | X'6A' |
+| k | X'92' | X'6B' |
+| l | X'93' | X'6C' |
+| m | X'94' | X'6D' |
+| n | X'95' | X'6E' |
+| o | X'96' | X'6F' |
+| p | X'97' | X'70' |
+| q | X'98' | X'71' |
+| r | X'99' | X'72' |
+| s | X'A2' | X'73' |
+| t | X'A3' | X'74' |
+| u | X'A4' | X'75' |
+| v | X'A5' | X'76' |
+| w | X'A6' | X'77' |
+| x | X'A7' | X'78' |
+| y | X'A8' | X'79' |
+| z | X'A9' | X'7A' |
+| - | X'60' | X'2D' |
+| # | X'7B' | X'23' |
+| . | X'4B' | X'2E' |
+| $ | X'5B' | X'24' |
+| / | X'61' | X'2F' |
+| + | X'4E' | X'2B' |
+| % | X'6C' | X'25' |
+| : | X'7A' | X'3A' |
+| ! | X'4F' for CPGID = 500<br>X'4F' for CPGID = 893<br>X'5A' for CPGID = 1303 | X'21' |
+| " | X'7F' | X'22' |
+| & | X'50' | X'26' |
+| ' | X'7D' | X'27' |
+| ( | X'4D' | X'28' |
+| ) | X'5D' | X'29' |
+| [ | X'4A' | X'5B' |
+| * | X'5C' | X'2A' |
+| , | X'6B' | X'2C' |
+| ; | X'5E' | X'3B' |
+| < | X'4C' | X'3C' |
+| = | X'7E' | X'3D' |
+| > | X'6E' | X'3E' |
+| ? | X'6F' | X'3F' |
+| _ | X'6D' | X'5F' |
+| Space | X'40' | X'20' |
+| FNC1 | X'8F' for CPGID = 1303 | |
+| RS (record separator) | X'1E' | X'1E' |
+| GS (group separator) | X'1D' | X'1D' |
+| US (unit separator) | X'1F' | X'1F' |
+| EOT (end of transmission) | X'37' | X'04' |
 
 
 

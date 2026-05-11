@@ -62,7 +62,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ⏳ Object Container Command-Set Vector.
                 - ⏳ Overlay and Page-Segment Command-Set Vectors.
                 - ⏳ Loaded-Font Command-Set Vectors.
-            - ⏳ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
+            - ✅ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ⏳ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, RRL (Table 29), RSNL.
             - ⏳ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
             - ⏳ XOH Obtain Printer Characteristics (OPC): Table 33 and all SDFs (Tables 34–35).
@@ -80,7 +80,21 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ Command: IDO (Syntax and SDFs).
             - ⏳ Commands: RRR and RRRL (including ACK Reply).
             - ⏳ Commands: WOCC and WOC.
-        - ⏳ Metadata, Overlay, and Page-Segment Command Sets (Chapters 11–13).
+        - 🚧 Metadata Command Set (Chapter 11):
+            - ✅ Table 52 (Metadata Commands Summary).
+            - ✅ DHM (Delete Home-State Metadata) syntax and parameter table.
+            - ✅ WMC (Write Metadata Control) syntax and MDD (Metadata Data Descriptor) table.
+            - ✅ WM (Write Metadata) syntax and MO note.
+        - ⏳ Overlay Command Set (Chapter 12):
+            - ⏳ Table 53 (Overlay Commands Summary).
+            - ⏳ BO (Begin Overlay) syntax and basic/extended HAID tables.
+            - ⏳ DO (Deactivate Overlay) syntax and basic/extended HAID tables.
+            - ⏳ IO (Include Overlay) syntax, data field table, and orientation notes.
+        - ⏳ Page-Segment Command Set (Chapter 13):
+            - ⏳ Table 54 (Page Segment Commands Summary).
+            - ⏳ BPS (Begin Page Segment) syntax and HAID table.
+            - ⏳ DPS (Deactivate Page Segment) syntax and HAID table.
+            - ⏳ IPS (Include Page Segment) syntax and HAID table.
         - 🚧 Loaded-Font Command Set (Chapter 14):
             - ✅ Tables 55 (Summary) and 56 (Baseline Offset).
             - ✅ Commands: LCP and LCPC.
@@ -98,8 +112,21 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ Triplets X'91'–X'92' (CMR Descriptor, Invoke CMR).
             - ⏳ Triplets X'95'–X'97' (Rendering Intent, CMR Tag Fidelity, Device Appearance).
             - ⏳ Triplets X'9A'–X'A2' (Image Resolution, Object Container Presentation Space Size, Setup Name, Invoke Tertiary Resource).
-        - ⏳ Exception Reporting (Chapter 16).
-        - ⏳ Compliance and Appendices (Chapter 17 and Appendices A–D).
+        - 🚧 Exception Reporting (Chapter 16):
+            - ✅ Purge PDF artifacts and fix OCR split-words.
+            - ✅ Remove physical page references ("on page XXX").
+            - ✅ Convert Table 63 (Exception ID Specific Information).
+            - ✅ Convert Table 64 (Action Codes).
+            - ⏳ Convert Table 65 (Error Codes for Data Objects).
+            - ⏳ Convert Table 66 (Method of Adjusting the Counters).
+            - ⏳ Convert Table 67 (Method of Adjusting the Counters When a Data-Stream Exception Occurs).
+            - ⏳ Convert Table 68 (Retired Non-IPDS Action Codes).
+        - 🚧 Compliance and Appendices (Chapter 17 and Appendices A–D):
+            - ✅ Chapter 17: Table 69 (Command-Set and Data-Tower Summary).
+            - ✅ Appendix A: Table 70 (Command Code Summary) and Table 71 (Acknowledge Reply).
+            - ⏳ Appendix B: Table 72 (A Typical IPDS Command Sequence).
+            - ⏳ Appendix C: Table 73 (Run-Length 4 Compression).
+            - ⏳ Appendix D: Tables 74–76 (Retired Object Containers).
 - 🚧 **BCOCA**:
     - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
     - ✅ Purge physical page markers and PDF artifacts from Chapter 4.
@@ -117,12 +144,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapter 4: Tables 26–27 (Han Xin Code).
         - ⏳ Chapter 4: Table 28 (Intelligent Mail Package Barcode).
         - ⏳ Chapter 4: Table 29 (MaxiCode).
-        - ⏳ Chapter 4: Table 30 (PDF417).
+        - ✅ Chapter 4: Table 30 (PDF417).
         - ⏳ Chapter 4: Tables 31–33 (QR Code and QR Code with Image).
         - ✅ Chapter 4: Table 34 (Code Pages and Type Styles).
         - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 1: Symbologies X'01'–X'11'.
         - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 2: Symbologies X'16'–X'27'.
-        - ⏳ Chapter 4: Table 36 (Characters and Code Points).
+        - ✅ Chapter 4: Table 36 (Characters and Code Points).
         - ⏳ Appendices B (MO:DCA), C (IPDS).
 - 🚧 **IOCA**:
     - ✅ Remove physical page references ("on page XXX"):
@@ -134,14 +161,42 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - 🚧 Convert structural descriptors to Markdown tables:
         - ✅ Chapter 4: Table 3 (Code Points).
         - ✅ Chapter 5: Self-Defining Field Syntax tables (Begin/End Segment, Begin/End Image Content).
-        - ⏳ Chapter 7: Function Set tables (Tables 5–13).
+        - ✅ Chapter 5: Table 5 (Transparency Mask Structure).
+        - ✅ Chapter 7: Table 6 (Function Set Identification).
+        - ✅ Chapter 7: Function Set 10 (Table 7 and Acceptable Values).
+        - ✅ Chapter 7: Function Set 11 (Table 8 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 14 (Tables 9–10 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 40 (Tables 11–12 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 42 (Tables 13–14 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 48 (Tables 21–26 and Acceptable Values).
 - 🚧 **AFP GOCA**:
     - ⏳ Convert syntax and registry text dumps to Markdown tables.
     - ⏳ Remove physical page references ("on page XXX").
 - 🚧 **Line Data**:
-    - ✅ Purge physical page markers and recurring PDF artifacts from Chapter 3 and Appendices.
+    - ✅ Purge physical page markers and recurring PDF artifacts from all Chapters and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
-    - ⏳ Remove physical page references ("on page XXX").
+    - ✅ Remove physical page references ("on page XXX").
+    - 🚧 Convert command and syntax text dumps to Markdown tables:
+        - ⏳ Chapter 5:
+            - ⏳ Structured Field: Begin Data Map (BDM).
+            - ⏳ Structured Field: Begin Data Map Transmission Subcase (BDX).
+            - ⏳ Structured Field: Begin Page Map (BPM).
+            - ⏳ Structured Field: Conditional Processing Control (CCP).
+            - ⏳ Structured Field: Data Map Transmission Subcase Descriptor (DXD).
+            - ⏳ Structured Field: End Data Map (EDM).
+            - ⏳ Structured Field: End Data Map Transmission Subcase (EDX).
+            - ⏳ Structured Field: End Page Map (EPM).
+            - ⏳ Structured Field: Fixed Data Size (FDS).
+            - ⏳ Structured Field: Fixed Data Text (FDX).
+            - ⏳ Structured Field: Invoke Data Map (IDM).
+            - ⏳ Structured Field: Include Object (IOB).
+            - ⏳ Structured Field: Include Page Overlay (IPO).
+            - ⏳ Structured Field: Include Page Segment (IPS).
+            - ⏳ Structured Field: Line Descriptor Count (LNC).
+            - ⏳ Structured Field: Line Descriptor (LND).
+            - ⏳ Structured Field: Record Descriptor (RCD).
+            - ⏳ Structured Field: XML Descriptor (XMD).
     - ⏳ Convert text-based diagrams in Appendices to standardized formats.
 - ✅ **MO:DCA**:
     - ✅ Purge physical page markers and fix split words.
