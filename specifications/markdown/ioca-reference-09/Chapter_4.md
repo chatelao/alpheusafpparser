@@ -18,10 +18,38 @@ Other values for the second byte of CC are reserved.
 LL is the length of the parameters, excluding LL itself.
 
 
-Code Points T able 3lists the codes used by IOCA, the names of the associated elements, and the formats used.
-Table 3. IOCA Code Points Code Name Format X'70' Begin Segment Long format X'71' End Segment Long format X'8C' Begin Tile Long format X'8D' End Tile Long format X'8E' Begin Transparency Mask Long format X'8F' End Transparency Mask Long format
-X'91' Begin Image Content Long format X'93' End Image Content Long format X'94' Image Size Long format X'95' Image Encoding Long format X'96' IDE Size Long format X'97' Image LUT-ID (Retired) Long format X'98' Band Image Long format X'9B' IDE Structure Long format
-X'9F' External Algorithm Specification Long format X'B5' Tile Position Long format X'B6' Tile Size Long format X'B7' Tile Set Color Long format X'F4' Set Extended Bilevel Image Color Long format X'F6' Set Bilevel Image Color Long format X'F7' IOCA Function Set Identification Long format X'FE92' Image Data Extended format
-X'FE9C' Band Image Data Extended format X'FEB3' nColor Names Extended format X'FEB8' Include Tile Extended format X'FEBB' Tile TOC Extended format X'FECE' Image Subsampling Extended format Code Points
+Code Points Table 3 lists the codes used by IOCA, the names of the associated elements, and the formats used.
+
+Table 3. IOCA Code Points
+
+| Code | Name | Format |
+| :--- | :--- | :--- |
+| X'70' | Begin Segment | Long format |
+| X'71' | End Segment | Long format |
+| X'8C' | Begin Tile | Long format |
+| X'8D' | End Tile | Long format |
+| X'8E' | Begin Transparency Mask | Long format |
+| X'8F' | End Transparency Mask | Long format |
+| X'91' | Begin Image Content | Long format |
+| X'93' | End Image Content | Long format |
+| X'94' | Image Size | Long format |
+| X'95' | Image Encoding | Long format |
+| X'96' | IDE Size | Long format |
+| X'97' | Image LUT-ID (Retired) | Long format |
+| X'98' | Band Image | Long format |
+| X'9B' | IDE Structure | Long format |
+| X'9F' | External Algorithm Specification | Long format |
+| X'B5' | Tile Position | Long format |
+| X'B6' | Tile Size | Long format |
+| X'B7' | Tile Set Color | Long format |
+| X'F4' | Set Extended Bilevel Image Color | Long format |
+| X'F6' | Set Bilevel Image Color | Long format |
+| X'F7' | IOCA Function Set Identification | Long format |
+| X'FE92' | Image Data | Extended format |
+| X'FE9C' | Band Image Data | Extended format |
+| X'FEB3' | nColor Names | Extended format |
+| X'FEB8' | Include Tile | Extended format |
+| X'FEBB' | Tile TOC | Extended format |
+| X'FECE' | Image Subsampling | Extended format |
 
 

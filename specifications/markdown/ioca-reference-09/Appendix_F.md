@@ -1,4 +1,4 @@
-Appendix F , “Notes for IOCA Generators”, on page 173.
+Appendix F , “Notes for IOCA Generators”.
 ## Compression Algorithms
 
 

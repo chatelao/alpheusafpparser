@@ -26,7 +26,7 @@ M
 1–2 UBIN XRESOL X'0001' – X'7FFF' Horizontal resolution in image points per unit base M 3–4 UBIN YRESOL X'0001' – X'7FFF' Vertical resolution in image points per unit base M 5–6 UBIN XSIZE X'0001' – X'7FFF'
 Horizontal size of the Image Presentation Space in image points M 7–8 UBIN YSIZE X'0001' – X'7FFF' Vertical size of the Image Presentation Space in image points
 M
-IPD in MO:DCA-L Data Stream Structured Field Introducer SF Length X'D3EEFB' Flags Sequence Number IOCA Function Set 20 See “IOCA Function Set 20 (IOCA FS20)” on page 179 for details.
+IPD in MO:DCA-L Data Stream Structured Field Introducer SF Length X'D3EEFB' Flags Sequence Number IOCA Function Set 20 See “IOCA Function Set 20 (IOCA FS20)” for details.
 Note: An IOCA FS20 Image Segment can be split into multiple IPD structured fields. Data beyond the End Segment self-defining field is ignored by receivers.
 Retired Architecture
 
