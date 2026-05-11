@@ -18,6 +18,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | ⏳ |
 | 10 | Specification Excellence | 🚧 |
+| 11 | AFP to PDF Conversion (Concept) | ⏳ |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -145,6 +146,27 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
     - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG).
 - ⏳ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
+
+## Phase 11: AFP to PDF Conversion (Concept)
+- ⏳ Define and implement the `AFP to PDF` conversion engine.
+    - ⏳ **Core Framework**:
+        - ⏳ Initialize PDF Document Structure.
+        - ⏳ Implement `PDFConverter` engine.
+        - ⏳ Map MO:DCA Page/Overlay coordinate systems to PDF.
+    - ⏳ **Resource Management**:
+        - ⏳ Implement Font mapping and embedding (FOCA).
+        - ⏳ Convert Overlays and Page Segments to PDF Form XObjects.
+        - ⏳ Convert IOCA images to PDF Image XObjects.
+    - ⏳ **Content Architecture Mapping**:
+        - ⏳ Map PTOCA text and control sequences to PDF operators.
+        - ⏳ Map GOCA drawing orders to PDF path operators.
+        - ⏳ Integrate barcode generation for BCOCA.
+    - ⏳ **Color & Metadata**:
+        - ⏳ Apply Color Management Resources (CMRs).
+        - ⏳ Map `TLE` and `BNG` to PDF metadata and bookmarks.
+    - ⏳ **Tooling**:
+        - ⏳ Implement `AFP2PDF` CLI command.
+        - ⏳ Create visual regression test suite.
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
 - ✅ Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
