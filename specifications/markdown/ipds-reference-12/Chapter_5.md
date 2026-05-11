@@ -55,16 +55,6 @@ is specified with triplets in the Text Output Control self-defining field. Suppo
 indicated by the X'6201' property pair that is returned in the Device-Control command-set vector of the Sense
 Type and Model command reply.
 Figure 73. Locating, Sizing, and Orienting the Text Object Area
-Origin of Text Object
-Area specified in Text
-## Area Position (TAP)
-Size of Text Object
-Area specified in Text
-## Output Control (TOC)
-Orientation of Text
-Object Area specified in
-## Text Area Position (TAP)
-Text Object Area
 Logical Page
 X
 p
@@ -153,7 +143,6 @@ Exception ID X'02C1..02' exists if an internal value is not unique in the LE com
 Exception ID X'02C8..02' exists if an invalid or unsupported internal value is specified.
 Property pair X'2002' in the Text command-set vector of an STM reply indicates support for
 text suppression IDs in the range X'0080'–X'00FF'.
-## Load Equivalence (LE)
 
 
 Bytes 4–5 External value
@@ -168,7 +157,6 @@ Note: This command is not required to use the suppression function. If an LCC co
 suppression ID that has not been specified as an external value in an LE command (because no LE
 command has been received, for example), the ID maps only to itself, and the requested suppression is
 considered to be a direct reference to an internal value suppression ID used in a BSU ... ESU pair.
-## Load Equivalence (LE)
 
 
 Write Text Control
@@ -201,7 +189,6 @@ self-defining field is specified, a self-defining field is out of order, a requi
 or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
 Not all IPDS printers support the WTC command. Support for this optional command is indicated by the
 X'2001' property pair that is returned in the Text command-set vector of the Sense Type and Model reply.
-## Write Text Control (WTC)
 
 
 Text Area Position
@@ -275,7 +262,6 @@ Bytes 4–5 Text object area origin X offset in L-units
 These bytes specify the text object area origin (top-left corner) as an Xp, I, or I-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
-## Write Text Control (WTC)
 
 
 Bytes 6–7 Text object area origin Y offset in L-units
@@ -333,7 +319,6 @@ coordinate location. Therefore, the following applies:
 • If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
 TAP bytes 4 and 5 specify the text inline coordinate; TAP bytes 6 and 7 specify the text
 baseline coordinate.
-## Write Text Control (WTC)
 
 
 • If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the
@@ -361,7 +346,6 @@ end of TAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
 but ignore this field; generators should not specify this field.
-## Write Text Control (WTC)
 
 
 Text Output Control
@@ -432,7 +416,6 @@ X'92' Invoke CMR triplet
 X'95' Rendering Intent triplet
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
-## Write Text Control (WTC)
 
 
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -467,7 +450,6 @@ specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp ex
 unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
 If an invalid value is specified, exception ID X'0207..05' exists.
-## Write Text Control (WTC)
 
 
 Byte 11 Mapping options
@@ -534,7 +516,6 @@ If an unsupported value is specified, exception ID X'0209..05' exists.
 Bytes 14–15 Yoa offset in L-units from object area origin
 This value is the Yoa offset of the text presentation space from the origin of the text object area.
 The units of measure used to interpret this offset are specified in bytes 4–6.
-## Write Text Control (WTC)
 
 
 If an unsupported value is specified, exception ID X'0209..05' exists.
@@ -575,7 +556,6 @@ Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WTC command.
 Note: Rendering Intent (X'95') triplets specified on the WTC command are not used for area coloring of an
 overlay or page. In this case, the CMR-usage hierarchy starts with the LPD command for the logical
 page.
-## Write Text Control (WTC)
 
 
 Text Data Descriptor
@@ -643,7 +623,6 @@ This byte specifies the measurement unit to be used. X'00' indicates the measure
 the X and Y dimensions is ten inches; X'01' indicates the measurement unit is ten centimeters.
 The value X'02' is retired as Retired item 54.
 If an invalid or unsupported value is specified, exception ID X'0205..05' exists.
-## Write Text Control (WTC)
 
 
 Byte 7 Reserved
@@ -679,7 +658,6 @@ for a description of initial text conditions in the Presentation Text Descriptor
 processed, the printer will first apply the PTOCA-defined default initial values and then apply
 any initial text conditions found in the TDD.
 If an invalid or unsupported value is specified, exception ID X'0200..01' exists.
-## Write Text Control (WTC)
 
 
 Write Text
@@ -716,7 +694,6 @@ The data and embedded controls received can span multiple Write Text commands; a
 might end in the middle of an embedded control sequence or in the middle of a two-byte code point. In this
 event, exception ID X'0205..01' exists if any commands other than Execute Order Anystate, No Operation, Set
 Home State, or Sense Type and Model are received before the next Write Text command.
-## Write Text (WT)
 
 
 Unicode Support
@@ -765,7 +742,6 @@ intended to be processed using a layout engine. How this control sequence and th
 points are processed depends upon the printer implementation:
 • Printers that return STM property pair X'4303' in the Text command-set vector handle the UCT differently
 depending on its use:
-## Write Text (WT)
 
 
 – If the UCT terminates a GLC chain, the printer will skip over and ignore the UCT and all associated
@@ -817,7 +793,6 @@ The Glyph Layout Control (GLC) uses supporting control sequences, the first of w
 glyph IDs taken directly from a single TrueType/OpenType font; thus freeing the printer from having to locate
 each glyph by mapping code points to character names to glyph IDs. Glyph advances and any necessary
 offsets are also provided to allow for advanced glyph layout. By allowing glyph IDs, glyph advances, and glyph
-## Write Text (WT)
 
 
 offsets to be sent directly to the printer, a print application can support many complex text functions (not just
@@ -831,7 +806,6 @@ brackets indicate an optional control):
 X'2BD3' GLC GIR GAR [GOR] [GIR GAR [GOR]] ... [GIR GAR [GOR]] [UCT]
 Note that the GLC can be preceded with any chained PTOCA control sequence other than GLC, GIR, GAR,
 or GOR.
-## Write Text (WT)
 
 
 Control Sequence Summary
@@ -870,7 +844,6 @@ X'F6' X'F7' Set Text Orientation (STO) X X X X
 X'C4' X'C5' Set Variable-Space Character Increment (SVI) X X X X
 X'78' X'79' T emporary Baseline Move (TBM) X X X
 X'DA' X'DB' Transparent Data (TRN) X X X X
-## Write Text (WT)
 
 
 Table 38 Summary of Control Sequences (cont'd.)
@@ -922,7 +895,6 @@ X'0282..02' – Invalid or unsupported rule length
 X'0298..01' – Invalid or unsupported suppression ID
 X'0298..03' – Invalid or unsupported value for T emporary Baseline Move control sequence
 X'029A..01' – Invalid overstrike character increment
-## Write Text (WT)
 
 
 X'029B..01' – UCT parameter values for CTLNGTH, UCTVERS, BIDICT , or GLYPHCT are invalid
@@ -938,6 +910,5 @@ X'029C..0B' – Full Font Name specified in a GLC without font OID
 X'029D..01' – Text string decryption not available
 X'029D..02' – Text string decryption failed
 X'029D..03' – No text string encryption key information set
-## Write Text (WT)
 
 

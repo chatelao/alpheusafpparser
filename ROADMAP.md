@@ -29,7 +29,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ## Phase 10: Specification Excellence
 - 🚧 **IPDS (Critical)**:
     - ⏳ Purge physical page markers and recurring PDF headers/footers:
-        - ⏳ Chapters 1–5.
+        - ✅ Chapters 1–5.
         - ⏳ Chapters 6–10.
         - ⏳ Chapters 11–17.
         - ⏳ Appendices A–D.
