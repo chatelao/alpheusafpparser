@@ -111,6 +111,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapter 5 (Date and time formats).
         - ⏳ Chapter 6 (Internationalization for applications).
         - ⏳ Appendices A–F.
+        - ⏳ Glossary
     - ⏳ Purge physical page markers and PDF artifacts.
     - ⏳ Fix OCR-induced split words and formatting artifacts.
     - ⏳ Convert syntax and registry text dumps to Markdown tables.
