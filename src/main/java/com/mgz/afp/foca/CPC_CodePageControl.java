@@ -62,7 +62,7 @@ public class CPC_CodePageControl extends StructuredField {
                         AFPParserConfiguration config) throws AFPParserException {
     checkDataLength(sfData, offset, length, 13);
 
-    defaultGraphicCharacterGlobalID = new String(sfData, 0, 8, cpIBM500);
+    defaultGraphicCharacterGlobalID = new String(sfData, 0, 8, config.getAfpCharSet());
     defaultCharacterUseFlags = DefaultCharacterUseFlag.valueOf(sfData[8] & 0xFF);
     cpiRepeatingGroupLength = CPIRepeatingGroupLength.valueOf(sfData[9] & 0xFF);
     spaceCharacterSectionNumber = UtilBinaryDecoding.parseShort(sfData, offset + 10, 1);
@@ -79,7 +79,7 @@ public class CPC_CodePageControl extends StructuredField {
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-    baos.write(UtilCharacterEncoding.stringToByteArray(defaultGraphicCharacterGlobalID, cpIBM500, 8, Constants.EBCDIC_ID_FILLER));
+    baos.write(UtilCharacterEncoding.stringToByteArray(defaultGraphicCharacterGlobalID, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
     baos.write(DefaultCharacterUseFlag.toByte(defaultCharacterUseFlags));
     baos.write(cpiRepeatingGroupLength.val);
     baos.write(UtilBinaryDecoding.shortToByteArray(spaceCharacterSectionNumber, 1));

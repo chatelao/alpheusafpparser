@@ -31,7 +31,8 @@ import java.nio.charset.Charset;
 
 /**
  * The {@link Charset} used for de/encoding of the name is provided by {@link
- * AFPParserConfiguration#getAfpCharSet()}.
+ * AFPParserConfiguration#getAfpCharSet()}. This class complies with stateful encoding resolution
+ * by decoding the name during the {@code decodeAFP} phase using the active charset.
  */
 public abstract class StructuredFieldBaseName extends StructuredField implements IHasName {
   @AFPField(maxSize = 8)

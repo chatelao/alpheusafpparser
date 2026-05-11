@@ -80,7 +80,7 @@ public class CPD_CodePageDescriptor extends StructuredField {
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     checkDataLength(sfData, 0, -1, 42);
 
-    codePageDescription = new String(sfData, offset, 32, cpIBM500);
+    codePageDescription = new String(sfData, offset, 32, config.getAfpCharSet());
     graphicCharacterGIDLength = UtilBinaryDecoding.parseShort(sfData, offset + 32, 2);
     numberOfCodedGraphicCharactersAssigned = UtilBinaryDecoding.parseLong(sfData, offset + 34, 4);
     graphicCharacterSetGID = UtilBinaryDecoding.parseInt(sfData, offset + 38, 2);
@@ -97,7 +97,7 @@ public class CPD_CodePageDescriptor extends StructuredField {
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-    baos.write(UtilCharacterEncoding.stringToByteArray(codePageDescription, cpIBM500, 32, Constants.EBCDIC_ID_FILLER));
+    baos.write(UtilCharacterEncoding.stringToByteArray(codePageDescription, config.getAfpCharSet(), 32, Constants.EBCDIC_ID_FILLER));
     baos.write(UtilBinaryDecoding.shortToByteArray(graphicCharacterGIDLength, 2));
     baos.write(UtilBinaryDecoding.longToByteArray(numberOfCodedGraphicCharactersAssigned, 4));
     baos.write(UtilBinaryDecoding.intToByteArray(graphicCharacterSetGID, 2));

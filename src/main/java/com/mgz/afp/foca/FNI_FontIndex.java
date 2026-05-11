@@ -156,7 +156,7 @@ public class FNI_FontIndex extends StructuredField {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       repeatingGroupLength = (short) (length != -1 ? length : sfData.length - offset);
 
-      graphicCharacterGlobalID_GCGID = new String(sfData, offset, 8, Constants.cpIBM500);
+      graphicCharacterGlobalID_GCGID = new String(sfData, offset, 8, config.getAfpCharSet());
       characterIncrement = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
       if (repeatingGroupLength > 10) {
         ascenderHeight = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
@@ -182,7 +182,7 @@ public class FNI_FontIndex extends StructuredField {
     }
 
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      os.write(UtilCharacterEncoding.stringToByteArray(graphicCharacterGlobalID_GCGID, Constants.cpIBM500, 8, Constants.EBCDIC_ID_FILLER));
+      os.write(UtilCharacterEncoding.stringToByteArray(graphicCharacterGlobalID_GCGID, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
       os.write(UtilBinaryDecoding.shortToByteArray(characterIncrement, 2));
       if (repeatingGroupLength > 10) {
         os.write(UtilBinaryDecoding.shortToByteArray(ascenderHeight, 2));
