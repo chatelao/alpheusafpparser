@@ -3,7 +3,7 @@ This chapter describes the Loaded-Font command set. It also explains graphic cha
 page and describes commands used to download and manage font information at the printer.
 Both coded fonts and data-object fonts are supported within the IPDS architecture in a similar fashion. This
 chapter describes the commands used to download coded font components; Chapter 10, “Object Container
-Command Set”, on page 563 describes the commands used to download data-object-font components, that
+Command Set” describes the commands used to download data-object-font components, that
 are used as component parts of a data-object font. For a general description of font concepts, refer to the Font
 Object Content Architecture Reference. For a detailed description of TrueType fonts, refer to the TrueType
 Font Files Technical Specification from Microsoft Corporation or the TrueType Reference Manual from Apple
@@ -37,7 +37,7 @@ To see which types of coded font are supported by your printer, refer to your pr
 
 
 Graphic Character Placement Fundamentals
-Note: Many of the concepts described below are illustrated in “Font Parameter Relationships” on page 641.
+Note: Many of the concepts described below are illustrated in “Font Parameter Relationships”.
 When a printer places a graphic character in a logical page, a character reference point coincides with the
 current print position (i c, bc) on the printing baseline. The character reference point is an offset from one of the
 character box reference edges.
@@ -54,7 +54,7 @@ the baseline and one of the following:
 • The top-character edge for a 90° font inline sequence
 • The bottom-character edge for a 270° font inline sequence
 The baseline offset is the distance from the print coordinate of the baseline to a reference edge of the
-character box, as described in Table 56 on page 640. The baseline offset is used to locate the baseline
+character box, as described in Table 56. The baseline offset is used to locate the baseline
 component of the character reference point, that coincides with the print position when the character is printed.
 
 
@@ -90,11 +90,11 @@ c c
 
 
 Figure 102 shows a string of three sequential characters, ABC, in all four possible font inline sequences.
-Compare this to Figure 103 on page 639, that shows the same string of characters in all combinations of inline
+Compare this to Figure 103, that shows the same string of characters in all combinations of inline
 and baseline direction. Note the four possible character rotations for each inline direction specified by the font
 inline sequence.
 Combining the four possible rotations (shown in Figure 102) with the eight possible combinations of inline and
-baseline direction (shown in Figure 103 on page 639) demonstrates that a string of characters can be
+baseline direction (shown in Figure 103) demonstrates that a string of characters can be
 presented a total of 32 different ways.
 Figure 102. Rotation of Character Patterns. Rotation is with respect to the logical page, and arrows show the
 inline direction. The baseline (an imaginary line on which the characters appear to rest) is shown as a
@@ -293,7 +293,7 @@ B
 
 
 The font inline sequence determines which reference edge the printer uses to determine the baseline offset as
-shown in Table 56.Figure 104 on page 641 shows the relationship between the printing baseline, the character
+shown in Table 56.Figure 104 shows the relationship between the printing baseline, the character
 reference point, and the character box for the 0° font inline sequence.
 The character baseline always passes through the character reference point. In horizontally read languages,
 such as English, the character reference point is usually positioned so that the body of the character sits on the
@@ -715,8 +715,7 @@ Specified code points that are nonprinting and nonincrementing do not require a 
 used; in this case, X'0000000000000000' can be specified in the GCGID field.
 Exception ID X'02B0..04' exists if the total number of bytes received for a given code page does not match the
 value specified in the code page byte-count parameter (bytes 4–7) of the Load Code Page Control command.
-Note: Only Anystate commands are valid between concatenated LCP commands. Refer to Figure 45 on page
-87 for a list of Anystate commands.
+Note: Only Anystate commands are valid between concatenated LCP commands. Refer to Figure 45 for a list of Anystate commands.
 ```
 Length X'D61B' Flag CID Data
 ```
@@ -768,7 +767,7 @@ movement of the print position.
 B'100' Undefined, printing, incrementing
 This value produces a data-check exception unless reporting of undefined
 character checks is blocked through the XOA Exception-Handling Control;
-refer to “XOA Exception-Handling Control” on page 277. If the data-check
+refer to “XOA Exception-Handling Control”. If the data-check
 exception is blocked, this entry is treated as a typical character (B'000').
 B'101' Undefined, printing, nonincrementing
 This value produces a data-check exception unless reporting of undefined
@@ -1053,7 +1052,7 @@ movement of the print position.
 B'100' Undefined, printing, incrementing
 This value produces a data-check exception unless reporting of undefined
 character checks is blocked through the XOA Exception-Handling Control;
-refer to “XOA Exception-Handling Control” on page 277. If the data-check
+refer to “XOA Exception-Handling Control”. If the data-check
 exception is blocked, this entry is treated as a typical character (B'000').
 B'101' Undefined, printing, nonincrementing
 This value produces a data-check exception unless reporting of undefined
@@ -1113,7 +1112,7 @@ byte coded fonts and double-byte coded font sections to the printer.
 toned pel and B'0' indicates an untoned pel. The bits are organized as a sequence of scan lines. Each scan
 line is byte aligned and contains a number of bits equal to the character pattern X size determined in bytes
 0–1 of the character-pattern descriptor in the Load Font Control (LFC) command. Refer to the description of
-bytes 40 to end of command (character-pattern descriptors) on page 685. In addition, each scan line
+bytes 40 to end of command (character-pattern descriptors). In addition, each scan line
 contains the minimum number of bits needed to pad the scan line to an integral number of bytes. Padding
 bits are assumed to be B'0'. The number of scan lines per character is equal to the character pattern Y size.
 • The first scan received is the top reference edge of the character box. The last scan line received is the
@@ -1124,8 +1123,7 @@ Exception ID X'022E..02' exists if the total number of bytes received for a give
 specified in the byte-count parameter in the LFC or LFCSC command. Exception ID X'0232..02' exists if the
 total number of bytes received for a given font is more than the value specified in the byte-count parameter in
 the LFC or LFCSC command.
-Note: Only Anystate commands are valid between concatenated LF commands. Refer to Figure 45 on page
-87 for a list of Anystate commands.
+Note: Only Anystate commands are valid between concatenated LF commands. Refer to Figure 45 for a list of Anystate commands.
 An End command is valid only after all of the font data has been transmitted.
 ## Load Font (LF)
 
@@ -1138,29 +1136,19 @@ Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
 For LF3 format, the length of the character ID map and each technology-specific object must also be
 valid. Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-LF1 format When downloading a fully described font (LF1 format), the LF data consists of a series of
-character raster-pattern bit strings.
-The data for the LF command contains the following information:
-Offset Type Name Range Meaning LF1 Range
-0 to
-end
-UNDF Font data Any value Character raster-pattern bit string Any value
-LF3 format When downloading a font character set (LF3 format), the LF data consists of a character ID
-map followed by zero or more technology-specific objects.
-Offset Type Name Range Meaning LF3 Range
-0 to n Character ID
-map
-See detail
-description
-Character ID map See detail
-description
-Zero or more technology-specific objects in the following format:
-n+1 to
-end
-Tech object See detail
-description
-Technology-specific object See detail
-description
+**LF1 format** When downloading a fully described font (LF1 format), the LF data consists of a series of character raster-pattern bit strings. The data for the LF command contains the following information:
+
+| Offset | Type | Name | Range | Meaning | LF1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 to end | UNDF | Font data | Any value | Character raster-pattern bit string | Any value |
+
+**LF3 format** When downloading a font character set (LF3 format), the LF data consists of a character ID map followed by zero or more technology-specific objects.
+
+| Offset | Type | Name | Range | Meaning | LF3 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 to n | Character ID map | | See detail description | Character ID map | See detail description |
+| **Zero or more technology-specific objects in the following format:** | | | | | |
+| n+1 to end | Tech object | | See detail description | Technology-specific object | See detail description |
 Character ID map
 The character ID map is used to map IBM character IDs (GCGIDs), as are found in code page objects, to the
 technology-specific IDs used by this font character set.
@@ -1175,36 +1163,21 @@ exception ID X'02B1..04' exists.
 
 
 The character ID map contains the following information:
-Offset Type Name Range Meaning LF3 Range
-0 CODE IBM format X'02' IBM character ID format, IBM Registered
-EBCDIC GCGID
-X'02'
-1 CODE Technology
-format X'03'
-X'05'
-Technology-specific character ID format:
-Font-specific ASCII character
-name, used with Type 1 PFB fonts
-CMAP binary code point,
-used with CID-keyed fonts
-At least one
-value
-Zero or more entries in the following format:
-+0–7 CHAR GCGID Any value IBM character ID as used in code pages Any value
-+8–11 UBIN Offset Any value Offset from the beginning of the character ID
-map (byte 0), into the following list of
-technology-specific ID entries; each GCGID
-maps to exactly one technology-specific ID
-Any value
-Zero or more technology-specific ID entries in the following format:
-++0 UBIN Length X'02' – X'80' Length of technology-specific ID entry,
-including this length field
-X'02' – X'80'
-++ 1–n UNDF Tech ID Any value Technology-specific ID Any value
+
+| Offset | Type | Name | Range | Meaning | LF3 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | IBM format | X'02' | IBM character ID format, IBM Registered EBCDIC GCGID | X'02' |
+| 1 | CODE | Technology format | X'03', X'05' | Technology-specific character ID format:<br>X'03' Font-specific ASCII character name, used with Type 1 PFB fonts<br>X'05' CMAP binary code point, used with CID-keyed fonts | At least one value |
+| **Zero or more entries in the following format:** | | | | | |
+| +0–7 | CHAR | GCGID | Any value | IBM character ID as used in code pages | Any value |
+| +8–11 | UBIN | Offset | Any value | Offset from the beginning of the character ID map (byte 0), into the following list of technology-specific ID entries; each GCGID maps to exactly one technology-specific ID | Any value |
+| **Zero or more technology-specific ID entries in the following format:** | | | | | |
+| ++0 | UBIN | Length | X'02' – X'80' | Length of technology-specific ID entry, including this length field | X'02' – X'80' |
+| ++ 1–n | UNDF | Tech ID | Any value | Technology-specific ID | Any value |
 Note: When using a CMap binary code point technology format (X'05'), multiple CMap or Rearranged objects
 can be present in the font character set. The code points specified in the character ID map correspond
 to the code points in the CMap or Rearranged object that is linked to the character ID map. Refer to the
-description, beginning with byte 10, of the technology-specific object on page 667.
+description, beginning with byte 10, of the technology-specific object.
 First part of Character ID map
 Byte 0 IBM format
 This field specifies that the 2nd part of the map contains IBM character IDs (GCGIDs). If an
@@ -1244,70 +1217,18 @@ For Type 1 PFB fonts, there is just one technology-specific object (a PFB file);
 in a Type 1 PFB font. For CID-keyed fonts, there can be several technology-specific objects; each of which
 describes itself in bytes n+1 to m.
 Each of the technology-specific objects contain the following information:
-Offset Type Name Range Meaning LF3 Range
-0–3 UBIN Length X'0000000A' –
-X'FFFFFFFF'
-Length of this technology-specific object,
-including this length field
-X'0000000A' –
-X'FFFFFFFF'
-4–7 UBIN Checksum Any value Checksum value Any value
-8–9 UBIN Identifier
-length
-X'0002' –
-X'FFFF'
-Length of the object identifier (bytes 8–n) X'0002' –
-X'FFFF'
-10–n CHAR Identifier Any value Object identifier for this technology-specific
-object
-Any value
-Bytes n+1 to m are only present for CID-keyed fonts.
-These bytes are omitted for Type 1 PFB fonts.
-n+1 to
-n+2
-UBIN Descriptor
-length
-X'0002' –
-X'FFFF'
-Length of the object descriptor (bytes n+1 to
-m)
-X'0002' –
-X'FFFF'
-n+3 CODE Object type
-X'00'
-X'01'
-X'05'
-X'06'
-X'07'
-X'08'
-Object type:
-No object type specified
-CMap file
-CID file
-PFB file
-AFM file
-Filename Map file
-(for example, ATMDATA.DAT)
-X'00'
-X'01'
-X'05'
-X'06'
-X'07'
-X'08'
-n+4 to
-m
-Object-type
-specific
-information
-See byte
-description
-Object-type specific information See byte
-description
-m+1 to
-end
-UBIN Object data Any value Object data as defined for the specific
-technology
-Any value
+
+| Offset | Type | Name | Range | Meaning | LF3 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–3 | UBIN | Length | X'0000000A' – X'FFFFFFFF' | Length of this technology-specific object, including this length field | X'0000000A' – X'FFFFFFFF' |
+| 4–7 | UBIN | Checksum | Any value | Checksum value | Any value |
+| 8–9 | UBIN | Identifier length | X'0002' – X'FFFF' | Length of the object identifier (bytes 8–n) | X'0002' – X'FFFF' |
+| 10–n | CHAR | Identifier | Any value | Object identifier for this technology-specific object | Any value |
+| **Bytes n+1 to m are only present for CID-keyed fonts. These bytes are omitted for Type 1 PFB fonts.** | | | | | |
+| n+1 to n+2 | UBIN | Descriptor length | X'0002' – X'FFFF' | Length of the object descriptor (bytes n+1 to m) | X'0002' – X'FFFF' |
+| n+3 | CODE | Object type | X'00', X'01', X'05', X'06', X'07', X'08' | Object type:<br>X'00' No object type specified<br>X'01' CMap file<br>X'05' CID file<br>X'06' PFB file<br>X'07' AFM file<br>X'08' Filename Map file (for example, ATMDATA.DAT) | X'00', X'01', X'05', X'06', X'07', X'08' |
+| n+4 to m | | Object-type specific information | See byte description | Object-type specific information | See byte description |
+| m+1 to end | UBIN | Object data | Any value | Object data as defined for the specific technology | Any value |
 Bytes 0–3 Length
 This value specifies the length of the technology-specific object, including this field. Exception
 ID X'02B1..08' exists if an invalid length is specified.
@@ -1377,59 +1298,14 @@ Object-type specific information
 The content of this field depends on the object type, as follows:
 • For types X'00' and X'06'–X'08', this field is not defined by architecture and is ignored.
 • For type X'01' (CMap file), five fields in the following sequence:
-Offset Type Name Range Meaning LF3 Range
-n+4 CODE Precedence X'00'
-X'01'
-Primary
-Auxiliary
-X'00'
-X'01'
-n+5 CODE Linkage X'00'
-X'01'
-Character ID map linked
-Not character ID map linked
-X'00'
-X'01'
-n+6 CODE Writing
-direction
-X'00'
-X'01'
-X'02'
-X'03'
-No writing direction specified
-Horizontal
-Vertical
-Both horizontal and vertical
-X'00'
-X'01'
-X'02'
-X'03'
-n+7 to
-n+8
-CODE GCSGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied
-Graphic Character Set Global ID
-Use default value
-X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-n+9 to
-n+10
-CODE CPGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied
-Code Page Global ID
-Use default value
-X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
+
+| Offset | Type | Name | Range | Meaning | LF3 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| n+4 | CODE | Precedence | X'00', X'01' | X'00' Primary<br>X'01' Auxiliary | X'00', X'01' |
+| n+5 | CODE | Linkage | X'00', X'01' | X'00' Character ID map linked<br>X'01' Not character ID map linked | X'00', X'01' |
+| n+6 | CODE | Writing direction | X'00', X'01', X'02', X'03' | X'00' No writing direction specified<br>X'01' Horizontal<br>X'02' Vertical<br>X'03' Both horizontal and vertical | X'00', X'01', X'02', X'03' |
+| n+7 to n+8 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | X'0000', X'0001' – X'FFFE', X'FFFF' |
+| n+9 to n+10 | CODE | CPGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Code Page Global ID<br>Use default value | X'0000', X'0001' – X'FFFE', X'FFFF' |
 Byte n+4 Precedence
 X'00' Primary
 X'01' Auxiliary
@@ -1476,23 +1352,12 @@ method used, the code page selected for activation might not have a
 corresponding CMap in the font character set.
 Any additional bytes are ignored.
 • For type X'05' (CID file), three fields in the following sequence:
-Offset Type Name Range Meaning LF3 Range
-n+4 CODE Precedence X'00'
-X'01'
-Primary
-Auxiliary
-X'00'
-X'01'
-n+5 to
-n+6
-UBIN Maximum V(y) Any value Maximum V(y) value for all characters in
-the CID font
-Any value
-n+7 to
-n+8
-UBIN Maximum W(y) Any value Maximum W(y) value for all characters in
-the CID font
-Any value
+
+| Offset | Type | Name | Range | Meaning | LF3 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| n+4 | CODE | Precedence | X'00', X'01' | X'00' Primary<br>X'01' Auxiliary | X'00', X'01' |
+| n+5 to n+6 | UBIN | Maximum V(y) | Any value | Maximum V(y) value for all characters in the CID font | Any value |
+| n+7 to n+8 | UBIN | Maximum W(y) | Any value | Maximum W(y) value for all characters in the CID font | Any value |
 Byte n+4 Precedence
 X'00' Primary
 X'01' Auxiliary
@@ -1572,56 +1437,23 @@ Without CID X'0016' or X'001A'
 With CID X'0018' or X'001C'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The data for the LFCSC command contains the following information:
-Offset Type Name Range Meaning LF3 Range
-0–1 CODE HAID X'0001' –
-X'7EFF'
-Font character set Host-Assigned ID X'0001' –
-X'7EFF'
-2–3 X'0000' Reserved X'0000'
-4 CODE Pattern
-technology X'1E'
-X'1F'
-Pattern Technology ID:
-CID-keyed technology
-Type 1 PFB technology
-At least one
-value
-5 X'00' Reserved X'00'
-6 BITS Intended-use flags
-bit 0 MICR B'0', B'1' Intended for MICR printing B'0'
-bit 1 Extension B'0', B'1' This is a FCS extension B'0'
-bits 2–7 B'000000' Reserved B'000000'
-7–10 UBIN Load Font
-count
-X'00000002' –
-X'FFFFFFFF'
-Number of data bytes carried in subsequent
-Load Font commands
-X'00000002'
-11–14 UBIN Map size X'00000002' –
-X'FFFFFFFF'
-Number of bytes in the character ID map X'00000002'
-15–16 UBIN Character ID
-count
-Any value Number of GCGIDs in the character ID map Any value
-GRID information if required (see byte description):
-Load Font Character Set Control (LFCSC)
 
-
-Offset Type Name Range Meaning LF3 Range
-17–18 CODE GCSGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied
-Graphic Character Set Global ID
-Use default value
-See byte
-description.
-19–20 CODE FGID X'0001' –
-X'FFFE'
-Font Typeface Global ID See byte
-description.
+| Offset | Type | Name | Range | Meaning | LF3 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font character set Host-Assigned ID | X'0001' – X'7EFF' |
+| 2–3 | X'0000' | | | Reserved | X'0000' |
+| 4 | CODE | Pattern technology | X'1E', X'1F' | Pattern Technology ID:<br>X'1E' CID-keyed technology<br>X'1F' Type 1 PFB technology | At least one value |
+| 5 | X'00' | | | Reserved | X'00' |
+| 6 | BITS | Intended-use flags | | | |
+| | bit 0 | MICR | B'0', B'1' | Intended for MICR printing | B'0' |
+| | bit 1 | Extension | B'0', B'1' | This is a FCS extension | B'0' |
+| | bits 2–7 | | B'000000' | Reserved | B'000000' |
+| 7–10 | UBIN | Load Font count | X'00000002' – X'FFFFFFFF' | Number of data bytes carried in subsequent Load Font commands | X'00000002' |
+| 11–14 | UBIN | Map size | X'00000002' – X'FFFFFFFF' | Number of bytes in the character ID map | X'00000002' |
+| 15–16 | UBIN | Character ID count | Any value | Number of GCGIDs in the character ID map | Any value |
+| **GRID information if required (see byte description):** | | | | | |
+| 17–18 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description. |
+| 19–20 | CODE | FGID | X'0001' – X'FFFE' | Font Typeface Global ID | See byte description. |
 Bytes 0–1 Font character set Host-Assigned ID
 A value that is assigned by the host to identify this font character set. The HAIDs used for font
 character sets come from a pool of IDs that is separate from the pool used for other resources
@@ -1660,7 +1492,7 @@ currently enabled for MICR printing. It is up to the application program to
 ensure that MICR data is printed only in paper locations on which the printer
 can use MICR material. AFP Setup Verification can be used on some printers
 to ensure that a printer is properly set up for MICR printing; refer to “Printer
-Setup Self-Defining Field” on page 367.
+Setup Self-Defining Field”.
 Load Font Character Set Control (LFCSC)
 
 
@@ -2236,7 +2068,7 @@ currently enabled for MICR printing. It is up to the application program to
 ensure that MICR data is printed only in paper locations on which the printer
 can use MICR material. AFP Setup Verification can be used on some printers
 to ensure that a printer is properly set up for MICR printing; refer to “Printer
-Setup Self-Defining Field” on page 367.
+Setup Self-Defining Field”.
 Exception ID X'02B3..01' exists if a string of text within a WT or WG command
 was encountered that was to be printed with a MICR font, but MICR printing is
 not available for this text string. Some printers can print MICR text on one side
@@ -2615,7 +2447,7 @@ of the character box to the top reference edge.
 The font-inline sequence, in conjunction with the I-axis orientation specified by the most recent
 STO control sequence, determines the rotation of characters with respect to the X
 p,Yp
-coordinate system. Figure 113 shows this relationship; Figure 102 on page 638 shows the
+coordinate system. Figure 113 shows this relationship; Figure 102 shows the
 same relationship graphically.
 Exception ID X'0246..02' exists if a font index received for a given fully described font has the
 same inline sequence as a previous index received for the same font.
@@ -2861,7 +2693,7 @@ printing and no movement of the print position.
 B'100' Undefined, printing, incrementing
 This value produces a data-check exception unless reporting of
 undefined character checks is blocked through the XOA Exception-
-Handling Control; refer to “XOA Exception-Handling Control” on page
+Handling Control; refer to “XOA Exception-Handling Control”
 277. If the data-check exception is blocked, this combination is
 treated as if it indicated a typical character (B'000').
 B'101' Undefined, printing, nonincrementing
@@ -2967,7 +2799,7 @@ explained separately for each of the parameters below.
 The LSS command transmits 4 + E + T + R bytes of data where:
 E is an arbitrary number of bytes defined by an extension parameter.
 T is an arbitrary number of bytes defined by one or more triplets.
-R is the number of bytes of raster data. Refer to the formulas on page 702.
+R is the number of bytes of raster data. Refer to the formulas.
 ## Load Symbol Set (LSS)
 
 

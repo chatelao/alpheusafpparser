@@ -62,7 +62,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - 🚧 Loaded-Font Command Set (Chapter 14):
             - ✅ Tables 55 (Summary) and 56 (Baseline Offset).
             - ✅ Commands: LCP and LCPC.
-            - ⏳ Commands: LF and LFCSC.
+            - ✅ Commands: LF and LFCSC.
             - ⏳ Commands: LFC and LFI.
             - ⏳ Command: LSS.
         - ⏳ Triplets (Chapter 15).
