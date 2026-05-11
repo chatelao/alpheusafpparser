@@ -1,92 +1,65 @@
-# Concept: ADF to PDF Conversion
+# Concept: ADF to PDF/VT Conversion
 
-This document outlines the conceptual architecture and implementation plan for converting the Alpheus AFP object model (ADF) to the Portable Document Format (PDF), with specific references to the **ISO 32000-1 (PDF 1.7)** specification.
+This document outlines the conceptual architecture and implementation plan for converting the Alpheus AFP object model (ADF) to **PDF/VT (ISO 16612-2)**. PDF/VT is specifically designed for Variable Data and Transactional printing, making it the ideal target for AFP streams.
 
 ## Architecture Overview
 
-The conversion process follows a three-stage pipeline:
+The conversion process follows a three-stage pipeline, optimized for PDF/VT requirements:
 
-1.  **Object Model Traversal**: Recursive traversal of the Alpheus object tree (Documents, Pages, Overlays, Page Segments).
-2.  **Resource Resolution**: Dynamic lookup and mapping of AFP resources (Fonts, Images, Form Maps) to their PDF equivalents in the `/Resources` dictionary.
-3.  **Primitive Mapping**: Translation of AFP-specific content architectures (PTOCA, GOCA, IOCA, BCOCA) into PDF page content stream operators.
-
----
-
-## Detailed Mapping & PDF Spec References
-
-### 1. Document Structure & Coordinates
-- **AFP**: MO:DCA coordinate system (origin top-left, typically 1440 or 240 pels/inch).
-- **PDF (ISO 32000-1, §8.3)**: Default user space (origin bottom-left, 1/72 inch).
-- **Transformation**:
-    - Apply a global Coordinate Transformation Matrix (CTM) using the `cm` operator to flip the Y-axis and scale to points.
-    - Page size mapping to `/MediaBox` and `/CropBox`.
-
-### 2. Text Presentation (PTOCA to PDF Text)
-- **AFP**: PTOCA Control Sequences (AMI, RMI, AMB, RMB).
-- **PDF (ISO 32000-1, §9.2, §9.4)**:
-    - **Text State**: Maintain `Tf` (Font and Size), `Tc` (Character Spacing), and `Tw` (Word Spacing).
-    - **Text Objects**: Enclose text runs in `BT` (Begin Text) and `ET` (End Text) blocks.
-    - **Positioning**:
-        - Translate `AMI` and `AMB` to absolute coordinates using `Td` or `Tm` operators.
-        - Translate `RMI` and `RMB` to relative shifts using `Td`.
-    - **Rendering**: Use `Tj` (Show Text) for transparent data (`TRN`).
-    - **Font Mapping**: Map FOCA Coded Fonts to PDF `/Font` resources. Handle EBCDIC-to-CID mapping using `/ToUnicode` CMap (§9.10).
-
-### 3. Vector Graphics (GOCA to PDF Graphics)
-- **AFP**: GOCA Drawing Orders (Lines, Arcs, Fillets, Areas).
-- **PDF (ISO 32000-1, §8.5)**:
-    - **Path Construction**:
-        - `GSCP` (Set Current Position) -> `m` (MoveTo).
-        - `GLINE` (Line) -> `l` (LineTo).
-        - `GCBEZ` (Bezier Curve) -> `c`, `v`, or `y` (Curveto).
-        - `GEAR` (End Area) -> `h` (ClosePath) followed by `f` (Fill) or `f*` (Even-Odd Fill).
-    - **Path Painting**:
-        - Use `S` (Stroke) for lines and `f` (Fill) for areas.
-    - **Graphics State (§8.4)**:
-        - `GSCOL` (Set Color) -> `rg`/`RG` (RGB) or `k`/`K` (CMYK).
-        - `GSLW` (Set Line Width) -> `w`.
-        - `GSLT` (Set Line Type) -> `d` (Dash pattern).
-
-### 4. Image Data (IOCA to PDF Images)
-- **AFP**: IOCA Image Content (Function Sets 10, 11, 45).
-- **PDF (ISO 32000-1, §8.9)**:
-    - **XObjects**: Encapsulate IOCA data as Image XObjects (`/Subtype /Image`).
-    - **Dictionary Entries**:
-        - `/Width` and `/Height` from IOCA descriptor.
-        - `/ColorSpace` (§8.6) mapped from IOCA IDEs (DeviceGray, DeviceRGB, DeviceCMYK).
-        - `/BitsPerComponent` mapped from IOCA bit depth.
-    - **Compression**: Map IOCA compression (G4, JPEG, LZW) to PDF `/Filter` entries (`/CCITTFaxDecode`, `/DCTDecode`, `/LZWDecode`).
-
-### 5. Resources & Complex Objects
-- **Overlays & Page Segments**:
-    - Map to PDF **Form XObjects** (§8.10) for efficient re-use.
-    - An `IPO` (Include Page Overlay) becomes a `Do` operator invoking a named Form XObject.
-- **Bar Codes (BCOCA)**:
-    - Rendered as vector paths (GOCA-style) or referenced as a high-level PDF `/XObject` if generated externally.
+1.  **Object Model Traversal**: Recursive traversal of the Alpheus object tree, mapping MO:DCA document structure to the **PDF/VT Document Part (DPart) Hierarchy**.
+2.  **Resource Resolution**: Dynamic lookup and mapping of AFP resources (Fonts, Images, Form Maps) to **Global Resources** in the PDF/VT structure.
+3.  **Primitive Mapping**: Translation of AFP content architectures (PTOCA, GOCA, IOCA, BCOCA) into PDF operators, utilizing PDF/X-4/5 base standards.
 
 ---
 
-## Implementation Task List
+## PDF/VT Specific Mappings (ISO 16612-2)
 
-### Phase 1: Core Engine & Coordinate Mapping
-- [ ] Implement `PDFStreamWriter` to generate raw PDF operator syntax.
-- [ ] Implement MO:DCA Pel-to-Point coordinate transformation logic.
-- [ ] Initialize PDF structural dictionaries (Catalog, Pages, Resources).
+### 1. Document Structure (MO:DCA to DPart Hierarchy)
+- **AFP**: MO:DCA `BNG`/`ENG` (Named Page Groups) and `BDT`/`EDT` (Documents).
+- **PDF/VT (ISO 16612-2, §10)**:
+    - **DPartRoot**: The root of the Document Part Hierarchy.
+    - **DPart Hierarchy**: Map MO:DCA nested Page Groups to a multi-level `/DPart` tree.
+    - **DPart Metadata**:
+        - Translate `TLE` (Tag Logical Element) triplets into entries in the `/DPart` dictionary's metadata or `/Property` entries.
+        - This enables high-speed indexing and record-level processing in production RIPs.
 
-### Phase 2: Resource Resolution
-- [ ] **FOCA Resolver**: Map AFP fonts to PDF Standard 14 fonts or embedded TrueType/CFF.
-- [ ] **XObject Manager**: Convert Overlays (`BMO`/`EMO`) and Page Segments (`BPS`/`EPS`) into reusable `/Form` XObjects.
-- [ ] **Image Processor**: Extract IOCA segments and wrap them in `/Image` XObjects.
+### 2. Variable Data Optimization (Overlays to Form XObjects)
+- **AFP**: `BMO`/`EMO` (Overlays) and `BPS`/`EPS` (Page Segments).
+- **PDF/VT Strategy**:
+    - Overlays are mapped to **Form XObjects** (ISO 32000-1, §8.10).
+    - To comply with PDF/VT performance goals, these XObjects are stored in the **Global Resources** of the PDF/VT file.
+    - Repeated use of an overlay across thousands of pages uses a single `Do` operator reference, minimizing file size and RIP time.
 
-### Phase 3: Content Architecture Implementation
-- [ ] **PTOCA Driver**: Implement a state machine for PTOCA control sequences mapping to `BT`/`ET` operators.
-- [ ] **GOCA Driver**: Implement path construction mapping (Move, Line, Curve, Close).
-- [ ] **BCOCA Renderer**: Implement barcode drawing using PDF primitives (rectangles and text).
+### 3. Coordinate Transformation & Graphics State
+- **Transformation**: Apply CTM (`cm` operator) to map AFP coordinate systems to PDF User Space (§8.3), respecting PDF/VT's requirement for PDF/X-4/5 compliance (e.g., proper `/MediaBox` and `/TrimBox` definitions).
+- **Transparency**: Utilize PDF transparency groups (§11) where AFP uses mixing rules (e.g., Overstrike, GOCA Mix), as permitted by PDF/X-4 (the base for PDF/VT-1).
 
-### Phase 4: Metadata & Navigation
-- [ ] Map `TLE` (Tag Logical Element) to PDF PieceInfo or Document Metadata.
-- [ ] Map `BNG` (Begin Named Group) to PDF Bookmarks (`/Outlines`).
+### 4. Content Architecture Mapping
+- **Text (PTOCA)**: Map to PDF Text Objects (§9) using embedded fonts. Utilize PDF/VT's character-level positioning for precise PTOCA `AMI`/`RMI` reproduction.
+- **Graphics (GOCA)**: Map to PDF path construction operators (§8.5).
+- **Images (IOCA)**: Wrap in Image XObjects (§8.9).
 
-### Phase 5: Validation
-- [ ] Compare PDF output against IBM AFP Viewer screenshots.
-- [ ] Validate generated PDF structure with `pdf-parser` or `preflight`.
+---
+
+## Detailed Implementation Task List
+
+### Phase 1: PDF/VT Structural Implementation
+- [ ] Initialize **DPart Hierarchy** (`/DPartRoot`) in the PDF Catalog.
+- [ ] Implement MO:DCA `BNG` to PDF `/DPart` recursive mapping.
+- [ ] Map `TLE` values to Record-level metadata.
+- [ ] Define `/OutputIntents` (PDF/X compliance) as required by ISO 16612-2.
+
+### Phase 2: Resource Management & Optimization
+- [ ] **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to the global Page Tree resources.
+- [ ] **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted as per PDF/X-4 requirements.
+- [ ] **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance.
+
+### Phase 3: Content Conversion (Base Operators)
+- [ ] **PTOCA Driver**: Map control sequences to `BT`/`ET` and `Td`/`Tm` operators.
+- [ ] **GOCA Driver**: Map path drawing orders (Line, Arc, Area) to PDF paths.
+- [ ] **BCOCA Renderer**: Draw barcodes using vector primitives to ensure resolution independence.
+
+### Phase 4: Verification & Compliance
+- [ ] Validate generated files against **PDF/VT-1** profiles using preflight tools (e.g., Callas pdfToolbox or Adobe Acrobat Pro).
+- [ ] Verify DPart hierarchy navigation in PDF/VT-aware viewers.
+- [ ] Compare record-level extraction from PDF metadata against original AFP `TLE` values.
