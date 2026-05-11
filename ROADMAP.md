@@ -95,7 +95,15 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ Triplets X'85'–X'88' (Finishing Operation, Text Fidelity, Finishing Fidelity).
             - ⏳ Triplets X'8B'–X'92' (Data Object Font Descriptor, Linked Font, UP3I Finishing Operation, CMR Descriptor, Invoke CMR).
             - ⏳ Triplets X'95'–X'A2' (Rendering Intent, CMR Tag Fidelity, Device Appearance, Image Resolution, Object Container Presentation Space Size, Setup Name, Invoke Tertiary Resource).
-        - ⏳ Exception Reporting (Chapter 16).
+        - 🚧 Exception Reporting (Chapter 16):
+            - ✅ Purge PDF artifacts and fix OCR split-words.
+            - ✅ Remove physical page references ("on page XXX").
+            - ✅ Convert Table 63 (Exception ID Specific Information).
+            - ✅ Convert Table 64 (Action Codes).
+            - ⏳ Convert Table 65 (Error Codes for Data Objects).
+            - ⏳ Convert Table 66 (Method of Adjusting the Counters).
+            - ⏳ Convert Table 67 (Method of Adjusting the Counters When a Data-Stream Exception Occurs).
+            - ⏳ Convert Table 68 (Retired Non-IPDS Action Codes).
         - 🚧 Compliance and Appendices (Chapter 17 and Appendices A–D):
             - ✅ Chapter 17: Table 69 (Command-Set and Data-Tower Summary).
             - ✅ Appendix A: Table 70 (Command Code Summary) and Table 71 (Acknowledge Reply).
