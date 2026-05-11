@@ -204,13 +204,11 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
 
   public static class UnknownSegmentLong extends IPD_Segment.IPD_SegmentLong {
     byte[] data;
+    String text;
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
-        return new String(data, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
 
     @Override
@@ -220,8 +218,12 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 0) {
         data = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 2, data, 0, data.length);
+        if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+          text = new String(data, config.getAfpCharSet());
+        }
       } else {
         data = null;
+        text = null;
       }
     }
 
@@ -242,13 +244,11 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
 
   public static class UnknownSegmentExtended extends IPD_Segment.IPD_SegmentExtended {
     byte[] data;
+    String text;
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
-        return new String(data, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
 
     @Override
@@ -258,8 +258,12 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 0) {
         data = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 4, data, 0, data.length);
+        if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+          text = new String(data, config.getAfpCharSet());
+        }
       } else {
         data = null;
+        text = null;
       }
     }
 

@@ -358,10 +358,10 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class FullyQualifiedName extends Triplet {
-    GlobalID_Use type;
-    GlobalID_Format format;
-    byte[] nameAsBytes;
-    String nameAsString;
+    protected GlobalID_Use type;
+    protected GlobalID_Format format;
+    protected byte[] nameAsBytes;
+    protected String nameAsString;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1336,8 +1336,8 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    */
   @XmlRootElement
   public static class ResourceLocalIdentifier extends Triplet {
-    RLI_ResourceType resourceType;
-    short resourceLocalID;
+    protected RLI_ResourceType resourceType;
+    protected short resourceLocalID;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1354,6 +1354,22 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(resourceType.toByte());
       os.write(UtilBinaryDecoding.shortToByteArray(resourceLocalID, 1));
+    }
+
+    public RLI_ResourceType getResourceType() {
+      return resourceType;
+    }
+
+    public void setResourceType(RLI_ResourceType resourceType) {
+      this.resourceType = resourceType;
+    }
+
+    public short getResourceLocalID() {
+      return resourceLocalID;
+    }
+
+    public void setResourceLocalID(short resourceLocalID) {
+      this.resourceLocalID = resourceLocalID;
     }
 
     public enum RLI_ResourceType {

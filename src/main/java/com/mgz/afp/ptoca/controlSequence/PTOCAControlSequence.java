@@ -290,13 +290,11 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
    @XmlRootElement public static class Undefined extends PTOCAControlSequence {
     @AFPField
     byte[] undefinedData;
+    String text;
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(undefinedData, Constants.cpIBM500)) {
-        return new String(undefinedData, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
 
     @Override
@@ -305,8 +303,12 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (actualLength > 0) {
         undefinedData = new byte[actualLength];
         System.arraycopy(sfData, offset, undefinedData, 0, actualLength);
+        if (UtilCharacterEncoding.isHumanReadable(undefinedData, config.getAfpCharSet())) {
+          text = new String(undefinedData, config.getAfpCharSet());
+        }
       } else {
         undefinedData = null;
+        text = null;
       }
     }
 
@@ -555,13 +557,11 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
   /* PTOCA, Page 63. <br> */
    @XmlRootElement public static class NOP_NoOperation extends PTOCAControlSequence {
     byte[] ignoredData;
+    String text;
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(ignoredData, Constants.cpIBM500)) {
-        return new String(ignoredData, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
 
     @Override
@@ -570,8 +570,12 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (actualLength > 0) {
         ignoredData = new byte[actualLength];
         System.arraycopy(sfData, offset, ignoredData, 0, actualLength);
+        if (UtilCharacterEncoding.isHumanReadable(ignoredData, config.getAfpCharSet())) {
+          text = new String(ignoredData, config.getAfpCharSet());
+        }
       } else {
         ignoredData = null;
+        text = null;
       }
     }
 
@@ -596,11 +600,19 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
    @XmlRootElement public static class OVS_Overstrike extends PTOCAControlSequence {
     PTOCA_BypassFlag bypassFlag;
     int overStrikeCharacterCodePoint;
+    String text;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       bypassFlag = PTOCA_BypassFlag.valueOf(sfData[offset]);
       overStrikeCharacterCodePoint = UtilBinaryDecoding.parseInt(sfData, offset + 1, 2);
+      if (overStrikeCharacterCodePoint <= 0xFF) {
+        text = new String(new byte[] {(byte) overStrikeCharacterCodePoint}, config.getAfpCharSet());
+      } else {
+        text = new String(
+            UtilBinaryDecoding.intToByteArray(overStrikeCharacterCodePoint, 2),
+            config.getAfpCharSet());
+      }
     }
 
     @Override
@@ -627,13 +639,7 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      if (overStrikeCharacterCodePoint <= 0xFF) {
-        return new String(new byte[] {(byte) overStrikeCharacterCodePoint}, Constants.cpIBM500);
-      } else {
-        return new String(
-            UtilBinaryDecoding.intToByteArray(overStrikeCharacterCodePoint, 2),
-            Constants.cpIBM500);
-      }
+      return text;
     }
   }
 
@@ -689,23 +695,11 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
    @XmlRootElement public static class RPS_RepeatString extends PTOCAControlSequence {
     short repeatLength;
     byte[] repeatData;
+    String text;
 
     @XmlElement(name = "text")
     public String getText() {
-      if (repeatData == null || repeatData.length == 0 || repeatLength <= 0) {
-        return null;
-      }
-      int len = repeatLength & 0xFFFF;
-      byte[] fullData = new byte[len];
-      for (int i = 0; i < len; i++) {
-        fullData[i] = repeatData[i % repeatData.length];
-      }
-
-      Charset charset = Constants.cpIBM500;
-      if (UtilCharacterEncoding.isHumanReadable(fullData, charset)) {
-        return new String(fullData, charset);
-      }
-      return null;
+      return text;
     }
 
     @Override
@@ -715,8 +709,18 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (actualLegth > 2) {
         repeatData = new byte[actualLegth - 2];
         System.arraycopy(sfData, offset + 2, repeatData, 0, repeatData.length);
+
+        int len = repeatLength & 0xFFFF;
+        byte[] fullData = new byte[len];
+        for (int i = 0; i < len; i++) {
+          fullData[i] = repeatData[i % repeatData.length];
+        }
+        if (UtilCharacterEncoding.isHumanReadable(fullData, config.getAfpCharSet())) {
+          text = new String(fullData, config.getAfpCharSet());
+        }
       } else {
         repeatData = null;
+        text = null;
       }
 
     }
@@ -783,6 +787,7 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       codedFontLocalID = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      config.setActiveCodedFontLocalId(codedFontLocalID);
     }
 
     @Override
@@ -1491,6 +1496,7 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     int reserved4_7 = 0x00;
     @AFPField
     byte[] alternateText;
+    String text;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1499,8 +1505,12 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (actualLength > 4) {
         alternateText = new byte[actualLength - 4];
         System.arraycopy(sfData, offset + 4, alternateText, 0, alternateText.length);
+        if (UtilCharacterEncoding.isHumanReadable(alternateText, config.getAfpCharSet())) {
+          text = new String(alternateText, config.getAfpCharSet());
+        }
       } else {
         alternateText = null;
+        text = null;
       }
     }
 
@@ -1514,14 +1524,7 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      if (alternateText == null || alternateText.length == 0) {
-        return null;
-      }
-      Charset charset = Constants.cpIBM500;
-      if (UtilCharacterEncoding.isHumanReadable(alternateText, charset)) {
-        return new String(alternateText, charset);
-      }
-      return null;
+      return text;
     }
 
     public int getReserved4_7() {
@@ -1570,17 +1573,11 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
    @XmlRootElement public static class GraphicCharacters extends PTOCAControlSequence {
     @AFPField
     byte[] data;
+    String text;
 
     @XmlElement(name = "text")
     public String getText() {
-      if (data == null || data.length == 0) {
-        return null;
-      }
-      Charset charset = Constants.cpIBM500;
-      if (UtilCharacterEncoding.isHumanReadable(data, charset)) {
-        return new String(data, charset);
-      }
-      return null;
+      return text;
     }
 
     @Override
@@ -1589,8 +1586,12 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
       if (actualLength > 0) {
         data = new byte[actualLength];
         System.arraycopy(sfData, offset, data, 0, actualLength);
+        if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+          text = new String(data, config.getAfpCharSet());
+        }
       } else {
         data = null;
+        text = null;
       }
     }
 

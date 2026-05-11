@@ -419,11 +419,11 @@ public class GAD_GraphicsData extends StructuredField {
 
       commandCode = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengtOfFollowingParameters = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-      nameOfSegment = new String(sfData, offset + 2, 4, Constants.cpIBM500);
+      nameOfSegment = new String(sfData, offset + 2, 4, config.getAfpCharSet());
       flagAnyValue = sfData[offset + 6];
       segmentPropertiesFlags = SegmentPropertiesFlag.valueOF(sfData[offset + 7]);
       segmentDataLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
-      nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, Constants.cpIBM500);
+      nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, config.getAfpCharSet());
 
       if (segmentDataLength > 0) {
         drawingOrders = buildDrawingOrders(sfData, offset + 13, segmentDataLength, config);
@@ -439,7 +439,7 @@ public class GAD_GraphicsData extends StructuredField {
 
       os.write(commandCode);
       os.write(lengtOfFollowingParameters);
-      os.write(nameOfSegment.getBytes(Constants.cpIBM500));
+      os.write(nameOfSegment.getBytes(config.getAfpCharSet()));
       os.write(flagAnyValue);
       if (segmentPropertiesFlags != null) {
         os.write(SegmentPropertiesFlag.toByte(segmentPropertiesFlags));
@@ -462,7 +462,7 @@ public class GAD_GraphicsData extends StructuredField {
       }
 
       os.write(UtilBinaryDecoding.intToByteArray(segmentDataLength, 2));
-      os.write(nameOfPredecessorSuccessorSegment.getBytes(Constants.cpIBM500));
+      os.write(nameOfPredecessorSuccessorSegment.getBytes(config.getAfpCharSet()));
 
       if (drawingOrdersData != null) {
         os.write(drawingOrdersData);

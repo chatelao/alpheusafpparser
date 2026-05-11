@@ -19,6 +19,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.base.IHasRepeatingGroups;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPType;
 import com.mgz.afp.enums.AFPOrientation;
@@ -35,10 +37,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MCF_MapCodedFont_Format1 extends StructuredField {
+public class MCF_MapCodedFont_Format1 extends StructuredField implements IHasRepeatingGroups {
   short lengthOfRepeatingGroup;
   byte[] reserved1_3 = new byte[3];
-  List<MCF_RepeatingGroup> repeatingGroups;
+  List<IRepeatingGroup> repeatingGroups;
 
 
   @Override
@@ -49,7 +51,7 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
 
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 4) {
-      repeatingGroups = new ArrayList<MCF_MapCodedFont_Format1.MCF_RepeatingGroup>((actualLength - 4) / lengthOfRepeatingGroup);
+      repeatingGroups = new ArrayList<IRepeatingGroup>((actualLength - 4) / lengthOfRepeatingGroup);
       int pos = 4;
       while (pos < actualLength) {
         MCF_RepeatingGroup rg = new MCF_RepeatingGroup();
@@ -69,7 +71,7 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
     baos.write(lengthOfRepeatingGroup);
     baos.write(reserved1_3);
     if (repeatingGroups != null) {
-      for (MCF_RepeatingGroup rg : repeatingGroups) {
+      for (IRepeatingGroup rg : repeatingGroups) {
         rg.writeAFP(baos, config);
       }
     }
@@ -93,25 +95,29 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
     this.reserved1_3 = reserved1_3;
   }
 
-  public List<MCF_RepeatingGroup> getRepeatingGroups() {
+  @Override
+  public List<IRepeatingGroup> getRepeatingGroups() {
     return repeatingGroups;
   }
 
-  public void setRepeatingGroups(List<MCF_RepeatingGroup> repeatingGroups) {
+  @Override
+  public void setRepeatingGroups(List<IRepeatingGroup> repeatingGroups) {
     this.repeatingGroups = repeatingGroups;
   }
 
-  public void addRepeatingGroup(MCF_RepeatingGroup repeatingGroup) {
+  @Override
+  public void addRepeatingGroup(IRepeatingGroup repeatingGroup) {
     if (repeatingGroup == null) {
       return;
     }
     if (this.repeatingGroups == null) {
-      repeatingGroups = new ArrayList<MCF_MapCodedFont_Format1.MCF_RepeatingGroup>();
+      repeatingGroups = new ArrayList<IRepeatingGroup>();
     }
     repeatingGroups.add(repeatingGroup);
   }
 
-  public void removeRepeatingGroup(MCF_RepeatingGroup repeatingGroup) {
+  @Override
+  public void removeRepeatingGroup(IRepeatingGroup repeatingGroup) {
     if (this.repeatingGroups == null) {
       return;
     }
@@ -120,7 +126,7 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
 
   @AFPType
   @XmlRootElement
-  public static class MCF_RepeatingGroup implements IAFPDecodeableWriteable {
+  public static class MCF_RepeatingGroup implements IRepeatingGroup {
     short codedFontLocalID;
     byte reserved1 = 0x00;
     short codedFontSectionID;

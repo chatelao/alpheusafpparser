@@ -42,6 +42,7 @@ import java.util.EnumSet;
  * field.
  */
 public class BDA_BarCodeData extends StructuredField {
+  String text;
   @AFPField
   EnumSet<BarCodeFlag> barCodeFlags;
   @AFPField
@@ -85,8 +86,14 @@ public class BDA_BarCodeData extends StructuredField {
     if (actualLength > (5 + parameterDataLength)) {
       barCodeData = new byte[actualLength - (5 + parameterDataLength)];
       System.arraycopy(sfData, offset + (5 + parameterDataLength), barCodeData, 0, barCodeData.length);
+      if (UtilCharacterEncoding.isHumanReadable(barCodeData, config.getAfpCharSet())) {
+        text = new String(barCodeData, config.getAfpCharSet());
+      } else {
+        text = null;
+      }
     } else {
       barCodeData = new byte[0];
+      text = null;
     }
   }
 
@@ -149,10 +156,7 @@ public class BDA_BarCodeData extends StructuredField {
 
   @XmlElement(name = "text")
   public String getText() {
-    if (UtilCharacterEncoding.isHumanReadable(barCodeData, Constants.cpIBM500)) {
-      return new String(barCodeData, Constants.cpIBM500);
-    }
-    return null;
+    return text;
   }
 
   public enum BarCodeFlag {

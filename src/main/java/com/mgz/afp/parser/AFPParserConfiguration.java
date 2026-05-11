@@ -29,6 +29,8 @@ import com.mgz.afp.foca.FNC_FontControl;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.security.DigestInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The AFPParserConfiguration is used to configure the {@link AFPParser}, see {@link
@@ -45,6 +47,8 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   boolean isBuildShallow;
   boolean escalateParsingErrors = true;
   File afpFile;
+  private Map<Short, Charset> codedFontLocalIdToCharsetMap = new HashMap<Short, Charset>();
+  private Short activeCodedFontLocalId;
   private CPD_CodePageDescriptor currentCodePageDescriptor;
   private CPC_CodePageControl currentPageControl;
   private FNC_FontControl currentFontControl;
@@ -57,6 +61,12 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    * @return {@link Charset} used in the AFP data stream.
    */
   public Charset getAfpCharSet() {
+    if (activeCodedFontLocalId != null) {
+      Charset cs = codedFontLocalIdToCharsetMap.get(activeCodedFontLocalId);
+      if (cs != null) {
+        return cs;
+      }
+    }
     return afpCharSet;
   }
 
@@ -237,6 +247,18 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
     this.afpFile = afpFile;
   }
 
+  public Map<Short, Charset> getCodedFontLocalIdToCharsetMap() {
+    return codedFontLocalIdToCharsetMap;
+  }
+
+  public Short getActiveCodedFontLocalId() {
+    return activeCodedFontLocalId;
+  }
+
+  public void setActiveCodedFontLocalId(Short activeCodedFontLocalId) {
+    this.activeCodedFontLocalId = activeCodedFontLocalId;
+  }
+
   /**
    * Resets all preserved AFP objects that are needed by the parser for later reference to null.
    */
@@ -245,5 +267,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
     currentCodePageDescriptor = null;
     currentFontControl = null;
     currentPageControl = null;
+    codedFontLocalIdToCharsetMap.clear();
+    activeCodedFontLocalId = null;
   }
 }
