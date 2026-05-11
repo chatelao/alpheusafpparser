@@ -204,9 +204,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Fix minor table fragmentation in Appendices.
     - ✅ Remove remaining physical page references (4 found).
     - ⏳ **Note**: The project uses AFPC-0004-10 (MO:DCA Reference 10) as the primary specification. The IBM MO:DCA-P Reference (SC31-6802) is a related/legacy IBM version of this architecture.
-- 🚧 **FOCA**:
-    - ⏳ Fix OCR-induced paragraph merging in technical sections.
-    - ⏳ Remove physical page references ("on page XXX").
+- ✅ **FOCA**:
+    - ✅ Fix OCR-induced paragraph merging in technical sections.
+    - ✅ Remove physical page references ("on page XXX").
 - 🚧 **PTOCA**:
     - ✅ Purge physical page markers and fix split words.
     - ⏳ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").

@@ -206,7 +206,7 @@ The following table identifies the AFP parameters and ISO properties that should
 
 ### Presentation-Document Font Reference
 
-A presentation-document font reference is generally designed to focus on the formatter's intent for page layout, while recalling the user's intent for text appearance. The presentation-document font reference should contain all of the revisable-document font reference information along with enough additional information so as to identify the metrics used for page layout. The document can then be sent to any location, and the required font can be located, or an alternate font that closely approximates the metrics can be substituted (see “Font Selection and Substitution” on page 28).
+A presentation-document font reference is generally designed to focus on the formatter's intent for page layout, while recalling the user's intent for text appearance. The presentation-document font reference should contain all of the revisable-document font reference information along with enough additional information so as to identify the metrics used for page layout. The document can then be sent to any location, and the required font can be located, or an alternate font that closely approximates the metrics can be substituted (see “Font Selection and Substitution”).
 
 Specification of the glyph complement (graphic character set) that corresponds to the code page used for encoding the document is necessary at the presentation-document level, but the code page need not be linked to the font resource at this stage.
 
