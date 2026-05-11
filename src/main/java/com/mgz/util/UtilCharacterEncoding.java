@@ -353,23 +353,58 @@ public class UtilCharacterEncoding {
     }
 
     if (cpNumStr != null && !cpNumStr.isEmpty()) {
-      // Remove leading zeros if any, as Java Charset names usually don't have them
-      // for EBCDIC code pages (e.g., Cp273 instead of Cp00273).
-      while (cpNumStr.length() > 1 && cpNumStr.startsWith("0")) {
-        cpNumStr = cpNumStr.substring(1);
+      Charset cs = lookupCharset(cpNumStr);
+      if (cs == null && cpNumStr.startsWith("100") && cpNumStr.length() > 3) {
+        cs = lookupCharset(cpNumStr.substring(3));
       }
 
-      try {
-        return Charset.forName("Cp" + cpNumStr);
-      } catch (Exception e) {
-        try {
-          return Charset.forName("IBM" + cpNumStr);
-        } catch (Exception e2) {
-          logger.warning("Failed to find charset for code page number: " + cpNumStr);
-          return null;
+      if (cs == null) {
+        logger.warning("Failed to find charset for code page number: " + cpNumStr);
+      }
+      return cs;
+    }
+    return null;
+  }
+
+  private static Charset lookupCharset(String cpNumStr) {
+    if (cpNumStr == null || cpNumStr.isEmpty()) {
+      return null;
+    }
+    String[] prefixes = {"Cp", "IBM", "IBM-"};
+    for (String prefix : prefixes) {
+      String charsetName = prefix + cpNumStr;
+      if (Charset.isSupported(charsetName)) {
+        return Charset.forName(charsetName);
+      }
+    }
+
+    // Try padding to 3 digits
+    if (cpNumStr.length() > 0 && cpNumStr.length() < 3) {
+      String padded = cpNumStr;
+      while (padded.length() < 3) {
+        padded = "0" + padded;
+      }
+      for (String prefix : prefixes) {
+        String charsetName = prefix + padded;
+        if (Charset.isSupported(charsetName)) {
+          return Charset.forName(charsetName);
         }
       }
     }
+
+    // Try stripping leading zeros
+    if (cpNumStr.startsWith("0")) {
+      String trimmed = cpNumStr.replaceFirst("^0+", "");
+      if (!trimmed.isEmpty()) {
+        for (String prefix : prefixes) {
+          String charsetName = prefix + trimmed;
+          if (Charset.isSupported(charsetName)) {
+            return Charset.forName(charsetName);
+          }
+        }
+      }
+    }
+
     return null;
   }
 

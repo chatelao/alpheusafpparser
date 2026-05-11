@@ -24,9 +24,18 @@ import java.nio.charset.Charset;
 import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class UtilCharacterEncodingTest {
+
+  @Test
+  public void testGetCharsetFromCodePageName() {
+    assertNotNull("T1001141 should return a charset", UtilCharacterEncoding.getCharsetFromCodePageName("T1001141"));
+    assertEquals(Charset.forName("IBM01141"), UtilCharacterEncoding.getCharsetFromCodePageName("T1001141"));
+    assertEquals(Charset.forName("IBM500"), UtilCharacterEncoding.getCharsetFromCodePageName("T1V10500"));
+    assertEquals(Charset.forName("IBM037"), UtilCharacterEncoding.getCharsetFromCodePageName("T1000037"));
+  }
 
   @Test
   public void testStringToByteArray() {
