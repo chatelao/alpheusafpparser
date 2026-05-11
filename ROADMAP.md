@@ -96,7 +96,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ Triplets X'8B'–X'92' (Data Object Font Descriptor, Linked Font, UP3I Finishing Operation, CMR Descriptor, Invoke CMR).
             - ⏳ Triplets X'95'–X'A2' (Rendering Intent, CMR Tag Fidelity, Device Appearance, Image Resolution, Object Container Presentation Space Size, Setup Name, Invoke Tertiary Resource).
         - ⏳ Exception Reporting (Chapter 16).
-        - ⏳ Compliance and Appendices (Chapter 17 and Appendices A–D).
+        - 🚧 Compliance and Appendices (Chapter 17 and Appendices A–D):
+            - ✅ Chapter 17: Table 69 (Command-Set and Data-Tower Summary).
+            - ✅ Appendix A: Table 70 (Command Code Summary) and Table 71 (Acknowledge Reply).
+            - ⏳ Appendix B: Table 72 (A Typical IPDS Command Sequence).
+            - ⏳ Appendix C: Table 73 (Run-Length 4 Compression).
+            - ⏳ Appendix D: Tables 74–76 (Retired Object Containers).
 - 🚧 **BCOCA**:
     - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
     - ✅ Purge physical page markers and PDF artifacts from Chapter 4.
