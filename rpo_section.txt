@@ -1,0 +1,749 @@
+Rasterize Presentation Object
+The Rasterize Presentation Object (RPO) command is a home state command that requests that a previously
+activated presentation data object resource or overlay be rasterized and cached using the specific orientation
+and presentation-object overrides specified in the command. The presentation object is processed as if it had
+been included directly in a page or overlay by means of an IDO or IO command; however, part of the
+environment is specified within the RPO command and the result is cached but not printed. This command is
+used to improve print performance by rasterizing one or more variations of a presentation object before those
+variations are actually included in a page or overlay. This is especially useful when the presentation object is
+complex or is included multiple times in a print job.
+The RPO command can be used to rasterize any of the following types of presentation object:
+
+**Table 26. RPO Object-Type IDs**
+
+| Object Type | Description |
+| :--- | :--- |
+| EPS | Encapsulated PostScript with transparency |
+| EPS | Encapsulated PostScript without transparency |
+| GIF | Graphics Interchange Format |
+| IOCA | Image Object Content Architecture image |
+| JPEG | Joint Photographic Experts Group (AFPC JPEG Subset) |
+| JP2 | JPEG2000 File Format |
+| Overlay | IPDS Overlay |
+| PCL | Printer Command Language page object |
+| PDF | Portable Document Format multiple-page file with transparency |
+| PDF | Portable Document Format multiple-page file without transparency |
+| PDF | Portable Document Format single page with transparency |
+| PDF | Portable Document Format single page without transparency |
+| PNG | Portable Network Graphics (AFPC PNG Subset) |
+| SVG | Scalable Vector Graphics (AFPC SVG Subset) |
+| TIFF | Tag Image File Format (AFPC TIFF Subset) |
+| TIFF | Tag Image File Format with transparency |
+| TIFF | Tag Image File Format without transparency |
+| TIFF | Tag Image File Format multiple-image file with transparency |
+| TIFF | Tag Image File Format multiple-image file without transparency |
+Support for this optional command is indicated by the X'707B' property pair in the Device-Control command-set
+vector of an STM reply.
+```
+Length X'D67B' Flag CID Data
+```
+The length of the RPO command can be:
+Without CID X'0005', X'000C', X'0013', X'0018', or X'001A'–X'7FFF'
+With CID X'0007', X'000E', X'0015', X'001A', or X'001C'–X'7FFF'
+However, each entry length and each triplet length must also be valid. Exception ID X'0202..02' exists if the
+command length is invalid or unsupported.
+The parameters of this command identify zero or more activated presentation objects (data object resources or
+overlays) to be rasterized and cached. For each object, parameters are specified to describe a desired
+orientation relative to the sheet's leading edge. For each data object resource, additional parameters specify
+overrides for the object area size and presentation-space-to-object-area mapping.
+The current fidelity information (such as a Color Fidelity (X'75') triplet or a Toner Saver (X'74') triplet) is used
+while rasterizing the presentation object. Therefore, host software must activate appropriate fidelity information
+before issuing the RPO command.
+
+
+Some presentation objects require secondary resources; in this case, each secondary resource must be
+activated and identified in a DORE or DORE2 command before the RPO command. When an RPO command
+is processed, the current DORE or DORE2 command applies to all RPO entries within the RPO command;
+therefore, multiple RPO entries should only be used for presentation objects that do not require secondary
+resources or for objects that use the same secondary resources.
+Color Management Resources (CMRs) are applied when the RPO command is processed. It is important to
+invoke the appropriate CMRs before the RPO command is processed, since if CMRs later change when the
+preRIPed object is printed, the printer has to reRIP (potentially degrading performance).
+When preRIPping a presentation object, Color Management Resources (CMRs) are selected using the CMR-
+usage hierarchy and are applied when the RPO command is processed. It is important to invoke the
+appropriate CMRs and specify the desired rendering intent before the RPO command is processed, since if
+different CMRs and rendering intent are specified later when the presentation object is included in a page or
+overlay, the printer will have to reRIP (potentially degrading performance). CMRs can be invoked and a
+rendering intent can be specified with triplets on the RPO command or by use of the ICMR and SPE
+commands; property pair X'F205' in the Device-Control command-set vector of an STM reply indicates that the
+printer supports these triplets on the RPO command.
+Once a presentation object selected by an RPO entry is successfully rasterized and cached, it remains in the
+cache for a printer-determined amount of time. The cache might be cleared when the printer is powered off or
+reinitialized (returns an IML NACK). Also, all cached versions of a resource might be removed from the cache
+when the resource is deactivated. Each time an IO or IDO command is encountered, the printer searches the
+cache for an appropriate preRIPped object. Attributes used to find an appropriate preRIPped object include:
+• Fidelity information (toner saver, color fidelity control)
+• CMRs and rendering intent
+• Device appearance
+• Orientation of the object after taking into consideration media orientation, page or overlay orientation, media
+source, cut-sheet emulation, sheet side, duplex setting, N-up, paper-feed direction, finishing-operation
+induced rotation, and the orientation specified in the IO or IDO command
+• RPO and EHC reporting flags
+• Mapping control option
+• Side-sensitive attributes; some attributes, such as highlight color values, can be used on one side of a sheet
+but not on the other side. For example, highlight color is sometimes provided by a post-processor that can
+print only on one side.
+• Image Resolution (X'9A') triplet (if the triplet was specified on the IDO command)
+• For multi-page resource objects, Object Offset (X'5A') triplet
+• Object Container Presentation Space Size (X'9C') triplet (if the triplet will be specified on the IDO command)
+• Color Specification (X'4E') triplet (if the triplet was specified on the IDO-DODD command). This triplet is used
+for bilevel IO-Image objects and for object-container objects that contain bilevel or grayscale image, and is
+ignored for all other object types. The specific object types that can contain bilevel and grayscale image are
+identified in the MO:DCA object-type OID registry.
+When printing a previously cached object, the XOA-EHC command in effect at print time controls error
+handling.
+Implementation Note: A good technique for controlling the cache within the printer is to use a least-recently-
+used algorithm when the cache becomes full so as to make room for new cache entries. To allow the
+host some idea of how long a cached object remains in the cache when a least-recently-used algorithm
+is used, the printer considers an object to be in use each time an object is included (by means of IDO or
+IO) and each time the object is selected in an RPO command (but is already in the cache).
+
+
+An empty RPO command (that is, one with no entries) is treated as a NOP . If the parameters for an RPO entry
+match an already cached version of the resource, the RPO entry does not cause the object to be cached
+again. If a syntax error is encountered in one of the entries, that entry and all following entries in the RPO
+command are discarded; preceding entries remain in effect.
+The purpose of the RPO command is to improve system printing throughput by allowing the printer to
+preprocess and cache presentation resource objects before they are actually needed on a page or overlay. If
+the resource is subsequently included using an IO or IDO command, a presentation-ready bit map is available.
+The efficiency of preprocessing is printer-dependent. The following considerations need to be taken into
+account:
+Preprocessing Overlays
+• The data-object-resource override parameters (bytes 7 to end) are not needed for an overlay resource; if
+these parameters are specified, they are ignored.
+• The preprocessed and cached version of an overlay might not be used at include time if any portion of the
+overlay exceeds the physical printable area.
+• An overlay that has been preRIPped with the RPO command can be used as a preprinted form overlay
+(PFO).
+Preprocessing Data Object Resources
+A mapping control that specifies how the object presentation space is mapped to the object area is required for
+preprocessing. The mapping control used for preprocessing must be compatible with the mapping control later
+used to include the object; if it is not, the preprocessed and cached object is not used for the include.
+The mapping control can be specified in byte 14 of the RPO command; if it is not specified there, the mapping
+control from byte 11 of the WOCC-OCOC self-defining field (or from byte 11 of the WIC2-IOC self-defining
+field) is used; if the optional output control self-defining field was not provided with the object, the default
+mapping is used (position and trim for IOCA images and scale to fit for all other data object resources).
+• If the mapping control is scale to fit or scale to fill, the object is preprocessed into the object area.
+– If both X
+oa extent and Yoa extent values are specified in the RPO command, the preprocessed object is
+scaled using the object area size specified in the RPO command.
+– If either of the extent values is not specified in the RPO command, the extent is obtained from the object
+itself. However, if the optional output control self-defining field is not found in the object, the presentation
+space size of the object is used.
+If a subsequent IDO command selects the same mapping option, one of the preprocessed orientations, and
+the same object area size, the cached version of the object can be used.
+• If the mapping control is center-and-trim, the object is first preprocessed into the object presentation space.
+– If both Xoa extent and Yoa extent values are specified in the RPO command, the preprocessed object is
+then trimmed to fit into the object area. If a subsequent IDO command selects center-and-trim, one of the
+preprocessed orientations, and the same object area size, the cached version of the object can be used.
+– If either of the extent values is not specified in the RPO command, the preprocessed object is cached at its
+presentation space size. If a subsequent IDO command selects position, position-and-trim, or center-and-
+trim, and selects one of the preprocessed orientations, the cached version of the object can be used. If the
+IDO command selects an object area size and mapping option that requires trimming, the trimming is done
+at include time with a potential performance penalty. For the position mapping, the cached object
+presentation space must fit within the object area, or the cached object cannot be used.
+
+
+• If the mapping control is position-and-trim, the object is first preprocessed into the object presentation
+space.
+– If Xoa extent, Yoa extent, Xoa offset, and Yoa offset values are specified in the RPO command, the
+preprocessed presentation space is positioned in the RPO-specified object area, trimmed to fit the object
+area, and cached. If a subsequent IDO command selects position-and-trim, one of the preprocessed
+orientations, and the same object area size, the cached version of the object can be used.
+– If any one of the four object area values is not specified in the RPO command, the preprocessed object is
+cached at its presentation space size. If a subsequent IDO command selects position, position-and-trim, or
+center-and-trim, and selects one of the preprocessed orientations, the cached version of the object can be
+used. If the IDO command selects an object area size and mapping option that requires trimming, the
+trimming is done at include time with a potential performance penalty. For the position mapping, the cached
+object presentation space must fit within the object area, or the cached object cannot be used.
+• If the mapping control is position, the object is first preprocessed into the object presentation space. Note
+that the position mapping option is not valid for an IO Image.
+– If X
+oa extent, Yoa extent, Xoa offset, and Yoa offset values are specified in the RPO command, the
+preprocessed presentation space is positioned in the RPO-specified object area, and as long as there is no
+overflow of the object area, is cached. If there is an overflow, no caching occurs. If a subsequent IDO
+command selects the position mapping option, one of the preprocessed orientations, and the same offset,
+the cached version of the object can be used.
+– If any one of the four object area values is not specified in the RPO command, the preprocessed object is
+cached at its presentation space size. If a subsequent IDO command selects position, position-and-trim, or
+center-and-trim, and selects one of the preprocessed orientations, the cached version of the object can be
+used. If the IDO command selects an object area size and mapping option that requires trimming, the
+trimming is done at include time with a potential performance penalty. For the position mapping, the cached
+object presentation space must fit within the object area, or the cached object cannot be used.
+• If the mapping control is one of the migration mapping options (point-to-pel, point-to-pel-with-double-dot,
+or replicate-and-trim), the object is not preprocessed and is not cached.
+The RPO command supports most presentation parameters that can be in effect when the preprocessed
+object is actually presented. However there are circumstances in which the preprocessed object cannot be
+used for presentation and therefore the system throughput improvement is not realized.
+• Color mapping tables are not used when the RPO command is processed. When a non-reset color mapping
+table is active, the printer ignores all RPO entries. When a non-reset color mapping table is active, the printer
+ignores all RPO cached objects when processing IO and IDO commands.
+Implementation Note: The RPO command was designed for use with impositioning jobs that are
+constructed from PostScript data and for full-process color image jobs that can benefit from early
+rasterization. Jobs that use a color mapping table do not benefit from a printer's preRIP capability; to
+gain the preRIP benefit jobs can be modified to call out specific colors or to use multiple variations of
+an image instead of using a migration aid such as the color mapping table. If it ever becomes
+important to extend RPO support to make use of color mapping tables, the printer might have to find a
+way to distinguish among color mapping tables (for example, a bit-by-bit compare or using a
+checksum); this level of support is considered to be too complex and not of sufficient benefit to be
+provided in the initial RPO support.
+• When a Color Specification (X'4E') triplet is specified in an IDO-DODD command to override bilevel and
+grayscale image color in an object container or the color in the Set Bilevel Image Color IOCA self-defining
+field (or the Set Extended Bilevel Image Color IOCA self-defining field) in an IO-Image object, the printer
+might not be able to use any previously cached variations of this object.
+
+
+• When an image-migration mapping control is specified in an IDO command for an IO Image, the printer might
+not be able to use any previously cached variations of this object. Migration mapping controls include: point-
+to-pel (X'41') mapping, point-to-pel-with-double-dot (X'42') mapping, and replicate-and-trim (X'50') mapping.
+• If a synchronous exception is detected while rasterizing an object for an RPO command and if the exception
+reporting flags or Color Fidelity (X'75') triplet specify that an error is to be reported or if the error does not
+have an AEA: the rasterization process ends, the object is not cached, and the exception is not reported.
+Also, if the Color Fidelity (X'75') triplet continuation rule is stop: the rasterization process ends, the object is
+not cached, and the exception is not reported. Also, while processing an RPO entry, if any XOA Exception
+Handling Control commands are encountered within the object: the rasterization process ends, the object is
+not cached, and the exception is not reported.
+• Some printers support finishing operations, such as edge stitching and corner stapling, that are allowed on
+all four edges or corners. These printers cannot physically perform the operation on some of the edges or
+corners and therefore automatically rotate presentation data to effectively reposition the requested edge to a
+position where the operation can be performed. This automatic rotation must be accounted for when
+specifying the desired orientation in the RPO command.
+• Text suppressions within an overlay are not activated during RPO processing and therefore the overlay is
+cached with no text suppression.
+• The XOA-PQC command is ignored during RPO processing and the printer's default print-quality level is
+assumed.
+The format of the RPO data is as follows:
+
+**Table 25. RPO Entry Syntax**
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0007' or<br>X'0013' to end of entry | Length of RPO entry, including this length field | X'0007' or<br>X'0013' to end of entry |
+| 2 | CODE | RT | X'05'<br>X'40' | Resource type:<br>Overlay<br>Data Object Resource | X'05'<br>X'40' |
+| 3–4 | CODE | HAID | X'0001'–X'7EFF' | Presentation object's Host-Assigned ID | X'0001'–X'7EFF' |
+| | | **Desired presentation environment** | | | |
+| 5 | BITS | Exception reporting flags | | bit 0: Undefined character<br>bit 1: Page position<br>bits 2–5: Reserved (B'0000')<br>bit 6: Highlight<br>bit 7: Others | |
+| 6 | BITS | Additional processing information flags | | bit 0: 0 degrees (Orient 0 degrees)<br>bit 1: 90 degrees (Orient 90 degrees)<br>bit 2: 180 degrees (Orient 180 degrees)<br>bit 3: 270 degrees (Orient 270 degrees)<br>bit 4: All objects (Process all objects of a multi-page resource file)<br>bits 5–7: Reserved (B'000') | |
+| | | **Data-object-resource override parameters** | | | |
+| 7 | CODE | Unit base | X'00'<br>X'01'<br>X'FF' | Ten inches<br>Ten centimeters<br>Not specified | X'00'<br>X'FF' |
+| 8–9 | UBIN | UPUB | X'0001'–X'7FFF'<br>X'FFFF' | $X_{oa}$ and $Y_{oa}$ units per unit base<br>Not specified | X'3840'<br>X'FFFF' |
+| 10–11 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Override for $X_{oa}$ extent of object area in L-units<br>Not specified | X'0001'–X'7FFF'<br>X'FFFF' |
+| 12–13 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Override for $Y_{oa}$ extent of object area in L-units<br>Not specified | X'0001'–X'7FFF'<br>X'FFFF' |
+| 14 | CODE | Mapping control | X'00'<br>X'10'<br>X'20'<br>X'30'<br>X'60'<br>X'FF' | Override for mapping control option:<br>Position (not valid for IO Image)<br>Scale to fit<br>Center and trim<br>Position and trim<br>Scale to fill<br>Not specified | X'00'<br>X'10'<br>X'20'<br>X'30'<br>X'FF' |
+| 15–16 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF'<br>X'FFFF' | Override for $X_{oa}$ offset in L-units; (for the position-and-trim and position mappings only)<br>Not specified | X'0000'–X'7FFF'<br>X'FFFF' |
+| 17–18 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF'<br>X'FFFF' | Override for $Y_{oa}$ offset in L-units; (for the position-and-trim and position mappings only)<br>Not specified | X'0000'–X'7FFF'<br>X'FFFF' |
+| 19 to end of entry | | Triplets | | Zero or more triplets:<br>X'4E' Color Specification triplet<br>X'5A' Object Offset triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet<br>X'9A' Image Resolution triplet<br>X'9C' Object Container Presentation Space Size triplet | |
+
+
+Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
+1/1440 of an inch. Many receivers support the specified range in 1440ths plus an equivalent range for
+additional units of measure. If a receiver supports additional units of measure, the IPDS architecture
+requires the receiver to at least support a range equivalent to the specified range relative to each
+supported unit of measure. More information about supported-range requirements is provided in the
+section titled “L-Unit Range Conversion Algorithm”.
+Bytes 0–1 Entry length
+This field contains the length of this RPO entry; the value includes the length field itself. If an
+invalid value is specified in this field or if the entry is too long to fit into the RPO command,
+exception ID X'0257..01' exists.
+For an overlay, the length field should contain X'0007'; the data-object-resource override
+parameters (bytes 7 to end) are not used for an overlay and if specified, are ignored.
+For a data object resource, the length field should contain either X'0007', X'0013', or a value of
+X'0015' or larger in which each triplet length is valid.
+Byte 2 Resource type
+This field specifies the type of resource for this RPO entry. If an invalid value is specified in this
+field, exception ID X'0257..02' exists.
+Bytes 3–4 Host-Assigned ID
+This field specifies the Host-Assigned ID (HAID) of the resource to be rasterized and cached.
+For data object resources, the printer supports HAIDs in the range X'0001'–X'7EFF'. The
+printer also supports this range for overlays when extended overlay support is provided;
+however, the range is X'0001'–X'00FE' for printers that do not provide extended overlay
+support. Exception ID X'0257..03' exists if an invalid or unsupported Host-Assigned ID value is
+specified.
+The resource must have been previously activated by an AR command, a home-state WOCC
+command, a home-state WIC2 command, or a BO command. Exception ID X'0257..04' exists
+if the resource identified by the resource-type and HAID fields has not been activated.
+Exception ID X'0257..02' exists if the object-type OID in the resource is not valid for the RPO
+command. Valid resources for the RPO command are listed in Table 26.
+
+
+Note: All necessary secondary resources must also have been previously activated and must
+be identified in a prior DORE or DORE2 command. If an appropriate DORE or DORE2
+equivalence entry is not found or if the secondary resource has not been activated,
+exception ID X'020D..10' exists.
+Byte 5 Exception reporting flags
+The purpose of the RPO command is to rasterize and cache error-free presentation objects.
+However, the XOA-EHC command allows some errors to be ignored as long as an Alternate
+Exception Action (AEA) exists and is applied. The RPO command flags in byte 5 specify three
+classes of synchronous errors that have defined AEAs and that can be ignored while
+processing the RPO entry:
+• Undefined-character checks (applies only to overlays)
+• Page-position checks (applies only to overlays)
+• All other exceptions with AEAs (applies to overlays and data object resources)
+Bit 6 also specifies whether or not a position-check exception should be highlighted within the
+resulting bit map. Support for position-check highlighting is optional; support for this function is
+indicated by property pair X'F601' in the Device-Control command-set vector of an STM reply.
+This bit has no meaning for a printer that does not support position-check highlighting.
+These flags are identical to the exception reporting bits in the XOA-EHC command (byte 2); a
+full description of each of these flags can be found. After the RPO command is
+processed, the XOA-EHC command settings from before the RPO command remain in effect.
+When processing an RPO entry, the current XOA-EHC command is ignored and the
+processing is done assuming that AEAs are to be taken and that the RPO exception reporting
+flags are in effect. If an exception is encountered for which an AEA is defined and the
+appropriate reporting flag is set to B'1': the rasterization process ends, the object is not
+cached, and the exception is not reported. If an exception is encountered for which an AEA is
+defined and the appropriate reporting flag is set to B'0': the AEA is applied, the printer
+remembers that an exception of this type was encountered, and the rasterization process
+continues.
+Later, when processing an IO or IDO command, the printer uses the reporting flags from the
+RPO command (among other things) to determine whether or not a cached variation of the
+object can be used. If there were no exceptions detected within the cached object or if an
+exception was detected and the appropriate reporting flag in the RPO and in the current XOH-
+EHC command is B'0', the cached object is a candidate to be used. Also, if the current XOH-
+EHC command specifies that AEAs are not to be taken or if the position-check highlight flag in
+the XOA-EHC and RPO commands do not match, then only error free cached objects can be
+used.
+
+
+Byte 6 Process flags
+Bits 0–3 Desired orientation(s)
+This 4-bit field specifies one or more desired orientations, measured in a clockwise direction, of the $X$ axis of the object with respect to the leading edge of the media. Each bit that is set to B'1' causes a variation of the object to be rasterized and cached. For example, X'A0' yields a 0 degree variation and a 180 degree variation. If all 4 flags are B'0', this entry is processed at 0 degrees.
+
+**Table 27. RPO Orientation Flags**
+
+| Bit | Orientation |
+| :--- | :--- |
+| bit 0 | 0 degrees |
+| bit 1 | 90 degrees |
+| bit 2 | 180 degrees |
+| bit 3 | 270 degrees |
+
+Bit 4 Preprocess all objects within a multi-page resource object
+This flag is used only with multi-page resource objects and is ignored for all
+other object types.
+B'0' Preprocess only the selected paginated object. A single paginated
+object can be selected with an Object Offset (X'5A') triplet.
+B'1' Preprocess all paginated objects in the file. When this flag is set, all
+Object Offset (X'5A') triplets are ignored.
+Bits 5-7 Reserved
+Bytes 7–18 Data-object-resource override parameters
+The following parameters are used only for data object resources and are ignored if specified
+for an overlay. Refer to “Processing Rules” for a description of how these
+parameters are used to process the RPO entry.
+Note: To ensure that a cached object is used for a subsequent IDO command, the data-
+object-resource override parameters specified in the RPO command should match
+those of the IDO command. When the units of measure values are different in the RPO
+and IDO commands, the printer might calculate the sizes and offsets differently when
+processing the two commands and, due to round-off errors, might not use the cached
+object when processing the IDO command. Also, the printer might not be able to use
+the cached object if the IDO command specifies an offset value of X'FFFF' (use the
+offset value from the object), so it is best to specify the appropriate offset values in both
+the IDO and RPO commands.
+Byte 7 Unit base
+This field specifies the unit base to be used to interpret bytes 10–13 and bytes
+15–18 of the RPO entry. A value of X'00' indicates that the unit base is ten
+inches. A value of X'01' indicates that the unit base is ten centimeters.
+Property pair X'FB00' in the Device-Control command-set vector of an STM
+reply indicates support for all architected units of measure.
+X'FF' is a special value that indicates that this parameter has not been
+specified. Since a unit base value is required to interpret bytes 10–13 and
+bytes 15–18, a value of X'FF' in byte 7 causes the printer to ignore bytes 10–
+13 and bytes 15–18 and these bytes are also treated as unspecified.
+If an invalid or unsupported value is specified, exception ID X'0257..05' exists.
+Bytes 8–9 X
+oa and Yoa units per unit base
+This field specifies the units per unit base to be used to interpret bytes 10–13
+and bytes 15–18 of the RPO entry. For example, if the unit base is X'00' and
+this value is X'3840', there are 14,400 units per ten inches (1440 units per
+inch); in this case, the measurement units are called twips.
+X'FFFF' is a special value that indicates that this parameter has not been
+specified. Since a units-per-unit-base value is required to interpret bytes 10–
+
+
+13 and bytes 15–18, a value of X'FFFF' in bytes 8–9 causes the printer to
+ignore bytes 10–13 and bytes 15–18 and these bytes are also treated as
+unspecified.
+If an invalid or unsupported value is specified, exception ID X'0257..06' exists.
+Bytes 10–13 Override for $X_{oa}$ and $Y_{oa}$ extents of the object area
+These fields specify overrides for the $X_{oa}$ and $Y_{oa}$ extents of the object area in L-units using the units of measure specified in bytes 7–9. X'FFFF' is a special value that indicates that the parameter has not been specified. For these parameters to be used, both the $X_{oa}$ extent and the $Y_{oa}$ extent must be specified in the RPO entry.
+
+**Table 28. RPO Object-Area Size Overrides**
+
+| Bytes | Parameter | Range | Meaning |
+| :--- | :--- | :--- | :--- |
+| 10–11 | $X_{oa}$ extent | X'0001'–X'7FFF' | Override for $X_{oa}$ extent of object area |
+| | | X'FFFF' | Not specified |
+| 12–13 | $Y_{oa}$ extent | X'0001'–X'7FFF' | Override for $Y_{oa}$ extent of object area |
+| | | X'FFFF' | Not specified |
+
+If an invalid or unsupported value is specified, exception ID X'0257..07' exists.
+Byte 14 Override for mapping control option
+This field specifies an override for the mapping control option that selects how the object's presentation space is mapped to the output area. Resolution correction occurs whenever the resolution of the object is different in one or both dimensions from the device resolution. X'FF' is a special value that indicates that this parameter has not been specified.
+
+**Table 29. RPO Mapping-Control Overrides**
+
+| Code | Meaning |
+| :---: | :--- |
+| X'00' | Position (not valid for IO Image) |
+| X'10' | Scale to fit |
+| X'20' | Center and trim |
+| X'30' | Position and trim |
+| X'60' | Scale to fill |
+| X'FF' | Not specified |
+
+If an invalid or unsupported value is specified, exception ID X'0257..08' exists.
+Refer to “Mapping Control Options” or “Mapping the IO-Image
+Presentation Space” for a description of these mapping control
+options.
+The scale to fill option is supported in the RPO command only when it is
+supported for the object type; support for scale to fill is indicated by property
+pair X'F301' in the IO-Image and Object Container command-set vector of an
+STM reply.
+Bytes 15–16 Override for X
+oa offset from object area origin
+This field specifies an override in L-units for the Xoa offset from the object area
+origin. The units of measure used to interpret this offset are specified in bytes
+7–9. The X
+oa offset field is ignored when the actual mapping option used is
+not position or position and trim. X'FFFF' is a special value that indicates that
+this parameter has not been specified; an Xoa offset of -1 cannot be specified.
+
+
+For this parameter to be used, all four of the object area parameters (Xoa
+extent, Yoa extent, Xoa offset, Yoa offset) must be specified in the RPO entry.
+If an unsupported value is specified, exception ID X'0257..09' exists.
+Bytes 17–18 Override for Yoa offset from object area origin
+This field specifies an override in L-units for the Yoa offset from the object area
+origin. The units of measure used to interpret this offset are specified in bytes
+7–9. The Yoa offset field is ignored when the actual mapping option used is not
+position or position and trim. X'FFFF' is a special value that indicates that this
+parameter has not been specified; a Y
+oa offset of -1 cannot be specified.
+For this parameter to be used, all four of the object area parameters (Xoa
+extent, Yoa extent, Xoa offset, Yoa offset) must be specified in the RPO entry.
+If an unsupported value is specified, exception ID X'0257..09' exists.
+Bytes 19 to
+end of entry
+RPO Triplets
+This portion of the RPO command contains zero or more triplets that contain information about
+the object.
+Printers ignore any triplet that is not supported or not applicable and no exception is reported.
+If byte 19 or the first byte after a valid triplet is X'00' or X'01' (an invalid triplet length), the
+printer ignores the remaining data within the optional triplets field.
+Specific triplets are fully described in the triplets chapter:
+“Color Specification (X'4E') Triplet”
+“Object Offset (X'5A') Triplet”
+“Invoke CMR (X'92') Triplet”
+“Rendering Intent (X'95') Triplet”
+“Image Resolution (X'9A') Triplet”
+“Object Container Presentation Space Size (X'9C') Triplet”
+Color Specification (X'4E') Triplet Considerations
+The Color Specification (X'4E') triplet specifies an override color value for a bilevel or grayscale image object to
+be preRIPped; this triplet should be specified on the RPO command to match the corresponding triplet (if any)
+on the IDO-DODD command. The triplet is used only for bilevel IO-Image objects and for object-container
+objects that contain bilevel or grayscale image, and is ignored for all other object types. The specific object
+types that can contain bilevel or grayscale image are identified in the MO:DCA object-type OID registry.
+Only one Color Specification (X'4E') triplet should be specified in the RPO command. If multiple Color
+Specification (X'4E') triplets are specified, the last one is used and the others are ignored. If a Color
+Specification (X'4E') triplet is not specified on the RPO command, the printer uses the color specification, if
+any, from the WOCC or WIC2 command.
+• For bilevel IO-Image objects:
+– Printers that support the Set Extended Bilevel Image Color (X'F4') IOCA self-defining field use the Color
+Specification (X'4E') triplet to override either the Set Bilevel Image Color (X'F6') IOCA self-defining field or
+the Set Extended Bilevel Image Color (X'F4') IOCA self-defining field in an IO-Image object, or to set the
+image color if neither self-defining field is specified in the object. Property pair X'4401' in the STM IO-Image
+command-set vector indicates that the Set Extended Bilevel Image Color (X'F4') IOCA self-defining field is
+supported.
+– Printers that do not support the Set Extended Bilevel Image Color (X'F4') IOCA self-defining field use a
+restricted form of the X'4E' triplet to override the Set Bilevel Image Color (X'F6') IOCA self-defining field in
+an IO-Image object, or to set the image color if no X'F6' IOCA self-defining field is specified in the object. In
+this case, the triplet must specify the Standard OCA color space (X'40') or the triplet is ignored.
+
+
+• The Color Specification (X'4E') triplet is not used with grayscale IO-Image objects.
+• For object-container objects that contain bilevel image but do not specify an internal color value, the Color
+Specification (X'4E') triplet specifies the color of the bilevel image. Note that 1-bit indexed color is considered
+to be bilevel. Some presentation object containers can specify color by constructs within the object and, if
+present, these color specifications are used instead of the Color Specification (X'4E') triplet. The color
+specified in the Color Specification (X'4E') triplet is a default color and does not override a non-default color
+specified within the object data.
+• For object-container objects that contain grayscale image, the Color Specification (X'4E') triplet specifies a
+color that is used in place of black when rendering the image. For example, when the color is brown the
+image is produced in “brownscale” rather than grayscale (this is commonly called sepia tone in photography
+and produces a softer look than would grayscale). The intensity of the color for each image point is
+determined by the color space and the grayscale level in the image, as follows:
+RGB 0% = color of medium
+100% = specified RGB value
+CMYK 0% = color of medium
+100% = specified CMYK value
+Highlight 0% = color of medium
+100% = specified highlight value
+ignore the percent-coverage and percent-shading parameters
+CIELAB 0% = color of medium
+100% = specified CIELAB value
+Standard OCA 0% = color of medium
+100% = OCA color (or RGB value from table)
+Property pair X'4403' in the STM IO-Image command-set vector indicates that the printer provides bilevel color
+support on the RPO command for IO Images. Property pair X'5801' in the STM Object Container command-set
+vector indicates that the printer provides bilevel and grayscale image color support for object containers.
+Object Offset (X'5A') Triplet Considerations
+When processing a multi-page resource object (such as a multi-page PDF file or multi-image TIFF file), the
+printer uses the preprocess-all-objects flag (byte 6, bit 4) to determine which part of the multi-part object to
+process. If the flag is B'1', all paginated objects within the file are preRIPed and the printer keeps track of the
+order of these objects within the file (in this case all X'5A' triplets are ignored). If the flag is B'0', the printer uses
+an Object Offset (X'5A') triplet, to identify a single paginated object within the file to preRIP . The Object Offset
+(X'5A') triplet is only used with multi-page objects; the triplet is ignored if specified with any other object type.
+An Object Offset (X'5A') triplet specified in the RPO command overrides Object Offset (X'5A') triplets in the
+WOCC command. If more than one Object Offset (X'5A') triplet is specified in the RPO command, the last one
+is used and the others are ignored. If there are no Object Offset (X'5A') triplets specified in the RPO command,
+the last specified Object Offset (X'5A') triplet in the WOCC command is used. However, if no X'5A' triplets have
+been specified in either command, the first paginated object within the file is preRIPed.
+Printer support for the Object Offset (X'5A') triplet is indicated by the presence of at least one multi-page-file or
+multi-image-file resource object OID in the Object-Container Type Support self-defining field of an XOH-OPC
+reply.
+Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
+Since data-object-level CMR invocations and rendering intent are not saved with a data object resource, they
+can be provided on the IDO and RPO commands for a presentation data object. However, because overlay-
+level CMRs and rendering intent are saved with the LPD command for an overlay, there is no need to specify
+them on the RPO command; all X'92' and X'95' triplets specified on an RPO command for an overlay are
+
+
+ignored. To ensure that an overlay is rendered consistently regardless of how and where the overlay is
+included, appropriate CMRs and rendering intents should be contained within the overlay or in the overlay's
+LPD command. Note that home-state-level CMRs and rendering intent (or device defaults) are used when
+preRIPping an overlay if none are specified on the overlay's LPD command and none are specified on the data
+objects within the overlay.
+The Invoke CMR (X'92') and Rendering Intent (X'95') triplets are associated only with the presentation object to
+be preRIPped and are used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy”
+35 for a description of the hierarchy.
+Multiple Invoke CMR (X'92') triplets can be specified. However, only the last specified Rendering Intent (X'95')
+triplet is used and additional X'95' triplets are ignored.
+The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
+Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the RPO command.
+Image Resolution (X'9A') Triplet Considerations
+Property pair X'5800' in the Object Container command-set vector of an STM reply indicates that the printer
+supports the Image Resolution (X'9A') triplet. Property pair X'FB00' in the Device-Control command-set vector
+of an STM reply indicates support for all architected units of measure in the Image Resolution (X'9A') triplet.
+One Image Resolution (X'9A') triplet can be specified for some object types (such as TIFF , GIF , JPEG, and
+JPEG2000) to identify the raster image resolution used within the object. This triplet is not used with IOCA
+images or overlays and, if specified for an IOCA image or overlay, the triplet is ignored. If more than one Image
+Resolution (X'9A') triplet is specified, the last one is used and the others are ignored.
+If an image resolution is needed to process the object and the triplet is specified, the resolution specified within
+the triplet is used and overrides the resolution inside the image, if any. However, if an image resolution is not
+needed to process the object, the triplet is ignored. If an image resolution is needed to process the object, but
+is not provided at all, the printer assumes that the image resolution is the same as the device resolution and
+exception ID X'020D..07' exists.
+If no Image Resolution (X'9A') triplets are specified on the RPO command, the printer uses the X'9A' triplet, if
+any, from the WOCC command.
+Object Container Presentation Space Size (X'9C') Triplet Considerations
+The Object Container Presentation Space Size (X'9C') triplet specifies the presentation space size for an
+included PDF or SVG object; this triplet should be specified on the RPO command to match the corresponding
+triplet (if any) on the IDO command.
+Only one Object Container Presentation Space Size (X'9C') triplet should be specified for a PDF or SVG
+object. This triplet is not used with other object types and, if specified for an object type other than PDF or
+SVG, the triplet is ignored. If multiple Object Container Presentation Space Size (X'9C') triplets are specified,
+the last one is used and the others are ignored.
+If an Object Container Presentation Space Size (X'9C') triplet is not specified on the RPO command, the printer
+uses the X'9C' triplet, if any, from the WOCC command.
+Property pair X'1203' in the Object Container command-set vector of an STM reply indicates that the printer
+supports the Object Container Presentation Space Size (X'9C') triplet for a PDF object. STM property pair
+X'1209' in the Object Container command-set vector indicates that the printer supports the Object Container
+Presentation Space Size (X'9C') triplet for an SVG object.
+
+
+Sense Type and Model
+Length X'D6E4' Flag CID
+The length of the STM command can be:
+Without CID X'0005'
+With CID X'0007'
+Exception ID X'0202..02' exists if the command length is invalid or unsupported.
+The Sense Type and Model (STM) command requests the printer to respond with device-dependent
+information that identifies the printer and its capabilities. The printer returns this information to the host in the
+special data area of one or more Acknowledge Replies to the STM command. No data is transmitted with this
+command.
+The host-to-printer configuration might include IPDS intermediate devices. These devices modify the printer's
+STM reply in order to indicate their presence and functional characteristics to the host.
+This command is valid in any printer state and performs no operation if the ARQ bit in the flag byte is B'0'.
+Acknowledge Reply for Sense Type and Model
+The STM data returned in the special data area of one or more Acknowledge Replies contains six bytes of
+general information, followed by one or more command-set vectors. These command-set vectors identify the
+IPDS command sets and subsets supported by the printer. For example, the STM data might consist of a
+Device-Control vector, a Text vector, a Loaded-Font vector for the LF1 subset, and a Loaded-Font vector for
+the LF3 subset.
+If a command or property is supported by a printer, the support must be indicated in the command-set vectors.
+The support for commands and properties as indicated in the STM reply does not change while the printer is
+online. The host assumes that the printer supports only commands and properties identified by command-set
+vectors.
+The command-set vectors are contained in bytes 6 to end of the STM reply data. The first six bytes of each
+vector contain the length, the command-set ID, and the data-level ID or subset ID of a command set.
+Subsequent bytes contain two-byte pairs that specify individual properties. The first byte of each pair is the
+property ID; the second byte contains the property data. The command-set vectors and property pairs may be
+entered in any order.
+Note: Byte numbering is relative; the actual byte number depends on the arbitrarily-assigned position of the
+command-set vector within the special data area of the ACK.
+Command-set vectors must include a minimum of six bytes. A command-set vector implies that the printer
+supports all mandatory commands and orders for a subset of that command-set. Unrecognized property IDs
+may be ignored.
+A printer may return multiple property IDs within a command-set vector. If duplicate property IDs are
+encountered whose data bytes are bit mapped, the last encountered property ID and data pair specifies the
+property. Also, a printer may return more than one instance of a particular command-set vector. Property ID
+and data pairs within subsequent instances of these command-set vectors should be interpreted as if they
+were found at the end of the preceding instance of that command-set vector.
+
+
+All intermediate devices in the host-to-printer configuration must individually indicate their presence by
+generating the “intermediate device present” property pair in the Device-Control command-set vector and may
+optionally provide more detailed identification information by generating the IPDS Intermediate Device
+Identifier parameter in the XOH-OPC reply.
+Length X'D6FF' Flag CID Type—Page and Copy Counters—Special Data Area
+The following table shows the STM reply format contained in the special data area of the Acknowledge Reply:
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | | X'FF' | System/370 convention |
+| 1–2 | CODE | Type | | Device type of the printer, or of the printer that is being emulated or mimicked. For example, X'3820' for the 3820 page printer. |
+| 3 | CODE | Model | | Model number; see your printer documentation |
+| 4–5 | | Reserved | X'0000' | Reserved |
+
+One or more command-set vectors in the following format. Refer to individual command-set vectors on the
+following pages.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | | Length of the command-set vector, including this length field |
+| 8–9 | CODE | Subset ID or command set ID | | For data command sets, the subset ID of a command set. For other command sets, the command set ID. |
+| 10–11 | CODE | Level or subset ID | | For data command sets, the level ID of a data tower. For other command sets, the subset ID of a command set. |
+| 12 to end | CODE | Property pairs | | Zero or more command-set property ID and data pairs. |
+The following command-set vectors can be returned in the STM Acknowledge Reply:
+
+
+## Device-Control Command-Set Vector
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6–7 | UBIN | Length | X'0006' to end of vector (even values) | Length of the Device-Control command-set vector, including this length field |
+| 8–9 | CODE | Command set ID | X'C4C3' | Device-Control command-set ID |
+| 10–11 | CODE | Subset ID | X'FF10' | DC1 subset ID |
+| 12 to end of vector | CODE | Command specific property pairs | X'6001'<br>X'6002'<br>X'6003'<br>X'6004'<br>X'6005'<br>X'6006'<br>X'6007'<br>X'6008'<br>X'6009'<br>X'6101'<br>X'6201' | Multiple copy & copy-subgroup support in LCC<br>Media-source-selection support in LCC; see note 1<br>Media-destination-selection support in LCC; see note 1<br>Full-length LCC commands supported; see note 2<br>Full range of font local IDs supported in LFE and LPD commands; see note 3<br>Font-modification flags supported in LFE commands (byte 14, bits 3–7)<br>Short LPD commands supported; see note 4<br>Full range of logical-page-offset values supported in LPP commands; see note 5<br>Empty LFE commands supported; see note 6<br>Explicit page placement and orientation support in the LPP command<br>Logical page and object area coloring support; see note 7 |
+
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| | | Optional command property pairs | X'7001'<br>X'7002'<br>X'7008'<br>X'700A'<br>X'701C'<br>X'702E'<br>X'7034'<br>X'706B'<br>X'707B'<br>X'707E'<br>X'70CE' | Manage IPDS Dialog (MID) command support<br>Apply Finishing Operations (AFO) command<br>Set Presentation Environment (SPE) command support; see note 8<br>Activate Setup Name (ASN) command support; see note 9<br>Retired item 134<br>Activate Resource command support: indicates that the printer supports the AR command as well as XOA-RRL queries of query type X'05', activation query<br>Presentation Fidelity Control command support<br>Invoke CMR (ICMR) command support; see note 8<br>Rasterize Presentation Object (RPO) command support; see note 10<br>Include Saved Page (ISP) command support<br>DUA command-support property ID. If the DUA command and the Overlay command set is supported, secure overlays are also supported in the IO command. |
+| | | XOA property pairs | X'8000'<br>X'8001'<br>X'8002'<br>X'8006'<br>X'8008'<br>X'800A'<br>X'800C'<br>X'8010'<br>X'80F1'<br>X'80F2'<br>X'80F3'<br>X'80F4'<br>X'80F5'<br>X'80F6'<br>X'80F8'<br>X'80F9'<br>X'80FA' | Retired item 108<br>Retired item 109<br>Retired item 110<br>Retired item 111<br>Mark Form<br>Alternate Offset Stacker<br>Control Edge Marks<br>Activate Printer Alarm<br>Retired item 112<br>Discard Buffered Data; see note 11<br>Retired item 113<br>Request Resource List; see note 11<br>Discard Unstacked Pages<br>Exception-Handling Control; see note 11<br>Print-Quality Control<br>Obtain Additional Exception Information<br>Request Setup Name List; see note 9 |
+
+
+| | | XOH property pairs | X'9000'<br>X'9001'<br>X'9002'<br>X'9003'<br>X'9004'<br>X'9005'<br>X'9007'<br>X'9009'<br>X'900A'<br>X'900B'<br>X'900D'<br>X'900E'<br>X'9013'<br>X'9015'<br>X'9016'<br>X'9017'<br>X'90D0'<br>X'90F2'<br>X'90F3'<br>X'90F4'<br>X'90F5' | Retired item 114<br>Print Buffered Data; see note 11<br>Deactivate Saved Page Group<br>Specify Group Operation<br>Define Group Boundary<br>Erase Residual Print Data<br>Erase Residual Font Data<br>Separate Continuous Forms<br>Remove Saved Page Group<br>Retired item 115<br>Stack Received Pages<br>Select Medium Modifications<br>Eject to Front Facing<br>Select Input Media Source<br>Set Media Origin<br>Set Media Size<br>Retired item 126<br>Trace<br>Obtain Printer Characteristics; see note 11<br>Retired item 116<br>Page Counters Control |
+| | | CMR property pairs | X'E000'<br>X'E001'<br>X'E002'<br>X'E003'<br>X'E004'<br>X'E006'<br>X'E100'<br>X'E102' | CMRs can be captured<br>Host-activated link color-conversion (subset “LK”) CMRs supported; see note 12<br>Host-activated, non-generic halftone CMRs supported; see note 13<br>Host-activated, non-generic tone-transfer-curve CMRs supported; see note 14<br>Host-activated indexed CMRs supported; see note 15<br>Host-activated ICC DeviceLink (subset “DL”) CMRs supported; see note 12<br>CMRs can be reliably applied to all EPS/PDF objects; see note 16<br>Pass-through audit color-conversion CMRs supported |
+| | | Miscellaneous property pairs | X'F001'<br>X'F002'<br>X'F003'<br>X'F004'<br>X'F005'<br>X'F100' | End Persistent NACK without leaving IPDS mode; see note 17<br>Blank sheets are emitted when paper movement is stopped; see note 18<br>Long ACK support (up to 65,535 byte long Acknowledge Replies)<br>Grayscale simulation supported; see note 19<br>Grayscale simulation supported for device-default-monochrome device appearance; see note 20<br>An IPDS intermediate device is present. An instance of this property pair must be generated by each intermediate device in the configuration. |
+| | | | X'F101'<br>X'F102'<br>X'F200'<br>X'F201'<br>X'F202'<br>X'F203'<br>X'F204'<br>X'F205'<br>X'F206'<br>X'F209'<br>X'F211'<br>X'F212'<br>X'F401'<br>X'F402'<br>X'F403'<br>X'F601'<br>X'F602'<br>X'F603'<br>X'F604'<br>X'F605'<br>X'F7nn'<br>X'F8nn'<br>X'F902' | UP3I finishing supported; see note 21<br>Media feed direction returned in the XOH-OPC reply Printable-Area self-defining field; see note 22<br>Local Date and Time Stamp (X'62') triplets supported in AR commands<br>Activation-failed NACK support<br>Font Resolution and Metric Technology (X'84') triplets supported in AR commands<br>Metric Adjustment (X'79') triplets supported in AR commands<br>Data-object font support; see note 23<br>Color Management triplet support in IDO, LPD, RPO, SPE, WBCC, WGC, WIC2, WOCC, and WTC commands; see note 8<br>Device Appearance (X'97') triplet support; see note 8<br>Extended copy set number format supported in the Group Information (X'6E') triplet<br>Character-encoded object names in AR commands; see note 24<br>QR Code with Image tertiary resource support; see note 25<br>XOA-RRL Multiple Entry Query Support; the printer supports multiple-entry queries of query type X'05', activation query<br>Retired (for “XOA-RRL query type X'FE' supported”)<br>Detailed settings support in XOA RSNL<br>Position-Check Highlighting Support in XOA EHC<br>Independent Exception Page-Print in XOA EHC; see note 26<br>Support for operator-directed recovery in XOA EHC; see note 27<br>Support for Page-Continuation Actions; see note 28<br>Support for Skip-and-Continue Actions; see note 28<br>Simplex N-up supported in the LCC command; see note 29<br>Simplex and duplex N-up supported in the LCC command; see note 29<br>Basic cut-sheet emulation mode supported; see note 30 |
+| | | | X'FA00'<br>X'FB00'<br>X'FC00'<br>X'FC01'<br>X'FF01'<br>X'FF02'<br>X'FF03' | XOH PCC X'02' counter update support; property pair X'90F5' must also be specified<br>All architected units of measure supported; see note 31<br>All function listed for IS/3 is supported; see description on page 984<br>All function listed for MO:DCA GA is supported; see “Additional required support for the MO:DCA GA (Graphic Arts) Function Set”; property pair X'FC00' must also be specified<br>Positioning Exception Sense Format Supported. Presence indicates support for Sense Format 1. Absence indicates support for Sense Format 7.<br>Three-Byte Sense Data Support; see note 32<br>Internal rendering intent support in XOH Trace; see note 33 |
+Notes:
+1. Printers that support either X'6002' (media-source selection in LCC) or X'6003' (media-destination
+selection in LCC) must also support X'900D' (XOH Stack Received Pages command).
+2. Property pair X'6004' indicates that the printer supports as many LCC copy subgroups and keywords as
+will fit into the LCC command (maximum command length is X'7FFF'). Some printers limit the number of
+copy subgroups and the number of keywords supported in LCC commands.
+3. Property pair X'6005' indicates support for font local IDs in the range X'80'–X'FE' in LFE and LPD
+commands. Note that support for values in the range X'00'–X'7F' is required by the DC1 subset.
+4. Property pair X'6007' indicates that the printer will accept short LPD commands that do not provide all of
+the initial text condition parameters.
+5. Property pair X'6008' indicates that the printer supports the full range of logical-page-offset values
+(X'FF8000'–X'007FFF') in LPP commands.
+6. Property pair X'6009' indicates that the printer supports empty LFE commands, which can be used to reset
+previously established mappings. Some printers require at least one font-equivalence entry.
+7. Logical page and object area coloring includes support for the Color Specification (X'4E') triplet and the
+Presentation Space Reset Mixing (X'70') triplet on the LPD, WBCC-BCOC, WGC-GOC, WIC2-IOC,
+WOCC-OCOC, and WTC-TOC commands. The Presentation Space Reset Mixing (X'70') triplet is also
+supported on the IDO-DOOC command.
+8. Property pair X'F205' is the basic property pair to identify support for color management (as defined in the
+compliance appendix in the Color Management Object Content Architecture Reference). In addition,
+printers that support Color Management Resources must return the following STM and XOH-OPC
+information:
+• Property pair X'7008' (SPE command support) in the STM Device-Control command-set vector.
+• Property pair X'706B' (ICMR command support) in the STM Device-Control command-set vector.
+• Property pair X'F205' (Color Management triplet support) in the STM Device-Control command-set
+vector, including support for the Color Management Resource Descriptor (X'91') triplet, the Invoke CMR
+
+
+(X'92') triplet, the Rendering Intent (X'95') triplet, and the Fully Qualified Name (X'02') triplet (with FQN
+Type X'41').
+• Property pair X'F206' (Device Appearance (X'97') triplet support) in the STM Device-Control command-
+set vector. Within the triplet, the device-default appearance (X'0000') must be supported; support for
+other appearances is optional.
+• Property pair X'1201' (Data-object-resource support) in the STM Object Container command-set vector.
+• The CMR object-type OID in the home state list of the XOH-OPC Object-Container Type Support self-
+defining field. This indicates that the printer supports all CMR object types that are required in the Color
+Management Object Content Architecture Reference (for example, CC CMRs and generic HT and TTC
+CMRs); refer to the compliance appendix in the Color Management Resource (CMR) Architecture
+Reference for information about compliance requirements. Support for optional CMR types is indicated
+by other property pairs (for example, X'E001').
+• The XOH-OPC Product Identifier self-defining field with parameter ID X'0001'.
+9. Property pairs X'700A' and X'80FA' must always be reported together and indicate support for the Activate
+Setup Name (ASN) and XOA Request Setup Name List (RSNL) commands, as well as support for the
+Setup Name (X'9E') triplet in both commands.
+An IPDS printer can support setup names (with the ASN and XOA-RSNL commands), or setup IDs (with
+the Printer Setup self-defining field of the XOH-OPC), or both; the two functions do not necessarily interact.
+The XOH-OPC Printer Setup self-defining field is not used for setup names.
+10. Property pair X'707B' indicates support for the RPO command and also indicates 1) that if the DORE
+command is supported, DORE is supported in home state as well as in page, page segment, and overlay
+states, and 2) that if the DORE2 command is supported, DORE2 is supported in home state as well as in
+page, page segment, and overlay states
+.
+11. These property pairs are implied by support of this command set and therefore need not be returned by a
+printer. All other property pairs that describe a supported property, must be returned by the printer.
+12. Presence of X'E001' indicates that the printer uses host-activated link color-conversion (subset “LK”)
+CMRs as well as printer-generated link color-conversion (subset “LK”) CMRs; absence of X'E001' indicates
+that the printer ignores all downloaded and host-activated link color-conversion (subset “LK”) CMRs. When
+a CMR is ignored, the printer must accept it but does not error check the contents and does not select that
+CMR while processing the CMR-Usage hierarchy; no exception exists when the CMR is activated,
+deactivated, or invoked. Link color-conversion CMRs of type “LK” (CMR subset ID X'01' or X'02') should
+not be downloaded unless this property pair is present.
+Presence of X'E006' indicates that the printer uses host-activated ICC DeviceLink (subset “DL”) CMRs;
+absence of X'E006' indicates that the printer ignores all downloaded and host-activated ICC DeviceLink
+(subset “DL”) CMRs. When a CMR is ignored, the printer must accept it but does not error check the
+contents and does not select that CMR while processing the CMR-Usage hierarchy; no exception exists
+when the CMR is activated, deactivated, or invoked. Link color-conversion CMRs of type “DL” (CMR
+subset ID X'03') should not be downloaded unless this property pair is present.
+13. Presence of X'E002' indicates that the printer uses host-activated halftone CMRs; absence of X'E002'
+indicates that the printer ignores all non-generic, downloaded, and host-activated halftone CMRs. When a
+CMR is ignored, the printer must accept it but does not error check the contents and does not select that
+CMR while processing the CMR-Usage hierarchy; no exception exists when the CMR is activated,
+deactivated, or invoked. The Color Management Object Content Architecture Reference also specifies that
+audit halftone CMRs are informational and can be ignored by printers. Non-generic halftone CMRs should
+not be downloaded, activated, or invoked unless this property pair is present. Support for generic halftone
+CMRs is indicated by support for the CMR object-type OID.
+Some IPDS printers do not support host-activated CMRs under all circumstances. If a CMR is invoked and
+selected for use, but the printer does not use the CMR, exception ID X'025E..05' exists. Reporting of this
+exception ID can be controlled with the Color Fidelity (X'75') triplet in the PFC command.
+
+
+14. Presence of X'E003' indicates that the printer uses host-activated tone-transfer-curve CMRs; absence of
+X'E003' indicates that the printer ignores all non-generic, downloaded, and host-activated tone-transfer-
+curve CMRs. When a CMR is ignored, the printer must accept it but does not error check the contents and
+does not select that CMR while processing the CMR-Usage hierarchy; no exception exists when the CMR
+is activated, deactivated, or invoked. Non-generic tone-transfer-curve CMRs should not be downloaded,
+activated, or invoked unless this property pair is present. Support for generic tone-transfer-curve CMRs is
+indicated by support for the CMR object-type OID.
+Some IPDS printers do not support host-activated CMRs under all circumstances. If a CMR is invoked and
+selected for use, but the printer does not use the CMR, exception ID X'025E..05' exists. Reporting of this
+exception ID can be controlled with the Color Fidelity (X'75') triplet in the PFC command.
+15. Presence of X'E004' indicates that the printer uses host-activated indexed CMRs; absence of X'E004'
+indicates that the printer ignores all downloaded and host-activated indexed CMRs and does not perform
+color management for highlight colors. When a CMR is ignored, the printer must accept it but does not
+error check the contents and does not select that CMR while processing the CMR-Usage hierarchy; no
+exception exists when the CMR is activated, deactivated, or invoked. Indexed CMRs should not be
+downloaded, activated, or invoked unless this property pair is present.
+16. Presence of X'E100' indicates that the printer reliably applies CMRs to EPS and PDF page objects.
+Printers normally require tight control over the PostScript RIP to guarantee reliable CMR processing with
+EPS and PDF page objects.
+If this property pair is not returned, there are some situations where the PostScript data is constructed such
+that it overrides the intent of a CMR. In this case, it is recommended that the PostScript data be converted
+into another type of data (such as IOCA FS45) before it is sent to the printer.
+17. “End Persistent NACK without leaving IPDS mode” indicates that the printer stops persisting with a given
+NACK upon receipt of an Only-In-Chain IPDS command of length less than 256 bytes with ARQ bit set.
+Persistent NACKs are an NDS attachment, DSC Mode only function.
+18. This printer cannot immediately stop paper movement on a sheet boundary and emits a few blank sheets
+each time the paper path is stopped.
+To minimize unwanted blank sheets within a print job, the presentation services software should activate
+any large or complex resources needed by the job before sending any of the pages for that job (including
+header pages). In addition, the presentation services software should avoid long pauses or stops within
+groups of pages that should be kept together. The Keep-Group-Together-as-a-Recovery-Unit group
