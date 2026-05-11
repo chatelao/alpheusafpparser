@@ -34,7 +34,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapters 11–17.
         - ⏳ Appendices A–D.
     - ⏳ Fix OCR-induced broken paragraphs and split words:
-        - ⏳ Chapters 1–10.
+        - ⏳ Chapters 1–4.
+        - ⏳ Chapters 5–10.
         - ⏳ Chapters 11–17 and Appendices.
     - ⏳ Remove physical page references ("on page XXX"; ~500 found).
     - ⏳ Convert command and syntax text dumps to Markdown tables:
