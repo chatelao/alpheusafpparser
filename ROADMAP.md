@@ -29,13 +29,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ## Phase 10: Specification Excellence
 - 🚧 **IPDS (Critical)**:
     - ⏳ Purge physical page markers and recurring PDF headers/footers:
-        - ✅ Chapters 1–5.
-        - ⏳ Chapters 6–10.
+        - ✅ Chapters 1–7.
+        - ⏳ Chapters 8–10.
         - ⏳ Chapters 11–17.
         - ⏳ Appendices A–D.
     - ⏳ Fix OCR-induced broken paragraphs and split words:
         - ⏳ Chapters 1–4.
-        - ⏳ Chapters 5–10.
+        - ✅ Chapters 5–7.
+        - ⏳ Chapters 8–10.
         - ⏳ Chapters 11–17 and Appendices.
     - ⏳ Remove physical page references ("on page XXX"; ~500 found).
     - ⏳ Convert command and syntax text dumps to Markdown tables:
@@ -71,7 +72,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ XOH Specify Group Operation (SGO).
             - ⏳ XOH Trace (TRC): Table 36 and all Trace Entry syntaxes.
         - ⏳ Text Command Set (Chapter 5).
-        - ⏳ IM-Image and IO-Image Command Sets (Chapters 6–7).
+        - ✅ IM-Image and IO-Image Command Sets (Chapters 6–7).
         - ⏳ Graphics Command Set (Chapter 8).
         - ⏳ Bar Code Command Set (Chapter 9).
         - 🚧 Object Container Command Set (Chapter 10):

@@ -3,44 +3,45 @@ The IO-Image command set contains the commands for presenting IOCA image data in
 segment, or an overlay; these commands can also be used to download an IO Image as a resource. This
 command set contains the following commands:
 Table 42. IO-Image Commands
-Command Code Description In IO1 Subset?
-WIC2 X'D63E' “Write Image Control 2” on page 498 Yes
-WI2 X'D64E' “Write Image 2” on page 517 Yes
+
+| Command | Code | Description | In IO1 Subset? |
+| :--- | :--- | :--- | :--- |
+| WIC2 | X'D63E' | “Write Image Control 2” | Yes |
+| WI2 | X'D64E' | “Write Image 2” | Yes |
 Both the IO-Image and the IM-Image command sets contain commands that enter the printer into the
 respective image state, and allow the subsequent transmission of image data to the printer. The IO-Image
 command-set commands provide a variety of functional additions, such as image compression and arbitrary
 scaling, over the IM-Image command-set commands. A printer can implement both the IO-Image and the IM-
 Image command sets. The following table indicates the major differences.
 Table 43. IM-Image and IO-Image Comparison
-Functions or Controls IM Image IO Image
-Replicate and trim input to fill output X O
-Bilevel image X X
-Bilevel image with a color specification X O
-Unpadded recording algorithm X O
-Grayscale image X
-Compression X
-Resolution-independent data presentation X
-Resolution correction to device resolution X
-Scaling X
-Position and trim X
-Center and trim X
-Scale to fill O
-Full-color image O
-Color Management Resources (CMRs); see note O
-Image Banding O
-Subsampling O
-Relative resolution for a tile O
-Tiling O
-Transparency masks O
-Bit allocation O
-Area coloring O
 
+| Functions or Controls | IM Image | IO Image |
+| :--- | :---: | :---: |
+| Replicate and trim input to fill output | X | O |
+| Bilevel image | X | X |
+| Bilevel image with a color specification | X | O |
+| Unpadded recording algorithm | X | O |
+| Grayscale image | | X |
+| Compression | | X |
+| Resolution-independent data presentation | | X |
+| Resolution correction to device resolution | | X |
+| Scaling | | X |
+| Position and trim | | X |
+| Center and trim | | X |
+| Scale to fill | | O |
+| Full-color image | | O |
+| Color Management Resources (CMRs); see note | | O |
+| Image Banding | | O |
+| Subsampling | | O |
+| Relative resolution for a tile | | O |
+| Tiling | | O |
+| Transparency masks | | O |
+| Bit allocation | | O |
+| Area coloring | | O |
+| IOCA tile resources | | O |
+| Multiple image contents in an IOCA image segment | | O |
 
-Table 43 IM-Image and IO-Image Comparison (cont'd.)
-Functions or Controls IM Image IO Image
-IOCA tile resources O
-Multiple image contents in an IOCA image segment O
-Key: X: supported, O: optional function (supported by some, but not all printers)
+**Key:** X: supported, O: optional function (supported by some, but not all printers)
 Note: Color Management Resources (CMRs) are associated with all print data using the CMR-usage hierarchy.
 CMRs can be directly tied to an IO Image by specifying the Invoke CMR (X'92') triplet in the WIC2
 command. CMRs cannot be directly tied to an IM Image and the rendering intent used for IM Image is
@@ -56,7 +57,7 @@ The IO-Image Presentation Space
 IO-Image data is placed onto the logical page in much the same way as graphics data; refer to Chapter 8,
 “Graphics Command Set”. Like the graphics data and bar code data, IO-Image data is mapped from an
 abstract presentation space to the image object area on the logical page. The coordinate system for this
-presentation space is the Xio,Yio coordinate system. Unlike graphics, the entire image presentation space is
+presentation space is the $X_{io}$,$Y_{io}$ coordinate system. Unlike graphics, the entire image presentation space is
 mapped to the IO-Image object area. There is no concept of a presentation space window in this command
 set. The size of the image presentation space is defined in the Image Data Descriptor (IDD) self-defining field
 of the WIC2 command. One image point of an IO-Image segment is mapped to one image point of the image
@@ -64,15 +65,14 @@ presentation space.
 Figure 78. IO-Image Presentation Space. This figure shows the complete image presentation space before
 mapping to the image object area.
 IO Image Presentation Space
-Yio
-Xio
+$Y_{io}$
+$X_{io}$
 
 
 The IO-Image Object Area
 The IO-Image object area is a rectangular area on the current logical page that the image presentation space
 is mapped into. The IO-Image object area can be the same size, larger, or smaller than the image presentation
-space. The coordinate system for the IO-Image object area is the X
-oa,Yoa coordinate system.
+space. The coordinate system for the IO-Image object area is the $X_{oa}, Y_{oa}$ coordinate system.
 The location and orientation of the IO-Image object area is specified in the Image Area Position (IAP) self-
 defining field of the WIC2 command. The IO-Image object area size is specified in the Image Output Control
 (IOC) self-defining field of the WIC2 command.
@@ -97,7 +97,7 @@ With position-and-trim mapping, the top-left corner of the image presentation sp
 the image object area, and the image presentation space is presented at the size specified by bytes 6–14 of
 the IDD self-defining field. Any portion of the image presentation space that falls outside the limits of the image
 object area is trimmed. This type of trimming does not cause an exception. For a detailed description of image
-mapping, refer to “Image Output Control” on page 503.
+mapping, refer to “Image Output Control”.
 With replicate-and-trim mapping, the origin of the image presentation space is positioned coincident with the
 origin of the image object area, and the image presentation space is presented at the size specified in bytes 6–
 14 of the IDD self-defining field. The image presentation space is then replicated in the X and Y directions of
@@ -159,28 +159,23 @@ Each self-defining field contains a two-byte length field, then a two-byte self-
 field.
 If an invalid self-defining field is specified, a self-defining field is out of order, a required self-defining field is not
 specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
-Write Image Control 2 (WIC2)
 
 
 Figure 79. Locating, Sizing, and Orienting the Image Object Area
 Origin of IO-Image Object
 Area specified in Image
-## Area Position (IAP)
 Size of IO-Image Object
 Area specified in Image
-## Output Control (IOC)
 Orientation of IO-Image
 Object Area specified in
-## Image Area Position (IAP)
 IO-Image Object Area
 Logical Page
-Xp
-Yp
-Yoa
-Xoa
+$X_{p}$
+$Y_{p}$
+$Y_{oa}$
+$X_{oa}$
 I
 B
-Write Image Control 2 (WIC2)
 
 
 Image Area Position
@@ -188,59 +183,19 @@ The IAP is a mandatory self-defining field in the WIC2 command. It defines the p
 image object area. The origin and orientation of the image object area are defined relative to the reference
 coordinate system.
 The format of the IAP is as follows:
-Offset Type Name Range Meaning IO1 Range
-0–1 UBIN Length X'000B' to end
-of IAP
-Length of IAP , including this length field X'000B' to end of
-IAP
-2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
-4–5 SBIN X offset X'8000' –
-X'7FFF'
-Image object area origin; an Xp, I, or I-offset
-coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-6–7 SBIN Y offset X'8000' –
-X'7FFF'
-Image object area origin; a Yp, B, or B-offset
-coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-8–9 CODE Image object area orientation
-bits 0–8 Degrees B'000000000'
-–
-B'101100111'
-Number of degrees (0–359) in the orientation B'000000000'
-bits 9–14 Minutes B'000000' –
-B'111011'
-Number of minutes (0–59) in the orientation B'000000'
-bit 15 B'0' Reserved B'0'
-10 CODE Coordinate
-system X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-Reference coordinate system:
-Absolute I, absolute B
-Absolute I, relative B
-Relative I, absolute B
-Relative I, relative B
-Page X
-p,Yp
-X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-11 to
-end of
-IAP
-UNDF Data without architectural definition
+
+| Offset | Type | Name | Range | Meaning | IO1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'000B' to end of IAP | Length of IAP, including this length field | X'000B' to end of IAP |
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
+| 4–5 | SBIN | X offset | X'8000' – X'7FFF' | Image object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' |
+| 6–7 | SBIN | Y offset | X'8000' – X'7FFF' | Image object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' |
+| 8–9 | CODE | Image object area orientation | | | |
+| | bits 0–8 | Degrees | B'000000000' – B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
+| | bits 9–14 | Minutes | B'000000' – B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
+| | bit 15 | | B'0' | Reserved | B'0' |
+| 10 | CODE | Coordinate system | X'00' X'20' X'40' X'60' X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00' X'20' X'40' X'60' X'A0' |
+| 11 to end of IAP | UNDF | | | Data without architectural definition | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -251,30 +206,27 @@ Bytes 0–1 Self-defining-field length. Bytes after byte 10 are ignored by the p
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
 Bytes 4–5 IO-Image object area origin X offset in L-units
-These bytes specify the image object area origin (top-left corner) as an X
-p, I, or I-offset
+These bytes specify the image object area origin (top-left corner) as an $X_{p}, I$, or $I$-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
-Write Image Control 2 (WIC2)
 
 
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
 Bytes 6–7 IO-Image object area origin Y offset in L-units
-These bytes specify the image object area origin (top-left corner) as a Yp, B, or B-offset
+These bytes specify the image object area origin (top-left corner) as a $Y_{p}$, B, or B-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
-Note: The current text presentation coordinate (I c, Bc) is not changed by the printing of this
+Note: The current text presentation coordinate ($I_{c}$, $B_{c}$) is not changed by the printing of this
 object.
 Bytes 8–9 Orientation of image object area
-This two-byte parameter specifies the orientation of the image object area, that is, the X
-oa axis
-of the image object area, in terms of an angle measured clockwise from the Xp or I coordinate
+This two-byte parameter specifies the orientation of the image object area, that is, the $X_{oa}$ axis
+of the image object area, in terms of an angle measured clockwise from the $X_{p}$ or $I_{c}$ coordinate
 axis. This parameter rotates the image object area around the origin position specified in bytes
-4–7 above. The image presented in the object area is aligned such that the positive Xio axis of
-the image presentation space is parallel to, and in the same direction as, the positive Xoa axis
-of the object area. The positive Yoa axis of the image object area is rotated 90 degrees
-clockwise relative to the positive Xoa axis and is in the same direction as the positive Yio axis.
+4–7 above. The image presented in the object area is aligned such that the positive $X_{io}$ axis of
+the image presentation space is parallel to, and in the same direction as, the positive $X_{oa}$ axis
+of the object area. The positive $Y_{oa}$ axis of the image object area is rotated 90 degrees
+clockwise relative to the positive $X_{oa}$ axis and is in the same direction as the positive $Y_{io}$ axis.
 This parameter has no effect on the I-axis orientation or the B-axis orientation.
 The object area orientation is specified in terms of a number of degrees and a number of
 minutes.
@@ -304,7 +256,7 @@ B'010110100 000000 0'
 B'100001110 000000 0'
 Byte 10 Reference coordinate system.
 The reference coordinate system determines the origin and orientation of the image object
-area, using either the Xp,Yp or the inline-baseline (I,B) coordinate system.
+area, using either the $X_{p}$,$Y_{p}$ or the inline-baseline (I,B) coordinate system.
 An inline coordinate value specified as absolute means that the value in bytes 4 and 5 of the
 IAP is an absolute inline coordinate location, that is, bytes 4 and 5 are offset from the I system
 origin. A baseline coordinate value specified as absolute means that the value in IAP bytes 6
@@ -314,7 +266,6 @@ An inline coordinate value specified as relative means that the value in IAP byt
 offset from the current inline coordinate location. A baseline coordinate value specified as
 relative means that the value in IAP bytes 6 and 7 is an offset from the current baseline
 coordinate location. Therefore, the following applies:
-Write Image Control 2 (WIC2)
 
 
 • If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
@@ -329,15 +280,13 @@ specify the text baseline coordinate.
 • If byte 10 equals X'60', the relative inline and baseline coordinates determine the origin. IAP
 bytes 4 and 5 are added to the current text inline coordinate. IAP bytes 6 and 7 are added to
 the current text baseline coordinate.
-• If byte 10 equals X'A0', the current logical page X
-p and Yp coordinates determine the origin.
-When the image is within a page, IAP bytes 4–7 specify the offset from the Xp-coordinate
-and Yp-coordinate origin specified in a previously received LPP command (or from the
+• If byte 10 equals X'A0', the current logical page $X_{p}$ and $Y_{p}$ coordinates determine the origin.
+When the image is within a page, IAP bytes 4–7 specify the offset from the $X_{p}$-coordinate
+and $Y_{p}$-coordinate origin specified in a previously received LPP command (or from the
 printer default coordinates if no LPP command received). When the image is within an
 overlay that is invoked using an LCC command, IAP bytes 4–7 specify the offset from the
-X
-m-coordinate and Ym-coordinate origin. When the image is within an overlay that is invoked
-using an IO command, IAP bytes 4–7 specify the offset from the Xp-coordinate and Yp-
+$X_{m}$-coordinate and $Y_{m}$-coordinate origin. When the image is within an overlay that is invoked
+using an IO command, IAP bytes 4–7 specify the offset from the $X_{p}$-coordinate and $Y_{p}$-
 coordinate origin specified in the IO command.
 Exception ID X'0204..05' exists if an invalid reference-coordinate-system value is specified.
 Bytes 11 to
@@ -345,7 +294,6 @@ end of IAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
 but ignore this field; generators should not specify this field.
-Write Image Control 2 (WIC2)
 
 
 Image Output Control
@@ -354,97 +302,25 @@ for mapping the image presentation space into the image object area.
 This self-defining field is optional and can be omitted from the WIC2 command. If the IOC field is omitted, the
 printer uses the following:
 • Mapping option X'30' (position and trim).
-• Xoa offset and Yoa offset equals 0.
+• $X_{oa}$ offset and $Y_{oa}$ offset equals 0.
 • Image object area size equals the image presentation space size defined in the IDD self-defining field.
 • No coloring.
 • No object-level CMRs.
 • No object-level rendering intent.
 The format of the IOC is as follows:
-Offset Type Name Range Meaning IO1 Range
-0–1 UBIN Length X'0010',
-X'0012' to
-end of IOC
-Length of IOC, including this length field X'0010',
-X'0012' to
-end of IOC
-2–3 CODE SDF ID X'A66B' Self-defining-field ID X'A66B'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-5–6 UBIN UPUB X'0001' –
-X'7FFF'
-X
-oa and Yoa units per unit base X'3840'
-7–8 UBIN Xoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Xoa extent of IO-Image object area in L-units
-Use the LPD value.
-See byte
-description.
-9–10 UBIN Yoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Yoa extent of IO-Image object area in L-units
-Use the LPD value.
-See byte
-description.
-11 CODE Mapping
-control option X'10'
-X'20'
-X'30'
-X'41'
-X'42'
-X'50'
-X'60'
-Mapping control option:
-Scale to fit
-Center and trim
-Position and trim
-Point to pel
-Point to pel w/ double dot
-Replicate & trim (FS10 only)
-Scale to fill
-X'10'
-X'20'
-X'30'
-X'41'
-X'42'
-12–13 SBIN X
-oa offset X'8000' –
-X'7FFF'
-Xoa offset in L-units
-(for position-and-trim only)
-X'0000' –
-X'7FFF'
-Refer to the note
-following the
-table.
-Write Image Control 2 (WIC2)
 
-
-Offset Type Name Range Meaning IO1 Range
-14–15 SBIN Yoa offset X'8000' –
-X'7FFF'
-Yoa offset in L-units
-(for position-and-trim only)
-X'0000' –
-X'7FFF'
-Refer to the note
-following the
-table.
-16 to
-end of
-IOC
-Triplets Zero or more optional triplets; not all IPDS
-printers support these triplets
-X'4E' Color Specification triplet
-X'70' Presentation Space Reset Mixing
-triplet
-X'92' Invoke CMR triplet
-X'95' Rendering Intent triplet
+| Offset | Type | Name | Range | Meaning | IO1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0010', X'0012' to end of IOC | Length of IOC, including this length field | X'0010', X'0012' to end of IOC |
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
+| 4 | CODE | Unit base | X'00' X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 5–6 | UBIN | UPUB | X'0001' – X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001' – X'7FFF' X'FFFF' | $X_{oa}$ extent of IO-Image object area in L-units<br>X'FFFF' = Use the LPD value. | See byte description. |
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001' – X'7FFF' X'FFFF' | $Y_{oa}$ extent of IO-Image object area in L-units<br>X'FFFF' = Use the LPD value. | See byte description. |
+| 11 | CODE | Mapping control option | X'10' X'20' X'30' X'41' X'42' X'50' X'60' | Mapping control option:<br>X'10' = Scale to fit<br>X'20' = Center and trim<br>X'30' = Position and trim<br>X'41' = Point to pel<br>X'42' = Point to pel w/ double dot<br>X'50' = Replicate & trim (FS10 only)<br>X'60' = Scale to fill | X'10' X'20' X'30' X'41' X'42' |
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000' – X'7FFF' | $X_{oa}$ offset in L-units (for position-and-trim only) | X'0000' – X'7FFF' |
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000' – X'7FFF' | $Y_{oa}$ offset in L-units (for position-and-trim only) | X'0000' – X'7FFF' |
+| 16– | Triplets | | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -469,30 +345,28 @@ Exception ID X'0206..05' exists if an invalid or unsupported units-per-unit-base
 specified.
 Note: Bytes 4–6 describe the resolution of the IO-Image object area; they do not describe the
 resolution of the IOCA data.
-Bytes 7–8 X
-oa extent of object area in L-units
-These bytes specify the Xoa extent of the IO-Image object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Xp extent and
-the Xp unit base and units per unit base of the LPD command that is current when this object is
+Bytes 7–8 $X_{oa}$ extent of object area in L-units
+These bytes specify the $X_{oa}$ extent of the IO-Image object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $X_{p}$ extent and
+the $X_{p}$ unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
 logical page.
 The printer must support all values in the range X'0001'–X'7FFF'; refer to “L-Unit Range
-Conversion Algorithm” on page 68. The printer must support X'FFFF' for pages and overlays.
-Write Image Control 2 (WIC2)
+Conversion Algorithm”. The printer must support X'FFFF' for pages and overlays.
 
 
 The printer may optionally support X'FFFF' for page segments. Property pair X'1206' in the IO-
 Image command-set vector of an STM reply indicates that the value X'FFFF' (use LPD value)
 is supported within page segments.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
-Bytes 9–10 Yoa extent of object area in L-units
-These bytes specify the Yoa extent of the IO-Image object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp extent and
-the Yp unit base and units and units per unit base of the LPD command that is current when
+Bytes 9–10 $Y_{oa}$ extent of object area in L-units
+These bytes specify the $Y_{oa}$ extent of the IO-Image object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $Y_{p}$ extent and
+the $Y_{p}$ unit base and units and units per unit base of the LPD command that is current when
 this object is printed in a page or overlay.
 The printer must support all values in the range X'0001'–X'7FFF'; refer to “L-Unit Range
-Conversion Algorithm” on page 68. The printer must support X'FFFF' for pages and overlays.
+Conversion Algorithm”. The printer must support X'FFFF' for pages and overlays.
 The printer may optionally support X'FFFF' for page segments. Property pair X'1206' in the IO-
 Image command-set vector of an STM reply indicates that the value X'FFFF' (use LPD value)
 is supported within page segments.
@@ -515,7 +389,6 @@ is different from the device resolution.
 The size of the image object area is defined in the IOC self-defining field using the units of
 measure specified in bytes 4–6 of the IOC.
 Exception ID X'0208..05' exists if an invalid or unsupported mapping option is specified.
-Write Image Control 2 (WIC2)
 
 
 X'10' Scale to fit
@@ -533,9 +406,7 @@ IO-Image Presentation Space
 Scale-to-fit
 mapping specified
 in the Image
-## Output Control (IOC)
 Logical Page
-Write Image Control 2 (WIC2)
 
 
 X'20' Center and Trim
@@ -552,8 +423,6 @@ Logical Page
 Center-and-trim
 mapping specified
 in the Image Output
-## Control (IOC)
-Write Image Control 2 (WIC2)
 
 
 X'30' Position and Trim
@@ -576,8 +445,6 @@ in IOC
 Position-and-trim
 mapping specified
 in the Image Output
-## Control (IOC)
-Write Image Control 2 (WIC2)
 
 
 X'41' Image point-to-pel
@@ -595,7 +462,6 @@ image presentation space that falls outside the image object area is trimmed at 
 object area boundaries.
 Note: No resolution correction is required, therefore the size of the image in the image
 object area is dependent on the device resolution.
-Write Image Control 2 (WIC2)
 
 
 X'50' Replicate and trim
@@ -621,11 +487,9 @@ Figure 83. Example of Replicate-and-Trim Mapping
 Replicate-and-trim
 mapping specified in
 the Image Output
-## Control (IOC)
 IO-Image Presentation Space
 Logical Page
 IO-Image Object Area
-Write Image Control 2 (WIC2)
 
 
 X'60' Scale to fill
@@ -643,20 +507,18 @@ IO-Image Presentation Space
 Scale-to-fill
 mapping specified
 in the Image
-## Output Control (IOC)
 Logical Page
-Write Image Control 2 (WIC2)
 
 
-Bytes 12–13 Xoa offset in L-units from object area origin
-The Xoa offset field is ignored unless byte 11 contains X'30'. This value is the Xoa offset of the
+Bytes 12–13 $X_{oa}$ offset in L-units from object area origin
+The $X_{oa}$ offset field is ignored unless byte 11 contains X'30'. This value is the $X_{oa}$ offset of the
 image presentation space (first image point) from the origin of the IO-Image object area. The
 units of measure used to interpret this offset are specified in bytes 4–6.
 Property pair X'1208' in the IO-Image command-set vector of an STM reply indicates support
 for negative object-area-offset values.
 If an unsupported value is specified, exception ID X'0209..05' exists.
-Bytes 14–15 Yoa offset in L-units from object area origin
-The Yoa offset field is ignored unless byte 11 contains X'30'. This value is the Yoa offset of the
+Bytes 14–15 $Y_{oa}$ offset in L-units from object area origin
+The $Y_{oa}$ offset field is ignored unless byte 11 contains X'30'. This value is the $Y_{oa}$ offset of the
 image presentation space (first image point) from the origin of the IO-Image object area. The
 units of measure used to interpret this offset are specified in bytes 4–6.
 Property pair X'1208' in the IO-Image command-set vector of an STM reply indicates support
@@ -671,16 +533,16 @@ Printers ignore any triplet that is not supported and no exception is reported. 
 first byte after a valid triplet is X'00' or X'01' (an invalid triplet length), the printer ignores the
 remaining data within the optional triplets field.
 The Write Image Control 2 triplets are fully described in the triplets chapter:
-“Color Specification (X'4E') Triplet” on page 713
-“Presentation Space Reset Mixing (X'70') Triplet” on page 731
-“Invoke CMR (X'92') Triplet” on page 772
-“Rendering Intent (X'95') Triplet” on page 774
+“Color Specification (X'4E') Triplet”
+“Presentation Space Reset Mixing (X'70') Triplet”
+“Invoke CMR (X'92') Triplet”
+“Rendering Intent (X'95') Triplet”
 Area Coloring Triplet Considerations
 The X'6201' property pair (logical page and object area coloring support) in the Device-Control command-set
 vector of an STM reply indicates that the X'4E' and X'70' triplets are supported.
 The Color Specification (X'4E') triplet and the Presentation Space Reset Mixing (X'70') triplet allow control over
 the color of the image object area before any image data is placed in the object area. The WIC2-IOC does not
-specify the color of the image data; refer to Table 8 on page 33 for more information about specifying IO-Image
+specify the color of the image data; refer to Table 8 for more information about specifying IO-Image
 color.
 Triplets that affect the color of the object area are processed in the order that they occur. An instance of a
 particular triplet overrides all previous instances of that triplet. For example, if a Presentation Space Reset
@@ -689,12 +551,11 @@ Specification (X'4E') triplet specifying red, the area is colored red and the fi
 Color Specification (X'4E') triplet specifying green is followed by a Presentation Space Reset Mixing (X'70')
 triplet, the resulting color of the area depends on the reset flag. If the reset flag is B'0' (do not reset), the area is
 colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium.
-Write Image Control 2 (WIC2)
 
 
 Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
 The invoked CMRs and the specified IOCA rendering intent are associated only with this IOCA image, and are
-used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for a description of
+used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” for a description of
 the hierarchy. Invoke CMR (X'92') triplets on the WIC2 command are not used with IOCA images that are
 included with an IDO command; therefore, these triplets need not be kept with an IOCA image that is
 downloaded as a resource in home state (whether or not the resource is captured). Because Invoke CMR
@@ -719,58 +580,24 @@ The X'F205' property pair in the Device-Control command-set vector of an STM rep
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WIC2 command. The X'F212' property pair in
 the Device-Control command-set vector of an STM reply indicates support for Invoke Tertiary Resource (X'A2')
 triplets in the WBCC command.
-Write Image Control 2 (WIC2)
 
 
 Image Data Descriptor
 The IDD is a mandatory self-defining field in the WIC2 command. It specifies parameters that define the image
 presentation space size and resolution.
 The format of the IDD is as follows:
-Offset Type Name Range Meaning IO1 Range
-0–1 UBIN Length X'000F' to end
-of IDD
-Length of IDD, including this length field X'000F' to end of
-IDD
-2–3 CODE SDF ID X'A6FB' Self-defining-field ID X'A6FB'
-4–5 CODE HAID X'0000'
-X'0001' –
-X'7EFF'
-No value assigned
-Data object resource Host-Assigned ID
-X'0000'
-6 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-7–8 UBIN Xio resolution X'0001' –
-X'7FFF'
-Xio image points per unit base X'0001' –
-X'7FFF'
-9–10 UBIN Y
-io resolution X'0001' –
-X'7FFF'
-Yio image points per unit base X'0001' –
-X'7FFF'
-11–12 UBIN Xio extent X'0001' –
-X'7FFF'
-Xio extent of the image presentation space in
-image points
-X'0001' –
-X'7FFF'
-13–14 UBIN Yio extent X'0001' –
-X'7FFF'
-Yio extent of the image presentation space in
-image points
-X'0001' –
-X'7FFF'
-15 to
-end of
-IDD
-Zero or more of the following IOCA self-
-defining fields:
-X'F4' Set Extended Bilevel Image Color
-X'F6' Set Bilevel Image Color
+
+| Offset | Type | Name | Range | Meaning | IO1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'000F' to end of IDD | Length of IDD, including this length field | X'000F' to end of IDD |
+| 2–3 | CODE | SDF ID | X'A6FB' | Self-defining-field ID | X'A6FB' |
+| 4–5 | CODE | HAID | X'0000' X'0001' – X'7EFF' | No value assigned<br>Data object resource Host-Assigned ID | X'0000' |
+| 6 | CODE | Unit base | X'00' X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 7–8 | UBIN | $X_{io}$ resolution | X'0001' – X'7FFF' | $X_{io}$ image points per unit base | X'0001' – X'7FFF' |
+| 9–10 | UBIN | $Y_{io}$ resolution | X'0001' – X'7FFF' | $Y_{io}$ image points per unit base | X'0001' – X'7FFF' |
+| 11–12 | UBIN | $X_{io}$ extent | X'0001' – X'7FFF' | $X_{io}$ extent of the image presentation space in image points | X'0001' – X'7FFF' |
+| 13–14 | UBIN | $Y_{io}$ extent | X'0001' – X'7FFF' | $Y_{io}$ extent of the image presentation space in image points | X'0001' – X'7FFF' |
+| 15– | | | | Zero or more of the following IOCA self-defining fields:<br>X'F4' Set Extended Bilevel Image Color<br>X'F6' Set Bilevel Image Color | |
 Bytes 0–1 Length of the IDD self-defining field
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Data descriptor self-defining-field ID
@@ -790,28 +617,26 @@ The value X'02' is retired as Retired item 56.
 Property pair X'FB00' in the Device-Control command-set vector of an STM reply indicates
 support for all architected units of measure.
 Exception ID X'0205..05' exists if an invalid or unsupported unit base value is specified.
-Write Image Control 2 (WIC2)
 
 
-Bytes 7–8 Xio image points per unit base
-These bytes specify the Xio image points per unit base in the image presentation space. For
-example, if the unit base is ten inches and this value is 2000, the image presentation space Xio
+Bytes 7–8 $X_{io}$ image points per unit base
+These bytes specify the $X_{io}$ image points per unit base in the image presentation space. For
+example, if the unit base is ten inches and this value is 2000, the image presentation space $X_{io}$
 resolution is 200 image points per inch.
 Exception ID X'0206..05' exists if an invalid or unsupported image-points-per-unit-base value
 is specified.
 Note: Bytes 6–10 describe the resolution of the IO-Image presentation space; they do not
 describe the resolution of the IOCA image. The resolution specified in this self-defining
 field is used by the printer instead of the resolution specified for the IOCA image.
-Bytes 9–10 Yio image points per unit base
-These bytes specify the Yio image points per unit base in the image presentation space.
+Bytes 9–10 $Y_{io}$ image points per unit base
+These bytes specify the $Y_{io}$ image points per unit base in the image presentation space.
 Exception ID X'0206..05' exists if an invalid or unsupported image-points-per-unit-base value
 is specified.
-Bytes 11–12 X
-io extent of image presentation space
-These bytes specify the Xio dimension of the image presentation space in image points.
+Bytes 11–12 $X_{io}$ extent of image presentation space
+These bytes specify the $X_{io}$ dimension of the image presentation space in image points.
 Exception ID X'0207..05' exists if an invalid extent value is specified.
-Bytes 13–14 Yio extent of image presentation space
-These bytes specify the Yio dimension of the image presentation space in image points.
+Bytes 13–14 $Y_{io}$ extent of image presentation space
+These bytes specify the $Y_{io}$ dimension of the image presentation space in image points.
 Exception ID X'0207..05' exists if an invalid extent value is specified.
 Note: Some printers encounter storage limitations when scaling image data for a very large
 image presentation space or image object area; for example, larger than 136 inches by
@@ -841,7 +666,6 @@ This IOCA self-defining field applies only to bilevel images, and is ignored for
 images. Printers that do not support bilevel image color also ignore this IOCA self-defining
 field, and print the image in the device-default color. Presence of the X'40nn' property pair in
 the IO-Image command-set vector of an STM reply with any defined nn bit set to B'1'
-Write Image Control 2 (WIC2)
 
 
 indicates that the printer supports the Set Bilevel Image Color (X'F6') IOCA self-defining
@@ -850,78 +674,16 @@ If an invalid or unsupported value is encountered in the length, applicability a
 color fields, the entire IOCA self-defining field is ignored and the image is printed in the
 device-default color. If multiple Set Bilevel Image Color SDFs with the same area value are
 encountered, the last one encountered is used and the others are ignored.
-Offset Type Name Range Meaning Required
-0 CODE IOCA SDF ID X'F6' Set Bilevel Image Color SDF ID X'F6'
-1 UBIN Length X'04' Length of the parameters that follow X'04'
-2 CODE Area
-X'00'
-Applicability area:
-Foreground IDEs X'00'
-3 X'00' Reserved X'00'
-4–5 CODE Named color
-X'0000'
-X'0001'
-X'0002'
-X'0003'
-X'0004'
-X'0005'
-X'0006'
-X'0007'
-X'0008'
-X'0009'
-X'000A'
-X'000B'
-X'000C'
-X'000D'
-X'000E'
-X'000F'
-X'0010'
-X'FF00'
-X'FF01'
-X'FF02'
-X'FF03'
-X'FF04'
-X'FF05'
-X'FF06'
-X'FF07'
-X'FF08'
-X'FFFF'
-Named-color value for each of the image
-data elements in the applicability area. The
-following values are defined, all other values
-are reserved:
-Printer default
-Blue
-Red
-Pink/magenta
-Green
-Turquoise/cyan
-Yellow
-White, see note
-Black
-Dark blue
-Orange
-Purple
-Dark green
-Dark turquoise
-Mustard
-Gray
-Brown
-Printer default
-Blue
-Red
-Pink/magenta
-Green
-Turquoise/cyan
-Yellow
-Printer default
-Color of medium
-Printer default
-X'FF07'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | IOCA SDF ID | X'F6' | Set Bilevel Image Color SDF ID | X'F6' |
+| 1 | UBIN | Length | X'04' | Length of the parameters that follow | X'04' |
+| 2 | CODE | Area | X'00' | Applicability area:<br>X'00' = Foreground IDEs | X'00' |
+| 3 | | | X'00' | Reserved | X'00' |
+| 4–5 | CODE | Named color | | Named-color value for each of the image data elements in the applicability area. The following values are defined, all other values are reserved:<br>X'0000' Printer default<br>X'0001' Blue<br>X'0002' Red<br>X'0003' Pink/magenta<br>X'0004' Green<br>X'0005' Turquoise/cyan<br>X'0006' Yellow<br>X'0007' White, see note<br>X'0008' Black<br>X'0009' Dark blue<br>X'000A' Orange<br>X'000B' Purple<br>X'000C' Dark green<br>X'000D' Dark turquoise<br>X'000E' Mustard<br>X'000F' Gray<br>X'0010' Brown<br>X'FF00' Printer default<br>X'FF01' Blue<br>X'FF02' Red<br>X'FF03' Pink/magenta<br>X'FF04' Green<br>X'FF05' Turquoise/cyan<br>X'FF06' Yellow<br>X'FF07' Printer default<br>X'FF08' Color of medium<br>X'FFFF' Printer default | X'FF07' |
 Note: The color rendered on presentation devices that do not support white is device-
 dependent. For example, some printers simulate with color of medium that results in
 white when white media is used.
-Write Image Control 2 (WIC2)
 
 
 Write Image 2
@@ -939,38 +701,35 @@ FS40, FS42, FS45, or FS48 );
 refer to the Image Object Content Architecture Reference for a description of these function sets.
 One or more consecutive WI2 commands carry IOCA data within a sequence of IOCA self-defining fields. The
 IOCA self-defining fields are:
+
 Table 44. IOCA Self-Defining Fields
-CODE Name Function Set
-X'70' Begin Segment All
-X'71' End Segment All
-X'8C' Begin Tile Parameter FS40, FS42, FS45, FS48
-X'8D' End Tile Parameter FS40, FS42, FS45, FS48
-X'8E' Begin Transparency Mask Parameter FS14, FS45, FS48
-X'8F' End Transparency Mask Parameter FS14, FS45, FS48
-X'91' Begin Image Content All
-X'93' End Image Content All
-X'94' Image Size Parameter FS10, FS11, FS14, FS45, FS48
-X'95' Image Encoding Parameter All
-X'96' Image Data Element Size Parameter All
-X'97' Image Look Up Table ID Parameter FS10, FS11
-X'98' Band Image Parameter FS11, FS14, FS42, FS45, FS48
-X'9B' Image Data Element Structure Parameter FS11, FS14, FS40, FS42, FS45,
-FS48
-X'9F' External Algorithm Specification Parameter FS11
-X'B5' Tile Position Parameter FS40, FS42, FS45, FS48
-X'B6' Tile Size Parameter FS40, FS42, FS45, FS48
-X'B7' Tile Set Color Parameter FS42, FS45, FS48
-X'FE92' Image Data (one or more) All
-X'FE9C' Band Image Data (one or more) FS11, FS14, FS42, FS45, FS48
-X'FEB3' nColor Names
-Write Image 2 (WI2)
 
-
-Table 44 IOCA Self-Defining Fields (cont'd.)
-CODE Name Function Set
-X'FEB8' Include Tile Parameter FS45, FS48
-X'FEBB' Tile TOC Parameter FS40, FS42, FS45, FS48
-X'FECE' Image Subsampling Parameter FS11, FS14
+| CODE | Name | Function Set |
+| :--- | :--- | :--- |
+| X'70' | Begin Segment | All |
+| X'71' | End Segment | All |
+| X'8C' | Begin Tile Parameter | FS40, FS42, FS45, FS48 |
+| X'8D' | End Tile Parameter | FS40, FS42, FS45, FS48 |
+| X'8E' | Begin Transparency Mask Parameter | FS14, FS45, FS48 |
+| X'8F' | End Transparency Mask Parameter | FS14, FS45, FS48 |
+| X'91' | Begin Image Content | All |
+| X'93' | End Image Content | All |
+| X'94' | Image Size Parameter | FS10, FS11, FS14, FS45, FS48 |
+| X'95' | Image Encoding Parameter | All |
+| X'96' | Image Data Element Size Parameter | All |
+| X'97' | Image Look Up Table ID Parameter | FS10, FS11 |
+| X'98' | Band Image Parameter | FS11, FS14, FS42, FS45, FS48 |
+| X'9B' | Image Data Element Structure Parameter | FS11, FS14, FS40, FS42, FS45, FS48 |
+| X'9F' | External Algorithm Specification Parameter | FS11 |
+| X'B5' | Tile Position Parameter | FS40, FS42, FS45, FS48 |
+| X'B6' | Tile Size Parameter | FS40, FS42, FS45, FS48 |
+| X'B7' | Tile Set Color Parameter | FS42, FS45, FS48 |
+| X'FE92' | Image Data (one or more) | All |
+| X'FE9C' | Band Image Data (one or more) | FS11, FS14, FS42, FS45, FS48 |
+| X'FEB3' | nColor Names | All |
+| X'FEB8' | Include Tile Parameter | FS45, FS48 |
+| X'FEBB' | Tile TOC Parameter | FS40, FS42, FS45, FS48 |
+| X'FECE' | Image Subsampling Parameter | FS11, FS14 |
 Note: The following additional IOCA code values can exist in the WIC2-IDD:
 • X'F4' – Set Extended Bilevel Image Color
 • X'F6' – Set Bilevel Image Color
@@ -1008,7 +767,6 @@ will simulate an unsupported color value with a supported color value. This simu
 the optional simulation of Standard OCA color values in the Set Bilevel Image Color IOCA self-defining field (or
 the Set Extended Bilevel Image Color IOCA self-defining field) as reported in the IO-Image command-set
 vector in an STM reply.
-Write Image 2 (WI2)
 
 
 Unsupported IOCA function in an IPDS Environment
@@ -1020,75 +778,72 @@ will encounter a data stream error and will return one or more exception conditi
 or unsupported IOCA self-defining field code) or X'0595..10' (unsupported compression algorithm).
 An X in the following table indicates that the exception ID should be supported by an implementation that
 supports the given function set:
+
 Table 45. Exception IDs for IOCA Function Sets
-Exception ID FS10 FS11 FS14 FS40 FS42 FS45 FS48
-X'0500..01' X X X X X X X
-X'0500..03' X X X X X X X
-X'0500..04' X X X X X X X
-X'0570..0F' X X X X X X X
-X'0571..0F' X X X X X X X
-X'058C..0F' X X X X
-X'058D..0F' X X X X
-X'058E..0F' X X X
-X'058F ..0F' X X X
-X'0591..0F' X X X X X X X
-X'0592..01' X X X X X
-X'0592..0F' X X X X X X X
-X'0593..0F' X X X X X X X
-X'0594..01' X X X X X
-X'0594..0F' X X X X X
-X'0594..10' X X X X X
-X'0594..11' X X X X X
-X'0595..0F' X X X X X X X
-X'0595..10' X X X X X X X
-X'0595..11' X X X X X X X
-X'0596..0F' X X X X X X X
-X'0596..10' X X X X X X X
-X'0596..11' X X X X X X X
-X'0597..0F' X X
-X'0597..10' X X
-X'0598..01' X X
-X'0598..0F' X X X X X
-X'0598..10' X X X X X
-X'0598..14' X X X X X
-X'0598..15' X X X X X
-Write Image 2 (WI2)
 
-
-Table 45 Exception IDs for IOCA Function Sets (cont'd.)
-Exception ID FS10 FS11 FS14 FS40 FS42 FS45 FS48
-X'059B..0F' X X X X X X
-X'059B..10' X X X X X X
-X'059B..18' X X X X X X
-X'059C..01' X X X X X
-X'059C..0F' X X X X X
-X'059C..17' X X X X X
-X'059F ..01' X
-X'059F ..0F' X
-X'059F ..10' X
-X'059F ..11' X
-X'05A9..02' X X X X X X X
-X'05B3..0F'
-X'05B3..10'
-X'05B3..11'
-X'05B5..0F' X X X X
-X'05B5..10' X X X X
-X'05B5..11' X X X X
-X'05B6..0F' X X X X
-X'05B6..10' X X X X
-X'05B6..11' X X X X
-X'05B7..0F' X X X
-X'05B7..10' X X X
-X'05B7..11' X X X
-X'05B8..0F' X X
-X'05B8..11' X X
-X'05BB..0F' X X X X
-X'05BB..10' X X X X
-X'05BB..11' X X X X
-X'05CE..01' X X
-X'05CE..0F' X X
-X'05CE..10' X X
-X'05F4..10'
-Write Image 2 (WI2)
+| Exception ID | FS10 | FS11 | FS14 | FS40 | FS42 | FS45 | FS48 |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| X'0500..01' | X | X | X | X | X | X | X |
+| X'0500..03' | X | X | X | X | X | X | X |
+| X'0500..04' | X | X | X | X | X | X | X |
+| X'0570..0F' | X | X | X | X | X | X | X |
+| X'0571..0F' | X | X | X | X | X | X | X |
+| X'058C..0F' | | | | X | X | X | X |
+| X'058D..0F' | | | | X | X | X | X |
+| X'058E..0F' | | | | | | X | X |
+| X'058F..0F' | | | | | | X | X |
+| X'0591..0F' | X | X | X | X | X | X | X |
+| X'0592..01' | | X | X | X | X | X | |
+| X'0592..0F' | X | X | X | X | X | X | X |
+| X'0593..0F' | X | X | X | X | X | X | X |
+| X'0594..01' | | X | X | X | X | X | |
+| X'0594..0F' | | X | X | X | X | X | |
+| X'0594..10' | | X | X | X | X | X | |
+| X'0594..11' | | X | X | X | X | X | |
+| X'0595..0F' | X | X | X | X | X | X | X |
+| X'0595..10' | X | X | X | X | X | X | X |
+| X'0595..11' | X | X | X | X | X | X | X |
+| X'0596..0F' | X | X | X | X | X | X | X |
+| X'0596..10' | X | X | X | X | X | X | X |
+| X'0596..11' | X | X | X | X | X | X | X |
+| X'0597..0F' | X | X | | | | | |
+| X'0597..10' | X | X | | | | | |
+| X'0598..01' | | X | X | | | | |
+| X'0598..0F' | | X | X | | | X | X |
+| X'0598..10' | | X | X | | | X | X |
+| X'0598..14' | | X | X | | | X | X |
+| X'0598..15' | | X | X | | | X | X |
+| X'059B..0F' | | X | X | X | X | X | X |
+| X'059B..10' | | X | X | X | X | X | X |
+| X'059B..18' | | X | X | X | X | X | X |
+| X'059C..01' | | X | X | | | X | X |
+| X'059C..0F' | | X | X | | | X | X |
+| X'059C..17' | | X | X | | | X | X |
+| X'059F..01' | | X | | | | | |
+| X'059F..0F' | | X | | | | | |
+| X'059F..10' | | X | | | | | |
+| X'059F..11' | | X | | | | | |
+| X'05A9..02' | X | X | X | X | X | X | X |
+| X'05B3..0F' | | | | | | | |
+| X'05B3..10' | | | | | | | |
+| X'05B3..11' | | | | | | | |
+| X'05B5..0F' | | | | X | X | X | X |
+| X'05B5..10' | | | | X | X | X | X |
+| X'05B5..11' | | | | X | X | X | X |
+| X'05B6..0F' | | | | X | X | X | X |
+| X'05B6..10' | | | | X | X | X | X |
+| X'05B6..11' | | | | X | X | X | X |
+| X'05B7..0F' | | | | | X | X | X |
+| X'05B7..10' | | | | | X | X | X |
+| X'05B7..11' | | | | | X | X | X |
+| X'05B8..0F' | | | | | | X | X |
+| X'05B8..11' | | | | | | X | X |
+| X'05BB..0F' | | | | X | X | X | X |
+| X'05BB..10' | | | | X | X | X | X |
+| X'05BB..11' | | | | X | X | X | X |
+| X'05CE..01' | | X | X | | | | |
+| X'05CE..0F' | | X | X | | | | |
+| X'05CE..10' | | X | X | | | | |
+| X'05F4..10' | | | | | | | |
 
 
