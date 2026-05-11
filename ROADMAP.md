@@ -131,7 +131,15 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - 🚧 Convert structural descriptors to Markdown tables:
         - ✅ Chapter 4: Table 3 (Code Points).
         - ✅ Chapter 5: Self-Defining Field Syntax tables (Begin/End Segment, Begin/End Image Content).
-        - ⏳ Chapter 7: Function Set tables (Tables 5–13).
+        - ✅ Chapter 5: Table 5 (Transparency Mask Structure).
+        - ✅ Chapter 7: Table 6 (Function Set Identification).
+        - ✅ Chapter 7: Function Set 10 (Table 7 and Acceptable Values).
+        - ✅ Chapter 7: Function Set 11 (Table 8 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 14 (Tables 9–10 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 40 (Tables 11–12 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 42 (Tables 13–14 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).
+        - ⏳ Chapter 7: Function Set 48 (Tables 21–26 and Acceptable Values).
 - 🚧 **AFP GOCA**:
     - ⏳ Convert syntax and registry text dumps to Markdown tables.
     - ⏳ Remove physical page references ("on page XXX").
