@@ -329,48 +329,18 @@ for bar code color, bilevel IO-Image color, and bilevel and grayscale image colo
 this triplet is specified in the DODD of an IDO command for a Standard OCA color value, the triplet overrides
 the Set Bilevel Image Color IOCA self-defining field (or the Set Extended Bilevel Image Color IOCA self-
 defining field) in an IO Image object.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'0E'–X'10' Length of the triplet, including this length field X'0E'–X'10'
-1 CODE TID X'4E' Color Specification triplet X'4E'
-2 X'00' Reserved X'00'
-3 CODE Color space X'01'
-X'04'
-X'06'
-X'08'
-X'40'
-RGB color space
-CMYK color space
-Highlight color space
-CIELAB color space
-Standard OCA color space
-X'01'
-X'04'
-X'06'
-X'08'
-X'40'
-4–7 X'00000000' Reserved X'00000000'
-8 UBIN ColSize1 X'01'–X'08',
-X'10'
-Number of bits in component 1; the range
-depends on the color space
-See color-space
-description
-9 UBIN ColSize2 X'00'–X'08' Number of bits in component 2; the range
-depends on the color space
-See color-space
-description
-10 UBIN ColSize3 X'00'–X'08' Number of bits in component 3; the range
-depends on the color space
-See color-space
-description
-11 UBIN ColSize4 X'00'–X'08' Number of bits in component 4; the range
-depends on the color space
-See color-space
-description
-12 to
-end
-Color value All values Color specification See byte
-description
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'0E'–X'10' | Length of the triplet, including this length field | X'0E'–X'10' |
+| 1 | CODE | TID | X'4E' | Color Specification triplet | X'4E' |
+| 2 | | X'00' | Reserved | | X'00' |
+| 3 | CODE | Color space | X'01'<br>X'04'<br>X'06'<br>X'08'<br>X'40' | RGB color space<br>CMYK color space<br>Highlight color space<br>CIELAB color space<br>Standard OCA color space | X'01'<br>X'04'<br>X'06'<br>X'08'<br>X'40' |
+| 4–7 | | X'00000000' | Reserved | | X'00000000' |
+| 8 | UBIN | ColSize1 | X'01'–X'08',<br>X'10' | Number of bits in component 1; the range depends on the color space | See color-space description |
+| 9 | UBIN | ColSize2 | X'00'–X'08' | Number of bits in component 2; the range depends on the color space | See color-space description |
+| 10 | UBIN | ColSize3 | X'00'–X'08' | Number of bits in component 3; the range depends on the color space | See color-space description |
+| 11 | UBIN | ColSize4 | X'00'–X'08' | Number of bits in component 4; the range depends on the color space | See color-space description |
+| 12 to end | | Color value | All values | Color specification | See byte description |
 Byte 0 Triplet length
 This byte contains the length of this triplet, including the length field itself. The triplet length
 value depends on the specified color space. If an invalid length is specified or if the triplet is
@@ -511,26 +481,28 @@ X'40' Standard OCA color space
 The color is specified with component 1 using a two-byte value from the Standard
 OCA Color-Value table:
 Table 58. Standard OCA Color-Value Table
-Value Color Red (R) Green (G) Blue (B)
-X'0000' or X'FF00' Current default (printer default)
-X'0001' or X'FF01' Blue 0 0 255
-X'0002' or X'FF02' Red 255 0 0
-X'0003' or X'FF03' Pink/magenta 255 0 255
-X'0004' or X'FF04' Green 0 255 0
-X'0005' or X'FF05' Turquoise/cyan 0 255 255
-X'0006' or X'FF06' Yellow 255 255 0
-X'0007' White; see note 2 255 255 255
-X'0008' Black 0 0 0
-X'0009' Dark blue 0 0 170
-X'000A' Orange 255 128 0
-X'000B' Purple 170 0 170
-X'000C' Dark green 0 146 0
-X'000D' Dark turquoise 0 146 170
-X'000E' Mustard 196 160 32
-X'000F' Gray 131 131 131
-X'0010' Brown 144 48 0
-X'FF07' Printer default
-X'FF08' Color of medium; also known as reset color
+
+| Value | Color | Red (R) | Green (G) | Blue (B) |
+| :--- | :--- | :--- | :--- | :--- |
+| X'0000' or X'FF00' | Current default (printer default) | | | |
+| X'0001' or X'FF01' | Blue | 0 | 0 | 255 |
+| X'0002' or X'FF02' | Red | 255 | 0 | 0 |
+| X'0003' or X'FF03' | Pink/magenta | 255 | 0 | 255 |
+| X'0004' or X'FF04' | Green | 0 | 255 | 0 |
+| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 |
+| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 |
+| X'0007' | White; see note 2 | 255 | 255 | 255 |
+| X'0008' | Black | 0 | 0 | 0 |
+| X'0009' | Dark blue | 0 | 0 | 170 |
+| X'000A' | Orange | 255 | 128 | 0 |
+| X'000B' | Purple | 170 | 0 | 170 |
+| X'000C' | Dark green | 0 | 146 | 0 |
+| X'000D' | Dark turquoise | 0 | 146 | 170 |
+| X'000E' | Mustard | 196 | 160 | 32 |
+| X'000F' | Gray | 131 | 131 | 131 |
+| X'0010' | Brown | 144 | 48 | 0 |
+| X'FF07' | Printer default | | | |
+| X'FF08' | Color of medium; also known as reset color | | | |
 Notes:
 1. The table specifies the RGB values for each named color; the actual printed color is device dependent.
 2. The color rendered on presentation devices that do not support white is device-dependent. For example, some
@@ -573,14 +545,16 @@ To illustrate the syntax for the Color Specification (X'4E') triplet, the follow
 ways that a light-green color can be specified. Note that the light-green color value is approximated in each of
 the color spaces.
 Table 59. Color Space Examples
-Color Space ColSize1 ColSize2 ColSize3 ColSize4 Color Value
-RGB X'08' X'08' X'08' N/A X'00B761'
-RGB X'05' X'05' X'05' N/A X'00160B'
-CMYK X'08' X'08' X'08' X'08' X'FF489E00'
-CMYK X'01' X'02' X'04' X'08' X'01010900'
-Highlight (see note) X'10' X'08' X'00' N/A X'000264'
-CIELAB X'08' X'08' X'08' N/A X'A8CC21'
-Standard OCA X'10' N/A N/A N/A X'0004'
+
+| Color Space | ColSize1 | ColSize2 | ColSize3 | ColSize4 | Color Value |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| RGB | X'08' | X'08' | X'08' | N/A | X'00B761' |
+| RGB | X'05' | X'05' | X'05' | N/A | X'00160B' |
+| CMYK | X'08' | X'08' | X'08' | X'08' | X'FF489E00' |
+| CMYK | X'01' | X'02' | X'04' | X'08' | X'01010900' |
+| Highlight (see note) | X'10' | X'08' | X'00' | N/A | X'000264' |
+| CIELAB | X'08' | X'08' | X'08' | N/A | X'A8CC21' |
+| Standard OCA | X'10' | N/A | N/A | N/A | X'0004' |
 Note: This example assumes that the light-green color is loaded in the printer as highlight color X'0002'.
 Notes:
 1. If extra bytes are specified in the color value field, they are ignored as long as the triplet length is valid.
@@ -596,14 +570,12 @@ Encoding Scheme ID (X'50') Triplet
 The Encoding Scheme ID (X'50') triplet is used to specify the encoding scheme used for character data to be
 printed. Property pair X'F204' in the Device-Control command-set vector of an STM reply indicates support for
 the Encoding Scheme ID (X'50') triplet.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'06' Length of the triplet, including this length field X'06'
-1 CODE TID X'50' Encoding Scheme ID triplet X'50'
-2–3 X'0000' Reserved X'0000'
-4–5 CODE Data ESID
-X'7807'
-Encoding scheme ID for the data:
-UTF-8 X'7807'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'06' | Length of the triplet, including this length field | X'06' |
+| 1 | CODE | TID | X'50' | Encoding Scheme ID triplet | X'50' |
+| 2–3 | | X'0000' | Reserved | | X'0000' |
+| 4–5 | CODE | Data ESID | X'7807' | Encoding scheme ID for the data:<br>UTF-8 | X'7807' |
 Byte 0 Triplet length
 This parameter contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -649,21 +621,14 @@ page PDF file or multi-image TIFF file).
 Printer support for the Object Offset (X'5A') triplet is indicated by the presence of at least one multi-page-file or
 multi-image-file resource object OID in the Object-Container Type Support self-defining field of an XOH-OPC
 reply.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'08' or X'0C' Length of the triplet, including this length field X'08' or X'0C'
-1 CODE TID X'5A' Object Offset triplet X'5A'
-2 CODE Object type
-X'AF'
-Object type:
-Page or paginated object X'AF'
-3 X'00' Reserved X'00'
-4–7 UBIN Object offset X'0000..00' –
-X'FFFF ..FF'
-Number of objects that precede the selected
-object in the file
-X'0000..00' –
-X'FFFF ..FF'
-8–11 X'0000..00' Reserved; not used in IPDS X'0000..00'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'08' or X'0C' | Length of the triplet, including this length field | X'08' or X'0C' |
+| 1 | CODE | TID | X'5A' | Object Offset triplet | X'5A' |
+| 2 | CODE | Object type | X'AF' | Object type:<br>Page or paginated object | X'AF' |
+| 3 | | X'00' | Reserved | | X'00' |
+| 4–7 | UBIN | Object offset | X'0000..00' –<br>X'FFFF ..FF' | Number of objects that precede the selected object in the file | X'0000..00' –<br>X'FFFF ..FF' |
+| 8–11 | | X'0000..00' | Reserved; not used in IPDS | | X'0000..00' |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -729,53 +694,18 @@ Triplet X'62'—Time Stamp
 
 
 The Local Date and Time Stamp (X'62') triplet is defined as follows:
-Offset Type Name Range Meaning Required
-0 UBIN Length X'11' Length of the triplet, including this length field X'11'
-1 CODE TID X'62' Identifies the Local Date and Time Stamp
-Triplet
-X'62'
-2 CODE StampType
-X'00'
-X'03'
-Type of date and time stamp:
-Creation
-Revision
-X'00'
-X'03'
-3 CODE Year
-(part 1) X'40',
-X'F0'–X'F9'
-Thousands and hundreds position of year:
-19xx
-20xx through 29xx
-X'40',
-X'F0'–X'F9'
-4–5 CODE Year
-(part 2)
-X'F0F0' –
-X'F9F9'
-Tens and units position of the year X'F0F0' –
-X'F9F9'
-6–8 CODE Day X'F0F0F1' –
-X'F3F6F6'
-Day of year X'F0F0F1' –
-X'F3F6F6'
-9–10 CODE Hour X'F0F0' –
-X'F2F3'
-Hour of day X'F0F0' –
-X'F2F3'
-11–12 CODE Minute X'F0F0' –
-X'F5F9'
-Minute of hour X'F0F0' –
-X'F5F9'
-13–14 CODE Second X'F0F0' –
-X'F5F9'
-Second of minute X'F0F0' –
-X'F5F9'
-15–16 CODE Hundredth X'F0F0' –
-X'F9F9'
-Hundredth of second X'F0F0' –
-X'F9F9'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'11' | Length of the triplet, including this length field | X'11' |
+| 1 | CODE | TID | X'62' | Identifies the Local Date and Time Stamp Triplet | X'62' |
+| 2 | CODE | StampType | X'00'<br>X'03' | Type of date and time stamp:<br>Creation<br>Revision | X'00'<br>X'03' |
+| 3 | CODE | Year (part 1) | X'40',<br>X'F0'–X'F9' | Thousands and hundreds position of year:<br>19xx<br>20xx through 29xx | X'40',<br>X'F0'–X'F9' |
+| 4–5 | CODE | Year (part 2) | X'F0F0' –<br>X'F9F9' | Tens and units position of the year | X'F0F0' –<br>X'F9F9' |
+| 6–8 | CODE | Day | X'F0F0F1' –<br>X'F3F6F6' | Day of year | X'F0F0F1' –<br>X'F3F6F6' |
+| 9–10 | CODE | Hour | X'F0F0' –<br>X'F2F3' | Hour of day | X'F0F0' –<br>X'F2F3' |
+| 11–12 | CODE | Minute | X'F0F0' –<br>X'F5F9' | Minute of hour | X'F0F0' –<br>X'F5F9' |
+| 13–14 | CODE | Second | X'F0F0' –<br>X'F5F9' | Second of minute | X'F0F0' –<br>X'F5F9' |
+| 15–16 | CODE | Hundredth | X'F0F0' –<br>X'F9F9' | Hundredth of second | X'F0F0' –<br>X'F9F9' |
 Note: The range values for bytes 3–16 are actually a character representation, so the digits progress from
 X'F0' to X'F1' to X'F2' to X'F3' to X'F4' to X'F5' to X'F6' to X'F7' to X'F8' to X'F9'.
 Byte 0 Triplet length
@@ -801,11 +731,13 @@ This field specifies the last two digits of the year AD, using the Gregorian cal
 Bytes 6–8 Day
 This field specifies the day of the year, using the Gregorian calendar.
 Table 60. Examples of the Date Fields
-Date Restructured as Encoded as
-February 1, 1972 72032 X'40F7F2F0F3F2'
-December 31, 1999 99365 X'40F9F9F3F6F5'
-January 1, 2000 000001 X'F0F0F0F0F0F1'
-February 3, 2072 072034 X'F0F7F2F0F3F4'
+
+| Date | Restructured as | Encoded as |
+| :--- | :--- | :--- |
+| February 1, 1972 | 72032 | X'40F7F2F0F3F2' |
+| December 31, 1999 | 99365 | X'40F9F9F3F6F5' |
+| January 1, 2000 | 000001 | X'F0F0F0F0F0F1' |
+| February 3, 2072 | 072034 | X'F0F7F2F0F3F4' |
 Bytes 9–10 Hour
 This field specifies the hour of the day and forms the HH component of a time stamp in the
 format HHMMSShh.
@@ -830,27 +762,12 @@ of formats defined for specific group operations. With the exception of the micr
 content of the triplet is informational and there are no architected semantics for what a receiver does with the
 information. The microfilm save/restore format indicates how microfilm information should be handled by a
 microfilm device. Unrecognized formats should be ignored.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'02'–X'FF' Length of the triplet, including this length field X'02'–X'FF'
-1 CODE TID X'6E' Group Information triplet X'6E'
-2 CODE Format X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'82'
-Microfilm save/restore format
-Copy set number format
-Group name format
-Additional information format
-Page count format
-Extended copy set number format
-See byte
-description
-3 to
-end of
-triplet
-Data X'00'–X'FF' Group Information Data Bytes X'00'–X'FF'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'02'–X'FF' | Length of the triplet, including this length field | X'02'–X'FF' |
+| 1 | CODE | TID | X'6E' | Group Information triplet | X'6E' |
+| 2 | CODE | Format | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'82' | Microfilm save/restore format<br>Copy set number format<br>Group name format<br>Additional information format<br>Page count format<br>Extended copy set number format | See byte description |
+| 3 to end of triplet | | Data | X'00'–X'FF' | Group Information Data Bytes | X'00'–X'FF' |
 Byte 0 Triplet length
 This byte contains the length of this triplet, including itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists.
