@@ -269,6 +269,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
     - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG).
 - ⏳ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
+- ⏳ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
+    - ⏳ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
+    - ⏳ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
+    - ⏳ Implement heuristic validation for EBCDIC human-readability.
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
 - ✅ Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
@@ -314,12 +318,16 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ nColor Names (X'FEB3').
     - ⏳ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - ⏳ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
+- 🚧 Stateful Encoding and Character Set Resolution:
+    - ⏳ Implement `FontManager` or similar context in `AFPParser` to track stateful LID-to-Charset bindings.
+    - ⏳ Update `AFPParserConfiguration` to maintain a registry of active Coded Font Local Identifiers (LIDs).
+    - ⏳ Implement "Blind Execution" logic for `PTX` streams to dynamically switch active Charset upon `SCFL` (Set Coded Font Local) commands.
+    - ⏳ Fix hardcoded `cp500` defaults in `getText()` methods for GOCA, BCOCA, IOCA, and FOCA.
 - 🚧 Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
     - 🚧 Fix PTOCA Text Visibility Gaps (see `PTOCA_GAP.md`):
         - ✅ Support **free-standing graphic characters** interleaved with control sequences in `PTX`.
         - ✅ Implement missing PT4 Glyph Layout sequences: `GLC` (X'6D'), `GIR` (X'8B'), `GAR` (X'8C/8D'), `GOR` (X'8E/8F').
         - ⏳ Support **concatenated payloads** for `SEA` (Alternate Text) and `SKI` (Key Info).
-        - ⏳ Improve text extraction heuristics to use the **active font's encoding** instead of hardcoded CP500.
         - ✅ Expose `OVS` (Overstrike) characters as text in XML output.
     - ✅ Implement PTOCA Control Sequences:
         - ✅ Unicode Complex Text (UCT).
