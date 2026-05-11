@@ -263,8 +263,7 @@ permitted. See “MO:DCA Interchange Set Triplet X'18'”.
 X'65' Comment Optional. May occur more than once. Carries unarchitected data.
 See “Comment Triplet X'65'”.
 X'72' Universal Date and Time Stamp Optional. May occur once. Assigns a universal date and time stamp
-to the object. See “Universal Date and Time Stamp Triplet X'72'” on
-page 418.
+to the object. See “Universal Date and Time Stamp Triplet X'72'”.
 X'8F' MO:DCA Function Set Mandatory if the MO:DCA Interchange Set (X'18') triplet is specified
 to indicate compliance with an interchange set and one or more
 function sets, in which case this triplet must occur at least once. If
@@ -566,8 +565,7 @@ See “Comment Triplet X'65'”.
 X'83' Presentation Control Optional. May occur once. Specifies whether the page group is
 intended to be indexed. If this triplet is not specified, the architected
 default is that the page group is intended to be indexed. This triplet
-is ignored for printing. See “Presentation Control Triplet X'83'” on
-page 428.
+is ignored for printing. See “Presentation Control Triplet X'83'”.
 X'9D' Keep Group T ogether Optional. May occur once. Specifies that the page group should be
 kept together for the purpose indicated by the triplet. See “Keep
 Group T ogether Triplet X'9D'”.
@@ -1375,8 +1373,7 @@ X'01' Coded Graphic Character Set
 Global Identifier
 Optional. May occur more than once. Specifies encoding for
 structured field parameters defined with a CHAR data type. See
-“Coded Graphic Character Set Global Identifier Triplet X'01'” on
-page 348.
+“Coded Graphic Character Set Global Identifier Triplet X'01'”.
 X'65' Comment Optional. May occur more than once. Carries unarchitected data.
 See “Comment Triplet X'65'”.
 Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
@@ -2592,8 +2589,7 @@ types:
 X'5F' Page segment
 X'92' Other object data. Triplet is ignored if the object type is not
 an image file format that specifies a bilevel or grayscale
-image, as defined in Appendix D, “MO:DCA Registry”, on
-page 609.
+image, as defined in Appendix D, “MO:DCA Registry”.
 X'9B' Presentation T ext (PTOCA)
 X'BB' Graphics (GOCA)
 X'EB' Bar code (BCOCA)
@@ -2660,9 +2656,7 @@ in all objects that comprise the page segment. If this triplet is omitted,
 the triplet specified on the OBD of the object's OEG is used. If the
 object does not specify this triplet on the OBD in an OEG, the
 architected default is to use the default mixing rule, that is, this triplet
-is ignored. For a definition of mixing rules see “Mixing Rules” on
-page 44. See “Presentation Space Mixing Rules Triplet X'71'” on
-page 416.
+is ignored. For a definition of mixing rules see “Mixing Rules”. See “Presentation Space Mixing Rules Triplet X'71'”.
 Implementation Note: The Presentation Space Mixing Rules (X'71')
 triplet is currently not used in AFP environments.
 ### Include Object (IOB)
@@ -3035,8 +3029,7 @@ Overlay Yes Yes
 Process element (TLE) Yes Yes
 Rectangular area Yes Yes
 Other object data Yes Yes
-Triplets Appear in Link Logical Element structured field repeating groups as shown in Figure 56 on
-page 228.
+Triplets Appear in Link Logical Element structured field repeating groups as shown in Figure 56.
 Figure 56. Triplets in Link Attribute, Source, and Target Repeating Groups
 Link Attribute Repeating Group
 • Coded Graphic Character Set Global Identifier (X'01') triplet
@@ -3576,8 +3569,7 @@ identifier for an object resource or a X'01' exception condition
 exists.
 Resources that are used by data objects that may themselves be
 processed as resources are called secondary resources. See
-“Secondary Resource Objects”. Also see T able 49 on
-page 626.
+“Secondary Resource Objects”. Also see T able 49.
 ### Map Data Resource (MDR)
 
 
@@ -4991,8 +4983,7 @@ page placement, as specified in the Page Position (PGP) structured field. In def
 placement, consecutive pages in the data stream are placed into consecutively-numbered
 partitions. In explicit N-up page placement, consecutive pages in the data stream are
 processed using consecutive PGP repeating groups and are placed into explicitly-specified
-partitions. For more information placement, see “Page Position (PGP) Format 2” on
-page 313.
+partitions. For more information placement, see “Page Position (PGP) Format 2”.
 Pages may be rotated within their partitions so that the page presentation space X axis is at a
 0°, 90°, 180°, or 270° orientation with respect to the medium presentation space X axis. This
 rotation is specified in the Page Position structured field.
@@ -5118,8 +5109,7 @@ RGLength Length of each repeating group. Set to 12.
 OVLid Medium overlay local identifier as specified by a keyword in an MMC structured field. The
 allowed range is X'01'–X'7F' and must be unique to each repeating group.
 Flags Bit Description
-0 Retired parameter for the IBM 3800 printer. See “Retired Parameters” on
-page 570 for a description.
+0 Retired parameter for the IBM 3800 printer. See “Retired Parameters” for a description.
 1–7 Reserved; should be zero.
 OVLname External name of the medium overlay.
 ### Map Medium Overlay (MMO)
@@ -5160,8 +5150,7 @@ triplet when FQNFmt = X'00', since not all print
 servers are able to process other encodings.
 Note that when the OID format is used to identify
 the media type, it is specified in hexadecimal
-format as defined in “Media Type Identifiers” on
-page 628.
+format as defined in “Media Type Identifiers”.
 • If FQNFmt = X'10', the reference is made with an ASN.1
 OID encoded using the definite short form. A registry of
 standard media types along with their OID is provided in
@@ -6276,8 +6265,7 @@ this triplet be specified directly on the PPO if required by
 a parameter such as the FQN type X'DE' triplet.
 X'02' Fully Qualified Name Mandatory. Must occur once in each repeating group.
 Specifies the reference to the resource object to be
-preprocessed. See “Fully Qualified Name Triplet X'02'” on
-page 351.
+preprocessed. See “Fully Qualified Name Triplet X'02'”.
 The Fully Qualified Name types that may appear are:
 X'84'—Begin Resource Object Reference, which is used
 to preprocess an overlay or an IOCA image object. The

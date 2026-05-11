@@ -37,22 +37,22 @@ import java.io.OutputStream;
  * structured field to medium overlay names.
  */
 public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
-  short lengtOfEachRepeatingGroup;
+  short lengthOfEachRepeatingGroup;
   byte[] reserved1_3 = new byte[3];
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-    lengtOfEachRepeatingGroup = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+    lengthOfEachRepeatingGroup = UtilBinaryDecoding.parseShort(sfData, offset, 1);
     reserved1_3 = new byte[3];
     System.arraycopy(sfData, offset + 1, reserved1_3, 0, reserved1_3.length);
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 4) {
       int pos = 4;
       while (pos < actualLength) {
-        MMO_PrepeatingGroup rg = new MMO_PrepeatingGroup();
+        MMO_RepeatingGroup rg = new MMO_RepeatingGroup();
         rg.decodeAFP(sfData, offset + pos, actualLength - pos, config);
         addRepeatingGroup(rg);
-        pos += lengtOfEachRepeatingGroup;
+        pos += lengthOfEachRepeatingGroup;
       }
     } else {
       repeatingGroups = null;
@@ -63,7 +63,7 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    baos.write(lengtOfEachRepeatingGroup);
+    baos.write(lengthOfEachRepeatingGroup);
     baos.write(reserved1_3);
     if (repeatingGroups != null) {
       for (IRepeatingGroup rg : repeatingGroups) {
@@ -74,12 +74,12 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
     writeFullStructuredField(os, baos.toByteArray());
   }
 
-  public short getLengtOfEachRepeatingGroup() {
-    return lengtOfEachRepeatingGroup;
+  public short getLengthOfEachRepeatingGroup() {
+    return lengthOfEachRepeatingGroup;
   }
 
-  public void setLengtOfEachRepeatingGroup(short lengtOfEachRepeatingGroup) {
-    this.lengtOfEachRepeatingGroup = lengtOfEachRepeatingGroup;
+  public void setLengthOfEachRepeatingGroup(short lengthOfEachRepeatingGroup) {
+    this.lengthOfEachRepeatingGroup = lengthOfEachRepeatingGroup;
   }
 
   public byte[] getReserved1_3() {
@@ -91,7 +91,7 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
   }
 
   @XmlRootElement
-  public static class MMO_PrepeatingGroup implements IRepeatingGroup {
+  public static class MMO_RepeatingGroup implements IRepeatingGroup {
     short mediumOverlayLocalId;
     MMO_Flag flag;
     byte[] reserved2_3 = new byte[2];

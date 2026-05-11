@@ -89,10 +89,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
     - ⏳ Remove physical page references ("on page XXX").
     - ⏳ Convert text-based diagrams in Appendices to standardized formats.
-- 🚧 **MO:DCA**:
+- ✅ **MO:DCA**:
     - ✅ Purge physical page markers and fix split words.
-    - ⏳ Fix minor table fragmentation in Appendices.
-    - ⏳ Remove remaining physical page references (4 found).
+    - ✅ Fix minor table fragmentation in Appendices.
+    - ✅ Remove remaining physical page references (4 found).
+    - ⏳ **Note**: The project uses AFPC-0004-10 (MO:DCA Reference 10) as the primary specification. The IBM MO:DCA-P Reference (SC31-6802) is a related/legacy IBM version of this architecture.
 - 🚧 **FOCA**:
     - ⏳ Fix OCR-induced paragraph merging in technical sections.
     - ⏳ Remove physical page references ("on page XXX").
@@ -101,6 +102,19 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
 - ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
+- 🚧 **Db2 12 Internationalization Guide**:
+    - ✅ Convert to Markdown:
+        - ✅ Chapter 1 (Introduction to internationalization).
+        - ✅ Chapter 2 (Unicode support).
+        - ✅ Chapter 3 (Character conversion).
+        - ✅ Chapter 4 (Sorting and collating).
+        - ✅ Chapter 5 (Date and time formats).
+        - ✅ Chapter 6 (Internationalization for applications).
+        - ✅ Appendices A–F.
+        - ✅ Glossary
+    - ⏳ Purge physical page markers and PDF artifacts.
+    - ⏳ Fix OCR-induced split words and formatting artifacts.
+    - ⏳ Convert syntax and registry text dumps to Markdown tables.
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.
@@ -156,13 +170,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
     - 🚧 Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
         - ✅ MO:DCA Object Containers and Image Data (BII, EII, IRD, EIM, EOC, OCD).
-        - ⏳ MO:DCA Overlay and Page Segment.
-            - ⏳ End Overlay (EMO).
-            - ⏳ End Page Segment (EPS).
-        - ⏳ MO:DCA Other structures.
-            - ⏳ End Object Environment Group (EOG).
-            - ⏳ End Print File (EPF).
-            - ⏳ End Resource (ERS).
+        - ✅ MO:DCA Overlay and Page Segment.
+            - ✅ End Overlay (EMO).
+            - ✅ End Page Segment (EPS).
+        - ✅ MO:DCA Other structures.
+            - ✅ End Object Environment Group (EOG).
+            - ✅ End Print File (EPF).
+            - ✅ End Resource (ERS).
         - ✅ FOCA Coded Font, Code Page, and Font Character Set fields (BCF, ECF, ECP, EFN, FNN, FNG).
         - ✅ BCOCA End Bar Code Object (EBC).
         - ✅ PTOCA End Presentation Text Object (EPT).

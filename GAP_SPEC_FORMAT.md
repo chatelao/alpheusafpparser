@@ -13,12 +13,14 @@ To know the quality, compare the result to the original PDF resports to find the
 | **CMOCA** (cmoca-reference-02) | Excellent | Clean syntax tables, minimal PDF artifacts | None significant. |
 | **FOCA** (foca-reference-06) | Good | Proper table formatting, clear sections | Minor OCR text merging; remaining "on page" references. |
 | **MOCA** (moca-reference-02) | Excellent | Cleanest conversion, no artifacts detected | None. |
+| **Db2 12 for z/OS: Internationalization Guide** (db2z_12_charbook) | Fair | Initial conversion complete (Chapters, Appendices, Glossary, Index, Notices) | Ubiquitous physical page markers and OCR artifacts. |
 | **AFP GOCA** (afp-goca-reference-03) | Fair | Consistent headers | Heavy "on page" references; missing table markers for syntax. |
 | **BCOCA** (bcoca-reference-11) | Good | Purged of page markers, key syntax tables formatted | Many Chapter 4 tables and Appendices still in text-dump format. |
 | **IOCA** (ioca-reference-09) | Fair | Text is readable | Missing Markdown table markers; presence of "on page" references. |
 | **IPDS** (ipds-reference-12) | Fair | Comprehensive content, key command tables formatted | Heavy "on page" references and remaining text-dump tables. |
 | **Line Data** (linedata-reference-05) | Poor | Basic structure present | Heavy "on page" references; text-based diagrams; split headers in Appendices. |
 | **PDF 1.7** (pdf-reference-1.7) | Pending | N/A | ISO 32000-1 specification; markdown conversion pending. |
+| **Db2 12** (db2z_12_charbook) | Pending | N/A | Conversion to Markdown pending. |
 
 ---
 

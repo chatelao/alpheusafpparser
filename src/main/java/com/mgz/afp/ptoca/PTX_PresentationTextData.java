@@ -25,6 +25,8 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -33,7 +35,14 @@ import java.util.List;
 
 public class PTX_PresentationTextData extends StructuredField {
   @AFPField
+  @XmlTransient
   List<PTOCAControlSequence> controlSequences;
+
+  @XmlAnyElement(lax = true)
+  public List<PTOCAControlSequence> getControlSequencesXml() {
+    return controlSequences;
+  }
+
   volatile byte[] originalPayload;
   volatile Throwable controlSequenceException;
 
