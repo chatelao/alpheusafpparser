@@ -19,6 +19,7 @@ To know the quality, compare the result to the original PDF resports to find the
 | **IOCA** (ioca-reference-09) | Fair | Text is readable | Missing Markdown table markers; presence of "on page" references. |
 | **IPDS** (ipds-reference-12) | Fair | Comprehensive content, key command tables formatted | Heavy "on page" references and remaining text-dump tables. |
 | **Line Data** (linedata-reference-05) | Poor | Basic structure present | Heavy "on page" references; text-based diagrams; split headers in Appendices. |
+| **PDF 1.7** (pdf-reference-1.7) | Pending | N/A | ISO 32000-1 specification; markdown conversion pending. |
 | **Db2 12** (db2z_12_charbook) | Pending | N/A | Conversion to Markdown pending. |
 
 ---
