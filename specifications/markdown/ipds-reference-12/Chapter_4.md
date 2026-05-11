@@ -316,7 +316,7 @@ Note: The query commands are treated as No Operation (NOP) commands unless the a
 required (ARQ) bit is on. This bit is bit 0 of the flag byte in the command header.
 The contents of the special data area are determined by the acknowledge types defined in byte 0 of the
 Acknowledge Reply, as described below:
-• Positionve responses with no special data area (Type X'00', X'40')
+• Positive responses with no special data area (Type X'00', X'40')
 For positive responses to an IPDS command with no special data area present, only the acknowledge type
 and the page and copy counters are returned in the Acknowledge Reply.
 • Sense Type and Model (Type X'01', X'41')
@@ -9660,7 +9660,7 @@ MO:DCA-registered object ID for the object container
 supported in the WOC. The ID is left-justified and padded
 on the right with zeroes.
 Anacomp COM Setup File
-Anacomp COM T ape Label Setup File
+Anacomp COM Tape Label Setup File
 AnaStack Record Setup File
 
 
@@ -10443,7 +10443,7 @@ Bytes 0–1 Page counter control order code
 Byte 2 Page counter update
 This byte specifies how the printer is to update the page counters by:
 X'00' Doing nothing (default)
-X'01' T aking the committed counters (both page and copy) and all counter pairs identical to
+X'01' Taking the committed counters (both page and copy) and all counter pairs identical to
 the committed counters and performing the following sequential operations:
 1. Incrementing the page counters by the number of pages on the sheet if the copy
 counters are nonzero.
@@ -12710,13 +12710,13 @@ The following fields describe a CMR entry; there are seven CMR entries specified
 entry, one for each of the following CMR types (in the following order):
 1. Audit color-conversion CMR or indexed CMR (not used when an ICC DeviceLink CMR is
 selected)
-2. Instructionon color-conversion or indexed CMR (not used when an ICC DeviceLink CMR is
+2. Instruction color-conversion or indexed CMR (not used when an ICC DeviceLink CMR is
 selected)
 3. Link color-conversion (subset LK or DL) CMR (not used with indexed CMRs)
 4. Audit halftone CMR (not used with indexed CMRs)
-5. Instructionon halftone CMR
+5. Instruction halftone CMR
 6. Audit tone-transfer-curve CMR (not used with indexed CMRs)
-7. Instructionon tone-transfer-curve CMR
+7. Instruction tone-transfer-curve CMR
 Byte + 0 CMR hierarchy
 This parameter identifies the hierarchy level at which the CMR was selected.
 The default value (X'05') is used for link-color-conversion (subset “LK”)
@@ -12763,7 +12763,7 @@ X'FFFF' Not specified
 This special value is used in the following cases:
 • For the link entry, the HT-audit entry, and the TC-audit entry
 when an indexed CMR has been selected; in this case the
-indexed CMR is identified in the CC-Instructionon entry.
+indexed CMR is identified in the CC-Instruction entry.
 • For the CC-audit entry, and the CC-instruction entry when
 an ICC DeviceLink CMR has been selected; in this case
 the ICC DeviceLink CMR is identified in the link entry.

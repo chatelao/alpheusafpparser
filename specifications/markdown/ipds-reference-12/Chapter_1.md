@@ -71,9 +71,7 @@ presentation device, or another application program. The strategic presentation 
 • Intelligent Printer Data Stream (IPDS) Architecture
 The MO:DCA architecture defines the data stream used by applications to describe documents and object
 envelopes for interchange with other applications and application services. The MO:DCA format supports
-storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of
-documents
-in local or distributed systems environments. Presentation fidelity is accommodated by including
+storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of documents in local or distributed systems environments. Presentation fidelity is accommodated by including
 resource objects in the documents that reference them.
 The IPDS architecture defines the data stream used by print server programs and device drivers to manage
 all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area
@@ -110,8 +108,7 @@ Archive
 Services
 Specifies open architectures and international standards that
 allow interoperability and portability of data, applications, and skills.
-Appli-
-cation Display
+Application Display
 Library
 Resource
 Fonts
@@ -131,9 +128,7 @@ Other Objects
 
 
 Objects
-Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object
-content architectures describe the structure and content of each type of data format that can exist in a
-document or appear in a data stream. Objects can be either data objects or resource objects.
+Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object content architectures describe the structure and content of each type of data format that can exist in a document or appear in a data stream. Objects can be either data objects or resource objects.
 A data object contains a single type of presentation data, that is, presentation text, vector graphics, raster
 image, or bar codes, and all of the controls required to present the data.
 A resource object is a collection of presentation instructions and data. These objects are referenced by name

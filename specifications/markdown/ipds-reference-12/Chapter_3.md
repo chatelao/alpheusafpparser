@@ -325,10 +325,9 @@ medium presentation space is effectively placed on top of the PFO data, but when
 color of media or when the device produces “white” (CMYK = X'00000000' for a printer, RGB = X'FFFFFF' for
 an RGB display), PFO data specified at the same location shows through that area. The formblend mixing
 rule allows the printer to blend data to achieve a look similar to a real preprinted form.
-• A special merging occurs for UP
-3I Print Data objects; these objects are printed by a pre-processing or post-
+• A special merging occurs for UP3I Print Data objects; these objects are printed by a pre-processing or post-
 processing device and do not directly mix with the data printed by the main IPDS printer. However, when
-object area coloring is used with a UP 3I Print Data object, the object area presentation space mixes in the
+object area coloring is used with a UP3I Print Data object, the object area presentation space mixes in the
 same fashion as all other object area presentation spaces.
 The presentation space merge order for all other presentation data is shown by Figure 14 on page 29, and is
 described as follows:
@@ -3397,7 +3396,7 @@ X'0607 2B12
 0004 0101
 1000 0000
 0000 0000'
-Anacomp COM T ape Label
+Anacomp COM Tape Label
 Setup File
 Non-presentation
 Not applicable Home state Setup file
@@ -4077,7 +4076,7 @@ These alternatives can be summarized mathematically as:
 Character Increment (VCIestimated) = max(Escapement)
 — or —
 Character Increment (VCIestimated) = 1 em
-T echniques to estimate appropriate values for VAS must keep two goals in mind. First, it should result in the
+Techniques to estimate appropriate values for VAS must keep two goals in mind. First, it should result in the
 bitmaps of ideographic characters being placed within the vertical increment. Second, the vertical position of
 the bitmap should reflect the relative horizontal baseline offset of the character. For example, the bitmap widths
 for the BLACK LENTICULAR BRACKETS, U+3010 and U+3011, are small compared to their increment and
