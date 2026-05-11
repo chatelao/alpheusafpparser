@@ -32,6 +32,7 @@ import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import javax.xml.bind.annotation.XmlType;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -265,6 +266,7 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
    * addition it resets the value of  the length field.
    */
   @XmlRootElement
+  @XmlType(name = "tripletUndefined")
   public static class Undefined extends Triplet {
     byte[] tripletData;
     AFPParserException parsingException;

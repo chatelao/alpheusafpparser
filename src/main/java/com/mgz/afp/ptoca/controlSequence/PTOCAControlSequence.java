@@ -34,6 +34,7 @@ import com.mgz.util.UtilCharacterEncoding;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -287,7 +288,9 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
     }
   }
 
-   @XmlRootElement public static class Undefined extends PTOCAControlSequence {
+   @XmlRootElement
+   @XmlType(name = "ptocaUndefined")
+   public static class Undefined extends PTOCAControlSequence {
     @AFPField
     byte[] undefinedData;
 
@@ -553,7 +556,9 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
   }
 
   /* PTOCA, Page 63. <br> */
-   @XmlRootElement public static class NOP_NoOperation extends PTOCAControlSequence {
+   @XmlRootElement
+   @XmlType(name = "ptocaNOP_NoOperation")
+   public static class NOP_NoOperation extends PTOCAControlSequence {
     byte[] ignoredData;
 
     @XmlElement(name = "text")

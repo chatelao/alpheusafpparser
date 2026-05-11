@@ -32,6 +32,7 @@ import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-abstract class IPD_Segment implements IAFPDecodeableWriteable {
+public abstract class IPD_Segment implements IAFPDecodeableWriteable {
   IPD_Segment.IPD_SegmentType segmentType;
   int lengthOfFollowingData;
 
@@ -278,6 +279,7 @@ abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
+  @XmlType(name = "iocaBeginSegment")
   public static class BeginSegment extends IPD_Segment.IPD_SegmentLong {
     byte[] name;
 
