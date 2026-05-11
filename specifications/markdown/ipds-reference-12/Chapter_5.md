@@ -3,9 +3,9 @@ The Text command set is composed of the IPDS commands for presenting text inform
 segment, or an overlay. This command set contains the following commands:
 Table 37. Text Commands
 Command Code Description In TX1 Subset?
-LE X'D61D' “Load Equivalence” on page 460 Yes
-WTC X'D688' “Write Text Control” on page 462 No
-WT X'D62D' “Write Text” on page 472 Yes
+LE X'D61D' “Load Equivalence” Yes
+WTC X'D688' “Write Text Control” No
+WT X'D62D' “Write Text” Yes
 The Text Presentation Space
 Since text can be specified in two different ways, it is important to distinguish text-major text from text within a
 text object. Text-major text is mapped to and controlled by the logical page.
@@ -58,7 +58,7 @@ Figure 73. Locating, Sizing, and Orienting the Text Object Area
 Logical Page
 X
 p
-Yp
+$Y_{p}$
 I
 B
 Xoa
@@ -68,7 +68,7 @@ Yoa
 Mapping the Text Presentation Space
 The mapping of the text presentation space into the text object area is specified by the TOC self-defining field
 in the WTC command. For a detailed description of text mapping, refer to the description of WTC-TOC
-mapping options (byte 11) on page 468.
+mapping options (byte 11).
 With the position mapping option, the top-left corner of the text presentation space is offset from the origin of
 the text object area, and the text presentation space is presented at the size specified by bytes 6–17 of the
 TDD self-defining field. Text or rules within the text presentation space that fall outside the text object area
@@ -156,7 +156,7 @@ text suppression IDs in the range X'0080'–X'00FF'.
 Note: This command is not required to use the suppression function. If an LCC command refers to a
 suppression ID that has not been specified as an external value in an LE command (because no LE
 command has been received, for example), the ID maps only to itself, and the requested suppression is
-considered to be a direct reference to an internal value suppression ID used in a BSU ... ESU pair.
+considered to be a direct reference to an internal value suppression ID used in a BSU ...ESU pair.
 
 
 Write Text Control
@@ -204,7 +204,7 @@ TAP
 2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
 4–5 SBIN X offset X'8000' –
 X'7FFF'
-Text object area origin; an Xp, I, or I-offset
+Text object area origin; an $X_{p}$, I, or I-offset
 coordinate position in L-units
 X'8000'–X'7FFF'
 Refer to the note
@@ -212,7 +212,7 @@ following the
 table.
 6–7 SBIN Y offset X'8000' –
 X'7FFF'
-Text object area origin; a Yp, B, or B-offset
+Text object area origin; a $Y_{p}$, B, or B-offset
 coordinate position in L-units
 X'8000'–X'7FFF'
 Refer to the note
@@ -239,7 +239,7 @@ Absolute I, relative B
 Relative I, absolute B
 Relative I, relative B
 Page X
-p,Yp
+p,$Y_{p}$
 X'00'
 X'20'
 X'40'
@@ -259,20 +259,20 @@ Bytes 0–1 Self-defining-field length, including itself. Bytes after byte 10 ar
 If an invalid value is specified, exception ID X'0202..05' exists.
 Bytes 2–3 Self-defining-field ID
 Bytes 4–5 Text object area origin X offset in L-units
-These bytes specify the text object area origin (top-left corner) as an Xp, I, or I-offset
+These bytes specify the text object area origin (top-left corner) as an $X_{p}$, I, or I-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
 
 
 Bytes 6–7 Text object area origin Y offset in L-units
-These bytes specify the text object area origin (top-left corner) as a Yp, B, or B-offset
+These bytes specify the text object area origin (top-left corner) as a $Y_{p}$, B, or B-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
-Note: The current text presentation coordinate (I c, Bc) for text-major text is not changed by the
+Note: The current text presentation coordinate ($I_{c}$, $B_{c}$) for text-major text is not changed by the
 printing of this text object.
 Bytes 8–9 Orientation of text object area
 This two-byte parameter specifies the orientation of the text object area, that is, the Xoa axis of
-the text object area, in terms of an angle measured clockwise from the Xp or I coordinate axis.
+the text object area, in terms of an angle measured clockwise from the $X_{p}$ or $I_{c}$oordinate axis.
 This parameter rotates the text object area around the origin position specified in bytes 4–7
 above. The text presented in the object area is aligned such that the positive Xt axis of the text
 presentation space is parallel to, and in the same direction as, the positive Xoa axis of the
@@ -306,7 +306,7 @@ B'010110100 000000 0'
 B'100001110 000000 0'
 Byte 10 Reference coordinate system
 The reference coordinate system determines the origin and orientation of the text object area,
-using either the Xp,Yp or the inline-baseline (I,B) coordinate system.
+using either the $X_{p}$,$Y_{p}$ or the inline-baseline (I,B) coordinate system.
 An inline coordinate value specified as absolute means that the value in bytes 4 and 5 of the
 TAP is an absolute inline coordinate location; that is, bytes 4 and 5 are offset from the I system
 origin. A baseline coordinate value specified as absolute means that the value in TAP bytes 6
@@ -331,15 +331,15 @@ specify the text baseline coordinate.
 bytes 4 and 5 are added to the current text inline coordinate. TAP bytes 6 and 7 are added to
 the current text baseline coordinate.
 • If byte 10 equals X'A0', the current logical page X
-p and Yp coordinates determine the origin.
-When the text object is within a page, TAP bytes 4–7 specify the offset from the Xp-
-coordinate and Yp-coordinate origin specified in a previously received LPP command (or
+p and $Y_{p}$ coordinates determine the origin.
+When the text object is within a page, TAP bytes 4–7 specify the offset from the $X_{p}$-
+coordinate and $Y_{p}$-coordinate origin specified in a previously received LPP command (or
 from the printer default coordinates if no LPP command received). When the text object is
 within an overlay that is invoked using an LCC command, TAP bytes 4–7 specify the offset
 from the X
 m-coordinate and Ym-coordinate origin. When the text object is within an overlay
-that is invoked using an IO command, TAP bytes 4–7 specify the offset from the Xp-
-coordinate and Yp-coordinate origin specified in the IO command.
+that is invoked using an IO command, TAP bytes 4–7 specify the offset from the $X_{p}$-
+coordinate and $Y_{p}$-coordinate origin specified in the IO command.
 If an invalid value is specified, exception ID X'0204..05' exists.
 Bytes 11 to
 end of TAP
@@ -438,7 +438,7 @@ If an invalid or unsupported value is specified, exception ID X'0206..05' exists
 Bytes 7–8 X
 oa extent of object area in L-units
 These bytes specify the Xoa extent of the text object area in L-units using the units of measure
-specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Xp extent and the Xp
+specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $X_{p}$ extent and the $X_{p}$
 unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
@@ -446,7 +446,7 @@ logical page.
 If an invalid value is specified, exception ID X'0207..05' exists.
 Bytes 9–10 Yoa extent of object area in L-units
 These bytes specify the Yoa extent of the text object area in L-units using the units of measure
-specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp extent and the Yp
+specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $Y_{p}$ extent and the $Y_{p}$
 unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
 If an invalid value is specified, exception ID X'0207..05' exists.
@@ -528,10 +528,10 @@ Printers ignore any triplet that is not supported and no exception is reported. 
 first byte after a valid triplet is X'00' or X'01' (an invalid triplet length), the printer ignores the
 remaining data within the optional triplets field.
 The Write Text Control triplets are fully described in the triplets chapter:
-“Color Specification (X'4E') Triplet” on page 713
-“Presentation Space Reset Mixing (X'70') Triplet” on page 731
-“Invoke CMR (X'92') Triplet” on page 772
-“Rendering Intent (X'95') Triplet” on page 774
+“Color Specification (X'4E') Triplet”
+“Presentation Space Reset Mixing (X'70') Triplet”
+“Invoke CMR (X'92') Triplet”
+“Rendering Intent (X'95') Triplet”
 Area Coloring Triplet Considerations
 The X'6201' property pair (logical page and object area coloring support) in the Device-Control command-set
 vector of an STM reply indicates that the X'4E' and X'70' triplets are supported.
@@ -547,7 +547,7 @@ triplet, the resulting color of the area depends on the reset flag. If the reset
 colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium.
 Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
 The invoked CMRs and the specified PTOCA rendering intent are associated only with this text object, and are
-used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for a description of
+used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” for a description of
 the hierarchy. Invoke CMR (X'92') triplets on the WTC command are not used with text-major text.
 Multiple Invoke CMR (X'92') triplets can be specified. However, only the last specified Rendering Intent (X'95')
 triplet will be used and additional X'95' triplets are ignored.
@@ -803,7 +803,7 @@ The glyph layout controls consist of the following PTOCA control sequences: Glyp
 Glyph ID Run (GIR), Glyph Advance Run (GAR), Glyph Offset Run (GOR), and Unicode Complex Text (UCT).
 These control sequences must be provided within a chain and be specified in the following order (the square
 brackets indicate an optional control):
-X'2BD3' GLC GIR GAR [GOR] [GIR GAR [GOR]] ... [GIR GAR [GOR]] [UCT]
+X'2BD3' GLC GIR GAR [GOR] [GIR GAR [GOR]] ...[GIR GAR [GOR]] [UCT]
 Note that the GLC can be preceded with any chained PTOCA control sequence other than GLC, GIR, GAR,
 or GOR.
 
@@ -842,7 +842,7 @@ X'9A' X'9B' Set Key Information (SKI)
 X'74' X'75' Set Text Color (STC) X X X X
 X'F6' X'F7' Set Text Orientation (STO) X X X X
 X'C4' X'C5' Set Variable-Space Character Increment (SVI) X X X X
-X'78' X'79' T emporary Baseline Move (TBM) X X X
+X'78' X'79' Temporary Baseline Move (TBM) X X X
 X'DA' X'DB' Transparent Data (TRN) X X X X
 
 
@@ -863,7 +863,7 @@ X'020E..02' – Invalid or unsupported color space
 X'020E..03' – Invalid or unsupported color value
 X'020E..04' – Invalid percent value
 X'020E..05' – Invalid or unsupported number of bits for a color component
-X'020F ..01' – Invalid or unsupported Set Text Orientation (STO)
+X'020F..01' – Invalid or unsupported Set Text Orientation (STO)
 X'0210..01' – Invalid or unsupported Set Inline Margin (SIM)
 X'0211..01' – Invalid or unsupported Set Baseline Increment (SBI)
 X'0212..01' – Invalid or unsupported intercharacter adjustment
@@ -880,11 +880,11 @@ X'021A..03' – Invalid Unicode data
 X'021B..01' – Repeat String (RPS) target-string length exception
 X'021C..01' – Invalid escape sequence
 X'021E..01' – Invalid text control-sequence length
-X'021F ..01' – Repeat String (RPS) length exception
-X'023F ..02' – STO-SCFL-LFE mismatch
+X'021F..01' – Repeat String (RPS) length exception
+X'023F..02' – STO-SCFL-LFE mismatch
 X'0258..03' – Invalid or unsupported value for text color
-X'0260..02' – Invalid or unsupported value for Logical Page Descriptor units per unit base (Xp and I)
-X'0261..02' – Invalid or unsupported value for Logical Page Descriptor units per unit base (Yp and B)
+X'0260..02' – Invalid or unsupported value for Logical Page Descriptor units per unit base ($X_{p}$ and I)
+X'0261..02' – Invalid or unsupported value for Logical Page Descriptor units per unit base ($Y_{p}$ and B)
 X'0264..02' – Invalid or unsupported value for Logical Page Descriptor unit base
 X'0268..02' – Invalid or unsupported value for Logical Page Descriptor inline-sequence direction
 X'0269..02' – Invalid baseline-sequence direction in the LPD command
@@ -893,11 +893,11 @@ X'026B..02' – Invalid or unsupported value for Logical Page Descriptor initial
 X'0280..02' – Invalid or unsupported rule width
 X'0282..02' – Invalid or unsupported rule length
 X'0298..01' – Invalid or unsupported suppression ID
-X'0298..03' – Invalid or unsupported value for T emporary Baseline Move control sequence
+X'0298..03' – Invalid or unsupported value for Temporary Baseline Move control sequence
 X'029A..01' – Invalid overstrike character increment
 
 
-X'029B..01' – UCT parameter values for CTLNGTH, UCTVERS, BIDICT , or GLYPHCT are invalid
+X'029B..01' – UCT parameter values for CTLNGTH, UCTVERS, BIDICT, or GLYPHCT are invalid
 X'029C..00' – Font Mismatch for a GLC chain
 X'029C..01' – Font format not valid for use with glyph layout control sequences
 X'029C..02' – Invalid glyph ID in a GIR
