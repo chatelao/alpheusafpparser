@@ -5525,36 +5525,35 @@ Each XOA data field contains a two-byte order code, followed by zero or more par
 Each XOA command can contain only one order. Orders have the following format:
 Code Parameters (if any)
 In alphabetic sequence, the orders are:
-**Table 28**. XOA Order Summary
-Code Order In DC1 subset?
-X'1000' “XOA Activate Printer Alarm” No
-X'0A00' “XOA Alternate Offset Stacker” No
-X'0C00' “XOA Control Edge Marks” No
-X'F200' “XOA Discard Buffered Data” Yes
-X'F500' “XOA Discard Unstacked Pages” No
-X'F600' “XOA Exception-Handling Control” Yes
-X'0800' “XOA Mark Form” No
-X'F900' “XOA Obtain Additional Exception Information” No
-X'F800' “XOA Print-Quality Control” No
-X'F400' “XOA Request Resource List” Yes
-X'FA00' “XOA Request Setup Name List ” No
-Retired Order Codes
-X'0000' Retired item 18 No
-X'0001' Retired item 19 No
-X'0002' Retired item 20 No
-X'0200' Retired item 21 No
-X'0600' Retired item 22 No
-X'0700' Retired item 141 No
-X'0900' Retired item 142 No
-X'7BF5' Retired item 23 No
-X'CACA' Retired item 24 No
-X'CE00' Retired item 143 No
-X'F100' Retired item 25 No
 
+**Table 28. XOA Order Summary**
 
-**Table 28** XOA Order Summary (cont'd.)
-Code Order In DC1 subset?
-X'F300' Retired item 26 No
+| Code | Order | In DC1 subset? |
+| :--- | :--- | :--- |
+| X'1000' | XOA Activate Printer Alarm | No |
+| X'0A00' | XOA Alternate Offset Stacker | No |
+| X'0C00' | XOA Control Edge Marks | No |
+| X'F200' | XOA Discard Buffered Data | Yes |
+| X'F500' | XOA Discard Unstacked Pages | No |
+| X'F600' | XOA Exception-Handling Control | Yes |
+| X'0800' | XOA Mark Form | No |
+| X'F900' | XOA Obtain Additional Exception Information | No |
+| X'F800' | XOA Print-Quality Control | No |
+| X'F400' | XOA Request Resource List | Yes |
+| X'FA00' | XOA Request Setup Name List | No |
+| **Retired Order Codes** | | |
+| X'0000' | Retired item 18 | No |
+| X'0001' | Retired item 19 | No |
+| X'0002' | Retired item 20 | No |
+| X'0200' | Retired item 21 | No |
+| X'0600' | Retired item 22 | No |
+| X'0700' | Retired item 141 | No |
+| X'0900' | Retired item 142 | No |
+| X'7BF5' | Retired item 23 | No |
+| X'CACA' | Retired item 24 | No |
+| X'CE00' | Retired item 143 | No |
+| X'F100' | Retired item 25 | No |
+| X'F300' | Retired item 26 | No |
 Unknown or unsupported orders are treated as No Operation (NOP) commands.
 
 
@@ -7530,39 +7529,38 @@ Each XOH command consists of a two-byte order code followed by 0 or more paramet
 command can contain only one order. The format for each command is:
 Code Parameters (if any)
 In alphabetic sequence, the orders are:
-**Table 30**. XOH Order Summary
-Code Order In DC1 subset?
-X'0200' “XOH Deactivate Saved Page Group” No
-X'0400' “XOH Define Group Boundary” No
-X'1300' “XOH Eject to Front Facing” No
-X'0700' “XOH Erase Residual Font Data” No
-X'0500' “XOH Erase Residual Print Data” No
-X'F300' “XOH Obtain Printer Characteristics” Yes
-X'F500' “XOH Page Counters Control” No
-X'0100' “XOH Print Buffered Data” Yes
-X'0A00' “XOH Remove Saved Page Group” No
-X'1500' “XOH Select Input Media Source” No
-X'0E00' “XOH Select Medium Modifications” No
-X'0900' “XOH Separate Continuous Forms” No
-X'1600' “XOH Set Media Origin” No
-X'1700' “XOH Set Media Size” No
-X'0300' “XOH Specify Group Operation” No
-X'0D00' “XOH Stack Received Pages” No
-X'F200' “XOH Trace” No
-Retired Order Codes
-X'0000' Retired item 31 No
-X'0B00' Retired item 32 No
-X'1C00' Retired item 144 No
-X'1D00' Retired item 145 No
-X'4C00' Retired item 146 No
-X'4D00' Retired item 147 No
 
+**Table 30. XOH Order Summary**
 
-**Table 30** XOH Order Summary (cont'd.)
-Code Order In DC1 subset?
-X'4E00' Retired item 148 No
-X'D000' Retired item 127 No
-X'F400' Retired item 33 No
+| Code | Order | In DC1 subset? |
+| :--- | :--- | :--- |
+| X'0200' | XOH Deactivate Saved Page Group | No |
+| X'0400' | XOH Define Group Boundary | No |
+| X'1300' | XOH Eject to Front Facing | No |
+| X'0700' | XOH Erase Residual Font Data | No |
+| X'0500' | XOH Erase Residual Print Data | No |
+| X'F300' | XOH Obtain Printer Characteristics | Yes |
+| X'F500' | XOH Page Counters Control | No |
+| X'0100' | XOH Print Buffered Data | Yes |
+| X'0A00' | XOH Remove Saved Page Group | No |
+| X'1500' | XOH Select Input Media Source | No |
+| X'0E00' | XOH Select Medium Modifications | No |
+| X'0900' | XOH Separate Continuous Forms | No |
+| X'1600' | XOH Set Media Origin | No |
+| X'1700' | XOH Set Media Size | No |
+| X'0300' | XOH Specify Group Operation | No |
+| X'0D00' | XOH Stack Received Pages | No |
+| X'F200' | XOH Trace | No |
+| **Retired Order Codes** | | |
+| X'0000' | Retired item 31 | No |
+| X'0B00' | Retired item 32 | No |
+| X'1C00' | Retired item 144 | No |
+| X'1D00' | Retired item 145 | No |
+| X'4C00' | Retired item 146 | No |
+| X'4D00' | Retired item 147 | No |
+| X'4E00' | Retired item 148 | No |
+| X'D000' | Retired item 127 | No |
+| X'F400' | Retired item 33 | No |
 Unknown or unsupported orders are treated as No Operation (NOP) commands.
 
 

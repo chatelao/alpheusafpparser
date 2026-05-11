@@ -62,7 +62,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ⏳ Object Container Command-Set Vector.
                 - ⏳ Overlay and Page-Segment Command-Set Vectors.
                 - ⏳ Loaded-Font Command-Set Vectors.
-            - ⏳ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
+            - ✅ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ⏳ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, RRL (Table 29), RSNL.
             - ⏳ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
             - ⏳ XOH Obtain Printer Characteristics (OPC): Table 33 and all SDFs (Tables 34–35).
