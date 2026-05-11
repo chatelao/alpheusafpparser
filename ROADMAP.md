@@ -45,7 +45,23 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Commands: ASN, AFO, BP, DF (Table 24), DUA.
             - ✅ Commands: END, EP, ISP, ICMR.
             - ✅ Commands: LCC (Tables 25–27), LFE, LPD, LPP.
-            - ⏳ Commands: MID, NOP, PFC, RPO, STM, SHS, SPE.
+            - ✅ Commands: MID, NOP, PFC, SHS, SPE.
+            - ⏳ Command: Rasterize Presentation Object (RPO):
+                - ⏳ Syntax, Object Types, and Cache attributes.
+                - ⏳ Tables 25–26 (Entry Syntax and Object-Type IDs).
+                - ⏳ Table 27 (Orientation IDs).
+                - ⏳ Tables 28–29 (Object-Area Size and Mapping-Control IDs).
+            - ⏳ Command: Sense Type and Model (STM):
+                - ✅ Syntax and Main Reply Table.
+                - ✅ Device-Control Command-Set Vector.
+                - ⏳ Presentation-Text (PTOCA) Command-Set Vector.
+                - ⏳ IM-Image Command-Set Vector.
+                - ⏳ IO-Image (IOCA) Command-Set Vector.
+                - ⏳ Graphics (GOCA) Command-Set Vector.
+                - ⏳ Bar Code (BCOCA) Command-Set Vector.
+                - ⏳ Object Container Command-Set Vector.
+                - ⏳ Overlay and Page-Segment Command-Set Vectors.
+                - ⏳ Loaded-Font Command-Set Vectors.
             - ⏳ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ⏳ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, RRL (Table 29), RSNL.
             - ⏳ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
