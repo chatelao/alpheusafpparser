@@ -22,8 +22,7 @@ page, while others carry non-presentation data.
 For object containers that carry presentation data, the object must have a well-defined processing semantic
 resulting in a fixed, deterministic presentation when processed by a receiver capable of presenting the object.
 Object containers with presentation data cannot span pages; however, presentation objects within medium
-overlays and UP
-3I PrintData objects that are presented by a pre-processing or post-processing device can
+overlays and UP3I PrintData objects that are presented by a pre-processing or post-processing device can
 appear to span pages or extend outside of logical page boundaries.
 A multi-page resource object is a type of object container consisting of a file that contains multiple pages or
 paginated objects for presentation. Such an object is appropriately characterized in the MO:DCA Object
@@ -65,7 +64,7 @@ The following pages explain the object container presentation space and the obje
 object containers that contain presentation data.
 Object Container Presentation Space
 Object container presentation data is placed in a presentation space in much the same way as image,
-graphics, and bar code data. The coordinate system for this presentation space is the Xoc and the Yoc
+graphics, and bar code data. The coordinate system for this presentation space is the {oc}$ and the {oc}$
 coordinate system. The size of the object container presentation space and how the data is placed in the
 presentation space is defined by the specific object; refer to the Object-Type Identifiers registry in the Mixed
 Object Document Content Architecture Reference for a description of the presentation space size for each
@@ -75,7 +74,7 @@ The object container presentation space is mapped, using one of the defined mapp
 container object area, that is a rectangular area on the current logical page. The object container object area
 can be larger than, equal to, or smaller than the object container presentation space. The coordinate system
 for the object container object area is the X
-oa,Yoa coordinate system.
+oa,{oa}$ coordinate system.
 The location and orientation of the object container object area is specified in the object container area position
 (OCAP) self-defining field of the WOCC command. The size of the object container object area is specified in
 the object container output control (OCOC) self-defining field. Figure 95 shows how the object
@@ -83,8 +82,7 @@ container object area is placed on the logical page.
 The object container object area can overlay other data, such as text or images, specified earlier for the same
 logical page. Also, the object container object area can be overlapped by subsequent data specified by other
 commands for the same logical page. Refer to “IPDS Mixing Rules” for a description of the results
-of overlapping print data. UP
-3I Print Data objects are presented by a pre-processing or post-processing device
+of overlapping print data. UP3I Print Data objects are presented by a pre-processing or post-processing device
 and do not directly mix with other IPDS data; this type of object uses the UP3I-Print-Data mapping control
 option, refer to “UP3I-Print-Data Mapping”.
 Some printers allow the object area to be colored before the object data is placed in the object area; coloring is
@@ -111,12 +109,7 @@ Container Object
 Area specified in
 Object Container
 
-I
-B
-X
-p
-Yp Xoa
-Yoa
+I, B, $, $, {oa}$, {oa}$
 Data Object Resource Equivalence Entries
 The Data Object Resource Equivalence (DORE) and Data Object Resource Equivalence 2 (DORE2)
 commands are home state, page state, page segment state, or overlay state commands used to identify
@@ -456,13 +449,12 @@ an IDO command are:
 • TIFF without transparency
 • TIFF multiple-image file with transparency
 • TIFF multiple-image file without transparency
-• UP
-3I print data
+• UP3I print data
 Note: Data object resources that are supported in home state, page state, and overlay state (all three) should
 also be supported on the IDO command.
 Support for this optional command is indicated by the X'1201' property pair in the Object Container command-
 set vector of an STM reply.
-Length X'D67C' Flag CID Data (DOAP , DOOC, DODD)
+Length X'D67C' Flag CID Data (DOAP, DOOC, DODD)
 The length of the IDO command can be:
 Without CID X'001B' or X'001D'–X'7FFF'
 With CID X'001D' or X'001F'–X'7FFF'
@@ -508,14 +500,14 @@ The format of the DOAP is as follows:
 Offset Type Name Range Meaning Required
 0–1 UBIN Length X'000B' to end
 of DOAP
-Length of DOAP , including this length field X'000B' to end of
+Length of DOAP, including this length field X'000B' to end of
 DOAP
 2–3 CODE SDF ID X'ACC3' Self-defining-field ID X'ACC3'
 4–5 SBIN X offset X'8000' –
 X'7FFF'
 X'FFFF'
 Override for object area origin;
-an I, I-offset, or Xp coordinate
+an I, I-offset, or $ coordinate
 position in L-units
 Use X offset from object
 X'8000'–X'7FFF'
@@ -574,7 +566,7 @@ Absolute I, relative B
 Relative I, absolute B
 Relative I, relative B
 Page X
-p,Yp
+p,$
 X'00'
 X'20'
 X'40'
@@ -684,24 +676,24 @@ X'00'
 5–6 UBIN UPUB X'0001' –
 X'7FFF'
 X
-oa and Yoa units per unit base X'3840'
-7–8 UBIN Xoa extent X'0001' –
+oa and {oa}$ units per unit base X'3840'
+7–8 UBIN {oa}$ extent X'0001' –
 X'7FFF'
 X'FFFF'
-Override for Xoa extent of
+Override for {oa}$ extent of
 object area in L-units
-Use Xoa extent from object
+Use {oa}$ extent from object
 X'0001'–X'7FFF'
 (Refer to the
 note following
 the table.)
 X'FFFF'
-9–10 UBIN Yoa extent X'0001' –
+9–10 UBIN {oa}$ extent X'0001' –
 X'7FFF'
 X'FFFF'
-Override for Yoa extent of
+Override for {oa}$ extent of
 object area in L-units
-Use Yoa extent from object
+Use {oa}$ extent from object
 X'0001'–X'7FFF'
 (Refer to the
 note following
@@ -736,10 +728,10 @@ X'FF'
 oa offset X'8000' –
 X'7FFF'
 X'FFFF'
-Override for Xoa offset in
+Override for {oa}$ offset in
 L-units; (for the position and
 position-and-trim mappings only)
-Use Xoa offset from object
+Use {oa}$ offset from object
 X'0000'–X'7FFF'
 (Refer to the
 note following
@@ -747,13 +739,13 @@ the table.)
 X'FFFF'
 
 Offset Type Name Range Meaning Required
-14–15 SBIN Yoa offset X'8000' –
+14–15 SBIN {oa}$ offset X'8000' –
 X'7FFF'
 X'FFFF'
-Override for Yoa offset in
+Override for {oa}$ offset in
 L-units; (for the position and
 position-and-trim mappings only)
-Use Yoa offset from object
+Use {oa}$ offset from object
 X'0000'–X'7FFF'
 (Refer to the
 note following
@@ -785,16 +777,16 @@ Property pair X'FB00' in the Device-Control command-set vector of an STM reply i
 support for all architected units of measure.
 If an invalid or unsupported value is specified, exception ID X'0205..05' exists.
 Bytes 5–6 X
-oa and Yoa units per unit base
+oa and {oa}$ units per unit base
 This field specifies the units per unit base to be used to interpret bytes 7–10 and bytes 12–15
 of the DOOC. For example, if the unit base is X'00' and this value is X'3840', there are 14,400
 units per ten inches (1440 units per inch); in this case, the measurement units are called twips.
 If an invalid or unsupported value is specified, exception ID X'0206..05' exists.
 Bytes 7–8 Override for X
 oa extent of the object area
-This field specifies an override for the Xoa extent of the object area in L-units using the units of
+This field specifies an override for the {oa}$ extent of the object area in L-units using the units of
 measure specified in bytes 4–6.
-X'FFFF' is a special value that specifies that the Xoa extent and the unit base and units per unit
+X'FFFF' is a special value that specifies that the {oa}$ extent and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted, the object's
 presentation space X extent is used. The IDD specifies the presentation space size for an IO
@@ -803,10 +795,10 @@ the object does not specify a presentation space size, the architected default i
 presentation space size of the underlying page or overlay.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
 
-Bytes 9–10 Override for Yoa extent of the object area
-This field specifies an override for the Yoa extent of the object area in L-units using the units of
+Bytes 9–10 Override for {oa}$ extent of the object area
+This field specifies an override for the {oa}$ extent of the object area in L-units using the units of
 measure specified in bytes 4–6.
-X'FFFF' is a special value that specifies that the Yoa extent and the unit base and units per unit
+X'FFFF' is a special value that specifies that the {oa}$ extent and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted, the object's
 presentation space Y extent is used. The IDD specifies the presentation space size for an IO
@@ -818,8 +810,7 @@ Byte 11 Override for mapping control option
 This field specifies an override for the mapping control option that selects how the object's
 presentation space is mapped to the output area. Resolution correction occurs whenever the
 resolution of the object is different in one or both dimensions from the device resolution.
-Note: For a UP
-3I Print Data object, the mapping option cannot be overridden in the IDO
+Note: For a UP3I Print Data object, the mapping option cannot be overridden in the IDO
 command; this field is ignored by the printer when including a UP3I Print Data object.
 Specify X'FF' for a UP3I Print Data object.
 X'FF' is a special value that specifies that the mapping option from the OCOC or IOC in the
@@ -851,25 +842,25 @@ X'1202' in the IO-Image command-set vector of an STM reply.
 vector of an STM reply.
 • Scale to fill (X'60') is indicated by property pair X'F301' in the IO-Image command-set vector
 of an STM reply or in the Object Container command-set vector of an STM reply.
-Bytes 12–13 Override for Xoa offset from object area origin
-This field specifies an override in L-units for the Xoa offset from the object area origin. The
-units of measure used to interpret this offset are specified in bytes 4–6. The Xoa offset field is
+Bytes 12–13 Override for {oa}$ offset from object area origin
+This field specifies an override in L-units for the {oa}$ offset from the object area origin. The
+units of measure used to interpret this offset are specified in bytes 4–6. The {oa}$ offset field is
 ignored when the actual mapping option used is not position or position and trim.
 Property pair X'1208' in the Object Container command-set vector of an STM reply indicates
 support for negative object-area-offset values.
-X'FFFF' is a special value that specifies that the Xoa offset and the unit base and units per unit
+X'FFFF' is a special value that specifies that the {oa}$ offset and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted and the position
 or position-and-trim mapping option is actually used, the architected default X
 oa offset is 0.
 If an unsupported value is specified, exception ID X'0209..05' exists.
-Bytes 14–15 Override for Yoa offset from object area origin
-This field specifies an override in L-units for the Yoa offset from the object area origin. The units
-of measure used to interpret this offset are specified in bytes 4–6. The Yoa offset field is
+Bytes 14–15 Override for {oa}$ offset from object area origin
+This field specifies an override in L-units for the {oa}$ offset from the object area origin. The units
+of measure used to interpret this offset are specified in bytes 4–6. The {oa}$ offset field is
 ignored when the actual mapping option used is not position or position and trim.
 Property pair X'1208' in the Object Container command-set vector of an STM reply indicates
 support for negative object-area-offset values.
-X'FFFF' is a special value that specifies that the Yoa offset and the unit base and units per unit
+X'FFFF' is a special value that specifies that the {oa}$ offset and the unit base and units per unit
 base from the OCOC or IOC in the object are used for this parameter. If the optional OCOC on
 the WOCC command (or the optional IOC on the WIC2 command) is omitted and the position
 or position-and-trim mapping option is actually used, the architected default Y
@@ -1264,7 +1255,7 @@ Request Resident Resource List
 
 
 Write Object Container Control
-Length X'D63C' Flag CID Data (OCAP , OCOC, OCDD)
+Length X'D63C' Flag CID Data (OCAP, OCOC, OCDD)
 The length of the WOCC command can be:
 Without CID X'001B' or X'001D'–X'7FFF'
 With CID X'001D' or X'001F'–X'7FFF'
@@ -1314,19 +1305,19 @@ This self-defining field is optional and can be omitted from the WOCC command. I
 presentation object containers. For presentation object containers, if the OCAP field is omitted, the default
 values are as follows:
 Object area origin X
-p = 0, Yp = 0
+p = 0, $ = 0
 Object area orientation 0°
-Reference coordinate system Page Xp,Yp
+Reference coordinate system Page $,$
 The format of the OCAP is as follows:
 Offset Type Name Range Meaning OC1 Range
 0–1 UBIN Length X'000B' to end
 of OCAP
-Length of OCAP , including this length field X'000B' to end of
+Length of OCAP, including this length field X'000B' to end of
 OCAP
 2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
 4–5 SBIN X offset X'8000' –
 X'7FFF'
-Object container object area origin; an Xp, I,
+Object container object area origin; an $, I,
 or I-offset coordinate position in L-units
 X'8000'–X'7FFF'
 Refer to the note
@@ -1362,7 +1353,7 @@ Absolute I, relative B
 Relative I, absolute B
 Relative I, relative B
 Page X
-p,Yp
+p,$
 X'00'
 X'20'
 X'40'
@@ -1394,18 +1385,18 @@ offset coordinate position. The units of measure used to interpret this L-unit v
 specified in the LPD command that is current when this object is printed in a page or overlay.
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
 Note: The current text presentation coordinate (I
-c, Bc) is not changed by the printing of this
+c, $) is not changed by the printing of this
 object.
 Bytes 8–9 Orientation of object container object area
 This two-byte parameter specifies the orientation of the object container object area, that is,
-the Xoa axis of the object container object area, in terms of an angle measured clockwise from
-the Xp or I coordinate axis. This parameter rotates the object container object area around the
+the {oa}$ axis of the object container object area, in terms of an angle measured clockwise from
+the $ or I coordinate axis. This parameter rotates the object container object area around the
 origin specified in bytes 4–7. The object container picture presented in the object area is
 aligned such that the positive X
 oc axis of the object container presentation space is parallel to,
-and in the same direction as, the positive Xoa axis of the object container object area. The
-positive Yoa axis of the object container object area is rotated 90 degrees clockwise relative to
-the positive Xoa axis and is in the same direction as the positive Yoc axis. This parameter has
+and in the same direction as, the positive {oa}$ axis of the object container object area. The
+positive {oa}$ axis of the object container object area is rotated 90 degrees clockwise relative to
+the positive {oa}$ axis and is in the same direction as the positive {oc}$ axis. This parameter has
 no effect on the I-axis orientation or the B-axis orientation.
 The object area orientation is specified in terms of a number of degrees and a number of
 minutes.
@@ -1435,7 +1426,7 @@ B'010110100 000000 0'
 B'100001110 000000 0'
 Byte 10 Reference coordinate system
 The reference coordinate system determines the origin and orientation of the object container
-object area, using either the Xp,Yp or the inline-baseline (I,B) coordinate system.
+object area, using either the $,$ or the inline-baseline (I,B) coordinate system.
 
 An inline coordinate value specified as absolute means that the value in bytes 4–5 of the
 OCAP is at an absolute inline coordinate location; that is, bytes 4–5 are offset from the I
@@ -1458,16 +1449,16 @@ baseline coordinate.
 Bytes 4–5 are added to the current text inline coordinate; bytes 6–7 are added to the current
 text baseline coordinate.
 • If byte 10 equals X'A0', the current logical page X
-p and Yp coordinates determine the origin.
-When the object area is within a page, OCAP bytes 4–7 specify the offset from the Xp-
-coordinate and Yp-coordinate origin specified in a previously received LPP command (or
+p and $ coordinates determine the origin.
+When the object area is within a page, OCAP bytes 4–7 specify the offset from the $-
+coordinate and $-coordinate origin specified in a previously received LPP command (or
 from the printer default coordinates if no LPP command was received). When the object
 area is within an overlay that is invoked using an LCC command, OCAP bytes 4–7 specify
 the offset from the X
-m-coordinate and Ym-coordinate origin. When the object area is within
+m-coordinate and $-coordinate origin. When the object area is within
 an overlay that is invoked using an IO command, OCAP bytes 4–7 specify the offset from
 the X
-p-coordinate and Yp-coordinate origin specified in the IO command.
+p-coordinate and $-coordinate origin specified in the IO command.
 If an invalid or unsupported value is specified, exception ID X'0204..05' exists.
 Bytes 11 to
 end of OCAP
@@ -1484,7 +1475,7 @@ presentation object containers. For presentation object containers, if the OCOC 
 values are as follows:
 • The object area extent equals the size of the logical page;
 X
-oa extent = Xp extent, Yoa extent = Yp extent.
+oa extent = $ extent, {oa}$ extent = $ extent.
 • The scale-to-fit mapping control is used for all objects except for the following:
 – For UP3I Print Data objects, the UP3I-Print-Data mapping control is used.
 • The object area is not colored.
@@ -1507,11 +1498,11 @@ X'00'
 5–6 UBIN UPUB X'0001' –
 X'7FFF'
 X
-oa and Yoa units per unit base X'3840'
-7–8 UBIN Xoa extent X'0001' –
+oa and {oa}$ units per unit base X'3840'
+7–8 UBIN {oa}$ extent X'0001' –
 X'7FFF'
 X'FFFF'
-Xoa extent of object area in L-units
+{oa}$ extent of object area in L-units
 Use the LPD value
 X'0001'–X'7FFF'
 (Refer to the
@@ -1522,7 +1513,7 @@ X'FFFF'
 oa extent X'0001' –
 X'7FFF'
 X'FFFF'
-Yoa extent of object area in L-units
+{oa}$ extent of object area in L-units
 Use the LPD value
 X'0001'–X'7FFF'
 (Refer to the
@@ -1542,8 +1533,7 @@ Scale to fit
 Center and trim
 Position and trim
 Scale to fill
-UP
-3I Print Data
+UP3I Print Data
 X'00'
 X'10'
 X'20'
@@ -1551,7 +1541,7 @@ X'30'
 12–13 SBIN X
 oa offset X'8000' –
 X'7FFF'
-Xoa offset in L-units; (for the position and
+{oa}$ offset in L-units; (for the position and
 position-and-trim mappings only)
 X'0000'–X'7FFF'
 Refer to the note
@@ -1559,9 +1549,9 @@ following the
 table.
 
 Offset Type Name Range Meaning OC1 Range
-14–15 SBIN Yoa offset X'8000' –
+14–15 SBIN {oa}$ offset X'8000' –
 X'7FFF'
-Yoa offset in L-units; (for the position and
+{oa}$ offset in L-units; (for the position and
 position-and-trim mappings only)
 X'0000'–X'7FFF'
 Refer to the note
@@ -1591,24 +1581,24 @@ unit base is ten centimeters.
 Property pair X'FB00' in the Device-Control command-set vector of an STM reply indicates
 support for all architected units of measure.
 If an invalid or unsupported value is specified, exception ID X'0205..05' exists.
-Bytes 5–6 Xoa and Yoa units per unit base
+Bytes 5–6 {oa}$ and {oa}$ units per unit base
 These bytes specify the number of units per unit base used when specifying the object area
 extent or object area offset in either the X or the Y direction. For example, if the unit base is
 X'00' and this value is X'3840', there are 14,400 units per ten inches (1440 units per inch).
 If an invalid or unsupported value is specified, exception ID X'0206..05' exists.
 Bytes 7–8 X
 oa extent of object area in L-units
-These bytes specify the Xoa extent of the object container object area in L-units using the units
-of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Xp extent
-and the Xp unit base and units per unit base of the LPD command that is current when this
+These bytes specify the {oa}$ extent of the object container object area in L-units using the units
+of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $ extent
+and the $ unit base and units per unit base of the LPD command that is current when this
 object is printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
 logical page.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
-Bytes 9–10 Yoa extent of object area in L-units
-These bytes specify the Yoa extent of the object container object area in L-units using the units
-of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp extent
-and the Yp unit base and units and units per unit base of the LPD command that is current
+Bytes 9–10 {oa}$ extent of object area in L-units
+These bytes specify the {oa}$ extent of the object container object area in L-units using the units
+of measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $ extent
+and the $ unit base and units and units per unit base of the LPD command that is current
 when this object is printed in a page or overlay.
 
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
@@ -1622,13 +1612,12 @@ are:
 • X'20'—Center and trim
 • X'30'—Position and trim
 • X'60'—Scale to fill
-• X'70'—UP
-3I print data
+• X'70'—UP3I print data
 Refer to “Mapping Control Options” for a description of the mapping control
 options.
 If an invalid or unsupported value is specified, exception ID X'0208..05' exists.
-Bytes 12–13 Xoa offset in L-units from object area origin
-The Xoa offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the Xoa offset
+Bytes 12–13 {oa}$ offset in L-units from object area origin
+The {oa}$ offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the {oa}$ offset
 of the object container presentation space (top-left corner) from the origin of the object
 container object area. The units of measure used to interpret this offset are specified in bytes
 4–6.
@@ -1637,7 +1626,7 @@ support for negative object-area-offset values.
 If an unsupported value is specified, exception ID X'0209..05' exists.
 Bytes 14–15 Y
 oa offset in L-units from object area origin
-The Yoa offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the Yoa offset
+The {oa}$ offset field is ignored unless byte 11 contains X'00' or X'30'. This value is the {oa}$ offset
 of the object container presentation space (top-left corner) from the origin of the object
 container object area. The units of measure used to interpret this offset are specified in bytes
 4–6.
@@ -1671,8 +1660,7 @@ Specification (X'4E') triplet specifying red, the area is colored red and the fi
 Color Specification (X'4E') triplet specifying green is followed by a Presentation Space Reset Mixing (X'70')
 triplet, the resulting color of the area depends on the reset flag. If the reset flag is B'0' (do not reset), the area is
 colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium.
-UP
-3I Print Data objects are presented by a pre-processing or post-processing device and do not directly mix
+UP3I Print Data objects are presented by a pre-processing or post-processing device and do not directly mix
 with other IPDS data; this type of object uses the UP3I-Print-Data mapping control option, that is described in
 “UP3I-Print-Data Mapping”. However, object area coloring for UP3I Print Data objects is handled
 by the IPDS printer in the same manner as for all other object containers.
@@ -1801,8 +1789,7 @@ with other IPDS data. The data printed by the IPDS printer is mixed as defined b
 data printed by the UP3I post-processor device is merged with the output of the IPDS printer in the manner
 defined by UP3I. The object data is not necessarily examined by the IPDS printer and therefore some error
 checking is done by the pre-processing or post-processing device. Syntax and position-check errors detected
-(by either the printer or post-processor) within a UP
-3I Print Data object are normally reported with exception ID
+(by either the printer or post-processor) within a UP3I Print Data object are normally reported with exception ID
 X'027E..00'. However, when the post-processor reports the error, one of the following applies:
 • If all pages that have not yet reached the Jam-Recovery station can be discarded or marked as waste
 without requiring human interaction, the printer can report exception ID X'027E..00' with action code of X'0A'.
@@ -1815,10 +1802,10 @@ AFP Object View
 UP I Object View
 3
 Logical page or overlay
-coordinate system Xp
-Yp
-Object area coordinate system Xoa
-Yoa
+coordinate system $
+$
+Object area coordinate system {oa}$
+{oa}$
 Object area
 Object area
 orientation
@@ -1826,8 +1813,8 @@ Object area
 offset
 UP I coordinate system
 3
-Xoc
-Yoc
+{oc}$
+{oc}$
 Object presentation space
 Object
 UP I-defined mapping3
