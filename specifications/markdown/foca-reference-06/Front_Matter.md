@@ -8,14 +8,14 @@
 
 **Copyright © AFP Consortium 1998, 2015, 2025**
 
-**Note:** Before using this information, read the information in “Notices” on page 203.
+**Note:** Before using this information, read the information in “Notices”.
 
 **AFPC-0007-06**
 **Seventh Edition (October 2015)**
 
 This edition applies to Font Object Content Architecture (FOCA). It is the first edition produced by the AFP Consortium™ (AFPC™) and replaces and makes obsolete the previous edition (S544-3285-05) published by IBM®. This edition remains current until a new edition is published. This publication also applies to any subsequent releases of Advanced Function Presentation™ (AFP™) products that use the FOCA architecture until otherwise indicated in a new edition.
 
-Changes are indicated by a vertical bar to the left of the change. For a detailed list of changes, refer to “Changes in This Edition” on page xi.
+Changes are indicated by a vertical bar to the left of the change. For a detailed list of changes, refer to “Changes in This Edition”.
 
 **Internet:** Visit our home page: [http://www.afpcinc.org](http://www.afpcinc.org)
 
@@ -23,7 +23,7 @@ Changes are indicated by a vertical bar to the left of the change. For a detaile
 
 ## Preface
 
-This book describes the functions and services associated with Font Object Content Architecture (FOCA). The FOCA architecture describes semantics and terminology for font objects used in a variety of environments. Syntax is provided for AFP system fonts used in the MO:DCA™ environment; refer to “AFP System Font Resource” on page 111. The syntax for printer fonts used in the IPDS™ environment is fully described in the Intelligent Printer Data Stream™ Reference.
+This book describes the functions and services associated with Font Object Content Architecture (FOCA). The FOCA architecture describes semantics and terminology for font objects used in a variety of environments. Syntax is provided for AFP system fonts used in the MO:DCA™ environment; refer to “AFP System Font Resource”. The syntax for printer fonts used in the IPDS™ environment is fully described in the Intelligent Printer Data Stream™ Reference.
 
 **Note:** The FOCA architecture has been stabilized such that it can be fully used within AFP products and environments, but will not be extended. Many AFP products use either FOCA fonts, TrueType/OpenType fonts, or both.
 
@@ -101,20 +101,20 @@ Note that the FOCA architecture has been stabilized such that it can be fully us
 
 ## How to Use This Book
 
-This book is divided into seven chapters, with appendixes. Those readers who have little or no knowledge of fonts or font architecture concepts should read the introductory chapters first. Those readers who are experienced in using fonts in AFP implementations may wish to begin with “AFP System Font Resource” on page 111, and then use Chapter 5, “FOCA Parameters”, on page 55 as a reference for parameter semantics. Those readers who are experienced in using fonts in other AFP product implementations may wish to begin with their product publications, and then use Chapter 5, “FOCA Parameters”, on page 55 as a reference for parameter semantics.
+This book is divided into seven chapters, with appendixes. Those readers who have little or no knowledge of fonts or font architecture concepts should read the introductory chapters first. Those readers who are experienced in using fonts in AFP implementations may wish to begin with “AFP System Font Resource”, and then use Chapter 5, “FOCA Parameters”, as a reference for parameter semantics. Those readers who are experienced in using fonts in other AFP product implementations may wish to begin with their product publications, and then use Chapter 5, “FOCA Parameters”, as a reference for parameter semantics.
 
-*   **Chapter 1, “A Presentation Architecture Perspective”**, on page 1 introduces the Presentation Architecture framework that is covered in this book.
-*   **Chapter 2, “Introduction to Fonts”**, on page 7 describes digitized fonts, text processing, font storage and accessing, font referencing, and FOCA font concepts.
-*   **Chapter 3, “Referencing Fonts”**, on page 17 explains the relationship of fonts to the various processes in document production. Included are topics of font selection and substitution, font identification, and document fidelity.
-*   **Chapter 4, “FOCA Overview”**, on page 33 explains, in more detail, FOCA font architecture concepts and character shape information.
-*   **Chapter 5, “FOCA Parameters”**, on page 55 provides semantic descriptions of the parameters used in font resources, references, and queries.
-*   **Chapter 6, “Font Interchange Formats”**, on page 111 provides information about the formats required for the interchange of font information.
-*   **Chapter 7, “Compliance Requirements”**, on page 189 defines the requirements for compliance to the architecture.
-*   **Appendix A, “AFP System Font Structured-Field and Triplet Summary”**, on page 191 provides tables of AFP system font data structures sorted by hexadecimal ID, with a page number reference to the full description of each data structure.
-*   **Appendix B, “Mapping of ISO Parameters”**, on page 193 provides a summary cross-reference of all FOCA and ISO 9541 parameters.
-*   **Appendix C, “Pattern Technology Information”**, on page 201 provides information about the various shape representation formats supported by FOCA.
+*   **Chapter 1, “A Presentation Architecture Perspective”** introduces the Presentation Architecture framework that is covered in this book.
+*   **Chapter 2, “Introduction to Fonts”** describes digitized fonts, text processing, font storage and accessing, font referencing, and FOCA font concepts.
+*   **Chapter 3, “Referencing Fonts”** explains the relationship of fonts to the various processes in document production. Included are topics of font selection and substitution, font identification, and document fidelity.
+*   **Chapter 4, “FOCA Overview”** explains, in more detail, FOCA font architecture concepts and character shape information.
+*   **Chapter 5, “FOCA Parameters”** provides semantic descriptions of the parameters used in font resources, references, and queries.
+*   **Chapter 6, “Font Interchange Formats”** provides information about the formats required for the interchange of font information.
+*   **Chapter 7, “Compliance Requirements”** defines the requirements for compliance to the architecture.
+*   **Appendix A, “AFP System Font Structured-Field and Triplet Summary”** provides tables of AFP system font data structures sorted by hexadecimal ID, with a link to the full description of each data structure.
+*   **Appendix B, “Mapping of ISO Parameters”** provides a summary cross-reference of all FOCA and ISO 9541 parameters.
+*   **Appendix C, “Pattern Technology Information”** provides information about the various shape representation formats supported by FOCA.
 
-The **“Glossary”** on page 205 defines those font terms used in this book, which might also be required by other presentation architectures.
+The **“Glossary”** defines those font terms used in this book, which might also be required by other presentation architectures.
 
 ---
 
@@ -158,11 +158,11 @@ Several other publications can help you understand the architecture concepts des
 | How To Use TrueType and OpenType Fonts in an AFP System | G544-5876 (IBM) |
 | Technical Reference for Code Pages | S544-3802 (IBM) |
 
-### Table 4. UP 3I™ Architecture Documentation
+### Table 4. UP3I™ Architecture Documentation
 
 | UP3I Publication | Book Identification |
 | :--- | :--- |
-| Universal Printer Pre- and Post-Processing Interface (UP 3I) Specification | Available at [www.afpcinc.org](http://www.afpcinc.org) |
+| Universal Printer Pre- and Post-Processing Interface (UP3I) Specification | Available at [www.afpcinc.org](http://www.afpcinc.org) |
 
 ---
 

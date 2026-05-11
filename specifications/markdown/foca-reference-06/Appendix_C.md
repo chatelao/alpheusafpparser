@@ -58,4 +58,4 @@ ISO® is a registered trademark of the International Organization for Standardiz
 
 Microsoft® is a registered trademark of the Microsoft Corporation.
 
-UP3I is a trademark of UP 3I Limited.
+UP3I is a trademark of UP3I Limited.

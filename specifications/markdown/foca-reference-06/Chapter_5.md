@@ -15,7 +15,7 @@ This section describes three parameter formats, the parameter types available fo
 
 ### Parameter Formats
 
-FOCA supports a variety of parameter formats, that is, types of syntax. The choice of format depends on the environment where you want to use the font resource. The following are three common formats supported by FOCA. See Chapter 6, “Font Interchange Formats”, on page 111 for more detailed information about the formatting standards necessary to implement FOCA.
+FOCA supports a variety of parameter formats, that is, types of syntax. The choice of format depends on the environment where you want to use the font resource. The following are three common formats supported by FOCA. See Chapter 6, “Font Interchange Formats”, for more detailed information about the formatting standards necessary to implement FOCA.
 
 *   **Fixed-Format**: A fixed-format parameter is defined by its position and length within a string of fixed-format parameters. The variable name and its associated meaning is implied by the position of the parameter in the string.
 *   **Self-Identifying**: A self-identifying parameter has a set of fields that identify the parameter, specify its length, and specify its values.
@@ -58,7 +58,7 @@ The Cap-M Height parameter specifies the height above the baseline for uppercase
 *   **Transformation to ISO/IEC 9541 font architecture:** This parameter corresponds to `capheight` (Capitol Height). It is expressed as a relative rational number.
 
 ### Character Rotation
-The Character Rotation parameter specifies the rotation of the character box relative to the character baseline. Refer to “Units of Direction” on page 36 for an explanation of character rotation.
+The Character Rotation parameter specifies the rotation of the character box relative to the character baseline. Refer to “Units of Direction” for an explanation of character rotation.
 
 *   **Parameter type =** number
 *   **Synonyms =** font character rotation

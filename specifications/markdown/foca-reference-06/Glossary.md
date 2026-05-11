@@ -31,7 +31,7 @@ The following definitions are provided as supporting information only, and are n
 **addressable position.** A position in a presentation space or on a physical medium that can be identified by a coordinate from the coordinate system of the presentation space or physical medium. See also picture element. Synonymous with position.
 
 **Advanced Function Presentation (AFP).** An open architecture for the management of presentable information that is developed by the AFP Consortium (AFPC). AFP comprises a number of data stream and data object architectures:
-*   Mixed Object Document Content (MO:DCA) Architecture; formerly referred to as AFPDS
+*   Mixed Object Document Content Architecture (MO:DCA); formerly referred to as AFPDS
 *   Intelligent Printer Data Stream (IPDS) Architecture
 *   AFP Line Data Architecture
 *   Bar Code Object Content Architecture (BCOCA)

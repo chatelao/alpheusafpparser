@@ -43,7 +43,7 @@ For comparison, the letter i and the letter m are printed below 15 times in both
 
 ### Font Resources
 
-The term **font resource** refers to the collection of code pages and other font information such as FOCA font parameters that are stored in the font library and used by data processing systems. The parameters define the attributes for a particular font. A parameter includes a name by which it can be referenced and a value that defines the attribute. See Chapter 5, “FOCA Parameters”, on page 55 for information about FOCA parameters, including their names, acceptable values, and usages.
+The term **font resource** refers to the collection of code pages and other font information such as FOCA font parameters that are stored in the font library and used by data processing systems. The parameters define the attributes for a particular font. A parameter includes a name by which it can be referenced and a value that defines the attribute. See Chapter 5, “FOCA Parameters”, for information about FOCA parameters, including their names, acceptable values, and usages.
 
 Font resources normally reside in system storage; and the aggregate of stored font information is often called the font library. Font resources can also be resident in a presentation device or control unit. A font resource can be all or only a part of the information pertaining to a particular font.
 
@@ -97,21 +97,21 @@ Figure 7 shows an example of the organization of parameters in the library.
 
 Font-descriptive information identifies and describes a font. The information includes, for example, resource name, family name, typeface name, weight, and supported sizes. The identification of a font resource for use by a system processor requires some or all of this information in the library to ensure access to the correct font. Often, the originator of a document can identify a specific font resource by simply stating the name. But, in large systems that have numerous fonts and in distributed networks where available fonts are not known, listing each desired parameter and letting the system locate a resource that corresponds to the description might provide more accurate font selection. FOCA provides the common parameter definitions necessary to match descriptive information in a font reference to the definitions in a font resource.
 
-Font-descriptive information should be grouped to identify and describe the font resource. See “Font-Description Parameters” on page 56 for a description of each FOCA parameter that carries font-descriptive information.
+Font-descriptive information should be grouped to identify and describe the font resource. See “Font-Description Parameters” for a description of each FOCA parameter that carries font-descriptive information.
 
 ### Font-Metric Information
 
 Font-metric information contains metrics, which is measurement information that defines the height, width, and space for a font or for each character in the font. Font-metric information also includes character-metric information. For example, a font resource might contain the information for the averages or maximums for all of the graphic characters as well as the measurements for each character. This information determines where a character will appear in a presentation space.
 
-Furthermore, the presentation of graphic characters in a top-to-bottom writing mode requires different metric information than for left-to-right writing mode. Therefore, it is necessary to provide multiple groups of metric information for the various writing modes supported by the font resource. The font-metric information in FOCA is grouped by character rotation (see “Character Rotation” on page 47 for the relationship between character rotation and non-Latin writing systems). The metrics can be expressed in the pel resolution of the presentation device that is used to present the font information or in a form that is resolution independent and applicable to all presentation devices.
+Furthermore, the presentation of graphic characters in a top-to-bottom writing mode requires different metric information than for left-to-right writing mode. Therefore, it is necessary to provide multiple groups of metric information for the various writing modes supported by the font resource. The font-metric information in FOCA is grouped by character rotation (see “Character Rotation” for the relationship between character rotation and non-Latin writing systems). The metrics can be expressed in the pel resolution of the presentation device that is used to present the font information or in a form that is resolution independent and applicable to all presentation devices.
 
-Font-metric information must be defined for each rotation supported by the font resource. For good performance, the metric information should be grouped within a font resource. See “Font-Metric Parameters” on page 74 for a description of each FOCA parameter that carries font-metric information and “Character-Metric Parameters” on page 91 for each FOCA parameter that carries character-metric information.
+Font-metric information must be defined for each rotation supported by the font resource. For good performance, the metric information should be grouped within a font resource. See “Font-Metric Parameters” for a description of each FOCA parameter that carries font-metric information and “Character-Metric Parameters” for each FOCA parameter that carries character-metric information.
 
 ### Character-Shape Information
 
 Character-shape information enables the presentation device to create the image of the graphic character. The representation of character shapes in a font resource can be repeated for each supported shape representation technology (bitmaps, vectors, and conic sections). In theory, multiple device-specific representation technologies can be supported by a single font resource (for example, a font resource might include shape data for 240 pel, 300 pel and 600 pel bitmap representations), or a representation technology can be transformed from one to another (for example, vectors might be converted to 240-pel and 300-pel bitmap representations). In practice, most font resources contain the character shape information for a single representation technology.
 
-Character-shape information can be defined once for all rotations supported by the font-metric information, or could be repeated in different font resources for each rotation. For good performance, the shape information should be defined once in a single font resource for all supported rotations. See “Character-Shape Parameters” on page 96 for a description of each FOCA parameter that carries character-shape information.
+Character-shape information can be defined once for all rotations supported by the font-metric information, or could be repeated in different font resources for each rotation. For good performance, the shape information should be defined once in a single font resource for all supported rotations. See “Character-Shape Parameters” for a description of each FOCA parameter that carries character-shape information.
 
 ### Character-Mapping Information
 
@@ -119,7 +119,7 @@ Character-mapping information provides for the association of code points in a d
 
 The characters in a font resource can be defined to support the character content of one or more code pages. Using code pages minimizes processor storage and maximizes the document processing efficiency. That is, when the characters in a font resource are defined independently of the code page intended for support, many different documents, encoded with different code pages, can be presented using a single font resource.
 
-Either a font resource contains the character identifiers and code points for mapping to each supported code page, or the code page definitions are stored separately from the font resource. If the first case is true and the font resource includes code page mappings, those mappings should be stored independently from the font-metric information and character-shape information (for each technology), except for character identifiers. The character-mapping information should be available for each supported code page. See “Character-Mapping Parameters” on page 103 for a description of each FOCA parameter that carries character-mapping information.
+Either a font resource contains the character identifiers and code points for mapping to each supported code page, or the code page definitions are stored separately from the font resource. If the first case is true and the font resource includes code page mappings, those mappings should be stored independently from the font-metric information and character-shape information (for each technology), except for character identifiers. The character-mapping information should be available for each supported code page. See “Character-Mapping Parameters” for a description of each FOCA parameter that carries character-mapping information.
 
 ## Using Digitized Fonts
 
@@ -151,7 +151,7 @@ Font storage requires a method of addressing two factors:
 
 To create font resources that are more accessible for application use, the data can be stored as logical units rather than as a single, comprehensive font file. Logical units permit each system component or application program to access only those font elements they require, and might have the additional benefit of minimizing costly license payments that apply to other logical elements that the application doesn't require.
 
-For example, a formatting application needs the font metric information that is available free to any using application, but does not require the licensed shape information that is required by a presentation device. many require font-metric information in addition. The following are some uses of font information as logical blocks:
+For example, a formatting application needs the font metric information that is available free to any using application, but does not require the licensed shape information that is required by a presentation device. Other applications may require font-metric information in addition. The following are some uses of font information as logical blocks:
 *   Network-distributed libraries that have database access communicate over the network.
 *   Host-system libraries that have shared data access or a resource-management program interface to any attached device or workstation application.
 *   Workstation-resident libraries or collections of files shared by users run in that or another workstation.
