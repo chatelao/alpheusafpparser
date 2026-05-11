@@ -330,12 +330,18 @@ public class UtilCharacterEncoding {
    * @return The corresponding Charset, or null if not found.
    */
   public static Charset getCharsetFromCodePageName(String cpName) {
-    if (cpName == null || cpName.length() < 8) {
+    if (cpName == null) {
+      return null;
+    }
+    cpName = cpName.trim();
+    if (cpName.isEmpty()) {
       return null;
     }
     String cpNumStr = null;
     if (cpName.startsWith("T1V10")) {
       cpNumStr = cpName.substring(5).trim();
+    } else if (cpName.startsWith("T10")) {
+      cpNumStr = cpName.substring(3).trim();
     } else if (cpName.startsWith("T1")) {
       // Common pattern is T1xxxxxx where last digits are the code page.
       // We try to take all digits from the end.
