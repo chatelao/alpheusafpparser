@@ -30,6 +30,8 @@ import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.foca.CPC_CodePageControl;
 import com.mgz.afp.foca.CPD_CodePageDescriptor;
 import com.mgz.afp.foca.FNC_FontControl;
+import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
+import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
@@ -280,6 +282,10 @@ public class AFPParser {
             parserConf.setCurrentPageControl((CPC_CodePageControl) sf);
           } else if (sf instanceof BDD_BarCodeDataDescriptor) {
             parserConf.setCurrentBarCodeDataDescriptor((BDD_BarCodeDataDescriptor) sf);
+          } else if (sf instanceof MCF_MapCodedFont_Format1) {
+            handleMCF1((MCF_MapCodedFont_Format1) sf);
+          } else if (sf instanceof MCF_MapCodedFont_Format2) {
+            handleMCF2((MCF_MapCodedFont_Format2) sf);
           } else if (sf instanceof MDR_MapDataResource) {
             handleMDR((MDR_MapDataResource) sf);
           }
@@ -328,6 +334,51 @@ public class AFPParser {
     throw afpExc;
   }
 
+  private void handleMCF1(MCF_MapCodedFont_Format1 mcf1) {
+    if (mcf1.getRepeatingGroups() == null) {
+      return;
+    }
+    for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
+      if (rg.getCodePageName() != null) {
+        java.nio.charset.Charset cs = UtilCharacterEncoding.getCharsetFromCodePageName(rg.getCodePageName());
+        if (cs != null) {
+          parserConf.addCodedFontCharsetMapping(rg.getCodedFontLocalID(), cs);
+        }
+      }
+    }
+  }
+
+  private void handleMCF2(MCF_MapCodedFont_Format2 mcf2) {
+    if (mcf2.getRepeatingGroups() == null) {
+      return;
+    }
+    for (IRepeatingGroup rg : mcf2.getRepeatingGroups()) {
+      if (rg instanceof IHasTriplets) {
+        List<Triplet> triplets = ((IHasTriplets) rg).getTriplets();
+        Short lid = null;
+        java.nio.charset.Charset cs = null;
+        if (triplets != null) {
+          for (Triplet t : triplets) {
+            if (t instanceof Triplet.ResourceLocalIdentifier) {
+              Triplet.ResourceLocalIdentifier rli = (Triplet.ResourceLocalIdentifier) t;
+              if (rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+                lid = rli.getResourceLocalID();
+              }
+            } else if (t instanceof Triplet.FullyQualifiedName) {
+              Triplet.FullyQualifiedName fqn = (Triplet.FullyQualifiedName) t;
+              if (fqn.getType() == Triplet.GlobalID_Use.CodePageNameReference) {
+                cs = UtilCharacterEncoding.getCharsetFromCodePageName(fqn.getNameAsString());
+              }
+            }
+          }
+        }
+        if (lid != null && cs != null) {
+          parserConf.addCodedFontCharsetMapping(lid, cs);
+        }
+      }
+    }
+  }
+
   private void handleMDR(MDR_MapDataResource mdr) {
     if (mdr.getRepeatingGroups() == null) {
       return;
@@ -335,18 +386,28 @@ public class AFPParser {
     for (IRepeatingGroup rg : mdr.getRepeatingGroups()) {
       if (rg instanceof IHasTriplets) {
         List<Triplet> triplets = ((IHasTriplets) rg).getTriplets();
+        Short lid = null;
+        java.nio.charset.Charset cs = null;
         if (triplets != null) {
           for (Triplet t : triplets) {
-            if (t instanceof Triplet.FullyQualifiedName) {
+            if (t instanceof Triplet.ResourceLocalIdentifier) {
+              Triplet.ResourceLocalIdentifier rli = (Triplet.ResourceLocalIdentifier) t;
+              if (rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+                lid = rli.getResourceLocalID();
+              }
+            } else if (t instanceof Triplet.FullyQualifiedName) {
               Triplet.FullyQualifiedName fqn = (Triplet.FullyQualifiedName) t;
               if (fqn.getType() == Triplet.GlobalID_Use.CodePageNameReference) {
-                java.nio.charset.Charset cs = UtilCharacterEncoding.getCharsetFromCodePageName(fqn.getNameAsString());
+                cs = UtilCharacterEncoding.getCharsetFromCodePageName(fqn.getNameAsString());
                 if (cs != null) {
                   parserConf.setAfpCharSet(cs);
                 }
               }
             }
           }
+        }
+        if (lid != null && cs != null) {
+          parserConf.addCodedFontCharsetMapping(lid, cs);
         }
       }
     }

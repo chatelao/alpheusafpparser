@@ -271,7 +271,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ⏳ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
 - ⏳ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
     - ⏳ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
-    - ⏳ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
+    - ✅ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
     - ⏳ Implement heuristic validation for EBCDIC human-readability.
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
@@ -319,10 +319,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - ⏳ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
 - 🚧 Stateful Encoding and Character Set Resolution:
-    - ⏳ Implement `FontManager` or similar context in `AFPParser` to track stateful LID-to-Charset bindings.
-    - ⏳ Update `AFPParserConfiguration` to maintain a registry of active Coded Font Local Identifiers (LIDs).
-    - ⏳ Implement "Blind Execution" logic for `PTX` streams to dynamically switch active Charset upon `SCFL` (Set Coded Font Local) commands.
-    - ⏳ Fix hardcoded `cp500` defaults in `getText()` methods for GOCA, BCOCA, IOCA, and FOCA.
+    - ✅ Implement context in `AFPParser` to track stateful LID-to-Charset bindings.
+    - ✅ Update `AFPParserConfiguration` to maintain a registry of active Coded Font Local Identifiers (LIDs).
+    - ✅ Implement logic for `PTX` streams to dynamically switch active Charset upon `SCFL` (Set Coded Font Local) commands.
+    - 🚧 Fix hardcoded `cp500` defaults in `getText()` methods for GOCA, BCOCA, IOCA, and FOCA (PTOCA/PTX fixed).
 - 🚧 Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
     - 🚧 Fix PTOCA Text Visibility Gaps (see `PTOCA_GAP.md`):
         - ✅ Support **free-standing graphic characters** interleaved with control sequences in `PTX`.
