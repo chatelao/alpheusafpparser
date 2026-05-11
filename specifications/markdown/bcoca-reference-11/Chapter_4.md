@@ -3852,64 +3852,18 @@ MaxiCode Special-Function Parameters
 
 PDF417 Special-Function Parameters
 Table 30. PDF417 Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported in
-BCD1 B'0'
-B'1'
-bits 2–7 B'000000' Reserved B'000000' B'000000'
-6 UBIN Data
-symbols
-X'01' – X'1E' Number of data symbol
-characters per row
-Not supported in
-BCD1
-X'01' – X'1E'
-7 UBIN Rows X'03' – X'5A'
-X'FF'
-Desired number of rows
-Minimum necessary rows
-Not supported in
-BCD1
-X'03' – X'5A'
-X'FF'
-8 UBIN Security X'00' – X'08' Security level Not supported in
-BCD1
-X'00' – X'08'
-9–10 UBIN Macro
-length
-X'0000' –
-X'7FED'
-Length of Macro PDF417
-Control Block that follows
-Not supported in
-BCD1
-X'0000' –
-X'7FED'
-11–n UBIN Macro
-data
-Any value Data for a Macro PDF417
-Control Block
-Not supported in
-BCD1
-Any value
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | |
+| | | bit 0 | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>• Do not translate<br>• Convert data to ASCII | | B'0'<br>B'1' |
+| | | bit 1 | B'0'<br>B'1' | Escape-sequence handling:<br>• Process escape sequences<br>• Ignore all escape sequences | | B'0'<br>B'1' |
+| | | bits 2–7 | B'000000' | Reserved | B'000000' | B'000000' |
+| 6 | UBIN | Data symbols | X'01'–X'1E' | Number of data symbol characters per row | Not supported in BCD1 | X'01'–X'1E' |
+| 7 | UBIN | Rows | X'03'–X'5A'<br>X'FF' | Desired number of rows<br>Minimum necessary rows | Not supported in BCD1 | X'03'–X'5A'<br>X'FF' |
+| 8 | UBIN | Security | X'00'–X'08' | Security level | Not supported in BCD1 | X'00'–X'08' |
+| 9–10 | UBIN | Macro length | X'0000'–X'7FED' | Length of Macro PDF417 Control Block that follows | Not supported in BCD1 | X'0000'–X'7FED' |
+| 11–n | UBIN | Macro data | Any value | Data for a Macro PDF417 Control Block | Not supported in BCD1 | Any value |
 Byte 5 Control flags
 These flags control how the bar code data is processed by the BCOCA receiver; the receiver
 can be an IPDS printer or any other product that processes BCOCA objects.

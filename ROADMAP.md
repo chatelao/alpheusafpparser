@@ -141,7 +141,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapter 4: Tables 26–27 (Han Xin Code).
         - ⏳ Chapter 4: Table 28 (Intelligent Mail Package Barcode).
         - ⏳ Chapter 4: Table 29 (MaxiCode).
-        - ⏳ Chapter 4: Table 30 (PDF417).
+        - ✅ Chapter 4: Table 30 (PDF417).
         - ⏳ Chapter 4: Tables 31–33 (QR Code and QR Code with Image).
         - ✅ Chapter 4: Table 34 (Code Pages and Type Styles).
         - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 1: Symbologies X'01'–X'11'.
