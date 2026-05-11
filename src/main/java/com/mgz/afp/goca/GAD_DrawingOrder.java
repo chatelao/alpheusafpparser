@@ -166,6 +166,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
     byte[] comment;
+    String text;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -174,6 +175,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
       comment = new byte[lengthOfFollowingData];
       System.arraycopy(sfData, offset + 2, comment, 0, comment.length);
+      if (UtilCharacterEncoding.isHumanReadable(comment, config.getAfpCharSet())) {
+        text = new String(comment, config.getAfpCharSet());
+      }
     }
 
     @Override
@@ -204,10 +208,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(comment, Constants.cpIBM500)) {
-        return new String(comment, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
   }
 
@@ -1048,6 +1049,10 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       characterSetLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      java.nio.charset.Charset cs = config.getCharsetForLID(characterSetLocalID);
+      if (cs != null) {
+        config.setAfpCharSet(cs);
+      }
     }
 
     @Override
@@ -1241,6 +1246,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
     byte[] data;
+    String text;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1249,6 +1255,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
       data = new byte[lengthOfFollowingData];
       System.arraycopy(sfData, offset + 2, data, 0, data.length);
+      if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+        text = new String(data, config.getAfpCharSet());
+      }
     }
 
     @Override
@@ -1267,10 +1276,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(data, Constants.cpIBM500)) {
-        return new String(data, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
 
     /**
@@ -1472,6 +1478,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
     byte[] codePoints;
+    String text;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1481,8 +1488,12 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 0) {
         codePoints = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 2, codePoints, 0, codePoints.length);
+        if (UtilCharacterEncoding.isHumanReadable(codePoints, config.getAfpCharSet())) {
+          text = new String(codePoints, config.getAfpCharSet());
+        }
       } else {
         codePoints = null;
+        text = null;
       }
 
     }
@@ -1520,10 +1531,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(codePoints, Constants.cpIBM500)) {
-        return new String(codePoints, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
   }
 
@@ -2242,6 +2250,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     GOCA_Point originPoint;
     @AFPField(isOptional = true, maxSize = 255 - 4)
     byte[] codePoints;
+    String text;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2254,8 +2263,12 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 4) {
         codePoints = new byte[lengthOfFollowingData - 4];
         System.arraycopy(sfData, offset + 6, codePoints, 0, codePoints.length);
+        if (UtilCharacterEncoding.isHumanReadable(codePoints, config.getAfpCharSet())) {
+          text = new String(codePoints, config.getAfpCharSet());
+        }
       } else {
         codePoints = null;
+        text = null;
       }
     }
 
@@ -2302,10 +2315,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      if (UtilCharacterEncoding.isHumanReadable(codePoints, Constants.cpIBM500)) {
-        return new String(codePoints, Constants.cpIBM500);
-      }
-      return null;
+      return text;
     }
   }
 

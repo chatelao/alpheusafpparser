@@ -35,20 +35,11 @@ import java.nio.charset.Charset;
 public class StructuredFieldBaseData extends StructuredField {
   @AFPField(maxSize = 32759)
   protected byte[] data;
+  protected String text;
 
   @XmlElement(name = "text")
   public String getText() {
-    if (data == null || data.length == 0) {
-      return null;
-    }
-    Charset charset = Constants.cpIBM500;
-    if (getStructuredFieldIntroducer() != null && getStructuredFieldIntroducer().getActualConfig() != null) {
-      charset = getStructuredFieldIntroducer().getActualConfig().getAfpCharSet();
-    }
-    if (UtilCharacterEncoding.isHumanReadable(data, charset)) {
-      return new String(data, charset);
-    }
-    return null;
+    return text;
   }
 
   @Override
@@ -57,8 +48,12 @@ public class StructuredFieldBaseData extends StructuredField {
     if (actualLength > 0) {
       data = new byte[actualLength];
       System.arraycopy(sfData, offset, data, 0, actualLength);
+      if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+        text = new String(data, config.getAfpCharSet());
+      }
     } else {
       data = null;
+      text = null;
     }
   }
 

@@ -60,7 +60,7 @@ public class CPI_CodePageIndex extends StructuredField {
       while (pos < actualLength) {
 
         CPI_RepeatingGroup cpirg = new CPI_RepeatingGroup();
-        cpirg.graphicCharacterGID = new String(sfData, offset + pos, 8, cpIBM500);
+        cpirg.graphicCharacterGID = new String(sfData, offset + pos, 8, config.getAfpCharSet());
         cpirg.graphicCharacterUseFlags = GraphicCharacterUseFlag.valueOf(sfData[offset + pos + 8] & 0xFF);
         cpirg.codePoint = UtilBinaryDecoding.parseInt(sfData, offset + pos + 9, nrOfBytes);
 
@@ -98,7 +98,7 @@ public class CPI_CodePageIndex extends StructuredField {
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     for (CPI_RepeatingGroup rg : repeatingGroups) {
-      baos.write(UtilCharacterEncoding.stringToByteArray(rg.graphicCharacterGID, cpIBM500, 8, Constants.EBCDIC_ID_FILLER));
+      baos.write(UtilCharacterEncoding.stringToByteArray(rg.graphicCharacterGID, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
       baos.write(GraphicCharacterUseFlag.toByte(rg.graphicCharacterUseFlags));
       baos.write(UtilBinaryDecoding.intToByteArray(rg.codePoint, nrOfBytes));
       if (cpiRGLen.isUnicodeScalarValues()) {

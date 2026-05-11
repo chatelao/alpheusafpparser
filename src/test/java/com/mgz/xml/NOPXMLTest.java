@@ -14,14 +14,16 @@ import static org.junit.Assert.assertFalse;
 public class NOPXMLTest {
 
     @Test
-    public void testNOPXMLWithText() throws JAXBException {
-        NOP_NoOperation nop = new NOP_NoOperation();
+    public void testNOPXMLWithText() throws Exception {
         String text = "Hello World";
         byte[] data = text.getBytes(Charset.forName("cp500"));
-        nop.setData(data);
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        NOP_NoOperation nop = new NOP_NoOperation();
+        nop.decodeAFP(data, 0, data.length, config);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(baos, nop, new AFPParserConfiguration());
+        AFP2XMLWriter.writeXML(baos, nop, config);
 
         String xml = baos.toString();
         System.out.println(xml);

@@ -52,6 +52,7 @@ public class BDA_BarCodeData extends StructuredField {
   ParametersData parametersData;
   @AFPField(isOptional = true, maxSize = 32759 - 5)
   byte[] barCodeData;
+  String text;
 
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     BDD_BarCodeDataDescriptor associatedBarCodeDataDescriptor = config.getCurrentBarCodeDataDescriptor();
@@ -85,8 +86,12 @@ public class BDA_BarCodeData extends StructuredField {
     if (actualLength > (5 + parameterDataLength)) {
       barCodeData = new byte[actualLength - (5 + parameterDataLength)];
       System.arraycopy(sfData, offset + (5 + parameterDataLength), barCodeData, 0, barCodeData.length);
+      if (UtilCharacterEncoding.isHumanReadable(barCodeData, config.getAfpCharSet())) {
+        text = new String(barCodeData, config.getAfpCharSet());
+      }
     } else {
       barCodeData = new byte[0];
+      text = null;
     }
   }
 
@@ -149,10 +154,7 @@ public class BDA_BarCodeData extends StructuredField {
 
   @XmlElement(name = "text")
   public String getText() {
-    if (UtilCharacterEncoding.isHumanReadable(barCodeData, Constants.cpIBM500)) {
-      return new String(barCodeData, Constants.cpIBM500);
-    }
-    return null;
+    return text;
   }
 
   public enum BarCodeFlag {

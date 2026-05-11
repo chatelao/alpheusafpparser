@@ -8,33 +8,33 @@ This report evaluates the current state of encoding and character set support in
 
 A critical testing gap exists in the verification of text extraction when using non-standard or state-switched character sets. Currently, many human-readable text sources in the codebase hardcode EBCDIC International (IBM-500) or rely on a global configuration that does not respect the stateful LID-to-Charset mapping defined by the AFP architecture.
 
-### 1.1. Hardcoded IBM-500 Defaults
-The following classes hardcode `Constants.cpIBM500` in their `getText()` methods, making them likely to fail when processing data in other encodings (e.g., German IBM-273):
-*   **GOCA**: `GCOMT_Comment`, `GCCHST_CharacterStringAtCurrentPosition`, `GCHST_CharacterStringAtGivenPosition`.
+### 1.1. Hardcoded IBM-500 Defaults (Resolved)
+The hardcoded `Constants.cpIBM500` defaults in `getText()` methods have been resolved. The following classes now use the stateful `config.getAfpCharSet()`:
+*   **GOCA**: `GCOMT_Comment`, `GCCHST_CharacterStringAtCurrentPosition`, `GCHST_CharacterStringAtGivenPosition`, `GEAR_EndArea`.
 *   **BCOCA**: `BDA_BarCodeData` (human-readable portion).
 *   **IOCA**: `UnknownSegmentLong`, `UnknownSegmentExtended`.
 *   **FOCA**: `CPD_CodePageDescriptor`, `FND_FontDescriptor` (descriptors/descriptions).
 *   **PTOCA**: `Undefined` control sequence, `NOP_NoOperation`.
 
-### 1.2. Global vs. Stateful Charset Gaps
-Many classes use `config.getAfpCharSet()`, which defaults to IBM-500. While this is configurable, the parser lacks the **"Blind Execution" logic** required to dynamically switch the active Charset based on encountering dynamic font activation commands.
-*   **PTOCA Stateful Gaps**: `TRN_TransparentData` and `GraphicCharacters` currently use the global config. They must be tested with dynamic switching via `SCFL` (Set Coded Font Local) commands that point to `MCF` (Map Coded Font) declarations.
-*   **MO:DCA Triplets**: `FullyQualifiedName`, `AttributeValue`, `Comment`, and `ObjectClassification` all rely on the global configuration.
-*   **Line Data**: `FDX_FixedDataText` and `CCP_RepeatingGroup` (comparison strings) rely on the global configuration.
-*   **Base Classes**: `StructuredFieldBaseName` (for all Named SFs like BPG, BNG, etc.) uses the global configuration.
+### 1.2. Global vs. Stateful Charset Gaps (Mostly Resolved)
+The parser now supports **"Blind Execution" logic** to dynamically switch the active Charset based on encountering dynamic font activation commands.
+*   **PTOCA Stateful Switching**: `TRN_TransparentData` and `GraphicCharacters` now correctly switch encodings based on `SCFL` (Set Coded Font Local) commands. Verified by `StatefulEncodingTest.java`.
+*   **GOCA Stateful Switching**: `GSCS_SetCharacterSet` drawing orders now dynamically update the parser's active charset using the LID-to-Charset mapping.
+*   **MO:DCA Triplets**: `FullyQualifiedName`, `AttributeValue`, `Comment`, and `ObjectClassification` use the global configuration, which now tracks state during PTOCA/GOCA parsing.
+*   **Line Data**: `FDX_FixedDataText` and `CCP_RepeatingGroup` (comparison strings) rely on the configuration.
+*   **Base Classes**: `StructuredFieldBaseName` (for all Named SFs like BPG, BNG, etc.) uses the stateful configuration.
 
 ### 1.3. Multi-Byte and UTF-16BE Verification
 While `UCT_UnicodeComplexText` and `CMR_ColorManagementResource` use `UTF-16BE`, coverage for these is minimal.
 *   **Gap**: No tests verify that mixed-encoding streams (e.g., EBCDIC PTX followed by UTF-16BE UCT) are extracted correctly into XML.
 
-### 1.4. Text Extraction Heuristics
-The library recently added `MDRPTXXMLTest.java` to verify that `MDR` structured fields correctly influence the Charset used for subsequent `PTX` text extraction.
-*   **Gap:** This stateful logic needs to be extended to support `SCFL` (Set Coded Font Local) commands within the `PTX` stream itself, which dynamically switches fonts/encodings.
+### 1.4. Text Extraction Heuristics (Resolved)
+The library uses `MDRPTXXMLTest.java` to verify that `MDR` structured fields influence text extraction, and `StatefulEncodingTest.java` to verify that `SCFL` (Set Coded Font Local) commands within the `PTX` stream dynamically switch encodings.
 
 ### 1.5. Recommendations for Encoding Testing
 1.  **Cross-Encoding Test Suite**: Create a test suite that processes the same logical text (e.g., "München") encoded in multiple Code Pages (IBM-500, IBM-273, IBM-1141) and verifies the XML `<text>` output is identical and correctly decoded.
-2.  **LID-to-Charset Round-Trip**: Implement a test that uses `MCF` to map LID 1 to IBM-273 and LID 2 to IBM-500, then verifies that `SCFL` switches in `PTX` result in correct character resolution (e.g., byte `X'C0'` resolving to `ä` or `{` respectively).
-3.  **Heuristic Validation**: Test `UtilCharacterEncoding.isHumanReadable` against various non-English EBCDIC strings to ensure it doesn't incorrectly flag them as binary.
+2.  **LID-to-Charset Round-Trip (Resolved)**: Implemented in `StatefulEncodingTest.java`.
+3.  **Heuristic Validation (Resolved)**: `UtilCharacterEncoding.isHumanReadable` has been updated to correctly account for EBCDIC control characters like Next Line (NEL).
 
 ---
 
@@ -56,10 +56,16 @@ The logic described involves a decoupled resolution chain:
 | **MCF Format 2** | ✅ Implemented | `MCF_MapCodedFont_Format2` |
 | **Triplet X'02' Type X'85'** | ✅ Implemented | `Triplet.FullyQualifiedName` with `GlobalID_Use.CodePageNameReference` |
 | **SCFL Control Sequence** | ✅ Implemented | `PTOCAControlSequence.SCFL_SetCodedFontLocal` |
-| **Stateful Binding** | ❌ Missing | `AFPParserConfiguration` does not track LID-to-Charset mappings. |
-| **Dynamic Resolution** | ❌ Missing | `PTX` and `TRN` decoding does not switch encodings based on `SCFL`. |
+| **Stateful Binding** | ✅ Implemented | `AFPParserConfiguration` now tracks LID-to-Charset mappings. |
+| **Dynamic Resolution** | ✅ Implemented | `PTX` and `TRN` decoding switches encodings based on `SCFL`. |
 
-### 2.2. Syntax & Hex ID Discrepancies
+### 2.2. Verification & Testing
+
+The stateful encoding logic has been verified by the following tests:
+*   `StatefulEncodingTest.java`: Validates that `SCFL` correctly switches between IBM-273 and IBM-500 charsets within a `PTX` stream, ensuring byte `X'C0'` resolves to `ä` and `{` respectively.
+*   `MDRPTXXMLTest.java`: Verifies that `MDR` structured fields correctly influence the charset used for subsequent `PTX` text extraction.
+
+### 2.3. Syntax & Hex ID Discrepancies
 
 #### SCFL Hex ID
 The provided logic references **SCFL (X'D2')**. However, according to the **PTOCA Reference (AFPC-0005-04)** and the current implementation, the correct Function Type for **Set Coded Font Local (SCFL)** is **`X'F0'`** (or `X'F1'` if chained).
@@ -98,14 +104,12 @@ A reported issue confirmed that German text in a `TRN_TransparentData` control s
 **Resulting String (IBM-500):** `F}r Sie pers¦nlich zust{ndig:`
 **Resulting String (IBM-273):** `Für Sie persönlich zuständig:`
 
-This case confirms the gap identified in Section 1.2: `TRN_TransparentData` relies on the global configuration and does not yet participate in the stateful "Blind Execution" logic required for correct localized text extraction.
+This case study is now **Resolved**. `TRN_TransparentData` and `GraphicCharacters` now participate in the stateful "Blind Execution" logic.
 
 #### Engine Behavior
-Currently, the `getText()` methods in `TRN_TransparentData` and `GraphicCharacters` rely on:
-1.  A hardcoded default (often `cp500`).
-2.  The global `afpCharSet` configured in `AFPParserConfiguration`.
+The `getText()` methods in `TRN_TransparentData` and `GraphicCharacters` now correctly utilize:
+1.  The stateful `afpCharSet` configured in `AFPParserConfiguration`.
+2.  The "Blind Execution" logic where the engine dynamically switches the Charset based on the most recently encountered `SCFL` (PTOCA) or `GSCS` (GOCA) command and its associated `MCF` or `MDR` declaration.
 
-**The engine does not yet implement the "Blind Execution" logic** where it would dynamically switch the Charset based on the most recently encountered `SCFL` command and its associated `MCF` declaration.
-
-### 2.4. Gap Summary
-While the structural components (MCF, SCFL, FQN) are successfully parsed into an object model, the **semantic link** between them is not enforced during text extraction. To achieve the described logic, the `AFPParser` would need to maintain a stateful `FontManager` or similar context that updates the active `Charset` for the `PTX` parser upon encountering `SCFL`.
+### 2.4. Gap Summary (Resolved)
+The **semantic link** between MCF/MDR declarations and subsequent data stream commands (SCFL, GSCS) is now enforced during text extraction. `AFPParserConfiguration` maintains a `codedFontLocalIdToCharsetMap` that is utilized by both the PTOCA and GOCA parsers to ensure correct localized text resolution.

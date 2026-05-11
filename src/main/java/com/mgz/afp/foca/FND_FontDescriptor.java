@@ -87,7 +87,7 @@ public class FND_FontDescriptor extends StructuredField {
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     checkDataLength(sfData, offset, length, 80);
 
-    typefaceDescription = new String(sfData, offset, 32, cpIBM500);
+    typefaceDescription = new String(sfData, offset, 32, config.getAfpCharSet());
 
     fontWeightClass = FontWeightClass.valueOf(sfData[offset + 32]);
     fontWidthClass = FontWidthClass.valueOf(sfData[offset + 33]);
@@ -129,7 +129,7 @@ public class FND_FontDescriptor extends StructuredField {
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-    baos.write(UtilCharacterEncoding.stringToByteArray(typefaceDescription, cpIBM500, 32, Constants.EBCDIC_BLANK));
+    baos.write(UtilCharacterEncoding.stringToByteArray(typefaceDescription, config.getAfpCharSet(), 32, Constants.EBCDIC_BLANK));
     baos.write(fontWeightClass.toByte());
     baos.write(fontWidthClass.toByte());
     baos.write(UtilBinaryDecoding.shortToByteArray(maxVerticalSize, 2));

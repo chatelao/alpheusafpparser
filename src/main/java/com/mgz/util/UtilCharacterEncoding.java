@@ -206,7 +206,9 @@ public class UtilCharacterEncoding {
     int printableCount = 0;
     for (int i = 0; i < decoded.length(); i++) {
       char c = decoded.charAt(i);
-      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t') {
+      // We count printable characters and common whitespace/control characters as human-readable.
+      // EBCDIC Next Line (NEL) is U+0085.
+      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
         printableCount++;
       }
     }
