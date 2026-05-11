@@ -5014,8 +5014,9 @@ The length of the XOA-APA command can be:
 Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'1000' Activate Printer Alarm (APA) order code X'1000'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'1000' | Activate Printer Alarm (APA) order code | X'1000' |
 
 
 XOA Alternate Offset Stacker
@@ -5041,8 +5042,9 @@ not support offset stacking is selected, all XOA-AOS commands are ignored for th
 For some printers, alternate offset stacking cannot be combined with a finishing operation. In this case, if the
 XOA-AOS command conflicts with the finishing operation, the XOA-AOS command is ignored and the finishing
 operation is performed.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0A00' Alternate Offset Stacker (AOS) order code X'0A00'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0A00' | Alternate Offset Stacker (AOS) order code | X'0A00' |
 
 
 XOA Control Edge Marks
@@ -5092,30 +5094,14 @@ XOA-DBD command, XOA-DUP command, or exception is the same as the number of edge
 bottom of the last sheet that was committed for printing.
 Any blank sheets generated internally by the printer due to an XOH Eject to Front Facing command do not
 contain any edge marks.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0C00' Control Edge Marks (CEM) order code X'0C00'
-2 CODE Edgemark
-X'00'
-X'01'
-X'F1'
-X'F2'
-X'F3'
-X'FE'
-Edge Mark:
-Inhibit (default)
-Continue
-One edge mark
-Two edge marks
-Three edge marks
-Alternate
-X'00'
-X'01'
-X'F1'
-X'F2'
-X'F3'
-X'FE'
-Bytes 0–1 Control Edge Marks order code
-Byte 2 Edge Mark
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0C00' | Control Edge Marks (CEM) order code | X'0C00' |
+| 2 | CODE | Edgemark | | Edge Mark:<br>X'00' Inhibit (default)<br>X'01' Continue<br>X'F1' One edge mark<br>X'F2' Two edge marks<br>X'F3' Three edge marks<br>X'FE' Alternate | |
+
+**Bytes 0–1 Control Edge Marks order code**
+
+**Byte 2 Edge Mark**
 X'00' Inhibit—stop printing edge marks.
 If edge marks are currently inhibited, this parameter has no effect. If this command
 has not been received by the printer, inhibit is used.
@@ -5176,8 +5162,9 @@ therefore, the next page received from the host is considered part of the group.
 Note: The Discard Buffered Data order is a synchronizing command. Any command following a synchronizing
 command is not processed until all preceding commands have been completely processed. Also, the
 ACK of the DBD order is not returned until DBD processing is complete.
-Offset Type Name Range Meaning DC1 Range
-0–1 CODE Order code X'F200' Discard Buffered Data (DBD) order code X'F200'
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'F200' | Discard Buffered Data (DBD) order code | X'F200' |
 
 
 XOA Discard Unstacked Pages
@@ -5201,8 +5188,9 @@ therefore, the next page received from the host is considered part of the group.
 Note: The XOA Discard Unstacked Pages command is a synchronizing command. Any command following a
 synchronizing command is not processed until all preceding commands have been completely
 processed. Also, the ACK of the DUP order is not returned until DUP processing is complete.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'F500' Discard Unstacked Pages (DUP) order code X'F500'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'F500' | Discard Unstacked Pages (DUP) order code | X'F500' |
 
 
 XOA Exception-Handling Control
@@ -5915,8 +5903,9 @@ XOA Mark Form command can cause printing to occur outside the user printable are
 Note: A printer may optionally mark the current (or next) sheet and also the following sheet to provide for better
 visibility. The marks are not made on sheets created by any IPDS command that causes an Eject to
 Front Facing or on sheets created by a hardware nonprocess runout (NPRO).
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0800' Mark Form (MF) order code X'0800'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0800' | Mark Form (MF) order code | X'0800' |
 
 
 XOA Obtain Additional Exception Information
@@ -5946,10 +5935,9 @@ information flag in the Acknowledge Reply can be set—only if the printer is re
 OAEI command to retrieve that information.
 Support for this optional command is indicated by the X'80F9' property pair in the Device-Control command-set
 vector in an STM reply.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'F900' Obtain Additional Exception Information
-(OAEI) order code
-X'F900'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'F900' | Obtain Additional Exception Information (OAEI) order code | X'F900' |
 
 
 OAEI Reply
@@ -5961,32 +5949,19 @@ of each individual Acknowledge Reply continues where the previous Acknowledge Re
 the OAEI reply are repeated. Each Acknowledge Reply will have the additional-information flag set to B'0'.
 Such Acknowledge Replies can be split at any byte boundary.
 The special data area of an OAEI reply has the following format:
-Offset Type Name Range Meaning
-0–3 UBIN Length X'00000006'
-X'0000000B' –
-X'FFFFFFFF'
-No additional exception information available
-Length of data, including this length field
-4–5 Reserved X'0000' Reserved
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–3 | UBIN | Length | X'00000006'<br>X'0000000B'–X'FFFFFFFF' | No additional exception information available<br>Length of data, including this length field |
+| 4–5 | | Reserved | X'0000' | Reserved |
+
 Zero or more entries in the following format:
-+ 0–3 UBIN Entry Length X'00000005' –
-X'FFFFFFFA'
-Length of the entry, including this length field
-+ 4 CODE Format
-X'01'
-Format of the additional information:
-Unarchitected text
-+ 5 to
-end of
-entry
-Additional
-information
-See format
-descriptions
-below
-Additional exception information
-The syntax for this field is specific to the format code;
-refer to the byte descriptions below for specific syntax.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–3 | UBIN | Entry Length | X'00000005'–X'FFFFFFFA' | Length of the entry, including this length field |
+| + 4 | CODE | Format | X'01' | Format of the additional information: Unarchitected text |
+| + 5 to end of entry | | Additional information | See format descriptions below | Additional exception information. The syntax for this field is specific to the format code; refer to the byte descriptions below for specific syntax. |
 Bytes 0–3 Length
 This field contains the total length of the data, including the length field itself. This length might
 be more than can be contained in the special data area of one Acknowledge Reply, in which
@@ -6010,17 +5985,12 @@ This field contains the additional exception information, in the format specifie
 in entry byte 4. The possible formats are described just below.
 Additional Exception Information Format X'01'
 Format X'01' is used to return additional exception information as unarchitected text.
-Offset Type Name Range Meaning
-+ 5 CODE Encoding
-X'01'
-The encoding used in the text-information field
-UTF-16BE
-+ 6–7 Reserved X'0000' Reserved
-+ 8 to
-end of
-entry
-Text information Any valid text Unarchitected text containing the additional exception
-information
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 5 | CODE | Encoding | X'01' | The encoding used in the text-information field: UTF-16BE |
+| + 6–7 | | Reserved | X'0000' | Reserved |
+| + 8 to end of entry | | Text information | Any valid text | Unarchitected text containing the additional exception information |
 
 
 XOA Print-Quality Control
@@ -6044,10 +6014,13 @@ without changing the code page. Refer to “XOA Exception-Handling Control” fo
 AEAs.
 This order affects only the presentation of page data; it has no effect on the downloading of resources such as
 fonts, overlays, or page segments. The format of the PQC order is as follows:
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'F800' Print-Quality Control (PQC) order code X'F800'
-2 UBIN Quality level X'01'–X'FF' Print-quality level X'01'–X'FF'
-Bytes 0–1 PQC order code
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'F800' | Print-Quality Control (PQC) order code | X'F800' |
+| 2 | UBIN | Quality level | X'01'–X'FF' | Print-quality level | X'01'–X'FF' |
+
+**Bytes 0–1 PQC order code**
 Byte 2 Print-quality level
 Quality levels are specified on a relative scale as follows:
 X'01' = lowest quality level
@@ -6092,73 +6065,41 @@ are discarded; preceding entries remain in effect. Exception ID X'0291..02' exis
 of this exception is optional.
 Offset Type Name Range Meaning DC1 Range
 0–1 CODE Order code X'F400' Request Resource List order code X'F400'
-2 CODE Query type X'05'
-X'FF', X'00'
-Activation query, multiple entries optional
-General query, single entry only X'FF'
-3–4 CODE Continue Any value Entry-continuation indicator Any value
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'F400' | Request Resource List order code | X'F400' |
+| 2 | CODE | Query type | X'05'<br>X'FF', X'00' | Activation query, multiple entries optional<br>General query, single entry only X'FF' | |
+| 3–4 | CODE | Continue | Any value | Entry-continuation indicator | Any value |
+
 One or more resource query entries in the following format:
-5 UBIN Length X'03' to end of
-entry
-Entry length of Bytes 5–n X'03'
-6 CODE RT
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-X'10'
-X'11'
-X'12'
-X'20'
-X'40'
-X'41'
-X'42'
-X'FF'
-Resource Type:
-Single-byte LF1-type or LF2-type coded font
-Double-byte LF1-type coded font
-Double-byte LF1-type coded-font section
-Page segment
-Overlay
-Device-version code page
-Font character set
-Single-byte raster, single-byte outline,
-or double-byte outline coded-font FIS
-Double-byte coded-font section index
-Coded font
-Graphic character set supported in a font
-character set
-Specific code page
-Saved page group
-Data object resource
-Data-object font
-Data-object-font component
-All resources
-See byte
-description
-7 CODE RIDF
-X'00'
-X'03'
-X'08'
-X'09'
-Resource ID format:
-Host-assigned resource ID
-GRID-parts format
-Variable-length Group ID (X'00') triplet
-Object-OID format
-See byte
-description
-8 to
-end of
-entry
-Resource ID See byte
-description
-Resource ID Any value
+
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | UBIN | Length | X'03' to end of entry | Entry length of Bytes 5–n | X'03' |
+| 6 | CODE | RT | | Resource Type: | |
+| | | | X'01' | Single-byte LF1-type or LF2-type coded font | |
+| | | | X'02' | Double-byte LF1-type coded font | |
+| | | | X'03' | Double-byte LF1-type coded-font section | |
+| | | | X'04' | Page segment | |
+| | | | X'05' | Overlay | |
+| | | | X'06' | Device-version code page | |
+| | | | X'07' | Font character set | |
+| | | | X'08' | Single-byte raster, single-byte outline, or double-byte outline coded-font FIS | |
+| | | | X'09' | Double-byte coded-font section index | |
+| | | | X'10' | Coded font | |
+| | | | X'11' | Graphic character set supported in a font character set | |
+| | | | X'12' | Specific code page | |
+| | | | X'20' | Saved page group | |
+| | | | X'40' | Data object resource | |
+| | | | X'41' | Data-object font | |
+| | | | X'42' | Data-object-font component | |
+| | | | X'FF' | All resources | |
+| 7 | CODE | RIDF | | Resource ID format: | |
+| | | | X'00' | Host-assigned resource ID | |
+| | | | X'03' | GRID-parts format | |
+| | | | X'08' | Variable-length Group ID (X'00') triplet | |
+| | | | X'09' | Object-OID format | |
+| 8 to end of entry | | Resource ID | | Resource ID | Any value |
 Bytes 0–1 RRL order code
 Byte 2 Query type
 X'05' A value of X'05' identifies this as a query for the activation status of the specified
@@ -6268,45 +6209,36 @@ byte (byte 4) in the Request Resource List reply to zero.
 
 The printer identifies supported queries in the XOA-RRL RT & RIDF Support self-defining field
 in an XOH-OPC reply. Table 29shows the architecturally-valid RT and RIDF combinations:
-**Table 29**. Architecturally-Valid RT and RIDF Query Combinations
-RT RIDF Individual Query Resource
-ID Length
-X'01' Single-byte LF1-type or LF2-type
-coded-font
-X'00' HAID format X'02'
-X'03' GRID-parts format X'08'
-X'02' Double-byte LF1-type coded-font X'00' HAID format X'02'
-X'03' GRID-parts format X'08'
-X'03' Double-byte LF1-type coded-font
-section
-X'00' HAID format X'03'
-X'03' GRID-parts format X'09'
-X'04' Page segment X'00' HAID format X'02'
-X'05' Overlay X'00' HAID format X'02'
-X'06' Device-version code page X'00' HAID format X'02'
-X'03' GRID-parts format X'02'
-X'07' Font character set X'00'HAID format X'02'
-X'03' GRID-parts format X'06'
-X'08' Single-byte raster, single-byte outline,
-or double-byte outline coded-font FIS
-X'00' HAID format X'02' or X'04'
-X'09' Double-byte coded-font section index X'00' HAID format X'03' or X'05'
-X'10' Coded font X'00' HAID format X'02'
-X'03' GRID-parts format X'08'
-X'11' Graphic character set supported in a
-font character set
-X'03' GRID-parts format X'02'
-X'12' Specific code page X'00' HAID format X'02'
-X'03' GRID-parts format X'04'
-X'20' Saved page group X'08' Variable-length Group ID (X'00')
-triplet format
-X'02'–X'F7'
-X'40' Data object resource X'00' HAID format X'02'
-X'09' Object-OID format X'02'–X'81'
-X'41' Data-object font X'00' HAID format X'02'
-X'42' Data-object-font component X'00' HAID format X'02'
-X'09' Object-OID format X'02'–X'81'
-X'FF' All resources X'00' HAID format N/A
+**Table 29. Architecturally-Valid RT and RIDF Query Combinations**
+
+| RT | RIDF | Individual Query Resource | ID Length |
+| :--- | :--- | :--- | :--- |
+| X'01' | Single-byte LF1-type or LF2-type coded-font | X'00' HAID format | X'02' |
+| | | X'03' GRID-parts format | X'08' |
+| X'02' | Double-byte LF1-type coded-font | X'00' HAID format | X'02' |
+| | | X'03' GRID-parts format | X'08' |
+| X'03' | Double-byte LF1-type coded-font section | X'00' HAID format | X'03' |
+| | | X'03' GRID-parts format | X'09' |
+| X'04' | Page segment | X'00' HAID format | X'02' |
+| X'05' | Overlay | X'00' HAID format | X'02' |
+| X'06' | Device-version code page | X'00' HAID format | X'02' |
+| | | X'03' GRID-parts format | X'02' |
+| X'07' | Font character set | X'00' HAID format | X'02' |
+| | | X'03' GRID-parts format | X'06' |
+| X'08' | Single-byte raster, single-byte outline, or double-byte outline coded-font FIS | X'00' HAID format | X'02' or X'04' |
+| X'09' | Double-byte coded-font section index | X'00' HAID format | X'03' or X'05' |
+| X'10' | Coded font | X'00' HAID format | X'02' |
+| | | X'03' GRID-parts format | X'08' |
+| X'11' | Graphic character set supported in a font character set | X'03' GRID-parts format | X'02' |
+| X'12' | Specific code page | X'00' HAID format | X'02' |
+| | | X'03' GRID-parts format | X'04' |
+| X'20' | Saved page group | X'08' Variable-length Group ID (X'00') triplet format | X'02'–X'F7' |
+| X'40' | Data object resource | X'00' HAID format | X'02' |
+| | | X'09' Object-OID format | X'02'–X'81' |
+| X'41' | Data-object font | X'00' HAID format | X'02' |
+| X'42' | Data-object-font component | X'00' HAID format | X'02' |
+| | | X'09' Object-OID format | X'02'–X'81' |
+| X'FF' | All resources | X'00' HAID format | N/A |
 
 
 Byte 7 Resource ID format
@@ -6678,26 +6610,16 @@ exists.
 Support for this optional command is indicated by the X'80FA' property pair in the Device-Control command-set
 vector in an STM reply. Support for returning detailed settings about a setup name is indicated by the X'F403'
 property pair in the Device-Control command-set vector in an STM reply.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'FA00' Request Setup Name List (RSNL) order code X'FA00'
-2 CODE Query type X'00'
-X'01'
-Active setup name only
-Setup name list
-X'00'
-X'01'
-3 BITS Setup name information requested
-bit 0 Activation
-possibility
-B'0', B'1' Return whether activation of the setup name
-is possible with the ASN command
-B'0', B'1'
-bit 1 Detailed
-settings
-B'0', B'1' Return detailed settings for each setup name B'0', B'1'
-bits 2–7 B'000000' Reserved B'000000'
-4–5 X'0000' Reserved X'0000'
-6 to
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'FA00' | Request Setup Name List (RSNL) order code | X'FA00' |
+| 2 | CODE | Query type | X'00'<br>X'01' | Active setup name only<br>Setup name list | X'00'<br>X'01' |
+| 3 | BITS | Setup name information requested | | | |
+| | bit 0 | Activation possibility | B'0', B'1' | Return whether activation of the setup name is possible with the ASN command | B'0', B'1' |
+| | bit 1 | Detailed settings | B'0', B'1' | Return detailed settings for each setup name | B'0', B'1' |
+| | bits 2–7 | | B'000000' | Reserved | B'000000' |
+| 4–5 | | Reserved | X'0000' | Reserved | X'0000' |
+| 6 to end of RSNL | | | | | |
 end of
 RSNL
 Triplets Zero or more triplets:
@@ -6754,15 +6676,12 @@ obtained using the ACK-continuation method. In this case, the special data area 
 acknowledge reply continues where the previous acknowledge reply left off—no fields of the RSNL reply are
 repeated. Such acknowledge replies can be split at any byte boundary.
 The special data area of an RSNL reply has the following format:
-Offset Type Name Range Meaning
-0–3 UBIN Length X'00000007'
-X'0000000D'
-X'0000000F'
-X'00000011' –
-X'FFFFFFFF'
-Length of reply data, including this field
-4–5 Reserved X'0000' Reserved
-6 BITS Setup name information returned
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–3 | UBIN | Length | X'00000007'<br>X'0000000D'<br>X'0000000F'<br>X'00000011' – X'FFFFFFFF' | Length of reply data, including this field |
+| 4–5 | | Reserved | X'0000' | Reserved |
+| 6 | BITS | Setup name information returned | | |
 bit 0 Active setup
 name exists
 B'0'
