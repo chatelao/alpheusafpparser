@@ -2431,181 +2431,31 @@ FGID. More information about these values can be found in the documents listed i
 page xiii.
 Bar Code Symbol Data (BSA)
 
-
-
-
 Aztec Code Special-Function Parameters
 Table 21. Aztec Code Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 2 T oo much
-data B'0'
-B'1'
-If too much data:
-Use a bigger Aztec Code
-symbol
-Exception EC-0F17 exists
-Not supported
-in BCD1
-Not supported
-in BCD2
-bits 3–7 B'00000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-6 X'00' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-7 UBIN Desired
-number of
-layers
-X'00' – X'20'
-X'FF'
-Number of layers (0 to 32)
-Smallest symbol
-Not supported
-in BCD1
-Not supported
-in BCD2
-8 CODE Error
-correction
-level
-X'05' – X'5F'
-X'FF'
-Level of error correction
-(5% to 95%)
-Use default
-Not supported
-in BCD1
-Not supported
-in BCD2
-9 BITS Special-function flags
-bit 0 GS1
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to GS1
-standards
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 1 Industry
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to industry
-standards
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 2 Reader init
-B'0'
-B'1'
-Reader initialization symbol:
-Symbol encodes a data
-symbol
-Symbol encodes a reader
-initialization symbol
-Not supported
-in BCD1
-Not supported
-in BCD2
-bits 3–7 B'00000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-10 CODE Applica-
-tion
-indicator
-See field
-description
-Application indicator for Industry
-FNC1
-Not supported
-in BCD1
-Not supported
-in BCD2
-11 UBIN Sequence
-indicator
-X'00' – X'1A' Structured append sequence
-indicator
-Not supported
-in BCD1
-Not supported
-in BCD2
-12 UBIN T otal
-symbols
-X'00' or
-X'02' – X'1A'
-T otal number of structured-
-append symbols
-Not supported
-in BCD1
-Not supported
-in BCD2
-13 UBIN Append ID
-length
-X'00' – X'FF' Structured append ID length Not supported
-in BCD1
-Not supported
-in BCD2
-Aztec Code Special-Function Parameters
 
-
-
-
-Table 21 Aztec Code Special-Function Parameters (cont'd.)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-14–m CHAR Append ID Structured append ID Not supported
-in BCD1
-Not supported
-in BCD2
-m+1 UBIN Addl
-parms
-length
-X'00' – X'FF' Length of additional parameter
-bytes that follow
-Not supported
-in BCD1
-Not supported
-in BCD2
-m+2 to
-end
-Addl
-parms
-Reserved; data without current
-architectural definition
-Not supported
-in BCD1
-Not supported
-in BCD2
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | Not supported in BCD2 |
+| | | bit 0 | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>• Do not translate<br>• Convert data to ASCII | | |
+| | | bit 1 | B'0'<br>B'1' | Escape-sequence handling:<br>• Process escape sequences<br>• Ignore all escape sequences | | |
+| | | bit 2 | B'0'<br>B'1' | If too much data:<br>• Use a bigger Aztec Code symbol<br>• Exception EC-0F17 exists | | |
+| | | bits 3–7 | B'00000' | Reserved | | |
+| 6 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
+| 7 | UBIN | Desired number of layers | X'00'–X'20'<br>X'FF' | Number of layers (0 to 32)<br>Smallest symbol | Not supported in BCD1 | Not supported in BCD2 |
+| 8 | CODE | Error correction level | X'05'–X'5F'<br>X'FF' | Level of error correction (5% to 95%)<br>Use default | Not supported in BCD1 | Not supported in BCD2 |
+| 9 | BITS | Special-function flags | | | Not supported in BCD1 | Not supported in BCD2 |
+| | | bit 0 | B'0'<br>B'1' | Alternate data type identifier:<br>• User-defined symbol<br>• Symbol conforms to GS1 standards | | |
+| | | bit 1 | B'0'<br>B'1' | Alternate data type identifier:<br>• User-defined symbol<br>• Symbol conforms to industry standards | | |
+| | | bit 2 | B'0'<br>B'1' | Reader initialization symbol:<br>• Symbol encodes a data symbol<br>• Symbol encodes a reader initialization symbol | | |
+| | | bits 3–7 | B'00000' | Reserved | | |
+| 10 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 |
+| 11 | UBIN | Sequence indicator | X'00'–X'1A' | Structured append sequence indicator | Not supported in BCD1 | Not supported in BCD2 |
+| 12 | UBIN | Total symbols | X'00' or X'02'–X'1A' | Total number of structured-append symbols | Not supported in BCD1 | Not supported in BCD2 |
+| 13 | UBIN | Append ID length | X'00'–X'FF' | Structured append ID length | Not supported in BCD1 | Not supported in BCD2 |
+| 14–m | CHAR | Append ID | | Structured append ID | Not supported in BCD1 | Not supported in BCD2 |
+| m+1 | UBIN | Addl parms length | X'00'–X'FF' | Length of additional parameter bytes that follow | Not supported in BCD1 | Not supported in BCD2 |
+| m+2 to end | | Addl parms | | Reserved; data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 |
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -2680,26 +2530,19 @@ Thus, if the reader-init flag is B'1', a full-range symbol
 might need to be produced even though a compact
 symbol could have been produced if the flag had been
 B'0'.
-Aztec Code Special-Function Parameters
-
-
-
-
 The valid number of layers varies depending on the format of Aztec Code requested—that is,
 on the modifier value (BSD byte 13) for this Aztec Code—as well as on the reader-init flag (bit
 2 of byte 9):
 Table 22. Supported Number of Layers for an Aztec Code Symbol
-Aztec Code Format Modifier
-Value
-Reader-Init
-Flag
-Valid Layer Range
-Full-range X'00' B'0' X'01' – X'20' (1–32), X'FF'
-B'1' X'01' – X'16' (1–22), X'FF'
-Compact X'01' B'0' X'01' – X'04' (1–4), X'FF'
-B'1' X'01' (1), X'FF'
-Rune X'02' ignored X'00'
-Smallest compact or full-range X'03' B'0' or B'1' X'FF'
+
+| Aztec Code Format | Modifier Value | Reader-Init Flag | Valid Layer Range |
+| :--- | :--- | :--- | :--- |
+| Full-range | X'00' | B'0' | X'01'–X'20' (1–32), X'FF' |
+| | | B'1' | X'01'–X'16' (1–22), X'FF' |
+| Compact | X'01' | B'0' | X'01'–X'04' (1–4), X'FF' |
+| | | B'1' | X'01' (1), X'FF' |
+| Rune | X'02' | ignored | X'00' |
+| Smallest compact or full-range | X'03' | B'0' or B'1' | X'FF' |
 Notes:
 1. Full-range Aztec Code symbols with 1–3 layers always take more space than the
 equivalent compact Aztec Code symbol encoding the same data. However, when
