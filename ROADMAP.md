@@ -87,7 +87,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Commands: LF and LFCSC.
             - ⏳ Commands: LFC and LFI.
             - ⏳ Command: LSS.
-        - ⏳ Triplets (Chapter 15).
+        - 🚧 Triplets (Chapter 15):
+            - ✅ Table 57 (Summary Table).
+            - ✅ Triplets X'00' (Group ID), X'01' (Coded Graphic Character Set Global Identifier), and X'02' (Fully Qualified Name).
+            - ⏳ Triplets X'4E'–X'6E' (Color Specification, Encoding Scheme ID, Object Offset, Local Date and Time Stamp, Group Information).
+            - ⏳ Triplets X'70'–X'84' (Presentation Space Reset Mixing, Toner Saver, Color Fidelity, Metric Adjustment, Font Resolution and Metric Technology).
+            - ⏳ Triplets X'85'–X'88' (Finishing Operation, Text Fidelity, Finishing Fidelity).
+            - ⏳ Triplets X'8B'–X'92' (Data Object Font Descriptor, Linked Font, UP3I Finishing Operation, CMR Descriptor, Invoke CMR).
+            - ⏳ Triplets X'95'–X'A2' (Rendering Intent, CMR Tag Fidelity, Device Appearance, Image Resolution, Object Container Presentation Space Size, Setup Name, Invoke Tertiary Resource).
         - ⏳ Exception Reporting (Chapter 16).
         - ⏳ Compliance and Appendices (Chapter 17 and Appendices A–D).
 - 🚧 **BCOCA**:

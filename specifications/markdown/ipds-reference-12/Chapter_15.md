@@ -3,50 +3,38 @@ Triplets are variable-length substructures that can be used within one or more I
 additional information for the command. A triplet is a three-part self-defining variable-length parameter
 consisting of a length byte, an identifier byte, and parameter-value bytes.
 The following triplets are used within IPDS commands:
-Table 57. Triplets Summary
-Triplet ID Triplet Name Carrying Commands
-X'00' “Group ID (X'00') Triplet” on page 705 ISP , XOA RRL, XOH
-DGB, XOH DSPG, XOH
-RSPG
-X'01' “Coded Graphic Character Set Global Identifier (X'01') Triplet” on page 709 AR, XOH DGB
-X'02' “Fully Qualified Name (X'02') Triplet” on page 711 AR, WOCC
-X'4E' “Color Specification (X'4E') Triplet” on page 713 IDO, LPD, RPO, WBCC,
-WGC, WIC2, WOCC,
-WTC
-X'50' “Encoding Scheme ID (X'50') Triplet” on page 720 AR
-X'5A' “Object Offset (X'5A') Triplet” on page 722 IDO, RPO, WOCC
-X'62' “Local Date and Time Stamp (X'62') Triplet” on page 724 AR
-X'6E' “Group Information (X'6E') Triplet” on page 727 XOH DGB
-X'70' “Presentation Space Reset Mixing (X'70') Triplet” on page 731 IDO, LPD, WBCC, WGC,
-WIC2, WOCC, WTC
-X'74' “Toner Saver (X'74') Triplet” on page 732 PFC
-X'75' “Color Fidelity (X'75') Triplet” on page 734 PFC
-X'79' “Metric Adjustment (X'79') Triplet” on page 737 AR
-X'84' “Font Resolution and Metric T echnology (X'84') Triplet” on page 740 AR
-X'85' “Finishing Operation (X'85') Triplet” on page 742 AFO, XOH DGB
-X'86' “Text Fidelity (X'86') Triplet” on page 755 PFC
-X'88' “Finishing Fidelity (X'88') Triplet” on page 757 PFC
-X'8B' “Data Object Font Descriptor (X'8B') Triplet” on page 759 AR
-X'8D' “Linked Font (X'8D') Triplet” on page 765 AR
-X'8E' “UP3I Finishing Operation (X'8E') Triplet” on page 767 AFO, XOH DGB
-X'91' “Color Management Resource Descriptor (X'91') Triplet” on page 769 AR,
-home-state WOCC
-X'92' “Invoke CMR (X'92') Triplet” on page 772 IDO, LPD, RPO, WBCC,
-WGC, WIC2, WOCC,
-WTC
-X'95' “Rendering Intent (X'95') Triplet” on page 774 IDO, LPD, RPO, SPE,
-WGC, WIC2, WOCC,
-WTC
+### Table 57. Triplets Summary
 
-
-Table 57 Triplets Summary (cont'd.)
-Triplet ID Triplet Name Carrying Commands
-X'96' “CMR Tag Fidelity (X'96') Triplet” on page 777 PFC
-X'97' “Device Appearance (X'97') Triplet” on page 779 SPE
-X'9A' “Image Resolution (X'9A') Triplet” on page 781 IDO, RPO, WOCC
-X'9C' “Object Container Presentation Space Size (X'9C') Triplet” on page 783 IDO, RPO, WOCC
-X'9E' “Setup Name (X'9E') Triplet ” on page 786 ASN, XOA RSNL
-X'A2' “Invoke Tertiary Resource (X'A2') Triplet” on page 787 WBCC
+| Triplet ID | Triplet Name | Carrying Commands |
+| :--- | :--- | :--- |
+| X'00' | Group ID | ISP, XOA RRL, XOH DGB, XOH DSPG, XOH RSPG |
+| X'01' | Coded Graphic Character Set Global Identifier | AR, XOH DGB |
+| X'02' | Fully Qualified Name | AR, WOCC |
+| X'4E' | Color Specification | IDO, LPD, RPO, WBCC, WGC, WIC2, WOCC, WTC |
+| X'50' | Encoding Scheme ID | AR |
+| X'5A' | Object Offset | IDO, RPO, WOCC |
+| X'62' | Local Date and Time Stamp | AR |
+| X'6E' | Group Information | XOH DGB |
+| X'70' | Presentation Space Reset Mixing | IDO, LPD, WBCC, WGC, WIC2, WOCC, WTC |
+| X'74' | Toner Saver | PFC |
+| X'75' | Color Fidelity | PFC |
+| X'79' | Metric Adjustment | AR |
+| X'84' | Font Resolution and Metric Technology | AR |
+| X'85' | Finishing Operation | AFO, XOH DGB |
+| X'86' | Text Fidelity | PFC |
+| X'88' | Finishing Fidelity | PFC |
+| X'8B' | Data Object Font Descriptor | AR |
+| X'8D' | Linked Font | AR |
+| X'8E' | UP3I Finishing Operation | AFO, XOH DGB |
+| X'91' | Color Management Resource Descriptor | AR, home-state WOCC |
+| X'92' | Invoke CMR | IDO, LPD, RPO, WBCC, WGC, WIC2, WOCC, WTC |
+| X'95' | Rendering Intent | IDO, LPD, RPO, SPE, WGC, WIC2, WOCC, WTC |
+| X'96' | CMR Tag Fidelity | PFC |
+| X'97' | Device Appearance | SPE |
+| X'9A' | Image Resolution | IDO, RPO, WOCC |
+| X'9C' | Object Container Presentation Space Size | IDO, RPO, WOCC |
+| X'9E' | Setup Name | ASN, XOA RSNL |
+| X'A2' | Invoke Tertiary Resource | WBCC |
 Note: Triplet IDs are registered in the MO:DCA architecture and where triplets are used in other architectures,
 they are defined consistently among the using architectures. Some triplet IDs are registered for use only
 in a particular architecture and in these cases, there is no MO:DCA equivalent. The triplet format for
@@ -59,35 +47,14 @@ Linked Font (X'8D') triplet
 Invoke Tertiary Resource (X'A2') triplet
 
 
-Group ID (X'00') Triplet
-Offset Type Name Range Meaning Required
-0 UBIN Length X'02'–X'FF' Length of the triplet, including this length field X'02'–X'FF'
-1 CODE TID X'00' Group ID triplet X'00'
-2 CODE Format X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'08'
-X'13'
-MVS and VSE print-data format
-VM print-data format
-OS/400 print-data format
-MVS and VSE COM-data format
-AIX and OS/2 COM-data format
-AIX and Windows print-data
-Variable-length Group ID format
-Extended OS/400 print-data format
-See byte
-description
-3 to
-end of
-triplet
-Data See byte
-description
-Data bytes See byte
-description
+### Group ID (X'00') Triplet
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'02'–X'FF' | Length of the triplet, including this length field | X'02'–X'FF' |
+| 1 | CODE | TID | X'00' | Group ID triplet | X'00' |
+| 2 | CODE | Format | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'08'<br>X'13' | MVS and VSE print-data format<br>VM print-data format<br>OS/400 print-data format<br>MVS and VSE COM-data format<br>AIX and OS/2 COM-data format<br>AIX and Windows print-data<br>Variable-length Group ID format<br>Extended OS/400 print-data format | See byte description |
+| 3 to end | | Data | | Data bytes | See byte description |
 Byte 0 Triplet length
 This byte contains the length of this triplet, including itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists.
@@ -99,14 +66,13 @@ following triplet field type:
 If present, the Group ID (X'00') triplet contained in the terminate group command (XOH-DGB
 order type = X'01') should match that in the associated begin group command.
 Byte 2 Format
-This byte identifies the format of the data portion of this triplet. The “Recognized Group ID
-Formats Self-Defining Field” on page 374 lists the group ID formats that are recognized by the
+This byte identifies the format of the data portion of this triplet. The “Recognized Group ID Formats Self-Defining Field” lists the group ID formats that are recognized by the
 printer. The printer must accept all formats (but unrecognized formats are ignored and don't
 need to be supplied); this self-defining field can help a host program to determine which Group
 ID formats to supply.
 When the printer supports saved pages, as indicated by the Supported Group Operations self-
 defining field in an XOH-OPC reply, the variable-length Group ID format (X'08') must be
-supported for use with ISP , XOA-RRL, XOH-DGB, XOH-DSPG, and XOH-RSPG commands.
+supported for use with ISP, XOA-RRL, XOH-DGB, XOH-DSPG, and XOH-RSPG commands.
 Bytes 3 to end
 of triplet
 Data bytes
@@ -121,134 +87,103 @@ Triplet X'00'—Group ID
 
 Valid triplet data-byte formats for the defined XOH-SGO operations are as follows:
 • Keep group together as a print unit
-For MVS and VSE the data bytes are defined as follows:
-Byte 2 X'01'—MVS and VSE print-data format identifier.
-Byte 3 The one-character EBCDIC job CLASS parameter associated with the data
-set being printed.
-Bytes 4–11 The eight-character EBCDIC job name parameter associated with the data
-set being printed.
-Bytes 12–19 The eight-character EBCDIC job identification number parameter
-associated with the data set being printed.
-Bytes 20–27 The eight-character EBCDIC job FORMS parameter associated with the
-data set being printed.
-For VM the data bytes are defined as follows:
-Byte 2 X'02'—VM print-data format identifier.
-Byte 3 The one-character EBCDIC spool class value for the print file, from the
-SPOOL CLASS parameter.
-Bytes 4–11 The eight-character EBCDIC filename of the spool print file.
-Bytes 12–19 The eight-character EBCDIC userid of the print file originator.
-Bytes 20–27 The eight-character EBCDIC spool formname value for the print file, from
-the spool FORM parameter.
-Bytes 28–31 The four-character EBCDIC spool identification number (spoolid) of the
-print file.
+
+**MVS and VSE (Format X'01')**
+
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'01'—MVS and VSE print-data format identifier |
+| 3 | CHAR | CLASS | The one-character EBCDIC job CLASS parameter |
+| 4–11 | CHAR | Job Name | The eight-character EBCDIC job name parameter |
+| 12–19 | CHAR | Job ID | The eight-character EBCDIC job identification number |
+| 20–27 | CHAR | FORMS | The eight-character EBCDIC job FORMS parameter |
+
+**VM (Format X'02')**
+
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'02'—VM print-data format identifier |
+| 3 | CHAR | Class | The one-character EBCDIC spool class value |
+| 4–11 | CHAR | Filename | The eight-character EBCDIC filename of the spool print file |
+| 12–19 | CHAR | User ID | The eight-character EBCDIC userid of the print file originator |
+| 20–27 | CHAR | Formname | The eight-character EBCDIC spool formname value |
+| 28–31 | CHAR | Spool ID | The four-character EBCDIC spool identification number (spoolid) |
 For OS/400 there are two formats defined because the V5R1 level of the OS/400 operating
 system increased the maximum number of spooled files that can be created per job from
 9999 to 999999. The first format (X'03') provides a 4 character spooled file number. The
 second format (X'13') provides a 6 character spooled file number.
-Format X'03' (OS/400 print data format) is defined as follows:
-Byte 2 X'03', OS/400 print-data format identifier.
-Bytes 3–12 The ten-character EBCDIC library name associated with the specified
-output queue. This value and the output queue name (bytes 13–22)
-correspond to DPF's CLASS parameter.
-Bytes 13–22 The ten-character EBCDIC output queue name. This value and the library
-name (bytes 3–12) correspond to DPF's CLASS parameter.
-Bytes 23–32 The ten-character EBCDIC spooled file name associated with the file being
-printed.
-Bytes 33–36 The four-character EBCDIC spooled file number associated with the file
-being printed.
-Bytes 37–46 The ten-character EBCDIC job name associated with the file being printed.
-Bytes 47–56 The ten-character EBCDIC user name associated with the file being
-printed.
-Bytes 57–62 The six-character EBCDIC job number associated with the file being
-printed.
-Bytes 63–72 The ten-character EBCDIC forms name parameter associated with the file
-being printed. This value corresponds to DPF's FORMS parameter.
-Format X'13' (Extended OS/400 print-data format) is defined as follows:
-Byte 2 X'13', Extended OS/400 print-data format identifier.
-Bytes 3–12 The ten-character EBCDIC library name associated with the specified
-output queue. This value and the output queue name (bytes 13–22)
-correspond to DPF's CLASS parameter.
-Bytes 13–22 The ten-character EBCDIC output queue name. This value and the library
-name (bytes 3–12) correspond to DPF's CLASS parameter.
-Triplet X'00'—Group ID
+**OS/400 (Format X'03')**
 
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'03', OS/400 print-data format identifier |
+| 3–12 | CHAR | Library | The ten-character EBCDIC library name |
+| 13–22 | CHAR | Output Queue | The ten-character EBCDIC output queue name |
+| 23–32 | CHAR | Spooled File | The ten-character EBCDIC spooled file name |
+| 33–36 | CHAR | Spool Number | The four-character EBCDIC spooled file number |
+| 37–46 | CHAR | Job Name | The ten-character EBCDIC job name |
+| 47–56 | CHAR | User Name | The ten-character EBCDIC user name |
+| 57–62 | CHAR | Job Number | The six-character EBCDIC job number |
+| 63–72 | CHAR | Forms Name | The ten-character EBCDIC forms name parameter |
+**Extended OS/400 (Format X'13')**
 
-Bytes 23–32 The ten-character EBCDIC spooled file name associated with the file being
-printed.
-Bytes 33–38 The six-character EBCDIC spooled file number associated with the file
-being printed.
-Bytes 39–48 The ten-character EBCDIC job name associated with the file being printed.
-Bytes 49–58 The ten-character EBCDIC user name associated with the file being
-printed.
-Bytes 59–64 The six-character EBCDIC job number associated with the file being
-printed.
-Bytes 65–74 The ten-character EBCDIC forms name parameter associated with the file
-being printed. This value corresponds to DPF's FORMS parameter.
-For AIX and Windows, the data bytes are defined as follows:
-Byte 2 X'06', AIX and Windows print-data format identifier.
-Bytes 3–253 The 1–251 character ASCII name associated with the job being printed.
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'13', Extended OS/400 print-data format identifier |
+| 3–12 | CHAR | Library | The ten-character EBCDIC library name |
+| 13–22 | CHAR | Output Queue | The ten-character EBCDIC output queue name |
+| 23–32 | CHAR | Spooled File | The ten-character EBCDIC spooled file name |
+| 33–38 | CHAR | Spool Number | The six-character EBCDIC spooled file number |
+| 39–48 | CHAR | Job Name | The ten-character EBCDIC job name |
+| 49–58 | CHAR | User Name | The ten-character EBCDIC user name |
+| 59–64 | CHAR | Job Number | The six-character EBCDIC job number |
+| 65–74 | CHAR | Forms Name | The ten-character EBCDIC forms name parameter |
+**AIX and Windows (Format X'06')**
+
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'06', AIX and Windows print-data format identifier |
+| 3–253 | CHAR | Job Name | The 1–251 character ASCII name associated with the job |
 Triplets contained in the terminate group command (XOH-DGB order type = X'01') are
 ignored. If present, they should match those in the associated begin group command.
 • Keep group together for microfilm output
-For MVS and VSE the data bytes are defined as follows:
-Byte 2 X'04'—MVS and VSE COM-data format identifier.
-Byte 3 A one-byte field indicating the type of print file being printed where the
-encoding is as follows:
-X'80' Job header
-X'40' Data set header
-X'20' User data set
-X'10' Message data set
-X'04' Job trailer
-X'00' Type not specified
-Byte 4 The one-character EBCDIC job class associated with the data set being
-printed.
-Bytes 5-12 The eight-character EBCDIC job name associated with the data set being
-printed.
-Bytes 13-20 The eight-character EBCDIC job identification number associated with the
-data set being printed.
-Bytes 21-28 The eight-character EBCDIC job form (specified on the FORMS parameter
-in the OUTPUT statement) associated with the data set being printed.
-Bytes 29-88 The 60-character EBCDIC programmer name (specified on the NAME
-parameter in the OUTPUT statement) associated with the data set being
-printed.
-Bytes 89-148 The 60-character EBCDIC room number (specified on the ROOM
-parameter in the OUTPUT statement) associated with the data set being
-printed.
-Bytes 149-159 The 11-character EBCDIC submission date parameter associated with the
-data set being printed.
-Bytes 160-170 The 11-character EBCDIC submission time parameter associated with the
-data set being printed.
+**MVS and VSE COM-data (Format X'04')**
+
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'04'—MVS and VSE COM-data format identifier |
+| 3 | CODE | Type | Type of print file:<br>X'80' Job header<br>X'40' Data set header<br>X'20' User data set<br>X'10' Message data set<br>X'04' Job trailer<br>X'00' Type not specified |
+| 4 | CHAR | Class | The one-character EBCDIC job class |
+| 5–12 | CHAR | Job Name | The eight-character EBCDIC job name |
+| 13–20 | CHAR | Job ID | The eight-character EBCDIC job identification number |
+| 21–28 | CHAR | Job Form | The eight-character EBCDIC job form |
+| 29–88 | CHAR | Programmer | The 60-character EBCDIC programmer name |
+| 89–148 | CHAR | Room Number | The 60-character EBCDIC room number |
+| 149–159 | CHAR | Date | The 11-character EBCDIC submission date parameter |
+| 160–170 | CHAR | Time | The 11-character EBCDIC submission time parameter |
 Triplet X'00'—Group ID
 
 
-For AIX and OS/2, the data bytes are defined as follows:
-Byte 2 X'05'—AIX and OS/2 COM-data format identifier.
-Byte 3 A one byte field indicating the type of print file being printed where the
-encoding is as follows:
-X'80' Job header
-X'40' Copy separator
-X'20' User print file
-X'10' Message file
-X'08' User exit page
-X'04' Job trailer
-X'00' Type not specified
-Bytes 4-254 The 1–251 character ASCII file name associated with the file being printed.
+**AIX and OS/2 COM-data (Format X'05')**
+
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'05'—AIX and OS/2 COM-data format identifier |
+| 3 | CODE | Type | Type of print file:<br>X'80' Job header<br>X'40' Copy separator<br>X'20' User print file<br>X'10' Message file<br>X'08' User exit page<br>X'04' Job trailer<br>X'00' Type not specified |
+| 4–254 | CHAR | File Name | The 1–251 character ASCII file name |
 • Save Pages
-For all environments the data bytes are defined as follows:
-Byte 2 X'08'—Variable-length group ID
-Bytes 3–246 A 1 to 244 byte long group ID. The group ID is considered to be binary data,
-unless there was a preceding CGCSGID (X'01') triplet in the XOH-DGB
-command.
+
+**Variable-length Group ID (Format X'08')**
+
+| Byte | Type | Name | Meaning |
+| :--- | :--- | :--- | :--- |
+| 2 | CODE | Format | X'08'—Variable-length group ID |
+| 3–246 | UNDF | Group ID | A 1 to 244 byte long group ID. Binary data unless preceded by X'01' triplet. |
 Note: To successfully save a group of pages, the XOH-DGB command that begins the
 group must contain a Group ID (X'00') triplet with a variable-length group ID.
 Triplets contained in the terminate group command (XOH-DGB order type X'01') are
 ignored.
 IPDS commands that use this triplet:
-“Include Saved Page” on page 172
-“XOA Request Resource List” on page 294
-“XOH Define Group Boundary” on page 317
-“XOH Deactivate Saved Page Group” on page 315
-“XOH Remove Saved Page Group” on page 383
 Triplet X'00'—Group ID
 
 
@@ -266,31 +201,23 @@ form called the Coded Character Set Identifier (CCSID). These three types of ide
 the Character Data Representation Architecture (CDRA) and are fully described in the Character Data
 Representation Architecture Reference and Registry .
 The two alternate forms of the triplet are as follows:
-GCSGID/CPGID form
-Offset Type Name Range Meaning Required
-0 UBIN Length X'06' Length of the triplet, including this length field X'06'
-1 CODE TID X'01' Identifies the CGCSGID triplet X'01'
-2–3 CODE GCSGID X'0001' –
-X'FFFE'
-X'FFFF'
-Graphic Character Set Global Identifier
-Full character set
-X'0001' –
-X'FFFE'
-X'FFFF'
-4–5 CODE CPGID X'0001' –
-X'FFFE'
-Code Page Global Identifier X'0001' –
-X'FFFE'
-CCSID form
-Offset Type Name Range Meaning Required
-0 UBIN Length X'06' Length of the triplet, including this length field X'06'
-1 CODE TID X'01' Identifies the CGCSGID triplet X'01'
-2–3 CODE X'0000' Identifies this as the CCSID form of the triplet X'0000'
-4–5 CODE CCSID X'0000' –
-X'FFFF'
-Coded Character Set Identifier X'0000' –
-X'FFFF'
+**GCSGID/CPGID form**
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'06' | Length of the triplet, including this length field | X'06' |
+| 1 | CODE | TID | X'01' | Identifies the CGCSGID triplet | X'01' |
+| 2–3 | CODE | GCSGID | X'0001'–X'FFFE'<br>X'FFFF' | Graphic Character Set Global Identifier<br>Full character set | X'0001'–X'FFFE'<br>X'FFFF' |
+| 4–5 | CODE | CPGID | X'0001'–X'FFFE' | Code Page Global Identifier | X'0001'–X'FFFE' |
+
+**CCSID form**
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'06' | Length of the triplet, including this length field | X'06' |
+| 1 | CODE | TID | X'01' | Identifies the CGCSGID triplet | X'01' |
+| 2–3 | CODE | | X'0000' | Identifies this as the CCSID form of the triplet | X'0000' |
+| 4–5 | CODE | CCSID | X'0000'–X'FFFF' | Coded Character Set Identifier | X'0000'–X'FFFF' |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself. If an invalid length is
 specified, exception ID X'027A..01' exists. If the triplet is too long to fit in the containing
@@ -316,38 +243,20 @@ If an invalid value is specified in this field, exception ID X'0256..01' exists.
 Note: This triplet is identical to the corresponding MO:DCA Coded Graphic Character Set Global Identifier
 (X'01') triplet.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
-“XOH Define Group Boundary” on page 317
 Triplet X'01'—CGCSGID
 
 
-Fully Qualified Name (X'02') Triplet
-The Fully Qualified Name (X'02') triplet is used to specify a fully qualified name (FQN) and how that name is to
-be used. The FQN Type field specifies how the FQN is to be used and the FQN format field specifies how the
-FQN is encoded.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'06'–X'FE' Length of the triplet, including this length field See byte
-description
-1 CODE TID X'02' Fully Qualified Name triplet X'02'
-2 CODE FQN type
-X'41'
-X'DE'
-Specifies how the FQN is used:
-Color Management Resource reference
-Data-object external resource reference
-See byte
-description
-3 CODE FQN
-format X'00'
-X'10'
-Format of the FQN:
-Character-encoded name
-## Object ID (OID)
-See byte
-description
-4 to
-end
-FQN Any value Fully qualified name Any value
+### Fully Qualified Name (X'02') Triplet
+
+The Fully Qualified Name (X'02') triplet is used to specify a fully qualified name (FQN) and how that name is to be used. The FQN Type field specifies how the FQN is to be used and the FQN format field specifies how the FQN is encoded.
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'06'–X'FE' | Length of the triplet, including this length field | See byte description |
+| 1 | CODE | TID | X'02' | Fully Qualified Name triplet | X'02' |
+| 2 | CODE | FQN type | X'41'<br>X'DE' | Specifies how the FQN is used:<br>Color Management Resource reference<br>Data-object external resource reference | See byte description |
+| 3 | CODE | FQN format | X'00'<br>X'10' | Format of the FQN:<br>Character-encoded name<br>Object ID (OID) | See byte description |
+| 4 to end | | FQN | Any value | Fully qualified name | Any value |
 Byte 0 Triplet length
 This parameter contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -398,7 +307,7 @@ This parameter specifies how the fully qualified name can be interpreted. The on
 currently used in the IPDS data stream are:
 X'00' Character-encoded name; used with FQN Type X'DE'
 X'10' Object ID (OID); used with FQN Types X'41' and X'DE'
-More information about OIDs can be found on page 148. When a CMR or TrueType/
+More information about OIDs can be found. When a CMR or TrueType/
 OpenType object is being captured, the object OID specified in this triplet in the WOCC
 command must match the object OID specified in the AR command that authorized the
 capture. Exception ID X'0256..23' exists if the two OIDs are not identical.
@@ -409,8 +318,6 @@ exception ID X'0256..24' exists.
 Note: This triplet is identical to the corresponding MO:DCA Fully Qualified Name (X'02') triplet. However, the
 MO:DCA architecture defines additional FQN types and additional FQN formats.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
-“Write Object Container Control” on page 595
 Triplet X'02'—Fully Qualified Name
 
 
@@ -682,14 +589,6 @@ Triplet X'4E'—Color Specification
 
 
 IPDS commands that use this triplet:
-“Include Data Object” on page 575
-“Logical Page Descriptor” on page 204
-“Rasterize Presentation Object” on page 220
-“Write Bar Code Control” on page 550
-“Write Graphics Control” on page 526
-“Write Image Control 2” on page 498
-“Write Object Container Control” on page 595
-“Write Text Control” on page 462
 Triplet X'4E'—Color Specification
 
 
@@ -741,7 +640,6 @@ Note: This triplet is identical to the corresponding MO:DCA Encoding Scheme ID (
 MO:DCA architecture also uses bytes 2–3 to specify the encoding scheme ID used within the font; the
 content of bytes 2–3 are ignored at the IPDS level.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
 Triplet X'50'—Encoding Scheme ID
 
 
@@ -802,9 +700,6 @@ architecture to provide a means to allow a larger object offset value to be spec
 printers ignore the value in this field.
 Note: This triplet is identical to the corresponding MO:DCA Object Offset (X'5A') triplet.
 IPDS commands that use this triplet:
-“Include Data Object” on page 575
-“Rasterize Presentation Object” on page 220
-“Write Object Container Control” on page 595
 Triplet X'5A'—Object Offset
 
 
@@ -926,7 +821,6 @@ format HHMMSShh.
 As an example, the time 4:35:21.56 PM is encoded as X'F1F6F3F5F2F1F5F6'.
 Note: This triplet is identical to the corresponding MO:DCA Local Date and Time Stamp (X'62') triplet.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
 Triplet X'62'—Time Stamp
 
 
@@ -1088,7 +982,6 @@ Bytes 3 to end Additional information associated with this group. The informatio
 considered to be binary data, unless there was a preceding CGCSGID
 (X'01') triplet in the XOH-DGB command.
 IPDS commands that use this triplet:
-“XOH Define Group Boundary” on page 317
 Triplet X'6E'—Group Information
 
 
@@ -1129,13 +1022,6 @@ erases all data beneath this presentation space.
 Bits 1–7 Reserved
 Note: This triplet is identical to the corresponding MO:DCA Presentation Space Reset Mixing (X'70') triplet.
 IPDS commands that use this triplet:
-“Include Data Object” on page 575
-“Logical Page Descriptor” on page 204
-“Write Bar Code Control” on page 550
-“Write Graphics Control” on page 526
-“Write Image Control 2” on page 498
-“Write Object Container Control” on page 595
-“Write Text Control” on page 462
 Triplet X'70'—Reset Mixing
 
 
@@ -1221,7 +1107,6 @@ X'0254..32' exists.
 5. No toner saving is applied when a data object resource is captured.
 Note: This triplet is identical to the corresponding MO:DCA Toner Saver (X'74') triplet.
 IPDS commands that use this triplet:
-“Presentation Fidelity Control” on page 218
 Triplet X'74'—Toner Saver
 
 
@@ -1253,7 +1138,7 @@ X'025E..03'
 X'025E..04'
 X'025E..05'
 X'0115..00'
-Refer to Figure 60 on page 285 for a description of exception handling when a presentation fidelity control is
+Refer to Figure 60 for a description of exception handling when a presentation fidelity control is
 being used.
 The default color-fidelity action if a PFC Color Fidelity (X'75') triplet is not received by the printer, if the activate
 flag in a PFC command is B'0', or if the printer issues an IML NACK is as follows:
@@ -1268,7 +1153,7 @@ Image, IO-Image, Graphics, or Bar Code command-set vector of an STM reply. When 
 Fidelity (X'75') triplet has been received by a printer, all simulated-color support is overridden by the triplet until
 either a PFC command that specifies reset is received or the printer issues an IML NACK.
 Note: It is preferable that a printer use the same algorithm for both limited-simulated colors and for substitution
-rule X'01' in the Color Fidelity (X'75') triplet. “Color Simulation Guidelines” on page 119 describes how
+rule X'01' in the Color Fidelity (X'75') triplet. describes how
 color values are simulated by different kinds of IPDS printers.
 Triplet X'75'—Color Fidelity
 
@@ -1348,7 +1233,6 @@ appropriate printer default CMR.
 Byte 7 Reserved
 Note: This triplet is identical to the corresponding MO:DCA Color Fidelity (X'75') triplet.
 IPDS commands that use this triplet:
-“Presentation Fidelity Control” on page 218
 Triplet X'75'—Color Fidelity
 
 
@@ -1482,33 +1366,32 @@ another internal value that is beyond the range the printer can handle, exceptio
 exists.
 Note: FOCA host coded fonts also use this triplet to provide adjustment information.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
 Triplet X'79'—Metric Adjustment
 
 
 Font Resolution and Metric Technology (X'84') Triplet
-The last supported Font Resolution and Metric T echnology (X'84') triplet encountered will be used to find the
-raster-font resource to be activated; all other Font Resolution and Metric T echnology (X'84') triplets are
+The last supported Font Resolution and Metric Technology (X'84') triplet encountered will be used to find the
+raster-font resource to be activated; all other Font Resolution and Metric Technology (X'84') triplets are
 ignored. Property pair X'F202' in the Device-Control command-set vector of an STM reply indicates support for
-the Font Resolution and Metric T echnology (X'84') triplet.
+the Font Resolution and Metric Technology (X'84') triplet.
 When a resident resource activation is attempted, the printer first attempts to match the fixed portion of the
-resource ID to a resident resource. If a match is found, the Font Resolution and Metric T echnology (X'84')
+resource ID to a resident resource. If a match is found, the Font Resolution and Metric Technology (X'84')
 triplet is then used as follows:
-• If the AR command contains a Font Resolution and Metric T echnology (X'84') triplet, activation takes place
+• If the AR command contains a Font Resolution and Metric Technology (X'84') triplet, activation takes place
 only if the resident resource has a matching resolution and metric technology.
-• If the AR command does not contain a Font Resolution and Metric T echnology (X'84') triplet, activation can
+• If the AR command does not contain a Font Resolution and Metric Technology (X'84') triplet, activation can
 take place.
-The Font Resolution and Metric T echnology (X'84') triplet can be used with the following resource types:
+The Font Resolution and Metric Technology (X'84') triplet can be used with the following resource types:
 X'01' Single-byte LF1-type coded font (AR and XOA-RRL commands)
 X'02' Double-byte LF1-type coded font (XOA-RRL commands)
 X'03' Double-byte LF1-type coded-font section (AR and XOA-RRL commands)
-If specified with any other resource type, the Font Resolution and Metric T echnology (X'84') triplet is ignored.
+If specified with any other resource type, the Font Resolution and Metric Technology (X'84') triplet is ignored.
 The contents of ignored triplets are not checked by the printer for validity.
 This triplet is defined as follows:
 Offset Type Name Range Meaning Required
 0 UBIN Length X'06' or X'08' Length of the triplet, including this length field X'06' or X'08'
 1 CODE TID X'84' Identifies the Font Resolution and Metric
-T echnology triplet
+Technology triplet
 X'84'
 2 CODE Metric
 technology
@@ -1548,7 +1431,7 @@ Byte 0 Triplet length
 This field contains the length of this triplet, including itself. If an invalid length is specified or if
 the triplet is too long to fit in the containing command, exception ID X'028F ..03' exists.
 Byte 1 Triplet ID
-This field identifies this as a Font Resolution and Metric T echnology (X'84') triplet.
+This field identifies this as a Font Resolution and Metric Technology (X'84') triplet.
 Triplet X'84'—Font Resolution
 
 
@@ -1572,7 +1455,6 @@ If an invalid or unsupported value is specified in this field, exception ID X'02
 Note: MO:DCA data streams can also use this triplet to tag raster font mappings with font-resolution and
 metric-technology information.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
 Triplet X'84'—Font Resolution
 
 
@@ -1582,7 +1464,7 @@ to a collection of sheets, depending on the command containing the triplet:
 • If specified on an AFO command, the operation applies to the current sheet and each copy of that sheet.
 • If specified on an XOH-DGB command, the operation applies to a collection of sheets (the sheets within a
 group).
-Some printers support two different finishing triplets (X'85' and X'8E'); the X'8E' triplet is intended for UP 3I-
+Some printers support two different finishing triplets (X'85' and X'8E'); the X'8E' triplet is intended for UP3I-
 controlled devices and the X'85' triplet is intended for other devices. However, these two triplets can coexist in
 the same data stream and wherever an operation (and all parameters) can be specified in either triplet, the two
 triplets are interchangeable.
@@ -1591,7 +1473,7 @@ printer will convert to the other triplet if necessary.
 • If an operation can only be fully specified in one of the triplets, that triplet must be used.
 Multiple finishing operations can be applied by including multiple Finishing Operation triplets (either X'85' or
 X'8E'). In this case, the operations are applied in the order received and duplicate identical Finishing Operation
-triplets are ignored (the first is used and the duplicates are ignored). Figure 62 on page 320 shows an example
+triplets are ignored (the first is used and the duplicates are ignored). Figure 62 shows an example
 of how multiple finishing operations can be specified.
 Not all combinations of finishing operations are compatible; for example, two Z-fold operations along different
 reference edges might not be compatible. Compatible combinations of finishing operations are device specific.
@@ -1906,7 +1788,7 @@ saddle stitching also center folds the sheets either inward or outward
 depending on the operation type. An inward fold causes the front side of the
 first sheet of the group to be on the inside of the booklet; an outward fold
 causes the front side of the first sheet of the group to be on the outside of the
-booklet; refer to Figure 114 on page 750 for a picture of these two folds.
+booklet; refer to Figure 114 for a picture of these two folds.
 Separation cut and perforation cut
 Cutting is done along the finishing operation axis. A separation cut separates
 each sheet of media into two pieces. A perforation cut leaves each sheet
@@ -2272,8 +2154,6 @@ center-fold-or-saddle-stitch, or Z-fold operation, this field is ignored.
 If an invalid or unsupported value is specified in this field, exception ID X'027C..08' exists.
 Note: This triplet is identical to the corresponding MO:DCA Finishing Operation (X'85') triplet.
 IPDS commands that use this triplet:
-“Apply Finishing Operations” on page 160
-“XOH Define Group Boundary” on page 317
 Triplet X'85'—Finishing Operation
 
 
@@ -2284,7 +2164,7 @@ X'0200..01',
 X'029C..05', and X'029D..01' .
 Support for the Text Fidelity (X'86') triplet is indicated by the PFC Triplets Supported self-defining field returned
 in the XOH-OPC reply.
-Refer to Figure 60 on page 285 for a description of exception handling when a presentation fidelity control is
+Refer to Figure 60 for a description of exception handling when a presentation fidelity control is
 being used.
 The default text-fidelity action if a PFC Text Fidelity (X'86') triplet is not received by the printer, if the activate
 flag in a PFC command is B'0', or if the printer issues an IML NACK is to report the error and follow the
@@ -2323,7 +2203,7 @@ The valid values are:
 X'01' Stop printing at the first text exception.
 In this case, the exception must be reported. When this value is specified, the printer
 ignores triplet byte 4 and reports the exception. Also, the printer stops processing
-further data; refer to Figure 60 on page 285 for a description of exception handling for
+further data; refer to Figure 60 for a description of exception handling for
 this situation.
 X'02' Continue processing WT data by skipping the unrecognized or unsupported control
 sequence and continuing with the next control sequence or text code point. This
@@ -2346,7 +2226,6 @@ X'02' Do not report text exceptions.
 Bytes 5–6 Reserved
 Note: This triplet is identical to the corresponding MO:DCA Text Fidelity (X'86') triplet.
 IPDS commands that use this triplet:
-“Presentation Fidelity Control” on page 218
 Triplet X'86'—Text Fidelity
 
 
@@ -2370,7 +2249,7 @@ X'027C..0D' Invalid or unsupported finishing option
 X'027E..00' Invalid or unsupported parameter specification for a UP
 3I-controlled device (action code X'01'
 or X'06' or X'0A')
-Refer to Figure 60 on page 285 for a description of exception handling when a presentation fidelity control is
+Refer to Figure 60 for a description of exception handling when a presentation fidelity control is
 being used.
 The default finishing-fidelity action if a PFC Finishing Fidelity (X'88') triplet is not received by the printer, if the
 activate flag in a PFC command is B'0', or if the printer issues an IML NACK is to report the error and not apply
@@ -2436,7 +2315,6 @@ continuation rule is “stop” (X'01'), the host controls finishing fidelity, t
 exceptions, and, except for checking the triplet for syntax errors, the printer essentially treats the triplet
 as a NOP .
 IPDS commands that use this triplet:
-“Presentation Fidelity Control” on page 218
 Triplet X'88'—Finishing Fidelity
 
 
@@ -2470,8 +2348,7 @@ Note: A TrueType/OpenType font can be used in two quite different ways: 1) as a 
 font, or 2) as a secondary resource in a presentation data object such as a PDF or SVG object. This
 triplet, and the description of how to set up a data-object font just above, is specific to when the
 TrueType/OpenType font is used as a component of a data-object font. For information about TrueType/
-OpenType fonts as secondary resources, see “
-Data Object Resource Equivalence Entries ” on page 565.
+OpenType fonts as secondary resources, see “Data Object Resource Equivalence Entries”.
 The character shapes provided by the font are scaled to the size specified by the vertical font size and
 horizontal scale factor. These values are specified in 1440ths of an inch (20 times the point size) and represent
 a scaling of the Em square. When the vertical font size and the horizontal scale factor are identical, a uniform
@@ -2698,8 +2575,7 @@ TrueType fonts can provide two sets of metrics to allow character placement for 
 writing modes. The metrics for horizontal writing are used when the character rotation is 0°,
 and a modified version of the horizontal metrics is used for a 180° character rotation. Likewise,
 the metrics for vertical writing are used when the character rotation is 270°, and a modified
-version of the vertical metrics is used for a 90° character rotation. Refer to “Relationship
-Between FOCA Character Metrics and TrueType Character Metrics” on page 107 for a more
+version of the vertical metrics is used for a 90° character rotation. Refer to for a more
 detailed description of these concepts.
 Triplet X'8B'—Data Object Font Descriptor
 
@@ -2756,7 +2632,6 @@ Triplet X'8B'—Data Object Font Descriptor
 Bytes 14–15 Reserved
 Note: This triplet is identical to the corresponding MO:DCA Data Object Font Descriptor (X'8B') triplet.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
 Triplet X'8B'—Data Object Font Descriptor
 
 
@@ -2849,7 +2724,6 @@ that can contain surrogates and the byte order of each code point is Big Endian)
 ID X'0256..14' exists if there is no TrueType/OpenType font in the collection for this full font
 name.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
 Triplet X'8D'—Linked Font
 
 
@@ -2859,9 +2733,9 @@ sheet or to a collection of sheets, depending on the command containing the trip
 • If specified on an AFO command, the operation applies to the current sheet and each copy of that sheet.
 • If specified on an XOH-DGB command, the operation applies to a collection of sheets (the sheets within a
 group).
-Support for the UP 3I Finishing Operation (X'8E') triplet is indicated by property pair X'F101' in the Device-
+Support for the UP3I Finishing Operation (X'8E') triplet is indicated by property pair X'F101' in the Device-
 Control command-set vector of an STM reply.
-Some printers support two different finishing triplets (X'85' and X'8E'); the X'8E' triplet is intended for UP 3I-
+Some printers support two different finishing triplets (X'85' and X'8E'); the X'8E' triplet is intended for UP3I-
 controlled devices and the X'85' triplet is intended for other devices. However, these two triplets can coexist in
 the same data stream and wherever an operation (and all parameters) can be specified in either triplet, the two
 triplets are interchangeable.
@@ -2870,7 +2744,7 @@ printer converts to the other triplet if necessary.
 • If an operation can only be fully specified in one of the triplets, that triplet must be used.
 Multiple finishing operations can be applied by including multiple Finishing Operation triplets (either X'85' or
 X'8E'). In this case, the operations are applied in the order received and duplicate identical Finishing Operation
-triplets are ignored (the first is used and the duplicates are ignored). Figure 62 on page 320 shows an example
+triplets are ignored (the first is used and the duplicates are ignored). Figure 62 shows an example
 of how multiple finishing operations can be specified.
 Not all combinations of finishing operations are compatible; for example, two Z-fold operations along different
 reference edges might not be compatible. Compatible combinations of finishing operations are device specific.
@@ -2890,8 +2764,8 @@ X'00'–X'FF' Sequence number of this triplet X'00'–X'FF'
 end
 Data Finishing operation data as defined in the
 UP3I Specification; this field contains bytes 4
-to end of the UP 3I Form Finishing Operating
-(X'03') triplet; extra bytes beyond the UP 3I-
+to end of the UP3I Form Finishing Operating
+(X'03') triplet; extra bytes beyond the UP3I-
 defined bytes are ignored.
 Triplet X'8E'—UP³I Finishing Operation
 
@@ -2901,26 +2775,26 @@ This field contains the length of this triplet, including the length field itsel
 specified, exception ID X'027A..01' exists. If the triplet is too long to fit in the containing
 command, exception ID X'027B..01' exists.
 Byte 1 Triplet ID
-This field identifies this as a UP 3I Finishing Operation (X'8E') triplet
+This field identifies this as a UP3I Finishing Operation (X'8E') triplet
 Byte 2 Sequence number
 This field contains a sequence number that is used to distinguish otherwise identical triplets.
 The sequence number is informational and is not used by the printer.
 Byte 3 Reserved
 Bytes 4 to end UP
 3I finishing operation data
-Finishing operation data as defined in the UP 3I Specification; this field contains bytes 4 to end
-of the UP 3I Form Finishing Operating (X'03') triplet; extra bytes beyond the UP 3I-defined bytes
+Finishing operation data as defined in the UP3I Specification; this field contains bytes 4 to end
+of the UP3I Form Finishing Operating (X'03') triplet; extra bytes beyond the UP3I-defined bytes
 are ignored.
 For a definition of these data bytes, see the section titled “Extension for the Intelligent Printer
 Data Stream (IPDS)” in the current UP3I Specification, that is available at www.afpcinc.org.
 Several UP3I-specific exception IDs are defined for specification errors within this triplet and for error
-conditions caused by this triplet; a specific UP 3I-defined error code is identified in sense bytes 8–9. UP 3I-
+conditions caused by this triplet; a specific UP3I-defined error code is identified in sense bytes 8–9. UP3I-
 specific exception IDs include the following:
-X'507E..00' Intervention required because of an equipment check on a UP 3I-controlled device
-X'407E..00' Intervention required on a UP 3I-controlled device
-X'107E..00' Equipment check on a UP 3I-controlled device
-X'027E..00' Invalid or unsupported specification for a UP 3I-controlled device
-X'017E..00' Condition requiring host notification on a UP 3I-controlled device
+X'507E..00' Intervention required because of an equipment check on a UP3I-controlled device
+X'407E..00' Intervention required on a UP3I-controlled device
+X'107E..00' Equipment check on a UP3I-controlled device
+X'027E..00' Invalid or unsupported specification for a UP3I-controlled device
+X'017E..00' Condition requiring host notification on a UP3I-controlled device
 If the selected finishing operation is incompatible with the selected media, or media destination, either
 exception ID X'027C..09' or X'027C..0B' exists. If an LCC command that changes the media destination is
 received within a group to be finished and the finishing operation cannot be performed, exception ID
@@ -2932,8 +2806,6 @@ Exception ID X'0109..00' exists when a finishing operation is enabled or disable
 Note: This triplet is identical to the corresponding MO:DCA UP
 3I Finishing Operation (X'8E') triplet.
 IPDS commands that use this triplet:
-“Apply Finishing Operations” on page 160
-“XOH Define Group Boundary” on page 317
 Triplet X'8E'—UP³I Finishing Operation
 
 
@@ -2988,7 +2860,7 @@ CMRs); the printer ignores audit indexed CMRs. For all other color spaces, color
 instruction, and link) are used for converting specified colors to device colors. Tone-transfer-curve CMRs and
 halftone CMRs can be used with all color spaces.
 When non-highlight-color presentation data is processed, the printer selects an appropriate set of CMRs using
-the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for more information about audit
+the CMR-usage hierarchy. Refer to for more information about audit
 CMRs, instruction CMRs, and the hierarchy.
 Link color-conversion (subset “LK”) CMRs are special resources that combine a specific audit color-conversion
 CMR and a specific instruction color-conversion CMR to help improve performance. Each link color-conversion
@@ -3054,8 +2926,6 @@ IPDS printer.
 Note: This triplet is identical to the corresponding MO:DCA Color Management Resource Descriptor (X'91')
 triplet.
 IPDS commands that use this triplet:
-“Activate Resource” on page 134
-“Write Object Container Control” on page 595
 Triplet X'91'—Color Management Resource Descriptor
 
 
@@ -3067,7 +2937,7 @@ When presentation data is processed, the printer selects from the set of activat
 appropriate audit, instruction, and ICC DeviceLink CMRs using the CMR-usage hierarchy. The instruction
 CMR specifies how the presentation data is to be converted into the printer's device-specific color space; the
 audit CMR specifies how the data was generated; the ICC DeviceLink CMR combines the input and output
-spaces in a customized way. Refer to “CMR-Usage Hierarchy” on page 35 for more information about audit
+spaces in a customized way. Refer to for more information about audit
 CMRs, instruction CMRs, and ICC DeviceLink CMRs, and about the hierarchy.
 For pages and overlays, the triplet is specified on the LPD command. For data objects, the triplet is specified
 on the RPO, WBCC, WGC, WIC2, WOCC, or WTC command. When a presentation object-container or IOCA
@@ -3099,17 +2969,7 @@ Later, when this CMR is selected for use with presentation data, the CMR must st
 activated. Note that when a CMR is deactivated, all invocations of that HAID are also
 removed.
 IPDS commands that use this triplet:
-“Include Data Object” on page 575
-“Logical Page Descriptor” on page 204
-“Rasterize Presentation Object” on page 220
 Triplet X'92'—Invoke CMR
-
-
-“Write Bar Code Control” on page 550
-“Write Graphics Control” on page 526
-“Write Image Control 2” on page 498
-“Write Object Container Control” on page 595
-“Write Text Control” on page 462
 Triplet X'92'—Invoke CMR
 
 
@@ -3151,8 +3011,7 @@ intent information is used. If after searching the hierarchy no rendering intent
 defaults to the rendering intent specified in the instruction color-conversion CMR (that is the same as the
 default rendering intent in the selected link-color-conversion CMR). Note that the hierarchy search for
 rendering intent and the hierarchy search for CMRs are independent of each other; it is possible that the
-rendering intent and the selected CMRs are found on different levels of the hierarchy. Refer to “CMR-Usage
-Hierarchy” on page 35 for more information about CMRs, rendering intent, and the hierarchy.
+rendering intent and the selected CMRs are found on different levels of the hierarchy. Refer to for more information about CMRs, rendering intent, and the hierarchy.
 For pages and overlays, the triplet is specified on the LPD command. For data objects, the triplet is specified
 on the RPO, WGC, WIC2, WOCC, or WTC command. When a presentation object-container or IOCA resource
 is included in a page or overlay, data-object-level rendering intent can be overridden by specifying this triplet
@@ -3293,14 +3152,6 @@ If an invalid value is specified in this field, exception ID X'0256..71' exists.
 Bytes 8–9 Reserved
 Note: This triplet is identical to the corresponding MO:DCA Rendering Intent (X'95') triplet.
 IPDS commands that use this triplet:
-“Include Data Object” on page 575
-“Logical Page Descriptor” on page 204
-“Rasterize Presentation Object” on page 220
-“Set Presentation Environment” on page 266
-“Write Graphics Control” on page 526
-“Write Image Control 2” on page 498
-“Write Object Container Control” on page 595
-“Write Text Control” on page 462
 Triplet X'95'—Rendering Intent
 
 
@@ -3308,7 +3159,7 @@ CMR Tag Fidelity (X'96') Triplet
 The CMR Tag Fidelity (X'96') triplet specifies the exception continuation and reporting rules for Color
 Management Resource (CMR) tag exceptions. A CMR tag exception is detected when an unsupported CMR
 tag is encountered in a Color Management Resource. The applicable exception ID is X'025D..04'.
-Refer to Figure 60 on page 285 for a description of exception handling when a presentation fidelity control is
+Refer to Figure 60 for a description of exception handling when a presentation fidelity control is
 being used.
 The default fidelity action if a CMR Tag Fidelity (X'96') triplet is not received by the printer, or if the activate flag
 in a PFC command is B'0' is to report the error and follow the directions of the currently active XOA-EHC
@@ -3349,7 +3200,7 @@ The valid values are:
 X'01' Stop processing the CMR object at the first X'025D..04' exception.
 In this case, the exception must be reported. When this value is specified, the printer
 ignores triplet byte 4 and reports the exception. Also, the printer stops processing
-further CMR data; refer to Figure 60 on page 285 for a description of exception
+further CMR data; refer to Figure 60 for a description of exception
 handling for this situation.
 X'02' Continue processing CMR data by skipping the unrecognized or unsupported CMR
 tag and continuing with the next CMR tag.
@@ -3366,7 +3217,6 @@ X'02' Do not report X'025D..04' exceptions.
 Bytes 5–6 Reserved
 Note: This triplet is identical to the corresponding MO:DCA CMR Tag Fidelity (X'96') triplet.
 IPDS commands that use this triplet:
-“Presentation Fidelity Control” on page 218
 Triplet X'96'—CMR Tag Fidelity
 
 
@@ -3428,7 +3278,6 @@ whether or not this exception is reported.
 Bytes 5–6 Reserved
 Note: This triplet is identical to the corresponding MO:DCA Device Appearance (X'97') triplet.
 IPDS commands that use this triplet:
-“Set Presentation Environment” on page 266
 Triplet X'97'—Device Appearance
 
 
@@ -3519,9 +3368,6 @@ This parameter specifies the number of image points per Y unit base in the Y dir
 If an invalid value is specified, exception ID X'0256..92' exists.
 Note: This triplet is identical to the corresponding MO:DCA Image Resolution (X'9A') triplet.
 IPDS commands that use this triplet:
-“Include Data Object” on page 575
-“Rasterize Presentation Object” on page 220
-“Write Object Container Control” on page 595
 Triplet X'9A'—Image Resolution
 
 
@@ -3686,9 +3532,6 @@ exists.
 Note: This triplet is identical to the corresponding MO:DCA Object Container Presentation Space Size (X'9C')
 triplet.
 IPDS commands that use this triplet:
-“Include Data Object” on page 575
-“Rasterize Presentation Object” on page 220
-“Write Object Container Control” on page 595
 Triplet X'9C'—Object Container Presentation Space Size
 
 
@@ -3728,9 +3571,6 @@ The name is not syntax checked for proper UTF-16 data; however, an ill-formed na
 unlikely to match any device-supported setup name.
 Note: This triplet is identical to the corresponding MO:DCA Setup Name (X'9E') triplet.
 IPDS commands that use this triplet:
-“Activate Setup Name
-” on page 157
-“XOA Request Setup Name List ” on page 307
 Triplet X'9E'—Setup Name
 
 
@@ -3794,7 +3634,7 @@ how the data was generated; the ICC DeviceLink CMR combines the input and output
 Triplet X'A2'—Invoke Tertiary Resource
 
 
-spaces in a customized way. Refer to “CMR-Usage Hierarchy” on page 35 for more
+spaces in a customized way. Refer to for more
 information about audit CMRs, instruction CMRs, and ICC DeviceLink CMRs, and
 about the hierarchy.
 Bytes 3–4 Host-Assigned ID of tertiary resource
@@ -3820,8 +3660,7 @@ The internal resource ID is a two-byte image local ID specified in the special-
 function parameters within the BSA for the QR Code with Image bar code object.
 The image local ID must be mapped using the DORE or DORE2
 command to the
-HAID of one of the presentation data object resources listed in Table 51 on page
-566 that can use CMRs as secondary resources, or exception ID X'0256..C6'
+HAID of one of the presentation data object resources listed in Table 51 that can use CMRs as secondary resources, or exception ID X'0256..C6'
 exists.
 The CMR identified by the HAID in bytes 3–4 is invoked for use at the data-
 object-level by the image corresponding to the image local ID in this field.
@@ -3843,7 +3682,6 @@ this internal resource id, or if the object mapped by the HAID has not been acti
 exception ID X'020D..10' exists. If the object mapped by the HAID is not a valid type based on
 the context defined by the TRType and IDType values, exception ID X'0256..C6' exists.
 IPDS commands that use this triplet:
-“Write Bar Code Control” on page 550
 Triplet X'A2'—Invoke Tertiary Resource
 
 
