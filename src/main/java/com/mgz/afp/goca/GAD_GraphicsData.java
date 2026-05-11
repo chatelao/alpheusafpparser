@@ -203,6 +203,11 @@ public class GAD_GraphicsData extends StructuredField {
           dotLength = 2;
         }
         break;
+        case 0x5e: {
+          drawingOrder = new GECP_EndCustomPattern();
+          dotLength = 2;
+        }
+        break;
         case 0x60: {
           drawingOrder = new GEAR_EndArea();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
@@ -255,6 +260,11 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x93: {
           drawingOrder = new GEIMD_EndImage();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
+        case 0xa0: {
+          drawingOrder = new GSPRP_SetPatternReferencePoint();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
         }
         break;

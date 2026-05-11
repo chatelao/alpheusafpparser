@@ -1201,6 +1201,41 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
+  public static class GECP_EndCustomPattern extends GAD_DrawingOrder {
+    @AFPField
+    short reserved0 = 0x00;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      reserved0 = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(drawingOrderType);
+      os.write(reserved0);
+    }
+
+    /**
+     * Returns the byte 2, a reserved value that should always be 0x00.
+     *
+     * @return reserved value
+     */
+    public short getReserved0() {
+      return reserved0;
+    }
+
+    /**
+     * Sets the byte 2, a reserved value that should always be 0x00.
+     *
+     * @param reserved_0x00 value for the reserved value.
+     */
+    public void setReserved0(short reserved_0x00) {
+      this.reserved0 = reserved_0x00;
+    }
+  }
+
   public static class GEAR_EndArea extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
@@ -1692,6 +1727,79 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       } else {
         lengthOfFollowingData = (short) imageData.length;
       }
+    }
+  }
+
+  public static class GSPRP_SetPatternReferencePoint extends GAD_DrawingOrder {
+    @AFPField
+    short lengthOfFollowingData;
+    @AFPField
+    short flags;
+    @AFPField
+    short reserved3 = 0x00;
+    @AFPField
+    short coordinateX;
+    @AFPField
+    short coordinateY;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      flags = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
+      reserved3 = UtilBinaryDecoding.parseShort(sfData, offset + 3, 1);
+      coordinateX = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      coordinateY = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(drawingOrderType);
+      os.write(lengthOfFollowingData);
+      os.write(flags);
+      os.write(reserved3);
+      os.write(UtilBinaryDecoding.shortToByteArray(coordinateX, 2));
+      os.write(UtilBinaryDecoding.shortToByteArray(coordinateY, 2));
+    }
+
+    public short getLengthOfFollowingData() {
+      return lengthOfFollowingData;
+    }
+
+    public void setLengthOfFollowingData(short lengthOfFollowingData) {
+      this.lengthOfFollowingData = lengthOfFollowingData;
+    }
+
+    public short getFlags() {
+      return flags;
+    }
+
+    public void setFlags(short flags) {
+      this.flags = flags;
+    }
+
+    public short getReserved3() {
+      return reserved3;
+    }
+
+    public void setReserved3(short reserved3) {
+      this.reserved3 = reserved3;
+    }
+
+    public short getCoordinateX() {
+      return coordinateX;
+    }
+
+    public void setCoordinateX(short coordinateX) {
+      this.coordinateX = coordinateX;
+    }
+
+    public short getCoordinateY() {
+      return coordinateY;
+    }
+
+    public void setCoordinateY(short coordinateY) {
+      this.coordinateY = coordinateY;
     }
   }
 
