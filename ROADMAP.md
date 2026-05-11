@@ -44,7 +44,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Activate Resource (AR): Entry Syntax and Tables 22–23.
             - ✅ Commands: ASN, AFO, BP, DF (Table 24), DUA.
             - ✅ Commands: END, EP, ISP, ICMR.
-            - ⏳ Commands: LCC (Tables 25–27), LFE, LPD, LPP.
+            - ✅ Commands: LCC (Tables 25–27), LFE, LPD, LPP.
             - ⏳ Commands: MID, NOP, PFC, RPO, STM, SHS, SPE.
             - ⏳ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ⏳ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, RRL (Table 29), RSNL.

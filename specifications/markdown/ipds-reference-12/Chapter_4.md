@@ -3,7 +3,7 @@ The Device-Control command set is composed of commands and an acknowledge protoc
 are used to set up the logical page environment, to manage resources, and to communicate device controls.
 The acknowledge protocol is used to transmit printer characteristics, status, resource information, and error
 information to the presentation services program. This command set contains the following commands:
-Table 19. Device Control Commands
+**Table 19**. Device Control Commands
 
 | Command | Code | Description | In DC1 Subset? |
 | :--- | :---: | :--- | :---: |
@@ -32,7 +32,7 @@ Table 19. Device Control Commands
 | XOH | X'D68F' | Execute Order Home State | See command description |
 | | X'D61C' | Retired Command Code | No |
 
-Table 20. Acknowledge Protocol
+**Table 20**. Acknowledge Protocol
 
 | Reply | Code | Description | In DC1 Subset? |
 | :--- | :---: | :--- | :---: |
@@ -167,7 +167,7 @@ Byte 0 Acknowledge type
 This one-byte field identifies the acknowledge type, the contents of the page and copy
 counters, and the special data area. The values that can be returned in this field are as
 follows:
-Table 21. Acknowledge Types
+**Table 21**. Acknowledge Types
 
 | Value | Meaning | Page and Copy Counter Format | Special Data Area |
 | :---: | :--- | :--- | :--- |
@@ -555,7 +555,7 @@ be one of the following:
 Printers that support AR must support entry lengths of X'0002', X'000C', and the valid length
 for each RT , RIDF combination supported. The valid entry lengths for RT , RIDF combinations
 follow:
-Table 22. Valid RID Entry Lengths
+**Table 22**. Valid RID Entry Lengths
 
 | RT | RIDF | Valid Entry Length |
 | :--- | :---: | :--- |
@@ -1326,7 +1326,7 @@ The Activate Resource triplets are fully described in the triplets chapter:
 “Linked Font (X'8D') Triplet”
 “Color Management Resource Descriptor (X'91') Triplet”
 The following table specifies the triplets that can be used with each RT/RIDF combination:
-Table 23. RT/RIDF Triplet Combinations
+**Table 23**. RT/RIDF Triplet Combinations
 
 | Combination | Triplet | Required? |
 | :--- | :--- | :--- |
@@ -1594,7 +1594,7 @@ specified deactivation type is ignored.
 Note: The deactivation types required for the LF1, LF2, LF3, and LF4 subsets, and those that are optional
 are listed in the following table:
 
-Table 24. Required and Optional Deactivation Types
+**Table 24**. Required and Optional Deactivation Types
 
 | Supported Capability | Required Deactivation Types | Optional Deactivation Types |
 | :--- | :--- | :--- |
@@ -1744,8 +1744,8 @@ The format of the data field for the DUA command is as follows:
 | 0 | CODE | Reset | X'00'<br>X'01' | Reset user printable area:<br>X'00' A new UPA is being defined<br>X'01' Reset the UPA to the physical printable area | X'00'<br>X'01' |
 | 1 | CODE | Unit base | X'00'<br>X'01' | Unit base for this command:<br>X'00' Ten inches<br>X'01' Ten centimeters | X'00' |
 | 2–3 | UBIN | UPUB | X'0001' – X'7FFF' | Xm and Ym units per unit base | X'3840' |
-| 4–6 | SBIN | Xm offset | X'FF8000'– X'007FFF' | Xm coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
-| 7–9 | SBIN | Ym offset | X'FF8000'– X'007FFF' | Ym coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
+| 4–6 | SBIN | $X_m$ offset | X'FF8000'– X'007FFF' | Xm coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
+| 7–9 | SBIN | $Y_m$ offset | X'FF8000'– X'007FFF' | Ym coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
 | 10–12 | UBIN | Xm extent | X'000001'– X'007FFF' | Xm extent of the UPA specified in L-units | X'000001'– X'007FFF' |
 | 13–15 | UBIN | Ym extent | X'000001'– X'007FFF' | Ym extent of the UPA specified in L-units | X'000001'– X'007FFF' |
 Byte 0 Reset user printable area
@@ -1759,12 +1759,12 @@ Property pair X'FB00' in the Device-Control command-set vector of an STM reply i
 support for all architected units of measure.
 Bytes 2–3 X
 m and Ym units per unit base for this command
-This parameter specifies the number of units per unit base in both the Xm and Ym directions.
+This parameter specifies the number of units per unit base in both the Xm and $Y_m$ directions.
 Bytes 4–6 Xm coordinate of the user-printable-area origin
-This parameter specifies the offset in the Xm direction of the user printable area origin from the
+This parameter specifies the offset in the $X_m$ direction of the user printable area origin from the
 current medium presentation space origin as specified in L-units.
 Bytes 7–9 Ym coordinate of the user-printable-area origin
-This parameter specifies the offset in the Ym direction of the user printable area origin from the
+This parameter specifies the offset in the $Y_m$ direction of the user printable area origin from the
 current medium presentation space origin as specified in L-units.
 Bytes 10–12 Xm extent of the user printable area in L-units
 Exception ID X'02A4..02' exists if the user printable area boundary in the X-direction cannot
@@ -2069,7 +2069,7 @@ list (bytes 2 to end). Mixing different N-up copy subgroups causes exception ID 
 2. If duplex is specified and the number of identical copies (byte 1) is not the same for both copy subgroups of
 a copy-subgroup pair, exception ID X'02C4..01' exists. Exception ID X'02C0..01' exists if the type of duplex
 (X
-m-axis or Ym-axis) is not the same for both copy subgroups of a copy-subgroup pair. Exception ID
+$X_m$-axis or $Y_m$-axis) is not the same for both copy subgroups of a copy-subgroup pair. Exception ID
 X'0237..05' exists if the media-source ID or the media-destination ID is not the same for both copy
 subgroups of a copy-subgroup pair. Exception ID X'02C5..02' exists if duplex is specified and the physical
 media is not compatible with duplex printing.
@@ -2098,53 +2098,31 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The data in a Load Copy Control command consists of one or more copy subgroup entries that are processed
 in the order that they appear in the command. If a syntax error is encountered in one of the entries, the LCC
 command is discarded and the previously received LCC command remains in effect.
-Offset Type Name Range Meaning DC1 Range
-One or more copy subgroups in the following format:
-0 UBIN Count X'02'–X'FE'
-even values
-Copy-subgroup byte count, including this
-count field
-X'02'
-1 UBIN Copies X'01'–X'FF' Number of identical copies X'01'; default
-value if no LCC
-is received
-2 to
-end of
-copy
-sub-
-group
-CODE Keywords Zero or more copy modification keyword
-pairs. The first byte is the keyword ID; the
-second byte is the parameter.
-Table 25. LCC Keywords
-Keyword
-ID
-Parameter
-Range
-Meaning DC1 Parameter
-Range
-X'80' X'00'–X'FF' Media source ID Not in DC1
-X'90' X'00'–X'FF' High-order byte of media-destination ID Not in DC1
-X'91' X'00'–X'FF' Low-order byte of media-destination ID Not in DC1
-X'C1' X'00'
-X'01'
-X'02'
-Simplex (the default)
-Y
-m-axis duplex
-Xm-axis duplex
-X'00'
-X'C2' X'01'–X'04' Number of partitions on each side (N-up) Not in DC1
-X'C3' X'00' Enable cut-sheet emulation, eject to next sheetlet, and do not
-allow N-up.
-Not in DC1
-X'D1' X'01'–X'FF' Suppression ID X'01'–X'7F'
-X'D2' X'01'–X'FE' Preprinted form overlay ID Not in DC1
-X'E1' X'01'–X'FE' Medium overlay ID X'01'–X'FE'
-X'E4' X'00'–X'7E' High-order byte of a medium overlay HAID Not in DC1
-X'E5' X'00'–X'FF' Low-order byte of a medium overlay HAID Not in DC1
-X'E6' X'00'–X'7E' High-order byte of a preprinted form overlay HAID Not in DC1
-X'E7' X'00'–X'FF' Low-order byte of a preprinted form overlay HAID Not in DC1
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Count | X'02'–X'FE' (even values) | Copy-subgroup byte count, including this count field | X'02' |
+| 1 | UBIN | Copies | X'01'–X'FF' | Number of identical copies | X'01'; default value if no LCC is received |
+| 2 to end of copy subgroup | CODE | Keywords | | Zero or more copy modification keyword pairs. The first byte is the keyword ID; the second byte is the parameter. | |
+
+**Table 25. LCC Keywords**
+
+| Keyword ID | Parameter Range | Meaning | DC1 Parameter Range |
+| :---: | :--- | :--- | :--- |
+| X'80' | X'00'–X'FF' | Media source ID | Not in DC1 |
+| X'90' | X'00'–X'FF' | High-order byte of media-destination ID | Not in DC1 |
+| X'91' | X'00'–X'FF' | Low-order byte of media-destination ID | Not in DC1 |
+| X'C1' | X'00' | Simplex (the default) | X'00' |
+| | X'01' | $Y_m$-axis duplex | |
+| | X'02' | $X_m$-axis duplex | |
+| X'C2' | X'01'–X'04' | Number of partitions on each side (N-up) | Not in DC1 |
+| X'C3' | X'00' | Enable cut-sheet emulation, eject to next sheetlet, and do not allow N-up. | Not in DC1 |
+| X'D1' | X'01'–X'FF' | Suppression ID | X'01'–X'7F' |
+| X'D2' | X'01'–X'FE' | Preprinted form overlay ID | Not in DC1 |
+| X'E1' | X'01'–X'FE' | Medium overlay ID | X'01'–X'FE' |
+| X'E4' | X'00'–X'7E' | High-order byte of a medium overlay HAID | Not in DC1 |
+| X'E5' | X'00'–X'FF' | Low-order byte of a medium overlay HAID | Not in DC1 |
+| X'E6' | X'00'–X'7E' | High-order byte of a preprinted form overlay HAID | Not in DC1 |
+| X'E7' | X'00'–X'FF' | Low-order byte of a preprinted form overlay HAID | Not in DC1 |
 ## Load Copy Control (LCC)
 
 
@@ -2196,18 +2174,20 @@ is specified in a copy subgroup.
 
 Note: The following example shows how the LCC and XOH-SIMS commands
 work together:
-Table 26. Media Source Commands
-IPDS commands Media source used by the printer
-LCC 2, ,3 2,D,3 where D is the default media source
-LCC 5,7 5,7
-SIMS 9 9,9
-LCC 2,3 2,3
-LCC , ,2 9,9,2
-LCC 7 7
-SIMS 10 10
-LCC 12, 12,10
-LCC , , , 10,10,10,10
-SIMS 3 3,3,3,3
+**Table 26. Media Source Commands**
+
+| IPDS commands | Media source used by the printer |
+| :--- | :--- |
+| LCC 2, ,3 | 2,D,3 where D is the default media source |
+| LCC 5,7 | 5,7 |
+| SIMS 9 | 9,9 |
+| LCC 2,3 | 2,3 |
+| LCC , ,2 | 9,9,2 |
+| LCC 7 | 7 |
+| SIMS 10 | 10 |
+| LCC 12, | 12,10 |
+| LCC , , , | 10,10,10,10 |
+| SIMS 3 | 3,3,3,3 |
 Note: “LCC 2, ,3” means that there are 3 copy subgroups and that the media-source selection is ID=2 for the first copy
 subgroup, no selection for the second copy subgroup, and ID=3 for the third copy subgroup.
 X'90nn' High-order byte of the media-destination ID
@@ -2269,14 +2249,14 @@ to, exception ID X'027C..09' exists.
 X'C1nn' Simplex and duplex printing-control parameters:
 X'00' specifies simplex printing. Simplex is the default if the printer has not
 received an LCC command.
-X'01' specifies Ym-axis duplex printing. This type of duplex printing causes a
+X'01' specifies $Y_m$-axis duplex printing. This type of duplex printing causes a
 sheet to print in a normal duplex orientation. See Figure 50. The
 medium presentation space for the back side is oriented as if it had been
-physically turned around the edge that corresponds to the front-side Ym axis.
-X'02' specifies Xm-axis duplex printing. This type of duplex printing causes a
+physically turned around the edge that corresponds to the front-side $Y_m$ axis.
+X'02' specifies $X_m$-axis duplex printing. This type of duplex printing causes a
 sheet to print in a tumble duplex orientation. See Figure 50. The
 medium presentation space for the back side is oriented as if it had been
-physically turned around the edge that corresponds to the front-side Xm axis.
+physically turned around the edge that corresponds to the front-side $X_m$ axis.
 Note: The LCC N-up keyword pair together with the simplex/duplex keyword
 pair indicates how many pages are to be placed on the sheet. The LPP
 command specifies where on the sheet each page is positioned. If
@@ -2293,7 +2273,7 @@ subgroup; exception ID X'02C1..01' exists if more than one such keyword pair
 is specified in a copy subgroup. Mixing simplex and duplex copy subgroups
 within an LCC command causes exception ID X'02C3..01' to exist. Exception
 ID X'02C0..01' exists if the type of duplex (X
-m-axis or Ym-axis) is not the same
+$X_m$-axis or $Y_m$-axis) is not the same
 for both copy subgroups of a copy-subgroup pair. Exception ID X'02C2..01'
 exists if an odd number of duplex copy subgroups is specified. Exception ID
 X'0236..01' exists if an invalid or unsupported simplex/duplex parameter is
@@ -2301,7 +2281,7 @@ specified.
 ## Load Copy Control (LCC)
 
 
-Figure 50. Xm-Axis and Ym-Axis for Duplex Printing
+**Figure 50. $X_m$-Axis and $Y_m$-Axis for Duplex Printing**
 I
 B
 ii
@@ -2364,7 +2344,7 @@ The N-up keyword pair may be specified only once per copy subgroup;
 exception ID X'02C0..03' exists if more than one such keyword pair is
 specified in a copy subgroup. Mixing different N-up copy subgroups in an
 LCC command causes exception ID X'02C0..02' to exist.
-Figure 51. N-up Partitions for Various Physical Media
+**Figure 51**. N-up Partitions for Various Physical Media
 1 Up
 2 Up
 3 Up
@@ -2425,7 +2405,7 @@ situation.
 ## Load Copy Control (LCC)
 
 
-Figure 52. N-up Partition Layouts with SMO = X'00'
+**Figure 52**. N-up Partition Layouts with SMO = X'00'
 Medium Presentation Space Origin
 Partition Origin
 1
@@ -2453,7 +2433,7 @@ Partition Origin
 3     4
 1     2
 3     4
-Figure 53. N-up Partition Layouts with SMO = X'01'
+**Figure 53**. N-up Partition Layouts with SMO = X'01'
 2 Up
 1 Up
 3 Up
@@ -2477,7 +2457,7 @@ Partition Origin
 ## Load Copy Control (LCC)
 
 
-Figure 54. N-up Partition Layouts with SMO = X'02'
+**Figure 54**. N-up Partition Layouts with SMO = X'02'
 2 Up
 1 Up
 3 Up
@@ -2503,7 +2483,7 @@ Partition Origin
 3     4
 1     2
 3     4
-Figure 55. N-up Partition Layouts with SMO = X'03'
+**Figure 55**. N-up Partition Layouts with SMO = X'03'
 2 Up
 1 Up
 3 Up
@@ -2770,78 +2750,14 @@ following table:
 ## Load Copy Control (LCC)
 
 
-Table 27. Exception Continuation Rules
-If the data-stream exception
-is:
-And the next command received is: The printer will:
-Synchronous Not any of the following:
-• XOH Eject to Front Facing
-• XOH Erase Residual Font Data
-• XOH Erase Residual Print Data
-• XOH Page Counters Control
-with Byte 2 = X'00' or
-with Byte 2 = X'01'
-• XOA Discard Buffered Data
-• XOA Discard Unstacked Pages
-• XOH Stack Received Pages
-• Load Copy Control.
-Continue the copy subgroup
-processing with the copy
-subgroup in which the exception
-occurred. The host must resend
-the page that caused the
-exception and all subsequent
-pages for the sheet.
-Asynchronous Not any of the following:
-• XOH Eject to Front Facing
-• XOH Erase Residual Font Data
-• XOH Erase Residual Print Data
-• XOH Page Counters Control
-with Byte 2 = X'00' or
-with Byte 2 = X'01'
-• XOA Discard Buffered Data
-• XOA Discard Unstacked Pages
-• XOH Stack Received Pages
-• Load Copy Control.
-Process the next page received
-from the host starting with copy
-subgroup one, against the most
-recently-received LCC
-command.
-Synchronous
-or
-Asynchronous
-One of the following:
-• XOH Eject to Front Facing
-• XOH Erase Residual Font Data
-• XOH Erase Residual Print Data
-• XOH Page Counters Control
-with Byte 2 = X'00' or
-with Byte 2 = X'01'
-• XOA Discard Buffered Data
-• XOA Discard Unstacked Pages
-• XOH Stack Received Pages.
-For all commands except XOH
-DBD and XOH DUP , buffer the
-remaining copy subgroups
-without the exception or
-any subsequent pages. Process
-the next page received from the
-host starting with copy subgroup
-one, against the LCC command
-associated with the page in
-which the exception occurred.
-Synchronous
-or
-Asynchronous
-Load Copy Control Buffer the remaining copy
-subgroups without the exception
-page or any subsequent pages.
-Process the next page received
-from the host starting with copy
-subgroup one, against the most
-recently-received LCC
-command.
+**Table 27. Exception Continuation Rules**
+
+| If the data-stream exception is: | And the next command received is: | The printer will: |
+| :--- | :--- | :--- |
+| Synchronous | Not any of the following:<ul><li>XOH Eject to Front Facing</li><li>XOH Erase Residual Font Data</li><li>XOH Erase Residual Print Data</li><li>XOH Page Counters Control with Byte 2 = X'00' or with Byte 2 = X'01'</li><li>XOA Discard Buffered Data</li><li>XOA Discard Unstacked Pages</li><li>XOH Stack Received Pages</li><li>Load Copy Control.</li></ul> | Continue the copy subgroup processing with the copy subgroup in which the exception occurred. The host must resend the page that caused the exception and all subsequent pages for the sheet. |
+| Asynchronous | Not any of the following:<ul><li>XOH Eject to Front Facing</li><li>XOH Erase Residual Font Data</li><li>XOH Erase Residual Print Data</li><li>XOH Page Counters Control with Byte 2 = X'00' or with Byte 2 = X'01'</li><li>XOA Discard Buffered Data</li><li>XOA Discard Unstacked Pages</li><li>XOH Stack Received Pages</li><li>Load Copy Control.</li></ul> | Process the next page received from the host starting with copy subgroup one, against the most recently-received LCC command. |
+| Synchronous or Asynchronous | One of the following:<ul><li>XOH Eject to Front Facing</li><li>XOH Erase Residual Font Data</li><li>XOH Erase Residual Print Data</li><li>XOH Page Counters Control with Byte 2 = X'00' or with Byte 2 = X'01'</li><li>XOA Discard Buffered Data</li><li>XOA Discard Unstacked Pages</li><li>XOH Stack Received Pages.</li></ul> | For all commands except XOA-DBD and XOA-DUP, buffer the remaining copy subgroups without the exception or any subsequent pages. Process the next page received from the host starting with copy subgroup one, against the LCC command associated with the page in which the exception occurred. |
+| Synchronous or Asynchronous | Load Copy Control | Buffer the remaining copy subgroups without the exception page or any subsequent pages. Process the next page received from the host starting with copy subgroup one, against the most recently-received LCC command. |
 Notes:
 1. Multiple data-stream exceptions can be detected on a page if the Page Continuation bit that applies to the
 first exception is B'1'. The XOA-EHC command used for a given synchronous data-stream exception is the
@@ -2993,66 +2909,25 @@ an empty LFE command is received.
 The data in a Load Font Equivalence command consists of zero or more font equivalence entries that are
 processed in the order that they appear in the command. If a syntax error is encountered in one of the entries,
 that entry and all following entries in the LFE command are discarded; preceding entries remain in effect.
-Offset Type Name Range Meaning DC1 Range
-Zero or more font equivalence entries in the following format (see previous note):
-0 CODE LID X'00'–X'FE' Font local ID X'00'–X'7F'
-1–2 CODE HAID X'0001' –
-X'7EFF'
-Complete font Host-Assigned ID X'0001' –
-X'7EFF'
-3–4 CODE FIS
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-Font inline sequence:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-X'0000'
-5–6 CODE GCSGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied; see note 1
-Graphic Character Set Global ID (GCSGID)
-Use default value
-See note 2
-7–8 CODE CPGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied; see note 1
-Code Page Global ID (CPGID)
-Use default value
-See note 2
-9–10 CODE FGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied; see note 1
-## Font Typeface Global ID (FGID)
-Use default value
-See note 2
-11–12 CODE FW X'0000'
-X'0001' –
-X'7FFF'
-X'FFFF'
-No value supplied; see note 1
-## Font Width (FW)
-Use default value
-See note 2
-13 X'00' Reserved X'00'
-14 BITS LFE flags
-bit 0 B'0', B'1' Symbol Set present in printer B'0'
-bits 1–2 B'00' Reserved B'00'
-bit 3 B'0', B'1' Double high B'0'
-bit 4 B'0', B'1' Italics B'0'
-bit 5 B'0', B'1' Double strike B'0'
-bit 6 B'0', B'1' Bold B'0'
-bit 7 B'0', B'1' Double wide B'0'
-15 X'00' Reserved X'00'
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | LID | X'00'–X'FE' | Font local ID | X'00'–X'7F' |
+| 1–2 | CODE | HAID | X'0001'–X'7EFF' | Complete font Host-Assigned ID | X'0001'–X'7EFF' |
+| 3–4 | CODE | FIS | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Font inline sequence:<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
+| 5–6 | CODE | GCSGID | X'0000'<br>X'0001'–X'FFFE'<br>X'FFFF' | No value supplied; see note 1<br>Graphic Character Set Global ID (GCSGID)<br>Use default value<br>See note 2 | |
+| 7–8 | CODE | CPGID | X'0000'<br>X'0001'–X'FFFE'<br>X'FFFF' | No value supplied; see note 1<br>Code Page Global ID (CPGID)<br>Use default value<br>See note 2 | |
+| 9–10 | CODE | FGID | X'0000'<br>X'0001'–X'FFFE'<br>X'FFFF' | No value supplied; see note 1<br>Font Typeface Global ID (FGID)<br>Use default value<br>See note 2 | |
+| 11–12 | CODE | FW | X'0000'<br>X'0001'–X'7FFF'<br>X'FFFF' | No value supplied; see note 1<br>Font Width (FW)<br>Use default value<br>See note 2 | |
+| 13 | X'00' | Reserved | X'00' | | |
+| 14 | BITS | LFE flags | | | |
+| | bit 0 | | B'0', B'1' | Symbol Set present in printer | B'0' |
+| | bits 1–2 | | B'00' | Reserved | B'00' |
+| | bit 3 | | B'0', B'1' | Double high | B'0' |
+| | bit 4 | | B'0', B'1' | Italics | B'0' |
+| | bit 5 | | B'0', B'1' | Double strike | B'0' |
+| | bit 6 | | B'0', B'1' | Bold | B'0' |
+| | bit 7 | | B'0', B'1' | Double wide | B'0' |
+| 15 | X'00' | Reserved | X'00' | | |
 ## Load Font Equivalence (LFE)
 
 
@@ -3305,150 +3180,34 @@ is indicated by property pairs in the Device-Control command-set vector of an ST
 If a short LPD command is sent to a printer that does not support short LPD commands, or if a triplet is sent to
 a printer that does not support LPD triplets, exception ID X'0202..02' exists.
 The format of the data field for the LPD command is as follows:
-Offset Type Name Range Meaning DC1 Range
-0 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-1 X'00' Reserved X'00'
-2–3 UBIN XUPUB X'0001' –
-X'7FFF'
-Xm, Xp, and I units per unit base X'3840'
-4–5 UBIN YUPUB X'0001' –
-X'7FFF'
-Ym, Yp, and B units per unit base; must equal
-the value in bytes 2–3
-X'3840'
-6 X'00' Reserved X'00'
-7–9 UBIN Xp extent X'000001'–
-X'007FFF'
-Xp extent of the logical page X'000001'–
-X'007FFF'
-Refer to the note
-following the
-table.
-10 X'00' Reserved X'00'
-11–13 UBIN Yp extent X'000001'–
-X'007FFF'
-Yp extent of the logical page X'000001'–
-X'007FFF'
-Refer to the note
-following the
-table.
-14 X'00' Reserved X'00'
-15 BITS Ordered data flags
-bit 0 B'0', B'1' Ordered page B'0'
-bits 1–7 B'0000000' Reserved B'0000000'
-16–23 X'00..00' Reserved X'00..00'
-Initial text-major conditions:
-24–25 CODE I-axis
-orientation
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-X'FFFF'
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-Printer default
-X'0000'
-X'FFFF'
-26–27 CODE B-axis
-orientation
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-X'FFFF'
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-Printer default
-X'2D00'
-X'FFFF'
-28–29 SBIN Initial I X'0000' –
-X'7FFF'
-Initial I print coordinate X'0000' –
-X'7FFF'
-Refer to the note
-following the
-table.
-30–31 SBIN Initial B X'0000' –
-X'7FFF'
-Initial B print coordinate X'0000' –
-X'7FFF'
-Refer to the note
-following the
-table.
-## Logical Page Descriptor (LPD)
-
-
-Offset Type Name Range Meaning DC1 Range
-32–33 UBIN Inline margin X'0000' –
-X'7FFF'
-X'FFFF'
-Inline margin
-Printer default
-X'0000' –
-X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-34–35 UBIN Interchar.
-adjustment
-X'0000' –
-X'7FFF'
-X'FFFF'
-Intercharacter adjustment
-Printer default
-X'0000' –
-X'00FF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-36–37 X'0000' Reserved X'0000'
-38–39 UBIN Baseline
-increment
-X'0000' –
-X'7FFF'
-X'FFFF'
-Baseline increment
-Printer default
-X'0000' –
-X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-40 CODE LID X'00'–X'FE'
-X'FF'
-Font local ID
-Printer default
-X'00'–X'7F'
-X'FF'
-41–42 CODE Color See byte
-description
-X'FFFF'
-Text color
-Printer default
-X'FF07'
-End of initial text-major conditions
-43 to
-end of
-LPD
-Triplets Zero or more optional LPD triplets; not all
-IPDS printers support LPD triplets
-X'4E' Color Specification triplet
-X'70' Presentation Space Reset Mixing
-triplet
-X'92' Invoke CMR triplet
-X'95' Rendering Intent triplet
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 1 | X'00' | Reserved | X'00' | | |
+| 2–3 | UBIN | XUPUB | X'0001'–X'7FFF' | $X_m, X_p,$ and $I$ units per unit base | X'3840' |
+| 4–5 | UBIN | YUPUB | X'0001'–X'7FFF' | $Y_m, Y_p,$ and $B$ units per unit base; must equal the value in bytes 2–3 | X'3840' |
+| 6 | X'00' | Reserved | X'00' | | |
+| 7–9 | UBIN | $X_p$ extent | X'000001'–X'007FFF' | $X_p$ extent of the logical page | X'000001'–X'007FFF' (Refer to the note following the table.) |
+| 10 | X'00' | Reserved | X'00' | | |
+| 11–13 | UBIN | $Y_p$ extent | X'000001'–X'007FFF' | $Y_p$ extent of the logical page | X'000001'–X'007FFF' (Refer to the note following the table.) |
+| 14 | X'00' | Reserved | X'00' | | |
+| 15 | BITS | Ordered data flags | | | |
+| | bit 0 | | B'0', B'1' | Ordered page | B'0' |
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' |
+| 16–23 | X'00..00' | Reserved | X'00..00' | | |
+| **Initial text-major conditions:** | | | | | |
+| 24–25 | CODE | $I$-axis orientation | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700'<br>X'FFFF' | 0 degrees<br>90 degrees<br>180 degrees<br>270 degrees<br>Printer default | X'0000'<br>X'FFFF' |
+| 26–27 | CODE | $B$-axis orientation | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700'<br>X'FFFF' | 0 degrees<br>90 degrees<br>180 degrees<br>270 degrees<br>Printer default | X'2D00'<br>X'FFFF' |
+| 28–29 | SBIN | Initial $I$ | X'0000'–X'7FFF' | Initial $I$ print coordinate | X'0000'–X'7FFF' (Refer to the note following the table.) |
+| 30–31 | SBIN | Initial $B$ | X'0000'–X'7FFF' | Initial $B$ print coordinate | X'0000'–X'7FFF' (Refer to the note following the table.) |
+| 32–33 | UBIN | Inline margin | X'0000'–X'7FFF'<br>X'FFFF' | Inline margin<br>Printer default | X'0000'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
+| 34–35 | UBIN | Interchar. adjustment | X'0000'–X'7FFF'<br>X'FFFF' | Intercharacter adjustment<br>Printer default | X'0000'–X'00FF' (Refer to the note following the table.)<br>X'FFFF' |
+| 36–37 | X'0000' | Reserved | X'0000' | | |
+| 38–39 | UBIN | Baseline increment | X'0000'–X'7FFF'<br>X'FFFF' | Baseline increment<br>Printer default | X'0000'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
+| 40 | CODE | LID | X'00'–X'FE'<br>X'FF' | Font local ID<br>Printer default | X'00'–X'7F'<br>X'FF' |
+| 41–42 | CODE | Color | See byte description<br>X'FFFF' | Text color<br>Printer default | X'FF07' |
+| **End of initial text-major conditions** | | | | | |
+| 43 to end of LPD | Triplets | | | Zero or more optional LPD triplets; not all IPDS printers support LPD triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -3467,7 +3226,7 @@ support for all architected units of measure.
 Exception ID X'0264..02' exists if an invalid or unsupported unit base value is specified.
 Byte 1 Retired item 5
 Bytes 2–3 Xm, Xp, and I units per unit base
-This parameter specifies the number of units per unit base in the Xm direction for positioning
+This parameter specifies the number of units per unit base in the $X_m$ direction for positioning
 the logical page within the medium coordinate system using the LPP command.
 It also specifies the number of units per unit base in both the Xp and I directions for positioning
 data objects and text. The PTOCA control sequences that use these units of measure
@@ -3475,7 +3234,7 @@ include: AMB, AMI, DBR, DIR, RMB, RMI, SBI, SIM, SIA, SVI, and TBM.
 Exception ID X'0260..02' exists if an invalid or unsupported units per unit base value is
 specified.
 Bytes 4–5 Ym, Yp, and B units per unit base
-This parameter specifies the number of units per unit base in the Ym direction for positioning
+This parameter specifies the number of units per unit base in the $Y_m$ direction for positioning
 the logical page within the medium coordinate system using the LPP command.
 It also specifies the number of units per unit base in both the Yp and B directions for
 positioning data objects and text. The PTOCA control sequences that use these units of
@@ -3484,7 +3243,7 @@ The value in bytes 4–5 must equal the value in bytes 2–3.
 Exception ID X'0261..02' exists if an invalid or unsupported units per unit base value is
 specified.
 Byte 6 Reserved
-Bytes 7–9 Xp extent of the logical page
+Bytes 7–9 $X_p$ extent of the logical page
 This parameter is specified in L-units.
 The logical page size is independent of the extents defined for the medium presentation space
 on which the logical page is positioned by the LPP , IO, or LCC command. The logical page
@@ -3493,9 +3252,9 @@ merge data outside of the valid printable area cause exception ID X'08C1..00' to
 Exception ID X'0262..02' exists if an invalid or unsupported X
 p extent value is specified.
 Byte 10 Reserved
-Bytes 11–13 Yp extent of the logical page
+Bytes 11–13 $Y_p$ extent of the logical page
 This parameter is specified in L-units.
-Exception ID X'0263..02' exists if an invalid or unsupported Yp extent value is specified.
+Exception ID X'0263..02' exists if an invalid or unsupported $Y_p$ extent value is specified.
 Byte 14 Reserved
 ## Logical Page Descriptor (LPD)
 
@@ -3612,10 +3371,10 @@ commands between the LPP and BP commands.
 The LPP command is valid only when the printer is in home state. The values established by an LPP command
 remain in effect until they are replaced by another LPP command. If no LPP command is received by the
 printer, the default is to position at a printer assigned location; refer to your printer documentation for details.
-Figure 56 shows how the LPP command positions a logical page on the medium presentation space when
+**Figure 56** shows how the LPP command positions a logical page on the medium presentation space when
 there is one page per side. Similar positioning is done within each partition when there is more than one page
 per side.
-Figure 56. Using the LPP Command to Position the Logical Page When There Is One Page per Side
+**Figure 56**. Using the LPP Command to Position the Logical Page When There Is One Page per Side
 Medium Presentation Space Origin
 Specified offset
 Medium Presentation Space
@@ -3630,14 +3389,14 @@ Subsequently received pages are positioned as specified by the most recently rec
 commands. The LCC command specifies whether simplexing or duplexing is in effect and specifies how many
 pages are placed on the sheet. The LPP command specifies the origin in the medium coordinate system of a
 logical page and specifies the orientation of the logical page relative to the medium coordinate system.
-Figure 57 shows an example of some of the ways to position and orient multiple pages on a sheet. In this
+**Figure 57** shows an example of some of the ways to position and orient multiple pages on a sheet. In this
 example, 2-up tumble-duplex printing is specified in the LCC command, the medium presentation space origin
 is changed to the upper-right corner with the XOH-SMO command, and a different LPP command is used for
 each of the four pages on the sheet. Notice that each of the pages has been oriented differently. Page 1 has
 been placed on the back side in partition 2, but it also overlaps into partition 1; this is accomplished with
 negative positioning. Page 3 was placed on top of page 2; pages are placed on the sheet in the order that they
 are received in the data stream.
-Figure 57. Page Positioning and Orientation Examples
+**Figure 57**. Page Positioning and Orientation Examples
 Front side Back side
 Partition 1
 Partition 1
@@ -3651,8 +3410,7 @@ This is
 page 3
 This is
 page 4
-X
-m
+$X_m$
 Ym
 Xm
 Ym
@@ -3684,12 +3442,12 @@ Xp
 ## Logical Page Position (LPP)
 
 
-Figure 58 shows a more useful example in which the four pages have been placed on continuous-forms media.
+**Figure 58** shows a more useful example in which the four pages have been placed on continuous-forms media.
 After printing, the media can be burst, trimmed, slit, and collated so that the resulting sheets look as if they had
 been printed by a duplex, cut-sheet printer. This is accomplished using some of the defaulting capabilities of
 the LPP command; in this case, the pages cannot overlap into other partitions. Notice that the LPP command
 for page 1 used default page placement; pages 2, 3, and 4 were explicitly placed in their partitions.
-Figure 58. Continuous-Forms, Duplex, 2-Up Example
+**Figure 58**. Continuous-Forms, Duplex, 2-Up Example
 Key:
 normal duplex, 2-up partitioning
 X’03’
@@ -3721,8 +3479,7 @@ This is
 page 4
 Leading edge
 Leading edge
-X
-m
+$X_m$
 Ym
 Partition 1 Partition 2
 ## Logical Page Position (LPP)
@@ -3736,59 +3493,13 @@ Without CID X'000F'
 With CID X'0011'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The format of the data field for the LPP command is as follows:
-Offset Type Name Range Meaning DC1 Range
-0 X'00' Reserved X'00'
-1–3 SBIN Xm page offset X'FF8000'–
-X'007FFF'
-Xm offset for the logical page origin specified
-in L-units
-X'000000'–
-X'001555'
-Refer to the note
-following the
-table.
-4 CODE Placement
-X'00'
-X'10'
-X'11'
-X'20'
-X'21'
-X'30'
-X'31'
-X'40'
-X'41'
-Page placement:
-Default placement
-Partition 1, front side
-Partition 1, back side
-Partition 2, front side
-Partition 2, back side
-Partition 3, front side
-Partition 3, back side
-Partition 4, front side
-Partition 4, back side
-X'00'
-5–7 SBIN Y
-m page offset X'FF8000'–
-X'007FFF'
-Ym offset for the logical page origin specified
-in L-units
-X'000000'–
-X'001555'
-Refer to the note
-following the
-table.
-8–9 CODE Orientation
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-Page orientation:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-X'0000'
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | X'00' | Reserved | X'00' | | |
+| 1–3 | SBIN | $X_m$ page offset | X'FF8000'–X'007FFF' | $X_m$ offset for the logical page origin specified in L-units | X'000000'–X'001555' (Refer to the note following the table.) |
+| 4 | CODE | Placement | X'00'<br>X'10'<br>X'11'<br>X'20'<br>X'21'<br>X'30'<br>X'31'<br>X'40'<br>X'41' | Page placement:<br>Default placement<br>Partition 1, front side<br>Partition 1, back side<br>Partition 2, front side<br>Partition 2, back side<br>Partition 3, front side<br>Partition 3, back side<br>Partition 4, front side<br>Partition 4, back side | X'00' |
+| 5–7 | SBIN | $Y_m$ page offset | X'FF8000'–X'007FFF' | $Y_m$ offset for the logical page origin specified in L-units | X'000000'–X'001555' (Refer to the note following the table.) |
+| 8–9 | CODE | Orientation | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Page orientation:<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -3798,18 +3509,18 @@ page 68.
 Byte 0 Reserved
 Bytes 1–3 X
 m page offset
-This parameter specifies the offset in the Xm direction of a logical page origin specified in L-
+This parameter specifies the offset in the $X_m$ direction of a logical page origin specified in L-
 units using the units of measure specified in the LPD command. If the printer has not received
 an LPD command, the printer default units of measure are used. This is an offset from either
 the current media origin or, if N-up is in effect, from the current partition origin. Together, the
 X
-m and Ym offset values position the origin of a page's logical page presentation space on one
+m and $Y_m$ offset values position the origin of a page's logical page presentation space on one
 side of a sheet.
 ## Logical Page Position (LPP)
 
 
 Exception ID X'02AD..01' exists if an invalid or unsupported offset value is specified.
-Exception ID X'02A4..01' exists if the Xm-offset value specified together with the logical page
+Exception ID X'02A4..01' exists if the $X_m$-offset value specified together with the logical page
 extent or IO offset value exceeds the maximum supported by the printer.
 Property pair X'6008' in the Device-Control command-set vector of an STM reply indicates that
 the printer supports the full range of logical-page-offset values.
@@ -3841,21 +3552,20 @@ placement does not allow a page to overlap into another partition.
 Explicit page placement:
 The next received page is placed in the partition (1, 2, 3, or 4) specified in the first half of this
 byte, on the side specified in the second half of this byte. Figure 52 through
-Figure 55 show the location of each partition for all possible XOH-SMO values.
+**Figure 55** show the location of each partition for all possible XOH-SMO values.
 For this type of page placement, pages can overlap into other partitions.
 When explicit page placement is selected, it is important to send the LCC command to the
 printer before any LPP commands for the sheet are sent.
 Bytes 5–7 Y
 m page offset
-This parameter specifies the offset in the Ym direction of a logical page origin specified in L-
+This parameter specifies the offset in the $Y_m$ direction of a logical page origin specified in L-
 units using the units of measure specified in the LPD command. If the printer has not received
 an LPD command, the printer default units of measure are used. This is an offset from either
 the current media origin or, if N-up is in effect, from the current partition origin. Together, the
-X
-m and Ym offset values position the origin of a page's logical page presentation space on one
+$X_m$ and $Y_m$ offset values position the origin of a page's logical page presentation space on one
 side of a sheet.
 Exception ID X'02AD..01' exists if an invalid or unsupported offset value is specified.
-Exception ID X'02A5..01' exists if the Ym-offset value specified together with the logical page
+Exception ID X'02A5..01' exists if the $Y_m$-offset value specified together with the logical page
 extent or IO offset value exceeds the maximum supported by the printer.
 Property pair X'6008' in the Device-Control command-set vector of an STM reply indicates that
 the printer supports the full range of logical-page-offset values.
@@ -3864,8 +3574,8 @@ the printer supports the full range of logical-page-offset values.
 
 Bytes 8–9 Page orientation
 This parameter specifies the orientation of the logical page presentation space in the medium
-presentation space. The Xp axis is oriented in terms of an angle measured clockwise from the
-Xm axis. The positive Yp axis is rotated 90° clockwise relative to the positive Xp axis. This
+presentation space. The $X_p$ axis is oriented in terms of an angle measured clockwise from the
+$X_m$ axis. The positive $Y_p$ axis is rotated 90° clockwise relative to the positive $X_p$ axis. This
 parameter effectively rotates the logical page around the logical page origin; it is important to
 take this rotation into account when specifying the placement and offset of the logical page.
 Not all IPDS printers support page orientation, support for this function is indicated by property
@@ -5227,8 +4937,7 @@ indicated in the XOH-OPC Object-Container Type Support self-defining field.
 within each Printable-Area self-defining field. For example, cut-sheet media can be either short-edge fed or
 long-edge fed; wide continuous-forms media is long-edge fed and narrow continuous-forms media is short-
 edge fed. Note that leading edge does not necessarily identify the top edge of the media. Refer to the
-diagrams in “X
-m,Ym Coordinate System (Medium)” for a description of the various media
+diagrams in “$X_m$,Ym Coordinate System (Medium)” for a description of the various media
 orientations and feed directions.
 23. The data-object font support property pair (X'F204') indicates printer support for data-object fonts; this
 support includes XOA-RRL data-object font queries and AR command activation using the Fully Qualified
@@ -6420,7 +6129,7 @@ Each XOA data field contains a two-byte order code, followed by zero or more par
 Each XOA command can contain only one order. Orders have the following format:
 Code Parameters (if any)
 In alphabetic sequence, the orders are:
-Table 28. XOA Order Summary
+**Table 28**. XOA Order Summary
 Code Order In DC1 subset?
 X'1000' “XOA Activate Printer Alarm” No
 X'0A00' “XOA Alternate Offset Stacker” No
@@ -6448,7 +6157,7 @@ X'F100' Retired item 25 No
 ## Execute Order Anystate (XOA)
 
 
-Table 28 XOA Order Summary (cont'd.)
+**Table 28** XOA Order Summary (cont'd.)
 Code Order In DC1 subset?
 X'F300' Retired item 26 No
 Unknown or unsupported orders are treated as No Operation (NOP) commands.
@@ -6509,8 +6218,8 @@ Edge marks consist of one, two, or three narrow bars as defined by the printer. 
 perpendicular to the media perforation and entirely within the left carrier strip ending at the trailing edge of the
 specified sheet. A corresponding number of edge marks are also printed perpendicular to the media
 perforation and entirely within the left carrier strip beginning at the leading edge of the next sheet. Refer to
-Figure 59.
-Figure 59. Example Showing Three Edge Marks
+**Figure 59**.
+**Figure 59**. Example Showing Three Edge Marks
 three edge marks
 Page 45
 trailing edge media perforation
@@ -7058,11 +6767,11 @@ undefined character checks that are reported to the host. The appearance of
 the highlighting on a page is determined by the printer; for example, an
 undefined character check might be highlighted by printing a printer default
 character in place of the undefined character.
-Figure 60 is a 4–page flowchart that depicts the exception-handling decision path.
+**Figure 60** is a 4–page flowchart that depicts the exception-handling decision path.
 XOA Exception-Handling Control (EHC)
 
 
-Figure 60. Exception-Handling Control (spans four pages)
+**Figure 60**. Exception-Handling Control (spans four pages)
 (Part 1 of figure)
 Exception
 occurs
@@ -7688,7 +7397,7 @@ This byte specifies the length of this entry, that includes itself. Therefore, t
 either the location of the end of the command or the location of the entry length for the next
 entry. If there are multiple entries, these entries must be queries of individual resources rather
 than list queries and must be of query type X'05'.
-Table 29 lists the currently valid resource ID lengths. Additional RT/RIDF
+**Table 29** lists the currently valid resource ID lengths. Additional RT/RIDF
 combinations might be added in the future and therefore all values in the range X'03'–X'FF'
 should be accepted for this byte; unrecognized RT/RIDF combinations are identified as
 “resource not present” or “resource not activated” in the RRL reply.
@@ -7733,7 +7442,7 @@ byte (byte 4) in the Request Resource List reply to zero.
 
 The printer identifies supported queries in the XOA-RRL RT & RIDF Support self-defining field
 in an XOH-OPC reply. Table 29shows the architecturally-valid RT and RIDF combinations:
-Table 29. Architecturally-Valid RT and RIDF Query Combinations
+**Table 29**. Architecturally-Valid RT and RIDF Query Combinations
 RT RIDF Individual Query Resource
 ID Length
 X'01' Single-byte LF1-type or LF2-type
@@ -8062,7 +7771,7 @@ This byte specifies the length of this entry, including itself. Therefore, this 
 location of either the end of the reply or the entry length of the next entry. A length of X'01'
 indicates the end of the list; this value is only returned for a list query and is not used with
 single-resource queries.
-Table 29 lists the currently valid resource ID lengths. Additional RT/RIDF
+**Table 29** lists the currently valid resource ID lengths. Additional RT/RIDF
 combinations might be added in the future and therefore all values in the range X'01' and
 X'04'–X'FF' should be accepted for this byte.
 ## XOA Request Resource List (RRL)
@@ -8459,7 +8168,7 @@ Each XOH command consists of a two-byte order code followed by 0 or more paramet
 command can contain only one order. The format for each command is:
 Code Parameters (if any)
 In alphabetic sequence, the orders are:
-Table 30. XOH Order Summary
+**Table 30**. XOH Order Summary
 Code Order In DC1 subset?
 X'0200' “XOH Deactivate Saved Page Group” No
 X'0400' “XOH Define Group Boundary” No
@@ -8488,7 +8197,7 @@ X'4D00' Retired item 147 No
 ## Execute Order Home State (XOH)
 
 
-Table 30 XOH Order Summary (cont'd.)
+**Table 30** XOH Order Summary (cont'd.)
 Code Order In DC1 subset?
 X'4E00' Retired item 148 No
 X'D000' Retired item 127 No
@@ -8595,7 +8304,7 @@ supported.
 In most cases, group operations apply to all of the pages of a group including those pages within nested
 groups; however some group operations are incompatible with each other. In this case, the operation on the
 inner group is ignored. The various combinations are shown in the following table:
-Table 31. Group Operation Nesting
+**Table 31**. Group Operation Nesting
 Outer Group Operation
 Inner Group Operation
 Keep
@@ -8627,7 +8336,7 @@ Save Pages Ignored Ignored Ignored OK Ignored OK
 Finish OK OK Ignored OK OK OK
 Identify Named Group OK OK OK OK OK OK
 Multiple operations can also be applied to a single group level by specifying multiple XOH-SGO commands;
-Figure 61 shows an example of this with group level = X'20'. In addition, some operations (such
+**Figure 61** shows an example of this with group level = X'20'. In addition, some operations (such
 as finishing) can be applied to a group multiple times by specifying multiple group-operation triplets on the
 XOH-DGB command. For the purpose of determining how these group operations interact, the group is
 considered to be nested within itself and the order of the XOH-SGO commands and group-operation triplets
@@ -8638,7 +8347,7 @@ group requires a finishing triplet.
 ## XOH Define Group Boundary (DGB)
 
 
-Figure 61. Examples of Groups and Group Operations
+**Figure 61**. Examples of Groups and Group Operations
 SGO  Level =  X'80',  Operation =  X'01'  (Keep group together as a print unit)
 SGO  Level =  X'60',  Operation =  X'03'  (Save pages)
 SGO  Level =  X'40',  Operation =  X'03'  (Save pages)
@@ -8683,7 +8392,7 @@ Results:
 ## XOH Define Group Boundary (DGB)
 
 
-Figure 62. Examples of Nested Finishing Operations
+**Figure 62**. Examples of Nested Finishing Operations
 SGO  Level =  X'90',  Operation =  X'04'  (Finish)
 DGB  Initiate,  Level =  X'90',
 Finishing Operation (X'85') triplet = [Corner staple, Top-left corner], Finishing Operation (X'85') triplet  = [Punch]
@@ -8786,7 +8495,7 @@ Each group operation defines the relationship among the triplets.
 ## XOH Define Group Boundary (DGB)
 
 
-Table 32. Triplets Used With Each Group Operation
+**Table 32**. Triplets Used With Each Group Operation
 Group Operation Triplets Used Triplet Formats
 Keep group together
 as a print unit
@@ -8881,7 +8590,7 @@ XOH-DGB command that either initiates or terminates the group. If multiple Finis
 are specified, the operations are applied in the order received and duplicate identical Finishing Operation
 (X'85') triplets are ignored (the first is used and the duplicates are ignored). If no Finishing Operation (X'85')
 triplets are specified in either XOH-DGB command, no finishing operation is applied.
-Figure 62 shows an example of how multiple finishing operations can be specified.
+**Figure 62** shows an example of how multiple finishing operations can be specified.
 Notes:
 1. Some printers must know about a finishing operation before the first page of a group is received. In this
 case, the printer ignores Finishing Operation (X'85') triplets on the XOH-DGB command that terminates the
@@ -9057,7 +8766,7 @@ the characteristic. For all other self-defining fields, the parameters within a 
 defining field should be interpreted as if they were found at the end of the preceding instance of that self-
 defining field.
 The self-defining fields returned by printers are as follows:
-Table 33. OPC Self-Defining Field Summary
+**Table 33**. OPC Self-Defining Field Summary
 SDF ID Self-Defining Field
 X'0001' “Printable-Area Self-Defining Field”
 X'0002' “Symbol-Set Support Self-Defining Field”
@@ -9087,7 +8796,7 @@ X'001A' “UP3I Paper Input Media Self-Defining Field”
 ## XOH Obtain Printer Characteristics (OPC)
 
 
-Table 33 OPC Self-Defining Field Summary (cont'd.)
+**Table 33** OPC Self-Defining Field Summary (cont'd.)
 SDF ID Self-Defining Field
 X'0021' “Colorant-Identification Self-Defining Field”
 X'0022' “Device-Appearance Self-Defining Field”
@@ -9165,8 +8874,7 @@ the printer and does not include the width of the carrier strips. For a
 printer using envelope media, the width is along the top edge of the
 envelope. When the medium presentation space origin
 corresponds to the printer default media origin, this parameter
-determines the X
-m extent of the medium presentation space in all
+determines the $X_m$ extent of the medium presentation space in all
 cases but one. In the case of continuous-forms printers that define
 the top edge of the sheet to be perpendicular to the leading edge,
 this parameter determines the Y
@@ -9201,10 +8909,10 @@ area.
 14–15 UBIN X
 m PPAoffset X'0000' –
 X'7FFF'
-Xm offset of the physical printable area in L-units
+$X_m$ offset of the physical printable area in L-units
 16–17 UBIN Ym PPAoffset X'0000' –
 X'7FFF'
-Ym offset of the physical printable area in L-units
+$Y_m$ offset of the physical printable area in L-units
 18–19 UBIN Xm PPAextent X'0001' –
 X'7FFF'
 Xm extent of the physical printable area in L-units
@@ -9261,7 +8969,7 @@ B'0'
 Computer output on microfilm media. COM is either continuous
 forms or cut-sheet. However, the top edge of the sheet is as
 described in Figure 21, Figure 22, and
-Figure 23.
+**Figure 23**.
 Not computer output microfilm media
 bit 8 No carrier
 strips
@@ -9998,7 +9706,7 @@ RM4SCC, modifier-byte option X'01'
 ## XOH Obtain Printer Characteristics (OPC)
 
 
-Table 34. Common Values for Bar Code Types and Modifiers
+**Table 34**. Common Values for Bar Code Types and Modifiers
 Type Description Modifier values
 X'01' 3-of-9 code X'01' and X'02'
 X'02' MSI X'01' through X'09'
@@ -10166,7 +9874,7 @@ Interleaved 2-of-5, ITF-14 and AIM USS-I 2/5
 ## XOH Obtain Printer Characteristics (OPC)
 
 
-Figure 63. BCOCA Bar Code Subsets
+**Figure 63**. BCOCA Bar Code Subsets
 BCOCAKey:
 BCD2
 BCD1
@@ -10243,7 +9951,7 @@ The following cross-reference table shows how the bar code type/modifier combina
 two OPC SDFs:
 X'000E' – Deprecated (Common Bar Code Type/Modifier self-defining field)
 X'000F' – Bar Code Type/Modifier self-defining field
-Table 35. Relationship Between SDF X'000E' and X'000F'
+**Table 35**. Relationship Between SDF X'000E' and X'000F'
 Type/Modifier Combinations Code Value Used in OPC Reply
 Type Modifier For SDF X'000E' For SDF X'000F'
 Code 39 (3-of-9 Code) and AIM USS-39 X'01' and X'02' in common set in BCD1
@@ -10287,7 +9995,7 @@ X'01' (Dutch KIX) X'9A' X'1A01'
 ## XOH Obtain Printer Characteristics (OPC)
 
 
-Table 35 Relationship Between SDF X'000E' and X'000F' (cont'd.)
+**Table 35** Relationship Between SDF X'000E' and X'000F' (cont'd.)
 Type/Modifier Combinations Code Value Used in OPC Reply
 Type Modifier For SDF X'000E' For SDF X'000F'
 Japan Postal Bar Code X'00' and X'01' X'1B' X'1B80'
@@ -11733,9 +11441,8 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 This is an optional command that is not supported by all printers. If this command is not sent to a printer or if
 the printer does not support the command, the origin corresponds to the top-left corner of the sheet, where the
 viewpoint is at the center of the physical medium. This is called the printer default media origin. In this case,
-the X
-m axis of the medium presentation space corresponds to the top edge of the sheet, and positive Xm values
-begin at the origin and increase from left to right. The Ym axis of the medium presentation space corresponds
+the $X_m$ axis of the medium presentation space corresponds to the top edge of the sheet, and positive Xm values
+begin at the origin and increase from left to right. The $Y_m$ axis of the medium presentation space corresponds
 to the left edge of the sheet and positive Ym values begin at the origin and increase from top to bottom.
 For printers using continuous-forms media that implement the command, the top edge of the sheet is the short
 side whose left corner is closest to the leading edge of the sheet as it moves through the printer. For printers
@@ -11751,7 +11458,7 @@ top edge of the sheet for COM for various frame arrangements.
 Note that the top edge of the sheet is fixed for each printer and for envelopes, and the XOH-SMO command
 does not change the location of the top edge of the sheet. In addition, the XOH-SMO command does not alter
 the relationship between the X
-m axis and the Ym axis. The Ym axis is rotated 90 degrees clockwise from the Xm
+m axis and the $Y_m$ axis. The $Y_m$ axis is rotated 90 degrees clockwise from the Xm
 axis regardless of the positioning of the medium presentation space origin with respect to the physical medium.
 When Xm-axis duplex is in effect, the top edge of the sheet for the back side of a duplex sheet is the opposite
 edge as that used for the front side. When Ym-axis duplex is in effect, the top edge of the sheet for the back
@@ -11759,12 +11466,12 @@ side of a duplex sheet is the same edge as that used for the front side.
 For the front side of a duplex sheet, the origin of the medium presentation space moves in a clockwise
 direction with respect to the top edge of the sheet. For the back side of a duplex sheet, the origin of the
 medium presentation space moves in a counter-clockwise direction with respect to the top edge of the sheet.
-Figure 64 through Figure 70 illustrate the XOH Set Media Origin command for the
+**Figure 64** through Figure 70 illustrate the XOH Set Media Origin command for the
 various kinds of media.
 ## XOH Set Media Origin (SMO)
 
 
-Figure 64. The XOH Set Media Origin Command (Cut-Sheet Media)
+**Figure 64**. The XOH Set Media Origin Command (Cut-Sheet Media)
 Back Side of the Sheet
 Note: The shaded circles in the illustration represent holes punched through the sheet and
 show how the sheet was flipped from front side to back side.
@@ -11783,7 +11490,7 @@ Top
 ## XOH Set Media Origin (SMO)
 
 
-Figure 65. The XOH Set Media Origin Command (Wide Continuous-Forms Media)
+**Figure 65**. The XOH Set Media Origin Command (Wide Continuous-Forms Media)
 Front Side of Sheets
 SMO=X'00'
 SMO=X'00'
@@ -11808,7 +11515,7 @@ Top
 ## XOH Set Media Origin (SMO)
 
 
-Figure 66. The XOH Set Media Origin Command (Narrow Continuous-Forms Media)
+**Figure 66**. The XOH Set Media Origin Command (Narrow Continuous-Forms Media)
 Front Side of Sheets
 SMO=X'00'
 SMO=X'00'
@@ -11834,7 +11541,7 @@ Top
 ## XOH Set Media Origin (SMO)
 
 
-Figure 67. Examples of Commonly Used SMO/Duplex Combinations
+**Figure 67**. Examples of Commonly Used SMO/Duplex Combinations
 Note: The shaded circles in the illustration represent holes punched through the sheets and
 show how the sheets were flipped from front side to back side.
 Example with SMO = X'00' used on both sides
@@ -11881,8 +11588,7 @@ Top of bac
 k page
 Page 2
 Ym
-X
-m
+$X_m$
 Y -Axis Duplex (Normal)m
 Top of back page
 Page 4
@@ -11895,7 +11601,7 @@ m
 ## XOH Set Media Origin (SMO)
 
 
-Figure 68. The XOH Set Media Origin Command (Front Side of an Envelope)
+**Figure 68**. The XOH Set Media Origin Command (Front Side of an Envelope)
 SMO=X’00’ SMO=X’01’
 SMO=X’02’SMO=X’03’
 TOP
@@ -11922,7 +11628,7 @@ T
 T
 O
 M
-Figure 69. The XOH Set Media Origin Command (Back Side of an Xm-Axis Duplex Envelope)
+**Figure 69**. The XOH Set Media Origin Command (Back Side of an Xm-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’SMO=X’02’
 SMO=X’03’
@@ -11951,7 +11657,7 @@ T
 T
 O
 M
-Figure 70. The XOH Set Media Origin Command (Back Side of a Ym-Axis Duplex Envelope)
+**Figure 70**. The XOH Set Media Origin Command (Back Side of a Ym-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’ SMO=X’02’
 SMO=X’03’
@@ -12016,48 +11722,45 @@ Byte 2 Medium Presentation Space Origin
 This parameter specifies the medium presentation space origin. Exception ID X'026F ..02'
 exists if an invalid origin value is specified.
 X'00' Set the medium presentation space origin to correspond to the top-left corner of the
-medium presentation space. The Xm axis of the medium presentation space
+medium presentation space. The $X_m$ axis of the medium presentation space
 corresponds to the top edge of the sheet and positive Xm values begin at the origin
-and increase from left to right. The Ym axis of the medium presentation space
+and increase from left to right. The $Y_m$ axis of the medium presentation space
 corresponds to the left edge of the sheet and positive Ym values begin at the origin
 and increase from top to bottom.
 X'01' For the front side of a duplex sheet, set the medium presentation space origin to
-correspond to the top-right corner of the medium presentation space. The Xm axis of
+correspond to the top-right corner of the medium presentation space. The $X_m$ axis of
 the medium presentation space corresponds to the right edge of the sheet and
-positive Xm values begin at the origin and increase from top to bottom. The Ym axis of
+positive Xm values begin at the origin and increase from top to bottom. The $Y_m$ axis of
 the medium presentation space corresponds to the top edge of the sheet and positive
 Ym values begin at the origin and increase from right to left.
 For the back side of a duplex sheet, set the medium presentation space origin to
 correspond to the bottom left corner of the medium presentation space. The X
 m axis of
 the medium presentation space corresponds to the left edge of the sheet and positive
-X
-m values begin at the origin and increase from bottom to top. The Ym axis of the
+$X_m$ values begin at the origin and increase from bottom to top. The $Y_m$ axis of the
 medium presentation space corresponds to the bottom edge of the sheet and positive
 Ym values begin at the origin and increase from left to right.
 X'02' Set the medium presentation space origin to correspond to the bottom-right corner of
-the medium presentation space. The Xm axis of the medium presentation space
+the medium presentation space. The $X_m$ axis of the medium presentation space
 corresponds to the bottom edge of the sheet and positive Xm values begin at the origin
-and increase from right to left. The Ym axis of the medium presentation space
+and increase from right to left. The $Y_m$ axis of the medium presentation space
 corresponds to the right edge of the sheet and positive Ym values begin at the origin
 and increase from bottom to top.
 ## XOH Set Media Origin (SMO)
 
 
 X'03' For the front side of a duplex sheet, set the medium presentation space origin to
-correspond to the bottom left corner of the medium presentation space. The Xm axis of
+correspond to the bottom left corner of the medium presentation space. The $X_m$ axis of
 the medium presentation space corresponds to the left edge of the sheet and positive
-X
-m values begin at the origin and increase from bottom to top. The Ym axis of the
+$X_m$ values begin at the origin and increase from bottom to top. The $Y_m$ axis of the
 medium presentation space corresponds to the bottom edge of the sheet and positive
 Y
 m values begin at the origin and increase from left to right.
 For the back side of a duplex sheet, set the medium presentation space origin to
-correspond to the top right corner of the medium presentation space. The X
-m axis of
+correspond to the top right corner of the medium presentation space. The $X_m$ axis of
 the medium presentation space corresponds to the right edge of the sheet and
 positive X
-m values begin at the origin and increase from top to bottom. The Ym axis of
+m values begin at the origin and increase from top to bottom. The $Y_m$ axis of
 the medium presentation space corresponds to the top edge of the sheet and positive
 Y
 m values begin at the origin and increase from right to left.
@@ -12109,8 +11812,7 @@ valid printer defined sensor or operator input exists, use the corresponding dim
 medium presentation space size. In the latter case, the media dimension generated by the printer in the
 Printable-Area self-defining field of the XOH-OPC reply contains the appropriate printer default medium
 presentation space dimension.
-It is recommended that the new front-side medium presentation space be a rectangle of size X
-m extent by Ym
+It is recommended that the new front-side medium presentation space be a rectangle of size $X_m$ extent by Ym
 extent whose origin is at the default media origin. If duplexing, the back-side medium presentation space
 should be physically lined up with the front-side presentation space as if the physical media had been cut to the
 new size.
@@ -12196,7 +11898,7 @@ specified; the preferred exception ID is X'0273..02'.
 ## XOH Set Media Size (SMS)
 
 
-Figure 71. Examples Showing the Effect of SMS (Method 3) and SMO Command Combinations
+**Figure 71**. Examples Showing the Effect of SMS (Method 3) and SMO Command Combinations
 Width = 11"
 Length = 8.5"
 X PPAoffset = 0
@@ -12961,7 +12663,7 @@ used to obtain the complete trace (the ACK-continuation method). The special dat
 Acknowledge Reply continues where the previous Acknowledge Reply left off. Trace data can be split between
 Acknowledge Replies at any byte boundary.
 Printer-Generated Trace Entries
-Table 36. Printer-Generated Trace Entries
+**Table 36**. Printer-Generated Trace Entries
 Entry Type Entry Name
 X'0000' Begin Trace
 X'0001' Begin Page
