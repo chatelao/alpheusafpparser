@@ -25,6 +25,7 @@ import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 
+import javax.xml.bind.annotation.XmlType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -65,6 +66,7 @@ public class MCF_MapCodedFont_Format2 extends StructuredFieldBaseRepeatingGroups
   }
 
   @XmlRootElement
+  @XmlType(name = "mcf2RepeatingGroup")
   public static class MCF_RepeatingGroup extends RepeatingGroupWithTriplets {
   }
 }

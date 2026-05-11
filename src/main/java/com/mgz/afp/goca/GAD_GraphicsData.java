@@ -30,6 +30,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 
+import javax.xml.bind.annotation.XmlType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -395,6 +396,7 @@ public class GAD_GraphicsData extends StructuredField {
   }
 
   @XmlRootElement
+  @XmlType(name = "gocaBeginSegment")
   public static class BeginSegment implements IAFPDecodeableWriteable {
     public static short COMMANDCODE_BeginSegment = 0x70;
     @AFPField
