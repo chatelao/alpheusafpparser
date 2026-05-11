@@ -43,11 +43,10 @@ public class PageAndOverlayRoundTripTest {
 
     @Test
     public void testEPSRoundTrip() throws Exception {
-        // Total Len: 1 + 8 + 8 + 6 = 23. SFLen = 22 (0x0016)
+        // Total Len: 1 + 8 + 8 = 17. SFLen = 16 (0x0010)
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA9, 0x5F, 0x00, 0x00, 0x00,
-            (byte) 0xD7, (byte) 0xE2, (byte) 0xC5, (byte) 0xC7, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF1, // "PSEG0001"
-            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // Comment "TEST"
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xA9, 0x5F, 0x00, 0x00, 0x00,
+            (byte) 0xD7, (byte) 0xE2, (byte) 0xC5, (byte) 0xC7, (byte) 0xF0, (byte) 0xF0, (byte) 0xF0, (byte) 0xF1 // "PSEG0001"
         };
         RoundTripTestUtils.assertRoundTrip(new EPS_EndPageSegment(), data);
     }

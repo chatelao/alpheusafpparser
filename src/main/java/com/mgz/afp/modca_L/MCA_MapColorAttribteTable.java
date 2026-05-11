@@ -51,7 +51,7 @@ public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroup
     repeatingGroups = new ArrayList<IRepeatingGroup>();
     int pos = 0;
     while (pos < actualLength) {
-      MCA_RepeatinGroup rg = new MCA_RepeatinGroup();
+      MCA_RepeatingGroup rg = new MCA_RepeatingGroup();
       rg.decodeAFP(sfData, offset + pos, -1, config);
       repeatingGroups.add(rg);
       pos += rg.getRepeatingGroupLength();
@@ -70,6 +70,6 @@ public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroup
   }
 
   @XmlRootElement
-  public static class MCA_RepeatinGroup extends RepeatingGroupWithTriplets {
+  public static class MCA_RepeatingGroup extends RepeatingGroupWithTriplets {
   }
 }

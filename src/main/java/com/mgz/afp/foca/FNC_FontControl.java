@@ -67,7 +67,7 @@ public class FNC_FontControl extends StructuredField {
   @AFPField
   byte fnpRepeatingGroupLength = FNPRepeatingGroupLength;
   @AFPField
-  byte fnmRepeatinGroupLength;
+  byte fnmRepeatingGroupLength;
   @AFPField
   byte ShapeResolutionXUnitBase10Inches = 0x00;
   @AFPField
@@ -106,7 +106,7 @@ public class FNC_FontControl extends StructuredField {
     fniRepeatingGroupLength = UtilBinaryDecoding.parseShort(sfData, offset + 15, 1);
     rasterPatternDataAlignment = RasterPatternDataAlignment.valueOf(sfData[offset + 16]);
     rasterPatternDataCount = UtilBinaryDecoding.parseInt(sfData, offset + 17, 3);
-    fnmRepeatinGroupLength = sfData[offset + 21];
+    fnmRepeatingGroupLength = sfData[offset + 21];
 
     if (actualLength >= 26) {
       shapeResolutionXUnitsPerUnitBase = UtilBinaryDecoding.parseShort(sfData, offset + 24, 2);
@@ -158,7 +158,7 @@ public class FNC_FontControl extends StructuredField {
     baos.write(rasterPatternDataAlignment.toByte());
     baos.write(UtilBinaryDecoding.intToByteArray(rasterPatternDataCount, 3));
     baos.write(fnpRepeatingGroupLength);
-    baos.write(fnmRepeatinGroupLength);
+    baos.write(fnmRepeatingGroupLength);
 
     // Optional data:
     if ((
@@ -302,11 +302,11 @@ public class FNC_FontControl extends StructuredField {
   }
 
   public byte getFnmRepeatinGroupLength() {
-    return fnmRepeatinGroupLength;
+    return fnmRepeatingGroupLength;
   }
 
-  public void setFnmRepeatinGroupLength(byte fnmRepeatinGroupLength) {
-    this.fnmRepeatinGroupLength = fnmRepeatinGroupLength;
+  public void setFnmRepeatinGroupLength(byte fnmRepeatingGroupLength) {
+    this.fnmRepeatingGroupLength = fnmRepeatingGroupLength;
   }
 
   public byte getShapeResolutionXUnitBase10Inches() {

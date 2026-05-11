@@ -89,10 +89,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
     - ⏳ Remove physical page references ("on page XXX").
     - ⏳ Convert text-based diagrams in Appendices to standardized formats.
-- 🚧 **MO:DCA**:
+- ✅ **MO:DCA**:
     - ✅ Purge physical page markers and fix split words.
-    - ⏳ Fix minor table fragmentation in Appendices.
-    - ⏳ Remove remaining physical page references (4 found).
+    - ✅ Fix minor table fragmentation in Appendices.
+    - ✅ Remove remaining physical page references (4 found).
     - ⏳ **Note**: The project uses AFPC-0004-10 (MO:DCA Reference 10) as the primary specification. The IBM MO:DCA-P Reference (SC31-6802) is a related/legacy IBM version of this architecture.
 - 🚧 **FOCA**:
     - ⏳ Fix OCR-induced paragraph merging in technical sections.
@@ -170,13 +170,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
     - 🚧 Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
         - ✅ MO:DCA Object Containers and Image Data (BII, EII, IRD, EIM, EOC, OCD).
-        - ⏳ MO:DCA Overlay and Page Segment.
-            - ⏳ End Overlay (EMO).
-            - ⏳ End Page Segment (EPS).
-        - ⏳ MO:DCA Other structures.
-            - ⏳ End Object Environment Group (EOG).
-            - ⏳ End Print File (EPF).
-            - ⏳ End Resource (ERS).
+        - ✅ MO:DCA Overlay and Page Segment.
+            - ✅ End Overlay (EMO).
+            - ✅ End Page Segment (EPS).
+        - ✅ MO:DCA Other structures.
+            - ✅ End Object Environment Group (EOG).
+            - ✅ End Print File (EPF).
+            - ✅ End Resource (ERS).
         - ✅ FOCA Coded Font, Code Page, and Font Character Set fields (BCF, ECF, ECP, EFN, FNN, FNG).
         - ✅ BCOCA End Bar Code Object (EBC).
         - ✅ PTOCA End Presentation Text Object (EPT).
