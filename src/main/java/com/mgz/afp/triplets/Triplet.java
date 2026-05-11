@@ -1358,6 +1358,14 @@ public abstract class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(resourceLocalID, 1));
     }
 
+    public RLI_ResourceType getResourceType() {
+      return resourceType;
+    }
+
+    public short getResourceLocalID() {
+      return resourceLocalID;
+    }
+
     public enum RLI_ResourceType {
       UsageDependent,
       PageOverlay,

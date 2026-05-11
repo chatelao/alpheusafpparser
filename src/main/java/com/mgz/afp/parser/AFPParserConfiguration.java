@@ -29,6 +29,8 @@ import com.mgz.afp.foca.FNC_FontControl;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.security.DigestInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The AFPParserConfiguration is used to configure the {@link AFPParser}, see {@link
@@ -49,6 +51,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   private CPC_CodePageControl currentPageControl;
   private FNC_FontControl currentFontControl;
   private BDD_BarCodeDataDescriptor currentBarCodeDataDescriptor;
+  private Map<Short, Charset> codedFontLocalIdToCharsetMap = new HashMap<>();
 
   /**
    * Returns the {@link Charset} used to decode text contained in the AFP data stream (e.g.
@@ -229,6 +232,14 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
     this.currentPageControl = currentPageControl;
   }
 
+  public Charset getCharsetForLID(short lid) {
+    return codedFontLocalIdToCharsetMap.get(lid);
+  }
+
+  public void addCodedFontCharsetMapping(short lid, Charset cs) {
+    codedFontLocalIdToCharsetMap.put(lid, cs);
+  }
+
   public File getAFPFile() {
     return this.afpFile;
   }
@@ -245,5 +256,6 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
     currentCodePageDescriptor = null;
     currentFontControl = null;
     currentPageControl = null;
+    codedFontLocalIdToCharsetMap.clear();
   }
 }
