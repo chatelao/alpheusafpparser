@@ -141,8 +141,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 4: Table 11 (Color), Table 12 (Sizing).
         - ✅ Chapter 4: Table 13 (Defaults), Table 19 (Check Digits), Table 20 (BSA).
         - ✅ Chapter 4: Tables 21–22 (Aztec Code).
-        - ⏳ Chapter 4: Tables 23–25 (Data Matrix).
-        - ⏳ Chapter 4: Tables 26–27 (Han Xin Code).
+        - ✅ Chapter 4: Tables 23–25 (Data Matrix).
+        - ✅ Chapter 4: Tables 26–27 (Han Xin Code).
         - ⏳ Chapter 4: Table 28 (Intelligent Mail Package Barcode).
         - ⏳ Chapter 4: Table 29 (MaxiCode).
         - ✅ Chapter 4: Table 30 (PDF417).
