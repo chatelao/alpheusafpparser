@@ -183,40 +183,23 @@ Data Divisions
 For some IPDS command sets, a data tower defines the data carried in the Write command of the
 corresponding IPDS command set. A data tower is divided into levels. A higher level of a data tower consists of
 all lower levels plus some set of additional function. Some data tower levels are defined and controlled by other
-architectures and are simply registered in the IPDS architecture. Table 69summarizes this.
-Table 69. Command-Set and Data-Tower Summary
-IPDS
-Command Set
-Purpose Command
-Set Subsets
-Data Tower
-Levels
-Architecture Describing the Data
-Tower
-Device Control control printer DC1 none
-Text print text data TX1 PT1, PT2, PT3,
-PT4
-PTOCA
-IM Image print IM-Image data IM1 IMD1 IPDS
-IO Image print IO-Image data IO1 FS10, FS11,
-FS14,
-FS40,
-FS42, FS45,
-FS48
-IOCA
-Graphics print graphics data GR1 DR/2V0, GRS3 GOCA
-Bar Code print bar code data BC1 BCD1, BCD2 BCOCA
-Object Container control object
-containers
-OC1 none Specific to object container
-Metadata control metadata MO1 MS1 MOCA
-Page Segment control page
-segments
-PS1 none
-Overlay control overlays OL1 none
-Loaded Font control coded fonts LF1, LF2, LF3,
-LF4
-none
+architectures and are simply registered in the IPDS architecture. Table 69 summarizes this.
+
+### Table 69. Command-Set and Data-Tower Summary
+
+| IPDS Command Set | Purpose | Command-Set Subsets | Data Tower Levels | Architecture Describing the Data Tower |
+| :--- | :--- | :--- | :--- | :--- |
+| Device Control | control printer | DC1 | none | |
+| Text | print text data | TX1 | PT1, PT2, PT3, PT4 | PTOCA |
+| IM Image | print IM-Image data | IM1 | IMD1 | IPDS |
+| IO Image | print IO-Image data | IO1 | FS10, FS11, FS14, FS40, FS42, FS45, FS48 | IOCA |
+| Graphics | print graphics data | GR1 | DR/2V0, GRS3 | GOCA |
+| Bar Code | print bar code data | BC1 | BCD1, BCD2 | BCOCA |
+| Object Container | control object containers | OC1 | none | Specific to object container |
+| Metadata | control metadata | MO1 | MS1 | MOCA |
+| Page Segment | control page segments | PS1 | none | |
+| Overlay | control overlays | OL1 | none | |
+| Loaded Font | control coded fonts | LF1, LF2, LF3, LF4 | none | |
 Data Towers and Data-Tower Levels
 There is a data tower for each of the following command sets:
 • Text
@@ -226,7 +209,7 @@ There is a data tower for each of the following command sets:
 • Bar Code
 • Metadata
 At least one level of every data tower is defined; some towers also include optional function. The Sense Type
-and Model reply specifies the level of each data tower supported by a printer. Figure 120 on page 982
+and Model reply specifies the level of each data tower supported by a printer. Figure 120
 illustrates the data towers and data-tower levels. The data towers are:
 Text This data tower contains Presentation Text Object Content Architecture (PTOCA) control
 sequences and code points, contained in the data field of the Write Text command. The
