@@ -16,21 +16,23 @@ def split_md_file(filepath, output_base_dir):
     current_section_name = "Front_Matter"
     current_section_content = []
 
-    # Regex to identify Chapter or Appendix headers
-    # Avoid matching TOC entries which usually have many dots
-    chapter_regex = re.compile(r'^(Chapter\s+\d+|Appendix\s+[A-Z])(\.|\s|$)')
+    # Regex to identify Chapter, Appendix, Notices, Glossary, or Index headers at start of line
+    # Support both regular space and non-breaking space (\u00a0)
+    chapter_regex = re.compile(r'^(Chapter[\s\u00a0]+\d+|Appendix[\s\u00a0]+[A-Z]|Notices|Glossary|Index)(\.|\s|$)', re.IGNORECASE)
 
     for line in lines:
-        # Heuristic: TOC lines usually have many dots
-        if chapter_regex.match(line) and " . . . " not in line:
+        stripped_line = line.strip()
+        # Heuristic to avoid TOC: TOC entries usually end with a page number and have leading dots or many dots
+        is_toc = "...." in stripped_line or (re.search(r"\.\.\s+\d+$", stripped_line) and not chapter_regex.match(stripped_line))
+
+        if chapter_regex.match(stripped_line) and not is_toc:
             # Save current section
             sections.append((current_section_name, current_section_content))
 
             # Start new section
-            # Extract a clean name for the file
-            # e.g., "Chapter 1. A Presentation Architecture Perspective" -> "Chapter_1"
-            match = chapter_regex.match(line)
-            header_type_num = match.group(1).replace(' ', '_')
+            match = chapter_regex.match(stripped_line)
+            # Normalize name: replace spaces and non-breaking spaces with underscores
+            header_type_num = re.sub(r'[\s\u00a0]+', '_', match.group(1))
             current_section_name = header_type_num
             current_section_content = [line]
         else:
@@ -43,20 +45,20 @@ def split_md_file(filepath, output_base_dir):
     for name, content in sections:
         if not content:
             continue
-        # Check if we have multiple sections with same name (unlikely but to be safe)
-        output_filename = f"{name}.md"
+
+        # Clean name for filename
+        clean_name = name.replace(' ', '_').replace('\u00a0', '_')
+        output_filename = f"{clean_name}.md"
         output_path = os.path.join(doc_dir, output_filename)
 
-        # If file already exists, it might be due to multiple "Front_Matter" or similar
-        # (Though with my logic only the first is Front_Matter)
-        # Actually if there are multiple Chapter 1s (unlikely), we'd overwrite.
-        # Let's handle duplicates just in case.
+        # Handle duplicates by appending a counter
         counter = 1
-        while os.path.exists(output_path):
-            output_path = os.path.join(doc_dir, f"{name}_{counter}.md")
+        final_path = output_path
+        while os.path.exists(final_path):
+            final_path = os.path.join(doc_dir, f"{clean_name}_{counter}.md")
             counter += 1
 
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(final_path, 'w', encoding='utf-8') as f:
             f.writelines(content)
 
     print(f"Split {filename} into {len(sections)} sections in {doc_dir}")
