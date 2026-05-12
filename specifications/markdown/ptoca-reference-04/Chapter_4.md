@@ -74,7 +74,7 @@ capacity may not be large enough to contain the calculations outside the object 
 unpredictable.
 Such overflow is not considered to be an exception condition by PTOCA. However, the architectural
 recommendation to generators is to avoid addressable positions that are outside of the object space.
-Parameter Data T ypes: Every parameter value is one of the following data types:
+Parameter Data Types: Every parameter value is one of the following data types:
 A bit string (BITS) is a string of bits one or more bytes long. Each bit has the value B'1' or B'0'.
 A code (CODE) is a constant for which PTOCA defines a particular meaning.
 A number is an unsigned (UBIN) or signed (SBIN) arithmetic value that implies count or magnitude.
@@ -162,7 +162,7 @@ An unchained Control Sequence Introducer contains the following fields:
 * A one-byte class, X'D3'
 * A one-byte length
 * A one-byte function type
-Prefix Class Length Function T ype
+Prefix Class Length Function Type
 X'2B' X'D3'
 The length field delimits the control sequence by indicating the last byte in the control sequence. The length
 field specifies the count of bytes in the control sequence, starting with itself. If the value of the length field is 2,
@@ -172,7 +172,7 @@ number of parameters and the number of bytes in each parameter are implicit in t
 A chained Control Sequence Introducer contains the following fields:
 * A one-byte length
 * A one-byte function type
-Length Function T ype
+Length Function Type
 Thus a Control Sequence Introducer is either two bytes or four bytes in length, depending on whether it is
 chained or unchained.
 ### Control Sequence Chaining
@@ -226,12 +226,12 @@ encountered, AFP presentation servers set the following default page-level initi
 the PTD initial conditions are set:
 Parameter Value
 Initial (I,B) Presentation Position (0,0)
-T ext Orientation 0°,90°
+Text Orientation 0°,90°
 Coded Font Local ID X'FF' (default font)
 Baseline Increment 6 lpi
 Inline Margin 0
 Intercharacter Adjustment 0
-T ext Color X'FFFF' (default color)
+Text Color X'FFFF' (default color)
 Application Note: The PTD also specifies the size of the text object space. When the PTD is specified in the
 AEG of a MO:DCA page in a text major environment, the extents of the text object space are set equal
 to the extents of the page. When the PTD is specified in the OEG of a MO:DCA text object, the extents
@@ -286,7 +286,7 @@ sequence.
 parameters.
 If part of an optional parameter field is missing from the control sequence, exception condition EC-1E01 exists.
 The standard action is to ignore the partially specified optional parameter field.
-Control Sequence Function T ype
+Control Sequence Function Type
 The control sequence function type characterizes the eff ect and syntax of a control sequence.
 This parameterspecifies how parameters in the control sequence are to be interpreted. The function type
 identifies the operation of the control sequence; for example, to set a value or to draw a rule.
@@ -501,7 +501,7 @@ If it is necessary to present the Control Sequence Prefix code point, use the Tr
 sequence.
 All control sequence displacements are expressed in terms of the I, B coordinate system. The directions of the
 I, B coordinates are specified initially in the text orientation initial conditions in the Presentation Text Data
-Descriptor. They can be respecified within a Presentation Text object with a Set T ext Orientation control
+Descriptor. They can be respecified within a Presentation Text object with a Set Text Orientation control
 sequence.
 When processing begins for the first Presentation Text Data in a given Presentation Text object, the current
 presentation position, $I_c$
@@ -536,7 +536,7 @@ table. Following each table is semantic information related to each component of
 Syntactically descriptive material following the table may indicate that additional restrictions apply to the control
 sequence defined by the table. Each syntax table has the following columns:
 * Offset refers to the position of a parameter.
-* T ype denotes the syntax of the parameter by data type. Please see “Parameter Data T ypes” for
+* Type denotes the syntax of the parameter by data type. Please see “Parameter Data Types” for
 more information.
 * Name is a short field name suitable for coding.
 * Range denotes the smallest and largest valid values that may occur in this field. Negative numbers are
@@ -1110,7 +1110,7 @@ The Glyph Advance Run control sequence specifies the relative displacement along
 the i-direction) to the glyph origin for each glyph ID in the preceding GIR from the text position at the start of the
 GLC.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 UBIN LENGTH X'04' – X'FE';
 even values
 only
@@ -1156,7 +1156,7 @@ GAR Control Sequence
 ## Glyph ID Run (GIR)
 The Glyph ID Run control sequence specifies an array of glyph IDs from the current TrueType/OpenType font.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 UBIN LENGTH X'04' – X'FE';
 even values
 only
@@ -1197,7 +1197,7 @@ GIR Control Sequence
 The Glyph Layout Control control sequence marks the start of one or more glyph run groupings that together
 render text using arrays of glyph identifiers and positions.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 10 - (p - 1) Control sequence length M N N
@@ -1328,13 +1328,13 @@ Set Baseline Increment (SBI) Has no effect on GLC presentation
 Set Coded Font Local (SCFL) Establishes the current font for use by GLC. When linked
 fonts are used, the font specified by the SCFL is always
 the base font.
-Set Extended T ext Color (SEC) Specifies the foreground color used to present the glyphs
+Set Extended Text Color (SEC) Specifies the foreground color used to present the glyphs
 in the subsequent GLC chains
 Set Inter-character adjustment (SIA) Has no effect on GLC presentation
 Set Inline Margin (SIM) Has no effect on GLC presentation
-Set T ext Color (STC) Specifies the foreground color used to present the glyphs
+Set Text Color (STC) Specifies the foreground color used to present the glyphs
 in the subsequent GLC chains
-Set T ext Orientation (STO) Establishes the I-direction and B-direction used to present
+Set Text Orientation (STO) Establishes the I-direction and B-direction used to present
 the glyphs in the subsequent GLC chains
 Set V ariable Space Character Increment (SVI) Has no effect on GLC presentation
 Field control sequences
@@ -1412,7 +1412,7 @@ GLC Control Sequence
 The Glyph offset Run control sequence specifies an offset (relative displacement) from the current baseline (in
 the b-direction) to the glyph origin for each glyph ID in the preceding GIR.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 UBIN LENGTH X'04' – X'FE';
 even values
 only
@@ -1467,7 +1467,7 @@ GOR Control Sequence
 ## No Operation (NOP)
 The No Operation control sequence has no effect on presentation.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 2–255 Control sequence length M N N
@@ -1489,7 +1489,7 @@ NOP Control Sequence
 ## Overstrike (OVS)
 The Overstrike control sequence identifies text that is to be overstruck with a specified character.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 5 Control sequence length M N N
@@ -1577,7 +1577,7 @@ OVS Control Sequence
 <!-- Page 94 -->
 
 X'0F', since BYPSIDEN bits 0-3 are reserved, should be set to zero by generators, and should be
-ignored by receivers. T o avoid confusion, it is strongly recommended that a default indicator not be used
+ignored by receivers. To avoid confusion, it is strongly recommended that a default indicator not be used
 for this parameter, and that the value X'01' is specified directly if the default is desired.
 An overstrike area is that portion of the overstrike field for which text is actually overstruck. An overstrike area
 is delimited by the addressable position in the following cases.:
@@ -1613,7 +1613,7 @@ OVERCHAR is defined as a one-byte or two-byte code point that, when coupled with
 specifies the character to be used for overstriking. Single-byte code points are located in byte 6.
 The selected overstrike character must be a printable character and must specify a positive, non-zero
 character increment. If these conditions are not met by the selected overstrike character, exception condition
-EC-9A01 exists. T o avoid an overflow of the overstrike field by the last overstrike character, the character
+EC-9A01 exists. To avoid an overflow of the overstrike field by the last overstrike character, the character
 increment of the overstrike character should also be equal to or greater than the character box size. If this is
 not true, exception condition EC-9A01 may optionally be detected.
 Multiple beginning and ending Overstrike pairs may not be nested. However, no exception condition exists if a
@@ -1671,7 +1671,7 @@ OVS Control Sequence
 The Relative Move Baseline control sequence moves the baseline coordinate relative to the current baseline
 coordinate position.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4 Control sequence length M N N
@@ -1729,7 +1729,7 @@ RMB Control Sequence
 The Relative Move Inline control sequence moves the inline coordinate of the presentation position relative to
 the current inline position.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4 Control sequence length M N N
@@ -1781,7 +1781,7 @@ RMI Control Sequence
 ### Syntax
 The Repeat String control sequence contains a string of graphic character code points that is repeated on the
 current line.
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4–255 Control sequence length M N N
@@ -1875,7 +1875,7 @@ RPS Control Sequence
 The Set Baseline Increment control sequence specifies the increment to be added to the current baseline
 coordinate when a Begin Line control sequence is executed. This is a modal control sequence.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4 Control sequence length M N N
@@ -1900,7 +1900,7 @@ from the hierarchy. Please see Table 9.
 If INCRMENT is omitted, the standard action is to make no change to the existing Baseline Increment
 parameter.
 If this control sequence is omitted, the Baseline Increment initial text condition parameter in the Presentation
-T ext Data Descriptor (PTD) is used. If this initial text condition is not specified, a receiver default based on the
+Text Data Descriptor (PTD) is used. If this initial text condition is not specified, a receiver default based on the
 receiver default font should be used.
 Note: The baseline increment, whether specified by the SBI control sequence, by the Baseline Increment initial
 text condition, or by a receiver default, is not affe cted by the active font or by changes to the active font.
@@ -1930,7 +1930,7 @@ Set Coded Font Local (SCFL)
 The Set Coded Font Local control sequence activates a coded font and specifies the character attributes to be
 used. This is a modal control sequence.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 3 Control sequence length M N N
@@ -2000,7 +2000,7 @@ because: decryption is not available on the target device, the decryption fails 
 KEYINFO key information required for decryption has not been defined using the Set Key Information (SKI)
 control.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 6, 7–255 Control sequence length M N N
@@ -2049,8 +2049,8 @@ SEA Control Sequence
 
 <!-- Page 108 -->
 
-## Set Extended T ext Color (SEC)
-The Set Extended T ext Color control sequence specifies a color value and defines the color space and
+## Set Extended Text Color (SEC)
+The Set Extended Text Color control sequence specifies a color value and defines the color space and
 encoding for that value. The specified color value is applied to foreground areas of the text presentation space.
 Foreground areas consist of the following:
 * The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters,
@@ -2059,12 +2059,12 @@ only the stroked portion of the character is considered foreground.
 * The stroked area of an underscore
 All other areas of the text presentation space are considered background.
 This is a modal control sequence.
-Note: Colors may be specified using the Set T ext Color (STC) or the Set Extended T ext Color (SEC) control
+Note: Colors may be specified using the Set Text Color (STC) or the Set Extended Text Color (SEC) control
 sequences. Both STC and SEC can coexist in the same text object. The last issued control sequence
 determines the current text color in accordance with the rules defined for modal control sequences. For
 a definition of modal control sequences, see “Modal Control Sequences”.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 14–16 Control sequence length M N N
@@ -2103,7 +2103,7 @@ SEC Control Sequence
 
 <!-- Page 109 -->
 
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 13 UBIN COLSIZE4 X'00' – X'08' Number of bits in
 component 4, see color
 space definitions
@@ -2192,7 +2192,7 @@ algorithm to render the specified coverage.
 Color Mapping Table (CMT) or an Indexed (IX) Color Management Resource (CMR).
 When used with an Indexed CMR, component 1 specifies a two-byte value that is the
 index into the CMR, and components 2 and 3 are ignored. Note that when both a CMT
-and Indexed CMRs are used, the CMT is always accessed first. T o preserve compatibility
+and Indexed CMRs are used, the CMT is always accessed first. To preserve compatibility
 with existing highlight color devices, indexed color values X'0000' – X'00FF' are reserved
 for existing highlight color applications and devices. That is, indexed colors values in the
 range X'0000' – X'00FF', assuming they are not mapped to a different color space in a
@@ -2289,9 +2289,9 @@ default. This color value is also known in GOCA as neutral white for compatibili
 devices.
 4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some
 objects as a default indicator as follows:
-* For PTOCA text data, X'FFFF' may be specified in the Set T ext Color (STC) control sequence to
+* For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to
 indicate that the PTOCA default hierarchy is used to generate the color value. Note that X'FFFF'
-is not supported in the Set Extended T ext Color (SEC) control sequence.
+is not supported in the Set Extended Text Color (SEC) control sequence.
 5. While the RGB values in the table can be used to render the OCA named colors, many
 implementations are and have been device-dependent. Nevertheless, it is recommended that
 OCA Black (X'0008') be rendered as C = M = Y = X'00', and K = X'FF'.
@@ -2342,7 +2342,7 @@ SEC Control Sequence
 The Set Intercharacter Adjustment control sequence specifies additional increment or decrement between
 graphic characters. This is a modal control sequence.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4–5 Control sequence length M N N
@@ -2448,7 +2448,7 @@ SIA Control Sequence
 The Set Inline Margin control sequence specifies the position of an inline margin. This is a modal control
 sequence.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4 Control sequence length M N N
@@ -2492,7 +2492,7 @@ SIM Control Sequence
 The Set Key Information control sequence provides encryption key information to be used with Encrypted Data
 (ENC) controls. This is a modal control sequence.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 6, 7–255 Control sequence length M N N
@@ -2551,8 +2551,8 @@ SKI Control Sequence
 
 <!-- Page 120 -->
 
-## Set T ext Color (STC)
-The Set T ext Color control sequence specifies a color attribute for the foreground areas of the text presentation
+## Set Text Color (STC)
+The Set Text Color control sequence specifies a color attribute for the foreground areas of the text presentation
 space. Foreground areas consist of the following:
 * The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters,
 only the stroked portion of the character is considered foreground.
@@ -2560,12 +2560,12 @@ only the stroked portion of the character is considered foreground.
 * The stroked area of an underscore
 All other areas of the text presentation space are considered background.
 This is a modal control sequence.
-Note: Colors may be specified using the Set T ext Color (STC) or the Set Extended T ext Color (SEC) control
+Note: Colors may be specified using the Set Text Color (STC) or the Set Extended Text Color (SEC) control
 sequences. Both STC and SEC can coexist in the same text object. The last issued control sequence
 determines the current text color in accordance with the rules defined for modal control sequences. For
 a definition of modal control sequences, see “Modal Control Sequences”.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4, 5 Control sequence length M N N
@@ -2642,9 +2642,9 @@ printers simulate with color of medium, which results in white if white media is
 value is also known in GOCA as neutral white for compatibility with display devices.
 4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some objects as a default
 indicator as follows:
-* For PTOCA text data, X'FFFF' may be specified in the Set T ext Color (STC) control sequence to indicate that the
+* For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to indicate that the
 PTOCA default hierarchy is used to generate the color value. Note that X'FFFF' is not supported in the Set
-Extended T ext Color (SEC) control sequence.
+Extended Text Color (SEC) control sequence.
 5. While the RGB values in the table can be used to render the OCA named colors, many implementations are and
 have been device-dependent. Nevertheless, it is recommended that OCA Black (X'0008') be rendered as C = M = Y
 = X'00', and K = X'FF'.
@@ -2659,7 +2659,7 @@ stream documentation.
 ### Pragmatics
 The presentation process default color attribute value (FRGCOLOR = X'FFFF') is determined hierarchically.
 The following order applies:
-1. Value set by T ext Color initial text condition parameter in descriptor
+1. Value set by Text Color initial text condition parameter in descriptor
 2. PTOCA default X'FF07'
 The device default value is the receiver ’ s default. For example, characters, rules, and underscores will be
 presented in black on a receiver which supports only black. The receiver ’ s best possible value means that if
@@ -2685,11 +2685,11 @@ STC Control Sequence
 
 <!-- Page 123 -->
 
-Set T ext Orientation (ST O)
-The Set T ext Orientation control sequence establishes the I-direction and B-direction for the subsequent text.
+Set Text Orientation (STO)
+The Set Text Orientation control sequence establishes the I-direction and B-direction for the subsequent text.
 This is a modal control sequence.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 6 Control sequence length M N N
@@ -2800,8 +2800,8 @@ baseline.
 3. If the Presentation Text object measurement units specified for the $X_p$
 -axis are different from the
 measurement units specified for the $Y_p$
--axis, the result of a Set T ext Orientation control sequence may be
-unexpected and use of a Set T ext Orientation control sequence should be avoided.
+-axis, the result of a Set Text Orientation control sequence may be
+unexpected and use of a Set Text Orientation control sequence should be avoided.
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
 * EC-1E01...IORNTION or BORNTION is missing.
@@ -2810,7 +2810,7 @@ This control sequence can cause the following exception conditions:
 -axis or $Y_p$
 -axis.
 * EC-0F01...IORNTION and BORNTION not supported by receiver.
-Figure 13. Examples of T ext Orientation and Character Rotation
+Figure 13. Examples of Text Orientation and Character Rotation
 STO Control Sequence
 
 <!-- Page 126 -->
@@ -2819,7 +2819,7 @@ STO Control Sequence
 The Set V ariable Space Character Increment control sequence specifies the increment for a variable space
 character. This is a modal control sequence.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 4 Control sequence length M N N
@@ -2837,7 +2837,7 @@ This control sequence specifies an increment, INCRMENT, for the variable space c
 in the I-direction from the presentation position of the variable space character to the addressable position for
 the next graphic character or control sequence for subsequent text in the current Presentation Text object. This
 control sequence does not change the current presentation position.
-T o return to the current coded font's default value for the variable space character increment, set INCRMENT
+To return to the current coded font's default value for the variable space character increment, set INCRMENT
 to the default indicator. If the current coded font does not have such a default value, INCRMENT is set to the
 character increment for the default variable space character.
 If INCRMENT is omitted, exception condition EC-1E01 exists. The standard action is to continue with the
@@ -2907,7 +2907,7 @@ Temporary Baseline Move (TBM)
 The Temporary Baseline Move control sequence changes the position of the baseline without changing the
 established baseline.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 3, 4, 6 Control sequence length M N N
@@ -3116,7 +3116,7 @@ Transparent Data (TRN)
 The Transparent Data control sequence contains a sequence of code points that are presented without a scan
 for embedded control sequences.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 2–255 Control sequence length M N N
@@ -3187,7 +3187,7 @@ TRN Control Sequence
 ## Underscore (USC)
 The Underscore control sequence identifies text fields that are to be underscored.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH 3 Control sequence length M N N
@@ -3267,7 +3267,7 @@ see Table 9.
 Implementation Note: Most IPDS printers have implemented X'FF' as the default indicator, which results in
 BYPSIDEN = X'01' - no bypass in effect. However, it could be argued that the proper default indicator is
 X'0F', since BYPSIDEN bits 0-3 are reserved, should be set to zero by generators, and should be
-ignored by receivers. T o avoid confusion, it is strongly recommended that a default indicator not be used
+ignored by receivers. To avoid confusion, it is strongly recommended that a default indicator not be used
 for this parameter, and that the value X'01' is specified directly if the default is desired.
 An underscore area is that portion of the underscore field for which text is actually underscored. An underscore
 area is delimited by the addressable position in the following cases.
@@ -3304,7 +3304,7 @@ Multiple beginning and ending USC pairs may not be nested. However, no exception
 beginning USC control sequence is processed when another USC control sequence is already active. The
 subsequent beginning USC terminates the previous USC and starts another. If an ending USC is encountered
 when there has been no previous USC, no exception condition exists. Ignore the ending USC. If a Presentation
-T ext object contains a beginning USC without a matching ending USC, no exception condition exists.
+Text object contains a beginning USC without a matching ending USC, no exception condition exists.
 T erminate the USC at the end of the Presentation Text object.
 There is no provision in the USC control sequence to specify a coded font. It is assumed that the receiver can
 underscore. Underscore positioning is determined by the active coded font. If the active coded font is changed
@@ -3317,7 +3317,7 @@ multiple lines, could result. However, this does not constitute a violation of t
 If an STO control sequence changes the text orientation within an underscore field, the position of the
 underscore is still determined by the active coded font. Please see Figure 15.
 Figure 15. Relationship of Underscore to Changes in Font, Orientation, and Rotation
-T ypically an ST O control sequence is accompanied by an SCFL control sequence that specifies the
+Typically an STO control sequence is accompanied by an SCFL control sequence that specifies the
 appropriate coded font to use in the new orientation. The coded font specified by the SCFL determines where
 the underscore is positioned in the new orientation. The requirement for a solid line is not violated as long as
 the underscore extends for the character increment and any intercharacter adjustment. For some
@@ -3341,7 +3341,7 @@ USC Control Sequence
 
 <!-- Page 140 -->
 
-## Unicode Complex T ext (UCT)
+## Unicode Complex Text (UCT)
 Architecture Note: The recommended method for rendering Unicode complex text is to use GLC chains. With
 that method, the UCT may optionally be specified within a GLC chain as a carrier for metadata that
 specifies the original Unicode code points and control information describing how those code points may
@@ -3349,7 +3349,7 @@ be rendered. In that usage, the UCT does not cause any characters to be rendered
 use the UCT in GLC chains to “virtually“ render the code points in order to better correlate substrings of
 glyph runs with their corresponding code points. The use of the UCT as a stand-alone control sequence
 to render complex text has not been implemented widely and is not supported in IPDS environments.
-The Unicode Complex T ext (UCT) control sequence marks the start of a sequence of Unicode code points.
+The Unicode Complex Text (UCT) control sequence marks the start of a sequence of Unicode code points.
 This sequence starts with the first byte following the end of the UCT control sequence and ends with the last
 byte identified by the complex text length parameter in the control sequence. All bytes in this sequence are
 processed as code points without a scan for embedded control sequences. There is no odd function type
@@ -3417,7 +3417,7 @@ by the presentation device before bidi layout processing or glyph processing is 
 Architecture Note: The Unicode character encoding is defined in the Unicode Standard, which is available
 from the Unicode Consortium at http://unicode.org/standard/standard.html.
 ### Syntax
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE PREFIX X'2B' Control Sequence Prefix M N N
 1 CODE CLASS X'D3' Control sequence class M N N
 2 UBIN LENGTH X'10' Control sequence length M N N
@@ -3621,7 +3621,7 @@ active font. If the active font is not a data-object font, or if it is a data-ob
 Unicode-based character encoding, this parameter is ignored. For most BIDICT values, this parameter
 establishes the Unicode paragraph direction, which is used as an input to the Unicode bidi algorithm. Table 14
 on shows how the paragraph direction for Unicode complex text affects the positioning of the UCT
-text. See “Bidi Layout Processing for UCT T ext” for a description of bidi layout processing for UCT
+text. See “Bidi Layout Processing for UCT Text” for a description of bidi layout processing for UCT
 text.
 Value Description
 X'02' Enable Unicode bidi layout processing for the complex text code points that follow. The
@@ -3692,7 +3692,7 @@ UCT Control Sequence
 
 <!-- Page 146 -->
 
-Table 14. UCT T ext Positioning
+Table 14. UCT Text Positioning
 PTOCA (i,b)
 Orientation
 Character Rotation UCT Para-
@@ -3824,10 +3824,10 @@ X'F1''–X'F3' X'80''–X'BF'
 X'F4' X'80''–X'8F'
 * The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF-8 range for that byte
 (X'80' - X'BF').
-Bidi Layout Processing for UCT T ext
+Bidi Layout Processing for UCT Text
 A number of parameters–both outside the UCT and inside the UCT–determine how Unicode bidi layout
 processing is applied to text in a UCT:
-* T ext orientation. The orientation of the (i,b) coordinate system which specifies the baseline on which glyphs
+* Text orientation. The orientation of the (i,b) coordinate system which specifies the baseline on which glyphs
 are positioned and the reference inline direction for progressing text directional runs.
 * Character rotation. Alignment of a character with respect to the baseline. Differentiates between horizontal
 and vertical writing modes.
@@ -3840,7 +3840,7 @@ a
 * Bidirectional character property. A property value assigned by the Unicode standard to each character,
 including unassigned characters. Values include strong L→R, strong R→L, weak L→R, weak R→L, and
 neutral characters.
-* T ext direction. Specifies the visual ordering of characters in a given directional run. The inherent directional
+* Text direction. Specifies the visual ordering of characters in a given directional run. The inherent directional
 properties of Unicode characters dictate the text direction assigned many characters, while the Unicode bidi
 layout algorithm will assign a direction to characters such as punctuation marks which have a neutral
 directional property.
@@ -3858,7 +3858,7 @@ UCT Control Sequence
 
 <!-- Page 149 -->
 
-Figure 16. 32 Wa ys to Print T ext in AFP Environments
+Figure 16. 32 Ways to Print Text in AFP Environments
 A B□C
 D□E□F
 D
@@ -4111,7 +4111,7 @@ have a horizontal directional attribute–such as Latin characters–are encount
 mode, they are presented in the same direction and at the same character rotation as the characters with a
 vertical directional attribute. There is also no additional Unicode bidi layout processing for directional changes
 due to embedded L→R or R→L sequences.
-Positioning Considerations for UCT T ext
+Positioning Considerations for UCT Text
 The above examples showing the effect of paragraph direction assume that the complete text string fits on one
 line, can be included in a single UCT, and can be treated as a single paragraph. This is important because
 proper rendering of Unicode bidi text requires that the Unicode bidi layout algorithm be applied to a complete
@@ -4121,7 +4121,7 @@ In those cases the single paragraph is segmented into multiple UCT s so that the
 sequences can be inserted between UCT s.
 Unfortunately, when a paragraph is segmented into multiple UCT s, the scope of the original paragraph is lost.
 Applying a paragraph direction to each segmented UCT will, in general, not result in the correct rendering of
-the original paragraph. T o avoid this, the PTOCA generator needs to invoke the Unicode bidi layout algorithm
+the original paragraph. To avoid this, the PTOCA generator needs to invoke the Unicode bidi layout algorithm
 to break the paragraph into directional runs and then package these directional runs into individual UCT s that
 specify the desired text direction (BIDICT values X'22'and X'23'). For example the complete string could be
 broken into the following three UCT s when a R→L paragraph direction is used. These UCT s must appear in the
@@ -4224,7 +4224,7 @@ c1
 Implementation Note: The use of the ICU ParagraphLayout API is recommended for PTOCA generators that
 need to segment bidi paragraphs. This APIcan provide the information needed to specify a text direction and
 position for each segmented UCT. See http://site.icu-project.or.
-Effect of Other PTOCA Control Sequences on UCT T ext
+Effect of Other PTOCA Control Sequences on UCT Text
 The unique characteristics of complex text require that some PTOCA control sequences have a different effect
 on UCT text processing than they do on non-UCT text processing. These differenc es are defined as follows:
 * Overstrike (OVS). Table 16 defines which Unicode space characters are treated as PTOCA
@@ -4236,7 +4236,7 @@ character as follows:
 $I_{cnew}$ = $I_c$
 + CI
 In all other cases the SIA control sequence is processed the same for UCT text as for non-UCT text.
-* Set T ext Orientation (ST O). If bidi layout processing is enabled and the writing mode is horizontal, characters
+* Set Text Orientation (STO). If bidi layout processing is enabled and the writing mode is horizontal, characters
 in complex text may be progressed in the negative i-direction as defined in Table 14. In all other
 cases the STO control sequence is processed the same for UCT text as for non-UCT text.
 * Set V ariable Space Character Increment (SVI). Table 16 defines which Unicode space
@@ -4300,8 +4300,8 @@ $Y_p$
 -units per unit base A number from 1 through 32,767
 The unit base parameterspecifies the measurement base. It has the following values:
 Values Description
-0 T en inches
-1 T en centimeters
+0 Ten inches
+1 Ten centimeters
 2-254 Reserved
 If the value of the unit base parameter is not supported or is not within the range specified by PTOCA,
 exception condition EC-0505 exists. The standard action is to ignore this parameter and continue presentation
@@ -4380,8 +4380,8 @@ axis
 that is parallel to it. The units of the B-axis are the same as those of the other $X_p$
 ,$Y_p$
 axis. The origin and
-orientation of the I-axis and B-axis can be specified by the T ext Orientation initial text conditions, and by the Set
-T ext Orientation control sequence. The values of the presentation text measurement units cannot be changed
+orientation of the I-axis and B-axis can be specified by the Text Orientation initial text conditions, and by the Set
+Text Orientation control sequence. The values of the presentation text measurement units cannot be changed
 within a Presentation Text object, but the values of presentation text orientation can be changed.
 Size Parameters
 Semantics: Size consists of two parameters that specify the dimensions of a Presentation Text object, that is,
@@ -4446,8 +4446,8 @@ Semantics: This parameter is reserved. Generators should set it to zero and rece
 
 <!-- Page 157 -->
 
-Initial T ext Condition Parameters
-The Initial T ext Condition parameters specify initial values for the Presentation Text object. They include the
+Initial Text Condition Parameters
+The Initial Text Condition parameters specify initial values for the Presentation Text object. They include the
 following parameters:
 * Baseline increment
 * Coded font local ID
@@ -4456,8 +4456,8 @@ following parameters:
 * Initial inline coordinate
 * Inline margin
 * Intercharacter adjustment
-* T ext color
-* T ext orientation
+* Text color
+* Text orientation
 The following pages contain the semantics and the pragmatics of the PTOCA initial text condition parameters.
 For the syntax, please see Appendix A, “MO:DCA Environment”, and Appendix B, “IPDS
 Environment”,.
@@ -4513,8 +4513,8 @@ This parameter can cause the following exception conditions:
 * EC-0C01...The value of the LID parameter is not supported or is not in the range specified by PTOCA.
 * EC-3F02...The font is not compatible with the text orientation.
 * EC-1802...The font requested cannot be provided.
-Extended T ext Color
-The Extended T ext Color parameterspecifies a process or highlight color value and defines the color space
+Extended Text Color
+The Extended Text Color parameterspecifies a process or highlight color value and defines the color space
 and encoding for that value. The specified color value is applied to foreground areas of the text presentation
 space. Foreground areas consist of the following:
 * The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters,
@@ -4522,10 +4522,10 @@ only the stroked portion of the character is considered foreground.
 * The stroked area of a rule.
 * The stroked area of an underscore.
 All other areas of the text presentation space are considered background.
-Semantics: Refer to “Set Extended T ext Color (SEC)” for a description of the parameter
+Semantics: Refer to “Set Extended Text Color (SEC)” for a description of the parameter
 semantics. The controlling environment may limit the range permitted. See “Related Publications” on page vi
-for the appropriate data-stream documentation. Note that the Extended T ext Color parameter is not supported
-as an initial text condition in IPDS Environments, see “Presentation Text Data Descriptor for T ext-Major T ext”
+for the appropriate data-stream documentation. Note that the Extended Text Color parameter is not supported
+as an initial text condition in IPDS Environments, see “Presentation Text Data Descriptor for Text-Major Text”
 on.
 Pragmatics: If the receiver does not support the specified color value exception condition EC-0E03 exists.
 The standard action in this case is to use the presentation device default color.
@@ -4626,8 +4626,8 @@ range specified by PTOCA.
 
 <!-- Page 161 -->
 
-T ext Color
-The T ext Color parameterspecifies a named color that selects the foreground color of subsequent text
+Text Color
+The Text Color parameterspecifies a named color that selects the foreground color of subsequent text
 characters, rules, and underscores.
 Architecture Note: Pre-year 2000 applications and printers support an optional PRECISION parameter for text
 color. This parameter has been retired. It should not be generated by new applications, and should be
@@ -4647,7 +4647,7 @@ range permitted. See “Related Publications” on page vi for the appropriate d
 Pragmatics:
 The default color attribute value (FRGCOLOR = X'FFFF') is determined hierarchically. The following order
 applies:
-1. Value set by T ext Color initial text condition parameter in Descriptor
+1. Value set by Text Color initial text condition parameter in Descriptor
 2. PTOCA default – X'FF07'.
 The device default value is the receiver ’ s default. For example, characters, rules, and underscores will be
 presented in black on a receiver which supports only black. The receiver ’ s best possible value means that if
@@ -4662,8 +4662,8 @@ erase function.
 This parameter can cause the following exception condition:
 * EC-5803...The foreground color parameter (FRGCOLOR) value is invalid, or the specified color is not
 supported.
-T ext Orientation
-T ext Orientation consists of two parameters that establish the I-direction and the B-direction for presentation
+Text Orientation
+Text Orientation consists of two parameters that establish the I-direction and the B-direction for presentation
 text.
 Semantics: These parameters specify the initial I-axis and B-axis orientations with respect to the $X_p$
 -axis.

@@ -16,7 +16,7 @@ process that cannot faithfully reproduce the object to continue with its best ap
 reproduction is acceptable for an application, interchange among a larger set of receivers is possible.
 If a requirement for faithful reproduction is specified, and if a process cannot present a faithful reproduction,
 reproduction is not continued.
-T o satisfy these objectives, PTOCA anticipates the existence of exception conditions, specifies how each is to
+To satisfy these objectives, PTOCA anticipates the existence of exception conditions, specifies how each is to
 be handled so that results are predictable, and lets the controlling environment control exception condition
 actions.
 ### Exception Conditions
@@ -68,7 +68,7 @@ terminate processing the Presentation Text object as a result of them. However, 
 may place more stringent requirements.
 Syntactic exception conditions can be detected without regard to the value of any other parameter or
 structured field. A syntactic or semantic exception condition can be detected by inspection of a Presentation
-T ext object. A pragmatic exception condition cannot be detected by inspection of a Presentation Text object
+Text object. A pragmatic exception condition cannot be detected by inspection of a Presentation Text object
 alone, but requires knowledge of characteristics of the receiver. If a product that produces or processes a
 Presentation Text object knows the characteristics of one or more receivers, it can avoid or detect pragmatic
 exception conditions. If it does not, this detection must be performed by the receiver.
@@ -207,7 +207,7 @@ Exception
 Condition
 Meaning Comments
 EC-0F01 Invalid text orientation in
-ST O.
+STO.
 * Baseline or inline orientation specified is not a valid or supported value.
 * The I and Borientations are identical.
 * Neither the I-direction nor the B-direction is parallel to the $X_p$
@@ -290,13 +290,13 @@ Coded Font Local ID initial text condition parameter.
 * SVIcontrol sequence increment parameter is missing.
 * DBR or DIR length parameter is missing.
 * SIM displacement parameter is missing.
-* I-orientation parameter or B-orientation parameter is missing in an ST O
+* I-orientation parameter or B-orientation parameter is missing in an STO
 control sequence.
 EC-1F01 RPS length error.
 * The RPS control sequence length is four and the repeat length is not
 zero.
 EC-2100 Invalid character.
-EC-3F02 T ext orientation is
+EC-3F02 Text orientation is
 incompatible with selected
 font.
 EC-5803 An STC color or color

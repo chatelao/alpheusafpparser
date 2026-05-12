@@ -145,10 +145,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 4: Tables 21–22 (Aztec Code).
         - ✅ Chapter 4: Tables 23–25 (Data Matrix).
         - ✅ Chapter 4: Tables 26–27 (Han Xin Code).
-        - ⏳ Chapter 4: Table 28 (Intelligent Mail Package Barcode).
-        - ⏳ Chapter 4: Table 29 (MaxiCode).
+        - ✅ Chapter 4: Table 28 (Intelligent Mail Package Barcode).
+        - ✅ Chapter 4: Table 29 (MaxiCode).
         - ✅ Chapter 4: Table 30 (PDF417).
-        - ⏳ Chapter 4: Tables 31–33 (QR Code and QR Code with Image).
+        - ✅ Chapter 4: Tables 31–33 (QR Code and QR Code with Image).
         - ✅ Chapter 4: Table 34 (Code Pages and Type Styles).
         - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 1: Symbologies X'01'–X'11'.
         - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 2: Symbologies X'16'–X'27'.
@@ -211,7 +211,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Remove physical page references ("on page XXX").
 - 🚧 **PTOCA**:
     - ✅ Purge physical page markers and fix split words.
-    - ⏳ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
+    - ✅ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
 - ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
 - 🚧 **Db2 12 Internationalization Guide**:

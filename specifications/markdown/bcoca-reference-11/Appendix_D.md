@@ -2662,7 +2662,7 @@ J
 JAN. See Japanese Article Numbering.
 Japanese Article Numbering (JAN). The bar code
 symbology used to code grocery items in Japan.
-JFIF . See JPEG File Interchange Format.
+JFIF. See JPEG File Interchange Format.
 jog. T o cause printedsheets to be stacked in an output
 stacker offset from previously stacked sheets. Jogging is
 requested by using an IPDS Execute Order Anystate
@@ -4121,7 +4121,7 @@ presentation information.
 T
 tag. A data structure that is used within the data portion of
 a color management resource (CMR). A CMR tag consists
-of T agID, FieldType, Count, and ValueOffset.
+of TagID, FieldType, Count, and ValueOffset.
 Tagged Image File Format (TIFF). A rich and flexible
 graphics image format.
 temporary baseline. The shifted baseline used for
