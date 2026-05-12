@@ -18,8 +18,7 @@ The relationship of the elements to the space they occupy is described in terms 
 
 The positioning of the graphic characters on a line is accomplished by moving the presentation position. Graphic characters may be placed adjacent to one another or positioned anywhere in the object space through the use of control sequences defined by PTOCA. Control sequences have been defined to move the presentation position to another position, to move to the beginning of another line, to adjust the distance between two adjacent characters, to draw lines such as rules, to adjust the distance between lines, to change the font, to specify the color of characters and rules, to overstrike a text field with a specified character, and to underscore a text field.
 
-<!-- Page 26 -->
+
 
 National Language Support (NLS) is handled in the level of formatting above the Presentation Text object. Font NLS support is provided in the font mapping function in the controlling environment.
 
-<!-- Page 27 -->

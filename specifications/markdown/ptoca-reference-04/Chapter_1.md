@@ -19,7 +19,7 @@ The solution is a presentation architecture base that is both robust and open en
 
 AFP architectures define interchange formats that are system independent and are independent of any particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for compressed image data.
 
-<!-- Page 20 -->
+
 
 ## Architecture Components
 
@@ -38,7 +38,7 @@ The MO:DCA architecture defines the data stream used by applications to describe
 
 The IPDS architecture defines the data stream used by print server programs and device drivers to manage all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area network-attached (LAN-attached) printers to high-speed, high-volume page printers for production jobs, shared printing, and mailroom applications. The same object content architectures carried in a MO:DCA data stream can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer hardware. The IPDS architecture defines bidirectional command protocols for query, resource management, and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided by pre-processing and post-processing devices attached to IPDS printers.
 
-<!-- Page 21 -->
+
 
 **Figure 2. Presentation Model.** This diagram shows the major components in a presentation system and their use of data stream and object architectures.
 
@@ -57,7 +57,7 @@ A resource object is a collection of presentation instructions and data. These o
 
 All object content architectures (OCAs) are totally self-describing and independently defined. When multiple objects are composed on a page, they exist as peer objects that can be individually positioned and manipulated to meet the needs of the presentation application.
 
-<!-- Page 22 -->
+
 
 The AFPC-defined object content architectures are:
 
@@ -73,7 +73,7 @@ The MO:DCA and IPDS architectures also support data objects that are not defined
 
 In addition to object content architectures, the MO:DCA architecture defines envelope architectures for objects of common value in the presentation environment. Examples of these are Form Definition resource objects for managing the production of pages on the physical media, overlay resource objects that accommodate electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a document.
 
-<!-- Page 23 -->
+
 
 **Figure 3. Presentation Page.** This is an example of a mixed-object page that can be composed in a presentation-system-independent MO:DCA format and printed on an IPDS printer.
 
@@ -84,4 +84,3 @@ In addition to object content architectures, the MO:DCA architecture defines env
 *   Letterhead can be an overlay resource containing text, image, and graphics objects
 *   Object areas can overlap
 
-<!-- Page 24, 25 -->

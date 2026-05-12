@@ -5,21 +5,21 @@ Mixed Object Document Content Architecture Reference, AFPC-0004, for a full desc
 architecture.
 The Presentation Text Data Descriptor (PTD) and Presentation Text Data (PTX) structured fields, which carry
 Presentation Text objects in MO:DCA architecture documents, are defined in the following pages.
-T o guarantee interchange, a MO:DCA document carrying a Presentation Text object must include all
+To guarantee interchange, a MO:DCA document carrying a Presentation Text object must include all
 information related to the object. The MO:DCA document must therefore contain not only the definition of the
 Presentation Text object, but it must also provide linkage to the resources the object references.
 The discussion of MO:DCA structured fields is included in this appendix solely for setting the context of their
 use by PTOCA.
 Compliance with MO:DCA Interchange Sets
-When Presentation Text objects are interchanged with the purpose of outputting the objects on a display ,
-printer , or other output device, it is very important that visual fidelity be maintained as far as possible. In an
-attempt to satisfy this objective, PTOC A defines the following for the MO:DCA environment:
+When Presentation Text objects are interchanged with the purpose of outputting the objects on a display,
+printer, or other output device, it is very important that visual fidelity be maintained as far as possible. In an
+attempt to satisfy this objective, PTOCA defines the following for the MO:DCA environment:
 • A set of rules that must be followed by all generators when constructing Presentation Text objects.
 • A set of Presentation Text processing capabilities that are guaranteed to be supported by all receivers.
 In order to comply with a particular MO:DCA Interchange Set, products that generate Presentation Text objects
 must only generate objects that contain Presentation Text items and values defined in that interchange set.
 Including items or values not in the interchange set can result in processing exceptions being raised by the
-receiving processor , and exception actions being taken. However , a generator must not rely on a receiver
+receiving processor, and exception actions being taken. However, a generator must not rely on a receiver
 taking these actions.
 In order to conform to a particular MO:DCA Interchange Set, products that receive Presentation Text objects
 and convert them using a processor for output to some device are required to support all the Presentation Text
@@ -28,12 +28,12 @@ It is optional whether the processor in the receiving node checks each Presentat
 with the relevant interchange set. A receiver can optionally raise warnings, in the form of errors, if a non-
 compliant Presentation Text object is detected.
 The Presentation Text object space is the presentation space within which the object generator may position
-graphic characters without error , and it is the responsibility of the generator to ensure that the graphic
+graphic characters without error, and it is the responsibility of the generator to ensure that the graphic
 characters it places in the object space are positioned so that they do not exceed the object space.
 
-<!-- Page 182 -->
 
-164 PTOCA Reference
+
+
 Presentation Text Structured Fields in the MO:DCA Architecture
 Presentation Text Data Descriptor (PTD)
 The PTOCA Presentation Text Data Descriptor is carried in the MO:DCA Presentation Text Data Descriptor
@@ -46,16 +46,16 @@ X'0000'
 PTD Data
 The following table describes the contents of the Presentation Text Data Descriptor (PTD) structured field in
 the MO:DCA architecture, which has a structured field identifier of X'D3B19B'.
-Offset T ype Name Range Meaning M/O Def Ind
-0 CODE XPBASE X'00'–X'01' Unit base for X axis; must
+Offset Type Name Range Meaning M/O Def Ind
+0 CODE XPBASE X'00'–X'01' Unit base for X-axis; must
 be the same as the unit
-base for Y axis:
+base for Y-axis:
 X'00' T en inches
 X'01' T en centimeters
 M N N
-1 CODE YPBASE X'00' –X'01' Unit base for Y axis; must
+1 CODE YPBASE X'00' –X'01' Unit base for Y-axis; must
 be the same as the unit
-base for X axis:
+base for X-axis:
 X'00' T en inches
 X'01' T en centimeters
 M N N
@@ -93,22 +93,22 @@ p
 - and Y
 p
 -units per unit base are 14,400. If it is necessary to convert to a diffe rent
-measurement unit, please see the conversion routine described in “Interpreting Ranges” on page 47.
+measurement unit, please see the conversion routine described in “Interpreting Ranges”.
 2. The default indicator is not allowed for this parameter in this subset.
 3. The TEXTFLAGS parameter is reserved. Generators should set this parameter to X'0000', and receivers
 should ignore it.
 4. See the description of the control sequence that specifies the initial text condition.
 Presentation Text Structured Fields
 
-<!-- Page 183 -->
 
-PTOCA Reference 165
+
+
 When the Presentation Text Data Descriptor (PTD) is included in the Active Environment Group (AEG) for a
 MO:DCA page, the PTOCA object space and object area coincide with the page presentation space, therefore
 the size of the Presentation Text object space is set equal to the size of the page presentation space. When a
 Presentation Text object is transformed into an IPDS data stream, the PTD parameters are mapped to IPDS
-Logical Page Descriptor (LPD) command parameters. Optionally , some PTD parameters may be transformed
-into control sequences as part of an IPDS Wr ite T ext command. When the PTD is specified in the OEG of a
+Logical Page Descriptor (LPD) command parameters. Optionally, some PTD parameters may be transformed
+into control sequences as part of an IPDS Write Text command. When the PTD is specified in the OEG of a
 MO:DCA text object, the extents of the text object space are defined by the XPEXTENT and YPEXTENT
 parameters and can be set to any value in the allowed range.
 Architecture Note: When the PTD is included in the AEG for a MO:DCA page, some AFP print servers
@@ -117,40 +117,40 @@ require that the measurement units in the PTD match the measurement units in the
 measurement units are specified in both the PTD and PGD.
 The coded font information from the MO:DCA Map Coded Font (MCF) and Map Data Resource (MDR)
 structured fields is used to determine what the Load Font Equivalence command content should be in the IPDS
-environment. See Appendix B, “IPDS Environment”, on page 169 for more information about the IPDS
+environment. See Appendix B, “IPDS Environment”,  for more information about the IPDS
 environment.
 Initial text conditions are specified by including the control sequence that contains the parameter to be
 initialized. It is recommended that exactly one chain be used to specify initial text conditions. The first control
 sequence that specifies an initial text condition parameter starts with the X'2BD3' prefix and class code and
-indicates chaining with an odd function type (low-order bit is B'1') if other control sequences follow . All control
-sequences that follow , except for the last, are chained control sequences that start with their length byte (not
+indicates chaining with an odd function type (low-order bit is B'1') if other control sequences follow. All control
+sequences that follow, except for the last, are chained control sequences that start with their length byte (not
 with X'2BD3') and have an odd function type. The last control sequence in the chain starts with the length byte
 but indicates termination of the chain with an even function type (low-order bit is B'0'). For a description of
-chaining, see “Control Sequence Chaining” on page 36.
-T able 19 on page 165 shows which control sequence may be used to specify a particular initial text condition
-parameter . Control sequences are optional and may appear in any order . If a control sequence appears
+chaining, see “Control Sequence Chaining”.
+Table 19  shows which control sequence may be used to specify a particular initial text condition
+parameter. Control sequences are optional and may appear in any order. If a control sequence appears
 multiple times, the last occurrence determines the setting of the initial text condition. Control sequences that
 are not listed in this table are treated as NOPs.
-T able 19. PTOCA Initial T ext Conditions in a MO:DCA Environment
-Initial T ext Condition Parameter Control Sequence
+Table 19. PTOCA Initial Text Conditions in a MO:DCA Environment
+Initial Text Condition Parameter Control Sequence
 Baseline Increment Set Baseline Increment (SBI)
 Coded Font Local ID Set Coded Font Local (SCFL)
-Extended T ext Color Set Extended T ext Color (SEC)
+Extended Text Color Set Extended Text Color (SEC)
 Initial Baseline Coordinate Absolute Move Baseline (AMB)
 Initial Inline Coordinate Absolute Move Inline (AMI)
 Inline Margin Set Inline Margin (SIM)
 Intercharacter Adjustment Set Intercharacter Adjustment (SIA)
-T ext Color Set T ext Color (STC)
-T ext Orientation Set T ext Orientation (STO)
-Architecture Note: The Extended T ext Color parameter is not supported as an initial text condition in IPDS
-environments when text is specified as text-major , that is, when the PTD for the text is specified in the
+Text Color Set Text Color (STC)
+Text Orientation Set Text Orientation (STO)
+Architecture Note: The Extended Text Color parameter is not supported as an initial text condition in IPDS
+environments when text is specified as text-major, that is, when the PTD for the text is specified in the
 AEG for the page. This parameter is supported in IPDS environments when the text is specified in a text
 object with OEG and the PTD is specified in the OEG.
 Presentation Text Data Descriptor (PTD)
 
-<!-- Page 184 -->
 
-166 PTOCA Reference
+
+
 Architecture Note: The following format 1 version of the Presentation Text Data Descriptor is a coexistence
 MO:DCA structured field and may only be used for migration purposes. The PTD format 1 structured
 field is not allowed in the OEG of a MO:DCA presentation text object.
@@ -160,11 +160,11 @@ X'D3A69B'
 Flags Reserved
 X'0000'
 PTD Data
-Offset T ype Name Range Meaning M/O Def Ind
-0 CODE XPBASE X'00' Unit base for X axis; ten
+Offset Type Name Range Meaning M/O Def Ind
+0 CODE XPBASE X'00' Unit base for X-axis; ten
 inches
 M N N
-1 CODE YPBASE X'00' Unit base for Y axis; ten
+1 CODE YPBASE X'00' Unit base for Y-axis; ten
 inches
 M N N
 2–3 UBIN XPUNITVL X'0960' –
@@ -200,22 +200,22 @@ PTD Data
 The Presentation Text Data (PTX) structured field has a structured field identifier of X'D3EE9B'. It contains the
 graphic characters and the control sequences that position the graphic characters.
 The contents of the PTX structured field, that is, graphic characters and control sequences, may be included
-directly into one or more IPDS Wr ite T ext (WT) commands by removing the MO:DCA structured field introducer
+directly into one or more IPDS Write Text (WT) commands by removing the MO:DCA structured field introducer
 and replacing it with the IPDS WT command syntax. The length information from the PTX structured field must
 be changed to reflect the correct length in the WT command.
-Presentation text data can span multiple PTX structured fields and can be split on any byte boundary .
+Presentation text data can span multiple PTX structured fields and can be split on any byte boundary.
 Therefore, a control sequence or chain of control sequences, or a sequence of single- or multi-byte code points
 can start in one PTX and continue or terminate in a following PTX.
 Presentation Text Data (PTX)
 
-<!-- Page 185 -->
 
-PTOCA Reference 167
+
+
 Presentation Exception Conditions
 An implementation of the MO:DCA architecture may detect and report PTOCA exception conditions as
 required to perform or assure the function for which it was designed. The MO:DCA architecture expects a
 PTOCA processor to handle exception conditions, either by using PTOCA standard actions or by recovering in
-some other manner .
+some other manner.
 Presentation Suppression Handling
 Suppression of graphic characters is activated by referencing the local ID from the Begin Suppression and End
 Suppression control sequences with a keyword in the MO:DCA Medium Modification Control (MMC) structured
@@ -224,17 +224,13 @@ further information, please see the Mixed Object Document Content Architecture R
 Additional Related Structured Fields
 Map Coded Font (MCF): Font information for FOCA-based fonts is provided by the Map Coded Font (MCF)
 structured field which maps the LID parameter of the Set Coded Font Local control sequence to a FOCA font.
-Map Data Resource (MDR): Font information for T rueT ype/OpenT ype fonts is provided by the Map Data
+Map Data Resource (MDR): Font information for TrueType/OpenType fonts is provided by the Map Data
 Resource (MDR) structured field which maps the LID parameter of the Set Coded Font Local control sequence
-to a T rueT ype/OpenT ype font.
+to a TrueType/OpenType font.
 For further information about these structured fields, please refer to Mixed Object Document Content
 Architecture Reference, AFPC-0004.
 Additional Related Structured Fields
 
-<!-- Page 186 -->
 
-168 PTOCA Reference
 
-<!-- Page 187 -->
 
-Copyright © AFP Consortium 1997, 2025 169

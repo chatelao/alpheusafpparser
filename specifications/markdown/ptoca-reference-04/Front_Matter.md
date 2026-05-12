@@ -1,6 +1,6 @@
 # Front Matter
 
-<!-- Page 1 -->
+
 
 **Advanced Function Presentation Consortium**
 **Data Stream and Object Architectures**
@@ -9,23 +9,23 @@
 
 **AFPC-0009-04**
 
-<!-- Page 2 -->
 
-Copyright © AFP Consortium 1997, 2025 ii
 
-**Note:** Before using this information, read the information in "Notices" on page 179.
+ ii
+
+**Note:** Before using this information, read the information in "Notices".
 
 AFPC-0009-04
 Fifth Edition (February 2025)
 
 This edition applies to the Presentation Text Object Content Architecture (PTOCA). It is the second edition produced by the AFP Consortium™ (AFPC™) and replaces and makes obsolete the previous edition, AFPC-0009-03. This edition remains current until a new edition is published.
 
-Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see "Summary of Changes" on page vii.
+Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see "Summary of Changes"  vii.
 
 **Internet**
 Visit our home page: [www.afpconsortium.org](http://www.afpconsortium.org)
 
-<!-- Page 3 -->
+
 
 ## Preface
 
@@ -51,7 +51,7 @@ Since the cooperation between the members of the AFP Color Consortium turned out
 
 This book is divided into six chapters, three appendixes, and a glossary.
 
-<!-- Page 4 -->
+
 
 *   **Chapter 1, "A Presentation Architecture Perspective"** introduces the AFP presentation architectures and positions Presentation Text Object Content Architecture as a strategic object content architecture.
 *   **Chapter 2, "Introduction to PTOCA"** briefly states the purpose and function of PTOCA.
@@ -62,7 +62,7 @@ This book is divided into six chapters, three appendixes, and a glossary.
 *   **Appendix A, "MO:DCA Environment"** describes the Presentation Text object in the context of a MO:DCA™ data stream.
 *   **Appendix B, "IPDS Environment"** describes the Presentation Text object in the context of an IPDS™ data stream.
 *   **Appendix C, "PTOCA Retired Functions"** describes the retired PTOCA functions.
-*   **The "Glossary"** on page 181 defines some of the terms used within this book.
+*   **The "Glossary"**  defines some of the terms used within this book.
 
 ### How to Read the Syntax Diagrams
 
@@ -87,7 +87,7 @@ Syntax for PTOCA is shown in tables like the following:
 
 The following is an example of PTOCA syntax for the Begin Line (BLN) control sequence as it appears in this book:
 
-<!-- Page 5 -->
+
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -96,9 +96,9 @@ The following is an example of PTOCA syntax for the Begin Line (BLN) control seq
 | 2 | UBIN | LENGTH | 2 | Control sequence length | M | N | N |
 | 3 | CODE | TYPE | X'D8' – X'D9' | Control sequence function type | M | N | N |
 
-Please refer to "Control Sequence Detailed Descriptions" on page 47 for a more detailed description of PTOCA syntax.
+Please refer to "Control Sequence Detailed Descriptions"  for a more detailed description of PTOCA syntax.
 
-<!-- Page 6 -->
+
 
 ### Related Publications
 
@@ -141,7 +141,7 @@ Several other publications can help you understand the architecture concepts des
 | Using OpenType Fonts in an AFP System | G544-5876 (IBM) |
 | Technical Reference for Code Pages | S544-3802 (IBM) |
 
-<!-- Page 7 -->
+
 
 ## Summary of Changes
 
@@ -153,4 +153,3 @@ This fifth edition of the PTOCA Reference contains the following changes:
 
 As stated in the edition notice, the additions are marked in this publication in green, with green revision bars located on the left-hand side of a page.
 
-<!-- Page 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 omitted as they were TOC or blank -->

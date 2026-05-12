@@ -16,7 +16,7 @@ process that cannot faithfully reproduce the object to continue with its best ap
 reproduction is acceptable for an application, interchange among a larger set of receivers is possible.
 If a requirement for faithful reproduction is specified, and if a process cannot present a faithful reproduction,
 reproduction is not continued.
-T o satisfy these objectives, PTOCA anticipates the existence of exception conditions, specifies how each is to
+To satisfy these objectives, PTOCA anticipates the existence of exception conditions, specifies how each is to
 be handled so that results are predictable, and lets the controlling environment control exception condition
 actions.
 ### Exception Conditions
@@ -26,7 +26,7 @@ An exception condition in the object is the appearance of the following:
 * Invalid or unsupported control sequence
 PTOCA specifies valid values for parameters, appropriate and inappropriate parameters, and valid and invalid
 combinations of control sequences. In addition, an implementation may accept only a subset of valid values or
-only a subset of appropriate parameters and control sequences. However, PTOC A specifies, by subsetting,
+only a subset of appropriate parameters and control sequences. However, PTOCA specifies, by subsetting,
 which of its controls and parameters are to be supported by the implementations of a subset.
 Exception conditions can be classified as:
 * Syntactic
@@ -38,7 +38,7 @@ Syntactic exception conditions defined for PTOCA include:
 * Invalid parameter value
 * Control sequence appearing in invalid context
 
-<!-- Page 164 -->
+
 
 A semantic exception condition is a violation of a functional architectural specification, that is, what a
 parameter, structured field, or control sequence does, independent of how it looks or how it is used.
@@ -68,7 +68,7 @@ terminate processing the Presentation Text object as a result of them. However, 
 may place more stringent requirements.
 Syntactic exception conditions can be detected without regard to the value of any other parameter or
 structured field. A syntactic or semantic exception condition can be detected by inspection of a Presentation
-T ext object. A pragmatic exception condition cannot be detected by inspection of a Presentation Text object
+Text object. A pragmatic exception condition cannot be detected by inspection of a Presentation Text object
 alone, but requires knowledge of characteristics of the receiver. If a product that produces or processes a
 Presentation Text object knows the characteristics of one or more receivers, it can avoid or detect pragmatic
 exception conditions. If it does not, this detection must be performed by the receiver.
@@ -87,7 +87,7 @@ A standard action is specified in PTOCA for many exception conditions. For examp
 cannot process some of the Presentation Text object, the standard action could be to present it with
 ### Exception Conditions
 
-<!-- Page 165 -->
+
 
 unrecognized control sequences omitted or with specified valid parameters substituted for invalid parameters.
 The standard actions are defined independent of where the exception condition is detected. That is, the
@@ -101,11 +101,11 @@ controlling environment's exception condition code overrides the code specified 
 DBR control sequence will cause a rule to extend outside the boundaries of the object space, PTOCA specifies
 that exception condition code EC-0103 be recognized. However, in the IPDS environment, exception ID
 08C1..00 would be recognized. Please see Appendix A, “MO:DCA Environment”, and Appendix
-B, “IPDS Environment”,. See “Related Publications” on page vi for data-stream documentation.
+B, “IPDS Environment”,. See “Related Publications”  vi for data-stream documentation.
 Some exception responses can be common to all exception conditions. Others are specific to particular
 exception conditions.
 Exception responses that can be common to all exception conditions include the following:
-* T erminate processing Presentation Text object
+* Terminate processing Presentation Text object
 * Ignore the control that caused the exception condition and continue processing the object
 * Partially process the control that caused the exception condition
 * Report exception condition back to generator or forward it to the presenter of the object
@@ -136,7 +136,7 @@ condition to the controlling environment, and let the environment handle it; or 
 action.
 ### Exception Conditions
 
-<!-- Page 166 -->
+
 
 Exception Condition Codes
 The following list contains the exception conditions that implementations of PTOCA are obligated to test for.
@@ -199,7 +199,7 @@ number of bits for a color
 component in SEC.
 ### Exception Conditions
 
-<!-- Page 167 -->
+
 
 Table 18 PTOCA Exception Conditions (cont'd.)
 PTOCA
@@ -207,7 +207,7 @@ Exception
 Condition
 Meaning Comments
 EC-0F01 Invalid text orientation in
-ST O.
+STO.
 * Baseline or inline orientation specified is not a valid or supported value.
 * The I and Borientations are identical.
 * Neither the I-direction nor the B-direction is parallel to the $X_p$
@@ -255,7 +255,7 @@ even for double-byte fonts.
 number. It must be even for double–byte encoded data.
 ### Exception Conditions
 
-<!-- Page 168 -->
+
 
 Table 18 PTOCA Exception Conditions (cont'd.)
 PTOCA
@@ -290,13 +290,13 @@ Coded Font Local ID initial text condition parameter.
 * SVIcontrol sequence increment parameter is missing.
 * DBR or DIR length parameter is missing.
 * SIM displacement parameter is missing.
-* I-orientation parameter or B-orientation parameter is missing in an ST O
+* I-orientation parameter or B-orientation parameter is missing in an STO
 control sequence.
 EC-1F01 RPS length error.
 * The RPS control sequence length is four and the repeat length is not
 zero.
 EC-2100 Invalid character.
-EC-3F02 T ext orientation is
+EC-3F02 Text orientation is
 incompatible with selected
 font.
 EC-5803 An STC color or color
@@ -319,7 +319,7 @@ specified is not a valid or
 supported value.
 ### Exception Conditions
 
-<!-- Page 169 -->
+
 
 Table 18 PTOCA Exception Conditions (cont'd.)
 PTOCA
@@ -360,9 +360,6 @@ EC-9D03 No key information has
 been set for decryption.
 ### Exception Conditions
 
-<!-- Page 170 -->
 
 
-<!-- Page 171 -->
 
-Copyright © AFP Consortium 1997, 2025 153

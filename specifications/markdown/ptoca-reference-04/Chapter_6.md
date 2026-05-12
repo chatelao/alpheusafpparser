@@ -19,7 +19,7 @@ the supported subset
 * Reporting, on request from the controlling environment, the supported features
 * Reporting exception conditions to the controlling environment
 
-<!-- Page 172 -->
+
 
 ## PT1 Subset
 The following table shows the control sequences that are valid for a PT1 subset compliant receiver, and the
@@ -47,7 +47,7 @@ SIA 4-5 ADJSTMNT X'0000'-X'0FFF' 3,4
 SIM 4-5 DSPLCMNT X'0000'-X'7FFF' 3,4
 STC 4-5 FRGCOLOR X'FF07' 3,5
 6 PRECISION X'00'-X'01' 3,10
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 SVI 4-5 INCRMENT X'0000'-X'0FFF' 3,4
 TRN 4-256 TRNDATA 8
@@ -65,11 +65,11 @@ assumed to be ten inches, and the $X_p$
 -units per unit base are assumed to be
 ## PT1 Subset
 
-<!-- Page 173 -->
+
 
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-5. For the PTOCA range, see “Set T ext Color (STC)”. The PT1 range is X'FF07'.
+5. For the PTOCA range, see “Set Text Color (STC)”. The PT1 range is X'FF07'.
 6. The Begin Line (BLN) control sequence has no parameters.
 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. The
 data is ignored.
@@ -80,7 +80,7 @@ not exceed the field length. However, the data will be presented as a character 
 generators should not specify this parameter and new receivers should ignore it..
 ## PT1 Subset
 
-<!-- Page 174 -->
+
 
 ## PT2 Subset
 The following table shows the control sequences that are valid for a PT2 subset compliant receiver, and the
@@ -110,7 +110,7 @@ SIA 4-5 ADJSTMNT X'0000'-X'0FFF' 3,4
 SIM 4-5 DSPLCMNT X'0000'-X'7FFF' 3,4
 STC 4-5 FRGCOLOR X'0000', X'FF00', X'FF07', X'FFFF' 3,5
 6 PRECISION X'00'-X'01' 3,9
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 SVI 4-5 INCRMENT X'0000'-X'0FFF' 3,4
 TBM 4 DIRECTION X'00'-X'03' 3
@@ -120,7 +120,7 @@ TRN 4-256 TRNDATA 8
 USC 4 BYPSIDEN X'00'-X'0E' 3
 ## PT2 Subset
 
-<!-- Page 175 -->
+
 
 Notes:
 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are
@@ -136,7 +136,7 @@ assumed to be ten inches, and the $X_p$
 -units per unit base are assumed to be
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-5. For the PTOCA range, see “Set T ext Color (STC)”. The PT2 range is X'0000', X'FF00',
+5. For the PTOCA range, see “Set Text Color (STC)”. The PT2 range is X'0000', X'FF00',
 X'FF07', and X'FFFF'.
 6. The Begin Line (BLN) control sequence has no parameters.
 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length.
@@ -146,7 +146,7 @@ not exceed the field length. However, the data is presented as a character strin
 generators should not specify this parameter and new receivers should ignore it.
 ## PT2 Subset
 
-<!-- Page 176 -->
+
 
 ## PT3 Subset
 The following table shows the control sequences that are valid for a PT3 subset compliant receiver, and the
@@ -196,13 +196,13 @@ SIA 4-5 ADJSTMNT X'0000'-X'0FFF' 3,4
 SIM 4-5 DSPLCMNT X'0000'-X'7FFF' 3,4
 STC 4-5 FRGCOLOR X'0000', X'FF00', X'FF07', X'FFFF' 3,5
 6 PRECISION X'00'-X'01' 3,9
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 SVI 4-5 INCRMENT X'0000'-X'0FFF' 3,4
 TBM 4 DIRECTION X'00'-X'03' 3
 ## PT3 Subset
 
-<!-- Page 177 -->
+
 
 Control Sequence Offset (Unchained) Parameter PT3 Range Notes
 5 PRECISION X'00'-X'01' 3
@@ -223,7 +223,7 @@ assumed to be ten inches, and the $X_p$
 -units per unit base are assumed to be
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-5. For the PTOCA range, see “Set T ext Color (STC)”. The PT3 range is X'0000', X'FF00',
+5. For the PTOCA range, see “Set Text Color (STC)”. The PT3 range is X'0000', X'FF00',
 X'FF07', and X'FFFF'.
 6. The Begin Line (BLN) control sequence has no parameters.
 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length.
@@ -233,7 +233,7 @@ not exceed the field length. However, the data is presented as a character strin
 generators should not specify this parameter and new receivers should ignore it..
 ## PT3 Subset
 
-<!-- Page 178 -->
+
 
 ## PT4 Subset
 The following table shows the control sequences that are valid for a PT4 subset compliant receiver, and the
@@ -296,7 +296,7 @@ Full range allowed by
 the color space
 ## PT4 Subset
 
-<!-- Page 179 -->
+
 
 Control Sequence Offset (Unchained) Parameter PT4 Range Notes
 SIA 4-5 ADJSTMNT X'0000'-X'7FFF' 2,3
@@ -306,7 +306,7 @@ STC 4-5 FRGCOLOR X'0000'-X'0010', X'FF00'-X'FF08',
 X'FFFF'
 2,4
 6 PRECISION X'00'-X'01' 2,8
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 2
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 2
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 2
 SVI 4-5 INCRMENT X'0000'-X'7FFF' 2,3
 TBM 4 DIRECTION X'00'-X'03' 2
@@ -325,7 +325,7 @@ assumed to be ten inches, and the $X_p$
 -units per unit base are assumed to be
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-4. For the PTOCA range, see “Set T ext Color (STC)”. The PT4 range is the full Standard OCA
+4. For the PTOCA range, see “Set Text Color (STC)”. The PT4 range is the full Standard OCA
 Color Value Table found in the MO:DCA Reference.
 5. The Begin Line (BLN) control sequence has no parameters.
 6. The No Operation (NOP) control sequence may contain any data that does not exceed the field length.
@@ -336,7 +336,7 @@ generators should not specify this parameter and new receivers should ignore it.
 9. The UCT must be chained to a GAR or GOR and is not rendered; all parameters are ignored.
 ## PT4 Subset
 
-<!-- Page 180 -->
+
 
 General Requirements for Compliance
 In claiming support as a PTOCA receiver, a product is stating that it has identified the subsets sufficient for its
@@ -356,6 +356,4 @@ only need to check the structured field introducers. A receiver may optionally p
 compliance.
 General Requirements for Compliance
 
-<!-- Page 181 -->
 
-Copyright © AFP Consortium 1997, 2025 163

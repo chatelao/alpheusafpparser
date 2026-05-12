@@ -218,9 +218,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ **FOCA**:
     - ✅ Fix OCR-induced paragraph merging in technical sections.
     - ✅ Remove physical page references ("on page XXX").
-- 🚧 **PTOCA**:
+- ✅ **PTOCA**:
     - ✅ Purge physical page markers and fix split words.
-    - ⏳ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
+    - ✅ Final cleanup of split-word remnants (e.g., "Text", "Table", "Write", "Variable", "Coordinate", "Page References").
 - ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
 - 🚧 **Db2 12 Internationalization Guide**:
