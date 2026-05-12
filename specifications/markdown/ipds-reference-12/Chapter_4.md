@@ -7459,312 +7459,108 @@ Some printers allow a media source to be identified by several media source IDs,
 capability. In this case, a Printable-Area self-defining field is returned for each of the supported media source
 IDs. The XOH-SIMS or LCC command can select this media source by using any of the printer-defined media
 source IDs (aliases).
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0018' plus
-length of 0,
-1, or 2 media
-ID entries
-Length of this self-defining field, including this length field
-maximum length X'0115'
-2–3 CODE SDF ID X'0001' Printable-Area self-defining field ID
-4 CODE Media source
-ID
-X'00'–X'FF' Media-source ID: This ID can be selected by either the XOH-SIMS
-command or the LCC command. The STM reply specifies which
-method, or methods, of media-source selection the printer
-supports.
-5 X'00' Reserved
-6 CODE Unit base
-X'00'
-X'01'
-X'02'
-Unit base for this self-defining field:
-Ten inches
-Ten centimeters
-Retired item 34
-7 X'00' Reserved
-8–9 UBIN UPUB X'0001' –
-X'7FFF'
-Units per unit base value for this self-defining field
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0018' plus length of 0, 1, or 2 media ID entries | Length of this self-defining field, including this length field; maximum length X'0115' |
+| 2–3 | CODE | SDF ID | X'0001' | Printable-Area self-defining field ID |
+| 4 | CODE | Media source ID | X'00'–X'FF' | Media-source ID: This ID can be selected by either the XOH-SIMS command or the LCC command. The STM reply specifies which method, or methods, of media-source selection the printer supports. |
+| 5 | | | X'00' | Reserved |
+| 6 | CODE | Unit base | X'00'<br>X'01'<br>X'02' | Unit base for this self-defining field:<br>Ten inches<br>Ten centimeters<br>Retired item 34 |
+| 7 | | | X'00' | Reserved |
+| 8–9 | UBIN | UPUB | X'0001' – X'7FFF' | Units per unit base value for this self-defining field |
+| 10–11 | UBIN | Actual medium presentation space width | X'0001' – X'7FFF' | Actual width of the medium presentation space in L-units. For a printer using cut-sheet media, the width is along the top edge of the sheet. For a printer using continuous-forms media, the width is along the leading edge of the physical media as it moves through the printer and does not include the width of the carrier strips. For a printer using envelope media, the width is along the top edge of the envelope. When the medium presentation space origin corresponds to the printer default media origin, this parameter determines the $X_m$ extent of the medium presentation space in all cases but one. In the case of continuous-forms printers that define the top edge of the sheet to be perpendicular to the leading edge, this parameter determines the $Y_m$ extent of the medium presentation space.<br>This parameter specifies the actual width of the medium presentation space, not necessarily the width used for VPA calculations and N-up partitioning. Refer to “XOH Set Media Size” for details. |
+| 12–13 | UBIN | Actual medium presentation space length | X'0001' – X'7FFF' | Actual length of the medium presentation space in L-units. When the medium presentation space origin corresponds to the printer default media origin, this parameter determines the $Y_m$ extent of the medium presentation space in all cases but one. In the case of continuous-forms printers that define the top edge of the sheet to be perpendicular to the leading edge, this parameter determines the $X_m$ extent of the medium presentation space.<br>This parameter specifies the actual length of the medium presentation space, not necessarily the length used for VPA calculations and N-up partitioning. Refer to “XOH Set Media Size” for details. For continuous-forms media, the XOH-SMS command can be used to change the actual length of the medium presentation space that results in a corresponding adjustment to the length of the sheet and the physical printable area. |
+| 14–15 | UBIN | $X_m$ PPAoffset | X'0000' – X'7FFF' | $X_m$ offset of the physical printable area in L-units |
+| 16–17 | UBIN | $Y_m$ PPAoffset | X'0000' – X'7FFF' | $Y_m$ offset of the physical printable area in L-units |
+| 18–19 | UBIN | $X_m$ PPAextent | X'0001' – X'7FFF' | $X_m$ extent of the physical printable area in L-units |
+| 20–21 | UBIN | $Y_m$ PPAextent | X'0001' – X'7FFF' | $Y_m$ extent of the physical printable area in L-units |
+| 22–23 | BITS | Input media source characteristic flags | | All combinations of all the characteristics are architecturally valid. |
 
+| Bit | Name | Value | Meaning |
+| :--- | :--- | :--- | :--- |
+| bit 0 | Duplex | B'1'<br>B'0' | The media source (bin) is currently capable of duplexing, but it does not imply that there currently is duplexable physical media in the bin.<br>The media source is not currently capable of duplexing. |
+| bits 1–2 | Primary media characteristic | B'01'<br>B'10' | Continuous forms<br>Cut sheet<br>This characteristic determines how the printer interprets certain commands such as XOH EFF, XOH SCF, and XOA CEM, as well as informing the host of the location of the top edge of the sheet. See the following envelope and COM bits for a description of the top edge of the sheet. |
+| bit 3 | Available | B'1'<br>B'0' | Media source available<br>Media source not available; bytes 6–21 of the Printable-Area self-defining field might contain inaccurate information. |
+| bit 4 | | B'0' | Retired item 119 |
+| bit 5 | Envelope | B'1'<br>B'0' | Envelope media; the media source is currently set up for envelopes; either envelopes are in the media source, or the media source is empty. Envelopes are either continuous forms or cut sheet. However, the top edge of the sheet is as described in Figure 20.<br>Not envelope media. |
+| bit 6 | Manual | B'1'<br>B'0' | Manual media feed<br>Automatic media feed |
+| bit 7 | Computer Output on Microfilm (COM) | B'1'<br>B'0' | Computer output on microfilm media. COM is either continuous forms or cut-sheet. However, the top edge of the sheet is as described in Figure 21, Figure 22, and **Figure 23**.<br>Not computer output microfilm media |
+| bit 8 | No carrier strips | B'1'<br>B'0' | Continuous forms media without carrier strips; this flag ignored for cut sheet media.<br>Continuous forms media with carrier strips |
+| bit 9 | Inserter bin | B'1'<br>B'0' | The physical media in this bin is tracked with the page and copy counters, but no printing is done. Medium overlays and preprinted form overlays are suppressed on physical media selected from this bin. Edge marks and mark forms are also suppressed.<br>Not an inserter bin<br>Note: If the printer can duplex, the inserter bin should also be marked as duplex capable. |
+| bit 10 | Media feed direction | B'0'<br>B'1' | Media feed direction:<br>Long-edge fed<br>Short-edge fed<br>Note: Not all IPDS devices set this flag; support is indicated by the X'F102' property pair in the Device-Control command-set vector of an STM reply. |
+| bits 11–15 | | B'00000' | Reserved |
 
-Offset Type Name Range Meaning
-10–11 UBIN Actual
-medium
-presentation
-space width
-X'0001' –
-X'7FFF'
-Actual width of the medium presentation space in L-units. For a
-printer using cut-sheet media, the width is along the top edge of the
-sheet. For a printer using continuous-forms media, the width is
-along the leading edge of the physical media as it moves through
-the printer and does not include the width of the carrier strips. For a
-printer using envelope media, the width is along the top edge of the
-envelope. When the medium presentation space origin
-corresponds to the printer default media origin, this parameter
-determines the $X_m$ extent of the medium presentation space in all
-cases but one. In the case of continuous-forms printers that define
-the top edge of the sheet to be perpendicular to the leading edge,
-this parameter determines the Y
-m extent of the medium
-presentation space.
-This parameter specifies the actual width of the medium
-presentation space, not necessarily the width used for VPA
-calculations and N-up partitioning. Refer to “XOH Set Media Size”
- for details.
-12–13 UBIN Actual
-medium
-presentation
-space length
-X'0001' –
-X'7FFF'
-Actual length of the medium presentation space in L-units. When
-the medium presentation space origin corresponds to the printer
-default media origin, this parameter determines the Ym extent of the
-medium presentation space in all cases but one. In the case of
-continuous-forms printers that define the top edge of the sheet to
-be perpendicular to the leading edge, this parameter determines
-the X
-m extent of the medium presentation space.
-This parameter specifies the actual length of the medium
-presentation space, not necessarily the length used for VPA
-calculations and N-up partitioning. Refer to “XOH Set Media Size”
- for details. For continuous-forms media, the XOH-
-SMS command can be used to change the actual length of the
-medium presentation space that results in a corresponding
-adjustment to the length of the sheet and the physical printable
-area.
-14–15 UBIN X
-m PPAoffset X'0000' –
-X'7FFF'
-$X_m$ offset of the physical printable area in L-units
-16–17 UBIN Ym PPAoffset X'0000' –
-X'7FFF'
-$Y_m$ offset of the physical printable area in L-units
-18–19 UBIN Xm PPAextent X'0001' –
-X'7FFF'
-Xm extent of the physical printable area in L-units
-20–21 UBIN Ym PPAextent X'0001' –
-X'7FFF'
-Ym extent of the physical printable area in L-units
-22–23 BITS Input media source characteristic flags
-All combinations of all the characteristics are architecturally valid.
-bit 0 Duplex B'1'
-B'0'
-The media source (bin) is currently capable of duplexing, but
-it does not imply that there currently is duplexable physical
-media in the bin.
-The media source is not currently capable of duplexing.
-bits 1–2 Primary media
-characteristic
-B'01'
-B'10'
-Continuous forms
-Cut sheet
-This characteristic determines how the printer interprets certain
-commands such as XOH EFF , XOH SCF , and XOA CEM, as well
-as informing the host of the location of the top edge of the sheet.
-See the following envelope and COM bits for a description of the
-top edge of the sheet.
+Zero, one, or two media ID entries in the following format; the media ID type value must be different for each entry:
 
-
-Offset Type Name Range Meaning
-bit 3 Available B'1'
-B'0'
-Media source available
-Media source not available; bytes 6–21 of the Printable-Area
-self-defining field might contain inaccurate information.
-bit 4 B'0' Retired item 119
-bit 5 Envelope B'1'
-B'0'
-Envelope media; the media source is currently set up for
-envelopes; either envelopes are in the media source, or the
-media source is empty. Envelopes are either continuous forms
-or cut sheet. However, the top edge of the sheet is as
-described in Figure 20.
-Not envelope media.
-bit 6 Manual B'1'
-B'0'
-Manual media feed
-Automatic media feed
-bit 7 Computer
-Output on
-Microfilm
-(COM)
-B'1'
-B'0'
-Computer output on microfilm media. COM is either continuous
-forms or cut-sheet. However, the top edge of the sheet is as
-described in Figure 21, Figure 22, and
-**Figure 23**.
-Not computer output microfilm media
-bit 8 No carrier
-strips
-B'1'
-B'0'
-Continuous forms media without carrier strips; this flag ignored
-for cut sheet media.
-Continuous forms media with carrier strips
-bit 9 Inserter bin B'1'
-B'0'
-The physical media in this bin is tracked with the page and copy
-counters, but no printing is done. Medium overlays and preprinted
-form overlays are suppressed on physical media selected
-from this bin. Edge marks and mark forms are also suppressed.
-Not an inserter bin
-Note: If the printer can duplex, the inserter bin should also be
-marked as duplex capable.
-bit 10 Media feed
-direction B'0'
-B'1'
-Media feed direction:
-Long-edge fed
-Short-edge fed
-Note: Not all IPDS devices set this flag; support is indicated by the
-X'F102' property pair in the Device-Control command-set vector
-of an STM reply.
-bits 11–15 B'00000' Reserved
-Zero, one, or two media ID entries in the following format; the media ID type value must be different for each
-entry:
-24–25 UBIN Media ID
-length
-X'0004' to
-end of entry
-Length of input media identification (bytes 24 to end)
-Note: This value is limited by the maximum length of data in a
-MO:DCA triplet (250 bytes).
-
-
-Offset Type Name Range Meaning
-26 CODE Media ID type
-X'00'
-X'01'
-X'10'
-Type of input media identification. This is a registered code that
-identifies the naming scheme used; registered values include:
-User defined
-(entry length range is X'0004'–X'00FD')
-The input media ID (in bytes 27 to end) contains characters
-from IBM character set 640 using the code points assigned in
-IBM code page 500. The space character (X'40') is also
-allowed.
-Retired item 132
-MO:DCA media type OID
-(entry length range is X'000C'–X'000F')
-The input media ID (in bytes 27 to end) contains an ASN.1
-OID encoded using the definite short form (also called encoded
-form). For example, bytes 27–35 would contain
-X'06072B120004030101' to indicate ISO A4 colored media.
-The registry of standard media types along with their OID is
-provided in the Media-Type-Identifiers section of the
-MO:DCA Registry Appendix in the Mixed Object Document
-Content Architecture Reference, SC31-6802.
-27 to
-end
-UNDF Input media
-ID
-Any value Input media identification
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 24–25 | UBIN | Media ID length | X'0004' to end of entry | Length of input media identification (bytes 24 to end)<br>Note: This value is limited by the maximum length of data in a MO:DCA triplet (250 bytes). |
+| 26 | CODE | Media ID type | X'00'<br>X'01'<br>X'10' | Type of input media identification. This is a registered code that identifies the naming scheme used; registered values include:<br>**User defined** (entry length range is X'0004'–X'00FD')<br>The input media ID (in bytes 27 to end) contains characters from IBM character set 640 using the code points assigned in IBM code page 500. The space character (X'40') is also allowed.<br>**Retired item 132**<br>**MO:DCA media type OID** (entry length range is X'000C'–X'000F')<br>The input media ID (in bytes 27 to end) contains an ASN.1 OID encoded using the definite short form (also called encoded form). For example, bytes 27–35 would contain X'06072B120004030101' to indicate ISO A4 colored media.<br>The registry of standard media types along with their OID is provided in the Media-Type-Identifiers section of the MO:DCA Registry Appendix in the Mixed Object Document Content Architecture Reference, SC31-6802. |
+| 27 to end | UNDF | Input media ID | Any value | Input media identification |
 Bytes 24 to end are optional and are not returned by all printers.
 The input media ID is data whose meaning is printer specific.
 
 
 Symbol-Set Support Self-Defining Field
 The Symbol-Set Support self-defining field specifies the limits of support for the Load Symbol Set command.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000C' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0002' Symbol-Set Support self-defining field ID
-4 to
-end of
-SDF
-Value entries See following
-tables
-Fixed-box size and variable-box size value entries as shown in
-the next two tables.
-Fixed-Box Size Values
-This value entry defines the acceptable character-box size for downloaded, monospaced symbol sets. The font
-identifiers in bytes 6 to end are the same as the font identifiers in bytes 9 and 10 of the Load Font Equivalence
-command. The symbol-set font identified has a uniform box X-size and box Y-size. Refer to “Load Symbol Set”
- for more information. This value entry has the following format:
-Offset Type Name Range Meaning
-0 UBIN Value entry
-length
-X'08'–X'FE'
-Length of this value entry, including this length field
-1 CODE Value entry ID X'01' Fixed-box size value entry ID
-2 UBIN X box size X'01'–X'FF' Character-box X size in pels
-3 UBIN Y box size X'01'–X'FF' Character-box Y size in pels
-4 X'00' Reserved
-5 UBIN Entry length X'02' Length of each repeating group entry
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000C' – X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0002' | Symbol-Set Support self-defining field ID |
+| 4 to end of SDF | | Value entries | See following tables | Fixed-box size and variable-box size value entries as shown in the next two tables. |
+
+#### Fixed-Box Size Values
+This value entry defines the acceptable character-box size for downloaded, monospaced symbol sets. The font identifiers in bytes 6 to end are the same as the font identifiers in bytes 9 and 10 of the Load Font Equivalence command. The symbol-set font identified has a uniform box X-size and box Y-size. Refer to “Load Symbol Set” for more information. This value entry has the following format:
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Value entry length | X'08'–X'FE' | Length of this value entry, including this length field |
+| 1 | CODE | Value entry ID | X'01' | Fixed-box size value entry ID |
+| 2 | UBIN | X box size | X'01'–X'FF' | Character-box X size in pels |
+| 3 | UBIN | Y box size | X'01'–X'FF' | Character-box Y size in pels |
+| 4 | | | X'00' | Reserved |
+| 5 | UBIN | Entry length | X'02' | Length of each repeating group entry |
+
 One to 124 entries in the following format:
-+ 0–1 CODE FGID X'0001' –
-X'FFFE'
-Font Typeface Global ID (FGID) supporting the box size
 
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | FGID | X'0001' – X'FFFE' | Font Typeface Global ID (FGID) supporting the box size |
 
-Variable-Box Size Values
-This value entry defines the acceptable character-box size for any proportional symbol-set identifiers that can
-be downloaded. The font identifiers in bytes 10 to end are the same as the font identifiers in bytes 9 and 10 of
-the Load Font Equivalence command. The symbol-set font identified has a uniform box Y-size and has a
-variable box X-size that serves as the character width. This value entry is formatted as follows:
-Offset Type Name Range Meaning
-0 UBIN Value entry
-length
-X'0C'–X'FA'
-Length of this value entry, including this length field
-1 CODE Value entry ID X'02' Variable-box size value entry ID
-2 CODE Unit base X'00'
-X'01'
-X'02'
-Ten-inch increments
-Ten-centimeter increments
-Retired item 35
-3 X'00' Reserved
-4–5 UBIN PPUB X'0001' –
-X'7FFF'
-Pels per unit base
-6 UBIN Maximum size X'01'–X'FF' Maximum character-box X size in pels
-7 UBIN Uniform size X'01'–X'FF' Uniform character-box Y size in pels
-8 X'00' Reserved
-9 UBIN Entry length X'02' Length of each repeating group entry
+#### Variable-Box Size Values
+This value entry defines the acceptable character-box size for any proportional symbol-set identifiers that can be downloaded. The font identifiers in bytes 10 to end are the same as the font identifiers in bytes 9 and 10 of the Load Font Equivalence command. The symbol-set font identified has a uniform box Y-size and has a variable box X-size that serves as the character width. This value entry is formatted as follows:
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Value entry length | X'0C'–X'FA' | Length of this value entry, including this length field |
+| 1 | CODE | Value entry ID | X'02' | Variable-box size value entry ID |
+| 2 | CODE | Unit base | X'00'<br>X'01'<br>X'02' | Ten-inch increments<br>Ten-centimeter increments<br>Retired item 35 |
+| 3 | | | X'00' | Reserved |
+| 4–5 | UBIN | PPUB | X'0001' – X'7FFF' | Pels per unit base |
+| 6 | UBIN | Maximum size | X'01'–X'FF' | Maximum character-box X size in pels |
+| 7 | UBIN | Uniform size | X'01'–X'FF' | Uniform character-box Y size in pels |
+| 8 | | | X'00' | Reserved |
+| 9 | UBIN | Entry length | X'02' | Length of each repeating group entry |
+
 One to 120 entries in the following format:
-+ 0–1 CODE FGID X'0001' –
-X'FFFE'
-Font Typeface Global ID (FGID) supporting this box size
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | FGID | X'0001' – X'FFFE' | Font Typeface Global ID (FGID) supporting this box size |
 
 
 IM-Image and Coded-Font Resolution Self-Defining Field
-The IM-Image and Coded-Font Resolution self-defining field specifies the supported resolutions in pels per unit
-base for IM Image and downloaded LF1-type and LF2-type coded-font pattern data. Most other data is
-resolution independent. For example, a resolution can be specified for GOCA image; however, if an image
-resolution is not specified, the image is resolution corrected by the printer based on assumptions. Refer to the
-implementation note in the description of the Begin Image orders within the GOCA Reference.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000A' Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0003' IM-Image and Coded-Font Resolution self-defining field ID
-4 CODE Unit base
-X'00'
-X'01'
-X'02'
-Unit base for this self-defining field:
-Ten-inch increments
-Ten-centimeter increments
-Retired item 36
-5 CODE Font
-resolutions X'00'
-X'FF'
-LF1 raster-pattern resolutions supported:
-Only the resolution specified in bytes 6–9
-All resolutions in the range X'0001' – X'7FFF' (in this case,
-bytes 6–9 contain the highest device resolution)
-6–7 UBIN X pels X'0001' –
-X'7FFF'
-X pels per unit base
-8–9 UBIN Y pels X'0001' –
-X'7FFF'
-Y pels per unit base
+The IM-Image and Coded-Font Resolution self-defining field specifies the supported resolutions in pels per unit base for IM Image and downloaded LF1-type and LF2-type coded-font pattern data. Most other data is resolution independent. For example, a resolution can be specified for GOCA image; however, if an image resolution is not specified, the image is resolution corrected by the printer based on assumptions. Refer to the implementation note in the description of the Begin Image orders within the GOCA Reference.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000A' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0003' | IM-Image and Coded-Font Resolution self-defining field ID |
+| 4 | CODE | Unit base | X'00'<br>X'01'<br>X'02' | Unit base for this self-defining field:<br>Ten-inch increments<br>Ten-centimeter increments<br>Retired item 36 |
+| 5 | CODE | Font resolutions | X'00'<br>X'FF' | LF1 raster-pattern resolutions supported:<br>Only the resolution specified in bytes 6–9<br>All resolutions in the range X'0001' – X'7FFF' (in this case, bytes 6–9 contain the highest device resolution) |
+| 6–7 | UBIN | X pels | X'0001' – X'7FFF' | X pels per unit base |
+| 8–9 | UBIN | Y pels | X'0001' – X'7FFF' | Y pels per unit base |
 Notes:
 1. If all raster-pattern resolutions are supported (byte 5 = X'FF'), the printer must also support the Font
 Resolution and Metric Technology (X'84') triplet.
@@ -7774,80 +7570,50 @@ The “Supported Device Resolutions Self-Defining Field” lists the current dev
 
 
 Storage Pools Self-Defining Field
-The Storage Pools self-defining field specifies storage pools within the printer. Each storage pool is defined
-with an entry that specifies total storage and the objects that are stored within the pool.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0004' plus
-length of zero
-or more
-storage-pool
-entries
-Length of this self-defining field, including this length field
-maximum length X'7FFF'
-2–3 CODE SDF ID X'0004' Storage Pools self-defining field ID
+The Storage Pools self-defining field specifies storage pools within the printer. Each storage pool is defined with an entry that specifies total storage and the objects that are stored within the pool.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0004' plus length of zero or more storage-pool entries | Length of this self-defining field, including this length field; maximum length X'7FFF' |
+| 2–3 | CODE | SDF ID | X'0004' | Storage Pools self-defining field ID |
+
 Zero or more storage-pool entries in the following format:
-+ 0 UBIN Entry length X'0B'–X'FF'
-odd values
-Length of the entry, including this length field
-+ 1 CODE Entry ID X'01' Entry ID
-+ 2 CODE Storage pool
-ID
-X'00'–X'FF' Storage pool ID
-+ 3–6 UBIN Empty size X'00000000' –
-X'FFFFFFFF'
-Size of the storage pool, in bytes, when empty
-+ 7–10 X'00000000' Reserved
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | UBIN | Entry length | X'0B'–X'FF' (odd values) | Length of the entry, including this length field |
+| + 1 | CODE | Entry ID | X'01' | Entry ID |
+| + 2 | CODE | Storage pool ID | X'00'–X'FF' | Storage pool ID |
+| + 3–6 | UBIN | Empty size | X'00000000' – X'FFFFFFFF' | Size of the storage pool, in bytes, when empty |
+| + 7–10 | | | X'00000000' | Reserved |
+
 Zero or more object ID entries in the following format:
-++0–1 CODE Object ID
-X'0007'
-X'0011'
-X'0012'
-X'0013'
-X'0014'
-X'0021'
-X'0022'
-X'0023'
-X'0024'
-X'0031'
-X'0032'
-X'0033'
-X'0034'
-X'0040'
-X'0041'
-X'0042'
-X'0048'
-X'0049'
-X'004A'
-X'0050'
-X'0060'
-X'0070'
-The ID of an object that is stored in this storage pool. If no
-object IDs are present, all supported objects that are not
-specified in other storage pool entries are stored in this pool.
-Only one of the various storage pools reported may use
-this default reporting format.
-Symbol sets
-Page graphics data
-Page image data
-Page text data
-Page bar code data
-Overlay graphics data
-Overlay image data
-Overlay text data
-Overlay bar code data
-Page segment graphics data
-Page segment image data
-Page segment text data
-Page segment bar code data
-Single-byte coded-font index tables
-Single-byte coded-font descriptors
-Single-byte coded-font patterns
-Double-byte coded-font index tables
-Double-byte coded-font descriptors
-Double-byte coded-font patterns
-Code pages
-Font character sets
-Coded fonts
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| ++ 0–1 | CODE | Object ID | | The ID of an object that is stored in this storage pool. If no object IDs are present, all supported objects that are not specified in other storage pool entries are stored in this pool. Only one of the various storage pools reported may use this default reporting format. |
+| | | | X'0007' | Symbol sets |
+| | | | X'0011' | Page graphics data |
+| | | | X'0012' | Page image data |
+| | | | X'0013' | Page text data |
+| | | | X'0014' | Page bar code data |
+| | | | X'0021' | Overlay graphics data |
+| | | | X'0022' | Overlay image data |
+| | | | X'0023' | Overlay text data |
+| | | | X'0024' | Overlay bar code data |
+| | | | X'0031' | Page segment graphics data |
+| | | | X'0032' | Page segment image data |
+| | | | X'0033' | Page segment text data |
+| | | | X'0034' | Page segment bar code data |
+| | | | X'0040' | Single-byte coded-font index tables |
+| | | | X'0041' | Single-byte coded-font descriptors |
+| | | | X'0042' | Single-byte coded-font patterns |
+| | | | X'0048' | Double-byte coded-font index tables |
+| | | | X'0049' | Double-byte coded-font descriptors |
+| | | | X'004A' | Double-byte coded-font patterns |
+| | | | X'0050' | Code pages |
+| | | | X'0060' | Font character sets |
+| | | | X'0070' | Coded fonts |
 
 
 Retired Item 130 (Standard OCA Color Value Support Self-Defining Field)
@@ -8018,39 +7784,39 @@ trimmer-stacker, continuous-forms output, continuous-forms separation capability
 
 Resident Symbol-Set Support Self-Defining Field
 The Resident Symbol-Set Support self-defining field specifies that symbol sets are resident in the printer.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000E' to end
-of SDF
-Length of this self-defining field, including this length field
-maximum length X'7FFE'
-2–3 CODE SDF ID X'0008' Resident Symbol-Set Support Self-Defining Field ID
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000E' to end of SDF | Length of this self-defining field, including this length field; maximum length X'7FFE' |
+| 2–3 | CODE | SDF ID | X'0008' | Resident Symbol-Set Support Self-Defining Field ID |
+
 One or more Resident Symbol-Set Repeating Group Lists in the following format:
-+ 0 UBIN Length X'0A'–X'FE'
-Total Length of Code Page/Font ID Repeating Group List,
-including this length field
-+ 1 CODE Code page ID X'01' Code Page Support ID
-+ 2 UBIN Code page list
-length
-X'04'–X'F8'
-Length of Code Page List, including this length field
-+ 3 UBIN Entry length X'02' Length of Code Page Repeating Group Entry
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | UBIN | Length | X'0A'–X'FE' | Total Length of Code Page/Font ID Repeating Group List, including this length field |
+| + 1 | CODE | Code page ID | X'01' | Code Page Support ID |
+| + 2 | UBIN | Code page list length | X'04'–X'F8' | Length of Code Page List, including this length field |
+| + 3 | UBIN | Entry length | X'02' | Length of Code Page Repeating Group Entry |
+
 One or more Code Page Global IDs (CPGIDs) in the following format:
-++0–1 CODE CPGID X'0001' –
-X'FFFE'
-A Code Page Global Id. This list specifies all of the resident code
-pages that are available in each of the fonts that are specified in
-the following Font ID List
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| ++ 0–1 | CODE | CPGID | X'0001' – X'FFFE' | A Code Page Global Id. This list specifies all of the resident code pages that are available in each of the fonts that are specified in the following Font ID List |
+
 One matching Font ID List for each Code Page List in the following format:
-+ 0 UBIN Font ID list
-length
-X'04'–X'F8'
-Length of Font ID List, including this length field
-+ 1 UBIN Entry length X'02' Length of Font ID Repeating Group Entry
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | UBIN | Font ID list length | X'04'–X'F8' | Length of Font ID List, including this length field |
+| + 1 | UBIN | Entry length | X'02' | Length of Font ID Repeating Group Entry |
+
 One or more Font Typeface Global IDs (FGIDs) in the following format:
-++0–1 CODE FGID X'0001' –
-X'FFFE'
-A Font Typeface Global Id. This list specifies all of those fonts in
-which each of the preceding code pages is supported.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| ++ 0–1 | CODE | FGID | X'0001' – X'FFFE' | A Font Typeface Global Id. This list specifies all of those fonts in which each of the preceding code pages is supported. |
 Resident Symbol Set Repeating Group Lists:
 These lists consist of pairs of Code Page Lists and Font ID Lists. The code page list contains repeating groups
 of all code pages that are supported in each font specified in the corresponding Font ID list. The Code Page
@@ -9501,40 +9267,17 @@ Extended OS/400 print-data format
 
 
 Supported Device Resolutions Self-Defining Field
-This self-defining field lists the resolution (or resolutions) controlled by the printer; this includes the resolution
-to which sheet-side data is RIPped and the number of printed pels per inch (often called the print-head
-resolution). Most data within IPDS commands is resolution independent; refer to the “IM-Image and Coded-
-Font Resolution Self-Defining Field” for information about resolution-dependent data. All data to
-be printed is resolution corrected, if necessary, into the printer’s current RIP and print-head resolution.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000C' –
-X'7FFF'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0026' Supported Device Resolutions self-defining field ID
-Current device resolutions
-4–5 UBIN RIP X pels X'0001' –
-X'FFFF'
-Resolution to which sheet-side data is RIPped for pels per inch
-across the media
-6–7 UBIN RIP Y pels X'0001' –
-X'FFFF'
-Resolution to which sheet-side data is RIPped for pels per inch in
-the direction of the media path
-8–9 UBIN Print head X
-pels
-X'0001' –
-X'FFFF'
-Number of printed pels per inch across the media
-10–11 UBIN Print head Y
-pels
-X'0001' –
-X'FFFF'
-Number of printed pels per inch in the direction of the media path
-End of current device resolutions
-12 to
-end of
-SDF
-Data without architectural definition
+This self-defining field lists the resolution (or resolutions) controlled by the printer; this includes the resolution to which sheet-side data is RIPped and the number of printed pels per inch (often called the print-head resolution). Most data within IPDS commands is resolution independent; refer to the “IM-Image and Coded-Font Resolution Self-Defining Field” for information about resolution-dependent data. All data to be printed is resolution corrected, if necessary, into the printer’s current RIP and print-head resolution.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000C' – X'7FFF' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0026' | Supported Device Resolutions self-defining field ID |
+| 4–5 | UBIN | RIP X pels | X'0001' – X'FFFF' | Resolution to which sheet-side data is RIPped for pels per inch across the media |
+| 6–7 | UBIN | RIP Y pels | X'0001' – X'FFFF' | Resolution to which sheet-side data is RIPped for pels per inch in the direction of the media path |
+| 8–9 | UBIN | Print head X pels | X'0001' – X'FFFF' | Number of printed pels per inch across the media |
+| 10–11 | UBIN | Print head Y pels | X'0001' – X'FFFF' | Number of printed pels per inch in the direction of the media path |
+| 12 to end of SDF | | | | Data without architectural definition |
 
 
 Object-Container Version Support Self-Defining Field

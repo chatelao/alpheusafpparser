@@ -67,8 +67,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
             - 🚧 XOH Obtain Printer Characteristics (OPC):
                 - ✅ Table 33 (SDF Summary).
-                - ⏳ SDFs X'0001' (Printable Area).
-                - ⏳ SDFs X'0002'–X'0004', X'0008', X'0026' (Fonts, Resolution, Storage).
+                - ✅ SDF X'0001' (Printable-Area).
+                - ✅ SDF X'0002' (Symbol-Set Support).
+                - ✅ SDF X'0003' (IM-Image and Coded-Font Resolution).
+                - ✅ SDF X'0004' (Storage Pools).
+                - ✅ SDF X'0008' (Resident Symbol-Set Support).
+                - ✅ SDF X'0026' (Supported Device Resolutions).
                 - ⏳ SDFs X'0006'–X'0007', X'0013', X'0029' (Features, Product Info, Speed).
                 - ⏳ SDFs X'0009'–X'000D', X'0012', X'0017', X'0022', X'002A' (Setup, Quality, Medium Mod).
                 - ⏳ SDFs X'000E'–X'000F' (Bar Codes: Tables 34–35).
