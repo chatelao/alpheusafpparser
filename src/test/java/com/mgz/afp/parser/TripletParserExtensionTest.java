@@ -5,8 +5,8 @@ import com.mgz.afp.triplets.Triplet.FullyQualifiedName;
 import com.mgz.util.Constants;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class TripletParserExtensionTest {
 
@@ -25,10 +25,10 @@ public class TripletParserExtensionTest {
         AFPParserConfiguration config = new AFPParserConfiguration();
         List<Triplet> triplets = TripletParser.parseTriplets(data, 0, data.length, config);
 
-        Assert.assertEquals(1, triplets.size());
-        Assert.assertTrue(triplets.get(0) instanceof FullyQualifiedName);
+        Assertions.assertEquals(1, triplets.size());
+        Assertions.assertTrue(triplets.get(0) instanceof FullyQualifiedName);
         FullyQualifiedName fqn = (FullyQualifiedName) triplets.get(0);
-        Assert.assertEquals("ABCDE", fqn.getNameAsString());
+        Assertions.assertEquals("ABCDE", fqn.getNameAsString());
     }
 
     @Test
@@ -43,10 +43,10 @@ public class TripletParserExtensionTest {
         AFPParserConfiguration config = new AFPParserConfiguration();
         List<Triplet> triplets = TripletParser.parseTriplets(data, 0, data.length, config);
 
-        Assert.assertEquals(1, triplets.size());
-        Assert.assertTrue(triplets.get(0) instanceof Triplet.AttributeValue);
+        Assertions.assertEquals(1, triplets.size());
+        Assertions.assertTrue(triplets.get(0) instanceof Triplet.AttributeValue);
         Triplet.AttributeValue av = (Triplet.AttributeValue) triplets.get(0);
-        Assert.assertEquals("AB", av.getAttributeValue());
+        Assertions.assertEquals("AB", av.getAttributeValue());
     }
 
     @Test
@@ -61,10 +61,10 @@ public class TripletParserExtensionTest {
         AFPParserConfiguration config = new AFPParserConfiguration();
         List<Triplet> triplets = TripletParser.parseTriplets(data, 0, data.length, config);
 
-        Assert.assertEquals(1, triplets.size());
-        Assert.assertTrue(triplets.get(0) instanceof Triplet.Comment);
+        Assertions.assertEquals(1, triplets.size());
+        Assertions.assertTrue(triplets.get(0) instanceof Triplet.Comment);
         Triplet.Comment c = (Triplet.Comment) triplets.get(0);
-        Assert.assertEquals("AB", c.getText());
+        Assertions.assertEquals("AB", c.getText());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TripletParserExtensionTest {
         AFPParserConfiguration config = new AFPParserConfiguration();
         List<Triplet> triplets = TripletParser.parseTriplets(data, 0, data.length, config);
 
-        Assert.assertEquals(1, triplets.size());
+        Assertions.assertEquals(1, triplets.size());
         Triplet t = triplets.get(0);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -87,10 +87,10 @@ public class TripletParserExtensionTest {
 
         byte[] output = baos.toByteArray();
         // Expecting a single triplet of length 4 (Len + ID + AB)
-        Assert.assertEquals(4, output.length);
-        Assert.assertEquals(0x04, output[0]);
-        Assert.assertEquals(0x65, output[1]);
-        Assert.assertEquals((byte) 0xC1, output[2]);
-        Assert.assertEquals((byte) 0xC2, output[3]);
+        Assertions.assertEquals(4, output.length);
+        Assertions.assertEquals(0x04, output[0]);
+        Assertions.assertEquals(0x65, output[1]);
+        Assertions.assertEquals((byte) 0xC1, output[2]);
+        Assertions.assertEquals((byte) 0xC2, output[3]);
     }
 }

@@ -81,8 +81,7 @@ import com.mgz.afp.triplets.Triplet.MODCAFunctionSet;
 import com.mgz.afp.triplets.Triplet.SetupName;
 import com.mgz.afp.triplets.Triplet.TripletExtender;
 import java.util.Arrays;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TripletRoundTripTest {
 

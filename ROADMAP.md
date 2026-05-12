@@ -282,10 +282,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - 🚧 Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
     - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`, `UtilCharacterEncodingTest`).
-    - ✅ Migrate basic SF and XML tests (`StructuredFieldTest`, `NOPXMLTest`, `PTXXMLTest`).
-    - ✅ Migrate round-trip tests (`MODCALRoundTripTest`, `BCOCARoundTripTest`, `CMRRoundTripTest`).
+    - ✅ Migrate basic SF and XML tests (`StructuredFieldTest`, `NOPXMLTest`, `PTXXMLTest`, `MDRPTXXMLTest`, `AFP2XMLWriterTest`, `StatefulEncodingTest`, `IllegalAnnotationExceptionTest`).
+    - ✅ Migrate round-trip tests (`MODCALRoundTripTest`, `BCOCARoundTripTest`, `CMRRoundTripTest`, `TripletRoundTripTest`).
+    - ✅ Migrate Triplet and Parser tests (`TripletTest`, `TripletParserExtensionTest`).
     - ✅ Migrate test utilities (`RoundTripTestUtils`).
-    - ⏳ Migrate remaining tests (27 files).
+    - ⏳ Migrate remaining tests (20 files).
 - ⏳ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
     - ⏳ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
     - ✅ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
