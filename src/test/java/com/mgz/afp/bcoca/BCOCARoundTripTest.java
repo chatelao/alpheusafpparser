@@ -2,7 +2,7 @@ package com.mgz.afp.bcoca;
 
 import com.mgz.afp.RoundTripTestUtils;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BCOCARoundTripTest {
 
