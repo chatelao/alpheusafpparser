@@ -11,7 +11,7 @@ Bar code symbols are developed within an abstract bar code presentation space be
 the MO:DCA bar code object area.
 The MO:DCA Bar Code Data Descriptor (BDD) and Bar Code Data (BDA) structured fields are used to carry
 bar code object information. These structured fields are described in “Bar Code Data Object Structured Fields”
-on page 176.
+.
 A MO:DCA bar code object has the following basic structure:
 Begin Bar Code Object structured field
 Object Environment Group (contains the BCOCA BSD structure and other information)
@@ -35,7 +35,7 @@ Flags Reserved
 be X'0000'
 Bar Code Symbol Descriptor followed by zero
 or one Color Specification (X'4E') triplets
-The data portion of the BDD structured field is defined in “Bar Code Symbol Descriptor (BSD)” on page 31.
+The data portion of the BDD structured field is defined in “Bar Code Symbol Descriptor (BSD)” .
 When a Color Specification (X'4E') triplet is present in the BDD, this triplet overrides the color value specified in
 BSD bytes 15-16.
 Note: Support for the Color Specification (X'4E') triplet in the MO:DCA BDD structured field is part of the BCD2
@@ -57,7 +57,7 @@ Flags Reserved
 (2 bytes); should
 be X'0000'
 Bar Code Symbol Data
-The data portion of the BDA structured field is described in “Bar Code Symbol Data (BSA)” on page 94.
+The data portion of the BDA structured field is described in “Bar Code Symbol Data (BSA)” .
 Application Note: In AFP environments, some applications use reserved bytes 6–7 of the Structured Field
 Introducer to specify a sequence number for the structured field. This is an unarchitected use of these
 bytes and should be avoided.
