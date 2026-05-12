@@ -67,9 +67,18 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ✅ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, PQC, RRL (Table 29), RSNL.
             - ✅ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
-            - ⏳ XOH Obtain Printer Characteristics (OPC): Table 33 and all SDFs (Tables 34–35).
+            - 🚧 XOH Obtain Printer Characteristics (OPC):
+                - ✅ Table 33 (SDF Summary).
+                - ⏳ SDFs X'0001' (Printable Area).
+                - ⏳ SDFs X'0002'–X'0004', X'0008', X'0026' (Fonts, Resolution, Storage).
+                - ⏳ SDFs X'0006'–X'0007', X'0013', X'0029' (Features, Product Info, Speed).
+                - ⏳ SDFs X'0009'–X'000D', X'0012', X'0017', X'0022', X'002A' (Setup, Quality, Medium Mod).
+                - ⏳ SDFs X'000E'–X'000F' (Bar Codes: Tables 34–35).
+                - ⏳ SDFs X'0010', X'0015', X'0016', X'0024', X'0025' (Destinations, Operations).
+                - ⏳ SDFs X'0014', X'0027' (Object Containers).
+                - ⏳ SDFs X'0018'–X'001A', X'0021', X'0028' (Finishing, UP3I, Colorant).
             - ✅ XOH orders: PCC, PBD, RSPG, SIMS.
-            - ⏳ XOH orders: SMM, SCF, SMO, SMS.
+            - ✅ XOH orders: SMM, SCF, SMO, SMS.
             - ⏳ XOH Specify Group Operation (SGO).
             - ⏳ XOH Trace (TRC): Table 36 and all Trace Entry syntaxes.
         - ⏳ Text Command Set (Chapter 5).
@@ -150,7 +159,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 4: Table 30 (PDF417).
         - ⏳ Chapter 4: Tables 31–33 (QR Code and QR Code with Image).
         - ✅ Chapter 4: Table 34 (Code Pages and Type Styles).
-        - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 1: Symbologies X'01'–X'11'.
+        - ✅ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 1: Symbologies X'01'–X'11'.
         - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 2: Symbologies X'16'–X'27'.
         - ✅ Chapter 4: Table 36 (Characters and Code Points).
         - ⏳ Appendices B (MO:DCA), C (IPDS).
