@@ -1,0 +1,127 @@
+Table 33 QR Code with Image Special-Function Parameters (cont'd.)
+Offset Type Name Range Meaning BCD1 Range BCD2 Range
+bits 9–14 Minutes B'000000' –
+B'111011'
+Number of minutes (0–59) in the
+orientation
+Not supported
+in BCD1
+Not supported
+in BCD1
+bit 15 B'0' Reserved Not supported
+in BCD1
+Not supported
+in BCD1
++14 CODE Coordi-
+nate
+system
+X'F0'
+Reference coordinate system:
+QR Code symbol X
+qr,Yqr
+Not supported
+in BCD1
+Not supported
+in BCD1
++15 CODE Extent unit
+base X'00'
+X'01'
+X'64'
+Unit base for extent:
+Ten inches
+Ten centimeters
+One percent
+Not supported
+in BCD1
+Not supported
+in BCD1
++16–
+17
+UBIN Extent
+UPUB
+X'0001' –
+X'7FFF'
+Units per unit base for extent Not supported
+in BCD1
+Not supported
+in BCD2
++18–
+19
+UBIN X extent X'0001' –
+X'7FFF'
+X extent of the image object area Not supported
+in BCD1
+Not supported
+in BCD2
++20–
+21
+UBIN Y extent X'0001' –
+X'7FFF'
+Y extent of the image object area Not supported
+in BCD1
+Not supported
+in BCD2
++22 CODE Mapping
+option X'10'
+X'20'
+X'30'
+X'60'
+Mapping control option:
+Scale to fit
+Center and trim
+Position and trim
+Scale to fill
+Not supported
+in BCD1
+Not supported
+in BCD2
++23 to
+end of
+block
+Data without current
+architectural definition
+Not supported
+in BCD1
+Not supported
+in BCD2
+Bytes 5–13 Bytes 5–13 are the same as bytes 5–13 in the QR Code special-function parameters and
+should be used in the same way, producing the same QR Code symbol. See “QR Code
+Special-Function Parameters”.
+Note: The too much data flag (bit 2) in the control flags (byte 5) was added to the QR Code
+special-function parameters well after the QR Code was added to BCOCA. Therefore,
+some implementations might not support the flag in the context of the QR Code special-
+function parameters. However, support of the too much data flag is required in the
+context of these QR Code with Image special-function parameters. Furthermore, any
+implementation that supports both QR Code and QR Code with Image is required to
+support the too much data flag for both bar code types.
+Byte 14 QR Code with Image special-function flags
+These flags specify special functions that can be used specifically with a QR Code with Image
+symbol.
+Note: Byte 12 is a byte that is exactly the same in the QR Code and the QR Code with Image
+special-function parameters, and contains flags that are useful in both types of bar
+codes. This byte, byte 14, contains flags specific to the QR Code with Image bar code.
+Bit 0 Presentation order
+This flag says whether the QR Code symbol is presented before any images to be
+placed in conjunction with the symbol, or vice versa. If this flag is B'0', the QR Code
+symbol is presented first, then all images are presented afterward, in the order they
+are found in the Image Information Blocks. If this flag is B'1', all images are presented
+first, in the order they are found in the Image Information Blocks, and then the QR
+QR Code with Image Special-Function Parameters
+
+
+
+
+Code symbol is presented last. Note that in either case, much of the processing of the
+QR Code symbol must nonetheless be done prior to presenting the images, since the
+images are presented based on the exact placement and size of the QR Code
+symbol.
+Bit 1 Present only images
+If this flag is B'1', the QR Code symbol will not be presented—only the images to be
+placed in conjunction with the symbol will be presented. If this flag is B'0', both the QR
+Code symbol and the images will be presented, in the order described by the
+presentation-order flag (bit 0).
+Note: The suppress-bar-code-symbol flag—bit 5 of byte 0 of the BSA—already exists
+to suppress the presentation of a bar code symbol. That flag, however, is used
+specifically to enable printing just the HRI for a bar code; for bar codes that do
+not support HRI, such as the QR Code with Image bar code, the suppress-bar-
+code-symbol flag with value B'1' causes nothing at all to be presented for the

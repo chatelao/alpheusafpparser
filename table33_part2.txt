@@ -1,0 +1,152 @@
+Table 33 QR Code with Image Special-Function Parameters (cont'd.)
+Offset Type Name Range Meaning BCD1 Range BCD2 Range
+bit 0 UCC/EAN
+FNC1 B'0'
+B'1'
+Alternate data type identifier:
+User-defined symbol
+Symbol conforms to
+UCC/EAN standards
+Not supported
+in BCD1
+Not supported
+in BCD2
+bit 1 Industry
+FNC1 B'0'
+B'1'
+Alternate data type identifier:
+User-defined symbol
+Symbol conforms to industry
+standards
+Not supported
+in BCD1
+Not supported
+in BCD2
+bits 2–7 B'000000' Reserved Not supported
+in BCD1
+Not supported
+in BCD2
+13 CODE Applica-
+tion
+indicator
+See field
+description
+Application indicator for Industry
+FNC1
+Not supported
+in BCD1
+Not supported
+in BCD2
+14 BITS QR Code with Image special-function flags
+bit 0 Presenta-
+tion order
+B'0'
+B'1'
+Present QR Code symbol first
+Present images first
+Not supported
+in BCD1
+Not supported
+in BCD2
+bit 1 Present
+only
+images B'0'
+B'1'
+Whether to present only the
+images:
+Present both the QR Code
+symbol and the images
+Present only the images
+Not supported
+in BCD1
+Not supported
+in BCD2
+bits 2–7 B'000000' Reserved Not supported
+in BCD1
+Not supported
+in BCD2
+15–16 UBIN RepGrps
+Length
+X'0000'
+X'0017' –
+X'7000'
+T otal length of all repeating
+groups that follow
+Not supported
+in BCD1
+Not supported
+in BCD2
+Zero or more Image Information Blocks in the following format:
++0 UBIN ImgInfo
+Length
+X'16' – X'FF' Length of the image information
+that follows
+Not supported
+in BCD1
+Not supported
+in BCD2
++1–2 X'0000' Reserved Not supported
+in BCD1
+Not supported
+in BCD2
++3–4 CODE Image
+local ID
+X'0000' –
+X'7FFF'
+Local ID of the image object to
+be used
+Not supported
+in BCD1
+Not supported
+in BCD2
++5 CODE Offset unit
+base X'00'
+X'01'
+X'64'
+Unit base for offset:
+Ten inches
+Ten centimeters
+One percent
+Not supported
+in BCD1
+Not supported
+in BCD2
++6–7 UBIN Offset
+UPUB
+X'0001' –
+X'7FFF'
+Units per unit base for offset Not supported
+in BCD1
+Not supported
+in BCD2
++8–9 SBIN X offset X'8000' –
+X'7FFF'
+X coordinate of the image object
+area origin
+Not supported
+in BCD1
+Not supported
+in BCD2
++10–
+11
+SBIN Y offset X'8000' –
+X'7FFF'
+Y coordinate of the image object
+area origin
+Not supported
+in BCD1
+Not supported
+in BCD2
++12–
+13
+CODE Image object area orientation
+bits 0–8 Degrees B'000000000'
+–
+B'101100111'
+Number of degrees (0–359) in
+the orientation
+Not supported
+in BCD1
+Not supported
+in BCD1
+QR Code with Image Special-Function Parameters

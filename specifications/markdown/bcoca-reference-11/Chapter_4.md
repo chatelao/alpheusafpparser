@@ -3159,60 +3159,20 @@ Han Xin Code Special-Function Parameters
 
 
 
-Intelligent Mail Package Barcode Special-Function Parameters
+### Intelligent Mail Package Barcode Special-Function Parameters
+
 Table 28. Intelligent Mail Package Barcode Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 X'00' Reserved Not supported in
-BCD1
-Not supported in
-BCD2
-6 BITS Intelligent Mail Package Barcode flags
-bit 0 Banner
-B'0'
-B'1'
-Suppress USPS Service
-Banner:
-Do not suppress
-Suppress
-Not supported in
-BCD1
-Not supported in
-BCD2
-bit 1 IDBars
-B'0'
-B'1'
-Suppress Identification Bars:
-Do not suppress
-Suppress
-Not supported in
-BCD1
-Not supported in
-BCD2
-bits 2-7 B'000000' Reserved Not supported in
-BCD1
-Not supported in
-BCD2
-7 X'00' Reserved Not supported in
-BCD1
-Not supported in
-BCD2
-8 UBIN Banner
-length
-X'00'–X'FE',
-even values
-only
-Length of USPS Service
-Banner string
-Not supported in
-BCD1
-Not supported in
-BCD2
-9–n CHAR Banner
-string
-USPS Service Banner string Not supported in
-BCD1
-Not supported in
-BCD2
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
+| 6 | BITS | Intelligent Mail Package Barcode flags | | | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 0 | Banner | B'0'<br>B'1' | Suppress USPS Service Banner:<br>Do not suppress<br>Suppress | | |
+| | bit 1 | IDBars | B'0'<br>B'1' | Suppress Identification Bars:<br>Do not suppress<br>Suppress | | |
+| | bits 2-7 | | B'000000' | Reserved | | |
+| 7 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
+| 8 | UBIN | Banner length | X'00'–X'FE',<br>even values only | Length of USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 |
+| 9–n | CHAR | Banner string | | USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 |
 Byte 5 Reserved
 Byte 6 Intelligent Mail Package Barcode flags
 These flags control how the Intelligent Mail Package Barcode is printed.
@@ -3259,82 +3219,22 @@ that when reducing the font size, care must be taken to avoid reducing below the
 character height specified in the symbology. Reduction of the font size of the Service Banner
 should not also reduce the font size of the HRI printed below the symbol.
 If the Suppress USPS Service Banner flag is B'1', byte 8 and bytes 9–n are ignored.
-Intelligent Mail Package Barcode Special-Function Parameters
+### MaxiCode Special-Function Parameters
 
-
-
-
-MaxiCode Special-Function Parameters
 Table 29. MaxiCode Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported in
-BCD1 B'0'
-B'1'
-bits 2–7 B'000000' Reserved B'000000' B'000000'
-6 CODE Symbol
-mode
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-Mode 2
-Mode 3
-Mode 4
-Mode 5
-Mode 6
-Not supported in
-BCD1
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-7 UBIN Sequence
-indicator
-X'00'–X'08' Structured append sequence
-indicator
-Not supported in
-BCD1
-X'00'–X'08'
-8 UBIN T otal
-symbols
-X'00' or
-X'02'–X'08'
-T otal number of structured-
-append symbols
-Not supported in
-BCD1
-X'00' or
-X'02'–X'08'
-9 BITS Special-function flags
-bit 0 Zipper B'0'
-B'1'
-No zipper pattern
-Vertical zipper pattern on right
-Not supported in
-BCD1
-B'0'
-B'1'
-bits 1–7 B'0000000' Reserved B'0000000' B'0000000'
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | | B'0'<br>B'1' |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | | B'0'<br>B'1' |
+| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' |
+| 6 | CODE | Symbol mode | X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06' | Mode 2<br>Mode 3<br>Mode 4<br>Mode 5<br>Mode 6 | Not supported in BCD1 | X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06' |
+| 7 | UBIN | Sequence indicator | X'00'–X'08' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'08' |
+| 8 | UBIN | Total symbols | X'00' or<br>X'02'–X'08' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or<br>X'02'–X'08' |
+| 9 | BITS | Special-function flags | | | Not supported in BCD1 | |
+| | bit 0 | Zipper | B'0'<br>B'1' | No zipper pattern<br>Vertical zipper pattern on right | | B'0'<br>B'1' |
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' | B'0000000' |
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -3996,166 +3896,28 @@ PDF417 Special-Function Parameters
 
 
 
-QR Code Special-Function Parameters
+### QR Code Special-Function Parameters
+
 Table 31. QR Code Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported in
-BCD1 B'0'
-B'1'
-bit 2 T oo much
-data B'0'
-B'1'
-If too much data:
-Use a bigger QR Code
-symbol version
-Exception EC-0F16 exists
-Not supported in
-BCD1
-Not supported in
-BCD2
-bits 3–7 B'00000' Reserved B'00000' B'00000'
-6 CODE Conver-
-sion
-X'00'
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-No conversion specified
-SBCS EBCDIC code page
-used to encode data:
-Code page 500 (International
-#5)
-Code page 290 (Japanese
-Katakana Ext.)
-Code page 1027 (Japanese
-Latin Extended)
-AFP Line Data SOSI-data
-conversion:
-CCSID 1390 to CCSID 943
-CCSID 1399 to CCSID 943
-CCSID 1390 to CCSID 932
-CCSID 1399 to CCSID 932
-CCSID 1390 to CCSID 942
-CCSID 1399 to CCSID 942
-Not supported in
-BCD1
-X'00'
-X'01'
-X'02'
-X'03'
-7 CODE Version
-X'00'
-X'01' – X'28'
-Version of symbol:
-Smallest symbol
-Version number (1 to 40)
-Not supported in
-BCD1 X'00'
-X'01' – X'28'
-8 CODE Error
-correction
-level
-X'00'
-X'01'
-X'02'
-X'03'
-Level of error correction:
-Level L (7% recovery)
-Level M (15% recovery)
-Level Q (25% recovery)
-Level H (30% recovery)
-Not supported in
-BCD1 X'00'
-X'01'
-X'02'
-X'03'
-9 UBIN Sequence
-indicator
-X'00' – X'10' Structured append sequence
-indicator
-Not supported in
-BCD1
-X'00' – X'10'
-10 UBIN T otal
-symbols
-X'00' or
-X'02' – X'10'
-T otal number of structured-
-append symbols
-Not supported in
-BCD1
-X'00' or
-X'02' – X'10'
-11 UBIN Parity
-Data
-X'00' – X'FF' Structured append parity data Not supported in
-BCD1
-X'00' – X'FF'
-12 BITS Special-function flags
-QR Code Special-Function Parameters
 
-
-
-
-Table 31 QR Code Special-Function Parameters (cont'd.)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-bit 0 UCC/EAN
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to
-UCC/EAN standards
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Industry
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to industry
-standards
-Not supported in
-BCD1 B'0'
-B'1'
-bits 2–7 B'000000' Reserved B'000000' B'000000'
-13 CODE Applica-
-tion
-indicator
-See field
-description
-Application indicator for
-Industry FNC1
-Not supported in
-BCD1
-All values listed
-in the field
-description
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | | B'0'<br>B'1' |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | | B'0'<br>B'1' |
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger QR Code symbol version<br>Exception EC-0F16 exists | | Not supported in BCD2 |
+| | bits 3–7 | | B'00000' | Reserved | B'00000' | B'00000' |
+| 6 | CODE | Conversion | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'08'<br>X'09' | No conversion specified<br>SBCS EBCDIC code page used to encode data:<br>Code page 500 (International #5)<br>Code page 290 (Japanese Katakana Ext.)<br>Code page 1027 (Japanese Latin Extended)<br>AFP Line Data SOSI-data conversion:<br>CCSID 1390 to CCSID 943<br>CCSID 1399 to CCSID 943<br>CCSID 1390 to CCSID 932<br>CCSID 1399 to CCSID 932<br>CCSID 1390 to CCSID 942<br>CCSID 1399 to CCSID 942 | Not supported in BCD1 | X'00'<br>X'01'<br>X'02'<br>X'03' |
+| 7 | CODE | Version | X'00'<br>X'01' – X'28' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 40) | Not supported in BCD1 | X'00'<br>X'01' – X'28' |
+| 8 | CODE | Error correction level | X'00'<br>X'01'<br>X'02'<br>X'03' | Level of error correction:<br>Level L (7% recovery)<br>Level M (15% recovery)<br>Level Q (25% recovery)<br>Level H (30% recovery) | Not supported in BCD1 | X'00'<br>X'01'<br>X'02'<br>X'03' |
+| 9 | UBIN | Sequence indicator | X'00' – X'10' | Structured append sequence indicator | Not supported in BCD1 | X'00' – X'10' |
+| 10 | UBIN | Total symbols | X'00' or<br>X'02' – X'10' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or<br>X'02' – X'10' |
+| 11 | UBIN | Parity Data | X'00' – X'FF' | Structured append parity data | Not supported in BCD1 | X'00' – X'FF' |
+| 12 | BITS | Special-function flags | | | | |
+| | bit 0 | UCC/EAN FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to UCC/EAN standards | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | B'0'<br>B'1' |
+| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' |
+| 13 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | All values listed in the field description |
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -4459,28 +4221,30 @@ module width parameter (byte 17 in the BSD). The following table lists the compl
 supported versions. Exception condition EC-0F0F exists if an invalid version value is
 specified.
 Table 32. Supported Versions for a QR Code Symbol
-Version Symbol Size Version Symbol Size
-0 (X'00') smallest 21 (X'15') 101x101
-1 (X'01') 21x21 22 (X'16') 105x105
-2 (X'02') 25x25 23 (X'17') 109x109
-3 (X'03') 29x29 24 (X'18') 113x113
-4 (X'04') 33x33 25 (X'19') 117x117
-5 (X'05') 37x37 26 (X'1A') 121x121
-6 (X'06') 41x41 27 (X'1B') 125x125
-7 (X'07') 45x45 28 (X'1C') 129x129
-8 (X'08') 49x49 29 (X'1D') 133x133
-9 (X'09') 53x53 30 (X'1E') 137x137
-10 (X'0A') 57x57 31 (X'1F') 141x141
-11 (X'0B') 61x61 32 (X'20') 145x145
-12 (X'0C') 65x65 33 (X'21') 149x149
-13 (X'0D') 69x69 34 (X'22') 153x153
-14 (X'0E') 73x73 35 (X'23') 157x157
-15 (X'0F') 77x77 36 (X'24') 161x161
-16 (X'10') 81x81 37 (X'25') 165x165
-17 (X'11') 85x85 38 (X'26') 169x169
-18 (X'12') 89x89 39 (X'27') 173x173
-19 (X'13') 93x93 40 (X'28') 177x177
-20 (X'14') 97x97
+
+| Version | Symbol Size | Version | Symbol Size |
+| :--- | :--- | :--- | :--- |
+| 0 (X'00') | smallest | 21 (X'15') | 101x101 |
+| 1 (X'01') | 21x21 | 22 (X'16') | 105x105 |
+| 2 (X'02') | 25x25 | 23 (X'17') | 109x109 |
+| 3 (X'03') | 29x29 | 24 (X'18') | 113x113 |
+| 4 (X'04') | 33x33 | 25 (X'19') | 117x117 |
+| 5 (X'05') | 37x37 | 26 (X'1A') | 121x121 |
+| 6 (X'06') | 41x41 | 27 (X'1B') | 125x125 |
+| 7 (X'07') | 45x45 | 28 (X'1C') | 129x129 |
+| 8 (X'08') | 49x49 | 29 (X'1D') | 133x133 |
+| 9 (X'09') | 53x53 | 30 (X'1E') | 137x137 |
+| 10 (X'0A') | 57x57 | 31 (X'1F') | 141x141 |
+| 11 (X'0B') | 61x61 | 32 (X'20') | 145x145 |
+| 12 (X'0C') | 65x65 | 33 (X'21') | 149x149 |
+| 13 (X'0D') | 69x69 | 34 (X'22') | 153x153 |
+| 14 (X'0E') | 73x73 | 35 (X'23') | 157x157 |
+| 15 (X'0F') | 77x77 | 36 (X'24') | 161x161 |
+| 16 (X'10') | 81x81 | 37 (X'25') | 165x165 |
+| 17 (X'11') | 85x85 | 38 (X'26') | 169x169 |
+| 18 (X'12') | 89x89 | 39 (X'27') | 173x173 |
+| 19 (X'13') | 93x93 | 40 (X'28') | 177x177 |
+| 20 (X'14') | 97x97 | | |
 If X'00' is specified for this parameter, an appropriate row/column size will be used based on
 the amount of symbol data; the smallest symbol that can accommodate the amount of data is
 produced.

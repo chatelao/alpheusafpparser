@@ -1,0 +1,127 @@
+Table 33. QR Code with Image Special-Function Parameters
+Offset Type Name Range Meaning BCD1 Range BCD2 Range
+Bytes 5–13 are the same as bytes 5–13 in the QR Code Special-Function Parameters, except for the “BCD2 Range”
+column, which in this table is always “Not supported in BCD2”
+5 BITS Control flags
+bit 0 EBCDIC
+B'0'
+B'1'
+EBCDIC-to-ASCII translation:
+Do not translate
+Convert data to ASCII
+Not supported
+in BCD1
+Not supported
+in BCD2
+bit 1 Escape
+sequence
+handling
+B'0'
+B'1'
+Escape-sequence handling:
+Process escape sequences
+Ignore all escape sequences
+Not supported
+in BCD1
+Not supported
+in BCD2
+bit 2 T oo much
+data B'0'
+B'1'
+If too much data:
+Use a bigger QR Code
+symbol version
+Exception EC-0F16 exists
+Not supported
+in BCD1
+Not supported
+in BCD2
+bits 3–7 B'00000' Reserved Not supported
+in BCD1
+Not supported
+in BCD2
+6 CODE Conver-
+sion
+X'00'
+X'01'
+X'02'
+X'03'
+X'04'
+X'05'
+X'06'
+X'07'
+X'08'
+X'09'
+No conversion specified
+SBCS EBCDIC code page used
+to encode data:
+Code page 500 (International
+#5)
+Code page 290 (Japanese
+Katakana Ext.)
+Code page 1027 (Japanese
+Latin Extended)
+AFP Line Data SOSI-data
+conversion:
+CCSID 1390 to CCSID 943
+CCSID 1399 to CCSID 943
+CCSID 1390 to CCSID 932
+CCSID 1399 to CCSID 932
+CCSID 1390 to CCSID 942
+CCSID 1399 to CCSID 942
+Not supported
+in BCD1
+Not supported
+in BCD2
+7 CODE Version
+X'00'
+X'01' – X'28'
+Version of symbol:
+Smallest symbol
+Version number (1 to 40)
+Not supported
+in BCD1
+Not supported
+in BCD2
+8 CODE Error
+correction
+level
+X'00'
+X'01'
+X'02'
+X'03'
+Level of error correction:
+Level L (7% recovery)
+Level M (15% recovery)
+Level Q (25% recovery)
+Level H (30% recovery)
+Not supported
+in BCD1
+Not supported
+in BCD2
+9 UBIN Sequence
+indicator
+X'00' – X'10' Structured append sequence
+indicator
+Not supported
+in BCD1
+Not supported
+in BCD2
+10 UBIN T otal
+symbols
+X'00' or
+X'02' – X'10'
+T otal number of structured-
+append symbols
+Not supported
+in BCD1
+Not supported
+in BCD2
+11 UBIN Parity
+Data
+X'00' – X'FF' Structured append parity data Not supported
+in BCD1
+Not supported
+in BCD2
+12 BITS Special-function flags
+QR Code with Image Special-Function Parameters
