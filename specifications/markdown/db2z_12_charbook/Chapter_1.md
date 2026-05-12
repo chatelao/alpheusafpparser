@@ -10,7 +10,7 @@ character conversions are likely to occur.
 Important: For best results, try to avoid character conversions whenever possible, because conversions
 can potentially slow performance and sometimes cause data loss. The best way to avoid conversions is to
 use the same CCSID for all of your data. For more information, see “Possible consequences of character
-conversion” on page 16.
+conversion”.
 The problem with character conversions is that they can degrade performance and potentially cause data
 loss. Therefore, you should avoid these conversions if possible. One way to avoid these conversions is to
 have all of your data in one code page. If you use multiple character sets, you might considering using
@@ -35,30 +35,30 @@ SCHEME special register.
 If you are using the Db2 coprocessor, you can use various language compiler options to override the
 Db2 application encoding scheme for an application.
 For more information about application encoding schemes, see “Specifying a CCSID for your
-application” on page 59.
+application”.
 ASCII
 Acronym for American Standard Code for Information Interchange, an encoding scheme that is used
 to represent characters. In this information, the term ASCII is used to refer to IBM-PC data or ISO
 8-bit data.
-For more information about ASCII, see “ASCII” on page 7. For more information about encoding
-schemes in general, see “Encoding schemes” on page 7.
-© Copyright IBM Corp. 2003, 2026 1
+For more information about ASCII, see “ASCII”. For more information about encoding
+schemes in general, see “Encoding schemes”.
 
-## Page 14
+
+
 
 big endian
 A data format in which the most significant byte is stored first, at the memory location with the lowest
 address.
-For more information about big endian, see “Endianness” on page 14.
+For more information about big endian, see “Endianness”.
 character conversion
 The process of converting characters from one CCSID to another.
 For more information about how Db2 performs character conversions, see “How Db2 performs
-character conversions” on page 27.
+character conversions”.
 character data representation architecture (CDRA)
 An IBM architecture that aims to achieve consistent representation, processing, and interchange of
 graphic character data in data processing environments. CDRA defines a set of identifiers, services,
 supporting resources, and conventions. The identifiers that CDRA defines are CCSIDs.
-For more information about CDRA, see “Code pages and CCSIDs” on page 5.
+For more information about CDRA, see “Code pages and CCSIDs”.
 character repertoire
 A set of characters.
 character set
@@ -68,10 +68,10 @@ code page
 A specification of code points from a defined encoding scheme for each character in a set or in a
 collection of character sets. Within a code page, a code point can have only one specific meaning.
 Code pages are defined by the IBM Globalization Center of Competency.
-For more information about code pages, see “Code pages and CCSIDs” on page 5.
+For more information about code pages, see “Code pages and CCSIDs”.
 code point
 A unique bit pattern that represents a character.
-For more information about code points, see “Code pages and CCSIDs” on page 5.
+For more information about code points, see “Code pages and CCSIDs”.
 coded character set
 A set of unambiguous rules that establishes a character set and the one-to-one relationships between
 the characters of the set and their coded representations. A coded character set is the assignment of
@@ -81,11 +81,11 @@ A 16-bit number that identifies a specific set of encoding scheme identifiers, c
 code page identifiers, and additional coding-related information. A CCSID is a number that identifies
 an implementation of a code page at a particular point in time. A CCSID is an attribute of strings, just
 as length is an attribute of strings. All values of the same string column have the same CCSID.
-For more information about CCSIDs, see “Code pages and CCSIDs” on page 5.
+For more information about CCSIDs, see “Code pages and CCSIDs”.
 coded character set identifier (CCSID) set
 The single byte CCSID value (SBCS), mixed CCSID value, and double byte CCSID value (DBCS) that are
 associated with a particular encoding scheme.
-For more information about CCSID sets, see “Specifying subsystem CCSIDs” on page 32.
+For more information about CCSID sets, see “Specifying subsystem CCSIDs”.
 collation name
 A string value that specifies how Db2 is to sort data. The collation name specifies attributes such as
 the language of the data, whether case should be considered, and how punctuation characters should
@@ -95,31 +95,31 @@ page 82.
 contracting conversion
 A character conversion in which the length of the converted string is smaller than that of the source
 string.
-2  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 15
 
-For more information about contracting conversions, see “Contracting conversion” on page 19.
+
+
+For more information about contracting conversions, see “Contracting conversion”.
 conversion image
 A data set that contains the information that z/OS Unicode Services needs to perform character and
 case conversions.
-For more information about conversion images, see “Conversion image” on page 38.
+For more information about conversion images, see “Conversion image”.
 EBCDIC
 Acronym for Extended Binary-Coded Decimal Interchange Code, a group of coded character sets that
 consists of 8-bit coded characters. EBCDIC coded character sets assign characters to code points.
 Each code point consists of 8 bits.
-For more information about EBCDIC, see “EBCDIC” on page 8. For more information about
-encoding schemes in general, see “Encoding schemes” on page 7.
+For more information about EBCDIC, see “EBCDIC”. For more information about
+encoding schemes in general, see “Encoding schemes”.
 encoding scheme
 A set of rules that is used to represent character data. All string data that is stored in a table
 must use the same encoding scheme. All tables within a table space must use the same encoding
 scheme, except for global temporary tables, declared temporary tables, and work file table spaces. An
 encoding scheme only describes the type of encoding; it does not specify code points or a code page.
 Examples of encoding schemes include ASCII, EBCDIC, and Unicode.
-For more information about encoding schemes, see “Encoding schemes” on page 7.
+For more information about encoding schemes, see “Encoding schemes”.
 endianness
 A data attribute that describes byte order.
-For more information about endianness, see “Endianness” on page 14.
+For more information about endianness, see “Endianness”.
 enforced subset conversion
 A character conversion in which characters that do not have a code point in the target CCSID are
 converted to a single substitution character.
@@ -128,11 +128,11 @@ For more information about enforced subset conversions, see “Enforced subset c
 escaped data
 One or more characters that cannot be represented in the target CCSID and that have been identified
 as such by some extra syntax.
-For more information about escaped data, see “Generating escaped Unicode data” on page 88.
+For more information about escaped data, see “Generating escaped Unicode data”.
 expanding conversion
 A character conversion in which the length of the converted string is greater than that of the source
 string.
-For more information about expanding conversions, see “Expanding conversion” on page 17.
+For more information about expanding conversions, see “Expanding conversion”.
 International Components for Unicode (ICU)
 A set of C/C++ and Java™ libraries for Unicode support and software internationalization.
 For more information about ICU, see Appendix E, “The International Components for Unicode,” on
@@ -140,45 +140,45 @@ page 109.
 little endian
 A data format in which the least significant byte is stored first, at the memory location with the lowest
 address.
-For more information about little endian, see “Endianness” on page 14.
+For more information about little endian, see “Endianness”.
 locale
 An attribute that defines the user's cultural environment.
-For more information about locales, see “Locale” on page 86.
+For more information about locales, see “Locale”.
 
 
 Chapter 1. International data and character conversion in Db2 for z/OS  3
 
-## Page 16
+
 
 lossless conversion
 A character conversion in which all characters in the source CCSID exist in the target CCSID, and thus,
 no character is lost.
 For more information about lossless conversions, see “Possible consequences of character
-conversion” on page 16.
+conversion”.
 normalization
 A process that produces a unique code point sequence for all sequences that are equivalent, either
 canonically or compatibly.
-For more information about normalization, see “Normalization of Unicode strings” on page 91.
+For more information about normalization, see “Normalization of Unicode strings”.
 round-trip conversion
 A character conversion that ensures the integrity of all character data from the source CCSID to the
 target CCSID and back to the source. Even if the target CCSID does not support a given character, the
 character regains its original hexadecimal value after the conversion back to the original CCSID.
-For more information about round-trip conversions, see “Round-trip conversion” on page 20.
+For more information about round-trip conversions, see “Round-trip conversion”.
 substitution character
 A unique character that is substituted during character conversion for any characters in the source
 CCSID that do not have a match in the target CCSID.
-For more information about substitution characters, see “Enforced subset conversion” on page 20.
+For more information about substitution characters, see “Enforced subset conversion”.
 supplementary characters
 Characters that have a code point between U+10000 and U+10FFFF.
 For more information about supplementary characters, see “How Db2 handles Unicode
-supplementary characters” on page 91.
+supplementary characters”.
 Unicode
 An international character code for information processing that is designed to encode all characters
 that are used for written communication in a simple and consistent manner. The Unicode character
 encoding was established to provide enough code points for all the scripts and technical symbols in
 common usage around the world, plus some ancient scripts.
-For more information about Unicode, see “Unicode” on page 10. For more information about
-encoding schemes in general, see “Encoding schemes” on page 7.
+For more information about Unicode, see “Unicode”. For more information about
+encoding schemes in general, see “Encoding schemes”.
 Unicode Consortium
 A non-profit organization that develops and maintains international standards, including the Unicode
 Standard.
@@ -187,15 +187,15 @@ Unicode transformation formats (UTFs)
 Forms of Unicode encoding that were devised by the Unicode Consortium to ensure that systems
 can communicate efficiently. UTF-8, UTF-16, and UTF-32 were each designed for different processing
 objectives.
-For more information about the UTFs, see “UTFs” on page 11.
+For more information about the UTFs, see “UTFs”.
 z/OS Unicode Services
 A set of functions that are provided by z/OS. Among the services are case conversion service and
 character conversion service.
 For more information about the z/OS Unicode Services, see “Setting up z/OS Unicode Services for Db2
-for z/OS” on page 38.
-4  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+for z/OS”.
 
-## Page 17
+
+
 
 Code pages and CCSIDs
 Because computers store only numbers, they store letters and other characters by assigning a number
@@ -203,27 +203,26 @@ to them. Which number is mapped to each character depends on the CCSID and code 
 associated with that character.
 A code page is a mapping of hexadecimal numbers to particular characters. For example, the following
 table shows code page 37.
-Table 1. Code page 37 with CCSID 37
-1st →  
-2nd↓ 4- 5- 6- 7- 8- 9- A- B- C- D- E- F-
--0 (sp) & - ø Ø º µ ^ { } \ 0
--1 (rsp) é / É a j ~ £ A J ÷ 1
--2 â ê Â Ê b k s ¥ B K S 2
--3 ä ë Ä Ë c l t • C L T 3
--4 à è À È d m u © D M U 4
--5 á í Á Í e n v § E N V 5
--6 ã î Ã Î f o w ¶ F O W 6
--7 å ï Å Ï g p x ¼ G P X 7
--8 ç ì Ç Ì h q y ½ H Q Y 8
--9 ñ ß Ñ ` i r z ¾ I R Z 9
--A ¢ ! ¦ : ≪ ª ¡ [
-(SHY)
-¹ ² ³
--B . $ , # ≫ º ¿ ] ô û Ô Û
--C < * % @ ð æ Ð ‾ ö ü Ö Ü
--D ( ) _ ' ý ¸ Ý ¨ ò ú Ò Ù
--E + ; > = þ Æ Þ ´ ó ú Ó Ú
--F | ¬ ? “ ± ¤ ® × õ ÿ Õ (EO)
+### Table 1. Code page 37 with CCSID 37
+
+| 2nd↓ \ 1st→ | 4- | 5- | 6- | 7- | 8- | 9- | A- | B- | C- | D- | E- | F- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **-0** | (sp) | & | - | ø | Ø | º | µ | ^ | { | } | \ | 0 |
+| **-1** | (rsp) | é | / | É | a | j | ~ | £ | A | J | ÷ | 1 |
+| **-2** | â | ê | Â | Ê | b | k | s | ¥ | B | K | S | 2 |
+| **-3** | ä | ë | Ä | Ë | c | l | t | • | C | L | T | 3 |
+| **-4** | à | è | À | È | d | m | u | © | D | M | U | 4 |
+| **-5** | á | í | Á | Í | e | n | v | § | E | N | V | 5 |
+| **-6** | ã | î | Ã | Î | f | o | w | ¶ | F | O | W | 6 |
+| **-7** | å | ï | Å | Ï | g | p | x | ¼ | G | P | X | 7 |
+| **-8** | ç | ì | Ç | Ì | h | q | y | ½ | H | Q | Y | 8 |
+| **-9** | ñ | ß | Ñ | ` | i | r | z | ¾ | I | R | Z | 9 |
+| **-A** | ¢ | ! | ¦ | : | ≪ | ª | ¡ | [ (SHY) | ¹ | ² | ³ | |
+| **-B** | . | $ | , | # | ≫ | º | ¿ | ] | ô | û | Ô | Û |
+| **-C** | < | * | % | @ | ð | æ | Ð | ‾ | ö | ü | Ö | Ü |
+| **-D** | ( | ) | _ | ' | ý | ¸ | Ý | ¨ | ò | ú | Ò | Ù |
+| **-E** | + | ; | > | = | þ | Æ | Þ | ´ | ó | ú | Ó | Ú |
+| **-F** | \| | ¬ | ? | “ | ± | ¤ | ® | × | õ | ÿ | Õ | (EO) |
 Within a code page, each hexadecimal number representation for a character is called a code point.
 When looking at a code page, you can find the hexadecimal code point value for a particular character by
 concatenating the column header with the row header. For example, find the character 'A' in the preceding
@@ -242,17 +241,17 @@ repository list of all CCSIDs that are defined by CDRA.
 
 Chapter 1. International data and character conversion in Db2 for z/OS  21
 
-## Page 34
 
-22  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 35
+
+
+
 
 
 
 Chapter 1. International data and character conversion in Db2 for z/OS  5
 
-## Page 18
+
 
 Db2 for z/OS uses CCSIDs. However, Db2 for Linux, UNIX, and Windows uses code pages. The difference
 between code pages and CCSIDs is the stability. Code pages might change. However, because CCSIDs
@@ -262,30 +261,29 @@ no longer mapped to the international currency symbol (¤). Instead, this code p
 euro symbol (€). CCSID 37 refers to the original code page 37. The altered code page has CCSID 1140.
 CCSID 1140 and CCSID 37 differ by only that one character at code point X'9F'. The following table shows
 CCSID 1140.
-Table 2. Code page 37 with CCSID 1140
-1st →  
-2nd↓ 4- 5- 6- 7- 8- 9- A- B- C- D- E- F-
--0 (sp) & - ø Ø º µ ^ { } \ 0
--1 (rsp) é / É a j ~ £ A J ÷ 1
--2 â ê Â Ê b k s ¥ B K S 2
--3 ä ë Ä Ë c l t • C L T 3
--4 à è À È d m u © D M U 4
--5 á í Á Í e n v § E N V 5
--6 ã î Ã Î f o w ¶ F O W 6
--7 å ï Å Ï g p x ¼ G P X 7
--8 ç ì Ç Ì h q y ½ H Q Y 8
--9 ñ ß Ñ ` i r z ¾ I R Z 9
--A ¢ ! ¦ : ≪ ª ¡ [
-(SHY)
-¹ ² ³
--B . $ , # ≫ º ¿ ] ô û Ô Û
--C < * % @ ð æ Ð ‾ ö ü Ö Ü
--D ( ) _ ' ý ¸ Ý ¨ ò ú Ò Ù
--E + ; > = þ Æ Þ ´ ó ú Ó Ú
--F | ¬ ? “ ± € ® × õ ÿ Õ (EO)
+### Table 2. Code page 37 with CCSID 1140
+
+| 2nd↓ \ 1st→ | 4- | 5- | 6- | 7- | 8- | 9- | A- | B- | C- | D- | E- | F- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **-0** | (sp) | & | - | ø | Ø | º | µ | ^ | { | } | \ | 0 |
+| **-1** | (rsp) | é | / | É | a | j | ~ | £ | A | J | ÷ | 1 |
+| **-2** | â | ê | Â | Ê | b | k | s | ¥ | B | K | S | 2 |
+| **-3** | ä | ë | Ä | Ë | c | l | t | • | C | L | T | 3 |
+| **-4** | à | è | À | È | d | m | u | © | D | M | U | 4 |
+| **-5** | á | í | Á | Í | e | n | v | § | E | N | V | 5 |
+| **-6** | ã | î | Ã | Î | f | o | w | ¶ | F | O | W | 6 |
+| **-7** | å | ï | Å | Ï | g | p | x | ¼ | G | P | X | 7 |
+| **-8** | ç | ì | Ç | Ì | h | q | y | ½ | H | Q | Y | 8 |
+| **-9** | ñ | ß | Ñ | ` | i | r | z | ¾ | I | R | Z | 9 |
+| **-A** | ¢ | ! | ¦ | : | ≪ | ª | ¡ | [ (SHY) | ¹ | ² | ³ | |
+| **-B** | . | $ | , | # | ≫ | º | ¿ | ] | ô | û | Ô | Û |
+| **-C** | < | * | % | @ | ð | æ | Ð | ‾ | ö | ü | Ö | Ü |
+| **-D** | ( | ) | _ | ' | ý | ¸ | Ý | ¨ | ò | ú | Ò | Ù |
+| **-E** | + | ; | > | = | þ | Æ | Þ | ´ | ó | ú | Ó | Ú |
+| **-F** | \| | ¬ | ? | “ | ± | € | ® | × | õ | ÿ | Õ | (EO) |
 The exception to this idea of fixed CCSIDs is the CCSID set that Db2 for z/OS uses for Unicode code pages.
 For Unicode data, Db2 for z/OS uses CCSIDs that have the ability to grow as the Unicode standard grows.
-For more information about those CCSIDs, see “Unicode CCSIDs” on page 13.
+For more information about those CCSIDs, see “Unicode CCSIDs”.
 In Db2 for z/OS, all character data is associated with a CCSID. If the data does not have one, Db2 uses the
 subsystem defaults. You specify these subsystem default CCSID values when you install Db2. Character
 conversion is described in terms of CCSIDs of the source and target.
@@ -293,9 +291,9 @@ Related concepts
 Euro symbol support (Db2 Installation and Migration)
 Related tasks
 Specifying CCSIDs in Db2
-6  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 19
+
+
 
 You must communicate to Db2 the correct CCSIDs to use for your data to ensure that Db2 correctly
 interprets your data. You can specify default subsystem CCSIDs. You can also specify CCSIDs for
@@ -323,36 +321,26 @@ characters. Other characters might vary from one code page to the next. These ch
 variant characters.
 Some example ASCII CCSIDs are 367, 819, and 912.
 The following table shows the code page for ASCII CCSID 367.
-Table 3. CCSID 367
-1st →
- 
-2nd↓ 0- 1- 2- 3- 4- 5- 6- 7-
--0 (sp) 0 @ P ` p
--1 ! 1 A Q a q
--2 " 2 B R b r
--3 # 3 C S c s
--4 $ 4 D T d t
--5 % 5 E U e u
--6 & 6 F V f v
--7 ' 7 G W g w
--8 ( 8 H X h x
--9 ) 9 I Y i y
--A * : J Z j z
+### Table 3. CCSID 367
 
-
-Chapter 1. International data and character conversion in Db2 for z/OS  7
-
-## Page 20
-
-Table 3. CCSID 367 (continued)
-1st →
- 
-2nd↓ 0- 1- 2- 3- 4- 5- 6- 7-
--B + ; K [ k {
--C , < L \ l |
--D - = M ] m }
--E . > N ^ n ~
--F / ? O _ o
+| 2nd↓ \ 1st→ | 0- | 1- | 2- | 3- | 4- | 5- | 6- | 7- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **-0** | (sp) | | | 0 | @ | P | ` | p |
+| **-1** | | | ! | 1 | A | Q | a | q |
+| **-2** | | | " | 2 | B | R | b | r |
+| **-3** | | | # | 3 | C | S | c | s |
+| **-4** | | | $ | 4 | D | T | d | t |
+| **-5** | | | % | 5 | E | U | e | u |
+| **-6** | | | & | 6 | F | V | f | v |
+| **-7** | | | ' | 7 | G | W | g | w |
+| **-8** | | | ( | 8 | H | X | h | x |
+| **-9** | | | ) | 9 | I | Y | i | y |
+| **-A** | | | * | : | J | Z | j | z |
+| **-B** | | | + | ; | K | [ | k | { |
+| **-C** | | | , | < | L | \ | l | \| |
+| **-D** | | | - | = | M | ] | m | } |
+| **-E** | | | . | > | N | ^ | n | ~ |
+| **-F** | | | / | ? | O | _ | o | |
 Related concepts
 Variant characters
 Variant characters are characters that correspond to different code points across a given set of code
@@ -367,34 +355,26 @@ characters. Other characters might vary from one code page to the next. These ch
 variant characters.
 Some example EBCDIC CCSIDs are 37, 500, and 1047.
 The following table shows the code page for EBCDIC CCSID 37.
-Table 4. Code page 37 with CCSID 37
-1st →  
-2nd↓ 4- 5- 6- 7- 8- 9- A- B- C- D- E- F-
--0 (sp) & - ø Ø º µ ^ { } \ 0
--1 (rsp) é / É a j ~ £ A J ÷ 1
--2 â ê Â Ê b k s ¥ B K S 2
--3 ä ë Ä Ë c l t • C L T 3
--4 à è À È d m u © D M U 4
--5 á í Á Í e n v § E N V 5
--6 ã î Ã Î f o w ¶ F O W 6
--7 å ï Å Ï g p x ¼ G P X 7
--8 ç ì Ç Ì h q y ½ H Q Y 8
--9 ñ ß Ñ ` i r z ¾ I R Z 9
--A ¢ ! ¦ : ≪ ª ¡ [
-(SHY)
-¹ ² ³
--B . $ , # ≫ º ¿ ] ô û Ô Û
-8  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+### Table 4. Code page 37 with CCSID 37
 
-## Page 21
-
-Table 4. Code page 37 with CCSID 37 (continued)
-1st →  
-2nd↓ 4- 5- 6- 7- 8- 9- A- B- C- D- E- F-
--C < * % @ ð æ Ð ‾ ö ü Ö Ü
--D ( ) _ ' ý ¸ Ý ¨ ò ú Ò Ù
--E + ; > = þ Æ Þ ´ ó ú Ó Ú
--F | ¬ ? “ ± ¤ ® × õ ÿ Õ (EO)
+| 2nd↓ \ 1st→ | 4- | 5- | 6- | 7- | 8- | 9- | A- | B- | C- | D- | E- | F- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **-0** | (sp) | & | - | ø | Ø | º | µ | ^ | { | } | \ | 0 |
+| **-1** | (rsp) | é | / | É | a | j | ~ | £ | A | J | ÷ | 1 |
+| **-2** | â | ê | Â | Ê | b | k | s | ¥ | B | K | S | 2 |
+| **-3** | ä | ë | Ä | Ë | c | l | t | • | C | L | T | 3 |
+| **-4** | à | è | À | È | d | m | u | © | D | M | U | 4 |
+| **-5** | á | í | Á | Í | e | n | v | § | E | N | V | 5 |
+| **-6** | ã | î | Ã | Î | f | o | w | ¶ | F | O | W | 6 |
+| **-7** | å | ï | Å | Ï | g | p | x | ¼ | G | P | X | 7 |
+| **-8** | ç | ì | Ç | Ì | h | q | y | ½ | H | Q | Y | 8 |
+| **-9** | ñ | ß | Ñ | ` | i | r | z | ¾ | I | R | Z | 9 |
+| **-A** | ¢ | ! | ¦ | : | ≪ | ª | ¡ | [ (SHY) | ¹ | ² | ³ | |
+| **-B** | . | $ | , | # | ≫ | º | ¿ | ] | ô | û | Ô | Û |
+| **-C** | < | * | % | @ | ð | æ | Ð | ‾ | ö | ü | Ö | Ü |
+| **-D** | ( | ) | _ | ' | ý | ¸ | Ý | ¨ | ò | ú | Ò | Ù |
+| **-E** | + | ; | > | = | þ | Æ | Þ | ´ | ó | ú | Ó | Ú |
+| **-F** | \| | ¬ | ? | “ | ± | ¤ | ® | × | õ | ÿ | Õ | (EO) |
 Related concepts
 Variant characters
 Variant characters are characters that correspond to different code points across a given set of code
@@ -410,53 +390,43 @@ especially when you use characters other than A-Z, a-z, and 0-9.
 The following tables show some code point differences between several common EBCDIC CCSIDs.
 The following table shows the difference in code points between EBCDIC CCSID 37 and EBCDIC CCSID
 500.
-Table 5. Code point differences between EBCDIC CCSID 37 and EBCDIC CCSID 500
-Code point Character
-CCSID 37 CCSID 500
-X'4A' ¢ (cent sign) [ (left bracket)
-X'4F' | (vertical bar) ! (exclamation point)
-X'5A' ! (exclamation point) ] (right bracket)
-X'5F' ¬(logical not)
-  (circumflex accent)
-X'B0'
- (circumflex accent) ¢ (cent sign)
-X'BA' [ (left bracket) ¬(logical not)
-X'BB' ] (right bracket) | (vertical bar)
+### Table 5. Code point differences between EBCDIC CCSID 37 and EBCDIC CCSID 500
+
+| Code point | Character CCSID 37 | Character CCSID 500 |
+| :--- | :--- | :--- |
+| X'4A' | ¢ (cent sign) | [ (left bracket) |
+| X'4F' | \| (vertical bar) | ! (exclamation point) |
+| X'5A' | ! (exclamation point) | ] (right bracket) |
+| X'5F' | ¬ (logical not) | ^ (circumflex accent) |
+| X'B0' | ^ (circumflex accent) | ¢ (cent sign) |
+| X'BA' | [ (left bracket) | ¬ (logical not) |
+| X'BB' | ] (right bracket) | \| (vertical bar) |
 The following table shows the difference in code points between EBCDIC CCSID 37 and EBCDIC CCSID
 1047.
-Table 6. Code point differences between EBCDIC CCSID 37 and EBCDIC CCSID 1047
-Code point Character
-CCSID 37 CCSID 1047
-X'5F' ¬(logical not)
- (circumflex accent)
-X'AD' Ý (uppercase Y with acute accent) [ (left bracket)
+### Table 6. Code point differences between EBCDIC CCSID 37 and EBCDIC CCSID 1047
 
-
-Chapter 1. International data and character conversion in Db2 for z/OS  9
-
-## Page 22
-
-Table 6. Code point differences between EBCDIC CCSID 37 and EBCDIC CCSID 1047 (continued)
-Code point Character
-CCSID 37 CCSID 1047
-X'B0'
- (circumflex accent) ¬(logical not)
-X'BA' [ (left bracket) Ý (uppercase Y with acute accent)
-X'BB' ] (right bracket) ¨ (umlaut)
-X'BD' ¨ (umlaut) ] (right bracket)
+| Code point | Character CCSID 37 | Character CCSID 1047 |
+| :--- | :--- | :--- |
+| X'5F' | ¬ (logical not) | ^ (circumflex accent) |
+| X'AD' | Ý (uppercase Y with acute accent) | [ (left bracket) |
+| X'B0' | ^ (circumflex accent) | ¬ (logical not) |
+| X'BA' | [ (left bracket) | Ý (uppercase Y with acute accent) |
+| X'BB' | ] (right bracket) | ¨ (umlaut) |
+| X'BD' | ¨ (umlaut) | ] (right bracket) |
 The following table shows the difference in code points between EBCDIC CCSID 500 and EBCDIC CCSID
 1047.
-Table 7. Code point differences between EBCDIC CCSID 500 and EBCDIC CCSID 1047
-Code point Character
-CCSID 500 CCSID 1047
-X'4A' [ (left bracket) ¢(cent sign)
-X'4F' ! (exclamation point) | (vertical bar)
-X'5A' ] (right bracket) ! (exclamation point)
-X'AD' Ý (uppercase Y with acute accent) [ (left bracket)
-X'B0' ¢(cent sign) ¬(logical not)
-X'BA' ¬(logical not) Ý (uppercase Y with acute accent)
-X'BB' | (vertical bar) ¨ (umlaut)
-X'BD' ¨ (umlaut) ] (right bracket)
+### Table 7. Code point differences between EBCDIC CCSID 500 and EBCDIC CCSID 1047
+
+| Code point | Character CCSID 500 | Character CCSID 1047 |
+| :--- | :--- | :--- |
+| X'4A' | [ (left bracket) | ¢ (cent sign) |
+| X'4F' | ! (exclamation point) | \| (vertical bar) |
+| X'5A' | ] (right bracket) | ! (exclamation point) |
+| X'AD' | Ý (uppercase Y with acute accent) | [ (left bracket) |
+| X'B0' | ¢ (cent sign) | ¬ (logical not) |
+| X'BA' | ¬ (logical not) | Ý (uppercase Y with acute accent) |
+| X'BB' | \| (vertical bar) | ¨ (umlaut) |
+| X'BD' | ¨ (umlaut) | ] (right bracket) |
 Related concepts
 Variant characters
 Variant characters are characters that correspond to different code points across a given set of code
@@ -478,9 +448,9 @@ page 37 has the left brace character ( { ) at position X'C0'.) This same letter 
 ASCII code page 819 and as X'7B' in ASCII code page 1011.
 Thus, handling data from more than one character set, such as German characters and Arabic characters,
 was difficult when ASCII or EBCDIC was used.
-10  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 23
+
+
 
 Unicode avoids these problems by having a single standard that can provide a unique code point
 for over a million characters. Currently, the standard has defined code points for just over 100,000
@@ -489,27 +459,26 @@ Unicode Consortium web site. For example, if you look up Unicode code point U+41
 corresponds to the character 'A'.
 The following table shows the first 128 Unicode code points from U+00 to U+7E. These code points are
 the same as those in ASCII 367.
-Table 8. The first 128 code points for Unicode and ASCII CCSID 367
-1st →
- 
-2nd↓
-0- 1- 2- 3- 4- 5- 6- 7-
-NUL DLE (sp) 0 @ P ` p
-SCH DC1 ! 1 A Q a q
-STX DC2 " 2 B R b r
-ETX DC3 # 3 C S c s
-EQT DC4 $ 4 D T d t
-ENQ NAK % 5 E U e u
-ACK SYN & 6 F V f v
-BEL ETB ' 7 G W g w
-BS CAN ( 8 H X h x
-HT EM ) 9 I Y i y
-LF SUB * : J Z j z
-VT ESC + ; K [ k {
-FF FS , < L \ l |
-OR GS - = M ] m }
-SO RS . > N ^ n ~
-SI US / ? O _ o DEL
+### Table 8. The first 128 code points for Unicode and ASCII CCSID 367
+
+| 2nd↓ \ 1st→ | 0- | 1- | 2- | 3- | 4- | 5- | 6- | 7- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **-0** | NUL | DLE | (sp) | 0 | @ | P | ` | p |
+| **-1** | SOH | DC1 | ! | 1 | A | Q | a | q |
+| **-2** | STX | DC2 | " | 2 | B | R | b | r |
+| **-3** | ETX | DC3 | # | 3 | C | S | c | s |
+| **-4** | EOT | DC4 | $ | 4 | D | T | d | t |
+| **-5** | ENQ | NAK | % | 5 | E | U | e | u |
+| **-6** | ACK | SYN | & | 6 | F | V | f | v |
+| **-7** | BEL | ETB | ' | 7 | G | W | g | w |
+| **-8** | BS | CAN | ( | 8 | H | X | h | x |
+| **-9** | HT | EM | ) | 9 | I | Y | i | y |
+| **-A** | LF | SUB | * | : | J | Z | j | z |
+| **-B** | VT | ESC | + | ; | K | [ | k | { |
+| **-C** | FF | FS | , | < | L | \ | l | \| |
+| **-D** | CR | GS | - | = | M | ] | m | } |
+| **-E** | SO | RS | . | > | N | ^ | n | ~ |
+| **-F** | SI | US | / | ? | O | _ | o | DEL |
 Related concepts
 Code pages and CCSIDs
 Because computers store only numbers, they store letters and other characters by assigning a number
@@ -529,7 +498,7 @@ combination that can represent a character. Each UTF uses a different code unit 
 
 Chapter 1. International data and character conversion in Db2 for z/OS  11
 
-## Page 24
+
 
 is based on 8-bit code units. Therefore, each character can be 8 bits (1 byte), 16 bits (2 bytes), 24 bits (3
 bytes), or 32 bits (4 bytes). Likewise, UTF-16 is based on 16-bit code units. Therefore, each character can
@@ -558,39 +527,18 @@ UTF-32
 UTF-32 is based on 32-bit code units. Each character is encoded as at least 4 bytes. Db2 does not
 store data in UTF-32.
 The following table shows example UTF encodings for several characters.
-Table 9. Example UTF encodings
-Character
-Unicode code
-point ASCII UTF-8
-UTF-16 (Big
-Endian
-format)1
-UTF-32 (Big
-Endian format)
-A U+0041 X'41' X'41' X'0041' X'00000041'
-a U+0061 X'61' X'61' X'0061' X'00000061'
-9 U+0039 X'39' X'39' X'0039' X'00000039'
-Å U+00C5 X'C5' X'C385'2 X'00C5' X'000000C5'
-U+9860 X'CDDB' (CCSID
-939)
-X'E9A1A0' X'9860' X'00009860'
-U + 200D0 Does not exist X'F0A08390' X'D840DCD0' X'000200D0'
-1 X'004D' is the UTF-16 big endian representation. The UTF-16 little endian representation is X'4D00'. For
-more information about endianness, see “Endianness” on page 14.
-12  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+### Table 9. Example UTF encodings
 
-## Page 25
+| Character | Unicode code point | ASCII | UTF-8 | UTF-16 (Big Endian format)¹ | UTF-32 (Big Endian format) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| A | U+0041 | X'41' | X'41' | X'0041' | X'00000041' |
+| a | U+0061 | X'61' | X'61' | X'0061' | X'00000061' |
+| 9 | U+0039 | X'39' | X'39' | X'0039' | X'00000039' |
+| Å | U+00C5 | X'C5' | X'C385'² | X'00C5' | X'000000C5' |
+|  | U+9860 | X'CDDB' (CCSID 939) | X'E9A1A0' | X'9860' | X'00009860' |
+|  | U+200D0 | Does not exist | X'F0A08390' | X'D840DCD0' | X'000200D0' |
 
-Table 9. Example UTF encodings (continued)
-Character
-Unicode code
-point ASCII UTF-8
-UTF-16 (Big
-Endian
-format)1
-UTF-32 (Big
-Endian format)
-Notes:
+**Notes:**
 1. z/OS uses Big Endian format only. Little Endian format is used in other operating systems.
 2. X'C5' becomes double-byte in UTF-8.
 Notice that for some characters, the UTF encodings are fairly predictable. For example, the character A,
@@ -636,7 +584,7 @@ tables.
 
 Chapter 1. International data and character conversion in Db2 for z/OS  13
 
-## Page 26
+
 
 CCSIDs usually refer to a code page at a particular point in time. However, the Unicode CCSIDs that Db2
 for z/OS uses are an exception. They can expand to include more characters as the Unicode standard
@@ -697,9 +645,9 @@ A format in which the most significant byte is stored first. The other bytes fol
 significance. For example, for a four-byte word, the byte order is 0, 1, 2, 3. For a two-byte word, it is 0,
 1.
 Big endian format is used by pSeries, IBM Z, iSeries, Sun, and HP.
-14  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 27
+
+
 
 Little endian
 A format in which the least significant byte is stored first. The other bytes follow in increasing order of
@@ -711,12 +659,15 @@ Bit order within a byte is always 7, 6, 5, 4, 3, 2, 1, 0.
 UTF-8 data is not affected by endianness, even if the data is stored as more than 1 byte. UTF-16 data
 and UTF-32 data are affected by endianness. For example, the character 'A' is encoded for UTF-16 and
 UTF-32 as shown in the following table:
-Table 10. Example encoding for the character 'A'
-UTF-16 UTF-321
-Big endian X'0041' X'00000041'
-Little endian X'4100' X'41000000'
-Note:
-1. Db2 for z/OS does not store data in UTF-32
+### Table 10. Example encoding for the character 'A'
+
+| | UTF-16 | UTF-32¹ |
+| :--- | :--- | :--- |
+| **Big endian** | X'0041' | X'00000041' |
+| **Little endian** | X'4100' | X'41000000' |
+
+**Note:**
+1. Db2 for z/OS does not store data in UTF-32.
 Endianness becomes a potential problem when data is exchanged between systems and applications that
 use different endian formats and the data is not properly converted. Be aware of the endian format of
 the data that your system or application handles. You might notice endianness problems when looking at
@@ -736,7 +687,7 @@ within the local system.
 Important: For best results, try to avoid character conversions whenever possible, because conversions
 can potentially slow performance and sometimes cause data loss. The best way to avoid conversions is to
 use the same CCSID for all of your data. For more information, see “Possible consequences of character
-conversion” on page 16.
+conversion”.
 Character conversion is more likely to occur when you are accessing data remotely because this situation
 often involves different platforms and encoding schemes. For example, in a client/server environment, a
 requester might send the values of host variables in SELECT predicates and INSERT column values to the
@@ -750,7 +701,7 @@ Conversion can also occur during string operations on the same system, as in the
 
 Chapter 1. International data and character conversion in Db2 for z/OS  15
 
-## Page 28
+
 
 • You compare or combine data from multiple CCSIDs in an SQL statement.
 • You use SPUFI, which processes EBCDIC data, to insert data into a Unicode table.
@@ -800,9 +751,9 @@ variables. For Db2 for z/OS applications, typically the application encoding sch
 ENCODING bind option. (By default this value is the subsystem default application encoding scheme.)
 Related tasks
 Specifying a CCSID for your application
-16  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 29
+
+
 
 In Db2 for z/OS applications, one CCSID is associated with the source code and one or more CCSIDs can
 be associated with the data that your application manipulates. The CCSID that Db2 associates with the
@@ -826,8 +777,7 @@ Expanding conversions typically affect European and Asian Pacific languages. For
 name Jürgen expands when it is converted from ASCII or EBCDIC to Unicode. Also, Japanese, Korean,
 and Chinese strings expand when they are converted from ASCII to EBCDIC.
 Expanding conversions can have the following effects on Db2:
-• Expanding conversions might cause problems with fixed-length variables. For example, when a fixed-
-length host variable needs to be converted from ASCII mixed data to EBCDIC mixed data, an error
+• Expanding conversions might cause problems with fixed-length variables. For example, when a fixed-length host variable needs to be converted from ASCII mixed data to EBCDIC mixed data, an error
 occurs. The problem occurs because the conversion is an expanding conversion, but the host variable
 is fixed-length. The solution is to use a varying-length string variable with a maximum length that is
 sufficient to contain the expansion.
@@ -846,83 +796,37 @@ To determine the worst-case result length of a CCSID conversion, use the followi
 
 Chapter 1. International data and character conversion in Db2 for z/OS  17
 
-## Page 30
 
-Table 11. Worst case result length of CCSID conversion, where X represents LENGTH(string in bytes)
-From CCSID
-To CCSID
-EBCDIC ASCII Unicode
-SBCS Mixed DBCS SBCS Mixed DBCS SBCS UTF-8 UTF-16
-EBCDIC
-SBCS X X X*2“1”
-on page
-18
-X X X*2“1”
-on page
-18
-X“1” on
-page 18
-X*3 X*2
-Mixed X X X*2“1”
-on page
-18
-X X X*2“1”
-on page
-18
-X“1” on
-page 18
-X*3 X*2
-DBCS X*0.51 X+2 X X*0.51 X X X*0.5 X*1.5 X
-ASCII
-SBCS X X X*2“1”
-on page
-18
-X X X*2“1”
-on page
-18
-X“1” on
-page 18
-X*3 X*2
-Mixed X X*1.8 X*2“1”
-on page
-18
-X X X*21 X“1” on
-page 18
-X*3 X*2
-DBCS X*0.5“1
-” on page
-18
-X+2 X X*0.5“1
-” on page
-18
-X X X*0.5 X*1.5 X
-Unicode
-SBCS X X X*2 X X X*2 X X X*2
-UTF-8 X X*1.25 X X X X X X X*2
-UTF-16 X*0.5 X+2 X X*0.5 X X X*0.5 X*1.5 X
-Note:
-1. Because of the high probability of data loss, IBM does not provide conversion tables for this combination of
-two CCSIDs and data subtypes.
-Examples
-Example
-In ASCII CCSID 819, the character Å is represented by the code point X'C5'. In UTF-8 CCSID 1208,
-this character is represented by X'C385'. Thus, the conversion of the character Å from CCSID 819 to
-CCSID 1208 is an expanding conversion.
-Example
-The following table shows a string with Kanji characters and Latin characters in different encoding
-schemes.
-Table 12. Example of a character string in different encoding schemes
-Data type and encoding
-scheme
-Character representation Hexadecimal representation (with
-spaces separating each character)
-9 bytes in ASCII genki 8CB3 67 65 6E 8B43 6B 69
-13 bytes in EBCDIC s0 sI gen s0 sI ki 0E 4695 0F 87 85 95 0E 45B9 0F 92
-89
-11 bytes in Unicode UTF-8 genki E58583 67 65 6E E6B097 6B 69
-18  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 31
+### Table 11. Worst case result length of CCSID conversion
+
+Where **X** represents **LENGTH(string in bytes)**.
+
+| From CCSID \ To CCSID | EBCDIC SBCS | EBCDIC Mixed | EBCDIC DBCS | ASCII SBCS | ASCII Mixed | ASCII DBCS | Unicode SBCS | Unicode UTF-8 | Unicode UTF-16 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **EBCDIC SBCS** | X | X | X * 2¹ | X | X | X * 2¹ | X¹ | X * 3 | X * 2 |
+| **EBCDIC Mixed** | X | X | X * 2¹ | X | X | X * 2¹ | X¹ | X * 3 | X * 2 |
+| **EBCDIC DBCS** | X * 0.5¹ | X + 2 | X | X * 0.5¹ | X | X | X * 0.5 | X * 1.5 | X |
+| **ASCII SBCS** | X | X | X * 2¹ | X | X | X * 2¹ | X¹ | X * 3 | X * 2 |
+| **ASCII Mixed** | X | X * 1.8 | X * 2¹ | X | X | X * 2¹ | X¹ | X * 3 | X * 2 |
+| **ASCII DBCS** | X * 0.5¹ | X + 2 | X | X * 0.5¹ | X | X | X * 0.5 | X * 1.5 | X |
+| **Unicode SBCS** | X | X | X * 2 | X | X | X * 2 | X | X | X * 2 |
+| **Unicode UTF-8** | X | X * 1.25 | X | X | X | X | X | X | X * 2 |
+| **Unicode UTF-16** | X * 0.5 | X + 2 | X | X * 0.5 | X | X | X * 0.5 | X * 1.5 | X |
+
+**Note:**
+1. Because of the high probability of data loss, IBM does not provide conversion tables for this combination of two CCSIDs and data subtypes.
+
+### Table 12. Example of a character string in different encoding schemes
+
+| Data type and encoding scheme | Character representation | Hexadecimal representation (with spaces separating each character) |
+| :--- | :--- | :--- |
+| **9 bytes in ASCII** | genki | 8CB3 67 65 6E 8B43 6B 69 |
+| **13 bytes in EBCDIC** | sO sI gen sO sI ki | 0E 4695 0F 87 85 95 0E 45B9 0F 92 89 |
+| **11 bytes in Unicode UTF-8** | genki | E5 85 83 67 65 6E E6 B0 97 6B 69 |
+
+
+
 
 If you convert this string from ASCII to EBCDIC, notice that shift-in and shift-out characters are
 added. This conversion is an example of an expanding conversion. The length increases from 9 bytes
@@ -949,7 +853,7 @@ conversions.
 • Contracting conversions can affect the length of the object names, such as table names and column
 names. You can avoid these problems by not using special characters in object names.
 To determine the worst-case result length of a CCSID conversion, use the table in “Expanding conversion”
-on page 17.
+.
 Examples
 Example
 In UTF-8 CCSID 1208, the character Å is represented by the code point X'C385'. In ASCII CCSID 819,
@@ -969,7 +873,7 @@ SUBSTRING scalar function (Db2 SQL)
 
 Chapter 1. International data and character conversion in Db2 for z/OS  19
 
-## Page 32
+
 
 Round-trip conversion
 A round-trip conversion ensures the integrity of all character data from the source CCSID to the target
@@ -1018,9 +922,9 @@ CCSID 37, this code point does not exist. During an enforced subset character co
 CCSID 37, this code point is converted to the substitution character X'3F'. When the code point
 is converted back to ASCII CCSID 1252, the character remains a substitution character and is
 represented by the code point X'1A'.
-20  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 33
+
+
 
 Example
 In ASCII CCSID 5348, the euro symbol (€ ) is represented by the code point X'80'. In EBCDIC CCSID
