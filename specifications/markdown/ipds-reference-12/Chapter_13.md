@@ -3,11 +3,13 @@ The Page-Segment command set allows frequently accessed user data, in the form o
 resource, to be downloaded and temporarily stored in the printer. Page segments are merged with the pages
 during printing.
 The following commands are used in the Page-Segment command set.
-Table 54. Page Segment Commands
-Command Code Description In PS1 Subset?
-BPS X'D65F' “Begin Page Segment” on page 632 Yes
-DPS X'D66F' “Deactivate Page Segment” on page 633 Yes
-IPS X'D67F' “Include Page Segment” on page 634 Yes
+**Table 54. Page Segment Commands**
+
+| Command | Code | Description | In PS1 Subset? |
+| :--- | :---: | :--- | :---: |
+| BPS | X'D65F' | Begin Page Segment | Yes |
+| DPS | X'D66F' | Deactivate Page Segment | Yes |
+| IPS | X'D67F' | Include Page Segment | Yes |
 Page-Segment Command-Set Commands
 This command set contains the commands the printer uses to download, deactivate, and present page
 segments. These commands are independent of any specific data types that define the page segment.
@@ -27,8 +29,7 @@ The Begin Page Segment (BPS) command causes the printer to leave home state and 
 state. The command sequence that follows defines data that the printer saves as a page segment resource
 and schedules for printing later. A page segment is included later in a page or overlay by means of an Include
 Page Segment (IPS) command.
-Exception ID X'8002..00' exists if a page segment definition sequence deviates from the sequence defined in
-Figure 45 on page 87. While a page segment is being defined, the level of exception detection is printer
+Exception ID X'8002..00' exists if a page segment definition sequence deviates from the sequence defined in Figure 45. While a page segment is being defined, the level of exception detection is printer
 defined. Refer to your printer documentation for details.
 The End Page (EP) command terminates the definition of a page segment. The page segment is contained
 between the BPS and the EP commands. Any intervening Execute Order Anystate commands are processed
@@ -42,10 +43,10 @@ Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The BPS command data field is as follows:
-Offset Type Name Range Meaning PS1 Range
-0–1 CODE HAID X'0001' –
-X'7EFF'
-Page Segment Host-Assigned ID X'0001' – X'007F'
+
+| Offset | Type | Name | Range | Meaning | PS1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0001'–X'7EFF' | Page Segment Host-Assigned ID | X'0001'–X'007F' |
 Bytes 0–1 Page Segment Host-Assigned ID
 These bytes specify a binary value that identifies the page segment. Exception ID X'0295..01'
 exists if a page segment with the same identifier is already activated.
@@ -76,15 +77,10 @@ Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The DPS command data field is as follows:
-Offset Type Name Range Meaning PS1 Range
-0–1 CODE HAID X'0000'
-X'0001' –
-X'7EFF'
-Deactivate All indicator
-Page Segment Host-Assigned ID
-X'0000'
-X'0001' –
-X'007F'
+
+| Offset | Type | Name | Range | Meaning | PS1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0000'<br>X'0001'–X'7EFF' | Deactivate All indicator<br>Page Segment Host-Assigned ID | X'0000'<br>X'0001'–X'007F' |
 Bytes 0–1 Page Segment Host-Assigned ID or deactivate all indicator
 These bytes specify either the page segment to be deactivated or the deactivation of all page
 segments. Nonzero values identify the page segment to be deactivated and correspond to the
@@ -100,9 +96,7 @@ X'028A..01' exists.
 
 Include Page Segment
 The Include Page Segment (IPS) command causes a previously stored page segment resource to be
-processed in the input data stream as though its commands had just been received from the host. When the
-printer includes a page segment, the current print position (i
-c, bc) is inherited by the page segment and can be
+processed in the input data stream as though its commands had just been received from the host. When the printer includes a page segment, the current print position ($I_{c}, B_{c}$) is inherited by the page segment and can be
 changed by text control sequences within the page segment.
 ```
 Length X'D67F' Flag CID Data
@@ -112,10 +106,10 @@ Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The IPS command data field is as follows:
-Offset Type Name Range Meaning PS1 Range
-0–1 CODE HAID X'0001' –
-X'7EFF'
-Page Segment Host-Assigned ID X'0001' – X'007F'
+
+| Offset | Type | Name | Range | Meaning | PS1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0001'–X'7EFF' | Page Segment Host-Assigned ID | X'0001'–X'007F' |
 Bytes 0–1 Page Segment Host-Assigned ID
 These bytes specify a binary value that identifies the page segment. This value corresponds
 to the page segment Host-Assigned ID of a Begin Page Segment command. Exception ID
