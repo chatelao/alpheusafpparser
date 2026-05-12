@@ -24,17 +24,17 @@ The parser now supports **"Blind Execution" logic** to dynamically switch the ac
 *   **Line Data**: `FDX_FixedDataText` and `CCP_RepeatingGroup` (comparison strings) rely on the configuration.
 *   **Base Classes**: `StructuredFieldBaseName` (for all Named SFs like BPG, BNG, etc.) uses the stateful configuration.
 
-### 1.3. Multi-Byte and UTF-16BE Verification
-While `UCT_UnicodeComplexText` and `CMR_ColorManagementResource` use `UTF-16BE`, coverage for these is minimal.
-*   **Gap**: No tests verify that mixed-encoding streams (e.g., EBCDIC PTX followed by UTF-16BE UCT) are extracted correctly into XML.
+### 1.3. Multi-Byte and UTF-16BE Verification (Resolved)
+While `UCT_UnicodeComplexText` and `CMR_ColorManagementResource` use `UTF-16BE`, coverage for these has been improved.
+*   **Verification**: `CrossEncodingTest.java` verifies that mixed-encoding streams (e.g., EBCDIC PTX followed by UTF-16BE UCT) are extracted correctly into XML.
 
 ### 1.4. Text Extraction Heuristics (Resolved)
 The library uses `MDRPTXXMLTest.java` to verify that `MDR` structured fields influence text extraction, and `StatefulEncodingTest.java` to verify that `SCFL` (Set Coded Font Local) commands within the `PTX` stream dynamically switch encodings.
 
-### 1.5. Recommendations for Encoding Testing
-1.  **Cross-Encoding Test Suite**: Create a test suite that processes the same logical text (e.g., "München") encoded in multiple Code Pages (IBM-500, IBM-273, IBM-1141) and verifies the XML `<text>` output is identical and correctly decoded.
+### 1.5. Recommendations for Encoding Testing (Resolved)
+1.  **Cross-Encoding Test Suite (Resolved)**: Implemented in `CrossEncodingTest.java`. Processes logical text ("München") encoded in multiple Code Pages (IBM-500, IBM-273, IBM-1141) and verifies the XML output is correctly decoded.
 2.  **LID-to-Charset Round-Trip (Resolved)**: Implemented in `StatefulEncodingTest.java`.
-3.  **Heuristic Validation (Resolved)**: `UtilCharacterEncoding.isHumanReadable` has been updated to correctly account for EBCDIC control characters like Next Line (NEL).
+3.  **Heuristic Validation (Resolved)**: Implemented in `HeuristicValidationTest.java`. Verifies that `UtilCharacterEncoding.isHumanReadable` correctly accounts for EBCDIC control characters like Next Line (NEL).
 
 ---
 
