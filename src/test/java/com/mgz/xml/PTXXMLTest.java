@@ -3,11 +3,13 @@ package com.mgz.xml;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PTXXMLTest {
 
@@ -25,6 +27,8 @@ public class PTXXMLTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         AFP2XMLWriter.writeXML(baos, ptx, config);
 
-        System.out.println(baos.toString());
+        String xml = baos.toString();
+        System.out.println(xml);
+        assertTrue(xml.contains("<text>Hello PTX</text>"), "XML should contain <text> node");
     }
 }

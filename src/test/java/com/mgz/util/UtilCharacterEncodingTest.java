@@ -18,20 +18,20 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
 import java.util.SortedMap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class UtilCharacterEncodingTest {
 
   @Test
   public void testGetCharsetFromCodePageName() {
-    assertNotNull("T1001141 should return a charset", UtilCharacterEncoding.getCharsetFromCodePageName("T1001141"));
+    assertNotNull(UtilCharacterEncoding.getCharsetFromCodePageName("T1001141"), "T1001141 should return a charset");
     assertEquals(Charset.forName("IBM01141"), UtilCharacterEncoding.getCharsetFromCodePageName("T1001141"));
     assertEquals(Charset.forName("IBM500"), UtilCharacterEncoding.getCharsetFromCodePageName("T1V10500"));
     assertEquals(Charset.forName("IBM037"), UtilCharacterEncoding.getCharsetFromCodePageName("T1000037"));
@@ -59,13 +59,13 @@ public class UtilCharacterEncodingTest {
             byte[] result = UtilCharacterEncoding.stringToByteArray(str, chs, len, filler);
 
             for (int i = 0; i < expected.length && i < result.length; i++) {
-              assertEquals("Resulting bytes are not as expected.", expected[i], result[i]);
+              assertEquals(expected[i], result[i], "Resulting bytes are not as expected.");
             }
 
-            assertEquals("Length of resulting byte[] is not as expected.", len, result.length);
+            assertEquals(len, result.length, "Length of resulting byte[] is not as expected.");
             if (len > expected.length) {
               for (int i = expected.length; i < result.length; i++) {
-                assertEquals("Filler byte is not as expected.", result[i], filler);
+                assertEquals(filler, result[i], "Filler byte is not as expected.");
               }
             }
           }
