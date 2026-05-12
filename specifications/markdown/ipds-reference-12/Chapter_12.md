@@ -5,18 +5,20 @@ space. Overlay logical pages are either merged with a page's logical page on the
 (page overlay), or merged directly onto the medium presentation space (medium overlay). In addition, some
 IPDS printers support preprinted form overlays that are used to simulate a preprinted form; support for
 preprinted form overlays is indicated by the X'1600' property pair in the Overlay command-set vector of an
-STM reply. Refer to “Using an Overlay as a Preprinted Form” on page 26 for a description of preprinted form
+STM reply. Refer to “Using an Overlay as a Preprinted Form” for a description of preprinted form
 overlays.
 Color Management Resources (CMRs) can be associated directly with an overlay by specifying Invoke CMR
 (X'92') triplets in the LPD command that is saved as part of the overlay environment. To ensure that the
 presentation data within an overlay is managed in the same manner each time the overlay is printed, all
 appropriate CMRs should be specified in the overlay's LPD command.
 The following commands are used in the Overlay command set.
-Table 53. Overlay Commands
-Command Code Description In OL1 Subset?
-BO X'D6DF' “Begin Overlay” on page 623 Yes
-DO X'D6EF' “Deactivate Overlay” on page 625 Yes
-IO X'D67D' “Include Overlay” on page 627 Yes
+**Table 53. Overlay Commands**
+
+| Command | Code | Description | In OL1 Subset? |
+| :--- | :---: | :--- | :---: |
+| BO | X'D6DF' | “Begin Overlay” | Yes |
+| DO | X'D6EF' | “Deactivate Overlay” | Yes |
+| IO | X'D67D' | “Include Overlay” | Yes |
 Overlay Command-Set Commands
 This command set contains the commands the printer uses to download, deactivate, and present overlays.
 These commands are independent of any specific data types used within the overlay.
@@ -57,7 +59,7 @@ Logical Page Descriptor, Load Font Equivalence, and Load Equivalence settings, i
 of the overlay definition, so that the overlay is printed in the same way each time it is used. A stored overlay is
 later merged with a page by means of either an Include Overlay command or a Load Copy Control command.
 Exception ID X'8002..00' exists if an overlay definition sequence deviates from the sequence defined in Figure
-45 on page 87. While an overlay is being defined, the level of exception detection is printer defined. Refer to
+45. While an overlay is being defined, the level of exception detection is printer defined. Refer to
 your printer documentation for details.
 To associate metadata with an overlay resource, one or more metadata objects can immediately follow the BO
 command, before any other commands. Each Write Metadata Control (WMC) command causes the printer to
@@ -86,21 +88,22 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 All IPDS printers that support overlays allow up to 254 overlays to be activated at one time (basic support).
 Some IPDS printers support even more overlays, up to 32,511 at a time (extended support). The data for the
 Begin Overlay command is specified differently for the two types of support, as follows:
-Basic support: Supported by all printers that support overlays.
-Offset Type Name Range Meaning OL1 Range
-0 CODE Overlay ID X'01'–X'FE' Overlay ID X'01'–X'FE'
-Byte 0 Overlay ID
-Exception ID X'0290..01' exists if an invalid overlay ID (X'00' or X'FF') is specified. Exception
-ID X'0291..01' exists if this field contains an overlay ID for an overlay that is already activated
-in the printer.
-Extended support: Optional support identified by the X'1102' property pair in the Overlay command-set vector
-of an STM reply.
-Offset Type Name Range Meaning Required
-0–1 CODE Overlay HAID X'0001' –
-X'7EFF'
-Overlay HAID X'0001' –
-X'7EFF'
-Bytes 0–1 Overlay HAID
+**Basic support**: Supported by all printers that support overlays.
+
+| Offset | Type | Name | Range | Meaning | OL1 Range |
+| :--- | :---: | :--- | :---: | :--- | :---: |
+| 0 | CODE | Overlay ID | X'01'–X'FE' | Overlay ID | X'01'–X'FE' |
+
+**Byte 0 Overlay ID**
+Exception ID X'0290..01' exists if an invalid overlay ID (X'00' or X'FF') is specified. Exception ID X'0291..01' exists if this field contains an overlay ID for an overlay that is already activated in the printer.
+
+**Extended support**: Optional support identified by the X'1102' property pair in the Overlay command-set vector of an STM reply.
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :---: | :--- | :---: | :--- | :---: |
+| 0–1 | CODE | Overlay HAID | X'0001'–X'7EFF' | Overlay HAID | X'0001'–X'7EFF' |
+
+**Bytes 0–1 Overlay HAID**
 All values in the range X'0001' – X'7EFF' are supported by the printer. Exception ID
 X'0290..01' exists if an invalid overlay HAID is specified. Exception ID X'0291..01' exists if this
 field contains an overlay HAID for an overlay that is already activated in the printer.
@@ -133,30 +136,22 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 All IPDS printers that support overlays allow up to 254 overlays to be activated at one time (basic support).
 Some IPDS printers support even more overlays, up to 32,511 at a time (extended support). The data for the
 Deactivate Overlay command is specified differently for the two types of support, as follows:
-Basic support: Supported by all printers that support overlays.
-Offset Type Name Range Meaning OL1 Range
-0 CODE Overlay ID X'00'
-X'01'–X'FE'
-Deactivate All indicator
-Overlay ID
-X'00'
-X'01'–X'FE'
-Byte 0 Overlay ID or deactivate all indicator
-This field either specifies a specific overlay to be deactivated or specifies the deactivation of all
-overlays. Exception ID X'0285..01' exists if an invalid overlay ID (X'FF') is specified. Exception
-ID X'0292..01' exists if the overlay specified is not currently activated.
-Extended support: Optional support identified by the X'1102' property pair in the Overlay command-set
-vector of an STM reply.
-Offset Type Name Range Meaning Required
-0-1 CODE Overlay HAID X'0000'
-X'0001' –
-X'7EFF'
-Deactivate all indicator
-Overlay HAID
-X'0000'
-X'0001' –
-X'7EFF'
-Bytes 0–1 Overlay HAID or deactivate all indicator
+**Basic support**: Supported by all printers that support overlays.
+
+| Offset | Type | Name | Range | Meaning | OL1 Range |
+| :--- | :---: | :--- | :---: | :--- | :---: |
+| 0 | CODE | Overlay ID | X'00'<br>X'01'–X'FE' | Deactivate All indicator<br>Overlay ID | X'00'<br>X'01'–X'FE' |
+
+**Byte 0 Overlay ID or deactivate all indicator**
+This field either specifies a specific overlay to be deactivated or specifies the deactivation of all overlays. Exception ID X'0285..01' exists if an invalid overlay ID (X'FF') is specified. Exception ID X'0292..01' exists if the overlay specified is not currently activated.
+
+**Extended support**: Optional support identified by the X'1102' property pair in the Overlay command-set vector of an STM reply.
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :---: | :--- | :---: | :--- | :---: |
+| 0-1 | CODE | Overlay HAID | X'0000'<br>X'0001'–X'7EFF' | Deactivate all indicator<br>Overlay HAID | X'0000'<br>X'0001'–X'7EFF' |
+
+**Bytes 0–1 Overlay HAID or deactivate all indicator**
 This field either specifies a specific overlay to be deactivated or specifies the deactivation of all
 overlays. The value X'0000' and all values in the range X'0001' – X'7EFF' are supported by the
 ## Deactivate Overlay (DO)
@@ -232,56 +227,16 @@ Without CID X'0011'
 With CID X'0013'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The format of the IO command data is as follows:
-Offset Type Name Range Meaning OL1 Range
-0–1 CODE HAID X'0001' –
-X'7EFF'
-Overlay Host-Assigned ID X'0001' –
-X'00FE'
-2 CODE Type
-X'00'
-X'01'
-Overlay type:
-Nonsecure overlay
-Secure overlay
-X'00'
-3–5 SBIN Xp offset X'FF8000' –
-X'007FFF'
-X'FFFFFF'
-Xp offset from the logical-page origin
-Use the current position
-X'FF8000' –
-X'007FFF'
-Refer to the
-note following
-the table.
-6 CODE Overlay use
-X'00'
-X'01'
-Intended use for this overlay:
-Page overlay
-Preprinted form overlay
-X'00'
-7–9 SBIN Yp offset X'FF8000' –
-X'007FFF'
-X'FFFFFF'
-Yp offset from the logical-page origin
-Use the current position
-X'FF8000' –
-X'007FFF'
-Refer to the
-note following
-the table.
-Optional page-overlay rotation; only allowed if X'A004' property pair returned in STM reply
-10–11 CODE Orientation
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-Page-overlay orientation:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
+
+| Offset | Type | Name | Range | Meaning | OL1 Range |
+| :--- | :---: | :--- | :---: | :--- | :---: |
+| 0–1 | CODE | HAID | X'0001'–X'7EFF' | Overlay Host-Assigned ID | X'0001'–X'00FE' |
+| 2 | CODE | Type | X'00'<br>X'01' | Overlay type:<br>Nonsecure overlay<br>Secure overlay | X'00' |
+| 3–5 | SBIN | $X_p$ offset | X'FF8000'–X'007FFF'<br>X'FFFFFF' | $X_p$ offset from the logical-page origin<br>Use the current position | X'FF8000'–X'007FFF'<br>Refer to the note following the table. |
+| 6 | CODE | Overlay use | X'00'<br>X'01' | Intended use for this overlay:<br>Page overlay<br>Preprinted form overlay | X'00' |
+| 7–9 | SBIN | $Y_p$ offset | X'FF8000'–X'007FFF'<br>X'FFFFFF' | $Y_p$ offset from the logical-page origin<br>Use the current position | X'FF8000'–X'007FFF'<br>Refer to the note following the table. |
+| **Optional page-overlay rotation; only allowed if X'A004' property pair returned in STM reply** | | | | | |
+| 10–11 | CODE | Orientation | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Page-overlay orientation:<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | Not supported in OL1 subset |
 Not supported in
 OL1
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of

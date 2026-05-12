@@ -30,14 +30,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - 🚧 **IPDS (Critical)**:
     - ⏳ Purge physical page markers and recurring PDF headers/footers:
         - ✅ Chapters 1–9.
-        - ⏳ Chapter 10.
-        - ⏳ Chapters 11–17.
+        - ✅ Chapter 10.
+        - 🚧 Chapters 11–17 (Chapters 12–13 purged).
         - ⏳ Appendices A–D.
     - ⏳ Fix OCR-induced broken paragraphs and split words:
         - ⏳ Chapters 1–4.
         - ✅ Chapters 5–9.
-        - ⏳ Chapter 10.
-        - ⏳ Chapters 11–17 and Appendices.
+        - ✅ Chapter 10.
+        - 🚧 Chapters 11–17 and Appendices.
     - ⏳ Remove physical page references ("on page XXX"; ~500 found).
     - ⏳ Convert command and syntax text dumps to Markdown tables:
         - ⏳ Device-Control Command Set (Chapter 4):
@@ -69,8 +69,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
             - 🚧 XOH Obtain Printer Characteristics (OPC):
                 - ✅ Table 33 (SDF Summary).
-                - ⏳ SDFs X'0001' (Printable Area).
-                - ⏳ SDFs X'0002'–X'0004', X'0008', X'0026' (Fonts, Resolution, Storage).
+                - ✅ SDFs X'0001' (Printable Area).
+                - ✅ SDFs X'0002'–X'0004', X'0008', X'0026' (Fonts, Resolution, Storage).
                 - ⏳ SDFs X'0006'–X'0007', X'0013', X'0029' (Features, Product Info, Speed).
                 - ⏳ SDFs X'0009'–X'000D', X'0012', X'0017', X'0022', X'002A' (Setup, Quality, Medium Mod).
                 - ⏳ SDFs X'000E'–X'000F' (Bar Codes: Tables 34–35).
@@ -97,16 +97,16 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ DHM (Delete Home-State Metadata) syntax and parameter table.
             - ✅ WMC (Write Metadata Control) syntax and MDD (Metadata Data Descriptor) table.
             - ✅ WM (Write Metadata) syntax and MO note.
-        - ⏳ Overlay Command Set (Chapter 12):
-            - ⏳ Table 53 (Overlay Commands Summary).
-            - ⏳ BO (Begin Overlay) syntax and basic/extended HAID tables.
-            - ⏳ DO (Deactivate Overlay) syntax and basic/extended HAID tables.
-            - ⏳ IO (Include Overlay) syntax, data field table, and orientation notes.
-        - ⏳ Page-Segment Command Set (Chapter 13):
-            - ⏳ Table 54 (Page Segment Commands Summary).
-            - ⏳ BPS (Begin Page Segment) syntax and HAID table.
-            - ⏳ DPS (Deactivate Page Segment) syntax and HAID table.
-            - ⏳ IPS (Include Page Segment) syntax and HAID table.
+        - ✅ Overlay Command Set (Chapter 12):
+            - ✅ Table 53 (Overlay Commands Summary).
+            - ✅ BO (Begin Overlay) syntax and basic/extended HAID tables.
+            - ✅ DO (Deactivate Overlay) syntax and basic/extended HAID tables.
+            - ✅ IO (Include Overlay) syntax, data field table, and orientation notes.
+        - ✅ Page-Segment Command Set (Chapter 13):
+            - ✅ Table 54 (Page Segment Commands Summary).
+            - ✅ BPS (Begin Page Segment) syntax and HAID table.
+            - ✅ DPS (Deactivate Page Segment) syntax and HAID table.
+            - ✅ IPS (Include Page Segment) syntax and HAID table.
         - 🚧 Loaded-Font Command Set (Chapter 14):
             - ✅ Tables 55 (Summary) and 56 (Baseline Offset).
             - ✅ Commands: LCP and LCPC.
