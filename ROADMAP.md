@@ -178,8 +178,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 7: Function Set 10 (Table 7 and Acceptable Values).
         - ✅ Chapter 7: Function Set 11 (Table 8 and Acceptable Values).
         - ✅ Chapter 7: Function Set 14 (Tables 9–10 and Acceptable Values).
-        - ⏳ Chapter 7: Function Set 40 (Tables 11–12 and Acceptable Values).
-        - ⏳ Chapter 7: Function Set 42 (Tables 13–14 and Acceptable Values).
+        - ✅ Chapter 7: Function Set 40 (Tables 11–12 and Acceptable Values).
+        - ✅ Chapter 7: Function Set 42 (Tables 13–14 and Acceptable Values).
         - ⏳ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).
         - ⏳ Chapter 7: Function Set 48 (Tables 21–26 and Acceptable Values).
 - 🚧 **AFP GOCA**:

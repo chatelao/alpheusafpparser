@@ -426,134 +426,278 @@ The self-defining fields and values acceptable for FS14 are shown in the followi
 **General note:** In this function set, the Image Subsampling parameter and the Band Image parameter cannot coexist within the same Image Content; otherwise exception condition EC-9801 or EC-CE01 is raised.
 
 
-IOCA Function Set 40 (IOCA FS40)
+### IOCA Function Set 40 (IOCA FS40)
+
 Function Set 40 is a subset of Function Set 42, Function Set 45, and Function Set 48. It describes tiled images with one bit per spot (color space YCbCr or YCrCb, IDESZ=1). This function set is carried by the MO:DCA and IPDS controlling environments. The permissible parameter groupings in FS40 are defined as follows:
-Table 11. Function Set 40 Structure X'70' Begin Segment parameter X'91' Begin Image Content parameter X'FEBB' Tile TOC parameter [ X'95' Image Encoding parameter ] [ X'96' IDE Size parameter ] [ X'9B' IDE Structure parameter ] [ Tiles (S) ]
-X'93' End Image Content parameter X'71' End Segment parameter Table 12. Tile Structure X'8C' Begin Tile parameter X'B5' Tile Position parameter X'B6' Tile Size parameter [ X'95' Image Encoding parameter ] [ X'96' IDE Size parameter ]
-[ X'9B' IDE Structure parameter ] [ X'FE92' Image Data (S) ] X'8D' End Tile parameter Notes:
+
+#### Table 11. Function Set 40 Structure
+
+| Code | Name |
+| :--- | :--- |
+| X'70' | Begin Segment parameter |
+| X'91' | Begin Image Content parameter |
+| X'FEBB' | Tile TOC parameter |
+| [ X'95' ] | [ Image Encoding parameter ] |
+| [ X'96' ] | [ IDE Size parameter ] |
+| [ X'9B' ] | [ IDE Structure parameter ] |
+| | [ Tiles (S) ] |
+| X'93' | End Image Content parameter |
+| X'71' | End Segment parameter |
+
+#### Table 12. Tile Structure
+
+| Code | Name |
+| :--- | :--- |
+| X'8C' | Begin Tile parameter |
+| X'B5' | Tile Position parameter |
+| X'B6' | Tile Size parameter |
+| [ X'95' ] | [ Image Encoding parameter ] |
+| [ X'96' ] | [ IDE Size parameter ] |
+| [ X'9B' ] | [ IDE Structure parameter ] |
+| X'FE92' | [ Image Data (S) ] |
+| X'8D' | End Tile parameter |
+
+**Notes:**
 1. Note that the parameters in the above diagram must come in the specified order. Even though the general IOCA architecture allows different ordering for some of the parameters, the FS40 specification is more restrictive. If the parameters are given in a different order, an out-of-sequence exception is raised.
 2. In the context of FS40, the Image Size parameter, Image Subsampling parameter, and External Algorithm Specification parameter cause the EC-0001 exception (Invalid parameter) to occur. If the first parameter after the Begin Image Content parameter is not the Tile TOC parameter, the image is not a tiled image and any of the tile-specific parameters (Tile TOC parameter, Begin Tile parameter, etc.) cause EC-0001 to occur.
 3. The Image Encoding parameter, IDE Size parameter, Band Image parameter, and IDE Structure parameter are shown as optional and can possibly be specified in two places. The specification within a tile takes precedence over a specification outside of the tile.
 4. If the IDE Size parameter is not present, the default IDE size is one bit per pel (bilevel image).
 5. If the Image Encoding parameter is not present, the default compression algorithm is X'03' (No Compression), the recording algorithm defaults to X'01' (RIDIC), and the bit order defaults to zero.
-Function Set 40
-
 
 The self-defining fields and values acceptable for FS40 are shown in the following table.
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Initial parameters in Function Set 40:
-Begin Segment ID (1) X'70' LENGTH (1) X'00' Begin Image Content ID (1) X'91' LENGTH (1) X'01' OBJTYPE (1) X'FF' IOCA Tile TOC ID (2) X'FEBB' LENGTH (2) X'0002' – X'7FFF' RESERVED (2) X'0000' Reserved; should be set to zero
-Either zero repeating groups, or one per tile in the following format:
-XOFFSET (4) X'00000000' – X'7FFFFFFF' Horizontal tile origin YOFFSET (4) X'00000000' – X'7FFFFFFF' Vertical tile origin THSIZE (4) X'00000000' – X'7FFFFFFF'
-Horizontal tile size TVSIZE (4) X'00000000' – X'7FFFFFFF' Vertical tile size RELRES (1) X'01' Relative resolution COMPR (1) Compression algorithm DATAPOS (8) File offset to the beginning of the tile Image Encoding ID (1) X'95'
-LENGTH (1) X'02' – X'03' COMPRID (1) X'01', X'03', X'08', X'82' X'01' IBM MMR-Modified Modified Read (see General Note)
-X'03' No Compression X'08' ABIC (Bilevel Q-Coder) (see General Note)
-X'82' G4 MMR-Modified Modified READ (see General Note)
-RECID (1) X'01', X'04' X'01' RIDIC X'04' Unpadded RIDIC BITORDR (1) X'00' – X'01' X'00' Bit order within each image data byte is from left to right X'01' Bit order within each image data byte is from right to left IDE Size ID (1) X'96' LENGTH (1) X'01'
-IDESZ (1) X'01' 1 bit/IDE Function Set 40
+
+| IOCA Self-defining Field | Parameter (Bytes) | Acceptable Value | Comments |
+| :--- | :--- | :--- | :--- |
+| **Initial parameters in Function Set 40:** | | | |
+| Begin Segment | ID (1) | X'70' | |
+| | LENGTH (1) | X'00' | |
+| Begin Image Content | ID (1) | X'91' | |
+| | LENGTH (1) | X'01' | |
+| | OBJTYPE (1) | X'FF' | IOCA |
+| Tile TOC | ID (2) | X'FEBB' | |
+| | LENGTH (2) | X'0002' – X'7FFF' | |
+| | RESERVED (2) | X'0000' | Reserved; should be set to zero |
+| | | | Either zero repeating groups, or one per tile in the following format: |
+| | XOFFSET (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile origin |
+| | YOFFSET (4) | X'00000000' – X'7FFFFFFF' | Vertical tile origin |
+| | THSIZE (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile size |
+| | TVSIZE (4) | X'00000000' – X'7FFFFFFF' | Vertical tile size |
+| | RELRES (1) | X'01' | Relative resolution |
+| | COMPR (1) | | Compression algorithm |
+| | DATAPOS (8) | | File offset to the beginning of the tile |
+| Image Encoding | ID (1) | X'95' | |
+| | LENGTH (1) | X'02' – X'03' | |
+| | COMPRID (1) | X'01', X'03', X'08', X'82' | X'01' IBM MMR-Modified Modified Read (see General Note)<br>X'03' No Compression<br>X'08' ABIC (Bilevel Q-Coder) (see General Note)<br>X'82' G4 MMR-Modified Modified READ (see General Note) |
+| | RECID (1) | X'01', X'04' | X'01' RIDIC<br>X'04' Unpadded RIDIC |
+| | BITORDR (1) | X'00' – X'01' | X'00' Bit order within each image data byte is from left to right<br>X'01' Bit order within each image data byte is from right to left |
+| IDE Size | ID (1) | X'96' | |
+| | LENGTH (1) | X'01' | |
+| | IDESZ (1) | X'01' | 1 bit/IDE |
+| **Initial parameters in a tile:** | | | |
+| Begin Tile | ID (1) | X'8C' | |
+| | LENGTH (1) | X'00' | |
+| Tile Position | ID (1) | X'B5' | |
+| | LENGTH (1) | X'08' | |
+| | XOFFSET (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile origin |
+| | YOFFSET (4) | X'00000000' – X'7FFFFFFF' | Vertical tile origin |
+| Tile Size | ID (1) | X'B6' | |
+| | LENGTH (1) | X'08' – X'09' | |
+| | THSIZE (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile size |
+| | TVSIZE (4) | X'00000000' – X'7FFFFFFF' | Vertical tile size |
+| | RELRES (1) | X'01' | Relative resolution |
+| **Tile parameters:** | | | |
+| Image Encoding | ID (1) | X'95' | |
+| | LENGTH (1) | X'02' – X'03' | |
+| | COMPRID (1) | X'01', X'03', X'08', X'82' | X'01' IBM MMR-Modified Modified Read (see General Note)<br>X'03' No Compression<br>X'08' ABIC (Bilevel Q-Coder)<br>X'82' G4 MMR-Modified Modified READ (see General Note) |
+| | RECID (1) | X'01', X'04' | X'01' RIDIC<br>X'04' Unpadded RIDIC |
+| | BITORDR (1) | X'00' – X'01' | X'00' Bit order within each image data byte is from left to right<br>X'01' Bit order within each image data byte is from right to left |
+| IDE Size | ID (1) | X'96' | |
+| | LENGTH (1) | X'01' | |
+| | IDESZ (1) | X'01' | 1 bit/IDE |
+| IDE Structure | ID (1) | X'9B' | |
+| | LENGTH (1) | X'06' – X'08' | |
+| | FLAGS (1) | | ASFLAG B'0' Additive<br>GRAYCODE B'0' No gray coding<br>RESERVED B'000000' Should be zero |
+| | FORMAT (1) | X'02', X'12' | X'02' YCrCb<br>X'12' YCbCr |
+| | RESERVED (3) | X'000000' | Should be zero |
+| | SIZE1 (1) | X'01' | 1 bit/IDE |
+| | SIZE2 (1) | X'00' | 0 bits/IDE |
+| | SIZE3 (1) | X'00' | 0 bits/IDE |
+| Image Data | ID (2) | X'FE92' | |
+| | LENGTH (2) | X'0001' – X'FFFF' | |
+| | DATA | Any | IDEs |
+| End Tile | ID (1) | X'8D' | |
+| | LENGTH (1) | X'00' | |
+| **Final parameters in Function Set 40:** | | | |
+| End Image Content | ID (1) | X'93' | |
+| | LENGTH (1) | X'00' | |
+| End Segment | ID (1) | X'71' | |
+| | LENGTH (1) | X'00' | |
+
+**General note:** ABIC (Bilevel Q-Coder), IBM MMR-Modified Modified Read, and G4 MMR-Modified Modified READ are applicable only to images whose IDE size is 1 bit per band, otherwise exception condition EC-9611 is raised.
 
 
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Initial parameters in a tile:
-Begin Tile ID (1) X'8C' LENGTH (1) X'00' Tile Position ID (1) X'B5' LENGTH (1) X'08' XOFFSET (4) X'00000000' – X'7FFFFFFF' Horizontal tile origin YOFFSET (4) X'00000000' –
-X'7FFFFFFF' Vertical tile origin Tile Size ID (1) X'B6' LENGTH (1) X'08' – X'09' THSIZE (4) X'00000000' – X'7FFFFFFF' Horizontal tile size TVSIZE (4) X'00000000' –
-X'7FFFFFFF' Vertical tile size RELRES (1) X'01' Relative resolution Tile parameters:
-Image Encoding ID (1) X'95' LENGTH (1) X'02' – X'03' COMPRID (1) X'01', X'03', X'08', X'82' X'01' IBM MMR-Modified Modified Read (see General Note)
-X'03' No Compression X'08' ABIC (Bilevel Q-Coder)
-X'82' G4 MMR-Modified Modified READ (see General Note)
-RECID (1) X'01', X'04' X'01' RIDIC X'04' Unpadded RIDIC BITORDR (1) X'00' – X'01' X'00' Bit order within each image data byte is from left to right X'01' Bit order within each image data byte is from right to left IDE Size ID (1) X'96' LENGTH (1) X'01'
-IDESZ (1) X'01' 1 bit/IDE Function Set 40
+### IOCA Function Set 42 (IOCA FS42)
 
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments IDE Structure ID (1) X'9B' LENGTH (1) X'06' – X'08' FLAGS (1)
-ASFLAG B'0' Additive GRAYCODE B'0' No gray coding RESERVED B'000000' Should be zero FORMAT (1) X'02', X'12' X'02' YCrCb X'12' YCbCr RESERVED (3) X'000000' Should be zero SIZE1 (1) X'01' 1 bit/IDE SIZE2 (1) X'00' 0 bits/IDE
-SIZE3 (1) X'00' 0 bits/IDE Image Data ID (2) X'FE92' LENGTH (2) X'0001' – X'FFFF' DATA Any IDEs End Tile ID (1) X'8D' LENGTH (1) X'00' Final parameters in Function Set 40:
-End Image Content ID (1) X'93' LENGTH (1) X'00' End Segment ID (1) X'71' LENGTH (1) X'00' General note: ABIC (Bilevel Q-Coder), IBM MMR-Modified Modified Read, and G4 MMR-Modified Modified READ are applicable only to images whose IDE size is 1 bit per band, otherwise exception condition EC-9611 is raised.
-Function Set 40
-
-
-IOCA Function Set 42 (IOCA FS42)
 Function Set 42 is a superset of Function Set 40 and a subset of Function Set 45 and Function Set 48. It describes tiled images with one bit per spot. Images can be either bilevel (color space YCbCr or YCrCb, IDESZ=1) or color (color space CMYK, IDESZ=4). This function set is carried by the MO:DCA and IPDS controlling environments. The permissible parameter groupings in FS42 are defined as follows:
-Table 13. Function Set 42 Structure X'70' Begin Segment parameter X'91' Begin Image Content parameter X'FEBB' Tile TOC parameter [ X'95' Image Encoding parameter ] [ X'96' IDE Size parameter ] [ X'98' Band Image parameter ] [ X'9B' IDE Structure parameter ]
-[ Tiles (S) ] X'93' End Image Content parameter X'71' End Segment parameter Table 14. Tile Structure X'8C' Begin Tile parameter X'B5' Tile Position parameter X'B6' Tile Size parameter [ X'95' Image Encoding parameter ]
-[ X'96' IDE Size parameter ] [ X'98' Band Image parameter ] [ X'9B' IDE Structure parameter ] [ X'B7' Tile Set Color parameter ] [ Image Data or Band Image Data (S) ] X'8D' End Tile parameter Notes:
-1. Note that the parameters in T able 13and T able 14must come in the specified order. Even though the general IOCA architecture allows different ordering for some of the parameters, the FS42 specification is more restrictive. If the parameters are given in a different order, an out-of-sequence exception is raised.
+
+#### Table 13. Function Set 42 Structure
+
+| Code | Name |
+| :--- | :--- |
+| X'70' | Begin Segment parameter |
+| X'91' | Begin Image Content parameter |
+| X'FEBB' | Tile TOC parameter |
+| [ X'95' ] | [ Image Encoding parameter ] |
+| [ X'96' ] | [ IDE Size parameter ] |
+| [ X'98' ] | [ Band Image parameter ] |
+| [ X'9B' ] | [ IDE Structure parameter ] |
+| | [ Tiles (S) ] |
+| X'93' | End Image Content parameter |
+| X'71' | End Segment parameter |
+
+#### Table 14. Tile Structure
+
+| Code | Name |
+| :--- | :--- |
+| X'8C' | Begin Tile parameter |
+| X'B5' | Tile Position parameter |
+| X'B6' | Tile Size parameter |
+| [ X'95' ] | [ Image Encoding parameter ] |
+| [ X'96' ] | [ IDE Size parameter ] |
+| [ X'98' ] | [ Band Image parameter ] |
+| [ X'9B' ] | [ IDE Structure parameter ] |
+| [ X'B7' ] | [ Tile Set Color parameter ] |
+| | [ Image Data or Band Image Data (S) ] |
+| X'8D' | End Tile parameter |
+
+**Notes:**
+1. Note that the parameters in Table 13 and Table 14 must come in the specified order. Even though the general IOCA architecture allows different ordering for some of the parameters, the FS42 specification is more restrictive. If the parameters are given in a different order, an out-of-sequence exception is raised.
 2. In the context of FS42, the Image Size parameter, Image Subsampling parameter, and External Algorithm Specification parameter cause the EC-0001 exception (Invalid parameter) to occur. If the first parameter after the Begin Image Content parameter is not the Tile TOC parameter, the image is not a tiled image and any of the tile-specific parameters (Tile TOC parameter, Begin Tile parameter, etc.) cause EC-0001 to occur.
 3. If the IDE Size is not set to 1 bit or the color space is not YCbCr or YCrCb for a tile, and the Tile Set Color parameter is specified, exception EC-B711 occurs.
 4. If the Solid Fill Rectangle compression algorithm is specified for a tile and Image Data or Band Image Data is encountered, exception EC-0001 occurs.
 5. The Image Encoding parameter, IDE Size parameter, Band Image parameter, and IDE Structure parameter are shown as optional and can possibly be specified in two places. The specification within a tile takes precedence over a specification outside of the tile.
 6. If the IDE Size parameter is not present, the default IDE size is one bit per pel (bilevel image).
-Function Set 42
-
-
 7. If the Image Encoding parameter is not present, the default compression algorithm is X'03' (No Compression), the recording algorithm defaults to X'01' (RIDIC), and the bit order defaults to zero.
 8. If a tile contains the IDE Structure parameter specifying the CMYK color space, then the IDE Size parameter, Band Image parameter, and Band Image Data must also be present.
 9. If the IDE Structure parameter specifying the CMYK color space is given outside of the tiles, then the IDE Size parameter and the Band Image parameter must be given either outside of the tiles or within every tile that does not contain another IDE Structure parameter specifying that the tile is bilevel.
 10. CMYK tiles must carry the image data in Band Image Data. Bilevel tiles must carry the data in Image Data, unless the Solid Fill Rectangle compression algorithm is specified.
 11. If a tile has Solid Fill Rectangle specified as the compression algorithm, the tile is painted using the color specified in the Tile Set Color parameter for that tile. If the Tile Set Color parameter has not been specified, the color given using the Set Bilevel Image Color field in the Image Data Descriptor is used. If the Set Bilevel Image Color field is missing, the device default is used.
+
 The self-defining fields and values acceptable for FS42 are shown in the following table.
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Initial parameters in Function Set 42:
-Begin Segment ID (1) X'70' LENGTH (1) X'00' Begin Image Content ID (1) X'91' LENGTH (1) X'01' OBJTYPE (1) X'FF' IOCA Tile TOC ID (2) X'FEBB' LENGTH (2) X'0002' – X'7FFF' RESERVED (2) X'0000' Reserved; should be set to zero
-Either zero repeating groups, or one per tile in the following format:
-XOFFSET (4) X'00000000' – X'7FFFFFFF' Horizontal tile origin YOFFSET (4) X'00000000' – X'7FFFFFFF' Vertical tile origin THSIZE (4) X'00000000' – X'7FFFFFFF'
-Horizontal tile size TVSIZE (4) X'00000000' – X'7FFFFFFF' Vertical tile size RELRES (1) X'01' Relative resolution COMPR (1) Compression algorithm DATAPOS (8) File offset to the beginning of the tile Function Set 42
 
+| IOCA Self-defining Field | Parameter (Bytes) | Acceptable Value | Comments |
+| :--- | :--- | :--- | :--- |
+| **Initial parameters in Function Set 42:** | | | |
+| Begin Segment | ID (1) | X'70' | |
+| | LENGTH (1) | X'00' | |
+| Begin Image Content | ID (1) | X'91' | |
+| | LENGTH (1) | X'01' | |
+| | OBJTYPE (1) | X'FF' | IOCA |
+| Tile TOC | ID (2) | X'FEBB' | |
+| | LENGTH (2) | X'0002' – X'7FFF' | |
+| | RESERVED (2) | X'0000' | Reserved; should be set to zero |
+| | | | Either zero repeating groups, or one per tile in the following format: |
+| | XOFFSET (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile origin |
+| | YOFFSET (4) | X'00000000' – X'7FFFFFFF' | Vertical tile origin |
+| | THSIZE (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile size |
+| | TVSIZE (4) | X'00000000' – X'7FFFFFFF' | Vertical tile size |
+| | RELRES (1) | X'01' | Relative resolution |
+| | COMPR (1) | | Compression algorithm |
+| | DATAPOS (8) | | File offset to the beginning of the tile |
+| Image Encoding | ID (1) | X'95' | |
+| | LENGTH (1) | X'02' – X'03' | |
+| | COMPRID (1) | X'01', X'03', X'08', X'20', X'82' | X'01' IBM MMR-Modified Modified Read (see General Note)<br>X'03' No Compression<br>X'08' ABIC (Bilevel Q-Coder) (see General Note)<br>X'20' Solid Fill Rectangle<br>X'82' G4 MMR-Modified Modified READ (see General Note) |
+| | RECID (1) | X'01', X'04' | X'01' RIDIC<br>X'04' Unpadded RIDIC |
+| | BITORDR (1) | X'00' – X'01' | X'00' Bit order within each image data byte is from left to right<br>X'01' Bit order within each image data byte is from right to left |
+| IDE Size | ID (1) | X'96' | |
+| | LENGTH (1) | X'01' | |
+| | IDESZ (1) | X'01', X'04' | X'01' 1 bit/IDE<br>X'04' 4 bits/IDE |
+| **Initial parameters in a tile:** | | | |
+| Begin Tile | ID (1) | X'8C' | |
+| | LENGTH (1) | X'00' | |
+| Tile Position | ID (1) | X'B5' | |
+| | LENGTH (1) | X'08' | |
+| | XOFFSET (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile origin |
+| | YOFFSET (4) | X'00000000' – X'7FFFFFFF' | Vertical tile origin |
+| Tile Size | ID (1) | X'B6' | |
+| | LENGTH (1) | X'08' – X'09' | |
+| | THSIZE (4) | X'00000000' – X'7FFFFFFF' | Horizontal tile size |
+| | TVSIZE (4) | X'00000000' – X'7FFFFFFF' | Vertical tile size |
+| | RELRES (1) | X'01' | Relative resolution |
+| **Tile parameters used when IDESZ=1:** | | | |
+| Image Encoding | ID (1) | X'95' | |
+| | LENGTH (1) | X'02' – X'03' | |
+| | COMPRID (1) | X'01', X'03', X'08', X'20', X'82' | X'01' IBM MMR-Modified Modified Read (see General Note)<br>X'03' No Compression<br>X'08' ABIC (Bilevel Q-Coder)<br>X'20' Solid Fill Rectangle<br>X'82' G4 MMR-Modified Modified READ (see General Note) |
+| | RECID (1) | X'01', X'04' | X'01' RIDIC<br>X'04' Unpadded RIDIC |
+| | BITORDR (1) | X'00' – X'01' | X'00' Bit order within each image data byte is from left to right<br>X'01' Bit order within each image data byte is from right to left |
+| IDE Size | ID (1) | X'96' | |
+| | LENGTH (1) | X'01' | |
+| | IDESZ (1) | X'01' | 1 bit/IDE |
+| Band Image | ID (1) | X'98' | |
+| | LENGTH (1) | X'02' | |
+| | BCOUNT (1) | X'01' | One band |
+| | BITCNT (1) | X'01' | 1 bit/IDE |
+| IDE Structure | ID (1) | X'9B' | |
+| | LENGTH (1) | X'06' – X'08' | |
+| | FLAGS (1) | | ASFLAG B'0' Additive<br>GRAYCODE B'0' No gray coding<br>RESERVED B'000000' Should be zero |
+| | FORMAT (1) | X'02', X'12' | X'02' YCrCb<br>X'12' YCbCr |
+| | RESERVED (3) | X'000000' | Should be zero |
+| | SIZE1 (1) | X'01' | 1 bit/IDE |
+| | SIZE2 (1) | X'00' | 0 bits/IDE |
+| | SIZE3 (1) | X'00' | 0 bits/IDE |
+| Tile Set Color | ID (1) | X'B7' | |
+| | LENGTH (1) | X'0B', X'0C' | |
+| | CSPACE (1) | X'04', X'08' | X'04' CMYK<br>X'08' CIELab |
+| | RESERVED (3) | X'000000' | Should be zero |
+| | SIZE1–SIZE3 (1) | X'08' | Bits/IDE for components 1-3 |
+| | SIZE4 (1) | X'00', X'08' | Bits/IDE for component 4 |
+| | CVAL1–CVAL4 (1) | X'00' – X'FF' | Color values |
+| **Tile parameters used when IDESZ=4:** | | | |
+| Image Encoding | ID (1) | X'95' | |
+| | LENGTH (1) | X'02' – X'03' | |
+| | COMPRID (1) | X'01', X'03', X'08', X'82' | X'01' IBM MMR-Modified Modified Read (see General Note)<br>X'03' No Compression<br>X'08' ABIC (Bilevel Q-Coder)<br>X'82' G4 MMR-Modified Modified READ (see General Note) |
+| | RECID (1) | X'01', X'04' | X'01' RIDIC<br>X'04' Unpadded RIDIC |
+| | BITORDR (1) | X'00', X'01' | X'00' Bit order within each image data byte is from left to right<br>X'01' Bit order within each image data byte is from right to left |
+| IDE Size | ID (1) | X'96' | |
+| | LENGTH (1) | X'01' | |
+| | IDESZ (1) | X'04' | 4 bits/IDE |
+| Band Image | ID (1) | X'98' | |
+| | LENGTH (1) | X'05' | |
+| | BCOUNT (1) | X'04' | Four bands: CMYK |
+| | BITCNT (1) | X'01' | 1 bit/IDE for C band |
+| | BITCNT (1) | X'01' | 1 bit/IDE for M band |
+| | BITCNT (1) | X'01' | 1 bit/IDE for Y band |
+| | BITCNT (1) | X'01' | 1 bit/IDE for K band |
+| IDE Structure | ID (1) | X'9B' | |
+| | LENGTH (1) | X'09' | |
+| | FLAGS (1) | | ASFLAG B'0' Additive<br>GRAYCODE B'0' No gray coding<br>RESERVED B'000000' Should be zero |
+| | FORMAT (1) | X'04' | CMYK |
+| | RESERVED (3) | X'000000' | Should be zero |
+| | SIZE1 (1) | X'01' | 1 bit/IDE (C component) |
+| | SIZE2 (1) | X'01' | 1 bit/IDE (M component) |
+| | SIZE3 (1) | X'01' | 1 bit/IDE (Y component) |
+| | SIZE4 (1) | X'01' | 1 bit/IDE (K component) |
+| **Final parameters in a tile:** | | | |
+| Image Data | ID (2) | X'FE92' | |
+| | LENGTH (2) | X'0001' – X'FFFF' | |
+| | DATA | Any | IDEs |
+| *or:* | | | |
+| **Band Image Data** | (BCOUNT=4 only) | | |
+| | | | Four bands, in order by BANDNUM, in the following format: |
+| | ID (2) | X'FE9C' | |
+| | LENGTH (2) | X'0004' – X'FFFF' | |
+| | BANDNUM (1) | X'01' – X'04' | X'01' Band contains C component<br>X'02' Band contains M component<br>X'03' Band contains Y component<br>X'04' Band contains K component |
+| | RESERVED (2) | X'0000' | Should be zero |
+| | DATA | Any | |
+| End Tile | ID (1) | X'8D' | |
+| | LENGTH (1) | X'00' | |
+| **Final parameters in Function Set 42:** | | | |
+| End Image Content | ID (1) | X'93' | |
+| | LENGTH (1) | X'00' | |
+| End Segment | ID (1) | X'71' | |
+| | LENGTH (1) | X'00' | |
 
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Image Encoding ID (1) X'95' LENGTH (1) X'02' – X'03' COMPRID (1) X'01', X'03', X'08', X'20', X'82' X'01' IBM MMR-Modified Modified Read (see General Note)
-X'03' No Compression X'08' ABIC (Bilevel Q-Coder) (see General Note)
-X'20' Solid Fill Rectangle X'82' G4 MMR-Modified Modified READ (see General Note)
-RECID (1) X'01', X'04' X'01' RIDIC X'04' Unpadded RIDIC BITORDR (1) X'00' – X'01' X'00' Bit order within each image data byte is from left to right X'01' Bit order within each image data byte is from right to left IDE Size ID (1) X'96' LENGTH (1) X'01'
-IDESZ (1) X'01', X'04' X'01' 1 bit/IDE X'04' 4 bits/IDE Initial parameters in a tile:
-Begin Tile ID (1) X'8C' LENGTH (1) X'00' Tile Position ID (1) X'B5' LENGTH (1) X'08' XOFFSET (4) X'00000000' – X'7FFFFFFF' Horizontal tile origin YOFFSET (4) X'00000000' –
-X'7FFFFFFF' Vertical tile origin Tile Size ID (1) X'B6' LENGTH (1) X'08' – X'09' THSIZE (4) X'00000000' – X'7FFFFFFF' Horizontal tile size TVSIZE (4) X'00000000' –
-X'7FFFFFFF' Vertical tile size RELRES (1) X'01' Relative resolution Function Set 42
-
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Tile parameters used when IDESZ=1:
-Image Encoding ID (1) X'95' LENGTH (1) X'02' – X'03' COMPRID (1) X'01', X'03', X'08', X'20', X'82' X'01' IBM MMR-Modified Modified Read (see General Note)
-X'03' No Compression X'08' ABIC (Bilevel Q-Coder)
-X'20' Solid Fill Rectangle X'82' G4 MMR-Modified Modified READ (see General Note)
-RECID (1) X'01', X'04' X'01' RIDIC X'04' Unpadded RIDIC BITORDR (1) X'00' – X'01' X'00' Bit order within each image data byte is from left to right X'01' Bit order within each image data byte is from right to left IDE Size ID (1) X'96' LENGTH (1) X'01'
-IDESZ (1) X'01' 1 bit/IDE Band Image ID (1) X'98' LENGTH (1) X'02' BCOUNT (1) X'01' One band BITCNT (1) X'01' 1 bit/IDE IDE Structure ID (1) X'9B' LENGTH (1) X'06' – X'08' FLAGS (1)
-ASFLAG B'0' Additive GRAYCODE B'0' No gray coding RESERVED B'000000' Should be zero FORMAT (1) X'02', X'12' X'02' YCrCb X'12' YCbCr RESERVED (3) X'000000' Should be zero SIZE1 (1) X'01' 1 bit/IDE SIZE2 (1) X'00' 0 bits/IDE
-SIZE3 (1) X'00' 0 bits/IDE Function Set 42
-
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Tile Set Color ID (1) X'B7' LENGTH (1) X'0B', X'0C' CSPACE (1) X'04', X'08' X'04' CMYK X'08' CIELab RESERVED (3) X'000000' Should be zero SIZE1–SIZE3 (1)
-X'08' Bits/IDE for components 1-3 SIZE4 (1) X'00', X'08' Bits/IDE for component 4 CVAL1–CVAL4 (1)
-X'00' – X'FF' Color values Function Set 42
-
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Tile parameters used when IDESZ=4:
-Image Encoding ID (1) X'95' LENGTH (1) X'02' – X'03' COMPRID (1) X'01', X'03', X'08', X'82' X'01' IBM MMR-Modified Modified Read (see General Note)
-X'03' No Compression X'08' ABIC (Bilevel Q-Coder)
-X'82' G4 MMR-Modified Modified READ (see General Note)
-RECID (1) X'01', X'04' X'01' RIDIC X'04' Unpadded RIDIC BITORDR (1) X'00', X'01' X'00' Bit order within each image data byte is from left to right X'01' Bit order within each image data byte is from right to left IDE Size ID (1) X'96' LENGTH (1) X'01'
-IDESZ (1) X'04' 4 bits/IDE Band Image ID (1) X'98' LENGTH (1) X'05' BCOUNT (1) X'04' Four bands: CMYK BITCNT (1) X'01' 1 bit/IDE for C band BITCNT (1) X'01' 1 bit/IDE for M band BITCNT (1) X'01' 1 bit/IDE for Y band BITCNT (1) X'01' 1 bit/IDE for K band
-IDE Structure ID (1) X'9B' LENGTH (1) X'09' FLAGS (1)
-ASFLAG B'0' Additive GRAYCODE B'0' No gray coding RESERVED B'000000' Should be zero FORMAT (1) X'04' CMYK RESERVED (3) X'000000' Should be zero SIZE1 (1) X'01' 1 bit/IDE (C component)
-SIZE2 (1) X'01' 1 bit/IDE (M component)
-SIZE3 (1) X'01' 1 bit/IDE (Y component)
-SIZE4 (1) X'01' 1 bit/IDE (K component)
-Function Set 42
-
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Final parameters in a tile:
-Image Data ID (2) X'FE92' LENGTH (2) X'0001' – X'FFFF' DATA Any IDEs or:
-## Band Image Data
-(BCOUNT=4 only)
-Four bands, in order by BANDNUM, in the following format:
-ID (2) X'FE9C' LENGTH (2) X'0004' – X'FFFF' BANDNUM (1) X'01' – X'04' X'01' Band contains the C component of the IDEs X'02' Band contains the M component of the IDEs X'03' Band contains the Y component of the IDEs
-X'04' Band contains the K component of the IDEs RESERVED (2) X'0000' Should be zero DATA Any End Tile ID (1) X'8D' LENGTH (1) X'00' Final parameters in Function Set 42:
-End Image Content ID (1) X'93' LENGTH (1) X'00' End Segment ID (1) X'71' LENGTH (1) X'00' General note: ABIC (Bilevel Q-Coder), IBM MMR-Modified Modified Read, G4 MMR-Modified Modified READ, and Solid Fill Rectangle are applicable only to images whose IDE size is 1 bit per band, otherwise exception condition EC- 9611 is raised.
-Function Set 42
+**General note:** ABIC (Bilevel Q-Coder), IBM MMR-Modified Modified Read, G4 MMR-Modified Modified READ, and Solid Fill Rectangle are applicable only to images whose IDE size is 1 bit per band, otherwise exception condition EC-9611 is raised.
 
 
 IOCA Function Set 45 (IOCA FS45)
