@@ -3160,59 +3160,18 @@ Han Xin Code Special-Function Parameters
 
 
 Intelligent Mail Package Barcode Special-Function Parameters
-Table 28. Intelligent Mail Package Barcode Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 X'00' Reserved Not supported in
-BCD1
-Not supported in
-BCD2
-6 BITS Intelligent Mail Package Barcode flags
-bit 0 Banner
-B'0'
-B'1'
-Suppress USPS Service
-Banner:
-Do not suppress
-Suppress
-Not supported in
-BCD1
-Not supported in
-BCD2
-bit 1 IDBars
-B'0'
-B'1'
-Suppress Identification Bars:
-Do not suppress
-Suppress
-Not supported in
-BCD1
-Not supported in
-BCD2
-bits 2-7 B'000000' Reserved Not supported in
-BCD1
-Not supported in
-BCD2
-7 X'00' Reserved Not supported in
-BCD1
-Not supported in
-BCD2
-8 UBIN Banner
-length
-X'00'–X'FE',
-even values
-only
-Length of USPS Service
-Banner string
-Not supported in
-BCD1
-Not supported in
-BCD2
-9–n CHAR Banner
-string
-USPS Service Banner string Not supported in
-BCD1
-Not supported in
-BCD2
+### Table 28. Intelligent Mail Package Barcode Special-Function Parameters
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
+| 6 | BITS | Intelligent Mail Package Barcode flags | | | | |
+| | bit 0 | Banner | B'0'<br>B'1' | Suppress USPS Service Banner:<br>Do not suppress<br>Suppress | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 1 | IDBars | B'0'<br>B'1' | Suppress Identification Bars:<br>Do not suppress<br>Suppress | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| 7 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
+| 8 | UBIN | Banner length | X'00'–X'FE', even values only | Length of USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 |
+| 9–n | CHAR | Banner string | | USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 |
 Byte 5 Reserved
 Byte 6 Intelligent Mail Package Barcode flags
 These flags control how the Intelligent Mail Package Barcode is printed.
@@ -3265,76 +3224,20 @@ Intelligent Mail Package Barcode Special-Function Parameters
 
 
 MaxiCode Special-Function Parameters
-Table 29. MaxiCode Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported in
-BCD1 B'0'
-B'1'
-bits 2–7 B'000000' Reserved B'000000' B'000000'
-6 CODE Symbol
-mode
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-Mode 2
-Mode 3
-Mode 4
-Mode 5
-Mode 6
-Not supported in
-BCD1
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-7 UBIN Sequence
-indicator
-X'00'–X'08' Structured append sequence
-indicator
-Not supported in
-BCD1
-X'00'–X'08'
-8 UBIN T otal
-symbols
-X'00' or
-X'02'–X'08'
-T otal number of structured-
-append symbols
-Not supported in
-BCD1
-X'00' or
-X'02'–X'08'
-9 BITS Special-function flags
-bit 0 Zipper B'0'
-B'1'
-No zipper pattern
-Vertical zipper pattern on right
-Not supported in
-BCD1
-B'0'
-B'1'
-bits 1–7 B'0000000' Reserved B'0000000' B'0000000'
+### Table 29. MaxiCode Special-Function Parameters
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' |
+| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' |
+| 6 | CODE | Symbol mode | X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06' | Mode 2<br>Mode 3<br>Mode 4<br>Mode 5<br>Mode 6 | Not supported in BCD1 | X'02', X'03', X'04', X'05', X'06' |
+| 7 | UBIN | Sequence indicator | X'00'–X'08' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'08' |
+| 8 | UBIN | Total symbols | X'00' or X'02'–X'08' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'08' |
+| 9 | BITS | Special-function flags | | | | |
+| | bit 0 | Zipper | B'0'<br>B'1' | No zipper pattern<br>Vertical zipper pattern on right | Not supported in BCD1 | B'0'<br>B'1' |
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' | B'0000000' |
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -3997,165 +3900,26 @@ PDF417 Special-Function Parameters
 
 
 QR Code Special-Function Parameters
-Table 31. QR Code Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported in
-BCD1 B'0'
-B'1'
-bit 2 T oo much
-data B'0'
-B'1'
-If too much data:
-Use a bigger QR Code
-symbol version
-Exception EC-0F16 exists
-Not supported in
-BCD1
-Not supported in
-BCD2
-bits 3–7 B'00000' Reserved B'00000' B'00000'
-6 CODE Conver-
-sion
-X'00'
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-No conversion specified
-SBCS EBCDIC code page
-used to encode data:
-Code page 500 (International
-#5)
-Code page 290 (Japanese
-Katakana Ext.)
-Code page 1027 (Japanese
-Latin Extended)
-AFP Line Data SOSI-data
-conversion:
-CCSID 1390 to CCSID 943
-CCSID 1399 to CCSID 943
-CCSID 1390 to CCSID 932
-CCSID 1399 to CCSID 932
-CCSID 1390 to CCSID 942
-CCSID 1399 to CCSID 942
-Not supported in
-BCD1
-X'00'
-X'01'
-X'02'
-X'03'
-7 CODE Version
-X'00'
-X'01' – X'28'
-Version of symbol:
-Smallest symbol
-Version number (1 to 40)
-Not supported in
-BCD1 X'00'
-X'01' – X'28'
-8 CODE Error
-correction
-level
-X'00'
-X'01'
-X'02'
-X'03'
-Level of error correction:
-Level L (7% recovery)
-Level M (15% recovery)
-Level Q (25% recovery)
-Level H (30% recovery)
-Not supported in
-BCD1 X'00'
-X'01'
-X'02'
-X'03'
-9 UBIN Sequence
-indicator
-X'00' – X'10' Structured append sequence
-indicator
-Not supported in
-BCD1
-X'00' – X'10'
-10 UBIN T otal
-symbols
-X'00' or
-X'02' – X'10'
-T otal number of structured-
-append symbols
-Not supported in
-BCD1
-X'00' or
-X'02' – X'10'
-11 UBIN Parity
-Data
-X'00' – X'FF' Structured append parity data Not supported in
-BCD1
-X'00' – X'FF'
-12 BITS Special-function flags
-QR Code Special-Function Parameters
+### Table 31. QR Code Special-Function Parameters
 
-
-
-
-Table 31 QR Code Special-Function Parameters (cont'd.)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-bit 0 UCC/EAN
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to
-UCC/EAN standards
-Not supported in
-BCD1 B'0'
-B'1'
-bit 1 Industry
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to industry
-standards
-Not supported in
-BCD1 B'0'
-B'1'
-bits 2–7 B'000000' Reserved B'000000' B'000000'
-13 CODE Applica-
-tion
-indicator
-See field
-description
-Application indicator for
-Industry FNC1
-Not supported in
-BCD1
-All values listed
-in the field
-description
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5 | BITS | Control flags | | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger QR Code symbol version<br>Exception EC-0F16 exists | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 3–7 | | B'00000' | Reserved | B'00000' | B'00000' |
+| 6 | CODE | Conversion | X'00'<br>X'01'–X'03'<br>X'04'–X'09' | No conversion specified<br>SBCS EBCDIC code page used to encode data:<br>X'01': Code page 500 (International #5)<br>X'02': Code page 290 (Japanese Katakana Ext.)<br>X'03': Code page 1027 (Japanese Latin Extended)<br>AFP Line Data SOSI-data conversion:<br>X'04': CCSID 1390 to CCSID 943<br>X'05': CCSID 1399 to CCSID 943<br>X'06': CCSID 1390 to CCSID 932<br>X'07': CCSID 1399 to CCSID 932<br>X'08': CCSID 1390 to CCSID 942<br>X'09': CCSID 1399 to CCSID 942 | Not supported in BCD1 | X'00', X'01', X'02', X'03' |
+| 7 | CODE | Version | X'00'<br>X'01'–X'28' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 40) | Not supported in BCD1 | X'00', X'01'–X'28' |
+| 8 | CODE | Error correction level | X'00'<br>X'01'<br>X'02'<br>X'03' | Level of error correction:<br>Level L (7% recovery)<br>Level M (15% recovery)<br>Level Q (25% recovery)<br>Level H (30% recovery) | Not supported in BCD1 | X'00', X'01', X'02', X'03' |
+| 9 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'10' |
+| 10 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'10' |
+| 11 | UBIN | Parity Data | X'00'–X'FF' | Structured append parity data | Not supported in BCD1 | X'00'–X'FF' |
+| 12 | BITS | Special-function flags | | | | |
+| | bit 0 | UCC/EAN FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to UCC/EAN standards | Not supported in BCD1 | B'0'<br>B'1' |
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | B'0'<br>B'1' |
+| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' |
+| 13 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | All values listed in the field description |
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -4458,29 +4222,31 @@ number of modules per row and column. The size of each square module is specifie
 module width parameter (byte 17 in the BSD). The following table lists the complete set of
 supported versions. Exception condition EC-0F0F exists if an invalid version value is
 specified.
-Table 32. Supported Versions for a QR Code Symbol
-Version Symbol Size Version Symbol Size
-0 (X'00') smallest 21 (X'15') 101x101
-1 (X'01') 21x21 22 (X'16') 105x105
-2 (X'02') 25x25 23 (X'17') 109x109
-3 (X'03') 29x29 24 (X'18') 113x113
-4 (X'04') 33x33 25 (X'19') 117x117
-5 (X'05') 37x37 26 (X'1A') 121x121
-6 (X'06') 41x41 27 (X'1B') 125x125
-7 (X'07') 45x45 28 (X'1C') 129x129
-8 (X'08') 49x49 29 (X'1D') 133x133
-9 (X'09') 53x53 30 (X'1E') 137x137
-10 (X'0A') 57x57 31 (X'1F') 141x141
-11 (X'0B') 61x61 32 (X'20') 145x145
-12 (X'0C') 65x65 33 (X'21') 149x149
-13 (X'0D') 69x69 34 (X'22') 153x153
-14 (X'0E') 73x73 35 (X'23') 157x157
-15 (X'0F') 77x77 36 (X'24') 161x161
-16 (X'10') 81x81 37 (X'25') 165x165
-17 (X'11') 85x85 38 (X'26') 169x169
-18 (X'12') 89x89 39 (X'27') 173x173
-19 (X'13') 93x93 40 (X'28') 177x177
-20 (X'14') 97x97
+### Table 32. Supported Versions for a QR Code Symbol
+
+| Version | Symbol Size | Version | Symbol Size |
+| :--- | :--- | :--- | :--- |
+| 0 (X'00') | smallest | 21 (X'15') | 101x101 |
+| 1 (X'01') | 21x21 | 22 (X'16') | 105x105 |
+| 2 (X'02') | 25x25 | 23 (X'17') | 109x109 |
+| 3 (X'03') | 29x29 | 24 (X'18') | 113x113 |
+| 4 (X'04') | 33x33 | 25 (X'19') | 117x117 |
+| 5 (X'05') | 37x37 | 26 (X'1A') | 121x121 |
+| 6 (X'06') | 41x41 | 27 (X'1B') | 125x125 |
+| 7 (X'07') | 45x45 | 28 (X'1C') | 129x129 |
+| 8 (X'08') | 49x49 | 29 (X'1D') | 133x133 |
+| 9 (X'09') | 53x53 | 30 (X'1E') | 137x137 |
+| 10 (X'0A') | 57x57 | 31 (X'1F') | 141x141 |
+| 11 (X'0B') | 61x61 | 32 (X'20') | 145x145 |
+| 12 (X'0C') | 65x65 | 33 (X'21') | 149x149 |
+| 13 (X'0D') | 69x69 | 34 (X'22') | 153x153 |
+| 14 (X'0E') | 73x73 | 35 (X'23') | 157x157 |
+| 15 (X'0F') | 77x77 | 36 (X'24') | 161x161 |
+| 16 (X'10') | 81x81 | 37 (X'25') | 165x165 |
+| 17 (X'11') | 85x85 | 38 (X'26') | 169x169 |
+| 18 (X'12') | 89x89 | 39 (X'27') | 173x173 |
+| 19 (X'13') | 93x93 | 40 (X'28') | 177x177 |
+| 20 (X'14') | 97x97 | | |
 If X'00' is specified for this parameter, an appropriate row/column size will be used based on
 the amount of symbol data; the smallest symbol that can accommodate the amount of data is
 produced.
@@ -4755,566 +4521,51 @@ QR Code with Image Special-Function Parameters
 
 
 
-Table 33. QR Code with Image Special-Function Parameters
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-Bytes 5–13 are the same as bytes 5–13 in the QR Code Special-Function Parameters, except for the “BCD2 Range”
-column, which in this table is always “Not supported in BCD2”
-5 BITS Control flags
-bit 0 EBCDIC
-B'0'
-B'1'
-EBCDIC-to-ASCII translation:
-Do not translate
-Convert data to ASCII
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 1 Escape
-sequence
-handling
-B'0'
-B'1'
-Escape-sequence handling:
-Process escape sequences
-Ignore all escape sequences
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 2 T oo much
-data B'0'
-B'1'
-If too much data:
-Use a bigger QR Code
-symbol version
-Exception EC-0F16 exists
-Not supported
-in BCD1
-Not supported
-in BCD2
-bits 3–7 B'00000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-6 CODE Conver-
-sion
-X'00'
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-No conversion specified
-SBCS EBCDIC code page used
-to encode data:
-Code page 500 (International
-#5)
-Code page 290 (Japanese
-Katakana Ext.)
-Code page 1027 (Japanese
-Latin Extended)
-AFP Line Data SOSI-data
-conversion:
-CCSID 1390 to CCSID 943
-CCSID 1399 to CCSID 943
-CCSID 1390 to CCSID 932
-CCSID 1399 to CCSID 932
-CCSID 1390 to CCSID 942
-CCSID 1399 to CCSID 942
-Not supported
-in BCD1
-Not supported
-in BCD2
-7 CODE Version
-X'00'
-X'01' – X'28'
-Version of symbol:
-Smallest symbol
-Version number (1 to 40)
-Not supported
-in BCD1
-Not supported
-in BCD2
-8 CODE Error
-correction
-level
-X'00'
-X'01'
-X'02'
-X'03'
-Level of error correction:
-Level L (7% recovery)
-Level M (15% recovery)
-Level Q (25% recovery)
-Level H (30% recovery)
-Not supported
-in BCD1
-Not supported
-in BCD2
-9 UBIN Sequence
-indicator
-X'00' – X'10' Structured append sequence
-indicator
-Not supported
-in BCD1
-Not supported
-in BCD2
-10 UBIN T otal
-symbols
-X'00' or
-X'02' – X'10'
-T otal number of structured-
-append symbols
-Not supported
-in BCD1
-Not supported
-in BCD2
-11 UBIN Parity
-Data
-X'00' – X'FF' Structured append parity data Not supported
-in BCD1
-Not supported
-in BCD2
-12 BITS Special-function flags
-QR Code with Image Special-Function Parameters
+### Table 33. QR Code with Image Special-Function Parameters
 
-
-
-
-Table 33 QR Code with Image Special-Function Parameters (cont'd.)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-bit 0 UCC/EAN
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to
-UCC/EAN standards
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 1 Industry
-FNC1 B'0'
-B'1'
-Alternate data type identifier:
-User-defined symbol
-Symbol conforms to industry
-standards
-Not supported
-in BCD1
-Not supported
-in BCD2
-bits 2–7 B'000000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-13 CODE Applica-
-tion
-indicator
-See field
-description
-Application indicator for Industry
-FNC1
-Not supported
-in BCD1
-Not supported
-in BCD2
-14 BITS QR Code with Image special-function flags
-bit 0 Presenta-
-tion order
-B'0'
-B'1'
-Present QR Code symbol first
-Present images first
-Not supported
-in BCD1
-Not supported
-in BCD2
-bit 1 Present
-only
-images B'0'
-B'1'
-Whether to present only the
-images:
-Present both the QR Code
-symbol and the images
-Present only the images
-Not supported
-in BCD1
-Not supported
-in BCD2
-bits 2–7 B'000000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-15–16 UBIN RepGrps
-Length
-X'0000'
-X'0017' –
-X'7000'
-T otal length of all repeating
-groups that follow
-Not supported
-in BCD1
-Not supported
-in BCD2
-Zero or more Image Information Blocks in the following format:
-+0 UBIN ImgInfo
-Length
-X'16' – X'FF' Length of the image information
-that follows
-Not supported
-in BCD1
-Not supported
-in BCD2
-+1–2 X'0000' Reserved Not supported
-in BCD1
-Not supported
-in BCD2
-+3–4 CODE Image
-local ID
-X'0000' –
-X'7FFF'
-Local ID of the image object to
-be used
-Not supported
-in BCD1
-Not supported
-in BCD2
-+5 CODE Offset unit
-base X'00'
-X'01'
-X'64'
-Unit base for offset:
-Ten inches
-Ten centimeters
-One percent
-Not supported
-in BCD1
-Not supported
-in BCD2
-+6–7 UBIN Offset
-UPUB
-X'0001' –
-X'7FFF'
-Units per unit base for offset Not supported
-in BCD1
-Not supported
-in BCD2
-+8–9 SBIN X offset X'8000' –
-X'7FFF'
-X coordinate of the image object
-area origin
-Not supported
-in BCD1
-Not supported
-in BCD2
-+10–
-11
-SBIN Y offset X'8000' –
-X'7FFF'
-Y coordinate of the image object
-area origin
-Not supported
-in BCD1
-Not supported
-in BCD2
-+12–
-13
-CODE Image object area orientation
-bits 0–8 Degrees B'000000000'
-–
-B'101100111'
-Number of degrees (0–359) in
-the orientation
-Not supported
-in BCD1
-Not supported
-in BCD1
-QR Code with Image Special-Function Parameters
-
-
-
-
-Table 33 QR Code with Image Special-Function Parameters (cont'd.)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-bits 9–14 Minutes B'000000' –
-B'111011'
-Number of minutes (0–59) in the
-orientation
-Not supported
-in BCD1
-Not supported
-in BCD1
-bit 15 B'0' Reserved Not supported
-in BCD1
-Not supported
-in BCD1
-+14 CODE Coordi-
-nate
-system
-X'F0'
-Reference coordinate system:
-QR Code symbol X
-qr,Yqr
-Not supported
-in BCD1
-Not supported
-in BCD1
-+15 CODE Extent unit
-base X'00'
-X'01'
-X'64'
-Unit base for extent:
-Ten inches
-Ten centimeters
-One percent
-Not supported
-in BCD1
-Not supported
-in BCD1
-+16–
-17
-UBIN Extent
-UPUB
-X'0001' –
-X'7FFF'
-Units per unit base for extent Not supported
-in BCD1
-Not supported
-in BCD2
-+18–
-19
-UBIN X extent X'0001' –
-X'7FFF'
-X extent of the image object area Not supported
-in BCD1
-Not supported
-in BCD2
-+20–
-21
-UBIN Y extent X'0001' –
-X'7FFF'
-Y extent of the image object area Not supported
-in BCD1
-Not supported
-in BCD2
-+22 CODE Mapping
-option X'10'
-X'20'
-X'30'
-X'60'
-Mapping control option:
-Scale to fit
-Center and trim
-Position and trim
-Scale to fill
-Not supported
-in BCD1
-Not supported
-in BCD2
-+23 to
-end of
-block
-Data without current
-architectural definition
-Not supported
-in BCD1
-Not supported
-in BCD2
-Bytes 5–13 Bytes 5–13 are the same as bytes 5–13 in the QR Code special-function parameters and
-should be used in the same way, producing the same QR Code symbol. See “QR Code
-Special-Function Parameters”.
-Note: The too much data flag (bit 2) in the control flags (byte 5) was added to the QR Code
-special-function parameters well after the QR Code was added to BCOCA. Therefore,
-some implementations might not support the flag in the context of the QR Code special-
-function parameters. However, support of the too much data flag is required in the
-context of these QR Code with Image special-function parameters. Furthermore, any
-implementation that supports both QR Code and QR Code with Image is required to
-support the too much data flag for both bar code types.
-Byte 14 QR Code with Image special-function flags
-These flags specify special functions that can be used specifically with a QR Code with Image
-symbol.
-Note: Byte 12 is a byte that is exactly the same in the QR Code and the QR Code with Image
-special-function parameters, and contains flags that are useful in both types of bar
-codes. This byte, byte 14, contains flags specific to the QR Code with Image bar code.
-Bit 0 Presentation order
-This flag says whether the QR Code symbol is presented before any images to be
-placed in conjunction with the symbol, or vice versa. If this flag is B'0', the QR Code
-symbol is presented first, then all images are presented afterward, in the order they
-are found in the Image Information Blocks. If this flag is B'1', all images are presented
-first, in the order they are found in the Image Information Blocks, and then the QR
-QR Code with Image Special-Function Parameters
-
-
-
-
-Code symbol is presented last. Note that in either case, much of the processing of the
-QR Code symbol must nonetheless be done prior to presenting the images, since the
-images are presented based on the exact placement and size of the QR Code
-symbol.
-Bit 1 Present only images
-If this flag is B'1', the QR Code symbol will not be presented—only the images to be
-placed in conjunction with the symbol will be presented. If this flag is B'0', both the QR
-Code symbol and the images will be presented, in the order described by the
-presentation-order flag (bit 0).
-Note: The suppress-bar-code-symbol flag—bit 5 of byte 0 of the BSA—already exists
-to suppress the presentation of a bar code symbol. That flag, however, is used
-specifically to enable printing just the HRI for a bar code; for bar codes that do
-not support HRI, such as the QR Code with Image bar code, the suppress-bar-
-code-symbol flag with value B'1' causes nothing at all to be presented for the
-bar code.
-Bits
-2–7
-Reserved
-Bytes 15–16 Repeating groups total length
-This parameter specifies the total length of all repeating groups that follow; this length does
-not contain the length field itself.
-If X'0000' is specified, there are no repeating groups and this is the last field of the special-
-function parameters; what follows is the bar code data itself. In this case, this QR Code
-symbol has no images to print in conjunction with the QR Code.
-If a value equal to or greater than X'0017' is specified, the BCOCA receiver will print one or
-more images in conjunction with the QR Code, using the data in the Image Information
-Block(s).
-Exception condition EC-0F3B exists if the length is invalid.
-Note: The maximum value of this field is defined to be X'7000', a value that should be
-sufficient for all needs. The actual amount of space available for the repeating groups is
-greater than X'7000' and less than X'7FFF', but the exact maximum varies depending
-on various conditions, so X'7000' was chosen.
-Image Information Block
-There is one Image Information Block per image to be printed in conjunction with the QR Code.
-Byte +0 Image information length
-This parameter specifies the length of the image information that follows; this length does not
-contain the length field itself.
-Exception condition EC-0F30 exists if the length is invalid, or if the length is too large to fit into
-the repeating groups total length specified in bytes 15–16.
-Bytes +1–2 Reserved
-Bytes +3–4 Image local ID
-This parameter specifies the local ID of the image to be printed in conjunction with the QR
-Code symbol.
-Exception condition EC-0F31 exists if the local ID is not in the valid range.
-Byte +5 Offset unit base
-QR Code with Image Special-Function Parameters
-
-
-
-
-This parameter indicates the length of the measurement unit base to be used to interpret the
-offset values. The value X'00' indicates that the measurement unit base is ten inches. The
-value X'01' indicates that the measurement unit base is ten centimeters. The value X'64'
-indicates that the measurement unit base is one percent of the coordinates of the LR qr point in
-the Xqr,Yqr coordinate system; see “Percentage Measurements” for more
-information on the X'64' unit base.
-Exception condition EC-0F32 exists if the unit base specified is invalid or unsupported.
-Bytes +6–7 Offset UPUB
-This parameter specifies the number of units per unit base used when specifying the offset of
-the image object area, in both the X and the Y direction.
-Exception condition EC-0F33 exists if the units-per-unit-base value specified is invalid or
-unsupported.
-Bytes +8–9 Image object area origin X offset
-This parameter specifies the X offset of the image object area, using the units of measure
-specified in bytes +5–+7. This offset is in the X
-qr,Yqr coordinate system.
-Exception condition EC-0F34 exists if the offset specified is invalid or unsupported.
-Bytes +10–11 Image object area origin Y offset
-This parameter specifies the Y offset of the image object area, using the units of measure
-specified in bytes +5–+7. This offset is in the X qr,Yqr coordinate system.
-Exception condition EC-0F34 exists if the offset specified is invalid or unsupported.
-Bytes +12–13 Image object area orientation
-This two-byte parameter specifies the orientation of the image object area, that is, the X oa axis
-of the object container object area, in terms of an angle measured clockwise from the X qr axis.
-This parameter rotates the image object area around the origin specified in bytes +8–+11. The
-image presented in the object area is aligned such that the positive X oc or Xio axis of the image
-presentation space is parallel to, and in the same direction as, the positive X oa axis of the
-image object area. The positive Y oa axis of the image object area is rotated 90 degrees
-clockwise relative to the positive X oa axis and is in the same direction as the positive Y oc or Yio
-axis.
-The object area orientation is specified in terms of a number of degrees and a number of
-minutes.
-The number of degrees in the orientation is given in bits 0–8 of this two-byte parameter.
-Values from 0 (B'000000000') to 359 (B'101100111') degrees are valid. Exception condition
-EC-0F35 exists if a value from 360 to 511 is received.
-The number of minutes in the orientation is given in bits 9–14 of this two-byte parameter.
-Values from 0 (B'000000') to 59 (B'111011') minutes are valid. Exception condition EC-0F35
-exists if a value from 60 to 63 is received.
-Not all printers support orientation values other than 0 degrees. IPDS printers use the X'A0nn'
-property pair in the Object Container command-set vector, or the IO-Image command set
-vector, in the STM reply to report the orientation support of the printer. Exception condition EC-
-0F35 exists if the printer does not support the requested orientation value.
-For reference, the four basic orientation values correspond to the following hexadecimal and
-binary values of these two bytes:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-B'000000000 000000 0'
-B'001011010 000000 0'
-B'010110100 000000 0'
-B'100001110 000000 0'
-QR Code with Image Special-Function Parameters
-
-
-
-
-Byte +14 Reference coordinate system
-This parameter specifies the reference coordinate system that determines the origin and
-orientation of the image object area. The only possible value is X'F0', which specifies that the
-origin and orientation is that of the QR Code symbol, which uses the X qr,Yqr coordinate system.
-The origin, then, is (x qr=0,yqr=0).
-Exception condition EC-0F36 exists if the reference coordinate system specified is invalid or
-unsupported.
-Byte +15 Extent unit base
-This parameter indicates the length of the measurement unit base to be used to interpret the
-extent values. The value X'00' indicates that the measurement unit base is ten inches. The
-value X'01' indicates that the measurement unit base is ten centimeters. The value X'64'
-indicates that the measurement unit base is one percent of the coordinates of the LR
-qr point in
-the Xqr,Yqr coordinate system; see “Percentage Measurements” for more
-information on the X'64' unit base.
-Exception condition EC-0F37 exists if the unit base specified is invalid or unsupported.
-Bytes +16–17 Extent UPUB
-This parameter specifies the number of units per unit base used when specifying the extent of
-the image object area, in both the X and the Y direction.
-Exception condition EC-0F38 exists if the units-per-unit-base value specified is invalid or
-unsupported.
-Bytes +18–19 X extent
-This parameter specifies the X extent of the image object area, using the units of measure
-specified in bytes +15–+17.
-Exception condition EC-0F39 exists if the extent specified is invalid or unsupported.
-Bytes +20–21 Y extent
-This parameter specifies the Y extent of the image object area, using the units of measure
-specified in bytes +15–+17.
-Exception condition EC-0F39 exists if the extent specified is invalid or unsupported.
-Byte +22 Mapping option
-This parameter specifies how the image presentation space is mapped to the image object
-area. Resolution correction occurs whenever the resolution of the image is different in one or
-both dimensions from the device resolution. The option values are:
-• X'10'—Scale to fit
-• X'20'—Center and trim
-• X'30'—Position and trim
-• X'60'—Scale to fill
-The size of the image presentation space is defined in the controlling environment.
-Exception condition EC-0F3A exists if the mapping option specified is invalid or unsupported.
-Note: The values for Scale to fit, Center and trim, and Position and trim (X'10', X'20', and X'30',
-respectively) match the values for those mapping options in IPDS, but in MO:DCA, the
-values are different (X'20', X'30', and X'10', respectively).
-Bytes +23 to
-end of Block
-Data without current architectural definition
-This is a reserved field that might be used for future expansion. BCOCA receivers should
-accept, but ignore this field; generators should not specify this field.
-QR Code with Image Special-Function Parameters
-
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Bytes 5–13 are the same as bytes 5–13 in the QR Code Special-Function Parameters, except for the “BCD2 Range” column, which in this table is always “Not supported in BCD2”** | | | | | | |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | | |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | | |
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger QR Code symbol version<br>Exception EC-0F16 exists | | |
+| | bits 3–7 | | B'00000' | Reserved | | |
+| 6 | CODE | Conversion | X'00'<br>X'01'–X'03'<br>X'04'–X'09' | No conversion specified<br>SBCS EBCDIC code page used to encode data:<br>X'01': Code page 500 (International #5)<br>X'02': Code page 290 (Japanese Katakana Ext.)<br>X'03': Code page 1027 (Japanese Latin Extended)<br>AFP Line Data SOSI-data conversion:<br>X'04'–X'09' | Not supported in BCD1 | Not supported in BCD2 |
+| 7 | CODE | Version | X'00'<br>X'01'–X'28' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 40) | Not supported in BCD1 | Not supported in BCD2 |
+| 8 | CODE | Error correction level | X'00'<br>X'01'<br>X'02'<br>X'03' | Level of error correction:<br>Level L (7% recovery)<br>Level M (15% recovery)<br>Level Q (25% recovery)<br>Level H (30% recovery) | Not supported in BCD1 | Not supported in BCD2 |
+| 9 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | Not supported in BCD2 |
+| 10 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | Not supported in BCD2 |
+| 11 | UBIN | Parity Data | X'00'–X'FF' | Structured append parity data | Not supported in BCD1 | Not supported in BCD2 |
+| 12 | BITS | Special-function flags | | | | |
+| | bit 0 | UCC/EAN FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to UCC/EAN standards | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| 13 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 |
+| 14 | BITS | QR Code with Image special-function flags | | | | |
+| | bit 0 | Presentation order | B'0'<br>B'1' | Present QR Code symbol first<br>Present images first | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 1 | Present only images | B'0'<br>B'1' | Whether to present only the images:<br>Present both the QR Code symbol and the images<br>Present only the images | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| 15–16 | UBIN | RepGrps Length | X'0000'<br>X'0017'–X'7000' | Total length of all repeating groups that follow | Not supported in BCD1 | Not supported in BCD2 |
+| **Zero or more Image Information Blocks in the following format:** | | | | | | |
+| +0 | UBIN | ImgInfo Length | X'16'–X'FF' | Length of the image information that follows | Not supported in BCD1 | Not supported in BCD2 |
+| +1–2 | | | X'0000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| +3–4 | CODE | Image local ID | X'0000'–X'7FFF' | Local ID of the image object to be used | Not supported in BCD1 | Not supported in BCD2 |
+| +5 | CODE | Offset unit base | X'00'<br>X'01'<br>X'64' | Unit base for offset:<br>Ten inches<br>Ten centimeters<br>One percent | Not supported in BCD1 | Not supported in BCD2 |
+| +6–7 | UBIN | Offset UPUB | X'0001'–X'7FFF' | Units per unit base for offset | Not supported in BCD1 | Not supported in BCD2 |
+| +8–9 | SBIN | X offset | X'8000'–X'7FFF' | X coordinate of the image object area origin | Not supported in BCD1 | Not supported in BCD2 |
+| +10–11 | SBIN | Y offset | X'8000'–X'7FFF' | Y coordinate of the image object area origin | Not supported in BCD1 | Not supported in BCD2 |
+| +12–13 | CODE | Image object area orientation | | | | |
+| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | Not supported in BCD1 | Not supported in BCD2 |
+| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | Not supported in BCD1 | Not supported in BCD2 |
+| | bit 15 | | B'0' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
+| +14 | CODE | Coordinate system | X'F0' | Reference coordinate system:<br>QR Code symbol $X_{qr}, Y_{qr}$ | Not supported in BCD1 | Not supported in BCD2 |
+| +15 | CODE | Extent unit base | X'00'<br>X'01'<br>X'64' | Unit base for extent:<br>Ten inches<br>Ten centimeters<br>One percent | Not supported in BCD1 | Not supported in BCD2 |
+| +16–17 | UBIN | Extent UPUB | X'0001'–X'7FFF' | Units per unit base for extent | Not supported in BCD1 | Not supported in BCD2 |
+| +18–19 | UBIN | X extent | X'0001'–X'7FFF' | X extent of the image object area | Not supported in BCD1 | Not supported in BCD2 |
+| +20–21 | UBIN | Y extent | X'0001'–X'7FFF' | Y extent of the image object area | Not supported in BCD1 | Not supported in BCD2 |
+| +22 | CODE | Mapping option | X'10'<br>X'20'<br>X'30'<br>X'60' | Mapping control option:<br>Scale to fit<br>Center and trim<br>Position and trim<br>Scale to fill | Not supported in BCD1 | Not supported in BCD2 |
+| +23 to end of block | | | | Data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 |
 
 
 

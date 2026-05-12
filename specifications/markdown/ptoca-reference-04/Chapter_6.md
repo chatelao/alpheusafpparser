@@ -47,7 +47,7 @@ SIA 4-5 ADJSTMNT X'0000'-X'0FFF' 3,4
 SIM 4-5 DSPLCMNT X'0000'-X'7FFF' 3,4
 STC 4-5 FRGCOLOR X'FF07' 3,5
 6 PRECISION X'00'-X'01' 3,10
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 SVI 4-5 INCRMENT X'0000'-X'0FFF' 3,4
 TRN 4-256 TRNDATA 8
@@ -69,7 +69,7 @@ assumed to be ten inches, and the $X_p$
 
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-5. For the PTOCA range, see “Set T ext Color (STC)”. The PT1 range is X'FF07'.
+5. For the PTOCA range, see “Set Text Color (STC)”. The PT1 range is X'FF07'.
 6. The Begin Line (BLN) control sequence has no parameters.
 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. The
 data is ignored.
@@ -110,7 +110,7 @@ SIA 4-5 ADJSTMNT X'0000'-X'0FFF' 3,4
 SIM 4-5 DSPLCMNT X'0000'-X'7FFF' 3,4
 STC 4-5 FRGCOLOR X'0000', X'FF00', X'FF07', X'FFFF' 3,5
 6 PRECISION X'00'-X'01' 3,9
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 SVI 4-5 INCRMENT X'0000'-X'0FFF' 3,4
 TBM 4 DIRECTION X'00'-X'03' 3
@@ -136,7 +136,7 @@ assumed to be ten inches, and the $X_p$
 -units per unit base are assumed to be
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-5. For the PTOCA range, see “Set T ext Color (STC)”. The PT2 range is X'0000', X'FF00',
+5. For the PTOCA range, see “Set Text Color (STC)”. The PT2 range is X'0000', X'FF00',
 X'FF07', and X'FFFF'.
 6. The Begin Line (BLN) control sequence has no parameters.
 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length.
@@ -196,7 +196,7 @@ SIA 4-5 ADJSTMNT X'0000'-X'0FFF' 3,4
 SIM 4-5 DSPLCMNT X'0000'-X'7FFF' 3,4
 STC 4-5 FRGCOLOR X'0000', X'FF00', X'FF07', X'FFFF' 3,5
 6 PRECISION X'00'-X'01' 3,9
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3
 SVI 4-5 INCRMENT X'0000'-X'0FFF' 3,4
 TBM 4 DIRECTION X'00'-X'03' 3
@@ -223,7 +223,7 @@ assumed to be ten inches, and the $X_p$
 -units per unit base are assumed to be
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-5. For the PTOCA range, see “Set T ext Color (STC)”. The PT3 range is X'0000', X'FF00',
+5. For the PTOCA range, see “Set Text Color (STC)”. The PT3 range is X'0000', X'FF00',
 X'FF07', and X'FFFF'.
 6. The Begin Line (BLN) control sequence has no parameters.
 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length.
@@ -306,7 +306,7 @@ STC 4-5 FRGCOLOR X'0000'-X'0010', X'FF00'-X'FF08',
 X'FFFF'
 2,4
 6 PRECISION X'00'-X'01' 2,8
-ST O 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 2
+STO 4-5 IORNTION X'0000', X'2D00', X'5A00', X'8700' 2
 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 2
 SVI 4-5 INCRMENT X'0000'-X'7FFF' 2,3
 TBM 4 DIRECTION X'00'-X'03' 2
@@ -325,7 +325,7 @@ assumed to be ten inches, and the $X_p$
 -units per unit base are assumed to be
 14,400. If a different measurement unit is used, the correct range values can be determined using the
 conversion routine described in “Interpreting Ranges”.
-4. For the PTOCA range, see “Set T ext Color (STC)”. The PT4 range is the full Standard OCA
+4. For the PTOCA range, see “Set Text Color (STC)”. The PT4 range is the full Standard OCA
 Color Value Table found in the MO:DCA Reference.
 5. The Begin Line (BLN) control sequence has no parameters.
 6. The No Operation (NOP) control sequence may contain any data that does not exceed the field length.

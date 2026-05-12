@@ -20,13 +20,13 @@ value is not supported by the receiver , a default action is allowed. The receiv
 X'FF07'. If the FRGCOLOR value is not syntactically valid, exception condition EC-5803 exists, regardless of
 the value for the PRECSION parameter . The PRECSION parameter is modal, and X'00' is the default. This
 parameter supports the default indicator (X'FF'), which means its value is provided by the hierarchy , as follows:
-1. V alue set by T ext Color initial text condition parameter in Descriptor
+1. Value set by Text Color initial text condition parameter in Descriptor
 2. PTOCA default - X'00'
 If the value of the PRECSION parameter is not valid, EC-5803 exists. The standard action is to ignore the
 parameter and continue presentation with the value determined according to the hierarchy .
 The PRECSION parameter also defines the hierarchy for determining the presentation process default color
 attribute value (FRGCOLOR = X'FFFF'). If PRECSION is X'00', the following order applies:
-1. V alue previously set by T ext Color initial text condition parameter in descriptor
+1. Value previously set by Text Color initial text condition parameter in descriptor
 2. Data stream specified value
 3. Receiver's best possible value
 
@@ -35,9 +35,9 @@ attribute value (FRGCOLOR = X'FFFF'). If PRECSION is X'00', the following order 
 178 PTOCA Reference
 If PRECSION is X'01', the following order applies:
 1. Receiver's best possible value
-2. V alue previously set by T ext Color initial text condition parameter in descriptor
+2. Value previously set by Text Color initial text condition parameter in descriptor
 3. Data stream specified value
-Note that when a Color Mapping T able (CMT) is specified in the MO:DCA environment, the PRECSION
+Note that when a Color Mapping Table (CMT) is specified in the MO:DCA environment, the PRECSION
 parameter is processed for the target color values, not for the original (source) color values.
 Retired Functions
 
@@ -63,7 +63,7 @@ serve as an endorsement of those We b sites. The materials at those Web sites ar
 this architecture and use of those Web sites is at your own risk.
 The AFP Consortium may use or distribute any information you supply in any way it believes appropriate
 without incurring any obligation to you.
-This information contains examples of data and reports used in daily business operations. T o illustrate them in
+This information contains examples of data and reports used in daily business operations. To illustrate them in
 a complete manner , some examples include the names of individuals, companies, brands, or products. These
 names are fictitious and any similarity to the names and addresses used by an actual business enterprise is
 entirely coincidental.
@@ -238,7 +238,7 @@ an archiving system. Refer to the ISO 18565:2015
 complete definition of AFP/A.
 AIAG. See Automotive Industry Action Group.
 AIM. See Automatic Identification Manufacturers, Inc.
-all points addressable (AP A). The capability to address,
+all points addressable (APA). The capability to address,
 reference, and position data elements at any addressable
 position in a presentation space or on a physical medium.
 Contrast with character cell addressable, in which the
@@ -282,7 +282,7 @@ annotation object. In MO:DCA, an object that contains
 an annotation. Objects that are targets of annotation links
 are annotation objects.
 ANSI. See American National Standards Institute.
-AP A. See all points addressable.
+APA. See all points addressable.
 append. In MO:DCA, an addition to or continuation of the
 contents of a document component. An example of an
 append is a string of text that is an addition to an existing
@@ -616,7 +616,7 @@ bits and indicating that each byte has no predefined
 interpretation. Therefore, in CMOCA, each byte is
 interpreted as defined in the tag explanation.
 C
-calibration. T o adjust the correct value of a reading by
+calibration. To adjust the correct value of a reading by
 comparison to a standard.
 Canadian Grocery Product Code (CGPC). The bar
 code symbology used to code grocery items in Canada.
@@ -686,7 +686,7 @@ three to ten cpi. See also bar code density , density , and
 information density .
 character direction. In GOCA, an attribute controlling the
 direction in which a character string grows relative to the
-inline direction. V alues are: left-to-right, right-to-left, top-to-
+inline direction. Values are: left-to-right, right-to-left, top-to-
 bottom, and bottom-to-top. Synonymous with direction.
 character escapement point. The point where the next
 character reference point is usually positioned. See also
@@ -1012,7 +1012,7 @@ command set. A collection of IPDS commands.
 command-set vector . Information that identifies an IPDS
 command set and data level supported by a printer .
 Command-set vectors are returned with an Acknowledge
-Reply to an IPDS Sense T ype and Model command.
+Reply to an IPDS Sense Type and Model command.
 Commission Internationale d'Éclairage (CIE). An
 association of international color scientists who produced
 the standards that are used as the basis of the description
@@ -1253,25 +1253,25 @@ components at a particular size, character rotation, and
 encoding. A data-object font can be used in a manner
 analogous to a coded font. The following useful
 combinations can be activated into a data-object font:
-• A T rueT ype/OpenT ype font, an optional code page, and
-optional linked T rueT ype/OpenT ype objects; activated at
+• A TrueType/OpenType font, an optional code page, and
+optional linked TrueType/OpenType objects; activated at
 a particular size, character rotation, and encoding
-• A T rueT ype/OpenT ype collection, either an index value
+• A TrueType/OpenType collection, either an index value
 or a full font name to identify the desired font within the
 collection, an optional code page, and optional linked
-T rueT ype/OpenT ype objects; activated at a particular
+TrueType/OpenType objects; activated at a particular
 size, character rotation, and encoding
 See also data-object-font component. (2) In the MO:DCA
 architecture, a complete non-FOCA font resource object
 that is analogous to a coded font. Examples of data-object
-fonts are T rueT ype fonts and OpenT ype fonts.
+fonts are TrueType fonts and OpenType fonts.
 data-object-font component. In the IPDS architecture, a
 font resource that is either printer resident or is
 downloaded using object container commands. Data-
 object-font components are used as components of a data-
 object font. Examples of data-object-font components
-include T rueT ype/OpenT ype fonts and T rueT ype/
-OpenT ype collections. See also data-object font.
+include TrueType/OpenType fonts and TrueType/
+OpenType collections. See also data-object font.
 data object resource. In the IPDS architecture, an
 object-container resource or IO-Image resource that is
 current drawing attributes • data object resource
@@ -1405,7 +1405,7 @@ dimension. The attribute of size given to arrays and
 tables.
 direction. In GOCA, an attribute that controls the
 direction in which a character string grows relative to the
-inline direction. V alues are: left-to-right, right-to-left, top-to-
+inline direction. Values are: left-to-right, right-to-left, top-to-
 bottom, and bottom-to-top. Synonymous with character
 direction.
 discrete code. A bar code symbology characterized by
@@ -1488,7 +1488,7 @@ device-version code page • dpi
 <!-- Page 212 -->
 
 194 PTOCA Reference
-drag. T o use a pointing device to move an object. For
+drag. To use a pointing device to move an object. For
 example, clicking on a window border , and dragging it to
 make the window larger .
 draw functions. Functions that can be done during the
@@ -1581,7 +1581,7 @@ Encoding Scheme Identifier (ESID). A 16-bit number
 assigned to uniquely identify a particular encoding scheme
 specification. See also encoding scheme.
 encryption. A process to manipulate data to achieve data
-security . T o read an encrypted data string, access to key
+security . To read an encrypted data string, access to key
 information that enables decryption of the data is required.
 See also decryption.
 environment interface. The part of the graphics
@@ -1663,7 +1663,7 @@ factoring. The movement of a parameter value from one
 state to a higher-level state. This permits the parameter
 value to apply to all of the lower-level states unless
 specifically overridden at the lower level.
-FGID. See Font T ypeface Global Identifier .
+FGID. See Font Typeface Global Identifier .
 filename map file. A file containing the mapping of object
 names to file names for use in establishing a font file
 system. Object names and file names do not conform to
@@ -1798,12 +1798,12 @@ font referencing. A method used to identify or
 characterize a font. Examples of processes that use font
 referencing are document editing, document formatting,
 and document presentation.
-Font T ypeface Global Identifier (FGID). A unique font
+Font Typeface Global Identifier (FGID). A unique font
 identifier that can be expressed as either a two-byte binary
 or a five-digit decimal value. The FGID is used to identify a
 type style and the following characteristics: posture, weight
 class, and width class.
-fixed metrics • Font T ypeface Global Identifier (FGID)
+fixed metrics • Font Typeface Global Identifier (FGID)
 
 <!-- Page 215 -->
 
@@ -2014,7 +2014,7 @@ Global Identifier (GID). Any of the following:
 • Coded Graphic Character Set Global Identifier
 (CGCSGID)
 • Code Page Global ID (CPGID)
-• Font T ypeface Global Identifier (FGID)
+• Font Typeface Global Identifier (FGID)
 • Global Resource Identifier (GRID)
 • Graphic Character Global Identifier (GCGID)
 • Graphic Character Set Global Identifier (GCSGID)
@@ -2047,8 +2047,8 @@ only a part of a grapheme. In computing as well as
 typography , the term character refers to a grapheme or
 grapheme-like unit of text, as found in natural language
 writing systems (scripts). A character or grapheme is a unit
-of text, whereas a glyph is a graphical unit. T rueT ype/
-OpenT ype fonts describe glyphs as a set of paths.
+of text, whereas a glyph is a graphical unit. TrueType/
+OpenType fonts describe glyphs as a set of paths.
 glyph advance. A glyph advance is the absolute
 displacement of a glyph's origin on the baseline in the
 inline direction from a specific point. In the context of
@@ -2056,7 +2056,7 @@ complex text rendering using GLC chains, the specific
 point is the current text position at the beginning of the
 GLC chain.
 glyph ID. A glyph ID is an index to a table entry in a
-T rueT ype/OpenT ype font that allows an application to
+TrueType/OpenType font that allows an application to
 retrieve the glyph's shape data.
 glyph offset. A glyph offset is the offset of the glyph's
 origin from the current baseline in the baseline direction. In
@@ -2144,7 +2144,7 @@ can then be mapped onto an output medium. All viewing
 transforms are completed before the picture is generated
 for presentation on an output medium. An example of a
 graphics presentation space is the abstract space
-containing graphics pictures defined in an IPDS Wri te
+containing graphics pictures defined in an IPDS Write
 Graphics Control command. Contrast with graphics model
 space.
 graphics presentation space window . The portion of a
@@ -2594,8 +2594,8 @@ J
 JAN. See Japanese Article Numbering.
 Japanese Article Numbering (JAN). The bar code
 symbology used to code grocery items in Japan.
-JFIF . See JPEG File Interchange Format.
-jog. T o cause printed sheets to be stacked in an output
+JFIF. See JPEG File Interchange Format.
+jog. To cause printed sheets to be stacked in an output
 stacker offset from previously stacked sheets. Jogging is
 requested by using an IPDS Execute Order Anystate
 Alternate Offset Stacker command.
@@ -3597,9 +3597,9 @@ produced by the laser print head under control of the
 character generator .
 raster direction. An attribute that controls the direction in
 which a character string grows relative to the inline
-direction. V alues are: left-to-right, right-to-left, top-to-
+direction. Values are: left-to-right, right-to-left, top-to-
 bottom, and bottom-to-top.
-rasterize. T o convert presentation data into raster
+rasterize. To convert presentation data into raster
 (bitmap) form for display or printing.
 raster pattern. A rectangular array of pels arranged in
 rows called scan lines.
@@ -4113,7 +4113,7 @@ presentation information.
 T
 tag. A data structure that is used within the data portion of
 a color management resource (CMR). A CMR tag consists
-of T agID, FieldT ype, Count, and V alueOffset.
+of TagID, FieldType, Count, and ValueOffset.
 T agged Image File Format (TIFF). A rich and flexible
 graphics image format.
 temporary baseline. The shifted baseline used for
@@ -4129,16 +4129,16 @@ increments might have been used to place a temporary
 baseline at the current baseline presentation coordinate.
 tertiary resource. A resource for an object that is itself a
 secondary resource to another resource.
-text. A graphic representation of information. T ext can
+text. A graphic representation of information. Text can
 consist of alphanumeric characters and symbols arranged
 in paragraphs, tables, columns, and other shapes. An
-example of text is the data sent in an IPDS Wri te T ext
+example of text is the data sent in an IPDS Write Text
 command.
-T ext command set. In the IPDS architecture, a collection
+Text command set. In the IPDS architecture, a collection
 of commands used to present PTOCA text data in a page,
 page segment, or overlay .
 text major . A description for text where the Presentation
-T ext Data Descriptor (PTD) is specified in page controls. In
+Text Data Descriptor (PTD) is specified in page controls. In
 MO:DCA, the PTD is in the Active Environment Group
 (AEG) for the page; in IPDS, the PTD is specified as initial
 text-major conditions in the Logical Page Descriptor
@@ -4699,17 +4699,17 @@ Repeat String, RPS . . . . . . . . . . . . . . . . . . . . . . 23, 46, 82, 155, 
 Set Baseline Increment, SBI . . . . . . . . . . . . . . . . . . . . 21, 23, 30, 84, 139
 Set Coded Font Local, SCFL . . . . . . . . . . . . . . . . . . . . . . . . 23, 30, 77, 86
 Set Encrypted Alternate, SEA . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23, 61, 88
-Set Extended T ext Color , SEC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23, 90
+Set Extended Text Color , SEC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23, 90
 Set Inline Margin, SIM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23, 31, 37, 99
 Set Intercharacter Adjustment, SIA . . . . . . . . . . . . . . . . . . . . . . 23, 31, 96
 Set Key Information, SKI . . . . . . . . . . . . . . . . . . . . . . 24, 61, 88, 100–101
-Set T ext Color , STC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24, 102
-Set T ext Orientation, STO . . . . . . . . . . . . . . . . . . . . . 24, 31, 46, 105, 137
+Set Text Color , STC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24, 102
+Set Text Orientation, STO . . . . . . . . . . . . . . . . . . . . . 24, 31, 46, 105, 137
 Set V ariable Space Character Increment, SVI . . . . . . . . . . . . . 24, 108
 T emporary Baseline Move, TBM . . . . . . . . . . . . . 24, 76–77, 1 10, 120
 T ransparent Data, TRN . . . . . . . . 23–24, 46, 82, 1 15, 155, 157, 159
 Underscore, USC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24, 1 17
-Unicode Complex T ext, UCT . . . . . . . . . . . . . . . 18, 20, 25, 64, 67, 122
+Unicode Complex Text, UCT . . . . . . . . . . . . . . . 18, 20, 25, 64, 67, 122
 conventions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .47
 coordinate system . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7, 10, 24, 40, 46, 105
 D
@@ -4816,13 +4816,13 @@ initial text condition . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 initial text condition (specific)
 Baseline Increment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30, 139, 165
 Coded Font Local ID . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30, 139, 165
-Extended T ext Color . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30, 140
+Extended Text Color . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30, 140
 Initial Baseline Coordinate . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30, 141, 165
 Initial Inline Coordinate . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30, 141, 165
 Inline Margin . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31, 141, 165
 Intercharacter Adjustment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31, 142, 165
-T ext Color . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31, 143, 165
-T ext Orientation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31, 143, 165
+Text Color . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31, 143, 165
+Text Orientation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31, 143, 165
 initial text condition parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 139
 M
 measurement . . . . 12–13, 21, 34, 47, 49, 51, 56, 58, 63–64, 66, 74,
@@ -4936,12 +4936,12 @@ SEC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 Set Baseline Increment (SBI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .84
 Set Coded Font Local (SCFL) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .86
 Set Encrypted Alternate (SEA) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .88
-Set Extended T ext Color (SEC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .90
+Set Extended Text Color (SEC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .90
 Set Inline Margin (SIM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .99
 Set Intercharacter Adjustment (SIA) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .96
 Set Key Information (SKI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 100
-Set T ext Color (STC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 102
-Set T ext Orientation (STO) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 105
+Set Text Color (STC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 102
+Set Text Orientation (STO) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 105
 Set V ariable Space Character Increment (SVI) . . . . . . . . . . . . . . . . . . . 108
 SIA. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .96
 SIM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .99
@@ -4974,7 +4974,7 @@ UBIN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 UCT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 71, 122
 Underscore (USC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 17
 UNDF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . iv
-Unicode Complex T ext (UCT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 122
+Unicode Complex Text (UCT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 122
 UP³I . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 220
 USC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 17
 

@@ -5,7 +5,7 @@ Mixed Object Document Content Architecture Reference, AFPC-0004, for a full desc
 architecture.
 The Presentation Text Data Descriptor (PTD) and Presentation Text Data (PTX) structured fields, which carry
 Presentation Text objects in MO:DCA architecture documents, are defined in the following pages.
-T o guarantee interchange, a MO:DCA document carrying a Presentation Text object must include all
+To guarantee interchange, a MO:DCA document carrying a Presentation Text object must include all
 information related to the object. The MO:DCA document must therefore contain not only the definition of the
 Presentation Text object, but it must also provide linkage to the resources the object references.
 The discussion of MO:DCA structured fields is included in this appendix solely for setting the context of their
@@ -46,18 +46,18 @@ X'0000'
 PTD Data
 The following table describes the contents of the Presentation Text Data Descriptor (PTD) structured field in
 the MO:DCA architecture, which has a structured field identifier of X'D3B19B'.
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE XPBASE X'00'–X'01' Unit base for X axis; must
 be the same as the unit
 base for Y axis:
-X'00' T en inches
-X'01' T en centimeters
+X'00' Ten inches
+X'01' Ten centimeters
 M N N
 1 CODE YPBASE X'00' –X'01' Unit base for Y axis; must
 be the same as the unit
 base for X axis:
-X'00' T en inches
-X'01' T en centimeters
+X'00' Ten inches
+X'01' Ten centimeters
 M N N
 2–3 UBIN XPUNITVL X'0001' –
 X'7FFF'
@@ -108,7 +108,7 @@ MO:DCA page, the PTOCA object space and object area coincide with the page prese
 the size of the Presentation Text object space is set equal to the size of the page presentation space. When a
 Presentation Text object is transformed into an IPDS data stream, the PTD parameters are mapped to IPDS
 Logical Page Descriptor (LPD) command parameters. Optionally , some PTD parameters may be transformed
-into control sequences as part of an IPDS Wr ite T ext command. When the PTD is specified in the OEG of a
+into control sequences as part of an IPDS Write Text command. When the PTD is specified in the OEG of a
 MO:DCA text object, the extents of the text object space are defined by the XPEXTENT and YPEXTENT
 parameters and can be set to any value in the allowed range.
 Architecture Note: When the PTD is included in the AEG for a MO:DCA page, some AFP print servers
@@ -127,22 +127,22 @@ sequences that follow , except for the last, are chained control sequences that 
 with X'2BD3') and have an odd function type. The last control sequence in the chain starts with the length byte
 but indicates termination of the chain with an even function type (low-order bit is B'0'). For a description of
 chaining, see “Control Sequence Chaining” on page 36.
-T able 19 on page 165 shows which control sequence may be used to specify a particular initial text condition
+Table 19 on page 165 shows which control sequence may be used to specify a particular initial text condition
 parameter . Control sequences are optional and may appear in any order . If a control sequence appears
 multiple times, the last occurrence determines the setting of the initial text condition. Control sequences that
 are not listed in this table are treated as NOPs.
-T able 19. PTOCA Initial T ext Conditions in a MO:DCA Environment
-Initial T ext Condition Parameter Control Sequence
+Table 19. PTOCA Initial Text Conditions in a MO:DCA Environment
+Initial Text Condition Parameter Control Sequence
 Baseline Increment Set Baseline Increment (SBI)
 Coded Font Local ID Set Coded Font Local (SCFL)
-Extended T ext Color Set Extended T ext Color (SEC)
+Extended Text Color Set Extended Text Color (SEC)
 Initial Baseline Coordinate Absolute Move Baseline (AMB)
 Initial Inline Coordinate Absolute Move Inline (AMI)
 Inline Margin Set Inline Margin (SIM)
 Intercharacter Adjustment Set Intercharacter Adjustment (SIA)
-T ext Color Set T ext Color (STC)
-T ext Orientation Set T ext Orientation (STO)
-Architecture Note: The Extended T ext Color parameter is not supported as an initial text condition in IPDS
+Text Color Set Text Color (STC)
+Text Orientation Set Text Orientation (STO)
+Architecture Note: The Extended Text Color parameter is not supported as an initial text condition in IPDS
 environments when text is specified as text-major , that is, when the PTD for the text is specified in the
 AEG for the page. This parameter is supported in IPDS environments when the text is specified in a text
 object with OEG and the PTD is specified in the OEG.
@@ -160,7 +160,7 @@ X'D3A69B'
 Flags Reserved
 X'0000'
 PTD Data
-Offset T ype Name Range Meaning M/O Def Ind
+Offset Type Name Range Meaning M/O Def Ind
 0 CODE XPBASE X'00' Unit base for X axis; ten
 inches
 M N N
@@ -200,7 +200,7 @@ PTD Data
 The Presentation Text Data (PTX) structured field has a structured field identifier of X'D3EE9B'. It contains the
 graphic characters and the control sequences that position the graphic characters.
 The contents of the PTX structured field, that is, graphic characters and control sequences, may be included
-directly into one or more IPDS Wr ite T ext (WT) commands by removing the MO:DCA structured field introducer
+directly into one or more IPDS Write Text (WT) commands by removing the MO:DCA structured field introducer
 and replacing it with the IPDS WT command syntax. The length information from the PTX structured field must
 be changed to reflect the correct length in the WT command.
 Presentation text data can span multiple PTX structured fields and can be split on any byte boundary .
@@ -224,9 +224,9 @@ further information, please see the Mixed Object Document Content Architecture R
 Additional Related Structured Fields
 Map Coded Font (MCF): Font information for FOCA-based fonts is provided by the Map Coded Font (MCF)
 structured field which maps the LID parameter of the Set Coded Font Local control sequence to a FOCA font.
-Map Data Resource (MDR): Font information for T rueT ype/OpenT ype fonts is provided by the Map Data
+Map Data Resource (MDR): Font information for TrueType/OpenType fonts is provided by the Map Data
 Resource (MDR) structured field which maps the LID parameter of the Set Coded Font Local control sequence
-to a T rueT ype/OpenT ype font.
+to a TrueType/OpenType font.
 For further information about these structured fields, please refer to Mixed Object Document Content
 Architecture Reference, AFPC-0004.
 Additional Related Structured Fields
