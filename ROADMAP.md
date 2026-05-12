@@ -285,10 +285,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Migrate Triplet and Parser tests (`TripletTest`, `TripletParserExtensionTest`).
     - ✅ Migrate test utilities (`RoundTripTestUtils`).
     - ⏳ Migrate remaining tests (20 files).
-- ⏳ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
-    - ⏳ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
+- ✅ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
+    - ✅ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
     - ✅ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
-    - ⏳ Implement heuristic validation for EBCDIC human-readability.
+    - ✅ Implement heuristic validation for EBCDIC human-readability.
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
 - ✅ Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
