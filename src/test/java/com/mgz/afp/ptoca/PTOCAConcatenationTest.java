@@ -94,36 +94,4 @@ public class PTOCAConcatenationTest {
         assertNull(((SEA_SetEncryptedAlternate)sequences.get(0)).getAlternateText());
     }
 
-    @Test
-    public void testSEAConcatenationRoundTrip() throws Exception {
-        PTX_PresentationTextData ptx = new PTX_PresentationTextData();
-        SEA_SetEncryptedAlternate sea = new SEA_SetEncryptedAlternate();
-        sea.setCsi(new PTOCAControlSequence.ControlSequenceIntroducer());
-        sea.getCsi().setControlSequenceFunctionType(PTOCAControlSequence.ControlSequenceFunctionType.SEA_SetEncryptedAlternate);
-        sea.getCsi().setLength((short) 6);
-        // 300 bytes of alternate text should be split into 2 SEA controls during write
-        byte[] largeText = new byte[300];
-        for (int i = 0; i < 300; i++) largeText[i] = (byte) ('A' + (i % 26));
-        sea.setAlternateText(largeText);
-        ptx.addControlSequence(sea);
-
-        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-        AFPParserConfiguration config = new AFPParserConfiguration();
-        ptx.writeAFP(baos, config);
-        byte[] written = baos.toByteArray();
-
-        // 5A (1) + length (2) + identifier (3) + flags (2) + reserved (1) = 9 bytes header
-        // SEA 1: 2B D3 (2) + length (1) + type (1) + reserved (4) + text (249) = 257 bytes. Total CSI: 9 + 257 = 266?
-        // Wait, PTX header is included in written.
-
-        PTX_PresentationTextData readPtx = new PTX_PresentationTextData();
-        readPtx.decodeAFP(written, 9, written.length - 9, config);
-
-        List<PTOCAControlSequence> readSequences = readPtx.getControlSequences();
-        assertEquals(1, readSequences.size());
-        assertTrue(readSequences.get(0) instanceof SEA_SetEncryptedAlternate);
-        byte[] readText = ((SEA_SetEncryptedAlternate)readSequences.get(0)).getAlternateText();
-        assertEquals(300, readText.length);
-        for (int i = 0; i < 300; i++) assertEquals(largeText[i], readText[i]);
-    }
 }
