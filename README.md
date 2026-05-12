@@ -12,7 +12,7 @@ To use Alpheus in your project add the following dependency:
     <dependency>
       <groupId>com.github.chatelao</groupId>
       <artifactId>alpheusafpparser</artifactId>
-      <version>0.2.2</version>
+      <version>${version}</version>
     </dependency>
 
 ## Acknowledgements

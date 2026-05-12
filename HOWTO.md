@@ -12,7 +12,7 @@ Add the following dependency to your `pom.xml`:
 <dependency>
   <groupId>com.github.chatelao</groupId>
   <artifactId>alpheusafpparser</artifactId>
-  <version>0.2.2</version>
+  <version>${version}</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@ Add the following to your `build.gradle`:
 
 ```gradle
 dependencies {
-    compile 'com.github.chatelao:alpheusafpparser:0.2.2'
+    compile 'com.github.chatelao:alpheusafpparser:${version}'
 }
 ```
 
@@ -147,13 +147,13 @@ The CLI tool generates an XML representation where:
 **Convert an AFP file and view the XML in the console:**
 
 ```bash
-java -jar alpheus-afp-parser-cli-0.2.2.jar my_document.afp
+java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp
 ```
 
 **Convert an AFP file and save the result to a file:**
 
 ```bash
-java -jar alpheus-afp-parser-cli-0.2.2.jar my_document.afp my_document.xml
+java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp my_document.xml
 ```
 
 ## Error Handling
