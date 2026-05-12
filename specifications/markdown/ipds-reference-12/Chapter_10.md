@@ -64,21 +64,10 @@ The following pages explain the object container presentation space and the obje
 object containers that contain presentation data.
 Object Container Presentation Space
 Object container presentation data is placed in a presentation space in much the same way as image,
-graphics, and bar code data. The coordinate system for this presentation space is the {oc}$ and the {oc}$
-coordinate system. The size of the object container presentation space and how the data is placed in the
-presentation space is defined by the specific object; refer to the Object-Type Identifiers registry in the Mixed
-Object Document Content Architecture Reference for a description of the presentation space size for each
-object.
+graphics, and bar code data. The coordinate system for this presentation space is the $X_{oc}$ and the $Y_{oc}$ coordinate system. The size of the object container presentation space and how the data is placed in the presentation space is defined by the specific object; refer to the Object-Type Identifiers registry in the Mixed Object Document Content Architecture Reference for a description of the presentation space size for each object.
 Object Container Object Area
-The object container presentation space is mapped, using one of the defined mapping options, into the object
-container object area, that is a rectangular area on the current logical page. The object container object area
-can be larger than, equal to, or smaller than the object container presentation space. The coordinate system
-for the object container object area is the X
-oa,{oa}$ coordinate system.
-The location and orientation of the object container object area is specified in the object container area position
-(OCAP) self-defining field of the WOCC command. The size of the object container object area is specified in
-the object container output control (OCOC) self-defining field. Figure 95 shows how the object
-container object area is placed on the logical page.
+The object container presentation space is mapped, using one of the defined mapping options, into the object container object area, that is a rectangular area on the current logical page. The object container object area can be larger than, equal to, or smaller than the object container presentation space. The coordinate system for the object container object area is the $X_{oa}, Y_{oa}$ coordinate system.
+The location and orientation of the object container object area is specified in the object container area position (OCAP) self-defining field of the WOCC command. The size of the object container object area is specified in the object container output control (OCOC) self-defining field. Figure 95 shows how the object container object area is placed on the logical page.
 The object container object area can overlay other data, such as text or images, specified earlier for the same
 logical page. Also, the object container object area can be overlapped by subsequent data specified by other
 commands for the same logical page. Refer to “IPDS Mixing Rules” for a description of the results
@@ -114,10 +103,7 @@ Data Object Resource Equivalence Entries
 The Data Object Resource Equivalence (DORE) and Data Object Resource Equivalence 2 (DORE2)
 commands are home state, page state, page segment state, or overlay state commands used to identify
 secondary resources to be used with a subsequent presentation data object and to provide a mapping
-between a HAID and an internal resource ID for a secondary resource. The mapping between HAID and
-internal resource ID is called an equivalence and each equivalence established through a DORE or DORE2
-command is called an equivalence entry
-. Not all secondary resources need an internal resource ID, for
+between a HAID and an internal resource ID for a secondary resource. The mapping between HAID and internal resource ID is called an equivalence and each equivalence established through a DORE or DORE2 command is called an equivalence entry. Not all secondary resources need an internal resource ID, for
 example Resident Color Profile resource objects have no internal resource ID and are simply processed before
 a presentation data object is processed.
 The concept of a tertiary resource was introduced with the addition of the QR Code with Image bar code. Such
@@ -185,11 +171,7 @@ A Resident Color Profile and Color Management Resources can be specified for a p
 object. If an audit, object-level, color-conversion CMR is invoked at the object level for a specific
 presentation object, it takes precedence over any Resident Color Profile used as a secondary resource
 for the presentation object.
-A DORE or DORE2
-command replaces all equivalence entries from any previous DORE or DORE2 command;
-that is, there is only one (possibly empty) set of equivalence entries at any one time, which can be set by either
-the DORE or DORE2 command. A
-lso, all equivalence entries are reset at the end of each page and each
+A DORE or DORE2 command replaces all equivalence entries from any previous DORE or DORE2 command; that is, there is only one (possibly empty) set of equivalence entries at any one time, which can be set by either the DORE or DORE2 command. Also, all equivalence entries are reset at the end of each page and each
 downloaded overlay. A DORE or DORE2 command with no equivalence entries removes all previous
 equivalence entries; this provides a reset function.
 Note: The DORE and DORE2 commands are processed differently with included overlays than with included
@@ -206,9 +188,7 @@ has been processed.
 DORE or DORE2 equivalence entries that provide a HAID and an internal resource ID are not actually used
 until a subsequent data object that requires the secondary resource is presented in a page, page segment, or
 overlay, using a method specific to that data object’s type ; when the printer is printing the data object and the
-secondary resource is needed, the printer will search for a matching internal resource ID in the current set of
-equivalence entrie
-s and will use the corresponding HAID to locate the secondary resource. If multiple
+secondary resource is needed, the printer will search for a matching internal resource ID in the current set of equivalence entries and will use the corresponding HAID to locate the secondary resource. If multiple
 equivalence entries are specified with the same internal resource ID, the first one is used and the others are
 ignored.
 Before a data object is printed in a page, page segment, or overlay, the printer checks all equivalence entries
@@ -499,7 +479,7 @@ The format of the DOAP is as follows:
 | | bits 0–8 | Degrees | B'000000000'–B'101100111'<br>B'111111111' | Number of degrees (0–359) in the orientation. Special value: B'111111111' (see byte description) | B'000000000'<br>B'001011010'<br>B'010110100'<br>B'100001110'<br>B'111111111' |
 | | bits 9–14 | Minutes | B'000000'–B'111011'<br>B'111111' | Number of minutes (0–59) in the orientation. Special value: B'111111' (see byte description) | B'000000'<br>B'111111' |
 | | bit 15 | | B'0'<br>B'1' | Reserved. Special value: B'1' (see byte description) | B'0'<br>B'1' |
-| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>X'00' Absolute I, absolute B<br>X'20' Absolute I, relative B<br>X'40' Relative I, absolute B<br>X'60' Relative I, relative B<br>X'A0' Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
+| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>X'00' Absolute $I$, absolute $B$<br>X'20' Absolute $I$, relative $B$<br>X'40' Relative $I$, absolute $B$<br>X'60' Relative $I$, relative $B$<br>X'A0' Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
 | 11 to end of DOAP | UNDF | | | Data without architectural definition | |
 
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
@@ -1125,7 +1105,7 @@ The format of the OCAP is as follows:
 | | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
 | | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
 | | bit 15 | | B'0' | Reserved | B'0' |
-| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>X'00' Absolute I, absolute B<br>X'20' Absolute I, relative B<br>X'40' Relative I, absolute B<br>X'60' Relative I, relative B<br>X'A0' Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
+| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>X'00' Absolute $I$, absolute $B$<br>X'20' Absolute $I$, relative $B$<br>X'40' Relative $I$, absolute $B$<br>X'60' Relative $I$, relative $B$<br>X'A0' Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
 | 11 to end of OCAP | UNDF | | | Data without architectural definition | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
