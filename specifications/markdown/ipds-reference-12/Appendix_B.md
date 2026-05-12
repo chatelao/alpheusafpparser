@@ -10,72 +10,67 @@ Acknowledgment Required (ARQ) bit on. When the ARQ bit is on, the printer sends 
 (ACK) to the host. In the example below:
 → indicates a command from the host to the printer
 ← indicates a reply from the printer to the host.
-Table 72. A Typical IPDS Command Sequence
-Sequence Flow Command Name Description
-Initialization → Sense Type and Model (STM) with ARQ IPDS command set implementation
-← Acknowledge Reply (ACK) Return type and model information
-→ XOH Obtain Printer Characteristics (OPC) with
-ARQ
-Request printer characteristics
-← Acknowledge Reply (ACK) Return printer characteristics
-→ Set Home State (SHS) Set printer to home state
-→ Logical Page Descriptor (LPD) Define a logical page
-→ Logical Page Position (LPP) Position a logical page
-→ Load Copy Control (LCC) Select copy options
-→ Load Font Equivalence (LFE) with ARQ Establish font equivalences
-← Acknowledge Reply (ACK) Acknowledge successful operation
-Page Segment → Begin Page Segment (BPS) Set printer to Page Segment state
-→ Write Text (WT) Store text data in page segment
-→ Write Text (WT) Store text data in page segment
-→ Write Text (WT) Store text data in page segment
-→ Write Image Control 2 (WIC2) Start IO-Image state
-→ Write Image 2 (WI2) Store IO-Image data in page segment
-→ End End IO-Image state
-→ Write Text (WT) Store text data in page segment
-→ Write Text (WT) Store text data in page segment
-→ End Page (EP) with ARQ Return to home state
-← Acknowledge Reply (ACK) Acknowledge successful operation
-→ Logical Page Descriptor (LPD) Define a logical page
+### Table 72. A Typical IPDS Command Sequence
 
-
-Table 72 A Typical IPDS Command Sequence (cont'd.)
-Sequence Flow Command Name Description
-→ Load Font Equivalence (LFE) Establish font equivalences
-Overlay → Begin Overlay (BO) Enter overlay state
-→ Write Text (WT) Store text data in overlay
-→ Write Text (WT) Store text data in overlay
-→ Write Text (WT) Store text data in overlay
-→ Include Overlay (IO) Include another overlay
-→ Write Graphics Control (WGC) Enter graphics state
-→ Write Graphics (WG) Store graphics data in overlay
-→ Write Graphics (WG) Store graphics data in overlay
-→ End End graphics state
-→ Write Text (WT) Store text data in overlay
-→ Write Text (WT) Store text data in overlay
-→ Include Overlay (IO) Include another overlay
-→ Include Page Segment (IPS) Include page segment in overlay
-→ End Page (EP) with ARQ Return to home state
-← Acknowledge Reply (ACK) Acknowledge successful operation
-Page → Begin Page (BP) Enter page state
-→ Write Text (WT) Send text data to printer
-→ Include Overlay (IO) Print overlay
-→ Include Page Segment (IPS) Print page segment
-→ Write Image Control (WIC) Start IM-Image state
-→ Write Image (WI) Send IM-Image data to printer
-→ Write Image (WI) Send IM-Image data to printer
-→ End End IM-Image state
-→ Write Text (WT) Send text data to printer
-→ Write Text (WT) Send text data to printer
-→ Include Overlay (IO) Print overlay
-→ Include Page Segment (IPS) Print page segment
-→ End Page (EP) with ARQ Complete all printing and return to home
-state
-← Acknowledge Reply (ACK) Acknowledge successful operation
+| Sequence Flow | Command Name | Description |
+| :--- | :--- | :--- |
+| **Initialization** | → Sense Type and Model (STM) with ARQ | IPDS command set implementation |
+| | ← Acknowledge Reply (ACK) | Return type and model information |
+| | → XOH Obtain Printer Characteristics (OPC) with ARQ | Request printer characteristics |
+| | ← Acknowledge Reply (ACK) | Return printer characteristics |
+| | → Set Home State (SHS) | Set printer to home state |
+| | → Logical Page Descriptor (LPD) | Define a logical page |
+| | → Logical Page Position (LPP) | Position a logical page |
+| | → Load Copy Control (LCC) | Select copy options |
+| | → Load Font Equivalence (LFE) with ARQ | Establish font equivalences |
+| | ← Acknowledge Reply (ACK) | Acknowledge successful operation |
+| **Page Segment** | → Begin Page Segment (BPS) | Set printer to Page Segment state |
+| | → Write Text (WT) | Store text data in page segment |
+| | → Write Text (WT) | Store text data in page segment |
+| | → Write Text (WT) | Store text data in page segment |
+| | → Write Image Control 2 (WIC2) | Start IO-Image state |
+| | → Write Image 2 (WI2) | Store IO-Image data in page segment |
+| | → End | End IO-Image state |
+| | → Write Text (WT) | Store text data in page segment |
+| | → Write Text (WT) | Store text data in page segment |
+| | → End Page (EP) with ARQ | Return to home state |
+| | ← Acknowledge Reply (ACK) | Acknowledge successful operation |
+| | → Logical Page Descriptor (LPD) | Define a logical page |
+| | → Load Font Equivalence (LFE) | Establish font equivalences |
+| **Overlay** | → Begin Overlay (BO) | Enter overlay state |
+| | → Write Text (WT) | Store text data in overlay |
+| | → Write Text (WT) | Store text data in overlay |
+| | → Write Text (WT) | Store text data in overlay |
+| | → Include Overlay (IO) | Include another overlay |
+| | → Write Graphics Control (WGC) | Enter graphics state |
+| | → Write Graphics (WG) | Store graphics data in overlay |
+| | → Write Graphics (WG) | Store graphics data in overlay |
+| | → End | End graphics state |
+| | → Write Text (WT) | Store text data in overlay |
+| | → Write Text (WT) | Store text data in overlay |
+| | → Include Overlay (IO) | Include another overlay |
+| | → Include Page Segment (IPS) | Include page segment in overlay |
+| | → End Page (EP) with ARQ | Return to home state |
+| | ← Acknowledge Reply (ACK) | Acknowledge successful operation |
+| **Page** | → Begin Page (BP) | Enter page state |
+| | → Write Text (WT) | Send text data to printer |
+| | → Include Overlay (IO) | Print overlay |
+| | → Include Page Segment (IPS) | Print page segment |
+| | → Write Image Control (WIC) | Start IM-Image state |
+| | → Write Image (WI) | Send IM-Image data to printer |
+| | → Write Image (WI) | Send IM-Image data to printer |
+| | → End | End IM-Image state |
+| | → Write Text (WT) | Send text data to printer |
+| | → Write Text (WT) | Send text data to printer |
+| | → Include Overlay (IO) | Print overlay |
+| | → Include Page Segment (IPS) | Print page segment |
+| | → End Page (EP) with ARQ | Complete all printing and return to home state |
+| | ← Acknowledge Reply (ACK) | Acknowledge successful operation |
 
 
 A Printer-Initialization Sequence
 Before any printing begins, the host must specify certain parameters and conditions for the printer. The
-following command sequence, as shown in Table 72 on page 993, accomplishes this task.
+following command sequence, as shown in Table 72, accomplishes this task.
 STM (Sense Type and Model)
 The host sends the STM command to sense the IPDS command set implementation.
 ACK (Acknowledge Reply)
@@ -87,7 +82,7 @@ The host sends the XOH-OPC command to the printer, requesting printer characteri
 placed in the Acknowledge Reply special data area.
 ACK (Acknowledge Reply)
 If the XOH-OPC command has the ARQ bit on, the information is supplied; if the ARQ bit is off,
-the XOH-OPC command is treated as a NOP .
+the XOH-OPC command is treated as a NOP.
 SHS (Set Home State)
 The host sends the SHS command to ensure the printer is in home state.
 LPD (Logical Page Descriptor)
@@ -113,7 +108,7 @@ accept data for print operations. The initialization and preparation sequence is
 
 The Page-Segment Sequence
 The page-segment sequence creates a page segment resource for later printing. The following command
-sequence, as shown in Table 72 on page 993, illustrates the loading of a page segment.
+sequence, as shown in Table 72, illustrates the loading of a page segment.
 Note: This sequence is only an example. A page segment can contain any combination of text, image,
 graphics, and bar code data.
 BPS (Begin Page Segment)
@@ -154,7 +149,7 @@ logical page by use of the Include Page Segment command.
 
 The Overlay Sequence
 The overlay sequence creates an overlay resource for later printing. The following command sequence, as
-shown in Table 72 on page 993, illustrates the loading of a typical overlay.
+shown in Table 72, illustrates the loading of a typical overlay.
 Note: This sequence is only an example. An overlay can contain any combination of text data, image data,
 graphics data, bar code data, object container data, included page segments, and included overlays.
 LPD (Logical Page Descriptor)
@@ -216,7 +211,7 @@ use of the Load Copy Control command.
 The Page Sequence
 The page sequence causes a page to be created and printed on the current sheet. This data can include
 previously stored overlays or page segments, as well as immediate text or object data. The following command
-sequence, as shown in Table 72 on page 993, illustrates the loading of a page.
+sequence, as shown in Table 72, illustrates the loading of a page.
 Note: This sequence is only an example. A page sequence can contain any combination of text data, image
 data, graphics data, bar code data, object container data, page segments, or overlays.
 BP (Begin Page)

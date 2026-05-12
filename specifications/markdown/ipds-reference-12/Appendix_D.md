@@ -43,24 +43,21 @@ retired for the IBM RPM MVS product (used as a save/no save flag).
 Retired item 15 (1991): X'20nn' property pair in the IO-Image command-set vector of the Sense Type and
 Model reply is retired as a resolution-correction support property ID.
 Where “nn” is a bit-mapped byte:
-Bits 0–2 Reserved
-Bit 3 Resolution correction algorithms to minimize information loss (for example, via nearest
-neighbor averaging techniques as opposed to discarding pels)
-Bit 4 Resolution correction ratio may be any positive real number
-Bit 5 Integer fraction (1/2, 1/3, ...) resolution correction supported (for example, 1/2 = discard
-every other pel)
-Bit 6 Integer (x2, x3, ...) resolution correction supported for example, x2 = double every pel)
-Bit 7 Resolution correction supported
+*   **Bits 0–2** Reserved
+*   **Bit 3** Resolution correction algorithms to minimize information loss (for example, via nearest neighbor averaging techniques as opposed to discarding pels)
+*   **Bit 4** Resolution correction ratio may be any positive real number
+*   **Bit 5** Integer fraction (1/2, 1/3, ...) resolution correction supported (for example, 1/2 = discard every other pel)
+*   **Bit 6** Integer (x2, x3, ...) resolution correction supported (for example, x2 = double every pel)
+*   **Bit 7** Resolution correction supported
 Retired item 16 (1991): X'30nn' property pair in the IO-Image command-set vector of the Sense Type and
 Model reply is retired as a scaling-support property ID.
 Where “nn” is a bit-mapped byte:
-Bits 0–2 Reserved
-Bit 3 Scaling algorithms to minimize information loss (for example, via nearest neighbor averaging
-techniques as opposed to discarding pels)
-Bit 4 Scaling ratio may be any positive real number
-Bit 5 Integer fraction (1/2, 1/3, ...) scaling supported (for example, 1/2 = discard every other pel)
-Bit 6 Integer (x2, x3, ...) scaling supported (for example, x2 = double every pel)
-Bit 7 Scaling supported
+*   **Bits 0–2** Reserved
+*   **Bit 3** Scaling algorithms to minimize information loss (for example, via nearest neighbor averaging techniques as opposed to discarding pels)
+*   **Bit 4** Scaling ratio may be any positive real number
+*   **Bit 5** Integer fraction (1/2, 1/3, ...) scaling supported (for example, 1/2 = discard every other pel)
+*   **Bit 6** Integer (x2, x3, ...) scaling supported (for example, x2 = double every pel)
+*   **Bit 7** Scaling supported
 Retired item 17 (1991): The range of values X'06'–X'FF' in property pair X'C0nn' in the Loaded-Font
 command-set vector of the Sense Type and Model reply is retired for outline-font pattern-technology IDs.
 The values X'1E' and X'1F' were defined and unretired in 1993.
@@ -93,27 +90,23 @@ The syntax of this order is different for the two printers; refer to the specifi
 (GA32-0050 and S544-3175) for a description of this command.
 In addition, the IBM Print Services Facility (PSF) has defined a meaning for several of the reserved bytes in
 the IBM 3820 printer version of the XOA-RPI reply. These include:
-◦ Byte 2, bit 2, B'1' means that the IBM 3820 printer is connected through IBM Remote PrintManager.
-◦ Byte 2, bit 3, B'1' means that the IBM 3820 is an IBM 3820-ROM printer.
-◦ Byte 2, bit 4, B'1' means IBM Remote PrintManager group operations.
-◦ Byte 2, bit 5, B'1' means that an intermediate device is attached using the IBM Distributed Print Feature
-(DPF).
-◦ Byte 2, bit 6, B'1' means that an intermediate device is attached using IBM PSF Direct.
-◦ Bytes 4–5 contain a hexadecimal number (either X'0200' or X'0280') describing the amount of control
-store in kilobytes.
-◦ Bytes 6–7 contain a hexadecimal number (from X'0100' to X'1000' in X'0100' or greater increments)
-describing the amount of pattern store in kilobytes.
+*   **Byte 2, bit 2, B'1'** means that the IBM 3820 printer is connected through IBM Remote PrintManager.
+*   **Byte 2, bit 3, B'1'** means that the IBM 3820 is an IBM 3820-ROM printer.
+*   **Byte 2, bit 4, B'1'** means IBM Remote PrintManager group operations.
+*   **Byte 2, bit 5, B'1'** means that an intermediate device is attached using the IBM Distributed Print Feature (DPF).
+*   **Byte 2, bit 6, B'1'** means that an intermediate device is attached using IBM PSF Direct.
+*   **Bytes 4–5** contain a hexadecimal number (either X'0200' or X'0280') describing the amount of control store in kilobytes.
+*   **Bytes 6–7** contain a hexadecimal number (from X'0100' to X'1000' in X'0100' or greater increments) describing the amount of pattern store in kilobytes.
 Retired item 27 (1991): This retired item was unretired in 1991.
 X'05' in the ordering field (byte 2) of the XOA-Request Resource List command had previously been retired
 for the IBM Remote PrintManager product. The product used this value before it was defined in the
 architecture and, once discovered, it was added to the architecture.
 Retired item 28 (1991): X'01' in the resource ID format field (byte 7) of the XOA-Request Resource List
 command is retired for the IBM 3820 printer.
-The IBM 3820 printer allows only the value X'00' for the RIDF in an XOA-RRL request, but returns one of
-the following values in the reply:
-X'00' Downloaded resource; not present in the printer
-X'01' Downloaded resource; in control storage
-X'02' Downloaded resource; in pattern storage
+The IBM 3820 printer allows only the value X'00' for the RIDF in an XOA-RRL request, but returns one of the following values in the reply:
+*   **X'00'** Downloaded resource; not present in the printer
+*   **X'01'** Downloaded resource; in control storage
+*   **X'02'** Downloaded resource; in pattern storage
 Retired item 29 (1991): X'02' in the resource ID format field (byte 7) of the XOA-Request Resource List
 command is retired for the IBM 3820 printer. Refer to retired item 28 for more information.
 Retired item 30 (1991): X'06' in the resource ID format field (byte 7) of the XOA-Request Resource List
@@ -225,13 +218,8 @@ the IBM 3270 architecture.
 This is the Clear bit in IBM 3270 and IBM GOCA architectures. This value indicates that the LSS data
 loaded with this command overwrites the font data for any existing matching code points with the same
 Loaded Font ID. There are only two cases:
-◦ If no previous LSS font or coded font with a font identifier matching bytes 15–16 exists in the printer, this
-command establishes a new LSS font.
-◦ If a previous LSS font or coded font with a font identifier matching bytes 15–16 exists in the printer, the
-information transmitted by this command replaces some or all of the existing control and all of the
-existing raster information about the matching code points, regardless of whether the existing information
-was loaded by a previous Load Symbol Set command or via the coded font commands (Load Font
-Control, Load Font Index, and Load Font).
+*   If no previous LSS font or coded font with a font identifier matching bytes 15–16 exists in the printer, this command establishes a new LSS font.
+*   If a previous LSS font or coded font with a font identifier matching bytes 15–16 exists in the printer, the information transmitted by this command replaces some or all of the existing control and all of the existing raster information about the matching code points, regardless of whether the existing information was loaded by a previous Load Symbol Set command or via the coded font commands (Load Font Control, Load Font Index, and Load Font).
 The IBM GOCA and IBM 3270 architectures allow font deletion via a value of B'1' for this bit. IPDS font
 deletion is done only via the Deactivate Font command.
 Retired item 68 (1991): Bit 2 of the flags1 field (byte 0) in the Load Symbol Set command is retired for the
@@ -294,7 +282,7 @@ printers.
 Retired item 80 (1991): Format 3 sense byte information as specified in sense byte 5 is retired for channel-
 attached printers. This format is used for control-unit sensed exceptions when an Outboard Recorder Record
 (OBR) is required. This format is used in channel-level sense data and is not used with IPDS sense data.
-Refer to “Non-IPDS Sense Data” on page 941 for more information about channel-level sense data.
+Refer to “Non-IPDS Sense Data” for more information about channel-level sense data.
 Byte 4 Reserved
 Byte 5 Format identifier, X'03'
 Bytes 6–7 Channel adapter trace register
@@ -311,14 +299,14 @@ Bytes 22–23 Reserved
 Retired item 81 (1991): Format 4 sense byte information as specified in sense byte 5 is retired for channel-
 attached printers. This format is used for control-unit sensed exceptions when no Outboard Recorder Record
 (OBR) is required. This format is used in channel-level sense data and is not used with IPDS sense data.
-Refer to “Non-IPDS Sense Data” on page 941 for more information about channel-level sense data.
+Refer to “Non-IPDS Sense Data” for more information about channel-level sense data.
 Byte 4 Zero
 Byte 5 Format identifier, X'04'
 Bytes 6–23 Zero
 Retired item 82 (1993): Format 5 sense byte information as specified in sense byte 5 is retired for serial-
 channel-attached printers.
 This format is used in channel-level sense data and is not used with IPDS sense data. Refer to “Non-IPDS
-Sense Data” on page 941 for more information about channel-level sense data.
+Sense Data” for more information about channel-level sense data.
 
 
 Format 5 provides detailed information for channel-level exceptions on a serial-channel-attached printer.
@@ -339,31 +327,31 @@ Byte 21 VCU ID (0–15 Link A, 16–31 Link B)
 Bytes 22–23 Virtual Error Log for VCU ID
 Retired item 83 (1990): Action code X'00' (no error outstanding) as specified in sense byte 2 is retired for
 channel-attached printers. This action code is not used with IPDS sense data; refer to “Non-IPDS Action
-Codes” on page 941 for more information about this action code.
+Codes” for more information about this action code.
 Retired item 84 (1990): Action code X'02' (operator intervention with OBR record) as specified in sense byte
 2 is retired for channel-attached and TCP/IP-attached printers. This action code is not used with IPDS sense
-data; refer to “Non-IPDS Action Codes” on page 941 for more information about this action code.
+data; refer to “Non-IPDS Action Codes” for more information about this action code.
 Retired item 85 (1990): Action code X'03' (operator intervention without OBR record) as specified in sense
 byte 2 is retired for channel-attached and TCP/IP-attached printers. This action code is not used with IPDS
-sense data; refer to “Non-IPDS Action Codes” on page 941 for more information about this action code.
+sense data; refer to “Non-IPDS Action Codes” for more information about this action code.
 Retired item 86 (1990): Action code X'04' (channel error) as specified in sense byte 2 is retired for channel-
 attached printers. This action code is not used with IPDS sense data; refer to “Non-IPDS Action Codes” on
 page 941 for more information about this action code.
 Retired item 87 (1991): Action code X'18' (transparent error) as specified in sense byte 2 is retired for
 channel-attached printers. This action code is not used with IPDS sense data; refer to “Non-IPDS Action
-Codes” on page 941 for more information about this action code.
+Codes” for more information about this action code.
 Retired item 88 (1990): Action code X'1C' (Sense Extended CCW required) as specified in sense byte 2 is
 retired for channel-attached printers. This action code is not used with IPDS sense data; refer to “Non-IPDS
-Action Codes” on page 941 for more information about this action code.
+Action Codes” for more information about this action code.
 Retired item 89 (1993): Action code X'24' (printer not assigned) as specified in sense byte 2 is retired for
 serial-channel-attached printers. This action code is not used with IPDS sense data; refer to “Non-IPDS
-Action Codes” on page 941 for more information about this action code.
+Action Codes” for more information about this action code.
 Retired item 90: (1993): Action code X'25' (printer assigned elsewhere) as specified in sense byte 2 is
 retired for serial-channel-attached printers. This action code is not used with IPDS sense data; refer to “Non-
-IPDS Action Codes” on page 941 for more information about this action code.
+IPDS Action Codes” for more information about this action code.
 Retired item 91 (1993): Action code X'4D' (resetting event) as specified in sense byte 2 is retired for serial-
 channel-attached printers. This action code is not used with IPDS sense data; refer to “Non-IPDS Action
-Codes” on page 941 for more information about this action code.
+Codes” for more information about this action code.
 Retired item 92 (1991): Exception class X'20' as specified in sense byte 0 is retired for Bus-Out Parity
 Check, reserved for compatibility with channel-attached printers.
 Retired item 93 (1991): IPDS command code X'D600' is retired for the IBM 3800 printer T est I/O command.
@@ -391,29 +379,29 @@ Retired item 99 (1991): Action code X'07' (retry error log full) as specified in
 page 941 for more information about this action code.
 Retired item 100 (1991): Action code X'0B' (process power error) as specified in sense byte 2 is retired for
 IBM 3800-3,6,8 printers. This action code is not used with IPDS sense data; refer to “Non-IPDS Action
-Codes” on page 941 for more information about this action code.
+Codes” for more information about this action code.
 Retired item 101 (1991): Action code X'0E' (not enough storage, page printed using the accumulator
 feature) as specified in sense byte 2 is retired for IBM 3800-3,6,8 printers. This action code is not used with
-IPDS sense data; refer to “Non-IPDS Action Codes” on page 941 for more information about this action
+IPDS sense data; refer to “Non-IPDS Action Codes” for more information about this action
 code.
 Retired item 102 (1991): Action code X'0F' (accumulator read check) as specified in sense byte 2 is retired
 for IBM 3800-3,6,8 printers. This action code is not used with IPDS sense data; refer to “Non-IPDS Action
-Codes” on page 941 for more information about this action code.
+Codes” for more information about this action code.
 Retired item 103 (1991): Action code X'10' (reload electronic overlay or base page) as specified in sense
 byte 2 is retired for IBM 3800-3,6,8 printers. This action code is not used with IPDS sense data; refer to “Non-
-IPDS Action Codes” on page 941 for more information about this action code.
+IPDS Action Codes” for more information about this action code.
 Retired item 104 (1991): Action code X'11' (count continuous-forms stacker fold wrong errors) as specified
 in sense byte 2 is retired for IBM 3800-3,6,8 printers. This action code is not used with IPDS sense data;
-refer to “Non-IPDS Action Codes” on page 941 for more information about this action code.
+refer to “Non-IPDS Action Codes” for more information about this action code.
 Retired item 105 (1991): Action code X'12' (count burster input checks) as specified in sense byte 2 is
 retired for IBM 3800-3,6,8 printers. This action code is not used with IPDS sense data; refer to “Non-IPDS
-Action Codes” on page 941 for more information about this action code.
+Action Codes” for more information about this action code.
 Retired item 106 (1991): Action code X'13' (count no burst checks) as specified in sense byte 2 is retired for
 IBM 3800-3,6,8 printers. This action code is not used with IPDS sense data; refer to “Non-IPDS Action
-Codes” on page 941 for more information about this action code.
+Codes” for more information about this action code.
 Retired item 107 (1991): Action code X'14' (count burster-trimmer-stacker stacker/trimmer checks) as
 specified in sense byte 2 is retired for IBM 3800-3,6,8 printers. This action code is not used with IPDS sense
-data; refer to “Non-IPDS Action Codes” on page 941 for more information about this action code.
+data; refer to “Non-IPDS Action Codes” for more information about this action code.
 Retired item 108 (1991): X'8000' property pair in the Device-Control vector of the Sense Type & Model reply
 is retired for XOA-NOP; see retired item 18.
 Retired item 109 (1991): X'8001' property pair in the Device-Control vector of the Sense Type & Model reply
@@ -482,15 +470,15 @@ is retired for XOH-Select Output Stacker; see retired item 127.
 Retired item 127 (1993): X'D000' order code of the Execute Order Home State command is retired for
 Select Output Stacker (SOS); see retired item 126.
 Retired item 128 (1994): The following resource types from byte 2 of the XOA-RRL reply are retired:
-X'81' Resident single-byte LF1-type or LF2-type coded-font components
-X'82' Resident double-byte LF1-type coded-font components
-X'83' Resident double-byte LF1-type coded-font-section components
-X'84' Resident page segment
-X'85' Resident overlay
-X'86' Resident code page
-X'87' Resident font character set
-X'88' Resident single-byte coded-font index
-X'89' Resident double-byte coded-font section index
+*   **X'81'** Resident single-byte LF1-type or LF2-type coded-font components
+*   **X'82'** Resident double-byte LF1-type coded-font components
+*   **X'83'** Resident double-byte LF1-type coded-font-section components
+*   **X'84'** Resident page segment
+*   **X'85'** Resident overlay
+*   **X'86'** Resident code page
+*   **X'87'** Resident font character set
+*   **X'88'** Resident single-byte coded-font index
+*   **X'89'** Resident double-byte coded-font section index
 Retired item 129 (1994): StampType X'01' in the Local Date and Time Stamp (X'62') triplet is retired for use
 by the IBM RMARK utility programs. This StampType indicates that a resource object was marked by the
 IBM RMARK utility.
@@ -506,48 +494,27 @@ This field must be returned by printers that indicate multiple-color support in 
 this self-defining field indicates that the printer supports the single color black along with the color values
 X'0008' (black), and X'FF07' (printer default). Refer to the STM command description for command-set
 vectors containing the Color Support Property Identifier used to indicate support of multiple colors.
-Offset Type Name Range Meaning
-0–1 UBIN SDF
-length
-X'0006' –
-X'7FFE'
-Length of this self-defining field, including itself
-2–3 CODE SDF ID X'0005' Standard OCA Color Value Support self-defining field ID
-One or more color-table values in the following format:
-+0–1 CODE Color
-value X'0001'
-X'0002'
-X'0003'
-X'0004'
-X'0005'
-X'0006'
-X'0007'
-X'0008'
-X'0009'
-X'000A'
-X'000B'
-X'000C'
-X'000D'
-X'000E'
-X'000F'
-X'0010'
-True colors supported by the printer:
-Blue
-Red
-Pink/magenta
-Green
-Turquoise/cyan
-Yellow
-White or black (black for printers, see implementation note 1)
-Black
-Dark blue (see implementation note 1)
-Orange (see implementation note 1)
-Purple (see implementation note 1)
-Dark green (see implementation note 1)
-Dark turquoise (see implementation note 1)
-Mustard (see implementation note 1)
-Gray (see implementation note 1)
-Brown
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006' – X'7FFE' | Length of this self-defining field, including itself |
+| 2–3 | CODE | SDF ID | X'0005' | Standard OCA Color Value Support self-defining field ID |
+| | | | | One or more color-table values in the following format: |
+| +0–1 | CODE | Color value | X'0001' | Blue |
+| | | | X'0002' | Red |
+| | | | X'0003' | Pink/magenta |
+| | | | X'0004' | Green |
+| | | | X'0005' | Turquoise/cyan |
+| | | | X'0006' | Yellow |
+| | | | X'0007' | White or black (black for printers, see implementation note 1) |
+| | | | X'0008' | Black |
+| | | | X'0009' | Dark blue (see implementation note 1) |
+| | | | X'000A' | Orange (see implementation note 1) |
+| | | | X'000B' | Purple (see implementation note 1) |
+| | | | X'000C' | Dark green (see implementation note 1) |
+| | | | X'000D' | Dark turquoise (see implementation note 1) |
+| | | | X'000E' | Mustard (see implementation note 1) |
+| | | | X'000F' | Gray (see implementation note 1) |
+| | | | X'0010' | Brown |
 Implementation Notes:
 1. These colors are listed for compatibility with the IBM GOCA architecture and are unsupported.
 2. The current architecture does not define color-support self-defining fields in the XOH-OPC response
@@ -578,10 +545,7 @@ In the STM reply:
 Property pair X'F402' is retired for "XOA RRL query type X'FE' supported".
 Retired item 132 (1999): Media ID type X'01' in the XOH-OPC reply Printable-Area self-defining field is
 retired for ISO/DPA registered media values.
-X'01' ISO/DPA registered media values.
-This is an integer corresponding to the leaf element of the DPA Standard Object ID (OID) for the
-physical medium identified under the medium object class. The input media ID (in bytes 27–end)
-contains only the characters 0–9 using the code points assigned in IBM code page 500.
+*   **X'01'** ISO/DPA registered media values. This is an integer corresponding to the leaf element of the DPA Standard Object ID (OID) for the physical medium identified under the medium object class. The input media ID (in bytes 27–end) contains only the characters 0–9 using the code points assigned in IBM code page 500.
 These values are defined in ISO Draft International Standard 10175-1 “Information T echnology -
 Text and Office Systems - Document Printing Application (DPA)”.
 Note: Type X'10' is recommended when an OID is used.
@@ -624,54 +588,23 @@ Graphics Object Area
 
 
 Retired item 136 (2006): E-mail Setup File object OID (used by IBM Infoprint Manager)
-Table 74. Object Containers Used in the IPDS Environment (retired item 136)
-Registered
-Object-Type OID Object Description
-Internal
-Resource ID
-Object
-Download
-State Object Usage
-X'0607 2B12
-0004 0101
-2500 0000
-0000 0000'
-E-mail Setup File
-Non-presentation
-Not applicable Home state Setup file
+### Table 74. Object Containers Used in the IPDS Environment (retired item 136)
+
+| Registered Object-Type OID | Object Description | Internal Resource ID | Object Download State | Object Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| X'0607 2B12 0004 0101 2500 0000 0000 0000' | E-mail Setup File | Non-presentation | Not applicable | Home state Setup file |
 Retired item 137 (2006): Fax Setup File object OID (used by IBM Infoprint Manager)
-Table 75. Object Containers Used in the IPDS Environment (retired item 137)
-Registered
-Object-Type OID Object Description
-Internal
-Resource ID
-Object
-Download
-State Object Usage
-X'0607 2B12
-0004 0101
-2400 0000
-0000 0000'
-Fax Setup File
-Non-presentation
-Not applicable Home state Setup file
+### Table 75. Object Containers Used in the IPDS Environment (retired item 137)
+
+| Registered Object-Type OID | Object Description | Internal Resource ID | Object Download State | Object Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| X'0607 2B12 0004 0101 2400 0000 0000 0000' | Fax Setup File | Non-presentation | Not applicable | Home state Setup file |
 Retired item 138 (2006): Infoprint 2000 Setup File object OID (used by IBM Infoprint Manager)
-Table 76. Object Containers Used in the IPDS Environment (retired item 138)
-Registered
-Object-Type OID Object Description
-Internal
-Resource ID
-Object
-Download
-State Object Usage
-X'0607 2B12
-0004 0101
-2600 0000
-0000 0000'
-Infoprint 2000 printer
-Setup File
-Non-presentation
-Not applicable Home state Setup file
+### Table 76. Object Containers Used in the IPDS Environment (retired item 138)
+
+| Registered Object-Type OID | Object Description | Internal Resource ID | Object Download State | Object Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| X'0607 2B12 0004 0101 2600 0000 0000 0000' | Infoprint 2000 printer Setup File | Non-presentation | Not applicable | Home state Setup file |
 Retired item 139 (2006): STM Bar Code property pair X'1301' is retired for “ASCII-based code pages
 supported”.
 Retired item 140 (2008): Bytes 8–11 in the Object Offset (X'5A') triplet are retired for a high-order extension

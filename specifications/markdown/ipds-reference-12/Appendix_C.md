@@ -34,15 +34,17 @@ Run-Length 4 Compression Algorithm (RL4)
 The Run-Length 4 (RL4) algorithm is a binary, one-dimensional, run-length coding method of compression. It is
 based on code words using four bits. The code words used are common to both white runs and black runs.
 Code words are listed in the following table:
-Table 73. Run-Length 4 Compression
-Run Length Code Word Code Length
-0 1111 1110 8 bits
-1–8 0xxx 4 bits
-9–72 10xx xxxx 8 bits
-73–584 110x xxxx xxxx 12 bits
-585–4680 1110 xxxx xxxx xxxx 16 bits
-4681–32,767 1111 0xxx xxxx xxxx xxxx 20 bits
-EOL 1111 1111 (1111) 8 or 12 bits
+### Table 73. Run-Length 4 Compression
+
+| Run Length | Code Word | Code Length |
+| :--- | :--- | :--- |
+| 0 | 1111 1110 | 8 bits |
+| 1–8 | 0xxx | 4 bits |
+| 9–72 | 10xx xxxx | 8 bits |
+| 73–584 | 110x xxxx xxxx | 12 bits |
+| 585–4680 | 1110 xxxx xxxx xxxx | 16 bits |
+| 4681–32,767 | 1111 0xxx xxxx xxxx xxxx | 20 bits |
+| EOL | 1111 1111 (1111) | 8 or 12 bits |
 Two EOL (End Of Line) codes are provided to make an encoded string of each scan line start at a byte
 boundary. Either of these codes is used, depending on whether the last run-length code of the previous scan
 line ends at a byte boundary. Each scan line is represented in the following format:

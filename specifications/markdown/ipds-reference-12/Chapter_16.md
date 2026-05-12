@@ -10971,8 +10971,7 @@ Support: Optional
 Notes:
 1. This exception ID uses sense format 0 so that sense
 bytes 16–17 can contain an object-specific error code;
-refer to “Error Codes for Other Data Objects” on page
-922 for a list of object-specific error codes. X'0000' in
+refer to “Error Codes for Other Data Objects” for a list of object-specific error codes. X'0000' in
 sense bytes 16–17 indicates that no object-specific
 error code has been provided.
 2. Some of the format 0 sense byte information that is
@@ -11118,154 +11117,94 @@ in “Specification Checks—IO-Image Exceptions” .
 Error Codes for Other Data Objects
 The error codes in the following table are contained in sense bytes 16–17 of exception IDs X'020D..01',
 X'020D..05', and X'0115..00'.
-Table 65. Error Codes for Data Objects
-Error Number Explanation
-0 X'0000' No error code provided
-PostScript Object Errors
-30 X'001E' PostScript Object Error: Setpagedevice or setdevparams request cannot be satisfied
-31 X'001F' PostScript Object Error: Dictionary has no more room in it to store entry
-32 X'0020' PostScript Object Error: Too many begin operators detected
-33 X'0021' PostScript Object Error: Too many end operators detected
-34 X'0022' PostScript Object Error: Executive stack nesting too deep
-35 X'0023' PostScript Object Error: External interrupt request detected
-36 X'0024' PostScript Object Error: Attempt to violate access attribute
-37 X'0025' PostScript Object Error: Operator exit was not found in loop context
-38 X'0026' PostScript Object Error: Unacceptable access string
-39 X'0027' PostScript Object Error: Invalid font resource name or font or CIDFont dictionary
-40 X'0028' PostScript Object Error: Improper restore has been detected
-41 X'0029' PostScript Object Error: Input/output error has been detected
-42 X'002A' PostScript Object Error: Implementation limit has been exceeded
-43 X'002B' PostScript Object Error: The current point undefined
-44 X'002C' PostScript Object Error: An operator's operand is out of bounds
-45 X'002D' PostScript Object Error: An operand stack overflow has been detected
-46 X'002E' PostScript Object Error: An operand stack underflow has been detected
+### Table 65. Error Codes for Data Objects
 
-
-Table 65 Error Codes for Data Objects (cont'd.)
-Error Number Explanation
-47 X'002F' PostScript Object Error: A PostScript language syntax error has been detected
-48 X'0030' PostScript Object Error: Object processing time limit has been exceeded
-49 X'0031' PostScript Object Error: An operator's operand has been detected as the wrong type
-50 X'0032' PostScript Object Error: A name used in object is not known to the interpreter
-51 X'0033' PostScript Object Error: Filename used in object was not found by the interpreter
-52 X'0034' PostScript Object Error: Resource used in object was not found by the interpreter
-53 X'0035' PostScript Object Error: An overflow, underflow, or meaningless result occurred
-54 X'0036' PostScript Object Error: Interpreter expected a mark on the stack; none was found
-55 X'0037' PostScript Object Error: Internal error occurred within the interpreter
-56 X'0038' PostScript Object Error: The interpreter's virtual memory has been exhausted
-57 X'0039' PostScript Object Error: No output generated from EPS/PDF; check input data
-PDF Object Errors
-80 X'0050' PDF Object Error: Failure to open a secure PDF document
-81 X'0051' PDF Object Error: General failure to convert PDF to PostScript code
-82 X'0052' PDF Object Error: Failure to enumerate fonts contained in PDF document
-83 X'0053' PDF Object Error: Failure to open PDF document
-TrueType/OpenType Object Errors
-Error codes in the range X'0100'–X'01FF' can apply to either TrueType/OpenType fonts or TrueType/OpenType
-collections. For these codes, the rightmost 4 bits contains the collection index value plus one. A value of X'0' indicates
-either that the object was a font or indicates that the collection index is not provided (because it is greater than 14).
-256 –
-271
-X'0100' –
-X'010F'
-TrueType/OpenType Object Error: File read failure detected by the font rasterizer
-272 –
-287
-X'0110' –
-X'011F'
-TrueType/OpenType Object Error: Font rasterizer was unable to understand (parse) the data in a
-font
-288 –
-303
-X'0120' –
-X'012F'
-TrueType/OpenType Object Error: Font rasterizer failed to gather a font's font-level metrics
-304 –
-319
-X'0130' –
-X'013F'
-TrueType/OpenType Object Error: The first four bytes of a font are invalid
-320 –
-335
-X'0140' –
-X'014F'
-TrueType/OpenType Object Error: The printer control unit failed to read a portion of a font that
-should be present
-336 –
-351
-X'0150' –
-X'015F'
-TrueType/OpenType Object Error: The printer control unit unexpectedly reached end of file while
-reading a font
-352 –
-367
-X'0160' –
-X'016F'
-TrueType/OpenType Object Error: The first four bytes of a collection are invalid
-368 –
-383
-X'0170' –
-X'017F'
-TrueType/OpenType Object Error: The required format 4 cmap is missing from a font
-384 –
-399
-X'0180' –
-X'018F'
-TrueType/OpenType Object Error: An error that the printer control unit is not currently prepared
-to handle has occurred
-
-
-Table 65 Error Codes for Data Objects (cont'd.)
-Error Number Explanation
-TIFF Object Errors (X'0200'–X'02FF')
-512 X'0200' TIFF Object Error: An internal error was encountered while processing the image
-528 X'0210' TIFF Object Error: Object contains invalid controls; see note 1
-544 X'0220' TIFF Object Error: Object contains invalid image data; see note 2
-560 X'0230' TIFF Object Error: Object contains unsupported image
-576 X'0240' TIFF Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
-page 925
-JPEG Object Errors (X'0300'–X'03FF')
-768 X'0300' JPEG Object Error: An internal error was encountered while processing the image
-784 X'0310' JPEG Object Error: Object contains invalid controls; see note 1
-800 X'0320' JPEG Object Error: Object contains invalid image data; see note 2
-816 X'0330' JPEG Object Error: Object contains unsupported image
-832 X'0340' JPEG Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
-page 925
-JPEG2000 Object Errors (X'0400'–X'04FF')
-1024 X'0400' JPEG2000 Object Error: An internal error was encountered while processing the image
-1040 X'0410' JPEG2000 Object Error: Object contains invalid controls; see note 1
-1056 X'0420' JPEG2000 Object Error: Object contains invalid image data; see note 2
-1072 X'0430' JPEG2000 Object Error: Object contains unsupported image
-1088 X'0440' JPEG2000 Object Error: Image in the object exceeds the capabilities of the receiver; see note 3
-
-GIF Object Errors (X'0500'–X'05FF')
-1280 X'0500' GIF Object Error: An internal error was encountered while processing the image
-1296 X'0510' GIF Object Error: Object contains invalid controls; see note 1
-1312 X'0520' GIF Object Error: Object contains invalid image data; see note 2
-1328 X'0530' GIF Object Error: Object contains unsupported image
-1344 X'0540' GIF Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
-page 925
-PNG Object Errors (X'0600'–X'06FF')
-1536 X'0600' PNG Object Error: An internal error was encountered while processing the image
-1552 X'0610' PNG Object Error: Object contains invalid controls; see note 1
-1568 X'0620' PNG Object Error: Object contains invalid image data; see note 2
-1584 X'0630' PNG Object Error: Object contains unsupported image
-1600 X'0640' PNG Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 on
-page 925
-
-
-Table 65 Error Codes for Data Objects (cont'd.)
-Error Number Explanation
-AFP SVG Subset Object Errors (X'0700'–X'07FF')
-1792 X'0700' SVG Object Error: An internal error was encountered while processing the vector image
-1808 X'0710' SVG Object Error: Error decompressing object
-1824 X'0720' SVG Object Error: Content does not conform to the XML specification
-1840 X'0730' SVG Object Error: Element or attribute encountered that is not part of the SVG DTD and that is
-not properly identified as being part of another namespace
-1856 X'0740' SVG Object Error: Element has an attribute or property value that is not permissible according to
-the SVG specification
-1872 X'0750' SVG Object Error: Situations that are described as being “in error” in the SVG specification
-1888 X'0760' SVG Object Error: Object contains unsupported vector image
-1904 X'0770' SVG Object Error: Vector image in the object exceeds the capabilities of the receiver; see note 3
+| Error Number | Explanation |
+| :--- | :--- |
+| **0 (X'0000')** | No error code provided |
+| **PostScript Object Errors** | |
+| 30 (X'001E') | PostScript Object Error: Setpagedevice or setdevparams request cannot be satisfied |
+| 31 (X'001F') | PostScript Object Error: Dictionary has no more room in it to store entry |
+| 32 (X'0020') | PostScript Object Error: Too many begin operators detected |
+| 33 (X'0021') | PostScript Object Error: Too many end operators detected |
+| 34 (X'0022') | PostScript Object Error: Executive stack nesting too deep |
+| 35 (X'0023') | PostScript Object Error: External interrupt request detected |
+| 36 (X'0024') | PostScript Object Error: Attempt to violate access attribute |
+| 37 (X'0025') | PostScript Object Error: Operator exit was not found in loop context |
+| 38 (X'0026') | PostScript Object Error: Unacceptable access string |
+| 39 (X'0027') | PostScript Object Error: Invalid font resource name or font or CIDFont dictionary |
+| 40 (X'0028') | PostScript Object Error: Improper restore has been detected |
+| 41 (X'0029') | PostScript Object Error: Input/output error has been detected |
+| 42 (X'002A') | PostScript Object Error: Implementation limit has been exceeded |
+| 43 (X'002B') | PostScript Object Error: The current point undefined |
+| 44 (X'002C') | PostScript Object Error: An operator's operand is out of bounds |
+| 45 (X'002D') | PostScript Object Error: An operand stack overflow has been detected |
+| 46 (X'002E') | PostScript Object Error: An operand stack underflow has been detected |
+| 47 (X'002F') | PostScript Object Error: A PostScript language syntax error has been detected |
+| 48 (X'0030') | PostScript Object Error: Object processing time limit has been exceeded |
+| 49 (X'0031') | PostScript Object Error: An operator's operand has been detected as the wrong type |
+| 50 (X'0032') | PostScript Object Error: A name used in object is not known to the interpreter |
+| 51 (X'0033') | PostScript Object Error: Filename used in object was not found by the interpreter |
+| 52 (X'0034') | PostScript Object Error: Resource used in object was not found by the interpreter |
+| 53 (X'0035') | PostScript Object Error: An overflow, underflow, or meaningless result occurred |
+| 54 (X'0036') | PostScript Object Error: Interpreter expected a mark on the stack; none was found |
+| 55 (X'0037') | PostScript Object Error: Internal error occurred within the interpreter |
+| 56 (X'0038') | PostScript Object Error: The interpreter's virtual memory has been exhausted |
+| 57 (X'0039') | PostScript Object Error: No output generated from EPS/PDF; check input data |
+| **PDF Object Errors** | |
+| 80 (X'0050') | PDF Object Error: Failure to open a secure PDF document |
+| 81 (X'0051') | PDF Object Error: General failure to convert PDF to PostScript code |
+| 82 (X'0052') | PDF Object Error: Failure to enumerate fonts contained in PDF document |
+| 83 (X'0053') | PDF Object Error: Failure to open PDF document |
+| **TrueType/OpenType Object Errors** | Error codes in the range X'0100'–X'01FF' can apply to either TrueType/OpenType fonts or TrueType/OpenType collections. For these codes, the rightmost 4 bits contains the collection index value plus one. A value of X'0' indicates either that the object was a font or indicates that the collection index is not provided (because it is greater than 14). |
+| 256–271 (X'0100'–X'010F') | TrueType/OpenType Object Error: File read failure detected by the font rasterizer |
+| 272–287 (X'0110'–X'011F') | TrueType/OpenType Object Error: Font rasterizer was unable to understand (parse) the data in a font |
+| 288–303 (X'0120'–X'012F') | TrueType/OpenType Object Error: Font rasterizer failed to gather a font's font-level metrics |
+| 304–319 (X'0130'–X'013F') | TrueType/OpenType Object Error: The first four bytes of a font are invalid |
+| 320–335 (X'0140'–X'014F') | TrueType/OpenType Object Error: The printer control unit failed to read a portion of a font that should be present |
+| 336–351 (X'0150'–X'015F') | TrueType/OpenType Object Error: The printer control unit unexpectedly reached end of file while reading a font |
+| 352–367 (X'0160'–X'016F') | TrueType/OpenType Object Error: The first four bytes of a collection are invalid |
+| 368–383 (X'0170'–X'017F') | TrueType/OpenType Object Error: The required format 4 cmap is missing from a font |
+| 384–399 (X'0180'–X'018F') | TrueType/OpenType Object Error: An error that the printer control unit is not currently prepared to handle has occurred |
+| **TIFF Object Errors (X'0200'–X'02FF')** | |
+| 512 (X'0200') | TIFF Object Error: An internal error was encountered while processing the image |
+| 528 (X'0210') | TIFF Object Error: Object contains invalid controls; see note 1 |
+| 544 (X'0220') | TIFF Object Error: Object contains invalid image data; see note 2 |
+| 560 (X'0230') | TIFF Object Error: Object contains unsupported image |
+| 576 (X'0240') | TIFF Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 |
+| **JPEG Object Errors (X'0300'–X'03FF')** | |
+| 768 (X'0300') | JPEG Object Error: An internal error was encountered while processing the image |
+| 784 (X'0310') | JPEG Object Error: Object contains invalid controls; see note 1 |
+| 800 (X'0320') | JPEG Object Error: Object contains invalid image data; see note 2 |
+| 816 (X'0330') | JPEG Object Error: Object contains unsupported image |
+| 832 (X'0340') | JPEG Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 |
+| **JPEG2000 Object Errors (X'0400'–X'04FF')** | |
+| 1024 (X'0400') | JPEG2000 Object Error: An internal error was encountered while processing the image |
+| 1040 (X'0410') | JPEG2000 Object Error: Object contains invalid controls; see note 1 |
+| 1056 (X'0420') | JPEG2000 Object Error: Object contains invalid image data; see note 2 |
+| 1072 (X'0430') | JPEG2000 Object Error: Object contains unsupported image |
+| 1088 (X'0440') | JPEG2000 Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 |
+| **GIF Object Errors (X'0500'–X'05FF')** | |
+| 1280 (X'0500') | GIF Object Error: An internal error was encountered while processing the image |
+| 1296 (X'0510') | GIF Object Error: Object contains invalid controls; see note 1 |
+| 1312 (X'0520') | GIF Object Error: Object contains invalid image data; see note 2 |
+| 1328 (X'0530') | GIF Object Error: Object contains unsupported image |
+| 1344 (X'0540') | GIF Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 |
+| **PNG Object Errors (X'0600'–X'06FF')** | |
+| 1536 (X'0600') | PNG Object Error: An internal error was encountered while processing the image |
+| 1552 (X'0610') | PNG Object Error: Object contains invalid controls; see note 1 |
+| 1568 (X'0620') | PNG Object Error: Object contains invalid image data; see note 2 |
+| 1584 (X'0630') | PNG Object Error: Object contains unsupported image |
+| 1600 (X'0640') | PNG Object Error: Image in the object exceeds the capabilities of the receiver; see note 3 |
+| **AFP SVG Subset Object Errors (X'0700'–X'07FF')** | |
+| 1792 (X'0700') | SVG Object Error: An internal error was encountered while processing the vector image |
+| 1808 (X'0710') | SVG Object Error: Error decompressing object |
+| 1824 (X'0720') | SVG Object Error: Content does not conform to the XML specification |
+| 1840 (X'0730') | SVG Object Error: Element or attribute encountered that is not part of the SVG DTD and that is not properly identified as being part of another namespace |
+| 1856 (X'0740') | SVG Object Error: Element has an attribute or property value that is not permissible according to the SVG specification |
+| 1872 (X'0750') | SVG Object Error: Situations that are described as being “in error” in the SVG specification |
+| 1888 (X'0760') | SVG Object Error: Object contains unsupported vector image |
+| 1904 (X'0770') | SVG Object Error: Vector image in the object exceeds the capabilities of the receiver; see note 3 |
 Notes:
 1. Examples of invalid controls include:
 • Missing TIFF tag
@@ -11299,379 +11238,50 @@ counters have matching copy counters.
 All counters represent complete pages and copies and are always adjusted on page or copy boundaries. The
 received page counter represents the last received page. The other page counters identify the last page
 placed on the sheet at that counter station.
-Table 66. Method of Adjusting the Counters
-Condition Counters Counter Adjustments
-Action codes
-X'01',
-X'19',
-X'1F'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Refer to “Page and Copy Counter Adjustments
-When a Data-Stream Exception Occurs” on page
-929.
-Action codes
-X'05',
-X'06'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-Action code
-X'08'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to Jam Recovery Page Counter
-Set to Jam Recovery Page Counter
-Set to Jam Recovery Copy Counter
-Set to Jam Recovery Page Counter
-Set to Jam Recovery Copy Counter
-No change
-No change
-Set to Jam Recovery Page Counter
-Set to Jam Recovery Copy Counter
-Action codes
-X'09',
-X'15',
-X'16',
-X'17',
-X'1A',
-X'1D',
-X'23'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to Committed Page Counter
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-No change
+### Table 66. Method of Adjusting the Counters
 
-
-Table 66 Method of Adjusting the Counters (cont'd.)
-Condition Counters Counter Adjustments
-Action code
-X'0A'
-X'1B'
-X'2B'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to Jam Recovery Page Counter
-Set to Jam Recovery Page Counter
-Set to Jam Recovery Copy Counter
-Set to Jam Recovery Page Counter
-Set to Jam Recovery Copy Counter
-No change
-No change
-No change
-No change
-Action code
-X'0C'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-No change (Should not be incremented for
-page in error; that is, no partial page
-should be created.)
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-Action code
-X'0D'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Action code
-X'1E'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to Committed Page Counter unless
-duplexing is active for the page in which the
-exception occurs and the page that caused
-the exception is on the back side of a
-duplex sheet. In this case, the back-side
-pages are discarded and the Received
-Page Counter is set to the Committed
-Page Counter plus the number of pages
-on the front side. The host must issue an
-XOH-PBD command to ensure that the
-counters are accurately adjusted.
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-
-
-Table 66 Method of Adjusting the Counters (cont'd.)
-Condition Counters Counter Adjustments
-Action code
-X'22'
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Defined by the printer
-Defined by the printer
-Defined by the printer
-Defined by the printer
-Defined by the printer
-Defined by the printer
-Defined by the printer
-Defined by the printer
-Defined by the printer
-XOA Discard
-Buffered
-Data
-command
-is processed
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to Committed Page Counter
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-No change
-XOA Discard
-Unstacked Pages
-command is
-processed
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to Stacked Page Counter
-Set to Stacked Page Counter
-Set to Stacked Copy Counter
-Set to Stacked Page Counter
-Set to Stacked Copy Counter
-Set to Stacked Page Counter
-Set to Stacked Copy Counter
-No change
-No change
-Normal counter
-wrap (on a per-
-counter basis)
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-Set to 0
-XOH Page
-Counters
-Control
-command is
-processed
-Received Page Counter
-Committed Page Counter
-Committed Copy Counter
-Operator Viewing Page Counter
-Operator Viewing Copy Counter
-Jam Recovery Page Counter
-Jam Recovery Copy Counter
-Stacked Page Counter
-Stacked Copy Counter
-Refer to “XOH Page Counters Control” on page
-381.
+| Condition | Counters | Counter Adjustments |
+| :--- | :--- | :--- |
+| Action codes X'01', X'19', X'1F' | Received Page Counter<br>Committed Page Counter<br>Committed Copy Counter<br>Operator Viewing Page Counter<br>Operator Viewing Copy Counter<br>Jam Recovery Page Counter<br>Jam Recovery Copy Counter<br>Stacked Page Counter<br>Stacked Copy Counter | Refer to “Page and Copy Counter Adjustments When a Data-Stream Exception Occurs”. |
+| Action codes X'05', X'06' | All counters | No change |
+| Action code X'08' | Received Page Counter<br>Committed Page Counter<br>Operator Viewing Page Counter<br>Stacked Page Counter<br>Committed Copy Counter<br>Operator Viewing Copy Counter<br>Stacked Copy Counter | Set to Jam Recovery Page Counter<br>Set to Jam Recovery Page Counter<br>Set to Jam Recovery Page Counter<br>Set to Jam Recovery Page Counter<br>Set to Jam Recovery Copy Counter<br>Set to Jam Recovery Copy Counter<br>Set to Jam Recovery Copy Counter |
+| | Jam Recovery Page Counter<br>Jam Recovery Copy Counter | No change |
+| Action codes X'09', X'15', X'16', X'17', X'1A', X'1D', X'23' | Received Page Counter | Set to Committed Page Counter |
+| | All other counters | No change |
+| Action codes X'0A', X'1B', X'2B' | Received Page Counter<br>Committed Page Counter<br>Operator Viewing Page Counter<br>Committed Copy Counter<br>Operator Viewing Copy Counter | Set to Jam Recovery Page Counter<br>Set to Jam Recovery Page Counter<br>Set to Jam Recovery Page Counter<br>Set to Jam Recovery Copy Counter<br>Set to Jam Recovery Copy Counter |
+| | All other counters | No change |
+| Action code X'0C' | Received Page Counter | No change (Should not be incremented for page in error; that is, no partial page should be created.) |
+| | All other counters | No change |
+| Action code X'0D' | All counters | Set to 0 |
+| Action code X'1E' | Received Page Counter | Set to Committed Page Counter unless duplexing is active for the page in which the exception occurs and the page that caused the exception is on the back side of a duplex sheet. In this case, the back-side pages are discarded and the Received Page Counter is set to the Committed Page Counter plus the number of pages on the front side. The host must issue an XOH-PBD command to ensure that the counters are accurately adjusted. |
+| | All other counters | No change |
+| Action code X'22' | All counters | Defined by the printer |
+| XOA Discard Buffered Data command is processed | Received Page Counter | Set to Committed Page Counter |
+| | All other counters | No change |
+| XOA Discard Unstacked Pages command is processed | Received Page Counter<br>Committed Page Counter<br>Operator Viewing Page Counter<br>Jam Recovery Page Counter<br>Committed Copy Counter<br>Operator Viewing Copy Counter<br>Jam Recovery Copy Counter | Set to Stacked Page Counter<br>Set to Stacked Page Counter<br>Set to Stacked Page Counter<br>Set to Stacked Page Counter<br>Set to Stacked Copy Counter<br>Set to Stacked Copy Counter<br>Set to Stacked Copy Counter |
+| | Stacked Page Counter<br>Stacked Copy Counter | No change |
+| Normal counter wrap (on a per-counter basis) | All counters | Set to 0 |
+| XOH Page Counters Control command is processed | All counters | Refer to “XOH Page Counters Control”. |
 
 
 Page and Copy Counter Adjustments When a Data-Stream Exception
 Occurs
-Table 67. Method of Adjusting the Counters When a Data-Stream Exception Occurs
-Condition Counters Counter Adjustments
-Action code X'01', X'1F',
-or X'19' and the page is
-printed.
-For action code X'19', the
-host must issue an XOH-
-PBD command to ensure
-that the counters are
-accurately adjusted.
-Received Page Counter Reflects the last page received from the host, unless
-the error occurred on the last page on a sheet. The
-received page counter is incremented for the last
-page on a sheet after all copy subgroups are
-processed for all pages on the sheet.
-Committed Page Counter No Change
-Committed Copy Counter Reflects any committed copies resulting from prior
-copy subgroups. If the error occurred in the last page
-on the sheet, reflects committed copies from the
-copy subgroup in error. Since no copies have been
-discarded, additional copies might also be buffered
-between the received page station and the
-committed page station.
-Operator Viewing Page Counter No Change
-Operator Viewing Copy Counter No Change
-Jam Recovery Page Counter No Change
-Jam Recovery Copy Counter No Change
-Stacked Page Counter No Change
-Stacked Copy Counter No Change
-Action code X'01', or
-X'1F', and the page is not
-printed.
-Received Page Counter If a synchronous data stream exception occurred in
-the first copy subgroup (or, if duplexing, the second
-copy subgroup), the received page counter includes
-all received pages prior to the error page. If a
-synchronous data stream exception occurred in a
-subsequent copy subgroup, the received page
-counter includes all but the last page on the sheet.
-Committed Page Counter No Change
-Committed Copy Counter Reflects any committed copies resulting from prior
-error-free copy subgroups. Since prior error-free
-copies have not been discarded, additional copies
-might also be buffered between the received page
-station and the committed page station.
-Operator Viewing Page Counter No Change
-Operator Viewing Copy Counter No Change
-Jam Recovery Page Counter No Change
-Jam Recovery Copy Counter No Change
-Stacked Page Counter No Change
-Stacked Copy Counter No Change
+### Table 67. Method of Adjusting the Counters When a Data-Stream Exception Occurs
 
-
-Table 67 Method of Adjusting the Counters When a Data-Stream Exception Occurs (cont'd.)
-Condition Counters Counter Adjustments
-Action code X'19' and the
-page is not printed.
-For action code X'19', the
-host must issue an XOH-
-PBD command to ensure
-that the counters are
-accurately adjusted.
-Received Page Counter If an asynchronous data stream exception occurred
-and if there were any error free copy subgroups
-committed, the received page counter reflects all of
-the pages on the sheet. If there were no previous
-error free copy subgroups, it reflects none of the
-pages on the sheet.
-Committed Page Counter No Change
-Committed Copy Counter Reflects any committed copies resulting from prior
-error-free copy subgroups. Since prior error-free
-copies have not been discarded, additional copies
-might also be buffered between the received page
-station and the committed page station.
-Operator Viewing Page Counter No Change
-Operator Viewing Copy Counter No Change
-Jam Recovery Page Counter No Change
-Jam Recovery Copy Counter No Change
-Stacked Page Counter No Change
-Stacked Copy Counter No Change
+| Condition | Counters | Counter Adjustments |
+| :--- | :--- | :--- |
+| **Action code X'01', X'1F', or X'19' and the page is printed.**<br>For action code X'19', the host must issue an XOH-PBD command to ensure that the counters are accurately adjusted. | Received Page Counter | Reflects the last page received from the host, unless the error occurred on the last page on a sheet. The received page counter is incremented for the last page on a sheet after all copy subgroups are processed for all pages on the sheet. |
+| | Committed Page Counter | No Change |
+| | Committed Copy Counter | Reflects any committed copies resulting from prior copy subgroups. If the error occurred in the last page on the sheet, reflects committed copies from the copy subgroup in error. Since no copies have been discarded, additional copies might also be buffered between the received page station and the committed page station. |
+| | All other counters | No Change |
+| **Action code X'01', or X'1F', and the page is not printed.** | Received Page Counter | If a synchronous data stream exception occurred in the first copy subgroup (or, if duplexing, the second copy subgroup), the received page counter includes all received pages prior to the error page. If a synchronous data stream exception occurred in a subsequent copy subgroup, the received page counter includes all but the last page on the sheet. |
+| | Committed Page Counter | No Change |
+| | Committed Copy Counter | Reflects any committed copies resulting from prior error-free copy subgroups. Since prior error-free copies have not been discarded, additional copies might also be buffered between the received page station and the committed page station. |
+| | All other counters | No Change |
+| **Action code X'19' and the page is not printed.**<br>For action code X'19', the host must issue an XOH-PBD command to ensure that the counters are accurately adjusted. | Received Page Counter | If an asynchronous data stream exception occurred and if there were any error free copy subgroups committed, the received page counter reflects all of the pages on the sheet. If there were no previous error free copy subgroups, it reflects none of the pages on the sheet. |
+| | Committed Page Counter | No Change |
+| | Committed Copy Counter | Reflects any committed copies resulting from prior error-free copy subgroups. Since prior error-free copies have not been discarded, additional copies might also be buffered between the received page station and the committed page station. |
+| | All other counters | No Change |
 
 
 Page Counter Scenarios
@@ -12270,132 +11880,28 @@ The following action codes are valid; however, a specific printer will return on
 your printer documentation for the list of non-IPDS action codes used by your printer.
 For each action code, a suggested host recovery action is provided. For the description of a particular host-
 program implementation, refer to your host-program documentation.
-Table 68. Retired Non-IPDS Action Codes
-Action Code Exception Recovery Action
-X'00'
-No error outstanding
-Retired item 83; used in channel-attached printers
-Software should redrive the channel with the failing CCW. This action code is
-specified if the printer operator clears a temporary intervention required condition and
-readies the printer between the time a Unit Check is posted and the Basic Sense
-command is received by the host. The printer was in the ready state when this action
-code was generated.
-X'02'
-Operator intervention
-with OBR record
-Retired item 84; used in channel-attached and TCP/IP-attached printers
-An operator intervention condition has occurred that requires an OBR record. Supply
-a system operator message indicating that operator intervention is required and
-generate an OBR record. The printer was in the not ready state when this action code
-was generated. After the printer is made ready, restart the channel program with the
-failing CCW (or restart the flow of TCP/IP data).
-X'03'
-Operator intervention
-without OBR record
-Retired item 85; used in channel-attached and TCP/IP-attached printers
-An operator intervention condition has occurred that does not require an OBR record.
-Supply a system operator message indicating that operator intervention is required.
-The printer was in the not ready state when this action code was generated. After the
-printer is made ready, restart the channel program with the failing CCW (or restart the
-flow of TCP/IP data).
+### Table 68. Retired Non-IPDS Action Codes
 
-
-Table 68 Retired Non-IPDS Action Codes (cont'd.)
-Action Code Exception Recovery Action
-X'04'
-Channel error
-Retired item 86; used in channel-attached printers
-A channel error has occurred. Generate an OBR record and retry the operation at
-least once. If retry fails, provide a system operator message that shows an
-unrecoverable error has occurred and notify presentation software. The printer might
-be in either the ready or not ready state when this action code is received.
-X'07'
-Retry Error Log full
-Retired item 99; used in 3800-3,6,8 printers
-Software should retrieve the retry error log entries with a Sense Error Log CCW,
-generate an MDR record to save the retry error log information, and restart the
-channel program with the failing CCW.
-X'0B'
-Process power error
-Retired item 100; used in 3800-3,6,8 printers
-Software should generate an OBR record, issue the XOA-DBD command, provide an
-operator message that indicates an error has occurred, and redrive on the page at
-the jam recovery counter plus one.
-X'0E'
-Not Enough Storage,
-page printed using the
-accumulator feature
-Retired item 101; used in 3800-3,6,8 printers
-Delete overlays, page segments, or fonts that are not required for the job.
-X'0F'
-Accumulator read check
-Retired item 102; used in 3800-3,6,8 printers
-Software should generate an OBR record, issue the XOA-DBD command, and
-redrive on the page at the committed counter plus one. If an electronic overlay was
-lost, retransmit the electronic overlay and then retransmit the lost pages.
-X'10'
-Reload Electronic
-Overlay or Base Page
-Retired item 103; used in 3800-3,6,8 printers
-Terminate the print job.
-X'11'
-Count continuous-forms stacker
-fold wrong errors
-Retired item 104; used in 3800-3,6,8 printers
-Supply an operator message, increase SDR counter 6, and restart the channel
-program with the failing CCW.
-X'12'
-Count burster input
-checks
-Retired item 105; used in 3800-3,6,8 printers
-Supply an operator message, increase SDR counter 7, and restart the channel
-program with the failing CCW.
-X'13'
-Count no burst checks
-Retired item 106; used in 3800-3,6,8 printers
-Supply an operator message, increase SDR counter 8, and restart the channel
-program with the failing CCW.
-X'14'
-Count burster-trimmer-stacker
-stacker/trimmer checks
-Retired item 107; used in 3800-3,6,8 printers
-Supply an operator message, increase SDR counter 9, and restart the channel
-program with the failing CCW.
-X'18'
-Transparent error
-Retired item 87; used in channel-attached printers
-X'1C'
-Sense Extended CCW
-required
-Retired item 88; used in channel-attached printers
-An exception has occurred that requires an IPDS NACK to be sent to host software.
-The IPDS NACK is obtained when the host software issues a Sense Extended CCW.
-Purge the channel program, obtain and send the Acknowledge Reply to presentation
-software. The printer might either be in the ready or not ready state when this action
-code is received.
-
-
-Table 68 Retired Non-IPDS Action Codes (cont'd.)
-Action Code Exception Recovery Action
-X'24'
-Printer not assigned
-Retired item 89; used in Serial-Channel-attached printers
-The printer has not been assigned to the host. Reissue this CCW following the
-successful execution of an Assign CCW. The printer might either be in the ready or
-not ready state when this action code is received.
-X'25'
-Printer assigned
-elsewhere
-Retired item 90; used in Serial-Channel-attached printers
-The printer is assigned to another host. Issue an Assign CCW at a later time or when
-the printer is known to be available. The printer might either be in the ready or not
-ready state when this action code is received.
-X'4D'
-Resetting event
-Retired item 91; used in Serial-Channel-attached printers
-A resetting event has occurred at the printer. Reestablish the path group ID and path
-mode and reissue the failing CCW. The printer might either be in the ready or not
-ready state when this action code is received.
+| Action Code | Exception Recovery Action |
+| :--- | :--- |
+| **X'00'**<br>No error outstanding | Retired item 83; used in channel-attached printers<br>Software should redrive the channel with the failing CCW. This action code is specified if the printer operator clears a temporary intervention required condition and readies the printer between the time a Unit Check is posted and the Basic Sense command is received by the host. The printer was in the ready state when this action code was generated. |
+| **X'02'**<br>Operator intervention with OBR record | Retired item 84; used in channel-attached and TCP/IP-attached printers<br>An operator intervention condition has occurred that requires an OBR record. Supply a system operator message indicating that operator intervention is required and generate an OBR record. The printer was in the not ready state when this action code was generated. After the printer is made ready, restart the channel program with the failing CCW (or restart the flow of TCP/IP data). |
+| **X'03'**<br>Operator intervention without OBR record | Retired item 85; used in channel-attached and TCP/IP-attached printers<br>An operator intervention condition has occurred that does not require an OBR record. Supply a system operator message indicating that operator intervention is required. The printer was in the not ready state when this action code was generated. After the printer is made ready, restart the channel program with the failing CCW (or restart the flow of TCP/IP data). |
+| **X'04'**<br>Channel error | Retired item 86; used in channel-attached printers<br>A channel error has occurred. Generate an OBR record and retry the operation at least once. If retry fails, provide a system operator message that shows an unrecoverable error has occurred and notify presentation software. The printer might be in either the ready or not ready state when this action code is received. |
+| **X'07'**<br>Retry Error Log full | Retired item 99; used in 3800-3,6,8 printers<br>Software should retrieve the retry error log entries with a Sense Error Log CCW, generate an MDR record to save the retry error log information, and restart the channel program with the failing CCW. |
+| **X'0B'**<br>Process power error | Retired item 100; used in 3800-3,6,8 printers<br>Software should generate an OBR record, issue the XOA-DBD command, provide an operator message that indicates an error has occurred, and redrive on the page at the jam recovery counter plus one. |
+| **X'0E'**<br>Not Enough Storage, page printed using the accumulator feature | Retired item 101; used in 3800-3,6,8 printers<br>Delete overlays, page segments, or fonts that are not required for the job. |
+| **X'0F'**<br>Accumulator read check | Retired item 102; used in 3800-3,6,8 printers<br>Software should generate an OBR record, issue the XOA-DBD command, and redrive on the page at the committed counter plus one. If an electronic overlay was lost, retransmit the electronic overlay and then retransmit the lost pages. |
+| **X'10'**<br>Reload Electronic Overlay or Base Page | Retired item 103; used in 3800-3,6,8 printers<br>Terminate the print job. |
+| **X'11'**<br>Count continuous-forms stacker fold wrong errors | Retired item 104; used in 3800-3,6,8 printers<br>Supply an operator message, increase SDR counter 6, and restart the channel program with the failing CCW. |
+| **X'12'**<br>Count burster input checks | Retired item 105; used in 3800-3,6,8 printers<br>Supply an operator message, increase SDR counter 7, and restart the channel program with the failing CCW. |
+| **X'13'**<br>Count no burst checks | Retired item 106; used in 3800-3,6,8 printers<br>Supply an operator message, increase SDR counter 8, and restart the channel program with the failing CCW. |
+| **X'14'**<br>Count burster-trimmer-stacker stacker/trimmer checks | Retired item 107; used in 3800-3,6,8 printers<br>Supply an operator message, increase SDR counter 9, and restart the channel program with the failing CCW. |
+| **X'18'**<br>Transparent error | Retired item 87; used in channel-attached printers |
+| **X'1C'**<br>Sense Extended CCW required | Retired item 88; used in channel-attached printers<br>An exception has occurred that requires an IPDS NACK to be sent to host software. The IPDS NACK is obtained when the host software issues a Sense Extended CCW. Purge the channel program, obtain and send the Acknowledge Reply to presentation software. The printer might either be in the ready or not ready state when this action code is received. |
+| **X'24'**<br>Printer not assigned | Retired item 89; used in Serial-Channel-attached printers<br>The printer has not been assigned to the host. Reissue this CCW following the successful execution of an Assign CCW. The printer might either be in the ready or not ready state when this action code is received. |
+| **X'25'**<br>Printer assigned elsewhere | Retired item 90; used in Serial-Channel-attached printers<br>The printer is assigned to another host. Issue an Assign CCW at a later time or when the printer is known to be available. The printer might either be in the ready or not ready state when this action code is received. |
+| **X'4D'**<br>Resetting event | Retired item 91; used in Serial-Channel-attached printers<br>A resetting event has occurred at the printer. Reestablish the path group ID and path mode and reissue the failing CCW. The printer might either be in the ready or not ready state when this action code is received. |
 
 
 Command-Reject Exceptions
