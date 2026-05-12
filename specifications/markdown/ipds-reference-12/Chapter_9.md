@@ -4,22 +4,24 @@ page, a page segment, or an overlay. The IPDS printer is able to print bar code 
 with the commands presented in this chapter.
 This command set contains the following commands:
 Table 49. Bar Code Commands
-Command Code Description In BC1 Subset?
-WBCC X'D680' “Write Bar Code Control” on page 550 Yes
-WBC X'D681' “Write Bar Code” on page 562 Yes
+
+| Command | Code | Description | In BC1 Subset? |
+| :--- | :--- | :--- | :---: |
+| WBCC | X'D680' | “Write Bar Code Control” | Yes |
+| WBC | X'D681' | “Write Bar Code” | Yes |
 Bar code is a data type the printer uses to present machine-readable symbols on a page; however, most types
 of bar code data also include a human-readable interpretation, along with the machine-readable code. The
 host sends a Write Bar Code Control (WBCC) command to the printer to establish control parameters and
 initial conditions for interpreting bar code data. The host sends Write Bar Code commands to the printer to
 transmit bar code data and human-readable interpretation data.
-See Figure 63 on page 352 for a list of bar code types and bar code functions supported by the commands
+See Figure 63  for a list of bar code types and bar code functions supported by the commands
 within the bar code command set.
 Bar Code Presentation Space
 The bar code data is placed onto the logical page in much the same way as graphics data; refer to Chapter 8,
 “Graphics Command Set”. Like the graphics data and IO-Image data, bar code symbols are developed within
 an abstract presentation space before they are mapped to the bar code object area on the logical page. The
 coordinate system for this presentation space is the X
-bc,Ybc coordinate system. Unlike graphics, the entire bar
+bc,$Y_{bc}$ coordinate system. Unlike graphics, the entire bar
 code presentation space must be mapped to the bar code object area in its original size and scale. The size of
 the bar code presentation space is defined in the Bar Code Data Descriptor (BCDD) self-defining field of the
 WBCC command.
@@ -29,14 +31,14 @@ Bar Code Object Area
 The bar code object area is a rectangular area on the current logical page that the bar code presentation space
 is mapped into. The bar code object area can be the same size, larger, or smaller than the bar code
 presentation space. The coordinate system for the bar code object area is the X
-oa,Yoa coordinate system. Refer
-to “Positioning the Bar Code Presentation Space” on page 549 for more details.
+oa,$Y_{oa}$ coordinate system. Refer
+to “Positioning the Bar Code Presentation Space”  for more details.
 The location and orientation of the bar code object area is specified in the Bar Code Area Position (BCAP) self-
 defining field of the WBCC command. The bar code object area size is specified in the Bar Code Output
 Control (BCOC) self-defining field of the WBCC command.
 The bar code object area can overlap other output (such as text or images) specified earlier for the same
 logical page. Also, the bar code object area can be overlapped by subsequent output specified by other
-commands for the same logical page. Refer to “IPDS Mixing Rules” on page 27 for a description of the results
+commands for the same logical page. Refer to “IPDS Mixing Rules”  for a description of the results
 of overlapping bar code object areas.
 Some printers allow the bar code object area to be colored before the bar code data is placed in the object
 area; coloring is specified with triplets in the Bar Code Output Control self-defining field. The coloring appears
@@ -58,7 +60,7 @@ the intersection of the Bar Code presentation space and the object area. Your pr
 the extent that the position of the bar code symbol and human-readable interpretation within the Bar Code
 presentation space is known by the printer.
 Bar code mapping is specified in bytes 11–15 of the BCOC self-defining field. Refer to “Bar Code Output
-Control” on page 555 for specific details on mapping. If the BCOC self-defining field is omitted, the size of the
+Control”  for specific details on mapping. If the BCOC self-defining field is omitted, the size of the
 bar code object area is equal to and coincident with the bar code presentation space. Figure 92 shows the bar
 code presentation space mapped into the bar code object area.
 Figure 92. Example of the Bar Code Presentation Space Mapped into the Bar Code Object Area
@@ -71,14 +73,13 @@ Presentation Space
 Position mapping as
 specified in the
 Bar Code Output
-## Control (BCOC)
 X
 oa
-Xbc
-Ybc
-Xbc
-Ybc
-Yoa
+$X_{bc}$
+$Y_{bc}$
+$X_{bc}$
+$Y_{bc}$
+$Y_{oa}$
 
 
 Write Bar Code Control
@@ -113,7 +114,6 @@ BCOC may be omitted under certain circumstances. Each self-defining field contai
 then a two-byte self-defining field ID, and finally data.
 If an invalid self-defining field is specified, a self-defining field is out of order, a required self-defining field is not
 specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
-## Write Bar Code Control (WBCC)
 
 
 Bar Code Area Position
@@ -123,11 +123,9 @@ origin and orientation of the bar code object area, as specified by the BCAP sel
 Figure 93. Locating the Bar Code Object Area
 Origin of Bar Code Object
 Area specified in Bar Code
-## Area Position (BCAP)
 Bar Code Object Area
 Size of Bar Code Object
 Area specified in Bar Code
-## Output Control (BCOC)
 Orientation of Bar Code
 Object Area specified in
 Bar Code Area Position
@@ -135,68 +133,27 @@ Bar Code Area Position
 Logical Page
 X
 p
-Yp
+$Y_{p}$
 I
 B
-Xoa
-Yoa
-## Write Bar Code Control (WBCC)
+$X_{oa}$
+$Y_{oa}$
 
 
 The format of the BCAP is as follows:
-Offset Type Name Range Meaning BC1 Range
-0–1 UBIN Length X'000B' to end
-of BCAP
-Length of BCAP , including this length field X'000B' to end of
-BCAP
-2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
-4–5 SBIN X offset X'8000' –
-X'7FFF'
-Bar code object area origin; an Xp, I, or I-
-offset coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-6–7 SBIN Y offset X'8000' –
-X'7FFF'
-Bar code object area origin; a Yp, B, or B-
-offset coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-8–9 CODE Bar Code object area orientation
-bits 0–8 Degrees B'000000000'
-–
-B'101100111'
-Number of degrees (0–359) in the orientation B'000000000'
-bits 9–14 Minutes B'000000' –
-B'111011'
-Number of minutes (0–59) in the orientation B'000000'
-bit 15 B'0' Reserved B'0'
-10 CODE Reference
-system X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-Reference coordinate system:
-Absolute I, absolute B
-Absolute I, relative B
-Relative I, absolute B
-Relative I, relative B
-Page X
-p,Yp
-X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-11 to
-end of
-BCAP
-UNDF Data without architectural definition
+
+| Offset | Type | Name | Range | Meaning | BC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'000B' to end of BCAP | Length of BCAP, including this length field | X'000B' to end of BCAP |
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
+| 4–5 | SBIN | X offset | X'8000'–X'7FFF' | Bar code object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' |
+| 6–7 | SBIN | Y offset | X'8000'–X'7FFF' | Bar code object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' |
+| 8–9 | CODE | Bar code object area orientation | | | |
+| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
+| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
+| | bit 15 | | B'0' | Reserved | B'0' |
+| 10 | CODE | Reference system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
+| 11 to end of BCAP | UNDF | | | Data without architectural definition | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -212,28 +169,27 @@ p, I, or I-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
-Note: Byte 10 specifies whether the bar code object area origin is measured using the Xp,Yp
+Note: Byte 10 specifies whether the bar code object area origin is measured using the $X_{p}$,$Y_{p}$
 coordinate system or the I,B coordinate system.
 Bytes 6–7 Bar code object area origin Y offset in L-units
-## Write Bar Code Control (WBCC)
 
 
-These bytes specify the bar code object area origin (top-left corner) as a Yp, B, or B-offset
+These bytes specify the bar code object area origin (top-left corner) as a $Y_{p}$, B, or B-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
-Note: The current text presentation coordinate (I c, Bc) is not changed by the printing of this
+Note: The current text presentation coordinate (I c, $B_{c}$) is not changed by the printing of this
 object.
 Bytes 8–9 Bar code object area orientation
 This two-byte parameter specifies the orientation of the bar code object area, that is, the X
 oa
-axis of the bar code object area, in terms of an angle measured clockwise from the Xp or I
+axis of the bar code object area, in terms of an angle measured clockwise from the $X_{p}$ or I
 coordinate axis. This parameter can rotate the bar code object area around the origin position
 specified in bytes 4–7. Bar code symbols presented in the object area are aligned so that the
-positive Xbc axis of the bar code presentation space is parallel to, and in the same direction as,
-the positive Xoa axis of the bar code object area. The positive Yoa axis of the bar code object
-area is rotated 90 degrees clockwise relative to the positive Xoa axis and is in the same
-direction as the positive Ybc axis. This parameter has no effect on the I-axis orientation or the
+positive $X_{bc}$ axis of the bar code presentation space is parallel to, and in the same direction as,
+the positive $X_{oa}$ axis of the bar code object area. The positive $Y_{oa}$ axis of the bar code object
+area is rotated 90 degrees clockwise relative to the positive $X_{oa}$ axis and is in the same
+direction as the positive $Y_{bc}$ axis. This parameter has no effect on the I-axis orientation or the
 B-axis orientation.
 The object area orientation is specified in terms of a number of degrees and a number of
 minutes.
@@ -263,7 +219,7 @@ B'010110100 000000 0'
 B'100001110 000000 0'
 Byte 10 Reference coordinate system
 The reference coordinate system determines the orientation and origin of the bar code object
-area, using either the Xp,Yp or the inline, baseline (I,B) coordinate system.
+area, using either the $X_{p}$,$Y_{p}$ or the inline, baseline (I,B) coordinate system.
 An inline coordinate value specified as absolute means that the value in BCAP bytes 4 and 5
 forms an absolute inline coordinate location, that is, bytes 4 and 5 are offset from the I system
 origin. A baseline coordinate value specified as absolute means that the value in BCAP bytes
@@ -276,7 +232,6 @@ coordinate location. Therefore, the following applies:
 • If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
 BCAP bytes 4 and 5 specify the text inline coordinate; BCAP bytes 6 and 7 specify the text
 baseline coordinate.
-## Write Bar Code Control (WBCC)
 
 
 • If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the
@@ -289,23 +244,22 @@ text baseline coordinate.
 BCAP bytes 4 and 5 are added to the current text inline coordinate. BCAP bytes 6 and 7 are
 added to the current text baseline coordinate.
 • If byte 10 equals X'A0', the current logical page X
-p and Yp coordinates determine the origin.
-When the bar code object is within a page, BCAP bytes 4–7 specify the offset from the Xp-
-coordinate and Yp-coordinate origin specified in a previously received LPP command (or
+p and $Y_{p}$ coordinates determine the origin.
+When the bar code object is within a page, BCAP bytes 4–7 specify the offset from the $X_{p}$-
+coordinate and $Y_{p}$-coordinate origin specified in a previously received LPP command (or
 from the printer default coordinates if no LPP command received). When the bar code object
 is within an overlay that is invoked using an LCC command, BCAP bytes 4–7 specify the
 offset from the X
-m-coordinate and Ym-coordinate origin. When the bar code object is within
+m-coordinate and $Y_{m}$-coordinate origin. When the bar code object is within
 an overlay that is invoked using an IO command, BCAP bytes 4–7 specify the offset from the
 X
-p-coordinate and Yp-coordinate origin specified in the IO command.
+p-coordinate and $Y_{p}$-coordinate origin specified in the IO command.
 Exception ID X'0204..05' exists if an invalid reference-coordinate-system value is specified.
 Bytes 11 to
 end of BCAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
 but ignore this field; generators should not specify this field.
-## Write Bar Code Control (WBCC)
 
 
 Bar Code Output Control
@@ -318,69 +272,21 @@ the WBCC command. If the BCOC field is omitted, the printer uses the following:
 field.
 • No coloring.
 • No object-level CMRs.
-Figure 93 on page 551 shows that the BCOC self-defining field specifies the size of the bar code object area.
+Figure 93  shows that the BCOC self-defining field specifies the size of the bar code object area.
 The format of the BCOC is as follows:
-Offset Type Name Range Meaning BC1 Range
-0–1 UBIN Length X'0010',
-X'0012' to
-end of BCOC
-Length of BCOC, including this length field X'0010',
-X'0012' to
-end of BCOC
-2–3 CODE SDF ID X'A66B' Self-defining-field ID X'A66B'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-5–6 UBIN UPUB X'0001' –
-X'7FFF'
-X
-oa and Yoa units per unit base X'3840'
-7–8 UBIN Xoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Xoa extent of object area in L-units
-Use LPD value
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-9–10 UBIN Yoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Yoa extent of object area in L-units
-Use LPD value
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-11 CODE Option X'30' Mapping option (position) X'30'
-12–13 SBIN Xoa offset X'8000' –
-X'7FFF'
-Xoa offset in L-units X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
-14–15 SBIN Yoa offset X'8000' –
-X'7FFF'
-Yoa offset in L-units X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
-16 to
-end of
-BCOC
-Triplets Zero or more optional triplets; not all IPDS
-printers support these triplets
-X'4E' Color Specification triplet
-X'70' Presentation Space Reset Mixing
-triplet
-X'92' Invoke CMR triplet
-X'A2' Invoke Tertiary Resource triplet
-## Write Bar Code Control (WBCC)
+
+| Offset | Type | Name | Range | Meaning | BC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0010', X'0012' to end of BCOC | Length of BCOC, including this length field | X'0010', X'0012' to end of BCOC |
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
+| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $X_{oa}$ extent of object area in L-units<br>Use LPD value | X'0001'–X'7FFF'<br>X'FFFF' |
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $Y_{oa}$ extent of object area in L-units<br>Use LPD value | X'0001'–X'7FFF'<br>X'FFFF' |
+| 11 | CODE | Option | X'30' | Mapping option (position) | X'30' |
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units | X'0000'–X'7FFF' |
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units | X'0000'–X'7FFF' |
+| 16 to end of BCOC | | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'A2' Invoke Tertiary Resource triplet | |
 
 
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
@@ -401,7 +307,7 @@ Property pair X'FB00' in the Device-Control command-set vector of an STM reply i
 support for all architected units of measure.
 Exception ID X'0205..05' exists if an invalid or unsupported unit base value is specified.
 Bytes 5–6 X
-oa and Yoa units per unit base
+oa and $Y_{oa}$ units per unit base
 These bytes specify the number of units per unit base used when specifying the object area
 extent or object area offset in either the X or the Y direction. For example, if the unit base is
 X'00' and this value is X'3840', there are 14,400 units per ten inches (1440 units per inch). If
@@ -411,24 +317,23 @@ Exception ID X'0206..05' exists if an invalid or unsupported units-per-unit-base
 specified.
 Bytes 7–8 X
 oa extent of object area in L-units
-These bytes specify the Xoa extent of the bar code object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Xp extent and
-the Xp unit base and units per unit base of the LPD command that is current when this object is
+These bytes specify the $X_{oa}$ extent of the bar code object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $X_{p}$ extent and
+the $X_{p}$ unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
 logical page.
-If the BCOC field is omitted, the Xoa extent is specified by the Xbc extent and the Xbc unit base
+If the BCOC field is omitted, the $X_{oa}$ extent is specified by the $X_{bc}$ extent and the $X_{bc}$ unit base
 and units per unit base in the BCDD.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
-Bytes 9–10 Yoa extent of object area in L-units
-These bytes specify the Yoa extent of the bar code object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp extent and
-the Yp unit base and units and units per unit base of the LPD command that is current when
+Bytes 9–10 $Y_{oa}$ extent of object area in L-units
+These bytes specify the $Y_{oa}$ extent of the bar code object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $Y_{p}$ extent and
+the $Y_{p}$ unit base and units and units per unit base of the LPD command that is current when
 this object is printed in a page or overlay.
-If the BCOC field is omitted, the Yoa extent is specified by the Ybc extent and the Ybc unit base
+If the BCOC field is omitted, the $Y_{oa}$ extent is specified by the $Y_{bc}$ extent and the $Y_{bc}$ unit base
 and units per unit base in the BCDD.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
-## Write Bar Code Control (WBCC)
 
 
 Byte 11 Mapping Option—(Position)
@@ -438,16 +343,16 @@ Any other value is invalid. The four bytes that follow specify the offset from t
 area origin to the presentation space origin.
 Exception ID X'0208..05' exists if an invalid mapping option is specified.
 Note: For more information about mapping, refer to “Positioning the Bar Code Presentation
-Space” on page 549.
-Bytes 12–13 Xoa offset in L-units from object area origin
-This value is the Xoa offset of the bar code presentation space origin (top-left corner) from the
+Space” .
+Bytes 12–13 $X_{oa}$ offset in L-units from object area origin
+This value is the $X_{oa}$ offset of the bar code presentation space origin (top-left corner) from the
 origin of the bar code object area. The units of measure used to interpret this offset are
 specified in bytes 4–6.
 Property pair X'1208' in the Bar Code command-set vector of an STM reply indicates support
 for negative object-area-offset values.
 If an unsupported value is specified, exception ID X'0209..05' exists.
-Bytes 14–15 Yoa offset in L-units from object area origin
-This value is the Yoa offset of the bar code presentation space origin (top-left corner) from the
+Bytes 14–15 $Y_{oa}$ offset in L-units from object area origin
+This value is the $Y_{oa}$ offset of the bar code presentation space origin (top-left corner) from the
 origin of the bar code object area. The units of measure used to interpret this offset are
 specified in bytes 4–6.
 Property pair X'1208' in the Bar Code command-set vector of an STM reply indicates support
@@ -462,11 +367,10 @@ Printers ignore any triplet that is not supported and no exception is reported. 
 first byte after a valid triplet is X'00' or X'01' (an invalid triplet length), the printer ignores the
 remaining data within the optional triplets field.
 The Write Bar Code Control triplets are fully described in the triplets chapter:
-“Color Specification (X'4E') Triplet” on page 713
-“Presentation Space Reset Mixing (X'70') Triplet” on page 731
-“Invoke CMR (X'92') Triplet” on page 772
-“Invoke Tertiary Resource (X'A2') Triplet” on page 787
-## Write Bar Code Control (WBCC)
+“Color Specification (X'4E') Triplet”
+“Presentation Space Reset Mixing (X'70') Triplet”
+“Invoke CMR (X'92') Triplet”
+“Invoke Tertiary Resource (X'A2') Triplet”
 
 
 Area Coloring Triplet Considerations
@@ -484,7 +388,7 @@ triplet, the resulting color of the area depends on the reset flag. If the reset
 colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium.
 Invoke CMR (X'92') and Invoke Tertiary Resource X'A2' Triplet Considerations
 The CMRs invoked using the Invoke CMR (X'92') triplet are associated with this Bar Code object, and are used
-according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for a description of the
+according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy”  for a description of the
 hierarchy. The rendering intent used for BCOCA objects is media-relative colorimetric.
 The CMRs invoked using the Invoke CMR (X'92') triplet are also associated at the data-object level with any
 secondary resource image objects printed in conjunction with a QR Code with Image bar code object. In
@@ -497,7 +401,6 @@ The X'F205' property pair in the Device-Control command-set vector of an STM rep
 Invoke CMR (X'92') triplet in the WBCC command. The X'F212' property pair in the Device-Control command-
 set vector of an STM reply indicates support for the Invoke Tertiary Resource (X'A2') triplet in the WBCC
 command.
-## Write Bar Code Control (WBCC)
 
 
 Bar Code Data Descriptor
@@ -517,8 +420,8 @@ of Bar Code
 Presentation
 Space
 bc
-+ Xbc
-+ Ybc
++ $X_{bc}$
++ $Y_{bc}$
 Bar Code Presentation Space
 Each separate symbol in a given bar code presentation space is printed
 under the control of its own individual Write Bar Code command and the
@@ -527,117 +430,30 @@ command.  Each symbol is positioned within the bar code presentation
 space by its symbol origin specified in bytes 1- 4 of a Write Bar Code
 Control command.
 Note:
-## Write Bar Code Control (WBCC)
 
 
 The format of the BCDD is as follows:
-Offset Type Name Range Meaning BC1 Range
-0–1 UBIN Length X'001B',
-X'001D' to
-end of BCDD
-Length of BCDD, including this length field X'001B',
-X'001D' to
-end of BCDD
-2–3 CODE SDF ID X'A6EB' Self-defining-field ID X'A6EB'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-See byte
-description
-5 X'00' Reserved X'00'
-6–7 UBIN X UPUB X'0001' –
-X'7FFF'
-Units per unit base for X
-bc See byte
-description
-8–9 UBIN Y UPUB X'0001' –
-X'7FFF'
-Units per unit base for Y
-bc
-Must be the same as X UPUB
-See byte
-description
-10–11 UBIN Xbc extent X'0001' –
-X'7FFF'
-X'FFFF'
-Xbc extent of presentation space
-Use WBCC BCOC value. If BCOC is absent
-use logical page X extent.
-See byte
-description
-12–13 UBIN Ybc extent X'0001' –
-X'7FFF'
-X'FFFF'
-Ybc extent of presentation space
-Use WBCC BCOC value. If BCOC is absent
-use logical page Y extent.
-See byte
-description
-14–15 UBIN Symbol width
-X'0000'
-X'0001' –
-X'7FFF'
-Desired symbol width:
-Not specified (use module width)
-Desired width of bar code
-symbol in L-units
-BCOCA receivers that support this option
-return STM property pair X'1302'.
-X'0000'
-16 CODE Type See byte
-description
-Bar code type See byte
-description
-17 CODE Modifier See byte
-description
-Bar code modifier See byte
-description
-18 CODE LID X'00'–X'FE'
-X'FF'
-Font Local ID
-Printer default
-See byte
-description
-19–20 CODE Color See byte
-description
-Color See byte
-description
-21 UBIN Module width X'01'–X'FE'
-X'FF'
-Module width in mils
-Printer default
-See byte
-description
-22–23 UBIN Height X'0001' –
-X'7FFF'
-X'FFFF'
-Element height in L-units
-Printer default
-See byte
-description
-24 UBIN Multiplier X'01'–X'FF' Height multiplier See byte
-description
-## Write Bar Code Control (WBCC)
 
-
-Offset Type Name Range Meaning BC1 Range
-25–26 UBIN W/N ratio X'0000'
-X'0001' –
-X'7FFF'
-X'FFFF'
-Bar Code (refer to byte 16) does not
-use wide/narrow ratio.
-Wide-to-narrow ratio.
-Printer default; see byte description.
-See byte
-description
-27 to
-end of
-BCDD
-Triplets Zero or more optional triplets; not all IPDS
-printers support these triplets
-X'4E' Color Specification triplet
+| Offset | Type | Name | Range | Meaning | BC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'001B', X'001D' to end of BCDD | Length of BCDD, including this length field | X'001B', X'001D' to end of BCDD |
+| 2–3 | CODE | SDF ID | X'A6EB' | Self-defining-field ID | X'A6EB' |
+| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | See byte description |
+| 5 | X'00' | Reserved | | | X'00' |
+| 6–7 | UBIN | X UPUB | X'0001'–X'7FFF' | Units per unit base for $X_{bc}$ | See byte description |
+| 8–9 | UBIN | Y UPUB | X'0001'–X'7FFF' | Units per unit base for $Y_{bc}$; must be the same as X UPUB | See byte description |
+| 10–11 | UBIN | $X_{bc}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $X_{bc}$ extent of presentation space<br>Use WBCC BCOC value. If BCOC is absent use logical page X extent. | See byte description |
+| 12–13 | UBIN | $Y_{bc}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $Y_{bc}$ extent of presentation space<br>Use WBCC BCOC value. If BCOC is absent use logical page Y extent. | See byte description |
+| 14–15 | UBIN | Symbol width | X'0000'<br>X'0001'–X'7FFF' | Desired symbol width:<br>X'0000' = Not specified (use module width)<br>Desired width of bar code symbol in L-units | X'0000' |
+| 16 | CODE | Type | See byte description | Bar code type | See byte description |
+| 17 | CODE | Modifier | See byte description | Bar code modifier | See byte description |
+| 18 | CODE | LID | X'00'–X'FE'<br>X'FF' | Font Local ID<br>X'FF' = Printer default | See byte description |
+| 19–20 | CODE | Color | See byte description | Color | See byte description |
+| 21 | UBIN | Module width | X'01'–X'FE'<br>X'FF' | Module width in mils<br>X'FF' = Printer default | See byte description |
+| 22–23 | UBIN | Height | X'0001'–X'7FFF'<br>X'FFFF' | Element height in L-units<br>X'FFFF' = Printer default | See byte description |
+| 24 | UBIN | Multiplier | X'01'–X'FF' | Height multiplier | See byte description |
+| 25–26 | UBIN | W/N ratio | X'0000'<br>X'0001'–X'7FFF'<br>X'FFFF' | Wide-to-narrow ratio:<br>X'0000' = Bar Code does not use W/N ratio<br>Wide-to-narrow ratio<br>X'FFFF' = Printer default | See byte description |
+| 27 to end of BCDD | | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet | |
 Bytes 0–1 Self-defining-field length. Bytes after byte 26 are ignored by printers that don't provide
 Extended Bar Code Color Support (property pair X'4400' in the Bar Code command-set vector
 of an STM reply).
@@ -668,13 +484,12 @@ Printers ignore any triplet that is not supported and no exception is reported. 
 first byte after a valid triplet is X'00' or X'01' (an invalid triplet length), the printer ignores the
 remaining data within the optional triplets field.
 The supported triplets are fully described in the triplets chapter:
-“Color Specification (X'4E') Triplet” on page 713
+“Color Specification (X'4E') Triplet”
 Color Specification (X'4E') Triplet Considerations
 The X'4400' property pair (Extended bar code color support) in the Bar Code command-set vector of an STM
 reply indicates that the X'4E' triplet can be used to specify the color for the bar code symbol and HRI. Presence
 of a supported X'4E' triplet overrides the color value specified in bytes 19–20 of the WBCC-BCDD. If multiple
 X'4E' triplets are specified, the last one specified is used and the others are ignored.
-## Write Bar Code Control (WBCC)
 
 
 Write Bar Code
@@ -706,6 +521,5 @@ sends an End command to terminate bar code state.
 IPDS exception IDs of the form X'04nn..nn' exist when problems are found within BCOCA bar code symbol
 data; refer to the Bar Code Object Content Architecture Reference for more information about symbol data and
 exception conditions.
-## Write Bar Code (WBC)
 
 
