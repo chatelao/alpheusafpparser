@@ -128,6 +128,10 @@ public class IPD_ImagePictureData extends StructuredField {
           ipdSegment = new EndTransparencyMask();
         }
         break;
+        case FunctionSetIdentification: {
+          ipdSegment = new FunctionSetIdentification();
+        }
+        break;
         case ImageData: {
           ipdSegment = new ImageData();
         }

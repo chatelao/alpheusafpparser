@@ -82,6 +82,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     TileTOC(0xFEBB),
     BeginTransparencyMask(0x8E),
     EndTransparencyMask(0x8F),
+    FunctionSetIdentification(0xF7),
     ImageData(0xFE92),
     BandImageData(0xFE9C),
     UnknownIPDSegmentLong(-1),
@@ -1418,6 +1419,30 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(bandNumber);
       os.write(reserved5_6);
       if (bandData != null) os.write(bandData);
+    }
+  }
+
+  public static class FunctionSetIdentification extends IPD_Segment.IPD_SegmentLong {
+    @com.mgz.afp.base.annotations.AFPField
+    short category;
+    @com.mgz.afp.base.annotations.AFPField
+    short functionSet;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      category = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
+      functionSet = UtilBinaryDecoding.parseShort(sfData, offset + 3, 1);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = 2;
+      os.write(segmentType.toBytes());
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
+      os.write(category);
+      os.write(functionSet);
     }
   }
 }

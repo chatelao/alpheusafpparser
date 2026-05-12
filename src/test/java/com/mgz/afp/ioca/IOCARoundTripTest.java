@@ -42,4 +42,17 @@ public class IOCARoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new IPD_ImagePictureData(), data);
     }
+
+    @Test
+    public void testIPDRoundTrip_FunctionSetIdentification() throws Exception {
+        // IPD: D3EEFB
+        // Segment: FunctionSetIdentification (0xF7), Len 2, Category=1, FS=42 (0x2A)
+        // -> F7 02 01 2A
+        // Total Len: 1 + 8 + 4 = 13. SFLen = 12 (0x000C)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x0C, (byte) 0xD3, (byte) 0xEE, (byte) 0xFB, 0x00, 0x00, 0x00,
+            (byte) 0xF7, 0x02, 0x01, 0x2A
+        };
+        RoundTripTestUtils.assertRoundTrip(new IPD_ImagePictureData(), data);
+    }
 }

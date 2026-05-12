@@ -75,4 +75,27 @@ public class GOCARoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
     }
+
+    @Test
+    public void testGADRoundTrip_NewOrders() throws Exception {
+        // GAD: D3EEBB
+        // Drawing Orders:
+        // 1. GSCLT (0x20), Len 4, Dash=1.5, Move=2.0 -> 20 04 01 80 02 00
+        // 2. GBCP (0xDE), Len 13, Flags=0, PattSet=1, PattSym=1, Window(0,100,0,100)
+        //    -> DE 0D 00 00 00 01 01 00 00 00 64 00 00 00 64
+        // 3. GDPT (0xDF), Len 4, PattSet=1, PattSym=1 -> DF 04 00 00 01 01
+        // 4. GSPIK (0x43), Len 2, Data=01 02 -> 43 02 01 02
+        // 5. GENSEG (0x71), Reserved=0 -> 71 00
+        // Total Drawing Orders Len: 6 + 15 + 6 + 4 + 2 = 33
+        // Total Len: 1 + 8 + 33 = 42. SFLen = 41 (0x0029)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x29, (byte) 0xD3, (byte) 0xEE, (byte) 0xBB, 0x00, 0x00, 0x00,
+            0x20, 0x04, 0x01, (byte) 0x80, 0x02, 0x00,
+            (byte) 0xDE, 0x0D, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x64,
+            (byte) 0xDF, 0x04, 0x00, 0x00, 0x01, 0x01,
+            0x43, 0x02, 0x01, 0x02,
+            0x71, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
+    }
 }
