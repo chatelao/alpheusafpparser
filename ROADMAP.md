@@ -281,8 +281,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG).
 - 🚧 Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
-    - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`).
-    - ⏳ Migrate remaining tests (34 files).
+    - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`, `UtilCharacterEncodingTest`).
+    - ✅ Migrate basic SF and XML tests (`StructuredFieldTest`, `NOPXMLTest`, `PTXXMLTest`).
+    - ⏳ Migrate remaining tests (30 files).
 - ⏳ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
     - ⏳ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
     - ✅ Implement the LID-to-Charset round-trip test (switching via `SCFL`).

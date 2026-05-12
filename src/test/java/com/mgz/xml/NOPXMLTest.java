@@ -2,14 +2,14 @@ package com.mgz.xml;
 
 import com.mgz.afp.modca.NOP_NoOperation;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class NOPXMLTest {
 
@@ -27,7 +27,7 @@ public class NOPXMLTest {
 
         String xml = baos.toString();
         System.out.println(xml);
-        assertTrue("XML should contain <text> node", xml.contains("<text>Hello World</text>"));
+        assertTrue(xml.contains("<text>Hello World</text>"), "XML should contain <text> node");
     }
 
     @Test
@@ -41,6 +41,6 @@ public class NOPXMLTest {
 
         String xml = baos.toString();
         System.out.println(xml);
-        assertFalse("XML should NOT contain <text> node for binary data", xml.contains("<text>"));
+        assertFalse(xml.contains("<text>"), "XML should NOT contain <text> node for binary data");
     }
 }
