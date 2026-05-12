@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.github.chatelao'
-version '0.2.2'
+version = System.getenv('GITHUB_REF_TYPE') == 'tag' ? System.getenv('GITHUB_REF_NAME').replaceFirst('^v', '') : '0.2.2'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
