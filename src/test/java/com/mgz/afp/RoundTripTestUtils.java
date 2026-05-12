@@ -9,9 +9,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class RoundTripTestUtils {
 
@@ -26,14 +26,14 @@ public class RoundTripTestUtils {
             AFPParser parser = new AFPParser(config);
             StructuredField parsedSf = parser.parseNextSF();
 
-            assertNotNull("Parser returned null for StructuredField", parsedSf);
-            assertEquals("Parsed SF class mismatch", component.getClass(), parsedSf.getClass());
+            assertNotNull(parsedSf, "Parser returned null for StructuredField");
+            assertEquals(component.getClass(), parsedSf.getClass(), "Parsed SF class mismatch");
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             parsedSf.writeAFP(baos, config);
             byte[] serializedData = baos.toByteArray();
 
-            assertArrayEquals("Serialized data does not match original data", originalData, serializedData);
+            assertArrayEquals(originalData, serializedData, "Serialized data does not match original data");
         } else {
             // Triplets and Control Sequences
             // Decode
@@ -45,7 +45,7 @@ public class RoundTripTestUtils {
             byte[] serializedData = baos.toByteArray();
 
             // Verify
-            assertArrayEquals("Serialized data does not match original data", originalData, serializedData);
+            assertArrayEquals(originalData, serializedData, "Serialized data does not match original data");
         }
     }
 }
