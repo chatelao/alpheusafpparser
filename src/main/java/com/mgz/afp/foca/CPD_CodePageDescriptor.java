@@ -33,7 +33,6 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 public class CPD_CodePageDescriptor extends StructuredField {
-  private static final Charset cpIBM500 = Constants.cpIBM500;
   /**
    * This is the length of the IBM registered GCGID (AFP uses the eight-character identifier
    * format), or a user-assigned GCGID.

@@ -75,4 +75,80 @@ public class GOCARoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
     }
+
+    @Test
+    public void testGADRoundTrip_Gradients() throws Exception {
+        // GAD: D3EEBB
+        // 1. GLGD (FE DC), Payload len 36 (0x0024). Total order len 40.
+        // Payload:
+        // 0-1: 00 00 (RES)
+        // 2: 01 (PATTSET)
+        // 3: 01 (PATTSYM)
+        // 4-7: 00 00 00 00 (X_S, Y_S)
+        // 8-11: 03 E8 03 E8 (X_E, Y_E = 1000, 1000)
+        // 12: 0D (ColorSpec Len)
+        // 13: 00 (RES)
+        // 14: 01 (RGB)
+        // 15-18: 00 00 00 00 (RES)
+        // 19-22: 08 08 08 00 (COLSIZE)
+        // 23-25: FF 00 00 (Start color: Red)
+        // 26-28: 00 00 FF (End color: Blue)
+        // 29-30: 01 01 (Outside modes: Pad)
+        // 31-32: 13 88 (Offset: 5000)
+        // 33-35: 00 FF 00 (Color stop: Green)
+
+        byte[] glgd = new byte[] {
+            (byte) 0xFE, (byte) 0xDC, 0x00, 0x24,
+            0x00, 0x00, 0x01, 0x01,
+            0x00, 0x00, 0x00, 0x00,
+            0x03, (byte) 0xE8, 0x03, (byte) 0xE8,
+            0x0D, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08, 0x00,
+            (byte) 0xFF, 0x00, 0x00,
+            0x00, 0x00, (byte) 0xFF,
+            0x01, 0x01,
+            0x13, (byte) 0x88, 0x00, (byte) 0xFF, 0x00
+        };
+
+        // 2. GRGD (FE DD), Payload len 40 (0x0028). Total order len 44.
+        // Payload:
+        // 0-1: 00 00 (RES)
+        // 2: 01 (PATTSET)
+        // 3: 01 (PATTSYM)
+        // 4-7: 00 00 00 00 (X_S, Y_S)
+        // 8-9: 01 00 (MH_S, MFR_S)
+        // 10-13: 01 F4 01 F4 (X_E, Y_E = 500, 500)
+        // 14-15: 02 00 (MH_E, MFR_E)
+        // 16: 0D (ColorSpec Len)
+        // ... (13 bytes color spec)
+        // ... (3 bytes end color)
+        // ... (2 bytes outside)
+        // ... (5 bytes color stop)
+
+        byte[] grgd = new byte[] {
+            (byte) 0xFE, (byte) 0xDD, 0x00, 0x28,
+            0x00, 0x00, 0x01, 0x01,
+            0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
+            0x01, (byte) 0xF4, 0x01, (byte) 0xF4, 0x02, 0x00,
+            0x0D, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08, 0x00,
+            (byte) 0xFF, 0x00, 0x00,
+            0x00, 0x00, (byte) 0xFF,
+            0x01, 0x01,
+            0x13, (byte) 0x88, 0x00, (byte) 0xFF, 0x00
+        };
+
+        int totalLen = 9 + glgd.length + grgd.length;
+        byte[] data = new byte[totalLen];
+        data[0] = 0x5A;
+        data[1] = (byte) ((totalLen - 1) >> 8);
+        data[2] = (byte) ((totalLen - 1) & 0xFF);
+        data[3] = (byte) 0xD3;
+        data[4] = (byte) 0xEE;
+        data[5] = (byte) 0xBB;
+        // 6-8: 00 00 00
+
+        System.arraycopy(glgd, 0, data, 9, glgd.length);
+        System.arraycopy(grgd, 0, data, 9 + glgd.length, grgd.length);
+
+        RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
+    }
 }

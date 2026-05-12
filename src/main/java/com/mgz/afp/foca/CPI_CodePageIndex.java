@@ -36,7 +36,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class CPI_CodePageIndex extends StructuredField {
-  private static final Charset cpIBM500 = Constants.cpIBM500;
 
   @AFPField
   List<CPI_RepeatingGroup> repeatingGroups;

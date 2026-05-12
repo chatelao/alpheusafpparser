@@ -29,7 +29,9 @@ import com.mgz.afp.goca.GAD_DrawingOrder.*;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -447,17 +449,27 @@ public class GAD_GraphicsData extends StructuredField {
     String nameOfPredecessorSuccessorSegment;
     @AFPField
     List<GAD_DrawingOrder> drawingOrders;
+    String text;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return text;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
 
       commandCode = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengtOfFollowingParameters = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-      nameOfSegment = new String(sfData, offset + 2, 4, Constants.cpIBM500);
+      nameOfSegment = new String(sfData, offset + 2, 4, config.getAfpCharSet());
       flagAnyValue = sfData[offset + 6];
       segmentPropertiesFlags = SegmentPropertiesFlag.valueOF(sfData[offset + 7]);
       segmentDataLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
-      nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, Constants.cpIBM500);
+      nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, config.getAfpCharSet());
+
+      if (UtilCharacterEncoding.isHumanReadable(nameOfSegment.getBytes(config.getAfpCharSet()), config.getAfpCharSet())) {
+        text = nameOfSegment.trim();
+      }
 
       if (segmentDataLength > 0) {
         drawingOrders = buildDrawingOrders(sfData, offset + 13, segmentDataLength, config);
@@ -473,7 +485,7 @@ public class GAD_GraphicsData extends StructuredField {
 
       os.write(commandCode);
       os.write(lengtOfFollowingParameters);
-      os.write(nameOfSegment.getBytes(Constants.cpIBM500));
+      os.write(nameOfSegment.getBytes(config.getAfpCharSet()));
       os.write(flagAnyValue);
       if (segmentPropertiesFlags != null) {
         os.write(SegmentPropertiesFlag.toByte(segmentPropertiesFlags));
@@ -496,7 +508,7 @@ public class GAD_GraphicsData extends StructuredField {
       }
 
       os.write(UtilBinaryDecoding.intToByteArray(segmentDataLength, 2));
-      os.write(nameOfPredecessorSuccessorSegment.getBytes(Constants.cpIBM500));
+      os.write(nameOfPredecessorSuccessorSegment.getBytes(config.getAfpCharSet()));
 
       if (drawingOrdersData != null) {
         os.write(drawingOrdersData);

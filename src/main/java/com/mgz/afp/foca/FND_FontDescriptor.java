@@ -37,7 +37,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class FND_FontDescriptor extends StructuredField {
-  private static final Charset cpIBM500 = Constants.cpIBM500;
   @AFPField
   String typefaceDescription;
   @AFPField
