@@ -23,6 +23,8 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEA_SetEncryptedAlternate;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SKI_SetKeyInformation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class PTOCAControlSequenceParser {
     int actualLength = StructuredField.getActualLength(sfData, offset, length);
     int pos = 0;
     boolean isChained = false;
+    PTOCAControlSequence lastCS = null;
     while (pos < actualLength) {
       if (!isChained && (pos + 1 >= actualLength || sfData[offset + pos] != 0x2B || sfData[offset + pos + 1] != (byte) 0xD3)) {
         int runStart = pos;
@@ -77,7 +80,45 @@ public class PTOCAControlSequenceParser {
         isChained = cs.getCsi().isChained();
       }
 
-      controlSequences.add(cs);
+      // Concatenation support for SEA and SKI
+      if (cs instanceof SEA_SetEncryptedAlternate && lastCS instanceof SEA_SetEncryptedAlternate) {
+        SEA_SetEncryptedAlternate currentSea = (SEA_SetEncryptedAlternate) cs;
+        SEA_SetEncryptedAlternate lastSea = (SEA_SetEncryptedAlternate) lastCS;
+        if (currentSea.getAlternateText() == null) {
+          // Reset
+          lastSea.setAlternateText(null);
+        } else {
+          byte[] oldText = lastSea.getAlternateText();
+          if (oldText == null) {
+            lastSea.setAlternateText(currentSea.getAlternateText());
+          } else {
+            byte[] newText = new byte[oldText.length + currentSea.getAlternateText().length];
+            System.arraycopy(oldText, 0, newText, 0, oldText.length);
+            System.arraycopy(currentSea.getAlternateText(), 0, newText, oldText.length, currentSea.getAlternateText().length);
+            lastSea.setAlternateText(newText);
+          }
+        }
+      } else if (cs instanceof SKI_SetKeyInformation && lastCS instanceof SKI_SetKeyInformation) {
+        SKI_SetKeyInformation currentSki = (SKI_SetKeyInformation) cs;
+        SKI_SetKeyInformation lastSki = (SKI_SetKeyInformation) lastCS;
+        if (currentSki.getKeyInfo() == null) {
+          // Reset
+          lastSki.setKeyInfo(null);
+        } else {
+          byte[] oldInfo = lastSki.getKeyInfo();
+          if (oldInfo == null) {
+            lastSki.setKeyInfo(currentSki.getKeyInfo());
+          } else {
+            byte[] newInfo = new byte[oldInfo.length + currentSki.getKeyInfo().length];
+            System.arraycopy(oldInfo, 0, newInfo, 0, oldInfo.length);
+            System.arraycopy(currentSki.getKeyInfo(), 0, newInfo, oldInfo.length, currentSki.getKeyInfo().length);
+            lastSki.setKeyInfo(newInfo);
+          }
+        }
+      } else {
+        controlSequences.add(cs);
+        lastCS = cs;
+      }
       pos += csi.getLength() - 2;
     }
 

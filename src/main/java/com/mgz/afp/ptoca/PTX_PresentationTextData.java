@@ -66,9 +66,12 @@ public class PTX_PresentationTextData extends StructuredField {
     byte[] actualPayload = null;
     if (controlSequences != null) {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      for (PTOCAControlSequence cs : controlSequences) {
+      for (int i = 0; i < controlSequences.size(); i++) {
+        PTOCAControlSequence cs = controlSequences.get(i);
+        ByteArrayOutputStream csBaos = new ByteArrayOutputStream();
+        cs.writeAFP(csBaos, config);
         baos.write(cs.getCsi().toBytes());
-        cs.writeAFP(baos, config);
+        baos.write(csBaos.toByteArray());
       }
       actualPayload = baos.toByteArray();
     } else if (originalPayload != null) {

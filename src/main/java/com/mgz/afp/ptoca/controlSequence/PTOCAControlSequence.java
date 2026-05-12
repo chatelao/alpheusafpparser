@@ -1471,9 +1471,37 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
-      if (keyInfo != null) {
-        os.write(keyInfo);
+      if (keyInfo == null || keyInfo.length <= 249) {
+        os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+        if (keyInfo != null) {
+          os.write(keyInfo);
+        }
+      } else {
+        // Concatenated payload support: split into multiple chained control sequences.
+        int remaining = keyInfo.length;
+        int offset = 0;
+        while (remaining > 0) {
+          int chunkLen = Math.min(remaining, 249);
+          remaining -= chunkLen;
+          boolean last = (remaining == 0);
+
+          if (offset > 0) {
+            // Write chained introducer for subsequent chunks.
+            // Length is chunkLen + 6 (4 reserved + 1 length byte + 1 type byte)
+            os.write(chunkLen + 6);
+            os.write(ControlSequenceFunctionType.SKI_SetKeyInformation.toByte(!last));
+          } else {
+            // Update the first chunk's CSI if it was originally thought to be the only one.
+            if (!last && csi != null) {
+              csi.setChained(true);
+              csi.setLength((short) (chunkLen + 6));
+            }
+          }
+
+          os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+          os.write(keyInfo, offset, chunkLen);
+          offset += chunkLen;
+        }
       }
     }
 
@@ -1524,9 +1552,37 @@ public abstract class PTOCAControlSequence implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
-      if (alternateText != null) {
-        os.write(alternateText);
+      if (alternateText == null || alternateText.length <= 249) {
+        os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+        if (alternateText != null) {
+          os.write(alternateText);
+        }
+      } else {
+        // Concatenated payload support: split into multiple chained control sequences.
+        int remaining = alternateText.length;
+        int offset = 0;
+        while (remaining > 0) {
+          int chunkLen = Math.min(remaining, 249);
+          remaining -= chunkLen;
+          boolean last = (remaining == 0);
+
+          if (offset > 0) {
+            // Write chained introducer for subsequent chunks.
+            // Length is chunkLen + 6 (4 reserved + 1 length byte + 1 type byte)
+            os.write(chunkLen + 6);
+            os.write(ControlSequenceFunctionType.SEA_SetEncryptedAlternate.toByte(!last));
+          } else {
+            // Update the first chunk's CSI if it was originally thought to be the only one.
+            if (!last && csi != null) {
+              csi.setChained(true);
+              csi.setLength((short) (chunkLen + 6));
+            }
+          }
+
+          os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+          os.write(alternateText, offset, chunkLen);
+          offset += chunkLen;
+        }
       }
     }
 
