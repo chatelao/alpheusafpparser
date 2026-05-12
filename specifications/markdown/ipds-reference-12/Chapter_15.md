@@ -1303,103 +1303,19 @@ Triplet X'85'—Finishing Operation
 
 
 This triplet is defined as follows:
-Offset Type Name Range Meaning Required
-0 UBIN Length X'09'–X'FD'
-odd values
-Length of the triplet, including this length field X'09'
-1 CODE TID X'85' Identifies the Finishing Operation triplet X'85'
-2 CODE Operation
-type
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-X'0A'
-X'0C'
-X'0D'
-X'0E'
-X'0F'
-X'12'
-X'14'
-X'18'
-X'19'
-X'1E'
-X'1F'
-X'20'
-X'21'
-X'22'
-X'30'
-X'31'
-X'32'
-Corner staple
-Saddle-stitch out
-Edge stitch
-Fold in
-Separation cut
-Perforation cut
-Z fold
-Center-fold in
-Trim after center fold or saddle stitch
-Punch
-Perfect bind
-Ring bind
-C-fold in
-Accordion-fold in
-Saddle-stitch in
-Fold out
-Center-fold out
-Trim
-C-fold out
-Accordion-fold out
-Double parallel-fold in
-Double gate-fold in
-Single gate-fold in
-Double parallel-fold out
-Double gate-fold out
-Single gate-fold out
-At least one
-value
-3 CODE Finishing
-option
-X'00'
-X'01'
-Finishing option, for certain finishing
-operations:
-No finishing option
-Crease (for folding operations)
-X'00'
-4 X'00' Reserved X'00'
-5 CODE Reference
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-Reference corner and edge:
-Bottom-right corner; bottom edge
-Top-right corner; right edge
-Top-left corner; top edge
-Bottom-left corner; left edge
-Default corner; default edge X'FF'
-6 UBIN Count X'00'
-X'01'–X'7A'
-Not specified
-Number of operations to apply
-X'00'
-7–8 UBIN Axis offset X'0000' –
-X'7FFF'
-X'FFFF'
-Axis offset in millimeters
-Device default axis offset X'FFFF'
-Zero or more finishing operation positions in the following format:
-+ 0–1 UBIN Position X'0000' –
-X'7FFF'
-Operation position on axis in millimeters
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'09'–X'FD' odd values | Length of the triplet, including this length field | X'09' |
+| 1 | CODE | TID | X'85' | Identifies the Finishing Operation triplet | X'85' |
+| 2 | CODE | Operation type | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'08'<br>X'09'<br>X'0A'<br>X'0C'<br>X'0D'<br>X'0E'<br>X'0F'<br>X'12'<br>X'14'<br>X'18'<br>X'19'<br>X'1E'<br>X'1F'<br>X'20'<br>X'21'<br>X'22'<br>X'30'<br>X'31'<br>X'32' | Corner staple<br>Saddle-stitch out<br>Edge stitch<br>Fold in<br>Separation cut<br>Perforation cut<br>Z fold<br>Center-fold in<br>Trim after center fold or saddle stitch<br>Punch<br>Perfect bind<br>Ring bind<br>C-fold in<br>Accordion-fold in<br>Saddle-stitch in<br>Fold out<br>Center-fold out<br>Trim<br>C-fold out<br>Accordion-fold out<br>Double parallel-fold in<br>Double gate-fold in<br>Single gate-fold in<br>Double parallel-fold out<br>Double gate-fold out<br>Single gate-fold out | At least one value |
+| 3 | CODE | Finishing option | X'00'<br>X'01' | Finishing option, for certain finishing operations:<br>No finishing option<br>Crease (for folding operations) | X'00' |
+| 4 | X'00' | Reserved | X'00' | | |
+| 5 | CODE | Reference | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' | Reference corner and edge:<br>Bottom-right corner; bottom edge<br>Top-right corner; right edge<br>Top-left corner; top edge<br>Bottom-left corner; left edge<br>Default corner; default edge | X'FF' |
+| 6 | UBIN | Count | X'00'<br>X'01'–X'7A' | Not specified<br>Number of operations to apply | X'00' |
+| 7–8 | UBIN | Axis offset | X'0000' – X'7FFF'<br>X'FFFF' | Axis offset in millimeters<br>Device default axis offset | X'FFFF' |
+| **Zero or more finishing operation positions in the following format:** | | | | | |
+| + 0–1 | UBIN | Position | X'0000' – X'7FFF' | Operation position on axis in millimeters | |
 Triplet X'85'—Finishing Operation
 
 
@@ -1984,27 +1900,14 @@ being used.
 The default text-fidelity action if a PFC Text Fidelity (X'86') triplet is not received by the printer, if the activate
 flag in a PFC command is B'0', or if the printer issues an IML NACK is to report the error and follow the
 directions of the currently active XOA-EHC command.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'07' Length of the triplet, including this length field X'07'
-1 CODE TID X'86' Identifies the Text Fidelity triplet X'86'
-2 CODE Continue
-X'01'
-X'02'
-Text exception continuation rule:
-Stop processing WT data
-Continue processing WT data
-X'01'
-X'02'
-3 X'00' Reserved X'00'
-4 CODE Report
-X'01'
-X'02'
-Text exception reporting rule:
-Report text exceptions
-Do not report text exceptions
-X'01'
-X'02'
-5–6 X'0000' Reserved X'0000'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'07' | Length of the triplet, including this length field | X'07' |
+| 1 | CODE | TID | X'86' | Identifies the Text Fidelity triplet | X'86' |
+| 2 | CODE | Continue | X'01'<br>X'02' | Text exception continuation rule:<br>Stop processing WT data<br>Continue processing WT data | X'01'<br>X'02' |
+| 3 | X'00' | Reserved | X'00' | | |
+| 4 | CODE | Report | X'01'<br>X'02' | Text exception reporting rule:<br>Report text exceptions<br>Do not report text exceptions | X'01'<br>X'02' |
+| 5–6 | X'0000' | Reserved | X'0000' | | |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself. If an invalid length is
 specified or if the triplet is too long to fit in the PFC command, exception ID X'0254..51' exists.
@@ -2069,27 +1972,14 @@ being used.
 The default finishing-fidelity action if a PFC Finishing Fidelity (X'88') triplet is not received by the printer, if the
 activate flag in a PFC command is B'0', or if the printer issues an IML NACK is to report the error and not apply
 the finishing operation.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'07' Length of the triplet, including this length field X'07'
-1 CODE TID X'88' Identifies the Finishing Fidelity triplet X'88'
-2 CODE Continue
-X'01'
-X'02'
-Finishing exception continuation rule:
-Stop at first finishing exception
-Continue without the finishing operation
-X'01'
-X'02'
-3 X'00' Reserved X'00'
-4 CODE Report
-X'01'
-X'02'
-Finishing exception reporting:
-Report finishing exceptions
-Do not report finishing exceptions
-X'01'
-X'02'
-5–6 X'0000' Reserved X'0000'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'07' | Length of the triplet, including this length field | X'07' |
+| 1 | CODE | TID | X'88' | Identifies the Finishing Fidelity triplet | X'88' |
+| 2 | CODE | Continue | X'01'<br>X'02' | Finishing exception continuation rule:<br>Stop at first finishing exception<br>Continue without the finishing operation | X'01'<br>X'02' |
+| 3 | X'00' | Reserved | X'00' | | |
+| 4 | CODE | Report | X'01'<br>X'02' | Finishing exception reporting:<br>Report finishing exceptions<br>Do not report finishing exceptions | X'01'<br>X'02' |
+| 5–6 | X'0000' | Reserved | X'0000' | | |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself. If an invalid length is
 specified or if the triplet is too long to fit in the PFC command, exception ID X'0254..41' exists.
@@ -2193,75 +2083,21 @@ If a data-object font is activated via an AR command, but a Data Object Font Des
 provided, exception ID X'028F ..20' exists. If more than one Data Object Font Descriptor (X'8B') triplet is
 specified in the AR command, the first triplet is used and all subsequent Data Object Font Descriptor (X'8B')
 triplets are ignored.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'10' Length of the triplet, including this length field X'10'
-1 CODE TID X'8B' Data Object Font Descriptor triplet X'8B'
-2 BITS Font flags
-bit 0 MICR
-B'0'
-B'1'
-MICR print flag:
-Normal printing
-MICR printing
-B'0'
-B'1'
-bit 1 Location of font
-B'0'
-B'1'
-Location of font:
-Font can be located anywhere in the
-MO:DCA resource hierarchy
-Font is located in the resource group
-for the print file
-Note: This flag is ignored by IPDS printers.
-B'0'
-B'1'
-bits 2–7 B'0000000' Reserved B'0000000'
-3 CODE Font
-technology X'20'
-Font technology:
-TrueType/OpenType X'20'
-4–5 UBIN VFS X'0001' –
-X'7FFF'
-Specified vertical font size in 1440ths of an inch X'0001' –
-X'7FFF'
-6–7 UBIN HSF X'0000'
-X'0001' –
-X'7FFF'
-No value supplied
-Horizontal scale factor in 1440ths of an inch
-X'0000'
-X'0001' –
-X'7FFF'
-8–9 SBIN Character
-rotation
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-Clockwise rotation of a character
-pattern (glyph):
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-10–11 CODE Encoding
-environment X'0003'
-Encoding environment:
-Microsoft X'0003'
-Triplet X'8B'—Data Object Font Descriptor
-
-
-Offset Type Name Range Meaning Required
-12–13 CODE Encoding ID
-X'0001'
-Environment-specific encoding:
-Microsoft—Unicode X'0001'
-14–15 X'0000' Reserved X'0000'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'10' | Length of the triplet, including this length field | X'10' |
+| 1 | CODE | TID | X'8B' | Data Object Font Descriptor triplet | X'8B' |
+| 2 | BITS | Font flags | | | |
+| | bit 0 | MICR | B'0'<br>B'1' | MICR print flag:<br>Normal printing<br>MICR printing | B'0'<br>B'1' |
+| | bit 1 | Location of font | B'0'<br>B'1' | Location of font:<br>Font can be located anywhere in the MO:DCA resource hierarchy<br>Font is located in the resource group for the print file<br>Note: This flag is ignored by IPDS printers. | B'0'<br>B'1' |
+| | bits 2–7 | | B'0000000' | Reserved | B'0000000' |
+| 3 | CODE | Font technology | X'20' | Font technology: TrueType/OpenType | X'20' |
+| 4–5 | UBIN | VFS | X'0001' – X'7FFF' | Specified vertical font size in 1440ths of an inch | X'0001' – X'7FFF' |
+| 6–7 | UBIN | HSF | X'0000'<br>X'0001' – X'7FFF' | No value supplied<br>Horizontal scale factor in 1440ths of an inch | X'0000'<br>X'0001' – X'7FFF' |
+| 8–9 | SBIN | Character rotation | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' | Clockwise rotation of a character pattern (glyph):<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000'<br>X'2D00'<br>X'5A00'<br>X'8700' |
+| 10–11 | CODE | Encoding environment | X'0003' | Encoding environment: Microsoft | X'0003' |
+| 12–13 | CODE | Encoding ID | X'0001' | Environment-specific encoding: Microsoft—Unicode | X'0001' |
+| 14–15 | X'0000' | Reserved | X'0000' | | |
 Byte 0 Triplet length
 This parameter contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -2460,32 +2296,13 @@ first and if the glyph is not found there, the font identified by the 1st Linked
 found there the font identified by the 2nd Linked Font (X'8D') triplet is searched, and so forth. If the glyph is not
 found in any of the fonts, exception ID X'0821..00' exists and when an AEA or PCA is taken, a special
 character (represented by glyph index 0 for a TrueType or OpenType font) is used from the base font.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'05'–X'FF'
-odd values
-Length of the triplet, including this length field X'05'–X'FF'
-odd values
-1 CODE TID X'8D' Linked Font triplet X'8D'
-2–3 CODE HAID X'0001' –
-X'7EFF'
-Host-assigned ID of previously activated
-linked font object
-X'0001' –
-X'7EFF'
-4 CODE Font ID type
-X'00'
-X'01'
-X'02'
-Type of data in font ID field:
-No font ID provided
-TTC font index
-Full font name
-X'00'
-X'01'
-X'02'
-5–254 Font ID Any value Identification of a TrueType/OpenType font
-within a collection
-Any value
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'05'–X'FF' odd values | Length of the triplet, including this length field | X'05'–X'FF' odd values |
+| 1 | CODE | TID | X'8D' | Linked Font triplet | X'8D' |
+| 2–3 | CODE | HAID | X'0001' – X'7EFF' | Host-assigned ID of previously activated linked font object | X'0001' – X'7EFF' |
+| 4 | CODE | Font ID type | X'00'<br>X'01'<br>X'02' | Type of data in font ID field:<br>No font ID provided<br>TTC font index<br>Full font name | X'00'<br>X'01'<br>X'02' |
+| 5–254 | | Font ID | Any value | Identification of a TrueType/OpenType font within a collection | Any value |
 Byte 0 Triplet length
 This parameter contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -2567,20 +2384,13 @@ For some printers, finishing operations can only be done when the output is rout
 destinations. In this case, when finishing is selected and an incompatible media destination is selected or
 defaulted to, exception ID X'027C..09' exists.
 This triplet is defined as follows:
-Offset Type Name Range Meaning Required
-0 UBIN Length X'0D'–X'FE' Length of the triplet, including this length field X'0D'–X'FE'
-1 CODE TID X'8E' Identifies the UP3I Finishing Operation triplet X'8E'
-2 UBIN Sequence
-number
-X'00'–X'FF' Sequence number of this triplet X'00'–X'FF'
-3 X'00' Reserved X'00'
-4 to
-end
-Data Finishing operation data as defined in the
-UP3I Specification; this field contains bytes 4
-to end of the UP3I Form Finishing Operating
-(X'03') triplet; extra bytes beyond the UP3I-
-defined bytes are ignored.
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'0D'–X'FE' | Length of the triplet, including this length field | X'0D'–X'FE' |
+| 1 | CODE | TID | X'8E' | Identifies the UP3I Finishing Operation triplet | X'8E' |
+| 2 | UBIN | Sequence number | X'00'–X'FF' | Sequence number of this triplet | X'00'–X'FF' |
+| 3 | X'00' | Reserved | X'00' | | |
+| 4 to end | | Data | | Finishing operation data as defined in the UP3I Specification; this field contains bytes 4 to end of the UP3I Form Finishing Operating (X'03') triplet; extra bytes beyond the UP3I-defined bytes are ignored. | |
 Triplet X'8E'—UP³I Finishing Operation
 
 
@@ -2687,22 +2497,13 @@ Triplet X'91'—Color Management Resource Descriptor
 
 Printer support for the X'91' triplet is indicated by presence of the X'F205' property pair in the Device-Control
 command-set vector of an STM reply.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'05' Length of the triplet, including this length field X'05'
-1 CODE TID X'91' Color Management Resource Descriptor triplet X'91'
-2 X'00' Reserved X'00'
-3 CODE Mode
-X'01'
-X'02'
-X'03'
-Processing mode:
-Process as an audit CMR
-Process as an instruction CMR
-Process as a link CMR
-X'01'
-X'02'
-X'03'
-4 X'01'–X'05' Reserved Ignored
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'05' | Length of the triplet, including this length field | X'05' |
+| 1 | CODE | TID | X'91' | Color Management Resource Descriptor triplet | X'91' |
+| 2 | X'00' | Reserved | X'00' | | |
+| 3 | CODE | Mode | X'01'<br>X'02'<br>X'03' | Processing mode:<br>Process as an audit CMR<br>Process as an instruction CMR<br>Process as a link CMR | X'01'<br>X'02'<br>X'03' |
+| 4 | X'01'–X'05' | Reserved | | Ignored | |
 Byte 0 Triplet length
 This parameter contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -2759,13 +2560,11 @@ resource is included in a page or overlay, data-object-level CMRs can be invoked
 or more times) on the Include Data Object (IDO) command.
 Printer support for the X'92' triplet is indicated by presence of the X'F205' property pair in the Device-Control
 command-set vector of an STM reply.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'04' Length of the triplet, including this length field X'04'
-1 CODE TID X'92' Invoke CMR triplet X'92'
-2–3 CODE HAID X'0001' –
-X'7EFF'
-Host-Assigned ID of CMR X'0001' –
-X'7EFF'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'04' | Length of the triplet, including this length field | X'04' |
+| 1 | CODE | TID | X'92' | Invoke CMR triplet | X'92' |
+| 2–3 | CODE | HAID | X'0001' – X'7EFF' | Host-Assigned ID of CMR | X'0001' – X'7EFF' |
 Byte 0 Triplet length
 This parameter contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -2837,84 +2636,16 @@ Triplet X'95'—Rendering Intent
 
 Printer support for the X'95' triplet is indicated by presence of the X'F205' property pair in the Device-Control
 command-set vector of an STM reply.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'0A' Length of the triplet, including this length field X'0A'
-1 CODE TID X'95' Rendering Intent triplet X'95'
-2–3 X'0000' Reserved X'0000'
-4 CODE IOCA
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-Desired rendering intent for
-IO-Image objects:
-Perceptual
-Media-relative colorimetric
-Saturation
-ICC-absolute colorimetric
-Not specified
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-5 CODE Object
-container
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-Desired rendering intent for
-presentation object containers:
-Perceptual
-Media-relative colorimetric
-Saturation
-ICC-absolute colorimetric
-Not specified
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-6 CODE PTOCA
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-Desired rendering intent for
-PTOCA text:
-Perceptual
-Media-relative colorimetric
-Saturation
-ICC-absolute colorimetric
-Not specified
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-7 CODE GOCA
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-Desired rendering intent for
-GOCA graphics objects:
-Perceptual
-Media-relative colorimetric
-Saturation
-ICC-absolute colorimetric
-Not specified
-X'00'
-X'01'
-X'02'
-X'03'
-X'FF'
-8–9 X'0000' Reserved X'0000'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'0A' | Length of the triplet, including this length field | X'0A' |
+| 1 | CODE | TID | X'95' | Rendering Intent triplet | X'95' |
+| 2–3 | X'0000' | Reserved | X'0000' | | |
+| 4 | CODE | IOCA | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' | Desired rendering intent for IO-Image objects:<br>Perceptual<br>Media-relative colorimetric<br>Saturation<br>ICC-absolute colorimetric<br>Not specified | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' |
+| 5 | CODE | Object container | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' | Desired rendering intent for presentation object containers:<br>Perceptual<br>Media-relative colorimetric<br>Saturation<br>ICC-absolute colorimetric<br>Not specified | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' |
+| 6 | CODE | PTOCA | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' | Desired rendering intent for PTOCA text:<br>Perceptual<br>Media-relative colorimetric<br>Saturation<br>ICC-absolute colorimetric<br>Not specified | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' |
+| 7 | CODE | GOCA | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' | Desired rendering intent for GOCA graphics objects:<br>Perceptual<br>Media-relative colorimetric<br>Saturation<br>ICC-absolute colorimetric<br>Not specified | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'FF' |
+| 8–9 | X'0000' | Reserved | X'0000' | | |
 Byte 0 Triplet length
 This parameter contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -2980,27 +2711,14 @@ in a PFC command is B'0' is to report the error and follow the directions of the
 command. An IML NACK also resets the CMR Tag Fidelity to the default.
 Printer support for the CMR Tag Fidelity (X'96') triplet is indicated by the PFC Triplets Supported self-defining
 field in the XOH-OPC reply.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'07' Length of the triplet, including this length field X'07'
-1 CODE TID X'96' CMR Tag Fidelity triplet X'96'
-2 CODE Continue
-X'01'
-X'02'
-Exception continuation rule:
-Stop on X'025D..04'
-Continue processing CMR data
-X'01'
-X'02'
-3 X'00' Reserved X'00'
-4 CODE Report
-X'01'
-X'02'
-Exception reporting rule:
-Report X'025D..04'
-Do not report X'025D..04'
-X'01'
-X'02'
-5–6 X'0000' Reserved X'0000'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'07' | Length of the triplet, including this length field | X'07' |
+| 1 | CODE | TID | X'96' | CMR Tag Fidelity triplet | X'96' |
+| 2 | CODE | Continue | X'01'<br>X'02' | Exception continuation rule:<br>Stop on X'025D..04'<br>Continue processing CMR data | X'01'<br>X'02' |
+| 3 | X'00' | Reserved | X'00' | | |
+| 4 | CODE | Report | X'01'<br>X'02' | Exception reporting rule:<br>Report X'025D..04'<br>Do not report X'025D..04' | X'01'<br>X'02' |
+| 5–6 | X'0000' | Reserved | X'0000' | | |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself. If an invalid length is
 specified or if the triplet is too long to fit in the PFC command, exception ID X'0254..71' exists.
@@ -3051,19 +2769,13 @@ degrade performance or cause paper to be wasted. Refer to your printer documenta
 the affect of selecting a device appearance.
 The X'F206' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Device Appearance (X'97') triplets in the SPE command.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'07' Length of the triplet, including this length field X'07'
-1 CODE TID X'97' Device Appearance triplet X'97'
-2 X'00' Reserved X'00'
-3–4 CODE Appearance
-X'0000'
-X'0001'
-Device appearance to assume:
-Assume device-default appearance
-Assume device-default monochrome
-appearance
-X'0000'
-5–6 X'0000' Reserved X'0000'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'07' | Length of the triplet, including this length field | X'07' |
+| 1 | CODE | TID | X'97' | Device Appearance triplet | X'97' |
+| 2 | X'00' | Reserved | X'00' | | |
+| 3–4 | CODE | Appearance | X'0000'<br>X'0001' | Device appearance to assume:<br>Assume device-default appearance<br>Assume device-default monochrome appearance | X'0000' |
+| 5–6 | X'0000' | Reserved | X'0000' | | |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -3118,38 +2830,15 @@ the resolutions are needed to define the physical dimensions of the image, since
 a portion of the image at its native size into the object area.
 Printer support for the X'9A' triplet is indicated by presence of the X'5800' property pair in the STM Object
 Container command-set vector.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'0A' Length of the triplet, including this length field X'0A'
-1 CODE TID X'9A' Image Resolution triplet X'9A'
-2–3 X'0000' Reserved X'0000'
-4 CODE X unit base
-X'00'
-X'01'
-Unit base for image resolution in the
-X direction:
-10 inches
-10 centimeters
-X'00'
-5 CODE Y unit base
-X'00'
-X'01'
-Unit base for image resolution in the Y
-direction (must be the same as X unit base):
-10 inches
-10 centimeters
-X'00'
-6–7 UBIN XUPUB X'0001' –
-X'7FFF'
-Number of image points in the X-direction per
-X unit base
-X'0001' –
-X'7FFF'
-8–9 UBIN YUPUB X'0001' –
-X'7FFF'
-Number of image points in the Y-direction per
-Y unit base
-X'0001' –
-X'7FFF'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'0A' | Length of the triplet, including this length field | X'0A' |
+| 1 | CODE | TID | X'9A' | Image Resolution triplet | X'9A' |
+| 2–3 | X'0000' | Reserved | X'0000' | | |
+| 4 | CODE | X unit base | X'00'<br>X'01' | Unit base for image resolution in the X direction:<br>10 inches<br>10 centimeters | X'00' |
+| 5 | CODE | Y unit base | X'00'<br>X'01' | Unit base for image resolution in the Y direction (must be the same as X unit base):<br>10 inches<br>10 centimeters | X'00' |
+| 6–7 | UBIN | XUPUB | X'0001' – X'7FFF' | Number of image points in the X-direction per X unit base | X'0001' – X'7FFF' |
+| 8–9 | UBIN | YUPUB | X'0001' – X'7FFF' | Number of image points in the Y-direction per Y unit base | X'0001' – X'7FFF' |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -3196,71 +2885,18 @@ property pair in the STM Object Container command-set vector. Printer support fo
 is indicated by presence of the X'1209' property pair in the STM Object Container command-set vector. When
 sending this triplet for a PDF object, the 5-byte version of this triplet must be sent to a printer that does not
 return the X'1209' property pair.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'05', X'11' Length of the triplet, including this length field X'05'
-1 CODE TID X'9C' Object Container Presentation Space Size triplet X'9C'
-2–3 X'0000' Reserved X'0000'
-4 CODE PDF
-Presentation
-space size
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-Choice of presentation-space size:
-Use the MediaBox (default)
-Use the CropBox
-Use the BleedBox
-Use the TrimBox
-Use the ArtBox
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-5 CODE X unit base
-X'00'
-X'01'
-Unit base for presentation-space size in the X
-direction:
-10 inches
-10 centimeters
-X'00'
-6 CODE Y unit base
-X'00'
-X'01'
-Unit base for presentation-space size in the Y
-direction (must be the same as the X unit base):
-10 inches
-10 centimeters
-X'00'
-7–8 UBIN XUPUB X'0001' –
-X'7FFF'
-X
-oc units per unit base X'0001' –
-X'7FFF'
-9–10 UBIN YUPUB X'0001' –
-X'7FFF'
-Y
-oc units per unit base X'0001' –
-X'7FFF'
-11–13 UBIN X
-oc extent X'000001' –
-X'007FFF'
-Xoc extent of the presentation-space size X'000001' –
-X'007FFF'
-Refer to the
-note following
-the table.
-14–16 UBIN Y
-oc extent X'000001' –
-X'007FFF'
-Yoc extent of the presentation-space size X'000001' –
-X'007FFF'
-Refer to the
-note following
-the table.
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'05', X'11' | Length of the triplet, including this length field | X'05' |
+| 1 | CODE | TID | X'9C' | Object Container Presentation Space Size triplet | X'9C' |
+| 2–3 | X'0000' | Reserved | X'0000' | | |
+| 4 | CODE | PDF Presentation space size | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05' | Choice of presentation-space size:<br>Use the MediaBox (default)<br>Use the CropBox<br>Use the BleedBox<br>Use the TrimBox<br>Use the ArtBox | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05' |
+| 5 | CODE | X unit base | X'00'<br>X'01' | Unit base for presentation-space size in the X direction:<br>10 inches<br>10 centimeters | X'00' |
+| 6 | CODE | Y unit base | X'00'<br>X'01' | Unit base for presentation-space size in the Y direction (must be the same as the X unit base):<br>10 inches<br>10 centimeters | X'00' |
+| 7–8 | UBIN | XUPUB | X'0001' – X'7FFF' | $X_{oc}$ units per unit base | X'0001' – X'7FFF' |
+| 9–10 | UBIN | YUPUB | X'0001' – X'7FFF' | $Y_{oc}$ units per unit base | X'0001' – X'7FFF' |
+| 11–13 | UBIN | $X_{oc}$ extent | X'000001' – X'007FFF' | $X_{oc}$ extent of the presentation-space size<br>(Refer to the note following the table.) | X'000001' – X'007FFF' |
+| 14–16 | UBIN | $Y_{oc}$ extent | X'000001' – X'007FFF' | $Y_{oc}$ extent of the presentation-space size<br>(Refer to the note following the table.) | X'000001' – X'007FFF' |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -3354,23 +2990,12 @@ name is created by a user of the device and must be coordinated with the present
 device; the specific implementation of setup names might differ between devices.
 Printer support for the X'9E' triplet is indicated by presence of the X'700A' property pair in the Device-Control
 command-set vector of an STM reply.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'06'–X'CC'
-even values
-Length of the triplet, including this length field X'06'–X'CC'
-even values
-1
-CODE TID X'9E' Setup Name triplet X'9E'
-2–3 X'0000' Reserved X'0000'
-4 to
-end
-CHAR Setup name any UTF-
-16BE
-character
-Setup name specified as a UTF-16BE
-character string
-any UTF-16BE
-character
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'06'–X'CC' even values | Length of the triplet, including this length field | X'06'–X'CC' even values |
+| 1 | CODE | TID | X'9E' | Setup Name triplet | X'9E' |
+| 2–3 | X'0000' | Reserved | X'0000' | | |
+| 4 to end | CHAR | Setup name | any UTF-16BE character | Setup name specified as a UTF-16BE character string | any UTF-16BE character |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to
@@ -3400,31 +3025,15 @@ the HAID of the IOCA Tile Resource. However, not all tertiary resource invocatio
 DORE or DORE2
 command—CMRs, for instance, cannot be invoked through the DORE or DORE2 command,
 so invocation of tertiary CMRs is done using this triplet.
-Offset Type Name Range Meaning Required
-0 UBIN Length X'0A'–X'FF' Length of the triplet, including this length field X'0A'–X'FF'
-1 CODE TID X'A2' Invoke Tertiary Resource triplet X'A2'
-2 CODE TRType
-X'01'
-Tertiary resource type
-CMR X'01'
-3–4 CODE HAID X'0001' –
-X'7EFF'
-Host-Assigned ID of tertiary resource X'0001' –
-X'7EFF'
-5–8
-X'00000000' Reserved X'00000000'
-9 CODE IDType
-X'01'
-Internal resource ID type
-Image local ID X'01'
-10 to
-end
-UNDF Internal
-resource ID
-Any value Internal identifier for the secondary resource
-for which the tertiary resource is being
-invoked
-Any value
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | UBIN | Length | X'0A'–X'FF' | Length of the triplet, including this length field | X'0A'–X'FF' |
+| 1 | CODE | TID | X'A2' | Invoke Tertiary Resource triplet | X'A2' |
+| 2 | CODE | TRType | X'01' | Tertiary resource type:<br>CMR | X'01' |
+| 3–4 | CODE | HAID | X'0001' – X'7EFF' | Host-Assigned ID of tertiary resource | X'0001' – X'7EFF' |
+| 5–8 | | X'00000000' | Reserved | | X'00000000' |
+| 9 | CODE | IDType | X'01' | Internal resource ID type:<br>Image local ID | X'01' |
+| 10 to end | UNDF | Internal resource ID | Any value | Internal identifier for the secondary resource for which the tertiary resource is being invoked | Any value |
 Byte 0 Triplet length
 This field contains the length of this triplet, including the length field itself.
 If an invalid triplet length is specified, exception ID X'027A..01' exists. If the triplet is too big to

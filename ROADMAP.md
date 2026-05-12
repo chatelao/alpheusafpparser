@@ -29,13 +29,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ## Phase 10: Specification Excellence
 - 🚧 **IPDS (Critical)**:
     - ⏳ Purge physical page markers and recurring PDF headers/footers:
-        - ✅ Chapters 1–10.
-        - ⏳ Chapters 11–17.
+        - ✅ Chapters 1–11, 14–15.
+        - ⏳ Chapters 12–13, 16–17.
         - ⏳ Appendices A–D.
     - ⏳ Fix OCR-induced broken paragraphs and split words:
         - ⏳ Chapters 1–4.
-        - ✅ Chapters 5–10.
-        - ⏳ Chapters 11–17 and Appendices.
+        - ✅ Chapters 5–11, 14–15.
+        - ⏳ Chapters 12–13, 16–17 and Appendices.
     - ⏳ Remove physical page references ("on page XXX"; ~500 found).
     - ⏳ Convert command and syntax text dumps to Markdown tables:
         - ⏳ Device-Control Command Set (Chapter 4):
@@ -77,9 +77,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ⏳ SDFs X'0018'–X'001A', X'0021', X'0028' (Finishing, UP3I, Colorant).
             - ✅ XOH orders: PCC, PBD, RSPG, SIMS.
             - ✅ XOH orders: SMM, SCF, SMO, SMS.
-            - ⏳ XOH Specify Group Operation (SGO).
-            - ⏳ XOH Trace (TRC): Table 36 and all Trace Entry syntaxes.
-        - ⏳ Text Command Set (Chapter 5).
+            - ✅ XOH Specify Group Operation (SGO).
+            - ✅ XOH Trace (TRC): Table 36 and all Trace Entry syntaxes.
+        - ✅ Text Command Set (Chapter 5).
         - ✅ IM-Image and IO-Image Command Sets (Chapters 6–7).
         - ✅ Graphics Command Set (Chapter 8).
         - ✅ Bar Code Command Set (Chapter 9).
@@ -90,7 +90,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Command: IDO (Syntax and SDFs).
             - ✅ Commands: RRR and RRRL (including ACK Reply).
             - ✅ Commands: WOCC and WOC.
-        - 🚧 Metadata Command Set (Chapter 11):
+        - ✅ Metadata Command Set (Chapter 11):
             - ✅ Table 52 (Metadata Commands Summary).
             - ✅ DHM (Delete Home-State Metadata) syntax and parameter table.
             - ✅ WMC (Write Metadata Control) syntax and MDD (Metadata Data Descriptor) table.
@@ -105,23 +105,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ BPS (Begin Page Segment) syntax and HAID table.
             - ✅ DPS (Deactivate Page Segment) syntax and HAID table.
             - ✅ IPS (Include Page Segment) syntax and HAID table.
-        - 🚧 Loaded-Font Command Set (Chapter 14):
-            - ✅ Tables 55 (Summary) and 56 (Baseline Offset).
-            - ✅ Commands: LCP and LCPC.
-            - ✅ Commands: LF and LFCSC.
-            - ⏳ Commands: LFC and LFI.
-            - ⏳ Command: LSS.
-        - 🚧 Triplets (Chapter 15):
-            - ✅ Table 57 (Summary Table).
-            - ✅ Triplets X'00' (Group ID), X'01' (Coded Graphic Character Set Global Identifier), and X'02' (Fully Qualified Name).
-            - ✅ Triplets X'4E'–X'6E' (Color Specification, Encoding Scheme ID, Object Offset, Local Date and Time Stamp, Group Information).
-            - ✅ Triplets X'70'–X'84' (Presentation Space Reset Mixing, Toner Saver, Color Fidelity, Metric Adjustment, Font Resolution and Metric Technology).
-            - ⏳ Triplet X'85' (Finishing Operation).
-            - ⏳ Triplets X'86'–X'88' (Text Fidelity, Finishing Fidelity).
-            - ⏳ Triplets X'8B'–X'8E' (Data Object Font Descriptor, Linked Font, UP3I Finishing Operation).
-            - ⏳ Triplets X'91'–X'92' (CMR Descriptor, Invoke CMR).
-            - ⏳ Triplets X'95'–X'97' (Rendering Intent, CMR Tag Fidelity, Device Appearance).
-            - ⏳ Triplets X'9A'–X'A2' (Image Resolution, Object Container Presentation Space Size, Setup Name, Invoke Tertiary Resource).
+        - ✅ Loaded-Font Command Set (Chapter 14).
+        - ✅ Triplets (Chapter 15).
         - 🚧 Exception Reporting (Chapter 16):
             - ✅ Purge PDF artifacts and fix OCR split-words.
             - ✅ Remove physical page references ("on page XXX").
@@ -178,8 +163,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 7: Function Set 14 (Tables 9–10 and Acceptable Values).
         - ✅ Chapter 7: Function Set 40 (Tables 11–12 and Acceptable Values).
         - ✅ Chapter 7: Function Set 42 (Tables 13–14 and Acceptable Values).
-        - ⏳ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).
-        - ⏳ Chapter 7: Function Set 48 (Tables 21–26 and Acceptable Values).
+        - ✅ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).
+        - ✅ Chapter 7: Function Set 48 (Tables 21–26 and Acceptable Values).
 - 🚧 **AFP GOCA**:
     - ⏳ Convert syntax and registry text dumps to Markdown tables.
     - ⏳ Remove physical page references ("on page XXX").
@@ -289,10 +274,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ PTOCA tests (5 files: PTOCARoundTrip, PTOCAGapReproduction, TRNEncoding, PTOCAControlSequenceRoundTrip, PTOCAControlSequenceTest).
         - ⏳ Architecture Round Trip tests (4 files: FOCA, GOCA, IOCA, LineData).
         - ⏳ Acceptance tests (3 files: AFPParserTest, AFPWriterTest, CLITest).
-- ⏳ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
-    - ⏳ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
+- ✅ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
+    - ✅ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
     - ✅ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
-    - ⏳ Implement heuristic validation for EBCDIC human-readability.
+    - ✅ Implement heuristic validation for EBCDIC human-readability.
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
 - ✅ Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
@@ -322,20 +307,20 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - 🚧 Enhance GOCA and IOCA support.
     - ✅ Fix encoding and decoding bugs in GOCA drawing orders and IOCA segments.
     - ⏳ Implement full payload parsing for missing IOCA segments and GOCA drawing orders:
-        - ⏳ GOCA Drawing Orders:
-            - ⏳ Set Custom Line Type (GSCLT, X'20').
+        - ✅ GOCA Drawing Orders:
+            - ✅ Set Custom Line Type (GSCLT, X'20').
             - ✅ End Custom Pattern (GECP, X'5E').
             - ✅ Set Pattern Reference Point (GSPRP, X'A0').
-            - ⏳ Begin Custom Pattern (GBCP, X'DE').
-            - ⏳ Delete Pattern (GDPT, X'DF').
-            - ⏳ Linear Gradient (GLGD, X'FEDC').
-            - ⏳ Radial Gradient (GRGD, X'FEDD').
-            - ⏳ Legacy/No-Op: GSPIK (X'43'), End Segment (X'71').
-        - ⏳ IOCA Segments:
-            - ⏳ Set Extended Bilevel Image Color (X'F4').
-            - ⏳ Set Bilevel Image Color (X'F6').
-            - ⏳ IOCA Function Set Identification (X'F7').
-            - ⏳ nColor Names (X'FEB3').
+            - ✅ Begin Custom Pattern (GBCP, X'DE').
+            - ✅ Delete Pattern (GDPT, X'DF').
+            - ✅ Linear Gradient (GLGD, X'FEDC').
+            - ✅ Radial Gradient (GRGD, X'FEDD').
+            - ✅ Legacy/No-Op: GSPIK (X'43'), End Segment (X'71').
+        - ✅ IOCA Segments:
+            - ✅ Set Extended Bilevel Image Color (X'F4').
+            - ✅ Set Bilevel Image Color (X'F6').
+            - ✅ IOCA Function Set Identification (X'F7').
+            - ✅ nColor Names (X'FEB3').
     - ⏳ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - ⏳ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
 - 🚧 Stateful Encoding and Character Set Resolution:

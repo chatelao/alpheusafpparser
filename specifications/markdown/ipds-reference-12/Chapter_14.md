@@ -1608,164 +1608,45 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 
 
 The data for the LFC command contains the following information:
-Offset Type Name Range Meaning LF1 Range
-0–1 CODE HAID X'0001' –
-X'7EFF'
-Font Host-Assigned ID X'0001' –
-X'7EFF'
-2 CODE Section ID
-X'00',
-X'41'–X'FE'
-Section identifier:
-Single-byte
-Double-byte section ID
-(Font sections apply only
-to double-byte coded fonts.)
-X'00'
-3 CODE LFC, LFI
-format
-X'00' Font control record and font index table
-format
-X'00'
-4 CODE Pattern format X'05' Pattern data format (bounded box) X'05'
-5 BITS Font type flags
-bits 0–1 B'00' Reserved B'00'
-bits 2–3 Font
-type
-B'01'
-B'10'
-Single-byte coded font
-Double-byte coded font
-B'01'
-bits 4–5 B'00' Reserved B'00'
-bit 6 Uniform
-character
-box
-B'1'
-B'0'
-Font has a uniform character-box size,
-specified in bytes 6 and 7
-Box size for each character is expressed
-in the character-pattern descriptor for that
-character (bytes 40 to end of command)
-B'1'
-B'0'
-bit 7 B'0' Reserved B'0'
-6–7 UBIN X size X'0000' –
-X'7FFF'
-Uniform or maximum character-box X size See byte
-description.
-8–9 UBIN Y size X'0000' –
-X'7FFF'
-Uniform or maximum character-box Y size See byte
-description.
-10 CODE L-unit unit
-base X'00'
-X'01'
-X'02'
-Unit base for L-units:
-Ten inches
-(fixed-metric technology)
-Ten centimeters
-(fixed-metric technology)
-Relative units
-(relative-metric technology)
-See byte
-description.
-11 X'00' Reserved X'00'
-12–13 UBIN X UPUB X'0001' –
-X'7FFF'
-Units per unit base in the X direction for L-
-units
-See byte
-description.
-14–15 UBIN Y UPUB X'0001' –
-X'7FFF'
-Units per unit base in the Y direction for L-
-units (same as bytes 12–13 for relative
-metrics)
-See byte
-description.
-16–17 X'0000' Reserved X'0000'
-18–20 UBIN Byte count X'000001' –
-X'7FFFFF'
-Font byte count X'000001' –
-X'7FFFFF'
-21 UBIN Data
-alignment
-X'01'–X'FF' Pattern data alignment value X'01', X'04', X'08'
-## Load Font Control (LFC)
 
-
-Offset Type Name Range Meaning LF1 Range
-22–23 CODE GCSGID X'0000'
-X'0001' –
-X'FFFE'
-X'FFFF'
-No value supplied
-Graphic Character Set Global ID
-Use default value
-See byte
-description.
-24–25 CODE CPGID X'0000'
-X'0001' –
-X'FFFE'
-No value supplied
-Code Page Global ID
-See byte
-description.
-26 CODE Pel-unit unit
-base X'00'
-X'01'
-Unit base for pel units:
-ten inches
-ten centimeters
-See byte
-description.
-27 X'00' Reserved X'00'
-28–29 UBIN X pel units X'0000' –
-X'7FFF'
-Pel units per unit base in the X direction See byte
-description.
-30–31 UBIN Y pel units X'0000' –
-X'7FFF'
-Pel units per unit base in the Y direction See byte
-description.
-32–33 UBIN RMMF X'0001' –
-X'7FFF'
-Relative-metric multiplying factor See byte
-description.
-34–35 CODE FGID X'0000'
-X'0001' –
-X'FFFE'
-No value supplied
-Font Typeface Global ID
-See byte
-description.
-36 X'01' Reserved X'01'
-37 BITS Intended-use flags
-bit 0 MICR B'0', B'1' Intended for MICR printing B'0'
-bits 1–7 B'0000000' Reserved B'0000000'
-38–39 CODE FW X'0000'
-X'0001' –
-X'7FFF'
-No value supplied
-## Font Width (FW)
-See byte
-description.
-Zero or more character-pattern descriptors in the following format:
-+ 0–1 UBIN X size X'0000' –
-X'7FFF'
-Character-box X size See byte
-description.
-+ 2–3 UBIN Y size X'0000' –
-X'7FFF'
-Character-box Y size See byte
-description.
-+ 4–7 UBIN Address X'00000000' –
-X'007FFFFE'
-Character-pattern address X'00000000' –
-X'007FFFFE'
+| Offset | Type | Name | Range | Meaning | LF1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' |
+| 2 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single-byte<br>Double-byte section ID | X'00' |
+| 3 | CODE | LFC, LFI format | X'00' | Font control record and font index table format | X'00' |
+| 4 | CODE | Pattern format | X'05' | Pattern data format (bounded box) | X'05' |
+| 5 | BITS | Font type flags | | | |
+| | bits 0–1 | | B'00' | Reserved | B'00' |
+| | bits 2–3 | Font type | B'01', B'10' | Single-byte coded font<br>Double-byte coded font | B'01' |
+| | bits 4–5 | | B'00' | Reserved | B'00' |
+| | bit 6 | Uniform character box | B'1', B'0' | B'1': Font has a uniform character-box size, specified in bytes 6 and 7<br>B'0': Box size for each character is expressed in the character-pattern descriptor for that character (bytes 40 to end of command) | B'1', B'0' |
+| | bit 7 | | B'0' | Reserved | B'0' |
+| 6–7 | UBIN | X size | X'0000' – X'7FFF' | Uniform or maximum character-box X size | See byte description. |
+| 8–9 | UBIN | Y size | X'0000' – X'7FFF' | Uniform or maximum character-box Y size | See byte description. |
+| 10 | CODE | L-unit unit base | X'00', X'01', X'02' | Unit base for L-units:<br>Ten inches (fixed-metric technology)<br>Ten centimeters (fixed-metric technology)<br>Relative units (relative-metric technology) | See byte description. |
+| 11 | X'00' | Reserved | X'00' | | |
+| 12–13 | UBIN | X UPUB | X'0001' – X'7FFF' | Units per unit base in the X direction for L-units | See byte description. |
+| 14–15 | UBIN | Y UPUB | X'0001' – X'7FFF' | Units per unit base in the Y direction for L-units (same as bytes 12–13 for relative metrics) | See byte description. |
+| 16–17 | X'0000' | Reserved | X'0000' | | |
+| 18–20 | UBIN | Byte count | X'000001' – X'7FFFFF' | Font byte count | X'000001' – X'7FFFFF' |
+| 21 | UBIN | Data alignment | X'01'–X'FF' | Pattern data alignment value | X'01', X'04', X'08' |
+| 22–23 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description. |
+| 24–25 | CODE | CPGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Code Page Global ID | See byte description. |
+| 26 | CODE | Pel-unit unit base | X'00', X'01' | Unit base for pel units:<br>ten inches<br>ten centimeters | See byte description. |
+| 27 | X'00' | Reserved | X'00' | | |
+| 28–29 | UBIN | X pel units | X'0000' – X'7FFF' | Pel units per unit base in the X direction | See byte description. |
+| 30–31 | UBIN | Y pel units | X'0000' – X'7FFF' | Pel units per unit base in the Y direction | See byte description. |
+| 32–33 | UBIN | RMMF | X'0001' – X'7FFF' | Relative-metric multiplying factor | See byte description. |
+| 34–35 | CODE | FGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Font Typeface Global ID | See byte description. |
+| 36 | X'01' | Reserved | X'01' | | |
+| 37 | BITS | Intended-use flags | | | |
+| | bit 0 | MICR | B'0', B'1' | Intended for MICR printing | B'0' |
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' |
+| 38–39 | CODE | FW | X'0000', X'0001' – X'7FFF' | No value supplied<br>Font Width (FW) | See byte description. |
+| **Zero or more character-pattern descriptors in the following format:** | | | | | |
+| + 0–1 | UBIN | X size | X'0000' – X'7FFF' | Character-box X size | See byte description. |
+| + 2–3 | UBIN | Y size | X'0000' – X'7FFF' | Character-box Y size | See byte description. |
+| + 4–7 | UBIN | Address | X'00000000' – X'007FFFFE' | Character-pattern address | X'00000000' – X'007FFFFE' |
 ## Load Font Control (LFC)
 
 
@@ -2231,169 +2112,39 @@ Without CID X'0025' or X'1025'
 With CID X'0027' or X'1027'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The data for the LFI command contains the following information:
-Offset Type Name Range Meaning LF1 Range
-0–1 CODE HAID X'0001' –
-X'7EFF'
-Font Host-Assigned ID X'0001' –
-X'7EFF'
-2 CODE Section ID
-X'00'
-X'41'–X'FE'
-Section identifier:
-Single byte
-Double-byte section
-X'00'
-3 BITS Space flags
-bit 0
-B'1'
-B'0'
-Variable space enable:
-Enabled
-Disabled
-B'1'
-B'0'
-bits 1–7 B'0000000' Reserved B'0000000'
-4–5 CODE FIS
-X'0000'
-X'2D00'
-X'5A00'
-X'8700'
-Font inline sequence:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
-X'0000'
-6–7 X'0000' Reserved X'0000'
-8–9 SBIN Baseline
-offset
-X'8000' –
-X'7FFF'
-Uniform or maximum baseline offset See byte
-description.
-## Load Font Index (LFI)
 
-
-Offset Type Name Range Meaning LF1 Range
-10–11 SBIN Character
-increment
-X'8000' –
-X'7FFF'
-Uniform or maximum character increment See byte
-description.
-12–13 X'0000' Reserved X'0000'
-14–15 SBIN Max extent X'0000' –
-X'7FFF'
-Maximum baseline extent See byte
-description.
-16 BITS Orientation flags
-bits 0–4 B'00000' Reserved B'00000'
-bit 5 Uniform
-A-space
-B'1'
-B'0'
-The uniform A-space value is
-in bytes 18–19.
-The A-space of each character is in the
-character index entry and bytes 18–19
-specify the minimum value for this
-font index.
-B'1'
-B'0'
-bit 6 Uniform
-baseline
-offset
-B'1'
-B'0'
-The uniform baseline offset is
-in bytes 8–9.
-The baseline offset of each character is
-in the character index entry and
-bytes 8–9 specify the maximum value
-for this font index.
-B'1'
-B'0'
-bit 7 Uniform
-character
-increment
-B'1'
-B'0'
-The uniform character increment
-is in bytes 10–11.
-The increment of each character is in the
-character index entry and bytes 10–11
-specify the maximum value for this
-font index.
-B'1'
-B'0'
-17 X'00' Reserved X'00'
-18–19 SBIN A-space X'8000' –
-X'7FFF'
-Uniform or minimum A-space See byte
-description.
-20–21 CODE VSP X'0000' –
-X'FFFF'
-Variable-space code point (VSP) X'0000' –
-X'FFFF'
-22–23 SBIN Default VSI X'8000' –
-X'7FFF'
-Default variable-space increment See byte
-description.
-24–25 UBIN Underscore
-width X'0000'
-X'0001' –
-X'7FFF'
-Recommended width:
-No recommendation provided
-Underscore width in L-units
-X'0000'
-26–27 SBIN Underscore
-position
-X'8000' –
-X'7FFF'
-Recommended position of underscore in L-
-units
-X'0000'
-28–31 X'00000000' Reserved X'00000000'
-Zero or 256 character-index entries in the following format:
-+ 0–1 BITS Character
-flags
-B'000' – B'111' Character flags B'000' – B'111'
-+ 2–3 UBIN Pattern index X'0000' – one
-less than the
-number of
-character
-patterns in the
-font
-Pattern index X'0000' – one
-less than the
-number of
-character
-patterns in the
-font
-## Load Font Index (LFI)
-
-
-Offset Type Name Range Meaning LF1 Range
-+ 4–5 SBIN Character
-increment
-X'8000' –
-X'7FFF'
-Character increment See byte
-description.
-+ 6–7 SBIN A-space X'8000' –
-X'7FFF'
-A-space See byte
-description.
-+8–13 X'00...00' Reserved X'00...00'
-+14 to
-15
-SBIN Baseline
-offset
-X'8000' –
-X'7FFF'
-Baseline offset See byte
-description.
+| Offset | Type | Name | Range | Meaning | LF1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' |
+| 2 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single byte<br>Double-byte section | X'00' |
+| 3 | BITS | Space flags | | | |
+| | bit 0 | | B'1', B'0' | Variable space enable:<br>Enabled<br>Disabled | B'1', B'0' |
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' |
+| 4–5 | CODE | FIS | X'0000', X'2D00', X'5A00', X'8700' | Font inline sequence:<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
+| 6–7 | X'0000' | Reserved | X'0000' | | |
+| 8–9 | SBIN | Baseline offset | X'8000' – X'7FFF' | Uniform or maximum baseline offset | See byte description. |
+| 10–11 | SBIN | Character increment | X'8000' – X'7FFF' | Uniform or maximum character increment | See byte description. |
+| 12–13 | X'0000' | Reserved | X'0000' | | |
+| 14–15 | SBIN | Max extent | X'0000' – X'7FFF' | Maximum baseline extent | See byte description. |
+| 16 | BITS | Orientation flags | | | |
+| | bits 0–4 | | B'00000' | Reserved | B'00000' |
+| | bit 5 | Uniform A-space | B'1', B'0' | B'1': The uniform A-space value is in bytes 18–19.<br>B'0': The A-space of each character is in the character index entry and bytes 18–19 specify the minimum value for this font index. | B'1', B'0' |
+| | bit 6 | Uniform baseline offset | B'1', B'0' | B'1': The uniform baseline offset is in bytes 8–9.<br>B'0': The baseline offset of each character is in the character index entry and bytes 8–9 specify the maximum value for this font index. | B'1', B'0' |
+| | bit 7 | Uniform character increment | B'1', B'0' | B'1': The uniform character increment is in bytes 10–11.<br>B'0': The increment of each character is in the character index entry and bytes 10–11 specify the maximum value for this font index. | B'1', B'0' |
+| 17 | X'00' | Reserved | X'00' | | |
+| 18–19 | SBIN | A-space | X'8000' – X'7FFF' | Uniform or minimum A-space | See byte description. |
+| 20–21 | CODE | VSP | X'0000' – X'FFFF' | Variable-space code point (VSP) | X'0000' – X'FFFF' |
+| 22–23 | SBIN | Default VSI | X'8000' – X'7FFF' | Default variable-space increment | See byte description. |
+| 24–25 | UBIN | Underscore width | X'0000', X'0001' – X'7FFF' | Recommended width:<br>No recommendation provided<br>Underscore width in L-units | X'0000' |
+| 26–27 | SBIN | Underscore position | X'8000' – X'7FFF' | Recommended position of underscore in L-units | X'0000' |
+| 28–31 | X'00000000' | Reserved | X'00000000' | | |
+| **Zero or 256 character-index entries in the following format:** | | | | | |
+| + 0–1 | BITS | Character flags | B'000' – B'111' | Character flags | B'000' – B'111' |
+| + 2–3 | UBIN | Pattern index | X'0000' – one less than the number of character patterns in the font | Pattern index | X'0000' – one less than the number of character patterns in the font |
+| + 4–5 | SBIN | Character increment | X'8000' – X'7FFF' | Character increment | See byte description. |
+| + 6–7 | SBIN | A-space | X'8000' – X'7FFF' | A-space | See byte description. |
+| + 8–13 | X'00...00' | Reserved | X'00...00' | | |
+| + 14–15 | SBIN | Baseline offset | X'8000' – X'7FFF' | Baseline offset | See byte description. |
 Bytes 0–1 Font Host-Assigned ID
 This identifier must match the HAID of a previously activated fully described font or fully
 described font section.
@@ -2811,49 +2562,25 @@ Without CID X'0017'–X'7FFF'
 With CID X'0019'–X'7FFF'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The data field for the LSS command follows:
-Offset Type Name Range Meaning LF2 Range
-0 BITS Flags1 X'90', X'91' Flags; bit mapped X'90'
-1 X'00' Retired item 69 X'00'
-2 CODE SCODE X'00'–X'FF' Starting code point X'01'–X'FF'
-3 X'00' Retired item 70 X'00'
-4 UBIN Length X'0D'–X'FF' Additional parameter byte length. See byte
-description.
-X'0D'
-5 BITS Flags2 X'60', X'61' Flags; bit mapped X'60', X'61'
-6 UBIN X box size X'01'–X'FF' Uniform character-box size X dimension,
-measured in pels
-Per XOH OPC
-7 UBIN Y box size X'01'–X'FF' Uniform character-box size Y dimension,
-measured in pels
-Per XOH OPC
-8 CODE Section ID
-X'00'
-X'41'–X'FE'
-Section identifier:
-Single-byte
-Double-byte section ID
-X'00'
-9–10 X'0000' Retired items 74 and 75 X'0000'
-11 CODE ECODE Starting code
-point–X'FF'
-Ending code point Starting code
-point–X'FF'
-12–14 X'000000' Retired items 76, 77, 78 X'000000'
-15–16 CODE HAID X'0001' –
-X'7EFF'
-Font Host-Assigned ID X'0001' –
-X'7EFF'
-17–i X'00...00' Retired item 79 X'00...00'
-j–k Triplets See byte
-description.
-One or more triplets X'02FF'
-(k+1)
-to end
-of
-cmnd
-UNDF Raster See byte
-description.
-Character raster patterns Any value
+
+| Offset | Type | Name | Range | Meaning | LF2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0 | BITS | Flags1 | X'90', X'91' | Flags; bit mapped | X'90' |
+| 1 | X'00' | | | Retired item 69 | X'00' |
+| 2 | CODE | SCODE | X'00'–X'FF' | Starting code point | X'01'–X'FF' |
+| 3 | X'00' | | | Retired item 70 | X'00' |
+| 4 | UBIN | Length | X'0D'–X'FF' | Additional parameter byte length. See byte description. | X'0D' |
+| 5 | BITS | Flags2 | X'60', X'61' | Flags; bit mapped | X'60', X'61' |
+| 6 | UBIN | X box size | X'01'–X'FF' | Uniform character-box size X dimension, measured in pels | Per XOH OPC |
+| 7 | UBIN | Y box size | X'01'–X'FF' | Uniform character-box size Y dimension, measured in pels | Per XOH OPC |
+| 8 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single-byte<br>Double-byte section ID | X'00' |
+| 9–10 | X'0000' | | | Retired items 74 and 75 | X'0000' |
+| 11 | CODE | ECODE | Starting code point–X'FF' | Ending code point | Starting code point–X'FF' |
+| 12–14 | X'000000' | | | Retired items 76, 77, 78 | X'000000' |
+| 15–16 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' |
+| 17–i | X'00...00' | | | Retired item 79 | X'00...00' |
+| j–k | Triplets | | See byte description. | One or more triplets | X'02FF' |
+| (k+1) to end of cmnd | UNDF | Raster | See byte description. | Character raster patterns | Any value |
 ## Load Symbol Set (LSS)
 
 

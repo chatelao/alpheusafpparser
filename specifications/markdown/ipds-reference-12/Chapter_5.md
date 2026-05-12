@@ -118,18 +118,13 @@ equivalence entries that are processed in the order that they appear in the comm
 accept more than 127 entries. If a syntax error is encountered in one of the entries, the LE command is
 discarded and any previously active LE entries remain in effect. Exception ID X'02C8..02' exists in this
 situation.
-Offset Type Name Range Meaning TX1 Range
-0–1 CODE Type
-X'0100'
-Mapping type:
-Suppression equivalence X'0100'
-Zero or more equivalence entries in the following format:
-2–3 CODE Internal X'0001' –
-X'00FF'
-Internal value X'0001' – X'007F'
-4–5 CODE External X'0001' –
-X'00FF'
-External value X'0001' – X'007F'
+
+| Offset | Type | Name | Range | Meaning | TX1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Type | X'0100' | Mapping type:<br>Suppression equivalence | X'0100' |
+| **Zero or more equivalence entries in the following format:** | | | | | |
+| 2–3 | CODE | Internal | X'0001' – X'00FF' | Internal value | X'0001' – X'007F' |
+| 4–5 | CODE | External | X'0001' – X'00FF' | External value | X'0001' – X'007F' |
 Bytes 0–1 Mapping type
 The only valid value is X'0100', that indicates suppression equivalence mapping.
 The value X'0200' is retired as Retired item 52.
@@ -196,55 +191,18 @@ The TAP is a mandatory self-defining field in the WTC command. It defines the po
 text object area. The origin and orientation of the text object area are defined relative to the reference
 coordinate system.
 The format of the TAP is as follows:
-Offset Type Name Range Meaning Required
-0–1 UBIN Length X'000B' to end
-of TAP
-Length of TAP , including this length field X'000B' to end of
-TAP
-2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
-4–5 SBIN X offset X'8000' –
-X'7FFF'
-Text object area origin; an $X_{p}$, I, or I-offset
-coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-6–7 SBIN Y offset X'8000' –
-X'7FFF'
-Text object area origin; a $Y_{p}$, B, or B-offset
-coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-8–9 CODE Text object area orientation
-bits 0–8 Degrees B'000000000'
-–
-B'101100111'
-Number of degrees (0–359) in the orientation B'000000000'
-bits 9–14 Minutes B'000000' –
-B'111011'
-Number of minutes (0–59) in the orientation B'000000'
-bit 15 B'0' Reserved B'0'
-10 CODE Coordinate
-system X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-Reference coordinate system:
-Absolute I, absolute B
-Absolute I, relative B
-Relative I, absolute B
-Relative I, relative B
-Page X
-p,$Y_{p}$
-X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'000B' to end of TAP | Length of TAP, including this length field | X'000B' to end of TAP |
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
+| 4–5 | SBIN | X offset | X'8000' – X'7FFF' | Text object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF'<br>(Refer to the note following the table.) |
+| 6–7 | SBIN | Y offset | X'8000' – X'7FFF' | Text object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF'<br>(Refer to the note following the table.) |
+| 8–9 | CODE | Text object area orientation | | | |
+| | bits 0–8 | Degrees | B'000000000' – B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
+| | bits 9–14 | Minutes | B'000000' – B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
+| | bit 15 | | B'0' | Reserved | B'0' |
+| 10 | CODE | Coordinate system | X'00', X'20', X'40', X'60', X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
 11 to
 end of
 TAP
@@ -254,7 +212,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+
 Bytes 0–1 Self-defining-field length, including itself. Bytes after byte 10 are ignored by the printer.
 If an invalid value is specified, exception ID X'0202..05' exists.
 Bytes 2–3 Self-defining-field ID
@@ -360,60 +318,19 @@ printer uses the following:
 • No object-level CMRs
 • No object-level rendering intent
 The format of the TOC is as follows:
-Offset Type Name Range Meaning Required
-0–1 UBIN Length X'0010' to end of
-TOC
-Length of TOC, including this length field X'0010' to end of
-TOC
-2–3 CODE SDF ID X'A66B' Self-defining-field ID X'A66B'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-5–6 UBIN UPUB X'0001'–X'7FFF' Xoa and Yoa units per unit base X'3840'
-7–8 UBIN Xoa extent X'0001'–X'7FFF'
-X'FFFF'
-Xoa extent of text object area in L-units
-Use the LPD value.
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-9–10 UBIN Y
-oa extent X'0001'–X'7FFF'
-X'FFFF'
-Yoa extent of text object area in L-units
-Use the LPD value.
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-11 CODE Mapping
-control option X'00'
-Mapping control option:
-Position X'00'
-12–13 SBIN X
-oa offset X'8000'–X'7FFF' Xoa offset in L-units X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
-14–15 SBIN Yoa offset X'8000'–X'7FFF' Yoa offset in L-units X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
-16 to
-end of
-TOC
-Triplets Zero or more optional triplets; not all IPDS
-printers support these triplets
-X'4E' Color Specification triplet
-X'70' Presentation Space Reset Mixing
-triplet
-X'92' Invoke CMR triplet
-X'95' Rendering Intent triplet
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0010' to end of TOC | Length of TOC, including this length field | X'0010' to end of TOC |
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
+| 4 | CODE | Unit base | X'00', X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF', X'FFFF' | $X_{oa}$ extent of text object area in L-units<br>Use the LPD value. | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF', X'FFFF' | $Y_{oa}$ extent of text object area in L-units<br>Use the LPD value. | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 11 | CODE | Mapping control option | X'00' | Mapping control option: Position | X'00' |
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units | X'0000'–X'7FFF'<br>(Refer to the note following the table.) |
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units | X'0000'–X'7FFF'<br>(Refer to the note following the table.) |
+| 16 to end of TOC | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets | X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 
@@ -421,7 +338,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+
 Bytes 0–1 Self-defining-field length, including itself.
 If an invalid value is specified, exception ID X'0202..05' exists.
 Bytes 2–3 Self-defining-field ID
@@ -562,58 +479,26 @@ Text Data Descriptor
 The TDD is a mandatory self-defining field in the WTC command. It specifies parameters that define the text
 presentation space size and initial text default conditions.
 The format of the TDD is as follows:
-Offset Type Name Range Meaning Required
-0–1 UBIN Length X'0014' to end of
-TDD
-Length of TDD, including this length field X'0014' to end of
-TDD
-2–3 CODE SDF ID X'A69B' Self-defining-field ID X'A69B'
-4–5 X'0000' Reserved X'0000'
-6 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-7 X'00' Reserved X'00'
-8–9 UBIN XUPUB X'0001'–X'7FFF' Xt units per unit base X'3840'
-10–11 UBIN YUPUB X'0001'–X'7FFF' Yt units per unit base, must be the same
-value as XUPUB
-X'3840'
-12–14 UBIN X textent X'000001' –
-X'007FFF'
-Xt extent of the text presentation space in
-L-units
-X'000001' –
-X'007FFF'
-Refer to the note
-following the
-table.
-15–17 UBIN Y
-textent X'000001' –
-X'007FFF'
-Yt extent of the text presentation space in
-L-units
-X'000001' –
-X'007FFF'
-Refer to the note
-following the
-table.
-18–19 BITS Text flags B'00...00' Reserved for text flags B'00...00'
-20 to
-end of
-TDD
-Initial text
-conditions
-Defined in
-PTOCA
-Defined in PTOCA Defined in
-PTOCA
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0014' to end of TDD | Length of TDD, including this length field | X'0014' to end of TDD |
+| 2–3 | CODE | SDF ID | X'A69B' | Self-defining-field ID | X'A69B' |
+| 4–5 | X'0000' | Reserved | X'0000' | | |
+| 6 | CODE | Unit base | X'00', X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 7 | X'00' | Reserved | X'00' | | |
+| 8–9 | UBIN | $X_{t}$ units per unit base | X'0001'–X'7FFF' | $X_{t}$ units per unit base | X'3840' |
+| 10–11 | UBIN | $Y_{t}$ units per unit base | X'0001'–X'7FFF' | $Y_{t}$ units per unit base, must be the same value as XUPUB | X'3840' |
+| 12–14 | UBIN | $X_{t}$ extent | X'000001' – X'007FFF' | $X_{t}$ extent of the text presentation space in L-units | X'000001' – X'007FFF'<br>(Refer to the note following the table.) |
+| 15–17 | UBIN | $Y_{t}$ extent | X'000001' – X'007FFF' | $Y_{t}$ extent of the text presentation space in L-units | X'000001' – X'007FFF'<br>(Refer to the note following the table.) |
+| 18–19 | BITS | Text flags | B'00...00' | Reserved for text flags | B'00...00' |
+| 20 to end of TDD | | Initial text conditions | Defined in PTOCA | Defined in PTOCA | Defined in PTOCA |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+
 Bytes 0–1 Length of the TDD self-defining field, including itself
 If an invalid value is specified, exception ID X'0202..05' exists.
 Bytes 2–3 Data descriptor self-defining-field ID
@@ -812,45 +697,42 @@ Control Sequence Summary
 In this chapter the control sequences are listed in alphabetical order. The following is a summary of those
 control sequences. For a full description of chained and unchained control sequences refer to Presentation
 Text Object Content Architecture Reference.
-Table 38. Summary of Control Sequences
-Function-Type Code Description Subsets
-Unchained Chained PT1 PT2 PT3 PT4
-X'D2' X'D3' Absolute Move Baseline (AMB) X X X X
-X'C6' X'C7' Absolute Move Inline (AMI) X X X X
-X'D8' X'D9' Begin Line (BLN)—also known as Next Line X X X X
-X'F2' X'F3' Begin Suppression (BSU) X X X X
-X'E6' X'E7' Draw B-Axis Rule (DBR) X X X X
-X'E4' X'E5' Draw I-Axis Rule (DIR) X X X X
-X'98' X'99' Encrypted Data (ENC)
-X'F4' X'F5' End Suppression (ESU) X X X X
-X'8C' X'8D' Glyph Advance Run (GAR) X
-X'8B' Glyph ID Run (GIR) X
-X'6D' Glyph Layout Control (GLC) X
-X'8E' X'8F' Glyph Offset Run (GOR) X
-X'F8' X'F9' No Operation (NOP) X X X X
-X'72' X'73' Overstrike (OVS) X X X
-X'D4' X'D5' Relative Move Baseline (RMB) X X X X
-X'C8' X'C9' Relative Move Inline (RMI) X X X X
-X'EE' X'EF' Repeat String (RPS) X X X X
-X'D0' X'D1' Set Baseline Increment (SBI) X X X X
-X'F0' X'F1' Set Coded Font Local (SCFL) X X X X
-X'9C' X'9D' Set Encrypted Alternate (SEA)
-X'80' X'81' Set Extended Text Color (SEC) X X
-X'C0' X'C1' Set Inline Margin (SIM) X X X X
-X'C2' X'C3' Set Intercharacter Adjustment (SIA) X X X X
-X'9A' X'9B' Set Key Information (SKI)
-X'74' X'75' Set Text Color (STC) X X X X
-X'F6' X'F7' Set Text Orientation (STO) X X X X
-X'C4' X'C5' Set Variable-Space Character Increment (SVI) X X X X
-X'78' X'79' Temporary Baseline Move (TBM) X X X
-X'DA' X'DB' Transparent Data (TRN) X X X X
+### Table 38. Summary of Control Sequences
 
-
-Table 38 Summary of Control Sequences (cont'd.)
-Function-Type Code Description Subsets
-Unchained Chained PT1 PT2 PT3 PT4
-X'76' X'77' Underscore (USC) X X X
-X'6A' Unicode Complex Text (UCT) X
+| Function-Type Code | | Description | Subsets | | | |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Unchained** | **Chained** | | **PT1** | **PT2** | **PT3** | **PT4** |
+| X'D2' | X'D3' | Absolute Move Baseline (AMB) | X | X | X | X |
+| X'C6' | X'C7' | Absolute Move Inline (AMI) | X | X | X | X |
+| X'D8' | X'D9' | Begin Line (BLN)—also known as Next Line | X | X | X | X |
+| X'F2' | X'F3' | Begin Suppression (BSU) | X | X | X | X |
+| X'E6' | X'E7' | Draw B-Axis Rule (DBR) | X | X | X | X |
+| X'E4' | X'E5' | Draw I-Axis Rule (DIR) | X | X | X | X |
+| X'98' | X'99' | Encrypted Data (ENC) | | | | |
+| X'F4' | X'F5' | End Suppression (ESU) | X | X | X | X |
+| X'8C' | X'8D' | Glyph Advance Run (GAR) | | | | X |
+| | X'8B' | Glyph ID Run (GIR) | | | | X |
+| | X'6D' | Glyph Layout Control (GLC) | | | | X |
+| X'8E' | X'8F' | Glyph Offset Run (GOR) | | | | X |
+| X'F8' | X'F9' | No Operation (NOP) | X | X | X | X |
+| X'72' | X'73' | Overstrike (OVS) | | X | X | X |
+| X'D4' | X'D5' | Relative Move Baseline (RMB) | X | X | X | X |
+| X'C8' | X'C9' | Relative Move Inline (RMI) | X | X | X | X |
+| X'EE' | X'EF' | Repeat String (RPS) | X | X | X | X |
+| X'D0' | X'D1' | Set Baseline Increment (SBI) | X | X | X | X |
+| X'F0' | X'F1' | Set Coded Font Local (SCFL) | X | X | X | X |
+| X'9C' | X'9D' | Set Encrypted Alternate (SEA) | | | | |
+| X'80' | X'81' | Set Extended Text Color (SEC) | | | X | X |
+| X'C0' | X'C1' | Set Inline Margin (SIM) | X | X | X | X |
+| X'C2' | X'C3' | Set Intercharacter Adjustment (SIA) | X | X | X | X |
+| X'9A' | X'9B' | Set Key Information (SKI) | | | | |
+| X'74' | X'75' | Set Text Color (STC) | X | X | X | X |
+| X'F6' | X'F7' | Set Text Orientation (STO) | X | X | X | X |
+| X'C4' | X'C5' | Set Variable-Space Character Increment (SVI) | X | X | X | X |
+| X'78' | X'79' | Temporary Baseline Move (TBM) | | X | X | X |
+| X'DA' | X'DB' | Transparent Data (TRN) | X | X | X | X |
+| X'76' | X'77' | Underscore (USC) | | X | X | X |
+| | X'6A' | Unicode Complex Text (UCT) | | | | X |
 The following IPDS exception IDs exist when problems are found within PTOCA control sequences or the text
 descriptor; refer to the Presentation Text Object Content Architecture Reference for more information about
 these control sequences and exception conditions:
