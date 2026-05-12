@@ -2,9 +2,11 @@
 The Graphics command set contains the IPDS commands and data controls for presenting graphics pictures
 on a page, a page segment, or an overlay. The Graphics command set comprises the following commands:
 Table 46. Graphics Commands
-Command Code Description In GR1 Subset?
-WGC X'D684' “Write Graphics Control” on page 526 Yes
-WG X'D685' “Write Graphics” on page 543 Yes
+
+| Command | Code | Description | In GR1 Subset? |
+| :--- | :--- | :--- | :---: |
+| WGC | X'D684' | “Write Graphics Control” | Yes |
+| WG | X'D685' | “Write Graphics” | Yes |
 Graphics is used to present line drawings in a graphics object area on the logical page. A sequence of drawing
 orders is used by the printer to construct arcs, lines, fillets, character strings, markers, and other elements that
 define the drawing. These drawing orders are grouped into one or more graphics segments.
@@ -23,14 +25,14 @@ the application user's view of the graphics picture. The extent of the graphics 
 +32,767 units. Negative values are specified in twos complement form.
 The graphics presentation space contains a four-quadrant, Cartesian coordinate system, called the drawing-
 order coordinate system. The drawing-order coordinates are specified as Graphics X and Y coordinates, or
-simply Xg and Yg. The Xg and Yg coordinates are not the same as the logical page (Xp,Yp) or medium (Xm,Ym)
-coordinates; for instance, the origin (Xg=0,Yg=0) is at the center of the drawing-order coordinate system, while
-the origin (Xm=0, Ym=0) of the medium coordinate system is at a corner of the medium presentation space.
-However, graphics pictures presented in the graphics object area are always aligned so that the positive Xg
-axis of the graphics presentation space is in the same direction as the positive Xoa axis of the graphics object
-area. The positive Yoa axis of the graphics object area is rotated 90 degrees clockwise relative to the positive
-Xoa axis and is in the same direction as the negative Yg axis. Xg and Yg units, called drawing units, are
-specified in bytes 4–9 of the graphics data descriptor (GDD) self-defining field. Figure 85 shows the Xg,Yg
+simply $X_{g}$ and $Y_{g}$. The $X_{g}$ and $Y_{g}$ coordinates are not the same as the logical page ($X_{p}$,$Y_{p}$) or medium ($X_{m}$,$Y_{m}$)
+coordinates; for instance, the origin ($X_{g}$=0,$Y_{g}$=0) is at the center of the drawing-order coordinate system, while
+the origin ($X_{m}$=0, $Y_{m}$=0) of the medium coordinate system is at a corner of the medium presentation space.
+However, graphics pictures presented in the graphics object area are always aligned so that the positive $X_{g}$
+axis of the graphics presentation space is in the same direction as the positive $X_{oa}$ axis of the graphics object
+area. The positive $Y_{oa}$ axis of the graphics object area is rotated 90 degrees clockwise relative to the positive
+$X_{oa}$ axis and is in the same direction as the negative $Y_{g}$ axis. $X_{g}$ and $Y_{g}$ units, called drawing units, are
+specified in bytes 4–9 of the graphics data descriptor (GDD) self-defining field. Figure 85 shows the $X_{g}$,$Y_{g}$
 coordinate system within the graphics presentation space, and also identifies the Graphics Presentation Space
 Window.
 Figure 85. Graphics Presentation Space. This figure shows the graphics presentation space window within the
@@ -56,22 +58,22 @@ Graphics Presentation Space Window
 The graphics presentation space contains the whole drawing, but often only a portion of the picture is to be
 presented on a logical page. The section of the graphics presentation space to be presented is called the
 graphics presentation space window and is specified in bytes 14–21 of the GDD self-defining field; refer to
-“Graphics Data Descriptor” on page 540. All graphics outside the limits of the graphics presentation space
+“Graphics Data Descriptor” . All graphics outside the limits of the graphics presentation space
 window are trimmed to the window boundaries.
 Graphics Object Area
 The graphics presentation space window is mapped, using one of the defined mapping options, into the
 graphics object area, that is a rectangular area on the current logical page. The graphics object area can be
 larger than, equal to, or smaller than the graphics presentation space window. The coordinate system for the
 graphics object area is the X
-oa,Yoa coordinate system.
+oa,$Y_{oa}$ coordinate system.
 The location and orientation of the graphics object area is specified in the graphics area position (GAP) self-
-defining field of the WGC command; refer to “Graphics Area Position” on page 527. The size of the graphics
+defining field of the WGC command; refer to “Graphics Area Position” . The size of the graphics
 object area is specified in the graphics output control (GOC) self-defining field; refer to “Graphics Output
-Control” on page 531.
+Control” .
 The graphics object area can overlay other data, such as text or images, specified earlier for the same logical
 page. Also, the graphics object area can be overlapped by subsequent data specified by other commands for
-the same logical page. Refer to “IPDS Mixing Rules” on page 27 for a description of the results of overlapping
-print data. Figure 86 on page 525 shows that the graphics presentation space window is mapped to the
+the same logical page. Refer to “IPDS Mixing Rules”  for a description of the results of overlapping
+print data. Figure 86  shows that the graphics presentation space window is mapped to the
 graphics object area.
 Some printers allow the graphics object area to be colored before the graphics data is placed in the object
 area; coloring is specified with triplets in the Graphics Output Control self-defining field. Support for this
@@ -107,14 +109,14 @@ Note: Not all printers support the scale-to-fill mapping option; the X'F301' pro
 Graphics command-set vector of an STM reply by those printers that do support the mapping option.
 With center-and-trim mapping, the center of the graphics presentation space window is made coincident with
 the center of the graphics object area, and the graphics presentation space window is presented at the size
-indicated by bytes 4–21 of the GDD self-defining field; refer to “Graphics Data Descriptor” on page 540. Any
+indicated by bytes 4–21 of the GDD self-defining field; refer to “Graphics Data Descriptor” . Any
 portion of the graphics presentation space window that falls outside the limits of the graphics object area is
 trimmed (not printed). This type of trimming does not cause an exception.
 With position-and-trim mapping, the top-left corner of the graphics presentation space window is offset from
 the origin of the graphics object area, and the graphics presentation space window is presented at the size
 indicated by bytes 4–21 of the GDD self-defining field. Any portion of the graphics presentation space window
 that falls outside the limits of the graphics object area is trimmed. This type of trimming does not cause an
-exception. A detailed description of graphics mapping follows under “Mapping Control Options” on page 535.
+exception. A detailed description of graphics mapping follows under “Mapping Control Options” .
 
 
 Figure 86. Graphics Mapping. This figure shows that the graphics presentation space window is mapped into
@@ -123,7 +125,6 @@ Logical Page
 Type of mapping
 specified in the
 Graphics Output
-## Control (GOC)
 Graphics
 Presentation
 Space Window
@@ -138,8 +139,8 @@ g
 -X Axisg
 Graphics ObjectArea
 +X Axisg
-Xoa
-Yoa
+$X_{oa}$
+$Y_{oa}$
 
 
 Write Graphics Control
@@ -167,7 +168,6 @@ The WGC data field consists of two or three consecutive self-defining fields in 
 Each self-defining field contains a two-byte length field, a two-byte self-defining field ID, and a data field.
 If an invalid self-defining field is specified, a self-defining field is out of order, a required self-defining field is not
 specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
-## Write Graphics Control (WGC)
 
 
 Graphics Area Position
@@ -177,78 +177,34 @@ orientation of the graphics object area is defined relative to the reference coo
 Figure 87. Locating, Sizing, and Orienting the Graphics Object Area
 Origin of Graphics Object
 Area specified in Graphics
-## Area Position (GAP)
 Graphics Object Area
 Size of Graphics Object
 Area specified in Graphics
-## Output Control (GOC)
 Orientation of Graphics
 Object Area specified in
 Graphics Area Position
 (GAP)
 Logical PageXp
-Yp Xoa
+$Y_{p}$ $X_{oa}$
 B
 I
-Yoa
-## Write Graphics Control (WGC)
+$Y_{oa}$
 
 
 The format of the GAP is as follows:
-Offset Type Name Range Meaning GR1 Range
-0–1 UBIN Length X'000B' to end
-of GAP
-Length of GAP , including this length field X'000B' to end of
-GAP
-2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
-4–5 SBIN X offset X'8000' –
-X'7FFF'
-Graphics object area origin; an Xp, I, or I-
-offset coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-6–7 SBIN Y offset X'8000' –
-X'7FFF'
-Graphics object area origin; a Y
-p, B, or B-
-offset coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-8–9 CODE Graphics object area orientation
-bits 0–8 Degrees B'000000000'
-–
-B'101100111'
-Number of degrees (0–359) in the orientation B'000000000'
-bits 9–14 Minutes B'000000' –
-B'111011'
-Number of minutes (0–59) in the orientation B'000000'
-bit 15 B'0' Reserved B'0'
-10 CODE Coordinate
-system X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-Reference coordinate system:
-Absolute I, absolute B
-Absolute I, relative B
-Relative I, absolute B
-Relative I, relative B
-Page X
-p,Yp
-X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-11 to
-end of
-GAP
-UNDF Data without architectural definition
+
+| Offset | Type | Name | Range | Meaning | GR1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'000B' to end of GAP | Length of GAP, including this length field | X'000B' to end of GAP |
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
+| 4–5 | SBIN | X offset | X'8000'–X'7FFF' | Graphics object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' |
+| 6–7 | SBIN | Y offset | X'8000'–X'7FFF' | Graphics object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' |
+| 8–9 | CODE | Graphics object area orientation | | | |
+| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
+| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
+| | bit 15 | | B'0' | Reserved | B'0' |
+| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
+| 11 to end of GAP | UNDF | | | Data without architectural definition | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -264,27 +220,26 @@ p, I, or I-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
-## Write Graphics Control (WGC)
 
 
 Bytes 6–7 Graphics object area origin Y offset in L-units
-These bytes specify the graphics object area origin (top-left corner) as a Yp, B, or B-offset
+These bytes specify the graphics object area origin (top-left corner) as a $Y_{p}$, B, or B-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
-Note: The current text presentation coordinate (I c, Bc) is not changed by the printing of this
+Note: The current text presentation coordinate (I c, $B_{c}$) is not changed by the printing of this
 object.
 Bytes 8–9 Orientation of graphics object area
 This two-byte parameter specifies the orientation of the graphics object area, that is, the X
 oa
-axis of the graphics object area, in terms of an angle measured clockwise from the Xp or I
+axis of the graphics object area, in terms of an angle measured clockwise from the $X_{p}$ or I
 coordinate axis. This parameter rotates the graphics object area around the origin position
 specified in bytes 4–7. The graphics picture presented in the object area is aligned such that
 the positive X
 g axis of the graphics presentation space is parallel to, and in the same direction
-as, the positive Xoa axis of the graphics object area. The positive Yoa axis of the graphics
-object area is rotated 90 degrees clockwise relative to the positive Xoa axis and is in the same
-direction as the negative Yg axis. This parameter has no effect on the I-axis orientation or the
+as, the positive $X_{oa}$ axis of the graphics object area. The positive $Y_{oa}$ axis of the graphics
+object area is rotated 90 degrees clockwise relative to the positive $X_{oa}$ axis and is in the same
+direction as the negative $Y_{g}$ axis. This parameter has no effect on the I-axis orientation or the
 B-axis orientation.
 The object area orientation is specified in terms of a number of degrees and a number of
 minutes.
@@ -314,7 +269,7 @@ B'010110100 000000 0'
 B'100001110 000000 0'
 Byte 10 Reference coordinate system
 The reference coordinate system determines the origin and orientation of the graphics object
-area, using either the Xp,Yp or the inline-baseline (I,B) coordinate system.
+area, using either the $X_{p}$,$Y_{p}$ or the inline-baseline (I,B) coordinate system.
 An inline coordinate value specified as absolute means that the value in bytes 4 and 5 of the
 GAP is at an absolute inline coordinate location, that is, bytes 4 and 5 are offset from the I
 system origin. A baseline coordinate value specified as absolute means that the value in bytes
@@ -325,7 +280,6 @@ offset from the current inline coordinate location. A baseline coordinate value 
 relative means that the value in bytes 6 and 7 is an offset from the current baseline coordinate
 location.
 Therefore, the following applies:
-## Write Graphics Control (WGC)
 
 
 • If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
@@ -341,23 +295,22 @@ the text baseline coordinate.
 Bytes 4 and 5 are added to the current text inline coordinate; bytes 6 and 7 are added to the
 current text baseline coordinate.
 • If byte 10 equals X'A0', the current logical page X
-p and Yp coordinates determine the origin.
-When the graphics object is within a page, GAP bytes 4–7 specify the offset from the Xp-
-coordinate and Yp-coordinate origin specified in a previously received LPP command (or
+p and $Y_{p}$ coordinates determine the origin.
+When the graphics object is within a page, GAP bytes 4–7 specify the offset from the $X_{p}$-
+coordinate and $Y_{p}$-coordinate origin specified in a previously received LPP command (or
 from the printer default coordinates if no LPP command received). When the graphics object
 is within an overlay that is invoked using an LCC command, GAP bytes 4–7 specify the
 offset from the X
-m-coordinate and Ym-coordinate origin. When the graphics object is within
+m-coordinate and $Y_{m}$-coordinate origin. When the graphics object is within
 an overlay that is invoked using an IO command, GAP bytes 4–7 specify the offset from the
 X
-p-coordinate and Yp-coordinate origin specified in the IO command.
+p-coordinate and $Y_{p}$-coordinate origin specified in the IO command.
 Exception ID X'0204..05' exists if an invalid reference-coordinate-system value is specified.
 Bytes 11 to
 end of GAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
 but ignore this field; generators should not specify this field.
-## Write Graphics Control (WGC)
 
 
 Graphics Output Control
@@ -368,94 +321,26 @@ This self-defining field is optional and can be omitted from the WGC command. If
 printer uses the following:
 • Mapping option X'30' (position and trim).
 • X
-oa offset and Yoa offset equals 0.
+oa offset and $Y_{oa}$ offset equals 0.
 • Graphics object area size equals the graphics presentation space window size defined in the GDD self-
 defining field.
 • No coloring.
 • No object-level CMRs.
 • No object-level rendering intent.
 The format of the GOC is as follows:
-Offset Type Name Range Meaning GR1 Range
-0–1 UBIN Length X'0010',
-X'0012' to
-end of GOC
-Length of GOC, including this length field X'0010',
-X'0012' to
-end of GOC
-2–3 CODE SDF ID X'A66B' Self-defining-field ID X'A66B'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-5–6 UBIN UPUB X'0001' –
-X'7FFF'
-X
-oa and Yoa units per unit base X'3840'
-7–8 UBIN Xoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Xoa extent of object area in L-units
-Use the LPD value
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-9–10 UBIN Yoa extent X'0001' –
-X'7FFF'
-X'FFFF'
-Yoa extent of object area in L-units
-Use the LPD value
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-11 CODE Mapping
-control X'10'
-X'20'
-X'30'
-X'60'
-Mapping control option:
-Scale to fit
-Center and trim
-Position and trim
-Scale to fill
-X'10'
-X'20'
-X'30'
-12–13 SBIN X
-oa offset X'8000' –
-X'7FFF'
-Xoa offset in L-units;
-(for position and trim only)
-X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
-## Write Graphics Control (WGC)
 
-
-Offset Type Name Range Meaning GR1 Range
-14–15 SBIN Yoa offset X'8000' –
-X'7FFF'
-Yoa offset in L-units;
-(for position and trim only)
-X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
-16 to
-end of
-GOC
-Triplets Zero or more optional triplets; not all IPDS
-printers support these triplets
-X'4E' Color Specification triplet
-X'70' Presentation Space Reset Mixing
-triplet
-X'92' Invoke CMR triplet
-X'95' Rendering Intent triplet
+| Offset | Type | Name | Range | Meaning | GR1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0010', X'0012' to end of GOC | Length of GOC, including this length field | X'0010', X'0012' to end of GOC |
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
+| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $X_{oa}$ extent of object area in L-units<br>Use the LPD value | X'0001'–X'7FFF'<br>X'FFFF' |
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $Y_{oa}$ extent of object area in L-units<br>Use the LPD value | X'0001'–X'7FFF'<br>X'FFFF' |
+| 11 | CODE | Mapping control | X'10'<br>X'20'<br>X'30'<br>X'60' | Mapping control option:<br>Scale to fit<br>Center and trim<br>Position and trim<br>Scale to fill | X'10'<br>X'20'<br>X'30' |
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units; (for position and trim only) | X'0000'–X'7FFF' |
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units; (for position and trim only) | X'0000'–X'7FFF' |
+| 16 to end of GOC | | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -472,27 +357,26 @@ The value X'02' is retired as Retired item 57.
 Property pair X'FB00' in the Device-Control command-set vector of an STM reply indicates
 support for all architected units of measure.
 Exception ID X'0205..05' exists if an invalid or unsupported unit base value is specified.
-Bytes 5–6 Xoa and Yoa units per unit base
+Bytes 5–6 $X_{oa}$ and $Y_{oa}$ units per unit base
 These bytes specify the number of units per unit base used when specifying the object area
 extent or object area offset in either the X or the Y direction. For example, if the unit base is
 X'00' and this value is X'3840', there are 14,400 units per ten inches (1440 units per inch).
 Exception ID X'0206..05' exists if an invalid or unsupported units-per-unit-base value is
 specified.
-Bytes 7–8 Xoa extent of object area in L-units
-These bytes specify the Xoa extent of the graphics object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Xp extent and
-the Xp unit base and units per unit base of the LPD command that is current when this object is
+Bytes 7–8 $X_{oa}$ extent of object area in L-units
+These bytes specify the $X_{oa}$ extent of the graphics object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $X_{p}$ extent and
+the $X_{p}$ unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
 logical page.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
-Bytes 9–10 Yoa extent of object area in L-units
-These bytes specify the Yoa extent of the graphics object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the Yp extent and
-## Write Graphics Control (WGC)
+Bytes 9–10 $Y_{oa}$ extent of object area in L-units
+These bytes specify the $Y_{oa}$ extent of the graphics object area in L-units using the units of
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $Y_{p}$ extent and
 
 
-the Yp unit base and units and units per unit base of the LPD command that is current when
+the $Y_{p}$ unit base and units and units per unit base of the LPD command that is current when
 this object is printed in a page or overlay.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
 Byte 11 Mapping control option. The option values are:
@@ -502,16 +386,16 @@ Byte 11 Mapping control option. The option values are:
 • X'50'—Retired item 135
 • X'60'—Scale to fill
 Exception ID X'0208..05' exists if an invalid or unsupported mapping option is specified.
-Refer to “Mapping Control Options” on page 535 for more information.
-Bytes 12–13 Xoa offset in L-units from object area origin
-The Xoa offset field is ignored unless byte 11 contains X'30'. This value is the Xoa offset of the
+Refer to “Mapping Control Options”  for more information.
+Bytes 12–13 $X_{oa}$ offset in L-units from object area origin
+The $X_{oa}$ offset field is ignored unless byte 11 contains X'30'. This value is the $X_{oa}$ offset of the
 graphics presentation space window (top-left corner) from the origin of the graphics object
 area. The units of measure used to interpret this offset are specified in bytes 4–6.
 Property pair X'1208' in the Graphics command-set vector of an STM reply indicates support
 for negative object-area-offset values.
 If an unsupported value is specified, exception ID X'0209..05' exists.
-Bytes 14–15 Yoa offset in L-units from object area origin
-The Yoa offset field is ignored unless byte 11 contains X'30'. This value is the Yoa offset of the
+Bytes 14–15 $Y_{oa}$ offset in L-units from object area origin
+The $Y_{oa}$ offset field is ignored unless byte 11 contains X'30'. This value is the $Y_{oa}$ offset of the
 graphics presentation space window (top-left corner) from the origin of the graphics object
 area. The units of measure used to interpret this offset are specified in bytes 4–6.
 Property pair X'1208' in the Graphics command-set vector of an STM reply indicates support
@@ -526,11 +410,10 @@ Printers ignore any triplet that is not supported and no exception is reported. 
 first byte after a valid triplet is X'00' or X'01' (an invalid triplet length), the printer ignores the
 remaining data within the optional triplets field.
 The Write Graphics Control triplets are fully described in the triplets chapter:
-“Color Specification (X'4E') Triplet” on page 713
-“Presentation Space Reset Mixing (X'70') Triplet” on page 731
-“Invoke CMR (X'92') Triplet” on page 772
-“Rendering Intent (X'95') Triplet” on page 774
-## Write Graphics Control (WGC)
+“Color Specification (X'4E') Triplet”
+“Presentation Space Reset Mixing (X'70') Triplet”
+“Invoke CMR (X'92') Triplet”
+“Rendering Intent (X'95') Triplet”
 
 
 Area Coloring Triplet Considerations
@@ -548,13 +431,12 @@ triplet, the resulting color of the area depends on the reset flag. If the reset
 colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium.
 Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
 The invoked CMRs and the specified GOCA rendering intent are associated only with this GOCA object, and
-are used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy” on page 35 for a description
+are used according to the CMR-usage hierarchy. Refer to “CMR-Usage Hierarchy”  for a description
 of the hierarchy.
 Multiple Invoke CMR (X'92') triplets can be specified. However, only the last specified Rendering Intent (X'95')
 triplet will be used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WGC command.
-## Write Graphics Control (WGC)
 
 
 Mapping Control Options
@@ -578,14 +460,13 @@ outside of the object area is trimmed at the object-area boundary. The non-scale
 • Character strings
 2. GOCA architecture states that “the line width should be scaled when the controlling environment specifies
 a scaling mapping of the GPS window into the usable area (object area)”.
-Figure 88 on page 536 shows the result of scale-to-fit mapping. In this example, the graphics object area is
+Figure 88  shows the result of scale-to-fit mapping. In this example, the graphics object area is
 larger than the graphics presentation space window; therefore, the graphics presentation space window is
 proportionally enlarged to fit into the graphics object area. That is, the entire graphics drawing contained within
 the graphics presentation space window is enlarged uniformly until one dimension matches that of the graphics
 object area.
 Parameters in the GAP self-defining field specify the location and orientation of the graphics object area on the
 logical page.
-## Write Graphics Control (WGC)
 
 
 Figure 88. An Example of Graphics Scale-to-Fit Mapping
@@ -602,7 +483,6 @@ Graphics Presentation Space
 Scale-to-fit
 mapping specified
 in the Graphics
-## Output Control (GOC)
 +X Axis
 g
 +Y Axisg
@@ -610,11 +490,10 @@ g
 (x = +32,767, y = +32,767)g g
 (x = -32,768, y = -32,768)g g
 -Y Axisg
-Xoa
-Yoa Graphics
+$X_{oa}$
+$Y_{oa}$ Graphics
 Presentation
 Space Window
-## Write Graphics Control (WGC)
 
 
 Scale-to-Fill Mapping
@@ -638,17 +517,15 @@ Graphics Presentation Space
 Scale-to-fill
 mapping specified
 in the Graphics
-## Output Control (GOC)
 +X Axis
 g
 +Y Axisg
 -X Axisg
 (x = +32,767, y = +32,767)g g
 -Y Axisg
-Xoa
-Yoa
+$X_{oa}$
+$Y_{oa}$
 (x = -32,768, y = -32,768)g g
-## Write Graphics Control (WGC)
 
 
 Center-and-Trim Mapping
@@ -680,7 +557,6 @@ Graphics Presentation Space
 Center-and-trim
 mapping specified
 in the Graphics
-## Output Control (GOC)
 +X Axis
 g
 +Y Axisg
@@ -688,9 +564,8 @@ g
 (x = -32,768, y = -32,768)g g
 (x = +32,767, y = +32,767)g g
 -X Axisg
-Xoa
-Yoa
-## Write Graphics Control (WGC)
+$X_{oa}$
+$Y_{oa}$
 
 
 Position-and-Trim Mapping
@@ -721,7 +596,6 @@ Graphics Presentation Space
 Position-and-trim
 mapping specified
 in the Graphics
-## Output Control (GOC)
 +X Axis
 g
 +Y Axisg
@@ -735,9 +609,8 @@ Y offset
 specified
 in GOC
 oa-Y Axisg
-Yoa
-Xoa
-## Write Graphics Control (WGC)
+$Y_{oa}$
+$X_{oa}$
 
 
 Graphics Data Descriptor
@@ -747,82 +620,26 @@ graphics presentation space and sets the drawing-orders default conditions. The 
 presentation space window define the range of coordinate values that are mapped to the graphics object area.
 Drawing orders can specify coordinates in the X'8000' to X'7FFF' range. The specified limits of the graphics
 presentation space window select which part of the complete graphics presentation space picture is to be
-mapped to the graphics object area. Figure 85 on page 522 shows that the GDD parameters specify the size
+mapped to the graphics object area. Figure 85  shows that the GDD parameters specify the size
 and location of the graphics presentation space window in the graphics presentation space.
 The format of the GDD is as follows:
-Offset Type Name Range Meaning GR1 Range
-0–1 UBIN Length X'001C' to
-end of GDD
-Length of GDD, including this length field X'001C' to end of
-GDD
-2–3 CODE SDF ID X'A6BB' Self-defining-field ID X'A6BB'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-5 X'00' Reserved X'00'
-6–7 UBIN XUPUB X'0001' –
-X'7FFF'
-Xg-units/unit base X'3840'
-8–9 UBIN YUPUB X'0001' –
-X'7FFF'
-Yg-units/unit base; must be the same value as
-XUPUB
-X'3840'
-10–11 UBIN XIRES X'0000' –
-X'7FFF'
-Graphics image resolution in the X direction X'0000'
-12–13 UBIN YIRES X'0000' –
-X'7FFF'
-Graphics image resolution in the Y direction X'0000'
-14–15 SBIN Xg left limit X'8000' –
-X'7FFF'
-Xg left limit of graphics presentation space
-window
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-16–17 SBIN X
-g right limit X'8000' –
-X'7FFF'
-Xg right limit of graphics presentation space
-window
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-18–19 SBIN Yg top limit X'8000' –
-X'7FFF'
-Yg top limit of graphics presentation space
-window
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-20–21 SBIN Y
-g bottom limit X'8000' –
-X'7FFF'
-Yg bottom limit of graphics presentation space
-window
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-22–27 X'00...00' Reserved X'00...00'
-28 to
-end
-Defaults See GOCA
-Reference
-Initial graphics default conditions: self-
-describing instructions that set the drawing
-defaults for the picture
-All defaults
-allowed by the
-supported GOCA
-subset
-## Write Graphics Control (WGC)
+
+| Offset | Type | Name | Range | Meaning | GR1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'001C' to end of GDD | Length of GDD, including this length field | X'001C' to end of GDD |
+| 2–3 | CODE | SDF ID | X'A6BB' | Self-defining-field ID | X'A6BB' |
+| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' |
+| 5 | X'00' | Reserved | | | X'00' |
+| 6–7 | UBIN | XUPUB | X'0001'–X'7FFF' | $X_{g}$-units/unit base | X'3840' |
+| 8–9 | UBIN | YUPUB | X'0001'–X'7FFF' | $Y_{g}$-units/unit base; must be the same value as XUPUB | X'3840' |
+| 10–11 | UBIN | XIRES | X'0000'–X'7FFF' | Graphics image resolution in the X direction | X'0000' |
+| 12–13 | UBIN | YIRES | X'0000'–X'7FFF' | Graphics image resolution in the Y direction | X'0000' |
+| 14–15 | SBIN | $X_{g}$ left limit | X'8000'–X'7FFF' | $X_{g}$ left limit of graphics presentation space window | X'8000'–X'7FFF' |
+| 16–17 | SBIN | $X_{g}$ right limit | X'8000'–X'7FFF' | $X_{g}$ right limit of graphics presentation space window | X'8000'–X'7FFF' |
+| 18–19 | SBIN | $Y_{g}$ top limit | X'8000'–X'7FFF' | $Y_{g}$ top limit of graphics presentation space window | X'8000'–X'7FFF' |
+| 20–21 | SBIN | $Y_{g}$ bottom limit | X'8000'–X'7FFF' | $Y_{g}$ bottom limit of graphics presentation space window | X'8000'–X'7FFF' |
+| 22–27 | X'00...00' | Reserved | | | X'00...00' |
+| 28 to end | | Defaults | See GOCA Reference | Initial graphics default conditions: self-describing instructions that set the drawing defaults for the picture | All defaults allowed by the supported GOCA subset |
 
 
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
@@ -846,7 +663,7 @@ Bytes 6–7 X
 g-units per unit base
 Exception ID X'0206..05' exists if an invalid or unsupported units-per-unit-base value is
 specified.
-Bytes 8–9 Yg-units per unit base; must be the same as bytes 6 and 7
+Bytes 8–9 $Y_{g}$-units per unit base; must be the same as bytes 6 and 7
 The values specified in bytes 4–9 are the units of measure for all positioning in the graphics
 presentation space. These units of measure are used in positioning the graphics presentation
 space window and are used in various GOCA drawing orders.
@@ -870,17 +687,16 @@ resolution correcting the GOCA object. Not all IPDS printers use this resolution
 Property pair X'1207' in the Graphics command-set vector of an STM reply indicates that the
 printer uses this GDD image-resolution parameter.
 If an invalid value is specified, exception ID X'0206..05' exists.
-## Write Graphics Control (WGC)
 
 
-Bytes 14–15 Xg left limit of the graphics presentation space window
-Bytes 16–17 Xg right limit of the graphics presentation space window
-Bytes 18–19 Yg top limit of the graphics presentation space window
-Bytes 20–21 Yg bottom limit of the graphics presentation space window
+Bytes 14–15 $X_{g}$ left limit of the graphics presentation space window
+Bytes 16–17 $X_{g}$ right limit of the graphics presentation space window
+Bytes 18–19 $Y_{g}$ top limit of the graphics presentation space window
+Bytes 20–21 $Y_{g}$ bottom limit of the graphics presentation space window
 Note: Exception ID X'0207..05' exists if an unsupported value is specified in bytes 14–15, 16–
 17, 18–19, or 20–21. Also, if the graphics presentation space window values are ill
-defined (Xg left limit is equal to or to the right of Xg right limit, or Yg bottom limit is equal
-to or above Yg top limit), exception ID X'0207..05' exists.
+defined ($X_{g}$ left limit is equal to or to the right of $X_{g}$ right limit, or $Y_{g}$ bottom limit is equal
+to or above $Y_{g}$ top limit), exception ID X'0207..05' exists.
 Bytes 22–25 Retired item 59
 Bytes 26–27 Retired item 60
 Bytes 28 to
@@ -905,7 +721,6 @@ for Line End is indicated by property pair X'4110' in the Graphics command-set v
 an STM reply; support for Line Join is indicated by property pair X'4111'. Exception ID
 X'0300..02' exists if the Set Current Defaults instruction attempts to set an invalid or
 unsupported mask attribute in bytes 3 and 4.
-## Write Graphics Control (WGC)
 
 
 Write Graphics
@@ -938,7 +753,6 @@ BSI Zero or more drawing orders
 The Begin Segment Introducer (BSI) precedes all the drawing orders that are grouped together in a graphics
 segment. Refer to the description of the Begin Segment command in Graphics Object Content Architecture for
 Advanced Function Presentation for a description of this command.
-## Write Graphics (WG)
 
 
 Drawing Orders
@@ -957,89 +771,79 @@ byte; it does not include itself.
 Parameters These bytes contain the specific parameters for the drawing order.
 Table 47lists all the GOCA drawing orders within the DR/2V0 and GRS3 subsets.
 Table 47. Summary of GOCA Drawing Orders
-Code Drawing Order Format Subsets
-DR/2V0 GRS3
-X'68' Begin Area Fixed 2 byte X X
-X'D1' Begin Image Long X X
-X'91' Begin Image at Current Position Long X X
-X'C0' Box Long X
-X'80' Box at Current Position Long X
-X'C3' Character String Long X X
-X'83' Character String at Current Position Long X X
-X'01' Comment Long X X
-X'60' End Area Long X X
-X'93' End Image Long X X
-X'3E' End Prolog Fixed 2 byte X X
-X'C5' Fillet Long X X
-X'85' Fillet at Current Position Long X X
-X'C7' Full Arc Long X X
-## Write Graphics (WG)
 
-
-Table 47 Summary of GOCA Drawing Orders (cont'd.)
-Code Drawing Order Format Subsets
-DR/2V0 GRS3
-X'87' Full Arc at Current Position Long X X
-X'92' Image Data Long X X
-X'C1' Line Long X X
-X'81' Line at Current Position Long X X
-X'C2' Marker Long X X
-X'82' Marker at Current Position Long X X
-X'00' No Operation Fixed 1 byte X X
-X'E3' Partial Arc Long X
-X'A3' Partial Arc at Current Position Long X
-X'E1' Relative Line Long X X
-X'A1' Relative Line at Current Position Long X X
-X'04' Segment Characteristics Long X X
-X'22' Set Arc Parameters Long X X
-X'0D' Set Background Mix Fixed 2 byte X X
-X'34' Set Character Angle Long X X
-X'33' Set Character Cell Long X X
-X'3A' Set Character Direction Fixed 2 byte X X
-X'39' Set Character Precision Fixed 2 byte X X
-X'38' Set Character Set Fixed 2 byte X X
-X'35' Set Character Shear Long X X
-X'0A' Set Color Fixed 2 byte X X
-X'21' Set Current Position Long X X
-X'26' Set Extended Color Long X X
-X'11' Set Fractional Line Width Long X
-X'18' Set Line Type Fixed 2 byte X X
-X'19' Set Line Width Fixed 2 byte X X
-X'37' Set Marker Cell Long X X
-X'3B' Set Marker Precision Fixed 2 byte X X
-X'3C' Set Marker Set Fixed 2 byte X X
-X'29' Set Marker Symbol Fixed 2 byte X X
-X'0C' Set Mix Fixed 2 byte X X
-X'08' Set Pattern Set Fixed 2 byte X X
-## Write Graphics (WG)
-
-
-Table 47 Summary of GOCA Drawing Orders (cont'd.)
-Code Drawing Order Format Subsets
-DR/2V0 GRS3
-X'28' Set Pattern Symbol Fixed 2 byte X X
-X'B2' Set Process Color Long X
+| Code | Drawing Order | Format | DR/2V0 Subset | GRS3 Subset |
+| :--- | :--- | :--- | :---: | :---: |
+| X'68' | Begin Area | Fixed 2 byte | X | X |
+| X'D1' | Begin Image | Long | X | X |
+| X'91' | Begin Image at Current Position | Long | X | X |
+| X'C0' | Box | Long | | X |
+| X'80' | Box at Current Position | Long | | X |
+| X'C3' | Character String | Long | X | X |
+| X'83' | Character String at Current Position | Long | X | X |
+| X'01' | Comment | Long | X | X |
+| X'60' | End Area | Long | X | X |
+| X'93' | End Image | Long | X | X |
+| X'3E' | End Prolog | Fixed 2 byte | X | X |
+| X'C5' | Fillet | Long | X | X |
+| X'85' | Fillet at Current Position | Long | X | X |
+| X'C7' | Full Arc | Long | X | X |
+| X'87' | Full Arc at Current Position | Long | X | X |
+| X'92' | Image Data | Long | X | X |
+| X'C1' | Line | Long | X | X |
+| X'81' | Line at Current Position | Long | X | X |
+| X'C2' | Marker | Long | X | X |
+| X'82' | Marker at Current Position | Long | X | X |
+| X'00' | No Operation | Fixed 1 byte | X | X |
+| X'E3' | Partial Arc | Long | | X |
+| X'A3' | Partial Arc at Current Position | Long | | X |
+| X'E1' | Relative Line | Long | X | X |
+| X'A1' | Relative Line at Current Position | Long | X | X |
+| X'04' | Segment Characteristics | Long | X | X |
+| X'22' | Set Arc Parameters | Long | X | X |
+| X'0D' | Set Background Mix | Fixed 2 byte | X | X |
+| X'34' | Set Character Angle | Long | X | X |
+| X'33' | Set Character Cell | Long | X | X |
+| X'3A' | Set Character Direction | Fixed 2 byte | X | X |
+| X'39' | Set Character Precision | Fixed 2 byte | X | X |
+| X'38' | Set Character Set | Fixed 2 byte | X | X |
+| X'35' | Set Character Shear | Long | X | X |
+| X'0A' | Set Color | Fixed 2 byte | X | X |
+| X'21' | Set Current Position | Long | X | X |
+| X'26' | Set Extended Color | Long | X | X |
+| X'11' | Set Fractional Line Width | Long | | X |
+| X'18' | Set Line Type | Fixed 2 byte | X | X |
+| X'19' | Set Line Width | Fixed 2 byte | X | X |
+| X'37' | Set Marker Cell | Long | X | X |
+| X'3B' | Set Marker Precision | Fixed 2 byte | X | X |
+| X'3C' | Set Marker Set | Fixed 2 byte | X | X |
+| X'29' | Set Marker Symbol | Fixed 2 byte | X | X |
+| X'0C' | Set Mix | Fixed 2 byte | X | X |
+| X'08' | Set Pattern Set | Fixed 2 byte | X | X |
+| X'28' | Set Pattern Symbol | Fixed 2 byte | X | X |
+| X'B2' | Set Process Color | Long | | X |
 In addition, some IPDS printers support additional, optional drawing orders and accept, as a no operation
 (NOP), the long-format Set Pick Identifier (X'43') and the reserved fixed two-byte format drawing order End
 Segment (X'71').
 Table 48lists the additional drawing orders supported by some IPDS printers:
 Table 48. Additional Drawing Orders Supported by Some Printers
-Code Drawing Order Format
-X'DE' Begin Custom Pattern Long
-X'E5' Cubic Bézier Curve Long
-X'A5' Cubic Bézier Curve at Current Position Long
-X'DF' Delete Pattern Long
-X'5E' End Custom Pattern Fixed 2 byte
-X'FEDC' Linear Gradient Extended
-X'FEDD' Radial Gradient Extended
-X'20' Set Custom Line Type Long
-X'1A' Set Line End Fixed 2 byte
-X'1B' Set Line Join Fixed 2 byte
-X'A0' Set Pattern Reference Point Long
+
+| Code | Drawing Order | Format |
+| :--- | :--- | :--- |
+| X'DE' | Begin Custom Pattern | Long |
+| X'E5' | Cubic Bézier Curve | Long |
+| X'A5' | Cubic Bézier Curve at Current Position | Long |
+| X'DF' | Delete Pattern | Long |
+| X'5E' | End Custom Pattern | Fixed 2 byte |
+| X'FEDC' | Linear Gradient | Extended |
+| X'FEDD' | Radial Gradient | Extended |
+| X'20' | Set Custom Line Type | Long |
+| X'1A' | Set Line End | Fixed 2 byte |
+| X'1B' | Set Line Join | Fixed 2 byte |
+| X'A0' | Set Pattern Reference Point | Long |
 IPDS exception IDs X'020E..02', X'020E..03', X'020E..04', X'020E..05', and exception IDs of the form
 X'03nn..nn' exist when problems are found within GOCA drawing orders; refer to the Graphics Object Content
 Architecture for Advanced Function Presentation Reference for more information about these drawing orders
 and exception conditions.
-## Write Graphics (WG)
 
 
