@@ -129,6 +129,11 @@ public class GAD_GraphicsData extends StructuredField {
           dotLength = 2;
         }
         break;
+        case 0x20: {
+          drawingOrder = new GSCLT_SetCustomLineType();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
         case 0x21: {
           drawingOrder = new GSCP_SetCurrentPosition();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
@@ -204,6 +209,11 @@ public class GAD_GraphicsData extends StructuredField {
           dotLength = 2;
         }
         break;
+        case 0x43: {
+          drawingOrder = new GSPIK_SetPickIdentifier();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
         case 0x5e: {
           drawingOrder = new GECP_EndCustomPattern();
           dotLength = 2;
@@ -216,6 +226,11 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x68: {
           drawingOrder = new GBAR_BeginArea();
+          dotLength = 2;
+        }
+        break;
+        case 0x71: {
+          drawingOrder = new GENDSEG_EndSegmentDrawingOrder();
           dotLength = 2;
         }
         break;
@@ -321,6 +336,16 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0xd1: {
           drawingOrder = new GBIMG_BeginImageAtGivenPosition();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
+        case 0xde: {
+          drawingOrder = new GBCP_BeginCustomPattern();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
+        case 0xdf: {
+          drawingOrder = new GDPT_DeletePattern();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
         }
         break;

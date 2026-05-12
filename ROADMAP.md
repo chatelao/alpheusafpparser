@@ -318,20 +318,20 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - 🚧 Enhance GOCA and IOCA support.
     - ✅ Fix encoding and decoding bugs in GOCA drawing orders and IOCA segments.
     - ⏳ Implement full payload parsing for missing IOCA segments and GOCA drawing orders:
-        - ⏳ GOCA Drawing Orders:
-            - ⏳ Set Custom Line Type (GSCLT, X'20').
+        - 🚧 GOCA Drawing Orders:
+            - ✅ Set Custom Line Type (GSCLT, X'20').
             - ✅ End Custom Pattern (GECP, X'5E').
             - ✅ Set Pattern Reference Point (GSPRP, X'A0').
-            - ⏳ Begin Custom Pattern (GBCP, X'DE').
-            - ⏳ Delete Pattern (GDPT, X'DF').
+            - ✅ Begin Custom Pattern (GBCP, X'DE').
+            - ✅ Delete Pattern (GDPT, X'DF').
             - ⏳ Linear Gradient (GLGD, X'FEDC').
             - ⏳ Radial Gradient (GRGD, X'FEDD').
-            - ⏳ Legacy/No-Op: GSPIK (X'43'), End Segment (X'71').
-        - ⏳ IOCA Segments:
-            - ⏳ Set Extended Bilevel Image Color (X'F4').
-            - ⏳ Set Bilevel Image Color (X'F6').
-            - ⏳ IOCA Function Set Identification (X'F7').
-            - ⏳ nColor Names (X'FEB3').
+            - ✅ Legacy/No-Op: GSPIK (X'43'), End Segment (X'71').
+        - 🚧 IOCA Segments:
+            - ✅ Set Extended Bilevel Image Color (X'F4').
+            - ✅ Set Bilevel Image Color (X'F6').
+            - ✅ IOCA Function Set Identification (X'F7').
+            - ✅ nColor Names (X'FEB3').
     - ⏳ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - ⏳ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
 - 🚧 Stateful Encoding and Character Set Resolution:

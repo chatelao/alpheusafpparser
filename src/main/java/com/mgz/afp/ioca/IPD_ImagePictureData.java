@@ -136,6 +136,22 @@ public class IPD_ImagePictureData extends StructuredField {
           ipdSegment = new BandImageData();
         }
         break;
+        case SetBilevelImageColor: {
+          ipdSegment = new SetBilevelImageColor();
+        }
+        break;
+        case SetExtendedBilevelImageColor: {
+          ipdSegment = new SetExtendedBilevelImageColor();
+        }
+        break;
+        case IOCA_FunctionSetIdentification: {
+          ipdSegment = new IOCA_FunctionSetIdentification();
+        }
+        break;
+        case nColorNames: {
+          ipdSegment = new nColorNames();
+        }
+        break;
         case UnknownIPDSegmentLong: {
           ipdSegment = new UnknownSegmentLong();
         }

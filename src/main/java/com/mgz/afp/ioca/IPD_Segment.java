@@ -20,6 +20,7 @@ package com.mgz.afp.ioca;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.enums.AFPColorSpace;
+import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.IMutualExclusiveGroupedFlag;
 import com.mgz.afp.enums.MutualExclusiveGroupedFlagHandler;
@@ -84,6 +85,10 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     EndTransparencyMask(0x8F),
     ImageData(0xFE92),
     BandImageData(0xFE9C),
+    SetExtendedBilevelImageColor(0xF4),
+    SetBilevelImageColor(0xF6),
+    IOCA_FunctionSetIdentification(0xF7),
+    nColorNames(0xFEB3),
     UnknownIPDSegmentLong(-1),
     UnknownIPDSegmentExtended(-2);
 
@@ -1418,6 +1423,140 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(bandNumber);
       os.write(reserved5_6);
       if (bandData != null) os.write(bandData);
+    }
+  }
+
+  public static class SetBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
+    short area;
+    short reserved3 = 0x00;
+    AFPColorValue colorValue;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      area = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
+      reserved3 = UtilBinaryDecoding.parseShort(sfData, offset + 3, 1);
+      colorValue = AFPColorValue.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 4, 2));
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = 4;
+      os.write(segmentType.toBytes());
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
+      os.write(area);
+      os.write(reserved3);
+      os.write(colorValue != null ? colorValue.toByte2() : AFPColorValue.DeviceDefault_0xFF00.toByte2());
+    }
+  }
+
+  public static class SetExtendedBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
+    AFPColorSpace colorSpace;
+    byte colSize1;
+    byte colSize2;
+    byte colSize3;
+    byte colSize4;
+    byte[] color;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      colorSpace = AFPColorSpace.valueOf(sfData[offset + 2]);
+      colSize1 = sfData[offset + 3];
+      colSize2 = sfData[offset + 4];
+      colSize3 = sfData[offset + 5];
+      colSize4 = sfData[offset + 6];
+      color = new byte[lengthOfFollowingData - 5];
+      System.arraycopy(sfData, offset + 7, color, 0, color.length);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = (short) (5 + color.length);
+      os.write(segmentType.toBytes());
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
+      os.write(colorSpace.toByte());
+      os.write(colSize1);
+      os.write(colSize2);
+      os.write(colSize3);
+      os.write(colSize4);
+      os.write(color);
+    }
+  }
+
+  public static class IOCA_FunctionSetIdentification extends IPD_Segment.IPD_SegmentLong {
+    short category;
+    short functionSet;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      category = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
+      functionSet = UtilBinaryDecoding.parseShort(sfData, offset + 3, 1);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = 2;
+      os.write(segmentType.toBytes());
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
+      os.write(category);
+      os.write(functionSet);
+    }
+  }
+
+  public static class nColorNames extends IPD_Segment.IPD_SegmentExtended {
+    byte[] reserved4_5 = new byte[] {0x00, 0x00};
+    List<ColorNameRepeatingGroup> colorNames;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 2));
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      reserved4_5 = new byte[2];
+      System.arraycopy(sfData, offset + 4, reserved4_5, 0, 2);
+
+      colorNames = new ArrayList<>();
+      int pos = 2;
+      while (pos < lengthOfFollowingData) {
+        ColorNameRepeatingGroup rg = new ColorNameRepeatingGroup();
+        rg.reserved0 = sfData[offset + 4 + pos];
+        rg.nameLength = UtilBinaryDecoding.parseShort(sfData, offset + 4 + pos + 1, 1);
+        if (rg.nameLength > 0) {
+          rg.colorName = new String(sfData, offset + 4 + pos + 2, rg.nameLength, java.nio.charset.StandardCharsets.UTF_16BE);
+        }
+        colorNames.add(rg);
+        pos += 2 + rg.nameLength;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      baos.write(reserved4_5);
+      if (colorNames != null) {
+        for (ColorNameRepeatingGroup rg : colorNames) {
+          baos.write(rg.reserved0);
+          byte[] nameBytes = rg.colorName != null ? rg.colorName.getBytes(java.nio.charset.StandardCharsets.UTF_16BE) : new byte[0];
+          rg.nameLength = (short) nameBytes.length;
+          baos.write(rg.nameLength);
+          baos.write(nameBytes);
+        }
+      }
+      byte[] data = baos.toByteArray();
+      lengthOfFollowingData = data.length;
+      os.write(segmentType.toBytes());
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
+      os.write(data);
+    }
+
+    public static class ColorNameRepeatingGroup {
+      public byte reserved0 = 0x00;
+      public short nameLength;
+      public String colorName;
     }
   }
 }
