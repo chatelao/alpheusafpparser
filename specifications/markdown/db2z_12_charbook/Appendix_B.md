@@ -21,10 +21,6 @@ the column contains 'E' for EBCDIC, 'A' for ASCII, or 'U' for Unicode. If the st
 CCSID set statement, the column is set to 'M' for multiple CCSID sets.
 Related concepts
 Investigating SQL performance by using EXPLAIN (Db2 Performance)
-© Copyright IBM Corp. 2003, 2026 103
 
-## Page 116
 
-104  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 117

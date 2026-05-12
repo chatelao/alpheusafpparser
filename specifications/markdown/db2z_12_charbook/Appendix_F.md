@@ -33,9 +33,8 @@ represented by this row. The value of the target CCSID
 must be in the range of 1 to 65533 and must not be the
 same as the value for the INCCSID column.
 G
-© Copyright IBM Corp. 2003, 2026 111
 
-## Page 124
+
 
 Table 32. SYSIBM.SYSSTRINGS table column descriptions (continued)
 Column name Data type Description Use
@@ -96,9 +95,7 @@ DBCS conversion tables.
 If IBMREQD is 'Y', a nonblank value is the name of a Db2
 module that contains DBCS conversion tables.
 G
-112  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 125
 
 Table 32. SYSIBM.SYSSTRINGS table column descriptions (continued)
 Column name Data type Description Use
@@ -122,11 +119,8 @@ S
 
 Appendix F. SYSSTRINGS catalog table  113
 
-## Page 126
 
-114  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 127
 
 Information resources for Db2 for z/OS and related
 products
@@ -136,10 +130,6 @@ For all online product documentation for Db2 12 for z/OS, see IBM Documentation 
 www.ibm.com/docs/en/db2-for-zos/12).
 For other PDF manuals, see PDF format manuals for Db2 12 for z/OS (https:/ /www.ibm.com/docs/en/
 SSEPEK_12.0.0/home/src/tpc/db2z_pdfmanuals.html).
-© Copyright IBM Corp. 2003, 2026 115
 
-## Page 128
 
-116  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 129

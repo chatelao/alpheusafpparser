@@ -45,9 +45,8 @@ one) and (ii) the mutual use of the information which has been exchanged, should
 IBM Director of Licensing IBM Corporation
 North Castle Drive, MD-NC119
 Armonk, NY 10504-1785 US
-© Copyright IBM Corp. 2003, 2026 117
 
-## Page 130
+
 
 Such information may be available, subject to appropriate terms and conditions, including in some cases,
 payment of a fee.
@@ -71,7 +70,6 @@ Each copy or any portion of these sample programs or any derivative work must in
 as shown below:
 © (your company name) (year).
 Portions of this code are derived from IBM Corp. Sample Programs.
-© Copyright IBM Corp. (enter the year or years).
 Programming interface information
 This information is intended to help you handle international data when working in a Db2 12
 for z/OS environment. This information also documents General-use Programming Interface and
@@ -94,9 +92,7 @@ result of service.
 Product-sensitive Programming Interface and Associated Guidance Information is identified where it
 occurs by the following markings:
 Product-sensitive Programming Interface and Associated Guidance Information...
-118  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 131
 
 Trademarks
 IBM, the IBM logo, and ibm.com® are trademarks or registered marks of International Business Machines
@@ -132,7 +128,7 @@ ARE PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLI
 INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
 AND FITNESS FOR A PARTICULAR PURPOSE.
 Privacy policy considerations
-IBM Software products, including software as a service solutions, (“Software Offerings”) may use cookies
+IBM Software products, including software as a service solutions, (Software Offerings) may use cookies
 or other technologies to collect product usage information, to help improve the end user experience,
 to tailor interactions with the end user, or for other purposes. In many cases no personally identifiable
 information is collected by the Software Offerings. Some of our Software Offerings can help enable you
@@ -146,12 +142,9 @@ personally identifiable information from end users via cookies and other technol
 
 Notices  119
 
-## Page 132
 
 your own legal advice about any laws applicable to such data collection, including any requirements for
 notice and consent.
 For more information about the use of various technologies, including cookies, for these purposes, see
 IBM’s Privacy Statement at http:/ /www.ibm.com/privacy.
-120  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 133

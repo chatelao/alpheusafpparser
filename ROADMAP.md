@@ -223,8 +223,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 6 (Internationalization for applications).
         - ✅ Appendices A–F.
         - ✅ Glossary
-    - ⏳ Purge physical page markers and PDF artifacts.
-    - ⏳ Fix OCR-induced split words and formatting artifacts.
+    - ✅ Purge physical page markers and PDF artifacts.
+    - ✅ Fix OCR-induced split words and formatting artifacts.
     - ⏳ Convert syntax and registry text dumps to Markdown tables.
 
 ## Phase 6a: Testing and Quality Assurance (i)
@@ -359,8 +359,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ Set up automated release notes and asset generation using GitHub Releases.
 
 ## Phase 9: Project Documentation and Maintenance
-- ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
+- ✅ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ⏳ Migrate project documentation to MkDocs or Docusaurus.
-- ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
-- ⏳ Implement a SECURITY.md policy.
+- ✅ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
+- ✅ Implement a SECURITY.md policy.
 

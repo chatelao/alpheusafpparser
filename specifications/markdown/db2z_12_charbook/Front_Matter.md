@@ -1,4 +1,3 @@
-## Page 1
 
 Db2 12 for z/OS
 Internationalization Guide
@@ -6,7 +5,6 @@ Last updated: 2026-03-26
 IBM
 SC19-8850-02
 
-## Page 2
 
  
 Notes
@@ -24,7 +22,6 @@ indicates that the figure has changed. Editorial changes that have no technical 
 US Government Users Restricted Rights – Use, duplication or disclosure restricted by GSA ADP Schedule Contract with
 IBM Corp.
 
-## Page 3
 
 Contents
 About this information......................................................................................... vii
@@ -75,7 +72,6 @@ Inserting data into a Unicode table.............................................
 Inserting Unicode data into a non-Unicode table.....................................................................................51
   iii
 
-## Page 4
 
 Converting existing Db2 data to Unicode..................................................................................................52
 Effects on access paths when converting data to Unicode ..................................................................... 54
@@ -122,16 +118,13 @@ Privacy policy considerations...................................................
 Glossary............................................................................................................ 121
 iv  
 
-## Page 5
 
 Index................................................................................................................ 123
   v
 
-## Page 6
 
 vi  
 
-## Page 7
 
 About this information
 This information describes how to handle international data when working in a Db2 12 for z/OS (Db2 for
@@ -177,9 +170,7 @@ New subsystem parameter settings are in effect only when the function level that
 a higher function level is activated. Many subsystem parameter changes in the initial Db2 12 release
 take effect in function level 500. For more information about subsystem parameter changes in Db2
 12, see Subsystem parameter changes in Db2 12 (Db2 for z/OS What's New?).
-© Copyright IBM Corp. 2003, 2026 vii
 
-## Page 8
 
 Optimization enhancements
 Optimization enhancements become available after the activation of the function level that introduces
@@ -227,7 +218,6 @@ known as "DB2 for z/OS". As a result, you might sometimes still see references t
 such as "DB2 for z/OS" and "DB2", in different IBM web pages and documents. If the PID, Entitlement
 viii  About this information
 
-## Page 9
 
 Entity, version, modification, and release information match, assume that they refer to the same
 product.
@@ -273,7 +263,6 @@ For more information about the commitment that IBM has to accessibility, see the
 at http:/ /www.ibm.com/able.
 About this information  ix
 
-## Page 10
 
 How to send your comments about Db2 for z/OS documentation
 Your feedback helps IBM to provide quality documentation.
@@ -313,7 +302,6 @@ required_choice2
 If choosing one of the items is optional, the entire stack appears below the main path.
 x  About this information
 
-## Page 11
 
 required_item
 optional_choice1
@@ -357,8 +345,6 @@ Db2 online utilities (Db2 Utilities)
 Db2 stand-alone utilities (Db2 Utilities)
 About this information  xi
 
-## Page 12
 
 xii  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 13

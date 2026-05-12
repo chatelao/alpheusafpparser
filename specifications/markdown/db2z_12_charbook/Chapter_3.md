@@ -39,9 +39,8 @@ supplies some of the rows. You can also add your own rows. If the same pair of C
 rows, one row that is IBM-supplied and one row that you added, Db2 uses the row that you provided.
 Rows that you add have IBMREQD=N. However, some rows that have IBMREQD=N might have been
 loaded from maintenance that IBM ships between releases.
-© Copyright IBM Corp. 2003, 2026 27
 
-## Page 40
+
 
 SYSIBM.SYSSTRINGS describes only those conversions to and from ASCII and EBCDIC CCSIDs.
 Conversions to and from Unicode CCSIDs are not included in SYSIBM.SYSSTRINGS.
@@ -89,9 +88,7 @@ All of these rows were supplied by IBM because they have the value Y in the IBMR
 rows have the following meanings:
 • The first row describes the conversion from CCSID 500 to CCSID 37.
 • The second row describes the conversion from CCSID 37 to CCSID 500.
-28  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 41
 
 • The third row describes a conversion from CCSID 948 to CCSID 37 in which X'3E' is used as an error
 indicator and X'3F' is used as a substitute code point.
@@ -124,7 +121,7 @@ Application data (in host variables
 or parameter markers)
 Look at the value of the ENCODING bind option unless that value was
 overridden. For more details about how this option could have been
-overridden, see “Specifying a CCSID for your application” on page 59.
+overridden, see Specifying a CCSID for your application.
 C/C++ application source code Look at the Db2 precompiler or compiler listing for the CCSID options
 that were used. For example, the following listing for the Db2 precompiler
 shows that the application uses CCSID 1047:
@@ -135,9 +132,7 @@ ATTACH(TSO)
 CCSID(1047)
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  29
 
-## Page 42
 
 Table 13. How to find the CCSID of your data source (continued)
 Source Where find the CCSID in effect
@@ -185,9 +180,7 @@ For more information about APPCPG, see Customizing GDDM external
 defaults (GDDM System Customization and Administration Guide).
 Recommendation: For QMF, set the APPCPG parameter to match the
 CCSID that is used by Db2 and your terminal emulator.
-30  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 43
 
 Table 13. How to find the CCSID of your data source (continued)
 Source Where find the CCSID in effect
@@ -233,9 +226,7 @@ Related information
 IBM MQ documentation
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  31
 
-## Page 44
 
 Specifying CCSIDs in Db2
 You must communicate to Db2 the correct CCSIDs to use for your data to ensure that Db2 correctly
@@ -279,9 +270,7 @@ scheme are collectively called a CCSID set. If you set these three values by usi
 panel DSNTIPF, you need to explicitly specify only the MBCS value. Db2 calculates the value of the
 other two based on the MBCS value. If you specify these values in job DSNTIJUZ, you need specify all
 three values.
-32  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 45
 
 • For the subsystem Unicode CCSIDs, the values are provided for you, and you cannot change them.
 These CCSIDs are the only ones that Db2 uses for Unicode objects.
@@ -336,9 +325,7 @@ data)
 data)
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  33
 
-## Page 46
 
 Table 14. Subsystem CCSIDs (continued)
 Subsystem CCSID
@@ -406,9 +393,7 @@ setting.
 Recommendation: Do not change the MIXED value after you install Db2.
 3. dsnhdecp is the DSNHDECP module or a user-specified application defaults module.
 The subsystem encoding schemes are listed in the following table.
-34  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 47
 
 Table 15. Subsystem encoding schemes
 Subsystem encoding
@@ -467,9 +452,7 @@ In each of the following example GETVARIABLE calls, :hv3 is a varying-length cha
 maximum length of 20.
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  35
 
-## Page 48
 
 – The following example code retrieves the value of the subsystem EBCDIC CCSID, which contains
 three comma-delimited values that correspond to the SBCS, MIXED, and GRAPHIC CCSIDs for the
@@ -523,9 +506,7 @@ To determine the subsystem CCSIDs, examine the values of the following subsystem
 – SCCSID
 – UGCCSID
 – UMCCSID
-36  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 49
 
 – USCCSID
 Related concepts
@@ -571,9 +552,7 @@ Related reference
 Subsystem CCSIDs and encoding schemes
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  37
 
-## Page 50
 
 Each Db2 subsystem has a set of default CCSID and encoding scheme values. Db2 uses these values for
 objects and applications that do not otherwise have a CCSID associated with them.
@@ -618,9 +597,7 @@ image. Any tables in the new image that intersect with tables in the existing im
 You can add, delete, or replace conversion images by using the SET UNI or SETUNI command.
 Related reference
 z/OS SETUNI Command (z/OS MVS System Commands)
-38  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 51
 
 Creating a conversion image (z/OS: Unicode Services User’s Guide and Reference)
 Basic character conversions for Db2 in the z/OS conversion image
@@ -680,9 +657,7 @@ CONVERSION 01047, 01200, ER;
 CONVERSION 01047, 1208, ER;
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  39
 
-## Page 52
 
 CONVERSION 00367, 1047, ER;
 CONVERSION 01200, 1047, ER;
@@ -750,9 +725,7 @@ CONVERSION 00037,01047,ER;
 CONVERSION 00037,01200,ER;
 CONVERSION 00037,01208,ER;
 CONVERSION 00037,(your asccsid),ER;
-40  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 53
 
 CONVERSION 00367,00037,ER;
 CONVERSION 01200,00037,ER;
@@ -810,9 +783,7 @@ your amccsid
 The ASCII MBCS CCSID that is specified in your dsnhdecp module.
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  41
 
-## Page 54
 
 your agccsid
 The ASCII DBCS CCSID that is specified in your dsnhdecp module.
@@ -867,9 +838,7 @@ CONVERSION your asccsid , your sccsid , ER;
 MBCS CCSID and between your system EBCDIC DBCS CCSID and your ASCII DBCS CCSID:
 CONVERSION your mccsid , your amccsid , ER;
 CONVERSION your amccsid , your mccsid , ER;
-42  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 55
 
 CONVERSION your gccsid , your agccsid , ER;
 CONVERSION your agccsid , your gccsid , ER;
@@ -887,7 +856,7 @@ rows.
 • z/OS Unicode Services
 You can either load a new conversion image that contains the conversion definitions or add a single
 conversion definition to the existing image. For instructions on how to load or alter conversion images,
-see “Setting up z/OS Unicode Services for Db2 for z/OS” on page 38.
+see Setting up z/OS Unicode Services for Db2 for z/OS.
 Related concepts
 How Db2 performs character conversions
 When character conversions are needed, Db2 for z/OS performs these conversions automatically based
@@ -916,13 +885,11 @@ This image contains character conversion definitions. If a definition for a part
 target CCSID already exists in SYSIBM.SYSSTRINGS, Db2 uses that definition instead. The exception
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  43
 
-## Page 56
 
 is for Unicode CCSIDs. If the source or target CCSID is 1200 or 1208, Db2 uses the definition in the
 conversion image for z/OS Unicode Services
-For an example of the DISPLAY UNI output, see “Unicode CCSIDs” on page 13
+For an example of the DISPLAY UNI output, see Unicode CCSIDs
 Related concepts
 How Db2 performs character conversions
 When character conversions are needed, Db2 for z/OS performs these conversions automatically based
@@ -934,6 +901,4 @@ definitions. Each row of SYSSTRINGS contains information about the conversion of
 one CCSID to another CCSID. Db2 uses the conversion tables that are identified by these rows.
 Related information
 Displaying Unicode services (UNI) (z/OS MVS System Commands)
-44  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 57
