@@ -116,12 +116,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Convert Table 66 (Method of Adjusting the Counters).
             - ✅ Convert Table 67 (Method of Adjusting the Counters When a Data-Stream Exception Occurs).
             - ✅ Convert Table 68 (Retired Non-IPDS Action Codes).
-        - 🚧 Compliance and Appendices (Chapter 17 and Appendices A–D):
+        - ✅ Compliance and Appendices (Chapter 17 and Appendices A–D):
             - ✅ Chapter 17: Table 69 (Command-Set and Data-Tower Summary).
             - ✅ Appendix A: Table 70 (Command Code Summary) and Table 71 (Acknowledge Reply).
-            - ⏳ Appendix B: Table 72 (A Typical IPDS Command Sequence).
-            - ⏳ Appendix C: Table 73 (Run-Length 4 Compression).
-            - ⏳ Appendix D: Tables 74–76 (Retired Object Containers).
+            - ✅ Appendix B: Table 72 (A Typical IPDS Command Sequence).
+            - ✅ Appendix C: Table 73 (Run-Length 4 Compression).
+            - ✅ Appendix D: Tables 74–76 (Retired Object Containers).
 - 🚧 **BCOCA**:
     - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
     - ✅ Purge physical page markers and PDF artifacts from Chapter 4.
@@ -166,8 +166,19 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).
         - ✅ Chapter 7: Function Set 48 (Tables 21–26 and Acceptable Values).
 - 🚧 **AFP GOCA**:
-    - ⏳ Convert syntax and registry text dumps to Markdown tables.
-    - ⏳ Remove physical page references ("on page XXX").
+    - ✅ Purge physical page references ("on page XXX"):
+        - ✅ Chapters 1–9.
+        - ✅ Appendices A–D.
+    - ⏳ Convert syntax and registry text dumps to Markdown tables:
+        - ✅ Chapter 7: Drawing Orders Summary.
+        - ✅ Chapter 7: GBAR, GBCP, GBIMG/GCBIMG, GBOX/GCBOX, GCHST/GCCHST.
+        - ⏳ Chapter 7: GCOMT, GCBEZ/GCCBEZ, GDPT, GEAR, GECP, GEIMG, GEPROL.
+        - ⏳ Chapter 7: GFLT/GCFLT, GFARC/GCFARC, GIMD, GLINE/GCLINE, GLGD, GMRK/GCMRK.
+        - ⏳ Chapter 7: GNOP1, GPARC/GCPARC, GRGD, GRLINE/GCRLINE, GSGCH, GSAP.
+        - ⏳ Chapter 7: GSBMX, GSCA, GSCC, GSCD, GSCR, GSCS, GSCH, GSCOL, GSCP, GSCLT.
+        - ⏳ Chapter 7: GSECOL, GSFLW, GSLE, GSLJ, GSLT, GSLW, GSMC, GSMS, GSMT, GSMX.
+        - ⏳ Chapter 7: GSPRP, GSPS, GSPT, GSPCOL.
+        - ⏳ Other Chapters (1–6, 8–9).
 - 🚧 **Line Data**:
     - ✅ Purge physical page markers and recurring PDF artifacts from all Chapters and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
@@ -208,17 +219,29 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
 - 🚧 **Db2 12 Internationalization Guide**:
     - ✅ Convert to Markdown:
-        - ✅ Chapter 1 (Introduction to internationalization).
-        - ✅ Chapter 2 (Unicode support).
-        - ✅ Chapter 3 (Character conversion).
-        - ✅ Chapter 4 (Sorting and collating).
-        - ✅ Chapter 5 (Date and time formats).
-        - ✅ Chapter 6 (Internationalization for applications).
+        - ✅ Chapter 1 (International data and character conversion).
+        - ✅ Chapter 2 (How Db2 for z/OS uses Unicode).
+        - ✅ Chapter 3 (Setting up Db2).
+        - ✅ Chapter 4 (Storing Unicode data).
+        - ✅ Chapter 5 (Application programming).
+        - ✅ Chapter 6 (Debugging).
         - ✅ Appendices A–F.
-        - ✅ Glossary
-    - ⏳ Purge physical page markers and PDF artifacts.
-    - ⏳ Fix OCR-induced split words and formatting artifacts.
-    - ⏳ Convert syntax and registry text dumps to Markdown tables.
+        - ✅ Glossary.
+    - ⏳ Purge physical page markers and PDF artifacts:
+        - 🚧 Chapters 1–3 (Chapter 1 complete).
+        - ⏳ Chapters 4–6.
+        - ⏳ Appendices A–F, Glossary, Index.
+    - ⏳ Fix OCR-induced split words and formatting artifacts:
+        - 🚧 Chapters 1–3 (Chapter 1 complete).
+        - ⏳ Chapters 4–6.
+        - ⏳ Appendices A–F, Glossary, Index.
+    - ⏳ Convert syntax and registry text dumps to Markdown tables:
+        - ✅ Chapter 1 (Tables 1–12).
+        - ⏳ Chapter 3 (Tables 13–15).
+        - ⏳ Chapter 4 (Tables 16–17).
+        - ⏳ Chapter 5 (Tables 18–30).
+        - ⏳ Chapter 6 (Table 31).
+        - ⏳ Appendix F (Table 32).
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.

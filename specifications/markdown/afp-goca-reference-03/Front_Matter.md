@@ -8,14 +8,14 @@
 
 **Copyright © AFP Consortium 1997, 2017**
 
-**Note:** Before using this information, read the information in “Notices” on page 205.
+**Note:** Before using this information, read the information in “Notices”.
 
 **AFPC-0008-03**
 **Fourth Edition (April 2017)**
 
 This edition applies to the Graphics Object Content Architecture for Advanced Function Presentation™. This is the second edition produced by the AFP Consortium™ (AFPC™) and replaces and makes obsolete the previous edition (AFPC-0008-02). In AFP™ environments, this document makes obsolete the IBM® Graphics Object Content Architecture Reference, SC31-6804. This edition remains current until a new edition is published.
 
-Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see “Summary of Changes” on page ix.
+Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see “Summary of Changes”.
 
 **Internet:** Visit our home page: [www.afpcinc.org](http://www.afpcinc.org)
 

@@ -4,7 +4,7 @@ All IPDS printer commands are defined in self-defining field formats that are de
 Data Stream Reference. The reader is referred to this document for a definitive description of the architecture.
 Graphics in the IPDS Environment
 The Wr ite Graphics Control command is sent to the printer to establish the control parameters and initial drawing conditions to be used in presenting the picture data. The picture segments themselves are sent to the printer as data in one or more Wr ite Graphics commands.
-The IPDS architecture supports the GOCA subsets DR/2V0 and GRS3, as described in Chapter 9, “Compliance”, on page 175.
+The IPDS architecture supports the GOCA subsets DR/2V0 and GRS3, as described in Chapter 9, “Compliance”.
 IPDS Graphics Command Set
 The IPDS Graphics Command Set consists of the following commands:
 • Write Graphics Control (X'D684')
@@ -25,7 +25,7 @@ Positive acknowledgement of graphics commands in Overlay state or Page Segment s
 Output Control Definitions
 Graphics Object Areas
 Pictures are presented in rectangular output areas called object areas. Object areas can be positioned at any addressable point on a page or in any Overlay or Page Segment definition and can be defined in any one of four orientations (0°, 90°, 180°, and 270°) relative to the axis of the reference system.
-Object areas correspond to the Usable Area (UA) defined in “Usable Area (UA)” on page 14.
+Object areas correspond to the Usable Area (UA) defined in “Usable Area (UA)”.
 The size, position, and orientation of object areas are defined to the printer by parameters that are specified in the Write Graphics Control command.
 GPS Window
 The GPS window is a rectangular area within the GPS specified in GPS coordinates. This is the part of the picture that is mapped to the object area. The graphics data within this window is always trimmed by the printer , before the data is mapped to the object area.
@@ -67,7 +67,7 @@ The chained segments are the picture. The unchained segments are ignored, since 
 All segments sent to the printer are executed in immediate mode. That is, the drawing orders, except for unchained segments, are executed as they are received and are not retained or stored as named segments.
 The receipt of the first “chained segment” is an implicit command to the printer to start the drawing process.
 There are no restrictions on how much, or how little, data is sent to the printer in a single IPDS Wr ite Graphics command, except for the 32K length limit of the command. A Wr ite Graphics command, for example, can transmit partial segments, full segments, multiple segments, or any combination of these. The only requirement is that the data itself is ordered in the sequence that is expected for immediate processing and that the last WG command completes the last segment.
-The Begin Segment command supported by IPDS printers is shown in “Begin Segment Command” on page 75.
+The Begin Segment command supported by IPDS printers is shown in “Begin Segment Command”.
 Additional Related Commands
 The following commands are used for query and resource management functions. Only an overview of these commands is presented in this document. They are described in detail in the Intelligent Printer Data Stream
 Reference.
@@ -114,7 +114,7 @@ EC-0002 (retired) X'0300..02'
 EC-0003 X'0300..03'
 EC-0004 X'0300..04'
 EC-0008 X'0300..08'
-EC-000A None; exception condition not reported in IPDS environment (see “Note” on page 194)
+EC-000A None; exception condition not reported in IPDS environment (see “Note”)
 EC-000C X'0300..0C'
 EC-000D X'0300..0D'
 
@@ -124,10 +124,10 @@ Table 15 Mapping from GOCA Exception Condition to IPDS Exception (cont'd.)
 GOCA exception condition IPDS exception
 EC-000E X'0300..0E'
 EC-0400 X'0304..00'
-EC-0E02 X'020E..02' (see “Note” on page 194)
-EC-0E03 X'020E..03' (see “Note” on page 194)
-EC-0E04 X'020E..04' (see “Note” on page 194)
-EC-0E05 X'020E..05' (see “Note” on page 194)
+EC-0E02 X'020E..02' (see “Note”)
+EC-0E03 X'020E..03' (see “Note”)
+EC-0E04 X'020E..04' (see “Note”)
+EC-0E05 X'020E..05' (see “Note”)
 EC-3400 X'0334..00'
 EC-3E00 X'033E..00'
 EC-5E00 X'035E..00'

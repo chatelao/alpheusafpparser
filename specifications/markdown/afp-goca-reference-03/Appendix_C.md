@@ -13,7 +13,7 @@ The migration functions are divided into the following categories:
 Obsolete Functions
 Obsolete Attributes
 Marker Precision Attribute
-The marker precision attribute was used in AFP GOCA as a method to allow implementations to draw markers in a device-dependent fashion, rather than necessarily using the marker attributes. Previously , the attribute was defined in the following way in “Markers” on page 57:
+The marker precision attribute was used in AFP GOCA as a method to allow implementations to draw markers in a device-dependent fashion, rather than necessarily using the marker attributes. Previously , the attribute was defined in the following way in “Markers”:
 The position and appearance of a marker are dependent on the value of the marker precision attribute, as follows:
 Precision 1 String Precision. In AFP GOCA, the size of the marker symbols in the default marker set are device dependent. The marker is positioned at a specified point, or at the current position.
 Precision 2 Character Precision. In AFP GOCA, this is the same as Precision 1—String Precision.

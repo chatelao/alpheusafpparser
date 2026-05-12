@@ -17,7 +17,7 @@ Segments are transmitted by the controlling environment to the drawing processor
 
 In the MO:DCA and IPDS environments, a graphics object can contain multiple chained segments. All chained segments within the object are processed independently in the sequence in which they arrive; together they generate the graphics picture. A segment cannot be split across multiple graphics objects.
 
-The Append option indicates that the segment is a continuation of the preceding segment. Unfinished drawing orders, areas, images, and prologs may be completed in appended segment data. See “Begin Segment Command” on page 75 for further details of the functions of the Append option.
+The Append option indicates that the segment is a continuation of the preceding segment. Unfinished drawing orders, areas, images, and prologs may be completed in appended segment data. See “Begin Segment Command” for further details of the functions of the Append option.
 
 ## Segment Processing Sequence
 
@@ -31,7 +31,7 @@ When the invocation operates on a chain of segments, the graphics processor sequ
 
 ## Segment Properties
 
-Associated with each segment is a set of properties. These properties are specified in the Begin Segment command; see “Begin Segment Command” on page 75. The function of these properties is to provide control information relevant to the processing of the segment.
+Associated with each segment is a set of properties. These properties are specified in the Begin Segment command; see “Begin Segment Command”. The function of these properties is to provide control information relevant to the processing of the segment.
 
 The properties and their functions are as follows:
 
@@ -79,7 +79,7 @@ Segment Properties
 *   Set Line Type
 *   Set Line Width
 *   Set Marker Cell
-*   Set Marker Precision (obsolete, see Appendix C, “AFP GOCA Migration Functions”, on page 195)
+*   Set Marker Precision (obsolete, see Appendix C, “AFP GOCA Migration Functions”)
 *   Set Marker Set
 *   Set Marker Symbol
 *   Set Mix
