@@ -129,6 +129,11 @@ public class GAD_GraphicsData extends StructuredField {
           dotLength = 2;
         }
         break;
+        case 0x20: {
+          drawingOrder = new GSCLT_SetCustomLineType();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
         case 0x21: {
           drawingOrder = new GSCP_SetCurrentPosition();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
@@ -204,6 +209,11 @@ public class GAD_GraphicsData extends StructuredField {
           dotLength = 2;
         }
         break;
+        case 0x43: {
+          drawingOrder = new GSPIK_SetPickIdentifier();
+          dotLength = 2;
+        }
+        break;
         case 0x5e: {
           drawingOrder = new GECP_EndCustomPattern();
           dotLength = 2;
@@ -216,6 +226,11 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x68: {
           drawingOrder = new GBAR_BeginArea();
+          dotLength = 2;
+        }
+        break;
+        case 0x71: {
+          drawingOrder = new GESEG_EndSegment();
           dotLength = 2;
         }
         break;
@@ -334,13 +349,30 @@ public class GAD_GraphicsData extends StructuredField {
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
         }
         break;
+        case 0xde: {
+          drawingOrder = new GBCP_BeginCustomPattern();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
+        case 0xdf: {
+          drawingOrder = new GDPT_DeletePattern();
+          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+        }
+        break;
         case 0xe5: {
           drawingOrder = new GCBEZ_CubicBezierCurveAtGivenPosition();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
         }
         break;
         case 0xfe: {
-          drawingOrder = new GEXO_ExtendedOrder();
+          int qualifier = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1);
+          if (qualifier == 0xDC) {
+            drawingOrder = new GLGD_LinearGradient();
+          } else if (qualifier == 0xDD) {
+            drawingOrder = new GRGD_RadialGradient();
+          } else {
+            drawingOrder = new GEXO_ExtendedOrder();
+          }
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 2, 2) + 4;
         }
         break;

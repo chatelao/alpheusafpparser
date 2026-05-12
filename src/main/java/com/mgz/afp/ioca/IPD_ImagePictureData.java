@@ -112,6 +112,18 @@ public class IPD_ImagePictureData extends StructuredField {
           ipdSegment = new TileSetColor();
         }
         break;
+        case SetExtendedBilevelImageColor: {
+          ipdSegment = new SetExtendedBilevelImageColor();
+        }
+        break;
+        case SetBilevelImageColor: {
+          ipdSegment = new SetBilevelImageColor();
+        }
+        break;
+        case FunctionSetIdentification: {
+          ipdSegment = new FunctionSetIdentification();
+        }
+        break;
         case IncludeTile: {
           ipdSegment = new IncludeTile();
         }
@@ -134,6 +146,10 @@ public class IPD_ImagePictureData extends StructuredField {
         break;
         case BandImageData: {
           ipdSegment = new BandImageData();
+        }
+        break;
+        case nColorNames: {
+          ipdSegment = new nColorNames();
         }
         break;
         case UnknownIPDSegmentLong: {

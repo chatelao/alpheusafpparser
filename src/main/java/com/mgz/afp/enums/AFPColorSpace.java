@@ -36,8 +36,9 @@ public enum AFPColorSpace {
   }
 
   public static AFPColorSpace valueOf(byte code) {
+    int unsignedCode = code & 0xFF;
     for (AFPColorSpace cs : values()) {
-      if (cs.code == code) {
+      if (cs.code == unsignedCode) {
         return cs;
       }
     }
