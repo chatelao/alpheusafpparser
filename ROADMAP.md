@@ -107,15 +107,15 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ IPS (Include Page Segment) syntax and HAID table.
         - ✅ Loaded-Font Command Set (Chapter 14).
         - ✅ Triplets (Chapter 15).
-        - 🚧 Exception Reporting (Chapter 16):
+        - ✅ Exception Reporting (Chapter 16):
             - ✅ Purge PDF artifacts and fix OCR split-words.
             - ✅ Remove physical page references ("on page XXX").
             - ✅ Convert Table 63 (Exception ID Specific Information).
             - ✅ Convert Table 64 (Action Codes).
-            - ⏳ Convert Table 65 (Error Codes for Data Objects).
-            - ⏳ Convert Table 66 (Method of Adjusting the Counters).
-            - ⏳ Convert Table 67 (Method of Adjusting the Counters When a Data-Stream Exception Occurs).
-            - ⏳ Convert Table 68 (Retired Non-IPDS Action Codes).
+            - ✅ Convert Table 65 (Error Codes for Data Objects).
+            - ✅ Convert Table 66 (Method of Adjusting the Counters).
+            - ✅ Convert Table 67 (Method of Adjusting the Counters When a Data-Stream Exception Occurs).
+            - ✅ Convert Table 68 (Retired Non-IPDS Action Codes).
         - 🚧 Compliance and Appendices (Chapter 17 and Appendices A–D):
             - ✅ Chapter 17: Table 69 (Command-Set and Data-Tower Summary).
             - ✅ Appendix A: Table 70 (Command Code Summary) and Table 71 (Acknowledge Reply).
