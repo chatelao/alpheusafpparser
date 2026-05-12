@@ -3,13 +3,13 @@ package com.mgz.xml;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StatefulEncodingTest {
 
@@ -66,7 +66,7 @@ public class StatefulEncodingTest {
         System.out.println("XML output:\n" + xml);
 
         // Check that both 'ä' and '{' are present in the output
-        assertTrue("XML should contain ä (from CP273 switch)", xml.contains("ä"));
-        assertTrue("XML should contain { (from CP500 switch)", xml.contains("{"));
+        assertTrue(xml.contains("ä"), "XML should contain ä (from CP273 switch)");
+        assertTrue(xml.contains("{"), "XML should contain { (from CP500 switch)");
     }
 }

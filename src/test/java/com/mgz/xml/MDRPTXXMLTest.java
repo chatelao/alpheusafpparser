@@ -5,14 +5,14 @@ import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MDRPTXXMLTest {
 
@@ -56,7 +56,7 @@ public class MDRPTXXMLTest {
 
         System.out.println("XML for CP273:\n" + xml);
         // In CP273, 0xC0 should be 'ä'
-        assertTrue("XML should contain ä for CP273", xml.contains("ä"));
+        assertTrue(xml.contains("ä"), "XML should contain ä for CP273");
     }
 
     @Test
@@ -99,6 +99,6 @@ public class MDRPTXXMLTest {
 
         System.out.println("XML for CP500:\n" + xml);
         // In CP500, 0xC0 should be '{'
-        assertTrue("XML should contain { for CP500", xml.contains("{"));
+        assertTrue(xml.contains("{"), "XML should contain { for CP500");
     }
 }

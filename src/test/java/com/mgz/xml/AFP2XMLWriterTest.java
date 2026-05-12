@@ -6,7 +6,7 @@ import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.triplets.Triplet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
