@@ -145,7 +145,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Purge physical page markers and PDF artifacts from Chapters 5 and 6.
     - ✅ Purge physical page markers and PDF artifacts from Appendices A–D.
     - ✅ Fix OCR-induced split words (e.g., "T erminate") in Chapters 5, 6, and Appendices.
-    - ⏳ Remove physical page references ("on page XXX").
+    - ✅ Remove physical page references ("on page XXX").
     - ⏳ Format syntax and registry tables:
         - ✅ Chapter 4: Table 8 (BSD), Table 9 (Types).
         - ✅ Chapter 4: Table 10 (Modifiers).
@@ -160,7 +160,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 4: Tables 31–33 (QR Code and QR Code with Image).
         - ✅ Chapter 4: Table 34 (Code Pages and Type Styles).
         - ✅ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 1: Symbologies X'01'–X'11'.
-        - ⏳ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 2: Symbologies X'16'–X'27'.
+        - ✅ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 2: Symbologies X'16'–X'27'.
         - ✅ Chapter 4: Table 36 (Characters and Code Points).
         - ⏳ Appendices B (MO:DCA), C (IPDS).
 - 🚧 **IOCA**:
@@ -177,7 +177,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 7: Table 6 (Function Set Identification).
         - ✅ Chapter 7: Function Set 10 (Table 7 and Acceptable Values).
         - ✅ Chapter 7: Function Set 11 (Table 8 and Acceptable Values).
-        - ⏳ Chapter 7: Function Set 14 (Tables 9–10 and Acceptable Values).
+        - ✅ Chapter 7: Function Set 14 (Tables 9–10 and Acceptable Values).
         - ⏳ Chapter 7: Function Set 40 (Tables 11–12 and Acceptable Values).
         - ⏳ Chapter 7: Function Set 42 (Tables 13–14 and Acceptable Values).
         - ⏳ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).

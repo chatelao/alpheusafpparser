@@ -54,20 +54,7 @@ BCDD
 X'001B' – end of
 BCDD
 2–3 CODE SDF ID X'A6EB' BCDD Self-defining-field ID X'A6EB' X'A6EB'
-4–26 UNDF BSD Bar Code Symbol Descriptor See “Bar Code
-Symbol
-Descriptor
-(BSD)” on page
-31 for BCD1
-parameter
-definitions.
-See “Bar Code
-Symbol
-Descriptor
-(BSD)” on page
-31 for BCD2
-parameter
-definitions.
+4–26 UNDF BSD Bar Code Symbol Descriptor See “Bar Code Symbol Descriptor (BSD)” for parameter definitions.
 27–
 end
 Triplets Zero or more optional triplets;
@@ -88,7 +75,7 @@ Write Bar Code Command
 The Write Bar Code command transmits data to be printed as a single bar code symbol, parameters to specify
 special functions for 2D bar codes, and flags to specify attributes specific to the symbol. The Write Bar Code
 command also contains the parameters to position the bar code symbol within the bar code object area. The
-data portion of the WBC is defined in “Bar Code Symbol Data (BSA)” on page 94.
+data portion of the WBC is defined in “Bar Code Symbol Data (BSA)” .
 IPDS Environment
 
 

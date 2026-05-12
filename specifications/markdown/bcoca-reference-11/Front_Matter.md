@@ -8,7 +8,7 @@ AFPC-0005-11
 
 Copyright © AFP Consortium 1991, 2025 ii
 Note:
-Before using this information, read the information in “Notices” on page 191.
+Before using this information, read the information in “Notices” .
 AFPC-0005-11
 Twelfth Edition (December 2025)
 This edition applies to the Bar Code Object Content Architecture™ (BCOCA™). It is the fifth edition produced by the AFP
@@ -16,7 +16,7 @@ Consortium™ (AFPC™) and replaces and makes obsolete the previous edition (AF
 current until a new edition is published. This publication also applies to any subsequent releases of Advanced Function
 Presentation™ (AFP™) products that use the BCOCA architecture until otherwise indicated in a new edition.
 T echnical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no
-technical significance are not noted. For a detailed list of changes, see “Changes in This Edition” on page xv .
+technical significance are not noted. For a detailed list of changes, see “Changes in This Edition”  .
 Internet
 Visit our home page: www.afpconsortium.org
 
@@ -226,27 +226,27 @@ Publication History
 viii BCOCA Reference
 How to Use This Book
 This book is divided into six chapters and four appendixes:
-• Chapter 1, “A Presentation Architecture Perspective”, on page 1 introduces the AFPC presentation
+• Chapter 1, “A Presentation Architecture Perspective”,  introduces the AFPC presentation
 architectures and describes the role of data streams and data objects.
-• Chapter 2, “Introduction to BCOCA”, on page 7 describes bar code symbols, bar code symbologies, and the
+• Chapter 2, “Introduction to BCOCA”,  describes bar code symbols, bar code symbologies, and the
 basic elements of a bar code system.
-• Chapter 3, “BCOCA Overview”, on page 17 describes the key concepts of the BCOCA architecture and its
+• Chapter 3, “BCOCA Overview”,  describes the key concepts of the BCOCA architecture and its
 relationship to other presentation architectures.
-• Chapter 4, “BCOCA Data Structures”, on page 29 defines the data structures, fields, and valid data values
+• Chapter 4, “BCOCA Data Structures”,  defines the data structures, fields, and valid data values
 assigned to and reserved or retired for the BCOCA architecture.
-• Chapter 5, “Exception Conditions”, on page 161 lists the exceptions to the BCOCA definitions and what to do
+• Chapter 5, “Exception Conditions”,  lists the exceptions to the BCOCA definitions and what to do
 when such exceptions occur.
-• Chapter 6, “Compliance”, on page 169 describes requirements for valid generators and receivers of a
+• Chapter 6, “Compliance”,  describes requirements for valid generators and receivers of a
 BCOCA object.
-• Appendix A, “Bar Code Symbology Specification References”, on page 171 lists the bar code symbology
+• Appendix A, “Bar Code Symbology Specification References”,  lists the bar code symbology
 specifications referenced in this document.
-• Appendix B, “MO:DCA Environment”, on page 175 describes how BCOCA bar code objects are defined and
+• Appendix B, “MO:DCA Environment”,  describes how BCOCA bar code objects are defined and
 used in the MO:DCA environment.
-• Appendix C, “IPDS Environment”, on page 177 describes how BCOCA bar code objects are defined and
+• Appendix C, “IPDS Environment”,  describes how BCOCA bar code objects are defined and
 used in the IPDS environment.
-• Appendix D, “Retired Items”, on page 183 lists each retired item that is mentioned within the body of this
+• Appendix D, “Retired Items”,  lists each retired item that is mentioned within the body of this
 book and also lists those items that have been unretired.
-The “Glossary” on page 195 defines terms used within the book.
+The “Glossary”  defines terms used within the book.
 How to Use This Book
 
 
@@ -275,7 +275,7 @@ BCOCA
 receivers; refer
 to Chapter 6,
 “Compliance”,
-on page 169 for
+ for
 additional details
 Subset of the
 range of values
@@ -441,7 +441,7 @@ B'01111110' = X'7E' = +126
 However, BCOCA generators should set reserved fields to the specified value, if one is given, or to zero.
 • Some fields or values are labeled Retired item n, where n is an identifying number. These fields or values are
 reserved for a particular purpose and must not be used for any other purpose. Refer to Appendix D, “Retired
-Items”, on page 183 for a description of the individual retired items.
+Items”,  for a description of the individual retired items.
 • Values not explicitly defined in the range column of a field are reserved.
 • Additional information about specific fields is listed after each data structure table.
 • The term default is used in the description of some bits or bytes in the meaning column of the data structure

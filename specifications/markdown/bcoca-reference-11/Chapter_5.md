@@ -278,7 +278,7 @@ object. There must be exactly 21 numeric digits in the input data.
 Standard Action: Terminate bar code object processing.
 EC-1203 Invalid or insufficient data was encountered in an Intelligent Mail Container Barcode object.
 There must be exactly 22 characters in the input data that are within the field ranges shown in
-T able 14 on page 61.
+T able 14 .
 Standard Action: Terminate bar code object processing.
 EC-1204 Invalid, insufficient, or too much data was encountered in a Royal Mail Mailmark bar code. The
 valid data for the parameters of each modifier (X'00'–X'01') is defined within the Royal Mail

@@ -4639,275 +4639,40 @@ Code Symbology Specification References”,.
 | | UCC/EAN 128, GS1-128 (modifier X'04') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>FNC1 (X'8F') | Maximum of 48 characters (see note 4) |
 | | Intelligent Mail Container Barcode (modifier X'05') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>-<br>FNC1 (X'8F')<br>Some fields restrict the range of characters; refer to the modifier X'05' description in Table 14. | 22 characters |
 | | Intelligent Mail Package Barcode (modifier X'06') | 0123456789<br>FNC1 (X'8F') | 22, 26, 30, or 34 characters |
-X'16' EAN Two-Digit
-Supplemental
-0123456789 2 characters for Modifier X'00'
-14 characters for Modifier X'01'
-X'17' EAN Five-Digit
-Supplemental
-0123456789 5 characters for Modifier X'00'
-17 characters for Modifier X'01'
-X'18' POSTNET
-(deprecated) and
-PLANET (deprecated)
-0123456789 5 characters for Modifier X'00'
-9 characters for Modifier X'01'
-11 characters for Modifier X'02'
-11 characters for Modifier X'04'
-BCOCA range for Modifier X'03': 0 to 50 characters
-(see note 2)
-X'1A' Royal Mail
-(RM4SCC,
-modifier X'00')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-Symbology: unlimited
-BCOCA range: 0 to 50 characters
-(see note 2)
-Valid Characters and Data Lengths
-
-
-
-
-Table 35 Valid Characters and Data Lengths (cont'd.)
-Type Bar Code
-Symbology
-Valid Characters Valid Data Length
-Royal Mail (Dutch KIX
-variation, modifier
-X'01')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
-Symbology: maximum of 18 characters
-BCOCA range: 0 to 50 characters
-(see note 2)
-X'1B' Japan Postal Bar
-Code (Modifier X'00')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
--
-Symbology: 7 or more
-BCOCA range: 7 to 50 characters
-(see note 2)
-Japan Postal Bar
-Code (Modifier X'01')
-0123456789
-CC1,CC2,CC3,CC4,
-CC5,CC6,CC7,CC8
--
-start, stop
-No length checking done; refer to the modifier X'01'
-description
-X'1C' Data Matrix, GS1
-DataMatrix
-Any one-byte character or
-binary data
-Symbology: up to 3116 depending on whether the
-data is character or numeric; refer to the symbology
-specification
-BCOCA range: 0 to 3116 characters
-(see note 2)
-X'1D' MaxiCode Any one-byte character
-allowed by the symbol mode;
-refer to the description of
-symbol modes
-Symbology: up to 93 alphanumeric characters per
-symbol depending on encoding overhead or up to
-138 numeric characters per symbol; refer to the
-symbology specification
-BCOCA range: 0 to 138 characters
-X'1E' PDF417 Any one-byte character or
-binary data
-Symbology: up to 1850 text characters, 2710 ASCII
-numeric digits, or 1108 bytes of binary data per
-symbol depending on the security level; refer to the
-symbology specification
-BCOCA range: 0 to 2710 characters
-X'1F' Australia Post Bar Code –
-refer to the modifier (byte 13) description in “Australia Post Bar Code (modifier values X'01'
-through X'08')” for information about valid characters in specific parts of the
-symbol
-Modifier X'01' –
-Standard Customer
-Barcode
-0123456789 8 digits
-Modifier X'02' –
-Customer Barcode 2
-using Table N
-0123456789 8–16 digits
-Modifier X'03' –
-Customer Barcode 2
-using Table C
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
-(space)
-#
-8–13 characters
-Valid Characters and Data Lengths
-
-
-
-
-Table 35 Valid Characters and Data Lengths (cont'd.)
-Type Bar Code
-Symbology
-Valid Characters Valid Data Length
-Modifier X'04' –
-Customer Barcode 2
-using proprietary
-encoding
-0123456789 for sorting code
-0–3 for customer information
-8–24 digits
-Modifier X'05' –
-Customer Barcode 3
-using Table N
-0123456789 8–23 digits
-Modifier X'06' –
-Customer Barcode 3
-using Table C
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
-(space)
-#
-8–18 characters
-Modifier X'07' –
-Customer Barcode 3
-using proprietary
-encoding
-0123456789 for sorting code
-0–3 for customer information
-8–39 digits
-Modifier X'08' – Reply
-Paid Barcode
-0123456789 8 digits
-X'20' QR Code, QR Code
-with Image
-Any one-byte character or
-binary data
-Symbology: Up to 7,089 characters depending on the
-size and type of the data; refer to the symbology
-specification
-BCOCA range: 0 to 7,089 characters
-X'21' Code 93 0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
--.$/+%
-(space)
-a (representing Shift 1)
-b (representing Shift 2)
-c (representing Shift 3)
-d (representing Shift 4)
-A total of 47 valid
-input characters
-Symbology: unlimited
-BCOCA range: 0 to 50 characters
-(see note 2)
-X'22' Intelligent Mail
-Barcode
-0123456789 20 digits for Modifier X'00'
-25 digits for Modifier X'01'
-29 digits for Modifier X'02'
-31 digits for Modifier X'03'
-X'23' Royal Mail RED TAG
-(deprecated)
-0123456789 21 digits
-X'24' GS1 DataBar
-Omnidirectional
-(Modifier X'00')
-0123456789 14 digits
-Truncated
-(Modifier X'01')
-0123456789 14 digits
-Stacked
-(Modifier X'02')
-0123456789 14 digits
-Valid Characters and Data Lengths
-
-
-
-
-Table 35 Valid Characters and Data Lengths (cont'd.)
-Type Bar Code
-Symbology
-Valid Characters Valid Data Length
-Stacked
-Omnidirectional
-(Modifier X'03')
-0123456789 14 digits
-Limited
-(Modifier X'04')
-0123456789
-The first digit must be 0 or 1.
-14 digits
-Expanded
-(Modifier X'11')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
-!"%&'()*+,-./:;<=>?_
-FNC1 (X'8F')
-up to 74 digits or up to 41 alphabetic characters
-Expanded
-Stacked
-(Modifiers X'12'
-through X'1B')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
-!"%&'()*+,-./:;<=>?_
-FNC1 (X'8F')
-up to 74 digits or up to 41 alphabetic characters
-X'25' Royal Mail Mailmark
-Barcode C
-(Modifier X'00')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-(space)
-22 characters
-Barcode L
-(Modifier X'01')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-(space)
-26 characters
-X'26' Aztec Code Any one-byte character or
-binary data
-Symbology: Up to approximately 3784 text
-characters, 4729 ASCII numeric digits, or 2360 bytes
-of binary data per symbol, using the 5% minimum
-error-correction level; refer to the symbology
-specification
-BCOCA range: 0 to 4729 characters
-X'27'
-Han Xin Code Any character—including
-special processing for
-Chinese and Unicode
-characters—or binary data
-Symbology: Up to 4350 ASCII characters, 7827
-ASCII numeric digits, 2174 common Chinese
-characters, 1739 2-byte Chinese characters, 1044
-4-byte Chinese characters, or 3261 bytes of binary
-data per symbol, using the 8% minimum error-
-correction level; refer to the symbology specification
-BCOCA range: 0 to 7827 characters
+| X'16' | EAN Two-Digit Supplemental | 0123456789 | 2 characters for Modifier X'00'<br>14 characters for Modifier X'01' |
+| X'17' | EAN Five-Digit Supplemental | 0123456789 | 5 characters for Modifier X'00'<br>17 characters for Modifier X'01' |
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 0123456789 | 5 characters for Modifier X'00'<br>9 characters for Modifier X'01'<br>11 characters for Modifier X'02'<br>11 characters for Modifier X'04'<br>BCOCA range for Modifier X'03': 0 to 50 characters (see note 2) |
+| X'1A' | Royal Mail (RM4SCC, modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
+| | Royal Mail (Dutch KIX variation, modifier X'01') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz | Symbology: maximum of 18 characters<br>BCOCA range: 0 to 50 characters (see note 2) |
+| X'1B' | Japan Postal Bar Code (Modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>- | Symbology: 7 or more<br>BCOCA range: 7 to 50 characters (see note 2) |
+| | Japan Postal Bar Code (Modifier X'01') | 0123456789<br>CC1,CC2,CC3,CC4,<br>CC5,CC6,CC7,CC8<br>-<br>start, stop | No length checking done; refer to the modifier X'01' description |
+| X'1C' | Data Matrix, GS1 DataMatrix | Any one-byte character or binary data | Symbology: up to 3116 depending on whether the data is character or numeric; refer to the symbology specification<br>BCOCA range: 0 to 3116 characters (see note 2) |
+| X'1D' | MaxiCode | Any one-byte character allowed by the symbol mode; refer to the description of symbol modes | Symbology: up to 93 alphanumeric characters per symbol depending on encoding overhead or up to 138 numeric characters per symbol; refer to the symbology specification<br>BCOCA range: 0 to 138 characters |
+| X'1E' | PDF417 | Any one-byte character or binary data | Symbology: up to 1850 text characters, 2710 ASCII numeric digits, or 1108 bytes of binary data per symbol depending on the security level; refer to the symbology specification<br>BCOCA range: 0 to 2710 characters |
+| X'1F' | Australia Post Bar Code – refer to the modifier (byte 13) description in “Australia Post Bar Code (modifier values X'01' through X'08')” for information about valid characters in specific parts of the symbol | | |
+| | Modifier X'01' – Standard Customer Barcode | 0123456789 | 8 digits |
+| | Modifier X'02' – Customer Barcode 2 using Table N | 0123456789 | 8–16 digits |
+| | Modifier X'03' – Customer Barcode 2 using Table C | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>(space)<br># | 8–13 characters |
+| | Modifier X'04' – Customer Barcode 2 using proprietary encoding | 0123456789 for sorting code<br>0–3 for customer information | 8–24 digits |
+| | Modifier X'05' – Customer Barcode 3 using Table N | 0123456789 | 8–23 digits |
+| | Modifier X'06' – Customer Barcode 3 using Table C | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>(space)<br># | 8–18 characters |
+| | Modifier X'07' – Customer Barcode 3 using proprietary encoding | 0123456789 for sorting code<br>0–3 for customer information | 8–39 digits |
+| | Modifier X'08' – Reply Paid Barcode | 0123456789 | 8 digits |
+| X'20' | QR Code, QR Code with Image | Any one-byte character or binary data | Symbology: Up to 7,089 characters depending on the size and type of the data; refer to the symbology specification<br>BCOCA range: 0 to 7,089 characters |
+| X'21' | Code 93 | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>-.$/+%<br>(space)<br>a (representing Shift 1)<br>b (representing Shift 2)<br>c (representing Shift 3)<br>d (representing Shift 4)<br>A total of 47 valid input characters | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
+| X'22' | Intelligent Mail Barcode | 0123456789 | 20 digits for Modifier X'00'<br>25 digits for Modifier X'01'<br>29 digits for Modifier X'02'<br>31 digits for Modifier X'03' |
+| X'23' | Royal Mail RED TAG (deprecated) | 0123456789 | 21 digits |
+| X'24' | GS1 DataBar Omnidirectional (Modifier X'00') | 0123456789 | 14 digits |
+| | Truncated (Modifier X'01') | 0123456789 | 14 digits |
+| | Stacked (Modifier X'02') | 0123456789 | 14 digits |
+| | Stacked Omnidirectional (Modifier X'03') | 0123456789 | 14 digits |
+| | Limited (Modifier X'04') | 0123456789<br>The first digit must be 0 or 1. | 14 digits |
+| | Expanded (Modifier X'11') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>!"%&'()*+,-./:;<=>?_<br>FNC1 (X'8F') | up to 74 digits or up to 41 alphabetic characters |
+| | Expanded Stacked (Modifiers X'12' through X'1B') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>!"%&'()*+,-./:;<=>?_<br>FNC1 (X'8F') | up to 74 digits or up to 41 alphabetic characters |
+| X'25' | Royal Mail Mailmark Barcode C (Modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>(space) | 22 characters |
+| | Barcode L (Modifier X'01') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>(space) | 26 characters |
+| X'26' | Aztec Code | Any one-byte character or binary data | Symbology: Up to approximately 3784 text characters, 4729 ASCII numeric digits, or 2360 bytes of binary data per symbol, using the 5% minimum error-correction level; refer to the symbology specification<br>BCOCA range: 0 to 4729 characters |
+| X'27' | Han Xin Code | Any character—including special processing for Chinese and Unicode characters—or binary data | Symbology: Up to 4350 ASCII characters, 7827 ASCII numeric digits, 2174 common Chinese characters, 1739 2-byte Chinese characters, 1044 4-byte Chinese characters, or 3261 bytes of binary data per symbol, using the 8% minimum error-correction level; refer to the symbology specification<br>BCOCA range: 0 to 7827 characters |
 Notes:
 1. The data for the UPC and EAN symbologies is numeric and of a fixed length, but not all numbers of the
 appropriate length are valid. This is because the coding scheme is designed to uniquely identify both a

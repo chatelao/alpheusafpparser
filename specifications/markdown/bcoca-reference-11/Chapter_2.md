@@ -64,7 +64,7 @@ determine that a bar code symbol is being scanned and not some other sequence of
 reflective areas that might have the same pattern as one of the characters in the symbol.
 The message portion of the symbol contains the data to be stored. The data characters are encoded as a
 series of parallel bar and space patterns according to the bar code symbology used. Refer to Appendix A, “Bar
-Code Symbology Specification References”, on page 171 for a list of the bar code symbology specifications.
+Code Symbology Specification References”,  for a list of the bar code symbology specifications.
 Most bar code symbologies define a mandatory or optional check-digit character (or characters). The value of
 the check-digit character is determined by an arithmetic operation performed on the data characters in the
 message when the symbol is created. When used, the check-digit character becomes the last character of the
@@ -78,7 +78,7 @@ an error signal is generated.
 The bar and space patterns used to encode the start and stop characters are generally not symmetrical, that
 is, the same bar and space pattern is not used for both characters. This feature enables a decoder to scan in
 the forward or reverse directions.
-Figure 5 on page 9 shows examples of linear bar code symbols.
+Figure 5  shows examples of linear bar code symbols.
 
 
 Figure 5. Examples of Linear Bar Code Symbols (spans three pages)

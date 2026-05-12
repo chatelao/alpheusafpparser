@@ -278,96 +278,152 @@ The self-defining fields and values acceptable for FS11 are shown in the followi
 General note: In this function set, the Image Subsampling parameter and the Band Image parameter cannot coexist within the same Image Content; otherwise exception condition EC-9801 or EC-CE01 is raised.
 
 
-IOCA Function Set 14 (IOCA FS14)
+### IOCA Function Set 14 (IOCA FS14)
+
 Function Set 14 is a superset of Function Set 10 and Function Set 11, and describes bilevel, grayscale, and color images that allow use of transparency masks, as well as some additional compression algorithm options.
+
 This function set is carried by the MO:DCA and IPDS controlling environments. The permissible parameter groupings in FS14 are defined as follows:
-Table 9. Function Set 14 Structure X'70' Begin Segment parameter X'91' Begin Image Content parameter + X'94' Image Size parameter + [ X'95' Image Encoding parameter ] + [ X'96' IDE Size parameter ] + [ X'97' Retired (Image LUT-ID parameter) (ignored) ] + [ X'98' Band Image parameter ]
-+ [ X'9B' IDE Structure parameter ] + [ X'9F' External Algorithm Specification parameter (ignored) ] + [ X'FECE' Image Subsampling parameter ] [ Transparency Mask ] Image Data or Band Image Data (S)
-X'93' End Image Content parameter X'71' End Segment parameter Table 10. Transparency Mask Structure X'8E' Begin Transparency Mask parameter X'94' Image Size parameter [ X'95' Image Encoding parameter ] X'FE92' Image Data X'8F' End Transparency Mask parameter
-Notes:
+
+#### Table 9. Function Set 14 Structure
+
+| Self-Defining Field | Description |
+| :--- | :--- |
+| X'70' | Begin Segment |
+| X'91' | Begin Image Content |
+| X'94' | Image Size |
+| [ X'95' ] | Image Encoding |
+| [ X'96' ] | IDE Size |
+| [ X'97' ] | Retired (Image LUT-ID parameter) (ignored) |
+| [ X'98' ] | Band Image |
+| [ X'9B' ] | IDE Structure |
+| [ X'9F' ] | External Algorithm Specification (ignored) |
+| [ X'FECE' ] | Image Subsampling |
+| [ Transparency Mask ] | See Table 10 |
+| | Image Data or Band Image Data (S) |
+| X'93' | End Image Content |
+| X'71' | End Segment |
+
+#### Table 10. Transparency Mask Structure
+
+| Self-Defining Field | Description |
+| :--- | :--- |
+| X'8E' | Begin Transparency Mask |
+| X'94' | Image Size |
+| [ X'95' ] | Image Encoding |
+| X'FE92' | Image Data |
+| X'8F' | End Transparency Mask |
+
+**Notes:**
 1. The Image LUT-ID parameter has been retired and is thus not used in FS14. However, to keep FS14 a superset of FS11, the parameter will be allowed, but ignored.
 2. The External Algorithm Specification parameter is not needed in FS14, as there are no restrictions on which codings can be used in the JPEG compression. The parameter is thus allowed, but ignored, as in FS45.
-Function Set 14
-
 
 The self-defining fields and values acceptable for FS14 are shown in the following table.
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Initial parameters:
-Begin Segment ID (1) X'70' LENGTH (1) X'00' Begin Image Content ID (1) X'91' LENGTH (1) X'01' OBJTYPE (1) X'FF' IOCA Image Size ID (1) X'94' LENGTH (1) X'09' UNITBASE (1) X'00' – X'02'
-HRESOL (2) X'0000' – X'7FFF' VRESOL (2) X'0000' – X'7FFF' HSIZE (2) X'0000' – X'7FFF' VSIZE (2) X'0000' – X'7FFF' Image Encoding ID (1) X'95' LENGTH (1) X'02' – X'03' COMPRID (1) X'01', X'03', X'08', X'0A', X'0D', X'0E',
-X'82', X'83' X'01' IBM MMR-Modified Modified Read (see Note 1)
-X'03' No Compression X'08' ABIC (Bilevel Q-Coder) (see Note 1)
-X'0A' Concatenated ABIC (see Note 2)
-X'0D' TIFF LZW X'0E' TIFF LZW with Differencing Predictor X'82' G4 MMR-Modified Modified READ (see Note 1)
-X'83' JPEG algorithms (see Note 3)
-RECID (1) X'01' RIDIC BITORDR (1) X'00' – X'01' X'00' Bit order within each image data byte is from left to right X'01' Bit order within each image data byte is from right to left Function Set 14
 
+#### IOCA Self-defining Field Parameter (Bytes) for FS14
 
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments IDE Size ID (1) X'96' LENGTH (1) X'01' IDESZ (1) X'01', X'04', X'08', X'18' X'01' 1 bit/IDE X'04' 4 bits/IDE X'08' 8 bits/IDE
-X'18' 24 bits/IDE Notes on the initial parameters:
+| Parameter | ID (Length) | Acceptable Value | Comments |
+| :--- | :--- | :--- | :--- |
+| **Initial parameters:** | | | |
+| Begin Segment | X'70' (0) | | |
+| Begin Image Content | X'91' (1) | OBJTYPE X'FF' | IOCA |
+| Image Size | X'94' (9) | UNITBASE X'00'–X'02' | |
+| | | HRESOL (2) X'0000'–X'7FFF' | |
+| | | VRESOL (2) X'0000'–X'7FFF' | |
+| | | HSIZE (2) X'0000'–X'7FFF' | |
+| | | VSIZE (2) X'0000'–X'7FFF' | |
+| Image Encoding | X'95' (2–3) | COMPRID X'01', X'03', X'08', X'0A', X'0D', X'0E', X'82', X'83' | X'01' IBM MMR (see Note 1)<br>X'03' No Compression<br>X'08' ABIC (see Note 1)<br>X'0A' Concatenated ABIC (see Note 2)<br>X'0D' TIFF LZW<br>X'0E' TIFF LZW with Diff Predictor<br>X'82' G4 MMR (see Note 1)<br>X'83' JPEG algorithms (see Note 3) |
+| | | RECID (1) X'01' | RIDIC |
+| | | BITORDR (1) X'00'–X'01' | X'00' Left to right<br>X'01' Right to left |
+| IDE Size | X'96' (1) | IDESZ (1) X'01', X'04', X'08', X'18' | X'01' 1 bit/IDE<br>X'04' 4 bits/IDE<br>X'08' 8 bits/IDE<br>X'18' 24 bits/IDE |
+| **Parameters used when IDESZ=1:** | | | |
+| Retired | X'97' (1) | X'00' | Retired Image LUT-ID parameter |
+| Band Image | X'98' (2) | BCOUNT (1) X'01' | One band |
+| | | BITCNT (1) X'01' | 1 bit/IDE |
+| IDE Structure | X'9B' (6–8) | FLAGS (1) | ASFLAG B'0' Additive<br>GRAYCODE B'0' No gray coding<br>RESERVED B'000000' |
+| | | FORMAT (1) X'02', X'12' | X'02' YCrCb<br>X'12' YCbCr |
+| | | RESERVED (3) X'000000' | |
+| | | SIZE1 (1) X'01' | 1 bit/IDE |
+| | | SIZE2 (1) X'00' | 0 bits/IDE |
+| | | SIZE3 (1) X'00' | 0 bits/IDE |
+| Image Subsampling | X'FECE' (2, 4) | ID (1) X'01' | Sampling ratios |
+| | | LENGTH (1) X'02' | |
+| | | HSAMPLE (1) X'01' | |
+| | | VSAMPLE (1) X'01' | |
+| **Parameters used when IDESZ=4 or IDESZ=8:** | | | |
+| Band Image | X'98' (2) | BCOUNT (1) X'01' | One band |
+| | | BITCNT (1) X'04', X'08' | X'04' 4 bits/IDE<br>X'08' 8 bits/IDE |
+| IDE Structure | X'9B' (6–8) | FLAGS (1) | ASFLAG B'0' Additive<br>GRAYCODE B'0'–B'1' (Note 1)<br>RESERVED B'000000' |
+| | | FORMAT (1) X'02', X'12' | X'02' YCrCb (Note 2)<br>X'12' YCbCr (Note 2) |
+| | | RESERVED (3) X'000000' | |
+| | | SIZE1 (1) X'04', X'08' | X'04' 4 bits/IDE<br>X'08' 8 bits/IDE |
+| | | SIZE2 (1) X'00' | 0 bits/IDE |
+| | | SIZE3 (1) X'00' | 0 bits/IDE |
+| Image Subsampling | X'FECE' (2, 4) | ID (1) X'01' | Sampling ratios |
+| | | LENGTH (1) X'02' | |
+| | | HSAMPLE (1) X'01' | |
+| | | VSAMPLE (1) X'01' | |
+| **Parameters used when IDESZ=24:** | | | |
+| Band Image | X'98' (2) | BCOUNT (1) X'01' | One band |
+| | | BITCNT (1) X'18' | 24 bits/IDE |
+| *or:* | | | |
+| Band Image | X'98' (4) | BCOUNT (1) X'03' | 3 bands: R,G,B or Y,Cr,Cb or Y,Cb,Cr |
+| | | BITCNT (1) X'08' | 8 bits/IDE for R or Y band |
+| | | BITCNT (1) X'08' | 8 bits/IDE for G or Cr or Cb band |
+| | | BITCNT (1) X'08' | 8 bits/IDE for B or Cb or Cr band |
+| IDE Structure | X'9B' (8) | FLAGS (1) | ASFLAG B'0' Additive<br>GRAYCODE B'0' No gray coding<br>RESERVED B'000000' |
+| | | FORMAT (1) X'01', X'02', X'12' | X'01' RGB<br>X'02' YCrCb<br>X'12' YCbCr |
+| | | RESERVED (3) X'000000' | |
+| | | SIZE1 (1) X'08' | 8 bits for R or Y |
+| | | SIZE2 (1) X'08' | 8 bits for G/Cr/Cb |
+| | | SIZE3 (1) X'08' | 8 bits for B/Cb/Cr |
+| Image Subsampling | X'FECE' (2–8) | ID (1) X'01' | Sampling ratios |
+| | | LENGTH (1) X'02', X'04', X'06' | |
+| | | HSAMPLE1 (1) X'01'–X'02' | X'02' for YCrCb/YCbCr only |
+| | | VSAMPLE1 (1) X'01' | |
+| | | HSAMPLE2 (1) X'01' | |
+| | | VSAMPLE2 (1) X'01' | |
+| | | HSAMPLE3 (1) X'01' | |
+| | | VSAMPLE3 (1) X'01' | |
+| **Final parameters:** | | | |
+| Begin Transparency Mask | X'8E' (0) | | |
+| Image Size | X'94' (9) | UNITBASE X'00'–X'01' | X'00' 10 in; X'01' 10 cm |
+| | | HRESOL (2) X'0001'–X'7FFF' | |
+| | | VRESOL (2) X'0001'–X'7FFF' | |
+| | | HSIZE (2) X'0001'–X'7FFF' | |
+| | | VSIZE (2) X'0001'–X'7FFF' | |
+| Image Encoding | X'95' (2–3) | COMPRID X'01', X'03', X'08', X'82' | X'01' IBM MMR<br>X'03' No Compression<br>X'08' ABIC<br>X'82' G4 MMR |
+| | | RECID (1) X'01', X'04' | X'01' RIDIC<br>X'04' Unpadded RIDIC |
+| | | BITORDR (1) X'00', X'01' | X'00' Left to right<br>X'01' Right to left |
+| Image Data | X'FE92' (1–FFFF) | DATA | Any IDEs (bilevel only) |
+| End Transparency Mask | X'8F' (0) | | |
+| Image Data | X'FE92' (1–FFFF) | DATA | Any IDEs |
+| *or:* | | | |
+| Band Image Data (BCOUNT=1) | X'FE9C' (4–FFFF) | BANDNUM (1) X'01' | One band |
+| | | RESERVED (2) X'0000' | |
+| | | DATA | Any IDEs |
+| *or:* | | | |
+| Band Image Data (BCOUNT=3) | X'FE9C' (4–FFFF) | BANDNUM (1) X'01' | Band with R or Y component |
+| | | RESERVED (2) X'0000' | |
+| | | DATA | Any R or Y component |
+| | | BANDNUM (1) X'02' | Band with G/Cr/Cb component |
+| | | RESERVED (2) X'0000' | |
+| | | DATA | Any G/Cr/Cb component |
+| | | BANDNUM (1) X'03' | Band with B/Cb/Cr component |
+| | | RESERVED (2) X'0000' | |
+| | | DATA | Any B/Cb/Cr component |
+| End Image Content | X'93' (0) | | |
+| End Segment | X'71' (0) | | |
+
+**Notes on the initial parameters:**
 1. ABIC (Bilevel Q-Coder), IBM MMR-Modified Modified Read, and G4 MMR-Modified Modified READ are applicable only to images whose IDE size is 1 bit/IDE, otherwise exception condition EC-9611 is raised.
 2. Concatenated ABIC is applicable only to images whose IDE size is 4 or 8 bits/IDE, otherwise exception condition EC-9611 is raised.
 3. The JPEG algorithms are applicable only to images whose IDE size is 8 or 24 bits/IDE; otherwise exception condition EC-9611 is raised.
-Function Set 14
 
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Parameters used when IDESZ=1:
-Retired RESERVED (3) X'970100' Retired Image LUT-ID parameter Band Image (see General Note at the end of the table)
-ID (1) X'98' LENGTH (1) X'02' BCOUNT (1) X'01' One band BITCNT (1) X'01' 1 bit/IDE IDE Structure ID (1) X'9B' LENGTH (1) X'06' – X'08' FLAGS (1)
-ASFLAG B'0' Additive GRAYCODE B'0' No gray coding RESERVED B'000000' Should be zero FORMAT (1) X'02', X'12' X'02' YCrCb X'12' YCbCr RESERVED (3) X'000000' Should be zero SIZE1 (1) X'01' 1 bit/IDE SIZE2 (1) X'00' 0 bits/IDE
-SIZE3 (1) X'00' 0 bits/IDE Image Subsampling (see General Note at the end of the table)
-ID (2) X'FECE' LENGTH (2) X'0000', X'0004' ID (1) X'01' Sampling ratios LENGTH (1) X'02' HSAMPLE (1) X'01' VSAMPLE (1) X'01' Function Set 14
-
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Parameters used when IDESZ=4 or IDESZ=8 Band Image (see General Note at the end of the table)
-ID (1) X'98' LENGTH (1) X'02' BCOUNT (1) X'01' One band BITCNT (1) X'04', X'08' X'04' 4 bits/IDE X'08' 8 bits/IDE IDE Structure ID (1) X'9B' LENGTH (1) X'06' – X'08' FLAGS (1)
-ASFLAG B'0' Additive GRAYCODE B'0' – B'1' B'0' No gray coding B'1' Gray coding (see Note 1)
-RESERVED B'000000' Should be zero FORMAT (1) X'02', X'12' X'02' YCrCb (see Note 2)
-X'12' YCbCr (see Note 2)
-RESERVED (3) X'000000' Should be zero SIZE1 (1) X'04', X'08' X'04' 4 bits/IDE X'08' 8 bits/IDE SIZE2 (1) X'00' 0 bits/IDE SIZE3 (1) X'00' 0 bits/IDE Image Subsampling (see General Note at the end of the table)
-ID (2) X'FECE' LENGTH (2) X'0000', X'0004' ID (1) X'01' Sampling ratios LENGTH (1) X'02' HSAMPLE (1) X'01' VSAMPLE (1) X'01' Notes on parameters used when IDESZ=4 or IDESZ=8:
+**Notes on parameters used when IDESZ=4 or IDESZ=8:**
 1. Gray coding is valid only for the Concatenated ABIC algorithm, otherwise exception condition EC-9B10 is raised.
 2. Grayscale images only. Grayscale IDEs are composed of the Y component only of the YCrCb or YCbCr color model.
-Function Set 14
 
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Parameters used when IDESZ=24:
-Band Image (see General Note at the end of the table)
-ID (1) X'98' LENGTH (1) X'02' BCOUNT (1) X'01' One band BITCNT (1) X'18' 24 bits/IDE or:
-Band Image (see General Note at the end of the table)
-ID (1) X'98' LENGTH (1) X'04' BCOUNT (1) X'03' 3 bands: R,G,B or Y ,Cr,Cb or Y ,Cb,Cr BITCNT (1) X'08' 8 bits/IDE for R or Y band BITCNT (1) X'08' 8 bits/IDE for G or Cr or Cb band BITCNT (1) X'08' 8 bits/IDE for B or Cb or Cr band IDE Structure ID (1) X'9B' LENGTH (1) X'08'
-FLAGS (1)
-ASFLAG B'0' Additive GRAYCODE B'0' No gray coding RESERVED B'000000' Should be zero FORMAT (1) X'01', X'02', X'12' X'01' RGB X'02' YCrCb X'12' YCbCr RESERVED (3) X'000000' Should be zero SIZE1 (1) X'08' 8 bits of the IDE for the R or Y component
-SIZE2 (1) X'08' 8 bits of the IDE for the G or Cr or Cb component SIZE3 (1) X'08' 8 bits of the IDE for the B or Cb or Cr component Image Subsampling (see General Note at the end of the table)
-ID (2) X'FECE' LENGTH (2) X'0000', X'0004', X'0006', X'0008' ID (1) X'01' Sampling ratios LENGTH (1) X'02', X'04', X'06' HSAMPLE1 (1) X'01' – X'02' X'02' YCrCb and YCbCr color models only VSAMPLE1 (1) X'01' HSAMPLE2 (1) X'01'
-VSAMPLE2 (1) X'01' HSAMPLE3 (1) X'01' VSAMPLE3 (1) X'01' Function Set 14
-
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Final parameters:
-Begin Transparency Mask ID (1) X'8E' LENGTH (1) X'00' Image Size ID (1) X'94' LENGTH (1) X'09' UNITBASE (1) X'00' – X'01' X'00' 10 inches X'01' 10 centimeters HRESOL (2) X'0001' – X'7FFF' VRESOL (2) X'0001' – X'7FFF'
-HSIZE (2) X'0001' – X'7FFF' VSIZE (2) X'0001' – X'7FFF' Image Encoding ID (1) X'95' LENGTH (1) X'02' – X'03' COMPRID (1) X'01', X'03', X'08', X'82' X'01' IBM MMR-Modified Modified Read X'03' No Compression
-X'08' ABIC (Bilevel Q-Coder)
-X'82' G4 MMR-Modified Modified READ RECID (1) X'01', X'04' X'01' RIDIC X'04' Unpadded RIDIC BITORDR (1) X'00', X'01' X'00' Bit order within each image data byte is from left to right X'01' Bit order within each image data byte is from right to left Image Data ID (2) X'FE92'
-LENGTH (2) X'0001' – X'FFFF' DATA Any IDEs (bilevel only)
-End Transparency Mask ID (1) X'8F' LENGTH (1) X'00' Function Set 14
-
-
-IOCA Self-defining Field Parameter (Bytes)
-Acceptable Value Comments Image Data ID (2) X'FE92' LENGTH (2) X'0001' – X'FFFF' DATA Any IDEs or:
-## Band Image Data
-(BCOUNT=1 only)
-ID (2) X'FE9C' LENGTH (2) X'0004' – X'FFFF' BANDNUM (1) X'01' One band RESERVED (2) X'0000' Should be zero DATA Any IDEs or:
-## Band Image Data
-(BCOUNT=3 only)
-ID (2) X'FE9C' LENGTH (2) X'0004' – X'FFFF' BANDNUM (1) X'01' Band containing the R or Y component of the IDEs RESERVED (2) X'0000' Should be zero DATA Any R or Y component of the IDEs ID (2) X'FE9C' LENGTH (2) X'0004' – X'FFFF'
-BANDNUM (1) X'02' Band containing the G or Cr or Cb component of the IDEs RESERVED (2) X'0000' Should be zero DATA Any G or Cr or Cb component of the IDEs ID (2) X'FE9C' LENGTH (2) X'0004' – X'FFFF' BANDNUM (1) X'03' Band containing the B or Cb or Cr component of the IDEs
-RESERVED (2) X'0000' Should be zero DATA Any B or Cb or Cr component of the IDEs End Image Content ID (1) X'93' LENGTH (1) X'00' End Segment ID (1) X'71' LENGTH (1) X'00' General note: In this function set, the Image Subsampling parameter and the Band Image parameter cannot coexist within the same Image Content; otherwise exception condition EC-9801 or EC-CE01 is raised.
-Function Set 14
+**General note:** In this function set, the Image Subsampling parameter and the Band Image parameter cannot coexist within the same Image Content; otherwise exception condition EC-9801 or EC-CE01 is raised.
 
 
 IOCA Function Set 40 (IOCA FS40)

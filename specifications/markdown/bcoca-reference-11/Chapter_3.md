@@ -14,19 +14,19 @@ environment
 environment
 • An environment that controls how line data is presented; for example, the AFP Line Data environment
 In these environments, multiple bar code symbols with the same attributes can be specified within a single bar
-code object as described in Appendix B, “MO:DCA Environment”, on page 175 and Appendix C, “IPDS
-Environment”, on page 177. When multiple bar code symbols of the same type are to be printed on a page, the
+code object as described in Appendix B, “MO:DCA Environment”,  and Appendix C, “IPDS
+Environment”, . When multiple bar code symbols of the same type are to be printed on a page, the
 symbols can be combined into a single object, which avoids having to repeat the same descriptor in multiple
 objects.
 
 
 A BCOCA receiver consists of a bar code object processor. The primary function of the bar code object
 processor is to develop one or more bar code symbols of the same type within an abstract presentation space,
-as illustrated in Figure 8 on page 20. In turn, these abstract bar code presentation spaces are mapped into
+as illustrated in Figure 8 . In turn, these abstract bar code presentation spaces are mapped into
 areas defined within the controlling environments. Examples of controlling environment areas include the IPDS
 bar code object area for printing bar code symbols, and the MO:DCA object area for interchange. For
-additional information, refer to Appendix B, “MO:DCA Environment”, on page 175 and Appendix C, “IPDS
-Environment”, on page 177.
+additional information, refer to Appendix B, “MO:DCA Environment”,  and Appendix C, “IPDS
+Environment”, .
 Input to the bar code object processor consists of:
 • Data to be encoded
 • Bar code symbology to be used
@@ -122,7 +122,7 @@ from top to bottom.
 The size of the bar code presentation space in the X bc dimension is called the Xbc extent. The size of the bar
 code presentation space in the Y bc dimension is called the Ybc extent.
 An additional coordinate system, the X qr,Yqr coordinate system, is used when processing one specific type of
-bar code; see “QR Code with Image Special-Function Parameters” on page 139 for details.
+bar code; see “QR Code with Image Special-Function Parameters”  for details.
 Measurements
 In general usage, linear measurements are expressed as a specific number followed by a unit called the
 measurement base. The measurement base is typically a well known unit such as an inch or a centimeter. For
@@ -162,7 +162,7 @@ L-unit Range Conversion Algorithm
 Some field values within BCOCA data structures are specified assuming a unit of measure of 1/1440 of an
 inch. These fields are designated as such with a reference to this algorithm. If a BCOCA receiver supports
 additional units of measure, the BCOCA architecture requires the receiver to at least support a range
-equivalent to the specified range relative to each supported unit of measure. Table 6 on page 22 lists the
+equivalent to the specified range relative to each supported unit of measure. Table 6  lists the
 equivalent field ranges for the most commonly used units of measure.
 The values required to be supported when 14,400 units per 10 inches is specified for a field are listed in the
 BCOCA data structure. If additional units of measure are supported, the field values that the BCOCA
@@ -211,7 +211,7 @@ of measure would be 0.1% (one-tenth of one percent, or one-thousandth) of the si
 Furthermore, if the extent values for the image object area are specified as (X'00FA', X'00C8')—(250, 200) in
 decimal— that would indicate the image object area is one-quarter as wide and one-fifth as high as the QR
 Code symbol.
-For more on this measurement system, see “QR Code with Image Special-Function Parameters” on page 139.
+For more on this measurement system, see “QR Code with Image Special-Function Parameters” .
 
 
 Symbol Placement
@@ -274,7 +274,7 @@ generator to provide an appropriate module width value.
 Linear Symbologies
 The element-height and height-multiplier parameters specify the height of the symbol. For
 some bar code types, these parameters also include the height of the human-readable
-interpretation (HRI). Refer to the description of the element-height parameter on page 42 for a
+interpretation (HRI). Refer to the description of the element-height parameter  for a
 description of the height for specific linear symbols. Some bar code symbologies explicitly
 specify the bar code symbol height; in this case, the element-height and height-multiplier
 parameters are ignored. The symbologies that explicitly specify the symbol height are as
@@ -396,7 +396,7 @@ width.
 Some bar code types and modifiers call for the calculation and presentation of check digits. Check digits are a
 method of verifying data integrity during the bar coding reading process. Except for UPC/CGPC Version E, the
 check digit is always presented in the bar code bar and space patterns, but is not always presented in the HRI.
-Refer to “Check Digit Calculation Methods” on page 90 for a description of check digit calculation methods and
+Refer to “Check Digit Calculation Methods”  for a description of check digit calculation methods and
 the presence or absence of the check digit in the HRI.
 Code 128 modifier X'04' causes left and right parentheses to be shown within the HRI string to distinguish each
 application identifier within a GS1-128 symbol. Application identifiers are also surrounded by parentheses in

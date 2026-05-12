@@ -179,7 +179,7 @@ B'0'
 ...
 Bit 4 CPtype
 This flag specifies the type of code page used to encode the data field; the choices are shown in
-T able 41 on page 188. For the Code 128, Data Matrix, MaxiCode, PDF417, and QR Code
+T able 41 . For the Code 128, Data Matrix, MaxiCode, PDF417, and QR Code
 symbologies, this flag is ignored.
 Support for the EBCDIC-based code pages is mandatory, but support for the ASCII-based code
 pages is optional. BCOCA receivers that support only the mandatory code pages will ignore this
