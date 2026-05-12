@@ -85,13 +85,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ IM-Image and IO-Image Command Sets (Chapters 6–7).
         - ✅ Graphics Command Set (Chapter 8).
         - ✅ Bar Code Command Set (Chapter 9).
-        - 🚧 Object Container Command Set (Chapter 10):
+        - ✅ Object Container Command Set (Chapter 10):
             - ✅ Tables 50 (Summary) and 51 (Secondary Resource Usage).
             - ✅ Commands: DORE and DORE2.
-            - ⏳ Commands: DDOFC and DDOR.
-            - ⏳ Command: IDO (Syntax and SDFs).
-            - ⏳ Commands: RRR and RRRL (including ACK Reply).
-            - ⏳ Commands: WOCC and WOC.
+            - ✅ Commands: DDOFC and DDOR.
+            - ✅ Command: IDO (Syntax and SDFs).
+            - ✅ Commands: RRR and RRRL (including ACK Reply).
+            - ✅ Commands: WOCC and WOC.
         - 🚧 Metadata Command Set (Chapter 11):
             - ✅ Table 52 (Metadata Commands Summary).
             - ✅ DHM (Delete Home-State Metadata) syntax and parameter table.

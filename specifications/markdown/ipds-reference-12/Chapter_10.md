@@ -359,16 +359,11 @@ Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The DDOFC command data field is as follows:
-Offset Type Name Range Meaning Required
-0–1 CODE HAID X'0000'
-X'0001' –
-X'7EFF'
-Deactivate All indicator
-Data-object-font component
-Host-Assigned ID
-X'0000'
-X'0001' –
-X'7EFF'
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0000'<br>X'0001'–X'7EFF' | Deactivate All indicator<br>Data-object-font component Host-Assigned ID | X'0000'<br>X'0001'–X'7EFF' |
+
 Bytes 0–1 Data-object-font-component Host-Assigned ID or deactivate all indicator
 These bytes specify either an individual data-object-font component to be deactivated or
 specify the deactivation of all data-object-font components. Nonzero values identify a specific
@@ -407,15 +402,11 @@ Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The DDOR command data field is as follows:
-Offset Type Name Range Meaning Required
-0–1 CODE HAID X'0000'
-X'0001' –
-X'7EFF'
-Deactivate All indicator
-Data object resource Host-Assigned ID
-X'0000'
-X'0001' –
-X'7EFF'
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | HAID | X'0000'<br>X'0001'–X'7EFF' | Deactivate All indicator<br>Data object resource Host-Assigned ID | X'0000'<br>X'0001'–X'7EFF' |
+
 Bytes 0–1 Data object resource Host-Assigned ID or deactivate all indicator
 These bytes specify either an individual data object resource to be deactivated or specify the
 deactivation of all data object resources. Nonzero values identify a specific data object
@@ -497,85 +488,19 @@ OCAP from the WOCC command (or the IAP from the WIC2 command) for the included d
 the optional OCAP on the WOCC command is also omitted, the defaults specified in the OCAP description are
 used.
 The format of the DOAP is as follows:
-Offset Type Name Range Meaning Required
-0–1 UBIN Length X'000B' to end
-of DOAP
-Length of DOAP, including this length field X'000B' to end of
-DOAP
-2–3 CODE SDF ID X'ACC3' Self-defining-field ID X'ACC3'
-4–5 SBIN X offset X'8000' –
-X'7FFF'
-X'FFFF'
-Override for object area origin;
-an I, I-offset, or $ coordinate
-position in L-units
-Use X offset from object
-X'8000'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-6–7 SBIN Y offset X'8000' –
-X'7FFF'
-X'FFFF'
-Override for object area origin;
-a B, B-offset, or Y
-p coordinate
-position in L-units
-Use Y offset from object
-X'8000'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-8–9 CODE Override for object area orientation
-bits 0–8 Degrees B'000000000'
-–
-B'101100111'
-B'111111111'
-Number of degrees (0–359) in the
-orientation
-Special value – see byte description
-B'000000000'
-B'001011010'
-B'010110100'
-B'100001110'
-B'111111111'
-bits 9–14 Minutes B'000000' –
-B'111011'
-B'111111'
-Number of minutes (0–59) in the orientation
-Special value – see byte description
-B'000000'
-B'111111'
-bit 15 B'0'
-B'1'
-Reserved
-Special value – see byte description
-B'0'
-B'1'
-10 CODE Coordinate
-system X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-Reference coordinate system:
-Absolute I, absolute B
-Absolute I, relative B
-Relative I, absolute B
-Relative I, relative B
-Page X
-p,$
-X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-11 to
-end of
-DOAP
-UNDF Data without architectural definition
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'000B' to end of DOAP | Length of DOAP, including this length field | X'000B' to end of DOAP |
+| 2–3 | CODE | SDF ID | X'ACC3' | Self-defining-field ID | X'ACC3' |
+| 4–5 | SBIN | X offset | X'8000'–X'7FFF'<br>X'FFFF' | Override for object area origin; an I, I-offset, or $ coordinate position in L-units. Special value: X'FFFF' (Use X offset from object) | X'8000'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 6–7 | SBIN | Y offset | X'8000'–X'7FFF'<br>X'FFFF' | Override for object area origin; a B, B-offset, or $Y_{p}$ coordinate position in L-units. Special value: X'FFFF' (Use Y offset from object) | X'8000'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 8–9 | CODE | Override for object area orientation | | | |
+| | bits 0–8 | Degrees | B'000000000'–B'101100111'<br>B'111111111' | Number of degrees (0–359) in the orientation. Special value: B'111111111' (see byte description) | B'000000000'<br>B'001011010'<br>B'010110100'<br>B'100001110'<br>B'111111111' |
+| | bits 9–14 | Minutes | B'000000'–B'111011'<br>B'111111' | Number of minutes (0–59) in the orientation. Special value: B'111111' (see byte description) | B'000000'<br>B'111111' |
+| | bit 15 | | B'0'<br>B'1' | Reserved. Special value: B'1' (see byte description) | B'0'<br>B'1' |
+| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>X'00' Absolute I, absolute B<br>X'20' Absolute I, relative B<br>X'40' Relative I, absolute B<br>X'60' Relative I, relative B<br>X'A0' Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
+| 11 to end of DOAP | UNDF | | | Data without architectural definition | |
 
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the specified range in 1440ths plus an equivalent range for
@@ -660,106 +585,19 @@ OCOC from the WOCC command (or the IOC from the WIC2 command) for the included d
 the OCOC on a WOCC command (or IOC on a WIC2 command) is also omitted, the defaults specified in the
 OCOC description (or IOC description) are used.
 The format of the DOOC is as follows:
-Offset Type Name Range Meaning Required
-0–1 UBIN Length X'0010',
-X'0012' to
-end of DOOC
-Length of DOOC, including this length field X'0010',
-X'0012' to
-end of DOOC
-2–3 CODE SDF ID X'ABC3' Self-defining-field ID X'ABC3'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-5–6 UBIN UPUB X'0001' –
-X'7FFF'
-X
-oa and {oa}$ units per unit base X'3840'
-7–8 UBIN {oa}$ extent X'0001' –
-X'7FFF'
-X'FFFF'
-Override for {oa}$ extent of
-object area in L-units
-Use {oa}$ extent from object
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-9–10 UBIN {oa}$ extent X'0001' –
-X'7FFF'
-X'FFFF'
-Override for {oa}$ extent of
-object area in L-units
-Use {oa}$ extent from object
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-11 CODE Mapping
-control X'00'
-X'10'
-X'20'
-X'30'
-X'41'
-X'42'
-X'50'
-X'60'
-X'FF'
-Override for mapping control option:
-Position (not valid for IO Image)
-Scale to fit
-Center and trim
-Position and trim
-Point to pel (IO Image only)
-Point to pel w/double dot (IO Image only)
-Replicate and trim (IO Image only)
-Scale to fill
-Use object's mapping option
-X'00'
-X'10'
-X'20'
-X'30'
-X'FF'
-12–13 SBIN X
-oa offset X'8000' –
-X'7FFF'
-X'FFFF'
-Override for {oa}$ offset in
-L-units; (for the position and
-position-and-trim mappings only)
-Use {oa}$ offset from object
-X'0000'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
 
-Offset Type Name Range Meaning Required
-14–15 SBIN {oa}$ offset X'8000' –
-X'7FFF'
-X'FFFF'
-Override for {oa}$ offset in
-L-units; (for the position and
-position-and-trim mappings only)
-Use {oa}$ offset from object
-X'0000'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-16 of
-end of
-DOOC
-Triplets Zero or more optional triplets; not all IPDS
-printers support these triplets
-X'70' Presentation Space Reset Mixing
-triplet
-X'92' Invoke CMR triplet
-X'95' Rendering Intent triplet
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0010', X'0012' to end of DOOC | Length of DOOC, including this length field | X'0010', X'0012' to end of DOOC |
+| 2–3 | CODE | SDF ID | X'ABC3' | Self-defining-field ID | X'ABC3' |
+| 4 | CODE | Unit base | X'00'<br>X'01' | X'00' Ten inches<br>X'01' Ten centimeters | X'00' |
+| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Override for $X_{oa}$ extent of object area in L-units. Special value: X'FFFF' (Use $X_{oa}$ extent from object) | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Override for $Y_{oa}$ extent of object area in L-units. Special value: X'FFFF' (Use $Y_{oa}$ extent from object) | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 11 | CODE | Mapping control | X'00'<br>X'10'<br>X'20'<br>X'30'<br>X'41'<br>X'42'<br>X'50'<br>X'60'<br>X'FF' | Override for mapping control option:<br>X'00' Position (not valid for IO Image)<br>X'10' Scale to fit<br>X'20' Center and trim<br>X'30' Position and trim<br>X'41' Point to pel (IO Image only)<br>X'42' Point to pel w/double dot (IO Image only)<br>X'50' Replicate and trim (IO Image only)<br>X'60' Scale to fill<br>X'FF' Use object's mapping option | X'00'<br>X'10'<br>X'20'<br>X'30'<br>X'FF' |
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF'<br>X'FFFF' | Override for $X_{oa}$ offset in L-units; (for the position and position-and-trim mappings only). Special value: X'FFFF' (Use $X_{oa}$ offset from object) | X'0000'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF'<br>X'FFFF' | Override for $Y_{oa}$ offset in L-units; (for the position and position-and-trim mappings only). Special value: X'FFFF' (Use $Y_{oa}$ offset from object) | X'0000'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
+| 16 to end of DOOC | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets | X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the specified range in 1440ths plus an equivalent range for
 additional units of measure. If a receiver supports additional units of measure, the IPDS architecture
@@ -906,29 +744,14 @@ The Data Object Data Descriptor (DODD) is the last self-defining field in the da
 This self-defining field specifies the HAID of a previously activated data object to be included in the current
 page or overlay. In addition, triplets can be specified to provide overrides for the object's data descriptor.
 The format of the DODD is as follows:
-Offset Type Name Range Meaning Required
-0–1 UBIN Length X'0016',
-X'0018' to
-end of
-DODD
-Length of DODD, including this length field X'0016',
-X'0018' to
-end of DODD
-2–3 CODE SDF ID X'A6C3' Self-defining-field ID X'A6C3'
-4–19 X'00...00' Reserved X'00...00'
-20–21 CODE HAID X'0001' –
-X'7EFF'
-Data object's Host-Assigned ID X'0001' –
-X'7EFF'
-22 to
-end of
-DODD
-Triplets Zero or more of the following triplets:
-X'4E' Color Specification triplet
-X'5A' Object Offset triplet
-X'9A' Image Resolution triplet
-X'9C' Object Container Presentation
-Space Size triplet
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0016', X'0018' to end of DODD | Length of DODD, including this length field | X'0016', X'0018' to end of DODD |
+| 2–3 | CODE | SDF ID | X'A6C3' | Self-defining-field ID | X'A6C3' |
+| 4–19 | | Reserved | X'00...00' | Reserved | X'00...00' |
+| 20–21 | CODE | HAID | X'0001'–X'7EFF' | Data object's Host-Assigned ID | X'0001'–X'7EFF' |
+| 22 to end of DODD | Triplets | | Zero or more of the following triplets: | X'4E' Color Specification triplet<br>X'5A' Object Offset triplet<br>X'9A' Image Resolution triplet<br>X'9C' Object Container Presentation Space Size triplet | |
 Bytes 0–1 Self-defining-field length
 If an invalid value is specified, exception ID X'0202..05' exists.
 Bytes 2–3 Self-defining-field ID
@@ -1123,16 +946,13 @@ Without CID X'0005' or X'0007'–X'0086'
 With CID X'0007' or X'0009'–X'0088'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The format of the data field for this command is as follows:
-Offset Type Name Range Meaning Required
-Zero or one Object OIDs in the following format:
-0 CODE Identifier X'06' This is a definite-short-form OID X'06'
-1 UBIN Length X'00'–X'7F' Length of the following content bytes X'00'–X'7F'
-2 to
-end of
-OID
-Content any value Content bytes that provide a unique ID for this
-object
-any value
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Zero or one Object OIDs in the following format:** | | | | | |
+| 0 | CODE | Identifier | X'06' | This is a definite-short-form OID | X'06' |
+| 1 | UBIN | Length | X'00'–X'7F' | Length of the following content bytes | X'00'–X'7F' |
+| 2 to end of OID | Content | | any value | Content bytes that provide a unique ID for this object | any value |
 Remove Resident Resource
 
 
@@ -1181,38 +1001,23 @@ Request Resident Resource List
 Acknowledge Reply for Request Resident Resource List
 Length X'D6FF' Flag CID Type—Page and Copy Counters—Special Data Area
 The format of the Special Data Area for the reply is as follows:
-Offset Type Name Range Meaning
-Zero or more RRRL-reply entries in the following format:
-0–1 UBIN Entry Length X'0010'–X'0193' Length of RRRL-reply entry, including this length field
-Object OID
-2 CODE Identifier X'06' This is a definite-short-form OID
-3 UBIN OID length X'00'–X'7F' Length of the following content bytes
-4 to end
-of OID
-Content any value Content bytes that provide a unique ID for this object
-Object information
-+0–7 UBIN Object type X'00...00' –
-X'FF ...FF'
-Component ID of a registered object-type OID
-+8–9 BITS Object information flags
-bit 0 Removable B'1'
-B'0'
-The object is removable
-The object is not removable
-bits 1–15 B'0...0' Reserved
-+10–11 X'0000' Reserved
-Zero, one, or two human-readable name triplets
-+12 to
-end of
-entry
-Triplets See byte
-description
-If triplets are available there can either be a X'01' triplet
-followed by a X'02' triplet, or a single X'02' triplet. The
-X'02' triplet must have FQN type X'DE' with a
-character-encoded name.
-X'01' CGCSGID triplet
-X'02' Fully Qualified Name triplet
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| **Zero or more RRRL-reply entries in the following format:** | | | | |
+| 0–1 | UBIN | Entry Length | X'0010'–X'0193' | Length of RRRL-reply entry, including this length field |
+| **Object OID** | | | | |
+| 2 | CODE | Identifier | X'06' | This is a definite-short-form OID |
+| 3 | UBIN | OID length | X'00'–X'7F' | Length of the following content bytes |
+| 4 to end of OID | Content | | any value | Content bytes that provide a unique ID for this object |
+| **Object information** | | | | |
+| +0–7 | UBIN | Object type | X'00...00'–X'FF...FF' | Component ID of a registered object-type OID |
+| +8–9 | BITS | Object information flags | | |
+| | bit 0 | Removable | B'1'<br>B'0' | B'1' The object is removable<br>B'0' The object is not removable |
+| | bits 1–15 | | B'0...0' | Reserved |
+| +10–11 | | Reserved | X'0000' | Reserved |
+| **Zero, one, or two human-readable name triplets** | | | | |
+| +12 to end of entry | Triplets | | See byte description | If triplets are available there can either be a X'01' triplet followed by a X'02' triplet, or a single X'02' triplet. The X'02' triplet must have FQN type X'DE' with a character-encoded name.<br>X'01' CGCSGID triplet<br>X'02' Fully Qualified Name triplet |
 Bytes 0–1 Entry length
 This parameter contains the length of the RRRL-reply entry, including the length field itself.
 Bytes 2 to
@@ -1309,60 +1114,19 @@ p = 0, $ = 0
 Object area orientation 0°
 Reference coordinate system Page $,$
 The format of the OCAP is as follows:
-Offset Type Name Range Meaning OC1 Range
-0–1 UBIN Length X'000B' to end
-of OCAP
-Length of OCAP, including this length field X'000B' to end of
-OCAP
-2–3 CODE SDF ID X'AC6B' Self-defining-field ID X'AC6B'
-4–5 SBIN X offset X'8000' –
-X'7FFF'
-Object container object area origin; an $, I,
-or I-offset coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-6–7 SBIN Y offset X'8000' –
-X'7FFF'
-Object container object area origin; a Y
-p, B, or
-B-offset coordinate position in L-units
-X'8000'–X'7FFF'
-Refer to the note
-following the
-table.
-8–9 CODE Object Container object area orientation
-bits 0–8 Degrees B'000000000'
-–
-B'101100111'
-Number of degrees (0–359) in the orientation B'000000000'
-bits 9–14 Minutes B'000000' –
-B'111011'
-Number of minutes (0–59) in the orientation B'000000'
-bit 15 B'0' Reserved B'0'
-10 CODE Coordinate
-system X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-Reference coordinate system:
-Absolute I, absolute B
-Absolute I, relative B
-Relative I, absolute B
-Relative I, relative B
-Page X
-p,$
-X'00'
-X'20'
-X'40'
-X'60'
-X'A0'
-11 to
-end of
-OCAP
-UNDF Data without architectural definition
+
+| Offset | Type | Name | Range | Meaning | OC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'000B' to end of OCAP | Length of OCAP, including this length field | X'000B' to end of OCAP |
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
+| 4–5 | SBIN | X offset | X'8000'–X'7FFF' | Object container object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' (Refer to the note following the table.) |
+| 6–7 | SBIN | Y offset | X'8000'–X'7FFF' | Object container object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' (Refer to the note following the table.) |
+| 8–9 | CODE | Object Container object area orientation | | | |
+| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
+| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
+| | bit 15 | | B'0' | Reserved | B'0' |
+| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>X'00' Absolute I, absolute B<br>X'20' Absolute I, relative B<br>X'40' Relative I, absolute B<br>X'60' Relative I, relative B<br>X'A0' Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
+| 11 to end of OCAP | UNDF | | | Data without architectural definition | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -1482,91 +1246,19 @@ oa extent = $ extent, {oa}$ extent = $ extent.
 • No object-level CMRs.
 • No object-level rendering intent.
 The format of the OCOC is as follows:
-Offset Type Name Range Meaning OC1 Range
-0–1 UBIN Length X'0010',
-X'0012' to
-end of OCOC
-Length of OCOC, including this length field X'0010',
-X'0012' to
-end of OCOC
-2–3 CODE SDF ID X'A66B' Self-defining-field ID X'A66B'
-4 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-5–6 UBIN UPUB X'0001' –
-X'7FFF'
-X
-oa and {oa}$ units per unit base X'3840'
-7–8 UBIN {oa}$ extent X'0001' –
-X'7FFF'
-X'FFFF'
-{oa}$ extent of object area in L-units
-Use the LPD value
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-9–10 UBIN Y
-oa extent X'0001' –
-X'7FFF'
-X'FFFF'
-{oa}$ extent of object area in L-units
-Use the LPD value
-X'0001'–X'7FFF'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-11 CODE Mapping
-control X'00'
-X'10'
-X'20'
-X'30'
-X'60'
-X'70'
-Mapping control option:
-Position
-Scale to fit
-Center and trim
-Position and trim
-Scale to fill
-UP3I Print Data
-X'00'
-X'10'
-X'20'
-X'30'
-12–13 SBIN X
-oa offset X'8000' –
-X'7FFF'
-{oa}$ offset in L-units; (for the position and
-position-and-trim mappings only)
-X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
 
-Offset Type Name Range Meaning OC1 Range
-14–15 SBIN {oa}$ offset X'8000' –
-X'7FFF'
-{oa}$ offset in L-units; (for the position and
-position-and-trim mappings only)
-X'0000'–X'7FFF'
-Refer to the note
-following the
-table.
-16 to
-end of
-OCOC
-Triplets Zero or more optional triplets; not all IPDS
-printers support these triplets:
-X'4E' Color Specification triplet
-X'70' Presentation Space Reset Mixing
-triplet
-X'92' Invoke CMR triplet
-X'95' Rendering Intent triplet
+| Offset | Type | Name | Range | Meaning | OC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0010', X'0012' to end of OCOC | Length of OCOC, including this length field | X'0010', X'0012' to end of OCOC |
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
+| 4 | CODE | Unit base | X'00'<br>X'01' | X'00' Ten inches<br>X'01' Ten centimeters | X'00' |
+| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $X_{oa}$ extent of object area in L-units. Special value: X'FFFF' (Use the LPD value) | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $Y_{oa}$ extent of object area in L-units. Special value: X'FFFF' (Use the LPD value) | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
+| 11 | CODE | Mapping control | X'00'<br>X'10'<br>X'20'<br>X'30'<br>X'60'<br>X'70' | Mapping control option:<br>X'00' Position<br>X'10' Scale to fit<br>X'20' Center and trim<br>X'30' Position and trim<br>X'60' Scale to fill<br>X'70' UP3I Print Data | X'00'<br>X'10'<br>X'20'<br>X'30' |
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units; (for the position and position-and-trim mappings only) | X'0000'–X'7FFF' (Refer to the note following the table.) |
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units; (for the position and position-and-trim mappings only) | X'0000'–X'7FFF' (Refer to the note following the table.) |
+| 16 to end of OCOC | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets: | X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -1847,39 +1539,14 @@ The Object Container Data Descriptor (OCDD) is the last self-defining field in t
 command. This self-defining field specifies a Host-Assigned ID, a Registered Object-Type OID, and data
 object resource or data-object-font component information.
 The format of the OCDD is as follows:
-Offset Type Name Range Meaning OC1 Range
-0–1 UBIN Length X'0016',
-X'0018' to
-end of OCDD
-Length of OCDD, including this length field X'0016',
-X'0018' to
-end of OCDD
-2–3 CODE SDF ID X'A692' Self-defining-field ID X'A692'
-4–19 CODE Object type
-OID
-See byte
-description.
-Registered object-type OID See byte
-description.
-20–21 CODE HAID X'0000'
-X'0001' –
-X'7EFF'
-No value specified
-Data object resource or data-object-font
-component Host-Assigned ID
-X'0000'
-22 to
-end of
-OCDD
-Triplets Zero or more of the following triplets:
-X'02' Fully Qualified Name triplet
-X'4E' Color Specification triplet
-X'5A' Object Offset triplet
-X'91' Color Management Resource
-Descriptor triplet
-X'9A' Image Resolution triplet
-X'9C' Object Container Presentation
-Space Size triplet
+
+| Offset | Type | Name | Range | Meaning | OC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | Length | X'0016', X'0018' to end of OCDD | Length of OCDD, including this length field | X'0016', X'0018' to end of OCDD |
+| 2–3 | CODE | SDF ID | X'A692' | Self-defining-field ID | X'A692' |
+| 4–19 | CODE | Object type OID | See byte description. | Registered object-type OID | See byte description. |
+| 20–21 | CODE | HAID | X'0000'<br>X'0001'–X'7EFF' | X'0000' No value specified<br>X'0001'–X'7EFF' Data object resource or data-object-font component Host-Assigned ID | X'0000' |
+| 22 to end of OCDD | Triplets | | Zero or more of the following triplets: | X'02' Fully Qualified Name triplet<br>X'4E' Color Specification triplet<br>X'5A' Object Offset triplet<br>X'91' Color Management Resource Descriptor triplet<br>X'9A' Image Resolution triplet<br>X'9C' Object Container Presentation Space Size triplet | |
 Bytes 0–1 Self-defining-field length
 If an invalid value is specified, exception ID X'0202..05' exists.
 Bytes 2–3 Self-defining-field ID
