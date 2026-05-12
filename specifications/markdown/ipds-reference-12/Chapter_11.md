@@ -5,13 +5,13 @@ Table 52. Metadata Commands
 
 | Command | Code | Description | In MO1 Subset? |
 | :--- | :--- | :--- | :---: |
-| DHM | X'D658' | “Delete Home-State Metadata ” | Yes |
-| WMC | X'D68A' | “Write Metadata Control” | Yes |
+| DHM | X'D658' | “Delete Home-State Metadata” | Yes |
+| WMC | X'D68A' | “Write Metadata control” | Yes |
 | WM | X'D68B' | “Write Metadata” | Yes |
 Metadata can be associated with many different objects in the IPDS data stream, in multiple ways. The
 location of the WMC command in the data stream determines the object or objects the metadata is associated
 with. For the details, see “Metadata”.
-The host sends a Write Metadata Control (WMC) command to the IPDS receiver to associate metadata with an
+The host sends a Write Metadata control (WMC) command to the IPDS receiver to associate metadata with an
 object or objects. The metadata is sent to the IPDS receiver in one or more Write Metadata (WM) commands.
 For WMC commands received in home state, the metadata is added to the current home-state metadata; such
 metadata is deleted with a Delete Home-State Metadata (DHM) command.
@@ -19,7 +19,7 @@ metadata is deleted with a Delete Home-State Metadata (DHM) command.
 
 Delete Home-State Metadata
 The Delete Home-State Metadata (DHM) command directs the printer to delete home-state metadata. The
-home-state metadata had been previously added using a Write Metadata Control (WMC) command received in
+home-state metadata had been previously added using a Write Metadata control (WMC) command received in
 home state.
 The home-state metadata to be deleted is determined based on the MDLevel specified. A special MDLevel
 value, X'0000', is available to specify that all home-state metadata, at all levels, should be deleted.
@@ -47,14 +47,14 @@ deleted is effectively a NOP .
 Bytes 2–3 Reserved
 
 
-Write Metadata Control
+Write Metadata control
 Length X'D68A' Flag CID Data (MDD)
 The length of the WMC command can be:
 Without CID X'0005' or X'000D'–X'7FFF'
 With CID X'0007' or X'000F'–X'7FFF'
 However, the length of the MDD self-defining-field (if present) must also be valid. Exception ID X'0202..02'
 exists if the command length is invalid or unsupported.
-The Write Metadata Control (WMC) command causes the IPDS receiver to enter metadata state. When
+The Write Metadata control (WMC) command causes the IPDS receiver to enter metadata state. When
 received in home state, parameters in this command can specify a metadata level for the metadata being
 added.
 The WMC command is followed by zero or more Write Metadata (WM) commands that contain the metadata
@@ -112,13 +112,13 @@ Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The Write Metadata (WM) command transmits metadata to the IPDS receiver. The data consists of one
-metadata object (MO), as defined in the Metadata Object Content Architecture Reference. Zero or more WM
+metadata object (MO), as defined in the Metadata object Content Architecture Reference. Zero or more WM
 commands follow the WMC command.
 There are no restrictions on how much or how little data is sent to the IPDS receiver in a single WM command,
 except for the 32K length limit of the command. The end result of concatenating all data received in all the WM
 commands is the one MO.
 The IPDS receiver must support at least the metadata object support defined by the MOCA MS1 subset. Refer
-to the Metadata Object Content Architecture Reference for a definition of the MS1 subset.
+to the Metadata object Content Architecture Reference for a definition of the MS1 subset.
 IPDS exception IDs of the form X'06nn..nn' exist when problems are found within the MO; refer to the Metadata
 Object Content Architecture Reference for more information about MO syntax and exception conditions.
 Note: Only Anystate commands are valid between concatenated WM commands; refer to Figure 45 for a list of Anystate commands.
