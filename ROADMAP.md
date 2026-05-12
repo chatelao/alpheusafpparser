@@ -116,12 +116,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ Convert Table 66 (Method of Adjusting the Counters).
             - ⏳ Convert Table 67 (Method of Adjusting the Counters When a Data-Stream Exception Occurs).
             - ⏳ Convert Table 68 (Retired Non-IPDS Action Codes).
-        - 🚧 Compliance and Appendices (Chapter 17 and Appendices A–D):
+        - ✅ Compliance and Appendices (Chapter 17 and Appendices A–D):
             - ✅ Chapter 17: Table 69 (Command-Set and Data-Tower Summary).
             - ✅ Appendix A: Table 70 (Command Code Summary) and Table 71 (Acknowledge Reply).
-            - ⏳ Appendix B: Table 72 (A Typical IPDS Command Sequence).
-            - ⏳ Appendix C: Table 73 (Run-Length 4 Compression).
-            - ⏳ Appendix D: Tables 74–76 (Retired Object Containers).
+            - ✅ Appendix B: Table 72 (A Typical IPDS Command Sequence).
+            - ✅ Appendix C: Table 73 (Run-Length 4 Compression).
+            - ✅ Appendix D: Tables 74–76 (Retired Object Containers).
 - 🚧 **BCOCA**:
     - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
     - ✅ Purge physical page markers and PDF artifacts from Chapter 4.
