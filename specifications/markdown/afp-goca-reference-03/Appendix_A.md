@@ -43,7 +43,7 @@ SF Length X'D3A6BB' Flags Reserved Self-Identifying Parameters
 GDD Self-Identifying Parameters
 Drawing Order Subset
 This parameter has been retired for the DR/2V0 (GRS2) subset. New GOCA GRS2 generators should not specify this parameter and new receivers should ignore it. GOCA generators that generate functions that are only in a higher-level subset, such as GRS3, must not generate this parameter since there is no method to specify a subset other than DR/2V0 (GRS2). If this parameter is not specified, the functional level of the GOCA object is DR/2V0 (GRS2) or higher . If invalid bits are specified in this self-identifying parameter , EC-000A may optionally be detected.
-See Appendix C, “AFP GOCA Migration Functions”, on page 195 for information about this retired parameter .
+See Appendix C, “AFP GOCA Migration Functions” for information about this retired parameter .
 Architecture Note: The obsolete IBM AFP Data Stream Reference, S544-3202, allowed the Drawing Order
 Subset Parameter to be optional. If this parameter was not provided, the default was defined to be
 Drawing Order Subset level 2, version 0 (DR/2V0).
@@ -127,8 +127,8 @@ GDD. For example, an exception is defined for the case where the GPS Window coor
 ---
 
 Set Current Defaults (Optional)
-Defaults can be set by the appropriate Set Current Defaults instructions. For a complete description of this instruction, see “Set Current Defaults (SCD) Instruction” on page 66. Each occurrence of the Set Current
-Defaults instruction specifies a particular attribute set. The following tables show the maximum set of attributes allowed. Subsets of these attribute sets are also allowed, using the MASK bits as selectors for attributes in the particular attribute set. The format of the attribute sets is described in “Set Current Defaults (SCD) Instruction” on page 66.
+Defaults can be set by the appropriate Set Current Defaults instructions. For a complete description of this instruction, see “Set Current Defaults (SCD) Instruction”. Each occurrence of the Set Current
+Defaults instruction specifies a particular attribute set. The following tables show the maximum set of attributes allowed. Subsets of these attribute sets are also allowed, using the MASK bits as selectors for attributes in the particular attribute set. The format of the attribute sets is described in “Set Current Defaults (SCD) Instruction”.
 In the tables below , two possibilities exist. If the FLAG byte equals X'8F', the LENGTH byte would be specified as the second value shown, and the values shown in bytes 6-n would be specified as shown. If the FLAG byte instead equals X'0F', the LENGTH byte would be specified as the first value shown (that is, 4), and bytes 6-n would not be specified.
 Set Current Defaults—Drawing Attributes
 | Offset | Type | Name | Range | Meaning |
@@ -140,7 +140,7 @@ Set Current Defaults—Drawing Attributes
 | 5 | CODE | FLAG | X'0F', | X'8F' |
 | X'0F' | Use | standard | | default |
 | X'8F' | Use | values | in | bytes 6-n |
-| 6-7 | CODE | COLOR | See | Table 5 on page 15 Color |
+| 6-7 | CODE | COLOR | See | Table 5 Color |
 | 8 | CODE | FORMIX | X'00', | X'02' Foreground mix |
 | 9 | CODE | BACKMIX | X'00', | X'05' Background mix |
 | Set | Current | Defaults—Line | | Attributes |
@@ -185,7 +185,7 @@ Set Current Defaults—Character Attributes
 | X'8F' | Use | values | in | bytes 6-n |
 | 6-9 | SBIN | CELLSIZE | X'8000'-X'7FFF' | Marker cell-size width, height |
 | 10 | CODE | PREC | X'00'-X'02' | Marker precision (obsolete, see Appendix |
-| C, | “AFP | GOCA | Migration | Functions”, on page 195) |
+| C, | “AFP | GOCA | Migration | Functions” |
 | 1 | 1 | CODE | SET | X'00' Marker set |
 | 12 | CODE | SYMBOL | X'00'-X'0A', | X'40' Marker symbol |
 
@@ -257,7 +257,7 @@ Because this environment does not support the calling of segments, all segments 
 The GAD structured field is optional in a MO:DCA graphics object and may be repeated multiple times.
 Structured Field Introducer
 SF Length X'D3EEBB' Flags Reserved Begin Segment commands followed by segment data in the form of drawing orders
-Syntax and semantics for the Begin Segment command are described in “Begin Segment Command” on page 75.
+Syntax and semantics for the Begin Segment command are described in “Begin Segment Command”.
 GOCA Subsets within the MO:DCA Environment
 GOCA objects in MO:DCA documents must comply with the architecture described in this Reference. MO:DCA interchange sets may restrict the GOCA content in GOCA objects.
 In the MO:DCA architecture, for any of the color attribute-setting orders, there are no color values that are required to be supported. These color orders can specify any of the values allowed by the architecture. If a receiver does not support the requested value, an exception condition is optionally raised and the standard action is performed; that is, a device-dependent color is used.

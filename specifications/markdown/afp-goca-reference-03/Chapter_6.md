@@ -4,10 +4,10 @@ This chapter describes:
 • Drawing processor facilities, including - Current attributes - Drawing process controls
 Control Instructions
 The controlling environment communicates with the graphics processor by means of control instructions and drawing process controls. Control instructions are embedded in environment-dependent carriers in AFP GOCA as follows:
-• When the graphics object is carried in a MO:DCA data stream, the carrier is a Graphics Data Descriptor (GDD) structured field; for more information, see Appendix A, “Mixed Object Document Content Architecture (MO:DCA) Environment”, on page 179.
+• When the graphics object is carried in a MO:DCA data stream, the carrier is a Graphics Data Descriptor (GDD) structured field; for more information, see Appendix A, “Mixed Object Document Content Architecture (MO:DCA) Environment”.
 • When the graphics object is carried in an IPDS data stream, the carrier is a Graphics Data Descriptor self- defining field in the Wr ite Graphics Control (WGC) command; for more information, see Appendix B,
-“Intelligent Printer Data Stream (IPDS) Environment”, on page 189.
-Both the GDD and WGC contain the Set Current Defaults control instruction, defined in “Set Current Defaults (SCD) Instruction” on page 66.
+“Intelligent Printer Data Stream (IPDS) Environment”.
+Both the GDD and WGC contain the Set Current Defaults control instruction, defined in “Set Current Defaults (SCD) Instruction”.
 Note: In the MO:DCA environment, if the drawing defaults contain any invalid bits, the processor optionally raises exception condition EC-000A.
 
 ---
@@ -54,7 +54,7 @@ Syntax
 The default value of a given attribute should be specified only once. If specified more than once, the results are implementation dependent; it is recommended that future implementations use the last-specified value.
 Notes:
 1. When the integral part of the line width attribute is set, the fractional part is reset to zero. See “Line
-Attributes” on page 29 for a description of the Line Width attribute.
+Attributes” for a description of the Line Width attribute.
 2. The format of the DATA field is the same as the corresponding data in the attribute setting drawing orders.
 Drawing Attributes (SET=X'00')
 Mask bit Item name Length (bytes) 0 Color 2 1 Reserved; must be zero N/A 2 Foreground mix 1 3 Background mix 1 4-15 Reserved; must be zeros N/A
@@ -70,7 +70,7 @@ Set Current Defaults Instruction
 ---
 
 Marker Attributes (SET=X'03')
-Mask bit Item name Length (bytes) 0 Reserved; must be zero N/A 1 Marker cell-size width, height 4 2 Reserved; must be zero N/A 3 Marker precision (obsolete, see Appendix C, “AFP GOCA Migration Functions”, on page 195) 1 4 Marker set 1 5-6 Reserved; must be zeros N/A 7 Marker symbol 1 8-15 Reserved; must be zeros N/A
+Mask bit Item name Length (bytes) 0 Reserved; must be zero N/A 1 Marker cell-size width, height 4 2 Reserved; must be zero N/A 3 Marker precision (obsolete, see Appendix C, “AFP GOCA Migration Functions”) 1 4 Marker set 1 5-6 Reserved; must be zeros N/A 7 Marker symbol 1 8-15 Reserved; must be zeros N/A
 Pattern Attributes (SET=X'04')
 Mask bit Item name Length (bytes) 0-3 Reserved; must be zeros N/A 4 Pattern Set 1 5-6 Reserved; must be zeros N/A 7 Pattern Symbol 1 8-10 Reserved; must be zeros N/A 1 1 Pattern Reference Point 4 12-15 Reserved; must be zeros N/A
 Arc Parameters (SET=X'0B')
@@ -127,8 +127,8 @@ Initiation
 Drawing Process Controls
 The following controls manage various aspects of the drawing process:
 Parameter type The format of the parameters in the drawing orders. These controls are described in
-“Parameter Type” on page 71.
-Arc parameters Values used as parameters when drawing circles or ellipses. These controls are described in “Set Arc Parameters (GSAP) Order” on page 130.
+“Parameter Type”.
+Arc parameters Values used as parameters when drawing circles or ellipses. These controls are described in “Set Arc Parameters (GSAP) Order”.
 Drawing defaults exist for each drawing process control. The defaults are maintained by the processor , and they are set to the standard defaults, or to the current defaults provided by the environment, whenever the processor is invoked.
 Drawing Processor Facilities
 

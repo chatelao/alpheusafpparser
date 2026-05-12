@@ -99,7 +99,7 @@ Drawing orders are defined for each of the following types of output primitive:
 | **Pattern** | A symbol that is repeated to fill an area. |
 | **Image** | A rectangular area containing a set of foreground and background points. |
 
-A summary list of the Drawing Orders is given in “Summary List of Orders” on page 80.
+A summary list of the Drawing Orders is given in “Summary List of Orders”.
 
 ### Attributes
 
@@ -202,7 +202,7 @@ The GPS is the space in which the application user's view of the specified pictu
       -Yg
 ```
 
-AFP GOCA uses 16-bit signed integers to specify GPS coordinates. A point outside GPS is characterized by a 2-byte arithmetic overflow. For a definition of the geometric parameter format used in AFP GOCA, see “Parameter Type” on page 71 and “Drawing Order Subset” on page 181.
+AFP GOCA uses 16-bit signed integers to specify GPS coordinates. A point outside GPS is characterized by a 2-byte arithmetic overflow. For a definition of the geometric parameter format used in AFP GOCA, see “Parameter Type” and “Drawing Order Subset”.
 ### Usable Area (UA)
 
 The usable area is a presentation space and coordinate system defined by the controlling environment. It is the space in which the implementation presents the picture to the end user, and merges the GPS with other presentation spaces in the device.
@@ -307,7 +307,7 @@ GOCA supports the functional requirements of a wide spectrum of graphics devices
 *   **Drawing Level 2 Version 0 (DR/2V0).** The DR/2V0 subset is also referred to as “GRS2”.
 *   **Graphics Subset Level 3 (GRS3).** The GRS3 subset includes additional functionality above DR/2V0.
 
-These subsets are supported in both the MO:DCA and IPDS environments. See Chapter 9, “Compliance”, on page 175 for details of these subsets.
+These subsets are supported in both the MO:DCA and IPDS environments. See Chapter 9, “Compliance” for details of these subsets.
 
 ## Exception Conditions
 
