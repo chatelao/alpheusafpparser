@@ -66,9 +66,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ✅ Loaded-Font Command-Set Vectors.
             - ✅ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ✅ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, PQC, RRL (Table 29), RSNL.
-            - ⏳ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
+            - ✅ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
             - ⏳ XOH Obtain Printer Characteristics (OPC): Table 33 and all SDFs (Tables 34–35).
-            - ⏳ XOH orders: PCC, PBD, RSPG, SIMS, SMM, SCF, SMO, SMS.
+            - ✅ XOH orders: PCC, PBD, RSPG, SIMS.
+            - ⏳ XOH orders: SMM, SCF, SMO, SMS.
             - ⏳ XOH Specify Group Operation (SGO).
             - ⏳ XOH Trace (TRC): Table 36 and all Trace Entry syntaxes.
         - ⏳ Text Command Set (Chapter 5).

@@ -6954,20 +6954,10 @@ from the group is called for in an ISP command, the group is activated and can n
 XOA-RRL command can be used to find out what saved page groups the printer currently has. Using the XOA-
 RRL command to query a saved page group does not activate the group, but it does alert the printer that the
 group is likely to be activated soon.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0200' Deactivate Saved Page Group (DSPG) order
-code
-X'0200'
-2 to
-end of
-DSPG
-Triplets Zero or more Group ID (X'00') triplets:
-X'00' Group ID triplet with variable-length
-group ID
-Bytes 0–1 DSPG order code
-Bytes 2 to end
-of command
-Zero or more triplets
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0200' | Deactivate Saved Page Group (DSPG) order code | X'0200' |
+| 2 to end | Triplets | | | Zero or more Group ID (X'00') triplets:<ul><li>X'00' Group ID triplet with variable-length group ID</li></ul> | |
 The Deactivate Saved Page Group triplets are fully described in the triplets chapter:
 “Group ID (X'00') Triplet”
 
@@ -7026,37 +7016,16 @@ supported.
 In most cases, group operations apply to all of the pages of a group including those pages within nested
 groups; however some group operations are incompatible with each other. In this case, the operation on the
 inner group is ignored. The various combinations are shown in the following table:
-**Table 31**. Group Operation Nesting
-Outer Group Operation
-Inner Group Operation
-Keep
-Group
-Together
-as a Print
-Unit
-Keep
-Group
-Together
-as a
-Recovery
-Unit
-Keep
-Group
-Together
-for
-Microfilm
-Output
-Save
-Pages
-Finish Identify
-Named
-Group
-Keep Group Together as a Print Unit OK OK Ignored OK OK OK
-Keep Group Together as a Recovery Unit Ignored Ignored Ignored OK OK OK
-Keep Group Together for Microfilm Output Ignored OK OK OK Ignored OK
-Save Pages Ignored Ignored Ignored OK Ignored OK
-Finish OK OK Ignored OK OK OK
-Identify Named Group OK OK OK OK OK OK
+**Table 31. Group Operation Nesting**
+
+| Inner Group Operation \ Outer Group Operation | Keep Group Together as a Print Unit | Keep Group Together as a Recovery Unit | Keep Group Together for Microfilm Output | Save Pages | Finish | Identify Named Group |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| Keep Group Together as a Print Unit | OK | OK | Ignored | OK | OK | OK |
+| Keep Group Together as a Recovery Unit | Ignored | Ignored | Ignored | OK | OK | OK |
+| Keep Group Together for Microfilm Output | Ignored | OK | OK | OK | Ignored | OK |
+| Save Pages | Ignored | Ignored | Ignored | OK | Ignored | OK |
+| Finish | OK | OK | Ignored | OK | OK | OK |
+| Identify Named Group | OK | OK | OK | OK | OK | OK |
 Multiple operations can also be applied to a single group level by specifying multiple XOH-SGO commands;
 **Figure 61** shows an example of this with group level = X'20'. In addition, some operations (such
 as finishing) can be applied to a group multiple times by specifying multiple group-operation triplets on the
@@ -7151,30 +7120,13 @@ Results:
 
 
 The format of the XOH-DGB command is as follows:
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0400' Define Group Boundary (DGB) order code X'0400'
-2 CODE Order type
-X'00'
-X'01'
-DGB order type:
-Initiate group
-Terminate group
-X'00'
-X'01'
-3 UBIN Group level X'00'–X'FF' Group level X'00'–X'FF'
-4 to
-end of
-cmnd
-Triplets See byte
-description.
-Zero or more triplets:
-X'00' Group ID triplet
-X'01' CGCSGID triplet
-X'6E' Group Information triplet
-X'85' Finishing Operation triplet
-X'8E' UP3I Finishing Operation triplet
-See byte
-description.
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0400' | Define Group Boundary (DGB) order code | X'0400' |
+| 2 | CODE | Order type | X'00' or X'01' | DGB order type:<ul><li>X'00' Initiate group</li><li>X'01' Terminate group</li></ul> | X'00' or X'01' |
+| 3 | UBIN | Group level | X'00'–X'FF' | Group level | X'00'–X'FF' |
+| 4 to end | Triplets | | | Zero or more triplets:<ul><li>X'00' Group ID triplet</li><li>X'01' CGCSGID triplet</li><li>X'6E' Group Information triplet</li><li>X'85' Finishing Operation triplet</li><li>X'8E' UP3I Finishing Operation triplet</li></ul> | |
 Bytes 0-1 DGB order code
 Byte 2 DGB order type
 This byte identifies the type of boundary being defined. Valid values are X'00' and X'01'. X'00'
@@ -7213,48 +7165,16 @@ a group boundary to those in the XOH-DGB command that terminates the group bound
 Each group operation defines the relationship among the triplets.
 
 
-**Table 32**. Triplets Used With Each Group Operation
-Group Operation Triplets Used Triplet Formats
-Keep group together
-as a print unit
-Group ID (X'00') triplet
-Group Information (X'6E') triplet
-MVS and VSE print-data format
-VM print-data format
-OS/400 print-data format
-Extended OS/400 print-data format
-AIX® and Windows® print-data format
-Copy set number format
-Extended copy set number format
-Page count format
-Keep Group
-Together as a
-Recovery Unit
-Group Information (X'6E') triplet Group name format (one)
-Additional information format (zero or more)
-Keep group together
-for microfilm output
-Group ID (X'00') triplet
-Group Information (X'6E') triplet
-MVS and VSE COM-data format
-AIX and OS/2 COM-data format
-Microfilm save/restore format
-Save pages Group ID (X'00') triplet
-CGCSGID (X'01') triplet
-Variable-length group ID format
-GCSGID/CPGID format
-CCSID format
-Finish Finishing operation (X'85') triplet
-UP
-3I Finishing operation (X'8E') triplet
-AFP finishing format (triplet X'85')
-UP3I finishing format (triplet X'8E')
-Identify named group Group Information (X'6E') triplet
-CGCSGID (X'01') triplet
-Group name format (one)
-Additional information format (zero or more)
-GCSGID/CPGID format
-CCSID format
+**Table 32. Triplets Used With Each Group Operation**
+
+| Group Operation | Triplets Used | Triplet Formats |
+| :--- | :--- | :--- |
+| Keep group together as a print unit | Group ID (X'00') triplet<br>Group Information (X'6E') triplet | MVS and VSE print-data format<br>VM print-data format<br>OS/400 print-data format<br>Extended OS/400 print-data format<br>AIX® and Windows® print-data format<br>Copy set number format<br>Extended copy set number format<br>Page count format |
+| Keep Group Together as a Recovery Unit | Group Information (X'6E') triplet | Group name format (one)<br>Additional information format (zero or more) |
+| Keep group together for microfilm output | Group ID (X'00') triplet<br>Group Information (X'6E') triplet | MVS and VSE COM-data format<br>AIX and OS/2 COM-data format<br>Microfilm save/restore format |
+| Save pages | Group ID (X'00') triplet<br>CGCSGID (X'01') triplet | Variable-length group ID format<br>GCSGID/CPGID format<br>CCSID format |
+| Finish | Finishing operation (X'85') triplet<br>UP3I Finishing operation (X'8E') triplet | AFP finishing format (triplet X'85')<br>UP3I finishing format (triplet X'8E') |
+| Identify named group | Group Information (X'6E') triplet<br>CGCSGID (X'01') triplet | Group name format (one)<br>Additional information format (zero or more)<br>GCSGID/CPGID format<br>CCSID format |
 Printers ignore any triplet that is not supported and no exception is reported. If byte 4 or the
 first byte after a triplet is X'00' or X'01' (an invalid triplet length), exception ID X'027A..01'
 exists.
@@ -7375,8 +7295,9 @@ Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 This order is not cumulative; consecutive EFF orders produce the same effect as a single order.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'1300' Eject to Front Facing (EFF) order code X'1300'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'1300' | Eject to Front Facing (EFF) order code | X'1300' |
 
 
 XOH Erase Residual Font Data
@@ -7409,8 +7330,9 @@ activated by the LFE command.
 Note: The XOH-ERFD command is a synchronizing command. Any command following a synchronizing
 command is not processed until all preceding commands have been completely processed. Also, the
 ACK of the XOH-ERFD command is not returned until the command's processing is complete.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0700' Erase Residual Font Data (ERFD) order code X'0700'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0700' | Erase Residual Font Data (ERFD) order code | X'0700' |
 
 
 XOH Erase Residual Print Data
@@ -7439,8 +7361,9 @@ on AR entries or on setup files.
 Note: The XOH-ERPD command is a synchronizing command. Any command following a synchronizing
 command is not processed until all preceding commands have been completely processed. Also, the
 ACK of the XOH-ERPD command is not returned until the command's processing is complete.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0500' Erase Residual Print Data (ERPD) order code X'0500'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0500' | Erase Residual Print Data (ERPD) order code | X'0500' |
 
 
 XOH Obtain Printer Characteristics
@@ -9801,11 +9724,10 @@ sheet. This occurs whether or not cut-sheet emulation mode is in effect.
 Note: PCC is a synchronizing command. Any command following a PCC is not processed until the PCC and
 all preceding commands have been completely processed. Also, the ACK of the PCC order is not
 returned until PCC processing is complete.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'F500' Page Counters Control (PCC) order code X'F500'
-2 CODE Counter
-update
-X'00'–X'02' Page counter update X'00'–X'01'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'F500' | Page Counters Control (PCC) order code | X'F500' |
+| 2 | CODE | Counter update | X'00'–X'02' | Page counter update | X'00'–X'01' |
 Bytes 0–1 Page counter control order code
 Byte 2 Page counter update
 This byte specifies how the printer is to update the page counters by:
@@ -9840,8 +9762,9 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 The Print Buffered Data order is a synchronizing command. Any command following a synchronizing command
 is not processed until all preceding commands have been completely processed. In addition, the ACK of the
 PBD order is not returned until PBD processing is complete.
-Offset Type Name Range Meaning DC1 Range
-0–1 CODE Order code X'0100' Print Buffered Data (PBD) order code X'0100'
+| Offset | Type | Name | Range | Meaning | DC1 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0100' | Print Buffered Data (PBD) order code | X'0100' |
 
 
 XOH Remove Saved Page Group
@@ -9866,20 +9789,10 @@ The XOH-RSPG command instructs the printer to remove a saved page group, but the
 immediate. If prior to receiving the remove command, pages from the group are included (using an ISP
 command) in pages to be printed, the saved page group is not removed until all of those pages are printed and
 stacked.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0A00' Remove Saved Page Group (RSPG) order
-code
-X'0A00'
-2 to
-end of
-RSPG
-Triplets Zero or more Group ID triplets:
-X'00' Group ID triplet with variable-length
-group ID
-Bytes 0–1 RSPG order code
-Bytes 2 to end
-of command
-Zero or more triplets
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0A00' | Remove Saved Page Group (RSPG) order code | X'0A00' |
+| 2 to end | Triplets | | | Zero or more Group ID triplets:<ul><li>X'00' Group ID triplet with variable-length group ID</li></ul> | |
 The Remove Saved Page Group triplets are fully described in the triplets chapter:
 “Group ID (X'00') Triplet”
 Group ID (X'00') Triplet Considerations
@@ -9913,10 +9826,10 @@ media-source ID for a copy subgroup overrides a previously received XOH-SIMS com
 subgroup. When a copy subgroup within an LCC command does not specify a media-source ID, media is
 selected from the media source specified by the previously received XOH-SIMS command or, if no XOH-SIMS
 command has been received, from the printer-default media source.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'1500' Select Input Media Source (SIMS) order code X'1500'
-2 CODE Source ID X'00'–X'FF' Input media source ID See byte
-description.
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'1500' | Select Input Media Source (SIMS) order code | X'1500' |
+| 2 | CODE | Source ID | X'00'–X'FF' | Input media source ID | See byte description. |
 Bytes 0–1 SIMS order code
 Byte 2 Input media source ID
 This byte specifies the input media source ID to be used. All input media source IDs reported
