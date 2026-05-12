@@ -466,6 +466,40 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
+  public static class GSPIK_SetPickIdentifier extends GAD_DrawingOrder {
+    @AFPField
+    short pickIdentifier;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      pickIdentifier = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(drawingOrderType);
+      os.write(pickIdentifier);
+    }
+  }
+
+  public static class GESEG_EndSegment extends GAD_DrawingOrder {
+    @AFPField
+    short reserved0 = 0x00;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      reserved0 = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(drawingOrderType);
+      os.write(reserved0);
+    }
+  }
+
   public static class GSLW_SetLineWidth extends GAD_DrawingOrder {
     @AFPField
     short lineWidth;
@@ -578,6 +612,59 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       public int toByte() {
         return ordinal();
       }
+    }
+  }
+
+  public static class GSCLT_SetCustomLineType extends GAD_DrawingOrder {
+    @AFPField
+    short lengthOfFollowingData;
+    @AFPField
+    List<DashMoveRepeatingGroup> repeatingGroups;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+
+      if (lengthOfFollowingData > 0) {
+        repeatingGroups = new ArrayList<DashMoveRepeatingGroup>();
+        int pos = 0;
+        while (pos < lengthOfFollowingData) {
+          DashMoveRepeatingGroup rg = new DashMoveRepeatingGroup();
+          rg.dashInteger = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos, 1);
+          rg.dashFractional = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 1, 1);
+          rg.moveInteger = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 2, 1);
+          rg.moveFractional = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 3, 1);
+          repeatingGroups.add(rg);
+          pos += 4;
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = (short) (repeatingGroups != null ? repeatingGroups.size() * 4 : 0);
+      os.write(drawingOrderType);
+      os.write(lengthOfFollowingData);
+      if (repeatingGroups != null) {
+        for (DashMoveRepeatingGroup rg : repeatingGroups) {
+          os.write(rg.dashInteger);
+          os.write(rg.dashFractional);
+          os.write(rg.moveInteger);
+          os.write(rg.moveFractional);
+        }
+      }
+    }
+
+    public static class DashMoveRepeatingGroup {
+      @AFPField
+      short dashInteger;
+      @AFPField
+      short dashFractional;
+      @AFPField
+      short moveInteger;
+      @AFPField
+      short moveFractional;
     }
   }
 
@@ -1203,6 +1290,89 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
      */
     public void setReserved0(short reserved_0x00) {
       this.reserved0 = reserved_0x00;
+    }
+  }
+
+  public static class GBCP_BeginCustomPattern extends GAD_DrawingOrder {
+    @AFPField
+    short lengthOfFollowingData = 0x0D;
+    @AFPField
+    short reserved2_3 = 0x0000;
+    @AFPField
+    short flags;
+    @AFPField
+    short patternSet;
+    @AFPField
+    short patternSymbol;
+    @AFPField
+    short xLeftWindow;
+    @AFPField
+    short xRightWindow;
+    @AFPField
+    short yBottomWindow;
+    @AFPField
+    short yTopWindow;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      reserved2_3 = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      flags = UtilBinaryDecoding.parseShort(sfData, offset + 4, 1);
+      patternSet = UtilBinaryDecoding.parseShort(sfData, offset + 5, 1);
+      patternSymbol = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
+      xLeftWindow = UtilBinaryDecoding.parseShort(sfData, offset + 7, 2);
+      xRightWindow = UtilBinaryDecoding.parseShort(sfData, offset + 9, 2);
+      yBottomWindow = UtilBinaryDecoding.parseShort(sfData, offset + 11, 2);
+      yTopWindow = UtilBinaryDecoding.parseShort(sfData, offset + 13, 2);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(drawingOrderType);
+      os.write(lengthOfFollowingData);
+      os.write(UtilBinaryDecoding.shortToByteArray(reserved2_3, 2));
+      os.write(flags);
+      os.write(patternSet);
+      os.write(patternSymbol);
+      os.write(UtilBinaryDecoding.shortToByteArray(xLeftWindow, 2));
+      os.write(UtilBinaryDecoding.shortToByteArray(xRightWindow, 2));
+      os.write(UtilBinaryDecoding.shortToByteArray(yBottomWindow, 2));
+      os.write(UtilBinaryDecoding.shortToByteArray(yTopWindow, 2));
+    }
+  }
+
+  public static class GDPT_DeletePattern extends GAD_DrawingOrder {
+    @AFPField
+    short lengthOfFollowingData;
+    @AFPField
+    short reserved2_3 = 0x0000;
+    @AFPField
+    short patternSet;
+    @AFPField(isOptional = true)
+    Short patternSymbol;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      reserved2_3 = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      patternSet = UtilBinaryDecoding.parseShort(sfData, offset + 4, 1);
+      if (lengthOfFollowingData == 4) {
+        patternSymbol = UtilBinaryDecoding.parseShort(sfData, offset + 5, 1);
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = (short) (patternSymbol != null ? 4 : 3);
+      os.write(drawingOrderType);
+      os.write(lengthOfFollowingData);
+      os.write(UtilBinaryDecoding.shortToByteArray(reserved2_3, 2));
+      os.write(patternSet);
+      if (patternSymbol != null) {
+        os.write(patternSymbol);
+      }
     }
   }
 
@@ -2628,6 +2798,20 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     public void setExtendedData(byte[] extendedData) {
       this.extendedData = extendedData;
       lengthOfFollowingData = extendedData != null ? extendedData.length : 0;
+    }
+  }
+
+  public static class GLGD_LinearGradient extends GEXO_ExtendedOrder {
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
+    }
+  }
+
+  public static class GRGD_RadialGradient extends GEXO_ExtendedOrder {
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
     }
   }
 
