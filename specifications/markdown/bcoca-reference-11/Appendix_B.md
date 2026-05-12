@@ -26,15 +26,17 @@ The following sections describe two structured fields: Bar Code Data Descriptor 
 Bar Code Data Descriptor (BDD)
 The BDD specifies the size of the bar code presentation space, the type of bar code to be generated, and the
 parameters used to generate the bar code symbols.
-Table 37. MO:DCA Bar Code Data Descriptor (BDD)
-Structured Field Introducer
-SF Length SF Identifier
-X'D3A6EB'
-Flags Reserved
-(2 bytes); should
-be X'0000'
-Bar Code Symbol Descriptor followed by zero
-or one Color Specification (X'4E') triplets
+### Table 37. MO:DCA Bar Code Data Descriptor (BDD)
+
+| Item | Value |
+| :--- | :--- |
+| **Structured Field Introducer** | |
+| SF Length | |
+| SF Identifier | X'D3A6EB' |
+| Flags | |
+| Reserved | (2 bytes); should be X'0000' |
+| **Structured Field Data** | |
+| Data | Bar Code Symbol Descriptor followed by zero or one Color Specification (X'4E') triplets |
 The data portion of the BDD structured field is defined in “Bar Code Symbol Descriptor (BSD)” .
 When a Color Specification (X'4E') triplet is present in the BDD, this triplet overrides the color value specified in
 BSD bytes 15-16.
@@ -49,14 +51,17 @@ presentation space, parameters to specify special functions for 2D bar codes, fl
 specific to the symbol, and the data to be encoded. The data is encoded according to the parameters specified
 in the Bar Code Data Descriptor (BDD) structured field.
 The format of the BDA structured field follows:
-Table 38. MO:DCA Bar Code Data (BDA)
-Structured Field Introducer
-SF Length SF Identifier
-X'D3EEEB'
-Flags Reserved
-(2 bytes); should
-be X'0000'
-Bar Code Symbol Data
+### Table 38. MO:DCA Bar Code Data (BDA)
+
+| Item | Value |
+| :--- | :--- |
+| **Structured Field Introducer** | |
+| SF Length | |
+| SF Identifier | X'D3EEEB' |
+| Flags | |
+| Reserved | (2 bytes); should be X'0000' |
+| **Structured Field Data** | |
+| Data | Bar Code Symbol Data |
 The data portion of the BDA structured field is described in “Bar Code Symbol Data (BSA)” .
 Application Note: In AFP environments, some applications use reserved bytes 6–7 of the Structured Field
 Introducer to specify a sequence number for the structured field. This is an unarchitected use of these

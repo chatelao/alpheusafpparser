@@ -149,7 +149,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 1: Symbologies X'01'–X'11'.
         - ✅ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 2: Symbologies X'16'–X'27'.
         - ✅ Chapter 4: Table 36 (Characters and Code Points).
-        - ⏳ Appendices B (MO:DCA), C (IPDS).
+        - ✅ Appendices B (MO:DCA), C (IPDS).
 - 🚧 **IOCA**:
     - ✅ Remove physical page references ("on page XXX"):
         - ✅ Chapter 3.

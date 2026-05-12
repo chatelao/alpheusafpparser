@@ -45,29 +45,15 @@ contained within the bar code object area.
 3. Bar Code Data Descriptor (BCDD) defines the bar code presentation space size, the bar code type to be
 generated, and other associated bar code symbology parameters.
 The following defines the format of the BCDD:
-Table 39. IPDS Bar Code Data Descriptor (BCDD)
-Offset Type Name Range Meaning BCD1 Range BCD2 Range
-0–1 UBIN LENGTH X'001B' –
-end of BCDD
-Length of BCDD X'001B' – end of
-BCDD
-X'001B' – end of
-BCDD
-2–3 CODE SDF ID X'A6EB' BCDD Self-defining-field ID X'A6EB' X'A6EB'
-4–26 UNDF BSD Bar Code Symbol Descriptor See “Bar Code Symbol Descriptor (BSD)” for parameter definitions.
-27–
-end
-Triplets Zero or more optional triplets;
-not all IPDS printers support
-these triplets.
-X'4E' Color Specification
-triplet
-Triplets not
-supported in
-BCD1
-Color
-Specification
-(X'4E') triplet
+### Table 39. IPDS Bar Code Data Descriptor (BCDD)
+
+| Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | LENGTH | X'001B' – end of BCDD | Length of BCDD | X'001B' – end of BCDD | X'001B' – end of BCDD |
+| 2–3 | CODE | SDF ID | X'A6EB' | BCDD Self-defining-field ID | X'A6EB' | X'A6EB' |
+| 4–26 | UNDF | BSD | | Bar Code Symbol Descriptor; see “Bar Code Symbol Descriptor (BSD)” for parameter definitions. | | |
+| 27–end | | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets. | Triplets not supported in BCD1 | |
+| | | | X'4E' | Color Specification triplet | | Color Specification (X'4E') triplet |
 When a Color Specification (X'4E') triplet is present in the BCDD, this triplet overrides the color value specified
 in BSD bytes 15-16. If multiple X'4E' triplets are specified, the last one specified is used and the others are
 ignored. Printers that do not support extended bar code color support ignore all X'4E' triplets.
@@ -131,93 +117,85 @@ Architecture also defines its own exception responses (called AEAs and PCAs). In
 response is the same as the standard action defined by BCOCA. Where it is not, the IPDS exception response
 overrides the BCOCA standard action. T able 40shows the mapping of BCOCA exception conditions to IPDS
 exception IDs.
-Table 40. BCOCA Exception Conditions and IPDS Exception IDs
-BCOCA Exception Condition IPDS Exception ID
-EC-0300 X'0403..00'
-EC-0400 X'0404..00'
-EC-0500 X'0405..00'
-EC-0505 X'0205..05'
-EC-0600 X'0406..00'
-EC-0605 X'0206..05'
-EC-0610 X'0406..10'
-EC-0611 X'0406..11'
-EC-0700 X'0407..00'
-EC-0705 X'0207..05'
-EC-0800 X'0408..00'
-EC-0805 X'0408..05'
-EC-0900 X'0409..00'
-EC-0A00 X'040A..00'
-EC-0B00 X'040B..00'
-EC-0C00 X'040C..00'
-EC-0E00 X'040E..00'
-EC-0F00 X'040F ..00'
-EC-0F01 X'040F ..01'
-EC-0F02 X'040F ..02'
-EC-0F03 X'040F ..03'
-EC-0F04 X'040F ..04'
-EC-0F05 X'040F ..05'
-EC-0F06 X'040F ..06'
-EC-0F07 X'040F ..07'
-EC-0F08 X'040F ..08'
-EC-0F09 X'040F ..09'
-EC-0F0A X'040F ..0A'
-EC-0F0B X'040F ..0B'
-EC-0F0C X'040F ..0C'
-IPDS Environment
+### Table 40. BCOCA Exception Conditions and IPDS Exception IDs
 
-
-Table 40 BCOCA Exception Conditions and IPDS Exception IDs (cont'd.)
-BCOCA Exception Condition IPDS Exception ID
-EC-0F0D X'040F ..0D'
-EC-0F0E X'040F ..0E'
-EC-0F0F X'040F ..0F'
-EC-0F10 X'040F ..10'
-EC-0F11 X'040F ..11'
-EC-0F12 X'040F ..12'
-EC-0F13 X'040F ..13'
-EC-0F14 X'040F ..14'
-EC-0F15 X'040F ..15'
-EC-0F16 X'040F ..16'
-EC-0F17 X'040F ..17'
-EC-0F18 X'040F ..18'
-EC-0F19 X'040F ..19'
-EC-0F1A X'040F ..1A'
-EC-0F1B X'040F ..1B'
-EC-0F1C X'040F ..1C'
-EC-0F1D X'040F ..1D'
-EC-0F1E X'040F ..1E'
-EC-0F20 X'040F ..20'
-EC-0F21 X'040F ..21'
-EC-0F22 X'040F ..22'
-EC-0F23 X'040F ..23'
-EC-0F24 X'040F ..24'
-EC-0F25 X'040F ..25'
-EC-0F30 X'040F ..30'
-EC-0F31 X'040F ..31'
-EC-0F32 X'040F ..32'
-EC-0F33 X'040F ..33'
-EC-0F34 X'040F ..34'
-EC-0F35 X'040F ..35'
-EC-0F36 X'040F ..36'
-EC-0F37 X'040F ..37'
-EC-0F38 X'040F ..38'
-EC-0F39 X'040F ..39'
-EC-0F3A X'040F ..3A'
-EC-0F3B X'040F ..3B'
-EC-1000 X'0410..00'
-EC-1100 X'0411..00'
-IPDS Environment
-
-
-Table 40 BCOCA Exception Conditions and IPDS Exception IDs (cont'd.)
-BCOCA Exception Condition IPDS Exception ID
-EC-1200 X'0412..00'
-EC-1201 X'0412..01'
-EC-1202 X'0412..02'
-EC-1203 X'0412..03'
-EC-1204 X'0412..04'
-EC-1205 X'0412..05'
-EC-2100 X'0821..00'
+| BCOCA Exception Condition | IPDS Exception ID |
+| :--- | :--- |
+| EC-0300 | X'0403..00' |
+| EC-0400 | X'0404..00' |
+| EC-0500 | X'0405..00' |
+| EC-0505 | X'0205..05' |
+| EC-0600 | X'0406..00' |
+| EC-0605 | X'0206..05' |
+| EC-0610 | X'0406..10' |
+| EC-0611 | X'0406..11' |
+| EC-0700 | X'0407..00' |
+| EC-0705 | X'0207..05' |
+| EC-0800 | X'0408..00' |
+| EC-0805 | X'0408..05' |
+| EC-0900 | X'0409..00' |
+| EC-0A00 | X'040A..00' |
+| EC-0B00 | X'040B..00' |
+| EC-0C00 | X'040C..00' |
+| EC-0E00 | X'040E..00' |
+| EC-0F00 | X'040F..00' |
+| EC-0F01 | X'040F..01' |
+| EC-0F02 | X'040F..02' |
+| EC-0F03 | X'040F..03' |
+| EC-0F04 | X'040F..04' |
+| EC-0F05 | X'040F..05' |
+| EC-0F06 | X'040F..06' |
+| EC-0F07 | X'040F..07' |
+| EC-0F08 | X'040F..08' |
+| EC-0F09 | X'040F..09' |
+| EC-0F0A | X'040F..0A' |
+| EC-0F0B | X'040F..0B' |
+| EC-0F0C | X'040F..0C' |
+| EC-0F0D | X'040F..0D' |
+| EC-0F0E | X'040F..0E' |
+| EC-0F0F | X'040F..0F' |
+| EC-0F10 | X'040F..10' |
+| EC-0F11 | X'040F..11' |
+| EC-0F12 | X'040F..12' |
+| EC-0F13 | X'040F..13' |
+| EC-0F14 | X'040F..14' |
+| EC-0F15 | X'040F..15' |
+| EC-0F16 | X'040F..16' |
+| EC-0F17 | X'040F..17' |
+| EC-0F18 | X'040F..18' |
+| EC-0F19 | X'040F..19' |
+| EC-0F1A | X'040F..1A' |
+| EC-0F1B | X'040F..1B' |
+| EC-0F1C | X'040F..1C' |
+| EC-0F1D | X'040F..1D' |
+| EC-0F1E | X'040F..1E' |
+| EC-0F20 | X'040F..20' |
+| EC-0F21 | X'040F..21' |
+| EC-0F22 | X'040F..22' |
+| EC-0F23 | X'040F..23' |
+| EC-0F24 | X'040F..24' |
+| EC-0F25 | X'040F..25' |
+| EC-0F30 | X'040F..30' |
+| EC-0F31 | X'040F..31' |
+| EC-0F32 | X'040F..32' |
+| EC-0F33 | X'040F..33' |
+| EC-0F34 | X'040F..34' |
+| EC-0F35 | X'040F..35' |
+| EC-0F36 | X'040F..36' |
+| EC-0F37 | X'040F..37' |
+| EC-0F38 | X'040F..38' |
+| EC-0F39 | X'040F..39' |
+| EC-0F3A | X'040F..3A' |
+| EC-0F3B | X'040F..3B' |
+| EC-1000 | X'0410..00' |
+| EC-1100 | X'0411..00' |
+| EC-1200 | X'0412..00' |
+| EC-1201 | X'0412..01' |
+| EC-1202 | X'0412..02' |
+| EC-1203 | X'0412..03' |
+| EC-1204 | X'0412..04' |
+| EC-1205 | X'0412..05' |
+| EC-2100 | X'0821..00' |
 IPDS Environment
 
 
