@@ -31,7 +31,7 @@ GOCA is concerned with the creation and manipulation of pictures built by direct
 
 ## Concepts of GOCA
 
-GOCA effectively defines a graphics subsystem that can exist in, or be invoked by, a number of environments. Each of these controlling environments can be specialized for a particular application area. AFP GOCA is the version of GOCA used to present and interchange graphics pictures in AFP environments. See Appendix A, “Mixed Object Document Content Architecture (MO:DCA) Environment”, on page 179, and Appendix B, “Intelligent Printer Data Stream (IPDS) Environment”, on page 189 for details of these environments.
+GOCA effectively defines a graphics subsystem that can exist in, or be invoked by, a number of environments. Each of these controlling environments can be specialized for a particular application area. AFP GOCA is the version of GOCA used to present and interchange graphics pictures in AFP environments. See Appendix A, “Mixed Object Document Content Architecture (MO:DCA) Environment”, and Appendix B, “Intelligent Printer Data Stream (IPDS) Environment” for details of these environments.
 
 ---
 

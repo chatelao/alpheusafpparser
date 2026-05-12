@@ -126,14 +126,14 @@ Order Formats
 Order Alignment
 Orders can be followed by any number of No-Operation (GNOP1) or Comment (GCOMT) orders, to align the next order on any convenient byte boundary . Orders can be aligned on any byte boundary , although, depending on the implementation, a performance benefit can be obtained if orders are aligned on even-byte boundaries. Note that a drawing order may start in one segment and be completed in an appended segment.
 Current Position in Drawing Orders
-Some orders have two forms. One form uses the current position as one of its coordinate values; the other form does not. See “Current Position” on page 19 for more details.
+Some orders have two forms. One form uses the current position as one of its coordinate values; the other form does not. See “Current Position” for more details.
 Coordinate Data
 Coordinate data is used in orders to specify points in GPS, each point being specified by a set of two parameters, X g and Y g
 . The sequence of parameters in coordinate data is (X g , Y g ); the format of the parameters is 16-bit twos-complement signed binary integers (SBIN). The drawing processor interprets coordinate data and raises an exception condition if the length of the data is not consistent with complete specification of points.
 Offset Data
 Offs et data is used in orders to specify a point in GPS by specifying its offset from a given point. Each point is specified by a set of two parameters. The sequence of parameters in offset data is x,y; the format of the parameters is 8-bit twos-complement signed binary integers (SBIN).
 Default Values
-The defaulting mechanism used is as follows. See also Figure 33 on page 70.
+The defaulting mechanism used is as follows. See also Figure 33.
 • All current attributes and drawing process controls are set to their default values when the environment containing the graphics processor is initialized. These default values are referred to as the standard defaults.
 The standard defaults are either:
 - Environment-dependent values.
@@ -143,86 +143,96 @@ The standard defaults are either:
 • When a drawing process is initiated, the current defaults are copied into a set of defaults called the drawing defaults. These are the defaults that are assumed during the execution of the drawing process.
 The drawing defaults apply during the whole of the drawing process. They cannot be changed by a control instruction while the drawing process is being executed.
 • The current values of the primitive attributes are either set or propagated at the start of a segment. “Current
-Attributes” on page 70 describes how the initial values are determined.
+Attributes” describes how the initial values are determined.
 Default Values
 
 ---
 
 • The current values of the drawing process controls are either set or propagated at the start of a segment.
-“Drawing Process Controls” on page 70 describes how the initial values are determined.
-Summary List of Orders
-Length Hex Order Meaning 1-byte X'00' GNOP1 No-Operation
-Long X'01' GCOMT Comment
-Long X'04' GSGCH Segment Characteristics 2-byte X'08' GSPS Set Pattern Set 2-byte X'0A' GSCOL Set Color 2-byte X'0C' GSMX Set Mix 2-byte X'0D' GSBMX Set Background Mix
-Long X'1 1' GSFL W Set Fractional Line Width 2-byte X'18' GSL T Set Line Type 2-byte X'19' GSL W Set Line Width 2-byte X'1A' GSLE Set Line End 2-byte X'1B' GSLJ Set Line Join
-Long X'20' GSCL T Set Custom Line Type
-Long X'21' GSCP Set Current Position
-Long X'22' GSAP Set Arc Parameters
-Long X'26' GSECOL Set Extended Color 2-byte X'28' GSPT Set Pattern Symbol 2-byte X'29' GSMT Set Marker Symbol
-Long X'33' GSCC Set Character Cell
-Long X'34' GSCA Set Character Angle
-Long X'35' GSCH Set Character Shear
-Long X'37' GSMC Set Marker Cell 2-byte X'38' GSCS Set Character Set 2-byte X'39' GSCR Set Character Precision 2-byte X'3A' GSCD Set Character Direction 2-byte X'3B' GSMP Set Marker Precision (obsolete, see Appendix C, “AFP GOCA
-Migration Functions”, on page 195) 2-byte X'3C' GSMS Set Marker Set 2-byte X'3E' GEPROL End Prolog 2-byte X'5E' GECP End Custom Pattern
-Long X'60' GEAR End Area 2-byte X'68' GBAR Begin Area
-Summary List of Orders
+“Drawing Process Controls” describes how the initial values are determined.
+### Summary List of Orders
+
+| Length | Hex | Order | Meaning |
+| :--- | :--- | :--- | :--- |
+| 1-byte | X'00' | GNOP1 | No-Operation |
+| Long | X'01' | GCOMT | Comment |
+| Long | X'04' | GSGCH | Segment Characteristics |
+| 2-byte | X'08' | GSPS | Set Pattern Set |
+| 2-byte | X'0A' | GSCOL | Set Color |
+| 2-byte | X'0C' | GSMX | Set Mix |
+| 2-byte | X'0D' | GSBMX | Set Background Mix |
+| Long | X'11' | GSFLW | Set Fractional Line Width |
+| 2-byte | X'18' | GSLT | Set Line Type |
+| 2-byte | X'19' | GSLW | Set Line Width |
+| 2-byte | X'1A' | GSLE | Set Line End |
+| 2-byte | X'1B' | GSLJ | Set Line Join |
+| Long | X'20' | GSCLT | Set Custom Line Type |
+| Long | X'21' | GSCP | Set Current Position |
+| Long | X'22' | GSAP | Set Arc Parameters |
+| Long | X'26' | GSECOL | Set Extended Color |
+| 2-byte | X'28' | GSPT | Set Pattern Symbol |
+| 2-byte | X'29' | GSMT | Set Marker Symbol |
+| Long | X'33' | GSCC | Set Character Cell |
+| Long | X'34' | GSCA | Set Character Angle |
+| Long | X'35' | GSCH | Set Character Shear |
+| Long | X'37' | GSMC | Set Marker Cell |
+| 2-byte | X'38' | GSCS | Set Character Set |
+| 2-byte | X'39' | GSCR | Set Character Precision |
+| 2-byte | X'3A' | GSCD | Set Character Direction |
+| 2-byte | X'3B' | GSMP | Set Marker Precision (obsolete) |
+| 2-byte | X'3C' | GSMS | Set Marker Set |
+| 2-byte | X'3E' | GEPROL | End Prolog |
+| 2-byte | X'5E' | GECP | End Custom Pattern |
+| Long | X'60' | GEAR | End Area |
+| 2-byte | X'68' | GBAR | Begin Area |
+| Long | X'80' | GCBOX | Box at Current Position |
+| Long | X'81' | GCLINE | Line at Current Position |
+| Long | X'82' | GCMRK | Marker at Current Position |
+| Long | X'83' | GCCHST | Character String at Current Position |
+| Long | X'85' | GCFLT | Fillet at Current Position |
+| Long | X'87' | GCFARC | Full Arc at Current Position |
+| Long | X'91' | GCBIMG | Begin Image at Current Position |
+| Long | X'92' | GIMD | Image Data |
+| Long | X'93' | GEIMG | End Image |
+| Long | X'A0' | GSPRP | Set Pattern Reference Point |
+| Long | X'A1' | GCRLINE | Relative Line at Current Position |
+| Long | X'A3' | GCPARC | Partial Arc at Current Position |
+| Long | X'A5' | GCCBEZ | Cubic Bezier Curve at Current Position |
+| Long | X'B2' | GSPCOL | Set Process Color |
+| Long | X'C0' | GBOX | Box at Given Position |
+| Long | X'C1' | GLINE | Line at Given Position |
+| Long | X'C2' | GMRK | Marker at Given Position |
+| Long | X'C3' | GCHST | Character String at Given Position |
+| Long | X'C5' | GFLT | Fillet at Given Position |
+| Long | X'C7' | GFARC | Full Arc at Given Position |
+| Long | X'D1' | GBIMG | Begin Image at Given Position |
+| Long | X'DE' | GBCP | Begin Custom Pattern |
+| Long | X'DF' | GDPT | Delete Pattern |
+| Long | X'E1' | GRLINE | Relative Line at Given Position |
+| Long | X'E3' | GPARC | Partial Arc at Given Position |
+| Long | X'E5' | GCBEZ | Cubic Bezier Curve at Given Position |
+| Extended | X'FEDC' | GLGD | Linear Gradient |
+| Extended | X'FEDD' | GRGD | Radial Gradient |
+
+**Architecture Note:** Some AFP printers accept the following drawing orders and process them as No-Ops:
+* Set Pick Identifier (GSPIK, X'43'). This drawing order is in long format.
+* End Segment drawing order (X'71'). This drawing order is in fixed 2-byte format, where the second byte is reserved and should be set to X'00'.
 
 ---
 
-Length Hex Order Meaning
-Long X'80' GCBOX Box at Current Position
-Long X'81' GCLINE Line at Current Position
-Long X'82' GCMRK Marker at Current Position
-Long X'83' GCCHST Character String at Current Position
-Long X'85' GCFL T Fillet at Current Position
-Long X'87' GCF ARC Full Arc at Current Position
-Long X'91' GCBIMG Begin Image at Current Position
-Long X'92' GIMD Image Data
-Long X'93' GEIMG End Image
-Long X'A0' GSPRP Set Pattern Reference Point
-Long X'A1' GCRLINE Relative Line at Current Position
-Long X'A3' GCP ARC Partial Arc at Current Position
-Long X'A5' GCCBEZ Cubic Bezier Curve at Current Position
-Long X'B2' GSPCOL Set Process Color
-Long X'C0' GBOX Box at Given Position
-Long X'C1' GLINE Line at Given Position
-Long X'C2' GMRK Marker at Given Position
-Long X'C3' GCHST Character String at Given Position
-Long X'C5' GFL T Fillet at Given Position
-Long X'C7' GF ARC Full Arc at Given Position
-Long X'D1' GBIMG Begin Image at Given Position
-Long X'DE' GBCP Begin Custom Pattern
-Long X'DF' GDPT Delete Pattern
-Long X'E1' GRLINE Relative Line at Given Position
-Long X'E3' GP ARC Partial Arc at Given Position
-Long X'E5' GCBEZ Cubic Bezier Curve at Given Position
-Extended X'FEDC' GLGD Linear Gradient
-Extended X'FEDD' GRGD Radial Gradient
-Architecture Note: Some AFP printers accept the following drawing orders and process them as No-Ops:
-• Set Pick Identifier (GSPIK, X'43'). This drawing order is in long format.
-• End Segment drawing order (X'71'). This drawing order is in fixed 2-byte format, where the second byte is reserved and should be set to X'00'.
-Summary List of Orders
+### Begin Area (GBAR) Order
 
----
+This order indicates the start of a set of primitives that define an area boundary.
 
-Begin Area (GBAR) Order
-This order indicates the start of a set of primitives that define an area boundary .
-Syntax
+#### GBAR Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'68' | GBAR | order code |
-| 1 | BITS | FLAGS | Internal | flags |
-| Bit | 0 | RES1 | B'1' | Reserved for migration; only valid value |
-| Bit | 1 | BOUNDARY | B'0', | B'1' Boundary-line draw indicator: |
-| B'0' | Do | not | draw | boundary lines |
-| B'1' | Draw | boundary | | lines |
-| Bit | 2 | INSIDE | B'0', | B'1' Mode to determine inside: |
-| B'0' Alternate mode | | | | |
-| B'1' | Nonzero | Winding | | mode |
-| Bits | 3-7 | RES2 | B'00000' | Reserved; only valid value |
+| 0 | CODE | X'68' | GBAR | Order code |
+| 1 | BITS | FLAGS | | Internal flags:<br>bit 0 RES1 (B'1'): Reserved for migration; only valid value<br>bit 1 BOUNDARY: Boundary-line draw indicator:<br> - B'0' Do not draw boundary lines<br> - B'1' Draw boundary lines<br>bit 2 INSIDE: Mode to determine inside:<br> - B'0' Alternate mode<br> - B'1' Nonzero Winding mode<br>bits 3–7 RES2 (B'00000'): Reserved; only valid value |
 | Semantics | | | | |
 | The | Begin | Area | order | starts the definition of a filled area. The area definition must be terminated by an End |
-| Area | order | . | See | “Areas” on page 36 for details of the area definition. |
+| Area | order | . | See | “Areas” for details of the area definition. |
 | The | BOUNDARY | bit | determines | whether or not the boundary of the area is drawn. The INSIDE bit determines the method of filling the interior . |
 | The | pattern | set, | pattern | symbol, pattern mix, and pattern background mix attributes that are current when the |
 | Begin | Area | order | is | executed are used to fill the area. When using the default pattern set or a bilevel custom pattern (but not when using a full-color custom pattern or gradient ), the pattern color attribute that is current |
@@ -261,35 +271,29 @@ Begin Area
 
 ---
 
-Begin Custom Pattern (GBCP) Order
+### Begin Custom Pattern (GBCP) Order
+
 This order indicates the start of a set of primitives that define a custom pattern.
-Syntax
+
+#### GBCP Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'DE' | GBCP | order code |
+| 0 | CODE | X'DE' | GBCP | Order code |
 | 1 | UBIN | LENGTH | 13 | Length of following data |
-| 2-3 | RES1 | X'0000' | Reserved; | only valid value |
-| 4 | BITS | FLAGS | Custom | Pattern flags |
-| Bit | 0 | FULLCOLOR | | B'0' |
-| B'1' | | | | |
-| Bilevel custom pattern | | | | |
-| Full-color custom pattern | | | | |
-| Bits | 1-7 | RES2 | B'0000000' | Reserved; only valid value |
-| 5 | CODE | PATTSET | X'01' | - X'FD' Pattern set of the custom pattern |
-| 6 | CODE | PATTSYM | X'01' | - X'FF' Pattern symbol of the custom pattern |
-| 7-8 | SBIN | XLWIND | X'8000' | - X'7FFF' X g |
-| coordinate | for | left | edge | of the pattern window |
-| 9-10 | SBIN | XRWIND | X'8000' | - X'7FFF' X g |
-| coordinate | for | right | edge | of the pattern window |
-| 1 | 1-12 | SBIN | YBWIND | X'8000' - X'7FFF' Y g |
-| coordinate | for | bottom | edge | of the pattern window |
-| 13-14 | SBIN | YTWIND | X'8000' | - X'7FFF' Y g |
-| coordinate | for | top | edge | of the pattern window |
+| 2–3 | RES1 | X'0000' | Reserved; only valid value |
+| 4 | BITS | FLAGS | | Custom Pattern flags:<br>bit 0 FULLCOLOR:<br> - B'0' Bilevel custom pattern<br> - B'1' Full-color custom pattern<br>bits 1–7 RES2 (B'0000000'): Reserved; only valid value |
+| 5 | CODE | PATTSET | X'01'–X'FD' | Pattern set of the custom pattern |
+| 6 | CODE | PATTSYM | X'01'–X'FF' | Pattern symbol of the custom pattern |
+| 7–8 | SBIN | XLWIND | X'8000'–X'7FFF' | $X_{g}$ coordinate for left edge of the pattern window |
+| 9–10 | SBIN | XRWIND | X'8000'–X'7FFF' | $X_{g}$ coordinate for right edge of the pattern window |
+| 11–12 | SBIN | YBWIND | X'8000'–X'7FFF' | $Y_{g}$ coordinate for bottom edge of the pattern window |
+| 13–14 | SBIN | YTWIND | X'8000'–X'7FFF' | $Y_{g}$ coordinate for top edge of the pattern window |
 | Semantics | | | | |
 | The | Begin | Custom | Pattern | order starts the definition of a custom pattern. The custom pattern must be terminated by an End Custom Pattern order . |
 | The | FULLCOLOR | flag | specifies | whether the custom pattern being defined is a bilevel custom pattern or full- |
 | color | custom | pattern. | Both | types must be supported by drawing processors. A custom pattern cannot change from bilevel to full-color or vice versa. |
-| See | “Custom | Patterns | ” | on page 41 for details of custom patterns. |
+| See | “Custom | Patterns | ” | for details of custom patterns. |
 | The | PATTSET | and | PATTSYM | values specify the pattern set and pattern symbol where this custom pattern will reside. When the current values of the pattern set and pattern symbol attributes specify these PATTSET and |
 | PATTSYM | values, | respectively | , | this custom pattern will be used to do area fill. |
 | Custom | patterns | (defined | with | this order), linear gradients (defined with the Linear Gradient order), and radial gradients (defined with the Radial Gradient order) share the pattern sets X'01'-X'FD'; the patterns using these |
@@ -336,32 +340,33 @@ Begin Custom Pattern
 
 ---
 
-Begin Image (GBIMG, GCBIMG) Orders
+### Begin Image (GBIMG, GCBIMG) Orders
+
 These orders identify the start of an image definition at a given position or at the current position.
-Syntax
-Begin Image at Given Position (GBIMG) Order
+
+#### GBIMG (Given Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'D1' | GBIMG | order code |
+| 0 | CODE | X'D1' | GBIMG | Order code |
 | 1 | UBIN | LENGTH | 10 | Length of following data |
-| 2-3 | SBIN | XPOS | X'8000'-X'7FFF' | X g |
-| coordinate | of | image | origin | (first image point of first image scan line) |
-| 4-5 | SBIN | YPOS | X'8000'-X'7FFF' | Y g |
-| coordinate | of | image | origin | (first image point of first image scan line) |
-| 6 | CODE | FORMAT | X'00' | Format of the image data: |
-| X'00' | Each | image | point | is mapped to a presentation device pel |
-| 7 | RES | X'00' | Reserved; | only valid value |
-| 8-9 | UBIN | WIDTH | X'0000'-X'FFFF' | Width of the image data, in image points |
-| 10-1 | 1 | UBIN | HEIGHT | X'0000'-X'FFFF' Height of the image data, in rows, or scan lines |
-| Begin | Image | at | Current | Position (GCBIMG) Order |
+| 2–3 | SBIN | XPOS | X'8000'–X'7FFF' | $X_{g}$ coordinate of image origin (first image point of first image scan line) |
+| 4–5 | SBIN | YPOS | X'8000'–X'7FFF' | $Y_{g}$ coordinate of image origin (first image point of first image scan line) |
+| 6 | CODE | FORMAT | X'00' | Format of the image data:<br> - X'00' Each image point is mapped to a presentation device pel |
+| 7 | RES | | X'00' | Reserved; only valid value |
+| 8–9 | UBIN | WIDTH | X'0000'–X'FFFF' | Width of the image data, in image points |
+| 10–11 | UBIN | HEIGHT | X'0000'–X'FFFF' | Height of the image data, in rows, or scan lines |
+
+#### GCBIMG (Current Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'91' | GCBIMG | order code |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'91' | GCBIMG | Order code |
 | 1 | UBIN | LENGTH | 6 | Length of following data |
-| 2 | CODE | FORMAT | X'00' | Format of the image data: |
-| X'00' | Each | image | point | is mapped to a presentation device pel |
-| 3 | RES | X'00' | Reserved; | only valid value |
-| 4-5 | UBIN | WIDTH | X'0000'-X'FFFF' | Width of the image data, in image points |
-| 6-7 | UBIN | HEIGHT | X'0000'-X'FFFF' | Height of the image data, in rows, or scan lines |
+| 2 | CODE | FORMAT | X'00' | Format of the image data:<br> - X'00' Each image point is mapped to a presentation device pel |
+| 3 | RES | | X'00' | Reserved; only valid value |
+| 4–5 | UBIN | WIDTH | X'0000'–X'FFFF' | Width of the image data, in image points |
+| 6–7 | UBIN | HEIGHT | X'0000'–X'FFFF' | Height of the image data, in rows, or scan lines |
 | Semantics | | | | |
 | The | Begin | Image | at | Given Position (GBIMG) order defines an image at the specified position. The Begin |
 | Image | at | Current | Position | (GCBIMG) order defines an image at the current position. |
@@ -377,7 +382,7 @@ If a particular bit in the image data is B'1', it defines a foreground pel, and 
 There is an Image Data order for every row of the image. That is, for an image n rows high there must be n
 Image Data orders between the Begin Image and End Image orders. Each Image Data order contains suff icient integral bytes of data for the width of the image. If the width of the image is not an integral number of bytes, the padding bits at the right-hand end of the last byte in the Image Data order are ignored.
 When the image is not contained in a custom pattern definition, each image point is mapped to a presentation device pel, unless the image resolution is explicitly specified in the Graphics Data Descriptor; see “Window
-Specification (Mandatory)” on page 182. If the image resolution is explicitly specified, the mapping may include resolution correction so that the image is presented at its original size.
+Specification (Mandatory)”. If the image resolution is explicitly specified, the mapping may include resolution correction so that the image is presented at its original size.
 Implementation Note: In the absence of any other image resolution information, AFP printers map image points to device pels as follows:
 • Printers that have a fixed resolution map point-to-pel at that resolution.
 • Printers that have an acceptance mode for a fixed resolution map point-to-pel at the acceptance-mode resolution and then scale to the device resolution.
@@ -416,38 +421,37 @@ Begin Image
 
 ---
 
-Box (GBOX, GCBOX) Orders
+### Box (GBOX, GCBOX) Orders
+
 These orders define a box with square or round corners, drawn with its first corner at a given position or at the current position.
-Syntax
-Box at Given Position (GBOX) Order
+
+#### GBOX (Given Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'C0' | GBOX | order code |
-| 1 | UBIN | LENGTH | 10, | 12, 14 Length of following data |
-| 2-3 | RES | X'2000' | Reserved; | only valid value |
-| 4-5 | SBIN | XPOS0 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | | corner |
-| 6-7 | SBIN | YPOS0 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | | corner |
-| 8-9 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | diagonal | | corner |
-| 10-1 | 1 | SBIN | YPOS1 | X'8000'-X'7FFF' Y g |
-| coordinate | of | diagonal | | corner |
-| The | following | parameters | are | optional: |
-| 12-13 | UBIN | HAXIS | 0-32,767 | Full length of x-direction axis of ellipse for rounded corner |
-| 14-15 | UBIN | V | AXIS | 0-32,767 Full length of y-direction axis of ellipse for rounded corner |
-| Box | at | Current | Position | (GCBOX) Order |
+| 0 | CODE | X'C0' | GBOX | Order code |
+| 1 | UBIN | LENGTH | 10, 12, 14 | Length of following data |
+| 2–3 | RES | | X'2000' | Reserved; only valid value |
+| 4–5 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_{g}$ coordinate of first corner |
+| 6–7 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_{g}$ coordinate of first corner |
+| 8–9 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_{g}$ coordinate of diagonal corner |
+| 10–11 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_{g}$ coordinate of diagonal corner |
+| _Optional:_ | | | | |
+| 12–13 | UBIN | HAXIS | 0–32,767 | Full length of x-direction axis of ellipse for rounded corner |
+| 14–15 | UBIN | VAXIS | 0–32,767 | Full length of y-direction axis of ellipse for rounded corner |
+
+#### GCBOX (Current Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'80' | GCBOX | order code |
-| 1 | UBIN | LENGTH | 6, | 8, 10 Length of following data |
-| 2-3 | RES | X'2000' | Reserved; | only valid value |
-| 4-5 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | diagonal | | corner |
-| 6-7 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | diagonal | | corner |
-| The | following | parameters | are | optional: |
-| 8-9 | UBIN | HAXIS | 0-32,767 | Full length of x-direction axis of ellipse for rounded corner |
-| 10-1 | 1 | UBIN | V | AXIS 0-32,767 Full length of y-direction axis of ellipse for rounded corner |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'80' | GCBOX | Order code |
+| 1 | UBIN | LENGTH | 6, 8, 10 | Length of following data |
+| 2–3 | RES | | X'2000' | Reserved; only valid value |
+| 4–5 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_{g}$ coordinate of diagonal corner |
+| 6–7 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_{g}$ coordinate of diagonal corner |
+| _Optional:_ | | | | |
+| 8–9 | UBIN | HAXIS | 0–32,767 | Full length of x-direction axis of ellipse for rounded corner |
+| 10–11 | UBIN | VAXIS | 0–32,767 | Full length of y-direction axis of ellipse for rounded corner |
 | Semantics | | | | |
 | The | Box | at | Given | Position (GBOX) order defines a rectangular box with square or rounded corners with its first corner specified by the first coordinate pair , and the diagonally-opposite corner specified by the second |
 | coordinate | pair | . | The | Box at Current Position (GCBOX) order defines a rectangular box with square or rounded |
@@ -481,24 +485,27 @@ Box
 
 ---
 
-Character String (GCHST , GCCHST) Orders
+### Character String (GCHST, GCCHST) Orders
+
 These orders draw a character string at a given position or at the current position.
-Syntax
-Character String at Given Position (GCHST) Order
+
+#### GCHST (Given Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'C3' | GCHST | order code |
-| 1 | UBIN | LENGTH | 4-255 | Length of following data |
-| 2-3 | SBIN | XPOS | X'8000'-X'7FFF' | X g |
-| coordinate | of | character | string | origin |
-| 4-5 | SBIN | YPOS | X'8000'-X'7FFF' | Y g |
-| coordinate | of | character | string | origin |
-| 6-n | CHAR | CP | Code | points of each character in the string |
-| Character | String | at | Current | Position (GCCHST) Order |
+| 0 | CODE | X'C3' | GCHST | Order code |
+| 1 | UBIN | LENGTH | 4–255 | Length of following data |
+| 2–3 | SBIN | XPOS | X'8000'–X'7FFF' | $X_{g}$ coordinate of character string origin |
+| 4–5 | SBIN | YPOS | X'8000'–X'7FFF' | $Y_{g}$ coordinate of character string origin |
+| 6–n | CHAR | CP | | Code points of each character in the string |
+
+#### GCCHST (Current Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'83' | GCCHST | order code |
-| 1 | UBIN | LENGTH | 0-255 | Length of following data |
-| 2-n | CHAR | CP | Code | points of each character in the string |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'83' | GCCHST | Order code |
+| 1 | UBIN | LENGTH | 0–255 | Length of following data |
+| 2–n | CHAR | CP | | Code points of each character in the string |
 | Semantics | | | | |
 | The | Character | String | at | Given Position (GCHST) order draws a character string that starts at the specified position. The Character String at Current Position (GCCHST) order draws a character string that starts at the |
 | current position. | | | | |
@@ -516,7 +523,7 @@ Character String at Given Position (GCHST) Order
 
 A Character String at Given Position (GCHST) order with an initial position (XPOS,YPOS), but with no string of code points, is permitted. This serves only to move the current position. A Character String at Current Position (GCCHST) order with no string of code points is permitted and is treated as a No-Op.
 The Set Character Precision, Set Character Set, Set Character Cell, Set Character Angle, and Set Character
-Direction drawing orders determine the character size, character rotation, and character direction. For more information, see “Character Strings” on page 51.
+Direction drawing orders determine the character size, character rotation, and character direction. For more information, see “Character Strings”.
 The following exception condition raises a drawing process check:
 EC-0003 The order has an incorrect length.
 The following exception conditions cause a standard action to be taken:
@@ -681,7 +688,7 @@ Cubic Bezier Curve at Current Position (GCCBEZ) Order
 | 3 | | | | |
 | . | | | | |
 | Further | points | are | used | in groups of three to form a polycurve. Each group of points, together with the last point of the previous curve, generates a new curve, every curve being drawn independently for the set of four points. |
-| See | “Cubic | Bezier | Curve” | on page 27 for details of curve drawing. |
+| See | “Cubic | Bezier | Curve” | for details of curve drawing. |
 | The | length | of | the | order , LENGTH, must be consistent with the two-byte x-coordinates and two-byte y- |
 | coordinates | and | the | requirement | for sets of points, three at a time after the initial curve. |
 | The | current | values | of | the line attributes are taken into account when drawing the curve. |
@@ -857,7 +864,7 @@ Fillet at Given Position (GFL T) Order
 ---
 
 The points specified in the order are joined by imaginary straight lines and a curve is then fitted to the lines.
-The curve is tangential to the first line at its start point and to the last line at its end point. If there are intermediate lines, the curve is tangential to these lines at their center points. See “Fillet” on page 26 for the definition of the curves drawn.
+The curve is tangential to the first line at its start point and to the last line at its end point. If there are intermediate lines, the curve is tangential to these lines at their center points. See “Fillet” for the definition of the curves drawn.
 A Fillet at Given Position (GFL T) order with only an initial position is permitted. This serves only to move the current position. A Fillet at Current Position (GCFL T) order with only an initial position (the current position) is permitted and is treated as a No-Op.
 When only two points are supplied, a straight line results.
 The current values of the line attributes are taken into account when drawing the fillet, and the current position is set to the last point specified.
@@ -925,7 +932,7 @@ Syntax
 | The | Image | Data | order | contains the data for one scan line or row of an image. Each Image Data order can contain any number of bytes of data, from zero up to a maximum of 255 bytes. |
 | The | current | position | is | not changed by the order . |
 | If | the | LENGTH | parameter | is not equal to the rounded-up quotient of image WIDTH divided by 8, there are too few or too many data bytes, and exception EC-9201 exists. |
-| See | “Begin | Image | (GBIMG, | GCBIMG) Orders” on page 87 for details of the image construct. |
+| See | “Begin | Image | (GBIMG, | GCBIMG) Orders” for details of the image construct. |
 | The | following | exception | conditions | raise a drawing process check: |
 | EC-9200 | A | Begin | Image | order was not executed before the Image Data order in this segment. |
 | EC-9201 | There | are | insufficient, | or too many , bytes of data in the Image Data order . |
@@ -1059,7 +1066,7 @@ GOCA for AFP Reference 1 13
 | COLVALUE_F | See | Semantics | Color | value of the color of the final color stop (2- |
 | 4 bytes) | | | | |
 | Semantics | | | | |
-| The | Linear | Gradient | order | defines a linear gradient to be used later to fill an area. See “Gradients ” on page 43 for details of gradients. |
+| The | Linear | Gradient | order | defines a linear gradient to be used later to fill an area. See “Gradients ” for details of gradients. |
 | The | gradient | goes | from | the start point (X_S,Y_S) to the end point (X_E,Y_E), with the color gradually changing from the start color (COLSPEC_S) to the end color (COLVALUE_E). Areas outside the gradient are filled |
 | based | on | the | OUTSIDE_S | and OUTSIDE_E parameters. Any number of color stops can be defined along the gradient line from the start point to the end point, which define offsets along the line where a specific color is to |
 | be found. | | | | |
@@ -1069,7 +1076,7 @@ GOCA for AFP Reference 1 13
 | The | color | stops | must | be in increasing order of offs et; that is, each color stop offset value must be greater than or equal to the previous color stop off set value. If a color stop has an offset value that is smaller than the offset |
 | value | of | any | previous | color stop, or is otherwise invalid, exception condition EC-DC05 is raised, for which the standard action is to ignore the color stop. |
 | The | color | specification | of | the start color , COLSPEC_S, has the same format as bytes 1-end of the Set Process |
-| Color | (GSPCOL) | drawing | order; | see “Set Process Color (GSPCOL) Order” on page 161 for information on how to process the color specification. Included in the color specification is a length field, a color space field, and |
+| Color | (GSPCOL) | drawing | order; | see “Set Process Color (GSPCOL) Order” for information on how to process the color specification. Included in the color specification is a length field, a color space field, and |
 | four | fields | indicating | how | many bits are in each color component, as well as a color value field. The color value field specifies the start color and is interpreted using the other fields in the color specification. For all other |
 | colors | in | this | order—that | is, for the end color and for all color stop colors—only the color value field is specified. |
 | These | color | values | are | all the same length as the color value contained in COLSPEC_S, and are interpreted in the same way . As an example, if the start color is an RGB color encoded in three bytes, one for each |
@@ -1271,7 +1278,7 @@ Partial Arc at Given Position (GP ARC) Order
 
 ---
 
-specified by MH and MFR. The part of the arc that is drawn is defined by the starting angle, START , and the sweep angle, SWEEP . Both angles are defined on the unit circle space and are transformed by an amount defined by the current arc parameters in the same way that the unit circle is transformed. See “Partial Arc” on page 25 for details.
+specified by MH and MFR. The part of the arc that is drawn is defined by the starting angle, START , and the sweep angle, SWEEP . Both angles are defined on the unit circle space and are transformed by an amount defined by the current arc parameters in the same way that the unit circle is transformed. See “Partial Arc” for details.
 A previous Set Arc Parameters drawing order determines the shape and orientation of the arc. If no Set Arc
 Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters.
 The drawing direction is defined by the determinant of the transform, which is defined by the arc parameters.
@@ -1364,7 +1371,7 @@ Syntax
 | COLVALUE_F | See | Semantics | Color | value of the color of the final color stop (2- |
 | 4 bytes) | | | | |
 | Semantics | | | | |
-| The | Radial | Gradient | order | defines a radial gradient to be used later to fill an area. See “Gradients ” on page 43 for details of gradients. |
+| The | Radial | Gradient | order | defines a radial gradient to be used later to fill an area. See “Gradients ” for details of gradients. |
 | The | gradient | goes | from | the start full arc to the end full arc. The color changes gradually from the start color |
 | (COLSPEC_S) | to | the | end | color (COLVALUE_E). Areas outside the gradient are filled based on the |
 | OUTSIDE_S | and | OUTSIDE_E | parameters. | Any number of color stops can be defined along the gradient lines from the start full arc to the end full arc, which define intermediate full arcs between the start and end full arcs |
@@ -1382,7 +1389,7 @@ Syntax
 | The | color | stops | must | be in increasing order of offs et; that is, each color stop offset value must be greater than or equal to the previous color stop off set value. If a color stop has an offset value that is smaller than the offset |
 | value | of | any | previous | color stop, or is otherwise invalid, exception condition EC-DD05 is raised, for which the standard action is to ignore the color stop. |
 | The | color | specification | of | the start color , COLSPEC_S, has the same format as bytes 1-end of the Set Process |
-| Color | (GSPCOL) | drawing | order; | see “Set Process Color (GSPCOL) Order” on page 161 for information on how |
+| Color | (GSPCOL) | drawing | order; | see “Set Process Color (GSPCOL) Order” for information on how |
 | Radial Gradient | | | | |
 
 ---
@@ -1555,7 +1562,7 @@ Syntax
 | 8-9 | SBIN | S | X'8000'-X'7FFF' | S parameter of arc transform |
 | Semantics | | | | |
 | The | Set | Arc | Parameters | order specifies the shape and orientation of a circle or an ellipse. Subsequent Full Arc orders specify the size and location of the circle or ellipse. Subsequent Partial Arc orders specify the size and |
-| location | of | the | circle | or ellipse that the partial arc is part of. For details, see “Full Arc” on page 24 and “Partial |
+| location | of | the | circle | or ellipse that the partial arc is part of. For details, see “Full Arc” and “Partial |
 | Arc” | on | page | | 25. |
 | The | parameters | P | , | Q, R, and S define a transformation that maps the unit circle at the GPS origin (X g |
 | =0,Y g | | | | |
@@ -1611,7 +1618,7 @@ Syntax
 | Background | mix | attributes | control | the way in which the color of the background of a primitive is combined with the color of the GPS. |
 | With | MODE | set | to | X'05', the background pels are transparent and do not affect the color of underlying pels in the GPS. Since this is the only background mix mode supported in AFP GOCA, selecting the drawing default |
 | (MODE | X'00') | will | also | default to MODE X'05'. |
-| For | a | description | of | the meaning of the various mix modes, see “Mix” on page 16. |
+| For | a | description | of | the meaning of the various mix modes, see “Mix”. |
 | The | following | exception | conditions | cause a standard action to be taken: |
 | EC-0004 | The | attribute | value | specified in the order is not valid. |
 | Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'05'—Leave Alone. |
@@ -1695,7 +1702,7 @@ Syntax
 
 ---
 
-This drawing order does not change the current position. Note that, for precisions 1 and 2 for some implementations, if the character cell size is specified as negative values, a mirror image of the character is generated. That is, if the cell width is negative, the character is mirrored about the Y -axis, and if the cell height is negative, the character is mirrored about the X-axis. Refer to “Character Strings” on page 51 for a description of how the character cell is used on various AFP devices.
+This drawing order does not change the current position. Note that, for precisions 1 and 2 for some implementations, if the character cell size is specified as negative values, a mirror image of the character is generated. That is, if the cell width is negative, the character is mirrored about the Y -axis, and if the cell height is negative, the character is mirrored about the X-axis. Refer to “Character Strings” for a description of how the character cell is used on various AFP devices.
 The following exception condition raises a drawing process check:
 EC-0003 The order has an incorrect length.
 Set Character Cell
@@ -1720,13 +1727,13 @@ Syntax
 | The | character | direction | attribute | controls the placement of the first character in the string and each succeeding character relative to the previous character . |
 | Value Description | | | | |
 | X'00' | Drawing | Default. | The | standard default in AFP environments is left to right (X'01'). |
-| X'01' | Left | to | right. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point R in Figure 29 on page 52, is coincident with the current position. A vector |
+| X'01' | Left | to | right. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point R in Figure 29, is coincident with the current position. A vector |
 | is | then | drawn | from | the left edge of the character box to the right edge, and successive characters are placed in the direction of this vector . |
-| X'02' | T | op | to | bottom. Characters are positioned so that, at a 0° character angle, the character reference point, which is point T in Figure 29 on page 52, is coincident with the current |
+| X'02' | T | op | to | bottom. Characters are positioned so that, at a 0° character angle, the character reference point, which is point T in Figure 29, is coincident with the current |
 | position. | A | vector | is | then drawn from the top edge of the character box to the bottom edge, and successive characters are placed in the direction of this vector . |
-| X'03' | Right | to | left. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point E in Figure 29 on page 52, is coincident with the current |
+| X'03' | Right | to | left. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point E in Figure 29, is coincident with the current |
 | position. | A | vector | is | then drawn from the right edge of the character box to the left edge, and successive characters are placed in the direction of this vector . |
-| X'04' | Bottom | to | top. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point B in Figure 29 on page 52, is coincident with the current |
+| X'04' | Bottom | to | top. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point B in Figure 29, is coincident with the current |
 | position. | A | vector | is | then drawn from the bottom edge of the character box to the top edge, and successive characters are placed in the direction of this vector . |
 | Architecture | Note: | This | graphics | drawing order defines a function that is analogous to part of the text orientation function in presentation text, which defines an inline direction and the development of |
 | characters | along | this | | direction. |
@@ -1757,7 +1764,7 @@ Syntax
 | All | other | values | | Reserved |
 | Semantics | | | | |
 | The | Set | Character | Precision | order sets the value of the current character precision attribute to the value specified in the order . The character precision attribute controls the type of character that is to be used for |
-| drawing | character | strings. | Refer | to “Character Strings” on page 51 for a description of how character precision is defined. |
+| drawing | character | strings. | Refer | to “Character Strings” for a description of how character precision is defined. |
 | Value Description | | | | |
 | X'00' | Drawing | Default. | This | value sets the current character precision attribute to the value of the drawing default. The standard default in AFP environments is precision X'02'. |
 | X'01' | Precision | 1—Device-Specific | (String) | Precision. This precision has been implemented diffe rently on different devices; it is not consistent among implementations. The characters are |
@@ -1855,7 +1862,7 @@ Syntax
 | Semantics | | | | |
 | The | Set | Color | order | sets the current value of all five color attributes to the value specified in the order . Color attributes control the color of the foreground of the output primitives as they are drawn. |
 | The | standard | default | in | AFP environments is the presentation device default color . |
-| The | color | value | specified | by this order is prefixed with X'FF' to generate a two-byte color index value into the standard color table. See “Color” on page 14. |
+| The | color | value | specified | by this order is prefixed with X'FF' to generate a two-byte color index value into the standard color table. See “Color”. |
 | The | following | exception | conditions | cause a standard action to be taken: |
 | EC-0004 | The | attribute | value | specified in the order is not valid. |
 | Standard | action: | The | action | is implementation dependent. |
@@ -1921,7 +1928,7 @@ Syntax
 
 move length is set to one pel. In other words, a nonzero length, no matter how small, must not become a zero length.
 The standard default for the line type attribute in AFP environments is the standard line type value X'07'—Solid line.
-See “Line Type” on page 29 for more information on the line type attribute, including a discussion of how the dash/dot and move lengths are used to generate lines, and a discussion of standard and custom line type values.
+See “Line Type” for more information on the line type attribute, including a discussion of how the dash/dot and move lengths are used to generate lines, and a discussion of standard and custom line type values.
 The following exception condition raises a drawing process check:
 EC-0003 The order has an incorrect length.
 Set Custom Line Type
@@ -1941,7 +1948,7 @@ Syntax
 | :--- | :--- | :--- | :--- | :--- |
 | 0 | CODE | X'26' | GSECOL | order code |
 | 1 | UBIN | LENGTH | 2 | Length of following data |
-| 2-3 | CODE | COLOR | See | Table 5 on page 15 Value for color attribute |
+| 2-3 | CODE | COLOR | See | Table 5 Value for color attribute |
 | Semantics | | | | |
 | The | Set | Extended | Color | order sets the current value of all five color attributes to the value specified in the order . Color attributes control the color of the foreground bits of the output primitives as they are drawn. |
 | The | color | value | specified | by this order is used as a two-byte color index value into the standard color table; see |
@@ -2002,7 +2009,7 @@ Syntax
 | The | current | line | end | attribute applies to those output primitives that are drawn as straight or curved lines and have ends; that is, not complete figures, such as Box and Full Arc. It defines the shape of the start and end of |
 | groups | of | contiguous | straight | and curved lines. If the line type is not solid, the line end attribute also defines the shape of the internal ends of the dots and dashes, even for complete figures. |
 | The | standard | default | in | AFP environments is X'03'—Round. |
-| See | “Line | End | and | Line Join” on page 32 for details of the line-end shapes and their application. |
+| See | “Line | End | and | Line Join” for details of the line-end shapes and their application. |
 | The | following | exception | conditions | cause a standard action to be taken: |
 | EC-0004 | The | attribute | value | specified in the order is not valid. |
 | Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'03'—Round. |
@@ -2029,7 +2036,7 @@ Syntax
 | The | current | line | join | attribute applies to those output primitives that are drawn as straight or curved lines and have joins; that is, not complete figures, such as Box and Full Arc. The line join attribute defines the shape of |
 | the | joins | between | contiguous | straight and curved lines. |
 | The | standard | default | in | AFP environments is X'02'—Round. |
-| See | “Line | End | and | Line Join” on page 32 for details of the line-join shapes and their application. |
+| See | “Line | End | and | Line Join” for details of the line-join shapes and their application. |
 | The | following | exception | conditions | cause a standard action to be taken: |
 | EC-0004 | The | attribute | value | specified in the order is not valid. |
 | Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'02'—Round. |
@@ -2212,7 +2219,7 @@ Syntax
 | presentation space. | | | | |
 | With | MODE | set | to | X'02', the foreground pels are opaque and their color replaces the color of underlying pels in the GPS. Since this is the only foreground mix mode supported in AFP GOCA, selecting the drawing default |
 | (MODE | X'00') | will | also | default to MODE X'02'. |
-| For | a | description | of | the meaning of the various mix modes, see “Mix” on page 16. |
+| For | a | description | of | the meaning of the various mix modes, see “Mix”. |
 | The | following | exception | conditions | cause a standard action to be taken: |
 | EC-0004 | The | attribute | value | specified in the order is not valid. |
 | Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'02'—Overpaint. |
@@ -2274,7 +2281,7 @@ Syntax
 | has | been | defined | in | the current segment using the Linear Gradient or Radial Gradient drawing orders. |
 | The | standard | default | in | AFP environments is the default pattern set, X'00'. |
 | Values | X'FE' | and | X'FF' | are not supported in AFP GOCA. |
-| No | exceptions | are | generated | until the pattern set is used for area fill. See “Begin Area (GBAR) Order” on page |
+| No | exceptions | are | generated | until the pattern set is used for area fill. See “Begin Area (GBAR) Order” |
 | 82. | | | | |
 | Set Pattern Set | | | | |
 
@@ -2323,7 +2330,7 @@ Syntax
 
 ---
 
-No exceptions are generated until the pattern symbol is used for area fill. See “Begin Area (GBAR) Order” on page 82.
+No exceptions are generated until the pattern symbol is used for area fill. See “Begin Area (GBAR) Order”.
 Set Pattern Symbol
 
 ---
@@ -2407,7 +2414,7 @@ X'40' Standard OCA color space. The color value is specified with one component.
 Standard OCA Color Value Table. For a complete description of the Standard OCA Color
 Value Table, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
 COLSIZE1 = X'10' and defines the number of bits used to specify component 1. COLSIZE2, COLSIZE3, and COLSIZE4 are reserved and should be set to zero. This is a device- dependent color space.
-See Table 5 on page 15 for the meaning of the two-byte values.
+See Table 5 for the meaning of the two-byte values.
 All others Reserved
 COLSIZE1 defines the number of bits used to specify the first color component. The color component is right- aligned and padded with zeros on the left to the nearest byte boundary . For example, if COLSIZE1 = X'06', the first color component has two padding bits.
 COLSIZE2 defines the number of bits used to specify the second color component. The color component is right-aligned and padded with zeros on the left to the nearest byte boundary .

@@ -18,10 +18,10 @@ Output primitives are the basic element from which graphics pictures are built. 
 
 Primitives also use the modal parameters called attributes associated with them, as well as the general drawing process controls.
 
-The architecture defines exception conditions for invalid values of parameters within drawing orders and assigns exception condition codes, EC-xxxx, to these for reporting purposes. See “Drawing Order Exceptions” on page 168 for details.
+The architecture defines exception conditions for invalid values of parameters within drawing orders and assigns exception condition codes, EC-xxxx, to these for reporting purposes. See “Drawing Order Exceptions” for details.
 ## Current Position
 
-Current position is a position in Graphics Presentation Space (GPS) remembered by the drawing processor. Current position is updated by the drawing processor as each output primitive value is executed. It is maintained as an $(X_g, Y_g)$ coordinate value in GPS. With the drawing orders that are described in Chapter 7, “Commands and Drawing Orders”, on page 73, this updating of current position can, in general, be implemented by replacing the old value of current position by an $(X_g, Y_g)$ coordinate from the order being executed.
+Current position is a position in Graphics Presentation Space (GPS) remembered by the drawing processor. Current position is updated by the drawing processor as each output primitive value is executed. It is maintained as an $(X_g, Y_g)$ coordinate value in GPS. With the drawing orders that are described in Chapter 7, “Commands and Drawing Orders”, this updating of current position can, in general, be implemented by replacing the old value of current position by an $(X_g, Y_g)$ coordinate from the order being executed.
 
 Two alternative forms of each output primitive drawing order are provided, each with a different order code:
 *   With the first form, all coordinates required to draw the output primitive are contained in the order itself.
@@ -396,7 +396,7 @@ Line End and Line Join
 The line end attribute defines the shape used at the start and end of contiguous lines that are drawn by a set of straight or curved lines.
 The line join attribute defines the shape used for the junction between contiguous lines. This attribute is used to define the join between lines in the following instances:
 • At the intermediate points within output primitives that contain multiple lines.
-• At the junction that occurs between the end point of a line primitive and the start point of a following line primitive specifying at current position, except when any of the following orders occur between the two primitives: - A Move Type order . See Table 9 on page 30 for the definition of a Move Type order .
+• At the junction that occurs between the end point of a line primitive and the start point of a following line primitive specifying at current position, except when any of the following orders occur between the two primitives: - A Move Type order . See Table 9 for the definition of a Move Type order .
 Line Attributes
 
 ---
@@ -404,7 +404,7 @@ Line Attributes
 - A Set of any Line attribute.
 - A Begin Area or End Area order .
 • At the junction between the start point of a closed figure within an area and the end point of the closed figure.
-See “Areas” on page 36 for the definition of a closed figure.
+See “Areas” for the definition of a closed figure.
 The line end attribute is used to define the outline of all other line end points.
 Notes:
 1. Except as detailed in 2 below , the line end attribute is not applicable to Full Arc or Box as they are closed figures.
@@ -483,9 +483,9 @@ The boundary of an area is defined as one or more closed figures that are either
 Figure 17. An example of a complete figure is one defined by the Full Arc order . Each constructed figure consists of a set of straight and curved lines connected together . These lines can be drawn if required.
 Figure 17. Closed and Open Figures
 Open constructed Closed constructed Closed complete
-The following description refers to a Move Type order . This term refers to the type of order that causes current position to be updated to a new value specified in the order before anything is drawn. See Table 9 on page 30 for a list of Move Type orders.
+The following description refers to a Move Type order . This term refers to the type of order that causes current position to be updated to a new value specified in the order before anything is drawn. See Table 9 for a list of Move Type orders.
 The first constructed figure in an area is defined as starting at the Begin Area order . It is delimited either by an
-End Area order , or by any Move Type order that is valid in an area definition, which implies the start of a new closed figure. See “V alid Area Definitions” on page 38 for a list of orders that are valid in an area definition.
+End Area order , or by any Move Type order that is valid in an area definition, which implies the start of a new closed figure. See “V alid Area Definitions” for a list of orders that are valid in an area definition.
 Implementations can choose to allow complete figures, such as Full Arc at current position, within a constructed figure.
 Each figure in an area must be properly closed, that is, its start and end points must be identical. If the points are not identical, the figure is closed arbitrarily with a straight line connecting the start and end points. The current position is set to the start point of the figure.
 Implementation Note: If the Begin Area order specifies that the boundary is to be drawn, and if the area is not properly closed, the generated line to close the figure may or may not be drawn; this is presentation device dependent. The architecture recommendation is that this line not be drawn 1
@@ -558,7 +558,7 @@ A pattern is used to fill the interior of an area and is created by selecting a 
 Note that for all three types of patterns, a Pattern Symbol attribute value of X'00' selects the drawing default symbol. If no drawing default symbol is specified in the graphics data descriptor , the presentation default in
 AFP GOCA is solid fill , which is pattern symbol X'10' in the default pattern set .
 Patterns in the Default Pattern Set
-The default pattern set contains predefined patterns. Figure 19 on page 40 shows representative patterns corresponding to attribute values X'01' (1) to X'10' (16) in the default pattern set. A pattern set attribute value of
+The default pattern set contains predefined patterns. Figure 19 shows representative patterns corresponding to attribute values X'01' (1) to X'10' (16) in the default pattern set. A pattern set attribute value of
 X'00' specifies to use the default pattern set.
 Note also that in the default pattern set, a pattern symbol attribute value of X'40' (blank) is treated the same as an attribute value of X'0F' (no fill).
 Areas
@@ -572,7 +572,7 @@ Areas
 
 ---
 
-Architecture Note: The precise appearance of the patterns in Figure 19 on page 40 in this edition of this
+Architecture Note: The precise appearance of the patterns in Figure 19 in this edition of this
 Reference do not exactly match earlier editions of this Reference, although differenc es are very slight.
 Any diff erences are unintentional and do not constitute a changed definition of the patterns.
 Custom Patterns
@@ -647,7 +647,7 @@ Areas
 Repeat The gradient is repeated as many times as necessary to fill the outside areas, by repeating the gradient line in both directions. For example, for a blue to green gradient, the blue to green gradient would be repeated over and over right next to the previous gradient.
 Reflect Right next to the gradient, a mirror-image of the gradient is produced. If this does not fill the outside area, the gradient itself is then repeated, followed by another mirror image, followed by the same gradient, and so on. For example, for a blue to green gradient, a blue to green gradient followed immediately by a green to blue gradient would be drawn; continuing this, the end result would be a gradient going from blue to green to blue to green and so on to the edge of the GPS.
 None Fill the outside areas with no color . This is equivalent to treating these areas as if they had been filled with the X'0F' (no fill) pattern of the default pattern set.
-Figure 22 shows the effect of each Outside value on the example gradient from Figure 21 on page 44; in the figure, both the start and end Outside values are set to the same value.
+Figure 22 shows the effect of each Outside value on the example gradient from Figure 21; in the figure, both the start and end Outside values are set to the same value.
 Figure 22. Effect of Different Outside Values
 Entire GPS
 Pad
@@ -658,7 +658,7 @@ Areas
 
 ---
 
-In addition to the gradient changing from the start color to the end color , additional colors can be specified to occur between the start and end. For example, rather than a gradient simply changing from blue to green, it can be defined that it also be yellow at some point in between. This point is called a color stop. A color stop is defined by the offset along the gradient line where it occurs, and the color to appear at that off set. Multiple color stops can be defined. As an example, Figure 23 shows the example gradient from Figure 21 on page 44 but with the addition of a yellow color stop at an offset of 60% of the way along the gradient line.
+In addition to the gradient changing from the start color to the end color , additional colors can be specified to occur between the start and end. For example, rather than a gradient simply changing from blue to green, it can be defined that it also be yellow at some point in between. This point is called a color stop. A color stop is defined by the offset along the gradient line where it occurs, and the color to appear at that off set. Multiple color stops can be defined. As an example, Figure 23 shows the example gradient from Figure 21 but with the addition of a yellow color stop at an offset of 60% of the way along the gradient line.
 Figure 23. A Y ellow Color Stop at Offset 60% Added to the Gradient from Figure 21
 T wo color stops at the same off set define a discontinuity of the gradient. For example, if two color stops are defined at halfway along the gradient line, the first yellow and the second purple, the gradient will smoothly change toward yellow in the first half of the gradient getting to yellow just before the halfway point, abruptly change to purple at the halfway point, then smoothly change away from purple in the second half of the gradient.
 If any part of the gradient is specified to transition from some color C to that same color C, that part of the gradient will be drawn as solid fill with color C.
@@ -677,7 +677,7 @@ Areas
 
 ---
 
-There is an important dif ference between linear and radial gradients regarding the filling of areas outside the gradient. In cases where one of the full arcs is not contained inside the other full arc, as in Figure 25 on page 47, a given intermediate full arc does not surround the previous intermediate full arc; instead it overlaps the previous intermediate full arc. The intermediate full arcs move in some specific direction rather than expanding in all directions; in Figure 25 on page 47, the intermediate full arcs are always moving to the right and slightly upward. Thus it can be seen that if Outside=pad, the continuation of the gradient would only cause there to be more intermediate full arcs that would fill certain areas to the right and left, but would not fill the area above and below—this is shown in Figure 27. Thus, a radial gradient, even when taking into account the Outside values, does not necessarily completely fill the GPS; that is, in some cases, there are parts of the GPS that are outside the gradient but that cannot be filled using the Outside values. Note that when one full arc is completely inside the other , as was the case for Figure 24 on page 47, the Outside values can fill the entire GPS; see Figure 28.
+There is an important dif ference between linear and radial gradients regarding the filling of areas outside the gradient. In cases where one of the full arcs is not contained inside the other full arc, as in Figure 25, a given intermediate full arc does not surround the previous intermediate full arc; instead it overlaps the previous intermediate full arc. The intermediate full arcs move in some specific direction rather than expanding in all directions; in Figure 25, the intermediate full arcs are always moving to the right and slightly upward. Thus it can be seen that if Outside=pad, the continuation of the gradient would only cause there to be more intermediate full arcs that would fill certain areas to the right and left, but would not fill the area above and below—this is shown in Figure 27. Thus, a radial gradient, even when taking into account the Outside values, does not necessarily completely fill the GPS; that is, in some cases, there are parts of the GPS that are outside the gradient but that cannot be filled using the Outside values. Note that when one full arc is completely inside the other , as was the case for Figure 24, the Outside values can fill the entire GPS; see Figure 28.
 Figure 27. The Radial Gradient from Figure 25 when Both Outside Values Are Pad
 Figure 28. The Radial Gradient from Figure 24 when Both Outside Values Are Pad
 Areas
@@ -713,7 +713,7 @@ Character Strings
 T wo orders are supported for drawing character strings:
 • The Character String at Given Position order draws a character string starting at a given point (X0 , Y 0 ), and sets the current position to (X0 , Y 0 ).
 • The Character String at Current Position order draws a character string starting at the current position, and does not change the current position.
-See “Character String (GCHST , GCCHST) Orders” on page 92 for details.
+See “Character String (GCHST , GCCHST) Orders” for details.
 The font from which the character definitions are to be obtained is given by the value of the character set attribute.
 The color of all characters in the string is given by the value of the color or process color attribute.
 The way in which characters in the string are merged with any output primitives that have already been drawn is controlled by the values of the character mix and character background mix attributes.
@@ -721,7 +721,7 @@ The current values of the line type, line width, pattern set, and pattern symbol
 A character string can be defined in which some of its characters need to be drawn outside the boundaries of the GPS. The result of executing a Character String order where this occurs is implementation dependent.
 The appearance and relative positions of the characters in the string are dependent on the values of:
 • Code points in the order
-• Character Attributes (see “Character Attributes” on page 56)
+• Character Attributes (see “Character Attributes”)
 A character string is drawn based upon the specified character precision:
 Precision 1 Device-specific (string) precision
 Precision 2 Device-specific (character) precision
@@ -761,7 +761,7 @@ Character Strings
 ---
 
 Device-Specific (Character) Precision
-Character precision has been implemented diff erently on different devices; it is not consistent among implementations. The intent of this precision is that characters are positioned and drawn as follows. Note that the character reference point is not always placed at the current position. Scale and rotation are not necessarily applied when drawing the symbol. 1. The position of the first character is determined by the character direction attribute. Each device uses one of the two methods of locating the points R,E,T ,B shown in Figure 29 on page 52; refer to your device documentation for specific implementation information.
+Character precision has been implemented diff erently on different devices; it is not consistent among implementations. The intent of this precision is that characters are positioned and drawn as follows. Note that the character reference point is not always placed at the current position. Scale and rotation are not necessarily applied when drawing the symbol. 1. The position of the first character is determined by the character direction attribute. Each device uses one of the two methods of locating the points R,E,T ,B shown in Figure 29; refer to your device documentation for specific implementation information.
 • When the character direction is left to right, point R for the first character is positioned at the current or given position from the Character String order .
 • When the character direction is right to left, point E for the first character is positioned at the current or given position from the Character String order .
 • When the character direction is top to bottom, point T for the first character is positioned at the current or given position from the Character String order .
@@ -776,7 +776,7 @@ Note that for some devices, if the character cell size is specified as negative 
 • When the character direction is top to bottom, a vector is generated from the top edge of the character box to the bottom edge, and successive characters are placed in the direction of this vector .
 • When the character direction is right to left, a vector is generated from the right edge of the character box to the left edge, and successive characters are placed in the direction of this vector .
 • When the character direction is bottom to top, a vector is generated from the bottom edge of the character box to the top edge, and successive characters are placed in the direction of this vector .
-4. Subsequent characters in the string are positioned and drawn in the same manner . Figure 30 on page 54 shows the effect of the character direction and character angle attributes when the device uses the font positioning method. Figure 31 on page 55 shows the effect of the character direction and character angle attributes when the device uses the cell positioning method.
+4. Subsequent characters in the string are positioned and drawn in the same manner . Figure 30 shows the effect of the character direction and character angle attributes when the device uses the font positioning method. Figure 31 shows the effect of the character direction and character angle attributes when the device uses the cell positioning method.
 Character Strings
 
 ---
@@ -965,7 +965,7 @@ A marker symbol whose position is inside the GPS, but is placed such that part o
 GPS, is not an error . The appearance of that marker in the GPS is implementation dependent.
 Markers are drawn taking into account all marker attributes, and are centered at the specified position.
 Markers are scaled along with the rest of the GPS if scaling is necessary in the mapping from the GPS window into the usable area (object area).
-Implementation note: In earlier versions of AFP GOCA, there existed a marker precision attribute. This attribute has been made obsolete; for more details, see Appendix C, “AFP GOCA Migration Functions”, on page 195. The marker precision attribute allowed implementations to draw markers taking into account only the marker symbol and marker set attributes, and the positioning of the marker could be approximate. Some implementations, then, might draw markers in such a way . However , all implementations that do not treat the Set Marker Cell (GSMC) drawing order as a No-Op must:
+Implementation note: In earlier versions of AFP GOCA, there existed a marker precision attribute. This attribute has been made obsolete; for more details, see Appendix C, “AFP GOCA Migration Functions”. The marker precision attribute allowed implementations to draw markers taking into account only the marker symbol and marker set attributes, and the positioning of the marker could be approximate. Some implementations, then, might draw markers in such a way . However , all implementations that do not treat the Set Marker Cell (GSMC) drawing order as a No-Op must:
 • Draw markers taking into account all marker attributes.
 Markers
 
@@ -1029,8 +1029,8 @@ If a primitive, such as the Full Arc or Partial Arc primitive, starts inside the
 GPS, it is optional.
 An error is also generated when a primitive, such as the Relative Line or Partial Arc primitive, is specified that causes the current position to fall outside the GPS. In that case a drawing process check is generated and there is no standard action. For the Relative Line primitive, the exception is EC-E100. For the Partial Arc primitive, it is EC-E300. For presentation devices that cannot maintain a position outside the GPS, these exceptions are mandatory . For devices that can maintain a position outside the GPS, they are optional.
 A coordinate point that is outside the GPS is characterized by an arithmetic overflow in its X g or Y g coordinate.
-Because AFP GOCA uses 16-bit signed integers to specify GPS coordinates, a point outside the GPS is characterized by a 2-byte arithmetic overflow . Note that this does not mean that AFP GOCA processors are limited to 2-byte arithmetic. It simply means that they need to be able to detect 2-byte arithmetic overflows. For a definition of the geometric parameter format used in AFP GOCA, see “Parameter Type” on page 71 and
-“Drawing Order Subset” on page 181.
+Because AFP GOCA uses 16-bit signed integers to specify GPS coordinates, a point outside the GPS is characterized by a 2-byte arithmetic overflow . Note that this does not mean that AFP GOCA processors are limited to 2-byte arithmetic. It simply means that they need to be able to detect 2-byte arithmetic overflows. For a definition of the geometric parameter format used in AFP GOCA, see “Parameter Type” and
+“Drawing Order Subset”.
 Output Primitive Overflow
 
 ---

@@ -39,7 +39,7 @@ Drawing Order Exceptions
 
 Exception Conditions without Standard Actions
 This section lists those exception conditions that raise a drawing process check and that do not have a standard action defined:
-EC-0002 Retired. See “ Retired Exception Conditions ” on page 197 for more information.
+EC-0002 Retired. See “ Retired Exception Conditions ” for more information.
 EC-0003 Incorrect length specification. The length in the order is not a valid value for the order .
 EC-0008 T runcated order . The order about to be executed is not a complete order .
 This error can occur when the last order in a segment is being executed. This order meets one of the following conditions:
