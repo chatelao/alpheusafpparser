@@ -7400,46 +7400,44 @@ the characteristic. For all other self-defining fields, the parameters within a 
 defining field should be interpreted as if they were found at the end of the preceding instance of that self-
 defining field.
 The self-defining fields returned by printers are as follows:
-**Table 33**. OPC Self-Defining Field Summary
-SDF ID Self-Defining Field
-X'0001' “Printable-Area Self-Defining Field”
-X'0002' “Symbol-Set Support Self-Defining Field”
-X'0003' “IM-Image and Coded-Font Resolution Self-Defining Field”
-X'0004' “Storage Pools Self-Defining Field”
-X'0005' “Retired Item 130 (Standard OCA Color Value Support Self-Defining Field)”
-X'0006' “Installed Features Self-Defining Field”
-X'0007' “Available Features Self-Defining Field”
-X'0008' “Resident Symbol-Set Support Self-Defining Field”
-X'0009' “Print-Quality Support Self-Defining Field”
-X'000A' “XOA-RRL RT & RIDF Support Self-Defining Field”
-X'000B' “Activate Resource RT & RIDF Support Self-Defining Field”
-X'000C' Retired item 134
-X'000D' “Medium Modification IDs Supported Self-Defining Field”
-X'000E' “Deprecated (Common Bar Code Type/Modifier Self-Defining Field)”
-X'000F' “Bar Code Type/Modifier Self-Defining Field”
-X'0010' “Media-Destinations Self-Defining Field”
-X'0012' “Supported Group Operations Self-Defining Field”
-X'0013' “Product Identifier Self-Defining Field”
-X'0014' “Object-Container Type Support Self-Defining Field”
-X'0015' “DF Deactivation Types Supported Self-Defining Field”
-X'0016' “PFC Triplets Supported Self-Defining Field”
-X'0017' “Printer Setup Self-Defining Field”
-X'0018' “Finishing Operations Self-Defining Field”
-X'0019' “UP3I Tupel Self-Defining Field”
-X'001A' “UP3I Paper Input Media Self-Defining Field”
+**Table 33. OPC Self-Defining Field Summary**
 
-
-**Table 33** OPC Self-Defining Field Summary (cont'd.)
-SDF ID Self-Defining Field
-X'0021' “Colorant-Identification Self-Defining Field”
-X'0022' “Device-Appearance Self-Defining Field”
-X'0024' “Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field”
-X'0025' “Recognized Group ID Formats Self-Defining Field”
-X'0026' “Supported Device Resolutions Self-Defining Field”
-X'0027' “Object-Container Version Support Self-Defining Field”
-X'0028' “Finishing Options Self-Defining Field”
-X'0029' “Printer Speed Self-Defining Field ”
-X'002A' “Active Setup Name Self-Defining Field ”
+| SDF ID | Self-Defining Field |
+| :--- | :--- |
+| X'0001' | “Printable-Area Self-Defining Field” |
+| X'0002' | “Symbol-Set Support Self-Defining Field” |
+| X'0003' | “IM-Image and Coded-Font Resolution Self-Defining Field” |
+| X'0004' | “Storage Pools Self-Defining Field” |
+| X'0005' | “Retired Item 130 (Standard OCA Color Value Support Self-Defining Field)” |
+| X'0006' | “Installed Features Self-Defining Field” |
+| X'0007' | “Available Features Self-Defining Field” |
+| X'0008' | “Resident Symbol-Set Support Self-Defining Field” |
+| X'0009' | “Print-Quality Support Self-Defining Field” |
+| X'000A' | “XOA-RRL RT & RIDF Support Self-Defining Field” |
+| X'000B' | “Activate Resource RT & RIDF Support Self-Defining Field” |
+| X'000C' | Retired item 134 |
+| X'000D' | “Medium Modification IDs Supported Self-Defining Field” |
+| X'000E' | “Deprecated (Common Bar Code Type/Modifier Self-Defining Field)” |
+| X'000F' | “Bar Code Type/Modifier Self-Defining Field” |
+| X'0010' | “Media-Destinations Self-Defining Field” |
+| X'0012' | “Supported Group Operations Self-Defining Field” |
+| X'0013' | “Product Identifier Self-Defining Field” |
+| X'0014' | “Object-Container Type Support Self-Defining Field” |
+| X'0015' | “DF Deactivation Types Supported Self-Defining Field” |
+| X'0016' | “PFC Triplets Supported Self-Defining Field” |
+| X'0017' | “Printer Setup Self-Defining Field” |
+| X'0018' | “Finishing Operations Self-Defining Field” |
+| X'0019' | “UP3I Tupel Self-Defining Field” |
+| X'001A' | “UP3I Paper Input Media Self-Defining Field” |
+| X'0021' | “Colorant-Identification Self-Defining Field” |
+| X'0022' | “Device-Appearance Self-Defining Field” |
+| X'0024' | “Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field” |
+| X'0025' | “Recognized Group ID Formats Self-Defining Field” |
+| X'0026' | “Supported Device Resolutions Self-Defining Field” |
+| X'0027' | “Object-Container Version Support Self-Defining Field” |
+| X'0028' | “Finishing Options Self-Defining Field” |
+| X'0029' | “Printer Speed Self-Defining Field ” |
+| X'002A' | “Active Setup Name Self-Defining Field ” |
 
 
 Printable-Area Self-Defining Field
@@ -9878,38 +9876,19 @@ The data in an XOA Select Medium Modifications command consists of 10 bytes of c
 followed by zero or more medium modification entries that are processed in the order that they appear in the
 command. If a syntax error is encountered in one of the entries, the XOA-SMM command is discarded and any
 previously active SMM entries remain in effect. Exception ID X'026E..01' exists in this situation.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0E00' Select Medium Modifications (SMM) order
-code
-X'0E00'
-2–9 X'00...00' Reserved X'00...00'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0E00' | Select Medium Modifications (SMM) order code | X'0E00' |
+| 2–9 | | | X'00...00' | Reserved | X'00...00' |
+
 Zero or more entries in the following format:
-+ 0–1 UBIN Length X'0005' –
-X'7FEE'
-Length of the entry, including this length field X'0005'
-+ 2 CODE Type X'00'
-X'01'
-X'02'
-Inhibit medium modification
-Apply medium modification
-Inhibit all medium mods
-X'00'
-X'01'
-X'02'
-+ 3–4 CODE Modification
-ID
-See byte
-description
-Modification ID At least one
-modification ID
-+ 5 to
-end
-UNDF Modification
-parameters
-See byte
-description
-Zero or more bytes of medium-modification
-parameters
+
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | UBIN | Length | X'0005'–X'7FEE' | Length of the entry, including this length field | X'0005' |
+| + 2 | CODE | Type | X'00'<br>X'01'<br>X'02' | Medium modification type:<ul><li>X'00' Inhibit medium modification</li><li>X'01' Apply medium modification</li><li>X'02' Inhibit all medium mods</li></ul> | X'00'<br>X'01'<br>X'02' |
+| + 3–4 | CODE | Modification ID | See byte description | Modification ID | At least one modification ID |
+| + 5 to end | UNDF | Modification parameters | See byte description | Zero or more bytes of medium-modification parameters | |
 See byte
 description
 
@@ -9968,10 +9947,9 @@ If a printer has a printer-configuration function that disables continuous-forms
 notified when continuous-forms separation is enabled or disabled. However, the reply to an XOH Obtain Printer
 Characteristics command indicates whether Continuous-Forms Separation Capability is currently available.
 This order is not cumulative; consecutive SCF orders produce the same effect as a single order.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'0900' Separate Continuous Forms (SCF) order
-code
-X'0900'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'0900' | Separate Continuous Forms (SCF) order code | X'0900' |
 
 
 XOH Set Media Origin
@@ -10240,22 +10218,10 @@ Note: The dimensions of the medium presentation space and therefore the location
 medium presentation space are determined by the printer based on valid sensor or operator input,
 processing of an XOH Set Media Size command, or a combination of both; refer to “XOH Set Media
 Size”.
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'1600' Set Media Origin (SMO) order code X'1600'
-2 CODE Origin
-X'00'
-X'01'
-X'02'
-X'03'
-Medium presentation space origin:
-Top-left corner
-See byte description
-Bottom-right corner
-See byte description
-X'00'
-X'01'
-X'02'
-X'03'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'1600' | Set Media Origin (SMO) order code | X'1600' |
+| 2 | CODE | Origin | X'00'–X'03' | Medium presentation space origin:<ul><li>X'00' Top-left corner</li><li>X'01' See byte description</li><li>X'02' Bottom-right corner</li><li>X'03' See byte description</li></ul> | X'00'<br>X'01'<br>X'02'<br>X'03' |
 Bytes 0–1 Set Media Origin order code
 Byte 2 Medium Presentation Space Origin
 This parameter specifies the medium presentation space origin. Exception ID X'026F ..02'
@@ -10363,39 +10329,13 @@ default physical media origin, the printer must recompute the origin of the medi
 area calculations. Exception ID X'08C1..00' exists if an attempt is made to merge print data outside the
 valid printable area in the medium presentation space.
 The data field for the Set Media Size order has the following format:
-Offset Type Name Range Meaning Required
-0–1 CODE Order code X'1700' Set Media Size (SMS) order code X'1700'
-2 CODE Unit base X'00'
-X'01'
-Ten inches
-Ten centimeters
-X'00'
-3–4 UBIN UPUB X'0001' –
-X'7FFF'
-Units per unit base X'3840'
-5–6 UBIN Xm extent X'0001' –
-X'7FFF'
-X'FFFF'
-Xm extent of the medium presentation space
-Printer default
-X'000A' –
-X'2FD0'
-(Refer to the
-note following
-the table.)
-X'FFFF'
-7–8 UBIN Y
-m extent X'0001' –
-X'7FFF'
-X'FFFF'
-Ym extent of the medium presentation space
-Printer default
-X'000A' –
-X'4EC0'
-(Refer to the
-note following
-the table.)
-X'FFFF'
+| Offset | Type | Name | Range | Meaning | Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 0–1 | CODE | Order code | X'1700' | Set Media Size (SMS) order code | X'1700' |
+| 2 | CODE | Unit base | X'00'<br>X'01' | Unit base for this command:<ul><li>X'00' Ten inches</li><li>X'01' Ten centimeters</li></ul> | X'00' |
+| 3–4 | UBIN | UPUB | X'0001'–X'7FFF' | Units per unit base | X'3840' |
+| 5–6 | UBIN | $X_{m}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $X_{m}$ extent of the medium presentation space:<ul><li>X'FFFF' Printer default</li></ul>Required range: X'000A'–X'2FD0' (Refer to the note following the table.) | X'FFFF' |
+| 7–8 | UBIN | $Y_{m}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $Y_{m}$ extent of the medium presentation space:<ul><li>X'FFFF' Printer default</li></ul>Required range: X'000A'–X'4EC0' (Refer to the note following the table.) | X'FFFF' |
 Note: The required range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the required range plus additional function. If a receiver
 supports additional units of measure, the IPDS architecture requires the receiver to at least support a

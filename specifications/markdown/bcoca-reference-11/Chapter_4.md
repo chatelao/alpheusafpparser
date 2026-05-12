@@ -5367,141 +5367,27 @@ characters are allowed. For example, the UPC/CGPC Version E symbol limits the ra
 last 5 digits based on the value of the first 5 digits. Refer to the appropriate symbology specification for a full
 description of the rules for laying out bar code data; the symbology specifications are listed in Appendix A, “Bar
 Code Symbology Specification References”,.
-Table 35. Valid Characters and Data Lengths
-Type Bar Code
-Symbology
-Valid Characters Valid Data Length
-X'01' Code 39 (3-of-9
-Code), AIM USS-39
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
--.$/+%
-(space)
-A total of 43 valid input
-characters
-Symbology: unlimited
-BCOCA range: 0 to 50 characters
-(see note 2)
-X'02' MSI (modified Plessey
-code)
-0123456789 3 to 15 characters for Modifier X'01'
-2 to 14 characters for Modifier X'02'
-1 to 13 characters for all other modifiers
-X'03' UPC/CGPC -
-Version A
-0123456789
-(see note 1)
-11 characters
-X'05' UPC/CGPC -
-Version E
-0123456789
-(see note 1)
-10 characters
-X'06' UPC - Two-Digit
-Supplemental
-(Periodicals)
-0123456789 2 characters for Modifier X'00'
-13 characters for Modifier X'01'
-12 characters for Modifier X'02'
-X'07' UPC - Five-Digit
-Supplemental
-(Paperbacks)
-0123456789 5 characters for Modifier X'00'
-16 characters for Modifier X'01'
-15 characters for Modifier X'02'
-X'08' EAN-8 (includes
-JAN-short)
-0123456789
-(see note 1)
-7 characters
-X'09' EAN-13 (includes
-JAN-standard)
-0123456789
-(see note 1)
-12 characters
-X'0A' Industrial 2-of-5 0123456789 Symbology: unlimited
-BCOCA range: 0 to 50 characters
-(see note 2)
-X'0B' Matrix 2-of-5 0123456789 Symbology: unlimited
-BCOCA range: 0 to 50 characters
-(see note 2)
-X'0C' Interleaved 2-of-5,
-ITF-14, AIM USS-I 2/5
-0123456789 Interleaved 2-of-5 symbology: unlimited
-ITF-14 symbology: 13 digits
-BCOCA range: 0 to 50 characters
-(see note 2)
-Valid Characters and Data Lengths
+**Table 35. Valid Characters and Data Lengths**
 
-
-
-
-Table 35 Valid Characters and Data Lengths (cont'd.)
-Type Bar Code
-Symbology
-Valid Characters Valid Data Length
-X'0D' Codabar, 2-of-7, AIM
-USS-Codabar
-0123456789
--$:/.+ABCD
-16 characters plus 4 start/stop
-characters (ABCD)
-(see note 3)
-Symbology: unlimited
-BCOCA range: 0 to 50 characters
-(see note 2)
-X'11' Code 128, AIM USS-
-128
-(modifier X'02')
-All characters defined in the
-Code 128 code page
-(see page 160)
-Symbology: unlimited
-BCOCA range: 0 to 50 characters
-(see note 2)
-UCC/EAN 128
-(modifier X'03')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
-FNC1 (X'8F')
-Maximum of 48 characters
-(see note 4)
-UCC/EAN 128,
-GS1-128
-(modifier X'04')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
-FNC1 (X'8F')
-Maximum of 48 characters
-(see note 4)
-Intelligent Mail
-Container Barcode
-(modifier X'05')
-0123456789
-ABCDEFGHIJKLM
-NOPQRSTUVWXYZ
-abcdefghijklm
-nopqrstuvwxyz
--
-FNC1 (X'8F')
-Some fields restrict the range
-of characters; refer to the
-modifier X'05' description in
-Table 14.
-22 characters
-Intelligent Mail
-Package Barcode
-(modifier X'06')
-0123456789
-FNC1 (X'8F')
-22, 26, 30, or 34 characters
+| Type | Bar Code Symbology | Valid Characters | Valid Data Length |
+| :--- | :--- | :--- | :--- |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>-.$/+%<br>(space)<br>A total of 43 valid input characters | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
+| X'02' | MSI (modified Plessey code) | 0123456789 | 3 to 15 characters for Modifier X'01'<br>2 to 14 characters for Modifier X'02'<br>1 to 13 characters for all other modifiers |
+| X'03' | UPC/CGPC - Version A | 0123456789 (see note 1) | 11 characters |
+| X'05' | UPC/CGPC - Version E | 0123456789 (see note 1) | 10 characters |
+| X'06' | UPC - Two-Digit Supplemental (Periodicals) | 0123456789 | 2 characters for Modifier X'00'<br>13 characters for Modifier X'01'<br>12 characters for Modifier X'02' |
+| X'07' | UPC - Five-Digit Supplemental (Paperbacks) | 0123456789 | 5 characters for Modifier X'00'<br>16 characters for Modifier X'01'<br>15 characters for Modifier X'02' |
+| X'08' | EAN-8 (includes JAN-short) | 0123456789 (see note 1) | 7 characters |
+| X'09' | EAN-13 (includes JAN-standard) | 0123456789 (see note 1) | 12 characters |
+| X'0A' | Industrial 2-of-5 | 0123456789 | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
+| X'0B' | Matrix 2-of-5 | 0123456789 | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 0123456789 | Interleaved 2-of-5 symbology: unlimited<br>ITF-14 symbology: 13 digits<br>BCOCA range: 0 to 50 characters (see note 2) |
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 0123456789<br>-$:/.+ABCD<br>16 characters plus 4 start/stop characters (ABCD) (see note 3) | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
+| X'11' | Code 128, AIM USS-128 (modifier X'02') | All characters defined in the Code 128 code page (see page 160) | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
+| | UCC/EAN 128 (modifier X'03') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>FNC1 (X'8F') | Maximum of 48 characters (see note 4) |
+| | UCC/EAN 128, GS1-128 (modifier X'04') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>FNC1 (X'8F') | Maximum of 48 characters (see note 4) |
+| | Intelligent Mail Container Barcode (modifier X'05') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>-<br>FNC1 (X'8F')<br>Some fields restrict the range of characters; refer to the modifier X'05' description in Table 14. | 22 characters |
+| | Intelligent Mail Package Barcode (modifier X'06') | 0123456789<br>FNC1 (X'8F') | 22, 26, 30, or 34 characters |
 X'16' EAN Two-Digit
 Supplemental
 0123456789 2 characters for Modifier X'00'
