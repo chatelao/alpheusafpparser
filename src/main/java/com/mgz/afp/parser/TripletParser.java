@@ -70,34 +70,31 @@ public class TripletParser {
   }
 
   private static void handleTripletExtension(Triplet target, Triplet.TripletExtender extender, AFPParserConfiguration config) {
-    byte[] extraData = extender.getDatExt();
+    var extraData = extender.getDatExt();
     if (extraData == null || extraData.length == 0) {
       return;
     }
 
-    if (target instanceof Triplet.FullyQualifiedName) {
-      Triplet.FullyQualifiedName fqn = (Triplet.FullyQualifiedName) target;
-      byte[] oldBytes = fqn.getNameAsBytes();
-      byte[] newBytes = new byte[oldBytes.length + extraData.length];
+    if (target instanceof Triplet.FullyQualifiedName fqn) {
+      var oldBytes = fqn.getNameAsBytes();
+      var newBytes = new byte[oldBytes.length + extraData.length];
       System.arraycopy(oldBytes, 0, newBytes, 0, oldBytes.length);
       System.arraycopy(extraData, 0, newBytes, oldBytes.length, extraData.length);
       fqn.setNameAsBytes(newBytes);
       fqn.setNameAsString(new String(newBytes, config.getAfpCharSet()));
-    } else if (target instanceof Triplet.AttributeValue) {
-      Triplet.AttributeValue av = (Triplet.AttributeValue) target;
-      String oldVal = av.getAttributeValue();
+    } else if (target instanceof Triplet.AttributeValue av) {
+      var oldVal = av.getAttributeValue();
       if (oldVal == null) {
         oldVal = "";
       }
-      String extraStr = new String(extraData, config.getAfpCharSet());
+      var extraStr = new String(extraData, config.getAfpCharSet());
       av.setAttributeValue(oldVal + extraStr);
-    } else if (target instanceof Triplet.Comment) {
-      Triplet.Comment c = (Triplet.Comment) target;
-      String oldComment = c.getText();
+    } else if (target instanceof Triplet.Comment c) {
+      var oldComment = c.getText();
       if (oldComment == null) {
         oldComment = "";
       }
-      String extraComment = new String(extraData, config.getAfpCharSet());
+      var extraComment = new String(extraData, config.getAfpCharSet());
       c.setComment(oldComment + extraComment);
     }
   }
