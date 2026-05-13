@@ -438,6 +438,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ## Phase 7: Modernization of Build System and Language
 - ✅ Upgrade Gradle to 8.x.
+- ⏳ Resolve Gradle configuration deprecations:
+    - ⏳ Replace `JavaPluginConvention` and `Convention` (scheduled for removal in Gradle 9.0).
+    - ⏳ Declare test framework directly on the test suite to avoid automatic loading deprecation.
+- ⏳ Resolve Java compiler warnings:
+    - ⏳ Migrate from obsolete source/target Java 8 to Java 21.
+    - ⏳ Address unchecked or unsafe operations in `com.mgz.cli.AFP2XML`.
+    - ⏳ Replace usage of deprecated APIs.
 - ⏳ Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts`).
 - ⏳ Update Java version to 21 (LTS).
 - ⏳ Refactor source code to use modern Java features.
@@ -448,6 +455,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ Set up automated release notes and asset generation using GitHub Releases.
 
 ## Phase 9: Project Documentation and Maintenance
+- ⏳ Improve Javadoc quality and compliance:
+    - ⏳ Add missing comments for classes, constructors, methods, and enums (100+ warnings).
+    - ⏳ Add missing `@return` tags in annotations.
+    - ⏳ Fix malformed HTML and empty `<p>` tags.
+- ⏳ Resolve Checkstyle violations:
+    - ⏳ Address ~3,300 violations in `src/main`.
+    - ⏳ Address ~2,000 violations in `src/test`.
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ⏳ Migrate project documentation to MkDocs or Docusaurus.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
