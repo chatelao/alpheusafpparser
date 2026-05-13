@@ -90,6 +90,14 @@ public class AFP2XML {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T extends StructuredField> JAXBElement<T> createJAXBElement(T sf) {
+        return new JAXBElement<>(
+                new QName(sf.getClass().getSimpleName()),
+                (Class<T>) sf.getClass(),
+                sf);
+    }
+
     private static void printUsage() {
         System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory] <input-afp-file/dir> [output-xml-file]");
         System.err.println("Options:");
@@ -105,12 +113,7 @@ public class AFP2XML {
             var doc = new AFPDocument();
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
-                @SuppressWarnings("unchecked")
-                var element = new JAXBElement<>(
-                        new QName(sf.getClass().getSimpleName()),
-                        (Class<StructuredField>) sf.getClass(),
-                        sf);
-                doc.addStructuredField(element);
+                doc.addStructuredField(createJAXBElement(sf));
             }
 
             if (outputFile != null) {
