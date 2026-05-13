@@ -52,7 +52,7 @@ public class AFP2XMLWriter {
   public static void writeXML(OutputStream osw, AFPDocument doc) throws JAXBException {
     var classes = new ArrayList<Class<?>>();
     classes.add(AFPDocument.class);
-    for (var obj : doc.getStructuredFields()) {
+    doc.getStructuredFields().forEach(obj -> {
       if (obj instanceof JAXBElement<?> jaxbElement) {
         var declaredType = jaxbElement.getDeclaredType();
         if (!classes.contains(declaredType)) {
@@ -68,7 +68,7 @@ public class AFP2XMLWriter {
           addClassesFromSF(classes, sf);
         }
       }
-    }
+    });
 
     var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
     var jaxbMarshaller = jaxbContext.createMarshaller();
@@ -81,41 +81,29 @@ public class AFP2XMLWriter {
     if (sf instanceof IHasTriplets iHasTriplets) {
       var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
-        for (var t : triplets) {
-          if (t != null) {
-            addClass(classes, t.getClass());
-          }
-        }
+        triplets.stream().filter(java.util.Objects::nonNull).forEach(t -> addClass(classes, t.getClass()));
       }
     }
     if (sf instanceof IHasRepeatingGroups iHasRepeatingGroups) {
       var rgs = iHasRepeatingGroups.getRepeatingGroups();
       if (rgs != null) {
-        for (var rg : rgs) {
-          if (rg != null) {
-            addClassWithTriplets(classes, rg);
-          }
-        }
+        rgs.stream().filter(java.util.Objects::nonNull).forEach(rg -> addClassWithTriplets(classes, rg));
       }
     }
     // Handle other SFs that might have lists of objects but don't implement IHasRepeatingGroups
     // We could use reflection here to find all List fields, but for now let's be more specific or find a better way.
     // Let's check some common ones.
     if (sf instanceof com.mgz.afp.modca.MCF_MapCodedFont_Format1 mcf1) {
-       var rgs = mcf1.getRepeatingGroups();
-       if (rgs != null) {
-           for (var rg : rgs) {
-               if (rg != null) addClass(classes, rg.getClass());
-           }
-       }
+      var rgs = mcf1.getRepeatingGroups();
+      if (rgs != null) {
+        rgs.stream().filter(java.util.Objects::nonNull).forEach(rg -> addClass(classes, rg.getClass()));
+      }
     }
     if (sf instanceof com.mgz.afp.foca.CFI_CodedFontIndex cfi) {
-        var rgs = cfi.getCfiRepeatingGroups();
-        if (rgs != null) {
-            for (var rg : rgs) {
-                if (rg != null) addClass(classes, rg.getClass());
-            }
-        }
+      var rgs = cfi.getCfiRepeatingGroups();
+      if (rgs != null) {
+        rgs.stream().filter(java.util.Objects::nonNull).forEach(rg -> addClass(classes, rg.getClass()));
+      }
     }
   }
 
@@ -124,11 +112,7 @@ public class AFP2XMLWriter {
     if (obj instanceof IHasTriplets iHasTriplets) {
       var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
-        for (var t : triplets) {
-          if (t != null) {
-            addClass(classes, t.getClass());
-          }
-        }
+        triplets.stream().filter(java.util.Objects::nonNull).forEach(t -> addClass(classes, t.getClass()));
       }
     }
   }

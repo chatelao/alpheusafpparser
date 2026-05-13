@@ -56,10 +56,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
         points = new ArrayList<GOCA_Point>();
         int pos = 0;
         while (pos < lengthOfFollowingData) {
-          GOCA_Point lp = new GOCA_Point();
-          lp.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos, 2);
-          lp.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 2, 2);
-          points.add(lp);
+          short x = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos, 2);
+          short y = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 2, 2);
+          points.add(new GOCA_Point(x, y));
           pos += 4;
         }
       } else {
@@ -982,9 +981,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-      anglePoint = new GOCA_Point();
-      anglePoint.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      anglePoint.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short x = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      short y = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      anglePoint = new GOCA_Point(x, y);
     }
 
 
@@ -1526,9 +1525,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
       reserved2_3 = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      diagonalCorner = new GOCA_Point();
-      diagonalCorner.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
-      diagonalCorner.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
+      short x = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short y = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
+      diagonalCorner = new GOCA_Point(x, y);
       if (lengthOfFollowingData >= 8) {
         xAxisLengthForRoundCorner = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
       }
@@ -1725,9 +1724,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-      arcCenter = new GOCA_Point();
-      arcCenter.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      arcCenter.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short x = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      short y = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      arcCenter = new GOCA_Point(x, y);
       multiplierIntegerPortion = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
       multiplierFractionalPortion = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
     }
@@ -2065,9 +2064,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
-      arcCenter = new GOCA_Point();
-      arcCenter.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      arcCenter.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short x = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      short y = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      arcCenter = new GOCA_Point(x, y);
       multiplierIntegerPortion = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
       multiplierFractionalPortion = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
       startAngle = UtilBinaryDecoding.parseInt(sfData, offset + 8, 4);
@@ -2312,12 +2311,12 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
-      firstCorner = new GOCA_Point();
-      firstCorner.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
-      firstCorner.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
-      diagonalCorner = new GOCA_Point();
-      diagonalCorner.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
-      diagonalCorner.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
+      short x1 = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short y1 = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
+      firstCorner = new GOCA_Point(x1, y1);
+      short x2 = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
+      short y2 = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
+      diagonalCorner = new GOCA_Point(x2, y2);
       if (lengthOfFollowingData >= 12) {
         xAxisLengthForRoundCorner = UtilBinaryDecoding.parseShort(sfData, offset + 12, 2);
       }
@@ -2427,9 +2426,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
-      originPoint = new GOCA_Point();
-      originPoint.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      originPoint.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short x = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      short y = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      originPoint = new GOCA_Point(x, y);
       if (lengthOfFollowingData > 4) {
         codePoints = new byte[lengthOfFollowingData - 4];
         System.arraycopy(sfData, offset + 6, codePoints, 0, codePoints.length);
@@ -2563,9 +2562,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
-      origin = new GOCA_Point();
-      origin.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      origin.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short x = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      short y = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      origin = new GOCA_Point(x, y);
       formatOfImageData = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
       reserved3 = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
       widthOfImageInImagePoints = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
@@ -2659,13 +2658,13 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
-      lineStartPoint = new GOCA_Point();
-      lineStartPoint.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
-      lineStartPoint.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      short x1 = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      short y1 = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      lineStartPoint = new GOCA_Point(x1, y1);
 
-      arcCenter = new GOCA_Point();
-      arcCenter.xCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
-      arcCenter.yCoordinate = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
+      short x2 = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
+      short y2 = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
+      arcCenter = new GOCA_Point(x2, y2);
       multiplierIntegerPortion = UtilBinaryDecoding.parseShort(sfData, offset + 10, 1);
       multiplierFractionalPortion = UtilBinaryDecoding.parseShort(sfData, offset + 11, 1);
       startAngle = UtilBinaryDecoding.parseInt(sfData, offset + 12, 4);
@@ -3091,30 +3090,9 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
   /**
    * Specifies a point as used in GOCA.
    */
-  public static class GOCA_Point {
-    @AFPField
-    short xCoordinate;
-    @AFPField
-    short yCoordinate;
-
+  public record GOCA_Point(@AFPField short xCoordinate, @AFPField short yCoordinate) {
     public byte[] toBytes() {
       return new byte[] {(byte) (xCoordinate >>> 8), (byte) (xCoordinate & 0xFF), (byte) (yCoordinate >>> 8), (byte) (yCoordinate & 0xFF)};
-    }
-
-    public short getxCoordinate() {
-      return xCoordinate;
-    }
-
-    public void setxCoordinate(short xCoordinate) {
-      this.xCoordinate = xCoordinate;
-    }
-
-    public short getyCoordinate() {
-      return yCoordinate;
-    }
-
-    public void setyCoordinate(short yCoordinate) {
-      this.yCoordinate = yCoordinate;
     }
   }
 }
