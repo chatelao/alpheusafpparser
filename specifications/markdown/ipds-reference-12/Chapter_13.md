@@ -24,7 +24,7 @@ documentation refers to expanded page segments as soft page segments. This is a 
 distinction. Soft page segments do not exist at the IPDS level.
 
 
-Begin Page Segment
+## Begin Page Segment (BPS)
 The Begin Page Segment (BPS) command causes the printer to leave home state and enter page segment
 state. The command sequence that follows defines data that the printer saves as a page segment resource
 and schedules for printing later. A page segment is included later in a page or overlay by means of an Include
@@ -55,10 +55,9 @@ one time. Some IPDS printers support even more page segments, up to 32,511 at a 
 support is specified by the X'1101' property pair in the Page Segment command-set vector of
 an STM reply. If an invalid or unsupported page segment HAID is specified, exception ID
 X'0294..01' exists.
-## Begin Page Segment (BPS)
 
 
-Deactivate Page Segment
+## Deactivate Page Segment (DPS)
 The Deactivate Page Segment (DPS) command, previously known as Delete Page Segment, deactivates
 either a single page segment or all page segments. The host can immediately reuse the identification numbers
 of deactivated page segments.
@@ -68,7 +67,7 @@ duplex sheet, for example). This exception need not be detected or reported sync
 command.
 When a page segment is deactivated, any activation information for that page segment created by a previous
 BPS or AR command is also deleted. AR entries for unactivated page segments are not affected by the
-Deactivate Page Segment command.
+Deactivate Page Segment (DPS) command.
 ```
 Length X'D66F' Flag CID Data
 ```
@@ -91,10 +90,9 @@ one time. Some IPDS printers support even more page segments, up to 32,511 at a 
 support is specified by the X'1101' property pair in the Page Segment command-set vector of
 an STM reply. If an invalid or unsupported page segment HAID is specified, exception ID
 X'028A..01' exists.
-## Deactivate Page Segment (DPS)
 
 
-Include Page Segment
+## Include Page Segment (IPS)
 The Include Page Segment (IPS) command causes a previously stored page segment resource to be
 processed in the input data stream as though its commands had just been received from the host. When the printer includes a page segment, the current print position ($I_{c}, B_{c}$) is inherited by the page segment and can be
 changed by text control sequences within the page segment.
@@ -119,6 +117,5 @@ one time. Some IPDS printers support even more page segments, up to 32,511 at a 
 support is specified by the X'1101' property pair in the Page Segment command-set vector of
 an STM reply. If an invalid or unsupported page segment HAID is specified, exception ID
 X'0294..01' exists.
-## Include Page Segment (IPS)
 
 

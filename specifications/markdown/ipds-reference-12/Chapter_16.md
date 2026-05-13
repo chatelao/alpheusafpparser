@@ -5904,7 +5904,7 @@ GOCA and PTOCA.
 2. Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 020F ..01 Invalid or unsupported Set Text
-## Orientation (STO)
+Orientation (STO)
 Action code: X'01' or X'1F'
 020E..04 • 020F ..01
 
@@ -5939,7 +5939,7 @@ Support: Mandatory
 Note: This corresponds to an exception code defined by
 PTOCA.
 0211..01 Invalid or unsupported Set Baseline
-## Increment (SBI)
+Increment (SBI)
 Action code: X'01' or X'1F'
 Explanation: The baseline increment value specified in a
 text Set Baseline Increment control sequence or in an LPD
@@ -5986,7 +5986,7 @@ X'02AF ..01'. The preferred exception ID is X'02AF ..01'.
 2. Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0213..01 Invalid or unsupported Absolute Move
-## Baseline (AMB)
+Baseline (AMB)
 Action code: X'01' or X'1F'
 Explanation: The position value specified in a text
 Absolute Move Baseline control sequence is invalid or
@@ -5998,7 +5998,7 @@ Support: Mandatory
 Note: This corresponds to an exception code defined by
 PTOCA.
 0214..01 Invalid or unsupported Absolute Move
-## Inline (AMI)
+Inline (AMI)
 Action code: X'01' or X'1F'
 0210..01 • 0214..01
 
@@ -6037,7 +6037,7 @@ The preferred exception is X'0205..02'.
 2. This corresponds to an exception code defined by
 PTOCA.
 0215..01 Invalid or unsupported Relative Move
-## Inline (RMI)
+Inline (RMI)
 Action code: X'01' or X'1F'
 Explanation: The displacement value specified in a text
 Relative Move Inline control sequence is invalid or
@@ -6071,7 +6071,7 @@ Support: Mandatory
 Note: Sense bytes 16–17 should contain the explanation
 number of a specific cause for the error.
 0216..01 Invalid or unsupported Relative Move
-## Baseline (RMB)
+Baseline (RMB)
 Action code: X'01' or X'1F'
 Explanation: The displacement value specified in a text
 Relative Move Baseline control sequence is invalid or
@@ -6087,7 +6087,7 @@ The preferred exception ID is X'0860..00'.
 2. This corresponds to an exception code defined by
 PTOCA.
 0217..01 Invalid or unsupported Set Variable-Space
-## Character Increment (SVI)
+Character Increment (SVI)
 Action code: X'01' or X'1F'
 Explanation: The increment value specified in a text Set
 Variable-Space Character Increment control sequence is
@@ -9763,7 +9763,7 @@ alternate current inline position are ignored by these
 IPDS printers, these parameters are not checked for
 validity.
 029C..00 Wrong font used with a Glyph Layout
-## Control (GLC)
+Control (GLC)
 Action code: X'01' or X'1F'
 0298..03 • 029C..00
 

@@ -46,7 +46,7 @@ during the time an overlay is included are reactivated afterward. Within an over
 operates exactly as it does on a page.
 
 
-Begin Overlay
+## Begin Overlay (BO)
 The Begin Overlay (BO) command causes the printer to leave home state and enter overlay state. The
 command sequence that follows defines the data that the printer saves as an overlay resource. The current
 Logical Page Descriptor, Load Font Equivalence, and Load Equivalence settings, if any, are also saved as part
@@ -75,12 +75,11 @@ For extended support, the length of the BO command can be:
 Without CID X'0007'
 With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-## Begin Overlay (BO)
 
 
 All IPDS printers that support overlays allow up to 254 overlays to be activated at one time (basic support).
 Some IPDS printers support even more overlays, up to 32,511 at a time (extended support). The data for the
-Begin Overlay command is specified differently for the two types of support, as follows:
+Begin Overlay (BO) command is specified differently for the two types of support, as follows:
 Basic support: Supported by all printers that support overlays.
 
 | Offset | Type | Name | Range | Meaning | OL1 Range |
@@ -104,10 +103,9 @@ field contains an overlay HAID for an overlay that is already activated in the p
 Printers that provide extended overlay support can accept either of the two forms of this
 command interchangeably. Exception ID X'0202..02' exists if the extended form of this
 command is sent to a printer that provides only basic support.
-## Begin Overlay (BO)
 
 
-Deactivate Overlay
+## Deactivate Overlay (DO)
 The Deactivate Overlay (DO) command, previously known as Delete Overlay, deactivates either a single
 overlay or all activated overlays. When overlays are deactivated, they are no longer available for merging. The
 host can immediately reuse the identification numbers of deactivated overlays.
@@ -129,7 +127,7 @@ With CID X'0009'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 All IPDS printers that support overlays allow up to 254 overlays to be activated at one time (basic support).
 Some IPDS printers support even more overlays, up to 32,511 at a time (extended support). The data for the
-Deactivate Overlay command is specified differently for the two types of support, as follows:
+Deactivate Overlay (DO) command is specified differently for the two types of support, as follows:
 Basic support: Supported by all printers that support overlays.
 
 | Offset | Type | Name | Range | Meaning | OL1 Range |
@@ -149,7 +147,6 @@ Extended support: Optional support identified by the X'1102' property pair in th
 Bytes 0–1 Overlay HAID or deactivate all indicator
 This field either specifies a specific overlay to be deactivated or specifies the deactivation of all
 overlays. The value X'0000' and all values in the range X'0001' – X'7EFF' are supported by the
-## Deactivate Overlay (DO)
 
 
 printer. Exception ID X'0285..01' exists if an invalid overlay HAID is specified. Exception ID
@@ -157,14 +154,13 @@ X'0292..01' exists if the overlay specified is not currently activated.
 Printers that provide extended overlay support can accept either of the two forms of this
 command interchangeably. Exception ID X'0202..02' exists if the extended form of this
 command is sent to a printer that provides only basic support.
-## Deactivate Overlay (DO)
 
 
-Include Overlay
+## Include Overlay (IO)
 The Include Overlay (IO) command causes a previously activated overlay to be presented on the current
 logical page at the specified presentation position. All exceptions for a secure overlay specified by an Include
 Overlay command must be reported before reporting any exceptions detected in commands sent after the
-Include Overlay command.
+Include Overlay (IO) command.
 The overlay origin is positioned as an offset from the $X_{p}, Y_{p}$ origin of the logical page in which it is contained,
 using the L-unit definitions in effect when the IO command is received. The LPD data stored with the overlay is
 used while including the overlay on the current logical page. Thus, an overlay included in a page can be
@@ -201,7 +197,6 @@ X'0293..01' exists.
 To associate metadata with an overlay, the metadata must be passed just after the Begin Overlay (BO)
 command when the overlay was defined. Here in the IO command, additional metadata cannot be associated
 specifically with the overlay.
-## Include Overlay (IO)
 
 
 To improve print performance, if a previous Rasterize Presentation Object (RPO) command had preprocessed
@@ -234,7 +229,6 @@ additional units of measure, the IPDS architecture requires the receiver to at l
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
 page 68.
-## Include Overlay (IO)
 
 
 Bytes 0–1 Overlay Host-Assigned ID
@@ -279,7 +273,6 @@ specified in an Include Overlay command that must occur between the Begin Page
 command and the End Page command. The PFO is not merged with the page data
 until the End Page command has been received and syntax checked; the PFO is
 merged before returning to home state and updating page and copy counters. If a
-## Include Overlay (IO)
 
 
 PFO has already been invoked via the LCC command for a sheet side or if more than
@@ -319,6 +312,5 @@ indicated by a X'A004' property pair in the Overlay command-set vector of an STM
 printers that do not support page-overlay rotation, this parameter (bytes 10–11) must not be
 specified. If bytes 10–11 is specified for a printer that does not support page-overlay rotation,
 exception ID X'0202..02' exists.
-## Include Overlay (IO)
 
 

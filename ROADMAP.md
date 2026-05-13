@@ -30,10 +30,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 *This phase focuses on ensuring the highest quality for the Markdown-based AFP specifications, including purging PDF artifacts, fixing OCR errors, and converting text dumps to structured Markdown tables.*
 
 - 🚧 **IPDS (Critical)**:
-    - ⏳ Purge physical page markers and recurring PDF headers/footers:
-        - ✅ Chapters 1–11, 14–15.
-        - ⏳ Chapters 12–13, 16–17.
-        - ⏳ Appendices A–D.
+    - ✅ Purge physical page markers and recurring PDF headers/footers: Chapters 1–17 and Appendices A–D.
     - ⏳ Fix OCR-induced broken paragraphs and split words:
         - ⏳ Chapters 1–4.
         - ✅ Chapters 5–11, 14–15.
