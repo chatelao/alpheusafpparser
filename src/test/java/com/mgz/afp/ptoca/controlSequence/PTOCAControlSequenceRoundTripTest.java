@@ -3,14 +3,12 @@ package com.mgz.afp.ptoca.controlSequence;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.*;
-import com.mgz.util.UtilBinaryDecoding;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PTOCAControlSequenceRoundTripTest {
 
@@ -35,7 +33,7 @@ public class PTOCAControlSequenceRoundTripTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         cs.writeAFP(baos, config);
-        assertArrayEquals("Payload round-trip failed for " + className, payload, baos.toByteArray());
+        assertArrayEquals(payload, baos.toByteArray(), "Payload round-trip failed for " + className);
 
         byte[] csiBytes = csi.toBytes();
         if (isChained) {

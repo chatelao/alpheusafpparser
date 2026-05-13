@@ -4,14 +4,14 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TRNEncodingTest {
 
@@ -100,7 +100,7 @@ public class TRNEncodingTest {
         }
 
         System.out.println("Extracted text: " + extractedText);
-        assertNotNull("Extracted text should not be null", extractedText);
-        assertTrue("Extracted text should contain Gebühren, got: " + extractedText, extractedText.contains("Gebühren"));
+        assertNotNull(extractedText, "Extracted text should not be null");
+        assertTrue(extractedText.contains("Gebühren"), "Extracted text should contain Gebühren, got: " + extractedText);
     }
 }
