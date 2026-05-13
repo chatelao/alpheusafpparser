@@ -1124,7 +1124,7 @@ command, the origin is located at the top-left corner of the medium presentation
 at the center of the physical medium. This is called the printer default media origin. In this case, the X
 m axis
 corresponds (is parallel) to the top edge of the sheet and positive Xm values begin at the origin and increase
-from left to right. The Ym axis corresponds to the left edge of the sheet and positive Ym values begin at the
+from left to right. The $Y_m$ axis corresponds to the left edge of the sheet and positive Ym values begin at the
 origin and increase from top to bottom.
 Figure 18 through Figure 23 show the Xm,Ym coordinate system for the various
 combinations of physical media.
@@ -1350,9 +1350,9 @@ Logical Page
 
 Positioning of an object area in the Xp,Yp coordinate system consists of two operations:
 • Location of the object area origin in the Xp,Yp coordinate system
-• Rotation of the object area with respect to the Xp axis in the plane of the logical page, also referred to as
+• Rotation of the object area with respect to the $X_p$ axis in the plane of the logical page, also referred to as
 object area orientation with respect to the Xp,Yp coordinate system
-Object area orientation is specified by an angle measured clockwise from the Xp axis to the Xoa axis of the
+Object area orientation is specified by an angle measured clockwise from the $X_p$ axis to the Xoa axis of the
 object area. Object area orientation has no effect on the relationship between the Xoa axis and the Yoa axis of
 the object area. The Yoa axis of the object area remains at a 90 degree clockwise rotation with respect to the
 Xoa axis for all object area orientations.
@@ -1431,7 +1431,7 @@ Current Text Position
 
 
 I,B Orientation
-The +I and +B directions are specified independently in terms of an angle from the +Xp direction. This
+The +I and +B directions are specified independently in terms of an angle from the +$X_p$ direction. This
 orientation can be set either in the Logical Page Descriptor command, by means of embedded controls in the
 Write Text command, or by printer default. Setting the orientations of the +I and +B axes also sets the I,B origin
 at one of the four corners of the logical page. Eight orthogonal I,B text orientations exist out of the many
@@ -1467,14 +1467,14 @@ I,B coordinate system consists of two operations:
 area orientation with respect to the I,B coordinate system
 Object area orientation is specified by an angle measured clockwise from the I axis to the X
 oa axis of the object
-area. Since the I axis can itself be rotated relative to the Xp axis, the object area orientation with respect to the
+area. Since the I axis can itself be rotated relative to the $X_p$ axis, the object area orientation with respect to the
 Xp,Yp coordinate system (the logical page) is determined by the object area orientation with respect to the I
-axis in conjunction with the I-axis orientation with respect to the Xp axis. Object area orientation has no effect
+axis in conjunction with the I-axis orientation with respect to the $X_p$ axis. Object area orientation has no effect
 on the relationship between the Xoa axis and the Yoa axis of the object area. The Yoa axis of the object area
 remains at a 90 degree clockwise rotation with respect to the Xoa axis for all object area orientations with
 respect to the I axis.
 Given an object area orientation (O oa) with respect to the I axis, and given an I-axis orientation (O i) with respect
-to the Xp axis, the equivalent object area rotation with respect to the Xp,Yp coordinate system and the logical
+to the $X_p$ axis, the equivalent object area rotation with respect to the Xp,Yp coordinate system and the logical
 page is given by the sum (O oa + Oi) modulo 360; that is, the remainder when (O oa + Oi) is divided by 360.
 
 

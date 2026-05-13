@@ -1728,11 +1728,11 @@ The format of the data field for the DUA command is as follows:
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 0 | CODE | Reset | X'00'<br>X'01' | Reset user printable area:<br>X'00' A new UPA is being defined<br>X'01' Reset the UPA to the physical printable area | X'00'<br>X'01' |
 | 1 | CODE | Unit base | X'00'<br>X'01' | Unit base for this command:<br>X'00' Ten inches<br>X'01' Ten centimeters | X'00' |
-| 2–3 | UBIN | UPUB | X'0001' – X'7FFF' | Xm and Ym units per unit base | X'3840' |
-| 4–6 | SBIN | $X_m$ offset | X'FF8000'– X'007FFF' | Xm coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
-| 7–9 | SBIN | $Y_m$ offset | X'FF8000'– X'007FFF' | Ym coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
-| 10–12 | UBIN | Xm extent | X'000001'– X'007FFF' | Xm extent of the UPA specified in L-units | X'000001'– X'007FFF' |
-| 13–15 | UBIN | Ym extent | X'000001'– X'007FFF' | Ym extent of the UPA specified in L-units | X'000001'– X'007FFF' |
+| 2–3 | UBIN | UPUB | X'0001' – X'7FFF' | $X_m$ and $Y_m$ units per unit base | X'3840' |
+| 4–6 | SBIN | $X_m$ offset | X'FF8000'– X'007FFF' | $X_m$ coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
+| 7–9 | SBIN | $Y_m$ offset | X'FF8000'– X'007FFF' | $Y_m$ coordinate of the UPA origin specified in L-units | X'000000'– X'007FFF' |
+| 10–12 | UBIN | $X_m$ extent | X'000001'– X'007FFF' | $X_m$ extent of the UPA specified in L-units | X'000001'– X'007FFF' |
+| 13–15 | UBIN | $Y_m$ extent | X'000001'– X'007FFF' | $Y_m$ extent of the UPA specified in L-units | X'000001'– X'007FFF' |
 Byte 0 Reset user printable area
 A value of X'00' specifies that a new user printable area is being defined. A value of X'01'
 specifies that the user printable area is being reset to the physical printable area. If this
@@ -1743,15 +1743,15 @@ that the measurement unit is ten centimeters. The value X'02' is retired as Reti
 Property pair X'FB00' in the Device-Control command-set vector of an STM reply indicates
 support for all architected units of measure.
 Bytes 2–3 X
-m and Ym units per unit base for this command
-This parameter specifies the number of units per unit base in both the Xm and $Y_m$ directions.
-Bytes 4–6 Xm coordinate of the user-printable-area origin
+m and $Y_m$ units per unit base for this command
+This parameter specifies the number of units per unit base in both the $X_m$ and $Y_m$ directions.
+Bytes 4–6 $X_m$ coordinate of the user-printable-area origin
 This parameter specifies the offset in the $X_m$ direction of the user printable area origin from the
 current medium presentation space origin as specified in L-units.
-Bytes 7–9 Ym coordinate of the user-printable-area origin
+Bytes 7–9 $Y_m$ coordinate of the user-printable-area origin
 This parameter specifies the offset in the $Y_m$ direction of the user printable area origin from the
 current medium presentation space origin as specified in L-units.
-Bytes 10–12 Xm extent of the user printable area in L-units
+Bytes 10–12 $X_m$ extent of the user printable area in L-units
 Exception ID X'02A4..02' exists if the user printable area boundary in the X-direction cannot
 be represented in the printer.
 Bytes 13–15 Y
@@ -2259,16 +2259,16 @@ I
 B
 ii
 bi
-Xm
-Ym
+$X_m$
+$Y_m$
 I
 B
 I
 B
 I
 B
-Ym- Axis Duplex (Normal)
-Xm- Axis Duplex (Tumble)
+$Y_m$- Axis Duplex (Normal)
+$X_m$- Axis Duplex (Tumble)
 Front
 Logical Page 1
 Back
@@ -2281,16 +2281,16 @@ Note: The shaded circles in the illustration represent holes
 punched through the sheets of the two examples.
 ii
 bi
-Xm
-Ym
+$X_m$
+$Y_m$
 ii
 bi
-Xm
-Ym
+$X_m$
+$Y_m$
 ii
 bi
-Xm
-Ym
+$X_m$
+$Y_m$
 
 
 X'C2nn' N-up control
@@ -2951,7 +2951,7 @@ X'5A00' = 180°
 X'8700' = 270°
 This field combines with the current text inline direction to determine the character rotation
 with respect to the X
-p,Yp coordinate system. This value need not be verified until there is an
+p,$Y_p$ coordinate system. This value need not be verified until there is an
 attempt to print using the font.
 The font inline sequence applies only to characters used in text or bar code data. For graphics
 data, the Set Character Angle drawing order provides analogous function.
@@ -3174,18 +3174,18 @@ Property pair X'FB00' in the Device-Control command-set vector of an STM reply i
 support for all architected units of measure.
 Exception ID X'0264..02' exists if an invalid or unsupported unit base value is specified.
 Byte 1 Retired item 5
-Bytes 2–3 Xm, Xp, and I units per unit base
+Bytes 2–3 $X_m$, $X_p$, and I units per unit base
 This parameter specifies the number of units per unit base in the $X_m$ direction for positioning
 the logical page within the medium coordinate system using the LPP command.
-It also specifies the number of units per unit base in both the Xp and I directions for positioning
+It also specifies the number of units per unit base in both the $X_p$ and I directions for positioning
 data objects and text. The PTOCA control sequences that use these units of measure
 include: AMB, AMI, DBR, DIR, RMB, RMI, SBI, SIM, SIA, SVI, and TBM.
 Exception ID X'0260..02' exists if an invalid or unsupported units per unit base value is
 specified.
-Bytes 4–5 Ym, Yp, and B units per unit base
+Bytes 4–5 $Y_m$, $Y_p$, and B units per unit base
 This parameter specifies the number of units per unit base in the $Y_m$ direction for positioning
 the logical page within the medium coordinate system using the LPP command.
-It also specifies the number of units per unit base in both the Yp and B directions for
+It also specifies the number of units per unit base in both the $Y_p$ and B directions for
 positioning data objects and text. The PTOCA control sequences that use these units of
 measure include: AMB, AMI, DBR, DIR, RMB, RMI, SBI, SIM, SIA, SVI, and TBM.
 The value in bytes 4–5 must equal the value in bytes 2–3.
@@ -3356,13 +3356,13 @@ page 3
 This is
 page 4
 $X_m$
-Ym
-Xm
-Ym
-Xp
-Xp
-Yp
-Yp
+$Y_m$
+$X_m$
+$Y_m$
+$X_p$
+$X_p$
+$Y_p$
+$Y_p$
 Key:
 tumble duplex, 2-up partitioning
 X’01’
@@ -3381,9 +3381,9 @@ LPP for page 3:
 LPP for page 4:
 X
 p
-Yp
-Yp
-Xp
+$Y_p$
+$Y_p$
+$X_p$
 
 
 **Figure 58** shows a more useful example in which the four pages have been placed on continuous-forms media.
@@ -3410,8 +3410,8 @@ LPP for page 3:
 LPP for page 4:
 Front side
 Back side
-Xm
-Ym
+$X_m$
+$Y_m$
 Partition 1 Partition 2
 This is
 page 1
@@ -3424,7 +3424,7 @@ page 4
 Leading edge
 Leading edge
 $X_m$
-Ym
+$Y_m$
 Partition 1 Partition 2
 
 
@@ -4358,7 +4358,7 @@ indicated in the XOH-OPC Object-Container Type Support self-defining field.
 within each Printable-Area self-defining field. For example, cut-sheet media can be either short-edge fed or
 long-edge fed; wide continuous-forms media is long-edge fed and narrow continuous-forms media is short-
 edge fed. Note that leading edge does not necessarily identify the top edge of the media. Refer to the
-diagrams in “$X_m$,Ym Coordinate System (Medium)” for a description of the various media
+diagrams in “$X_m$,$Y_m$ Coordinate System (Medium)” for a description of the various media
 orientations and feed directions.
 23. The data-object font support property pair (X'F204') indicates printer support for data-object fonts; this
 support includes XOA-RRL data-object font queries and AR command activation using the Fully Qualified
@@ -4477,7 +4477,7 @@ the Installed Features and Available Features self-defining fields of the XOH Ob
 (OPC) reply.
 IPDS printers that report the X'4304' property pair are required to support the PTOCA SKI, SEA, and ENC
 control sequences, as well as the Text Fidelity (X'86') triplet.
-5. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
+5. Object area orientation with respect to the $X_p$,$Y_p$ coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 O
 i, that is supported by the printer, bits 0–3 carry the following implications:
@@ -4587,7 +4587,7 @@ and FS45 would return at least two IOCA vectors: one vector for FS10 that includ
 pair, and one vector for FS45 that includes the X'5505' property pair.
 
 
-7. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
+7. Object area orientation with respect to the $X_p$,$Y_p$ coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 Oi, that is supported by the printer, bits 0–3 carry the following implications:
 • Bit 0: An object area orientation of O oa is supported with respect to the I axis such that the sum (O oa + Oi)
@@ -4652,7 +4652,7 @@ Delete Pattern drawing orders.
 • Not processing the Set Marker Cell (GSMC) drawing order as a No-Op
 • Treating the marker precision attribute and Set Marker Precision (GSMP) drawing order as obsolete
 • Following the recommendation for standard default marker cell-size
-8. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
+8. Object area orientation with respect to the $X_p$,$Y_p$ coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 Oi, that is supported by the printer, bits 0–3 carry the following implications:
 • Bit 0: An object area orientation of O oa is supported with respect to the I axis such that the sum (O oa + Oi)
@@ -4712,7 +4712,7 @@ X'0006' or X'FF06' Yellow
 X'0008' Black
 X'0010' Brown
 X'FF07' Printer default
-7. Object area orientation with respect to the Xp,Yp coordinate system also implies a level of object area
+7. Object area orientation with respect to the $X_p$,$Y_p$ coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 Oi, that is supported by the printer, bits 0–3 carry the following implications:
 • Bit 0: An object area orientation of O oa is supported with respect to the I axis such that the sum (O oa + Oi)
@@ -4772,7 +4772,7 @@ WOCC-OCDD commands to provide a color value for object-container objects that co
 grayscale image. The specific object types that can contain bilevel or grayscale image are identified in the
 MO:DCA object-type OID registry.
 7. Object area orientation with respect to the X
-p,Yp coordinate system also implies a level of object area
+p,$Y_p$ coordinate system also implies a level of object area
 orientation support with respect to supported I-axis orientations. In particular, for a given I-axis orientation,
 Oi, that is supported by the printer, bits 0–3 carry the following implications:
 • Bit 0: An object area orientation of O oa is supported with respect to the I axis such that the sum (O oa + Oi)
@@ -7447,7 +7447,7 @@ cut-sheet, duplex source or the default media source selected by the printer ope
 Some printers provide a means of linking two or more media sources to increase capacity; when the currently
 selected media source becomes empty, media is then selected automatically from one of the other linked
 media sources. It is important to have the same size media in all linked media sources. Only one Printable-
-Area self-defined field should be returned to describe a set of linked media sources.
+Area self-defining field should be returned to describe a set of linked media sources.
 Some printers allow a media source to be identified by several media source IDs, effectively providing an alias
 capability. In this case, a Printable-Area self-defining field is returned for each of the supported media source
 IDs. The XOH-SIMS or LCC command can select this media source by using any of the printer-defined media
@@ -8831,7 +8831,7 @@ This order is not cumulative; consecutive SCF orders produce the same effect as 
 
 
 XOH Set Media Origin
-The XOH Set Media Origin (SMO) command sets the origin of the Xm,Ym coordinate system to one of the four
+The XOH Set Media Origin (SMO) command sets the origin of the $X_m$,$Y_m$ coordinate system to one of the four
 corners of the medium presentation space. An XOH-SMO command can cause the physical printable area
 offset and extent values reported in the XOH-OPC command to change. This order takes effect on the next
 side of a sheet that is selected.
@@ -8842,9 +8842,9 @@ Exception ID X'0202..02' exists if the command length is invalid or unsupported.
 This is an optional command that is not supported by all printers. If this command is not sent to a printer or if
 the printer does not support the command, the origin corresponds to the top-left corner of the sheet, where the
 viewpoint is at the center of the physical medium. This is called the printer default media origin. In this case,
-the $X_m$ axis of the medium presentation space corresponds to the top edge of the sheet, and positive Xm values
+the $X_m$ axis of the medium presentation space corresponds to the top edge of the sheet, and positive $X_m$ values
 begin at the origin and increase from left to right. The $Y_m$ axis of the medium presentation space corresponds
-to the left edge of the sheet and positive Ym values begin at the origin and increase from top to bottom.
+to the left edge of the sheet and positive $Y_m$ values begin at the origin and increase from top to bottom.
 For printers using continuous-forms media that implement the command, the top edge of the sheet is the short
 side whose left corner is closest to the leading edge of the sheet as it moves through the printer. For printers
 using continuous-forms media that do not support the command, the printer defines the top edge of the sheet.
@@ -8859,10 +8859,10 @@ top edge of the sheet for COM for various frame arrangements.
 Note that the top edge of the sheet is fixed for each printer and for envelopes, and the XOH-SMO command
 does not change the location of the top edge of the sheet. In addition, the XOH-SMO command does not alter
 the relationship between the X
-m axis and the $Y_m$ axis. The $Y_m$ axis is rotated 90 degrees clockwise from the Xm
+m axis and the $Y_m$ axis. The $Y_m$ axis is rotated 90 degrees clockwise from the $X_m$
 axis regardless of the positioning of the medium presentation space origin with respect to the physical medium.
-When Xm-axis duplex is in effect, the top edge of the sheet for the back side of a duplex sheet is the opposite
-edge as that used for the front side. When Ym-axis duplex is in effect, the top edge of the sheet for the back
+When $X_m$-axis duplex is in effect, the top edge of the sheet for the back side of a duplex sheet is the opposite
+edge as that used for the front side. When $Y_m$-axis duplex is in effect, the top edge of the sheet for the back
 side of a duplex sheet is the same edge as that used for the front side.
 For the front side of a duplex sheet, the origin of the medium presentation space moves in a clockwise
 direction with respect to the top edge of the sheet. For the back side of a duplex sheet, the origin of the
@@ -8879,11 +8879,11 @@ Front Side of a Sheet
 SMO=X'00' SMO=X'01'
 SMO=X'03' SMO=X'02'
 Top
-Y -Axis Duplex (Normal)m
+Y-Axis Duplex (Normal)m
 SMO=X'00' SMO=X'03'
 SMO=X'01' SMO=X'02'
 Top
-X -Axis Duplex (Tumble)m
+X-Axis Duplex (Tumble)m
 SMO=X'00' SMO=X'03'
 SMO=X'01' SMO=X'02'
 Top
@@ -8902,7 +8902,7 @@ SMO=X'02'
 Back Side of Sheets
 Note: The shaded circles in the illustration represent holes punched through the sheets and
 show how the sheets were flipped from front side to back side.
-Y -Axis Duplex (Normal)m X -Axis Duplex (Tumble)m
+Y-Axis Duplex (Normal)m X-Axis Duplex (Tumble)m
 TopTop
 SMO=X'02' SMO=X'03'
 SMO=X'01' SMO=X'00'
@@ -8926,7 +8926,7 @@ SMO=X'02'
 Back Side of Sheets
 Note: The shaded circles in the illustration represent holes punched through the sheets and
 show how the sheets were flipped from front side to back side.
-Y -Axis Duplex (Normal)m X -Axis Duplex (Tumble)m
+Y-Axis Duplex (Normal)m X-Axis Duplex (Tumble)m
 Top
 Top
 Top
@@ -8951,16 +8951,16 @@ Page 2
 Page 4
 Y
 m
-Xm
-Y -Axis Duplex (Normal)m
+$X_m$
+Y-Axis Duplex (Normal)m
 Top of back page
 Top of back page
 Page 2
 Page 4
-X -Axis Duplex (Tumble)m
+X-Axis Duplex (Tumble)m
 Y
 m
-Xm
+$X_m$
 Front Side of Sheets
 Top of front page
 Top of front page
@@ -8968,31 +8968,31 @@ Page 1
 Page 3
 Y
 m
-Xm
+$X_m$
 Top of front pag
 e
 Page 1
 Top of
 front page
 Page 3
-Ym
+$Y_m$
 X
 m
-X -Axis Duplex (Tumble)m
+X-Axis Duplex (Tumble)m
 Top of back page
 Page 4
 Top of bac
 k page
 Page 2
-Ym
+$Y_m$
 $X_m$
-Y -Axis Duplex (Normal)m
+Y-Axis Duplex (Normal)m
 Top of back page
 Page 4
 Top of back
  page
 Page 2
-Ym
+$Y_m$
 X
 m
 
@@ -9024,7 +9024,7 @@ T
 T
 O
 M
-**Figure 69**. The XOH Set Media Origin Command (Back Side of an Xm-Axis Duplex Envelope)
+**Figure 69**. The XOH Set Media Origin Command (Back Side of an $X_m$-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’SMO=X’02’
 SMO=X’03’
@@ -9053,7 +9053,7 @@ T
 T
 O
 M
-**Figure 70**. The XOH Set Media Origin Command (Back Side of a Ym-Axis Duplex Envelope)
+**Figure 70**. The XOH Set Media Origin Command (Back Side of a $Y_m$-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’ SMO=X’02’
 SMO=X’03’
@@ -9106,28 +9106,28 @@ This parameter specifies the medium presentation space origin. Exception ID X'02
 exists if an invalid origin value is specified.
 X'00' Set the medium presentation space origin to correspond to the top-left corner of the
 medium presentation space. The $X_m$ axis of the medium presentation space
-corresponds to the top edge of the sheet and positive Xm values begin at the origin
+corresponds to the top edge of the sheet and positive $X_m$ values begin at the origin
 and increase from left to right. The $Y_m$ axis of the medium presentation space
-corresponds to the left edge of the sheet and positive Ym values begin at the origin
+corresponds to the left edge of the sheet and positive $Y_m$ values begin at the origin
 and increase from top to bottom.
 X'01' For the front side of a duplex sheet, set the medium presentation space origin to
 correspond to the top-right corner of the medium presentation space. The $X_m$ axis of
 the medium presentation space corresponds to the right edge of the sheet and
-positive Xm values begin at the origin and increase from top to bottom. The $Y_m$ axis of
+positive $X_m$ values begin at the origin and increase from top to bottom. The $Y_m$ axis of
 the medium presentation space corresponds to the top edge of the sheet and positive
-Ym values begin at the origin and increase from right to left.
+$Y_m$ values begin at the origin and increase from right to left.
 For the back side of a duplex sheet, set the medium presentation space origin to
 correspond to the bottom left corner of the medium presentation space. The X
 m axis of
 the medium presentation space corresponds to the left edge of the sheet and positive
 $X_m$ values begin at the origin and increase from bottom to top. The $Y_m$ axis of the
 medium presentation space corresponds to the bottom edge of the sheet and positive
-Ym values begin at the origin and increase from left to right.
+$Y_m$ values begin at the origin and increase from left to right.
 X'02' Set the medium presentation space origin to correspond to the bottom-right corner of
 the medium presentation space. The $X_m$ axis of the medium presentation space
-corresponds to the bottom edge of the sheet and positive Xm values begin at the origin
+corresponds to the bottom edge of the sheet and positive $X_m$ values begin at the origin
 and increase from right to left. The $Y_m$ axis of the medium presentation space
-corresponds to the right edge of the sheet and positive Ym values begin at the origin
+corresponds to the right edge of the sheet and positive $Y_m$ values begin at the origin
 and increase from bottom to top.
 
 
@@ -9193,14 +9193,14 @@ valid printer defined sensor or operator input exists, use the corresponding dim
 medium presentation space size. In the latter case, the media dimension generated by the printer in the
 Printable-Area self-defining field of the XOH-OPC reply contains the appropriate printer default medium
 presentation space dimension.
-It is recommended that the new front-side medium presentation space be a rectangle of size $X_m$ extent by Ym
+It is recommended that the new front-side medium presentation space be a rectangle of size $X_m$ extent by $Y_m$
 extent whose origin is at the default media origin. If duplexing, the back-side medium presentation space
 should be physically lined up with the front-side presentation space as if the physical media had been cut to the
 new size.
 
 
 Notes:
-1. If an XOH-SMS command changes the Xm and Ym extents of the medium presentation space and the
+1. If an XOH-SMS command changes the $X_m$ and $Y_m$ extents of the medium presentation space and the
 medium presentation space origin as set by a previous XOH-SMO command does not correspond to the
 default physical media origin, the printer must recompute the origin of the medium presentation space.
 2. The medium presentation space size specified in accordance with these rules is used in all valid printable
@@ -9234,16 +9234,16 @@ Exception ID X'0270..02' exists if an invalid or unsupported units-per-unit-base
 specified.
 
 
-Bytes 5–6 Xm extent
-These bytes specify the Xm extent of the medium presentation space to be used for printable-
-area calculations in accordance with the specified hierarchical rules. Refer to “Xm,Ym
+Bytes 5–6 $X_m$ extent
+These bytes specify the $X_m$ extent of the medium presentation space to be used for printable-
+area calculations in accordance with the specified hierarchical rules. Refer to “$X_m$,$Y_m$
 Coordinate System (Medium)” for a description of how the medium presentation
 space relates to the physical media, the physical printable area, the medium presentation
 space origin, and the XOH-OPC width and length values.
-Exception ID X'0272..02' or X'0262..02' exists if an invalid or unsupported Xm extent value is
+Exception ID X'0272..02' or X'0262..02' exists if an invalid or unsupported $X_m$ extent value is
 specified; the preferred exception ID is X'0272..02'.
-Bytes 7–8 Ym extent
-These bytes specify the Ym extent of the medium presentation space to be used for printable-
+Bytes 7–8 $Y_m$ extent
+These bytes specify the $Y_m$ extent of the medium presentation space to be used for printable-
 area calculations in accordance with the specified hierarchical rules.
 Exception ID X'0273..02' or X'0263..02' exists if an invalid or unsupported Y
 m extent value is
@@ -9295,11 +9295,11 @@ m
 m
 XOH-OPC Printable Area information: XOH-OPC Printable Area information:
 XOH SMO = X'00' XOH SMO = X'03' (or some non-SMO printers)
-Xm
-Xm
+$X_m$
+$X_m$
 Default media origin Media origin
-Ym
-Ym
+$Y_m$
+$Y_m$
 Width = 11" Width = 11"
 Length = 8.5"
 Length = 8.5"
@@ -9314,9 +9314,9 @@ Space as
 specified by
 SMS
 command
-Xm
+$X_m$
 Default media origin Media origin
-Ym
+$Y_m$
 XOH SMS command: XOH SMS command:
 X extent = 5"
 Y extent = 6"
@@ -9336,8 +9336,8 @@ m
 2nd sheet
 3rd sheet
 2nd sheet 2nd sheet
-Xm
-Ym
+$X_m$
+$Y_m$
 
 
 XOH Specify Group Operation
