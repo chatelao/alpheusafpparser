@@ -1428,7 +1428,7 @@ This order sets the values of the current arc parameters.
 
 #### Semantics
 
-The Set Arc Parameters order specifies the shape and orientation of a circle or an ellipse. Subsequent Full Arc orders specify the size and location of the circle or ellipse. Subsequent Partial Arc orders specify the size and location of the circle or ellipse that the partial arc is part of. For details, see "Full Arc" and "Partial Arc" on page 25.
+The Set Arc Parameters order specifies the shape and orientation of a circle or an ellipse. Subsequent Full Arc orders specify the size and location of the circle or ellipse. Subsequent Partial Arc orders specify the size and location of the circle or ellipse that the partial arc is part of. For details, see "Full Arc" and "Partial Arc".
 
 The parameters P, Q, R, and S define a transformation that maps the unit circle at the GPS origin ($X_g=0, Y_g=0$) to the required circle or ellipse, also at the GPS origin, such that:
 $$X' = P \cdot X + R \cdot Y$$
@@ -1807,525 +1807,566 @@ The following exception condition raises a drawing process check:
 
 ---
 
-Set Extended Color (GSECOL) Order
+### Set Extended Color (GSECOL) Order
 This order provides a shorthand way of setting the following foreground color attributes to the same value:
-• Character color
-• Image color
-• Line color
-• Marker color
-• Pattern color
-Architecture Note: T o fill an area with the color specified by this drawing order , select the drawing default with the Set Pattern Set order , and either the drawing default or solid fill with the Set Pattern Symbol order .
-Syntax
+* Character color
+* Image color
+* Line color
+* Marker color
+* Pattern color
+
+**Architecture Note:** To fill an area with the color specified by this drawing order, select the drawing default with the Set Pattern Set order, and either the drawing default or solid fill with the Set Pattern Symbol order.
+
+#### GSECOL Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'26' | GSECOL | order code |
+| 0 | CODE | X'26' | GSECOL | Order code |
 | 1 | UBIN | LENGTH | 2 | Length of following data |
-| 2-3 | CODE | COLOR | See | Table 5 Value for color attribute |
-| Semantics | | | | |
-| The | Set | Extended | Color | order sets the current value of all five color attributes to the value specified in the order . Color attributes control the color of the foreground bits of the output primitives as they are drawn. |
-| The | color | value | specified | by this order is used as a two-byte color index value into the standard color table; see |
-| “Color” | on | page | 14 | for the meaning of the two-byte values. The color values supported by this order are the same as the values defined in the standard color table, and they are also the same as the values defined in the |
-| Standard | OCA | Color | Value | Table defined in the MO:DCA controlling environment; see the Mixed Object |
-| Document | Content | Architecture | (MO:DCA) | Reference. |
-| The | standard | default | in | AFP environments is the presentation device default color . |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-0003 | The | order | has | an incorrect length. |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-0004 | The | attribute | value | specified in the order is not valid. |
-| Standard | action: | The | action | is implementation dependent. |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | action | is implementation dependent. |
-| Architecture | Note: | If | colors | are simulated in AFP environments, color exceptions need not be generated. |
-| Set Extended Color | | | | |
+| 2-3 | CODE | COLOR | See Table 5 | Value for color attribute |
+
+#### GSECOL Semantics
+The Set Extended Color order sets the current value of all five color attributes to the value specified in the order. Color attributes control the color of the foreground bits of the output primitives as they are drawn.
+
+The color value specified by this order is used as a two-byte color index value into the standard color table; see "Color" for the meaning of the two-byte values. The color values supported by this order are the same as the values defined in the standard color table, and they are also the same as the values defined in the Standard OCA Color Value Table defined in the MO:DCA controlling environment; see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
+
+The standard default in AFP environments is the presentation device default color.
+
+The following exception condition raises a drawing process check:
+* **EC-0003**: The order has an incorrect length.
+
+The following exception conditions cause a standard action to be taken:
+* **EC-0004**: The attribute value specified in the order is not valid.
+  * **Standard action**: The action is implementation dependent.
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The action is implementation dependent.
+
+**Architecture Note:** If colors are simulated in AFP environments, color exceptions need not be generated.
 
 ---
 
-Set Fractional Line Width (GSFL W) Order
+### Set Fractional Line Width (GSFLW) Order
 This order sets the value of the current line width attribute.
-Syntax
+
+#### GSFLW Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'1 | 1' | GSFL W order code |
+| 0 | CODE | X'11' | GSFLW | Order code |
 | 1 | UBIN | LENGTH | 2 | Length of following data |
 | 2 | UBIN | MH | X'00'-X'FF' | Integral multiplier of normal line width |
 | 3 | UBIN | MFR | X'00'-X'FF' | Fractional multiplier of normal line width |
-| Semantics | | | | |
-| The | Set | Fractional | Line | Width order sets the value of the current line width attribute to the value specified in the order . The current line width attribute controls the width of line used to draw line primitives. |
-| MH | specifies | the | integer | portion of the normal line width multiplier; MFR specifies the fractional portion of the normal line width multiplier . A combined value of X'0000' specifies the drawing default. A combined value of |
-| X'0100' | represents | a | unity | multiplier , that is, normal line width. A decimal point is implied between MH and |
-| MFR. | The | fractional | portion | of the multiplier is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the multiplier of 1/4. |
-| See | “Line | Width” | on | page 32 for more information on the line width attribute. |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-0003 | The | order | has | an incorrect length. |
-| The | following | exception | condition | causes a standard action to be taken: |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is a multiplier of X'0100', that is, normal line width. |
-| Set | Fractional | Line | | Width |
 
----
+#### GSFLW Semantics
+The Set Fractional Line Width order sets the value of the current line width attribute to the value specified in the order. The current line width attribute controls the width of line used to draw line primitives.
 
-Set Line End (GSLE) Order
-This order sets the value of the current line end attribute.
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'1A' | GSLE | order code |
-| 1 | CODE | LINEEND | X'00'-X'03' | Value for line end attribute: |
-| X'00' Drawing default | | | | |
-| X'01' Flat | | | | |
-| X'02' Square | | | | |
-| X'03' Round | | | | |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Line | End | order sets the value of the current line end attribute to the value specified in the order . |
-| The | current | line | end | attribute applies to those output primitives that are drawn as straight or curved lines and have ends; that is, not complete figures, such as Box and Full Arc. It defines the shape of the start and end of |
-| groups | of | contiguous | straight | and curved lines. If the line type is not solid, the line end attribute also defines the shape of the internal ends of the dots and dashes, even for complete figures. |
-| The | standard | default | in | AFP environments is X'03'—Round. |
-| See | “Line | End | and | Line Join” for details of the line-end shapes and their application. |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-0004 | The | attribute | value | specified in the order is not valid. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'03'—Round. |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'03'—Round. |
-| Set Line End | | | | |
+MH specifies the integer portion of the normal line width multiplier; MFR specifies the fractional portion of the normal line width multiplier. A combined value of X'0000' specifies the drawing default. A combined value of X'0100' represents a unity multiplier, that is, normal line width. A decimal point is implied between MH and MFR. The fractional portion of the multiplier is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the multiplier of 1/4.
 
----
-
-Set Line Join (GSLJ) Order
-This order sets the value of the current line join attribute.
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'1B' | GSLJ | order code |
-| 1 | CODE | LINEJOIN | X'00'-X'03' | Value for line join attribute: |
-| X'00' Drawing default | | | | |
-| X'01' Bevel | | | | |
-| X'02' Round | | | | |
-| X'03' Miter | | | | |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Line | Join | order sets the value of the current line join attribute to the value specified in the order . |
-| The | current | line | join | attribute applies to those output primitives that are drawn as straight or curved lines and have joins; that is, not complete figures, such as Box and Full Arc. The line join attribute defines the shape of |
-| the | joins | between | contiguous | straight and curved lines. |
-| The | standard | default | in | AFP environments is X'02'—Round. |
-| See | “Line | End | and | Line Join” for details of the line-join shapes and their application. |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-0004 | The | attribute | value | specified in the order is not valid. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'02'—Round. |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'02'—Round. |
-| Set Line Join | | | | |
-
----
-
-Set Line Type (GSL T) Order
-This order sets the value of the current line type attribute to a standard value .
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'18' | GSL | T order code |
-| 1 | CODE | LINETYPE | X'00'-X'08' | Value for line type attribute: |
-| X'00' | Drawing | default; | solid | if none specified |
-| X'01' Dotted line | | | | |
-| X'02' | Short- | dashed | | line |
-| X'03' Dash-dot line | | | | |
-| X'04' | Double- | dotted | | line |
-| X'05' | Long- | dashed | | line |
-| X'06' Dash-double-dot line | | | | |
-| X'07' Solid line | | | | |
-| X'08' Invisible line | | | | |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Line | Type | order sets the value of the current line type attribute to the standard value specified in the order . The current line type attribute controls the type of line used to draw line primitives. |
-| When | setting | the | line | type attribute, this drawing order will set it to a standard value. The Set Custom Line Type drawing order will set the attribute to a custom value. |
-| The | standard | default | for | the line type attribute in AFP environments is X'07'—Solid line. |
-| See | “Line | Type” | on | page 29 for more information on the line type attribute, for guidelines on how the sequence of dashes, dots, and spaces should be generated, and for a discussion of standard and custom line type |
-| values . | | | | |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-0004 | The | attribute | value | specified in the order is not valid. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'07'—Solid line. |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'07'—Solid line. |
-| Set Line Type | | | | |
-
----
-
-Set Line Width (GSL W) Order
-This order sets the value of the current line width attribute.
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'19' | GSL | W order code |
-| 1 | UBIN | MH | X'00'-X'FF' | Value for line width attribute: |
-| X'00' Drawing default | | | | |
-| X'01'-X'FF' | Integral | multiplier | of | normal line width |
-| Semantics | | | | |
-| The | Set | Line | Width | order sets the value of the current line width attribute to the value specified in the order . |
-| This | order | also | resets | the fractional part of the line width attribute to zero. The current line width attribute controls the width of line used to draw line primitives. |
-| MH | specifies | an | integer | multiplier of the normal line width. A value of X'01' represents a unity multiplier , that is, normal line width. |
-| The | standard | default | in | AFP environments is a multiplier of X'01'—normal line width. |
-| See | “Line | Width” | on | page 32 for more information on the line width attribute. |
-| The | following | exception | condition | causes a standard action to be taken: |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is a multiplier of X'01', that is, normal line width. |
-| Set Line Width | | | | |
-
----
-
-Set Marker Cell (GSMC) Order
-This order sets the value of the current marker cell-size attribute.
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'37' | GSMC | order code |
-| 1 | UBIN | LENGTH | 4, | 6 Length of following data |
-| 2-3 | SBIN | CELL | WI | X'8000'-X'7FFF' Width of marker cell |
-| 4-5 | SBIN | CELLHI | X'8000'-X'7FFF' | Height of marker cell |
-| The | following | parameters | are | optional: |
-| 6-7 | BITS | FLAGS | Internal | flags |
-| Bit | 0 | NOTDEFL | T | B'0', B'1' How to interpret a zero cell-size: |
-| B'0' | Zero | means | drawing | default |
-| B'1' | Zero | means | a | size of zero |
-| Bits | 1-15 | RES | B'000000000000000' | Reserved; only valid value |
-| Semantics | | | | |
-| The | Set | Marker | Cell | order sets the value of the current marker cell-size attribute to the value specified in the order . |
-| Implementation | Note: | In | earlier | versions of AFP GOCA, the Set Marker Cell order was processed as a No-Op with a LENGTH field with value 4. Thus, some implementations will ignore this drawing order , and some |
-| will | raise | an | exception | if a LENGTH field with value 6 is encountered. |
-| The | CELL | WI | and | CELLHI values are in GPS units. |
-| If | the | value | of | CELL WI is a negative value, this indicates to present the marker as a mirror image in the x- |
-| direction—that | is, | about | the | Y -axis—of the normal marker symbol. Similarly , a negative CELLHI value indicates to mirror the marker about the X-axis. Note, however , that all symbols in the default marker set are symmetric |
-| in | both | the | x | and y directions, so mirror imaging will have no effect on them. |
-| The | NOTDEFL | T | bit | indicates how to interpret a CELL WI or CELLHI value of zero. |
-| • | If | NOTDEFL | T | = B'0' (or the FLAGS field is omitted), if either or both of CELL WI or CELLHI are X'0000', the marker cell-size is set to the drawing default value. |
-| • | If | NOTDEFL | T | = B'1', if either or both of CELL WI or CELLHI are X'0000', the marker cell-size is set to zero. |
-| While | the | marker | cell-size | attribute is set to zero, markers will be drawn with zero size: that is, the current position will be updated, but no actual markers will be drawn. |
-| The | standard | default | marker | cell-size in AFP environments is device dependent. However , it is recommended that the standard default marker cell-size be 7/120 of an inch for both width and height (although due to |
-| possible | scaling, | default-sized | markers | will not necessarily appear at 7/120 of an inch in the usable area). |
-| Markers | are | scaled | along | with the rest of the GPS if scaling is necessary in the mapping from the GPS window into the usable area (object area). |
-| Set Marker Cell | | | | |
-
----
+See "Line Width" for more information on the line width attribute.
 
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
-Set Marker Cell
+* **EC-0003**: The order has an incorrect length.
+
+The following exception condition causes a standard action to be taken:
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is a multiplier of X'0100', that is, normal line width.
 
 ---
 
-Set Marker Set (GSMS) Order
+### Set Line End (GSLE) Order
+This order sets the value of the current line end attribute.
+
+#### GSLE Syntax
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'1A' | GSLE | Order code |
+| 1 | CODE | LINEEND | X'00'-X'03' | Value for line end attribute: |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Drawing default |
+| X'01' | Flat |
+| X'02' | Square |
+| X'03' | Round |
+| All others | Reserved |
+
+#### GSLE Semantics
+The Set Line End order sets the value of the current line end attribute to the value specified in the order.
+
+The current line end attribute applies to those output primitives that are drawn as straight or curved lines and have ends; that is, not complete figures, such as Box and Full Arc. It defines the shape of the start and end of groups of contiguous straight and curved lines. If the line type is not solid, the line end attribute also defines the shape of the internal ends of the dots and dashes, even for complete figures.
+
+The standard default in AFP environments is X'03'—Round.
+
+See "Line End and Line Join" for details of the line-end shapes and their application.
+
+The following exception conditions cause a standard action to be taken:
+* **EC-0004**: The attribute value specified in the order is not valid.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'03'—Round.
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'03'—Round.
+
+---
+
+### Set Line Join (GSLJ) Order
+This order sets the value of the current line join attribute.
+
+#### GSLJ Syntax
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'1B' | GSLJ | Order code |
+| 1 | CODE | LINEJOIN | X'00'-X'03' | Value for line join attribute: |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Drawing default |
+| X'01' | Bevel |
+| X'02' | Round |
+| X'03' | Miter |
+| All others | Reserved |
+
+#### GSLJ Semantics
+The Set Line Join order sets the value of the current line join attribute to the value specified in the order.
+
+The current line join attribute applies to those output primitives that are drawn as straight or curved lines and have joins; that is, not complete figures, such as Box and Full Arc. The line join attribute defines the shape of the joins between contiguous straight and curved lines.
+
+The standard default in AFP environments is X'02'—Round.
+
+See "Line End and Line Join" for details of the line-join shapes and their application.
+
+The following exception conditions cause a standard action to be taken:
+* **EC-0004**: The attribute value specified in the order is not valid.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'02'—Round.
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'02'—Round.
+
+---
+
+### Set Line Type (GSLT) Order
+This order sets the value of the current line type attribute to a standard value.
+
+#### GSLT Syntax
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'18' | GSLT | Order code |
+| 1 | CODE | LINETYPE | X'00'-X'08' | Value for line type attribute: |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Drawing default; solid if none specified |
+| X'01' | Dotted line |
+| X'02' | Short-dashed line |
+| X'03' | Dash-dot line |
+| X'04' | Double-dotted line |
+| X'05' | Long-dashed line |
+| X'06' | Dash-double-dot line |
+| X'07' | Solid line |
+| X'08' | Invisible line |
+| All others | Reserved |
+
+#### GSLT Semantics
+The Set Line Type order sets the value of the current line type attribute to the standard value specified in the order. The current line type attribute controls the type of line used to draw line primitives.
+
+When setting the line type attribute, this drawing order will set it to a standard value. The Set Custom Line Type drawing order will set the attribute to a custom value.
+
+The standard default for the line type attribute in AFP environments is X'07'—Solid line.
+
+See "Line Type" for more information on the line type attribute, for guidelines on how the sequence of dashes, dots, and spaces should be generated, and for a discussion of standard and custom line type values.
+
+The following exception conditions cause a standard action to be taken:
+* **EC-0004**: The attribute value specified in the order is not valid.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'07'—Solid line.
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'07'—Solid line.
+
+---
+
+### Set Line Width (GSLW) Order
+This order sets the value of the current line width attribute.
+
+#### GSLW Syntax
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'19' | GSLW | Order code |
+| 1 | UBIN | MH | X'00'-X'FF' | Value for line width attribute: |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Drawing default |
+| X'01'-X'FF' | Integral multiplier of normal line width |
+
+#### GSLW Semantics
+The Set Line Width order sets the value of the current line width attribute to the value specified in the order.
+
+This order also resets the fractional part of the line width attribute to zero. The current line width attribute controls the width of line used to draw line primitives.
+
+MH specifies an integer multiplier of the normal line width. A value of X'01' represents a unity multiplier, that is, normal line width.
+
+The standard default in AFP environments is a multiplier of X'01'—normal line width.
+
+See "Line Width" for more information on the line width attribute.
+
+The following exception condition causes a standard action to be taken:
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is a multiplier of X'01', that is, normal line width.
+
+---
+
+### Set Marker Cell (GSMC) Order
+This order sets the value of the current marker cell-size attribute.
+
+#### GSMC Syntax
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'37' | GSMC | Order code |
+| 1 | UBIN | LENGTH | 4, 6 | Length of following data |
+| 2-3 | SBIN | CELLWI | X'8000'-X'7FFF' | Width of marker cell |
+| 4-5 | SBIN | CELLHI | X'8000'-X'7FFF' | Height of marker cell |
+
+The following parameters are optional:
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 6-7 | BITS | FLAGS | | Internal flags |
+
+| Bit | Name | Value | Meaning |
+| :--- | :--- | :--- | :--- |
+| 0 | NOTDEFLT | | How to interpret a zero cell-size: |
+| | | B'0' | Zero means drawing default |
+| | | B'1' | Zero means a size of zero |
+| 1-15 | RES | B'000...' | Reserved; only valid value |
+
+#### GSMC Semantics
+The Set Marker Cell order sets the value of the current marker cell-size attribute to the value specified in the order.
+
+**Implementation Note:** In earlier versions of AFP GOCA, the Set Marker Cell order was processed as a No-Op with a LENGTH field with value 4. Thus, some implementations will ignore this drawing order, and some will raise an exception if a LENGTH field with value 6 is encountered.
+
+The CELLWI and CELLHI values are in GPS units.
+
+If the value of CELLWI is a negative value, this indicates to present the marker as a mirror image in the x-direction—that is, about the Y-axis—of the normal marker symbol. Similarly, a negative CELLHI value indicates to mirror the marker about the X-axis. Note, however, that all symbols in the default marker set are symmetric in both the x and y directions, so mirror imaging will have no effect on them.
+
+The NOTDEFLT bit indicates how to interpret a CELLWI or CELLHI value of zero.
+* If NOTDEFLT = B'0' (or the FLAGS field is omitted), if either or both of CELLWI or CELLHI are X'0000', the marker cell-size is set to the drawing default value.
+* If NOTDEFLT = B'1', if either or both of CELLWI or CELLHI are X'0000', the marker cell-size is set to zero.
+
+While the marker cell-size attribute is set to zero, markers will be drawn with zero size: that is, the current position will be updated, but no actual markers will be drawn.
+
+The standard default marker cell-size in AFP environments is device dependent. However, it is recommended that the standard default marker cell-size be 7/120 of an inch for both width and height (although due to possible scaling, default-sized markers will not necessarily appear at 7/120 of an inch in the usable area).
+
+Markers are scaled along with the rest of the GPS if scaling is necessary in the mapping from the GPS window into the usable area (object area).
+
+The following exception condition raises a drawing process check:
+* **EC-0003**: The order has an incorrect length.
+
+---
+
+### Set Marker Set (GSMS) Order
 This order sets the value of the current marker set attribute.
-Syntax
+
+#### GSMS Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'3C' | GSMS | order code |
+| 0 | CODE | X'3C' | GSMS | Order code |
 | 1 | CODE | LCID | X'00'-X'FF' | Local identifier (LCID) for the marker set: |
-| X'00' | Default | marker | | set |
-| X'01'-X'FE' | Local | identifier | for | marker set |
-| (not | supported | in | AFP | GOCA) |
-| X'FF' | Default | marker | set | (not supported in AFP GOCA) |
-| Semantics | | | | |
-| The | Set | Marker | Set | order sets the value of the current marker set attribute to the value specified in the order . |
-| When | the | value | of | the marker set attribute is X'00', the marker is drawn from the default marker set. See |
-| “Markers” | on | page | 57 | for diagrams of the marker symbols in the default marker set. |
-| Values | X'01' | to | X'FF' | are not supported in AFP GOCA. |
-| The | following | exception | condition | causes a standard action to be taken: |
-| EC-C200 | The | marker | set | identified by the value in the current marker set attribute is not available. |
-| Standard | action: | The | standard | default marker set is used. In AFP environments, this is the default marker set. |
-| Set Marker Set | | | | |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Default marker set |
+| X'01'-X'FE' | Local identifier for marker set (not supported in AFP GOCA) |
+| X'FF' | Default marker set (not supported in AFP GOCA) |
+
+#### GSMS Semantics
+The Set Marker Set order sets the value of the current marker set attribute to the value specified in the order.
+
+When the value of the marker set attribute is X'00', the marker is drawn from the default marker set. See "Markers" for diagrams of the marker symbols in the default marker set.
+
+Values X'01' to X'FF' are not supported in AFP GOCA.
+
+The following exception condition causes a standard action to be taken:
+* **EC-C200**: The marker set identified by the value in the current marker set attribute is not available.
+  * **Standard action**: The standard default marker set is used. In AFP environments, this is the default marker set.
 
 ---
 
-Set Marker Symbol (GSMT) Order
+### Set Marker Symbol (GSMT) Order
 This order sets the value of the current marker symbol attribute.
-Syntax
+
+#### GSMT Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'29' | GSMT | order code |
-| 1 | CODE | MCPT | X'00', | X'01'-X'0A', X'40' Value of marker symbol code point: |
-| X'00' | Drawing | default; | cross | if not specified |
-| When | the | default | marker | set is selected (Marker |
-| Set = X'00'): | | | | |
-| X'01' Cross | | | | |
-| X'02' Plus | | | | |
-| X'03' Diamond | | | | |
-| X'04' Square | | | | |
-| X'05' 6-point star | | | | |
-| X'06' 8-point star | | | | |
-| X'07' Filled diamond | | | | |
-| X'08' Filled square | | | | |
-| X'09' Dot | | | | |
-| X'0A' Small circle | | | | |
-| X'40' Blank | | | | |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Marker | Symbol | order sets the value of the current marker symbol attribute to the value in the order . |
-| See | “Markers” | on | page | 57 for diagrams of the marker symbols corresponding to attribute values X'01'-X'0A' in the default marker set. |
-| The | standard | default | in | AFP environments is X'01'—Cross. |
-| The | following | exception | condition | causes a standard action to be taken: |
-| EC-C201 | The | code | point | identified by the value in the current marker symbol attribute is not defined in the current marker set. |
-| Standard | action: | The | standard | default marker symbol is used. In AFP environments, this is |
-| X'01'—Cross. | | | | |
-| Set Marker Symbol | | | | |
+| 0 | CODE | X'29' | GSMT | Order code |
+| 1 | CODE | MCPT | See below | Value of marker symbol code point |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Drawing default; cross if not specified |
+| **When the default marker set is selected (Marker Set = X'00'):** | |
+| X'01' | Cross |
+| X'02' | Plus |
+| X'03' | Diamond |
+| X'04' | Square |
+| X'05' | 6-point star |
+| X'06' | 8-point star |
+| X'07' | Filled diamond |
+| X'08' | Filled square |
+| X'09' | Dot |
+| X'0A' | Small circle |
+| X'40' | Blank |
+| All others | Reserved |
+
+#### GSMT Semantics
+The Set Marker Symbol order sets the value of the current marker symbol attribute to the value in the order.
+
+See "Markers" for diagrams of the marker symbols corresponding to attribute values X'01'-X'0A' in the default marker set.
+
+The standard default in AFP environments is X'01'—Cross.
+
+The following exception condition causes a standard action to be taken:
+* **EC-C201**: The code point identified by the value in the current marker symbol attribute is not defined in the current marker set.
+  * **Standard action**: The standard default marker symbol is used. In AFP environments, this is X'01'—Cross.
 
 ---
 
-Set Mix (GSMX) Order
+### Set Mix (GSMX) Order
 This order provides a shorthand way of setting the following foreground mix attributes to the same value:
-• Character foreground mix
-• Image foreground mix
-• Line foreground mix
-• Marker foreground mix
-• Pattern foreground mix
-Syntax
+* Character foreground mix
+* Image foreground mix
+* Line foreground mix
+* Marker foreground mix
+* Pattern foreground mix
+
+#### GSMX Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'0C' | GSMX | order code |
+| 0 | CODE | X'0C' | GSMX | Order code |
 | 1 | CODE | MODE | X'00'-X'05' | Mix-mode value: |
-| X'00' Drawing default | | | | |
-| X'01' | Not | supported | in | AFP GOCA |
-| X'02' Overpaint | | | | |
-| X'03'-X'05' | Not | supported | in | AFP GOCA |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Mix | order | sets the current value of all five mix attributes to the value specified in the order . Mix attributes control the way in which the color of the foreground of a primitive is combined with the color of the |
-| presentation space. | | | | |
-| With | MODE | set | to | X'02', the foreground pels are opaque and their color replaces the color of underlying pels in the GPS. Since this is the only foreground mix mode supported in AFP GOCA, selecting the drawing default |
-| (MODE | X'00') | will | also | default to MODE X'02'. |
-| For | a | description | of | the meaning of the various mix modes, see “Mix”. |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-0004 | The | attribute | value | specified in the order is not valid. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'02'—Overpaint. |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'02'—Overpaint. |
-| Set Mix | | | | |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Drawing default |
+| X'01' | Not supported in AFP GOCA |
+| X'02' | Overpaint |
+| X'03'-X'05' | Not supported in AFP GOCA |
+| All others | Reserved |
+
+#### GSMX Semantics
+The Set Mix order sets the current value of all five mix attributes to the value specified in the order. Mix attributes control the way in which the color of the foreground of a primitive is combined with the color of the presentation space.
+
+With MODE set to X'02', the foreground pels are opaque and their color replaces the color of underlying pels in the GPS. Since this is the only foreground mix mode supported in AFP GOCA, selecting the drawing default (MODE X'00') will also default to MODE X'02'.
+
+For a description of the meaning of the various mix modes, see "Mix".
+
+The following exception conditions cause a standard action to be taken:
+* **EC-0004**: The attribute value specified in the order is not valid.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'02'—Overpaint.
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The standard default value of the attribute is used. In AFP environments, this is X'02'—Overpaint.
 
 ---
 
-Set Pattern Reference Point (GSPRP) Order
+### Set Pattern Reference Point (GSPRP) Order
 This order sets the value of the current pattern reference point attribute.
-Syntax
+
+#### GSPRP Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'A0' | GSPRP | order code |
+| 0 | CODE | X'A0' | GSPRP | Order code |
 | 1 | UBIN | LENGTH | 6 | Length of following data |
-| 2 | BITS | FLAGS | Internal | flags |
-| Bit | 0 | DEF | AUL | T B'0' |
-| B'1' | | | | |
-| Set | to | the | specified | value |
-| Set | to | the | drawing | default |
-| Bits | 1-7 | RES1 | B'0000000' | Reserved; only valid value |
-| 3 | RES2 | X'00' | Reserved; | only valid value |
-| 4-5 | SBIN | XPOS | X'8000' | - X'7FFF' X g |
-| coordinate | of | the | pattern | reference point |
-| 6-7 | SBIN | YPOS | X'8000' | - X'7FFF' Y g |
-| coordinate | of | the | pattern | reference point |
-| Semantics | | | | |
-| The | Set | Pattern | Reference | Point order sets the value of the current pattern reference point attribute to the value specified in the order . |
-| The | value | of | the | pattern reference point attribute is used as the origin for the placement of custom patterns when filling an area. The pattern reference point is not used when filling an area either with patterns from the |
-| default | pattern | set | or | with gradients . |
-| Note | that | the | pattern | reference point does not have to be inside an area being filled. Conceptually , the custom pattern is tiled in all directions from the pattern reference point, all the way to the edges of the GPS. Therefore, |
-| the | pattern | reference | point | precisely determines the appearance of an area filled with a custom pattern, whether or not the pattern reference point is located on the inside of that area. |
-| If | DEF | AUL | T | is B'1', the pattern reference point is set to the drawing default and the XPOS and YPOS parameters are ignored. |
-| The | standard | default | pattern | reference point in AFP GOCA is (0,0). |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-0003 | The | order | has | an incorrect length. |
-| Set | Pattern | Reference | | Point |
+| 2 | BITS | FLAGS | | Internal flags |
+
+| Bit | Name | Value | Meaning |
+| :--- | :--- | :--- | :--- |
+| 0 | DEFAULT | | |
+| | | B'0' | Set to the specified value |
+| | | B'1' | Set to the drawing default |
+| 1-7 | RES1 | B'0000000' | Reserved; only valid value |
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 3 | RES2 | X'00' | | Reserved; only valid value |
+| 4-5 | SBIN | XPOS | X'8000'-X'7FFF' | $X_g$ coordinate of the pattern reference point |
+| 6-7 | SBIN | YPOS | X'8000'-X'7FFF' | $Y_g$ coordinate of the pattern reference point |
+
+#### GSPRP Semantics
+The Set Pattern Reference Point order sets the value of the current pattern reference point attribute to the value specified in the order.
+
+The value of the pattern reference point attribute is used as the origin for the placement of custom patterns when filling an area. The pattern reference point is not used when filling an area either with patterns from the default pattern set or with gradients.
+
+Note that the pattern reference point does not have to be inside an area being filled. Conceptually, the custom pattern is tiled in all directions from the pattern reference point, all the way to the edges of the GPS. Therefore, the pattern reference point precisely determines the appearance of an area filled with a custom pattern, whether or not the pattern reference point is located on the inside of that area.
+
+If DEFAULT is B'1', the pattern reference point is set to the drawing default and the XPOS and YPOS parameters are ignored.
+
+The standard default pattern reference point in AFP GOCA is (0,0).
+
+The following exception condition raises a drawing process check:
+* **EC-0003**: The order has an incorrect length.
 
 ---
 
-Set Pattern Set (GSPS) Order
+### Set Pattern Set (GSPS) Order
 This order sets the value of the current pattern set attribute.
-Syntax
+
+#### GSPS Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'08' | GSPS | order code |
+| 0 | CODE | X'08' | GSPS | Order code |
 | 1 | CODE | LCID | X'00'-X'FF' | Local identifier (LCID) for the pattern set: |
-| X'00' | Default | pattern | | set |
-| X'01'-X'FD' | Pattern | set | containing | custom patterns and/or gradients |
-| X'FE' | Local | identifier | for | the pattern set (not supported in AFP |
-| GOCA) | | | | |
-| X'FF' | Default | pattern | set | (not supported in AFP GOCA) |
-| Semantics | | | | |
-| The | Set | Pattern | Set | order sets the value of the current pattern set attribute to the value specified in the order . |
-| When | the | value | of | the pattern set attribute is X'00', the pattern is drawn from the default pattern set. See Figure |
-| 19 | on | page | 40 | for diagrams of the patterns in the default pattern set. |
-| When | the | value | of | the pattern set attribute is in the range X'01' - X'FD', the pattern is either a custom pattern that has been defined in the current segment using the Begin Custom Pattern drawing order or a gradient that |
-| has | been | defined | in | the current segment using the Linear Gradient or Radial Gradient drawing orders. |
-| The | standard | default | in | AFP environments is the default pattern set, X'00'. |
-| Values | X'FE' | and | X'FF' | are not supported in AFP GOCA. |
-| No | exceptions | are | generated | until the pattern set is used for area fill. See “Begin Area (GBAR) Order” |
-| 82. | | | | |
-| Set Pattern Set | | | | |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Default pattern set |
+| X'01'-X'FD' | Pattern set containing custom patterns and/or gradients |
+| X'FE' | Local identifier for the pattern set (not supported in AFP GOCA) |
+| X'FF' | Default pattern set (not supported in AFP GOCA) |
+
+#### GSPS Semantics
+The Set Pattern Set order sets the value of the current pattern set attribute to the value specified in the order.
+
+When the value of the pattern set attribute is X'00', the pattern is drawn from the default pattern set. See Figure 19 for diagrams of the patterns in the default pattern set.
+
+When the value of the pattern set attribute is in the range X'01' - X'FD', the pattern is either a custom pattern that has been defined in the current segment using the Begin Custom Pattern drawing order or a gradient that has been defined in the current segment using the Linear Gradient or Radial Gradient drawing orders.
+
+The standard default in AFP environments is the default pattern set, X'00'.
+
+Values X'FE' and X'FF' are not supported in AFP GOCA.
+
+No exceptions are generated until the pattern set is used for area fill. See "Begin Area (GBAR) Order".
 
 ---
 
-Set Pattern Symbol (GSPT) Order
+### Set Pattern Symbol (GSPT) Order
 This order sets the value of the current pattern symbol attribute.
-Syntax
+
+#### GSPT Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'28' | GSPT | order code |
-| 1 | CODE | P | A | TT For pattern set X'00': |
-| X'00'-X'10', | | | | |
-| X'40' | | | | |
-| For pattern sets | | | | |
-| X'01' - X'FD': | | | | |
-| X'00'-X'FF' | | | | |
-| Value | of | pattern-symbol | code | point: |
-| X'00' Drawing default | | | | |
-| When | the | default | pattern | set is selected (Pattern |
-| Set = X'00'): | | | | |
-| X'01'-X'08' | Dotted | patterns | of | decreasing density |
-| X'09' | V | ertical | | lines |
-| X'0A' Horizontal lines | | | | |
-| X'0B' | Diagonal | lines | 1 | (bottom-left to top-right) |
-| X'0C' | Diagonal | lines | 2 | (bottom-left to top-right) |
-| X'0D' | Diagonal | lines | 1 | (top-left to bottom-right) |
-| X'0E' | Diagonal | lines | 2 | (top-left to bottom-right) |
-| X'0F' No fill | | | | |
-| X'10' Solid fill | | | | |
-| X'40' | Blank | (processed | the | same as X'0F', No fill) |
-| All | other | values | | Reserved |
-| When | a | non-default | pattern | set is selected |
-| (Pattern | Set | = | X'01' | - X'FD'): |
-| X'01'-X'FF' | Pattern | symbol | value | of a custom pattern or gradient |
-| Semantics | | | | |
-| The | Set | Pattern | Symbol | order sets the value of the current pattern symbol attribute to the value specified in the order . The value of the pattern symbol attribute determines which particular pattern from the current pattern set |
-| is | used | to | fill | the interior of subsequent areas. |
-| See | Figure | 19 | on | page 40 for diagrams of the patterns corresponding to the attribute values X'01'-X'10' in the default pattern set. |
-| The | standard | default | in | AFP environments is X'10' . If the default pattern set is selected, this corresponds to the |
-| Solid-fill pattern. | | | | |
-| The | pattern | symbol | value | X'00' specifies to use the drawing default pattern symbol, no matter the value of the current pattern set attribute (as long as it is a supported value). For example, if the drawing default pattern, as |
-| set | by | the | Set | Current Defaults instruction, is pattern set X'03', pattern symbol X'14', that pattern will be used if the current pattern symbol attribute is set to X'00', whether the current pattern set attribute is X'03', X'00', X'1 1', |
-| or | any | other | supported | value. |
-| Set Pattern Symbol | | | | |
+| 0 | CODE | X'28' | GSPT | Order code |
+| 1 | CODE | PATT | See below | Value of pattern-symbol code point |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'00' | Drawing default |
+| **When the default pattern set is selected (Pattern Set = X'00'):** | |
+| X'01'-X'08' | Dotted patterns of decreasing density |
+| X'09' | Vertical lines |
+| X'0A' | Horizontal lines |
+| X'0B' | Diagonal lines 1 (bottom-left to top-right) |
+| X'0C' | Diagonal lines 2 (bottom-left to top-right) |
+| X'0D' | Diagonal lines 1 (top-left to bottom-right) |
+| X'0E' | Diagonal lines 2 (top-left to bottom-right) |
+| X'0F' | No fill |
+| X'10' | Solid fill |
+| X'40' | Blank (processed the same as X'0F', No fill) |
+| All others | Reserved |
+| **When a non-default pattern set is selected (Pattern Set = X'01' - X'FD'):** | |
+| X'01'-X'FF' | Pattern symbol value of a custom pattern or gradient |
+
+#### GSPT Semantics
+The Set Pattern Symbol order sets the value of the current pattern symbol attribute to the value specified in the order. The value of the pattern symbol attribute determines which particular pattern from the current pattern set is used to fill the interior of subsequent areas.
+
+See Figure 19 for diagrams of the patterns corresponding to the attribute values X'01'-X'10' in the default pattern set.
+
+The standard default in AFP environments is X'10'. If the default pattern set is selected, this corresponds to the Solid-fill pattern.
+
+The pattern symbol value X'00' specifies to use the drawing default pattern symbol, no matter the value of the current pattern set attribute (as long as it is a supported value). For example, if the drawing default pattern, as set by the Set Current Defaults instruction, is pattern set X'03', pattern symbol X'14', that pattern will be used if the current pattern symbol attribute is set to X'00', whether the current pattern set attribute is X'03', X'00', X'11', or any other supported value.
+
+No exceptions are generated until the pattern symbol is used for area fill. See "Begin Area (GBAR) Order".
 
 ---
 
-No exceptions are generated until the pattern symbol is used for area fill. See “Begin Area (GBAR) Order”.
-Set Pattern Symbol
+### Set Process Color (GSPCOL) Order
+This order specifies a process color, highlight color, or named color that sets the following color attributes to the same value:
+* Character color
+* Image color
+* Line color
+* Marker color
+* Pattern color
 
----
+**Architecture Note:** To fill an area with the color specified by this drawing order, select the drawing default with the Set Pattern Set order, and either the drawing default or solid fill with the Set Pattern Symbol order.
 
-Set Process Color (GSPCOL) Order
-This order specifies a process color , highlight color , or named color that sets the following color attributes to the same value:
-• Character color
-• Image color
-• Line color
-• Marker color
-• Pattern color
-Architecture Note: T o fill an area with the color specified by this drawing order , select the drawing default with the Set Pattern Set order , and either the drawing default or solid fill with the Set Pattern Symbol order .
-Syntax
+#### GSPCOL Syntax
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'B2' | GSPCOL | order code |
+| 0 | CODE | X'B2' | GSPCOL | Order code |
 | 1 | UBIN | LENGTH | 12-14 | Length of following data |
-| 2 | RES1 | X'00' | Reserved; | only valid value |
-| 3 | CODE | COLSPCE | X'01', | X'04', X'06', X'08', |
-| X'40' | | | | |
-| Color space: | | | | |
-| X'01' RGB | | | | |
-| X'04' CMYK | | | | |
-| X'06' | Highlight | color | | space |
-| X'08' CIELAB | | | | |
-| X'40' | Standard | OCA | color | space |
-| 4-7 | RES2 | X'00000000' | Reserved; | only valid value |
-| 8 | UBIN | COLSIZE1 | X'01'-X'08', | X'10' Number of bits in component 1; see color space definitions |
+| 2 | RES1 | X'00' | | Reserved; only valid value |
+| 3 | CODE | COLSPCE | See below | Color space |
+
+| Value | Meaning |
+| :--- | :--- |
+| X'01' | RGB |
+| X'04' | CMYK |
+| X'06' | Highlight color space |
+| X'08' | CIELAB |
+| X'40' | Standard OCA color space |
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 4-7 | RES2 | X'00000000' | | Reserved; only valid value |
+| 8 | UBIN | COLSIZE1 | X'01'-X'08', X'10' | Number of bits in component 1; see color space definitions |
 | 9 | UBIN | COLSIZE2 | X'00'-X'08' | Number of bits in component 2; see color space definitions |
 | 10 | UBIN | COLSIZE3 | X'00'-X'08' | Number of bits in component 3; see color space definitions |
-| 1 | 1 | UBIN | COLSIZE4 | X'00'-X'08' Number of bits in component 4; see color space definitions |
-| 12-n | COLVALUE | See | Semantics | Color specification |
-| Semantics | | | | |
-| COLSPCE | is | a | code | that defines the color space and the encoding for the color specification. If the color space is invalid, exception condition EC-0004 exists. The standard action is to use the device default color . If the |
-| color | space | is | unsupported, | exception condition EC-000E exists. The standard action is to use the device default color . A more specific and preferred exception for an invalid or unsupported color space is EC-0E02. |
-| The | standard | action | is | to use the device default color . |
-| Value Description | | | | |
-| X'01' | RGB | color | space. | The color value is specified with three components. Components 1, 2, and 3 are unsigned binary numbers that specify the red, green, and blue intensity values, in that |
-| order | . | COLSIZE1, | COLSIZE2, | and COLSIZE3 are nonzero and define the number of bits used to specify each component. COLSIZE4 is reserved and should be set to zero. The intensity |
-| Set Process Color | | | | |
+| 11 | UBIN | COLSIZE4 | X'00'-X'08' | Number of bits in component 4; see color space definitions |
+| 12-n | COLVALUE | | See Semantics | Color specification |
 
----
+#### GSPCOL Semantics
+COLSPCE is a code that defines the color space and the encoding for the color specification. If the color space is invalid, exception condition EC-0004 exists. The standard action is to use the device default color. If the color space is unsupported, exception condition EC-000E exists. The standard action is to use the device default color. A more specific and preferred exception for an invalid or unsupported color space is EC-0E02.
+The standard action is to use the device default color.
 
-range for the R,G,B components is 0 to 1, which is mapped to the binary value range 0 to (2
-COLSIZEN - 1), where N=1,2,3.
-Architecture Note: The reference white point and the chromaticity coordinates for RGB are defined in SMPTE RP145-1987, entitled Color Monitor Colorimetry , and in RP37-1969, entitled Color T emperature for Color T elevision Studio Monitors, respectively . The reference white point is commonly known as Illuminant D6500 or simply D65. The R,G,B components are assumed to be gamma-corrected (nonlinear) with a gamma of 2.2.
-X'04' CMYK color space. The color value is specified with four components. Components 1, 2, 3, and 4 are unsigned binary numbers that specify the cyan, magenta, yellow , and black intensity values, in that order . COLSIZE1, COLSIZE2, COLSIZE3, and COLSIZE4 are nonzero and define the number of bits used to specify each component. The intensity range for the C,M,Y ,K components is 0 to 1, which is mapped to the binary value range 0 to (2
-COLSIZEN - 1), where N= 1,2,3,4. This is a device-dependent color space.
-X'06' Highlight color space. This color space defines a request for the presentation device to generate a highlight color . The color value is specified with one to three components.
-Component 1 is a two-byte unsigned binary number that specifies the highlight color number .
-The first highlight color is assigned X'0001', the second highlight color is assigned X'0002', and so on. The value X'0000' specifies the presentation device default color . COLSIZE1 =
-X'10' and defines the number of bits used to specify component 1.
-Component 2 is an optional one-byte unsigned binary number that specifies a percent coverage for the specified color . Percent coverage can be any value from 0% to 100% (X'00'- X'64'). The number of distinct values supported is presentation-device dependent. If the coverage is less than 100%, the remaining coverage is achieved with color of medium.
-COLSIZE2 = X'00' or X'08' and defines the number of bits used to specify component 2. A value of X'00' indicates that component 2 is not specified in the color value, in which case the architected default for percent coverage is 100%. A value of X'08' indicates that component 2 is specified in the color value.
-Component 3 is an optional one-byte unsigned binary number that specifies a percent shading, which is a percentage of black that is to be added to the specified color . Percent shading can be any value from 0% to 100% (X'00'-X'64'). The number of distinct values supported is presentation-device dependent. If percent coverage and percent shading are specified, the effective range for percent shading is 0% to (100-coverage)%. If the sum of percent coverage plus percent shading is less than 100%, the remaining coverage is achieved with color of medium. COLSIZE3 = X'00' or X'08' and defines the number of bits used to specify component 3. A value of X'00' indicates that component 3 is not specified in the color value, in which case the architected default for percent shading is 0%. A value of X'08' indicates that component 3 is specified in the color value.
-Implementation Note: The percent shading parameter is currently not supported in AFP environments.
-If the percent value for component 2 or component 3 is invalid, exception condition EC-0E04 exists. The standard action is to use the maximum valid percent value.
-COLSIZE4 is reserved and should be set to zero.
-This is a device-dependent color space.
-Architecture Notes:
-1. The color that is rendered when a highlight color is specified is device dependent. For presentation devices that support colors other than black, highlight color values in the range X'0001' to X'FFFF' may be mapped to any color . For bilevel devices, the color may be simulated with a graphic pattern.
-Set Process Color
+**Value Descriptions**
 
----
+* **X'01' RGB color space.** The color value is specified with three components. Components 1, 2, and 3 are unsigned binary numbers that specify the red, green, and blue intensity values, in that order. COLSIZE1, COLSIZE2, and COLSIZE3 are nonzero and define the number of bits used to specify each component. COLSIZE4 is reserved and should be set to zero. The intensity range for the R, G, B components is 0 to 1, which is mapped to the binary value range 0 to $(2^{COLSIZE_N} - 1)$, where $N=1, 2, 3$.
+  * **Architecture Note:** The reference white point and the chromaticity coordinates for RGB are defined in SMPTE RP145-1987, entitled *Color Monitor Colorimetry*, and in RP37-1969, entitled *Color Temperature for Color Television Studio Monitors*, respectively. The reference white point is commonly known as Illuminant D6500 or simply D65. The R, G, B components are assumed to be gamma-corrected (nonlinear) with a gamma of 2.2.
+* **X'04' CMYK color space.** The color value is specified with four components. Components 1, 2, 3, and 4 are unsigned binary numbers that specify the cyan, magenta, yellow, and black intensity values, in that order. COLSIZE1, COLSIZE2, COLSIZE3, and COLSIZE4 are nonzero and define the number of bits used to specify each component. The intensity range for the C, M, Y, K components is 0 to 1, which is mapped to the binary value range 0 to $(2^{COLSIZE_N} - 1)$, where $N=1, 2, 3, 4$. This is a device-dependent color space.
+* **X'06' Highlight color space.** This color space defines a request for the presentation device to generate a highlight color. The color value is specified with one to three components.
+  * **Component 1** is a two-byte unsigned binary number that specifies the highlight color number. The first highlight color is assigned X'0001', the second highlight color is assigned X'0002', and so on. The value X'0000' specifies the presentation device default color. COLSIZE1 = X'10' and defines the number of bits used to specify component 1.
+  * **Component 2** is an optional one-byte unsigned binary number that specifies a percent coverage for the specified color. Percent coverage can be any value from 0% to 100% (X'00'-X'64'). The number of distinct values supported is presentation-device dependent. If the coverage is less than 100%, the remaining coverage is achieved with color of medium. COLSIZE2 = X'00' or X'08' and defines the number of bits used to specify component 2. A value of X'00' indicates that component 2 is not specified in the color value, in which case the architected default for percent coverage is 100%. A value of X'08' indicates that component 2 is specified in the color value.
+  * **Component 3** is an optional one-byte unsigned binary number that specifies a percent shading, which is a percentage of black that is to be added to the specified color. Percent shading can be any value from 0% to 100% (X'00'-X'64'). The number of distinct values supported is presentation-device dependent. If percent coverage and percent shading are specified, the effective range for percent shading is 0% to (100-coverage)%. If the sum of percent coverage plus percent shading is less than 100%, the remaining coverage is achieved with color of medium. COLSIZE3 = X'00' or X'08' and defines the number of bits used to specify component 3. A value of X'00' indicates that component 3 is not specified in the color value, in which case the architected default for percent shading is 0%. A value of X'08' indicates that component 3 is specified in the color value.
+  * **Implementation Note:** The percent shading parameter is currently not supported in AFP environments.
+  * If the percent value for component 2 or component 3 is invalid, exception condition EC-0E04 exists. The standard action is to use the maximum valid percent value.
+  * COLSIZE4 is reserved and should be set to zero.
+  * This is a device-dependent color space.
+  * **Architecture Notes:**
+    1. The color that is rendered when a highlight color is specified is device dependent. For presentation devices that support colors other than black, highlight color values in the range X'0001' to X'FFFF' may be mapped to any color. For bilevel devices, the color may be simulated with a graphic pattern.
+    2. If the specified highlight color is "presentation device default", devices whose default color is black use the percent coverage parameter, which is specified in component 2, to render a percent shading.
+    3. On printing devices, the color of medium is normally white, in which case a coverage of n% results in adding (100-n)% white to the specified color, or tinting the color with (100-n)% white. Display devices may assume the color of medium to always be white and use this algorithm to render the specified coverage.
+    4. The highlight color space can also specify indexed colors when used in conjunction with a Color Mapping Table (CMT) or an Indexed (IX) Color Management Resource (CMR). In that case, component 1 specifies a two-byte value that is the index into the CMT or the IX CMR, and components 2 and 3 are ignored. Note that when both a CMT and Indexed CMRs are used, the CMT is always accessed first. To preserve compatibility with existing highlight color devices, indexed color values X'0000' - X'00FF' are reserved for existing highlight color applications and devices. That is, indexed color values in the range X'0000' - X'00FF', assuming they are not mapped to a different color space in a CMT, are mapped directly to highlight colors. Indexed color values in the range X'0100' - X'FFFF', assuming they are not mapped to a different color space in a CMT, are used to access Indexed CMRs. For a description of the Color Mapping Table in MO:DCA environments, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
+* **X'08' CIELAB color space.** The color value is specified with three components. Components 1, 2, and 3 are binary numbers that specify the L, a, b values, in that order, where L is the luminance and a and b are the chrominance differences. Component 1 specifies the L value as an unsigned binary number; components 2 and 3 specify the a and b values as signed binary numbers. COLSIZE1, COLSIZE2, and COLSIZE3 are nonzero and define the number of bits used to specify each component. COLSIZE4 is reserved and should be set to zero. The range for the L component is 0 to 100, which is mapped to the binary value range 0 to $(2^{COLSIZE_1} - 1)$. The range for the a and b components is -127 to +127, which is mapped to the binary range $-(2^{COLSIZE_N-1} - 1)$ to $+(2^{COLSIZE_N-1} - 1)$, where $N=2, 3$.
+  * For color fidelity, 8-bit encoding should be used for each component, that is, COLSIZE1, COLSIZE2, and COLSIZE3 are set to X'08'. When the recommended 8-bit encoding is used for the a and b components, the range is extended to include -128, which is mapped to the value X'80'. If the encoding is less than 8 bits, treatment of the most negative binary endpoint for the a and b components is device dependent, and tends to be insignificant because of the quantization error.
+  * **Architecture Note:** The reference white point for CIELAB is known as D50 and is defined in CIE publication 15-2 entitled *Colorimetry*.
+* **X'40' Standard OCA color space.** The color value is specified with one component. Component 1 is an unsigned binary number that specifies a named color using a two-byte value from the Standard OCA Color Value Table. For a complete description of the Standard OCA Color Value Table, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*. COLSIZE1 = X'10' and defines the number of bits used to specify component 1. COLSIZE2, COLSIZE3, and COLSIZE4 are reserved and should be set to zero. This is a device-dependent color space. See Table 5 for the meaning of the two-byte values.
+* **All others Reserved**
 
-2. If the specified highlight color is “presentation device default”, devices whose default color is black use the percent coverage parameter , which is specified in component 2, to render a percent shading. 3. On printing devices, the color of medium is normally white, in which case a coverage of n
-% results in adding (100-n)% white to the specified color , or tinting the color with (100-n)% white. Display devices may assume the color of medium to always be white and use this algorithm to render the specified coverage. 4. The highlight color space can also specify indexed colors when used in conjunction with a
-Color Mapping Table (CMT) or an Indexed (IX) Color Management Resource (CMR). In that case, component 1 specifies a two-byte value that is the index into the CMT or the IX
-CMR, and components 2 and 3 are ignored. Note that when both a CMT and Indexed
-CMRs are used, the CMT is always accessed first. T o preserve compatibility with existing highlight color devices, indexed color values X'0000' - X'00FF' are reserved for existing highlight color applications and devices. That is, indexed color values in the range
-X'0000' - X'00FF', assuming they are not mapped to a different color space in a CMT , are mapped directly to highlight colors. Indexed color values in the range X'0100' - X'FFFF', assuming they are not mapped to a different color space in a CMT , are used to access
-Indexed CMRs. For a description of the Color Mapping Table in MO:DCA environments, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
-X'08' CIELAB color space. The color value is specified with three components. Components 1, 2, and 3 are binary numbers that specify the L, a, b values, in that order , where L is the luminance and a and b are the chrominance dif ferences. Component 1 specifies the L value as an unsigned binary number; components 2 and 3 specify the a and b values as signed binary numbers. COLSIZE1, COLSIZE2, and COLSIZE3 are nonzero and define the number of bits used to specify each component. COLSIZE4 is reserved and should be set to zero. The range for the L component is 0 to 100, which is mapped to the binary value range 0 to (2
-COLSIZE1 - 1). The range for the a and b components is -127 to +127, which is mapped to the binary range -(2
-COLSIZEN - 1 - 1) to +(2
-COLSIZEN - 1 - 1), where N=2,3.
-For color fidelity , 8-bit encoding should be used for each component, that is, COLSIZE1, COLSIZE2, and COLSIZE3 are set to X'08'. When the recommended 8-bit encoding is used for the a and b components, the range is extended to include -128, which is mapped to the value X'80'. If the encoding is less than 8 bits, treatment of the most negative binary endpoint for the a and b components is device dependent, and tends to be insignificant because of the quantization error .
-Architecture Note: The reference white point for CIELAB is known as D50 and is defined in
-CIE publication 15-2 entitled Colorimetry .
-X'40' Standard OCA color space. The color value is specified with one component. Component 1 is an unsigned binary number that specifies a named color using a two-byte value from the
-Standard OCA Color Value Table. For a complete description of the Standard OCA Color
-Value Table, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
-COLSIZE1 = X'10' and defines the number of bits used to specify component 1. COLSIZE2, COLSIZE3, and COLSIZE4 are reserved and should be set to zero. This is a device- dependent color space.
-See Table 5 for the meaning of the two-byte values.
-All others Reserved
-COLSIZE1 defines the number of bits used to specify the first color component. The color component is right- aligned and padded with zeros on the left to the nearest byte boundary . For example, if COLSIZE1 = X'06', the first color component has two padding bits.
-COLSIZE2 defines the number of bits used to specify the second color component. The color component is right-aligned and padded with zeros on the left to the nearest byte boundary .
-Set Process Color
+COLSIZE1 defines the number of bits used to specify the first color component. The color component is right-aligned and padded with zeros on the left to the nearest byte boundary. For example, if COLSIZE1 = X'06', the first color component has two padding bits.
 
----
+COLSIZE2 defines the number of bits used to specify the second color component. The color component is right-aligned and padded with zeros on the left to the nearest byte boundary.
 
-COLSIZE3 defines the number of bits used to specify the third color component. The color component is right- aligned and padded with zeros on the left to the nearest byte boundary .
-COLSIZE4 defines the number of bits used to specify the fourth color component. The color component is right-aligned and padded with zeros on the left to the nearest byte boundary .
-For COLSIZE1-COLSIZE4, if the specified value is invalid, exception condition EC-0004 exists. The standard action is to use the device default color . If the specified value is unsupported, exception condition EC-000E exists. The standard action is to use the device default color . A more specific and preferred exception for an invalid or unsupported number of bits in a color component is EC-0E05. The standard action is to use the device default color .
-COLVALUE specifies the color value in the defined format and encoding. If the color value is invalid, exception condition EC-0004 exists. The standard action is to use the device default color . If the color value is unsupported, exception condition EC-000E exists. The standard action is to use the device default color . A more specific and preferred exception for an invalid or unsupported color value is EC-0E03. The standard action is to use the device default color . Note that the number of bytes specified for this parameter depends on the color space. For example, when there are 8 bits per component, an RGB color value is specified with 3 bytes, while a CMYK color value is specified with 4 bytes. If extra bytes are specified, they are ignored as long as the drawing order length is valid.
+COLSIZE3 defines the number of bits used to specify the third color component. The color component is right-aligned and padded with zeros on the left to the nearest byte boundary.
+
+COLSIZE4 defines the number of bits used to specify the fourth color component. The color component is right-aligned and padded with zeros on the left to the nearest byte boundary.
+
+For COLSIZE1-COLSIZE4, if the specified value is invalid, exception condition EC-0004 exists. The standard action is to use the device default color. If the specified value is unsupported, exception condition EC-000E exists. The standard action is to use the device default color. A more specific and preferred exception for an invalid or unsupported number of bits in a color component is EC-0E05. The standard action is to use the device default color.
+
+COLVALUE specifies the color value in the defined format and encoding. If the color value is invalid, exception condition EC-0004 exists. The standard action is to use the device default color. If the color value is unsupported, exception condition EC-000E exists. The standard action is to use the device default color. A more specific and preferred exception for an invalid or unsupported color value is EC-0E03. The standard action is to use the device default color. Note that the number of bytes specified for this parameter depends on the color space. For example, when there are 8 bits per component, an RGB color value is specified with 3 bytes, while a CMYK color value is specified with 4 bytes. If extra bytes are specified, they are ignored as long as the drawing order length is valid.
+
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
+* **EC-0003**: The order has an incorrect length.
+
 The following exception conditions cause a standard action to be taken:
-EC-0004 The attribute value specified in the order is not valid.
-Standard action: The device default color is used.
-EC-000E The attribute value specified in the order is not supported.
-Standard action: The device default color is used
-EC-0E02 The color space specified in the order is invalid or unsupported.
-Standard action: The device default color is used.
-EC-0E03 The color value specified in the order is invalid or unsupported.
-Standard action: The device default color is used.
-EC-0E04 The highlight color percent value specified in the order is invalid.
-Standard action: The maximum valid percent value is used.
-EC-0E05 The number of bits for a color component specified in the order is invalid or unsupported.
-Standard action: The device default color is used.
-Architecture Notes:
-1. AFP printers should generate the specific and preferred exceptions defined for this drawing order . For example, if the color value is invalid or unsupported, AFP printers should generate EC-0E03.
+* **EC-0004**: The attribute value specified in the order is not valid.
+  * **Standard action**: The device default color is used.
+* **EC-000E**: The attribute value specified in the order is not supported.
+  * **Standard action**: The device default color is used.
+* **EC-0E02**: The color space specified in the order is invalid or unsupported.
+  * **Standard action**: The device default color is used.
+* **EC-0E03**: The color value specified in the order is invalid or unsupported.
+  * **Standard action**: The device default color is used.
+* **EC-0E04**: The highlight color percent value specified in the order is invalid.
+  * **Standard action**: The maximum valid percent value is used.
+* **EC-0E05**: The number of bits for a color component specified in the order is invalid or unsupported.
+  * **Standard action**: The device default color is used.
+
+**Architecture Notes:**
+1. AFP printers should generate the specific and preferred exceptions defined for this drawing order. For example, if the color value is invalid or unsupported, AFP printers should generate EC-0E03.
 2. If colors are simulated in AFP environments, color exceptions need not be generated.
-3. When a color space other than the standard OCA color space is selected with this drawing order , the concept of mixing color index values in the GPS does not apply . The use of mixing rules other than
-“Overpaint” or “Leave Alone” is not possible.
-Set Process Color
-
----
-
-4. For a description of color spaces and their relationships, see R. Hunt, The Reproduction of Colour in
-Photography , Printing, and T elevision, Fifth Edition, Fountain Press, 1995.
-Set Process Color
-
----
+3. When a color space other than the standard OCA color space is selected with this drawing order, the concept of mixing color index values in the GPS does not apply. The use of mixing rules other than "Overpaint" or "Leave Alone" is not possible.
+4. For a description of color spaces and their relationships, see R. Hunt, *The Reproduction of Colour in Photography, Printing, and Television*, Fifth Edition, Fountain Press, 1995.
 
 Copyright © AFP Consortium 1997, 2017 167
