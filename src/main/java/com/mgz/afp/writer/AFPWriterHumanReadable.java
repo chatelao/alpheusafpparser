@@ -51,7 +51,7 @@ public class AFPWriterHumanReadable implements IAFPWriter {
         fieldName = f.getName();
         Method method = null;
         for (Method m : clazz.getDeclaredMethods()) {
-          if (!m.isAccessible()) {
+          if (!java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
             continue;
           }
           methodName = m.getName();

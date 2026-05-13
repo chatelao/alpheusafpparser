@@ -42,7 +42,7 @@ public class UtilReflection {
 
     // Try to get value by accessing the field.
     try {
-      boolean isAccessable = field.isAccessible();
+      boolean isAccessable = field.canAccess(instance);
       field.setAccessible(true);
       Object val = field.get(instance);
       field.setAccessible(isAccessable);
@@ -74,7 +74,7 @@ public class UtilReflection {
   public static void setFieldValue(Field field, Object instance, Object value) throws AFPParserException {
     // Try to set value by accessing the field.
     try {
-      boolean isAccessable = field.isAccessible();
+      boolean isAccessable = field.canAccess(instance);
       field.setAccessible(true);
       field.set(instance, value);
       field.setAccessible(isAccessable);

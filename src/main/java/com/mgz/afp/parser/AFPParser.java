@@ -81,7 +81,7 @@ public class AFPParser {
       try {
         String className = afpPackage + sfi.getSFTypeID().name();
         clazz = Class.forName(className);
-        sf = (StructuredField) clazz.newInstance();
+        sf = (StructuredField) clazz.getDeclaredConstructor().newInstance();
       } catch (Exception cnfex) {
         continue;
       }
@@ -135,12 +135,12 @@ public class AFPParser {
 
           // Determine net payload.
           if (sfi.isFlagSet(SFFlag.isPadded)) {
-            int lenOfPadding = grossPayload[grossPayload.length - 1];
+          var lenOfPadding = grossPayload[grossPayload.length - 1] & 0xFF;
             if (lenOfPadding == 0) {
               lenOfPadding = UtilBinaryDecoding.parseInt(grossPayload, grossPayload.length - 3, 2);
             }
 
-            int lenOfSFData = lenOfGrossPayload - lenOfPadding;
+          var lenOfSFData = lenOfGrossPayload - lenOfPadding;
 
             sfData = new byte[lenOfSFData];
             padding = new byte[lenOfPadding];
@@ -274,20 +274,20 @@ public class AFPParser {
         if (sf != null) {
 
           // Preserve certain SFs which maybe referenced by later SFs.
-          if (sf instanceof FNC_FontControl) {
-            parserConf.setCurrentFontControl((FNC_FontControl) sf);
-          } else if (sf instanceof CPD_CodePageDescriptor) {
-            parserConf.setCurrentCodePageDescriptor((CPD_CodePageDescriptor) sf);
-          } else if (sf instanceof CPC_CodePageControl) {
-            parserConf.setCurrentPageControl((CPC_CodePageControl) sf);
-          } else if (sf instanceof BDD_BarCodeDataDescriptor) {
-            parserConf.setCurrentBarCodeDataDescriptor((BDD_BarCodeDataDescriptor) sf);
-          } else if (sf instanceof MCF_MapCodedFont_Format1) {
-            handleMCF1((MCF_MapCodedFont_Format1) sf);
-          } else if (sf instanceof MCF_MapCodedFont_Format2) {
-            handleMCF2((MCF_MapCodedFont_Format2) sf);
-          } else if (sf instanceof MDR_MapDataResource) {
-            handleMDR((MDR_MapDataResource) sf);
+        if (sf instanceof FNC_FontControl fnc) {
+          parserConf.setCurrentFontControl(fnc);
+        } else if (sf instanceof CPD_CodePageDescriptor cpd) {
+          parserConf.setCurrentCodePageDescriptor(cpd);
+        } else if (sf instanceof CPC_CodePageControl cpc) {
+          parserConf.setCurrentPageControl(cpc);
+        } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
+          parserConf.setCurrentBarCodeDataDescriptor(bdd);
+        } else if (sf instanceof MCF_MapCodedFont_Format1 mcf1) {
+          handleMCF1(mcf1);
+        } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
+          handleMCF2(mcf2);
+        } else if (sf instanceof MDR_MapDataResource mdr) {
+          handleMDR(mdr);
           }
 
           nrOfBytesRead += sf.getStructuredFieldIntroducer().getSFLength();

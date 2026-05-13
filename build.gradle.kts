@@ -20,6 +20,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
+}
+
 println("Source Compatibility: ${java.sourceCompatibility}")
 
 repositories {

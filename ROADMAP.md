@@ -442,17 +442,22 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ Upgrade Gradle to 8.x.
 - ⏳ Resolve Gradle configuration deprecations:
     - ⏳ Replace `JavaPluginConvention` and `Convention` (scheduled for removal in Gradle 9.0).
-    - ⏳ Declare test framework directly on the test suite to avoid automatic loading deprecation.
-- ⏳ Resolve Java compiler warnings:
-    - ⏳ Migrate from obsolete source/target Java 8 to Java 21.
-    - ⏳ Address unchecked or unsafe operations in `com.mgz.cli.AFP2XML`.
-    - ⏳ Replace usage of deprecated APIs.
+    - ✅ Declare test framework directly on the test suite to avoid automatic loading deprecation.
+- ✅ Resolve Java compiler warnings:
+    - ✅ Migrate from obsolete source/target Java 8 to Java 21.
+    - ✅ Address unchecked or unsafe operations in `com.mgz.cli.AFP2XML`.
+    - ✅ Replace usage of deprecated APIs.
 - ✅ Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts` and `settings.gradle.kts`).
 - ✅ Update Java version to 21 (LTS).
 - ⏳ Refactor source code to use modern Java features:
     - ⏳ Use `var` for local variable type inference where appropriate.
-    - ⏳ Refactor data-heavy classes to Java Records.
-    - ⏳ Implement Sealed Classes for Structured Field hierarchies.
+    - ⏳ Refactor data-heavy classes to Java Records:
+        - ⏳ Structured Field Introducer (`com.mgz.afp.base.StructuredFieldIntroducer`)
+        - ⏳ Repeating Group classes in `com.mgz.afp.modca` and `com.mgz.afp.foca`.
+        - ⏳ Simple Triplet implementations in `com.mgz.afp.triplets.Triplet`.
+    - ⏳ Implement Sealed Classes for Structured Field hierarchies:
+        - ⏳ Sealed `StructuredField` with permitted base classes.
+        - ⏳ Sealed `Triplet` with permitted subclasses.
     - ⏳ Use Pattern Matching for `switch` and `instanceof`.
     - ⏳ Update Stream API usage with modern collectors and methods.
 

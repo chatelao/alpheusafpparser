@@ -96,6 +96,14 @@ public class AFP2XML {
         System.err.println("  -d, --directory    Convert all .afp files in the specified directory to XML");
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T extends StructuredField> JAXBElement<T> createJAXBElement(T sf) {
+        return new JAXBElement<>(
+                new QName(sf.getClass().getSimpleName()),
+                (Class<T>) sf.getClass(),
+                sf);
+    }
+
     private static void convertToXml(File inputFile, File outputFile) throws Exception {
         try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile))) {
             AFPParserConfiguration config = new AFPParserConfiguration();
@@ -105,12 +113,7 @@ public class AFP2XML {
             AFPDocument doc = new AFPDocument();
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
-                @SuppressWarnings("unchecked")
-                JAXBElement<StructuredField> element = new JAXBElement<>(
-                        new QName(sf.getClass().getSimpleName()),
-                        (Class<StructuredField>) sf.getClass(),
-                        sf);
-                doc.addStructuredField(element);
+                doc.addStructuredField(createJAXBElement(sf));
             }
 
             if (outputFile != null) {
