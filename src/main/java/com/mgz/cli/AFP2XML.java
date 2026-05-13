@@ -36,48 +36,91 @@ import java.io.OutputStream;
 public class AFP2XML {
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar <input-afp-file> [output-xml-file]");
+            printUsage();
             System.exit(1);
         }
 
-        String inputPath = args[0];
-        String outputPath = (args.length > 1) ? args[1] : null;
+        boolean isDirectoryMode = false;
+        String inputPath = null;
+        String outputPath = null;
+
+        for (int i = 0; i < args.length; i++) {
+            if ("-d".equals(args[i]) || "--directory".equals(args[i])) {
+                isDirectoryMode = true;
+            } else if (inputPath == null) {
+                inputPath = args[i];
+            } else if (outputPath == null) {
+                outputPath = args[i];
+            }
+        }
+
+        if (inputPath == null) {
+            printUsage();
+            System.exit(1);
+        }
 
         try {
-            File inputFile = new File(inputPath);
-            if (!inputFile.exists()) {
-                System.err.println("Input file not found: " + inputPath);
+            File input = new File(inputPath);
+            if (!input.exists()) {
+                System.err.println("Input not found: " + inputPath);
                 System.exit(1);
             }
 
-            try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile))) {
-                AFPParserConfiguration config = new AFPParserConfiguration();
-                config.setInputStream(is);
-                AFPParser parser = new AFPParser(config);
-
-                AFPDocument doc = new AFPDocument();
-                StructuredField sf;
-                while ((sf = parser.parseNextSF()) != null) {
-                    JAXBElement<StructuredField> element = new JAXBElement<>(
-                            new QName(sf.getClass().getSimpleName()),
-                            (Class<StructuredField>) sf.getClass(),
-                            sf);
-                    doc.addStructuredField(element);
+            if (isDirectoryMode) {
+                if (!input.isDirectory()) {
+                    System.err.println("Input is not a directory: " + inputPath);
+                    System.exit(1);
                 }
 
-                if (outputPath != null) {
-                    try (OutputStream os = new FileOutputStream(outputPath)) {
-                        AFP2XMLWriter.writeXML(os, doc);
+                File[] files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
+                if (files != null) {
+                    for (File f : files) {
+                        File outputFile = new File(f.getAbsolutePath() + ".xml");
+                        convertToXml(f, outputFile);
                     }
-                    System.out.println("XML export successful: " + outputPath);
-                } else {
-                    AFP2XMLWriter.writeXML(System.out, doc);
                 }
+            } else {
+                File outputFile = (outputPath != null) ? new File(outputPath) : null;
+                convertToXml(input, outputFile);
             }
         } catch (Exception e) {
             System.err.println("Error during XML export: " + e.getMessage());
             e.printStackTrace();
             System.exit(1);
+        }
+    }
+
+    private static void printUsage() {
+        System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory] <input-afp-file/dir> [output-xml-file]");
+        System.err.println("Options:");
+        System.err.println("  -d, --directory    Convert all .afp files in the specified directory to XML");
+    }
+
+    private static void convertToXml(File inputFile, File outputFile) throws Exception {
+        try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile))) {
+            AFPParserConfiguration config = new AFPParserConfiguration();
+            config.setInputStream(is);
+            AFPParser parser = new AFPParser(config);
+
+            AFPDocument doc = new AFPDocument();
+            StructuredField sf;
+            while ((sf = parser.parseNextSF()) != null) {
+                @SuppressWarnings("unchecked")
+                JAXBElement<StructuredField> element = new JAXBElement<>(
+                        new QName(sf.getClass().getSimpleName()),
+                        (Class<StructuredField>) sf.getClass(),
+                        sf);
+                doc.addStructuredField(element);
+            }
+
+            if (outputFile != null) {
+                try (OutputStream os = new FileOutputStream(outputFile)) {
+                    AFP2XMLWriter.writeXML(os, doc);
+                }
+                System.out.println("XML export successful: " + outputFile.getPath());
+            } else {
+                AFP2XMLWriter.writeXML(System.out, doc);
+            }
         }
     }
 }
