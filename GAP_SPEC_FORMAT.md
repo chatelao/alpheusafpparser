@@ -8,19 +8,18 @@ To know the quality, compare the result to the original PDF resports to find the
 
 | Specification | Quality | Key Strengths | Primary Issues |
 | :--- | :--- | :--- | :--- |
-| **MO:DCA** (modca-reference-10) | Excellent | Structured tables, clear hierarchy, purged artifacts | Minor table fragmentation in Appendices; remnant "on page" references. |
-| **PTOCA** (ptoca-reference-04) | Excellent | Purged of OCR artifacts, LaTeX math, structured tables | Minor split-word remnants (e.g., "T ext", "Wr ite"). |
+| **MO:DCA** (modca-reference-10) | Excellent | Structured tables, clear hierarchy, purged artifacts | None significant. |
+| **PTOCA** (ptoca-reference-04) | Excellent | Purged of OCR artifacts, LaTeX math, structured tables | None significant. |
 | **CMOCA** (cmoca-reference-02) | Excellent | Clean syntax tables, minimal PDF artifacts | None significant. |
-| **FOCA** (foca-reference-06) | Good | Proper table formatting, clear sections | Minor OCR text merging; remaining "on page" references. |
+| **FOCA** (foca-reference-06) | Excellent | Proper table formatting, clear sections | None significant. |
 | **MOCA** (moca-reference-02) | Excellent | Cleanest conversion, no artifacts detected | None. |
-| **Db2 12 for z/OS: Internationalization Guide** (db2z_12_charbook) | Fair | Initial conversion complete (Chapters, Appendices, Glossary, Index, Notices) | Ubiquitous physical page markers and OCR artifacts. |
-| **AFP GOCA** (afp-goca-reference-03) | Fair | Consistent headers | Heavy "on page" references; missing table markers for syntax. |
-| **BCOCA** (bcoca-reference-11) | Good | Purged of page markers, key syntax tables formatted | Many Chapter 4 tables and Appendices still in text-dump format. |
-| **IOCA** (ioca-reference-09) | Fair | Text is readable | Missing Markdown table markers; presence of "on page" references. |
-| **IPDS** (ipds-reference-12) | Fair | Comprehensive content, key command tables formatted | Heavy "on page" references and remaining text-dump tables. |
-| **Line Data** (linedata-reference-05) | Poor | Basic structure present | Heavy "on page" references; text-based diagrams; split headers in Appendices. |
+| **Db2 12 for z/OS: Internationalization Guide** (db2z_12_charbook) | Good | Initial conversion complete (Chapters, Appendices, Glossary, Index, Notices) | Chapters 4-6 still require artifact purging and OCR cleanup. |
+| **AFP GOCA** (afp-goca-reference-03) | Good | Consistent headers, drawing orders converted | Minor Chapter 7 drawing order remnants pending table conversion. |
+| **BCOCA** (bcoca-reference-11) | Excellent | Purged of page markers, key syntax tables formatted | None significant. |
+| **IOCA** (ioca-reference-09) | Excellent | Text is readable, structural descriptors converted | None significant. |
+| **IPDS** (ipds-reference-12) | Good | Comprehensive content, key command tables formatted | Artifact purging and split-word fixes pending for Chapters 12-13, 17 and Appendices. |
+| **Line Data** (linedata-reference-05) | Good | Basic structure present, Chapter 5 SFs converted | Remaining Appendix A diagrams (Figures 35-42) still require conversion. |
 | **PDF 1.7** (pdf-reference-1.7) | Pending | N/A | ISO 32000-1 specification; markdown conversion pending. |
-| **Db2 12** (db2z_12_charbook) | Pending | N/A | Conversion to Markdown pending. |
 
 ---
 
@@ -37,20 +36,19 @@ To know the quality, compare the result to the original PDF resports to find the
 ## Detailed Findings
 
 ### Excellent Quality (Standardized)
-*   **PTOCA Reference 04**: Follows high standard. Uses LaTeX for math ($X_p, Y_p$). Tables are fully converted. PDF artifacts are purged. Minor split-word remnants (e.g. "T ext") remain in some chapters.
+*   **PTOCA Reference 04**: Purged of OCR artifacts and page references. Tables fully converted and LaTeX math implemented.
 *   **MOCA Reference 02**: Extremely clean. Manual verification complete.
 *   **CMOCA Reference 02**: Standardized registry and syntax tables. Clean Chapter structure.
-*   **MO:DCA Reference 10**: High quality across all chapters and appendices. Most physical page references have been removed, but a few remnants exist in Chapter 5.
+*   **MO:DCA Reference 10**: Fully cleaned; all artifacts and page references purged.
+*   **BCOCA Reference 11**: Purged of artifacts and page references. All Chapter 4 and Appendix tables are formatted.
+*   **IOCA Reference 09**: Artifacts and page references purged. All structural descriptors and Function Sets converted to tables.
+*   **FOCA Reference 06**: Fully cleaned; OCR issues fixed and page references removed.
 
 ### Good Quality (Minor Cleanup Needed)
-*   **BCOCA Reference 11**: Significant progress. Page markers and PDF artifacts have been purged from all chapters and appendices. Key syntax tables (BSD, Types, Modifiers) are formatted. Remaining work involves formatting many Chapter 4 tables and Appendices.
-*   **FOCA Reference 06**: Generally good, though some dense technical sections have slightly merged paragraphs. Physical page references remain ubiquitous.
-
-### Fair/Poor Quality (Substantial Cleanup Needed)
-*   **IPDS Reference 12**: **Improved.** Key Device-Control commands in Chapter 4 have been converted to tables. However, it remains the largest spec with many sections still in text-dump format. Physical page references are ubiquitous.
-*   **IOCA Reference 09**: Readable, but structural descriptors lack table formatting and "on page" references are present.
-*   **AFP GOCA Reference 03**: Riddled with "on page XX" references and missing Markdown tables for syntax/registry.
-*   **Line Data Reference 05**: **Poor.** Heavy "on page" references. Diagrams are represented as pre-formatted text. Appendices have split headers (e.g. "Page Segment" on its own line).
+*   **IPDS Reference 12**: Significant progress. All command and syntax tables are converted. Major progress on artifact and page reference purging.
+*   **AFP GOCA Reference 03**: Purged of page references. Drawing orders and attribute tables mostly converted to Markdown.
+*   **Line Data Reference 05**: Significant improvement. Artifacts and page references purged. All Chapter 5 structured fields and early Appendix A diagrams converted.
+*   **Db2 12 Internationalization Guide**: Major chapters and appendices purged of artifacts and OCR errors. Tables in Chapters 1, 3, 4, 5 and Appendix F are converted.
 
 ---
 
