@@ -256,18 +256,18 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Appendices A–F.
         - ✅ Glossary.
     - ⏳ Purge physical page markers and PDF artifacts:
-        - ✅ Chapters 1–3.
-        - ⏳ Chapters 4–6.
+        - ✅ Chapters 1–5.
+        - ⏳ Chapter 6.
         - ⏳ Appendices A–F, Glossary, Index.
     - ⏳ Fix OCR-induced split words and formatting artifacts:
-        - ✅ Chapters 1–3.
-        - ⏳ Chapters 4–6.
+        - ✅ Chapters 1–5.
+        - ⏳ Chapter 6.
         - ⏳ Appendices A–F, Glossary, Index.
     - ⏳ Convert syntax and registry text dumps to Markdown tables:
         - ✅ Chapter 1 (Tables 1–12).
         - ✅ Chapter 3 (Tables 13–15).
-        - ⏳ Chapter 4 (Tables 16–17).
-        - ⏳ Chapter 5 (Tables 18–30).
+        - ✅ Chapter 4 (Tables 16–17).
+        - ✅ Chapter 5 (Tables 18–30).
         - ⏳ Chapter 6 (Table 31).
         - ⏳ Appendix F (Table 32).
 
