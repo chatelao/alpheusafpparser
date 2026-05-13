@@ -1122,388 +1122,341 @@ The following exception conditions cause a standard action to be taken:
   - Standard action: The standard default marker symbol is used. In AFP environments, this is X'01'—Cross.
 
 ---
+### No-Operation (GNOP1) Order
 
-1 18 GOCA for AFP Reference
-No-Operation (GNOP1) Order
 This order is a No-Operation.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'00' | GNOP1 | order code |
-| Semantics | | | | |
-| The | No-Operation | order | is | a null operation. It has no effect on the GPS, or any current attribute or control. |
-| This | order | does | not | raise any exception conditions. |
-| No-Operation | | | | |
+| 0 | CODE | X'00' | GNOP1 | Order code |
 
----
+#### Semantics
 
-GOCA for AFP Reference 1 19
-Partial Arc (GP ARC, GCP ARC) Orders
+The No-Operation order is a null operation. It has no effect on the GPS, or any current attribute or control.
+
+This order does not raise any exception conditions.
+### Partial Arc (GPARC, GCPARC) Orders
+
 These orders draw a line from the given position or the current position to the start of an arc, and then construct a partial arc. The start point of the arc is specified by the start angle, and the length of the arc is specified by the sweep angle.
-Syntax
-Partial Arc at Given Position (GP ARC) Order
+
+#### Syntax
+
+##### Partial Arc at Given Position (GPARC) Order
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'E3' | GP | ARC order code |
+| 0 | CODE | X'E3' | GPARC | Order code |
 | 1 | UBIN | LENGTH | 18 | Length of following data |
-| 2-3 | SBIN | XPOS | X'8000'-X'7FFF' | X g |
-| coordinate | of | line | start | point |
-| 4-5 | SBIN | YPOS | X'8000'-X'7FFF' | Y g |
-| coordinate | of | line | start | point |
-| 6-7 | SBIN | XCENT | X'8000'-X'7FFF' | X g |
-| coordinate | of | the | center | of the arc |
-| 8-9 | SBIN | YCENT | X'8000'-X'7FFF' | Y g |
-| coordinate | of | the | center | of the arc |
-| 10 | UBIN | MH | X'00'-X'FF' | Integer Portion of Multiplier |
-| 1 | 1 | UBIN | MFR | X'00'-X'FF' Fractional Portion of Multiplier |
-| 12-15 | SBIN | START | | X'00000000'- |
-| X'7FFFFFFF' | | | | |
-| Start | angle | of | arc, | modulo 360 |
-| 16-19 | SBIN | SWEEP | | X'00000000'- |
-| X'7FFFFFFF' | | | | |
-| Sweep | angle | of | arc, | modulo 360 |
-| Partial | Arc | at | Current | Position (GCP ARC) Order |
+| 2-3 | SBIN | XPOS | X'8000'-X'7FFF' | $X_g$ coordinate of line start point |
+| 4-5 | SBIN | YPOS | X'8000'-X'7FFF' | $Y_g$ coordinate of line start point |
+| 6-7 | SBIN | XCENT | X'8000'-X'7FFF' | $X_g$ coordinate of the center of the arc |
+| 8-9 | SBIN | YCENT | X'8000'-X'7FFF' | $Y_g$ coordinate of the center of the arc |
+| 10 | UBIN | MH | X'00'-X'FF' | Integer portion of multiplier |
+| 11 | UBIN | MFR | X'00'-X'FF' | Fractional portion of multiplier |
+| 12-15 | SBIN | START | X'00000000'-X'7FFFFFFF' | Start angle of arc, modulo 360 |
+| 16-19 | SBIN | SWEEP | X'00000000'-X'7FFFFFFF' | Sweep angle of arc, modulo 360 |
+
+##### Partial Arc at Current Position (GCPARC) Order
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'A3' | GCP | ARC order code |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'A3' | GCPARC | Order code |
 | 1 | UBIN | LENGTH | 14 | Length of following data |
-| 2-3 | SBIN | XCENT | X'8000'-X'7FFF' | X g |
-| coordinate | of | the | center | of the arc |
-| 4-5 | SBIN | YCENT | X'8000'-X'7FFF' | Y g |
-| coordinate | of | the | center | of the arc |
-| 6 | UBIN | MH | X'00'-X'FF' | Integer Portion of Multiplier |
-| 7 | UBIN | MFR | X'00'-X'FF' | Fractional Portion of Multiplier |
-| 8-1 | 1 | SBIN | START | X'00000000'- |
-| X'7FFFFFFF' | | | | |
-| Start | angle | of | arc, | modulo 360 |
-| 12-15 | SBIN | SWEEP | | X'00000000'- |
-| X'7FFFFFFF' | | | | |
-| Sweep | angle | of | arc, | modulo 360 |
-| Semantics | | | | |
-| The | Partial | Arc | at | Given Position (GP ARC) order draws a line from point (XPOS,YPOS) to the start of an arc, then draws the arc with its center at point (XCENT ,YCENT). The Partial Arc at Current Position (GCP ARC) |
-| order | draws | a | line | from the current position to the start of an arc, then draws the arc with its center at point |
-| (XCENT | ,YCENT). | The | arc | is part of the full arc defined by the current arc parameters and the multiplier |
-| Partial Arc | | | | |
+| 2-3 | SBIN | XCENT | X'8000'-X'7FFF' | $X_g$ coordinate of the center of the arc |
+| 4-5 | SBIN | YCENT | X'8000'-X'7FFF' | $Y_g$ coordinate of the center of the arc |
+| 6 | UBIN | MH | X'00'-X'FF' | Integer portion of multiplier |
+| 7 | UBIN | MFR | X'00'-X'FF' | Fractional portion of multiplier |
+| 8-11 | SBIN | START | X'00000000'-X'7FFFFFFF' | Start angle of arc, modulo 360 |
+| 12-15 | SBIN | SWEEP | X'00000000'-X'7FFFFFFF' | Sweep angle of arc, modulo 360 |
 
----
+#### Semantics
 
-specified by MH and MFR. The part of the arc that is drawn is defined by the starting angle, START , and the sweep angle, SWEEP . Both angles are defined on the unit circle space and are transformed by an amount defined by the current arc parameters in the same way that the unit circle is transformed. See “Partial Arc” for details.
-A previous Set Arc Parameters drawing order determines the shape and orientation of the arc. If no Set Arc
-Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters.
-The drawing direction is defined by the determinant of the transform, which is defined by the arc parameters.
-For details, see page 24.
-MH specifies the integer portion of a scale factor; MFR specifies the fractional portion of the scale factor . A decimal point is implied between MH and MFR. The fractional portion of the scale factor is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the scale factor of 1/4.
-For a circle, the radius is (MH⋅R + MFR⋅R) where R is the radius of the circle defined by the current arc parameters.
-For an ellipse, the major and minor axes are (MH⋅MAJ + MFR⋅MAJ) and (MH⋅MIN + MFR⋅MIN), where MAJ and MIN are the major and minor axes of the ellipse defined by the current arc parameters.
-The START and SWEEP parameters are defined as signed 32-bit integers, whose range is restricted to positive values, that is, X'00000000' to X'7FFFFFFF'. The START and SWEEP angles are the numbers, in degrees, that result from dividing the integers by 65,536 (2 16 ) and interpreting the result as a modulo 360 number . The effe ctive range of the angles is therefore greater than or equal to 0° and less than 360°. For example, if the sweep angle is specified to be X'00007FFF', its value is 32,767÷65,536 modulo 360 = .5°.
+The Partial Arc at Given Position (GPARC) order draws a line from point (XPOS, YPOS) to the start of an arc, then draws the arc with its center at point (XCENT, YCENT). The Partial Arc at Current Position (GCPARC) order draws a line from the current position to the start of an arc, then draws the arc with its center at point (XCENT, YCENT). The arc is part of the full arc defined by the current arc parameters and the multiplier specified by MH and MFR.
+
+The part of the arc that is drawn is defined by the starting angle, START, and the sweep angle, SWEEP. Both angles are defined on the unit circle space and are transformed by an amount defined by the current arc parameters in the same way that the unit circle is transformed. See "Partial Arc" for details.
+
+A previous Set Arc Parameters drawing order determines the shape and orientation of the arc. If no Set Arc Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters.
+
+The drawing direction is defined by the determinant of the transform, which is defined by the arc parameters. For details, see page 24.
+
+MH specifies the integer portion of a scale factor; MFR specifies the fractional portion of the scale factor. A decimal point is implied between MH and MFR. The fractional portion of the scale factor is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the scale factor of 1/4.
+
+For a circle, the radius is $(MH \cdot R + MFR \cdot R)$ where R is the radius of the circle defined by the current arc parameters.
+
+For an ellipse, the major and minor axes are $(MH \cdot MAJ + MFR \cdot MAJ)$ and $(MH \cdot MIN + MFR \cdot MIN)$, where MAJ and MIN are the major and minor axes of the ellipse defined by the current arc parameters.
+
+The START and SWEEP parameters are defined as signed 32-bit integers, whose range is restricted to positive values, that is, X'00000000' to X'7FFFFFFF'. The START and SWEEP angles are the numbers, in degrees, that result from dividing the integers by 65,536 ($2^{16}$) and interpreting the result as a modulo 360 number. The effective range of the angles is therefore greater than or equal to 0° and less than 360°. For example, if the sweep angle is specified to be X'00007FFF', its value is $32,767 \div 65,536 \pmod{360} = .5^\circ$.
+
 Note that since a sweep angle of any integer multiple of 360° results in a 0° arc, this drawing order cannot be used to draw a complete arc. The Full Arc drawing order can be used to draw a complete arc.
-The current values of the line attributes are taken into account when drawing the partial arc.
-The current position is moved to the endpoint of the arc.
-The following exception conditions raise a drawing process check:
-EC-0003 The order has incorrect length.
-EC-E300 The partial arc started inside GPS but then finished outside. Therefore, the calculated new current position is outside GPS.
-EC-E302 A negative value is specified for the SWEEP angle.
-EC-E303 A negative value is specified for the START angle.
-Partial Arc
 
----
+The current values of the line attributes are taken into account when drawing the partial arc.
+
+The current position is moved to the endpoint of the arc.
+
+The following exception conditions raise a drawing process check:
+- **EC-0003**: The order has incorrect length.
+- **EC-E300**: The partial arc started inside GPS but then finished outside. Therefore, the calculated new current position is outside GPS.
+- **EC-E302**: A negative value is specified for the SWEEP angle.
+- **EC-E303**: A negative value is specified for the START angle.
 
 The following exception conditions cause a standard action to be taken:
-EC-000D The start and end points of a partial arc are inside GPS, but a portion of the arc is outside
-GPS.
-Standard action: All drawing outside the GPS is suppressed. The portion of the arc that is inside the GPS is drawn.
-EC-C601 The drawing processor has detected an exceptional condition that can prevent the drawing of the arc within the normal limits of pel accuracy .
-Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines.
-Partial Arc
+- **EC-000D**: The start and end points of a partial arc are inside GPS, but a portion of the arc is outside GPS.
+  - Standard action: All drawing outside the GPS is suppressed. The portion of the arc that is inside the GPS is drawn.
+- **EC-C601**: The drawing processor has detected an exceptional condition that can prevent the drawing of the arc within the normal limits of pel accuracy.
+  - Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines.
 
----
+### Radial Gradient (GRGD) Order
 
-Radial Gradient (GRGD) Order
 This order defines a radial gradient to be used to fill an area.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'FE' | Extended | format order code |
-| 1 | CODE | X'DD' | GRGD | qualifier code |
+| 0 | CODE | X'FE' | Extended | Format order code |
+| 1 | CODE | X'DD' | GRGD | Qualifier code |
 | 2-3 | UBIN | LENGTH | 33-65,535 | Length of following data |
-| 4-5 | RES | X'0000' | Reserved; | only valid value |
-| 6 | CODE | PATTSET | X'01' | - X'FD' Pattern set of the gradient |
-| 7 | CODE | PATTSYM | X'01' | - X'FF' Pattern symbol of the gradient |
-| 8-9 | SBIN | XPOS_S | X'8000'-X'7FFF' | X g |
-| coordinate | of | the | center | of the start full arc |
-| 10-1 | 1 | SBIN | YPOS_S | X'8000'-X'7FFF' Y g |
-| coordinate | of | the | center | of the start full arc |
+| 4-5 | RES | X'0000' | Reserved | Only valid value |
+| 6 | CODE | PATTSET | X'01'-X'FD' | Pattern set of the gradient |
+| 7 | CODE | PATTSYM | X'01'-X'FF' | Pattern symbol of the gradient |
+| 8-9 | SBIN | XPOS_S | X'8000'-X'7FFF' | $X_g$ coordinate of the center of the start full arc |
+| 10-11 | SBIN | YPOS_S | X'8000'-X'7FFF' | $Y_g$ coordinate of the center of the start full arc |
 | 12 | UBIN | MH_S | X'00'-X'FF' | Integer portion of the multiplier for the start full arc |
 | 13 | UBIN | MFR_S | X'00'-X'FF' | Fractional portion of the multiplier for the start full arc |
-| 14-15 | SBIN | XPOS_E | X'8000'-X'7FFF' | X g |
-| coordinate | of | the | center | of the end full arc |
-| 16-17 | SBIN | YPOS_E | X'8000'-X'7FFF' | Y g |
-| coordinate | of | the | center | of the end full arc |
+| 14-15 | SBIN | XPOS_E | X'8000'-X'7FFF' | $X_g$ coordinate of the center of the end full arc |
+| 16-17 | SBIN | YPOS_E | X'8000'-X'7FFF' | $Y_g$ coordinate of the center of the end full arc |
 | 18 | UBIN | MH_E | X'00'-X'FF' | Integer portion of the multiplier for the end full arc |
 | 19 | UBIN | MFR_E | X'00'-X'FF' | Fractional portion of the multiplier for end full arc |
-| 20-n | COLSPEC_S | See | Semantics | Color specification of the start color (13-15 bytes) |
-| (n+1) | -m | COLVALUE_E | See | Semantics Color value of the end color (2-4 bytes) m+1 CODE OUTSIDE_S X'00'-X'03' Value for how to fill areas outside the start side |
-| of the gradient: | | | | |
-| X'00' None | | | | |
-| X'01' Pad | | | | |
-| X'02' Repeat | | | | |
-| X'03' Reflect | | | | |
-| All | other | values | Reserved | m+2 CODE OUTSIDE_E X'00'-X'03' Value for how to fill areas outside the end side of |
-| the gradient: | | | | |
-| X'00' None | | | | |
-| X'01' Pad | | | | |
-| X'02' Repeat | | | | |
-| X'03' Reflect | | | | |
-| All | other | values | | Reserved |
-| The | following | parameters | are | optional: |
-| UBIN OFFSET_1 X'0000'-X'2710' | | | | |
-| (0-10,000) | | | | |
-| Offset | of | the | intermediate | full arc of the first optional color stop (2 bytes) |
-| Radial Gradient | | | | |
+| 20-n | COLSPEC_S | See Semantics | | Color specification of the start color (13-15 bytes) |
+| (n+1)-m | COLVALUE_E | See Semantics | | Color value of the end color (2-4 bytes) |
+| m+1 | CODE | OUTSIDE_S | X'00'-X'03' | Value for how to fill areas outside the start side of the gradient:<br>X'00' None<br>X'01' Pad<br>X'02' Repeat<br>X'03' Reflect<br>All other values Reserved |
+| m+2 | CODE | OUTSIDE_E | X'00'-X'03' | Value for how to fill areas outside the end side of the gradient:<br>X'00' None<br>X'01' Pad<br>X'02' Repeat<br>X'03' Reflect<br>All other values Reserved |
 
----
+The following parameters are optional:
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| COLVALUE_1 | See | Semantics | Color | value of the color of the first color stop (2- |
-| 4 bytes) | | | | |
-| UBIN OFFSET_2 X'0000'-X'2710' | | | | |
-| (0-10,000) | | | | |
-| Offset | of | the | intermediate | full arc of the second optional color stop (2 bytes) |
-| COLVALUE_2 | See | Semantics | Color | value of the color of the second color stop |
-| (2-4 bytes) | | | | |
-| ⋮ ⋮ | | | | |
-| Further | color | stop | | information |
-| UBIN OFFSET_F X'0000'-X'2710' | | | | |
-| (0-10,000) | | | | |
-| Offset | of | the | intermediate | full arc of the final optional color stop (2 bytes) |
-| COLVALUE_F | See | Semantics | Color | value of the color of the final color stop (2- |
-| 4 bytes) | | | | |
-| Semantics | | | | |
-| The | Radial | Gradient | order | defines a radial gradient to be used later to fill an area. See “Gradients ” for details of gradients. |
-| The | gradient | goes | from | the start full arc to the end full arc. The color changes gradually from the start color |
-| (COLSPEC_S) | to | the | end | color (COLVALUE_E). Areas outside the gradient are filled based on the |
-| OUTSIDE_S | and | OUTSIDE_E | parameters. | Any number of color stops can be defined along the gradient lines from the start full arc to the end full arc, which define intermediate full arcs between the start and end full arcs |
-| where | a | specific | color | is to be found. |
-| The | start | and | end | full arcs are defined in the same way as in the Full Arc at Given Position (GF ARC) drawing order , using the appropriate XPOS, YPOS, MH, and MFR values in this drawing order . See “Full Arc (GF ARC, |
-| GCF | ARC) | Orders” | on | page 107 for more information. Note that since both full arcs use the same arc parameters, the two will have the same shape (as will all intermediate full arcs along the gradient). |
-| Either | multiplier | value | can | be zero (that is, either MH_S=MFR_S=0 or MH_E=MFR_E=0), in which case the gradient starts or ends at a point instead of a full arc. If both multiplier values are zero (MH_S=MFR_S=MH_E= |
-| MFR_E=0), | however | , | usage | of the gradient will result in no fill, no matter the value of the OUTSIDE_S and |
-| OUTSIDE_E | parameters | and | no | matter how many color stops have been specified. In addition, if the start and end full arc have the same center and multiplier , usage of the gradient will result in no fill. |
-| If | part | or | all | of either full arc is outside the GPS, this is not an error . This functionality can be used to get radial gradients that completely fill the GPS. Implementations that can maintain a position outside the GPS should |
-| produce | a | gradient | as | expected—gradually changing from the start color at the start full arc toward the end color at the end full arc, even though some parts of the intermediate full arcs might be outside the GPS. For |
-| implementations | that | cannot | maintain | a position outside GPS, the results are implementation dependent. |
-| The | offset | fields | in | the color stops have values that can range from 0 to 10,000. This value is then divided by |
-| 10,000 | to | produce | a | number from 0.0 to 1.0, with 0.0 meaning the start full arc, 1.0 the end full arc, 0.5 the intermediate full arc halfway between the two, and so on. |
-| The | color | stops | must | be in increasing order of offs et; that is, each color stop offset value must be greater than or equal to the previous color stop off set value. If a color stop has an offset value that is smaller than the offset |
-| value | of | any | previous | color stop, or is otherwise invalid, exception condition EC-DD05 is raised, for which the standard action is to ignore the color stop. |
-| The | color | specification | of | the start color , COLSPEC_S, has the same format as bytes 1-end of the Set Process |
-| Color | (GSPCOL) | drawing | order; | see “Set Process Color (GSPCOL) Order” for information on how |
-| Radial Gradient | | | | |
+| m+3 | UBIN | OFFSET_1 | 0-10,000 | Offset of the intermediate full arc of the first optional color stop (2 bytes) |
+| | COLVALUE_1 | See Semantics | | Color value of the color of the first color stop (2-4 bytes) |
+| | UBIN | OFFSET_2 | 0-10,000 | Offset of the intermediate full arc of the second optional color stop (2 bytes) |
+| | COLVALUE_2 | See Semantics | | Color value of the color of the second color stop (2-4 bytes) |
+| ⋮ | ⋮ | ⋮ | ⋮ | Further color stop information |
+| | UBIN | OFFSET_F | 0-10,000 | Offset of the intermediate full arc of the final optional color stop (2 bytes) |
+| | COLVALUE_F | See Semantics | | Color value of the color of the final color stop (2-4 bytes) |
 
----
+#### Semantics
 
-to process the color specification. Included in the color specification is a length field, a color space field, and four fields indicating how many bits are in each color component, as well as a color value field. The color value field specifies the start color and is interpreted using the other fields in the color specification. For all other colors in this order—that is, for the end color and for all color stop colors—only the color value field is specified.
-These color values are all the same length as the color value contained in COLSPEC_S, and are interpreted in the same way . As an example, if the start color is an RGB color encoded in three bytes, one for each component (R, G, and B), then all other colors in this order will also be three-byte values, one byte for each component.
-For problems with the colors specified in this order , exception conditions EC-0E02, EC-0E03, EC-0E04, and
-EC-0E05 are reported as described in the Set Process Color order . Note, however , that the standard action for the EC-0E02, EC-0E03, and EC-0E05 exceptions is diff erent for this order than for the Set Process Color drawing order . For all three exception conditions, the standard action is to ignore this Radial Gradient order .
-If the length field in COLSPEC_S (the first byte) is invalid, exception condition EC-DD06 is raised, for which the standard action is to ignore the Radial Gradient order .
+The Radial Gradient order defines a radial gradient to be used later to fill an area. See "Gradients" for details of gradients.
+
+The gradient goes from the start full arc to the end full arc. The color changes gradually from the start color (COLSPEC_S) to the end color (COLVALUE_E). Areas outside the gradient are filled based on the OUTSIDE_S and OUTSIDE_E parameters. Any number of color stops can be defined along the gradient lines from the start full arc to the end full arc, which define intermediate full arcs between the start and end full arcs where a specific color is to be found.
+
+The start and end full arcs are defined in the same way as in the Full Arc at Given Position (GFARC) drawing order, using the appropriate XPOS, YPOS, MH, and MFR values in this drawing order. See "Full Arc (GFARC, GCFARC) Orders" for more information. Note that since both full arcs use the same arc parameters, the two will have the same shape (as will all intermediate full arcs along the gradient).
+
+Either multiplier value can be zero (that is, either MH_S=MFR_S=0 or MH_E=MFR_E=0), in which case the gradient starts or ends at a point instead of a full arc. If both multiplier values are zero (MH_S=MFR_S=MH_E=MFR_E=0), however, usage of the gradient will result in no fill, no matter the value of the OUTSIDE_S and OUTSIDE_E parameters and no matter how many color stops have been specified. In addition, if the start and end full arc have the same center and multiplier, usage of the gradient will result in no fill.
+
+If part or all of either full arc is outside the GPS, this is not an error. This functionality can be used to get radial gradients that completely fill the GPS. Implementations that can maintain a position outside the GPS should produce a gradient as expected—gradually changing from the start color at the start full arc toward the end color at the end full arc, even though some parts of the intermediate full arcs might be outside the GPS. For implementations that cannot maintain a position outside GPS, the results are implementation dependent.
+
+The offset fields in the color stops have values that can range from 0 to 10,000. This value is then divided by 10,000 to produce a number from 0.0 to 1.0, with 0.0 meaning the start full arc, 1.0 the end full arc, 0.5 the intermediate full arc halfway between the two, and so on.
+
+The color stops must be in increasing order of offset; that is, each color stop offset value must be greater than or equal to the previous color stop offset value. If a color stop has an offset value that is smaller than the offset value of any previous color stop, or is otherwise invalid, exception condition EC-DD05 is raised, for which the standard action is to ignore the color stop.
+
+The color specification of the start color, COLSPEC_S, has the same format as bytes 1–end of the Set Process Color (GSPCOL) drawing order; see "Set Process Color (GSPCOL) Order" for information on how to process the color specification. Included in the color specification is a length field, a color space field, and four fields indicating how many bits are in each color component, as well as a color value field. The color value field specifies the start color and is interpreted using the other fields in the color specification. For all other colors in this order—that is, for the end color and for all color stop colors—only the color value field is specified.
+
+These color values are all the same length as the color value contained in COLSPEC_S, and are interpreted in the same way. As an example, if the start color is an RGB color encoded in three bytes, one for each component (R, G, and B), then all other colors in this order will also be three-byte values, one byte for each component.
+
+For problems with the colors specified in this order, exception conditions EC-0E02, EC-0E03, EC-0E04, and EC-0E05 are reported as described in the Set Process Color order. Note, however, that the standard action for the EC-0E02, EC-0E03, and EC-0E05 exceptions is different for this order than for the Set Process Color drawing order. For all three exception conditions, the standard action is to ignore this Radial Gradient order.
+
+If the length field in COLSPEC_S (the first byte) is invalid, exception condition EC-DD06 is raised, for which the standard action is to ignore the Radial Gradient order.
+
 In addition, there are some rules about the colors specified in this order:
-• The Standard OCA color space (X'40') cannot be used.
-• If the Highlight color space (X'06') is used, all color values must resolve to Indexed CMR Color Palette tags.
-If the color specifications do not follow these rules, exception condition EC-DD07 is raised, for which the standard action is to ignore the Radial Gradient order .
+- The Standard OCA color space (X'40') cannot be used.
+- If the Highlight color space (X'06') is used, all color values must resolve to Indexed CMR Color Palette tags.
+
+If the color specifications do not follow these rules, exception condition EC-DD07 is raised, for which the standard action is to ignore the Radial Gradient order.
+
 The smooth transition from one color to another requires interpolation calculations to be performed. For consistency between implementations:
-• Linear interpolation is done.
-• Interpolation is done in the specified color space. If the specified color space is the Highlight color space:
-- If all colors resolve to Color Palette tags of the same type, interpolation is done in the color space corresponding to that type; for example, if all colors resolve to Color Palette CMYK tags, interpolation is done in the CMYK color space. - A special case of the above is if all colors resolve to Color Palette Named Colorants tags. In this case, if all named colorants required for all the colors in the gradient are available in the device, interpolation is done in the intensity of the named colorants; otherwise, interpolation is done in the CIELAB color space, using the CIELABValue field of the Color Palette Named Colorants tags. - If all colors do not resolve to Color Palette tags of the same type, interpolation in done in the CIELAB color space, using the CIELABValue field of the Color Palette tags.
-If the LENGTH field of this drawing order is not a valid length, given the expected color value sizes, exception
-EC-0003 is raised. The valid values for the LENGTH field, where n is the number of color stops, are as follows:
-First byte of COLSPEC_S V alid values of the LENGTH field 12 33+ (n * 4) 13 35+ (n * 5) 14 37+ (n * 6)
-The PATTSET and PATTSYM values specify the pattern set and pattern symbol where this gradient will reside.
-When the current values of the pattern set and pattern symbol attributes specify these PATTSET and
-PATTSYM values, respectively , this gradient will be used to do area fill.
-Linear gradients (defined with the Linear Gradient order), radial gradients (defined with this order) , and custom patterns (defined with the Begin Custom Pattern order) share the pattern sets X'01'-X'FD'; the patterns using these pattern sets can be any combination of gradients and custom patterns without restriction.
-Radial Gradient
+- Linear interpolation is done.
+- Interpolation is done in the specified color space. If the specified color space is the Highlight color space:
+  - If all colors resolve to Color Palette tags of the same type, interpolation is done in the color space corresponding to that type; for example, if all colors resolve to Color Palette CMYK tags, interpolation is done in the CMYK color space.
+  - A special case of the above is if all colors resolve to Color Palette Named Colorants tags. In this case, if all named colorants required for all the colors in the gradient are available in the device, interpolation is done in the intensity of the named colorants; otherwise, interpolation is done in the CIELAB color space, using the CIELABValue field of the Color Palette Named Colorants tags.
+  - If all colors do not resolve to Color Palette tags of the same type, interpolation in done in the CIELAB color space, using the CIELABValue field of the Color Palette tags.
 
----
+If the LENGTH field of this drawing order is not a valid length, given the expected color value sizes, exception EC-0003 is raised. The valid values for the LENGTH field, where $n$ is the number of color stops, are as follows:
 
-Definition of a gradient using this drawing order does not set the pattern set and pattern symbol attributes to use the gradient. T o use the gradient, the pattern set and pattern symbol attributes must be explicitly set.
-All possible valid values of the PATTSET and PATTSYM fields must be supported. There are 253 ∙ 255 = 64,515 possible combinations of PATTSET and PATTSYM. However , it is not required that implementations support the creation of 64,515 gradients. If insufficient storage is available to correctly handle a radial gradient definition, exception condition EC-DD03 is raised, for which the standard action is to ignore the Radial
-Gradient order .
-It is not possible to replace a gradient or custom pattern simply by sending a Radial Gradient order with the same PATTSET and PATTSYM parameters. If this is attempted, exception EC-DD02 is raised, for which the standard action is to ignore the Radial Gradient order . T o replace a pattern at a given pattern set and pattern symbol, first delete the existing pattern using the Delete Pattern drawing order .
-The current position is not used nor changed by this drawing order .
-Radial Gradient
+| First byte of COLSPEC_S | Valid values of the LENGTH field |
+| :--- | :--- |
+| 12 | 33 + ($n \cdot 4$) |
+| 13 | 35 + ($n \cdot 5$) |
+| 14 | 37 + ($n \cdot 6$) |
 
----
+The PATTSET and PATTSYM values specify the pattern set and pattern symbol where this gradient will reside. When the current values of the pattern set and pattern symbol attributes specify these PATTSET and PATTSYM values, respectively, this gradient will be used to do area fill.
+
+Linear gradients (defined with the Linear Gradient order), radial gradients (defined with this order), and custom patterns (defined with the Begin Custom Pattern order) share the pattern sets X'01'–X'FD'; the patterns using these pattern sets can be any combination of gradients and custom patterns without restriction.
+
+Definition of a gradient using this drawing order does not set the pattern set and pattern symbol attributes to use the gradient. To use the gradient, the pattern set and pattern symbol attributes must be explicitly set.
+
+All possible valid values of the PATTSET and PATTSYM fields must be supported. There are $253 \cdot 255 = 64,515$ possible combinations of PATTSET and PATTSYM. However, it is not required that implementations support the creation of 64,515 gradients. If insufficient storage is available to correctly handle a radial gradient definition, exception condition EC-DD03 is raised, for which the standard action is to ignore the Radial Gradient order.
+
+It is not possible to replace a gradient or custom pattern simply by sending a Radial Gradient order with the same PATTSET and PATTSYM parameters. If this is attempted, exception EC-DD02 is raised, for which the standard action is to ignore the Radial Gradient order. To replace a pattern at a given pattern set and pattern symbol, first delete the existing pattern using the Delete Pattern drawing order.
+
+The current position is not used nor changed by this drawing order.
 
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
+- **EC-0003**: The order has an incorrect length.
+
 The following exception conditions cause a standard action to be taken:
-EC-0E02 The color space specified in the order is invalid or unsupported.
-Standard action: Ignore the Radial Gradient order .
-EC-0E03 A color value specified in the order is invalid or unsupported.
-Standard action: Ignore the Radial Gradient order .
-EC-0E04 A highlight color percent value specified in the order is invalid.
-Standard action: The maximum valid percent value is used.
-EC-0E05 The number of bits for a color component specified in the order is invalid or unsupported.
-Standard action: Ignore the Radial Gradient order .
-EC-C601 The drawing processor has detected an exceptional condition that can prevent the drawing of one of the full arcs within the normal limits of pel accuracy .
-Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines.
-EC-DD00 The value specified for the PATTSET parameter is invalid.
-Standard action: Ignore the Radial Gradient order .
-EC-DD01 The value specified for the PATTSYM parameter is invalid; a gradient cannot be assigned to pattern symbol X'00'.
-Standard action: Ignore the Radial Gradient order .
-EC-DD02 The PATTSET and PATTSYM values are within the valid range, but a pattern already resides at that location.
-Standard action: Ignore the Radial Gradient order .
-EC-DD03 Insufficien t storage available to process and store a radial gradient.
-Standard action: Ignore the Radial Gradient order .
-EC-DD04 A value for one or both of the OUTSIDE_S or OUTSIDE_E parameters is invalid.
-Standard action: Use the value X'00' - None.
-EC-DD05 The value specified for a color stop off set is invalid or is less than a previous color stop off set.
-Standard action: The color stop is ignored.
-EC-DD06 Invalid length value in the color specification.
-Standard action: Ignore the Radial Gradient order .
-EC-DD07 Color space or color values in the order are valid, but do not follow the rules for colors in a gradient.
-Standard action: Ignore the Radial Gradient order .
-Radial Gradient
+- **EC-0E02**: The color space specified in the order is invalid or unsupported.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-0E03**: A color value specified in the order is invalid or unsupported.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-0E04**: A highlight color percent value specified in the order is invalid.
+  - Standard action: The maximum valid percent value is used.
+- **EC-0E05**: The number of bits for a color component specified in the order is invalid or unsupported.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-C601**: The drawing processor has detected an exceptional condition that can prevent the drawing of one of the full arcs within the normal limits of pel accuracy.
+  - Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines.
+- **EC-DD00**: The value specified for the PATTSET parameter is invalid.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-DD01**: The value specified for the PATTSYM parameter is invalid; a gradient cannot be assigned to pattern symbol X'00'.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-DD02**: The PATTSET and PATTSYM values are within the valid range, but a pattern already resides at that location.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-DD03**: Insufficient storage available to process and store a radial gradient.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-DD04**: A value for one or both of the OUTSIDE_S or OUTSIDE_E parameters is invalid.
+  - Standard action: Use the value X'00' - None.
+- **EC-DD05**: A color stop has an offset value that is smaller than the offset value of any previous color stop, or is otherwise invalid.
+  - Standard action: Ignore the color stop.
+- **EC-DD06**: The length field in COLSPEC_S (the first byte) is invalid.
+  - Standard action: Ignore the Radial Gradient order.
+- **EC-DD07**: Color specifications do not follow the specific rules for the Highlight color space or Standard OCA color space.
+  - Standard action: Ignore the Radial Gradient order.
 
 ---
+### Relative Line (GRLINE, GCRLINE) Orders
 
-Relative Line (GRLINE, GCRLINE) Orders
 These orders define one or more connected straight lines, at the given position or at the current position. For these drawing orders, the endpoint of each line is specified as an offset from the previous endpoint rather than as an absolute value.
-Syntax
-Relative Line at Given Position (GRLINE) Order
+
+#### Syntax
+
+##### Relative Line at Given Position (GRLINE) Order
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'E1' | GRLINE | order code |
-| 1 | UBIN | LENGTH | 4-n | Length of following data; n must be less than |
-| 255 | and | a | multiple | of 2 |
-| 2-3 | SBIN | XPOS0 | X'8000'-X'7FFF' | X g |
-| coordinate | of | line | start | point |
-| 4-5 | SBIN | YPOS0 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | line | start | point |
-| 6 | SBIN | XOFFS0 | X'80'-X'7F' | Offset in X g |
-| direction | for | first | | endpoint |
-| 7 | SBIN | YOFFS0 | X'80'-X'7F' | Offset in Y g |
-| direction | for | first | | endpoint |
-| 8 | SBIN | XOFFS1 | X'80'-X'7F' | Offset in X g |
-| direction | for | second | | endpoint |
-| 9 | SBIN | YOFFS1 | X'80'-X'7F' | Offset in Y g |
-| direction | for | second | | endpoint |
-| ⋮ ⋮ | | | | |
-| Offset | data | for | further | points |
-| SBIN | XOFFSF | X'80'-X'7F' | Offset | in X g |
-| direction | for | final | | endpoint |
-| SBIN | YOFFSF | X'80'-X'7F' | Offset | in Y g |
-| direction | for | final | | endpoint |
-| Relative | Line | at | Current | Position (GCRLINE) Order |
+| 0 | CODE | X'E1' | GRLINE | Order code |
+| 1 | UBIN | LENGTH | 4–n | Length of following data; $n$ must be less than 255 and a multiple of 2 |
+| 2-3 | SBIN | XPOS0 | X'8000'-X'7FFF' | $X_g$ coordinate of line start point |
+| 4-5 | SBIN | YPOS0 | X'8000'-X'7FFF' | $Y_g$ coordinate of line start point |
+| 6 | SBIN | XOFFS0 | X'80'-X'7F' | Offset in $X_g$ direction for first endpoint |
+| 7 | SBIN | YOFFS0 | X'80'-X'7F' | Offset in $Y_g$ direction for first endpoint |
+| 8 | SBIN | XOFFS1 | X'80'-X'7F' | Offset in $X_g$ direction for second endpoint |
+| 9 | SBIN | YOFFS1 | X'80'-X'7F' | Offset in $Y_g$ direction for second endpoint |
+| ⋮ | ⋮ | ⋮ | ⋮ | Offset data for further points |
+| 2n+4 | SBIN | XOFFSF | X'80'-X'7F' | Offset in $X_g$ direction for final endpoint |
+| 2n+5 | SBIN | YOFFSF | X'80'-X'7F' | Offset in $Y_g$ direction for final endpoint |
+
+##### Relative Line at Current Position (GCRLINE) Order
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'A1' | GCRLINE | order code |
-| 1 | UBIN | LENGTH | 0-n | Length of following data; n must be less than |
-| 255 | and | a | multiple | of 2 |
-| 2 | SBIN | XOFFS0 | X'80'-X'7F' | Offset in X g |
-| direction | for | first | | endpoint |
-| 3 | SBIN | YOFFS0 | X'80'-X'7F' | Offset in Y g |
-| direction | for | first | | endpoint |
-| 4 | SBIN | XOFFS1 | X'80'-X'7F' | Offset in X g |
-| direction | for | second | | endpoint |
-| 5 | SBIN | YOFFS1 | X'80'-X'7F' | Offset in Y g |
-| direction | for | second | | endpoint |
-| ⋮ ⋮ | | | | |
-| Offset | data | for | further | points |
-| SBIN | XOFFSF | X'80'-X'7F' | Offset | in X g |
-| direction | for | final | | endpoint |
-| SBIN | YOFFSF | X'80'-X'7F' | Offset | in Y g |
-| direction | for | final | | endpoint |
-| Semantics | | | | |
-| The | Relative | Line | at | Given Position (GRLINE) order adds the offs et of each line endpoint cumulatively to the line start point (specified by XPOS0,YPOS0) to generate a sequence of points P |
-| 1 | | | | |
-| , P | | | | |
-| 2 | | | | |
-| , | … | P | | f |
-| , | where | P | | f |
-| is the | | | | |
-| Relative Line | | | | |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'A1' | GCRLINE | Order code |
+| 1 | UBIN | LENGTH | 0–n | Length of following data; $n$ must be less than 255 and a multiple of 2 |
+| 2 | SBIN | XOFFS0 | X'80'-X'7F' | Offset in $X_g$ direction for first endpoint |
+| 3 | SBIN | YOFFS0 | X'80'-X'7F' | Offset in $Y_g$ direction for first endpoint |
+| 4 | SBIN | XOFFS1 | X'80'-X'7F' | Offset in $X_g$ direction for second endpoint |
+| 5 | SBIN | YOFFS1 | X'80'-X'7F' | Offset in $Y_g$ direction for second endpoint |
+| ⋮ | ⋮ | ⋮ | ⋮ | Offset data for further points |
+| 2n | SBIN | XOFFSF | X'80'-X'7F' | Offset in $X_g$ direction for final endpoint |
+| 2n+1 | SBIN | YOFFSF | X'80'-X'7F' | Offset in $Y_g$ direction for final endpoint |
 
----
+#### Semantics
 
-final endpoint specified. The Relative Line at Current Position (GCRLINE) order adds the offset of each line endpoint cumulatively to the current position to generate a sequence of points P1 , P2 , … P f , where P f is the final endpoint specified.
-Straight lines are drawn connecting the points in sequence, that is, from the starting point to P1 , from P1 to P2 , … , and from P (f-1) to P f
-.
-Any number of offs ets can be included within the limits of the length specifications.
+The Relative Line at Given Position (GRLINE) order adds the offset of each line endpoint cumulatively to the line start point (specified by XPOS0, YPOS0) to generate a sequence of points $P_1, P_2, \dots, P_f$, where $P_f$ is the final endpoint specified. The Relative Line at Current Position (GCRLINE) order adds the offset of each line endpoint cumulatively to the current position to generate a sequence of points $P_1, P_2, \dots, P_f$, where $P_f$ is the final endpoint specified.
+
+Straight lines are drawn connecting the points in sequence, that is, from the starting point to $P_1$, from $P_1$ to $P_2, \dots$, and from $P_{f-1}$ to $P_f$.
+
+Any number of offsets can be included within the limits of the length specifications.
+
 A Relative Line at Given Position (GRLINE) order with only an initial position is permitted. This serves only to move the current position, which is set to the specified point. A Relative Line at Current Position (GCRLINE) order with only an initial position (the current position) is permitted and is treated as a No-Op.
-A relative line that starts inside GPS, but has values of offset specified that accumulate to be outside GPS, is an error .
+
+A relative line that starts inside GPS, but has values of offset specified that accumulate to be outside GPS, is an error.
+
 The current values of the line attributes are taken into account when drawing the relative lines.
+
+#### Exceptions
+
 The following exception conditions raise a drawing process check:
-EC-0003 The order has an incorrect length.
-EC-E100 A relative line starts inside GPS, but goes outside.
-Relative Line
+- **EC-0003**: The order has an incorrect length.
+- **EC-E100**: A relative line starts inside GPS, but goes outside.
 
----
+### Segment Characteristics (GSGCH) Order
 
-Segment Characteristics (GSGCH) Order
 This order is processed as a No-Op in AFP GOCA. It is valid only in the prolog of a segment.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'04' | GSGCH | order code |
-| 1 | UBIN | LENGTH | 0-255 | Length of following data |
+| 0 | CODE | X'04' | GSGCH | Order code |
+| 1 | UBIN | LENGTH | 0–255 | Length of following data |
 | 2 | CODE | CHID | X'00' | Identification code for characteristics |
-| 3-n | UNDF | P | ARMS | Parameters of characteristics |
-| Semantics | | | | |
-| Not | applicable | in | AFP | GOCA. |
-| The | following | exception | condition | may optionally raise a drawing process check: |
-| EC-0400 | The | Segment | Characteristics | order is detected outside the prolog section of a segment. |
-| Segment Characteristics | | | | |
+| 3–n | UNDF | PARMS | | Parameters of characteristics |
 
----
+#### Semantics
 
-Set Arc Parameters (GSAP) Order
+Not applicable in AFP GOCA.
+
+The following exception condition may optionally raise a drawing process check:
+- **EC-0400**: The Segment Characteristics order is detected outside the prolog section of a segment.
+
+### Set Arc Parameters (GSAP) Order
+
 This order sets the values of the current arc parameters.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'22' | GSAP | order code |
+| 0 | CODE | X'22' | GSAP | Order code |
 | 1 | UBIN | LENGTH | 8 | Length of following data |
 | 2-3 | SBIN | P | X'8000'-X'7FFF' | P parameter of arc transform |
 | 4-5 | SBIN | Q | X'8000'-X'7FFF' | Q parameter of arc transform |
 | 6-7 | SBIN | R | X'8000'-X'7FFF' | R parameter of arc transform |
 | 8-9 | SBIN | S | X'8000'-X'7FFF' | S parameter of arc transform |
-| Semantics | | | | |
-| The | Set | Arc | Parameters | order specifies the shape and orientation of a circle or an ellipse. Subsequent Full Arc orders specify the size and location of the circle or ellipse. Subsequent Partial Arc orders specify the size and |
-| location | of | the | circle | or ellipse that the partial arc is part of. For details, see “Full Arc” and “Partial |
-| Arc” | on | page | | 25. |
-| The | parameters | P | , | Q, R, and S define a transformation that maps the unit circle at the GPS origin (X g |
-| =0,Y g | | | | |
-| =0) | to | the | required | circle or ellipse, also at the GPS origin, such that: |
-| X' | = | P⋅X | + | R⋅Y |
-| Y' | = | S⋅X | + | Q⋅Y where X and Y are the coordinates of points on the unit circle, and X' and Y' are the coordinates of points on |
-| the | arc. | The | drawing | direction is defined by the determinant of the transform, which is defined by the arc parameters. For details, see page 24. |
-| For | a | circle | of | radius r the parameters are: |
-| P=r | | | | |
-| Q=r | | | | |
-| R=0 | | | | |
-| S=0 | | | | |
-| For | an | ellipse | with | major axis 2a and minor axis 2b the parameters are: |
-| P=a | | | | |
-| Q=b | | | | |
-| R=0 | | | | |
-| S=0 | | | | |
-| For | the | same | ellipse, | but rotated A degrees counterclockwise with respect to the X g |
-| axis | the | parameters | | are: |
-| P=a⋅cos(A) | | | | |
-| Q=b⋅cos(A) | | | | |
-| R=-b⋅sin(A) | | | | |
-| S=a⋅sin(A) | | | | |
-| This | drawing | order | does | not change the current position. |
-| Set Arc Parameters | | | | |
 
----
+#### Semantics
+
+The Set Arc Parameters order specifies the shape and orientation of a circle or an ellipse. Subsequent Full Arc orders specify the size and location of the circle or ellipse. Subsequent Partial Arc orders specify the size and location of the circle or ellipse that the partial arc is part of. For details, see "Full Arc" and "Partial Arc" on page 25.
+
+The parameters P, Q, R, and S define a transformation that maps the unit circle at the GPS origin ($X_g=0, Y_g=0$) to the required circle or ellipse, also at the GPS origin, such that:
+$$X' = P \cdot X + R \cdot Y$$
+$$Y' = S \cdot X + Q \cdot Y$$
+where $X$ and $Y$ are the coordinates of points on the unit circle, and $X'$ and $Y'$ are the coordinates of points on the arc. The drawing direction is defined by the determinant of the transform, which is defined by the arc parameters. For details, see page 24.
+
+For a circle of radius $r$ the parameters are:
+- $P=r$
+- $Q=r$
+- $R=0$
+- $S=0$
+
+For an ellipse with major axis $2a$ and minor axis $2b$ the parameters are:
+- $P=a$
+- $Q=b$
+- $R=0$
+- $S=0$
+
+For the same ellipse, but rotated $A$ degrees counterclockwise with respect to the $X_g$ axis the parameters are:
+- $P = a \cdot \cos(A)$
+- $Q = b \cdot \cos(A)$
+- $R = -b \cdot \sin(A)$
+- $S = a \cdot \sin(A)$
+
+This drawing order does not change the current position.
 
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
-Set Arc Parameters
-
----
+- **EC-0003**: The order has an incorrect length.
 
 Set Background Mix (GSBMX) Order
 This order provides a shorthand way of setting the following background mix attributes to the same value:
