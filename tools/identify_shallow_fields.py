@@ -119,7 +119,7 @@ def identify_shallow_fields(root_dir):
                             if match.group(2) in ['StructuredFieldBaseNameAndTriplets', 'StructuredFieldBaseTriplets', 'StructuredFieldBaseName']:
                                 continue
 
-                            if classname in ['IRD_IMImageRasterData', 'OCD_ObjectContainerData', 'FNG_FontPatterns', 'NOP_NoOperation']:
+                            if classname in ['IRD_IMImageRasterData', 'OCD_ObjectContainerData', 'FNG_FontPatterns', 'NOP_NoOperation', 'StructuredFieldErrornouslyBuilt']:
                                 continue
 
                             package = os.path.relpath(root, root_dir).replace(os.sep, '.')
