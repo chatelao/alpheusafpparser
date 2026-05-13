@@ -3804,7 +3804,7 @@ demonstrate an optimal data stream.
 
 
 Figure 46. Examples of IPDS Commands Involved with Saving and Including Pages
-XOH Specify Group Operation  command
+XOH Specify Group Operation command
 - operation = Save Pages
 - group level = X'08'
 XOH Define Group Boundary command
