@@ -35,7 +35,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.0")
 
-    checkstyleConfig("com.puppycrawl.tools:checkstyle:7.1") {
+    checkstyleConfig("com.puppycrawl.tools:checkstyle:10.12.0") {
         isTransitive = false
     }
 }
@@ -129,7 +129,7 @@ artifacts {
 }
 
 checkstyle {
-    toolVersion = "7.1"
+    toolVersion = "10.12.0"
     config = resources.text.fromArchiveEntry(checkstyleConfig, "google_checks.xml")
     isIgnoreFailures = true
     isShowViolations = false
