@@ -7676,84 +7676,35 @@ The transition from the offline state to the online state after installing or re
 communicated to the host either at the IPDS level by returning an action code X'0D' NACK or at the carrying
 communications-protocol level. A change to the Installed Features self-defining field without an online to offline
 transition, must be communicated to the host by returning an action code X'1D' NACK.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0006' Installed Features self-defining field ID
-One or more feature IDs in the following format:
-+ 0–1 CODE Feature ID
-X'0100'
-X'0200'
-X'0201'
-X'0202'
-X'0300'
-X'0400'
-X'0600'
-X'0700'
-X'0800'
-X'0900'
-X'0B00'
-X'0C00'
-X'0D00'
-Features that are currently installed in the printer:
-Duplex
-Manual two-channel switch
-Tightly coupled two-channel switch
-Retired item 39
-Cut-sheet output
-Retired item 40
-Offset stacker
-Envelopes
-MICR: capable of printing toned pels that are impregnated with
-a magnetic material
-Burster-trimmer-stacker or cutter-trimmer-stacker
-Continuous-forms output
-Continuous-forms separation capability
-PTOCA text decryption capability
-Note: The absence of both X'0300' and X'0B00' specifies that continuous-forms output is installed.
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006' – X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0006' | Installed Features self-defining field ID |
 
+One or more feature IDs in the following format:
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | Feature ID | X'0100'<br>X'0200'<br>X'0201'<br>X'0202'<br>X'0300'<br>X'0400'<br>X'0600'<br>X'0700'<br>X'0800'<br>X'0900'<br>X'0B00'<br>X'0C00'<br>X'0D00' | **Features that are currently installed in the printer:**<br>Duplex<br>Manual two-channel switch<br>Tightly coupled two-channel switch<br>Retired item 39<br>Cut-sheet output<br>Retired item 40<br>Offset stacker<br>Envelopes<br>MICR: capable of printing toned pels that are impregnated with a magnetic material<br>Burster-trimmer-stacker or cutter-trimmer-stacker<br>Continuous-forms output<br>Continuous-forms separation capability<br>PTOCA text decryption capability |
+
+Note: The absence of both X'0300' and X'0B00' specifies that continuous-forms output is installed.
 
 Available Features Self-Defining Field
 The Available Features self-defining field specifies features immediately available in the device. If a feature is
 specified as being available, it must also be specified in the Installed Features self-defining field as being
 installed, and any commands and properties associated with this feature must be specified in the STM reply as
 being supported.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0007' Available Features self-defining field ID
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006' – X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0007' | Available Features self-defining field ID |
+
 One or more feature IDs in the following format:
-+ 0–1 CODE Feature ID
-X'0100'
-X'0200'
-X'0201'
-X'0202'
-X'0300'
-X'0400'
-X'0600'
-X'0700'
-X'0800'
-X'0900'
-X'0B00'
-X'0C00'
-X'0D00'
-Features that are currently available in the printer:
-Duplex available from at least one media source
-Manual two-channel switch
-Tightly coupled two-channel switch
-Retired item 43
-Cut-sheet output
-Retired item 44
-Offset stacker
-Envelopes available from at least one installed media source
-MICR: capable of printing toned pels that are impregnated with
-a magnetic material
-Burster-trimmer-stacker or cutter-trimmer-stacker
-Continuous-forms output
-Continuous-forms separation capability
-PTOCA text decryption capability
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | Feature ID | X'0100'<br>X'0200'<br>X'0201'<br>X'0202'<br>X'0300'<br>X'0400'<br>X'0600'<br>X'0700'<br>X'0800'<br>X'0900'<br>X'0B00'<br>X'0C00'<br>X'0D00' | **Features that are currently available in the printer:**<br>Duplex available from at least one media source<br>Manual two-channel switch<br>Tightly coupled two-channel switch<br>Retired item 43<br>Cut-sheet output<br>Retired item 44<br>Offset stacker<br>Envelopes available from at least one installed media source<br>MICR: capable of printing toned pels that are impregnated with a magnetic material<br>Burster-trimmer-stacker or cutter-trimmer-stacker<br>Continuous-forms output<br>Continuous-forms separation capability<br>PTOCA text decryption capability |
 Notes:
 1. If duplex is designated as available in the available-features self-defining field, there must be at least one
 bin that has the duplex bit (bit 0 of the input-media source characteristics field) set to B'1' in the Printable-
@@ -8454,49 +8405,27 @@ Product Identifier Self-Defining Field
 The Product Identifier self-defining field is an optional field that specifies parameters that contain product-
 identification data. Each parameter is defined with a product-identifier parameter ID that specifies what the
 subsequent product identifier describes.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0007' to end
-of SDF
-Length of this self-defining field, including this length field
-maximum length X'7FFF'
-2–3 CODE SDF ID X'0013' Product Identifier self-defining field ID
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0007' to end of SDF | Length of this self-defining field, including this length field; maximum length X'7FFF' |
+| 2–3 | CODE | SDF ID | X'0013' | Product Identifier self-defining field ID |
+
 One or more self-defining product-identifier parameters in the following format:
-+ 0 UBIN Parameter
-length
-X'03' to end of
-parameter
-Length of this Product-identifier parameter, including this length
-field; refer to each parameter description for information about
-valid lengths
-+ 1–2 CODE Parameter ID
-X'0000'
-X'0001'
-X'0002'
-X'0003'
-X'0004'
-Product-identifier parameter ID:
-Retired item 50
-Unique Product Identifier
-This product identifier parameter ID indicates that
-bytes 3 to end contain information that can be used
-to uniquely identify the printer.
-IPDS Intermediate Device Identifier
-This product identifier parameter ID indicates that
-bytes 3 to end contain information that can be used to
-uniquely identify an IPDS intermediate device.
-Printer name
-Subsystem information
-+3 to
-end
-Parameter
-value
-Depends on
-parameter ID
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | UBIN | Parameter length | X'03' to end of parameter | Length of this Product-identifier parameter, including this length field; refer to each parameter description for information about valid lengths |
+| + 1–2 | CODE | Parameter ID | X'0000'<br>X'0001'<br>X'0002'<br>X'0003'<br>X'0004' | **Product-identifier parameter ID:**<br>Retired item 50<br>Unique Product Identifier<br>This product identifier parameter ID indicates that bytes 3 to end contain information that can be used to uniquely identify the printer.<br>IPDS Intermediate Device Identifier<br>This product identifier parameter ID indicates that bytes 3 to end contain information that can be used to uniquely identify an IPDS intermediate device.<br>Printer name<br>Subsystem information |
+| +3 to end | | Parameter value | Depends on parameter ID | |
+
 For all character fields in the following Parameter ID syntax tables, the only EBCDIC characters allowed in
 these fields are EBCDIC 0 –9, A –Z, a –z, period, space, and null (X'00'). Refer to code page CPGID 500 for an
 appropriate code point to character association.
+
 The format of the parameter value field (bytes + 3 to end) depends on the value of the parameter ID field (bytes
 + 1–2), as follows:
+
 Parameter ID = X'0000'
 There is no parameter value for this parameter ID. The parameter length must be X'03'.
 
@@ -8504,53 +8433,17 @@ There is no parameter value for this parameter ID. The parameter length must be 
 Parameter ID = X'0001'
 The parameter length must be in the range X'28'–X'38'. The parameter value contains a unique product
 identifier in the following format:
-Offset Type Name Range Meaning
-+ 3–8 CHAR Device type Device type of the printer in the form of six (6) EBCDIC characters
-that correspond to the device type imprinted on the serial number
-plate that is physically attached to the printer. This field is right-
-justified and padded with X'F0' if necessary.
-+ 9–11 CHAR Model number Model number of the printer in the form of three (3) EBCDIC
-characters that correspond to the model number imprinted on the
-serial number plate that is physically attached to the printer. This
-field is right-justified and padded with X'F0' if necessary.
-+ 12–14 CHAR Manufacturer Name of the manufacturer in the form of three (3) EBCDIC
-characters. If this information is not available, bytes 12–14 contain
-binary zeros. A registry of manufacturer values (AFPC Company
-Abbreviation Registry) is kept on the AFP Consortium website
-www.afpcinc.org.
-+ 15–16 CHAR Plant of
-manufacture
-Plant of manufacture in the form of two (2) EBCDIC characters. If
-this information is not available, bytes 15–16 contain binary zeros.
-+ 17–28 CHAR Sequence
-number
-Sequence number of the printer in the form of twelve (12)
-EBCDIC characters. This field is right-justified and padded with
-X'F0' if necessary. The sequence number along with the plant of
-manufacture make up the serial number imprinted on the serial
-number plate that is physically attached to the printer. If this
-information is not available, bytes 17–28 contain binary zeros.
-+ 29–30 UNDF Tag Used to differentiate between devices whose IDs specified in
-bytes 3–28 are otherwise identical, as in the case of two print
-mechanisms on the same printer control unit. This field is set to
-X'0000' if this level of differentiation is unnecessary.
-+ 31–39 CHAR Engineering
-change level
-Engineering change (EC) level in the form of nine (9) EBCDIC
-characters that most closely reflect the implemented level of IPDS
-function in the printer. This field is right-justified and padded with
-X'F0' if necessary.
-+ 40 to
-end
-UNDF Device-
-specific
-information
-(variable
-length)
-Zero (0) to sixteen (16) bytes of device-specific information with
-device-defined padding and justification. Device-specific
-information can be release or EC levels or any other data a
-product might wish to supply to identify its characteristics.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 3–8 | CHAR | Device type | | Device type of the printer in the form of six (6) EBCDIC characters that correspond to the device type imprinted on the serial number plate that is physically attached to the printer. This field is right-justified and padded with X'F0' if necessary. |
+| + 9–11 | CHAR | Model number | | Model number of the printer in the form of three (3) EBCDIC characters that correspond to the model number imprinted on the serial number plate that is physically attached to the printer. This field is right-justified and padded with X'F0' if necessary. |
+| + 12–14 | CHAR | Manufacturer | | Name of the manufacturer in the form of three (3) EBCDIC characters. If this information is not available, bytes 12–14 contain binary zeros. A registry of manufacturer values (AFPC Company Abbreviation Registry) is kept on the AFP Consortium website www.afpcinc.org. |
+| + 15–16 | CHAR | Plant of manufacture | | Plant of manufacture in the form of two (2) EBCDIC characters. If this information is not available, bytes 15–16 contain binary zeros. |
+| + 17–28 | CHAR | Sequence number | | Sequence number of the printer in the form of twelve (12) EBCDIC characters. This field is right-justified and padded with X'F0' if necessary. The sequence number along with the plant of manufacture make up the serial number imprinted on the serial number plate that is physically attached to the printer. If this information is not available, bytes 17–28 contain binary zeros. |
+| + 29–30 | UNDF | Tag | | Used to differentiate between devices whose IDs specified in bytes 3–28 are otherwise identical, as in the case of two print mechanisms on the same printer control unit. This field is set to X'0000' if this level of differentiation is unnecessary. |
+| + 31–39 | CHAR | Engineering change level | | Engineering change (EC) level in the form of nine (9) EBCDIC characters that most closely reflect the implemented level of IPDS function in the printer. This field is right-justified and padded with X'F0' if necessary. |
+| + 40 to end | UNDF | Device-specific information | | Zero (0) to sixteen (16) bytes of device-specific information with device-defined padding and justification. Device-specific information can be release or EC levels or any other data a product might wish to supply to identify its characteristics. (variable length) |
 Notes:
 1. The device-type and model-number values returned in the OPC reply represent the actual device type and
 model number of the IPDS device.
@@ -8567,100 +8460,34 @@ number fields.
 Parameter ID = X'0002'
 The parameter length must be in the range X'11'–X'21'. The parameter value contains a IPDS intermediate
 device identifier in the following format:
-Offset Type Name Range Meaning
-+3–4 BITS Intermediate-device characteristic flags
-bit 0 B'0', B'1' Remote resource caching
-bit 1 B'0', B'1' Remote job spooling
-bit 2 B'0', B'1' Datastream transforms
-bits 3–15 B'0...0' Reserved
-+5–6 CODE Device type
-X'0000'
-X'0001'
-X'0002'
-X'0003'
-X'0004'
-X'0005'
-X'0006'
-X'0007'
-Type of IPDS intermediate device specified
-by a unique two-byte value:
-Remote PrintManager 2.0
-Remote PrintManager 3.0
-Distributed Print Function
-Retired item 121
-PSF Direct (IPDS passthru, similar to RPM 2.0)
-PSF virtual printer
-IPDS-to-PDF transform
-Workstation Print Manager
-+7–15 CHAR Engineering
-change level
-Engineering change (EC) level in the form of nine (9) EBCDIC
-characters that most closely reflect the implemented level of IPDS
-function in the IPDS intermediate device. This field is right-justified
-and padded with X'F0' if necessary. If this information is not
-available, bytes 7–15 contain binary zeros.
-+16 UBIN Ordering
-parameter
-Indicates the logical position of the intermediate device in the
-host-to-printer configuration. An intermediate device sets this field
-to the value OP(r) + 1, where OP(r) is the value of the largest
-ordering parameter in an intermediate device identifier self-
-defining parameter that is received in an inbound XOH-OPC reply.
-The intermediate device closest to the printer sets this field to
-X'00'.
-+17 to
-end
-UNDF Device-
-specific
-information
-(variable
-length)
-Zero (0) to sixteen (16) bytes of device-specific information with
-device-defined padding and justification. Device-specific
-information can be release or EC levels or any other data a
-product might wish to supply to identify its characteristics.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 3–4 | BITS | Intermediate-device characteristic flags | | **bit 0** Remote resource caching (B'0', B'1')<br>**bit 1** Remote job spooling (B'0', B'1')<br>**bit 2** Datastream transforms (B'0', B'1')<br>**bits 3–15** Reserved (B'0...0') |
+| + 5–6 | CODE | Device type | X'0000'<br>X'0001'<br>X'0002'<br>X'0003'<br>X'0004'<br>X'0005'<br>X'0006'<br>X'0007' | **Type of IPDS intermediate device specified by a unique two-byte value:**<br>Remote PrintManager 2.0<br>Remote PrintManager 3.0<br>Distributed Print Function<br>Retired item 121<br>PSF Direct (IPDS passthru, similar to RPM 2.0)<br>PSF virtual printer<br>IPDS-to-PDF transform<br>Workstation Print Manager |
+| + 7–15 | CHAR | Engineering change level | | Engineering change (EC) level in the form of nine (9) EBCDIC characters that most closely reflect the implemented level of IPDS function in the IPDS intermediate device. This field is right-justified and padded with X'F0' if necessary. If this information is not available, bytes 7–15 contain binary zeros. |
+| + 16 | UBIN | Ordering parameter | | Indicates the logical position of the intermediate device in the host-to-printer configuration. An intermediate device sets this field to the value OP(r) + 1, where OP(r) is the value of the largest ordering parameter in an intermediate device identifier self-defining parameter that is received in an inbound XOH-OPC reply. The intermediate device closest to the printer sets this field to X'00'. |
+| + 17 to end | UNDF | Device-specific information | | Zero (0) to sixteen (16) bytes of device-specific information with device-defined padding and justification. Device-specific information can be release or EC levels or any other data a product might wish to supply to identify its characteristics. (variable length) |
 Parameter ID = X'0003'
 The parameter length must be in the range X'04'–X'FF'. The parameter value contains a printer name in the
 following format:
-Offset Type Name Range Meaning
-+3 to
-end
-CHAR Printer name External name of the printer in the form of a variable number of
-EBCDIC characters; names can be from 1 to 252 bytes long.
-This optional name should be supplied when the printer name is
-different from the device type.
 
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 3 to end | CHAR | Printer name | | External name of the printer in the form of a variable number of EBCDIC characters; names can be from 1 to 252 bytes long. This optional name should be supplied when the printer name is different from the device type. |
 
 Parameter ID = X'0004'
 The parameter length must be in the range X'07'–X'FF'. The parameter value contains information about one
 subsystem of the product in the following format:
-Offset Type Name Range Meaning
-+ 3 UBIN Name length X'02'–X'FA' Length of the subsystem name, including this length field
-+ 4 to
-end
-CHAR Subsystem
-name
-Name of the subsystem, using EBCDIC characters
-++ 0 UBIN EC level
-length
-X'01'–X'F9' Length of the subsystem EC level, including this length field
-++ 1 to
-end
-CHAR Subsystem
-EC level
-Engineering change (EC) level of the subsystem, using EBCDIC
-characters
-+++ 0
-UBIN Info length X'01'–X'F9' Length of the subsystem-specific information, including this length
-field
-+++ 1
-to end
-UNDF Subsystem-
-specific
-information
-Subsystem-specific information, in a device-defined format. This
-is any data a product might wish to supply to identify the
-subsystem's characteristics.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 3 | UBIN | Name length | X'02'–X'FA' | Length of the subsystem name, including this length field |
+| + 4 to end | CHAR | Subsystem name | | Name of the subsystem, using EBCDIC characters |
+| ++ 0 | UBIN | EC level length | X'01'–X'F9' | Length of the subsystem EC level, including this length field |
+| ++ 1 to end | CHAR | Subsystem EC level | | Engineering change (EC) level of the subsystem, using EBCDIC characters |
+| +++ 0 | UBIN | Info length | X'01'–X'F9' | Length of the subsystem-specific information, including this length field |
+| +++ 1 to end | UNDF | Subsystem-specific information | | Subsystem-specific information, in a device-defined format. This is any data a product might wish to supply to identify the subsystem's characteristics. |
 Notes:
 1. Because the subsystem information fields are variable length, no padding or justification rules need be
 specified.
@@ -9409,20 +9236,13 @@ If desired, a printer can change its reported speed when an IML NACK is reported
 speed based on a major hardware change (for example, an engine added) or a major configuration change (for
 example, a continuous-forms printer purposely set to move paper at half speed).
 The reported speed is in no way a guarantee of performance.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000C' Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0029' Printer Speed self-defining field ID
-4–7 UBIN PPM X'00000001' –
-X'FFFFFFFF'
-X'00000000'
-Number of Letter-sized pages that can be printed per minute
-No pages-per-minute value reported
-8–11 UBIN FPM X'00000001' –
-X'FFFFFFFF'
-X'00000000'
-Number of feet of continuous-forms media that can be printed per
-minute
-No feet-per-minute value reported
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000C' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0029' | Printer Speed self-defining field ID |
+| 4–7 | UBIN | PPM | X'00000001' – X'FFFFFFFF'<br>X'00000000' | Number of Letter-sized pages that can be printed per minute<br>No pages-per-minute value reported |
+| 8–11 | UBIN | FPM | X'00000001' – X'FFFFFFFF'<br>X'00000000' | Number of feet of continuous-forms media that can be printed per minute<br>No feet-per-minute value reported |
 
 
 Active Setup Name Self-Defining Field

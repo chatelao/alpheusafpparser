@@ -27,6 +27,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ---
 
 ## Phase 10: Specification Excellence
+*This phase focuses on ensuring the highest quality for the Markdown-based AFP specifications, including purging PDF artifacts, fixing OCR errors, and converting text dumps to structured Markdown tables.*
+
 - 🚧 **IPDS (Critical)**:
     - ⏳ Purge physical page markers and recurring PDF headers/footers:
         - ✅ Chapters 1–11, 14–15.
@@ -73,12 +75,29 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ✅ SDF X'0004' (Storage Pools).
                 - ✅ SDF X'0008' (Resident Symbol-Set Support).
                 - ✅ SDF X'0026' (Supported Device Resolutions).
-                - ⏳ SDFs X'0006'–X'0007', X'0013', X'0029' (Features, Product Info, Speed).
-                - ⏳ SDFs X'0009'–X'000D', X'0012', X'0017', X'0022', X'002A' (Setup, Quality, Medium Mod).
-                - ⏳ SDFs X'000E'–X'000F' (Bar Codes: Tables 34–35).
-                - ⏳ SDFs X'0010', X'0015', X'0016', X'0024', X'0025' (Destinations, Operations).
-                - ⏳ SDFs X'0014', X'0027' (Object Containers).
-                - ⏳ SDFs X'0018'–X'001A', X'0021', X'0028' (Finishing, UP3I, Colorant).
+                - ✅ SDFs X'0006', X'0007', X'0013', X'0029' (Features, Product Info, Speed).
+                - ⏳ SDF X'0009' (Print-Quality Support).
+                - ⏳ SDF X'000A' (XOA-RRL RT & RIDF Support).
+                - ⏳ SDF X'000B' (Activate Resource RT & RIDF Support).
+                - ⏳ SDF X'000D' (Medium Modification IDs Supported).
+                - ⏳ SDF X'0012' (Supported Group Operations).
+                - ⏳ SDF X'0017' (Printer Setup).
+                - ⏳ SDF X'0022' (Device-Appearance).
+                - ⏳ SDF X'002A' (Active Setup Name).
+                - ⏳ SDF X'000E' (Common Bar Code Type/Modifier).
+                - ⏳ SDF X'000F' (Bar Code Type/Modifier: Tables 34–35).
+                - ⏳ SDF X'0010' (Media-Destinations).
+                - ⏳ SDF X'0015' (DF Deactivation Types Supported).
+                - ⏳ SDF X'0016' (PFC Triplets Supported).
+                - ⏳ SDF X'0024' (Keep-Group-Together-as-a-Recovery-Unit).
+                - ⏳ SDF X'0025' (Recognized Group ID Formats).
+                - ⏳ SDF X'0014' (Object-Container Type Support).
+                - ⏳ SDF X'0027' (Object-Container Version Support).
+                - ⏳ SDF X'0018' (Finishing Operations).
+                - ⏳ SDF X'0019' (UP3I Tupel).
+                - ⏳ SDF X'001A' (UP3I Paper Input Media).
+                - ⏳ SDF X'0021' (Colorant-Identification).
+                - ⏳ SDF X'0028' (Finishing Options).
             - ✅ XOH orders: PCC, PBD, RSPG, SIMS.
             - ✅ XOH orders: SMM, SCF, SMO, SMS.
             - ✅ XOH Specify Group Operation (SGO).
