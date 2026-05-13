@@ -84,9 +84,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ✅ SDF X'0017' (Printer Setup).
                 - ✅ SDF X'0022' (Device-Appearance).
                 - ✅ SDF X'002A' (Active Setup Name).
-                - ⏳ SDF X'000E' (Common Bar Code Type/Modifier).
-                - ⏳ SDF X'000F' (Bar Code Type/Modifier: Tables 34–35).
-                - ⏳ SDF X'0010' (Media-Destinations).
+                - ✅ SDF X'000E' (Common Bar Code Type/Modifier).
+                - ✅ SDF X'000F' (Bar Code Type/Modifier: Tables 34–35).
+                - ✅ SDF X'0010' (Media-Destinations).
                 - ⏳ SDF X'0015' (DF Deactivation Types Supported).
                 - ⏳ SDF X'0016' (PFC Triplets Supported).
                 - ⏳ SDF X'0024' (Keep-Group-Together-as-a-Recovery-Unit).
