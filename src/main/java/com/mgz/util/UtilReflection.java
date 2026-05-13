@@ -42,10 +42,8 @@ public class UtilReflection {
 
     // Try to get value by accessing the field.
     try {
-      boolean isAccessable = field.isAccessible();
       field.setAccessible(true);
       Object val = field.get(instance);
-      field.setAccessible(isAccessable);
       return val;
     } catch (IllegalArgumentException | IllegalAccessException e1) {
       // We don't give up.
@@ -74,10 +72,8 @@ public class UtilReflection {
   public static void setFieldValue(Field field, Object instance, Object value) throws AFPParserException {
     // Try to set value by accessing the field.
     try {
-      boolean isAccessable = field.isAccessible();
       field.setAccessible(true);
       field.set(instance, value);
-      field.setAccessible(isAccessable);
     } catch (IllegalArgumentException | IllegalAccessException e1) {
       throw new AFPParserException("Failed to set value.", e1);
     }
