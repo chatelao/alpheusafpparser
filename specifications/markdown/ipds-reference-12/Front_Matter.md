@@ -7,7 +7,7 @@ AFPC-0001-12
 
 
 Note:
-Before using this information, read the information in “Notices” on page 1023.
+Before using this information, read the information in “Notices”.
 AFPC-0001-12
 Thirteenth Edition (June 2023)
 This edition applies to the Intelligent Printer Data Stream™ (IPDS™) architecture. It is the fifth edition produced by the AFP
@@ -453,59 +453,59 @@ positioning and cell positioning)
 xii IPDS Reference
 ## How to Use This Book
 This book is divided into sixteen chapters and four appendixes:
-• Chapter 1, “A Presentation Architecture Perspective”, on page 1 introduces the AFPC presentation
+• Chapter 1, “A Presentation Architecture Perspective” introduces the AFPC presentation
 architectures and describes the role of data streams and data objects.
-• Chapter 2, “Introduction to IPDS”, on page 7 introduces the Intelligent Printer Data Stream as a component
+• Chapter 2, “Introduction to IPDS” introduces the Intelligent Printer Data Stream as a component
 of printing subsystems. This chapter also describes IPDS functional divisions.
-• Chapter 3, “IPDS Overview”, on page 17 describes the key concepts and terminology used by IPDS
+• Chapter 3, “IPDS Overview” describes the key concepts and terminology used by IPDS
 Architecture.
-• Chapter 4, “Device-Control Command Set”, on page 123 describes the commands used to set up a logical
+• Chapter 4, “Device-Control Command Set” describes the commands used to set up a logical
 page, communicate device controls, manage resources, and handle the acknowledgment protocol.
-• Chapter 5, “Text Command Set”, on page 457 describes the commands for presenting PTOCA text
+• Chapter 5, “Text Command Set” describes the commands for presenting PTOCA text
 information in a page, a page segment, or an overlay.
-• Chapter 6, “IM-Image Command Set”, on page 479 describes the commands for presenting image raster
+• Chapter 6, “IM-Image Command Set” describes the commands for presenting image raster
 data in a page, a page segment, or an overlay.
-• Chapter 7, “IO-Image Command Set”, on page 493 describes the commands for presenting IOCA image
+• Chapter 7, “IO-Image Command Set” describes the commands for presenting IOCA image
 data in a page, a page segment, or an overlay.
-• Chapter 8, “Graphics Command Set”, on page 521 describes the commands for presenting GOCA graphics
+• Chapter 8, “Graphics Command Set” describes the commands for presenting GOCA graphics
 data in a page, a page segment, or an overlay.
-• Chapter 9, “Bar Code Command Set”, on page 547 describes the commands for presenting BCOCA data in
+• Chapter 9, “Bar Code Command Set” describes the commands for presenting BCOCA data in
 a page, a page segment, or an overlay.
-• Chapter 10, “Object Container Command Set”, on page 563 describes the commands for downloading object
+• Chapter 10, “Object Container Command Set” describes the commands for downloading object
 containers and presenting object container data in a page, a page segment, or an overlay.
-• Chapter 11, “Metadata Command Set ”, on page 615 describes the commands for associating metadata with
+• Chapter 11, “Metadata Command Set ” describes the commands for associating metadata with
 any of many types of objects.
-• Chapter 12, “Overlay Command Set”, on page 621 describes the commands for controlling frequently
+• Chapter 12, “Overlay Command Set” describes the commands for controlling frequently
 accessed user data in a page, a page segment, or an overlay. An overlay contains its own environment and
 appears the same on every page on which it is printed.
-• Chapter 13, “Page-Segment Command Set”, on page 631 describes the commands for controlling frequently
+• Chapter 13, “Page-Segment Command Set” describes the commands for controlling frequently
 accessed user data in a page. Unlike an overlay, a page segment is not independent of its page
 environment.
-• Chapter 14, “Loaded-Font Command Set”, on page 635 describes the commands for downloading coded-
+• Chapter 14, “Loaded-Font Command Set” describes the commands for downloading coded-
 font information to the printer.
-• Chapter 15, “Triplets”, on page 703 describes substructures called triplets that are used within some IPDS
+• Chapter 15, “Triplets” describes substructures called triplets that are used within some IPDS
 commands.
-• Chapter 16, “Exception Reporting”, on page 789 provides additional information about the Acknowledge
+• Chapter 16, “Exception Reporting” provides additional information about the Acknowledge
 Reply that is used by IPDS devices for exception reporting. A complete list of printer exception-reporting
 codes is provided along with a description of page-counter and copy-counter adjustments.
-• Chapter 17, “Compliance”, on page 977 provides a complete description of the IPDS functional divisions,
+• Chapter 17, “Compliance” provides a complete description of the IPDS functional divisions,
 IPDS support requirements, and migration functions.
-• Appendix A, “IPDS Commands Sorted by Command Code”, on page 989 provides a table listing the IPDS
+• Appendix A, “IPDS Commands Sorted by Command Code” provides a table listing the IPDS
 command codes in numeric order, the meaning of the codes, and the section in this document where they
 are described.
-• Appendix B, “Examples of IPDS Command Sequences”, on page 993 provides examples of IPDS command
+• Appendix B, “Examples of IPDS Command Sequences” provides examples of IPDS command
 sequences that could be used to drive an IPDS printer.
 
 
-• Appendix C, “Image Compression and Recording Algorithms”, on page 1001 provides a brief description of
+• Appendix C, “Image Compression and Recording Algorithms” provides a brief description of
 the algorithms used in the IO-Image command set for image compression and recording.
-• Appendix D, “Retired Items”, on page 1007 lists each retired item that is mentioned within the body of this
+• Appendix D, “Retired Items” lists each retired item that is mentioned within the body of this
 book and also lists those items that have been unretired.
-The “Glossary” on page 1027 defines terms used within the book.
+The “Glossary” defines terms used within the book.
 ## How to Read the Syntax Diagrams
 Throughout this book, syntax is described using the following format that shows the syntax of a command in a
 horizontal representation followed by a table showing the data of the command. Refer to “Notation
-Conventions” on page 67 and “The IPDS Command Format” on page 70 for a detailed description of the
+Conventions” and “The IPDS Command Format” for a detailed description of the
 command syntax. The syntax includes six basic data types:
 CODE Architected constant
 CHAR Character string

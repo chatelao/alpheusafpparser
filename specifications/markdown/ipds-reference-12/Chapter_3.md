@@ -4,14 +4,14 @@ commands position data on a page, how IPDS commands position pages on a sheet, h
 are processed, and how printer operating states are defined. In addition, this chapter includes a summary of
 IPDS commands, operating states, resource management, and rules for handling exceptions and defaults. A
 set of examples that show typical IPDS command sequences can be found in Appendix B, “Examples of IPDS
-Command Sequences”, on page 993.
+Command Sequences”.
 The IPDS Presentation Environment
 The IPDS presentation environment creates mixed-data pages within a hierarchy of presentation spaces.
 These presentation spaces are medium presentation space, logical page presentation space, object area
 presentation space, text presentation space, IO-Image presentation space, graphics presentation space, bar
 code presentation space, and object container presentation space. The latter five presentation spaces contain
 the data types specified by their name; they are eventually mapped into object areas on the logical page
-presentation space. Refer to Figure 9 on page 19 for details of this mapping.
+presentation space. Refer to Figure 9 for details of this mapping.
 Physical medium
 The physical entity on which information is placed. An example of a physical medium is roll-fed paper.
 Sheet
@@ -27,9 +27,9 @@ Medium presentation space
 The finite address space that is mapped by the printer to a side of a sheet; there is only one medium
 presentation space on a side of a sheet. The relationship (whether parallel or perpendicular) between
 the top of the medium presentation space and the top edge of the sheet is defined for each type of
-sheet. See Figure 18 on page 49 through Figure 23 on page 52 for a description of the top of the
+sheet. See Figure 18 through Figure 23 for a description of the top of the
 medium presentation space with respect to the top edge of the sheet for each type of sheet.
-The medium presentation space has a width and a length. See page 50 for a description of the width
+The medium presentation space has a width and a length. for a description of the width
 and length of the medium presentation space.
 A page's logical page, as well as all pertinent overlay logical pages, are merged into the medium
 presentation space before this space is mapped by the printer to a side of a sheet. Some IPDS printers
@@ -46,7 +46,7 @@ size as the medium presentation space into which it is merged.
 
 
 Note: Printing can only occur where the current logical page intersects the physical printable area as it
-is reflected in the medium presentation space. “The Valid Printable Area” on page 62 further
+is reflected in the medium presentation space. “The Valid Printable Area” further
 describes this printing area.
 Text data can be positioned anywhere on the logical page in two different ways:
 1. All IPDS printers allow text to be placed directly within a logical page using the Write Text
@@ -61,21 +61,19 @@ text data is carried within one or more Write Text commands.
 Object areas
 Rectangular areas positioned on the logical page containing one of the following types of data:
 • Text data contains lines of character information and text rules, which the printer places at specified
-positions and orientations on the logical page. Refer to Chapter 5, “Text Command Set”, on page
-457 in this reference and the Presentation Text Object Content Architecture Reference for details.
+positions and orientations on the logical page. Refer to Chapter 5, “Text Command Set” in this reference and the Presentation Text Object Content Architecture Reference for details.
 • Image data contains raster information. Two types of image data, IM-Image and IO-Image, are
-described in separate chapters of this book. Refer to Chapter 6, “IM-Image Command Set”, on page
-479 and Chapter 7, “IO-Image Command Set”, on page 493 in this reference and the Image Object
+described in separate chapters of this book. Refer to Chapter 6, “IM-Image Command Set” and Chapter 7, “IO-Image Command Set” in this reference and the Image Object
 Content Architecture Reference for details.
 • Graphics data contains lines, curves, areas, and other drawing elements. Refer to Chapter 8,
-“Graphics Command Set”, on page 521 in this reference and the Graphics Object Content
+“Graphics Command Set” in this reference and the Graphics Object Content
 Architecture for Advanced Function Presentation for details.
 • Bar Code data contains bar-coded, machine-readable characters and can also contain human-
-readable characters. Refer to Chapter 9, “Bar Code Command Set”, on page 547 in this reference
+readable characters. Refer to Chapter 9, “Bar Code Command Set” in this reference
 and the Bar Code Object Content Architecture Reference for details.
 • Object containers contain presentation data or non-presentation data whose syntactic and semantic
 definitions are not controlled by an AFPC presentation architecture. Refer to Chapter 10, “Object
-Container Command Set”, on page 563 for details.
+Container Command Set” for details.
 A logical page can be empty or can consist of any of the following objects:
 text-major text within Write Text commands
 object areas containing text, image, graphics, bar code, or object container data
@@ -121,7 +119,7 @@ Figure 11. Examples of Multiple Pages on a Medium Presentation Space
 Some IPDS printers allow pages to be independently placed in a fixed partition on either the front-side medium
 presentation space or the back-side medium presentation space. These printers also allow the page to be
 rotated into one of four possible orientations. This allows multiple pages per sheet, some of which can be
-placed on top of others. See Figure 57 on page 211 for an example of this ability.
+placed on top of others. See Figure 57 for an example of this ability.
 
 
 Cut-Sheet Emulation Mode
@@ -201,7 +199,7 @@ provided by the containing page or overlay.
 A stored page segment is merged with a page or overlay by means of the Include Page
 Segment (IPS) command. The page segment data is mapped to the current logical page at the
 time that the IPS command is processed.
-Figure 13 on page 25 shows an example of a page containing text and an object area directly, text and an
+Figure 13 shows an example of a page containing text and an object area directly, text and an
 object area within an overlay, and an object area within a page segment.
 
 
@@ -329,7 +327,7 @@ rule allows the printer to blend data to achieve a look similar to a real prepri
 processing device and do not directly mix with the data printed by the main IPDS printer. However, when
 object area coloring is used with a UP3I Print Data object, the object area presentation space mixes in the
 same fashion as all other object area presentation spaces.
-The presentation space merge order for all other presentation data is shown by Figure 14 on page 29, and is
+The presentation space merge order for all other presentation data is shown by Figure 14, and is
 described as follows:
 • Medium presentation space – This is the base IPDS presentation space into which all other presentation
 spaces are merged.
@@ -593,10 +591,10 @@ When a highlight color space is used with indexed color values (X'0100'–X'FFFF
 CMR for color-conversion purposes (instead of using color-conversion CMRs). Color management is not used
 for highlight color values in the range X'0000'–X'00FF'. For all other color spaces, color-conversion CMRs are
 used for converting specified colors to device colors. Tone-transfer-curve CMRs and halftone CMRs can be
-used with all color spaces. Refer to Figure 17 on page 40 for a full description of the CMR-selection process for
+used with all color spaces. Refer to Figure 17 for a full description of the CMR-selection process for
 color conversion.
 Before color data can be presented, the printer must select an appropriate set of color-management controls
-using the CMR-usage hierarchy (refer to “CMR-Usage Hierarchy Summary” on page 42 for a summary of what
+using the CMR-usage hierarchy (refer to “CMR-Usage Hierarchy Summary” for a summary of what
 is selected). In general, the set includes exactly one audit CMR and one instruction CMR for each of the
 halftone, tone-transfer-curve, and color-conversion types (for a total of six CMRs) and exactly one rendering
 intent. A slightly different set is selected when an ICC DeviceLink CMR is used or when a highlight color space
@@ -887,7 +885,7 @@ the printer selects an indexed CMR. If the printer is not capable of handling th
 in the indexed CMR, the substitution LAB value is used. In this case, the LAB value is converted into
 a color presentable by the printer; this is not an exception condition.
 For all other color values that use CMRs,
-the color-conversion hierarchy shown in Figure 17 on page 40 is used to select one of the following:
+the color-conversion hierarchy shown in Figure 17 is used to select one of the following:
 either One ICC DeviceLink CMR
 or The following set of controls:
 – One audit color-conversion CMR that identifies the input color space; note that audit
@@ -970,7 +968,7 @@ CMYK Euroscale). Device-specific CMYK data can also be identified using a color
 management resource (CMR). If an audit, object-level, color-conversion CMR is invoked for
 an object, it takes precedence over the resident color profile.
 Resident color profiles are only used with certain presentation objects, such as EPS and PDF
-page objects. Refer to Table 51 on page 566
+page objects. Refer to Table 51
 for a complete list of presentation data objects
 that use resident color profiles. Note that resident color profiles are not used with presentation
 objects that are printed in conjunction with a QR Code with Image bar code.
@@ -988,8 +986,7 @@ manner consistent with the natural movements of the print mechanism.
 Ordered page A page that does not contain any page segments or overlays, and in which all text data as well
 as all image, graphics, and bar code objects are ordered such that physical pel locations on
 the physical media are accessed by the printer in a sequential left-to-right and top-to-bottom
-manner, where these directions are relative to the top edge of the sheet (see Figure 18 on
-page 49 through Figure 23 on page 52). Once a physical pel location has been accessed by
+manner, where these directions are relative to the top edge of the sheet (see Figure 18 through Figure 23). Once a physical pel location has been accessed by
 the printer, the page data does not require the printer to re-access that same physical pel
 location.
 When a page is ordered, there is no requirement to overpaint any pels on that page; therefore, the IPDS mixing
@@ -1030,7 +1027,7 @@ To see which types of font resources are supported by your printer, refer to you
 Coded-Font Components
 The component parts of a coded font can be downloaded to local printer storage, or they can be resident in
 printer storage. Downloaded-font components are also called loaded-font components and are described in
-Chapter 14, “Loaded-Font Command Set”, on page 635. To activate a coded font, these component parts must
+Chapter 14, “Loaded-Font Command Set”. To activate a coded font, these component parts must
 be combined in one of the following configurations:
 • LF1-type coded font, that consists of a fully described font plus font indexes, or that consists of several fully
 described font sections plus font indexes for each section.
@@ -1044,7 +1041,7 @@ components of a data-object font. These data-object-font components can be used 
 encoding or can be used with a code page.
 A component of a data-object font can be downloaded to an IPDS printer as an object container or can be
 resident in the printer as a data-object-font component. Object containers and data-object-font components are
-further described in Chapter 10, “Object Container Command Set”, on page 563.
+further described in Chapter 10, “Object Container Command Set”.
 The TrueType font technology is further described in the following documents available from the Microsoft and
 Apple web sites:
 TrueType Font Files Technical Specification (Microsoft Corporation)
@@ -1055,8 +1052,7 @@ developed jointly by the Adobe and Microsoft Corporations, is further described 
 available from the Microsoft web site:
 OpenType Specification (Microsoft Corporation)
 TrueType/OpenType fonts can be used with EBCDIC or ASCII text by specifying a code page to be used with
-the font. These fonts provide even more benefits when used with Unicode text; refer to “Unicode Support” on
-page 473 for a description of IPDS Unicode support. Support for code pages with TrueType/OpenType fonts is
+the font. These fonts provide even more benefits when used with Unicode text; refer to “Unicode Support” for a description of IPDS Unicode support. Support for code pages with TrueType/OpenType fonts is
 indicated in the Loaded-Font command set vector of an STM reply with one (or more) of the following Loaded-
 Font subset IDs: LF3 or LF4.
 
@@ -1130,7 +1126,7 @@ m axis
 corresponds (is parallel) to the top edge of the sheet and positive Xm values begin at the origin and increase
 from left to right. The Ym axis corresponds to the left edge of the sheet and positive Ym values begin at the
 origin and increase from top to bottom.
-Figure 18 on page 49 through Figure 23 on page 52 show the Xm,Ym coordinate system for the various
+Figure 18 through Figure 23 show the Xm,Ym coordinate system for the various
 combinations of physical media.
 For printers using continuous-forms media that support the XOH-SMO command, the top edge of the sheet is
 the short side whose left corner is closest to the leading edge of the physical medium as it moves through the
@@ -1195,12 +1191,11 @@ Top Edge
 +Y D irectionm
 +Y Directionm
 For printers using envelope media, the top edge of the sheet is in relationship to the edge to which the flap is
-attached. Figure 20 on page 51 illustrates the top edge of the sheet for envelopes. For the envelope type that
+attached. Figure 20 illustrates the top edge of the sheet for envelopes. For the envelope type that
 has equal length and width dimensions, the top edge of the sheet is the same as the envelope type with the
 flap on the long edge.
 For printers using computer output on microfilm (COM), a sheet is a data frame and the top edge of the sheet
-is a short side of a frame. The arrangement of the frames on the microfilm is defined by the printer. Figure 21
-on page 52, Figure 22 on page 52, and Figure 23 on page 52 illustrates the top edge of the sheet for COM for
+is a short side of a frame. The arrangement of the frames on the microfilm is defined by the printer. Figure 21, Figure 22, and Figure 23 illustrates the top edge of the sheet for COM for
 various frame arrangements. The case where both sides of the frame are of equal length is treated the same
 as the case where the wide side is parallel to the title edge.
 The width and length of the medium presentation space is reported by the printer in the XOH-OPC command
@@ -1219,8 +1214,8 @@ for the purposes of determining which side of the medium presentation space corr
 COMIC representation on 16 mm microfilm, the width of the medium presentation space corresponds to the
 edge that is perpendicular to the title edge. The XOH-OPC reply indicates whether cut-sheet or continuous-
 forms media is being used.
-For a description of the top edge of the sheet for the various types of sheets, refer to Figure 18 on page 49
-through Figure 23 on page 52.
+For a description of the top edge of the sheet for the various types of sheets, refer to Figure 18
+through Figure 23.
 The location and size of the physical printable area with respect to the medium presentation space is reported
 by the printer in the XOH-OPC command reply. The location is specified as an offset from the X
 m,Ym
@@ -1313,7 +1308,7 @@ extents of the medium presentation space. These values are used along with any p
 
 
 sensor or operator input to establish the Xm and Ym extents that are required for printable area
-calculations. The XOH-SMS command is described in “XOH Set Media Size” on page 397.
+calculations. The XOH-SMS command is described in “XOH Set Media Size”.
 Xp,Yp Coordinate System (Logical Page)
 The Xp,Yp coordinate system is the logical-page presentation space coordinate system. The origin of this
 system (xp=0, yp=0) is specified in the Logical Page Position command. It can also be specified by default.
@@ -1464,8 +1459,7 @@ B BII
 I IBB
 B BI I
 0° Character Rotation
-Note: Figure 27 assumes a character rotation of 0 degrees with respect to the I axis. See Figure 102 on page
-638 for more information on character rotation.
+Note: Figure 27 assumes a character rotation of 0 degrees with respect to the I axis. See Figure 102 for more information on character rotation.
 Object areas can be positioned on a page using the I,B coordinate system. Positioning of an object area in the
 I,B coordinate system consists of two operations:
 • Location of the object area origin in the I,B coordinate system
@@ -1567,7 +1561,7 @@ Yoa
 Xoa
 Yoa
 (4,5)
-Figure 28 and Figure 29 on page 58 show that the thirty-two ways of positioning an object area with respect to
+Figure 28 and Figure 29 show that the thirty-two ways of positioning an object area with respect to
 the I,B coordinate system are developed by choosing one of the four basic object area rotations that are
 defined with respect to the Xp,Yp coordinate system and then locating the object area origin in the given I,B
 orientation.
@@ -1674,8 +1668,7 @@ also supports the following object area orientations with respect to the I,B coo
 Other Object Orientations
 Some IPDS printers support all possible values for object area orientation—that is, they do not restrict the
 orientation to certain multiples of 90 degrees. Such printers have many thousands of ways of positioning an
-object area with respect to the I,B coordinate system, rather than the thirty-two ways shown in Figure 28 on
-page 57 and Figure 29 on page 58. For example, the eight possibilities for an object area orientation of 15
+object area with respect to the I,B coordinate system, rather than the thirty-two ways shown in Figure 28 and Figure 29. For example, the eight possibilities for an object area orientation of 15
 degrees, 0 minutes, are shown in Figure 30.
 Figure 30. 15 Degree Object Area Rotation in I,B Coordinate System
 I
@@ -1719,23 +1712,23 @@ Yoa(4,5)
 
 Xt,Yt Coordinate System (Text)
 The Xt,Yt coordinate system describes the placement of text data within an abstract space called the text
-presentation space. Refer to Chapter 5, “Text Command Set”, on page 457 for a description of this coordinate
+presentation space. Refer to Chapter 5, “Text Command Set” for a description of this coordinate
 system and how this space is mapped to the logical page.
 Xg,Yg Coordinate System (Graphics)
 The Xg,Yg coordinate system describes the placement of graphics data within an abstract space called the
-graphics presentation space. Refer to Chapter 8, “Graphics Command Set”, on page 521 for a description of
+graphics presentation space. Refer to Chapter 8, “Graphics Command Set” for a description of
 this coordinate system and how this space is mapped to the logical page.
 Xio,Yio Coordinate System (IO Image)
 The Xio,Yio coordinate system describes the placement of IO-Image data within the IO-Image presentation
-space. Refer to Chapter 7, “IO-Image Command Set”, on page 493 for a description of this coordinate system
+space. Refer to Chapter 7, “IO-Image Command Set” for a description of this coordinate system
 and how this space is mapped to the logical page.
 Xbc,Ybc Coordinate System (Bar Code)
 The Xbc,Ybc coordinate system describes the placement of bar code data within the bar code presentation
-space. Refer to Chapter 9, “Bar Code Command Set”, on page 547 for a description of this coordinate system
+space. Refer to Chapter 9, “Bar Code Command Set” for a description of this coordinate system
 and how this space is mapped to the logical page.
 Xoc,Yoc Coordinate System (Object Container)
 The Xoc,Yoc coordinate system describes the placement of presentation-form object container data within the
-object container presentation space. Refer to Chapter 10, “Object Container Command Set”, on page 563 for a
+object container presentation space. Refer to Chapter 10, “Object Container Command Set” for a
 description of this coordinate system and how this space is mapped to the logical page.
 Xoa,Yoa Coordinate System (Object Area)
 The Xoa,Yoa coordinate system describes the placement of IO-Image, graphics, bar code, and object container
@@ -1769,7 +1762,7 @@ logical page (xp=0, yp=0). The current Xm,Ym coordinate position is calculated a
 medium presentation space (x m=0, ym=0).
 IPDS commands allow data objects to be positioned on the page using either Xp,Yp or I,B coordinate positions.
 More complicated relationships exist on printers that support optional function such as N-up, duplex, and page
-orientation. See Figure 57 on page 211 for an example of this situation.
+orientation. See Figure 57 for an example of this situation.
 
 
 The Valid Printable Area
@@ -1779,7 +1772,7 @@ that is allowed to contain data to be printed is one of the following:
 • The area that corresponds to the physical printable area if working with a secure overlay or if there is no
 user-printable area defined; see Figure 32
 • The intersection of the area corresponding to the physical printable area with the user-printable area; see
-Figure 33 on page 64
+Figure 33
 The physical printable area is defined to the host through the Printable-Area self-defining field of the XOH
 Obtain Printer Characteristics command. The logical page is defined by the host through the Logical Page
 Descriptor (LPD) command. Note that overlays have an associated LPD. For the duration of the overlay, this
@@ -1811,7 +1804,7 @@ Logical Page Descriptor (LPD) command.
 Generally, positioning outside of the user's VPA is valid; however, if portions of a page or a nonsecure overlay
 that are to be printed are outside of the user's VPA, a positioning exception exists. Positioning exceptions
 include X'08C1..00', X'08C2..00', X'08C3..00', X'0411..00', and X'020A..05'. The Exception Handling Control
-determines if these exceptions are reported. Figure 33 on page 64 shows the user's VPA.
+determines if these exceptions are reported. Figure 33 shows the user's VPA.
 The VPA for a secure overlay is the intersection of the secure overlay's logical page and the physical printable
 area. Thus, a secure overlay can print outside of the user's VPA. An overlay is specified to be a secure overlay
 when the overlay is included by an Include Overlay command. This allows a presentation-services program to
@@ -1966,7 +1959,7 @@ X'8000' = +32,768 (when unsigned binary is used)
 However, IPDS generators should set reserved fields to the specified value, if one is given, or to zero.
 • Some fields or values are labeled Retired item n, where n is an identifying number. These fields or values are
 reserved for a particular purpose and must not be used for any other purpose. Refer to Appendix D, “Retired
-Items”, on page 1007 for a description of the individual retired items.
+Items” for a description of the individual retired items.
 • Values not explicitly defined in the range column of a field are reserved.
 • On the following pages, commands are described in tables, with additional information about specific fields
 listed after each table. These command tables use the following special terms:
@@ -1990,7 +1983,7 @@ L-Unit Range Conversion Algorithm
 Some field values within IPDS data structures are specified assuming a unit of measure of 1/1440 of an inch.
 These fields are designated as such with a reference to this algorithm. If an IPDS receiver supports additional
 units of measure, the IPDS architecture requires the receiver to at least support a range equivalent to the
-specified range relative to each supported unit of measure. Table 10 on page 69 lists the equivalent field
+specified range relative to each supported unit of measure. Table 10 lists the equivalent field
 ranges for the most commonly used units of measure.
 The values required to be supported when 14,400 units per 10 inches is specified for a field are listed in the
 command. If additional units of measure are supported, the field values that the IPDS architecture requires a
@@ -2115,13 +2108,13 @@ The host requests an acknowledgment from the printer by setting the Acknowledgme
 on in an IPDS command. This request is made under the following conditions:
 • The host wants a positive acknowledgment that the printer has received, accepted, and syntax-checked the
 command sequence for processing and that the command is the last in the sequence. Refer to the first bullet
-listed under “General Rules for the Acknowledge Reply” on page 132.
+listed under “General Rules for the Acknowledge Reply”.
 • The command is sent by the host to request the return of printer information.
 Printer Acknowledge Replies
 The printer uses the Acknowledge Reply to return Correlation ID, page and copy counters, sense information,
 and any additionally requested information to the host. The host uses the acknowledgment data to maintain
 control of the printing operation and to initiate exception-recovery actions when necessary.
-General rules for Acknowledge Replies are listed in “General Rules for the Acknowledge Reply” on page 132.
+General rules for Acknowledge Replies are listed in “General Rules for the Acknowledge Reply”.
 All of the reporting rules are intended to accomplish a simple result: the printer and the communications
 network, including direct attachment protocols such as channel, work together to ensure that the next IPDS
 command processed subsequent to a given NACK, is the beginning of the host's response to that NACK.
@@ -2205,7 +2198,7 @@ code state, and object container state. The End command is valid in the IM-Image
 Write Image (WI) command has been received.
 Figure 36 shows the relationship between presentation-object states (other than IM-Image state) and metadata
 state.
-See Figure 37 on page 74, Figure 38 on page 75, and Figure 39 on page 76 for examples of the
+See Figure 37, Figure 38, and Figure 39 for examples of the
 relationship between presentation-object states and other printer states.
 Figure 36. Relationship between Presentation-Object States (other than IM-Image State) and Metadata State
 Write Metadata Control
@@ -2536,7 +2529,7 @@ the metadata is associated with. For example, if the WMC is received in page sta
 command(s) is associated with the page whose Begin Page command caused page state to be entered.
 WMCs received in a non-home state must always be received as the first commands after the non-home state
 is entered. Special rules exist for WMC commands received in home state. See “Metadata
-” on page 112 for
+” for
 details.
 Figure 44 shows the relationship between other states and metadata state.
 Figure 44. Relationship between Other States and Metadata State
@@ -2578,13 +2571,13 @@ Apply Finishing Operations (AFO) X'D602' Home Home
 Begin Page (BP) X'D6AF' Home Page
 Deactivate Font (DF) X'D64F' Home Home
 Define User Area (DUA) X'D6CE' Home Home
-End (END) X'D65D' See Note 1 on page 86 See Note 1 on page 86
+End (END) X'D65D' See Note 1 See Note 1
 End Page (EP) X'D6BF' Page
 Page Segment
 Overlay
 Home
 Execute Order Anystate (XOA) X'D633' Any No change
-see Note 2 on page 86
+see Note 2
 Execute Order Home State (XOH) X'D68F' Home Home
 Include Saved Page (ISP) X'D67E' Page Page
 Invoke CMR (ICMR) X'D66B' Home Home
@@ -2782,7 +2775,7 @@ been received. The End command is valid in the code page state only after at lea
 (LCP) command has been received. This command causes the printer to return to home state.
 2. The XOA Discard Buffered Data and XOA Discard Unstacked Pages commands cause the printer to enter
 home state.
-Figure 45 on page 87 shows all the IPDS states and IPDS commands. Note that some commands can occur
+Figure 45 shows all the IPDS states and IPDS commands. Note that some commands can occur
 only in a specific state, some commands can occur in more than one state, and some commands can occur in
 any state. Also note that page state, page segment state, overlay state, font state, code page state, IO-Image
 resource state, and object-container
@@ -2969,7 +2962,7 @@ The following objects are IPDS resources:
 • Saved page groups
 Note: The categories data object resource and data-object-font component provide a way to manage a variety
 of presentation, non-presentation, color, and font resources. For a complete list of this type of resource,
-refer to “Data Object Resources, Data-Object-Font Components, and Setup Files” on page 99.
+refer to “Data Object Resources, Data-Object-Font Components, and Setup Files”.
 
 
 Resource IDs
@@ -2995,14 +2988,14 @@ An eight-byte ID for a resident coded font resource consisting of four subfields
 • Font width (FW)
 The first three fields contain IBM registered IDs and are unique in IBM environments. GRIDs
 are valid for the duration of the resource's physical presence in the printer. For a definition of
-the GRID, see the description of the LFE command on page 201.
+the GRID, see the description of the LFE command.
 A multi-byte ID that includes date and time information as well as host information. The
 following formats are defined and range in size from 82 bytes to 172 bytes:
 • Remote PrintManager MVS™ format (82 or 164 bytes per resource)
 • Extended remote PrintManager MVS format (86 bytes per resource)
 • MVS host unalterable remote font format (172 bytes per font)
 GRNs are valid for the duration of the resource's physical presence in the printer or
-intermediate device. For a definition of GRNs, see the description starting on page 143.
+intermediate device. For a definition of GRNs, see the description starting.
 Coded-font format
 An attribute-based ID for a coded-font resource consisting of a font character set host-
 assigned ID, a code page host-assigned ID, the four components of the GRID, a pattern-
@@ -3205,10 +3198,10 @@ Data object resources Home state WOCC
 Home state WIC2
 DDOR, XOH ERPD
 Data-object-font components Home state WOCC DDOFC, XOH ERPD
-Table 14 on page 95 specifies the commands that can be used by presentation services programs to request
+Table 14 specifies the commands that can be used by presentation services programs to request
 an activation or a deactivation of a resident resource. An LF3-type coded font is neither downloaded nor
 resident and is activated by combining its components, a code page and a font character set, as shown in
-Table 14 on page 95.
+Table 14.
 
 
 Table 14. Activation and Deactivation of Resident Resources, Coded Fonts, and Data-Object Fonts
@@ -3291,7 +3284,7 @@ invoked as a page overlay, in which case the overlay origin can be positioned an
 page, or a medium overlay, in which case the overlay origin is positioned at the origin of the medium
 presentation space. A preprinted form overlay invoked with the LCC command is positioned like a medium
 overlay; a preprinted form overlay invoked with the IO command is positioned like a page overlay.
-Table 15 on page 98 shows the commands that are used to invoke the various resource objects as well as the
+Table 15 shows the commands that are used to invoke the various resource objects as well as the
 IDs used in the invocation.
 
 
@@ -3353,7 +3346,7 @@ Data Object Resources, Data-Object-Font Components, and Setup Files
 The following tables list the currently defined data object resources, data-object-font components, and setup
 files for the IPDS environment.
 Note: IPDS products do not necessarily support all of the object types listed; refer to the “Object-Container
-Type Support Self-Defining Field” on page 361 for a description of object-support information returned
+Type Support Self-Defining Field” for a description of object-support information returned
 by IPDS printers.
 IO Images used as resources
 Table 16. IO Images used as Resources
@@ -3376,7 +3369,7 @@ command is ignored. Setup files take effect immediately and cannot be deactivate
 DORE, DORE2, and IDO commands are not used with a setup file.
 2. Metadata objects are treated as object containers in MO:DCA, but are not valid object containers in
 IPDS. The Metadata Command Set is used in IPDS to associate metadata objects with other IPDS
-objects; see Chapter 11, “Metadata Command Set ”, on page 615.
+objects; see Chapter 11, “Metadata Command Set ”.
 Table 17. Object Containers Used in the IPDS Environment
 Registered
 Object-Type OID
@@ -3761,14 +3754,12 @@ selects a single paginated object within the file for presentation. Similarly, w
 WOC commands specified directly within a page or overlay, the WOCC command selects a single paginated
 object within the file for presentation. Examples of multi-page resource objects are PDF files that contain
 multiple pages and TIFF files that contain multiple paginated image objects.
-For information on which multi-page resource objects can use secondary resources, refer to Table 51 on page
-566.
+For information on which multi-page resource objects can use secondary resources, refer to Table 51.
 Multi-page resource objects can be preRIPed using the Rasterize Presentation Object (RPO) command. A
 single page or image in the multi-page resource object can be selected for preRIP or all of the pages or images
 in the file can be preRIPed.
 Note: A printer implementation can choose to support multi-page objects in home state or in page-or-overlay
-state (or in all three states). Refer to the “Object-Container Type Support Self-Defining Field” on page
-361 in the XOH-OPC reply for more information.
+state (or in all three states). Refer to the “Object-Container Type Support Self-Defining Field” in the XOH-OPC reply for more information.
 
 
 Pre-Rasterizing and Caching Presentation Objects
@@ -3807,7 +3798,7 @@ Some IPDS printers allow a group of pages to be saved; each saved page can later
 printed. This function is useful when printing multiple, collated copies of a document. By including a saved
 page within a page to be printed, the printed page can add information to the saved page. Often there is also a
 performance improvement when printing multiple copies of a document.
-Figure 46 on page 106 contains a sequence of IPDS commands that demonstrate command interactions when
+Figure 46 contains a sequence of IPDS commands that demonstrate command interactions when
 pages are being saved and included. The figure shows both valid and error situations and does not necessarily
 demonstrate an optimal data stream.
 
@@ -3925,7 +3916,7 @@ The IPDS Architecture supports multiple font formats and technologies and it is 
 printing results regardless of the font technology used. The FOCA architecture defines the basic concepts and
 provides a rich set of font and character metrics; these FOCA concepts lay out the presentation goals. The
 PTOCA architecture provides the capability to present strings of text at various orientations as shown in Figure
-116 on page 762. This overview section describes the relationship between various TrueType metrics and the
+116. This overview section describes the relationship between various TrueType metrics and the
 corresponding FOCA-defined metrics and provides recommendations for simulating metrics that are needed
 for presentation but are not directly provided in some TrueType fonts.
 Horizontal Metrics
@@ -3937,7 +3928,7 @@ distance to the origin of the next character.
 Figure 47 compares the parameters commonly used with TrueType fonts to the horizontal (0°) metrics
 provided by a FOCA font. In practice, many TrueType fonts are built so that there is no top indent or left indent;
 in this case, the bitmap is a tight box around the character and the indent values are zero.
-Note: The ideographic character shown in Figure 47 and Figure 48 on page 109 means “beauty”.
+Note: The ideographic character shown in Figure 47 and Figure 48 means “beauty”.
 Figure 47. TrueType Font Horizontal Metrics
 TrueType Horizontal Metrics
 0  character rotation
@@ -4212,7 +4203,6 @@ WOCC
 DDOR,
 XOH ERPD
 See Table 15
-on page 98
 Data-Object-Font
 Component
 HAID or
@@ -4396,8 +4386,7 @@ exception handling to debug documents.
 Exception-Handling Combinations
 The two most common exception-handling scenarios are 1) where the user wants the pages printed exactly as
 requested and 2) where the user accepts the printer's best-possible output. The IPDS architecture provides a
-variety of other possibilities, some of which are shown in Figure 49. Refer to “XOA Exception-Handling Control”
-on page 277 for a description of the terms used in the IPDS view.
+variety of other possibilities, some of which are shown in Figure 49. Refer to “XOA Exception-Handling Control” for a description of the terms used in the IPDS view.
 Figure 49. Some Exception-Handling Combinations
 User View
 * Pages exactly
@@ -4440,8 +4429,7 @@ Exception-Handling Control
 A data-stream exception exists when the printer detects an invalid or unsupported command, control, or
 parameter value in the data stream received from the host. The IPDS architecture assigns a unique exception
 code to each exception. The printer sends these codes to the host, as sense bytes, in the negative
-Acknowledge Reply (NACK). For a description of exception codes, refer to Chapter 16, “Exception Reporting”,
-on page 789.
+Acknowledge Reply (NACK). For a description of exception codes, refer to Chapter 16, “Exception Reporting”.
 The host controls how the printer responds to exceptions. The Exception-Handling Control order of the
 Execute Order Anystate (XOA) command permits independent control over these exception-handling
 functions:
