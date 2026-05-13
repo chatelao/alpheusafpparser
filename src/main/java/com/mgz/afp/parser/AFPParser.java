@@ -184,7 +184,7 @@ public class AFPParser {
     StructuredFieldIntroducer sfi = null;
     StructuredFieldErrornouslyBuilt errSf = null;
     try {
-      InputStream is = parserConf.getInputStream();
+      var is = parserConf.getInputStream();
 
       int tmp;
       byte[] sfData;
@@ -209,10 +209,10 @@ public class AFPParser {
           sf = createSFInstance(sfi);
         }
 
-        int lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
+        var lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
 
         if (parserConf.isBuildShallow()) {
-          AFPParserConfiguration actualConf = parserConf.clone();
+          var actualConf = parserConf.clone();
           actualConf.setInputStream(null);
           sfi.setActualConfig(actualConf);
           if (is.skip(lenOfGrossPayload) < lenOfGrossPayload) {
@@ -221,15 +221,15 @@ public class AFPParser {
 
         } else {
 
-          byte[] grossPayload = new byte[lenOfGrossPayload];
+          var grossPayload = new byte[lenOfGrossPayload];
 
           try {
             // Determine payload.
             if (lenOfGrossPayload > 0) {
 
-              int read = 0;
+              var read = 0;
               while (read < lenOfGrossPayload) {
-                int len = is.read(grossPayload, read, lenOfGrossPayload - read);
+                var len = is.read(grossPayload, read, lenOfGrossPayload - read);
                 if (len == -1) {
                   throw new AFPParserException("Reached end of file before end of structured field.");
                 } else {
@@ -239,12 +239,12 @@ public class AFPParser {
 
               // Determine net payload.
               if (sfi.isFlagSet(SFFlag.isPadded)) {
-                int lenOfPadding = grossPayload[grossPayload.length - 1];
+                int lenOfPadding = grossPayload[grossPayload.length - 1] & 0xFF;
                 if (lenOfPadding == 0) {
                   lenOfPadding = UtilBinaryDecoding.parseInt(grossPayload, grossPayload.length - 3, 2);
                 }
 
-                int lenOfSFData = lenOfGrossPayload - lenOfPadding;
+                var lenOfSFData = lenOfGrossPayload - lenOfPadding;
 
                 sfData = new byte[lenOfSFData];
                 padding = new byte[lenOfPadding];
@@ -274,20 +274,15 @@ public class AFPParser {
         if (sf != null) {
 
           // Preserve certain SFs which maybe referenced by later SFs.
-          if (sf instanceof FNC_FontControl) {
-            parserConf.setCurrentFontControl((FNC_FontControl) sf);
-          } else if (sf instanceof CPD_CodePageDescriptor) {
-            parserConf.setCurrentCodePageDescriptor((CPD_CodePageDescriptor) sf);
-          } else if (sf instanceof CPC_CodePageControl) {
-            parserConf.setCurrentPageControl((CPC_CodePageControl) sf);
-          } else if (sf instanceof BDD_BarCodeDataDescriptor) {
-            parserConf.setCurrentBarCodeDataDescriptor((BDD_BarCodeDataDescriptor) sf);
-          } else if (sf instanceof MCF_MapCodedFont_Format1) {
-            handleMCF1((MCF_MapCodedFont_Format1) sf);
-          } else if (sf instanceof MCF_MapCodedFont_Format2) {
-            handleMCF2((MCF_MapCodedFont_Format2) sf);
-          } else if (sf instanceof MDR_MapDataResource) {
-            handleMDR((MDR_MapDataResource) sf);
+          switch (sf) {
+            case FNC_FontControl fnc -> parserConf.setCurrentFontControl(fnc);
+            case CPD_CodePageDescriptor cpd -> parserConf.setCurrentCodePageDescriptor(cpd);
+            case CPC_CodePageControl cpc -> parserConf.setCurrentPageControl(cpc);
+            case BDD_BarCodeDataDescriptor bdd -> parserConf.setCurrentBarCodeDataDescriptor(bdd);
+            case MCF_MapCodedFont_Format1 mcf1 -> handleMCF1(mcf1);
+            case MCF_MapCodedFont_Format2 mcf2 -> handleMCF2(mcf2);
+            case MDR_MapDataResource mdr -> handleMDR(mdr);
+            default -> { }
           }
 
           nrOfBytesRead += sf.getStructuredFieldIntroducer().getSFLength();

@@ -79,13 +79,13 @@ public class AFPWriterHumanReadable implements IAFPWriter {
           if (o != null) {
             sb.append("\"").append(f.getName()).append("\":");
 
-            if (o instanceof Number) {
-              sb.append(o);
-            } else if (o instanceof Enum) {
-              sb.append('"').append(((Enum<?>) o).name()).append('"');
-            } else if (o instanceof CharSequence) {
-              sb.append('"').append(o).append('"');
-            } else if (o instanceof Collection || o.getClass().isArray()) {
+            if (o instanceof Number n) {
+              sb.append(n);
+            } else if (o instanceof Enum<?> e) {
+              sb.append('"').append(e.name()).append('"');
+            } else if (o instanceof CharSequence cs) {
+              sb.append('"').append(cs).append('"');
+            } else if (o instanceof Collection<?> || o.getClass().isArray()) {
 
               sb.append("[");
 
@@ -95,13 +95,13 @@ public class AFPWriterHumanReadable implements IAFPWriter {
 
               } else {
 
-                Collection<?> coll = o instanceof Collection ? (Collection<?>) o : Arrays.asList(o);
+                var coll = o instanceof Collection<?> c ? c : Arrays.asList(o);
                 if (!coll.isEmpty()) {
-                  Object firstObj = coll.iterator().next();
+                  var firstObj = coll.iterator().next();
 
-                  boolean isFirst = true;
+                  var isFirst = true;
                   if (firstObj instanceof Byte) {
-                    for (Object a : coll) {
+                    for (var a : coll) {
                       if (!isFirst) {
                         sb.append(",");
                         isFirst = false;
@@ -109,15 +109,15 @@ public class AFPWriterHumanReadable implements IAFPWriter {
                       sb.append('"').append(Integer.toHexString((Byte) a)).append('"');
                     }
                   } else {
-                    for (Object a : coll) {
+                    for (var a : coll) {
                       if (!isFirst) {
                         sb.append(",");
                       } else {
                         isFirst = false;
                       }
 
-                      if (a instanceof Enum) {
-                        sb.append('"').append(((Enum<?>) a).name()).append('"');
+                      if (a instanceof Enum<?> e) {
+                        sb.append('"').append(e.name()).append('"');
                       } else {
                         sb.append('"').append(o).append('"');
                       }

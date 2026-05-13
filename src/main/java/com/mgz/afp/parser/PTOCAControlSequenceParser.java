@@ -66,11 +66,10 @@ public class PTOCAControlSequenceParser {
 
       cs.decodeAFP(sfData, offset + pos, csi.getLength() - 2, config);
 
-      if (cs instanceof UCT_UnicodeComplexText) {
-        UCT_UnicodeComplexText uct = (UCT_UnicodeComplexText) cs;
+      if (cs instanceof UCT_UnicodeComplexText uct) {
         int ctLen = uct.getCtLength();
         if (ctLen > 0 && (pos + (csi.getLength() - 2) + ctLen) <= actualLength) {
-          byte[] text = new byte[ctLen];
+          var text = new byte[ctLen];
           System.arraycopy(sfData, offset + pos + (csi.getLength() - 2), text, 0, ctLen);
           uct.setComplexText(text);
         }
@@ -81,35 +80,31 @@ public class PTOCAControlSequenceParser {
       }
 
       // Concatenation support for SEA and SKI
-      if (cs instanceof SEA_SetEncryptedAlternate && lastCS instanceof SEA_SetEncryptedAlternate) {
-        SEA_SetEncryptedAlternate currentSea = (SEA_SetEncryptedAlternate) cs;
-        SEA_SetEncryptedAlternate lastSea = (SEA_SetEncryptedAlternate) lastCS;
+      if (cs instanceof SEA_SetEncryptedAlternate currentSea && lastCS instanceof SEA_SetEncryptedAlternate lastSea) {
         if (currentSea.getAlternateText() == null) {
           // Reset
           lastSea.setAlternateText(null);
         } else {
-          byte[] oldText = lastSea.getAlternateText();
+          var oldText = lastSea.getAlternateText();
           if (oldText == null) {
             lastSea.setAlternateText(currentSea.getAlternateText());
           } else {
-            byte[] newText = new byte[oldText.length + currentSea.getAlternateText().length];
+            var newText = new byte[oldText.length + currentSea.getAlternateText().length];
             System.arraycopy(oldText, 0, newText, 0, oldText.length);
             System.arraycopy(currentSea.getAlternateText(), 0, newText, oldText.length, currentSea.getAlternateText().length);
             lastSea.setAlternateText(newText);
           }
         }
-      } else if (cs instanceof SKI_SetKeyInformation && lastCS instanceof SKI_SetKeyInformation) {
-        SKI_SetKeyInformation currentSki = (SKI_SetKeyInformation) cs;
-        SKI_SetKeyInformation lastSki = (SKI_SetKeyInformation) lastCS;
+      } else if (cs instanceof SKI_SetKeyInformation currentSki && lastCS instanceof SKI_SetKeyInformation lastSki) {
         if (currentSki.getKeyInfo() == null) {
           // Reset
           lastSki.setKeyInfo(null);
         } else {
-          byte[] oldInfo = lastSki.getKeyInfo();
+          var oldInfo = lastSki.getKeyInfo();
           if (oldInfo == null) {
             lastSki.setKeyInfo(currentSki.getKeyInfo());
           } else {
-            byte[] newInfo = new byte[oldInfo.length + currentSki.getKeyInfo().length];
+            var newInfo = new byte[oldInfo.length + currentSki.getKeyInfo().length];
             System.arraycopy(oldInfo, 0, newInfo, 0, oldInfo.length);
             System.arraycopy(currentSki.getKeyInfo(), 0, newInfo, oldInfo.length, currentSki.getKeyInfo().length);
             lastSki.setKeyInfo(newInfo);
