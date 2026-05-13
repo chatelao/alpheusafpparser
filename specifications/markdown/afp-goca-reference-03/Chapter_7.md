@@ -565,249 +565,214 @@ Character String
 
 ---
 
-Comment (GCOMT) Order
+### Comment (GCOMT) Order
+
 This order enables data to be stored within a segment.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'01' | GCOMT | order code |
-| 1 | UBIN | LENGTH | 0-255 | Length of following data |
-| 2-n | UNDF | DATA | Any | value Comment data |
-| Semantics | | | | |
-| This | order | is | treated | as a No-Op. It has no effect on the GPS or on any current attribute or control. The data within the order can be any value and is ignored. The order can appear anywhere within a segment. |
-| This | order | does | not | raise any exception conditions. |
-| Comment | | | | |
+| 0 | CODE | X'01' | GCOMT | Order code |
+| 1 | UBIN | LENGTH | 0–255 | Length of following data |
+| 2–n | UNDF | DATA | Any value | Comment data |
+
+#### Semantics
+
+This order is treated as a No-Op. It has no effect on the GPS or on any current attribute or control. The data within the order can be any value and is ignored. The order can appear anywhere within a segment.
+
+This order does not raise any exception conditions.
 
 ---
 
-Cubic Bezier Curve (GCBEZ, GCCBEZ) Orders
+### Cubic Bezier Curve (GCBEZ, GCCBEZ) Orders
+
 These orders generate a Cubic Bezier Curve that starts at a given position or at the current position.
-Syntax
-Cubic Bezier Curve at Given Position (GCBEZ) Order
+
+#### Syntax
+
+##### Cubic Bezier Curve at Given Position (GCBEZ) Order
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'E5' | GCBEZ | order code |
-| 1 | UBIN | LENGTH | 4-n | Length of following data; n must be less than |
-| 255 | and | be | equal | to 12m + 4, where m is the number of sets of points |
-| 2-3 | SBIN | XPOS0 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | curve | start point |
-| 4-5 | SBIN | YPOS0 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | curve | start point |
-| 6-7 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | curve, | first control point |
-| 8-9 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | curve, | first control point |
-| 10-1 | 1 | SBIN | XPOS2 | X'8000'-X'7FFF' X g |
-| coordinate | of | first | curve, | second control point |
-| 12-13 | SBIN | YPOS2 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | curve, | second control point |
-| 14-15 | SBIN | XPOS3 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | curve | endpoint, second curve start point |
-| 16-17 | SBIN | YPOS3 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | curve | endpoint, second curve start point |
-| 18-19 | SBIN | XPOS4 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | curve, | first control point |
-| 20-21 | SBIN | YPOS4 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | curve, | first control point |
-| 22-23 | SBIN | XPOS5 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | curve, | second control point |
-| 24-25 | SBIN | YPOS5 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | curve, | second control point |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | points |
-| SBIN | XPOSF-2 | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | curve, | first control point |
-| SBIN | YPOSF-2 | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | curve, | first control point |
-| SBIN | XPOSF-1 | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | curve, | second control point |
-| SBIN | YPOSF-1 | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | curve, | second control point |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | curve | endpoint |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | curve | endpoint |
-| Cubic Bezier Curve | | | | |
+| 0 | CODE | X'E5' | GCBEZ | Order code |
+| 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and be equal to 12m + 4, where m is the number of curves |
+| 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve start point |
+| 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve start point |
+| 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, first control point |
+| 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, first control point |
+| 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, second control point |
+| 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, second control point |
+| 14–15 | SBIN | XPOS3 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve endpoint, second curve start point |
+| 16–17 | SBIN | YPOS3 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve endpoint, second curve start point |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF-2 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, first control point |
+| SBIN | YPOSF-2 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, first control point |
+| SBIN | XPOSF-1 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, second control point |
+| SBIN | YPOSF-1 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, second control point |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final curve endpoint |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve endpoint |
 
----
+##### Cubic Bezier Curve at Current Position (GCCBEZ) Order
 
-Cubic Bezier Curve at Current Position (GCCBEZ) Order
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'A5' | GCCBEZ | order code |
-| 1 | UBIN | LENGTH | 0-n | Length of following data; n must be less than |
-| 255 | and | be | equal | to 12m, where m is the number of sets of points |
-| 2-3 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | curve, | first control point |
-| 4-5 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | curve, | first control point |
-| 6-7 | SBIN | XPOS2 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | curve, | second control point |
-| 8-9 | SBIN | YPOS2 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | curve, | second control point |
-| 10-1 | 1 | SBIN | XPOS3 | X'8000'-X'7FFF' X g |
-| coordinate | of | first | curve | endpoint, second curve start point |
-| 12-13 | SBIN | YPOS3 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | curve | endpoint, second curve start point |
-| 14-15 | SBIN | XPOS4 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | curve, | first control point |
-| 16-17 | SBIN | YPOS4 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | curve, | first control point |
-| 18-19 | SBIN | XPOS5 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | curve, | second control point |
-| 20-21 | SBIN | YPOS5 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | curve, | second control point |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | points |
-| SBIN | XPOSF-2 | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | curve, | first control point |
-| SBIN | YPOSF-2 | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | curve, | first control point |
-| SBIN | XPOSF-1 | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | curve, | second control point |
-| SBIN | YPOSF-1 | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | curve, | second control point |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | curve | endpoint |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | curve | endpoint |
-| Semantics | | | | |
-| The | Cubic | Bezier | Curve | at Given Position (GCBEZ) order generates a curve that starts at P |
-| 0 | and | uses | | points |
-| P | | | | |
-| 1 | | | | |
-| , P | | | | |
-| 2 | | | | |
-| , and P | | | | |
-| 3 | | | | |
-| . | The | Cubic | Bezier | Curve at Current Position (GCCBEZ) order generates a curve that starts at the current position and uses points P |
-| 1 | | | | |
-| , P | | | | |
-| 2 | | | | |
-| , and P | | | | |
-| 3 | | | | |
-| . | | | | |
-| Further | points | are | used | in groups of three to form a polycurve. Each group of points, together with the last point of the previous curve, generates a new curve, every curve being drawn independently for the set of four points. |
-| See | “Cubic | Bezier | Curve” | for details of curve drawing. |
-| The | length | of | the | order , LENGTH, must be consistent with the two-byte x-coordinates and two-byte y- |
-| coordinates | and | the | requirement | for sets of points, three at a time after the initial curve. |
-| The | current | values | of | the line attributes are taken into account when drawing the curve. |
-| Cubic Bezier Curve | | | | |
+| 0 | CODE | X'A5' | GCCBEZ | Order code |
+| 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and be equal to 12m, where m is the number of curves |
+| 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, first control point |
+| 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, first control point |
+| 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, second control point |
+| 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, second control point |
+| 10–11 | SBIN | XPOS3 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve endpoint, second curve start point |
+| 12–13 | SBIN | YPOS3 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve endpoint, second curve start point |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF-2 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, first control point |
+| SBIN | YPOSF-2 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, first control point |
+| SBIN | XPOSF-1 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, second control point |
+| SBIN | YPOSF-1 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, second control point |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final curve endpoint |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve endpoint |
 
----
+#### Semantics
+
+The Cubic Bezier Curve at Given Position (GCBEZ) order generates a curve that starts at $P_0$ and uses points $P_1, P_2$, and $P_3$. The Cubic Bezier Curve at Current Position (GCCBEZ) order generates a curve that starts at the current position and uses points $P_1, P_2$, and $P_3$.
+
+Further points are used in groups of three to form a polycurve. Each group of points, together with the last point of the previous curve, generates a new curve, every curve being drawn independently for the set of four points.
+
+See “Cubic Bezier Curve” for details of curve drawing.
+
+The length of the order, LENGTH, must be consistent with the two-byte x-coordinates and two-byte y-coordinates and the requirement for sets of points, three at a time after the initial curve.
+
+The current values of the line attributes are taken into account when drawing the curve.
 
 A Cubic Bezier Curve at Given Position (GCBEZ) order with only one point is permitted. This serves only to move the current position, which is set to the specified point. A Cubic Bezier Curve at Current Position (GCCBEZ) order with only one point (the current position) is permitted and is treated as a No-Op.
+
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
-The number of points, including the current position for the GCCBEZ drawing order , must equal 3m + 1, where m is the number of curves. Each point requires a length of 4 bytes.
-Cubic Bezier Curve
+- **EC-0003**: The order has an incorrect length. The number of points, including the current position for the GCCBEZ drawing order, must equal $3m + 1$, where $m$ is the number of curves. Each point requires a length of 4 bytes.
 
 ---
 
-Delete Pattern (GDPT) Order
-This order deletes a previously defined custom pattern or gradient , or deletes all previously defined custom patterns or gradients in a given pattern set.
-Syntax
+### Delete Pattern (GDPT) Order
+
+This order deletes a previously defined custom pattern or gradient, or deletes all previously defined custom patterns or gradients in a given pattern set.
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'DF' | GDPT | order code |
-| 1 | UBIN | LENGTH | 3, | 4 Length of following data |
-| 2-3 | RES | X'0000' | Reserved; | only valid value |
-| 4 | CODE | PATTSET | X'01' | - X'FD' Pattern set of the pattern(s) to be deleted |
-| The | following | parameter | is | optional: |
-| 5 | CODE | PATTSYM | X'01' | - X'FF' Pattern symbol of the pattern to be deleted |
-| Semantics | | | | |
-| The | Delete | Pattern | order | , when it specifies a pattern symbol value, deletes one single custom pattern or gradient that was previously defined using the Begin Custom Pattern, Linear Gradient, or Radial Gradient |
-| orders. | When | the | Delete | Pattern order does not specify a pattern symbol value, it deletes all previously defined patterns in the specified pattern set. |
-| The | PATTSET | value | specifies | the pattern set of the pattern(s) to be deleted. The PATTSYM value, if included, specifies the pattern symbol of the pattern to be deleted. |
-| A | request | to | delete | all patterns in a given pattern set does not raise an exception condition if that pattern set has no patterns defined in it. However , a request to delete a specific pattern that has not been defined raises |
-| exception | condition | EC-DF00, | for | which the standard action is to ignore the Delete Pattern order . |
-| Patterns | in | the | default | pattern set cannot be deleted. An attempt to do so will raise exception condition |
-| EC-DF01, | for | which | the | standard action is to ignore the Delete Pattern order . |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-0003 | The | order | has | an incorrect length. |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-DF00 | The | PATTSET | and | PATTSYM parameters are within the valid range, but no pattern exists with the pattern set and pattern symbol specified. |
-| Standard | action: | Ignore | the | Delete Pattern order . |
-| EC-DF01 | The | value | specified | for the PATTSET parameter is invalid. |
-| Standard | action: | Ignore | the | Delete Pattern order . |
-| EC-DF02 | The | value | specified | for the PATTSYM parameter is invalid; pattern symbol X'00' cannot be deleted. |
-| Delete Pattern | | | | |
+| 0 | CODE | X'DF' | GDPT | Order code |
+| 1 | UBIN | LENGTH | 3, 4 | Length of following data |
+| 2–3 | RES | X'0000' | Reserved; only valid value |
+| 4 | CODE | PATTSET | X'01'–X'FD' | Pattern set of the pattern(s) to be deleted |
+| 5 | CODE | PATTSYM | X'01'–X'FF' | (Optional) Pattern symbol of the pattern to be deleted |
+
+#### Semantics
+
+The Delete Pattern order, when it specifies a pattern symbol value, deletes one single custom pattern or gradient that was previously defined using the Begin Custom Pattern, Linear Gradient, or Radial Gradient orders. When the Delete Pattern order does not specify a pattern symbol value, it deletes all previously defined patterns in the specified pattern set.
+
+The PATTSET value specifies the pattern set of the pattern(s) to be deleted. The PATTSYM value, if included, specifies the pattern symbol of the pattern to be deleted.
+
+A request to delete all patterns in a given pattern set does not raise an exception condition if that pattern set has no patterns defined in it. However, a request to delete a specific pattern that has not been defined raises exception condition EC-DF00, for which the standard action is to ignore the Delete Pattern order.
+
+Patterns in the default pattern set cannot be deleted. An attempt to do so will raise exception condition EC-DF01, for which the standard action is to ignore the Delete Pattern order.
+
+The following exception condition raises a drawing process check:
+- **EC-0003**: The order has an incorrect length.
+
+The following exception conditions cause a standard action to be taken:
+- **EC-DF00**: The PATTSET and PATTSYM parameters are within the valid range, but no pattern exists with the pattern set and pattern symbol specified.
+  - Standard action: Ignore the Delete Pattern order.
+- **EC-DF01**: The value specified for the PATTSET parameter is invalid.
+  - Standard action: Ignore the Delete Pattern order.
+- **EC-DF02**: The value specified for the PATTSYM parameter is invalid; pattern symbol X'00' cannot be deleted.
+  - Standard action: Ignore the Delete Pattern order.
 
 ---
 
-Standard action: Ignore the Delete Pattern order .
-Delete Pattern
+### End Area (GEAR) Order
 
----
+This order indicates the end of a set of primitives that define an area boundary.
 
-End Area (GEAR) Order
-This order indicates the end of a set of primitives that define an area boundary .
-Syntax
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'60' | GEAR | order code |
-| 1 | UBIN | LENGTH | 0-255 | Length of following data |
-| 2-n | DATA | X'00'… | Reserved; | only valid value |
-| Semantics | | | | |
-| The | End | Area | order | identifies the end of an area. |
-| The | bytes | of | data | on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero. |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-6000 | An | End | Area | order has been executed without an unmatched Begin Area order having previously been executed. |
-| End Area | | | | |
+| 0 | CODE | X'60' | GEAR | Order code |
+| 1 | UBIN | LENGTH | 0–255 | Length of following data |
+| 2–n | DATA | X'00'... | Reserved; only valid value |
+
+#### Semantics
+
+The End Area order identifies the end of an area. The bytes of data on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero.
+
+The following exception condition raises a drawing process check:
+- **EC-6000**: An End Area order has been executed without an unmatched Begin Area order having previously been executed.
 
 ---
 
-End Custom Pattern (GECP) Order
+### End Custom Pattern (GECP) Order
+
 This order indicates the end of a set of primitives that define a custom pattern.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'5E' | GECP | order code |
-| 1 | RES | X'00' | Reserved; | only valid value |
-| Semantics | | | | |
-| The | End | Custom | Pattern | order identifies the end of the definition of a custom pattern. |
-| The | following | exception | condition | causes a standard action to be taken: |
-| EC-5E00 | An | End | Custom | Pattern order has been executed without an unmatched Begin Custom |
-| Pattern | order | having | previously | been executed. |
-| Standard | action: | Ignore | the | End Custom Pattern order . |
-| End Custom Pattern | | | | |
+| 0 | CODE | X'5E' | GECP | Order code |
+| 1 | RES | X'00' | Reserved; only valid value |
+
+#### Semantics
+
+The End Custom Pattern order identifies the end of the definition of a custom pattern.
+
+The following exception condition causes a standard action to be taken:
+- **EC-5E00**: An End Custom Pattern order has been executed without an unmatched Begin Custom Pattern order having previously been executed.
+  - Standard action: Ignore the End Custom Pattern order.
 
 ---
 
-End Image (GEIMG) Order
+### End Image (GEIMG) Order
+
 This order identifies the end of an image definition.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'93' | GEIMG | order code |
-| 1 | UBIN | LENGTH | 0-255 | Length of following data |
-| 2-n | DATA | X'00'… | Reserved; | only valid value |
-| Semantics | | | | |
-| The | End | Image | order | identifies the end of an image. The bytes of data on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero. |
-| The | following | exception | conditions | raise a drawing process check: |
-| EC-9300 | An | End | Image | order is executed without an unmatched Begin Image order having been executed previously . |
-| EC-9301 | The | number | of | Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as given by the value of HEIGHT in the Begin Image |
-| order . | | | | |
-| End Image | | | | |
+| 0 | CODE | X'93' | GEIMG | Order code |
+| 1 | UBIN | LENGTH | 0–255 | Length of following data |
+| 2–n | DATA | X'00'... | Reserved; only valid value |
+
+#### Semantics
+
+The End Image order identifies the end of an image. The bytes of data on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero.
+
+The following exception conditions raise a drawing process check:
+- **EC-9300**: An End Image order is executed without an unmatched Begin Image order having been executed previously.
+- **EC-9301**: The number of Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as given by the value of HEIGHT in the Begin Image order.
 
 ---
 
-End Prolog (GEPROL) Order
+### End Prolog (GEPROL) Order
+
 This order indicates the end of the prolog of a segment.
-Syntax
+
+#### Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'3E' | GEPROL | order code |
-| 1 | RES | X'00' | Reserved; | only valid value |
-| Semantics | | | | |
-| The | End | Prolog | order | indicates the end of the prolog section of a segment. |
-| See | “Segment | Prolog” | on | page 62 for details of the processing of segment prologs. |
-| The | following | exception | conditions | raise a drawing process check: |
-| EC-000C | One | of | the | following conditions has occurred within the prolog section of a segment: |
-| • | A | supported | order | that is not valid within a prolog is specified. |
-| • | The | end | of | the segment has been reached without an End Prolog order . |
-| EC-3E00 | An | End | Prolog | order has occurred outside the prolog section of a segment. |
-| End Prolog | | | | |
+| 0 | CODE | X'3E' | GEPROL | Order code |
+| 1 | RES | X'00' | Reserved; only valid value |
+
+#### Semantics
+
+The End Prolog order indicates the end of the prolog section of a segment. See “Segment Prolog” for details of the processing of segment prologs.
+
+The following exception conditions raise a drawing process check:
+- **EC-000C**: One of the following conditions has occurred within the prolog section of a segment:
+  - A supported order that is not valid within a prolog is specified.
+  - The end of the segment has been reached without an End Prolog order.
+- **EC-3E00**: An End Prolog order has occurred outside the prolog section of a segment.
 
 ---
 

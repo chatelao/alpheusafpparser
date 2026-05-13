@@ -195,7 +195,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Convert syntax and registry text dumps to Markdown tables:
         - ✅ Chapter 7: Drawing Orders Summary.
         - ✅ Chapter 7: GBAR, GBCP, GBIMG/GCBIMG, GBOX/GCBOX, GCHST/GCCHST.
-        - ⏳ Chapter 7: GCOMT, GCBEZ/GCCBEZ, GDPT, GEAR, GECP, GEIMG, GEPROL.
+        - ✅ Chapter 7: GCOMT, GCBEZ/GCCBEZ, GDPT, GEAR, GECP, GEIMG, GEPROL.
         - ⏳ Chapter 7: GFLT/GCFLT, GFARC/GCFARC, GIMD, GLINE/GCLINE, GLGD, GMRK/GCMRK.
         - ⏳ Chapter 7: GNOP1, GPARC/GCPARC, GRGD, GRLINE/GCRLINE, GSGCH, GSAP.
         - ⏳ Chapter 7: GSBMX, GSCA, GSCC, GSCD, GSCR, GSCS, GSCH, GSCOL, GSCP, GSCLT.
