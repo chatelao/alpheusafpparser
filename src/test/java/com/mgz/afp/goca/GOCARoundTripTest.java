@@ -151,4 +151,20 @@ public class GOCARoundTripTest {
 
         RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
     }
+
+    @Test
+    public void testGDDRoundTrip() throws Exception {
+        // GDD: D3A6BB
+        // 1. SetCurrentDefaultInstruction (0x21), Length (0x06)
+        //    AttributeType (0x00 = Drawing), Mask (0x8000 = Color bit), Flag (0x8F = Use Specified)
+        //    Color (0x0001 = Blue)
+        //    Total param: 21 06 00 80 00 8F 00 01 (8 bytes)
+        // Total Len: 1 + 8 + 8 = 17. SFI Len = 16 (0x0010)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xA6, (byte) 0xBB, 0x00, 0x00, 0x00,
+            0x21, 0x06, 0x00, (byte) 0x80, 0x00, (byte) 0x8F, 0x00, 0x01
+        };
+
+        RoundTripTestUtils.assertRoundTrip(new GDD_GraphicsDataDescriptor(), data);
+    }
 }
