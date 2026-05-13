@@ -206,7 +206,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ⏳ Chapter 7: GSBMX, GSCA, GSCC, GSCD, GSCR, GSCS, GSCH, GSCOL, GSCP, GSCLT.
         - ⏳ Chapter 7: GSECOL, GSFLW, GSLE, GSLJ, GSLT, GSLW, GSMC, GSMS, GSMT, GSMX.
         - ⏳ Chapter 7: GSPRP, GSPS, GSPT, GSPCOL.
-        - ⏳ Other Chapters (1–6, 8–9).
+        - ✅ Other Chapters (1–6, 8–9):
+            - ✅ Chapters 1–3: Fix OCR and remove redundant text blocks.
+            - ✅ Chapter 4: Convert Tables 7–13 to Markdown and fix OCR.
+            - ✅ Chapter 6: Convert SCD syntax and attribute tables to Markdown and fix OCR.
+            - ✅ Chapters 5, 8, 9: General OCR cleanup and formatting.
 - 🚧 **Line Data**:
     - ✅ Purge physical page markers and recurring PDF artifacts from all Chapters and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
