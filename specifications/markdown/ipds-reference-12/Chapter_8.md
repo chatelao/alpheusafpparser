@@ -58,7 +58,7 @@ Graphics Presentation Space Window
 The graphics presentation space contains the whole drawing, but often only a portion of the picture is to be
 presented on a logical page. The section of the graphics presentation space to be presented is called the
 graphics presentation space window and is specified in bytes 14–21 of the GDD self-defining field; refer to
-“Graphics Data Descriptor” . All graphics outside the limits of the graphics presentation space
+“Graphics Data Descriptor”. All graphics outside the limits of the graphics presentation space
 window are trimmed to the window boundaries.
 Graphics Object Area
 The graphics presentation space window is mapped, using one of the defined mapping options, into the
@@ -67,9 +67,9 @@ larger than, equal to, or smaller than the graphics presentation space window. T
 graphics object area is the X
 oa,$Y_{oa}$ coordinate system.
 The location and orientation of the graphics object area is specified in the graphics area position (GAP) self-
-defining field of the WGC command; refer to “Graphics Area Position” . The size of the graphics
+defining field of the WGC command; refer to “Graphics Area Position”. The size of the graphics
 object area is specified in the graphics output control (GOC) self-defining field; refer to “Graphics Output
-Control” .
+Control”.
 The graphics object area can overlay other data, such as text or images, specified earlier for the same logical
 page. Also, the graphics object area can be overlapped by subsequent data specified by other commands for
 the same logical page. Refer to “IPDS Mixing Rules”  for a description of the results of overlapping
@@ -109,14 +109,14 @@ Note: Not all printers support the scale-to-fill mapping option; the X'F301' pro
 Graphics command-set vector of an STM reply by those printers that do support the mapping option.
 With center-and-trim mapping, the center of the graphics presentation space window is made coincident with
 the center of the graphics object area, and the graphics presentation space window is presented at the size
-indicated by bytes 4–21 of the GDD self-defining field; refer to “Graphics Data Descriptor” . Any
+indicated by bytes 4–21 of the GDD self-defining field; refer to “Graphics Data Descriptor”. Any
 portion of the graphics presentation space window that falls outside the limits of the graphics object area is
 trimmed (not printed). This type of trimming does not cause an exception.
 With position-and-trim mapping, the top-left corner of the graphics presentation space window is offset from
 the origin of the graphics object area, and the graphics presentation space window is presented at the size
 indicated by bytes 4–21 of the GDD self-defining field. Any portion of the graphics presentation space window
 that falls outside the limits of the graphics object area is trimmed. This type of trimming does not cause an
-exception. A detailed description of graphics mapping follows under “Mapping Control Options” .
+exception. A detailed description of graphics mapping follows under “Mapping Control Options”.
 
 
 Figure 86. Graphics Mapping. This figure shows that the graphics presentation space window is mapped into
@@ -209,8 +209,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Bytes 0–1 Self-defining-field length. Bytes after byte 10 are ignored by the printer.
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -345,8 +344,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Bytes 0–1 Self-defining-field length
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -646,8 +644,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Bytes 0–1 Self-defining-field length
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -742,8 +739,7 @@ for the 32K length limit of the command. A WG command, for example, can transmit
 segments, multiple segments, or any combination of these. The only requirement is that the data itself is
 ordered in the sequence that is expected for immediate processing and that the last WG command completes
 the last segment.
-Note: Only Anystate commands are valid between concatenated WG commands; refer to Figure 45 on page
-87 for a list of Anystate commands.
+Note: Only Anystate commands are valid between concatenated WG commands; refer to Figure 45  for a list of Anystate commands.
 Unless overridden by a Color Fidelity (X'75') triplet in a PFC command, printers that support the Set Process
 Color drawing order will simulate an unsupported color value with a supported color value. This simulation
 capability is in addition to the optional simulation of Standard OCA color values in the Set Color and Set

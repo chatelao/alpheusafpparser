@@ -234,8 +234,7 @@ program that starts with a Begin Page command and ends with an End Page command.
 specific counters returned are as follows:
 Bytes 1–2 Received page counter
 This counter contains the number of pages that were received, accepted, and
-syntax-checked. Refer to “General Rules for the Acknowledge Reply” on
-page 132. This counter increments after an End Page command is
+syntax-checked. Refer to “General Rules for the Acknowledge Reply”. This counter increments after an End Page command is
 processed. This counter is set equal to the committed page counter, bytes 3–
 4, after processing the XOA Discard Buffered Data command. This counter is
 set equal to the stacked page counter, bytes 15–16, after processing the XOA
@@ -347,8 +346,7 @@ setup name list data as described in “XOA Request Setup Name List
 ”.
 • Negative Acknowledgment (Type X'80', X'C0')
 For all negative replies, the special data area of the NACK contains either 3 bytes or 24 bytes of detailed
-sense information. For information about the sense bytes, refer to Chapter 16, “Exception Reporting”, on
-page 789. The reply from a Sense Type and Model command indicates whether 3 bytes of sense data or 24
+sense information. For information about the sense bytes, refer to Chapter 16, “Exception Reporting”,. The reply from a Sense Type and Model command indicates whether 3 bytes of sense data or 24
 bytes of sense data are returned by a printer in the special data area of each NACK.
 Acknowledge Reply
 
@@ -383,7 +381,7 @@ specific printer information, the printer sends an ACK that contains only page a
 field portion of the ACK.
 • If the printer generates the Acknowledge Reply as a result of detecting an exception, the printer sends a
 NACK. This exception information is stored in the special data area of the NACK. Page and copy counters
-are always returned in the data-field portion of the NACK. Refer to page 130 for more information.
+are always returned in the data-field portion of the NACK.  for more information.
 • The Exception-Handling Control (EHC) used for a given exception is the one most recently received at the
 printer; however, an asynchronous data-stream exception might have been reported out of sequence. The
 EHC that applies is the one that would have applied had the exception been reported in sequence, that is, as
@@ -442,7 +440,7 @@ activation is required by the printer, the printer must have performed any neces
 responding to the XOA-RRL command, query type X'05'. A reply to this query type in this environment
 indicating “not activated” means that the resource was either not available for remote activation, or that the
 activation process failed; in either case the resource is not usable by the host at this time.
-Some IPDS printers provide an additional diagnostic aid in the form of exception ID X'028F ..02', that can be
+Some IPDS printers provide an additional diagnostic aid in the form of exception ID X'028F..02', that can be
 returned whenever an activation fails because the requested resource was not found. A flag in the AR
 command provides control over whether or not this exception ID is used. Support for this diagnostic aid is
 specified by property pair X'F201' in the Device-Control command-set vector of an STM reply.
@@ -506,7 +504,7 @@ HARID is activated.
 Note: Under certain circumstances, a raster-font activation (RT = X'01' or RT = X'03') can partially succeed.
 The fully described font part might successfully activate, but the index activation (specified in AR
 command bytes 7–8) might fail. In this case, a subsequent XOA-RRL query shows a successful
-activation, and there is no activation-failed NACK (X'028F ..02'). It is safest to follow this type of activation
+activation, and there is no activation-failed NACK (X'028F..02'). It is safest to follow this type of activation
 with a separate AR entry for the index (RT = X'08' or RT = X'09').
 There are no default resource activations.
 ```
@@ -520,7 +518,7 @@ command length is invalid or unsupported.
 The data in an Activate Resource command consists of zero or more AR entries that are processed in the
 order that they appear in the command. If a syntax error is encountered in one of the entries, that entry and all
 following entries in the AR command are discarded; preceding entries remain in effect. Exception ID
-X'028F ..01' exists in this situation, but reporting of this exception is optional. Exception ID X'023A..02' exists
+X'028F..01' exists in this situation, but reporting of this exception is optional. Exception ID X'023A..02' exists
 when an attempt is made to activate more coded-font components than the printer can support; reporting of
 this exception is optional.
 Zero or more AR entries in the following format:
@@ -1015,7 +1013,7 @@ If a horizontal scale factor is provided, the character shapes and metrics of th
 font can be scaled anamorphically. Otherwise, the font is scaled uniformly using the
 vertical scale factor value for both scale factors. If the horizontal scale factor value
 specified is not equal to the vertical scale factor, the character shapes and metrics are
-stretched or compressed in the horizontal direction by the ratio of HSF/VSF .
+stretched or compressed in the horizontal direction by the ratio of HSF/VSF.
 X'09' Object-OID format
 This naming format is used to uniquely identify resident data object resources and
 resident data-object-font components. An OID is a variable length (2 bytes long to 129
@@ -1076,7 +1074,7 @@ This parameter specifies the HAID of a previously activated code
 page. X'0000' indicates that this activation does not involve a code
 page.
 If a non-zero HAID value is specified but the code page was not
-previously activated, exception ID X'028F ..30' exists. If an invalid
+previously activated, exception ID X'028F..30' exists. If an invalid
 HAID value is specified, the activation fails.
 This parameter is used when the character data to be printed is
 encoded using a code page. The code page can use either fixed
@@ -1096,7 +1094,7 @@ property pair X'B005' in the Loaded-Font command-set vector of an
 STM reply.
 When an extended code page is used, the printer first searches the
 code page for a Unicode value and, if one is not found, then searches
-the internal printer table. Exception ID X'028F ..50' exists if an
+the internal printer table. Exception ID X'028F..50' exists if an
 unknown GCGID value is encountered within the code page.
 The code point processing flags within the code page (undefined,
 nonprinting, nonincrementing) are used as described in the LCP
@@ -1160,7 +1158,7 @@ forth. If the glyph is not found in any of the fonts, exception ID
 X'0821..00' exists and when an AEA or PCA is taken, a
 special character (represented by glyph index 0 for a
 TrueType or OpenType font) is used from the base font.
-Exception ID X'028F ..31' exists if the TrueType/OpenType
+Exception ID X'028F..31' exists if the TrueType/OpenType
 object is not activated when it is needed, or if the object is
 activated but is not a TrueType/OpenType object.
 These triplets are fully described in the triplets chapter:
@@ -1236,11 +1234,11 @@ For these printers, the reset flag does not have any effect.
 Bit 3 Activation failed NACK flag
 If this bit is B'0' in an AR entry, the printer does not return a NACK if the requested
 activation fails.
-If this bit is B'1' in an AR entry, the printer is allowed to return exception ID X'028F ..02'
+If this bit is B'1' in an AR entry, the printer is allowed to return exception ID X'028F..02'
 when the requested activation fails because the requested resource was not found. In
-this case, the AR entry remains in effect and the X'028F ..02' NACK must be returned
+this case, the AR entry remains in effect and the X'028F..02' NACK must be returned
 before the next IPDS command is processed.
-Note: Not all IPDS printers support X'028F ..02'; printers that do not support the
+Note: Not all IPDS printers support X'028F..02'; printers that do not support the
 exception ID ignore this flag. Support for this diagnostic aid is specified by
 property pair X'F201' in the Device-Control command-set vector of an STM
 reply.
@@ -1342,7 +1340,7 @@ The following table specifies the triplets that can be used with each RT/RIDF co
 | **For RT = X'42'** (data-object-font component) with **RIDF = X'09'** (object-OID format) | Coded Graphic Character Set Global Identifier (X'01') triplet<br>-- used to identify the encoding of any following AR-command triplets that contain character-encoded data | Optional |
 | | Fully Qualified Name (X'02') triplet (FQN type X'DE' with a character-encoded name)<br>-- used to provide an optional object name for the resource (character encoding can be identified with a preceding X'01' triplet; however, if there is no preceding X'01' triplet, the name must be a character string that is encoded as UTF-16BE) | Optional |
 If a data-object font is activated by means of an AR command, but a Data Object Font Descriptor (X'8B') triplet
-is not provided, exception ID X'028F ..20' exists. If a Color Management Resource (CMR) is activated by means
+is not provided, exception ID X'028F..20' exists. If a Color Management Resource (CMR) is activated by means
 of an AR command, but a Color Management Resource Descriptor (X'91') triplet is not provided, exception ID
 X'025E..01' exists.
 
@@ -2542,7 +2540,7 @@ m=0, ym=0.
 Only one X'D2nn' keyword (or one pair of X'E6', X'E7' keywords) is allowed
 for each copy subgroup. If more than one is specified for a copy subgroup,
 exception ID X'0238..10' exists. The printer does not present the preprinted
-form overlay on a sheet side unless there is at least one page (BP ... EP)
+form overlay on a sheet side unless there is at least one page (BP... EP)
 presented on the side.
 Appropriate CMRs are applied when a preprinted form overlay is merged into
 the medium presentation space. Refer to “CMR-Usage Hierarchy”
@@ -2576,7 +2574,7 @@ the specified overlays prior to sending an LCC command, but exception ID
 X'0292..01' exists if the printer has not yet received the specified overlays by
 the time they are to be merged on the medium.
 The printer does not present medium overlays on a sheet side unless there is
-at least one page (BP ... EP) presented on the side.
+at least one page (BP... EP) presented on the side.
 Appropriate CMRs are applied when a medium overlay is merged into the
 medium presentation space. Refer to “CMR-Usage Hierarchy” for
 further information about appropriate CMRs for medium overlays.
@@ -2658,7 +2656,7 @@ not to print the page.
 reaching End Page, the printer prints the page.
 The term copy subgroup refers to one of the entries in an LCC command. When an exception within a page is
 detected, pages from some of the copy subgroups within the LCC command might be committed for print. The
-printer must save the data for each page (BP ... EP) on the sheet until all copies of the sheet are committed for
+printer must save the data for each page (BP... EP) on the sheet until all copies of the sheet are committed for
 print. When multiple pages per sheet are specified, because each copy subgroup can specify additional
 medium overlays, preprinted form overlays, and suppressions, a printer can quickly run out of available
 storage. Therefore, the printer syntax checks and processes only the first copy subgroup of each page as it is
@@ -2820,7 +2818,7 @@ contains a non-zero GRID, the resident resource activation proceeds as follows:
 • If the HARID was already activated for this resource type by a previous download command or by a previous
 AR command, the requested activation fails. If the HARID was already mapped to a different GRID by a
 previous LFE entry or command, the requested activation fails and the printer generates exception ID
-X'021F ..02'.
+X'021F..02'.
 • The same HAID can be used with more than one FIS for a given GRID. The activation fails, however, if the
 HAID was previously activated with a different GRID. A separate coded font activation must be done for each
 desired FIS.
@@ -2930,7 +2928,7 @@ coded fonts whose components are downloaded, the coded font Host-Assigned ID is 
 specified in bytes 3–4 of an Activate Resource command. For data-object fonts and for printer-
 resident LF1 and LF2 coded fonts, the font Host-Assigned ID is also specified in bytes 3–4 of
 an Activate Resource command. Any value in the range X'0001' through X'7EFF' is valid.
-Exception ID X'0218..02' exists if an invalid HAID is specified. Exception ID X'021F ..02' exists
+Exception ID X'0218..02' exists if an invalid HAID is specified. Exception ID X'021F..02' exists
 if an LFE activation is attempted (that is, if the LFE command GRID fields are not zero) and
 the HAID value is already in use.
 
@@ -3165,8 +3163,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 
 
 Byte 0 Unit base
@@ -3249,7 +3246,7 @@ For more information about these initial conditions refer to the description of 
 conditions in Presentation Text Object Content Architecture Reference.
 If an invalid or unsupported initial-text-condition value is specified, one or more of the following
 exception IDs exist: X'020C..01', X'020E..02', X'020E..03', X'020E..04', X'020E..05',
-X'0210..01', X'0211..01', X'0212..01', X'0218..02', X'023F ..02', X'0258..03', X'0268..02',
+X'0210..01', X'0211..01', X'0212..01', X'0218..02', X'023F..02', X'0258..03', X'0268..02',
 X'0269..02', X'026A..02', or X'026B..02'.
 Property pair X'6005' in the Device-Control command-set vector of an STM reply indicates that
 the full range of font local IDs is supported in LPD byte 40.
@@ -3298,7 +3295,7 @@ Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the LPD command.
 Logical Page Position
 The Logical Page Position (LPP) command, previously known as the Load Page Position command, positions
 the logical page origin of a page with respect to the origin of the medium presentation space, or when N-up is
-selected in the LCC command, with respect to one of the N-up partition origins. Refer to page 184 for a
+selected in the LCC command, with respect to one of the N-up partition origins.  for a
 description of N-up. Some printers also allow a page orientation to be specified in the LPP command. Page
 orientation and N-up are optional functions; support for these functions is indicated in the STM command reply.
 The location of the logical page origin in the medium presentation space is expressed in L-units using the units
@@ -3450,8 +3447,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Byte 0 Reserved
 Bytes 1–3 X
 m page offset
@@ -3743,7 +3739,7 @@ is used, the printer considers an object to be in use each time an object is inc
 IO) and each time the object is selected in an RPO command (but is already in the cache).
 
 
-An empty RPO command (that is, one with no entries) is treated as a NOP . If the parameters for an RPO entry
+An empty RPO command (that is, one with no entries) is treated as a NOP. If the parameters for an RPO entry
 match an already cached version of the resource, the RPO entry does not cause the object to be cached
 again. If a syntax error is encountered in one of the entries, that entry and all following entries in the RPO
 command are discarded; preceding entries remain in effect.
@@ -4076,7 +4072,7 @@ When processing a multi-page resource object (such as a multi-page PDF file or m
 printer uses the preprocess-all-objects flag (byte 6, bit 4) to determine which part of the multi-part object to
 process. If the flag is B'1', all paginated objects within the file are preRIPed and the printer keeps track of the
 order of these objects within the file (in this case all X'5A' triplets are ignored). If the flag is B'0', the printer uses
-an Object Offset (X'5A') triplet, to identify a single paginated object within the file to preRIP . The Object Offset
+an Object Offset (X'5A') triplet, to identify a single paginated object within the file to preRIP. The Object Offset
 (X'5A') triplet is only used with multi-page objects; the triplet is ignored if specified with any other object type.
 An Object Offset (X'5A') triplet specified in the RPO command overrides Object Offset (X'5A') triplets in the
 WOCC command. If more than one Object Offset (X'5A') triplet is specified in the RPO command, the last one
@@ -4790,7 +4786,7 @@ modulo 360 is equal to 270 degrees.
 8. Bits 0–3 and 5 report the object area orientation support for the WOCC-OCAP , since the only orientation
 whose support is required in that self-defining field is 0 degrees. In contrast, the IDO-DOAP self-defining
 field requires support of 0, 90, 180, and 270 degrees, so there is no need for a printer to report support for
-those orientation values for the IDO-DOAP . Bit 6 is valid for both the WOCC-OCAP and IDO-DOAP;
+those orientation values for the IDO-DOAP. Bit 6 is valid for both the WOCC-OCAP and IDO-DOAP;
 printers reporting this bit must support unrestricted object area orientation for both self-defining fields.
 Note, however, that bit 6 does not report support of unrestricted object area orientation for IO-Image
 resources included using the IDO command; such support is instead reported using bit 6 of the X'A0nn'
@@ -4897,13 +4893,13 @@ When page data is printed or when a medium overlay or preprinted form overlay is
 received SPE command is used as shown in the following example. Suppose that the following command
 sequence is received:
 SPE1
-BO1 (Overlay) ... EP
+BO1 (Overlay)... EP
 SPE2
 LCC with medium overlays and 2-up simplex
 SPE3
-BP1 ... EP
+BP1... EP
 SPE4
-BP2 ... EP
+BP2... EP
 In this example, SPE1 and SPE2 are not used. SPE1 is not saved as part of the environment stored with
 overlay 1. Since medium overlays are not printed until the first page on a sheet is printed, SPE2 is not used
 with the medium overlays. When page 1 is printed, SPE3 is used for all medium overlays specified within the
@@ -5063,8 +5059,7 @@ perforation and entirely within the left carrier strip beginning at the leading 
 **Figure 59**. Example Showing Three Edge Marks
 three edge marks
 Page 45
-trailing edge media perforation
-Page 46
+trailing edge media perforati
 Page 47
 left carrier strip right carrier strip
 Continuous-forms Media
@@ -5291,8 +5286,7 @@ XOA Exception-Handling Control (EHC)
 
 Note: The host can determine which pages have been discarded by examining the page and
 copy counters in an ACK of a synchronizing command. Any pages not reflected in the
-counters have been discarded. Refer to “Page and Copy Counter Adjustments” on
-page 926.
+counters have been discarded. Refer to “Page and Copy Counter Adjustments”.
 This byte is bit mapped; bit values are as follows:
 Bit 0 Report undefined-character checks
 An undefined character within text, graphics, or human-readable
@@ -5302,7 +5296,7 @@ undefined in its font-index entry. If this bit is set to B'1', attempting to pri
 an undefined character causes the printer to report an exception to the host. If
 this bit is set to B'0' and the AEA is taken, an exception is not reported.
 The report undefined character-checks flag applies to the following exception
-IDs: X'0821..00', X'0829..00', X'03C3..01', and X'028F ..50'.
+IDs: X'0821..00', X'0829..00', X'03C3..01', and X'028F..50'.
 Bit 1 Report page-position checks
 An exception exists if the host attempts to print outside the valid printable
 area (text characters or rules or positioning of object areas so that any portion
@@ -5437,8 +5431,7 @@ the printer begins normal processing again. The exception that caused
 the skip and continue action is reported when the end of the page is
 reached, or when an XOA command sets home state, or when a
 command with an ARQ is received. A partial page is printed if the printer
-supports Independent Exception Page Print and if the Exception Page
-XOA Exception-Handling Control (EHC)
+supports Independent Exception Page Print and if the ExceptiOA Exception-Handling Control (EHC)
 
 
 Print bit is set to B'1'. The following conditions determine the next valid
@@ -6942,7 +6935,7 @@ invalid or unsupported.
 The groups to be deactivated are identified by Group ID (X'00') triplets containing a variable-length group ID. If
 no triplets are specified, all open saved page groups are terminated and all currently active saved page groups
 are deactivated; this is a deactivate all function. A deactivate-all command when there are no active saved
-page groups is effectively a NOP .
+page groups is effectively a NOP.
 Deactivating a saved page group also terminates the DGB group (if it was not already terminated) and
 terminates all DGB groups with lesser group levels that are nested within the group to be deactivated.
 Only saved page groups specified in the XOH-DSPG command are deactivated; other saved page groups,
@@ -6966,7 +6959,7 @@ Group ID (X'00') Triplet Considerations
 This portion of the XOH-DSPG command contains zero or more Group ID (X'00') triplets that specify which
 saved page groups to deactivate. If no triplets are specified, all open saved page groups are terminated and all
 saved page groups are deactivated; this is a deactivate all function. A deactivate-all command when there are
-no active saved page groups is effectively a NOP .
+no active saved page groups is effectively a NOP.
 The groups to be deactivated are identified by Group ID (X'00') triplets containing a variable-length group ID. If
 the printer does not find the saved page group identified by a Group ID (X'00') triplet, exception ID X'0255..07'
 exists.
@@ -7151,7 +7144,7 @@ Note: Even though the XOH-DGB command to terminate a group is optional, it is
 recommended that all groups be explicitly terminated. When a group is left open for a
 long period of time, some printers interpret this as a possible host problem (abnormal
 termination or hang) and automatically issue an Error Printer Restart NACK
-(X'018F ..00') at the next communication opportunity.
+(X'018F..00') at the next communication opportunity.
 A XOH-DGB command can identify a group to be saved (using the save pages operation); in
 this case, if the variable-length group ID (in a Group ID (X'00') triplet) is the same as that of a
 previously saved group, exception ID X'0255..00' exists.
@@ -8663,7 +8656,7 @@ invalid or unsupported.
 The groups to be removed are identified by Group ID (X'00') triplets containing a variable-length group ID. If no
 triplets are specified, all open saved page groups are terminated, all currently active saved page groups are
 deactivated, and all saved page groups are removed; this is a remove all function. A remove-all command
-when the printer has no saved page groups is effectively a NOP .
+when the printer has no saved page groups is effectively a NOP.
 Removing a saved page group also terminates the DGB group (if it was not already terminated) and terminates
 all DGB groups with lesser group levels that are nested within the group to be removed.
 Only saved page groups specified in the XOH-RSPG command are removed; other saved page groups,
@@ -8682,7 +8675,7 @@ Group ID (X'00') Triplet Considerations
 This portion of the XOH-RSPG command contains zero or more Group ID (X'00') triplets that specify which
 saved page groups to remove. If no triplets are specified, all open saved page groups are terminated, all
 currently active saved page groups are deactivated, and all saved page groups are removed; this is a remove
-all function. A remove-all command when the printer has no saved page groups is effectively a NOP .
+all function. A remove-all command when the printer has no saved page groups is effectively a NOP.
 The groups to be removed are identified by Group ID (X'00') triplets containing a variable-length group ID. If
 the printer does not find the saved page group identified by a Group ID (X'00') triplet, the triplet is ignored.
 Exception ID X'0255..0A' exists if any of the following occurs in the triplets field:
@@ -9109,7 +9102,7 @@ Size”.
 | 2 | CODE | Origin | X'00'–X'03' | Medium presentation space origin:<ul><li>X'00' Top-left corner</li><li>X'01' See byte description</li><li>X'02' Bottom-right corner</li><li>X'03' See byte description</li></ul> | X'00'<br>X'01'<br>X'02'<br>X'03' |
 Bytes 0–1 Set Media Origin order code
 Byte 2 Medium Presentation Space Origin
-This parameter specifies the medium presentation space origin. Exception ID X'026F ..02'
+This parameter specifies the medium presentation space origin. Exception ID X'026F..02'
 exists if an invalid origin value is specified.
 X'00' Set the medium presentation space origin to correspond to the top-left corner of the
 medium presentation space. The $X_m$ axis of the medium presentation space
@@ -9408,7 +9401,7 @@ program. If the printer has the capability of accepting and printing data from o
 streams or sessions, the printed pages that comprise the print unit must be printed
 and kept together in the same manner as if the printer had been dedicated to this
 IPDS session. If the pages cannot be printed and kept together in this manner, a
-catastrophic event exists that requires the printer to generate exception ID X'018F ..00'
+catastrophic event exists that requires the printer to generate exception ID X'018F..00'
 (error printer restart).
 Notes:
 1. X'01' is used when communicating with the Remote PrintManager (RPM) and
@@ -9424,7 +9417,7 @@ set) groups.
 3. A printer might provide a timer that is set within a print unit whenever the host
 stops communicating, to catch situations where the host has an ABEND condition
 or is hung. When such a timer expires within a print unit and the printer switches to
-another print session, the printer must issue exception ID X'018F ..00' (error printer
+another print session, the printer must issue exception ID X'018F..00' (error printer
 restart) the next time an IPDS command is received on the hung session.
 X'02' Keep group together for microfilm output
 X'03' Save pages
@@ -9470,7 +9463,7 @@ following sequences of commands:
 The pages are assigned four-byte sequence numbers with the first page assigned
 X'00000001', and each subsequent page assigned a sequence number that is one
 higher than the previously saved page. If there is not enough room to store a page,
-exception ID X'02AF ..01' exists.
+exception ID X'02AF..01' exists.
 Groups that do not have a variable-length group ID, in the XOH-DGB command that
 initiates the group, are not saved. If the printer has a previously saved group with the
 same variable-length group ID, exception ID X'0255..00' exists. The saved pages
@@ -9519,7 +9512,7 @@ information is restored and processing continues as if the saved page group had 
 occurred. Print-control commands are ignored and are not saved with the pages.
 Print-control commands include: AFO, DUA, LPP , XOA APA, XOA AOS, XOA CEM,
 XOA DBD, XOA DUP , XOA MF , XOH EFF , XOH ERFD, XOH PCC, XOH PBD, XOH
-SIMS, XOH SMM, XOH SCF , XOH SMO, XOH SMS, and XOH SRP .
+SIMS, XOH SMM, XOH SCF , XOH SMO, XOH SMS, and XOH SRP.
 Nesting of saved pages is not allowed. If an ISP command is specified within a page
 that is being saved, exception ID X'0255..05' exists. Refer to “Saving and Including
 Pages” for an example of how various IPDS commands are used for
@@ -9637,7 +9630,7 @@ condition requiring host notification occurs that causes the printer to
 stop, an appropriate exception ID can be issued so that recovery
 occurs on a group boundary. If the printer manages to stop outside
 of a group, the normal exception ID for the specific condition
-(X'40xx..xx', X'50xx..xx', X'01xx..xx', or X'02AF ..01') will be
+(X'40xx..xx', X'50xx..xx', X'01xx..xx', or X'02AF..01') will be
 reported. If the printer must stop within the group such that already
 committed pages must be discarded, exception ID X'4040..00' is
 reported.
@@ -9883,7 +9876,7 @@ sequence they occurred beginning with the Begin-Trace trace entry.
 
 If the ARQ flag is B'0', this step is skipped.
 3. Delete all trace entries.
-Exception ID X'025F ..01' exists if an invalid trace-function value is specified.
+Exception ID X'025F..01' exists if an invalid trace-function value is specified.
 Byte 3 Trace control flags
 This parameter is used to control optional information within the trace entries. The flags are
 used when starting a trace and are ignored when the XOH Trace command is used to stop or
@@ -9993,7 +9986,7 @@ This option causes Group ID (X'00') triplets to be traced. A Begin-Print-Unit tr
 is generated for each XOH-DGB command that begins a print unit and contains a
 Group ID (X'00') triplet. Print units are begun with an XOH-DGB command that
 initiates a group using the keep group together as a print unit group operation.
-Exception ID X'025F ..02' exists if an invalid trace-option value is specified. Duplicate trace-
+Exception ID X'025F..02' exists if an invalid trace-option value is specified. Duplicate trace-
 option values are ignored.
 
 
@@ -10155,13 +10148,13 @@ Bytes 6–42
 or 19–55
 Unique Product Identifier
 This parameter contains product identification information as defined by the XOH-OPC
-Product Identifier SDF parameter ID X'0001'; refer to page 358 for a full definition of this data.
+Product Identifier SDF parameter ID X'0001';  for a full definition of this data.
 Bytes 43 to
 end or 56 to
 end
 Printer name
 These parameters contain the external name of the printer as defined by the XOH-OPC
-Product Identifier SDF parameter ID X'0003'; refer to page 359 for a full definition of this field.
+Product Identifier SDF parameter ID X'0003';  for a full definition of this field.
 The external name can be from 1 to 252 bytes long.
 Byte 43 (or 56) contains the length of the printer name; if no name is provided, the length is
 X'00'.
@@ -10960,7 +10953,7 @@ Name flag in byte 4 indicates whether the name is present or omitted.
 
 CMR-Invocation Trace Entry
 When tracing invocation entries, a CMR-Invocation trace entry is generated each time a CMR is invoked via an
-ICMR command, Invoke CMR (X'92') triplet, or Invoke Tertiary Resource (X'A2') triplet . There can be multiple
+ICMR command, Invoke CMR (X'92') triplet, or Invoke Tertiary Resource (X'A2') triplet. There can be multiple
 CMR-Invocation trace entries for each invoking command.
 Offset Type Name Range Meaning
 0–1 UBIN Length X'0009',
@@ -11663,7 +11656,7 @@ or 20 to end
 Group ID
 This parameter contains group ID information as defined in the Group ID (X'00') triplet being
 traced. The data is ASCII for the AIX and Windows format and is EBCDIC for all other formats;
-refer to page 706 for a description of each of the formats.
+ for a description of each of the formats.
 
 
 Trace-Full Trace Entry
