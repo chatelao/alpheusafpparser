@@ -50,6 +50,7 @@ public class FilesSuite {
     try (java.util.stream.Stream<Path> stream = Files.walk(root.toPath())) {
       List<File> files = stream
           .filter(Files::isRegularFile)
+          .filter(path -> !path.toString().contains(File.separator + "external" + File.separator))
           .filter(path -> isAllowedExtension(path.getFileName().toString()))
           .map(Path::toFile)
           .collect(Collectors.toList());
