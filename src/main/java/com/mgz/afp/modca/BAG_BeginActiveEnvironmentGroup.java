@@ -21,6 +21,13 @@ package com.mgz.afp.modca;
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
 
+/**
+ * Begin Active Environment Group (BAG) structured field.
+ */
 public class BAG_BeginActiveEnvironmentGroup extends StructuredFieldBaseNameAndTriplets {
-
+  /**
+   * Default constructor for BAG_BeginActiveEnvironmentGroup.
+   */
+  public BAG_BeginActiveEnvironmentGroup() {
+  }
 }

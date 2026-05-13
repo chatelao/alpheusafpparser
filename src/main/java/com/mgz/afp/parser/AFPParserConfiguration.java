@@ -38,6 +38,9 @@ import java.util.Map;
  */
 public class AFPParserConfiguration implements Serializable, Cloneable {
   private static final long serialVersionUID = 1L;
+  /**
+   * Indicates if the parser owns the input stream and should close it upon finishing.
+   */
   protected boolean isParserOwnsInputStream;
   // Charset afpCharSet = Charset.forName("cp273"); // German.
   Charset afpCharSet = Charset.forName("cp500"); // CP500 is the default encoding.
@@ -52,6 +55,12 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   private FNC_FontControl currentFontControl;
   private BDD_BarCodeDataDescriptor currentBarCodeDataDescriptor;
   private Map<Short, Charset> codedFontLocalIdToCharsetMap = new HashMap<>();
+
+  /**
+   * Default constructor for AFPParserConfiguration.
+   */
+  public AFPParserConfiguration() {
+  }
 
   /**
    * Returns the {@link Charset} used to decode text contained in the AFP data stream (e.g.
@@ -95,7 +104,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   /**
    * Returns the {@link InputStream} from where the parser reads the AFP data stream. If no input
    * stream is set this method tries to open the configured AFP file (see {@link #setAFPFile(File)})
-   * as buffered input stream.<br>
+   * as buffered input stream.
    *
    * @return the {@link InputStream} from where the parser reads the AFP data stream.
    * @throws IOException if the input stream is not set and the opening of the configured AFP file
@@ -120,10 +129,20 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
     this.inputStream = inputStream;
   }
 
+  /**
+   * Returns the current font control.
+   *
+   * @return the current {@link FNC_FontControl}
+   */
   public FNC_FontControl getCurrentFontControl() {
     return currentFontControl;
   }
 
+  /**
+   * Sets the current font control.
+   *
+   * @param fontControl the {@link FNC_FontControl} to set
+   */
   public void setCurrentFontControl(FNC_FontControl fontControl) {
     this.currentFontControl = fontControl;
   }
@@ -142,20 +161,33 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   /**
    * If set to true the parser produces structured fields of type {@link StructuredFieldBaseData}.
    * {@link StructuredFieldBaseData} have a full blown {@link StructuredFieldIntroducer} but beside
-   * that provides only getter and setter for the structured fields's payload.<br> <br> This mode is
-   * especially usefull when dealing with AFP data that isn't fully compliant to AFP standards. In
-   * this mode, the parser is less restrictive, e.g. doesn't care if the length of the structured
-   * field or individual attribute values are valid according to AFP specifications.
+   * that provides only getter and setter for the structured fields's payload.
+   * <p>
+   * This mode is especially usefull when dealing with AFP data that isn't fully compliant to AFP
+   * standards. In this mode, the parser is less restrictive, e.g. doesn't care if the length of the
+   * structured field or individual attribute values are valid according to AFP specifications.
+   *
+   * @param isParseToStructuredFieldsBaseData true to parse to base data structured fields
    */
   public void setParseToStructuredFieldsBaseData(
       boolean isParseToStructuredFieldsBaseData) {
     this.isParseToStructuredFieldsBaseData = isParseToStructuredFieldsBaseData;
   }
 
+  /**
+   * Returns the current code page descriptor.
+   *
+   * @return the current {@link CPD_CodePageDescriptor}
+   */
   public CPD_CodePageDescriptor getCurrentCPD_CodePageDescriptor() {
     return currentCodePageDescriptor;
   }
 
+  /**
+   * Returns the current code page control.
+   *
+   * @return the current {@link CPC_CodePageControl}
+   */
   public CPC_CodePageControl getCurrentCodePageControl() {
     return currentPageControl;
   }
@@ -165,6 +197,8 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    * only of {@link StructuredFieldIntroducer}, the value of all other fields remain undefined until
    * {@link AFPParser#reload(StructuredField)} is called. Shallow SFs require considerably less
    * memory than fully realized SFs.
+   *
+   * @return true if building shallow objects
    */
   public boolean isBuildShallow() {
     return isBuildShallow;
@@ -173,11 +207,18 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   /**
    * If set to true the parser is building shallow {@link StructuredField}s. See {@link
    * #isBuildShallow()}.
+   *
+   * @param isBuildShallow true to build shallow objects
    */
   public void setBuildShallow(boolean isBuildShallow) {
     this.isBuildShallow = isBuildShallow;
   }
 
+  /**
+   * Returns whether parsing errors should be escalated.
+   *
+   * @return true if parsing errors should be escalated
+   */
   public boolean isEscalateParsingErrors() {
     return escalateParsingErrors;
   }
@@ -206,44 +247,96 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
     }
   }
 
+  /**
+   * Returns the current bar code data descriptor.
+   *
+   * @return the current {@link BDD_BarCodeDataDescriptor}
+   */
   public BDD_BarCodeDataDescriptor getCurrentBarCodeDataDescriptor() {
     return currentBarCodeDataDescriptor;
   }
 
+  /**
+   * Sets the current bar code data descriptor.
+   *
+   * @param currentBarCodeDataDescriptor the {@link BDD_BarCodeDataDescriptor} to set
+   */
   public void setCurrentBarCodeDataDescriptor(
       BDD_BarCodeDataDescriptor currentBarCodeDataDescriptor) {
     this.currentBarCodeDataDescriptor = currentBarCodeDataDescriptor;
   }
 
+  /**
+   * Returns the current code page descriptor.
+   *
+   * @return the current {@link CPD_CodePageDescriptor}
+   */
   public CPD_CodePageDescriptor getCurrentCodePageDescriptor() {
     return currentCodePageDescriptor;
   }
 
+  /**
+   * Sets the current code page descriptor.
+   *
+   * @param currentCodePageDescriptor the {@link CPD_CodePageDescriptor} to set
+   */
   public void setCurrentCodePageDescriptor(
       CPD_CodePageDescriptor currentCodePageDescriptor) {
     this.currentCodePageDescriptor = currentCodePageDescriptor;
   }
 
+  /**
+   * Returns the current code page control.
+   *
+   * @return the current {@link CPC_CodePageControl}
+   */
   public CPC_CodePageControl getCurrentPageControl() {
     return currentPageControl;
   }
 
+  /**
+   * Sets the current code page control.
+   *
+   * @param currentPageControl the {@link CPC_CodePageControl} to set
+   */
   public void setCurrentPageControl(CPC_CodePageControl currentPageControl) {
     this.currentPageControl = currentPageControl;
   }
 
+  /**
+   * Returns the charset for the given local identifier (LID).
+   *
+   * @param lid the local identifier
+   * @return the {@link Charset} associated with the LID, or null if not found
+   */
   public Charset getCharsetForLID(short lid) {
     return codedFontLocalIdToCharsetMap.get(lid);
   }
 
+  /**
+   * Adds a mapping between a local identifier (LID) and a charset.
+   *
+   * @param lid the local identifier
+   * @param cs  the {@link Charset} to map
+   */
   public void addCodedFontCharsetMapping(short lid, Charset cs) {
     codedFontLocalIdToCharsetMap.put(lid, cs);
   }
 
+  /**
+   * Returns the AFP file being parsed.
+   *
+   * @return the AFP {@link File}
+   */
   public File getAFPFile() {
     return this.afpFile;
   }
 
+  /**
+   * Sets the AFP file to be parsed.
+   *
+   * @param afpFile the AFP {@link File} to set
+   */
   public void setAFPFile(File afpFile) {
     this.afpFile = afpFile;
   }

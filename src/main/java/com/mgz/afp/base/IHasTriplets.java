@@ -29,11 +29,15 @@ public interface IHasTriplets {
 
   /**
    * Returns the list of {@link Triplet}s.
+   *
+   * @return the list of triplets
    */
   List<Triplet> getTriplets();
 
   /**
    * Sets the list of {@link Triplet}s.
+   *
+   * @param triplets the list of triplets
    */
   void setTriplets(List<Triplet> triplets);
 

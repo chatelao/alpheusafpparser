@@ -71,6 +71,11 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
 
   /**
    * Returns the actual length of data to process contained in sfData.
+   *
+   * @param sfData the data array
+   * @param offset the offset in the array
+   * @param length the specified length, or -1 to use remaining data
+   * @return the actual length to process
    */
   public static int getActualLength(byte[] sfData, int offset, int length) {
     return length != -1 ? length : sfData.length - offset;
@@ -102,7 +107,7 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
 
   /**
    * Returns the padding bytes of this structured field, or null if this structured field has no
-   * padding bytes.<br>
+   * padding bytes.
    *
    * @return padding bytes of this structured field, or null if this structured field has no padding
    * bytes.
@@ -112,8 +117,9 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   }
 
   /**
-   * Sets the padding bytes of this structured field and set the padding flag.<br> If the given
-   * padding is null the padding flag is revoked.
+   * Sets the padding bytes of this structured field and set the padding flag.
+   * <p>
+   * If the given padding is null the padding flag is revoked.
    *
    * @param padding the padding bytes of this structured field, may be null.
    */
@@ -130,7 +136,7 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   }
 
   /**
-   * Writes out the SFI, the given net payload, and padding data.<br>
+   * Writes out the SFI, the given net payload, and padding data.
    * <p>
    * Sets the length byte[0,1] of resulting SF Data and updates the {@link
    * StructuredFieldIntroducer#sfLength}.
@@ -168,7 +174,9 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   /**
    * Returns true, if this structured field indicates the begin a complex structured field that may
    * contain other structured fields. Returns false, if this structured field is not the begin a
-   * complex structured field.<br> Examples:<br> {@link BPG_BeginPage}, {@link
+   * complex structured field.
+   * <p>
+   * Examples: {@link BPG_BeginPage}, {@link
    * BBC_BeginBarCodeObject},
    *
    * @return true, if this structured field indicates the begin a complex structured field, false
@@ -185,7 +193,9 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   /**
    * Returns true, if this structured field indicates the end of a complex structured field that may
    * contain other structured fields. Returns false, if this structured field is not the end a
-   * complex structured field.<br> Examples:<br> {@link EPG_EndPage}, {@link EBC_EndBarCodeObject},
+   * complex structured field.
+   * <p>
+   * Examples: {@link EPG_EndPage}, {@link EBC_EndBarCodeObject},
    *
    * @return true, if this structured field indicates the end of a complex structured field, false
    * otherwise.

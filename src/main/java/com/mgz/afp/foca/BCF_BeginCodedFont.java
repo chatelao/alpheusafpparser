@@ -21,6 +21,13 @@ package com.mgz.afp.foca;
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
 
+/**
+ * Begin Coded Font (BCF) structured field.
+ */
 public class BCF_BeginCodedFont extends StructuredFieldBaseNameAndTriplets {
-
+  /**
+   * Default constructor for BCF_BeginCodedFont.
+   */
+  public BCF_BeginCodedFont() {
+  }
 }
