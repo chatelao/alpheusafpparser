@@ -1458,341 +1458,352 @@ This drawing order does not change the current position.
 The following exception condition raises a drawing process check:
 - **EC-0003**: The order has an incorrect length.
 
-Set Background Mix (GSBMX) Order
+### Set Background Mix (GSBMX) Order
+
 This order provides a shorthand way of setting the following background mix attributes to the same value:
-• Character background mix
-• Image background mix
-• Marker background mix
-• Pattern background mix
-Syntax
+* Character background mix
+* Image background mix
+* Marker background mix
+* Pattern background mix
+
+#### GSBMX Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'0D' | GSBMX | order code |
-| 1 | CODE | MODE | X'00'-X'05' | Mix-mode value: |
-| X'00' Drawing default | | | | |
-| X'01'-X'04' | Not | supported | in | AFP GOCA |
-| X'05' Leave Alone | | | | |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Background | Mix | order sets the current value of all four background mix attributes to the value specified in the order . |
-| The | standard | default | in | AFP environments is X'05'—Leave Alone. |
-| Background | mix | attributes | control | the way in which the color of the background of a primitive is combined with the color of the GPS. |
-| With | MODE | set | to | X'05', the background pels are transparent and do not affect the color of underlying pels in the GPS. Since this is the only background mix mode supported in AFP GOCA, selecting the drawing default |
-| (MODE | X'00') | will | also | default to MODE X'05'. |
-| For | a | description | of | the meaning of the various mix modes, see “Mix”. |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-0004 | The | attribute | value | specified in the order is not valid. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'05'—Leave Alone. |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | standard | default value of the attribute is used. In AFP environments, this is X'05'—Leave Alone. |
-| Set Background Mix | | | | |
+| 0 | CODE | X'0D' | GSBMX | Order code |
+| 1 | CODE | MODE | X'00'–X'05' | Mix-mode value:<br>X'00' Drawing default<br>X'01'–X'04' Not supported in AFP GOCA<br>X'05' Leave Alone<br>All other values are reserved |
+
+#### GSBMX Semantics
+
+The Set Background Mix order sets the current value of all four background mix attributes to the value specified in the order. The standard default in AFP environments is X'05'—Leave Alone.
+
+Background mix attributes control the way in which the color of the background of a primitive is combined with the color of the GPS. With MODE set to X'05', the background pels are transparent and do not affect the color of underlying pels in the GPS. Since this is the only background mix mode supported in AFP GOCA, selecting the drawing default (MODE X'00') will also default to MODE X'05'.
+
+For a description of the meaning of the various mix modes, see “Mix”.
+
+The following exception conditions cause a standard action to be taken:
+
+**EC-0004** The attribute value specified in the order is not valid.
+Standard action: The standard default value of the attribute is used. In AFP environments, this is X'05'—Leave Alone.
+
+**EC-000E** The attribute value specified in the order is not supported.
+Standard action: The standard default value of the attribute is used. In AFP environments, this is X'05'—Leave Alone.
 
 ---
 
-Set Character Angle (GSCA) Order
+### Set Character Angle (GSCA) Order
+
 This order sets the value of the current character angle attribute.
-Syntax
+
+#### GSCA Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'34' | GSCA | order code |
+| 0 | CODE | X'34' | GSCA | Order code |
 | 1 | UBIN | LENGTH | 4 | Length of following data |
-| 2-3 | SBIN | XPOS | X'8000'-X'7FFF' | X g |
-| coordinate of point | | | | |
-| 4-5 | SBIN | YPOS | X'8000'-X'7FFF' | Y g |
-| coordinate of point | | | | |
-| Semantics | | | | |
-| The | Set | Character | Angle | order sets the value of the current character angle attribute to the value specified in the order . |
-| The | character | angle | attribute | controls the angle of the character baseline with respect to the GPS X g |
-| axis | for | subsequent | character | strings. This angle is specified using the values XPOS and YPOS, where the character |
-| baseline | is | a | line | parallel to the line that passes through the points (X g |
-| =0,Y g | | | | |
-| =0) | and | (X | | g |
-| =XPOS,Y g | | | | |
-| =YPOS). | The | angle | of | the baseline relative to the X |
-| g | | | | |
-| -axis | of | GPS | is | then the angle whose tangent is YPOS/XPOS. The values of YPOS and XPOS are not required to be the sine and cosine of the angle. |
-| • | If | YPOS | is | zero, and XPOS is positive, the character angle is 0°. |
-| • | If | XPOS | is | zero, and YPOS is positive, the character angle is 90°. |
-| • | If | YPOS | is | zero, and XPOS is negative, the character angle is 180°. |
-| • | If | XPOS | is | zero, and YPOS is negative, the character angle is 270°. |
-| In | AFP | GOCA, | the | only supported values for character angle are 0°, 90°, 180°, and 270°. If XPOS is zero and |
-| YPOS | is | zero, | the | character angle is set to the drawing default. The standard default in AFP environments is |
-| 0°. | | | | |
-| The | application | of | this | attribute is dependent on the value of the character precision attribute; see “Character |
-| Strings” | on | page | 51 | for details. This drawing order does not change the attributes of any other drawing order . |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-0003 | The | order | has | an incorrect length. |
-| The | following | exception | condition | causes a standard action to be taken: |
-| EC-3400 | The | specific | character | angle requested is not supported. |
-| Standard | action: | The | closest | character angle supported is used. |
-| Set Character Angle | | | | |
+| 2–3 | SBIN | XPOS | X'8000'–X'7FFF' | $X_{g}$ coordinate of point |
+| 4–5 | SBIN | YPOS | X'8000'–X'7FFF' | $Y_{g}$ coordinate of point |
+
+#### GSCA Semantics
+
+The Set Character Angle order sets the value of the current character angle attribute to the value specified in the order.
+
+The character angle attribute controls the angle of the character baseline with respect to the GPS $X_{g}$ axis for subsequent character strings. This angle is specified using the values XPOS and YPOS, where the character baseline is a line parallel to the line that passes through the points ($X_{g}=0, Y_{g}=0$) and ($X_{g}=$ XPOS, $Y_{g}=$ YPOS). The angle of the baseline relative to the $X_{g}$ axis of GPS is then the angle whose tangent is YPOS/XPOS. The values of YPOS and XPOS are not required to be the sine and cosine of the angle.
+
+* If YPOS is zero, and XPOS is positive, the character angle is 0°.
+* If XPOS is zero, and YPOS is positive, the character angle is 90°.
+* If YPOS is zero, and XPOS is negative, the character angle is 180°.
+* If XPOS is zero, and YPOS is negative, the character angle is 270°.
+
+In AFP GOCA, the only supported values for character angle are 0°, 90°, 180°, and 270°. If XPOS is zero and YPOS is zero, the character angle is set to the drawing default. The standard default in AFP environments is 0°.
+
+The application of this attribute is dependent on the value of the character precision attribute; see “Character Strings” for details. This drawing order does not change the attributes of any other drawing order.
+
+The following exception condition raises a drawing process check:
+
+**EC-0003** The order has an incorrect length.
+
+The following exception condition causes a standard action to be taken:
+
+**EC-3400** The specific character angle requested is not supported.
+Standard action: The closest character angle supported is used.
 
 ---
 
-Set Character Cell (GSCC) Order
+### Set Character Cell (GSCC) Order
+
 This order sets the value of the current character cell-size attribute.
-Syntax
+
+#### GSCC Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'33' | GSCC | order code |
-| 1 | UBIN | LENGTH | 4, | 8 Length of following data |
-| 2-3 | SBIN | CELL | WI | X'8000'-X'7FFF' Width of character cell, integer part |
-| 4-5 | SBIN | CELLHI | X'8000'-X'7FFF' | Height of character cell, integer part |
-| The | following | parameters | are | optional: |
-| 6-7 | UBIN | CELL | WFR | X'0000'-X'FFFF' Width of character cell, fractional part |
-| 8-9 | UBIN | CELLHFR | X'0000'-X'FFFF' | Height of character cell, fractional part |
-| Semantics | | | | |
-| The | Set | Character | Cell | order sets the value of the current character cell-size attribute to the value specified in the order . Depending on the device implementation of the specified precision, this attribute is used to scale |
-| characters | specified | in | subsequent | Character String drawing orders. Devices that use the font positioning method ignore the character cell. |
-| The | application | of | this | attribute is dependent on the value of the character precision attribute. See “Character |
-| Strings” | on | page | 51 | for details. |
-| T | wo | formats | exist | for this drawing order: |
-| • Four-byte format | | | | |
-| - | CELL | WI | specifies | the width of the character cell in GPS units. |
-| - | CELLHI | specifies | the | height of the character cell in GPS units. |
-| • Eight-byte format | | | | |
-| In | this | format, | both | integer and fractional values are specified for the character cell width and height. The width and width-fraction fields form a 4-byte signed value, and the height and height-fraction fields form a 4- |
-| byte | signed | value. | A | decimal point is implied between the integer part and the fractional part of each parameter . |
-| - | CELL | WI | specifies | the width of the character cell in GPS units. |
-| - | CELL | WFR | specifies | the fractional part of the width of the character cell in GPS units. |
-| - | CELLHI | specifies | the | height of the character cell in GPS units. |
-| - | CELLHFR | specifies | the | fractional part of the height of the character cell in GPS units. |
-| The | fractional | parts | do | not exist in the drawing defaults and are set to zero when the drawing default is set into the current attribute. |
-| For | device | implementations | that | do not ignore the character cell, when the width or height in the current character cell-size attribute is 0, Character String drawing orders will draw nothing. |
-| Set Character Cell | | | | |
+| 0 | CODE | X'33' | GSCC | Order code |
+| 1 | UBIN | LENGTH | 4, 8 | Length of following data |
+| 2–3 | SBIN | CELLWI | X'8000'–X'7FFF' | Width of character cell, integer part |
+| 4–5 | SBIN | CELLHI | X'8000'–X'7FFF' | Height of character cell, integer part |
+| 6–7 | UBIN | CELLWFR | X'0000'–X'FFFF' | Width of character cell, fractional part (optional) |
+| 8–9 | UBIN | CELLHFR | X'0000'–X'FFFF' | Height of character cell, fractional part (optional) |
 
----
+#### GSCC Semantics
 
-This drawing order does not change the current position. Note that, for precisions 1 and 2 for some implementations, if the character cell size is specified as negative values, a mirror image of the character is generated. That is, if the cell width is negative, the character is mirrored about the Y -axis, and if the cell height is negative, the character is mirrored about the X-axis. Refer to “Character Strings” for a description of how the character cell is used on various AFP devices.
+The Set Character Cell order sets the value of the current character cell-size attribute to the value specified in the order. Depending on the device implementation of the specified precision, this attribute is used to scale characters specified in subsequent Character String drawing orders. Devices that use the font positioning method ignore the character cell.
+
+The application of this attribute is dependent on the value of the character precision attribute. See “Character Strings” for details.
+
+Two formats exist for this drawing order:
+* **Four-byte format**
+  - CELLWI specifies the width of the character cell in GPS units.
+  - CELLHI specifies the height of the character cell in GPS units.
+* **Eight-byte format**
+  In this format, both integer and fractional values are specified for the character cell width and height. The width and width-fraction fields form a 4-byte signed value, and the height and height-fraction fields form a 4-byte signed value. A decimal point is implied between the integer part and the fractional part of each parameter.
+  - CELLWI specifies the width of the character cell in GPS units.
+  - CELLWFR specifies the fractional part of the width of the character cell in GPS units.
+  - CELLHI specifies the height of the character cell in GPS units.
+  - CELLHFR specifies the fractional part of the height of the character cell in GPS units.
+
+The fractional parts do not exist in the drawing defaults and are set to zero when the drawing default is set into the current attribute.
+
+For device implementations that do not ignore the character cell, when the width or height in the current character cell-size attribute is 0, Character String drawing orders will draw nothing.
+
+This drawing order does not change the current position. Note that, for precisions 1 and 2 for some implementations, if the character cell size is specified as negative values, a mirror image of the character is generated. That is, if the cell width is negative, the character is mirrored about the $Y_{g}$ axis, and if the cell height is negative, the character is mirrored about the $X_{g}$ axis. Refer to “Character Strings” for a description of how the character cell is used on various AFP devices.
+
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
-Set Character Cell
+
+**EC-0003** The order has an incorrect length.
 
 ---
 
-Set Character Direction (GSCD) Order
+### Set Character Direction (GSCD) Order
+
 This order sets the value of the current character direction attribute.
-Syntax
+
+#### GSCD Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'3A' | GSCD | order code |
-| 1 | CODE | DIRECTION | X'00'-X'04' | Value for character direction: |
-| X'00' Drawing default | | | | |
-| X'01' | Left | to | | right |
-| X'02' | T | op | to | bottom |
-| X'03' | Right | to | | left |
-| X'04' | Bottom | to | | top |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Character | Direction | order sets the value of the current character direction attribute to the value specified in the order . |
-| The | character | direction | attribute | controls the placement of the first character in the string and each succeeding character relative to the previous character . |
-| Value Description | | | | |
-| X'00' | Drawing | Default. | The | standard default in AFP environments is left to right (X'01'). |
-| X'01' | Left | to | right. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point R in Figure 29, is coincident with the current position. A vector |
-| is | then | drawn | from | the left edge of the character box to the right edge, and successive characters are placed in the direction of this vector . |
-| X'02' | T | op | to | bottom. Characters are positioned so that, at a 0° character angle, the character reference point, which is point T in Figure 29, is coincident with the current |
-| position. | A | vector | is | then drawn from the top edge of the character box to the bottom edge, and successive characters are placed in the direction of this vector . |
-| X'03' | Right | to | left. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point E in Figure 29, is coincident with the current |
-| position. | A | vector | is | then drawn from the right edge of the character box to the left edge, and successive characters are placed in the direction of this vector . |
-| X'04' | Bottom | to | top. | Characters are positioned so that, at a 0° character angle, the character reference point, which is point B in Figure 29, is coincident with the current |
-| position. | A | vector | is | then drawn from the bottom edge of the character box to the top edge, and successive characters are placed in the direction of this vector . |
-| Architecture | Note: | This | graphics | drawing order defines a function that is analogous to part of the text orientation function in presentation text, which defines an inline direction and the development of |
-| characters | along | this | | direction. |
-| Set Character Direction | | | | |
+| 0 | CODE | X'3A' | GSCD | Order code |
+| 1 | CODE | DIRECTION | X'00'–X'04' | Value for character direction:<br>X'00' Drawing default<br>X'01' Left to right<br>X'02' Top to bottom<br>X'03' Right to left<br>X'04' Bottom to top<br>All other values are reserved |
 
----
+#### GSCD Semantics
+
+The Set Character Direction order sets the value of the current character direction attribute to the value specified in the order. The character direction attribute controls the placement of the first character in the string and each succeeding character relative to the previous character.
+
+**Value Description**
+
+* **X'00' Drawing Default.** The standard default in AFP environments is left to right (X'01').
+* **X'01' Left to right.** Characters are positioned so that, at a 0° character angle, the character reference point, which is point R in Figure 29, is coincident with the current position. A vector is then drawn from the left edge of the character box to the right edge, and successive characters are placed in the direction of this vector.
+* **X'02' Top to bottom.** Characters are positioned so that, at a 0° character angle, the character reference point, which is point T in Figure 29, is coincident with the current position. A vector is then drawn from the top edge of the character box to the bottom edge, and successive characters are placed in the direction of this vector.
+* **X'03' Right to left.** Characters are positioned so that, at a 0° character angle, the character reference point, which is point E in Figure 29, is coincident with the current position. A vector is then drawn from the right edge of the character box to the left edge, and successive characters are placed in the direction of this vector.
+* **X'04' Bottom to top.** Characters are positioned so that, at a 0° character angle, the character reference point, which is point B in Figure 29, is coincident with the current position. A vector is then drawn from the bottom edge of the character box to the top edge, and successive characters are placed in the direction of this vector.
+
+**Architecture Note:** This graphics drawing order defines a function that is analogous to part of the text orientation function in presentation text, which defines an inline direction and the development of characters along this direction.
 
 The following exception conditions cause a standard action to be taken:
-EC-0004 The attribute value specified in the order is not valid.
+
+**EC-0004** The attribute value specified in the order is not valid.
 Standard action: The standard default value of the attribute is used. In AFP environments, this is X'01'—Left to right.
-EC-000E The attribute value specified in the order is not supported.
+
+**EC-000E** The attribute value specified in the order is not supported.
 Standard action: The standard default value of the attribute is used. In AFP environments, this is X'01'—Left to right.
-Set Character Direction
 
 ---
 
-Set Character Precision (GSCR) Order
+### Set Character Precision (GSCR) Order
+
 This order sets the value of the current character precision attribute.
-Syntax
+
+#### GSCR Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'39' | GSCR | order code |
-| 1 | CODE | PREC | X'00'-X'03' | Value for character precision attribute: |
-| X'00' Drawing default | | | | |
-| X'01' String precision | | | | |
-| X'02' Character precision | | | | |
-| X'03' | Stroke | precision | (not | supported in AFP GOCA) |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Character | Precision | order sets the value of the current character precision attribute to the value specified in the order . The character precision attribute controls the type of character that is to be used for |
-| drawing | character | strings. | Refer | to “Character Strings” for a description of how character precision is defined. |
-| Value Description | | | | |
-| X'00' | Drawing | Default. | This | value sets the current character precision attribute to the value of the drawing default. The standard default in AFP environments is precision X'02'. |
-| X'01' | Precision | 1—Device-Specific | (String) | Precision. This precision has been implemented diffe rently on different devices; it is not consistent among implementations. The characters are |
-| drawn | using | the | quickest, | simplest mode possible for the implementation. In this mode, the only attributes that must be considered when the characters are drawn are the character code |
-| point, | character | set, | and | character direction attributes. The character angle and character cell- |
-| size | attributes | are | not | guaranteed to have any effect on the appearance of characters in the string. |
-| X'02' | Precision | 2—Device-Specific | (Character) | Precision. This precision has been implemented diffe rently on different devices; it is not consistent among implementations. The character |
-| string | is | drawn | taking | into account all the attributes to determine the positioning of the characters. The character attributes are not guaranteed to aff ect the appearance of the |
-| characters | in | the | | string. |
-| X'03' | Precision | 3—Stroke | Precision. | This value is not supported in AFP GOCA. If it is specified, exception EC-000E exists. |
-| Set Character Precision | | | | |
+| 0 | CODE | X'39' | GSCR | Order code |
+| 1 | CODE | PREC | X'00'–X'03' | Value for character precision attribute:<br>X'00' Drawing default<br>X'01' String precision<br>X'02' Character precision<br>X'03' Stroke precision (not supported in AFP GOCA)<br>All other values are reserved |
 
----
+#### GSCR Semantics
+
+The Set Character Precision order sets the value of the current character precision attribute to the value specified in the order. The character precision attribute controls the type of character that is to be used for drawing character strings. Refer to “Character Strings” for a description of how character precision is defined.
+
+**Value Description**
+
+* **X'00' Drawing Default.** This value sets the current character precision attribute to the value of the drawing default. The standard default in AFP environments is precision X'02'.
+* **X'01' Precision 1—Device-Specific (String) Precision.** This precision has been implemented differently on different devices; it is not consistent among implementations. The characters are drawn using the quickest, simplest mode possible for the implementation. In this mode, the only attributes that must be considered when the characters are drawn are the character code point, character set, and character direction attributes. The character angle and character cell-size attributes are not guaranteed to have any effect on the appearance of characters in the string.
+* **X'02' Precision 2—Device-Specific (Character) Precision.** This precision has been implemented differently on different devices; it is not consistent among implementations. The character string is drawn taking into account all the attributes to determine the positioning of the characters. The character attributes are not guaranteed to affect the appearance of the characters in the string.
+* **X'03' Precision 3—Stroke Precision.** This value is not supported in AFP GOCA. If it is specified, exception EC-000E exists.
 
 The following exception conditions cause a standard action to be taken:
-EC-0004 The attribute value specified in the order is not valid.
+
+**EC-0004** The attribute value specified in the order is not valid.
 Standard action: The standard default value of the attribute is used. In AFP environments, this is X'02'—Device-Specific (Character) Precision.
-EC-000E The attribute value specified in the order is not supported.
+
+**EC-000E** The attribute value specified in the order is not supported.
 Standard action: The standard default value of the attribute is used. In AFP environments, this is X'02'—Device-Specific (Character) Precision.
-Set Character Precision
 
 ---
 
-Set Character Set (GSCS) Order
+### Set Character Set (GSCS) Order
+
 This order sets the value of the current character set attribute.
-Syntax
+
+#### GSCS Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'38' | GSCS | order code |
-| 1 | CODE | LCID | X'00'-X'FF' | Local identifier (LCID) for the character set: |
-| X'00' Drawing default | | | | |
-| X'01'-X'FE' | Local | identifier | for | the character set |
-| X'FF' | Special | character | | set |
-| Semantics | | | | |
-| The | Set | Character | Set | order sets the value of the current character set attribute to the value specified in the order . |
-| When | the | current | character | set attribute is X'00', it identifies the drawing default, that is, the default from the |
-| GDD, | or | if | not | specified, the standard default character set. In AFP environments, this is the presentation device default font. |
-| When | the | current | character | set attribute is X'01' to X'FE', it identifies the character set that is to be used to draw characters in subsequent Character String orders. The controlling environment maps the LCID to a |
-| specific font. | | | | |
-| When | the | current | character | set attribute is X'FF', it identifies the special character set, which is implementation- |
-| defined. | | | | |
-| Architecture | Note: | In | AFP | environments, the special character set is the presentation device default font. |
-| Character | definitions | from | the | character set identified by the current character set attribute are modified under control of the current character precision attribute before being drawn. |
-| Architecture | Note: | In | MO:DCA | and IPDS environments, the MO:DCA character rotation (IPDS font inline sequence) associated with the font is ignored when determining character direction and angle. However , |
-| when | the | font | positioning | method is used, the selected character direction should match the selected character rotation (font inline sequence) so that appropriate font metrics, such as character increment |
-| and | A-space, | are | available. | If a font with the required character rotation is not available to the presentation device, the spacing and positioning of characters is unpredictable. |
-| The | following | exception | condition | causes a standard action to be taken: |
-| EC-C300 | The | font | identified | by the value in the current character set attribute is not available. |
-| Standard | action: | The | standard | default character set is used. In AFP environments, this is the presentation device default font. |
-| Set Character Set | | | | |
+| 0 | CODE | X'38' | GSCS | Order code |
+| 1 | CODE | LCID | X'00'–X'FF' | Local identifier (LCID) for the character set:<br>X'00' Drawing default<br>X'01'–X'FE' Local identifier for the character set<br>X'FF' Special character set |
+
+#### GSCS Semantics
+
+The Set Character Set order sets the value of the current character set attribute to the value specified in the order.
+
+When the current character set attribute is X'00', it identifies the drawing default, that is, the default from the GDD, or if not specified, the standard default character set. In AFP environments, this is the presentation device default font.
+
+When the current character set attribute is X'01' to X'FE', it identifies the character set that is to be used to draw characters in subsequent Character String orders. The controlling environment maps the LCID to a specific font.
+
+When the current character set attribute is X'FF', it identifies the special character set, which is implementation-defined.
+
+**Architecture Note:** In AFP environments, the special character set is the presentation device default font.
+
+Character definitions from the character set identified by the current character set attribute are modified under control of the current character precision attribute before being drawn.
+
+**Architecture Note:** In MO:DCA and IPDS environments, the MO:DCA character rotation (IPDS font inline sequence) associated with the font is ignored when determining character direction and angle. However, when the font positioning method is used, the selected character direction should match the selected character rotation (font inline sequence) so that appropriate font metrics, such as character increment and A-space, are available. If a font with the required character rotation is not available to the presentation device, the spacing and positioning of characters is unpredictable.
+
+The following exception condition causes a standard action to be taken:
+
+**EC-C300** The font identified by the value in the current character set attribute is not available.
+Standard action: The standard default character set is used. In AFP environments, this is the presentation device default font.
 
 ---
 
-Set Character Shear (GSCH) Order
-This order sets the value of the current character shear attribute. This order is processed as a No-Op in AFP
-GOCA.
-Syntax
+### Set Character Shear (GSCH) Order
+
+This order sets the value of the current character shear attribute. This order is processed as a No-Op in AFP GOCA.
+
+#### GSCH Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'35' | GSCH | order code |
+| 0 | CODE | X'35' | GSCH | Order code |
 | 1 | UBIN | LENGTH | 4 | Length of following data |
-| 2-3 | SBIN | HX | X'8000'-X'7FFF' | Dividend of shear ratio |
-| 4-5 | SBIN | HY | X'8000'-X'7FFF' | Divisor of shear ratio |
-| Semantics | | | | |
-| Not | applicable | in | AFP | GOCA. |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-0003 | The | order | has | an incorrect length. |
-| Set Character Shear | | | | |
+| 2–3 | SBIN | HX | X'8000'–X'7FFF' | Dividend of shear ratio |
+| 4–5 | SBIN | HY | X'8000'–X'7FFF' | Divisor of shear ratio |
 
----
+#### GSCH Semantics
 
-Set Color (GSCOL) Order
-This order provides a shorthand way of setting the following foreground color attributes to the same value:
-• Character color
-• Image color
-• Line color
-• Marker color
-• Pattern color
-Architecture Note: T o fill an area with the color specified by this drawing order , select the drawing default with the Set Pattern Set order , and either the drawing default or solid fill with the Set Pattern Symbol order .
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'0A' | GSCOL | order code |
-| 1 | CODE | COL | X'00'-X'08' | Value for color attribute: |
-| X'00' Drawing default | | | | |
-| X'01' Blue | | | | |
-| X'02' Red | | | | |
-| X'03' Magenta (Pink) | | | | |
-| X'04' Green | | | | |
-| X'05' | Cyan | (T | | urquoise) |
-| X'06' Y ellow | | | | |
-| X'07' Device default | | | | |
-| X'08' | Color | of | | medium |
-| All | other | values | | Reserved |
-| Semantics | | | | |
-| The | Set | Color | order | sets the current value of all five color attributes to the value specified in the order . Color attributes control the color of the foreground of the output primitives as they are drawn. |
-| The | standard | default | in | AFP environments is the presentation device default color . |
-| The | color | value | specified | by this order is prefixed with X'FF' to generate a two-byte color index value into the standard color table. See “Color”. |
-| The | following | exception | conditions | cause a standard action to be taken: |
-| EC-0004 | The | attribute | value | specified in the order is not valid. |
-| Standard | action: | The | action | is implementation dependent. |
-| EC-000E | The | attribute | value | specified in the order is not supported. |
-| Standard | action: | The | action | is implementation dependent. |
-| Architecture | Note: | If | colors | are simulated in AFP environments, color exceptions need not be generated. |
-| Set Color | | | | |
+Not applicable in AFP GOCA.
 
----
-
-Set Current Position (GSCP) Order
-This order sets the value of the current position in the Graphics Presentation Space (GPS).
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'21' | GSCP | order code |
-| 1 | UBIN | LENGTH | 4 | Length of following data |
-| 2-3 | SBIN | XPOS | X'8000'-X'7FFF' | X g |
-| coordinate of point | | | | |
-| 4-5 | SBIN | YPOS | X'8000'-X'7FFF' | Y g |
-| coordinate of point | | | | |
-| Semantics | | | | |
-| The | Set | Current | Position | order sets the value of current position to the value specified in the order . |
-| The | following | exception | condition | raises a drawing process check: |
-| EC-0003 | The | order | has | an incorrect length. |
-| Set Current Position | | | | |
-
----
-
-Set Custom Line Type (GSCL T) Order
-This order sets the value of the current line type attribute to a custom value.
-Syntax
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'20' | GSCL | T order code |
-| 1 | UBIN | LENGTH | 0-n | Length of following data; n must be less than |
-| 255 | and | a | multiple | of 4 |
-| 2 | UBIN | DASH0H | X'00'-X'FF' | Integer portion of length of first dash/dot |
-| 3 | UBIN | DASH0FR | X'00'-X'FF' | Fractional portion of length of first dash/dot |
-| 4 | UBIN | MOVE0H | X'00'-X'FF' | Integer portion of length of first move |
-| 5 | UBIN | MOVE0FR | X'00'-X'FF' | Fractional portion of length of first move |
-| 6 | UBIN | DASH1H | X'00'-X'FF' | Integer portion of length of second dash/dot |
-| 7 | UBIN | DASH1FR | X'00'-X'FF' | Fractional portion of length of second dash/dot |
-| 8 | UBIN | MOVE1H | X'00'-X'FF' | Integer portion of length of second move |
-| 9 | UBIN | MOVE1FR | X'00'-X'FF' | Fractional portion of length of second move |
-| ⋮ ⋮ | | | | |
-| UBIN | DASHFH | X'00'-X'FF' | Integer | portion of length of final dash/dot |
-| UBIN | DASHFFR | X'00'-X'FF' | Fractional | portion of length of final dash/dot |
-| UBIN | MOVEFH | X'00'-X'FF' | Integer | portion of length of final move |
-| UBIN | MOVEFFR | X'00'-X'FF' | Fractional | portion of length of final move |
-| Semantics | | | | |
-| The | Set | Custom | Line | Type order sets the value of the current line type attribute to the custom value specified in the order . The current line type attribute controls the type of line used to draw line primitives. |
-| When | setting | the | line | type attribute, this drawing order will set it to a custom value. The Set Line Type drawing order will set the attribute to a standard value. |
-| The | first | byte | of | the length of a dash/dot or move—this will be referred to as the H byte—specifies the integer portion of the length; the second byte—referred to as the FR byte—specifies the fractional portion. A combined |
-| value | of | X'0000' | for | a dash/dot length indicates a dash of length 0—that is, a dot. A decimal point is implied between H and FR. The fractional portion of the length is calculated by dividing FR by 256. For example, if FR= |
-| X'40', | its | decimal | value | is 64, which, divided by 256 results in a fractional component for the length of 1/4. |
-| All | dash | and | move | lengths are expressed in units of line width. |
-| If | no | dash | and | move lengths are provided (that is, if the LENGTH field is zero), or if all dash and move lengths are specified as zero, a solid line is drawn. |
-| If | a | dash | length | is not zero, but on a given device is less than one presentation device pel, the length of the dash is set to one pel. Similarly , if a move length is not zero, but is less than one presentation device pel, the |
-| Set | Custom | Line | | Type |
-
----
-
-move length is set to one pel. In other words, a nonzero length, no matter how small, must not become a zero length.
-The standard default for the line type attribute in AFP environments is the standard line type value X'07'—Solid line.
-See “Line Type” for more information on the line type attribute, including a discussion of how the dash/dot and move lengths are used to generate lines, and a discussion of standard and custom line type values.
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
-Set Custom Line Type
+
+**EC-0003** The order has an incorrect length.
+
+---
+
+### Set Color (GSCOL) Order
+
+This order provides a shorthand way of setting the following foreground color attributes to the same value:
+* Character color
+* Image color
+* Line color
+* Marker color
+* Pattern color
+
+**Architecture Note:** To fill an area with the color specified by this drawing order, select the drawing default with the Set Pattern Set order, and either the drawing default or solid fill with the Set Pattern Symbol order.
+
+#### GSCOL Syntax
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'0A' | GSCOL | Order code |
+| 1 | CODE | COL | X'00'–X'08' | Value for color attribute:<br>X'00' Drawing default<br>X'01' Blue<br>X'02' Red<br>X'03' Magenta (Pink)<br>X'04' Green<br>X'05' Cyan (Turquoise)<br>X'06' Yellow<br>X'07' Device default<br>X'08' Color of medium<br>All other values are reserved |
+
+#### GSCOL Semantics
+
+The Set Color order sets the current value of all five color attributes to the value specified in the order. Color attributes control the color of the foreground of the output primitives as they are drawn.
+
+The standard default in AFP environments is the presentation device default color.
+
+The color value specified by this order is prefixed with X'FF' to generate a two-byte color index value into the standard color table. See “Color”.
+
+The following exception conditions cause a standard action to be taken:
+
+**EC-0004** The attribute value specified in the order is not valid.
+Standard action: The action is implementation dependent.
+
+**EC-000E** The attribute value specified in the order is not supported.
+Standard action: The action is implementation dependent.
+
+**Architecture Note:** If colors are simulated in AFP environments, color exceptions need not be generated.
+
+---
+
+### Set Current Position (GSCP) Order
+
+This order sets the value of the current position in the Graphics Presentation Space (GPS).
+
+#### GSCP Syntax
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'21' | GSCP | Order code |
+| 1 | UBIN | LENGTH | 4 | Length of following data |
+| 2–3 | SBIN | XPOS | X'8000'–X'7FFF' | $X_{g}$ coordinate of point |
+| 4–5 | SBIN | YPOS | X'8000'–X'7FFF' | $Y_{g}$ coordinate of point |
+
+#### GSCP Semantics
+
+The Set Current Position order sets the value of current position to the value specified in the order.
+
+The following exception condition raises a drawing process check:
+
+**EC-0003** The order has an incorrect length.
+
+---
+
+### Set Custom Line Type (GSCLT) Order
+
+This order sets the value of the current line type attribute to a custom value.
+
+#### GSCLT Syntax
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'20' | GSCLT | Order code |
+| 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 |
+| 2 | UBIN | DASH0H | X'00'–X'FF' | Integer portion of length of first dash/dot |
+| 3 | UBIN | DASH0FR | X'00'–X'FF' | Fractional portion of length of first dash/dot |
+| 4 | UBIN | MOVE0H | X'00'–X'FF' | Integer portion of length of first move |
+| 5 | UBIN | MOVE0FR | X'00'–X'FF' | Fractional portion of length of first move |
+| 6 | UBIN | DASH1H | X'00'–X'FF' | Integer portion of length of second dash/dot |
+| 7 | UBIN | DASH1FR | X'00'–X'FF' | Fractional portion of length of second dash/dot |
+| 8 | UBIN | MOVE1H | X'00'–X'FF' | Integer portion of length of second move |
+| 9 | UBIN | MOVE1FR | X'00'–X'FF' | Fractional portion of length of second move |
+| ... | ... | ... | ... | ... |
+| n–2 | UBIN | DASHFH | X'00'–X'FF' | Integer portion of length of final dash/dot |
+| n–1 | UBIN | DASHFFR | X'00'–X'FF' | Fractional portion of length of final dash/dot |
+| n | UBIN | MOVEFH | X'00'–X'FF' | Integer portion of length of final move |
+| n+1 | UBIN | MOVEFFR | X'00'–X'FF' | Fractional portion of length of final move |
+
+#### GSCLT Semantics
+
+The Set Custom Line Type order sets the value of the current line type attribute to the custom value specified in the order. The current line type attribute controls the type of line used to draw line primitives.
+
+When setting the line type attribute, this drawing order will set it to a custom value. The Set Line Type drawing order will set the attribute to a standard value.
+
+The first byte of the length of a dash/dot or move—this will be referred to as the H byte—specifies the integer portion of the length; the second byte—referred to as the FR byte—specifies the fractional portion. A combined value of X'0000' for a dash/dot length indicates a dash of length 0—that is, a dot. A decimal point is implied between H and FR. The fractional portion of the length is calculated by dividing FR by 256. For example, if FR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the length of 1/4.
+
+All dash and move lengths are expressed in units of line width.
+
+If no dash and move lengths are provided (that is, if the LENGTH field is zero), or if all dash and move lengths are specified as zero, a solid line is drawn.
+
+If a dash length is not zero, but on a given device is less than one presentation device pel, the length of the dash is set to one pel. Similarly, if a move length is not zero, but is less than one presentation device pel, the move length is set to one pel. In other words, a nonzero length, no matter how small, must not become a zero length.
+
+The standard default for the line type attribute in AFP environments is the standard line type value X'07'—Solid line.
+
+See “Line Type” for more information on the line type attribute, including a discussion of how the dash/dot and move lengths are used to generate lines, and a discussion of standard and custom line type values.
+
+The following exception condition raises a drawing process check:
+
+**EC-0003** The order has an incorrect length.
 
 ---
 
