@@ -24,8 +24,8 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.writer.AFPWriterHumanReadable;
 import com.mgz.afp.writer.IAFPWriter;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +40,7 @@ public class AFPWriterTest {
   public static final Logger LOG = Logger.getLogger("AFPWriterTest");
   private static File[] filesSuite = {};
 
-  @BeforeClass
+  @BeforeAll
   public static void onlyOnce() throws Exception {
     if (FilesSuite.getAfpFiles() != null) {
       filesSuite = FilesSuite.getAfpFiles();

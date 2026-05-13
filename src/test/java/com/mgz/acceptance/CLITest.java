@@ -1,13 +1,13 @@
 package com.mgz.acceptance;
 
 import com.mgz.cli.AFP2XML;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CLITest {
 
@@ -23,7 +23,7 @@ public class CLITest {
 
         AFP2XML.main(new String[]{inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
 
-        assertTrue("Output XML file should exist", outputFile.exists());
+        assertTrue(outputFile.exists(), "Output XML file should exist");
 
         List<String> lines = Files.readAllLines(outputFile.toPath());
         boolean foundXmlHeader = false;
@@ -38,7 +38,7 @@ public class CLITest {
             }
         }
 
-        assertTrue("XML header not found in output", foundXmlHeader);
-        assertTrue("AFPDocument tag not found in output", foundAfpDocTag);
+        assertTrue(foundXmlHeader, "XML header not found in output");
+        assertTrue(foundAfpDocTag, "AFPDocument tag not found in output");
     }
 }

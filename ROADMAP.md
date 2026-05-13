@@ -357,7 +357,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ MO:DCA Round Trip tests (8/8 migrated).
         - ⏳ PTOCA tests (5 files: PTOCARoundTrip, PTOCAGapReproduction, TRNEncoding, PTOCAControlSequenceRoundTrip, PTOCAControlSequenceTest).
         - ✅ Architecture Round Trip tests (4 files: FOCA, GOCA, IOCA, LineData).
-        - ⏳ Acceptance tests (3 files: AFPParserTest, AFPWriterTest, CLITest).
+        - ✅ Acceptance tests (3 files: AFPParserTest, AFPWriterTest, CLITest).
 - ✅ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
     - ✅ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
     - ✅ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
