@@ -1175,7 +1175,7 @@ These orders draw a line from the given position or the current position to the 
 
 The Partial Arc at Given Position (GPARC) order draws a line from point (XPOS, YPOS) to the start of an arc, then draws the arc with its center at point (XCENT, YCENT). The Partial Arc at Current Position (GCPARC) order draws a line from the current position to the start of an arc, then draws the arc with its center at point (XCENT, YCENT). The arc is part of the full arc defined by the current arc parameters and the multiplier specified by MH and MFR.
 
-The part of the arc that is drawn is defined by the starting angle, START, and the sweep angle, SWEEP. Both angles are defined on the unit circle space and are transformed by an amount defined by the current arc parameters in the same way that the unit circle is transformed. See "Partial Arc" for details.
+The part of the arc that is drawn is defined by the starting angle, START, and the sweep angle, SWEEP. Both angles are defined on the unit circle space and are transformed by an amount defined by the current arc parameters in the same way that the unit circle is transformed. See "Partial Arc".or details.
 
 A previous Set Arc Parameters drawing order determines the shape and orientation of the arc. If no Set Arc Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters.
 
@@ -1428,7 +1428,7 @@ This order sets the values of the current arc parameters.
 
 #### Semantics
 
-The Set Arc Parameters order specifies the shape and orientation of a circle or an ellipse. Subsequent Full Arc orders specify the size and location of the circle or ellipse. Subsequent Partial Arc orders specify the size and location of the circle or ellipse that the partial arc is part of. For details, see "Full Arc" and "Partial Arc" on page 25.
+The Set Arc Parameters order specifies the shape and orientation of a circle or an ellipse. Subsequent Full Arc orders specify the size and location of the circle or ellipse. Subsequent Partial Arc orders specify the size and location of the circle or ellipse that the partial arc is part of. For details, see "Full Arc" and "Partial Arc".
 
 The parameters P, Q, R, and S define a transformation that maps the unit circle at the GPS origin ($X_g=0, Y_g=0$) to the required circle or ellipse, also at the GPS origin, such that:
 $$X' = P \cdot X + R \cdot Y$$
