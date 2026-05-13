@@ -438,9 +438,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ## Phase 7: Modernization of Build System and Language
 - ✅ Upgrade Gradle to 8.x.
-- ⏳ Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts`).
-- ⏳ Update Java version to 21 (LTS).
-- ⏳ Refactor source code to use modern Java features.
+- ✅ Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts` and `settings.gradle.kts`).
+- ✅ Update Java version to 21 (LTS).
+- ⏳ Refactor source code to use modern Java features:
+    - ⏳ Use `var` for local variable type inference where appropriate.
+    - ⏳ Refactor data-heavy classes to Java Records.
+    - ⏳ Implement Sealed Classes for Structured Field hierarchies.
+    - ⏳ Use Pattern Matching for `switch` and `instanceof`.
+    - ⏳ Update Stream API usage with modern collectors and methods.
 
 ## Phase 8: Modernized Publishing and Distribution
 - ✅ Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.
