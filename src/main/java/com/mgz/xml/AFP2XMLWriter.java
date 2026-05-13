@@ -34,64 +34,64 @@ import java.util.List;
 public class AFP2XMLWriter {
 
   public static void writeXML(OutputStream osw, StructuredField sf, AFPParserConfiguration conf) throws JAXBException {
-    List<Class<?>> classes = new ArrayList<>();
+    var classes = new ArrayList<Class<?>>();
     classes.add(sf.getClass());
     addClassesFromSF(classes, sf);
 
-    JAXBContext jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
-    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    var jaxbMarshaller = jaxbContext.createMarshaller();
     // output pretty printed
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-    QName qName = new QName(sf.getClass().getSimpleName());
-    JAXBElement<Object> root = new JAXBElement<>(qName, Object.class, sf);
+    var qName = new QName(sf.getClass().getSimpleName());
+    var root = new JAXBElement<>(qName, Object.class, sf);
 
     jaxbMarshaller.marshal(root, osw);
   }
 
   public static void writeXML(OutputStream osw, AFPDocument doc) throws JAXBException {
-    List<Class<?>> classes = new ArrayList<>();
+    var classes = new ArrayList<Class<?>>();
     classes.add(AFPDocument.class);
-    for (Object obj : doc.getStructuredFields()) {
-      if (obj instanceof JAXBElement) {
-        Class<?> declaredType = ((JAXBElement<?>) obj).getDeclaredType();
+    for (var obj : doc.getStructuredFields()) {
+      if (obj instanceof JAXBElement<?> jaxbElement) {
+        var declaredType = jaxbElement.getDeclaredType();
         if (!classes.contains(declaredType)) {
           classes.add(declaredType);
         }
-        Object value = ((JAXBElement<?>) obj).getValue();
-        if (value instanceof StructuredField) {
-          addClassesFromSF(classes, (StructuredField) value);
+        var value = jaxbElement.getValue();
+        if (value instanceof StructuredField sf) {
+          addClassesFromSF(classes, sf);
         }
       } else if (!classes.contains(obj.getClass())) {
         classes.add(obj.getClass());
-        if (obj instanceof StructuredField) {
-          addClassesFromSF(classes, (StructuredField) obj);
+        if (obj instanceof StructuredField sf) {
+          addClassesFromSF(classes, sf);
         }
       }
     }
 
-    JAXBContext jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
-    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    var jaxbMarshaller = jaxbContext.createMarshaller();
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
     jaxbMarshaller.marshal(doc, osw);
   }
 
   private static void addClassesFromSF(List<Class<?>> classes, StructuredField sf) {
-    if (sf instanceof IHasTriplets) {
-      List<Triplet> triplets = ((IHasTriplets) sf).getTriplets();
+    if (sf instanceof IHasTriplets iHasTriplets) {
+      var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
-        for (Triplet t : triplets) {
+        for (var t : triplets) {
           if (t != null) {
             addClass(classes, t.getClass());
           }
         }
       }
     }
-    if (sf instanceof IHasRepeatingGroups) {
-      List<?> rgs = ((IHasRepeatingGroups) sf).getRepeatingGroups();
+    if (sf instanceof IHasRepeatingGroups iHasRepeatingGroups) {
+      var rgs = iHasRepeatingGroups.getRepeatingGroups();
       if (rgs != null) {
-        for (Object rg : rgs) {
+        for (var rg : rgs) {
           if (rg != null) {
             addClassWithTriplets(classes, rg);
           }
@@ -101,18 +101,18 @@ public class AFP2XMLWriter {
     // Handle other SFs that might have lists of objects but don't implement IHasRepeatingGroups
     // We could use reflection here to find all List fields, but for now let's be more specific or find a better way.
     // Let's check some common ones.
-    if (sf instanceof com.mgz.afp.modca.MCF_MapCodedFont_Format1) {
-       List<?> rgs = ((com.mgz.afp.modca.MCF_MapCodedFont_Format1)sf).getRepeatingGroups();
+    if (sf instanceof com.mgz.afp.modca.MCF_MapCodedFont_Format1 mcf1) {
+       var rgs = mcf1.getRepeatingGroups();
        if (rgs != null) {
-           for (Object rg : rgs) {
+           for (var rg : rgs) {
                if (rg != null) addClass(classes, rg.getClass());
            }
        }
     }
-    if (sf instanceof com.mgz.afp.foca.CFI_CodedFontIndex) {
-        List<?> rgs = ((com.mgz.afp.foca.CFI_CodedFontIndex)sf).getCfiRepeatingGroups();
+    if (sf instanceof com.mgz.afp.foca.CFI_CodedFontIndex cfi) {
+        var rgs = cfi.getCfiRepeatingGroups();
         if (rgs != null) {
-            for (Object rg : rgs) {
+            for (var rg : rgs) {
                 if (rg != null) addClass(classes, rg.getClass());
             }
         }
@@ -121,10 +121,10 @@ public class AFP2XMLWriter {
 
   private static void addClassWithTriplets(List<Class<?>> classes, Object obj) {
     addClass(classes, obj.getClass());
-    if (obj instanceof IHasTriplets) {
-      List<Triplet> triplets = ((IHasTriplets) obj).getTriplets();
+    if (obj instanceof IHasTriplets iHasTriplets) {
+      var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
-        for (Triplet t : triplets) {
+        for (var t : triplets) {
           if (t != null) {
             addClass(classes, t.getClass());
           }
