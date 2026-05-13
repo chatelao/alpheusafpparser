@@ -50,8 +50,7 @@ UTF-16, but you are concerned about the size of the messages. You might decide t
 messages to UTF-8 before you put them on the wire. This setup compresses the messages.
 What to do next
 If you choose a Unicode format for performance reasons and are concerned about the extra storage that
-the format requires, see “Tips for handling any extra storage that Unicode data might require” on page
-49.
+the format requires, see “Tips for handling any extra storage that Unicode data might require”.
 Related reference
 UTFs
 Creating a Unicode table
@@ -90,7 +89,6 @@ blanks and you do not want to store them.
 subtype
 For character columns, optionally specify one the following subtypes for the column by adding the
 FOR subtype DATA clause to the column definition:
-46  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
 
 
@@ -184,7 +182,6 @@ CREATE DATABASE statement (Db2 SQL)
 CREATE TABLE statement (Db2 SQL)
 CREATE TABLESPACE statement (Db2 SQL)
 MIXED DATA field (MIXED DECP value) (Db2 Installation and Migration)
-48  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
 
 
@@ -232,16 +229,7 @@ case, use VARCHAR instead of CHAR, because the length (30) is greater than 18. (
 length when VARCHAR should be used instead of CHAR.)
 This estimate allows for the worst-case expansion of UTF-8 data. The worst case for SBCS data
 is that 1 byte in ASCII or EBCDIC expands to 3 bytes in UTF-8. For mixed data, such as Chinese,
-Japanese, or Korean characters, the same worst-case scenario applies. You might have 2-, 3- and
-4-byte characters, depending on the encoding, that expand to a four-byte UTF-8 character in the worst
-
-
-Chapter 4. Storing Unicode data  49
-
-
-
-case. However, because these characters used more than one byte in ASCII or EBCDIC, the worst-case
-expansion in UTF-8 is still three times the original size.
+Japanese, or Korean characters, the same worst-case scenario applies. You might have 2-, 3- and 4-byte characters, depending on the encoding, that expand to a four-byte UTF-8 character in the worst case. However, because these characters used more than one byte in ASCII or EBCDIC, the worst-case expansion in UTF-8 is still three times the original size.
 • For UTF-16 data, allocate two times the column size that you would allocate for a non-Unicode table,
 and use the GRAPHIC or VARGRAPHIC data types.
 For example, if you use CHAR(10) for a name column in an EBCDIC table, use VARGRAPHIC(10) for the
@@ -333,7 +321,6 @@ ASCII_STR or ASCIISTR scalar function (Db2 SQL)
 EBCDIC_STR scalar function (Db2 SQL)
 
 
-Chapter 4. Storing Unicode data  51
 
 
 
@@ -384,7 +371,6 @@ load the data back into the original table, T2. To use this SYSPUNCH file to loa
 data to table T1, you must modify the SYSPUNCH or JCL.
 – STEP3 then loads the data that was unloaded in STEP2 into Unicode table T1. Because the
 catalog defines the table as Unicode, the data is converted to Unicode when it is loaded.
-52  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
 
 
@@ -467,7 +453,6 @@ SELECT * FROM SYSADM.T2;
 /*
 
 
-Chapter 4. Storing Unicode data  53
 
 
 
@@ -529,7 +514,6 @@ For example, the schemas are likely different in Unicode tables than EBCDIC tabl
 be longer. For example, an index might be 5 levels in Unicode instead of 4 levels in EBCDIC. Also, the
 number of rows per page might be fewer.
 All of the regular rules for access paths and tuning queries still apply to Unicode tables.
-54  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
 
 
@@ -537,9 +521,7 @@ Related tasks
 Writing efficient SQL queries (Db2 Performance)
 
 
-Chapter 4. Storing Unicode data  55
 
 
 
-56  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 

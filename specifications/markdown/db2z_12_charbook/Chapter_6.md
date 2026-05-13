@@ -10,8 +10,8 @@ A single character is displayed incorrectly. A CCSID is probably set incorrectly
 Check the following settings:
 • Ensure that your subsystem CCSIDs are correct.
 See “Finding the CCSID values of your data
-sources” on page 29 and “Specifying subsystem
-CCSIDs” on page 32. If you suspect that you
+sources” and “Specifying subsystem
+CCSIDs”. If you suspect that you
 need to change one of your subsystem CCSID
 values, call IBM Support.
 • Ensure that the application that you are using
@@ -20,7 +20,7 @@ ENCODING bind option. For example, if you are
 using SPUFI, make sure that the SPUFI package
 is bound with the CCSID that matches the one on
 your terminal emulator. See “Specifying a CCSID
-for your application” on page 59.
+for your application”.
 Also try displaying the character in hexadecimal
 format to see if you can determine what encoding
 the character is in. Knowing the encoding can also
@@ -35,16 +35,14 @@ Lowercase special characters do not become
 uppercase.
 Ensure that you are specifying the correct
 locale. See “Performing culturally correct case
-conversions” on page 85.
+conversions”.
 An insert operation of EBCDIC or ASCII data into a
 Unicode table fails.
 Ensure that the column size is large enough to
 handle any possible data expansion. See “Potential
 problems when inserting non-Unicode data into a
-Unicode table” on page 100.
-© Copyright IBM Corp. 2003, 2026 99
+Unicode table”.
 
-## Page 112
 
 Table 31. Possible solutions to Unicode and CCSID problems (continued)
 Symptom Possible solution
@@ -68,7 +66,7 @@ statement , declare your UTF-8 columns to be three times the size of your ASCII 
 might also want to make your columns varying length so that Db2 does not need to perform padding and
 truncation on the columns when the length changes due to conversion.
 For more information about determining the appropriate column length, see “Estimating the column size
-for Unicode data” on page 49.
+for Unicode data”.
 Related concepts
 Expanding conversion
 An expanding conversion occurs when the length of the converted string is greater than that of the source
@@ -77,6 +75,4 @@ Related tasks
 Creating a Unicode table
 If you plan to store Unicode data, create Unicode tables. If you try to insert Unicode data into an ASCII or
 EBCDIC table, data might be lost, unless you use escaped data.
-100  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 113

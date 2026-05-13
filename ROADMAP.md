@@ -274,7 +274,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Glossary.
     - ⏳ Purge physical page markers and PDF artifacts:
         - ✅ Chapters 1–3.
-        - ⏳ Chapters 4–6.
+        - ✅ Chapters 4–6.
         - ✅ Appendices A–E.
         - ✅ Appendix F.
         - ✅ Glossary.
