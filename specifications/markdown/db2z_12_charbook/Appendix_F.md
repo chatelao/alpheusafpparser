@@ -17,129 +17,22 @@ SYSIBM.SYSSTRINGS catalog table.
 2. Conversions provided by z/OS support for Unicode. For more information, see z/OS Unicode Services
 User’s Guide and Reference.
 If neither of these methods can be used for a particular character conversion, Db2 returns an error.
+
 Table 32. SYSIBM.SYSSTRINGS table column descriptions
-Column name Data type Description Use
-INCCSID INTEGER
-NOT NULL
-The source CCSID for the character conversion
-represented by this row. The value of the source CCSID
-must be in the range of 1 to 65533 and must not be the
-same as the value for the OUTCCSID column.
-G
-OUTCCSID INTEGER
-NOT NULL
-The target CCSID for the character conversion
-represented by this row. The value of the target CCSID
-must be in the range of 1 to 65533 and must not be the
-same as the value for the INCCSID column.
-G
-© Copyright IBM Corp. 2003, 2026 111
 
-## Page 124
+| Column name | Data type | Description | Use |
+| :--- | :--- | :--- | :--- |
+| INCCSID | INTEGER NOT NULL | The source CCSID for the character conversion represented by this row. The value of the source CCSID must be in the range of 1 to 65533 and must not be the same as the value for the OUTCCSID column. | G |
+| OUTCCSID | INTEGER NOT NULL | The target CCSID for the character conversion represented by this row. The value of the target CCSID must be in the range of 1 to 65533 and must not be the same as the value for the INCCSID column. | G |
+| TRANSTYPE | CHAR(2) NOT NULL | Indicates the nature of the conversion. Values can be:<br>GG: GRAPHIC to GRAPHIC<br>MM: EBCDIC MIXED to EBCDIC MIXED<br>MS: EBCDIC MIXED to SBCS<br>PM: ASCII MIXED to EBCDIC MIXED<br>PS: ASCII MIXED to SBCS<br>SM: SBCS to EBCDIC MIXED<br>SS: SBCS to SBCS<br>MP: EBCDIC MIXED to ASCII MIXED<br>PP: ASCII MIXED to ASCII MIXED<br>SP: SBCS to ASCII MIXED | G |
+| ERRORBYTE | CHAR(1) FOR BIT DATA (Nulls are allowed) | The byte used in the conversion table as an error byte. Any non-null value that is specified for the ERRORBYTE column must not be the same as the value that is specified for the SUBBYTE column. Null indicates the absence of an error byte. | S |
+| SUBBYTE | CHAR(1) FOR BIT DATA (Nulls are allowed) | The byte used in the conversion table as a substitution character. Any non-null value that is specified for the SUBBYTE column must not be the same as the value that is specified for the ERRORBYTE column. Null indicates the absence of a substitution character. | S |
+| TRANSPROC | VARCHAR(24) NOT NULL WITH DEFAULT | The name of a module or blanks. A nonblank value must conform to the rules for z/OS program names.<br>If IBMREQD is 'N', a nonblank value is the name of a conversion procedure provided by the user. The first five characters of the name of a user-provided conversion procedure must not be 'DSNXV'; these characters are used to distinguish user-provided conversion procedures from Db2 modules that contain DBCS conversion tables.<br>If IBMREQD is 'Y', a nonblank value is the name of a Db2 module that contains DBCS conversion tables. | G |
+| IBMREQD | CHAR(1) NOT NULL | A value of Y indicates that the row was provided with the Db2 product code. For all other values, see "Release indicators in the Db2 catalog" in Db2 catalog tables and table spaces (Db2 SQL).<br>The value in this field is not a reliable indicator of release dependencies. | G |
+| TRANSTAB | VARCHAR(256) FOR BIT DATA NOT NULL WITH DEFAULT | Either a 256-byte conversion table or an empty (0 length) string. | S |
 
-Table 32. SYSIBM.SYSSTRINGS table column descriptions (continued)
-Column name Data type Description Use
-TRANSTYPE CHAR(2)
-NOT NULL
-Indicates the nature of the conversion. Values can be:
-GG
-GRAPHIC to GRAPHIC
-MM
-EBCDIC MIXED to EBCDIC MIXED
-MS
-EBCDIC MIXED to SBCS
-PM
-ASCII MIXED to EBCDIC MIXED
-PS
-ASCII MIXED to SBCS
-SM
-SBCS to EBCDIC MIXED
-SS
-SBCS to SBCS
-MP
-EBCDIC MIXED to ASCII MIXED
-PP
-ASCII MIXED to ASCII MIXED
-SP
-SBCS to ASCII MIXED
-G
-ERRORBYTE CHAR(1)
-FOR BIT DATA
-(Nulls are allowed)
-The byte used in the conversion table as an error byte.
-Any non-null value that is specified for the ERRORBYTE
-column must not be the same as the value that is
-specified for the SUBBYTE column.
-Null indicates the absence of an error byte.
-S
-SUBBYTE CHAR(1)
-FOR BIT DATA
-(Nulls are allowed)
-The byte used in the conversion table as a substitution
-character. Any non-null value that is specified for the
-SUBBYTE column must not be the same as the value
-that is specified for the ERRORBYTE column.
-Null indicates the absence of a substitution character.
-S
-TRANSPROC VARCHAR(24)
-NOT NULL WITH
-DEFAULT
-The name of a module or blanks. A nonblank value must
-conform to the rules for z/OS program names.
-If IBMREQD is 'N', a nonblank value is the name
-of a conversion procedure provided by the user.
-The first five characters of the name of a user-
-provided conversion procedure must not be 'DSNXV';
-these characters are used to distinguish user-provided
-conversion procedures from Db2 modules that contain
-DBCS conversion tables.
-If IBMREQD is 'Y', a nonblank value is the name of a Db2
-module that contains DBCS conversion tables.
-G
-112  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 125
-
-Table 32. SYSIBM.SYSSTRINGS table column descriptions (continued)
-Column name Data type Description Use
-IBMREQD CHAR(1)
-NOT NULL
-A value of Y indicates that the row was provided with
-the Db2 product code. For all other values, see "Release
-indicators in the Db2 catalog" in Db2 catalog tables and
-table spaces (Db2 SQL).
-The value in this field is not a reliable indicator of
-release dependencies.
-G
-TRANSTAB VARCHAR(256)
-FOR BIT DATA
-NOT NULL WITH
-DEFAULT
-Either a 256-byte conversion table or an empty (0
-length) string.
-S
-
-
-Appendix F. SYSSTRINGS catalog table  113
-
-## Page 126
-
-114  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 127
-
-Information resources for Db2 for z/OS and related
-products
+Information resources for Db2 for z/OS and related products
 You can find the online product documentation for Db2 12 for z/OS and related products in IBM
 Documentation.
-For all online product documentation for Db2 12 for z/OS, see IBM Documentation (https:/ /
-www.ibm.com/docs/en/db2-for-zos/12).
-For other PDF manuals, see PDF format manuals for Db2 12 for z/OS (https:/ /www.ibm.com/docs/en/
-SSEPEK_12.0.0/home/src/tpc/db2z_pdfmanuals.html).
-© Copyright IBM Corp. 2003, 2026 115
-
-## Page 128
-
-116  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 129
+For all online product documentation for Db2 12 for z/OS, see IBM Documentation (https://www.ibm.com/docs/en/db2-for-zos/12).
+For other PDF manuals, see PDF format manuals for Db2 12 for z/OS (https://www.ibm.com/docs/en/SSEPEK_12.0.0/home/src/tpc/db2z_pdfmanuals.html).
