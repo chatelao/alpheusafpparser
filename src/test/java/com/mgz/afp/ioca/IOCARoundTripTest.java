@@ -1,7 +1,7 @@
 package com.mgz.afp.ioca;
 
 import com.mgz.afp.RoundTripTestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IOCARoundTripTest {
 
