@@ -266,7 +266,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Convert syntax and registry text dumps to Markdown tables:
         - ✅ Chapter 1 (Tables 1–12).
         - ✅ Chapter 3 (Tables 13–15).
-        - ⏳ Chapter 4 (Tables 16–17).
+        - ✅ Chapter 4 (Tables 16–17).
         - ⏳ Chapter 5 (Tables 18–30).
         - ⏳ Chapter 6 (Table 31).
         - ⏳ Appendix F (Table 32).
