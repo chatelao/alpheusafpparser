@@ -296,8 +296,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.
-    - ✅ Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
-    - ⏳ Create a minimal ".afp" file for every chapter markdown file found in `specifications/markdown/` to ensure 1:1 architectural coverage:
+    - ✅ Provide a set of sample test AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
+    - ⏳ Create a minimal ".afp" test file for every chapter markdown file found in `specifications/markdown/` to ensure 1:1 architectural coverage:
         - ⏳ MO:DCA (modca-reference-10).
         - ✅ BCOCA (bcoca-reference-11).
         - ⏳ GOCA (afp-goca-reference-03).
