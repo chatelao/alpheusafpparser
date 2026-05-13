@@ -41,9 +41,6 @@ contain character type data encoded in Unicode CCSID 1208 (UTF-8). Using Unicode
 for these DRDA parameters can improve performance and avoid potential character conversion errors.
 Related tasks
 Specifying a CCSID for your application
-© Copyright IBM Corp. 2003, 2026 23
-
-## Page 36
 
 In Db2 for z/OS applications, one CCSID is associated with the source code and one or more CCSIDs can
 be associated with the data that your application manipulates. The CCSID that Db2 associates with the
@@ -68,7 +65,7 @@ You can select data from the catalog regardless of the application encoding sche
 Procedure
 To retrieve data from the Db2 catalog, perform all of the following actions:
 • Ensure that you anticipate the sequence of the query result. Because the Db2 catalog is in Unicode
-UTF-8 , queries against the catalog return the data according to the Unicode sorting sequence. In
+UTF-8, queries against the catalog return the data according to the Unicode sorting sequence. In
 Unicode, numeric characters are sorted before alphabetic characters.
 • If you are using application host variables to store the results of any catalog string column values,
 ensure that these variables are large enough to hold those values.
@@ -88,9 +85,6 @@ appropriate instrumentation facility component identifier (IFCID) in the START T
 of these IFCIDs can write UTF-8 fields in the trace output.
 Procedure
 Set the UIFCIDS subsystem parameter to YES.
-24  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 37
 
 This parameter is called UIFCIDS in DSN6SYSP. It is also Option 11 (Unicode IFCIDS) on installation panel
 DSNTIPN. The default value is NO.
@@ -103,12 +97,3 @@ EBCDIC.
 Related reference
 -START TRACE command (Db2) (Db2 Commands)
 DSNTIPN: Tracing parameters panel (Db2 Installation and Migration)
-
-
-Chapter 2. How Db2 for z/OS uses Unicode  25
-
-## Page 38
-
-26  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 39

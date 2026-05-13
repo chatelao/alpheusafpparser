@@ -1,5 +1,4 @@
-Chapter 3. Setting up Db2 to ensure that it interprets
-characters correctly
+Chapter 3. Setting up Db2 to ensure that it interprets characters correctly
 You need to make sure that Db2 uses the correct code page (which is identified by a CCSID) to interpret
 your data. Otherwise, Db2 might store or use incorrect data. This situation is most likely to occur when
 characters are converted or transferred between systems.
@@ -39,9 +38,6 @@ supplies some of the rows. You can also add your own rows. If the same pair of C
 rows, one row that is IBM-supplied and one row that you added, Db2 uses the row that you provided.
 Rows that you add have IBMREQD=N. However, some rows that have IBMREQD=N might have been
 loaded from maintenance that IBM ships between releases.
-© Copyright IBM Corp. 2003, 2026 27
-
-## Page 40
 
 SYSIBM.SYSSTRINGS describes only those conversions to and from ASCII and EBCDIC CCSIDs.
 Conversions to and from Unicode CCSIDs are not included in SYSIBM.SYSSTRINGS.
@@ -89,9 +85,6 @@ All of these rows were supplied by IBM because they have the value Y in the IBMR
 rows have the following meanings:
 • The first row describes the conversion from CCSID 500 to CCSID 37.
 • The second row describes the conversion from CCSID 37 to CCSID 500.
-28  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 41
 
 • The third row describes a conversion from CCSID 948 to CCSID 37 in which X'3E' is used as an error
 indicator and X'3F' is used as a substitute code point.
@@ -118,105 +111,25 @@ party products
 • Any data from a distributed environment
 Procedure
 Use the resources in the following table:
-Table 13. How to find the CCSID of your data source
-Source Where find the CCSID in effect
-Application data (in host variables
-or parameter markers)
-Look at the value of the ENCODING bind option unless that value was
-overridden. For more details about how this option could have been
-overridden, see “Specifying a CCSID for your application” on page 59.
-C/C++ application source code Look at the Db2 precompiler or compiler listing for the CCSID options
-that were used. For example, the following listing for the Db2 precompiler
-shows that the application uses CCSID 1047:
-OPTIONS USED - SPECIFIED OR DEFAULTED
-APOST
-APOSTSQL
-ATTACH(TSO)
-CCSID(1047)
 
+### Table 13. How to find the CCSID of your data source
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  29
+| Source | Where find the CCSID in effect |
+| :--- | :--- |
+| Application data (in host variables or parameter markers) | Look at the value of the ENCODING bind option unless that value was overridden. For more details about how this option could have been overridden, see “Specifying a CCSID for your application”. |
+| C/C++ application source code | Look at the Db2 precompiler or compiler listing for the CCSID options that were used. For example, the following listing for the Db2 precompiler shows that the application uses CCSID 1047:<br>OPTIONS USED - SPECIFIED OR DEFAULTED<br>APOST<br>APOSTSQL<br>ATTACH(TSO)<br>CCSID(1047) |
+| CICS Transaction Gateway | Look at the value of the system initialization parameter CLINTCP. See the following resources:<br>• CLINTCP (CICS Transaction Server for z/OS)<br>• Character data (CICS Transaction Server for z/OS)<br>• ECI applications (CICS Transaction Gateway V5 The WebSphere Connector for CICS) |
+| COBOL application source code | Look at the Db2 precompiler or compiler listing for the CCSID options that were used. For example, the following listing for the Db2 precompiler shows that the application uses CCSID 37:<br>OPTIONS USED - SPECIFIED OR DEFAULTED<br>APOST<br>APOSTSQL<br>ATTACH(TSO)<br>CCSID(37) |
+| FTP | See How can I check my CCSIDs for FTP?. |
+| IMS | Look at the terminal emulator CCSID. (Follow the instructions for ISPF or Personal Communications.) IMS uses this CCSID when communicating to Db2 for z/OS.<br>In IMS Connect, conversion is done by user message exits. Look at those exits for CCSID information. See User exit (EX) ADD command (IMS Connect Extensions). |
+| ISPF | Look at the value of the ISPF session variable ZTERMCID under ISPF option 7.3 - variable settings. |
+| Personal Communications | Look at the Host Code-Page session parameter to find the terminal CCSID. See Configuring Sessions (Personal Communications) |
+| PL/I application source code | Look at the Db2 precompiler or compiler listing for the CCSID options that were used. For example, the following listing for the Db2 precompiler shows that the application uses CCSID 37:<br>OPTIONS USED - SPECIFIED OR DEFAULTED<br>APOST<br>APOSTSQL<br>ATTACH(TSO)<br>CCSID(37) |
+| QMF | Check your Graphical Data Display Manager (GDDM) code page setting, because QMF uses GDDM to do the display. You can check your GDDM code page setting by looking at the APPCPG parameter, which can be set in one of the following two places:<br>• a defaults module that is called ADMADFT<br>• a file that is referred to as ADMDEFS.<br>If no value is specified for APPCPG, GDDM uses a default CCSID of 00351. For more information about APPCPG, see Customizing GDDM external defaults (GDDM System Customization and Administration Guide).<br>Recommendation: For QMF, set the APPCPG parameter to match the CCSID that is used by Db2 and your terminal emulator. |
+| Queue Managers in IBM MQ | Follow the instructions for viewing and setting the Queue Manager CCSID in Data Conversion under IBM MQ. You can also check individual MQGET and MQPUT statements. These statements can override the MQ CCSID setting by specifying a CCSID in the statement. |
+| TSO | Perform one of the following actions:<br>• Specify the CODEPG keyword when issuing the GTTERM -- Get Terminal Attributes (TSO/E Programming Services) macro to retrieve the Character Set and Code Page (CGCSGID) for a TSO session.<br>• Issue the DISPLAY TSOUSER command (z/OS Communications Server: SNA Operation). The output from this command includes the CDCSGID information when it is available. |
+| z/OS DFSMS | SMS (the file system) CCSID is an attribute of SMS-managed data sets. For more information about how that CCSID is set, see Data Conversion for z/OS Distributed FileManager (z/OS Distributed FileManager Guide and Reference) or Converting data for z/OS Network File System (z/OS Network File System Guide and Reference) or search the CCSID file tagging information in z/OS UNIX System Services Command Reference.<br>However, the access methods (VSAM, BSAM/QSAM, BPAM, etc) for these data sets do not have support to perform conversions. Only DFM supports conversions between CCSIDs for DASD data sets.<br>The CCSID value also can be used when reading or writing magnetic tapes that have ISO/ANSI tape labels. You can code the CCSID keyword on the DD statement or supply it in the data class. You can also supply the CCSID value on the JOB or STEP JCL statement. For more information, see Character Data Conversion (z/OS DFSMS Using Data Sets). |
 
-## Page 42
-
-Table 13. How to find the CCSID of your data source (continued)
-Source Where find the CCSID in effect
-CICS Transaction Gateway Look at the value of the system initialization parameter CLINTCP.
-See the following resources:
-• CLINTCP (CICS Transaction Server for z/OS)
-• Character data (CICS Transaction Server for z/OS)
-• ECI applications (CICS Transaction Gateway V5 The WebSphere
-Connector for CICS)
-COBOL application source code Look at the Db2 precompiler or compiler listing for the CCSID options
-that were used. For example, the following listing for the Db2 precompiler
-shows that the application uses CCSID 37:
-OPTIONS USED - SPECIFIED OR DEFAULTED
-APOST
-APOSTSQL
-ATTACH(TSO)
-CCSID(37)
-FTP See How can I check my CCSIDs for FTP?.
-IMS Look at the terminal emulator CCSID. (Follow the instructions for ISPF or
-Personal Communications.) IMS uses this CCSID when communicating to
-Db2 for z/OS.
-In IMS Connect, conversion is done by user message exits. Look at
-those exits for CCSID information. See User exit (EX) ADD command (IMS
-Connect Extensions).
-ISPF Look at the value of the ISPF session variable ZTERMCID under ISPF option
-7.3 - variable settings.
-Personal Communications Look at the Host Code-Page session parameter to find the terminal CCSID.
-See Configuring Sessions (Personal Communications)
-PL/I application source code Look at the Db2 precompiler or compiler listing for the CCSID options
-that were used. For example, the following listing for the Db2 precompiler
-shows that the application uses CCSID 37:
-OPTIONS USED - SPECIFIED OR DEFAULTED
-APOST
-APOSTSQL
-ATTACH(TSO)
-CCSID(37)
-QMF Check your Graphical Data Display Manager (GDDM) code page setting,
-because QMF uses GDDM to do the display. You can check your GDDM code
-page setting by looking at the APPCPG parameter, which can be set in one
-of the following two places:
-• a defaults module that is called ADMADFT
-• a file that is referred to as ADMDEFS.
-If no value is specified for APPCPG, GDDM uses a default CCSID of 00351.
-For more information about APPCPG, see Customizing GDDM external
-defaults (GDDM System Customization and Administration Guide).
-Recommendation: For QMF, set the APPCPG parameter to match the
-CCSID that is used by Db2 and your terminal emulator.
-30  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 43
-
-Table 13. How to find the CCSID of your data source (continued)
-Source Where find the CCSID in effect
-Queue Managers in IBM MQ Follow the instructions for viewing and setting the Queue Manager CCSID in
-Data Conversion under IBM MQ.
-You can also check individual MQGET and MQPUT statements. These
-statements can override the MQ CCSID setting by specifying a CCSID in
-the statement.
-TSO Perform one of the following actions:
-• Specify the CODEPG keyword when issuing the GTTERM -- Get Terminal
-Attributes (TSO/E Programming Services) macro to retrieve the Character
-Set and Code Page (CGCSGID) for a TSO session.
-• Issue the DISPLAY TSOUSER command (z/OS Communications Server:
-SNA Operation). The output from this command includes the CDCSGID
-information when it is available.
-z/OS DFSMS SMS (the file system) CCSID is an attribute of SMS-managed data sets. For more information
-about how that CCSID is set, see Data Conversion for z/OS Distributed
-FileManager (z/OS Distributed FileManager Guide and Reference) or
-Converting data for z/OS Network File System (z/OS Network File System
-Guide and Reference) or search the CCSID file tagging information in z/OS
-UNIX System Services Command Reference.
-However, the access methods (VSAM, BSAM/QSAM, BPAM, etc) for these
-data sets do not have support to perform conversions. Only DFM supports
-conversions between CCSIDs for DASD data sets.
-The CCSID value also can be used when reading or writing magnetic tapes
-that have ISO/ANSI tape labels. You can code the CCSID keyword on
-the DD statement or supply it in the data class. You can also supply the
-CCSID value on the JOB or STEP JCL statement. For more information, see
-Character Data Conversion (z/OS DFSMS Using Data Sets).
 Related concepts
 Differences between the Db2 coprocessor and the Db2 precompiler (Db2 Application programming and
 SQL)
@@ -232,10 +145,6 @@ Compile-time option descriptions (PL/I) (Enterprise PL/I for z/OS Programming Gu
 Related information
 IBM MQ documentation
 
-
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  31
-
-## Page 44
 
 Specifying CCSIDs in Db2
 You must communicate to Db2 the correct CCSIDs to use for your data to ensure that Db2 correctly
@@ -279,9 +188,6 @@ scheme are collectively called a CCSID set. If you set these three values by usi
 panel DSNTIPF, you need to explicitly specify only the MBCS value. Db2 calculates the value of the
 other two based on the MBCS value. If you specify these values in job DSNTIJUZ, you need specify all
 three values.
-32  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 45
 
 • For the subsystem Unicode CCSIDs, the values are provided for you, and you cannot change them.
 These CCSIDs are the only ones that Db2 uses for Unicode objects.
@@ -299,105 +205,15 @@ Subsystem CCSIDs and encoding schemes
 Each Db2 subsystem has a set of default CCSID and encoding scheme values. Db2 uses these values for
 objects and applications that do not otherwise have a CCSID associated with them.
 The subsystem CCSIDs are listed in the following table.
-Table 14. Subsystem CCSIDs
-Subsystem CCSID
-Field on installation
-panel DSNTIPF where
-the value is set Description
-Corresponding dsnhdecp
-values1, 3
-Subsystem default ASCII
-CCSID
-ASCII CCSID Specifies the default
-CCSID for ASCII-encoded
-character data that is
-stored in your Db2
-subsystem or data sharing
-group.
-For a MIXED=NO
-subsystem, specify the
-ASCII SBCS CCSID only.
-In this case, the mixed
-and graphic CCSIDs are
-set to 65534 in dsnhdecp.
-For a MIXED=YES
-subsystem, specify the
-ASCII mixed CCSID.
-Based on the value
-that you entered, Db2
-determines the SBCS
-CCSID and graphic CCSID.
-2
-• ASCCSID (for single-
-byte data)
-• AMCCSID (for mixed
-data)
-• AGCCSID (for graphic
-data)
 
+### Table 14. Subsystem CCSIDs
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  33
+| Subsystem CCSID | Field on installation panel DSNTIPF where the value is set | Description | Corresponding dsnhdecp values<sup>1, 3</sup> |
+| :--- | :--- | :--- | :--- |
+| Subsystem default ASCII CCSID | ASCII CCSID | Specifies the default CCSID for ASCII-encoded character data that is stored in your Db2 subsystem or data sharing group.<br>For a MIXED=NO subsystem, specify the ASCII SBCS CCSID only. In this case, the mixed and graphic CCSIDs are set to 65534 in dsnhdecp.<br>For a MIXED=YES subsystem, specify the ASCII mixed CCSID. Based on the value that you entered, Db2 determines the SBCS CCSID and graphic CCSID.<sup>2</sup> | • ASCCSID (for single-byte data)<br>• AMCCSID (for mixed data)<br>• AGCCSID (for graphic data) |
+| Subsystem default EBCDIC CCSID | EBCDIC CCSID | Specifies the default CCSID for EBCDIC-encoded character data that is stored in your Db2 subsystem or data sharing system.<br>For a MIXED=NO subsystem, specify the EBCDIC SBCS CCSID only. In this case, the mixed and graphic CCSIDs are set to 65534 in dsnhdecp.<br>For a MIXED=YES subsystem, specify the EBCDIC mixed CCSID. Based on the value that you entered, Db2 determines the SBCS CCSID and graphic CCSID.<sup>2</sup> | • SCCSID (for single-byte data)<br>• MCCSID (for mixed data)<br>• GCCSID (for graphic data) |
+| Subsystem default Unicode CCSID | UNICODE CCSID | Specifies the default CCSID for Unicode character data that is stored in your Db2 subsystem or data sharing system.<br>This field is pre-filled with the default value of 1208, which is the CCSID for UTF-8. You cannot change this value. | Because the value of UNICODE CCSID is always 1208, the dsnhdecp values are always as follows:<br>• USCCSID (for single-byte data): 367<br>• UMCCSID (for mixed data): 1208<br>• UGCCSID (for graphic data): 1200 |
 
-## Page 46
-
-Table 14. Subsystem CCSIDs (continued)
-Subsystem CCSID
-Field on installation
-panel DSNTIPF where
-the value is set Description
-Corresponding dsnhdecp
-values1, 3
-Subsystem default
-EBCDIC CCSID
-EBCDIC CCSID Specifies the default
-CCSID for EBCDIC-
-encoded character data
-that is stored in your Db2
-subsystem or data sharing
-system.
-For a MIXED=NO
-subsystem, specify the
-EBCDIC SBCS CCSID only.
-In this case, the mixed
-and graphic CCSIDs are
-set to 65534 in dsnhdecp.
-For a MIXED=YES
-subsystem, specify the
-EBCDIC mixed CCSID.
-Based on the value
-that you entered, Db2
-determines the SBCS
-CCSID and graphic CCSID.
-2
-• SCCSID (for single-byte
-data)
-• MCCSID (for mixed data)
-• GCCSID (for graphic
-data)
-Subsystem default
-Unicode CCSID
-UNICODE CCSID Specifies the default
-CCSID for Unicode
-character data that is
-stored in your Db2
-subsystem or data sharing
-system.
-This field is pre-filled with
-the default value of 1208,
-which is the CCSID for
-UTF-8. You cannot change
-this value.
-Because the value of
-UNICODE CCSID is always
-1208, the dsnhdecp
-values are always as
-follows:
-• USCCSID (for single-
-byte data): 367
-• UMCCSID (for mixed
-data): 1208
-• UGCCSID (for graphic
-data): 1200
 notes:
 1. The three CCSID values, one for SBCS, one for mixed, and one for graphic, are called a CCSID set.
 2. Whether the subsystem is a MIXED=YES subsystem or MIXED=NO subsystem depends on the value that
@@ -406,34 +222,14 @@ setting.
 Recommendation: Do not change the MIXED value after you install Db2.
 3. dsnhdecp is the DSNHDECP module or a user-specified application defaults module.
 The subsystem encoding schemes are listed in the following table.
-34  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 47
+### Table 15. Subsystem encoding schemes
 
-Table 15. Subsystem encoding schemes
-Subsystem encoding
-scheme
-Field on installation
-panel DSNTIPF where
-the value is set Description
-Corresponding dsnhdecp
-values1
-Subsystem default
-encoding scheme
-DEF ENCODING SCHEME Specifies which default
-subsystem CCSID (ASCII,
-EBCDIC, or Unicode) Db2
-is to use for objects.
-ENSCHEME
-Subsystem default
-application encoding
-scheme
-APPLICATION ENCODING Specifies which default
-subsystem CCSID (ASCII,
-EBCDIC, or Unicode) Db2
-is to use for application
-data.
-APPENSCH
+| Subsystem encoding scheme | Field on installation panel DSNTIPF where the value is set | Description | Corresponding dsnhdecp values<sup>1</sup> |
+| :--- | :--- | :--- | :--- |
+| Subsystem default encoding scheme | DEF ENCODING SCHEME | Specifies which default subsystem CCSID (ASCII, EBCDIC, or Unicode) Db2 is to use for objects. | ENSCHEME |
+| Subsystem default application encoding scheme | APPLICATION ENCODING | Specifies which default subsystem CCSID (ASCII, EBCDIC, or Unicode) Db2 is to use for application data. | APPENSCH |
+
 notes:
 1. dsnhdecp is the DSNHDECP module or a user-specified application defaults module.
 Related concepts
@@ -465,11 +261,6 @@ actions:
 GUPI
 In each of the following example GETVARIABLE calls, :hv3 is a varying-length character variable with a
 maximum length of 20.
-
-
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  35
-
-## Page 48
 
 – The following example code retrieves the value of the subsystem EBCDIC CCSID, which contains
 three comma-delimited values that correspond to the SBCS, MIXED, and GRAPHIC CCSIDs for the
@@ -523,9 +314,6 @@ To determine the subsystem CCSIDs, examine the values of the following subsystem
 – SCCSID
 – UGCCSID
 – UMCCSID
-36  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 49
 
 – USCCSID
 Related concepts
@@ -571,10 +359,6 @@ Related reference
 Subsystem CCSIDs and encoding schemes
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  37
-
-## Page 50
-
 Each Db2 subsystem has a set of default CCSID and encoding scheme values. Db2 uses these values for
 objects and applications that do not otherwise have a CCSID associated with them.
 DSNTIPF: Application programming defaults panel 1 (Db2 Installation and Migration)
@@ -618,9 +402,6 @@ image. Any tables in the new image that intersect with tables in the existing im
 You can add, delete, or replace conversion images by using the SET UNI or SETUNI command.
 Related reference
 z/OS SETUNI Command (z/OS MVS System Commands)
-38  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 51
 
 Creating a conversion image (z/OS: Unicode Services User’s Guide and Reference)
 Basic character conversions for Db2 in the z/OS conversion image
@@ -678,11 +459,6 @@ CONVERSION 1208, 00037, ER;
 CONVERSION 01047, 00367, ER;
 CONVERSION 01047, 01200, ER;
 CONVERSION 01047, 1208, ER;
-
-
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  39
-
-## Page 52
 
 CONVERSION 00367, 1047, ER;
 CONVERSION 01200, 1047, ER;
@@ -750,9 +526,6 @@ CONVERSION 00037,01047,ER;
 CONVERSION 00037,01200,ER;
 CONVERSION 00037,01208,ER;
 CONVERSION 00037,(your asccsid),ER;
-40  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 53
 
 CONVERSION 00367,00037,ER;
 CONVERSION 01200,00037,ER;
@@ -810,10 +583,6 @@ your amccsid
 The ASCII MBCS CCSID that is specified in your dsnhdecp module.
 
 
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  41
-
-## Page 54
-
 your agccsid
 The ASCII DBCS CCSID that is specified in your dsnhdecp module.
 dsnhdecp is the user-specified application defaults module.
@@ -867,9 +636,6 @@ CONVERSION your asccsid , your sccsid , ER;
 MBCS CCSID and between your system EBCDIC DBCS CCSID and your ASCII DBCS CCSID:
 CONVERSION your mccsid , your amccsid , ER;
 CONVERSION your amccsid , your mccsid , ER;
-42  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 55
 
 CONVERSION your gccsid , your agccsid , ER;
 CONVERSION your agccsid , your gccsid , ER;
@@ -887,7 +653,7 @@ rows.
 • z/OS Unicode Services
 You can either load a new conversion image that contains the conversion definitions or add a single
 conversion definition to the existing image. For instructions on how to load or alter conversion images,
-see “Setting up z/OS Unicode Services for Db2 for z/OS” on page 38.
+see “Setting up z/OS Unicode Services for Db2 for z/OS”.
 Related concepts
 How Db2 performs character conversions
 When character conversions are needed, Db2 for z/OS performs these conversions automatically based
@@ -915,14 +681,9 @@ GUPI
 This image contains character conversion definitions. If a definition for a particular source CCSID and
 target CCSID already exists in SYSIBM.SYSSTRINGS, Db2 uses that definition instead. The exception
 
-
-Chapter 3. Setting up Db2 to ensure that it interprets characters correctly  43
-
-## Page 56
-
 is for Unicode CCSIDs. If the source or target CCSID is 1200 or 1208, Db2 uses the definition in the
 conversion image for z/OS Unicode Services
-For an example of the DISPLAY UNI output, see “Unicode CCSIDs” on page 13
+For an example of the DISPLAY UNI output, see “Unicode CCSIDs”
 Related concepts
 How Db2 performs character conversions
 When character conversions are needed, Db2 for z/OS performs these conversions automatically based
@@ -934,6 +695,3 @@ definitions. Each row of SYSSTRINGS contains information about the conversion of
 one CCSID to another CCSID. Db2 uses the conversion tables that are identified by these rows.
 Related information
 Displaying Unicode services (UNI) (z/OS MVS System Commands)
-44  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 57
