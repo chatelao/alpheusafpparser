@@ -24,10 +24,3 @@ Related reference
 Db2 ODBC initialization keywords (Db2 Programming for ODBC)
 C and SQL data types (Db2 Programming for ODBC)
 SQLGetInfo() - Get general information (Db2 Programming for ODBC)
-© Copyright IBM Corp. 2003, 2026 105
-
-## Page 118
-
-106  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 119

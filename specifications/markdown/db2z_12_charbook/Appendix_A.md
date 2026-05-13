@@ -32,10 +32,3 @@ Db2 High Performance Unload for z/OS
 DSNUTILU stored procedure (Db2 SQL)
 DSNUTILS stored procedure (deprecated) (Db2 SQL)
 DSNUTILV stored procedure (Db2 SQL)
-© Copyright IBM Corp. 2003, 2026 101
-
-## Page 114
-
-102  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 115

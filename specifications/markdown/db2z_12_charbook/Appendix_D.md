@@ -21,10 +21,3 @@ Db2 Table Editor for z/OS
 Db2 Tools for z/OS
 Related information
 Db2 Tools for z/OS Product Documentation
-© Copyright IBM Corp. 2003, 2026 107
-
-## Page 120
-
-108  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 121

@@ -109,7 +109,7 @@ examples of specifying in applications 64
 
 Index  123
 
-## Page 136
+
 
 CCSIDs (continued)
 for PL/I applications 69
@@ -237,9 +237,9 @@ Db2 Query Management Facility (QMF)
 Unicode support 107
 DBRM
 in Unicode 23
-124  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 137
+
+
 
 debugging problems
 with CCSIDs 99
@@ -362,7 +362,7 @@ invariant characters 95
 
 Index  125
 
-## Page 138
+
 
 ISPF
 determining CCSID 29
@@ -472,9 +472,9 @@ determining CCSID 29
 R
 remote applications
 passing DRDA parameters in Unicode 96
-126  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
-## Page 139
+
+
 
 remote system
 character conversions 15
@@ -601,7 +601,7 @@ COBOL applications 92
 
 Index  127
 
-## Page 140
+
 
 Unicode data (continued)
 green screen applications 95
@@ -664,13 +664,13 @@ z/OS Unicode Services (continued)
 how Db2 uses for character conversion 27
 locales 86
 setting up 38
-128  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
-
-## Page 141
 
 
 
-## Page 142
+
+
+
+
 
 IBM®
 Product Number: 5650-DB2
