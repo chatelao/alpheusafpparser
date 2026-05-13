@@ -40,11 +40,11 @@ public class AFP2XML {
             System.exit(1);
         }
 
-        boolean isDirectoryMode = false;
+        var isDirectoryMode = false;
         String inputPath = null;
         String outputPath = null;
 
-        for (int i = 0; i < args.length; i++) {
+        for (var i = 0; i < args.length; i++) {
             if ("-d".equals(args[i]) || "--directory".equals(args[i])) {
                 isDirectoryMode = true;
             } else if (inputPath == null) {
@@ -60,7 +60,7 @@ public class AFP2XML {
         }
 
         try {
-            File input = new File(inputPath);
+            var input = new File(inputPath);
             if (!input.exists()) {
                 System.err.println("Input not found: " + inputPath);
                 System.exit(1);
@@ -72,15 +72,15 @@ public class AFP2XML {
                     System.exit(1);
                 }
 
-                File[] files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
+                var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
                 if (files != null) {
-                    for (File f : files) {
-                        File outputFile = new File(f.getAbsolutePath() + ".xml");
+                    for (var f : files) {
+                        var outputFile = new File(f.getAbsolutePath() + ".xml");
                         convertToXml(f, outputFile);
                     }
                 }
             } else {
-                File outputFile = (outputPath != null) ? new File(outputPath) : null;
+                var outputFile = (outputPath != null) ? new File(outputPath) : null;
                 convertToXml(input, outputFile);
             }
         } catch (Exception e) {
@@ -97,16 +97,16 @@ public class AFP2XML {
     }
 
     private static void convertToXml(File inputFile, File outputFile) throws Exception {
-        try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile))) {
-            AFPParserConfiguration config = new AFPParserConfiguration();
+        try (var is = new BufferedInputStream(new FileInputStream(inputFile))) {
+            var config = new AFPParserConfiguration();
             config.setInputStream(is);
-            AFPParser parser = new AFPParser(config);
+            var parser = new AFPParser(config);
 
-            AFPDocument doc = new AFPDocument();
+            var doc = new AFPDocument();
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
                 @SuppressWarnings("unchecked")
-                JAXBElement<StructuredField> element = new JAXBElement<>(
+                var element = new JAXBElement<>(
                         new QName(sf.getClass().getSimpleName()),
                         (Class<StructuredField>) sf.getClass(),
                         sf);
@@ -114,7 +114,7 @@ public class AFP2XML {
             }
 
             if (outputFile != null) {
-                try (OutputStream os = new FileOutputStream(outputFile)) {
+                try (var os = new FileOutputStream(outputFile)) {
                     AFP2XMLWriter.writeXML(os, doc);
                 }
                 System.out.println("XML export successful: " + outputFile.getPath());
