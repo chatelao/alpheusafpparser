@@ -50,7 +50,7 @@ UTF-16, but you are concerned about the size of the messages. You might decide t
 messages to UTF-8 before you put them on the wire. This setup compresses the messages.
 What to do next
 If you choose a Unicode format for performance reasons and are concerned about the extra storage that
-the format requires, see “Tips for handling any extra storage that Unicode data might require” on page
+the format requires, see “Tips for handling any extra storage that Unicode data might require”
 49.
 Related reference
 UTFs
@@ -90,7 +90,7 @@ blanks and you do not want to store them.
 subtype
 For character columns, optionally specify one the following subtypes for the column by adding the
 FOR subtype DATA clause to the column definition:
-46  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+
 
 
 
@@ -184,7 +184,7 @@ CREATE DATABASE statement (Db2 SQL)
 CREATE TABLE statement (Db2 SQL)
 CREATE TABLESPACE statement (Db2 SQL)
 MIXED DATA field (MIXED DECP value) (Db2 Installation and Migration)
-48  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+
 
 
 
@@ -236,7 +236,7 @@ Japanese, or Korean characters, the same worst-case scenario applies. You might 
 4-byte characters, depending on the encoding, that expand to a four-byte UTF-8 character in the worst
 
 
-Chapter 4. Storing Unicode data  49
+
 
 
 
@@ -333,7 +333,7 @@ ASCII_STR or ASCIISTR scalar function (Db2 SQL)
 EBCDIC_STR scalar function (Db2 SQL)
 
 
-Chapter 4. Storing Unicode data  51
+
 
 
 
@@ -384,7 +384,7 @@ load the data back into the original table, T2. To use this SYSPUNCH file to loa
 data to table T1, you must modify the SYSPUNCH or JCL.
 – STEP3 then loads the data that was unloaded in STEP2 into Unicode table T1. Because the
 catalog defines the table as Unicode, the data is converted to Unicode when it is loaded.
-52  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+
 
 
 
@@ -467,7 +467,7 @@ SELECT * FROM SYSADM.T2;
 /*
 
 
-Chapter 4. Storing Unicode data  53
+
 
 
 
@@ -529,7 +529,7 @@ For example, the schemas are likely different in Unicode tables than EBCDIC tabl
 be longer. For example, an index might be 5 levels in Unicode instead of 4 levels in EBCDIC. Also, the
 number of rows per page might be fewer.
 All of the regular rules for access paths and tuning queries still apply to Unicode tables.
-54  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+
 
 
 
@@ -537,9 +537,7 @@ Related tasks
 Writing efficient SQL queries (Db2 Performance)
 
 
-Chapter 4. Storing Unicode data  55
 
 
 
-56  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
 
