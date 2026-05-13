@@ -316,7 +316,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Migrate Triplet and Parser tests (`TripletTest`, `TripletParserExtensionTest`).
     - ✅ Migrate test utilities (`RoundTripTestUtils`).
     - 🚧 Migrate remaining tests:
-        - 🚧 MO:DCA Round Trip tests (2/8 migrated: ✅ DescriptorAndMap, ✅ PresentationControl, ⏳ DocumentAndPageGroup, ⏳ EnvironmentAndResourceGroup, ⏳ IndexAndTagging, ⏳ MediumControl, ⏳ ObjectAndData, ⏳ PageAndOverlay).
+        - ✅ MO:DCA Round Trip tests (8/8 migrated).
         - ⏳ PTOCA tests (5 files: PTOCARoundTrip, PTOCAGapReproduction, TRNEncoding, PTOCAControlSequenceRoundTrip, PTOCAControlSequenceTest).
         - ⏳ Architecture Round Trip tests (4 files: FOCA, GOCA, IOCA, LineData).
         - ⏳ Acceptance tests (3 files: AFPParserTest, AFPWriterTest, CLITest).
