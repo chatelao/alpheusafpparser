@@ -203,7 +203,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 7: GCOMT, GCBEZ/GCCBEZ, GDPT, GEAR, GECP, GEIMG, GEPROL.
         - ✅ Chapter 7: GFLT/GCFLT, GFARC/GCFARC, GIMD, GLINE/GCLINE, GLGD, GMRK/GCMRK.
         - ✅ Chapter 7: GNOP1, GPARC/GCPARC, GRGD, GRLINE/GCRLINE, GSGCH, GSAP.
-        - ⏳ Chapter 7: GSBMX, GSCA, GSCC, GSCD, GSCR, GSCS, GSCH, GSCOL, GSCP, GSCLT.
+        - ✅ Chapter 7: GSBMX, GSCA, GSCC, GSCD, GSCR, GSCS, GSCH, GSCOL, GSCP, GSCLT.
         - ⏳ Chapter 7: GSECOL, GSFLW, GSLE, GSLJ, GSLT, GSLW, GSMC, GSMS, GSMT, GSMX.
         - ⏳ Chapter 7: GSPRP, GSPS, GSPT, GSPCOL.
         - ⏳ Other Chapters (1–6, 8–9).
