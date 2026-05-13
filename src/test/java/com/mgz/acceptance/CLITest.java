@@ -12,6 +12,35 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CLITest {
 
     @Test
+    public void testCLIDirectoryMode() throws Exception {
+        File tempDir = new File("build/test-dir");
+        if (tempDir.exists()) {
+            File[] files = tempDir.listFiles();
+            if (files != null) {
+                for (File f : files) f.delete();
+            }
+            tempDir.delete();
+        }
+        tempDir.mkdirs();
+
+        File afpFile1 = new File(tempDir, "test1.afp");
+        File afpFile2 = new File(tempDir, "test2.AFP"); // test case insensitivity
+        Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile1.toPath());
+        Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile2.toPath());
+
+        AFP2XML.main(new String[]{"-d", tempDir.getAbsolutePath()});
+
+        File xmlFile1 = new File(tempDir, "test1.afp.xml");
+        File xmlFile2 = new File(tempDir, "test2.AFP.xml");
+
+        assertTrue(xmlFile1.exists(), "XML file 1 should exist");
+        assertTrue(xmlFile2.exists(), "XML file 2 should exist");
+
+        assertTrue(Files.readString(xmlFile1.toPath()).contains("<AFPDocument>"), "XML 1 should contain AFPDocument tag");
+        assertTrue(Files.readString(xmlFile2.toPath()).contains("<AFPDocument>"), "XML 2 should contain AFPDocument tag");
+    }
+
+    @Test
     public void testCLIMain() throws Exception {
         File inputFile = new File("src/test/resources/afp/minimal.afp");
         File outputFile = new File("build/test-output.xml");
