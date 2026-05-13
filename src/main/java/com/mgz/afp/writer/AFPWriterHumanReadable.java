@@ -28,7 +28,17 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 
+/**
+ * An implementation of {@link IAFPWriter} that produces a human-readable,
+ * JSON-like representation of an AFP structured field.
+ */
 public class AFPWriterHumanReadable implements IAFPWriter {
+
+  /**
+   * Default constructor for AFPWriterHumanReadable.
+   */
+  public AFPWriterHumanReadable() {
+  }
 
   @Override
   public String writeSF(StructuredField sf) {

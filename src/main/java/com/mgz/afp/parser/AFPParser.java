@@ -42,6 +42,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * The AFPParser is the main class for parsing AFP data streams.
+ * It reads structured fields from an input stream and builds corresponding
+ * Java objects.
+ */
 public class AFPParser {
 
   private static String afpPackagePrefix = "com.mgz.afp.";
@@ -74,6 +79,12 @@ public class AFPParser {
     parserConf = parserConfiguration;
   }
 
+  /**
+   * Creates a new instance of a {@link StructuredField} based on the given introducer.
+   *
+   * @param sfi the structured field introducer
+   * @return a new instance of the corresponding structured field, or an Undefined SF if not found
+   */
   public static StructuredField createSFInstance(StructuredFieldIntroducer sfi) {
     StructuredField sf = null;
     for (String afpPackage : afpPackages) {
@@ -94,6 +105,12 @@ public class AFPParser {
     return sf;
   }
 
+  /**
+   * Reloads the payload of a structured field from the input stream.
+   *
+   * @param sf the structured field to reload
+   * @throws AFPParserException if reloading fails or the source file is unknown
+   */
   public static void reload(StructuredField sf) throws AFPParserException {
     if (sf == null || sf.getStructuredFieldIntroducer() == null) {
       return;
@@ -413,10 +430,20 @@ public class AFPParser {
     }
   }
 
+  /**
+   * Returns the total number of bytes read so far.
+   *
+   * @return the number of bytes read
+   */
   public long getCountReadByte() {
     return nrOfBytesRead;
   }
 
+  /**
+   * Quits the parsing process and cleans up resources.
+   *
+   * @throws AFPParserException if closing the input stream fails
+   */
   public void quitParsing() throws AFPParserException {
     parserConf.resetCurrentAFPObjects();
 
@@ -431,13 +458,17 @@ public class AFPParser {
 
   /**
    * Returns the total number of structured fields that has been built so far.
+   *
+   * @return the number of structured fields built
    */
   public long getNrOfSFBuilt() {
     return nrOfSFBuilt;
   }
 
   /**
-   * Returns the number of structured fields that has been built with errrors so far.
+   * Returns the number of structured fields that has been built with errors so far.
+   *
+   * @return the number of structured fields built with errors
    */
   public long getNrOfSFBuiltWithErrors() {
     return nrOfErrSFBuilt;

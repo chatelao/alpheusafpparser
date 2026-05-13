@@ -20,6 +20,15 @@ package com.mgz.afp.writer;
 
 import com.mgz.afp.base.StructuredField;
 
+/**
+ * Interface for writing AFP structured fields.
+ */
 public interface IAFPWriter {
+  /**
+   * Returns a string representation of the given structured field.
+   *
+   * @param sf the structured field to write
+   * @return the string representation
+   */
   String writeSF(StructuredField sf);
 }

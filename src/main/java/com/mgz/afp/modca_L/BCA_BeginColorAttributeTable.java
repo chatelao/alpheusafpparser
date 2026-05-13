@@ -21,5 +21,13 @@ package com.mgz.afp.modca_L;
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
 
+/**
+ * Begin Color Attribute Table (BCA) structured field.
+ */
 public class BCA_BeginColorAttributeTable extends StructuredFieldBaseNameAndTriplets {
+  /**
+   * Default constructor for BCA_BeginColorAttributeTable.
+   */
+  public BCA_BeginColorAttributeTable() {
+  }
 }

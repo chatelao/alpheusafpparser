@@ -18,9 +18,21 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.enums;
 
+/**
+ * Specifies the unit base of an AFP measurement.
+ */
 public enum AFPUnitBase {
+  /**
+   * Units are 10 inches.
+   */
   Inches10(0x00),
+  /**
+   * Units are 10 centimeters.
+   */
   Centimeter10(0x01),
+  /**
+   * Units are defined by a logical resolution ratio.
+   */
   Logical_ResolutionRatio(0x02);
   int code;
 
@@ -28,6 +40,12 @@ public enum AFPUnitBase {
     this.code = code;
   }
 
+  /**
+   * Returns the {@link AFPUnitBase} for the given unit base code.
+   *
+   * @param unitBaseCode the unit base code
+   * @return the corresponding {@link AFPUnitBase}, or null if unknown
+   */
   public static AFPUnitBase valueOf(byte unitBaseCode) {
     for (AFPUnitBase ub : values()) {
       if (ub.code == unitBaseCode) {
@@ -37,6 +55,11 @@ public enum AFPUnitBase {
     return null;
   }
 
+  /**
+   * Returns the byte code of this unit base.
+   *
+   * @return the byte code
+   */
   public byte toByte() {
     return (byte) code;
   }

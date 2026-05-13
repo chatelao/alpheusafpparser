@@ -33,11 +33,15 @@ import java.util.ArrayList;
 
 
 /**
- * MO:DCA-L, page 12. <br><br> The Map Color Attribute Table structured field maps a unique Resource
+ * MO:DCA-L, page 12.
+ * <p>
+ * The Map Color Attribute Table structured field maps a unique Resource
  * Local ID to the name of a Begin Color Attribute Table structured field. A local ID may be
  * embedded one or more times within an object’s data.
  * <p>
- * MO:DCA, page 383. <br><br> Map Color Attribute Table (MCA) structured field in MO:DCA-L data
+ * MO:DCA, page 383.
+ * <p>
+ * Map Color Attribute Table (MCA) structured field in MO:DCA-L data
  * streams. Note that the MO:DCA-L format has been functionally capped and is no longer defined in
  * the MO:DCA reference; for a definition of this format, see MO:DCA-L: The OS/2 Presentation
  * Manager Metafile (.met) Format.

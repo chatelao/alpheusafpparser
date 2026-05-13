@@ -21,6 +21,13 @@ package com.mgz.afp.bcoca;
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
 
+/**
+ * Begin Bar Code Object (BBC) structured field.
+ */
 public class BBC_BeginBarCodeObject extends StructuredFieldBaseNameAndTriplets {
-
+  /**
+   * Default constructor for BBC_BeginBarCodeObject.
+   */
+  public BBC_BeginBarCodeObject() {
+  }
 }

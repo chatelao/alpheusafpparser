@@ -21,6 +21,13 @@ package com.mgz.afp.foca;
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
 
+/**
+ * Begin Code Page (BCP) structured field.
+ */
 public class BCP_BeginCodePage extends StructuredFieldBaseNameAndTriplets {
-
+  /**
+   * Default constructor for BCP_BeginCodePage.
+   */
+  public BCP_BeginCodePage() {
+  }
 }

@@ -20,23 +20,50 @@ package com.mgz.afp.exceptions;
 
 import com.mgz.afp.base.StructuredField;
 
+/**
+ * Exception thrown when the AFP parser encounters an error.
+ */
 public class AFPParserException extends AFPException {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The structured field that was being built when the error occurred.
+   */
   StructuredField errornouslyBuiltStructuredField;
 
+  /**
+   * Constructor with message and cause.
+   *
+   * @param msg the detail message
+   * @param e   the cause
+   */
   public AFPParserException(String msg, Throwable e) {
     super(msg, e);
   }
 
+  /**
+   * Constructor with message.
+   *
+   * @param msg the detail message
+   */
   public AFPParserException(String msg) {
     super(msg);
   }
 
+  /**
+   * Returns the structured field that was being built when the error occurred.
+   *
+   * @return the erroneously built structured field
+   */
   public StructuredField getErrornouslyBuiltStructuredField() {
     return errornouslyBuiltStructuredField;
   }
 
+  /**
+   * Sets the structured field that was being built when the error occurred.
+   *
+   * @param errSf the erroneously built structured field
+   */
   public void setErrornouslyBuiltStructuredField(StructuredField errSf) {
     errornouslyBuiltStructuredField = errSf;
   }
