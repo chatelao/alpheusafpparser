@@ -324,22 +324,22 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - ✅ Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
     - ⏳ Implement round-trip unit tests for all Structured Fields.
-    - ✅ GOCA Structured Fields (BGR, GAD, EGR).
+    - ✅ GOCA Structured Fields (BGR, GAD, EGR, GDD).
     - ✅ IOCA Structured Fields (IDD, IPD).
     - ✅ Line Data Structured Fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
     - ✅ Other Line Data Structured Fields (BDM, XMD, FDS, FDX, LND, LNC, CCP, RCD).
     - ✅ Medium Control Structured Fields (MCC, MMC, MMT, MFC).
     - ✅ CMOCA and MO:DCA-L Structured Fields (BCA, ECA, MCA, CAT, CMR).
-    - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR).
+    - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR, MCF, MBC, MCD, MGO, MIO, MMD, MMO).
     - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
     - ✅ Presentation Control Structured Fields (PEC, PFC).
-    - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF).
+    - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF, BPF).
         - ✅ Page and Overlay Structured Fields.
             - ✅ Begin/End Overlay (BMO, EMO).
             - ✅ Begin/End Page Segment (BPS, EPS).
             - ✅ Include Page/Overlay/Segment (IPG, IPO, IPS).
             - ✅ Map Page/Overlay/Segment (MPG, MPO, MPS).
-    - ✅ Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG, ERS).
+    - ✅ Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG, ERS, BRS, BOG).
         - ✅ Object and Data Structured Fields.
             - ✅ Begin/End Object Container (BOC, EOC).
             - ✅ Begin/End Image/IM Image (BIM, EIM, BII, EII).
@@ -368,6 +368,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
 - ✅ Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
     - ✅ Fix the keyword loop in `MMC_MediumModificationControl.decodeAFP`.
+    - ✅ Fix triplet offset bug in `MBC_MapBarCodeObject` and `MCD_MapContainerData`.
+    - ✅ Fix reserved byte offset bug in `MMO_MapMediumOverlay` repeating groups.
     - ✅ Implement missing `MPT` (Map Presentation Text, X'D3AB9B') Structured Field.
     - ✅ Implement missing Triplets: `X'8F'` (Function Set), `X'9D'` (Keep Group Together), `X'9E'` (Setup Name).
     - ✅ Implement `TripletExtender` (X'FF') logic in `TripletParser`.
@@ -392,6 +394,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Line Data related fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
 - ✅ Enhance GOCA and IOCA support.
     - ✅ Fix encoding and decoding bugs in GOCA drawing orders and IOCA segments.
+    - ✅ Fix parameter length parsing bug in `GDD_GraphicsDataDescriptor`.
     - ✅ Implement full payload parsing for missing IOCA segments and GOCA drawing orders:
         - ✅ GOCA Drawing Orders:
             - ✅ Set Custom Line Type (GSCLT, X'20').

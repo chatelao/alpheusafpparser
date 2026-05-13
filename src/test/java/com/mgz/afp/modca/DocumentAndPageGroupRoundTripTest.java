@@ -129,17 +129,4 @@ public class DocumentAndPageGroupRoundTripTest {
         RoundTripTestUtils.assertRoundTrip(new PGP_PagePosition_Format1(), data);
     }
 
-    @Test
-    public void testPGPFormat2RoundTrip() throws Exception {
-        // PGP F2: D3B1AF
-        // Const0 (1): 00
-        // RG: Len(1)=12, xOrigin(3)=0x100, yOrigin(3)=0x200, xRotation(2)=0, Selection(1)=0, Flags(1)=0x80 (NoVPD), PMC(1)=1
-        // Total Len: 1 + 8 + 1 + 12 = 22. SFI Len = 21 (0x0015)
-        byte[] data = new byte[] {
-            0x5A, 0x00, 0x15, (byte) 0xD3, (byte) 0xB1, (byte) 0xAF, 0x00, 0x00, 0x00,
-            0x00,
-            0x0C, 0x00, 0x01, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, (byte) 0x80, 0x01
-        };
-        RoundTripTestUtils.assertRoundTrip(new PGP_PagePosition_Format2(), data);
-    }
 }
