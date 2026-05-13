@@ -241,12 +241,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Figure 32 (Structure of a Presentation Page Object).
         - ✅ Figure 33 (Structure of Line Format Data).
         - ✅ Figure 34 (Structure of a Presentation Text Data Object).
-        - ⏳ Figure 35 (Structure of an IM Image Data Object).
-        - ⏳ Figure 36 (Structure of an IO Image Data Object).
-        - ⏳ Figure 37 (Structure of a Graphics Data Object).
-        - ⏳ Figure 38 (Structure of a Bar Code Data Object).
-        - ⏳ Figure 39 (Structure of a Page Segment Resource Object).
-        - ⏳ Figure 40 (Structure of an Overlay Resource Object).
+        - ✅ Figure 35 (Structure of an IM Image Data Object).
+        - ✅ Figure 36 (Structure of an IO Image Data Object).
+        - ✅ Figure 37 (Structure of a Graphics Data Object).
+        - ✅ Figure 38 (Structure of a Bar Code Data Object).
+        - ✅ Figure 39 (Structure of a Page Segment Resource Object).
+        - ✅ Figure 40 (Structure of an Overlay Resource Object).
         - ⏳ Figure 41 (Structure of a Form Definition Resource Object).
         - ⏳ Figure 42 (Structure of a Page Definition Resource Object).
 - ✅ **MO:DCA**:

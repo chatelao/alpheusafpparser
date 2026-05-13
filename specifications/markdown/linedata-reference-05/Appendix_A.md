@@ -120,82 +120,101 @@ Other All other symbols are explained in the figures.
 **Note:** A Presentation Text Descriptor is required in an Active Environment Group when a text object is used in a page.
 
 
-Figure 35. Structure of an IM Image Data Object
-IRD
-s
-s  =  can appear more than once
-Image Object (IM)
-Image Cells
-s
-IRD
-s
-ICP
-EIM
-IIDIOC
-BIM
-Simple or Complex
-Figure 36. Structure of an IO Image Data Object
-*  =  optional
-s  =  can appear more than once
-† =  allowed in FS45 only
-IDDMDRMIOOBPOBDPEC
-BOG EOG
-IPD
-* s
-Object
-Environment
-Group
-BIM EIM
-Image Object (IO)
-* * * † s
+### Figure 35. Structure of an IM Image Data Object
+**IM Image Data Object**
+(BIM, D3A8FB) Begin Image Object
+&nbsp;&nbsp;&nbsp;&nbsp;(IID, D3A67B) IM Image Input Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;[ (IOC, D3A77B) IM Image Output Control ]
+&nbsp;&nbsp;&nbsp;&nbsp;[ (ICP, D3AC7B) IM Image Cell Position ]
+&nbsp;&nbsp;&nbsp;&nbsp;(IRD, D3EE7B) IM Image Raster Data (S)
+(EIM, D3A9FB) End Image Object
+### Figure 36. Structure of an IO Image Data Object
+**IO Image Data Object**
+(BIM, D3A8FB) Begin Image Object
+&nbsp;&nbsp;&nbsp;&nbsp;[ (BOG, D3A8C7) Begin Object Environment Group
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ (MDR, D3ABC3) Map Data Resource (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MIO, D3ABFB) Map Image Object ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (IDD, D3A6FB) Image Data Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (OBD, D3A66B) Object Area Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (OBP, D3AC6B) Object Area Position
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PEC, D3A7A8) Presentation Environment Control ] (Note †)
+&nbsp;&nbsp;&nbsp;&nbsp;(EOG, D3A9C7) End Object Environment Group ]
+&nbsp;&nbsp;&nbsp;&nbsp;[ (IPD, D3EEFB) Image Picture Data (S) ]
+(EIM, D3A9FB) End Image Object
+
+**Note †:** allowed in FS45 only.
 
 
-Figure 37. Structure of a Graphics Data Object
-*  =  optional
-s  =  can appear more than once
-GDDMDRMCFMGOOBPOBDPEC
-BOG EOG
-GADObject
-Environment
-Group
-BGR EGR
-Graphics Object
-* s
-* s*** s
-Figure 38. Structure of a Bar Code Data Object
-*  =  optional
-s  =  can appear more than once
-BDDMDRMCFMBCOBPOBD
-BOG EOG
-BDAObject
-Environment
-Group
-BBC EBC
-Bar Code
-Object
-* s
-* s** s
+### Figure 37. Structure of a Graphics Data Object
+**Graphics Data Object**
+(BGR, D3A8BB) Begin Graphics Object
+&nbsp;&nbsp;&nbsp;&nbsp;[ (BOG, D3A8C7) Begin Object Environment Group
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ (MDR, D3ABC3) Map Data Resource (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MCF, D3AB8A) Map Coded Font (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MGO, D3ABBB) Map Graphics Object ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (GDD, D3A6BB) Graphics Data Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (OBD, D3A66B) Object Area Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (OBP, D3AC6B) Object Area Position
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PEC, D3A7A8) Presentation Environment Control ]
+&nbsp;&nbsp;&nbsp;&nbsp;(EOG, D3A9C7) End Object Environment Group ]
+&nbsp;&nbsp;&nbsp;&nbsp;[ (GAD, D3EEBB) Graphics Data (S) ]
+(EGR, D3A9BB) End Graphics Object
+### Figure 38. Structure of a Bar Code Data Object
+**Bar Code Data Object**
+(BBC, D3A8EB) Begin Bar Code Object
+&nbsp;&nbsp;&nbsp;&nbsp;[ (BOG, D3A8C7) Begin Object Environment Group
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ (MDR, D3ABC3) Map Data Resource (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MCF, D3AB8A) Map Coded Font (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MBC, D3ABEB) Map Bar Code Object ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (BDD, D3A6EB) Bar Code Data Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (OBD, D3A66B) Object Area Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (OBP, D3AC6B) Object Area Position
+&nbsp;&nbsp;&nbsp;&nbsp;(EOG, D3A9C7) End Object Environment Group ]
+&nbsp;&nbsp;&nbsp;&nbsp;[ (BDA, D3EEEB) Bar Code Data (S) ]
+(EBC, D3A9EB) End Bar Code Object
 
 
 ### Figure 39. Structure of a Page Segment Resource Object
-Graphic Objects, Image Objects, Presentation Text Object
-* s * s *
-Page Segment
-Object
-EPSBPS
-*    =  optional
-s    =  can appear more than once
-@  =  without OEG
-@
-Note: This is the structure of an AFP page segment. This structure is supported but is replaced strategically
-with the MO:DCA page segment. For more information, see the Mixed Object Document Content
-Architecture (MO:DCA) Reference.
-Figure 40. Structure of an Overlay Resource Object
-Notes:
-1. An AFP (MO:DCA) overlay object may contain one or more Tag Logical Element (TLE) or Link Logical
-Element (LLE) structured fields following the AEG. These structures do not affect the presentation of the
-overlay. For the formal definition of these structures, see the Mixed Object Document Content Architecture
-(MO:DCA) Reference.
+**Page Segment Resource Object**
+(BPS, D3A85F) Begin Page Segment
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BPT, D3A89B) Begin Presentation Text Object (S) ] (Note @)
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BIM, D3A8FB) Begin Image Object (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BGR, D3A8BB) Begin Graphics Object (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BBC, D3A8EB) Begin Bar Code Object (S) ]
+(EPS, D3A95F) End Page Segment
+
+**Note @:** without OEG.
+**Note:** This is the structure of an AFP page segment. This structure is supported but is replaced strategically with the MO:DCA page segment. For more information, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
+### Figure 40. Structure of an Overlay Resource Object
+**Overlay Resource Object**
+(BMO, D3A8DF) Begin Overlay
+&nbsp;&nbsp;&nbsp;&nbsp;[ (BRG, D3A8C6) Begin Resource Group
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ (BRS, D3A8CE) Begin Resource
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resource Object
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ERS, D3A9CE) End Resource ] (S)
+&nbsp;&nbsp;&nbsp;&nbsp;(ERG, D3A9C6) End Resource Group ]
+&nbsp;&nbsp;&nbsp;&nbsp;(BAG, D3A8C9) Begin Active Environment Group
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ (MCF, D3AB8A) Map Coded Font (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MDR, D3ABC3) Map Data Resource (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MPS, D3B15F) Map Page Segment (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (PGD, D3A6AF) Page Descriptor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (OBD, D3A66B) Object Area Descriptor ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (OBP, D3AC6B) Object Area Position ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PTD, D3B19B) Presentation Text Descriptor ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PEC, D3A7A8) Presentation Environment Control ]
+&nbsp;&nbsp;&nbsp;&nbsp;(EAG, D3A9C9) End Active Environment Group
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BBC, D3A8EB) Begin Bar Code Object (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BGR, D3A8BB) Begin Graphics Object (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BIM, D3A8FB) Begin Image Object (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BPT, D3A89B) Begin Presentation Text Object (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (BOC, D3A892) Begin Object Container (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (IPO, D3AFD8) Include Page Overlay (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (IPS, D3AF5F) Include Page Segment (S) ]
+&nbsp;&nbsp;&nbsp;&nbsp;+ [ (IOB, D3AFC3) Include Object (S) ]
+(EMO, D3A9DF) End Overlay
+
+**Notes:**
+1. An AFP (MO:DCA) overlay object may contain one or more Tag Logical Element (TLE) or Link Logical Element (LLE) structured fields following the AEG. These structures do not affect the presentation of the overlay. For the formal definition of these structures, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
 2. The MPG and MPO structured fields are not supported in the AEG for an overlay.
 
 
