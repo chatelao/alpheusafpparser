@@ -776,285 +776,238 @@ The following exception conditions raise a drawing process check:
 
 ---
 
-Fillet (GFL T , GCFL T) Orders
+### Fillet (GFLT, GCFLT) Orders
+
 These orders draw a curved line tangential to a specified set of straight lines, at the given position or at the current position.
-Syntax
-Fillet at Given Position (GFL T) Order
+
+#### GFLT (Given Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'C5' | GFL | T order code |
-| 1 | UBIN | LENGTH | 4-n | Length of following data; n must be less than |
-| 255 | and | a | multiple | of 4 |
-| 2-3 | SBIN | XPOS0 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | line | start point |
-| 4-5 | SBIN | YPOS0 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | line | start point |
-| 6-7 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | line | endpoint |
-| 8-9 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | line | endpoint |
-| 10-1 | 1 | SBIN | XPOS2 | X'8000'-X'7FFF' X g |
-| coordinate | of | second | line | endpoint |
-| 12-13 | SBIN | YPOS2 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | line | endpoint |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | line endpoints |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | line | endpoint |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | line | endpoint |
-| Fillet | at | Current | Position | (GCFL T) Order |
+| 0 | CODE | X'C5' | GFLT | Order code |
+| 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 |
+| 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first line start point |
+| 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line start point |
+| 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint |
+| 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint |
+| 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint |
+| 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint |
+
+#### GCFLT (Current Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'85' | GCFL | T order code |
-| 1 | UBIN | LENGTH | 0-n | Length of following data; n must be less than 255 and a multiple of 4 |
-| 2-3 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | line | endpoint |
-| 4-5 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | line | endpoint |
-| 6-7 | SBIN | XPOS2 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | line | endpoint |
-| 8-9 | SBIN | YPOS2 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | line | endpoint |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | line endpoints |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | line | endpoint |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | line | endpoint |
-| Semantics | | | | |
-| The | Fillet | at | Given | Position (GFL T) order generates a single curve that starts at a specified position. The Fillet at Current Position (GCFL T) order generates a single curve that starts at the current position. Additional points |
-| can | be | added | to | form a polycurve. |
-| Fillet | | | | |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'85' | GCFLT | Order code |
+| 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 |
+| 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint |
+| 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint |
+| 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint |
+| 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint |
 
----
+#### Semantics
 
-The points specified in the order are joined by imaginary straight lines and a curve is then fitted to the lines.
-The curve is tangential to the first line at its start point and to the last line at its end point. If there are intermediate lines, the curve is tangential to these lines at their center points. See “Fillet” for the definition of the curves drawn.
-A Fillet at Given Position (GFL T) order with only an initial position is permitted. This serves only to move the current position. A Fillet at Current Position (GCFL T) order with only an initial position (the current position) is permitted and is treated as a No-Op.
+The Fillet at Given Position (GFLT) order generates a single curve that starts at a specified position. The Fillet at Current Position (GCFLT) order generates a single curve that starts at the current position. Additional points can be added to form a polycurve.
+
+The points specified in the order are joined by imaginary straight lines and a curve is then fitted to the lines. The curve is tangential to the first line at its start point and to the last line at its end point. If there are intermediate lines, the curve is tangential to these lines at their center points. See “Fillet” for the definition of the curves drawn.
+
+A Fillet at Given Position (GFLT) order with only an initial position is permitted. This serves only to move the current position. A Fillet at Current Position (GCFLT) order with only an initial position (the current position) is permitted and is treated as a No-Op.
+
 When only two points are supplied, a straight line results.
+
 The current values of the line attributes are taken into account when drawing the fillet, and the current position is set to the last point specified.
+
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
-Fillet
+- **EC-0003**: The order has an incorrect length.
 
 ---
 
-Full Arc (GF ARC, GCF ARC) Orders
+### Full Arc (GFARC, GCFARC) Orders
+
 These orders construct a full circle or an ellipse with the center at a specified point or at the current position.
-Syntax
-Full Arc at Given Position (GF ARC) Order
+
+#### GFARC (Given Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'C7' | GF | ARC order code |
+| 0 | CODE | X'C7' | GFARC | Order code |
 | 1 | UBIN | LENGTH | 6 | Length of following data |
-| 2-3 | SBIN | XPOS | X'8000'-X'7FFF' | X g |
-| coordinate | of | the | center | of the circle or ellipse |
-| 4-5 | SBIN | YPOS | X'8000'-X'7FFF' | Y g |
-| coordinate | of | the | center | of the circle or ellipse |
-| 6 | UBIN | MH | X'00'-X'FF' | Integer Portion of Multiplier |
-| 7 | UBIN | MFR | X'00'-X'FF' | Fractional Portion of Multiplier |
-| Full | Arc | at | Current | Position (GCF ARC) Order |
+| 2–3 | SBIN | XPOS | X'8000'–X'7FFF' | $X_g$ coordinate of the center of the circle or ellipse |
+| 4–5 | SBIN | YPOS | X'8000'–X'7FFF' | $Y_g$ coordinate of the center of the circle or ellipse |
+| 6 | UBIN | MH | X'00'–X'FF' | Integer portion of multiplier |
+| 7 | UBIN | MFR | X'00'–X'FF' | Fractional portion of multiplier |
+
+#### GCFARC (Current Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'87' | GCF | ARC order code |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'87' | GCFARC | Order code |
 | 1 | UBIN | LENGTH | 2 | Length of following data |
-| 2 | UBIN | MH | X'00'-X'FF' | Integer Portion of Multiplier |
-| 3 | UBIN | MFR | X'00'-X'FF' | Fractional Portion of Multiplier |
-| Semantics | | | | |
-| The | Full | Arc | at | Given Position (GF ARC) order constructs a circle or an ellipse with its center at the specified position. The Full Arc at Current Position (GCF ARC) order constructs a circle or an ellipse with its center at the |
-| current | position. | A | previous | Set Arc Parameters drawing order determines the shape and orientation of the arc. |
-| If | no | Set | Arc | Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters. The drawing direction is defined by the determinant of the |
-| transform, | which | is | defined | by the arc parameters. For details, see page 24. |
-| Note: | The | current | position | is set to (XPOS,YPOS) (GF ARC), or is unchanged (GCF ARC). |
-| The | current | values | of | the line attributes, except for line join, are taken into account when drawing the full arc. |
-| The | line | end | attribute | is used only for the internal ends of dotted or dashed lines. |
-| If | this | drawing | order | is in an area definition, the arc is treated as a closed figure. The BOUNDARY parameter in the Begin Area order determines whether the boundary of the arc is drawn. |
-| MH | specifies | the | integer | portion of a scale factor; MFR specifies the fractional portion of the scale factor . A combined value of X'0000' specifies a scale factor of 0. A decimal point is implied between MH and MFR. The |
-| fractional | portion | of | the | scale factor is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the scale factor of 1/4. |
-| Full Arc | | | | |
+| 2 | UBIN | MH | X'00'–X'FF' | Integer portion of multiplier |
+| 3 | UBIN | MFR | X'00'–X'FF' | Fractional portion of multiplier |
 
----
+#### Semantics
 
-For a circle, the radius is (MH⋅R + MFR⋅R) where R is the radius of the circle defined by the current arc parameters.
-For an ellipse, the major and minor axes are (MH⋅MAJ + MFR⋅MAJ) and (MH⋅MIN + MFR⋅MIN), where MAJ and MIN are the major and minor axes of the ellipse defined by the current arc parameters.
+The Full Arc at Given Position (GFARC) order constructs a circle or an ellipse with its center at the specified position. The Full Arc at Current Position (GCFARC) order constructs a circle or an ellipse with its center at the current position. A previous Set Arc Parameters drawing order determines the shape and orientation of the arc.
+
+If no Set Arc Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters. The drawing direction is defined by the determinant of the transform, which is defined by the arc parameters.
+
+Note: The current position is set to (XPOS, YPOS) (GFARC), or is unchanged (GCFARC).
+
+The current values of the line attributes, except for line join, are taken into account when drawing the full arc. The line end attribute is used only for the internal ends of dotted or dashed lines.
+
+If this drawing order is in an area definition, the arc is treated as a closed figure. The BOUNDARY parameter in the Begin Area order determines whether the boundary of the arc is drawn.
+
+MH specifies the integer portion of a scale factor; MFR specifies the fractional portion of the scale factor. A combined value of X'0000' specifies a scale factor of 0. A decimal point is implied between MH and MFR. The fractional portion of the scale factor is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the scale factor of 1/4.
+
+For a circle, the radius is $(MH \cdot R + MFR \cdot R)$ where $R$ is the radius of the circle defined by the current arc parameters. For an ellipse, the major and minor axes are $(MH \cdot MAJ + MFR \cdot MAJ)$ and $(MH \cdot MIN + MFR \cdot MIN)$, where $MAJ$ and $MIN$ are the major and minor axes of the ellipse defined by the current arc parameters.
+
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
+- **EC-0003**: The order has an incorrect length.
+
 The following exception condition causes a standard action to be taken:
-EC-C601 The drawing processor has detected an exceptional condition that can prevent the drawing of the arc within the normal limits of pel accuracy .
-Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines.
-Full Arc
+- **EC-C601**: The drawing processor has detected an exceptional condition that can prevent the drawing of the arc within the normal limits of pel accuracy.
+  - Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines.
 
 ---
 
-Image Data (GIMD) Order
+### Image Data (GIMD) Order
+
 This order specifies the raster data for one scan line or row of an image.
-Syntax
+
+#### GIMD Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'92' | GIMD | order code |
-| 1 | UBIN | LENGTH | 0-255 | Length of following data |
-| 2-n | BITS | DATA | Any | value Image Data |
-| Semantics | | | | |
-| The | Image | Data | order | contains the data for one scan line or row of an image. Each Image Data order can contain any number of bytes of data, from zero up to a maximum of 255 bytes. |
-| The | current | position | is | not changed by the order . |
-| If | the | LENGTH | parameter | is not equal to the rounded-up quotient of image WIDTH divided by 8, there are too few or too many data bytes, and exception EC-9201 exists. |
-| See | “Begin | Image | (GBIMG, | GCBIMG) Orders” for details of the image construct. |
-| The | following | exception | conditions | raise a drawing process check: |
-| EC-9200 | A | Begin | Image | order was not executed before the Image Data order in this segment. |
-| EC-9201 | There | are | insufficient, | or too many , bytes of data in the Image Data order . |
-| EC-9301 | The | number | of | Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as specified by the HEIGHT parameter in the Begin |
-| Image order . | | | | |
-| Image Data | | | | |
+| 0 | CODE | X'92' | GIMD | Order code |
+| 1 | UBIN | LENGTH | 0–255 | Length of following data |
+| 2–n | BITS | DATA | Any value | Image Data |
+
+#### Semantics
+
+The Image Data order contains the data for one scan line or row of an image. Each Image Data order can contain any number of bytes of data, from zero up to a maximum of 255 bytes.
+
+The current position is not changed by the order.
+
+If the LENGTH parameter is not equal to the rounded-up quotient of image WIDTH divided by 8, there are too few or too many data bytes, and exception EC-9201 exists.
+
+See “Begin Image (GBIMG, GCBIMG) Orders” for details of the image construct.
+
+The following exception conditions raise a drawing process check:
+- **EC-9200**: A Begin Image order was not executed before the Image Data order in this segment.
+- **EC-9201**: There are insufficient, or too many, bytes of data in the Image Data order.
+- **EC-9301**: The number of Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as specified by the HEIGHT parameter in the Begin Image order.
 
 ---
 
-1 10 GOCA for AFP Reference
-Line (GLINE, GCLINE) Orders
+### Line (GLINE, GCLINE) Orders
+
 These orders define one or more connected straight lines, drawn from the given position or from the current position.
-Syntax
-Line at Given Position (GLINE) Order
+
+#### GLINE (Given Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'C1' | GLINE | order code |
-| 1 | UBIN | LENGTH | 4-n | Length of following data; n must be less than 255 and a multiple of 4 |
-| 2-3 | SBIN | XPOS0 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | line | start point |
-| 4-5 | SBIN | YPOS0 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | line | start point |
-| 6-7 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | line | endpoint |
-| 8-9 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | line | endpoint |
-| 10-1 | 1 | SBIN | XPOS2 | X'8000'-X'7FFF' X g |
-| coordinate | of | second | line | endpoint |
-| 12-13 | SBIN | YPOS2 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | line | endpoint |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | line endpoints |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | line | endpoint |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | line | endpoint |
-| Line | at | Current | Position | (GCLINE) Order |
+| 0 | CODE | X'C1' | GLINE | Order code |
+| 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 |
+| 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first line start point |
+| 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line start point |
+| 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint |
+| 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint |
+| 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint |
+| 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint |
+
+#### GCLINE (Current Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'81' | GCLINE | order code |
-| 1 | UBIN | LENGTH | 0-n | Length of following data; n must be less than 255 and a multiple of 4 |
-| 2-3 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | line | endpoint |
-| 4-5 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | line | endpoint |
-| 6-7 | SBIN | XPOS2 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | line | endpoint |
-| 8-9 | SBIN | YPOS2 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | line | endpoint |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | line endpoints |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | line | endpoint |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | line | endpoint |
-| Semantics | | | | |
-| The | Line | at | Given | Position (GLINE) order draws a line from the point specified by the first pair of coordinates to the point specified by the second pair of coordinates. If additional coordinate pairs are specified, the |
-| presentation | process | draws | a | line from the previous endpoint to the next coordinate pair . The Line at Current |
-| Line | | | | |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'81' | GCLINE | Order code |
+| 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 |
+| 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint |
+| 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint |
+| 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint |
+| 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint |
 
----
+#### Semantics
 
-GOCA for AFP Reference 1 1 1
-Position (GCLINE) order draws a line from the current position to the point specified by the first coordinate pair .
-If additional coordinate pairs are specified, the presentation process draws a line from the previous endpoint to the next coordinate pair . Consecutive points in the orders are joined by straight lines.
-The current values of the line attributes are taken into account when drawing the line.
-The current position is set to the last point specified.
+The Line at Given Position (GLINE) order draws a line from the point specified by the first pair of coordinates to the point specified by the second pair of coordinates. If additional coordinate pairs are specified, the presentation process draws a line from the previous endpoint to the next coordinate pair.
+
+The Line at Current Position (GCLINE) order draws a line from the current position to the point specified by the first coordinate pair. If additional coordinate pairs are specified, the presentation process draws a line from the previous endpoint to the next coordinate pair. Consecutive points in the orders are joined by straight lines.
+
+The current values of the line attributes are taken into account when drawing the line. The current position is set to the last point specified.
+
 A Line at Given Position (GLINE) order with only an initial position is permitted. This form of GLINE moves the current position. A Line at Current Position (GCLINE) order with only an initial position (the current position) is permitted and is treated as a No-Op.
+
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
-Line
+- **EC-0003**: The order has an incorrect length.
 
 ---
 
-1 12 GOCA for AFP Reference
-Linear Gradient (GLGD) Order
+### Linear Gradient (GLGD) Order
+
 This order defines a linear gradient to be used to fill an area.
-Syntax
+
+#### GLGD Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'FE' | Extended | format order code |
-| 1 | CODE | X'DC' | GLGD | qualifier code |
-| 2-3 | UBIN | LENGTH | 29-65,535 | Length of following data |
-| 4-5 | RES | X'0000' | Reserved; | only valid value |
-| 6 | CODE | PATTSET | X'01' | - X'FD' Pattern set of the gradient |
-| 7 | CODE | PATTSYM | X'01' | - X'FF' Pattern symbol of the gradient |
-| 8-9 | SBIN | X_S | X'8000'-X'7FFF' | X g |
-| coordinate | of | the | start | of the gradient line |
-| 10-1 | 1 | SBIN | Y_S | X'8000'-X'7FFF' Y g |
-| coordinate | of | the | start | of the gradient line |
-| 12-13 | SBIN | X_E | X'8000'-X'7FFF' | X g |
-| coordinate | of | the | end | of the gradient line |
-| 14-15 | SBIN | Y_E | X'8000'-X'7FFF' | Y g |
-| coordinate | of | the | end | of the gradient line |
-| 16-n | COLSPEC_S | See | Semantics | Color specification of the start color (13-15 bytes) |
-| (n+1) | -m | COLVALUE_E | See | Semantics Color value of the end color (2-4 bytes) m+1 CODE OUTSIDE_S X'00'-X'03' Value for how to fill areas outside the start side |
-| of the gradient: | | | | |
-| X'00' None | | | | |
-| X'01' Pad | | | | |
-| X'02' Repeat | | | | |
-| X'03' Reflect | | | | |
-| All | other | values | Reserved | m+2 CODE OUTSIDE_E X'00'-X'03' Value for how to fill areas outside the end side of |
-| the gradient: | | | | |
-| X'00' None | | | | |
-| X'01' Pad | | | | |
-| X'02' Repeat | | | | |
-| X'03' Reflect | | | | |
-| All | other | values | | Reserved |
-| The | following | parameters | are | optional: |
-| UBIN OFFSET_1 X'0000'-X'2710' | | | | |
-| (0-10,000) | | | | |
-| Offset | along | the | gradient | line of the first optional color stop (2 bytes) |
-| COLVALUE_1 | See | Semantics | Color | value of the color of the first color stop (2- |
-| 4 bytes) | | | | |
-| UBIN OFFSET_2 X'0000'-X'2710' | | | | |
-| (0-10,000) | | | | |
-| Offset | along | the | gradient | line of the second optional color stop (2 bytes) |
-| COLVALUE_2 | See | Semantics | Color | value of the color of the second color stop |
-| (2-4 bytes) | | | | |
-| ⋮ ⋮ | | | | |
-| Further | color | stop | | information |
-| Linear Gradient | | | | |
+| 0 | CODE | X'FE' | Extended | Format order code |
+| 1 | CODE | X'DC' | GLGD | Qualifier code |
+| 2–3 | UBIN | LENGTH | 29–65,535 | Length of following data |
+| 4–5 | RES | X'0000' | Reserved; only valid value |
+| 6 | CODE | PATTSET | X'01'–X'FD' | Pattern set of the gradient |
+| 7 | CODE | PATTSYM | X'01'–X'FF' | Pattern symbol of the gradient |
+| 8–9 | SBIN | $X_S$ | X'8000'–X'7FFF' | $X_g$ coordinate of the start of the gradient line |
+| 10–11 | SBIN | $Y_S$ | X'8000'–X'7FFF' | $Y_g$ coordinate of the start of the gradient line |
+| 12–13 | SBIN | $X_E$ | X'8000'–X'7FFF' | $X_g$ coordinate of the end of the gradient line |
+| 14–15 | SBIN | $Y_E$ | X'8000'–X'7FFF' | $Y_g$ coordinate of the end of the gradient line |
+| 16–n | COLSPEC_S | | See Semantics | Color specification of the start color (13–15 bytes) |
+| (n+1)–m | COLVALUE_E | | See Semantics | Color value of the end color (2–4 bytes) |
+| m+1 | CODE | OUTSIDE_S | X'00'–X'03' | Value for how to fill areas outside the start side of the gradient:<br> - X'00' None<br> - X'01' Pad<br> - X'02' Repeat<br> - X'03' Reflect<br> - All other values: Reserved |
+| m+2 | CODE | OUTSIDE_E | X'00'–X'03' | Value for how to fill areas outside the end side of the gradient:<br> - X'00' None<br> - X'01' Pad<br> - X'02' Repeat<br> - X'03' Reflect<br> - All other values: Reserved |
+| _Optional:_ | | | | |
+| m+3 | UBIN | OFFSET_1 | 0–10,000 | Offset along the gradient line of the first optional color stop (2 bytes) |
+| | COLVALUE_1 | | See Semantics | Color value of the color of the first color stop (2–4 bytes) |
+| | UBIN | OFFSET_2 | 0–10,000 | Offset along the gradient line of the second optional color stop (2 bytes) |
+| | COLVALUE_2 | | See Semantics | Color value of the color of the second color stop (2–4 bytes) |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| | UBIN | OFFSET_F | 0–10,000 | Offset along the gradient line of the final optional color stop (2 bytes) |
+| | COLVALUE_F | | See Semantics | Color value of the color of the final color stop (2–4 bytes) |
 
----
+#### Semantics
 
-GOCA for AFP Reference 1 13
-| Offset | Type | Name | Range | Meaning |
-| :--- | :--- | :--- | :--- | :--- |
-| UBIN OFFSET_F X'0000'-X'2710' | | | | |
-| (0-10,000) | | | | |
-| Offset | along | the | gradient | line of the final optional color stop (2 bytes) |
-| COLVALUE_F | See | Semantics | Color | value of the color of the final color stop (2- |
-| 4 bytes) | | | | |
-| Semantics | | | | |
-| The | Linear | Gradient | order | defines a linear gradient to be used later to fill an area. See “Gradients ” for details of gradients. |
-| The | gradient | goes | from | the start point (X_S,Y_S) to the end point (X_E,Y_E), with the color gradually changing from the start color (COLSPEC_S) to the end color (COLVALUE_E). Areas outside the gradient are filled |
-| based | on | the | OUTSIDE_S | and OUTSIDE_E parameters. Any number of color stops can be defined along the gradient line from the start point to the end point, which define offsets along the line where a specific color is to |
-| be found. | | | | |
-| If | the | start | point | and end point are the same point, usage of the gradient will result in no fill, no matter the value of the OUTSIDE_S and OUTSIDE_E parameters and no matter how many color stops have been specified. |
-| The | offset | fields | in | the color stops have values that can range from 0 to 10,000. This value is then divided by |
-| 10,000 | to | produce | a | number from 0.0 to 1.0, with 0.0 meaning the start point, 1.0 the end point, 0.5 the halfway point, and so on. |
-| The | color | stops | must | be in increasing order of offs et; that is, each color stop offset value must be greater than or equal to the previous color stop off set value. If a color stop has an offset value that is smaller than the offset |
-| value | of | any | previous | color stop, or is otherwise invalid, exception condition EC-DC05 is raised, for which the standard action is to ignore the color stop. |
-| The | color | specification | of | the start color , COLSPEC_S, has the same format as bytes 1-end of the Set Process |
-| Color | (GSPCOL) | drawing | order; | see “Set Process Color (GSPCOL) Order” for information on how to process the color specification. Included in the color specification is a length field, a color space field, and |
-| four | fields | indicating | how | many bits are in each color component, as well as a color value field. The color value field specifies the start color and is interpreted using the other fields in the color specification. For all other |
-| colors | in | this | order—that | is, for the end color and for all color stop colors—only the color value field is specified. |
-| These | color | values | are | all the same length as the color value contained in COLSPEC_S, and are interpreted in the same way . As an example, if the start color is an RGB color encoded in three bytes, one for each |
-| component | (R, | G, | and | B), then all other colors in this order will also be three-byte values, one byte for each component. |
-| For | problems | with | the | colors specified in this order , exception conditions EC-0E02, EC-0E03, EC-0E04, and |
-| EC-0E05 | are | reported | as | described in the Set Process Color order . Note, however , that the standard action for the EC-0E02, EC-0E03, and EC-0E05 exceptions is diff erent for this order than for the Set Process Color |
-| drawing | order | . | For | all three exception conditions, the standard action is to ignore this Linear Gradient order . |
-| If | the | length | field | in COLSPEC_S (the first byte) is invalid, exception condition EC-DC06 is raised, for which the standard action is to ignore the Linear Gradient order . |
-| In | addition, | there | are | some rules about the colors specified in this order: |
-| • | The | Standard | OCA | color space (X'40') cannot be used. |
-| • | If | the | Highlight | color space (X'06') is used, all color values must resolve to Indexed CMR Color Palette tags. |
-| If | the | color | specifications | do not follow these rules, exception condition EC-DC07 is raised, for which the standard action is to ignore the Linear Gradient order . |
-| Linear Gradient | | | | |
+The Linear Gradient order defines a linear gradient to be used later to fill an area. See “Gradients” for details of gradients.
+
+The gradient goes from the start point ($X_S, Y_S$) to the end point ($X_E, Y_E$), with the color gradually changing from the start color (COLSPEC_S) to the end color (COLVALUE_E). Areas outside the gradient are filled based on the OUTSIDE_S and OUTSIDE_E parameters. Any number of color stops can be defined along the gradient line from the start point to the end point, which define offsets along the line where a specific color is to be found.
+
+If the start point and end point are the same point, usage of the gradient will result in no fill, no matter the value of the OUTSIDE_S and OUTSIDE_E parameters and no matter how many color stops have been specified.
+
+The offset fields in the color stops have values that can range from 0 to 10,000. This value is then divided by 10,000 to produce a number from 0.0 to 1.0, with 0.0 meaning the start point, 1.0 the end point, 0.5 the halfway point, and so on.
+
+The color stops must be in increasing order of offset; that is, each color stop offset value must be greater than or equal to the previous color stop offset value. If a color stop has an offset value that is smaller than the offset value of any previous color stop, or is otherwise invalid, exception condition EC-DC05 is raised, for which the standard action is to ignore the color stop.
+
+The color specification of the start color, COLSPEC_S, has the same format as bytes 1–end of the Set Process Color (GSPCOL) drawing order; see “Set Process Color (GSPCOL) Order” for information on how to process the color specification. Included in the color specification is a length field, a color space field, and four fields indicating how many bits are in each color component, as well as a color value field. The color value field specifies the start color and is interpreted using the other fields in the color specification. For all other colors in this order—that is, for the end color and for all color stop colors—only the color value field is specified. These color values are all the same length as the color value contained in COLSPEC_S, and are interpreted in the same way. As an example, if the start color is an RGB color encoded in three bytes, one for each component (R, G, and B), then all other colors in this order will also be three-byte values, one byte for each component.
+
+For problems with the colors specified in this order, exception conditions EC-0E02, EC-0E03, EC-0E04, and EC-0E05 are reported as described in the Set Process Color order. Note, however, that the standard action for the EC-0E02, EC-0E03, and EC-0E05 exceptions is different for this order than for the Set Process Color drawing order. For all three exception conditions, the standard action is to ignore this Linear Gradient order.
+
+If the length field in COLSPEC_S (the first byte) is invalid, exception condition EC-DC06 is raised, for which the standard action is to ignore the Linear Gradient order.
+
+In addition, there are some rules about the colors specified in this order:
+- The Standard OCA color space (X'40') cannot be used.
+- If the Highlight color space (X'06') is used, all color values must resolve to Indexed CMR Color Palette tags.
+
+If the color specifications do not follow these rules, exception condition EC-DC07 is raised, for which the standard action is to ignore the Linear Gradient order.
 
 ---
 
@@ -1111,72 +1064,62 @@ Linear Gradient
 ---
 
 1 16 GOCA for AFP Reference
-Marker (GMRK, GCMRK) Orders
+### Marker (GMRK, GCMRK) Orders
+
 These orders draw the current marker symbol at one or more positions starting from the given position or from the current position.
-Syntax
-Marker at Given Position (GMRK) Order
+
+#### GMRK (Given Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | X'C2' | GMRK | order code |
-| 1 | UBIN | LENGTH | 4-n | Length of following data; n must be less than |
-| 255 | and | a | multiple | of 4 |
-| 2-3 | SBIN | XPOS0 | X'8000'-X'7FFF' | X g |
-| coordinate | of | first | | marker |
-| 4-5 | SBIN | YPOS0 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | first | | marker |
-| 6-7 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | | marker |
-| 8-9 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | | marker |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | markers |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | | marker |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | | marker |
-| Marker | at | Current | Position | (GCMRK) Order |
+| 0 | CODE | X'C2' | GMRK | Order code |
+| 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 |
+| 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first marker |
+| 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first marker |
+| 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of second marker |
+| 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of second marker |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final marker |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final marker |
+
+#### GCMRK (Current Position) Syntax
+
 | Offset | Type | Name | Range | Meaning |
-| 0 | CODE | X'82' | GCMRK | order code |
-| 1 | UBIN | LENGTH | 0-n | Length of following data; n must be less than |
-| 255 | and | a | multiple | of 4 |
-| 2-3 | SBIN | XPOS1 | X'8000'-X'7FFF' | X g |
-| coordinate | of | second | | marker |
-| 4-5 | SBIN | YPOS1 | X'8000'-X'7FFF' | Y g |
-| coordinate | of | second | | marker |
-| ⋮ ⋮ | | | | |
-| Coordinate | data | of | further | markers |
-| SBIN | XPOSF | X'8000'-X'7FFF' | X | g |
-| coordinate | of | final | | marker |
-| SBIN | YPOSF | X'8000'-X'7FFF' | Y | g |
-| coordinate | of | final | | marker |
-| Semantics | | | | |
-| The | Marker | at | Given | Position (GMRK) order draws an initial marker symbol at the point specified by the first coordinate pair , and draws additional marker symbols at all the points specified by the remaining coordinate |
-| pairs. | The | Marker | at | Current Position (GCMRK) order draws an initial marker symbol at the current position and draws additional marker symbols at all the points specified by the remaining coordinate pairs. |
-| Markers | are | positioned | in | GPS. The specified points define the position of the center of the marker . The current position is set to the last coordinate specified. If no coordinate has been specified, the current position remains |
-| unchanged. | | | | |
-| Marker | | | | |
+| :--- | :--- | :--- | :--- | :--- |
+| 0 | CODE | X'82' | GCMRK | Order code |
+| 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 |
+| 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of second marker |
+| 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of second marker |
+| ⋮ | ⋮ | ⋮ | ⋮ | ⋮ |
+| SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final marker |
+| SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final marker |
 
----
+#### Semantics
 
-GOCA for AFP Reference 1 17
-A Marker at Current Position (GCMRK) order with no coordinate values specified—that is, the value of
-LENGTH is zero—draws a marker at the current position.
+The Marker at Given Position (GMRK) order draws an initial marker symbol at the point specified by the first coordinate pair, and draws additional marker symbols at all the points specified by the remaining coordinate pairs. The Marker at Current Position (GCMRK) order draws an initial marker symbol at the current position and draws additional marker symbols at all the points specified by the remaining coordinate pairs.
+
+Markers are positioned in GPS. The specified points define the position of the center of the marker. The current position is set to the last coordinate specified. If no coordinate has been specified, the current position remains unchanged.
+
+A Marker at Current Position (GCMRK) order with no coordinate values specified—that is, the value of LENGTH is zero—draws a marker at the current position.
+
 The markers are drawn at a size determined by the marker cell-size attribute.
+
 The marker set from which the marker symbol is obtained is given by the value of the marker set attribute. If this marker set is not available, EC-C200 is raised, the standard action for which is to use the standard default marker set. In AFP environments, this is the default marker set.
-The particular marker symbol that is drawn is given by the value of the current marker symbol attribute. If the code point is undefined in the marker set identified by the current marker set attribute, EC-C201 is raised, the standard action for which is to use the standard default marker symbol. In AFP environments, this is
-X'01'—Cross.
-The color of the markers is given by the value of the current marker color . The way in which the markers are merged with any output primitives that have already been drawn is controlled by the values of the marker mix and marker background mix attributes.
-Note: It is not an error if a marker symbol is placed inside the GPS such that part of the marker lies outside the
-GPS. However , the appearance of such a marker in the GPS is implementation defined.
+
+The particular marker symbol that is drawn is given by the value of the current marker symbol attribute. If the code point is undefined in the marker set identified by the current marker set attribute, EC-C201 is raised, the standard action for which is to use the standard default marker symbol. In AFP environments, this is X'01'—Cross.
+
+The color of the markers is given by the value of the current marker color. The way in which the markers are merged with any output primitives that have already been drawn is controlled by the values of the marker mix and marker background mix attributes.
+
+Note: It is not an error if a marker symbol is placed inside the GPS such that part of the marker lies outside the GPS. However, the appearance of such a marker in the GPS is implementation defined.
+
 The following exception condition raises a drawing process check:
-EC-0003 The order has an incorrect length.
+- **EC-0003**: The order has an incorrect length.
+
 The following exception conditions cause a standard action to be taken:
-EC-C200 The marker set identified by the value in the current marker set attribute is not available.
-Standard action: The standard default marker set is used. In AFP environments, this is the default marker set.
-EC-C201 The code point in the current marker symbol attribute is not defined in the current marker set.
-Standard action: The standard default marker symbol is used. In AFP environments, this is
-X'01'—Cross.
-Marker
+- **EC-C200**: The marker set identified by the value in the current marker set attribute is not available.
+  - Standard action: The standard default marker set is used. In AFP environments, this is the default marker set.
+- **EC-C201**: The code point in the current marker symbol attribute is not defined in the current marker set.
+  - Standard action: The standard default marker symbol is used. In AFP environments, this is X'01'—Cross.
 
 ---
 
