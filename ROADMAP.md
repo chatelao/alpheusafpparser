@@ -30,15 +30,15 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 *This phase focuses on ensuring the highest quality for the Markdown-based AFP specifications, including purging PDF artifacts, fixing OCR errors, and converting text dumps to structured Markdown tables.*
 
 - 🚧 **IPDS (Critical)**:
-    - ⏳ Purge physical page markers and recurring PDF headers/footers:
+    - ✅ Purge physical page markers and recurring PDF headers/footers:
         - ✅ Chapters 1–11, 14–15.
-        - ⏳ Chapters 12–13, 16–17.
-        - ⏳ Appendices A–D.
+        - ✅ Chapters 12–13, 16–17.
+        - ✅ Appendices A–D.
     - ⏳ Fix OCR-induced broken paragraphs and split words:
         - ⏳ Chapters 1–4.
         - ✅ Chapters 5–11, 14–15.
-        - ⏳ Chapters 12–13, 16–17 and Appendices.
-    - ⏳ Remove physical page references ("on page XXX"; ~500 found):
+        - ✅ Chapters 12–13, 16–17 and Appendices.
+    - ✅ Remove physical page references ("on page XXX"; ~500 found):
         - ✅ Front Matter and Chapters 1–3.
         - ✅ Chapters 4–11.
         - ⏳ Chapters 12–15, 17.
@@ -346,7 +346,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
     - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
     - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG).
-- 🚧 Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
+- ✅ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
     - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`, `UtilCharacterEncodingTest`).
     - ✅ Migrate basic SF and XML tests (`StructuredFieldTest`, `NOPXMLTest`, `PTXXMLTest`, `MDRPTXXMLTest`, `AFP2XMLWriterTest`, `StatefulEncodingTest`, `IllegalAnnotationExceptionTest`).
@@ -369,9 +369,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Implement missing `MPT` (Map Presentation Text, X'D3AB9B') Structured Field.
     - ✅ Implement missing Triplets: `X'8F'` (Function Set), `X'9D'` (Keep Group Together), `X'9E'` (Setup Name).
     - ✅ Implement `TripletExtender` (X'FF') logic in `TripletParser`.
-- 🚧 Complete payload parsing for all identified "shallow" Structured Fields.
+    - ✅ Complete payload parsing for all identified "shallow" Structured Fields.
     - ✅ Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
-    - 🚧 Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
+        - ✅ Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
         - ✅ MO:DCA Object Containers and Image Data (BII, EII, IRD, EIM, EOC, OCD).
         - ✅ MO:DCA Overlay and Page Segment.
             - ✅ End Overlay (EMO).
@@ -445,9 +445,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Migrate from obsolete source/target Java 8 to Java 21.
     - ⏳ Address unchecked or unsafe operations in `com.mgz.cli.AFP2XML`.
     - ⏳ Replace usage of deprecated APIs.
-- ⏳ Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts`).
-- ⏳ Update Java version to 21 (LTS).
-- ⏳ Refactor source code to use modern Java features.
+- ✅ Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts` and `settings.gradle.kts`).
+- ✅ Update Java version to 21 (LTS).
+- ⏳ Refactor source code to use modern Java features:
+    - ⏳ Use `var` for local variable type inference where appropriate.
+    - ⏳ Refactor data-heavy classes to Java Records.
+    - ⏳ Implement Sealed Classes for Structured Field hierarchies.
+    - ⏳ Use Pattern Matching for `switch` and `instanceof`.
+    - ⏳ Update Stream API usage with modern collectors and methods.
 
 ## Phase 8: Modernized Publishing and Distribution
 - ✅ Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.
