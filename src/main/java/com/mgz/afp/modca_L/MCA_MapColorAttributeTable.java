@@ -44,7 +44,7 @@ import java.util.ArrayList;
  * Manager Metafile (.met) Format.
  */
 
-public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroups implements IHasRepeatingGroups {
+public class MCA_MapColorAttributeTable extends StructuredFieldBaseRepeatingGroups implements IHasRepeatingGroups {
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);

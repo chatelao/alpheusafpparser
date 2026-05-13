@@ -321,31 +321,39 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Implement round-trip unit tests for all PTOCA Control Sequences.
         - ✅ Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - ✅ Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
-    - ⏳ Implement round-trip unit tests for all Structured Fields.
-    - ✅ GOCA Structured Fields (BGR, GAD, EGR).
-    - ✅ IOCA Structured Fields (IDD, IPD).
-    - ✅ Line Data Structured Fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
-    - ✅ Other Line Data Structured Fields (BDM, XMD, FDS, FDX, LND, LNC, CCP, RCD).
-    - ✅ Medium Control Structured Fields (MCC, MMC, MMT, MFC).
-    - ✅ CMOCA and MO:DCA-L Structured Fields (BCA, ECA, MCA, CAT, CMR).
-    - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR).
-    - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
-    - ✅ Presentation Control Structured Fields (PEC, PFC).
-    - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF).
+    - 🚧 Implement round-trip unit tests for all Structured Fields.
+        - ✅ GOCA Structured Fields (BGR, GAD, EGR).
+        - ⏳ Other GOCA SFs (GDD).
+        - ✅ IOCA Structured Fields (IDD, IPD).
+        - ⏳ Other IOCA SFs (ICP, IID, IOC).
+        - ✅ Line Data Structured Fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
+        - ✅ Other Line Data Structured Fields (BDM, XMD, FDS, FDX, LND, LNC, CCP, RCD).
+        - ✅ Medium Control Structured Fields (MCC, MMC, MMT, MFC).
+        - ✅ CMOCA and MO:DCA-L Structured Fields (BCA, ECA, MCA, CAT, CMR).
+        - ✅ Descriptor Structured Fields (PGD, MDD, OBD, CDD, FGD).
+        - ⏳ Map Structured Fields (MDR ✅, MCF, MBC, MCD, MGO, MIO, MMD, MMO).
+        - ⏳ Position Structured Fields (PGP, OBP).
+        - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
+        - ✅ Presentation Control Structured Fields (PEC, PFC).
+        - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF).
+        - ✅ Missing Group SFs (BPF, BRS, BOG).
         - ✅ Page and Overlay Structured Fields.
             - ✅ Begin/End Overlay (BMO, EMO).
             - ✅ Begin/End Page Segment (BPS, EPS).
             - ✅ Include Page/Overlay/Segment (IPG, IPO, IPS).
             - ✅ Map Page/Overlay/Segment (MPG, MPO, MPS).
-    - ✅ Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG, ERS).
+        - ✅ Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG, ERS).
         - ✅ Object and Data Structured Fields.
             - ✅ Begin/End Object Container (BOC, EOC).
             - ✅ Begin/End Image/IM Image (BIM, EIM, BII, EII).
             - ✅ Include Object (IOB).
             - ✅ Object/Image Data (OCD, IRD).
-    - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
-    - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
-    - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG).
+        - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
+        - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
+        - ⏳ PTOCA Descriptor SFs (PTD).
+        - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN).
+        - ⏳ Other FOCA SFs (CFC, CFI, CPC, CPD, CPI, FND, FNG, FNI, FNM, FNO, FNP).
+        - ⏳ Miscellaneous MO:DCA SFs (CTC, PMC, PPO, MSU, NOP).
 - 🚧 Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
     - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`, `UtilCharacterEncodingTest`).

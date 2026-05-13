@@ -139,6 +139,27 @@ public class EnvironmentAndResourceGroupRoundTripTest {
     }
 
     @Test
+    public void testBRSRoundTrip() throws Exception {
+        // BRS: D3A8CE
+        // Name (8): RESOURCE1 (D9 C5 E2 D6 E4 D9 C3 C5)
+        // Reserved (2): 00 00
+        // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
+        // Total Len: 1 + 8 + 10 + 6 = 25. SFLen = 24 (0x0018)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x18, (byte) 0xD3, (byte) 0xA8, (byte) 0xCE, 0x00, 0x00, 0x00,
+            (byte) 0xD9, (byte) 0xC5, (byte) 0xE2, (byte) 0xD6, (byte) 0xE4, (byte) 0xD9, (byte) 0xC3, (byte) 0xC5,
+            0x00, 0x00,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        BRS_BeginResource brs = new BRS_BeginResource();
+        brs.setName("RESOURCE1");
+        com.mgz.afp.triplets.Triplet.Comment comment = new com.mgz.afp.triplets.Triplet.Comment();
+        comment.setComment("TEST");
+        brs.addTriplet(comment);
+        RoundTripTestUtils.assertRoundTrip(brs, data);
+    }
+
+    @Test
     public void testERSRoundTrip() throws Exception {
         // ERS: D3A9CE
         // Name (8): RESOURCE1 (D9 C5 E2 D6 E4 D9 C3 C5)
@@ -148,5 +169,24 @@ public class EnvironmentAndResourceGroupRoundTripTest {
             (byte) 0xD9, (byte) 0xC5, (byte) 0xE2, (byte) 0xD6, (byte) 0xE4, (byte) 0xD9, (byte) 0xC3, (byte) 0xC5
         };
         RoundTripTestUtils.assertRoundTrip(new ERS_EndResource(), data);
+    }
+
+    @Test
+    public void testBOGRoundTrip() throws Exception {
+        // BOG: D3A8C7
+        // Name (8): OBJENVG1 (D6 C2 D1 C5 D5 E5 C7 F1)
+        // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
+        // Total Len: 1 + 8 + 14 = 23. SFLen = 22 (0x0016)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA8, (byte) 0xC7, 0x00, 0x00, 0x00,
+            (byte) 0xD6, (byte) 0xC2, (byte) 0xD1, (byte) 0xC5, (byte) 0xD5, (byte) 0xE5, (byte) 0xC7, (byte) 0xF1,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        BOG_BeginObjectEnvironmentGroup bog = new BOG_BeginObjectEnvironmentGroup();
+        bog.setName("OBJENVG1");
+        com.mgz.afp.triplets.Triplet.Comment comment = new com.mgz.afp.triplets.Triplet.Comment();
+        comment.setComment("TEST");
+        bog.addTriplet(comment);
+        RoundTripTestUtils.assertRoundTrip(bog, data);
     }
 }

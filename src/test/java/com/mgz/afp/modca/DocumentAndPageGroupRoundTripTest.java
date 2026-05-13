@@ -90,6 +90,25 @@ public class DocumentAndPageGroupRoundTripTest {
     }
 
     @Test
+    public void testBPFRoundTrip() throws Exception {
+        // BPF: D3A8A5
+        // Name (8): PRTFILE1 (D7 D9 E3 C6 C9 D3 C5 F1)
+        // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
+        // Total Len: 1 + 8 + 14 = 23. SFLen = 22 (0x0016)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA8, (byte) 0xA5, 0x00, 0x00, 0x00,
+            (byte) 0xD7, (byte) 0xD9, (byte) 0xE3, (byte) 0xC6, (byte) 0xC9, (byte) 0xD3, (byte) 0xC5, (byte) 0xF1,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        BPF_BeginPrintFile bpf = new BPF_BeginPrintFile();
+        bpf.setName("PRTFILE1");
+        com.mgz.afp.triplets.Triplet.Comment comment = new com.mgz.afp.triplets.Triplet.Comment();
+        comment.setComment("TEST");
+        bpf.addTriplet(comment);
+        RoundTripTestUtils.assertRoundTrip(bpf, data);
+    }
+
+    @Test
     public void testEPFRoundTrip() throws Exception {
         // EPF: D3A9A5
         // Name (8): PRTFILE1 (D7 D9 E3 C6 C9 D3 C5 F1)
