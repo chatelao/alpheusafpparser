@@ -16,8 +16,9 @@ version = if (System.getenv("GITHUB_REF_TYPE") == "tag") {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
 }
 
 println("Source Compatibility: ${java.sourceCompatibility}")
@@ -31,9 +32,7 @@ val checkstyleConfig: Configuration by configurations.creating
 dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
-    testImplementation("junit:junit:4.12")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.0")
 
     checkstyleConfig("com.puppycrawl.tools:checkstyle:10.12.0") {
         isTransitive = false
@@ -47,7 +46,7 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 val javadocJar by tasks.registering(Jar::class) {
-    val javadocTask = tasks.javadoc
+    val javadocTask = tasks.named<Javadoc>("javadoc")
     dependsOn(javadocTask)
     archiveClassifier.set("javadoc")
     from(javadocTask.map { it.destinationDir!! })
@@ -107,7 +106,7 @@ tasks.clean {
     }
 }
 
-tasks.test {
+tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     testLogging {
         events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
@@ -116,23 +115,21 @@ tasks.test {
 }
 
 tasks.jacocoTestReport {
-    dependsOn(tasks.test)
+    dependsOn(tasks.withType<Test>())
     reports {
         xml.required.set(true)
         html.required.set(true)
     }
 }
 
-artifacts {
-    add("archives", sourcesJar.get())
-    add("archives", javadocJar.get())
-}
-
 checkstyle {
     toolVersion = "10.12.0"
     config = resources.text.fromArchiveEntry(checkstyleConfig, "google_checks.xml")
     isIgnoreFailures = true
-    isShowViolations = false
+}
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
 }
 
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
