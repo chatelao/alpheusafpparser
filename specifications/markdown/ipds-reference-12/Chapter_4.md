@@ -8207,213 +8207,64 @@ specified.
 
 
 Object-Container Type Support Self-Defining Field
-This self-defining field lists the object containers supported by the printer and for each type of object indicates
-whether the object is supported in home state, in page or overlay state, or in all three states. The object-type
-OIDs also indicate whether an object container is a presentation object or a non-presentation object. Table 17
- summarizes characteristics of the currently defined object containers.
-Non-presentation object containers are downloaded in home state and are either used immediately (as in the
-case of a setup file) or are later invoked in page or overlay state (as in the case of a PostScript resource
-object). Presentation object containers can either be part of a page or overlay, or can be downloaded in home
-state and later included by means of the IDO command in page or overlay state.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0016' to end of
-SDF
-Length of this self-defining field, including this length field
-maximum length X'7FA2'
-2–3 CODE SDF ID X'0014' Object-Container Type Support self-defining field ID
-One or more type records in the following format:
-+0 UBIN Type record
-length
-X'12'–X'F2'
-in increments of
-16
-Length of the type record, including this length field
-+1 CODE Type
-X'01'
-X'02'
-IPDS state in which the following list of registered
-object-type OIDs is supported:
-Page or overlay state
-Home state
-One or more 16-byte registered object-type OIDs in the following format:
-+2–17 CODE Reg ID
-X'0607 2B12
-0004 0101
-0F00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-1000 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-1800 0000
-0000 0000'
-MO:DCA-registered object ID for the object container
-supported in the WOC. The ID is left-justified and padded
-on the right with zeroes.
-Anacomp COM Setup File
-Anacomp COM Tape Label Setup File
-AnaStack Record Setup File
+This self-defining field lists the object containers supported by the printer and for each type of object indicates whether the object is supported in home state, in page or overlay state, or in all three states. The object-type OIDs also indicate whether an object container is a presentation object or a non-presentation object. Table 17 summarizes characteristics of the currently defined object containers.
 
+Non-presentation object containers are downloaded in home state and are either used immediately (as in the case of a setup file) or are later invoked in page or overlay state (as in the case of a PostScript resource object). Presentation object containers can either be part of a page or overlay, or can be downloaded in home state and later included by means of the IDO command in page or overlay state.
 
-Offset Type Name Range Meaning
-X'0607 2B12
-0004 0101
-3900 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-1400 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-0D00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3000 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-1600 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-2F00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-1700 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3A00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-4500 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-2200 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3F00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-4000 0000
-0000 0000'
-Color Mapping Table Setup File
-EPS (Encapsulated PostScript) without transparency
-EPS (Encapsulated PostScript) with transparency
-GIF (Graphics Interchange Format)
-IOCA Tile Resource
-JPEG (Joint Photographic Experts Group)
-AFPC JPEG Subset
-JP2 (JPEG2000 File Format)
-Non-OCA Resource object; see note 1
-PCL page object
-PDF multiple-page file without transparency
-PDF multiple-page file with transparency
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0016' – X'7FA2' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0014' | Object-Container Type Support self-defining field ID |
+| | | | | **One or more type records in the following format:** |
+| +0 | UBIN | Type record length | X'12'–X'F2' | Length of the type record, including this length field (in increments of 16) |
+| +1 | CODE | Type | X'01'<br>X'02' | IPDS state in which the following list of registered object-type OIDs is supported:<br>X'01' Page or overlay state<br>X'02' Home state |
+| | | | | **One or more 16-byte registered object-type OIDs in the following format:** |
+| +2–17 | CODE | Reg ID | | MO:DCA-registered object ID for the object container supported in the WOC. The ID is left-justified and padded on the right with zeroes. See the "Registered Object-Type OIDs" table below. |
 
+**Registered Object-Type OIDs**
 
-Offset Type Name Range Meaning
-X'0607 2B12
-0004 0101
-1900 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3100 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-1A00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-4100 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-2E00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-4400 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-4200 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-0E00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3C00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3D00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3E00 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3500 0000
-0000 0000'
-PDF single page without transparency
-PDF single page with transparency
-PDF (Portable Document Format) Resource Object
-PNG (Portable Network Graphics)
-AFPC PNG Subset
-Resident Color Profile
-SVG (Scalable Vector Graphics)
-AFPC SVG Subset; see note 2
-TIFF (Tag Image File Format)
-AFPC TIFF Subset
-TIFF (Tag Image File Format) with transparency
-TIFF (Tag Image File Format) without transparency
-TIFF multiple-image file with transparency
-TIFF multiple-image file without transparency
-TrueType/OpenType Collection
+| Registered Object-Type OID | Meaning |
+| :--- | :--- |
+| X'0607 2B12 0004 0101 0F00 0000 0000 0000' | Anacomp COM Setup File |
+| X'0607 2B12 0004 0101 1000 0000 0000 0000' | Anacomp COM Tape Label Setup File |
+| X'0607 2B12 0004 0101 1800 0000 0000 0000' | AnaStack Record Setup File |
+| X'0607 2B12 0004 0101 3900 0000 0000 0000' | Color Mapping Table Setup File |
+| X'0607 2B12 0004 0101 1400 0000 0000 0000' | EPS (Encapsulated PostScript) without transparency |
+| X'0607 2B12 0004 0101 0D00 0000 0000 0000' | EPS (Encapsulated PostScript) with transparency |
+| X'0607 2B12 0004 0101 3000 0000 0000 0000' | GIF (Graphics Interchange Format) |
+| X'0607 2B12 0004 0101 1600 0000 0000 0000' | IOCA Tile Resource |
+| X'0607 2B12 0004 0101 2F00 0000 0000 0000' | JPEG (Joint Photographic Experts Group) |
+| X'0607 2B12 0004 0101 1700 0000 0000 0000' | AFPC JPEG Subset |
+| X'0607 2B12 0004 0101 3A00 0000 0000 0000' | JP2 (JPEG2000 File Format) |
+| X'0607 2B12 0004 0101 4500 0000 0000 0000' | Non-OCA Resource object; see note 1 |
+| X'0607 2B12 0004 0101 2200 0000 0000 0000' | PCL page object |
+| X'0607 2B12 0004 0101 3F00 0000 0000 0000' | PDF multiple-page file without transparency |
+| X'0607 2B12 0004 0101 4000 0000 0000 0000' | PDF multiple-page file with transparency |
+| X'0607 2B12 0004 0101 1900 0000 0000 0000' | PDF single page without transparency |
+| X'0607 2B12 0004 0101 3100 0000 0000 0000' | PDF single page with transparency |
+| X'0607 2B12 0004 0101 1A00 0000 0000 0000' | PDF (Portable Document Format) Resource Object |
+| X'0607 2B12 0004 0101 4100 0000 0000 0000' | PNG (Portable Network Graphics) |
+| X'0607 2B12 0004 0101 2E00 0000 0000 0000' | AFPC PNG Subset |
+| X'0607 2B12 0004 0101 4400 0000 0000 0000' | Resident Color Profile |
+| X'0607 2B12 0004 0101 4200 0000 0000 0000' | SVG (Scalable Vector Graphics) |
+| X'0607 2B12 0004 0101 0E00 0000 0000 0000' | AFPC SVG Subset; see note 2 |
+| X'0607 2B12 0004 0101 3C00 0000 0000 0000' | TIFF (Tag Image File Format) |
+| X'0607 2B12 0004 0101 3D00 0000 0000 0000' | AFPC TIFF Subset |
+| X'0607 2B12 0004 0101 3E00 0000 0000 0000' | TIFF (Tag Image File Format) with transparency |
+| X'0607 2B12 0004 0101 3500 0000 0000 0000' | TIFF (Tag Image File Format) without transparency |
+| X'0607 2B12 0004 0101 3300 0000 0000 0000' | TIFF multiple-image file with transparency |
+| X'0607 2B12 0004 0101 3800 0000 0000 0000' | TIFF multiple-image file without transparency |
+| X'0607 2B12 0004 0101 2500 0000 0000 0000' | TrueType/OpenType Collection |
+| X'0607 2B12 0004 0101 2400 0000 0000 0000' | TrueType/OpenType Font |
+| X'0607 2B12 0004 0101 2600 0000 0000 0000' | UP3I Print Data |
 
+**Retired Object-Type OIDs**
 
-Offset Type Name Range Meaning
-X'0607 2B12
-0004 0101
-3300 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-3800 0000
-0000 0000'
-TrueType/OpenType Font
-UP
-3I Print Data
-Retired Object-Type OIDs
-X'0607 2B12
-0004 0101
-2500 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-2400 0000
-0000 0000'
-X'0607 2B12
-0004 0101
-2600 0000
-0000 0000'
-Retired item 136
-Retired item 137
-Retired item 138
+| Registered Object-Type OID | Meaning |
+| :--- | :--- |
+| X'0607 2B12 0004 0101 2500 0000 0000 0000' | Retired item 136 |
+| X'0607 2B12 0004 0101 2400 0000 0000 0000' | Retired item 137 |
+| X'0607 2B12 0004 0101 2600 0000 0000 0000' | Retired item 138 |
 Notes:
 1. Implementations that report support for the Non-OCA Resource object must support it for all supported
 primary object types that can use the Non-OCA Resource object as a secondary resource.
@@ -8432,53 +8283,27 @@ property pair in note 4 for more information.
 
 
 DF Deactivation Types Supported Self-Defining Field
-The DF Deactivation Types Supported self-defining field lists the optional deactivation types that are supported
-by the printer. These types are in addition to those listed as required in Table 24.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0005' –
-X'000A'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0015' DF Deactivation Types Supported self-defining field ID
-One or more entries in the following format:
-+0 CODE Type
-X'22'
-X'50'
-X'51'
-X'5D'
-X'5E'
-X'5F'
-Optional deactivation type:
-Deactivate a font index for a double-byte coded font section
-Deactivate a coded font
-Deactivate a coded font and all associated components
-Deactivate all resident coded fonts and all
-associated components
-Deactivate all coded fonts
-Deactivate all coded fonts and all associated components
+The DF Deactivation Types Supported self-defining field lists the optional deactivation types that are supported by the printer. These types are in addition to those listed as required in Table 24.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0005' – X'000A' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0015' | DF Deactivation Types Supported self-defining field ID |
+| | | | | One or more entries in the following format: |
+| +0 | CODE | Type | X'22'<br>X'50'<br>X'51'<br>X'5D'<br>X'5E'<br>X'5F' | Optional deactivation type:<br>Deactivate a font index for a double-byte coded font section<br>Deactivate a coded font<br>Deactivate a coded font and all associated components<br>Deactivate all resident coded fonts and all associated components<br>Deactivate all coded fonts<br>Deactivate all coded fonts and all associated components |
 
 
 PFC Triplets Supported Self-Defining Field
 The PFC Triplets Supported self-defining field lists the optional triplets that are supported by the printer on the
 Presentation Fidelity Control command. If the PFC command is supported by a printer, this self-defining field
 must be returned in the XOH-OPC reply.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0005' –
-X'7FFF'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0016' PFC Triplets Supported self-defining field ID
-One or more triplet IDs in the following format:
-+0 CODE Triplet ID
-X'74'
-X'75'
-X'86'
-X'88'
-X'96'
-Supported triplet ID:
-Toner Saver triplet
-Color Fidelity triplet
-Text Fidelity triplet
-Finishing Fidelity triplet
-CMR Tag Fidelity triplet
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0005' – X'7FFF' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0016' | PFC Triplets Supported self-defining field ID |
+| | | | | One or more triplet IDs in the following format: |
+| +0 | CODE | Triplet ID | X'74'<br>X'75'<br>X'86'<br>X'88'<br>X'96' | Supported triplet ID:<br>Toner Saver triplet<br>Color Fidelity triplet<br>Text Fidelity triplet<br>Finishing Fidelity triplet<br>CMR Tag Fidelity triplet |
 
 
 Printer Setup Self-Defining Field
@@ -8517,112 +8342,48 @@ Exception ID X'0109..00' exists when a finishing operation is enabled or disable
 
 
 UP3I Tupel Self-Defining Field
-This self-defining field reports the physical order and properties of the UP3I devices connected to the printer.
-One of these self-defining fields is returned for each possible paper path combination in the line of UP3I
-devices; the combination of devices is called a tupel.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0009' to end
-of SDF
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0019' UP3I Tupel self-defining field ID
-4–5 UBIN Tupel ID X'0001' –
-X'FFFF'
-UP3I Tupel ID
-6 to
-end
-UP3I device
-information
-The information returned in this self-defining field is defined by
-UP3I and is described in the current UP3I Specification that is
-available at www.afpcinc.org. Refer to the section titled
-“Extension for the Intelligent Printer Data Stream (IPDS)”.
+This self-defining field reports the physical order and properties of the UP3I devices connected to the printer. One of these self-defining fields is returned for each possible paper path combination in the line of UP3I devices; the combination of devices is called a tupel.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0009' to end of SDF | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0019' | UP3I Tupel self-defining field ID |
+| 4–5 | UBIN | Tupel ID | X'0001' – X'FFFF' | UP3I Tupel ID |
+| 6 to end | | UP3I device information | | The information returned in this self-defining field is defined by UP3I and is described in the current UP3I Specification that is available at www.afpcinc.org. Refer to the section titled “Extension for the Intelligent Printer Data Stream (IPDS)”. |
+
 Exception ID X'0109..00' exists when a finishing operation is enabled or disabled.
+
 UP3I Paper Input Media Self-Defining Field
-This self-defining field reports the media attributes of all media that exist in the UP3I line. One of these self-
-defining fields is returned for each available IPDS media source for which there is UP3I information.
-In the XOH-OPC reply, there must be a Printable-Area self-defining field for each media source. In addition, if
-UP3I information exists for the media source, a UP3I Paper Input Media self-defining field is specified to provide
-additional information.
-It is good practice to specify the Printable-Area self-defining field for a media source before specifying the UP3I
-Paper Input Media self-defining field for that source.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0005' to end
-of SDF
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'001A' UP3I Paper Input Media self-defining field ID
-4 CODE Media source
-ID
-X'00'–X'FF' Media source ID as defined in the OPC Printable-Area self-
-defining field
-5 to
-end
-UP3I media
-information
-The information returned in this self-defining field is defined by
-UP
-3I and is described in the current UP3I Specification that is
-available at www.afpcinc.org. Refer to the section titled
-“Extension for the Intelligent Printer Data Stream (IPDS)”.
+This self-defining field reports the media attributes of all media that exist in the UP3I line. One of these self-defining fields is returned for each available IPDS media source for which there is UP3I information.
+
+In the XOH-OPC reply, there must be a Printable-Area self-defining field for each media source. In addition, if UP3I information exists for the media source, a UP3I Paper Input Media self-defining field is specified to provide additional information.
+
+It is good practice to specify the Printable-Area self-defining field for a media source before specifying the UP3I Paper Input Media self-defining field for that source.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0005' to end of SDF | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'001A' | UP3I Paper Input Media self-defining field ID |
+| 4 | CODE | Media source ID | X'00'–X'FF' | Media source ID as defined in the OPC Printable-Area self-defining field |
+| 5 to end | | UP3I media information | | The information returned in this self-defining field is defined by UP3I and is described in the current UP3I Specification that is available at www.afpcinc.org. Refer to the section titled “Extension for the Intelligent Printer Data Stream (IPDS)”. |
 The Printable-Area self-defining field and the UP3I Paper Input Media self-defining field both provide
 descriptions of a media source and the media in that source. The printer must provide non-conflicting
 information in each pair of these self-defining fields that are related by a media source ID.
 
 
 Colorant-Identification Self-Defining Field
-This self-defining field lists all colorants available in the printer. Colorants and combinations of colorants can be
-selected using a highlight-color value in the range X'0100'–X'FFFF' along with an indexed CMR.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000B' to end
-of SDF
-Length of this self-defining field, including this length field
-maximum length X'FFFF'
-2–3 CODE SDF ID X'0021' Colorant-Identification self-defining field ID
-One or more Colorant-Identification entries in the following format:
-+ 0 UBIN Entry length X'07'–X'FF'
-odd values
-Length of this entry, including this length field
-+ 1 CODE Entry type X'01' User-defined colorant name (UTF-16BE)
-+ 2 BITS Colorant availability flags
-Bit 0 Front
-available
-B'0'
-B'1'
-Not available for front side
-Available for front side; can only be set if bit 6 is also set
-Bit 1 Back available B'0'
-B'1'
-Not available for back side
-Available for back side; can only be set if bit 7 is also set
-Bit 2 EPS/PDF B'0'
-B'1'
-Not available to EPS/PDF objects
-Available to EPS/PDF objects
-Bit 3 B'0' Reserved
-Bit 4 Front default B'0'
-B'1'
-Not used as default color for front side
-Used as default color for front side
-Bit 5 Back default B'0'
-B'1'
-Not used as default color for back side
-Used as default color for back side
-Bit 6 Front installed B'0'
-B'1'
-Not installed for front side
-Installed for front side
-Bit 7 Back installed B'0'
-B'1'
-Not installed for back side
-Installed for back side
-+ 3–4 X'0000' Reserved
-+ 5 to
-end
-CHAR Colorant
-name
-any
-UTF-16BE
-character
-Colorant name
+This self-defining field lists all colorants available in the printer. Colorants and combinations of colorants can be selected using a highlight-color value in the range X'0100'–X'FFFF' along with an indexed CMR.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000B' to end of SDF | Length of this self-defining field, including this length field; maximum length X'FFFF' |
+| 2–3 | CODE | SDF ID | X'0021' | Colorant-Identification self-defining field ID |
+| | | | | **One or more Colorant-Identification entries in the following format:** |
+| +0 | UBIN | Entry length | X'07'–X'FF' | Length of this entry, including this length field (odd values) |
+| +1 | CODE | Entry type | X'01' | User-defined colorant name (UTF-16BE) |
+| +2 | BITS | Colorant availability flags | | **bit 0** Front available (B'0' = Not available for front side; B'1' = Available for front side; can only be set if bit 6 is also set)<br>**bit 1** Back available (B'0' = Not available for back side; B'1' = Available for back side; can only be set if bit 7 is also set)<br>**bit 2** EPS/PDF (B'0' = Not available to EPS/PDF objects; B'1' = Available to EPS/PDF objects)<br>**bit 3** Reserved (B'0')<br>**bit 4** Front default (B'0' = Not used as default color for front side; B'1' = Used as default color for front side)<br>**bit 5** Back default (B'0' = Not used as default color for back side; B'1' = Used as default color for back side)<br>**bit 6** Front installed (B'0' = Not installed for front side; B'1' = Installed for front side)<br>**bit 7** Back installed (B'0' = Not installed for back side; B'1' = Installed for back side) |
+| +3–4 | | Reserved | X'0000' | Reserved |
+| +5 to end | CHAR | Colorant name | | Colorant name, using any UTF-16BE characters |
 Notes:
 1. The front side of a sheet is the side on which front-side pages are printed; refer to the LCC command for
 information about simplex, duplex, and sheet sides. How paper is loaded in a media source is printer
@@ -8673,50 +8434,16 @@ appearance values also do not return this OPC self-defining field.
 
 Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field
 This self-defining field identifies the maximum number of sheets allowed within a recovery-unit group; these
-sheets include sheets containing pages and copies of such sheets. Support for this group operation is
-indicated by the Supported Group Operations self-defining field.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000B' Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0024' Keep-Group-Together-as-a-Recovery-Unit self-defining field ID
-4–5 UBIN Maximum
-number of
-sheets
-X'0000'
-X'0002' –
-X'FFFE'
-X'FFFF'
-Number of sheets allowed within a recovery-unit group:
-Value not specified; refer to maximum total group length
-value
-Maximum number of sheets that can be kept together as a
-recovery unit
-Maximum value is finite, but larger than 65,534 sheets
-6 CODE Unit base
-X'00'
-X'01'
-Unit base for this self-defining field:
-Ten inches
-Ten centimeters
-7–8 UBIN UPUB X'0001' –
-X'7FFF'
-Units per unit base value for this self-defining field
-9–10 UBIN Maximum
-total group
-length
-X'0000'
-X'0001' –
-X'7FFF'
-Maximum length of media that can be kept together as a
-recovery unit:
-Value not specified; refer to maximum number of
-sheets value
-Total length of media that can be kept together as a
-recovery unit
-Note: For a printer using cut-sheet media, the value is the sum
-of the sheet lengths. For a printer using continuous-forms
-media, the length can be changed with the XOH Set Media
-Size command. Exception ID X'0101..00' exists whenever
-media size changes.
+sheets include sheets containing pages and copies of such sheets. Support for this group operation is indicated by the Supported Group Operations self-defining field.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000B' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0024' | Keep-Group-Together-as-a-Recovery-Unit self-defining field ID |
+| 4–5 | UBIN | Maximum number of sheets | X'0000'<br>X'0002' – X'FFFE'<br>X'FFFF' | Number of sheets allowed within a recovery-unit group:<br>Value not specified; refer to maximum total group length value<br>Maximum number of sheets that can be kept together as a recovery unit<br>Maximum value is finite, but larger than 65,534 sheets |
+| 6 | CODE | Unit base | X'00'<br>X'01' | Unit base for this self-defining field:<br>Ten inches<br>Ten centimeters |
+| 7–8 | UBIN | UPUB | X'0001' – X'7FFF' | Units per unit base value for this self-defining field |
+| 9–10 | UBIN | Maximum total group length | X'0000'<br>X'0001' – X'7FFF' | Maximum length of media that can be kept together as a recovery unit:<br>Value not specified; refer to maximum number of sheets value<br>Total length of media that can be kept together as a recovery unit<br>Note: For a printer using cut-sheet media, the value is the sum of the sheet lengths. For a printer using continuous-forms media, the length can be changed with the XOH Set Media Size command. Exception ID X'0101..00' exists whenever media size changes. |
 Note: Printers that do not support the Keep-Group-Together-as-a-Recovery-Unit group operation or have no
 maximum do not return this self-defining field. If both a non-zero maximum number of sheets and a non-
 zero maximum total group length is specified, the printer is responsible for ensuring that these values
@@ -8724,33 +8451,14 @@ are consistent and the presentation services program can use either value (and i
 
 
 Recognized Group ID Formats Self-Defining Field
-This self-defining field specifies the group ID formats that are recognized by the printer in the Group ID (X'00')
-triplet. The printer must accept all formats (but unrecognized formats are ignored and don't need to be
-supplied); this self-defining field can help a host program to determine which Group ID formats to supply.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0004' –
-X'7FFF'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0025' Recognized Group ID Formats self-defining field ID
-Zero or more entries in the following format:
-+ 0 CODE Group ID
-format
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'08'
-X'13'
-MVS and VSE print-data format
-VM print-data format
-OS/400 print-data format
-MVS and VSE COM-data format
-AIX and OS/2 COM-data format
-AIX and Windows print-data
-Variable-length Group ID format
-Extended OS/400 print-data format
+This self-defining field specifies the group ID formats that are recognized by the printer in the Group ID (X'00') triplet. The printer must accept all formats (but unrecognized formats are ignored and don't need to be supplied); this self-defining field can help a host program to determine which Group ID formats to supply.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0004' – X'7FFF' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0025' | Recognized Group ID Formats self-defining field ID |
+| | | | | Zero or more entries in the following format: |
+| +0 | CODE | Group ID format | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'08'<br>X'13' | MVS and VSE print-data format<br>VM print-data format<br>OS/400 print-data format<br>MVS and VSE COM-data format<br>AIX and OS/2 COM-data format<br>AIX and Windows print-data<br>Variable-length Group ID format<br>Extended OS/400 print-data format |
 
 
 Supported Device Resolutions Self-Defining Field
@@ -8814,67 +8522,30 @@ above list.
 
 A list of recommended values to be returned in this self-defining field for known versions of object containers
 can be found in the publication Recommended IPDS Values for Object Container Versions.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'001C' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0027' Object-Container Version Support self-defining field ID
-One or more version records in the following format:
-+ 0 UBIN Version record
-length
-X'18'–X'FE'
-Length of the version record, including this length field
-+ 1–16 CODE Object type
-OID
-MO:DCA-registered object ID for the object container
-supported in the WOC. This is the same value as specified in
-the “Reg ID” field in the Object-Container Type Support self-
-defining field.
-+ 17 BITS Flags
-bit 0 All variations B'0'
-B'1'
-Version information is applicable to the specified OID only
-Version information is applicable to all object-type OIDs
-that are variations of the specified OID
-bits 1–7 B'0000000' Reserved
-+ 18–19 UBIN Major version X'0000' –
-X'FFFF'
-Major version number supported. The value X'FFFF' indicates
-no major version information passed; the minor version and
-subminor version fields must also be X'FFFF' in this case.
-+ 20–21 UBIN Minor version X'0000' –
-X'FFFF'
-Minor version number supported. The value X'FFFF' indicates
-no minor version information passed; the subminor version
-field must also be X'FFFF' in this case.
-+ 22–23 UBIN Subminor
-version
-X'0000' –
-X'FFFF'
-Subminor version number supported. The value X'FFFF'
-indicates no subminor version information passed.
-+ 24 to
-end of
-record
-CHAR Version name Any UTF-16BE
-characters
-Name of the version supported. This field is optional in the
-version record.
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'001C' – X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0027' | Object-Container Version Support self-defining field ID |
+| | | | | **One or more version records in the following format:** |
+| +0 | UBIN | Version record length | X'18'–X'FE' | Length of the version record, including this length field |
+| +1–16 | CODE | Object type OID | | MO:DCA-registered object ID for the object container supported in the WOC. This is the same value as specified in the “Reg ID” field in the Object-Container Type Support self-defining field. |
+| +17 | BITS | Flags | | **bit 0** All variations (B'0' = Version information is applicable to the specified OID only; B'1' = Version information is applicable to all object-type OIDs that are variations of the specified OID)<br>**bits 1–7** Reserved (B'0000000') |
+| +18–19 | UBIN | Major version | X'0000' – X'FFFF' | Major version number supported. The value X'FFFF' indicates no major version information passed; the minor version and subminor version fields must also be X'FFFF' in this case. |
+| +20–21 | UBIN | Minor version | X'0000' – X'FFFF' | Minor version number supported. The value X'FFFF' indicates no minor version information passed; the subminor version field must also be X'FFFF' in this case. |
+| +22–23 | UBIN | Subminor version | X'0000' – X'FFFF' | Subminor version number supported. The value X'FFFF' indicates no subminor version information passed. |
+| +24 to end | CHAR | Version name | | Name of the version supported, using UTF-16BE characters. This field is optional in the version record. |
 
 
 Finishing Options Self-Defining Field
-The Finishing Options self-defining field lists all the finishing options that the printer supports with the Finishing
-Operation (X'85') triplet. Presence of this OPC self-defining field must always be accompanied by presence of
-the OPC Finishing Operations self-defining field. There can be multiple option-description entries, each of
-which identifies a supported finishing option. Support for a finishing option does not imply support for all
-variations of that option.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0005' –
-X'7FFF'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0028' Finishing Options self-defining field ID
-One or more option-description entries in the following format:
-+ 0 CODE Option type X'01' Crease
+The Finishing Options self-defining field lists all the finishing options that the printer supports with the Finishing Operation (X'85') triplet. Presence of this OPC self-defining field must always be accompanied by presence of the OPC Finishing Operations self-defining field. There can be multiple option-description entries, each of which identifies a supported finishing option. Support for a finishing option does not imply support for all variations of that option.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0005' – X'7FFF' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0028' | Finishing Options self-defining field ID |
+| | | | | **One or more option-description entries in the following format:** |
+| +0 | CODE | Option type | X'01' | Crease |
+
 Exception ID X'0109..00' exists when a finishing option is enabled or disabled.
 
 
