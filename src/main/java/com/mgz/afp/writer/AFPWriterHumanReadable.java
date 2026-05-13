@@ -25,6 +25,7 @@ import com.mgz.util.UtilCharacterEncoding;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -51,7 +52,7 @@ public class AFPWriterHumanReadable implements IAFPWriter {
         fieldName = f.getName();
         Method method = null;
         for (Method m : clazz.getDeclaredMethods()) {
-          if (!m.isAccessible()) {
+          if (!Modifier.isPublic(m.getModifiers())) {
             continue;
           }
           methodName = m.getName();

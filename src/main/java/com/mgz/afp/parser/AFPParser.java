@@ -81,7 +81,7 @@ public class AFPParser {
       try {
         String className = afpPackage + sfi.getSFTypeID().name();
         clazz = Class.forName(className);
-        sf = (StructuredField) clazz.newInstance();
+        sf = (StructuredField) clazz.getDeclaredConstructor().newInstance();
       } catch (Exception cnfex) {
         continue;
       }

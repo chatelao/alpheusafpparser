@@ -440,17 +440,20 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ Upgrade Gradle to 8.x.
 - ⏳ Resolve Gradle configuration deprecations:
     - ⏳ Replace `JavaPluginConvention` and `Convention` (scheduled for removal in Gradle 9.0).
-    - ⏳ Declare test framework directly on the test suite to avoid automatic loading deprecation.
+    - ✅ Declare test framework directly on the test suite to avoid automatic loading deprecation.
 - ⏳ Resolve Java compiler warnings:
-    - ⏳ Migrate from obsolete source/target Java 8 to Java 21.
-    - ⏳ Address unchecked or unsafe operations in `com.mgz.cli.AFP2XML`.
-    - ⏳ Replace usage of deprecated APIs.
+    - ✅ Migrate from obsolete source/target Java 8 to Java 21.
+    - ✅ Address unchecked or unsafe operations in `com.mgz.cli.AFP2XML`.
+    - ✅ Replace usage of deprecated APIs.
 - ✅ Migrate build scripts from Groovy to Kotlin DSL (`build.gradle.kts` and `settings.gradle.kts`).
 - ✅ Update Java version to 21 (LTS).
 - ⏳ Refactor source code to use modern Java features:
-    - ⏳ Use `var` for local variable type inference where appropriate.
+    - ⏳ Use `var` for local variable type inference:
+        - ⏳ `com.mgz.afp.parser.AFPParser`
+        - ⏳ `com.mgz.afp.writer.AFPWriterHumanReadable`
     - ⏳ Refactor data-heavy classes to Java Records.
-    - ⏳ Implement Sealed Classes for Structured Field hierarchies.
+    - ⏳ Implement Sealed Classes for Structured Field hierarchies:
+        - ⏳ `com.mgz.afp.base.StructuredField`
     - ⏳ Use Pattern Matching for `switch` and `instanceof`.
     - ⏳ Update Stream API usage with modern collectors and methods.
 

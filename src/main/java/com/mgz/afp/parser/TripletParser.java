@@ -152,7 +152,7 @@ public class TripletParser {
     try {
       String classname = Triplet.class.getName() + "$" + tid.name();
       Class<?> clazz = Class.forName(classname);
-      cs = (Triplet) clazz.newInstance();
+      cs = (Triplet) clazz.getDeclaredConstructor().newInstance();
     } catch (Exception cnfex) {
       // NOP.
     }

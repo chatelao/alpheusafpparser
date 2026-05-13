@@ -58,9 +58,11 @@ public class AFP2XML {
                 AFPDocument doc = new AFPDocument();
                 StructuredField sf;
                 while ((sf = parser.parseNextSF()) != null) {
+                    @SuppressWarnings("unchecked") // Safe because sf.getClass() returns a Class that extends StructuredField
+                    Class<StructuredField> sfClass = (Class<StructuredField>) sf.getClass();
                     JAXBElement<StructuredField> element = new JAXBElement<>(
                             new QName(sf.getClass().getSimpleName()),
-                            (Class<StructuredField>) sf.getClass(),
+                            sfClass,
                             sf);
                     doc.addStructuredField(element);
                 }
