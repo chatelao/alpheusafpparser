@@ -463,9 +463,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ## Phase 9: Project Documentation and Maintenance
 - ⏳ Improve Javadoc quality and compliance:
-    - ⏳ Add missing comments for classes, constructors, methods, and enums (100+ warnings).
-    - ⏳ Add missing `@return` tags in annotations.
-    - ⏳ Fix malformed HTML and empty `<p>` tags.
+    - ⏳ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue).
+    - ⏳ Add missing `@return` tags in annotations (Improved AFPField).
+    - ⏳ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
 - ⏳ Resolve Checkstyle violations:
     - ⏳ Address ~3,300 violations in `src/main`.
     - ⏳ Address ~2,000 violations in `src/test`.
