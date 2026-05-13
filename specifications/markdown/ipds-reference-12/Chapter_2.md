@@ -217,9 +217,8 @@ Each command set is further divided into at least one subset of defined function
 function. Some command sets contain more than one subset of defined function and some command sets are
 defined to carry object data.
 The IPDS command-set design supports several printer technologies. Product developers can match
-command-set implementations to the specific needs of their product. Figure 8 on page 16 illustrates the IPDS
-functional divisions. For a complete description of IPDS functional divisions, refer to Chapter 17, “Compliance”,
-on page 977.
+command-set implementations to the specific needs of their product. Figure 8 illustrates the IPDS
+functional divisions. For a complete description of IPDS functional divisions, refer to Chapter 17, “Compliance”.
 The IPDS architecture contains the following command sets:
 Device Control This command set contains the IPDS commands that initialize the environment for a logical
 page, communicate device controls, manage resources, and handle the acknowledgment

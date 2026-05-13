@@ -167,8 +167,7 @@ home state is reached, the printer queues as many NACKs as possible, and then co
 discarding all subsequent synchronous exceptions until it has entered home state and reported all of the
 previously queued NACKs. When the printer enters home state, all queued NACKs are reported and the
 printer may optionally report exception ID X'02FF ..02' to indicate that one or more NACKs were discarded.
-For complete information about the exception-reporting byte, refer to “XOA Exception-Handling Control” on
-page 277.
+For complete information about the exception-reporting byte, refer to “XOA Exception-Handling Control”.
 Alternate Exception Actions
 Use the AEA byte (byte 3) to tell the printer whether or not to take an AEA. This specification is independent of
 whether or not the printer reports the exception. However, if there is no AEA for an exception or if the printer is
@@ -179,8 +178,7 @@ exceptions that occur within a page are queued but not reported until the printe
 command, an XOA command that changes the printer state to home state, or a command with the ARQ bit set
 to B'1'. The exception sense data has a count field for recording multiple occurrences of a given exception to
 minimize reporting of many occurrences of the same data-stream exception.
-For complete information about alternate exception actions, refer to “XOA Exception-Handling Control” on
-page 277.
+For complete information about alternate exception actions, refer to “XOA Exception-Handling Control”.
 
 
 Exception-Presentation Processing
@@ -241,8 +239,7 @@ The classes of exceptions are:
 
 
 ## Sense Byte Information
-The following describes the information in each sense byte. Some printers return only bytes 0–2. Figure 117 on
-page 797 shows the layout of sense bytes within a Negative Acknowledge Reply (NACK).
+The following describes the information in each sense byte. Some printers return only bytes 0–2. Figure 117 shows the layout of sense bytes within a Negative Acknowledge Reply (NACK).
 Byte 0 The first byte of each three-byte exception ID, that defines the exception class for the specific
 exception.
 Byte 1 The second byte of each three-byte exception ID, that together with sense byte 2 or sense
@@ -268,8 +265,7 @@ Format 5 Retired item 82
 Format 7 Provides details about positioning exceptions for some printers.
 Format 8 Provides details about UP
 3I-specific exceptions.
-For more information about formats, refer to “Formats for Sense Bytes 4-18 and 20-23” on
-page 798.
+For more information about formats, refer to “Formats for Sense Bytes 4-18 and 20-23”.
 Byte 19 For printers that return 24 bytes of sense data, contains the third byte of the three-byte
 exception ID; together with sense byte 1, defines the specific exception within an exception
 class.
@@ -10971,8 +10967,7 @@ Support: Optional
 Notes:
 1. This exception ID uses sense format 0 so that sense
 bytes 16–17 can contain an object-specific error code;
-refer to “Error Codes for Other Data Objects” on page
-922 for a list of object-specific error codes. X'0000' in
+refer to “Error Codes for Other Data Objects” for a list of object-specific error codes. X'0000' in
 sense bytes 16–17 indicates that no object-specific
 error code has been provided.
 2. Some of the format 0 sense byte information that is
@@ -11535,8 +11530,7 @@ Process page 2 through copy
 subgroup 2
 2 0 0 0 0
 Receive status of asynchronous
-(action code X'19') error on
-page 1, discard all data
+(action code X'19') error, discard all data
 associated with this and all
 subsequent copy subgroups,
 enter home state, discard all
@@ -11568,8 +11562,7 @@ Process page 2 through copy
 subgroup 2
 2 0 0 0 0
 Receive status of asynchronous
-(action code X'19') error on
-page 2, discard all data
+(action code X'19') error, discard all data
 associated with this and all
 subsequent copy subgroups,
 enter home state, discard all
@@ -11613,8 +11606,7 @@ Receive status that pages 1 and
 2 have been committed
 2 0 2 0 0
 Receive status of asynchronous
-(action code X'19') error on
-page 2 through copy subgroup
+(action code X'19') error through copy subgroup
 4, discard all data associated
 with this and all subsequent
 copy subgroups, enter home
@@ -11802,8 +11794,7 @@ Process page 2 through copy
 subgroup 4
 2 0 0 0 0
 Receive status of asynchronous
-(action code X'19') error on
-page 2, copy subgroup 2.
+(action code X'19') error, copy subgroup 2.
 Receive status that pages 1 and
 2 through copy subgroups 1 and
 2 have been committed, discard
