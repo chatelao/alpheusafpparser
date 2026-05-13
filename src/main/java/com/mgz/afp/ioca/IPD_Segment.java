@@ -290,6 +290,12 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
   @XmlType(name = "iocaBeginSegment")
   public static class BeginSegment extends IPD_Segment.IPD_SegmentLong {
     byte[] name;
+    String text;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return text;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -298,8 +304,12 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 0) {
         name = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 2, name, 0, name.length);
+        if (UtilCharacterEncoding.isHumanReadable(name, config.getAfpCharSet())) {
+          text = new String(name, config.getAfpCharSet());
+        }
       } else {
         name = null;
+        text = null;
       }
     }
 
@@ -1463,6 +1473,12 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
   public static class nColorNames extends IPD_Segment.IPD_SegmentExtended {
     short reserved4_5;
     List<ColorNameRepeatingGroup> repeatingGroups;
+    String text;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return text;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1471,6 +1487,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
       reserved4_5 = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
       if (lengthOfFollowingData > 2) {
         repeatingGroups = new ArrayList<ColorNameRepeatingGroup>();
+        StringBuilder sb = new StringBuilder();
         int pos = 0;
         while (pos < lengthOfFollowingData - 2) {
           ColorNameRepeatingGroup rg = new ColorNameRepeatingGroup();
@@ -1478,8 +1495,17 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
           rg.colorName = new byte[12];
           System.arraycopy(sfData, offset + 6 + pos + 1, rg.colorName, 0, 12);
           repeatingGroups.add(rg);
+
+          if (sb.length() > 0) {
+            sb.append(", ");
+          }
+          sb.append(new String(rg.colorName, config.getAfpCharSet()).trim());
+
           pos += 13;
         }
+        text = sb.toString();
+      } else {
+        text = null;
       }
     }
 

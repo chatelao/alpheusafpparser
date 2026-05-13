@@ -2801,17 +2801,290 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GLGD_LinearGradient extends GEXO_ExtendedOrder {
+  public static class GLGD_LinearGradient extends GAD_DrawingOrder {
+    @AFPField
+    short qualifier = 0xDC;
+    @AFPField
+    int lengthOfFollowingData;
+    @AFPField
+    short reserved4_5 = 0x0000;
+    @AFPField
+    short patternSet;
+    @AFPField
+    short patternSymbol;
+    @AFPField
+    short xStart;
+    @AFPField
+    short yStart;
+    @AFPField
+    short xEnd;
+    @AFPField
+    short yEnd;
+    @AFPField
+    ColorSpecification startColorSpec;
+    @AFPField
+    byte[] endColorValue;
+    @AFPField
+    byte outsideStart;
+    @AFPField
+    byte outsideEnd;
+    @AFPField
+    List<ColorStop> colorStops;
+
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-      super.decodeAFP(sfData, offset, length, config);
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      qualifier = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseInt(sfData, offset + 2, 2);
+      reserved4_5 = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      patternSet = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
+      patternSymbol = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
+      xStart = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
+      yStart = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
+      xEnd = UtilBinaryDecoding.parseShort(sfData, offset + 12, 2);
+      yEnd = UtilBinaryDecoding.parseShort(sfData, offset + 14, 2);
+
+      startColorSpec = new ColorSpecification();
+      startColorSpec.decodeAFP(sfData, offset + 16, -1, config);
+
+      int pos = 16 + 1 + startColorSpec.length;
+      int colorValLen = startColorSpec.colorValue.length;
+      endColorValue = new byte[colorValLen];
+      System.arraycopy(sfData, offset + pos, endColorValue, 0, colorValLen);
+      pos += colorValLen;
+
+      outsideStart = sfData[offset + pos];
+      outsideEnd = sfData[offset + pos + 1];
+      pos += 2;
+
+      if (pos < 4 + lengthOfFollowingData) {
+        colorStops = new ArrayList<ColorStop>();
+        while (pos < 4 + lengthOfFollowingData) {
+          ColorStop stop = new ColorStop(colorValLen);
+          stop.decodeAFP(sfData, offset + pos, -1, config);
+          colorStops.add(stop);
+          pos += 2 + colorValLen;
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      baos.write(UtilBinaryDecoding.shortToByteArray(reserved4_5, 2));
+      baos.write(patternSet);
+      baos.write(patternSymbol);
+      baos.write(UtilBinaryDecoding.shortToByteArray(xStart, 2));
+      baos.write(UtilBinaryDecoding.shortToByteArray(yStart, 2));
+      baos.write(UtilBinaryDecoding.shortToByteArray(xEnd, 2));
+      baos.write(UtilBinaryDecoding.shortToByteArray(yEnd, 2));
+      startColorSpec.writeAFP(baos, config);
+      baos.write(endColorValue);
+      baos.write(outsideStart);
+      baos.write(outsideEnd);
+      if (colorStops != null) {
+        for (ColorStop stop : colorStops) {
+          stop.writeAFP(baos, config);
+        }
+      }
+      byte[] data = baos.toByteArray();
+      lengthOfFollowingData = data.length;
+
+      os.write(drawingOrderType);
+      os.write(qualifier);
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
+      os.write(data);
     }
   }
 
-  public static class GRGD_RadialGradient extends GEXO_ExtendedOrder {
+  public static class GRGD_RadialGradient extends GAD_DrawingOrder {
+    @AFPField
+    short qualifier = 0xDD;
+    @AFPField
+    int lengthOfFollowingData;
+    @AFPField
+    short reserved4_5 = 0x0000;
+    @AFPField
+    short patternSet;
+    @AFPField
+    short patternSymbol;
+    @AFPField
+    short xStart;
+    @AFPField
+    short yStart;
+    @AFPField
+    short mhStart;
+    @AFPField
+    short mfrStart;
+    @AFPField
+    short xEnd;
+    @AFPField
+    short yEnd;
+    @AFPField
+    short mhEnd;
+    @AFPField
+    short mfrEnd;
+    @AFPField
+    ColorSpecification startColorSpec;
+    @AFPField
+    byte[] endColorValue;
+    @AFPField
+    byte outsideStart;
+    @AFPField
+    byte outsideEnd;
+    @AFPField
+    List<ColorStop> colorStops;
+
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-      super.decodeAFP(sfData, offset, length, config);
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      qualifier = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseInt(sfData, offset + 2, 2);
+      reserved4_5 = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      patternSet = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
+      patternSymbol = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
+      xStart = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
+      yStart = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
+      mhStart = UtilBinaryDecoding.parseShort(sfData, offset + 12, 1);
+      mfrStart = UtilBinaryDecoding.parseShort(sfData, offset + 13, 1);
+      xEnd = UtilBinaryDecoding.parseShort(sfData, offset + 14, 2);
+      yEnd = UtilBinaryDecoding.parseShort(sfData, offset + 16, 2);
+      mhEnd = UtilBinaryDecoding.parseShort(sfData, offset + 18, 1);
+      mfrEnd = UtilBinaryDecoding.parseShort(sfData, offset + 19, 1);
+
+      startColorSpec = new ColorSpecification();
+      startColorSpec.decodeAFP(sfData, offset + 20, -1, config);
+
+      int pos = 20 + 1 + startColorSpec.length;
+      int colorValLen = startColorSpec.colorValue.length;
+      endColorValue = new byte[colorValLen];
+      System.arraycopy(sfData, offset + pos, endColorValue, 0, colorValLen);
+      pos += colorValLen;
+
+      outsideStart = sfData[offset + pos];
+      outsideEnd = sfData[offset + pos + 1];
+      pos += 2;
+
+      if (pos < 4 + lengthOfFollowingData) {
+        colorStops = new ArrayList<ColorStop>();
+        while (pos < 4 + lengthOfFollowingData) {
+          ColorStop stop = new ColorStop(colorValLen);
+          stop.decodeAFP(sfData, offset + pos, -1, config);
+          colorStops.add(stop);
+          pos += 2 + colorValLen;
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      baos.write(UtilBinaryDecoding.shortToByteArray(reserved4_5, 2));
+      baos.write(patternSet);
+      baos.write(patternSymbol);
+      baos.write(UtilBinaryDecoding.shortToByteArray(xStart, 2));
+      baos.write(UtilBinaryDecoding.shortToByteArray(yStart, 2));
+      baos.write(mhStart);
+      baos.write(mfrStart);
+      baos.write(UtilBinaryDecoding.shortToByteArray(xEnd, 2));
+      baos.write(UtilBinaryDecoding.shortToByteArray(yEnd, 2));
+      baos.write(mhEnd);
+      baos.write(mfrEnd);
+      startColorSpec.writeAFP(baos, config);
+      baos.write(endColorValue);
+      baos.write(outsideStart);
+      baos.write(outsideEnd);
+      if (colorStops != null) {
+        for (ColorStop stop : colorStops) {
+          stop.writeAFP(baos, config);
+        }
+      }
+      byte[] data = baos.toByteArray();
+      lengthOfFollowingData = data.length;
+
+      os.write(drawingOrderType);
+      os.write(qualifier);
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
+      os.write(data);
+    }
+  }
+
+  public static class ColorSpecification implements IAFPDecodeableWriteable {
+    @AFPField
+    short length;
+    @AFPField
+    byte reserved;
+    @AFPField
+    AFPColorSpace colorSpace;
+    @AFPField
+    int reserved4_7;
+    @AFPField
+    byte nrOfBitsComponent1;
+    @AFPField
+    byte nrOfBitsComponent2;
+    @AFPField
+    byte nrOfBitsComponent3;
+    @AFPField
+    byte nrOfBitsComponent4;
+    @AFPField
+    byte[] colorValue;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.length = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      this.reserved = sfData[offset + 1];
+      this.colorSpace = AFPColorSpace.valueOf(sfData[offset + 2]);
+      this.reserved4_7 = UtilBinaryDecoding.parseInt(sfData, offset + 3, 4);
+      this.nrOfBitsComponent1 = sfData[offset + 7];
+      this.nrOfBitsComponent2 = sfData[offset + 8];
+      this.nrOfBitsComponent3 = sfData[offset + 9];
+      this.nrOfBitsComponent4 = sfData[offset + 10];
+      int colorValueLen = (this.length & 0xFF) - 10;
+      if (colorValueLen > 0) {
+        this.colorValue = new byte[colorValueLen];
+        System.arraycopy(sfData, offset + 11, this.colorValue, 0, colorValueLen);
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(length);
+      os.write(reserved);
+      os.write(colorSpace.toByte());
+      os.write(UtilBinaryDecoding.intToByteArray(reserved4_7, 4));
+      os.write(nrOfBitsComponent1);
+      os.write(nrOfBitsComponent2);
+      os.write(nrOfBitsComponent3);
+      os.write(nrOfBitsComponent4);
+      if (colorValue != null) {
+        os.write(colorValue);
+      }
+    }
+  }
+
+  public static class ColorStop implements IAFPDecodeableWriteable {
+    @AFPField
+    int offset;
+    @AFPField
+    byte[] colorValue;
+
+    private int colorValueLen;
+
+    public ColorStop(int colorValueLen) {
+      this.colorValueLen = colorValueLen;
+    }
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      this.offset = UtilBinaryDecoding.parseInt(sfData, offset, 2);
+      this.colorValue = new byte[colorValueLen];
+      System.arraycopy(sfData, offset + 2, this.colorValue, 0, colorValueLen);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(UtilBinaryDecoding.intToByteArray(offset, 2));
+      os.write(colorValue);
     }
   }
 

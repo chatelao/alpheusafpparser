@@ -36,7 +36,6 @@ import java.util.EnumSet;
  * The Code Page Control (CPC) contains information about the code page.
  */
 public class CPC_CodePageControl extends StructuredField {
-  private static final Charset cpIBM500 = Constants.cpIBM500;
 
   /**
    * "This parameter is EBCDIC encoded using CPGID 500 (International #5) and GCSGID 103

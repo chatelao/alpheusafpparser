@@ -331,9 +331,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ GOCA Graphics Data (GAD) and End Graphics Object (EGR).
         - ✅ MO:DCA No Operation (NOP).
         - ✅ Line Data related fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
-- 🚧 Enhance GOCA and IOCA support.
+- ✅ Enhance GOCA and IOCA support.
     - ✅ Fix encoding and decoding bugs in GOCA drawing orders and IOCA segments.
-    - ⏳ Implement full payload parsing for missing IOCA segments and GOCA drawing orders:
+    - ✅ Implement full payload parsing for missing IOCA segments and GOCA drawing orders:
         - ✅ GOCA Drawing Orders:
             - ✅ Set Custom Line Type (GSCLT, X'20').
             - ✅ End Custom Pattern (GECP, X'5E').
@@ -348,13 +348,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Set Bilevel Image Color (X'F6').
             - ✅ IOCA Function Set Identification (X'F7').
             - ✅ nColor Names (X'FEB3').
-    - ⏳ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
-    - ⏳ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
+    - ✅ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
+    - ✅ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
 - 🚧 Stateful Encoding and Character Set Resolution:
     - ✅ Implement context in `AFPParser` to track stateful LID-to-Charset bindings.
     - ✅ Update `AFPParserConfiguration` to maintain a registry of active Coded Font Local Identifiers (LIDs).
     - ✅ Implement logic for `PTX` streams to dynamically switch active Charset upon `SCFL` (Set Coded Font Local) commands.
-    - 🚧 Fix hardcoded `cp500` defaults in `getText()` methods for GOCA, BCOCA, IOCA, and FOCA (PTOCA/PTX fixed).
+    - ✅ Fix hardcoded `cp500` defaults in `getText()` methods for GOCA, BCOCA, IOCA, and FOCA (PTOCA/PTX fixed).
 - 🚧 Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
     - 🚧 Fix PTOCA Text Visibility Gaps (see `PTOCA_GAP.md`):
         - ✅ Support **free-standing graphic characters** interleaved with control sequences in `PTX`.
@@ -365,9 +365,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Unicode Complex Text (UCT).
         - ✅ Encryption controls (SEA, SKI, ENC).
     - ✅ Implement XML text extraction (`getText()`) for identified human-readable text sources (see `PRINTED_TEXT_SOURCES.md`):
-        - ✅ GOCA: `GCHST`, `GCCHST`, `GCOMT`.
+        - ✅ GOCA: `GCHST`, `GCCHST`, `GCOMT`, `BeginSegment`.
         - ✅ MO:DCA: `TLE`, Triplet `X'36'`, Triplet `X'65'`, `COMT`.
         - ✅ BCOCA: `BDA`.
+        - ✅ IOCA: `nColorNames`, `BeginSegment`.
         - ✅ Line Data: `CCP`.
         - ✅ CMOCA: `CMR Header`.
         - ✅ FOCA: `CPDesc`, `TypeFcDesc`, `Resource Names`.
