@@ -35,15 +35,15 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapters 12–13, 16–17.
         - ✅ Appendices A–D.
     - ⏳ Fix OCR-induced broken paragraphs and split words:
-        - ⏳ Chapters 1–4.
+        - ✅ Chapters 1–4 (Standardized coordinate notation and fixed split words).
         - ✅ Chapters 5–11, 14–15.
         - ✅ Chapters 12–13, 16–17 and Appendices.
     - ✅ Remove physical page references ("on page XXX"; ~500 found):
         - ✅ Front Matter and Chapters 1–3.
         - ✅ Chapters 4–11.
-        - ⏳ Chapters 12–15, 17.
+        - ✅ Chapters 12–15, 17.
         - ✅ Chapter 16.
-        - ⏳ Appendices A–D.
+        - ✅ Appendices A–D.
     - ⏳ Convert command and syntax text dumps to Markdown tables:
         - ⏳ Device-Control Command Set (Chapter 4):
             - ✅ Tables 19 (Summary), 20 (Protocol), 21 (Ack Types).
@@ -72,7 +72,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Execute Orders: XOA and XOH Order Summaries (Tables 28, 30).
             - ✅ XOA orders: APA, AOS, CEM, DBD, DUP, MF, OAEI, PQC, RRL (Table 29), RSNL.
             - ✅ XOH orders: DSPG, DGB (Tables 31–32), EFF, ERFD, ERPD.
-            - 🚧 XOH Obtain Printer Characteristics (OPC):
+            - ✅ XOH Obtain Printer Characteristics (OPC):
                 - ✅ Table 33 (SDF Summary).
                 - ✅ SDF X'0001' (Printable-Area).
                 - ✅ SDF X'0002' (Symbol-Set Support).

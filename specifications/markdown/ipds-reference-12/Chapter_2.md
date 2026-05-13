@@ -25,8 +25,7 @@ and return detailed exception information.
 • IPDS architecture provides support for media finishing using printer-attached devices or using pre-
 processing and post-processing devices. In addition to traditional printer-controlled finishing, constructs are
 also provided to enable IPDS data streams to be used within Universal Printer Pre- and Post-Processing
-Interface (UP
-3I) environments.
+Interface (UP3I) environments.
 • IPDS architecture provides support for color management whose goal is to provide consistent and accurate
 color output across different devices and to provide flexible controls that enable the tuning of output to exact
 specifications.

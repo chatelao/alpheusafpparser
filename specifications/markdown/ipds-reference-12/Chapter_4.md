@@ -2267,8 +2267,8 @@ I
 B
 I
 B
-Ym- Axis Duplex (Normal)
-Xm- Axis Duplex (Tumble)
+$Y_m$-Axis Duplex (Normal)
+$X_m$-Axis Duplex (Tumble)
 Front
 Logical Page 1
 Back
@@ -8879,11 +8879,11 @@ Front Side of a Sheet
 SMO=X'00' SMO=X'01'
 SMO=X'03' SMO=X'02'
 Top
-Y -Axis Duplex (Normal)m
+$Y_m$-Axis Duplex (Normal)
 SMO=X'00' SMO=X'03'
 SMO=X'01' SMO=X'02'
 Top
-X -Axis Duplex (Tumble)m
+$X_m$-Axis Duplex (Tumble)
 SMO=X'00' SMO=X'03'
 SMO=X'01' SMO=X'02'
 Top
@@ -8902,7 +8902,7 @@ SMO=X'02'
 Back Side of Sheets
 Note: The shaded circles in the illustration represent holes punched through the sheets and
 show how the sheets were flipped from front side to back side.
-Y -Axis Duplex (Normal)m X -Axis Duplex (Tumble)m
+$Y_m$-Axis Duplex (Normal) $X_m$-Axis Duplex (Tumble)
 TopTop
 SMO=X'02' SMO=X'03'
 SMO=X'01' SMO=X'00'
@@ -8926,7 +8926,7 @@ SMO=X'02'
 Back Side of Sheets
 Note: The shaded circles in the illustration represent holes punched through the sheets and
 show how the sheets were flipped from front side to back side.
-Y -Axis Duplex (Normal)m X -Axis Duplex (Tumble)m
+$Y_m$-Axis Duplex (Normal) $X_m$-Axis Duplex (Tumble)
 Top
 Top
 Top
@@ -8952,12 +8952,12 @@ Page 4
 Y
 m
 Xm
-Y -Axis Duplex (Normal)m
+$Y_m$-Axis Duplex (Normal)
 Top of back page
 Top of back page
 Page 2
 Page 4
-X -Axis Duplex (Tumble)m
+$X_m$-Axis Duplex (Tumble)
 Y
 m
 Xm
@@ -8969,28 +8969,24 @@ Page 3
 Y
 m
 Xm
-Top of front pag
-e
+Top of front page
 Page 1
-Top of
-front page
+Top of front page
 Page 3
 Ym
 X
 m
-X -Axis Duplex (Tumble)m
+$X_m$-Axis Duplex (Tumble)
 Top of back page
 Page 4
-Top of bac
-k page
+Top of back page
 Page 2
 Ym
 $X_m$
-Y -Axis Duplex (Normal)m
+$Y_m$-Axis Duplex (Normal)
 Top of back page
 Page 4
-Top of back
- page
+Top of back page
 Page 2
 Ym
 X
@@ -9024,7 +9020,7 @@ T
 T
 O
 M
-**Figure 69**. The XOH Set Media Origin Command (Back Side of an Xm-Axis Duplex Envelope)
+**Figure 69**. The XOH Set Media Origin Command (Back Side of an $X_m$-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’SMO=X’02’
 SMO=X’03’
@@ -9053,7 +9049,7 @@ T
 T
 O
 M
-**Figure 70**. The XOH Set Media Origin Command (Back Side of a Ym-Axis Duplex Envelope)
+**Figure 70**. The XOH Set Media Origin Command (Back Side of a $Y_m$-Axis Duplex Envelope)
 SMO=X’00’
 SMO=X’01’ SMO=X’02’
 SMO=X’03’

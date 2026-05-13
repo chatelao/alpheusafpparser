@@ -26,18 +26,11 @@ distribute
 manage
 print
 finish
-Document
-Creation
-Services
-Document
-Archiving
-Services
-Document
-Printing
-Services
-Document
-Viewing
-Services
+
+Document Creation Services
+Document Archiving Services
+Document Printing Services
+Document Viewing Services
 The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key
 requirement in almost every application of computers and information processing. This requirement is
 becoming increasingly difficult to meet because of the number of applications, servers, and devices that must
