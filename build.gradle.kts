@@ -43,13 +43,14 @@ dependencies {
 val sourcesJar by tasks.registering(Jar::class) {
     dependsOn(tasks.classes)
     archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
+    from(sourceSets.main.map { it.allSource })
 }
 
 val javadocJar by tasks.registering(Jar::class) {
-    dependsOn(tasks.javadoc)
+    val javadocTask = tasks.javadoc
+    dependsOn(javadocTask)
     archiveClassifier.set("javadoc")
-    from(tasks.javadoc.get().destinationDir)
+    from(javadocTask.map { it.destinationDir!! })
 }
 
 publishing {
