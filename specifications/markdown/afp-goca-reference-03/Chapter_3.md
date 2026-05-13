@@ -76,7 +76,6 @@ A primitive is defined by:
 *   Control instructions that contain the Set Current Defaults instruction, such as the MO:DCA Graphics Data Descriptor (GDD) and the IPDS Write Graphics Control (WGC)
 
 Modal parameters have values initialized by the environment and can be altered by attribute-setting drawing orders or by control instructions. Modal parameter values persist until they are explicitly altered, or until the end of the graphics object is encountered.
-Drawing Processor
 
 ---
 
@@ -128,24 +127,6 @@ Sets of mix and color attributes are provided for each type of primitive.
 | **Line Width** | The width of line to be drawn; for example, normal or wide. |
 | **Line End** | The type of ending of stroked lines; for example, flat, square, or round. |
 | **Line Join** | The type of joining of stroked lines; for example, round, bevel, or miter. |
-Primitive attributes specify the characteristics of the output primitives that define the picture to be drawn.
-The following types of attribute are defined:
-• Drawing attributes
-• Line attributes
-• Character attributes
-• Marker attributes
-• Pattern attributes
-Drawing Attributes
-Color The color in which the foreground bits of the output primitive are to be drawn.
-Mix Af fects how the foreground of the output primitive that is being drawn is to be merged with the color information already in the GPS.
-Background Mix Af fects how the background of the output primitive that is being drawn is to be merged with the color information already in the GPS.
-Sets of mix and color attributes are provided for each type of primitive.
-Line Attributes
-Line Type The type of line to be drawn; for example, solid or dashed.
-Line Width The width of line to be drawn; for example, normal or wide.
-Line End The type of ending of stroked lines; for example, flat, square, or round.
-Line Join The type of joining of stroked lines; for example, round, bevel, or miter .
-Drawing Processor
 
 ---
 
@@ -177,6 +158,7 @@ Drawing Processor
 | **Pattern Reference Point** | The point that determines the positioning of a custom fill pattern. |
 
 **Note:** The Arc Parameters also specify characteristics of output primitives. In this, they act in a way very similar to attributes, but are conceptually distinct.
+
 ## Graphics Coordinate Spaces
 
 Two coordinate spaces or presentation spaces are used in AFP GOCA:
@@ -203,6 +185,7 @@ The GPS is the space in which the application user's view of the specified pictu
 ```
 
 AFP GOCA uses 16-bit signed integers to specify GPS coordinates. A point outside GPS is characterized by a 2-byte arithmetic overflow. For a definition of the geometric parameter format used in AFP GOCA, see “Parameter Type” and “Drawing Order Subset”.
+
 ### Usable Area (UA)
 
 The usable area is a presentation space and coordinate system defined by the controlling environment. It is the space in which the implementation presents the picture to the end user, and merges the GPS with other presentation spaces in the device.
@@ -252,10 +235,6 @@ The standard color table is equivalent to the Standard OCA Color Value Table def
 Colors may also be specified using the Set Process Color drawing order. This order supports the specification of:
 *   Process colors, using the RGB, CMYK, and CIELAB color spaces.
 *   Spot colors, using the highlight color space.
-Color
-
----
-
 *   Named colors, using the standard OCA color space. This is the color space that is supported by the Set Color and Set Extended Color drawing orders. For definitions of the color values used in this color space, see Table 5.
 
 **Note:** When the standard OCA color space is selected with the Set Process Color drawing order, colors for foreground data are mixed into the GPS in the same manner as described for the Set Color and Set Extended Color orders. However, when any other color space is selected, colors for foreground data always overpaint the GPS.
@@ -301,6 +280,7 @@ Segments are self-contained collections of drawing orders and attributes. They a
 Facilities are provided to permit the chaining of segments during the process of describing a complete picture. Chaining is the unidirectional passing of control from one segment to another segment.
 
 Every segment is either chained or unchained. A collection of one or more chained segments defines the picture to be drawn. Unchained segments are ignored in AFP GOCA. Chaining provides a known and architected initial state for the chained segments. Therefore, chained segments are completely independent pieces of the picture.
+
 ## Subsetting
 
 GOCA supports the functional requirements of a wide spectrum of graphics devices in a number of different environments. To efficiently support this range of capabilities, GOCA defines subsets of functionality. The subsets described in this manual for AFP GOCA are labeled as follows:

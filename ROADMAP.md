@@ -203,10 +203,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 7: GCOMT, GCBEZ/GCCBEZ, GDPT, GEAR, GECP, GEIMG, GEPROL.
         - ✅ Chapter 7: GFLT/GCFLT, GFARC/GCFARC, GIMD, GLINE/GCLINE, GLGD, GMRK/GCMRK.
         - ✅ Chapter 7: GNOP1, GPARC/GCPARC, GRGD, GRLINE/GCRLINE, GSGCH, GSAP.
-        - ⏳ Chapter 7: GSBMX, GSCA, GSCC, GSCD, GSCR, GSCS, GSCH, GSCOL, GSCP, GSCLT.
+        - ✅ Chapter 7: GSBMX, GSCA, GSCC, GSCD, GSCR, GSCS, GSCH, GSCOL, GSCP, GSCLT.
         - ⏳ Chapter 7: GSECOL, GSFLW, GSLE, GSLJ, GSLT, GSLW, GSMC, GSMS, GSMT, GSMX.
         - ⏳ Chapter 7: GSPRP, GSPS, GSPT, GSPCOL.
-        - ⏳ Other Chapters (1–6, 8–9).
+        - ✅ Other Chapters (1–6, 8–9):
+            - ✅ Chapters 1–3: Fix OCR and remove redundant text blocks.
+            - ✅ Chapter 4: Convert Tables 7–13 to Markdown and fix OCR.
+            - ✅ Chapter 6: Convert SCD syntax and attribute tables to Markdown and fix OCR.
+            - ✅ Chapters 5, 8, 9: General OCR cleanup and formatting.
 - 🚧 **Line Data**:
     - ✅ Purge physical page markers and recurring PDF artifacts from all Chapters and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
@@ -231,7 +235,20 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Structured Field: Line Descriptor (LND).
             - ✅ Structured Field: Record Descriptor (RCD).
             - ✅ Structured Field: XML Descriptor (XMD).
-    - ⏳ Convert text-based diagrams in Appendices to standardized formats.
+    - 🚧 Convert text-based diagrams in Appendix A to standardized formats:
+        - ✅ Figure 30 (Structure of a Print File).
+        - ✅ Figure 31 (Structure of a Mixed Line-Page Document).
+        - ✅ Figure 32 (Structure of a Presentation Page Object).
+        - ✅ Figure 33 (Structure of Line Format Data).
+        - ✅ Figure 34 (Structure of a Presentation Text Data Object).
+        - ⏳ Figure 35 (Structure of an IM Image Data Object).
+        - ⏳ Figure 36 (Structure of an IO Image Data Object).
+        - ⏳ Figure 37 (Structure of a Graphics Data Object).
+        - ⏳ Figure 38 (Structure of a Bar Code Data Object).
+        - ⏳ Figure 39 (Structure of a Page Segment Resource Object).
+        - ⏳ Figure 40 (Structure of an Overlay Resource Object).
+        - ⏳ Figure 41 (Structure of a Form Definition Resource Object).
+        - ⏳ Figure 42 (Structure of a Page Definition Resource Object).
 - ✅ **MO:DCA**:
     - ✅ Purge physical page markers and fix split words.
     - ✅ Fix minor table fragmentation in Appendices.
@@ -272,15 +289,25 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Convert syntax and registry text dumps to Markdown tables:
         - ✅ Chapter 1 (Tables 1–12).
         - ✅ Chapter 3 (Tables 13–15).
-        - ⏳ Chapter 4 (Tables 16–17).
-        - ⏳ Chapter 5 (Tables 18–30).
+        - ✅ Chapter 4 (Tables 16–17).
+        - ✅ Chapter 5 (Tables 18–30).
         - ⏳ Chapter 6 (Table 31).
         - ✅ Appendix F (Table 32).
 
 ## Phase 6a: Testing and Quality Assurance (i)
 - ⏳ Restore and expand the test suite.
     - ✅ Provide a set of sample AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
-    - ⏳ Create a minimal ".afp" file for every chapter markdown file found in `specifications/markdown/` to ensure 1:1 architectural coverage.
+    - ⏳ Create a minimal ".afp" file for every chapter markdown file found in `specifications/markdown/` to ensure 1:1 architectural coverage:
+        - ⏳ MO:DCA (modca-reference-10).
+        - ✅ BCOCA (bcoca-reference-11).
+        - ⏳ GOCA (afp-goca-reference-03).
+        - ⏳ IOCA (ioca-reference-09).
+        - ⏳ PTOCA (ptoca-reference-04).
+        - ⏳ FOCA (foca-reference-06).
+        - ⏳ IPDS (ipds-reference-12).
+        - ⏳ Line Data (linedata-reference-05).
+        - ⏳ CMOCA (cmoca-reference-02).
+        - ⏳ MOCA (moca-reference-02).
     - ✅ Establish a base for granular structure unit testing (round-trip verification).
     - ✅ Implement round-trip unit tests for all MO:DCA Triplets.
         - ✅ Mapping and Identification Triplets (e.g., FQN, Mapping Option, Comment).
