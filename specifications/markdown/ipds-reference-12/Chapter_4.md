@@ -7869,89 +7869,40 @@ The Common Bar Code Type/Modifier self-defining field lists those bar codes that
 but are not in the set of common bar codes listed in Table 34. Presence of the Common Bar Code
 Type/Modifier self-defining field implies support of all of the common bar code type and modifier combinations
 plus the additional bar code type and modifier combinations listed in the self-defining field.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0005' –
-X'7FFF'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'000E' Common Bar Code Type/Modifier Self-Defining Field ID
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0005'–X'7FFF' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'000E' | Common Bar Code Type/Modifier Self-Defining Field ID |
+
 One or more entries in the following format:
-+ 0 CODE Combination
-X'0D'
-X'11'
-X'18'
-X'1A'
-X'1B'
-X'1C'
-X'1D'
-X'1E'
-X'1F'
-X'20'
-X'21'
-X'22'
-X'23'
-X'24'
-X'86'
-X'87'
-X'8C'
-X'91'
-X'92'
-X'93'
-X'96'
-X'97'
-X'98'
-X'9A'
-Bar code type/modifier combinations that are not
-in the common set:
-Codabar, modifier-byte options X'01' and X'02'
-Code 128, modifier-byte option X'02'
-POSTNET (deprecated),
-modifier-byte options X'00' through X'03'
-RM4SCC, modifier-byte option X'00'
-Japan Postal Bar Code, modifier-byte options X'00' and X'01'
-Data Matrix, modifier-byte option X'00'
-MaxiCode, modifier-byte option X'00'
-PDF417, modifier-byte options X'00' and X'01'
-Australia Post Bar Code, modifier-byte options X'01'–X'08'
-QR Code, modifier-byte option X'02'
-Code 93, modifier-byte option X'00'
-Intelligent Mail Barcode,
-modifier-byte options X'00' through X'03'
-Royal Mail RED TAG (deprecated), modifier-byte option X'00'
-GS1 DataBar,
-modifier-byte options X'00'–X'04' and X'11'–X'1B'
-UPC–Two-digit Supplemental,
-modifier-byte options X'01' and X'02'
-UPC–Five-digit Supplemental,
-modifier-byte options X'01' and X'02'
-Interleaved 2-of-5, modifier-byte options X'03' and X'04'
-Code 128, modifier-byte option X'03'
-Code 128, modifier-byte option X'04'
-Code 128 (Intelligent Mail Container Barcode),
-modifier-byte option X'05'
-EAN Two-digit Supplemental, modifier-byte option X'01'
-EAN Five-digit Supplemental, modifier-byte option X'01'
-POSTNET (PLANET , deprecated), modifier-byte option X'04'
-RM4SCC, modifier-byte option X'01'
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | CODE | Combination | X'0D'<br>X'11'<br>X'18'<br>X'1A'<br>X'1B'<br>X'1C'<br>X'1D'<br>X'1E'<br>X'1F'<br>X'20'<br>X'21'<br>X'22'<br>X'23'<br>X'24'<br>X'86'<br>X'87'<br>X'8C'<br>X'91'<br>X'92'<br>X'93'<br>X'96'<br>X'97'<br>X'98'<br>X'9A' | **Bar code type/modifier combinations that are not in the common set:**<br>Codabar, modifier-byte options X'01' and X'02'<br>Code 128, modifier-byte option X'02'<br>POSTNET (deprecated), modifier-byte options X'00' through X'03'<br>RM4SCC, modifier-byte option X'00'<br>Japan Postal Bar Code, modifier-byte options X'00' and X'01'<br>Data Matrix, modifier-byte option X'00'<br>MaxiCode, modifier-byte option X'00'<br>PDF417, modifier-byte options X'00' and X'01'<br>Australia Post Bar Code, modifier-byte options X'01'–X'08'<br>QR Code, modifier-byte option X'02'<br>Code 93, modifier-byte option X'00'<br>Intelligent Mail Barcode, modifier-byte options X'00' through X'03'<br>Royal Mail RED TAG (deprecated), modifier-byte option X'00'<br>GS1 DataBar, modifier-byte options X'00'–X'04' and X'11'–X'1B'<br>UPC–Two-digit Supplemental, modifier-byte options X'01' and X'02'<br>UPC–Five-digit Supplemental, modifier-byte options X'01' and X'02'<br>Interleaved 2-of-5, modifier-byte options X'03' and X'04'<br>Code 128, modifier-byte option X'03'<br>Code 128, modifier-byte option X'04'<br>Code 128 (Intelligent Mail Container Barcode), modifier-byte option X'05'<br>EAN Two-digit Supplemental, modifier-byte option X'01'<br>EAN Five-digit Supplemental, modifier-byte option X'01'<br>POSTNET (PLANET, deprecated), modifier-byte option X'04'<br>RM4SCC, modifier-byte option X'01' |
 
 
 **Table 34**. Common Values for Bar Code Types and Modifiers
-Type Description Modifier values
-X'01' 3-of-9 code X'01' and X'02'
-X'02' MSI X'01' through X'09'
-X'03' UPC/CGPC, Version A X'00'
-X'05' UPC/CGPC, Version E X'00'
-X'06' UPC–Two-digit Supplemental X'00'
-X'07' UPC–Five-digit Supplemental X'00'
-X'08' EAN 8 (includes JAN short) X'00'
-X'09' EAN 13 (includes JAN standard) X'00'
-X'0A' Industrial 2-of-5 X'01' and X'02'
-X'0B' Matrix 2-of-5 X'01' and X'02'
-X'0C' Interleaved 2-of-5 X'01' and X'02'
-X'16' EAN Two-digit Supplemental X'00'
-X'17' EAN Five-digit Supplemental X'00'
+
+| Type | Description | Modifier values |
+| :--- | :--- | :--- |
+| X'01' | 3-of-9 code | X'01' and X'02' |
+| X'02' | MSI | X'01' through X'09' |
+| X'03' | UPC/CGPC, Version A | X'00' |
+| X'05' | UPC/CGPC, Version E | X'00' |
+| X'06' | UPC–Two-digit Supplemental | X'00' |
+| X'07' | UPC–Five-digit Supplemental | X'00' |
+| X'08' | EAN 8 (includes JAN short) | X'00' |
+| X'09' | EAN 13 (includes JAN standard) | X'00' |
+| X'0A' | Industrial 2-of-5 | X'01' and X'02' |
+| X'0B' | Matrix 2-of-5 | X'01' and X'02' |
+| X'0C' | Interleaved 2-of-5 | X'01' and X'02' |
+| X'16' | EAN Two-digit Supplemental | X'00' |
+| X'17' | EAN Five-digit Supplemental | X'00' |
+
 Note: The BCOCA BCD1 subset requires support of a subset of the common set that consists of the common
-set minus Industrial 2-of-5 and Matrix 2-of-5. Refer to the Bar Code Object Content Architecture
-Reference for a description of the BCOCA bar code types and modifiers.
+set minus Industrial 2-of-5 and Matrix 2-of-5. Refer to the *Bar Code Object Content Architecture
+Reference* for a description of the BCOCA bar code types and modifiers.
 
 
 Bar Code Type/Modifier Self-Defining Field
@@ -7968,134 +7919,18 @@ BCOCA subset support is indicated in the STM reply and is shown in Figure 63.
 Note: The Common Bar Code Type/Modifier self-defining field (X'000E') has been deprecated; new
 implementations must use X'000F'. Printers can report both X'000E' and X'000F' so as to be compatible
 with older presentation services programs that only recognize X'000E'.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'000F' Bar Code Type/Modifier Self-Defining Field ID
-4–5 CODE BCOCA
-subset X'FF10'
-X'FF20'
-BCOCA subset used as base for this SDF:
-BCD1
-BCD2
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006'–X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'000F' | Bar Code Type/Modifier Self-Defining Field ID |
+| 4–5 | CODE | BCOCA subset | X'FF10'<br>X'FF20' | **BCOCA subset used as base for this SDF:**<br>BCD1<br>BCD2 |
+
 Zero or more two-byte entries in the following format:
-+ 0 CODE Type
-X'06'
-X'07'
-X'0A'
-X'0B'
-X'0C'
-X'0D'
-X'11'
-X'16'
-X'17'
-X'18'
-X'1A'
-X'1B'
-X'1C'
-X'1D'
-X'1E'
-X'1F'
-X'20'
-X'21'
-X'22'
-X'23'
-X'24'
-X'25'
-X'26'
-Bar code type:
-UPC - Two-digit Supplemental
-UPC - Five-digit Supplemental
-Industrial 2-of-5
-Matrix 2-of-5
-Interleaved 2-of-5, ITF-14, and AIM USS-I 2/5
-Codabar, 2-of-7 and AIM USS-Codabar
-Code 128 – GS1-128, UCC/EAN 128, Intelligent Mail
-Container Barcode, Intelligent Mail Package Barcode,
-and AIM USS-128
-EAN Two-digit Supplemental
-EAN Five-digit Supplemental
-POSTNET and PLANET (deprecated)
-RM4SCC and Dutch KIX
-Japan Postal Bar Code
-Data Matrix (2D bar code)
-MaxiCode (2D bar code)
-PDF417 (2D bar code)
-Australia Post Bar Code
-QR Code, QR Code with Image (2D bar code)
-Code 93
-Intelligent Mail Barcode
-Royal Mail RED TAG (deprecated)
-GS1 DataBar
-Royal Mail Mailmark
-Aztec Code
 
-
-Offset Type Name Range Meaning
-+ 1 CODE Code value
-for modifiers X'00'
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'12'
-Bar code modifier(s):
-X'00' for the following types:
-Code 93
-Data Matrix (2D bar code)
-MaxiCode (2D bar code)
-RM4SCC
-Royal Mail RED TAG (deprecated)
-X'01' for the following types:
-Data Matrix (2D bar code)
-Dutch KIX
-EAN Five-digit Supplemental
-EAN Two-digit Supplemental
-X'02' for the following types:
-Code 128 – AIM USS-128
-QR Code (2D bar code)
-X'03' for the following type:
-Code 128 – UCC/EAN 128
-X'04' for the following types:
-Code 128 – GS1-128 and UCC/EAN 128
-PLANET (deprecated)
-X'05' for the following type:
-Intelligent Mail Container Barcode
-X'06' for the following type:
-Intelligent Mail Package Barcode
-X'12' for the following type:
-QR Code with Image (2D bar code)
-X'80'
-X'81'
-X'82'
-X'90'
-X'91'
-X'A0'
-X'00' and X'01' for the following types:
-Japan Postal Bar Code
-PDF417 (2D bar code)
-Royal Mail Mailmark
-X'00' through X'03' for the following types:
-Aztec Code
-Intelligent Mail Barcode
-POSTNET (deprecated)
-X'00' through X'04' and X'11' through X'1B' for
-the following type:
-GS1 DataBar
-X'01' and X'02' for the following types:
-Codabar, 2-of-7 and AIM USS-Codabar
-Industrial 2-of-5
-Matrix 2-of-5
-UPC - Five-digit Supplemental
-UPC - Two-digit Supplemental
-X'01' through X'08' for the following type:
-Australia Post Bar Code
-X'03' and X'04' for the following type:
-Interleaved 2-of-5, ITF-14 and AIM USS-I 2/5
-(to show Bearer Bars)
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | CODE | Type | X'06'<br>X'07'<br>X'0A'<br>X'0B'<br>X'0C'<br>X'0D'<br>X'11'<br>X'16'<br>X'17'<br>X'18'<br>X'1A'<br>X'1B'<br>X'1C'<br>X'1D'<br>X'1E'<br>X'1F'<br>X'20'<br>X'21'<br>X'22'<br>X'23'<br>X'24'<br>X'25'<br>X'26' | **Bar code type:**<br>UPC - Two-digit Supplemental<br>UPC - Five-digit Supplemental<br>Industrial 2-of-5<br>Matrix 2-of-5<br>Interleaved 2-of-5, ITF-14, and AIM USS-I 2/5<br>Codabar, 2-of-7 and AIM USS-Codabar<br>Code 128 – GS1-128, UCC/EAN 128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode, and AIM USS-128<br>EAN Two-digit Supplemental<br>EAN Five-digit Supplemental<br>POSTNET and PLANET (deprecated)<br>RM4SCC and Dutch KIX<br>Japan Postal Bar Code<br>Data Matrix (2D bar code)<br>MaxiCode (2D bar code)<br>PDF417 (2D bar code)<br>Australia Post Bar Code<br>QR Code, QR Code with Image (2D bar code)<br>Code 93<br>Intelligent Mail Barcode<br>Royal Mail RED TAG (deprecated)<br>GS1 DataBar<br>Royal Mail Mailmark<br>Aztec Code |
+| + 1 | CODE | Code value for modifiers | X'00'<br>X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'12'<br>X'80'<br>X'81'<br>X'82'<br>X'90'<br>X'91'<br>X'A0' | **Bar code modifier(s):**<br>**X'00' for the following types:**<br>Code 93, Data Matrix (2D bar code), MaxiCode (2D bar code), RM4SCC, Royal Mail RED TAG (deprecated)<br>**X'01' for the following types:**<br>Data Matrix (2D bar code), Dutch KIX, EAN Five-digit Supplemental, EAN Two-digit Supplemental<br>**X'02' for the following types:**<br>Code 128 – AIM USS-128, QR Code (2D bar code)<br>**X'03' for the following type:**<br>Code 128 – UCC/EAN 128<br>**X'04' for the following types:**<br>Code 128 – GS1-128 and UCC/EAN 128, PLANET (deprecated)<br>**X'05' for the following type:**<br>Intelligent Mail Container Barcode<br>**X'06' for the following type:**<br>Intelligent Mail Package Barcode<br>**X'12' for the following type:**<br>QR Code with Image (2D bar code)<br>**X'80' (X'00' and X'01') for the following types:**<br>Japan Postal Bar Code, PDF417 (2D bar code), Royal Mail Mailmark<br>**X'81' (X'00' through X'03') for the following types:**<br>Aztec Code, Intelligent Mail Barcode, POSTNET (deprecated)<br>**X'82' (X'00' through X'04' and X'11' through X'1B') for the following type:**<br>GS1 DataBar<br>**X'90' (X'01' and X'02') for the following types:**<br>Codabar, 2-of-7 and AIM USS-Codabar, Industrial 2-of-5, Matrix 2-of-5, UPC - Five-digit Supplemental, UPC - Two-digit Supplemental<br>**X'91' (X'01' through X'08') for the following type:**<br>Australia Post Bar Code<br>**X'A0' (X'03' and X'04') for the following type:**<br>Interleaved 2-of-5, ITF-14 and AIM USS-I 2/5 (to show Bearer Bars) |
 
 
 **Figure 63**. BCOCA Bar Code Subsets
@@ -8172,72 +8007,57 @@ UPC Two-digit Supplemental - modifier X'00'
 
 The following cross-reference table shows how the bar code type/modifier combinations are specified with the
 two OPC SDFs:
-X'000E' – Deprecated (Common Bar Code Type/Modifier self-defining field)
-X'000F' – Bar Code Type/Modifier self-defining field
+
+- X'000E' – Deprecated (Common Bar Code Type/Modifier self-defining field)
+- X'000F' – Bar Code Type/Modifier self-defining field
+
 **Table 35**. Relationship Between SDF X'000E' and X'000F'
-Type/Modifier Combinations Code Value Used in OPC Reply
-Type Modifier For SDF X'000E' For SDF X'000F'
-Code 39 (3-of-9 Code) and AIM USS-39 X'01' and X'02' in common set in BCD1
-MSI (modified Plessey code) X'01' through X'09' in common set in BCD1
-UPC/CGPC – Version A X'00' in common set in BCD1
-UPC/CGPC – Version E X'00' in common set in BCD1
-UPC - Two-digit Supplemental (Periodicals) X'00' in common set in BCD1
-X'01' and X'02' X'86' X'0690'
-UPC - Five-digit Supplemental (Paperbacks) X'00' in common set in BCD1
-X'01' and X'02' X'87' X'0790'
-EAN-8 (includes JAN-short) X'00' in common set in BCD1
-EAN-13 (includes JAN-standard) X'00' in common set in BCD1
-Industrial 2-of-5 X'01' and X'02' in common set X'0A90'
-Matrix 2-of-5 X'01' and X'02' in common set X'0B90'
-Interleaved 2-of-5, ITF-14, and AIM USS-I 2/5 X'01' and X'02' in common set in BCD1
-Bearer Bars – Interleaved 2-of-5, ITF-14, and
-AIM USS-I 2/5
-X'03' and X'04' X'8C' X'0CA0'
-Codabar, 2-of-7 and AIM USS-Codabar X'01' and X'02' X'0D' X'0D90'
-Code 128 X'02' (AIM USS-128) X'11' X'1102'
-X'03' (UCC/EAN 128) X'91' X'1103'
-X'04' (GS1-128 and UCC/
-EAN 128)
-X'92' X'1104'
-X'05' (Intelligent Mail
-Container Barcode)
-X'93' X'1105'
-X'06' (Intelligent Mail
-Package Barcode)
-not supported X'1106'
-EAN Two-digit Supplemental X'00' in common set in BCD1
-X'01' X'96' X'1601'
-EAN Five-digit Supplemental X'00' in common set in BCD1
-X'01' X'97' X'1701'
-POSTNET (deprecated) X'00' through X'03' X'18' X'1881'
-X'04' (PLANET ,
-deprecated)
-X'98' X'1804'
-RM4SCC X'00' X'1A' X'1A00'
-X'01' (Dutch KIX) X'9A' X'1A01'
 
-
-**Table 35** Relationship Between SDF X'000E' and X'000F' (cont'd.)
-Type/Modifier Combinations Code Value Used in OPC Reply
-Type Modifier For SDF X'000E' For SDF X'000F'
-Japan Postal Bar Code X'00' and X'01' X'1B' X'1B80'
-Data Matrix and GS1 DataMatrix (2D bar code) X'00' X'1C' X'1C00'
-X'01' (including DMRE) not supported X'1C01'
-MaxiCode (2D bar code) X'00' X'1D' X'1D00'
-PDF417 (2D bar code) X'00' and X'01' X'1E' X'1E80'
-Australia Post Bar Code X'01' through X'08' X'1F' X'1F91'
-QR Code (2D bar code) X'02' X'20' X'2002'
-X'12' (QR Code with
-Image)
-not supported X'2012'
-Code 93 X'00' X'21' X'2100'
-Intelligent Mail Barcode X'00' through X'03' X'22' X'2281'
-Royal Mail RED TAG (deprecated) X'00' X'23' X'2300'
-GS1 DataBar X'00' through X'04' and
-X'11' through X'1B'
-X'24' X'2482'
-Royal Mail Mailmark X'00' and X'01' not supported X'2580'
-Aztec Code (2D bar code) X'00' through X'03' not supported X'2681'
+| Type/Modifier Combinations | | Code Value Used in OPC Reply | |
+| :--- | :--- | :--- | :--- |
+| **Type** | **Modifier** | **For SDF X'000E'** | **For SDF X'000F'** |
+| Code 39 (3-of-9 Code) and AIM USS-39 | X'01' and X'02' | in common set | in BCD1 |
+| MSI (modified Plessey code) | X'01' through X'09' | in common set | in BCD1 |
+| UPC/CGPC – Version A | X'00' | in common set | in BCD1 |
+| UPC/CGPC – Version E | X'00' | in common set | in BCD1 |
+| UPC - Two-digit Supplemental (Periodicals) | X'00' | in common set | in BCD1 |
+| | X'01' and X'02' | X'86' | X'0690' |
+| UPC - Five-digit Supplemental (Paperbacks) | X'00' | in common set | in BCD1 |
+| | X'01' and X'02' | X'87' | X'0790' |
+| EAN-8 (includes JAN-short) | X'00' | in common set | in BCD1 |
+| EAN-13 (includes JAN-standard) | X'00' | in common set | in BCD1 |
+| Industrial 2-of-5 | X'01' and X'02' | in common set | X'0A90' |
+| Matrix 2-of-5 | X'01' and X'02' | in common set | X'0B90' |
+| Interleaved 2-of-5, ITF-14, and AIM USS-I 2/5 | X'01' and X'02' | in common set | in BCD1 |
+| Bearer Bars – Interleaved 2-of-5, ITF-14, and AIM USS-I 2/5 | X'03' and X'04' | X'8C' | X'0CA0' |
+| Codabar, 2-of-7 and AIM USS-Codabar | X'01' and X'02' | X'0D' | X'0D90' |
+| Code 128 | X'02' (AIM USS-128) | X'11' | X'1102' |
+| | X'03' (UCC/EAN 128) | X'91' | X'1103' |
+| | X'04' (GS1-128 and UCC/EAN 128) | X'92' | X'1104' |
+| | X'05' (Intelligent Mail Container Barcode) | X'93' | X'1105' |
+| | X'06' (Intelligent Mail Package Barcode) | not supported | X'1106' |
+| EAN - Two-digit Supplemental | X'00' | in common set | in BCD1 |
+| | X'01' | X'96' | X'1601' |
+| EAN - Five-digit Supplemental | X'00' | in common set | in BCD1 |
+| | X'01' | X'97' | X'1701' |
+| POSTNET (deprecated) | X'00' through X'03' | X'18' | X'1881' |
+| | X'04' (PLANET, deprecated) | X'98' | X'1804' |
+| RM4SCC | X'00' | X'1A' | X'1A00' |
+| | X'01' (Dutch KIX) | X'9A' | X'1A01' |
+| Japan Postal Bar Code | X'00' and X'01' | X'1B' | X'1B80' |
+| Data Matrix and GS1 DataMatrix (2D bar code) | X'00' | X'1C' | X'1C00' |
+| | X'01' (including DMRE) | not supported | X'1C01' |
+| MaxiCode (2D bar code) | X'00' | X'1D' | X'1D00' |
+| PDF417 (2D bar code) | X'00' and X'01' | X'1E' | X'1E80' |
+| Australia Post Bar Code | X'01' through X'08' | X'1F' | X'1F91' |
+| QR Code (2D bar code) | X'02' | X'20' | X'2002' |
+| | X'12' (QR Code with Image) | not supported | X'2012' |
+| Code 93 | X'00' | X'21' | X'2100' |
+| Intelligent Mail Barcode | X'00' through X'03' | X'22' | X'2281' |
+| Royal Mail RED TAG (deprecated) | X'00' | X'23' | X'2300' |
+| GS1 DataBar | X'00' through X'04' and X'11' through X'1B' | X'24' | X'2482' |
+| Royal Mail Mailmark | X'00' and X'01' | not supported | X'2580' |
+| Aztec Code (2D bar code) | X'00' through X'03' | not supported | X'2681' |
 
 
 Media-Destinations Self-Defining Field
@@ -8249,26 +8069,18 @@ has an ID and this ID is also included as a media-destination ID. Printers shoul
 printer media-destination values if these destinations are still available when a UP3I tupel is active; printers
 should also not reuse printer media-destination values for UP3I tupels (unless a single printer media-
 destination is replaced by a UP3I tupel).
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000A' –
-X'7FFE' in
-increments of
-4
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0010' Media-Destinations self-defining field ID
-4–5 CODE Default X'0001' –
-X'FFFF'
-Default media-destination ID
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000A'–X'7FFE' | Length of this self-defining field, including this length field; must be in increments of 4 |
+| 2–3 | CODE | SDF ID | X'0010' | Media-Destinations self-defining field ID |
+| 4–5 | CODE | Default | X'0001'–X'FFFF' | Default media-destination ID |
+
 One or more entries in the following format:
-+ 0–1 CODE First X'0001' –
-X'FFFF'
-First number in a range of available, contiguous media-destination
-IDs
-+ 2–3 CODE Last X'0001' –
-X'FFFF'
-Last number in a range of available, contiguous media-destination
-IDs; this ID must be greater than or equal to the value specified in
-bytes +0–1 for this set.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | First | X'0001'–X'FFFF' | First number in a range of available, contiguous media-destination IDs |
+| + 2–3 | CODE | Last | X'0001'–X'FFFF' | Last number in a range of available, contiguous media-destination IDs; this ID must be greater than or equal to the value specified in bytes +0–1 for this set |
 
 
 Supported Group Operations Self-Defining Field
