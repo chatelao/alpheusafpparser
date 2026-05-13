@@ -22,6 +22,10 @@ java {
 
 println("Source Compatibility: ${java.sourceCompatibility}")
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
+}
+
 repositories {
     mavenCentral()
 }

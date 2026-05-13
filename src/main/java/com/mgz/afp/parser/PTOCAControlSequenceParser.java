@@ -126,7 +126,7 @@ public class PTOCAControlSequenceParser {
     try {
       className = com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.class.getName() + "$" + csi.getControlSequenceFunctionType().name();
       Class<?> clazz = Class.forName(className);
-      cs = (PTOCAControlSequence) clazz.newInstance();
+      cs = (PTOCAControlSequence) clazz.getDeclaredConstructor().newInstance();
     } catch (Throwable cnfex) {
       throw new AFPParserException(PTOCAControlSequence.class.getSimpleName() + ": failed to instantiate control sequence class '" + className + "'.");
     }
