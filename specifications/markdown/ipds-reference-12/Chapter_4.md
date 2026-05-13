@@ -7777,77 +7777,35 @@ are available in other (different) fonts, or perhaps available only in a subset 
 entry.
 
 
-Print-Quality Support Self-Defining Field
-The Print-Quality Support self-defining field specifies the minimum values for print quality supported by the
-printer. This field need not be returned by printers that have only one print quality.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0005' –
-X'0102'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0009' Print-Quality Support self-defining field ID
+### Print-Quality Support Self-Defining Field
+The Print-Quality Support self-defining field specifies the minimum values for print quality supported by the printer. This field need not be returned by printers that have only one print quality.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0005'–X'0102' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0009' | Print-Quality Support self-defining field ID |
+
 One or more print quality boundaries in the following format:
-+ 0 UBIN Boundary X'01'–X'FE' The lower boundary of an implemented print quality, as specified
-by the Print-Quality Control order in the Execute Order Anystate
-command. See “XOA Print-Quality Control”.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | UBIN | Boundary | X'01'–X'FE' | The lower boundary of an implemented print quality, as specified by the Print-Quality Control order in the Execute Order Anystate command. See “XOA Print-Quality Control”. |
 
 
-XOA-RRL RT & RIDF Support Self-Defining Field
-The Execute Order Anystate RRL RT & RIDF Support self-defining field specifies the combinations of resource
-types and resource ID formats that the printer supports in an XOA-RRL command.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'000A' XOA-RRL RT & RIDF Support Self-Defining Field ID
-One or more entries in the following format: The list of entries identifies those RRL query combinations to which the
-printer responds with a nonzero Resource Type reply. A Resource Type reply of zero means that the queried Resource
-Type, Resource ID Format, or Resource ID are unknown, unsupported, or inconsistent.
-+ 0 CODE RT
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-X'10'
-X'11'
-X'12'
-X'20'
-X'40'
-X'41'
-X'42'
-X'FF'
-A supported resource type:
-Single-byte LF1-type and LF2-type coded font
-Double-byte LF1-type coded font
-Double-byte LF1-type coded-font section
-Page segment
-Overlay
-Device-version code page
-Font character set
-Single-byte coded font index
-Double-byte coded font section index
-Coded font
-Graphic character set supported in a font character set
-Specific code page
-Saved page group
-Data object resource
-Data-object font
-Data-object-font components
-All-resources resource type
-+ 1 CODE RIDF
-X'00'
-X'03'
-X'08'
-X'09'
-A supported resource ID format:
-Host-Assigned Resource ID
-GRID-parts format
-Variable-length Group ID (X'00') triplet
-Object-OID format
+### XOA-RRL RT & RIDF Support Self-Defining Field
+The Execute Order Anystate RRL RT & RIDF Support self-defining field specifies the combinations of resource types and resource ID formats that the printer supports in an XOA-RRL command.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006'–X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'000A' | XOA-RRL RT & RIDF Support Self-Defining Field ID |
+
+One or more entries in the following format: The list of entries identifies those RRL query combinations to which the printer responds with a nonzero Resource Type reply. A Resource Type reply of zero means that the queried Resource Type, Resource ID Format, or Resource ID are unknown, unsupported, or inconsistent.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | CODE | RT | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'08'<br>X'09'<br>X'10'<br>X'11'<br>X'12'<br>X'20'<br>X'40'<br>X'41'<br>X'42'<br>X'FF' | **A supported resource type:**<br>Single-byte LF1-type and LF2-type coded font<br>Double-byte LF1-type coded font<br>Double-byte LF1-type coded-font section<br>Page segment<br>Overlay<br>Device-version code page<br>Font character set<br>Single-byte coded font index<br>Double-byte coded font section index<br>Coded font<br>Graphic character set supported in a font character set<br>Specific code page<br>Saved page group<br>Data object resource<br>Data-object font<br>Data-object-font components<br>All-resources resource type |
+| + 1 | CODE | RIDF | X'00'<br>X'03'<br>X'08'<br>X'09' | **A supported resource ID format:**<br>Host-Assigned Resource ID<br>GRID-parts format<br>Variable-length Group ID (X'00') triplet<br>Object-OID format |
 The following two-byte RT/RIDF pairs are implicit in other command-set vectors and thus need not be (but can
 be) returned in this self-defining field:
 • X'0100'—single-byte LF1-type or LF2-type coded font queried by Host-Assigned Resource ID; implicit in
@@ -7863,80 +7821,35 @@ subsets
 • X'1200'—specific code page queried by Host-Assigned ID; implicit in support of the LF3 and LF4 subsets
 
 
-Activate Resource RT & RIDF Support Self-Defining Field
-This self-defining field specifies the combinations of Resource Types and Resource ID Formats supported by
-the printer, within the Activate Resource command. If this self-defining field is returned, the printer must also
-return the AR-supported vector in the Sense Type and Model reply.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'000B' Activate Resource RT & RIDF Support Self-Defining Field ID
-One or more entries in the following format: These entries specify available AR command support. The first byte of
-each entry identifies a resource type; the second byte of each entry identifies a resource ID format.
-+ 0 CODE RT
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'08'
-X'09'
-X'10'
-X'40'
-X'41'
-X'42'
-A supported resource type:
-Single-byte LF1-type and LF2-type coded font
-Retired item 45
-Double-byte LF1-type coded-font section
-Page segment
-Overlay
-Code page
-Font character set
-Single-byte LF1-type coded-font index
-Double-byte LF1-type coded-font section index
-Coded font
-Data object resource
-Data-object font
-Data-object-font components
-+ 1 CODE RIDF
-X'03'
-X'04'
-X'05'
-X'06'
-X'07'
-X'09'
-X'0A'
-A supported resource ID format:
-GRID-parts format
-Remote PrintManager MVS naming format
-Extended Remote PrintManager MVS naming format
-MVS Host Unalterable Remote Font Environment
-Coded-font format
-Object-OID format
-Data-object-font format
+### Activate Resource RT & RIDF Support Self-Defining Field
+This self-defining field specifies the combinations of Resource Types and Resource ID Formats supported by the printer, within the Activate Resource command. If this self-defining field is returned, the printer must also return the AR-supported vector in the Sense Type and Model reply.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006'–X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'000B' | Activate Resource RT & RIDF Support Self-Defining Field ID |
+
+One or more entries in the following format: These entries specify available AR command support. The first byte of each entry identifies a resource type; the second byte of each entry identifies a resource ID format.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | CODE | RT | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'08'<br>X'09'<br>X'10'<br>X'40'<br>X'41'<br>X'42' | **A supported resource type:**<br>Single-byte LF1-type and LF2-type coded font<br>Retired item 45<br>Double-byte LF1-type coded-font section<br>Page segment<br>Overlay<br>Code page<br>Font character set<br>Single-byte LF1-type coded-font index<br>Double-byte LF1-type coded-font section index<br>Coded font<br>Data object resource<br>Data-object font<br>Data-object-font components |
+| + 1 | CODE | RIDF | X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'07'<br>X'09'<br>X'0A' | **A supported resource ID format:**<br>GRID-parts format<br>Remote PrintManager MVS naming format<br>Extended Remote PrintManager MVS naming format<br>MVS Host Unalterable Remote Font Environment<br>Coded-font format<br>Object-OID format<br>Data-object-font format |
 
 
-Medium Modification IDs Supported Self-Defining Field
-This self-defining field lists the medium modification IDs that are currently supported by the XOH-SMM
-command. If this self-defining field is returned, the printer must also return the Select-Medium-Modifications-
-support property ID (X'900E') in the Sense Type and Model reply.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'000D' Medium Modifications ID Support Self-Defining Field ID
+### Medium Modification IDs Supported Self-Defining Field
+This self-defining field lists the medium modification IDs that are currently supported by the XOH-SMM command. If this self-defining field is returned, the printer must also return the Select-Medium-Modifications-support property ID (X'900E') in the Sense Type and Model reply.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006'–X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'000D' | Medium Modifications ID Support Self-Defining Field ID |
+
 One or more entries in the following format:
-+ 0–1 CODE Medium
-modification ID
-Any ID that is
-valid in the
-XOH-SMM
-command
-ID of a currently-supported medium modification
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | Medium modification ID | Any ID that is valid in the XOH-SMM command | ID of a currently-supported medium modification |
 Note: Medium modification ID X'A0FF' should not be returned in the XOH-OPC reply unless there is at least
 one other supported fixed medium information modification ID. X'A0FF' is used by the host only if it is
 returned in the XOH-OPC reply.
@@ -8334,58 +8247,36 @@ Control command. It contains non-overlapping ranges of contiguous media-destinat
 At least one media-destination ID must be available at all times.
 The UP3I Tupel self-defining field provides information about all UP3I tupels attached to the printer. Each tupel
 has an ID and this ID is also included as a media-destination ID. Printers should continue to report normal
-printer media-destination values if these destinations are still available when a UP3I tupel is active; printers
-should also not reuse printer media-destination values for UP3I tupels (unless a single printer media-
-destination is replaced by a UP3I tupel).
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000A' –
-X'7FFE' in
-increments of
-4
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0010' Media-Destinations self-defining field ID
-4–5 CODE Default X'0001' –
-X'FFFF'
-Default media-destination ID
+printer media-destination values if these destinations are still available when a UP3I tupel is active; printers should also not reuse printer media-destination values for UP3I tupels (unless a single printer media-destination is replaced by a UP3I tupel).
+
+### Media-Destinations Self-Defining Field
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000A'–X'7FFE' in increments of 4 | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0010' | Media-Destinations self-defining field ID |
+| 4–5 | CODE | Default | X'0001'–X'FFFF' | Default media-destination ID |
+
 One or more entries in the following format:
-+ 0–1 CODE First X'0001' –
-X'FFFF'
-First number in a range of available, contiguous media-destination
-IDs
-+ 2–3 CODE Last X'0001' –
-X'FFFF'
-Last number in a range of available, contiguous media-destination
-IDs; this ID must be greater than or equal to the value specified in
-bytes +0–1 for this set.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | First | X'0001'–X'FFFF' | First number in a range of available, contiguous media-destination IDs |
+| + 2–3 | CODE | Last | X'0001'–X'FFFF' | Last number in a range of available, contiguous media-destination IDs; this ID must be greater than or equal to the value specified in bytes +0–1 for this set. |
 
 
-Supported Group Operations Self-Defining Field
-This self-defining field specifies the group operations supported by a printer, pre-processor, or post-processor
-in the XOH Specify Group Operation command. If this self-defining field is returned, the printer must also return
-the XOH-DGB-supported property pair (X'9004') and the XOH-SGO-supported property pair (X'9003') in the
-Device-Control command-set vector of an STM reply.
-Support for a group operation also implies support for all triplets defined for that group operation. The
-relationship between group operations and triplets is shown in Table 32.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0005' –
-X'7FFF'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0012' Supported Group Operations Self-Defining Field ID
+### Supported Group Operations Self-Defining Field
+The Supported Group Operations self-defining field lists the group operations that the printer supports. If a group operation is supported, the printer must also return the Supported Group Operations property ID in the Sense Type and Model reply.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0005'–X'7FFF' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0012' | Supported Group Operations Self-Defining Field ID |
+
 One or more entries in the following format:
-+ 0 CODE Operation
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-Group Operation supported in the XOH-SGO command:
-Keep group together as a print unit
-Keep group together for microfilm output
-Save pages
-Finish
-Identify named group
-Keep group together as a recovery unit
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | CODE | Operation | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06' | **Group Operation supported in the XOH-SGO command:**<br>Keep group together as a print unit<br>Keep group together for microfilm output<br>Save pages<br>Finish<br>Identify named group<br>Keep group together as a recovery unit |
 Notes:
 1. Exception ID X'0100..00' (normal printer restart) exists when a group operation is enabled or disabled.
 2. The XOH-OPC Finishing Operations self-defining field (X'0018') lists the currently supported finishing
@@ -8395,10 +8286,6 @@ while the Finish group operation is still supported.
 UP
 3I Tupel self-defining fields (X'0019') and UP3I Paper Input Media self-defining fields (X'001A') provide
 information about connected UP3I devices that can also support finishing operations.
-3. The Keep-Group-Together-as-a-Recovery-Unit self-defining field identifies the maximum number of sheets
-allowed within a recovery-unit group; these sheets include sheets containing pages and copies of such
-sheets. Printers that do not support this group operation or have no maximum do not return this self-
-defining field.
 
 
 Product Identifier Self-Defining Field
@@ -8769,23 +8656,19 @@ Finishing Fidelity triplet
 CMR Tag Fidelity triplet
 
 
-Printer Setup Self-Defining Field
-The Printer Setup self-defining field lists all setup IDs that are currently active in the printer. There can be
-multiple IDs, each of which identifies a particular, implementation-defined setup in the printer or post-
-processor. These IDs can be used by a presentation services program to verify that a printer is properly set up
-for a particular print job.
-An IPDS printer can support setup names (with the ASN and XOA-RSNL commands) or setup IDs, or both; the
-two functions do not necessarily interact. This Printer Setup self-defining field is not used for setup names.
-Exception ID X'0108..00' is returned if one or more of the setups change.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'FFFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0017' Printer Setup self-defining field ID
+### Printer Setup Self-Defining Field
+The Printer Setup self-defining field specifies the currently active setup ID.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006'–X'FFFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0017' | Printer Setup self-defining field ID |
+
 One or more entries in the following format:
-+ 0–1 CODE Setup ID X'0000' –
-X'FFFF'
-Currently active setup ID
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | Setup ID | X'0000'–X'FFFF' | Currently active setup ID |
 
 
 Finishing Operations Self-Defining Field
@@ -8994,64 +8877,35 @@ AFPC_Device_B Device Blue
 AFPC_Device_Gray Device Gray
 
 
-Device-Appearance Self-Defining Field
-This self-defining field lists optional device-appearance values that are supported by the printer. A device
-appearance can be selected with the Device Appearance (X'97') triplet in a Set Presentation Environment
-(SPE) command. Support for the Device Appearance (X'97') triplet is indicated by property pair X'F206' in the
-Device-Control command-set vector of an STM reply.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0006' –
-X'FFFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0022' Device-Appearance self-defining field ID
+### Device-Appearance Self-Defining Field
+The Device-Appearance self-defining field identifies the device-appearance values that are supported by the printer. If this self-defining field is supported, the printer must also return the Device-Appearance-support property ID (X'F206') in the Sense Type and Model reply and must support the Set Presentation Environment (SPE) command. Support for the Device Appearance (X'97') triplet is indicated by property pair X'F206' in the Device-Control command-set vector of an STM reply.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0006'–X'FFFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0022' | Device-Appearance self-defining field ID |
+
 One or more appearance values in the following format:
-+ 0–1 CODE Appearance X'0001' Device-default monochrome appearance
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0–1 | CODE | Appearance | X'0001' | Device-default monochrome appearance |
 Note: Printers that support the Device Appearance (X'97') triplet must support at least the device-default
 appearance (X'0000'). Printers that support the triplet but do not support any of the optional device-
 appearance values also do not return this OPC self-defining field.
 
 
-Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field
-This self-defining field identifies the maximum number of sheets allowed within a recovery-unit group; these
-sheets include sheets containing pages and copies of such sheets. Support for this group operation is
-indicated by the Supported Group Operations self-defining field.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'000B' Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0024' Keep-Group-Together-as-a-Recovery-Unit self-defining field ID
-4–5 UBIN Maximum
-number of
-sheets
-X'0000'
-X'0002' –
-X'FFFE'
-X'FFFF'
-Number of sheets allowed within a recovery-unit group:
-Value not specified; refer to maximum total group length
-value
-Maximum number of sheets that can be kept together as a
-recovery unit
-Maximum value is finite, but larger than 65,534 sheets
-6 CODE Unit base
-X'00'
-X'01'
-Unit base for this self-defining field:
-Ten inches
-Ten centimeters
-7–8 UBIN UPUB X'0001' –
-X'7FFF'
-Units per unit base value for this self-defining field
-9–10 UBIN Maximum
-total group
-length
-X'0000'
-X'0001' –
-X'7FFF'
-Maximum length of media that can be kept together as a
-recovery unit:
-Value not specified; refer to maximum number of
-sheets value
-Total length of media that can be kept together as a
-recovery unit
+### Keep-Group-Together-as-a-Recovery-Unit Self-Defining Field
+This self-defining field identifies the maximum number of sheets allowed within a recovery-unit group; these sheets include sheets containing pages and copies of such sheets. Support for this group operation is indicated by the Supported Group Operations self-defining field.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000B' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0024' | Keep-Group-Together-as-a-Recovery-Unit self-defining field ID |
+| 4–5 | UBIN | Maximum number of sheets | X'0000'<br>X'0002'–X'FFFE'<br>X'FFFF' | **Number of sheets allowed within a recovery-unit group:**<br>Value not specified; refer to maximum total group length value<br>Maximum number of sheets that can be kept together as a recovery unit<br>Maximum value is finite, but larger than 65,534 sheets |
+| 6 | CODE | Unit base | X'00'<br>X'01' | **Unit base for this self-defining field:**<br>Ten inches<br>Ten centimeters |
+| 7–8 | UBIN | UPUB | X'0001'–X'7FFF' | Units per unit base value for this self-defining field |
+| 9–10 | UBIN | Maximum total group length | X'0000'<br>X'0001'–X'7FFF' | **Maximum length of media that can be kept together as a recovery unit:**<br>Value not specified; refer to maximum number of sheets value<br>Total length of media that can be kept together as a recovery unit |
 Note: For a printer using cut-sheet media, the value is the sum
 of the sheet lengths. For a printer using continuous-forms
 media, the length can be changed with the XOH Set Media
@@ -9063,34 +8917,19 @@ zero maximum total group length is specified, the printer is responsible for ens
 are consistent and the presentation services program can use either value (and ignore the other value).
 
 
-Recognized Group ID Formats Self-Defining Field
-This self-defining field specifies the group ID formats that are recognized by the printer in the Group ID (X'00')
-triplet. The printer must accept all formats (but unrecognized formats are ignored and don't need to be
-supplied); this self-defining field can help a host program to determine which Group ID formats to supply.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0004' –
-X'7FFF'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0025' Recognized Group ID Formats self-defining field ID
+### Recognized Group ID Formats Self-Defining Field
+This self-defining field specifies the group ID formats that are recognized by the printer in the Group ID (X'00') triplet. The printer must accept all formats (but unrecognized formats are ignored and don't need to be supplied); this self-defining field can help a host program to determine which Group ID formats to supply.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'0004'–X'7FFF' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0025' | Recognized Group ID Formats self-defining field ID |
+
 Zero or more entries in the following format:
-+ 0 CODE Group ID
-format
-X'01'
-X'02'
-X'03'
-X'04'
-X'05'
-X'06'
-X'08'
-X'13'
-MVS and VSE print-data format
-VM print-data format
-OS/400 print-data format
-MVS and VSE COM-data format
-AIX and OS/2 COM-data format
-AIX and Windows print-data
-Variable-length Group ID format
-Extended OS/400 print-data format
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | CODE | Group ID format | X'01'<br>X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06'<br>X'08'<br>X'13' | **Group ID format:**<br>MVS and VSE print-data format<br>VM print-data format<br>OS/400 print-data format<br>MVS and VSE COM-data format<br>AIX and OS/2 COM-data format<br>AIX and Windows print-data<br>Variable-length Group ID format<br>Extended OS/400 print-data format |
 
 
 Supported Device Resolutions Self-Defining Field
@@ -9107,7 +8946,7 @@ This self-defining field lists the resolution (or resolutions) controlled by the
 | 12 to end of SDF | | | | Data without architectural definition |
 
 
-Object-Container Version Support Self-Defining Field
+### Object-Container Version Support Self-Defining Field
 This self-defining field lists the object container versions supported by the printer.
 The object containers supported by the printer are listed in the Object-Container Type Support self-defining
 field. To supplement that self-defining field, this self-defining field optionally lists the supported versions of each
@@ -9152,54 +8991,24 @@ specific variation is optional. The all-variations flag is ignored for object co
 above list.
 
 
-A list of recommended values to be returned in this self-defining field for known versions of object containers
-can be found in the publication Recommended IPDS Values for Object Container Versions.
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'001C' –
-X'7FFE'
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'0027' Object-Container Version Support self-defining field ID
+A list of recommended values to be returned in this self-defining field for known versions of object containers can be found in the publication *Recommended IPDS Values for Object Container Versions*.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'001C'–X'7FFE' | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'0027' | Object-Container Version Support self-defining field ID |
+
 One or more version records in the following format:
-+ 0 UBIN Version record
-length
-X'18'–X'FE'
-Length of the version record, including this length field
-+ 1–16 CODE Object type
-OID
-MO:DCA-registered object ID for the object container
-supported in the WOC. This is the same value as specified in
-the “Reg ID” field in the Object-Container Type Support self-
-defining field.
-+ 17 BITS Flags
-bit 0 All variations B'0'
-B'1'
-Version information is applicable to the specified OID only
-Version information is applicable to all object-type OIDs
-that are variations of the specified OID
-bits 1–7 B'0000000' Reserved
-+ 18–19 UBIN Major version X'0000' –
-X'FFFF'
-Major version number supported. The value X'FFFF' indicates
-no major version information passed; the minor version and
-subminor version fields must also be X'FFFF' in this case.
-+ 20–21 UBIN Minor version X'0000' –
-X'FFFF'
-Minor version number supported. The value X'FFFF' indicates
-no minor version information passed; the subminor version
-field must also be X'FFFF' in this case.
-+ 22–23 UBIN Subminor
-version
-X'0000' –
-X'FFFF'
-Subminor version number supported. The value X'FFFF'
-indicates no subminor version information passed.
-+ 24 to
-end of
-record
-CHAR Version name Any UTF-16BE
-characters
-Name of the version supported. This field is optional in the
-version record.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| + 0 | UBIN | Version record length | X'18'–X'FE' | Length of the version record, including this length field |
+| + 1–16 | CODE | Object type OID | | MO:DCA-registered object ID for the object container supported in the WOC. This is the same value as specified in the “Reg ID” field in the Object-Container Type Support self-defining field. |
+| + 17 | BITS | Flags | | **bit 0** All variations:<br>B'0' Version information is applicable to the specified OID only<br>B'1' Version information is applicable to all object-type OIDs that are variations of the specified OID<br>**bits 1–7** Reserved (B'0000000') |
+| + 18–19 | UBIN | Major version | X'0000'–X'FFFF' | Major version number supported. The value X'FFFF' indicates no major version information passed; the minor version and subminor version fields must also be X'FFFF' in this case. |
+| + 20–21 | UBIN | Minor version | X'0000'–X'FFFF' | Minor version number supported. The value X'FFFF' indicates no minor version information passed; the subminor version field must also be X'FFFF' in this case. |
+| + 22–23 | UBIN | Subminor version | X'0000'–X'FFFF' | Subminor version number supported. The value X'FFFF' indicates no subminor version information passed. |
+| + 24 to end of record | CHAR | Version name | Any UTF-16BE characters | Name of the version supported. This field is optional in the version record. |
 
 
 Finishing Options Self-Defining Field
@@ -9245,27 +9054,14 @@ The reported speed is in no way a guarantee of performance.
 | 8–11 | UBIN | FPM | X'00000001' – X'FFFFFFFF'<br>X'00000000' | Number of feet of continuous-forms media that can be printed per minute<br>No feet-per-minute value reported |
 
 
-Active Setup Name Self-Defining Field
-This self-defining field reports the active setup name on the printer, if any. If there is an active setup name, it is
-returned using a Setup Name (X'9E') triplet in the active-setup-name field. If there is no active setup name, the
-SDF-length field is returned as X'0004' and the active-setup-name field is omitted.
-Exception ID X'010A..00' is returned if the active setup name changes.
-The triplet is fully described in the triplets chapter:
-“Setup Name (X'9E') Triplet
-”
-Offset Type Name Range Meaning
-0–1 UBIN SDF length X'0004',
-X'000A'–
-X'00D0' even
-values
-Length of this self-defining field, including this length field
-2–3 CODE SDF ID X'002A' Active Setup Name self-defining field ID
-4 to
-end of
-SDF
-Active setup
-name
-Zero or one Setup Name (X'9E') triplet
+### Active Setup Name Self-Defining Field
+The Active Setup Name self-defining field specifies the name of the currently active setup.
+
+| Offset | Type | Name | Range | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| 0–1 | UBIN | SDF length | X'000A'–X'00D0' even values | Length of this self-defining field, including this length field |
+| 2–3 | CODE | SDF ID | X'002A' | Active Setup Name self-defining field ID |
+| 4 to end of SDF | | Active setup name | | Zero or one Setup Name (X'9E') triplet |
 
 
 XOH Page Counters Control

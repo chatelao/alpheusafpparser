@@ -76,23 +76,23 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
                 - ✅ SDF X'0008' (Resident Symbol-Set Support).
                 - ✅ SDF X'0026' (Supported Device Resolutions).
                 - ✅ SDFs X'0006', X'0007', X'0013', X'0029' (Features, Product Info, Speed).
-                - ⏳ SDF X'0009' (Print-Quality Support).
-                - ⏳ SDF X'000A' (XOA-RRL RT & RIDF Support).
-                - ⏳ SDF X'000B' (Activate Resource RT & RIDF Support).
-                - ⏳ SDF X'000D' (Medium Modification IDs Supported).
-                - ⏳ SDF X'0012' (Supported Group Operations).
-                - ⏳ SDF X'0017' (Printer Setup).
-                - ⏳ SDF X'0022' (Device-Appearance).
-                - ⏳ SDF X'002A' (Active Setup Name).
+                - ✅ SDF X'0009' (Print-Quality Support).
+                - ✅ SDF X'000A' (XOA-RRL RT & RIDF Support).
+                - ✅ SDF X'000B' (Activate Resource RT & RIDF Support).
+                - ✅ SDF X'000D' (Medium Modification IDs Supported).
+                - ✅ SDF X'0012' (Supported Group Operations).
+                - ✅ SDF X'0017' (Printer Setup).
+                - ✅ SDF X'0022' (Device-Appearance).
+                - ✅ SDF X'002A' (Active Setup Name).
                 - ⏳ SDF X'000E' (Common Bar Code Type/Modifier).
                 - ⏳ SDF X'000F' (Bar Code Type/Modifier: Tables 34–35).
                 - ⏳ SDF X'0010' (Media-Destinations).
                 - ⏳ SDF X'0015' (DF Deactivation Types Supported).
                 - ⏳ SDF X'0016' (PFC Triplets Supported).
-                - ⏳ SDF X'0024' (Keep-Group-Together-as-a-Recovery-Unit).
-                - ⏳ SDF X'0025' (Recognized Group ID Formats).
+                - ✅ SDF X'0024' (Keep-Group-Together-as-a-Recovery-Unit).
+                - ✅ SDF X'0025' (Recognized Group ID Formats).
                 - ⏳ SDF X'0014' (Object-Container Type Support).
-                - ⏳ SDF X'0027' (Object-Container Version Support).
+                - ✅ SDF X'0027' (Object-Container Version Support).
                 - ⏳ SDF X'0018' (Finishing Operations).
                 - ⏳ SDF X'0019' (UP3I Tupel).
                 - ⏳ SDF X'001A' (UP3I Paper Input Media).

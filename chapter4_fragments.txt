@@ -1,0 +1,237 @@
+Print-Quality Support Self-Defining Field
+The Print-Quality Support self-defining field specifies the minimum values for print quality supported by the
+printer. This field need not be returned by printers that have only one print quality.
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'0005' –
+X'0102'
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'0009' Print-Quality Support self-defining field ID
+One or more print quality boundaries in the following format:
++ 0 UBIN Boundary X'01'–X'FE' The lower boundary of an implemented print quality, as specified
+by the Print-Quality Control order in the Execute Order Anystate
+command. See “XOA Print-Quality Control”.
+
+
+XOA-RRL RT & RIDF Support Self-Defining Field
+The Execute Order Anystate RRL RT & RIDF Support self-defining field specifies the combinations of resource
+types and resource ID formats that the printer supports in an XOA-RRL command.
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'0006' –
+X'7FFE'
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'000A' XOA-RRL RT & RIDF Support Self-Defining Field ID
+One or more entries in the following format: The list of entries identifies those RRL query combinations to which the
+printer responds with a nonzero Resource Type reply. A Resource Type reply of zero means that the queried Resource
+Type, Resource ID Format, or Resource ID are unknown, unsupported, or inconsistent.
++ 0 CODE RT
+X'01'
+X'02'
+X'03'
+X'04'
+X'05'
+X'06'
+X'07'
+X'08'
+X'09'
+X'10'
+X'11'
+X'12'
+X'20'
+X'40'
+X'41'
+X'42'
+X'FF'
+A supported resource type:
+Single-byte LF1-type and LF2-type coded font
+Double-byte LF1-type coded font
+Double-byte LF1-type coded-font section
+Page segment
+Overlay
+Device-version code page
+Font character set
+Single-byte coded font index
+Double-byte coded font section index
+Coded font
+Graphic character set supported in a font character set
+Specific code page
+Saved page group
+Data object resource
+Data-object font
+Data-object-font components
+All-resources resource type
++ 1 CODE RIDF
+X'00'
+X'03'
+X'08'
+X'09'
+A supported resource ID format:
+Host-Assigned Resource ID
+GRID-parts format
+Variable-length Group ID (X'00') triplet
+Object-OID format
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'0006' –
+X'7FFE'
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'000B' Activate Resource RT & RIDF Support Self-Defining Field ID
+One or more entries in the following format: These entries specify available AR command support. The first byte of
+each entry identifies a resource type; the second byte of each entry identifies a resource ID format.
++ 0 CODE RT
+X'01'
+X'02'
+X'03'
+X'04'
+X'05'
+X'06'
+X'07'
+X'08'
+X'09'
+X'10'
+X'40'
+X'41'
+X'42'
+A supported resource type:
+Single-byte LF1-type and LF2-type coded font
+Retired item 45
+Double-byte LF1-type coded-font section
+Page segment
+Overlay
+Code page
+Font character set
+Single-byte LF1-type coded-font index
+Double-byte LF1-type coded-font section index
+Coded font
+Data object resource
+Data-object font
+Data-object-font components
++ 1 CODE RIDF
+X'03'
+X'04'
+X'05'
+X'06'
+X'07'
+X'09'
+X'0A'
+A supported resource ID format:
+GRID-parts format
+Remote PrintManager MVS naming format
+Extended Remote PrintManager MVS naming format
+MVS Host Unalterable Remote Font Environment
+Coded-font format
+Object-OID format
+Data-object-font format
+
+
+Medium Modification IDs Supported Self-Defining Field
+This self-defining field lists the medium modification IDs that are currently supported by the XOH-SMM
+command. If this self-defining field is returned, the printer must also return the Select-Medium-Modifications-
+support property ID (X'900E') in the Sense Type and Model reply.
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'0006' –
+X'7FFE'
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'000D' Medium Modifications ID Support Self-Defining Field ID
+One or more entries in the following format:
++ 0–1 CODE Medium
+modification ID
+Any ID that is
+valid in the
+XOH-SMM
+command
+ID of a currently-supported medium modification
+Note: Medium modification ID X'A0FF' should not be returned in the XOH-OPC reply unless there is at least
+one other supported fixed medium information modification ID. X'A0FF' is used by the host only if it is
+returned in the XOH-OPC reply.
+
+
+Deprecated (Common Bar Code Type/Modifier Self-Defining Field)
+Note: This self-defining field has been deprecated and replaced with the Bar Code Type/Modifier self-defining
+field (X'000F'). The deprecated self-defining field is based on an IPDS-defined subset (called the
+common set) that lists the set of bar codes commonly used in the 1980s. Since that time, two of the bar
+codes, Industrial 2-of-5 and Matrix 2-of-5, have become less popular and are both essentially obsolete
+today. The Interleaved 2-of-5 bar code can be used instead of the obsolete bar code types because it
+the XOH-DGB-supported property pair (X'9004') and the XOH-SGO-supported property pair (X'9003') in the
+Device-Control command-set vector of an STM reply.
+Support for a group operation also implies support for all triplets defined for that group operation. The
+relationship between group operations and triplets is shown in Table 32.
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'0005' –
+X'7FFF'
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'0012' Supported Group Operations Self-Defining Field ID
+One or more entries in the following format:
++ 0 CODE Operation
+X'01'
+X'02'
+X'03'
+X'04'
+X'05'
+X'06'
+Group Operation supported in the XOH-SGO command:
+Keep group together as a print unit
+Keep group together for microfilm output
+Save pages
+Finish
+Identify named group
+Keep group together as a recovery unit
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'0006' –
+X'FFFE'
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'0017' Printer Setup self-defining field ID
+One or more entries in the following format:
++ 0–1 CODE Setup ID X'0000' –
+X'FFFF'
+Currently active setup ID
+
+
+Finishing Operations Self-Defining Field
+The Finishing Operations self-defining field lists all the different types of finishing operations that the printer
+(SPE) command. Support for the Device Appearance (X'97') triplet is indicated by property pair X'F206' in the
+Device-Control command-set vector of an STM reply.
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'0006' –
+X'FFFE'
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'0022' Device-Appearance self-defining field ID
+One or more appearance values in the following format:
++ 0–1 CODE Appearance X'0001' Device-default monochrome appearance
+Note: Printers that support the Device Appearance (X'97') triplet must support at least the device-default
+appearance (X'0000'). Printers that support the triplet but do not support any of the optional device-
+appearance values also do not return this OPC self-defining field.
+
+sheets include sheets containing pages and copies of such sheets. Support for this group operation is
+indicated by the Supported Group Operations self-defining field.
+Offset Type Name Range Meaning
+0–1 UBIN SDF length X'000B' Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'0024' Keep-Group-Together-as-a-Recovery-Unit self-defining field ID
+4–5 UBIN Maximum
+number of
+sheets
+X'0000'
+X'0002' –
+X'FFFE'
+X'FFFF'
+Number of sheets allowed within a recovery-unit group:
+Value not specified; refer to maximum total group length
+value
+Maximum number of sheets that can be kept together as a
+recovery unit
+Maximum value is finite, but larger than 65,534 sheets
+6 CODE Unit base
+X'00'
+X'000A'–
+X'00D0' even
+values
+Length of this self-defining field, including this length field
+2–3 CODE SDF ID X'002A' Active Setup Name self-defining field ID
+4 to
+end of
+SDF
+Active setup
+name
+Zero or one Setup Name (X'9E') triplet
+
+
+XOH Page Counters Control
+The XOH Page Counters Control (PCC) command provides a counter-synchronization function that should
