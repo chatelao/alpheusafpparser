@@ -262,7 +262,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
 - ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
 - ✅ **MOCA**: Excellent quality; cleanest conversion.
-- 🚧 **Db2 12 Internationalization Guide**:
+- ✅ **Db2 12 Internationalization Guide**:
     - ✅ Convert to Markdown:
         - ✅ Chapter 1 (International data and character conversion).
         - ✅ Chapter 2 (How Db2 for z/OS uses Unicode).
@@ -272,26 +272,28 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 6 (Debugging).
         - ✅ Appendices A–F.
         - ✅ Glossary.
-    - ⏳ Purge physical page markers and PDF artifacts:
+    - ✅ Purge physical page markers and PDF artifacts:
         - ✅ Chapters 1–3.
         - ✅ Chapters 4–6.
         - ✅ Appendices A–E.
         - ✅ Appendix F.
         - ✅ Glossary.
         - ✅ Index.
-    - ⏳ Fix OCR-induced split words and formatting artifacts:
+    - ✅ Fix OCR-induced split words and formatting artifacts:
         - ✅ Chapters 1–3.
-        - ⏳ Chapters 4–6.
+        - ✅ Chapter 4.
+        - ✅ Chapter 5.
+        - ✅ Chapter 6.
         - ✅ Appendices A–E.
         - ✅ Appendix F.
         - ✅ Glossary.
         - ✅ Index.
-    - ⏳ Convert syntax and registry text dumps to Markdown tables:
+    - ✅ Convert syntax and registry text dumps to Markdown tables:
         - ✅ Chapter 1 (Tables 1–12).
         - ✅ Chapter 3 (Tables 13–15).
         - ✅ Chapter 4 (Tables 16–17).
         - ✅ Chapter 5 (Tables 18–30).
-        - ⏳ Chapter 6 (Table 31).
+        - ✅ Chapter 6 (Table 31).
         - ✅ Appendix F (Table 32).
 
 ## Phase 6a: Testing and Quality Assurance (i)
