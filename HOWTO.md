@@ -2,6 +2,18 @@
 
 This guide provides a detailed overview of how to use the Alpheus AFP Parser library to read and process IBM AFP (Advanced Function Presentation) files.
 
+## Supported Architectures
+
+Alpheus AFP Parser provides comprehensive support for the following AFP architectures:
+- **MO:DCA**: Mixed Object Document Content Architecture
+- **BCOCA**: Bar Code Object Content Architecture
+- **CMOCA**: Color Management Object Content Architecture
+- **FOCA**: Font Object Content Architecture
+- **GOCA**: Graphics Object Content Architecture
+- **IOCA**: Image Object Content Architecture
+- **PTOCA**: Presentation Text Object Content Architecture
+- **Line Data**: Support for traditional Line Data structures.
+
 ## Installation
 
 ### Maven
@@ -51,7 +63,11 @@ public class SimpleParser {
             while ((sf = parser.parseNextSF()) != null) {
                 // Process the structured field
                 System.out.println("Found Structured Field: " + sf.getStructuredFieldIntroducer().getSFTypeID());
-                System.out.println("Length: " + sf.getStructuredFieldIntroducer().getSFLength());
+
+                // Monitor parsing progress
+                System.out.println("Bytes read: " + parser.getCountReadByte());
+                System.out.println("Fields built: " + parser.getNrOfSFBuilt());
+                System.out.println("Errors encountered: " + parser.getNrOfSFBuiltWithErrors());
             }
         }
     }
@@ -68,6 +84,15 @@ Set the charset used to decode text within the AFP stream (e.g., in TLEs or NOPs
 
 ```java
 config.setAfpCharSet(Charset.forName("Cp1141")); // Example: German with Euro
+```
+
+### Stateful Encoding
+
+For architectures like PTOCA and GOCA that support dynamic character set switching, you can register Local ID (LID) to Charset mappings.
+
+```java
+config.addCodedFontCharsetMapping((short) 0x01, Charset.forName("Cp500"));
+config.addCodedFontCharsetMapping((short) 0x02, Charset.forName("Cp273"));
 ```
 
 ### Buffer Size
@@ -96,12 +121,37 @@ config.setParseToStructuredFieldsBaseData(true);
 
 ## XML Export
 
-Alpheus provides a utility to export individual structured fields to XML.
+Alpheus provides a utility to export structured fields or entire documents to XML.
+
+### Exporting an Individual Structured Field
 
 ```java
 import com.mgz.xml.AFP2XMLWriter;
 // ...
 AFP2XMLWriter.writeXML(System.out, sf, config);
+```
+
+### Exporting a Full AFPDocument
+
+```java
+import com.mgz.afp.base.AFPDocument;
+import com.mgz.xml.AFP2XMLWriter;
+// ...
+AFPDocument doc = new AFPDocument();
+// Add fields to doc as they are parsed...
+AFP2XMLWriter.writeXML(System.out, doc);
+```
+
+## Diagnostic Output
+
+For debugging purposes, you can generate a human-readable string representation of any structured field using `AFPWriterHumanReadable`.
+
+```java
+import com.mgz.afp.writer.AFPWriterHumanReadable;
+// ...
+AFPWriterHumanReadable writer = new AFPWriterHumanReadable();
+String diagnostic = writer.writeSF(sf);
+System.out.println(diagnostic);
 ```
 
 ## Command Line Interface (CLI)
@@ -165,3 +215,16 @@ config.setEscalateParsingErrors(false);
 ```
 
 When `setEscalateParsingErrors(false)` is set, `parseNextSF()` will return an instance of `StructuredFieldErrornouslyBuilt` instead of throwing an exception. You can inspect this object to get details about the error and the raw data of the problematic field.
+
+## Utilities
+
+### Heuristic Human-Readability Check
+
+The `UtilCharacterEncoding` class provides a utility to determine if a byte array contains primarily human-readable characters when decoded with a specific charset.
+
+```java
+import com.mgz.util.UtilCharacterEncoding;
+import java.nio.charset.Charset;
+// ...
+boolean readable = UtilCharacterEncoding.isHumanReadable(data, Charset.forName("Cp500"));
+```
