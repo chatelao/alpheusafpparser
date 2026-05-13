@@ -13,7 +13,7 @@ To know the quality, compare the result to the original PDF resports to find the
 | **CMOCA** (cmoca-reference-02) | Excellent | Clean syntax tables, minimal PDF artifacts | None significant. |
 | **FOCA** (foca-reference-06) | Excellent | Proper table formatting, clear sections | None significant. |
 | **MOCA** (moca-reference-02) | Excellent | Cleanest conversion, no artifacts detected | None. |
-| **Db2 12 for z/OS: Internationalization Guide** (db2z_12_charbook) | Good | Initial conversion complete (Chapters, Appendices, Glossary, Index, Notices) | Chapters 4-6 still require artifact purging and OCR cleanup. |
+| **Db2 12 for z/OS: Internationalization Guide** (db2z_12_charbook) | Excellent | Purged of artifacts, OCR errors fixed, tables converted | None significant. |
 | **AFP GOCA** (afp-goca-reference-03) | Good | Consistent headers, drawing orders converted | Minor Chapter 7 drawing order remnants pending table conversion. |
 | **BCOCA** (bcoca-reference-11) | Excellent | Purged of page markers, key syntax tables formatted | None significant. |
 | **IOCA** (ioca-reference-09) | Excellent | Text is readable, structural descriptors converted | None significant. |
@@ -43,12 +43,12 @@ To know the quality, compare the result to the original PDF resports to find the
 *   **BCOCA Reference 11**: Purged of artifacts and page references. All Chapter 4 and Appendix tables are formatted.
 *   **IOCA Reference 09**: Artifacts and page references purged. All structural descriptors and Function Sets converted to tables.
 *   **FOCA Reference 06**: Fully cleaned; OCR issues fixed and page references removed.
+*   **Db2 12 Internationalization Guide**: Purged of artifacts and OCR errors. All chapters and appendices have tables converted.
 
 ### Good Quality (Minor Cleanup Needed)
 *   **IPDS Reference 12**: Significant progress. All command and syntax tables are converted. Major progress on artifact and page reference purging.
 *   **AFP GOCA Reference 03**: Purged of page references. Drawing orders and attribute tables mostly converted to Markdown.
 *   **Line Data Reference 05**: Significant improvement. Artifacts and page references purged. All Chapter 5 structured fields and early Appendix A diagrams converted.
-*   **Db2 12 Internationalization Guide**: Major chapters and appendices purged of artifacts and OCR errors. Tables in Chapters 1, 3, 4, 5 and Appendix F are converted.
 
 ---
 

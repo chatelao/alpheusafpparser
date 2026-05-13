@@ -295,7 +295,8 @@ The key is to specify the size code unit that you want Db2 to use when calculati
 is the minimal bit combination that can represent a character.
 Procedure
 If you are using any of the following length functions, specify the appropriate unit of measurement:
-GUPIApplicable functions:
+GUPI
+Applicable functions:
 • CHARACTER_LENGTH
 • CLOB
 • DBCLOB
@@ -408,11 +409,13 @@ the data, whether case should be considered, and how punctuation characters shou
 must specify a value that is acceptable for the z/OS CUNBOPR_Collation_Keyword parameter.
 The COLLATION_KEY function returns a binary value that can be used to sort data according to the
 rules that are specified in the Unicode Collation algorithm.
-GUPIFor example, suppose that you issue the following query:
+GUPI
+For example, suppose that you issue the following query:
 SELECT FIRSTNAME, LASTNAME
 FROM EMPLOYEE
 ORDER BY COLLATION_KEY(LASTNAME, 'UCA400R1_AS_LSV_S2');
-GUPIThis query orders the employees by their surnames (in the LASTNAME column) based on the
+GUPI
+This query orders the employees by their surnames (in the LASTNAME column) based on the
 following options that are specified in the collation name UCA400R1_AS_LSV_S2:
 Table 23. Example collation options and corresponding collation keywords
 
@@ -992,7 +995,7 @@ device is not capable of correctly representing all data.
 If you need to display international characters properly, a possible solution is to add a presentation layer
 to your environment. Consider migrating to a client/server environment, such as the following examples:
 • Use CICS Transaction Gateway to access CICS to then access Db2 for z/OS.
-• Use an IMS or CICS application that uses WebSphere ® MQ to access Db2 for z/OS.
+• Use an IMS or CICS application that uses WebSphere® MQ to access Db2 for z/OS.
 Variant characters
 Variant characters are characters that correspond to different code points across a given set of code
 pages. For example, the character # is variant. It corresponds to code point X'7B' in CCSIDs 37, 273, 500,
@@ -1182,7 +1185,7 @@ see DCLGEN (declarations generator) subcommand (DSN) (Db2 Commands).
 For more information, see DECLARE VARIABLE statement (Db2 SQL).
 SQL descriptor (SQLDA)
 If you use an SQL descriptor to define application data in parameter markers and host variables, such as
-when you specify the USING DESCRIPTOR descriptor-name clause  in the EXECUTE statements,
+when you specify the USING DESCRIPTOR descriptor-name clause in the EXECUTE statements,
 the CCSID values for host variables and parameter markers are defined by the SQLDA that is specified
 in descriptor-name and not the actual application data, and the other options described in this topic
 might not apply. For more information about the USING DESCRIPTOR clause, see EXECUTE statement
@@ -1690,7 +1693,8 @@ Although the data that the statement references can have different CCSIDs, the S
 string constants, is written in only one CCSID. The CCSID that the SQL statement is written in is the source
 CCSID for your application.
 Db2 for z/OS considers any SQL statement that satisfies at least one of the following criteria to be a
-statement that references objects with multiple CCSIDs:GUPI
+statement that references objects with multiple CCSIDs:
+GUPI
 • References table objects with different CCSIDs
 • Contains any of the following functions:
 – ASCII_CHR

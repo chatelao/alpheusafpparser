@@ -36,7 +36,7 @@ requires the least space for your data.
 UTF-16 does not always require more storage than UTF-8. The amount of storage that is required
 depends on your data. For example, Latin-1 characters always take 1 byte in UTF-8 and 2 bytes in
 UTF-16. However, Japanese characters take 3 to 4 bytes in UTF-8 and 2 to 4 bytes in UTF-16.
-For example. Db2 for z/OS uses UTF-8 for the catalog. Because the catalog contains mostly Latin-1
+For example, Db2 for z/OS uses UTF-8 for the catalog. Because the catalog contains mostly Latin-1
 characters, this format uses considerably less space than UTF-16.
 MQ, CICS Transaction Gateway, and IMS Connect messages
 When messages are passed from one technology to another, everything in the message is usually
@@ -141,7 +141,8 @@ Table 16. CCSIDs that are associated with columns in a Unicode table
 **Note:**
 a. If you do not specify a subtype, Db2 assumes FOR MIXED DATA.
 Example
-GUPIThe following CREATE TABLE statement creates a Unicode table.
+GUPI
+The following CREATE TABLE statement creates a Unicode table.
 CREATE TABLE UNITAB
  (C1 CHAR(4)FOR SBCS DATA,
   C2 CHAR(4),
@@ -152,13 +153,13 @@ CREATE TABLE UNITAB
 CCSID Unicode
 GUPI
 Columns C1 and C4 can contain only 1-byte UTF-8 data. (This data has CCSID 367 and is stored in 7-bit
-ASCII format.) Columns C2 and C5 can contain any UTF-8 data. Columns C3® and C6 can contain UTF-16
+ASCII format.) Columns C2 and C5 can contain any UTF-8 data. Columns C3 and C6 can contain UTF-16
 data.
 The CHAR and VARCHAR columns each have a length of 4 bytes. That length means that each of these
 columns can contain one of the following characters or sets of characters:
 • one UTF-8 character that is 4 bytes
 • two UTF-8 characters that are each 2 bytes
-• one 3-byte UTF-8 characters and one one-byte UTF-8 character
+• one 3-byte UTF-8 character and one one-byte UTF-8 character
 • four one-byte UTF-8 characters
 The GRAPHIC and VARGRAPHIC columns each have a length of 4 UTF-16 code units. (A UTF-16 code unit
 is 16 bits or 2 bytes.) For UTF-16 characters that are 2 bytes, this length means 4 characters. However,
@@ -251,7 +252,7 @@ specify the UNICODE option. If the data is not in Unicode, ensure that you speci
 encoding scheme keyword (ASCII, EBCDIC, or CCSID) in the LOAD utility statement. The default is
 EBCDIC. Db2 converts ASCII and EBCDIC data to Unicode when it is loaded into a Unicode table. Be
 aware that this conversion might cause the data to expand.
-• Load the data from an another table by using the cross-loader function. If the data is from an EBCDIC
+• Load the data from another table by using the cross-loader function. If the data is from an EBCDIC
 or ASCII table, Db2 converts it to Unicode when it is loaded into the target Unicode table. Be aware
 that this conversion might cause the data to expand.
 • Insert individual rows by using the INSERT statement. For characters that cannot be typed on your
