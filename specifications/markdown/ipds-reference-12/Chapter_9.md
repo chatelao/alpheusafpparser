@@ -158,8 +158,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Bytes 0–1 Self-defining-field length. Bytes after byte 10 are ignored by the printer.
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -293,8 +292,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Bytes 0–1 Self-defining-field length
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -343,7 +341,7 @@ Any other value is invalid. The four bytes that follow specify the offset from t
 area origin to the presentation space origin.
 Exception ID X'0208..05' exists if an invalid mapping option is specified.
 Note: For more information about mapping, refer to “Positioning the Bar Code Presentation
-Space” .
+Space”.
 Bytes 12–13 $X_{oa}$ offset in L-units from object area origin
 This value is the $X_{oa}$ offset of the bar code presentation space origin (top-left corner) from the
 origin of the bar code object area. The units of measure used to interpret this offset are

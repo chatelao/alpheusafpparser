@@ -200,8 +200,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Bytes 0–1 Self-defining-field length. Bytes after byte 10 are ignored by the printer.
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -325,8 +324,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
-page 68.
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm”.
 Bytes 0–1 Self-defining-field length
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -734,7 +732,7 @@ Note: The following additional IOCA code values can exist in the WIC2-IDD:
 • X'F4' – Set Extended Bilevel Image Color
 • X'F6' – Set Bilevel Image Color
 • X'F7' – IOCA Function Set identification (allowed in the MO:DCA IDD; ignored by IPDS receivers)
-Only one IOCA segment is allowed in each WIC2 ... END command stream. An IOCA segment can span two
+Only one IOCA segment is allowed in each WIC2... END command stream. An IOCA segment can span two
 or more consecutive WI2 commands. There is no restriction on how much or how little data is sent to the
 printer in a single WI2 command, except for the length limit of the command.
 All image segments are executed in immediate mode. That is, segments are processed as they are received
@@ -756,7 +754,7 @@ vector of an STM reply.
 Some IPDS printers support IOCA tile resources with IOCA images; support for these resource objects is
 indicated by an object-type OID value in the Object-Container Type Support self-defining field in an XOH-OPC
 reply. To invoke one of these resource objects, the resource must first be activated using either an AR
-command or a download sequence (WOCC, WOC, ..., WOC, End) and secondly a DORE or DORE2
+command or a download sequence (WOCC, WOC,..., WOC, End) and secondly a DORE or DORE2
 command must contain an entry that maps the resource object's HAID to an internal resource ID specified
 within the IOCA image. IOCA defines the internal resource ID as a 4-byte local identifier value specified within
 an Include Tile Parameter; the DORE or DORE2

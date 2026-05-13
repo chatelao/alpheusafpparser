@@ -359,7 +359,7 @@ component or a code page, all data-object fonts that use these components must f
 deactivated with the Deactivate Font command or the XOH Erase Residual Font Data
 command.
 A deactivate-all command when there are no active data-object-font components is effectively
-a NOP .
+a NOP.
 Deactivate Data-Object-Font Component (DDOFC)
 
 
@@ -394,7 +394,7 @@ resource to be deactivated and correspond to the data object resource Host-Assig
 AR, home-state WIC2, or home-state WOCC command. If an invalid value is specified in this
 field, exception ID X'020D..11' exists. Exception ID X'020D..14' exists if the data object
 resource specified is not currently activated.
-A deactivate-all command when there are no active data object resources is effectively a NOP .
+A deactivate-all command when there are no active data object resources is effectively a NOP.
 
 Include Data Object
 The Include Data Object (IDO) command causes a previously activated data object resource to be presented
@@ -650,7 +650,7 @@ The option values supported only for IO Images include:
 • X'41'—Point to pel
 • X'42'—Point to pel with double dot
 • X'50'—Replicate and trim
-Refer to pages 509–510 for a description of these mapping control options.
+ for a description of these mapping control options.
 
 Support within the IDO command for the following mapping control options is indicated as
 follows:
@@ -942,7 +942,7 @@ Object OID
 This parameter contains the unique resource ID (object OID) for the resource to be removed.
 The format of an Object OID is described. If the object OID is invalid, exception
 ID X'020D..32' exists.
-If the requested resource is not found, this command is treated as a NOP . If the requested
+If the requested resource is not found, this command is treated as a NOP. If the requested
 resource is currently activated, exception ID X'020D..30' exists.
 Remove Resident Resource
 
