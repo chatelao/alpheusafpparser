@@ -37,7 +37,7 @@ public class MCD_MapContainerData extends StructuredField {
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     checkDataLength(sfData, offset, length, 5);
     lengthOfRepeatingGroup = UtilBinaryDecoding.parseShort(sfData, offset, 2);
-    triplet = TripletParser.parseTriplet(sfData, offset, length, config);
+    triplet = TripletParser.parseTriplet(sfData, offset + 2, length - 2, config);
   }
 
 
