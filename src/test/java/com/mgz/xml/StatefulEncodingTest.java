@@ -60,7 +60,7 @@ public class StatefulEncodingTest {
         assertEquals("PTX_PresentationTextData", ptx.getClass().getSimpleName());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(baos, ptx, config);
+        Afp2XmlWriter.writeXML(baos, ptx, config);
         String xml = baos.toString();
 
         System.out.println("XML output:\n" + xml);

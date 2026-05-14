@@ -31,7 +31,7 @@ public class UtilReflection {
 
   public static final Comparator<Field> comparatorFields = new FieldComparator();
   private static AFPField annotationAFPField;
-  public static final AFPField defaultAFPFieldAnnotation = getAFPFieldDefaultAnnotation();
+  public static final AFPField defaultAFPFieldAnnotation = getAfpFieldDefaultAnnotation();
 
   public static Object getFieldValue(Field field, Object instance) throws AFPParserException {
     if (instance == null) {
@@ -91,7 +91,7 @@ public class UtilReflection {
     );
   }
 
-  public static boolean isAFPType(Class<?> clazz) {
+  public static boolean isAfpType(Class<?> clazz) {
     while (clazz != null && clazz != Object.class) {
       if (clazz.getAnnotation(AFPType.class) != null) {
         return true;
@@ -106,7 +106,7 @@ public class UtilReflection {
     return false;
   }
 
-  public static AFPField getAFPFieldDefaultAnnotation() {
+  public static AFPField getAfpFieldDefaultAnnotation() {
     if (annotationAFPField != null) {
       return annotationAFPField;
     }
@@ -115,7 +115,7 @@ public class UtilReflection {
     return annotationAFPField = afpFieldAnnotationBearer.getClass().getAnnotation(AFPField.class);
   }
 
-  public static List<Field> getAFPFields(Class<?> clazz) {
+  public static List<Field> getAfpFields(Class<?> clazz) {
     AFPField defaultAnnotation = null;
 
 

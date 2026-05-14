@@ -18,7 +18,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.foca;
 
-import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -46,7 +45,7 @@ public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-    int actualLength = getActualLength(sfData, offset, length);
+    var actualLength = getActualLength(sfData, offset, length);
     if (actualLength < 2) {
       return;
     }
@@ -54,20 +53,20 @@ public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
     ibmFormat = sfData[offset];
     technologyFormat = sfData[offset + 1];
 
-    int pos = 2;
+    var pos = 2;
 
     // FNC provides repeating group length and GCGID count.
-    int rgLen = 12; // Default
-    int gcgidCount = -1;
+    var rgLen = 12; // Default
+    var gcgidCount = -1;
     if (config != null && config.getCurrentFontControl() != null) {
       rgLen = config.getCurrentFontControl().getFnnRepeatingGroupLength() & 0xFF;
-      gcgidCount = config.getCurrentFontControl().getFnnIBMNameGCGIDCount();
+      gcgidCount = config.getCurrentFontControl().getFnnIbmNameGcgidCount();
     }
 
     // Section 2: Repeating Groups
     if (gcgidCount > 0 && rgLen > 0) {
       for (int i = 0; i < gcgidCount && (pos + rgLen) <= actualLength; i++) {
-        FNN_RepeatingGroup rg = new FNN_RepeatingGroup();
+        var rg = new FNN_RepeatingGroup();
         rg.decodeAFP(sfData, offset + pos, rgLen, config);
         addRepeatingGroup(rg);
         pos += rgLen;
@@ -77,7 +76,7 @@ public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
     // Section 3: Technology-specific identifiers
     tsIdentifiers = new ArrayList<>();
     while (pos < actualLength) {
-      FNN_TSIdentifier tsid = new FNN_TSIdentifier();
+      var tsid = new FNN_TSIdentifier();
       tsid.decodeAFP(sfData, offset + pos, actualLength - pos, config, technologyFormat);
       if (tsid.getTsidLen() <= 0) {
           // Robustness: prevent infinite loop if length is 0 or negative
@@ -90,18 +89,18 @@ public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    var baos = new ByteArrayOutputStream();
     baos.write(ibmFormat);
     baos.write(technologyFormat);
 
     if (repeatingGroups != null) {
-      for (IRepeatingGroup rg : repeatingGroups) {
+      for (var rg : repeatingGroups) {
         rg.writeAFP(baos, config);
       }
     }
 
     if (tsIdentifiers != null) {
-      for (FNN_TSIdentifier tsid : tsIdentifiers) {
+      for (var tsid : tsIdentifiers) {
         tsid.writeAFP(baos, config, technologyFormat);
       }
     }

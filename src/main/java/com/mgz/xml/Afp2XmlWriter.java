@@ -31,7 +31,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AFP2XMLWriter {
+public class Afp2XmlWriter {
 
   public static void writeXML(OutputStream osw, StructuredField sf, AFPParserConfiguration conf) throws JAXBException {
     var classes = new ArrayList<Class<?>>();

@@ -353,7 +353,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ⏳ No Operation (NOP).
     - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
     - 🚧 Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX, PTD).
-    - 🚧 Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD, CFI, CPC, CPI, FNC, FND, FNI, FNM, FNO, FNP).
+    - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD, CFI, CPC, CPI, FNC, FND, FNI, FNM, FNO, FNP).
 - ✅ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
     - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`, `UtilCharacterEncodingTest`).
@@ -481,7 +481,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
 - ⏳ Resolve Checkstyle violations (~4,400 warnings):
     - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`) (~950 warnings).
-    - ⏳ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`) (~770 warnings).
+    - ✅ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`) (~770 warnings).
     - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`) (~1,600 warnings).
     - ⏳ Address remaining miscellaneous violations (e.g., ✅ `FileTabCharacter` is resolved, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
