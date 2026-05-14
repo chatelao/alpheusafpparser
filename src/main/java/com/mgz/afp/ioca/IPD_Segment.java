@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.ioca;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.IMutualExclusiveGroupedFlag;
@@ -975,22 +976,24 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
           int pos = 0;
           samplingRatiosRepeatingGroups = new ArrayList<SamplingRatios.SamplingRatiosRepeatingGroup>();
           while (pos < lengthOfFollowingData) {
-            SamplingRatios.SamplingRatiosRepeatingGroup rg = new SamplingRatiosRepeatingGroup();
-            rg.nrOfHorizontalSamples = sfData[offset + 2 + pos];
-            rg.nrOfVerticalSamples = sfData[offset + 2 + pos + 1];
-            samplingRatiosRepeatingGroups.add(rg);
+            samplingRatiosRepeatingGroups.add(new SamplingRatiosRepeatingGroup(
+                sfData[offset + 2 + pos],
+                sfData[offset + 2 + pos + 1]
+            ));
+            pos += 2;
           }
         }
 
         @Override
         public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-          lengthOfFollowingData = (short) (samplingRatiosRepeatingGroups != null ? samplingRatiosRepeatingGroups.size() * 2 : 0);
+          lengthOfFollowingData = (short) (samplingRatiosRepeatingGroups != null
+              ? samplingRatiosRepeatingGroups.size() * 2 : 0);
           os.write(fieldType);
           os.write(lengthOfFollowingData);
           if (samplingRatiosRepeatingGroups != null) {
             for (SamplingRatios.SamplingRatiosRepeatingGroup rg : samplingRatiosRepeatingGroups) {
-              os.write(rg.nrOfHorizontalSamples);
-              os.write(rg.nrOfVerticalSamples);
+              os.write(rg.nrOfHorizontalSamples());
+              os.write(rg.nrOfVerticalSamples());
             }
           }
         }
@@ -1020,26 +1023,8 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
           }
         }
 
-        public static class SamplingRatiosRepeatingGroup {
-          byte nrOfHorizontalSamples;
-          byte nrOfVerticalSamples;
-
-          public byte getNrOfHorizontalSamples() {
-            return nrOfHorizontalSamples;
-          }
-
-          public void setNrOfHorizontalSamples(byte nrOfHorizontalSamples) {
-            this.nrOfHorizontalSamples = nrOfHorizontalSamples;
-          }
-
-          public byte getNrOfVerticalSamples() {
-            return nrOfVerticalSamples;
-          }
-
-          public void setNrOfVerticalSamples(byte nrOfVerticalSamples) {
-            this.nrOfVerticalSamples = nrOfVerticalSamples;
-          }
-        }
+        public record SamplingRatiosRepeatingGroup(
+            @AFPField byte nrOfHorizontalSamples, @AFPField byte nrOfVerticalSamples) {}
       }
     }
   }
@@ -1224,9 +1209,16 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       if (pos < lengthOfFollowingData) {
         listOfRepeatingGroups = new ArrayList<TileTOC.TileTOC_RepeatingGroup>();
         while (pos < lengthOfFollowingData) {
-          TileTOC.TileTOC_RepeatingGroup rg = new TileTOC_RepeatingGroup();
-          rg.decodeAFP(sfData, offset + 4 + pos, 26, config);
-          listOfRepeatingGroups.add(rg);
+          int hOff = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos, 4);
+          int vOff = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 4, 4);
+          int hSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 8, 4);
+          int vSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 12, 4);
+          var relRes = TileSize.RelativeTileResolution.valueOf(sfData[offset + 4 + pos + 16]);
+          var compAlg = AlgorithmSpecificationCompression.CompressionAlgorithmID.valueOf(
+              UtilBinaryDecoding.parseShort(sfData, offset + 4 + pos + 17, 1));
+          long offsetToTile = UtilBinaryDecoding.parseLong(sfData, offset + 4 + pos + 18, 8);
+          listOfRepeatingGroups.add(new TileTOC_RepeatingGroup(hOff, vOff, hSize, vSize, relRes,
+              compAlg, offsetToTile));
           pos += 26;
         }
       }
@@ -1245,107 +1237,33 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(reserved4_5);
       if (listOfRepeatingGroups != null) {
         for (TileTOC.TileTOC_RepeatingGroup rg : listOfRepeatingGroups) {
-          rg.writeAFP(os, config);
+          os.write(UtilBinaryDecoding.intToByteArray(rg.horizontalOffset(), 4));
+          os.write(UtilBinaryDecoding.intToByteArray(rg.verticalOffset(), 4));
+          os.write(UtilBinaryDecoding.intToByteArray(rg.horizontalSize(), 4));
+          os.write(UtilBinaryDecoding.intToByteArray(rg.verticalSize(), 4));
+          os.write(rg.relativeTileResolution().toByte());
+          os.write(rg.compressionAlgorithmID().toByte());
+          os.write(UtilBinaryDecoding.longToByteArray(rg.offsetInBytesFromBeginSegmentToBeginTile(), 8));
         }
       }
     }
 
+    /**
+     * Note that the IOCA specifies an unsigned 8byte value for {@link
+     * #offsetInBytesFromBeginSegmentToBeginTile} which is in fact an quite astronomical number.
+     * This record however support only signed 8byte values (long) which is about 1.84467*10^19
+     * (2^64-1) bytes which is in fact only half the size as specified in IOCA but is still large
+     * enough to cover Image Picture Data in the range of millions of terrabyte.<br>
+     */
     @XmlRootElement
-  public static class TileTOC_RepeatingGroup implements IAFPDecodeableWriteable {
-      int horizontalOffset;
-      int verticalOffset;
-      int horizontalSize;
-      int verticalSize;
-      TileSize.RelativeTileResolution relativeTileResolution;
-      AlgorithmSpecificationCompression.CompressionAlgorithmID compressionAlgorithmID;
-      long offsetInBytesFromBeginSegmentToBeginTile;
-
-      @Override
-      public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-        horizontalOffset = UtilBinaryDecoding.parseInt(sfData, offset, 4);
-        verticalOffset = UtilBinaryDecoding.parseInt(sfData, offset + 4, 4);
-        horizontalSize = UtilBinaryDecoding.parseInt(sfData, offset + 8, 4);
-        verticalSize = UtilBinaryDecoding.parseInt(sfData, offset + 12, 4);
-        relativeTileResolution = TileSize.RelativeTileResolution.valueOf(sfData[offset + 16]);
-        compressionAlgorithmID = CompressionAlgorithmID.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 17, 1));
-        offsetInBytesFromBeginSegmentToBeginTile = UtilBinaryDecoding.parseLong(sfData, offset + 17, 8);
-      }
-
-      @Override
-      public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-        os.write(UtilBinaryDecoding.intToByteArray(horizontalOffset, 4));
-        os.write(UtilBinaryDecoding.intToByteArray(verticalOffset, 4));
-        os.write(UtilBinaryDecoding.intToByteArray(horizontalSize, 4));
-        os.write(UtilBinaryDecoding.intToByteArray(verticalSize, 4));
-        os.write(relativeTileResolution.toByte());
-        os.write(compressionAlgorithmID.toByte());
-        os.write(UtilBinaryDecoding.longToByteArray(offsetInBytesFromBeginSegmentToBeginTile, 8));
-      }
-
-      public int getHorizontalOffset() {
-        return horizontalOffset;
-      }
-
-      public void setHorizontalOffset(int horizontalOffset) {
-        this.horizontalOffset = horizontalOffset;
-      }
-
-      public int getVerticalOffset() {
-        return verticalOffset;
-      }
-
-      public void setVerticalOffset(int verticalOffset) {
-        this.verticalOffset = verticalOffset;
-      }
-
-      public int getHorizontalSize() {
-        return horizontalSize;
-      }
-
-      public void setHorizontalSize(int horizontalSize) {
-        this.horizontalSize = horizontalSize;
-      }
-
-      public int getVerticalSize() {
-        return verticalSize;
-      }
-
-      public void setVerticalSize(int verticalSize) {
-        this.verticalSize = verticalSize;
-      }
-
-      public TileSize.RelativeTileResolution getRelativeTileResolution() {
-        return relativeTileResolution;
-      }
-
-      public void setRelativeTileResolution(
-          TileSize.RelativeTileResolution relativeTileResolution) {
-        this.relativeTileResolution = relativeTileResolution;
-      }
-
-      public AlgorithmSpecificationCompression.CompressionAlgorithmID getCompressionAlgorithmID() {
-        return compressionAlgorithmID;
-      }
-
-      public void setCompressionAlgorithmID(AlgorithmSpecificationCompression.CompressionAlgorithmID compressionAlgorithmID) {
-        this.compressionAlgorithmID = compressionAlgorithmID;
-      }
-
-      public long getOffsetInBytesFromBeginSegmentToBeginTile() {
-        return offsetInBytesFromBeginSegmentToBeginTile;
-      }
-
-      /**
-       * Note that the IOCA specifies an unsigned 8byte value for {@link
-       * #offsetInBytesFromBeginSegmentToBeginTile} which is in fact an quite astronomical number.
-       * This method however support only signed 8byte values (long) which is about 1.84467*10^19
-       * (2^64-1) bytes which is in fact only half the size as specified in IOCA but is still large
-       * enough to cover Image Picture Data in the range of millions of terrabyte.<br>
-       */
-      public void setOffsetInBytesFromBeginSegmentToBeginTile(long offsetInBytesFromBeginSegmentToBeginTile) {
-        this.offsetInBytesFromBeginSegmentToBeginTile = offsetInBytesFromBeginSegmentToBeginTile;
-      }
-    }
+    public record TileTOC_RepeatingGroup(
+        @AFPField int horizontalOffset,
+        @AFPField int verticalOffset,
+        @AFPField int horizontalSize,
+        @AFPField int verticalSize,
+        @AFPField TileSize.RelativeTileResolution relativeTileResolution,
+        @AFPField AlgorithmSpecificationCompression.CompressionAlgorithmID compressionAlgorithmID,
+        @AFPField long offsetInBytesFromBeginSegmentToBeginTile) {}
   }
 
   public static final class BeginTransparencyMask extends IPD_Segment.IPD_SegmentLong {
