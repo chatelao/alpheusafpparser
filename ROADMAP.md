@@ -465,7 +465,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ Update Java version to 21 (LTS).
 - ⏳ Refactor source code to use modern Java features:
     - ✅ Use `var` for local variable type inference where appropriate (Applied to `AFPParser`, `TripletParser`, `AFPWriterHumanReadable`, `PTOCAControlSequenceParser`, `AFP2XML`, `AFP2XMLWriter`).
-    - ✅ Refactor data-heavy classes to Java Records (Applied to `GAD_DrawingOrder.GOCA_Point`, `DashMoveRepeatingGroup`, `ColorNameRepeatingGroup`).
+    - ✅ Refactor data-heavy classes to Java Records (Applied to `GAD_DrawingOrder.GOCA_Point`, `DashMoveRepeatingGroup`, `ColorNameRepeatingGroup`, `SamplingRatiosRepeatingGroup`, `TileTOC_RepeatingGroup`).
     - ✅ Implement Sealed Classes for major hierarchies:
         - ✅ Triplet hierarchy.
         - ✅ `PTOCAControlSequence` hierarchy.
@@ -481,7 +481,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 
 ## Phase 9: Project Documentation and Maintenance
 - ⏳ Improve Javadoc quality and compliance:
-    - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP).
+    - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
 - ⏳ Resolve Checkstyle violations (~4,400 warnings):

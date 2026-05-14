@@ -25,12 +25,22 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.util.logging.Logger;
 
+/**
+ * Utility class for character encoding and hex string operations.
+ */
 public class UtilCharacterEncoding {
   private static final Logger logger = Logger.getLogger(UtilCharacterEncoding.class.getName());
+
+  /**
+   * Character array of hex digits.
+   */
   public static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
   /**
-   * Returns the hex value for a given character
+   * Returns the hex value for a given character.
+   *
+   * @param hexDigit the hex digit character
+   * @return the integer value of the hex digit
    */
   public static int valOfHexDigit(char hexDigit) {
     int result = 0;
@@ -101,6 +111,9 @@ public class UtilCharacterEncoding {
       case 'f':
         result = 15;
         break;
+      default:
+        result = -1;
+        break;
     }
     return result;
   }
@@ -120,6 +133,12 @@ public class UtilCharacterEncoding {
     return false;
   }
 
+  /**
+   * Converts a byte array to a hex string.
+   *
+   * @param bytes the byte array to convert
+   * @return the resulting hex string
+   */
   public static String bytesToHexString(byte[] bytes) {
     char[] hexChars = new char[bytes.length * 2];
     for (int j = 0; j < bytes.length; j++) {
@@ -130,6 +149,12 @@ public class UtilCharacterEncoding {
     return new String(hexChars);
   }
 
+  /**
+   * Converts a byte array to a hex string with spaces between bytes.
+   *
+   * @param bytes the byte array to convert
+   * @return the resulting hex string with spaces
+   */
   public static String bytesToHexStringWithSpace(byte[] bytes) {
     char[] hexChars = new char[2 + ((bytes.length - 1) * 3)];
     for (int j = 0; j < bytes.length; j++) {
@@ -157,11 +182,13 @@ public class UtilCharacterEncoding {
    *                           length.
    * @return byte array containing the resulting encoded {@link String}
    */
-  public static byte[] stringToByteArray(String str, Charset charsetForEncoding, int lenOfByteArray, byte filler) {
+  public static byte[] stringToByteArray(
+      String str, Charset charsetForEncoding, int lenOfByteArray, byte filler) {
     if (charsetForEncoding == null) {
       charsetForEncoding = Charset.defaultCharset();
     }
-    byte[] encoded = str != null && str.length() > 0 ? str.getBytes(charsetForEncoding) : new byte[] {};
+    byte[] encoded =
+        str != null && str.length() > 0 ? str.getBytes(charsetForEncoding) : new byte[] {};
     byte[] result = new byte[lenOfByteArray];
     for (int i = 0; i < lenOfByteArray; i++) {
       if (i < encoded.length) {
@@ -173,11 +200,27 @@ public class UtilCharacterEncoding {
     return result;
   }
 
-  public static String decodeEbcdic(byte[] sfData, int offset, int length, AFPParserConfiguration config) {
+  /**
+   * Decodes EBCDIC data from a byte array.
+   *
+   * @param sfData the byte array containing EBCDIC data
+   * @param offset the starting offset
+   * @param length the number of bytes to decode
+   * @param config the parser configuration for charset resolution
+   * @return the decoded string
+   */
+  public static String decodeEbcdic(
+      byte[] sfData, int offset, int length, AFPParserConfiguration config) {
     int actualLength = StructuredField.getActualLength(sfData, offset, length);
     return new String(sfData, offset, actualLength, config.getAfpCharSet());
   }
 
+  /**
+   * Checks if the given byte array is likely EBCDIC data.
+   *
+   * @param data the byte array to check
+   * @return true if it is likely EBCDIC
+   */
   public static boolean isEbcdic(byte[] data) {
     for (int i = 0; i < data.length; i++) {
       if (!Character.isDefined((char) data[i])) {
@@ -215,6 +258,12 @@ public class UtilCharacterEncoding {
     return (double) printableCount / decoded.length() >= 0.9;
   }
 
+  /**
+   * Reduces a label by keeping only uppercase characters.
+   *
+   * @param s the string to reduce
+   * @return the reduced string
+   */
   public static String reduceLabel(String s) {
     if (s == null) {
       return "null";
@@ -243,6 +292,12 @@ public class UtilCharacterEncoding {
     return sb.toString();
   }
 
+  /**
+   * Adds a blank before groups of uppercase characters and digits.
+   *
+   * @param name the string to modify
+   * @return the modified string
+   */
   public static String addBlankBeforeUpperCaseGroupAndDigitGroup(String name) {
     StringBuilder sb = new StringBuilder();
     boolean isFirstChar = true;
