@@ -79,7 +79,7 @@ public class FND_FontDescriptor extends StructuredField {
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     var actualLength = getActualLength(sfData, offset, length);
-    checkDataLength(sfData, offset, length, 81);
+    checkDataLength(sfData, offset, length, 82);
 
     typefaceDescription = new String(sfData, offset, 32, config.getAfpCharSet()).trim();
     fontWeightClass = sfData[offset + 32];
@@ -97,10 +97,10 @@ public class FND_FontDescriptor extends StructuredField {
     gcsgid = UtilBinaryDecoding.parseShort(sfData, offset + 73, 2);
     fgid = UtilBinaryDecoding.parseShort(sfData, offset + 75, 2);
     System.arraycopy(sfData, offset + 77, reserved77_80, 0, 4);
-    reserved81 = sfData[offset + 80];
+    reserved81 = sfData[offset + 81];
 
-    if (actualLength > 81) {
-      triplets = TripletParser.parseTriplets(sfData, offset + 81, actualLength - 81, config);
+    if (actualLength > 82) {
+      triplets = TripletParser.parseTriplets(sfData, offset + 82, actualLength - 82, config);
     }
   }
 
@@ -133,7 +133,6 @@ public class FND_FontDescriptor extends StructuredField {
 
     writeFullStructuredField(os, baos.toByteArray());
   }
-
 
   public String getText() {
     return typefaceDescription;

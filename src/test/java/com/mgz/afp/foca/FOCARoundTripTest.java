@@ -125,16 +125,16 @@ public class FOCARoundTripTest {
 
     @Test
     public void testFNDRoundTrip() throws Exception {
-        byte[] data = new byte[90];
-        data[0] = 0x5A; data[1] = 0x00; data[2] = 0x59;
+        byte[] data = new byte[91];
+        data[0] = 0x5A; data[1] = 0x00; data[2] = 0x5A;
         data[3] = (byte) 0xD3; data[4] = (byte) 0xA6; data[5] = (byte) 0x89;
         // Typeface (9-40) - 32 bytes
         for (int i = 9; i < 41; i++) data[i] = 0x40; // EBCDIC spaces
         byte[] typeface = "HELVETICA".getBytes("cp500");
         System.arraycopy(typeface, 0, data, 9, typeface.length);
 
-        data[41] = 0x04; // fontWeightClass
-        data[42] = 0x04; // fontWidthClass
+        data[41] = 0x04; // fontWeightClass (at payload offset 32)
+        data[42] = 0x04; // fontWidthClass (at payload offset 33)
 
         RoundTripTestUtils.assertRoundTrip(new FND_FontDescriptor(), data);
     }

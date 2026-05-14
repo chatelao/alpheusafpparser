@@ -144,6 +144,6 @@ tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJ
     archiveClassifier.set("")
     archiveVersion.set(version.toString())
     manifest {
-        attributes("Main-Class" to "com.mgz.cli.AFP2XML")
+        attributes("Main-Class" to "com.mgz.cli.Afp2Xml")
     }
 }
