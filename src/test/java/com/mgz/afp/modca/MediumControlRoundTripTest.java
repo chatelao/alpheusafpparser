@@ -58,11 +58,12 @@ public class MediumControlRoundTripTest {
     @Test
     public void testMMTRoundTrip() throws Exception {
         // MMT: D3AB88
-        // RG: Len(2) | Triplet(6)
-        // Total Len: 1 + 8 + 8 = 17. SFLen = 16 (0x0010)
+        // RG: Len(2) | Reserved(6) | Triplet(6)
+        // Total Len: 1 + 8 + 14 = 23. SFLen = 22 (0x0016)
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xAB, (byte) 0x88, 0x00, 0x00, 0x00,
-            0x00, 0x08, 0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // RG len 8, Comment "TEST"
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xAB, (byte) 0x88, 0x00, 0x00, 0x00,
+            0x00, 0x0E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // RG len 14, Comment "TEST"
         };
         RoundTripTestUtils.assertRoundTrip(new MMT_MapMediaType(), data);
     }

@@ -333,7 +333,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ IOCA Structured Fields (IDD, IPD).
     - ✅ Line Data Structured Fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
     - ✅ Other Line Data Structured Fields (BDM, XMD, FDS, FDX, LND, LNC, CCP, RCD).
-    - 🚧 Medium Control Structured Fields (MCC, MMC, MMT, MFC, IMM).
+    - ✅ Medium Control Structured Fields (MCC, MMC, MMT, MFC, IMM).
     - ✅ CMOCA and MO:DCA-L Structured Fields (BCA, ECA, MCA, CAT, CMR).
     - 🚧 Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR, MCF, MBC, MCD, MGO, MIO, MMD, MMO, OBP, MSU).
     - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
