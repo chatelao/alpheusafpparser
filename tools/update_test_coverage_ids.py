@@ -49,24 +49,64 @@ def transform(filepath):
     output = []
     in_table = False
     for line in lines:
-        if line.startswith('| Specification |'):
+        if line.startswith('| Specification |') or line.startswith('| ID |'):
             in_table = True
-            output.append('| ID | Specification | File | Title | Coverage |\n')
+            output.append('| ID | Title | Coverage |\n')
             continue
 
         if in_table and line.startswith('| :--- |'):
-            output.append('| :--- | :--- | :--- | :--- | :--- |\n')
+            # Count columns in the next line or based on header?
+            # Let's just output 3 columns alignment
+            output.append('| :--- | :--- | :--- |\n')
             continue
 
         if in_table and line.startswith('|'):
             parts = [p.strip() for p in line.split('|')]
-            # parts[0] is empty, parts[1] is Specification, parts[2] is File, parts[3] is Title, parts[4] is Coverage, parts[5] is empty
-            if len(parts) >= 5:
-                spec = parts[1]
-                filename = parts[2]
+            if parts and parts[0] == '': parts = parts[1:]
+            if parts and parts[-1] == '': parts = parts[:-1]
+
+            if len(parts) == 5: # ID, Specification, File, Title, Coverage
+                id_val, spec, filename, title, coverage = parts
+                if id_val == 'ID': continue # skip header if redundant
+
+                # Extract ID from link if already linked
+                m = re.match(r'\[([^\]]+)\]', id_val)
+                if m: id_val = m.group(1)
+
+                # Re-calculate ID to be sure it follows latest rules
                 id_val = get_id(spec, filename)
-                new_line = f"| {id_val} | {parts[1]} | {parts[2]} | {parts[3]} | {parts[4]} |\n"
-                output.append(new_line)
+
+                link = f"specifications/markdown/{spec}/{filename}"
+                output.append(f"| [{id_val}]({link}) | {title} | {coverage} |\n")
+            elif len(parts) == 4: # Specification, File, Title, Coverage
+                spec, filename, title, coverage = parts
+                if spec == 'Specification': continue
+
+                id_val = get_id(spec, filename)
+                link = f"specifications/markdown/{spec}/{filename}"
+                output.append(f"| [{id_val}]({link}) | {title} | {coverage} |\n")
+            elif len(parts) == 3: # ID, Title, Coverage
+                # If it's already 3 columns, maybe we want to refresh the link/ID
+                id_col, title, coverage = parts
+                if id_col == 'ID': continue
+
+                # Try to extract spec and filename from link
+                m = re.match(r'\[([^\]]+)\]\(([^)]+)\)', id_col)
+                if m:
+                    id_val = m.group(1)
+                    link_path = m.group(2)
+                    # link_path is specifications/markdown/SPEC/FILE.md
+                    link_parts = link_path.split('/')
+                    if len(link_parts) >= 4:
+                        spec = link_parts[2]
+                        filename = link_parts[3]
+                        id_val = get_id(spec, filename)
+                        link = f"specifications/markdown/{spec}/{filename}"
+                        output.append(f"| [{id_val}]({link}) | {title} | {coverage} |\n")
+                    else:
+                        output.append(line)
+                else:
+                    output.append(line)
             else:
                 output.append(line)
         else:
@@ -75,4 +115,7 @@ def transform(filepath):
     return "".join(output)
 
 if __name__ == "__main__":
-    print(transform('TEST_COVERAGE.md'), end='')
+    filepath = 'TEST_COVERAGE.md'
+    if len(sys.argv) > 1:
+        filepath = sys.argv[1]
+    print(transform(filepath), end='')
