@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.enums;
 
 import java.io.IOException;
@@ -165,7 +166,6 @@ public enum SFTypeID {
   RCD_RecordDescriptor(0xD3, 0xA6, 0x8D),
   TLE_TagLogicalElement(0xD3, 0xA0, 0x90),
   XMD_XMLDescriptor(0xD3, 0xA6, 0x8E),;
-
 
   /**
    * SFTypeID[2].

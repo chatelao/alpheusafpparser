@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.util;
 
 import com.mgz.afp.base.StructuredField;
@@ -228,7 +229,6 @@ public class UtilCharacterEncoding {
     if (Character.isLowerCase(s.charAt(0))) {
       sb.append(Character.toUpperCase(s.charAt(0)));
     }
-
 
     for (char ch : s.toCharArray()) {
       if (Character.isUpperCase(ch)) {

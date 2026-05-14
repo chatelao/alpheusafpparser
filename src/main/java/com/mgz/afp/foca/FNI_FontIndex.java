@@ -16,7 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
@@ -34,14 +36,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 
-
 public class FNI_FontIndex extends StructuredField {
   /**
    * Associated {@link FNC_FontControl} SF that specifies the repeating group length.
    */
   @AFPField
   List<FNI_RepeatingGroup> repeatingGroups;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

@@ -482,7 +482,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ⏳ Resolve Checkstyle violations (~4,500 warnings):
     - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`).
     - ⏳ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`).
-    - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`).
+    - ⏳ Fix Formatting and Layout violations:
+        - ✅ Fix `EmptyLineSeparator` violations for package declarations, imports, and class definitions (Standardized with one empty line separation).
+        - ⏳ Fix remaining violations (`LineLength`, `CustomImportOrder`, `Indentation`, `LeftCurly`, `RightCurly`).
     - ⏳ Address remaining miscellaneous violations (e.g., `FileTabCharacter`, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).

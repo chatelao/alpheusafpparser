@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.goca;
 
 import com.mgz.afp.base.StructuredField;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.BitSet;
 import java.util.EnumSet;
-
 
 public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
   public static short PARAMETERTYPE_WindowSpecification = 0xF6;
@@ -1154,7 +1154,6 @@ public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
       lengthOfFollowingField = 0x01;
       coordinateFormat = 0x00;
     }
-
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

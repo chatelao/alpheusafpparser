@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
 
 import com.mgz.afp.base.StructuredField;
@@ -102,7 +103,6 @@ public class FND_FontDescriptor extends StructuredField {
     designGeneralClass = UtilBinaryDecoding.parseShort(sfData, offset + 46, 1);
     designSubClass = UtilBinaryDecoding.parseShort(sfData, offset + 47, 1);
     designSpecificGroup = UtilBinaryDecoding.parseShort(sfData, offset + 48, 1);
-
 
     reserved49_63 = new byte[15];
     System.arraycopy(sfData, offset + 49, reserved49_63, 0, reserved49_63.length);
@@ -307,7 +307,6 @@ public class FND_FontDescriptor extends StructuredField {
     this.triplets = triplets;
   }
 
-
   public enum FontWeightClass {
     Ultralight,
     Extralight,
@@ -333,7 +332,6 @@ public class FND_FontDescriptor extends StructuredField {
     }
   }
 
-
   public enum FontWidthClass {
     Ultracondensed,
     Extracondensed,
@@ -358,7 +356,6 @@ public class FND_FontDescriptor extends StructuredField {
       return ordinal();
     }
   }
-
 
   public enum FontDesignFlag {
     Italic,

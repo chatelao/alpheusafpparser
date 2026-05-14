@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.ptoca;
 
 import com.mgz.afp.base.StructuredField;
@@ -41,7 +42,6 @@ public class PTD_PresentationTextDataDescriptor_Format2 extends StructuredField 
   short ySize;
   byte[] reserved12_13;
   List<PTOCAControlSequence> controlSequences;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

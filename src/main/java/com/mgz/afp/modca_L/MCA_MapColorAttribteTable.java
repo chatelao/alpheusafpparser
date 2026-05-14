@@ -16,7 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca_L;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IHasRepeatingGroups;
@@ -30,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
 
 /**
  * MO:DCA-L, page 12.
@@ -60,7 +61,6 @@ public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroup
       pos += rg.getRepeatingGroupLength();
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

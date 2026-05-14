@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca_L;
 
 import com.mgz.afp.base.StructuredField;
@@ -60,7 +61,6 @@ public class CAT_ColorAttributeTable extends StructuredField {
       otherData = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -107,7 +107,6 @@ public class CAT_ColorAttributeTable extends StructuredField {
       reserved1 = sfData[offset + 1];
       colorTableLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

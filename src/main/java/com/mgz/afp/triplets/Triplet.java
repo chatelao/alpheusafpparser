@@ -16,7 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.triplets;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -84,10 +86,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     TextOrientation(0x1D), // Retired.
     LineDataObjectPositionMigration(0x27), // Retired.
 
-
     FontDescriptorSpecification(0x1F),
     FontCodedGraphicCharacterSetGlobalID(0x20),
-
 
     /**
      * MODCA page 379.<br><br> The Resource Object Type triplet identifies the type of object
@@ -98,7 +98,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
      */
     ResourceObjectType(UNFORTUNATE_TRIPLETID),
     ObjectFunctionSetSpecification_Retired(UNFORTUNATE_TRIPLETID),
-
 
     ExtendedResourceLocalIdentifier(0x22),
     ResourceLocalIdentifier(0x24),
@@ -134,7 +133,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     UniversalDateAndTimeStamp(0x72),
 
     IMMInsertionTriplet(0x73), // Retired.
-
 
     TonerSaver(0x74),
     ColorFidelity(0x75),
@@ -293,7 +291,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       }
     }
 
-
     public byte[] getTripletData() {
       return tripletData;
     }
@@ -343,7 +340,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
     }
-
 
     /**
      * Returns true, if this in the "CCSID Form", meaning the {@link #codePageGlobalID_codedCharacterSetID}
@@ -557,7 +553,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
 
-
     }
 
     /**
@@ -567,7 +562,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public void setStructureFlag(StructureFlag flag) {
       StructureFlag.setFlag(structureFlags, flag);
     }
-
 
     /**
      * Specifies the object class based on differentiators such as temporal characteristics and
@@ -734,7 +728,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(baos.toByteArray());
     }
 
-
     public enum MODCAInterchangeSet_Type {
       Presentation;
 
@@ -861,7 +854,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
     }
-
 
     public enum FDS_FontWeigthClass {
       NotSpecified(0x00),
@@ -1237,7 +1229,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
     }
-
 
     public enum OCAFunctionSet {
       PTOCA_PT1_or_BCOCA_BCD1(0x0000),
@@ -2083,7 +2074,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       xUnitsPerUnitbase = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
       yUnitsPerUnitbase = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
 
-
     }
 
     @Override
@@ -2386,7 +2376,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       }
 
     }
-
 
   }
 
@@ -3860,7 +3849,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     byte[] reserved28_35 = new byte[8];
     String variantCode;
 
-
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
@@ -4395,7 +4383,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved5_6);
     }
 
-
     public enum Appearance {
       DeviceDefault,
       DeviceDefaultMonochrome;
@@ -4500,7 +4487,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   public static final class ObjectContainerPresentationSpaceSize extends Triplet {
     byte[] reserved2_3 = {0x00, 0x00};
     PDFPresentationSpace pdfPresentationSpace;
-
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
