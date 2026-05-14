@@ -67,7 +67,8 @@ public class CFC_CodedFontControl extends StructuredField implements IHasTriplet
     cfiRepeatingGroupLength = sfData[offset];
     retired = sfData[offset + 1];
 
-    triplets = TripletParser.parseTriplets(sfData, offset + 2, length - 2, config);
+    int actualLength = getActualLength(sfData, offset, length);
+    triplets = TripletParser.parseTriplets(sfData, offset + 2, actualLength - 2, config);
   }
 
   @Override

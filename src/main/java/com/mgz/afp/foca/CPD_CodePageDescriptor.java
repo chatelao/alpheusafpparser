@@ -85,7 +85,8 @@ public class CPD_CodePageDescriptor extends StructuredField {
     graphicCharacterSetGID = UtilBinaryDecoding.parseInt(sfData, offset + 38, 2);
     ;
     codePageGID = UtilBinaryDecoding.parseInt(sfData, offset + 40, 2);
-    if (length > 42 && sfData.length > offset + 42) {
+    int actualLength = getActualLength(sfData, offset, length);
+    if (actualLength > 42 && sfData.length > offset + 42) {
       encodingScheme = EncodingScheme.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 42, 2));
     } else {
       encodingScheme = null;
