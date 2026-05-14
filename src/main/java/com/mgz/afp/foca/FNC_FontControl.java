@@ -155,13 +155,13 @@ public class FNC_FontControl extends StructuredField {
     baos.write(UtilBinaryDecoding.shortToByteArray(maxCharacterBoxHeight, 2));
     baos.write(fnoRepeatingGroupLength);
     baos.write(UtilBinaryDecoding.shortToByteArray(fniRepeatingGroupLength, 1));
-    baos.write(rasterPatternDataAlignment.toByte());
+    baos.write(rasterPatternDataAlignment != null ? rasterPatternDataAlignment.toByte() : (byte) 0x00);
     baos.write(UtilBinaryDecoding.intToByteArray(rasterPatternDataCount, 3));
     baos.write(fnpRepeatingGroupLength);
     baos.write(fnmRepeatingGroupLength);
 
     // Optional data:
-    if ((
+    if (this.xUnitBase != null && this.yUnitBase != null && ((
         this.xUnitBase == FontUnitBase.BaseIsFixedAt10Inches
             && this.yUnitBase == FontUnitBase.BaseIsFixedAt10Inches
             && xUnitsPerUnitBase == 0x0000
@@ -170,7 +170,7 @@ public class FNC_FontControl extends StructuredField {
         this.xUnitBase == FontUnitBase.BaseIsRelativ
             && this.yUnitBase == FontUnitBase.BaseIsRelativ
             && xUnitsPerUnitBase == 0x0000
-            && yUnitsPerUnitBase == 0x0000)
+            && yUnitsPerUnitBase == 0x0000))
         ) {
       // Done, no optional data et all.
     } else {

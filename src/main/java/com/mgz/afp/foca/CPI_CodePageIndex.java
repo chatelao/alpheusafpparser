@@ -52,7 +52,7 @@ public class CPI_CodePageIndex extends StructuredField {
     checkDataLength(sfData, offset, length, minLength);
 
     int actualLength = getActualLength(sfData, offset, length);
-    if (actualLength > minLength) {
+    if (actualLength >= minLength) {
       repeatingGroups = new ArrayList<CPI_RepeatingGroup>();
 
       int pos = 0;
@@ -63,7 +63,7 @@ public class CPI_CodePageIndex extends StructuredField {
         cpirg.graphicCharacterUseFlags = GraphicCharacterUseFlag.valueOf(sfData[offset + pos + 8] & 0xFF);
         cpirg.codePoint = UtilBinaryDecoding.parseInt(sfData, offset + pos + 9, nrOfBytes);
 
-        pos += minLength;
+        pos += nrOfBytes + 9;
 
         if (cpiRGLen.isUnicodeScalarValues() && pos < actualLength) {
           short numberOfUnicodeScalarValues = UtilBinaryDecoding.parseShort(sfData, offset + pos, 1);

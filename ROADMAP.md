@@ -328,11 +328,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ IOCA Structured Fields (IDD, IPD).
     - ✅ Line Data Structured Fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).
     - ✅ Other Line Data Structured Fields (BDM, XMD, FDS, FDX, LND, LNC, CCP, RCD).
-    - ✅ Medium Control Structured Fields (MCC, MMC, MMT, MFC).
+    - 🚧 Medium Control Structured Fields (MCC, MMC, MMT, MFC, IMM).
     - ✅ CMOCA and MO:DCA-L Structured Fields (BCA, ECA, MCA, CAT, CMR).
-    - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR, MCF, MBC, MCD, MGO, MIO, MMD, MMO).
+    - 🚧 Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR, MCF, MBC, MCD, MGO, MIO, MMD, MMO, OBP, MSU).
     - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
-    - ✅ Presentation Control Structured Fields (PEC, PFC).
+    - 🚧 Presentation Control Structured Fields (PEC, PFC, PMC, PPO, CTC).
     - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF, BPF, PGP).
         - ✅ Page and Overlay Structured Fields.
             - ✅ Begin/End Overlay (BMO, EMO).
@@ -340,14 +340,15 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Include Page/Overlay/Segment (IPG, IPO, IPS).
             - ✅ Map Page/Overlay/Segment (MPG, MPO, MPS).
     - ✅ Environment and Resource Group Structured Fields (BDG, EDG, BFM, EFM, BMM, EMM, BRG, ERG, BAG, EAG, BFG, EFG, BSG, ESG, ERS, BRS, BOG).
-        - ✅ Object and Data Structured Fields.
+        - 🚧 Object and Data Structured Fields.
             - ✅ Begin/End Object Container (BOC, EOC).
             - ✅ Begin/End Image/IM Image (BIM, EIM, BII, EII).
             - ✅ Include Object (IOB).
             - ✅ Object/Image Data (OCD, IRD, IID, ICP, IOC).
+            - ⏳ No Operation (NOP).
     - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
-    - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
-    - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD).
+    - 🚧 Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX, PTD).
+    - 🚧 Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD, CFI, CPC, CPI, FNC, FND, FNI, FNM, FNO, FNP).
 - ✅ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
     - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`, `UtilCharacterEncodingTest`).

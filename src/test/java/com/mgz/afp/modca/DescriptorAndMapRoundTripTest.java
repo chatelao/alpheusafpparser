@@ -218,4 +218,38 @@ public class DescriptorAndMapRoundTripTest {
 
         RoundTripTestUtils.assertRoundTrip(new MMO_MapMediumOverlay(), data);
     }
+
+    @Test
+    public void testOBPRoundTrip() throws Exception {
+        // OBP: D3AC6B
+        // Payload (24 bytes): ID(1) | RG(23)
+        // RG: len(1)=23, Xo(3), Yo(3), Xr(2), Yr(2), res(1), Xoc(3), Yoc(3), Xrc(2), Yrc(2), ref(1)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x21, (byte) 0xD3, (byte) 0xAC, 0x6B, 0x00, 0x00, 0x00,
+            0x01, // ID 1
+            0x17, // RG Len 23
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
+        // Fix for Orientation and ReferenceCoordinateSystem
+        data[16] = 0x00; data[17] = 0x00; // Xr 0
+        data[18] = 0x00; data[19] = 0x00; // Yr 0
+        data[27] = 0x00; data[28] = 0x00; // Xrc 0
+        data[29] = 0x00; data[30] = 0x00; // Yrc 0
+        data[31] = 0x00; // Reference 0 (Normal)
+        RoundTripTestUtils.assertRoundTrip(new OBP_ObjectAreaPosition(), data);
+    }
+
+    @Test
+    public void testMSURoundTrip() throws Exception {
+        // MSU: D3ABEA
+        // RG (10 bytes): Name(8) | Res(1) | LID(1)
+        // Total Len: 1 + 8 + 10 = 19. SFLen = 18 (0x0012)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x12, (byte) 0xD3, (byte) 0xAB, (byte) 0xEA, 0x00, 0x00, 0x00,
+            (byte) 0xE2, (byte) 0xE4, (byte) 0xD7, (byte) 0xD7, (byte) 0xD9, (byte) 0xC5, (byte) 0xE2, (byte) 0xE2, // "SUPPRESS"
+            0x00, 0x01
+        };
+        RoundTripTestUtils.assertRoundTrip(new MSU_MapSuppression(), data);
+    }
 }

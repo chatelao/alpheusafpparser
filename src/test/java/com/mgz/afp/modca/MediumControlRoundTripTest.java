@@ -79,4 +79,17 @@ public class MediumControlRoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new MFC_MediumFinishingControl(), data);
     }
+
+    @Test
+    public void testIMMRoundTrip() throws Exception {
+        // IMM: D3ABCC
+        // Name(8) | CommentTriplet(6)
+        // Total Len: 1 + 8 + 8 + 6 = 23. SFLen = 22 (0x0016)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xAB, (byte) 0xCC, 0x00, 0x00, 0x00,
+            (byte) 0xD4, (byte) 0xC1, (byte) 0xD7, (byte) 0xF1, 0x40, 0x40, 0x40, 0x40, // "MAP1"
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 // Comment "TEST"
+        };
+        RoundTripTestUtils.assertRoundTrip(new IMM_InvokeMediumMap(), data);
+    }
 }
