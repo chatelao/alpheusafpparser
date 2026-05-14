@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-public abstract class IPD_Segment implements IAFPDecodeableWriteable {
+public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   IPD_Segment.IPD_SegmentType segmentType;
   int lengthOfFollowingData;
 
@@ -201,13 +201,13 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  protected static abstract class IPD_SegmentLong extends IPD_Segment {
+  protected static abstract sealed class IPD_SegmentLong extends IPD_Segment {
   }
 
-  protected static abstract class IPD_SegmentExtended extends IPD_Segment {
+  protected static abstract sealed class IPD_SegmentExtended extends IPD_Segment {
   }
 
-  public static class UnknownSegmentLong extends IPD_Segment.IPD_SegmentLong {
+  public static final class UnknownSegmentLong extends IPD_Segment.IPD_SegmentLong {
     byte[] data;
     String text;
 
@@ -247,7 +247,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class UnknownSegmentExtended extends IPD_Segment.IPD_SegmentExtended {
+  public static final class UnknownSegmentExtended extends IPD_Segment.IPD_SegmentExtended {
     byte[] data;
     String text;
 
@@ -288,7 +288,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   @XmlType(name = "iocaBeginSegment")
-  public static class BeginSegment extends IPD_Segment.IPD_SegmentLong {
+  public static final class BeginSegment extends IPD_Segment.IPD_SegmentLong {
     byte[] name;
     String text;
 
@@ -336,7 +336,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class EndSegment extends IPD_Segment.IPD_SegmentLong {
+  public static final class EndSegment extends IPD_Segment.IPD_SegmentLong {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -350,7 +350,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class BeginImageContent extends IPD_Segment.IPD_SegmentLong {
+  public static final class BeginImageContent extends IPD_Segment.IPD_SegmentLong {
     short objectType;
 
     @Override
@@ -368,7 +368,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class EndImageContent extends IPD_Segment.IPD_SegmentLong {
+  public static final class EndImageContent extends IPD_Segment.IPD_SegmentLong {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -382,7 +382,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class ImageSize extends IPD_Segment.IPD_SegmentLong {
+  public static final class ImageSize extends IPD_Segment.IPD_SegmentLong {
     AFPUnitBase unitBase;
     short xUnitsPerUnitBase;
     short yUnitsPerUnitBase;
@@ -413,7 +413,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class ImageEncoding extends IPD_Segment.IPD_SegmentLong {
+  public static final class ImageEncoding extends IPD_Segment.IPD_SegmentLong {
     IPD_Segment.IPD_CompressionAlgorithm compressionAlgorithm;
     IPD_Segment.IPD_RecordingAlgorithm recordingAlgorithm;
     IPD_Segment.IPD_BitOrder bitOrder;
@@ -447,7 +447,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class IDESize extends IPD_Segment.IPD_SegmentLong {
+  public static final class IDESize extends IPD_Segment.IPD_SegmentLong {
     short numberOfBitsInEachIDE;
 
     @Override
@@ -466,7 +466,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class BandImage extends IPD_Segment.IPD_SegmentLong {
+  public static final class BandImage extends IPD_Segment.IPD_SegmentLong {
     short numberOfBands;
     List<Short> bandSizes;
 
@@ -497,7 +497,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class IDEStructure extends IPD_Segment.IPD_SegmentLong {
+  public static final class IDEStructure extends IPD_Segment.IPD_SegmentLong {
     EnumSet<IDEStructure.IDEStructureFlag> flags;
     AFPColorSpace colorSpace;
     byte[] reserved4_6 = new byte[] {0x00, 0x00, 0x00};
@@ -662,7 +662,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class ExternalAlgorithmSpecification extends IPD_Segment.IPD_SegmentLong {
+  public static final class ExternalAlgorithmSpecification extends IPD_Segment.IPD_SegmentLong {
     ExternalAlgorithmSpecification.AlgorithmType algorithmType;
     short reserved3 = 0x00;
     IPD_Segment.AlgorithmSpecification algorithmSpecification;
@@ -728,10 +728,10 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  protected abstract static class AlgorithmSpecification implements IAFPDecodeableWriteable {
+  protected abstract static sealed class AlgorithmSpecification implements IAFPDecodeableWriteable {
   }
 
-  public static class AlgorithmSpecificationRecording extends IPD_Segment.AlgorithmSpecification {
+  public static final class AlgorithmSpecificationRecording extends IPD_Segment.AlgorithmSpecification {
     short direction;
     short boundaryLengthForPadding;
     short allignmentForPadding;
@@ -751,7 +751,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public abstract static class AlgorithmSpecificationCompression extends IPD_Segment.AlgorithmSpecification {
+  public abstract static sealed class AlgorithmSpecificationCompression extends IPD_Segment.AlgorithmSpecification {
     AlgorithmSpecificationCompression.CompressionAlgorithmID compressionAlgorithmID;
 
     public static IPD_Segment.AlgorithmSpecificationCompression buildCompressionAlgorithmSpecification(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -797,7 +797,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class JPEGCompressionAlgorithmSpecification extends IPD_Segment.AlgorithmSpecificationCompression {
+  public static final class JPEGCompressionAlgorithmSpecification extends IPD_Segment.AlgorithmSpecificationCompression {
     short reserved1 = 0x00;
     short version;
     short reserved3 = 0x00;
@@ -863,7 +863,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class UserDefinedCompressionAlgorithmSpecification extends IPD_Segment.AlgorithmSpecificationCompression {
+  public static final class UserDefinedCompressionAlgorithmSpecification extends IPD_Segment.AlgorithmSpecificationCompression {
     short lengthOfData;
     long compressionAlgorithmCodePoint;
     byte[] userDefinedSpecification;
@@ -898,7 +898,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class ImageSubsampling extends IPD_Segment.IPD_SegmentExtended {
+  public static final class ImageSubsampling extends IPD_Segment.IPD_SegmentExtended {
     List<ImageSubsampling.ImageSubsamplingField> listOfFields;
 
     @Override
@@ -936,7 +936,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
       }
     }
 
-    public static abstract class ImageSubsamplingField implements IAFPDecodeableWriteable {
+    public static abstract sealed class ImageSubsamplingField implements IAFPDecodeableWriteable {
       short fieldType;
 
       public static List<ImageSubsampling.ImageSubsamplingField> buildListOfFields(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -964,7 +964,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
         this.fieldType = fieldType;
       }
 
-      public static class SamplingRatios extends ImageSubsampling.ImageSubsamplingField {
+      public static final class SamplingRatios extends ImageSubsampling.ImageSubsamplingField {
         short lengthOfFollowingData;
         List<SamplingRatios.SamplingRatiosRepeatingGroup> samplingRatiosRepeatingGroups;
 
@@ -1044,7 +1044,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class BeginTile extends IPD_Segment.IPD_SegmentLong {
+  public static final class BeginTile extends IPD_Segment.IPD_SegmentLong {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -1059,7 +1059,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
 
   }
 
-  public static class EndTile extends IPD_Segment.IPD_SegmentLong {
+  public static final class EndTile extends IPD_Segment.IPD_SegmentLong {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -1073,7 +1073,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class TilePosition extends IPD_Segment.IPD_SegmentLong {
+  public static final class TilePosition extends IPD_Segment.IPD_SegmentLong {
     int horizontalOffset;
     int verticalOffset;
 
@@ -1094,7 +1094,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class TileSize extends IPD_Segment.IPD_SegmentLong {
+  public static final class TileSize extends IPD_Segment.IPD_SegmentLong {
     int horizontalSizeInImagePoints;
     int verticalSizeInImagePoints;
     TileSize.RelativeTileResolution relativeResolution;
@@ -1151,7 +1151,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class TileSetColor extends IPD_Segment.IPD_SegmentLong {
+  public static final class TileSetColor extends IPD_Segment.IPD_SegmentLong {
     AFPColorSpace colorSpace;
     byte[] reserved3_5 = new byte[] {0x00, 0x00, 0x00};
     short nrOfBitsIDEsComponent1;
@@ -1191,7 +1191,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class IncludeTile extends IPD_Segment.IPD_SegmentExtended {
+  public static final class IncludeTile extends IPD_Segment.IPD_SegmentExtended {
     long tileResourceLocalID;
 
     @Override
@@ -1210,7 +1210,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class TileTOC extends IPD_Segment.IPD_SegmentExtended {
+  public static final class TileTOC extends IPD_Segment.IPD_SegmentExtended {
     byte[] reserved4_5 = new byte[] {0x00, 0x00};
     List<TileTOC.TileTOC_RepeatingGroup> listOfRepeatingGroups;
 
@@ -1348,7 +1348,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class BeginTransparencyMask extends IPD_Segment.IPD_SegmentLong {
+  public static final class BeginTransparencyMask extends IPD_Segment.IPD_SegmentLong {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -1363,7 +1363,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class EndTransparencyMask extends IPD_Segment.IPD_SegmentLong {
+  public static final class EndTransparencyMask extends IPD_Segment.IPD_SegmentLong {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -1378,7 +1378,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class SetBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
+  public static final class SetBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
     short area;
     short reserved3 = 0x00;
     short nameColor;
@@ -1403,7 +1403,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class SetExtendedBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
+  public static final class SetExtendedBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
     short area;
     short reserved3 = 0x00;
     AFPColorSpace colorSpace;
@@ -1448,7 +1448,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class FunctionSetIdentification extends IPD_Segment.IPD_SegmentLong {
+  public static final class FunctionSetIdentification extends IPD_Segment.IPD_SegmentLong {
     short category = 0x01;
     short functionSet;
 
@@ -1470,7 +1470,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class nColorNames extends IPD_Segment.IPD_SegmentExtended {
+  public static final class nColorNames extends IPD_Segment.IPD_SegmentExtended {
     short reserved4_5;
     List<ColorNameRepeatingGroup> repeatingGroups;
     String text;
@@ -1490,16 +1490,15 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
         StringBuilder sb = new StringBuilder();
         int pos = 0;
         while (pos < lengthOfFollowingData - 2) {
-          ColorNameRepeatingGroup rg = new ColorNameRepeatingGroup();
-          rg.dataValue = UtilBinaryDecoding.parseShort(sfData, offset + 6 + pos, 1);
-          rg.colorName = new byte[12];
-          System.arraycopy(sfData, offset + 6 + pos + 1, rg.colorName, 0, 12);
-          repeatingGroups.add(rg);
+          short dataValue = UtilBinaryDecoding.parseShort(sfData, offset + 6 + pos, 1);
+          byte[] colorName = new byte[12];
+          System.arraycopy(sfData, offset + 6 + pos + 1, colorName, 0, 12);
+          repeatingGroups.add(new ColorNameRepeatingGroup(dataValue, colorName));
 
           if (sb.length() > 0) {
             sb.append(", ");
           }
-          sb.append(new String(rg.colorName, config.getAfpCharSet()).trim());
+          sb.append(new String(colorName, config.getAfpCharSet()).trim());
 
           pos += 13;
         }
@@ -1517,19 +1516,16 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(reserved4_5, 2));
       if (repeatingGroups != null) {
         for (ColorNameRepeatingGroup rg : repeatingGroups) {
-          os.write(rg.dataValue);
-          os.write(rg.colorName);
+          os.write(rg.dataValue());
+          os.write(rg.colorName());
         }
       }
     }
 
-    public static class ColorNameRepeatingGroup {
-      short dataValue;
-      byte[] colorName;
-    }
+    public record ColorNameRepeatingGroup(short dataValue, byte[] colorName) {}
   }
 
-  public static class ImageData extends IPD_Segment.IPD_SegmentExtended {
+  public static final class ImageData extends IPD_Segment.IPD_SegmentExtended {
     byte[] imageData;
 
     @Override
@@ -1550,7 +1546,7 @@ public abstract class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class BandImageData extends IPD_Segment.IPD_SegmentExtended {
+  public static final class BandImageData extends IPD_Segment.IPD_SegmentExtended {
     short bandNumber;
     byte[] reserved5_6 = new byte[] {0x00, 0x00};
     byte[] bandData;

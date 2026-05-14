@@ -35,11 +35,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
+public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable {
   @AFPField
   short drawingOrderType;
 
-  protected static abstract class DrawingOrder_HasPoints extends GAD_DrawingOrder {
+  protected static abstract sealed class DrawingOrder_HasPoints extends GAD_DrawingOrder {
     @AFPField(isHidden = true)
     protected boolean isAtCurrentPosition;
     @AFPField
@@ -148,7 +148,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GNOP1_NopOperation extends GAD_DrawingOrder {
+  public static final class GNOP1_NopOperation extends GAD_DrawingOrder {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
@@ -160,7 +160,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCOMT_Comment extends GAD_DrawingOrder {
+  public static final class GCOMT_Comment extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
@@ -211,7 +211,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GDGCH_SegmentCharacteristics extends GAD_DrawingOrder {
+  public static final class GDGCH_SegmentCharacteristics extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -264,7 +264,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSPS_SetPatternSet extends GAD_DrawingOrder {
+  public static final class GSPS_SetPatternSet extends GAD_DrawingOrder {
     @AFPField
     short patternLocalID;
 
@@ -289,7 +289,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSCOL_SetColor extends GAD_DrawingOrder {
+  public static final class GSCOL_SetColor extends GAD_DrawingOrder {
     @AFPField
     AFPColorValue color;
 
@@ -315,7 +315,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSMX_SetMix extends GAD_DrawingOrder {
+  public static final class GSMX_SetMix extends GAD_DrawingOrder {
     @AFPField
     short mixMode;
 
@@ -340,7 +340,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSBMX_SetBackgroundMix extends GAD_DrawingOrder {
+  public static final class GSBMX_SetBackgroundMix extends GAD_DrawingOrder {
     @AFPField
     short mixMode;
 
@@ -365,7 +365,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSFLW_SetFractionLineWidth extends GAD_DrawingOrder {
+  public static final class GSFLW_SetFractionLineWidth extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -415,7 +415,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSLT_SetLineType extends GAD_DrawingOrder {
+  public static final class GSLT_SetLineType extends GAD_DrawingOrder {
     @AFPField
     short lineType;
 
@@ -465,7 +465,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSPIK_SetPickIdentifier extends GAD_DrawingOrder {
+  public static final class GSPIK_SetPickIdentifier extends GAD_DrawingOrder {
     @AFPField
     short pickIdentifier;
 
@@ -482,7 +482,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GESEG_EndSegment extends GAD_DrawingOrder {
+  public static final class GESEG_EndSegment extends GAD_DrawingOrder {
     @AFPField
     short reserved0 = 0x00;
 
@@ -499,7 +499,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSLW_SetLineWidth extends GAD_DrawingOrder {
+  public static final class GSLW_SetLineWidth extends GAD_DrawingOrder {
     @AFPField
     short lineWidth;
 
@@ -524,7 +524,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSLE_SetLineEnd extends GAD_DrawingOrder {
+  public static final class GSLE_SetLineEnd extends GAD_DrawingOrder {
     @AFPField
     LineEnd lineEnd;
 
@@ -569,7 +569,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSLJ_SetLineJoin extends GAD_DrawingOrder {
+  public static final class GSLJ_SetLineJoin extends GAD_DrawingOrder {
     @AFPField
     LineJoin lineJoin;
 
@@ -614,7 +614,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSCLT_SetCustomLineType extends GAD_DrawingOrder {
+  public static final class GSCLT_SetCustomLineType extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -629,12 +629,11 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
         repeatingGroups = new ArrayList<DashMoveRepeatingGroup>();
         int pos = 0;
         while (pos < lengthOfFollowingData) {
-          DashMoveRepeatingGroup rg = new DashMoveRepeatingGroup();
-          rg.dashInteger = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos, 1);
-          rg.dashFractional = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 1, 1);
-          rg.moveInteger = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 2, 1);
-          rg.moveFractional = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 3, 1);
-          repeatingGroups.add(rg);
+          short dashInteger = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos, 1);
+          short dashFractional = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 1, 1);
+          short moveInteger = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 2, 1);
+          short moveFractional = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 3, 1);
+          repeatingGroups.add(new DashMoveRepeatingGroup(dashInteger, dashFractional, moveInteger, moveFractional));
           pos += 4;
         }
       }
@@ -647,27 +646,22 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
       os.write(lengthOfFollowingData);
       if (repeatingGroups != null) {
         for (DashMoveRepeatingGroup rg : repeatingGroups) {
-          os.write(rg.dashInteger);
-          os.write(rg.dashFractional);
-          os.write(rg.moveInteger);
-          os.write(rg.moveFractional);
+          os.write(rg.dashInteger());
+          os.write(rg.dashFractional());
+          os.write(rg.moveInteger());
+          os.write(rg.moveFractional());
         }
       }
     }
 
-    public static class DashMoveRepeatingGroup {
-      @AFPField
-      short dashInteger;
-      @AFPField
-      short dashFractional;
-      @AFPField
-      short moveInteger;
-      @AFPField
-      short moveFractional;
-    }
+    public record DashMoveRepeatingGroup(
+        @AFPField short dashInteger,
+        @AFPField short dashFractional,
+        @AFPField short moveInteger,
+        @AFPField short moveFractional) {}
   }
 
-  public static class GSCP_SetCurrentPosition extends GAD_DrawingOrder {
+  public static final class GSCP_SetCurrentPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -716,7 +710,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSAP_SetArcParameters extends GAD_DrawingOrder {
+  public static final class GSAP_SetArcParameters extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -790,7 +784,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSECOL_SetExtendedColor extends GAD_DrawingOrder {
+  public static final class GSECOL_SetExtendedColor extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -827,7 +821,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSPT_SetPatternSymbol extends GAD_DrawingOrder {
+  public static final class GSPT_SetPatternSymbol extends GAD_DrawingOrder {
     @AFPField
     short patternSymbolCodePoint;
 
@@ -852,7 +846,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSMT_SetMarkerSymbol extends GAD_DrawingOrder {
+  public static final class GSMT_SetMarkerSymbol extends GAD_DrawingOrder {
     @AFPField
     short markerSymbolCodePoint;
 
@@ -877,7 +871,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSCC_SetCharacterCell extends GAD_DrawingOrder {
+  public static final class GSCC_SetCharacterCell extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -971,7 +965,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
 
   }
 
-  public static class GSCA_SetCharacterAngle extends GAD_DrawingOrder {
+  public static final class GSCA_SetCharacterAngle extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1024,7 +1018,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSCH_SetCharacterShear extends GAD_DrawingOrder {
+  public static final class GSCH_SetCharacterShear extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1076,7 +1070,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSMC_SetMarkerCell extends GAD_DrawingOrder {
+  public static final class GSMC_SetMarkerCell extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1127,7 +1121,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSCS_SetCharacterSet extends GAD_DrawingOrder {
+  public static final class GSCS_SetCharacterSet extends GAD_DrawingOrder {
     @AFPField
     short characterSetLocalID;
 
@@ -1156,7 +1150,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSCR_SetCharacterPrecision extends GAD_DrawingOrder {
+  public static final class GSCR_SetCharacterPrecision extends GAD_DrawingOrder {
     @AFPField
     short characterPrecision;
 
@@ -1181,7 +1175,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSCD_SetCharacterDirection extends GAD_DrawingOrder {
+  public static final class GSCD_SetCharacterDirection extends GAD_DrawingOrder {
     @AFPField
     short characterDirection;
 
@@ -1206,7 +1200,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSMP_SetMarkerPrecision extends GAD_DrawingOrder {
+  public static final class GSMP_SetMarkerPrecision extends GAD_DrawingOrder {
     @AFPField
     short markerPrecision;
 
@@ -1231,7 +1225,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSMS_SetMarkerSet extends GAD_DrawingOrder {
+  public static final class GSMS_SetMarkerSet extends GAD_DrawingOrder {
     @AFPField
     short markerSetLocalID;
 
@@ -1257,7 +1251,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GEPROL_EndProlog extends GAD_DrawingOrder {
+  public static final class GEPROL_EndProlog extends GAD_DrawingOrder {
     @AFPField
     short reserved0 = 0x00;
 
@@ -1292,7 +1286,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GBCP_BeginCustomPattern extends GAD_DrawingOrder {
+  public static final class GBCP_BeginCustomPattern extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData = 0x0D;
     @AFPField
@@ -1341,7 +1335,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GDPT_DeletePattern extends GAD_DrawingOrder {
+  public static final class GDPT_DeletePattern extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1375,7 +1369,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GECP_EndCustomPattern extends GAD_DrawingOrder {
+  public static final class GECP_EndCustomPattern extends GAD_DrawingOrder {
     @AFPField
     short reserved0 = 0x00;
 
@@ -1410,7 +1404,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GEAR_EndArea extends GAD_DrawingOrder {
+  public static final class GEAR_EndArea extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
@@ -1473,7 +1467,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GBAR_BeginArea extends GAD_DrawingOrder {
+  public static final class GBAR_BeginArea extends GAD_DrawingOrder {
     @AFPField
     short internalFlags;
 
@@ -1507,7 +1501,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCBOX_BoxAtCurrentPosition extends GAD_DrawingOrder {
+  public static final class GCBOX_BoxAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1630,19 +1624,19 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCLINE_LineAtCurrentPosition extends DrawingOrder_HasPoints {
+  public static final class GCLINE_LineAtCurrentPosition extends DrawingOrder_HasPoints {
     public GCLINE_LineAtCurrentPosition() {
       isAtCurrentPosition = true;
     }
   }
 
-  public static class GCMRK_MarkerAtCurrentPosition extends DrawingOrder_HasPoints {
+  public static final class GCMRK_MarkerAtCurrentPosition extends DrawingOrder_HasPoints {
     public GCMRK_MarkerAtCurrentPosition() {
       isAtCurrentPosition = true;
     }
   }
 
-  public static class GCCHST_CharacterStringAtCurrentPosition extends GAD_DrawingOrder {
+  public static final class GCCHST_CharacterStringAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
@@ -1704,13 +1698,13 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCFLT_FilletAtCurrentPosition extends DrawingOrder_HasPoints {
+  public static final class GCFLT_FilletAtCurrentPosition extends DrawingOrder_HasPoints {
     public GCFLT_FilletAtCurrentPosition() {
       isAtCurrentPosition = true;
     }
   }
 
-  public static class GFARC_FullArcAtGivenPosition extends GAD_DrawingOrder {
+  public static final class GFARC_FullArcAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1773,7 +1767,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCBIMG_BeginImageAtCurrentPosition extends GAD_DrawingOrder {
+  public static final class GCBIMG_BeginImageAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1848,7 +1842,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GIMD_ImageData extends GAD_DrawingOrder {
+  public static final class GIMD_ImageData extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField(maxSize = 255)
@@ -1907,7 +1901,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GSPRP_SetPatternReferencePoint extends GAD_DrawingOrder {
+  public static final class GSPRP_SetPatternReferencePoint extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1980,7 +1974,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GEIMD_EndImage extends GAD_DrawingOrder {
+  public static final class GEIMD_EndImage extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData = 0x00;
     @AFPField(maxSize = 255)
@@ -2039,13 +2033,13 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCRLINE_RelativeLineAtCurrentPosition extends DrawingOrder_HasPoints {
+  public static final class GCRLINE_RelativeLineAtCurrentPosition extends DrawingOrder_HasPoints {
     public GCRLINE_RelativeLineAtCurrentPosition() {
       isAtCurrentPosition = true;
     }
   }
 
-  public static class GCPARC_PartialArcAtCurrentPosition extends GAD_DrawingOrder {
+  public static final class GCPARC_PartialArcAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -2160,13 +2154,13 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCCBEZ_CubicBezierCurveAtCurrentPosition extends DrawingOrder_HasPoints {
+  public static final class GCCBEZ_CubicBezierCurveAtCurrentPosition extends DrawingOrder_HasPoints {
     public GCCBEZ_CubicBezierCurveAtCurrentPosition() {
       isAtCurrentPosition = true;
     }
   }
 
-  public static class GSPCOL_SetProcessColor extends GAD_DrawingOrder {
+  public static final class GSPCOL_SetProcessColor extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -2292,7 +2286,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GBOX_BoxAtGivenPosition extends GAD_DrawingOrder {
+  public static final class GBOX_BoxAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -2400,19 +2394,19 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GLINE_LineAtGivenPosition extends DrawingOrder_HasPoints {
+  public static final class GLINE_LineAtGivenPosition extends DrawingOrder_HasPoints {
     public GLINE_LineAtGivenPosition() {
       isAtCurrentPosition = false;
     }
   }
 
-  public static class GMRK_MarkerAtGivenPosition extends DrawingOrder_HasPoints {
+  public static final class GMRK_MarkerAtGivenPosition extends DrawingOrder_HasPoints {
     public GMRK_MarkerAtGivenPosition() {
       isAtCurrentPosition = false;
     }
   }
 
-  public static class GCHST_CharacterStringAtGivenPosition extends GAD_DrawingOrder {
+  public static final class GCHST_CharacterStringAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -2488,13 +2482,13 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GFLT_FilletAtGivenPosition extends DrawingOrder_HasPoints {
+  public static final class GFLT_FilletAtGivenPosition extends DrawingOrder_HasPoints {
     public GFLT_FilletAtGivenPosition() {
       isAtCurrentPosition = false;
     }
   }
 
-  public static class GCFARC_FullArcAtCurrentPosition extends GAD_DrawingOrder {
+  public static final class GCFARC_FullArcAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -2543,7 +2537,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GBIMG_BeginImageAtGivenPosition extends GAD_DrawingOrder {
+  public static final class GBIMG_BeginImageAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -2631,13 +2625,13 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GRLINE_RelativeLineAtGivenPosition extends DrawingOrder_HasPoints {
+  public static final class GRLINE_RelativeLineAtGivenPosition extends DrawingOrder_HasPoints {
     public GRLINE_RelativeLineAtGivenPosition() {
       isAtCurrentPosition = false;
     }
   }
 
-  public static class GPARC_PartialArcAtGivenPosition extends GAD_DrawingOrder {
+  public static final class GPARC_PartialArcAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -2740,13 +2734,13 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GCBEZ_CubicBezierCurveAtGivenPosition extends DrawingOrder_HasPoints {
+  public static final class GCBEZ_CubicBezierCurveAtGivenPosition extends DrawingOrder_HasPoints {
     public GCBEZ_CubicBezierCurveAtGivenPosition() {
       isAtCurrentPosition = false;
     }
   }
 
-  public static class GEXO_ExtendedOrder extends GAD_DrawingOrder {
+  public static final class GEXO_ExtendedOrder extends GAD_DrawingOrder {
     @AFPField
     short qualifier;
     @AFPField
@@ -2800,7 +2794,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GLGD_LinearGradient extends GAD_DrawingOrder {
+  public static final class GLGD_LinearGradient extends GAD_DrawingOrder {
     @AFPField
     short qualifier = 0xDC;
     @AFPField
@@ -2896,7 +2890,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class GRGD_RadialGradient extends GAD_DrawingOrder {
+  public static final class GRGD_RadialGradient extends GAD_DrawingOrder {
     @AFPField
     short qualifier = 0xDD;
     @AFPField
@@ -3008,7 +3002,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class ColorSpecification implements IAFPDecodeableWriteable {
+  public static final class ColorSpecification implements IAFPDecodeableWriteable {
     @AFPField
     short length;
     @AFPField
@@ -3061,7 +3055,7 @@ public abstract class GAD_DrawingOrder implements IAFPDecodeableWriteable {
     }
   }
 
-  public static class ColorStop implements IAFPDecodeableWriteable {
+  public static final class ColorStop implements IAFPDecodeableWriteable {
     @AFPField
     int offset;
     @AFPField
