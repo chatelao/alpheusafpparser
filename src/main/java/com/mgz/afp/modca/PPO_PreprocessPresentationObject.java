@@ -83,13 +83,13 @@ public class PPO_PreprocessPresentationObject extends StructuredFieldBaseRepeati
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       repeatingGroupLength = UtilBinaryDecoding.parseInt(sfData, offset, 2);
-      objectType = AFPObjectType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 1, 2));
+      objectType = AFPObjectType.valueOf((short) (sfData[offset + 2] & 0xFF));
       reserved3_4 = new byte[2];
       System.arraycopy(sfData, offset + 3, reserved3_4, 0, reserved3_4.length);
       flags = PPO_Flag.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 5, 1));
       xOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 6, 3);
       yOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 9, 3);
-      triplets = TripletParser.parseTriplets(sfData, offset + 12, -1, config);
+      triplets = TripletParser.parseTriplets(sfData, offset + 12, repeatingGroupLength - 12, config);
     }
 
 

@@ -335,9 +335,9 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Other Line Data Structured Fields (BDM, XMD, FDS, FDX, LND, LNC, CCP, RCD).
     - ✅ Medium Control Structured Fields (MCC, MMC, MMT, MFC, IMM).
     - ✅ CMOCA and MO:DCA-L Structured Fields (BCA, ECA, MCA, CAT, CMR).
-    - 🚧 Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR, MCF, MBC, MCD, MGO, MIO, MMD, MMO, OBP, MSU).
+    - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR, MCF, MBC, MCD, MGO, MIO, MMD, MMO, OBP, MSU).
     - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
-    - 🚧 Presentation Control Structured Fields (PEC, PFC, PMC, PPO, CTC).
+    - ✅ Presentation Control Structured Fields (PEC, PFC, PMC, PPO, CTC).
     - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF, BPF, PGP).
         - ✅ Page and Overlay Structured Fields.
             - ✅ Begin/End Overlay (BMO, EMO).
@@ -350,7 +350,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Begin/End Image/IM Image (BIM, EIM, BII, EII).
             - ✅ Include Object (IOB).
             - ✅ Object/Image Data (OCD, IRD, IID, ICP, IOC).
-            - ⏳ No Operation (NOP).
+            - ✅ No Operation (NOP).
     - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
     - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX, PTD).
     - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD, CFI, CPC, CPI, FNC, FND, FNI, FNM, FNO, FNP).

@@ -104,6 +104,18 @@ public class ObjectAndDataRoundTripTest {
     }
 
     @Test
+    public void testNOPRoundTrip() throws Exception {
+        // NOP: D3EEEE
+        // Data: 0x01 02 03 04
+        // Total Len: 1 + 8 + 4 = 13. SFLen = 12 (0x000C)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x0C, (byte) 0xD3, (byte) 0xEE, (byte) 0xEE, 0x00, 0x00, 0x00,
+            0x01, 0x02, 0x03, 0x04
+        };
+        RoundTripTestUtils.assertRoundTrip(new NOP_NoOperation(), data);
+    }
+
+    @Test
     public void testEOGRoundTrip() throws Exception {
         // EOG: D3A9C7
         // Name (8): OBJENVG1 (D6 C2 D1 C5 D5 E5 C7 F1)
