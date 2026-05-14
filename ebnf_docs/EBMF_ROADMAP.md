@@ -8,7 +8,7 @@ This roadmap outlines the evolution of the formal EBNF (Extended Backus-Naur For
 | :--- | :--- | :---: |
 | 1 | Base Conventions & Primitive Types | ✅ |
 | 2 | MO:DCA Structured Field Introducer (SFI) | ✅ |
-| 3 | MO:DCA Document Structure | ⏳ |
+| 3 | MO:DCA Document Structure | ✅ |
 | 4 | Structured Fields (SF) Definitions | ⏳ |
 | 5 | Triplets Definitions | ⏳ |
 | 6 | PTOCA Control Sequences | ⏳ |
@@ -54,11 +54,14 @@ This roadmap outlines the evolution of the formal EBNF (Extended Backus-Naur For
 ## Phase 3: MO:DCA Document Structure
 *Defining the hierarchical relationship between Begin/End pairs and nested objects.*
 
-- ⏳ **Document Hierarchy**:
-    - ⏳ PrintFile: Root container.
-    - ⏳ Resource Groups.
-    - ⏳ Document, PageGroup, and Page structures.
-    - ⏳ Active Environment Group (AEG).
+- ✅ **Document Hierarchy**:
+    - ✅ PrintFile: Root container.
+    - ✅ Resource Groups.
+    - ✅ Document, PageGroup, and Page structures.
+    - ✅ Active Environment Group (AEG).
+- ✅ **Files**:
+    - [structure.ebnf](structure.ebnf)
+    - [structure.puml](structure.puml)
 
 ## Phase 4: Structured Fields (SF) Definitions
 *Detailed EBNF for every Structured Field payload.*
