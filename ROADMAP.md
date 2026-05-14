@@ -11,13 +11,13 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 3 | Artifact Management | ✅ |
 | 4 | Cleanup and Finalization | ✅ |
 | 5 | CI/CD Optimizations | ✅ |
-| 6a | Testing and Quality Assurance (i) | 🚧 |
+| 6a | Testing and Quality Assurance (i) | ✅ |
 | 6b | Complete AFP Syntax Implementation | 🚧 |
 | 6c | Testing and Quality Assurance (ii) | 🚧 |
 | 7 | Modernization of Build System and Language | 🚧 |
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | ⏳ |
-| 10 | Specification Excellence | 🚧 |
+| 10 | Specification Excellence | ✅ |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -29,12 +29,12 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ## Phase 10: Specification Excellence
 *This phase focuses on ensuring the highest quality for the Markdown-based AFP specifications, including purging PDF artifacts, fixing OCR errors, and converting text dumps to structured Markdown tables.*
 
-- 🚧 **IPDS (Critical)**:
+- ✅ **IPDS (Critical)**:
     - ✅ Purge physical page markers and recurring PDF headers/footers:
         - ✅ Chapters 1–11, 14–15.
         - ✅ Chapters 12–13, 16–17.
         - ✅ Appendices A–D.
-    - ⏳ Fix OCR-induced broken paragraphs and split words:
+    - ✅ Fix OCR-induced broken paragraphs and split words:
         - ✅ Chapters 1–4 (Standardized coordinate notation and fixed split words).
         - ✅ Chapters 5–11, 14–15.
         - ✅ Chapters 12–13, 16–17 and Appendices.
@@ -44,8 +44,8 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapters 12–15, 17.
         - ✅ Chapter 16.
         - ✅ Appendices A–D.
-    - ⏳ Convert command and syntax text dumps to Markdown tables:
-        - ⏳ Device-Control Command Set (Chapter 4):
+    - ✅ Convert command and syntax text dumps to Markdown tables:
+        - ✅ Device-Control Command Set (Chapter 4):
             - ✅ Tables 19 (Summary), 20 (Protocol), 21 (Ack Types).
             - ✅ Acknowledge Reply: Syntax, Flags, Data Formats, and Counters.
             - ✅ Activate Resource (AR): Entry Syntax and Tables 22–23.
@@ -150,14 +150,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Appendix B: Table 72 (A Typical IPDS Command Sequence).
             - ✅ Appendix C: Table 73 (Run-Length 4 Compression).
             - ✅ Appendix D: Tables 74–76 (Retired Object Containers).
-- 🚧 **BCOCA**:
+- ✅ **BCOCA**:
     - ✅ Purge physical page markers and PDF artifacts from Chapters 1–3.
     - ✅ Purge physical page markers and PDF artifacts from Chapter 4.
     - ✅ Purge physical page markers and PDF artifacts from Chapters 5 and 6.
     - ✅ Purge physical page markers and PDF artifacts from Appendices A–D.
     - ✅ Fix OCR-induced split words (e.g., "T erminate") in Chapters 5, 6, and Appendices.
     - ✅ Remove physical page references ("on page XXX").
-    - ⏳ Format syntax and registry tables:
+    - ✅ Format syntax and registry tables:
         - ✅ Chapter 4: Table 8 (BSD), Table 9 (Types).
         - ✅ Chapter 4: Table 10 (Modifiers).
         - ✅ Chapter 4: Table 11 (Color), Table 12 (Sizing).
@@ -174,14 +174,14 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 4: Table 35 (Valid Characters and Data Lengths) - Part 2: Symbologies X'16'–X'27'.
         - ✅ Chapter 4: Table 36 (Characters and Code Points).
         - ✅ Appendices B (MO:DCA), C (IPDS).
-- 🚧 **IOCA**:
+- ✅ **IOCA**:
     - ✅ Remove physical page references ("on page XXX"):
         - ✅ Chapter 3.
         - ✅ Chapter 5.
         - ✅ Chapter 6.
         - ✅ Chapter 7.
         - ✅ Appendices A, D, E, F, G.
-    - 🚧 Convert structural descriptors to Markdown tables:
+    - ✅ Convert structural descriptors to Markdown tables:
         - ✅ Chapter 4: Table 3 (Code Points).
         - ✅ Chapter 5: Self-Defining Field Syntax tables (Begin/End Segment, Begin/End Image Content).
         - ✅ Chapter 5: Table 5 (Transparency Mask Structure).
@@ -193,11 +193,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Chapter 7: Function Set 42 (Tables 13–14 and Acceptable Values).
         - ✅ Chapter 7: Function Set 45 (Tables 15–20 and Acceptable Values).
         - ✅ Chapter 7: Function Set 48 (Tables 21–26 and Acceptable Values).
-- 🚧 **AFP GOCA**:
+- ✅ **AFP GOCA**:
     - ✅ Purge physical page references ("on page XXX"):
         - ✅ Chapters 1–9.
         - ✅ Appendices A–D.
-    - ⏳ Convert syntax and registry text dumps to Markdown tables:
+    - ✅ Convert syntax and registry text dumps to Markdown tables:
         - ✅ Chapter 7: Drawing Orders Summary.
         - ✅ Chapter 7: GBAR, GBCP, GBIMG/GCBIMG, GBOX/GCBOX, GCHST/GCCHST.
         - ✅ Chapter 7: GCOMT, GCBEZ/GCCBEZ, GDPT, GEAR, GECP, GEIMG, GEPROL.
@@ -211,7 +211,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Chapter 4: Convert Tables 7–13 to Markdown and fix OCR.
             - ✅ Chapter 6: Convert SCD syntax and attribute tables to Markdown and fix OCR.
             - ✅ Chapters 5, 8, 9: General OCR cleanup and formatting.
-- 🚧 **Line Data**:
+- ✅ **Line Data**:
     - ✅ Purge physical page markers and recurring PDF artifacts from all Chapters and Appendices.
     - ✅ Fix OCR-induced split words and formatting artifacts across all files.
     - ✅ Remove physical page references ("on page XXX").
@@ -235,7 +235,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Structured Field: Line Descriptor (LND).
             - ✅ Structured Field: Record Descriptor (RCD).
             - ✅ Structured Field: XML Descriptor (XMD).
-    - 🚧 Convert text-based diagrams in Appendix A to standardized formats:
+    - ✅ Convert text-based diagrams in Appendix A to standardized formats:
         - ✅ Figure 30 (Structure of a Print File).
         - ✅ Figure 31 (Structure of a Mixed Line-Page Document).
         - ✅ Figure 32 (Structure of a Presentation Page Object).
@@ -257,11 +257,16 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ **FOCA**:
     - ✅ Fix OCR-induced paragraph merging in technical sections.
     - ✅ Remove physical page references ("on page XXX").
-- 🚧 **PTOCA**:
+- ✅ **PTOCA**:
     - ✅ Purge physical page markers and fix split words.
     - ✅ Final cleanup of split-word remnants (e.g., "T ext", "T able", "Wr ite").
-- ✅ **CMOCA**: Excellent quality; standardized registry and syntax tables.
-- ✅ **MOCA**: Excellent quality; cleanest conversion.
+    - ✅ Remove physical page references ("on page XXX").
+- ✅ **CMOCA**:
+    - ✅ Remove physical page references ("on page XXX").
+    - ✅ Excellent quality; standardized registry and syntax tables.
+- ✅ **MOCA**:
+    - ✅ Remove physical page references ("on page XXX").
+    - ✅ Excellent quality; cleanest conversion.
 - ✅ **Db2 12 Internationalization Guide**:
     - ✅ Convert to Markdown:
         - ✅ Chapter 1 (International data and character conversion).
@@ -297,7 +302,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ Appendix F (Table 32).
 
 ## Phase 6a: Testing and Quality Assurance (i)
-- ⏳ Restore and expand the test suite.
+- ✅ Restore and expand the test suite.
     - ✅ Provide a set of sample test AFP files in `src/test/resources/afp` to enable `AFPParserTest`.
     - ✅ Create a minimal ".afp" test file for every chapter markdown file found in `specifications/markdown/` to ensure 1:1 architectural coverage:
         - ✅ MO:DCA (modca-reference-10).
@@ -323,7 +328,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Implement round-trip unit tests for all PTOCA Control Sequences.
         - ✅ Movement and Positioning Control Sequences (e.g., AMI, RMI, AMB, RMB).
         - ✅ Appearance and Data Control Sequences (e.g., STC, SEC, TRN, RPS).
-    - ⏳ Implement round-trip unit tests for all Structured Fields.
+    - ✅ Implement round-trip unit tests for all Structured Fields.
     - ✅ GOCA Structured Fields (BGR, GAD, EGR, GDD).
     - ✅ IOCA Structured Fields (IDD, IPD).
     - ✅ Line Data Structured Fields (BDX, EDX, BPM, EPM, DXD, EDM, IDM).

@@ -12,7 +12,7 @@ The actual input and output device color spaces constrain which CMRs are applica
 
 Further, CMRs can be invoked at multiple levels of the AFP document hierarchy and it is possible to have more than one CMR that is applicable for a given task at one time. For instance, there can be two audit color conversions from RGB to CIELAB; one is SMPTE-C and the other is sRGB. One can be invoked at the object level and the other at the page level. IPDS hierarchical rules and last-received-wins (when multiple conflicting CMRs exist at the same level) are used to resolve conflicts.
 
-Media matching also affects the hierarchical search. If the media attributes specified in the CMR header do not match the media currently in use by the device, the hierarchical search may continue, looking for a CMR that better matches the media. This is described in “Matching Media Type of CMR With Media Type of Device” on page 112.
+Media matching also affects the hierarchical search. If the media attributes specified in the CMR header do not match the media currently in use by the device, the hierarchical search may continue, looking for a CMR that better matches the media. This is described in “Matching Media Type of CMR With Media Type of Device”.
 
 Note that there might be multiple CMRs of a given type invoked at one particular level. For instance, there could be two audit Color Conversion CMRs attached to a GOCA object, one for CMYK input data and the other for RGB data. Colors within the GOCA object might be specified using both color spaces and the appropriate CMR would be used each time.
 
@@ -20,14 +20,14 @@ Taken as a whole, the CMR system can seem complex. But a typical situation will 
 
 When a CMR is needed, the device searches the hierarchy for an applicable CMR that applies to the current color space. The AFP architecture hierarchy for CMRs is as follows:
 
-1.  **CMR invoked with an object.** Note that CMRs attached to an object received in home state are ignored and that CMRs can be attached to an object when it is included using an IDO. (See “Color Conversion Profiles Within TIFF, JFIF, and GIF” on page 113 for a discussion of profiles embedded within the object.)
+1.  **CMR invoked with an object.** Note that CMRs attached to an object received in home state are ignored and that CMRs can be attached to an object when it is included using an IDO. (See “Color Conversion Profiles Within TIFF, JFIF, and GIF” for a discussion of profiles embedded within the object.)
 2.  **CMR invoked with a page or overlay**
 3.  **CMR invoked in home state**
 4.  **Device default CMR**
 
 If two applicable CMRs that both apply to the current color space are invoked at the same level, the last one invoked is used. If no applicable CMR is explicitly invoked, a device default is used.
 
-For color conversions, link CMRs are normally used to improve throughput. The following discussion assumes that there are no active link CMRs. “Link Color Conversion CMRs” on page 99, discusses Link Color Conversion CMRs.
+For color conversions, link CMRs are normally used to improve throughput. The following discussion assumes that there are no active link CMRs. “Link Color Conversion CMRs”, discusses Link Color Conversion CMRs.
 
 1.  Presentation data specifies an input color space. Knowing that color space, a search is done of the invoked audit Tone Transfer Curve CMRs to find the first one that has the same number of components. If one is not found, the identity tone transfer curve (that is, the printer default) is used.
 2.  Next, knowing the input color space, a search is done of the invoked audit Color Conversion CMRs to find the first one that has that input color space. This is done by examining the Color Space Signature field within the ICC profile header. In cases where the name of the input color space is unknown, the number of components in the input data will be used to select a Color Conversion CMR.
@@ -276,7 +276,7 @@ The following audit CMR defaults have been architected:
 
 ### Default CMRs to Replace Generic CMRs
 
-Instruction Halftone CMRs and instruction Tone Transfer Curve CMRs can be generic. Generic CMRs must be replaced by device-specific CMRs. The device is required to have its own device-specific versions of all the generic CMRs that are registered in the Color Management Object Content Architecture (see Appendix B, “Generic CMR Name Registry”, on page 121). If the device does not recognize a generic CMR name, it NACKs using exception ID X'025E..04'.
+Instruction Halftone CMRs and instruction Tone Transfer Curve CMRs can be generic. Generic CMRs must be replaced by device-specific CMRs. The device is required to have its own device-specific versions of all the generic CMRs that are registered in the Color Management Object Content Architecture (see Appendix B, “Generic CMR Name Registry”). If the device does not recognize a generic CMR name, it NACKs using exception ID X'025E..04'.
 
 ### Passthrough Audit Color Conversion CMRs
 

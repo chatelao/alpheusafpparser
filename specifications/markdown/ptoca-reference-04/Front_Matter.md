@@ -13,14 +13,14 @@
 
 Copyright © AFP Consortium 1997, 2025 ii
 
-**Note:** Before using this information, read the information in "Notices" on page 179.
+**Note:** Before using this information, read the information in "Notices".
 
 AFPC-0009-04
 Fifth Edition (February 2025)
 
 This edition applies to the Presentation Text Object Content Architecture (PTOCA). It is the second edition produced by the AFP Consortium™ (AFPC™) and replaces and makes obsolete the previous edition, AFPC-0009-03. This edition remains current until a new edition is published.
 
-Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see "Summary of Changes" on page vii.
+Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see "Summary of Changes".
 
 **Internet**
 Visit our home page: [www.afpconsortium.org](http://www.afpconsortium.org)
@@ -62,7 +62,7 @@ This book is divided into six chapters, three appendixes, and a glossary.
 *   **Appendix A, "MO:DCA Environment"** describes the Presentation Text object in the context of a MO:DCA™ data stream.
 *   **Appendix B, "IPDS Environment"** describes the Presentation Text object in the context of an IPDS™ data stream.
 *   **Appendix C, "PTOCA Retired Functions"** describes the retired PTOCA functions.
-*   **The "Glossary"** on page 181 defines some of the terms used within this book.
+*   **The "Glossary"** defines some of the terms used within this book.
 
 ### How to Read the Syntax Diagrams
 
@@ -96,7 +96,7 @@ The following is an example of PTOCA syntax for the Begin Line (BLN) control seq
 | 2 | UBIN | LENGTH | 2 | Control sequence length | M | N | N |
 | 3 | CODE | TYPE | X'D8' – X'D9' | Control sequence function type | M | N | N |
 
-Please refer to "Control Sequence Detailed Descriptions" on page 47 for a more detailed description of PTOCA syntax.
+Please refer to "Control Sequence Detailed Descriptions" for a more detailed description of PTOCA syntax.
 
 <!-- Page 6 -->
 

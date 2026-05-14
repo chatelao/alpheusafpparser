@@ -188,7 +188,7 @@ For the non-IPDS devices, a maximum of five characters are allowed for the Manuf
 
 Media-specific fields describe the media and consist of four attributes: media brightness, media color, media finish, and media weight. The values for the MediaColor and the MediaFinish are consistent with the values defined by the Internet Printing Protocol (IPP) of the Printer Working Group (PWG). If the target device is a display, only media brightness is specified.
 
-To use an instruction CMR, its media type must match the media currently being used by the device. Similarly, in order to use an ICC DeviceLink CMR, its media attributes must match the device's media attributes. See “Matching Media Type of CMR With Media Type of Device” on page 112 for a discussion of this requirement.
+To use an instruction CMR, its media type must match the media currently being used by the device. Similarly, in order to use an ICC DeviceLink CMR, its media attributes must match the device's media attributes. See “Matching Media Type of CMR With Media Type of Device” for a discussion of this requirement.
 
 *   **MediaBrightness:** For print media, indicates the percentage of light reflected from the media. The brightness is measured with a brightmeter machine. The scale is based on the TAPPI GE scale in the US and the ISO scale in the rest of the world. The ISO scale is usually about two units higher than the GE value. For example, 100 ISO brightness is equivalent to 98 brightness on the GE scale. In order to ensure that the CMR's media type matches the media currently being used in the device, the scale that is used to specify each value must be the same. For screens, the brightness is defined as the CIE standard illuminant as Zxy, where Z is a capitalized letter, and xy is a two-digit number (see ISO/CIE 10526:1999: CIE standard illuminants for colorimetry). For example, D50, D65, etc.
 *   **MediaColor:** Indicates the color of the media being specified. CMOCA-recommended values exist to encourage interoperability; a CMOCA-recommended value should be used if appropriate for a CMR associated with a specific media. The value “noc” means transparency. Custom values may be defined by the administrator. There is no restriction on what value may be entered for this field as it is not checked for validity.
@@ -259,7 +259,7 @@ To use an instruction CMR, its media type must match the media currently being u
 | **spac@** | ColorSpace Conversion |
 
 *   **Prop2: Look-and-Feel**
-    Look-and-Feel produced in the output when this Tone Transfer Curve is applied. See Appendix B, “Generic CMR Name Registry”, on page 121 for an explanation of what these values mean.
+    Look-and-Feel produced in the output when this Tone Transfer Curve is applied. See Appendix B, “Generic CMR Name Registry” for an explanation of what these values mean.
 
 **Table 8. Look-and-Feel Values**
 
@@ -380,7 +380,7 @@ To use an instruction CMR, its media type must match the media currently being u
 ## CMR Data
 
 **Data:** CMR data.
-The content of the data is defined by the CMR type. The CMR data carries the color resource data. The resource data is carried in a tagged format. The tags are loosely based on the TIFF tag syntax, but with significant changes and additions. The tag syntax is defined in Chapter 5, “CMR Data Architecture”, on page 37.
+The content of the data is defined by the CMR type. The CMR data carries the color resource data. The resource data is carried in a tagged format. The tags are loosely based on the TIFF tag syntax, but with significant changes and additions. The tag syntax is defined in Chapter 5, “CMR Data Architecture”.
 
 CMR data is optional for generic and passthrough CMRs. If CMR data is specified for a generic or passthrough CMR, it is ignored.
 

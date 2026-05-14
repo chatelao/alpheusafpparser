@@ -1,6 +1,6 @@
 # Appendix A. Tag Registry
 
-This table defines the CMR tags in the base level of the Color Management Object Content Architecture. Support for some CMR types is optional, see Appendix C, “Compliance With Color Management Object Content Architecture”, on page 125. When a presentation device supports a given CMR type, it must support the tags used by that CMR type, as defined in this table.
+This table defines the CMR tags in the base level of the Color Management Object Content Architecture. Support for some CMR types is optional, see Appendix C, “Compliance With Color Management Object Content Architecture”. When a presentation device supports a given CMR type, it must support the tags used by that CMR type, as defined in this table.
 
 ### Table 51. Tag Registry
 

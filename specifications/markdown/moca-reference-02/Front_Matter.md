@@ -3,14 +3,14 @@
 **AFPC-0013-02**
 
 ## Note
-Before using this information, read the information in “Notices” on page 19.
+Before using this information, read the information in “Notices”.
 
 AFPC-0013-02
 Second Edition (December 2024)
 
 This edition applies to the Metadata Object Content Architecture. It is the second edition produced by the AFP Consortium™ (AFPC™) and replaces and makes obsolete the previous edition (AFPC-0013-01) . This edition remains current until a new edition is published.
 
-Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see “Changes in This Edition ” on page vii.
+Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see “Changes in This Edition ”.
 
 **Internet**
 Visit our home page, where this publication and others are available:
@@ -37,14 +37,14 @@ Since the cooperation between the members of the AFP Color Consortium turned out
 
 ## How to Use This Book
 This document is divided into five chapters:
-* **Chapter 1, “A Presentation Architecture Perspective”**, on page 1 introduces the AFPC presentation architectures and describes the role of data streams and data objects.
-* **Chapter 2, “Introduction to MOCA”**, on page 7 introduces the goals and scope of the Metadata Object Content Architecture.
-* **Chapter 3, “Metadata Concepts”**, on page 9 discusses metadata concepts as they relate to AFP .
-* **Chapter 4, “Metadata Object (MO)”**, on page 11 specifies the MO syntax and semantics.
-* **Chapter 5, “MO Header Attributes”**, on page 15 registers and describes the supported MO types, formats, and compression.
-* **Chapter 6, “Compliance ”**, on page 17 describes the subsets that MOCA defines.
+* **Chapter 1, “A Presentation Architecture Perspective”** introduces the AFPC presentation architectures and describes the role of data streams and data objects.
+* **Chapter 2, “Introduction to MOCA”** introduces the goals and scope of the Metadata Object Content Architecture.
+* **Chapter 3, “Metadata Concepts”** discusses metadata concepts as they relate to AFP .
+* **Chapter 4, “Metadata Object (MO)”** specifies the MO syntax and semantics.
+* **Chapter 5, “MO Header Attributes”** registers and describes the supported MO types, formats, and compression.
+* **Chapter 6, “Compliance ”** describes the subsets that MOCA defines.
 
-The **“Glossary”** on page 21 defines some of the terms used in this book.
+The **“Glossary”** defines some of the terms used in this book.
 
 ## How to Read the Syntax Diagrams
 The basic data types used in the Metadata Object Content Architecture (MOCA) are:

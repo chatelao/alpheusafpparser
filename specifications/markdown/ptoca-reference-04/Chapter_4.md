@@ -622,7 +622,7 @@ EC-1301 exists. The standard action in this case is to continue presentation acc
 in the Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 If DSPLCMNT is zero, the addressable position is the I-axis, and any intercharacter adjustment is not applied.
@@ -674,7 +674,7 @@ EC-1401 exists. The standard action in this case is to continue presentation acc
 in the Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 If the value of DSPLCMNT is zero, the addressable position is at the B-axis, and any intercharacter adjustment
@@ -746,7 +746,7 @@ If the value of the LID is not supported or is not within the range specified by
 section for additional exception conditions.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 If the LID in this control sequence is not activated in the data stream hierarchy, this control sequence and the
 corresponding End Suppression control sequence are processed as no-operations.
@@ -818,7 +818,7 @@ exception condition EC-8002 exists. The standard action is to ignore the control
 presentation with the value determined according to the description given in the Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 DBR Control Sequence
 
@@ -899,7 +899,7 @@ DIR Control Sequence
 
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 If a width or length is specified that, when converted to pels, requires finer resolution than a device supports,
@@ -1091,7 +1091,7 @@ to ignore this control sequence and continue presentation with the value determi
 stream hierarchy.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 This control sequence does not change the current addressable position. In order to suppress a text string
@@ -1699,7 +1699,7 @@ EC-1601 exists. The standard action is to continue presentation according to the
 Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 If the value of INCRMENT is zero, the addressable position is not displaced, and any intercharacter increment
@@ -1756,7 +1756,7 @@ EC-1501 exists. The standard action is to continue presentation according to the
 Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 If the value of INCRMENT is zero, the addressable position is not moved, and any intercharacter adjustment is
@@ -1831,7 +1831,7 @@ not supported or is not within the range specified by PTOCA, exception condition
 standard action is to ignore the control sequence and continue presenting.
 The subset may limit the range permitted in this control sequence. For detailed information about function
 subsets, please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”,
-on, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for
+on, and Appendix B, “IPDS Environment”,. See “Related Publications” for
 data-stream documentation.
 ### Pragmatics
 The standard action value for RLENGTH is the length of RPTDATA. If any part of a character's character box
@@ -1908,7 +1908,7 @@ Implementation Note: Most IPDS printers use a default baseline increment of 240/
 parameter is not specified in an SBI control sequence or as an initial text condition in the PTD.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 SBI Control Sequence
 
@@ -1951,11 +1951,11 @@ exists. The standard action is to ignore the control sequence and continue prese
 font determined according to the hierarchy.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 The LID is equated to a coded font, character rotation, and font modification parameters by a mapping function
-in the controlling environment. Please see “Related Publications” on page vi and “Font Concepts”
+in the controlling environment. Please see “Related Publications” and “Font Concepts”
 for font documentation.
 PTOCA expects the local identifier, LID, to be mapped to a global identifier. For example, this mapping could
 be accomplished in the following ways:
@@ -2323,7 +2323,7 @@ SEC Control Sequence
 
 The subset may limit the parameter ranges permitted in this control sequence. For detailed information about
 subsets, please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”,
-on, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for
+on, and Appendix B, “IPDS Environment”,. See “Related Publications” for
 data-stream documentation.
 ### Pragmatics
 If the receiver does not support the specified color value exception condition EC-0E03 exists. The standard
@@ -2421,7 +2421,7 @@ exception condition EC-1201 exists. The standard action is to ignore this contro
 presentation with the parameter values determined according to the hierarchy.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 If the value of ADJSTMNT is zero, no additional intercharacter increment or decrement appears between
@@ -2474,7 +2474,7 @@ EC-1001 exists. The standard action is to ignore this control sequence and conti
 value determined according to the hierarchy.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 This control sequence does not change the current addressable position.
 ### Pragmatics
@@ -2511,7 +2511,7 @@ implementation, with different bytes used for diffe rent things. For example, wh
 decryption implementations might use diffe rent information.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 If the value of the LENGTH field is less than 6, exception condition EC-1E01 exists. The standard action is to
@@ -2654,7 +2654,7 @@ STC Control Sequence
 
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 The presentation process default color attribute value (FRGCOLOR = X'FFFF') is determined hierarchically.
@@ -2847,7 +2847,7 @@ exists. The standard action is to ignore this control sequence and continue pres
 determined according to the hierarchy. Please refer to the Pragmatics section for details.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 The inline coordinate of the presentation position is incremented by INCRMENT after each variable space
@@ -2982,7 +2982,7 @@ continue presentation with the value determined according to the hierarchy. Plea
 for details.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
-163, and Appendix B, “IPDS Environment”,. See “Related Publications” on page vi for data-
+163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 ### Pragmatics
 * How TBM operates:
@@ -4308,7 +4308,7 @@ exception condition EC-0505 exists. The standard action is to ignore this parame
 with the value determined according to the hierarchy. The subset may limit the range permitted. For detailed
 information about subsets, please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:
 DCA Environment”,, and Appendix B, “IPDS Environment”,. See “Related
-Publications” on page vi for data stream documentation.
+Publications” for data stream documentation.
 Units of measure are defined as the measurement base divided by the units per unit base. That is, if the
 measurement base is 10 inches and the units per unit base are 5,000, the units of measure are 10 inches /
 5000 or one five-hundredth of an inch. Here are further examples.
@@ -4523,7 +4523,7 @@ only the stroked portion of the character is considered foreground.
 * The stroked area of an underscore.
 All other areas of the text presentation space are considered background.
 Semantics: Refer to “Set Extended Text Color (SEC)” for a description of the parameter
-semantics. The controlling environment may limit the range permitted. See “Related Publications” on page vi
+semantics. The controlling environment may limit the range permitted. See “Related Publications”
 for the appropriate data-stream documentation. Note that the Extended Text Color parameter is not supported
 as an initial text condition in IPDS Environments, see “Presentation Text Data Descriptor for Text-Major Text”
 on.
@@ -4643,7 +4643,7 @@ All other areas of the text presentation space are considered background. Please
 If the value of the foreground color attribute is not supported or is not within the range specified by PTOCA,
 exception condition EC-5803 exists. The standard action is to ignore these parameters and continue
 presentation with the value determined according to the hierarchy. The controlling environment may limit the
-range permitted. See “Related Publications” on page vi for the appropriate data-stream documentation.
+range permitted. See “Related Publications” for the appropriate data-stream documentation.
 Pragmatics:
 The default color attribute value (FRGCOLOR = X'FFFF') is determined hierarchically. The following order
 applies:

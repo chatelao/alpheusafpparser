@@ -8,14 +8,14 @@
 
 **Copyright © AFP Consortium 2006, 2025**
 
-**Note:** Before using this information, read the information in “Notices” on page 127.
+**Note:** Before using this information, read the information in “Notices”.
 
 **AFPC-0006-02**
 **Third Edition (May 2025)**
 
 This edition applies to the Color Management Object Content Architecture™ (CMOCA™). It is the second edition produced by the AFP Consortium™ (AFPC™) and replaces and makes obsolete the previous edition (AFPC-0006-01). This edition remains current until a new edition is published. This publication also applies to any subsequent releases of Advanced Function Presentation™ (AFP™) products that use the CMOCA architecture until otherwise indicated in a new edition.
 
-Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see “Changes in This Edition” on page vii.
+Technical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no technical significance are not noted. For a detailed list of changes, see “Changes in This Edition”.
 
 **Internet:** Visit our home page: [www.afpconsortium.org](http://www.afpconsortium.org)
 
@@ -69,17 +69,17 @@ The CMOCA Reference was first published by IBM in 2006 and has had several enhan
 
 This document is divided into six chapters and three appendixes:
 
-*   **Chapter 1, “A Presentation Architecture Perspective”**, on page 1 introduces the AFP presentation architectures and describes the role of data streams and data objects.
-*   **Chapter 2, “Introduction to CMOCA”**, on page 7 introduces the goals and purposes of the Color Management Object Content Architecture.
-*   **Chapter 3, “Color Management Resource (CMR)”**, on page 9 discusses the format of the Color Management Resource (CMR) header and how CMRs are used to process data.
-*   **Chapter 4, “CMR Types”**, on page 25 defines each type of CMR.
-*   **Chapter 5, “CMR Data Architecture”**, on page 37 defines tag syntax and semantics.
-*   **Chapter 6, “CMR Processing”**, on page 97 discusses how search paths are used to determine which CMRs to use, audit and instruction and link CMRs, generic vs. device-specific CMRs, and implications for drivers.
-*   **Appendix A, “Tag Registry”**, on page 119 lists the tags that devices receiving CMRs must support.
-*   **Appendix B, “Generic CMR Name Registry”**, on page 121 lists and explains all the registered generic CMR names.
-*   **Appendix C, “Compliance With Color Management Object Content Architecture”**, on page 125 explains what is required to claim CMOCA support.
+*   **Chapter 1, “A Presentation Architecture Perspective”** introduces the AFP presentation architectures and describes the role of data streams and data objects.
+*   **Chapter 2, “Introduction to CMOCA”** introduces the goals and purposes of the Color Management Object Content Architecture.
+*   **Chapter 3, “Color Management Resource (CMR)”** discusses the format of the Color Management Resource (CMR) header and how CMRs are used to process data.
+*   **Chapter 4, “CMR Types”** defines each type of CMR.
+*   **Chapter 5, “CMR Data Architecture”** defines tag syntax and semantics.
+*   **Chapter 6, “CMR Processing”** discusses how search paths are used to determine which CMRs to use, audit and instruction and link CMRs, generic vs. device-specific CMRs, and implications for drivers.
+*   **Appendix A, “Tag Registry”** lists the tags that devices receiving CMRs must support.
+*   **Appendix B, “Generic CMR Name Registry”** lists and explains all the registered generic CMR names.
+*   **Appendix C, “Compliance With Color Management Object Content Architecture”** explains what is required to claim CMOCA support.
 
-The **“Glossary”** on page 129 defines some of the terms used within this book.
+The **“Glossary”** defines some of the terms used within this book.
 
 ## Interpreting the Syntax
 

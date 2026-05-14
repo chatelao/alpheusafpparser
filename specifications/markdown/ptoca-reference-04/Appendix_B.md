@@ -150,7 +150,7 @@ conditions
 Initial text conditions, in the same syntax as
 bytes 14 to end of the MO:DCA PTD found in
 the table under “Presentation Text Data
-Descriptor (PTD)” on page 164
+Descriptor (PTD)”
 Presentation Text Data
 Presentation Text data, which contains the graphic characters and the control sequences that position the
 graphic characters, is carried in the IPDS Write Text (WT) command. The subsets of PTOC A that are used by
