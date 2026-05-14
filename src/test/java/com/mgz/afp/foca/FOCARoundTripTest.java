@@ -102,4 +102,45 @@ public class FOCARoundTripTest {
 
         RoundTripTestUtils.assertRoundTrip(new FNN_FontNameMap(), data, config);
     }
+
+    @Test
+    public void testCFCRoundTrip() throws Exception {
+        // CFC: D3A78A
+        // Payload: CFIRepeatingGroupLength(1) | Retired(1) | Triplet(6)
+        // Total Len: 1 + 8 + 8 = 17. SFLen = 16 (0x0010)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xA7, (byte) 0x8A, 0x00, 0x00, 0x00,
+            0x19, 0x01, 0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        RoundTripTestUtils.assertRoundTrip(new CFC_CodedFontControl(), data);
+    }
+
+    @Test
+    public void testCPDRoundTrip() throws Exception {
+        // CPD: D3A687
+        // Payload: desc(32) | gcgidLen(2) | count(4) | gcsgid(2) | cpgid(2) | enc(2) -> 44 bytes
+        // Total Len: 1 + 8 + 44 = 53. SFLen = 52 (0x0034)
+        byte[] data = new byte[53];
+        data[0] = 0x5A;
+        data[1] = 0x00;
+        data[2] = 0x34;
+        data[3] = (byte) 0xD3;
+        data[4] = (byte) 0xA6;
+        data[5] = (byte) 0x87;
+        // desc: "TEST CODE PAGE" in EBCDIC (CP500)
+        byte[] desc = "TEST CODE PAGE                  ".getBytes("cp500");
+        System.arraycopy(desc, 0, data, 9, 32);
+        // gcgidLen = 8
+        data[41] = 0x00; data[42] = 0x08;
+        // count = 256 (00000100)
+        data[43] = 0x00; data[44] = 0x00; data[45] = 0x01; data[46] = 0x00;
+        // gcsgid = 697 (02B9)
+        data[47] = 0x02; data[48] = (byte) 0xB9;
+        // cpgid = 500 (01F4)
+        data[49] = 0x01; data[50] = (byte) 0xF4;
+        // enc = 0x6100 (SingleByte_EBCDICPresentation)
+        data[51] = 0x61; data[52] = 0x00;
+
+        RoundTripTestUtils.assertRoundTrip(new CPD_CodePageDescriptor(), data);
+    }
 }

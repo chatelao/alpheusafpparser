@@ -333,7 +333,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Descriptor and Map Structured Fields (PGD, MDD, OBD, CDD, FGD, MDR, MCF, MBC, MCD, MGO, MIO, MMD, MMO).
     - ✅ Indexing and Tagging Structured Fields (TLE, IEL, LLE).
     - ✅ Presentation Control Structured Fields (PEC, PFC).
-    - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF, BPF).
+    - ✅ Document and Page Group Structured Fields (BDT, EDT, BPG, EPG, BNG, ENG, BDI, EDI, EPF, BPF, PGP).
         - ✅ Page and Overlay Structured Fields.
             - ✅ Begin/End Overlay (BMO, EMO).
             - ✅ Begin/End Page Segment (BPS, EPS).
@@ -344,10 +344,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Begin/End Object Container (BOC, EOC).
             - ✅ Begin/End Image/IM Image (BIM, EIM, BII, EII).
             - ✅ Include Object (IOB).
-            - ✅ Object/Image Data (OCD, IRD).
+            - ✅ Object/Image Data (OCD, IRD, IID, ICP, IOC).
     - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
     - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX).
-    - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG).
+    - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD).
 - ✅ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
     - ✅ Migrate utility tests (`UtilBinaryDecodingTest`, `CharsetNameTest`, `UtilCharacterEncodingTest`).
