@@ -445,7 +445,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 ## Phase 6c: Testing and Quality Assurance (ii)
 - ✅ Integrate JaCoCo for code coverage reporting.
 - ✅ Add GitHub Actions job for CodeQL analysis.
-- ⏳ Update Checkstyle to a modern version and use standard Google or Sun style.
+- ✅ Update Checkstyle to a modern version (13.4.2) and use standard Google style.
 
 ## Phase 7: Modernization of Build System and Language
 - ✅ Upgrade Gradle to 8.x.
@@ -479,9 +479,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
-- ⏳ Resolve Checkstyle violations:
-    - ⏳ Address ~3,300 violations in `src/main`.
-    - ⏳ Address ~2,000 violations in `src/test`.
+- ⏳ Resolve Checkstyle violations (~4,500 warnings):
+    - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`).
+    - ⏳ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`).
+    - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`).
+    - ⏳ Address remaining miscellaneous violations (e.g., `FileTabCharacter`, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ⏳ Implement a SECURITY.md policy.
