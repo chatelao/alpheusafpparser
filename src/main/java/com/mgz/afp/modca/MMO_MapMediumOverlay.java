@@ -102,7 +102,7 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
       mediumOverlayLocalId = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       flag = MMO_Flag.valueOf(sfData[offset + 1]);
       reserved2_3 = new byte[2];
-      System.arraycopy(sfData, offset + 3, reserved2_3, 0, reserved2_3.length);
+      System.arraycopy(sfData, offset + 2, reserved2_3, 0, reserved2_3.length);
       nameOfMediumOverlay = new String(sfData, offset + 4, 8, config.getAfpCharSet());
     }
 

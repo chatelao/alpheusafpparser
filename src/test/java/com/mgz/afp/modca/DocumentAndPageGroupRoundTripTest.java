@@ -102,4 +102,31 @@ public class DocumentAndPageGroupRoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new EPF_EndPrintFile(), data);
     }
+
+    @Test
+    public void testBPFRoundTrip() throws Exception {
+        // BPF: D3A8A5
+        // Name (8): PRTFILE1
+        // Triplet (6): Comment "TEST"
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA8, (byte) 0xA5, 0x00, 0x00, 0x00,
+            (byte) 0xD7, (byte) 0xD9, (byte) 0xE3, (byte) 0xC6, (byte) 0xC9, (byte) 0xD3, (byte) 0xC5, (byte) 0xF1,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        RoundTripTestUtils.assertRoundTrip(new BPF_BeginPrintFile(), data);
+    }
+
+    @Test
+    public void testPGPFormat1RoundTrip() throws Exception {
+        // PGP F1: D3ACAF
+        // xOrigin (3): 0x000100
+        // yOrigin (3): 0x000200
+        // Total Len: 1 + 8 + 6 = 15. SFI Len = 14 (0x000E)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x0E, (byte) 0xD3, (byte) 0xAC, (byte) 0xAF, 0x00, 0x00, 0x00,
+            0x00, 0x01, 0x00, 0x00, 0x02, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new PGP_PagePosition_Format1(), data);
+    }
+
 }

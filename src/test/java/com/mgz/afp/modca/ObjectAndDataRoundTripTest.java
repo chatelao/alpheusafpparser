@@ -140,4 +140,33 @@ public class ObjectAndDataRoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new IOB_IncludeObject(), data);
     }
+
+    @Test
+    public void testBOGRoundTrip() throws Exception {
+        // BOG: D3A8C7
+        // Name (8): OBJENVG1
+        // Triplet (6): Comment "TEST"
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xA8, (byte) 0xC7, 0x00, 0x00, 0x00,
+            (byte) 0xD6, (byte) 0xC2, (byte) 0xD1, (byte) 0xC5, (byte) 0xD5, (byte) 0xE5, (byte) 0xC7, (byte) 0xF1,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        RoundTripTestUtils.assertRoundTrip(new BOG_BeginObjectEnvironmentGroup(), data);
+    }
+
+    @Test
+    public void testOBPRoundTrip() throws Exception {
+        // OBP: D3AC6B
+        // ID (1): 01
+        // RG: Len(1)=23, xOrigin(3)=0x100, yOrigin(3)=0x200, xRot(2)=0, yRot(2)=0x2D00, Res(1)=0,
+        //     xContent(3)=0, yContent(3)=0, xRotCont(2)=0, yRotCont(2)=0x2D00, Ref(1)=1
+        // Total Len: 1 + 8 + 1 + 23 = 33. SFI Len = 32 (0x0020)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x20, (byte) 0xD3, (byte) 0xAC, 0x6B, 0x00, 0x00, 0x00,
+            0x01,
+            0x17, 0x00, 0x01, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x2D, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2D, 0x00, 0x01
+        };
+        RoundTripTestUtils.assertRoundTrip(new OBP_ObjectAreaPosition(), data);
+    }
 }

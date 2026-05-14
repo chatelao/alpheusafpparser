@@ -149,4 +149,19 @@ public class EnvironmentAndResourceGroupRoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new ERS_EndResource(), data);
     }
+
+    @Test
+    public void testBRSRoundTrip() throws Exception {
+        // BRS: D3A8CE
+        // Name (8): RESOURCE1
+        // Reserved (2): 00 00
+        // Triplet (6): Comment "TEST"
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x18, (byte) 0xD3, (byte) 0xA8, (byte) 0xCE, 0x00, 0x00, 0x00,
+            (byte) 0xD9, (byte) 0xC5, (byte) 0xE2, (byte) 0xD6, (byte) 0xE4, (byte) 0xD9, (byte) 0xC3, (byte) 0xC5,
+            0x00, 0x00,
+            0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
+        };
+        RoundTripTestUtils.assertRoundTrip(new BRS_BeginResource(), data);
+    }
 }
