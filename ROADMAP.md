@@ -446,6 +446,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ Integrate JaCoCo for code coverage reporting.
 - ✅ Add GitHub Actions job for CodeQL analysis.
 - ✅ Update Checkstyle to a modern version (13.4.2) and use standard Google style.
+- 🚧 Error Handling and Fuzzing:
+    - 🚧 Develop a dedicated suite for error injection and parser resilience.
+    - 🚧 Implement tests for malformed Structured Field Introducers (SFI).
+    - 🚧 Implement tests for inconsistent lengths (SF length vs. actual data).
+    - 🚧 Implement tests for invalid Triplet sequences or truncated Triplets.
 
 ## Phase 7: Modernization of Build System and Language
 - ✅ Upgrade Gradle to 8.x.
