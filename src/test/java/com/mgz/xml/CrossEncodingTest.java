@@ -80,7 +80,7 @@ public class CrossEncodingTest {
         StructuredField ptx = parser.parseNextSF();
 
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(xmlStream, ptx, config);
+        Afp2XmlWriter.writeXML(xmlStream, ptx, config);
         String xml = xmlStream.toString();
 
         System.out.println("XML output for testMunchenInDifferentCodePages:\n" + xml);
@@ -155,7 +155,7 @@ public class CrossEncodingTest {
         StructuredField ptx = parser.parseNextSF();
 
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(xmlStream, ptx, config);
+        Afp2XmlWriter.writeXML(xmlStream, ptx, config);
         String xml = xmlStream.toString();
 
         System.out.println("XML output for testMixedEBCDICAndUCT:\n" + xml);

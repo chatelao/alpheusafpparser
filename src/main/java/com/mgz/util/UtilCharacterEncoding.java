@@ -173,12 +173,12 @@ public class UtilCharacterEncoding {
     return result;
   }
 
-  public static String decodeEBCDIC(byte[] sfData, int offset, int length, AFPParserConfiguration config) {
+  public static String decodeEbcdic(byte[] sfData, int offset, int length, AFPParserConfiguration config) {
     int actualLength = StructuredField.getActualLength(sfData, offset, length);
     return new String(sfData, offset, actualLength, config.getAfpCharSet());
   }
 
-  public static boolean isEBCDIC(byte[] data) {
+  public static boolean isEbcdic(byte[] data) {
     for (int i = 0; i < data.length; i++) {
       if (!Character.isDefined((char) data[i])) {
         return true;

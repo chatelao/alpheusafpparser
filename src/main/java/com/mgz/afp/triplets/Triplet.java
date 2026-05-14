@@ -2730,7 +2730,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      comment = UtilCharacterEncoding.decodeEBCDIC(sfData, offset + 2, this.length - 2, config);
+      comment = UtilCharacterEncoding.decodeEbcdic(sfData, offset + 2, this.length - 2, config);
     }
 
     @Override
@@ -2812,7 +2812,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       objectType = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
-      objectName = UtilCharacterEncoding.decodeEBCDIC(sfData, offset + 3, 8, config);
+      objectName = UtilCharacterEncoding.decodeEbcdic(sfData, offset + 3, 8, config);
       xOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 11, 3);
       yOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 14, 3);
       if (this.length > 17) {

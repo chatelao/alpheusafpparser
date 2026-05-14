@@ -1,6 +1,6 @@
 package com.mgz.acceptance;
 
-import com.mgz.cli.AFP2XML;
+import com.mgz.cli.Afp2Xml;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -28,7 +28,7 @@ public class CLITest {
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile1.toPath());
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile2.toPath());
 
-        AFP2XML.main(new String[]{"-d", tempDir.getAbsolutePath()});
+        Afp2Xml.main(new String[]{"-d", tempDir.getAbsolutePath()});
 
         File xmlFile1 = new File(tempDir, "test1.afp.xml");
         File xmlFile2 = new File(tempDir, "test2.AFP.xml");
@@ -50,7 +50,7 @@ public class CLITest {
             outputFile.delete();
         }
 
-        AFP2XML.main(new String[]{inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
+        Afp2Xml.main(new String[]{inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
 
         assertTrue(outputFile.exists(), "Output XML file should exist");
 
