@@ -349,16 +349,16 @@ public class RCD_RecordDescriptor extends StructuredFieldBaseTriplets {
     FieldRCD_FieldRCD(6),
     UseFixedData_DoNotPresent(7),
     UseFixedData_DoPresent(7),
-    // (8)	reserved.
-    // (9)	reserved.
-    // (10)	reserved.
+    // (8)    reserved.
+    // (9)    reserved.
+    // (10)    reserved.
     ConditionalProcessing_DoNotPerformCP(11),
     ConditionalProcessing_DoPerformCP(11),
-    // (12)	reserved.
+    // (12)    reserved.
     RelativeBaselinePosition_AbsolutePosition(13),
     RelativeBaselinePosition_RelativePosition(13),
-    // (14)	reserved.
-    // (15)	reserved.
+    // (14)    reserved.
+    // (15)    reserved.
     NewPage_NoEffect(16),
     NewPage_LogicalPageEject(16),
     PrintPageNumber_NoEffect(17),
@@ -371,8 +371,8 @@ public class RCD_RecordDescriptor extends StructuredFieldBaseTriplets {
     FieldDelimeterSize_2Bytes(20),
     UseRecordID_DoNotSelectRecordID(21),
     UseRecordID_SelectRecordID(21),
-    // (22)	reserved.
-    // (23)	reserved.
+    // (22)    reserved.
+    // (23)    reserved.
     ;
     private static MutualExclusiveGroupedFlagHandler<RCD_Flag> handler = new MutualExclusiveGroupedFlagHandler<RCD_Flag>();
     int group;
