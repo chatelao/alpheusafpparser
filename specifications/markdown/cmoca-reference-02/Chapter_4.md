@@ -68,7 +68,7 @@ The tone transfer curve for each component is the identity. No data is sent with
 
 Each instance of this CMR type is a subset of the standard ICC profile. This allows the CMR to be used in any color management system.
 
-The ICC Profile Data starts with a 128-byte header followed by the ICCTags. The ICCHeaderFields are contained in pre-defined byte positions as defined in Table 35 on page 69.
+The ICC Profile Data starts with a 128-byte header followed by the ICCTags. The ICCHeaderFields are contained in pre-defined byte positions as defined in Table 35.
 
 Each subset of the ICC profile type, selected by the ICC Profile Subset tag, defines a subset of the ICC specification. For each subset, the Color Management Object Content Architecture defines the mandatory and optional ICCHeaderFields and ICCTags. Optional ICCTags and ICCHeaderFields will be processed as applicable if encountered. Any other ICCTags will be ignored.
 
@@ -76,7 +76,7 @@ Each subset of the ICC profile type, selected by the ICC Profile Subset tag, def
 
 Two ICCHeaderFields are mandatory for the Color Conversion CMR: Color Space of Data and Profile Connection Space. The descriptions are as follows:
 
-*   **Color Space of Data:** The ICC-supported color spaces and their signatures are listed in Table 10 on page 20.
+*   **Color Space of Data:** The ICC-supported color spaces and their signatures are listed in Table 10.
 *   **Profile Connection Space:** The ICC profile connection space is either CIELAB D50 or CIEXYZ D50 for all ICC profiles except the ICC DeviceLink profile. The CIELAB signature is “Lab” and the CIEXYZ signature is “XYZ”.
 
 The currently allowed ICC profile subsets for Color Conversion CMRs include all the ICC profile types except for the DeviceLink and the Named Colour profiles. (For complete information, please refer to sections 8.6 and 8.9 in ICC 1:2004-10 Version 4.2.0.0.)
@@ -218,7 +218,7 @@ The purpose of the Link Color Conversion CMR is to convert directly from the inp
 *   **Link Color Conversion** with up to four Lookup Tables (LUTs) representing different rendering intents. It is selected for use based on the audit and instruction OIDs that are contained in its tags.
 *   **ICC DeviceLink** contains an ICC profile of type DeviceLink. It contains a complex color conversion description (with up to five processing elements) for exactly one rendering intent. It is selected for use when it is found during a search of the hierarchy of invoked link CMRs (only ICC DeviceLink CMRs are invoked, other link CMR subsets are not invoked). It is not based on an audit and instruction Color Conversion pair.
 
-**LinkColorConversion LUT subset:** Its purpose is to combine an audit Color Conversion CMR with an instruction Color Conversion CMR to improve performance. It allows up to four LUTs, each representing one of the four ICC rendering intents. It is permissible to reference the same LUT tag data for multiple rendering intents. The LUT is constructed by combining the processing required for the audit and the instruction color conversions. If one of the AT oB/BT oA tags in an audit or instruction CMR is missing when constructing the link LUT, the tag data for the rendering intent specified in that CMR's ICC profile header is used in place of the missing tag data. The default rendering intent profile header is used in place of the missing tag data. The default rendering intent for the Link Color Conversion CMR is the rendering intent specified in the ICCHeader Field of the instruction Color Conversion CMR. The processing detail is described in “Creating Link Color Conversion CMRs – LinkColorConversion LUT subset” on page 103.
+**LinkColorConversion LUT subset:** Its purpose is to combine an audit Color Conversion CMR with an instruction Color Conversion CMR to improve performance. It allows up to four LUTs, each representing one of the four ICC rendering intents. It is permissible to reference the same LUT tag data for multiple rendering intents. The LUT is constructed by combining the processing required for the audit and the instruction color conversions. If one of the AT oB/BT oA tags in an audit or instruction CMR is missing when constructing the link LUT, the tag data for the rendering intent specified in that CMR's ICC profile header is used in place of the missing tag data. The default rendering intent profile header is used in place of the missing tag data. The default rendering intent for the Link Color Conversion CMR is the rendering intent specified in the ICCHeader Field of the instruction Color Conversion CMR. The processing detail is described in “Creating Link Color Conversion CMRs – LinkColorConversion LUT subset”.
 
 **ICC DeviceLink subset:** Its purpose is to provide a customized path to convert directly from input to output space with no dependency on an audit and instruction CMR. It allows only one single AT oB0Tag representing one rendering intent. The rendering intent is indicated in the header of the ICC profile. The AT oB0Tag contains up to five processing elements, possibly making the conversion more complex than if a single LUT were used. Whereas link CMRs in general are not invoked, CMRs with this subset ID must be invoked in order to be used. A hierarchical search is performed to determine if there is an applicable ICC DeviceLink that can be used. The device should search for an ICC DeviceLink before searching for an Audit/Instruction Color Conversion pair. The currently active Rendering Intent is ignored when an ICC DeviceLink is selected for use.
 
@@ -277,6 +277,6 @@ An Indexed CMR contains one or more Color Palette tags that translate 2-byte ind
 *   **Optional Tags:** Comment, Date and Time Stamp, Color Palette tags
 
 **Exception Condition:**
-If no Color Palette tag is specified, exception condition EC-50400E exists. It is shown in “Color Palette Named Colorants” on page 93.
+If no Color Palette tag is specified, exception condition EC-50400E exists. It is shown in “Color Palette Named Colorants”.
 
 **EC-50400E Missing Required Tag:** At least one Color Palette tag is required but none were specified.

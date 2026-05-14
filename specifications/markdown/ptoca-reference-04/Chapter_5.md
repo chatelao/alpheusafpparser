@@ -101,7 +101,7 @@ controlling environment's exception condition code overrides the code specified 
 DBR control sequence will cause a rule to extend outside the boundaries of the object space, PTOCA specifies
 that exception condition code EC-0103 be recognized. However, in the IPDS environment, exception ID
 08C1..00 would be recognized. Please see Appendix A, “MO:DCA Environment”, and Appendix
-B, “IPDS Environment”,. See “Related Publications” on page vi for data-stream documentation.
+B, “IPDS Environment”,. See “Related Publications” for data-stream documentation.
 Some exception responses can be common to all exception conditions. Others are specific to particular
 exception conditions.
 Exception responses that can be common to all exception conditions include the following:

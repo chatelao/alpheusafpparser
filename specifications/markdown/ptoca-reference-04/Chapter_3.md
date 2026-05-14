@@ -18,7 +18,7 @@ The object space consists of an array or matrix of addressable positions which i
 
 ### Data Stream Environment
 
-The Presentation Text object is designed to be carried by and become part of a data stream, called the controlling environment. The data stream defines rules by which the object can be carried. Further information about data streams can be found in Appendix A, "MO:DCA Environment", on page 163 and Appendix B, "IPDS Environment", on page 169.
+The Presentation Text object is designed to be carried by and become part of a data stream, called the controlling environment. The data stream defines rules by which the object can be carried. Further information about data streams can be found in Appendix A, "MO:DCA Environment" and Appendix B, "IPDS Environment".
 
 ### Data Structures
 
@@ -28,7 +28,7 @@ The Presentation Text data contains the code points that identify the graphic ch
 
 <!-- Page 28 -->
 
-Further information about PTOCA data structures is found under "Presentation Text Data" on page 21 and "Presentation Text Data Descriptor" on page 29.
+Further information about PTOCA data structures is found under "Presentation Text Data" and "Presentation Text Data Descriptor".
 
 ### Subsets of Function
 
@@ -39,7 +39,7 @@ The control sequences represent the functional capabilities provided by the Pres
 *   **PT3**: Includes all of the PT2 subset plus a new control sequence to enable spot (highlight) colors and process colors for text and rules.
 *   **PT4**: Includes new control sequences to support the rendering of complex text.
 
-The intent of subsets is to reduce the number of combinations of supported controls so that interchange between host processors is manageable. For further information about subsets, see Chapter 6, "Compliance with PTOCA", on page 153, Appendix A, "MO:DCA Environment", on page 163, and Appendix B, "IPDS Environment", on page 169.
+The intent of subsets is to reduce the number of combinations of supported controls so that interchange between host processors is manageable. For further information about subsets, see Chapter 6, "Compliance with PTOCA", Appendix A, "MO:DCA Environment", and Appendix B, "IPDS Environment".
 
 ## Spatial Concepts
 
@@ -67,7 +67,7 @@ Please see Figure 4.
 
 <!-- Page 29 -->
 
-The Xp, Yp coordinate system and the I, Bcoordinate system are closely related, as indicated in Figure 5 on page 12. In fact, the Xp-extent is equal to one of the I, Bcoordinate extents, either the I-extent or the B-extent, and the Yp-extent is equal to the other. Therefore, the angle between the I-axis and B-axis will be identical to the angle between the Xp-axis and the Yp-axis. The Xp, Yp coordinate system describes the spatial viewport for the reader, while the I, Bcoordinate system describes the directions to be used for presentation and for interpretation by the reader of the graphic characters being presented.
+The Xp, Yp coordinate system and the I, Bcoordinate system are closely related, as indicated in Figure 5. In fact, the Xp-extent is equal to one of the I, Bcoordinate extents, either the I-extent or the B-extent, and the Yp-extent is equal to the other. Therefore, the angle between the I-axis and B-axis will be identical to the angle between the Xp-axis and the Yp-axis. The Xp, Yp coordinate system describes the spatial viewport for the reader, while the I, Bcoordinate system describes the directions to be used for presentation and for interpretation by the reader of the graphic characters being presented.
 
 **Figure 4. Presentation Space Definition**
 
@@ -151,7 +151,7 @@ PTOCA assumes that the graphic characters are identified by one-byte or multi-by
 
 The presentation of a graphic character is accomplished by placing the character reference point or character origin of the graphic character at the presentation position. The presentation position is an I, Bcoordinate pair, that is, an addressable position in the object space. The *b* value is fixed for the current baseline, Bc. The current *i* value, the new presentation position, is calculated from the previous *i* value by adding the character increment or character escapement of the graphic character being presented to the previous value of *i*, that is, the previous presentation position.
 
-The presentation position in PTOCA designates a between-the-pels position on a presentation surface, not a pel centerline intersection position. The concept of between-the-pels positioning is especially important for the presentation of rules. Please see "Graphic Character Processing" on page 40 for more information.
+The presentation position in PTOCA designates a between-the-pels position on a presentation surface, not a pel centerline intersection position. The concept of between-the-pels positioning is especially important for the presentation of rules. Please see "Graphic Character Processing" for more information.
 
 Object generators will determine which characters are to be placed on each line of the object. This does not require that the font be known at generation time in all cases. For fixed pitch fonts where the character increment is a constant value and for fonts utilizing standard metrics, it is possible for any font with the same metrics to be specified without modification to the relative positioning of the graphic characters.
 
@@ -173,7 +173,7 @@ A Control Sequence Introducer contains the following fields:
 *   A one-byte length
 *   A one-byte function type
 
-Control sequences can be chained together using a chaining convention. Although the first control sequence in a chain has the prefix and class, the remaining chained control sequences do not. Chaining reduces the number of bytes to be handled and removes the need to determine whether the next character is a control sequence or not. Please see Table 4 on page 25 for a list of PTOCA control sequences, showing both unchained and chained function types. Please see "Control Sequence Chaining" on page 36 for more information about chaining.
+Control sequences can be chained together using a chaining convention. Although the first control sequence in a chain has the prefix and class, the remaining chained control sequences do not. Chaining reduces the number of bytes to be handled and removes the need to determine whether the next character is a control sequence or not. Please see Table 4 for a list of PTOCA control sequences, showing both unchained and chained function types. Please see "Control Sequence Chaining" for more information about chaining.
 
 ## Character String Concepts
 
@@ -300,7 +300,7 @@ The graphic characters are expected to conform to a font representation so that 
 
 ## Control Sequence Summary Descriptions
 
-The following pages contain summary descriptions of the PTOCA control sequences. Summary tables are provided following the descriptions. Please see "Control Sequence Detailed Descriptions" on page 47 for detailed descriptions of syntax, semantics, and pragmatics.
+The following pages contain summary descriptions of the PTOCA control sequences. Summary tables are provided following the descriptions. Please see "Control Sequence Detailed Descriptions" for detailed descriptions of syntax, semantics, and pragmatics.
 
 ### Absolute Move Baseline (AMB)
 Establishes the baseline and the current presentation position at a new B-axis coordinate, Bcnew, which is a specified number of measurement units from the I-axis. There is no change to the current I-axis coordinate, Ic.
@@ -383,7 +383,7 @@ Specifies the increment to be added to or subtracted from the I-axis coordinate 
 Specifies the encryption key information used to decrypt data for all Encrypted Data (ENC) control sequences that follow.
 
 ### Set Text Color (STC)
-Specifies a named color value to be applied to foreground areas of the text presentation space, that is, characters, rules, and underscores. The values of the foreground color parameter serve as indexes into the color-value table found in Table 13 on page 103.
+Specifies a named color value to be applied to foreground areas of the text presentation space, that is, characters, rules, and underscores. The values of the foreground color parameter serve as indexes into the color-value table found in Table 13.
 
 ### Set Text Orientation (STO)
 Establishes the positive I-axis orientation as an angular displacement from the Xp-axis, determining the I-direction. This control sequence also establishes the positive B-axis orientation as an angular displacement from the Xp-axis, determining the B-direction.
@@ -570,7 +570,7 @@ The initial text conditions include the following parameters:
 *   Text color
 *   Text orientation
 
-The following pages contain summary descriptions of the initial text conditions. Please refer to "Objects" on page 3 for detailed descriptions of semantics and pragmatics. Also see the corresponding control sequence, if appropriate, for additional information.
+The following pages contain summary descriptions of the initial text conditions. Please refer to "Objects" for detailed descriptions of semantics and pragmatics. Also see the corresponding control sequence, if appropriate, for additional information.
 
 #### Baseline Increment
 Specifies the value to be used for the increment parameter of the Set Baseline Increment control sequence. This increment represents the number of measurement units to be added to the B-axis coordinate of the current presentation position, Bc, when a Begin Line control sequence is processed. The current I-axis coordinate, Ic, is unchanged. The default value is the Default Baseline Increment associated with the default coded font of the device.
@@ -596,7 +596,7 @@ Specifies the value to be used for the displacement parameter of the Set Inline 
 Specifies the value to be used for the adjustment parameter of the Set Intercharacter Adjustment control sequence. This value represents the number of measurement units by which the I-axis coordinate of the current presentation position is adjusted when the SIA control sequence is processed. The direction of the adjustment is determined by the direction parameter. If the direction is positive, the adjustment is added; if negative, the adjustment is subtracted. The default value is zero for both the adjustment parameter and the direction parameter.
 
 #### Text Color
-Specifies a foreground named color value to be used to present text, rules, and underscores. A foreground color parameter value represents an index into the color-value table in Table 13 on page 103. The default value is X'FF07'.
+Specifies a foreground named color value to be used to present text, rules, and underscores. A foreground color parameter value represents an index into the color-value table in Table 13. The default value is X'FF07'.
 
 #### Text Orientation
 Specifies the angular displacement values to be used for the I-axis orientation and the B-axis orientation parameters of the Set Text Orientation control sequence. The I-axis value represents the positive I-axis orientation as an angular displacement from the Xp-axis, and the resultant I-direction. The B-axis value represents the positive B-axis orientation as an angular displacement from the Xp-axis, and the resultant B-direction. The default value for the I-axis is X'0000', that is, zero degrees. The default value for the B-axis is X'2D00', that is, 90 degrees.

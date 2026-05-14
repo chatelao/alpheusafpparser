@@ -93,7 +93,7 @@ p
 - and Y
 p
 -units per unit base are 14,400. If it is necessary to convert to a diffe rent
-measurement unit, please see the conversion routine described in “Interpreting Ranges” on page 47.
+measurement unit, please see the conversion routine described in “Interpreting Ranges”.
 2. The default indicator is not allowed for this parameter in this subset.
 3. The TEXTFLAGS parameter is reserved. Generators should set this parameter to X'0000', and receivers
 should ignore it.
@@ -117,7 +117,7 @@ require that the measurement units in the PTD match the measurement units in the
 measurement units are specified in both the PTD and PGD.
 The coded font information from the MO:DCA Map Coded Font (MCF) and Map Data Resource (MDR)
 structured fields is used to determine what the Load Font Equivalence command content should be in the IPDS
-environment. See Appendix B, “IPDS Environment”, on page 169 for more information about the IPDS
+environment. See Appendix B, “IPDS Environment” for more information about the IPDS
 environment.
 Initial text conditions are specified by including the control sequence that contains the parameter to be
 initialized. It is recommended that exactly one chain be used to specify initial text conditions. The first control
@@ -126,8 +126,8 @@ indicates chaining with an odd function type (low-order bit is B'1') if other co
 sequences that follow , except for the last, are chained control sequences that start with their length byte (not
 with X'2BD3') and have an odd function type. The last control sequence in the chain starts with the length byte
 but indicates termination of the chain with an even function type (low-order bit is B'0'). For a description of
-chaining, see “Control Sequence Chaining” on page 36.
-Table 19 on page 165 shows which control sequence may be used to specify a particular initial text condition
+chaining, see “Control Sequence Chaining”.
+Table 19 shows which control sequence may be used to specify a particular initial text condition
 parameter . Control sequences are optional and may appear in any order . If a control sequence appears
 multiple times, the last occurrence determines the setting of the initial text condition. Control sequences that
 are not listed in this table are treated as NOPs.
