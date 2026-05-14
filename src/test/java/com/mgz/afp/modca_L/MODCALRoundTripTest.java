@@ -38,7 +38,7 @@ public class MODCALRoundTripTest {
             0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xAB, 0x77, 0x00, 0x00, 0x00,
             0x00, 0x08, 0x06, 0x65, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3
         };
-        RoundTripTestUtils.assertRoundTrip(new MCA_MapColorAttribteTable(), data);
+        RoundTripTestUtils.assertRoundTrip(new MCA_MapColorAttributeTable(), data);
     }
 
     @Test

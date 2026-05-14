@@ -31,12 +31,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AFP2XMLWriter {
+public class Afp2XmlWriter {
 
-  public static void writeXML(OutputStream osw, StructuredField sf, AFPParserConfiguration conf) throws JAXBException {
+  public static void writeXml(OutputStream osw, StructuredField sf, AFPParserConfiguration conf) throws JAXBException {
     var classes = new ArrayList<Class<?>>();
     classes.add(sf.getClass());
-    addClassesFromSF(classes, sf);
+    addClassesFromSf(classes, sf);
 
     var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
     var jaxbMarshaller = jaxbContext.createMarshaller();
@@ -49,7 +49,7 @@ public class AFP2XMLWriter {
     jaxbMarshaller.marshal(root, osw);
   }
 
-  public static void writeXML(OutputStream osw, AFPDocument doc) throws JAXBException {
+  public static void writeXml(OutputStream osw, AFPDocument doc) throws JAXBException {
     var classes = new ArrayList<Class<?>>();
     classes.add(AFPDocument.class);
     doc.getStructuredFields().forEach(obj -> {
@@ -60,12 +60,12 @@ public class AFP2XMLWriter {
         }
         var value = jaxbElement.getValue();
         if (value instanceof StructuredField sf) {
-          addClassesFromSF(classes, sf);
+          addClassesFromSf(classes, sf);
         }
       } else if (!classes.contains(obj.getClass())) {
         classes.add(obj.getClass());
         if (obj instanceof StructuredField sf) {
-          addClassesFromSF(classes, sf);
+          addClassesFromSf(classes, sf);
         }
       }
     });
@@ -77,7 +77,7 @@ public class AFP2XMLWriter {
     jaxbMarshaller.marshal(doc, osw);
   }
 
-  private static void addClassesFromSF(List<Class<?>> classes, StructuredField sf) {
+  private static void addClassesFromSf(List<Class<?>> classes, StructuredField sf) {
     if (sf instanceof IHasTriplets iHasTriplets) {
       var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {

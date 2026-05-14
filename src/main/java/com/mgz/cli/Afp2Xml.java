@@ -22,7 +22,7 @@ import com.mgz.afp.base.AFPDocument;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import com.mgz.xml.AFP2XMLWriter;
+import com.mgz.xml.Afp2XmlWriter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -33,7 +33,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class AFP2XML {
+public class Afp2Xml {
     public static void main(String[] args) {
         if (args.length < 1) {
             printUsage();
@@ -91,7 +91,7 @@ public class AFP2XML {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends StructuredField> JAXBElement<T> createJAXBElement(T sf) {
+    private static <T extends StructuredField> JAXBElement<T> createJaxbElement(T sf) {
         return new JAXBElement<>(
                 new QName(sf.getClass().getSimpleName()),
                 (Class<T>) sf.getClass(),
@@ -113,16 +113,16 @@ public class AFP2XML {
             var doc = new AFPDocument();
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
-                doc.addStructuredField(createJAXBElement(sf));
+                doc.addStructuredField(createJaxbElement(sf));
             }
 
             if (outputFile != null) {
                 try (var os = new FileOutputStream(outputFile)) {
-                    AFP2XMLWriter.writeXML(os, doc);
+                    Afp2XmlWriter.writeXml(os, doc);
                 }
                 System.out.println("XML export successful: " + outputFile.getPath());
             } else {
-                AFP2XMLWriter.writeXML(System.out, doc);
+                Afp2XmlWriter.writeXml(System.out, doc);
             }
         }
     }

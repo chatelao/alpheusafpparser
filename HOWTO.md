@@ -186,20 +186,20 @@ Alpheus provides a utility to export structured fields or entire documents to XM
 ### Exporting an Individual Structured Field
 
 ```java
-import com.mgz.xml.AFP2XMLWriter;
+import com.mgz.xml.Afp2XmlWriter;
 // ...
-AFP2XMLWriter.writeXML(System.out, sf, config);
+Afp2XmlWriter.writeXml(System.out, sf, config);
 ```
 
 ### Exporting a Full AFPDocument
 
 ```java
 import com.mgz.afp.base.AFPDocument;
-import com.mgz.xml.AFP2XMLWriter;
+import com.mgz.xml.Afp2XmlWriter;
 // ...
 AFPDocument doc = new AFPDocument();
 // Add fields to doc as they are parsed...
-AFP2XMLWriter.writeXML(System.out, doc);
+Afp2XmlWriter.writeXml(System.out, doc);
 ```
 
 ## Diagnostic Output

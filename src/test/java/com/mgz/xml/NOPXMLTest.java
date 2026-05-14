@@ -23,7 +23,7 @@ public class NOPXMLTest {
         nop.decodeAFP(data, 0, data.length, config);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(baos, nop, config);
+        Afp2XmlWriter.writeXml(baos, nop, config);
 
         String xml = baos.toString();
         System.out.println(xml);
@@ -37,7 +37,7 @@ public class NOPXMLTest {
         nop.setData(data);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(baos, nop, new AFPParserConfiguration());
+        Afp2XmlWriter.writeXml(baos, nop, new AFPParserConfiguration());
 
         String xml = baos.toString();
         System.out.println(xml);

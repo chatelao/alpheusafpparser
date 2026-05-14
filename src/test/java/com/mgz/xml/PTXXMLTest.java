@@ -25,7 +25,7 @@ public class PTXXMLTest {
         ptx.addControlSequence(trn);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(baos, ptx, config);
+        Afp2XmlWriter.writeXml(baos, ptx, config);
 
         String xml = baos.toString();
         System.out.println(xml);

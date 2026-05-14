@@ -350,7 +350,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Begin/End Image/IM Image (BIM, EIM, BII, EII).
             - ✅ Include Object (IOB).
             - ✅ Object/Image Data (OCD, IRD, IID, ICP, IOC).
-            - ⏳ No Operation (NOP).
+            - ✅ No Operation (NOP).
     - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
     - 🚧 Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX, PTD).
     - 🚧 Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD, CFI, CPC, CPI, FNC, FND, FNI, FNM, FNO, FNP).
@@ -418,7 +418,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ nColor Names (X'FEB3').
     - ✅ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - ✅ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
-- 🚧 Stateful Encoding and Character Set Resolution:
+- ✅ Stateful Encoding and Character Set Resolution:
     - ✅ Implement context in `AFPParser` to track stateful LID-to-Charset bindings.
     - ✅ Update `AFPParserConfiguration` to maintain a registry of active Coded Font Local Identifiers (LIDs).
     - ✅ Implement logic for `PTX` streams to dynamically switch active Charset upon `SCFL` (Set Coded Font Local) commands.
@@ -481,7 +481,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
 - ⏳ Resolve Checkstyle violations (~4,500 warnings):
     - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`).
-    - ⏳ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`).
+    - 🚧 Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`).
     - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`).
     - ⏳ Address remaining miscellaneous violations (e.g., `FileTabCharacter`, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.

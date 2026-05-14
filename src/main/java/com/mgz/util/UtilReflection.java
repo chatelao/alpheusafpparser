@@ -30,8 +30,8 @@ import java.util.*;
 public class UtilReflection {
 
   public static final Comparator<Field> comparatorFields = new FieldComparator();
-  private static AFPField annotationAFPField;
-  public static final AFPField defaultAFPFieldAnnotation = getAFPFieldDefaultAnnotation();
+  private static AFPField annotationAfpField;
+  public static final AFPField defaultAfpFieldAnnotation = getAfpFieldDefaultAnnotation();
 
   public static Object getFieldValue(Field field, Object instance) throws AFPParserException {
     if (instance == null) {
@@ -91,7 +91,7 @@ public class UtilReflection {
     );
   }
 
-  public static boolean isAFPType(Class<?> clazz) {
+  public static boolean isAfpType(Class<?> clazz) {
     while (clazz != null && clazz != Object.class) {
       if (clazz.getAnnotation(AFPType.class) != null) {
         return true;
@@ -106,16 +106,16 @@ public class UtilReflection {
     return false;
   }
 
-  public static AFPField getAFPFieldDefaultAnnotation() {
-    if (annotationAFPField != null) {
-      return annotationAFPField;
+  public static AFPField getAfpFieldDefaultAnnotation() {
+    if (annotationAfpField != null) {
+      return annotationAfpField;
     }
 
-    AFPFieldAnnotationBearer afpFieldAnnotationBearer = new AFPFieldAnnotationBearer();
-    return annotationAFPField = afpFieldAnnotationBearer.getClass().getAnnotation(AFPField.class);
+    AfpFieldAnnotationBearer afpFieldAnnotationBearer = new AfpFieldAnnotationBearer();
+    return annotationAfpField = afpFieldAnnotationBearer.getClass().getAnnotation(AFPField.class);
   }
 
-  public static List<Field> getAFPFields(Class<?> clazz) {
+  public static List<Field> getAfpFields(Class<?> clazz) {
     AFPField defaultAnnotation = null;
 
 
@@ -129,7 +129,7 @@ public class UtilReflection {
 
     for (Class<?> c : listOfClasses) {
       if (defaultAnnotation == null) {
-        defaultAnnotation = c.getAnnotation(AFPType.class) != null ? defaultAFPFieldAnnotation : defaultAnnotation;
+        defaultAnnotation = c.getAnnotation(AFPType.class) != null ? defaultAfpFieldAnnotation : defaultAnnotation;
       }
 
       for (Field field : c.getDeclaredFields()) {
@@ -154,7 +154,7 @@ public class UtilReflection {
   }
 
   @AFPField
-  private static class AFPFieldAnnotationBearer {
+  private static class AfpFieldAnnotationBearer {
   }
 
   public static class FieldComparator implements Comparator<Field> {

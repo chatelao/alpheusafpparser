@@ -51,7 +51,7 @@ public class MDRPTXXMLTest {
         assertEquals("PTX_PresentationTextData", ptx.getClass().getSimpleName());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(baos, ptx, config);
+        Afp2XmlWriter.writeXml(baos, ptx, config);
         String xml = baos.toString();
 
         System.out.println("XML for CP273:\n" + xml);
@@ -94,7 +94,7 @@ public class MDRPTXXMLTest {
         assertEquals("PTX_PresentationTextData", ptx.getClass().getSimpleName());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AFP2XMLWriter.writeXML(baos, ptx, config);
+        Afp2XmlWriter.writeXml(baos, ptx, config);
         String xml = baos.toString();
 
         System.out.println("XML for CP500:\n" + xml);
