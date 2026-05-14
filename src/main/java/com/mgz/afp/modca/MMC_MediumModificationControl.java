@@ -20,8 +20,8 @@ package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
+import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
-import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
@@ -50,9 +50,10 @@ public class MMC_MediumModificationControl extends StructuredField {
       keywords = new ArrayList<MMC_KeyWord>();
       int pos = 2;
       while (pos < actualLength) {
-        MMC_KeyWord kw = new MMC_KeyWord();
-        kw.decodeAFP(sfData, offset + pos, actualLength - pos, config);
-        keywords.add(kw);
+        checkDataLength(sfData, offset + pos, actualLength - pos, 2);
+        MMC_KeyWord.MMC_KeyWordID kwid = MMC_KeyWord.MMC_KeyWordID.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + pos, 1));
+        short parameter = UtilBinaryDecoding.parseShort(sfData, offset + pos + 1, 1);
+        keywords.add(new MMC_KeyWord(kwid, parameter));
         pos += 2;
       }
     } else {
@@ -68,7 +69,10 @@ public class MMC_MediumModificationControl extends StructuredField {
     baos.write(constantData1);
     if (keywords != null) {
       for (MMC_KeyWord kw : keywords) {
-        kw.writeAFP(baos, config);
+        if (kw.keywordID() != null) {
+          baos.write(kw.keywordID().toByte());
+          baos.write(kw.parameter());
+        }
       }
     }
 
@@ -118,39 +122,7 @@ public class MMC_MediumModificationControl extends StructuredField {
   }
 
   @XmlRootElement
-  public static class MMC_KeyWord implements IAFPDecodeableWriteable {
-    MMC_KeyWordID keywordID;
-    short parameter;
-
-    @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-      keywordID = MMC_KeyWordID.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
-      parameter = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-    }
-
-
-    @Override
-    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      os.write(keywordID.toByte());
-      os.write(parameter);
-    }
-
-    public MMC_KeyWordID getKeywordID() {
-      return keywordID;
-    }
-
-    public void setKeywordID(MMC_KeyWordID keywordID) {
-      this.keywordID = keywordID;
-    }
-
-    public short getParameter() {
-      return parameter;
-    }
-
-    public void setParameter(short parameter) {
-      this.parameter = parameter;
-    }
-
+  public record MMC_KeyWord(@AFPField MMC_KeyWordID keywordID, @AFPField short parameter) {
     public enum MMC_KeyWordID {
       HorizontalPrintAdjustment_RetiredFor3800(0x0E),
       MediumDestinationSelector_high(0x90),

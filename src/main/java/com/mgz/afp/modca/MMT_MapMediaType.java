@@ -24,6 +24,9 @@ import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.UtilBinaryDecoding;
+import com.mgz.afp.parser.TripletParser;
+import com.mgz.afp.triplets.Triplet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,13 +55,35 @@ public class MMT_MapMediaType extends StructuredFieldBaseRepeatingGroups {
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    for (IRepeatingGroup rg : repeatingGroups) {
-      rg.writeAFP(baos, config);
+    if (repeatingGroups != null) {
+      for (IRepeatingGroup rg : repeatingGroups) {
+        rg.writeAFP(baos, config);
+      }
     }
     writeFullStructuredField(os, baos.toByteArray());
   }
 
   @XmlRootElement
   public static class MMT_RepeatingGroup extends RepeatingGroupWithTriplets {
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      repeatingGroupLength = UtilBinaryDecoding.parseInt(sfData, offset, 2);
+      if (repeatingGroupLength > 8) {
+        triplets = TripletParser.parseTriplets(sfData, offset + 8, repeatingGroupLength - 8, config);
+      } else {
+        triplets = null;
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(UtilBinaryDecoding.intToByteArray(repeatingGroupLength, 2));
+      os.write(new byte[6]);
+      if (triplets != null) {
+        for (Triplet t : triplets) {
+          t.writeAFP(os, config);
+        }
+      }
+    }
   }
 }
