@@ -14,11 +14,11 @@ To know the quality, compare the result to the original PDF resports to find the
 | **FOCA** (foca-reference-06) | Excellent | Proper table formatting, clear sections | None significant. |
 | **MOCA** (moca-reference-02) | Excellent | Cleanest conversion, no artifacts detected | None. |
 | **Db2 12 for z/OS: Internationalization Guide** (db2z_12_charbook) | Excellent | Purged of artifacts, OCR errors fixed, tables converted | None significant. |
-| **AFP GOCA** (afp-goca-reference-03) | Good | Consistent headers, drawing orders converted | Minor Chapter 7 drawing order remnants pending table conversion. |
+| **AFP GOCA** (afp-goca-reference-03) | Excellent | Consistent headers, drawing orders converted to tables | None significant. |
 | **BCOCA** (bcoca-reference-11) | Excellent | Purged of page markers, key syntax tables formatted | None significant. |
 | **IOCA** (ioca-reference-09) | Excellent | Text is readable, structural descriptors converted | None significant. |
-| **IPDS** (ipds-reference-12) | Good | Comprehensive content, key command tables formatted | Artifact purging and split-word fixes pending for Chapters 12-13, 17 and Appendices. |
-| **Line Data** (linedata-reference-05) | Good | Basic structure present, Chapter 5 SFs converted | Remaining Appendix A diagrams (Figures 35-42) still require conversion. |
+| **IPDS** (ipds-reference-12) | Excellent | Purged of artifacts, all command and syntax tables formatted | None significant. |
+| **Line Data** (linedata-reference-05) | Excellent | Artifacts purged, Chapter 5 SFs and Appendix A diagrams converted | None. |
 
 ---
 
@@ -43,11 +43,9 @@ To know the quality, compare the result to the original PDF resports to find the
 *   **IOCA Reference 09**: Artifacts and page references purged. All structural descriptors and Function Sets converted to tables.
 *   **FOCA Reference 06**: Fully cleaned; OCR issues fixed and page references removed.
 *   **Db2 12 Internationalization Guide**: Purged of artifacts and OCR errors. All chapters and appendices have tables converted.
-
-### Good Quality (Minor Cleanup Needed)
-*   **IPDS Reference 12**: Significant progress. All command and syntax tables are converted. Major progress on artifact and page reference purging.
-*   **AFP GOCA Reference 03**: Purged of page references. Drawing orders and attribute tables mostly converted to Markdown.
-*   **Line Data Reference 05**: Significant improvement. Artifacts and page references purged. All Chapter 5 structured fields and early Appendix A diagrams converted.
+*   **IPDS Reference 12**: Fully cleaned; all command and syntax tables are converted. All artifacts and page references purged.
+*   **AFP GOCA Reference 03**: Purged of page references. All drawing orders and attribute tables in Chapter 7 converted to Markdown tables.
+*   **Line Data Reference 05**: Fully cleaned; artifacts and page references purged. All Chapter 5 structured fields and Appendix A diagrams converted.
 
 ---
 
