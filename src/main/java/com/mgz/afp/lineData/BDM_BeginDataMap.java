@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.IHasName;
@@ -35,6 +36,7 @@ import java.io.OutputStream;
  * Programming Guide and Line Data Reference (ha3l3r04.pdf), page 75<br> <br> The Begin Data Map
  * structured field begins a Data Map resource object.
  */
+
 public class BDM_BeginDataMap extends StructuredFieldBaseTriplets implements IHasName {
   String name;
   BDM_DataFormat dataFormat;

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredField;
@@ -43,6 +44,7 @@ import java.util.List;
  * structured field is included in a Page Definition, it must appear before the Data Maps in the
  * Page Definition.
  */
+
 public class CCP_ConditionalProcessingControl extends StructuredField {
   int ccpIdentifier;
   int nextCcpIdentifier;

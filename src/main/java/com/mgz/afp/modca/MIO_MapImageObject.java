@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,6 +34,7 @@ import java.io.OutputStream;
  * MO:DCA, page 272.<br> <br> The Map Image Object structured field specifies how an image data
  * object is mapped into its object area.
  */
+
 public class MIO_MapImageObject extends StructuredFieldBaseRepeatingGroups {
 
   @Override

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.exceptions;
 
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -27,6 +28,7 @@ import java.io.OutputStream;
  * Something that can be decoded from binary AFP data, and written to an {@link OutputStream} as
  * binary AFP data.
  */
+
 public interface IAFPDecodeableWriteable {
   /**
    * Decodes the given AFP data.<br> Parameter length specifies the length in bytes of the data to

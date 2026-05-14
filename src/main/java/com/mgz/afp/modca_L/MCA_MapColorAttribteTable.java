@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca_L;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -46,6 +47,7 @@ import java.util.ArrayList;
  * the MO:DCA reference; for a definition of this format, see MO:DCA-L: The OS/2 Presentation
  * Manager Metafile (.met) Format.
  */
+
 
 public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroups implements IHasRepeatingGroups {
   @Override

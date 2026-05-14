@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredFieldBaseName;
@@ -29,6 +30,7 @@ import com.mgz.afp.base.StructuredFieldBaseName;
  * line-data record. With XMD Data Maps, processing begins with the first XML Descriptor (XMD)
  * structured field that matches the current Qualified Tag.
  */
+
 
 public class IDM_InvokeDataMap extends StructuredFieldBaseName {
 }

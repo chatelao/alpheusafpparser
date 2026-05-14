@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.ptoca;
 
 import com.mgz.afp.base.StructuredField;
@@ -33,6 +34,7 @@ import java.io.OutputStream;
  * specifies the size of a text object presentation space and the measurement units used for the
  * size and for all linear measurements within the text object.
  */
+
 public class PTD_PresentationTextDataDescriptor_Format1 extends StructuredField {
   AFPUnitBase xUnitBase;
   AFPUnitBase yUnitBase;

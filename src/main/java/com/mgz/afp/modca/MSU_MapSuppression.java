@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,6 +38,7 @@ import java.io.OutputStream;
  * beginning and the end of the suppression. A text suppression is activated by specifying its local
  * identifier in a Medium Modification Control (MMC) structured field in a medium map.
  */
+
 public class MSU_MapSuppression extends StructuredFieldBaseRepeatingGroups {
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

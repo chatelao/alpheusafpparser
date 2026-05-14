@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
 
 import com.mgz.afp.base.IRepeatingGroup;
@@ -35,6 +36,7 @@ import java.util.List;
  * FNN - Font Name Map
  * The Font Name Map is used to map IBM character names to the character names in outline fonts.
  */
+
 @XmlRootElement
 public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
 

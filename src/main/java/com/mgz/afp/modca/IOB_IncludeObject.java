@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseName;
@@ -44,6 +45,7 @@ import java.util.List;
  * Object structured field override. If the referenced object is a page segment, the IOB parameters
  * override the corresponding environment group parameters on all data objects in the page segment.
  */
+
 public class IOB_IncludeObject extends StructuredFieldBaseName {
   byte reserved8 = 0x00;
   AFPObjectType objectType;

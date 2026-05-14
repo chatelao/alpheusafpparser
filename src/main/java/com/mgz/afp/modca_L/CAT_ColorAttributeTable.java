@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca_L;
 
 import com.mgz.afp.base.StructuredField;
@@ -37,6 +38,7 @@ import java.io.OutputStream;
  * The definition consists of a base part, followed by one or more self-defining parameters (SDP).
  * Each SDP defines a set of entries to be loaded into the color table.
  */
+
 public class CAT_ColorAttributeTable extends StructuredField {
   @AFPField
   CAT_BasePart basePart;

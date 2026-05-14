@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
 
 import com.mgz.afp.base.IHasTriplets;
@@ -36,6 +37,7 @@ import java.util.List;
  * The Coded Font Control (CFC) structured field specifies the length of the repeating group in the
  * Coded Font Index (CFI) structured field.
  */
+
 public class CFC_CodedFontControl extends StructuredField implements IHasTriplets {
   /**
    * This is a control parameter, used to manage the data structures. The value contained in this

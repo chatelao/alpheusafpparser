@@ -16,11 +16,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.enums;
 
 /**
  * The structured field class code that has been assigned to the MO:DCA architecture.
  */
+
 public enum SFClass {
   Undefined(0),
   D3(0xD3);

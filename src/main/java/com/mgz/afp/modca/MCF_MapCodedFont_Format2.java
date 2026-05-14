@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -40,6 +41,7 @@ import java.util.ArrayList;
  * Coded Font structured field specifies a set of resource attributes for the coded font. For a
  * description of coded fonts, see the Font Object Content Architecture Reference.
  */
+
 public class MCF_MapCodedFont_Format2 extends StructuredFieldBaseRepeatingGroups {
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

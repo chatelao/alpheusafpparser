@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseTriplets;
@@ -41,6 +42,7 @@ import java.io.OutputStream;
  * field is not specified, presentation process defaults are used to control the presentation
  * fidelity.
  */
+
 public class PFC_PresentationFidelityControl extends StructuredFieldBaseTriplets {
   byte reserved0 = 0x00;
   PFC_Flag flag;

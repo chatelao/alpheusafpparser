@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredFieldBaseTriplets;
@@ -342,17 +343,17 @@ public class XMD_XMLDescriptor extends StructuredFieldBaseTriplets {
     FieldXMD_Field(6),
     UseFixedData_DoNotPresent(7),
     UseFixedData_DoPresent(7),
-    // (8)	reserved.
-    // (9)	reserved.
+    // (8)  reserved.
+    // (9)  reserved.
     AttributeXMD_Element(10),
     AttributeXMD_Attribute(10),
     ConditionalProcessing_DoNotPerformCP(11),
     ConditionalProcessing_DoPerformCP(11),
-    // (12)	reserved.
+    // (12)  reserved.
     RelativeBaselinePosition_AbsolutePosition(13),
     RelativeBaselinePosition_RelativePosition(13),
-    // (14)	reserved.
-    // (15)	reserved.
+    // (14)  reserved.
+    // (15)  reserved.
     NewPage_NoEffect(16),
     NewPage_LogicalPageEject(16),
     PrintPageNumber_NoEffect(17),
@@ -365,7 +366,7 @@ public class XMD_XMLDescriptor extends StructuredFieldBaseTriplets {
     FieldDelimeterSize_2Bytes(20),
     UseStartTag_DoNotSelectStartTag(21),
     UseStartTag_DoSelectStartTag(21),
-    // (22)	reserved.
+    // (22)  reserved.
     HaiderTrailerContinued_IsNotAContinuationOfHeaderTrailer(23),
     HaiderTrailerContinued_IsAContinuationOfHeaderTrailer(23);
 

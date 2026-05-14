@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.base.annotations;
 
 import java.lang.annotation.Retention;
@@ -24,6 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Annotation used to describe AFP fields and their constraints.
  */
+
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AFPField {
   /**

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredFieldBaseTriplets;
@@ -40,6 +41,7 @@ import java.util.EnumSet;
  * structured field contains information, such as line position, text orientation, font selection,
  * field selection, and conditional processing identification, used to format line data.
  */
+
 public class LND_LineDescriptor extends StructuredFieldBaseTriplets {
   EnumSet<LND_Flag> flags;
   int inlinePosition;

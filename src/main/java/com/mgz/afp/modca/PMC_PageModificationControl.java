@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseTriplets;
@@ -35,6 +36,7 @@ import java.io.OutputStream;
  * selected in N-up mode, all modifications specified by all PMCs in the active medium map are
  * applied to pages placed on the medium.
  */
+
 public class PMC_PageModificationControl extends StructuredFieldBaseTriplets {
   byte pageModificationControlID;
   byte reserved1 = 0x00;

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseTriplets;
@@ -43,6 +44,7 @@ import java.io.OutputStream;
  * Environment Group. For line-mode and mixed-mode applications only, a value of X'FFFFFF' may be
  * used for either the {@link #xOrigin}, the {@link #yOrigin}, or both.
  */
+
 
 public class IPO_IncludePageOverlay extends StructuredFieldBaseTriplets {
   String overlayName;

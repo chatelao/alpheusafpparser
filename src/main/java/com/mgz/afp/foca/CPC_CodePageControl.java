@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
 
 import com.mgz.afp.base.StructuredField;
@@ -35,6 +36,7 @@ import java.util.EnumSet;
 /**
  * The Code Page Control (CPC) contains information about the code page.
  */
+
 public class CPC_CodePageControl extends StructuredField {
 
   /**

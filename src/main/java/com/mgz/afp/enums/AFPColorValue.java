@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.enums;
 
 import com.mgz.afp.exceptions.AFPParserException;
@@ -24,6 +25,7 @@ import com.mgz.util.UtilBinaryDecoding;
 /**
  * Color values as used in AFP.
  */
+
 public enum AFPColorValue {
   /** Device default 0x00. */
   DeviceDefault_0x00(0x0000, 0, 0, 0),

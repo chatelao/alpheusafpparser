@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseData;
@@ -29,6 +30,7 @@ import com.mgz.afp.base.StructuredFieldBaseData;
  * required to propagate No Operation structured fields, no semantics should be attached to the data
  * carried by the No Operation structured field in interchange data streams.
  */
+
 public class NOP_NoOperation extends StructuredFieldBaseData {
 
 }

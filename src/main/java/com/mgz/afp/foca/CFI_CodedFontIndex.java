@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -50,6 +51,7 @@ import java.util.List;
  * ascending order based on the section identifier.<br> <br> The data for the CFI structured field
  * consists of a series of repeating groups.
  */
+
 public class CFI_CodedFontIndex extends StructuredField {
   public static final int CFIRepeatingGroupLength = CFC_CodedFontControl.CFI_REPEATING_GROUP_LENGTH_DEFAULT;
 

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.base;
 
 import com.mgz.afp.base.annotations.AFPField;
@@ -39,6 +40,7 @@ import java.io.OutputStream;
 /**
  * Base class for all {@link StructuredField}s.
  */
+
 @AFPType
 public abstract class StructuredField implements IAFPDecodeableWriteable {
 

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
 
 import com.mgz.afp.base.IRepeatingGroup;
@@ -33,6 +34,7 @@ import java.io.OutputStream;
  * FNN Repeating Group (Section 2).
  * Contains the mapping between an IBM GCGID and an offset to its technology-specific identifier.
  */
+
 @XmlRootElement
 public class FNN_RepeatingGroup implements IRepeatingGroup {
 

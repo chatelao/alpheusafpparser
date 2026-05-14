@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -38,6 +39,7 @@ import java.util.ArrayList;
  * local or internal identifier for the resource object. Such a local identifier may be embedded one
  * or more times within an object's data.
  */
+
 public class MDR_MapDataResource extends StructuredFieldBaseRepeatingGroups {
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

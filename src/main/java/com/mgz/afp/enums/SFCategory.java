@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.enums;
 
 /**
@@ -26,6 +27,7 @@ package com.mgz.afp.enums;
  * entire component within a data stream or an encompassing component. See “Category Codes” on page
  * 23 for a description of category codes.
  */
+
 public enum SFCategory {
   Undefined(0x00),
 

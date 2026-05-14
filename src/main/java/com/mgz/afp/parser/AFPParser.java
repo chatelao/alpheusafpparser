@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
@@ -47,6 +48,7 @@ import java.util.List;
  * It reads structured fields from an input stream and builds corresponding
  * Java objects.
  */
+
 public class AFPParser {
 
   private static String afpPackagePrefix = "com.mgz.afp.";

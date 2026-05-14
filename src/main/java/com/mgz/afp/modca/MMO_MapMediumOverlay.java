@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -36,6 +37,7 @@ import java.io.OutputStream;
  * local identifiers that are specified by keywords in the Medium Modification Control (MMC)
  * structured field to medium overlay names.
  */
+
 public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
   short lengthOfEachRepeatingGroup;
   byte[] reserved1_3 = new byte[3];

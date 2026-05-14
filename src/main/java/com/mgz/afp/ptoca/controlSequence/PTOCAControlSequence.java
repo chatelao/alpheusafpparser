@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.ptoca.controlSequence;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -191,10 +192,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short originalCSFT;
     volatile boolean isChained;
 
-    /**
-     * The is Chained parameter indicates that the preceding control sequence was flaged as chained,
-     * and therefore the following control sequence introducer is in the "chained" format.
-     */
+  /**
+   * The is Chained parameter indicates that the preceding control sequence was flaged as chained,
+   * and therefore the following control sequence introducer is in the "chained" format.
+   */
     public static ControlSequenceIntroducer parseCSI(boolean isChained, byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       ControlSequenceIntroducer csi = new ControlSequenceIntroducer();
       short originalCSFT;
@@ -267,7 +268,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       this.controlSequenceFunctionType = controlSequenceFunctionType;
     }
 
-    /**
+  /**
      * If true the NEXT control sequence that follows thsi control sequence has a control sequence
      * identifier in the "chained" format.
      */
@@ -1245,7 +1246,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       }
     }
 
-    /**
+  /**
      * If {@link #isUseEBCDICData()} is set tot true the EBCDIC data is written out without
      * performing an encoding/decoding round trip. See {@link #setUseEBCDICData(boolean)}.
      */
@@ -1274,7 +1275,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       this.transparentDataEBCDIC = transparentDataEBCDIC;
     }
 
-    /**
+  /**
      * Returns true if the EBCDIC data is used in {@link #writeAFP(OutputStream,
      * AFPParserConfiguration)} without performing a encoding/decoding round trip.
      */
@@ -1282,7 +1283,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       return isUseEBCDICData;
     }
 
-    /**
+  /**
      * If given parameter is true the EBCDIC data is used in {@link #writeAFP(OutputStream,
      * AFPParserConfiguration)} without performing an encoding/decoding round trip.<br> This might
      * be usefull if problems occure with special code points (eg. user defined characters, variable

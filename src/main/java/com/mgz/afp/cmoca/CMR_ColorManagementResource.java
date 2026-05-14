@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.cmoca;
 
 import com.mgz.afp.base.StructuredField;
@@ -33,6 +34,7 @@ import java.io.OutputStream;
  * Color Management Resource (CMR).
  * CMOCA Reference, Chapter 3.
  */
+
 public class CMR_ColorManagementResource extends StructuredField {
 
   @AFPField

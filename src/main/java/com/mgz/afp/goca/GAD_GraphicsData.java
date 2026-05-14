@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.goca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -53,6 +54,7 @@ import java.util.List;
  * be chained segments. Any unchained segments in the data are ignored. The GAD structured field is
  * optional in a MO:DCA graphics object and may be repeated multiple times.
  */
+
 public class GAD_GraphicsData extends StructuredField {
   @AFPField
   private List<GAD_DrawingOrder> drawingOrders;

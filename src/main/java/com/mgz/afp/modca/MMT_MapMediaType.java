@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -34,6 +35,7 @@ import java.io.OutputStream;
  * name or OID of a media type. See “Media Type Identifiers” on page 639 for a list of media types
  * registered by their name and their OID.
  */
+
 public class MMT_MapMediaType extends StructuredFieldBaseRepeatingGroups {
 
   @Override

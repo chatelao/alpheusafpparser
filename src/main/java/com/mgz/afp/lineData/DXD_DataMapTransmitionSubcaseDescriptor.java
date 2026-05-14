@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredField;
@@ -30,6 +31,7 @@ import java.io.OutputStream;
 /**
  * Programming Guide and Line Data Reference (ha3l3r04.pdf), page 87<br> <br>
  */
+
 public class DXD_DataMapTransmitionSubcaseDescriptor extends StructuredField {
   @AFPField
   private int constantData = 0x000100FF;

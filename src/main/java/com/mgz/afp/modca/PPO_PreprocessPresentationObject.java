@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -47,6 +48,7 @@ import java.util.EnumSet;
  * and all required secondary resources must previously have been mapped with an MDR or an MPO in
  * the same environment group.
  */
+
 public class PPO_PreprocessPresentationObject extends StructuredFieldBaseRepeatingGroups {
 
   @Override

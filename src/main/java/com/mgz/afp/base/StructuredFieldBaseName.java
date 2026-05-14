@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.base;
 
 import com.mgz.afp.base.annotations.AFPField;
@@ -34,6 +35,7 @@ import java.nio.charset.Charset;
  * AFPParserConfiguration#getAfpCharSet()}. This class complies with stateful encoding resolution
  * by decoding the name during the {@code decodeAFP} phase using the active charset.
  */
+
 public abstract class StructuredFieldBaseName extends StructuredField implements IHasName {
   @AFPField(maxSize = 8)
   protected String name;

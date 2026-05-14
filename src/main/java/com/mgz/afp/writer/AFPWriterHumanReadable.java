@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.writer;
 
 import com.mgz.afp.base.StructuredField;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
  * An implementation of {@link IAFPWriter} that produces a human-readable,
  * JSON-like representation of an AFP structured field.
  */
+
 public class AFPWriterHumanReadable implements IAFPWriter {
 
   /**

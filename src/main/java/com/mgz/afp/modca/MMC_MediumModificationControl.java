@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -36,6 +37,7 @@ import java.util.List;
  * modifications to be applied for a copy subgroup specified in the Medium Copy Count (MCC)
  * structured field.
  */
+
 public class MMC_MediumModificationControl extends StructuredField {
   byte mmcIdentifier;
   byte constantData1;

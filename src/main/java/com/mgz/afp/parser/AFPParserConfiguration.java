@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
@@ -36,6 +37,7 @@ import java.util.Map;
  * The AFPParserConfiguration is used to configure the {@link AFPParser}, see {@link
  * AFPParser#AFPParser(AFPParserConfiguration)}.
  */
+
 public class AFPParserConfiguration implements Serializable, Cloneable {
   private static final long serialVersionUID = 1L;
   /**

@@ -9,6 +9,7 @@ import java.lang.annotation.RetentionPolicy;
  * differ from {@link AFPField} default values have to be explicitely annotated with {@link
  * AFPField}
  */
+
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AFPType {
 

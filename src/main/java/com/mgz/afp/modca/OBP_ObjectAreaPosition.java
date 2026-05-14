@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredField;
@@ -33,6 +34,7 @@ import java.io.OutputStream;
  * MO:DCA, page 298.<br> <br> The Object Area Descriptor structured field specifies the size and
  * attributes of an object area presentation space.
  */
+
 public class OBP_ObjectAreaPosition extends StructuredField {
   byte objectAreaPositionID;
   OBP_RepeatingGroup repeatingGroup;

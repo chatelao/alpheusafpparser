@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -56,6 +57,7 @@ import java.util.EnumSet;
  * If N-up duplex is specified, the Page Position structured field must contain 2N repeating groups,
  * one for each page on the sheet. </ul>
  */
+
 public class PGP_PagePosition_Format2 extends StructuredFieldBaseRepeatingGroups {
   byte constant0;
 

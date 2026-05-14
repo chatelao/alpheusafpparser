@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredField;
@@ -34,6 +35,7 @@ import java.io.OutputStream;
  * match bytes 0–1 of the Fixed Data Size (FDS) structured field. The output should fit on the page,
  * and the fit can be affected by the size of the font used.
  */
+
 public class FDX_FixedDataText extends StructuredField {
   @AFPField(maxSize = 65535)
   String text;

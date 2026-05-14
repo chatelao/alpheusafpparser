@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.bcoca;
 
 import com.mgz.afp.base.StructuredField;
@@ -41,6 +42,7 @@ import java.util.EnumSet;
  * is encoded according to the parameters specified in the Bar Code Data Descriptor (BDD) structured
  * field.
  */
+
 public class BDA_BarCodeData extends StructuredField {
   @AFPField
   EnumSet<BarCodeFlag> barCodeFlags;
