@@ -19,7 +19,6 @@ To know the quality, compare the result to the original PDF resports to find the
 | **IOCA** (ioca-reference-09) | Excellent | Text is readable, structural descriptors converted | None significant. |
 | **IPDS** (ipds-reference-12) | Good | Comprehensive content, key command tables formatted | Artifact purging and split-word fixes pending for Chapters 12-13, 17 and Appendices. |
 | **Line Data** (linedata-reference-05) | Good | Basic structure present, Chapter 5 SFs converted | Remaining Appendix A diagrams (Figures 35-42) still require conversion. |
-| **PDF 1.7** (pdf-reference-1.7) | Pending | N/A | ISO 32000-1 specification; markdown conversion pending. |
 
 ---
 
