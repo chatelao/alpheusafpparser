@@ -222,21 +222,14 @@ public class DescriptorAndMapRoundTripTest {
     @Test
     public void testOBPRoundTrip() throws Exception {
         // OBP: D3AC6B
-        // Payload (24 bytes): ID(1) | RG(23)
-        // RG: len(1)=23, Xo(3), Yo(3), Xr(2), Yr(2), res(1), Xoc(3), Yoc(3), Xrc(2), Yrc(2), ref(1)
-        byte[] data = new byte[] {
-            0x5A, 0x00, 0x21, (byte) 0xD3, (byte) 0xAC, 0x6B, 0x00, 0x00, 0x00,
-            0x01, // ID 1
-            0x17, // RG Len 23
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        };
-        // Fix for Orientation and ReferenceCoordinateSystem
-        data[16] = 0x00; data[17] = 0x00; // Xr 0
-        data[18] = 0x00; data[19] = 0x00; // Yr 0
-        data[27] = 0x00; data[28] = 0x00; // Xrc 0
-        data[29] = 0x00; data[30] = 0x00; // Yrc 0
-        data[31] = 0x00; // Reference 0 (Normal)
+        // Payload: ID(1) + RG(23) = 24 bytes.
+        // Total: 9 + 24 = 33. SFLen = 32 (0x20).
+        byte[] data = new byte[33];
+        data[0] = 0x5A; data[1] = 0x00; data[2] = 0x20;
+        data[3] = (byte) 0xD3; data[4] = (byte) 0xAC; data[5] = 0x6B;
+        data[9] = 0x01; // ObjPosID
+        data[10] = 23; // RG length
+        data[32] = 0x01; // Reference Coordinate System: Standard
         RoundTripTestUtils.assertRoundTrip(new OBP_ObjectAreaPosition(), data);
     }
 
