@@ -6,8 +6,8 @@ This roadmap outlines the evolution of the formal EBNF (Extended Backus-Naur For
 
 | Phase | Description | Status |
 | :--- | :--- | :---: |
-| 1 | Base Conventions & Primitive Types | ⏳ |
-| 2 | MO:DCA Structured Field Introducer (SFI) | ⏳ |
+| 1 | Base Conventions & Primitive Types | ✅ |
+| 2 | MO:DCA Structured Field Introducer (SFI) | ✅ |
 | 3 | MO:DCA Document Structure | ⏳ |
 | 4 | Structured Fields (SF) Definitions | ⏳ |
 | 5 | Triplets Definitions | ⏳ |
@@ -28,22 +28,28 @@ This roadmap outlines the evolution of the formal EBNF (Extended Backus-Naur For
 ## Phase 1: Base Conventions & Primitive Types
 *Definition of the fundamental building blocks used across all AFP specifications.*
 
-- ⏳ **Core Primitives**:
-    - ⏳ HEX: 8-bit byte representation.
-    - ⏳ BIT: Individual bit definitions.
-    - ⏳ UBIN: Unsigned binary integers (1B, 2B, 3B, 4B).
-    - ⏳ SBIN: Signed binary integers.
-    - ⏳ CODE: Architectural constants and IDs.
-    - ⏳ CHAR: EBCDIC/ASCII character strings.
+- ✅ **Core Primitives**:
+    - ✅ HEX: 8-bit byte representation.
+    - ✅ BIT: Individual bit definitions.
+    - ✅ UBIN: Unsigned binary integers (1B, 2B, 3B, 4B).
+    - ✅ SBIN: Signed binary integers.
+    - ✅ CODE: Architectural constants and IDs.
+    - ✅ CHAR: EBCDIC/ASCII character strings.
+- ✅ **Files**:
+    - [primitives.ebnf](primitives.ebnf)
+    - [primitives.puml](primitives.puml)
 
 ## Phase 2: MO:DCA Structured Field Introducer (SFI)
 *Formalizing the 8-byte (or more with extensions) header for every MO:DCA structured field.*
 
-- ⏳ **SFI Syntax**:
-    - ⏳ SFLength: 2-byte length field.
-    - ⏳ SFTypeID: 3-byte identifier (D3TTCC).
-    - ⏳ FlagByte: Extension, Segmentation, and Padding flags.
-    - ⏳ SFI Extension: Optional extension data.
+- ✅ **SFI Syntax**:
+    - ✅ SFLength: 2-byte length field.
+    - ✅ SFTypeID: 3-byte identifier (D3TTCC).
+    - ✅ FlagByte: Extension, Segmentation, and Padding flags.
+    - ✅ SFI Extension: Optional extension data.
+- ✅ **Files**:
+    - [sfi.ebnf](sfi.ebnf)
+    - [sfi.puml](sfi.puml)
 
 ## Phase 3: MO:DCA Document Structure
 *Defining the hierarchical relationship between Begin/End pairs and nested objects.*
