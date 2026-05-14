@@ -39,7 +39,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.0")
 
-    checkstyleConfig("com.puppycrawl.tools:checkstyle:10.12.0") {
+    checkstyleConfig("com.puppycrawl.tools:checkstyle:13.4.2") {
         isTransitive = false
     }
 }
@@ -133,10 +133,10 @@ artifacts {
 }
 
 checkstyle {
-    toolVersion = "10.12.0"
+    toolVersion = "13.4.2"
     config = resources.text.fromArchiveEntry(checkstyleConfig, "google_checks.xml")
     isIgnoreFailures = true
-    isShowViolations = false
+    isShowViolations = true
 }
 
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
