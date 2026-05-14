@@ -473,7 +473,5 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ⏳ Address ~3,300 violations in `src/main`.
     - ⏳ Address ~2,000 violations in `src/test`.
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
-- ⏳ Migrate project documentation to MkDocs or Docusaurus.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ⏳ Implement a SECURITY.md policy.
-
