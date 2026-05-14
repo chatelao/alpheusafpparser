@@ -169,4 +169,62 @@ public class ObjectAndDataRoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new OBP_ObjectAreaPosition(), data);
     }
+
+    @Test
+    public void testIIDRoundTrip() throws Exception {
+        // IID: D3A67B
+        // Payload: constantData0_11 (12) | xUB(1) | yUB(1) | xU(2) | yU(2) | xS(2) | yS(2) | c22_27(6) | xCS(2) | yCS(2) | c32_33(2) | color(2)
+        // Total Payload Len: 12+2+4+4+6+4+2+2 = 36
+        // Total Len: 1 + 8 + 36 = 45. SFLen = 44 (0x002C)
+        byte[] data = new byte[45];
+        data[0] = 0x5A;
+        data[1] = 0x00;
+        data[2] = 0x2C;
+        data[3] = (byte) 0xD3;
+        data[4] = (byte) 0xA6;
+        data[5] = 0x7B;
+        // xUB = 0, yUB = 0
+        data[21] = 0x00;
+        data[22] = 0x00;
+        // xU=2400 (0960), yU=2400 (0960), xS=1000 (03E8), yS=2000 (07D0)
+        data[23] = 0x09; data[24] = 0x60;
+        data[25] = 0x09; data[26] = 0x60;
+        data[27] = 0x03; data[28] = (byte)0xE8;
+        data[29] = 0x07; data[30] = (byte)0xD0;
+        // xCS=240 (00F0), yCS=240 (00F0)
+        data[37] = 0x00; data[38] = (byte)0xF0;
+        data[39] = 0x00; data[40] = (byte)0xF0;
+        // c32_33 = 00 00
+        data[41] = 0x00; data[42] = 0x00;
+        // color = 0007 (Blue)
+        data[43] = 0x00; data[44] = 0x07;
+
+        RoundTripTestUtils.assertRoundTrip(new IID_IMImageInputDescriptor(), data);
+    }
+
+    @Test
+    public void testICPRoundTrip() throws Exception {
+        // ICP: D3AC7B
+        // Payload (12): xOff(2) | yOff(2) | xSize(2) | ySize(2) | xFill(2) | yFill(2)
+        // Total Len: 1 + 8 + 12 = 21. SFLen = 20 (0x0014)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x14, (byte) 0xD3, (byte) 0xAC, (byte) 0x7B, 0x00, 0x00, 0x00,
+            0x00, 0x01, 0x00, 0x02, 0x03, (byte) 0xE8, 0x07, (byte) 0xD0, 0x03, (byte) 0xE8, 0x07, (byte) 0xD0
+        };
+        RoundTripTestUtils.assertRoundTrip(new ICP_IMImageCellPosition(), data);
+    }
+
+    @Test
+    public void testIOCRoundTrip() throws Exception {
+        // IOC: D3A77B
+        // Payload: xO(3) | yO(3) | xR(2) | yR(2) | c10_17(8) | xM(2) | yM(2) | c22_23(2) -> 24 bytes
+        // Total Len: 1 + 8 + 24 = 33. SFLen = 32 (0x0020)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x20, (byte) 0xD3, (byte) 0xA7, (byte) 0x7B, 0x00, 0x00, 0x00,
+            0x00, 0x01, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x03, (byte) 0xE8, 0x03, (byte) 0xE8, 0x00, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new IOC_IMImageOutputControl(), data);
+    }
 }

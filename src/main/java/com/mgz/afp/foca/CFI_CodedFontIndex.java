@@ -51,7 +51,7 @@ import java.util.List;
  * consists of a series of repeating groups.
  */
 public class CFI_CodedFontIndex extends StructuredField {
-  public static final int CFIRepeatingGroupLength = CFC_CodedFontControl.CFIRepeatingGroupLength;
+  public static final int CFIRepeatingGroupLength = CFC_CodedFontControl.CFI_REPEATING_GROUP_LENGTH_DEFAULT;
 
   @AFPField
   List<CFIRepeatingGroup> cfiRepeatingGroups;

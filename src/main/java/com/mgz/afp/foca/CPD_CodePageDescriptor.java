@@ -77,7 +77,7 @@ public class CPD_CodePageDescriptor extends StructuredField {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-    checkDataLength(sfData, 0, -1, 42);
+    checkDataLength(sfData, offset, length, 42);
 
     codePageDescription = new String(sfData, offset, 32, config.getAfpCharSet());
     graphicCharacterGIDLength = UtilBinaryDecoding.parseShort(sfData, offset + 32, 2);
