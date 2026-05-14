@@ -16,8 +16,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca_L;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IHasRepeatingGroups;
 import com.mgz.afp.base.IRepeatingGroup;
@@ -25,31 +25,32 @@ import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * MO:DCA-L, page 12.
- * <p>
- * The Map Color Attribute Table structured field maps a unique Resource
+ *
+ * <p>The Map Color Attribute Table structured field maps a unique Resource
  * Local ID to the name of a Begin Color Attribute Table structured field. A local ID may be
  * embedded one or more times within an object’s data.
- * <p>
- * MO:DCA, page 383.
- * <p>
- * Map Color Attribute Table (MCA) structured field in MO:DCA-L data
+ *
+ * <p>MO:DCA, page 383.
+ *
+ * <p>Map Color Attribute Table (MCA) structured field in MO:DCA-L data
  * streams. Note that the MO:DCA-L format has been functionally capped and is no longer defined in
  * the MO:DCA reference; for a definition of this format, see MO:DCA-L: The OS/2 Presentation
  * Manager Metafile (.met) Format.
  */
+public class MCA_MapColorAttributeTable extends StructuredFieldBaseRepeatingGroups
+    implements IHasRepeatingGroups {
 
-public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroups implements IHasRepeatingGroups {
   @Override
-  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+      throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
     repeatingGroups = new ArrayList<IRepeatingGroup>();
     int pos = 0;
@@ -73,6 +74,5 @@ public class MCA_MapColorAttribteTable extends StructuredFieldBaseRepeatingGroup
   }
 
   @XmlRootElement
-  public static class MCA_RepeatingGroup extends RepeatingGroupWithTriplets {
-  }
+  public static class MCA_RepeatingGroup extends RepeatingGroupWithTriplets {}
 }

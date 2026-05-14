@@ -479,11 +479,11 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
-- ⏳ Resolve Checkstyle violations (~4,500 warnings):
-    - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`).
-    - ⏳ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`).
-    - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`).
-    - ⏳ Address remaining miscellaneous violations (e.g., `FileTabCharacter`, `CommentsIndentation`).
+- ⏳ Resolve Checkstyle violations (~4,400 warnings):
+    - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`) (~950 warnings).
+    - ⏳ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`) (~770 warnings).
+    - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`) (~1,600 warnings).
+    - ⏳ Address remaining miscellaneous violations (e.g., ✅ `FileTabCharacter` is resolved, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ⏳ Implement a SECURITY.md policy.

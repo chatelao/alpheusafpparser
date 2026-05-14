@@ -46,7 +46,7 @@ public enum SFType {
    */
   CopyCount_PatternsMap(0xA2),
   /**
-   * A descriptor structured field defines the initial characteristics and,	optionally, the
+   * A descriptor structured field defines the initial characteristics and,    optionally, the
    * formatting directives for all objects, object areas, and pages. Depending on the specific
    * descriptor structured field type, it may contain some set of parameters that identify:<ul><li>
    * The size of the page or object<li>Measurement units<li>Initial presentation conditions</ul>
@@ -72,7 +72,7 @@ public enum SFType {
    */
   Size(0xAA),
   /**
-   * A map structured field	provides the following functions in the MO:DCA architecture:<ul><li>All
+   * A map structured field    provides the following functions in the MO:DCA architecture:<ul><li>All
    * occurrences of a variable embedded in structured field parameter data can be given a new value
    * by changing only one reference in the mapping, rather than having to physically change each
    * occurrence. Thus all references to font X may cause a Times Roman font to be used in one
