@@ -2,6 +2,66 @@
 
 This guide provides a detailed overview of how to use the Alpheus AFP Parser library to read and process IBM AFP (Advanced Function Presentation) files.
 
+## Command Line Interface (CLI)
+
+The Alpheus AFP Parser includes a Command Line Interface (CLI) tool that allows you to easily convert IBM AFP files into a structured XML format. This is particularly useful for inspecting the contents of AFP files without writing any code.
+
+### Obtaining the CLI Tool
+
+The CLI tool is distributed as a "fat JAR" (a standalone executable JAR containing all necessary dependencies). You can obtain it in two ways:
+
+1.  **Download from GitHub Releases:** Navigate to the [Releases](https://github.com/chatelao/alpheusafpparser/releases) page and download the `alpheus-afp-parser-cli-<version>.jar` asset from the latest release.
+2.  **Build from Source:** If you have the source code, you can build the CLI JAR using Gradle:
+    ```bash
+    ./gradlew shadowJar
+    ```
+    The generated JAR will be located in `build/libs/alpheus-afp-parser-cli-<version>.jar`.
+
+### Prerequisites
+
+You must have Java 21 or higher installed on your system.
+
+### Using the CLI JAR
+
+Run the CLI tool using the following command:
+
+```bash
+java -jar alpheus-afp-parser-cli-<version>.jar [-d|--directory] <input-afp-file/dir> [output-xml-file]
+```
+
+- **`<input-afp-file/dir>`**: The path to the input AFP file or directory you wish to process.
+- **`[output-xml-file]`**: (Optional) The path where the generated XML output will be saved. If this argument is omitted and you are not in directory mode, the XML content will be printed directly to the standard output (console).
+- **`-d`, `--directory`**: (Optional) Convert all `.afp` files in the specified directory to XML. In this mode, the output files are created in the same directory with `.xml` appended to the original filenames.
+
+### Examples
+
+**Convert an AFP file and view the XML in the console:**
+
+```bash
+java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp
+```
+
+**Convert an AFP file and save the result to a file:**
+
+```bash
+java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp my_document.xml
+```
+
+**Batch convert all AFP files in a directory:**
+
+```bash
+java -jar alpheus-afp-parser-cli-<version>.jar --directory ./afp_files/
+```
+In this example, every file ending in `.afp` in `./afp_files/` will be converted to a corresponding `.xml` file (e.g., `doc1.afp` becomes `doc1.afp.xml`).
+
+### XML Output Format
+
+The CLI tool generates an XML representation where:
+- The root element is `<AFPDocument>`.
+- Each AFP Structured Field is represented as a child element (e.g., `<BDT_BeginDocument>`, `<PGD_PageDescriptor>`).
+- Fields within each Structured Field are mapped to XML elements.
+- The `structuredFieldIntroducer` (containing length, type, and flags) is included for every field.
+
 ## Supported Architectures
 
 Alpheus AFP Parser provides comprehensive support for the following AFP architectures:
@@ -152,58 +212,6 @@ import com.mgz.afp.writer.AFPWriterHumanReadable;
 AFPWriterHumanReadable writer = new AFPWriterHumanReadable();
 String diagnostic = writer.writeSF(sf);
 System.out.println(diagnostic);
-```
-
-## Command Line Interface (CLI)
-
-The Alpheus AFP Parser includes a Command Line Interface (CLI) tool that allows you to easily convert IBM AFP files into a structured XML format. This is particularly useful for inspecting the contents of AFP files without writing any code.
-
-### Obtaining the CLI Tool
-
-The CLI tool is distributed as a "fat JAR" (a standalone executable JAR containing all necessary dependencies). You can obtain it in two ways:
-
-1.  **Download from GitHub Releases:** Navigate to the [Releases](https://github.com/chatelao/alpheusafpparser/releases) page and download the `alpheus-afp-parser-cli-<version>.jar` asset from the latest release.
-2.  **Build from Source:** If you have the source code, you can build the CLI JAR using Gradle:
-    ```bash
-    ./gradlew shadowJar
-    ```
-    The generated JAR will be located in `build/libs/alpheus-afp-parser-cli-<version>.jar`.
-
-### Prerequisites
-
-You must have Java 8 or higher installed on your system.
-
-### Using the CLI JAR
-
-Run the CLI tool using the following command:
-
-```bash
-java -jar alpheus-afp-parser-cli-<version>.jar <input-afp-file> [output-xml-file]
-```
-
-- **`<input-afp-file>`**: The path to the input AFP file you wish to process.
-- **`[output-xml-file]`**: (Optional) The path where the generated XML output will be saved. If this argument is omitted, the XML content will be printed directly to the standard output (console).
-
-### XML Output Format
-
-The CLI tool generates an XML representation where:
-- The root element is `<AFPDocument>`.
-- Each AFP Structured Field is represented as a child element (e.g., `<BDT_BeginDocument>`, `<PGD_PageDescriptor>`).
-- Fields within each Structured Field are mapped to XML elements.
-- The `structuredFieldIntroducer` (containing length, type, and flags) is included for every field.
-
-### Examples
-
-**Convert an AFP file and view the XML in the console:**
-
-```bash
-java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp
-```
-
-**Convert an AFP file and save the result to a file:**
-
-```bash
-java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp my_document.xml
 ```
 
 ## Error Handling
