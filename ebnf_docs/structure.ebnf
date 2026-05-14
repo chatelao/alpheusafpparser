@@ -2,10 +2,10 @@
 
 import "primitives.ebnf"
 import "sfi.ebnf"
+import "triplets.ebnf"
 
 (* Generic Structured Field with specific TypeID *)
-SF(type_id)       = SFLength, type_id, FlagByte, Reserved2B, [ SFIExtension ], [ Payload ], [ Padding ] ;
-Payload           = { byte } ;
+SF(type_id)       = SFLength, type_id, FlagByte, Reserved2B, [ SFIExtension ], { Triplet }, [ Padding ] ;
 
 (* Structured Field Type IDs *)
 BPF_ID            = X'D3', X'A8', X'A5' ;
