@@ -10,7 +10,7 @@ This roadmap outlines the evolution of the formal EBNF (Extended Backus-Naur For
 | 2 | MO:DCA Structured Field Introducer (SFI) | ✅ |
 | 3 | MO:DCA Document Structure | ✅ |
 | 4 | Structured Fields (SF) Definitions | ⏳ |
-| 5 | Triplets Definitions | ⏳ |
+| 5 | Triplets Definitions | ✅ |
 | 6 | PTOCA Control Sequences | ⏳ |
 | 7 | GOCA Drawing Orders | ⏳ |
 | 8 | IOCA Function Sets & Segments | ⏳ |
@@ -74,10 +74,13 @@ This roadmap outlines the evolution of the formal EBNF (Extended Backus-Naur For
 ## Phase 5: Triplets Definitions
 *Syntax for self-identifying parameters that can be appended to many structured fields.*
 
-- ⏳ **Common Triplets**:
-    - ⏳ Fully Qualified Name (X'02').
-    - ⏳ Mapping Option (X'04').
-    - ⏳ Object Classification (X'10').
+- ✅ **Common Triplets**:
+    - ✅ Fully Qualified Name (X'02').
+    - ✅ Mapping Option (X'04').
+    - ✅ Object Classification (X'10').
+- ✅ **Files**:
+    - [triplets.ebnf](triplets.ebnf)
+    - [triplets.puml](triplets.puml)
 
 ## Phase 6: PTOCA Control Sequences
 *Formalizing the Presentation Text Data (PTD) internal syntax.*
