@@ -3,6 +3,8 @@
 Alpheus AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) 
 document/print stream format.
 
+![Architecture Diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/chatelao/alpheusafpparser/master/TOP_LEVEL.puml)
+
 Alpheus covers all AFP specifications: MO:DCA, BCOCA, CMOCA, FOCA, GOCA, IOCA, and PTOCA.
 It is a complete implementation. Every Structured Field, Repeating Group, and Triplet is fully implemented as Java class.
 Alpheus AFP Parser was written from scratch and has no external dependencies.
