@@ -212,7 +212,7 @@ public class AFPParser {
           nrOfBytesRead++;
         }
       }
-      while (tmp != Constants.AFPBeginByte_0xA5 && tmp != -1); // Move to the begin of next SF, or EOF.
+      while (tmp != 0x5A && tmp != -1); // Move to the begin of next SF, or EOF.
 
       if (tmp != -1) {
         sfi = StructuredFieldIntroducer.parse(is);

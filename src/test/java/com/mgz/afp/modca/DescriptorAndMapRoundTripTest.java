@@ -218,4 +218,31 @@ public class DescriptorAndMapRoundTripTest {
 
         RoundTripTestUtils.assertRoundTrip(new MMO_MapMediumOverlay(), data);
     }
+
+    @Test
+    public void testOBPRoundTrip() throws Exception {
+        // OBP: D3AC6B
+        // Payload: ID(1) + RG(23) = 24 bytes.
+        // Total: 9 + 24 = 33. SFLen = 32 (0x20).
+        byte[] data = new byte[33];
+        data[0] = 0x5A; data[1] = 0x00; data[2] = 0x20;
+        data[3] = (byte) 0xD3; data[4] = (byte) 0xAC; data[5] = 0x6B;
+        data[9] = 0x01; // ObjPosID
+        data[10] = 23; // RG length
+        data[32] = 0x01; // Reference Coordinate System: Standard
+        RoundTripTestUtils.assertRoundTrip(new OBP_ObjectAreaPosition(), data);
+    }
+
+    @Test
+    public void testMSURoundTrip() throws Exception {
+        // MSU: D3ABEA
+        // RG (10 bytes): Name(8) | Res(1) | LID(1)
+        // Total Len: 1 + 8 + 10 = 19. SFLen = 18 (0x0012)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x12, (byte) 0xD3, (byte) 0xAB, (byte) 0xEA, 0x00, 0x00, 0x00,
+            (byte) 0xE2, (byte) 0xE4, (byte) 0xD7, (byte) 0xD7, (byte) 0xD9, (byte) 0xC5, (byte) 0xE2, (byte) 0xE2, // "SUPPRESS"
+            0x00, 0x01
+        };
+        RoundTripTestUtils.assertRoundTrip(new MSU_MapSuppression(), data);
+    }
 }

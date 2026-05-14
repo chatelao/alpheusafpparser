@@ -61,15 +61,15 @@ public class CPC_CodePageControl extends StructuredField {
                         AFPParserConfiguration config) throws AFPParserException {
     checkDataLength(sfData, offset, length, 13);
 
-    defaultGraphicCharacterGlobalID = new String(sfData, 0, 8, config.getAfpCharSet());
-    defaultCharacterUseFlags = DefaultCharacterUseFlag.valueOf(sfData[8] & 0xFF);
-    cpiRepeatingGroupLength = CPIRepeatingGroupLength.valueOf(sfData[9] & 0xFF);
+    defaultGraphicCharacterGlobalID = new String(sfData, offset, 8, config.getAfpCharSet());
+    defaultCharacterUseFlags = DefaultCharacterUseFlag.valueOf(sfData[offset + 8] & 0xFF);
+    cpiRepeatingGroupLength = CPIRepeatingGroupLength.valueOf(sfData[offset + 9] & 0xFF);
     spaceCharacterSectionNumber = UtilBinaryDecoding.parseShort(sfData, offset + 10, 1);
     spaceCharacterCodePoint = UtilBinaryDecoding.parseShort(sfData, offset + 11, 1);
-    codePageUseFlags = CodePageUseFlag.valueOf(sfData[12] & 0xFF);
-    if (cpiRepeatingGroupLength == CPIRepeatingGroupLength.SingleByteCodePageUnicodeScalarValues
-        || cpiRepeatingGroupLength == CPIRepeatingGroupLength.DoubleByteCodePageUnicodeScalarValues) {
-      unicodeScalarValue = UtilBinaryDecoding.parseLong(sfData, 13, 4);
+    codePageUseFlags = CodePageUseFlag.valueOf(sfData[offset + 12] & 0xFF);
+    if (cpiRepeatingGroupLength != null && (cpiRepeatingGroupLength == CPIRepeatingGroupLength.SingleByteCodePageUnicodeScalarValues
+        || cpiRepeatingGroupLength == CPIRepeatingGroupLength.DoubleByteCodePageUnicodeScalarValues)) {
+      unicodeScalarValue = UtilBinaryDecoding.parseLong(sfData, offset + 13, 4);
     }
 
   }
