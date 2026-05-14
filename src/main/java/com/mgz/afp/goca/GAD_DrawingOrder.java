@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.goca;
 
 import com.mgz.afp.base.annotations.AFPField;
@@ -298,7 +299,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       color = AFPColorValue.valueOf(sfData[offset + 1]);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -898,7 +898,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(drawingOrderType);
@@ -980,7 +979,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       anglePoint = new GOCA_Point(x, y);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(drawingOrderType);
@@ -1035,7 +1033,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       divisorOfShearRatio = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
 
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -1234,7 +1231,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       markerSetLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -1477,7 +1473,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       internalFlags = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(drawingOrderType);
@@ -1530,7 +1525,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       }
 
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -1661,7 +1655,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       if (codePoints != null) {
@@ -1790,7 +1783,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       heightOfImageInImagePoints = UtilBinaryDecoding.parseInt(sfData, offset + 6, 2);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(drawingOrderType);
@@ -1857,7 +1849,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       System.arraycopy(sfData, offset + 2, imageData, 0, imageData.length);
 
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -1990,7 +1981,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       if (reservedData == null) {
@@ -2066,7 +2056,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       startAngle = UtilBinaryDecoding.parseInt(sfData, offset + 8, 4);
       sweepAngle = UtilBinaryDecoding.parseInt(sfData, offset + 12, 4);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -2196,7 +2185,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       System.arraycopy(sfData, offset + 12, colorValue, 0, colorValue.length);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       lengthOfFollowingData = colorValue != null ? (short) (10 + colorValue.length) : 10;
@@ -2319,7 +2307,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       }
 
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

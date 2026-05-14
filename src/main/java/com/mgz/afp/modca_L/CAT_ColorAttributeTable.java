@@ -63,7 +63,6 @@ public class CAT_ColorAttributeTable extends StructuredField {
     }
   }
 
-
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     if (basePart != null) {
@@ -110,7 +109,6 @@ public class CAT_ColorAttributeTable extends StructuredField {
       reserved1 = sfData[offset + 1];
       colorTableLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

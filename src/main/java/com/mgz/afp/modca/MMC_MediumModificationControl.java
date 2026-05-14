@@ -16,7 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
@@ -59,7 +61,6 @@ public class MMC_MediumModificationControl extends StructuredField {
       keywords = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -128,7 +129,6 @@ public class MMC_MediumModificationControl extends StructuredField {
       parameter = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(keywordID.toByte());
@@ -193,6 +193,5 @@ public class MMC_MediumModificationControl extends StructuredField {
       }
     }
   }
-
 
 }

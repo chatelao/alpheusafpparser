@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.ioca;
 
 import com.mgz.afp.base.StructuredField;
@@ -28,7 +29,6 @@ import com.mgz.util.UtilBinaryDecoding;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
 
 public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
 
@@ -50,7 +50,6 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
   public void setLengthOfFollowingData(short lengthOfFollowingData) {
     this.lengthOfFollowingData = lengthOfFollowingData;
   }
-
 
   public enum SelfDefiningFieldType {
     Unknown(0x00),
@@ -135,7 +134,6 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
     byte nrOfBitsComponent3;
     byte nrOfBitsComponent4;
     byte[] colorValue;
-
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
@@ -65,7 +66,6 @@ public class AFPParser {
   long nrOfBytesRead;
   long nrOfSFBuilt;
   long nrOfErrSFBuilt;
-
 
   /**
    * Constructor.
@@ -135,7 +135,6 @@ public class AFPParser {
         int lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
         byte[] grossPayload = new byte[lenOfGrossPayload];
         byte[] sfData, padding;
-
 
         // Determine payload.
         if (lenOfGrossPayload > 0) {

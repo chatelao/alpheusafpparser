@@ -479,10 +479,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
-- ⏳ Resolve Checkstyle violations (~4,400 warnings):
+- ⏳ Resolve Checkstyle violations (~3,800 warnings):
     - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`) (~950 warnings).
     - ⏳ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`) (~770 warnings).
-    - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`) (~1,600 warnings).
+    - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, ✅ `EmptyLineSeparator` is mostly resolved, `Indentation`, `LeftCurly`, `RightCurly`) (~1,200 warnings).
     - ⏳ Address remaining miscellaneous violations (e.g., ✅ `FileTabCharacter` is resolved, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).

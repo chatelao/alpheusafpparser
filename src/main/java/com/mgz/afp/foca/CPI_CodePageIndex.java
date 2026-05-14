@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.foca;
 
 import com.mgz.afp.base.StructuredField;
@@ -42,7 +43,6 @@ public class CPI_CodePageIndex extends StructuredField {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-
 
     CPC_CodePageControl cpc = config.getCurrentCodePageControl();
     CPIRepeatingGroupLength cpiRGLen = cpc.getCpiRepeatingGroupLength();

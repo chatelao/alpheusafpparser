@@ -16,7 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.ptoca.controlSequence;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
@@ -126,7 +128,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     USC_Underscore(0x76), // (USC)” on page 105
     TBM_TemporaryBaselineMove(0x78), // (TBM)” on page 97
     GraphicCharacters(0xFF);
-
 
     int typeCode;
 
@@ -341,7 +342,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       os.write(UtilBinaryDecoding.shortToByteArray(displacement, 2));
     }
 
-
     public short getDisplacement() {
       return displacement;
     }
@@ -367,7 +367,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(UtilBinaryDecoding.shortToByteArray(displacement, 2));
     }
-
 
     public short getDisplacement() {
       return displacement;
@@ -450,7 +449,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       }
     }
 
-
     public short getLength() {
       return length;
     }
@@ -507,7 +505,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
         os.write(widthFraction != null ? widthFraction : 0x00);
       }
     }
-
 
     public short getLength() {
       return length;
@@ -591,7 +588,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       }
     }
 
-
     public byte[] getIgnoredData() {
       return ignoredData;
     }
@@ -662,7 +658,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       os.write(UtilBinaryDecoding.shortToByteArray(increment, 2));
     }
 
-
     public short getIncrement() {
       return increment;
     }
@@ -685,7 +680,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(UtilBinaryDecoding.shortToByteArray(increment, 2));
     }
-
 
     public short getIncrement() {
       return increment;
@@ -738,7 +732,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       }
     }
 
-
     public short getRepeatLength() {
       return repeatLength;
     }
@@ -775,7 +768,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       os.write(UtilBinaryDecoding.shortToByteArray(increment, 2));
     }
 
-
     public short getIncrement() {
       return increment;
     }
@@ -802,7 +794,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(UtilBinaryDecoding.intToByteArray(codedFontLocalID, 1));
     }
-
 
     public short getCodedFontLocalID() {
       return codedFontLocalID;
@@ -990,7 +981,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       os.write(UtilBinaryDecoding.shortToByteArray(displacement, 2));
     }
 
-
     public short getDisplacement() {
       return displacement;
     }
@@ -1109,7 +1099,6 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(UtilBinaryDecoding.shortToByteArray(increment, 2));
     }
-
 
     public short getIncrement() {
       return increment;

@@ -16,7 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.goca;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
@@ -477,7 +479,6 @@ public class GAD_GraphicsData extends StructuredField {
         drawingOrders = null;
       }
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
