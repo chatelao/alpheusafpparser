@@ -352,7 +352,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
             - ✅ Object/Image Data (OCD, IRD, IID, ICP, IOC).
             - ⏳ No Operation (NOP).
     - ✅ Bar Code Object Content Architecture (BCOCA) SFs (BBC, EBC, BDA, BDD).
-    - 🚧 Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX, PTD).
+    - ✅ Presentation Text Object Content Architecture (PTOCA) SFs (BPT, EPT, PTX, PTD).
     - ✅ Font Object Content Architecture (FOCA) SFs (BCF, ECF, BCP, ECP, BFN, EFN, FNN, FNG, CFC, CPD, CFI, CPC, CPI, FNC, FND, FNI, FNM, FNO, FNP).
 - ✅ Migrate tests from JUnit 4 to JUnit 5 (Jupiter).
     - ✅ Setup JUnit 5 infrastructure (Jupiter & Vintage).
