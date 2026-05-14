@@ -454,10 +454,10 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 - ✅ Update Java version to 21 (LTS).
 - ⏳ Refactor source code to use modern Java features:
     - ✅ Use `var` for local variable type inference where appropriate (Applied to `AFPParser`, `TripletParser`, `AFPWriterHumanReadable`, `PTOCAControlSequenceParser`, `AFP2XML`, `AFP2XMLWriter`).
-    - ⏳ Refactor data-heavy classes to Java Records.
+    - ⏳ Refactor data-heavy classes to Java Records (Applied to `GAD_DrawingOrder.GOCA_Point`).
     - ✅ Implement Sealed Classes for Triplet hierarchy.
     - ✅ Use Pattern Matching for `switch` and `instanceof`.
-    - ⏳ Update Stream API usage with modern collectors and methods.
+    - ✅ Update Stream API usage with modern collectors and methods (Applied to `AFPWriterHumanReadable`, `AFPParser`, `AFP2XMLWriter`).
 
 ## Phase 8: Modernized Publishing and Distribution
 - ✅ Replace the deprecated 'maven' plugin with the 'maven-publish' plugin.

@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * An implementation of {@link IAFPWriter} that produces a human-readable,
@@ -66,11 +67,7 @@ public class AFPWriterHumanReadable implements IAFPWriter {
             continue;
           }
           methodName = m.getName();
-          if (!methodName.startsWith("get")) {
-            continue;
-          }
-
-          if (methodName.equalsIgnoreCase("get" + fieldName)) {
+          if (methodName.equalsIgnoreCase("get" + fieldName) || methodName.equalsIgnoreCase(fieldName)) {
             method = m;
             break;
           }
@@ -105,35 +102,20 @@ public class AFPWriterHumanReadable implements IAFPWriter {
                 sb.append('"').append(UtilCharacterEncoding.bytesToHexString((byte[]) o)).append('"');
 
               } else {
-
-                var coll = o instanceof Collection<?> c ? c : Arrays.asList(o);
+                Collection<?> coll = o instanceof Collection<?> c ? c : Arrays.asList(o);
                 if (!coll.isEmpty()) {
                   var firstObj = coll.iterator().next();
-
-                  var isFirst = true;
+                  String joined;
                   if (firstObj instanceof Byte) {
-                    for (var a : coll) {
-                      if (!isFirst) {
-                        sb.append(",");
-                        isFirst = false;
-                      }
-                      sb.append('"').append(Integer.toHexString((Byte) a)).append('"');
-                    }
+                    joined = coll.stream()
+                        .map(a -> "\"" + Integer.toHexString((Byte) a) + "\"")
+                        .collect(Collectors.joining(","));
                   } else {
-                    for (var a : coll) {
-                      if (!isFirst) {
-                        sb.append(",");
-                      } else {
-                        isFirst = false;
-                      }
-
-                      if (a instanceof Enum<?> e) {
-                        sb.append('"').append(e.name()).append('"');
-                      } else {
-                        sb.append('"').append(o).append('"');
-                      }
-                    }
+                    joined = coll.stream()
+                        .map(a -> a instanceof Enum<?> e ? "\"" + e.name() + "\"" : "\"" + a + "\"")
+                        .collect(Collectors.joining(","));
                   }
+                  sb.append(joined);
                 }
               }
               sb.append("]");
