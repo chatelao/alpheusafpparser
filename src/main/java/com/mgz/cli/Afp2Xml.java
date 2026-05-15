@@ -103,7 +103,7 @@ public class Afp2Xml {
                 isDirectoryMode = true;
             }
 
-            var extension = "/text()".equals(xpathExpression) ? ".txt" : ".xml";
+            var extension = (xpathExpression != null && xpathExpression.endsWith("/text()")) ? ".txt" : ".xml";
 
             if (isDirectoryMode) {
                 if (!input.isDirectory()) {
@@ -120,7 +120,7 @@ public class Afp2Xml {
                 }
             } else {
                 var outputFile = (outputPath != null) ? new File(outputPath) : null;
-                if (outputFile == null && "/text()".equals(xpathExpression)) {
+                if (outputFile == null && xpathExpression != null && xpathExpression.endsWith("/text()")) {
                     outputFile = new File(inputPath + ".txt");
                 }
                 convertToXml(input, outputFile, xpathExpression);
