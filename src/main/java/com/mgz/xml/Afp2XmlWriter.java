@@ -36,16 +36,38 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Afp2XmlWriter {
+
+  private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
+  private static final XPathFactory XPF = XPathFactory.newInstance();
+  private static final TransformerFactory TF = TransformerFactory.newInstance();
+
+  private static final Map<List<Class<?>>, JAXBContext> JAXB_CONTEXT_CACHE = new ConcurrentHashMap<>();
+
+  private static JAXBContext getCachedJaxbContext(List<Class<?>> classes) throws JAXBException {
+    var sortedClasses = new ArrayList<>(classes);
+    sortedClasses.sort(Comparator.comparing(Class::getName));
+    return JAXB_CONTEXT_CACHE.computeIfAbsent(Collections.unmodifiableList(sortedClasses), cl -> {
+      try {
+        return JAXBContext.newInstance(cl.toArray(new Class[0]));
+      } catch (JAXBException e) {
+        throw new RuntimeException(e);
+      }
+    });
+  }
 
   public static void writeXML(OutputStream osw, StructuredField sf, AFPParserConfiguration conf) throws JAXBException {
     var classes = new ArrayList<Class<?>>();
     classes.add(sf.getClass());
     addClassesFromSF(classes, sf);
 
-    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    var jaxbContext = getCachedJaxbContext(classes);
     var jaxbMarshaller = jaxbContext.createMarshaller();
     // output pretty printed
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -59,7 +81,7 @@ public class Afp2XmlWriter {
   public static void writeXML(OutputStream osw, AFPDocument doc) throws JAXBException {
     var classes = getRequiredClasses(doc);
 
-    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    var jaxbContext = getCachedJaxbContext(classes);
     var jaxbMarshaller = jaxbContext.createMarshaller();
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
@@ -73,21 +95,18 @@ public class Afp2XmlWriter {
     }
 
     var classes = getRequiredClasses(doc);
-    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    var jaxbContext = getCachedJaxbContext(classes);
     var jaxbMarshaller = jaxbContext.createMarshaller();
 
-    var dbf = DocumentBuilderFactory.newInstance();
-    var db = dbf.newDocumentBuilder();
+    var db = DBF.newDocumentBuilder();
     var domDoc = db.newDocument();
 
     jaxbMarshaller.marshal(doc, domDoc);
 
-    var xpf = XPathFactory.newInstance();
-    var xpath = xpf.newXPath();
+    var xpath = XPF.newXPath();
     var nodes = (org.w3c.dom.NodeList) xpath.evaluate(xpathExpression, domDoc, XPathConstants.NODESET);
 
-    var tf = TransformerFactory.newInstance();
-    var transformer = tf.newTransformer();
+    var transformer = TF.newTransformer();
     transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
