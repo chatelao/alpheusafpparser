@@ -18,6 +18,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.cmoca;
 
+import com.mgz.util.UtilCharacterEncoding;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
@@ -180,7 +181,7 @@ public class CMR_ColorManagementResource extends StructuredField {
 
   @XmlElement(name = "text")
   public String getText() {
-    return alias;
+    return UtilCharacterEncoding.sanitizeForXml(alias);
   }
 
   public void setAlias(String alias) { this.alias = alias; }

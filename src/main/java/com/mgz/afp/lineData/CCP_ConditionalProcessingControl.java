@@ -318,7 +318,7 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
 
     @XmlElement(name = "text")
     public String getText() {
-      return comparisonString;
+      return UtilCharacterEncoding.sanitizeForXml(comparisonString);
     }
 
     public enum CCP_TimingOfAction {

@@ -214,7 +214,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
 
     @Override
@@ -254,7 +254,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
 
     @Override
@@ -295,7 +295,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
 
     @Override
@@ -1395,7 +1395,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
 
     @Override

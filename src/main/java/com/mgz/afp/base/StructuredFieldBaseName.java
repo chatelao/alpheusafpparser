@@ -67,7 +67,7 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
 
   @XmlElement(name = "text")
   public String getText() {
-    return name;
+    return UtilCharacterEncoding.sanitizeForXml(name);
   }
 
   @Override

@@ -453,7 +453,7 @@ public class GAD_GraphicsData extends StructuredField {
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
 
     @Override

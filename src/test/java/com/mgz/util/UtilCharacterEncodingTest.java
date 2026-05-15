@@ -73,4 +73,21 @@ public class UtilCharacterEncodingTest {
       }
     }
   }
+
+  @Test
+  public void testSanitizeForXml() {
+    assertEquals("Hello World", UtilCharacterEncoding.sanitizeForXml("Hello World"));
+    assertEquals("Hello World", UtilCharacterEncoding.sanitizeForXml("Hello\u001aWorld"));
+    assertEquals("   ", UtilCharacterEncoding.sanitizeForXml("\u0000\u0001\u0002"));
+    assertEquals("\t\n\r", UtilCharacterEncoding.sanitizeForXml("\t\n\r"));
+    assertEquals("A B", UtilCharacterEncoding.sanitizeForXml("A\u0008B"));
+
+    // Supplementary characters (Emoji) - should be valid
+    String emoji = "\uD83D\uDE00"; // 😀
+    assertEquals(emoji, UtilCharacterEncoding.sanitizeForXml(emoji));
+
+    // Some invalid values in ranges
+    assertEquals(" ", UtilCharacterEncoding.sanitizeForXml("\uFFFE"));
+    assertEquals(" ", UtilCharacterEncoding.sanitizeForXml("\uFFFF"));
+  }
 }
