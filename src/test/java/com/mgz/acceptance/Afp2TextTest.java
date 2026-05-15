@@ -39,7 +39,7 @@ public class Afp2TextTest {
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile.toPath());
 
         // Run with -x "/text()"
-        Afp2Xml.main(new String[]{"-d", tempDir.toAbsolutePath().toString(), "-x", "/text()"});
+        Afp2Xml.execute(new String[]{"-d", tempDir.toAbsolutePath().toString(), "-x", "/text()"});
 
         File txtFile = new File(tempDir.toFile(), "test.afp.txt");
         File xmlFile = new File(tempDir.toFile(), "test.afp.xml");
@@ -54,7 +54,7 @@ public class Afp2TextTest {
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), inputFilePath);
 
         // Run with -x "/text()" but no output file
-        Afp2Xml.main(new String[]{"-x", "/text()", inputFilePath.toAbsolutePath().toString()});
+        Afp2Xml.execute(new String[]{"-x", "/text()", inputFilePath.toAbsolutePath().toString()});
 
         File txtFile = new File(inputFilePath.toAbsolutePath().toString() + ".txt");
         try {
