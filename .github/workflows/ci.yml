@@ -38,6 +38,10 @@ jobs:
       run: |
         CLI_JAR=$(ls build/libs/alpheus-afp-parser-cli-*.jar)
         java -jar $CLI_JAR src/test/resources/afp/minimal.afp | grep "<AFPDocument>"
+    - name: Create Latest CLI Artifact
+      run: cp build/libs/alpheus-afp-parser-cli-*.jar build/libs/alpheus-afp-parser-cli-latest.jar
+    - name: Verify Latest Artifact
+      run: test -f build/libs/alpheus-afp-parser-cli-latest.jar
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -68,5 +72,6 @@ jobs:
         generate_release_notes: true
         files: |
           build/libs/alpheus-afp-parser-cli-*.jar
+          build/libs/alpheus-afp-parser-cli-latest.jar
           build/libs/alpheusafpparser-*.jar
           build/libs/alpheusafpparser-*.pom
