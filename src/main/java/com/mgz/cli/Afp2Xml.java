@@ -43,10 +43,19 @@ public class Afp2Xml {
         var isDirectoryMode = false;
         String inputPath = null;
         String outputPath = null;
+        String xpathExpression = null;
 
         for (var i = 0; i < args.length; i++) {
             if ("-d".equals(args[i]) || "--directory".equals(args[i])) {
                 isDirectoryMode = true;
+            } else if ("-x".equals(args[i]) || "--xpath".equals(args[i])) {
+                if (i + 1 < args.length) {
+                    xpathExpression = args[++i];
+                } else {
+                    System.err.println("Error: --xpath requires an expression.");
+                    printUsage();
+                    System.exit(1);
+                }
             } else if (inputPath == null) {
                 inputPath = args[i];
             } else if (outputPath == null) {
@@ -76,12 +85,12 @@ public class Afp2Xml {
                 if (files != null) {
                     for (var f : files) {
                         var outputFile = new File(f.getAbsolutePath() + ".xml");
-                        convertToXml(f, outputFile);
+                        convertToXml(f, outputFile, xpathExpression);
                     }
                 }
             } else {
                 var outputFile = (outputPath != null) ? new File(outputPath) : null;
-                convertToXml(input, outputFile);
+                convertToXml(input, outputFile, xpathExpression);
             }
         } catch (Exception e) {
             System.err.println("Error during XML export: " + e.getMessage());
@@ -99,12 +108,13 @@ public class Afp2Xml {
     }
 
     private static void printUsage() {
-        System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory] <input-afp-file/dir> [output-xml-file]");
+        System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory] [-x|--xpath <expression>] <input-afp-file/dir> [output-xml-file]");
         System.err.println("Options:");
-        System.err.println("  -d, --directory    Convert all .afp files in the specified directory to XML");
+        System.err.println("  -d, --directory           Convert all .afp files in the specified directory to XML");
+        System.err.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression");
     }
 
-    private static void convertToXml(File inputFile, File outputFile) throws Exception {
+    private static void convertToXml(File inputFile, File outputFile, String xpathExpression) throws Exception {
         try (var is = new BufferedInputStream(new FileInputStream(inputFile))) {
             var config = new AFPParserConfiguration();
             config.setInputStream(is);
@@ -118,11 +128,11 @@ public class Afp2Xml {
 
             if (outputFile != null) {
                 try (var os = new FileOutputStream(outputFile)) {
-                    Afp2XmlWriter.writeXML(os, doc);
+                    Afp2XmlWriter.writeXML(os, doc, xpathExpression);
                 }
                 System.out.println("XML export successful: " + outputFile.getPath());
             } else {
-                Afp2XmlWriter.writeXML(System.out, doc);
+                Afp2XmlWriter.writeXML(System.out, doc, xpathExpression);
             }
         }
     }
