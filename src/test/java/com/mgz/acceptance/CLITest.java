@@ -70,4 +70,52 @@ public class CLITest {
         assertTrue(foundXmlHeader, "XML header not found in output");
         assertTrue(foundAfpDocTag, "AFPDocument tag not found in output");
     }
+
+    @Test
+    public void testCLIImplicitDirectoryMode() throws Exception {
+        File tempDir = new File("build/test-dir-implicit");
+        if (tempDir.exists()) {
+            File[] files = tempDir.listFiles();
+            if (files != null) {
+                for (File f : files) f.delete();
+            }
+            tempDir.delete();
+        }
+        tempDir.mkdirs();
+
+        File afpFile1 = new File(tempDir, "test1.afp");
+        Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile1.toPath());
+
+        // Call without -d flag, should automatically detect directory
+        Afp2Xml.main(new String[]{tempDir.getAbsolutePath()});
+
+        File xmlFile1 = new File(tempDir, "test1.afp.xml");
+
+        assertTrue(xmlFile1.exists(), "XML file 1 should exist in implicit mode");
+        assertTrue(Files.readString(xmlFile1.toPath()).contains("<AFPDocument>"), "XML 1 should contain AFPDocument tag");
+    }
+
+    @Test
+    public void testCLIDirectoryLongFlag() throws Exception {
+        File tempDir = new File("build/test-dir-long-flag");
+        if (tempDir.exists()) {
+            File[] files = tempDir.listFiles();
+            if (files != null) {
+                for (File f : files) f.delete();
+            }
+            tempDir.delete();
+        }
+        tempDir.mkdirs();
+
+        File afpFile1 = new File(tempDir, "test1.afp");
+        Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile1.toPath());
+
+        // Call with --directory flag
+        Afp2Xml.main(new String[]{"--directory", tempDir.getAbsolutePath()});
+
+        File xmlFile1 = new File(tempDir, "test1.afp.xml");
+
+        assertTrue(xmlFile1.exists(), "XML file 1 should exist with --directory flag");
+        assertTrue(Files.readString(xmlFile1.toPath()).contains("<AFPDocument>"), "XML 1 should contain AFPDocument tag");
+    }
 }

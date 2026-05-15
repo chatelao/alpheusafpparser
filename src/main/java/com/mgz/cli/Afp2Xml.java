@@ -45,12 +45,15 @@ public class Afp2Xml {
         String outputPath = null;
 
         for (var i = 0; i < args.length; i++) {
-            if ("-d".equals(args[i]) || "--directory".equals(args[i])) {
-                isDirectoryMode = true;
-            } else if (inputPath == null) {
-                inputPath = args[i];
-            } else if (outputPath == null) {
-                outputPath = args[i];
+            switch (args[i]) {
+                case "-d", "--directory" -> isDirectoryMode = true;
+                default -> {
+                    if (inputPath == null) {
+                        inputPath = args[i];
+                    } else if (outputPath == null) {
+                        outputPath = args[i];
+                    }
+                }
             }
         }
 
@@ -64,6 +67,10 @@ public class Afp2Xml {
             if (!input.exists()) {
                 System.err.println("Input not found: " + inputPath);
                 System.exit(1);
+            }
+
+            if (input.isDirectory()) {
+                isDirectoryMode = true;
             }
 
             if (isDirectoryMode) {
