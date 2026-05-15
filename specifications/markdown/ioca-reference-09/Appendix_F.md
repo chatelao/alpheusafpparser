@@ -1,4 +1,4 @@
-Appendix F , “Notes for IOCA Generators”.
+Appendix F , “Notes for IOCA Generators”. [IOCA-F-001]
 ## Compression Algorithms
 
 
@@ -13,7 +13,7 @@ Figure 19. RIDIC Recording Algorithm X Direction .
 .
 n-2 n-1 n 1 2 3 Y Direction Each raster scan line is in multiples of eight bits. If the width of the image is not a multiple of eight, the scan line
 must be padded with zeros.
-If the Image Size parameter specifies a non-multiple of 8 bits, the resulting compressed image must be compressed at the next multiple of 8 bits and must be decompressed at the next multiple of 8 bits. Once decompressed, only the number of bits specified in the Image Size parameter are to be used for each scan line.
+If the Image Size parameter specifies a non-multiple of 8 bits, the resulting compressed image must be compressed at the next multiple of 8 bits and must be decompressed at the next multiple of 8 bits. Once decompressed, only the number of bits specified in the Image Size parameter are to be used for each scan line. [IOCA-F-002]
 ## Recording Algorithms
 
 
@@ -23,7 +23,7 @@ Figure 20. Bottom-to-Top Recording Algorithm X Direction .
 .
 n n-1 n-2 3 2 1 Y Direction Each raster scan line is in multiples of 32 bits. If the width of the image is not a multiple of 32, the scan line
 must be padded with zeros.
-Unpadded RIDIC Recording Algorithm The Unpadded RIDIC algorithm is identical to the RIDIC recording algorithm except that raster scan lines can be any length; no padding is necessary.
+Unpadded RIDIC Recording Algorithm The Unpadded RIDIC algorithm is identical to the RIDIC recording algorithm except that raster scan lines can be any length; no padding is necessary. [IOCA-F-003]
 ## Recording Algorithms
 
 

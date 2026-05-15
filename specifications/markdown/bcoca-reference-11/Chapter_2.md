@@ -1,8 +1,8 @@
 Chapter 2. Introduction to BCOCA
 This chapter:
-• Provides a brief overview of bar codes
-• Describes the basic elements of a bar code system
-• Describes how bar code system performance is measured
+• Provides a brief overview of bar codes [BCOCA-2-001]
+• Describes the basic elements of a bar code system [BCOCA-2-002]
+• Describes how bar code system performance is measured [BCOCA-2-003]
 What Is a Bar Code?
 A bar code is an accurate, easy, and inexpensive method of data presentation and data entry for Automatic
 Identification (AutoID) information systems. Bar codes are the predominant AutoID technology used to collect
@@ -30,11 +30,11 @@ printed bars and the underlying physical media. The logic signals are translated
 digitized computer readable data by a device called a decoder. The digitized data is transmitted to the host
 computer for processing.
 A bar code system consists of four major elements:
-1. The bar code symbology used to encode the data
-2. The physical media on which the bar code is printed
-3. The type of printing device used to print the bar code on the physical media
-4. The scanning device used to read the bar code.
-The following sections describe these elements in greater detail.
+1. The bar code symbology used to encode the data [BCOCA-2-004]
+2. The physical media on which the bar code is printed [BCOCA-2-005]
+3. The type of printing device used to print the bar code on the physical media [BCOCA-2-006]
+4. The scanning device used to read the bar code. [BCOCA-2-007]
+The following sections describe these elements in greater detail. [BCOCA-2-008]
 
 
 Bar Code Symbology
@@ -43,7 +43,7 @@ A bar code symbol consists of six parts, as illustrated in Figure 4. The complet
 margin, a start character, the data or message characters, an optional check-digit character, a stop character,
 and a stop margin.
 Figure 4. Bar Code Symbol Structure
-*  D  E  S  T  O  N  E  G  *
+*  D  E  S  T  O  N  E  G  * [BCOCA-2-009]
 }} }} } } }}} } } } }
 Start
 Margin
@@ -78,7 +78,7 @@ an error signal is generated.
 The bar and space patterns used to encode the start and stop characters are generally not symmetrical, that
 is, the same bar and space pattern is not used for both characters. This feature enables a decoder to scan in
 the forward or reverse directions.
-Figure 5  shows examples of linear bar code symbols.
+Figure 5  shows examples of linear bar code symbols. [BCOCA-2-010]
 
 
 Figure 5. Examples of Linear Bar Code Symbols (spans three pages)
@@ -97,7 +97,7 @@ Modifier X'00'
 Australia Post Bar Code
 Customer Barcode 2 using Table C
 (encoding 56439111ABA 9)
-99  M  123456  -----ABC1234
+99  M  123456  -----ABC1234 [BCOCA-2-011]
 USPS SCAN REQUIRED
 Intelligent Mail Container Barcode
 Code 128, Modifier X’05’
@@ -112,39 +112,39 @@ Royal Mail (RM4SCC)
 (encoding )2500GG30250
 Dutch KIX version
 USPS TRACKING # eVS
-9374 8901 0000 0003 9850 39
+9374 8901 0000 0003 9850 39 [BCOCA-2-012]
 Intelligent Mail Package Barcode
 Code 128, Modifier X’06’
-(encoding 42021234 9374890100000003985039)
+(encoding 42021234 9374890100000003985039) [BCOCA-2-013]
 
 
 (Part 2 of figure)
-0 512345 67890
+0 512345 67890 [BCOCA-2-014]
 UPC Version A
 (encoding 01234567890)
-0 1078349
+0 1078349 [BCOCA-2-015]
 UPC Version E
 (encoding 078349)
-0 806338 95260
+0 806338 95260 [BCOCA-2-016]
 4 2
 UPC A + Two-digit Supplemental
 (encoding 00633895260, supplemental = 24)
-0 698277 21123
-6 2 8 1 2
+0 698277 21123 [BCOCA-2-017]
+6 2 8 1 2 [BCOCA-2-018]
 UPC A + Five-digit Supplemental
 (encoding 09827721123, supplemental = 21826)
 2468 1230
 EAN 8
 (encoding 2468123)
-0412345 678903
+0412345 678903 [BCOCA-2-019]
 EAN 13
 (encoding 041234567890)
-0 412345 678903
+0 412345 678903 [BCOCA-2-020]
 9 9
 EAN + 2 Digit Supplemental
 (encoding 041234567890, supplemental = 99)
-0 412345 678903
-1 2 3 4 5
+0 412345 678903 [BCOCA-2-021]
+1 2 3 4 5 [BCOCA-2-022]
 EAN + 5 Digit Supplemental
 (encoding 041234567890, supplemental = 54321)
 Code 128
@@ -219,7 +219,7 @@ MaxiCode 2D SymbolData Matrix 2D Symbol
 QR Code with Image 2D Symbol
 (Image is part of the AFP Consortium logo)
 Aztec Code 2D Symbol
-Han Xin Code 2D Symbol
+Han Xin Code 2D Symbol [BCOCA-2-023]
 
 
 Two-Dimensional Stacked Symbologies
@@ -246,19 +246,19 @@ Codewords
 Right Row
 Indicator
 Codewords
-3 Data Symbol Characters
+3 Data Symbol Characters [BCOCA-2-024]
 per Row
-3 Data Symbol Characters
+3 Data Symbol Characters [BCOCA-2-025]
 per Row
 13 Rows
 
 
 Bar Code Symbol Generation
 Generating a bar code symbol is a four-step process:
-1. Identify the bar code symbology to be used and the data to be encoded in the message.
-2. Translate the data characters into a binary sequence for encoding.
-3. Create the bar and space pattern that represents each character.
-4. Format the individual characters into a completed bar code symbol.
+1. Identify the bar code symbology to be used and the data to be encoded in the message. [BCOCA-2-026]
+2. Translate the data characters into a binary sequence for encoding. [BCOCA-2-027]
+3. Create the bar and space pattern that represents each character. [BCOCA-2-028]
+4. Format the individual characters into a completed bar code symbol. [BCOCA-2-029]
 The general structure of a bar code symbol is implemented differently in each of the bar code symbologies.
 The various symbologies can be categorized according to the encoding technique used and the information
 density.
@@ -291,7 +291,7 @@ code density increases or decreases by varying the module width when it is print
 generally separated into three groups: high resolution, medium resolution, and low resolution. High-resolution
 module widths are typically less than 0.009 inch; medium-resolution module widths are between 0.009 inch
 and 0.020 inch; low-resolution module widths are greater than 0.020 inch. The criteria for selecting module
-widths are the application requirements and the printer characteristics.
+widths are the application requirements and the printer characteristics. [BCOCA-2-030]
 
 
 Physical Media
@@ -320,12 +320,12 @@ throughput applications. Ink jet, laser, electrostatic, and others, are used for
 printing technology used, print quality is the critical factor in producing machine readable bar code symbols.
 Print quality is determined by the print mechanism, the physical media, and the marking agent. The major
 factors influencing print quality are:
-• Marking agent spread/shrink
-• Marking agent voids/specks
-• Marking agent smearing
-• Marking agent non-uniformity
-• Bar and space width tolerances
-• Bar edge roughness
+• Marking agent spread/shrink [BCOCA-2-031]
+• Marking agent voids/specks [BCOCA-2-032]
+• Marking agent smearing [BCOCA-2-033]
+• Marking agent non-uniformity [BCOCA-2-034]
+• Bar and space width tolerances [BCOCA-2-035]
+• Bar edge roughness [BCOCA-2-036]
 All of these factors are potential sources of system errors. They must be closely controlled to ensure readable
 bar code symbols.
 
@@ -349,6 +349,6 @@ read rate is normally caused by a poorly printed symbol.
 The second parameter used to evaluate system performance is the substitution error rate. This is the ratio of
 the number of invalid, or incorrect, characters entered into the data base to the number of valid characters
 entered. Substitution error rate is dependent on the structure of the bar code symbology, the quality of the
-printed symbol, and the design of the decoding algorithm.
+printed symbol, and the design of the decoding algorithm. [BCOCA-2-037]
 
 

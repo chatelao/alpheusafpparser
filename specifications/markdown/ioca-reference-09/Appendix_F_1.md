@@ -7,13 +7,13 @@ Unlike scaling, rotation of images can sometimes be performed at high speed. For
 In the runend domain, only the transitions between black and white runs in the image are recorded. For images containing text or line art, there are few runs per scanline and the runend domain algorithms perform very efficiently. Halftone images, on the other hand, are far less suitable for such an approach.
 Given the complexity of the rotation issue, it is much better to generate images at the proper orientation. Note that in continuous forms printers, the default orientation for one-up printing is landscape. T o achieve high image performance in this context, the images should be prerotated 90 degrees and should have the rotation in the Object Area Position set to 270 degrees. In most printers, assuming that one-up prints at 90-degree landscape orientation, this avoids rotation in the printer control unit.
 Printing halftones poses several distinct challenges:
-• Compressed image size. High frequency halftones tend to compress very poorly. For example, 212lpi
+• Compressed image size. High frequency halftones tend to compress very poorly. For example, 212lpi [IOCA-F1-001]
 halftones used in some of the color printers cause the G4 MMR compression to actually expand data. If the halftoned area is not large, or if the image is light, this is not a particular concern. If the halftoned images are causing performance difficulties, lower frequency screens of 106lpi or below should be used.
-• Device dependency. Halftoned images are device dependent. The halftone screens are built for a particular
-type of the print engine. Moreover, each print engine behaves differently and behavior changes unpredictably with time, based on many environmental and internal factors. For the best quality, the halftones should be calibrated frequently. If quality output is desired, halftone images should not be archived. The generators should rather archive the original color or grayscale and generate the halftoned IOCA when the print device characteristics are known. Black and white text and linework are not device-specific and can be archived safely.
+• Device dependency. Halftoned images are device dependent. The halftone screens are built for a particular [IOCA-F1-002]
+type of the print engine. Moreover, each print engine behaves differently and behavior changes unpredictably with time, based on many environmental and internal factors. For the best quality, the halftones should be calibrated frequently. If quality output is desired, halftone images should not be archived. The generators should rather archive the original color or grayscale and generate the halftoned IOCA when the print device characteristics are known. Black and white text and linework are not device-specific and can be archived safely. [IOCA-F1-003]
 
 
-• Scaling impact. Scaling halftoned images by non-integer factors results in artifacts and unacceptable output
+• Scaling impact. Scaling halftoned images by non-integer factors results in artifacts and unacceptable output [IOCA-F1-004]
 quality. The generators should ensure that the image is generated with the same resolution used by the printer. The only exception is if the printer resolution is an even multiple of the image resolution. For example, printing a 300dpi image on a 600dpi printer produces a good quality image, albeit at 300dpi. Printing a 240dpi image on a 600dpi printer results in visible artifacts and poor quality, because 600 is not evenly divisible by 240.
 Most bilevel IOCA images are generated using the RIDIC recording algorithm and the G4 compression algorithm. Generators should keep in mind that RIDIC requires the image scanlines to be padded to a multiple of eight before compression. Note that TIFF images, which are often used as a source for generating IOCA, also support G4, but do not require that the scanlines be padded. Rewrapping G4 TIFF images with widths that are not multiples of 8 in IOCA is a major source of errors.
 If a TIFF image has a width that is not a multiple of 8, generators should decompress the image, pad each scanline to a multiple of 8 and then recompress. Alternatively, generators should use the Unpadded RIDIC recording algorithm, which does not require that the scanlines be padded. Be warned, however, that not all printers support the Unpadded RIDIC recording algorithm.
@@ -26,24 +26,24 @@ Images that contain just black or other fully saturated color text and line work
 Function Set 42 images containing CMYK tiles cannot be transformed to print on a bilevel (black and white)
 printer with reasonable performance and quality. These images are halftoned, which involves an information loss. T o obtain a bilevel image, the CMYK bilevel image must first be analyzed and transformed back into 8- bits/band CMYK. The 8-bit data can then be used to compute the 8-bit luminance (grayscale), that in turn has to be halftoned for the bilevel output device. The process is very compute-intensive and, given the information loss at several stages, likely to lead to poor-quality output. If the application anticipates having to present the image on different devices, the full color image, either 8 bit CMYK or, even better, a device-independent format like CIELab, should be archived. Applications are strongly discouraged from trying to recover device- independent color from the 1-bit/band CMYK. Since each output CMYK device has different characteristics,
 even printing a CMYK image halftoned for one device on a different device might lead to poor quality.
-Notes for IOCA Generators
+Notes for IOCA Generators [IOCA-F1-005]
 
 
 Function Set 45 and 48 Considerations T o achieve good performance and quality with the full color images, it is crucial that the images are compressed using a compression algorithm that is best matched to the type of the image:
-• IBM MMR-Modified Modified READ algorithm is obsolete. Using G4 MMR compression almost always
+• IBM MMR-Modified Modified READ algorithm is obsolete. Using G4 MMR compression almost always [IOCA-F1-006]
 results in better compression.
-• MMR algorithms are well-suited for compressing text and line art. If the image contains halftones, the
+• MMR algorithms are well-suited for compressing text and line art. If the image contains halftones, the [IOCA-F1-007]
 compression ratios degrade as the screens get finer. At roughly 150 lines per inch, the G4 algorithm generally compresses the data. At 212 lines per inch (high end color printers tend to use frequencies of 212lpi and above), the MMR algorithms cause the image to actually expand, possibly by a factor of two or more. For such images, using no compression is currently the best choice.
-• The ABIC compression algorithm compresses even high frequency halftones. ABIC is a complex algorithm
+• The ABIC compression algorithm compresses even high frequency halftones. ABIC is a complex algorithm [IOCA-F1-008]
 and decompressors can be slow, depending on the printer. In some cases, an image compressed with ABIC takes longer to download and decompress than the same image uncompressed, even though the uncompressed image has more than twice the amount of data. The performance of the ABIC decompressor in the printer should be tested before the decision is made to use ABIC.
-• The JPEG algorithm is well-suited for compressing continuous tone images such as photographs. Using
+• The JPEG algorithm is well-suited for compressing continuous tone images such as photographs. Using [IOCA-F1-009]
 JPEG on text, line art, pie charts, and similar images results in artifacts and unacceptable image quality.
 Such images should be compressed using the TIFF LZW algorithm.
-• The TIFF LZW algorithm is an excellent general-purpose lossless algorithm. It is particularly well suited to
+• The TIFF LZW algorithm is an excellent general-purpose lossless algorithm. It is particularly well suited to [IOCA-F1-010]
 compressing large areas of uniform color. While the output very rarely expands (unlike MMR-type algorithms on halftones), it generally achieves only 10% compression on continuous tone images. For such images, JPEG should be used.
 Using a valid compression algorithm that is poorly matched to the data does not cause any exception to be raised, but negatively affects either the printer performance or output quality or both.
 Given the large datasets needed to print full color images, it is even more crucial that the images be generated at the right size, resolution, and orientation.
-Notes for IOCA Generators
+Notes for IOCA Generators [IOCA-F1-011]
 
 
 

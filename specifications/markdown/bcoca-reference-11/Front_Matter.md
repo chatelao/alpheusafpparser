@@ -18,7 +18,7 @@ Presentation™ (AFP™) products that use the BCOCA architecture until otherwis
 T echnical changes are indicated in green, with a green vertical bar to the left of the change. Editorial changes that have no
 technical significance are not noted. For a detailed list of changes, see “Changes in This Edition”  .
 Internet
-Visit our home page: www.afpconsortium.org
+Visit our home page: www.afpconsortium.org [BCOCA-FM-001]
 
 
 Copyright © AFP Consortium 1991, 2025 iii
@@ -63,7 +63,7 @@ member of the consortium was transferred to the InfoPrint
 currently Ricoh holds the founding member position. In February 2009, the consortium was incorporated under
 a new set of bylaws with tiered membership and shared governance resulting in the creation of a formal open
 standards body called the AFP Consortium (AFPC). Ownership of and responsibility for the AFP architectures
-was transferred at that time to the AFP Consortium.
+was transferred at that time to the AFP Consortium. [BCOCA-FM-002]
 
 
 iv BCOCA Reference
@@ -77,33 +77,33 @@ S544-3766-00 dated August 1991
 Second Edition published by IBM Corporation
 S544-3766-01 dated July 1993
 This edition provides enhanced detail and clarifications:
-• Additional information has been provided to aid in the generation of BCOCA objects.
-• Chapter 1 has been enhanced to describe how the BCOCA architecture fits into IBM's
+• Additional information has been provided to aid in the generation of BCOCA objects. [BCOCA-FM-003]
+• Chapter 1 has been enhanced to describe how the BCOCA architecture fits into IBM's [BCOCA-FM-004]
 presentation environments.
-• The glossary has been extensively revised.
+• The glossary has been extensively revised. [BCOCA-FM-005]
 Third Edition published by IBM Corporation
 S544-3766-02 dated December 1997
 This edition provides enhanced detail and the following major new functions:
-• Additional information to aid in the generation of BCOCA objects
-• Check digit details for all symbologies
-• Glossary updates
-• Many clarifications
-• New UPC/EAN supplemental modifiers
-• Two new postal bar codes:
-1. Japan Postal Bar Code
-2. Royal Mail Postal Bar Code (RM4SCC)
+• Additional information to aid in the generation of BCOCA objects [BCOCA-FM-006]
+• Check digit details for all symbologies [BCOCA-FM-007]
+• Glossary updates [BCOCA-FM-008]
+• Many clarifications [BCOCA-FM-009]
+• New UPC/EAN supplemental modifiers [BCOCA-FM-010]
+• Two new postal bar codes: [BCOCA-FM-011]
+1. Japan Postal Bar Code [BCOCA-FM-012]
+2. Royal Mail Postal Bar Code (RM4SCC) [BCOCA-FM-013]
 Fourth Edition published by IBM Corporation
 S544-3766-03 dated June 2000
 This edition provides enhanced detail and the following major new functions:
-• Additional information to aid in the generation of BCOCA objects
-• A method of suppressing trailing blanks when bar codes are built from AFP line data
-• Editorial improvements for color, module width, bar code descriptions, and the list of
+• Additional information to aid in the generation of BCOCA objects [BCOCA-FM-014]
+• A method of suppressing trailing blanks when bar codes are built from AFP line data [BCOCA-FM-015]
+• Editorial improvements for color, module width, bar code descriptions, and the list of [BCOCA-FM-016]
 symbology specifications
-• Information about the Code 39 character set
-• Information about UCC/EAN 128
-• Two new postal bar codes:
-1. Australia Post Bar Code
-2. Dutch KIX postal bar code (a variation of the RM4SCC code)
+• Information about the Code 39 character set [BCOCA-FM-017]
+• Information about UCC/EAN 128 [BCOCA-FM-018]
+• Two new postal bar codes: [BCOCA-FM-019]
+1. Australia Post Bar Code [BCOCA-FM-020]
+2. Dutch KIX postal bar code (a variation of the RM4SCC code) [BCOCA-FM-021]
 Publication History
 
 
@@ -111,43 +111,43 @@ BCOCA Reference v
 Fifth Edition published by IBM Corporation
 S544-3766-04 dated May 2001
 This edition provides enhanced detail and the following major new functions:
-• Additional information to aid in the generation of BCOCA objects
-• A method of suppressing a bar code symbol so that just the human-readable interpretation
+• Additional information to aid in the generation of BCOCA objects [BCOCA-FM-022]
+• A method of suppressing a bar code symbol so that just the human-readable interpretation [BCOCA-FM-023]
 (HRI) is printed
-• Three new two-dimensional bar code symbologies:
-1. Data Matrix
-2. MaxiCode
-3. PDF417
+• Three new two-dimensional bar code symbologies: [BCOCA-FM-024]
+1. Data Matrix [BCOCA-FM-025]
+2. MaxiCode [BCOCA-FM-026]
+3. PDF417 [BCOCA-FM-027]
 Sixth Edition published by IBM Corporation
 S544-3766-05 dated November 2003
 This edition provides enhanced detail and the following major new functions:
-• Additional information, clarifications, and pictures to aid in the generation of BCOCA objects
-• Two new bar code types to provide additional symbol variations:
-1. Code 93 1D bar code
-2. QR Code
+• Additional information, clarifications, and pictures to aid in the generation of BCOCA objects [BCOCA-FM-028]
+• Two new bar code types to provide additional symbol variations: [BCOCA-FM-029]
+1. Code 93 1D bar code [BCOCA-FM-030]
+2. QR Code [BCOCA-FM-031]
 ® 2D bar code
-• Two new bar code variations:
-1. PLANET , a variation of POSTNET
-2. UCC/EAN 128, a variation of Code 128
+• Two new bar code variations: [BCOCA-FM-032]
+1. PLANET , a variation of POSTNET [BCOCA-FM-033]
+2. UCC/EAN 128, a variation of Code 128 [BCOCA-FM-034]
 Seventh Edition published by IBM Corporation
 S544-3766-06 dated July 2006
 This edition provides enhanced detail and the following major new functions:
-• Additional information, clarifications, and pictures to aid in the generation of BCOCA objects
-• A new bar code type:
+• Additional information, clarifications, and pictures to aid in the generation of BCOCA objects [BCOCA-FM-035]
+• A new bar code type: [BCOCA-FM-036]
 – USPS Four-State bar code (also called OneCodeSOLUTION bar code, later renamed to
 Intelligent Mail® Barcode)
-• Enhancements:
+• Enhancements: [BCOCA-FM-037]
 – Additional color spaces (RGB, CMYK, highlight, and CIELAB)
 – Shift-out, shift-in (SOSI) support for QR Code
 – UCC/EAN 128 clarifications and modifier X'04'
 Eighth Edition published by the AFP Consortium
 AFPC-0005-07 dated January 2011
 This edition provides enhanced detail and the following major new functions:
-• New bar code types and modifiers:
+• New bar code types and modifiers: [BCOCA-FM-038]
 – Intelligent Mail Container Barcode
 – Royal Mail RED TAG
-• A new BCOCA subset called BCD2
-• Enhancements:
+• A new BCOCA subset called BCD2 [BCOCA-FM-039]
+• Enhancements: [BCOCA-FM-040]
 – Clarification for MaxiCode EOT character
 – Control over Data Matrix encodation scheme
 – Correction to Japan Postal check digit algorithm
@@ -163,11 +163,11 @@ vi BCOCA Reference
 – Small fixed-size bar codes
 – Small Intelligent Mail Barcodes
 – Symbol origin clarification
-• Additional information, clarifications, and pictures to aid in the generation of BCOCA objects
+• Additional information, clarifications, and pictures to aid in the generation of BCOCA objects [BCOCA-FM-041]
 Ninth Edition published by the AFP Consortium
 AFPC-0005-08 dated May 2012
 This edition provides enhanced detail and the following new function:
-• A new bar code type and several modifiers for the GS1 DataBar family of bar codes:
+• A new bar code type and several modifiers for the GS1 DataBar family of bar codes: [BCOCA-FM-042]
 – GS1 DataBar Omnidirectional
 – GS1 DataBar Truncated
 – GS1 DataBar Stacked
@@ -175,36 +175,36 @@ This edition provides enhanced detail and the following new function:
 – GS1 DataBar Limited
 – GS1 DataBar Expanded
 – GS1 DataBar Expanded Stacked
-• Bearer Bars for Interleaved 2-of-5 and ITF-14 symbols
-• Information about the role of the BCOCA BCD2 subset in MO:DCA™ Interchange Set 3
+• Bearer Bars for Interleaved 2-of-5 and ITF-14 symbols [BCOCA-FM-043]
+• Information about the role of the BCOCA BCD2 subset in MO:DCA™ Interchange Set 3 [BCOCA-FM-044]
 (IS/3)
-• Additional information, clarifications, and pictures to improve readability
+• Additional information, clarifications, and pictures to improve readability [BCOCA-FM-045]
 Tenth Edition published by the AFP Consortium
 AFPC-0005-09 dated June 2015
 This edition provides enhanced detail and the following new function:
-• A new bar code type called Royal Mail Mailmark ®
-• Two new bar code modifiers for Royal Mail Mailmark: Barcode C (66 bars) and Barcode L
+• A new bar code type called Royal Mail Mailmark ® [BCOCA-FM-046]
+• Two new bar code modifiers for Royal Mail Mailmark: Barcode C (66 bars) and Barcode L [BCOCA-FM-047]
 (78 bars)
-• Royal Mail RED TAG bar code type has been deprecated
-• POSTNET and PLANET bar codes have been deprecated
-• One new exception ID (EC-1204)
-• New appendix describing each numbered retired item and also identifying items that have
+• Royal Mail RED TAG bar code type has been deprecated [BCOCA-FM-048]
+• POSTNET and PLANET bar codes have been deprecated [BCOCA-FM-049]
+• One new exception ID (EC-1204) [BCOCA-FM-050]
+• New appendix describing each numbered retired item and also identifying items that have [BCOCA-FM-051]
 been unretired
-• Metadata Object Content Architecture (MOCA) added; metadata can be carried in MO:DCA
+• Metadata Object Content Architecture (MOCA) added; metadata can be carried in MO:DCA [BCOCA-FM-052]
 print files and documents, but is currently not supported in IPDS data streams
-• Extensive glossary additions for color terms and new AFP terms
-• Additional information and clarifications to improve readability
+• Extensive glossary additions for color terms and new AFP terms [BCOCA-FM-053]
+• Additional information and clarifications to improve readability [BCOCA-FM-054]
 Eleventh Edition published by the AFP Consortium
 AFPC-0005-10 dated December 2023
 This edition provides enhanced detail and the following new function:
-• New bar code types:
+• New bar code types: [BCOCA-FM-055]
 – Aztec Code (new type X'26', new modifiers X'00'–X'03')
 – Intelligent Mail Package Barcode (existing type X'11', new modifier X'06')
 – QR Code with Image; this addition provides the ability to print some number of images in
 conjunction with a QR Code symbol (existing type X'20', new modifier X'12')
-• Extended Rectangular Data Matrix; this addition results in a Data Matrix bar code having 18
+• Extended Rectangular Data Matrix; this addition results in a Data Matrix bar code having 18 [BCOCA-FM-056]
 new rectangular sizes (existing type X'1C', new modifier X'01')
-• As a result of adding the QR Code with Image bar code type:
+• As a result of adding the QR Code with Image bar code type: [BCOCA-FM-057]
 Publication History
 
 
@@ -212,39 +212,39 @@ BCOCA Reference vii
 – The Xqr,Yqr coordinate system
 – The X'64' unit base, meaning “one percent” (of the QR Code symbol)
 – The Image Information Block in the QR Code with Image special-function parameters
-• A new “too much data” special-function parameters control flag, specifying the behavior if
+• A new “too much data” special-function parameters control flag, specifying the behavior if [BCOCA-FM-058]
 there is too much data to fit in a requested bar code size, for the existing Data Matrix and
 QR Code, and the new Aztec Code and QR Code with Image bar code types
-• A clarification that the Dutch KIX bar code has no check digit
-• 26 new exception IDs (EC-0F13 to EC-0F3B, and EC-1205)
-• 3 updated exception ID descriptions (EC-0F01, EC-0F04, and EC-1100)
-• Updated glossary to include the current definition for all AFP terms
-• Additional information and clarifications to improve readability
+• A clarification that the Dutch KIX bar code has no check digit [BCOCA-FM-059]
+• 26 new exception IDs (EC-0F13 to EC-0F3B, and EC-1205) [BCOCA-FM-060]
+• 3 updated exception ID descriptions (EC-0F01, EC-0F04, and EC-1100) [BCOCA-FM-061]
+• Updated glossary to include the current definition for all AFP terms [BCOCA-FM-062]
+• Additional information and clarifications to improve readability [BCOCA-FM-063]
 Publication History
 
 
 viii BCOCA Reference
 How to Use This Book
 This book is divided into six chapters and four appendixes:
-• Chapter 1, “A Presentation Architecture Perspective”,  introduces the AFPC presentation
+• Chapter 1, “A Presentation Architecture Perspective”,  introduces the AFPC presentation [BCOCA-FM-064]
 architectures and describes the role of data streams and data objects.
-• Chapter 2, “Introduction to BCOCA”,  describes bar code symbols, bar code symbologies, and the
+• Chapter 2, “Introduction to BCOCA”,  describes bar code symbols, bar code symbologies, and the [BCOCA-FM-065]
 basic elements of a bar code system.
-• Chapter 3, “BCOCA Overview”,  describes the key concepts of the BCOCA architecture and its
+• Chapter 3, “BCOCA Overview”,  describes the key concepts of the BCOCA architecture and its [BCOCA-FM-066]
 relationship to other presentation architectures.
-• Chapter 4, “BCOCA Data Structures”,  defines the data structures, fields, and valid data values
+• Chapter 4, “BCOCA Data Structures”,  defines the data structures, fields, and valid data values [BCOCA-FM-067]
 assigned to and reserved or retired for the BCOCA architecture.
-• Chapter 5, “Exception Conditions”,  lists the exceptions to the BCOCA definitions and what to do
+• Chapter 5, “Exception Conditions”,  lists the exceptions to the BCOCA definitions and what to do [BCOCA-FM-068]
 when such exceptions occur.
-• Chapter 6, “Compliance”,  describes requirements for valid generators and receivers of a
+• Chapter 6, “Compliance”,  describes requirements for valid generators and receivers of a [BCOCA-FM-069]
 BCOCA object.
-• Appendix A, “Bar Code Symbology Specification References”,  lists the bar code symbology
+• Appendix A, “Bar Code Symbology Specification References”,  lists the bar code symbology [BCOCA-FM-070]
 specifications referenced in this document.
-• Appendix B, “MO:DCA Environment”,  describes how BCOCA bar code objects are defined and
+• Appendix B, “MO:DCA Environment”,  describes how BCOCA bar code objects are defined and [BCOCA-FM-071]
 used in the MO:DCA environment.
-• Appendix C, “IPDS Environment”,  describes how BCOCA bar code objects are defined and
+• Appendix C, “IPDS Environment”,  describes how BCOCA bar code objects are defined and [BCOCA-FM-072]
 used in the IPDS environment.
-• Appendix D, “Retired Items”,  lists each retired item that is mentioned within the body of this
+• Appendix D, “Retired Items”,  lists each retired item that is mentioned within the body of this [BCOCA-FM-073]
 book and also lists those items that have been unretired.
 The “Glossary”  defines terms used within the book.
 How to Use This Book
@@ -296,7 +296,7 @@ UNDF Undefined data type
 The following is an example of a BCOCA data structure:
 Table 2. Bar Code Symbol Data (BSA) Data Structure
 Offset Type Name Range Meaning BCD1 Range BCD2 Range
-0 BITS Bar code flags
+0 BITS Bar code flags [BCOCA-FM-074]
 bit 0 HRI B'0'
 B'1'
 HRI is presented
@@ -360,7 +360,7 @@ X'0001'–X'7FFF'
 Refer to the note
 following the
 table.
-How to Read the Syntax Diagrams
+How to Read the Syntax Diagrams [BCOCA-FM-075]
 
 
 x BCOCA Reference
@@ -417,34 +417,34 @@ supports additional units of measure, the BCOCA architecture requires the receiv
 equivalent to the subset range relative to each supported unit of measure. More information about
 supported-range requirements is provided in the section titled “L-unit Range Conversion Algorithm” on
 page 21.
-How to Read the Syntax Diagrams
+How to Read the Syntax Diagrams [BCOCA-FM-076]
 
 
 BCOCA Reference xi
 Notation Conventions
 The following notation conventions apply to the BCOCA data structures.
-• Each byte contains eight bits.
-• Bytes of a BCOCA data structure are numbered from left to right beginning with byte 0 with the leftmost byte
+• Each byte contains eight bits. [BCOCA-FM-077]
+• Bytes of a BCOCA data structure are numbered from left to right beginning with byte 0 with the leftmost byte [BCOCA-FM-078]
 as most significant; this is called Big Endian. For example, if a structure is three bytes long and has two
 fields, a two-byte field followed by a one-byte field, the bytes are numbered as follows:
 Bytes 0–1 Field 1
 Byte 2 Field 2
 Byte 0 is the leftmost, high-order byte for the first field.
-• Bit strings are numbered beginning with 0. For example, a one-byte bit string contains bit 0, bit 1, ..., bit 7.
-• For numerical binary data, bit 0 is the most significant bit. For example, decimal 13 is equivalent to binary
+• Bit strings are numbered beginning with 0. For example, a one-byte bit string contains bit 0, bit 1, ..., bit 7. [BCOCA-FM-079]
+• For numerical binary data, bit 0 is the most significant bit. For example, decimal 13 is equivalent to binary [BCOCA-FM-080]
 B'00001101'.
-• Field values are expressed in hexadecimal or binary notation:
+• Field values are expressed in hexadecimal or binary notation: [BCOCA-FM-081]
 X'7FFF' = +32,767
 B'0001' = 1
 B'01111110' = X'7E' = +126
-• Some bits or bytes are labeled reserved. The content of reserved fields is not checked by BCOCA receivers.
+• Some bits or bytes are labeled reserved. The content of reserved fields is not checked by BCOCA receivers. [BCOCA-FM-082]
 However, BCOCA generators should set reserved fields to the specified value, if one is given, or to zero.
-• Some fields or values are labeled Retired item n, where n is an identifying number. These fields or values are
+• Some fields or values are labeled Retired item n, where n is an identifying number. These fields or values are [BCOCA-FM-083]
 reserved for a particular purpose and must not be used for any other purpose. Refer to Appendix D, “Retired
 Items”,  for a description of the individual retired items.
-• Values not explicitly defined in the range column of a field are reserved.
-• Additional information about specific fields is listed after each data structure table.
-• The term default is used in the description of some bits or bytes in the meaning column of the data structure
+• Values not explicitly defined in the range column of a field are reserved. [BCOCA-FM-084]
+• Additional information about specific fields is listed after each data structure table. [BCOCA-FM-085]
+• The term default is used in the description of some bits or bytes in the meaning column of the data structure [BCOCA-FM-086]
 tables. The default values for these fields are described in the field descriptions that follow the data structure
 tables.
 Notation Conventions
@@ -470,7 +470,7 @@ UPC Universal Product Code (United States)
 UPC/CGPC Universal Product Code (United States) and the Canadian Grocery Product Code
 USPS United States Postal Service
 USS Uniform Symbol Specification
-Bar Code Abbreviations
+Bar Code Abbreviations [BCOCA-FM-087]
 
 
 BCOCA Reference xiii
@@ -512,17 +512,17 @@ xiv BCOCA Reference
 
 
 BCOCA Reference xv
-Changes in This Edition
-Changes between this edition and the previous edition are marked by a vertical bar (|) in the left margin.
+Changes in This Edition [BCOCA-FM-088]
+Changes between this edition and the previous edition are marked by a vertical bar (|) in the left margin. [BCOCA-FM-089]
 This edition provides enhanced detail to support the BCOCA products that were introduced in the years 2023
 through 2025 and to support the work of the AFP Consortium. Specifically, the following new function has been
 added:
-• A new bar code type: Han Xin Code (new type X'27', new modifier X'00')
-• Clarification regarding Data Matrix bar code sizes chosen by the printer
-• 5 new exception IDs (EC-0F21 to EC-0F25)
-• Updated glossary to include the current definition for all AFP terms
-• Additional information and clarifications to improve readability
-Changes in This Edition
+• A new bar code type: Han Xin Code (new type X'27', new modifier X'00') [BCOCA-FM-090]
+• Clarification regarding Data Matrix bar code sizes chosen by the printer [BCOCA-FM-091]
+• 5 new exception IDs (EC-0F21 to EC-0F25) [BCOCA-FM-092]
+• Updated glossary to include the current definition for all AFP terms [BCOCA-FM-093]
+• Additional information and clarifications to improve readability [BCOCA-FM-094]
+Changes in This Edition [BCOCA-FM-095]
 
 
 xvi BCOCA Reference
@@ -582,7 +582,7 @@ Bar Code Symbol Descriptor (BSD) ...............................................
 Default Value Recommendations.......................................................................................................... 45
 Bar Code Type and Modifier Descriptions ............................................................................................... 48
 Code 39 (3-of-9 Code), AIM USS-39 (modifier values X'01' and X'02') ...................................................... 48
-MSI (modified Plessey code, modifier values X'01' through X'09') ............................................................ 49
+MSI (modified Plessey code, modifier values X'01' through X'09') ............................................................ 49 [BCOCA-FM-096]
 
 
 xviii BCOCA Reference
@@ -646,7 +646,7 @@ Receiver Rules .................................................................
 Appendix A. Bar Code Symbology Specification References . . . . . . . . . . . . . . . . . . . . . . 171
 Appendix B. MO:DCA Environment. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175
 Bar Codes in MO:DCA Documents.......................................................................................................... 175
-Bar Code Data Object Structured Fields ................................................................................................... 176
+Bar Code Data Object Structured Fields ................................................................................................... 176 [BCOCA-FM-097]
 
 
 BCOCA Reference xix
@@ -662,7 +662,7 @@ Appendix D. Retired Items . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 Notices . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 191
 Trademarks........................................................................................................................................ 192
 Glossary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195
-Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 237
+Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 237 [BCOCA-FM-098]
 
 
 xx BCOCA Reference
@@ -670,24 +670,24 @@ xx BCOCA Reference
 
 Copyright © AFP Consortium 1991, 2025 xxi
 Figures
-1. Presentation Environment ........................................................................................................................ 1
-2. Presentation Model ................................................................................................................................ 3
-3. Presentation Page.................................................................................................................................. 5
-4. Bar Code Symbol Structure ...................................................................................................................... 8
-5. Examples of Linear Bar Code Symbols (spans three pages) ............................................................................ 9
-6. Examples of 2D Matrix Bar Code Symbols................................................................................................. 12
-7. Examples of 2D Stacked Bar Code Symbols .............................................................................................. 13
-8. Bar Code Presentation Space ................................................................................................................. 20
-9. Bar Code Orientations........................................................................................................................... 24
-10. BCOCA Function and Subsetting ........................................................................................................... 30
-11. Example of a MaxiCode Bar Code Symbol with Zipper and Contrast Block .................................................... 124
-12. Subset of EBCDIC Code Page 500 That Can Be Translated T o GLI 0 .......................................................... 126
-13. Subset of EBCDIC Code Page 500 That Can Be Translated T o ECI 000020.................................................. 135
-14. For use in the figures following, this is the image to be placed in conjunction with the QR Code symbol ............... 140
-15. The X qr,Yqr coordinate system and Image Object Area .............................................................................. 141
-16. The same QR Code with Image, but with the image rotated 90° in relation to the QR Code symbol..................... 142
-17. The same QR Code with Image, but with the image rotated 45° in relation to the QR Code symbol..................... 142
-18. Code 128 Code Page (CPGID = 1303, GCSGID = 1454) .......................................................................... 160
+1. Presentation Environment ........................................................................................................................ 1 [BCOCA-FM-099]
+2. Presentation Model ................................................................................................................................ 3 [BCOCA-FM-100]
+3. Presentation Page.................................................................................................................................. 5 [BCOCA-FM-101]
+4. Bar Code Symbol Structure ...................................................................................................................... 8 [BCOCA-FM-102]
+5. Examples of Linear Bar Code Symbols (spans three pages) ............................................................................ 9 [BCOCA-FM-103]
+6. Examples of 2D Matrix Bar Code Symbols................................................................................................. 12 [BCOCA-FM-104]
+7. Examples of 2D Stacked Bar Code Symbols .............................................................................................. 13 [BCOCA-FM-105]
+8. Bar Code Presentation Space ................................................................................................................. 20 [BCOCA-FM-106]
+9. Bar Code Orientations........................................................................................................................... 24 [BCOCA-FM-107]
+10. BCOCA Function and Subsetting ........................................................................................................... 30 [BCOCA-FM-108]
+11. Example of a MaxiCode Bar Code Symbol with Zipper and Contrast Block .................................................... 124 [BCOCA-FM-109]
+12. Subset of EBCDIC Code Page 500 That Can Be Translated T o GLI 0 .......................................................... 126 [BCOCA-FM-110]
+13. Subset of EBCDIC Code Page 500 That Can Be Translated T o ECI 000020.................................................. 135 [BCOCA-FM-111]
+14. For use in the figures following, this is the image to be placed in conjunction with the QR Code symbol ............... 140 [BCOCA-FM-112]
+15. The X qr,Yqr coordinate system and Image Object Area .............................................................................. 141 [BCOCA-FM-113]
+16. The same QR Code with Image, but with the image rotated 90° in relation to the QR Code symbol..................... 142 [BCOCA-FM-114]
+17. The same QR Code with Image, but with the image rotated 45° in relation to the QR Code symbol..................... 142 [BCOCA-FM-115]
+18. Code 128 Code Page (CPGID = 1303, GCSGID = 1454) .......................................................................... 160 [BCOCA-FM-116]
 
 
 xxii BCOCA Reference
@@ -695,47 +695,47 @@ xxii BCOCA Reference
 
 Copyright © AFP Consortium 1991, 2025 xxiii
 Tables
-1. Data Structure Syntax ............................................................................................................................ ix
-2. Bar Code Symbol Data (BSA) Data Structure .............................................................................................. ix
-3. AFP Consortium Architecture References ................................................................................................. xiii
-4. Additional AFP Consortium Documentation ............................................................................................... xiii
-5. AFP Font-Related Documentation ........................................................................................................... xiii
-6. Field Ranges for Commonly-Supported Measurement Bases ........................................................................ 22
-7. Human-Readable Interpretation Type Style Recommendations ...................................................................... 26
-8. Bar Code Symbol Descriptor (BSD) Data Structure...................................................................................... 31
-9. Bar Code Types ................................................................................................................................... 34
-10. Modifier Values by Bar Code Type.......................................................................................................... 36
-11. Standard OCA Color-Value T able ........................................................................................................... 39
-12. Sizing T argets for Fixed-Size Bar Code Types........................................................................................... 41
-13. Recommended Default Values for Module Width, Element Height, and Wide-to-Narrow Ratio ............................. 45
-14. Intelligent Mail Container Barcode Data Field Ranges ................................................................................ 61
-15. Valid Code Points for Direct Input to a Japan Postal Bar Code ...................................................................... 69
-16. Australia Post Modifier Values ............................................................................................................... 74
-17. Royal Mail RED TAG (deprecated) Data Field Ranges................................................................................ 79
-18. Modifier Values for a GS1 DataBar Expanded Stacked Bar Code .................................................................. 84
-19. Check Digit Calculation Methods ........................................................................................................... 90
-20. Bar Code Symbol Data (BSA) Data Structure ........................................................................................... 94
-21. Aztec Code Special-Function Parameters .............................................................................................. 100
-22. Supported Number of Layers for an Aztec Code Symbol ........................................................................... 103
-23. Data Matrix Special-Function Parameters .............................................................................................. 106
-24. Supported Sizes for a Modifier X'00' Data Matrix Symbol........................................................................... 109
-25. Supported Sizes for a Modifier X'01' Data Matrix Symbol............................................................................110
-26. Han Xin Code Special-Function Parameters ............................................................................................114
-27. Supported Versions for a Han Xin Code Symbol .......................................................................................116
-28. Intelligent Mail Package Barcode Special-Function Parameters ...................................................................118
-29. MaxiCode Special-Function Parameters................................................................................................ 120
-30. PDF417 Special-Function Parameters .................................................................................................. 125
-31. QR Code Special-Function Parameters ................................................................................................. 131
-32. Supported Versions for a QR Code Symbol ............................................................................................ 136
-33. QR Code with Image Special-Function Parameters.................................................................................. 143
-34. Valid Code Pages and Type Styles ....................................................................................................... 149
-35. Valid Characters and Data Lengths ...................................................................................................... 151
-36. Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing)................... 157
-37. MO:DCA Bar Code Data Descriptor (BDD)............................................................................................. 176
-38. MO:DCA Bar Code Data (BDA) ........................................................................................................... 176
-39. IPDS Bar Code Data Descriptor (BCDD) ............................................................................................... 178
-40. BCOCA Exception Conditions and IPDS Exception IDs ............................................................................ 180
-41. Valid Code Pages and Type Styles ....................................................................................................... 188
+1. Data Structure Syntax ............................................................................................................................ ix [BCOCA-FM-117]
+2. Bar Code Symbol Data (BSA) Data Structure .............................................................................................. ix [BCOCA-FM-118]
+3. AFP Consortium Architecture References ................................................................................................. xiii [BCOCA-FM-119]
+4. Additional AFP Consortium Documentation ............................................................................................... xiii [BCOCA-FM-120]
+5. AFP Font-Related Documentation ........................................................................................................... xiii [BCOCA-FM-121]
+6. Field Ranges for Commonly-Supported Measurement Bases ........................................................................ 22 [BCOCA-FM-122]
+7. Human-Readable Interpretation Type Style Recommendations ...................................................................... 26 [BCOCA-FM-123]
+8. Bar Code Symbol Descriptor (BSD) Data Structure...................................................................................... 31 [BCOCA-FM-124]
+9. Bar Code Types ................................................................................................................................... 34 [BCOCA-FM-125]
+10. Modifier Values by Bar Code Type.......................................................................................................... 36 [BCOCA-FM-126]
+11. Standard OCA Color-Value T able ........................................................................................................... 39 [BCOCA-FM-127]
+12. Sizing T argets for Fixed-Size Bar Code Types........................................................................................... 41 [BCOCA-FM-128]
+13. Recommended Default Values for Module Width, Element Height, and Wide-to-Narrow Ratio ............................. 45 [BCOCA-FM-129]
+14. Intelligent Mail Container Barcode Data Field Ranges ................................................................................ 61 [BCOCA-FM-130]
+15. Valid Code Points for Direct Input to a Japan Postal Bar Code ...................................................................... 69 [BCOCA-FM-131]
+16. Australia Post Modifier Values ............................................................................................................... 74 [BCOCA-FM-132]
+17. Royal Mail RED TAG (deprecated) Data Field Ranges................................................................................ 79 [BCOCA-FM-133]
+18. Modifier Values for a GS1 DataBar Expanded Stacked Bar Code .................................................................. 84 [BCOCA-FM-134]
+19. Check Digit Calculation Methods ........................................................................................................... 90 [BCOCA-FM-135]
+20. Bar Code Symbol Data (BSA) Data Structure ........................................................................................... 94 [BCOCA-FM-136]
+21. Aztec Code Special-Function Parameters .............................................................................................. 100 [BCOCA-FM-137]
+22. Supported Number of Layers for an Aztec Code Symbol ........................................................................... 103 [BCOCA-FM-138]
+23. Data Matrix Special-Function Parameters .............................................................................................. 106 [BCOCA-FM-139]
+24. Supported Sizes for a Modifier X'00' Data Matrix Symbol........................................................................... 109 [BCOCA-FM-140]
+25. Supported Sizes for a Modifier X'01' Data Matrix Symbol............................................................................110 [BCOCA-FM-141]
+26. Han Xin Code Special-Function Parameters ............................................................................................114 [BCOCA-FM-142]
+27. Supported Versions for a Han Xin Code Symbol .......................................................................................116 [BCOCA-FM-143]
+28. Intelligent Mail Package Barcode Special-Function Parameters ...................................................................118 [BCOCA-FM-144]
+29. MaxiCode Special-Function Parameters................................................................................................ 120 [BCOCA-FM-145]
+30. PDF417 Special-Function Parameters .................................................................................................. 125 [BCOCA-FM-146]
+31. QR Code Special-Function Parameters ................................................................................................. 131 [BCOCA-FM-147]
+32. Supported Versions for a QR Code Symbol ............................................................................................ 136 [BCOCA-FM-148]
+33. QR Code with Image Special-Function Parameters.................................................................................. 143 [BCOCA-FM-149]
+34. Valid Code Pages and Type Styles ....................................................................................................... 149 [BCOCA-FM-150]
+35. Valid Characters and Data Lengths ...................................................................................................... 151 [BCOCA-FM-151]
+36. Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing)................... 157 [BCOCA-FM-152]
+37. MO:DCA Bar Code Data Descriptor (BDD)............................................................................................. 176 [BCOCA-FM-153]
+38. MO:DCA Bar Code Data (BDA) ........................................................................................................... 176 [BCOCA-FM-154]
+39. IPDS Bar Code Data Descriptor (BCDD) ............................................................................................... 178 [BCOCA-FM-155]
+40. BCOCA Exception Conditions and IPDS Exception IDs ............................................................................ 180 [BCOCA-FM-156]
+41. Valid Code Pages and Type Styles ....................................................................................................... 188 [BCOCA-FM-157]
 
 
 xxiv BCOCA Reference

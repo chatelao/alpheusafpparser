@@ -6,7 +6,7 @@ Db2 always returns data to your application in the CCSID that your application u
 called the application encoding scheme.
 Tip: Use the following general recommendations to guide you in writing and preparing your application
 programs.
-• If possible, use either Unicode or EBCDIC data, but not both. If you do choose to use multiple encoding
+• If possible, use either Unicode or EBCDIC data, but not both. If you do choose to use multiple encoding [DB2Z-5-001]
 schemes, consider the following possible implications for data loss and performance:
 – Managing multiple CCSIDs in your application can be difficult. To ensure that data is not lost, you
 have to control where the data goes, a path that potentially includes many modules.
@@ -18,18 +18,18 @@ the message on the wire.
 – Db2 tables must be in the same encoding scheme. You cannot make some columns Unicode and
 some EBCDIC. If your application processes some columns in Unicode and others in EBCDIC,
 character conversion occurs, which likely increases the performance overhead.
-• If you are using Unicode data in COBOL or PL/I applications, use the coprocessor.
-• If your COBOL, PL/I, C/C++ , or Assembler application handles Unicode data, do not place literals in the
+• If you are using Unicode data in COBOL or PL/I applications, use the coprocessor. [DB2Z-5-002]
+• If your COBOL, PL/I, C/C++ , or Assembler application handles Unicode data, do not place literals in the [DB2Z-5-003]
 source code of the application. Because these language compilers do not support Unicode source code,
 they could misinterpret these literal values. Instead, place these literal values in a file or Db2 table
 that can be accessed at the start of the program to load the values. (Files and host variables are not
 precompiled and compiled as application source code.)
-• If an expanding or contracting conversion occurs on your data, the length of the data might change.
+• If an expanding or contracting conversion occurs on your data, the length of the data might change. [DB2Z-5-004]
 Be aware of these length changes when you use the LENGTH function, CHARACTER_LENGTH function,
 SUBSTRING function, and SUBSTR function on the converted string. For CHARACTER_LENGTH and
 SUBSTRING, use the CODEUNITS16 and CODEUNITS32 options to specify how you want Db2 to
 calculate the length.
-• If you need to represent characters from multiple Latin-based character sets, such as Latin-1 and
+• If you need to represent characters from multiple Latin-based character sets, such as Latin-1 and [DB2Z-5-005]
 Latin-4, consider using Unicode for your application encoding scheme. An SBCS CCSID does not have
 enough code points to represent all of the characters that the combination of the two character sets
 require. For example, assume that your application uses an EBCDIC CCSID, such as 277 or 1069. You
@@ -38,14 +38,14 @@ application without substitution. If your application needs to handle only one l
 can set up your infrastructure in one of the following ways:
 – Have one version of your application that uses CCSID 277 and another version that uses CCSID 1069.
 Also have two corresponding subsystems, one that uses CCSID 277 and another that uses CCSID
-1069. (You cannot have multiple EBCDIC CCSIDs in one Db2 subsystem.)
+1069. (You cannot have multiple EBCDIC CCSIDs in one Db2 subsystem.) [DB2Z-5-006]
 – Store the data in Unicode and have one version of your application that uses CCSID 277 and another
 version that uses CCSID 1069. Then bind these applications with different values for the ENCODING
 bind option.
 – Store the data in Unicode and have one version of your application that uses an EBCDIC CCSID and
 another version that uses Unicode.
 However, if you require that a single version of the application handle both Latin-1 and Latin-4 character
-sets, your application needs to process data in Unicode.
+sets, your application needs to process data in Unicode. [DB2Z-5-007]
 
 
 
@@ -89,7 +89,7 @@ An encoding scheme standardizes the encoding of character sets by defining a set
 character data. Each encoding scheme consists of a number of code pages that adhere to its rules. For
 example, code pages 37, 500, and 1047 are all part of the EBCDIC encoding scheme.
 Related reference
-Character conversion terminology
+Character conversion terminology [DB2Z-5-008]
 
 
 
@@ -108,20 +108,20 @@ use the same CCSID for all of your data. For more information, see “Possible c
 conversion”.
 Procedure
 To specify a CCSID for your application, use the following approaches:
-1. Use the options as shown in the following table:
-Table 18. Options to set application CCSIDs
+1. Use the options as shown in the following table: [DB2Z-5-009]
+Table 18. Options to set application CCSIDs [DB2Z-5-010]
 
 | Item for which you want to specify the CCSID | Option to use |
 | :--- | :--- |
-| Application source code (which includes SQL statements and literal strings in the SQL statements) | If you are using the Db2 precompiler, use the CCSID SQL processing option when you precompile the application. Specify the same CCSID when you compile the application. <br><br> If you are using the Db2 coprocessor, use the language compiler to set the CCSID. For COBOL, PL/I, and C/C++, use the following instructions<sup>2</sup>: <ul><li>“Specifying CCSIDs for COBOL applications when using the Db2 coprocessor”</li><li>“Specifying CCSIDs for PL/I applications when using the Db2 coprocessor”</li><li>“Specifying CCSIDs for C/C++ applications when using the Db2 coprocessor”</li></ul> The default CCSID for the application source code is the subsystem EBCDIC CCSID (DECP value SCCSID or MCCSID). Db2 uses this value if you do not use one of the preceding mechanisms to specify a CCSID. <br><br> **Restriction:** The compilers for high level host languages do not support Unicode source code. |
-| Application data (values that are passed through host variables and parameter markers) within SQL statements<sup>3</sup> | You can use one or more of the following Db2 approaches to specify CCSID values for the application data<sup>4</sup>, which is called the application encoding scheme: <ul><li>Use the ENCODING bind option.<sup>5</sup> This option typically yields the best performance.</li><li>You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement with the CCSID option.</li><li>You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT APPLICATION ENCODING SCHEME special register. Db2 uses the value of this special register at the time that the statement is executed.</li><li>If you use an SQL descriptor to define application data the previous options in this list might not apply if CCSID overrides are defined for host variables and parameter markers in the “SQL descriptor (SQLDA)”.</li></ul> The default CCSID for the application data is the subsystem default application encoding scheme. For static SQL (host variables), this value is the APPENSCH value from the DECP that is loaded when you bind your application. For dynamic SQL (parameter markers), this value is the APPENSCH value from the DECP that is loaded at the time that the application is executed. <br><br> Alternatively, if you are using the Db2 coprocessor for COBOL or PL/I applications, you can override the ENCODING bind option by using language-specific compiler options. For more information, see the following topics: <ul><li>“Specifying CCSIDs for COBOL applications when using the Db2 coprocessor”</li><li>“Specifying CCSIDs for PL/I applications when using the Db2 coprocessor”</li></ul> |
-| Application data that is referenced outside of SQL statements | Use the rules of the programming language. In some cases, the CCSID of this data is the same as the CCSID of the source code. |
+| Application source code (which includes SQL statements and literal strings in the SQL statements) | If you are using the Db2 precompiler, use the CCSID SQL processing option when you precompile the application. Specify the same CCSID when you compile the application. <br><br> If you are using the Db2 coprocessor, use the language compiler to set the CCSID. For COBOL, PL/I, and C/C++, use the following instructions<sup>2</sup>: <ul><li>“Specifying CCSIDs for COBOL applications when using the Db2 coprocessor”</li><li>“Specifying CCSIDs for PL/I applications when using the Db2 coprocessor”</li><li>“Specifying CCSIDs for C/C++ applications when using the Db2 coprocessor”</li></ul> The default CCSID for the application source code is the subsystem EBCDIC CCSID (DECP value SCCSID or MCCSID). Db2 uses this value if you do not use one of the preceding mechanisms to specify a CCSID. <br><br> **Restriction:** The compilers for high level host languages do not support Unicode source code. [DB2Z-5-011]|
+| Application data (values that are passed through host variables and parameter markers) within SQL statements<sup>3</sup> | You can use one or more of the following Db2 approaches to specify CCSID values for the application data<sup>4</sup>, which is called the application encoding scheme: <ul><li>Use the ENCODING bind option.<sup>5</sup> This option typically yields the best performance.</li><li>You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement with the CCSID option.</li><li>You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT APPLICATION ENCODING SCHEME special register. Db2 uses the value of this special register at the time that the statement is executed.</li><li>If you use an SQL descriptor to define application data the previous options in this list might not apply if CCSID overrides are defined for host variables and parameter markers in the “SQL descriptor (SQLDA)”.</li></ul> The default CCSID for the application data is the subsystem default application encoding scheme. For static SQL (host variables), this value is the APPENSCH value from the DECP that is loaded when you bind your application. For dynamic SQL (parameter markers), this value is the APPENSCH value from the DECP that is loaded at the time that the application is executed. <br><br> Alternatively, if you are using the Db2 coprocessor for COBOL or PL/I applications, you can override the ENCODING bind option by using language-specific compiler options. For more information, see the following topics: <ul><li>“Specifying CCSIDs for COBOL applications when using the Db2 coprocessor”</li><li>“Specifying CCSIDs for PL/I applications when using the Db2 coprocessor”</li></ul> [DB2Z-5-012]|
+| Application data that is referenced outside of SQL statements | Use the rules of the programming language. In some cases, the CCSID of this data is the same as the CCSID of the source code. [DB2Z-5-013]|
 
 <sup>2</sup> For older compilers that do not pass a CCSID value to the Db2 coprocessor, use the SQL compiler option with the CCSID suboption to specify a value.
 <sup>3</sup> You can specify different CCSIDs for different pieces of data in one application. However, if you specify multiple CCSIDs, do so with caution.
 <sup>4</sup> Use caution if you specify different CCSIDs for different pieces of data, which can result in character conversion.
 <sup>5</sup> For DRDA applications, the ENCODING bind option does not set the CCSID of the data, and CCSIDs are communicated as part of the protocol.
-2. Optional: If you want to confirm which CCSID value the Db2 precompiler used, look at the precompiler
+2. Optional: If you want to confirm which CCSID value the Db2 precompiler used, look at the precompiler [DB2Z-5-014]
 listing. If you want to confirm which CCSID value the Db2 coprocessor used, look at the compiler
 listing.
 If you need help finding the CCSID values in these listings, see the example listings in “Finding the
@@ -129,12 +129,12 @@ CCSID values of your data sources”.
 You can also use these listings to confirm which DECP module Db2 used. Knowing which DECP module
 is useful if you modified a DECP value, such as APPENSCH, before you compiled or executed your
 program. You can see which DECP module and which values Db2 used.
-3 You can specify different CCSIDs for different pieces of data in one application. However, if you specify
+3 You can specify different CCSIDs for different pieces of data in one application. However, if you specify [DB2Z-5-015]
 multiple CCSIDs, do so with caution.
-4 Use caution if you specify different CCSIDs for different pieces of data, which can result in character
+4 Use caution if you specify different CCSIDs for different pieces of data, which can result in character [DB2Z-5-016]
 conversion.
-5 For DRDA applications, the ENCODING bind option does not set the CCSID of the data, and CCSIDs are
-communicated as part of the protocol.
+5 For DRDA applications, the ENCODING bind option does not set the CCSID of the data, and CCSIDs are [DB2Z-5-017]
+communicated as part of the protocol. [DB2Z-5-018]
 
 
 
@@ -183,7 +183,7 @@ by using certain language compiler options or by specifying a DECLARE VARIABLE s
 CCSID option. You can override the CCSID of parameter markers in dynamic SQL statements by using the
 CURRENT APPLICATION ENCODING SCHEME special register.
 This value can be EBCDIC, ASCII, Unicode, or a valid CCSID. If the value is EBCDIC, ASCII, or Unicode,
-Db2 uses the subsystem default CCSID for that encoding scheme.
+Db2 uses the subsystem default CCSID for that encoding scheme. [DB2Z-5-019]
 
 
   77
@@ -201,14 +201,14 @@ as MIN and MAX. These statements might return different results when they are is
 than on EBCDIC data.
 The following table shows some example encoding differences to consider when specifying these clauses,
 predicates, and functions in your SQL statements.
-Table 21. Example encoding differences
+Table 21. Example encoding differences [DB2Z-5-020]
 
 | EBCDIC: Characters | EBCDIC: Hexadecimal value | Unicode and ASCII: Characters | Unicode and ASCII: Hexadecimal value |
 | :--- | :--- | :--- | :--- |
-| space | X'40' | space | X'20' |
-| lowercase characters | X'81' - X'89', X'91' - X'99', X'A1' - X'A9' | uppercase characters | X'41' - X'5A' |
-| numerals | X'F0' - X'F9' | numerals | X'30' - X'39' |
-| uppercase characters | X'C1' - X'C9', X'D1' - X'D9', X'E1' - X'E9' | lowercase characters | X'61' - X'7A' |
+| space | X'40' | space | X'20' [DB2Z-5-021]|
+| lowercase characters | X'81' - X'89', X'91' - X'99', X'A1' - X'A9' | uppercase characters | X'41' - X'5A' [DB2Z-5-022]|
+| numerals | X'F0' - X'F9' | numerals | X'30' - X'39' [DB2Z-5-023]|
+| uppercase characters | X'C1' - X'C9', X'D1' - X'D9', X'E1' - X'E9' | lowercase characters | X'61' - X'7A' [DB2Z-5-024]|
 Equal predicates are not affected by the different sorting sequences.
 Examples
 GUPI
@@ -297,19 +297,19 @@ Procedure
 If you are using any of the following length functions, specify the appropriate unit of measurement:
 GUPI
 Applicable functions:
-• CHARACTER_LENGTH
+• CHARACTER_LENGTH [DB2Z-5-025]
 • CLOB
-• DBCLOB
-• GRAPHIC
+• DBCLOB [DB2Z-5-026]
+• GRAPHIC [DB2Z-5-027]
 • LEFT
-• LOCATE
-• LOCATE_IN_STRING
-• OVERLAY
-• POSITION
+• LOCATE [DB2Z-5-028]
+• LOCATE_IN_STRING [DB2Z-5-029]
+• OVERLAY [DB2Z-5-030]
+• POSITION [DB2Z-5-031]
 • RIGHT
-• SUBSTRING
-• VARCHAR
-• VARGRAPHIC
+• SUBSTRING [DB2Z-5-032]
+• VARCHAR [DB2Z-5-033]
+• VARGRAPHIC [DB2Z-5-034]
 GUPI
 Options to specify unit of measurement:
 CODEUNITS16
@@ -353,31 +353,31 @@ which instance of the search string to find. The following statement sets the va
 variable POSITION to 26, because the character ß is the 26th character in the string. In this case,
 CODEUNITS32 means that any character that is 4 bytes or less is counted as 1.
 SET :POSITION = LOCATE_IN_STRING('Jürgen lives on Hegelstraße','ß',-1,CODEUNITS32);
--- search from end
+-- search from end [DB2Z-5-035]
 The following statement sets the value of the host variable POSITION to 6. Db2 starts at position 1
 and looks for the third occurrence of the character N. In this case, OCTETS means that Db2 counts the
 length by bytes.
 SET :POSITION = LOCATE_IN_STRING('WINNING','N',1,3,OCTETS);
 Examples of other length functions
 The following table shows examples of the CODEUNITS16, CODEUNITS32, and OCTET options.
-Table 22. Examples of length functions
+Table 22. Examples of length functions [DB2Z-5-036]
 
 | Function | Result | Hexadecimal result value |
 | :--- | :--- | :--- |
-| LEFT('Jürgen', 2, CODEUNITS32) | 'Jü' | X'4AC3BC' |
-| LEFT('Jürgen', 2, CODEUNITS16) | 'Jü' | X'4AC3BC' |
-| LEFT('Jürgen', 2, OCTETS) | 'J ' | X'4A20' (a truncated string) |
-| LEFT('Jürgen', 2) | 'J?' | X'4AC3' (The letter 'J' and a partial character)<sup>1</sup> |
-| RIGHT('Jürgen', 5, CODEUNITS32) | 'ürgen' | X'C3BC7267656E' |
-| RIGHT('Jürgen', 5, CODEUNITS16) | 'ürgen' | X'C3BC7267656E' |
-| RIGHT('Jürgen', 5, OCTETS) | 'rgen' | X'207267656E' (a truncated string) |
-| RIGHT('Jürgen', 5) | '?rgen' | X'BC7267656E' (a partial character followed by 'rgen')<sup>1</sup> |
-| SUBSTRING('Jürgen', 1, 2, CODEUNITS32) | 'Jü' | X'4AC3BC' |
-| SUBSTRING('Jürgen', 1, 2, CODEUNITS16) | 'Jü' | X'4AC3BC' |
-| SUBSTRING('Jürgen', 1, 2, OCTETS) | 'J ' | X'4A20' (a truncated string) |
-| SUBSTR('Jürgen', 1, 2) | 'J?' | X'4AC3' (a partial character) |
-| SUBSTRING('Jürgen', 8, CODEUNITS16) | '' | a zero-length string |
-| SUBSTRING('Jürgen', 8, 4, OCTETS) | '' | a zero-length string |
+| LEFT('Jürgen', 2, CODEUNITS32) | 'Jü' | X'4AC3BC' [DB2Z-5-037]|
+| LEFT('Jürgen', 2, CODEUNITS16) | 'Jü' | X'4AC3BC' [DB2Z-5-038]|
+| LEFT('Jürgen', 2, OCTETS) | 'J ' | X'4A20' (a truncated string) [DB2Z-5-039]|
+| LEFT('Jürgen', 2) | 'J?' | X'4AC3' (The letter 'J' and a partial character)<sup>1</sup> [DB2Z-5-040]|
+| RIGHT('Jürgen', 5, CODEUNITS32) | 'ürgen' | X'C3BC7267656E' [DB2Z-5-041]|
+| RIGHT('Jürgen', 5, CODEUNITS16) | 'ürgen' | X'C3BC7267656E' [DB2Z-5-042]|
+| RIGHT('Jürgen', 5, OCTETS) | 'rgen' | X'207267656E' (a truncated string) [DB2Z-5-043]|
+| RIGHT('Jürgen', 5) | '?rgen' | X'BC7267656E' (a partial character followed by 'rgen')<sup>1</sup> [DB2Z-5-044]|
+| SUBSTRING('Jürgen', 1, 2, CODEUNITS32) | 'Jü' | X'4AC3BC' [DB2Z-5-045]|
+| SUBSTRING('Jürgen', 1, 2, CODEUNITS16) | 'Jü' | X'4AC3BC' [DB2Z-5-046]|
+| SUBSTRING('Jürgen', 1, 2, OCTETS) | 'J ' | X'4A20' (a truncated string) [DB2Z-5-047]|
+| SUBSTR('Jürgen', 1, 2) | 'J?' | X'4AC3' (a partial character) [DB2Z-5-048]|
+| SUBSTRING('Jürgen', 8, CODEUNITS16) | '' | a zero-length string [DB2Z-5-049]|
+| SUBSTRING('Jürgen', 8, 4, OCTETS) | '' | a zero-length string [DB2Z-5-050]|
 
 <sup>1</sup> If conversion occurs on a string with a partial character, SQLCODE -330 results.
 GUPI
@@ -398,11 +398,11 @@ sorts the data in a culturally correct manner.
 For example, suppose your data contains the following strings: cote, coté, côte, côté. You need to specify
 how you want these strings sorted.
 Procedure
-To specify the sorting sequence for a language, perform one of the following actions:
+To specify the sorting sequence for a language, perform one of the following actions: [DB2Z-5-051]
 
 
 
-• In your SQL statement, use the COLLATION_KEY function with the collation-name parameter to
+• In your SQL statement, use the COLLATION_KEY function with the collation-name parameter to [DB2Z-5-052]
 specify a particular sorting sequence.
 A collation name specifies how Db2 is to sort data. It specifies attributes such as the language of
 the data, whether case should be considered, and how punctuation characters should be treated. You
@@ -417,24 +417,24 @@ ORDER BY COLLATION_KEY(LASTNAME, 'UCA400R1_AS_LSV_S2');
 GUPI
 This query orders the employees by their surnames (in the LASTNAME column) based on the
 following options that are specified in the collation name UCA400R1_AS_LSV_S2:
-Table 23. Example collation options and corresponding collation keywords
+Table 23. Example collation options and corresponding collation keywords [DB2Z-5-053]
 
 | Corresponding collation keyword | Option |
 | :--- | :--- |
-| UCA400R1 | Use Unicode Collation Algorithm (UCA) version 4.0.1 |
-| AS | Ignore spaces, punctuation and symbols |
-| LSV | Use Swedish linguistic conventions |
-| S2 | Compare case-insensitively |
+| UCA400R1 | Use Unicode Collation Algorithm (UCA) version 4.0.1 [DB2Z-5-054]|
+| AS | Ignore spaces, punctuation and symbols [DB2Z-5-055]|
+| LSV | Use Swedish linguistic conventions [DB2Z-5-056]|
+| S2 | Compare case-insensitively [DB2Z-5-057]|
 
-• Create an index that maintains the sorting sequence by using the COLLATION_KEY function in the CREATE INDEX statement.
+• Create an index that maintains the sorting sequence by using the COLLATION_KEY function in the CREATE INDEX statement. [DB2Z-5-058]
 
-Invoking the COLLATION_KEY function for every row in the table can slow performance. Creating an
+Invoking the COLLATION_KEY function for every row in the table can slow performance. Creating an [DB2Z-5-059]
 
-Table 24. Example collation options and corresponding collation keywords (continued)
+Table 24. Example collation options and corresponding collation keywords (continued) [DB2Z-5-060]
 
 | Corresponding collation keyword | Option |
 | :--- | :--- |
-| FO | Specifies that the French sorting attribute is to be used. (F = French attribute, O = On) Strings are to be sorted by examining the accents starting from the end of the string. This attribute is automatically set to on for the French locales. Therefore, in this case, it is not required. |
+| FO | Specifies that the French sorting attribute is to be used. (F = French attribute, O = On) Strings are to be sorted by examining the accents starting from the end of the string. This attribute is automatically set to on for the French locales. Therefore, in this case, it is not required. [DB2Z-5-061]|
 You might want to check if you can improve the performance of this query by creating an index on C1
 that is based on the collation key. The following example statements show how to create such an index
 and use EXPLAIN statements to confirm that the index is used for faster access. You can view the
@@ -446,35 +446,35 @@ CREATE INDEX I1 ON T1 (COLLATION_KEY(C1,'UCA410_LFR_FO'));
 EXPLAIN ALL SET QUERYNO = 210 FOR SELECT C1 FROM T1
    ORDER BY COLLATION_KEY(C1,'UCA410_LFR_FO');
 SELECT * FROM PLAN_TABLE;
-The last statement returns the following output:
+The last statement returns the following output: [DB2Z-5-062]
 
-+-----------------------------------------------------------------------------------------
-     | QUERYNO | QBLOCKNO | PROGNAME | PLANNO | METHOD | CREATOR | TNAME | TABNO |
-ACCESSTYPE |
++----------------------------------------------------------------------------------------- [DB2Z-5-063]
+     | QUERYNO | QBLOCKNO | PROGNAME | PLANNO | METHOD | CREATOR | TNAME | TABNO [DB2Z-5-064]|
+ACCESSTYPE [DB2Z-5-065]|
 
-+-----------------------------------------------------------------------------------------
-   1_|     110 |        1 | DSNTEP2  |      1 |      0 | ADMF001 | T1    |     1 |
-R          |
-   2_|     110 |        1 | DSNTEP2  |      2 |      3 |         |       |     0
++----------------------------------------------------------------------------------------- [DB2Z-5-066]
+   1_|     110 |        1 | DSNTEP2  |      1 |      0 | ADMF001 | T1    |     1 [DB2Z-5-067]|
+R [DB2Z-5-068]|
+   2_|     110 |        1 | DSNTEP2  |      2 |      3 |         |       |     0 [DB2Z-5-069]
 |            |
-   3_|     210 |        1 | DSNTEP2  |      1 |      0 | ADMF001 | T1    |     1 |
-I          |
+   3_|     210 |        1 | DSNTEP2  |      1 |      0 | ADMF001 | T1    |     1 [DB2Z-5-070]|
+I [DB2Z-5-071]|
 
 +-----------------------------------------------------------------------------------------
+     -------------------------------------------------------------------------------- [DB2Z-5-072]
+     | MATCHCOLS | ACCESSNAME | INDEXONLY | SORTN_UNIQ | SORTN_JOIN | SORTN_ORDERBY [DB2Z-5-073]|
+     -------------------------------------------------------------------------------- [DB2Z-5-074]
+   1_|         0 |            | N         | N          | N          | N [DB2Z-5-075]|
+   2_|         0 |            | N         | N          | N          | N [DB2Z-5-076]|
+   3_|         0 | I1         | N         | N          | N          | N [DB2Z-5-077]|
      --------------------------------------------------------------------------------
-     | MATCHCOLS | ACCESSNAME | INDEXONLY | SORTN_UNIQ | SORTN_JOIN | SORTN_ORDERBY |
-     --------------------------------------------------------------------------------
-   1_|         0 |            | N         | N          | N          | N             |
-   2_|         0 |            | N         | N          | N          | N             |
-   3_|         0 | I1         | N         | N          | N          | N             |
-     --------------------------------------------------------------------------------
-     ----------------------------------------------------------------------------------------
-     | SORTN_GROUPBY | SORTC_UNIQ | SORTC_JOIN | SORTC_ORDERBY | SORTC_GROUPBY | PREFETCH   |
+     ---------------------------------------------------------------------------------------- [DB2Z-5-078]
+     | SORTN_GROUPBY | SORTC_UNIQ | SORTC_JOIN | SORTC_ORDERBY | SORTC_GROUPBY | PREFETCH [DB2Z-5-079]|
 
-----------------------------------------------------------------------------------------
-   1_| N             | N          | N          | N             | N             |  S         |
-   2_| N             | N          | N          | Y             | N             |            |
-   3_| N             | N          | N          | N             | N             |            |
+---------------------------------------------------------------------------------------- [DB2Z-5-080]
+   1_| N             | N          | N          | N             | N             |  S [DB2Z-5-081]|
+   2_| N             | N          | N          | Y             | N [DB2Z-5-082]|            |
+   3_| N             | N          | N          | N             | N [DB2Z-5-083]|            |
 
 ----------------------------------------------------------------------------------------
 Related reference
@@ -482,7 +482,7 @@ COLLATION_KEY scalar function (Db2 SQL)
 CREATE INDEX statement (Db2 SQL)
 EXPLAIN statement (Db2 SQL)
 Related information
-Unicode Technical Standard #10: Unicode Collation Algorithm
+Unicode Technical Standard #10: Unicode Collation Algorithm [DB2Z-5-084]
 
 
 
@@ -495,11 +495,11 @@ Before you use the UPPER or LOWER function on Unicode or ASCII data, you need to
 Services.
 Procedure
 To ensure that Db2 uses the correct casing rules for a language and country:
-• When you use the UPPER function or LOWER function, ensure that Db2 uses the appropriate locale by
+• When you use the UPPER function or LOWER function, ensure that Db2 uses the appropriate locale by [DB2Z-5-085]
 performing one of the following actions:
 – Specify a value for the locale-name parameter of the UPPER or LOWER function:
-- For EBCDIC data, specify an LE locale, such as En_US or Fr_FR.
-- For Unicode and ASCII data, specify a locale value that is supported by the case conversion
+- For EBCDIC data, specify an LE locale, such as En_US or Fr_FR. [DB2Z-5-086]
+- For Unicode and ASCII data, specify a locale value that is supported by the case conversion [DB2Z-5-087]
 service of z/OS Unicode Services, such as EN_US. For a list of locale values that are supported
 by the case conversion service, see Locales supported for case service (z/OS: Unicode Services
 User’s Guide and Reference). You can also specify the values UNI, UNI_60, or UNI_90, which
@@ -526,7 +526,7 @@ Hegelstraße
 If you do not specify a locale when you use the UPPER function on this value, the result is technically
 incorrect, as shown in the following example. In upper case, the German ß should be converted to SS.
 SELECT UPPER(C1)AS C1 FROM T1 ;
-This SELECT statement returns the following result:
+This SELECT statement returns the following result: [DB2Z-5-088]
 
 
   85
@@ -570,7 +570,7 @@ Alternatively, you can specify a locale when you perform specific functions that
 UPPER and LOWER.
 Depending on the encoding scheme of the data, use one of the following locale formats:
 LE locales
-Specify this locale format for EBCDIC data.
+Specify this locale format for EBCDIC data. [DB2Z-5-089]
 
 
 
@@ -580,16 +580,16 @@ represents the language and country (French Canadian), and IBM-1047 is the assoc
 When you specify an LE locale to Db2 for z/OS, specify only the first component, which is the language
 and country. Db2 appends "IBM-" and the CCSID.
 The following table shows some example LE locales that you can specify to Db2.
-Table 25. Examples of LE locales that you can specify
+Table 25. Examples of LE locales that you can specify [DB2Z-5-090]
 
 | Locale | Language | Country |
 | :--- | :--- | :--- |
-| En_US | English | United States |
-| De_CH | German | Switzerland |
-| De_DE | German | Germany |
-| Fr_CA | French | Canada |
-| It_IT | Italian | Italy |
-| Ja_JP | Japanese | Japan |
+| En_US | English | United States [DB2Z-5-091]|
+| De_CH | German | Switzerland [DB2Z-5-092]|
+| De_DE | German | Germany [DB2Z-5-093]|
+| Fr_CA | French | Canada [DB2Z-5-094]|
+| It_IT | Italian | Italy [DB2Z-5-095]|
+| Ja_JP | Japanese | Japan [DB2Z-5-096]|
 For a complete list of supported LE locales, see Compiled locales (LE locales) (XL C/C++ Programming
 Guide).
 z/OS Unicode Services
@@ -605,20 +605,20 @@ Region
 You can use any of the locale values that are supported by z/OS Unicode Services for
 CUNBAPRM_Locale (31-bit) or CUN4BAPR_Locale (64-bit). The following table lists some
 example locale values for case conversion services.
-Table 26. Example locale values for the case conversion services of z/OS Unicode Services
+Table 26. Example locale values for the case conversion services of z/OS Unicode Services [DB2Z-5-097]
 
 | Locale value | Language | Region |
 | :--- | :--- | :--- |
-| Cs_CZ | Czech | Czech Republic |
-| De_DE | German | Germany |
-| En_US | English | United States |
-| En_GB | English | Great Britain |
-| Es_MX | Spanish | Mexico |
-| Fr_FR | French | France |
-| Ja_JP | Japanese | Japan |
-| Sv_SE | Swedish | Sweden |
+| Cs_CZ | Czech | Czech Republic [DB2Z-5-098]|
+| De_DE | German | Germany [DB2Z-5-099]|
+| En_US | English | United States [DB2Z-5-100]|
+| En_GB | English | Great Britain [DB2Z-5-101]|
+| Es_MX | Spanish | Mexico [DB2Z-5-102]|
+| Fr_FR | French | France [DB2Z-5-103]|
+| Ja_JP | Japanese | Japan [DB2Z-5-104]|
+| Sv_SE | Swedish | Sweden [DB2Z-5-105]|
 For a complete list of supported locales for case conversion services, see Locales supported for
-case service (z/OS: Unicode Services User’s Guide and Reference).
+case service (z/OS: Unicode Services User’s Guide and Reference). [DB2Z-5-106]
 
 
   87
@@ -637,19 +637,19 @@ Variant
 You can use any of the locale values that are supported by z/OS Unicode Services for
 CUNBOPRM_Collation_Keyword/CUN4BOPR_Collation_Keyword The following table lists some
 example locale values for collation
-Table 27. Example locale values for collation conversions in z/OS Unicode Services
+Table 27. Example locale values for collation conversions in z/OS Unicode Services [DB2Z-5-107]
 
 | Locale value | Language | Region | Variant |
 | :--- | :--- | :--- | :--- |
-| LCS_RCZ | Czech | Czech Republic | None |
-| LDE_RDE | German | Germany | None |
-| LDE_RDE_PREEURO | German | Germany | Pre Euro support |
-| LEN | English | None | None |
-| LEN_RGB | English | Great Britain | None |
-| LES_RMX | Spanish | Mexico | None |
-| LFR_RFR | French | France | None |
-| LJA | Japanese | None | None |
-| LSV | Swedish | None | None |
+| LCS_RCZ | Czech | Czech Republic | None [DB2Z-5-108]|
+| LDE_RDE | German | Germany | None [DB2Z-5-109]|
+| LDE_RDE_PREEURO | German | Germany | Pre Euro support [DB2Z-5-110]|
+| LEN | English | None | None [DB2Z-5-111]|
+| LEN_RGB | English | Great Britain | None [DB2Z-5-112]|
+| LES_RMX | Spanish | Mexico | None [DB2Z-5-113]|
+| LFR_RFR | French | France | None [DB2Z-5-114]|
+| LJA | Japanese | None | None [DB2Z-5-115]|
+| LSV | Swedish | None | None [DB2Z-5-116]|
 For a complete list of supported locales for collation conversion services, see Locales supported
 for collation (z/OS: Unicode Services User’s Guide and Reference).
 Generating escaped Unicode data
@@ -670,18 +670,18 @@ following ASCII string contains the escaped character
  : 'The escaped character is \0434'
 If you insert escaped data into a Unicode table, Db2 does not interpret your data and modify it to be
 un-escaped. Escaped data is stored as is in a Db2 table, regardless of whether the table is an ASCII,
-EBCDIC, or Unicode table.
+EBCDIC, or Unicode table. [DB2Z-5-117]
 
 
 
 Procedure
 To generate escaped Unicode data:
-1. Use the ASCII_STR function or the EBCDIC_STR function.
+1. Use the ASCII_STR function or the EBCDIC_STR function. [DB2Z-5-118]
 These functions convert a Unicode string to an ASCII or EBCDIC string. Characters that do not exist in
 ASCII or EBCDIC are converted to the form \xxxx, where xxxx represents a UTF-16 code unit.
 For more information about how to convert characters to UTF-16 format, see step 2 under the
 instructions for the INSERT statement in “Inserting data into a Unicode table”.
-2. If you later need to convert the EBCDIC or ASCII string with escaped data back to Unicode, use the
+2. If you later need to convert the EBCDIC or ASCII string with escaped data back to Unicode, use the [DB2Z-5-119]
 UNICODE_STR function.
 The short form of the function name is UNISTR. This function interprets escaped data in the source
 string. Values that are preceded by a backslash ('\') are treated as Unicode UTF-16 characters. For
@@ -724,25 +724,25 @@ Assume that T1.C1 contains '
  '. Suppose that you issue the following query:
 SELECT HEX(UNISTR(ASCII_STR(C1))) FROM T1;
 Db2 interprets this query as follows:
-Table 28. How Db2 interprets query with UNISTR
+Table 28. How Db2 interprets query with UNISTR [DB2Z-5-120]
 
 | Part of SELECT statements | Result | Explanation |
 | :--- | :--- | :--- |
-| ASCII_STR(C1) | \0410\043D\0434\0440\0435\0439 | Db2 returns the value in C1 (Андрей) as an ASCII string. Because these characters cannot be represented in ASCII, they are escaped. |
-| UNISTR(ASCII_STR(C1)) | Андрей | Db2 then converts the escaped ASCII string to a Unicode UTF-8 string. UTF-8 includes all of the characters, so they no longer have to be escaped. |
-| HEX(UNISTR(ASCII_STR(C1))) | D090D0BDD0B4D180D0B5D0B9 | Db2 then returns the hexadecimal value of the UTF-8 string. |
+| ASCII_STR(C1) | \0410\043D\0434\0440\0435\0439 | Db2 returns the value in C1 (Андрей) as an ASCII string. Because these characters cannot be represented in ASCII, they are escaped. [DB2Z-5-121]|
+| UNISTR(ASCII_STR(C1)) | Андрей | Db2 then converts the escaped ASCII string to a Unicode UTF-8 string. UTF-8 includes all of the characters, so they no longer have to be escaped. [DB2Z-5-122]|
+| HEX(UNISTR(ASCII_STR(C1))) | D090D0BDD0B4D180D0B5D0B9 | Db2 then returns the hexadecimal value of the UTF-8 string. [DB2Z-5-123]|
 Thus, the final result of this query is:
 D090D0BDD0B4D180D0B5D0B9
 Suppose that you issue the following similar query:
 SELECT HEX(UNISTR(ASCII_STR(C1),UTF16)) FROM T1;
 Db2 interprets this query as follows:
-Table 29. How Db2 interprets query with UNISTR and UTF16 parameter
+Table 29. How Db2 interprets query with UNISTR and UTF16 parameter [DB2Z-5-124]
 
 | Part of SELECT statements | Result | Explanation |
 | :--- | :--- | :--- |
-| ASCII_STR(C1) | \0410\043D\0434\0440\0435\0439 | Db2 returns the value in C1 (Андрей) as an ASCII string. Because these characters cannot be represented in ASCII, they are escaped. |
-| UNISTR(ASCII_STR(C1),UTF16) | Андрей | Db2 then converts the escaped ASCII string to a Unicode UTF-16 string. UTF_16 includes all of the characters, so they no longer have to be escaped. |
-| HEX(UNISTR(ASCII_STR(C1))) | 0410043D0434044004350439 | Db2 then returns the hexadecimal value of the UTF-16 string. |
+| ASCII_STR(C1) | \0410\043D\0434\0440\0435\0439 | Db2 returns the value in C1 (Андрей) as an ASCII string. Because these characters cannot be represented in ASCII, they are escaped. [DB2Z-5-125]|
+| UNISTR(ASCII_STR(C1),UTF16) | Андрей | Db2 then converts the escaped ASCII string to a Unicode UTF-16 string. UTF_16 includes all of the characters, so they no longer have to be escaped. [DB2Z-5-126]|
+| HEX(UNISTR(ASCII_STR(C1))) | 0410043D0434044004350439 | Db2 then returns the hexadecimal value of the UTF-16 string. [DB2Z-5-127]|
 Thus, the final result of this query is:
 0410043D0434044004350439
 GUPI
@@ -752,7 +752,7 @@ Character conversion is the process of converting data from one CCSID to another
 can occur when data is transferred between a remote and local system or when data is manipulated
 within the local system.
 Related tasks
-Inserting Unicode data into a non-Unicode table
+Inserting Unicode data into a non-Unicode table [DB2Z-5-128]
 
 
 
@@ -802,7 +802,7 @@ and U+10FFFF. These characters include certain math symbols and certain characte
 Japanese, and some historic scripts.
 Supplementary characters are also known as surrogate characters. Each one of these characters takes
 up 4 bytes in either UTF-8 and UTF-16. In UTF-8, each one of these characters takes up four 8-bit code
-units. In UTF-16, each one of these characters takes up two 16-bit code units.
+units. In UTF-16, each one of these characters takes up two 16-bit code units. [DB2Z-5-129]
 
 
   91
@@ -835,7 +835,7 @@ COBOL and Db2 for z/OS support UTF-16 data and UTF-8 data.
 Procedure
 To process Unicode data in COBOL applications for Db2 for z/OS, perform the following recommended
 actions:
-• For Unicode UTF-16 data, use one of the national data types. For example, specify PIC N(10) USAGE
+• For Unicode UTF-16 data, use one of the national data types. For example, specify PIC N(10) USAGE [DB2Z-5-130]
 NATIONAL. For Unicode UTF-8 data, use the BYTE-LENGTH phrase of the PICTURE clause and the
 UTF-8 phrase of the USAGE clause. For example, specify PIC U BYTE-LENGTH 10 USAGE UTF-8.
 If you use a COBOL application to retrieve UTF-8 data from Db2 into a variable other than a UTF-8
@@ -846,16 +846,16 @@ unconverted UTF-8 data in a COBOL variable. For example, if you have UTF-8 data 
 COBOL thinks that the data is EBCDIC and the data could get corrupted. Even something as simple as
 moving this UTF-8 value from one variable to another variable could corrupt the data, because COBOL
 pads the variable with X'40' for EBCDIC instead of X'20' for UTF-8.
-• Store your data in Db2 using the same encoding scheme as the input data. You gain CPU savings in
+• Store your data in Db2 using the same encoding scheme as the input data. You gain CPU savings in [DB2Z-5-131]
 processing because Db2 and COBOL are both using UTF-16 data or are both using UTF-8 data, and no
 conversions are needed.
-• Use the Db2 coprocessor to prepare your application.
-• Specify the appropriate CCSID for your COBOL application source and data according to the
+• Use the Db2 coprocessor to prepare your application. [DB2Z-5-132]
+• Specify the appropriate CCSID for your COBOL application source and data according to the [DB2Z-5-133]
 instructions in “Specifying a CCSID for your application”.
 Recommendation: Use the ENCODING bind option to specify the CCSID of the data. This option
 typically yields the best performance. However, depending on the situation, you might consider the
 other options for “Specifying a CCSID for your application”.
-• Specify ENCODING UNICODE as a bind option in these situations:
+• Specify ENCODING UNICODE as a bind option in these situations: [DB2Z-5-134]
 
 
 
@@ -881,19 +881,19 @@ PL/I and Db2 for z/OS support UTF-16 and UTF-8 data.
 Procedure
 To process Unicode data in PL/I applications for Db2 for z/OS, consider the following recommended
 actions.
-• Use the WIDECHAR data type. This data type supports UTF-16 data in PL/I.
+• Use the WIDECHAR data type. This data type supports UTF-16 data in PL/I. [DB2Z-5-135]
 Although PL/I supports UTF-8 data, you can still use a PL/I application to retrieve UTF-8 data from
 Db2 into a WIDECHAR variable. For example, if you retrieve data from the Db2 catalog, and the host
 variable has data type WIDECHAR, Db2 converts the Unicode data for the PL/I application from UTF-8
 to UTF-16.
-• Use UTF-16 for your Unicode data in your PL/I application and store your application Unicode data
+• Use UTF-16 for your Unicode data in your PL/I application and store your application Unicode data [DB2Z-5-136]
 in Db2 in UTF-16. This format often requires more space than UTF-8. However, you might gain CPU
 savings in processing because Db2 and PL/I are both using UTF-16, and no conversions are needed.
 For additional Db2 CCSID resolution during bind processing and to achieve optimal performance, refer
 to Character conversion (Introduction to Db2 for z/OS).
-• Prepare your application with the Db2 coprocessor.
-• Specify the appropriate CCSID for your PL/I application source and data.
-• Ensure that your ENCODING bind option matches the data. Depending on the situation, you might
+• Prepare your application with the Db2 coprocessor. [DB2Z-5-137]
+• Specify the appropriate CCSID for your PL/I application source and data. [DB2Z-5-138]
+• Ensure that your ENCODING bind option matches the data. Depending on the situation, you might [DB2Z-5-139]
 consider the other options that are described in “Specifying a CCSID for your application”.
 Related tasks
 Specifying CCSIDs for PL/I applications when using the Db2 coprocessor
@@ -901,7 +901,7 @@ If you are using the Db2 coprocessor to prepare a PL/I application with SQL stat
 compiler to specify the CCSID of the application source code. For optimal performance, use Db2 to
 specify the CCSID of the application data in SQL statements.
 Related reference
-Enterprise PL/I for z/OS
+Enterprise PL/I for z/OS [DB2Z-5-140]
 
 
   93
@@ -914,16 +914,16 @@ About this task
 Db2 for z/OS, however, supports UTF-8 and UTF-16 data.
 Procedure
 To process Unicode data in C/C++ applications for Db2 for z/OS:
-• For UTF-16 data, use the data type char16_t and prefix these literal values with u.
+• For UTF-16 data, use the data type char16_t and prefix these literal values with u. [DB2Z-5-141]
 In C, char16_t is defined inside the <uchar.h> header. In C++, char16_t is a separate built-in type.
-• For SBCS UTF-8 data (UTF-8 data that corresponds to only the first 128 code points in Unicode),
+• For SBCS UTF-8 data (UTF-8 data that corresponds to only the first 128 code points in Unicode), [DB2Z-5-142]
 specify the ASCII compiler option. When you specify this option, the compiler converts all data to
 ISO8859-1 (CCSID 819).
 Restriction: You must have an XPLINK application to use the ASCII compiler option.
-• If you are using UTF-16 data, store your data in Db2 in UTF-16. This format often requires more
+• If you are using UTF-16 data, store your data in Db2 in UTF-16. This format often requires more [DB2Z-5-143]
 space than UTF-8. However, you gain CPU savings in processing, because Db2 and C/C++ are both
 processing in the UTF-16, and no conversions are needed.
-• Specify the appropriate CCSID for your C/C++ application source and data according to the
+• Specify the appropriate CCSID for your C/C++ application source and data according to the [DB2Z-5-144]
 instructions in “Specifying a CCSID for your application”.
 Related reference
 The Unicode standard (C/C++) (XL C/C++ Language Reference)
@@ -951,7 +951,7 @@ CCSID of the data or to encode data.
 Java can handle both big endian and little endian data. (This statement assumes that you provide the
 correct Java encoding.)
 Related concepts
-DRDA character type parameters in Unicode
+DRDA character type parameters in Unicode [DB2Z-5-145]
 
 
 
@@ -977,7 +977,7 @@ or something else? Knowing your purpose for converting to Unicode can help you c
 solution for your green screen applications.
 If it is acceptable to not have the fields display correctly, you can leave the application as is. For example,
 some internal reports include names, but they are not required, such as a bank report that lists the first
-10 customers by largest deposit. In this case, the name is a “nice to have” field in the report, but not
+10 customers by largest deposit. In this case, the name is a “nice to have” field in the report, but not [DB2Z-5-146]
 necessary.
 If your application is an output only device, and data is not updated, one possible solution is to
 use romanization. Romanization is the process of creating the Latin representation of a word. To
@@ -994,8 +994,8 @@ to add logic to be prevent the tellers from updating names, addresses and other 
 device is not capable of correctly representing all data.
 If you need to display international characters properly, a possible solution is to add a presentation layer
 to your environment. Consider migrating to a client/server environment, such as the following examples:
-• Use CICS Transaction Gateway to access CICS to then access Db2 for z/OS.
-• Use an IMS or CICS application that uses WebSphere® MQ to access Db2 for z/OS.
+• Use CICS Transaction Gateway to access CICS to then access Db2 for z/OS. [DB2Z-5-147]
+• Use an IMS or CICS application that uses WebSphere® MQ to access Db2 for z/OS. [DB2Z-5-148]
 Variant characters
 Variant characters are characters that correspond to different code points across a given set of code
 pages. For example, the character # is variant. It corresponds to code point X'7B' in CCSIDs 37, 273, 500,
@@ -1004,7 +1004,7 @@ An invariant character is a character that corresponds to the same code point re
 Ideally, you should use invariant characters when possible. However, if you do use variant characters,
 ensure that Db2 uses the correct CCSID to interpret them.
 For example, consider the following national characters: #, @, and $. Although you can use these
-characters in object identifiers, you should be aware that they are all variant characters. The following
+characters in object identifiers, you should be aware that they are all variant characters. The following [DB2Z-5-149]
 
 
   95
@@ -1013,13 +1013,13 @@ characters in object identifiers, you should be aware that they are all variant 
 
 table shows the corresponding hexadecimal code point values for these characters in several different
 code pages.
-Table 30. Variant characters that you can use in identifiers
+Table 30. Variant characters that you can use in identifiers [DB2Z-5-150]
 
 | Character | Corresponding hexadecimal value by code page: CCSID 37 | Corresponding hexadecimal value by code page: CCSID 500 | Corresponding hexadecimal value by code page: CCSID 1047 | Corresponding hexadecimal value by code page: CCSID 277 | Corresponding hexadecimal value by code page: CCSID 273 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| # | X'7B' | X'7B' | X'7B' | X'4A' | X'7B' |
-| @ | X'7C' | X'7C' | X'7C' | X'80' | X'B5' |
-| $ | X'5B' | X'5B' | X'5B' | X'67' | X'5B' |
+| # | X'7B' | X'7B' | X'7B' | X'4A' | X'7B' [DB2Z-5-151]|
+| @ | X'7C' | X'7C' | X'7C' | X'80' | X'B5' [DB2Z-5-152]|
+| $ | X'5B' | X'5B' | X'5B' | X'67' | X'5B' [DB2Z-5-153]|
 You need to be careful when you use these characters in identifiers, such as package names, table space
 names, index space names, and field procedure names. All of these objects have corresponding data
 sets, DBRMs, or load modules that are defined in z/OS with corresponding names. Problems can occur
@@ -1039,13 +1039,13 @@ example, these characters might not be displayed correctly on a client. Also, yo
 issues if the SQL statement is copied from the catalog or read by another system.
 To prevent such problems with variant characters, use the following recommendations.
 Best practices:
-• Use invariant characters in identifiers and SQL statements.
-• When you name Db2 objects, use only those characters that you can type on your keyboard. Do not
+• Use invariant characters in identifiers and SQL statements. [DB2Z-5-154]
+• When you name Db2 objects, use only those characters that you can type on your keyboard. Do not [DB2Z-5-155]
 use hexadecimal values in object names. Doing so can unnecessarily complicate your applications and
 queries.
-• Use CONCAT instead of || when you need to concatenate values.
-• Use <> to mean "not equal" instead of != or ¬=.
-• Do not use variant hexadecimal code points from another code page. Doing so might cause conversion
+• Use CONCAT instead of || when you need to concatenate values. [DB2Z-5-156]
+• Use <> to mean "not equal" instead of != or ¬=. [DB2Z-5-157]
+• Do not use variant hexadecimal code points from another code page. Doing so might cause conversion [DB2Z-5-158]
 errors.
 Related reference
 Code point differences between EBCDIC CCSIDs
@@ -1057,16 +1057,16 @@ contain character type data encoded in Unicode CCSID 1208 (UTF-8). Using Unicode
 for these DRDA parameters can improve performance and avoid potential character conversion errors.
 Prior to DB2 10, remote applications passed DRDA command and reply message parameters that contain
 character type data in EBCDIC. These applications might incur additional CPU costs and character
-conversion errors for the following reasons:
+conversion errors for the following reasons: [DB2Z-5-159]
 
 
 
-• Db2 for z/OS stores metadata and catalog data in Unicode (UTF-8). Therefore, Db2 converts incoming
+• Db2 for z/OS stores metadata and catalog data in Unicode (UTF-8). Therefore, Db2 converts incoming [DB2Z-5-160]
 DRDA EBCDIC data to Unicode (UTF-8).
-• The IBM Data Server driver or client must convert DRDA character type data to EBCDIC before sending
+• The IBM Data Server driver or client must convert DRDA character type data to EBCDIC before sending [DB2Z-5-161]
 it to Db2 for z/OS. The driver or client must also convert the data that is received from Db2 for z/OS, in
 EBCDIC, before returning it to the application.
-• Other remote applications might need to convert the DRDA parameters to and from EBCDIC.
+• Other remote applications might need to convert the DRDA parameters to and from EBCDIC. [DB2Z-5-162]
 Passing these character type parameters in Unicode removes this extra conversion step.
 From an application programming perspective, you do not need to perform any extra action to send DRDA
 character type parameters in Unicode. Db2 for z/OS automatically negotiates use of Unicode data with
@@ -1076,7 +1076,7 @@ Because of this new ability to pass DRDA character type parameters in Unicode, p
 exist with certain package names and collection IDs that contain special characters. To prevent these
 problems, run the premigration queries.
 Related tasks
-Run premigration queries (DSNTIJPC) (Db2 Installation and Migration)
+Run premigration queries (DSNTIJPC) (Db2 Installation and Migration) [DB2Z-5-163]
 
 
   61
@@ -1088,9 +1088,9 @@ which, by default, is EBCDIC. The Db2 sample applications are bound with ENCODIN
 more information, see APPLICATION ENCODING field (APPENSCH DECP value) (Db2 Installation and
 Migration).
 For example, some possible uses of the ENCODING bind option are as follows:
-• You have a C/C++ program that accesses an ASCII library on z/OS. In this case, bind the program with
+• You have a C/C++ program that accesses an ASCII library on z/OS. In this case, bind the program with [DB2Z-5-164]
 ENCODING ASCII.
-• You use QMF and have a data center in Germany and 3270 emulators in France. You might want to bind
+• You use QMF and have a data center in Germany and 3270 emulators in France. You might want to bind [DB2Z-5-165]
 a special version of QMF for French by specifying ENCODING 1147.
 In general, any time the CCSID of your source data does not match the subsystem default CCSID, use the
 ENCODING option to tell Db2 the correct CCSID. The source data can come from a terminal emulator, a
@@ -1126,7 +1126,7 @@ any compiler and precompiler CCSID options.
 The value for the CCSID option can be EBCDIC, ASCII, Unicode, or a valid CCSID. If the value is EBCDIC,
 ASCII, or Unicode, Db2 uses the subsystem default CCSID for that encoding scheme.
 Use the DECLARE VARIABLE statement with the CCSID option when your application handles a piece of
-data that you know has a different CCSID.
+data that you know has a different CCSID. [DB2Z-5-166]
 
 
 
@@ -1138,13 +1138,13 @@ columns that are declared with the FOR BIT DATA clause. For example, the followi
 shows such a declaration for a COBOL application:
 GUPI
 ******************************************************************
-* DCLGEN TABLE(ADMF001.T1)                                       *
-*        LIBRARY(USER.DBRMLIB.DATA(T1))                          *
-*        LANGUAGE(COBOL)                                         *
-*        QUOTE                                                   *
-*        DBCSSYMBOL(N)                                           *
-*        DCLBIT(YES)                                             *
-* ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *
+* DCLGEN TABLE(ADMF001.T1)                                       * [DB2Z-5-167]
+*        LIBRARY(USER.DBRMLIB.DATA(T1))                          * [DB2Z-5-168]
+*        LANGUAGE(COBOL)                                         * [DB2Z-5-169]
+*        QUOTE                                                   * [DB2Z-5-170]
+*        DBCSSYMBOL(N)                                           * [DB2Z-5-171]
+*        DCLBIT(YES)                                             * [DB2Z-5-172]
+* ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   * [DB2Z-5-173]
 ******************************************************************
      EXEC SQL DECLARE ADMF001.T1 TABLE
      ( NAME                           VARGRAPHIC(15),
@@ -1153,29 +1153,29 @@ GUPI
        PASSWORD                       CHAR(8)
       ) END-EXEC.
 ******************************************************************
-* DECLARED VARIABLES FOR 'FOR BIT DATA' COLUMNS                  *
+* DECLARED VARIABLES FOR 'FOR BIT DATA' COLUMNS                  * [DB2Z-5-174]
 ******************************************************************
      EXEC SQL DECLARE
       :PASSWORD
      VARIABLE FOR BIT DATA END-EXEC.
 ******************************************************************
-* COBOL DECLARATION FOR TABLE ADMF001.T1                         *
+* COBOL DECLARATION FOR TABLE ADMF001.T1                         * [DB2Z-5-175]
 ******************************************************************
- 01  DCLT1.
+ 01  DCLT1. [DB2Z-5-176]
      10 NAME.
-        49 NAME-LEN          PIC S9(4) USAGE COMP.
-        49 NAME-TEXT         PIC N(15).
-     10 ADDRESS.
-        49 ADDRESS-LEN       PIC S9(4) USAGE COMP.
-        49 ADDRESS-TEXT      PIC N(25).
+        49 NAME-LEN          PIC S9(4) USAGE COMP. [DB2Z-5-177]
+        49 NAME-TEXT         PIC N(15). [DB2Z-5-178]
+     10 ADDRESS. [DB2Z-5-179]
+        49 ADDRESS-LEN       PIC S9(4) USAGE COMP. [DB2Z-5-180]
+        49 ADDRESS-TEXT      PIC N(25). [DB2Z-5-181]
      10 CITY.
-        49 CITY-LEN          PIC S9(4) USAGE COMP.
-        49 CITY-TEXT         PIC N(20).
-     10 STATE                PIC N(2).
-     10 ZIP                  PIC N(5).
-     10 PASSWORD             PIC (8).
+        49 CITY-LEN          PIC S9(4) USAGE COMP. [DB2Z-5-182]
+        49 CITY-TEXT         PIC N(20). [DB2Z-5-183]
+     10 STATE                PIC N(2). [DB2Z-5-184]
+     10 ZIP                  PIC N(5). [DB2Z-5-185]
+     10 PASSWORD             PIC (8). [DB2Z-5-186]
 ******************************************************************
-* THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 6       *
+* THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 6       * [DB2Z-5-187]
 ******************************************************************
 GUPI
 In this example, notice the DBCSSYMBOL option for DCLGEN. You can use this option to specify how
@@ -1190,7 +1190,7 @@ the CCSID values for host variables and parameter markers are defined by the SQL
 in descriptor-name and not the actual application data, and the other options described in this topic
 might not apply. For more information about the USING DESCRIPTOR clause, see EXECUTE statement
 (Db2 SQL).
-Before invoking the EXECUTE statement, you must set the following fields in the SQLDA:
+Before invoking the EXECUTE statement, you must set the following fields in the SQLDA: [DB2Z-5-188]
 
 
   97
@@ -1206,10 +1206,10 @@ Before invoking the EXECUTE statement, you must set the following fields in the 
 
 
 
-• SQLN to indicate the number of SQLVAR occurrences that are provided in the SQLDA
-• SQLABC to indicate the number of bytes of storage that are allocated for the SQLDA
-• SQLD to indicate the number of variables that are used in the SQLDA when processing the statement
-• SQLVAR entries to indicate the attributes of the variables
+• SQLN to indicate the number of SQLVAR occurrences that are provided in the SQLDA [DB2Z-5-189]
+• SQLABC to indicate the number of bytes of storage that are allocated for the SQLDA [DB2Z-5-190]
+• SQLD to indicate the number of variables that are used in the SQLDA when processing the statement [DB2Z-5-191]
+• SQLVAR entries to indicate the attributes of the variables [DB2Z-5-192]
 The SQLDATA fields of the SQLVAR entries contain the CCSID values. For more information, see SQLDATA
 field of the SQLDA (Db2 SQL).
 If the SQLDAID field is used, it contains the text 'SQLDA '. A plus sign (+) in the 6th byte (for example, the
@@ -1219,10 +1219,10 @@ the SQLDAID field is not used. For more information about the SQLDAID field, see
 (Db2 SQL).
 Db2 interprets the third and fourth byte of the data portion of SQLNAME as the CCSID of the host variable
 if all of the following are true and the third and fourth byte are not X'0000':
-• The sixth byte of SQLDAID is '+' (x'4E').
-• SQLTYPE indicates the host variable is a string variable.
-• The length of SQLNAME is 8.
-• The first two bytes of the data portion of SQLNAME are X'0000'.
+• The sixth byte of SQLDAID is '+' (x'4E'). [DB2Z-5-193]
+• SQLTYPE indicates the host variable is a string variable. [DB2Z-5-194]
+• The length of SQLNAME is 8. [DB2Z-5-195]
+• The first two bytes of the data portion of SQLNAME are X'0000'. [DB2Z-5-196]
 If the third and fourth byte of the data portion of SQLNAME are X'0000', Db2 uses the appropriate default
 CCSID.
 For more information about the SQLNAME field, see Field descriptions of an occurrence of a base SQLVAR
@@ -1243,16 +1243,16 @@ character input and output host variables are encoded using CCSID 1208. Db2 assu
 input and output host variables are encoded using CCSID 1200.
 Example: Setting CCSIDs in a distributed environment
 Assume that your Db2 for z/OS subsystem is located in the United States and you have users around the
-world that connect to this subsystem. The following figure illustrates this scenario.
+world that connect to this subsystem. The following figure illustrates this scenario. [DB2Z-5-197]
 
 
 
 Db2 for z/OS server
 EBCDIC CCSID 37
-3270 Client - CCSID 284
+3270 Client - CCSID 284 [DB2Z-5-198]
 DRDA - CCSID 12523270 Client - CCSID 273
 DRDA - CCSID 1208
-3270 Client - CCSID 373270 Client - CCSID 285
+3270 Client - CCSID 373270 Client - CCSID 285 [DB2Z-5-199]
 Figure 1. Example of setting CCSIDs in a distributed environment
 The users that use DRDA do not need to use the ENCODING bind option to handle CCSID conversions
 because DRDA handles all conversions. However, users might choose to specify the ENCODING bind
@@ -1275,7 +1275,7 @@ Related tasks
 Making SPUFI work with different terminal CCSIDs (Db2 Installation and Migration)
 Related reference
 Z variables (ISPF session variables)
-Configuring Sessions (Personal Communications)
+Configuring Sessions (Personal Communications) [DB2Z-5-200]
 
 
   65
@@ -1292,7 +1292,7 @@ data. However, Db2 can accept one CCSID value for the source code and one or mor
 data that is manipulated in SQL statements through host variables and parameter markers.
 Procedure
 To specify CCSIDs for COBOL applications when using the Db2 coprocessor:
-1. To specify the CCSID of the COBOL application source code, use the CODEPAGE compiler option. 6
+1. To specify the CCSID of the COBOL application source code, use the CODEPAGE compiler option. 6 [DB2Z-5-201]
 For example, both of the following JCL EXEC statements for COBOL compile jobs specify a CCSID of
 37:
 //COB  EXEC  PGM=IGYCRCTL,PARM='...,SQL,CODEPAGE(037),...
@@ -1311,19 +1311,19 @@ CODEPAGE compiler value, Db2 issues a warning. 7 For example, the following EXEC
 COBOL compile job specifies a CCSID value of 1140; the CCSID value 37 is ignored:
 //COB EXEC PGM=IGYCRCTR,PARM='CP(1140),SQL("CCSID(37)")'
 To verify which CCSID value was used, look at the compiler listing and check the CCSID option.
-2. To specify whether Db2 or the COBOL compiler determines the CCSID of application data for host
+2. To specify whether Db2 or the COBOL compiler determines the CCSID of application data for host [DB2Z-5-202]
 variables and parameter markers in the program, specify one of the following compiler options:
 NOSQLCCSID (Recommended option)
 Specifies that the CCSID that is passed from the COBOL compiler is used only for the COBOL
 application source and string literals. That CCSID is not used for the host variables and parameter
 markers in SQL statements. For host variables and parameter markers, Db2 uses the CCSIDs that
 are specified through Db2 mechanisms, as described in the next step.
-6 If you are using an older compiler that does not otherwise pass a CCSID value to Db2, use the SQL compiler
+6 If you are using an older compiler that does not otherwise pass a CCSID value to Db2, use the SQL compiler [DB2Z-5-203]
 option with the CCSID suboption to specify the CCSID of the application source. For example, the following
 EXEC statement for a COBOL compile job specifies a source CCSID of 1140.
 //COB EXEC PGM=IGYCRCTR,PARM='SQL("CCSID(1140)"'
-7 The exception is if you are using an older compiler that does not otherwise pass a CCSID value to the Db2
-coprocessor. In this case, you need to specify the SQL compiler option with the CCSID suboption.
+7 The exception is if you are using an older compiler that does not otherwise pass a CCSID value to the Db2 [DB2Z-5-204]
+coprocessor. In this case, you need to specify the SQL compiler option with the CCSID suboption. [DB2Z-5-205]
 
 
 
@@ -1341,19 +1341,19 @@ SQLCCSID (default option)
 Specifies that the Db2 coprocessor is to use the CCSID from the COBOL CODEPAGE(nnnnn)
 compiler option for your application data. 7 The CCSID value is the same one that you specified for
 your COBOL source code.
-3. Optional: If you specified the NOSQLCCSID compiler option, you can specify different encoding
+3. Optional: If you specified the NOSQLCCSID compiler option, you can specify different encoding [DB2Z-5-206]
 schemes for data processed by the program. You can use one or more of the following Db2 approaches
 to specify CCSID values for the application data8, which is called the application encoding scheme:
-• Use the ENCODING bind option .9 This option typically yields the best performance.
-• You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement
+• Use the ENCODING bind option .9 This option typically yields the best performance. [DB2Z-5-207]
+• You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement [DB2Z-5-208]
 with the CCSID option.
-• You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT
+• You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT [DB2Z-5-209]
 APPLICATION ENCODING SCHEME special register. Db2 uses the value of this special register at the
 time that the statement is executed.
-• If you use an SQL descriptor to define application data the previous options in this list might not
+• If you use an SQL descriptor to define application data the previous options in this list might not [DB2Z-5-210]
 apply if CCSID overrides are defined for host variables and parameter markers in the “SQL descriptor
 (SQLDA)”.
-4. If you want to specify a Unicode CCSID for a particular variable, declare it as a PIC N USAGE NATIONAL
+4. If you want to specify a Unicode CCSID for a particular variable, declare it as a PIC N USAGE NATIONAL [DB2Z-5-211]
 variable.
 For COBOL PIC N USAGE NATIONAL variables, the Db2 coprocessor always uses the CCSID 1200. You
 do not need to use a DECLARE VARIABLE statement with the CCSID clause for these variables.
@@ -1361,30 +1361,30 @@ Example
 The following table shows examples of the CCSID that Db2 uses for data in COBOL applications
 depending on the options that you specify. This table assumes that you did not specify any DECLARE
 VARIABLE statements with the CCSID clause.
-Table 19. CCSID resolution for data in COBOL applications that use the Db2 coprocessor
+Table 19. CCSID resolution for data in COBOL applications that use the Db2 coprocessor [DB2Z-5-212]
 
 | Variable | ENCODING bind option | COBOL compiler options: CODEPAGE(nnnn)<sup>1</sup> | COBOL compiler options: (NO)SQLCCSID | CCSID that Db2 uses for the data |
 | :--- | :--- | :--- | :--- | :--- |
-| PIC X | not explicitly specified | 1140 | SQLCCSID | 1140<sup>2</sup> |
-| PIC X | not explicitly specified | 1140 | NOSQLCCSID | Subsystem default application encoding scheme (DECP value APPENSCH)<sup>3</sup> |
-| PIC X | 273 | 1140 | SQLCCSID | 1140<sup>2</sup> |
-| PIC X | 273 | 1140 | NOSQLCCSID | 273<sup>4</sup> |
-| PIC X | UNICODE | 1140 | SQLCCSID | 1140<sup>2</sup> |
-| PIC X | UNICODE | 1140 | NOSQLCCSID | 1208 (This CCSID does not logically make sense for COBOL.)<sup>5</sup> |
-| PIC N USAGE NATIONAL | 1140 | 1140 | NOSQLCCSID | 1200<sup>6</sup> |
+| PIC X | not explicitly specified | 1140 | SQLCCSID | 1140<sup>2</sup> [DB2Z-5-213]|
+| PIC X | not explicitly specified | 1140 | NOSQLCCSID | Subsystem default application encoding scheme (DECP value APPENSCH)<sup>3</sup> [DB2Z-5-214]|
+| PIC X | 273 | 1140 | SQLCCSID | 1140<sup>2</sup> [DB2Z-5-215]|
+| PIC X | 273 | 1140 | NOSQLCCSID | 273<sup>4</sup> [DB2Z-5-216]|
+| PIC X | UNICODE | 1140 | SQLCCSID | 1140<sup>2</sup> [DB2Z-5-217]|
+| PIC X | UNICODE | 1140 | NOSQLCCSID | 1208 (This CCSID does not logically make sense for COBOL.)<sup>5</sup> [DB2Z-5-218]|
+| PIC N USAGE NATIONAL | 1140 | 1140 | NOSQLCCSID | 1200<sup>6</sup> [DB2Z-5-219]|
 
 **Notes:**
-1. This value can be the value that you explicitly specify with the CODEPAGE compiler option or the default COBOL compiler code page.
-2. Because you specified SQLCCSID, Db2 uses the code page value from the COBOL compiler.
-3. Because you specified NOSQLCCSID, Db2 does not use the COBOL code page value. Additionally, because
+1. This value can be the value that you explicitly specify with the CODEPAGE compiler option or the default COBOL compiler code page. [DB2Z-5-220]
+2. Because you specified SQLCCSID, Db2 uses the code page value from the COBOL compiler. [DB2Z-5-221]
+3. Because you specified NOSQLCCSID, Db2 does not use the COBOL code page value. Additionally, because [DB2Z-5-222]
 you did not explicitly specify a value for the ENCODING bind option, Db2 uses the default application
 encoding scheme.
-4. Because you specified NOSQLCCSID, Db2 does not use the COBOL code page value. Instead, Db2 uses the
+4. Because you specified NOSQLCCSID, Db2 does not use the COBOL code page value. Instead, Db2 uses the [DB2Z-5-223]
 value that you specified for the ENCODING bind option.
-5. Because you specified NOSQLCCSID and the ENCODING bind option UNICODE, Db2 uses CCSID 1208,
+5. Because you specified NOSQLCCSID and the ENCODING bind option UNICODE, Db2 uses CCSID 1208, [DB2Z-5-224]
 which is UTF-8. However, COBOL does not support 1208 as a native data type. So, although you can specify
 this combination of options, do not do so.
-6. Because you specified a PIC N USAGE NATIONAL variable, Db2 uses CCSID 1200.
+6. Because you specified a PIC N USAGE NATIONAL variable, Db2 uses CCSID 1200. [DB2Z-5-225]
 Related tasks
 Controlling the CCSID for COBOL host variables (Db2 Application programming and SQL)
 Related reference
@@ -1394,7 +1394,7 @@ Guide)
 Using national data (Unicode) in COBOL (Enterprise COBOL for z/OS Programming Guide)
 ENCODING bind option (Db2 Commands)
 DECLARE VARIABLE statement (Db2 SQL)
-Subsystem CCSIDs and encoding schemes
+Subsystem CCSIDs and encoding schemes [DB2Z-5-226]
 
 
 
@@ -1410,7 +1410,7 @@ data. However, Db2 can accept one CCSID value for the source code and one or mor
 data that is manipulated in SQL statements through host variables and parameter markers.
 Procedure
 To specify CCSIDs for PL/I applications when using the Db2 coprocessor:
-1. To specify the CCSID of the PL/I application source code, use the CODEPAGE compiler option. 10
+1. To specify the CCSID of the PL/I application source code, use the CODEPAGE compiler option. 10 [DB2Z-5-227]
 For example, both of the following JCL EXEC statements for PL/I compile jobs specify a CCSID of 37:
 //PLI EXEC PGM=IBMZPLI,PARM='...,PP(SQL,...),CODEPAGE(37)...'
 //PLI EXEC PGM=IBMZPLI,PARM='...,PP(SQL,...),CP(37)...'
@@ -1429,17 +1429,17 @@ EXEC statement for a PL/I compile job specifies the CODEPAGE compiler option wit
 1140; the CCSID value 37 is ignored:
 //PLI EXEC PGM=IBMZPLI,PARM='CP(1140),PP(SQL("CCSID(37)"))'
 To verify which CCSID value was used, look at the compiler listing and check the CCSID option.
-2. To specify whether Db2 or the PL/I compiler determines the CCSID of application data for host
+2. To specify whether Db2 or the PL/I compiler determines the CCSID of application data for host [DB2Z-5-228]
 variables and parameter markers in the program, specify one of the following PP compiler options.
 CCSID0 (default)
 Specifies that only host variables with the WIDECHAR data type are to be assigned a CCSID value
 by the Db2 coprocessor (PL/I SQL preprocessor). Host variables with the WIDECHAR data type are
 always assigned a CCSID value of 1200.
-10 If you are using an older compiler that does not otherwise pass a CCSID value to Db2, use the PL/I
+10 If you are using an older compiler that does not otherwise pass a CCSID value to Db2, use the PL/I [DB2Z-5-229]
 preprocessor option 'PP(SQL...' with the CCSID suboption to specify the CCSID of the application source.
 For example, if you are using an older compiler that does not pass a CCSID value to the Db2 coprocessor,
 the following EXEC statement for a PL/I compile job specifies a source CCSID of 37.
-/PLI EXEC PGM=IBMZPLI,PARM='...,PP(SQL("CCSID(37)"),...),...'
+/PLI EXEC PGM=IBMZPLI,PARM='...,PP(SQL("CCSID(37)"),...),...' [DB2Z-5-230]
 
 
   69
@@ -1471,57 +1471,57 @@ of the CHARACTER type. The following example of the PARM clause specifies the PP
 preprocessor option of the PL/I compiler with the SQL suboption CODEPAGE.
 PARM='S,XREF,PP(SQL(APOSTSQL,CODEPAGE))'
 For more information ,see.“PL/I PP compiler option”.
-3. Optional: If you specified the CCSID0 option, you can specify a different encoding scheme for data
+3. Optional: If you specified the CCSID0 option, you can specify a different encoding scheme for data [DB2Z-5-231]
 processed by the application. You can use one or more of the following Db2 approaches to specify
 CCSID values for the application data11, which is called the application encoding scheme:
-• Use the ENCODING bind option .12 This option typically yields the best performance.
-• You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement
+• Use the ENCODING bind option .12 This option typically yields the best performance. [DB2Z-5-232]
+• You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement [DB2Z-5-233]
 with the CCSID option.
-• You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT
+• You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT [DB2Z-5-234]
 APPLICATION ENCODING SCHEME special register. Db2 uses the value of this special register at the
 time that the statement is executed.
-• If you use an SQL descriptor to define application data the previous options in this list might not
+• If you use an SQL descriptor to define application data the previous options in this list might not [DB2Z-5-235]
 apply if CCSID overrides are defined for host variables and parameter markers in the “SQL descriptor
 (SQLDA)”.
-4. If you want to specify a Unicode CCSID for a particular variable, declare it as a WIDECHAR variable,
+4. If you want to specify a Unicode CCSID for a particular variable, declare it as a WIDECHAR variable, [DB2Z-5-236]
 and use the default SQL preprocessor option of CCSID0. For PL/I variables in applications that are
 processed by the Db2 coprocessor, the Db2 coprocessor always uses CCSID 1200 for WIDECHAR
 variables. You do not need to use a DECLARE VARIABLE statement with the CCSID clause for these
 variables.
-11 Use caution if you specify different CCSIDs for different pieces of data, which can result in character
+11 Use caution if you specify different CCSIDs for different pieces of data, which can result in character [DB2Z-5-237]
 conversion.
-12 For DRDA applications, the ENCODING bind option does not set the CCSID of the data, and CCSIDs are
-communicated as part of the protocol.
+12 For DRDA applications, the ENCODING bind option does not set the CCSID of the data, and CCSIDs are [DB2Z-5-238]
+communicated as part of the protocol. [DB2Z-5-239]
 
 
 
 Example
 The following table shows examples of the CCSID that Db2 uses for data in PL/I applications depending
 on the options that you specify.
-Table 20. CCSID resolution for data in PL/I applications that use the Db2 coprocessor
+Table 20. CCSID resolution for data in PL/I applications that use the Db2 coprocessor [DB2Z-5-240]
 
 | Variable | ENCODING bind option | PL/I options: PL/I CODEPAGE compiler option<sup>1</sup> | PL/I options: PP(SQL) suboption | CCSID that Db2 uses for the data |
 | :--- | :--- | :--- | :--- | :--- |
-| CHAR(n) | not explicitly specified | 1140 | NOCCSID0 | 1140<sup>2</sup> |
-| CHAR(n) | not explicitly specified | 1140 | CCSID0 | Subsystem default application encoding scheme (DECP value APPENSCH)<sup>3</sup> |
-| CHAR(n) | 500 | 1140 | NOCCSID0 | 1140<sup>2</sup> |
-| CHAR(n) | 500 | 1140 | CCSID0 | 500<sup>4</sup> |
-| CHAR(n) | UNICODE | 1140 | NOCCSID0 | 1140<sup>2</sup> |
-| CHAR(n) | UNICODE | 1140 | CCSID0 | 1208 (This CCSID and options combination does not logically make sense for PL/I.)<sup>5</sup> |
-| UCHAR(n) | 1208 | 1140 | CCSID0 | 1208<sup>4</sup> |
-| WIDECHAR(n) | 1140 | 1140 | CCSID0 | 1200<sup>6</sup> |
+| CHAR(n) | not explicitly specified | 1140 | NOCCSID0 | 1140<sup>2</sup> [DB2Z-5-241]|
+| CHAR(n) | not explicitly specified | 1140 | CCSID0 | Subsystem default application encoding scheme (DECP value APPENSCH)<sup>3</sup> [DB2Z-5-242]|
+| CHAR(n) | 500 | 1140 | NOCCSID0 | 1140<sup>2</sup> [DB2Z-5-243]|
+| CHAR(n) | 500 | 1140 | CCSID0 | 500<sup>4</sup> [DB2Z-5-244]|
+| CHAR(n) | UNICODE | 1140 | NOCCSID0 | 1140<sup>2</sup> [DB2Z-5-245]|
+| CHAR(n) | UNICODE | 1140 | CCSID0 | 1208 (This CCSID and options combination does not logically make sense for PL/I.)<sup>5</sup> [DB2Z-5-246]|
+| UCHAR(n) | 1208 | 1140 | CCSID0 | 1208<sup>4</sup> [DB2Z-5-247]|
+| WIDECHAR(n) | 1140 | 1140 | CCSID0 | 1200<sup>6</sup> [DB2Z-5-248]|
 
 **Note:**
-1. This value can be the value that you explicitly specify with the CODEPAGE compiler option or the default PL/I compiler code page.
-2. Because you specified NOCCSID0, Db2 uses the code page value from the PL/I compiler.
-3. Because you specified CCSID0, Db2 does not use the PL/I code page value. Additionally, because you did not explicitly specify a value for the ENCODING bind option, Db2 uses the default application encoding scheme.
-4. Because you specified CCSID0, Db2 does not use the PL/I code page value. Instead, Db2 uses the value that you specified for the ENCODING bind option.
-5. Because you specified CCSID0 and the ENCODING bind option UNICODE, Db2 uses CCSID 1208, which is UTF-8. Although you can specify this combination of options, do not do so. Specify compiler option CODEPAGE(1208) and the NOCCSID0 and CODEPAGE Db2 coprocessor options instead.
-6. Because you specified a WIDECHAR variable, Db2 uses CCSID 1200.
+1. This value can be the value that you explicitly specify with the CODEPAGE compiler option or the default PL/I compiler code page. [DB2Z-5-249]
+2. Because you specified NOCCSID0, Db2 uses the code page value from the PL/I compiler. [DB2Z-5-250]
+3. Because you specified CCSID0, Db2 does not use the PL/I code page value. Additionally, because you did not explicitly specify a value for the ENCODING bind option, Db2 uses the default application encoding scheme. [DB2Z-5-251]
+4. Because you specified CCSID0, Db2 does not use the PL/I code page value. Instead, Db2 uses the value that you specified for the ENCODING bind option. [DB2Z-5-252]
+5. Because you specified CCSID0 and the ENCODING bind option UNICODE, Db2 uses CCSID 1208, which is UTF-8. Although you can specify this combination of options, do not do so. Specify compiler option CODEPAGE(1208) and the NOCCSID0 and CODEPAGE Db2 coprocessor options instead. [DB2Z-5-253]
+6. Because you specified a WIDECHAR variable, Db2 uses CCSID 1200. [DB2Z-5-254]
 Related reference
 Compile-time option descriptions (PL/I) (Enterprise PL/I for z/OS Programming Guide:)
 Changing the default options (PL/I) (Enterprise PL/I for z/OS Programming Guide:)
-SQL preprocessor options (PL/I) (Enterprise PL/I for z/OS Programming Guide:)
+SQL preprocessor options (PL/I) (Enterprise PL/I for z/OS Programming Guide:) [DB2Z-5-255]
 
 
   71
@@ -1567,11 +1567,11 @@ compiler to specify the CCSID of the application source. Use Db2 mechanisms to s
 application data that is manipulated in SQL statements.
 Procedure
 To specify CCSIDs for C/C++ applications when using the Db2 coprocessor:
-1. Specify the CCSID for the source code by specifying a LOCALE value.
+1. Specify the CCSID for the source code by specifying a LOCALE value. [DB2Z-5-256]
 For example, the following JCL EXEC statements for C compile jobs specify a CCSID of 1047. The
 first statement specifies a LOCALE for U.S. applications. The second statement specifies a LOCALE for
 German applications.
-//C EXEC PGM=CCNDRVR,PARM='SQL(),SO,LIST,LOCALE(En_US.IBM-1047)'
+//C EXEC PGM=CCNDRVR,PARM='SQL(),SO,LIST,LOCALE(En_US.IBM-1047)' [DB2Z-5-257]
 
 
 
@@ -1589,16 +1589,16 @@ SQL compiler option with the CCSID suboption. If you specify it anyway, and it c
 LOCALE value, Db2 issues a warning. For example, the following EXEC statement for a C compile job
 specifies a CCSID value of 1047; the CCSID value 37 is ignored:
 //C EXEC PGM=CCNDRVR,PARM='SQL(CCSID(37)),LOCALE(De_CH.IBM-1047)'
-2. Optional: You can specify different encoding schemes for application data that the program processes.
+2. Optional: You can specify different encoding schemes for application data that the program processes. [DB2Z-5-258]
 You can use one or more of the following Db2 approaches to specify CCSID values for the application
 data13, which is called the application encoding scheme:
-• Use the ENCODING bind option .14 This option typically yields the best performance.
-• You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement
+• Use the ENCODING bind option .14 This option typically yields the best performance. [DB2Z-5-259]
+• You can override the CCSID for a particular host variable by using the DECLARE VARIABLE statement [DB2Z-5-260]
 with the CCSID option.
-• You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT
+• You can override the CCSID for parameter markers in dynamic SQL by specifying the CURRENT [DB2Z-5-261]
 APPLICATION ENCODING SCHEME special register. Db2 uses the value of this special register at the
 time that the statement is executed.
-• If you use an SQL descriptor to define application data the previous options in this list might not
+• If you use an SQL descriptor to define application data the previous options in this list might not [DB2Z-5-262]
 apply if CCSID overrides are defined for host variables and parameter markers in the “SQL descriptor
 (SQLDA)”.
 Related reference
@@ -1613,12 +1613,12 @@ Determining the CCSID of Db2 data
 Db2 can store EBCDIC, ASCII, and Unicode data.
 Procedure
 To determine the CCSID of Db2 data, use one of the following techniques:
-• To find the CCSID of data that is stored in Db2 tables, check one of the following catalog tables:
+• To find the CCSID of data that is stored in Db2 tables, check one of the following catalog tables: [DB2Z-5-263]
 – SYSIBM.SYSCOLUMNS (the FOREIGNKEY and CCSID columns)
-13 Use caution if you specify different CCSIDs for different pieces of data, which can result in character
+13 Use caution if you specify different CCSIDs for different pieces of data, which can result in character [DB2Z-5-264]
 conversion.
-14 For DRDA applications, the ENCODING bind option does not set the CCSID of the data, and CCSIDs are
-communicated as part of the protocol.
+14 For DRDA applications, the ENCODING bind option does not set the CCSID of the data, and CCSIDs are [DB2Z-5-265]
+communicated as part of the protocol. [DB2Z-5-266]
 
 
   73
@@ -1644,16 +1644,16 @@ SELECT SBCS_CCSID, MIXED_CCSID, DBCS_CCSID
 SELECT CCSID
   FROM SYSIBM.SYSKEYTARGETS
   WHERE IXNAME = 'keytarget-name'
-• To find the CCSID of a distinct type, check the SYSIBM.SYSDATATYPES catalog table (the
+• To find the CCSID of a distinct type, check the SYSIBM.SYSDATATYPES catalog table (the [DB2Z-5-267]
 ENCODING_SCHEME column).
-• To find the CCSID of routine parameters, check one of the following catalog tables:
+• To find the CCSID of routine parameters, check one of the following catalog tables: [DB2Z-5-268]
 – SYSIBM.SYSPARMS (the CCSID column)
 – SYSIBM.SYSROUTINES (the PARAMETER_CCSID column)
-• To find the CCSID of application data, check one of the following catalog tables:
+• To find the CCSID of application data, check one of the following catalog tables: [DB2Z-5-269]
 – SYSIBM.SYSPACKAGE (the ENCODING_CCSID column)
 – SYSIBM.SYSPLAN (the ENCODING_CCSID column)
 – SYSIBM.SYSENVIRONMENT (the APPLICATION_ ENCODING_CCSID column)
-• To find the subsystem CCSIDs, follow the instructions for “Determining current subsystem CCSID and
+• To find the subsystem CCSIDs, follow the instructions for “Determining current subsystem CCSID and [DB2Z-5-270]
 encoding scheme values”.
 Related reference
 Db2 catalog tables (Db2 SQL)
@@ -1666,12 +1666,12 @@ The CCSID that is associated with a string value depends on the SQL statement in
 referenced and the type of expression.
 Procedure
 To determine the CCSID of a string value in Db2, use one or more of the following techniques:
-• Use the rules for determining the CCSID that is associated with string data, as specified in Encoding
-scheme and CCSID rules for strings (Introduction to Db2 for z/OS).
+• Use the rules for determining the CCSID that is associated with string data, as specified in Encoding [DB2Z-5-271]
+scheme and CCSID rules for strings (Introduction to Db2 for z/OS). [DB2Z-5-272]
 
 
 
-• Use the DESCRIBE statement and then check the SQLDA. The SQLDA contains one SQLVAR entry
+• Use the DESCRIBE statement and then check the SQLDA. The SQLDA contains one SQLVAR entry [DB2Z-5-273]
 for each column or host variable that is described. For string columns and parameters, look in the
 SQLDATA field of the appropriate SQLVAR entry to find the CCSID of that column or parameter. For
 more information, see SQLDATA field of the SQLDA (Db2 SQL).
@@ -1695,8 +1695,8 @@ CCSID for your application.
 Db2 for z/OS considers any SQL statement that satisfies at least one of the following criteria to be a
 statement that references objects with multiple CCSIDs:
 GUPI
-• References table objects with different CCSIDs
-• Contains any of the following functions:
+• References table objects with different CCSIDs [DB2Z-5-274]
+• Contains any of the following functions: [DB2Z-5-275]
 – ASCII_CHR
 – ASCII_STR
 – ASCIISTR
@@ -1716,14 +1716,14 @@ GUPI
 – XML2CLOB
 – XMLSERIALIZE
 – XMLTABLE
-– A table user-defined function
+– A table user-defined function [DB2Z-5-276]
 
 
   75
 
 
 
-• Is one of the following SQL statements:
+• Is one of the following SQL statements: [DB2Z-5-277]
 – CALL
 – SET host-variable assignment
 – SET special register
@@ -1731,9 +1731,9 @@ GUPI
 – VALUES INTO
 GUPI
 If a statement references objects with multiple CCSIDs, Db2 processes the statement as follows:
-1. Db2 first determines the CCSID for each item that the statement references. Db2 uses the rules in the
+1. Db2 first determines the CCSID for each item that the statement references. Db2 uses the rules in the [DB2Z-5-278]
 table that describes the operand types in Conversion rules for comparisons (Db2 SQL).
-2. Db2 then evaluates the predicates according to the rules that are listed in the "Operand that supplies
+2. Db2 then evaluates the predicates according to the rules that are listed in the "Operand that supplies [DB2Z-5-279]
 the CCSID for character conversion" table in Conversion rules for comparisons (Db2 SQL).
 Regardless of the CCSIDs of the referenced data, your application can receive the data in any CCSID that
 it wants. For example, suppose that your application selects rows from SYSIBM.SYSTABLES. The CCSIDs
@@ -1765,8 +1765,8 @@ B.CHARCOL EBCDIC CCSID
 X'C1C2C3' Application encoding scheme CCSID1
 B.NAME EBCDIC
 Notes:
-1. Application encoding scheme CCSID is the value of the ENCODING bind option.
-Db2 then evaluates the statement as follows:
+1. Application encoding scheme CCSID is the value of the ENCODING bind option. [DB2Z-5-280]
+Db2 then evaluates the statement as follows: [DB2Z-5-281]
 
 
 
@@ -1805,7 +1805,7 @@ Unicode. Column B.CE1 is encoded in EBCDIC. For this comparison, Db2 promotes B.
 Therefore Db2 evaluates the EBCDIC value 'Jürgen' in B.CE1 as equal to the Unicode value 'Jürgen' in
 A.CU1. This query returns the following result:
 L1 H1 L2 H2
-7 4AC3BC7267656E 6 D1DC99878595
+7 4AC3BC7267656E 6 D1DC99878595 [DB2Z-5-282]
 Even though B.CE1 was promoted to Unicode for the comparison in the WHERE clause, the result still
 shows the EBCDIC hexadecimal value for B.CE1.
 GUPI
@@ -1816,4 +1816,4 @@ be associated with the data that your application manipulates. The CCSID that Db
 data is called the application encoding scheme.
 Related reference
 DESCRIBE statements (Db2 SQL)
-SQL descriptor area (SQLDA) (Db2 SQL)
+SQL descriptor area (SQLDA) (Db2 SQL) [DB2Z-5-283]

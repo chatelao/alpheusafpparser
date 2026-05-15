@@ -20,4 +20,4 @@ Db2 Query Management Facility (QMF) information
 Db2 Table Editor for z/OS
 Db2 Tools for z/OS
 Related information
-Db2 Tools for z/OS Product Documentation
+Db2 Tools for z/OS Product Documentation [DB2Z-D-001]

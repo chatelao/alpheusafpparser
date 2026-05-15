@@ -1,6 +1,6 @@
 Index
 Numerics
-3270 applications
+3270 applications [DB2Z-IDX-001]
 Unicode data 95
 A
 access paths
@@ -104,7 +104,7 @@ determining for data source 29
 determining for Db2 data 73
 determining subsystem values 35
 determining value for string 74
-examples of specifying in applications 64
+examples of specifying in applications 64 [DB2Z-IDX-002]
 
 
 Index  123
@@ -357,7 +357,7 @@ specifying CCSIDs 32
 installation panel DSNTIPF
 specifying CCSIDs 32
 International Components for Unicode 109
-invariant characters 95
+invariant characters 95 [DB2Z-IDX-003]
 
 
 Index  125
@@ -471,7 +471,7 @@ Queue Managers in IBM MQ
 determining CCSID 29
 R
 remote applications
-passing DRDA parameters in Unicode 96
+passing DRDA parameters in Unicode 96 [DB2Z-IDX-004]
 
 
 
@@ -596,7 +596,7 @@ utilities 101
 Unicode data
 access paths 54
 C/C++ applications 94
-COBOL applications 92
+COBOL applications 92 [DB2Z-IDX-005]
 
 
 Index  127

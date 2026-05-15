@@ -65,19 +65,19 @@ architecture for the management of presentable
 information that is developed by the AFP Consortium
 (AFPC). AFP comprises a number of data stream and data
 object architectures:
-• Mixed Object Document Content Architecture (MO:DCA);
+• Mixed Object Document Content Architecture (MO:DCA); [MODCA-GLO-001]
 formerly referred to as AFPDS
-• Intelligent Printer Data Stream (IPDS)
-• AFP Line Data Architecture
-• Bar Code Object Content Architecture (BCOCA)
-• Color Management Object Content Architecture
+• Intelligent Printer Data Stream (IPDS) [MODCA-GLO-002]
+• AFP Line Data Architecture [MODCA-GLO-003]
+• Bar Code Object Content Architecture (BCOCA) [MODCA-GLO-004]
+• Color Management Object Content Architecture [MODCA-GLO-005]
 (CMOCA)
-• Font Object Content Architecture (FOCA)
-• Graphics Object Content Architecture for AFP (AFP
+• Font Object Content Architecture (FOCA) [MODCA-GLO-006]
+• Graphics Object Content Architecture for AFP (AFP [MODCA-GLO-007]
 GOCA)
-• Image Object Content Architecture (IOCA)
-• Metadata Object Content Architecture (MOCA)
-• Presentation T ext Object Content Architecture (PTOCA)
+• Image Object Content Architecture (IOCA) [MODCA-GLO-008]
+• Metadata Object Content Architecture (MOCA) [MODCA-GLO-009]
+• Presentation T ext Object Content Architecture (PTOCA) [MODCA-GLO-010]
 AEA. See alternate exception action.
 AFM file. A file containing the metric information required
 for positioning the characters of a font. The metric
@@ -192,7 +192,7 @@ archive interchange set. A constrained version of the
 general MO:DCA architecture aimed at interoperability for
 AFP documents in an archiving system. For archive
 systems, the key requirement is to make each page stand
-AFP data stream • archive interchange set
+AFP data stream • archive interchange set [MODCA-GLO-011]
 
 
 alone by eliminating the use of resolution-dependent fonts
@@ -287,7 +287,7 @@ bar code density. The number of characters per inch
 (cpi) in a bar code symbology. In most cases, the range is
 three to ten cpi. See also character density, density, and
 information density.
-arc parameters • bar code density
+arc parameters • bar code density [MODCA-GLO-012]
 
 
 bar code object area. The rectangular area on a logical
@@ -388,7 +388,7 @@ code to prevent misreads and short scans that might occur
 when a skewed scanning beam enters or exits the bar
 code symbol through its top or bottom edge. When plates
 are used in the printing process, Bearer Bars help equalize
-bar code object area • Bearer Bars
+bar code object area • Bearer Bars [MODCA-GLO-013]
 
 
 the pressure exerted by the printing plate over the entire
@@ -485,7 +485,7 @@ character. (1) A member of a set of elements used for the
 organization, control, or representation of data. A character
 can be either a graphic character or a control character.
 See also graphic character and control character. (2) In
-Begin Segment Introducer (BSI) • character
+Begin Segment Introducer (BSI) • character [MODCA-GLO-014]
 
 
 bar codes, a single group of bar code elements that
@@ -590,7 +590,7 @@ rotation and font inline sequence are related in that
 character rotation is a clockwise rotation; font inline
 sequence is a counter-clockwise rotation. Contrast with
 rotation.
-character angle • character rotation
+character angle • character rotation [MODCA-GLO-015]
 
 
 character set. A finite set of different graphic characters
@@ -691,7 +691,7 @@ variable-length, alphanumeric code with 128 characters.
 Coded Character Set Identifier (CCSID). A 16-bit
 number identifying a specific set consisting of an encoding
 scheme identifier, character set identifiers, code page
-character set • Coded Character Set Identifier (CCSID)
+character set • Coded Character Set Identifier (CCSID) [MODCA-GLO-016]
 
 
 identifiers, and other relevant information that uniquely
@@ -797,7 +797,7 @@ the interchange and presentation of the color management
 information required to render a print file, document, group
 of pages or sheets, page, overlay, or data object with color
 fidelity.
-coded font • Color Management Object Content Architecture (CMOCA)
+coded font • Color Management Object Content Architecture (CMOCA) [MODCA-GLO-017]
 
 
 color management resource. An object that provides
@@ -898,7 +898,7 @@ that identifies a control sequence's syntax and how that
 syntax is to be interpreted. An example of a control
 sequence class is X'D3', that identifies presentation text
 object control sequences.
-color management resource • control sequence class
+color management resource • control sequence class [MODCA-GLO-018]
 
 
 control sequence function type. The coded character
@@ -1004,7 +1004,7 @@ used at the present time to direct a drawing process.
 Contrast with default drawing controls.
 current inline coordinate. The inline presentation
 position at the present time. This inline presentation
-control sequence function type • current inline coordinate
+control sequence function type • current inline coordinate [MODCA-GLO-019]
 
 
 position is the summation of the increments of all inline
@@ -1078,10 +1078,10 @@ components at a particular size, character rotation, and
 encoding. A data-object font can be used in a manner
 analogous to a coded font. The following useful
 combinations can be activated into a data-object font:
-• A TrueType/OpenType font, an optional code page, and
+• A TrueType/OpenType font, an optional code page, and [MODCA-GLO-020]
 optional linked TrueType/OpenType objects; activated at
 a particular size, character rotation, and encoding
-• A TrueType/OpenType collection, either an index value
+• A TrueType/OpenType collection, either an index value [MODCA-GLO-021]
 or a full font name to identify the desired font within the
 collection, an optional code page, and optional linked
 TrueType/OpenType objects; activated at a particular
@@ -1101,16 +1101,16 @@ data object resource. In the IPDS architecture, an
 object-container resource or IO-Image resource that is
 either printer resident or downloaded. Data object
 resources can be:
-• Used to prepare for the presentation of a data object;
+• Used to prepare for the presentation of a data object; [MODCA-GLO-022]
 such as with a color management resource (CMR) or
 Resident Color Profile Resource
-• Included in a page or overlay via the Include Data Object
+• Included in a page or overlay via the Include Data Object [MODCA-GLO-023]
 command; examples include: PDF single-page objects,
 Encapsulated PostScript objects, and IO Images
-current inline presentation coordinate (I c) • data object resource
+current inline presentation coordinate (I c) • data object resource [MODCA-GLO-024]
 
 
-• Invoked from within a data object; examples
+• Invoked from within a data object; examples [MODCA-GLO-025]
 include: PDF Resource objects and Non-OCA Resource
 objects
 See also data object and resource.
@@ -1208,7 +1208,7 @@ device resolution can be different in the two directions (for
 example, a resolution of 360 by 720).
 device-version code page. In the IPDS architecture, a
 device version of a code page contains all of the
-data stream • device-version code page
+data stream • device-version code page [MODCA-GLO-026]
 
 
 characters that were registered for the CPGID at the time
@@ -1254,11 +1254,11 @@ document-component hierarchy. In MO:DCA, an
 ordering of the document in terms of its lower-level
 components. The components are ordered by decreasing
 level as follows:
-• Print file (highest level)
-• Document
-• Page group
+• Print file (highest level) [MODCA-GLO-027]
+• Document [MODCA-GLO-028]
+• Page group [MODCA-GLO-029]
 • Page
-• Data object (lowest level)
+• Data object (lowest level) [MODCA-GLO-030]
 document content architecture. A family of
 architectures that define the syntax and semantics of the
 document component. See also document component and
@@ -1290,7 +1290,7 @@ per inch (dpi) is also used to measure the quality of input
 when using a scanner. In this case, dpi becomes a square
 function measuring the dots both vertically as well as
 horizontally. Consequently, when an image is scanned in at
-300 dpi, there are 90,000 dots or bits of electronic data
+300 dpi, there are 90,000 dots or bits of electronic data [MODCA-GLO-031]
 (300 x 300) in every square inch.
 double-byte character set (DBCS). A character set that
 can contain up to 65536 characters.
@@ -1307,7 +1307,7 @@ dpi. See dots per inch.
 drag. T o use a pointing device to move an object. For
 example, clicking on a window border, and dragging it to
 make the window larger.
-digital halftoning • drag
+digital halftoning • drag [MODCA-GLO-032]
 
 
 draw functions. Functions that can be done during the
@@ -1507,7 +1507,7 @@ letterheads, that cannot be created conveniently within the
 data stream.
 fixed metrics. Graphic character measurements in
 physical units such as pels, inches, or centimeters.
-error diffusion halftone • fixed metrics
+error diffusion halftone • fixed metrics [MODCA-GLO-033]
 
 
 FNN linked. In FOCA, the FNN (Font Name map)
@@ -1617,7 +1617,7 @@ type style and the following characteristics: posture, weight
 class, and width class.
 font width (FW). (1) A characteristic value, parallel to the
 character baseline, that represents the size of all graphic
-FNN linked • font width (FW)
+FNN linked • font width (FW) [MODCA-GLO-034]
 
 
 characters in a font. Synonymous with horizontal font
@@ -1626,11 +1626,11 @@ font-designer defined value corresponding to the nominal
 character increment for a font character set. The value is
 generally the width of the space character and is defined
 differently for fonts with different spacing characteristics.
-• For fixed-pitch, uniform character increment fonts: the
+• For fixed-pitch, uniform character increment fonts: the [MODCA-GLO-035]
 fixed character increment, that is also the space
 character increment
-• For PSM fonts: the width of the space character
-• For typographic, proportionally spaced fonts: one-third of
+• For PSM fonts: the width of the space character [MODCA-GLO-036]
+• For typographic, proportionally spaced fonts: one-third of [MODCA-GLO-037]
 the vertical font size, that is also the default size of the
 space character.
 The font designer can also define a minimum and a
@@ -1673,7 +1673,7 @@ presentation space P
 PFO with other presentation data
 (presentation space P data). The intersection of P PFO and
 Pdata is assigned the following color attribute:
-• Wherever the color attribute of P PFO is either color of
+• Wherever the color attribute of P PFO is either color of [MODCA-GLO-038]
 medium, or “white” (CMYK = X'00000000' for a printer,
 RGB = X'FFFFFF' for an RGB display), the intersection
 is assigned the color attribute of P data. Likewise,
@@ -1681,7 +1681,7 @@ wherever the color attribute of P data is either color of
 medium, or “white” (CMYK = X'00000000' for a printer,
 RGB = X'FFFFFF' for an RGB display), the intersection
 is assigned the color attribute of P PFO.
-• With other overlapping color values, the intersection
+• With other overlapping color values, the intersection [MODCA-GLO-039]
 assumes a new color attribute that is generated in a
 device-specific manner to simulate how the P
 data color
@@ -1699,11 +1699,11 @@ merged as a new presentation space P
 n, onto an existing
 presentation space P e. The intersection of the foregrounds
 of Pn and Pe is assigned the following color attribute:
-• Wherever the color attribute of P e is either the color of
+• Wherever the color attribute of P e is either the color of [MODCA-GLO-040]
 medium, or the color white (CMYK = X'00000000' or
 RGB = X'FFFFFF'), the intersection is assigned the color
 attribute of P n.
-• Wherever the color attribute of P e is not the color of
+• Wherever the color attribute of P e is not the color of [MODCA-GLO-041]
 medium and not the color white, the intersection
 assumes a new color attribute that is generated in a
 device-specific manner to simulate how the P e color
@@ -1734,7 +1734,7 @@ the Load Font Control and Load Font commands. An LF1-
 type coded font or coded-font section is the combination of
 one fully described font and one font index. See also font
 index.
-foreground • fully described font
+foreground • fully described font [MODCA-GLO-042]
 
 
 function set. (1) A collection of architecture constructs
@@ -1775,33 +1775,33 @@ between the groupings. The GLC chain may be terminated
 by an optional UCT control sequence that carries the code
 points of the glyphs rendered by the GLC chain.
 Global Identifier (GID). Any of the following:
-• Coded Character Set Identifier (CCSID).
-• Coded Graphic Character Set Global Identifier
+• Coded Character Set Identifier (CCSID). [MODCA-GLO-043]
+• Coded Graphic Character Set Global Identifier [MODCA-GLO-044]
 (CGCSGID)
-• Code Page Global ID (CPGID)
-• Font Typeface Global Identifier (FGID)
-• Global Resource Identifier (GRID)
-• Graphic Character Global Identifier (GCGID)
-• Graphic Character Set Global Identifier (GCSGID)
-• Graphic Character UCS Identifier (GCUID)
-• An identifier used by a data object to reference a
+• Code Page Global ID (CPGID) [MODCA-GLO-045]
+• Font Typeface Global Identifier (FGID) [MODCA-GLO-046]
+• Global Resource Identifier (GRID) [MODCA-GLO-047]
+• Graphic Character Global Identifier (GCGID) [MODCA-GLO-048]
+• Graphic Character Set Global Identifier (GCSGID) [MODCA-GLO-049]
+• Graphic Character UCS Identifier (GCUID) [MODCA-GLO-050]
+• An identifier used by a data object to reference a [MODCA-GLO-051]
 resource
-• In MO:DCA, an encoded graphic character string that
+• In MO:DCA, an encoded graphic character string that [MODCA-GLO-052]
 provides a reference name for a document element.
-• Object identifier (OID)
-• A Uniform Resource Locator (URL), as defined in RFC
+• Object identifier (OID) [MODCA-GLO-053]
+• A Uniform Resource Locator (URL), as defined in RFC [MODCA-GLO-054]
 1738, Internet Engineering T ask Force (IETF),
 December, 1994
 Global Resource Identifier (GRID). An eight-byte
 identifier that identifies a coded font resource. A GRID
 contains the following fields in the order shown:
-1. GCSGID of a minimum set of graphic characters
+1. GCSGID of a minimum set of graphic characters [MODCA-GLO-055]
 required for presentation. It can be a character set that
 is associated with the code page, or with the font
 character set, or with both.
-2. CPGID of the associated code page
-3. FGID of the associated font character set
-4. Font width in 1440ths of an inch.
+2. CPGID of the associated code page [MODCA-GLO-056]
+3. FGID of the associated font character set [MODCA-GLO-057]
+4. Font width in 1440ths of an inch. [MODCA-GLO-058]
 glyph. (1) A member of a set of symbols that represent
 data. Glyphs can be letters, digits, punctuation marks, or
 other symbols. Synonymous with graphic character. See
@@ -1832,7 +1832,7 @@ GOCA. See Graphics Object Content Architecture.
 GPS. See graphics presentation space.
 gradient. In GOCA, an area fill where one color gradually
 changes to another. A gradient is a type of pattern.
-function set • gradient
+function set • gradient [MODCA-GLO-059]
 
 
 grapheme. (1) A minimally distinctive unit of writing in the
@@ -1936,7 +1936,7 @@ GRID. See Global Resource Identifier.
 guard bars. The bars at both ends and the center of an
 EAN, JAN, or UPC symbol, that provide reference points
 for scanning.
-grapheme • guard bars
+grapheme • guard bars [MODCA-GLO-060]
 
 
 gzip. A widely-used, free software compression
@@ -1990,11 +1990,11 @@ nominal character increment for a font character set. The
 value is generally the width of the space character and is
 defined differently for fonts with different spacing
 characteristics.
-• For fixed-pitch, uniform character increment fonts: the
+• For fixed-pitch, uniform character increment fonts: the [MODCA-GLO-061]
 fixed character increment, that is also the space
 character increment
-• For PSM fonts: the width of the space character
-• For typographic fonts and proportionally spaced fonts:
+• For PSM fonts: the width of the space character [MODCA-GLO-062]
+• For typographic fonts and proportionally spaced fonts: [MODCA-GLO-063]
 one-third of the vertical font size, that is also the default
 size of the space character.
 The font designer can also define a minimum and a
@@ -2043,7 +2043,7 @@ color printing or for forming screen colors.
 human-readable interpretation (HRI). The printed
 translation of bar code characters into equivalent Latin
 alphabetic characters, Arabic numeral decimal digits, and
-gzip • human-readable interpretation (HRI)
+gzip • human-readable interpretation (HRI) [MODCA-GLO-064]
 
 
 common special characters normally used for printed
@@ -2138,7 +2138,7 @@ image object. An object that contains image data. See
 also object.
 image object area. A rectangular area on a logical page
 into which an image presentation space is mapped.
-hypermedia • image object area
+hypermedia • image object area [MODCA-GLO-065]
 
 
 Image Object Content Architecture (IOCA). An
@@ -2236,7 +2236,7 @@ area, element, and space.
 intercharacter increment. Intercharacter adjustment
 applied in the positive I direction from the current
 presentation position. See also intercharacter adjustment.
-Image Object Content Architecture (IOCA) • intercharacter increment
+Image Object Content Architecture (IOCA) • intercharacter increment [MODCA-GLO-066]
 
 
 intercharacter space. In bar codes, the space between
@@ -2335,7 +2335,7 @@ the resolution and optionally the thumbnail.
 K
 Kanji. A graphic character set for symbols used in
 Japanese ideographic alphabets.
-intercharacter space • Kanji
+intercharacter space • Kanji [MODCA-GLO-067]
 
 
 kerning. The design of graphic characters so that their
@@ -2442,10 +2442,10 @@ logical unit. A unit of linear measurement expressed with
 a unit base and units per unit-base value. For example, in
 MO:DCA and IPDS architectures, the following logical units
 are used:
-• 1 logical unit = 1/1440 inch
+• 1 logical unit = 1/1440 inch [MODCA-GLO-068]
 (unit base = 10 inches,
 units per unit base = 14,400)
-• 1 logical unit = 1/240 inch
+• 1 logical unit = 1/240 inch [MODCA-GLO-069]
 (unit base = 10 inches,
 units per unit base = 2400)
 Synonymous with L unit.
@@ -2466,10 +2466,10 @@ L unit. A unit of linear measurement expressed with a unit
 base and units per unit-base value. For example, in
 MO:DCA and IPDS architectures, the following L units are
 used:
-• 1 L unit = 1/1440 inch
+• 1 L unit = 1/1440 inch [MODCA-GLO-070]
 (unit base = 10 inches,
 units per unit base = 14,400)
-• 1 L unit = 1/240 inch
+• 1 L unit = 1/240 inch [MODCA-GLO-071]
 (unit base = 10 inches,
 units per unit base = 2400)
 Synonymous with logical unit.
@@ -2522,7 +2522,7 @@ meaning. A table heading for architecture syntax. The
 entries under this heading convey the meaning or purpose
 of a construct. A meaning entry can be a long name, a
 description, or a brief statement of function.
-logical page • meaning
+logical page • meaning [MODCA-GLO-072]
 
 
 measurement base. A base unit of measure from which
@@ -2620,7 +2620,7 @@ presentation documents.
 MO:DCA IS/2. MO:DCA Interchange Set 2. A retired
 subset of MO:DCA that defines an interchange format for
 presentation documents.
-measurement base • MO:DCA IS/2
+measurement base • MO:DCA IS/2 [MODCA-GLO-073]
 
 
 MO:DCA IS/3. MO:DCA Interchange Set 3. A subset of
@@ -2720,7 +2720,7 @@ and black on a printer. Note that neutral white and color of
 medium are two different colors.
 non-presentation object. An object that is not a
 presentation object.
-MO:DCA IS/3 • non-presentation object
+MO:DCA IS/3 • non-presentation object [MODCA-GLO-074]
 
 
 nonprocess runout (NPRO). An operation that moves
@@ -2823,7 +2823,7 @@ orientation of printing on a physical medium, relative to the
 X
 m axis of the Xm,Ym coordinate system. See also
 presentation space orientation and text orientation.
-nonprocess runout (NPRO) • orientation
+nonprocess runout (NPRO) • orientation [MODCA-GLO-075]
 
 
 origin. The point in a coordinate system where the axes
@@ -2925,7 +2925,7 @@ environment group. The environment for a page segment
 is defined by the active environment group of the including
 page or overlay. (3) The final representation of such an
 object on a physical medium. Contrast with overlay.
-origin • page segment
+origin • page segment [MODCA-GLO-076]
 
 
 Page-Segment command set. In the IPDS architecture,
@@ -3028,7 +3028,7 @@ picture element. The smallest printable or displayable
 unit on a physical medium. In computer graphics, the
 smallest element of a physical medium that can be
 independently assigned color and intensity. Picture
-Page-Segment command set • picture element
+Page-Segment command set • picture element [MODCA-GLO-077]
 
 
 elements per inch is often used as a measurement of
@@ -3132,7 +3132,7 @@ coordinate system. See also orientation and text
 orientation.
 presentation system. A system for presenting data. In
 AFP environments such a system normally contains at
-pixel • presentation system
+pixel • presentation system [MODCA-GLO-078]
 
 
 least a formatting application, a print server, and a printer.
@@ -3229,7 +3229,7 @@ tends to have a flat or banded (contoured) appearance
 unless it is also dithered.
 quiet zone. A clear space that contains no machine-
 readable marks preceding the start character of a bar code
-presentation text object • quiet zone
+presentation text object • quiet zone [MODCA-GLO-079]
 
 
 symbol or following the stop character. Synonymous with
@@ -3333,7 +3333,7 @@ are used to establish the new current position. The
 direction of displacement is inline along the I axis in the I
 direction, or baseline along the B axis in the B direction, or
 both.
-radial gradient • relative move
+radial gradient • relative move [MODCA-GLO-080]
 
 
 relative positioning. The establishment of a position
@@ -3397,9 +3397,9 @@ retired. Set aside for a particular purpose, and not
 available for any other purpose. Retired fields and values
 are specified for compatibility with existing products and
 identify one of the following:
-• Fields or values that have been used by a product in a
+• Fields or values that have been used by a product in a [MODCA-GLO-081]
 manner not compliant with the architected definition
-• Fields or values that have been removed from an
+• Fields or values that have been removed from an [MODCA-GLO-082]
 architecture
 reuse LND. A Line Descriptor (LND) in a chain of LNDs,
 also called a reuse chain, where all LNDs process fields in
@@ -3433,7 +3433,7 @@ Royal Mail 4 State Customer Code (RM4SCC). A two-
 dimensional bar code symbology developed by the United
 Kingdom's Royal Mail postal service for use in automated
 mail-sorting processes.
-relative positioning • Royal Mail 4 State Customer Code (RM4SCC)
+relative positioning • Royal Mail 4 State Customer Code (RM4SCC) [MODCA-GLO-083]
 
 
 rule. A solid line of any line width.
@@ -3529,7 +3529,7 @@ sequential baseline. A conceptual line with respect to
 which successive characters are aligned. See also
 character baseline. Synonymous with baseline and printing
 baseline.
-rule • sequential baseline
+rule • sequential baseline [MODCA-GLO-084]
 
 
 sequential baseline position. The current addressable
@@ -3629,7 +3629,7 @@ identifier such as a number. A spot color is normally
 rendered with a custom colorant instead of with a
 combination of process color primaries. See also highlight
 color. Contrast with process color.
-sequential baseline position • spot color
+sequential baseline position • spot color [MODCA-GLO-085]
 
 
 sRGB. One of the standard RGB color spaces, a means
@@ -3755,9 +3755,9 @@ syntax. The rules governing the structure of a construct.
 See also pragmatics and semantics.
 system-level font resource. A common-source font from
 which:
-• Document-processing applications can obtain resolution-
+• Document-processing applications can obtain resolution- [MODCA-GLO-086]
 independent formatting information.
-• Device-service applications can obtain device-specific
+• Device-service applications can obtain device-specific [MODCA-GLO-087]
 presentation information.
 T
 tag. A data structure that is used within the data portion of
@@ -3831,7 +3831,7 @@ model transform, segment transform, and viewing
 transform.
 transform matrix. A matrix that is applied to a set of
 coordinates to produce a transform.
-symbol set • transform matrix
+symbol set • transform matrix [MODCA-GLO-088]
 
 
 translating. In computer graphics, moving all or part of a
@@ -3863,7 +3863,7 @@ tumble-duplex printing. A method used to simulate the
 effect of physically turning a sheet around the X
 m axis.
 twip. A unit of measure equal to 1/20 of a point. There are
-1440 twips in one inch.
+1440 twips in one inch. [MODCA-GLO-089]
 type. A table heading for architecture syntax. The entries
 under this heading indicate the types of data present in a
 construct. Examples include: BITS, CHAR, CODE, SBIN,
@@ -4037,7 +4037,7 @@ according to the semantics and pragmatics of the variable
 space function. This code point is not presented, but its
 character increment parameter is used to provide spacing.
 See also variable space character increment.
-UTF-16 • variable space character
+UTF-16 • variable space character [MODCA-GLO-090]
 
 
 variable space character increment. The variable value
@@ -4139,7 +4139,7 @@ Xbc,Ybc coordinate system. The bar code presentation
 space coordinate system.
 X dimension. In bar codes, the nominal dimension of the
 narrow bars and spaces in a bar code symbol.
-variable space character increment • X dimension
+variable space character increment • X dimension [MODCA-GLO-091]
 
 
 Xg,Yg coordinate system. In the IPDS architecture, the
@@ -4206,4 +4206,4 @@ Yxy color space. A color space belonging to the XYZ
 base family that expresses the XYZ values in terms of x
 and y chromaticity coordinates, somewhat analogous to
 the hue and saturation coordinates of the HSV color space.
-Xg,Yg coordinate system • Yxy color space
+Xg,Yg coordinate system • Yxy color space [MODCA-GLO-092]

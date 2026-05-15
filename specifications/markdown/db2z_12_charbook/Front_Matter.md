@@ -14,7 +14,7 @@ Before using this information and the product it supports, be sure to read the g
 "Notices" at the end of this information.
 Subsequent editions of this PDF will not be delivered in IBM Publications Center. Always download the
 latest edition from IBM Documentation.
-2026-03-26 edition
+2026-03-26 edition [DB2Z-FM-001]
 This edition applies to Db2® 12 for z/OS® (product number 5650-DB2), Db2 12 for z/OS Value Unit Edition (product
 number 5770-AF3), and to any subsequent releases until otherwise indicated in new editions. Make sure you are using
 the correct edition for the level of the product.
@@ -139,10 +139,10 @@ z/OS) environment.
 This information provides basic guidance about storing and manipulating Unicode data or data from
 different code pages in a Db2 for z/OS environment. Topics include detailed information about the
 following tasks:
-1. How to set up your subsystem so that Db2 correctly interprets data in any encoding scheme
-2. How to store and manipulate Unicode data
-3. How to store and manipulate data in multiple encoding schemes
-4. How to write applications that correctly interpret data according to the encoding scheme
+1. How to set up your subsystem so that Db2 correctly interprets data in any encoding scheme [DB2Z-FM-002]
+2. How to store and manipulate Unicode data [DB2Z-FM-003]
+3. How to store and manipulate data in multiple encoding schemes [DB2Z-FM-004]
+4. How to write applications that correctly interpret data according to the encoding scheme [DB2Z-FM-005]
 Throughout this content, "Db2" means "Db2 12 for z/OS." References to other Db2 products use complete
 names or more-specific abbreviations.
 Important: To find the most up to date content for Db2 12 for z/OS, always use IBM® Documentation
@@ -151,12 +151,12 @@ Documentation).
 This Db2 12 for z/OS product documentation generally assumes that the highest available function level is
 activated and that your applications are running with the highest available application compatibility level,
 with the following exceptions:
-• The following documentation sections describe the Db2 12 migration process and how to activate new
+• The following documentation sections describe the Db2 12 migration process and how to activate new [DB2Z-FM-006]
 capabilities in function levels:
 – Migrating to Db2 12 (Db2 Installation and Migration)
 – What's new in Db2 12 (Db2 for z/OS What's New?)
 – Adopting new capabilities in Db2 12 continuous delivery (Db2 for z/OS What's New?)
-• FL 501  Labels like this one usually mark new content or changes for Db2 function levels. The lable is
+• FL 501  Labels like this one usually mark new content or changes for Db2 function levels. The lable is [DB2Z-FM-007]
 also a link to the description of the function level that introduces the changes. For more information, see
 How Db2 function levels are documented (Db2 for z/OS What's New?).
 Continuous delivery in Db2 12
@@ -177,7 +177,7 @@ New subsystem parameter settings are in effect only when the function level that
 a higher function level is activated. Many subsystem parameter changes in the initial Db2 12 release
 take effect in function level 500. For more information about subsystem parameter changes in Db2
 12, see Subsystem parameter changes in Db2 12 (Db2 for z/OS What's New?).
-© Copyright IBM Corp. 2003, 2026 vii
+© Copyright IBM Corp. 2003, 2026 vii [DB2Z-FM-008]
 
 ## Page 8
 
@@ -185,10 +185,10 @@ Optimization enhancements
 Optimization enhancements become available after the activation of the function level that introduces
 them or higher, and full prepare of the SQL statements. When a full prepare occurs depends on the
 statement type:
-• For static SQL statements, after bind or rebind of the package
-• For non-stabilized dynamic SQL statements, immediately, unless the statement is in the dynamic
+• For static SQL statements, after bind or rebind of the package [DB2Z-FM-009]
+• For non-stabilized dynamic SQL statements, immediately, unless the statement is in the dynamic [DB2Z-FM-010]
 statement cache
-• For stabilized dynamic SQL statements, after invalidation, free, or changed application compatibility
+• For stabilized dynamic SQL statements, after invalidation, free, or changed application compatibility [DB2Z-FM-011]
 level
 Activation of function level 100 introduces all optimization enhancements in the initial Db2 12
 release. That is, function level 500 introduces no optimization enhancements.
@@ -203,8 +203,8 @@ and SQL)
 Who should read this information
 This information is primarily intended for people who are responsible for using character conversion in a
 Db2 for z/OS environment. It assumes that the user is familiar with the following concepts:
-• The basic concepts and facilities of Db2 for z/OS environment
-• The basic concepts of Structured Query Language (SQL)
+• The basic concepts and facilities of Db2 for z/OS environment [DB2Z-FM-012]
+• The basic concepts of Structured Query Language (SQL) [DB2Z-FM-013]
 Db2 Utilities Suite for z/OS
 Important: Db2 Utilities Suite for z/OS is available as an optional product. You must separately order
 and purchase a license to such utilities, and discussion of those utility functions in this publication is not
@@ -225,7 +225,7 @@ Represents either the Db2 licensed program or a particular Db2 subsystem.
 IBM rebranded DB2 to Db2, and Db2 for z/OS is the new name of the offering that was previously
 known as "DB2 for z/OS". As a result, you might sometimes still see references to the original names,
 such as "DB2 for z/OS" and "DB2", in different IBM web pages and documents. If the PID, Entitlement
-viii  About this information
+viii  About this information [DB2Z-FM-014]
 
 ## Page 9
 
@@ -233,10 +233,10 @@ Entity, version, modification, and release information match, assume that they r
 product.
 IBM OMEGAMON® AI for Db2
 Refers to any of the following products:
-• IBM IBM OMEGAMON AI for Db2
-• IBM IBM OMEGAMON AI for Db2
-• IBM Db2 Performance Expert for Multiplatforms and Workgroups
-• IBM Db2 Buffer Pool Analyzer for z/OS
+• IBM IBM OMEGAMON AI for Db2 [DB2Z-FM-015]
+• IBM IBM OMEGAMON AI for Db2 [DB2Z-FM-016]
+• IBM Db2 Performance Expert for Multiplatforms and Workgroups [DB2Z-FM-017]
+• IBM Db2 Buffer Pool Analyzer for z/OS [DB2Z-FM-018]
 C, C++, and C language
 Represent the C or C++ programming language.
 CICS®
@@ -254,9 +254,9 @@ vision, to use information technology products successfully.
 Accessibility features
 The following list includes the major accessibility features in z/OS products, including Db2 for z/OS. These
 features support:
-• Keyboard-only operation.
-• Interfaces that are commonly used by screen readers and screen magnifiers.
-• Customization of display attributes such as color, contrast, and font size
+• Keyboard-only operation. [DB2Z-FM-019]
+• Interfaces that are commonly used by screen readers and screen magnifiers. [DB2Z-FM-020]
+• Customization of display attributes such as color, contrast, and font size [DB2Z-FM-021]
 Tip: IBM Documentation (which includes information for Db2 for z/OS) and its related publications are
 accessibility-enabled for the IBM Home Page Reader. You can operate all features using the keyboard
 instead of the mouse.
@@ -271,7 +271,7 @@ Db2 for z/OS documentation.
 IBM and accessibility
 For more information about the commitment that IBM has to accessibility, see the IBM Accessibility Center
 at http:/ /www.ibm.com/able.
-About this information  ix
+About this information  ix [DB2Z-FM-022]
 
 ## Page 10
 
@@ -280,11 +280,11 @@ Your feedback helps IBM to provide quality documentation.
 Send any comments about Db2 for z/OS and related product documentation by email to
 db2zinfo@us.ibm.com.
 To help us respond to your comment, include the following information in your email:
-• The product name and version
-• The address (URL) of the page, for comments about online documentation
-• The book name and publication date, for comments about PDF manuals
-• The topic or section title
-• The specific text that you are commenting about and your comment
+• The product name and version [DB2Z-FM-023]
+• The address (URL) of the page, for comments about online documentation [DB2Z-FM-024]
+• The book name and publication date, for comments about PDF manuals [DB2Z-FM-025]
+• The topic or section title [DB2Z-FM-026]
+• The specific text that you are commenting about and your comment [DB2Z-FM-027]
 Related concepts
 About Db2 12 for z/OS product documentation (Db2 for z/OS in IBM Documentation)
 Related reference
@@ -292,26 +292,26 @@ PDF format manuals for Db2 12 for z/OS (Db2 for z/OS in IBM Documentation)
 How to read syntax diagrams
 Certain conventions apply to the syntax diagrams that are used in IBM documentation.
 Apply the following rules when reading the syntax diagrams that are used in Db2 for z/OS documentation:
-• Read the syntax diagrams from left to right, from top to bottom, following the path of the line.
+• Read the syntax diagrams from left to right, from top to bottom, following the path of the line. [DB2Z-FM-028]
 The ►►─── symbol indicates the beginning of a statement.
 The ───► symbol indicates that the statement syntax is continued on the next line.
 The ►─── symbol indicates that a statement is continued from the previous line.
 The ───►◄ symbol indicates the end of a statement.
-• Required items appear on the horizontal line (the main path).
+• Required items appear on the horizontal line (the main path). [DB2Z-FM-029]
 required_item
-• Optional items appear below the main path.
+• Optional items appear below the main path. [DB2Z-FM-030]
 required_item
 optional_item
 If an optional item appears above the main path, that item has no effect on the execution of the
 statement and is used only for readability.
 required_item
 optional_item
-• If you can choose from two or more items, they appear vertically, in a stack.
+• If you can choose from two or more items, they appear vertically, in a stack. [DB2Z-FM-031]
 If you must choose one of the items, one item of the stack appears on the main path.
 required_item required_choice1
 required_choice2
 If choosing one of the items is optional, the entire stack appears below the main path.
-x  About this information
+x  About this information [DB2Z-FM-032]
 
 ## Page 11
 
@@ -324,41 +324,41 @@ required_item
 default_choice
 optional_choice
 optional_choice
-• An arrow returning to the left, above the main line, indicates an item that can be repeated.
+• An arrow returning to the left, above the main line, indicates an item that can be repeated. [DB2Z-FM-033]
 required_item repeatable_item
 If the repeat arrow contains a comma, you must separate repeated items with a comma.
 required_item
 ,
 repeatable_item
 A repeat arrow above a stack indicates that you can repeat the items in the stack.
-• Sometimes a diagram must be split into fragments. The syntax fragment is shown separately from the
+• Sometimes a diagram must be split into fragments. The syntax fragment is shown separately from the [DB2Z-FM-034]
 main syntax diagram, but the contents of the fragment should be read as if they are on the main path of
 the diagram.
 required_item fragment-name
 fragment-name
 required_item
 optional_name
-• For some references in syntax diagrams, you must follow any rules described in the description for that
+• For some references in syntax diagrams, you must follow any rules described in the description for that [DB2Z-FM-035]
 diagram, and also rules that are described in other syntax diagrams. For example:
 – For expression, you must also follow the rules described in Expressions (Db2 SQL).
 – For references to fullselect, you must also follow the rules described in fullselect (Db2 SQL).
 – For references to search-condition, you must also follow the rules described in Search conditions
 (Db2 SQL).
-• With the exception of XPath keywords, keywords appear in uppercase (for example, FROM). Keywords
+• With the exception of XPath keywords, keywords appear in uppercase (for example, FROM). Keywords [DB2Z-FM-036]
 must be spelled exactly as shown.
-• XPath keywords are defined as lowercase names, and must be spelled exactly as shown.
-• Variables appear in all lowercase letters (for example, column-name). They represent user-supplied
+• XPath keywords are defined as lowercase names, and must be spelled exactly as shown. [DB2Z-FM-037]
+• Variables appear in all lowercase letters (for example, column-name). They represent user-supplied [DB2Z-FM-038]
 names or values.
-• If punctuation marks, parentheses, arithmetic operators, or other such symbols are shown, you must
+• If punctuation marks, parentheses, arithmetic operators, or other such symbols are shown, you must [DB2Z-FM-039]
 enter them as part of the syntax.
 Related concepts
 About commands in Db2 for z/OS (Db2 Commands)
 Db2 online utilities (Db2 Utilities)
 Db2 stand-alone utilities (Db2 Utilities)
-About this information  xi
+About this information  xi [DB2Z-FM-040]
 
 ## Page 12
 
-xii  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+xii  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26) [DB2Z-FM-041]
 
 ## Page 13

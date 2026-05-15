@@ -1,8 +1,8 @@
 # Appendix E. IPDS Environment
 The Intelligent Printer Data Stream (IPDS) provides the printer subsystem environment for Image Objects. This appendix describes:
-• The context of Image Objects in the IPDS environment
-• IPDS commands specific to images
-• Some special considerations when printing an image
+• The context of Image Objects in the IPDS environment [IOCA-E-001]
+• IPDS commands specific to images [IOCA-E-002]
+• Some special considerations when printing an image [IOCA-E-003]
 For further information about the IPDS architecture, refer to Intelligent Printer Data Stream Reference.
 IOCA Image Objects in an IPDS Architecture The IPDS architecture provides various commands to control advanced-function printers. It supports all-points- addressable printing functions that allow text and individual image, graphics, and bar code objects to be positioned and presented at any point on the printed page.
 Image Objects are described to IPDS printers in terms of Image Segments as defined by IOCA. They are presented in rectangular output areas called object areas. These object areas may be positioned at any addressable point on a page, in an overlay or a page segment definition, and may be defined in any orientation relative to the X-axis of the reference system. The size, position, and orientation of the image object area is defined to the printer by parameters that are specified in the Write Image Control 2 command.
@@ -15,19 +15,19 @@ Position and Trim Map the upper left corner of the IPS to the object area withou
 Replicate and Trim Map the upper-left corner of the IPS to the object area without scaling, then replicate in both the X and Y directions until the object area is filled. Excess image data, if any, is trimmed at object area boundaries.
 Image Point-to-Pel Map the upper-left corner of the IPS to the origin of the object area. Each image point is mapped to a single output pel: that is, no resolution correction is done. Excess image data, if any, is trimmed at object area boundaries.
 Image Point-to-Pel with Double Dot Same as Image Point-to-Pel, except that each image point is mapped to four pels in the object area by doubling the image point in both dimensions. No resolution correction is done. Excess image data, if any, is trimmed at object area boundaries.
-If the Image Output Control parameters are omitted, the default is Position and Trim.
+If the Image Output Control parameters are omitted, the default is Position and Trim. [IOCA-E-004]
 
 
 Note: If the IOCA object is included in a MO:DCA object and the Map Image Object structured field is not present, the MO:DCA default of Scale to Fit applies and the resulting IPDS contains an explicit Scale to Fit Mapping Control Option. For this reason, the IPDS default is very unlikely to be relevant for most applications.
 Resolution correction occurs in the Scale to Fit, Scale to Fill, Center and Trim, Position and Trim, and Replicate and Trim mapping options whenever the resolution of the image points in the IPS, in one or both dimensions, is different from the pel resolution of the printer.
 Manipulation of Image Objects can be performed in an IO-Image object state that is entered from any one of three IPDS printer states:
-• Page state
-• Overlay state
-• Page segment state
+• Page state [IOCA-E-005]
+• Overlay state [IOCA-E-006]
+• Page segment state [IOCA-E-007]
 When the image functions are carried out in the overlay or page segment state, the image data sent to the printer is saved as part of the overlay or page segment definition. It is later included on pages by the Load Copy Control, Include Overlay, or Include Page Segment command.
 IPDS IO-Image Command Set The IPDS architecture provides the IO-Image Command Set to convey image information to printers. This Command Set consists of:
-• The Write Image Control 2 command, to define where and how to present an Image Object
-• The Write Image 2 command, which contains an Image Segment
+• The Write Image Control 2 command, to define where and how to present an Image Object [IOCA-E-008]
+• The Write Image 2 command, which contains an Image Segment [IOCA-E-009]
 Write Image Control 2 The Write Image Control 2 (WIC2) command is identified by command code X'D63E', and is sent to the printer before the Write Image 2 command. It tells the printer that the Write Image 2 commands that follow are directed to an image object area on the current page, overlay, or page segment.
 This command defines the size, placement, and orientation of the image object area. It also establishes the parameters required to interpret the Image Segment.
 The Write Image Control 2 data is made up of the following three consecutive self-defining fields:
@@ -62,9 +62,9 @@ Special Notes This section describes special considerations for the IPDS environ
 Image Segment in IO-Image Command Set For untiled image contents, the image size is specified in the Image Size parameter that is a mandatory parameter within an untiled Image Content. An exception condition occurs if the parameter either is not found, appears more than once, appears before the Begin Image Content, or appears after the first Image Data self- defining field. In this situation, the IOCA standard exception action and IPDS Alternate Exception Action (AEA)
 is to process the rest of the Image Segment.
 Since the Image Size parameter is mandatory in each untiled Image Content, its contents (except for values in Unit Base, Horizontal, and Vertical Resolutions) must be checked for validation. Exceptions occur under the following conditions:
-• The Image Size parameter specifies an unknown horizontal image size (HSIZE=0), and an image
+• The Image Size parameter specifies an unknown horizontal image size (HSIZE=0), and an image [IOCA-E-010]
 compression algorithm other than IBM MMR-Modified Modified Read, JPEG, or JBIG2 is selected in the Image Encoding parameter. The IOCA exception action and the IPDS AEA is to skip to the end of the Image Segment.
-• The size detected from the image data is different from that specified in the Image Size parameter. The IOCA
+• The size detected from the image data is different from that specified in the Image Size parameter. The IOCA [IOCA-E-011]
 exception action and the IPDS AEA is to use the size of the image detected from the image data.
 When the image size extends beyond the XSIZE or YSIZE of the Image Presentation Space, an exception condition occurs. The IOCA exception action and the IPDS AEA is to write only portions of the image that are within the Image Presentation Space, and discard all portions that extend outside it. The portions that are not written onto are filled with zeros.
 Each image point in IOCA Image Content is mapped to one image point in the Image Presentation Space. The relationship between the resolution and size parameters of the IDD and the Image Size parameter are further described in “Image Data Descriptor (IDD)”.

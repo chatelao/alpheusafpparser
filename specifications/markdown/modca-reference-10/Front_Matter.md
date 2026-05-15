@@ -12,7 +12,7 @@ the previous edition, AFPC-0004-09. This edition remains current until a new edi
 T echnical changes are indicatedin green, with a green vertical bar to the left of the change. Editorial changes that have no
 technical significance are not noted. For a detailed list of changes, see “Summary of Changes”.
 Internet
-Visit our home page at: www.afpcinc.org
+Visit our home page at: www.afpcinc.org [MODCA-FM-001]
 
 # Preface
 This book describes the functions and services associated with the MO:DCA architecture.
@@ -45,36 +45,36 @@ consortium. In June 2007, IBM's role as founding member of the consortium was tr
 Solutions Company, an IBM/Ricoh® joint venture. In February 2009, the consortium was incorporated under a
 new set of bylaws with tiered membership and shared governance resulting in the creation of a formal open
 standards body called the AFP Consortium™ (AFPC™). Ownership of and responsibility for the AFP
-architectures was transferred at that time to the AFP Consortium.
+architectures was transferred at that time to the AFP Consortium. [MODCA-FM-002]
 
 How to Use This Book
 This book is divided into eight chapters, six appendixes, and a glossary.
-• Chapter 1, “A Presentation Architecture Perspective” introduces the AFP architectures and positions the
+• Chapter 1, “A Presentation Architecture Perspective” introduces the AFP architectures and positions the [MODCA-FM-003]
 MO:DCA architecture as a strategic presentation data stream architecture.
-• Chapter 2, “Introduction to the MO:DCA Architecture” introduces the concepts that form the basis of the
+• Chapter 2, “Introduction to the MO:DCA Architecture” introduces the concepts that form the basis of the [MODCA-FM-004]
 MO:DCA architecture.
-• Chapter 3, “MO:DCA Overview” provides an overview of MO:DCA data structures and their use.
-• Chapter 4, “MO:DCA Objects” provides the structure definitions for MO:DCA objects.
-• Chapter 5, “MO:DCA Structured Fields” provides the syntax and semantics for MO:DCA structured fields.
-• Chapter 6, “MO:DCA Triplets” provides the syntax and semantics for MO:DCA triplet data structures.
-• Chapter 7, “MO:DCA Interchange Sets” provides complete descriptions of the MO:DCA interchange sets and
+• Chapter 3, “MO:DCA Overview” provides an overview of MO:DCA data structures and their use. [MODCA-FM-005]
+• Chapter 4, “MO:DCA Objects” provides the structure definitions for MO:DCA objects. [MODCA-FM-006]
+• Chapter 5, “MO:DCA Structured Fields” provides the syntax and semantics for MO:DCA structured fields. [MODCA-FM-007]
+• Chapter 6, “MO:DCA Triplets” provides the syntax and semantics for MO:DCA triplet data structures. [MODCA-FM-008]
+• Chapter 7, “MO:DCA Interchange Sets” provides complete descriptions of the MO:DCA interchange sets and [MODCA-FM-009]
 describes how products can become valid generators and receivers of the MO:DCA architecture.
-• Chapter 8, “MO:DCA Function Sets” provides complete descriptions of the MO:DCA function sets and
+• Chapter 8, “MO:DCA Function Sets” provides complete descriptions of the MO:DCA function sets and [MODCA-FM-010]
 defines the extensions made by each registered function set to specific interchange sets of the MO:DCA
 architecture.
-• Appendix A, “Color Resources” provides information on color resources and on color to grayscale
+• Appendix A, “Color Resources” provides information on color resources and on color to grayscale [MODCA-FM-011]
 conversion.
-• Appendix B, “Resource Access T able (RAT)” defines the Resource Access T able, which is used to locate and
+• Appendix B, “Resource Access T able (RAT)” defines the Resource Access T able, which is used to locate and [MODCA-FM-012]
 process resources such as TrueType and OpenType fonts.
-• Appendix C, “MO:DCA Migration Functions” provides the syntax and semantics for MO:DCA migration
+• Appendix C, “MO:DCA Migration Functions” provides the syntax and semantics for MO:DCA migration [MODCA-FM-013]
 structured fields, triplets, parameters, and provides the structure definitions for MO:DCA migration objects.
-• Appendix D, “MO:DCA Registry” provides a registry for object type identifiers, media type identifiers, and
+• Appendix D, “MO:DCA Registry” provides a registry for object type identifiers, media type identifiers, and [MODCA-FM-014]
 color profile identifiers.
-• Appendix E, “Cross-References” provides tables of MO:DCA structured fields and triplets sorted by identifier
+• Appendix E, “Cross-References” provides tables of MO:DCA structured fields and triplets sorted by identifier [MODCA-FM-015]
 and by name.
-• Appendix F , “Object OID Algorithms” provides the algorithms for generating Object Identifiers (OIDs) such as
+• Appendix F , “Object OID Algorithms” provides the algorithms for generating Object Identifiers (OIDs) such as [MODCA-FM-016]
 TrueType/OpenType font OIDs, Color Management Resource (CMR) OIDs, and data object OIDs.
-• The Glossary defines some of the terms used within this book.
+• The Glossary defines some of the terms used within this book. [MODCA-FM-017]
 
 How to Read the Syntax Diagrams
 Throughout this book, syntax is described using the following formats. The syntax of the structured field, the
@@ -93,7 +93,7 @@ SF Length (2B) ID = X'D3TTCC' Flags (1B) Reserved
 X'0000'
 Structured Field Data
 The meanings of the elements of the horizontal representation are as follows:
-• The Structured Field Introducer, which identifies the length and the function or type of the structured field, is
+• The Structured Field Introducer, which identifies the length and the function or type of the structured field, is [MODCA-FM-018]
 composed of the following parameters:
 Element Meaning
 SF Length The total length of the structured field including the length of the SF Length
@@ -102,7 +102,7 @@ ID = X'D3TTCC' The structured field identifier—consisting of the structured fi
 and category codes—that uniquely identifies each MO:DCA structured field.
 Flags The set of bits or flags that identify if the structured field is segmented of if a
 structured field extender or padding is to be used.
-• The Structured Field Data, which provides the structured field's effect, is contained in the set of parameters
+• The Structured Field Data, which provides the structured field's effect, is contained in the set of parameters [MODCA-FM-019]
 described in the table.
 For a detailed discussion of the data elements comprising MO:DCA structured fields, see “MO:DCA Structured
 Field Syntax”.
@@ -128,7 +128,7 @@ Code
 Certain fields may be denoted in the Meaning column as reserved. A reserved field is a parameter that has no
 functional definition at the current time, but may have at some time in the future. All bytes in any field that the
 MO:DCA architecture defines as a reserved field should be given a value of zero by generating applications.
-Receiving applications should ignore any values contained in a reserved field.
+Receiving applications should ignore any values contained in a reserved field. [MODCA-FM-020]
 
 Additional columns appear to the right of the Meaning column. These columns are:
 M/O Mandatory or optional
@@ -191,7 +191,7 @@ For the most current information, please refer to the online version at:
 http://www-01.ibm.com/software/globalization/cdra
 SC09-2190 (IBM)
 Font Summary for AFP Font Collection S544-5633 (IBM)
-Technical Reference for Code Pages S544-3802 (IBM)
+Technical Reference for Code Pages S544-3802 (IBM) [MODCA-FM-021]
 
 Table 4. UP3I Architecture Documentation
 UP3I Publication Book Identification
@@ -205,18 +205,18 @@ www.iso.org
 # Summary of Changes
 This eleventh edition of the Mixed Object Document Content Architecture (MO:DCA) Reference contains the
 following significant architecture extensions:
-• Support for metadata objects has been expanded to allow metadata to be associated with additional AFP
+• Support for metadata objects has been expanded to allow metadata to be associated with additional AFP [MODCA-FM-022]
 objects
-• Support for IOCA nColor images and the FS48 function set that includes them
-• Support for IOCA function set FS14, an extension of FS11
-• Support for QR Code with Image, which allows a variety of data objects to be put on top of AFP QR Code bar
+• Support for IOCA nColor images and the FS48 function set that includes them [MODCA-FM-023]
+• Support for IOCA function set FS14, an extension of FS11 [MODCA-FM-024]
+• Support for QR Code with Image, which allows a variety of data objects to be put on top of AFP QR Code bar [MODCA-FM-025]
 codes
-• Support for additional Trim finishing
-• Support for setup names, which allow print files to specify the printer settings with which they should be
+• Support for additional Trim finishing [MODCA-FM-026]
+• Support for setup names, which allow print files to specify the printer settings with which they should be [MODCA-FM-027]
 printed
-• Numerous corrections and clarifications
+• Numerous corrections and clarifications [MODCA-FM-028]
 As stated in the edition notice, the additions are marked in this publication in green, with green revision bars
-located on the left-hand side of a page.
+located on the left-hand side of a page. [MODCA-FM-029]
 
 # Contents
 Preface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . iii
@@ -273,7 +273,7 @@ Structured Field Introducer ....................................................
 SFI Syntax .................................................................................................................................. 20
 SFI Semantics.............................................................................................................................. 21
 Type Codes ................................................................................................................................. 22
-Category Codes ........................................................................................................................... 23
+Category Codes ........................................................................................................................... 23 [MODCA-FM-030]
 
 Structured Field Data ......................................................................................................................... 24
 Structured Field Introducer Extension .................................................................................................... 24
@@ -336,7 +336,7 @@ CMRs and presentation devices ..................................................
 Associating CMRs with document components........................................................................................ 50
 Rendering intent ............................................................................................................................... 52
 CMRs and print media........................................................................................................................ 53
-CMR Processing............................................................................................................................... 53
+CMR Processing............................................................................................................................... 53 [MODCA-FM-031]
 
 CMR association and scope ............................................................................................................ 53
 CMR processing mode................................................................................................................... 54
@@ -399,7 +399,7 @@ Image Objects ..................................................................
 Mapping the Image Presentation Space........................................................................................... 108
 T ext Objects.................................................................................................................................... 111
 Mapping the T ext Presentation Space (T ext Object with OEG) ...............................................................114
-Object Containers ............................................................................................................................114
+Object Containers ............................................................................................................................114 [MODCA-FM-032]
 
 Mapping the Container Data Presentation Space ................................................................................117
 Chapter 5. MO:DCA Structured Fields . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 119
@@ -462,7 +462,7 @@ BOC Exception Condition Summary.................................................
 Begin Object Environment Group (BOG) .................................................................................................. 149
 BOG (X'D3A8C7') Syntax ................................................................................................................. 149
 BOG Semantics .............................................................................................................................. 149
-BOG Exception Condition Summary.................................................................................................... 149
+BOG Exception Condition Summary.................................................................................................... 149 [MODCA-FM-033]
 
 Begin Print File (BPF)........................................................................................................................... 150
 BPF (X'D3A8A5') Syntax .................................................................................................................. 150
@@ -525,7 +525,7 @@ End Graphics Object (EGR).......................................................
 EGR (X'D3A9BB') Syntax ................................................................................................................. 179
 EGR Semantics .............................................................................................................................. 179
 EGR Exception Condition Summary.................................................................................................... 179
-End Image Object (EIM)........................................................................................................................ 180
+End Image Object (EIM)........................................................................................................................ 180 [MODCA-FM-034]
 
 EIM (X'D3A9FB') Syntax................................................................................................................... 180
 EIM Semantics ............................................................................................................................... 180
@@ -589,7 +589,7 @@ IDD (X'D3A6FB') Syntax .........................................................
 IDD Semantics ............................................................................................................................... 196
 Index Element (IEL) ............................................................................................................................. 197
 IEL (X'D3B2A7') Syntax.................................................................................................................... 197
-IEL Semantics ................................................................................................................................ 197
+IEL Semantics ................................................................................................................................ 197 [MODCA-FM-035]
 
 IEL Exception Condition Summary...................................................................................................... 198
 Invoke Medium Map (IMM) .................................................................................................................... 199
@@ -653,7 +653,7 @@ TrueType/OpenType Font Resources in an External (Print file level) Resource Grou
 Using the MDR to Map a Color Management Resource (CMR) ................................................................. 259
 CMR Name ............................................................................................................................... 259
 Generic CMRs ........................................................................................................................... 259
-Link CMRs ................................................................................................................................ 259
+Link CMRs ................................................................................................................................ 259 [MODCA-FM-036]
 
 CMR Install Program ................................................................................................................... 259
 CMRs in a Resource Library.......................................................................................................... 260
@@ -716,7 +716,7 @@ OBD Exception Condition Summary.................................................
 Object Area Position (OBP) ................................................................................................................... 302
 OBP (X'D3AC6B') Syntax ................................................................................................................. 302
 OBP Semantics .............................................................................................................................. 303
-OBP Exception Condition Summary .................................................................................................... 304
+OBP Exception Condition Summary .................................................................................................... 304 [MODCA-FM-037]
 
 Object Container Data (OCD)................................................................................................................. 305
 OCD (X'D3EE92') Syntax.................................................................................................................. 305
@@ -779,7 +779,7 @@ Triplet X'04' Syntax ...........................................................
 Triplet X'04' Semantics ..................................................................................................................... 360
 Structured Fields Using Triplet X'04' .................................................................................................... 362
 Object Classification Triplet X'10' ............................................................................................................ 363
-Triplet X'10' Syntax .......................................................................................................................... 363
+Triplet X'10' Syntax .......................................................................................................................... 363 [MODCA-FM-038]
 
 Triplet X'10' Semantics ..................................................................................................................... 363
 Structured Fields Using Triplet X'10' .................................................................................................... 366
@@ -842,7 +842,7 @@ Structured Fields Using Triplet X'4C' ..........................................
 Area Definition Triplet X'4D' ................................................................................................................... 390
 Triplet X'4D' Syntax ......................................................................................................................... 390
 Triplet X'4D' Semantics .................................................................................................................... 390
-Structured Field Using Triplet X'4D' ..................................................................................................... 390
+Structured Field Using Triplet X'4D' ..................................................................................................... 390 [MODCA-FM-039]
 
 Color Specification Triplet X'4E' .............................................................................................................. 391
 Triplet X'4E' Syntax ......................................................................................................................... 391
@@ -905,7 +905,7 @@ Triplet X'71' Syntax ...........................................................
 Triplet X'71' Semantics ..................................................................................................................... 416
 Structured Fields Using Triplet X'71' .................................................................................................... 417
 Universal Date and Time Stamp Triplet X'72' ............................................................................................. 418
-Triplet X'72' Syntax .......................................................................................................................... 418
+Triplet X'72' Syntax .......................................................................................................................... 418 [MODCA-FM-040]
 
 Triplet X'72' Semantics ..................................................................................................................... 418
 Structured Fields Using Triplet X'72' .................................................................................................... 419
@@ -968,7 +968,7 @@ Structured Field Using Triplet X'8C' ...........................................
 UP3i Finishing Operation Triplet X'8E'...................................................................................................... 454
 Triplet X'8E' Syntax ......................................................................................................................... 454
 Triplet X'8E' Semantics..................................................................................................................... 454
-Structured Field Using Triplet X'8E' ..................................................................................................... 454
+Structured Field Using Triplet X'8E' ..................................................................................................... 454 [MODCA-FM-041]
 
 MO:DCA Function Set Triplet X'8F'.......................................................................................................... 455
 Triplet X'8F' Syntax.......................................................................................................................... 455
@@ -1032,7 +1032,7 @@ Begin Active Environment Group..................................................
 Begin Document ......................................................................................................................... 477
 Begin Graphics Object ................................................................................................................. 479
 Begin Image Object..................................................................................................................... 479
-Begin Object Environment Group ................................................................................................... 479
+Begin Object Environment Group ................................................................................................... 479 [MODCA-FM-042]
 
 Begin Overlay ............................................................................................................................ 479
 Begin Page................................................................................................................................ 479
@@ -1064,29 +1064,29 @@ Presentation T ext Data.........................................................
 Presentation T ext Data Descriptor, Format 2 ..................................................................................... 487
 MO:DCA Presentation Interchange Set 2 (IS/2).......................................................................................... 488
 MO:DCA Interchange Set 3 (IS/3) ........................................................................................................... 489
-1.0 Functional Subsets ..................................................................................................................... 489
-2.0 Compliance .............................................................................................................................. 489
-2.1 Migration Functions (as defined in Appendix C - MO:DCA Migration Functions) ................................... 490
-2.2 Structured Field Introducer....................................................................................................... 490
-2.3 Exception Conditions .............................................................................................................. 490
-3.0 Data Stream Object Structure ....................................................................................................... 491
-4.0 Print Control Object Structure ....................................................................................................... 500
-5.0 Structured Fields and Triplets ....................................................................................................... 501
-5.1 Begin Structured Fields ........................................................................................................... 501
-5.2 End Structured Fields ............................................................................................................. 504
-5.3 Structured Fields without Triplets............................................................................................... 505
-5.4 Structured Fields with Triplets ................................................................................................... 507
-6.0 Architected T ables ...................................................................................................................... 514
-6.1 Standard OCA Color Value T able............................................................................................... 514
-6.2 Color Mapping T able (CMT) ..................................................................................................... 514
-6.3 Resource Access T ables (RAT s)................................................................................................ 514
+1.0 Functional Subsets ..................................................................................................................... 489 [MODCA-FM-043]
+2.0 Compliance .............................................................................................................................. 489 [MODCA-FM-044]
+2.1 Migration Functions (as defined in Appendix C - MO:DCA Migration Functions) ................................... 490 [MODCA-FM-045]
+2.2 Structured Field Introducer....................................................................................................... 490 [MODCA-FM-046]
+2.3 Exception Conditions .............................................................................................................. 490 [MODCA-FM-047]
+3.0 Data Stream Object Structure ....................................................................................................... 491 [MODCA-FM-048]
+4.0 Print Control Object Structure ....................................................................................................... 500 [MODCA-FM-049]
+5.0 Structured Fields and Triplets ....................................................................................................... 501 [MODCA-FM-050]
+5.1 Begin Structured Fields ........................................................................................................... 501 [MODCA-FM-051]
+5.2 End Structured Fields ............................................................................................................. 504 [MODCA-FM-052]
+5.3 Structured Fields without Triplets............................................................................................... 505 [MODCA-FM-053]
+5.4 Structured Fields with Triplets ................................................................................................... 507 [MODCA-FM-054]
+6.0 Architected T ables ...................................................................................................................... 514 [MODCA-FM-055]
+6.1 Standard OCA Color Value T able............................................................................................... 514 [MODCA-FM-056]
+6.2 Color Mapping T able (CMT) ..................................................................................................... 514 [MODCA-FM-057]
+6.3 Resource Access T ables (RAT s)................................................................................................ 514 [MODCA-FM-058]
 TrueType/OpenType Font (TTF/OTF) Repeating Group .................................................................. 514
 Color Management Resource (CMR) Repeating Group................................................................... 514
 Data Object Resource (DOR) Repeating Group ............................................................................ 514
-7.0 Migration Functions included in IS/3 ............................................................................................... 515
-7.1 Obsolete Functions ................................................................................................................ 515
-7.2 Retired Functions................................................................................................................... 515
-7.3 Coexistence Functions............................................................................................................ 515
+7.0 Migration Functions included in IS/3 ............................................................................................... 515 [MODCA-FM-059]
+7.1 Obsolete Functions ................................................................................................................ 515 [MODCA-FM-060]
+7.2 Retired Functions................................................................................................................... 515 [MODCA-FM-061]
+7.3 Coexistence Functions............................................................................................................ 515 [MODCA-FM-062]
 MO:DCA AFP Archive Interchange Set (AFP/A) ......................................................................................... 516
 Chapter 8. MO:DCA Function Sets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 517
 Function Sets ..................................................................................................................................... 517
@@ -1094,7 +1094,7 @@ MO:DCA Function Set X'0001': MO:DCA GA (Graphic Arts) ..........................
 MO:DCA GA and IS/3 .................................................................................................................. 517
 Appendix A. Color Resources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 521
 Standard OCA Color Value T able ............................................................................................................ 521
-Converting Colors to Grayscale in MO:DCA Environments ........................................................................... 523
+Converting Colors to Grayscale in MO:DCA Environments ........................................................................... 523 [MODCA-FM-063]
 
 CIELab Color Space ........................................................................................................................ 523
 RGB Color Space............................................................................................................................ 523
@@ -1156,7 +1156,7 @@ MDD Two-up Triplet X'10' Syntax ................................................
 MDD Two-up Triplet X'10' Semantics .......................................................................................... 558
 Structured Field Using MDD Two-up Triplet X'10' ........................................................................... 558
 T ext Orientation Triplet X'1D' ......................................................................................................... 558
-Triplet X'1D' Syntax................................................................................................................. 558
+Triplet X'1D' Syntax................................................................................................................. 558 [MODCA-FM-064]
 
 Triplet X'1D' Semantics ............................................................................................................ 559
 Structured Field Using Triplet X'1D' ............................................................................................ 559
@@ -1220,7 +1220,7 @@ Image Object (IOCA FS10 or FS11) ...............................................
 Object Environment Group (OEG) for Image Object ........................................................................... 579
 Presentation T ext Object (PTOCA PT1) ........................................................................................... 579
 Permitted Structured Fields........................................................................................................... 579
-Structured Field Parameters ..................................................................................................... 580
+Structured Field Parameters ..................................................................................................... 580 [MODCA-FM-065]
 
 Bar Code Data ....................................................................................................................... 580
 Bar Code Data Descriptor......................................................................................................... 581
@@ -1284,7 +1284,7 @@ PGP-1 (X'D3ACAF') Syntax .......................................................
 PGP-1 Semantics ................................................................................................................... 600
 Presentation T ext Data Descriptor (PTD-1) Format 1 .......................................................................... 600
 PTD-1 (X'D3A69B') Syntax ....................................................................................................... 600
-PTD-1 Semantics ................................................................................................................... 601
+PTD-1 Semantics ................................................................................................................... 601 [MODCA-FM-066]
 
 Begin IM Image Object (BII) .......................................................................................................... 601
 BII (X'D3A87B') Syntax ............................................................................................................ 601
@@ -1330,171 +1330,171 @@ Color Management Resource and Data Object OID Generation Algorithm .............
 Notices . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 655
 Trademarks........................................................................................................................................ 656
 Glossary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 657
-Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 699
+Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 699 [MODCA-FM-067]
 
 # Figures
-1. Presentation Environment ........................................................................................................................ 1
-2. Presentation Model ................................................................................................................................ 3
-3. Presentation Page.................................................................................................................................. 5
-4. MO:DCA Presentation Document Components ............................................................................................ 8
-5. A MO:DCA Presentation Space Coordinate System .................................................................................... 35
-6. Presentation Space Extents ................................................................................................................... 37
-7. Offset of a Coordinate System ................................................................................................................ 38
-8. Examples of Coordinate System Orientation .............................................................................................. 39
-9. Inheritance of Coordinate System Orientation............................................................................................. 39
-10. Rotation of the X and Y Axes ................................................................................................................. 40
-11. Rotation Units for the Data Object Area — Arbitrary Orientation .................................................................... 41
-12. A Page Overlay Applied to a Page in Two Different Orientations ................................................................... 41
-13. Merging Presentation Spaces ............................................................................................................... 44
-14. Horizontal Metrics: TrueType/OpenType Fonts and FOCA Fonts .................................................................. 58
-15. Vertical Metrics: TrueType/OpenType Fonts and FOCA Fonts ...................................................................... 60
-16. Page level IEL: Offset and Extent ........................................................................................................... 63
-17. Page group level IEL: Offset and Extent .................................................................................................. 63
-18. Page level IEL: Use of Medium Map Information ....................................................................................... 64
-19. A Document with Logical T ags............................................................................................................... 65
-20. Document Annotation using the LLE ....................................................................................................... 67
-21. N-up Partitions for Various Physical Media ............................................................................................... 68
-22. Logical Division of Continuous Forms for Cut-sheet Emulation ..................................................................... 69
-23. Print File Structure .............................................................................................................................. 76
-24. Document Structure ............................................................................................................................ 77
-25. Document Index Structure .................................................................................................................... 78
-26. Resource Environment Group Structure .................................................................................................. 78
-27. Page Structure................................................................................................................................... 79
-28. Page Group Structure.......................................................................................................................... 82
-29. Overlay Structure ............................................................................................................................... 85
-30. Page Segment Structure ...................................................................................................................... 87
-31. External (Print file level) Resource Group Structure.................................................................................... 88
-32. BRS/ERS Envelope for Resources in External (Print File Level) Resource Group ............................................. 89
-33. Form Map Structure ............................................................................................................................ 91
-34. Document Environment Group Structure ................................................................................................. 92
-35. Copy Subgroups ................................................................................................................................ 93
-36. Medium Map Structure ........................................................................................................................ 95
-37. Object Area Positioning on a Page ......................................................................................................... 97
-38. Bar Code Object Structure ................................................................................................................... 98
-39. Bar Code Presentation Space Mapping: Position....................................................................................... 99
-40. Graphics Object Structure .................................................................................................................. 101
-41. Graphics Presentation Space Mapping: Scale to Fit ................................................................................. 103
-42. Graphics Presentation Space Mapping: Scale to Fill................................................................................. 104
-43. Graphics Presentation Space Mapping: Center and Trim .......................................................................... 105
-44. Graphics Presentation Space Mapping: Position and Trim ......................................................................... 106
-45. Image Object Structure ...................................................................................................................... 107
-46. Image Presentation Space Mapping: Scale to Fit..................................................................................... 108
-47. Image Presentation Space Mapping: Scale to Fill .................................................................................... 109
-48. Image Presentation Space Mapping: Center and Trim ...............................................................................110
-49. Image Presentation Space Mapping: Position and Trim ............................................................................. 111
-50. Presentation T ext Object Structure - Without OEG .................................................................................... 111
-51. Presentation T ext Object Structure - With OEG ........................................................................................112
-52. T ext Presentation Space Mapping: Position.............................................................................................114
-53. Use of the IOB to Include Object Container Data ......................................................................................115
-54. Object Container Structure for Presentation Objects .................................................................................116
-55. Object Container Structure for Non-Presentation Objects ...........................................................................117
-56. Triplets in Link Attribute, Source, and T arget Repeating Groups.................................................................. 228
-57. Example of a Full Font Name in Two Languages ..................................................................................... 255
-58. Examples of MDR Repeating Groups.................................................................................................... 258
-59. Examples of MDR Repeating Groups.................................................................................................... 263
+1. Presentation Environment ........................................................................................................................ 1 [MODCA-FM-068]
+2. Presentation Model ................................................................................................................................ 3 [MODCA-FM-069]
+3. Presentation Page.................................................................................................................................. 5 [MODCA-FM-070]
+4. MO:DCA Presentation Document Components ............................................................................................ 8 [MODCA-FM-071]
+5. A MO:DCA Presentation Space Coordinate System .................................................................................... 35 [MODCA-FM-072]
+6. Presentation Space Extents ................................................................................................................... 37 [MODCA-FM-073]
+7. Offset of a Coordinate System ................................................................................................................ 38 [MODCA-FM-074]
+8. Examples of Coordinate System Orientation .............................................................................................. 39 [MODCA-FM-075]
+9. Inheritance of Coordinate System Orientation............................................................................................. 39 [MODCA-FM-076]
+10. Rotation of the X and Y Axes ................................................................................................................. 40 [MODCA-FM-077]
+11. Rotation Units for the Data Object Area — Arbitrary Orientation .................................................................... 41 [MODCA-FM-078]
+12. A Page Overlay Applied to a Page in Two Different Orientations ................................................................... 41 [MODCA-FM-079]
+13. Merging Presentation Spaces ............................................................................................................... 44 [MODCA-FM-080]
+14. Horizontal Metrics: TrueType/OpenType Fonts and FOCA Fonts .................................................................. 58 [MODCA-FM-081]
+15. Vertical Metrics: TrueType/OpenType Fonts and FOCA Fonts ...................................................................... 60 [MODCA-FM-082]
+16. Page level IEL: Offset and Extent ........................................................................................................... 63 [MODCA-FM-083]
+17. Page group level IEL: Offset and Extent .................................................................................................. 63 [MODCA-FM-084]
+18. Page level IEL: Use of Medium Map Information ....................................................................................... 64 [MODCA-FM-085]
+19. A Document with Logical T ags............................................................................................................... 65 [MODCA-FM-086]
+20. Document Annotation using the LLE ....................................................................................................... 67 [MODCA-FM-087]
+21. N-up Partitions for Various Physical Media ............................................................................................... 68 [MODCA-FM-088]
+22. Logical Division of Continuous Forms for Cut-sheet Emulation ..................................................................... 69 [MODCA-FM-089]
+23. Print File Structure .............................................................................................................................. 76 [MODCA-FM-090]
+24. Document Structure ............................................................................................................................ 77 [MODCA-FM-091]
+25. Document Index Structure .................................................................................................................... 78 [MODCA-FM-092]
+26. Resource Environment Group Structure .................................................................................................. 78 [MODCA-FM-093]
+27. Page Structure................................................................................................................................... 79 [MODCA-FM-094]
+28. Page Group Structure.......................................................................................................................... 82 [MODCA-FM-095]
+29. Overlay Structure ............................................................................................................................... 85 [MODCA-FM-096]
+30. Page Segment Structure ...................................................................................................................... 87 [MODCA-FM-097]
+31. External (Print file level) Resource Group Structure.................................................................................... 88 [MODCA-FM-098]
+32. BRS/ERS Envelope for Resources in External (Print File Level) Resource Group ............................................. 89 [MODCA-FM-099]
+33. Form Map Structure ............................................................................................................................ 91 [MODCA-FM-100]
+34. Document Environment Group Structure ................................................................................................. 92 [MODCA-FM-101]
+35. Copy Subgroups ................................................................................................................................ 93 [MODCA-FM-102]
+36. Medium Map Structure ........................................................................................................................ 95 [MODCA-FM-103]
+37. Object Area Positioning on a Page ......................................................................................................... 97 [MODCA-FM-104]
+38. Bar Code Object Structure ................................................................................................................... 98 [MODCA-FM-105]
+39. Bar Code Presentation Space Mapping: Position....................................................................................... 99 [MODCA-FM-106]
+40. Graphics Object Structure .................................................................................................................. 101 [MODCA-FM-107]
+41. Graphics Presentation Space Mapping: Scale to Fit ................................................................................. 103 [MODCA-FM-108]
+42. Graphics Presentation Space Mapping: Scale to Fill................................................................................. 104 [MODCA-FM-109]
+43. Graphics Presentation Space Mapping: Center and Trim .......................................................................... 105 [MODCA-FM-110]
+44. Graphics Presentation Space Mapping: Position and Trim ......................................................................... 106 [MODCA-FM-111]
+45. Image Object Structure ...................................................................................................................... 107 [MODCA-FM-112]
+46. Image Presentation Space Mapping: Scale to Fit..................................................................................... 108 [MODCA-FM-113]
+47. Image Presentation Space Mapping: Scale to Fill .................................................................................... 109 [MODCA-FM-114]
+48. Image Presentation Space Mapping: Center and Trim ...............................................................................110 [MODCA-FM-115]
+49. Image Presentation Space Mapping: Position and Trim ............................................................................. 111 [MODCA-FM-116]
+50. Presentation T ext Object Structure - Without OEG .................................................................................... 111 [MODCA-FM-117]
+51. Presentation T ext Object Structure - With OEG ........................................................................................112 [MODCA-FM-118]
+52. T ext Presentation Space Mapping: Position.............................................................................................114 [MODCA-FM-119]
+53. Use of the IOB to Include Object Container Data ......................................................................................115 [MODCA-FM-120]
+54. Object Container Structure for Presentation Objects .................................................................................116 [MODCA-FM-121]
+55. Object Container Structure for Non-Presentation Objects ...........................................................................117 [MODCA-FM-122]
+56. Triplets in Link Attribute, Source, and T arget Repeating Groups.................................................................. 228 [MODCA-FM-123]
+57. Example of a Full Font Name in Two Languages ..................................................................................... 255 [MODCA-FM-124]
+58. Examples of MDR Repeating Groups.................................................................................................... 258 [MODCA-FM-125]
+59. Examples of MDR Repeating Groups.................................................................................................... 263 [MODCA-FM-126]
 
-60. Normal Duplex and Tumble Duplex Printing ........................................................................................... 283
-61. 1-up Partition Numbering, Front Sheet-Side ........................................................................................... 320
-62. 2-up Partition Numbering, Front Sheet-Side ........................................................................................... 321
-63. 3-up Partition Numbering, Front Sheet-Side ........................................................................................... 321
-64. 4-up Partition Numbering, Front Sheet-Side ........................................................................................... 322
-65. 1-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 322
-66. 2-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 323
-67. 3-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 323
-68. 4-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 324
-69. 1-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 324
-70. 2-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 325
-71. 3-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 325
-72. 4-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 326
-73. Landscape and Portrait Orientation and Layout ........................................................................................411
-74. Examples of Finishing Operations ........................................................................................................ 437
-75. Examples of Additional Finishing Operations .......................................................................................... 438
-76. More Examples of Additional Finishing Operations .................................................................................. 439
-77. Media Reference Edge and Corner Definitions........................................................................................ 440
-78. Character Placement Based on Character Rotation and Inline and Baseline Direction ..................................... 449
-79. MO:DCA IS/1: Document Structure ...................................................................................................... 474
-80. MO:DCA IS/1: Page Structure ............................................................................................................. 474
-81. MO:DCA IS/1: Active Environment Group Structure ................................................................................. 474
-82. MO:DCA IS/1: Graphics Object Structure............................................................................................... 475
-83. MO:DCA IS/1: Object Environment Group for Graphics Object Structure ...................................................... 475
-84. MO:DCA IS/1: Image Object Structure .................................................................................................. 475
-85. MO:DCA IS/1: Object Environment Group for Image Object Structure .......................................................... 475
-86. MO:DCA IS/1: Presentation T ext Object Structure ................................................................................... 476
-87. MO:DCA IS/1: Overlay Structure.......................................................................................................... 476
-88. Color Mapping T able Container ........................................................................................................... 524
-89. MO:DCA IS/2: Document Structure ...................................................................................................... 576
-90. MO:DCA IS/2: Document Index Structure .............................................................................................. 576
-91. MO:DCA IS/2: Resource Group Structure .............................................................................................. 576
-92. MO:DCA IS/2: Page Structure ............................................................................................................. 576
-93. MO:DCA IS/2: Overlay Structure.......................................................................................................... 577
-94. MO:DCA IS/2: Active Environment Group Structure ................................................................................. 577
-95. MO:DCA IS/2: Bar Code Object Structure .............................................................................................. 578
-96. MO:DCA IS/2: Object Environment Group for Bar Code Object Structure...................................................... 578
-97. MO:DCA IS/2: Graphics Object Structure............................................................................................... 578
-98. MO:DCA IS/2: Object Environment Group for Graphics Object Structure ...................................................... 578
-99. MO:DCA IS/2: Image Object Structure .................................................................................................. 579
-100. MO:DCA IS/2: Object Environment Group for Image Object Structure ........................................................ 579
-101. MO:DCA IS/2: Presentation T ext Object Structure.................................................................................. 579
-102. AFP Page Segment Structure............................................................................................................ 594
-103. Two Forms of IM Image.................................................................................................................... 596
-104. IM Image Object Structure: Simple (Non-celled) Image ........................................................................... 596
-105. IM Image Object Structure: Complex (Celled) Image .............................................................................. 597
+60. Normal Duplex and Tumble Duplex Printing ........................................................................................... 283 [MODCA-FM-127]
+61. 1-up Partition Numbering, Front Sheet-Side ........................................................................................... 320 [MODCA-FM-128]
+62. 2-up Partition Numbering, Front Sheet-Side ........................................................................................... 321 [MODCA-FM-129]
+63. 3-up Partition Numbering, Front Sheet-Side ........................................................................................... 321 [MODCA-FM-130]
+64. 4-up Partition Numbering, Front Sheet-Side ........................................................................................... 322 [MODCA-FM-131]
+65. 1-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 322 [MODCA-FM-132]
+66. 2-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 323 [MODCA-FM-133]
+67. 3-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 323 [MODCA-FM-134]
+68. 4-up Partition Numbering, Back Sheet-Side, Normal Duplex ...................................................................... 324 [MODCA-FM-135]
+69. 1-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 324 [MODCA-FM-136]
+70. 2-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 325 [MODCA-FM-137]
+71. 3-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 325 [MODCA-FM-138]
+72. 4-up Partition Numbering, Back Sheet-Side, Tumble Duplex ...................................................................... 326 [MODCA-FM-139]
+73. Landscape and Portrait Orientation and Layout ........................................................................................411 [MODCA-FM-140]
+74. Examples of Finishing Operations ........................................................................................................ 437 [MODCA-FM-141]
+75. Examples of Additional Finishing Operations .......................................................................................... 438 [MODCA-FM-142]
+76. More Examples of Additional Finishing Operations .................................................................................. 439 [MODCA-FM-143]
+77. Media Reference Edge and Corner Definitions........................................................................................ 440 [MODCA-FM-144]
+78. Character Placement Based on Character Rotation and Inline and Baseline Direction ..................................... 449 [MODCA-FM-145]
+79. MO:DCA IS/1: Document Structure ...................................................................................................... 474 [MODCA-FM-146]
+80. MO:DCA IS/1: Page Structure ............................................................................................................. 474 [MODCA-FM-147]
+81. MO:DCA IS/1: Active Environment Group Structure ................................................................................. 474 [MODCA-FM-148]
+82. MO:DCA IS/1: Graphics Object Structure............................................................................................... 475 [MODCA-FM-149]
+83. MO:DCA IS/1: Object Environment Group for Graphics Object Structure ...................................................... 475 [MODCA-FM-150]
+84. MO:DCA IS/1: Image Object Structure .................................................................................................. 475 [MODCA-FM-151]
+85. MO:DCA IS/1: Object Environment Group for Image Object Structure .......................................................... 475 [MODCA-FM-152]
+86. MO:DCA IS/1: Presentation T ext Object Structure ................................................................................... 476 [MODCA-FM-153]
+87. MO:DCA IS/1: Overlay Structure.......................................................................................................... 476 [MODCA-FM-154]
+88. Color Mapping T able Container ........................................................................................................... 524 [MODCA-FM-155]
+89. MO:DCA IS/2: Document Structure ...................................................................................................... 576 [MODCA-FM-156]
+90. MO:DCA IS/2: Document Index Structure .............................................................................................. 576 [MODCA-FM-157]
+91. MO:DCA IS/2: Resource Group Structure .............................................................................................. 576 [MODCA-FM-158]
+92. MO:DCA IS/2: Page Structure ............................................................................................................. 576 [MODCA-FM-159]
+93. MO:DCA IS/2: Overlay Structure.......................................................................................................... 577 [MODCA-FM-160]
+94. MO:DCA IS/2: Active Environment Group Structure ................................................................................. 577 [MODCA-FM-161]
+95. MO:DCA IS/2: Bar Code Object Structure .............................................................................................. 578 [MODCA-FM-162]
+96. MO:DCA IS/2: Object Environment Group for Bar Code Object Structure...................................................... 578 [MODCA-FM-163]
+97. MO:DCA IS/2: Graphics Object Structure............................................................................................... 578 [MODCA-FM-164]
+98. MO:DCA IS/2: Object Environment Group for Graphics Object Structure ...................................................... 578 [MODCA-FM-165]
+99. MO:DCA IS/2: Image Object Structure .................................................................................................. 579 [MODCA-FM-166]
+100. MO:DCA IS/2: Object Environment Group for Image Object Structure ........................................................ 579 [MODCA-FM-167]
+101. MO:DCA IS/2: Presentation T ext Object Structure.................................................................................. 579 [MODCA-FM-168]
+102. AFP Page Segment Structure............................................................................................................ 594 [MODCA-FM-169]
+103. Two Forms of IM Image.................................................................................................................... 596 [MODCA-FM-170]
+104. IM Image Object Structure: Simple (Non-celled) Image ........................................................................... 596 [MODCA-FM-171]
+105. IM Image Object Structure: Complex (Celled) Image .............................................................................. 597 [MODCA-FM-172]
 
 # Tables
-1. AFPC Architecture Documentation............................................................................................................vii
-2. Additional AFP Consortium Documentation ................................................................................................vii
-3. AFP Font-Related Documentation ............................................................................................................vii
-4. UP 3I Architecture Documentation ............................................................................................................ viii
-5. International Organization for Standardization (ISO) Documentation ............................................................... viii
-6. Structured Field Introducer (SFI) ............................................................................................................. 20
-7. Type Codes ........................................................................................................................................ 22
-8. Maximum Absolute Values of Numbers in the MO:DCA Architecture ............................................................... 33
-9. MO:DCA Coordinate Systems................................................................................................................. 34
-10. Format for Numbers Expressed in Rotation Units ...................................................................................... 40
-11. Foreground/Background in Data Object Presentation Spaces....................................................................... 42
-12. Default Color Mixing Rules ................................................................................................................... 45
-13. Color Mixing Rules for PFOs ................................................................................................................. 46
-14. CMR Type: Processing Mode and Generic Capability ................................................................................. 49
-15. Bit Representation of MO:DCA Exception Condition Categories ................................................................... 73
-16. Default BPT Page-Level Initial T ext Conditions........................................................................................ 158
-17. Print Server CMR Processing: Inline CMRs ............................................................................................ 166
-18. Link Sources and Link T argets............................................................................................................. 228
-19. Valid ESidCP/ESidUD Combinations for the MCF .................................................................................... 241
-20. Valid ESidUD/ESidCP Combinations for the MDR.................................................................................... 254
-21. Print Server CMR Processing: CMRs in Resource Libraries ....................................................................... 260
-22. Print Server CMR Processing: Inline CMRs ............................................................................................ 262
-23. Sheet Jogging and Conditional Ejects ................................................................................................... 280
-24. Supported ESidCP Values.................................................................................................................. 397
-25. Supported ESidUD Values.................................................................................................................. 397
-26. Additional ESidUD Values in AFP Line Data ........................................................................................... 397
-27. IS/3 Objects .................................................................................................................................... 491
-28. IS/3 Containers - Presentation Objects.................................................................................................. 498
-29. IS/3 Containers - Non-Presentation Objects ........................................................................................... 498
-30. IS/3 IOB and DOR RAT Presentation Object Containers ........................................................................... 499
-31. IS/3 Data Objects and Secondary Resources ......................................................................................... 499
-32. IS/3 Print Control Objects ................................................................................................................... 500
-33. IS/3 Begin Structured Fields ............................................................................................................... 501
-34. IS/3 End Structured Fields .................................................................................................................. 504
-35. IS/3 Structured Fields without Triplets ................................................................................................... 505
-36. IS/3 Structured Fields with Triplets ....................................................................................................... 507
-37. Presentation Objects Processed with Data Object Resource (DOR) RAT...................................................... 515
-38. IS/3 + MO:DCA GA Containers - Presentation Objects ............................................................................. 517
-39. IS/3 + MO:DCA GA IOB and DOR RAT Presentation Object Containers ....................................................... 518
-40. IS/3 + MO:DCA GA Data Objects and Secondary Resources ..................................................................... 518
-41. IS/3 + MO:DCA GA Begin Structured Fields ........................................................................................... 518
-42. IS/3 + MO:DCA GA Structured Fields with Triplets ................................................................................... 518
-43. Color Values.................................................................................................................................... 521
-44. Data Object Resources Processed with RAT RG ..................................................................................... 543
-45. Position and Rotation of Objects in Line Data and MO:DCA Data ................................................................ 563
-46. IOC: Valid Values for XoaOrent and YoaOrent......................................................................................... 606
-47. Registered Object Types Sorted by Component ID .................................................................................. 624
-48. Non-OCA Object Types Supported by the IOB ........................................................................................ 626
-49. Data Objects and Secondary Resources ............................................................................................... 626
-50. Registered Media Types Sorted by Component ID ................................................................................... 629
-51. Registered Media Types Sorted by Media Names.................................................................................... 631
-52. Color Profile Registry ........................................................................................................................ 635
-53. Structured Fields Sorted by ID............................................................................................................. 637
-54. Structured Fields Sorted by Acronym .................................................................................................... 641
-55. Triplets Sorted by ID.......................................................................................................................... 644
-56. Triplets Sorted by Name..................................................................................................................... 647
+1. AFPC Architecture Documentation............................................................................................................vii [MODCA-FM-173]
+2. Additional AFP Consortium Documentation ................................................................................................vii [MODCA-FM-174]
+3. AFP Font-Related Documentation ............................................................................................................vii [MODCA-FM-175]
+4. UP 3I Architecture Documentation ............................................................................................................ viii [MODCA-FM-176]
+5. International Organization for Standardization (ISO) Documentation ............................................................... viii [MODCA-FM-177]
+6. Structured Field Introducer (SFI) ............................................................................................................. 20 [MODCA-FM-178]
+7. Type Codes ........................................................................................................................................ 22 [MODCA-FM-179]
+8. Maximum Absolute Values of Numbers in the MO:DCA Architecture ............................................................... 33 [MODCA-FM-180]
+9. MO:DCA Coordinate Systems................................................................................................................. 34 [MODCA-FM-181]
+10. Format for Numbers Expressed in Rotation Units ...................................................................................... 40 [MODCA-FM-182]
+11. Foreground/Background in Data Object Presentation Spaces....................................................................... 42 [MODCA-FM-183]
+12. Default Color Mixing Rules ................................................................................................................... 45 [MODCA-FM-184]
+13. Color Mixing Rules for PFOs ................................................................................................................. 46 [MODCA-FM-185]
+14. CMR Type: Processing Mode and Generic Capability ................................................................................. 49 [MODCA-FM-186]
+15. Bit Representation of MO:DCA Exception Condition Categories ................................................................... 73 [MODCA-FM-187]
+16. Default BPT Page-Level Initial T ext Conditions........................................................................................ 158 [MODCA-FM-188]
+17. Print Server CMR Processing: Inline CMRs ............................................................................................ 166 [MODCA-FM-189]
+18. Link Sources and Link T argets............................................................................................................. 228 [MODCA-FM-190]
+19. Valid ESidCP/ESidUD Combinations for the MCF .................................................................................... 241 [MODCA-FM-191]
+20. Valid ESidUD/ESidCP Combinations for the MDR.................................................................................... 254 [MODCA-FM-192]
+21. Print Server CMR Processing: CMRs in Resource Libraries ....................................................................... 260 [MODCA-FM-193]
+22. Print Server CMR Processing: Inline CMRs ............................................................................................ 262 [MODCA-FM-194]
+23. Sheet Jogging and Conditional Ejects ................................................................................................... 280 [MODCA-FM-195]
+24. Supported ESidCP Values.................................................................................................................. 397 [MODCA-FM-196]
+25. Supported ESidUD Values.................................................................................................................. 397 [MODCA-FM-197]
+26. Additional ESidUD Values in AFP Line Data ........................................................................................... 397 [MODCA-FM-198]
+27. IS/3 Objects .................................................................................................................................... 491 [MODCA-FM-199]
+28. IS/3 Containers - Presentation Objects.................................................................................................. 498 [MODCA-FM-200]
+29. IS/3 Containers - Non-Presentation Objects ........................................................................................... 498 [MODCA-FM-201]
+30. IS/3 IOB and DOR RAT Presentation Object Containers ........................................................................... 499 [MODCA-FM-202]
+31. IS/3 Data Objects and Secondary Resources ......................................................................................... 499 [MODCA-FM-203]
+32. IS/3 Print Control Objects ................................................................................................................... 500 [MODCA-FM-204]
+33. IS/3 Begin Structured Fields ............................................................................................................... 501 [MODCA-FM-205]
+34. IS/3 End Structured Fields .................................................................................................................. 504 [MODCA-FM-206]
+35. IS/3 Structured Fields without Triplets ................................................................................................... 505 [MODCA-FM-207]
+36. IS/3 Structured Fields with Triplets ....................................................................................................... 507 [MODCA-FM-208]
+37. Presentation Objects Processed with Data Object Resource (DOR) RAT...................................................... 515 [MODCA-FM-209]
+38. IS/3 + MO:DCA GA Containers - Presentation Objects ............................................................................. 517 [MODCA-FM-210]
+39. IS/3 + MO:DCA GA IOB and DOR RAT Presentation Object Containers ....................................................... 518 [MODCA-FM-211]
+40. IS/3 + MO:DCA GA Data Objects and Secondary Resources ..................................................................... 518 [MODCA-FM-212]
+41. IS/3 + MO:DCA GA Begin Structured Fields ........................................................................................... 518 [MODCA-FM-213]
+42. IS/3 + MO:DCA GA Structured Fields with Triplets ................................................................................... 518 [MODCA-FM-214]
+43. Color Values.................................................................................................................................... 521 [MODCA-FM-215]
+44. Data Object Resources Processed with RAT RG ..................................................................................... 543 [MODCA-FM-216]
+45. Position and Rotation of Objects in Line Data and MO:DCA Data ................................................................ 563 [MODCA-FM-217]
+46. IOC: Valid Values for XoaOrent and YoaOrent......................................................................................... 606 [MODCA-FM-218]
+47. Registered Object Types Sorted by Component ID .................................................................................. 624 [MODCA-FM-219]
+48. Non-OCA Object Types Supported by the IOB ........................................................................................ 626 [MODCA-FM-220]
+49. Data Objects and Secondary Resources ............................................................................................... 626 [MODCA-FM-221]
+50. Registered Media Types Sorted by Component ID ................................................................................... 629 [MODCA-FM-222]
+51. Registered Media Types Sorted by Media Names.................................................................................... 631 [MODCA-FM-223]
+52. Color Profile Registry ........................................................................................................................ 635 [MODCA-FM-224]
+53. Structured Fields Sorted by ID............................................................................................................. 637 [MODCA-FM-225]
+54. Structured Fields Sorted by Acronym .................................................................................................... 641 [MODCA-FM-226]
+55. Triplets Sorted by ID.......................................................................................................................... 644 [MODCA-FM-227]
+56. Triplets Sorted by Name..................................................................................................................... 647 [MODCA-FM-228]
 

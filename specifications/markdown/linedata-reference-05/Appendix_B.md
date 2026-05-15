@@ -33,7 +33,7 @@ BPF D3A8A5 Begin Print File
 BPG D3A8AF Begin Page
 BPM D3A8CB Begin Page Map
 BPS D3A85F Begin Page Segment
-BPT D3A89B Begin Presentation Text Object
+BPT D3A89B Begin Presentation Text Object [LINEDATA-B-001]
 
 
 Table 15 Structured Fields Arranged Alphabetically (cont'd.)
@@ -72,7 +72,7 @@ EPT D3A99B End Presentation Text
 ERG D3A9C6 End Resource Group
 ERS D3A9CE End Resource
 ESG D3A9D9 End Resource Environment Group
-FDS D3AAEC Fixed Data Size
+FDS D3AAEC Fixed Data Size [LINEDATA-B-002]
 
 
 Table 15 Structured Fields Arranged Alphabetically (cont'd.)
@@ -111,7 +111,7 @@ MGO D3ABBB Map Graphic Object
 MIO D3ABFB Map IO Image Object
 MMC D3A788 Medium Modification Control
 MMD D3ABCD Map Media Destination
-MMO D3B1DF Map Medium Overlay
+MMO D3B1DF Map Medium Overlay [LINEDATA-B-003]
 
 
 Table 15 Structured Fields Arranged Alphabetically (cont'd.)
@@ -137,7 +137,7 @@ PTD-2 D3B19B Presentation Text Descriptor (Format 2)
 PTX D3EE9B Presentation Text Data
 RCD D3A68D Record Descriptor
 TLE D3A090 Tag Logical Element
-XMD D3A68E XML Descriptor
+XMD D3A68E XML Descriptor [LINEDATA-B-004]
 
 
 Structured Fields Arranged Numerically by Hexadecimal Code
@@ -174,7 +174,7 @@ D3A89B BPT Begin Presentation Text Object
 D3A8A5 BPF Begin Print File
 D3A8A7 BDI Begin Document Index
 D3A8A8 BDT Begin Document
-D3A8AD BNG Begin Named Page Group
+D3A8AD BNG Begin Named Page Group [LINEDATA-B-005]
 
 
 Table 16 Structured Fields Arranged Numerically by Hexadecimal Code (cont'd.)
@@ -213,7 +213,7 @@ D3A9C7 EOG End Object Environment Group
 D3A9C9 EAG End Active Environment Group
 D3A9CA EDM End Data Map
 D3A9CB EPM End Page Map
-D3A9CC EMM End Medium Map
+D3A9CC EMM End Medium Map [LINEDATA-B-006]
 
 
 Table 16 Structured Fields Arranged Numerically by Hexadecimal Code (cont'd.)
@@ -251,7 +251,7 @@ D3AFD8 IPO Include Page Overlay
 D3B15F MPS Map Page Segment
 D3B18A MCF-1 Map Coded Font (Format 1)
 D3B19B PTD-2 Presentation Text Descriptor (Format 2)
-D3B1AF PGP-2 Page Position (Format 2)
+D3B1AF PGP-2 Page Position (Format 2) [LINEDATA-B-007]
 
 
 Table 16 Structured Fields Arranged Numerically by Hexadecimal Code (cont'd.)
@@ -267,7 +267,7 @@ D3EEBB GAD Graphics Data
 D3EEEB BDA Bar Code Data
 D3EEEC FDX Fixed Data Text
 D3EEEE NOP No Operation
-D3EEFB IPD Image Picture Data IO
+D3EEFB IPD Image Picture Data IO [LINEDATA-B-008]
 
 
 PTOCA Control Sequences Arranged Alphabetically
@@ -306,12 +306,12 @@ STC 74(75) Set Text Color
 STO F6(F7) Set Text Orientation
 SVI C4(C5) Set Variable Space Character Increment
 TBM 78(79) Temporary Baseline Move
-TRN DA(DB) Transparent Data
+TRN DA(DB) Transparent Data [LINEDATA-B-009]
 
 
 Table 17 PTOCA Control Sequences Arranged Alphabetically (cont'd.)
 UCT 6A(–) Unicode Complex Text
-USC 76(77) Underscore
+USC 76(77) Underscore [LINEDATA-B-010]
 
 
 PTOCA Control Sequences Arranged Numerically
@@ -343,7 +343,7 @@ F0(F1) SCFL Set Coded Font Local
 F2(F3) BSI Begin Suppression
 F4(F5) ESU End Suppression
 F6(F7) STO Set Text Orientation
-F8(F9) NOP No Operation
+F8(F9) NOP No Operation [LINEDATA-B-011]
 
 
 
@@ -371,7 +371,7 @@ without incurring any obligation to you.
 This information contains examples of data and reports used in daily business operations. To illustrate them in
 a complete manner, some examples include the names of individuals, companies, brands, or products. These
 names are fictitious and any similarity to the names and addresses used by an actual business enterprise is
-entirely coincidental.
+entirely coincidental. [LINEDATA-B-012]
 
 
 Trademarks
@@ -511,24 +511,24 @@ architecture for the management of presentable
 information that is developed by the AFP Consortium
 (AFPC). AFP comprises a number of data stream and data
 object architectures:
-• Mixed Object Document Content Architecture (MO:DCA);
+• Mixed Object Document Content Architecture (MO:DCA); [LINEDATA-B-013]
 formerly referred to as AFPDS
-• Intelligent Printer Data Stream (IPDS)
-• AFP Line Data Architecture
-• Bar Code Object Content Architecture (BCOCA)
-• Color Management Object Content Architecture
+• Intelligent Printer Data Stream (IPDS) [LINEDATA-B-014]
+• AFP Line Data Architecture [LINEDATA-B-015]
+• Bar Code Object Content Architecture (BCOCA) [LINEDATA-B-016]
+• Color Management Object Content Architecture [LINEDATA-B-017]
 (CMOCA)
-• Font Object Content Architecture (FOCA)
-• Graphics Object Content Architecture for AFP (AFP
+• Font Object Content Architecture (FOCA) [LINEDATA-B-018]
+• Graphics Object Content Architecture for AFP (AFP [LINEDATA-B-019]
 GOCA)
-• Image Object Content Architecture (IOCA)
-• Metadata Object Content Architecture (MOCA)
-• Presentation Text Object Content Architecture (PTOCA)
+• Image Object Content Architecture (IOCA) [LINEDATA-B-020]
+• Metadata Object Content Architecture (MOCA) [LINEDATA-B-021]
+• Presentation Text Object Content Architecture (PTOCA) [LINEDATA-B-022]
 AEA. See alternate exception action.
 AFM file. A file containing the metric information required
 for positioning the characters of a font. The metric
 information contained in this file was extracted from a PFB
-file, in an ASCII file format defined by Adobe ® Systems
+file, in an ASCII file format defined by Adobe ® Systems [LINEDATA-B-023]
 
 
 Inc., and used for character positioning and page
@@ -724,7 +724,7 @@ and check characters required by a particular symbology,
 that form a complete, scannable entity. See also bar code.
 bar code symbology. A bar code language. Bar code
 symbologies are defined and controlled by various industry
-array • bar code symbology
+array • bar code symbology [LINEDATA-B-024]
 
 
 groups and standards organizations. Bar code
@@ -827,7 +827,7 @@ coordinate system. The B extent must be parallel to one of
 the axes of the coordinate system that contains the I,B
 coordinate system. The B extent is parallel to the Y
 p extent
-bar height • B extent
+bar height • B extent [LINEDATA-B-025]
 
 
 when the B axis is parallel to the Y p axis or to the Xp extent
@@ -1026,7 +1026,7 @@ for each character of the font. See also character metrics
 and font metrics.
 character shape. The visual representation of a graphic
 character.
-character-box reference edges • character shape
+character-box reference edges • character shape [LINEDATA-B-026]
 
 
 character shape presentation. A method used to form a
@@ -1130,7 +1130,7 @@ paired to font metrics and the raster representation of
 character shapes, for a specific graphic character set. (4)
 In the IPDS architecture, a font resource containing
 descriptive information, a code page, font metrics, and a
-character shape presentation • coded font
+character shape presentation • coded font [LINEDATA-B-027]
 
 
 digital-technology representation of character shapes for a
@@ -1232,7 +1232,7 @@ referred to as color space.
 color of medium. The color of a presentation space
 before any data is added to it. Synonymous with reset
 color.
-coded font local identifier • color of medium
+coded font local identifier • color of medium [LINEDATA-B-028]
 
 
 color palette. A system of designated colors that are
@@ -1335,7 +1335,7 @@ type.
 control sequence length. The number of bytes used to
 encode a control sequence excluding the control sequence
 prefix and class.
-color palette • control sequence length
+color palette • control sequence length [LINEDATA-B-029]
 
 
 control sequence prefix. The escape character used to
@@ -1445,7 +1445,7 @@ presentation position is established in a presentation space
 either as part of the initialization procedures for processing
 an object or by an Absolute Move Inline control sequence.
 Synonymous with current inline coordinate.
-control sequence prefix • current inline presentation coordinate (I c)
+control sequence prefix • current inline presentation coordinate (I c) [LINEDATA-B-030]
 
 
 current inline print coordinate (i c). In the IPDS
@@ -1503,10 +1503,10 @@ components at a particular size, character rotation, and
 encoding. A data-object font can be used in a manner
 analogous to a coded font. The following useful
 combinations can be activated into a data-object font:
-• A TrueType/OpenType font, an optional code page, and
+• A TrueType/OpenType font, an optional code page, and [LINEDATA-B-031]
 optional linked TrueType/OpenType objects; activated at
 a particular size, character rotation, and encoding
-• A TrueType/OpenType collection, either an index value
+• A TrueType/OpenType collection, either an index value [LINEDATA-B-032]
 or a full font name to identify the desired font within the
 collection, an optional code page, and optional linked
 TrueType/OpenType objects; activated at a particular
@@ -1526,13 +1526,13 @@ data object resource. In the IPDS architecture, an
 object-container resource or IO-Image resource that is
 either printer resident or downloaded. Data object
 resources can be:
-• Used to prepare for the presentation of a data object;
+• Used to prepare for the presentation of a data object; [LINEDATA-B-033]
 such as with a color management resource (CMR) or
 Resident Color Profile Resource
-• Included in a page or overlay via the Include Data Object
+• Included in a page or overlay via the Include Data Object [LINEDATA-B-034]
 command; examples include: PDF single-page objects,
 Encapsulated PostScript objects, and IO Images
-• Invoked from within a data object; examples
+• Invoked from within a data object; examples [LINEDATA-B-035]
 include: PDF Resource objects and Non-OCA Resource
 objects
 See also data object and resource.
@@ -1546,7 +1546,7 @@ from the host. Data-stream exceptions are those whose
 action code is X'01', X'19', or X'1F'. See also asynchronous
 exception and synchronous exception.
 DBCS. See double-byte character set.
-current inline print coordinate (i c) • DBCS
+current inline print coordinate (i c) • DBCS [LINEDATA-B-036]
 
 
 decoder. In bar codes, the component of a bar code
@@ -1694,11 +1694,11 @@ document-component hierarchy. In MO:DCA, an
 ordering of the document in terms of its lower-level
 components. The components are ordered by decreasing
 level as follows:
-• Print file (highest level)
-• Document
-• Page group
+• Print file (highest level) [LINEDATA-B-037]
+• Document [LINEDATA-B-038]
+• Page group [LINEDATA-B-039]
 • Page
-• Data object (lowest level)
+• Data object (lowest level) [LINEDATA-B-040]
 document presentation. A method used to produce a
 visible copy of formatted information on physical media.
 dot gain. The phenomenon that occurs when ink is
@@ -1712,7 +1712,7 @@ per inch (dpi) is also used to measure the quality of input
 when using a scanner. In this case, dpi becomes a square
 function measuring the dots both vertically as well as
 horizontally. Consequently, when an image is scanned in at
-300 dpi, there are 90,000 dots or bits of electronic data
+300 dpi, there are 90,000 dots or bits of electronic data [LINEDATA-B-041]
 (300 x 300) in every square inch.
 double-byte character set (DBCS). A character set that
 can contain up to 65536 characters.
@@ -1749,7 +1749,7 @@ processor about what to draw and how to draw it. The
 order can specify, for example, that a graphics primitive be
 drawn, a change to drawing attributes or drawing controls
 be effected, or a segment be called. One or more graphics
-discrete code • drawing order
+discrete code • drawing order [LINEDATA-B-042]
 
 
 primitives can be used to draw a picture. Drawing orders
@@ -1850,7 +1850,7 @@ presentation coordinate of the most recently created
 temporary baseline.
 European Article Numbering (EAN). The bar code
 symbology used to code grocery items in Europe.
-drawing order coordinate space (DOCS) • European Article Numbering (EAN)
+drawing order coordinate space (DOCS) • European Article Numbering (EAN) [LINEDATA-B-043]
 
 
 exception. (1) An invalid or unsupported data-stream
@@ -1952,7 +1952,7 @@ font character set. A FOCA resource containing
 descriptive information, font metrics, and the digital
 representation of character shapes for a specified graphic
 character set.
-exception • font character set
+exception • font character set [LINEDATA-B-044]
 
 
 font control record. The record sent in an IPDS Load
@@ -2041,11 +2041,11 @@ font-designer defined value corresponding to the nominal
 character increment for a font character set. The value is
 generally the width of the space character and is defined
 differently for fonts with different spacing characteristics.
-• For fixed-pitch, uniform character increment fonts: the
+• For fixed-pitch, uniform character increment fonts: the [LINEDATA-B-045]
 fixed character increment, that is also the space
 character increment
-• For PSM fonts: the width of the space character
-• For typographic, proportionally spaced fonts: one-third of
+• For PSM fonts: the width of the space character [LINEDATA-B-046]
+• For typographic, proportionally spaced fonts: one-third of [LINEDATA-B-047]
 the vertical font size, that is also the default size of the
 space character.
 The font designer can also define a minimum and a
@@ -2064,7 +2064,7 @@ attributes. See also pel. Contrast with background.
 foreground color. A color attribute used to specify the
 color of the foreground of a primitive. Contrast with
 background color.
-font control record • foreground color
+font control record • foreground color [LINEDATA-B-048]
 
 
 foreground mix. An attribute used to determine how the
@@ -2091,7 +2091,7 @@ presentation space P
 PFO with other presentation data
 (presentation space P data). The intersection of P PFO and
 Pdata is assigned the following color attribute:
-• Wherever the color attribute of P PFO is either color of
+• Wherever the color attribute of P PFO is either color of [LINEDATA-B-049]
 medium, or “white” (CMYK = X'00000000' for a printer,
 RGB = X'FFFFFF' for an RGB display), the intersection
 is assigned the color attribute of P data. Likewise,
@@ -2099,7 +2099,7 @@ wherever the color attribute of P data is either color of
 medium, or “white” (CMYK = X'00000000' for a printer,
 RGB = X'FFFFFF' for an RGB display), the intersection
 is assigned the color attribute of P PFO.
-• With other overlapping color values, the intersection
+• With other overlapping color values, the intersection [LINEDATA-B-050]
 assumes a new color attribute that is generated in a
 device-specific manner to simulate how the P
 data color
@@ -2116,11 +2116,11 @@ PFO) or a PMC Preprinted Form overlay (PMC-PFO), is
 merged as a new presentation space P n, onto an existing
 presentation space P e. The intersection of the foregrounds
 of Pn and Pe is assigned the following color attribute:
-• Wherever the color attribute of P e is either the color of
+• Wherever the color attribute of P e is either the color of [LINEDATA-B-051]
 medium, or the color white (CMYK = X'00000000' or
 RGB = X'FFFFFF'), the intersection is assigned the color
 attribute of P n.
-• Wherever the color attribute of P e is not the color of
+• Wherever the color attribute of P e is not the color of [LINEDATA-B-052]
 medium and not the color white, the intersection
 assumes a new color attribute that is generated in a
 device-specific manner to simulate how the P e color
@@ -2189,33 +2189,33 @@ between the groupings. The GLC chain may be terminated
 by an optional UCT control sequence that carries the code
 points of the glyphs rendered by the GLC chain.
 Global Identifier (GID). Any of the following:
-• Coded Character Set Identifier (CCSID).
-• Coded Graphic Character Set Global Identifier
+• Coded Character Set Identifier (CCSID). [LINEDATA-B-053]
+• Coded Graphic Character Set Global Identifier [LINEDATA-B-054]
 (CGCSGID)
-• Code Page Global ID (CPGID)
-• Font Typeface Global Identifier (FGID)
-• Global Resource Identifier (GRID)
-• Graphic Character Global Identifier (GCGID)
-• Graphic Character Set Global Identifier (GCSGID)
-• Graphic Character UCS Identifier (GCUID)
-• An identifier used by a data object to reference a
+• Code Page Global ID (CPGID) [LINEDATA-B-055]
+• Font Typeface Global Identifier (FGID) [LINEDATA-B-056]
+• Global Resource Identifier (GRID) [LINEDATA-B-057]
+• Graphic Character Global Identifier (GCGID) [LINEDATA-B-058]
+• Graphic Character Set Global Identifier (GCSGID) [LINEDATA-B-059]
+• Graphic Character UCS Identifier (GCUID) [LINEDATA-B-060]
+• An identifier used by a data object to reference a [LINEDATA-B-061]
 resource
-• In MO:DCA, an encoded graphic character string that
+• In MO:DCA, an encoded graphic character string that [LINEDATA-B-062]
 provides a reference name for a document element.
-• Object identifier (OID)
-• A Uniform Resource Locator (URL), as defined in RFC
+• Object identifier (OID) [LINEDATA-B-063]
+• A Uniform Resource Locator (URL), as defined in RFC [LINEDATA-B-064]
 1738, Internet Engineering T ask Force (IETF),
 December, 1994
 Global Resource Identifier (GRID). An eight-byte
 identifier that identifies a coded font resource. A GRID
 contains the following fields in the order shown:
-1. GCSGID of a minimum set of graphic characters
+1. GCSGID of a minimum set of graphic characters [LINEDATA-B-065]
 required for presentation. It can be a character set that
 is associated with the code page, or with the font
 character set, or with both.
-2. CPGID of the associated code page
-3. FGID of the associated font character set
-4. Font width in 1440ths of an inch.
+2. CPGID of the associated code page [LINEDATA-B-066]
+3. FGID of the associated font character set [LINEDATA-B-067]
+4. Font width in 1440ths of an inch. [LINEDATA-B-068]
 glyph. (1) A member of a set of symbols that represent
 data. Glyphs can be letters, digits, punctuation marks, or
 other symbols. Synonymous with graphic character. See
@@ -2275,7 +2275,7 @@ Graphic Character Set Global Identifier (GCSGID). A
 unique graphic character set identifier that can be
 expressed as either a two-byte binary or a five-digit
 decimal value.
-GIF • Graphic Character Set Global Identifier (GCSGID)
+GIF • Graphic Character Set Global Identifier (GCSGID) [LINEDATA-B-069]
 
 
 Graphic Character UCS Identifier (GCUID). An
@@ -2374,7 +2374,7 @@ through 15, respectively. An example of a hexadecimal
 number is X'1B', that is equal to the decimal number 27.
 hierarchy. A series of elements that have been graded or
 ranked in some useful manner.
-Graphic Character UCS Identifier (GCUID) • hierarchy
+Graphic Character UCS Identifier (GCUID) • hierarchy [LINEDATA-B-070]
 
 
 highlight color. A spot color that is used to accentuate or
@@ -2401,11 +2401,11 @@ nominal character increment for a font character set. The
 value is generally the width of the space character and is
 defined differently for fonts with different spacing
 characteristics.
-• For fixed-pitch, uniform character increment fonts: the
+• For fixed-pitch, uniform character increment fonts: the [LINEDATA-B-071]
 fixed character increment, that is also the space
 character increment
-• For PSM fonts: the width of the space character
-• For typographic fonts and proportionally spaced fonts:
+• For PSM fonts: the width of the space character [LINEDATA-B-072]
+• For typographic fonts and proportionally spaced fonts: [LINEDATA-B-073]
 one-third of the vertical font size, that is also the default
 size of the space character.
 The font designer can also define a minimum and a
@@ -2476,7 +2476,7 @@ presentation space. See also Xp,Yp coordinate system.
 Ic. See current inline presentation coordinate.
 ic. See current inline print coordinate.
 ICC. See International Color Consortium.
-highlight color • ICC
+highlight color • ICC [LINEDATA-B-074]
 
 
 ICC-absolute colorimetric. A rendering intent in which
@@ -2574,7 +2574,7 @@ palette of colors to define the image. Indexed color can
 reduce file size while maintaining visual quality.
 indexed object. An object in a MO:DCA document that is
 referenced by an Index Element structured field in a
-ICC-absolute colorimetric • indexed object
+ICC-absolute colorimetric • indexed object [LINEDATA-B-075]
 
 
 MO:DCA index. Examples of indexed objects are pages
@@ -2675,7 +2675,7 @@ platform standards so that applications and devices can
 exchange color data without ambiguity.
 International Organization for Standardization
 (ISO). An organization of national standards bodies from
-information density • International Organization for Standardization (ISO)
+information density • International Organization for Standardization (ISO) [LINEDATA-B-076]
 
 
 various countries established to promote development of
@@ -2769,7 +2769,7 @@ landscape. A presentation orientation in which the X
 m
 axis is parallel to the long sides of a rectangular physical
 medium. Contrast with portrait.
-interoperability • landscape
+interoperability • landscape [LINEDATA-B-077]
 
 
 language. A set of symbols, conventions, and rules that
@@ -2848,10 +2848,10 @@ logical unit. A unit of linear measurement expressed with
 a unit base and units per unit-base value. For example, in
 MO:DCA and IPDS architectures, the following logical units
 are used:
-• 1 logical unit = 1/1440 inch
+• 1 logical unit = 1/1440 inch [LINEDATA-B-078]
 (unit base = 10 inches,
 units per unit base = 14,400)
-• 1 logical unit = 1/240 inch
+• 1 logical unit = 1/240 inch [LINEDATA-B-079]
 (unit base = 10 inches,
 units per unit base = 2400)
 Synonymous with L unit.
@@ -2875,10 +2875,10 @@ L unit. A unit of linear measurement expressed with a unit
 base and units per unit-base value. For example, in
 MO:DCA and IPDS architectures, the following L units are
 used:
-• 1 L unit = 1/1440 inch
+• 1 L unit = 1/1440 inch [LINEDATA-B-080]
 (unit base = 10 inches,
 units per unit base = 14,400)
-• 1 L unit = 1/240 inch
+• 1 L unit = 1/240 inch [LINEDATA-B-081]
 (unit base = 10 inches,
 units per unit base = 2400)
 Synonymous with logical unit.
@@ -3068,7 +3068,7 @@ in the escapement direction. The blank space between the
 graphic characters can vary. Synonymous with uniformly
 spaced font. Contrast with proportionally spaced font and
 typographic font.
-medium preprinted form overlay (M-PFO) • monospaced font
+medium preprinted form overlay (M-PFO) • monospaced font [LINEDATA-B-082]
 
 
 move order. A drawing order that specifies or implies
@@ -3165,7 +3165,7 @@ Registry Appendix of the Mixed Object Document Content
 Architecture Reference. An OID consists of a one-byte
 identifier (X'06'), followed by a one-byte length (between
 X'00' and X'7F'), followed by 0–127 content bytes.
-move order • object identifier (OID)
+move order • object identifier (OID) [LINEDATA-B-083]
 
 
 obsolete. Removed from the architecture, and thus
@@ -3582,7 +3582,7 @@ presentation of the document. Examples of process
 elements are Tag Logical Elements (TLEs) that specify
 document attributes and Link Logical Elements (LLEs) that
 specify linkages between document components.
-posture • process element
+posture • process element [LINEDATA-B-084]
 
 
 Profile Connection Space (PCS). The reference color
@@ -3679,7 +3679,7 @@ conform to a particular character coding system which is
 used to identify the characters in a document data stream.
 The mapping information in this file is in an ASCII file
 format defined by Adobe Systems Inc.
-Profile Connection Space (PCS) • rearranged file
+Profile Connection Space (PCS) • rearranged file [LINEDATA-B-085]
 
 
 record-format line data. A form of line data where each
@@ -3784,16 +3784,16 @@ resource caching. In the IPDS architecture, a function in
 a printer or intermediate device whereby downloaded
 resources are captured and made resident in the printer or
 intermediate device.
-record-format line data • resource caching
+record-format line data • resource caching [LINEDATA-B-086]
 
 
 retired. Set aside for a particular purpose, and not
 available for any other purpose. Retired fields and values
 are specified for compatibility with existing products and
 identify one of the following:
-• Fields or values that have been used by a product in a
+• Fields or values that have been used by a product in a [LINEDATA-B-087]
 manner not compliant with the architected definition
-• Fields or values that have been removed from an
+• Fields or values that have been removed from an [LINEDATA-B-088]
 architecture
 reuse LND. A Line Descriptor (LND) in a chain of LNDs,
 also called a reuse chain, where all LNDs process fields in
@@ -3977,7 +3977,7 @@ signed integers. The positive natural numbers (1, 2, 3,
 ...), their negatives (-1, -2, -3, ...) and the number zero. The
 set of all integers is usually denoted in mathematics by Z,
 which stands for Zahlen (German for “numbers”).
-section identifier • signed integers
+section identifier • signed integers [LINEDATA-B-089]
 
 
 simplex printing. A method used to print data on one
@@ -4080,7 +4080,7 @@ subsetting tower. Within the base-and-towers concept, a
 tower representing an aspect of function achieved by an
 architecture. A tower is independent of any other towers. A
 tower can be subdivided into subsets. A subset contains all
-simplex printing • subsetting tower
+simplex printing • subsetting tower [LINEDATA-B-090]
 
 
 the function of any subsets below it in the tower. See also
@@ -4142,9 +4142,9 @@ syntax. The rules governing the structure of a construct.
 See also pragmatics and semantics.
 system-level font resource. A common-source font from
 which:
-• Document-processing applications can obtain resolution-
+• Document-processing applications can obtain resolution- [LINEDATA-B-091]
 independent formatting information.
-• Device-service applications can obtain device-specific
+• Device-service applications can obtain device-specific [LINEDATA-B-092]
 presentation information.
 T
 tag. A data structure that is used within the data portion of
@@ -4181,7 +4181,7 @@ text object. (1) An object that contains text data. (2) A
 device-independent, self-defining representation of a two-
 dimensional presentation space, called the text object
 space, which contains presentation text data.
-substrate • text object
+substrate • text object [LINEDATA-B-093]
 
 
 text object space. Synonymous with text presentation
@@ -4247,7 +4247,7 @@ tumble-duplex printing. A method used to simulate the
 effect of physically turning a sheet around the X
 m axis.
 twip. A unit of measure equal to 1/20 of a point. There are
-1440 twips in one inch.
+1440 twips in one inch. [LINEDATA-B-094]
 type. A table heading for architecture syntax. The entries
 under this heading indicate the types of data present in a
 construct. Examples include: BITS, CHAR, CODE, SBIN,
@@ -4278,7 +4278,7 @@ can be used to provide the appearance of even spacing
 between presented characters and to eliminate excess
 blank space around narrow characters. An example of a
 narrow character is the letter i. Synonymous with
-text object space • typographic font
+text object space • typographic font [LINEDATA-B-095]
 
 
 proportionally spaced font. Contrast with monospaced font
@@ -4485,7 +4485,7 @@ bar code symbol bar element.
 VPA. See valid printable area.
 W
 ward. A deprecated term for section.
-user printable area (UPA) • ward
+user printable area (UPA) • ward [LINEDATA-B-096]
 
 
 weight class. A parameter indicating the degree of
@@ -4589,14 +4589,14 @@ in a different order.
 Yp extent. The size of a presentation space or logical
 page in the Y p dimension. See also presentation space and
 logical page.
-weight class • Y p extent
+weight class • Y p extent [LINEDATA-B-097]
 
 
 Yxy color space. A color space belonging to the XYZ
 base family that expresses the XYZ values in terms of x
 and y chromaticity coordinates, somewhat analogous to
 the hue and saturation coordinates of the HSV color space.
-Yxy color space • Yxy color space
+Yxy color space • Yxy color space [LINEDATA-B-098]
 
 
 Copyright © AFP Consortium 1994, 2018 237
@@ -4715,7 +4715,7 @@ field RCD . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . .
 field XMD . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .30
 finishing operations for print file . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .42
 Fixed Data Size (FDS) . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .86
-Fixed Data Text (FDX). . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87
+Fixed Data Text (FDX). . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .87 [LINEDATA-B-099]
 
 
 flag bytes in a structured field . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. .65
@@ -4834,7 +4834,7 @@ examples of .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . .
 printing bar codes .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .34
 printing graphics. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .35
 relative baseline . . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .35
-relative inline. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .37
+relative inline. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .37 [LINEDATA-B-100]
 
 
 Resource Environment Group in one . .. . . .. . .. . . .. . .. . . .. . . .. . .. .18
@@ -4967,7 +4967,7 @@ XMD Color Specification .. . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .
 XMD Concatenate Bar Code Data . . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 167
 XMD Extended Resource Local Identifier . . .. . . .. . .. . . .. . .. . . .. 159
 XMD Fully Qualified Name . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 158
-XMD Graphics Descriptor . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 164
+XMD Graphics Descriptor . . .. . . .. . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. 164 [LINEDATA-B-101]
 
 
 XMD Rendering Intent .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 168
@@ -4980,7 +4980,7 @@ Windows printing environment .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .
 X
 XMD (XML Descriptor) . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 151
 XML Descriptor (XMD) . . .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 151
-XML Name (X'8A') triplet .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 165
+XML Name (X'8A') triplet .. . . .. . .. . . .. . . .. . .. . . .. . .. . . .. . .. . . .. . . .. . . 165 [LINEDATA-B-102]
 
 
 

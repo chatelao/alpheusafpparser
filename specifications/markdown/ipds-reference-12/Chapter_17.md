@@ -84,22 +84,22 @@ MOCA
 MS1
 Metadata
 Each data tower contains at least one level. Some IPDS printers support additional (optional) data-tower
-function for text, IO-Image, graphics, and bar code data.
+function for text, IO-Image, graphics, and bar code data. [IPDS-17-001]
 
 
 IPDS Command Sets and Command-Set Subsets
 The IPDS architecture contains the following command sets:
-• Device-Control command set
-• Text command set
-• IM-Image command set
-• IO-Image command set
-• Graphics command set
-• Bar Code command set
-• Object-Container command set
-• Metadata command set
-• Page-Segment command set
-• Overlay command set
-• Loaded-Font command set
+• Device-Control command set [IPDS-17-002]
+• Text command set [IPDS-17-003]
+• IM-Image command set [IPDS-17-004]
+• IO-Image command set [IPDS-17-005]
+• Graphics command set [IPDS-17-006]
+• Bar Code command set [IPDS-17-007]
+• Object-Container command set [IPDS-17-008]
+• Metadata command set [IPDS-17-009]
+• Page-Segment command set [IPDS-17-010]
+• Overlay command set [IPDS-17-011]
+• Loaded-Font command set [IPDS-17-012]
 IPDS Architecture defines at least one subset of defined function for each command set. The Sense Type and
 Model reply specifies the subset of each command set supported by a printer.
 Note: Multiple subsets of a single command set are not necessarily hierarchically related.
@@ -176,38 +176,38 @@ LF3: The LF3 subset consists of the IPDS commands and corresponding field values
 Loaded-Font command set needed to support font character sets and code pages.
 LF4: The LF4 subset consists of the IPDS commands and corresponding field values in the
 Loaded-Font command set needed to support code pages. This subset is used when code
-pages are supported for TrueType/OpenType fonts, but the LF3 subset is not supported.
+pages are supported for TrueType/OpenType fonts, but the LF3 subset is not supported. [IPDS-17-013]
 
 
 Data Divisions
 For some IPDS command sets, a data tower defines the data carried in the Write command of the
 corresponding IPDS command set. A data tower is divided into levels. A higher level of a data tower consists of
 all lower levels plus some set of additional function. Some data tower levels are defined and controlled by other
-architectures and are simply registered in the IPDS architecture. Table 69 summarizes this.
+architectures and are simply registered in the IPDS architecture. Table 69 summarizes this. [IPDS-17-014]
 
 ### Table 69. Command-Set and Data-Tower Summary
 
 | IPDS Command Set | Purpose | Command-Set Subsets | Data Tower Levels | Architecture Describing the Data Tower |
 | :--- | :--- | :--- | :--- | :--- |
-| Device Control | control printer | DC1 | none | |
-| Text | print text data | TX1 | PT1, PT2, PT3, PT4 | PTOCA |
-| IM Image | print IM-Image data | IM1 | IMD1 | IPDS |
-| IO Image | print IO-Image data | IO1 | FS10, FS11, FS14, FS40, FS42, FS45, FS48 | IOCA |
-| Graphics | print graphics data | GR1 | DR/2V0, GRS3 | GOCA |
-| Bar Code | print bar code data | BC1 | BCD1, BCD2 | BCOCA |
-| Object Container | control object containers | OC1 | none | Specific to object container |
-| Metadata | control metadata | MO1 | MS1 | MOCA |
-| Page Segment | control page segments | PS1 | none | |
-| Overlay | control overlays | OL1 | none | |
-| Loaded Font | control coded fonts | LF1, LF2, LF3, LF4 | none | |
+| Device Control | control printer | DC1 | none [IPDS-17-015]| |
+| Text | print text data | TX1 | PT1, PT2, PT3, PT4 | PTOCA [IPDS-17-016]|
+| IM Image | print IM-Image data | IM1 | IMD1 | IPDS [IPDS-17-017]|
+| IO Image | print IO-Image data | IO1 | FS10, FS11, FS14, FS40, FS42, FS45, FS48 | IOCA [IPDS-17-018]|
+| Graphics | print graphics data | GR1 | DR/2V0, GRS3 | GOCA [IPDS-17-019]|
+| Bar Code | print bar code data | BC1 | BCD1, BCD2 | BCOCA [IPDS-17-020]|
+| Object Container | control object containers | OC1 | none | Specific to object container [IPDS-17-021]|
+| Metadata | control metadata | MO1 | MS1 | MOCA [IPDS-17-022]|
+| Page Segment | control page segments | PS1 | none [IPDS-17-023]| |
+| Overlay | control overlays | OL1 | none [IPDS-17-024]| |
+| Loaded Font | control coded fonts | LF1, LF2, LF3, LF4 | none [IPDS-17-025]| |
 Data Towers and Data-Tower Levels
 There is a data tower for each of the following command sets:
 • Text
-• IM Image
-• IO Image
-• Graphics
-• Bar Code
-• Metadata
+• IM Image [IPDS-17-026]
+• IO Image [IPDS-17-027]
+• Graphics [IPDS-17-028]
+• Bar Code [IPDS-17-029]
+• Metadata [IPDS-17-030]
 At least one level of every data tower is defined; some towers also include optional function. The Sense Type
 and Model reply specifies the level of each data tower supported by a printer. Figure 120
 illustrates the data towers and data-tower levels. The data towers are:
@@ -215,7 +215,7 @@ Text This data tower contains Presentation Text Object Content Architecture (PTO
 sequences and code points, contained in the data field of the Write Text command. The
 control sequences are used to present text information in a page, a page segment, or an
 overlay. The text data tower contains four presentation text (PT) levels, PT1, PT2, PT3, and
-PT4, defined by the PTOCA architecture.
+PT4, defined by the PTOCA architecture. [IPDS-17-031]
 
 
 IM Image This data tower contains IM-Image data contained in the data field of the Write Image
@@ -284,14 +284,14 @@ Metadata
 
 IPDS Support Requirements
 To claim support of the IPDS architecture, a printer product must do the following:
-• Implement the DC1 subset of the device control command set.
-• Implement at least one of the following IPDS command set subsets:
+• Implement the DC1 subset of the device control command set. [IPDS-17-032]
+• Implement at least one of the following IPDS command set subsets: [IPDS-17-033]
 – TX1
 – IM1
 – IO1
 – GR1
 – BC1
-• Generate mandatory IPDS exceptions in accordance with the following rules:
+• Generate mandatory IPDS exceptions in accordance with the following rules: [IPDS-17-034]
 – Mandatory exceptions must be generated by a printer only if the printer supports the function or command
 to which the exception applies.
 – Mandatory exceptions that can be caused by multiple conditions must be generated by a printer under all
@@ -302,10 +302,10 @@ exception be generated regardless of whether the OCA specifies the exception to 
 optional. For all other OCA-defined exceptions, the IPDS architecture defers the mandatory/optional
 specification to the appropriate OCA.
 To claim support of the IPDS architecture, a presentation-services product must do the following:
-• All commands generated by the presentation services must conform to the IPDS state diagram.
-• The syntax for all commands generated by the presentation services must conform with that defined by the
+• All commands generated by the presentation services must conform to the IPDS state diagram. [IPDS-17-035]
+• The syntax for all commands generated by the presentation services must conform with that defined by the [IPDS-17-036]
 IPDS Architecture.
-• Accept syntactically-correct Acknowledge Replies and process the data contained therein, including:
+• Accept syntactically-correct Acknowledge Replies and process the data contained therein, including: [IPDS-17-037]
 – Page and copy counters
 – STM reply
 – XOH-OPC reply
@@ -319,7 +319,7 @@ To claim support of any other IPDS command set, a printer product must implement
 command set. Printers can support additional, optional elements of the command set.
 Data Tower Support Requirements
 To claim support of a data tower, a printer product must implement at least one level of the data tower. Printers
-can support additional tower levels, and additional optional elements of the data tower.
+can support additional tower levels, and additional optional elements of the data tower. [IPDS-17-038]
 
 
 IPDS Support for MO:DCA Interchange Set IS/3
@@ -328,19 +328,19 @@ better interoperability of products. This goal has been addressed with the forma
 interchange set (called IS/3) and the following list of the functions that an IPDS printer must support to ensure
 that all IS/3-compliant documents can be printed.
 Required IPDS Command Set support
-• Device Control command set at the DC1 level
-• Text command set at the TX1 level plus support for the PTOCA PT3 subset, including the following:
+• Device Control command set at the DC1 level [IPDS-17-039]
+• Text command set at the TX1 level plus support for the PTOCA PT3 subset, including the following: [IPDS-17-040]
 – Set Text Color (STC) control sequence Precision parameter (byte 6) is retired
 – Exception ID X'021A..03' (Invalid Unicode Data) is required if Unicode data is supported
 – Highlight color space clarifications for Indexed CMRs
-• IO-Image command set at the IO1 level plus support for the FS10 and FS45 function sets (an FS45 vector
+• IO-Image command set at the IO1 level plus support for the FS10 and FS45 function sets (an FS45 vector [IPDS-17-041]
 must be returned in the STM reply plus either an FS10 vector, an FS11 vector, or both). The following
 additional support is required:
 – Extended IOCA Bilevel color support (STM property pair X'4401')
 – Extended IOCA Tile-Set-Color support (STM property pair X'4402')
-• Graphics command set at the GR1 level plus support for the GOCA GRS3 subset
-• Bar Code command set at the BC1 level plus support for the BCOCA BCD2 subset
-• Object Container command set at the OC1 level plus support for the following object types:
+• Graphics command set at the GR1 level plus support for the GOCA GRS3 subset [IPDS-17-042]
+• Bar Code command set at the BC1 level plus support for the BCOCA BCD2 subset [IPDS-17-043]
+• Object Container command set at the OC1 level plus support for the following object types: [IPDS-17-044]
 As resources (downloaded or activated in home state)
 – CMR (Color Management Resource)
 – CMT (Color Mapping Table)
@@ -362,20 +362,20 @@ As presentation objects (supported in page and overlay states and includable via
 – TIFF (Tag Image File Format) without transparency
 – TIFF multiple-image file with transparency
 – TIFF multiple-image file without transparency
-• Page Segment command set at the PS1 level
-• Overlay command set at the OL1 level
-• Code pages (identified by support for the Loaded-font command set at the LF3 or LF4 level); note that this
-includes support for the LCP and LCPC commands, but excludes support for FOCA fonts.
+• Page Segment command set at the PS1 level [IPDS-17-045]
+• Overlay command set at the OL1 level [IPDS-17-046]
+• Code pages (identified by support for the Loaded-font command set at the LF3 or LF4 level); note that this [IPDS-17-047]
+includes support for the LCP and LCPC commands, but excludes support for FOCA fonts. [IPDS-17-048]
 
 
 Additional Required Support
-• Support for negative object-area offset values in the BCOC, DOOC, IOC, GOC, and OCOC self-defining
+• Support for negative object-area offset values in the BCOC, DOOC, IOC, GOC, and OCOC self-defining [IPDS-17-049]
 fields
-• Support for the full range of logical page offset values in the LPP command
-• Support for the 0, 90, 180, and 270 degree object area orientations in the BCAP , IAP , GAP , andOCAP self-
+• Support for the full range of logical page offset values in the LPP command [IPDS-17-050]
+• Support for the 0, 90, 180, and 270 degree object area orientations in the BCAP , IAP , GAP , andOCAP self- [IPDS-17-051]
 defining fields
-• Support for all defined values within units-per-unit-base fields (X'0001'–X'7FFF')
-• STM properties:
+• Support for all defined values within units-per-unit-base fields (X'0001'–X'7FFF') [IPDS-17-052]
+• STM properties: [IPDS-17-053]
 – All function listed for IS/3 is supported (STM property pair X'FC00'); all IS/3 function that is not covered by
 STM property pairs or OPC self-defining fields is implicitly covered by this property pair
 – Multiple copy & copy-subgroup support in LCC (STM property pair X'6001')
@@ -408,7 +408,7 @@ Operation: Finish
 – All text orientations (STM property pair X'50FF')
 – Basic OCA color support in text, IO-Image, graphics, and bar code data (all Standard OCA color values
 recognized including color of medium, STM property pair X'4022' or property pair X'4003' along with all
-color values supported)
+color values supported) [IPDS-17-054]
 
 
 – Unpadded RIDIC recording algorithm support (STM property pair X'5204')
@@ -418,7 +418,7 @@ color values supported)
 – IOCA image as a resource and includable via IDO (STM property pair X'1202')
 – Support for all four orientations in the Include Overlay command (STM property pair X'A004')
 – Extended (Unicode mapping) code page support (STM property pair X'B005')
-• OPC self-defining fields:
+• OPC self-defining fields: [IPDS-17-055]
 – Return either Input media ID user name or OID in OPC reply (SDF X'0001')
 – AR command support for RT = data-object font, RIDF = data-object-font format (SDF X'000B')
 – If at least one finishing operation is supported, Finish group-operation support (SDF X'0012')
@@ -432,7 +432,7 @@ color values supported)
 required
 Additional required support for the MO:DCA GA (Graphic Arts) Function
 Set
-• Support for the following object types:
+• Support for the following object types: [IPDS-17-056]
 As resources (downloaded or activated in home state)
 – PDF multiple-page file without transparency
 – PDF multiple-page file with transparency
@@ -444,7 +444,7 @@ As presentation objects (supported in page and overlay states and includable via
 – PDF multiple-page file with transparency
 – PDF single page without transparency
 – PDF single page with transparency
-• STM properties:
+• STM properties: [IPDS-17-057]
 – All function listed for MO:DCA GA is supported (STM property pair X'FC01'); all MO:DCA GA function that
 is not covered by STM property pairs or OPC self-defining fields is implicitly covered by this property pair
 – Object Container Presentation Space Size (X'9C') triplet support for PDF objects (STM property pair
@@ -454,12 +454,12 @@ X'1203')
 Migration Functions
 Some IPDS functions are provided for migration and coexistence. IPDS products might not provide complete
 support for these functions in all AFP environments. The migration functions include:
-• XOH Set Media Size (an optional Device Control command)
-• IM-Image command set
-• Optional compression algorithms (for IO Image)
-• Downloaded symbol sets (using the LSS command)
-• Font-modification parameters (bits 3–7 of LFE byte 14)
-• Ordered pages (bit 0 of LPD byte 15)
+• XOH Set Media Size (an optional Device Control command) [IPDS-17-058]
+• IM-Image command set [IPDS-17-059]
+• Optional compression algorithms (for IO Image) [IPDS-17-060]
+• Downloaded symbol sets (using the LSS command) [IPDS-17-061]
+• Font-modification parameters (bits 3–7 of LFE byte 14) [IPDS-17-062]
+• Ordered pages (bit 0 of LPD byte 15) [IPDS-17-063]
 
 
 

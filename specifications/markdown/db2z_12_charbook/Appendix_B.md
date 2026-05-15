@@ -20,4 +20,4 @@ Indicates the encoding scheme of the statement. If the statement represents a si
 the column contains 'E' for EBCDIC, 'A' for ASCII, or 'U' for Unicode. If the statement is a multiple
 CCSID set statement, the column is set to 'M' for multiple CCSID sets.
 Related concepts
-Investigating SQL performance by using EXPLAIN (Db2 Performance)
+Investigating SQL performance by using EXPLAIN (Db2 Performance) [DB2Z-B-001]

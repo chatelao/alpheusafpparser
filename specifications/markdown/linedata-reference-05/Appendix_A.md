@@ -6,12 +6,12 @@ Mixed Object Document Content Architecture (MO:DCA) Reference.
 Unless otherwise noted, the objects and structured fields are presented from left to right in the order in which
 they must appear.
 The following symbols apply to the syntax structures in this appendix:
-* An asterisk indicates optional structured fields or objects. Those not marked are required.
+* An asterisk indicates optional structured fields or objects. Those not marked are required. [LINEDATA-A-001]
 S The letter “S” indicates structured fields or objects that can appear more than once in the
 document. Those not marked can appear only once in the document.
 xx object
 A shaded box indicates objects that contain structured fields or other objects.
-Other All other symbols are explained in the figures.
+Other All other symbols are explained in the figures. [LINEDATA-A-002]
 
 
 ### Figure 30. Structure of a Print File
@@ -23,7 +23,7 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ERS, D3A9CE) End Resource ] (S)
 &nbsp;&nbsp;&nbsp;&nbsp;(ERG, D3A9C6) End Resource Group ]
 &nbsp;&nbsp;&nbsp;&nbsp;(Document) (S)
-[ End Print File (EPF, D3A9A5) ]
+[ End Print File (EPF, D3A9A5) ] [LINEDATA-A-003]
 
 **Document** (Note 2)
 [ (BDI, D3A8A7) Begin Document Index
@@ -36,14 +36,14 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IMM, D3ABCC) Invoke Medium Map (S) ] (Note 5)
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (BPG, D3A8AF) Presentation Page (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IPG, D3AFAF) Include Page (S) ]
-(EDT, D3A9A8) End Document
+(EDT, D3A9A8) End Document [LINEDATA-A-004]
 
 **Notes:**
-1. The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as well.
-2. The mixed line-page documents and composed documents can occur in any order following the inline resource group.
-3. Each AFP (MO:DCA) document may optionally be preceded by a single document index that is implicitly tied to the document and that indexes the document. For the formal definition of the MO:DCA document index see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
-4. An AFP (MO:DCA) document may contain Link Logical Element (LLE) structured fields following the BDT and may also group presentation pages into named page groups. MO:DCA page groups may in turn contain Tag Logical Element (TLE) structured fields following BNG. These structures do not affect the presentation of the document. For the formal definition of these structures, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
-5. If a Medium Map is included internal (inline) to the document, it is activated by immediately following it with an IMM that explicitly invokes it, otherwise the internal Medium Map is ignored. An IMM that does not follow an internal Medium Map may not invoke an internal Medium Map elsewhere in the document and is assumed to reference a Medium Map in the current Form Definition.
+1. The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as well. [LINEDATA-A-005]
+2. The mixed line-page documents and composed documents can occur in any order following the inline resource group. [LINEDATA-A-006]
+3. Each AFP (MO:DCA) document may optionally be preceded by a single document index that is implicitly tied to the document and that indexes the document. For the formal definition of the MO:DCA document index see the *Mixed Object Document Content Architecture (MO:DCA) Reference*. [LINEDATA-A-007]
+4. An AFP (MO:DCA) document may contain Link Logical Element (LLE) structured fields following the BDT and may also group presentation pages into named page groups. MO:DCA page groups may in turn contain Tag Logical Element (TLE) structured fields following BNG. These structures do not affect the presentation of the document. For the formal definition of these structures, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*. [LINEDATA-A-008]
+5. If a Medium Map is included internal (inline) to the document, it is activated by immediately following it with an IMM that explicitly invokes it, otherwise the internal Medium Map is ignored. An IMM that does not follow an internal Medium Map may not invoke an internal Medium Map elsewhere in the document and is assumed to reference a Medium Map in the current Form Definition. [LINEDATA-A-009]
 
 ### Figure 31. Structure of a Mixed Line-Page Document
 **Mixed Line-Page Document**
@@ -52,10 +52,10 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IDM, D3ABCA) Invoke Data Map (S) ] (Note †)
 &nbsp;&nbsp;&nbsp;&nbsp;+ (Presentation Page) (S)
 &nbsp;&nbsp;&nbsp;&nbsp;+ (Line Format Data) (S)
-(EDT, D3A9A8) End Document
+(EDT, D3A9A8) End Document [LINEDATA-A-010]
 
 **Note †:** An IMM or IDM may be specified before any page; multiple IMMs and IDMs are allowed.
-**Note:** The No Operation (NOP) structured field may appear anywhere in a mixed document and thus is not listed in the structured field groupings.
+**Note:** The No Operation (NOP) structured field may appear anywhere in a mixed document and thus is not listed in the structured field groupings. [LINEDATA-A-011]
 ### Figure 32. Structure of a Presentation Page Object
 **Presentation Page**
 (BPG, D3A8AF) Begin Page
@@ -84,11 +84,11 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IPO, D3AFD8) Include Page Overlay (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IPS, D3AF5F) Include Page Segment (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IOB, D3AFC3) Include Object (S) ]
-(EPG, D3A9AF) End Page
+(EPG, D3A9AF) End Page [LINEDATA-A-012]
 
 **Notes:**
-1. An AFP (MO:DCA) presentation page can contain one or more Tag Logical Element (TLE) or Link Logical Element (LLE) structured fields following the AEG. These structures do not affect the presentation of the page. For the formal definition of these structures, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
-2. **Note †:** required for every IPO specified in a page.
+1. An AFP (MO:DCA) presentation page can contain one or more Tag Logical Element (TLE) or Link Logical Element (LLE) structured fields following the AEG. These structures do not affect the presentation of the page. For the formal definition of these structures, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*. [LINEDATA-A-013]
+2. **Note †:** required for every IPO specified in a page. [LINEDATA-A-014]
 ### Figure 33. Structure of Line Format Data
 **Line Format Data**
 [ (PTX, D3EE9B) Presentation Text Data (S) ]
@@ -98,9 +98,9 @@ Other All other symbols are explained in the figures.
 + [ (BPT, D3A89B) Begin Presentation Text Object (with OEG) (S) ]
 + [ (IPO, D3AFD8) Include Page Overlay (S) ]
 + [ (IPS, D3AF5F) Include Page Segment (S) ]
-+ [ (IOB, D3AFC3) Include Object (S) ]
++ [ (IOB, D3AFC3) Include Object (S) ] [LINEDATA-A-015]
 
-**Note:** These items can appear in any order.
+**Note:** These items can appear in any order. [LINEDATA-A-016]
 
 ### Figure 34. Structure of a Presentation Text Data Object
 **Presentation Text Data Object**
@@ -115,9 +115,9 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PEC, D3A7A8) Presentation Environment Control ]
 &nbsp;&nbsp;&nbsp;&nbsp;(EOG, D3A9C7) End Object Environment Group ]
 &nbsp;&nbsp;&nbsp;&nbsp;[ (PTX, D3EE9B) Presentation Text Data (S) ]
-(EPT, D3A99B) End Presentation Text Object
+(EPT, D3A99B) End Presentation Text Object [LINEDATA-A-017]
 
-**Note:** A Presentation Text Descriptor is required in an Active Environment Group when a text object is used in a page.
+**Note:** A Presentation Text Descriptor is required in an Active Environment Group when a text object is used in a page. [LINEDATA-A-018]
 
 
 ### Figure 35. Structure of an IM Image Data Object
@@ -127,7 +127,7 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IOC, D3A77B) Image Output Control IM ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (ICP, D3AC7B) Image Cell Position (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ (IRD, D3EE7B) Image Raster Data IM (S)
-(EII, D3A97B) End Image Object IM
+(EII, D3A97B) End Image Object IM [LINEDATA-A-019]
 
 ### Figure 36. Structure of an IO Image Data Object
 **IO Image Data Object**
@@ -141,9 +141,9 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PEC, D3A7A8) Presentation Environment Control ] (Note †)
 &nbsp;&nbsp;&nbsp;&nbsp;(EOG, D3A9C7) End Object Environment Group ]
 &nbsp;&nbsp;&nbsp;&nbsp;[ (IPD, D3EEFB) Image Picture Data IO (S) ]
-(EIM, D3A9FB) End Image Object IO
+(EIM, D3A9FB) End Image Object IO [LINEDATA-A-020]
 
-**Note †:** allowed in FS45 only.
+**Note †:** allowed in FS45 only. [LINEDATA-A-021]
 
 ### Figure 37. Structure of a Graphics Data Object
 **Graphics Data Object**
@@ -158,7 +158,7 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PEC, D3A7A8) Presentation Environment Control ]
 &nbsp;&nbsp;&nbsp;&nbsp;(EOG, D3A9C7) End Object Environment Group ]
 &nbsp;&nbsp;&nbsp;&nbsp;[ (GAD, D3EEBB) Graphics Data (S) ]
-(EGR, D3A9BB) End Graphics Object
+(EGR, D3A9BB) End Graphics Object [LINEDATA-A-022]
 
 ### Figure 38. Structure of a Bar Code Data Object
 **Bar Code Data Object**
@@ -171,7 +171,7 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (BDD, D3A6EB) Bar Code Data Descriptor
 &nbsp;&nbsp;&nbsp;&nbsp;(EOG, D3A9C7) End Object Environment Group ]
 &nbsp;&nbsp;&nbsp;&nbsp;[ (BDA, D3EEEB) Bar Code Data (S) ]
-(EBC, D3A9EB) End Bar Code Object
+(EBC, D3A9EB) End Bar Code Object [LINEDATA-A-023]
 
 ### Figure 39. Structure of a Page Segment Resource Object
 **Page Segment Resource Object**
@@ -182,9 +182,9 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (BPT, D3A89B) Begin Presentation Text Object (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (BOC, D3A892) Begin Object Container (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IOB, D3AFC3) Include Object (S) ]
-(EPS, D3A95F) End Page Segment
+(EPS, D3A95F) End Page Segment [LINEDATA-A-024]
 
-**Note:** This is the structure of an AFP page segment. This structure is supported but is replaced strategically with the MO:DCA page segment. For more information, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
+**Note:** This is the structure of an AFP page segment. This structure is supported but is replaced strategically with the MO:DCA page segment. For more information, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*. [LINEDATA-A-025]
 
 ### Figure 40. Structure of an Overlay Resource Object
 **Overlay Resource Object**
@@ -212,11 +212,11 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IPO, D3AFD8) Include Page Overlay (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IPS, D3AF5F) Include Page Segment (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;+ [ (IOB, D3AFC3) Include Object (S) ]
-(EMO, D3A9DF) End Overlay
+(EMO, D3A9DF) End Overlay [LINEDATA-A-026]
 
 **Notes:**
-1. An AFP (MO:DCA) overlay object may contain one or more Tag Logical Element (TLE) or Link Logical Element (LLE) structured fields following the AEG. These structures do not affect the presentation of the overlay. For the formal definition of these structures, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*.
-2. The MPG and MPO structured fields are not supported in the AEG for an overlay.
+1. An AFP (MO:DCA) overlay object may contain one or more Tag Logical Element (TLE) or Link Logical Element (LLE) structured fields following the AEG. These structures do not affect the presentation of the overlay. For the formal definition of these structures, see the *Mixed Object Document Content Architecture (MO:DCA) Reference*. [LINEDATA-A-027]
+2. The MPG and MPO structured fields are not supported in the AEG for an overlay. [LINEDATA-A-028]
 
 ### Figure 41. Structure of a Form Definition Resource Object
 **Form Definition Resource Object**
@@ -244,9 +244,9 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (MFC, D3A088) Medium Finishing Control (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (PEC, D3A7A8) Presentation Environment Control (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;(EMM, D3A9CC) End Medium Map ]
-(EFM, D3A9CD) End Form Map
+(EFM, D3A9CD) End Form Map [LINEDATA-A-029]
 
-**Note †:** The structured field is required in either the Document Environment Group or the Medium Map.
+**Note †:** The structured field is required in either the Document Environment Group or the Medium Map. [LINEDATA-A-030]
 
 ### Figure 42. Structure of a Page Definition Resource Object
 **Page Definition Resource Object**
@@ -279,13 +279,13 @@ Other All other symbols are explained in the figures.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (CCP, D3A7CA) Conditional Processing Control (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ [ (IOB, D3AFC3) Include Object (S) ]
 &nbsp;&nbsp;&nbsp;&nbsp;(EDM, D3A9CA) End Data Map
-(EPM, D3A9CB) End Page Map
+(EPM, D3A9CB) End Page Map [LINEDATA-A-031]
 
 **Notes:**
-1. The Data Map Transmission Subcase may contain RCDs or XMDs instead of LNDs.
-2. The Data Maps in a Page Definition must all contain LNDs, RCDs, or XMDs. A mixture is not allowed. (+ indicates these can appear more than once but not in a mixture).
-3. A Presentation Text Descriptor (PTD) is required in the AEG when a presentation text object is used on a page.
-4. **Note †:** required for every IPO specified in a page.
+1. The Data Map Transmission Subcase may contain RCDs or XMDs instead of LNDs. [LINEDATA-A-032]
+2. The Data Maps in a Page Definition must all contain LNDs, RCDs, or XMDs. A mixture is not allowed. (+ indicates these can appear more than once but not in a mixture). [LINEDATA-A-033]
+3. A Presentation Text Descriptor (PTD) is required in the AEG when a presentation text object is used on a page. [LINEDATA-A-034]
+4. **Note †:** required for every IPO specified in a page. [LINEDATA-A-035]
 
 
 

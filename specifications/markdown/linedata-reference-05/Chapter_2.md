@@ -4,12 +4,12 @@ architectures that define the format of documents and the nature of the commands
 to the supported printers. The Mixed Object Document Content Architecture (MO:DCA) defines a deviceindependent data stream format for interchanging documents among AFP products. Data to be printed can
 include text, graphics, images, and bar codes.
 The objects used for Advanced Function Presentation include:
-• Font objects, which consist of font character sets containing the patterns for letters, numbers, and special
+• Font objects, which consist of font character sets containing the patterns for letters, numbers, and special [LINEDATA-2-001]
 characters, and code pages that
 associate a hexadecimal value with each character in the font character set
-• Resource objects, including overlays and page segments, which in turn can include text, graphics, image,
+• Resource objects, including overlays and page segments, which in turn can include text, graphics, image, [LINEDATA-2-002]
 and bar code
-• Print control objects, which include Page Definitions used to format line data and Form Definitions used to
+• Print control objects, which include Page Definitions used to format line data and Form Definitions used to [LINEDATA-2-003]
 control physical aspects of the print environment.
 These objects can exist in resource libraries external to the data to be printed or can be included inline with the
 data that will use them.
@@ -25,12 +25,12 @@ Presentation services programs
 documents and resources and in turn generate Intelligent Printer Data Stream (IPDS) commands to drive the
 printers. Presentation services programs
 can also accept other forms of data as input. One of the most widely
-used of these is called line data.
+used of these is called line data. [LINEDATA-2-004]
 ## Line Data
 Line data, meaning application output to be printed that is not already in MO:DCA format, is supported by
 presentation services programs
 and formatted by Page Definition resource objects in all system environments
-except IBM OS/2. The nature of line data is slightly different in the system environments where it appears.
+except IBM OS/2. The nature of line data is slightly different in the system environments where it appears. [LINEDATA-2-005]
 ## IBM Mainframe Environments
 IBM mainframe applications written in programming languages such as Assembler, COBOL, FORTRAN, PL/I,
 RPG, or others have historically produced output files to be printed on line-mode printers such as the IBM
@@ -40,7 +40,7 @@ unformatted.
 Formatted line data records contain information exactly as it will be printed, because line printers have little or
 no capability of formatting print output records. Unformatted line data records contain only the fields of data to
 be printed. With unformatted line data records, the data is not formatted into lines, columns, paragraphs or
-other structures that determine how the records will appear on paper. AFP print server products support
+other structures that determine how the records will appear on paper. AFP print server products support [LINEDATA-2-006]
 
 
 printing of both formatted and unformatted line data records using the Page Definition (also called PageDef)
@@ -52,7 +52,7 @@ Formatted Print Records
 Unformatted Print Records
 Name field
 R O B I N S O N E . C R U S O E
-1 2 3 I S L A N D P L A C E
+1 2 3 I S L A N D P L A C E [LINEDATA-2-007]
 K E Y W E S T , F L
 U S A
 Street field City, State Zip Country
@@ -65,11 +65,11 @@ formatting
 Printed Output
 Printed output is same
 Robinson E. Crusoe
-123 Island Place
+123 Island Place [LINEDATA-2-008]
 Key West, FL
 USA
 Robinson E. Crusoe
-123 Island Place
+123 Island Place [LINEDATA-2-009]
 Key West, FL
 USA
 Traditional impact printers allowed only one variation on the line-by-line format of output. The first character of
@@ -80,12 +80,12 @@ that was associated with a value of 1 through 12, known as the channel code. Thi
 defined in an auxiliary object called a forms control buffer (FCB). The FCB defined the number of lines per
 page, whether lines were spaced at 6 or 8 per inch, and which line, if any, was associated with the position
 values of 1 through 12. The IBM
-3800 Model 1 added a spacing value of 12 lines per inch to the FCB; and the
+3800 Model 1 added a spacing value of 12 lines per inch to the FCB; and the [LINEDATA-2-010]
 IBM 3800 Model 3 added 10 lines per inch.
 The carriage control character could be represented in either of two coding schemes:
-• American National Standards Institute (ANSI) carriage control is a standard representation used with printers
+• American National Standards Institute (ANSI) carriage control is a standard representation used with printers [LINEDATA-2-011]
 from many different vendors. Table 5 lists the ANSI codes and their functions.
-• Machine code control characters were defined by IBM. They correspond to the channel command words
+• Machine code control characters were defined by IBM. They correspond to the channel command words [LINEDATA-2-012]
 issued by the operating system to accomplish the desired function. Table 6 lists the IBM machine
 code values and their functions.
 ANSI and machine codes may not be intermixed within a single data set.
@@ -136,7 +136,7 @@ X'91' Print the data, then skip to the line position defined as Channel 2
 X'99' Print the data, then skip to the line position defined as Channel 3
 X'A1' Print the data, then skip to the line position defined as Channel 4
 X'A9' Print the data, then skip to the line position defined as Channel 5
-X'B1' Print the data, then skip to the line position defined as Channel 6
+X'B1' Print the data, then skip to the line position defined as Channel 6 [LINEDATA-2-013]
 
 
 Table 6 Machine Code Control Characters (cont'd.)
@@ -188,11 +188,11 @@ delimited by a line separator; or it can be in record-based format. In record-ba
 not required, as the length of each record is contained in a two-byte prefix to the record. Either of these formats
 is considered line data and can be mapped for printing by presentation services programs if a Page Definition
 is used.
-Note: The line separator is described in Line Data Summary.
+Note: The line separator is described in Line Data Summary. [LINEDATA-2-014]
 ## IBM i Environment
 In IBM i (previously known as OS/400) print environments, line data and mixed data is written to the system
 spool using a Printer File. This file may also reference the Page Definition and Form Definition to be used for
-formatting and printing the data.
+formatting and printing the data. [LINEDATA-2-015]
 ## IBM OS/2 Environment
 There is no known support on IBM OS/2 systems for Page Definitions. A presentation services program in the
 IBM OS/2 environment can accept data in a MO:DCA format or it can print IPDS data streams sent from
@@ -203,8 +203,8 @@ IBM mainframe X X (Note 1)
 AIX, Linux, and Windows X (Note 2) X
 IBM i X X (Note 1)
 Notes:
-1. Only supported when input data is XML.
-2. Only supported when the length of each record is contained in a two byte prefix to the record or when each record is
+1. Only supported when input data is XML. [LINEDATA-2-016]
+2. Only supported when the length of each record is contained in a two byte prefix to the record or when each record is [LINEDATA-2-017]
 the same size.
 ## Line Data Summary
 To print line data,presentation services programs must know the dimensions of the page, the exact position on
@@ -217,12 +217,12 @@ A line separator is normally a Line Feed character or a combined Carriage Return
 Feed character pair. Windows platforms typically use the Carriage Return and Line Feed pair as the line
 separator. The line separator code points vary based on the data encoding and platform. The supported
 line separators are:
-• EBCDIC data: Line Feed (X'25').
-• ASCII and UTF-8 data: Line Feed (X'0A') or Carriage Return (X'0D') and Line Feed (X'0A') pair.
-• UTF-16BE: Line Feed (X'000A') or Carriage Return (X'000D') and Line Feed (X'000A') pair.
+• EBCDIC data: Line Feed (X'25'). [LINEDATA-2-018]
+• ASCII and UTF-8 data: Line Feed (X'0A') or Carriage Return (X'0D') and Line Feed (X'0A') pair. [LINEDATA-2-019]
+• UTF-16BE: Line Feed (X'000A') or Carriage Return (X'000D') and Line Feed (X'000A') pair. [LINEDATA-2-020]
 
 
-• UTF-16LE: Line Feed (X'0A00') or Carriage Return (X'0D00') and Line Feed (X'0A00') pair. Note that
+• UTF-16LE: Line Feed (X'0A00') or Carriage Return (X'0D00') and Line Feed (X'0A00') pair. Note that [LINEDATA-2-021]
 when the input data is UTF-16LE (little-endian byte order), the program that processes the line data
 needs to convert the data to big-endian byte order. Big-endian byte order is the only byte order
 supported in AFP environments.
@@ -245,7 +245,7 @@ Data line in stream format with table reference character and line separator
 CC TRC D A T A LS
 Data line in stream format with carriage control byte, table reference character, and line separator
 Note: The data portion and line separators of the valid records above can be encoded using Unicode Standard
-encoding UTF-16 or UTF-8.
+encoding UTF-16 or UTF-8. [LINEDATA-2-022]
 
 
 (Part 2 of figure)
@@ -267,7 +267,7 @@ CC TRC BOM D A T A LS
 Unicode data line in stream format with carriage control byte, table reference character, Byte Order Mark, and
 line separator
 Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data”. The BOM is
-allowed only on the first record and applies to all records in the print file.
+allowed only on the first record and applies to all records in the print file. [LINEDATA-2-023]
 
 
 ## Record-Format Line Data
@@ -300,7 +300,7 @@ CC BOM Record ID D A T A LS
 Unicode Record format line data in stream format with carriage control byte, Byte Order Mark, and line
 separator
 Note: For a description of the BOM (Byte Order Mark) see “Unicode Line Data”. The BOM is
-allowed only on the first record and applies to all records in the print file.
+allowed only on the first record and applies to all records in the print file. [LINEDATA-2-024]
 
 
 ## Unicode Line Data
@@ -309,28 +309,28 @@ encoded using Unicode Standard encodings UTF-16 or UTF-8. The Unicode Standard r
 byte order mark (BOM) be the first sequence of bytes in the data. This is to accommodate platforms, such as
 Windows, that use the little-endian byte order. It also serves as a signature to identify Unicode text. The Byte
 Order Marks supported are:
-• UTF-8: X'EFBBBF'
-• UTF-16BE (big-endian byte order): X'FEFF'
-• UTF-16LE (little-endian byte order): X'FFFE'
+• UTF-8: X'EFBBBF' [LINEDATA-2-025]
+• UTF-16BE (big-endian byte order): X'FEFF' [LINEDATA-2-026]
+• UTF-16LE (little-endian byte order): X'FFFE' [LINEDATA-2-027]
 The Byte Order Mark is optional. If used, the BOM is only on the first line or record of line data in the print file. It
 is recommended that switching the encoding in the page definition be avoided. If the font selected indicates the
 data is UTF-16 and the BOM is not used, big-endian byte order is assumed. When the BOM is not used,
 switching the encoding in the page definition should not pose any problems.
 Unicode encoding is subject to these restrictions in an AFP environment:
-• Shift-out/Shift-in (SOSI) controls are not used in Unicode to signify a shift into and out-of DBCS processing.
+• Shift-out/Shift-in (SOSI) controls are not used in Unicode to signify a shift into and out-of DBCS processing. [LINEDATA-2-028]
 Therefore, it is not possible to switch processing between Unicode encoding and single-byte (SBCS)
 encoding within a line data field or record using SOSI as described in “Processing Line Data with Shift-Out/
 Shift-In (SOSI) Controls”. That is, when a line data field is processed with a Page Definition,
 either the whole field is treated as Unicode-encoded, or none of it is treated as Unicode-encoded.
-• If the Byte Order Mark used in UTF-16 data indicates the data is in little-endian byte order, programs that
+• If the Byte Order Mark used in UTF-16 data indicates the data is in little-endian byte order, programs that [LINEDATA-2-029]
 process the UTF-16 data will need to convert little-endian to big-endian byte order.
-• If carriage control bytes (CC) or table reference character bytes (TRC) are used with UTF-16 encoded data,
-the CC and TRC bytes remain 1 byte fields and are not encoded in UTF-16.
+• If carriage control bytes (CC) or table reference character bytes (TRC) are used with UTF-16 encoded data, [LINEDATA-2-030]
+the CC and TRC bytes remain 1 byte fields and are not encoded in UTF-16. [LINEDATA-2-031]
 ## XML Data
 XML data may be formatted using a Page Definition resource, however this is subject to the following
 restrictions:
-• Carriage Control (CC) and Table Reference Characters (TRC) are not supported.
-• The data is encoded using one of the following:
+• Carriage Control (CC) and Table Reference Characters (TRC) are not supported. [LINEDATA-2-032]
+• The data is encoded using one of the following: [LINEDATA-2-033]
 – EBCDIC (Single-byte only)
 – ASCII (Single-byte only)
 – UTF-8
@@ -342,9 +342,9 @@ Presentation, the processor of the XML data may convert the data to UTF-16BE.
 ◦ If the data is encoded in UTF-16 and the font specifies an encoding scheme of PC Data SBCS, the
 processor of the XML data may convert the data to ASCII. This conversion might result in
 unprintable code points.
-• MO:DCA data cannot be mixed with XML data.
+• MO:DCA data cannot be mixed with XML data. [LINEDATA-2-034]
 For a description of XML Data, refer to the XML specification, Extensible Markup Language (XML) 1.0, which
-can be found at the World Wide Web Consortium web site, http://www.w3.org/.
+can be found at the World Wide Web Consortium web site, http://www.w3.org/. [LINEDATA-2-035]
 
 
 ## MO:DCA Data Summary
@@ -353,7 +353,7 @@ as position, orientation, and font selection intermixed with the data to be prin
 programs accept a MO:DCA document and generate the corresponding IPDS commands needed to drive a
 printer. An external Page Definition resource is not needed with MO:DCA data because all the formatting
 information is already included in the document.
-MO:DCA data is fully described in the Mixed Object Document Content Architecture (MO:DCA) Reference.
+MO:DCA data is fully described in the Mixed Object Document Content Architecture (MO:DCA) Reference. [LINEDATA-2-036]
 ## Combining Line Data with MO:DCA Structured Fields
 It is possible to intermix line data records and MO:DCA structured fields in a single file and send the mixed
 data to a presentation services program for printing. This permits the addition of image, graphics, and bar code
@@ -361,12 +361,12 @@ objects to existing line data output. Applications can be written to generate li
 to produce the desired final print product.
 Note: MO:DCA structured fields cannot be combined with XML data.
 Line data and MO:DCA records cannot be mixed haphazardly. Chapter 4, “Mixed Documents: Adding MO:DCA
-Structured Fields to Line Data” provides guidelines on the valid combinations.
+Structured Fields to Line Data” provides guidelines on the valid combinations. [LINEDATA-2-037]
 ## The Function of the Page Definition
 Any print file that contains line data, whether alone or in combination with MO:DCA structured fields, requires a
 Page Definition for printing using presentation services programs . The Page Definition is necessary to
 establish the environment for each page and to position each line of print.
 A number of Page Definitions mapping common page layouts are provided with some AFP software products
-and some AFP products allow users to create their own Page Definitions.
+and some AFP products allow users to create their own Page Definitions. [LINEDATA-2-038]
 
 

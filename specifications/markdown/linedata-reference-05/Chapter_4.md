@@ -11,7 +11,7 @@ MO:DCA structured fields cannot be interspersed with line data records indiscrim
 ata object structured
 fields and resource structured fields can appear only within their respective objects and resources, and only in
 the sequence allowed by the architecture
-. For example, the Map Coded Font (MCF) structured field is part of
+. For example, the Map Coded Font (MCF) structured field is part of [LINEDATA-4-001]
 the Active Environment Group that in turn can appear in a presentation page, an overlay, or a Page Definition.
 However, it is not permitted to include an MCF between line-mode data records in an output file or to bracket
 line-mode records with Begin Page and End Page structured fields. Refer to “Page Definition Structure” on
@@ -19,12 +19,12 @@ page 16 for the structure of the Page Definition object and refer to the Mixed O
 Architecture (MO:DCA) Reference for the structure of other data and resource objects.
 This chapter discusses how data and resource objects can be intermixed with line data and provides examples
 of structured fields that can be included individually with line-data records. These structured fields are:
-• Invoke Data Map
-• Invoke Medium Map
-• Include Page Segment
-• Include Page Overlay
-• Include Object
-• Presentation Text
+• Invoke Data Map [LINEDATA-4-002]
+• Invoke Medium Map [LINEDATA-4-003]
+• Include Page Segment [LINEDATA-4-004]
+• Include Page Overlay [LINEDATA-4-005]
+• Include Object [LINEDATA-4-006]
+• Presentation Text [LINEDATA-4-007]
 Note: The No Operation (NOP) structured field may appear anywhere in a mixed document and thus is not
 listed in the structured field groupings.
 This chapter contains coding examples for some of these structured fields. Chapter 5, “Structured Fields in a
@@ -55,7 +55,7 @@ machine code carriage control can be used for these records.
 In an AIX environment, the carriage control character is optional. The New Line control, also called Linefeed
 (X'25' in EBCDIC, X'0A' in ASCII),
 is used to determine end-of-record in AIX. The use of the Linefeed carriage
-control to determine end-of-record allows variable-length records to be easily created in AIX environments.
+control to determine end-of-record allows variable-length records to be easily created in AIX environments. [LINEDATA-4-008]
 ## Print File Structure
 An AFP print file consists of an optional inline resource group followed by one or more documents. Each
 document may, in turn, be preceded by an optional document index. All resources in an inline resource group
@@ -65,11 +65,11 @@ Begin Resource (BRS
 ) and End Resource (ERS ) structured fields. If multiple fully composed documents are
 present in the print file, they must be delimited by Begin Document (BDT) and End Document (EDT) structured
 fields. Note that mixed line-page documents and composed documents can occur in any order following the
-inline resource group. Figure 15 shows the structure of an AFP print file.
+inline resource group. Figure 15 shows the structure of an AFP print file. [LINEDATA-4-009]
 
 
 Figure 15. Structure of a Print File
-*  =  optional
+*  =  optional [LINEDATA-4-010]
 s  =  can appear more than once
 Note: can be any valid Resource Object, for example, an
 Overlay, a Page Segment, a Form Definition.
@@ -114,22 +114,22 @@ Group
 Document
 * s*
 Notes:
-1. The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as
+1. The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as [LINEDATA-4-011]
 well.
-2. The mixed line-page documents and composed documents can occur in any order following the inline
+2. The mixed line-page documents and composed documents can occur in any order following the inline [LINEDATA-4-012]
 resource group.
-3. Each AFP (MO:DCA) document may optionally be preceded by a single document index that is implicitly
+3. Each AFP (MO:DCA) document may optionally be preceded by a single document index that is implicitly [LINEDATA-4-013]
 tied to the document and that indexes the document. For the formal definition of the MO:DCA document
 index, see the Mixed Object Document Content Architecture (MO:DCA) Reference.
-4. An AFP (MO:DCA) document may contain Link Logical Element (LLE) structured fields following the BDT .
+4. An AFP (MO:DCA) document may contain Link Logical Element (LLE) structured fields following the BDT . [LINEDATA-4-014]
 It may also group presentation pages into named page groups. MO:DCA page groups may in turn contain
 Tag Logical Element (TLE) structured fields following the BNG. These structures do not affect the
 presentation of the document. For the formal definition of these structures, see the Mixed Object Document
 Content Architecture (MO:DCA) Reference.
-5. If a Medium Map is included internal (inline) to the document, it is activated by immediately following it with
+5. If a Medium Map is included internal (inline) to the document, it is activated by immediately following it with [LINEDATA-4-015]
 an IMM that explicitly invokes it, otherwise the internal Medium Map is ignored. An IMM that does not follow
 an internal Medium Map may not invoke an internal Medium Map elsewhere in the document and is
-assumed to reference a Medium Map in the current Form Definition.
+assumed to reference a Medium Map in the current Form Definition. [LINEDATA-4-016]
 
 
 The objects that comprise an AFP print file are as follows:
@@ -154,7 +154,7 @@ The print file may contain one or more documents to be printed. These may be ful
 composed-page documents, line-mode documents, or mixed-mode documents, in any order.
 If multiple composed-page documents appear, each one must be delimited by a BDT and an
 EDT structured field. For the complete definitions of document structure, see Appendix A,
-“Document and Resource Object Diagrams”.
+“Document and Resource Object Diagrams”. [LINEDATA-4-017]
 ## Finishing Operations for a Print File
 A Form Definition may be used to specify finishing operations to be applied to the documents in a print file. The
 scope of the finishing operations as well as the type of operation is specified with a Medium Finishing Control
@@ -163,10 +163,10 @@ finishing operations and parameters that may be specified, see the Mixed Object 
 Architecture (MO:DCA) Reference. The following rules specify how the scope of the finishing operations
 applies to a print file when the file contains line-data and mixed-data documents, with or without BDT/EDT , as
 well as composed documents.
-• If the MFC specifies print-file level finishing, all media in the print file is collected for finishing in a print-file
+• If the MFC specifies print-file level finishing, all media in the print file is collected for finishing in a print-file [LINEDATA-4-018]
 level media collection and the finishing operations are applied to the complete collection; that is, the
 complete print file.
-• If the MFC specifies document-level finishing and selects all documents, the print file is processed as a set of
+• If the MFC specifies document-level finishing and selects all documents, the print file is processed as a set of [LINEDATA-4-019]
 documents as follows:
 – Any document bounded by BDT/EDT is processed as a single document regardless of whether the data
 between BDT/EDT is line data, mixed data, or composed data.
@@ -177,16 +177,16 @@ the implied document is terminated with an implied EDT .
 The media in each document, whether implied or explicit, is collected for finishing in a document-level media
 collection and the finishing operations are applied to each collection, that is each document, individually.
 Note that, in this case, the same finishing operations are applied to each document.
-• If the MFC specifies document-level finishing and selects a single document, the print file is processed as a
+• If the MFC specifies document-level finishing and selects a single document, the print file is processed as a [LINEDATA-4-020]
 set of documents in the same manner as when all documents are selected. The offset of the selected
 document is calculated by counting all documents, whether implied or explicit, and the selected document
 might
-itself be an implied document. The media in the selected document are collected for finishing and the
+itself be an implied document. The media in the selected document are collected for finishing and the [LINEDATA-4-021]
 
 
 finishing operations are applied to the single collection; that is, the single document. If the same document is
 selected multiple times, finishing operations are applied in the order specified. Note that, using this type of
-MFC, unique finishing operations may be specified for each document in the print file.
+MFC, unique finishing operations may be specified for each document in the print file. [LINEDATA-4-022]
 ## Inline Resource Group Structure
 A resource group begins with the Begin Resource Group (BRG) structured field and ends with the End
 Resource Group (ERG) structured field. Inline resources are included in the inline resource group and can be
@@ -196,7 +196,7 @@ accessed by the print server. Each individual resource begins with the Begin Res
 and ends with the End Resource (ERS ) structured field. When a resource object is stored in a library, the BRG,
 BRS, ERG, and ERS structured fields are not present. When using AFP with a z/OS system, all structured
 fields of resource objects included in inline resource groups must be preceded by the X'5A' character. Figure
-16 shows the structure of an inline resource group.
+16 shows the structure of an inline resource group. [LINEDATA-4-023]
 Figure 16. Structure of an Inline Resource Group
 Inline
 Resource
@@ -219,14 +219,14 @@ Begins a resource object, specifies the resource type, and specifies the name us
 the object for printing.
 Resource Object
 A resource object can be one of the following:
-• A page segment
-• An overlay
-• A data object
-• An object container
-• A document
-• A Form Definition
-• A Page Definition
-• A font object (a code page, a font character set, or a coded font)
+• A page segment [LINEDATA-4-024]
+• An overlay [LINEDATA-4-025]
+• A data object [LINEDATA-4-026]
+• An object container [LINEDATA-4-027]
+• A document [LINEDATA-4-028]
+• A Form Definition [LINEDATA-4-029]
+• A Page Definition [LINEDATA-4-030]
+• A font object (a code page, a font character set, or a coded font) [LINEDATA-4-031]
 
 
 See the description of the BRS structured field in the Mixed Object Document Content
@@ -256,15 +256,15 @@ printed, the IDM ends the current page, causing a blank page to be printed. When
 carriage control is used later in the document to end the page and it is followed by the IDM structured
 field, a blank page does not occur since the skip immediate carriage control has already ended the
 current line-format page.
-• For traditional line data, processing begins with the first Line Descriptor (LND) structured field of the invoked
+• For traditional line data, processing begins with the first Line Descriptor (LND) structured field of the invoked [LINEDATA-4-032]
 Data Map for the next line-format page.
-• For record-format line data, processing begins with the first Record Descriptor (RCD) structured field that
+• For record-format line data, processing begins with the first Record Descriptor (RCD) structured field that [LINEDATA-4-033]
 matches the record ID of the first record processed following the IDM.
 The IDM structured field can be used to change formatting based on some change in the application data,
 such as the start of output for a different department or branch office.
 The IDM structured field always contains sixteen bytes of information. The Data Map name in the data portion
 of this structured field must be eight bytes long. If the name of the actual Data Map to be invoked is shorter
-than eight bytes, trailing blanks must be added.
+than eight bytes, trailing blanks must be added. [LINEDATA-4-034]
 
 
 Sample IDM Structured Field
@@ -283,7 +283,7 @@ Map SUMMARY is used to format subsequent data lines. Use of this structured fiel
 active Page Definition contains a Data Map with the name SUMMARY in its Begin Data Map structured field. If
 no such Data Map exists, an error is generated.
 Figure 17. Sample Invoke Data Map Structured Field
-X'5A' X'0010' X'D3ABCA' X'00' X'0000' X'E2E4D4D4C1D9E840'
+X'5A' X'0010' X'D3ABCA' X'00' X'0000' X'E2E4D4D4C1D9E840' [LINEDATA-4-035]
 ## Invoke Medium Map
 The Invoke Medium Map (IMM) structured field is similar to the IDM structured field except that it causes a
 presentation services program to select a new Medium Map, or Copy Group, in the current Form Definition at
@@ -338,7 +338,7 @@ placed on a new partition of the same sheet. If the currently active Form Defini
 Map with that name in the Begin Medium Map structured field, an error is generated.
 Figure 19. Sample Invoke Medium Map Structured Field
 X'5A' X'0010' X'D3ABCC' X'00' X'0000' X'C2C9D5F240404040'
-Using Structured Fields to Skip to a New Page or Sheet
+Using Structured Fields to Skip to a New Page or Sheet [LINEDATA-4-036]
 # Chapter 3, “Using a Page Definition to Print Data” described the use of conditional processing in a Page
 Definition to perform a skip-to-new-page or skip-to-new-sheet operation based on a change in the value of a
 control field in an application data stream. The conditional processing function was added to the Page
@@ -350,7 +350,7 @@ new page, using the first Line Descriptor in the current Data Map. When the Data
 resumes at the start of a new page using the first RCD whose Record ID matches the current data record.
 The data stream shown in Figure 20 provides the same result as the Page Definition shown in
 Figure 13 and the data stream shown in Figure 21 provides the same result as the
-Page Definition shown in Figure 14.
+Page Definition shown in Figure 14. [LINEDATA-4-037]
 
 
 Figure 20. Using an IDM Structured Field to Skip to a New Page
@@ -396,7 +396,7 @@ because CONSTANT FRONT and DUPLEX NO are coded. If the output were to be printed
 CONSTANT BOTH and DUPLEX YES can be coded instead.
 Immediately following the IMM structured field to select the second Medium Map (ALTBIN) is a second IMM to
 return to the original Medium Map (PRIBIN) for the next portion of the data. This set of two consecutive IMM
-structured fields can be included in the output data stream as often as necessary.
+structured fields can be included in the output data stream as often as necessary. [LINEDATA-4-038]
 
 
 Figure 23. Form Definition With Two IMMs to Force a Blank Sheet
@@ -430,7 +430,7 @@ byte)
 X'0000' PFORMAT1 (Data Map [Page
 Format] name—8 bytes
 EBCDIC)
-63 bytes of X'00' followed by
+63 bytes of X'00' followed by [LINEDATA-4-039]
 one byte of X'40'
 X'0010' X'D3ABCA'
 (Identifier)
@@ -440,7 +440,7 @@ byte)
 X'0000' PFORMAT1 (Data Map [Page
 Format] name—8 bytes
 EBCDIC)
-64 bytes of any information to
+64 bytes of any information to [LINEDATA-4-040]
 fill the record out to 80 bytes
 The first structured field at the top of Figure 24 is the most common form of Invoke Data Map. The IDM
 structured field is 16 bytes (X'10') long, so the value X'10' appears in the length field of the introducer. Next is
@@ -515,7 +515,7 @@ object origin. The offset is measured using the current text
 (I,B) coordinate system.
 (XCOset,YCOset) in ICP specify an offset from the image
 object origin. The offset is measured using the temporary
-(X,Y) coordinate system.
+(X,Y) coordinate system. [LINEDATA-4-041]
 
 
 Table 10 Position and Rotation of Objects in Line Data and MO:DCA Data (cont'd.)
@@ -596,7 +596,7 @@ origin (Xp=0,Yp=0). The offset is measured using the page
 (XoaOset,YoaOset) in OBP specify an offset from the page
 origin (Xp=0,Yp=0). The offset is measured using the page
 (X
-p,Yp) coordinate system.
+p,Yp) coordinate system. [LINEDATA-4-042]
 
 
 Table 10 Position and Rotation of Objects in Line Data and MO:DCA Data (cont'd.)
@@ -633,7 +633,7 @@ reuse chain, the current LND is the base LND, that is, the LND that is at the he
 current LND does not generate a position, the LND used is the last LND that did generate a position.
 Current RCD Position
 Because carriage controls are ignored in record-format line data, the current RCD is always the last record
-RCD that was used to process a data record.
+RCD that was used to process a data record. [LINEDATA-4-043]
 ## Include Page Segment
 The Include Page Segment (IPS) structured field is used to place a page segment resource anywhere on the
 page. It contains the full eight-character name of the page segment (with trailing blanks if necessary) and the
@@ -643,7 +643,7 @@ Data Map, in which case the page segment is downloaded to the printer and may be
 not mapped, the page segment data is loaded as part of the page.
 Objects within the page segment might
 be positioned with respect to the page segment origin. The page
-segment inherits the Active Environment Group definition of the including page.
+segment inherits the Active Environment Group definition of the including page. [LINEDATA-4-044]
 
 
 AFP print servers initialize the following PTOCA control sequences as shown prior to processing a text object
@@ -661,13 +661,13 @@ Special care must be taken when including page segments in line data to ensure t
 segment are positioned and oriented properly.
 Location of Page Segment Origin
 The page segment origin is located on the page as follows:
-• If one of the IPS offsets is specified as X'FFFFFF', the page segment origin along that axis is located at the
+• If one of the IPS offsets is specified as X'FFFFFF', the page segment origin along that axis is located at the [LINEDATA-4-045]
 position specified in the current LND or RCD.
-• If the IPS offset is not X'FFFFFF', the page segment origin is located at the IPS offset measured with respect
+• If the IPS offset is not X'FFFFFF', the page segment origin is located at the IPS offset measured with respect [LINEDATA-4-046]
 to the current text coordinate system origin (I=0,B=0), using the current text (I,B) coordinate system. For
 example, if the text orientation is (90°,180°), the page segment offsets are measured from the top- right
 corner of the page, with the I-axis running from top to bottom and the B-axis running from right to left.
-• If the page segment is included with a Resource Object Include (X'6C') triplet on the LND or RCD, the page
+• If the page segment is included with a Resource Object Include (X'6C') triplet on the LND or RCD, the page [LINEDATA-4-047]
 segment origin is located at the specified offset measured with respect to the position specified in the current
 LND or RCD, using the current text (I,B) coordinate system.
 In summary, the origin of a page segment in line data is always positioned using the text (I,B) coordinate
@@ -682,7 +682,7 @@ system X
 p-axis (origin is top- left corner of page).
 Note: For page segments in MO:DCA data, if the IM image is complex (celled), it is recommended that the
 rotation be set to (0°,90°). For page segments in mixed data, the rotation should be set to match the
-current text orientation.
+current text orientation. [LINEDATA-4-048]
 
 
 Position and Orientation of Image, Graphics, and Bar Code Objects in a Page
@@ -708,7 +708,7 @@ Figure 25. Include Page Segment Structured Field
 X'5A' X'0016' X'D3AF5F' X'00' X'0000' X'E2C9C7D5C1E34040' X'FFFFFF' X'FFFFFF'
 Programming Tip
 The current line position is unchanged after the page segment is printed. Additional logic might be needed in
-the application to place subsequent print lines so that they do not overprint the page segment.
+the application to place subsequent print lines so that they do not overprint the page segment. [LINEDATA-4-049]
 
 
 ## Include Page Overlay
@@ -721,19 +721,19 @@ the Data Map currently in effect. The overlay contains its own Active Environmen
 specifies the coordinate system for positioning and rotating objects, the size of the overlay, and the names of
 any fonts used in it. Considerations for the current line position are the same as those discussed in the
 previous programming tip
-. The current line position is unchanged after the overlay has been placed.
+. The current line position is unchanged after the overlay has been placed. [LINEDATA-4-050]
 Note: The IBM 3800 printer does not support the IPO function.
 Positioning Overlays
 Because overlays define their own coordinate system and environment, the rules for positioning an overlay
 and its objects are somewhat different from those for positioning a page segment and its objects.
 Location of Overlay Origin
 The overlay origin is located as follows:
-• If the IPO offset along either the page X p-axis or the page Y p-axis is specified as X'FFFFFF', the overlay
+• If the IPO offset along either the page X p-axis or the page Y p-axis is specified as X'FFFFFF', the overlay [LINEDATA-4-051]
 origin along that same axis is located by translating the current LND or RCD (I,B) position to an offset along
 that Xp or Yp axis.
-• If the IPO offset is not X'FFFFFF', the overlay origin is positioned at the specified (X p,Yp) offset measured
+• If the IPO offset is not X'FFFFFF', the overlay origin is positioned at the specified (X p,Yp) offset measured [LINEDATA-4-052]
 with respect to the page origin (top-left corner of page), using the page coordinate system.
-• If the overlay is included with a Resource Object Include (X'6C') triplet on the LND or RCD, the overlay origin
+• If the overlay is included with a Resource Object Include (X'6C') triplet on the LND or RCD, the overlay origin [LINEDATA-4-053]
 is located at the specified offset measured with respect to the position specified in the current LND or RCD,
 using the current text (I,B) coordinate system.
 Orientation of Overlay
@@ -749,7 +749,7 @@ The image object area offset, as specified in the IOC structured field, is measu
 system (origin is top-left corner of overlay).
 The rotation of the IM image is specified in the IOC and is measured with respect to the overlay coordinate
 system X-axis (origin is top-left corner of overlay).
-Note: If the IM image is complex (celled), AFP print servers require the rotation set to 0°,90°.
+Note: If the IM image is complex (celled), AFP print servers require the rotation set to 0°,90°. [LINEDATA-4-054]
 
 
 Position and Orientation of IO Image, Graphics, and Bar Code Objects in an Overlay
@@ -762,13 +762,13 @@ Sample IPO Structured Field
 A sample IPO structured field appears in Figure 26. It places overlay O1SIGNAT at the current print position on
 the page.
 Figure 26. Include Page Overlay Structured Field
-X'5A' X'0016' X'D3AFD8' X'00' X'0000' X'D6F1E2C9C7D5C1E3' X'FFFFFF' X'FFFFFF'
+X'5A' X'0016' X'D3AFD8' X'00' X'0000' X'D6F1E2C9C7D5C1E3' X'FFFFFF' X'FFFFFF' [LINEDATA-4-055]
 ## Include Object
 The Include Object (IOB) structured field references an object that is to be positioned on the page. In general,
 the IOB may be used to include two classes of objects:
-• OCA objects (BCOCA, GOCA, IOCA, PTOCA) that specify an Object Environment Group (OEG) or MO:DCA
+• OCA objects (BCOCA, GOCA, IOCA, PTOCA) that specify an Object Environment Group (OEG) or MO:DCA [LINEDATA-4-056]
 page segments that contain such objects
-• Non-OCA paginated presentation objects, such as TIFF images, that are supported by the presentation
+• Non-OCA paginated presentation objects, such as TIFF images, that are supported by the presentation [LINEDATA-4-057]
 system
 The current AFP support for the IOB in line data is limited to the first class, OCA objects. When referencing an
 OCA object, the IOB may be used to override position, size, orientation, mapping, and default color parameters
@@ -783,7 +783,7 @@ to the current text (I,B) coordinate system I-axis.
 X'01' The object area offset in the IOB is measured with respect to the page origin (X
 p=0,Yp=0), using the
 page (Xp,Yp) coordinate system. The object area rotation in the IOB is measured with respect to page
-(Xp,Yp) coordinate system X p-axis.
+(Xp,Yp) coordinate system X p-axis. [LINEDATA-4-058]
 
 
 ## Including Data Objects Directly in Line Data
@@ -813,7 +813,7 @@ with OEG
 Objects that include an Object Environment Group (BCOCA, GOCA, IOCA, and PTOCA objects) can be
 included directly in a mixed-mode document intermixed with line data so long as the following rules are
 observed:
-• The reference coordinate system (byte 23 of the data field of the Object Area Position [OBP] structured field)
+• The reference coordinate system (byte 23 of the data field of the Object Area Position [OBP] structured field) [LINEDATA-4-059]
 must be coded to provide the desired position and rotation of the object on the page:
 – If OBP byte 23 (RefCSys) = X'00' (current), the object area offset is measured with respect to the position
 specified in the current LND or RCD, using the current text (I,B) coordinate system. The object area
@@ -823,9 +823,9 @@ page origin, using the page coordinate system (origin is top-left corner of page
 specified in the OBP and is measured with respect to the page coordinate system X
 p-axis (origin is top- left
 corner of page).
-• If the image or graphic has been built as a page segment, delete the Begin Page Segment and End Page
+• If the image or graphic has been built as a page segment, delete the Begin Page Segment and End Page [LINEDATA-4-060]
 Segment structured fields from the object. The remaining structured fields can be placed in the print stream
-at the point where the image or graphic should appear.
+at the point where the image or graphic should appear. [LINEDATA-4-061]
 
 
 Including IM Image Objects
@@ -857,7 +857,7 @@ control sequences and data. The PTX structured field is described in Presentatio
 Architecture Reference and provides different functions in the form of control sequences. PTX is probably the
 most frequently used structured field in fully composed MO:DCA documents. PTX structured fields can be
 intermixed with line data records so long as a few rules are followed:
-• Each PTX structured field should be coded as a self-contained environment. While PTX control sequences
+• Each PTX structured field should be coded as a self-contained environment. While PTX control sequences [LINEDATA-4-062]
 can be used to set the line spacing, page margin, data position, font, etc., these settings remain in effect only
 for the current PTX structured field. Processing of follow-on line data records or structured fields might
 change the settings. If a line data record follows a PTX, settings such as its placement and font is determined
@@ -871,7 +871,7 @@ Begin Presentation Text (BPT) and End Presentation Text (EPT) structured fields 
 PTX. Subsequent processing of the BPT will cause initial text conditions to be set prior to the processing of
 the PTX. See Mixed Object Document Content Architecture (MO:DCA) Reference for more information on
 initial text conditions set when the BPT is processed.
-• Because the presentation
+• Because the presentation [LINEDATA-4-063]
 services software considers line-data files to be mapped totally with a Page
 Definition, the presentation services software generates IPDS commands containing positioning and font
 information for every record in the file. If a record turns out to be a PTX structured field, the information in the
@@ -879,8 +879,8 @@ PTX is used to create a subsequent IPDS Write Text command. If a large number of
 are included in a line-mode data set, the additional IPDS commands generated by the presentation
 services
 software could add an unacceptable amount of processing overhead when the data set is printed.
-• Page Definition information, PTX information, and any additional information contained in objects such as
-bar code and image placed on the page interact, so the programmer must keep careful track of the page
+• Page Definition information, PTX information, and any additional information contained in objects such as [LINEDATA-4-064]
+bar code and image placed on the page interact, so the programmer must keep careful track of the page [LINEDATA-4-065]
 
 
 position and fonts in effect as records are written. For example, if the text position, text orientation, or font is
@@ -898,8 +898,8 @@ Using the PTX Structured Field
 The PTX structured field contains PTOCA data, as defined in the Mixed Object Document Content Architecture
 (MO:DCA) Reference. The general format of the PTX structured field is shown in Figure 27. Either of two types
 of data can follow the PTX structured field introducer:
-• The X'2BD3' escape sequence, followed by one or more text control sequences
-• “Free-standing text”, which is a series of code points representing data to be printed
+• The X'2BD3' escape sequence, followed by one or more text control sequences [LINEDATA-4-066]
+• “Free-standing text”, which is a series of code points representing data to be printed [LINEDATA-4-067]
 The first alternative is by far the most common use of PTX. A table of the control sequences that can be used
 with the PTX structured field appears in Table 11.
 The PTOCA Architecture groups control sequences into function sets or subsets. PT1 is the base subset that
@@ -922,14 +922,14 @@ function code for the control sequence. A data field ranging from zero to 253 by
 One reason why free-standing text is seldom used is that one of the PTX control sequences available is
 Transparent Data (TRN), which has a string of code points as its data field, and thereby provides the actual text
 to be printed. Use of the TRN control sequence allows data whose encoding scheme uses the code points
-X'2B' or X'D3' to be included in a PTX without having these code points interpreted as an escape sequence.
+X'2B' or X'D3' to be included in a PTX without having these code points interpreted as an escape sequence. [LINEDATA-4-068]
 
 
 The usual sequences for placing text on a page are as follows:
-• Specify the beginning print position using Absolute Move Inline (AMI) and Absolute Move Baseline (AMB)
+• Specify the beginning print position using Absolute Move Inline (AMI) and Absolute Move Baseline (AMB) [LINEDATA-4-069]
 control sequences
-• Select the coded font to be used with the Set Coded Font Local (SCFL) control sequence
-• Specify the code points of the text to be printed using a Transparent Data (TRN) control sequence
+• Select the coded font to be used with the Set Coded Font Local (SCFL) control sequence [LINEDATA-4-070]
+• Specify the code points of the text to be printed using a Transparent Data (TRN) control sequence [LINEDATA-4-071]
 Here is an example:
 X'5A001BD3EE9B0000002BD304D300F004C700B403F10106DAC4C1E3C1'
 This example begins with a X'5A' carriage control character, as would be required in the z/OS system
@@ -958,7 +958,7 @@ Within a fully composed document, the last control sequence in any text object m
 chaining. If PTX structured fields are intermixed with line data in a mixed-mode document, the last control
 sequence in the PTX must also indicate end of chaining. This can be accomplished either by specifying an
 even function type for the last control sequence or by ending every PTX with a No Operation control sequence
-with an even function type (X'02F8').
+with an even function type (X'02F8'). [LINEDATA-4-072]
 
 
 Use of Fonts
@@ -1003,7 +1003,7 @@ Overstrike 0572 0573
 Temporary Baseline Move xx78 xx79
 Underscore 0376 0377
 PT3 Control Sequences
-Set Extended Text Color xx80 xx81
+Set Extended Text Color xx80 xx81 [LINEDATA-4-073]
 
 
 Table 11 Control Sequences Used in PTX Structured Field (cont'd.)
@@ -1047,7 +1047,7 @@ change the origin point of the rule, the length of the rule, or the rule thickne
 between inline and baseline rules become increasingly visible as the thickness of the rules increase.
 Figure 28 illustrates a text-control sequence to draw a box one inch high by two inches wide. The
 rules that generate the box are four pels thick, so the lengths of the rules in the Draw Rule control sequences
-have been extended by 4 pels where necessary to make sure the corners are complete.
+have been extended by 4 pels where necessary to make sure the corners are complete. [LINEDATA-4-074]
 
 
 Figure 28. Text Controls to Draw a Box
@@ -1056,7 +1056,7 @@ Figure 28. Text Controls to Draw a Box
 (bottom side)     (left side)
 … 04C901E004D500F007E5FE20FFFC0007E6FF10FFFC00
 < RMI >< RMB ><Inline Rule><Baseline Rule>
-(top side)        (right side)
+(top side)        (right side) [LINEDATA-4-075]
 
 
 ## Composed Documents
@@ -1077,11 +1077,11 @@ your application output is not known in advance, then the application data proba
 outboard formatting using a Page Definition. In these cases, you should consider generating fully-composed
 documents, rather than line-mode or mixed-mode data.
 Some examples of applications that have been developed using fully-composed output are:
-• Utility bills containing line-by-line details and graphical representations of energy use for each customer
+• Utility bills containing line-by-line details and graphical representations of energy use for each customer [LINEDATA-4-076]
 compared to the average for all customers
-• Insurance policies with clauses, supplements, and detailed client-specific information that vary from one
+• Insurance policies with clauses, supplements, and detailed client-specific information that vary from one [LINEDATA-4-077]
 policy to the next
-• Financial statements containing sections that
+• Financial statements containing sections that [LINEDATA-4-078]
 describe specific investments, payments, or accounts, each of
 which vary considerably from one statement to the next. Boxes and shading might be used to highlight
 certain items of information and the location of the boxes or shaded areas can be anywhere on the page.
@@ -1098,7 +1098,7 @@ option is to develop a custom application that produces only the specific output
 The MO:DCA data stream generated by such an application will be transformed directly into IPDS by the print
 services program. No optimizing is performed on MO:DCA data. As a result, the application developer should
 be aware of throughput considerations associated with the MO:DCA structure. Such considerations are
-highlighted in this chapter in boxes titled “Programming Tip”.
+highlighted in this chapter in boxes titled “Programming Tip”. [LINEDATA-4-079]
 
 
 Overall Document Structure
@@ -1112,12 +1112,12 @@ Document Indexing
 Indexing and attribute tagging structured fields may be added to documents to permit the selective retrieval of
 specific pages and page groups for later viewing or printing. The MO:DCA architecture defines six structured
 fields specifically for this purpose:
-• Begin Document Index
-• Index Element
-• Tag Logical Element
-• End Document Index
-• Begin Named Page Group
-• End Named Page Group
+• Begin Document Index [LINEDATA-4-080]
+• Index Element [LINEDATA-4-081]
+• Tag Logical Element [LINEDATA-4-082]
+• End Document Index [LINEDATA-4-083]
+• Begin Named Page Group [LINEDATA-4-084]
+• End Named Page Group [LINEDATA-4-085]
 An index is bracketed by Begin Document Index and End Document Index structured fields. It may contain
 Index Element (IEL) structured fields used to locate objects in a document and Tag Logical Element structured
 fields, used to tag pages and page groups with attribute names and their values. Pages in a document may be
@@ -1131,6 +1131,6 @@ Document Links
 Fully composed MO:DCA documents may contain logical links between document components. An example is
 a hypertext link from an area on page N that contains a technical term to an area on page M that contains the
 term's definition. Such links are specified using Link Logical Element (LLE) structured fields. LLE structured
-fields are not supported in line-data or mixed-data documents.
+fields are not supported in line-data or mixed-data documents. [LINEDATA-4-086]
 
 

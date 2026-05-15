@@ -35,7 +35,7 @@ Standard Action: Use a value of X'0000' for this parameter.
 EC-0611 A desired symbol width was specified, but a bar code symbol cannot be generated that fits
 within the specified width.
 Standard Action: Use a value of X'0000' for the desired-symbol-width parameter; the resulting
-symbol is larger than the desired symbol width.
+symbol is larger than the desired symbol width. [BCOCA-5-001]
 
 
 EC-0700 The element height specified in the BSD data structure is invalid or unsupported.
@@ -80,7 +80,7 @@ Standard Action: Present the bar code symbol without structured append informati
 EC-0F02 A structured append sequence indicator specified in the BSA data structure is larger than the
 total number of structured append symbols.
 Standard Action: Present the bar code symbol without structured append information.
-Specification-Check Exceptions
+Specification-Check Exceptions [BCOCA-5-002]
 
 
 EC-0F03 Mismatched structured append information was specified in the BSA data structure. One of
@@ -109,15 +109,15 @@ EC-0F09 For a PDF417 symbol, the security level value specified in the BSA data 
 Standard Action: Proceed as if security level 8 was specified.
 EC-0F0A An incompatible combination of Data Matrix parameters was specified in the BSA data
 structure. The following conditions can cause this exception condition:
-• A structured append was specified (byte 10 not X'00'), but either the reader programming
+• A structured append was specified (byte 10 not X'00'), but either the reader programming [BCOCA-5-003]
 flag was set to B'1' or a hdr/trl macro was specified.
-• The GS1 FNC1 flag was set to B'1', but either the industry FNC1 flag was set to B'1', the
+• The GS1 FNC1 flag was set to B'1', but either the industry FNC1 flag was set to B'1', the [BCOCA-5-004]
 reader programming flag was set to B'1', or a hdr/trl macro was specified.
-• The industry FNC1 flag was set to B'1', but either the GS1 FNC1 flag was set to B'1', the
+• The industry FNC1 flag was set to B'1', but either the GS1 FNC1 flag was set to B'1', the [BCOCA-5-005]
 reader programming flag was set to B'1', or a hdr/trl macro was specified.
-• The reader programming flag was set to B'1', but either a structured append was specified,
+• The reader programming flag was set to B'1', but either a structured append was specified, [BCOCA-5-006]
 one of the FNC1 flags was set to B'1', or a hdr/trl macro was specified.
-• A hdr/trl macro was specified, but either a structured append was specified, one of the FNC1
+• A hdr/trl macro was specified, but either a structured append was specified, one of the FNC1 [BCOCA-5-007]
 flags was set to B'1', or the reader programming flag was set to B'1'.
 Standard Action: Terminate bar code object processing.
 EC-0F0B An invalid structured append file identification value was specified in the BSA data structure.
@@ -126,7 +126,7 @@ Standard Action: Present the bar code symbol without structured append informati
 EC-0F0C A Macro PDF417 Control Block length value specified in the BSA data structure is invalid.
 Standard Action: Terminate bar code object processing.
 EC-0F0D Data within a Macro PDF417 Control Block specified in the BSA data structure is invalid.
-Specification-Check Exceptions
+Specification-Check Exceptions [BCOCA-5-008]
 
 
 Standard Action: Present the bar code symbol without a Macro PDF417 Control Block.
@@ -172,7 +172,7 @@ Standard Action: Terminate bar code object processing.
 EC-0F1B For an Aztec Code symbol, an invalid application-indicator value was specified in the BSA
 data structure.
 Standard Action: Terminate bar code object processing.
-Specification-Check Exceptions
+Specification-Check Exceptions [BCOCA-5-009]
 
 
 EC-0F1C For an Aztec Code symbol, the structured-append-ID-length value was not X'00' for a symbol
@@ -216,7 +216,7 @@ Standard Action: Terminate bar code object processing.
 EC-0F34 For a QR Code with Image bar code, an invalid or unsupported X or Y offset value for the
 image-object-area origin was specified in the BSA data structure.
 Standard Action: Terminate bar code object processing.
-Specification-Check Exceptions
+Specification-Check Exceptions [BCOCA-5-010]
 
 
 EC-0F35 For a QR Code with Image bar code, an invalid or unsupported image-object-area orientation
@@ -248,23 +248,23 @@ Intelligent Mail Package Barcode), the RED TAG indicator (Royal Mail RED TAG
 (deprecated)), the zipper pattern and contrast block (MaxiCode), any image printed in
 conjunction with a QR Code symbol (QR Code with Image), and the HRI, extends outside of
 either:
-• The bar code presentation space
-• The intersection of the mapped bar code presentation space and the controlling
+• The bar code presentation space [BCOCA-5-011]
+• The intersection of the mapped bar code presentation space and the controlling [BCOCA-5-012]
 environment object area
-• The maximum presentation area.
+• The maximum presentation area. [BCOCA-5-013]
 Standard Action: Terminate bar code object processing.
 All bar code symbols must be presented in their entirety. Whenever a partial bar code pattern
 is presented, for whatever reason, it is obscured to make it unscannable.
 EC-1200 Invalid data was encountered in a GS1 DataBar Expanded, GS1 DataBar Expanded Stacked,
 GS1-128, or UCC/EAN 128 or symbol; one or more of the following conditions was
 encountered:
-• FNC1 is not the first data character (for UCC/EAN 128 symbols only)
-• Invalid application identifier (ai) value encountered
-• Data for an ai doesn't match the ai definition
-• Insufficient (or no) data following an ai
-• T oo much data for an ai
-• Invalid use of FNC1 character
-Specification-Check Exceptions
+• FNC1 is not the first data character (for UCC/EAN 128 symbols only) [BCOCA-5-014]
+• Invalid application identifier (ai) value encountered [BCOCA-5-015]
+• Data for an ai doesn't match the ai definition [BCOCA-5-016]
+• Insufficient (or no) data following an ai [BCOCA-5-017]
+• T oo much data for an ai [BCOCA-5-018]
+• Invalid use of FNC1 character [BCOCA-5-019]
+Specification-Check Exceptions [BCOCA-5-020]
 
 
 Standard Action: Terminate bar code object processing.
@@ -293,7 +293,7 @@ Exception Description
 EC-2100 An invalid or undefined character, according to the rules of the symbology specification, has
 been detected in the bar code data.
 Standard Action: Terminate bar code object processing.
-Data-Check Exceptions
+Data-Check Exceptions [BCOCA-5-021]
 
 
 

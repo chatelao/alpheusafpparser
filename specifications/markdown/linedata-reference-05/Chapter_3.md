@@ -9,7 +9,7 @@ by application programs. Page Definitions are not used when printing fully compo
 formatting information is already included internally in these documents.
 Page Definition names are provided in job control statements. Any print file can be associated with a Page
 Definition by using the appropriate parameters in the job control statements for the applicable operating
-system. See the reference publications for your print server and operating system for complete information.
+system. See the reference publications for your print server and operating system for complete information. [LINEDATA-3-001]
 ## Common Examples of Page Definition Use
 Many users want to take advantage of AFP capabilities that provide multiple-up printing or rotated printing
 without any need to change the application that generates the output. Line data can be printed in any desired
@@ -19,13 +19,13 @@ includes many Page Definitions that address common user needs, such as printing 
 inch paper.
 One example of multiple-up printing is provided by IBM-supplied Page Definition W12883. This Page Definition
 prints two pages of 64 lines each, side by side in landscape mode on letter-sized paper. The data is printed at
-8.2 lines per inch, so a 15-pitch or smaller font must be used to prevent the lines from overlapping.
+8.2 lines per inch, so a 15-pitch or smaller font must be used to prevent the lines from overlapping. [LINEDATA-3-002]
 Another example applies to users of continuous-forms impact printers who install a cut-sheet laser printer and
 begin to use letter-size sheets of paper, rather than the larger forms found on impact printers. The impact
 printers always printed in the ACROSS direction on paper whose width exceeded its length. But ACROSS
 printing on cut-sheet paper is generally considered to mean printing parallel to the narrow edge, not the wide
 edge. A Page Definition that prints in the DOWN direction, or in the landscape orientation, can be used to get
-the same result with letter-size paper on a cut-sheet printer as with larger forms on an impact printer.
+the same result with letter-size paper on a cut-sheet printer as with larger forms on an impact printer. [LINEDATA-3-003]
 ## Using More than One Page Definition
 When a line-data file (such as a SYSOUT file produced by a System/370 application program) is printed, only
 one Page Definition can be used to map the output format of that file. However, multiple copies of the file can
@@ -40,7 +40,7 @@ duplex.
 Although only one Page Definition and Form Definition can be used when printing a single file, the internal
 structure of Page Definitions and Form Definitions includes multiple sets of formatting rules. These sets of
 rules are called Data Maps (also called Page Formats) in the Page Definition and Medium Maps (also called
-copy groups) in the Form Definition. The Invoke Data Map and Invoke Medium Map structured fields can be
+copy groups) in the Form Definition. The Invoke Data Map and Invoke Medium Map structured fields can be [LINEDATA-3-004]
 
 
 written in the output by an application program and used to switch between maps as printing proceeds. This
@@ -54,14 +54,14 @@ Figure 5. Printing a Data Set in z/OS Multiple Times with Different Page Definit
 //OUT2 OUTPUT PAGEDEF=PD2
 //OUT3 OUTPUT PAGEDEF=PD3
 ⋮
-//SYSUT2 DD SYSOUT=A,OUTPUT=(*.OUT1,*.OUT2,*.OUT3)
+//SYSUT2 DD SYSOUT=A,OUTPUT=(*.OUT1,*.OUT2,*.OUT3) [LINEDATA-3-005]
 ## Page Definition Structure
 A Page Definition is required to compose line data into pages for printing on page printers. A Page Definition
 consists of one or more Data Maps that define the page environment and provide instructions for mapping
 each line of data to the page.
 A Page Definition object can be referenced from a library defined to a presentation services program or can be
 included inline at the beginning of a print file in some system environments. The structured fields in the Page
-Definition conform to the MO:DCA architecture rules for structured fields. These rules are summarized in
+Definition conform to the MO:DCA architecture rules for structured fields. These rules are summarized in [LINEDATA-3-006]
 # Chapter 5, “Structured Fields in a Page Definition and in Line Data” of this publication and are
 formally defined in the Mixed Object Document Content Architecture (MO:DCA) Reference.
 A Page Definition optionally can contain one or more Conditional Processing Control (CCP) structured fields.
@@ -69,7 +69,7 @@ Conditional processing permits the application programmer to define tests on sel
 line records and to specify actions to take when the conditions of the test are satisfied. Figure 6 shows the
 structure of a Page Definition.
 Figure 6. Page Definition Structure
-*  =  optional
+*  =  optional [LINEDATA-3-007]
 s  =  can appear more than once
 EPM
 Data Map
@@ -119,13 +119,13 @@ be selected by using the Invoke Data Map
 structured field or by using conditional processing.
 EPM (End Page Map)
 Ends a Page Definition resource object. Any name specified in the EPM must match the name
-specified in the BPM.
+specified in the BPM. [LINEDATA-3-008]
 
 
 ## Resource Environment Group
 Figure 7 shows the structure of a Resource Environment Group (REG) in the Page Definition.
 Figure 7. Resource Environment Group Structure for a Page Definition
-*  =  optional
+*  =  optional [LINEDATA-3-009]
 s  =  can appear more than once
 Resource
 Environment
@@ -180,7 +180,7 @@ Note: Preprocessing is not supported for objects that are included with structur
 document. Examples of such objects are medium overlays and PMC overlays, both of which are
 included with structures in the Form Definition.
 ESG (End Resource Environment Group)
-Ends a Resource Environment Group.
+Ends a Resource Environment Group. [LINEDATA-3-010]
 ## Data Map Structure
 Figure 8 shows the structure of a Data Map, also called a Page Format.
 Figure 8. Data Map Structure for a Page Definition
@@ -202,11 +202,11 @@ Page Definition will be so large that it might not fit in a presentation service
 Data Map in the Page Definition can contain entirely different information about how a page should appear, so
 different Data Maps can be used from one page to the next with output produced by a line-data application.
 The Data Maps in a Page Definition can select two types of line data processing:
-• Traditional line data containing optional CCs and TRCs are processed using LNDs in the Data Map
-Transmission Subcase.
+• Traditional line data containing optional CCs and TRCs are processed using LNDs in the Data Map [LINEDATA-3-011]
+Transmission Subcase. [LINEDATA-3-012]
 
 
-• Record-format line data containing record IDs and optional CCs are processed using RCDs in the Data Map
+• Record-format line data containing record IDs and optional CCs are processed using RCDs in the Data Map [LINEDATA-3-013]
 Transmission Subcase.
 All Data Maps in the Page Definition must specify the same line data processing.
 The application can select which Data Map to use by writing an Invoke Data Map structured field in the output
@@ -229,11 +229,11 @@ The Active Environment Group establishes the page environment, including page si
 names of resources, such as fonts and page segments, that are to be mapped. The Data Map Transmission
 Subcase specifies the position, orientation, color, and font selection for text, the identification of data fields to
 be suppressed, any “fixed text” for the page, and any conditional processing tests and actions. It may also
-specify objects to be included on the page.
+specify objects to be included on the page. [LINEDATA-3-014]
 ## Active Environment Group Structure
 Figure 9 shows the structure of an Active Environment Group (AEG) in the Data Map.
 Figure 9. Data Map Active Environment Group Structure for a Page Definition
-*  =  optional
+*  =  optional [LINEDATA-3-015]
 s  =  can appear more than once
 † = required for every IPO specified in a page
 EAGBAG
@@ -273,7 +273,7 @@ The Map Coded Font (MCF) and Map Data Resource (MDR) structured fields may be us
 fonts to be used on the page. If either is
 used, each font is assigned a local identifier that is used in the body of
 the page to select the font for a given line or field.
-• Record-format processing
+• Record-format processing [LINEDATA-3-016]
 When the Page Definition specifies record-format processing, font specifications external to the Page
 Definition are ignored.
 Each font that is used must be mapped with an MCF or MDR in the AEG, and the MCF or MDR should
@@ -293,7 +293,7 @@ The code points used for printing page numbers are:
 – X'42F0'–X'42F9' for EBCDIC Presentation DBCS
 – X'30'–X'39' for PC Data SBCS (ASCII) or UTF-8
 – X'0030'–X'0039' for Unicode Presentation or UTF-16
-• XML processing
+• XML processing [LINEDATA-3-017]
 When the Page Definition specifies XML Data processing, font specifications external to the PageDef are
 ignored.
 Each font that is used must be mapped with an MCF or MDR in the AEG, and the MCF or MDR must specify
@@ -309,7 +309,7 @@ a Page Definition are:
 The code points used for printing page numbers are:
 – X'F0'–X'F9' for EBCDIC Presentation SBCS
 – X'30'–X'39' for PC Data SBCS (ASCII) or UTF-8
-– X'0030'–X'0039' for Unicode Presentation or UTF-16
+– X'0030'–X'0039' for Unicode Presentation or UTF-16 [LINEDATA-3-018]
 
 
 Table Reference Characters
@@ -352,7 +352,7 @@ PRINTLINE CHANNEL 1
 POSITION .1 IN .2 IN REPEAT 20;
 ENDSUBPAGE;
 The rules for coding Table Reference Characters are different for page mode printers and for the 3800 running
-in compatibility mode. Table 8 summarizes the differences.
+in compatibility mode. Table 8 summarizes the differences. [LINEDATA-3-019]
 
 
 Table 8. Use of TRCs in Page Mode and 3800 Compatibility Mode
@@ -381,13 +381,13 @@ PPFA and PMF set this bit to B'1' to indicate compatibility TRCs when four or fe
 Page Definition. These software programs set the bit to B'0' when more than four TRCs are used.
 Note: Regardless of whether font character set names are specified in the job control or not, if fonts are
 mapped in the AEG:
-• Table reference character 0 (X'00' or X'F0') selects the first font mapped in the Active Environment
+• Table reference character 0 (X'00' or X'F0') selects the first font mapped in the Active Environment [LINEDATA-3-020]
 Group (AEG) of the Data Map; table reference character 1 (X'01' or X'F1') selects the second font
 mapped in the AEG; and so on. This historically positional selection of fonts mapped in the AEG
 precludes the use of a mixture of fonts mapped with MCFs and fonts mapped with MDRs. TRCs may
 be used when all fonts in the AEG are mapped using MCFs only or MDRs only.
-• A table reference character higher than 127 selects the first font mapped in the AEG of the Data Map.
-• A table reference character higher than the number of fonts mapped defaults to the first font mapped
+• A table reference character higher than 127 selects the first font mapped in the AEG of the Data Map. [LINEDATA-3-021]
+• A table reference character higher than the number of fonts mapped defaults to the first font mapped [LINEDATA-3-022]
 in the AEG of the Data Map.
 Page Overlays
 If the application uses the Include Page Overlay structured field to place overlays dynamically at any point on
@@ -403,7 +403,7 @@ the segment is included by an Include Page Segment structured field. Such segmen
 segments.
 Data Objects
 Data objects that are included with an IOB structured field, such as EPS objects and IOCA objects, can be
-mapped using the MDR structured field. An MDR for such objects is not required in the AEG of the Data Map,
+mapped using the MDR structured field. An MDR for such objects is not required in the AEG of the Data Map, [LINEDATA-3-023]
 
 
 but might improve printer throughput if used. Mapped data objects are loaded to the printer the first time they
@@ -453,7 +453,7 @@ parameter is required.
 OBD (Object Area Descriptor)
 Specifies the units of measure for the text output area and the size of the area. The OBD is
 optional. If specified, the units of measure must be the same as those specified for the page in
-the PGD, and the output area size must be the same size as the page.
+the PGD, and the output area size must be the same size as the page. [LINEDATA-3-024]
 
 
 OBP (Object Area Position)
@@ -469,9 +469,9 @@ specify initial text conditions for the text object. The PTD is required in the 
 contains presentation text objects. If the PTD is specified, the text presentation space units of
 measure and size must match the page presentation space units and size specified in the
 PGD. This descriptor has two formats:
-• PTD-1, formerly called CTD, specifies only the text presentation space units of measure and
+• PTD-1, formerly called CTD, specifies only the text presentation space units of measure and [LINEDATA-3-025]
 size.
-• PTD-2 specifies the text presentation space units of measure, expands the fields containing
+• PTD-2 specifies the text presentation space units of measure, expands the fields containing [LINEDATA-3-026]
 the presentation space extents from two bytes to three bytes, and allows initial text
 conditions to be specified for composed page text objects enveloped with BPT and EPT .
 These initial text conditions are set whenever a BPT structured field starts a new text object
@@ -499,7 +499,7 @@ Inline Margin Set Inline Margin (SIM)
 Intercharacter Adjustment Set Intercharacter Adjustment (SIA)
 Extended Text Color Set Extended Text Color (SEC)
 Text Color Set Text Color (STC)
-Text Orientation Set Text Orientation (STO)
+Text Orientation Set Text Orientation (STO) [LINEDATA-3-027]
 
 
 Data Map Transmission Subcase
@@ -511,12 +511,12 @@ LND
 Data Map
 Transmission
 Subcase
-*  =  optional
+*  =  optional [LINEDATA-3-028]
 s  =  can appear more than once
 BDX
 DXD FDSLNC FDX
 EDX
-* * *s s
+* * *s s [LINEDATA-3-029]
 The principal function of the Data Map Transmission Subcase with LNDs is to map the lines of data to the
 page. Each line on a page is represented by a Line Descriptor structured field, which contains the horizontal
 and vertical position on the page where the line is to appear. Rotation and font information is also contained in
@@ -537,24 +537,24 @@ can be used, but whichever type is selected must be used for the entire print fi
 contain ANSI carriage controls and another part contain machine code carriage controls. In addition, if carriage
 control characters are used, every record in the print file must begin with a carriage-control byte, even if it is
 only “print with single spacing”. The type of carriage control being used must be identified in the job control
-associated with the print file, just as in a non-AFP environment.
+associated with the print file, just as in a non-AFP environment. [LINEDATA-3-030]
 
 
 The following new functions are provided in Page Definitions that are not available in FCBs. These functions
 are triggered by information in the Line Descriptor structured field.
-• Field formatting, which is the ability to separate specific fields in a line-data record and place them anywhere
+• Field formatting, which is the ability to separate specific fields in a line-data record and place them anywhere [LINEDATA-3-031]
 on a page. Field size, orientation, placement, color, and font to be used are specified in the Line Descriptor.
 Fixed text may be specified in the Line Descriptor and added to data from application programs.
-• Multiple-up printing, which is the ability to divide the page into sections, each with the appearance of a
+• Multiple-up printing, which is the ability to divide the page into sections, each with the appearance of a [LINEDATA-3-032]
 smaller page. This can be accomplished by defining subpages, which are subsets of the page, using Line
 Descriptors.
-• Conditional processing, which is the ability to define tests on certain characters of the line data and perform
+• Conditional processing, which is the ability to define tests on certain characters of the line data and perform [LINEDATA-3-033]
 actions based on the results of the tests.
-• Resource object include, which is the ability to include an overlay or page segment and position it relative to
+• Resource object include, which is the ability to include an overlay or page segment and position it relative to [LINEDATA-3-034]
 the current line.
-• Bar code generation, which is the ability to select a field in a record and present it as a bar code.
-• Specification of spot (highlight) colors or process colors for a record or field.
-• Object include, which is the ability to include a data object relative to the current line and change its position,
+• Bar code generation, which is the ability to select a field in a record and present it as a bar code. [LINEDATA-3-035]
+• Specification of spot (highlight) colors or process colors for a record or field. [LINEDATA-3-036]
+• Object include, which is the ability to include a data object relative to the current line and change its position, [LINEDATA-3-037]
 size, and orientation.
 Each Line Descriptor formats only one line-data record. The same record may be formatted multiple times on a
 page using the “reuse record” function in the Line Descriptor. Since Line Descriptors are contained in a Data
@@ -585,7 +585,7 @@ Qualified Tags are then compared to Qualified Tags in the Data Map. The Qualifie
 built by specifying a separate XML Name (X'8A')
 triplet on each XML Descriptor (XMD) for each XML Start tag
 that has to be traversed in order to process the content of an XML element. If an XMD with a matching
-Qualified Tag is found, the content of the XML element is formatted with that XMD. If an XMD with a matching
+Qualified Tag is found, the content of the XML element is formatted with that XMD. If an XMD with a matching [LINEDATA-3-038]
 
 
 Qualified Tag is not found, processing resumes with the next start tag. Note that as the processor parses the
@@ -634,7 +634,7 @@ When the LND specifies that fixed text data should be printed, the data is locat
 Data Text (FDX) structured field.
 RCD (Record Descriptor)
 Specifies how the record with matching record ID should be processed. The Data Map
-Transmission Subcase can contain more than one RCD.
+Transmission Subcase can contain more than one RCD. [LINEDATA-3-039]
 
 
 With RCD processing, carriage controls in the data record are ignored. Processing begins with
@@ -665,7 +665,7 @@ Must follow an FDS structured field and contains data that can be added to or us
 line data. More than one FDX structured field is allowed.
 EDX (End Data Map Transmission Subcase)
 Ends the Data Map Transmission Subcase. Any name specified in the EDX must match the
-name specified in the BDX.
+name specified in the BDX. [LINEDATA-3-040]
 ## Field Formatting—LND Processing
 A Page Definition may be used to break line-data records into fields that are formatted individually. This is done
 by building a chain of LND structured fields called a reuse chain.
@@ -674,23 +674,23 @@ The first LND used to process an input record is called the base LND. If this LN
 This next LND is used to select and process a field in the same record. If additional field processing is required,
 the next LND also specifies flag byte bit 6=B'1' and points to another LND to select and process another field in
 the record, and so on. All LNDs in a reuse chain are called reuse LNDs. The last LND in a reuse chain
-specifies flag byte bit 6=B'0' and bytes 16–17=X'0000'. This LND terminates the reuse chain.
+specifies flag byte bit 6=B'0' and bytes 16–17=X'0000'. This LND terminates the reuse chain. [LINEDATA-3-041]
 ## Field Formatting—RCD Processing
 Field formatting is also supported when RCDs are used to process record-format line data. The first RCD used
 to process an input record is called a record RCD. It is identified by RCDFlgs bit 6=B'0' and RCDFlgs bit 11=
 B'0'. If the FLDrcd parameter in a record RCD is non-zero, it specifies the RCD number of a field RCD that is to
-be used to process a field in this record. A field RCD is identified by RCDFlgs bit 6=B'1' and RCDFlgs bit 11=
+be used to process a field in this record. A field RCD is identified by RCDFlgs bit 6=B'1' and RCDFlgs bit 11= [LINEDATA-3-042]
 
 
 B'0'. Multiple field RCDs can be chained to a record RCD in this manner. The last field RCD in this chain must
-specify FLDrcd= X'0000'.
+specify FLDrcd= X'0000'. [LINEDATA-3-043]
 ## Field Formatting—XMD Processing
 Field formatting is also supported when XMDs are used to process XML data. The first XMD used to process a
 start tag is called an element XMD. It is identified by XMDFlgs bit 6=B'0', XMDFlgs bit 10=B'0', and XMDFlgs
 bit 11=B'0'. If the FLDxmd parameter in an element XMD is non-zero, it specifies the XMD number of a field
 XMD that is to be used to process a field in this element data. A field XMD is identified by XMDFlgs bit 6=B'1'
 and XMDFlgs bit 11=B'0'. Multiple field XMDs can be chained to an element XMD in this manner. The last field
-XMD in this chain must specify FLDxmd=X'0000'.
+XMD in this chain must specify FLDxmd=X'0000'. [LINEDATA-3-044]
 ## Using Conditional Processing in a Page Definition
 The conditional processing function allows a different Data Map in the current Page Definition, a different
 Medium Map in the current Form Definition, or both to be selected for use with the next page based on
@@ -727,7 +727,7 @@ positions are to use Data Map PF2 and Medium Map CG2. Page Printer Formatting Ai
 product available from IBM and Ricoh.
 Figure 12 shows the PPFA code that generates a Page
 Definition to test these positions and to print the detail pages in the ACROSS direction and the summary pages
-in the DOWN direction.
+in the DOWN direction. [LINEDATA-3-045]
 
 
 Figure 12. PPFA Code for Page Definition with Conditional Processing
@@ -778,7 +778,7 @@ Medium Map when the condition is satisfied. This is what happens when NEWSIDE or
 PPFA. More than one Data Map or Medium Map is required only if subsets of the output are to be formatted or
 handled differently based on the defined condition. Note that if the Medium Map specifies the N-up function,
 the new “sheet” might
-actually be a new N-up partition on the sheet.
+actually be a new N-up partition on the sheet. [LINEDATA-3-046]
 
 
 The example in Figure 13 shows PPFA source code to accomplish a skip to a new page when the department
@@ -822,16 +822,16 @@ as a QR Code bar code symbol. SOSI processing is specified in the print request 
 fields and the input line data.
 SOSI processing for text output is supported by two modes of font selection in the PageDef. Both modes may
 be intermixed in the same Page Map.
-• Record-based or field-based font selection. In this mode, the font to be used following an SO can be uniquely
+• Record-based or field-based font selection. In this mode, the font to be used following an SO can be uniquely [LINEDATA-3-047]
 selected for each record or field by specifying a non-zero shift-out font local ID in byte 26 of the LND or byte
-34 of the RCD that is used to process the line data. The font used following an explicit SI is then always the
+34 of the RCD that is used to process the line data. The font used following an explicit SI is then always the [LINEDATA-3-048]
 primary font specified in byte 10 of the LND or byte 23 of the RCD and use of this font must be enabled with
-flag bit 4 = B'1'. An error condition exists if flag bit 4 = B'0'. Note that an implicit SI is assumed at the start of
+flag bit 4 = B'1'. An error condition exists if flag bit 4 = B'0'. Note that an implicit SI is assumed at the start of [LINEDATA-3-049]
 
 
 every record. This selects the primary font specified in byte 10 of the LND or byte 23 of the RCD, if it is
 enabled with flag bit 4 = B'1'.
-• Page-based font selection. In this mode, the font to be used following an SO is the same for all records and
+• Page-based font selection. In this mode, the font to be used following an SO is the same for all records and [LINEDATA-3-050]
 fields on the page. LND byte 26 or RCD byte 34 is set to X'00' and the font used following an SO is the font
 mapped to local ID X'02' in the AEG for the Data Map. The font used following an explicit SI is the font
 mapped to local ID X'01' in the AEG. Note that the font used following the implicit SI at the start of every
@@ -846,21 +846,21 @@ For text output, the SOSI processing modes are described as follows:
 SOSI mode Action
 SOSI1 Specifies that each shift-out, shift-in control is to be converted to a blank and a Set Coded
 Font Local text control.
-• Each SO (X'0E') is replaced with a blank (X'40'), followed by a PTOCA structure that
+• Each SO (X'0E') is replaced with a blank (X'40'), followed by a PTOCA structure that [LINEDATA-3-051]
 contains a Set Coded Font Local text control for the font mapped to local ID X'02'.
-• Each SI (X'0F') is replaced with a PTOCA structure that contains a Set Coded Font Local
+• Each SI (X'0F') is replaced with a PTOCA structure that contains a Set Coded Font Local [LINEDATA-3-052]
 text control for the font mapped to local ID X'01', followed by a blank (X'40').
 SOSI2 Specifies that each shift-out, shift-in control is to be converted to a Set Coded Font Local text
 control.
-• Each SO (X'0E') is replaced with a PTOCA structure that contains a Set Coded Font Local
+• Each SO (X'0E') is replaced with a PTOCA structure that contains a Set Coded Font Local [LINEDATA-3-053]
 text control for the font mapped to local ID X'02'.
-• Each SI (X'0F') is replaced with a PTOCA structure that contains a Set Coded Font Local
+• Each SI (X'0F') is replaced with a PTOCA structure that contains a Set Coded Font Local [LINEDATA-3-054]
 text control for the font mapped to local ID X'01'.
 SOSI3 Specifies that the shift-in control is to be converted to a Set Coded Font Local text control and
 two blanks. A shift-out control is to be converted to a Set Coded Font Local text control.
-• Each SO (X'0E') is replaced with a PTOCA structure that contains a Set Coded Font Local
+• Each SO (X'0E') is replaced with a PTOCA structure that contains a Set Coded Font Local [LINEDATA-3-055]
 text control for the font mapped to local ID X'02'.
-• Each SI (X'0F') is replaced with a PTOCA structure that contains a Set Coded Font Local
+• Each SI (X'0F') is replaced with a PTOCA structure that contains a Set Coded Font Local [LINEDATA-3-056]
 text control for the font mapped to local ID X'01', followed by two blanks (X'4040').
 SOSI4 Specifies that each shift-out, shift-in control is to be skipped and not counted when calculating
 offsets for the print data. The conversion of the shift-out and shift-in controls for SOSI4 is the
@@ -875,7 +875,7 @@ output. The converted data is then used as the QR Code bar code data. This proce
 SOSI processing modes. For SOSI4, each shift-out and shift-in control is not counted when computing offsets
 to various fields within the data.
 When processing data with SOSI controls, the processor assumes that each line or record starts with singlebyte code points. This means that the data is scanned for SOSI controls one byte at a time. After processing a
-shift-out control, the data is scanned two bytes at a time. The first byte of each pair is checked to see if it is a
+shift-out control, the data is scanned two bytes at a time. The first byte of each pair is checked to see if it is a [LINEDATA-3-057]
 
 
 shift-in control. If a line is to start with double-byte data, the first byte in the line must be a shift-out control. This
@@ -887,26 +887,26 @@ Therefore, the record is scanned to keep track of the last SO or SI prior to the
 control found prior to the field is used to determine if the field starts with a single-byte or double-byte code
 point.
 Notes:
-1. Since table reference characters (TRCs) also might
+1. Since table reference characters (TRCs) also might [LINEDATA-3-058]
 use the fonts mapped to local IDs X'01' and X'02' in the
 AEG of the Data Map, it is recommended that the mixing of SOSI controls and TRCs be avoided when
 using page-based font selection.
-2. Shift-out/Shift-in controls are not used in Unicode data to signify a shift into and out of DBCS processing.
+2. Shift-out/Shift-in controls are not used in Unicode data to signify a shift into and out of DBCS processing. [LINEDATA-3-059]
 Therefore, it is not possible to switch processing between Unicode encoding and single-byte (SBCS)
 encoding within a line data field or record. That is, when a line data field is processed with a Page
 Definition, either the whole field is treated as Unicode-encoded or none of it is treated as Unicodeencoded.
-3. When building bar codes from line data, SOSI input data is not appropriate for bar code symbologies other
+3. When building bar codes from line data, SOSI input data is not appropriate for bar code symbologies other [LINEDATA-3-060]
 than QR Code. Refer to the Bar Code Object Content Architecture Reference for information about the
 valid encoding for each bar code.
-4. When using Shift-out/Shift-in controls with Record Format data using delimited fields, if the field is to print
+4. When using Shift-out/Shift-in controls with Record Format data using delimited fields, if the field is to print [LINEDATA-3-061]
 using double-byte code points, the SO control must follow the delimiter for the field.
-5. Shift-out/Shift-in controls are not supported when processing XML data.
+5. Shift-out/Shift-in controls are not supported when processing XML data. [LINEDATA-3-062]
 Printing Bar Codes with a Page Definition
 A Page Definition can be used to print a bar code symbol using data from one of the following places:
-• Line data record
-• XML element
-• Field in the line data record
-• Field in the XML element
+• Line data record [LINEDATA-3-063]
+• XML element [LINEDATA-3-064]
+• Field in the line data record [LINEDATA-3-065]
+• Field in the XML element [LINEDATA-3-066]
 This is done by specifying a Bar Code Symbol Descriptor (X'69') triplet on the LND, RCD, or XMD. The
 presence of this triplet indicates to the presentation services program that the selected field is to be presented
 as a bar code symbol. The position specified by the LND, RCD, or XMD indicates the position of the symbol
@@ -925,7 +925,7 @@ page is presented. To align the object presentation space X
 bc-axis with the X-axis of the bar code symbol, the
 origin of the object presentation space is selected as one of the four corners of the page based on the LND,
 RCD, or XMD text orientation. The bar code presentation space origin is therefore made coincident with the
-current text coordinate system (I,B) origin. For example, if an LND specifies a (90°,180°) text orientation, the
+current text coordinate system (I,B) origin. For example, if an LND specifies a (90°,180°) text orientation, the [LINEDATA-3-067]
 
 
 symbol rotation is 90° and the origin of the bar code object presentation space is the top-right corner of the
@@ -979,24 +979,24 @@ or object.
 Relative baseline positioning is used when LND flag byte bit 13 is set to B'1'. The relative offset may be positive
 or negative and is measured using the current I,B coordinate system. Note that the origin of the current I,B
 coordinate system depends on the current text orientation. The baseline position used as a reference for the
-relative offset depends on whether the LND that specifies relative positioning is a base LND and on whether a
+relative offset depends on whether the LND that specifies relative positioning is a base LND and on whether a [LINEDATA-3-068]
 
 
 page or subpage boundary was crossed since the last LND was used to print. The baseline position used as a
 reference for the relative offset is determined as follows:
-• For base LNDs, offsets are defined relative to the last base LND processed, either by printing or by spacing.
+• For base LNDs, offsets are defined relative to the last base LND processed, either by printing or by spacing. [LINEDATA-3-069]
 However, if a page or subpage boundary was crossed after the last base LND was processed, offsets are
 defined relative to the first LND for the page or subpage.
-• For reuse LNDs other than base LNDs, the offset is defined relative to the last LND used to print.
-• If the first LND of a Data Map specifies relative positioning, the offset is defined relative to the current text
+• For reuse LNDs other than base LNDs, the offset is defined relative to the last LND used to print. [LINEDATA-3-070]
+• If the first LND of a Data Map specifies relative positioning, the offset is defined relative to the current text [LINEDATA-3-071]
 coordinate system origin (I=0,B=0), using the current text (I,B) coordinate system.
-• If the first LND of a subpage specifies relative positioning, the offset is defined relative to the last print
+• If the first LND of a subpage specifies relative positioning, the offset is defined relative to the last print [LINEDATA-3-072]
 position, using the current text (I,B) coordinate system. Note that when skipping into a subpage, if the
 skipped-to LND specifies relative positioning, the relative offset is measured with respect to the first LND of
 the subpage, which may specify a relative position as well. This function allows a subpage to “float” relative
 to the last print position.
 The following restriction applies to relative baseline positioning:
-• The text orientation of an LND that specifies relative baseline positioning must be the same as the text
+• The text orientation of an LND that specifies relative baseline positioning must be the same as the text [LINEDATA-3-073]
 orientation of the LND that defines the baseline position from which the relative offset is measured.
 Note that if the line data processed with relative baseline positioning LNDs contains carriage controls that
 specify double or triple spacing, the presentation system must accumulate the relative offsets of the skipped
@@ -1021,27 +1021,27 @@ Relative baseline positioning can also be used when record-format line data is p
 Relative baseline positioning is used when flag byte bit 13 is set to B'1'. The baseline position used as a
 reference for the relative offset depends on whether the RCD that specifies relative positioning is a record RCD
 and is determined as follows:
-• For record RCDs, offsets are defined relative to the last record RCD processed. However, if a page boundary
+• For record RCDs, offsets are defined relative to the last record RCD processed. However, if a page boundary [LINEDATA-3-074]
 was crossed after the last record RCD was processed, offsets are defined relative to the top margin.
-• For field RCDs, the offset is defined relative to the last RCD used to print.
+• For field RCDs, the offset is defined relative to the last RCD used to print. [LINEDATA-3-075]
 
 
-• If the first RCD of a Data Map specifies relative positioning, the offset is defined relative to the top margin.
+• If the first RCD of a Data Map specifies relative positioning, the offset is defined relative to the top margin. [LINEDATA-3-076]
 The following restriction applies to relative baseline positioning:
-• The text orientation of an RCD that specifies relative baseline positioning must be the same as the text
+• The text orientation of an RCD that specifies relative baseline positioning must be the same as the text [LINEDATA-3-077]
 orientation of the RCD that defines the baseline position from which the relative offset is measured.
 Relative Baseline Positioning—XMD Processing
 Relative baseline positioning can also be used when XML data is processed with XMDs.
 Relative baseline positioning is used when flag byte bit 13 is set to B'1'. The baseline position used as a
 reference for the relative offset depends on whether the XMD that specifies relative positioning is an element
 XMD and is determined as follows:
-• For element XMDs, offsets are defined relative to the last element XMD processed. However, if a page
+• For element XMDs, offsets are defined relative to the last element XMD processed. However, if a page [LINEDATA-3-078]
 boundary was crossed after the last element XMD was processed, offsets are defined relative to the top
 margin.
-• For field XMDs, the offset is defined relative to the last XMD used to print.
-• If the first XMD of a Data Map specifies relative positioning, the offset is defined relative to the top margin.
+• For field XMDs, the offset is defined relative to the last XMD used to print. [LINEDATA-3-079]
+• If the first XMD of a Data Map specifies relative positioning, the offset is defined relative to the top margin. [LINEDATA-3-080]
 The following restriction applies to relative baseline positioning:
-• The text orientation of an XMD that specifies relative baseline positioning must be the same as the text
+• The text orientation of an XMD that specifies relative baseline positioning must be the same as the text [LINEDATA-3-081]
 orientation of the XMD that defines the baseline position from which the relative offset is measured.
 Relative Inline Positioning—XMD Processing
 Data and objects are positioned using the print position specified in IPos and BPos parameters of the XMD
@@ -1055,10 +1055,10 @@ Relative inline positioning is used when XMD flag byte bit 12 is set to B'1'. Th
 negative and is measured using the current I,B coordinate system. Note that the origin of the current I,B
 coordinate system depends on the current text orientation.
 The following restriction applies to relative inline positioning:
-• The text orientation of an XMD that specifies relative inline positioning must be the same as the text
+• The text orientation of an XMD that specifies relative inline positioning must be the same as the text [LINEDATA-3-082]
 orientation of the XMD that defines the inline position from which the relative offset is measured.
 Note: Data must not exceed the boundaries of the page, which are defined in the Page Descriptor (PGD)
-structured field. If the new print position is outside these boundaries, printing of the page stops.
+structured field. If the new print position is outside these boundaries, printing of the page stops. [LINEDATA-3-083]
 
 
 ## The Function of the Form Definition
@@ -1088,6 +1088,6 @@ can be modified to add Form Definition names in addition to Page Definition name
 Details on Form Definitions and overlay objects can be found in the Mixed Object Document Content
 Architecture (MO:DCA) Reference. A set of Form Definitions that
 address standard requirements is provided
-with presentation services program software, but users can also create customized Form Definitions.
+with presentation services program software, but users can also create customized Form Definitions. [LINEDATA-3-084]
 
 

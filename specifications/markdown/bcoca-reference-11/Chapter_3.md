@@ -1,18 +1,18 @@
 Chapter 3. BCOCA Overview
 This chapter provides an overview of the BCOCA architecture and describes:
-• General BCOCA concepts
-• Bar code object processor concepts
-• Bar code presentation space concepts
+• General BCOCA concepts [BCOCA-3-001]
+• Bar code object processor concepts [BCOCA-3-002]
+• Bar code presentation space concepts [BCOCA-3-003]
 General BCOCA Concepts
 The BCOCA architecture is an object content architecture used to describe and generate bar code symbols.
 BCOCA objects can exist in, or be invoked by, a number of environments. Each of these controlling
 environments can be specialized for a particular application area. For example, the controlling environment
 can be:
-• An environment involved in electronically distributing documents in a network; for example, the MO:DCA
+• An environment involved in electronically distributing documents in a network; for example, the MO:DCA [BCOCA-3-004]
 environment
-• A presentation system communicating with hard-copy presentation devices; for example, the IPDS
+• A presentation system communicating with hard-copy presentation devices; for example, the IPDS [BCOCA-3-005]
 environment
-• An environment that controls how line data is presented; for example, the AFP Line Data environment
+• An environment that controls how line data is presented; for example, the AFP Line Data environment [BCOCA-3-006]
 In these environments, multiple bar code symbols with the same attributes can be specified within a single bar
 code object as described in Appendix B, “MO:DCA Environment”,  and Appendix C, “IPDS
 Environment”, . When multiple bar code symbols of the same type are to be printed on a page, the
@@ -28,17 +28,17 @@ bar code object area for printing bar code symbols, and the MO:DCA object area f
 additional information, refer to Appendix B, “MO:DCA Environment”,  and Appendix C, “IPDS
 Environment”, .
 Input to the bar code object processor consists of:
-• Data to be encoded
-• Bar code symbology to be used
-• Bar code presentation space size parameters
-• Bar code symbol location within the bar code presentation space
-• Module width of the narrow bar code element (or desired symbol width)
-• T otal element height of the bar code symbol
-• Check digit generation option
-• Wide-to-narrow element ratio
-• Human-readable interpretation (HRI) presence, location, and type style
-• Color of the bar code symbol elements
-• For 2D symbologies, special functions such as:
+• Data to be encoded [BCOCA-3-007]
+• Bar code symbology to be used [BCOCA-3-008]
+• Bar code presentation space size parameters [BCOCA-3-009]
+• Bar code symbol location within the bar code presentation space [BCOCA-3-010]
+• Module width of the narrow bar code element (or desired symbol width) [BCOCA-3-011]
+• T otal element height of the bar code symbol [BCOCA-3-012]
+• Check digit generation option [BCOCA-3-013]
+• Wide-to-narrow element ratio [BCOCA-3-014]
+• Human-readable interpretation (HRI) presence, location, and type style [BCOCA-3-015]
+• Color of the bar code symbol elements [BCOCA-3-016]
+• For 2D symbologies, special functions such as: [BCOCA-3-017]
 – Ability to ignore escape sequences
 – Application indicator
 – EBCDIC-to-ASCII translation
@@ -55,42 +55,42 @@ Input to the bar code object processor consists of:
 – T est pattern (zipper)
 – Version
 The bar code object processor:
-• Validates all input parameters and generates exception conditions as appropriate.
-• Generates the bar and space patterns of the input data to be encoded according to the rules of the specified
+• Validates all input parameters and generates exception conditions as appropriate. [BCOCA-3-018]
+• Generates the bar and space patterns of the input data to be encoded according to the rules of the specified [BCOCA-3-019]
 bar code symbology.
 – For two-level codes, the bar and space patterns are generated using the module width and wide-to-narrow
 ratio input parameters.
 – For discrete codes, whose bar and space patterns for each character start and end with a bar, an
 intercharacter gap is required. The bar code object processor automatically inserts these gaps. The
 intercharacter gap is one module width wide.
-• Generates, uses, and encodes check digit(s) according to the rules of the symbology and the check-digit
-option input parameter (modifier field).
+• Generates, uses, and encodes check digit(s) according to the rules of the symbology and the check-digit [BCOCA-3-020]
+option input parameter (modifier field). [BCOCA-3-021]
 
 
-• For 2D matrix symbologies, encodes and compacts the data, inserts codewords for special functions,
+• For 2D matrix symbologies, encodes and compacts the data, inserts codewords for special functions, [BCOCA-3-022]
 generates ECC characters, determines the proper placement of the bits in the matrix, and generates the
 finder patterns.
-• For 2D stacked symbologies, generates codewords from the input data using a combination of compaction
+• For 2D stacked symbologies, generates codewords from the input data using a combination of compaction [BCOCA-3-023]
 schemes based on the input data, generates start and stop patterns, generates the left row and right row
 indicator codewords (that have the number of rows and columns and security level encoded within),
 generates the symbol length descriptor, and generates the error correction and detection codewords.
-• Generates the appropriate start and stop bar and space patterns for all bar code types and versions
+• Generates the appropriate start and stop bar and space patterns for all bar code types and versions [BCOCA-3-024]
 including the UPC-family center and delineator patterns.
-• Generates the HRI text characters and places them above or below the symbol as directed.
-• Suppresses presentation of the bar code symbol if directed by the suppress bar code symbol flag. This can
+• Generates the HRI text characters and places them above or below the symbol as directed. [BCOCA-3-025]
+• Suppresses presentation of the bar code symbol if directed by the suppress bar code symbol flag. This can [BCOCA-3-026]
 be used to print just the HRI.
-• Places the bar code symbol and HRI, if present, in the bar code presentation space at the location specified.
+• Places the bar code symbol and HRI, if present, in the bar code presentation space at the location specified. [BCOCA-3-027]
 The user is responsible for insuring that the symbol and HRI information is totally contained within the bar
 code presentation space, and that there is sufficient empty space for the quiet zones.
-• For the QR Code with Image bar code, provides or accesses an image object processor to place the desired
+• For the QR Code with Image bar code, provides or accesses an image object processor to place the desired [BCOCA-3-028]
 image in the bar code presentation space at the size and location specified. The user is responsible for
 ensuring that the image is totally contained within the bar code presentation space, and that the resulting QR
 Code is scannable despite the placed image.
 Notes:
-1. The BCOCA object generator is responsible for insuring that there is sufficient empty space for quiet
+1. The BCOCA object generator is responsible for insuring that there is sufficient empty space for quiet [BCOCA-3-029]
 zones. Some symbologies require extra space if a wand-type scanner is to be used.
-2. All bar code symbols must be presented in their entirety. Whenever a partial bar code pattern is presented,
-for whatever reason, it is obscured to make it unscannable.
+2. All bar code symbols must be presented in their entirety. Whenever a partial bar code pattern is presented, [BCOCA-3-030]
+for whatever reason, it is obscured to make it unscannable. [BCOCA-3-031]
 
 
 A bar code presentation space is a linear, two-dimensional space. An orthogonal coordinate system is used to
@@ -168,27 +168,27 @@ The values required to be supported when 14,400 units per 10 inches is specified
 BCOCA data structure. If additional units of measure are supported, the field values that the BCOCA
 architecture requires a bar code object processor to support for these alternate units of measure are calculated
 using the following algorithm:
-1. Calculate the number of supported units per inch as follows:
-• If the length of the measurement base for a field is ten inches, divide the number of supported units that
+1. Calculate the number of supported units per inch as follows: [BCOCA-3-032]
+• If the length of the measurement base for a field is ten inches, divide the number of supported units that [BCOCA-3-033]
 applies to the desired field by ten.
-• If the length of the measurement base for a field is ten centimeters, multiply the number of supported
+• If the length of the measurement base for a field is ten centimeters, multiply the number of supported [BCOCA-3-034]
 units per ten centimeters (one decimeter) that applies to the desired field by 0.254, the approximate
 number of decimeters per inch.
-2. Calculate the number of supported units per BCOCA unit as follows:
-• Divide the number of supported units per inch calculated in the previous step by 1440 (the number of
-BCOCA units per inch).
+2. Calculate the number of supported units per BCOCA unit as follows: [BCOCA-3-035]
+• Divide the number of supported units per inch calculated in the previous step by 1440 (the number of [BCOCA-3-036]
+BCOCA units per inch). [BCOCA-3-037]
 
 
-3. Calculate the required value in the supported unit of measure as follows:
-• Multiply the BCOCA-specified subset range values for the desired field, after converting to base ten, by
+3. Calculate the required value in the supported unit of measure as follows: [BCOCA-3-038]
+• Multiply the BCOCA-specified subset range values for the desired field, after converting to base ten, by [BCOCA-3-039]
 the supported units per BCOCA-specified unit calculated in the previous step.
-• Round off the product to the nearest integer; for example, 2.5 would become 3 and 2.4 would become 2.
-• Adjust the new range so that it is a subset of the BCOCA-specified subset range.
+• Round off the product to the nearest integer; for example, 2.5 would become 3 and 2.4 would become 2. [BCOCA-3-040]
+• Adjust the new range so that it is a subset of the BCOCA-specified subset range. [BCOCA-3-041]
 For example, suppose that the specified range is X'0001'–X'7FFF' when using 14,400 units per 10 inches. The
 equivalent range at a unit of measure of 1/240 of an inch is calculated as follows:
-1. Supported units per inch = 2400 / 10 = 240
-2. Supported units per BCOCA unit = 240 / 1440 = 1/6
-3. Range at 2400 units per 10 inches:
+1. Supported units per inch = 2400 / 10 = 240 [BCOCA-3-042]
+2. Supported units per BCOCA unit = 240 / 1440 = 1/6 [BCOCA-3-043]
+3. Range at 2400 units per 10 inches: [BCOCA-3-044]
 a. X'0001' = 1 (converted to base ten)
 (1)(1/6) = 0.1667
 b. X'7FFF' = 32,767 (converted to base ten)
@@ -198,7 +198,7 @@ X'1555'. Table 6shows the BCOCA-required ranges for several commonly supported m
 Table 6. Field Ranges for Commonly-Supported Measurement Bases
 14,400 units per 10 inches 5670 units per 10
 centimeters
-2400 units per 10 inches 945 units per 10
+2400 units per 10 inches 945 units per 10 [BCOCA-3-045]
 centimeters
 X'0001'–X'7FFF' X'0001'–X'7FFF' X'0001'–X'1555' X'0001'–X'1555'
 Percentage Measurements
@@ -211,7 +211,7 @@ of measure would be 0.1% (one-tenth of one percent, or one-thousandth) of the si
 Furthermore, if the extent values for the image object area are specified as (X'00FA', X'00C8')—(250, 200) in
 decimal— that would indicate the image object area is one-quarter as wide and one-fifth as high as the QR
 Code symbol.
-For more on this measurement system, see “QR Code with Image Special-Function Parameters” .
+For more on this measurement system, see “QR Code with Image Special-Function Parameters” . [BCOCA-3-046]
 
 
 Symbol Placement
@@ -360,7 +360,7 @@ X'16' EAN Two-Digit Supplemental Yes; above only OCR B
 X'17' EAN Five-Digit Supplemental Yes; above only OCR B
 X'18' POSTNET (deprecated) and PLANET (deprecated) No None
 X'1A' RM4SCC and Dutch KIX No None
-X'1B' Japan Postal Bar Code No None
+X'1B' Japan Postal Bar Code No None [BCOCA-3-047]
 
 
 Table 7 Human-Readable Interpretation Type Style Recommendations (cont'd.)
@@ -400,7 +400,7 @@ Refer to “Check Digit Calculation Methods”  for a description of check digit
 the presence or absence of the check digit in the HRI.
 Code 128 modifier X'04' causes left and right parentheses to be shown within the HRI string to distinguish each
 application identifier within a GS1-128 symbol. Application identifiers are also surrounded by parentheses in
-the HRI for GS1 DataBar symbols.
+the HRI for GS1 DataBar symbols. [BCOCA-3-048]
 
 
 

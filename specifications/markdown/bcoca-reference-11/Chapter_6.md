@@ -8,10 +8,10 @@ generate zero or more bar code symbols of the same type within the bar code pres
 Receiver Rules
 A compliant receiver is any product that receives and processes BCOCA data structures. A compliant receiver
 must:
-• Accept and validate all BCOCA data structure values defined in the BCD1 or BCD2 range
-• Detect and report to the controlling environment all exception conditions for supported values as defined in
+• Accept and validate all BCOCA data structure values defined in the BCD1 or BCD2 range [BCOCA-6-001]
+• Detect and report to the controlling environment all exception conditions for supported values as defined in [BCOCA-6-002]
 Chapter 5, “Exception Conditions”,
-• Support and generate bar code symbols that conform to the bar code symbology specifications listed in
+• Support and generate bar code symbols that conform to the bar code symbology specifications listed in [BCOCA-6-003]
 Appendix A, “Bar Code Symbology Specification References”,
 A compliant receiver may in addition receive and process any BCOCA data structure value not in BCD1 or
 BCD2.

@@ -14,8 +14,8 @@ Compliance with MO:DCA Interchange Sets
 When Presentation Text objects are interchanged with the purpose of outputting the objects on a display ,
 printer , or other output device, it is very important that visual fidelity be maintained as far as possible. In an
 attempt to satisfy this objective, PTOC A defines the following for the MO:DCA environment:
-• A set of rules that must be followed by all generators when constructing Presentation Text objects.
-• A set of Presentation Text processing capabilities that are guaranteed to be supported by all receivers.
+• A set of rules that must be followed by all generators when constructing Presentation Text objects. [PTOCA-A-001]
+• A set of Presentation Text processing capabilities that are guaranteed to be supported by all receivers. [PTOCA-A-002]
 In order to comply with a particular MO:DCA Interchange Set, products that generate Presentation Text objects
 must only generate objects that contain Presentation Text items and values defined in that interchange set.
 Including items or values not in the interchange set can result in processing exceptions being raised by the
@@ -29,11 +29,11 @@ with the relevant interchange set. A receiver can optionally raise warnings, in 
 compliant Presentation Text object is detected.
 The Presentation Text object space is the presentation space within which the object generator may position
 graphic characters without error , and it is the responsibility of the generator to ensure that the graphic
-characters it places in the object space are positioned so that they do not exceed the object space.
+characters it places in the object space are positioned so that they do not exceed the object space. [PTOCA-A-003]
 
 <!-- Page 182 -->
 
-164 PTOCA Reference
+164 PTOCA Reference [PTOCA-A-004]
 Presentation Text Structured Fields in the MO:DCA Architecture
 Presentation Text Data Descriptor (PTD)
 The PTOCA Presentation Text Data Descriptor is carried in the MO:DCA Presentation Text Data Descriptor
@@ -47,13 +47,13 @@ PTD Data
 The following table describes the contents of the Presentation Text Data Descriptor (PTD) structured field in
 the MO:DCA architecture, which has a structured field identifier of X'D3B19B'.
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE XPBASE X'00'–X'01' Unit base for X axis; must
+0 CODE XPBASE X'00'–X'01' Unit base for X axis; must [PTOCA-A-005]
 be the same as the unit
 base for Y axis:
 X'00' Ten inches
 X'01' Ten centimeters
 M N N
-1 CODE YPBASE X'00' –X'01' Unit base for Y axis; must
+1 CODE YPBASE X'00' –X'01' Unit base for Y axis; must [PTOCA-A-006]
 be the same as the unit
 base for X axis:
 X'00' Ten inches
@@ -87,18 +87,18 @@ M N N
 14–end of PTD TXTCONDS Initial text conditions O Y See
 note 4.
 Notes:
-1. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is ten
+1. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is ten [PTOCA-A-007]
 inches, and the X
 p
 - and Y
 p
 -units per unit base are 14,400. If it is necessary to convert to a diffe rent
 measurement unit, please see the conversion routine described in “Interpreting Ranges”.
-2. The default indicator is not allowed for this parameter in this subset.
-3. The TEXTFLAGS parameter is reserved. Generators should set this parameter to X'0000', and receivers
+2. The default indicator is not allowed for this parameter in this subset. [PTOCA-A-008]
+3. The TEXTFLAGS parameter is reserved. Generators should set this parameter to X'0000', and receivers [PTOCA-A-009]
 should ignore it.
-4. See the description of the control sequence that specifies the initial text condition.
-Presentation Text Structured Fields
+4. See the description of the control sequence that specifies the initial text condition. [PTOCA-A-010]
+Presentation Text Structured Fields [PTOCA-A-011]
 
 <!-- Page 183 -->
 
@@ -146,11 +146,11 @@ Architecture Note: The Extended Text Color parameter is not supported as an init
 environments when text is specified as text-major , that is, when the PTD for the text is specified in the
 AEG for the page. This parameter is supported in IPDS environments when the text is specified in a text
 object with OEG and the PTD is specified in the OEG.
-Presentation Text Data Descriptor (PTD)
+Presentation Text Data Descriptor (PTD) [PTOCA-A-012]
 
 <!-- Page 184 -->
 
-166 PTOCA Reference
+166 PTOCA Reference [PTOCA-A-013]
 Architecture Note: The following format 1 version of the Presentation Text Data Descriptor is a coexistence
 MO:DCA structured field and may only be used for migration purposes. The PTD format 1 structured
 field is not allowed in the OEG of a MO:DCA presentation text object.
@@ -161,10 +161,10 @@ Flags Reserved
 X'0000'
 PTD Data
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE XPBASE X'00' Unit base for X axis; ten
+0 CODE XPBASE X'00' Unit base for X axis; ten [PTOCA-A-014]
 inches
 M N N
-1 CODE YPBASE X'00' Unit base for Y axis; ten
+1 CODE YPBASE X'00' Unit base for Y axis; ten [PTOCA-A-015]
 inches
 M N N
 2–3 UBIN XPUNITVL X'0960' –
@@ -206,7 +206,7 @@ be changed to reflect the correct length in the WT command.
 Presentation text data can span multiple PTX structured fields and can be split on any byte boundary .
 Therefore, a control sequence or chain of control sequences, or a sequence of single- or multi-byte code points
 can start in one PTX and continue or terminate in a following PTX.
-Presentation Text Data (PTX)
+Presentation Text Data (PTX) [PTOCA-A-016]
 
 <!-- Page 185 -->
 
@@ -229,11 +229,11 @@ Resource (MDR) structured field which maps the LID parameter of the Set Coded Fo
 to a TrueType/OpenType font.
 For further information about these structured fields, please refer to Mixed Object Document Content
 Architecture Reference, AFPC-0004.
-Additional Related Structured Fields
+Additional Related Structured Fields [PTOCA-A-017]
 
 <!-- Page 186 -->
 
-168 PTOCA Reference
+168 PTOCA Reference [PTOCA-A-018]
 
 <!-- Page 187 -->
 

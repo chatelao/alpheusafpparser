@@ -35,7 +35,7 @@ Since Chris was careful to lock his door
 each night before retiring to his bed, a
 mystery was afoot.
 hris thought long and hard as he
-washed the eggnog off his right foot
+washed the eggnog off his right foot [IPDS-5-001]
 
 
 The Text Object Area
@@ -94,7 +94,7 @@ processing a text object (in this case, the TDD initial text conditions or a sub
 object selects the first font to be used within the text object). When the End command for the text object is
 processed, the font identified by LID=1 is then used for any subsequent text within the page, page segment, or
 overlay. Likewise, all other text-major settings are restored when the End command is processed so that any
-text controls within the text object have no effect on subsequent text within the page, page segment, or overlay.
+text controls within the text object have no effect on subsequent text within the page, page segment, or overlay. [IPDS-5-002]
 
 
 Load Equivalence
@@ -121,10 +121,10 @@ situation.
 
 | Offset | Type | Name | Range | Meaning | TX1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | CODE | Type | X'0100' | Mapping type:<br>Suppression equivalence | X'0100' |
-| **Zero or more equivalence entries in the following format:** | | | | | |
-| 2–3 | CODE | Internal | X'0001' – X'00FF' | Internal value | X'0001' – X'007F' |
-| 4–5 | CODE | External | X'0001' – X'00FF' | External value | X'0001' – X'007F' |
+| 0–1 | CODE | Type | X'0100' | Mapping type:<br>Suppression equivalence | X'0100' [IPDS-5-003]|
+| **Zero or more equivalence entries in the following format:** [IPDS-5-004]| | | | | |
+| 2–3 | CODE | Internal | X'0001' – X'00FF' | Internal value | X'0001' – X'007F' [IPDS-5-005]|
+| 4–5 | CODE | External | X'0001' – X'00FF' | External value | X'0001' – X'007F' [IPDS-5-006]|
 Bytes 0–1 Mapping type
 The only valid value is X'0100', that indicates suppression equivalence mapping.
 The value X'0200' is retired as Retired item 52.
@@ -137,7 +137,7 @@ external value.
 Exception ID X'02C1..02' exists if an internal value is not unique in the LE command.
 Exception ID X'02C8..02' exists if an invalid or unsupported internal value is specified.
 Property pair X'2002' in the Text command-set vector of an STM reply indicates support for
-text suppression IDs in the range X'0080'–X'00FF'.
+text suppression IDs in the range X'0080'–X'00FF'. [IPDS-5-007]
 
 
 Bytes 4–5 External value
@@ -151,7 +151,7 @@ text suppression IDs in the range X'0080'–X'00FF'.
 Note: This command is not required to use the suppression function. If an LCC command refers to a
 suppression ID that has not been specified as an external value in an LE command (because no LE
 command has been received, for example), the ID maps only to itself, and the requested suppression is
-considered to be a direct reference to an internal value suppression ID used in a BSU ...ESU pair.
+considered to be a direct reference to an internal value suppression ID used in a BSU ...ESU pair. [IPDS-5-008]
 
 
 Write Text Control
@@ -175,34 +175,34 @@ received.
 Note: Control sequences within the text presentation space use the I and B axes defined by this command
 (and possibly redefined within the text data).
 The WTC data field consists of two or three consecutive self-defining fields in the following order:
-1. Text Area Position (TAP)
-2. Text Output Control (TOC), optional
-3. Text Data Descriptor (TDD)
+1. Text Area Position (TAP) [IPDS-5-009]
+2. Text Output Control (TOC), optional [IPDS-5-010]
+3. Text Data Descriptor (TDD) [IPDS-5-011]
 Each self-defining field contains a two-byte length field, then a two-byte self-defining field ID, and finally a data
 field. If an invalid or unsupported command length is specified, exception ID X'0202..02' exists. If an invalid
 self-defining field is specified, a self-defining field is out of order, a required self-defining field is not specified,
 or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
 Not all IPDS printers support the WTC command. Support for this optional command is indicated by the
-X'2001' property pair that is returned in the Text command-set vector of the Sense Type and Model reply.
+X'2001' property pair that is returned in the Text command-set vector of the Sense Type and Model reply. [IPDS-5-012]
 
 
 Text Area Position
 The TAP is a mandatory self-defining field in the WTC command. It defines the position and orientation of the
 text object area. The origin and orientation of the text object area are defined relative to the reference
 coordinate system.
-The format of the TAP is as follows:
+The format of the TAP is as follows: [IPDS-5-013]
 
 | Offset | Type | Name | Range | Meaning | Required |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'000B' to end of TAP | Length of TAP, including this length field | X'000B' to end of TAP |
-| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
-| 4–5 | SBIN | X offset | X'8000' – X'7FFF' | Text object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF'<br>(Refer to the note following the table.) |
-| 6–7 | SBIN | Y offset | X'8000' – X'7FFF' | Text object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF'<br>(Refer to the note following the table.) |
-| 8–9 | CODE | Text object area orientation | | | |
-| | bits 0–8 | Degrees | B'000000000' – B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
-| | bits 9–14 | Minutes | B'000000' – B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
-| | bit 15 | | B'0' | Reserved | B'0' |
-| 10 | CODE | Coordinate system | X'00', X'20', X'40', X'60', X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
+| 0–1 | UBIN | Length | X'000B' to end of TAP | Length of TAP, including this length field | X'000B' to end of TAP [IPDS-5-014]|
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' [IPDS-5-015]|
+| 4–5 | SBIN | X offset | X'8000' – X'7FFF' | Text object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF'<br>(Refer to the note following the table.) [IPDS-5-016]|
+| 6–7 | SBIN | Y offset | X'8000' – X'7FFF' | Text object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF'<br>(Refer to the note following the table.) [IPDS-5-017]|
+| 8–9 | CODE | Text object area orientation [IPDS-5-018]| | | |
+| | bits 0–8 | Degrees | B'000000000' – B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' [IPDS-5-019]|
+| | bits 9–14 | Minutes | B'000000' – B'111011' | Number of minutes (0–59) in the orientation | B'000000' [IPDS-5-020]|
+| | bit 15 | | B'0' | Reserved | B'0' [IPDS-5-021]|
+| 10 | CODE | Coordinate system | X'00', X'20', X'40', X'60', X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' [IPDS-5-022]|
 11 to
 end of
 TAP
@@ -211,7 +211,7 @@ Note: The subset range for fields expressed in L-units has been specified assumi
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on [IPDS-5-023]
 
 Bytes 0–1 Self-defining-field length, including itself. Bytes after byte 10 are ignored by the printer.
 If an invalid value is specified, exception ID X'0202..05' exists.
@@ -219,7 +219,7 @@ Bytes 2–3 Self-defining-field ID
 Bytes 4–5 Text object area origin X offset in L-units
 These bytes specify the text object area origin (top-left corner) as an $X_{p}$, I, or I-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
-LPD command that is current when this object is printed in a page or overlay.
+LPD command that is current when this object is printed in a page or overlay. [IPDS-5-024]
 
 
 Bytes 6–7 Text object area origin Y offset in L-units
@@ -250,10 +250,10 @@ the Text command-set vector in the STM reply reports the orientation support of 
 Exception ID X'0203..05' exists if the printer does not support the requested orientation value.
 For reference, the four basic orientation values correspond to the following hexadecimal and
 binary values of these two bytes:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
+0 degrees [IPDS-5-025]
+90 degrees [IPDS-5-026]
+180 degrees [IPDS-5-027]
+270 degrees [IPDS-5-028]
 X'0000'
 X'2D00'
 X'5A00'
@@ -274,21 +274,21 @@ An inline coordinate value specified as relative means that the value in TAP byt
 an offset from the current inline coordinate location. A baseline coordinate value specified as
 relative means that the value in TAP bytes 6 and 7 is an offset from the current baseline
 coordinate location. Therefore, the following applies:
-• If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
+• If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin. [IPDS-5-029]
 TAP bytes 4 and 5 specify the text inline coordinate; TAP bytes 6 and 7 specify the text
 baseline coordinate.
 
 
-• If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the
+• If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the [IPDS-5-030]
 origin. TAP bytes 4 and 5 specify the text inline coordinate; TAP bytes 6 and 7 are added to
 the current text baseline coordinate.
-• If byte 10 equals X'40', the relative inline and absolute baseline coordinates determine the
+• If byte 10 equals X'40', the relative inline and absolute baseline coordinates determine the [IPDS-5-031]
 origin. TAP bytes 4 and 5 are added to the current text inline coordinate. TAP bytes 6 and 7
 specify the text baseline coordinate.
-• If byte 10 equals X'60', the relative inline and baseline coordinates determine the origin. TAP
+• If byte 10 equals X'60', the relative inline and baseline coordinates determine the origin. TAP [IPDS-5-032]
 bytes 4 and 5 are added to the current text inline coordinate. TAP bytes 6 and 7 are added to
 the current text baseline coordinate.
-• If byte 10 equals X'A0', the current logical page X
+• If byte 10 equals X'A0', the current logical page X [IPDS-5-033]
 p and $Y_{p}$ coordinates determine the origin.
 When the text object is within a page, TAP bytes 4–7 specify the offset from the $X_{p}$-
 coordinate and $Y_{p}$-coordinate origin specified in a previously received LPP command (or
@@ -303,7 +303,7 @@ Bytes 11 to
 end of TAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
-but ignore this field; generators should not specify this field.
+but ignore this field; generators should not specify this field. [IPDS-5-034]
 
 
 Text Output Control
@@ -311,33 +311,33 @@ The Text Output Control (TOC) is a self-defining field that specifies the size o
 mapping option for mapping the text presentation space into the text object area.
 This self-defining field is optional and can be omitted from the WTC command. If the TOC field is omitted, the
 printer uses the following:
-• Text object area size equals the text presentation space size defined in the TDD self-defining field
-• Mapping option X'00' (position)
-• Xoa offset and Yoa offset equals 0
-• The text object area is not colored
-• No object-level CMRs
-• No object-level rendering intent
-The format of the TOC is as follows:
+• Text object area size equals the text presentation space size defined in the TDD self-defining field [IPDS-5-035]
+• Mapping option X'00' (position) [IPDS-5-036]
+• Xoa offset and Yoa offset equals 0 [IPDS-5-037]
+• The text object area is not colored [IPDS-5-038]
+• No object-level CMRs [IPDS-5-039]
+• No object-level rendering intent [IPDS-5-040]
+The format of the TOC is as follows: [IPDS-5-041]
 
 | Offset | Type | Name | Range | Meaning | Required |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'0010' to end of TOC | Length of TOC, including this length field | X'0010' to end of TOC |
-| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
-| 4 | CODE | Unit base | X'00', X'01' | Ten inches<br>Ten centimeters | X'00' |
-| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
-| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF', X'FFFF' | $X_{oa}$ extent of text object area in L-units<br>Use the LPD value. | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
-| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF', X'FFFF' | $Y_{oa}$ extent of text object area in L-units<br>Use the LPD value. | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' |
-| 11 | CODE | Mapping control option | X'00' | Mapping control option: Position | X'00' |
-| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units | X'0000'–X'7FFF'<br>(Refer to the note following the table.) |
-| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units | X'0000'–X'7FFF'<br>(Refer to the note following the table.) |
-| 16 to end of TOC | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets | X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
+| 0–1 | UBIN | Length | X'0010' to end of TOC | Length of TOC, including this length field | X'0010' to end of TOC [IPDS-5-042]|
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' [IPDS-5-043]|
+| 4 | CODE | Unit base | X'00', X'01' | Ten inches<br>Ten centimeters | X'00' [IPDS-5-044]|
+| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' [IPDS-5-045]|
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF', X'FFFF' | $X_{oa}$ extent of text object area in L-units<br>Use the LPD value. | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' [IPDS-5-046]|
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF', X'FFFF' | $Y_{oa}$ extent of text object area in L-units<br>Use the LPD value. | X'0001'–X'7FFF'<br>(Refer to the note following the table.)<br>X'FFFF' [IPDS-5-047]|
+| 11 | CODE | Mapping control option | X'00' | Mapping control option: Position | X'00' [IPDS-5-048]|
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units | X'0000'–X'7FFF'<br>(Refer to the note following the table.) [IPDS-5-049]|
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units | X'0000'–X'7FFF'<br>(Refer to the note following the table.) [IPDS-5-050]|
+| 16 to end of TOC | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets | X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet [IPDS-5-051]| |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
-1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
+1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports [IPDS-5-052]
 
 
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on [IPDS-5-053]
 
 Bytes 0–1 Self-defining-field length, including itself.
 If an invalid value is specified, exception ID X'0202..05' exists.
@@ -366,7 +366,7 @@ These bytes specify the Yoa extent of the text object area in L-units using the 
 specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $Y_{p}$ extent and the $Y_{p}$
 unit base and units per unit base of the LPD command that is current when this object is
 printed in a page or overlay.
-If an invalid value is specified, exception ID X'0207..05' exists.
+If an invalid value is specified, exception ID X'0207..05' exists. [IPDS-5-054]
 
 
 Byte 11 Mapping options
@@ -432,7 +432,7 @@ The units of measure used to interpret this offset are specified in bytes 4–6.
 If an unsupported value is specified, exception ID X'0209..05' exists.
 Bytes 14–15 Yoa offset in L-units from object area origin
 This value is the Yoa offset of the text presentation space from the origin of the text object area.
-The units of measure used to interpret this offset are specified in bytes 4–6.
+The units of measure used to interpret this offset are specified in bytes 4–6. [IPDS-5-055]
 
 
 If an unsupported value is specified, exception ID X'0209..05' exists.
@@ -478,26 +478,26 @@ page.
 Text Data Descriptor
 The TDD is a mandatory self-defining field in the WTC command. It specifies parameters that define the text
 presentation space size and initial text default conditions.
-The format of the TDD is as follows:
+The format of the TDD is as follows: [IPDS-5-056]
 
 | Offset | Type | Name | Range | Meaning | Required |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'0014' to end of TDD | Length of TDD, including this length field | X'0014' to end of TDD |
-| 2–3 | CODE | SDF ID | X'A69B' | Self-defining-field ID | X'A69B' |
-| 4–5 | X'0000' | Reserved | X'0000' | | |
-| 6 | CODE | Unit base | X'00', X'01' | Ten inches<br>Ten centimeters | X'00' |
-| 7 | X'00' | Reserved | X'00' | | |
-| 8–9 | UBIN | $X_{t}$ units per unit base | X'0001'–X'7FFF' | $X_{t}$ units per unit base | X'3840' |
-| 10–11 | UBIN | $Y_{t}$ units per unit base | X'0001'–X'7FFF' | $Y_{t}$ units per unit base, must be the same value as XUPUB | X'3840' |
-| 12–14 | UBIN | $X_{t}$ extent | X'000001' – X'007FFF' | $X_{t}$ extent of the text presentation space in L-units | X'000001' – X'007FFF'<br>(Refer to the note following the table.) |
-| 15–17 | UBIN | $Y_{t}$ extent | X'000001' – X'007FFF' | $Y_{t}$ extent of the text presentation space in L-units | X'000001' – X'007FFF'<br>(Refer to the note following the table.) |
-| 18–19 | BITS | Text flags | B'00...00' | Reserved for text flags | B'00...00' |
-| 20 to end of TDD | | Initial text conditions | Defined in PTOCA | Defined in PTOCA | Defined in PTOCA |
+| 0–1 | UBIN | Length | X'0014' to end of TDD | Length of TDD, including this length field | X'0014' to end of TDD [IPDS-5-057]|
+| 2–3 | CODE | SDF ID | X'A69B' | Self-defining-field ID | X'A69B' [IPDS-5-058]|
+| 4–5 | X'0000' | Reserved | X'0000' [IPDS-5-059]| | |
+| 6 | CODE | Unit base | X'00', X'01' | Ten inches<br>Ten centimeters | X'00' [IPDS-5-060]|
+| 7 | X'00' | Reserved | X'00' [IPDS-5-061]| | |
+| 8–9 | UBIN | $X_{t}$ units per unit base | X'0001'–X'7FFF' | $X_{t}$ units per unit base | X'3840' [IPDS-5-062]|
+| 10–11 | UBIN | $Y_{t}$ units per unit base | X'0001'–X'7FFF' | $Y_{t}$ units per unit base, must be the same value as XUPUB | X'3840' [IPDS-5-063]|
+| 12–14 | UBIN | $X_{t}$ extent | X'000001' – X'007FFF' | $X_{t}$ extent of the text presentation space in L-units | X'000001' – X'007FFF'<br>(Refer to the note following the table.) [IPDS-5-064]|
+| 15–17 | UBIN | $Y_{t}$ extent | X'000001' – X'007FFF' | $Y_{t}$ extent of the text presentation space in L-units | X'000001' – X'007FFF'<br>(Refer to the note following the table.) [IPDS-5-065]|
+| 18–19 | BITS | Text flags | B'00...00' | Reserved for text flags | B'00...00' [IPDS-5-066]|
+| 20 to end of TDD | | Initial text conditions | Defined in PTOCA | Defined in PTOCA | Defined in PTOCA [IPDS-5-067]|
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
 equivalent to the subset range relative to each supported unit of measure. More information about
-supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on
+supported-range requirements is provided in the section titled “L-Unit Range Conversion Algorithm” on [IPDS-5-068]
 
 Bytes 0–1 Length of the TDD self-defining field, including itself
 If an invalid value is specified, exception ID X'0202..05' exists.
@@ -507,7 +507,7 @@ Byte 6 Unit base
 This byte specifies the measurement unit to be used. X'00' indicates the measurement unit for
 the X and Y dimensions is ten inches; X'01' indicates the measurement unit is ten centimeters.
 The value X'02' is retired as Retired item 54.
-If an invalid or unsupported value is specified, exception ID X'0205..05' exists.
+If an invalid or unsupported value is specified, exception ID X'0205..05' exists. [IPDS-5-069]
 
 
 Byte 7 Reserved
@@ -542,7 +542,7 @@ text within the object. Refer to the Presentation Text Object Content Architectu
 for a description of initial text conditions in the Presentation Text Descriptor. When the TDD is
 processed, the printer will first apply the PTOCA-defined default initial values and then apply
 any initial text conditions found in the TDD.
-If an invalid or unsupported value is specified, exception ID X'0200..01' exists.
+If an invalid or unsupported value is specified, exception ID X'0200..01' exists. [IPDS-5-070]
 
 
 Write Text
@@ -578,7 +578,7 @@ data sent by the WT commands that follow.
 The data and embedded controls received can span multiple Write Text commands; a Write Text command
 might end in the middle of an embedded control sequence or in the middle of a two-byte code point. In this
 event, exception ID X'0205..01' exists if any commands other than Execute Order Anystate, No Operation, Set
-Home State, or Sense Type and Model are received before the next Write Text command.
+Home State, or Sense Type and Model are received before the next Write Text command. [IPDS-5-071]
 
 
 Unicode Support
@@ -586,10 +586,10 @@ PTOCA text data can be encoded in a variety of encoding schemes. Traditionally, 
 been fixed-length EBCDIC or ASCII, but with the introduction of TrueType/OpenType fonts within IPDS, text
 can also be encoded as Unicode data. The encoding scheme is specified by the font activation in one of the
 following ways:
-• When a code page is associated with the font, the code page indicates the encoding scheme (typically
+• When a code page is associated with the font, the code page indicates the encoding scheme (typically [IPDS-5-072]
 EBCDIC or ASCII).
-• An Encoding Scheme ID (X'50') triplet can be used to indicate that the data is encoded as UTF-8.
-• Otherwise, the encoding scheme used within the font applies. With a TrueType/OpenType font, the encoding
+• An Encoding Scheme ID (X'50') triplet can be used to indicate that the data is encoded as UTF-8. [IPDS-5-073]
+• Otherwise, the encoding scheme used within the font applies. With a TrueType/OpenType font, the encoding [IPDS-5-074]
 scheme is UTF-16BE.
 With EBCDIC, ASCII, and simple Unicode data, each code point is mapped to a single glyph ID. Within the
 PTOCA controls, the code points are specified either within a Transparent Data (TRN) control sequence, within
@@ -607,11 +607,11 @@ represented by a single glyph and each glyph is identified with a single code po
 processing and should be identified with a PTOCA UCT or GLC control sequence. IPDS printers do not layout
 complex text directly, but require the layout to be provided using the PTOCA GLC control sequence.
 Unicode-encoded text is considered to be complex if it has any of the following formatting characteristics:
-• Alternate glyphs as used in CJK fonts
-• Bidirectional rendering
-• Contextual shaping
-• Combined characters (for example, ligatures that are mandatory and have no equivalent Unicode code point)
-• Specialized word break and justification rules
+• Alternate glyphs as used in CJK fonts [IPDS-5-075]
+• Bidirectional rendering [IPDS-5-076]
+• Contextual shaping [IPDS-5-077]
+• Combined characters (for example, ligatures that are mandatory and have no equivalent Unicode code point) [IPDS-5-078]
+• Specialized word break and justification rules [IPDS-5-079]
 The major languages that use complex text are Arabic, Hindi, and Thai, but there are more. Complex text
 cannot be rendered in the traditional one-code-point to one-glyph fashion; a layout engine is required that
 examines runs of code points and maps these to runs of glyph indexes and their positions. The number of
@@ -625,8 +625,8 @@ PTOCA Unicode Complex Text (UCT) Control Sequence
 The PTOCA Unicode Complex Text (UCT) control sequence is used to identify a string of Unicode text that is
 intended to be processed using a layout engine. How this control sequence and the associated Unicode code
 points are processed depends upon the printer implementation:
-• Printers that return STM property pair X'4303' in the Text command-set vector handle the UCT differently
-depending on its use:
+• Printers that return STM property pair X'4303' in the Text command-set vector handle the UCT differently [IPDS-5-080]
+depending on its use: [IPDS-5-081]
 
 
 – If the UCT terminates a GLC chain, the printer will skip over and ignore the UCT and all associated
@@ -639,7 +639,7 @@ controls within the UCT (such as, the bidi-layout processing control, the glyph 
 alternate current inline position, and all of the other complex-text-processing-control flags). This produces
 acceptable output in some cases. However, in other cases, this can make the formatting look incorrect
 since all of the glyphs will be positioned from the current text baseline and no combining will be done.
-• Printers that do not return X'4303' will detect exception ID X'0200..01' whenever a UCT control sequence is
+• Printers that do not return X'4303' will detect exception ID X'0200..01' whenever a UCT control sequence is [IPDS-5-082]
 encountered. How the printer continues depends upon the exception handling controls:
 – Some IPDS printers support the Text Fidelity
 (X'86') triplet that allows such a printer to suppress this
@@ -677,7 +677,7 @@ previously specified OID, exception ID X'029C..09' exists.
 The Glyph Layout Control (GLC) uses supporting control sequences, the first of which contains a string of
 glyph IDs taken directly from a single TrueType/OpenType font; thus freeing the printer from having to locate
 each glyph by mapping code points to character names to glyph IDs. Glyph advances and any necessary
-offsets are also provided to allow for advanced glyph layout. By allowing glyph IDs, glyph advances, and glyph
+offsets are also provided to allow for advanced glyph layout. By allowing glyph IDs, glyph advances, and glyph [IPDS-5-083]
 
 
 offsets to be sent directly to the printer, a print application can support many complex text functions (not just
@@ -696,43 +696,43 @@ or GOR.
 Control Sequence Summary
 In this chapter the control sequences are listed in alphabetical order. The following is a summary of those
 control sequences. For a full description of chained and unchained control sequences refer to Presentation
-Text Object Content Architecture Reference.
+Text Object Content Architecture Reference. [IPDS-5-084]
 ### Table 38. Summary of Control Sequences
 
 | Function-Type Code | | Description | Subsets | | | |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Unchained** | **Chained** | | **PT1** | **PT2** | **PT3** | **PT4** |
-| X'D2' | X'D3' | Absolute Move Baseline (AMB) | X | X | X | X |
-| X'C6' | X'C7' | Absolute Move Inline (AMI) | X | X | X | X |
-| X'D8' | X'D9' | Begin Line (BLN)—also known as Next Line | X | X | X | X |
-| X'F2' | X'F3' | Begin Suppression (BSU) | X | X | X | X |
-| X'E6' | X'E7' | Draw B-Axis Rule (DBR) | X | X | X | X |
-| X'E4' | X'E5' | Draw I-Axis Rule (DIR) | X | X | X | X |
-| X'98' | X'99' | Encrypted Data (ENC) | | | | |
-| X'F4' | X'F5' | End Suppression (ESU) | X | X | X | X |
-| X'8C' | X'8D' | Glyph Advance Run (GAR) | | | | X |
-| | X'8B' | Glyph ID Run (GIR) | | | | X |
-| | X'6D' | Glyph Layout Control (GLC) | | | | X |
-| X'8E' | X'8F' | Glyph Offset Run (GOR) | | | | X |
-| X'F8' | X'F9' | No Operation (NOP) | X | X | X | X |
-| X'72' | X'73' | Overstrike (OVS) | | X | X | X |
-| X'D4' | X'D5' | Relative Move Baseline (RMB) | X | X | X | X |
-| X'C8' | X'C9' | Relative Move Inline (RMI) | X | X | X | X |
-| X'EE' | X'EF' | Repeat String (RPS) | X | X | X | X |
-| X'D0' | X'D1' | Set Baseline Increment (SBI) | X | X | X | X |
-| X'F0' | X'F1' | Set Coded Font Local (SCFL) | X | X | X | X |
-| X'9C' | X'9D' | Set Encrypted Alternate (SEA) | | | | |
-| X'80' | X'81' | Set Extended Text Color (SEC) | | | X | X |
-| X'C0' | X'C1' | Set Inline Margin (SIM) | X | X | X | X |
-| X'C2' | X'C3' | Set Intercharacter Adjustment (SIA) | X | X | X | X |
-| X'9A' | X'9B' | Set Key Information (SKI) | | | | |
-| X'74' | X'75' | Set Text Color (STC) | X | X | X | X |
-| X'F6' | X'F7' | Set Text Orientation (STO) | X | X | X | X |
-| X'C4' | X'C5' | Set Variable-Space Character Increment (SVI) | X | X | X | X |
-| X'78' | X'79' | Temporary Baseline Move (TBM) | | X | X | X |
-| X'DA' | X'DB' | Transparent Data (TRN) | X | X | X | X |
-| X'76' | X'77' | Underscore (USC) | | X | X | X |
-| | X'6A' | Unicode Complex Text (UCT) | | | | X |
+| **Unchained** | **Chained** | | **PT1** | **PT2** | **PT3** | **PT4** [IPDS-5-085]|
+| X'D2' | X'D3' | Absolute Move Baseline (AMB) | X | X | X | X [IPDS-5-086]|
+| X'C6' | X'C7' | Absolute Move Inline (AMI) | X | X | X | X [IPDS-5-087]|
+| X'D8' | X'D9' | Begin Line (BLN)—also known as Next Line | X | X | X | X [IPDS-5-088]|
+| X'F2' | X'F3' | Begin Suppression (BSU) | X | X | X | X [IPDS-5-089]|
+| X'E6' | X'E7' | Draw B-Axis Rule (DBR) | X | X | X | X [IPDS-5-090]|
+| X'E4' | X'E5' | Draw I-Axis Rule (DIR) | X | X | X | X [IPDS-5-091]|
+| X'98' | X'99' | Encrypted Data (ENC) [IPDS-5-092]| | | | |
+| X'F4' | X'F5' | End Suppression (ESU) | X | X | X | X [IPDS-5-093]|
+| X'8C' | X'8D' | Glyph Advance Run (GAR) | | | | X [IPDS-5-094]|
+| | X'8B' | Glyph ID Run (GIR) | | | | X [IPDS-5-095]|
+| | X'6D' | Glyph Layout Control (GLC) | | | | X [IPDS-5-096]|
+| X'8E' | X'8F' | Glyph Offset Run (GOR) | | | | X [IPDS-5-097]|
+| X'F8' | X'F9' | No Operation (NOP) | X | X | X | X [IPDS-5-098]|
+| X'72' | X'73' | Overstrike (OVS) | | X | X | X [IPDS-5-099]|
+| X'D4' | X'D5' | Relative Move Baseline (RMB) | X | X | X | X [IPDS-5-100]|
+| X'C8' | X'C9' | Relative Move Inline (RMI) | X | X | X | X [IPDS-5-101]|
+| X'EE' | X'EF' | Repeat String (RPS) | X | X | X | X [IPDS-5-102]|
+| X'D0' | X'D1' | Set Baseline Increment (SBI) | X | X | X | X [IPDS-5-103]|
+| X'F0' | X'F1' | Set Coded Font Local (SCFL) | X | X | X | X [IPDS-5-104]|
+| X'9C' | X'9D' | Set Encrypted Alternate (SEA) [IPDS-5-105]| | | | |
+| X'80' | X'81' | Set Extended Text Color (SEC) | | | X | X [IPDS-5-106]|
+| X'C0' | X'C1' | Set Inline Margin (SIM) | X | X | X | X [IPDS-5-107]|
+| X'C2' | X'C3' | Set Intercharacter Adjustment (SIA) | X | X | X | X [IPDS-5-108]|
+| X'9A' | X'9B' | Set Key Information (SKI) [IPDS-5-109]| | | | |
+| X'74' | X'75' | Set Text Color (STC) | X | X | X | X [IPDS-5-110]|
+| X'F6' | X'F7' | Set Text Orientation (STO) | X | X | X | X [IPDS-5-111]|
+| X'C4' | X'C5' | Set Variable-Space Character Increment (SVI) | X | X | X | X [IPDS-5-112]|
+| X'78' | X'79' | Temporary Baseline Move (TBM) | | X | X | X [IPDS-5-113]|
+| X'DA' | X'DB' | Transparent Data (TRN) | X | X | X | X [IPDS-5-114]|
+| X'76' | X'77' | Underscore (USC) | | X | X | X [IPDS-5-115]|
+| | X'6A' | Unicode Complex Text (UCT) | | | | X [IPDS-5-116]|
 The following IPDS exception IDs exist when problems are found within PTOCA control sequences or the text
 descriptor; refer to the Presentation Text Object Content Architecture Reference for more information about
 these control sequences and exception conditions:
@@ -776,7 +776,7 @@ X'0280..02' – Invalid or unsupported rule width
 X'0282..02' – Invalid or unsupported rule length
 X'0298..01' – Invalid or unsupported suppression ID
 X'0298..03' – Invalid or unsupported value for Temporary Baseline Move control sequence
-X'029A..01' – Invalid overstrike character increment
+X'029A..01' – Invalid overstrike character increment [IPDS-5-117]
 
 
 X'029B..01' – UCT parameter values for CTLNGTH, UCTVERS, BIDICT, or GLYPHCT are invalid
@@ -791,6 +791,6 @@ X'029C..0A' – Count mismatch or invalid length in a GLC
 X'029C..0B' – Full Font Name specified in a GLC without font OID
 X'029D..01' – Text string decryption not available
 X'029D..02' – Text string decryption failed
-X'029D..03' – No text string encryption key information set
+X'029D..03' – No text string encryption key information set [IPDS-5-118]
 
 

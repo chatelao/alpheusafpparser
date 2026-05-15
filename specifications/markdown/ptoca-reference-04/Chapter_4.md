@@ -1,11 +1,11 @@
 # Chapter 4. Data Structures in PTOCA
 This chapter:
-* Describes the role of parameters
-* Explains documentation conventions used in this chapter
-* Provides a detailed description of the control sequence
-* Explains how graphic characters are processed
-* Provides a detailed description of the Presentation Text data
-* Provides a detailed description of the Presentation Text Data Descriptor
+* Describes the role of parameters [PTOCA-4-001]
+* Explains documentation conventions used in this chapter [PTOCA-4-002]
+* Provides a detailed description of the control sequence [PTOCA-4-003]
+* Explains how graphic characters are processed [PTOCA-4-004]
+* Provides a detailed description of the Presentation Text data [PTOCA-4-005]
+* Provides a detailed description of the Presentation Text Data Descriptor [PTOCA-4-006]
 ## Parameters and Parameter Values
 Kinds of Parameters: The control sequences used within the Presentation Text object may contain parameters
 that describe and control the way the control sequence affects the graphic characters to be presented. A
@@ -43,7 +43,7 @@ an X in the descriptor column. However, if the descriptor cannot provide the val
 the default indicator, the PTOCA default value is used.
 Default values and Presentation Text Data Descriptor values are termed external parameter specifications,
 because these parameters need not be explicitly defined in the Presentation Text object. These values become
-current values each time presentation of a Presentation Text object begins.
+current values each time presentation of a Presentation Text object begins. [PTOCA-4-007]
 
 <!-- Page 52 -->
 
@@ -64,7 +64,7 @@ Presentation Text object necessitates tracking the current positions within the 
 PTOCA requires that receivers be capable of tracking the current positions outside of the object space as long
 as presentation is not attempted.
 The following example illustrates the intent of this concept for $I_c$
-. A receiver may determine the maximum
+. A receiver may determine the maximum [PTOCA-4-008]
 number of bits for $I_c$
 based on the physical size and resolution of the mechanism. For example, the receiver
 may base it on a carriage width of three inches and a resolution of 1/1440 inch. For this receiver, positioning
@@ -85,12 +85,12 @@ In all cases bytes are composed of eight bits, called bits 0 - 7. Bit 0 is in th
 7
 and bit 7 = 2
 0
-. Two bytes considered together are sixteen bits, called bits 0 - 15. Bit 0 is in the high-order
+. Two bytes considered together are sixteen bits, called bits 0 - 15. Bit 0 is in the high-order [PTOCA-4-009]
 position; that is, bit 0 = 2
 15.
 and bit 15 = 2
 0
-. The first byte received is the high-order byte, that is, bits 0 - 7. The
+. The first byte received is the high-order byte, that is, bits 0 - 7. The [PTOCA-4-010]
 second byte is the low-order byte, that is, bits 8 - 15. This is called big-endian bit order and big-endian byte
 order.
 Different syntax is used for the expression of values that pertain to rotation.
@@ -100,40 +100,40 @@ parameter and, therefore, maintains a default value for that parameter. This ind
 value be obtained from the hierarchy, not including previous instances of the same parameter in the current
 object. The syntax of each control sequence specifies whether the default indicator is valid for its parameters.
 In general, the default value for an omitted optional trailing parameter is obtained from previous instances of
-the same parameter in the current object according to the hierarchy.
+the same parameter in the current object according to the hierarchy. [PTOCA-4-011]
 ## Parameters and Parameter Values
 
 <!-- Page 53 -->
 
-**Table 9. Parameter Specification Hierarchy**
+**Table 9. Parameter Specification Hierarchy** [PTOCA-4-012]
 
 | Parameter | Set by Control Sequence (highest priority) | Set by Descriptor | PTOCA Default Value (lowest priority) |
 |:--- |:---: |:---: |:--- |
-| Measurement Units | | X | Receiver dependent |
-| Size | | X | Receiver dependent |
-| Baseline Increment | X | X | Receiver dependent, should be based on the coded font |
-| Suppression identifier | | | None |
-| Coded Font Local ID | X | X | Receiver dependent |
-| Intercharacter Adjustment | X | X | 0 |
-| Intercharacter Direction | X | X | 0 |
-| Inline Margin | X | X | 0 |
-| Initial Baseline Coordinate | | X | Receiver dependent |
-| Initial Inline Coordinate | | X | 0 |
-| Foreground Color | X | X | X'FF07' |
-| Text Orientation | X | X | 0,90 |
-| Rule Length | X | | None |
-| Rule Width | X | | Receiver dependent |
-| Overstrike Bypass Identifiers | X | | X'01' |
-| Overstrike Character | X | | Coded font dependent |
-| Temporary Baseline Increment | X | | ½ the Baseline Increment |
-| Temporary Baseline Direction | X | | 0 |
-| Temporary Baseline Precision | X | | 0 |
-| Underscore Bypass Identifiers | X | | X'01' |
-| Variable Space Character Code | | | Coded font dependent |
-| Variable Space Character Increment | X | | Coded font dependent |
-| Alternate Text | X | | None |
-| Key Information | X | | None |
-Key Information X None
+| Measurement Units | | X | Receiver dependent [PTOCA-4-013]|
+| Size | | X | Receiver dependent [PTOCA-4-014]|
+| Baseline Increment | X | X | Receiver dependent, should be based on the coded font [PTOCA-4-015]|
+| Suppression identifier | | | None [PTOCA-4-016]|
+| Coded Font Local ID | X | X | Receiver dependent [PTOCA-4-017]|
+| Intercharacter Adjustment | X | X | 0 [PTOCA-4-018]|
+| Intercharacter Direction | X | X | 0 [PTOCA-4-019]|
+| Inline Margin | X | X | 0 [PTOCA-4-020]|
+| Initial Baseline Coordinate | | X | Receiver dependent [PTOCA-4-021]|
+| Initial Inline Coordinate | | X | 0 [PTOCA-4-022]|
+| Foreground Color | X | X | X'FF07' [PTOCA-4-023]|
+| Text Orientation | X | X | 0,90 [PTOCA-4-024]|
+| Rule Length | X | | None [PTOCA-4-025]|
+| Rule Width | X | | Receiver dependent [PTOCA-4-026]|
+| Overstrike Bypass Identifiers | X | | X'01' [PTOCA-4-027]|
+| Overstrike Character | X | | Coded font dependent [PTOCA-4-028]|
+| Temporary Baseline Increment | X | | ½ the Baseline Increment [PTOCA-4-029]|
+| Temporary Baseline Direction | X | | 0 [PTOCA-4-030]|
+| Temporary Baseline Precision | X | | 0 [PTOCA-4-031]|
+| Underscore Bypass Identifiers | X | | X'01' [PTOCA-4-032]|
+| Variable Space Character Code | | | Coded font dependent [PTOCA-4-033]|
+| Variable Space Character Increment | X | | Coded font dependent [PTOCA-4-034]|
+| Alternate Text | X | | None [PTOCA-4-035]|
+| Key Information | X | | None [PTOCA-4-036]|
+Key Information X None [PTOCA-4-037]
 ## Parameters and Parameter Values
 
 <!-- Page 54 -->
@@ -144,7 +144,7 @@ setting, or justification. These functions are invoked by sequences that must be
 distinguish them from code points. A character that delimits a string that must be processed in a different
 manner may be thought of as an escape character. In the Presentation Text object, the equivalent of an escape
 character is the Control Sequence Prefix. The string it delimits is a control sequence. The Presentation Text
-object supports only one type of control sequence.
+object supports only one type of control sequence. [PTOCA-4-038]
 ### Control Sequence Format
 A control sequence contains a Control Sequence Introducer followed by parameters. The parameter portion of
 the control sequence may be from 0 to 253 bytes in length.
@@ -158,10 +158,10 @@ Parm
 Parm
 n
 An unchained Control Sequence Introducer contains the following fields:
-* A one-byte prefix, X'2B'
-* A one-byte class, X'D3'
-* A one-byte length
-* A one-byte function type
+* A one-byte prefix, X'2B' [PTOCA-4-039]
+* A one-byte class, X'D3' [PTOCA-4-040]
+* A one-byte length [PTOCA-4-041]
+* A one-byte function type [PTOCA-4-042]
 Prefix Class Length Function Type
 X'2B' X'D3'
 The length field delimits the control sequence by indicating the last byte in the control sequence. The length
@@ -170,11 +170,11 @@ there are no parameters in the control sequence. If the value is 3 or greater, t
 The function type uniquely identifies a control sequence, defines its syntax, and determines its semantics. The
 number of parameters and the number of bytes in each parameter are implicit in the function type definition.
 A chained Control Sequence Introducer contains the following fields:
-* A one-byte length
-* A one-byte function type
+* A one-byte length [PTOCA-4-043]
+* A one-byte function type [PTOCA-4-044]
 Length Function Type
 Thus a Control Sequence Introducer is either two bytes or four bytes in length, depending on whether it is
-chained or unchained.
+chained or unchained. [PTOCA-4-045]
 ### Control Sequence Chaining
 Control sequences may be chained, that is, concatenated. Chaining provides a look-ahead function that
 permits a processor to avoid changes from processing control sequences to processing graphic characters
@@ -197,15 +197,15 @@ low-order bit is B'0'.
 Chains of control sequences may be as long as desired. Control sequences in a chain are interpreted in the
 order in which they are encountered.
 Table 4 lists the control sequences that can appear within Presentation Text data and their function
-types, both unchained and chained.
+types, both unchained and chained. [PTOCA-4-046]
 ### Modal Control Sequences
 Certain control sequences are modal. That is, they establish a parameter value that persists after the control
 sequence has been processed. An example is Set Inline Margin, which sets the size of the inline margin. When
 such a control sequence is processed, its parameter value replaces the existing parameter value. The existing
 parameter value may have been set in one of the following ways:
-* A previous modal control sequence in the current Presentation Text object
-* Externally to the Presentation Text object
-* By default
+* A previous modal control sequence in the current Presentation Text object [PTOCA-4-047]
+* Externally to the Presentation Text object [PTOCA-4-048]
+* By default [PTOCA-4-049]
 The new parameter value remains in effect until a subsequent control sequence for that function is
 encountered or until the end of the current Presentation Text object.
 Architecture Note: Note that when presentation text is processed in a MO:DCA environment where the
@@ -235,54 +235,54 @@ Text Color X'FFFF' (default color)
 Application Note: The PTD also specifies the size of the text object space. When the PTD is specified in the
 AEG of a MO:DCA page in a text major environment, the extents of the text object space are set equal
 to the extents of the page. When the PTD is specified in the OEG of a MO:DCA text object, the extents
-of the text object space can be set to any value in the allowed range.
+of the text object space can be set to any value in the allowed range. [PTOCA-4-050]
 ### Control Sequence Default Indicator
 The default indicator (X'F..F') in a parameter of a control sequence causes the parameter to use the
-hierarchical default value for that parameter. The hierarchical default values are listed in Table 9.
+hierarchical default value for that parameter. The hierarchical default values are listed in Table 9. [PTOCA-4-051]
 ### Control Sequence Introducer
 The Control Sequence Introducer is a two-byte or four-byte field, depending on whether the control sequence
 is unchained or chained.
 Syntax: A Control Sequence Introducer can appear only at the beginning of a control sequence.
-**Syntax:** A Control Sequence Introducer can appear only at the beginning of a control sequence.
+**Syntax:** A Control Sequence Introducer can appear only at the beginning of a control sequence. [PTOCA-4-052]
 
-An unchained Control Sequence Introducer has the following format:
-
-| Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
-|:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N |
-
-A chained Control Sequence Introducer has the following format:
+An unchained Control Sequence Introducer has the following format: [PTOCA-4-053]
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N |
-| 1 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N |
+| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N [PTOCA-4-054]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-055]|
+| 2 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N [PTOCA-4-056]|
+| 3 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N [PTOCA-4-057]|
+
+A chained Control Sequence Introducer has the following format: [PTOCA-4-058]
+
+| Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
+|:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
+| 0 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N [PTOCA-4-059]|
+| 1 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N [PTOCA-4-060]|
 
 <!-- Page 57 -->
 
 Semantics: A Control Sequence Introducer begins, specifies the length of, and identifies the type of a control
 sequence. It suspends the processing of text and begins the processing of control sequences.
-Pragmatics: A Control Sequence Introducer immediately precedes the data portion of a control sequence.
+Pragmatics: A Control Sequence Introducer immediately precedes the data portion of a control sequence. [PTOCA-4-061]
 ### Control Sequence Prefix
 The Control Sequence Prefix marks the beginning of an unchained control sequence. This parameter causes a
 change in the mode of interpretation of a presentation text stream. When a Control Sequence Prefix is
 encountered, the bytes immediately following are interpreted as a control sequence rather than as code points.
-This mode of interpretation continues until the control sequence or control sequence chain is terminated.
+This mode of interpretation continues until the control sequence or control sequence chain is terminated. [PTOCA-4-062]
 ### Control Sequence Class
 The control sequence class characterizes the syntax of the Control Sequence Introducer. This parameter
 specifies how the introducer of the current control sequence should be interpreted. X'D3' has been assigned
 for PTOCA. If any other class is encountered, exception condition EC-1C01 exists. The standard action is to
-ignore the control sequence.
+ignore the control sequence. [PTOCA-4-063]
 ### Control Sequence Length
 The control sequence length specifies the length of the control sequence beginning with and including itself.
 The prefix and class are not included in the length. If the length parameter, as specified for individual control
 sequences, is invalid, exception condition EC-1E01 exists:
-* If a mandatory parameter is missing from the control sequence, the standard action is to ignore the control
+* If a mandatory parameter is missing from the control sequence, the standard action is to ignore the control [PTOCA-4-064]
 sequence.
-* If the control sequence is longer than specified, the standard action is to ignore only the undefined
+* If the control sequence is longer than specified, the standard action is to ignore only the undefined [PTOCA-4-065]
 parameters.
 If part of an optional parameter field is missing from the control sequence, exception condition EC-1E01 exists.
 The standard action is to ignore the partially specified optional parameter field.
@@ -357,7 +357,7 @@ may be printed in a presentation space whose I-extent is n times CI. For example
 is 0.1 inch, that is, 10-pitch, all 100 characters will fit on a logical page with an I-extent of 10 inches. In this
 case, the 100th character just fits within the presentation space. Following placement of the 100th character,
 the current inline coordinate position, $I_c$
-, is one measurement unit beyond the I-extent.
+, is one measurement unit beyond the I-extent. [PTOCA-4-066]
 ## Graphic Character Processing
 
 <!-- Page 59 -->
@@ -391,13 +391,13 @@ Superscripting and Subscripting: Superscripts and subscripts are graphic charact
 below adjacent graphic characters on the same line, and may be smaller than adjacent graphic characters on
 the same line. They have special purposes, such as representing exponents or footnote numbers.
 Superscripts and subscripts may be implemented in different ways.
-* A font may contain smaller graphic characters which are designed to appear as superscripts or subscripts.
+* A font may contain smaller graphic characters which are designed to appear as superscripts or subscripts. [PTOCA-4-067]
 These characters may be designed with their character base above, on, or below the nominal baseline. With
 a font like this, superscripting or subscripting is implicit in presenting one of these graphic characters.
-* A font may consist entirely of graphic characters which are designed so that they will appear as superscripts
+* A font may consist entirely of graphic characters which are designed so that they will appear as superscripts [PTOCA-4-068]
 or subscripts when used with other fonts. With a font like this, superscripting or subscripting is implicit in
 invoking the font.
-* A font may be designed without smaller characters for use as superscripts and subscripts. With a font like
+* A font may be designed without smaller characters for use as superscripts and subscripts. With a font like [PTOCA-4-069]
 this, other means must be used to create superscripts and subscripts.
 – Superscripting or subscripting can be accomplished by temporarily lowering or raising the B-axis
 coordinate of the presentation position. With this technique, the size of the superscript or subscript graphic
@@ -411,68 +411,68 @@ letters and compositions. The distance that the B-axis coordinate is lowered or 
 purpose of the superscript or subscript. For example, a limit to an integral is displaced further than an
 exponent.
 This last technique is the most general, since it can apply to a variety of requirements, including the following:
-* Nested superscripts and subscripts, that is, superscripts and subscripts of superscripts or subscripts
-* Mathematical symbols of different sizes, for example, integrals, sums, products, and exponents
+* Nested superscripts and subscripts, that is, superscripts and subscripts of superscripts or subscripts [PTOCA-4-070]
+* Mathematical symbols of different sizes, for example, integrals, sums, products, and exponents [PTOCA-4-071]
 ## Graphic Character Processing
 
 <!-- Page 60 -->
 
-* Specially stylized superscripts or subscripts, such as italic characters and Greek letters
+* Specially stylized superscripts or subscripts, such as italic characters and Greek letters [PTOCA-4-072]
 In the context of superscripting and subscripting, the established baseline is the baseline on which a string of
 graphic characters appears to rest, the temporary baseline is the baseline on which a superscript or subscript
 appears to rest, and the current baseline is the baseline on which the next graphic character will appear to rest.
 The current baseline may be the established baseline or the temporary baseline.
 In PTOCA superscripting and subscripting, including the establishment of a temporary baseline, is specified by
 the Temporary Baseline Move control sequence.
-**Table 10. Equations for Graphic Character Presentation**
+**Table 10. Equations for Graphic Character Presentation** [PTOCA-4-073]
 
 | WHEN | WHAT | EQUATIONS |
 |:--- |:--- |:--- |
-| **Enter Object** | Use initial values from data stream | $I_c$ = $I_h$, $B_c$ = $B_h$ |
-| | Or use default initial values | $I_c$ = $I_o$ = 0, $B_c$ = $B_o$ = 0 |
-| **Present character, general case** | $B_c$ = $B_o$ = 0 | |
-| | Present variable space character | $I_{cnew}$ = $I_c$ + VSI |
-| | Present graphic character | $I_{cnew}$ = $I_c$ + CI |
-| **Present character, specific cases** | **Following incrementing character:** | |
-| | Present first character (incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT |
-| | Followed by second character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI |
-| | | $I_{cnew}$ = $I_c$ +/- ADJSTMNT |
-| | | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI |
-| | **Following incrementing character:** | |
-| | Present first character (non-incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT |
-| | Present second character (incrementing) | Present first character (non-incrementing): $I_{cnew}$ = $I_c$ |
-| | | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI |
-| | **Following incrementing character:** | |
-| | Present Variable Space Character | $I_{cnew}$ = $I_c$ + VSI |
-| | Followed by first character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI |
+| **Enter Object** | Use initial values from data stream | $I_c$ = $I_h$, $B_c$ = $B_h$ [PTOCA-4-074]|
+| | Or use default initial values | $I_c$ = $I_o$ = 0, $B_c$ = $B_o$ = 0 [PTOCA-4-075]|
+| **Present character, general case** | $B_c$ = $B_o$ = 0 [PTOCA-4-076]| |
+| | Present variable space character | $I_{cnew}$ = $I_c$ + VSI [PTOCA-4-077]|
+| | Present graphic character | $I_{cnew}$ = $I_c$ + CI [PTOCA-4-078]|
+| **Present character, specific cases** | **Following incrementing character:** [PTOCA-4-079]| |
+| | Present first character (incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT [PTOCA-4-080]|
+| | Followed by second character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI [PTOCA-4-081]|
+| | | $I_{cnew}$ = $I_c$ +/- ADJSTMNT [PTOCA-4-082]|
+| | | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI [PTOCA-4-083]|
+| | **Following incrementing character:** [PTOCA-4-084]| |
+| | Present first character (non-incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT [PTOCA-4-085]|
+| | Present second character (incrementing) | Present first character (non-incrementing): $I_{cnew}$ = $I_c$ [PTOCA-4-086]|
+| | | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI [PTOCA-4-087]|
+| | **Following incrementing character:** [PTOCA-4-088]| |
+| | Present Variable Space Character | $I_{cnew}$ = $I_c$ + VSI [PTOCA-4-089]|
+| | Followed by first character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI [PTOCA-4-090]|
 
-This table shows how the $I_{cnew}$ coordinate is modified during the presentation of characters.
+This table shows how the $I_{cnew}$ coordinate is modified during the presentation of characters. [PTOCA-4-091]
 ## Graphic Character Processing
 
 <!-- Page 61 -->
 
 Figure 8. Presentation Position without Intercharacter Adjustment
-Figure 9. Presentation Position with Intercharacter Adjustment
+Figure 9. Presentation Position with Intercharacter Adjustment [PTOCA-4-092]
 ## Graphic Character Processing
 
 <!-- Page 62 -->
 
 Figure 10. Between-the-Pels Illustrations for Inline Rules
-Figure 11. Between-the-Pels Illustrations for Baseline Rules
+Figure 11. Between-the-Pels Illustrations for Baseline Rules [PTOCA-4-093]
 ## Graphic Character Processing
 
 <!-- Page 63 -->
 
 Exception Conditions: Control sequence processing and graphic character processing can cause the
 following exception conditions:
-* EC-1E01...A mandatory parameter is missing.
-* EC-1C01...The control sequence class is invalid.
-* EC-1E01...The control sequence length is not valid.
-* EC-1E01...An optional parameter is partially missing.
-* EC-0001...The control sequence function type is invalid.
-* EC-2100...The Presentation Text object contains a graphic character code point that is not defined in the
+* EC-1E01...A mandatory parameter is missing. [PTOCA-4-094]
+* EC-1C01...The control sequence class is invalid. [PTOCA-4-095]
+* EC-1E01...The control sequence length is not valid. [PTOCA-4-096]
+* EC-1E01...An optional parameter is partially missing. [PTOCA-4-097]
+* EC-0001...The control sequence function type is invalid. [PTOCA-4-098]
+* EC-2100...The Presentation Text object contains a graphic character code point that is not defined in the [PTOCA-4-099]
 active coded font.
-* EC-0103...An attempt is made to present a character or a rule outside of the object space.
+* EC-0103...An attempt is made to present a character or a rule outside of the object space. [PTOCA-4-100]
 ## Graphic Character Processing
 
 <!-- Page 64 -->
@@ -493,10 +493,10 @@ bytes may be seven-bit code points, with the leading bit zero, or eight-bit code
 they may be sixteen-bit code points. The coded character representation is determined through reference to a
 coded font in the controlling environment. All code points in the presentation text are translated for
 presentation by reference to the active coded font, with the following exceptions:
-* The V ariable Space Character, which is normally X'40' for EBCDIC single-byte fonts, X'20' for ASCII single-
+* The V ariable Space Character, which is normally X'40' for EBCDIC single-byte fonts, X'20' for ASCII single- [PTOCA-4-101]
 byte fonts, X'4040' for EBCDIC double-byte fonts, X'2020' for ASCII double-byte fonts, and X'0020' or
 X'00A0' for Unicode fonts;
-* The Control Sequence Prefix, which is X'2B'.
+* The Control Sequence Prefix, which is X'2B'. [PTOCA-4-102]
 If it is necessary to present the Control Sequence Prefix code point, use the Transparent Data control
 sequence.
 All control sequence displacements are expressed in terms of the I, B coordinate system. The directions of the
@@ -523,7 +523,7 @@ current Presentation Text data. Although PTOCA allows the definition of various 
 only one type of control sequence is permitted in the Presentation Text data. The escape character to be used
 in the Control Sequence Introducer is X'2B'.
 As previously stated, control sequences can be chained. However, there is no requirement that control
-sequences be chained.
+sequences be chained. [PTOCA-4-103]
 ## Presentation Text Data
 
 <!-- Page 65 -->
@@ -535,25 +535,25 @@ Documentation Conventions: Each PTOCA control sequence is described syntacticall
 table. Following each table is semantic information related to each component of the control sequence.
 Syntactically descriptive material following the table may indicate that additional restrictions apply to the control
 sequence defined by the table. Each syntax table has the following columns:
-* Offset refers to the position of a parameter.
-* Type denotes the syntax of the parameter by data type. Please see “Parameter Data Types” for
+* Offset refers to the position of a parameter. [PTOCA-4-104]
+* Type denotes the syntax of the parameter by data type. Please see “Parameter Data Types” for [PTOCA-4-105]
 more information.
-* Name is a short field name suitable for coding.
-* Range denotes the smallest and largest valid values that may occur in this field. Negative numbers are
+* Name is a short field name suitable for coding. [PTOCA-4-106]
+* Range denotes the smallest and largest valid values that may occur in this field. Negative numbers are [PTOCA-4-107]
 expressed in twos-complement form.
-* Meaning gives an explanatory or descriptive name for the parameter.
-* M/O refers to the parameter's appearance in the control sequence. O means that the parameter is optional.
+* Meaning gives an explanatory or descriptive name for the parameter. [PTOCA-4-108]
+* M/O refers to the parameter's appearance in the control sequence. O means that the parameter is optional. [PTOCA-4-109]
 That is, the generator of the Presentation Text object does not have to include this parameter. However, the
 receiver must support this parameter if it supports the control sequence that contains the parameter. M
 means that the parameter's appearance is mandatory. If a particular control sequence occurs in the object,
 all mandatory parameters in that control sequence must be present.
 If a mandatory parameter is missing, exception condition EC-1E01 exists. The standard action is to ignore
 the control sequence to which the missing parameter belongs.
-* Def refers to the existence of a PTOC A default value for the parameter which is to be used when no explicit
+* Def refers to the existence of a PTOC A default value for the parameter which is to be used when no explicit [PTOCA-4-110]
 value is provided and the standard action is to continue. Y means that there is such a value. N means that
 there is no such value. This value, also called the standard action value, is defined in the description which
 follows each syntax table.
-* Ind specifies the validity of the default indicator. Y means that the default indicator is valid. N means that the
+* Ind specifies the validity of the default indicator. Y means that the default indicator is valid. N means that the [PTOCA-4-111]
 default indicator is not valid. The default indicator is represented by X'F..F' and is described in “Control
 Sequence Default Indicator”.
 Reserved Fields Certain fields may be denoted as reserved. A reserved field is a parameter that has no
@@ -566,24 +566,24 @@ That is, they assume that the measurement base is ten inches, and that the $X_p$
 -units
 per unit base are 14,400. If this assumption is not correct, and a different measurement unit is supported, the
 correct range values can be determined by using the following steps:
-1. Calculate the number of actual supported units per inch (X) as follows:
-* If the measurement base is ten inches, divide the number of supported units per ten inches by 10.
-* If the measurement base is ten centimeters, multiply the number of supported units per ten centimeters
+1. Calculate the number of actual supported units per inch (X) as follows: [PTOCA-4-112]
+* If the measurement base is ten inches, divide the number of supported units per ten inches by 10. [PTOCA-4-113]
+* If the measurement base is ten centimeters, multiply the number of supported units per ten centimeters [PTOCA-4-114]
 by 0.254.
-2. Calculate the ratio of actual supported units per inch (X) to the assumed 1,440 units per inch as follows:
-* Divide (X) by 1,440, yielding the ratio (Y).
-3. Calculate the new range value in the supported measurement units as follows:
-* Convert the old range value to base ten; then multiply it by the ratio (Y).
-* Round to the nearest integer.
+2. Calculate the ratio of actual supported units per inch (X) to the assumed 1,440 units per inch as follows: [PTOCA-4-115]
+* Divide (X) by 1,440, yielding the ratio (Y). [PTOCA-4-116]
+3. Calculate the new range value in the supported measurement units as follows: [PTOCA-4-117]
+* Convert the old range value to base ten; then multiply it by the ratio (Y). [PTOCA-4-118]
+* Round to the nearest integer. [PTOCA-4-119]
 ## Control Sequence Detailed Descriptions
 
 <!-- Page 66 -->
 
 For example, suppose that the specified range is X'8000'–X'7FFF' when using 14,400 units per 10 inches. The
 equivalent range at a unit of measure of 1/240 of an inch is calculated as follows:
-1. Supported units per inch = 2,400 ÷ 10 = 240
-2. Ratio of supported units per inch to 1,440 units per inch = 240 ÷ 1,440 = 1/6
-3. Range at 2,400 units per 10 inches:
+1. Supported units per inch = 2,400 ÷ 10 = 240 [PTOCA-4-120]
+2. Ratio of supported units per inch to 1,440 units per inch = 240 ÷ 1,440 = 1/6 [PTOCA-4-121]
+3. Range at 2,400 units per 10 inches: [PTOCA-4-122]
 a. X'8000' = -32,768 (converted to base 10)
 -32,768 × 1/6 = -5,461.3333
 b. X'7FFF' = 32,767(converted to base 10)
@@ -595,16 +595,16 @@ X'EAAB' to X'1555'.
 <!-- Page 67 -->
 
 ## Absolute Move Baseline (AMB)
-The Absolute Move Baseline control sequence moves the baseline coordinate relative to the I-axis.
+The Absolute Move Baseline control sequence moves the baseline coordinate relative to the I-axis. [PTOCA-4-123]
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'D2' – X'D3' | Control sequence function type | M | N | N |
-| 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N |
+| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N [PTOCA-4-124]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-125]|
+| 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N [PTOCA-4-126]|
+| 3 | CODE | TYPE | X'D2' – X'D3' | Control sequence function type | M | N | N [PTOCA-4-127]|
+| 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N [PTOCA-4-128]|
 DSPLCMNT is a signed binary number expressed in measurement units. It does not accept the default
 indicator. The range for this parameter assumes a measurement unit of 1/1440 inch. If it is necessary to
 convert to a different measurement unit, please see the conversion routine described in “Interpreting Ranges”
@@ -623,7 +623,7 @@ in the Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-129]
 ### Pragmatics
 If DSPLCMNT is zero, the addressable position is the I-axis, and any intercharacter adjustment is not applied.
 If a move is to a presentation position for which the character box will exceed the object space and an attempt
@@ -640,24 +640,24 @@ AMB Control Sequence
 
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1301...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA.
-* EC-0103...The presentation position is outside the object space and presentation is attempted.
-* EC-1403...Negative DSPLCMNT is not valid.
+* EC-1301...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA. [PTOCA-4-130]
+* EC-0103...The presentation position is outside the object space and presentation is attempted. [PTOCA-4-131]
+* EC-1403...Negative DSPLCMNT is not valid. [PTOCA-4-132]
 AMB Control Sequence
 
 <!-- Page 69 -->
 
 ## Absolute Move Inline (AMI)
-The Absolute Move Inline control sequence moves the inline coordinate position relative to the B-axis.
+The Absolute Move Inline control sequence moves the inline coordinate position relative to the B-axis. [PTOCA-4-133]
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'C6' – X'C7' | Control sequence function type | M | N | N |
-| 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N |
+| 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N [PTOCA-4-134]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-135]|
+| 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N [PTOCA-4-136]|
+| 3 | CODE | TYPE | X'C6' – X'C7' | Control sequence function type | M | N | N [PTOCA-4-137]|
+| 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N [PTOCA-4-138]|
 DSPLCMNT is a signed binary number expressed in measurement units. It does not accept the default
 indicator. The range for this parameter assumes a measurement unit of 1/1440 inch. If it is necessary to
 convert to a different measurement unit, please see the conversion routine described in “Interpreting Ranges”
@@ -675,36 +675,36 @@ in the Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-139]
 ### Pragmatics
 If the value of DSPLCMNT is zero, the addressable position is at the B-axis, and any intercharacter adjustment
 is not applied. If a move is to a presentation position for which the character's character box will exceed the
 object space and an attempt is made to present there, exception condition EC-0103 exists. The standard
 action in this case is to refrain from presenting the character that exceeds the object space, and to continue
 processing without presenting characters until the presentation position occupies a valid addressable position
-for the character being presented. Then presentation of characters may resume.
+for the character being presented. Then presentation of characters may resume. [PTOCA-4-140]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1401...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA.
+* EC-1401...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA. [PTOCA-4-141]
 AMI Control Sequence
 
 <!-- Page 70 -->
 
-* EC-0103...The presentation position is outside the object space and presentation is attempted.
+* EC-0103...The presentation position is outside the object space and presentation is attempted. [PTOCA-4-142]
 AMI Control Sequence
 
 <!-- Page 71 -->
 
 ## Begin Line (BLN)
-The Begin Line control sequence begins a new line.
+The Begin Line control sequence begins a new line. [PTOCA-4-143]
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 2 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'D8' – X'D9' | Control sequence function type | M | N | N |
+| 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N [PTOCA-4-144]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-145]|
+| 2 | UBIN | LENGTH | 2 | Control sequence length | M | N | N [PTOCA-4-146]|
+| 3 | CODE | TYPE | X'D8' – X'D9' | Control sequence function type | M | N | N [PTOCA-4-147]|
 ### Semantics
 This control sequence marks the beginning of a new line. It increments the current baseline coordinate position
 by the amount of the baseline increment, INCRMENT. It sets the current inline coordinate to the inline margin.
@@ -721,16 +721,16 @@ BLN Control Sequence
 
 ## Begin Suppression (BSU)
 The Begin Suppression control sequence marks the beginning of a string of presentation text that may be
-suppressed from the visible output.
+suppressed from the visible output. [PTOCA-4-148]
 #### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'F2' – X'F3' | Control sequence function type | M | N | N |
-| 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N |
+| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N [PTOCA-4-149]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-150]|
+| 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N [PTOCA-4-151]|
+| 3 | CODE | TYPE | X'F2' – X'F3' | Control sequence function type | M | N | N [PTOCA-4-152]|
+| 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N [PTOCA-4-153]|
 This control sequence marks the beginning of a string of presentation text that may be suppressed from the
 visible output. It is activated by a local identifier, LID. This control sequence works in conjunction with the End
 Suppression control sequence, which also contains a LID. Please see “End Suppression (ESU)”. If
@@ -742,18 +742,18 @@ updated as if the text had appeared. Only the actual presentation of the graphic
 suppressed. Please see Appendix A, “MO:DCA Environment”, and Appendix B, “IPDS
 Environment”, for further information about suppression.
 If the value of the LID is not supported or is not within the range specified by PTOCA, exception condition EC-
-9801 exists. The standard action in this case is to ignore the control sequence. Please see the Pragmatics
+9801 exists. The standard action in this case is to ignore the control sequence. Please see the Pragmatics [PTOCA-4-154]
 section for additional exception conditions.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
 If the LID in this control sequence is not activated in the data stream hierarchy, this control sequence and the
-corresponding End Suppression control sequence are processed as no-operations.
+corresponding End Suppression control sequence are processed as no-operations. [PTOCA-4-155]
 ### Pragmatics
 Several kinds of exception conditions can exist with the Begin and End Suppression control sequences. These
 exception conditions can exist whether or not the LID has been activated in the data-stream hierarchy.
-* Nesting of Begin and End Suppression control sequences is not allowed. If a second Begin Suppression
+* Nesting of Begin and End Suppression control sequences is not allowed. If a second Begin Suppression [PTOCA-4-156]
 control sequence follows a Begin Suppression control sequence without an intervening and corresponding
 End Suppression control sequence, exception condition EC-0601 exists. The standard action in this case is
 to ignore the second Begin Suppression control sequence.
@@ -761,41 +761,41 @@ BSU Control Sequence
 
 <!-- Page 73 -->
 
-* If a Begin Suppression control sequence is followed by an End Suppression control sequence that has a
+* If a Begin Suppression control sequence is followed by an End Suppression control sequence that has a [PTOCA-4-157]
 diffe rent value for the LID, exception condition EC-0201 exists. The standard action in this case is to ignore
 the End Suppression control sequence.
-* If an End Suppression control sequence occurs in a Presentation Text object without a previous valid Begin
+* If an End Suppression control sequence occurs in a Presentation Text object without a previous valid Begin [PTOCA-4-158]
 Suppression control sequence, exception condition EC-0201 exists. The standard action is to ignore the End
 Suppression control sequence.
-* If a Begin Suppression control sequence appears in a Presentation Text object with no corresponding End
+* If a Begin Suppression control sequence appears in a Presentation Text object with no corresponding End [PTOCA-4-159]
 Suppression control sequence, exception condition EC-0401 exists. The standard action in this case is to
 process the object as if the corresponding End Suppression control sequence were present at the end of the
-object. That is, all of the data following the Begin Suppression control sequence is suppressed.
+object. That is, all of the data following the Begin Suppression control sequence is suppressed. [PTOCA-4-160]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-9801...The value of the LID is not supported or is not in the range specified by PTOCA.
-* EC-0601...Nesting exists.
-* EC-0201...The values of the LIDs do not match within a BSU, ESU pair.
-* EC-0201...An ESU control sequence occurs without a preceding BSU control sequence.
-* EC-0401...A BSU control sequence occurs without a succeeding ESU control sequence.
+* EC-9801...The value of the LID is not supported or is not in the range specified by PTOCA. [PTOCA-4-161]
+* EC-0601...Nesting exists. [PTOCA-4-162]
+* EC-0201...The values of the LIDs do not match within a BSU, ESU pair. [PTOCA-4-163]
+* EC-0201...An ESU control sequence occurs without a preceding BSU control sequence. [PTOCA-4-164]
+* EC-0401...A BSU control sequence occurs without a succeeding ESU control sequence. [PTOCA-4-165]
 BSU Control Sequence
 
 <!-- Page 74 -->
 
 ## Draw B-axis Rule (DBR)
-The Draw B-axis Rule control sequence draws a rule in the B-direction.
+The Draw B-axis Rule control sequence draws a rule in the B-direction. [PTOCA-4-166]
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'E6' – X'E7' | Control sequence function type | M | N | N |
-| 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N |
-| 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y |
+| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N [PTOCA-4-167]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-168]|
+| 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N [PTOCA-4-169]|
+| 3 | CODE | TYPE | X'E6' – X'E7' | Control sequence function type | M | N | N [PTOCA-4-170]|
+| 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N [PTOCA-4-171]|
+| 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y [PTOCA-4-172]|
 a measurement unit of 1/1440 inch. If it is necessary to convert to a different measurement unit, please see the
-conversion routine described in “Interpreting Ranges”.
+conversion routine described in “Interpreting Ranges”. [PTOCA-4-173]
 ### Semantics
 This control sequence specifies the dimensions of a rule that extends from the current presentation position in
 both the B-direction and the I-direction. The current I-axis and B-axis coordinates are not changed by this
@@ -807,8 +807,8 @@ exists. The standard action is to ignore the control sequence and continue prese
 determined according to the description given in the Pragmatics section.
 The width parameter, RWIDTH, is the width of rule in the I-direction. RWIDTH consists of a three-byte two-part
 binary number of the form AB. Both A and B are in measurement units.
-* A is a two-byte binary number from -32,768 through +32,767
-* B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement
+* A is a two-byte binary number from -32,768 through +32,767 [PTOCA-4-174]
+* B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement [PTOCA-4-175]
 unit, and bit N denoting 1/(2
 (N+1)
 ) measurement unit.
@@ -831,10 +831,10 @@ less than the finest device resolution, the device uses its finest resolution. I
 RWIDTH is zero, no marks appear. Such resolution correction does not constitute an exception condition. If a
 parameter value will cause any part of the rule to extend outside of the object space, exception condition code
 EC-0103 exists. The standard actions in this case are the following:
-* For extensions in the B-direction, truncate the rule at the object space boundary. Receivers using character
+* For extensions in the B-direction, truncate the rule at the object space boundary. Receivers using character [PTOCA-4-176]
 underscore to create rules must position, begin, or end characters in such a way as to prevent extension
 beyond the limits of the object space.
-* For extensions in the I-direction, limit presentation to the portion of the rule that can be presented within the
+* For extensions in the I-direction, limit presentation to the portion of the rule that can be presented within the [PTOCA-4-177]
 object space. If the receiver's minimum resolution will cause the object space to be exceeded, do not present
 the rule.
 A negative value for RLENGTH or RWIDTH reverses the direction of the corresponding extent, allowing
@@ -846,32 +846,32 @@ not support it, exception condition EC-8202 exists. The standard action in this 
 sequence. The recommended default value for RWIDTH is receiver-dependent. For example, it may be the
 width of the vertical bar character in the active font. A receiver incapable of drawing the rule may substitute a
 graphic sequence that represents it.
-For further information on rule positioning, please refer to Figure 11.
+For further information on rule positioning, please refer to Figure 11. [PTOCA-4-178]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-0103...A parameter value will cause the rule to be outside the object space.
-* EC-1E01...RLENGTH is missing.
-* EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA.
-* EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a
+* EC-0103...A parameter value will cause the rule to be outside the object space. [PTOCA-4-179]
+* EC-1E01...RLENGTH is missing. [PTOCA-4-180]
+* EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA. [PTOCA-4-181]
+* EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a [PTOCA-4-182]
 parameter value is negative and the receiver cannot process it.
 DBR Control Sequence
 
 <!-- Page 76 -->
 
 ## Draw I-axis Rule (DIR)
-The Draw I-axis Rule control sequence draws a rule in the I-direction.
+The Draw I-axis Rule control sequence draws a rule in the I-direction. [PTOCA-4-183]
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'E4' – X'E5' | Control sequence function type | M | N | N |
-| 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N |
-| 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y |
+| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N [PTOCA-4-184]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-185]|
+| 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N [PTOCA-4-186]|
+| 3 | CODE | TYPE | X'E4' – X'E5' | Control sequence function type | M | N | N [PTOCA-4-187]|
+| 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N [PTOCA-4-188]|
+| 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y [PTOCA-4-189]|
 a measurement unit of 1/1440 inch. If it is necessary to convert to a different measurement unit, please see the
-conversion routine described in “Interpreting Ranges”.
+conversion routine described in “Interpreting Ranges”. [PTOCA-4-190]
 ### Semantics
 This control sequence specifies dimensions of a rule that extends from the current presentation position in both
 the I-direction and the B-direction. The current I-axis and B-axis coordinates are not changed by this control
@@ -884,8 +884,8 @@ given in the Pragmatics section.
 The width parameter, RWIDTH, is the width of the rule in the B-direction.
 RWIDTH consists of a three-byte two-part binary number of the form AB. Both A and B are in measurement
 units.
-* A is a two-byte binary number from -32,768 through +32,767
-* B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement
+* A is a two-byte binary number from -32,768 through +32,767 [PTOCA-4-191]
+* B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement [PTOCA-4-192]
 unit, and bit N denoting 1/(2
 (N+1)
 ) measurement unit.
@@ -900,18 +900,18 @@ DIR Control Sequence
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-193]
 ### Pragmatics
 If a width or length is specified that, when converted to pels, requires finer resolution than a device supports,
 the device uses the next smaller width or length that it does support. If a specified width or length becomes
 less than the finest device resolution, the device uses its finest resolution. If the value of RLENGTH or
 RWIDTH is zero, no marks appear. Such resolution correction does not constitute an exception condition. If a
 parameter value will cause any part of the rule to extend outside of the object space, exception condition EC-
-0103 exists. The standard actions in this case are the following:
-* For extensions in the I-direction, truncate the rule at the object space boundary. Receivers using character
+0103 exists. The standard actions in this case are the following: [PTOCA-4-194]
+* For extensions in the I-direction, truncate the rule at the object space boundary. Receivers using character [PTOCA-4-195]
 underscore to create rules must position, begin, or end characters in such a way as to prevent extension
 beyond the limits of the object space.
-* For extensions in the B-direction, presentation is limited to the portion of the rule that can be presented within
+* For extensions in the B-direction, presentation is limited to the portion of the rule that can be presented within [PTOCA-4-196]
 the object space. If the receiver's minimum resolution will cause the object space to be exceeded, do not
 present the rule.
 A negative value of RLENGTH or RWID TH reverses the direction of the corresponding extent, allowing
@@ -923,13 +923,13 @@ not support it, exception condition EC-8202 exists. The standard action in this 
 sequence. The recommended default value for RWIDTH is receiver-dependent. For example, it may be the
 width of the underscore character in the active font. A receiver incapable of drawing the rule may substitute a
 graphic sequence that represents it.
-For further information on rule positioning, please refer to Figure 10.
+For further information on rule positioning, please refer to Figure 10. [PTOCA-4-197]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-0103...A parameter value will cause the rule to be outside the object space.
-* EC-1E01...RLENGTH is missing.
-* EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA.
-* EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a
+* EC-0103...A parameter value will cause the rule to be outside the object space. [PTOCA-4-198]
+* EC-1E01...RLENGTH is missing. [PTOCA-4-199]
+* EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA. [PTOCA-4-200]
+* EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a [PTOCA-4-201]
 parameter value is negative and the receiver cannot process it.
 DIR Control Sequence
 
@@ -937,19 +937,19 @@ DIR Control Sequence
 
 ## Encrypted Data (ENC)
 The Encrypted Data control sequence contains a sequence of bytes that are encrypted and must be decrypted
-into text strings for standard text processing. This data is not scanned for embedded control sequences.
+into text strings for standard text processing. This data is not scanned for embedded control sequences. [PTOCA-4-202]
 #### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 7–255 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'98' – X'99' | Control sequence function type | M | N | N |
-| 4-7 | | | | Reserved; should be zero | M | N | N |
-| 8-256 | UNDF | ENCDATA | Not applicable | Encrypted bytes to be decrypted | M | N | N |
+| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N [PTOCA-4-203]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-204]|
+| 2 | UBIN | LENGTH | 7–255 | Control sequence length | M | N | N [PTOCA-4-205]|
+| 3 | CODE | TYPE | X'98' – X'99' | Control sequence function type | M | N | N [PTOCA-4-206]|
+| 4-7 | | | | Reserved; should be zero | M | N | N [PTOCA-4-207]|
+| 8-256 | UNDF | ENCDATA | Not applicable | Encrypted bytes to be decrypted | M | N | N [PTOCA-4-208]|
 The data type of the contents of ENCDATA is UNDF (undefined). ENCDATA does not accept the default
-indicator, but X'F....F' is valid.
+indicator, but X'F....F' is valid. [PTOCA-4-209]
 ### Semantics
 This control sequence specifies a sequence of undefined encrypted bytes that must be decrypted. Once these
 bytes have been decrypted using the decryption mechanism, the result is a character string whose encoding
@@ -983,9 +983,9 @@ If the value of the LENGTH field is less than 7, exception condition EC-1E01 exi
 ignore the control sequence and continue processing.
 When considering the exception conditions that can occur with an ENC, it is important to note that there are
 three cases:
-1. The ENCDATA can be decrypted into printable code points
-2. The ENCDATA cannot be decrypted
-3. The ENCDATA cannot be decrypted and alternate text is used
+1. The ENCDATA can be decrypted into printable code points [PTOCA-4-210]
+2. The ENCDATA cannot be decrypted [PTOCA-4-211]
+3. The ENCDATA cannot be decrypted and alternate text is used [PTOCA-4-212]
 What follows are the considerations for each case.
 The ENCDATA can be decrypted:
 Once ENCDATA has been decrypted, no absolute move, relative move, baseline positioning, or other
@@ -1048,14 +1048,14 @@ standard action is to process the alternate text up to the last byte, skip the o
 processing.
 If the character encoding in the alternate text is Unicode but the code points in the alternate text character
 string are not valid Unicode data, exception condition EC-1A03 exists. The standard action is to skip the
-remainder of the code points in the alternate text and continue processing.
+remainder of the code points in the alternate text and continue processing. [PTOCA-4-213]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-0103...The decrypted character string or alternate text will cause part of a character's character box to be
+* EC-0103...The decrypted character string or alternate text will cause part of a character's character box to be [PTOCA-4-214]
 outside the object space.
-* EC-1A01...The length of the decrypted character string or alternate text is an odd number, but a double-byte
+* EC-1A01...The length of the decrypted character string or alternate text is an odd number, but a double-byte [PTOCA-4-215]
 font is active.
-* EC-1A03...Invalid Unicode data in the decrypted character string or alternate text. This can be caused by
+* EC-1A03...Invalid Unicode data in the decrypted character string or alternate text. This can be caused by [PTOCA-4-216]
 one of the following:
 – A high-order surrogate code value was not immediately followed by a low-order surrogate code value. The
 high-order surrogate range is U+D800 through U+DBFF.
@@ -1063,10 +1063,10 @@ high-order surrogate range is U+D800 through U+DBFF.
 The low-order surrogate range is U+DC00 through U+DFFF.
 – An illegal UTF-8 byte sequence, as defined in the Unicode 3.2 Specification, was specified. For more
 information on illegal UTF-8 byte sequences, see Table 15.
-* EC-1E01...LENGTH is not valid.
-* EC-9D01...Decryption is not available on this device.
-* EC-9D02...Decryption reported an error.
-* EC-9D03...No key information has been set for decryption.
+* EC-1E01...LENGTH is not valid. [PTOCA-4-217]
+* EC-9D01...Decryption is not available on this device. [PTOCA-4-218]
+* EC-9D02...Decryption reported an error. [PTOCA-4-219]
+* EC-9D03...No key information has been set for decryption. [PTOCA-4-220]
 ENC Control Sequence
 
 <!-- Page 81 -->
@@ -1078,11 +1078,11 @@ visible output.
 
 | Offset | Type | Name | Range | Meaning | M/O | Def | Ind |
 |:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N |
-| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N |
-| 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N |
-| 3 | CODE | TYPE | X'F4' – X'F5' | Control sequence function type | M | N | N |
-| 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N |
+| 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N [PTOCA-4-221]|
+| 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N [PTOCA-4-222]|
+| 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N [PTOCA-4-223]|
+| 3 | CODE | TYPE | X'F4' – X'F5' | Control sequence function type | M | N | N [PTOCA-4-224]|
+| 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N [PTOCA-4-225]|
 This control sequence marks the end of a string of presentation text that has been suppressed. It works in
 conjunction with the Begin Suppression control sequence. Please see “Begin Suppression (BSU)”
 for information on the Begin Suppression control sequence. If the value of the LID is not supported or is not
@@ -1092,15 +1092,15 @@ stream hierarchy.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-226]
 ### Pragmatics
 This control sequence does not change the current addressable position. In order to suppress a text string
 from the visible output, the string should be bounded by a Begin Suppression control sequence and an End
 Suppression control sequence that have the same values for the LID. In addition, the controlling environment
-must activate the LID.
+must activate the LID. [PTOCA-4-227]
 ### Exception Conditions
 This control sequence can cause the following exception condition:
-* EC-9801...The value of LID is not supported or is not in the range specified by PTOCA.
+* EC-9801...The value of LID is not supported or is not in the range specified by PTOCA. [PTOCA-4-228]
 ESU Control Sequence
 
 <!-- Page 82 -->
@@ -1111,17 +1111,17 @@ the i-direction) to the glyph origin for each glyph ID in the preceding GIR from
 GLC.
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 UBIN LENGTH X'04' – X'FE';
+0 UBIN LENGTH X'04' – X'FE'; [PTOCA-4-229]
 even values
 only
 Control sequence length.
 The length is 4 + n∙(size
 of ADVANCE)
 M N N
-1 CODE TYPE X'8C', X'8D' Control sequence
+1 CODE TYPE X'8C', X'8D' Control sequence [PTOCA-4-230]
 function type
 M N N
-2-3 X'0000' Reserved; should be zero M N N
+2-3 X'0000' Reserved; should be zero M N N [PTOCA-4-231]
 Zero or more advances along the baseline in the following format:
 +0-1 UBIN ADVANCE X'0000' –
 X'FFFF'
@@ -1130,7 +1130,7 @@ baseline
 O N N
 ADVANCE is a signed binary number in measurement units. The range for ADVANCE assumes a
 measurement unit of 1/1440 inch. If it is necessary to convert to a different measurement unit, please see the
-conversion routine described in “Interpreting Ranges”.
+conversion routine described in “Interpreting Ranges”. [PTOCA-4-232]
 ### Semantics
 This control sequence carries a sequence of glyph advances that correspond to the glyph IDs in the preceding
 GIR. Each advance is a 2-byte unsigned displacement along the current baseline that is measured from the
@@ -1140,34 +1140,34 @@ corresponds to the second glyph ID, and so forth. Advances are specified using t
 units.
 Each GAR control sequence must be chained to a preceding GIR control sequence. It can be followed by a
 chained GOR, GIR, or UCT control sequence. If it is followed by a diffe rent control sequence, the GAR
-terminates the GLC chain.
+terminates the GLC chain. [PTOCA-4-233]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-9C03...Invalid sequence. The GAR is not preceded by a GIR, or, if it indicates chaining, it is not followed
+* EC-9C03...Invalid sequence. The GAR is not preceded by a GIR, or, if it indicates chaining, it is not followed [PTOCA-4-234]
 by a GOR, GIR, or a UCT.
-* EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was
+* EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was [PTOCA-4-235]
 found that is not part of a GLC chain.
-* EC-9C08...Glyph Advance count mismatch. The number of glyph advances specified is not the same as the
+* EC-9C08...Glyph Advance count mismatch. The number of glyph advances specified is not the same as the [PTOCA-4-236]
 number of glyph IDs specified in the preceding GIR.
 GAR Control Sequence
 
 <!-- Page 83 -->
 
 ## Glyph ID Run (GIR)
-The Glyph ID Run control sequence specifies an array of glyph IDs from the current TrueType/OpenType font.
+The Glyph ID Run control sequence specifies an array of glyph IDs from the current TrueType/OpenType font. [PTOCA-4-237]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 UBIN LENGTH X'04' – X'FE';
+0 UBIN LENGTH X'04' – X'FE'; [PTOCA-4-238]
 even values
 only
 Control sequence length.
 The length is 4 + n∙(size
 of GLYPHID)
 M N N
-1 CODE TYPE X'8B' Control sequence
+1 CODE TYPE X'8B' Control sequence [PTOCA-4-239]
 function type
 M N N
-2-3 X'0000' Reserved; should be zero M N N
+2-3 X'0000' Reserved; should be zero M N N [PTOCA-4-240]
 Zero or more glyph IDs in the following format:
 +0-1 UBIN GLYPHID X'0000' –
 X'FFFF'
@@ -1178,16 +1178,16 @@ This font is identified by the font OID in the GLC. If the font is in a font col
 corresponds to the font collection and the font name in the GLC is used to identify the font.
 A GIR control sequence must be chained to a GLC, if in the first grouping, or to a preceding GAR or GOR, if in
 subsequent groupings. It must be followed by a chained GAR that contains a glyph advance for each glyph ID
-in this control sequence.
+in this control sequence. [PTOCA-4-241]
 ### Pragmatics
 It is possible that a text run may require more glyphs than the GIR can contain. Composition applications can
 handle this by specifying multiple GIR/GAR[/GOR] groupings. If there are n glyph IDs contained in a GIR, then
-the chained GAR must contain n advances and the optional GOR must contain n offsets.
+the chained GAR must contain n advances and the optional GOR must contain n offsets. [PTOCA-4-242]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-9C02...Invalid glyph ID. The current font does not contain a specified glyph ID.
-* EC-9C03...Invalid sequence. The GIR is not preceded by either a GLC or a GAR or a GOR.
-* EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was
+* EC-9C02...Invalid glyph ID. The current font does not contain a specified glyph ID. [PTOCA-4-243]
+* EC-9C03...Invalid sequence. The GIR is not preceded by either a GLC or a GAR or a GOR. [PTOCA-4-244]
+* EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was [PTOCA-4-245]
 found that is not part of a GLC chain.
 GIR Control Sequence
 
@@ -1195,13 +1195,13 @@ GIR Control Sequence
 
 ## Glyph Layout Control (GLC)
 The Glyph Layout Control control sequence marks the start of one or more glyph run groupings that together
-render text using arrays of glyph identifiers and positions.
+render text using arrays of glyph identifiers and positions. [PTOCA-4-246]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 10 - (p - 1) Control sequence length M N N
-3 CODE TYPE X'6D' Control sequence function
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-247]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-248]
+2 UBIN LENGTH 10 - (p - 1) Control sequence length M N N [PTOCA-4-249]
+3 CODE TYPE X'6D' Control sequence function [PTOCA-4-250]
 type
 M N N
 4–5 SBIN IADVNCE X'8000' –
@@ -1215,24 +1215,24 @@ text position is not changed
 after processing the GLC
 chain.
 M N N
-6 UBIN OIDLGTH 0, 13-129 Length of FONTOID
+6 UBIN OIDLGTH 0, 13-129 Length of FONTOID [PTOCA-4-251]
 parameter
 M N N
-7 UBIN FFNLGTH 0 - (255 - (10 +
+7 UBIN FFNLGTH 0 - (255 - (10 + [PTOCA-4-252]
 OIDLGTH)),
 even values
 only
 Length of FFONTNME
 parameter
 M N N
-8-1 1 X'00...00' Reserved; should be zero M N N
+8-1 1 X'00...00' Reserved; should be zero M N N [PTOCA-4-253]
 12-n UBIN FONTOID Object Identifier for the font
 that contains the glyphs to
 be rendered.
-* Offset 12 – must be X'06'
-* Offset 13 – length of
+* Offset 12 – must be X'06' [PTOCA-4-254]
+* Offset 13 – length of [PTOCA-4-255]
 content bytes
-* Offset 14 to n – OID
+* Offset 14 to n – OID [PTOCA-4-256]
 content
 O N N
 (n + 1) - p CHAR FFONTNME Full font name of the font
@@ -1281,7 +1281,7 @@ FONT OID corresponds to a font collection. If FONT OID corresponds to a font col
 parameterspecifies the Full Font Name of the font in the collection. This parameter is used to search for a
 specific font in a font collection if the FONT OID parameter identifies a collection. The name is encoded in UTF-
 16BE. This parameter must not be specified if the FONTOID parameter is not specified; if it is, exception
-condition EC-9C0B exists.
+condition EC-9C0B exists. [PTOCA-4-257]
 ### Semantics
 This control sequence marks the start of a run of glyph IDs and positions contained in subsequent glyph run
 control sequence groupings that make up the GLC chain. The glyph IDs in the TrueType/OpenType font
@@ -1368,41 +1368,41 @@ position
 Repeat String (RPS) Has no effect on subsequent GLC presentation
 Transparent Data (TRN) Has no effect on subsequent GLC presentation
 The following examples demonstrate various valid examples of glyph layout control chaining:
-* Example 1. GLC chain without optional controls. The GLC may reference the base font, or any font linked to
+* Example 1. GLC chain without optional controls. The GLC may reference the base font, or any font linked to [PTOCA-4-258]
 the current font. Since all glyphs are positioned on the current effective baseline, the GOR control sequence
 is omitted:
 GLC GIR GAR <<chain ends>>
-* Example 2. GLC chain with optional controls. Since one or more glyphs must be positioned with an offset
+* Example 2. GLC chain with optional controls. Since one or more glyphs must be positioned with an offset [PTOCA-4-259]
 from the baseline, the optional GOR control sequence is included in this chain. The PTOCA chain is
 terminated by an optional UCT control which carries the Unicode encoded text presented by the glyph layout
 control sequences:
 GLC GIR GAR GOR UCT <<chain ends>>
-* Example 3. GLC chain with multiple GIR/GAR[/GOR] groupings. The text required more glyphs than a single
+* Example 3. GLC chain with multiple GIR/GAR[/GOR] groupings. The text required more glyphs than a single [PTOCA-4-260]
 GIR could list, so multiple GIR/GAR[/GOR] groupings are included. Since one or more glyphs in the first
 grouping must be positioned with an offset from the baseline, the optional GOR control sequence is included
 in this group. The optional GOR is not needed in the second grouping, and is omitted. The PTOCA chain is
 terminated by an optional UCT control which carries the Unicode encoded text presented by the glyph layout
 control sequences:
-GLC GIR GAR GOR GIR GAR UCT <<chain ends>>
+GLC GIR GAR GOR GIR GAR UCT <<chain ends>> [PTOCA-4-261]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-9C00...Font Mismatch. The object OID specified in the GLC control sequence does not match the object
+* EC-9C00...Font Mismatch. The object OID specified in the GLC control sequence does not match the object [PTOCA-4-262]
 OID of the current font or any font linked to the current font. If the OID matched the OID of a font collection,
 the Full Font Name did not match any font in the collection.
-* EC-9C01...Font format not valid for use with glyph layout control sequences. The current font is not a
+* EC-9C01...Font format not valid for use with glyph layout control sequences. The current font is not a [PTOCA-4-263]
 TrueType/OpenType font.
-* EC-9C03...Unexpected control sequence. An unexpected control sequence was encountered between the
+* EC-9C03...Unexpected control sequence. An unexpected control sequence was encountered between the [PTOCA-4-264]
 GLC control sequence and the terminating control sequence.
 GLC Control Sequence
 
 <!-- Page 88 -->
 
-* EC-9C09...Missing font OID. The GLC specified an OIDLGTH of zero, but no previous font OID was supplied
+* EC-9C09...Missing font OID. The GLC specified an OIDLGTH of zero, but no previous font OID was supplied [PTOCA-4-265]
 within the text object.
-* EC-9C0A...Count mismatch or invalid length. The byte count specified by the OIDLGTH and FFONTNME
+* EC-9C0A...Count mismatch or invalid length. The byte count specified by the OIDLGTH and FFONTNME [PTOCA-4-266]
 parameters is not consistent with the overall control sequence length, or the OIDLGTH or FFNLGTH
 parameters are outside their valid range.
-* EC-9C0B...Full Font Name specified without font OID. A font OID was not specified (OIDLGTH = 0), but a
+* EC-9C0B...Full Font Name specified without font OID. A font OID was not specified (OIDLGTH = 0), but a [PTOCA-4-267]
 Full Font Name was specified (FFNLGTH ≠ 0).
 GLC Control Sequence
 
@@ -1410,20 +1410,20 @@ GLC Control Sequence
 
 ## Glyph Offset Run (GOR)
 The Glyph offset Run control sequence specifies an offset (relative displacement) from the current baseline (in
-the b-direction) to the glyph origin for each glyph ID in the preceding GIR.
+the b-direction) to the glyph origin for each glyph ID in the preceding GIR. [PTOCA-4-268]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 UBIN LENGTH X'04' – X'FE';
+0 UBIN LENGTH X'04' – X'FE'; [PTOCA-4-269]
 even values
 only
 Control sequence length.
 The length is 4 + n∙(size
 of OFFSET)
 M N N
-1 CODE TYPE X'8E', X'8F' Control sequence
+1 CODE TYPE X'8E', X'8F' Control sequence [PTOCA-4-270]
 function type
 M N N
-2-3 X'0000' Reserved; should be zero M N N
+2-3 X'0000' Reserved; should be zero M N N [PTOCA-4-271]
 Zero or more offsets from the current baseline in the following format:
 +0-1 SBIN OFFSET X'8000' –
 X'7FFF'
@@ -1444,17 +1444,17 @@ opposite to the direction in which increments in a RMB are measured, as indicate
 increment.
 The GOR control sequence is optional, but if present, must be chained to a GAR. It can be followed by a
 chained GIR or UCT. Composition applications must specify the same number of glyph offsets as glyph
-advances so that presentation devices can offset the correct glyph.
+advances so that presentation devices can offset the correct glyph. [PTOCA-4-272]
 ### Pragmatics
 If a composition application needs to offset one glyph, it must offset all the glyphs identified in the preceding
 GIR.
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-9C03...Invalid sequence. The GOR is not preceded by a GAR, or, if it indicates chaining, is not followed
+* EC-9C03...Invalid sequence. The GOR is not preceded by a GAR, or, if it indicates chaining, is not followed [PTOCA-4-273]
 by a GIR or a UCT.
-* EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was
+* EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was [PTOCA-4-274]
 found that is not part of a GLC chain.
-* EC-9C08...Glyph offset count mismatch. The number of glyph offsets specified is not the same as the
+* EC-9C08...Glyph offset count mismatch. The number of glyph offsets specified is not the same as the [PTOCA-4-275]
 number of glyph IDs specified in the preceding GIR.
 GOR Control Sequence
 
@@ -1465,13 +1465,13 @@ GOR Control Sequence
 <!-- Page 91 -->
 
 ## No Operation (NOP)
-The No Operation control sequence has no effect on presentation.
+The No Operation control sequence has no effect on presentation. [PTOCA-4-276]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 2–255 Control sequence length M N N
-3 CODE TYPE X'F8' – X'F9' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-277]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-278]
+2 UBIN LENGTH 2–255 Control sequence length M N N [PTOCA-4-279]
+3 CODE TYPE X'F8' – X'F9' Control sequence [PTOCA-4-280]
 function type
 M N N
 4–256 UNDF IGNDATA Not
@@ -1487,16 +1487,16 @@ NOP Control Sequence
 <!-- Page 92 -->
 
 ## Overstrike (OVS)
-The Overstrike control sequence identifies text that is to be overstruck with a specified character.
+The Overstrike control sequence identifies text that is to be overstruck with a specified character. [PTOCA-4-281]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 5 Control sequence length M N N
-3 CODE TYPE X'72' – X'73' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-282]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-283]
+2 UBIN LENGTH 5 Control sequence length M N N [PTOCA-4-284]
+3 CODE TYPE X'72' – X'73' Control sequence [PTOCA-4-285]
 function type
 M N N
-4 BITS BYPSIDEN See
+4 BITS BYPSIDEN See [PTOCA-4-286]
 ### Semantics
 Bypass identifiers M Y Y
 5–6 CODE OVERCHAR X'0000' –
@@ -1505,37 +1505,37 @@ Overstrike identifiers M N N
 BYPSIDEN is a flag byte with no measurement units. The PTOCA default for BYPSIDEN is X'01'. OVERCHAR
 is defined as a one-byte or two-byte code point that, when coupled with the active coded font, specifies the
 character to be used for overstriking. Single-byte code points are loaded in byte 6. OVERCHAR does not
-accept the default indicator.
+accept the default indicator. [PTOCA-4-287]
 ### Semantics
 Overstrike is accomplished with a pair of Overstrike control sequences. A beginning OVS with a non-zero
 value in BYPSIDEN bits 4-7 activates overstrike. An ending OVS with a zero value in BYPSIDEN bits 4-7
 deactivates overstrike. The beginning OVS control sequence immediately precedes the field of text to be
 overstruck. It specifies the following:
-* The overstrike character
-* How to place the overstrike characters in relation to the characters in the text field
-* Which controlled inline white space is to be overstruck
+* The overstrike character [PTOCA-4-288]
+* How to place the overstrike characters in relation to the characters in the text field [PTOCA-4-289]
+* Which controlled inline white space is to be overstruck [PTOCA-4-290]
 The text field to be overstruck, called the overstrike field, is delimited by the beginning OVS and either an
 ending OVS control sequence or the end of the Presentation Text object. The overstrike field is a sequential
 string of presentation text.
 BYPSIDEN specifies which controlled inline white space within the overstrike field is to be overstruck.
 Controlled inline white space is that area of the presented line that contains no visible material due to
 movement of the presentation position in the I-direction caused by the following:
-* Absolute Move Inline control sequence
-* Relative Move Inline control sequence
-* Space character or variable space character
+* Absolute Move Inline control sequence [PTOCA-4-291]
+* Relative Move Inline control sequence [PTOCA-4-292]
+* Space character or variable space character [PTOCA-4-293]
 Application Note: The following code points are normally used for the variable space character:
-* X'40' in EBCDIC single-byte code pages
-* X'20' in ASCII single-byte code pages
-* X'4040' in EBCDIC double-byte code pages
-* X'2020' in ASCII double-byte code pages
+* X'40' in EBCDIC single-byte code pages [PTOCA-4-294]
+* X'20' in ASCII single-byte code pages [PTOCA-4-295]
+* X'4040' in EBCDIC double-byte code pages [PTOCA-4-296]
+* X'2020' in ASCII double-byte code pages [PTOCA-4-297]
 OVS Control Sequence
 
 <!-- Page 93 -->
 
 The following code points are used for the variable space character in TrueType/OpenType fonts that
 use a Unicode (UTF-16) encoding:
-* X'0020'
-* X'00A0'
+* X'0020' [PTOCA-4-298]
+* X'00A0' [PTOCA-4-299]
 Movement of the current inline position in the I-direction to or through a presentation position that already
 contains material to be overstruck creates controlled inline white space for the entire move in the I-direction.
 Not all inline white space is controlled.
@@ -1546,11 +1546,11 @@ Inline moves that cause the current addressable position to move in a direction 
 is, negative inline moves, do not cause overstrike.
 BYPSIDEN is bit-encoded as follows.
 BIT MEANING
-0-3 Reserved, that is, set to B'0' by generators and ignored by receivers
-4 Bypass Relative Move Inline
-5 Bypass Absolute Move Inline
-6 Bypass space characters and variable space characters
-7 No Bypass in Effect
+0-3 Reserved, that is, set to B'0' by generators and ignored by receivers [PTOCA-4-300]
+4 Bypass Relative Move Inline [PTOCA-4-301]
+5 Bypass Absolute Move Inline [PTOCA-4-302]
+6 Bypass space characters and variable space characters [PTOCA-4-303]
+7 No Bypass in Effect [PTOCA-4-304]
 Bits 0-3, Reserved
 Reserved bits are set to B'0' by generators and ignored by receivers.
 Bit 4, Bypass Relative Move Inline
@@ -1581,14 +1581,14 @@ ignored by receivers. To avoid confusion, it is strongly recommended that a defa
 for this parameter, and that the value X'01' is specified directly if the default is desired.
 An overstrike area is that portion of the overstrike field for which text is actually overstruck. An overstrike area
 is delimited by the addressable position in the following cases.:
-* A beginning OVS
-* Either end of bypassed controlled inline white space
-* Either end of a baseline move, which may be for the established baseline or for a temporary baseline
-* The beginning of negative changes in the presentation position caused by inline moves or negative
+* A beginning OVS [PTOCA-4-305]
+* Either end of bypassed controlled inline white space [PTOCA-4-306]
+* Either end of a baseline move, which may be for the established baseline or for a temporary baseline [PTOCA-4-307]
+* The beginning of negative changes in the presentation position caused by inline moves or negative [PTOCA-4-308]
 intercharacter adjustments
-* Boundaries where violation causes truncation
-* An ending OVS
-* The end of the Presentation Text object
+* Boundaries where violation causes truncation [PTOCA-4-309]
+* An ending OVS [PTOCA-4-310]
+* The end of the Presentation Text object [PTOCA-4-311]
 Additionally, the dimension in the positive I-direction of the overstrike field is defined by the minimum and
 maximum I-coordinates specified between the overstrike area delimiters. White space resulting from the
 application of the inline margin is overstruck only if this area is entered by means of an inline move.
@@ -1601,7 +1601,7 @@ this division is greater than one and is not an integer, the decision to place a
 rounding to the nearest integer. Normally this rounding is down to the next lower integer, except as specified in
 the Pragmatics section.
 If the value of OVERCHAR is not supported or is not within the range specified by PTOCA, an exception
-condition exists. See the Pragmatics section for the exception condition code and the standard action.
+condition exists. See the Pragmatics section for the exception condition code and the standard action. [PTOCA-4-312]
 ### Pragmatics
 The intent of the semantic is to distribute the overstrike characters evenly in the overstrike area without
 violating the delimiters of the overstrike area, that is, the I-coordinates at the beginning and end of the
@@ -1633,7 +1633,7 @@ beginning Overstrike control sequence must be preceded by a Set Coded Font Local
 specifies a different coded font that contains the overstrike character. In this case, the coded font controlling
 the text presentation must be re-established following the ending Overstrike control sequence. If the graphic
 character specified in the OVS control sequence is not valid in the active coded font, exception condition EC-
-2100 exists. The standard action is to use a device default character as the overstrike character. If the graphic
+2100 exists. The standard action is to use a device default character as the overstrike character. If the graphic [PTOCA-4-313]
 character does not have a rotation available that is equivalent to the current character rotation, exception
 condition EC-3F02 exists. The standard action is to accomplish the overstrike function to the best of the
 receiver's ability.
@@ -1642,27 +1642,27 @@ Baseline, and Temporary Baseline Move control sequences within the overstrike fi
 Color is not a parameter of this control sequence.
 Utilization of algorithms to reposition the overstrike characters within the overstrike areas of an overstrike field
 is restricted in several ways.
-* At least one overstrike character must occur in an overstrike area.
-* The overstrike characters must be positioned relative to the delimiters of the overstrike area, rather than to
+* At least one overstrike character must occur in an overstrike area. [PTOCA-4-314]
+* The overstrike characters must be positioned relative to the delimiters of the overstrike area, rather than to [PTOCA-4-315]
 the last overstrike character in any previous overstrike area.
-* Overlap of any portion of the B-space of the overstrike character with the B-space of a character not within
+* Overlap of any portion of the B-space of the overstrike character with the B-space of a character not within [PTOCA-4-316]
 the overstrike area is considered unacceptable, except in the case of a single character.
-* Overlap of any portion of the B-space of the overstrike character with the B-space of another overstrike
+* Overlap of any portion of the B-space of the overstrike character with the B-space of another overstrike [PTOCA-4-317]
 character within the overstrike field should be avoided. If overlap occurs, it should not be allowed to exceed
 1/4 the B-space of either of the characters.
-* Rounding of f the number of overstrike characters is permitted. The minimum required support is to round of f
+* Rounding of f the number of overstrike characters is permitted. The minimum required support is to round of f [PTOCA-4-318]
 to the nearest integer number of overstrike characters in the overstrike area. This overlap may be allowed at
 a change of baseline, except when the overlap causes a portion of the character box to extend beyond a
 boundary of the object space.
-* Multiple passes over the same portions of the presentation space through the use of AMI and RMI control
+* Multiple passes over the same portions of the presentation space through the use of AMI and RMI control [PTOCA-4-319]
 sequences are not restricted.
-* An area of zero length is not considered to be a valid overstrike area.
+* An area of zero length is not considered to be a valid overstrike area. [PTOCA-4-320]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-2100...The graphic character specified is not valid in the active font.
-* EC-3F02...The graphic character specified does not have a rotation available that is equivalent to the current
+* EC-2100...The graphic character specified is not valid in the active font. [PTOCA-4-321]
+* EC-3F02...The graphic character specified does not have a rotation available that is equivalent to the current [PTOCA-4-322]
 character rotation.
-* EC-9A01...The graphic character specified has an invalid character increment or is not a printable character.
+* EC-9A01...The graphic character specified has an invalid character increment or is not a printable character. [PTOCA-4-323]
 OVS Control Sequence
 
 <!-- Page 96 -->
@@ -1672,10 +1672,10 @@ The Relative Move Baseline control sequence moves the baseline coordinate relati
 coordinate position.
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4 Control sequence length M N N
-3 CODE TYPE X'D4' – X'D5' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-324]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-325]
+2 UBIN LENGTH 4 Control sequence length M N N [PTOCA-4-326]
+3 CODE TYPE X'D4' – X'D5' Control sequence [PTOCA-4-327]
 function type
 M N N
 4–5 SBIN INCRMENT X'8000' –
@@ -1683,7 +1683,7 @@ X'7FFF'
 Increment M N N
 INCRMENT is a signed binary number in measurement units. It does not accept the default indicator. The
 range for this parameter assumes a measurement unit of 1/1440 inch. If it is necessary to convert to a diffe rent
-measurement unit, please see the conversion routine described in “Interpreting Ranges”.
+measurement unit, please see the conversion routine described in “Interpreting Ranges”. [PTOCA-4-328]
 ### Semantics
 This control sequence specifies an increment, INCRMENT, in the B-direction from the current baseline
 coordinate position to a new baseline coordinate position. After execution of this control sequence,
@@ -1700,7 +1700,7 @@ Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-329]
 ### Pragmatics
 If the value of INCRMENT is zero, the addressable position is not displaced, and any intercharacter increment
 is not applied. If a move is to a presentation position for which the character's character box will exceed the
@@ -1718,22 +1718,22 @@ INCRMENT is negative, exception condition EC-1403 exists. The standard action is
 sequence.
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1601...The value of INCRMENT is not supported or is not in the range specified by PTOCA.
-* EC-0103..The presentation position is outside the object space and presentation is attempted.
-* EC-1403...Negative INCRMENT is not valid.
+* EC-1601...The value of INCRMENT is not supported or is not in the range specified by PTOCA. [PTOCA-4-330]
+* EC-0103..The presentation position is outside the object space and presentation is attempted. [PTOCA-4-331]
+* EC-1403...Negative INCRMENT is not valid. [PTOCA-4-332]
 RMB Control Sequence
 
 <!-- Page 98 -->
 
 ## Relative Move Inline (RMI)
 The Relative Move Inline control sequence moves the inline coordinate of the presentation position relative to
-the current inline position.
+the current inline position. [PTOCA-4-333]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4 Control sequence length M N N
-3 CODE TYPE X'C8' – X'C9' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-334]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-335]
+2 UBIN LENGTH 4 Control sequence length M N N [PTOCA-4-336]
+3 CODE TYPE X'C8' – X'C9' Control sequence [PTOCA-4-337]
 function type
 M N N
 4–5 SBIN INCRMENT X'8000' –
@@ -1741,7 +1741,7 @@ X'7FFF'
 Increment M N N
 INCRMENT is a signed binary number in measurement units. It does not accept the default indicator. The
 range for this parameter assumes a measurement unit of 1/1440 inch. If it is necessary to convert to a diffe rent
-measurement unit, please see the conversion routine described in “Interpreting Ranges”.
+measurement unit, please see the conversion routine described in “Interpreting Ranges”. [PTOCA-4-338]
 ### Semantics
 This control sequence specifies an increment, INCRMENT, in the I-direction from the current inline coordinate
 position to a new inline coordinate position. After execution of this control sequence, presentation is resumed
@@ -1757,22 +1757,22 @@ Pragmatics section.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-339]
 ### Pragmatics
 If the value of INCRMENT is zero, the addressable position is not moved, and any intercharacter adjustment is
 not applied. If a move is to a presentation position for which the character's character box will exceed the
 object space and an attempt is made to present there, exception condition EC-0103 exists. The standard
 action is to refrain from presenting the character that exceeds the object space, and continue processing
 without presenting characters until the presentation position occupies a valid addressable position for the
-character being presented. Then presentation of characters may resume.
+character being presented. Then presentation of characters may resume. [PTOCA-4-340]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
 RMI Control Sequence
 
 <!-- Page 99 -->
 
-* EC-1501...The value of INCRMENT is not supported or is not in the range specified by PTOCA.
-* EC-0103..The presentation position is outside the object space and presentation is attempted.
+* EC-1501...The value of INCRMENT is not supported or is not in the range specified by PTOCA. [PTOCA-4-341]
+* EC-0103..The presentation position is outside the object space and presentation is attempted. [PTOCA-4-342]
 RMI Control Sequence
 
 <!-- Page 100 -->
@@ -1782,10 +1782,10 @@ RMI Control Sequence
 The Repeat String control sequence contains a string of graphic character code points that is repeated on the
 current line.
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4–255 Control sequence length M N N
-3 CODE TYPE X'EE' – X'EF' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-343]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-344]
+2 UBIN LENGTH 4–255 Control sequence length M N N [PTOCA-4-345]
+3 CODE TYPE X'EE' – X'EF' Control sequence [PTOCA-4-346]
 function type
 M N N
 4–5 UBIN RLENGTH 0–32,767 Repeat length M N N
@@ -1793,7 +1793,7 @@ M N N
 applicable
 Repeated data O N N
 The contents of RPTDATA are unknown. RLENGTH is a binary number expressing byte count. RLENGTH and
-RPTDATA do not accept the default indicator.
+RPTDATA do not accept the default indicator. [PTOCA-4-347]
 ### Semantics
 This control sequence specifies a string of bytes that is to be processed entirely as graphic character code
 points. No code point is recognized as a Control Sequence Prefix. Current inline position is incremented for
@@ -1832,7 +1832,7 @@ standard action is to ignore the control sequence and continue presenting.
 The subset may limit the range permitted in this control sequence. For detailed information about function
 subsets, please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”,
 on, and Appendix B, “IPDS Environment”,. See “Related Publications” for
-data-stream documentation.
+data-stream documentation. [PTOCA-4-348]
 ### Pragmatics
 The standard action value for RLENGTH is the length of RPTDATA. If any part of a character's character box
 will exceed the object space as a result of the Repeat String control sequence and an attempt is made to
@@ -1851,35 +1851,35 @@ condition EC-1A03 exists. The standard action is to skip the remainder of the co
 only the valid code point sequence, and continue processing.
 Architecture Note: If the length of RLENGTH is the same as the length of RPTDATA, the RPS control
 sequence has the same effect as the Transparent Data control sequence. It is recommended that the
-RPS control sequence not be used in this manner, and that the TRN control sequence be used instead.
+RPS control sequence not be used in this manner, and that the TRN control sequence be used instead. [PTOCA-4-349]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1A01...A double-byte font is active and the length of RPTDATA is an odd number.
-* EC-1A03...Invalid Unicode data. This can be caused by one of the following:
+* EC-1A01...A double-byte font is active and the length of RPTDATA is an odd number. [PTOCA-4-350]
+* EC-1A03...Invalid Unicode data. This can be caused by one of the following: [PTOCA-4-351]
 – A high-order surrogate code value was not immediately followed by a low-order surrogate code value. The
 high-order surrogate range is U+D800 through U+DBFF.
 – A low-order surrogate code value was not immediately preceded by a high-order surrogate code value.
 The low-order surrogate range is U+DC00 through U+DFFF.
 – An illegal UTF-8 byte sequence, as defined in the Unicode 3.2 Specification, was specified. For more
 information on illegal UTF-8 byte sequences, see Table 15.
-* EC-1B01...A double-byte font is active and RLENGTH is an odd number.
-* EC-1901...The value of RLENGTH is not supported or is not in the range specified by PTOCA.
-* EC-0103...A parameter value will cause part of a character's character box to be outside the object space,
+* EC-1B01...A double-byte font is active and RLENGTH is an odd number. [PTOCA-4-352]
+* EC-1901...The value of RLENGTH is not supported or is not in the range specified by PTOCA. [PTOCA-4-353]
+* EC-0103...A parameter value will cause part of a character's character box to be outside the object space, [PTOCA-4-354]
 and presentation is attempted.
-* EC-1F01...The control sequence length parameter is four and RLENGTH is not zero.
+* EC-1F01...The control sequence length parameter is four and RLENGTH is not zero. [PTOCA-4-355]
 RPS Control Sequence
 
 <!-- Page 102 -->
 
 ## Set Baseline Increment (SBI)
 The Set Baseline Increment control sequence specifies the increment to be added to the current baseline
-coordinate when a Begin Line control sequence is executed. This is a modal control sequence.
+coordinate when a Begin Line control sequence is executed. This is a modal control sequence. [PTOCA-4-356]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4 Control sequence length M N N
-3 CODE TYPE X'D0' – X'D1' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-357]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-358]
+2 UBIN LENGTH 4 Control sequence length M N N [PTOCA-4-359]
+3 CODE TYPE X'D0' – X'D1' Control sequence [PTOCA-4-360]
 function type
 M N N
 4–5 SBIN INCRMENT X'0000' –
@@ -1888,13 +1888,13 @@ Increment M Y Y
 INCRMENT is a positive binary number expressed in measurement units. The range for this parameter
 assumes a measurement unit of 1/1440 inch. If it is necessary to convert to a different measurement unit,
 please see the conversion routine described in “Interpreting Ranges”. The PTOCA default value for
-INCRMENT should be the Default Baseline Increment of the default coded font for the device.
+INCRMENT should be the Default Baseline Increment of the default coded font for the device. [PTOCA-4-361]
 ### Semantics
 This control sequence specifies an increment, INCRMENT, in the positive B-direction from the current baseline
 coordinate position to a new established baseline coordinate position for subsequent presentation text in the
 current Presentation Text object. INCRMENT is applied when a Begin Line control sequence is executed. If the
 value of INCRMENT is not supported or is not within the range specified by PTOCA, exception condition EC-
-1 101 exists. The standard action is to ignore this control sequence and continue presentation with the value
+1 101 exists. The standard action is to ignore this control sequence and continue presentation with the value [PTOCA-4-362]
 determined according to the hierarchy. If the value of INCRMENT is the default indicator, a value is obtained
 from the hierarchy. Please see Table 9.
 If INCRMENT is omitted, the standard action is to make no change to the existing Baseline Increment
@@ -1918,27 +1918,27 @@ SBI Control Sequence
 The baseline coordinate position is incremented by INCRMENT after each Begin Line control sequence is
 processed. If the value of INCRMENT is zero, each line appears superimposed over the preceding line.
 This control sequence overrides the Baseline Increment initial text condition parameter that may occur in the
-Presentation Text Data Descriptor.
+Presentation Text Data Descriptor. [PTOCA-4-363]
 ### Exception Conditions
 This control sequence can cause the following exception condition:
-* EC-1 101...The value of INCRMENT is not supported or is not in the range specified by PTOCA.
+* EC-1 101...The value of INCRMENT is not supported or is not in the range specified by PTOCA. [PTOCA-4-364]
 SBI Control Sequence
 
 <!-- Page 104 -->
 
 Set Coded Font Local (SCFL)
 The Set Coded Font Local control sequence activates a coded font and specifies the character attributes to be
-used. This is a modal control sequence.
+used. This is a modal control sequence. [PTOCA-4-365]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 3 Control sequence length M N N
-3 CODE TYPE X'F0' – X'F1' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-366]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-367]
+2 UBIN LENGTH 3 Control sequence length M N N [PTOCA-4-368]
+3 CODE TYPE X'F0' – X'F1' Control sequence [PTOCA-4-369]
 function type
 M N N
-4 CODE LID X'00' – X'FE' Local identifier M Y Y
-The PTOCA default value for the LID is X'00'.
+4 CODE LID X'00' – X'FE' Local identifier M Y Y [PTOCA-4-370]
+The PTOCA default value for the LID is X'00'. [PTOCA-4-371]
 ### Semantics
 This control sequence specifies a local identifier, LID, which is used by the controlling environment to access a
 coded font for presentation of subsequent text in the current Presentation Text object. The current presentation
@@ -1952,20 +1952,20 @@ font determined according to the hierarchy.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-372]
 ### Pragmatics
 The LID is equated to a coded font, character rotation, and font modification parameters by a mapping function
 in the controlling environment. Please see “Related Publications” and “Font Concepts”
 for font documentation.
 PTOCA expects the local identifier, LID, to be mapped to a global identifier. For example, this mapping could
 be accomplished in the following ways:
-* The receiver provides internal mapping, using device defaults.
-* The controlling environment provides the mapping to the receiver.
+* The receiver provides internal mapping, using device defaults. [PTOCA-4-373]
+* The controlling environment provides the mapping to the receiver. [PTOCA-4-374]
 If a mapping is not provided, exception condition EC-1802 exists. The standard action is to ignore the control
 sequence, substitute a coded font determined according to the hierarchy, and continue processing. If the
 coded font specified by the mapping is not available to the receiver, exception condition EC-1802 exists. The
 standard action in this case is to substitute a coded font, determined according to the hierarchy, for the
-SCFL Control Sequence
+SCFL Control Sequence [PTOCA-4-375]
 
 <!-- Page 105 -->
 
@@ -1980,15 +1980,15 @@ The measurement units used by the medium and those used by the coded font select
 assumed to be compatible. If they are not compatible, the standard action, when not superseded by the
 controlling environment, is to present a best fit of the character and continue processing. A best fit could result
 in no mark or unintelligible marks on the presentation surface. However, incompatible measurement units are
-not an exception condition in PTOCA.
+not an exception condition in PTOCA. [PTOCA-4-376]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1E01...The LID is missing.
-* EC-0C01...The value of the LID is not supported or is not in the range specified by PTOCA.
-* EC-1802...A font mapping has not been provided.
-* EC-1802...The coded font specified by the mapping is not available to the receiver.
-* EC-3F02...The specified coded font is not compatible with the text orientation.
-SCFL Control Sequence
+* EC-1E01...The LID is missing. [PTOCA-4-377]
+* EC-0C01...The value of the LID is not supported or is not in the range specified by PTOCA. [PTOCA-4-378]
+* EC-1802...A font mapping has not been provided. [PTOCA-4-379]
+* EC-1802...The coded font specified by the mapping is not available to the receiver. [PTOCA-4-380]
+* EC-3F02...The specified coded font is not compatible with the text orientation. [PTOCA-4-381]
+SCFL Control Sequence [PTOCA-4-382]
 
 <!-- Page 106 -->
 
@@ -2001,23 +2001,23 @@ KEYINFO key information required for decryption has not been defined using the S
 control.
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 6, 7–255 Control sequence length M N N
-3 CODE TYPE X'9C' – X'9D' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-383]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-384]
+2 UBIN LENGTH 6, 7–255 Control sequence length M N N [PTOCA-4-385]
+3 CODE TYPE X'9C' – X'9D' Control sequence [PTOCA-4-386]
 function type
 M N N
-4-7 Reserved; should be zero M N N
-8-256 CHAR ALTTEXT Not
+4-7 Reserved; should be zero M N N [PTOCA-4-387]
+8-256 CHAR ALTTEXT Not [PTOCA-4-388]
 applicable
 Alternate text to be used
 if decryption fails
 O N N
 The contents of ALTTEXT (if specified) are a character string of code points. ALTTEXT does not accept the
-default indicator, but X'F....F' is valid.
+default indicator, but X'F....F' is valid. [PTOCA-4-389]
 ### Semantics
 Alternate text is processed when an ENC decryption cannot be performed and ALTTEXT is substituted (see
-the ENC Semantics for a description of the details).
+the ENC Semantics for a description of the details). [PTOCA-4-390]
 ### Pragmatics
 Given that the length of the alternative text can exceed the space available within a single SEA control, a
 method to specify more than 249 bytes for alternate text is provided. SEA controls that are consecutive and
@@ -2041,10 +2041,10 @@ SEA Control Sequence
 <!-- Page 107 -->
 
 If the value of the LENGTH field is less than 6, exception condition EC-1E01 exists. The standard action is to
-ignore the control sequence and continue processing.
+ignore the control sequence and continue processing. [PTOCA-4-391]
 ### Exception Conditions
 This control sequence can cause the following exception condition:
-* EC-1E01...LENGTH is not valid.
+* EC-1E01...LENGTH is not valid. [PTOCA-4-392]
 SEA Control Sequence
 
 <!-- Page 108 -->
@@ -2053,26 +2053,26 @@ SEA Control Sequence
 The Set Extended Text Color control sequence specifies a color value and defines the color space and
 encoding for that value. The specified color value is applied to foreground areas of the text presentation space.
 Foreground areas consist of the following:
-* The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters,
+* The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters, [PTOCA-4-393]
 only the stroked portion of the character is considered foreground.
-* The stroked area of a rule
-* The stroked area of an underscore
+* The stroked area of a rule [PTOCA-4-394]
+* The stroked area of an underscore [PTOCA-4-395]
 All other areas of the text presentation space are considered background.
 This is a modal control sequence.
 Note: Colors may be specified using the Set Text Color (STC) or the Set Extended Text Color (SEC) control
 sequences. Both STC and SEC can coexist in the same text object. The last issued control sequence
 determines the current text color in accordance with the rules defined for modal control sequences. For
-a definition of modal control sequences, see “Modal Control Sequences”.
+a definition of modal control sequences, see “Modal Control Sequences”. [PTOCA-4-396]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 14–16 Control sequence length M N N
-3 CODE TYPE X'80' – X'81' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-397]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-398]
+2 UBIN LENGTH 14–16 Control sequence length M N N [PTOCA-4-399]
+3 CODE TYPE X'80' – X'81' Control sequence [PTOCA-4-400]
 function type
 M N N
-4 Reserved; should be zero M N N
-5 CODE COLSPCE Color space M N N
+4 Reserved; should be zero M N N [PTOCA-4-401]
+5 CODE COLSPCE Color space M N N [PTOCA-4-402]
 X'01'
 X'04'
 X'06'
@@ -2085,17 +2085,17 @@ CIELAB
 Standard OCA color
 space
 6–9 Reserved; should be zero M N N
-10 UBIN COLSIZE1 X'01' – X'08',
+10 UBIN COLSIZE1 X'01' – X'08', [PTOCA-4-403]
 X'10'
 Number of bits in
 component 1, see color
 space definitions
 M N N
-1 1 UBIN COLSIZE2 X'00' – X'08' Number of bits in
+1 1 UBIN COLSIZE2 X'00' – X'08' Number of bits in [PTOCA-4-404]
 component 2, see color
 space definitions
 M N N
-12 UBIN COLSIZE3 X'00' – X'08' Number of bits in
+12 UBIN COLSIZE3 X'00' – X'08' Number of bits in [PTOCA-4-405]
 component 3, see color
 space definitions
 M N N
@@ -2104,14 +2104,14 @@ SEC Control Sequence
 <!-- Page 109 -->
 
 Offset Type Name Range Meaning M/O Def Ind
-13 UBIN COLSIZE4 X'00' – X'08' Number of bits in
+13 UBIN COLSIZE4 X'00' – X'08' Number of bits in [PTOCA-4-406]
 component 4, see color
 space definitions
 M N N
-14–(n-1) COL Value See
+14–(n-1) COL Value See [PTOCA-4-407]
 ### Semantics
 for details
-Color specifications M N N
+Color specifications M N N [PTOCA-4-408]
 ### Semantics
 COLSPCE is a code that defines the color space and the encoding for the color specification. If the color space
 is invalid or unsupported, exception condition EC-0E02 exists. The standard action is to use the device default
@@ -2124,7 +2124,7 @@ used to specify each component. COLSIZE4 is reserved and should be set to zero. 
 intensity range for the R, G, and Bcomponents is 0 to 1, which is mapped to the binary value
 range 0 to (2
 ColSizeN
-- 1), where N=1,2,3.
+- 1), where N=1,2,3. [PTOCA-4-409]
 Architecture Note: The reference white point and the chromaticity coordinates for RGB are
 defined in SMPTE RP 145-1987 entitled Color Monitor Colorimetry and RP 37-1969
 entitled Color T emperature for Color T elevision Studio Monitors, respectively. The
@@ -2166,7 +2166,7 @@ SEC Control Sequence
 
 plus percent shading is less than 100%, the remaining coverage is achieved with color of
 medium. COLSIZE3 = X'00' or X'08' and defines the number of bits used to specify component
-3. A value of X'00' indicates that component 3 is not specified in the color value, in which case
+3. A value of X'00' indicates that component 3 is not specified in the color value, in which case [PTOCA-4-410]
 the architected default for percent shading is 0%. A value of X'08' indicates that component 3
 is specified in the color value.
 Implementation Note: The percent shading parameter is currently not supported in AFP
@@ -2175,20 +2175,20 @@ If the percent value for component 2 or component 3 is invalid, exception condit
 exists. The standard action is to use the maximum valid percent value.
 COLSIZE4 is reserved and should be set to zero. This is a device-dependent color space.
 Architecture Notes:
-1. The color that is rendered when a highlight color is specified is device dependent. For
+1. The color that is rendered when a highlight color is specified is device dependent. For [PTOCA-4-411]
 presentation devices that support colors other than black, highlight color values in the
 range X'0001' to X'FFFF' may be mapped to any color. For bi-level devices, the color may
 be simulated with a graphic pattern. In addition, presentation devices may not support the
 % coverage and % shading parameters for highlight colors in PTOCA text. In that case,
 these parameters are simulated with 100% coverage and 0% shading, respectively.
-2. If the specified highlight color is 'presentation device default', devices whose default color
+2. If the specified highlight color is 'presentation device default', devices whose default color [PTOCA-4-412]
 is black use the percent coverage parameter, which is specified in component 2, to render
 a percent shading.
-3. On printing devices, the color of medium is normally white, in which case a coverage of n
+3. On printing devices, the color of medium is normally white, in which case a coverage of n [PTOCA-4-413]
 % results in adding (100-n)% white to the specified color, or tinting the color with (100-n)%
 white. Display devices may assume the color of medium to always be white and use this
 algorithm to render the specified coverage.
-4. The highlight color space can also specify indexed colors when used in conjunction with a
+4. The highlight color space can also specify indexed colors when used in conjunction with a [PTOCA-4-414]
 Color Mapping Table (CMT) or an Indexed (IX) Color Management Resource (CMR).
 When used with an Indexed CMR, component 1 specifies a two-byte value that is the
 index into the CMR, and components 2 and 3 are ignored. Note that when both a CMT
@@ -2209,10 +2209,10 @@ binary numbers. COLSIZE1, COLSIZE2, and COLSIZE3 are non-zero and define the num
 of bits used to specify each component. COLSIZE4 is reserved and should be set to zero. The
 range for the L component is 0 to 100, which is mapped to the binary value range 0 to (2
 ColSize1
-- 1). The range for the a and b components is -127 to +127, which is mapped to the binary
+- 1). The range for the a and b components is -127 to +127, which is mapped to the binary [PTOCA-4-415]
 range -(2
 ColSizeN-1
-- 1) to +(2
+- 1) to +(2 [PTOCA-4-416]
 ColSizeN-1
 - 1).
 For color fidelity, 8-bit encoding should be used for each component, that is, ColSize1,
@@ -2279,20 +2279,20 @@ Blue
 X'FF08' Color of medium
 — — —
 Notes:
-1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows:
-* For PTOCA text data, it is the presentation device default
-2. The color rendered on presentation devices that do not support white is device-dependent. For
+1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows: [PTOCA-4-417]
+* For PTOCA text data, it is the presentation device default [PTOCA-4-418]
+2. The color rendered on presentation devices that do not support white is device-dependent. For [PTOCA-4-419]
 example, some printers simulate with color of medium, which results in white if white media is
 used.
-3. The presentation-process default specified by X'FF07' is resolved as the presentation device
+3. The presentation-process default specified by X'FF07' is resolved as the presentation device [PTOCA-4-420]
 default. This color value is also known in GOCA as neutral white for compatibility with display
 devices.
-4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some
+4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some [PTOCA-4-421]
 objects as a default indicator as follows:
-* For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to
+* For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to [PTOCA-4-422]
 indicate that the PTOCA default hierarchy is used to generate the color value. Note that X'FFFF'
 is not supported in the Set Extended Text Color (SEC) control sequence.
-5. While the RGB values in the table can be used to render the OCA named colors, many
+5. While the RGB values in the table can be used to render the OCA named colors, many [PTOCA-4-423]
 implementations are and have been device-dependent. Nevertheless, it is recommended that
 OCA Black (X'0008') be rendered as C = M = Y = X'00', and K = X'FF'.
 All others Reserved
@@ -2324,35 +2324,35 @@ SEC Control Sequence
 The subset may limit the parameter ranges permitted in this control sequence. For detailed information about
 subsets, please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”,
 on, and Appendix B, “IPDS Environment”,. See “Related Publications” for
-data-stream documentation.
+data-stream documentation. [PTOCA-4-424]
 ### Pragmatics
 If the receiver does not support the specified color value exception condition EC-0E03 exists. The standard
-action in this case is to use the presentation device default color.
+action in this case is to use the presentation device default color. [PTOCA-4-425]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-0E02...Invalid or unsupported color space.
-* EC-0E03...Invalid or unsupported color value.
-* EC-0E04...Invalid percent value.
-* EC-0E05...Invalid or unsupported number of bits in a color component.
+* EC-0E02...Invalid or unsupported color space. [PTOCA-4-426]
+* EC-0E03...Invalid or unsupported color value. [PTOCA-4-427]
+* EC-0E04...Invalid percent value. [PTOCA-4-428]
+* EC-0E05...Invalid or unsupported number of bits in a color component. [PTOCA-4-429]
 SEC Control Sequence
 
 <!-- Page 114 -->
 
 ## Set Intercharacter Adjustment (SIA)
 The Set Intercharacter Adjustment control sequence specifies additional increment or decrement between
-graphic characters. This is a modal control sequence.
+graphic characters. This is a modal control sequence. [PTOCA-4-430]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4–5 Control sequence length M N N
-3 CODE TYPE X'C2' – X'C3' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-431]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-432]
+2 UBIN LENGTH 4–5 Control sequence length M N N [PTOCA-4-433]
+3 CODE TYPE X'C2' – X'C3' Control sequence [PTOCA-4-434]
 function type
 M N N
 4–5 SBIN ADJSTMNT X'0000' –
 X'7FFF'
 Adjustment M Y Y
-6 CODE DIRECTION X'00' – X'01' Direction O Y Y
+6 CODE DIRECTION X'00' – X'01' Direction O Y Y [PTOCA-4-435]
 ADJSTMNT is a positive binary number expressed in measurement units. The range for this parameter
 assumes a measurement unit of 1/1440 inch. If it is necessary to convert to a different measurement unit,
 please see the conversion routine described in “Interpreting Ranges”. The PTOCA default value for
@@ -2391,29 +2391,29 @@ SIA Control Sequence
 is that the non-incrementing character is coupled with the following graphic character. This accomplishes an
 overstrike function, and the intercharacter adjustment is applied to the coupled characters as a unit.
 Intercharacter adjustment is not applied before or after the following:
-* A space character or variable space character
-* A Begin Line control sequence
-* A Relative Move Inline control sequence
-* An Absolute Move Inline control sequence
+* A space character or variable space character [PTOCA-4-436]
+* A Begin Line control sequence [PTOCA-4-437]
+* A Relative Move Inline control sequence [PTOCA-4-438]
+* An Absolute Move Inline control sequence [PTOCA-4-439]
 Non-presenting characters are graphic characters except when identified as the designated variable space
 character.
 Intercharacter adjustment is inserted between the characters that form a word, but not between words. That is,
 intercharacter adjustment is applied only when in inword mode. Inword mode is entered after any incrementing
 character has been processed. Inword mode is exited after any word delimiter has been processed. The
 following are word delimiters:
-* The space character or variable space character
-* Begin Line control sequences
-* Relative Move Inline control sequences
-* Absolute Move Inline control sequences
+* The space character or variable space character [PTOCA-4-440]
+* Begin Line control sequences [PTOCA-4-441]
+* Relative Move Inline control sequences [PTOCA-4-442]
+* Absolute Move Inline control sequences [PTOCA-4-443]
 Application Note: The following code points are normally used for the variable space character:
-* X'40' in EBCDIC single-byte code pages
-* X'20' in ASCII single-byte code pages
-* X'4040' in EBCDIC double-byte code pages
-* X'2020' in ASCII double-byte code pages
+* X'40' in EBCDIC single-byte code pages [PTOCA-4-444]
+* X'20' in ASCII single-byte code pages [PTOCA-4-445]
+* X'4040' in EBCDIC double-byte code pages [PTOCA-4-446]
+* X'2020' in ASCII double-byte code pages [PTOCA-4-447]
 The following code points are used for the variable space character in TrueType/OpenType fonts that
 use a Unicode (UTF-16) encoding:
-* X'0020'
-* X'00A0'
+* X'0020' [PTOCA-4-448]
+* X'00A0' [PTOCA-4-449]
 If the value of ADJSTMNT is the default indicator, a value is obtained from the hierarchy. If the value of
 DIRECTION is the default indicator, a value is obtained from the hierarchy. Please see Table 9.
 If the value of ADJSTMNT or DIRECTION is not supported or is not within the range specified by PTOCA,
@@ -2422,23 +2422,23 @@ presentation with the parameter values determined according to the hierarchy.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-450]
 ### Pragmatics
 If the value of ADJSTMNT is zero, no additional intercharacter increment or decrement appears between
 graphic characters. In this case, DIRECTION is optional, and the SIA control sequence does not change the
 following:
-* The current presentation position
-* The current I-unit value
-* The current inline margin
-* The current intercharacter increment value
-* The current intercharacter decrement value
+* The current presentation position [PTOCA-4-451]
+* The current I-unit value [PTOCA-4-452]
+* The current inline margin [PTOCA-4-453]
+* The current intercharacter increment value [PTOCA-4-454]
+* The current intercharacter decrement value [PTOCA-4-455]
 SIA Control Sequence
 
 <!-- Page 116 -->
 
 ### Exception Conditions
 This control sequence can cause the following exception condition:
-* EC-1201...The value of ADJSTMNT or DIRECTION is not supported or is not in the range specified by
+* EC-1201...The value of ADJSTMNT or DIRECTION is not supported or is not in the range specified by [PTOCA-4-456]
 PTOCA.
 SIA Control Sequence
 
@@ -2449,10 +2449,10 @@ The Set Inline Margin control sequence specifies the position of an inline margi
 sequence.
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4 Control sequence length M N N
-3 CODE TYPE X'C0' – X'C1' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-457]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-458]
+2 UBIN LENGTH 4 Control sequence length M N N [PTOCA-4-459]
+3 CODE TYPE X'C0' – X'C1' Control sequence [PTOCA-4-460]
 function type
 M N N
 4–5 SBIN DSPLCMNT X'0000' –
@@ -2476,33 +2476,33 @@ The subset may limit the range permitted in this control sequence. For detailed 
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
 stream documentation.
-This control sequence does not change the current addressable position.
+This control sequence does not change the current addressable position. [PTOCA-4-461]
 ### Pragmatics
 The current addressable position is at the inline margin after each Begin Line control sequence is executed. If
-the value of DSPLCMNT is zero, the inline margin is at the B-axis.
+the value of DSPLCMNT is zero, the inline margin is at the B-axis. [PTOCA-4-462]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1E01...DSPLCMNT is missing.
-* EC-1001...The value of DSPLCMNT is not supported or is not in the range specified by PTOCA.
+* EC-1E01...DSPLCMNT is missing. [PTOCA-4-463]
+* EC-1001...The value of DSPLCMNT is not supported or is not in the range specified by PTOCA. [PTOCA-4-464]
 SIM Control Sequence
 
 <!-- Page 118 -->
 
 ## Set Key Information (SKI)
 The Set Key Information control sequence provides encryption key information to be used with Encrypted Data
-(ENC) controls. This is a modal control sequence.
+(ENC) controls. This is a modal control sequence. [PTOCA-4-465]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 6, 7–255 Control sequence length M N N
-3 CODE TYPE X'9A' – X'9B' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-466]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-467]
+2 UBIN LENGTH 6, 7–255 Control sequence length M N N [PTOCA-4-468]
+3 CODE TYPE X'9A' – X'9B' Control sequence [PTOCA-4-469]
 function type
 M N N
 4–7 Reserved; should be zero M N N
 8–256 UNDF KEYINFO Any value Key information O N N
 The data type of the contents of KEYINFO is UNDF (undefined). KEYINFO does not accept the default
-indicator, but X'F....F' is valid.
+indicator, but X'F....F' is valid. [PTOCA-4-470]
 ### Semantics
 KEYINFO is a collection of bytes that are used by the decryption method to perform decryption on encrypted
 text specified in the ENC control. The contents and length of this field will vary based on the encryption
@@ -2512,7 +2512,7 @@ decryption implementations might use diffe rent information.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-471]
 ### Pragmatics
 If the value of the LENGTH field is less than 6, exception condition EC-1E01 exists. The standard action is to
 ignore the control sequence and continue processing.
@@ -2532,7 +2532,7 @@ SKI Control Sequence
 <!-- Page 119 -->
 
 chain have their KEYINFO fields concatenated together to form key information that can be much longer than
-249 bytes. Consecutive, in this case, means the SKI controls have no intervening PTOCA controls between
+249 bytes. Consecutive, in this case, means the SKI controls have no intervening PTOCA controls between [PTOCA-4-472]
 them. Every single SKI control on its own, or every set of consecutive SKI controls, is handled as a normal
 modal control, and simply replaces the previous encryption key information, for use in subsequent ENC
 controls.
@@ -2542,11 +2542,11 @@ the first place.
 KEYINFO is initially set to no value. If KEYINFO is defined, it can be reset back to no value by specifying a SKI
 with the KEYINFO field omitted (LENGTH = 6). A SKI with LENGTH=6 resets the KEYINFO field back to no
 value even if the SKIhas other consecutive SKIs either before or after it. Consecutive SKIs before it, if any, are
-effe ctively ignored, while consecutive SKIs after it, if any, begin a new KEYINFO definition.
+effe ctively ignored, while consecutive SKIs after it, if any, begin a new KEYINFO definition. [PTOCA-4-473]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1E01...LENGTH is not valid.
-* EC-9D01...Decryption is not available on this device.
+* EC-1E01...LENGTH is not valid. [PTOCA-4-474]
+* EC-9D01...Decryption is not available on this device. [PTOCA-4-475]
 SKI Control Sequence
 
 <!-- Page 120 -->
@@ -2554,37 +2554,37 @@ SKI Control Sequence
 ## Set Text Color (STC)
 The Set Text Color control sequence specifies a color attribute for the foreground areas of the text presentation
 space. Foreground areas consist of the following:
-* The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters,
+* The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters, [PTOCA-4-476]
 only the stroked portion of the character is considered foreground.
-* The stroked area of a rule
-* The stroked area of an underscore
+* The stroked area of a rule [PTOCA-4-477]
+* The stroked area of an underscore [PTOCA-4-478]
 All other areas of the text presentation space are considered background.
 This is a modal control sequence.
 Note: Colors may be specified using the Set Text Color (STC) or the Set Extended Text Color (SEC) control
 sequences. Both STC and SEC can coexist in the same text object. The last issued control sequence
 determines the current text color in accordance with the rules defined for modal control sequences. For
-a definition of modal control sequences, see “Modal Control Sequences”.
+a definition of modal control sequences, see “Modal Control Sequences”. [PTOCA-4-479]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4, 5 Control sequence length M N N
-3 CODE TYPE X'74' – X'75' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-480]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-481]
+2 UBIN LENGTH 4, 5 Control sequence length M N N [PTOCA-4-482]
+3 CODE TYPE X'74' – X'75' Control sequence [PTOCA-4-483]
 function type
 M N N
-4–5 CODE FRGCOLOR See
+4–5 CODE FRGCOLOR See [PTOCA-4-484]
 ### Semantics
 section
 Foreground color M Y Y
-6 Retired parameter, see
+6 Retired parameter, see [PTOCA-4-485]
 Architecture Note, also
 see “Retired Parameters”
 on.
 O
 The PTOCA default value for FRGCOLOR is X'FF07'. Please see the pragmatics section for further details.
 Architecture Note: Pre-year 2000 applications and printers support an optional PRECISION parameter in byte
-6. This parameter has been retired. It should not be generated by new applications, and should be
-ignored by new printers. For a definition of this parameter, see “Retired Parameters”.
+6. This parameter has been retired. It should not be generated by new applications, and should be [PTOCA-4-486]
+ignored by new printers. For a definition of this parameter, see “Retired Parameters”. [PTOCA-4-487]
 ### Semantics
 The FRGCOLOR parameterspecifies a color value. Syntactically valid values for specifying colors are X'0000'
 through X'0010' and X'FF00' through X'FF08', which is the range of values defined in the Standard OCA Color
@@ -2634,18 +2634,18 @@ X'FF08' Color of medium
 X'FFFF' Default indicator
 — — —
 Notes:
-1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows:
-* For PTOCA text data, it is the presentation device default
-2. The color rendered on presentation devices that do not support white is device-dependent. For example, some
+1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows: [PTOCA-4-488]
+* For PTOCA text data, it is the presentation device default [PTOCA-4-489]
+2. The color rendered on presentation devices that do not support white is device-dependent. For example, some [PTOCA-4-490]
 printers simulate with color of medium, which results in white if white media is used.
-3. The presentation-process default specified by X'FF07' is resolved as the presentation device default. This color
+3. The presentation-process default specified by X'FF07' is resolved as the presentation device default. This color [PTOCA-4-491]
 value is also known in GOCA as neutral white for compatibility with display devices.
-4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some objects as a default
+4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some objects as a default [PTOCA-4-492]
 indicator as follows:
-* For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to indicate that the
+* For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to indicate that the [PTOCA-4-493]
 PTOCA default hierarchy is used to generate the color value. Note that X'FFFF' is not supported in the Set
 Extended Text Color (SEC) control sequence.
-5. While the RGB values in the table can be used to render the OCA named colors, many implementations are and
+5. While the RGB values in the table can be used to render the OCA named colors, many implementations are and [PTOCA-4-494]
 have been device-dependent. Nevertheless, it is recommended that OCA Black (X'0008') be rendered as C = M = Y
 = X'00', and K = X'FF'.
 STC Control Sequence
@@ -2655,12 +2655,12 @@ STC Control Sequence
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-495]
 ### Pragmatics
 The presentation process default color attribute value (FRGCOLOR = X'FFFF') is determined hierarchically.
 The following order applies:
-1. Value set by Text Color initial text condition parameter in descriptor
-2. PTOCA default X'FF07'
+1. Value set by Text Color initial text condition parameter in descriptor [PTOCA-4-496]
+2. PTOCA default X'FF07' [PTOCA-4-497]
 The device default value is the receiver ’ s default. For example, characters, rules, and underscores will be
 presented in black on a receiver which supports only black. The receiver ’ s best possible value means that if
 the receiver has limited color capabilities, then it may substitute a color it supports for one it does not support.
@@ -2672,12 +2672,12 @@ means that the receiver's default background color should be used for the foregr
 erase function.
 ### Exception Conditions
 This control sequence can cause the following exception condition:
-* EC-5803...The value of FRGCOLOR is invalid, or the specified color is not supported.
+* EC-5803...The value of FRGCOLOR is invalid, or the specified color is not supported. [PTOCA-4-498]
 Architecture Notes:
-1. The MO:DCA environment supports a Color Mapping Table (CMT) that may be used to map colors in a
+1. The MO:DCA environment supports a Color Mapping Table (CMT) that may be used to map colors in a [PTOCA-4-499]
 PTOCA object to other colors. When a CMT is active, valid FRGCOLOR values are mapped to their target
 values. The retired PRECISION parameter, if supported, is processed for the target values.
-2. The IPDS environment allows a presentation device to implement limited simulated color support for
+2. The IPDS environment allows a presentation device to implement limited simulated color support for [PTOCA-4-500]
 PTOCA text and rules. When the printer is working in a mode where color simulation is allowed, all valid
 but unsupported color values are accepted and result in a device-dependent simulation of the specified
 color without the generation of exception EC-5803.
@@ -2687,34 +2687,34 @@ STC Control Sequence
 
 Set Text Orientation (STO)
 The Set Text Orientation control sequence establishes the I-direction and B-direction for the subsequent text.
-This is a modal control sequence.
+This is a modal control sequence. [PTOCA-4-501]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 6 Control sequence length M N N
-3 CODE TYPE X'F6' – X'F7' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-502]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-503]
+2 UBIN LENGTH 6 Control sequence length M N N [PTOCA-4-504]
+3 CODE TYPE X'F6' – X'F7' Control sequence [PTOCA-4-505]
 function type
 M N N
-4–5 CODE IORNTION See
+4–5 CODE IORNTION See [PTOCA-4-506]
 ### Semantics
 section
 I-axis orientation M Y Y
-6–7 CODE BORNTION See
+6–7 CODE BORNTION See [PTOCA-4-507]
 ### Semantics
 section
 B-axis orientation M Y Y
-The PTOCA default for IORNTION is zero. The PTOCA default for BORNTION is 90.
+The PTOCA default for IORNTION is zero. The PTOCA default for BORNTION is 90. [PTOCA-4-508]
 ### Semantics
 This control sequence specifies the I-axis and B-axis orientations with respect to the $X_p$
 -axis for the current
 Presentation Text object. The orientations are rotational values expressed in degrees and minutes. IORNTION
 and BORNTION have the same format. Each is a two-byte, three-part binary code of the form ABC.
-* A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360
+* A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360 [PTOCA-4-509]
 through 51 1 are invalid.
-* B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through
-63 are invalid.
-* C is a one-bit reserved field (bit 15) which must be 0.
+* B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through [PTOCA-4-510]
+63 are invalid. [PTOCA-4-511]
+* C is a one-bit reserved field (bit 15) which must be 0. [PTOCA-4-512]
 The maximum value for IORNTION and BORNTION is X'B3F6' or B'101 1001 1 1 1 1 101 10', which is 359 degrees
 and 59 minutes. Increasing values indicate increasing clockwise rotation of the I,B axes with respect to the $X_p$
 ,
@@ -2772,44 +2772,44 @@ controlling environment. If the orientation is not supported by the receiver, ex
 The standard action is to use 0,90 degrees for the orientation. This exception condition and standard action
 also apply to values for IORNTION and BORNTION not within the range specified by PTOCA.
 Architecture Notes:
-1. The following remain as previously specified:
-* The current presentation position, an $X_p$,$Y_p$ coordinate,
-* The current I-unit value,
-* The current inline margin,
-* The current intercharacter increment value,
-* The current intercharacter decrement value,
-* The current B-unit value,
-* The current baseline increment value,
-* The current coded font.
+1. The following remain as previously specified: [PTOCA-4-513]
+* The current presentation position, an $X_p$,$Y_p$ coordinate, [PTOCA-4-514]
+* The current I-unit value, [PTOCA-4-515]
+* The current inline margin, [PTOCA-4-516]
+* The current intercharacter increment value, [PTOCA-4-517]
+* The current intercharacter decrement value, [PTOCA-4-518]
+* The current B-unit value, [PTOCA-4-519]
+* The current baseline increment value, [PTOCA-4-520]
+* The current coded font. [PTOCA-4-521]
 STO Control Sequence
 
 <!-- Page 125 -->
 
-2. The following will change:
-* The $X_p$
+2. The following will change: [PTOCA-4-522]
+* The $X_p$ [PTOCA-4-523]
 - $Y_p$
 -axis from which inline margin is measured (that is, the inline margin appears to rotate).
-* Font character rotations appropriate to the new orientation are used.
-* Presentation position should be respecified if subsequent text is to be positioned elsewhere in the
+* Font character rotations appropriate to the new orientation are used. [PTOCA-4-524]
+* Presentation position should be respecified if subsequent text is to be positioned elsewhere in the [PTOCA-4-525]
 Presentation Text space.
-* Other modal parameter values should be respecified if they are more appropriate to the new orientation.
-* A new coded font should be specified:
+* Other modal parameter values should be respecified if they are more appropriate to the new orientation. [PTOCA-4-526]
+* A new coded font should be specified: [PTOCA-4-527]
 – If the current coded font is not valid in the new text orientation,
 – If it is desired that the graphic characters be rotated in proper orientation with respect to the new
 baseline.
-3. If the Presentation Text object measurement units specified for the $X_p$
+3. If the Presentation Text object measurement units specified for the $X_p$ [PTOCA-4-528]
 -axis are different from the
 measurement units specified for the $Y_p$
 -axis, the result of a Set Text Orientation control sequence may be
-unexpected and use of a Set Text Orientation control sequence should be avoided.
+unexpected and use of a Set Text Orientation control sequence should be avoided. [PTOCA-4-529]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1E01...IORNTION or BORNTION is missing.
-* EC-0F01...IORNTION and BORNTION are identical.
-* EC-0F01...IORNTION or BORNTION not parallel to $X_p$
+* EC-1E01...IORNTION or BORNTION is missing. [PTOCA-4-530]
+* EC-0F01...IORNTION and BORNTION are identical. [PTOCA-4-531]
+* EC-0F01...IORNTION or BORNTION not parallel to $X_p$ [PTOCA-4-532]
 -axis or $Y_p$
 -axis.
-* EC-0F01...IORNTION and BORNTION not supported by receiver.
+* EC-0F01...IORNTION and BORNTION not supported by receiver. [PTOCA-4-533]
 Figure 13. Examples of Text Orientation and Character Rotation
 STO Control Sequence
 
@@ -2817,13 +2817,13 @@ STO Control Sequence
 
 ## Set V ariable Space Character Increment (SVI)
 The Set V ariable Space Character Increment control sequence specifies the increment for a variable space
-character. This is a modal control sequence.
+character. This is a modal control sequence. [PTOCA-4-534]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 4 Control sequence length M N N
-3 CODE TYPE X'C4' – X'C5' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-535]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-536]
+2 UBIN LENGTH 4 Control sequence length M N N [PTOCA-4-537]
+3 CODE TYPE X'C4' – X'C5' Control sequence [PTOCA-4-538]
 function type
 M N N
 4–5 SBIN INCRMENT X'0000' –
@@ -2831,7 +2831,7 @@ X'7FFF'
 Increment M Y Y
 INCRMENT is a positive number expressed in measurement units. The range for this parameter assumes a
 measurement unit of 1/1440 inch. If it is necessary to convert to a different measurement unit, please see the
-conversion routine described in “Interpreting Ranges”.
+conversion routine described in “Interpreting Ranges”. [PTOCA-4-539]
 ### Semantics
 This control sequence specifies an increment, INCRMENT, for the variable space character. The increment is
 in the I-direction from the presentation position of the variable space character to the addressable position for
@@ -2848,7 +2848,7 @@ determined according to the hierarchy. Please refer to the Pragmatics section fo
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-540]
 ### Pragmatics
 The inline coordinate of the presentation position is incremented by INCRMENT after each variable space
 character is processed. Each variable space character causes the presentation position to move in the I-
@@ -2863,59 +2863,59 @@ SVI Control Sequence
 The code point used for the variable space character is specified, either implicitly or explicitly, by the active
 font. In this case, the default value for INCRMENT is the value specified by the active font in its current
 orientation. The value is obtained in this order:
-1. The current variable space character increment
-2. The default variable space character increment of the active coded font
-3. The character increment of the default variable space character code point
+1. The current variable space character increment [PTOCA-4-541]
+2. The default variable space character increment of the active coded font [PTOCA-4-542]
+3. The character increment of the default variable space character code point [PTOCA-4-543]
 When the value of INCRMENT changes because of changes in the font or the SVIcontrol sequences, the new
 value is carried but is not used until the variable space character is enabled.
 The variable space character increment is not effe ctive for other graphic characters that are not presented, nor
 for graphic characters that make no marks.
 Architecture Note: The following remain as previously specified:
-* The current presentation position, an $X_p$,$Y_p$ coordinate
-* The current I-unit value
-* The current inline margin,
-* The current intercharacter increment value
-* The current intercharacter decrement value
-* The current B-unit value
-* The current baseline increment value
-* The current coded font
+* The current presentation position, an $X_p$,$Y_p$ coordinate [PTOCA-4-544]
+* The current I-unit value [PTOCA-4-545]
+* The current inline margin, [PTOCA-4-546]
+* The current intercharacter increment value [PTOCA-4-547]
+* The current intercharacter decrement value [PTOCA-4-548]
+* The current B-unit value [PTOCA-4-549]
+* The current baseline increment value [PTOCA-4-550]
+* The current coded font [PTOCA-4-551]
 Application Note: The following code points are normally used for the variable space character:
-* X'40' in EBCDIC single-byte code pages
-* X'20' in ASCII single-byte code pages
-* X'4040' in EBCDIC double-byte code pages
-* X'2020' in ASCII double-byte code pages
+* X'40' in EBCDIC single-byte code pages [PTOCA-4-552]
+* X'20' in ASCII single-byte code pages [PTOCA-4-553]
+* X'4040' in EBCDIC double-byte code pages [PTOCA-4-554]
+* X'2020' in ASCII double-byte code pages [PTOCA-4-555]
 The following code points are used for the variable space character in TrueType/OpenType fonts that
 use a Unicode (UTF-16) encoding:
-* X'0020'
-* X'00A0'
+* X'0020' [PTOCA-4-556]
+* X'00A0' [PTOCA-4-557]
 Application Note: The Set V ariable Space Character Increment (SVI) control sequence is modal, but is not an
 initial text condition. For text major text, SVI is not reset by AFP presentation servers when a MO:DCA
 BPT structured field is encountered, and therefore later text on the same page will inherit any SVI set
 previously on the page. If no SVI is specified in a page, then the default variable space character
-increment of the active coded font is used.
+increment of the active coded font is used. [PTOCA-4-558]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1E01...INCRMENT is missing
-* EC-1701...The value of INCRMENT is not supported or is not in the range specified by PTOCA.EC-1E01EC-
+* EC-1E01...INCRMENT is missing [PTOCA-4-559]
+* EC-1701...The value of INCRMENT is not supported or is not in the range specified by PTOCA.EC-1E01EC- [PTOCA-4-560]
 1701
 SVI Control Sequence
 
 <!-- Page 128 -->
 
-1 10 PTOCA Reference
+1 10 PTOCA Reference [PTOCA-4-561]
 Temporary Baseline Move (TBM)
 The Temporary Baseline Move control sequence changes the position of the baseline without changing the
-established baseline.
+established baseline. [PTOCA-4-562]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 3, 4, 6 Control sequence length M N N
-3 CODE TYPE X'78' – X'79' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-563]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-564]
+2 UBIN LENGTH 3, 4, 6 Control sequence length M N N [PTOCA-4-565]
+3 CODE TYPE X'78' – X'79' Control sequence [PTOCA-4-566]
 function type
 M N N
-4 CODE DIRECTION X'00' – X'03' Direction M Y Y
-5 BITS PRECISION X'00' – X'01' Precision O Y Y
+4 CODE DIRECTION X'00' – X'03' Direction M Y Y [PTOCA-4-567]
+5 BITS PRECISION X'00' – X'01' Precision O Y Y [PTOCA-4-568]
 6–7 SBIN INCRMENT X'0000' –
 X'7FFF'
 Temporary baseline
@@ -2924,12 +2924,12 @@ O Y Y
 INCRMENT is a positive number expressed in measurement units. The range for this parameter assumes a
 measurement unit of 1/1440 inch. If it is necessary to convert to different measurement unit, please see the
 conversion routine described in “Interpreting Ranges”. The PTOCA default value for INCRMENT is
-1/2 the baseline increment value. The PTOC A default value for DIRECTION and PRECISION is zero.
+1/2 the baseline increment value. The PTOC A default value for DIRECTION and PRECISION is zero. [PTOCA-4-569]
 ### Semantics
 This control sequence does one of the following:
-* Change the current baseline coordinate by the amount specified by INCRMENT in the direction specified by
+* Change the current baseline coordinate by the amount specified by INCRMENT in the direction specified by [PTOCA-4-570]
 DIRECTION
-* Return the baseline coordinate to the established baseline coordinate position
+* Return the baseline coordinate to the established baseline coordinate position [PTOCA-4-571]
 This control sequence does not change the position of the established baseline coordinate or the inline
 presentation position. INCRMENT specifies the magnitude of the temporary baseline increment. PRECISION
 specifies the method by which the receiver exhibits the change in the baseline coordinate. DIRECTION specifies
@@ -2959,7 +2959,7 @@ $B_{cnew}$ = $B_c$
 + INCRMENT
 If DIRECTION = 3:
 $B_{cnew}$ = $B_c$
-- INCRMENT
+- INCRMENT [PTOCA-4-572]
 In all cases:
 $I_{cnew}$ = $I_c$
 PRECISION is bit-encoded as follows.
@@ -2983,9 +2983,9 @@ for details.
 The subset may limit the range permitted in this control sequence. For detailed information about subsets,
 please see Chapter 6, “Compliance with PTOCA”,, Appendix A, “MO:DCA Environment”, on page
 163, and Appendix B, “IPDS Environment”,. See “Related Publications” for data-
-stream documentation.
+stream documentation. [PTOCA-4-573]
 ### Pragmatics
-* How TBM operates:
+* How TBM operates: [PTOCA-4-574]
 Changing the baseline coordinate with this control sequence does not modify the position of the
 established baseline coordinate.
 Once the baseline coordinate has been changed by a TBM control sequence, it will remain at the new
@@ -2997,7 +2997,7 @@ TBM Control Sequence
 
 <!-- Page 130 -->
 
-1 12 PTOCA Reference
+1 12 PTOCA Reference [PTOCA-4-575]
 moved farther from the established baseline coordinate. A second TBM with magnitude equal to the first
 but opposite direction cancels the effect of the first TBM and terminates the temporary baseline function.
 The Temporary Baseline Increment parameter is modal. That is, once it is set, it remains set until it is
@@ -3018,7 +3018,7 @@ established baseline coordinate, that is, when the established baseline and the 
 at the end of processing the TBM control sequence. Therefore, creating a temporary baseline on one side
 of the established baseline followed by another temporary baseline on the other side of the established
 baseline without terminating the temporary baseline field is possible by changing the value of INCRMENT.
-* How TBM affects other control sequences:
+* How TBM affects other control sequences: [PTOCA-4-576]
 The temporary baseline field is not canceled by any other control sequences. Here are some examples:
 A Begin Line control sequence is processed relative to the established baseline coordinate position, not
 the temporary baseline coordinate position. Following the processing of a Begin Line control sequence,
@@ -3035,7 +3035,7 @@ The relative baseline increment is also added to the established baseline coordi
 new established baseline position. Following execution of a Relative Move Baseline control sequence, the
 temporary baseline is continued until a terminating TBM control sequence ends the temporary baseline
 function.
-* How TBM uses the PRECISION parameter:
+* How TBM uses the PRECISION parameter: [PTOCA-4-577]
 PRECISION specifies how the receiver should exhibit characters at the temporary baseline. There is an
 actual placement method and a substitution method. If PRECISION is X'01', a receiver may simulate the
 temporary baseline move by substituting subscript or superscript graphics for graphics actually positioned
@@ -3055,7 +3055,7 @@ TBM Control Sequence
 If a receiver implements only the substitution method and PRECISION is set to X'00', exception condition
 EC-9803 exists. The standard action is to perform the substitution method. Furthermore, if a receiver using
 the substitution method cannot generate the necessary substitution character, exception condition EC-
-9803 exists. The standard action is to present the requested character at the established baseline
+9803 exists. The standard action is to present the requested character at the established baseline [PTOCA-4-578]
 coordinate. It is not an exception if a TBM control sequence with PRECISION set to X'01' is encountered by
 a receiver which implements only the actual placement method. If a receiver supports the substitution
 method in addition to the actual placement method, setting PRECISION to X'01' causes selection of the
@@ -3064,7 +3064,7 @@ PRECISION is not a modal parameter. However, if another TBM control sequence tha
 the temporary baseline function is received, and PRECISION is not specified, then the current value of
 PRECISION is assumed. If the value of PRECISION is changed from X'00' to X'01' or from X'01' to X'00', the
 precision change must be honored according to the rules for PRECISION as indicated in the semantics.
-* How TBM relates to underscore and overstrike:
+* How TBM relates to underscore and overstrike: [PTOCA-4-579]
 For receivers that support the actual placement method, the baseline position of characters resulting from
 the underscore function is the established baseline. The baseline position of characters resulting from the
 overstrike function is the current baseline, that is, the overstriking characters follow the temporary baseline.
@@ -3072,7 +3072,7 @@ If an overstrike or underscore function continues after the temporary baseline f
 exception condition exists. The corresponding function continues relative to the current baseline, which is
 equal to the established baseline. For receivers that support only the substitution method, the overstrike
 and underscore functions occur relative to the established baseline.
-* Miscellaneous TBM exception conditions:
+* Miscellaneous TBM exception conditions: [PTOCA-4-580]
 A receiver that supports the actual placement method for the TBM control sequence establishes the
 maximum temporary baseline displacement that it can support. If the Temporary Baseline Increment
 parameter exceeds the limits supported by the receiver, exception condition EC-9803 exists. The standard
@@ -3090,23 +3090,23 @@ boundaries of the object space and presentation is attempted, exception conditio
 standard action is to continue processing without presenting characters until the addressable point
 specified is valid for use as a presentation position, and then start presenting again. While processing
 without presenting characters, the current presentation position is maintained as though the affe cted
-characters were being presented.
+characters were being presented. [PTOCA-4-581]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-9803...The value of INCRMENT, PRECISION, or DIRECTION is not supported or is not in the range
+* EC-9803...The value of INCRMENT, PRECISION, or DIRECTION is not supported or is not in the range [PTOCA-4-582]
 specified by PTOCA.
-* EC-9803...The PRECISION parameterspecifies the actual placement method but the receiver does not
+* EC-9803...The PRECISION parameterspecifies the actual placement method but the receiver does not [PTOCA-4-583]
 support it.
-* EC-9803...A receiver using the substitution method cannot generate the required substitution character.
-* EC-9803...For a receiver that uses the actual placement method, the INCRMENT parameter exceeds the
+* EC-9803...A receiver using the substitution method cannot generate the required substitution character. [PTOCA-4-584]
+* EC-9803...For a receiver that uses the actual placement method, the INCRMENT parameter exceeds the [PTOCA-4-585]
 physical limit.
-* EC-9803...A multi-offset TBM control sequence is received by a receiver that uses the substitution method.
+* EC-9803...A multi-offset TBM control sequence is received by a receiver that uses the substitution method. [PTOCA-4-586]
 TBM Control Sequence
 
 <!-- Page 132 -->
 
-1 14 PTOCA Reference
-* EC-0103...The control sequence will cause part of a character's character box to be outside of the object
+1 14 PTOCA Reference [PTOCA-4-587]
+* EC-0103...The control sequence will cause part of a character's character box to be outside of the object [PTOCA-4-588]
 space, and presentation is attempted.
 TBM Control Sequence
 
@@ -3114,19 +3114,19 @@ TBM Control Sequence
 
 Transparent Data (TRN)
 The Transparent Data control sequence contains a sequence of code points that are presented without a scan
-for embedded control sequences.
+for embedded control sequences. [PTOCA-4-589]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 2–255 Control sequence length M N N
-3 CODE TYPE X'DA' – X'DB' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-590]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-591]
+2 UBIN LENGTH 2–255 Control sequence length M N N [PTOCA-4-592]
+3 CODE TYPE X'DA' – X'DB' Control sequence [PTOCA-4-593]
 function type
 M N N
 4–256 CHAR TRNDATA Not
 applicable
 Transparent data O N N
-The contents of TRNDATA are unknown. TRNDATA does not accept the default indicator, but X'F....F' is valid.
+The contents of TRNDATA are unknown. TRNDATA does not accept the default indicator, but X'F....F' is valid. [PTOCA-4-594]
 ### Semantics
 This control sequence specifies a string of code points, all of which are to be processed as graphic characters.
 No code point within the data field is recognized as a Control Sequence Prefix. The current inline position is
@@ -3160,7 +3160,7 @@ TRN Control Sequence
 
 <!-- Page 134 -->
 
-1 16 PTOCA Reference
+1 16 PTOCA Reference [PTOCA-4-595]
 The data length must be an even number for double-byte fonts. If the Transparent Data control sequence
 length is an odd number when a double-byte font is active, exception condition EC-1A01 exists. The standard
 action is to process the Transparent Data control sequence up to the last byte, skip the odd byte, and continue
@@ -3170,10 +3170,10 @@ condition EC-1A03 exists. The standard action is to skip the remainder of the co
 continue processing.
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-0103...The control sequence will cause part of a character's character box to be outside the object
+* EC-0103...The control sequence will cause part of a character's character box to be outside the object [PTOCA-4-596]
 space, and presentation is attempted.
-* EC-1A01...The control sequence length is an odd number, but a double-byte font is active.
-* EC-1A03...Invalid Unicode data. This can be caused by one of the following:
+* EC-1A01...The control sequence length is an odd number, but a double-byte font is active. [PTOCA-4-597]
+* EC-1A03...Invalid Unicode data. This can be caused by one of the following: [PTOCA-4-598]
 – A high-order surrogate code value was not immediately followed by a low-order surrogate code value. The
 high-order surrogate range is U+D800 through U+DBFF.
 – A low-order surrogate code value was not immediately preceded by a high-order surrogate code value.
@@ -3185,16 +3185,16 @@ TRN Control Sequence
 <!-- Page 135 -->
 
 ## Underscore (USC)
-The Underscore control sequence identifies text fields that are to be underscored.
+The Underscore control sequence identifies text fields that are to be underscored. [PTOCA-4-599]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH 3 Control sequence length M N N
-3 CODE TYPE X'76' – X'77' Control sequence
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-600]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-601]
+2 UBIN LENGTH 3 Control sequence length M N N [PTOCA-4-602]
+3 CODE TYPE X'76' – X'77' Control sequence [PTOCA-4-603]
 function type
 M N N
-4 BITS BYPSIDEN See
+4 BITS BYPSIDEN See [PTOCA-4-604]
 ### Semantics
 section
 Bypass identifiers M Y Y
@@ -3213,23 +3213,23 @@ graphic characters or control sequences.
 BYPSIDEN specifies which controlled inline white space within the underscore field is to be underscored.
 Controlled inline white space is that area of the presented line that contains no visible material due to
 movement of the presentation position in the I-direction caused by the following:
-* Absolute Move Inline control sequence
-* Relative Move Inline control sequence
-* Space character or variable space character
+* Absolute Move Inline control sequence [PTOCA-4-605]
+* Relative Move Inline control sequence [PTOCA-4-606]
+* Space character or variable space character [PTOCA-4-607]
 Application Note: The following code points are normally used for the variable space character:
-* X'40' in EBCDIC single-byte code pages
-* X'20' in ASCII single-byte code pages
-* X'4040' in EBCDIC double-byte code pages
-* X'2020' in ASCII double-byte code pages
+* X'40' in EBCDIC single-byte code pages [PTOCA-4-608]
+* X'20' in ASCII single-byte code pages [PTOCA-4-609]
+* X'4040' in EBCDIC double-byte code pages [PTOCA-4-610]
+* X'2020' in ASCII double-byte code pages [PTOCA-4-611]
 The following code points are used for the variable space character in TrueType/OpenType fonts that
 use a Unicode (UTF-16) encoding:
-* X'0020'
-* X'00A0'
+* X'0020' [PTOCA-4-612]
+* X'00A0' [PTOCA-4-613]
 USC Control Sequence
 
 <!-- Page 136 -->
 
-1 18 PTOCA Reference
+1 18 PTOCA Reference [PTOCA-4-614]
 Movement of the current inline position in the I-direction to or through a presentation position that already
 contains material to be underscored creates controlled inline white space for the entire move in the I-direction.
 Not all inline white space is controlled. White space resulting from non-printing characters (other than space
@@ -3240,11 +3240,11 @@ Inline moves that cause the current addressable position to move in a direction 
 that is, in the negative inline direction, do not cause underscore.
 BYPSIDEN is bit encoded as follows.
 BIT MEANING
-0-3 Reserved, that is, set to 0 by generators and ignored by receivers
-4 Bypass Relative Move Inline
-5 Bypass Absolute Move Inline
-6 Bypass space characters and variable space characters
-7 No Bypass in effect
+0-3 Reserved, that is, set to 0 by generators and ignored by receivers [PTOCA-4-615]
+4 Bypass Relative Move Inline [PTOCA-4-616]
+5 Bypass Absolute Move Inline [PTOCA-4-617]
+6 Bypass space characters and variable space characters [PTOCA-4-618]
+7 No Bypass in effect [PTOCA-4-619]
 Bits 0-3, Reserved
 Reserved bits are set to 0 by generators and ignored by receivers.
 Bit 4, Bypass Relative Move Inline
@@ -3271,21 +3271,21 @@ ignored by receivers. To avoid confusion, it is strongly recommended that a defa
 for this parameter, and that the value X'01' is specified directly if the default is desired.
 An underscore area is that portion of the underscore field for which text is actually underscored. An underscore
 area is delimited by the addressable position in the following cases.
-* A beginning USC
+* A beginning USC [PTOCA-4-620]
 USC Control Sequence
 
 <!-- Page 137 -->
 
-* Either end of bypassed controlled inline white space
-* Either end of a baseline move, which may be for the established baseline or for a temporary baseline
-* The beginning of negative changes in the presentation position caused by inline moves or negative
+* Either end of bypassed controlled inline white space [PTOCA-4-621]
+* Either end of a baseline move, which may be for the established baseline or for a temporary baseline [PTOCA-4-622]
+* The beginning of negative changes in the presentation position caused by inline moves or negative [PTOCA-4-623]
 intercharacter adjustments
-* Boundaries where violation causes truncation
-* An ending USC
-* The end of the Presentation Text object
+* Boundaries where violation causes truncation [PTOCA-4-624]
+* An ending USC [PTOCA-4-625]
+* The end of the Presentation Text object [PTOCA-4-626]
 The dimension in the positive I-direction of the underscore field is defined by the minimum and maximum I-
 coordinates specified between the underscore area delimiters. White space resulting from the application of
-the inline margin is underscored only if this area is entered by means of an inline move.
+the inline margin is underscored only if this area is entered by means of an inline move. [PTOCA-4-627]
 ### Pragmatics
 The underscore area must be underscored with a solid line. For each character to be underscored, the solid
 line must extend for the entire character box and for any intercharacter adjustment. The solid line may not
@@ -3360,11 +3360,11 @@ UTF-8 or UTF-16, the code points in the text that follows UCT can be processed a
 Under the following conditions the code points cannot be processed as Unicode complex text and instead are
 processed by the presentation device as if they were within a TRN control sequence, in which case all UCT
 control information is ignored:
-* the active font is not a data-object font
-* the data is not encoded in a Unicode-based character encoding
-* the writing mode is vertical, as determined by a font character rotation of 90° or 270°
+* the active font is not a data-object font [PTOCA-4-628]
+* the data is not encoded in a Unicode-based character encoding [PTOCA-4-629]
+* the writing mode is vertical, as determined by a font character rotation of 90° or 270° [PTOCA-4-630]
 The UCT can be used in two ways.
-1. When the UCT is specified within a GLC chain, that is when it is chained from a GAR or a GOR, it is used
+1. When the UCT is specified within a GLC chain, that is when it is chained from a GAR or a GOR, it is used [PTOCA-4-631]
 to identify the code points rendered by the glyphs in the GLC chain. In that case, the code points following
 the UCT are not rendered, since the corresponding glyph IDs are rendered by the GLC chain. How much of
 the UCT controls are processed by the receiver to correlate code points to glyphs is device-dependent. If
@@ -3374,7 +3374,7 @@ rendered glyphs. Or a receiver may choose to ignore all of the UCT controls, in 
 of code points with glyph IDs can be more coarse. Processing of the UCT has no effect on the current
 inline position, $I_c$
 , or on any other PTOCA environment controls.
-2. When the UCT is specified outside a GLC chain (a “stand-alone“ UCT), it is used to process and render the
+2. When the UCT is specified outside a GLC chain (a “stand-alone“ UCT), it is used to process and render the [PTOCA-4-632]
 code points that follow.
 Architecture Note: The processing and rendering of a UCT outside a GLC chain is not part of the PTOC A
 PT4 function set. Not all presentation devices support this function; consult the appropriate product
@@ -3382,7 +3382,7 @@ documentation. IPDS printers generate an exception when a UCT is specified outsi
 Some IPDS printers, under control of an environment-specified text fidelity control, will render the
 UCT code points in a one-to-one manner.
 Rendering complex text involves two types of special processing:
-* bidirectional (bidi) layout processing. When the writing mode is horizontal, as determined by a character
+* bidirectional (bidi) layout processing. When the writing mode is horizontal, as determined by a character [PTOCA-4-633]
 rotation in the active font of 0° or 180°, characters are presented on the current PTOCA baseline in a
 direction determined by the Unicode bidi algorithm. For a description of the Unicode bidi algorithm, see
 http://unicode.org/reports/tr9. The direction can be left-to-right (L→R), right-to-left (R→L), or a
@@ -3399,7 +3399,7 @@ interchange format such as a MO:DCA document, to be interchanged among applicati
 text processing functions such as searching, sorting, and indexing. If the logical order is modified,
 which might be tempting as an aid to formatting, the capability to apply such text processing functions
 is lost.
-* glyph processing. Characters may require language-specific shaping such as arabic character shaping,
+* glyph processing. Characters may require language-specific shaping such as arabic character shaping, [PTOCA-4-634]
 composition/decomposition, and position adjustments. The rendering is no longer one code point to one
 character to one glyph, and requires the assistance of a Unicode layout engine.
 Implementation Note: In AFP environments, the ICU ParagraphLayout API is used to apply Unicode bidi
@@ -3415,30 +3415,30 @@ composed character. The Unicode normalization format used in PTOCA objects is No
 (NFC). If the normalization step was not applied by the formatter that generated the complex text, it is applied
 by the presentation device before bidi layout processing or glyph processing is applied.
 Architecture Note: The Unicode character encoding is defined in the Unicode Standard, which is available
-from the Unicode Consortium at http://unicode.org/standard/standard.html.
+from the Unicode Consortium at http://unicode.org/standard/standard.html. [PTOCA-4-635]
 ### Syntax
 Offset Type Name Range Meaning M/O Def Ind
-0 CODE PREFIX X'2B' Control Sequence Prefix M N N
-1 CODE CLASS X'D3' Control sequence class M N N
-2 UBIN LENGTH X'10' Control sequence length M N N
-3 CODE TYPE X'6A' Control sequence function type M N N
-4 CODE UCTVERS X'01' UCT version level
+0 CODE PREFIX X'2B' Control Sequence Prefix M N N [PTOCA-4-636]
+1 CODE CLASS X'D3' Control sequence class M N N [PTOCA-4-637]
+2 UBIN LENGTH X'10' Control sequence length M N N [PTOCA-4-638]
+3 CODE TYPE X'6A' Control sequence function type M N N [PTOCA-4-639]
+4 CODE UCTVERS X'01' UCT version level [PTOCA-4-640]
 X'01' Base level
 M N N
-5 Reserved; should be zero M N N
+5 Reserved; should be zero M N N [PTOCA-4-641]
 6–7 UBIN CTLNGTH 0 – 32,767 Length of complex text data that follows
 this control sequence
 M N N
-8 BITS CTFLGS See
+8 BITS CTFLGS See [PTOCA-4-642]
 ### Semantics
 section
 Complex text processing control flags M N N
-9 Reserved; should be zero M N N
+9 Reserved; should be zero M N N [PTOCA-4-643]
 UCT Control Sequence
 
 <!-- Page 142 -->
 
-10 CODE BIDICT X'02', X'04',
+10 CODE BIDICT X'02', X'04', [PTOCA-4-644]
 X'05', X'12',
 X'20', X'22',
 X'23'
@@ -3454,7 +3454,7 @@ X'20' Disable
 X'22' Disable; t.d. L→R
 X'23' Disable; t.d. R→L
 M N N
-1 1 CODE GLYPHCT X'01', X'20' Glyph processing control:
+1 1 CODE GLYPHCT X'01', X'20' Glyph processing control: [PTOCA-4-645]
 X'01' Enable
 X'20' Disable
 M N N
@@ -3469,7 +3469,7 @@ Alternate current inline position M N N
 Table Note: The terms 'p.d.' and 't.d.' stand for paragraph direction and text direction, respectively.
 ALTIPOS is a signed binary number in measurement units.The range for ALTIPOS assumes a measurement
 unit of 1/1440 inch. If it is necessary to convert to a different measurement unit, please see the conversion
-routine described in “Interpreting Ranges”.
+routine described in “Interpreting Ranges”. [PTOCA-4-646]
 ### Semantics
 This control sequence marks the start of a string of code points, all of which are to be processed as graphic
 characters. No code point within the marked string of text is recognized as a Control Sequence Prefix. This
@@ -3478,21 +3478,21 @@ If the code points in the text that follows the UCT control sequence cannot be p
 text, or if glyph processing and bidi processing are disabled, the code points are processed as if they were
 contained in a TRN control sequence. In that case, the current inline position is incremented for each graphic
 character in the string as follows:
-* For graphic characters following each other:
+* For graphic characters following each other: [PTOCA-4-647]
 $I_{cnew}$ = $I_c$
 + ADJSTMNT + CI
 and intervening non-incrementing characters are ignored.
-* For graphic characters following RMI, AMI, or BLN control sequences or following a space character or
+* For graphic characters following RMI, AMI, or BLN control sequences or following a space character or [PTOCA-4-648]
 variable space character:
 $I_{cnew}$ = $I_c$
 + CI
 and intervening non-incrementing characters are ignored.
-* For the variable space character:
+* For the variable space character: [PTOCA-4-649]
 $I_{cnew}$ = $I_c$
 + VSI
-* For a non-incrementing character:
+* For a non-incrementing character: [PTOCA-4-650]
 $I_{cnew}$ = $I_c$
-* In all cases:
+* In all cases: [PTOCA-4-651]
 $B_{cnew}$ = $B_c$
 UCT Control Sequence
 
@@ -3507,7 +3507,7 @@ If CTFLGS bit 3 = B'0' - advance $I_c$
 , the current text position $I_{cnew}$
 at the completion of a UCT is then generated
 as follows:
-* If $I_c$
+* If $I_c$ [PTOCA-4-652]
 was used to position the UCT text:
 $I_{cnew}$ = $I_c$
 + sum{G
@@ -3531,7 +3531,7 @@ a
 * G
 I
 = the increment for a grapheme in the UCT
-* sum = summation over all the graphemes that were presented for the UCT
+* sum = summation over all the graphemes that were presented for the UCT [PTOCA-4-653]
 UCTVERS specifies the functional level of the complex text support in the UCT.
 Value Definition
 X'01' Base level of complex text support
@@ -3542,17 +3542,17 @@ points and are presented without a scan for embedded control sequences.
 CTFLGS is a bit-encoded parameter that specifies controls for processing the Unicode complex text code
 points that follow, and is defined as follows:
 BIT MEANING
-0 Normalization
-1 Alternate inline position (I
+0 Normalization [PTOCA-4-654]
+1 Alternate inline position (I [PTOCA-4-655]
 a
 ) valid
-2 Alternate inline position (I
+2 Alternate inline position (I [PTOCA-4-656]
 a
 ) coordinates
-3 Maintain current inline position ($I_c$
+3 Maintain current inline position ($I_c$ [PTOCA-4-657]
 )
-4 Reset paragraph direction
-5-7 Reserved, that is, set to B'0' by generators and ignored by receivers
+4 Reset paragraph direction [PTOCA-4-658]
+5-7 Reserved, that is, set to B'0' by generators and ignored by receivers [PTOCA-4-659]
 Bit 0, Normalization
 A value of B'0' in this bit indicates that the Unicode complex text code points that follow have not been
 normalized. The presentation device will apply a normalization step as long as bidi layout processing or glyph
@@ -3587,7 +3587,7 @@ that the alternate inline position parameter I
 a
 is specified using relative i-coordinate values that are measured
 with respect to the current inline position $I_c$
-. In this case the range of I
+. In this case the range of I [PTOCA-4-660]
 a
 allows positive and negative values.
 Bit 3, Maintain current inline position ($I_c$
@@ -3772,9 +3772,9 @@ Start at $I_c$
 so it extends in (+) i-
 direction
 Table Notes:
-1. The terms 'left', 'right', 'top', and 'bottom–as in 'L→R', 'R→L', 'T→B', and 'B→T'–only have meaning when
+1. The terms 'left', 'right', 'top', and 'bottom–as in 'L→R', 'R→L', 'T→B', and 'B→T'–only have meaning when [PTOCA-4-661]
 the media has been oriented so that the characters appear right-side-up.
-2. The (+) i-direction is the direction of increasing i-values; the (-) i-direction is the direction of decreasing
+2. The (+) i-direction is the direction of increasing i-values; the (-) i-direction is the direction of decreasing [PTOCA-4-662]
 i-values.
 ### Pragmatics
 The CTLNGTH parameter must specify an even number when the character encoding is double-byte, as in
@@ -3790,16 +3790,16 @@ EC-1A03 exists, and the standard action is to skip the remainder of the UCT code
 mode, and continue processing.
 The UCT control sequence always terminates chaining. Therefore, in the exception cases noted, when the
 presentation device exits UCT processing mode, it continues processing by interpreting the next bytes as
-either code points or the start of an unchained control sequence.
+either code points or the start of an unchained control sequence. [PTOCA-4-663]
 ### Exception Conditions
 This control sequence can cause the following exception conditions:
-* EC-1A01...The CTLNGTH parameter is an odd number, but the character encoding is double byte.
+* EC-1A01...The CTLNGTH parameter is an odd number, but the character encoding is double byte. [PTOCA-4-664]
 UCT Control Sequence
 
 <!-- Page 147 -->
 
-* EC-9B01...The CTLNGTH, UCTVERS, BIDICT, or GLYPHCT parameter values are invalid.
-* EC-1A03...Invalid Unicode data. This can be caused by one of the following:
+* EC-9B01...The CTLNGTH, UCTVERS, BIDICT, or GLYPHCT parameter values are invalid. [PTOCA-4-665]
+* EC-1A03...Invalid Unicode data. This can be caused by one of the following: [PTOCA-4-666]
 – A high-order surrogate code value was not immediately followed by a low-order surrogate code value. The
 high-order surrogate range is U+D800 through U+DBFF.
 – A low-order surrogate code value was not immediately preceded by a high-order surrogate code value.
@@ -3808,9 +3808,9 @@ The low-order surrogate range is U+DC00 through U+DFFF.
 information on illegal UTF-8 byte sequences, see Table 15.
 Application Note. For a formal definition of UTF-8, consult the Unicode 3.2 Specification. The illegal UTF-8
 byte sequences can be summarized as follows:
-* The value in the 1st byte of the UTF-8 byte sequence was not in the legal UTF-8 range (X'00' - X'7F' and
+* The value in the 1st byte of the UTF-8 byte sequence was not in the legal UTF-8 range (X'00' - X'7F' and [PTOCA-4-667]
 X'C2' - X'F4').
-* The value in the 2nd byte of the UTF-8 byte sequence was not in the legal UTF-8 range allowed by the value
+* The value in the 2nd byte of the UTF-8 byte sequence was not in the legal UTF-8 range allowed by the value [PTOCA-4-668]
 in the 1st byte. The valid ranges for the 2nd byte are shown in Table 15.
 Table 15. V alid Values for UTF-8 First and Second Bytes
 First Byte Second Byte
@@ -3822,25 +3822,25 @@ X'EE''–X'EF' X'80''–X'BF'
 X'F0' X'90''–X'BF'
 X'F1''–X'F3' X'80''–X'BF'
 X'F4' X'80''–X'8F'
-* The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF-8 range for that byte
+* The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF-8 range for that byte [PTOCA-4-669]
 (X'80' - X'BF').
 Bidi Layout Processing for UCT Text
 A number of parameters–both outside the UCT and inside the UCT–determine how Unicode bidi layout
 processing is applied to text in a UCT:
-* Text orientation. The orientation of the (i,b) coordinate system which specifies the baseline on which glyphs
+* Text orientation. The orientation of the (i,b) coordinate system which specifies the baseline on which glyphs [PTOCA-4-670]
 are positioned and the reference inline direction for progressing text directional runs.
-* Character rotation. Alignment of a character with respect to the baseline. Differentiates between horizontal
+* Character rotation. Alignment of a character with respect to the baseline. Differentiates between horizontal [PTOCA-4-671]
 and vertical writing modes.
-* Writing mode. Can be horizontal (L→R or R→L) or vertical (top->bottom or bottom->top). Determines–
+* Writing mode. Can be horizontal (L→R or R→L) or vertical (top->bottom or bottom->top). Determines– [PTOCA-4-672]
 together with the paragraph direction–how UCT text is positioned with respect to the current inline position
 ($I_c$
 ) or with respect to an alternate inline position (I
 a
 ).
-* Bidirectional character property. A property value assigned by the Unicode standard to each character,
+* Bidirectional character property. A property value assigned by the Unicode standard to each character, [PTOCA-4-673]
 including unassigned characters. Values include strong L→R, strong R→L, weak L→R, weak R→L, and
 neutral characters.
-* Text direction. Specifies the visual ordering of characters in a given directional run. The inherent directional
+* Text direction. Specifies the visual ordering of characters in a given directional run. The inherent directional [PTOCA-4-674]
 properties of Unicode characters dictate the text direction assigned many characters, while the Unicode bidi
 layout algorithm will assign a direction to characters such as punctuation marks which have a neutral
 directional property.
@@ -3848,7 +3848,7 @@ UCT Control Sequence
 
 <!-- Page 148 -->
 
-* Paragraph direction. Specifies the dominant text direction for a UCT. Used as an input to the Unicode bidi
+* Paragraph direction. Specifies the dominant text direction for a UCT. Used as an input to the Unicode bidi [PTOCA-4-675]
 layout algorithm where it influences the ordering of directional runs and of directionally-neutral characters in
 a UCT.
 The processing of the Unicode complex text in a UCT occurs within the context of the PTOCA and AFP
@@ -4037,15 +4037,15 @@ have a neutral directional property, such as a
 punctuation mark.
 The text direction affects character ordering when processing a given directional run from logical (storage)
 order into visual (rendering) order.
-* The text direction of the L
+* The text direction of the L [PTOCA-4-676]
 i
 characters is L→R. In that case the characters are rendered as:
 L3 L4 L5
-* The text direction of the R
+* The text direction of the R [PTOCA-4-677]
 i
 characters is R→L. In that case the characters are rendered as:
 R8 R7 R6 and R2 R1 R0
-* The text direction can also be set by the BIDICT parameter on the UCT. With BIDICT values X'22'and X'23',
+* The text direction can also be set by the BIDICT parameter on the UCT. With BIDICT values X'22'and X'23', [PTOCA-4-678]
 the text direction is fixed as either L→R or R→L, respectively, regardless of the directional property of the
 characters. Care must be taken when using these BIDICT values or undesirable results may occur, as for
 example, in the following cases:
@@ -4059,45 +4059,45 @@ string is rendered as:
 L5 L4 L3
 The paragraph direction affects the ordering of directional runs in a UCT and of directionally-neutral characters
 in a UCT. Assume that the complete string in the previous example is included in a single UCT.
-* If the paragraph direction is R→L, the complete string is rendered as:
+* If the paragraph direction is R→L, the complete string is rendered as: [PTOCA-4-679]
 N9 R8 R7 R6 L3 L4 L5 R2 R1 R0
-* If the paragraph direction is L→R, the complete string is rendered as:
+* If the paragraph direction is L→R, the complete string is rendered as: [PTOCA-4-680]
 R2 R1 R0 L3 L4 L5 R8 R7 R6 N9
 The writing mode determines how UCT text is positioned on the current baseline. Assume the current inline
 position is $I_c$
 .
-* Writing mode L→R, paragraph direction L→R:
+* Writing mode L→R, paragraph direction L→R: [PTOCA-4-681]
 ($I_c$
 ) R2 R1 R0 L3 L4 L5 R8 R7 R6 N9
-* Writing mode R→L, paragraph direction L→R:
+* Writing mode R→L, paragraph direction L→R: [PTOCA-4-682]
 R2 R1 R0 L3 L4 L5 R8 R7 R6 N9 ($I_c$
 )
-* Writing mode L→R, paragraph direction R→L:
+* Writing mode L→R, paragraph direction R→L: [PTOCA-4-683]
 ($I_c$
 ) N9 R8 R7 R6 L3 L4 L5 R2 R1 R0
-* Writing mode R→L, paragraph direction R→L:
+* Writing mode R→L, paragraph direction R→L: [PTOCA-4-684]
 N9 R8 R7 R6 L3 L4 L5 R2 R1 R0 ($I_c$
 )
 The alternate inline position (I
 a
 ), if specified, can aff ect how the UCT text is positioned on the baseline as
 follows.
-* Writing mode L→R, paragraph direction L→R:
+* Writing mode L→R, paragraph direction L→R: [PTOCA-4-685]
 ($I_c$
 ) R2 R1 R0 L3 L4 L5 R8 R7 R6 N9 (I
 a
 )
-* Writing mode L→R, paragraph direction R→L:
+* Writing mode L→R, paragraph direction R→L: [PTOCA-4-686]
 ($I_c$
 ) N9 R8 R7 R6 L3 L4 L5 R2 R1 R0 (I
 a
 )
-* Writing mode R→L, paragraph direction R→L:
+* Writing mode R→L, paragraph direction R→L: [PTOCA-4-687]
 N9 R8 R7 R6 L3 L4 L5 R2 R1 R0 ($I_c$
 ) (I
 a
 )
-* Writing mode R→L, paragraph direction L→R:
+* Writing mode R→L, paragraph direction L→R: [PTOCA-4-688]
 ($I_c$
 (I
 a
@@ -4227,27 +4227,27 @@ position for each segmented UCT. See http://site.icu-project.or.
 Effect of Other PTOCA Control Sequences on UCT Text
 The unique characteristics of complex text require that some PTOCA control sequences have a different effect
 on UCT text processing than they do on non-UCT text processing. These differenc es are defined as follows:
-* Overstrike (OVS). Table 16 defines which Unicode space characters are treated as PTOCA
+* Overstrike (OVS). Table 16 defines which Unicode space characters are treated as PTOCA [PTOCA-4-689]
 space characters or variable space characters when an overstrike is generated. This applies to both UCT
 text and Unicode-encoded non-UCT text.
-* Set Intercharacter Adjustment (SIA). If glyph processing or bidi layout processing is enabled, intercharacter
+* Set Intercharacter Adjustment (SIA). If glyph processing or bidi layout processing is enabled, intercharacter [PTOCA-4-690]
 adjustment is not applied to UCT text, and the current inline position is incremented for each graphic
 character as follows:
 $I_{cnew}$ = $I_c$
 + CI
 In all other cases the SIA control sequence is processed the same for UCT text as for non-UCT text.
-* Set Text Orientation (STO). If bidi layout processing is enabled and the writing mode is horizontal, characters
+* Set Text Orientation (STO). If bidi layout processing is enabled and the writing mode is horizontal, characters [PTOCA-4-691]
 in complex text may be progressed in the negative i-direction as defined in Table 14. In all other
 cases the STO control sequence is processed the same for UCT text as for non-UCT text.
-* Set V ariable Space Character Increment (SVI). Table 16 defines which Unicode space
+* Set V ariable Space Character Increment (SVI). Table 16 defines which Unicode space [PTOCA-4-692]
 characters are mapped to the PTOCA variable space character and are assigned the increment specified by
 the SVIcontrol sequence. This applies to both UCT text and Unicode-encoded non-UCT text.
-* Temporary Baseline Move (TBM). If glyph processing or bidi layout processing is enabled, the precision
+* Temporary Baseline Move (TBM). If glyph processing or bidi layout processing is enabled, the precision [PTOCA-4-693]
 parameter in this control sequence is ignored for complex text, and such text is processed as if the precision
 parameter were set to B'0' - actual placement method. This means that the presentation device must actually
 move the baseline and position the complex text characters on the temporary baseline. In all other cases the
 TBM control sequence is processed the same for UCT text as for non-UCT text.
-* Underscore (USC). Table 16 defines which Unicode space characters are treated as PTOCA
+* Underscore (USC). Table 16 defines which Unicode space characters are treated as PTOCA [PTOCA-4-694]
 space characters or variable space characters when an underscore is generated. This applies to both UCT
 text and Unicode-encoded non-UCT text.
 All other PTOCA control sequences are processed the same for UCT text as for non-UCT text.
@@ -4278,18 +4278,18 @@ through a list of initial text conditions, which contain initial values such as 
 Pragmatics: The Presentation Text Data Descriptor is optional, because its parameters may be specified by
 the controlling environment or by default.
 The descriptor parameters fall into the following categories:
-1. Measurement units parameters:
-* Unit base
+1. Measurement units parameters: [PTOCA-4-695]
+* Unit base [PTOCA-4-696]
 * $X_p$
 -units per unit base
 * $Y_p$
 -units per unit base
-2. Size parameters
+2. Size parameters [PTOCA-4-697]
 * $X_p$
 -extent of the presentation space
 * $Y_p$
 -extent of the presentation space
-3. Initial text condition parameters
+3. Initial text condition parameters [PTOCA-4-698]
 The following section describes these parameters.
 Measurement Unit Parameters
 Semantics: These parameters specify the measurement units for the Presentation Text object space::
@@ -4300,9 +4300,9 @@ $Y_p$
 -units per unit base A number from 1 through 32,767
 The unit base parameterspecifies the measurement base. It has the following values:
 Values Description
-0 Ten inches
-1 Ten centimeters
-2-254 Reserved
+0 Ten inches [PTOCA-4-699]
+1 Ten centimeters [PTOCA-4-700]
+2-254 Reserved [PTOCA-4-701]
 If the value of the unit base parameter is not supported or is not within the range specified by PTOCA,
 exception condition EC-0505 exists. The standard action is to ignore this parameter and continue presentation
 with the value determined according to the hierarchy. The subset may limit the range permitted. For detailed
@@ -4311,27 +4311,27 @@ DCA Environment”,, and Appendix B, “IPDS Environment”,. See “Related
 Publications” for data stream documentation.
 Units of measure are defined as the measurement base divided by the units per unit base. That is, if the
 measurement base is 10 inches and the units per unit base are 5,000, the units of measure are 10 inches /
-5000 or one five-hundredth of an inch. Here are further examples.
+5000 or one five-hundredth of an inch. Here are further examples. [PTOCA-4-702]
 ## Presentation Text Data Descriptor
 
 <!-- Page 155 -->
 
 Table 17. Examples of Measurement Units
 Units/inch Parameter Values Comments
-800 X 800 units/in. Unit base = 0
+800 X 800 units/in. Unit base = 0 [PTOCA-4-703]
 $X_p$
 -units per unit base = 8,000
 $Y_p$
 -units per unit base = 8,000
 8,000 divisions in 10 in. on both axes
-80 X 77 units/cm. Unit base = 1
+80 X 77 units/cm. Unit base = 1 [PTOCA-4-704]
 $X_p$
 -units per unit base = 800
 $Y_p$
 -units per unit base = 770
-800 divisions in 10 cm. on $X_p$
-770 divisions in 10 cm. on $Y_p$
-203.3 X 195.5
+800 divisions in 10 cm. on $X_p$ [PTOCA-4-705]
+770 divisions in 10 cm. on $Y_p$ [PTOCA-4-706]
+203.3 X 195.5 [PTOCA-4-707]
 units/in.
 Unit base = 0
 $X_p$
@@ -4340,7 +4340,7 @@ $Y_p$
 -units per unit base = 1,955
 2,033 divisions in 10 in. on $X_p$
 1,955 divisions in 10 in. on $Y_p$
-240 x 240 units/in. Unit base = 0
+240 x 240 units/in. Unit base = 0 [PTOCA-4-708]
 $X_p$
 -units per unit base = 2,400
 $Y_p$
@@ -4402,7 +4402,7 @@ see Appendix A, “MO:DCA Environment”, and Appendix B, “IPDS Environment”
 If the value of the $X_p$
 -extent parameter or the $Y_p$
 -extent parameter is not supported or is not within the range
-specified by PTOCA, exception condition EC-0705 exists. The standard action is to ignore the invalid
+specified by PTOCA, exception condition EC-0705 exists. The standard action is to ignore the invalid [PTOCA-4-709]
 ## Presentation Text Data Descriptor
 
 <!-- Page 156 -->
@@ -4430,18 +4430,18 @@ condition exists even though the character's presentation position is within the
 “Graphic Character Processing”.
 Exception Conditions: The measurement units parameters and the size parameters can cause the following
 exception conditions:
-* EC-0505...The value of the unit base parameter is not supported, or is not in the range specified by PTOC A.
-* EC-0605...The value of the $X_p$
+* EC-0505...The value of the unit base parameter is not supported, or is not in the range specified by PTOC A. [PTOCA-4-710]
+* EC-0605...The value of the $X_p$ [PTOCA-4-711]
 -units per unit base parameter or the $Y_p$
 -units per unit base parameter is not
 supported, or is not in the range specified by PTOCA.
-* EC-0705...The value of the $X_p$
+* EC-0705...The value of the $X_p$ [PTOCA-4-712]
 -extent parameter or the $Y_p$
 -extent parameter is not supported, or is not in the
 range specified by PTOCA.
-* EC-0103...The contents of the Presentation Text object will cause presentation outside of the object space.
+* EC-0103...The contents of the Presentation Text object will cause presentation outside of the object space. [PTOCA-4-713]
 Presentation Text Flags
-Semantics: This parameter is reserved. Generators should set it to zero and receivers should ignore it.
+Semantics: This parameter is reserved. Generators should set it to zero and receivers should ignore it. [PTOCA-4-714]
 ## Presentation Text Data Descriptor
 
 <!-- Page 157 -->
@@ -4449,15 +4449,15 @@ Semantics: This parameter is reserved. Generators should set it to zero and rece
 Initial Text Condition Parameters
 The Initial Text Condition parameters specify initial values for the Presentation Text object. They include the
 following parameters:
-* Baseline increment
-* Coded font local ID
-* Extended text color
-* Initial baseline coordinate
-* Initial inline coordinate
-* Inline margin
-* Intercharacter adjustment
-* Text color
-* Text orientation
+* Baseline increment [PTOCA-4-715]
+* Coded font local ID [PTOCA-4-716]
+* Extended text color [PTOCA-4-717]
+* Initial baseline coordinate [PTOCA-4-718]
+* Initial inline coordinate [PTOCA-4-719]
+* Inline margin [PTOCA-4-720]
+* Intercharacter adjustment [PTOCA-4-721]
+* Text color [PTOCA-4-722]
+* Text orientation [PTOCA-4-723]
 The following pages contain the semantics and the pragmatics of the PTOCA initial text condition parameters.
 For the syntax, please see Appendix A, “MO:DCA Environment”, and Appendix B, “IPDS
 Environment”,.
@@ -4473,10 +4473,10 @@ The default value is the Default Baseline Increment associated with the default 
 Pragmatics: The baseline position is incremented by this value after each Begin Line control sequence is
 encountered in a text stream. If the value of this parameter is zero, each line appears superimposed over the
 preceding line. This value can be overridden for the duration of a Presentation Text object by a Set Baseline
-Increment control sequence.
+Increment control sequence. [PTOCA-4-724]
 ### Exception Conditions
 This parameter can cause the following exception condition:
-* EC-1 101...The value of the baseline increment parameter is not supported or is not in the range specified by
+* EC-1 101...The value of the baseline increment parameter is not supported or is not in the range specified by [PTOCA-4-725]
 PTOCA.
 Coded Font Local ID
 C oded Font Local ID specifies a font.
@@ -4487,7 +4487,7 @@ condition EC-0C01 exists. The standard action is to ignore this parameter and to
 character attributes determined according to the hierarchy. The subset level may also limit the range permitted.
 See Appendix A, “MO:DCA Environment”, and Appendix B, “IPDS Environment”, for
 more information about valid ranges.
-The default value is the LID of the default coded font of the device.
+The default value is the LID of the default coded font of the device. [PTOCA-4-726]
 ## Presentation Text Data Descriptor
 
 <!-- Page 158 -->
@@ -4503,24 +4503,24 @@ are assumed to be compatible. If the measurement units are not compatible, the s
 best fit of the character and continue processing. A best fit could result in no mark or unintelligible marks on the
 presentation surface. Incompatibility of measurement units is not an exception condition in PTOCA.
 Exception condition EC-1802 occurs in the following cases:
-* The Coded Font Local ID parameter is present in the Presentation Text Data Descriptor but a corresponding
+* The Coded Font Local ID parameter is present in the Presentation Text Data Descriptor but a corresponding [PTOCA-4-727]
 mapping function does not exist in the controlling environment.
-* An equate of the local identifier to a global identifier does not exist, or substitution parameters do not exist, in
+* An equate of the local identifier to a global identifier does not exist, or substitution parameters do not exist, in [PTOCA-4-728]
 the controlling environment. The coded font identified by the map is not available in the receiver.
-The standard action is to substitute the receiver's default font for the requested font and continue processing.
+The standard action is to substitute the receiver's default font for the requested font and continue processing. [PTOCA-4-729]
 ### Exception Conditions
 This parameter can cause the following exception conditions:
-* EC-0C01...The value of the LID parameter is not supported or is not in the range specified by PTOCA.
-* EC-3F02...The font is not compatible with the text orientation.
-* EC-1802...The font requested cannot be provided.
+* EC-0C01...The value of the LID parameter is not supported or is not in the range specified by PTOCA. [PTOCA-4-730]
+* EC-3F02...The font is not compatible with the text orientation. [PTOCA-4-731]
+* EC-1802...The font requested cannot be provided. [PTOCA-4-732]
 Extended Text Color
 The Extended Text Color parameterspecifies a process or highlight color value and defines the color space
 and encoding for that value. The specified color value is applied to foreground areas of the text presentation
 space. Foreground areas consist of the following:
-* The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters,
+* The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters, [PTOCA-4-733]
 only the stroked portion of the character is considered foreground.
-* The stroked area of a rule.
-* The stroked area of an underscore.
+* The stroked area of a rule. [PTOCA-4-734]
+* The stroked area of an underscore. [PTOCA-4-735]
 All other areas of the text presentation space are considered background.
 Semantics: Refer to “Set Extended Text Color (SEC)” for a description of the parameter
 semantics. The controlling environment may limit the range permitted. See “Related Publications”
@@ -4528,13 +4528,13 @@ for the appropriate data-stream documentation. Note that the Extended Text Color
 as an initial text condition in IPDS Environments, see “Presentation Text Data Descriptor for Text-Major Text”
 on.
 Pragmatics: If the receiver does not support the specified color value exception condition EC-0E03 exists.
-The standard action in this case is to use the presentation device default color.
+The standard action in this case is to use the presentation device default color. [PTOCA-4-736]
 ### Exception Conditions
 This parameter can cause the following exception conditions:
-* EC-0E02...Invalid or unsupported color space.
-* EC-0E03...Invalid or unsupported color value.
-* EC-0E04...Invalid percent value.
-* EC-0E05...Invalid or unsupported number of bits in a color component.
+* EC-0E02...Invalid or unsupported color space. [PTOCA-4-737]
+* EC-0E03...Invalid or unsupported color value. [PTOCA-4-738]
+* EC-0E04...Invalid percent value. [PTOCA-4-739]
+* EC-0E05...Invalid or unsupported number of bits in a color component. [PTOCA-4-740]
 ## Presentation Text Data Descriptor
 
 <!-- Page 159 -->
@@ -4550,10 +4550,10 @@ range permitted. See Appendix A, “MO:DCA Environment”, and Appendix B, “IP
 Environment”, for more information about valid ranges.
 The default value is device-dependent.
 Pragmatics: If the value of the B-displacement is X'0000', the initial addressable position in the B-direction is
-at the I-axis. This does not affect the inline margin.
+at the I-axis. This does not affect the inline margin. [PTOCA-4-741]
 ### Exception Conditions
 This parameter can cause the following exception condition:
-* EC-6B02...The value of the B-displacement parameter is not supported or is not in the range specified by
+* EC-6B02...The value of the B-displacement parameter is not supported or is not in the range specified by [PTOCA-4-742]
 PTOCA.
 Initial Inline Coordinate
 The Initial Inline Coordinate specifies the point on the I-axis within the object space to which the current
@@ -4566,10 +4566,10 @@ range permitted. See Appendix A, “MO:DCA Environment”, and Appendix B, “IP
 Environment”, for more information about valid ranges.
 The default value is zero.
 Pragmatics: If the value of the I-displacement is X'0000', the initial addressable position in the I-direction is at
-the B-axis. This does not affect the inline margin.
+the B-axis. This does not affect the inline margin. [PTOCA-4-743]
 ### Exception Conditions
 This parameter can cause the following exception condition:
-* EC-6A02...The value of the I-displacement parameter is not supported or is not in the range specified by
+* EC-6A02...The value of the I-displacement parameter is not supported or is not in the range specified by [PTOCA-4-744]
 PTOCA.
 Inline Margin
 Inline Margin specifies the position of the inline margin.
@@ -4578,7 +4578,7 @@ displacement in the I-direction from the B-axis to the inline margin in the curr
 parameter is not supported or is not within the range specified, the exception condition EC-1001 exists. The
 standard action is to ignore this parameter and continue presentation with the value determined according to
 the hierarchy. The subset level may limit the range permitted. See Appendix A, “MO:DCA Environment”, on
-page 163 and Appendix B, “IPDS Environment”, for more information about valid ranges.
+page 163 and Appendix B, “IPDS Environment”, for more information about valid ranges. [PTOCA-4-745]
 ## Presentation Text Data Descriptor
 
 <!-- Page 160 -->
@@ -4587,10 +4587,10 @@ The default value is zero.
 Pragmatics: The addressable position for the first line of presentation text is specified by the Initial Baseline
 Coordinate and Initial Inline Coordinate initial text conditions. After each Begin Line control sequence is
 processed, the addressable position is placed at the inline margin. If the value of the inline margin parameter is
-X'0000', the inline margin is at the B-axis.
+X'0000', the inline margin is at the B-axis. [PTOCA-4-746]
 ### Exception Conditions
 This parameter can cause the following exception condition:
-* EC-1001...The displacement parameter is not supported or is not in the range specified by PTOCA.
+* EC-1001...The displacement parameter is not supported or is not in the range specified by PTOCA. [PTOCA-4-747]
 Intercharacter Adjustment
 Intercharacter Adjustment specifies additional increment or decrement between graphic characters.
 Semantics: The adjustment parameterspecifies the initial value of additional space between graphic
@@ -4602,10 +4602,10 @@ the direction parameter is X'00', is applied in the positive I-direction. Interc
 when the direction parameter is X'01', is applied in the negative I-direction. The default value for the direction
 parameter is X'00'.
 Intercharacter adjustment is not applied before or after the following:
-* A space character or variable space character
-* A Begin Line control sequence
-* A Relative Move Inline control sequence
-* An Absolute Move Inline control sequence
+* A space character or variable space character [PTOCA-4-748]
+* A Begin Line control sequence [PTOCA-4-749]
+* A Relative Move Inline control sequence [PTOCA-4-750]
+* An Absolute Move Inline control sequence [PTOCA-4-751]
 For non-incrementing characters, the adjustment is applied from the current addressable position to locate the
 presentation position of the non-incrementing character, but the current addressable position is unchanged.
 The effect is that the non-incrementing character may be coupled with a graphic character, resulting in an
@@ -4617,11 +4617,11 @@ hierarchy. The subset level may also limit the range permitted. See Appendix A, 
 page 163 and Appendix B, “IPDS Environment”, for more information about valid ranges.
 The default value is zero for both the adjustment parameter and the direction parameter.
 Pragmatics: If the value of the adjustment parameter is X'0000', no additional intercharacter increment or
-decrement appears between graphic characters.
+decrement appears between graphic characters. [PTOCA-4-752]
 ### Exception Conditions
 This parameter can cause the following exception conditions:
-* EC-1201...The value of the adjustment parameter or the direction parameter is not supported, or is not in the
-range specified by PTOCA.
+* EC-1201...The value of the adjustment parameter or the direction parameter is not supported, or is not in the [PTOCA-4-753]
+range specified by PTOCA. [PTOCA-4-754]
 ## Presentation Text Data Descriptor
 
 <!-- Page 161 -->
@@ -4634,12 +4634,12 @@ color. This parameter has been retired. It should not be generated by new applic
 ignored by new printers. For a definition of this parameter, see “Retired Parameters”.
 Semantics: The named color value is applied to foreground areas of the text presentation space. Foreground
 areas consist of the following:
-* The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters,
+* The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters, [PTOCA-4-755]
 only the stroked portion of the character is considered foreground.
-* The stroked area of a rule.
-* The stroked area of an underscore.
+* The stroked area of a rule. [PTOCA-4-756]
+* The stroked area of an underscore. [PTOCA-4-757]
 All other areas of the text presentation space are considered background. Please refer to Table 13 on page
-103 for the foreground color values and their associated colors. The default color attribute value is X'FF07'.
+103 for the foreground color values and their associated colors. The default color attribute value is X'FF07'. [PTOCA-4-758]
 If the value of the foreground color attribute is not supported or is not within the range specified by PTOCA,
 exception condition EC-5803 exists. The standard action is to ignore these parameters and continue
 presentation with the value determined according to the hierarchy. The controlling environment may limit the
@@ -4647,8 +4647,8 @@ range permitted. See “Related Publications” for the appropriate data-stream 
 Pragmatics:
 The default color attribute value (FRGCOLOR = X'FFFF') is determined hierarchically. The following order
 applies:
-1. Value set by Text Color initial text condition parameter in Descriptor
-2. PTOCA default – X'FF07'.
+1. Value set by Text Color initial text condition parameter in Descriptor [PTOCA-4-759]
+2. PTOCA default – X'FF07'. [PTOCA-4-760]
 The device default value is the receiver ’ s default. For example, characters, rules, and underscores will be
 presented in black on a receiver which supports only black. The receiver ’ s best possible value means that if
 the receiver has limited color capabilities, then it may substitute a color it supports for one it does not support.
@@ -4660,7 +4660,7 @@ means that the receiver's default background color should be used for the foregr
 erase function.
 ### Exception Conditions
 This parameter can cause the following exception condition:
-* EC-5803...The foreground color parameter (FRGCOLOR) value is invalid, or the specified color is not
+* EC-5803...The foreground color parameter (FRGCOLOR) value is invalid, or the specified color is not [PTOCA-4-761]
 supported.
 Text Orientation
 Text Orientation consists of two parameters that establish the I-direction and the B-direction for presentation
@@ -4668,16 +4668,16 @@ text.
 Semantics: These parameters specify the initial I-axis and B-axis orientations with respect to the $X_p$
 -axis.
 These orientations are expressed in degrees and minutes. The same format is used for both orientations. Each
-is a two-byte, three-part code of the form ABC.
+is a two-byte, three-part code of the form ABC. [PTOCA-4-762]
 ## Presentation Text Data Descriptor
 
 <!-- Page 162 -->
 
-* A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360
+* A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360 [PTOCA-4-763]
 through 51 1 are invalid.
-* B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through
-63 are invalid.
-* C is a one-bit reserved field (bit 15) which must be B'0'.
+* B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through [PTOCA-4-764]
+63 are invalid. [PTOCA-4-765]
+* C is a one-bit reserved field (bit 15) which must be B'0'. [PTOCA-4-766]
 A value of X'0000' for the I-axis orientation parameter indicates that the positive direction is parallel to the $X_p$
 -
 axis. Increasing values for these parameters indicate increasing clockwise rotation.
@@ -4700,13 +4700,13 @@ Orientations other than 0,90 are valid, but may be constrained by receiver limit
 controlling environment. If the I-axis orientation is not supported by the receiver, exception condition EC-6802
 exists. If the B-axis orientation is not supported by the receiver, exception condition EC-6902 exists. The
 standard action is to use 0,90 degrees. These exception condition codes and standard actions also apply to
-orientation values not within the range specified by PTOCA.
+orientation values not within the range specified by PTOCA. [PTOCA-4-767]
 ### Exception Conditions
 This parameter can cause the following exception conditions:
-* EC-6802...The I-axis is not parallel to the $X_p$
+* EC-6802...The I-axis is not parallel to the $X_p$ [PTOCA-4-768]
 -axis or the $Y_p$
 -axis.
-* EC-6902...The B-axis is not parallel to the $X_p$
+* EC-6902...The B-axis is not parallel to the $X_p$ [PTOCA-4-769]
 -axis or the $Y_p$
 -axis.
 ## Presentation Text Data Descriptor
