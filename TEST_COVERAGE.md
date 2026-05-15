@@ -168,3 +168,19 @@ The coverage status is verified by the presence of corresponding architectural .
 | [PTOCA-5](specifications/markdown/ptoca-reference-04/Chapter_5.md) | Chapter 5. Exception Handling in PTOCA | ✅ Covered |
 | [PTOCA-6](specifications/markdown/ptoca-reference-04/Chapter_6.md) | Chapter 6. Compliance with PTOCA | ✅ Covered |
 | [PTOCA-FM](specifications/markdown/ptoca-reference-04/Front_Matter.md) | Front Matter Advanced Function Presentation Consortium Data Stream and Object Architectures Presentation Text Object Con | ✅ Covered |
+
+## Detailed Requirements Reports
+
+Detailed requirement IDs, summaries, and coverage status are listed in the following reports:
+
+- [BCOCA](TEST_COVERAGE_BCOCA.md)
+- [CMOCA](TEST_COVERAGE_CMOCA.md)
+- [DB2Z](TEST_COVERAGE_DB2Z.md)
+- [FOCA](TEST_COVERAGE_FOCA.md)
+- [GOCA](TEST_COVERAGE_GOCA.md)
+- [IOCA](TEST_COVERAGE_IOCA.md)
+- [IPDS](TEST_COVERAGE_IPDS.md)
+- [LINEDATA](TEST_COVERAGE_LINEDATA.md)
+- [MOCA](TEST_COVERAGE_MOCA.md)
+- [MODCA](TEST_COVERAGE_MODCA.md)
+- [PTOCA](TEST_COVERAGE_PTOCA.md)
