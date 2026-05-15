@@ -46,7 +46,47 @@ AFP is inherently sequential, but large documents often contain independent **Pa
 
 ---
 
-## 3. Performance Targets
+## 3. Architectural Decisions & Alternatives Analysis
+
+### Decision 1: Parsing & XML Generation Strategy
+The parser must handle files exceeding available heap memory without sacrificing speed.
+
+| Alternative | Evaluation |
+| :--- | :--- |
+| **A. Pure StAX/Event-Driven** | **Final Choice**. Provides O(1) memory footprint and maximum throughput. Complexity is high but justified by scalability. |
+| **B. Chunked Parsing** | Lower complexity, reuses existing SF logic. However, memory usage still fluctuates (O(N)) and state management is brittle. |
+| **C. Lazy-Loading JAXB** | Transparent to legacy code, but high object overhead and doesn't solve memory issues during full conversion. |
+
+### Decision 2: Object Lifecycle & Memory Management
+Reducing GC pressure is critical for sustained high-throughput processing.
+
+| Alternative | Evaluation |
+| :--- | :--- |
+| **A. Flyweight & Zero-Copy** | **Final Choice**. Uses `MappedByteBuffer` to reference data without copying. Near-zero memory overhead for payloads. |
+| **B. Optimized POJOs** | Reduces footprint via primitive fields, but still incurs object overhead for millions of SFs. Limited scalability. |
+| **C. Off-heap Storage** | Eliminates heap pressure entirely, but extremely complex and carries high risk of memory leaks or crashes. |
+
+### Decision 3: Concurrency & I/O Strategy
+Leveraging multi-core systems is essential for processing large documents (> 100 MB).
+
+| Alternative | Evaluation |
+| :--- | :--- |
+| **A. Seek-and-Parse Worker Pool** | **Final Choice**. Master thread finds page boundaries for parallel dispatch. Scalable for large docs with random-access I/O. |
+| **B. Pipeline Parallelism** | Simple producer-consumer model (I/O -> Parse -> Write). Speed limited by slowest stage; doesn't scale beyond 3 cores. |
+| **C. Map-Reduce Split** | Embarrassingly parallel, but very hard to handle global state (fonts, resource maps) and SFs spanning blocks. |
+
+### Decision 4: Structured Field Instantiation
+Reflection overhead becomes significant when processing millions of structured fields.
+
+| Alternative | Evaluation |
+| :--- | :--- |
+| **A. Pre-computed Static Map** | **Final Choice**. Uses a static `Map<Integer, Supplier<SF>>` for O(1) lookup. Zero reflection overhead during parsing. |
+| **B. Reflection Cache** | Caches `Constructor` objects. Faster than pure reflection but still incurs invocation overhead. |
+| **C. Generated Switch Case** | Fastest possible performance, but extremely difficult to maintain across 250+ SF types. |
+
+---
+
+## 4. Performance Targets
 
 | Metric | Current (Estimated) | Target |
 | :--- | :--- | :--- |
@@ -54,7 +94,7 @@ AFP is inherently sequential, but large documents often contain independent **Pa
 | **Throughput (50MB File)** | ~2-5 MB/s | > 50 MB/s |
 | **Scalability** | Limited by Heap | Linear with Disk I/O |
 
-## 4. Implementation Priorities
+## 5. Implementation Priorities
 
 1.  **StAX-based Streaming Writer**: Decouple XML generation from the `AFPDocument` list.
 2.  **Event-based CLI**: Update `Afp2Xml` to process SFs in a loop: `parse` -> `write` -> `discard`.
