@@ -103,6 +103,8 @@ public class Afp2Xml {
                 isDirectoryMode = true;
             }
 
+            var extension = "/text()".equals(xpathExpression) ? ".txt" : ".xml";
+
             if (isDirectoryMode) {
                 if (!input.isDirectory()) {
                     System.err.println("Input is not a directory: " + inputPath);
@@ -112,12 +114,15 @@ public class Afp2Xml {
                 var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
                 if (files != null) {
                     for (var f : files) {
-                        var outputFile = new File(f.getAbsolutePath() + ".xml");
+                        var outputFile = new File(f.getAbsolutePath() + extension);
                         convertToXml(f, outputFile, xpathExpression);
                     }
                 }
             } else {
                 var outputFile = (outputPath != null) ? new File(outputPath) : null;
+                if (outputFile == null && "/text()".equals(xpathExpression)) {
+                    outputFile = new File(inputPath + ".txt");
+                }
                 convertToXml(input, outputFile, xpathExpression);
             }
         } catch (Exception e) {
@@ -160,7 +165,7 @@ public class Afp2Xml {
                 try (var os = new FileOutputStream(outputFile)) {
                     Afp2XmlWriter.writeXML(os, doc, xpathExpression);
                 }
-                System.out.println("XML export successful: " + outputFile.getPath());
+                System.out.println("Export successful: " + outputFile.getPath());
             } else {
                 Afp2XmlWriter.writeXML(System.out, doc, xpathExpression);
             }
