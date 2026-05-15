@@ -18,6 +18,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 7 | Modernization of Build System and Language | ✅ |
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | 🚧 |
+| 10 | Performance Optimization | 🚧 |
 
 ## Granular Requirement Coverage Analysis
 This section tracks the verification status of ~21,000 granular normative requirements extracted from the AFP specifications.
@@ -138,3 +139,21 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ⏳ Implement a SECURITY.md policy.
+
+## Phase 10: Performance Optimization
+This phase focuses on the architectural improvements outlined in `CONCEPT_PERFORMANCE.md` to support high-performance parsing and conversion of large AFP files (5 MB to 50 MB and beyond).
+
+- 🚧 Streaming Architecture (Event-Driven):
+    - ⏳ Implement StAX-based Streaming Writer to decouple XML generation from the `AFPDocument` list.
+    - ⏳ Update `Afp2Xml` CLI to process SFs in a loop (`parse` -> `write` -> `discard`) for O(1) memory footprint.
+    - ⏳ Implement a basic streaming XPath filter. **Note:** The XPath engine functionality must be preserved, though it may be limited to XPath 1.0 in streaming mode.
+- ⏳ Memory-Efficient Object Model:
+    - ⏳ Standardize the use of `isBuildShallow` in `AFPParserConfiguration`.
+    - ⏳ Integrate `java.nio.MappedByteBuffer` for zero-copy parsing.
+    - ⏳ Implement object pooling for `StructuredFieldIntroducer` and common payload objects.
+- ⏳ Parallel Processing:
+    - ⏳ Implement "seek-and-parse" worker pool strategy for parallel page parsing.
+    - ⏳ Utilize `AsynchronousFileChannel` for overlapping I/O and processing.
+- ⏳ Specialized Optimizations:
+    - ⏳ Replace reflection-based class lookup in `AFPParser` with a pre-computed static mapping (Supplier-based).
+    - ⏳ Implement custom fast EBCDIC-to-UTF8 decoders for high-frequency fields.
