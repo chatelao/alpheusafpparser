@@ -123,8 +123,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
 
 ## Phase 9: Project Documentation and Maintenance
 - 🚧 Improve all `specifications/markdown` formatting up to the 'Excellent' standard of neighbouring specifications (consistent with PTOCA).
-    - 🚧 Improve all specifications/markdown/modca-reference-10 chapters (Chapter 1 complete).
-    - 🚧 Improve all specifications/markdown/linedata-reference-05 chapters (Chapter 1 complete).
+    - 🚧 Improve all specifications/markdown/modca-reference-10 chapters (Chapter 1-2 complete).
+    - 🚧 Improve all specifications/markdown/linedata-reference-05 chapters (Chapter 1-2 complete).
     - ⏳ verify all other files in `specifications/markdown` and subdirectory if the meet the standards
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
