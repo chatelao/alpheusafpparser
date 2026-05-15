@@ -17,7 +17,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 6c | Testing and Quality Assurance (ii) | ✅ |
 | 7 | Modernization of Build System and Language | ✅ |
 | 8 | Modernized Publishing and Distribution | 🚧 |
-| 9 | Project Documentation and Maintenance | ⏳ |
+| 9 | Project Documentation and Maintenance | 🚧 |
 
 ## Granular Requirement Coverage Analysis
 This section tracks the verification status of ~21,000 granular normative requirements extracted from the AFP specifications.
@@ -122,6 +122,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - ✅ Set up automated release notes and asset generation using GitHub Releases.
 
 ## Phase 9: Project Documentation and Maintenance
+- ⏳ Improve `specifications/markdown/linedata-reference-05` formatting up to the 'Excellent' standard of neighbouring specifications (consistent with MODCA and PTOCA).
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
