@@ -39,7 +39,7 @@ public class StructuredFieldBaseData extends StructuredField {
 
   @XmlElement(name = "text")
   public String getText() {
-    return text;
+    return UtilCharacterEncoding.sanitizeForXml(text);
   }
 
   @Override

@@ -421,6 +421,40 @@ public class UtilCharacterEncoding {
     return null;
   }
 
+  /**
+   * Sanitizes a string for XML 1.0 by replacing invalid characters with a space.
+   *
+   * @param s the string to sanitize
+   * @return the sanitized string
+   */
+  public static String sanitizeForXml(String s) {
+    if (s == null || s.isEmpty()) {
+      return s;
+    }
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < s.length(); i++) {
+      int codePoint = s.codePointAt(i);
+      if (isValidXml10CodePoint(codePoint)) {
+        sb.appendCodePoint(codePoint);
+      } else {
+        sb.append(' ');
+      }
+      if (Character.isSupplementaryCodePoint(codePoint)) {
+        i++;
+      }
+    }
+    return sb.toString();
+  }
+
+  private static boolean isValidXml10CodePoint(int cp) {
+    return (cp == 0x9)
+        || (cp == 0xA)
+        || (cp == 0xD)
+        || ((cp >= 0x20) && (cp <= 0xD7FF))
+        || ((cp >= 0xE000) && (cp <= 0xFFFD))
+        || ((cp >= 0x10000) && (cp <= 0x10FFFF));
+  }
+
   private static Charset lookupCharset(String cpNumStr) {
     if (cpNumStr == null || cpNumStr.isEmpty()) {
       return null;

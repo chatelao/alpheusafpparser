@@ -207,7 +207,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
   }
 
@@ -1439,7 +1439,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
 
     /**
@@ -1694,7 +1694,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
   }
 
@@ -2478,7 +2478,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @XmlElement(name = "text")
     public String getText() {
-      return text;
+      return UtilCharacterEncoding.sanitizeForXml(text);
     }
   }
 

@@ -115,7 +115,7 @@ public class CPD_CodePageDescriptor extends StructuredField {
 
   @XmlElement(name = "text")
   public String getText() {
-    return codePageDescription;
+    return UtilCharacterEncoding.sanitizeForXml(codePageDescription);
   }
 
   public void setCodePageDescription(String codePageDescription) {

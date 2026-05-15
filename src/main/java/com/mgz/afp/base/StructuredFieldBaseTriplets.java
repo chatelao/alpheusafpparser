@@ -18,6 +18,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.base;
 
+import com.mgz.util.UtilCharacterEncoding;
 import com.mgz.afp.base.annotations.AFPField;
 
 import javax.xml.bind.annotation.XmlAnyElement;
