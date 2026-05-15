@@ -24,7 +24,6 @@ import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -72,7 +71,6 @@ public class IID_IMImageInputDescriptor extends StructuredField {
       color = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

@@ -21,7 +21,6 @@ package com.mgz.afp.modca;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
-
 import java.io.IOException;
 import java.io.OutputStream;
 

@@ -21,7 +21,6 @@ package com.mgz.afp.base;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
-
 import javax.xml.bind.annotation.XmlType;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -30,7 +29,6 @@ import java.io.OutputStream;
 public class Undefined extends StructuredField {
   @AFPField(maxSize = 32759)
   byte[] payload;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

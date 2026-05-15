@@ -26,11 +26,9 @@ import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 
 /**
  * MO:DCA, page 217.<br> andProgramming Guide and Line Data Reference(ha3l3r04.pdf), page 101.<br>
@@ -68,7 +66,6 @@ public class IPO_IncludePageOverlay extends StructuredFieldBaseTriplets {
       xRotation = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

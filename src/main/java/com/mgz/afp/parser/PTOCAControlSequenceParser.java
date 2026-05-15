@@ -26,7 +26,6 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEA_SetEncryptedAlternate;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SKI_SetKeyInformation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
-
 import java.util.ArrayList;
 import java.util.List;
 

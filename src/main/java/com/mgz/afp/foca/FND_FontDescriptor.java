@@ -26,7 +26,6 @@ import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

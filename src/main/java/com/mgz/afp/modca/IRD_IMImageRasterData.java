@@ -20,6 +20,5 @@ package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseData;
 
-
 public class IRD_IMImageRasterData extends StructuredFieldBaseData {
 }

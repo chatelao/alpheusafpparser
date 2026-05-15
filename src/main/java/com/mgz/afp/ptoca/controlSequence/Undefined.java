@@ -22,14 +22,12 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.IOException;
 import java.io.OutputStream;
 
 public final class Undefined extends PTOCAControlSequence {
   short undefinedControlSequenceFunctionType;
   byte[] data;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

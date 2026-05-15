@@ -23,7 +23,6 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
-
 import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,7 +46,6 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
       name = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

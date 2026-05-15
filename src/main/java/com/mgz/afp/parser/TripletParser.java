@@ -23,7 +23,6 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.afp.triplets.Triplet.TripletID;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +63,6 @@ public class TripletParser {
 
       pos += triplet.getLength();
     }
-
 
     return resultingTriplets;
   }

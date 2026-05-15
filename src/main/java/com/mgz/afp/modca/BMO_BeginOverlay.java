@@ -27,13 +27,11 @@ import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class BMO_BeginOverlay extends StructuredFieldBaseName implements IHasTriplets {
   @AFPField

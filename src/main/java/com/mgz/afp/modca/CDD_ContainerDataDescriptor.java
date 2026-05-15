@@ -24,7 +24,6 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,7 +34,6 @@ public class CDD_ContainerDataDescriptor extends StructuredField implements IHas
   byte retiredParameters[];
   List<Triplet> triplets;
 
-
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     checkDataLength(sfData, offset, length, -1);
 
@@ -44,7 +42,6 @@ public class CDD_ContainerDataDescriptor extends StructuredField implements IHas
 
     triplets = TripletParser.parseTriplets(sfData, 12, -1, config);
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

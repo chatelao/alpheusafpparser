@@ -25,10 +25,8 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.IOException;
 import java.io.OutputStream;
-
 
 public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
 
@@ -50,7 +48,6 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
   public void setLengthOfFollowingData(short lengthOfFollowingData) {
     this.lengthOfFollowingData = lengthOfFollowingData;
   }
-
 
   public enum SelfDefiningFieldType {
     Unknown(0x00),
@@ -135,7 +132,6 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
     byte nrOfBitsComponent3;
     byte nrOfBitsComponent4;
     byte[] colorValue;
-
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

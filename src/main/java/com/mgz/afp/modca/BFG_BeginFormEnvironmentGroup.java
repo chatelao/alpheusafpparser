@@ -20,7 +20,6 @@ package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
-
 public class BFG_BeginFormEnvironmentGroup extends StructuredFieldBaseNameAndTriplets {
 
 }

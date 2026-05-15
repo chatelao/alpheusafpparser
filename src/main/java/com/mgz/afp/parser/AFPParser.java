@@ -37,7 +37,6 @@ import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -65,7 +64,6 @@ public class AFPParser {
   long nrOfBytesRead;
   long nrOfSFBuilt;
   long nrOfErrSFBuilt;
-
 
   /**
    * Constructor.
@@ -135,7 +133,6 @@ public class AFPParser {
         int lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
         byte[] grossPayload = new byte[lenOfGrossPayload];
         byte[] sfData, padding;
-
 
         // Determine payload.
         if (lenOfGrossPayload > 0) {

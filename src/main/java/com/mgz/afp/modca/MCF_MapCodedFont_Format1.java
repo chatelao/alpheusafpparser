@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca;
-import javax.xml.bind.annotation.XmlRootElement;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPType;
 import com.mgz.afp.enums.AFPOrientation;
@@ -28,7 +28,6 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
-
 import javax.xml.bind.annotation.XmlType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,7 +39,6 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
   short lengthOfRepeatingGroup;
   byte[] reserved1_3 = new byte[3];
   List<MCF_RepeatingGroup> repeatingGroups;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -62,7 +60,6 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
       repeatingGroups = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -176,7 +173,6 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
         characterRotation = null;
       }
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

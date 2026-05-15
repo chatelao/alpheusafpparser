@@ -22,7 +22,6 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,7 +34,6 @@ public class ICP_IMImageCellPosition extends StructuredField {
   int xSizeOfFillRectangle;
   int ySizeOfFillRectangle;
 
-
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     checkDataLength(sfData, offset, length, 12);
@@ -47,7 +45,6 @@ public class ICP_IMImageCellPosition extends StructuredField {
     xSizeOfFillRectangle = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
     ySizeOfFillRectangle = UtilBinaryDecoding.parseInt(sfData, offset + 10, 2);
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

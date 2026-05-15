@@ -24,7 +24,6 @@ import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.triplets.Triplet;
-
 import javax.xml.bind.*;
 import javax.xml.namespace.QName;
 import java.io.OutputStream;

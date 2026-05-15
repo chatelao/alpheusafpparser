@@ -20,7 +20,6 @@ package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseName;
 
-
 public class EDI_EndDocumentIndex extends StructuredFieldBaseName {
 
 }

@@ -20,6 +20,5 @@ package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseName;
 
-
 public class EDG_EndDocumentEnvironmentGroup extends StructuredFieldBaseName {
 }

@@ -25,11 +25,9 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 
 /**
  * Programming Guide and Line Data Reference (ha3l3r04.pdf), page 75<br> <br> The Begin Data Map

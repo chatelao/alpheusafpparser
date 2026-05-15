@@ -18,7 +18,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.enums;
 
-
 /**
  * The structured field type code. The type code identifies the function of the structured field,
  * such as begin, end, descriptor, or data. See “Type Codes” on page 22 for a description of type
@@ -125,7 +124,6 @@ public enum SFType {
    * object architecture for the particular data object type.
    */
   Data(0xEE);
-
 
   int val;
 

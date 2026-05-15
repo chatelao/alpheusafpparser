@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.base;
 
 import com.mgz.afp.triplets.Triplet;
-
 import java.util.List;
 
 /**

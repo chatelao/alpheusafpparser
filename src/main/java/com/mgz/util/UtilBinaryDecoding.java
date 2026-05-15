@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.util;
 
 import com.mgz.afp.exceptions.AFPParserException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.BitSet;

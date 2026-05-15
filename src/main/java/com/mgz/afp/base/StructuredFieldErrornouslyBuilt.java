@@ -22,7 +22,6 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 
-
 /**
  * If an exception happens the parser builds a structured field of type {@link
  * StructuredFieldErrornouslyBuilt}.<br> <br> Note that {@link AFPParserConfiguration#setEscalateParsingErrors(boolean)}

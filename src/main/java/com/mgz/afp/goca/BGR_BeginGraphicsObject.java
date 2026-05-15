@@ -20,6 +20,5 @@ package com.mgz.afp.goca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
-
 public class BGR_BeginGraphicsObject extends StructuredFieldBaseNameAndTriplets {
 }

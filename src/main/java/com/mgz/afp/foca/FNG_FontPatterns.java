@@ -20,7 +20,6 @@ package com.mgz.afp.foca;
 
 import com.mgz.afp.base.StructuredFieldBaseData;
 
-
 public class FNG_FontPatterns extends StructuredFieldBaseData {
 
 }

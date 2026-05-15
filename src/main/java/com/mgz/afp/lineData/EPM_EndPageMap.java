@@ -20,6 +20,5 @@ package com.mgz.afp.lineData;
 
 import com.mgz.afp.base.StructuredFieldBaseName;
 
-
 public class EPM_EndPageMap extends StructuredFieldBaseName {
 }

@@ -24,7 +24,6 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,7 +38,6 @@ public class MBC_MapBarCodeObject extends StructuredField {
     lengthOfRepeatingGroup = UtilBinaryDecoding.parseShort(sfData, offset, 2);
     triplet = TripletParser.parseTriplet(sfData, offset + 2, length - 2, config);
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

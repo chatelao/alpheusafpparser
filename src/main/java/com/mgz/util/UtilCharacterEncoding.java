@@ -20,7 +20,6 @@ package com.mgz.util;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParserConfiguration;
-
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.util.logging.Logger;
@@ -277,7 +276,6 @@ public class UtilCharacterEncoding {
     if (Character.isLowerCase(s.charAt(0))) {
       sb.append(Character.toUpperCase(s.charAt(0)));
     }
-
 
     for (char ch : s.toCharArray()) {
       if (Character.isUpperCase(ch)) {

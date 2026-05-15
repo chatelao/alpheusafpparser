@@ -23,7 +23,6 @@ import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -61,7 +60,6 @@ public class PTD_PresentationTextDataDescriptor_Format1 extends StructuredField 
       reserved10_11 = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

@@ -25,7 +25,6 @@ import com.mgz.afp.exceptions.AFPValidationException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -63,7 +62,6 @@ public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IH
       }
     }
   }
-
 
   @Override
   public void setTriplets(List<Triplet> triplets) {

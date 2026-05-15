@@ -24,7 +24,6 @@ import com.mgz.afp.enums.AFPReferenceCoordinateSystem;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -43,7 +42,6 @@ public class OBP_ObjectAreaPosition extends StructuredField {
     repeatingGroup = new OBP_RepeatingGroup();
     repeatingGroup.decodeAFP(sfData, offset + 1, getActualLength(sfData, offset, length) - 1, config);
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

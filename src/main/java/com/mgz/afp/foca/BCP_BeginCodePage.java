@@ -20,7 +20,6 @@ package com.mgz.afp.foca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
-
 /**
  * Begin Code Page (BCP) structured field.
  */

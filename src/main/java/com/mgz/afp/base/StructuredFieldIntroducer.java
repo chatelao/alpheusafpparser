@@ -24,12 +24,10 @@ import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
-
 
 /**
  * <b>Structured Field Introducer (SFI)</b><br> The MO:DCA Structured Field Introducer (SFI)
@@ -241,7 +239,6 @@ public class StructuredFieldIntroducer {
   public void setFlagByte(EnumSet<SFFlag> flagByte) {
     this.flagByte = flagByte;
   }
-
 
   public AFPParserConfiguration getActualConfig() {
     return actualConfig;

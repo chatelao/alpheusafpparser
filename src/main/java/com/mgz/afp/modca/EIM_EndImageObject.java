@@ -20,6 +20,5 @@ package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseName;
 
-
 public class EIM_EndImageObject extends StructuredFieldBaseName {
 }

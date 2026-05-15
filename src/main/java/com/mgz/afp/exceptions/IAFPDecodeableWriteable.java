@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.exceptions;
 
 import com.mgz.afp.parser.AFPParserConfiguration;
-
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -40,7 +39,6 @@ public interface IAFPDecodeableWriteable {
    * @throws AFPParserException if the given AFP data are invalid.
    */
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException;
-
 
   /**
    * Writes the object to the given os encoded as AFP data.

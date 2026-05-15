@@ -24,7 +24,6 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
-
 import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;

@@ -20,6 +20,5 @@ package com.mgz.afp.foca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
-
 public class BFN_BeginFont extends StructuredFieldBaseNameAndTriplets {
 }

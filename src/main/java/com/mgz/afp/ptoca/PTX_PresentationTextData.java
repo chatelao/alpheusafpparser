@@ -24,7 +24,6 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
-
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.ByteArrayOutputStream;
@@ -59,7 +58,6 @@ public class PTX_PresentationTextData extends StructuredField {
     }
 
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

@@ -25,7 +25,6 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,7 +40,6 @@ public class PTD_PresentationTextDataDescriptor_Format2 extends StructuredField 
   short ySize;
   byte[] reserved12_13;
   List<PTOCAControlSequence> controlSequences;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

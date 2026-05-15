@@ -24,7 +24,6 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -44,7 +43,6 @@ public class IPG_IncludePage extends StructuredFieldBaseTriplets {
 
     super.decodeAFP(sfData, offset + 17, actualLength - 17, config); // Decode triplets.
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

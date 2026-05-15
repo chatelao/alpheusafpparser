@@ -22,7 +22,6 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -32,7 +31,6 @@ import java.io.OutputStream;
  */
 public class LNC_LineDescriptorCount extends StructuredField {
   int numberOfSFInBDX;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

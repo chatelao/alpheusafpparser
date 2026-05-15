@@ -166,7 +166,6 @@ public enum SFTypeID {
   TLE_TagLogicalElement(0xD3, 0xA0, 0x90),
   XMD_XMLDescriptor(0xD3, 0xA6, 0x8E),;
 
-
   /**
    * SFTypeID[2].
    */

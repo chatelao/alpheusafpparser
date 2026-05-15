@@ -24,14 +24,12 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
-
 import javax.xml.bind.annotation.XmlElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Programming Guide and Line Data Reference (ha3l3r04.pdf), page 83<br> <br> The Conditional
@@ -414,6 +412,5 @@ public class CCP_ConditionalProcessingControl extends StructuredField {
       }
     }
   }
-
 
 }

@@ -22,7 +22,6 @@ import com.mgz.afp.base.StructuredFieldBaseTriplets;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.triplets.Triplet;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

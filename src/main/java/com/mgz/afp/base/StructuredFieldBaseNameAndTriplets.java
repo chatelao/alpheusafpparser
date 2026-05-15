@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.base;
 
 import com.mgz.afp.base.annotations.AFPField;
-
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -29,7 +28,6 @@ import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -99,7 +97,6 @@ public abstract class StructuredFieldBaseNameAndTriplets extends StructuredField
     }
     writeFullStructuredField(os, baos.toByteArray());
   }
-
 
   @Override
   public final void setTriplets(List<Triplet> triplets) {

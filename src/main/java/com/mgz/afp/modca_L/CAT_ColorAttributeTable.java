@@ -25,7 +25,6 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -62,7 +61,6 @@ public class CAT_ColorAttributeTable extends StructuredField {
       otherData = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -110,7 +108,6 @@ public class CAT_ColorAttributeTable extends StructuredField {
       reserved1 = sfData[offset + 1];
       colorTableLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

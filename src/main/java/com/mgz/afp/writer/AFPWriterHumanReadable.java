@@ -21,7 +21,6 @@ package com.mgz.afp.writer;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -83,7 +82,6 @@ public class AFPWriterHumanReadable implements IAFPWriter {
             continue;
           }
 
-
           if (o != null) {
             sb.append("\"").append(f.getName()).append("\":");
 
@@ -96,7 +94,6 @@ public class AFPWriterHumanReadable implements IAFPWriter {
             } else if (o instanceof Collection<?> || o.getClass().isArray()) {
 
               sb.append("[");
-
 
               if (o.getClass().isArray() && Array.getLength(o) >= 0 && Array.get(o, 0) instanceof Byte) {
                 sb.append('"').append(UtilCharacterEncoding.bytesToHexString((byte[]) o)).append('"');

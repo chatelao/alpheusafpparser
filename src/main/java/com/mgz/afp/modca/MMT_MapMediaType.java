@@ -17,14 +17,13 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.modca;
-import javax.xml.bind.annotation.XmlRootElement;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,7 +46,6 @@ public class MMT_MapMediaType extends StructuredFieldBaseRepeatingGroups {
       pos += rg.getRepeatingGroupLength();
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

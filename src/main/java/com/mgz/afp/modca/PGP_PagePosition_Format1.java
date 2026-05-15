@@ -22,7 +22,6 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,7 +36,6 @@ public class PGP_PagePosition_Format1 extends StructuredField {
     xOrigin = UtilBinaryDecoding.parseInt(sfData, offset, 3);
     yOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 3, 3);
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

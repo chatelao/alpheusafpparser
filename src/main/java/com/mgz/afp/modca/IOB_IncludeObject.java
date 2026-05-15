@@ -28,7 +28,6 @@ import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -74,7 +73,6 @@ public class IOB_IncludeObject extends StructuredFieldBaseName {
     triplets = TripletParser.parseTriplets(sfData, offset + 27, actualLength - 27, config);
 
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

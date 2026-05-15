@@ -20,6 +20,5 @@ package com.mgz.afp.modca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
-
 public class BMM_BeginMediumMap extends StructuredFieldBaseNameAndTriplets {
 }

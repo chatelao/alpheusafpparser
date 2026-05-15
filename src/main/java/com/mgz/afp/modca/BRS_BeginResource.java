@@ -25,13 +25,11 @@ import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class BRS_BeginResource extends StructuredFieldBaseName {
   protected List<Triplet> triplets;
@@ -93,6 +91,5 @@ public class BRS_BeginResource extends StructuredFieldBaseName {
     }
     triplets.remove(triplet);
   }
-
 
 }

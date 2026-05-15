@@ -20,6 +20,5 @@ package com.mgz.afp.ptoca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
-
 public class BPT_BeginPresentationTextObject extends StructuredFieldBaseNameAndTriplets {
 }

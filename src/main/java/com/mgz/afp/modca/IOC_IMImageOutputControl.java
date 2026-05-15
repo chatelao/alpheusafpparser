@@ -23,7 +23,6 @@ import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -57,7 +56,6 @@ public class IOC_IMImageOutputControl extends StructuredField {
       constantData22_23 = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

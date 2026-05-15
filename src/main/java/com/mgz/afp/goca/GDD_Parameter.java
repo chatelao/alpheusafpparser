@@ -29,13 +29,11 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType.LineType;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.BitSet;
 import java.util.EnumSet;
-
 
 public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
   public static short PARAMETERTYPE_WindowSpecification = 0xF6;
@@ -1154,7 +1152,6 @@ public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
       lengthOfFollowingField = 0x01;
       coordinateFormat = 0x00;
     }
-
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

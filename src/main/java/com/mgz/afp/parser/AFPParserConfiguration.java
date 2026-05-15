@@ -25,7 +25,6 @@ import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.foca.CPC_CodePageControl;
 import com.mgz.afp.foca.CPD_CodePageDescriptor;
 import com.mgz.afp.foca.FNC_FontControl;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.security.DigestInputStream;

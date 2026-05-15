@@ -20,7 +20,6 @@ package com.mgz.afp.foca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
-
 public class ECF_EndCodedFont extends StructuredFieldBaseNameAndTriplets {
 
 }

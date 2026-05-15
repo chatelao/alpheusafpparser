@@ -21,7 +21,6 @@ package com.mgz.util;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.base.annotations.AFPType;
 import com.mgz.afp.exceptions.AFPParserException;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -117,7 +116,6 @@ public class UtilReflection {
 
   public static List<Field> getAfpFields(Class<?> clazz) {
     AFPField defaultAnnotation = null;
-
 
     List<Class<?>> listOfClasses = new ArrayList<Class<?>>();
     while (clazz != null && clazz != Object.class) {

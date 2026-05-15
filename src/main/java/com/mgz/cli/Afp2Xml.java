@@ -23,7 +23,6 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.xml.Afp2XmlWriter;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import java.io.BufferedInputStream;
