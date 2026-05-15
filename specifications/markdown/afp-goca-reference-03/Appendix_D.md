@@ -1,11 +1,11 @@
 Appendix D. Cross-References
 This appendix provides tables that list:
-• AFP GOCA commands sorted by identifier
-• AFP GOCA commands sorted by acronym
-• AFP GOCA control instructions sorted by identifier
-• AFP GOCA control instructions sorted by acronym
-• AFP GOCA drawing orders sorted by identifier
-• AFP GOCA drawing orders sorted by acronym
+• AFP GOCA commands sorted by identifier [GOCA-D-001]
+• AFP GOCA commands sorted by acronym [GOCA-D-002]
+• AFP GOCA control instructions sorted by identifier [GOCA-D-003]
+• AFP GOCA control instructions sorted by acronym [GOCA-D-004]
+• AFP GOCA drawing orders sorted by identifier [GOCA-D-005]
+• AFP GOCA drawing orders sorted by acronym [GOCA-D-006]
 AFP GOCA Commands Sorted by Identifier
 Table 16. Commands Sorted by ID
 Identifier Command Name Acronym Page
@@ -21,7 +21,7 @@ X'21' Set Current Defaults SCD66
 AFP GOCA Control Instructions Sorted by Acronym
 Table 19. Control Instructions Sorted by Acronym
 Acronym Identifier Instruction Name Page
-SCD X'21' Set Current Defaults 66
+SCD X'21' Set Current Defaults 66 [GOCA-D-007]
 
 ---
 
@@ -61,7 +61,7 @@ X'5E' End Custom Pattern GECP102
 X'60' End Area GEAR101
 X'68' Begin Area GBAR82
 X'71' End Segment Note 2
-X'80' Box at Current Position GCBOX90
+X'80' Box at Current Position GCBOX90 [GOCA-D-008]
 
 ---
 
@@ -95,10 +95,10 @@ X'E5' Cubic Bezier Curve at Given Position GCBEZ 96
 X'FEDC' Linear Gradient GLGD1 12
 X'FEDD' Radial Gradient GRGD122
 Notes:
-1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some
+1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some [GOCA-D-009]
 AFP printers and treated as a No-Op.
-2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some
-AFP printers and treated as a No-Op.
+2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some [GOCA-D-010]
+AFP printers and treated as a No-Op. [GOCA-D-011]
 
 ---
 
@@ -138,7 +138,7 @@ GP ARC X'E3' Partial Arc at Given Position 1 19
 GRGD X'FEDD' Radial Gradient 122
 GRLINE X'E1' Relative Line at Given Position 127
 GSAP X'22' Set Arc Parameters 130
-GSBMX X'0D' Set Background Mix 132
+GSBMX X'0D' Set Background Mix 132 [GOCA-D-012]
 
 ---
 
@@ -172,10 +172,10 @@ GSPS X'08' Set Pattern Set 158
 GSPT X'28' Set Pattern Symbol 159
 X'71' End Segment Note 2
 Notes:
-1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some
+1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some [GOCA-D-013]
 AFP printers and treated as a No-Op.
-2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some
-AFP printers and treated as a No-Op.
+2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some [GOCA-D-014]
+AFP printers and treated as a No-Op. [GOCA-D-015]
 
 ---
 
@@ -189,7 +189,7 @@ This publication could include technical inaccuracies or typographical errors. C
 Consortium might make improvements and/or changes in the architecture described in this publication at any time without notice.
 Any references in this publication to We b sites are provided for convenience only and do not in any manner serve as an endorsement of those We b sites. The materials at those Web sites are not part of the materials for this architecture and use of those Web sites is at your own risk.
 The AFP Consortium may use or distribute any information you supply in any way it believes appropriate without incurring any obligation to you.
-This information contains examples of data and reports used in daily business operations. T o illustrate them in a complete manner , some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental.
+This information contains examples of data and reports used in daily business operations. T o illustrate them in a complete manner , some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental. [GOCA-D-016]
 
 ---
 
@@ -216,7 +216,7 @@ IPDS
 Mixed Object Document Content Architecture
 MO:DCA
 Ricoh
-Other company , product, or service names may be trademarks or service marks of others.
+Other company , product, or service names may be trademarks or service marks of others. [GOCA-D-017]
 
 ---
 
@@ -232,18 +232,18 @@ The following definitions are provided as supporting information only , and are 
 A absolute coordinate. One of the coordinates that identify the location of an addressable point with respect to the origin of a specified coordinate system. Contrast with relative coordinate. absolute move. A method used to designate a new presentation position by specifying the distance from the designated axes to the new presentation position. The reference for locating the new presentation position is a fixed position as opposed to the current presentation position. absolute positioning. The establishment of a position within a coordinate system as an offset from the coordinate system origin. Contrast with relative positioning. addressable position. A position in a presentation space or on a physical medium that can be identified by a coordinate from the coordinate system of the presentation space or physical medium. See also picture element.
 Synonymous with position.
 Advanced Function Presentation (AFP). An open architecture for the management of presentable information that is developed by the AFP Consortium (AFPC). AFP comprises a number of data stream and data object architectures:
-• Mixed Object Document Content Architecture (MO:DCA);
+• Mixed Object Document Content Architecture (MO:DCA); [GOCA-D-018]
 formerly referred to as AFPDS
-• Intelligent Printer Data Stream (IPDS)
-• AFP Line Data Architecture
-• Bar Code Object Content Architecture (BCOCA)
-• Color Management Object Content Architecture (CMOCA)
-• Font Object Content Architecture (FOCA)
-• Graphics Object Content Architecture for AFP (AFP
+• Intelligent Printer Data Stream (IPDS) [GOCA-D-019]
+• AFP Line Data Architecture [GOCA-D-020]
+• Bar Code Object Content Architecture (BCOCA) [GOCA-D-021]
+• Color Management Object Content Architecture (CMOCA) [GOCA-D-022]
+• Font Object Content Architecture (FOCA) [GOCA-D-023]
+• Graphics Object Content Architecture for AFP (AFP [GOCA-D-024]
 GOCA)
-• Image Object Content Architecture (IOCA)
-• Metadata Object Content Architecture (MOCA)
-• Presentation T ext Object Content Architecture (PTOCA)
+• Image Object Content Architecture (IOCA) [GOCA-D-025]
+• Metadata Object Content Architecture (MOCA) [GOCA-D-026]
+• Presentation T ext Object Content Architecture (PTOCA) [GOCA-D-027]
 AEA. See alternate exception action.
 AFP . See Advanced Function Presentation.
 AFP Consortium (AFPC). A formal open standards body that develops and maintains AFP architecture. Information about the consortium can be found at www.apfcinc.org.
@@ -257,7 +257,7 @@ See also picture element.
 alternate exception action (AEA). In the IPDS architecture, a defined action that a printer can take when a clearly defined, but unsupported, request is received.
 Control over alternate exception actions is specified by an
 Execute Order Anystate Exception-Handling Control command.
-American National Standards Institute (ANSI). An organization consisting of producers, consumers, and general interest groups. ANSI establishes the procedures by which accredited organizations create and maintain
+American National Standards Institute (ANSI). An organization consisting of producers, consumers, and general interest groups. ANSI establishes the procedures by which accredited organizations create and maintain [GOCA-D-028]
 
 ---
 
@@ -283,7 +283,7 @@ Identifier .
 CHAR. A data type for architecture syntax, indicating one or more bytes to be interpreted as character information.
 character . A member of a set of elements used for the organization, control, or representation of data. A character can be either a graphic character or a control character .
 See also graphic character and control character .
-anamorphic scaling • character
+anamorphic scaling • character [GOCA-D-029]
 
 ---
 
@@ -300,7 +300,7 @@ Coded Character Set for Information Processing
 Interchange.
 character set attribute. An attribute used to specify a coded font.
 character set metrics. The measurements used in a font. Examples are height, width, and character increment for each character of the font. See also character metrics and font metrics. character shape. The visual representation of a graphic character . character shear . The angle of slant of a character cell that is not perpendicular to a baseline. Synonymous with shear . character string. A sequence of characters.
-CIELAB color space. Internationally accepted color model used as a standard to define color within the graphic arts industry , as well as other industries. L*, a*, and b* are plotted at right angles to one another . Equal distances in the space represent approximately equal color difference. clipping. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with trimming. character angle • clipping
+CIELAB color space. Internationally accepted color model used as a standard to define color within the graphic arts industry , as well as other industries. L*, a*, and b* are plotted at right angles to one another . Equal distances in the space represent approximately equal color difference. clipping. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with trimming. character angle • clipping [GOCA-D-030]
 
 ---
 
@@ -319,7 +319,7 @@ Examples of color values are screen color values for displays and color toner va
 color management. The technology to calibrate the color of input devices (such as scanners or digital cameras), display devices, and output devices (such as printers or offset presses).
 Color Management Object Content Architecture (CMOCA). An architected collection of constructs used for the interchange and presentation of the color management information required to render a print file, document, group of pages or sheets, page, overlay , or data object with color fidelity . color management resource. An object that provides color management in presentation environments. color model. The method by which a color is specified.
 For example, the RGB color space specifies color in terms of three intensities for red (R), green (G), and blue (B). Also referred to as color space. color of medium. The color of a presentation space before any data is added to it. Synonymous with reset color .
-CMOCA • color of medium
+CMOCA • color of medium [GOCA-D-031]
 
 ---
 
@@ -339,7 +339,7 @@ GOCA object.
 cut-sheet media. Unconnected sheets. Contrast with continuous-form media.
 D data stream. A continuous stream of data that has a defined format. An example of a defined format is a structured field.
 DBCS. See double-byte character set.
-default. A value, attribute, or option that is assumed when none has been specified and one is needed to continue processing. See also default drawing attributes and default drawing controls. default drawing attributes. Synonymous with drawing defaults. default drawing controls. The set of drawing controls adopted at the start of a drawing process and usually at the start of each root segment that is processed. Contrast with current drawing controls. default indicator . A field whose bits are all B'1' indicating that a hierarchical default value is to be used. The value can be specified by an external parameter . See also external parameter . default pattern set. A set of predefined patterns, like solid, dots, or horizontal lines. Contrast with custom pattern. color space • default pattern set
+default. A value, attribute, or option that is assumed when none has been specified and one is needed to continue processing. See also default drawing attributes and default drawing controls. default drawing attributes. Synonymous with drawing defaults. default drawing controls. The set of drawing controls adopted at the start of a drawing process and usually at the start of each root segment that is processed. Contrast with current drawing controls. default indicator . A field whose bits are all B'1' indicating that a hierarchical default value is to be used. The value can be specified by an external parameter . See also external parameter . default pattern set. A set of predefined patterns, like solid, dots, or horizontal lines. Contrast with custom pattern. color space • default pattern set [GOCA-D-032]
 
 ---
 
@@ -360,7 +360,7 @@ Interchange Code.
 Em. In printing, a unit of linear measure referring to the baseline-to-baseline distance of a font, in the absence of any external leading.
 Em square. A square layout space used for designing each of the characters of a font.
 encoding scheme. A set of specific definitions that describe the philosophy used to represent character data.
-The number of bits, the number of bytes, the allowable ranges of bytes, the maximum number of characters, and the meanings assigned to some generic and specific bit patterns, are some examples of specifications to be found in such a definition. deprecated • encoding scheme
+The number of bits, the number of bytes, the allowable ranges of bytes, the maximum number of characters, and the meanings assigned to some generic and specific bit patterns, are some examples of specifications to be found in such a definition. deprecated • encoding scheme [GOCA-D-033]
 
 ---
 
@@ -382,14 +382,14 @@ This distance represents the baseline-to-baseline increment that includes the fo
 The font designer can also define a minimum and a maximum vertical font size to represent the limits of scaling. (3) In font referencing, the specified font height is the desired size of the font when the characters are presented. If this size is different from the nominal vertical font size specified in a font character set, the character shapes and character metrics might need to be scaled prior to presentation. font local identifier . A binary identifier that is mapped by the controlling environment to a named resource to identify a font. See also local identifier . font metrics. Measurement information that defines individual character values such as height, width, and space, as well as overall font values such as averages and maximums. Font metrics can be expressed in specific fixed units, such as pels, or in relative units that are independent of both the resolution and the size of the font. See also character metrics and character set metrics. font object. A resource object that contains some or all of the description of a font.
 Font Object Content Architecture (FOCA). An architected collection of constructs used to describe fonts and to interchange those font descriptions. font referencing. A method used to identify or characterize a font. Examples of processes that use font referencing are document editing, document formatting, and document presentation.
 Font Typeface Global Identifier (FGID). A unique font identifier that can be expressed as either a two-byte binary or a five-digit decimal value. The FGID is used to identify a type style and the following characteristics: posture, weight class, and width class. font width (FW). (1) A characteristic value, parallel to the character baseline, that represents the size of all graphic
-Encoding Scheme Identifier (ESID) • font width (FW)
+Encoding Scheme Identifier (ESID) • font width (FW) [GOCA-D-034]
 
 ---
 
 characters in a font. Synonymous with horizontal font size. (2) In a font character set, nominal font width is a font-designer defined value corresponding to the nominal character increment for a font character set. The value is generally the width of the space character and is defined differently for fonts with different spacing characteristics.
-• For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment
-• For PSM fonts: the width of the space character
-• For typographic, proportionally-spaced fonts: one-third of the vertical font size, which is also the default size of the space character .
+• For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment [GOCA-D-035]
+• For PSM fonts: the width of the space character [GOCA-D-036]
+• For typographic, proportionally-spaced fonts: one-third of the vertical font size, which is also the default size of the space character . [GOCA-D-037]
 The font designer can also define a minimum and a maximum horizontal font size to represent the limits of scaling. (3) In font referencing, the specified font width is the desired size of the font when the characters are presented. If this size is different from the nominal horizontal font size specified in a font character set, the character shapes and character metrics might need to be scaled prior to presentation. foreground. (1) The part of a presentation space that is occupied with object data. (2) In GOCA, the portion of a graphics primitive that is mixed into the presentation space under the control of the current value of the mix and color attributes. See also pel. Contrast with background. foreground color . A color attribute used to specify the color of the foreground of a primitive. Contrast with background color . foreground mix. An attribute used to determine how the foreground color of data is combined with the existing color of a graphics presentation space. An example of data is a graphics primitive. Contrast with background mix. form. Synonymous with sheet. format. The arrangement or layout of data on a physical medium or in a presentation space. formatter . A process used to prepare a document for presentation. full arc. A complete circle or ellipse. See also arc. full-color custom pattern. A custom pattern that has its colors completely assigned during its definition, and can therefore contain any number of colors. Contrast with bilevel custom pattern. fully described font. In the IPDS architecture, an LF1- type raster-font resource containing font metrics, descriptive information, and the raster representation of character shapes, for a specific graphic character set. A fully described font can be downloaded to a printer using the Load Font Control and Load Font commands. An LF1- type coded font or coded-font section is the combination of one fully described font and one font index. function set. A collection of architecture constructs and associated values. Function sets can be defined across or within subsets.
 FW . See font width.
 G
@@ -400,16 +400,16 @@ GID. See global identifier .
 given position. The coordinate position at which drawing is to begin. A given position is specified in a drawing order .
 Contrast with current position.
 Global Identifier (GID). One of the following:
-• Coded Character Set Identifier (CCSID)
-• Coded Graphic Character Set Global Identifier (CGCSGID)
-• Code Page Global ID (CPGID)
-• Font Typeface Global Identifier (FGID)
-• Global Resource Identifier (GRID)
-• Graphic Character Global Identifier (GCGID)
-• Graphic Character Set Global Identifier (GCSGID)
-• Graphic Character UCS Identifier (GCUID)
-• An identifier used by a data object to reference a resource
-• In the MO:DCA environment, an encoded graphic character string that provides a reference name for a document element.
+• Coded Character Set Identifier (CCSID) [GOCA-D-038]
+• Coded Graphic Character Set Global Identifier (CGCSGID) [GOCA-D-039]
+• Code Page Global ID (CPGID) [GOCA-D-040]
+• Font Typeface Global Identifier (FGID) [GOCA-D-041]
+• Global Resource Identifier (GRID) [GOCA-D-042]
+• Graphic Character Global Identifier (GCGID) [GOCA-D-043]
+• Graphic Character Set Global Identifier (GCSGID) [GOCA-D-044]
+• Graphic Character UCS Identifier (GCUID) [GOCA-D-045]
+• An identifier used by a data object to reference a resource [GOCA-D-046]
+• In the MO:DCA environment, an encoded graphic character string that provides a reference name for a document element. [GOCA-D-047]
 Global Resource Identifier (GRID). An eight-byte identifier that identifies a coded font resource. A GRID contains the following fields in the order shown: 1. GCSGID of a minimum set of graphic characters required for presentation. It can be a character set that is associated with the code page, or with the font character set, or with both. 2. CPGID of the associated code page 3. FGID of the associated font character set 4. Font width in 1440ths of an inch. glyph. A member of a set of symbols that represent data.
 Glyphs can be letters, digits, punctuation marks, or other symbols. Synonymous with graphic character . See also character .
 GOCA. See Graphics Object Content Architecture.
@@ -441,13 +441,13 @@ graphics presentation space (GPS). A two-dimensional conceptual space in which t
 GRID. See Global Resource Identifier .
 H hexadecimal. A number system with a base of sixteen.
 The decimal digits 0 through 9 and characters A through F are used to represent hexadecimal digits. The hexadecimal digits A through F correspond to the decimal numbers 10 through 15, respectively . An example of a hexadecimal number is X'1B', which is equal to the decimal number 27. highlight color . A spot color that is used to accentuate or contrast monochromatic areas. See also spot color . highlighting. The emphasis of displayed or printed information. Examples are increased intensity of selected characters on a display screen and exception highlighting on an IPDS printer . hollow font. A font design in which the graphic character shapes include only the outer edges of the strokes. horizontal font size. (1) A characteristic value, parallel to the character baseline, that represents the size of all graphic characters in a font. Synonymous with font width. (2) In a font character set, nominal horizontal font size is a font-designer defined value corresponding to the nominal character increment for a font character set. The value is generally the width of the space character and is defined differently for fonts with different spacing characteristics.
-GPS • horizontal font size
+GPS • horizontal font size [GOCA-D-048]
 
 ---
 
-• For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment
-• For PSM fonts: the width of the space character
-• For typographic fonts and proportionally-spaced fonts:
+• For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment [GOCA-D-049]
+• For PSM fonts: the width of the space character [GOCA-D-050]
+• For typographic fonts and proportionally-spaced fonts: [GOCA-D-051]
 one-third of the vertical font size, which is also the default size of the space character .
 The font designer can also define a minimum and a maximum horizontal font size to represent the limits of scaling. (3) In font referencing, the specified horizontal font size is the desired size of the font when the characters are presented. If this size is different from the nominal horizontal font size specified in a font character set, the character shapes and character metrics might need to be scaled prior to presentation. horizontal scale factor . In outline-font referencing, the specified horizontal adjustment of the Em square. The horizontal scale factor is specified in 1440ths of an inch.
 When the horizontal and vertical scale factors are different, anamorphic scaling occurs. See also vertical scale factor .
@@ -477,7 +477,7 @@ italics. A typeface with characters that slant upward to the right. In FOCA, ita
 K
 Kanji. A graphic character set for symbols used in
 Japanese ideographic alphabets.
-kerning. The design of graphic characters so that their character boxes overlap, resulting in the reduction of space horizontal scale factor • kerning
+kerning. The design of graphic characters so that their character boxes overlap, resulting in the reduction of space horizontal scale factor • kerning [GOCA-D-052]
 
 ---
 
@@ -493,13 +493,13 @@ Local Character Set Identifier (LCID). A local identifier used as a character , 
 local identifier (LID). An identifier that is mapped by the controlling environment to a named resource.
 location. A site within a data stream. A location is specified in terms of an offset in the number of structured fields from the beginning of a data stream, or in the number of bytes from another location within the data stream. logical page. A presentation space. One or more object areas can be mapped to a logical page. A logical page has specifiable characteristics, such as size, shape, orientation, and offset. The shape of a logical page is the shape of a rectangle. Orientation and offset are specified relative to a medium coordinate system. logical unit. A unit of linear measurement expressed with a unit base and units per unit-base value. For example, in
 MO:DCA and IPDS architectures, the following logical units are used:
-• 1 logical unit = 1/1440 inch (unit base = 10 inches, units per unit base = 14,400)
-• 1 logical unit = 1/240 inch (unit base = 10 inches, units per unit base = 2400)
+• 1 logical unit = 1/1440 inch (unit base = 10 inches, units per unit base = 14,400) [GOCA-D-053]
+• 1 logical unit = 1/240 inch (unit base = 10 inches, units per unit base = 2400) [GOCA-D-054]
 Synonymous with L-unit.
 look-up table (LUT). (1) A table used to map one or more input values to one or more output values. (2) A logical list of colors or intensities. The list has a name and can be referenced to select a color or intensity . See also color table. lowercase. Pertaining to small letters as distinguished from capital letters. Examples of small letters are a, b, and g. Contrast with uppercase.
 L-unit. Synonymous with logical unit.
 LUT . See look-up table.
-M mandatory support level. Within the base-and-towers concept, the smallest portion of architected function that is allowed to be implemented. This is represented by a base with no towers. Synonymous with base support level. marker . A symbol with a recognizable appearance that is used to identify a particular location. An example of a marker is a symbol that is positioned by the center point of its cell. marker attributes. The characteristics that control the appearance of a marker . Examples of marker attributes are cell-size and color . marker cell. A conceptual rectangular box that can include a marker symbol and the space surrounding that symbol. marker precision. A method used to specify the degree of influence that marker attributes have on the appearance of a marker; this method has been made obsolete . marker set. In GOCA, a set of graphic symbols used to indicate a position. marker symbol. A symbol that is used for a marker . keyword • marker symbol
+M mandatory support level. Within the base-and-towers concept, the smallest portion of architected function that is allowed to be implemented. This is represented by a base with no towers. Synonymous with base support level. marker . A symbol with a recognizable appearance that is used to identify a particular location. An example of a marker is a symbol that is positioned by the center point of its cell. marker attributes. The characteristics that control the appearance of a marker . Examples of marker attributes are cell-size and color . marker cell. A conceptual rectangular box that can include a marker symbol and the space surrounding that symbol. marker precision. A method used to specify the degree of influence that marker attributes have on the appearance of a marker; this method has been made obsolete . marker set. In GOCA, a set of graphic symbols used to indicate a position. marker symbol. A symbol that is used for a marker . keyword • marker symbol [GOCA-D-055]
 
 ---
 
@@ -518,7 +518,7 @@ See also current position and given position.
 N name. A table heading for architecture syntax. The entries under this heading are short names that give a general indication of the contents of the construct. named color . A color that is specified with a descriptive name. An example of a named color is “green”. neutral white. A color attribute that gives a device- dependent default color , typically white on a screen and black on a printer . Note that neutral white and color of medium are two different colors. no operation (NOP). A construct whose execution causes a product to proceed to the next instruction to be processed without taking any other action.
 NOP . See no operation.
 N-up. The partitioning of a side of a sheet into a fixed number of equal size partitions. For example, 4-up divides each side of a sheet into four equal partitions.
-O object. (1) A collection of structured fields. The first structured field provides a begin-object function, and the last structured field provides an end-object function. The object can contain one or more other structured fields whose content consists of one or more data elements of a particular data type. An object can be assigned a name that can be used to reference the object. Examples of objects are presentation text, font, graphics, and image objects. (2) Something that a user works with to perform a task. object area. A rectangular area in a presentation space into which a data object is mapped. The presentation space can be for a page or an overlay . Examples are a graphics object area, an image object area, and a bar code object area. object data. A collection of related data elements bundled together . Examples of object data include graphic characters, image data elements, and drawing orders. obsolete. Removed from the architecture, and thus ignored by receivers. offline. A device state in which the device is not under the direct control of a host. Contrast with online. offset. A table heading for architecture syntax. The entries under this heading indicate the numeric displacement into a construct. The offset is measured in meaning • offset
+O object. (1) A collection of structured fields. The first structured field provides a begin-object function, and the last structured field provides an end-object function. The object can contain one or more other structured fields whose content consists of one or more data elements of a particular data type. An object can be assigned a name that can be used to reference the object. Examples of objects are presentation text, font, graphics, and image objects. (2) Something that a user works with to perform a task. object area. A rectangular area in a presentation space into which a data object is mapped. The presentation space can be for a page or an overlay . Examples are a graphics object area, an image object area, and a bar code object area. object data. A collection of related data elements bundled together . Examples of object data include graphic characters, image data elements, and drawing orders. obsolete. Removed from the architecture, and thus ignored by receivers. offline. A device state in which the device is not under the direct control of a host. Contrast with online. offset. A table heading for architecture syntax. The entries under this heading indicate the numeric displacement into a construct. The offset is measured in meaning • offset [GOCA-D-056]
 
 ---
 
@@ -532,7 +532,7 @@ P page. (1) A data stream object delimited by a Begin Page structured field and 
 MO:DCA architecture, a resource object that can contain any mixture of bar code objects, graphics objects, and
 IOCA image objects. A page segment does not contain an active environment group. The environment for a page segment is defined by the active environment group of the including page or overlay . (3) The final representation of such an object on a physical medium. Contrast with overlay . parameter . (1) A variable that is given a constant value for a specified application. (2) A variable used in conjunction with a command to affect its result. pattern. A graphic symbol used repeatedly to fill an area. pattern attributes. The characteristics that specify the appearance of a pattern. pattern reference point. A position in the graphics presentation space to be used as the origin of a custom pattern; the pattern is tiled in all directions from this position. pattern set. In GOCA, a set of graphic symbols used to fill the interior of an area. pattern symbol. A graphic symbol that is used for a pattern. pel. The smallest printable or displayable unit on a physical medium. In computer graphics, the smallest element of a physical medium that can be independently assigned color and intensity . Pels per inch is often used as a measurement of presentation granularity . Synonymous with picture element and pixel. physical medium. A physical entity on which information is presented. Examples of a physical medium are a sheet of paper , a roll of paper , an envelope, and a display screen.
 See also medium presentation space and sheet.
-physical printable area. A bounded area defined on a side of a sheet within which printing can take place. The physical printable area is an attribute of sheet size and printer capabilities, and cannot be altered by the host. The physical printable area is mapped to the medium presentation space, and is used in user printable area and valid printable area calculations. Contrast with user printable area and valid printable area. picture element. Synonymous with pel. pixel. Synonymous with pel. point. (1) A unit of measure used mainly for measuring typographical material. There are seventy-two points to an inch. (2) In GOCA, a parameter that specifies the position online • point
+physical printable area. A bounded area defined on a side of a sheet within which printing can take place. The physical printable area is an attribute of sheet size and printer capabilities, and cannot be altered by the host. The physical printable area is mapped to the medium presentation space, and is used in user printable area and valid printable area calculations. Contrast with user printable area and valid printable area. picture element. Synonymous with pel. pixel. Synonymous with pel. point. (1) A unit of measure used mainly for measuring typographical material. There are seventy-two points to an inch. (2) In GOCA, a parameter that specifies the position online • point [GOCA-D-057]
 
 ---
 
@@ -549,7 +549,7 @@ PT OCA. See Presentation T ext Object Content
 Architecture.
 R radial gradient. A gradient where the color change takes place between two full arcs. Contrast with linear gradient. range. A table heading for architecture syntax. The entries under this heading Givenumeric ranges applicable to a construct. The ranges can be expressed in binary , decimal, or hexadecimal. The range can consist of a single value. raster pattern. A rectangular array of pels arranged in rows called scan lines. relative coordinate. One of the coordinates that identify the location of an addressable point by means of a displacement from some other addressable point. Contrast with absolute coordinate. relative line. A straight line developed from a specified point by a given displacement. relative metrics. Graphic character measurements expressed as fractions of a square, called the Em square, whose sides correspond to the vertical size of the font.
 Because the measurements are relative to the size of the
-Em square, the same metrics can be used for different point sizes and different raster pattern resolutions. Relative metrics require defining the unit of measure for the Em square, the point size of the font, and, if applicable, the resolution of the raster pattern. relative positioning. The establishment of a position within a coordinate system as an offset from the current position. Contrast with absolute positioning. repeating group. A group of parameter specifications that can be repeated. reserved. Having no assigned meaning and put aside for future use. The content of reserved fields is not used by receivers, and should be set by generators to a specified polyline • reserved
+Em square, the same metrics can be used for different point sizes and different raster pattern resolutions. Relative metrics require defining the unit of measure for the Em square, the point size of the font, and, if applicable, the resolution of the raster pattern. relative positioning. The establishment of a position within a coordinate system as an offset from the current position. Contrast with absolute positioning. repeating group. A group of parameter specifications that can be repeated. reserved. Having no assigned meaning and put aside for future use. The content of reserved fields is not used by receivers, and should be set by generators to a specified polyline • reserved [GOCA-D-058]
 
 ---
 
@@ -557,8 +557,8 @@ value, if given, or to binary zeros. A reserved field or value can be assigned a
 reset color . The color of a presentation space before any data is added to it. Synonymous with color of medium.
 resolution. (1) A measure of the sharpness of an input or output device capability , as given by some measure relative to the distance between two points or lines that can just be distinguished. (2) The number of addressable pels per unit of length. resolution correction. A method used to present an image on a printer without changing the physical size or proportions of the image when the resolutions of the printer and the image are different. resource. An object that is referenced by a data stream or by another object to provide data or information.
 Resource objects can be stored in libraries. In the MO:DCA architecture, resource objects can be contained within a resource group. Examples of resources are fonts, overlays, and page segments. retired. Set aside for a particular purpose, and not available for any other purpose. Retired fields and values are specified for compatibility with existing products and identify one of the following:
-• Fields or values that have been used by a product in a manner not compliant with the architected definition
-• Fields or values that have been removed from an architecture
+• Fields or values that have been used by a product in a manner not compliant with the architected definition [GOCA-D-059]
+• Fields or values that have been removed from an architecture [GOCA-D-060]
 RGB. Red, green and blue, the additive primary colors.
 RGB color space. The basic additive color model used for color video display , as on a computer monitor .
 rotating. In computer graphics, turning all or part of a picture about an axis perpendicular to the presentation space. rotation. The orientation of a presentation space with respect to the coordinate system of a containing presentation space. Rotation is measured in degrees in a clockwise direction. Zero-degree rotation exists when the angle between a presentation space's positive X axis and the containing presentation space's positive X axis is zero degrees. Contrast with character rotation. row . A subarray that consists of all elements that have an identical position within the high dimension of a regular two-dimensional array . rule. A solid line of any line width.
@@ -574,7 +574,7 @@ segment chain. A string of segments that defines a picture.
 segment exception condition. An architecture-provided classification of the errors that can occur in a segment.
 Segment exception conditions are raised when a segment error is detected. Examples of segment errors are segment format, parameter content, and sequence errors. segment offset. A position within a segment, measured in bytes from the beginning of the segment. The beginning of a segment is always at offset zero. segment prolog. The first portion of a segment's data.
 Prologs are optional. They contain attribute settings and drawing controls. Synonymous with prolog.
-segment properties. The segment characteristics used by a drawing process. Examples of segment properties are segment name and segment length. reset color • segment properties
+segment properties. The segment characteristics used by a drawing process. Examples of segment properties are segment name and segment length. reset color • segment properties [GOCA-D-061]
 
 ---
 
@@ -591,7 +591,7 @@ T text. A graphic representation of information. T ext can consist of alphanumer
 See also baseline direction, inline direction, and orientation.
 text presentation. The transformation of document graphic character content and its associated font information into a visible form. An example of a visible form of text is character shapes on a physical medium. toned. Containing marking agents such as toner or ink.
 Contrast with untoned.
-trimming. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with clipping. triplet. A three-part self-defining variable-length parameter consisting of a length byte, an identifier byte, and parameter-value bytes. semantics • triplet
+trimming. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with clipping. triplet. A three-part self-defining variable-length parameter consisting of a length byte, an identifier byte, and parameter-value bytes. semantics • triplet [GOCA-D-062]
 
 ---
 
@@ -623,7 +623,7 @@ UTF-32 A fixed, four-byte Unicode encoding form in which each UTF-32 code point 
 UTF-32BE UTF-32 serialized as bytes in most- significant-byte-first order (big endian).
 UTF-32BE is structurally the same as
 UCS-4.
-UTF-32LE UTF-32 serialized as bytes in least- significant-byte-first order (little endian). uniformly spaced font. A font with graphic characters having a uniform character increment. The distance between reference points of adjacent graphic characters is constant in the escapement direction. The blank space between the graphic characters can vary . Synonymous with monospaced font. Contrast with proportionally spaced font and typographic font. triplet identifier • uniformly spaced font
+UTF-32LE UTF-32 serialized as bytes in least- significant-byte-first order (little endian). uniformly spaced font. A font with graphic characters having a uniform character increment. The distance between reference points of adjacent graphic characters is constant in the escapement direction. The blank space between the graphic characters can vary . Synonymous with monospaced font. Contrast with proportionally spaced font and typographic font. triplet identifier • uniformly spaced font [GOCA-D-063]
 
 ---
 
@@ -641,7 +641,7 @@ X g ,Y g coordinate system. The graphics presentation space (GPS) coordinate sys
 X m ,Y m coordinate system. (1) In the IPDS architecture, the medium presentation space coordinate system. (2) In the MO:DCA architecture, the medium coordinate system.
 X oa ,Y oa coordinate system. The object area coordinate system.
 X ol ,Y ol coordinate system. The overlay coordinate system.
-X pg ,Y pg coordinate system. The coordinate system of a page presentation space. This coordinate system describes the size, position, and orientation of a page presentation space. Orientation of an X pg ,Y pg coordinate system is relative to an environment-specified coordinate system, for example, an X m ,Y m coordinate system. unit base • X pg ,Y pg coordinate system
+X pg ,Y pg coordinate system. The coordinate system of a page presentation space. This coordinate system describes the size, position, and orientation of a page presentation space. Orientation of an X pg ,Y pg coordinate system is relative to an environment-specified coordinate system, for example, an X m ,Y m coordinate system. unit base • X pg ,Y pg coordinate system [GOCA-D-064]
 
 ---
 
@@ -712,7 +712,7 @@ Set Mix (GSMX) order . . . . . . . . . . . . . . . . 156
 Set Pattern Reference Point (GSPRP) order . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157
 Set Pattern Set (GSPS) order . . . . . . . 158
 Set Pattern Symbol (GSPT) order . . . 159
-Set Process Color (GSPCOL) order . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 161 drawing process check . . . . . . . . . . . . . . . . . . 168 drawing process controls . . . . . . . . . . . . . . . . .70 current position . . . . . . . . . . . . . . . . . . . . . . . . . .19 drawing processing environment . . . . . . . . .61 drawing processor . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 drawing processor facilities drawing process controls . . . . . . . . . . . . . . .70
+Set Process Color (GSPCOL) order . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 161 drawing process check . . . . . . . . . . . . . . . . . . 168 drawing process controls . . . . . . . . . . . . . . . . .70 current position . . . . . . . . . . . . . . . . . . . . . . . . . .19 drawing processing environment . . . . . . . . .61 drawing processor . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 drawing processor facilities drawing process controls . . . . . . . . . . . . . . .70 [GOCA-D-065]
 
 ---
 
@@ -751,7 +751,7 @@ MO:DCA environment . . . . . . . . . . . . . . . . . . . 179 modes immediate . .
 Move Type orders . . . . . . . . . . . . . . . . . . . . . . . . . .30
 N notation used in formulas . . . . . . . . . . . . . . . . . . . . . . . . . . vi notices . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 205
 O obsolete attributes . . . . . . . . . . . . . . . . . . . . . . . 195 obsolete drawing orders . . . . . . . . . . . . . . . . 196 obsolete exceptions . . . . . . . . . . . . . . . . . . . . . 197 obsolete functions . . . . . . . . . . . . . . . . . . . . . . . 195 orders, summary of . . . . . . . . . . . . . . . . . . . . . . . .80 output control definitions
-GPS window . . . . . . . . . . . . . . . . . . . . . . . . . . . 190 graphics object areas . . . . . . . . . . . . . . . . . 190 mapping control options . . . . . . . . . . . . . . 190 mapping defaults . . . . . . . . . . . . . . . . . . . . . . 190
+GPS window . . . . . . . . . . . . . . . . . . . . . . . . . . . 190 graphics object areas . . . . . . . . . . . . . . . . . 190 mapping control options . . . . . . . . . . . . . . 190 mapping defaults . . . . . . . . . . . . . . . . . . . . . . 190 [GOCA-D-066]
 
 ---
 
@@ -782,10 +782,10 @@ Base (mandatory) . . . . . . . . . . . . . . . . . . . . . 175 drawing order lev
 Level 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 176
 Level 3 (GRS3) . . . . . . . . . . . . . . . . . . . . . 178
 W
-Write Graphics Control . . . . . . . . . . . . . . . . . . 189
+Write Graphics Control . . . . . . . . . . . . . . . . . . 189 [GOCA-D-067]
 
 ---
 
 Advanced Function Presentation Consortium
 Graphics Object Content Architecture for Advanced Function Presentation
-ReferenceAFPC-0008-03
+ReferenceAFPC-0008-03 [GOCA-D-068]

@@ -7,18 +7,18 @@ The Wr ite Graphics Control command is sent to the printer to establish the cont
 The IPDS architecture supports the GOCA subsets DR/2V0 and GRS3, as described in Chapter 9, “Compliance”.
 IPDS Graphics Command Set
 The IPDS Graphics Command Set consists of the following commands:
-• Write Graphics Control (X'D684')
-• Write Graphics (X'D685')
+• Write Graphics Control (X'D684') [GOCA-B-001]
+• Write Graphics (X'D685') [GOCA-B-002]
 W rite Graphics Control Command
 The Wr ite Graphics Control command is sent to the printer to indicate that the command sequence that follows is directed to a graphics object on the current page, overlay , or page segment that is being constructed by the device. The parameters of this command define the size, placement, and orientation of the graphics object area and establish the initial conditions for interpreting the graphics data.
 Upon receiving this command the printer enters the appropriate graphics state and initializes control for processing graphics picture segments that are sent in subsequent Wr ite Graphics commands. The End command received in graphics state terminates the processing of graphics data.
 The drawing processor can be invoked in any one of three IPDS printer states, as follows:
-• Page state
-• Overlay state
-• Page Segment state
+• Page state [GOCA-B-003]
+• Overlay state [GOCA-B-004]
+• Page Segment state [GOCA-B-005]
 When the drawing processor is invoked in Overlay or Page Segment state, the picture data sent to the printer is saved as part of the Overlay or Page Segment definition for later inclusion on pages via the Load Copy
 Control, Include Overlay , or Include Page Segment commands.
-Positive acknowledgement of graphics commands in Overlay state or Page Segment state means that general syntax and validity checks have been made and that the command, or command sequence, has been accepted for processing. Additional exceptions that are detected when the data is included on the page are reported at that time, assuming that exception reporting is enabled.
+Positive acknowledgement of graphics commands in Overlay state or Page Segment state means that general syntax and validity checks have been made and that the command, or command sequence, has been accepted for processing. Additional exceptions that are detected when the data is included on the page are reported at that time, assuming that exception reporting is enabled. [GOCA-B-006]
 
 ---
 
@@ -44,14 +44,14 @@ Mapping Defaults
 If this parameter is omitted, Position and T rim is used. Excess picture data, if any , is trimmed at page boundaries and the off set position is defined to be the origin of the object area.
 W rite Graphics Control Data
 The Wr ite Graphics Control data is made up of three consecutive self-defining fields, as follows:
-• Graphics Area Position (GAP)
-• Graphics Output Control (GOC)
-• Graphics Data Descriptor (GDD)
+• Graphics Area Position (GAP) [GOCA-B-007]
+• Graphics Output Control (GOC) [GOCA-B-008]
+• Graphics Data Descriptor (GDD) [GOCA-B-009]
 Graphics Area Position
 This self-defining field defines the position and orientation of the Graphics object area relative to a reference coordinate system. It is a mandatory field in the Wr ite Graphics Control command.
 Graphics Output Control
 This self-defining field specifies the size of the graphics object area and the mapping option for the graphics object. It is an optional data field in the Write Graphics Control command. If this field is omitted, the size of the graphics object area is made equal to the size of the GPS window , as specified in the Graphics Data Descriptor , and the Position and T rim option applies, where the offs et origin position is defined to be the same as the object area origin.
-It is an exception if there is an attempt to present data outside the boundary of the logical page.
+It is an exception if there is an attempt to present data outside the boundary of the logical page. [GOCA-B-010]
 
 ---
 
@@ -60,8 +60,8 @@ This is a mandatory self-defining field in the Write Graphics Control command. I
 W rite Graphics Command
 The Wr ite Graphics command transmits graphics data to the printer . The data that is carried in this command consists of picture segments that in turn contain the drawing orders that define the picture in GPS.
 The segments that are sent to the printer are of two types:
-• Chained
-• Unchained
+• Chained [GOCA-B-011]
+• Unchained [GOCA-B-012]
 The type is indicated by the flag specified in the Begin Segment header .
 The chained segments are the picture. The unchained segments are ignored, since calling of segments is not supported in AFP GOCA.
 All segments sent to the printer are executed in immediate mode. That is, the drawing orders, except for unchained segments, are executed as they are received and are not retained or stored as named segments.
@@ -79,7 +79,7 @@ Requests information from the printer that identifies various characteristics of
 Execute Order Anystate—Request Resource List (XOA RRL)
 Requests the printer to return a specified list of available resources—that is, fonts, overlays, and page segments—in the Acknowledge Reply to this command. This information can be used by host programs to perform a variety of resource management functions.
 Load Font Equivalence (LFE)
-This command is sent to the printer to map Local Identifiers referenced in graphics to a specified font in the printer .
+This command is sent to the printer to map Local Identifiers referenced in graphics to a specified font in the printer . [GOCA-B-013]
 
 ---
 
@@ -87,15 +87,15 @@ The correlation function provided by this command is independent of any specific
 The same font resource can be used for text, graphics, and bar code data.
 Font Commands
 The host can use commands defined in the IPDS Loaded Font command set and Device Control command set to download and manage fonts in the printer . The following commands are provided:
-• Activate Resource
-• Deactivate Font
-• Load Code Page
-• Load Code Page Control
-• Load Font
-• Load Font Character Set Control
-• Load Font Control
-• Load Font Index
-• Load Symbol Set
+• Activate Resource [GOCA-B-014]
+• Deactivate Font [GOCA-B-015]
+• Load Code Page [GOCA-B-016]
+• Load Code Page Control [GOCA-B-017]
+• Load Font [GOCA-B-018]
+• Load Font Character Set Control [GOCA-B-019]
+• Load Font Control [GOCA-B-020]
+• Load Font Index [GOCA-B-021]
+• Load Symbol Set [GOCA-B-022]
 IPDS Exceptions
 In the IPDS environment, GOCA exception conditions are mapped to IPDS exceptions and reported. The mapping is shown below in Table 15.
 T o map a GOCA exception condition to an IPDS exception, the general rule is simply to add a X'03' on the front of the four digits of the GOCA exception condition: GOCA exception condition EC-9301 becomes IPDS exception X'0393..01'. However , there are exception conditions that do not follow the general rule—these are noted in Table 15.
@@ -196,7 +196,7 @@ EC-E302 X'03E3..02'
 EC-E303 X'03E3..03'
 Note: This exception condition does not follow the general rule for mapping described above.
 If a GOCA exception condition has a Standard Action shown in this Reference, that action is ignored in the
-IPDS environment; instead, the IPDS Alternate Exception Action or Page Continuation Action is performed, when appropriate.
+IPDS environment; instead, the IPDS Alternate Exception Action or Page Continuation Action is performed, when appropriate. [GOCA-B-023]
 
 ---
 

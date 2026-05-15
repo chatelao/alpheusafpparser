@@ -1,12 +1,12 @@
 # Chapter 8. Graphics Command Set
 The Graphics command set contains the IPDS commands and data controls for presenting graphics pictures
 on a page, a page segment, or an overlay. The Graphics command set comprises the following commands:
-Table 46. Graphics Commands
+Table 46. Graphics Commands [IPDS-8-001]
 
 | Command | Code | Description | In GR1 Subset? |
 | :--- | :--- | :--- | :---: |
-| WGC | X'D684' | “Write Graphics Control” | Yes |
-| WG | X'D685' | “Write Graphics” | Yes |
+| WGC | X'D684' | “Write Graphics Control” | Yes [IPDS-8-002]|
+| WG | X'D685' | “Write Graphics” | Yes [IPDS-8-003]|
 Graphics is used to present line drawings in a graphics object area on the logical page. A sequence of drawing
 orders is used by the printer to construct arcs, lines, fillets, character strings, markers, and other elements that
 define the drawing. These drawing orders are grouped into one or more graphics segments.
@@ -15,7 +15,7 @@ and initial drawing conditions for presenting the picture data. The graphics seg
 data in one or more Write Graphics (WG) commands.
 To understand the relationship between the WG command and the WGC command, it is necessary to know
 how the graphics picture is developed. The following pages explain the drawing-order coordinate system, the
-graphics presentation space window, and the graphics object area.
+graphics presentation space window, and the graphics object area. [IPDS-8-004]
 
 
 Drawing-Order Coordinate System
@@ -51,7 +51,7 @@ g
 Graphics
 Presentation
 Space Window
-X Left Limitg X Right Limitg
+X Left Limitg X Right Limitg [IPDS-8-005]
 
 
 Graphics Presentation Space Window
@@ -78,7 +78,7 @@ graphics object area.
 Some printers allow the graphics object area to be colored before the graphics data is placed in the object
 area; coloring is specified with triplets in the Graphics Output Control self-defining field. Support for this
 optional function is indicated by the X'6201' property pair that is returned in the Device-Control command-set
-vector of the Sense Type and Model command reply.
+vector of the Sense Type and Model command reply. [IPDS-8-006]
 
 
 Positioning the Graphics Presentation Space Window
@@ -90,16 +90,16 @@ With scale-to-fit mapping, the center of the graphics presentation space window 
 center of the graphics object area, and the graphics presentation space window is uniformly scaled to fit within
 the limits of the graphics object area.
 Notes:
-1. IPDS printers should scale the entire GOCA presentation space window, but for some printers, graphics
+1. IPDS printers should scale the entire GOCA presentation space window, but for some printers, graphics [IPDS-8-007]
 primitives defined in terms of device pels are not scaled by this mapping. The origin of these primitives is
 affected by the scaling, but the size of the primitive is not changed. Any part of the primitive that extends
 outside of the object area is trimmed at the object-area boundary. The non-scaled primitives include:
-• Graphics images
-• Markers
-• Patterns
-• Line widths
-• Character strings
-2. GOCA architecture states that “the line width should be scaled when the controlling environment specifies
+• Graphics images [IPDS-8-008]
+• Markers [IPDS-8-009]
+• Patterns [IPDS-8-010]
+• Line widths [IPDS-8-011]
+• Character strings [IPDS-8-012]
+2. GOCA architecture states that “the line width should be scaled when the controlling environment specifies [IPDS-8-013]
 a scaling mapping of the GPS window into the usable area (object area)”.
 With scale-to-fill mapping, the center of the graphics presentation space window is made coincident with the
 center of the graphics object area, and the graphics presentation space window is scaled independently in the
@@ -116,7 +116,7 @@ With position-and-trim mapping, the top-left corner of the graphics presentation
 the origin of the graphics object area, and the graphics presentation space window is presented at the size
 indicated by bytes 4–21 of the GDD self-defining field. Any portion of the graphics presentation space window
 that falls outside the limits of the graphics object area is trimmed. This type of trimming does not cause an
-exception. A detailed description of graphics mapping follows under “Mapping Control Options”.
+exception. A detailed description of graphics mapping follows under “Mapping Control Options”. [IPDS-8-014]
 
 
 Figure 86. Graphics Mapping. This figure shows that the graphics presentation space window is mapped into
@@ -162,12 +162,12 @@ printer to enter metadata state, where exactly one metadata object is included. 
 printer receives the End command, at which point the printer returns to the graphics state it was in when the
 WMC was received.
 The WGC data field consists of two or three consecutive self-defining fields in the following order:
-1. Graphics area position (GAP)
-2. Graphics output control (GOC), optional
-3. Graphics data descriptor (GDD)
+1. Graphics area position (GAP) [IPDS-8-015]
+2. Graphics output control (GOC), optional [IPDS-8-016]
+3. Graphics data descriptor (GDD) [IPDS-8-017]
 Each self-defining field contains a two-byte length field, a two-byte self-defining field ID, and a data field.
 If an invalid self-defining field is specified, a self-defining field is out of order, a required self-defining field is not
-specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
+specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists. [IPDS-8-018]
 
 
 Graphics Area Position
@@ -191,20 +191,20 @@ I
 $Y_{oa}$
 
 
-The format of the GAP is as follows:
+The format of the GAP is as follows: [IPDS-8-019]
 
 | Offset | Type | Name | Range | Meaning | GR1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'000B' to end of GAP | Length of GAP, including this length field | X'000B' to end of GAP |
-| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
-| 4–5 | SBIN | X offset | X'8000'–X'7FFF' | Graphics object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' |
-| 6–7 | SBIN | Y offset | X'8000'–X'7FFF' | Graphics object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' |
-| 8–9 | CODE | Graphics object area orientation | | | |
-| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
-| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
-| | bit 15 | | B'0' | Reserved | B'0' |
-| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' |
-| 11 to end of GAP | UNDF | | | Data without architectural definition | |
+| 0–1 | UBIN | Length | X'000B' to end of GAP | Length of GAP, including this length field | X'000B' to end of GAP [IPDS-8-020]|
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' [IPDS-8-021]|
+| 4–5 | SBIN | X offset | X'8000'–X'7FFF' | Graphics object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' [IPDS-8-022]|
+| 6–7 | SBIN | Y offset | X'8000'–X'7FFF' | Graphics object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' [IPDS-8-023]|
+| 8–9 | CODE | Graphics object area orientation [IPDS-8-024]| | | |
+| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' [IPDS-8-025]|
+| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | B'000000' [IPDS-8-026]|
+| | bit 15 | | B'0' | Reserved | B'0' [IPDS-8-027]|
+| 10 | CODE | Coordinate system | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00'<br>X'20'<br>X'40'<br>X'60'<br>X'A0' [IPDS-8-028]|
+| 11 to end of GAP | UNDF | | | Data without architectural definition [IPDS-8-029]| |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -218,7 +218,7 @@ These bytes specify the graphics object area origin (top-left corner) as an X
 p, I, or I-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
 LPD command that is current when this object is printed in a page or overlay.
-Exception ID X'0860..00' exists if the position cannot be represented by the printer.
+Exception ID X'0860..00' exists if the position cannot be represented by the printer. [IPDS-8-030]
 
 
 Bytes 6–7 Graphics object area origin Y offset in L-units
@@ -254,10 +254,10 @@ printer. Exception ID X'0203..05' exists if the printer does not support the req
 value.
 For reference, the four basic orientation values correspond to the following hexadecimal and
 binary values of these two bytes:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
+0 degrees [IPDS-8-031]
+90 degrees [IPDS-8-032]
+180 degrees [IPDS-8-033]
+270 degrees [IPDS-8-034]
 X'0000'
 X'2D00'
 X'5A00'
@@ -272,28 +272,28 @@ area, using either the $X_{p}$,$Y_{p}$ or the inline-baseline (I,B) coordinate s
 An inline coordinate value specified as absolute means that the value in bytes 4 and 5 of the
 GAP is at an absolute inline coordinate location, that is, bytes 4 and 5 are offset from the I
 system origin. A baseline coordinate value specified as absolute means that the value in bytes
-6 and 7 is specified at an absolute baseline coordinate location, that is, bytes 6 and 7 are
+6 and 7 is specified at an absolute baseline coordinate location, that is, bytes 6 and 7 are [IPDS-8-035]
 offset from the B system origin.
 An inline coordinate value specified as relative means that the value in bytes 4 and 5 is an
 offset from the current inline coordinate location. A baseline coordinate value specified as
 relative means that the value in bytes 6 and 7 is an offset from the current baseline coordinate
 location.
-Therefore, the following applies:
+Therefore, the following applies: [IPDS-8-036]
 
 
-• If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
+• If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin. [IPDS-8-037]
 Bytes 4 and 5 specify the text inline coordinate; bytes 6 and 7 specify the text baseline
 coordinate.
-• If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the
+• If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the [IPDS-8-038]
 origin. Bytes 4 and 5 specify the text inline coordinate; bytes 6 and 7 are added to the
 current text baseline coordinate.
-• If byte 10 equals X'40', the relative inline and absolute baseline coordinates determine the
+• If byte 10 equals X'40', the relative inline and absolute baseline coordinates determine the [IPDS-8-039]
 origin. Bytes 4 and 5 are added to the current text inline coordinate; bytes 6 and 7 specify
 the text baseline coordinate.
-• If byte 10 equals X'60', the relative inline and baseline coordinates determine the origin.
+• If byte 10 equals X'60', the relative inline and baseline coordinates determine the origin. [IPDS-8-040]
 Bytes 4 and 5 are added to the current text inline coordinate; bytes 6 and 7 are added to the
 current text baseline coordinate.
-• If byte 10 equals X'A0', the current logical page X
+• If byte 10 equals X'A0', the current logical page X [IPDS-8-041]
 p and $Y_{p}$ coordinates determine the origin.
 When the graphics object is within a page, GAP bytes 4–7 specify the offset from the $X_{p}$-
 coordinate and $Y_{p}$-coordinate origin specified in a previously received LPP command (or
@@ -309,7 +309,7 @@ Bytes 11 to
 end of GAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
-but ignore this field; generators should not specify this field.
+but ignore this field; generators should not specify this field. [IPDS-8-042]
 
 
 Graphics Output Control
@@ -318,28 +318,28 @@ This self-defining field specifies the size of the graphics object area in addit
 graphics presentation space window.
 This self-defining field is optional and can be omitted from the WGC command. If the GOC field is omitted, the
 printer uses the following:
-• Mapping option X'30' (position and trim).
+• Mapping option X'30' (position and trim). [IPDS-8-043]
 • X
 oa offset and $Y_{oa}$ offset equals 0.
-• Graphics object area size equals the graphics presentation space window size defined in the GDD self-
+• Graphics object area size equals the graphics presentation space window size defined in the GDD self- [IPDS-8-044]
 defining field.
-• No coloring.
-• No object-level CMRs.
-• No object-level rendering intent.
-The format of the GOC is as follows:
+• No coloring. [IPDS-8-045]
+• No object-level CMRs. [IPDS-8-046]
+• No object-level rendering intent. [IPDS-8-047]
+The format of the GOC is as follows: [IPDS-8-048]
 
 | Offset | Type | Name | Range | Meaning | GR1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'0010', X'0012' to end of GOC | Length of GOC, including this length field | X'0010', X'0012' to end of GOC |
-| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
-| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' |
-| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
-| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $X_{oa}$ extent of object area in L-units<br>Use the LPD value | X'0001'–X'7FFF'<br>X'FFFF' |
-| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $Y_{oa}$ extent of object area in L-units<br>Use the LPD value | X'0001'–X'7FFF'<br>X'FFFF' |
-| 11 | CODE | Mapping control | X'10'<br>X'20'<br>X'30'<br>X'60' | Mapping control option:<br>Scale to fit<br>Center and trim<br>Position and trim<br>Scale to fill | X'10'<br>X'20'<br>X'30' |
-| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units; (for position and trim only) | X'0000'–X'7FFF' |
-| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units; (for position and trim only) | X'0000'–X'7FFF' |
-| 16 to end of GOC | | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
+| 0–1 | UBIN | Length | X'0010', X'0012' to end of GOC | Length of GOC, including this length field | X'0010', X'0012' to end of GOC [IPDS-8-049]|
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' [IPDS-8-050]|
+| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' [IPDS-8-051]|
+| 5–6 | UBIN | UPUB | X'0001'–X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' [IPDS-8-052]|
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $X_{oa}$ extent of object area in L-units<br>Use the LPD value | X'0001'–X'7FFF'<br>X'FFFF' [IPDS-8-053]|
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001'–X'7FFF'<br>X'FFFF' | $Y_{oa}$ extent of object area in L-units<br>Use the LPD value | X'0001'–X'7FFF'<br>X'FFFF' [IPDS-8-054]|
+| 11 | CODE | Mapping control | X'10'<br>X'20'<br>X'30'<br>X'60' | Mapping control option:<br>Scale to fit<br>Center and trim<br>Position and trim<br>Scale to fill | X'10'<br>X'20'<br>X'30' [IPDS-8-055]|
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000'–X'7FFF' | $X_{oa}$ offset in L-units; (for position and trim only) | X'0000'–X'7FFF' [IPDS-8-056]|
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000'–X'7FFF' | $Y_{oa}$ offset in L-units; (for position and trim only) | X'0000'–X'7FFF' [IPDS-8-057]|
+| 16 to end of GOC | | Triplets | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet [IPDS-8-058]| |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -371,18 +371,18 @@ logical page.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
 Bytes 9–10 $Y_{oa}$ extent of object area in L-units
 These bytes specify the $Y_{oa}$ extent of the graphics object area in L-units using the units of
-measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $Y_{p}$ extent and
+measure specified in bytes 4–6. A value of X'FFFF' causes the printer to use the $Y_{p}$ extent and [IPDS-8-059]
 
 
 the $Y_{p}$ unit base and units and units per unit base of the LPD command that is current when
 this object is printed in a page or overlay.
 If an invalid or unsupported value is specified, exception ID X'0207..05' exists.
 Byte 11 Mapping control option. The option values are:
-• X'10'—Scale to fit
-• X'20'—Center and trim
-• X'30'—Position and trim
-• X'50'—Retired item 135
-• X'60'—Scale to fill
+• X'10'—Scale to fit [IPDS-8-060]
+• X'20'—Center and trim [IPDS-8-061]
+• X'30'—Position and trim [IPDS-8-062]
+• X'50'—Retired item 135 [IPDS-8-063]
+• X'60'—Scale to fill [IPDS-8-064]
 Exception ID X'0208..05' exists if an invalid or unsupported mapping option is specified.
 Refer to “Mapping Control Options”  for more information.
 Bytes 12–13 $X_{oa}$ offset in L-units from object area origin
@@ -411,7 +411,7 @@ The Write Graphics Control triplets are fully described in the triplets chapter:
 “Color Specification (X'4E') Triplet”
 “Presentation Space Reset Mixing (X'70') Triplet”
 “Invoke CMR (X'92') Triplet”
-“Rendering Intent (X'95') Triplet”
+“Rendering Intent (X'95') Triplet” [IPDS-8-065]
 
 
 Area Coloring Triplet Considerations
@@ -434,7 +434,7 @@ of the hierarchy.
 Multiple Invoke CMR (X'92') triplets can be specified. However, only the last specified Rendering Intent (X'95')
 triplet will be used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
-Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WGC command.
+Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WGC command. [IPDS-8-066]
 
 
 Mapping Control Options
@@ -447,16 +447,16 @@ this maximum fit is applied equally along both dimensions of the picture so that
 the graphics object area is the same as the aspect ratio of the picture in the graphics presentation space
 window.
 Notes:
-1. IPDS printers should scale the entire GOCA presentation space window, but for some printers, graphics
+1. IPDS printers should scale the entire GOCA presentation space window, but for some printers, graphics [IPDS-8-067]
 primitives defined in terms of device pels are not scaled by this mapping. The origin of these primitives is
 affected by the scaling, but the size of the primitive is not changed. Any part of the primitive that extends
 outside of the object area is trimmed at the object-area boundary. The non-scaled primitives include:
-• Graphics images
-• Markers
-• Patterns
-• Line widths
-• Character strings
-2. GOCA architecture states that “the line width should be scaled when the controlling environment specifies
+• Graphics images [IPDS-8-068]
+• Markers [IPDS-8-069]
+• Patterns [IPDS-8-070]
+• Line widths [IPDS-8-071]
+• Character strings [IPDS-8-072]
+2. GOCA architecture states that “the line width should be scaled when the controlling environment specifies [IPDS-8-073]
 a scaling mapping of the GPS window into the usable area (object area)”.
 Figure 88  shows the result of scale-to-fit mapping. In this example, the graphics object area is
 larger than the graphics presentation space window; therefore, the graphics presentation space window is
@@ -523,7 +523,7 @@ g
 -Y Axisg
 $X_{oa}$
 $Y_{oa}$
-(x = -32,768, y = -32,768)g g
+(x = -32,768, y = -32,768)g g [IPDS-8-074]
 
 
 Center-and-Trim Mapping
@@ -620,24 +620,24 @@ Drawing orders can specify coordinates in the X'8000' to X'7FFF' range. The spec
 presentation space window select which part of the complete graphics presentation space picture is to be
 mapped to the graphics object area. Figure 85  shows that the GDD parameters specify the size
 and location of the graphics presentation space window in the graphics presentation space.
-The format of the GDD is as follows:
+The format of the GDD is as follows: [IPDS-8-075]
 
 | Offset | Type | Name | Range | Meaning | GR1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'001C' to end of GDD | Length of GDD, including this length field | X'001C' to end of GDD |
-| 2–3 | CODE | SDF ID | X'A6BB' | Self-defining-field ID | X'A6BB' |
-| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' |
-| 5 | X'00' | Reserved | | | X'00' |
-| 6–7 | UBIN | XUPUB | X'0001'–X'7FFF' | $X_{g}$-units/unit base | X'3840' |
-| 8–9 | UBIN | YUPUB | X'0001'–X'7FFF' | $Y_{g}$-units/unit base; must be the same value as XUPUB | X'3840' |
-| 10–11 | UBIN | XIRES | X'0000'–X'7FFF' | Graphics image resolution in the X direction | X'0000' |
-| 12–13 | UBIN | YIRES | X'0000'–X'7FFF' | Graphics image resolution in the Y direction | X'0000' |
-| 14–15 | SBIN | $X_{g}$ left limit | X'8000'–X'7FFF' | $X_{g}$ left limit of graphics presentation space window | X'8000'–X'7FFF' |
-| 16–17 | SBIN | $X_{g}$ right limit | X'8000'–X'7FFF' | $X_{g}$ right limit of graphics presentation space window | X'8000'–X'7FFF' |
-| 18–19 | SBIN | $Y_{g}$ top limit | X'8000'–X'7FFF' | $Y_{g}$ top limit of graphics presentation space window | X'8000'–X'7FFF' |
-| 20–21 | SBIN | $Y_{g}$ bottom limit | X'8000'–X'7FFF' | $Y_{g}$ bottom limit of graphics presentation space window | X'8000'–X'7FFF' |
-| 22–27 | X'00...00' | Reserved | | | X'00...00' |
-| 28 to end | | Defaults | See GOCA Reference | Initial graphics default conditions: self-describing instructions that set the drawing defaults for the picture | All defaults allowed by the supported GOCA subset |
+| 0–1 | UBIN | Length | X'001C' to end of GDD | Length of GDD, including this length field | X'001C' to end of GDD [IPDS-8-076]|
+| 2–3 | CODE | SDF ID | X'A6BB' | Self-defining-field ID | X'A6BB' [IPDS-8-077]|
+| 4 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' [IPDS-8-078]|
+| 5 | X'00' | Reserved | | | X'00' [IPDS-8-079]|
+| 6–7 | UBIN | XUPUB | X'0001'–X'7FFF' | $X_{g}$-units/unit base | X'3840' [IPDS-8-080]|
+| 8–9 | UBIN | YUPUB | X'0001'–X'7FFF' | $Y_{g}$-units/unit base; must be the same value as XUPUB | X'3840' [IPDS-8-081]|
+| 10–11 | UBIN | XIRES | X'0000'–X'7FFF' | Graphics image resolution in the X direction | X'0000' [IPDS-8-082]|
+| 12–13 | UBIN | YIRES | X'0000'–X'7FFF' | Graphics image resolution in the Y direction | X'0000' [IPDS-8-083]|
+| 14–15 | SBIN | $X_{g}$ left limit | X'8000'–X'7FFF' | $X_{g}$ left limit of graphics presentation space window | X'8000'–X'7FFF' [IPDS-8-084]|
+| 16–17 | SBIN | $X_{g}$ right limit | X'8000'–X'7FFF' | $X_{g}$ right limit of graphics presentation space window | X'8000'–X'7FFF' [IPDS-8-085]|
+| 18–19 | SBIN | $Y_{g}$ top limit | X'8000'–X'7FFF' | $Y_{g}$ top limit of graphics presentation space window | X'8000'–X'7FFF' [IPDS-8-086]|
+| 20–21 | SBIN | $Y_{g}$ bottom limit | X'8000'–X'7FFF' | $Y_{g}$ bottom limit of graphics presentation space window | X'8000'–X'7FFF' [IPDS-8-087]|
+| 22–27 | X'00...00' | Reserved | | | X'00...00' [IPDS-8-088]|
+| 28 to end | | Defaults | See GOCA Reference | Initial graphics default conditions: self-describing instructions that set the drawing defaults for the picture | All defaults allowed by the supported GOCA subset [IPDS-8-089]|
 
 
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
@@ -683,7 +683,7 @@ Image resolution values allow a printer to maintain the size of the image when s
 resolution correcting the GOCA object. Not all IPDS printers use this resolution information.
 Property pair X'1207' in the Graphics command-set vector of an STM reply indicates that the
 printer uses this GDD image-resolution parameter.
-If an invalid value is specified, exception ID X'0206..05' exists.
+If an invalid value is specified, exception ID X'0206..05' exists. [IPDS-8-090]
 
 
 Bytes 14–15 $X_{g}$ left limit of the graphics presentation space window
@@ -703,7 +703,7 @@ Defaults
 Self-describing instructions that set the current defaults for the picture; refer to the MO:DCA
 appendix in the GOCA Reference for a description of the self-describing instructions.
 Notes:
-1. Default values for Normal Line Width (set-byte value X'11') and Process Color (set-byte
+1. Default values for Normal Line Width (set-byte value X'11') and Process Color (set-byte [IPDS-8-091]
 value X'10') are not supported by all IPDS printers and the set-byte values for these
 attributes should not be specified for printers that do not support these default values.
 Support for Normal Line Width is indicated by property pair X'4108' in the Graphics
@@ -712,12 +712,12 @@ pair X'4109'. Exception ID X'0300..02' exists if the Set Current Defaults instru
 attempts to set an invalid or unsupported attribute in byte 2.
 If a default color is specified by both the Drawing Attributes Set (X'00') and the Process
 Color Set (X'10'), the last-specified color is used.
-2. Line End and Line Join are not supported by all IPDS printers and the mask bits for these
+2. Line End and Line Join are not supported by all IPDS printers and the mask bits for these [IPDS-8-092]
 attributes should not be set for printers that do not support these drawing orders. Support
 for Line End is indicated by property pair X'4110' in the Graphics command-set vector of
 an STM reply; support for Line Join is indicated by property pair X'4111'. Exception ID
 X'0300..02' exists if the Set Current Defaults instruction attempts to set an invalid or
-unsupported mask attribute in bytes 3 and 4.
+unsupported mask attribute in bytes 3 and 4. [IPDS-8-093]
 
 
 Write Graphics
@@ -748,7 +748,7 @@ Begin Segment Introducer
 BSI Zero or more drawing orders
 The Begin Segment Introducer (BSI) precedes all the drawing orders that are grouped together in a graphics
 segment. Refer to the description of the Begin Segment command in Graphics Object Content Architecture for
-Advanced Function Presentation for a description of this command.
+Advanced Function Presentation for a description of this command. [IPDS-8-094]
 
 
 Drawing Orders
@@ -766,80 +766,80 @@ Length field A one-byte value that specifies the length of the drawing order par
 byte; it does not include itself.
 Parameters These bytes contain the specific parameters for the drawing order.
 Table 47lists all the GOCA drawing orders within the DR/2V0 and GRS3 subsets.
-Table 47. Summary of GOCA Drawing Orders
+Table 47. Summary of GOCA Drawing Orders [IPDS-8-095]
 
 | Code | Drawing Order | Format | DR/2V0 Subset | GRS3 Subset |
 | :--- | :--- | :--- | :---: | :---: |
-| X'68' | Begin Area | Fixed 2 byte | X | X |
-| X'D1' | Begin Image | Long | X | X |
-| X'91' | Begin Image at Current Position | Long | X | X |
-| X'C0' | Box | Long | | X |
-| X'80' | Box at Current Position | Long | | X |
-| X'C3' | Character String | Long | X | X |
-| X'83' | Character String at Current Position | Long | X | X |
-| X'01' | Comment | Long | X | X |
-| X'60' | End Area | Long | X | X |
-| X'93' | End Image | Long | X | X |
-| X'3E' | End Prolog | Fixed 2 byte | X | X |
-| X'C5' | Fillet | Long | X | X |
-| X'85' | Fillet at Current Position | Long | X | X |
-| X'C7' | Full Arc | Long | X | X |
-| X'87' | Full Arc at Current Position | Long | X | X |
-| X'92' | Image Data | Long | X | X |
-| X'C1' | Line | Long | X | X |
-| X'81' | Line at Current Position | Long | X | X |
-| X'C2' | Marker | Long | X | X |
-| X'82' | Marker at Current Position | Long | X | X |
-| X'00' | No Operation | Fixed 1 byte | X | X |
-| X'E3' | Partial Arc | Long | | X |
-| X'A3' | Partial Arc at Current Position | Long | | X |
-| X'E1' | Relative Line | Long | X | X |
-| X'A1' | Relative Line at Current Position | Long | X | X |
-| X'04' | Segment Characteristics | Long | X | X |
-| X'22' | Set Arc Parameters | Long | X | X |
-| X'0D' | Set Background Mix | Fixed 2 byte | X | X |
-| X'34' | Set Character Angle | Long | X | X |
-| X'33' | Set Character Cell | Long | X | X |
-| X'3A' | Set Character Direction | Fixed 2 byte | X | X |
-| X'39' | Set Character Precision | Fixed 2 byte | X | X |
-| X'38' | Set Character Set | Fixed 2 byte | X | X |
-| X'35' | Set Character Shear | Long | X | X |
-| X'0A' | Set Color | Fixed 2 byte | X | X |
-| X'21' | Set Current Position | Long | X | X |
-| X'26' | Set Extended Color | Long | X | X |
-| X'11' | Set Fractional Line Width | Long | | X |
-| X'18' | Set Line Type | Fixed 2 byte | X | X |
-| X'19' | Set Line Width | Fixed 2 byte | X | X |
-| X'37' | Set Marker Cell | Long | X | X |
-| X'3B' | Set Marker Precision | Fixed 2 byte | X | X |
-| X'3C' | Set Marker Set | Fixed 2 byte | X | X |
-| X'29' | Set Marker Symbol | Fixed 2 byte | X | X |
-| X'0C' | Set Mix | Fixed 2 byte | X | X |
-| X'08' | Set Pattern Set | Fixed 2 byte | X | X |
-| X'28' | Set Pattern Symbol | Fixed 2 byte | X | X |
-| X'B2' | Set Process Color | Long | | X |
+| X'68' | Begin Area | Fixed 2 byte | X | X [IPDS-8-096]|
+| X'D1' | Begin Image | Long | X | X [IPDS-8-097]|
+| X'91' | Begin Image at Current Position | Long | X | X [IPDS-8-098]|
+| X'C0' | Box | Long | | X [IPDS-8-099]|
+| X'80' | Box at Current Position | Long | | X [IPDS-8-100]|
+| X'C3' | Character String | Long | X | X [IPDS-8-101]|
+| X'83' | Character String at Current Position | Long | X | X [IPDS-8-102]|
+| X'01' | Comment | Long | X | X [IPDS-8-103]|
+| X'60' | End Area | Long | X | X [IPDS-8-104]|
+| X'93' | End Image | Long | X | X [IPDS-8-105]|
+| X'3E' | End Prolog | Fixed 2 byte | X | X [IPDS-8-106]|
+| X'C5' | Fillet | Long | X | X [IPDS-8-107]|
+| X'85' | Fillet at Current Position | Long | X | X [IPDS-8-108]|
+| X'C7' | Full Arc | Long | X | X [IPDS-8-109]|
+| X'87' | Full Arc at Current Position | Long | X | X [IPDS-8-110]|
+| X'92' | Image Data | Long | X | X [IPDS-8-111]|
+| X'C1' | Line | Long | X | X [IPDS-8-112]|
+| X'81' | Line at Current Position | Long | X | X [IPDS-8-113]|
+| X'C2' | Marker | Long | X | X [IPDS-8-114]|
+| X'82' | Marker at Current Position | Long | X | X [IPDS-8-115]|
+| X'00' | No Operation | Fixed 1 byte | X | X [IPDS-8-116]|
+| X'E3' | Partial Arc | Long | | X [IPDS-8-117]|
+| X'A3' | Partial Arc at Current Position | Long | | X [IPDS-8-118]|
+| X'E1' | Relative Line | Long | X | X [IPDS-8-119]|
+| X'A1' | Relative Line at Current Position | Long | X | X [IPDS-8-120]|
+| X'04' | Segment Characteristics | Long | X | X [IPDS-8-121]|
+| X'22' | Set Arc Parameters | Long | X | X [IPDS-8-122]|
+| X'0D' | Set Background Mix | Fixed 2 byte | X | X [IPDS-8-123]|
+| X'34' | Set Character Angle | Long | X | X [IPDS-8-124]|
+| X'33' | Set Character Cell | Long | X | X [IPDS-8-125]|
+| X'3A' | Set Character Direction | Fixed 2 byte | X | X [IPDS-8-126]|
+| X'39' | Set Character Precision | Fixed 2 byte | X | X [IPDS-8-127]|
+| X'38' | Set Character Set | Fixed 2 byte | X | X [IPDS-8-128]|
+| X'35' | Set Character Shear | Long | X | X [IPDS-8-129]|
+| X'0A' | Set Color | Fixed 2 byte | X | X [IPDS-8-130]|
+| X'21' | Set Current Position | Long | X | X [IPDS-8-131]|
+| X'26' | Set Extended Color | Long | X | X [IPDS-8-132]|
+| X'11' | Set Fractional Line Width | Long | | X [IPDS-8-133]|
+| X'18' | Set Line Type | Fixed 2 byte | X | X [IPDS-8-134]|
+| X'19' | Set Line Width | Fixed 2 byte | X | X [IPDS-8-135]|
+| X'37' | Set Marker Cell | Long | X | X [IPDS-8-136]|
+| X'3B' | Set Marker Precision | Fixed 2 byte | X | X [IPDS-8-137]|
+| X'3C' | Set Marker Set | Fixed 2 byte | X | X [IPDS-8-138]|
+| X'29' | Set Marker Symbol | Fixed 2 byte | X | X [IPDS-8-139]|
+| X'0C' | Set Mix | Fixed 2 byte | X | X [IPDS-8-140]|
+| X'08' | Set Pattern Set | Fixed 2 byte | X | X [IPDS-8-141]|
+| X'28' | Set Pattern Symbol | Fixed 2 byte | X | X [IPDS-8-142]|
+| X'B2' | Set Process Color | Long | | X [IPDS-8-143]|
 In addition, some IPDS printers support additional, optional drawing orders and accept, as a no operation
 (NOP), the long-format Set Pick Identifier (X'43') and the reserved fixed two-byte format drawing order End
 Segment (X'71').
 Table 48lists the additional drawing orders supported by some IPDS printers:
-Table 48. Additional Drawing Orders Supported by Some Printers
+Table 48. Additional Drawing Orders Supported by Some Printers [IPDS-8-144]
 
 | Code | Drawing Order | Format |
 | :--- | :--- | :--- |
-| X'DE' | Begin Custom Pattern | Long |
-| X'E5' | Cubic Bézier Curve | Long |
-| X'A5' | Cubic Bézier Curve at Current Position | Long |
-| X'DF' | Delete Pattern | Long |
-| X'5E' | End Custom Pattern | Fixed 2 byte |
-| X'FEDC' | Linear Gradient | Extended |
-| X'FEDD' | Radial Gradient | Extended |
-| X'20' | Set Custom Line Type | Long |
-| X'1A' | Set Line End | Fixed 2 byte |
-| X'1B' | Set Line Join | Fixed 2 byte |
-| X'A0' | Set Pattern Reference Point | Long |
+| X'DE' | Begin Custom Pattern | Long [IPDS-8-145]|
+| X'E5' | Cubic Bézier Curve | Long [IPDS-8-146]|
+| X'A5' | Cubic Bézier Curve at Current Position | Long [IPDS-8-147]|
+| X'DF' | Delete Pattern | Long [IPDS-8-148]|
+| X'5E' | End Custom Pattern | Fixed 2 byte [IPDS-8-149]|
+| X'FEDC' | Linear Gradient | Extended [IPDS-8-150]|
+| X'FEDD' | Radial Gradient | Extended [IPDS-8-151]|
+| X'20' | Set Custom Line Type | Long [IPDS-8-152]|
+| X'1A' | Set Line End | Fixed 2 byte [IPDS-8-153]|
+| X'1B' | Set Line Join | Fixed 2 byte [IPDS-8-154]|
+| X'A0' | Set Pattern Reference Point | Long [IPDS-8-155]|
 IPDS exception IDs X'020E..02', X'020E..03', X'020E..04', X'020E..05', and exception IDs of the form
 X'03nn..nn' exist when problems are found within GOCA drawing orders; refer to the Graphics Object Content
 Architecture for Advanced Function Presentation Reference for more information about these drawing orders
-and exception conditions.
+and exception conditions. [IPDS-8-156]
 
 

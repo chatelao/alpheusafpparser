@@ -10,52 +10,52 @@ objects, some objects support only a subset of the colors. For a definition of t
 Object Content Architecture references for the individual objects. Note that this table defines the complete set
 of colors supported by the GOCA Set Extended Color drawing order. The Color Specification (X'4E') triplet also
 supports these colors for the Standard OCA color space; see “Color Specification Triplet X'4E'”.
-Table 43. Color Values
-| Value | Color | Red (R) | Green (G) | Blue (B) |
-| --- | --- | --- | --- | --- |
-| X'0000' or X'FF00' | Presentation-process default; see Note 1 | | | |
-| X'0001' or X'FF01' | Blue | 0 | 0 | 255 |
-| X'0002' or X'FF02' | Red | 255 | 0 | 0 |
-| X'0003' or X'FF03' | Pink/Magenta | 255 | 0 | 255 |
-| X'0004' or X'FF04' | Green | 0 | 255 | 0 |
-| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 |
-| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 |
-| X'0007' | White; see Note 2 | 255 | 255 | 255 |
-| X'0008' | Black | 0 | 0 | 0 |
-| X'0009' | Dark blue | 0 | 0 | 170 |
-| X'000A' | Orange | 255 | 128 | 0 |
-| X'000B' | Purple | 170 | 0 | 170 |
-| X'000C' | Dark green | 0 | 146 | 0 |
-| X'000D' | Dark turquoise | 0 | 146 | 170 |
-| X'000E' | Mustard | 196 | 160 | 32 |
-| X'000F' | Gray | 131 | 131 | 131 |
-| X'0010' | Brown | 144 | 48 | 0 |
-| X'FF07' | Presentation-process default; see Note 3 | — | — | — |
-| X'FF08' | Color of medium | — | — | — |
-| All others | Reserved | — | — | — |
+Table 43. Color Values [MODCA-A-001]
+| Value | Color | Red (R) | Green (G) | Blue (B) [MODCA-A-002]|
+| --- | --- | --- | --- | --- [MODCA-A-003]|
+| X'0000' or X'FF00' | Presentation-process default; see Note 1 [MODCA-A-004]| | | |
+| X'0001' or X'FF01' | Blue | 0 | 0 | 255 [MODCA-A-005]|
+| X'0002' or X'FF02' | Red | 255 | 0 | 0 [MODCA-A-006]|
+| X'0003' or X'FF03' | Pink/Magenta | 255 | 0 | 255 [MODCA-A-007]|
+| X'0004' or X'FF04' | Green | 0 | 255 | 0 [MODCA-A-008]|
+| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 [MODCA-A-009]|
+| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 [MODCA-A-010]|
+| X'0007' | White; see Note 2 | 255 | 255 | 255 [MODCA-A-011]|
+| X'0008' | Black | 0 | 0 | 0 [MODCA-A-012]|
+| X'0009' | Dark blue | 0 | 0 | 170 [MODCA-A-013]|
+| X'000A' | Orange | 255 | 128 | 0 [MODCA-A-014]|
+| X'000B' | Purple | 170 | 0 | 170 [MODCA-A-015]|
+| X'000C' | Dark green | 0 | 146 | 0 [MODCA-A-016]|
+| X'000D' | Dark turquoise | 0 | 146 | 170 [MODCA-A-017]|
+| X'000E' | Mustard | 196 | 160 | 32 [MODCA-A-018]|
+| X'000F' | Gray | 131 | 131 | 131 [MODCA-A-019]|
+| X'0010' | Brown | 144 | 48 | 0 [MODCA-A-020]|
+| X'FF07' | Presentation-process default; see Note 3 | — | — | — [MODCA-A-021]|
+| X'FF08' | Color of medium | — | — | — [MODCA-A-022]|
+| All others | Reserved | — | — | — [MODCA-A-023]|
 Notes:
-1. The presentation-process default specified by X'0000' and X'FF00' is resolved based on data type as follows:
-• For PTOCA text data, it is the presentation device default.
-• For bilevel IOCA Image data (FS10), it is the presentation device default.
-• For IM Image data, it is the presentation device default.
-• For GOCA graphics data, it is the drawing order default defined in the Graphics Data Descriptor (GDD) structured
+1. The presentation-process default specified by X'0000' and X'FF00' is resolved based on data type as follows: [MODCA-A-024]
+• For PTOCA text data, it is the presentation device default. [MODCA-A-025]
+• For bilevel IOCA Image data (FS10), it is the presentation device default. [MODCA-A-026]
+• For IM Image data, it is the presentation device default. [MODCA-A-027]
+• For GOCA graphics data, it is the drawing order default defined in the Graphics Data Descriptor (GDD) structured [MODCA-A-028]
 field.
-• For BCOCA bar code data, it is the presentation device default.
-2. The color rendered on presentation devices that do not support white is presentation-system dependent. For
+• For BCOCA bar code data, it is the presentation device default. [MODCA-A-029]
+2. The color rendered on presentation devices that do not support white is presentation-system dependent. For [MODCA-A-030]
 example, some printers simulate with color of medium, which results in white if white media is used.
-3. The presentation-process default specified by X'FF07' is resolved as the presentation device default. This color
+3. The presentation-process default specified by X'FF07' is resolved as the presentation device default. This color [MODCA-A-031]
 value is also known in GOCA as neutral white for compatibility with display devices.
-4. The value X'FFFF' is not defined in the Standard OCA Color Value T able but is used by some objects as a default
+4. The value X'FFFF' is not defined in the Standard OCA Color Value T able but is used by some objects as a default [MODCA-A-032]
 indicator as follows:
-• For PTOCA text data, X'FFFF' may be specified in the Set T ext Color (STC) control sequence to indicate that the
+• For PTOCA text data, X'FFFF' may be specified in the Set T ext Color (STC) control sequence to indicate that the [MODCA-A-033]
 PTOCA default hierarchy is used to generate the color value. Note that X'FFFF' is not supported in the Set
 Extended T ext Color (SEC) control sequence.
-• For IM image data in MO:DCA environments, X'FFFF' may be specified to indicate use of a presentation process
+• For IM image data in MO:DCA environments, X'FFFF' may be specified to indicate use of a presentation process [MODCA-A-034]
 default color value. The value X'FFFF' is not valid for IM image in IPDS environments.
-• For bilevel IOCA image data (FS10), X'FFFF' may be specified to indicate use of a presentation process default
+• For bilevel IOCA image data (FS10), X'FFFF' may be specified to indicate use of a presentation process default [MODCA-A-035]
 color.
-• For BCOCA data, X'FFFF' may be specified to indicate use of a presentation device default color.
-5. While the RGB values in the table can be used to render the OCA named colors, many implementations are and
+• For BCOCA data, X'FFFF' may be specified to indicate use of a presentation device default color. [MODCA-A-036]
+5. While the RGB values in the table can be used to render the OCA named colors, many implementations are and [MODCA-A-037]
 have been presentation-system dependent. Nevertheless, it is recommended that OCA Black (X'0008') be rendered
 as C = M = Y = X'00', and K = X'FF'.
 Color Resources
@@ -74,32 +74,32 @@ supported color spaces.
 CIELab Color Space
 L = L
 assuming
-0 <= L <= 100
+0 <= L <= 100 [MODCA-A-038]
 RGB Color Space
 First the CIE luminance (Y) is generated:
 Y = 0.212(R
 2.2) + 0.701(G 2.2) + 0.087(B 2.2)
 assuming
-0 <= R,G,B <= 1
+0 <= R,G,B <= 1 [MODCA-A-039]
 Note: In this equation, R, G, B are the gamma-corrected (nonlinear) components of the source color.
 The lightness (L) is calculated from the CIE luminance (Y) using the following equation:
 L = 116(Y
 1/3) - 16 for Y > 0.008856
 L = 903.3Y for Y <= 0.008856
 assuming
-0 <= Y <= 1
+0 <= Y <= 1 [MODCA-A-040]
 CMYK Color Space
 First the CIE luminance (Y) is generated:
 Y = 1 - min(1, 0.212C + 0.701M + 0.087Y + K)
 assuming
-0 <= C,M,Y,K <= 1
+0 <= C,M,Y,K <= 1 [MODCA-A-041]
 where the function min(a,b) selects the smaller of (a,b).
 The lightness (L) is calculated from the CIE luminance (Y) using the following equation:
 L = 116(Y
 1/3) - 16 for Y > 0.008856
 L = 903.3Y for Y<= 0.008856
 assuming
-0 <= Y <= 1
+0 <= Y <= 1 [MODCA-A-042]
 Color Resources
 
 
@@ -185,39 +185,39 @@ values, and to replace the source color values with the target color values when
 Color Resources
 
 
-Color Mapping Table Syntax
-| Offset | Type | Name | Range | Meaning | M/O |
-| --- | --- | --- | --- | --- | --- |
-| 0–1 | UBIN | TBLlngth | | 6–65,535 T able length | M |
-| 2–3 | CODE | TBLid | | 1–65,534 T able ID | M |
-| 4 CODE TBLtpe X'01', X'81' T able type: | | | | | X'01' Color mapping table X'81' Reset color mapping table |
-| 5 | Reserved; | should | | be zero | M For a color mapping table (TBLtpe = X'01'), at least one source and one target repeating group in the following format: Source Repeating Group |
-| 0–1 | UBIN | RGLngth | | 30–(n+1) Repeating group length | M |
-| 2 | UBIN | RGId | | 1–127 Repeating group ID | M |
-| 3 CODE RGTpe X'01' Repeating group type: | | | | | X'01' Source color value repeating group All others Reserved |
-| 4 CODE ColSpce X'06', X'40', X'50' Color space: | | | | | X'06' Highlight color space X'40' Standard OCA color space X'50' GOCA Pattern Fill space All others Reserved |
-| 5–8 | Reserved; | should | | be zero | M |
-| 9 UBIN ColSize1 X'08', X'10' Number of bits in component 1; see | | | | | color space definitions |
-| 10 UBIN ColSize2 X'00', X'08' Number of bits in component 2; see | | | | | color space definitions |
-| 11 UBIN ColSize3 X'00', X'08' Number of bits in component 3; see | | | | | color space definitions |
-| 12 | Reserved; | should | | be zero | M Color Resources |
+Color Mapping Table Syntax [MODCA-A-043]
+| Offset | Type | Name | Range | Meaning | M/O [MODCA-A-044]|
+| --- | --- | --- | --- | --- | --- [MODCA-A-045]|
+| 0–1 | UBIN | TBLlngth | | 6–65,535 T able length | M [MODCA-A-046]|
+| 2–3 | CODE | TBLid | | 1–65,534 T able ID | M [MODCA-A-047]|
+| 4 CODE TBLtpe X'01', X'81' T able type: | | | | | X'01' Color mapping table X'81' Reset color mapping table [MODCA-A-048]|
+| 5 | Reserved; | should | | be zero | M For a color mapping table (TBLtpe = X'01'), at least one source and one target repeating group in the following format: Source Repeating Group [MODCA-A-049]|
+| 0–1 | UBIN | RGLngth | | 30–(n+1) Repeating group length | M [MODCA-A-050]|
+| 2 | UBIN | RGId | | 1–127 Repeating group ID | M [MODCA-A-051]|
+| 3 CODE RGTpe X'01' Repeating group type: | | | | | X'01' Source color value repeating group All others Reserved [MODCA-A-052]|
+| 4 CODE ColSpce X'06', X'40', X'50' Color space: | | | | | X'06' Highlight color space X'40' Standard OCA color space X'50' GOCA Pattern Fill space All others Reserved [MODCA-A-053]|
+| 5–8 | Reserved; | should | | be zero | M [MODCA-A-054]|
+| 9 UBIN ColSize1 X'08', X'10' Number of bits in component 1; see | | | | | color space definitions [MODCA-A-055]|
+| 10 UBIN ColSize2 X'00', X'08' Number of bits in component 2; see | | | | | color space definitions [MODCA-A-056]|
+| 11 UBIN ColSize3 X'00', X'08' Number of bits in component 3; see | | | | | color space definitions [MODCA-A-057]|
+| 12 | Reserved; | should | | be zero | M Color Resources [MODCA-A-058]|
 
 
-| Offset | Type | Name | Range | Meaning | M/O |
-| --- | --- | --- | --- | --- | --- |
-| 13 CODE ObjSel X'6B', X'7B', X'9B', | | | | | X'AF', X'BB', X'DF', X'EB', X'FB', X'FE', X'FF' Source object type selector: X'6B' Object area X'7B' IM Image data X'9B' PTOCA data X'AF' Page presentation space X'BB' GOCA data X'DF' Overlay presentation space X'EB' BCOCA data X'FB' Non-tiled bilevel IOCA image data X'FE' All PTOCA, GOCA, BCOCA, non-tiled bilevel IOCA, and IM Image object data X'FF' All objects, object areas, and presentation spaces All others Reserved |
-| 14–29 | Reserved; | should | | be zero | M |
-| 30–n Color Values Sequential list of color values to be | | | | | mapped O Target Repeating Group |
-| 0–1 | UBIN | RGLngth | | 13–(m+1) Repeating group length | M |
-| 2 | UBIN | RGId | | 1–127 Repeating group ID | M |
-| 3 CODE RGTpe X'02' Repeating group type: | | | | | X'02' T arget color value repeating group All others Reserved |
-| 4 CODE ColSpce X'01', X'04', X'06', | | | | | X'08' Color space: X'01' RGB X'04' CMYK X'06' Highlight color space X'08' CIELAB All others Reserved |
-| 5–8 | Reserved; | should | | be zero | M |
-| 9 UBIN ColSize1 X'01'–X'08', X'10' Number of bits in component 1; see | | | | | color space definitions |
-| 10 UBIN ColSize2 X'00'–X'08' Number of bits in component 2; see | | | | | color space definitions |
-| 11 UBIN ColSize3 X'00'–X'08' Number of bits in component 3; see | | | | | color space definitions |
-| 12 UBIN ColSize4 X'00'–X'08' Number of bits in component 4; see | | | | | color space definitions |
-| 13–m Color Values Sequential list of color values to be | | | | | mapped O Color Resources |
+| Offset | Type | Name | Range | Meaning | M/O [MODCA-A-059]|
+| --- | --- | --- | --- | --- | --- [MODCA-A-060]|
+| 13 CODE ObjSel X'6B', X'7B', X'9B', | | | | | X'AF', X'BB', X'DF', X'EB', X'FB', X'FE', X'FF' Source object type selector: X'6B' Object area X'7B' IM Image data X'9B' PTOCA data X'AF' Page presentation space X'BB' GOCA data X'DF' Overlay presentation space X'EB' BCOCA data X'FB' Non-tiled bilevel IOCA image data X'FE' All PTOCA, GOCA, BCOCA, non-tiled bilevel IOCA, and IM Image object data X'FF' All objects, object areas, and presentation spaces All others Reserved [MODCA-A-061]|
+| 14–29 | Reserved; | should | | be zero | M [MODCA-A-062]|
+| 30–n Color Values Sequential list of color values to be | | | | | mapped O Target Repeating Group [MODCA-A-063]|
+| 0–1 | UBIN | RGLngth | | 13–(m+1) Repeating group length | M [MODCA-A-064]|
+| 2 | UBIN | RGId | | 1–127 Repeating group ID | M [MODCA-A-065]|
+| 3 CODE RGTpe X'02' Repeating group type: | | | | | X'02' T arget color value repeating group All others Reserved [MODCA-A-066]|
+| 4 CODE ColSpce X'01', X'04', X'06', | | | | | X'08' Color space: X'01' RGB X'04' CMYK X'06' Highlight color space X'08' CIELAB All others Reserved [MODCA-A-067]|
+| 5–8 | Reserved; | should | | be zero | M [MODCA-A-068]|
+| 9 UBIN ColSize1 X'01'–X'08', X'10' Number of bits in component 1; see | | | | | color space definitions [MODCA-A-069]|
+| 10 UBIN ColSize2 X'00'–X'08' Number of bits in component 2; see | | | | | color space definitions [MODCA-A-070]|
+| 11 UBIN ColSize3 X'00'–X'08' Number of bits in component 3; see | | | | | color space definitions [MODCA-A-071]|
+| 12 UBIN ColSize4 X'00'–X'08' Number of bits in component 4; see | | | | | color space definitions [MODCA-A-072]|
+| 13–m Color Values Sequential list of color values to be | | | | | mapped O Color Resources [MODCA-A-073]|
 
 
 Color Mapping Table Semantics
@@ -308,11 +308,11 @@ mapped to target values. For target repeating groups, these are the values that 
 by the presentation device in place of the corresponding source color values.
 Color Mapping Table Exception Condition Summary
 An exception condition exists when the following is detected:
-• The table is a color mapping table and does not contain at least one source repeating group and one target
+• The table is a color mapping table and does not contain at least one source repeating group and one target [MODCA-A-074]
 repeating group
-• The table is a color mapping table and contains a source repeating group that does not have a matching
+• The table is a color mapping table and contains a source repeating group that does not have a matching [MODCA-A-075]
 target repeating group
-• The table contains invalid data
+• The table contains invalid data [MODCA-A-076]
 Color Resources
 
 

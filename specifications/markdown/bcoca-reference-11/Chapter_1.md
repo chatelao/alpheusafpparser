@@ -51,7 +51,7 @@ architectures provide structures that support object-oriented models and client/
 AFP architectures define interchange formats that are system independent and are independent of any
 particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use
 industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for
-compressed image data.
+compressed image data. [BCOCA-1-001]
 
 
 AFP architectures provide the means for representing documents in a data format that is independent of the
@@ -65,8 +65,8 @@ Data Streams
 A data stream is a continuous ordered stream of data elements and objects conforming to a given format.
 Application programs can generate data streams destined for a presentation service, archive library,
 presentation device, or another application program. The strategic presentation data stream architectures are:
-• Mixed Object Document Content Architecture (MO:DCA)
-• Intelligent Printer Data Stream (IPDS) Architecture
+• Mixed Object Document Content Architecture (MO:DCA) [BCOCA-1-002]
+• Intelligent Printer Data Stream (IPDS) Architecture [BCOCA-1-003]
 The MO:DCA architecture defines the data stream used by applications to describe documents and object
 envelopes for interchange with other applications and application services. The MO:DCA format supports
 storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of
@@ -79,7 +79,7 @@ printing, and mailroom applications. The same object content architectures carri
 can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer
 hardware. The IPDS architecture defines bidirectional command protocols for query, resource management,
 and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided
-by pre-processing and post-processing devices attached to IPDS printers.
+by pre-processing and post-processing devices attached to IPDS printers. [BCOCA-1-004]
 
 
 Figure 2 shows a system model relating MO:DCA and IPDS data streams to the presentation environment
@@ -140,25 +140,25 @@ All object content architectures (OCAs) are totally self-describing and independ
 objects are composed on a page, they exist as peer objects that can be individually positioned and
 manipulated to meet the needs of the presentation application.
 The AFPC-defined object content architectures are:
-• Presentation Text Object Content Architecture (PTOCA): A data architecture for describing text objects that
+• Presentation Text Object Content Architecture (PTOCA): A data architecture for describing text objects that [BCOCA-1-005]
 have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other
 visual attributes are included in the architecture definition.
-• Image Object Content Architecture (IOCA): A data architecture for describing resolution-independent image
+• Image Object Content Architecture (IOCA): A data architecture for describing resolution-independent image [BCOCA-1-006]
 objects captured from a number of different sources. Specifications of recording formats, data compression,
 color, and grayscale encoding are included in the architecture definition.
-• Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA): A version of GOCA
+• Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA): A version of GOCA [BCOCA-1-007]
 that is used in Advanced Function Presentation (AFP) environments. GOCA is a data architecture for
 describing vector graphics picture objects and line art drawings for a variety of applications. Specification of
 drawing primitives, such as lines, arcs, areas, and their visual attributes, are included in the architecture
 definition.
-• Bar Code Object Content Architecture (BCOCA): A data architecture for describing bar code objects, using a
+• Bar Code Object Content Architecture (BCOCA): A data architecture for describing bar code objects, using a [BCOCA-1-008]
 number of different symbologies. Specification of the data to be encoded and the symbology attributes to be
 used are included in the architecture definition.
-• Font Object Content Architecture (FOCA): A resource architecture for describing the structure and content of
+• Font Object Content Architecture (FOCA): A resource architecture for describing the structure and content of [BCOCA-1-009]
 fonts referenced by presentation data objects in the document.
-• Color Management Object Content Architecture (CMOCA): A resource architecture used to carry the color
+• Color Management Object Content Architecture (CMOCA): A resource architecture used to carry the color [BCOCA-1-010]
 management information required to render presentation data.
-• Metadata Object Content Architecture (MOCA): A resource architecture used to carry metadata in an AFP
+• Metadata Object Content Architecture (MOCA): A resource architecture used to carry metadata in an AFP [BCOCA-1-011]
 environment.
 The MO:DCA and IPDS architectures also support data objects that are not defined by object content
 architectures. Examples of such objects are T ag Image File Format (TIFF), Encapsulated PostScript
@@ -178,7 +178,7 @@ presentation-system-independent MO:DCA format and printed on an IPDS printer.
 To:  Joan Rogers
 Dear Joan:
 Security Systems, Inc.
-205 Main Street
+205 Main Street [BCOCA-1-012]
 Plains, Iowa
 Sales have improved so dramatically since
 you have joined our team, I would like to

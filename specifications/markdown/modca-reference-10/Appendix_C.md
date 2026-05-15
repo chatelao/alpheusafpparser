@@ -1,23 +1,23 @@
 # Appendix C. MO:DCA Migration Functions
 This appendix:
-• Describes obsolete structured fields and triplets that may occur in a MO:DCA data stream
-• Describes retired structured fields and triplets that may occur in a MO:DCA data stream
-• Describes coexistence functions that may occur in a MO:DCA data stream
+• Describes obsolete structured fields and triplets that may occur in a MO:DCA data stream [MODCA-C-001]
+• Describes retired structured fields and triplets that may occur in a MO:DCA data stream [MODCA-C-002]
+• Describes coexistence functions that may occur in a MO:DCA data stream [MODCA-C-003]
 The objective in defining obsolete, retired, and coexistence functions is twofold:
-• T o allow existing MO:DCA applications to run unchanged
-• T o provide a clear growth direction for future MO:DCA applications
+• T o allow existing MO:DCA applications to run unchanged [MODCA-C-004]
+• T o provide a clear growth direction for future MO:DCA applications [MODCA-C-005]
 Migration Functions
 The migration functions are divided into three different categories:
-• Obsolete functions. These are objects, structured fields, triplets, and parameters that will be accepted but
+• Obsolete functions. These are objects, structured fields, triplets, and parameters that will be accepted but [MODCA-C-006]
 ignored. New products must not generate these functions.
-• Retired functions. Retired functions are objects, structured fields, triplets, and parameters whose use has
+• Retired functions. Retired functions are objects, structured fields, triplets, and parameters whose use has [MODCA-C-007]
 been retired except for specific products. Only these specific products may use these functions. Other
 products should not use these functions, that is, generators should not generate these functions and
 receivers may ignore them.
-• Coexistence functions. These are objects, structured fields, triplets, and parameters whose function has
+• Coexistence functions. These are objects, structured fields, triplets, and parameters whose function has [MODCA-C-008]
 been enhanced or superseded by newer functions. In this case, the old and new functions can coexist. New
 generators must generate the new functions. New receivers must process the new functions, but may also
-continue to process the old functions.
+continue to process the old functions. [MODCA-C-009]
 
 
 Obsolete Functions
@@ -26,10 +26,10 @@ New products must not generate these functions.
 Obsolete Structured Fields
 The following four structured fields are obsolete in the current data stream, but are still allowed to be present
 as constant data. AFP servers recognize these fields and ignore them:
-• Composed-T ext Control (CTC)
-• Begin Form Environment Group (BFG)
-• End Form Environment Group (EFG)
-• Form Environment Group Descriptor (FGD)
+• Composed-T ext Control (CTC) [MODCA-C-010]
+• Begin Form Environment Group (BFG) [MODCA-C-011]
+• End Form Environment Group (EFG) [MODCA-C-012]
+• Form Environment Group Descriptor (FGD) [MODCA-C-013]
 The CTC can appear as a constant in the Active Environment Group of a page. The BFG, EFG, and FGD can
 appear optionally in the Medium Map object of a Form Map.
 New applications must not generate these structured fields.
@@ -38,13 +38,13 @@ CTC (X'D3A79B') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3A79B' Flags (1B) Reserved
 X'0000'
-Structured Field Data
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–9 | ConData | Constant | | data | M | X'06' CTC Semantics ConData Constant data. Must be set to X'0000 0000 0000 0000 2D00'. Begin Form Environment Group (BFG) BFG (X'D3A8C5') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A8C5' Flags (1B) Reserved X'0000' Structured Field Data |
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–7 CHAR FEGName Name of the Form Environment | | | | | | Group O X'02' Obsolete Functions |
+Structured Field Data [MODCA-C-014]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-015]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-016]|
+| 0–9 | ConData | Constant | | data | M | X'06' CTC Semantics ConData Constant data. Must be set to X'0000 0000 0000 0000 2D00'. Begin Form Environment Group (BFG) BFG (X'D3A8C5') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A8C5' Flags (1B) Reserved X'0000' Structured Field Data [MODCA-C-017]|
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-018]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-019]|
+| 0–7 CHAR FEGName Name of the Form Environment | | | | | | Group O X'02' Obsolete Functions [MODCA-C-020]|
 
 
 BFG Semantics
@@ -54,21 +54,21 @@ EFG (X'D3A9C5') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3A9C5' Flags (1B) Reserved
 X'0000'
-Structured Field Data
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–7 CHAR FEGName Name of the Form Environment | | | | | | Group O X'02' EFG Semantics FEGName Is the name of the form environment group being terminated. If a name is specified, it must match the name in the most recent Begin Form Environment Group structured field in the Form Map. If the first two bytes in FEGName contain the value X'FFFF', the name matches any name specified on the Begin Form Environment Group structured field that initiated the current definition. Form Environment Group Descriptor (FGD) FGD (X'D3A6C5') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A6C5' Flags (1B) Reserved X'0000' Structured Field Data |
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–3 | ConData | Constant | | data | M | X'06' FGD Semantics Constant data Must be set to X'0001 00FF'. Obsolete Functions |
+Structured Field Data [MODCA-C-021]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-022]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-023]|
+| 0–7 CHAR FEGName Name of the Form Environment | | | | | | Group O X'02' EFG Semantics FEGName Is the name of the form environment group being terminated. If a name is specified, it must match the name in the most recent Begin Form Environment Group structured field in the Form Map. If the first two bytes in FEGName contain the value X'FFFF', the name matches any name specified on the Begin Form Environment Group structured field that initiated the current definition. Form Environment Group Descriptor (FGD) FGD (X'D3A6C5') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A6C5' Flags (1B) Reserved X'0000' Structured Field Data [MODCA-C-024]|
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-025]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-026]|
+| 0–3 | ConData | Constant | | data | M | X'06' FGD Semantics Constant data Must be set to X'0001 00FF'. Obsolete Functions [MODCA-C-027]|
 
 
 Obsolete Structured Field Names
 The following structured fields are still in use, but have been renamed:
-• Composed T ext Data (CTX)
-• Composed T ext Descriptor (CTD)
-• Begin Composed T ext (BCT)
-• End Composed T ext (ECT)
+• Composed T ext Data (CTX) [MODCA-C-028]
+• Composed T ext Descriptor (CTD) [MODCA-C-029]
+• Begin Composed T ext (BCT) [MODCA-C-030]
+• End Composed T ext (ECT) [MODCA-C-031]
 Composed Text Data (CTX) Structured Field (X'D3EE9B')
 This structured field has been renamed Presentation T ext Data (PTX).
 Composed Text Descriptor (CTD) Structured Field (X'D3A69B')
@@ -87,30 +87,30 @@ should not use these functions, that is, generators should not generate these fu
 ignore them.
 Retired Structured Fields
 The following structured fields were previously retired but are now valid MO:DCA structured fields:
-• Begin Resource (BR), see “Begin Resource (BRS)”.
-• End Resource (ER), see “End Resource (ERS)”.
+• Begin Resource (BR), see “Begin Resource (BRS)”. [MODCA-C-032]
+• End Resource (ER), see “End Resource (ERS)”. [MODCA-C-033]
 Retired Triplets
 The following triplets have been retired:
-• MDD Two-up Triplet X'10'
-• T ext Orientation Triplet X'1D'
-• Object Function Set Specification Triplet X'21'
-• Line Data Object Position Migration Triplet X'27'
-• Page Overlay Conditional Processing Triplet X'46'
-• Resource Usage Attribute Triplet X'47'
-• Object Checksum Triplet X'63'
-• Object Origin Identifier Triplet X'64'
-• IMM Insertion Triplet X'73'
+• MDD Two-up Triplet X'10' [MODCA-C-034]
+• T ext Orientation Triplet X'1D' [MODCA-C-035]
+• Object Function Set Specification Triplet X'21' [MODCA-C-036]
+• Line Data Object Position Migration Triplet X'27' [MODCA-C-037]
+• Page Overlay Conditional Processing Triplet X'46' [MODCA-C-038]
+• Resource Usage Attribute Triplet X'47' [MODCA-C-039]
+• Object Checksum Triplet X'63' [MODCA-C-040]
+• Object Origin Identifier Triplet X'64' [MODCA-C-041]
+• IMM Insertion Triplet X'73' [MODCA-C-042]
 MDD Two-up Triplet X'10'
 Provides two-up functionality specific to Océ implementations. The use of this triplet is restricted to the MDD
 structured field for the following products:
-• Océ PRISMAproduction Server
-• Océ printers driven by the Océ PRISMAproduction Server that support two-up printing using this control
-MDD Two-up Triplet X'10' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 3 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 | CODE | Tid | | X'10' Identifies the Océ Two-up triplet | M | X'00' |
-| 2 CODE Oce2up X'00', X'01', | | | | | | X'02', X'05' Specifies the Océ Two-up method to be used: X'00' No Two-up X'01' Two-up left/right X'02' Two-up identical copies X'05' Two-up right/left M X'06' Retired Functions |
+• Océ PRISMAproduction Server [MODCA-C-043]
+• Océ printers driven by the Océ PRISMAproduction Server that support two-up printing using this control [MODCA-C-044]
+MDD Two-up Triplet X'10' Syntax [MODCA-C-045]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-046]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-047]|
+| 0 UBIN Tlength 3 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-048]|
+| 1 | CODE | Tid | | X'10' Identifies the Océ Two-up triplet | M | X'00' [MODCA-C-049]|
+| 2 CODE Oce2up X'00', X'01', | | | | | | X'02', X'05' Specifies the Océ Two-up method to be used: X'00' No Two-up X'01' Two-up left/right X'02' Two-up identical copies X'05' Two-up right/left M X'06' Retired Functions [MODCA-C-050]|
 
 
 MDD Two-up Triplet X'10' Semantics
@@ -124,50 +124,50 @@ X'02' Two-up identical copies
 X'05' Two-up right/left
 All others Reserved
 Structured Field Using MDD Two-up Triplet X'10'
-• “Medium Descriptor (MDD)”
+• “Medium Descriptor (MDD)” [MODCA-C-051]
 Text Orientation Triplet X'1D'
 The use of this triplet is restricted to the MCF-2 structured field for IBM 3800 printer compatibility for the
 following products:
-• PSF/MVS
-• PSF/VM
-• PSF/VSE
-• PSF/400
+• PSF/MVS [MODCA-C-052]
+• PSF/VM [MODCA-C-053]
+• PSF/VSE [MODCA-C-054]
+• PSF/400 [MODCA-C-055]
 • PSF/2
-• Infoprint Manager (IPM)
-• IBM 3800 printer
-• Applications that generate MCF-2s in documents to be printed on the IBM 3800 printer
+• Infoprint Manager (IPM) [MODCA-C-056]
+• IBM 3800 printer [MODCA-C-057]
+• Applications that generate MCF-2s in documents to be printed on the IBM 3800 printer [MODCA-C-058]
 The T ext Orientation triplet is used to specify the text orientation for a coded font.
 When the MCF-2 structured field is used to reference different sections of the same double-byte font, a T ext
 Orientation (X'1D') triplet may be specified in any of the repeating groups associated with the font and need
 only be specified in one of the repeating groups. However, if specified in more than one of the associated
 repeating groups, the value of all T ext Orientation (X'1D') triplets must be identical.
 Triplet X'1D' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 6 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 CODE Tid X'1D' Identifies the T ext Orientation | | | | | | triplet M X'00' Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-059]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-060]|
+| 0 UBIN Tlength 6 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-061]|
+| 1 CODE Tid X'1D' Identifies the T ext Orientation | | | | | | triplet M X'00' Retired Functions [MODCA-C-062]|
 
 
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2–3 CODE IAxis X'0000', X'2D00', | | | | | | X'5A00', X'8700' Specifies the orientation of the Inline axis: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' |
-| 4–5 CODE BAxis X'0000', X'2D00', | | | | | | X'5A00', X'8700' Specifies the orientation of the Baseline axis: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' Triplet X'1D' Semantics Tlength Contains the length of the triplet. Tid Identifies the T ext Orientation triplet. IAxis Specifies the orientation of the I-axis with respect to the X axis of the page or overlay. Valid values are the following: Value I-Axis Orientation X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees All others Reserved BAxis Specifies the orientation of the B-axis with respect to the X axis of the page or overlay. Valid values are the following: Value B-Axis Orientation X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees All others Reserved Structured Field Using Triplet X'1D' • “Map Coded Font (MCF) Format 2” Object Function Set Specification Triplet X'21' The use of this triplet is restricted to the BDT structured field in the following products: • Pre-year 2012 AFP applications. The Object Function Set Specification triplet is used to specify the Object Content Architecture (OCA) level for objects in a MO:DCA document. Architecture Note: A similar triplet, the Resource Object Type triplet, that unfortunately also uses triplet ID X'21', is used on the BRS structured field; see “Resource Object Type Triplet X'21'”. Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-063]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-064]|
+| 2–3 CODE IAxis X'0000', X'2D00', | | | | | | X'5A00', X'8700' Specifies the orientation of the Inline axis: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' [MODCA-C-065]|
+| 4–5 CODE BAxis X'0000', X'2D00', | | | | | | X'5A00', X'8700' Specifies the orientation of the Baseline axis: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' Triplet X'1D' Semantics Tlength Contains the length of the triplet. Tid Identifies the T ext Orientation triplet. IAxis Specifies the orientation of the I-axis with respect to the X axis of the page or overlay. Valid values are the following: Value I-Axis Orientation X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees All others Reserved BAxis Specifies the orientation of the B-axis with respect to the X axis of the page or overlay. Valid values are the following: Value B-Axis Orientation X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees All others Reserved Structured Field Using Triplet X'1D' • “Map Coded Font (MCF) Format 2” Object Function Set Specification Triplet X'21' The use of this triplet is restricted to the BDT structured field in the following products: • Pre-year 2012 AFP applications. The Object Function Set Specification triplet is used to specify the Object Content Architecture (OCA) level for objects in a MO:DCA document. Architecture Note: A similar triplet, the Resource Object Type triplet, that unfortunately also uses triplet ID X'21', is used on the BRS structured field; see “Resource Object Type Triplet X'21'”. Retired Functions [MODCA-C-066]|
 
 
 Triplet X'21' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 8–254 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 CODE Tid X'21' Identifies the Object Function Set | | | | | | Specification triplet M X'00' |
-| 2 CODE ObjType X'02'–X'03', | | | | | | X'05'–X'06' Specifies the OCA: X'02' Presentation T ext X'03' Graphics X'05' Bar Code X'06' Image M X'06' |
-| 3 CODE ArchVrsn X'00' Specifies the architecture level of | | | | | | the OCA M X'06' |
-| 4–5 CODE DCAFnSet X'8000' Specifies the MO:DCA function | | | | | | set identifier M X'06' |
-| 6–7 CODE OCAFnSet X'0000', X'4000', | | | | | | X'8000' Identifies the OCA function set: X'0000' PTOCA PT1 or BCOCA BCD1 X'4000' GOCA DR/2V0 (GRS2) or PTOCA PT2 X'8000' IOCA FS10 M X'06' |
-| 8–n | Reserved; | not | | checked | O | X'00' Triplet X'21' Semantics Tlength Contains the length of the triplet. Tid Identifies the Object Function Set Specification triplet. ObjType Specifies the object for which a function set is being defined. The codes for the objects are as follows: Value Description X'02' Presentation T ext (PTOCA) X'03' Graphics (GOCA) X'05' Bar Code (BCOCA) X'06' Image (IOCA) All others Reserved ArchVrsn Specifies the architecture level of the OCA. DCAFnSet Defines the function set for the group of MO:DCA constructs identified by the ObjType parameter. OCAFnSet Specifies the function set of the OCA defined by the ObjType parameter. The presence of this parameter containing the value X'0000' indicates that at least one object from the base function set is present in the data stream. OCAFnSet values have the following meanings: Value Description X'0000' Presentation T ext data - PTOCA PT1 level, or Bar Code data - BCOCA BCD1 level X'4000' Graphics data - GOCA DR/2V0 (GRS2) level, or Presentation T ext data - PTOCA PT2 level X'8000' Image data - IOCA FS10 level All others Reserved Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-067]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-068]|
+| 0 UBIN Tlength 8–254 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-069]|
+| 1 CODE Tid X'21' Identifies the Object Function Set | | | | | | Specification triplet M X'00' [MODCA-C-070]|
+| 2 CODE ObjType X'02'–X'03', | | | | | | X'05'–X'06' Specifies the OCA: X'02' Presentation T ext X'03' Graphics X'05' Bar Code X'06' Image M X'06' [MODCA-C-071]|
+| 3 CODE ArchVrsn X'00' Specifies the architecture level of | | | | | | the OCA M X'06' [MODCA-C-072]|
+| 4–5 CODE DCAFnSet X'8000' Specifies the MO:DCA function | | | | | | set identifier M X'06' [MODCA-C-073]|
+| 6–7 CODE OCAFnSet X'0000', X'4000', | | | | | | X'8000' Identifies the OCA function set: X'0000' PTOCA PT1 or BCOCA BCD1 X'4000' GOCA DR/2V0 (GRS2) or PTOCA PT2 X'8000' IOCA FS10 M X'06' [MODCA-C-074]|
+| 8–n | Reserved; | not | | checked | O | X'00' Triplet X'21' Semantics Tlength Contains the length of the triplet. Tid Identifies the Object Function Set Specification triplet. ObjType Specifies the object for which a function set is being defined. The codes for the objects are as follows: Value Description X'02' Presentation T ext (PTOCA) X'03' Graphics (GOCA) X'05' Bar Code (BCOCA) X'06' Image (IOCA) All others Reserved ArchVrsn Specifies the architecture level of the OCA. DCAFnSet Defines the function set for the group of MO:DCA constructs identified by the ObjType parameter. OCAFnSet Specifies the function set of the OCA defined by the ObjType parameter. The presence of this parameter containing the value X'0000' indicates that at least one object from the base function set is present in the data stream. OCAFnSet values have the following meanings: Value Description X'0000' Presentation T ext data - PTOCA PT1 level, or Bar Code data - BCOCA BCD1 level X'4000' Graphics data - GOCA DR/2V0 (GRS2) level, or Presentation T ext data - PTOCA PT2 level X'8000' Image data - IOCA FS10 level All others Reserved Retired Functions [MODCA-C-075]|
 
 
 Structured Field Using Triplet X'21'
-• “Begin Document (BDT)”
+• “Begin Document (BDT)” [MODCA-C-076]
 Line Data Object Position Migration Triplet X'27'
 The use of this triplet is restricted to the BBC, BGR, BII, BIM, BPT , and IPS structured fields for the migration of
 line-data containing bar code objects, graphic objects, image objects, text objects with OEG, and page
@@ -177,21 +177,21 @@ library; if it is specified, it is ignored.
 Triplet X'27' Syntax
 Use of this triplet is restricted to the following products:
 • ACIF
-• PSF/MVS
-• PSF/VM
-• PSF/VSE
+• PSF/MVS [MODCA-C-077]
+• PSF/VM [MODCA-C-078]
+• PSF/VSE [MODCA-C-079]
 • PSF/2
-• Infoprint Manager (IPM)
-• PSF/400
-• AFP Workbench
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 3 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 CODE Tid X'27' Identifies the Line Data Object | | | | | | Position Migration triplet M X'00' |
-| 2 CODE T empOrient X'00'–X'03' Location and orientation of | | | | | | coordinate system for object position and rotation: X'00' Standard page origin, 0° rotation X'01' Lower left origin, 270° rotation X'02' Lower right origin, 180° rotation X'03' Upper right origin, 90° rotation M X'06' Triplet X'27' Semantics Tlength Contains the length of the triplet. Tid Identifies the Line Data Object Position Migration triplet. TempOrient Specifies a temporary page coordinate system (X,Y) that matches the text coordinate (I,B) system that was defined when the objects that specify this triplet were included in line data. The origin of the temporary coordinate system is specified as one of the four corners of the page presentation space. The orientation of the temporary coordinate system is specified as a rotation of the X axis with respect to the page presentation space X p axis. The temporary coordinate system uses the same units of measure as the page coordinate system. The temporary coordinate system is used as follows: Retired Functions |
+• Infoprint Manager (IPM) [MODCA-C-080]
+• PSF/400 [MODCA-C-081]
+• AFP Workbench [MODCA-C-082]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-083]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-084]|
+| 0 UBIN Tlength 3 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-085]|
+| 1 CODE Tid X'27' Identifies the Line Data Object | | | | | | Position Migration triplet M X'00' [MODCA-C-086]|
+| 2 CODE T empOrient X'00'–X'03' Location and orientation of | | | | | | coordinate system for object position and rotation: X'00' Standard page origin, 0° rotation X'01' Lower left origin, 270° rotation X'02' Lower right origin, 180° rotation X'03' Upper right origin, 90° rotation M X'06' Triplet X'27' Semantics Tlength Contains the length of the triplet. Tid Identifies the Line Data Object Position Migration triplet. TempOrient Specifies a temporary page coordinate system (X,Y) that matches the text coordinate (I,B) system that was defined when the objects that specify this triplet were included in line data. The origin of the temporary coordinate system is specified as one of the four corners of the page presentation space. The orientation of the temporary coordinate system is specified as a rotation of the X axis with respect to the page presentation space X p axis. The temporary coordinate system uses the same units of measure as the page coordinate system. The temporary coordinate system is used as follows: Retired Functions [MODCA-C-087]|
 
 
-• For objects in a page segment, the X'27' triplet may be specified on the IPS and has the
+• For objects in a page segment, the X'27' triplet may be specified on the IPS and has the [MODCA-C-088]
 following effect on object offset and orientation:
 – IM image objects. The image origin offset from the page segment origin is measured
 using the temporary (X,Y) coordinate system. If the image is celled, cell offsets from the
@@ -206,7 +206,7 @@ p,Yp)
 coordinate system.
 If specified on the IPS, the X'27' triplet overrides any X'27' triplet that is specified on the
 Begin structured field of an object in the page segment.
-• For standalone objects, the X'27' triplet may be specified on the object Begin structured field
+• For standalone objects, the X'27' triplet may be specified on the object Begin structured field [MODCA-C-089]
 and has the following effect on object offset and orientation:
 – IM image objects. The image origin offset is measured from the temporary (X,Y)
 coordinate system origin (X=0,Y=0) using the temporary (X,Y) coordinate system. If the
@@ -376,12 +376,12 @@ measured with respect to the page (X
 p,Yp) coordinate
 system Xp-axis.
 Structured Fields Using Triplet X'27'
-• “Begin Bar Code Object (BBC)”
-• “Begin Graphics Object (BGR)”
-• “Begin IM Image Object (BII)”
-• “Begin Image Object (BIM)”
-• “Begin Presentation T ext Object (BPT)”
-• “Include Page Segment (IPS)”
+• “Begin Bar Code Object (BBC)” [MODCA-C-090]
+• “Begin Graphics Object (BGR)” [MODCA-C-091]
+• “Begin IM Image Object (BII)” [MODCA-C-092]
+• “Begin Image Object (BIM)” [MODCA-C-093]
+• “Begin Presentation T ext Object (BPT)” [MODCA-C-094]
+• “Include Page Segment (IPS)” [MODCA-C-095]
 Page Overlay Conditional Processing Triplet X'46'
 The use of this triplet is restricted to products that generate or process the retired MO:DCA interchange set
 MO:DCA IS/2.
@@ -392,12 +392,12 @@ Retired Functions
 
 
 Triplet X'46' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 3–4 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 CODE Tid X'46' Identifies the Page Overlay | | | | | | Conditional Processing triplet M X'00' |
-| 2 CODE PgOvType X'00'–X'03' Specifies the page overlay type: | | | | | | X'00' Type 0: Normal X'01' Type 1: Annotation X'02' Type 2: Redaction X'03' Type 3: Highlight M X'06' |
-| 3 | CODE | Level | | X'01'–X'FE' The level of the overlay | O | X'02' Triplet X'46' Semantics Tlength Contains the length of the triplet. Tid Identifies the Page Overlay Conditional Processing triplet. PgOvType Specifies the intended use of the overlay. If this parameter contains a value that is not supported by the receiver, the overlay is not processed. The page overlay types are defined as follows: Type Description Type 0 Normal page overlay. Type 1 Annotation overlay. Type 1 indicates that the page overlay is an annotation overlay used to indicate changes or annotations to the contents of the page to which it applies. Type 2 Redaction overlay. Type 2 indicates that the page overlay is a redaction overlay used to mask or hide all or a portion of the page to which it applies. Type 3 Highlight overlay. Type 3 indicates that the page overlay is a highlight overlay used to highlight all or a portion of the page to which it applies. Level Specifies the processing level of the overlay. An overlay level is used to determine whether the overlay is to be processed by a particular application. Value Description X'01'–X'FE' Level All others Reserved Note: Should the optional Level value be omitted, the architected default is X'01'. Overlay Type Conditional Processing Conditional processing is applied to the overlay types as follows: Type Conditional Processing Description Type 0 No conditional processing is applied. If a level value was specified, it is ignored, and the page overlay is processed normally. Type 1 The overlay level is matched against one contained within the application, and if it is equal to or lower than the application's level it is processed. Should the level be higher than the level Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-096]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-097]|
+| 0 UBIN Tlength 3–4 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-098]|
+| 1 CODE Tid X'46' Identifies the Page Overlay | | | | | | Conditional Processing triplet M X'00' [MODCA-C-099]|
+| 2 CODE PgOvType X'00'–X'03' Specifies the page overlay type: | | | | | | X'00' Type 0: Normal X'01' Type 1: Annotation X'02' Type 2: Redaction X'03' Type 3: Highlight M X'06' [MODCA-C-100]|
+| 3 | CODE | Level | | X'01'–X'FE' The level of the overlay | O | X'02' Triplet X'46' Semantics Tlength Contains the length of the triplet. Tid Identifies the Page Overlay Conditional Processing triplet. PgOvType Specifies the intended use of the overlay. If this parameter contains a value that is not supported by the receiver, the overlay is not processed. The page overlay types are defined as follows: Type Description Type 0 Normal page overlay. Type 1 Annotation overlay. Type 1 indicates that the page overlay is an annotation overlay used to indicate changes or annotations to the contents of the page to which it applies. Type 2 Redaction overlay. Type 2 indicates that the page overlay is a redaction overlay used to mask or hide all or a portion of the page to which it applies. Type 3 Highlight overlay. Type 3 indicates that the page overlay is a highlight overlay used to highlight all or a portion of the page to which it applies. Level Specifies the processing level of the overlay. An overlay level is used to determine whether the overlay is to be processed by a particular application. Value Description X'01'–X'FE' Level All others Reserved Note: Should the optional Level value be omitted, the architected default is X'01'. Overlay Type Conditional Processing Conditional processing is applied to the overlay types as follows: Type Conditional Processing Description Type 0 No conditional processing is applied. If a level value was specified, it is ignored, and the page overlay is processed normally. Type 1 The overlay level is matched against one contained within the application, and if it is equal to or lower than the application's level it is processed. Should the level be higher than the level Retired Functions [MODCA-C-101]|
 
 
 contained in the application, or if the application does not contain a level, overlay processing is
@@ -419,8 +419,8 @@ video.
 Note: If this triplet is omitted, the architected default value for PgOvType is X'00', Type 0, which indicates that
 the page overlay is always processed.
 Structured Fields Using Triplet X'46'
-• “Include Page Overlay (IPO)”
-• “Map Page Overlay (MPO)”
+• “Include Page Overlay (IPO)” [MODCA-C-102]
+• “Map Page Overlay (MPO)” [MODCA-C-103]
 Resource Usage Attribute Triplet X'47'
 The use of this triplet is restricted to products that generate or process the retired MO:DCA interchange set
 MO:DCA IS/2.
@@ -429,11 +429,11 @@ Overlay and Map Page Overlay structured fields to identify the approximate frequ
 associated page overlay is processed. This is indicated by assigning either a low or high value to this triplet.
 The Resource Usage Attribute triplet has no processing semantics associated with it.
 Triplet X'47' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 3 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 CODE Tid X'47' Identifies the Resource Usage | | | | | | Attribute triplet M X'00' |
-| 2 CODE Frequency X'00', X'FF' Frequency of use: | | | | | | X'00' Low X'FF' High M X'06' Triplet X'47' Semantics Tlength Contains the length of the triplet. Tid Identifies the Resource Usage Attribute triplet. Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-104]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-105]|
+| 0 UBIN Tlength 3 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-106]|
+| 1 CODE Tid X'47' Identifies the Resource Usage | | | | | | Attribute triplet M X'00' [MODCA-C-107]|
+| 2 CODE Frequency X'00', X'FF' Frequency of use: | | | | | | X'00' Low X'FF' High M X'06' Triplet X'47' Semantics Tlength Contains the length of the triplet. Tid Identifies the Resource Usage Attribute triplet. Retired Functions [MODCA-C-108]|
 
 
 Frequency Specifies the processing frequency of the associated page overlay. The valid values are:
@@ -442,26 +442,26 @@ X'00' Low
 X'FF' High
 All others Reserved
 Structured Fields Using Triplet X'47'
-• “Include Page Overlay (IPO)”
-• “Map Page Overlay (MPO)”
+• “Include Page Overlay (IPO)” [MODCA-C-109]
+• “Map Page Overlay (MPO)” [MODCA-C-110]
 Object Checksum Triplet X'63'
 The use of this triplet is restricted to the BMO and BPS structured fields in external (print file level) AFP
 resource groups for the following products:
-• PSF/MVS
-• PSF/VSE
-• RPM 2.0
-• RPM 3.0
-• PSF/2 (DPF)
+• PSF/MVS [MODCA-C-111]
+• PSF/VSE [MODCA-C-112]
+• RPM 2.0 [MODCA-C-113]
+• RPM 3.0 [MODCA-C-114]
+• PSF/2 (DPF) [MODCA-C-115]
 • RMARK
 The Object Checksum specifies a qualifier that can be used to identify or fingerprint an object.
 Triplet X'63' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 6 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 | CODE | Tid | | X'63' Identifies the Object Checksum | M | X'00' |
-| 2 CODE Format X'01'–X'02' Specifies the format of the | | | | | | checksum: X'01' Object Cyclic Redundancy Check (CRC) X'02' Retired for private use M X'06' |
-| 3–4 | UBIN | Qualifier | | X'0000'–X'FFFF' Object CRC check sum | M | X'06' |
-| 5 BITS ClassFlgs Object class flags. See “Triplet | | | | | | X'63' Semantics” for ClassFlgs bit definitions. M X'06' Triplet X'63' Semantics Tlength Contains the length of the triplet. Tid Identifies the Object Checksum. Format Specifies the format of the checksum. Value Description X'01' Cyclic Redundancy Code (CRC) check sum X'02' Retired for private use Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-116]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-117]|
+| 0 UBIN Tlength 6 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-118]|
+| 1 | CODE | Tid | | X'63' Identifies the Object Checksum | M | X'00' [MODCA-C-119]|
+| 2 CODE Format X'01'–X'02' Specifies the format of the | | | | | | checksum: X'01' Object Cyclic Redundancy Check (CRC) X'02' Retired for private use M X'06' [MODCA-C-120]|
+| 3–4 | UBIN | Qualifier | | X'0000'–X'FFFF' Object CRC check sum | M | X'06' [MODCA-C-121]|
+| 5 BITS ClassFlgs Object class flags. See “Triplet | | | | | | X'63' Semantics” for ClassFlgs bit definitions. M X'06' Triplet X'63' Semantics Tlength Contains the length of the triplet. Tid Identifies the Object Checksum. Format Specifies the format of the checksum. Value Description X'01' Cyclic Redundancy Code (CRC) check sum X'02' Retired for private use Retired Functions [MODCA-C-122]|
 
 
 All others Reserved
@@ -470,57 +470,57 @@ For a description, see the Font Object Content Architecture Reference.
 Qualifier A two-byte value that may be used to support object identification based on the bit-content of
 the object. This value is the Cyclic Redundancy Check (CRC) check sum and is generated as
 follows:
-1. All bits in the object, from the first bit in the Begin structured field to the last bit in the End
+1. All bits in the object, from the first bit in the Begin structured field to the last bit in the End [MODCA-C-123]
 structured field, are treated as coefficients of an nth order polynomial.
-2. A second bit string is formed based on the coefficients of a generator polynomial, which is
+2. A second bit string is formed based on the coefficients of a generator polynomial, which is [MODCA-C-124]
 the CCITT V.41 polynomial defined as X
-16 + X12 + X5 + 1.
-3. The object polynomial is divided by the generator polynomial using binary division on the
+16 + X12 + X5 + 1. [MODCA-C-125]
+3. The object polynomial is divided by the generator polynomial using binary division on the [MODCA-C-126]
 bit strings that represent the coefficients of the two polynomials.
-4. The remainder of this division is a polynomial of order less than 16. The coefficients of this
+4. The remainder of this division is a polynomial of order less than 16. The coefficients of this [MODCA-C-127]
 polynomial are the CRC check sum.
 ClassFlgs Classifies objects for resource management. ClassFlgs bits have the following descriptions:
 Bit Description
-0 Usage scope:
+0 Usage scope: [MODCA-C-128]
 B'0' Public resource object, unlimited usage
 B'1' Private resource object, limited usage
-1 Resource retention indicator:
+1 Resource retention indicator: [MODCA-C-129]
 B'0' Save resource
 B'1' Do not save resource
 2–7 Reserved; all bits must be B'0'
 Structured Fields Using Triplet X'63'
-• “Begin Overlay (BMO)”
-• “Begin Page Segment (BPS)”
+• “Begin Overlay (BMO)” [MODCA-C-130]
+• “Begin Page Segment (BPS)” [MODCA-C-131]
 Object Origin Identifier Triplet X'64'
 The use of this triplet is restricted to the BMO and BPS structured fields in external (print file level) AFP
 resource groups for the following products:
-• PSF/MVS
-• PSF/VSE
-• RPM 2.0
+• PSF/MVS [MODCA-C-132]
+• PSF/VSE [MODCA-C-133]
+• RPM 2.0 [MODCA-C-134]
 • PSF/2
 • RMARK
 The Object Origin Identifier triplet is used to identify the system on which an object originated.
 Triplet X'64' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 61 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 CODE Tid X'64' Identifies the Object Origin | | | | | | Identifier triplet M X'00' Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-135]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-136]|
+| 0 UBIN Tlength 61 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-137]|
+| 1 CODE Tid X'64' Identifies the Object Origin | | | | | | Identifier triplet M X'00' Retired Functions [MODCA-C-138]|
 
 
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2 CODE System X'01'–X'04' Identifies originating system: | | | | | | X'01' MVS X'02' VM X'03' PC-DOS X'04' VSE M X'06' |
-| 3–10 | CHAR | SysID | | System ID and serial number | M | X'06' |
-| 11–16 | CHAR | MedID | | Storage media ID | M | X'06' |
-| 17–60 | CHAR | DSID | | Data set ID | M | X'06' Triplet X'64' Semantics Tlength Contains the length of the triplet. Tid Identifies the Object Origin Identifier triplet. System Specifies the type of system on which the object originated: Value Description X'01' MVS X'02' VM X'03' PC-DOS X'04' VSE All others Reserved SysID Specifies the ID and serial number of the processor on which the object originated MedID Identifies the storage media that contains the object (for example, the Volume Serial Number on an MVS system) DSID Identifies the data set on the storage media that contains the object Structured Fields Using Triplet X'64' • “Begin Overlay (BMO)” • “Begin Page Segment (BPS)” IMM Insertion Triplet X'73' The use of this triplet is restricted to the IMM structured field for the following products: • AFP OnDemand • AFP Workbench The IMM Insertion triplet is used to indicate that the Invoke Medium Map (IMM) structured field on which it is specified was inserted at the beginning of a page group by a filtering application. The IMM was inserted between the BNG and the first BPG in the group, but only if an IMM was not already specified there. The purpose of the inserted IMM is to allow the page group to be processed in standalone fashion. This triplet is ignored by presentation servers, and the IMM on which it is specified is processed as if the triplet were absent. The presence of this triplet on an IMM may be used by an inverse filtering application to remove the IMM when it is desired to present the complete document as it appeared before the IMM was inserted. Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-139]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-140]|
+| 2 CODE System X'01'–X'04' Identifies originating system: | | | | | | X'01' MVS X'02' VM X'03' PC-DOS X'04' VSE M X'06' [MODCA-C-141]|
+| 3–10 | CHAR | SysID | | System ID and serial number | M | X'06' [MODCA-C-142]|
+| 11–16 | CHAR | MedID | | Storage media ID | M | X'06' [MODCA-C-143]|
+| 17–60 | CHAR | DSID | | Data set ID | M | X'06' Triplet X'64' Semantics Tlength Contains the length of the triplet. Tid Identifies the Object Origin Identifier triplet. System Specifies the type of system on which the object originated: Value Description X'01' MVS X'02' VM X'03' PC-DOS X'04' VSE All others Reserved SysID Specifies the ID and serial number of the processor on which the object originated MedID Identifies the storage media that contains the object (for example, the Volume Serial Number on an MVS system) DSID Identifies the data set on the storage media that contains the object Structured Fields Using Triplet X'64' • “Begin Overlay (BMO)” • “Begin Page Segment (BPS)” IMM Insertion Triplet X'73' The use of this triplet is restricted to the IMM structured field for the following products: • AFP OnDemand • AFP Workbench The IMM Insertion triplet is used to indicate that the Invoke Medium Map (IMM) structured field on which it is specified was inserted at the beginning of a page group by a filtering application. The IMM was inserted between the BNG and the first BPG in the group, but only if an IMM was not already specified there. The purpose of the inserted IMM is to allow the page group to be processed in standalone fashion. This triplet is ignored by presentation servers, and the IMM on which it is specified is processed as if the triplet were absent. The presence of this triplet on an IMM may be used by an inverse filtering application to remove the IMM when it is desired to present the complete document as it appeared before the IMM was inserted. Retired Functions [MODCA-C-144]|
 
 
 Triplet X'73' Syntax
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 UBIN Tlength 4 Length of the triplet, including | | | | | | Tlength M X'02' |
-| 1 | CODE | Tid | | X'73' Identifies the IMM Insertion triplet | M | X'00' |
-| 2–3 | Reserved; | should | | be zero | M | X'06' Triplet X'73' Semantics Tlength Contains the length of the triplet. Tid Identifies the IMM Insertion triplet. Structured Field Using Triplet X'73' • “Invoke Medium Map (IMM)” Retired Parameters The following parameters have been retired: • MMC Keyword X'0Enn' • MMC Keyword X'F1nn' • MMO Flag Byte Bit 0 • Triplet X'62' StampType X'01' • OBP RefCSys (Byte 23) = X'05' • IPO value of X'FFFFFF' for XolOset, YolOset • IPS value of X'FFFFFF' for XpsOset, YpsOset • CDD Bytes 0–11 • GRID Font Width value of X'FFFF' • MGO Mapping Option X'50': Replicate-and-Trim • IOB RefCSys = X'00' • Triplet X'22' ResType = X'30' • MFC MFCScpe = X'06' - Printjob MFC • Triplet X'18' ISid = X'0C00' MMC Keyword X'0Enn' The use of this keyword is restricted to products that generate and process Form Maps for the IBM 3800 printer. The maximum horizontal adjustment, in pels, that an IBM 3800 printer operator can make to position the printing on each form in this subgroup. This modification can occur only in the first repeating group. If X'0E' is not specified, the previous horizontal adjustment value remains in effect. Retired Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-145]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-146]|
+| 0 UBIN Tlength 4 Length of the triplet, including | | | | | | Tlength M X'02' [MODCA-C-147]|
+| 1 | CODE | Tid | | X'73' Identifies the IMM Insertion triplet | M | X'00' [MODCA-C-148]|
+| 2–3 | Reserved; | should | | be zero | M | X'06' Triplet X'73' Semantics Tlength Contains the length of the triplet. Tid Identifies the IMM Insertion triplet. Structured Field Using Triplet X'73' • “Invoke Medium Map (IMM)” Retired Parameters The following parameters have been retired: • MMC Keyword X'0Enn' • MMC Keyword X'F1nn' • MMO Flag Byte Bit 0 • Triplet X'62' StampType X'01' • OBP RefCSys (Byte 23) = X'05' • IPO value of X'FFFFFF' for XolOset, YolOset • IPS value of X'FFFFFF' for XpsOset, YpsOset • CDD Bytes 0–11 • GRID Font Width value of X'FFFF' • MGO Mapping Option X'50': Replicate-and-Trim • IOB RefCSys = X'00' • Triplet X'22' ResType = X'30' • MFC MFCScpe = X'06' - Printjob MFC • Triplet X'18' ISid = X'0C00' MMC Keyword X'0Enn' The use of this keyword is restricted to products that generate and process Form Maps for the IBM 3800 printer. The maximum horizontal adjustment, in pels, that an IBM 3800 printer operator can make to position the printing on each form in this subgroup. This modification can occur only in the first repeating group. If X'0E' is not specified, the previous horizontal adjustment value remains in effect. Retired Functions [MODCA-C-149]|
 
 
 If more than one MMC contains an adjustment value, the maximum value is specified to the operator. The
@@ -541,7 +541,7 @@ X'01' Forms flash is active
 MMO Flag Byte Bit 0
 The use of this flag bit is restricted to products that generate and process Form Maps for the IBM 3800 printer.
 Bit Description
-0 Raster Indicator
+0 Raster Indicator [MODCA-C-150]
 Shows whether the overlay is to be loaded into the printer as a raster pattern overlay or as a
 coded overlay:
 B'0' Coded overlay
@@ -555,12 +555,12 @@ X'01' Date and time stamp indicates when the resource object was marked by the R
 program.
 OBP RefCSys (Byte 23) = X'05'
 Use of this parameter value is restricted to the following products:
-• PSF/MVS
-• PSF/VSE
-• PSF/VM
-• PSF/400
+• PSF/MVS [MODCA-C-151]
+• PSF/VSE [MODCA-C-152]
+• PSF/VM [MODCA-C-153]
+• PSF/400 [MODCA-C-154]
 • PSF/2
-• Infoprint Manager (IPM)
+• Infoprint Manager (IPM) [MODCA-C-155]
 Retired Functions
 
 
@@ -570,26 +570,26 @@ identify which text coordinate system (absolute I,B or relative I,B) is specifie
 IPO value of X'FFFFFF' for XolOset, YolOset
 Use of this parameter value is restricted to the following products:
 • ACIF
-• PSF/MVS
-• PSF/VSE
-• PSF/VM
-• PSF/400
-• Infoprint Manager (IPM)
+• PSF/MVS [MODCA-C-156]
+• PSF/VSE [MODCA-C-157]
+• PSF/VM [MODCA-C-158]
+• PSF/400 [MODCA-C-159]
+• Infoprint Manager (IPM) [MODCA-C-160]
 When specified for XolOset or YolOset, this value indicates that the X p or Yp value, respectively, of the current
 text print position should be used for the origin of the overlay.
 IPS value of X'FFFFFF' for XpsOset, YpsOset
 Use of this parameter value is restricted to the following products:
 • ACIF
-• PSF/MVS
-• PSF/VSE
-• PSF/VM
-• PSF/400
-• Infoprint Manager (IPM)
+• PSF/MVS [MODCA-C-161]
+• PSF/VSE [MODCA-C-162]
+• PSF/VM [MODCA-C-163]
+• PSF/400 [MODCA-C-164]
+• Infoprint Manager (IPM) [MODCA-C-165]
 When specified for XpsOset or YpsOset, this value indicates that the X p or Yp value, respectively, of the current
 text print position should be used for the “origin” of the page segment.
 CDD Bytes 0–11
 Use of this parameter is restricted to the following products:
-• Pre-year 2000 AFP applications
+• Pre-year 2000 AFP applications [MODCA-C-166]
 These parameters define the unit base, units per unit base, and extents for the object presentation space:
 XocBase (byte 0) Specifies the unit base for the X axis of the object presentation space
 coordinate system. The range is X'00', X'01' (10 inches, 10 centimeters).
@@ -614,15 +614,15 @@ range is 1–32,767; a value of X'000000' indicates that the presentation space
 Y axis extent is not specified.
 GRID Font Width value of X'FFFF'
 Use of this parameter value is restricted to the following products:
-• OS/400 ® print applications
+• OS/400 ® print applications [MODCA-C-167]
 When specified for the GRID font width on an FQN type X'84' triplet, this value indicates that the device default
 font width should be used.
 MGO Mapping Option X'50': Replicate-and-Trim
 Use of this parameter is restricted to the following products:
-• PSF/390
-• PSF/400
-• Infoprint Manager for AIX ®
-• Infoprint Manager for Windows ®
+• PSF/390 [MODCA-C-168]
+• PSF/400 [MODCA-C-169]
+• Infoprint Manager for AIX ® [MODCA-C-170]
+• Infoprint Manager for Windows ® [MODCA-C-171]
 This parameter defines the following mapping option.
 The Graphics Presentation Space Window is positioned so that the top left corner of the window is coincident
 with the origin of the object area and the window size is unchanged. The Graphics Presentation Space Window
@@ -645,7 +645,7 @@ field to a Descriptor. For more information, see Advanced Function Presentation:
 Data Reference.
 MFC MFCScpe = X'06'– Printjob MFC
 Use of this parameter is restricted to the following products:
-• PSF for z/OS ®
+• PSF for z/OS ® [MODCA-C-172]
 This parameter value defines the following scope for the MFC.
 The scope of this MFC is the complete printjob, which includes the printjob header pages, the user print files
 that follow the header pages, all message pages and trailer pages, and all other separator pages that are
@@ -663,7 +663,7 @@ Retired Functions
 
 Retired Interchange Set
 The MO:DCA Interchange Set 2 (MO:DCA IS/2) has been retired for products that implemented this set before
-2012. This interchange set is no longer part of the MO:DCA interchange set hierarchy.
+2012. This interchange set is no longer part of the MO:DCA interchange set hierarchy. [MODCA-C-173]
 MO:DCA Interchange Set 2
 This section defines the MO:DCA Interchange Set 2 (MO:DCA IS/2) used for presentation documents.
 For information on the level of function required for the OCAs included in this interchange set, refer to the
@@ -705,13 +705,13 @@ MO:DCA IS/2
 
 
 Notes:
-1. The Begin Document and End Document structured fields are required in a MO:DCA data stream.
-2. The No Operation structured field may appear within any begin-end domain and thus is not listed in the
+1. The Begin Document and End Document structured fields are required in a MO:DCA data stream. [MODCA-C-174]
+2. The No Operation structured field may appear within any begin-end domain and thus is not listed in the [MODCA-C-175]
 structured field groupings.
-3. The architecture that owns and controls the content of each of the data and resource objects carried in a
+3. The architecture that owns and controls the content of each of the data and resource objects carried in a [MODCA-C-176]
 MO:DCA data stream is identified in the following structured field groupings. Please refer to the referenced
 documentation for further details.
-4. The Flag byte (byte 5) in the Structured Field Introducer (SFI) must be set to X'00'. MO:DCA IS/2 does not
+4. The Flag byte (byte 5) in the Structured Field Introducer (SFI) must be set to X'00'. MO:DCA IS/2 does not [MODCA-C-177]
 support SFI extension, structured field segmentation, or structured field padding.
 Document
 Figure 89. MO:DCA IS/2: Document Structure
@@ -748,7 +748,7 @@ MO:DCA IS/2
 
 
 Notes:
-1. For purposes of print server resource management, each overlay included on a page with an IPO must first
+1. For purposes of print server resource management, each overlay included on a page with an IPO must first [MODCA-C-178]
 be mapped to a local ID with an MPO in the AEG for that page. Note that the MPO is only specified in the
 AEG for a page; it is not allowed in the AEG for an overlay.
 Overlay
@@ -771,14 +771,14 @@ Begin Active Environment Group (BAG, D3A8C9)
 [ (PTD, D3B19B) Presentation Text Data Descriptor F2 2
 End Active Environment Group (EAG, D3A9C9)
 Notes:
-1. Used for presentation text objects only and is optional. For graphics and image objects, the OBD and OBP
+1. Used for presentation text objects only and is optional. For graphics and image objects, the OBD and OBP [MODCA-C-179]
 must be specified in the OEG associated with the graphic, bar code, or image object.
-2. Required only when the associated page contains one or more presentation text objects.
-3. For purposes of print server resource management, an MCF mapping the same font must be specified in
+2. Required only when the associated page contains one or more presentation text objects. [MODCA-C-180]
+3. For purposes of print server resource management, an MCF mapping the same font must be specified in [MODCA-C-181]
 the AEG whenever an MCF is specified in a bar code or graphics OEG. The local ID used in the page or
 overlay AEG need not match the ID in the object OEG. ID X'FE' may be used in the AEG for fonts mapped
 in the AEG solely due to their presence in an object's OEG.
-4. For purposes of print server resource management, each overlay included on a page with an IPO must first
+4. For purposes of print server resource management, each overlay included on a page with an IPO must first [MODCA-C-182]
 be mapped to a local ID with an MPO in the AEG for that page. Note that the MPO is only specified in the
 AEG for a page; it is not allowed in the AEG for an overlay.
 MO:DCA IS/2
@@ -802,7 +802,7 @@ Begin Object Environment Group (BOG, D3A8C7)
 (BDD, D3A6EB) Object Area Descriptor
 End Object Environment Group (EOG, D3A9C7)
 Notes:
-1. For purposes of print server resource management, an MCF mapping the same font must be specified in
+1. For purposes of print server resource management, an MCF mapping the same font must be specified in [MODCA-C-183]
 the AEG whenever an MCF is specified in a bar code or graphics OEG. The local ID used in the page or
 overlay AEG need not match the ID in the object OEG. ID X'FE' may be used in the AEG for fonts mapped
 in the AEG solely due to their presence in an object's OEG.
@@ -827,7 +827,7 @@ MO:DCA IS/2
 
 
 Notes:
-1. For purposes of print server resource management, an MCF mapping the same font must be specified in
+1. For purposes of print server resource management, an MCF mapping the same font must be specified in [MODCA-C-184]
 the AEG whenever an MCF is specified in a bar code or graphics OEG. The local ID used in the page or
 overlay AEG need not match the ID in the object OEG. ID X'FE' may be used in the AEG for fonts mapped
 in the AEG solely due to their presence in an object's OEG.
@@ -866,18 +866,18 @@ MO:DCA IS/2
 
 Structured Field Parameters
 In general, the structured field tables contain the following information for each parameter:
-1. The offset from the beginning of the data portion of the structured field or from the beginning of the triplet.
-2. Values and description:
-• When a specific parameter value is required, the specific value or the range of acceptable values is
+1. The offset from the beginning of the data portion of the structured field or from the beginning of the triplet. [MODCA-C-185]
+2. Values and description: [MODCA-C-186]
+• When a specific parameter value is required, the specific value or the range of acceptable values is [MODCA-C-187]
 specified, followed by “→” and an explanation or description of the parameter.
-• When no specific value is required, or when a choice of values is required, the parameter name or a
+• When no specific value is required, or when a choice of values is required, the parameter name or a [MODCA-C-188]
 description of the parameter is given. If a choice of values is required, the choices are identified in the
 table.
-3. For those parameters defined and owned by the MO:DCA architecture, occurrence is specified either as a
+3. For those parameters defined and owned by the MO:DCA architecture, occurrence is specified either as a [MODCA-C-189]
 lowercase n indicating that the occurrence is unlimited by the interchange set, or as a number representing
 the maximum number of times the parameter may appear within the containing structured field, repeating
 group, or triplet.
-4. For those parameters defined and owned by the MO:DCA architecture, optionally is specified as:
+4. For those parameters defined and owned by the MO:DCA architecture, optionally is specified as: [MODCA-C-190]
 O Optional. The parameter may or may not appear.
 M Mandatory. The parameter must always appear.
 R Retired. A receiver must be able to receive this parameter, but a generator should not
@@ -888,18 +888,18 @@ located.
 In general, no exception conditions are identified within the interchange set definition for the structured fields or
 their parameters. The page numbers provided for each structured field and each triplet provide the source for
 determining what exception conditions may be anticipated. However, the following general rules apply:
-• For those structured fields where a parameter order is stated, if a parameter appears outside that stated
+• For those structured fields where a parameter order is stated, if a parameter appears outside that stated [MODCA-C-191]
 order, a X'01' exception condition exists.
-• If a parameter value appears that is outside the range specified for that parameter, a X'02' exception
+• If a parameter value appears that is outside the range specified for that parameter, a X'02' exception [MODCA-C-192]
 condition exists.
-• If a parameter that is identified as mandatory does not appear on a specific structured field, a X'04' exception
+• If a parameter that is identified as mandatory does not appear on a specific structured field, a X'04' exception [MODCA-C-193]
 condition exists.
-• Unless otherwise stated, if any unrecognized parameter or triplet appears on any structured field, a X'10'
+• Unless otherwise stated, if any unrecognized parameter or triplet appears on any structured field, a X'10' [MODCA-C-194]
 exception condition exists.
 Notes:
-1. Any triplet encountered on any of the Begin structured fields listed below that is not explicitly defined as
+1. Any triplet encountered on any of the Begin structured fields listed below that is not explicitly defined as [MODCA-C-195]
 being valid for that structured field should be ignored and should not cause an exception condition.
-2. If specified, the name contained in the name parameter on an End structured field must match that
+2. If specified, the name contained in the name parameter on an End structured field must match that [MODCA-C-196]
 specified in the name parameter on its matching Begin structured field, or a X'01' exception condition
 exists.
 Bar Code Data
@@ -937,7 +937,7 @@ MO:DCA Interchange Set Triplet (See “MO:DCA Interchange Set Triplet X'18'” o
 page 367)
 1 M
 0–1 X'0518' → Triplet length and identifier 1 M
-2 X'01' → Interchange set type, presentation 1 M
+2 X'01' → Interchange set type, presentation 1 M [MODCA-C-197]
 3–4 X'0C00' → Interchange set identifier (MO:DCA IS/2) 1 M
 Object Function Set Specification Triplet (See “Resource Object Type Triplet X'21'”
 )
@@ -947,8 +947,8 @@ MO:DCA IS/2
 
 BDT X'D3A8A8' Begin Document (See “Begin Document (BDT)”)
 0–1 X'nn21' → Triplet length and identifier 1 M
-2 X'02' → Object type, presentation text 1 M
-3 X'00' → Architecture version 1 M
+2 X'02' → Object type, presentation text 1 M [MODCA-C-198]
+3 X'00' → Architecture version 1 M [MODCA-C-199]
 4–5 X'8000' → MO:DCA function set definition 1 M
 6–7 X'0000' → Presentation text function set definition (PT/1) 1 M
 8–n Reserved, not checked 1 O
@@ -959,8 +959,8 @@ Object Function Set Specification Triplet (See “Resource Object Type Triplet X
 )
 1 R
 0–1 X'nn21' → Triplet length and identifier 1 M
-2 X'03' → Object type, graphics 1 M
-3 X'00' → Architecture version 1 M
+2 X'03' → Object type, graphics 1 M [MODCA-C-200]
+3 X'00' → Architecture version 1 M [MODCA-C-201]
 4–5 X'8000' → MO:DCA function set definition 1 M
 6–7 X'4000' → Graphics function set definition (DR/2V0) 1 M
 8–n Reserved, not checked 1 O
@@ -970,8 +970,8 @@ Object Function Set Specification Triplet (See “Resource Object Type Triplet X
 )
 1 R
 0–1 X'nn21' → Triplet length and identifier 1 M
-2 X'06' → Object type, image 1 M
-3 X'00' → Architecture version 1 M
+2 X'06' → Object type, image 1 M [MODCA-C-202]
+3 X'00' → Architecture version 1 M [MODCA-C-203]
 4–5 X'8000' → MO:DCA function set definition 1 M
 6–7 X'8000' → Image function set definition (FS10) 1 M
 8–n Reserved, not checked 1 O
@@ -1074,11 +1074,11 @@ Page Overlay Conditional Processing Triplet (See “Page Overlay Conditional
 Processing Triplet X'46'”)
 n O
 0–1 X'nn46' → Triplet length and identifier 1 M
-2 Page Overlay Type. It must be one of the following:
+2 Page Overlay Type. It must be one of the following: [MODCA-C-204]
 X'00' → Type 0 (No conditional processing)
 X'01' → Type 1 (Annotation)
 1 M
-3 X'01'–X'FE' → Level. It must be in the range of 1 to 254. 1 O
+3 X'01'–X'FE' → Level. It must be in the range of 1 to 254. 1 O [MODCA-C-205]
 MO:DCA IS/2
 
 
@@ -1087,7 +1087,7 @@ Resource Usage Attribute Triplet (See “Resource Usage Attribute Triplet X'47'�
 page 566)
 1 O
 0–1 X'0347' → Triplet length and identifier 1 M
-2 Frequency of use. It must be one of the following:
+2 Frequency of use. It must be one of the following: [MODCA-C-206]
 X'00' → Low
 X'FF' → High
 1 M
@@ -1115,7 +1115,7 @@ MBC X'D3ABEB' Map Bar Code Object (See “Map Bar Code Object (MBC)”)
 2–4 The following triplet:
 Mapping Option Triplet (See “Mapping Option Triplet X'04'”) 1 M
 0–1 X'0304' → Triplet length and identifier 1 M
-2 X'00' → Output option (position) 1 M
+2 X'00' → Output option (position) 1 M [MODCA-C-207]
 Note: If this structured field is not specified, the architected default is position.
 MO:DCA IS/2
 
@@ -1128,12 +1128,12 @@ Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”)
 Note: See “MCF Font Names” for details.
 2 M
 0–1 X'0C02' → Triplet length and identifier 1 M
-2 The FQN type. It must be one of the following:
+2 The FQN type. It must be one of the following: [MODCA-C-208]
 X'84' → Coded Font Reference
 X'85' → Code Page Reference
 X'86' → Font Character Set Reference
 1 M
-3 X'00' → FQN format 1 M
+3 X'00' → FQN format 1 M [MODCA-C-209]
 4–11 External name of the coded font, code page, or font character set. 1 M
 Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”) 1 O
 0–1 X'nn02' → Triplet length and identifier 1 M
@@ -1143,24 +1143,24 @@ Font Descriptor Specification Triplet (See “Font Descriptor Specification Trip
 X'1F'”)
 1 O
 0–1 X'141F' → Triplet length and identifier 1 M
-2 X'01'–X'09' → Font Weight Class. It must be in the range of 1 to 9. 1 M
-3 X'01'–X'09' → Font Width Class. It must be in the range of 1 to 9. 1 M
+2 X'01'–X'09' → Font Weight Class. It must be in the range of 1 to 9. 1 M [MODCA-C-210]
+3 X'01'–X'09' → Font Width Class. It must be in the range of 1 to 9. 1 M [MODCA-C-211]
 4–5 X'0000'–X'7FFF' → Font Height. It must be in the range of 0 to 32,767
 1440ths of an inch.
 1 M
 6–7 X'0000'–X'7FFF' → Font Width. It must be in the range of 0 to 32,767
 1440ths of an inch.
 1 M
-8 Font Descriptor Flags, as follows:
+8 Font Descriptor Flags, as follows: [MODCA-C-212]
 Bit Description
-0 Italics
-1 Underscored
-2 Reserved, must be B'0'
-3 Hollow
-4 Overstruck
-5 Proportional
-6 Kerned characters (pairwise)
-7 Reserved, must be B'0'
+0 Italics [MODCA-C-213]
+1 Underscored [MODCA-C-214]
+2 Reserved, must be B'0' [MODCA-C-215]
+3 Hollow [MODCA-C-216]
+4 Overstruck [MODCA-C-217]
+5 Proportional [MODCA-C-218]
+6 Kerned characters (pairwise) [MODCA-C-219]
+7 Reserved, must be B'0' [MODCA-C-220]
 1 M
 9–19 Reserved 1 M
 Font Coded Graphic Character Set Global Identifier Triplet (See “Font Coded
@@ -1176,8 +1176,8 @@ MO:DCA IS/2
 
 MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2”)
 0–1 X'0424' → Triplet length and identifier 1 M
-2 X'05' → Resource type, coded font 1 M
-3 Resource Local Identifier. It must be one of the following:
+2 X'05' → Resource type, coded font 1 M [MODCA-C-221]
+3 Resource Local Identifier. It must be one of the following: [MODCA-C-222]
 X'01'–X'7F' → It must be in the range of 1 to 127
 when used for mapping a font.
 X'FE' → It must be 254 when used for resource
@@ -1187,7 +1187,7 @@ Resource Section Number Triplet (See “Resource Section Number Triplet X'25'”
 page 379)
 1 O
 0–1 X'0325' → Triplet length and identifier 1 M
-2 Resource Section Number. It must be one of the following:
+2 Resource Section Number. It must be one of the following: [MODCA-C-223]
 X'00' → It must be 0 when referencing an
 EBCDIC Presentation single-byte
 coded font (encoding scheme ID
@@ -1207,12 +1207,12 @@ X'0000' → 0-degree character rotation
 X'2D00' → 90-degree character rotation
 X'5A00' → 180-degree character rotation
 X'8700' → 270-degree character rotation
-1 MMCF Font Names
+1 MMCF Font Names [MODCA-C-224]
 The MCF must have one of the following:
-• A type X'84' (Coded Font Reference) Fully Qualified Name (X'02') triplet. T o support existing products, the
+• A type X'84' (Coded Font Reference) Fully Qualified Name (X'02') triplet. T o support existing products, the [MODCA-C-225]
 coded font name must be specified as a global resource identifier (GRID). For a definition of the GRID, see
 “Global Resource Identifier (GRID) Definition”.
-• Both a type X'85' (Code Page Name Reference) and a type X'86' (Font Character Set Name Reference)
+• Both a type X'85' (Code Page Name Reference) and a type X'86' (Font Character Set Name Reference) [MODCA-C-226]
 Fully Qualified Name (X'02') triplet. T o support existing products, the names of the code page and font
 character set must be eight characters in length and must match the external names of these objects in their
 respective resource libraries.
@@ -1226,7 +1226,7 @@ MO:DCA IS/2
 
 MGO X'D3ABBB' Map Graphics Object (See “Map Graphics Object (MGO)”)
 0–1 X'0304' → Triplet length and identifier 1 M
-2 Output Option. It must be one of the following:
+2 Output Option. It must be one of the following: [MODCA-C-227]
 X'10' → Position and trim
 X'20' → Scale to fit
 X'30' → Center and trim
@@ -1238,7 +1238,7 @@ MIO X'D3ABFB' Map Image Object (See “Map Image Object (MIO)”)
 2–4 The following triplet:
 Mapping Option Triplet (See “Mapping Option Triplet X'04'”) 1 M
 0–1 X'0304' → Triplet length and identifier 1 M
-2 Output Option. It must be one of the following:
+2 Output Option. It must be one of the following: [MODCA-C-228]
 X'10' → Position and trim
 X'20' → Scale to fit
 X'30' → Center and trim
@@ -1256,15 +1256,15 @@ Resource Local Identifier Triplet (See “Resource Local Identifier Triplet X'24
 page 378)
 1 M
 0–1 X'0424' → Triplet length and identifier 1 M
-2 X'02' → Resource type, page overlay 1 M
-3 X'01'–X'7F' → Resource Local Identifier. It must be in the range of 1 to
+2 X'02' → Resource type, page overlay 1 M [MODCA-C-229]
+3 X'01'–X'7F' → Resource Local Identifier. It must be in the range of 1 to [MODCA-C-230]
 127.
 1 M
 Page Overlay Conditional Processing Triplet (See “Page Overlay Conditional
 Processing Triplet X'46'”)
 n O
 0–1 X'nn46' → Triplet length and identifier 1 M
-2 Page Overlay Type. It must be one of the following:
+2 Page Overlay Type. It must be one of the following: [MODCA-C-231]
 X'00' → Type 0 (No conditional processing)
 X'01' → Type 1 (Annotation)
 1 M
@@ -1272,12 +1272,12 @@ MO:DCA IS/2
 
 
 MPO X'D3ABD8' Map Page Overlay (See “Map Page Overlay (MPO)”)
-3 X'01'–X'FE' → It must be in the range of 1 to 254. 1 O
+3 X'01'–X'FE' → It must be in the range of 1 to 254. 1 O [MODCA-C-232]
 Resource Usage Attribute Triplet (See “Resource Usage Attribute Triplet X'47'” on
 page 566)
 1 O
 0–1 X'0347' → Triplet length and identifier 1 M
-2 Frequency of use. It must be one of the following:
+2 Frequency of use. It must be one of the following: [MODCA-C-233]
 X'00' → Low
 X'FF' → High
 1 M
@@ -1289,7 +1289,7 @@ OBD X'D3A66B' Object Area Descriptor (See “Object Area Descriptor (OBD)”)
 0–n The following triplets, in any order:
 Descriptor Position Triplet (See “Descriptor Position Triplet X'43'”) 1 M
 0–1 X'0343' → Triplet length and identifier 1 M
-2 X'01'–X'7F' → Descriptor position ID. It must be in the range of 1 to 127. 1 M
+2 X'01'–X'7F' → Descriptor position ID. It must be in the range of 1 to 127. 1 M [MODCA-C-234]
 Measurement Units Triplet (See “Measurement Units Triplet X'4B'”) 1 M
 0–1 X'084B' → Triplet length and identifier 1 M
 2–3 X'0000' → Object area measurement units base for X and Y 1 M
@@ -1304,13 +1304,13 @@ per inch)
 1 M
 Object Area Size Triplet (See “Object Area Size Triplet X'4C'”). 1 M
 0–1 X'094C' → Triplet length and identifier 1 M
-2 X'02' → Type, actual object area size 1 M
+2 X'02' → Type, actual object area size 1 M [MODCA-C-235]
 3–5 Object area size in the X direction. It must be one of the following:
 X'000001'–X'001555' → In the range of 1 to 5,461 when using
-240 units per inch for the object area X
+240 units per inch for the object area X [MODCA-C-236]
 measurement units
 X'000001'–X'007FFF' → In the range of 1 to 32,767 when using
-1440 units per inch for the object area
+1440 units per inch for the object area [MODCA-C-237]
 X measurement units
 1 M
 MO:DCA IS/2
@@ -1319,21 +1319,21 @@ MO:DCA IS/2
 OBD X'D3A66B' Object Area Descriptor (See “Object Area Descriptor (OBD)”)
 6–8 Object area size in the Y direction. It must be one of the following:
 X'000001'–X'001555' → In the range of 1 to 5,461 when using
-240 units per inch for the object area Y
+240 units per inch for the object area Y [MODCA-C-238]
 measurement units
 X'000001'–X'007FFF' → In the range of 1 to 32,767 when using
-1440 units per inch for the object area
+1440 units per inch for the object area [MODCA-C-239]
 Y measurement units
 1 M
 Presentation Space Reset Mixing Triplet (See “Presentation Space Reset Mixing
 Triplet X'70'”)
 1 O
 0–1 X'0370' → Triplet length and identifier 1 M
-2 Mixing Flags, as follows:
+2 Mixing Flags, as follows: [MODCA-C-240]
 Bit Description
 0 Reset
-0 Do not reset to color of medium
-1 Reset to color of medium
+0 Do not reset to color of medium [MODCA-C-241]
+1 Reset to color of medium [MODCA-C-242]
 1–7 Reserved, must be zero
 1 M
 Note: This triplet is only permitted on Object Area Descriptor structured fields that are contained within a page overlay.
@@ -1348,8 +1348,8 @@ page are always the same size and points within their respective coordinate syst
 coincident.
 Object Area Position
 OBP X'D3AC6B' Object Area Position (See “Object Area Position (OBP)”)
-0 X'01'–X'7F' → Object Area Position ID. It must be in the range of 1 to 127. 1 M
-1 X'17' → Length of this repeating group is 23 bytes 1 M
+0 X'01'–X'7F' → Object Area Position ID. It must be in the range of 1 to 127. 1 M [MODCA-C-243]
+1 X'17' → Length of this repeating group is 23 bytes 1 M [MODCA-C-244]
 2–4 Object area origin for X. It must be one of the following:
 X'000000'–X'001555' → In the range of 0 to 5,461 when using 240 units per
 inch for the page or overlay X measurement units
@@ -1374,7 +1374,7 @@ MO:DCA IS/2
 
 
 OBP X'D3AC6B' Object Area Position (See “Object Area Position (OBP)”)
-12 X'00' → Reserved; must be binary zero 1 M
+12 X'00' → Reserved; must be binary zero 1 M [MODCA-C-245]
 13–15 Object content origin for X. It must be one of the following:
 X'000000'–X'001555' → In the range of 0 to 5,461 when using 240 units per
 inch for the page or overlay X measurement units
@@ -1391,21 +1391,21 @@ units
 1 M
 19–20 X'0000' → Object content orientation, X (0 degrees) 1 M
 21–22 X'2D00' → Object content orientation, Y (90 degrees) 1 M
-23 Referenced coordinate system. It must be one of the following:
+23 Referenced coordinate system. It must be one of the following: [MODCA-C-246]
 X'00' → Current coordinate system
 X'01' → Page or overlay coordinate system
 1 M
 Notes:
-1. If the presentation text Object Area Position structured field appears in the AEG, the X and Y values for the
+1. If the presentation text Object Area Position structured field appears in the AEG, the X and Y values for the [MODCA-C-247]
 object area origin and the object content origin must be set to zero, or a X'01' exception condition exists. If
 the presentation text Object Area Position structured field is omitted, the architected default is to set the X
 and Y values for the object area origin and the object content origin to zero. For presentation text, the data
 object presentation space origin is positioned coincident with the object content origin. Thus, the
 presentation text object presentation space, the presentation text object area, and the page always have
 the same origin.
-2. If the presentation text OBP appears in the AEG, the object area orientation must be set to X'0000 2D00'
+2. If the presentation text OBP appears in the AEG, the object area orientation must be set to X'0000 2D00' [MODCA-C-248]
 (0°,90°). If it is omitted, the architected default is to set the object area orientation to X'0000 2D00' (0°,90°).
-3. For this interchange set, the values X'00' and X'01' in byte 23 specify the same function since positioning
+3. For this interchange set, the values X'00' and X'01' in byte 23 specify the same function since positioning [MODCA-C-249]
 with respect to a page segment offset is not part of the interchange set definition. That is, both values
 specify that the object area is to be positioned with respect to the including page or overlay coordinate
 system.
@@ -1439,11 +1439,11 @@ Presentation Space Reset Mixing Triplet (See “Presentation Space Reset Mixing
 Triplet X'70'”)
 1 O
 0–1 X'0370' → Triplet length and identifier 1 M
-2 Mixing Flags, as follows:
+2 Mixing Flags, as follows: [MODCA-C-250]
 Bit Description
 0 Reset
-0 Do not reset to color of medium
-1 Reset to color of medium
+0 Do not reset to color of medium [MODCA-C-251]
+1 Reset to color of medium [MODCA-C-252]
 1–7
 1 M
 Note: This triplet is permitted only Descriptor structured fields that are contained within a page overlay. The
@@ -1476,8 +1476,8 @@ generators must generate the new functions. New receivers must process the new f
 continue to process the old functions.
 Coexistence Objects
 The following objects are coexistence objects:
-• AFP page segment
-• IM image
+• AFP page segment [MODCA-C-253]
+• IM image [MODCA-C-254]
 AFP Page Segment
 The AFP page segment is a coexistence resource object that is being superseded by the MO:DCA page
 segment. The AFP page segment has the following structure:
@@ -1507,7 +1507,7 @@ coordinate system origin. This is determined by the Reference Coordinate System 
 OBP structured field. The OBP also specifies the offset with respect to either reference point. This offset is
 specified in logical units, and if non-zero, must be resolved using the including page or overlay's units of
 measure. Because these units of measure are, in general, not known when the page segment is created, using
-Coexistence Functions
+Coexistence Functions [MODCA-C-255]
 
 
 non-zero offsets can lead to unpredictable object positioning and is strongly discouraged. A MO:DCA page
@@ -1516,19 +1516,19 @@ Font Mapping for Graphics Objects in an AFP Page Segment
 The OEG of a graphics object may not contain any MCF structured fields.
 Text Objects in an AFP Page Segment
 If an AFP page segment contains text, the following rules apply:
-• T ext suppressions specified for the including page or overlay also apply to text in the page segment if the
+• T ext suppressions specified for the including page or overlay also apply to text in the page segment if the [MODCA-C-256]
 suppression local IDs are the same.
-• The Absolute Move Baseline (AMB) and Absolute Move Inline (AMI) PTOCA control sequences are
+• The Absolute Move Baseline (AMB) and Absolute Move Inline (AMI) PTOCA control sequences are [MODCA-C-257]
 processed relative to the origin of the including page or overlay coordinate system.
-• The Relative Move Baseline (RMB) and Relative Move Inline (RMI) PTOCA control sequences are
+• The Relative Move Baseline (RMB) and Relative Move Inline (RMI) PTOCA control sequences are [MODCA-C-258]
 processed relative to the reference point defined on the including page or overlay coordinate system by the
 IPS when these control sequences occur first in the text object.
-• Fonts used in the text object must be mapped in the AEG of the including page or overlay. If the text object
+• Fonts used in the text object must be mapped in the AEG of the including page or overlay. If the text object [MODCA-C-259]
 does not explicitly specify a font using the Set Coded Font Local (SCFL) control sequence, the font that is
 currently active on the including page or overlay is used. Because this font is, in general, not known when the
 page segment is created, including a text object that does not explicitly specify a font can lead to
 unpredictable text presentation and is strongly discouraged.
-• AFP print servers initialize the following PTOCA control sequences as shown prior to processing a text object
+• AFP print servers initialize the following PTOCA control sequences as shown prior to processing a text object [MODCA-C-260]
 in an AFP page segment:
 Control Sequence Value
 Set Baseline Increment 6 lines per inch
@@ -1554,7 +1554,7 @@ The IM image object is a valid MO:DCA object, but has been superseded by the IOC
 object may appear in MO:DCA structures wherever the IOCA image object may appear. New MO:DCA
 generators must generate IO image objects instead of IM image objects. New MO:DCA receivers can continue
 to receive and process IM image objects. The same MO:DCA document can contain both types of objects.
-Coexistence Functions
+Coexistence Functions [MODCA-C-261]
 
 
 This provides upward compatible growth for applications to take advantage of the expanded functions offered
@@ -1573,7 +1573,7 @@ Begin IM Image Object (BII, D3A87B)
 (IID, D3A67B) IM Image Input Descriptor
 (IRD, D3EE7B) IM Image Raster Data (S)
 End IM Image Object (EII, D3A97B)
-Coexistence Functions
+Coexistence Functions [MODCA-C-262]
 
 
 Figure 105. IM Image Object Structure: Complex (Celled) Image
@@ -1587,17 +1587,17 @@ IM Image Cell
 (IRD, D3EE7B) IM Image Raster Data (S)
 IM Image Structured Fields
 The following IM Image structured fields are described under “Coexistence Structured Fields”:
-• Begin IM Image Object
-• End IM Image Object
-• IM Image Cell Position
-• IM Image Input Descriptor
-• IM Image Output Control
-• IM Image Raster Data
+• Begin IM Image Object [MODCA-C-263]
+• End IM Image Object [MODCA-C-264]
+• IM Image Cell Position [MODCA-C-265]
+• IM Image Input Descriptor [MODCA-C-266]
+• IM Image Output Control [MODCA-C-267]
+• IM Image Raster Data [MODCA-C-268]
 Coexistence Structured Fields
 The following structured fields are provided in two formats:
-• Map Coded Font (MCF)
-• Page Position (PGP)
-• Presentation T ext Descriptor (PTD)
+• Map Coded Font (MCF) [MODCA-C-269]
+• Page Position (PGP) [MODCA-C-270]
+• Presentation T ext Descriptor (PTD) [MODCA-C-271]
 MCF structured fields are called MCF Format 1 and MCF Format 2. PGP structured fields are called PGP
 Format 1 and PGP Format 2. PTD structured fields are called PTD Format 1 and PTD Format 2. An obsolete
 name for the PTD Format 1 is Composed T ext Descriptor (CTD).
@@ -1610,13 +1610,13 @@ structured fields are present in the same environment group, IBM print servers r
 Format 1 structured fields precede the MCF Format 2 structured fields.
 The following structured fields are described in this section because they are used by a coexistence object, the
 IM Image object:
-• Begin IM Image Object (BII)
-• End IM Image Object (EII)
-• IM Image Cell Position (ICP)
-• IM Image Input Descriptor (IID)
-• IM Image Output Control (IOC)
-• IM Image Raster Data (IRD)
-Coexistence Functions
+• Begin IM Image Object (BII) [MODCA-C-272]
+• End IM Image Object (EII) [MODCA-C-273]
+• IM Image Cell Position (ICP) [MODCA-C-274]
+• IM Image Input Descriptor (IID) [MODCA-C-275]
+• IM Image Output Control (IOC) [MODCA-C-276]
+• IM Image Raster Data (IRD) [MODCA-C-277]
+Coexistence Functions [MODCA-C-278]
 
 
 Map Coded Font (MCF-1) Format 1
@@ -1629,19 +1629,19 @@ MCF-1 (X'D3B18A') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3B18A' Flags (1B) Reserved
 X'0000'
-Structured Field Data
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 | UBIN | RGLength | | X'1C', X'1E' Length of each repeating group | M | X'06' |
-| 1–3 | Reserved; | must | | be zero | M | X'04' Zero or more repeating groups in the following format: |
-| 0 | UBIN | CFLid | | X'01'–X'7F', X'FE' Coded font local ID | M | X'06' |
-| 1 | Reserved; | must | | be zero | M | X'04' |
-| 2 CODE Sectid X'00', X'41'–X'FE' Coded font section ID: | | | | | | X'00' Single-byte coded font X'41'– X'FE' Double-byte coded font M X'04' |
-| 3 | Reserved; | must | | be zero | M | X'04' |
-| 4–11 | CHAR | CFName | | Coded font name | M | X'04' |
-| 12–19 | CHAR | CPName | | Code page name | M | X'06' |
-| 20–27 | CHAR | FCSName | | Font character set name | M | X'06' |
-| 28–29 CODE CharRot X'0000', X'2D00', | | | | | | X'5A00', X'8700' Character rotation for font: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees O X'02' MCF-1 Semantics RGLength Length of each repeating group. Set to 28 if no character rotation is specified; set to 30 if character rotation is specified. CFLid Coded font local ID. The value must be from 1 to 127. A value of 254 may be used when the MCF-1 structured field is included in the Active Environment Group of a page or overlay for resource management purposes. When a local ID is mapped to a single-byte coded font, or when it is mapped to a double-byte coded font identified with a coded font name, the local ID must be unique across all repeating groups. When a local ID is mapped to a double-byte coded font section, the same local ID must be used to map all sections of the double-byte coded font, and the repeating groups must be contiguous and in ascending order by section number. Coexistence Functions |
+Structured Field Data [MODCA-C-279]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-280]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-281]|
+| 0 | UBIN | RGLength | | X'1C', X'1E' Length of each repeating group | M | X'06' [MODCA-C-282]|
+| 1–3 | Reserved; | must | | be zero | M | X'04' Zero or more repeating groups in the following format: [MODCA-C-283]|
+| 0 | UBIN | CFLid | | X'01'–X'7F', X'FE' Coded font local ID | M | X'06' [MODCA-C-284]|
+| 1 | Reserved; | must | | be zero | M | X'04' [MODCA-C-285]|
+| 2 CODE Sectid X'00', X'41'–X'FE' Coded font section ID: | | | | | | X'00' Single-byte coded font X'41'– X'FE' Double-byte coded font M X'04' [MODCA-C-286]|
+| 3 | Reserved; | must | | be zero | M | X'04' [MODCA-C-287]|
+| 4–11 | CHAR | CFName | | Coded font name | M | X'04' [MODCA-C-288]|
+| 12–19 | CHAR | CPName | | Code page name | M | X'06' [MODCA-C-289]|
+| 20–27 | CHAR | FCSName | | Font character set name | M | X'06' [MODCA-C-290]|
+| 28–29 CODE CharRot X'0000', X'2D00', | | | | | | X'5A00', X'8700' Character rotation for font: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees O X'02' MCF-1 Semantics RGLength Length of each repeating group. Set to 28 if no character rotation is specified; set to 30 if character rotation is specified. CFLid Coded font local ID. The value must be from 1 to 127. A value of 254 may be used when the MCF-1 structured field is included in the Active Environment Group of a page or overlay for resource management purposes. When a local ID is mapped to a single-byte coded font, or when it is mapped to a double-byte coded font identified with a coded font name, the local ID must be unique across all repeating groups. When a local ID is mapped to a double-byte coded font section, the same local ID must be used to map all sections of the double-byte coded font, and the repeating groups must be contiguous and in ascending order by section number. Coexistence Functions [MODCA-C-291]|
 
 
 Architecture Note: A unique local ID must be mapped for each character rotation of a font.
@@ -1693,7 +1693,7 @@ Application Notes: The character rotation parameter does not exist for unbounded
 such as the fonts used by the IBM 3800 printer.
 Application Note: In AFP environments, the names specified in this structured field must be encoded using
 the conventions defined in “External Resource Naming Conventions”.
-Coexistence Functions
+Coexistence Functions [MODCA-C-292]
 
 
 Page Position (PGP-1) Format 1
@@ -1704,31 +1704,31 @@ PGP-1 (X'D3ACAF') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3ACAF' Flags (1B) Reserved
 X'0000'
-Structured Field Data
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–2 UBIN X mOset X'0000'–X'7FFF' X m coordinate of page | | | | | | presentation space origin M X'06' |
-| 3–5 UBIN Y mOset X'0000'–X'7FFF' Y m coordinate of page | | | | | | presentation space origin M X'06' PGP-1 Semantics XmOset Offset of the page's presentation space origin along the X m axis of the medium presentation space using the measurement units specified in the Medium Descriptor structured field. YmOset Offset of the page's presentation space origin along the Y m axis of the medium presentation space using the measurement units specified in the Medium Descriptor structured field. Application Note: In AFP environments, the offset range for X mOset and Y mOset is 0 to 5,461 when the medium coordinate system units of measure are 240 units per inch, and 0 to |
-| 32,767 when they are 1440 units per inch. | | | | | | Presentation Text Data Descriptor (PTD-1) Format 1 The Presentation T ext Data Descriptor Format 1 structured field specifies the size of a text object presentation space and the measurement units used for the size and for all linear measurements within the text object. PTD-1 (X'D3A69B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A69B' Flags (1B) Reserved X'0000' Structured Field Data |
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 CODE XptBase X'00' T ext presentation space unit | | | | | | base for the X axis: X'00' 10 inches M X'06' |
-| 1 CODE YptBase X'00' T ext presentation space unit | | | | | | base for the Y axis: X'00' 10 inches M X'06' Coexistence Functions |
+Structured Field Data [MODCA-C-293]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-294]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-295]|
+| 0–2 UBIN X mOset X'0000'–X'7FFF' X m coordinate of page | | | | | | presentation space origin M X'06' [MODCA-C-296]|
+| 3–5 UBIN Y mOset X'0000'–X'7FFF' Y m coordinate of page | | | | | | presentation space origin M X'06' PGP-1 Semantics XmOset Offset of the page's presentation space origin along the X m axis of the medium presentation space using the measurement units specified in the Medium Descriptor structured field. YmOset Offset of the page's presentation space origin along the Y m axis of the medium presentation space using the measurement units specified in the Medium Descriptor structured field. Application Note: In AFP environments, the offset range for X mOset and Y mOset is 0 to 5,461 when the medium coordinate system units of measure are 240 units per inch, and 0 to [MODCA-C-297]|
+| 32,767 when they are 1440 units per inch. | | | | | | Presentation Text Data Descriptor (PTD-1) Format 1 The Presentation T ext Data Descriptor Format 1 structured field specifies the size of a text object presentation space and the measurement units used for the size and for all linear measurements within the text object. PTD-1 (X'D3A69B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A69B' Flags (1B) Reserved X'0000' Structured Field Data [MODCA-C-298]|
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-299]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-300]|
+| 0 CODE XptBase X'00' T ext presentation space unit | | | | | | base for the X axis: X'00' 10 inches M X'06' [MODCA-C-301]|
+| 1 CODE YptBase X'00' T ext presentation space unit | | | | | | base for the Y axis: X'00' 10 inches M X'06' Coexistence Functions [MODCA-C-302]|
 
 
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2–3 UBIN XptUnits 2400, 14400 T ext presentation space units per | | | | | | unit base for the X axis M X'06' |
-| 4–5 UBIN YptUnits 2400, 14400 T ext presentation space units per | | | | | | unit base for the Y axis M X'06' |
-| 6–7 UBIN XptSize X'0001'–X'7FFF' T ext presentation space extent | | | | | | for the X axis M X'06' |
-| 8–9 UBIN YptSize X'0001'–X'7FFF' T ext presentation space extent | | | | | | for the Y axis M X'06' |
-| 10–11 | Reserved; | must | | be binary zero | O | X'00' PTD-1 Semantics XptBase Specifies the unit base for the X axis of the text presentation space. YptBase Specifies the unit base for the Y axis of the text presentation space. XptUnits Specifies the number of units per unit base for the X axis of the text presentation space. YptUnits Specifies the number of units per unit base for the Y axis of the text presentation space. XptSize Specifies the extent along the X axis of the text presentation space. This must be equal to the extent along the X axis of the including page or overlay presentation space. YptSize Specifies the extent along the Y axis of the text presentation space. This must be equal to the extent along the Y axis of the including page or overlay presentation space. Begin IM Image Object (BII) The Begin IM Image Object structured field begins an IM image data object, which becomes the current data object. BII (X'D3A87B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A87B' Flags (1B) Reserved X'0000' Structured Field Data |
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–7 CHAR ImoName Name of the IM image data | | | | | | object O X'02' BII Semantics ImoName Is the name of the IM image data object. The page, overlay, or resource group containing the Begin IM Image Object structured field must also contain a subsequent matching End IM Image Object structured field, or a X'08' exception condition exists. Application Note: In AFP environments, the following retired triplet is used on this structured field: Coexistence Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-303]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-304]|
+| 2–3 UBIN XptUnits 2400, 14400 T ext presentation space units per | | | | | | unit base for the X axis M X'06' [MODCA-C-305]|
+| 4–5 UBIN YptUnits 2400, 14400 T ext presentation space units per | | | | | | unit base for the Y axis M X'06' [MODCA-C-306]|
+| 6–7 UBIN XptSize X'0001'–X'7FFF' T ext presentation space extent | | | | | | for the X axis M X'06' [MODCA-C-307]|
+| 8–9 UBIN YptSize X'0001'–X'7FFF' T ext presentation space extent | | | | | | for the Y axis M X'06' [MODCA-C-308]|
+| 10–11 | Reserved; | must | | be binary zero | O | X'00' PTD-1 Semantics XptBase Specifies the unit base for the X axis of the text presentation space. YptBase Specifies the unit base for the Y axis of the text presentation space. XptUnits Specifies the number of units per unit base for the X axis of the text presentation space. YptUnits Specifies the number of units per unit base for the Y axis of the text presentation space. XptSize Specifies the extent along the X axis of the text presentation space. This must be equal to the extent along the X axis of the including page or overlay presentation space. YptSize Specifies the extent along the Y axis of the text presentation space. This must be equal to the extent along the Y axis of the including page or overlay presentation space. Begin IM Image Object (BII) The Begin IM Image Object structured field begins an IM image data object, which becomes the current data object. BII (X'D3A87B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A87B' Flags (1B) Reserved X'0000' Structured Field Data [MODCA-C-309]|
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-310]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-311]|
+| 0–7 CHAR ImoName Name of the IM image data | | | | | | object O X'02' BII Semantics ImoName Is the name of the IM image data object. The page, overlay, or resource group containing the Begin IM Image Object structured field must also contain a subsequent matching End IM Image Object structured field, or a X'08' exception condition exists. Application Note: In AFP environments, the following retired triplet is used on this structured field: Coexistence Functions [MODCA-C-312]|
 
 
-• Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet
+• Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-C-313]
 X'27'”.
 End IM Image Object (EII)
 The End IM Image Object structured field terminates the current IM image object initiated by a Begin IM Image
@@ -1737,40 +1737,40 @@ EII (X'D3A97B') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3A97B' Flags (1B) Reserved
 X'0000'
-Structured Field Data
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–7 CHAR ImoName Name of the IM image data | | | | | | object O X'02' EII Semantics ImoName Is the name of the IM image data object being terminated. If a name is specified, it must match the name in the most recent Begin IM Image Object structured field in the containing page, overlay, or resource group or a X'01' exception condition exists. If the first two bytes of ImoName contain the value X'FFFF', the name matches any name specified on the Begin IM Image Object structured field that initiated the current definition. A matching Begin IM Image Object structured field must appear at some location preceding the End Image Object structured field, or a X'20' exception condition exists. IM Image Cell Position (ICP) The IM Image Cell Position structured field specifies the placement, size, and replication of IM image cells. ICP (X'D3AC7B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3AC7B' Flags (1B) Reserved X'0000' Structured Field Data |
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–1 | UBIN | XCOset | | X'0000'–X'7FFF' Offset of image cell in X direction | M | X'06' |
-| 2–3 | UBIN | YCOset | | X'0000'–X'7FFF' Offset of image cell in Y direction | M | X'06' |
-| 4–5 | UBIN | XCSize | | X'0001'–X'7FFF' Size of image cell in X direction | M | X'06' X'FFFF' Use default X-extent in IID |
-| 6–7 | UBIN | YCSize | | X'0001'–X'7FFF' Size of image cell in Y direction | M | X'06' Coexistence Functions |
+Structured Field Data [MODCA-C-314]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-315]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-316]|
+| 0–7 CHAR ImoName Name of the IM image data | | | | | | object O X'02' EII Semantics ImoName Is the name of the IM image data object being terminated. If a name is specified, it must match the name in the most recent Begin IM Image Object structured field in the containing page, overlay, or resource group or a X'01' exception condition exists. If the first two bytes of ImoName contain the value X'FFFF', the name matches any name specified on the Begin IM Image Object structured field that initiated the current definition. A matching Begin IM Image Object structured field must appear at some location preceding the End Image Object structured field, or a X'20' exception condition exists. IM Image Cell Position (ICP) The IM Image Cell Position structured field specifies the placement, size, and replication of IM image cells. ICP (X'D3AC7B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3AC7B' Flags (1B) Reserved X'0000' Structured Field Data [MODCA-C-317]|
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-318]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-319]|
+| 0–1 | UBIN | XCOset | | X'0000'–X'7FFF' Offset of image cell in X direction | M | X'06' [MODCA-C-320]|
+| 2–3 | UBIN | YCOset | | X'0000'–X'7FFF' Offset of image cell in Y direction | M | X'06' [MODCA-C-321]|
+| 4–5 | UBIN | XCSize | | X'0001'–X'7FFF' Size of image cell in X direction | M | X'06' X'FFFF' Use default X-extent in IID [MODCA-C-322]|
+| 6–7 | UBIN | YCSize | | X'0001'–X'7FFF' Size of image cell in Y direction | M | X'06' Coexistence Functions [MODCA-C-323]|
 
 
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- X'FFFF' Use default Y-extent in IID |
-| 8–9 | UBIN | XFilSize | | X'0001'–X'7FFF' Size of fill rectangle in X direction | M | X'06' X'FFFF' Use image cell X-extent |
-| 10–11 | UBIN | YFilSize | | X'0001'–X'7FFF' Size of fill rectangle in Y direction | M | X'06' X'FFFF' Use image cell Y-extent ICP Semantics XCOset Specifies the offset along the X p direction, in image points, of this image cell from the IM image object area origin. YCOset Specifies the offset along the Y p direction, in image points, of this image cell from the IM image object area origin. XCSize Specifies the extent in the X direction, in image points, of this image cell. A value of X'FFFF' indicates that the default extent specified in bytes 28–29 of the Image Input Descriptor (IID) is to be used. YCSize Specifies the extent in the Y direction, in image points, of this image cell. A value of X'FFFF' indicates that the default extent specified in bytes 30–31 of the Image Input Descriptor (IID) is to be used. XFilSize Specifies the extent of the fill rectangle in the X direction, in image points. This value can be smaller than, equal to, or larger than the image cell extent in the X direction (XCSize). A value of X'FFFF' indicates that the image cell X-extent should be used as the fill rectangle X-extent. The fill rectangle is filled in the X direction by repeating the image cell in the X direction. The image cell can be truncated to fit the rectangle. YFilSize Specifies the extent of the fill rectangle in the Y direction, in image points. This value can be smaller than, equal to, or larger than the image cell extent in the Y direction (YCSize). A value of X'FFFF' indicates that the image cell Y-extent should be used as the fill rectangle Y-extent. The fill rectangle is filled in the Y direction by repeating the image cell in the Y direction. The image cell can be truncated to fit the rectangle. IM Image Input Descriptor (IID) The IM Image Input Descriptor structured field contains the descriptor data for an IM image data object. This data specifies the resolution, size, and color of the IM image. IID (X'D3A67B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A67B' Flags (1B) Reserved X'0000' Structured Field Data |
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–11 | CODE | ConData1 | | Constant data | M | X'06' |
-| 12 CODE XBase X'00' Unit base for the image X axis: | | | | | | X'00' 10 inches M X'06' Coexistence Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-324]|
+| --- | --- | --- | --- | --- | --- | --- X'FFFF' Use default Y-extent in IID [MODCA-C-325]|
+| 8–9 | UBIN | XFilSize | | X'0001'–X'7FFF' Size of fill rectangle in X direction | M | X'06' X'FFFF' Use image cell X-extent [MODCA-C-326]|
+| 10–11 | UBIN | YFilSize | | X'0001'–X'7FFF' Size of fill rectangle in Y direction | M | X'06' X'FFFF' Use image cell Y-extent ICP Semantics XCOset Specifies the offset along the X p direction, in image points, of this image cell from the IM image object area origin. YCOset Specifies the offset along the Y p direction, in image points, of this image cell from the IM image object area origin. XCSize Specifies the extent in the X direction, in image points, of this image cell. A value of X'FFFF' indicates that the default extent specified in bytes 28–29 of the Image Input Descriptor (IID) is to be used. YCSize Specifies the extent in the Y direction, in image points, of this image cell. A value of X'FFFF' indicates that the default extent specified in bytes 30–31 of the Image Input Descriptor (IID) is to be used. XFilSize Specifies the extent of the fill rectangle in the X direction, in image points. This value can be smaller than, equal to, or larger than the image cell extent in the X direction (XCSize). A value of X'FFFF' indicates that the image cell X-extent should be used as the fill rectangle X-extent. The fill rectangle is filled in the X direction by repeating the image cell in the X direction. The image cell can be truncated to fit the rectangle. YFilSize Specifies the extent of the fill rectangle in the Y direction, in image points. This value can be smaller than, equal to, or larger than the image cell extent in the Y direction (YCSize). A value of X'FFFF' indicates that the image cell Y-extent should be used as the fill rectangle Y-extent. The fill rectangle is filled in the Y direction by repeating the image cell in the Y direction. The image cell can be truncated to fit the rectangle. IM Image Input Descriptor (IID) The IM Image Input Descriptor structured field contains the descriptor data for an IM image data object. This data specifies the resolution, size, and color of the IM image. IID (X'D3A67B') Syntax Structured Field Introducer SF Length (2B) ID = X'D3A67B' Flags (1B) Reserved X'0000' Structured Field Data [MODCA-C-327]|
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-328]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-329]|
+| 0–11 | CODE | ConData1 | | Constant data | M | X'06' [MODCA-C-330]|
+| 12 CODE XBase X'00' Unit base for the image X axis: | | | | | | X'00' 10 inches M X'06' Coexistence Functions [MODCA-C-331]|
 
 
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 13 CODE YBase X'00' Unit base for the image Y axis: | | | | | | X'00' 10 inches M X'06' |
-| 14–15 UBIN XUnits 1–32,767 Image points per unit base for the | | | | | | image X axis M X'06' |
-| 16–17 UBIN YUnits 1–32,767 Image points per unit base for the | | | | | | image Y axis M X'06' |
-| 18–19 | UBIN | XSize | | X'0001'–X'7FFF' Size of image in X direction | M | X'06' |
-| 20–21 | UBIN | YSize | | X'0001'–X'7FFF' Size of image in Y direction | M | X'06' |
-| 22–27 | CODE | ConData2 | | Constant data | M | X'06' |
-| 28–29 UBIN XCSizeD X'0000'–X'7FFF' Default size of image cell in X | | | | | | direction M X'06' |
-| 30–31 UBIN YCSizeD X'0000'–X'7FFF' Default size of image cell in Y | | | | | | direction M X'06' |
-| 32–33 | CODE | ConData3 | | Constant data | M | X'06' |
-| 34–35 CODE Color See IID | | | | | | Semantics for details Image color M X'06' IID Semantics ConData1 Constant data. Must be set to X'0000 0960 0960 0000 0000 0000'. XBase Specifies the unit base for the X axis of the image. YBase Specifies the unit base for the Y axis of the image. XUnits Specifies the number of image points per unit base for the X axis of the image. This value is ten times the resolution of the image in the X direction. YUnits Specifies the number of image points per unit base for the Y axis of the image. This value is ten times the resolution of the image in the Y direction. XSize Specifies the extent in the X direction, in image points, of an non-celled (simple) image. YSize Specifies the extent in the Y direction, in image points, of an non-celled (simple) image. ConData2 Constant data. Must be set to X'0000 0000 2D00'. XCSizeD Specifies the default extent in the X direction, in image points, of the image cell. This value is used if the IM Image Cell Position (ICP) structured field does not specify the image cell X extent in bytes 4–5. This value must be set to X'0000' for non-celled images. YCSizeD Specifies the default extent in the Y direction, in image points, of the image cell. This value is used if the IM Image Cell Position (ICP) structured field does not specify the image cell Y extent in bytes 6–7. This value must be set to X'0000' for non-celled images. ConData3 Constant data. Must be set to X'0001'. Color Specifies the color of the image. Syntactically valid values for specifying colors are X'0000' through X'0010' and X'FF00' through X'FF08', which is the range of values defined in the Standard OCA Color Value T able. For a complete description of this table, see “Standard OCA Color Value T able”. An additional valid value for IM image is X'FFFF'— presentation process default. Architecture Note: The value X'FFFF' is not a valid color value for IM image in IPDS environments. Coexistence Functions |
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-332]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-333]|
+| 13 CODE YBase X'00' Unit base for the image Y axis: | | | | | | X'00' 10 inches M X'06' [MODCA-C-334]|
+| 14–15 UBIN XUnits 1–32,767 Image points per unit base for the | | | | | | image X axis M X'06' [MODCA-C-335]|
+| 16–17 UBIN YUnits 1–32,767 Image points per unit base for the | | | | | | image Y axis M X'06' [MODCA-C-336]|
+| 18–19 | UBIN | XSize | | X'0001'–X'7FFF' Size of image in X direction | M | X'06' [MODCA-C-337]|
+| 20–21 | UBIN | YSize | | X'0001'–X'7FFF' Size of image in Y direction | M | X'06' [MODCA-C-338]|
+| 22–27 | CODE | ConData2 | | Constant data | M | X'06' [MODCA-C-339]|
+| 28–29 UBIN XCSizeD X'0000'–X'7FFF' Default size of image cell in X | | | | | | direction M X'06' [MODCA-C-340]|
+| 30–31 UBIN YCSizeD X'0000'–X'7FFF' Default size of image cell in Y | | | | | | direction M X'06' [MODCA-C-341]|
+| 32–33 | CODE | ConData3 | | Constant data | M | X'06' [MODCA-C-342]|
+| 34–35 CODE Color See IID | | | | | | Semantics for details Image color M X'06' IID Semantics ConData1 Constant data. Must be set to X'0000 0960 0960 0000 0000 0000'. XBase Specifies the unit base for the X axis of the image. YBase Specifies the unit base for the Y axis of the image. XUnits Specifies the number of image points per unit base for the X axis of the image. This value is ten times the resolution of the image in the X direction. YUnits Specifies the number of image points per unit base for the Y axis of the image. This value is ten times the resolution of the image in the Y direction. XSize Specifies the extent in the X direction, in image points, of an non-celled (simple) image. YSize Specifies the extent in the Y direction, in image points, of an non-celled (simple) image. ConData2 Constant data. Must be set to X'0000 0000 2D00'. XCSizeD Specifies the default extent in the X direction, in image points, of the image cell. This value is used if the IM Image Cell Position (ICP) structured field does not specify the image cell X extent in bytes 4–5. This value must be set to X'0000' for non-celled images. YCSizeD Specifies the default extent in the Y direction, in image points, of the image cell. This value is used if the IM Image Cell Position (ICP) structured field does not specify the image cell Y extent in bytes 6–7. This value must be set to X'0000' for non-celled images. ConData3 Constant data. Must be set to X'0001'. Color Specifies the color of the image. Syntactically valid values for specifying colors are X'0000' through X'0010' and X'FF00' through X'FF08', which is the range of values defined in the Standard OCA Color Value T able. For a complete description of this table, see “Standard OCA Color Value T able”. An additional valid value for IM image is X'FFFF'— presentation process default. Architecture Note: The value X'FFFF' is not a valid color value for IM image in IPDS environments. Coexistence Functions [MODCA-C-343]|
 
 
 IM Image Output Control (IOC)
@@ -1780,17 +1780,17 @@ IOC (X'D3A77B') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3A77B' Flags (1B) Reserved
 X'0000'
-Structured Field Data
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–2 | UBIN | XoaOset | | 0–32,767 X-axis origin of the object area | M | X'06' |
-| 3–5 | UBIN | YoaOset | | 0–32,767 Y-axis origin of the object area | M | X'06' |
-| 6–7 CODE XoaOrent X'0000', X'2D00', | | | | | | X'5A00', X'8700' The object area's X-axis rotation from the X axis of the reference coordinate system: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' |
-| 8–9 CODE YoaOrent X'0000', X'2D00', | | | | | | X'5A00', X'8700' The object area's Y-axis rotation from the X axis of the reference coordinate system: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' Note: See “IOC Semantics” for valid combinations of the XoaOrent and YoaOrent values. |
-| 10–17 | CODE | ConData1 | | Constant data | M | X'06' |
-| 18–19 CODE XMap X'03E8', X'07D0' Image mapping in X direction: | | | | | | X'03E8' Image point-to-pel X'07D0' Image point-to-two pel (double-dot) M X'06' |
-| 20–21 CODE YMap X'03E8', X'07D0' Image mapping in Y direction: | | | | | | X'03E8' Image point-to-pel X'07D0' Image point-to-two pel (double-dot) M X'06' |
-| 22–23 | CODE | ConData2 | | Constant data | M | X'06' IOC Semantics XoaOset Specifies the offset, along the X-axis, of the IM image object area origin to the origin of the including page or overlay coordinate system. If the IM image object is contained in a page segment, specifies the offset, along the X-axis, of the IM image object area origin to the reference point on the including page or overlay coordinate system defined by the Include Page Segment (IPS) structured field. The offset is specified in image points and is resolved using the units of measure specified for the image in the IID structured field. Coexistence Functions |
+Structured Field Data [MODCA-C-344]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-345]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-346]|
+| 0–2 | UBIN | XoaOset | | 0–32,767 X-axis origin of the object area | M | X'06' [MODCA-C-347]|
+| 3–5 | UBIN | YoaOset | | 0–32,767 Y-axis origin of the object area | M | X'06' [MODCA-C-348]|
+| 6–7 CODE XoaOrent X'0000', X'2D00', | | | | | | X'5A00', X'8700' The object area's X-axis rotation from the X axis of the reference coordinate system: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' [MODCA-C-349]|
+| 8–9 CODE YoaOrent X'0000', X'2D00', | | | | | | X'5A00', X'8700' The object area's Y-axis rotation from the X axis of the reference coordinate system: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees M X'06' Note: See “IOC Semantics” for valid combinations of the XoaOrent and YoaOrent values. [MODCA-C-350]|
+| 10–17 | CODE | ConData1 | | Constant data | M | X'06' [MODCA-C-351]|
+| 18–19 CODE XMap X'03E8', X'07D0' Image mapping in X direction: | | | | | | X'03E8' Image point-to-pel X'07D0' Image point-to-two pel (double-dot) M X'06' [MODCA-C-352]|
+| 20–21 CODE YMap X'03E8', X'07D0' Image mapping in Y direction: | | | | | | X'03E8' Image point-to-pel X'07D0' Image point-to-two pel (double-dot) M X'06' [MODCA-C-353]|
+| 22–23 | CODE | ConData2 | | Constant data | M | X'06' IOC Semantics XoaOset Specifies the offset, along the X-axis, of the IM image object area origin to the origin of the including page or overlay coordinate system. If the IM image object is contained in a page segment, specifies the offset, along the X-axis, of the IM image object area origin to the reference point on the including page or overlay coordinate system defined by the Include Page Segment (IPS) structured field. The offset is specified in image points and is resolved using the units of measure specified for the image in the IID structured field. Coexistence Functions [MODCA-C-354]|
 
 
 YoaOset Specifies the offset, along the Y axis, of the IM image object area origin to the origin of the
@@ -1835,7 +1835,7 @@ X'03E8' Map an image point to a single presentation device pel in the Y directio
 the IM image object area
 X'07D0' Map an image point to two presentation device pels in the Y direction of the
 IM image object area (double-dot)
-Coexistence Functions
+Coexistence Functions [MODCA-C-355]
 
 
 Note: If the double-dot function is specified for a complex (celled) image, this function is
@@ -1849,13 +1849,13 @@ IRD (X'D3EE7B') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3EE7B' Flags (1B) Reserved
 X'0000'
-Structured Field Data
-| Offset | Type | Name | Range | Meaning | M/O | Exc |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0–n UNDF IMdata Up to 32,759 bytes of IM image | | | | | | raster data O X'00' IRD Semantics IMdata Contains the image points that define the IM image raster pattern. A raster pattern is the array of presentation device pels that forms the image. The image data is uncompressed. Bits are grouped into bytes and are ordered from left to right within each byte. Each bit in the image data represents an image point and is mapped to presentation device pels as specified in the IOC structured field. A bit with value B'1' indicates a significant image point; a bit with value B'0' indicates an insignificant image point. Image points are recorded from left to right in rows that represents scan lines (X direction), and rows representing scan lines are recorded from top to bottom (Y direction). When the image is presented, all image points in a row are presented before any image points in the next sequential row are presented, and all rows have the same number of image points. If the total number of image points is not a multiple of 8, the last byte of the image data is padded to a byte boundary. The padding bits do not represent image points and are ignored by presentation devices. Architecture Note: The presentation environment determines how to map significant image points and insignificant image points to presentation device pels. For example, some printers map significant image points to toned pels and insignificant image points to untoned pels. Coexistence Triplets None. Coexistence Parameters The following parameters are coexistence parameters: • Triplet X'04' mapping option X'41': image point-to-pel • Triplet X'04' mapping option X'42': image point-to-pel with double dot Coexistence Functions |
+Structured Field Data [MODCA-C-356]
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-C-357]|
+| --- | --- | --- | --- | --- | --- | --- [MODCA-C-358]|
+| 0–n UNDF IMdata Up to 32,759 bytes of IM image | | | | | | raster data O X'00' IRD Semantics IMdata Contains the image points that define the IM image raster pattern. A raster pattern is the array of presentation device pels that forms the image. The image data is uncompressed. Bits are grouped into bytes and are ordered from left to right within each byte. Each bit in the image data represents an image point and is mapped to presentation device pels as specified in the IOC structured field. A bit with value B'1' indicates a significant image point; a bit with value B'0' indicates an insignificant image point. Image points are recorded from left to right in rows that represents scan lines (X direction), and rows representing scan lines are recorded from top to bottom (Y direction). When the image is presented, all image points in a row are presented before any image points in the next sequential row are presented, and all rows have the same number of image points. If the total number of image points is not a multiple of 8, the last byte of the image data is padded to a byte boundary. The padding bits do not represent image points and are ignored by presentation devices. Architecture Note: The presentation environment determines how to map significant image points and insignificant image points to presentation device pels. For example, some printers map significant image points to toned pels and insignificant image points to untoned pels. Coexistence Triplets None. Coexistence Parameters The following parameters are coexistence parameters: • Triplet X'04' mapping option X'41': image point-to-pel • Triplet X'04' mapping option X'42': image point-to-pel with double dot Coexistence Functions [MODCA-C-359]|
 
 
-• Triplet X'04' mapping option X'50': replicate and trim
+• Triplet X'04' mapping option X'50': replicate and trim [MODCA-C-360]
 Triplet X'04' Mapping Option X'41': Image Point-to-Pel
 This mapping is supported for IOCA FS10 for the migration of IM image objects. It provides a mapping for the
 IOCA FS10 image object similar to the mapping defined for the IM image object. The origin of the IOCA FS10
@@ -1884,6 +1884,6 @@ presentation space that falls outside the object area is trimmed. All data that 
 is presented, but data that falls outside of the object area is not presented. When this option is specified, the
 data object's content origin specified in the XocaOset and YocaOset parameters in the Object Area Position
 structured field is ignored.
-Coexistence Functions
+Coexistence Functions [MODCA-C-361]
 
 

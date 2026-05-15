@@ -1,10 +1,10 @@
 Appendix B. IPDS Environment
 The Intelligent Printer Data Stream (IPDS) provides the printer subsystem environment for Presentation Text
 objects. This appendix describes:
-• The context of Presentation Text objects in the IPDS environment; as either text-major text or as independent
+• The context of Presentation Text objects in the IPDS environment; as either text-major text or as independent [PTOCA-B-001]
 text objects
-• A comparison of PTOCA and IPDS exception conditions
-• IPDS commands specific to presentation text
+• A comparison of PTOCA and IPDS exception conditions [PTOCA-B-002]
+• IPDS commands specific to presentation text [PTOCA-B-003]
 For further information about the IPDS Architecture, refer to Intelligent Printer Data Stream Reference, AFPC-
 0001.
 IPDS Presentation Text
@@ -18,31 +18,31 @@ in MO:DCA data streams except that the containing IPDS structure has a diffe ren
 receive the Presentation Text object are expected to process the object contents accurately according to the
 semantic definitions for the supported PTOC A subset.
 IPDS Architecture provides the following for the object:
-• Command structure and syntax
-• Initial conditions for the object
-• A means of reporting exception conditions
-• A means of resolving fonts and suppression identifiers
+• Command structure and syntax [PTOCA-B-004]
+• Initial conditions for the object [PTOCA-B-005]
+• A means of reporting exception conditions [PTOCA-B-006]
+• A means of resolving fonts and suppression identifiers [PTOCA-B-007]
 IPDS Architecture provides positioning information for the object. The object does not carry the size and shape
 of the physical medium or information about object positioning. The object does not control what part of its
 object space is to be presented or what part will fit into the logical page specified by the data stream. The
 object expresses the exact boundaries that the graphic characters it positions in the object space will require if
 they are to be presented without error . The logical page may also be used to provide that boundary .
 Text data can be positioned anywhere on the logical page in two diff erent ways:
-1. All IPDS printers allow text to be placed directly within a logical page using the Write Text command. The
+1. All IPDS printers allow text to be placed directly within a logical page using the Write Text command. The [PTOCA-B-008]
 logical page can also contain other presentation objects specified with other IPDS commands either before
 or after a Write Text command. With this method, called “text major”, there is no text object area, and text
 may be printed anywhere within the valid printable area. For text-major text, the text presentation space is
 the logical page. Furthermore, object areas for other objects may be positioned with respect to the text.
-2. Some IPDS printers support text objects (in addition to the text-major concept). In this case, the Write Text
+2. Some IPDS printers support text objects (in addition to the text-major concept). In this case, the Write Text [PTOCA-B-009]
 Control command defines a presentation space, object area, and mapping option. The text data is carried
 within one or more Write Text commands.
 Architecture Note: The Extended Text Color parameter is not supported as an initial text condition in IPDS
 environments for text-major text. This parameter is supported in IPDS environments when the text is
-specified in a text object.
+specified in a text object. [PTOCA-B-010]
 
 <!-- Page 188 -->
 
-170 PTOCA Reference
+170 PTOCA Reference [PTOCA-B-011]
 IPDS Text Command Set
 Presentation Text Data Descriptor for Text-Major Text
 The following table describes the contents of the PTOCA Presentation Text Data Descriptor and the
@@ -79,17 +79,17 @@ Text Color:
 FRGCOLOR
 41-42 1,2
 Notes:
-1. If a receiver cannot provide the color specified by FRGCOLOR, it may substitute values from Table 13 on
+1. If a receiver cannot provide the color specified by FRGCOLOR, it may substitute values from Table 13 on [PTOCA-B-012]
 page 103 defined in the STC control sequence.
-2. The default indicator is allowed, meaning use the printer default.
-3. The TEXTFLAGS parameter is reserved. This parameter is not used in the IPDS environment.
-4. DIRCTION is always defaulted to X'00', that is, the positive direction, so this parameter is not carried in the
+2. The default indicator is allowed, meaning use the printer default. [PTOCA-B-013]
+3. The TEXTFLAGS parameter is reserved. This parameter is not used in the IPDS environment. [PTOCA-B-014]
+4. DIRCTION is always defaulted to X'00', that is, the positive direction, so this parameter is not carried in the [PTOCA-B-015]
 Logical Page Descriptor (LPD) command.
-5. The default indicator is not allowed for this parameter in this subset.
+5. The default indicator is not allowed for this parameter in this subset. [PTOCA-B-016]
 IPDS Presentation Text Data Descriptor for Text Objects
 When a text object is used within an IPDS data stream, the PTOCA Presentation Text Data Descriptor is
 carried within the Write Text Control (WTC) command. This portion of the WTC command is called the Text
-IPDS Text Command Set
+IPDS Text Command Set [PTOCA-B-017]
 
 <!-- Page 189 -->
 
@@ -103,14 +103,14 @@ Length of TDD, including this field X'0014' – end of
 TDD
 2–3 CODE SDF ID X'A69B' Self-defining-field ID X'A69B'
 4–5 X'0000' Reserved X'0000'
-6 CODE Unit base X'00'
+6 CODE Unit base X'00' [PTOCA-B-018]
 X'01'
 X'02'
 Ten inches
 Ten centimeters
 Retired item 54
 X'00'
-7 X'00' Reserved X'00'
+7 X'00' Reserved X'00' [PTOCA-B-019]
 8–9 UBIN XUPUB X'0001' –
 X'7FFF'
 X
@@ -170,11 +170,11 @@ Presentation Exception Conditions
 The IPDS Architecture defines its own exception condition codes, called exception IDs, which consist of three
 bytes. PTOCA exception condition codes are mapped to IPDS exception IDs by mapping the two-byte PTOCA
 code to the last two bytes of the IPDS exception code. In most cases, this mapping is one-to-one. Where it is
-Presentation Exception Conditions
+Presentation Exception Conditions [PTOCA-B-020]
 
 <!-- Page 190 -->
 
-172 PTOCA Reference
+172 PTOCA Reference [PTOCA-B-021]
 not, the IPDS exception ID overrides the PTOC A exception condition code. The IPDS Architecture also defines
 its own exception responses. In some cases, this exception response is the same as the standard exception
 action defined by PTOCA. Where it is not, the IPDS exception response overrides the PTOCA standard
@@ -183,7 +183,7 @@ Table 20. PTOCA Exception Conditions in an IPDS Environment
 PTOCA Exception Condition Code IPDS Exception ID
 EC-0001 0200..01
 EC-0103 08C1..00 for text major
-0201..03 for text objects
+0201..03 for text objects [PTOCA-B-022]
 EC-0201 0202..01
 EC-0401 0204..01
 EC-0505 0264..02
@@ -216,7 +216,7 @@ EC-1F01 021F ..01
 EC-2100 0821..00
 EC-3F02 023F ..02
 EC-5803 0258..03
-Presentation Exception Conditions
+Presentation Exception Conditions [PTOCA-B-023]
 
 <!-- Page 191 -->
 
@@ -262,16 +262,16 @@ Load Equivalence (LE) and Load Copy Control (LCC): The LE command permits physic
 embedded in printer data to be referenced externally using different values, and the LCC command specifies
 external suppression values to be used in conjunction with the presentation text. These two functions are used
 to control the suppression function in PTOCA.
-Additional Related Commands
+Additional Related Commands [PTOCA-B-024]
 
 <!-- Page 192 -->
 
-174 PTOCA Reference
+174 PTOCA Reference [PTOCA-B-025]
 Suppression is started by external suppression values specified in the current Load Copy Control (LCC)
 Command. The external suppression value works with the LID parameter in two ways:
-• The external suppression value maps to the LID parameter of the BSU control sequence. For example, if the
+• The external suppression value maps to the LID parameter of the BSU control sequence. For example, if the [PTOCA-B-026]
 external value is X'0A', the presentation text identified with the LID X'0A' is suppressed.
-• The external suppression value maps to the LID through an equivalence table, using the current Load
+• The external suppression value maps to the LID through an equivalence table, using the current Load [PTOCA-B-027]
 Equivalence (LE) command. For example, if the external value is X'0B', the LE table may define the following
 equivalences: X'0B'=X'01', X'0B'=X'02', X'0B'=X'03'. Thus, the external value X'0B' identifies presentation
 text marked with LID values X'01', X'02', and X'03' for suppression.
@@ -297,47 +297,47 @@ OpenType collections. TrueType/OpenType fonts use an outline font technology as 
 FOCA and IPDS architectures also include support for raster fonts and a very simple type of font called a
 symbol set.
 The following IPDS commands are used with TrueType/OpenType fonts and collections:
-• Activate Resource (AR)
-• Deactivate Data-Object-Font Component (DDOFC)
-• Deactivate Font (DF)
-• Load Code Page (LCP)
-• Load Code Page Control (LCPC)
-• Write Object Container Control (WOCC)
-• Write Object Container (WOC)
-• XOH Erase Residual Font Data (ERFD)
-• XOH Erase Residual Print Data (ERPD)
+• Activate Resource (AR) [PTOCA-B-028]
+• Deactivate Data-Object-Font Component (DDOFC) [PTOCA-B-029]
+• Deactivate Font (DF) [PTOCA-B-030]
+• Load Code Page (LCP) [PTOCA-B-031]
+• Load Code Page Control (LCPC) [PTOCA-B-032]
+• Write Object Container Control (WOCC) [PTOCA-B-033]
+• Write Object Container (WOC) [PTOCA-B-034]
+• XOH Erase Residual Font Data (ERFD) [PTOCA-B-035]
+• XOH Erase Residual Print Data (ERPD) [PTOCA-B-036]
 The following IPDS commands are used with FOCA outline fonts:
-• Activate Resource (AR)
-• Deactivate Font (DF)
-• Load Code Page (LCP)
-• Load Code Page Control (LCPC)
-• Load Font (LF)
-• Load Font Character Set Control (LFCSC)
+• Activate Resource (AR) [PTOCA-B-037]
+• Deactivate Font (DF) [PTOCA-B-038]
+• Load Code Page (LCP) [PTOCA-B-039]
+• Load Code Page Control (LCPC) [PTOCA-B-040]
+• Load Font (LF) [PTOCA-B-041]
+• Load Font Character Set Control (LFCSC) [PTOCA-B-042]
 Font Commands
 
 <!-- Page 193 -->
 
 PTOCA Reference 175
-• Load Font Equivalence (LFE)
-• XOH Erase Residual Font Data (ERFD)
+• Load Font Equivalence (LFE) [PTOCA-B-043]
+• XOH Erase Residual Font Data (ERFD) [PTOCA-B-044]
 The following IPDS commands are used with FOCA raster fonts:
-• Activate Resource (AR)
-• Deactivate Font (DF)
-• Load Font (LF)
-• Load Font Control (LFC)
-• Load Font Equivalence (LFE)
-• Load Font Index (LFI)
-• XOH Erase Residual Font Data (ERFD)
+• Activate Resource (AR) [PTOCA-B-045]
+• Deactivate Font (DF) [PTOCA-B-046]
+• Load Font (LF) [PTOCA-B-047]
+• Load Font Control (LFC) [PTOCA-B-048]
+• Load Font Equivalence (LFE) [PTOCA-B-049]
+• Load Font Index (LFI) [PTOCA-B-050]
+• XOH Erase Residual Font Data (ERFD) [PTOCA-B-051]
 The following IPDS commands are used with symbol set fonts:
-• Activate Resource (AR)
-• Deactivate Font (DF)
-• Load Font Equivalence (LFE)
-• Load Symbol Set (LSS)
+• Activate Resource (AR) [PTOCA-B-052]
+• Deactivate Font (DF) [PTOCA-B-053]
+• Load Font Equivalence (LFE) [PTOCA-B-054]
+• Load Symbol Set (LSS) [PTOCA-B-055]
 Font Commands
 
 <!-- Page 194 -->
 
-176 PTOCA Reference
+176 PTOCA Reference [PTOCA-B-056]
 
 <!-- Page 195 -->
 

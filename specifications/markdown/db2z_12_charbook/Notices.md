@@ -45,7 +45,7 @@ one) and (ii) the mutual use of the information which has been exchanged, should
 IBM Director of Licensing IBM Corporation
 North Castle Drive, MD-NC119
 Armonk, NY 10504-1785 US
-© Copyright IBM Corp. 2003, 2026 117
+© Copyright IBM Corp. 2003, 2026 117 [DB2Z-NOT-001]
 
 ## Page 130
 
@@ -94,7 +94,7 @@ result of service.
 Product-sensitive Programming Interface and Associated Guidance Information is identified where it
 occurs by the following markings:
 Product-sensitive Programming Interface and Associated Guidance Information...
-118  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+118  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26) [DB2Z-NOT-002]
 
 ## Page 131
 
@@ -141,7 +141,7 @@ identifiable information, specific information about this offering’s use of co
 This Software Offering does not use cookies or other technologies to collect personally identifiable
 information.
 If the configurations deployed for this Software Offering provide you as customer the ability to collect
-personally identifiable information from end users via cookies and other technologies, you should seek
+personally identifiable information from end users via cookies and other technologies, you should seek [DB2Z-NOT-003]
 
 
 Notices  119
@@ -152,6 +152,6 @@ your own legal advice about any laws applicable to such data collection, includi
 notice and consent.
 For more information about the use of various technologies, including cookies, for these purposes, see
 IBM’s Privacy Statement at http:/ /www.ibm.com/privacy.
-120  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26)
+120  Db2 12 for z/OS: Internationalization Guide (Last updated: 2026-03-26) [DB2Z-NOT-004]
 
 ## Page 133

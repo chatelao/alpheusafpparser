@@ -1,7 +1,7 @@
 Appendix C. PTOCA Retired Functions
 Introduction
 This appendix:
-• Describes retired functions that may occur in a PTOCA object
+• Describes retired functions that may occur in a PTOCA object [PTOCA-C-001]
 General
 The objective in defining retired functions is twofold: (1) to allow existing applications to run unchanged, and (2)
 to provide a clear growth direction for future applications.
@@ -15,28 +15,28 @@ The use of this parameter is restricted to pre-year 2000 AFP applications and pr
 The PRECSION parameter is optional on the STC (byte 6), and specifies how the receiver should process
 colors that are syntactically valid but not supported by the receiver . If PRECSION is X'00', the receiver must
 support the color selected by FRGCOLOR as specified. If the color is not supported, exception condition EC-
-5803 exists. The standard action in this case is to use X'FF07'. If PRECSION is X'01', and if the FRGCOLOR
+5803 exists. The standard action in this case is to use X'FF07'. If PRECSION is X'01', and if the FRGCOLOR [PTOCA-C-002]
 value is not supported by the receiver , a default action is allowed. The receiver may use a substitute color or
 X'FF07'. If the FRGCOLOR value is not syntactically valid, exception condition EC-5803 exists, regardless of
 the value for the PRECSION parameter . The PRECSION parameter is modal, and X'00' is the default. This
 parameter supports the default indicator (X'FF'), which means its value is provided by the hierarchy , as follows:
-1. Value set by Text Color initial text condition parameter in Descriptor
-2. PTOCA default - X'00'
+1. Value set by Text Color initial text condition parameter in Descriptor [PTOCA-C-003]
+2. PTOCA default - X'00' [PTOCA-C-004]
 If the value of the PRECSION parameter is not valid, EC-5803 exists. The standard action is to ignore the
 parameter and continue presentation with the value determined according to the hierarchy .
 The PRECSION parameter also defines the hierarchy for determining the presentation process default color
 attribute value (FRGCOLOR = X'FFFF'). If PRECSION is X'00', the following order applies:
-1. Value previously set by Text Color initial text condition parameter in descriptor
-2. Data stream specified value
-3. Receiver's best possible value
+1. Value previously set by Text Color initial text condition parameter in descriptor [PTOCA-C-005]
+2. Data stream specified value [PTOCA-C-006]
+3. Receiver's best possible value [PTOCA-C-007]
 
 <!-- Page 196 -->
 
-178 PTOCA Reference
+178 PTOCA Reference [PTOCA-C-008]
 If PRECSION is X'01', the following order applies:
-1. Receiver's best possible value
-2. Value previously set by Text Color initial text condition parameter in descriptor
-3. Data stream specified value
+1. Receiver's best possible value [PTOCA-C-009]
+2. Value previously set by Text Color initial text condition parameter in descriptor [PTOCA-C-010]
+3. Data stream specified value [PTOCA-C-011]
 Note that when a Color Mapping Table (CMT) is specified in the MO:DCA environment, the PRECSION
 parameter is processed for the target color values, not for the original (source) color values.
 Retired Functions
@@ -66,11 +66,11 @@ without incurring any obligation to you.
 This information contains examples of data and reports used in daily business operations. To illustrate them in
 a complete manner , some examples include the names of individuals, companies, brands, or products. These
 names are fictitious and any similarity to the names and addresses used by an actual business enterprise is
-entirely coincidental.
+entirely coincidental. [PTOCA-C-012]
 
 <!-- Page 198 -->
 
-180 PTOCA Reference
+180 PTOCA Reference [PTOCA-C-013]
 T rademarks
 These terms are trademarks or registered trademarks of Ricoh Co., Ltd., in the United States, other countries,
 or both:
@@ -97,7 +97,7 @@ AFPC and AFP Consortium are trademarks of the AFP Consortium.
 International Business Machines Corporation in the United States, other countries, or both: IBM
 Microsoft, Windows, Windows NT , and the Windows logo are registered trademarks of Microsoft Corporation in
 the United States, other countries, or both.
-Other company , product, or service names might be trademarks or service marks of others.
+Other company , product, or service names might be trademarks or service marks of others. [PTOCA-C-014]
 
 <!-- Page 199 -->
 
@@ -175,19 +175,19 @@ architecture for the management of presentable
 information that is developed by the AFP Consortium
 (AFPC). AFP comprises a number of data stream and data
 object architectures:
-• Mixed Object Document Content Architecture (MO:DCA);
+• Mixed Object Document Content Architecture (MO:DCA); [PTOCA-C-015]
 formerly referred to as AFPDS
-• Intelligent Printer Data Stream (IPDS)
-• AFP Line Data Architecture
-• Bar Code Object Content Architecture (BCOCA)
-• Color Management Object Content Architecture
+• Intelligent Printer Data Stream (IPDS) [PTOCA-C-016]
+• AFP Line Data Architecture [PTOCA-C-017]
+• Bar Code Object Content Architecture (BCOCA) [PTOCA-C-018]
+• Color Management Object Content Architecture [PTOCA-C-019]
 (CMOCA)
-• Font Object Content Architecture (FOCA)
-• Graphics Object Content Architecture for AFP (AFP
+• Font Object Content Architecture (FOCA) [PTOCA-C-020]
+• Graphics Object Content Architecture for AFP (AFP [PTOCA-C-021]
 GOCA)
-• Image Object Content Architecture (IOCA)
-• Metadata Object Content Architecture (MOCA)
-• Presentation Text Object Content Architecture (PTOCA)
+• Image Object Content Architecture (IOCA) [PTOCA-C-022]
+• Metadata Object Content Architecture (MOCA) [PTOCA-C-023]
+• Presentation Text Object Content Architecture (PTOCA) [PTOCA-C-024]
 AEA. See alternate exception action.
 AFM file. A file containing the metric information required
 for positioning the characters of a font. The metric
@@ -200,7 +200,7 @@ formatting.
 
 <!-- Page 200 -->
 
-182 PTOCA Reference
+182 PTOCA Reference [PTOCA-C-025]
 AFP . See Advanced Function Presentation.
 AFP archive. See AFP/A.
 AFP Consortium (AFPC). A formal open standards body
@@ -298,7 +298,7 @@ is put. (2) A collection of software components used to
 perform specific types of work on a computer .
 application program. A program written for or by a user
 that applies to the user's work.
-AFP • application program
+AFP • application program [PTOCA-C-026]
 
 <!-- Page 201 -->
 
@@ -400,7 +400,7 @@ arc • bar code
 
 <!-- Page 202 -->
 
-184 PTOCA Reference
+184 PTOCA Reference [PTOCA-C-027]
 Bar Code command set. In the IPDS architecture, a
 collection of commands used to present bar code symbols
 in a page, page segment, or overlay .
@@ -498,10 +498,10 @@ coordinate
 space.
 B
 c
-. See current baseline presentation coordinate.
+. See current baseline presentation coordinate. [PTOCA-C-028]
 b
 c
-. See current baseline print coordinate.
+. See current baseline print coordinate. [PTOCA-C-029]
 BCOCA. See Bar Code Object Content Architecture.
 Bcoordinate. One of a pair of values that identify the
 position of an addressable position with respect to the
@@ -509,7 +509,7 @@ origin of a specified I,Bcoordinate system. This value is
 specified as a distance in addressable positions from the I
 axis of an I,Bcoordinate system. Synonymous with
 baseline coordinate.
-Bar Code command set • Bcoordinate
+Bar Code command set • Bcoordinate [PTOCA-C-030]
 
 <!-- Page 203 -->
 
@@ -550,7 +550,7 @@ p
 axis.
 b
 i
-. See initial baseline print coordinate.
+. See initial baseline print coordinate. [PTOCA-C-031]
 big endian. A format for storage or transmission of binary
 data in which the most significant bit (or byte) is placed
 first. Contrast with little endian.
@@ -577,7 +577,7 @@ that represents a color-mixing of the color attributes of P
 new
 with the color attributes of P
 existing
-. For example, if P
+. For example, if P [PTOCA-C-032]
 new
 has
 foreground color-attribute blue and P
@@ -588,7 +588,7 @@ intersect changes to a color attribute of green. See also
 mixing rule. Contrast with overpaint and underpaint.
 B
 o
-. See baseline presentation origin.
+. See baseline presentation origin. [PTOCA-C-033]
 body . (1) On a printed page, the area between the top
 and bottom margins that can contain data. (2) In a book,
 the portion between the front matter and the back matter .
@@ -632,11 +632,11 @@ is described by an image data element.
 CCSID. See Coded Character Set Identifier .
 CGCSGID. See Coded Graphic Character Set Global
 Identifier .
-B direction (B) • CGCSGID
+B direction (B) • CGCSGID [PTOCA-C-034]
 
 <!-- Page 204 -->
 
-186 PTOCA Reference
+186 PTOCA Reference [PTOCA-C-035]
 CGPC. See Canadian Grocery Product Code.
 CHAR. A data type for architecture syntax, indicating one
 or more bytes to be interpreted as character information.
@@ -737,7 +737,7 @@ position.
 character reference point. The origin of a character
 coordinate system. The X axis is the character baseline.
 See also character origin.
-CGPC • character reference point
+CGPC • character reference point [PTOCA-C-036]
 
 <!-- Page 205 -->
 
@@ -842,11 +842,11 @@ architecture.
 Code 39. A bar code symbology characterized by a
 variable-length, bidirectional, discrete, self-checking,
 alphanumeric code. Three of the nine elements are wide
-character rotation • Code 39
+character rotation • Code 39 [PTOCA-C-037]
 
 <!-- Page 206 -->
 
-188 PTOCA Reference
+188 PTOCA Reference [PTOCA-C-038]
 and six are narrow . It is the standard for LOGMARS (the
 Department of Defense) and the AIAG.
 Code 128. A bar code symbology characterized by a
@@ -949,7 +949,7 @@ of methods for predicting perceptual matches on the basis
 of physical measurements.
 color management. The technology to calibrate the color
 of input devices (such as scanners or digital cameras),
-Code 128 • color management
+Code 128 • color management [PTOCA-C-039]
 
 <!-- Page 207 -->
 
@@ -1052,11 +1052,11 @@ data streams.
 control sequence. A sequence of bytes that specifies a
 control function. A control sequence consists of a control
 sequence introducer and zero or more parameters.
-Color Management Object Content Architecture (CMOCA) • control sequence
+Color Management Object Content Architecture (CMOCA) • control sequence [PTOCA-C-040]
 
 <!-- Page 208 -->
 
-190 PTOCA Reference
+190 PTOCA Reference [PTOCA-C-041]
 control sequence chaining. A method used to identify a
 sequential string of control sequences so they can be
 processed efficiently .
@@ -1253,10 +1253,10 @@ components at a particular size, character rotation, and
 encoding. A data-object font can be used in a manner
 analogous to a coded font. The following useful
 combinations can be activated into a data-object font:
-• A TrueType/OpenType font, an optional code page, and
+• A TrueType/OpenType font, an optional code page, and [PTOCA-C-042]
 optional linked TrueType/OpenType objects; activated at
 a particular size, character rotation, and encoding
-• A TrueType/OpenType collection, either an index value
+• A TrueType/OpenType collection, either an index value [PTOCA-C-043]
 or a full font name to identify the desired font within the
 collection, an optional code page, and optional linked
 TrueType/OpenType objects; activated at a particular
@@ -1274,20 +1274,20 @@ include TrueType/OpenType fonts and TrueType/
 OpenType collections. See also data-object font.
 data object resource. In the IPDS architecture, an
 object-container resource or IO-Image resource that is
-current drawing attributes • data object resource
+current drawing attributes • data object resource [PTOCA-C-044]
 
 <!-- Page 210 -->
 
-192 PTOCA Reference
+192 PTOCA Reference [PTOCA-C-045]
 either printer resident or downloaded. Data object
 resources can be:
-• Used to prepare for the presentation of a data object;
+• Used to prepare for the presentation of a data object; [PTOCA-C-046]
 such as with a color management resource (CMR) or
 Resident Color Profile Resource
-• Included in a page or overlay via the Include Data Object
+• Included in a page or overlay via the Include Data Object [PTOCA-C-047]
 command; examples include: PDF single-page objects,
 Encapsulated PostScript objects, and IO Images
-• Invoked from within a data object; examples
+• Invoked from within a data object; examples [PTOCA-C-048]
 include: PDF Resource objects and Non-OCA Resource
 objects
 See also data object and resource.
@@ -1378,7 +1378,7 @@ defining the color characteristics of a given device in a
 particular state.
 device resolution. The number of pels that can be
 printed in an inch, both horizontally and vertically . This is
-data stream • device resolution
+data stream • device resolution [PTOCA-C-049]
 
 <!-- Page 211 -->
 
@@ -1433,11 +1433,11 @@ document-component hierarchy . In MO:DCA, an
 ordering of the document in terms of its lower-level
 components. The components are ordered by decreasing
 level as follows:
-• Print file (highest level)
-• Document
-• Page group
+• Print file (highest level) [PTOCA-C-050]
+• Document [PTOCA-C-051]
+• Page group [PTOCA-C-052]
 • Page
-• Data object (lowest level)
+• Data object (lowest level) [PTOCA-C-053]
 document content architecture. A family of
 architectures that define the syntax and semantics of the
 document component. See also document component and
@@ -1469,7 +1469,7 @@ per inch (dpi) is also used to measure the quality of input
 when using a scanner . In this case, dpi becomes a square
 function measuring the dots both vertically as well as
 horizontally . Consequently , when an image is scanned in at
-300 dpi, there are 90,000 dots or bits of electronic data
+300 dpi, there are 90,000 dots or bits of electronic data [PTOCA-C-054]
 (300 x 300) in every square inch.
 double-byte character set (DBCS). A character set that
 can contain up to 65536 characters.
@@ -1483,11 +1483,11 @@ name that is valid for the duration of the session between
 the presentation services program and the printer . Contrast
 with resident resource.
 dpi. See dots per inch.
-device-version code page • dpi
+device-version code page • dpi [PTOCA-C-055]
 
 <!-- Page 212 -->
 
-194 PTOCA Reference
+194 PTOCA Reference [PTOCA-C-056]
 drag. To use a pointing device to move an object. For
 example, clicking on a window border , and dragging it to
 make the window larger .
@@ -1691,11 +1691,11 @@ information can be used to create preprinted forms, or
 other types of printing, such as colored logos or
 letterheads, that cannot be created conveniently within the
 data stream.
-error diffusion halftone • fixed medium information
+error diffusion halftone • fixed medium information [PTOCA-C-057]
 
 <!-- Page 214 -->
 
-196 PTOCA Reference
+196 PTOCA Reference [PTOCA-C-058]
 fixed metrics. Graphic character measurements in
 physical units such as pels, inches, or centimeters.
 FNN linked. In FOCA, the FNN (Font Name map)
@@ -1803,7 +1803,7 @@ identifier that can be expressed as either a two-byte binary
 or a five-digit decimal value. The FGID is used to identify a
 type style and the following characteristics: posture, weight
 class, and width class.
-fixed metrics • Font Typeface Global Identifier (FGID)
+fixed metrics • Font Typeface Global Identifier (FGID) [PTOCA-C-059]
 
 <!-- Page 215 -->
 
@@ -1816,11 +1816,11 @@ font-designer defined value corresponding to the nominal
 character increment for a font character set. The value is
 generally the width of the space character and is defined
 differently for fonts with different spacing characteristics.
-• For fixed-pitch, uniform character increment fonts: the
+• For fixed-pitch, uniform character increment fonts: the [PTOCA-C-060]
 fixed character increment, that is also the space
 character increment
-• For PSM fonts: the width of the space character
-• For typographic, proportionally spaced fonts: one-third of
+• For PSM fonts: the width of the space character [PTOCA-C-061]
+• For typographic, proportionally spaced fonts: one-third of [PTOCA-C-062]
 the vertical font size, that is also the default size of the
 space character .
 The font designer can also define a minimum and a
@@ -1870,14 +1870,14 @@ and
 P
 data
 is assigned the following color attribute:
-• Wherever the color attribute of P
+• Wherever the color attribute of P [PTOCA-C-063]
 PFO
 is either color of
 medium, or “white” (CMYK = X'00000000' for a printer ,
 RGB = X'FFFFFF' for an RGB display), the intersection
 is assigned the color attribute of P
 data
-. Likewise,
+. Likewise, [PTOCA-C-064]
 wherever the color attribute of P
 data
 is either color of
@@ -1886,7 +1886,7 @@ RGB = X'FFFFFF' for an RGB display), the intersection
 is assigned the color attribute of P
 PFO
 .
-• With other overlapping color values, the intersection
+• With other overlapping color values, the intersection [PTOCA-C-065]
 assumes a new color attribute that is generated in a
 device-specific manner to simulate how the P
 data
@@ -1894,7 +1894,7 @@ color
 attribute would mix onto a preprinted form that has the
 color attribute of P
 PFO
-. In general, this mixing is a
+. In general, this mixing is a [PTOCA-C-066]
 blending of the color attributes of P
 data
 and P
@@ -1911,13 +1911,13 @@ n
 , onto an existing
 presentation space P
 e
-. The intersection of the foregrounds
+. The intersection of the foregrounds [PTOCA-C-067]
 of P
 n
 and P
 e
 is assigned the following color attribute:
-• Wherever the color attribute of P
+• Wherever the color attribute of P [PTOCA-C-068]
 e
 is either the color of
 medium, or the color white (CMYK = X'00000000' or
@@ -1925,7 +1925,7 @@ RGB = X'FFFFFF'), the intersection is assigned the color
 attribute of P
 n
 .
-• Wherever the color attribute of P
+• Wherever the color attribute of P [PTOCA-C-069]
 e
 is not the color of
 medium and not the color white, the intersection
@@ -1936,7 +1936,7 @@ color
 attribute would mix onto a preprinted form that has the
 color attribute of P
 n
-. In general, this mixing is a blending
+. In general, this mixing is a blending [PTOCA-C-070]
 of the color attributes of P
 n
 and P
@@ -1963,11 +1963,11 @@ character shapes, for a specific graphic character set. A
 fully described font can be downloaded to a printer using
 the Load Font Control and Load Font commands. An LF1-
 type coded font or coded-font section is the combination of
-font width (FW) • fully described font
+font width (FW) • fully described font [PTOCA-C-071]
 
 <!-- Page 216 -->
 
-198 PTOCA Reference
+198 PTOCA Reference [PTOCA-C-072]
 one fully described font and one font index. See also font
 index.
 function set. (1) A collection of architecture constructs
@@ -2010,33 +2010,33 @@ between the groupings. The GLC chain may be terminated
 by an optional UCT control sequence that carries the code
 points of the glyphs rendered by the GLC chain.
 Global Identifier (GID). Any of the following:
-• Coded Character Set Identifier (CCSID)
-• Coded Graphic Character Set Global Identifier
+• Coded Character Set Identifier (CCSID) [PTOCA-C-073]
+• Coded Graphic Character Set Global Identifier [PTOCA-C-074]
 (CGCSGID)
-• Code Page Global ID (CPGID)
-• Font Typeface Global Identifier (FGID)
-• Global Resource Identifier (GRID)
-• Graphic Character Global Identifier (GCGID)
-• Graphic Character Set Global Identifier (GCSGID)
-• Graphic Character UCS Identifier (GCUID)
-• An identifier used by a data object to reference a
+• Code Page Global ID (CPGID) [PTOCA-C-075]
+• Font Typeface Global Identifier (FGID) [PTOCA-C-076]
+• Global Resource Identifier (GRID) [PTOCA-C-077]
+• Graphic Character Global Identifier (GCGID) [PTOCA-C-078]
+• Graphic Character Set Global Identifier (GCSGID) [PTOCA-C-079]
+• Graphic Character UCS Identifier (GCUID) [PTOCA-C-080]
+• An identifier used by a data object to reference a [PTOCA-C-081]
 resource
-• In MO:DCA, an encoded graphic character string that
+• In MO:DCA, an encoded graphic character string that [PTOCA-C-082]
 provides a reference name for a document element
-• Object identifier (OID)
-• A Uniform Resource Locator (URL), as defined in RFC
+• Object identifier (OID) [PTOCA-C-083]
+• A Uniform Resource Locator (URL), as defined in RFC [PTOCA-C-084]
 1738, Internet Engineering T ask Force (IETF),
 December , 1994.
 Global Resource Identifier (GRID). An eight-byte
 identifier that identifies a coded font resource. A GRID
 contains the following fields in the order shown:
-1. GCSGID of a minimum set of graphic characters
+1. GCSGID of a minimum set of graphic characters [PTOCA-C-085]
 required for presentation; it can be a character set that
 is associated with the code page, or with the font
 character set, or with both
-2. CPGID of the associated code page
-3. FGID of the associated font character set
-4. Font width in 1440ths of an inch.
+2. CPGID of the associated code page [PTOCA-C-086]
+3. FGID of the associated font character set [PTOCA-C-087]
+4. Font width in 1440ths of an inch. [PTOCA-C-088]
 glyph. (1) A member of a set of symbols that represent
 data. Glyphs can be letters, digits, punctuation marks, or
 other symbols. Synonymous with graphic character . See
@@ -2174,7 +2174,7 @@ gradient • GRID
 
 <!-- Page 218 -->
 
-200 PTOCA Reference
+200 PTOCA Reference [PTOCA-C-089]
 guard bars. The bars at both ends and the center of an
 EAN, JAN, or UPC symbol, that provide reference points
 for scanning.
@@ -2229,11 +2229,11 @@ nominal character increment for a font character set. The
 value is generally the width of the space character and is
 defined differently for fonts with different spacing
 characteristics.
-• For fixed-pitch, uniform character increment fonts: the
+• For fixed-pitch, uniform character increment fonts: the [PTOCA-C-090]
 fixed character increment, that is also the space
 character increment
-• For PSM fonts: the width of the space character
-• For typographic fonts and proportionally spaced fonts:
+• For PSM fonts: the width of the space character [PTOCA-C-091]
+• For typographic fonts and proportionally spaced fonts: [PTOCA-C-092]
 one-third of the vertical font size, that is also the default
 size of the space character .
 The font designer can also define a minimum and a
@@ -2279,7 +2279,7 @@ saturation, and value. (2) Abbreviation for hue, saturation,
 and value (a color model used in some graphics
 programs). HSV must be translated to another model for
 color printing or for forming screen colors.
-guard bars • HSV color space
+guard bars • HSV color space [PTOCA-C-093]
 
 <!-- Page 219 -->
 
@@ -2318,10 +2318,10 @@ p
 coordinate system.
 I
 c
-. See current inline presentation coordinate.
+. See current inline presentation coordinate. [PTOCA-C-094]
 i
 c
-. See current inline print coordinate.
+. See current inline print coordinate. [PTOCA-C-095]
 ICC. See International Color Consortium.
 ICC-absolute colorimetric. A rendering intent in which
 the chromatically adapted tristimulus values of the in-
@@ -2375,7 +2375,7 @@ p
 coordinate system.
 i
 i
-. See initial inline print coordinate.
+. See initial inline print coordinate. [PTOCA-C-096]
 illuminant. Something that can serve as a source of light.
 image. An electronic representation of a picture produced
 by means of sensing light, sound, electron radiation, or
@@ -2406,11 +2406,11 @@ original proportions of the image are changed and the
 original balance and symmetry of the image are lost.
 image object. An object that contains image data. See
 also object.
-human-readable interpretation (HRI) • image object
+human-readable interpretation (HRI) • image object [PTOCA-C-097]
 
 <!-- Page 220 -->
 
-202 PTOCA Reference
+202 PTOCA Reference [PTOCA-C-098]
 image object area. A rectangular area on a logical page
 into which an image presentation space is mapped.
 Image Object Content Architecture (IOCA). An
@@ -2517,7 +2517,7 @@ adjacent bar code characters in a discrete code, for
 example, the space between two characters in Code 39.
 Synonymous with intercharacter space. Contrast with clear
 area, element, and space.
-image object area • intercharacter gap
+image object area • intercharacter gap [PTOCA-C-099]
 
 <!-- Page 221 -->
 
@@ -2570,7 +2570,7 @@ processed in immediate mode or store mode. See also
 immediate mode and store mode.
 I
 o
-. See inline presentation origin.
+. See inline presentation origin. [PTOCA-C-100]
 IOCA. See Image Object Content Architecture.
 IO Image. An image object containing IOCA constructs.
 Contrast with IM Image.
@@ -2618,11 +2618,11 @@ companies (though it is most often associated with C-Cube
 Microsystems, one of whose employees published it) and
 became a de facto industry standard. (2) Three-
 component JPEG images. RGB data is assumed without
-intercharacter increment • JPEG File Interchange Format (JFIF)
+intercharacter increment • JPEG File Interchange Format (JFIF) [PTOCA-C-101]
 
 <!-- Page 222 -->
 
-204 PTOCA Reference
+204 PTOCA Reference [PTOCA-C-102]
 gamma correction and the APP0 marker is used to specify
 the resolution and optionally the thumbnail.
 K
@@ -2715,7 +2715,7 @@ printer and to deactivate font resources.
 local area network (LAN). A data network located on a
 user's premises in which serial transmission is used for
 direct data communication among data stations.
-Kanji • local area network (LAN)
+Kanji • local area network (LAN) [PTOCA-C-103]
 
 <!-- Page 223 -->
 
@@ -2738,10 +2738,10 @@ logical unit. A unit of linear measurement expressed with
 a unit base and units per unit-base value. For example, in
 MO:DCA and IPDS architectures, the following logical units
 are used:
-• 1 logical unit = 1/1440 inch
+• 1 logical unit = 1/1440 inch [PTOCA-C-104]
 (unit base = 10 inches,
 units per unit base = 14,400)
-• 1 logical unit = 1/240 inch
+• 1 logical unit = 1/240 inch [PTOCA-C-105]
 (unit base = 10 inches,
 units per unit base = 2400)
 Synonymous with L unit.
@@ -2762,10 +2762,10 @@ L unit. A unit of linear measurement expressed with a unit
 base and units per unit-base value. For example, in
 MO:DCA and IPDS architectures, the following L units are
 used:
-• 1 L unit = 1/1440 inch
+• 1 L unit = 1/1440 inch [PTOCA-C-106]
 (unit base = 10 inches,
 units per unit base = 14,400)
-• 1 L unit = 1/240 inch
+• 1 L unit = 1/240 inch [PTOCA-C-107]
 (unit base = 10 inches,
 units per unit base = 2400)
 Synonymous with logical unit.
@@ -2815,11 +2815,11 @@ individual character descender depths. A value for
 maximum descender depth is specified for each supported
 character rotation. Contrast with maximum ascender
 height.
-Local Character Set Identifier (LCID) • maximum descender depth
+Local Character Set Identifier (LCID) • maximum descender depth [PTOCA-C-108]
 
 <!-- Page 224 -->
 
-206 PTOCA Reference
+206 PTOCA Reference [PTOCA-C-109]
 meaning. A table heading for architecture syntax. The
 entries under this heading convey the meaning or purpose
 of a construct. A meaning entry can be a long name, a
@@ -2916,7 +2916,7 @@ of PDF used in graphic arts printing.
 MO:DCA IS/1. MO:DCA Interchange Set 1. A subset of
 MO:DCA that defines an interchange format for
 presentation documents.
-meaning • MO:DCA IS/1
+meaning • MO:DCA IS/1 [PTOCA-C-110]
 
 <!-- Page 225 -->
 
@@ -2960,7 +2960,7 @@ monochrome. A single color . Monochrome usually refers
 to a black-and-white image. Also referred to as line art or
 bitmap mode in Adobe Photoshop
 ®
-. See also bilevel.
+. See also bilevel. [PTOCA-C-111]
 monospaced font. A font with graphic characters having
 a uniform character increment. The distance between
 reference points of adjacent graphic characters is constant
@@ -3018,11 +3018,11 @@ nesting resource. A resource that invokes nested
 resources. See also nested resource.
 neutral white. A color attribute that gives a presentation-
 system-dependent default color , typically white on a screen
-MO:DCA IS/2 • neutral white
+MO:DCA IS/2 • neutral white [PTOCA-C-112]
 
 <!-- Page 226 -->
 
-208 PTOCA Reference
+208 PTOCA Reference [PTOCA-C-113]
 and black on a printer . Note that neutral white and color of
 medium are two different colors.
 non-presentation object. An object that is not a
@@ -3121,7 +3121,7 @@ the top edge of the physical medium. Once a physical pel
 location has been accessed by the printer , the page data
 does not require the printer to access that same physical
 pel location again.
-non-presentation object • ordered page
+non-presentation object • ordered page [PTOCA-C-114]
 
 <!-- Page 227 -->
 
@@ -3243,11 +3243,11 @@ but are processed in the existing environment. (2) In
 MO:DCA, a resource object that can contain any mixture of
 bar code objects, graphics objects, and IOCA image
 objects. A page segment does not contain an active
-orientation • page segment
+orientation • page segment [PTOCA-C-115]
 
 <!-- Page 228 -->
 
-210 PTOCA Reference
+210 PTOCA Reference [PTOCA-C-116]
 environment group. The environment for a page segment
 is defined by the active environment group of the including
 page or overlay . (3) The final representation of such an
@@ -3270,7 +3270,7 @@ palette. The collection of colors or shades available to a
 graphics system or program.
 P ANT ONE
 ®
-. The proprietary P ANT ONE color matching
+. The proprietary P ANT ONE color matching [PTOCA-C-117]
 system is the most popular method of specifying extra
 colors—not out of the CMYK four color process—for print.
 P ANTONE colors are numbered and mixed from a base set
@@ -3302,7 +3302,7 @@ repetitively to generate a pattern. Examples of pattern
 symbols are dots, squares, and triangles.
 PCL
 ®
-. A set of printer commands, developed by Hewlett-
+. A set of printer commands, developed by Hewlett- [PTOCA-C-118]
 Packard
 ®
 , that provide access to printer features.
@@ -3353,7 +3353,7 @@ axis of the symbol in its length dimension parallel to the X
 bc
 axis of the bar code presentation space. Synonymous with
 horizontal bar code.
-Page-Segment command set • picket fence bar code
+Page-Segment command set • picket fence bar code [PTOCA-C-119]
 
 <!-- Page 229 -->
 
@@ -3460,11 +3460,11 @@ presentation space, and text presentation space.
 presentation space orientation. The number of degrees
 and minutes a presentation space is rotated in a specified
 coordinate system. For example, the orientation of printing
-picture chain • presentation space orientation
+picture chain • presentation space orientation [PTOCA-C-120]
 
 <!-- Page 230 -->
 
-212 PTOCA Reference
+212 PTOCA Reference [PTOCA-C-121]
 on a physical medium, relative to the X
 m
 axis of the X
@@ -3567,7 +3567,7 @@ usually have extended regions of similar colors that get
 converted to the same quantized color , a quantized image
 tends to have a flat or banded (contoured) appearance
 unless it is also dithered.
-presentation system • quantization
+presentation system • quantization [PTOCA-C-122]
 
 <!-- Page 231 -->
 
@@ -3674,11 +3674,11 @@ are used to establish the new current position. The
 direction of displacement is inline along the I axis in the I
 direction, or baseline along the B axis in the B direction, or
 both.
-quiet zone • relative move
+quiet zone • relative move [PTOCA-C-123]
 
 <!-- Page 232 -->
 
-214 PTOCA Reference
+214 PTOCA Reference [PTOCA-C-124]
 relative positioning. The establishment of a position
 within a coordinate system as an offset from the current
 position. Contrast with absolute positioning.
@@ -3740,9 +3740,9 @@ retired. Set aside for a particular purpose, and not
 available for any other purpose. Retired fields and values
 are specified for compatibility with existing products and
 identify one of the following:
-• Fields or values that have been used by a product in a
+• Fields or values that have been used by a product in a [PTOCA-C-125]
 manner not compliant with the architected definition
-• Fields or values that have been removed from an
+• Fields or values that have been removed from an [PTOCA-C-126]
 architecture
 reuse LND. A Line Descriptor (LND) in a chain of LNDs,
 also called a reuse chain, where all LNDs process fields in
@@ -3776,7 +3776,7 @@ Royal Mail 4 State Customer Code (RM4SCC). A two-
 dimensional bar code symbology developed by the United
 Kingdom's Royal Mail postal service for use in automated
 mail-sorting processes.
-relative positioning • Royal Mail 4 State Customer Code (RM4SCC)
+relative positioning • Royal Mail 4 State Customer Code (RM4SCC) [PTOCA-C-127]
 
 <!-- Page 233 -->
 
@@ -3874,11 +3874,11 @@ sequential baseline. A conceptual line with respect to
 which successive characters are aligned. See also
 character baseline. Synonymous with baseline and printing
 baseline.
-rule • sequential baseline
+rule • sequential baseline [PTOCA-C-128]
 
 <!-- Page 234 -->
 
-216 PTOCA Reference
+216 PTOCA Reference [PTOCA-C-129]
 sequential baseline position. The current addressable
 position for a baseline in a presentation space or on a
 physical medium. See also baseline coordinate and current
@@ -3976,7 +3976,7 @@ identifier such as a number . A spot color is normally
 rendered with a custom colorant instead of with a
 combination of process color primaries. See also highlight
 color . Contrast with process color .
-sequential baseline position • spot color
+sequential baseline position • spot color [PTOCA-C-130]
 
 <!-- Page 235 -->
 
@@ -4085,7 +4085,7 @@ sRGB • symbology
 
 <!-- Page 236 -->
 
-218 PTOCA Reference
+218 PTOCA Reference [PTOCA-C-131]
 Article Numbering (EAN), Japanese Article Numbering
 (JAN), and Universal Product Code (UPC).
 symbol set. A coded font that is usually simpler in
@@ -4106,9 +4106,9 @@ syntax. The rules governing the structure of a construct.
 See also pragmatics and semantics.
 system-level font resource. A common-source font from
 which:
-• Document-processing applications can obtain resolution-
+• Document-processing applications can obtain resolution- [PTOCA-C-132]
 independent formatting information.
-• Device-service applications can obtain device-specific
+• Device-service applications can obtain device-specific [PTOCA-C-133]
 presentation information.
 T
 tag. A data structure that is used within the data portion of
@@ -4182,7 +4182,7 @@ model transform, segment transform, and viewing
 transform.
 transform matrix. A matrix that is applied to a set of
 coordinates to produce a transform.
-symbol set • transform matrix
+symbol set • transform matrix [PTOCA-C-134]
 
 <!-- Page 237 -->
 
@@ -4217,7 +4217,7 @@ effect of physically turning a sheet around the X
 m
 axis.
 twip. A unit of measure equal to 1/20 of a point. There are
-1440 twips in one inch.
+1440 twips in one inch. [PTOCA-C-135]
 type. A table heading for architecture syntax. The entries
 under this heading indicate the types of data present in a
 construct. Examples include: BITS, CHAR, CODE, SBIN,
@@ -4267,7 +4267,7 @@ existing
 keeps the color attribute of
 P
 existing
-. This is also referred to as “transparent” or “leave
+. This is also referred to as “transparent” or “leave [PTOCA-C-136]
 alone” mixing. See also mixing rule. Contrast with blend
 and overpaint.
 underscore. A method used to create an underline
@@ -4296,7 +4296,7 @@ translating • UTF-8
 
 <!-- Page 238 -->
 
-220 PTOCA Reference
+220 PTOCA Reference [PTOCA-C-137]
 UTF-8 and all 7-bit ASCIIcharacters can
 be encoded in one byte.
 UTF-16 The default Unicode encoding. A fixed,
@@ -4398,7 +4398,7 @@ according to the semantics and pragmatics of the variable
 space function. This code point is not presented, but its
 character increment parameter is used to provide spacing.
 See also variable space character increment.
-UTF-16 • variable space character
+UTF-16 • variable space character [PTOCA-C-138]
 
 <!-- Page 239 -->
 
@@ -4510,11 +4510,11 @@ coordinate system. The bar code presentation
 space coordinate system.
 X dimension. In bar codes, the nominal dimension of the
 narrow bars and spaces in a bar code symbol.
-variable space character increment • X dimension
+variable space character increment • X dimension [PTOCA-C-139]
 
 <!-- Page 240 -->
 
-222 PTOCA Reference
+222 PTOCA Reference [PTOCA-C-140]
 X
 g
 ,Y
@@ -4647,7 +4647,7 @@ X
 g
 ,Y
 g
-coordinate system • Yxy color space
+coordinate system • Yxy color space [PTOCA-C-141]
 
 <!-- Page 241 -->
 
@@ -4694,7 +4694,7 @@ No Operation, NOP . . . . . . . . . . . . . . . . . . . . . . . . . . . 22, 73, 
 Overstrike, OVS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22, 74
 Relative Move Baseline, RMB . . . . . . . . . . . . . . . . 23, 77–78, 1 12, 120
 Relative Move Inline, RMI . . . . . . 22–24, 60, 74–75, 80, 82, 96–97,
-1 15, 1 17, 142
+1 15, 1 17, 142 [PTOCA-C-142]
 Repeat String, RPS . . . . . . . . . . . . . . . . . . . . . . 23, 46, 82, 155, 157, 159
 Set Baseline Increment, SBI . . . . . . . . . . . . . . . . . . . . 21, 23, 30, 84, 139
 Set Coded Font Local, SCFL . . . . . . . . . . . . . . . . . . . . . . . . 23, 30, 77, 86
@@ -4773,11 +4773,11 @@ EC-6A02 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 EC-6B02 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 141, 150, 173
 EC-8002 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56–59, 150, 173
 EC-8202 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56–59, 151, 173
-EC-9601 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .55
+EC-9601 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .55 [PTOCA-C-143]
 
 <!-- Page 242 -->
 
-224 PTOCA Reference
+224 PTOCA Reference [PTOCA-C-144]
 EC-9801 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54–55, 63, 151, 173
 EC-9803 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 1, 1 13, 151, 173
 EC-9A01 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 76–77, 151, 173
@@ -4808,7 +4808,7 @@ GOR . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 graphic character placement . . . . . . . . . . . . . 7, 9, 14–15, 40–42, 46, 96
 H
 hierarchy . . . . 9–10, 21, 33–34, 56, 58, 84, 86, 90, 96, 99, 102, 108,
-1 10, 1 17, 141–143
+1 10, 1 17, 141–143 [PTOCA-C-145]
 I
 initial measurement unit parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 136
 initial size parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 137
@@ -4892,7 +4892,7 @@ Unicode glyph processing control . . . . . . . . . 28, 124, 127–129, 151
 Unicode version level . . . . . . . . . . . . . . . . . 28, 123, 125, 128–129, 151
 unit base . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13, 29, 136
 units per unit base . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13, 29, 136
-variable space character increment . . . . . . . . . . . . . . . . . . . . . . . . . 24, 108
+variable space character increment . . . . . . . . . . . . . . . . . . . . . . . . . 24, 108 [PTOCA-C-146]
 
 <!-- Page 243 -->
 
@@ -4976,10 +4976,10 @@ Underscore (USC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 UNDF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . iv
 Unicode Complex Text (UCT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 122
 UP³I . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 220
-USC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 17
+USC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 17 [PTOCA-C-147]
 
 <!-- Page 244 -->
 
 Advanced Function Presentation Consortium
 Presentation Text Object Content Architecture
-ReferenceAFPC-0009-04
+ReferenceAFPC-0009-04 [PTOCA-C-148]

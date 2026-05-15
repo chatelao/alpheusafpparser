@@ -1,11 +1,11 @@
 Chapter 7. MO:DCA Interchange Sets
 This chapter:
-• Describes compliance in terms of interchange sets
-• Outlines MO:DCA compliance rules
-• Provides complete syntactic and semantic descriptions of
+• Describes compliance in terms of interchange sets [MODCA-7-001]
+• Outlines MO:DCA compliance rules [MODCA-7-002]
+• Provides complete syntactic and semantic descriptions of [MODCA-7-003]
 – MO:DCA Presentation Interchange Set 1
 – MO:DCA Presentation Interchange Set 3
-• References the MO:DCA AFP Archive (AFP/A) interchange set, which is defined in the ISO 18565:2015
+• References the MO:DCA AFP Archive (AFP/A) interchange set, which is defined in the ISO 18565:2015 [MODCA-7-004]
 “Document management – AFP/Archive” standard. Refer to this standard for a complete definition of AFP/A.
 Interchange Sets
 An interchange set is a constrained version of the general MO:DCA architecture usually aimed at both
@@ -24,12 +24,12 @@ the MO:DCA AFP Archive (AFP/A) interchange set is not defined in this Reference.
 “Document management – AFP/Archive” standard for a definition of this interchange set.
 While an interchange set cannot be defined that violates the overall MO:DCA architecture, the interchange set
 definition can include restrictions that are not part of the overall architecture. These restrictions may limit:
-• What structured fields may or must appear
-• Where the structured fields may or must appear
-• The order in which the structured fields may or must appear
-• What structured field parameters may or must appear
-• The order in which the structured field parameters may or must appear
-• What structured field parameter values may or must appear
+• What structured fields may or must appear [MODCA-7-005]
+• Where the structured fields may or must appear [MODCA-7-006]
+• The order in which the structured fields may or must appear [MODCA-7-007]
+• What structured field parameters may or must appear [MODCA-7-008]
+• The order in which the structured field parameters may or must appear [MODCA-7-009]
+• What structured field parameter values may or must appear [MODCA-7-010]
 
 
 Interchange Set Compliance Requirements
@@ -49,7 +49,7 @@ more information.
 Note: The primary intent of the MO:DCA architecture is the interchange of data among products that support
 one or more defined interchange sets. However, products may also use MO:DCA data streams for their
 own private use or for data exchange with other known products.
-Compliance Requirements
+Compliance Requirements [MODCA-7-011]
 
 
 ### MO:DCA Interchange Set 1
@@ -84,13 +84,13 @@ may occur.
 F2 An F2 indicates that the structured field is a format two structured field. See “Structured Field Formats”
 for further details.
 Notes:
-1. The Begin Document and End Document structured fields are required in a MO:DCA data stream.
-2. The No Operation structured field may appear within any begin-end domain and thus is not listed in the
+1. The Begin Document and End Document structured fields are required in a MO:DCA data stream. [MODCA-7-012]
+2. The No Operation structured field may appear within any begin-end domain and thus is not listed in the [MODCA-7-013]
 structured field groupings.
-3. The architecture that owns and controls the content of each of the data and resource objects carried in a
+3. The architecture that owns and controls the content of each of the data and resource objects carried in a [MODCA-7-014]
 MO:DCA data stream is identified in the following structured field groupings. Please refer to the referenced
 documentation for further details.
-4. The Flag byte (byte 5) in the Structured Field Introducer (SFI) must be set to X'00'. MO:DCA IS/1 does not
+4. The Flag byte (byte 5) in the Structured Field Introducer (SFI) must be set to X'00'. MO:DCA IS/1 does not [MODCA-7-015]
 support SFI extension, structured field segmentation, or structured field padding.
 MO:DCA IS/1
 
@@ -121,16 +121,16 @@ Begin Active Environment Group (BAG, D3A8C9)
 (PTD, D3B19B) Presentation Text Data Descriptor F2 4
 End Active Environment Group (EAG, D3A9C9)
 Notes:
-1. For purposes of print server resource management, each overlay included on a page with an IPO must first
+1. For purposes of print server resource management, each overlay included on a page with an IPO must first [MODCA-7-016]
 be mapped to a local ID with an MPO in the AEG for that page. Note that the MPO is only specified in the
 AEG for a page; it is not allowed in the AEG for an overlay.
-2. For purposes of print server resource management, an MCF mapping the same font must be specified in
+2. For purposes of print server resource management, an MCF mapping the same font must be specified in [MODCA-7-017]
 the AEG whenever an MCF is specified in a graphics OEG. The local ID used in the page or overlay AEG
 need not match the ID in the object OEG. ID X'FE' may be used in the AEG for fonts mapped in the AEG
 solely due to their presence in an object's OEG.
-3. Used for presentation text objects only and is optional. For graphics and image objects, the OBD and OBP
+3. Used for presentation text objects only and is optional. For graphics and image objects, the OBD and OBP [MODCA-7-018]
 must be specified in the OEG associated with the graphic or image object.
-4. Required only when the associated page contains one or more presentation text objects.
+4. Required only when the associated page contains one or more presentation text objects. [MODCA-7-019]
 MO:DCA IS/1
 
 
@@ -152,7 +152,7 @@ Begin Object Environment Group (BOG, D3A8C7)
 (GDD, D3A6BB) Graphics Data Descriptor
 End Object Environment Group (EOG, D3A9C7)
 Notes:
-1. For purposes of print server resource management, an MCF mapping the same font must be specified in
+1. For purposes of print server resource management, an MCF mapping the same font must be specified in [MODCA-7-020]
 the AEG whenever an MCF is specified in a graphics OEG. The local ID used in the page or overlay AEG
 need not match the ID in the object OEG. ID X'FE' may be used in the AEG for fonts mapped in the AEG
 solely due to their presence in an object's OEG.
@@ -204,21 +204,21 @@ Also included is the page number in the document where a detailed description of
 found.
 Structured Field Parameters
 In general, the structured field tables contain the following information for each parameter:
-1. The offset from the beginning of the data portion of the structured field or from the beginning of the triplet.
-2. Values and description:
-• When a specific parameter value is required, the specific value or the range of acceptable values is
+1. The offset from the beginning of the data portion of the structured field or from the beginning of the triplet. [MODCA-7-021]
+2. Values and description: [MODCA-7-022]
+• When a specific parameter value is required, the specific value or the range of acceptable values is [MODCA-7-023]
 specified, followed by “→” and an explanation or description of the parameter.
-• When no specific value is required, or when a choice of values is required, the parameter name or a
+• When no specific value is required, or when a choice of values is required, the parameter name or a [MODCA-7-024]
 MO:DCA IS/1
 
 
 description of the parameter is given. If a choice of values is required, the choices are identified in the
 table.
-3. For those parameters defined and owned by the MO:DCA architecture, occurrence is specified either as a
+3. For those parameters defined and owned by the MO:DCA architecture, occurrence is specified either as a [MODCA-7-025]
 lowercase n indicating that the occurrence is unlimited by the interchange set, or as a number representing
 the maximum number of times the parameter may appear within the containing structured field, repeating
 group, or triplet.
-4. For those parameters defined and owned by the MO:DCA architecture, optionally is specified as:
+4. For those parameters defined and owned by the MO:DCA architecture, optionally is specified as: [MODCA-7-026]
 O Optional. The parameter may or may not appear.
 M Mandatory. The parameter must always appear.
 C Conditional. The parameter is mandatory under certain conditions, but is optional or not
@@ -229,18 +229,18 @@ located.
 In general, no exception conditions are identified within the interchange set definition for the structured fields or
 their parameters. The page numbers provided for each structured field and each triplet provide the source for
 determining what exception conditions may be anticipated. However, the following general rules apply:
-• For those structured fields where a parameter order is stated, if a parameter appears outside that stated
+• For those structured fields where a parameter order is stated, if a parameter appears outside that stated [MODCA-7-027]
 order, a X'01' exception condition exists.
-• If a parameter value appears that is outside the range specified for that parameter, a X'02' exception
+• If a parameter value appears that is outside the range specified for that parameter, a X'02' exception [MODCA-7-028]
 condition exists.
-• If a parameter that is identified as mandatory does not appear on a specific structured field, a X'04' exception
+• If a parameter that is identified as mandatory does not appear on a specific structured field, a X'04' exception [MODCA-7-029]
 condition exists.
-• Unless otherwise stated, if any unrecognized parameter or triplet appears on any structured field, a X'10'
+• Unless otherwise stated, if any unrecognized parameter or triplet appears on any structured field, a X'10' [MODCA-7-030]
 exception condition exists.
 Notes:
-1. Any triplet encountered on any of the Begin structured fields listed below that is not explicitly defined as
+1. Any triplet encountered on any of the Begin structured fields listed below that is not explicitly defined as [MODCA-7-031]
 being valid for that structured field should be ignored and should not cause an exception condition.
-2. If specified, the name contained in the name parameter on an End structured field must match that
+2. If specified, the name contained in the name parameter on an End structured field must match that [MODCA-7-032]
 specified in the name parameter on its matching Begin structured field, or a X'01' exception condition
 exists.
 Begin Active Environment Group
@@ -267,14 +267,14 @@ Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”) 1 O
 MO:DCA Interchange Set Triplet (See “MO:DCA Interchange Set Triplet X'18'”)
 1 M
 0–1 X'0518' → Triplet length and identifier 1 M
-2 X'01' → Interchange set type, presentation 1 M
+2 X'01' → Interchange set type, presentation 1 M [MODCA-7-033]
 3–4 X'0900' → Interchange set identifier (MO:DCA IS/1) 1 M
 Object Function Set Specification Triplet (See “Resource Object Type Triplet X'21'” on
 page 374)
 1 C
 0–1 X'nn21' → Triplet length and identifier 1 M
-2 X'02' → Object type, presentation text 1 M
-3 X'00' → Architecture version 1 M
+2 X'02' → Object type, presentation text 1 M [MODCA-7-034]
+3 X'00' → Architecture version 1 M [MODCA-7-035]
 4–5 X'8000' → MO:DCA function set definition 1 M
 6–7 X'0000' → Presentation text function set definition (PT/1) 1 M
 8–n Reserved, not checked 1 O
@@ -284,8 +284,8 @@ Object Function Set Specification Triplet (See “Resource Object Type Triplet X
 page 374)
 1 C
 0–1 X'nn21' → Triplet length and identifier 1 M
-2 X'03' → Object type, graphics 1 M
-3 X'00' → Architecture version 1 M
+2 X'03' → Object type, graphics 1 M [MODCA-7-036]
+3 X'00' → Architecture version 1 M [MODCA-7-037]
 4–5 X'8000' → MO:DCA function set definition 1 M
 6–7 X'4000' → Graphics function set definition (DR/2V0) 1 M
 8–n Reserved, not checked 1 O
@@ -295,8 +295,8 @@ Object Function Set Specification Triplet (See “Resource Object Type Triplet X
 page 374)
 1 C
 0–1 X'nn21' → Triplet length and identifier 1 M
-2 X'06' → Object type, image 1 M
-3 X'00' → Architecture version 1 M
+2 X'06' → Object type, image 1 M [MODCA-7-038]
+3 X'00' → Architecture version 1 M [MODCA-7-039]
 4–5 X'8000' → MO:DCA function set definition 1 M
 6–7 X'8000' → Image function set definition (FS10) 1 M
 MO:DCA IS/1
@@ -398,12 +398,12 @@ MO:DCA IS/1
 
 MCF X'D3AB8A' Map Coded Font (See “Map Coded Font (MCF) Format 2”)
 0–1 X'0C02' → Triplet length and identifier 1 M
-2 The FQN type. It must be one of the following:
+2 The FQN type. It must be one of the following: [MODCA-7-040]
 X'84' → Coded Font Reference
 X'85' → Code Page Reference
 X'86' → Font Character Set Reference
 1 M
-3 X'00' → FQN format 1 M
+3 X'00' → FQN format 1 M [MODCA-7-041]
 4–11 External name of the coded font, code page, or font character set. 1 M
 Fully Qualified Name Triplet (See “Fully Qualified Name Triplet X'02'”) 1 O
 0–1 X'nn02' → Triplet length and identifier 1 M
@@ -413,24 +413,24 @@ Font Descriptor Specification Triplet (See “Font Descriptor Specification Trip
 )
 1 O
 0–1 X'141F' → Triplet length and identifier 1 M
-2 X'01'–X'09' → Font Weight Class. It must be in the range of 1 to 9. 1 M
-3 X'01'–X'09' → Font Width Class. It must be in the range of 1 to 9. 1 M
+2 X'01'–X'09' → Font Weight Class. It must be in the range of 1 to 9. 1 M [MODCA-7-042]
+3 X'01'–X'09' → Font Width Class. It must be in the range of 1 to 9. 1 M [MODCA-7-043]
 4–5 X'0000'–X'7FFF' → Font Height. It must be in the range of 0 to 32,767 1440ths
 of an inch.
 1 M
 6–7 X'0000'–X'7FFF' → Font Width. It must be in the range of 0 to 32,767 1440ths
 of an inch.
 1 M
-8 Font Descriptor Flags, as follows:
+8 Font Descriptor Flags, as follows: [MODCA-7-044]
 Bit Description
-0 Italics
-1 Underscored
-2 Reserved, must be B'0'
-3 Hollow
-4 Overstruck
-5 Proportional
-6 Kerned characters (pairwise)
-7 Reserved, must be B'0'
+0 Italics [MODCA-7-045]
+1 Underscored [MODCA-7-046]
+2 Reserved, must be B'0' [MODCA-7-047]
+3 Hollow [MODCA-7-048]
+4 Overstruck [MODCA-7-049]
+5 Proportional [MODCA-7-050]
+6 Kerned characters (pairwise) [MODCA-7-051]
+7 Reserved, must be B'0' [MODCA-7-052]
 1 M
 9–19 Reserved 1 M
 Font Coded Graphic Character Set Global Identifier Triplet (See “Font Coded Graphic
@@ -441,8 +441,8 @@ Character Set Global Identifier Triplet X'20'”)
 Resource Local Identifier Triplet (See “Resource Local Identifier Triplet X'24'”)
 1 M
 0–1 X'0424' → Architecture version 1 M
-2 X'05' → Resource type, coded font 1 M
-3 Resource Local Identifier. It must be one of the following:
+2 X'05' → Resource type, coded font 1 M [MODCA-7-053]
+3 Resource Local Identifier. It must be one of the following: [MODCA-7-054]
 X'01'–X'7F' → It must be in the range of 1 to 127 when
 used for mapping a font.
 X'FE' → It must be 254 when used for resource
@@ -456,7 +456,7 @@ Resource Section Number Triplet (See “Resource Section Number Triplet X'25'”
 page 379)
 1 O
 0–1 X'0325' → Triplet length and identifier 1 M
-2 Resource Section Number. It must be one of the following:
+2 Resource Section Number. It must be one of the following: [MODCA-7-055]
 X'00' → It must be 0 when referencing an EBCDIC Presentation
 single-byte coded font (encoding scheme ID X'61xx') or all
 sections of an EBCDIC Presentation double-byte coded font
@@ -475,10 +475,10 @@ X'8700' → 270-degree character rotation
 1 M
 MCF Font Names
 The MCF must have one of the following:
-• A type X'84' (Coded Font Reference) Fully Qualified Name (X'02') triplet. T o support existing products, the
+• A type X'84' (Coded Font Reference) Fully Qualified Name (X'02') triplet. T o support existing products, the [MODCA-7-056]
 coded font name must be specified as a global resource identifier (GRID). For a definition of the GRID, see
 “Global Resource Identifier (GRID) Definition”.
-• Both a type X'85' (Code Page Name Reference) and a type X'86' (Font Character Set Name Reference)
+• Both a type X'85' (Code Page Name Reference) and a type X'86' (Font Character Set Name Reference) [MODCA-7-057]
 Fully Qualified Name (X'02') triplet. T o support existing products, the names of the code page and font
 character set must be eight characters in length and must match the external names of these objects in their
 respective resource libraries.
@@ -488,7 +488,7 @@ MGO X'D3ABBB' Map Graphics Object (See “Map Graphics Object (MGO)”)
 2–4 The following triplet:
 Mapping Option Triplet (See “Mapping Option Triplet X'04'”) 1 M
 0–1 X'0304' →Triplet length and identifier 1 M
-2 Output Option. It must be one of the following:
+2 Output Option. It must be one of the following: [MODCA-7-058]
 X'10' → Position and trim
 X'20' → Scale to fit
 X'30' → Center and trim
@@ -503,7 +503,7 @@ MIO X'D3ABFB' Map Image Object (See “Map Image Object (MIO)”)
 2–4 The following triplet:
 Mapping Option Triplet (See “Mapping Option Triplet X'04'”) 1 M
 0–1 X'0304' →Triplet length and identifier 1 M
-2 Output Option. It must be one of the following:
+2 Output Option. It must be one of the following: [MODCA-7-059]
 X'10' → Position and trim
 X'20' → Scale to fit
 X'30' → Center and trim
@@ -521,8 +521,8 @@ Resource Local Identifier Triplet (See “Resource Local Identifier Triplet X'24
 page 378)
 1 M
 0–1 X'0424' →Triplet length and identifier 1 M
-2 X'02' →Resource type, page overlay 1 M
-3 X'01'–X'7F' →Resource Local Identifier. It must be in the range of 1 to 127. 1 M
+2 X'02' →Resource type, page overlay 1 M [MODCA-7-060]
+3 X'01'–X'7F' →Resource Local Identifier. It must be in the range of 1 to 127. 1 M [MODCA-7-061]
 No Operation
 NOP X'D3EEEE' No Operation (See “No Operation (NOP)”)
 0–n Up to 32,759 bytes of data.
@@ -531,7 +531,7 @@ OBD X'D3A66B' Object Area Descriptor (See “Object Area Descriptor (OBD)”)
 0–n The following triplets, in any order:
 Descriptor Position Triplet (See “Descriptor Position Triplet X'43'”) 1 M
 0–1 X'0343' →Triplet length and identifier 1 M
-2 X'01'–X'7F' →Descriptor position ID. It must be in the range of 1 to 127. 1 M
+2 X'01'–X'7F' →Descriptor position ID. It must be in the range of 1 to 127. 1 M [MODCA-7-062]
 MO:DCA IS/1
 
 
@@ -547,21 +547,21 @@ X'3840' → 14400 units per unit base (1440 units per inch)
 1 M
 Object Area Size Triplet (See “Object Area Size Triplet X'4C'”) 1 M
 0–1 X'094C' →Triplet length and identifier 1 M
-2 X'02' →Type, actual object area size 1 M
+2 X'02' →Type, actual object area size 1 M [MODCA-7-063]
 3–5 Object area size in the X direction. It must be one of the following:
 X'000001'–X'001555' → In the range of 1 to 5,461 when using
-240 units per inch for the object area X
+240 units per inch for the object area X [MODCA-7-064]
 measurement units
 X'000001'–X'007FFF' → In the range of 1 to 32,767 when using
-1440 units per inch for the object area
+1440 units per inch for the object area [MODCA-7-065]
 X measurement units
 1 M
 6–8 Object area size in the Y direction. It must be one of the following:
 X'000001'–X'001555' → In the range of 1 to 5,461 when using
-240 units per inch for the object area Y
+240 units per inch for the object area Y [MODCA-7-066]
 measurement units
 X'000001'–X'007FFF' → In the range of 1 to 32,767 when using
-1440 units per inch for the object area
+1440 units per inch for the object area [MODCA-7-067]
 Y measurement units
 1 M
 Note: If the presentation text Object Area Descriptor structured field appears in the AEG, the measurement
@@ -573,8 +573,8 @@ page are always the same size and points within their respective coordinate syst
 coincident.
 Object Area Position
 OBP X'D3AC6B' Object Area Position (See “Object Area Position (OBP)”)
-0 X'01'–X'7F' →Object Area Position ID. It must be in the range of 1 to 127. 1 M
-1 X'17' →Length of this repeating group is 23 bytes 1 M
+0 X'01'–X'7F' →Object Area Position ID. It must be in the range of 1 to 127. 1 M [MODCA-7-068]
+1 X'17' →Length of this repeating group is 23 bytes 1 M [MODCA-7-069]
 2–4 Object area origin for X. It must be one of the following:
 X'000000'–X'001555' → In the range of 0 to 5,461 when using 240 units per
 inch for the page or overlay X measurement units
@@ -599,7 +599,7 @@ X'2D00 5A00' → X=90 degrees, Y=180 degrees
 X'5A00 8700' → X=180 degrees, Y=270 degrees
 X'8700 0000' → X=27 degrees, Y=0 degrees
 1 M
-12 X'00' →Reserved; must be binary zero 1 M
+12 X'00' →Reserved; must be binary zero 1 M [MODCA-7-070]
 13–15 Object content origin for X. It must be one of the following:
 X'000000'–X'001555' → In the range of 0 to 5,461 when using 240 units per
 inch for the object area X measurement units
@@ -614,21 +614,21 @@ per inch for the object area Y measurement units
 1 M
 19–20 X'0000' →Object content orientation, X (0 degrees) 1 M
 21–22 X'2D00' →Object content orientation, Y (90 degrees) 1 M
-23 Referenced coordinate system. It must be one of the following:
+23 Referenced coordinate system. It must be one of the following: [MODCA-7-071]
 X'00' → Current coordinate system
 X'01' → Page or overlay coordinate system
 1 M
 Notes:
-1. If the presentation text Object Area Position structured field appears in the AEG, the X and Y values for the
+1. If the presentation text Object Area Position structured field appears in the AEG, the X and Y values for the [MODCA-7-072]
 object area origin and the object content origin must be set to zero, or a X'01' exception condition exists. If
 the presentation text Object Area Position structured field is omitted, the architected default is to set the X
 and Y values for the object area origin and the object content origin to zero. For presentation text, the data
 object presentation space origin is positioned coincident with the object content origin. Thus, the
 presentation text object presentation space, the presentation text object area, and the page always have
 the same origin.
-2. If the presentation text OBP appears in the AEG, the object area orientation must be set to X'0000 2D00'
+2. If the presentation text OBP appears in the AEG, the object area orientation must be set to X'0000 2D00' [MODCA-7-073]
 (0°,90°). If it is omitted, the architected default is to set the object area orientation to X'0000 2D00' (0°,90°).
-3. For this interchange set, the values X'00' and X'01' in byte 23 specify the same function since positioning
+3. For this interchange set, the values X'00' and X'01' in byte 23 specify the same function since positioning [MODCA-7-074]
 with respect to a page segment offset is not part of the interchange set definition. That is, both values
 specify that the object area is to be positioned with respect to the including page or overlay coordinate
 system.
@@ -701,23 +701,23 @@ PTOCA Presentation Text Object Content Architecture Reference
 FOCA Font Object Content Architecture Reference
 The AFP Consortium (AFPC) has defined subsets for several industry-standard presentation object containers
 that are also included in IS/3. These subsets are:
-• AFPC TIFF
-• AFPC JPEG
+• AFPC TIFF [MODCA-7-075]
+• AFPC JPEG [MODCA-7-076]
 Both are formally defined in Presentation Object Subsets for AFP, available from the AFP Consortium.
 Reference.
-1.0 Functional Subsets
+1.0 Functional Subsets [MODCA-7-077]
 The MO:DCA IS/3 interchange set comprises the following major MO:DCA functional subsets above and
 beyond the functional subsets contained in MO:DCA IS/1:
-• Page and page group level indexing using TLEs
-• Document component and area linking using LLEs
-• N-up presentation
-• Process color
-• AFP finishing
-• TrueType/OpenType font support
-• Color management
-2.0 Compliance
+• Page and page group level indexing using TLEs [MODCA-7-078]
+• Document component and area linking using LLEs [MODCA-7-079]
+• N-up presentation [MODCA-7-080]
+• Process color [MODCA-7-081]
+• AFP finishing [MODCA-7-082]
+• TrueType/OpenType font support [MODCA-7-083]
+• Color management [MODCA-7-084]
+2.0 Compliance [MODCA-7-085]
 General compliance with MO:DCA interchange sets is defined in “Interchange Set Compliance Requirements”
-. The MO:DCA architecture definition of compliance with the IS/3 interchange set is limited to what
+. The MO:DCA architecture definition of compliance with the IS/3 interchange set is limited to what [MODCA-7-086]
 compliance means for MO:DCA print files, it does not include definitions of IS/3 compliance for product
 compliance classes, e.g. generators and receivers. That is, the architecture defines the content of IS/3-
 compliant print files in terms of what is permitted (may), what is recommended (should), what is mandatory
@@ -727,37 +727,37 @@ MO:DCA IS/3
 
 
 A MO:DCA print file is compliant with the IS/3 interchange set definition if all the following conditions are met:
-• all objects and their content must be in IS/3 and must comply with the IS/3 object structure definitions
-• all structured fields must be in IS/3 and must comply with the IS/3 parameter and triplet definitions
-• all structured field triplets must be in IS/3 and must comply with applicable IS/3 restrictions
-• all parameter values must fall within the ranges defined by IS/3
-• the print file must not include any migration functions (as defined in Appendix C - MO:DCA Migration
+• all objects and their content must be in IS/3 and must comply with the IS/3 object structure definitions [MODCA-7-087]
+• all structured fields must be in IS/3 and must comply with the IS/3 parameter and triplet definitions [MODCA-7-088]
+• all structured field triplets must be in IS/3 and must comply with applicable IS/3 restrictions [MODCA-7-089]
+• all parameter values must fall within the ranges defined by IS/3 [MODCA-7-090]
+• the print file must not include any migration functions (as defined in Appendix C - MO:DCA Migration [MODCA-7-091]
 Functions), unless they are explicitly allowed in IS/3 (see “7.0 Migration Functions included in IS/3”)
-• the maximum structured field length must be limited to X'7FF0' = 32,752
-• all Begin Document (BDT) structured fields must specify the MO:DCA Interchange Set (X'18') triplet with ISid
+• the maximum structured field length must be limited to X'7FF0' = 32,752 [MODCA-7-092]
+• all Begin Document (BDT) structured fields must specify the MO:DCA Interchange Set (X'18') triplet with ISid [MODCA-7-093]
 = X'0D00' (MO:DCA IS/3)
-• the print file must be enveloped with the Begin Print File (BPF) and End Print File (EPF) structured fields and
+• the print file must be enveloped with the Begin Print File (BPF) and End Print File (EPF) structured fields and [MODCA-7-094]
 the Begin Print File (BPF) structured field must specify the MO:DCA Interchange Set (X'18') triplet with ISid =
 X'0D00' (MO:DCA IS/3)
-2.1 Migration Functions (as defined in Appendix C - MO:DCA Migration Functions)
+2.1 Migration Functions (as defined in Appendix C - MO:DCA Migration Functions) [MODCA-7-095]
 In general, MO:DCA IS/3 does not include any obsolete, retired, or coexistence parameters, triplets, structured
 fields, or objects. For exceptions, see “7.0 Migration Functions included in IS/3”.
-2.2 Structured Field Introducer
+2.2 Structured Field Introducer [MODCA-7-096]
 The Flag byte (byte 5) in the Structured Field Introducer (SFI) must be set to X'00'. MO:DCA IS/3 does not
 include support for the following functions:
-• SFI extension
-• Structured field segmentation
-• Structured field padding
+• SFI extension [MODCA-7-097]
+• Structured field segmentation [MODCA-7-098]
+• Structured field padding [MODCA-7-099]
 The maximum structured field length in IS/3 is limited to X'7FF0' = 32,752.
 Application Note: This restriction avoids problems on platforms that include structured fields into a larger
 “record” by adding several bytes (such as the X'5A' character) resulting in a record length greater than
 X'7FFF'. Such a record length can be misinterpreted as a negative number if the length is treated as
 SBIN. Note that the maximum structured field length in IS/1 is X'2000' = 8,192
-2.3 Exception Conditions
+2.3 Exception Conditions [MODCA-7-100]
 In general, no exception conditions are defined within the IS/3 definition for the structured fields or their
 parameters above and beyond what the general MO:DCA architecture defines. The following general rules
 apply:
-• Exception conditions should not be generated solely due to noncompliance with IS/3. When a valid print file
+• Exception conditions should not be generated solely due to noncompliance with IS/3. When a valid print file [MODCA-7-101]
 is noncompliant with IS/3, it should always be processed to the best of a receiver's capabilities. That is, any
 object, object content, structured field, or structured field triplet that is valid in the general architecture but
 that is not included in the IS/3 definition should be processed to the best of a receiver's capability. For
@@ -767,16 +767,16 @@ not part of IS/3.
 MO:DCA IS/3
 
 
-3.0 Data Stream Object Structure
+3.0 Data Stream Object Structure [MODCA-7-102]
 This section defines the objects that make up an IS/3 data stream.
 Notes:
-1. The Begin Print File and End Print File structured fields are required in a MO:DCA IS/3 data stream.
-2. The Begin Document and End Document structured fields are required in a MO:DCA IS/3 data stream.
-3. The No Operation structured field may appear within any begin-end domain and thus is not listed in the
+1. The Begin Print File and End Print File structured fields are required in a MO:DCA IS/3 data stream. [MODCA-7-103]
+2. The Begin Document and End Document structured fields are required in a MO:DCA IS/3 data stream. [MODCA-7-104]
+3. The No Operation structured field may appear within any begin-end domain and thus is not listed in the [MODCA-7-105]
 structured field groupings.
-4. Object content must not include functions that are not in IS/3. That is, a print file is not IS/3-compliant if it
+4. Object content must not include functions that are not in IS/3. That is, a print file is not IS/3-compliant if it [MODCA-7-106]
 includes such content.
-5. T able 27contains summaries of the IS/3 object structure. All syntax, semantics, and notes in the object
+5. T able 27contains summaries of the IS/3 object structure. All syntax, semantics, and notes in the object [MODCA-7-107]
 structure definitions in Chapter 4, “MO:DCA Objects”, apply, unless explicitly specified
 otherwise.
 Table 27. IS/3 Objects
@@ -788,9 +788,9 @@ Print File Begin Print File (BPF)
 X'D3A8A5' - End Print
 File (EPF) X'D3A9A5'
 The print file:
-• must be enveloped by the Begin Print File (BPF) and End Print File
+• must be enveloped by the Begin Print File (BPF) and End Print File [MODCA-7-108]
 (EPF) structured fields
-• must specify the MO:DCA Interchange Set X'18' triplet on the BPF and
+• must specify the MO:DCA Interchange Set X'18' triplet on the BPF and [MODCA-7-109]
 must indicate ISid = X'0D00' = MO:DCA IS/3.
 The print file contains only the following structured fields and objects, as
 defined in the general architecture subject to all applicable IS/3
@@ -838,8 +838,8 @@ applicable IS/3 restrictions.
 + [ (FOCA Object ) (S) ]
 (ERG, D3A9C6)
 The only FOCA objects that may be included are:
-• FOCA code page object
-• FOCA Unicode-extended code page object
+• FOCA code page object [MODCA-7-110]
+• FOCA Unicode-extended code page object [MODCA-7-111]
 IS/3 may limit the function in the resource objects; for details see the
 individual IS/3 object definitions in this table.
 Resource Object
@@ -940,21 +940,21 @@ AEG
 (PTD, D3B19B) F2
 (EAG, D3A9C9)
 Notes:
-1. The OBD is only used for PTOCA objects without an OEG, and if
+1. The OBD is only used for PTOCA objects without an OEG, and if [MODCA-7-112]
 specified:
-• the measurement units must match the PGD units
-• the extents must match the PGD extents
+• the measurement units must match the PGD units [MODCA-7-113]
+• the extents must match the PGD extents [MODCA-7-114]
 These are the architected defaults if the OBD is not specified, and
 cause the text object area to have the same units and extents as the
 page.
-2. The OBP is only used for PTOCA objects without an OEG, and if
+2. The OBP is only used for PTOCA objects without an OEG, and if [MODCA-7-115]
 specified:
-• the object area origin must be set to zero
-• the object content origin must be set to zero
-• the object area orientation must be set to (0°,90°)
+• the object area origin must be set to zero [MODCA-7-116]
+• the object content origin must be set to zero [MODCA-7-117]
+• the object area orientation must be set to (0°,90°) [MODCA-7-118]
 These are the architected defaults if the OBP is not specified, and
 cause the text object area to be positioned coincident with the page.
-3. The PTD is only mandatory if the page contains one or more PTOCA
+3. The PTD is only mandatory if the page contains one or more PTOCA [MODCA-7-119]
 objects without an OEG. It is strongly recommended that the
 measurement units in the PTD match the PGD units.
 IS/3 may limit the function in the data objects; for details see the individual
@@ -1015,21 +1015,21 @@ AEG
 (PTD, D3B19B) F2
 (EAG, D3A9C9)
 Notes:
-1. The OBD is only used for PTOCA objects without an OEG, and if
+1. The OBD is only used for PTOCA objects without an OEG, and if [MODCA-7-120]
 specified:
-• the measurement units must match the PGD units
-• the extents must match the PGD extents
+• the measurement units must match the PGD units [MODCA-7-121]
+• the extents must match the PGD extents [MODCA-7-122]
 These are the architected defaults if the OBD is not specified, and
 cause the text object area to have the same units and extents as the
 overlay.
-2. The OBP is only used for PTOCA objects without an OEG, and if
+2. The OBP is only used for PTOCA objects without an OEG, and if [MODCA-7-123]
 specified:
-• the object area origin must be set to zero
-• the object content origin must be set to zero
-• the object area orientation must be set to (0°,90°)
+• the object area origin must be set to zero [MODCA-7-124]
+• the object content origin must be set to zero [MODCA-7-125]
+• the object area orientation must be set to (0°,90°) [MODCA-7-126]
 These are the architected defaults if the OBP is not specified, and
 cause the text object area to be positioned coincident with the overlay.
-3. The PTD is only mandatory if the overlay contains one or more
+3. The PTD is only mandatory if the overlay contains one or more [MODCA-7-127]
 PTOCA objects without an OEG. It is strongly recommended that the
 measurement units in the PTD match the PGD units.
 IS/3 may limit the function in the data objects; for details see the individual
@@ -1136,8 +1136,8 @@ OEG
 (EOG, D3A9C7)
 The object content includes support for the following additional IOCA
 functions:
-• IDD Set Extended Bilevel Image Color self-defining field
-• All MO:DCA color spaces for bilevel tiles on the Tile Set Color parameter
+• IDD Set Extended Bilevel Image Color self-defining field [MODCA-7-128]
+• All MO:DCA color spaces for bilevel tiles on the Tile Set Color parameter [MODCA-7-129]
 Presentation T ext
 Object
 Begin Presentation
@@ -1147,13 +1147,13 @@ Presentation T ext
 (EPT) X'D3A99B'
 The object content must comply with the PTOCA PT3 subset definition,
 with support for the following additional PTOCA functions:
-• Set T ext Color (STC) control sequence “Precision” parameter (byte 6) is
+• Set T ext Color (STC) control sequence “Precision” parameter (byte 6) is [MODCA-7-130]
 retired
-• New Exception id EC-1A03: Invalid Unicode Data
-• Highlight Color Space, range X'0100' - X'FFFF', for Indexed CMRs
-• Support for the full range of color values, as defined in the “Standard
+• New Exception id EC-1A03: Invalid Unicode Data [MODCA-7-131]
+• Highlight Color Space, range X'0100' - X'FFFF', for Indexed CMRs [MODCA-7-132]
+• Support for the full range of color values, as defined in the “Standard [MODCA-7-133]
 OCA Color Value T able”, in the STC control sequence
-• Support for the full PTOCA parameter ranges in the DBR, DIR, SIA, and
+• Support for the full PTOCA parameter ranges in the DBR, DIR, SIA, and [MODCA-7-134]
 SVI control sequences
 The text object contains only the following structured fields, as defined in
 the general architecture subject to all applicable IS/3 restrictions.
@@ -1170,7 +1170,7 @@ Object Name Object Envelope
 Summary of IS/3 object structure; differences from general MO:DCA
 Architecture noted
 Object Container
-- Presentation
+- Presentation [MODCA-7-135]
 Object
 Begin Object
 Container (BOC)
@@ -1195,12 +1195,12 @@ OEG
 [ (MDR, D3ABC3) (S) ]
 [ (CDD, D3A692) ]
 (EOG, D3A9C7)
-• If included directly on a page/overlay, BOC/EOC is mandatory, OEG with
+• If included directly on a page/overlay, BOC/EOC is mandatory, OEG with [MODCA-7-136]
 OBD, OBP , CDD is mandatory, and all object data must be carried in
 OCDs.
-• If included with an IOB and located in the resource group, BOC/EOC is
+• If included with an IOB and located in the resource group, BOC/EOC is [MODCA-7-137]
 mandatory and all object data must be carried in OCDs; OEG is optional.
-• If included with an IOB and located in a resource library, it can be
+• If included with an IOB and located in a resource library, it can be [MODCA-7-138]
 wrapped: with a BOC/EOC wrapper, all object data in OCDs, and an
 optional OEG; or unwrapped: where the data is unaltered in its original
 form. If installed with a RAT , the object must not be wrapped.
@@ -1224,9 +1224,9 @@ Non-presentation Object Container
 (BOC, D3A892)
 [ (OCD, D3EE92) (S) ]
 (EOC, D3A992)
-• If located in the resource group, BOC/EOC is mandatory and all object
+• If located in the resource group, BOC/EOC is mandatory and all object [MODCA-7-139]
 data must be carried in OCDs.
-• If located in a resource library:
+• If located in a resource library: [MODCA-7-140]
 – a CMT must be wrapped: BOC/EOC wrapper and all data in OCDs
 – an IOCA tile resource can be wrapped or unwrapped
 – TTF/OTFs, TTF collections, and CMRs, since always installed with a
@@ -1240,7 +1240,7 @@ Resource (BRS)
 X'D3A8CE' - End
 The following objects are supported and may be referenced with an MDR
 structured field that specifies the name of the code page:
-• FOCA code pages:
+• FOCA code pages: [MODCA-7-141]
 – Single-byte and double-byte
 – Single-byte and double-byte with Unicode values
 MO:DCA IS/3
@@ -1257,35 +1257,35 @@ Table 28. IS/3 Containers - Presentation Objects
 Component
 ID
 Object Type Encoded Object-type OID
-14 TIFF X'06072B12000401010E'
-22 GIF X'06072B120004010116'
-23 AFPC JPEG
+14 TIFF X'06072B12000401010E' [MODCA-7-142]
+22 GIF X'06072B120004010116' [MODCA-7-143]
+23 AFPC JPEG [MODCA-7-144]
 Note: This object type was formerly referred to as JFIF (JPEG).
 X'06072B120004010117'
-60 TIFF without Transparency X'06072B12000401013C'
-61 TIFF Multiple Image File X'06072B12000401013D'
-62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E'
-66 AFPC TIFF X'06072B120004010142'
+60 TIFF without Transparency X'06072B12000401013C' [MODCA-7-145]
+61 TIFF Multiple Image File X'06072B12000401013D' [MODCA-7-146]
+62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E' [MODCA-7-147]
+66 AFPC TIFF X'06072B120004010142' [MODCA-7-148]
 Table 29. IS/3 Containers - Non-Presentation Objects
 Component
 ID
 Object Type Encoded Object-type OID
-20 Color Mapping T able (CMT) X'06072B120004010114'
-47 IOCA Tile Resource X'06072B12000401012F'
-51 TrueType/OpenType Font:
-• TrueType shapes (Unicode Cmap)
-• CFF Type 1 shapes (Unicode Cmap)
-• CFF CID shapes (Unicode Cmap)
+20 Color Mapping T able (CMT) X'06072B120004010114' [MODCA-7-149]
+47 IOCA Tile Resource X'06072B12000401012F' [MODCA-7-150]
+51 TrueType/OpenType Font: [MODCA-7-151]
+• TrueType shapes (Unicode Cmap) [MODCA-7-152]
+• CFF Type 1 shapes (Unicode Cmap) [MODCA-7-153]
+• CFF CID shapes (Unicode Cmap) [MODCA-7-154]
 X'06072B120004010133'
-53 TrueType/OpenType Font Collection X'06072B120004010135'
-57 Color Management Resource (CMR)
+53 TrueType/OpenType Font Collection X'06072B120004010135' [MODCA-7-155]
+57 Color Management Resource (CMR) [MODCA-7-156]
 Baseline support as defined in the CMOCA reference, plus support
 for Indexed (IX) CMRs. Therefore the following CMR types are
 supported:
-• Color Conversion (CC) CMRs
-• Generic Halftone (HT) CMRs
-• Generic T one Transfer Curves (TTC) CMRs
-• Indexed (IX) CMRs
+• Color Conversion (CC) CMRs [MODCA-7-157]
+• Generic Halftone (HT) CMRs [MODCA-7-158]
+• Generic T one Transfer Curves (TTC) CMRs [MODCA-7-159]
+• Indexed (IX) CMRs [MODCA-7-160]
 Support for the CMYK passthru function.
 X'06072B120004010139'
 T able 30 lists the IS/3 presentation object containers that can be referenced for presentation by
@@ -1298,15 +1298,15 @@ Table 30. IS/3 IOB and DOR RAT Presentation Object Containers
 Component
 ID
 Object Type Encoded Object-type OID
-14 TIFF X'06072B12000401010E'
-22 GIF X'06072B120004010116'
-23 AFPC JPEG
+14 TIFF X'06072B12000401010E' [MODCA-7-161]
+22 GIF X'06072B120004010116' [MODCA-7-162]
+23 AFPC JPEG [MODCA-7-163]
 Note: This object type was formerly referred to as JFIF (JPEG).
 X'06072B120004010117'
-60 TIFF without Transparency X'06072B12000401013C'
-61 TIFF Multiple Image File X'06072B12000401013D'
-62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E'
-66 AFPC TIFF X'06072B120004010142'
+60 TIFF without Transparency X'06072B12000401013C' [MODCA-7-164]
+61 TIFF Multiple Image File X'06072B12000401013D' [MODCA-7-165]
+62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E' [MODCA-7-166]
+66 AFPC TIFF X'06072B120004010142' [MODCA-7-167]
 T able 31 lists the secondary resources that are supported by various IS/3 data object resources.
 Table 31. IS/3 Data Objects and Secondary Resources
 Data Object Resource Secondary Resource Internal Resource Identifier
@@ -1335,7 +1335,7 @@ processed like other secondary resources.
 MO:DCA IS/3
 
 
-4.0 Print Control Object Structure
+4.0 Print Control Object Structure [MODCA-7-168]
 This section defines the objects that are used to control the presentation of an IS/3 data stream.
 Table 32. IS/3 Print Control Objects
 IS/3 Print Control Object Structure
@@ -1374,11 +1374,11 @@ applicable IS/3 restrictions.
 [ (MDR, D3ABC3) (S) ]
 (EDG, D3A9C4)
 Notes:
-1. The PGP and MDD are mandatory in either the DEG or the
+1. The PGP and MDD are mandatory in either the DEG or the [MODCA-7-169]
 Medium Map.
-2. When the same structured field is specified in both the DEG and
+2. When the same structured field is specified in both the DEG and [MODCA-7-170]
 the Medium Map, the Medium Map overrides.
-3. IS/3 does not include support for UP3i finishing operations.
+3. IS/3 does not include support for UP3i finishing operations. [MODCA-7-171]
 Medium Map Begin Medium Map
 (BMM) X'D3A8CC' -
 End Medium Map
@@ -1400,15 +1400,15 @@ restrictions.
 [ (PEC, D3A7A8) ]
 (EMM, D3A9CC)
 Notes:
-1. The PGP and MDD are mandatory in either the DEG or the
+1. The PGP and MDD are mandatory in either the DEG or the [MODCA-7-172]
 Medium Map.
-2. When the same structured field is specified in both the DEG and
+2. When the same structured field is specified in both the DEG and [MODCA-7-173]
 the Medium Map, the Medium Map overrides.
-3. IS/3 does not include support for UP3i finishing operations.
+3. IS/3 does not include support for UP3i finishing operations. [MODCA-7-174]
 MO:DCA IS/3
 
 
-5.0 Structured Fields and Triplets
+5.0 Structured Fields and Triplets [MODCA-7-175]
 This section lists the IS/3 structured fields and their supported triplets. Triplets that are not listed but that are
 allowed in the general architecture must not be specified in an IS/3-compliant print file. Unless otherwise
 noted, all non-migration structured field positional parameters are supported in IS/3. Also, unless otherwise
@@ -1421,10 +1421,10 @@ used on a structured field and what restrictions may apply, the general architec
 that if a triplet is allowed to have 0 occurrences, it is an optional triplet. If it is allowed to have 1 or 1 or more
 occurrences but not 0 occurrences, it is a mandatory triplet.
 The following rules apply to all IS/3 structured fields:
-• The Local Date and Time Stamp (X'62') triplet is not included in IS/3 and must not be specified; it is replaced
+• The Local Date and Time Stamp (X'62') triplet is not included in IS/3 and must not be specified; it is replaced [MODCA-7-176]
 by the ISO-based Universal Date and Time Stamp (X'72') triplet.
-• The Presentation Space Mixing Rules (X'71') triplet is not included in IS/3 and must not be specified.
-• The Coded Graphic Character Set Global ID (X'01') triplet, while allowed on most structured fields in the
+• The Presentation Space Mixing Rules (X'71') triplet is not included in IS/3 and must not be specified. [MODCA-7-177]
+• The Coded Graphic Character Set Global ID (X'01') triplet, while allowed on most structured fields in the [MODCA-7-178]
 general architecture, is only used in IS/3 on the BOC, BRS, IOB, MDR, PPO, and TLE structured fields, as
 noted explicitly in the following tables. Support for the inheritance of encoding scheme, as specified with the
 X'01' triplet on Begin structured fields, to lower levels of the MO:DCA hierarchy is not included in IS/3. While
@@ -1435,9 +1435,9 @@ encoding scheme ID X'61nn', and which is identified with CCSID 500 (correspondin
 CPGID 500 and GCSGID 697). This default can be overridden on the BOC, BRS, IOB, MDR, PPO, and TLE
 structured fields. The inheritance of the encoding scheme to lower levels of the MO:DCA hierarchy using the
 X'01' triplet is not included in IS/3.
-5.1 Begin Structured Fields
+5.1 Begin Structured Fields [MODCA-7-179]
 The following rules apply to all Begin structured fields in IS/3:
-• The matching of names using the FQN type X'01' triplets on Begin/End structured fields is not part of IS/3.
+• The matching of names using the FQN type X'01' triplets on Begin/End structured fields is not part of IS/3. [MODCA-7-180]
 MO:DCA IS/3 generators can use matching 8-byte token names on Begin/End structured fields, or they can
 use the X'FFFF' wild card on End structured fields which matches any name on the corresponding Begin
 structured field. The FQN type X'01' triplet on End structured fields, while allowed in the general architecture
@@ -1535,14 +1535,14 @@ Begin Object Container
 X'D3A892' X'10' 1
 X'01' 0 or more
 Notes:
-1. IS/3 requires full support of the CGCSGID (X'01')
+1. IS/3 requires full support of the CGCSGID (X'01') [MODCA-7-181]
 triplet on the BOC.
-2. It is strongly recommended that this triplet is
+2. It is strongly recommended that this triplet is [MODCA-7-182]
 specified even if the parameter on the BOC defines
 a fixed encoding. For example, if the parameter
 defines a fixed UTF-16BE encoding, the triplet can
 be specified using the CCSID form with CCSID=
-1200 (X'04B0').
+1200 (X'04B0'). [MODCA-7-183]
 X'02' Tpe X'01' 0 or 1
 X'02' Tpe X'41' 0 or more
 X'02' Tpe X'6E' 0 or more
@@ -1608,14 +1608,14 @@ formally retired but is now part of the general
 architecture.
 X'01' 0 or more
 Notes:
-1. IS/3 requires full support of the CGCSGID (X'01')
+1. IS/3 requires full support of the CGCSGID (X'01') [MODCA-7-184]
 triplet on the BRS.
-2. It is strongly recommended that this triplet is
+2. It is strongly recommended that this triplet is [MODCA-7-185]
 specified even if the parameter on the BRS defines
 a fixed encoding. For example, if the parameter
 defines a fixed UTF-16BE encoding, the triplet can
 be specified using the CCSID form with CCSID=
-1200 (X'04B0').
+1200 (X'04B0'). [MODCA-7-186]
 X'02' Tpe X'01' 0 or more; 1 occurrence mandatory if resource is a CMR
 X'02' Tpe X'41' 0 or more if resource is a CMR; otherwise should not be
 specified
@@ -1625,9 +1625,9 @@ X'65' 0 or more
 Begin Resource
 Environment Group (BSG)
 X'D3A8D9' X'65' 0 or more
-5.2 End Structured Fields
+5.2 End Structured Fields [MODCA-7-187]
 The following rules apply to all End structured fields in IS/3:
-• The matching of names using the FQN type X'01' triplets on Begin/End structured fields is not part of IS/3.
+• The matching of names using the FQN type X'01' triplets on Begin/End structured fields is not part of IS/3. [MODCA-7-188]
 MO:DCA IS/3 generators can use matching 8-byte token names on Begin/End structured fields, or they can
 use the X'FFFF' wild card on End structured fields which matches any name on the corresponding Begin
 structured field. The FQN type X'01' triplet on End structured fields, while allowed in the general architecture
@@ -1690,7 +1690,7 @@ End Resource (ERS) X'D3A9CE'
 End Resource
 Environment Group (ESG)
 X'D3A9D9'
-5.3 Structured Fields without Triplets
+5.3 Structured Fields without Triplets [MODCA-7-189]
 The following IS/3 structured fields do not support any triplets.
 Table 35. IS/3 Structured Fields without Triplets
 IS/3 Structured Fields without Triplets
@@ -1714,9 +1714,9 @@ Graphics Data Descriptor
 (GDD)
 X'D3A6BB' GDD content as defined by the AFP GOCA GRS3 subset definition.
 Measurement unit restrictions:
-• unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit base is 1-32,767
+• unit base = 10 inches [MODCA-7-190]
+• X units per unit base = Y units per unit base [MODCA-7-191]
+• range for X units per unit base and Y units per unit base is 1-32,767 [MODCA-7-192]
 Image Data Descriptor
 (IDD)
 X'D3A6FB' IDD content as defined for MO:DCA data streams by IOCA, with the
@@ -1726,9 +1726,9 @@ X'F4' 0 or more
 X'F6' 0 or more
 X'F7' 0 or 1
 Measurement unit restrictions:
-• unit base = 10 inches
-• X units per unit base and Y units per unit base can be different
-• range for X units per unit base and Y units per unit base is 1-32,767
+• unit base = 10 inches [MODCA-7-193]
+• X units per unit base and Y units per unit base can be different [MODCA-7-194]
+• range for X units per unit base and Y units per unit base is 1-32,767 [MODCA-7-195]
 Image Picture Data (IPD) X'D3EEFB' The content must comply with the IOCA FS10 or FS45 subset definitions.
 Note that compliance with IOCA FS45 includes compliance with IOCA
 FS40 and FS42.
@@ -1789,15 +1789,15 @@ Descriptor Format 2 (PTD)
 X'D3B19B' PTD content as defined for MO:DCA data streams by PTOCA, with the
 following optional control sequences. Each can have 0 or more
 occurrences:
-• AMB, AMI, SBI, SCFL, SEC, SIA, SIM, STC, STO
+• AMB, AMI, SBI, SCFL, SEC, SIA, SIM, STC, STO [MODCA-7-196]
 Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit base is 1-32,767
+• X unit base = Y unit base = 10 inches [MODCA-7-197]
+• X units per unit base = Y units per unit base [MODCA-7-198]
+• range for X units per unit base and Y units per unit base is 1-32,767 [MODCA-7-199]
 Presentation T ext Data
 (PTX)
 X'D3EE9B' The content must comply with the PTOCA PT3 subset definition.
-5.4 Structured Fields with Triplets
+5.4 Structured Fields with Triplets [MODCA-7-200]
 The following IS/3 structured fields support triplets.
 Table 36. IS/3 Structured Fields with Triplets
 IS/3 Structured Fields with Triplets
@@ -1811,9 +1811,9 @@ Bar Code Data Descriptor
 X'D3A6EB' BDD content as defined by the BCOCA BCD2 subset definition.
 X'4E' 0 or 1
 Measurement unit restrictions:
-• unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit base is 1-32,767
+• unit base = 10 inches [MODCA-7-201]
+• X units per unit base = Y units per unit base [MODCA-7-202]
+• range for X units per unit base and Y units per unit base is 1-32,767 [MODCA-7-203]
 Container Data Descriptor
 (CDD)
 X'D3A692' X'5A' 0 or 1 occurrences with ObjTpe=X'AF' if the container contains
@@ -1822,9 +1822,9 @@ T able 28); otherwise should not be specified.
 X'9A' 0 or 1 occurrences if the container contains one of the object
 types listed in T able 28; otherwise should not be
 specified. Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base and Y units per unit base can be different
-• range for X units per unit base and Y units per unit base is 1-
+• X unit base = Y unit base = 10 inches [MODCA-7-204]
+• X units per unit base and Y units per unit base can be different [MODCA-7-205]
+• range for X units per unit base and Y units per unit base is 1- [MODCA-7-206]
 32,767
 MO:DCA IS/3
 
@@ -1839,8 +1839,8 @@ from general MO:DCA Architecture noted
 Index Element (IEL) X'D3B2A7' X'02' Tpe X'CA' 1
 X'2D' 1
 X'02' 0 or 1 occurrence of one of the following:
-• Type X'0D'
-• Type X'87'
+• Type X'0D' [MODCA-7-207]
+• Type X'87' [MODCA-7-208]
 X'02' Tpe X'8D' 0 or 1
 X'56' 0 or 1
 X'57' 0 or 1
@@ -1867,15 +1867,15 @@ X'10' 1 occurrence if ObjType = X'92' - Other object data;
 otherwise should not be specified
 X'4B' 1 occurrence if the IOB specifies an override for any of
 the following:
-• XocaOset
-• YocaOset
-• XoaSize
-• YoaSize
+• XocaOset [MODCA-7-209]
+• YocaOset [MODCA-7-210]
+• XoaSize [MODCA-7-211]
+• YoaSize [MODCA-7-212]
 Otherwise should not be specified. Measurement unit
 restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit
+• X unit base = Y unit base = 10 inches [MODCA-7-213]
+• X units per unit base = Y units per unit base [MODCA-7-214]
+• range for X units per unit base and Y units per unit [MODCA-7-215]
 base is 1-32,767
 X'01' 0 or more
 Note: IS/3 requires full support of the CGCSGID (X'01')
@@ -1897,10 +1897,10 @@ X'95' 0 or 1
 X'9A' 0 or 1 occurrences if the container contains one of the
 object types listed in T able 28; otherwise
 should not be specified. Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base and Y units per unit base can be
+• X unit base = Y unit base = 10 inches [MODCA-7-216]
+• X units per unit base and Y units per unit base can be [MODCA-7-217]
 different
-• range for X units per unit base and Y units per unit
+• range for X units per unit base and Y units per unit [MODCA-7-218]
 base is 1-32,767
 Include Page Overlay
 (IPO)
@@ -1935,9 +1935,9 @@ FQN Type X'CE'; otherwise must not be specified.
 X'4B' 0 or 1 occurrences in source or target RG that specifies
 X'4D' triplet; otherwise should not be specified.
 Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit
+• X unit base = Y unit base = 10 inches [MODCA-7-219]
+• X units per unit base = Y units per unit base [MODCA-7-220]
+• range for X units per unit base and Y units per unit [MODCA-7-221]
 base is 1-32,767
 X'4D' 0 or more in source and target RG
 X'82' 0 or more in attribute RG
@@ -1955,9 +1955,9 @@ X'30' Center and trim
 X'60' Scale to fill
 Medium Descriptor (MDD) X'D3A688' X'68' 0 or 1
 Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit base is 1-32,767
+• X unit base = Y unit base = 10 inches [MODCA-7-222]
+• X units per unit base = Y units per unit base [MODCA-7-223]
+• range for X units per unit base and Y units per unit base is 1-32,767 [MODCA-7-224]
 MO:DCA IS/3
 
 
@@ -1971,9 +1971,9 @@ from general MO:DCA Architecture noted
 Map Data Resource
 (MDR)
 X'D3ABC3' X'02' 1 occurrence in each RG of one of the following:
-• Type X'84'
-• Type X'CE'
-• Type X'DE'
+• Type X'84' [MODCA-7-225]
+• Type X'CE' [MODCA-7-226]
+• Type X'DE' [MODCA-7-227]
 X'10' 1 occurrence if RG specifies FQN Type X'CE' or X'DE';
 otherwise should not be specified.
 X'01' 0 or more.
@@ -2037,9 +2037,9 @@ Object Area Descriptor
 (OBD)
 X'D3A66B' X'43' 1
 X'4B' 1 occurrence. Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit
+• X unit base = Y unit base = 10 inches [MODCA-7-228]
+• X units per unit base = Y units per unit base [MODCA-7-229]
+• range for X units per unit base and Y units per unit [MODCA-7-230]
 base is 1-32,767
 X'4C' 1
 X'4E' 0 or 1
@@ -2061,15 +2061,15 @@ X'96' 0 or 1
 Page Descriptor (PGD) X'D3A6AF' X'4E' 0 or 1
 X'70' 0 or 1
 Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit base is 1-32,767
+• X unit base = Y unit base = 10 inches [MODCA-7-231]
+• X units per unit base = Y units per unit base [MODCA-7-232]
+• range for X units per unit base and Y units per unit base is 1-32,767 [MODCA-7-233]
 Page Modification Control
 (PMC)
 X'D3A7AF' X'4B' 0 or 1 occurrences. Measurement unit restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit
+• X unit base = Y unit base = 10 inches [MODCA-7-234]
+• X units per unit base = Y units per unit base [MODCA-7-235]
+• range for X units per unit base and Y units per unit [MODCA-7-236]
 base is 1-32,767
 X'6C' 0 or more
 MO:DCA IS/3
@@ -2085,20 +2085,20 @@ from general MO:DCA Architecture noted
 Preprocess Presentation
 Object (PPO)
 X'D3ADC3' X'02' 1 in each RG of one of the following:
-• Type X'84'
-• Type X'CE'
+• Type X'84' [MODCA-7-237]
+• Type X'CE' [MODCA-7-238]
 X'10' 1 occurrence in the RG if ObjType = X'92' - Other object
 data; otherwise should not be specified.
 X'4B' 1 occurrence if the RG specifies any of the following:
-• XocaOset
-• YocaOset
-• XoaSize
-• YoaSize
+• XocaOset [MODCA-7-239]
+• YocaOset [MODCA-7-240]
+• XoaSize [MODCA-7-241]
+• YoaSize [MODCA-7-242]
 Otherwise should not be specified. Measurement unit
 restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base = Y units per unit base
-• range for X units per unit base and Y units per unit
+• X unit base = Y unit base = 10 inches [MODCA-7-243]
+• X units per unit base = Y units per unit base [MODCA-7-244]
+• range for X units per unit base and Y units per unit [MODCA-7-245]
 base is 1-32,767
 X'01' 0 or more in each RG
 Note: IS/3 requires full support of the CGCSGID (X'01')
@@ -2119,10 +2119,10 @@ X'9A' 0 or 1 occurrences in the RG if the container contains
 one of the object types listed in T able 28;
 otherwise should not be specified. Measurement unit
 restrictions:
-• X unit base = Y unit base = 10 inches
-• X units per unit base and Y units per unit base can be
+• X unit base = Y unit base = 10 inches [MODCA-7-246]
+• X units per unit base and Y units per unit base can be [MODCA-7-247]
 different
-• range for X units per unit base and Y units per unit
+• range for X units per unit base and Y units per unit [MODCA-7-248]
 base is 1-32,767
 T ag Logical Element (TLE) X'D3A090' X'01' 0 or more
 Note: IS/3 requires full support of the CGCSGID X'01'
@@ -2130,24 +2130,24 @@ triplet on the TLE.
 X'02' Tpe X'0B' 1
 X'36' 1
 X'02' 0 or 1 occurrence of one of the following:
-• Type X'0D'
-• Type X'87'
+• Type X'0D' [MODCA-7-249]
+• Type X'87' [MODCA-7-250]
 X'02' Tpe X'0C' 0 or 1
 X'80' 0 or 1
 MO:DCA IS/3
 
 
-6.0 Architected Tables
+6.0 Architected Tables [MODCA-7-251]
 The following tables are part of the IS/3 definition.
-6.1 Standard OCA Color Value Table
+6.1 Standard OCA Color Value Table [MODCA-7-252]
 All color values.
-6.2 Color Mapping Table (CMT)
+6.2 Color Mapping Table (CMT) [MODCA-7-253]
 All parameters.
-6.3 Resource Access Tables (RATs)
+6.3 Resource Access Tables (RATs) [MODCA-7-254]
 The following repeating group types.
 TrueType/OpenType Font (TTF/OTF) Repeating Group
-• Flag bits 0-4
-• The following table vectors, listed by ID and showing their allowed occurrences:
+• Flag bits 0-4 [MODCA-7-255]
+• The following table vectors, listed by ID and showing their allowed occurrences: [MODCA-7-256]
 X'01' 1 or more
 X'04' 1
 X'08' 1
@@ -2155,8 +2155,8 @@ X'1A' 1
 X'24' 1 or more
 X'30' 0 or 1
 Color Management Resource (CMR) Repeating Group
-• Flag bits 1-5, 7, 8
-• The following table vectors, listed by ID and showing their allowed occurrences:
+• Flag bits 1-5, 7, 8 [MODCA-7-257]
+• The following table vectors, listed by ID and showing their allowed occurrences: [MODCA-7-258]
 X'01' 1
 X'04' 1
 X'08' 1
@@ -2164,8 +2164,8 @@ X'18' 0 or 1
 X'24' 1 or more
 Data Object Resource (DOR) Repeating Group
 All objects defined in T able 37.
-• Flag bits 1-5
-• The following table vectors, listed by ID and showing their allowed occurrences:
+• Flag bits 1-5 [MODCA-7-259]
+• The following table vectors, listed by ID and showing their allowed occurrences: [MODCA-7-260]
 X'01' 1
 X'04' 1
 X'08' 1
@@ -2186,24 +2186,24 @@ Table 37. Presentation Objects Processed with Data Object Resource (DOR) RAT
 Component
 ID
 Object Type Encoded Object-type OID
-05 IOCA FS10 X'06072B120004010105'
-12 IOCA FS45 X'06072B12000401010C'
-14 TIFF X'06072B12000401010E'
-22 GIF X'06072B120004010116'
-23 AFPC JPEG
+05 IOCA FS10 X'06072B120004010105' [MODCA-7-261]
+12 IOCA FS45 X'06072B12000401010C' [MODCA-7-262]
+14 TIFF X'06072B12000401010E' [MODCA-7-263]
+22 GIF X'06072B120004010116' [MODCA-7-264]
+23 AFPC JPEG [MODCA-7-265]
 Note: This object type was formerly referred to as JFIF (JPEG).
 X'06072B120004010117'
-60 TIFF without Transparency X'06072B12000401013C'
-61 TIFF Multiple Image File X'06072B12000401013D'
-62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E'
-66 AFPC TIFF X'06072B120004010142'
-7.0 Migration Functions included in IS/3
+60 TIFF without Transparency X'06072B12000401013C' [MODCA-7-266]
+61 TIFF Multiple Image File X'06072B12000401013D' [MODCA-7-267]
+62 TIFF Multiple Image - without Transparency - File X'06072B12000401013E' [MODCA-7-268]
+66 AFPC TIFF X'06072B120004010142' [MODCA-7-269]
+7.0 Migration Functions included in IS/3 [MODCA-7-270]
 MO:DCA migration functions are defined in Appendix C, “MO:DCA Migration Functions”,.
-7.1 Obsolete Functions
+7.1 Obsolete Functions [MODCA-7-271]
 No obsolete parameters, triplets, structured fields or objects are included in the IS/3 definition.
-7.2 Retired Functions
+7.2 Retired Functions [MODCA-7-272]
 No retired parameters, triplets, structured fields or objects are included in the IS/3 definition.
-7.3 Coexistence Functions
+7.3 Coexistence Functions [MODCA-7-273]
 No coexistence parameters, triplets, structured fields or objects are included in the IS/3 definition.
 MO:DCA IS/3
 

@@ -17,7 +17,7 @@ Begin Bar Code Object structured field
 Object Environment Group (contains the BCOCA BSD structure and other information)
 Zero or more Bar Code Data structured fields (contains the BCOCA BSA structure); there is one Bar Code
 Data structured field per bar code symbol
-End Bar Code Object structured field
+End Bar Code Object structured field [BCOCA-B-001]
 
 
 Bar Code Data Object Structured Fields
@@ -25,18 +25,18 @@ The following sections describe two structured fields: Bar Code Data Descriptor 
 (BDA).
 Bar Code Data Descriptor (BDD)
 The BDD specifies the size of the bar code presentation space, the type of bar code to be generated, and the
-parameters used to generate the bar code symbols.
+parameters used to generate the bar code symbols. [BCOCA-B-002]
 ### Table 37. MO:DCA Bar Code Data Descriptor (BDD)
 
 | Item | Value |
 | :--- | :--- |
-| **Structured Field Introducer** | |
-| SF Length | |
-| SF Identifier | X'D3A6EB' |
-| Flags | |
-| Reserved | (2 bytes); should be X'0000' |
-| **Structured Field Data** | |
-| Data | Bar Code Symbol Descriptor followed by zero or one Color Specification (X'4E') triplets |
+| **Structured Field Introducer** [BCOCA-B-003]| |
+| SF Length [BCOCA-B-004]| |
+| SF Identifier | X'D3A6EB' [BCOCA-B-005]|
+| Flags [BCOCA-B-006]| |
+| Reserved | (2 bytes); should be X'0000' [BCOCA-B-007]|
+| **Structured Field Data** [BCOCA-B-008]| |
+| Data | Bar Code Symbol Descriptor followed by zero or one Color Specification (X'4E') triplets [BCOCA-B-009]|
 The data portion of the BDD structured field is defined in “Bar Code Symbol Descriptor (BSD)” .
 When a Color Specification (X'4E') triplet is present in the BDD, this triplet overrides the color value specified in
 BSD bytes 15-16.
@@ -50,18 +50,18 @@ The BDA structured field contains parameters to position a single bar code symbo
 presentation space, parameters to specify special functions for 2D bar codes, flags to specify attributes
 specific to the symbol, and the data to be encoded. The data is encoded according to the parameters specified
 in the Bar Code Data Descriptor (BDD) structured field.
-The format of the BDA structured field follows:
+The format of the BDA structured field follows: [BCOCA-B-010]
 ### Table 38. MO:DCA Bar Code Data (BDA)
 
 | Item | Value |
 | :--- | :--- |
-| **Structured Field Introducer** | |
-| SF Length | |
-| SF Identifier | X'D3EEEB' |
-| Flags | |
-| Reserved | (2 bytes); should be X'0000' |
-| **Structured Field Data** | |
-| Data | Bar Code Symbol Data |
+| **Structured Field Introducer** [BCOCA-B-011]| |
+| SF Length [BCOCA-B-012]| |
+| SF Identifier | X'D3EEEB' [BCOCA-B-013]|
+| Flags [BCOCA-B-014]| |
+| Reserved | (2 bytes); should be X'0000' [BCOCA-B-015]|
+| **Structured Field Data** [BCOCA-B-016]| |
+| Data | Bar Code Symbol Data [BCOCA-B-017]|
 The data portion of the BDA structured field is described in “Bar Code Symbol Data (BSA)” .
 Application Note: In AFP environments, some applications use reserved bytes 6–7 of the Structured Field
 Introducer to specify a sequence number for the structured field. This is an unarchitected use of these

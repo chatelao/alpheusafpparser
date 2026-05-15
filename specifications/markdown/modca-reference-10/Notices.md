@@ -20,7 +20,7 @@ without incurring any obligation to you.
 This information contains examples of data and reports used in daily business operations. T o illustrate them in
 a complete manner, some examples include the names of individuals, companies, brands, or products. These
 names are fictitious and any similarity to the names and addresses used by an actual business enterprise is
-entirely coincidental.
+entirely coincidental. [MODCA-NOT-001]
 
 
 Trademarks
@@ -66,4 +66,4 @@ MO:DCA
 Ricoh
 UP
 3I is a trademark of UP 3I Limited.
-Other company, product, or service names might be trademarks or service marks of others.
+Other company, product, or service names might be trademarks or service marks of others. [MODCA-NOT-002]

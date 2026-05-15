@@ -1,20 +1,20 @@
 # Chapter 11. Metadata Command Set
 The Metadata command set contains the IPDS commands for associating metadata with objects in the IPDS
 data stream. This command set contains the following commands:
-Table 52. Metadata Commands
+Table 52. Metadata Commands [IPDS-11-001]
 
 | Command | Code | Description | In MO1 Subset? |
 | :--- | :--- | :--- | :---: |
-| DHM | X'D658' | “Delete Home-State Metadata” | Yes |
-| WMC | X'D68A' | “Write Metadata control” | Yes |
-| WM | X'D68B' | “Write Metadata” | Yes |
+| DHM | X'D658' | “Delete Home-State Metadata” | Yes [IPDS-11-002]|
+| WMC | X'D68A' | “Write Metadata control” | Yes [IPDS-11-003]|
+| WM | X'D68B' | “Write Metadata” | Yes [IPDS-11-004]|
 Metadata can be associated with many different objects in the IPDS data stream, in multiple ways. The
 location of the WMC command in the data stream determines the object or objects the metadata is associated
 with. For the details, see “Metadata”.
 The host sends a Write Metadata control (WMC) command to the IPDS receiver to associate metadata with an
 object or objects. The metadata is sent to the IPDS receiver in one or more Write Metadata (WM) commands.
 For WMC commands received in home state, the metadata is added to the current home-state metadata; such
-metadata is deleted with a Delete Home-State Metadata (DHM) command.
+metadata is deleted with a Delete Home-State Metadata (DHM) command. [IPDS-11-005]
 
 
 Delete Home-State Metadata
@@ -30,12 +30,12 @@ The length of the DHM command can be:
 Without CID X'0009'
 With CID X'000B'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-The DHM command data field is as follows:
+The DHM command data field is as follows: [IPDS-11-006]
 
 | Offset | Type | Name | Range | Meaning | Required |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | MDLevel | X'0000'<br>X'0001' – X'FFFF' | Used to delete all home-state metadata<br>Level of the home-state metadata being deleted | X'0000'<br>X'0001' – X'FFFF' |
-| 2–3 | X'0000' | Reserved | X'0000' | | |
+| 0–1 | UBIN | MDLevel | X'0000'<br>X'0001' – X'FFFF' | Used to delete all home-state metadata<br>Level of the home-state metadata being deleted | X'0000'<br>X'0001' – X'FFFF' [IPDS-11-007]|
+| 2–3 | X'0000' | Reserved | X'0000' [IPDS-11-008]| | |
 Bytes 0–1 MDLevel
 These bytes specify the level of the home-state metadata to be deleted.
 When the MDLevel is a value in the range X'0001' – X'FFFF', all home-state metadata that
@@ -64,7 +64,7 @@ In many states, the WMC command(s) must immediately follow the “begin” comma
 “Metadata” for more details. If a WMC is received in a correct state, but not immediately following
 the begin command, exception ID X'8002..00' exists.
 The WMC data field consists of one optional self-defining field:
-• Metadata Data Descriptor (MDD)
+• Metadata Data Descriptor (MDD) [IPDS-11-009]
 The MDD contains a two-byte length field, a two-byte self-defining field ID, and a data field.
 If an invalid self-defining field is specified, or the MDD appears more than once, exception ID X'020B..05'
 exists.
@@ -76,15 +76,15 @@ This self-defining field specifies how a WMC received in home state is to be pro
 received in home state, the MDD is mandatory; if no MDD is present, exception ID X'020B..05' exists.
 An MDD is optional, and is not expected to be included, in a WMC received in a state other than home state,
 but for possible future enhancement, such an MDD should be tolerated by receivers without an exception.
-The format of the MDD is as follows:
+The format of the MDD is as follows: [IPDS-11-010]
 
 | Offset | Type | Name | Range | Meaning | MO1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'0008' to end of MDD | Length of MDD, including this length field | X'0008' to end of MDD |
-| 2–3 | CODE | SDF ID | X'A6BC' | Self-defining-field ID | X'A6BC' |
-| 4–5 | X'0000' | Reserved | X'0000' | | |
-| 6–7 | UBIN | MDLevel | X'0001' – X'FFFF' | Level of the home-state metadata being added | X'0001' – X'FFFF' |
-| 8 to end of MDD | UNDF | | | Data without architectural definition | |
+| 0–1 | UBIN | Length | X'0008' to end of MDD | Length of MDD, including this length field | X'0008' to end of MDD [IPDS-11-011]|
+| 2–3 | CODE | SDF ID | X'A6BC' | Self-defining-field ID | X'A6BC' [IPDS-11-012]|
+| 4–5 | X'0000' | Reserved | X'0000' [IPDS-11-013]| | |
+| 6–7 | UBIN | MDLevel | X'0001' – X'FFFF' | Level of the home-state metadata being added | X'0001' – X'FFFF' [IPDS-11-014]|
+| 8 to end of MDD | UNDF | | | Data without architectural definition [IPDS-11-015]| |
 Bytes 0–1 Self-defining-field length
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Self-defining-field ID
@@ -102,7 +102,7 @@ Bytes 8 to end
 of MDD
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
-but ignore this field; generators should not specify this field.
+but ignore this field; generators should not specify this field. [IPDS-11-016]
 
 
 Write Metadata
@@ -121,7 +121,7 @@ The IPDS receiver must support at least the metadata object support defined by t
 to the Metadata object Content Architecture Reference for a definition of the MS1 subset.
 IPDS exception IDs of the form X'06nn..nn' exist when problems are found within the MO; refer to the Metadata
 Object Content Architecture Reference for more information about MO syntax and exception conditions.
-Note: Only Anystate commands are valid between concatenated WM commands; refer to Figure 45 for a list of Anystate commands.
+Note: Only Anystate commands are valid between concatenated WM commands; refer to Figure 45 for a list of Anystate commands. [IPDS-11-017]
 
 
 

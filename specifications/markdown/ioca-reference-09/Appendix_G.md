@@ -2,19 +2,19 @@
 Architecture listed in this appendix has been retired in the sense that generators can stop issuing the self- defining fields. The receivers must not generate the EC-0001 exception on receiving them, but are allowed to ignore them. Receivers that support the retired self defining fields can continue to parse these fields and generate exceptions if the fields are specified out of sequence, or their contents are invalid.
 Each section in this Appendix that does not cover a self-defining field has the receiver impact described in the introduction.
 Image LUT-ID This optional self-defining field identifies the LUT-ID (LUT) that should be used to interpret the image data.
-Each IDE value is an index into this LUT .
+Each IDE value is an index into this LUT . [IOCA-G-001]
 ### Syntax
 
 | Offset | Type | Name | Range | Meaning | M/O |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | ID | | X'97' Image LUT-ID parameter M 1 UBIN LENGTH X'01' Length of the parameters to follow | M |
-| 2 | CODE | LUTID | | X'00' – X'FF' LUT-ID identifier M If the Image LUT-ID parameter is not present, the default value for LUTID is zero for the standard | LUT-ID. |
+| 0 | CODE | ID | | X'97' Image LUT-ID parameter M 1 UBIN LENGTH X'01' Length of the parameters to follow | M [IOCA-G-002]|
+| 2 | CODE | LUTID | | X'00' – X'FF' LUT-ID identifier M If the Image LUT-ID parameter is not present, the default value for LUTID is zero for the standard | LUT-ID. [IOCA-G-003]|
 
 ## Exception Conditions
 The following exception conditions cause the standard action to be taken:
 EC-0003 Invalid length Condition: The LENGTH value is not in the valid range.
 EC-970F Invalid sequence Condition: The Image LUT-ID parameter appeared out of sequence or more than once.
-EC-9710 Invalid or unsupported Image Data parameter value Condition: The Image LUT-ID parameter contains an invalid or unsupported value.
+EC-9710 Invalid or unsupported Image Data parameter value Condition: The Image LUT-ID parameter contains an invalid or unsupported value. [IOCA-G-004]
 
 
 Image Structured Fields in MO:DCA-L Data Stream MO:DCA-L has been retired and removed from the MO:DCA reference into a new book: MO:DCA-L: The OS/2 Presentation Manager Metafile (.met) Format. IOCA constructs that support MO:DCA-L have been retired.
@@ -49,14 +49,14 @@ IOCA Self-defining Field Parameter (Bytes)
 Acceptable Value Comments RECID (1) X'01', X'03' X'01' RIDIC X'03' Bottom-to-T op(see Note 2)
 IDE Size parameter ID (1) X'96' LENGTH (1) X'01' IDESZ (1) X'01', X'04', X'08', X'18' X'01' 1 bit/IDE X'04' 4 bits/IDE X'08' 8 bits/IDE X'18' 24 bits/IDE
 Notes on the initial parameters:
-1. IBM MMR-Modified Modified Read and G4 MMR-Modified Modified READ are applicable only to images whose IDE size is 1 bit/IDE; otherwise exception condition EC-9611 is raised.
-2. Bottom-to-T opis used only in conjunction with No Compression; otherwise exception condition EC-9510 is raised.
+1. IBM MMR-Modified Modified Read and G4 MMR-Modified Modified READ are applicable only to images whose IDE size is 1 bit/IDE; otherwise exception condition EC-9611 is raised. [IOCA-G-005]
+2. Bottom-to-T opis used only in conjunction with No Compression; otherwise exception condition EC-9510 is raised. [IOCA-G-006]
 Parameters used when IDESZ=1:
 Retired RESERVED (3) X'970100', X'970101' Retired Image LUT-ID parameter Parameters used when IDESZ=4 or IDESZ=8:
 Retired RESERVED (3) X'970101' Retired Image LUT-ID parameter Parameters used when IDESZ=24:
 Retired RESERVED (3) X'970100' Retired Image LUT-ID parameter IDE Structure parameter ID (1) X'9B' LENGTH (1) X'08' FLAGS (1) X'00' Additive and No gray coding FORMAT (1) X'01' RGB RESERVED (3) X'000000' Should be zero SIZE1 (1) X'08' 8 bits of the IDE for the R component SIZE2 (1) X'08' 8 bits of the IDE for the G component
 SIZE3 (1) X'08' 8 bits of the IDE for the B component Final parameters:
-Image Data ID (2) X'FE92' LENGTH (2) X'0001' – X'FFFF' DATA Any IDEs End Image Content ID (1) X'93' LENGTH (1) X'00' End Segment ID (1) X'71' LENGTH (1) X'00' Retired Architecture
+Image Data ID (2) X'FE92' LENGTH (2) X'0001' – X'FFFF' DATA Any IDEs End Image Content ID (1) X'93' LENGTH (1) X'00' End Segment ID (1) X'71' LENGTH (1) X'00' Retired Architecture [IOCA-G-007]
 
 
 Exception Condition EC-0002 Exception condition EC-0002 was an optional exception that, based on the definition of reserved fields, should never be returned by a receiver. Its definition was as follows:
@@ -72,7 +72,7 @@ The following statement does not apply to the United Kingdom or any other countr
 This publication could include technical inaccuracies or typographical errors. Changes are periodically made to the information herein; these changes will be incorporated in new editions of the publication. The AFP Consortium might make improvements and/or changes in the architecture described in this publication at any time without notice.
 Any references in this publication to Web sites are provided for convenience only and do not in any manner serve as an endorsement of those Web sites. The materials at those Web sites are not part of the materials for this architecture and use of those Web sites is at your own risk.
 The AFP Consortium may use or distribute any information you supply in any way it believes appropriate without incurring any obligation to you.
-This information contains examples of data and reports used in daily business operations. T o illustrate them in a complete manner, some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental.
+This information contains examples of data and reports used in daily business operations. T o illustrate them in a complete manner, some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental. [IOCA-G-008]
 
 
 Trademarks These terms are trademarks or registered trademarks of Adobe Systems Incorporated in the United States, in other countries, or both:
@@ -86,6 +86,6 @@ These terms are trademarks or registered trademarks of Ricoh Co., Ltd., in the U
 ACMA
 Advanced Function Presentation AFP AFPCC AFP Color Consortium AFP Color Management Architecture Bar Code Object Content Architecture BCOCA
 CMOCA
-Color Management Object Content Architecture InfoPrint Intelligent Printer Data Stream IPDS Mixed Object Document Content Architecture MO:DCA Ricoh Other company, product, or service names might be trademarks or service marks of others.
+Color Management Object Content Architecture InfoPrint Intelligent Printer Data Stream IPDS Mixed Object Document Content Architecture MO:DCA Ricoh Other company, product, or service names might be trademarks or service marks of others. [IOCA-G-009]
 
 

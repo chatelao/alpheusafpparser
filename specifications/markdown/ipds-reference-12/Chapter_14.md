@@ -12,28 +12,28 @@ Microsoft Corporation. For a detailed description of Adobe Type 1 fonts, refer t
 from Adobe Corporation. For more information about Adobe CID-keyed fonts, refer to the CID-Keyed Font
 Technology Overview from Adobe Corporation.
 The following commands are contained in the Loaded-Font command set:
-Table 55. Loaded-Font Commands
+Table 55. Loaded-Font Commands [IPDS-14-001]
 
 | Command | Code | Description | Subset |
 | :--- | :--- | :--- | :--- |
-| LCP | X'D61B' | Load Code Page | LF3, LF4 |
-| LCPC | X'D61A' | Load Code Page Control | LF3, LF4 |
-| LF | X'D62F' | Load Font | LF1, LF3 |
-| LFCSC | X'D619' | Load Font Character Set Control | LF3 |
-| LFC | X'D61F' | Load Font Control | LF1 |
-| LFI | X'D60F' | Load Font Index | LF1 |
-| LSS | X'D61E' | Load Symbol Set | LF2 |
+| LCP | X'D61B' | Load Code Page | LF3, LF4 [IPDS-14-002]|
+| LCPC | X'D61A' | Load Code Page Control | LF3, LF4 [IPDS-14-003]|
+| LF | X'D62F' | Load Font | LF1, LF3 [IPDS-14-004]|
+| LFCSC | X'D619' | Load Font Character Set Control | LF3 [IPDS-14-005]|
+| LFC | X'D61F' | Load Font Control | LF1 [IPDS-14-006]|
+| LFI | X'D60F' | Load Font Index | LF1 [IPDS-14-007]|
+| LSS | X'D61E' | Load Symbol Set | LF2 [IPDS-14-008]|
 All graphic characters, whether invoked in text, graphics, or bar code human-readable data, are defined within
 a coded font resource. The coded font contains general information about the font as a whole and contains
 descriptive, metric, and shape data for each graphic character in the font.
 The component parts of a coded font can be downloaded to local printer storage, or they can be resident in
 printer storage. To make up a coded font, these component parts must be combined in one of the following
 configurations:
-• A LF1-type coded font, that consists of a fully described font plus font indexes, or of several fully described
+• A LF1-type coded font, that consists of a fully described font plus font indexes, or of several fully described [IPDS-14-009]
 font sections plus font indexes for each section
-• A LF2-type coded font, that consists of a symbol set
-• A LF3-type coded font, that consists of a code page plus a font character set
-To see which types of coded font are supported by your printer, refer to your printer documentation.
+• A LF2-type coded font, that consists of a symbol set [IPDS-14-010]
+• A LF3-type coded font, that consists of a code page plus a font character set [IPDS-14-011]
+To see which types of coded font are supported by your printer, refer to your printer documentation. [IPDS-14-012]
 
 
 Graphic Character Placement Fundamentals
@@ -49,13 +49,13 @@ A-space value is the number of L-units that immediately precede the character bo
 character raster pattern on a page.
 The character reference point is offset by the number of L-units (specified as A-space) from the intersection of
 the baseline and one of the following:
-• The left-character edge for a 0° font inline sequence
-• The right-character edge for a 180° font inline sequence
-• The top-character edge for a 90° font inline sequence
-• The bottom-character edge for a 270° font inline sequence
+• The left-character edge for a 0° font inline sequence [IPDS-14-013]
+• The right-character edge for a 180° font inline sequence [IPDS-14-014]
+• The top-character edge for a 90° font inline sequence [IPDS-14-015]
+• The bottom-character edge for a 270° font inline sequence [IPDS-14-016]
 The baseline offset is the distance from the print coordinate of the baseline to a reference edge of the
 character box, as described in Table 56. The baseline offset is used to locate the baseline
-component of the character reference point, that coincides with the print position when the character is printed.
+component of the character reference point, that coincides with the print position when the character is printed. [IPDS-14-017]
 
 
 Font Inline Sequences
@@ -74,14 +74,14 @@ The printer needs a font index table to describe the character for each font inl
 identified by the font inline-sequence value.
 Figure 101. Example of Various Font Inline Sequences Producing the Same Character Orientation
 X 0  inline direction
-0  font inline sequence
-180  font inline sequence
-180  inline direction
+0  font inline sequence [IPDS-14-018]
+180  font inline sequence [IPDS-14-019]
+180  inline direction [IPDS-14-020]
 X
-90  font inline sequence
-270  font inline sequence
-90  inline direction
-270  inline direction
+90  font inline sequence [IPDS-14-021]
+270  font inline sequence [IPDS-14-022]
+90  inline direction [IPDS-14-023]
+270  inline direction [IPDS-14-024]
 X
 X
 Legend:  X = current print position (i , b )
@@ -300,14 +300,14 @@ such as English, the character reference point is usually positioned so that the
 baseline. Lowercase characters have descenders below the baseline. In vertically read languages, such as
 traditional Kanji, the character reference point is usually positioned so that the baseline passes vertically
 through the center of the character.
-Table 56. Identifying the Baseline Offset Value
+Table 56. Identifying the Baseline Offset Value [IPDS-14-025]
 
 | Font Inline Sequence | Relationship between the Printing Baseline and the Character Box Reference Edges | Baseline Offset Value |
 | :--- | :--- | :--- |
-| 0° | Parallel to the top and bottom character box reference edges. | The number of L-units from the character reference point to the top character box reference edge. |
-| 90° | Parallel to the left and right character box reference edges. | The number of L-units from the character reference point to the right character box reference edge. |
-| 180° | Parallel to the top and bottom character box reference edges. | The number of L-units from the character reference point to the bottom character box reference edge. |
-| 270° | Parallel to the left and right character box reference edges. | The number of L-units from the character reference point to the left character box reference edge. |
+| 0° | Parallel to the top and bottom character box reference edges. | The number of L-units from the character reference point to the top character box reference edge. [IPDS-14-026]|
+| 90° | Parallel to the left and right character box reference edges. | The number of L-units from the character reference point to the right character box reference edge. [IPDS-14-027]|
+| 180° | Parallel to the top and bottom character box reference edges. | The number of L-units from the character reference point to the bottom character box reference edge. [IPDS-14-028]|
+| 270° | Parallel to the left and right character box reference edges. | The number of L-units from the character reference point to the left character box reference edge. [IPDS-14-029]|
 
 
 Font Parameter Relationships
@@ -337,7 +337,7 @@ Descender
 Baseline
 Extent
 Baseline
-Offset A-Space A-Space
+Offset A-Space A-Space [IPDS-14-030]
 
 
 Characters Printed in the 90° Font Inline Sequence
@@ -397,7 +397,7 @@ Bottom Edges
 Characters Printed in the 270° Font Inline Sequence
 Figure 107 shows how font parameters relate to character boxes and character raster patterns printed in the
 270° font inline sequence. There is no rotation with respect to the logical page. The inline direction for Figure
-107 is 270°.
+107 is 270°. [IPDS-14-031]
 Figure 107. Font Inline Sequence of 270°
 Length: Current Print Position (i , b ) and the Character Reference Pointc c
 Toned pel in the character raster pattern
@@ -507,15 +507,15 @@ u
 6.
 7.
 A
-a b c d e f g h l k j
+a b c d e f g h l k j [IPDS-14-032]
 
 
 LF1-Type Coded-Font Command Summary
 A LF1-type coded font has two components:
-• A fully described font, downloaded using the LFC, LF , and End commands. For a double-byte coded font,
+• A fully described font, downloaded using the LFC, LF , and End commands. For a double-byte coded font, [IPDS-14-033]
 this component is called a fully described font section. There can be several sections in an LF1-type double-
 byte coded font.
-• A font index, downloaded using the LFI command. There can be 1 to 4 font indexes for each fully described
+• A font index, downloaded using the LFI command. There can be 1 to 4 font indexes for each fully described [IPDS-14-034]
 font and for each section of an LF1-type double-byte coded font.
 The LFC command sends a font control record to the printer. The font control record contains control
 information that defines the fully described font and provides font metrics that apply to the font as a whole. This
@@ -559,7 +559,7 @@ The LFI command contains 32 bytes of control information with no font index entr
 Short-format font-index records can only be specified for double-byte fully described font sections between
 X'45' and X'FE'. The printer uses the 32 bytes of control information from the short-format font-index record
 and the font-index entries from a previously activated long-format font-index record for the same double-byte
-fully described font section as it prints graphic characters from that font.
+fully described font section as it prints graphic characters from that font. [IPDS-14-035]
 
 
 Parts of an LF1-Type Coded Font
@@ -569,12 +569,12 @@ the values of the character pattern offset field show that each character patter
 same order as the character pattern data that it describes. In the long format font index record example, the
 value of the font inline sequence field specifies a font inline sequence of X'0000'.
 The LFI font index entries show:
-• The order in which the entries are listed. This order defines the code point that specifies the character pattern
+• The order in which the entries are listed. This order defines the code point that specifies the character pattern [IPDS-14-036]
 in print data.
-• That no mandatory correlation exists between the index entry order and the order of the character pattern
+• That no mandatory correlation exists between the index entry order and the order of the character pattern [IPDS-14-037]
 descriptors that they reference.
 Figure 111. Overview of Sample Double-Byte Coded Font Section Records
-40 bytes of font control information
+40 bytes of font control information [IPDS-14-038]
 Font Control Record
 Font HAID = X’nnnn’
 offset = 0
@@ -589,7 +589,7 @@ Third character pattern descriptor
 Character pattern offset = 00000200
 Last character pattern descriptor
 Character pattern offset = nnnnnnnn
-32 bytes of font control information
+32 bytes of font control information [IPDS-14-039]
 Font HAID = X’nnnn’
 Font inline sequence = 0000
 code point = X’00’
@@ -603,7 +603,7 @@ code point = X’02’
 Third font index entry
 Character pattern descriptor offset = 1
 code point = X’FF’
-256 font index entry
+256 font index entry [IPDS-14-040]
 th
 Character pattern descriptor offset = 2
 First character raster pattern
@@ -616,9 +616,9 @@ Second character raster pattern
 00000200
 nnnnnnnn
 00000100
-32 bytes of font control
+32 bytes of font control [IPDS-14-041]
 information
-Font Inline Sequence = 2D00
+Font Inline Sequence = 2D00 [IPDS-14-042]
 
 
 LF2-Type Coded-Font Command Summary
@@ -628,8 +628,8 @@ set already in the printer.
 The DF command is used to deactivate a symbol set coded font resource.
 LF3-Type Coded-Font Command Summary
 A LF3-type coded font has two components:
-• A font character set, downloaded using the LFCSC, LF , and END commands.
-• A code page, downloaded using the LCPC, LCP , and END commands.
+• A font character set, downloaded using the LFCSC, LF , and END commands. [IPDS-14-043]
+• A code page, downloaded using the LCPC, LCP , and END commands. [IPDS-14-044]
 The LFCSC command contains control information that applies to a complete font character set or font
 character set extension. One or more subsequent LF commands carry the actual font character set
 information, that is in the form defined for a specific pattern technology such as the Type 1 PFB outline-font
@@ -659,7 +659,7 @@ page. Therefore, the GCSGID placed in a GRID should be carefully chosen based on
 character set and code page GCSGIDs are supersets or subsets of one another. The generator of the
 GRID should pick the subset.
 The LFE command is used to map a local ID, specified within text, graphics, or bar code data, to the HAID and
-font inline sequence of a coded font.
+font inline sequence of a coded font. [IPDS-14-045]
 
 
 The DF command is used to deactivate font character sets, code pages, and coded fonts when they are no
@@ -676,12 +676,12 @@ selected with the font local ID specified in a Bar Code Data Descriptor (BCDD) s
 However, before the host program can use a coded font, the host must send the Load Font Equivalence (LFE)
 command to the printer. The LFE command associates local IDs with coded font Host-Assigned IDs. The
 entries in the font equivalence record allow the printer to do the following:
-• Equate a local ID (specified in SCFL control sequences, Set Character Set drawing orders, or BCDD self-
+• Equate a local ID (specified in SCFL control sequences, Set Character Set drawing orders, or BCDD self- [IPDS-14-046]
 defining fields) to a coded font Host-Assigned ID.
-• Specify the font-index table to use for character processing by specifying the font inline sequence.
+• Specify the font-index table to use for character processing by specifying the font inline sequence. [IPDS-14-047]
 In addition, the coded font must be activated with the same Host-Assigned ID as was specified in the LFE
 command. A coded font can be activated by:
-• Downloading coded font components.
+• Downloading coded font components. [IPDS-14-048]
 For a single-byte LF1-type coded font, a fully described font and a font index must be downloaded and given
 the same HAID.
 For a double-byte LF1-type coded font, one or more fully described font sections, each with a font index,
@@ -690,11 +690,11 @@ For an LF2-type coded font, a symbol set must be downloaded and given the same H
 For an LF3-type coded font, a font character set and a code page must be downloaded (these resources
 have their own HAIDs), then a coded font must be activated with the Activate Resource command and given
 the same HAID.
-• Activating a resident coded font with an Activate Resource command or a Load Font Equivalence command.
-• Combining appropriate downloaded and resident components and giving them the same HAID.
+• Activating a resident coded font with an Activate Resource command or a Load Font Equivalence command. [IPDS-14-049]
+• Combining appropriate downloaded and resident components and giving them the same HAID. [IPDS-14-050]
 Characters within the coded font are accessed each time a code point within text, graphics, or bar code data is
 processed. Double-byte code points within an LF1-type coded font use the first byte to select a font section,
-and use the second byte as a code point within that section.
+and use the second byte as a code point within that section. [IPDS-14-051]
 
 
 Load Code Page
@@ -724,22 +724,22 @@ Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
 However, the length of each code point entry must also be valid. Exception ID X'0202..02' exists if the
 command length is invalid or unsupported.
-The data for the LCP command consists of LCP entries in the following format:
+The data for the LCP command consists of LCP entries in the following format: [IPDS-14-052]
 
 | Offset | Type | Name | Range | Meaning | LF3, LF4 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Zero or more code point entries in the following format:** | | | | | |
-| 0–7 | CHAR | GCGID | Any value | Graphic Character Global ID | Any value |
-| 8 | BITS | Processing flags | | | |
-| | bit 0 | Undefined | B'0', B'1' | Undefined | B'0', B'1' |
-| | bit 1 | Noprint | B'0', B'1' | Nonprinting | B'0', B'1' |
-| | bit 2 | Noincr | B'0', B'1' | Nonincrementing | B'0', B'1' |
-| | bits 3–7 | | B'00000' | Reserved | B'00000' |
-| 9 or 9–10 | CODE | Code point | Any value | Code point | Any value |
-| **Zero or one Unicode-mapping-entry in the following format:** | | | | | |
-| + 0 | UBIN | Count | X'00'–X'FF' | Number of Unicode scalar values | See byte description |
-| **Zero or more Unicode-scalar-value entries (depending on count value) in the following format:** | | | | | |
-| ++ 0–3 | UBIN | Unicode scalar value | X'00000000' – X'FFFFFFFF' (excluding surrogates) | Unicode scalar value to be mapped to the GCGID value and code point value | See byte description |
+| **Zero or more code point entries in the following format:** [IPDS-14-053]| | | | | |
+| 0–7 | CHAR | GCGID | Any value | Graphic Character Global ID | Any value [IPDS-14-054]|
+| 8 | BITS | Processing flags [IPDS-14-055]| | | |
+| | bit 0 | Undefined | B'0', B'1' | Undefined | B'0', B'1' [IPDS-14-056]|
+| | bit 1 | Noprint | B'0', B'1' | Nonprinting | B'0', B'1' [IPDS-14-057]|
+| | bit 2 | Noincr | B'0', B'1' | Nonincrementing | B'0', B'1' [IPDS-14-058]|
+| | bits 3–7 | | B'00000' | Reserved | B'00000' [IPDS-14-059]|
+| 9 or 9–10 | CODE | Code point | Any value | Code point | Any value [IPDS-14-060]|
+| **Zero or one Unicode-mapping-entry in the following format:** [IPDS-14-061]| | | | | |
+| + 0 | UBIN | Count | X'00'–X'FF' | Number of Unicode scalar values | See byte description [IPDS-14-062]|
+| **Zero or more Unicode-scalar-value entries (depending on count value) in the following format:** [IPDS-14-063]| | | | | |
+| ++ 0–3 | UBIN | Unicode scalar value | X'00000000' – X'FFFFFFFF' (excluding surrogates) | Unicode scalar value to be mapped to the GCGID value and code point value | See byte description [IPDS-14-064]|
 Bytes 0–7 Graphic Character Global ID
 This field, if present, contains the GCGID assigned to this code point. The Technical
 Reference for IBM Expanded Core Fonts specifies many commonly used GCGIDs.
@@ -776,7 +776,7 @@ the data-check exception is blocked, this entry can be used for overstrikes
 (B'001').
 B'110' Undefined, nonprinting, incrementing
 This value produces a data-check exception unless reporting of undefined
-character checks is blocked through the XOA Exception-Handling Control. If
+character checks is blocked through the XOA Exception-Handling Control. If [IPDS-14-065]
 ## Load Code Page (LCP)
 
 
@@ -803,13 +803,13 @@ AEA or PCA, uses the variable-space code point.
 When a coded font is activated, there might be characters in the code page that are not
 present in the font character set. If a code point without a corresponding character in the font
 character set is invoked, one of the following occurs:
-• If a default GCGID is specified in the LCPC command, the default GCGID and its processing
+• If a default GCGID is specified in the LCPC command, the default GCGID and its processing [IPDS-14-066]
 flags is substituted for the requested GCGID.
-• If the default GCGID from the code page is used, but does not have a corresponding
+• If the default GCGID from the code page is used, but does not have a corresponding [IPDS-14-067]
 character in the font character set, the code point is treated as undefined, nonprinting, and
 incrementing and, if printed when processing an AEA or PCA, the printer prints the highlight
 mark that is also used to mark PCA errors.
-• If the LCPC command does not contain a default GCGID, the code point is treated as
+• If the LCPC command does not contain a default GCGID, the code point is treated as [IPDS-14-068]
 undefined, nonprinting, and incrementing and, if printed when processing an AEA or PCA,
 the variable-space code point is used.
 Optional Unicode mapping entry
@@ -826,7 +826,7 @@ X'B005' in the Loaded-Font command-set vector of an STM reply; if the printer do
 indicate support, Unicode-mapping-entry values must not be placed in the LCP commands.
 + 0 Count
 This parameter specifies the number of Unicode scalar values to follow. A value of
-X'00' indicates that there are no Unicode scalar values mapped to this code point.
+X'00' indicates that there are no Unicode scalar values mapped to this code point. [IPDS-14-069]
 ## Load Code Page (LCP)
 
 
@@ -851,7 +851,7 @@ Some devices will correctly present these two Unicode scalar values as ü;
 however, other devices present characters in a one-to-one fashion and might
 present the code point as u¨. In some cases, this problem can be avoided by
 mapping to a single, already-combined Unicode scalar value (if such a Unicode
-value is registered), such as X'00FC' (ü).
+value is registered), such as X'00FC' (ü). [IPDS-14-070]
 ## Load Code Page (LCP)
 
 
@@ -870,33 +870,33 @@ The length of the LCPC command can be:
 Without CID X'0010', X'0011', X'0014', X'0015', X'001D', X'001E', X'0021', or X'0022'
 With CID X'0012', X'0013', X'0016', X'0017', X'001F', X'0020', X'0023', or X'0024'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-The data for the LCPC command contains the following information:
+The data for the LCPC command contains the following information: [IPDS-14-071]
 
 | Offset | Type | Name | Range | Meaning | LF3, LF4 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Code Page Host-Assigned ID | X'0001' – X'7EFF' |
-| 2–3 | BITS | Encoding Scheme | | | |
-| | bits 0–3 | | B'0000' | Reserved | B'0000' |
-| | bits 4–7 | Code point size | B'0001', B'0010' | Number of bytes indicator:<br>Fixed single byte<br>Fixed double byte | B'0001' |
-| | bits 8–15 | | B'00000000' | Reserved | B'00000000' |
-| 4–7 | UBIN | Byte count | X'0000000A' – X'FFFFFFFF' | Number of data bytes in subsequent LCP commands | X'0000000A' – X'00000A00' |
-| 8 | BITS | Extension flags | | | |
-| | bit 0 | Unicode | B'0', B'1' | Unicode entries provided:<br>No<br>Yes | B'0', B'1' |
-| | bits 1–7 | | B'0000000' | Reserved | B'0000000' |
-| 9 | X'00' | | | Reserved | X'00' |
-| 10–n | CODE | Space | Any value | Variable-space code point | Any value |
-| **GRID information if required (see byte description):** | | | | | |
-| n+1 to n+2 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description |
-| n+3 to n+4 | CODE | CPGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Code Page Global ID | See byte description |
-| **Default-character information (see byte description):** | | | | | |
-| n+5 to n+12 | CODE | Default GCGID | Any value | Default Graphic Character Global ID | Any value |
-| n+13 | BITS | Processing flags for the default GCGID | | | |
-| | bit 0 | Undefined | B'0', B'1' | Undefined | B'0', B'1' |
-| | bit 1 | Noprint | B'0', B'1' | Nonprinting | B'0', B'1' |
-| | bit 2 | Noincr | B'0', B'1' | Nonincrementing | B'0', B'1' |
-| | bits 3–7 | | B'00000' | Reserved; bit 4 retired | B'00000' |
-| **Zero or one Unicode scalar value for the default GCGID (only present when the Unicode flag (byte 8) is B'1')** | | | | | |
-| + 0–3 | UBIN | Unicode scalar value | X'00000000' – X'FFFFFFFF' (excluding surrogates) | Unicode scalar value to be mapped to the default GCGID value | See byte description |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Code Page Host-Assigned ID | X'0001' – X'7EFF' [IPDS-14-072]|
+| 2–3 | BITS | Encoding Scheme [IPDS-14-073]| | | |
+| | bits 0–3 | | B'0000' | Reserved | B'0000' [IPDS-14-074]|
+| | bits 4–7 | Code point size | B'0001', B'0010' | Number of bytes indicator:<br>Fixed single byte<br>Fixed double byte | B'0001' [IPDS-14-075]|
+| | bits 8–15 | | B'00000000' | Reserved | B'00000000' [IPDS-14-076]|
+| 4–7 | UBIN | Byte count | X'0000000A' – X'FFFFFFFF' | Number of data bytes in subsequent LCP commands | X'0000000A' – X'00000A00' [IPDS-14-077]|
+| 8 | BITS | Extension flags [IPDS-14-078]| | | |
+| | bit 0 | Unicode | B'0', B'1' | Unicode entries provided:<br>No<br>Yes | B'0', B'1' [IPDS-14-079]|
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' [IPDS-14-080]|
+| 9 | X'00' | | | Reserved | X'00' [IPDS-14-081]|
+| 10–n | CODE | Space | Any value | Variable-space code point | Any value [IPDS-14-082]|
+| **GRID information if required (see byte description):** [IPDS-14-083]| | | | | |
+| n+1 to n+2 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description [IPDS-14-084]|
+| n+3 to n+4 | CODE | CPGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Code Page Global ID | See byte description [IPDS-14-085]|
+| **Default-character information (see byte description):** [IPDS-14-086]| | | | | |
+| n+5 to n+12 | CODE | Default GCGID | Any value | Default Graphic Character Global ID | Any value [IPDS-14-087]|
+| n+13 | BITS | Processing flags for the default GCGID [IPDS-14-088]| | | |
+| | bit 0 | Undefined | B'0', B'1' | Undefined | B'0', B'1' [IPDS-14-089]|
+| | bit 1 | Noprint | B'0', B'1' | Nonprinting | B'0', B'1' [IPDS-14-090]|
+| | bit 2 | Noincr | B'0', B'1' | Nonincrementing | B'0', B'1' [IPDS-14-091]|
+| | bits 3–7 | | B'00000' | Reserved; bit 4 retired | B'00000' [IPDS-14-092]|
+| **Zero or one Unicode scalar value for the default GCGID (only present when the Unicode flag (byte 8) is B'1')** [IPDS-14-093]| | | | | |
+| + 0–3 | UBIN | Unicode scalar value | X'00000000' – X'FFFFFFFF' (excluding surrogates) | Unicode scalar value to be mapped to the default GCGID value | See byte description [IPDS-14-094]|
 Bytes 0–1 Code Page Host-Assigned ID
 A value that is assigned by the host to identify this code page. The HAIDs used for code pages
 come from a pool of IDs that is separate from the pool used for other resources such as font
@@ -918,7 +918,7 @@ This field specifies the number of data bytes to be transmitted for this code pa
 subsequent LCP commands.
 Exception ID X'02B0..04' exists if the total number of bytes transmitted in the following LCP
 commands does not match this value. Exception ID X'02B0..05' exists if an invalid or
-unsupported byte-count value is specified.
+unsupported byte-count value is specified. [IPDS-14-095]
 ## Load Code Page Control (LCPC)
 
 
@@ -970,7 +970,7 @@ property pair in the Loaded-Font command-set vector of an STM reply), these byte
 contain an IBM-registered Graphic Character Set Global Identifier. GCSGIDs are defined in
 Corporate Standard: C-S 3-3220-050 (IBM Registry, Graphic Character Sets and Code
 Pages). The printer must support all values in the range X'0000'–X'FFFF'. The value X'0000'
-means that no GCSGID information is supplied.
+means that no GCSGID information is supplied. [IPDS-14-096]
 ## Load Code Page Control (LCPC)
 
 
@@ -998,16 +998,16 @@ Some printers that return property pair X'B003' require a valid CPGID value in t
 printers make use of the GCSGID and CPGID values if they are present, and still other
 printers allow these fields, but ignore them. Exception ID X'02B0..03' exists in either of these
 cases:
-• The printer requires a valid CPGID value and one isn't supplied.
-• The printer uses the CPGID value, but an invalid value is specified.
+• The printer requires a valid CPGID value and one isn't supplied. [IPDS-14-097]
+• The printer uses the CPGID value, but an invalid value is specified. [IPDS-14-098]
 Note: The GCSGID and CPGID associated with a captured code page comes from the AR
 command not the LCPC command.
 Optional default-character parameters (bytes n+5 to end):
 Bytes n+5 to n+12
 Default Graphic Character Global ID (GCGID)
 The default GCGID is used in the following circumstances:
-• When no code-point entry has been specified for a code point
-• When a code point without a corresponding character in the font character set has been
+• When no code-point entry has been specified for a code point [IPDS-14-099]
+• When a code point without a corresponding character in the font character set has been [IPDS-14-100]
 specified
 If the LCPC command does not contain a default GCGID, missing code points and missing
 characters are treated as undefined, nonprinting, and incrementing and, if printed when
@@ -1020,7 +1020,7 @@ Note: When this code page is used with a CID-keyed font that has an empty charac
 (that is, a font that is not character-ID-map linked), match the default GCGID with the
 corresponding code point in the code page; then index into the font character set with
 that code point. Use the default GCGID processing flags with this character and do not
-treat this as a variable-space code point.
+treat this as a variable-space code point. [IPDS-14-101]
 ## Load Code Page Control (LCPC)
 
 
@@ -1069,7 +1069,7 @@ This value produces a data-check exception unless reporting of undefined
 character checks is blocked through the XOA Exception-Handling Control. If
 the data-check exception is blocked, this entry can be used for a null
 character (B'011').
-Bit 4 of the Processing flags is retired as Retired item 133.
+Bit 4 of the Processing flags is retired as Retired item 133. [IPDS-14-102]
 ## Load Code Page Control (LCPC)
 
 
@@ -1088,7 +1088,7 @@ X'0000D7FF' and from X'0000E000' to X'0010FFFF' inclusive. Any other value is an
 ill-formed Unicode value; in the future, values above X'0010FFFF' might be added to
 the valid Unicode range.
 The Unicode scalar value should match the default-character GCGID and should be
-in all TrueType/OpenType fonts used with this code page.
+in all TrueType/OpenType fonts used with this code page. [IPDS-14-103]
 ## Load Code Page Control (LCPC)
 
 
@@ -1096,8 +1096,8 @@ Load Font
 The Load Font (LF) command transmits either character raster patterns or outline information to a printer. The
 LF command is not used for symbol sets. One or more LF commands follow either of the following control
 commands:
-• Load Font Control (LFC)
-• Load Font Character Set Control (LFCSC)
+• Load Font Control (LFC) [IPDS-14-104]
+• Load Font Character Set Control (LFCSC) [IPDS-14-105]
 Note: The shape and metrics information for the Type 1 PFB technology is the Adobe Printer Font Binary
 (PFB) file. The shape and metrics information for the CID-keyed technology is a hierarchical series of
 files, some of which are PFB files.
@@ -1106,16 +1106,16 @@ little data is transmitted in a Load Font command. The data for either the LF1 f
 between two consecutive LF commands at any byte boundary. The sequence of LF commands is terminated
 by an End command.
 The following statements apply to LF1-type coded fonts only:
-• A consecutive sequence of Load Font (LF) commands transmits the character raster patterns for both single-
+• A consecutive sequence of Load Font (LF) commands transmits the character raster patterns for both single- [IPDS-14-106]
 byte coded fonts and double-byte coded font sections to the printer.
-• Font character raster patterns are received as a string of bits representing the character. B'1' indicates a
+• Font character raster patterns are received as a string of bits representing the character. B'1' indicates a [IPDS-14-107]
 toned pel and B'0' indicates an untoned pel. The bits are organized as a sequence of scan lines. Each scan
 line is byte aligned and contains a number of bits equal to the character pattern X size determined in bytes
 0–1 of the character-pattern descriptor in the Load Font Control (LFC) command. Refer to the description of
 bytes 40 to end of command (character-pattern descriptors). In addition, each scan line
 contains the minimum number of bits needed to pad the scan line to an integral number of bytes. Padding
 bits are assumed to be B'0'. The number of scan lines per character is equal to the character pattern Y size.
-• The first scan received is the top reference edge of the character box. The last scan line received is the
+• The first scan received is the top reference edge of the character box. The last scan line received is the [IPDS-14-108]
 bottom reference edge of the character box. The first received pels of each scan line are the left reference
 edge of the character box. The last received pels without padding of each scan line are the right reference
 edge of each character box.
@@ -1124,7 +1124,7 @@ specified in the byte-count parameter in the LFC or LFCSC command. Exception ID 
 total number of bytes received for a given font is more than the value specified in the byte-count parameter in
 the LFC or LFCSC command.
 Note: Only Anystate commands are valid between concatenated LF commands. Refer to Figure 45 for a list of Anystate commands.
-An End command is valid only after all of the font data has been transmitted.
+An End command is valid only after all of the font data has been transmitted. [IPDS-14-109]
 ## Load Font (LF)
 
 
@@ -1136,19 +1136,19 @@ Without CID X'0005'–X'7FFF'
 With CID X'0007'–X'7FFF'
 For LF3 format, the length of the character ID map and each technology-specific object must also be
 valid. Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-**LF1 format** When downloading a fully described font (LF1 format), the LF data consists of a series of character raster-pattern bit strings. The data for the LF command contains the following information:
+**LF1 format** When downloading a fully described font (LF1 format), the LF data consists of a series of character raster-pattern bit strings. The data for the LF command contains the following information: [IPDS-14-110]
 
 | Offset | Type | Name | Range | Meaning | LF1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 to end | UNDF | Font data | Any value | Character raster-pattern bit string | Any value |
+| 0 to end | UNDF | Font data | Any value | Character raster-pattern bit string | Any value [IPDS-14-111]|
 
-**LF3 format** When downloading a font character set (LF3 format), the LF data consists of a character ID map followed by zero or more technology-specific objects.
+**LF3 format** When downloading a font character set (LF3 format), the LF data consists of a character ID map followed by zero or more technology-specific objects. [IPDS-14-112]
 
 | Offset | Type | Name | Range | Meaning | LF3 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 to n | Character ID map | | See detail description | Character ID map | See detail description |
-| **Zero or more technology-specific objects in the following format:** | | | | | |
-| n+1 to end | Tech object | | See detail description | Technology-specific object | See detail description |
+| 0 to n | Character ID map | | See detail description | Character ID map | See detail description [IPDS-14-113]|
+| **Zero or more technology-specific objects in the following format:** [IPDS-14-114]| | | | | |
+| n+1 to end | Tech object | | See detail description | Technology-specific object | See detail description [IPDS-14-115]|
 Character ID map
 The character ID map is used to map IBM character IDs (GCGIDs), as are found in code page objects, to the
 technology-specific IDs used by this font character set.
@@ -1158,22 +1158,22 @@ map. The second part contains a series of entries that map GCGIDs to an offset i
 The third part contains the variable-length technology-specific IDs.
 The number of GCGIDs in the map and the total length of the character ID map is specified in the LFCSC
 command (bytes 11–16). The GCGIDs must occur in ascending-EBCDIC order; if a GCGID is out of order,
-exception ID X'02B1..04' exists.
+exception ID X'02B1..04' exists. [IPDS-14-116]
 ## Load Font (LF)
 
 
-The character ID map contains the following information:
+The character ID map contains the following information: [IPDS-14-117]
 
 | Offset | Type | Name | Range | Meaning | LF3 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | IBM format | X'02' | IBM character ID format, IBM Registered EBCDIC GCGID | X'02' |
-| 1 | CODE | Technology format | X'03', X'05' | Technology-specific character ID format:<br>X'03' Font-specific ASCII character name, used with Type 1 PFB fonts<br>X'05' CMAP binary code point, used with CID-keyed fonts | At least one value |
-| **Zero or more entries in the following format:** | | | | | |
-| +0–7 | CHAR | GCGID | Any value | IBM character ID as used in code pages | Any value |
-| +8–11 | UBIN | Offset | Any value | Offset from the beginning of the character ID map (byte 0), into the following list of technology-specific ID entries; each GCGID maps to exactly one technology-specific ID | Any value |
-| **Zero or more technology-specific ID entries in the following format:** | | | | | |
-| ++0 | UBIN | Length | X'02' – X'80' | Length of technology-specific ID entry, including this length field | X'02' – X'80' |
-| ++ 1–n | UNDF | Tech ID | Any value | Technology-specific ID | Any value |
+| 0 | CODE | IBM format | X'02' | IBM character ID format, IBM Registered EBCDIC GCGID | X'02' [IPDS-14-118]|
+| 1 | CODE | Technology format | X'03', X'05' | Technology-specific character ID format:<br>X'03' Font-specific ASCII character name, used with Type 1 PFB fonts<br>X'05' CMAP binary code point, used with CID-keyed fonts | At least one value [IPDS-14-119]|
+| **Zero or more entries in the following format:** [IPDS-14-120]| | | | | |
+| +0–7 | CHAR | GCGID | Any value | IBM character ID as used in code pages | Any value [IPDS-14-121]|
+| +8–11 | UBIN | Offset | Any value | Offset from the beginning of the character ID map (byte 0), into the following list of technology-specific ID entries; each GCGID maps to exactly one technology-specific ID | Any value [IPDS-14-122]|
+| **Zero or more technology-specific ID entries in the following format:** [IPDS-14-123]| | | | | |
+| ++0 | UBIN | Length | X'02' – X'80' | Length of technology-specific ID entry, including this length field | X'02' – X'80' [IPDS-14-124]|
+| ++ 1–n | UNDF | Tech ID | Any value | Technology-specific ID | Any value [IPDS-14-125]|
 Note: When using a CMap binary code point technology format (X'05'), multiple CMap or Rearranged objects
 can be present in the font character set. The code points specified in the character ID map correspond
 to the code points in the CMap or Rearranged object that is linked to the character ID map. Refer to the
@@ -1187,7 +1187,7 @@ This field specifies the technology-specific character ID format that is contain
 of the map. If an invalid or unsupported technology format value is specified in this field,
 exception ID X'02B1..01' exists.
 Property pair X'C0nn' in the Loaded-Font command-set vector of an STM reply identifies a
-supported technology format.
+supported technology format. [IPDS-14-126]
 ## Load Font (LF)
 
 
@@ -1216,19 +1216,19 @@ Technology-specific objects
 For Type 1 PFB fonts, there is just one technology-specific object (a PFB file); bytes n+1 to m are not present
 in a Type 1 PFB font. For CID-keyed fonts, there can be several technology-specific objects; each of which
 describes itself in bytes n+1 to m.
-Each of the technology-specific objects contain the following information:
+Each of the technology-specific objects contain the following information: [IPDS-14-127]
 
 | Offset | Type | Name | Range | Meaning | LF3 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–3 | UBIN | Length | X'0000000A' – X'FFFFFFFF' | Length of this technology-specific object, including this length field | X'0000000A' – X'FFFFFFFF' |
-| 4–7 | UBIN | Checksum | Any value | Checksum value | Any value |
-| 8–9 | UBIN | Identifier length | X'0002' – X'FFFF' | Length of the object identifier (bytes 8–n) | X'0002' – X'FFFF' |
-| 10–n | CHAR | Identifier | Any value | Object identifier for this technology-specific object | Any value |
-| **Bytes n+1 to m are only present for CID-keyed fonts. These bytes are omitted for Type 1 PFB fonts.** | | | | | |
-| n+1 to n+2 | UBIN | Descriptor length | X'0002' – X'FFFF' | Length of the object descriptor (bytes n+1 to m) | X'0002' – X'FFFF' |
-| n+3 | CODE | Object type | X'00', X'01', X'05', X'06', X'07', X'08' | Object type:<br>X'00' No object type specified<br>X'01' CMap file<br>X'05' CID file<br>X'06' PFB file<br>X'07' AFM file<br>X'08' Filename Map file (for example, ATMDATA.DAT) | X'00', X'01', X'05', X'06', X'07', X'08' |
-| n+4 to m | | Object-type specific information | See byte description | Object-type specific information | See byte description |
-| m+1 to end | UBIN | Object data | Any value | Object data as defined for the specific technology | Any value |
+| 0–3 | UBIN | Length | X'0000000A' – X'FFFFFFFF' | Length of this technology-specific object, including this length field | X'0000000A' – X'FFFFFFFF' [IPDS-14-128]|
+| 4–7 | UBIN | Checksum | Any value | Checksum value | Any value [IPDS-14-129]|
+| 8–9 | UBIN | Identifier length | X'0002' – X'FFFF' | Length of the object identifier (bytes 8–n) | X'0002' – X'FFFF' [IPDS-14-130]|
+| 10–n | CHAR | Identifier | Any value | Object identifier for this technology-specific object | Any value [IPDS-14-131]|
+| **Bytes n+1 to m are only present for CID-keyed fonts. These bytes are omitted for Type 1 PFB fonts.** [IPDS-14-132]| | | | | |
+| n+1 to n+2 | UBIN | Descriptor length | X'0002' – X'FFFF' | Length of the object descriptor (bytes n+1 to m) | X'0002' – X'FFFF' [IPDS-14-133]|
+| n+3 | CODE | Object type | X'00', X'01', X'05', X'06', X'07', X'08' | Object type:<br>X'00' No object type specified<br>X'01' CMap file<br>X'05' CID file<br>X'06' PFB file<br>X'07' AFM file<br>X'08' Filename Map file (for example, ATMDATA.DAT) | X'00', X'01', X'05', X'06', X'07', X'08' [IPDS-14-134]|
+| n+4 to m | | Object-type specific information | See byte description | Object-type specific information | See byte description [IPDS-14-135]|
+| m+1 to end | UBIN | Object data | Any value | Object data as defined for the specific technology | Any value [IPDS-14-136]|
 Bytes 0–3 Length
 This value specifies the length of the technology-specific object, including this field. Exception
 ID X'02B1..08' exists if an invalid length is specified.
@@ -1238,13 +1238,13 @@ specific object. To calculate the checksum, all of the bytes of the object data,
 spread across multiple LF commands, are considered as a continuous sequence of bytes. The
 object data is then mapped to an array containing four unsigned bytes.
 The first four bytes of object data are placed into the array as follows:
-• The 1st byte of object data becomes byte 0 of the array (most significant byte).
-• The 2nd byte of object data becomes byte 1 of the array.
-• The 3rd byte of object data becomes byte 2 of the array.
-• The 4th byte of object data becomes byte 3 of the array (least significant byte).
+• The 1st byte of object data becomes byte 0 of the array (most significant byte). [IPDS-14-137]
+• The 2nd byte of object data becomes byte 1 of the array. [IPDS-14-138]
+• The 3rd byte of object data becomes byte 2 of the array. [IPDS-14-139]
+• The 4th byte of object data becomes byte 3 of the array (least significant byte). [IPDS-14-140]
 The remaining bytes of the object data are added on a byte-by-byte basis to the values
 contained in the array; all carry bits are ignored. The mapping of the remaining object data is
-done such that the 5th byte is added to the value in array position 0, the 6th byte to array
+done such that the 5th byte is added to the value in array position 0, the 6th byte to array [IPDS-14-141]
 ## Load Font (LF)
 
 
@@ -1288,7 +1288,7 @@ Byte n+3 Object type
 This is the type of the technology-specific object. Technology-specific objects are most often
 non-AFPC data objects that are architected by other companies or organizations. Specific
 descriptions of technology-specific objects can be obtained from the defining source.
-Unrecognized values are treated as if X'00' had been specified.
+Unrecognized values are treated as if X'00' had been specified. [IPDS-14-142]
 ## Load Font (LF)
 
 
@@ -1296,16 +1296,16 @@ Bytes n+4
 to m
 Object-type specific information
 The content of this field depends on the object type, as follows:
-• For types X'00' and X'06'–X'08', this field is not defined by architecture and is ignored.
-• For type X'01' (CMap file), five fields in the following sequence:
+• For types X'00' and X'06'–X'08', this field is not defined by architecture and is ignored. [IPDS-14-143]
+• For type X'01' (CMap file), five fields in the following sequence: [IPDS-14-144]
 
 | Offset | Type | Name | Range | Meaning | LF3 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| n+4 | CODE | Precedence | X'00', X'01' | X'00' Primary<br>X'01' Auxiliary | X'00', X'01' |
-| n+5 | CODE | Linkage | X'00', X'01' | X'00' Character ID map linked<br>X'01' Not character ID map linked | X'00', X'01' |
-| n+6 | CODE | Writing direction | X'00', X'01', X'02', X'03' | X'00' No writing direction specified<br>X'01' Horizontal<br>X'02' Vertical<br>X'03' Both horizontal and vertical | X'00', X'01', X'02', X'03' |
-| n+7 to n+8 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | X'0000', X'0001' – X'FFFE', X'FFFF' |
-| n+9 to n+10 | CODE | CPGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Code Page Global ID<br>Use default value | X'0000', X'0001' – X'FFFE', X'FFFF' |
+| n+4 | CODE | Precedence | X'00', X'01' | X'00' Primary<br>X'01' Auxiliary | X'00', X'01' [IPDS-14-145]|
+| n+5 | CODE | Linkage | X'00', X'01' | X'00' Character ID map linked<br>X'01' Not character ID map linked | X'00', X'01' [IPDS-14-146]|
+| n+6 | CODE | Writing direction | X'00', X'01', X'02', X'03' | X'00' No writing direction specified<br>X'01' Horizontal<br>X'02' Vertical<br>X'03' Both horizontal and vertical | X'00', X'01', X'02', X'03' [IPDS-14-147]|
+| n+7 to n+8 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | X'0000', X'0001' – X'FFFE', X'FFFF' [IPDS-14-148]|
+| n+9 to n+10 | CODE | CPGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Code Page Global ID<br>Use default value | X'0000', X'0001' – X'FFFE', X'FFFF' [IPDS-14-149]|
 Byte n+4 Precedence
 X'00' Primary
 X'01' Auxiliary
@@ -1327,7 +1327,7 @@ Byte n+6 Writing direction
 X'00' No writing direction specified
 X'01' Horizontal
 X'02' Vertical
-X'03' Both horizontal and vertical
+X'03' Both horizontal and vertical [IPDS-14-150]
 ## Load Font (LF)
 
 
@@ -1351,13 +1351,13 @@ activate the code page; therefore, depending on the activation
 method used, the code page selected for activation might not have a
 corresponding CMap in the font character set.
 Any additional bytes are ignored.
-• For type X'05' (CID file), three fields in the following sequence:
+• For type X'05' (CID file), three fields in the following sequence: [IPDS-14-151]
 
 | Offset | Type | Name | Range | Meaning | LF3 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| n+4 | CODE | Precedence | X'00', X'01' | X'00' Primary<br>X'01' Auxiliary | X'00', X'01' |
-| n+5 to n+6 | UBIN | Maximum V(y) | Any value | Maximum V(y) value for all characters in the CID font | Any value |
-| n+7 to n+8 | UBIN | Maximum W(y) | Any value | Maximum W(y) value for all characters in the CID font | Any value |
+| n+4 | CODE | Precedence | X'00', X'01' | X'00' Primary<br>X'01' Auxiliary | X'00', X'01' [IPDS-14-152]|
+| n+5 to n+6 | UBIN | Maximum V(y) | Any value | Maximum V(y) value for all characters in the CID font | Any value [IPDS-14-153]|
+| n+7 to n+8 | UBIN | Maximum W(y) | Any value | Maximum W(y) value for all characters in the CID font | Any value [IPDS-14-154]|
 Byte n+4 Precedence
 X'00' Primary
 X'01' Auxiliary
@@ -1383,7 +1383,7 @@ this font character set. Each W(y) value is the y coordinate of the distance
 from the character positioning point to the character escapement point. For
 horizontal writing modes, the character positioning point and the character
 escapement point are normally on the same horizontal line.
-Any additional bytes are ignored.
+Any additional bytes are ignored. [IPDS-14-155]
 ## Load Font (LF)
 
 
@@ -1411,7 +1411,7 @@ This field contains the shape and metrics information for the font character set
 PFB technology font, this is an Adobe Printer Font Binary (PFB) file. For a CID-keyed
 technology font, this is one of a hierarchical series of files, some of which are PFB files. If the
 printer detects an error in the technology-specific object data or if a needed technology-
-specific object is missing, exception ID X'02B1..0B' exists.
+specific object is missing, exception ID X'02B1..0B' exists. [IPDS-14-156]
 ## Load Font (LF)
 
 
@@ -1436,24 +1436,24 @@ The length of the LFCSC command can be:
 Without CID X'0016' or X'001A'
 With CID X'0018' or X'001C'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-The data for the LFCSC command contains the following information:
+The data for the LFCSC command contains the following information: [IPDS-14-157]
 
 | Offset | Type | Name | Range | Meaning | LF3 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font character set Host-Assigned ID | X'0001' – X'7EFF' |
-| 2–3 | X'0000' | | | Reserved | X'0000' |
-| 4 | CODE | Pattern technology | X'1E', X'1F' | Pattern Technology ID:<br>X'1E' CID-keyed technology<br>X'1F' Type 1 PFB technology | At least one value |
-| 5 | X'00' | | | Reserved | X'00' |
-| 6 | BITS | Intended-use flags | | | |
-| | bit 0 | MICR | B'0', B'1' | Intended for MICR printing | B'0' |
-| | bit 1 | Extension | B'0', B'1' | This is a FCS extension | B'0' |
-| | bits 2–7 | | B'000000' | Reserved | B'000000' |
-| 7–10 | UBIN | Load Font count | X'00000002' – X'FFFFFFFF' | Number of data bytes carried in subsequent Load Font commands | X'00000002' |
-| 11–14 | UBIN | Map size | X'00000002' – X'FFFFFFFF' | Number of bytes in the character ID map | X'00000002' |
-| 15–16 | UBIN | Character ID count | Any value | Number of GCGIDs in the character ID map | Any value |
-| **GRID information if required (see byte description):** | | | | | |
-| 17–18 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description. |
-| 19–20 | CODE | FGID | X'0001' – X'FFFE' | Font Typeface Global ID | See byte description. |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font character set Host-Assigned ID | X'0001' – X'7EFF' [IPDS-14-158]|
+| 2–3 | X'0000' | | | Reserved | X'0000' [IPDS-14-159]|
+| 4 | CODE | Pattern technology | X'1E', X'1F' | Pattern Technology ID:<br>X'1E' CID-keyed technology<br>X'1F' Type 1 PFB technology | At least one value [IPDS-14-160]|
+| 5 | X'00' | | | Reserved | X'00' [IPDS-14-161]|
+| 6 | BITS | Intended-use flags [IPDS-14-162]| | | |
+| | bit 0 | MICR | B'0', B'1' | Intended for MICR printing | B'0' [IPDS-14-163]|
+| | bit 1 | Extension | B'0', B'1' | This is a FCS extension | B'0' [IPDS-14-164]|
+| | bits 2–7 | | B'000000' | Reserved | B'000000' [IPDS-14-165]|
+| 7–10 | UBIN | Load Font count | X'00000002' – X'FFFFFFFF' | Number of data bytes carried in subsequent Load Font commands | X'00000002' [IPDS-14-166]|
+| 11–14 | UBIN | Map size | X'00000002' – X'FFFFFFFF' | Number of bytes in the character ID map | X'00000002' [IPDS-14-167]|
+| 15–16 | UBIN | Character ID count | Any value | Number of GCGIDs in the character ID map | Any value [IPDS-14-168]|
+| **GRID information if required (see byte description):** [IPDS-14-169]| | | | | |
+| 17–18 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description. [IPDS-14-170]|
+| 19–20 | CODE | FGID | X'0001' – X'FFFE' | Font Typeface Global ID | See byte description. [IPDS-14-171]|
 Bytes 0–1 Font character set Host-Assigned ID
 A value that is assigned by the host to identify this font character set. The HAIDs used for font
 character sets come from a pool of IDs that is separate from the pool used for other resources
@@ -1493,7 +1493,7 @@ ensure that MICR data is printed only in paper locations on which the printer
 can use MICR material. AFP Setup Verification can be used on some printers
 to ensure that a printer is properly set up for MICR printing; refer to “Printer
 Setup Self-Defining Field”.
-Load Font Character Set Control (LFCSC)
+Load Font Character Set Control (LFCSC) [IPDS-14-172]
 
 
 Exception ID X'02B3..01' exists if a string of text within a WT or WG command
@@ -1539,7 +1539,7 @@ The field specifies the size of the character ID map carried by the series of LF
 follow. Exception ID X'02B0..0F' exists if the map-size value is invalid or unsupported.
 Exception ID X'022E..02' exists if the map-size value is greater than the Load-Font-count
 value.
-Load Font Character Set Control (LFCSC)
+Load Font Character Set Control (LFCSC) [IPDS-14-173]
 
 
 Bytes 15–16 Character ID count
@@ -1570,11 +1570,11 @@ specified or exception ID X'0202..02' exists.
 Some printers that return property pair X'B003' require a valid FGID value in this field, other
 printers make use of the GCSGID and FGID values if they are present, and still other printers
 allow these fields, but ignore them. Exception ID X'02B0..0D' exists in either of these cases:
-• The printer requires a valid FGID value and one isn't supplied.
-• The printer uses the FGID value, but an invalid value is specified.
+• The printer requires a valid FGID value and one isn't supplied. [IPDS-14-174]
+• The printer uses the FGID value, but an invalid value is specified. [IPDS-14-175]
 Note: The GCSGID and FGID associated with a captured font character set come from the
 AR command, not the LFCSC command.
-Load Font Character Set Control (LFCSC)
+Load Font Character Set Control (LFCSC) [IPDS-14-176]
 
 
 Load Font Control
@@ -1603,50 +1603,50 @@ Length X'D61F' Flag CID Data
 The length of the LFC command can be:
 Without CID X'002D'–X'7FFD' in increments of 8
 With CID X'002F'–X'7FFF' in increments of 8
-Exception ID X'0202..02' exists if the command length is invalid or unsupported.
+Exception ID X'0202..02' exists if the command length is invalid or unsupported. [IPDS-14-177]
 ## Load Font Control (LFC)
 
 
-The data for the LFC command contains the following information:
+The data for the LFC command contains the following information: [IPDS-14-178]
 
 | Offset | Type | Name | Range | Meaning | LF1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' |
-| 2 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single-byte<br>Double-byte section ID | X'00' |
-| 3 | CODE | LFC, LFI format | X'00' | Font control record and font index table format | X'00' |
-| 4 | CODE | Pattern format | X'05' | Pattern data format (bounded box) | X'05' |
-| 5 | BITS | Font type flags | | | |
-| | bits 0–1 | | B'00' | Reserved | B'00' |
-| | bits 2–3 | Font type | B'01', B'10' | Single-byte coded font<br>Double-byte coded font | B'01' |
-| | bits 4–5 | | B'00' | Reserved | B'00' |
-| | bit 6 | Uniform character box | B'1', B'0' | B'1': Font has a uniform character-box size, specified in bytes 6 and 7<br>B'0': Box size for each character is expressed in the character-pattern descriptor for that character (bytes 40 to end of command) | B'1', B'0' |
-| | bit 7 | | B'0' | Reserved | B'0' |
-| 6–7 | UBIN | X size | X'0000' – X'7FFF' | Uniform or maximum character-box X size | See byte description. |
-| 8–9 | UBIN | Y size | X'0000' – X'7FFF' | Uniform or maximum character-box Y size | See byte description. |
-| 10 | CODE | L-unit unit base | X'00', X'01', X'02' | Unit base for L-units:<br>Ten inches (fixed-metric technology)<br>Ten centimeters (fixed-metric technology)<br>Relative units (relative-metric technology) | See byte description. |
-| 11 | X'00' | Reserved | X'00' | | |
-| 12–13 | UBIN | X UPUB | X'0001' – X'7FFF' | Units per unit base in the X direction for L-units | See byte description. |
-| 14–15 | UBIN | Y UPUB | X'0001' – X'7FFF' | Units per unit base in the Y direction for L-units (same as bytes 12–13 for relative metrics) | See byte description. |
-| 16–17 | X'0000' | Reserved | X'0000' | | |
-| 18–20 | UBIN | Byte count | X'000001' – X'7FFFFF' | Font byte count | X'000001' – X'7FFFFF' |
-| 21 | UBIN | Data alignment | X'01'–X'FF' | Pattern data alignment value | X'01', X'04', X'08' |
-| 22–23 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description. |
-| 24–25 | CODE | CPGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Code Page Global ID | See byte description. |
-| 26 | CODE | Pel-unit unit base | X'00', X'01' | Unit base for pel units:<br>ten inches<br>ten centimeters | See byte description. |
-| 27 | X'00' | Reserved | X'00' | | |
-| 28–29 | UBIN | X pel units | X'0000' – X'7FFF' | Pel units per unit base in the X direction | See byte description. |
-| 30–31 | UBIN | Y pel units | X'0000' – X'7FFF' | Pel units per unit base in the Y direction | See byte description. |
-| 32–33 | UBIN | RMMF | X'0001' – X'7FFF' | Relative-metric multiplying factor | See byte description. |
-| 34–35 | CODE | FGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Font Typeface Global ID | See byte description. |
-| 36 | X'01' | Reserved | X'01' | | |
-| 37 | BITS | Intended-use flags | | | |
-| | bit 0 | MICR | B'0', B'1' | Intended for MICR printing | B'0' |
-| | bits 1–7 | | B'0000000' | Reserved | B'0000000' |
-| 38–39 | CODE | FW | X'0000', X'0001' – X'7FFF' | No value supplied<br>Font Width (FW) | See byte description. |
-| **Zero or more character-pattern descriptors in the following format:** | | | | | |
-| + 0–1 | UBIN | X size | X'0000' – X'7FFF' | Character-box X size | See byte description. |
-| + 2–3 | UBIN | Y size | X'0000' – X'7FFF' | Character-box Y size | See byte description. |
-| + 4–7 | UBIN | Address | X'00000000' – X'007FFFFE' | Character-pattern address | X'00000000' – X'007FFFFE' |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' [IPDS-14-179]|
+| 2 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single-byte<br>Double-byte section ID | X'00' [IPDS-14-180]|
+| 3 | CODE | LFC, LFI format | X'00' | Font control record and font index table format | X'00' [IPDS-14-181]|
+| 4 | CODE | Pattern format | X'05' | Pattern data format (bounded box) | X'05' [IPDS-14-182]|
+| 5 | BITS | Font type flags [IPDS-14-183]| | | |
+| | bits 0–1 | | B'00' | Reserved | B'00' [IPDS-14-184]|
+| | bits 2–3 | Font type | B'01', B'10' | Single-byte coded font<br>Double-byte coded font | B'01' [IPDS-14-185]|
+| | bits 4–5 | | B'00' | Reserved | B'00' [IPDS-14-186]|
+| | bit 6 | Uniform character box | B'1', B'0' | B'1': Font has a uniform character-box size, specified in bytes 6 and 7<br>B'0': Box size for each character is expressed in the character-pattern descriptor for that character (bytes 40 to end of command) | B'1', B'0' [IPDS-14-187]|
+| | bit 7 | | B'0' | Reserved | B'0' [IPDS-14-188]|
+| 6–7 | UBIN | X size | X'0000' – X'7FFF' | Uniform or maximum character-box X size | See byte description. [IPDS-14-189]|
+| 8–9 | UBIN | Y size | X'0000' – X'7FFF' | Uniform or maximum character-box Y size | See byte description. [IPDS-14-190]|
+| 10 | CODE | L-unit unit base | X'00', X'01', X'02' | Unit base for L-units:<br>Ten inches (fixed-metric technology)<br>Ten centimeters (fixed-metric technology)<br>Relative units (relative-metric technology) | See byte description. [IPDS-14-191]|
+| 11 | X'00' | Reserved | X'00' [IPDS-14-192]| | |
+| 12–13 | UBIN | X UPUB | X'0001' – X'7FFF' | Units per unit base in the X direction for L-units | See byte description. [IPDS-14-193]|
+| 14–15 | UBIN | Y UPUB | X'0001' – X'7FFF' | Units per unit base in the Y direction for L-units (same as bytes 12–13 for relative metrics) | See byte description. [IPDS-14-194]|
+| 16–17 | X'0000' | Reserved | X'0000' [IPDS-14-195]| | |
+| 18–20 | UBIN | Byte count | X'000001' – X'7FFFFF' | Font byte count | X'000001' – X'7FFFFF' [IPDS-14-196]|
+| 21 | UBIN | Data alignment | X'01'–X'FF' | Pattern data alignment value | X'01', X'04', X'08' [IPDS-14-197]|
+| 22–23 | CODE | GCSGID | X'0000', X'0001' – X'FFFE', X'FFFF' | No value supplied<br>Graphic Character Set Global ID<br>Use default value | See byte description. [IPDS-14-198]|
+| 24–25 | CODE | CPGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Code Page Global ID | See byte description. [IPDS-14-199]|
+| 26 | CODE | Pel-unit unit base | X'00', X'01' | Unit base for pel units:<br>ten inches<br>ten centimeters | See byte description. [IPDS-14-200]|
+| 27 | X'00' | Reserved | X'00' [IPDS-14-201]| | |
+| 28–29 | UBIN | X pel units | X'0000' – X'7FFF' | Pel units per unit base in the X direction | See byte description. [IPDS-14-202]|
+| 30–31 | UBIN | Y pel units | X'0000' – X'7FFF' | Pel units per unit base in the Y direction | See byte description. [IPDS-14-203]|
+| 32–33 | UBIN | RMMF | X'0001' – X'7FFF' | Relative-metric multiplying factor | See byte description. [IPDS-14-204]|
+| 34–35 | CODE | FGID | X'0000', X'0001' – X'FFFE' | No value supplied<br>Font Typeface Global ID | See byte description. [IPDS-14-205]|
+| 36 | X'01' | Reserved | X'01' [IPDS-14-206]| | |
+| 37 | BITS | Intended-use flags [IPDS-14-207]| | | |
+| | bit 0 | MICR | B'0', B'1' | Intended for MICR printing | B'0' [IPDS-14-208]|
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' [IPDS-14-209]|
+| 38–39 | CODE | FW | X'0000', X'0001' – X'7FFF' | No value supplied<br>Font Width (FW) | See byte description. [IPDS-14-210]|
+| **Zero or more character-pattern descriptors in the following format:** [IPDS-14-211]| | | | | |
+| + 0–1 | UBIN | X size | X'0000' – X'7FFF' | Character-box X size | See byte description. [IPDS-14-212]|
+| + 2–3 | UBIN | Y size | X'0000' – X'7FFF' | Character-box Y size | See byte description. [IPDS-14-213]|
+| + 4–7 | UBIN | Address | X'00000000' – X'007FFFFE' | Character-pattern address | X'00000000' – X'007FFFFE' [IPDS-14-214]|
 ## Load Font Control (LFC)
 
 
@@ -1692,10 +1692,10 @@ Fixed-metric technology was originally defined to be used with 240 pel/inch prin
 printers, L-units are effectively the same as pels. The character box is measured in L-units in
 both directions. The first L-unit in each dimension is 0, so that the value of this parameter is
 one less than the actual box size. For example, a value of 7 indicates 8 L-units, 15 indicates
-16 L-units, and 31 indicates 32 L-units.
+16 L-units, and 31 indicates 32 L-units. [IPDS-14-215]
 The X size specifies the X dimension of the box used by the printer and includes no padding.
 The raster patterns are sent by LF commands and are padded so that each scan line, with
-padding, is an integral number of bytes.
+padding, is an integral number of bytes. [IPDS-14-216]
 ## Load Font Control (LFC)
 
 
@@ -1714,14 +1714,14 @@ Fixed-metric technology was originally defined to be used with 240 pel/inch prin
 printers, L-units are effectively the same as pels. The character box is measured in L-units in
 both directions. The first L-unit in each dimension is 0, so that the value of this parameter is
 one less than the actual box size. For example, a value of 7 indicates 8 L-units, 15 indicates
-16 L-units, and 31 indicates 32 L-units.
+16 L-units, and 31 indicates 32 L-units. [IPDS-14-217]
 The Y size specifies the Y dimension of the box used by the printer and includes no padding.
 Byte 10 Unit base for L-units
 This field specifies the unit base to be used for all fields specified in L-units in the LFC and LFI
 commands. The following values are valid:
-• X'00' specifies ten inches (fixed-metric technology).
-• X'01' specifies ten centimeters (fixed-metric technology).
-• X'02' specifies relative units (relative-metric technology).
+• X'00' specifies ten inches (fixed-metric technology). [IPDS-14-218]
+• X'01' specifies ten centimeters (fixed-metric technology). [IPDS-14-219]
+• X'02' specifies relative units (relative-metric technology). [IPDS-14-220]
 Property pair X'FB00' in the Device-Control command-set vector of an STM reply indicates
 support for all architected units of measure.
 The metric technology supported by the printer is indicated by property pair X'C1nn' in the
@@ -1745,7 +1745,7 @@ These bytes specify the number of units per unit base, used for LFC and LFI fiel
 L-units, in specifying distance in the Y direction.
 If fixed-metric technology is supported, the printer must support a fixed-metric L-unit resolution
 for each resolution specified in the XOH-OPC IM-Image and Coded-Font Resolution self-
-defining field. If relative-metric technology is supported, the printer must support X'03E8' in
+defining field. If relative-metric technology is supported, the printer must support X'03E8' in [IPDS-14-221]
 ## Load Font Control (LFC)
 
 
@@ -1782,8 +1782,8 @@ printer must support at least the value X'0000'.
 Some printers require a valid CPGID value in this field, other printers make use of the CPGID
 value if it is present, and still other printers allow this field, but ignore its contents. Exception ID
 X'0246..03' exists in either of these cases:
-• The printer requires a valid CPGID value and one isn't supplied.
-• The printer uses the CPGID value, but an invalid value is specified.
+• The printer requires a valid CPGID value and one isn't supplied. [IPDS-14-222]
+• The printer uses the CPGID value, but an invalid value is specified. [IPDS-14-223]
 Byte 26 Unit base for pel-units
 Pel-units specify the resolution of the raster pattern information loaded via subsequent Load
 Font (LF) commands. Pel is an acronym for Print ELement or Pattern ELement. Printers use
@@ -1793,7 +1793,7 @@ A value of X'00' specifies that the measurement unit for pel-units is ten inches
 specifies that the measurement unit for pel-units is ten centimeters.
 The value X'02' is retired as Retired item 65.
 Property pair X'FB00' in the Device-Control command-set vector of an STM reply indicates
-support for all architected units of measure.
+support for all architected units of measure. [IPDS-14-224]
 ## Load Font Control (LFC)
 
 
@@ -1832,10 +1832,10 @@ metric value is specified in L-units, but the numeric value used is derived from
 font. Host-library fonts normally contain either font-metric values specified in pels or font-
 metric values specified as dimensionless values, that is, previously converted to or created in
 relative units. For example:
-1. If the host-library font-metric values are specified as dimensionless values, the IPDS
+1. If the host-library font-metric values are specified as dimensionless values, the IPDS [IPDS-14-225]
 relative values are set to the host-library values and the Relative-Metric Multiplying Factor
 is set to the desired vertical font size (in 1440ths of an inch/em).
-2. If the host-library font-metric values are specified in pels, the IPDS relative values are set
+2. If the host-library font-metric values are specified in pels, the IPDS relative values are set [IPDS-14-226]
 to the host-library values and the Relative-Metric Multiplying Factor is set to a number
 whose units are in:
 L-units X 1440ths of an inch
@@ -1852,7 +1852,7 @@ host-font resolution (pels/inch)
 Several of the values specified in LFC and LFI commands are specified in L-units, but are
 converted by the printer to other units. Relative-metric values are converted (in the printer) to
 fixed-metric values using the following algorithms:
-1. The relative-metric value (in L-units) is multiplied by the Relative-Metric Multiplying Factor
+1. The relative-metric value (in L-units) is multiplied by the Relative-Metric Multiplying Factor [IPDS-14-227]
 (RMMF) and is then divided by the number of L-units per relative unit. This yields a fixed-
 metric value in 1440ths of an inch.
 This can be demonstrated with the following formulas that depend on the method used by
@@ -1869,41 +1869,41 @@ relative-metric value(pels) X RMMF (----------------------------)
 pels X em
 ----------------------------------------------------------------
 units per unit base (L-units/em)
-2. The fixed-metric value in 1440ths of an inch can then be converted to a fixed-metric value
+2. The fixed-metric value in 1440ths of an inch can then be converted to a fixed-metric value [IPDS-14-228]
 in inches, by dividing by 1440.
-3. The fixed-metric value in inches can then be converted to a fixed-metric value in pels, by
+3. The fixed-metric value in inches can then be converted to a fixed-metric value in pels, by [IPDS-14-229]
 multiplying the fixed-metric value in inches by the device resolution in pels/inch.
 When converting relative units to pels, fractional pels are truncated. However, for
 character increments, the fractional pels are accumulated and when the sum of the
 fractions for a string of characters reaches a pel, an extra pel of space is added before the
 next character.
 For example, given that:
-• The device resolution is 300 pels per inch
-• The unit base for L-units is relative (one em)
-• The units per unit base in the X and Y direction is 1000 (X'03E8')
-• The desired fontsize is 240 1440ths of an inch/em (12-point font)
-• The host-font resolution is 240 pels per inch
-• A particular host-font character increment is 20 pels
+• The device resolution is 300 pels per inch [IPDS-14-230]
+• The unit base for L-units is relative (one em) [IPDS-14-231]
+• The units per unit base in the X and Y direction is 1000 (X'03E8') [IPDS-14-232]
+• The desired fontsize is 240 1440ths of an inch/em (12-point font) [IPDS-14-233]
+• The host-font resolution is 240 pels per inch [IPDS-14-234]
+• A particular host-font character increment is 20 pels [IPDS-14-235]
 ## Load Font Control (LFC)
 
 
-1. If the host chooses to use dimensionless units, that is, the character increment was
+1. If the host chooses to use dimensionless units, that is, the character increment was [IPDS-14-236]
 previously converted from 20 pels to 500 L-units, the relative-metric character increment is
 converted to pels by the printer according to the following formula:
-500 X 240 1 300
+500 X 240 1 300 [IPDS-14-237]
 fixed-metric value = --------- X ---- X --- = 25 pels
-1000 1440 1
-2. If the host chooses to use pels units (because the character increment was not previously
+1000 1440 1 [IPDS-14-238]
+2. If the host chooses to use pels units (because the character increment was not previously [IPDS-14-239]
 converted to relative units), the host would calculate the Relative-Metric Multiplying Factor
 (RMMF) as follows:
-1000 X 1440
+1000 X 1440 [IPDS-14-240]
 RMMF = ----------- = 6000
 240
 The relative-metric character increment is converted to pels by the printer as follows:
-20 X 6000 1 300
+20 X 6000 1 300 [IPDS-14-241]
 fixed-metric value = --------- X ---- X --- = 25 pels
-1000 1440 1
-3. For implementation reasons, a printer can do this calculation in two stages. The first stage,
+1000 1440 1 [IPDS-14-242]
+3. For implementation reasons, a printer can do this calculation in two stages. The first stage, [IPDS-14-243]
 done at download time, is to convert each incoming relative-metric value into a fixed-
 metric value in some internal units. One convenient unit, for this example, is 1,440,000ths
 of an inch. The first stage calculation is done as follows:
@@ -1911,9 +1911,9 @@ Internal value = 500 X 240 = 120 000
 OR
 Internal value = 20 X 6000 = 120 000
 The remaining conversion (to pels) is done at print time:
-120 000 1 300
+120 000 1 300 [IPDS-14-244]
 fixed-metric value = ------- X ---- X --- = 25 pels
-1000 1440 1
+1000 1440 1 [IPDS-14-245]
 Bytes 34–35 Font Typeface Global ID (FGID)
 If GRID-parts information in the LFC command is allowed (as specified by the X'B003'
 property pair in the Loaded-Font command-set vector of an STM reply), these bytes should
@@ -1922,10 +1922,10 @@ the value X'0000'.
 Some printers require a valid FGID value in this field, other printers make use of the FGID
 value if is present, and still other printers allow this field, but ignore its contents. Exception ID
 X'0246..03' exists in either of these cases:
-• The printer requires a valid FGID value and one isn't supplied.
-• The printer uses the FGID value, but an invalid value is specified.
+• The printer requires a valid FGID value and one isn't supplied. [IPDS-14-246]
+• The printer uses the FGID value, but an invalid value is specified. [IPDS-14-247]
 Byte 36 Retired item 120, must be X'01'
-Exception ID X'0220..02' exists if an invalid value is specified.
+Exception ID X'0220..02' exists if an invalid value is specified. [IPDS-14-248]
 ## Load Font Control (LFC)
 
 
@@ -1966,8 +1966,8 @@ the width (in 1440ths of an inch) of the font's space character. This additional
 GRID selects a point size within a particular FGID. The printer must support at least the value
 X'0000'.
 Exception ID X'0246..03' exists in either of these cases:
-• The printer requires a valid FW and one isn't supplied.
-• The printer uses the FW value, but an invalid value is specified.
+• The printer requires a valid FW and one isn't supplied. [IPDS-14-249]
+• The printer uses the FW value, but an invalid value is specified. [IPDS-14-250]
 ## Load Font Control (LFC)
 
 
@@ -1977,7 +1977,7 @@ command
 Character-pattern descriptors
 Each character that has a raster pattern also has a character-pattern descriptor, that contains
 the information required to parse the LF commands that follow. A printer must accept at least
-1000 character pattern descriptors. Each descriptor is 8 bytes in length and contains the
+1000 character pattern descriptors. Each descriptor is 8 bytes in length and contains the [IPDS-14-251]
 following fields:
 Offset Type Name Range Meaning LF1 Range
 0–1 UBIN X size X'0000' –
@@ -2029,7 +2029,7 @@ character box is measured in L-units in both directions. The first L-unit in eac
 dimension is 0, so that the value of this parameter is one less than the actual
 box size. For example, a value of 7 indicates 8 L-units, 15 indicates 16 L-
 units, and 31 indicates 32 L-units. The Y size specifies the Y dimension of the
-box used by the printer and includes no padding.
+box used by the printer and includes no padding. [IPDS-14-252]
 ## Load Font Control (LFC)
 
 
@@ -2063,8 +2063,8 @@ character rotation does not change with respect to the baseline, a new font inde
 text orientation changes). For example, a page might be printed in both the portrait and landscape orientations,
 using the same font and font index table.
 A font index table can be in one of two formats: long format and short format.
-• The long format consists of a 32-byte header plus 256 sixteen-byte index entries.
-• The short format consists of a 32-byte header.
+• The long format consists of a 32-byte header plus 256 sixteen-byte index entries. [IPDS-14-253]
+• The short format consists of a 32-byte header. [IPDS-14-254]
 The LFI command for single-byte coded fonts must always be in the long format. The LFI command for double-
 byte coded font sections X'41' to X'44' must also always be in the long format. For double-byte coded font
 sections X'45' to X'FE', the first LFI command activated must be in the long format, but all subsequent LFI
@@ -2081,7 +2081,7 @@ is ignored, except when this escape code occurs in an Encrypted Data (ENC),
 Repeat String (RPS), Set
 Encrypted Alternate (SEA), or Transparent Data (TRN) control sequence. Similarly, if the variable space (VSP)
 function is enabled, the font index entry corresponding to the font VSP code point is ignored. VSP codes within
-an ENC, RPS, SEA, or TRN control sequence are treated as if they had occurred directly in text data.
+an ENC, RPS, SEA, or TRN control sequence are treated as if they had occurred directly in text data. [IPDS-14-255]
 ## Load Font Index (LFI)
 
 
@@ -2111,40 +2111,40 @@ The length of the LFI command can be:
 Without CID X'0025' or X'1025'
 With CID X'0027' or X'1027'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-The data for the LFI command contains the following information:
+The data for the LFI command contains the following information: [IPDS-14-256]
 
 | Offset | Type | Name | Range | Meaning | LF1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' |
-| 2 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single byte<br>Double-byte section | X'00' |
-| 3 | BITS | Space flags | | | |
-| | bit 0 | | B'1', B'0' | Variable space enable:<br>Enabled<br>Disabled | B'1', B'0' |
-| | bits 1–7 | | B'0000000' | Reserved | B'0000000' |
-| 4–5 | CODE | FIS | X'0000', X'2D00', X'5A00', X'8700' | Font inline sequence:<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' |
-| 6–7 | X'0000' | Reserved | X'0000' | | |
-| 8–9 | SBIN | Baseline offset | X'8000' – X'7FFF' | Uniform or maximum baseline offset | See byte description. |
-| 10–11 | SBIN | Character increment | X'8000' – X'7FFF' | Uniform or maximum character increment | See byte description. |
-| 12–13 | X'0000' | Reserved | X'0000' | | |
-| 14–15 | SBIN | Max extent | X'0000' – X'7FFF' | Maximum baseline extent | See byte description. |
-| 16 | BITS | Orientation flags | | | |
-| | bits 0–4 | | B'00000' | Reserved | B'00000' |
-| | bit 5 | Uniform A-space | B'1', B'0' | B'1': The uniform A-space value is in bytes 18–19.<br>B'0': The A-space of each character is in the character index entry and bytes 18–19 specify the minimum value for this font index. | B'1', B'0' |
-| | bit 6 | Uniform baseline offset | B'1', B'0' | B'1': The uniform baseline offset is in bytes 8–9.<br>B'0': The baseline offset of each character is in the character index entry and bytes 8–9 specify the maximum value for this font index. | B'1', B'0' |
-| | bit 7 | Uniform character increment | B'1', B'0' | B'1': The uniform character increment is in bytes 10–11.<br>B'0': The increment of each character is in the character index entry and bytes 10–11 specify the maximum value for this font index. | B'1', B'0' |
-| 17 | X'00' | Reserved | X'00' | | |
-| 18–19 | SBIN | A-space | X'8000' – X'7FFF' | Uniform or minimum A-space | See byte description. |
-| 20–21 | CODE | VSP | X'0000' – X'FFFF' | Variable-space code point (VSP) | X'0000' – X'FFFF' |
-| 22–23 | SBIN | Default VSI | X'8000' – X'7FFF' | Default variable-space increment | See byte description. |
-| 24–25 | UBIN | Underscore width | X'0000', X'0001' – X'7FFF' | Recommended width:<br>No recommendation provided<br>Underscore width in L-units | X'0000' |
-| 26–27 | SBIN | Underscore position | X'8000' – X'7FFF' | Recommended position of underscore in L-units | X'0000' |
-| 28–31 | X'00000000' | Reserved | X'00000000' | | |
-| **Zero or 256 character-index entries in the following format:** | | | | | |
-| + 0–1 | BITS | Character flags | B'000' – B'111' | Character flags | B'000' – B'111' |
-| + 2–3 | UBIN | Pattern index | X'0000' – one less than the number of character patterns in the font | Pattern index | X'0000' – one less than the number of character patterns in the font |
-| + 4–5 | SBIN | Character increment | X'8000' – X'7FFF' | Character increment | See byte description. |
-| + 6–7 | SBIN | A-space | X'8000' – X'7FFF' | A-space | See byte description. |
-| + 8–13 | X'00...00' | Reserved | X'00...00' | | |
-| + 14–15 | SBIN | Baseline offset | X'8000' – X'7FFF' | Baseline offset | See byte description. |
+| 0–1 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' [IPDS-14-257]|
+| 2 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single byte<br>Double-byte section | X'00' [IPDS-14-258]|
+| 3 | BITS | Space flags [IPDS-14-259]| | | |
+| | bit 0 | | B'1', B'0' | Variable space enable:<br>Enabled<br>Disabled | B'1', B'0' [IPDS-14-260]|
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' [IPDS-14-261]|
+| 4–5 | CODE | FIS | X'0000', X'2D00', X'5A00', X'8700' | Font inline sequence:<br>0 degrees<br>90 degrees<br>180 degrees<br>270 degrees | X'0000' [IPDS-14-262]|
+| 6–7 | X'0000' | Reserved | X'0000' [IPDS-14-263]| | |
+| 8–9 | SBIN | Baseline offset | X'8000' – X'7FFF' | Uniform or maximum baseline offset | See byte description. [IPDS-14-264]|
+| 10–11 | SBIN | Character increment | X'8000' – X'7FFF' | Uniform or maximum character increment | See byte description. [IPDS-14-265]|
+| 12–13 | X'0000' | Reserved | X'0000' [IPDS-14-266]| | |
+| 14–15 | SBIN | Max extent | X'0000' – X'7FFF' | Maximum baseline extent | See byte description. [IPDS-14-267]|
+| 16 | BITS | Orientation flags [IPDS-14-268]| | | |
+| | bits 0–4 | | B'00000' | Reserved | B'00000' [IPDS-14-269]|
+| | bit 5 | Uniform A-space | B'1', B'0' | B'1': The uniform A-space value is in bytes 18–19.<br>B'0': The A-space of each character is in the character index entry and bytes 18–19 specify the minimum value for this font index. | B'1', B'0' [IPDS-14-270]|
+| | bit 6 | Uniform baseline offset | B'1', B'0' | B'1': The uniform baseline offset is in bytes 8–9.<br>B'0': The baseline offset of each character is in the character index entry and bytes 8–9 specify the maximum value for this font index. | B'1', B'0' [IPDS-14-271]|
+| | bit 7 | Uniform character increment | B'1', B'0' | B'1': The uniform character increment is in bytes 10–11.<br>B'0': The increment of each character is in the character index entry and bytes 10–11 specify the maximum value for this font index. | B'1', B'0' [IPDS-14-272]|
+| 17 | X'00' | Reserved | X'00' [IPDS-14-273]| | |
+| 18–19 | SBIN | A-space | X'8000' – X'7FFF' | Uniform or minimum A-space | See byte description. [IPDS-14-274]|
+| 20–21 | CODE | VSP | X'0000' – X'FFFF' | Variable-space code point (VSP) | X'0000' – X'FFFF' [IPDS-14-275]|
+| 22–23 | SBIN | Default VSI | X'8000' – X'7FFF' | Default variable-space increment | See byte description. [IPDS-14-276]|
+| 24–25 | UBIN | Underscore width | X'0000', X'0001' – X'7FFF' | Recommended width:<br>No recommendation provided<br>Underscore width in L-units | X'0000' [IPDS-14-277]|
+| 26–27 | SBIN | Underscore position | X'8000' – X'7FFF' | Recommended position of underscore in L-units | X'0000' [IPDS-14-278]|
+| 28–31 | X'00000000' | Reserved | X'00000000' [IPDS-14-279]| | |
+| **Zero or 256 character-index entries in the following format:** [IPDS-14-280]| | | | | |
+| + 0–1 | BITS | Character flags | B'000' – B'111' | Character flags | B'000' – B'111' [IPDS-14-281]|
+| + 2–3 | UBIN | Pattern index | X'0000' – one less than the number of character patterns in the font | Pattern index | X'0000' – one less than the number of character patterns in the font [IPDS-14-282]|
+| + 4–5 | SBIN | Character increment | X'8000' – X'7FFF' | Character increment | See byte description. [IPDS-14-283]|
+| + 6–7 | SBIN | A-space | X'8000' – X'7FFF' | A-space | See byte description. [IPDS-14-284]|
+| + 8–13 | X'00...00' | Reserved | X'00...00' [IPDS-14-285]| | |
+| + 14–15 | SBIN | Baseline offset | X'8000' – X'7FFF' | Baseline offset | See byte description. [IPDS-14-286]|
 Bytes 0–1 Font Host-Assigned ID
 This identifier must match the HAID of a previously activated fully described font or fully
 described font section.
@@ -2177,13 +2177,13 @@ Exception ID X'0240..02' exists if an invalid or unsupported FIS value is specif
 This parameter defines the relationship between the inline direction and the rotation of
 character patterns with respect to the inline direction. The font-inline-sequence parameter is
 also necessary for:
-• Locating the character reference point
-• Locating the character-box leading edge (used to position font patterns on a baseline)
+• Locating the character reference point [IPDS-14-287]
+• Locating the character-box leading edge (used to position font patterns on a baseline) [IPDS-14-288]
 A vector drawn in the font-inline-sequence direction from the leading edge of the character
 box points into the character box. When the pattern is printed, it is rotated so that the vector
 points in the same direction as the inline sequence direction specified by the most recent Set
 Text Orientation (STO) control sequence in a Write Text (WT) command. The font-inline-
-sequence direction is measured in degrees, as follows:
+sequence direction is measured in degrees, as follows: [IPDS-14-289]
 ## Load Font Index (LFI)
 
 
@@ -2241,18 +2241,18 @@ The baseline offset is used to locate the baseline component of the character re
 that coincides with the print position when the character is printed. Characters with a font inline
 sequence of 0° or 180° have a baseline that is parallel to the top and bottom character
 reference edges, as follows:
-• If the font inline sequence is 0°, the baseline offset is the number of L-units from the
+• If the font inline sequence is 0°, the baseline offset is the number of L-units from the [IPDS-14-290]
 character reference point to the top character-box reference edge.
-• If the font inline sequence is 180°, the baseline offset is the number of L-units from the
-character reference point to the bottom character box reference edge.
+• If the font inline sequence is 180°, the baseline offset is the number of L-units from the [IPDS-14-291]
+character reference point to the bottom character box reference edge. [IPDS-14-292]
 ## Load Font Index (LFI)
 
 
 Characters with a font inline sequence of 90° or 270° have a baseline that is parallel to the left
 and right character reference edges, as follows:
-• If the font inline sequence is 90°, the baseline offset is the number of L-units from the
+• If the font inline sequence is 90°, the baseline offset is the number of L-units from the [IPDS-14-293]
 character reference point to the right character box reference edge.
-• If the font inline sequence is 270°, the baseline offset is the number of L-units from the
+• If the font inline sequence is 270°, the baseline offset is the number of L-units from the [IPDS-14-294]
 character reference point to the left character box reference edge.
 Bytes 10–11 Uniform or maximum character increment
 This field specifies a dimension in L-units.
@@ -2270,30 +2270,30 @@ Bytes 12–13 Reserved
 Bytes 14–15 Maximum baseline extent
 The maximum baseline extent is a measurement perpendicular to the character baseline that
 is defined to be one of the following:
-• If all of the characters in the font are above the character baseline, the maximum baseline
+• If all of the characters in the font are above the character baseline, the maximum baseline [IPDS-14-295]
 extent is the maximum ascender height.
-• If all of the characters in the font are below the character baseline, the maximum baseline
+• If all of the characters in the font are below the character baseline, the maximum baseline [IPDS-14-296]
 extent is the maximum descender depth.
-• Otherwise, the maximum baseline extent is the sum of the uniform or maximum baseline
+• Otherwise, the maximum baseline extent is the sum of the uniform or maximum baseline [IPDS-14-297]
 offset (LFI bytes 8–9) and the maximum baseline descender of all characters in the font.
 Characters with a font inline sequence of 0° or 180° have a baseline that is parallel to the top
 and bottom character reference edges, as follows:
-• If the font inline sequence is 0°, the baseline descender is the number of L-units from the
+• If the font inline sequence is 0°, the baseline descender is the number of L-units from the [IPDS-14-298]
 character baseline to the bottom character-box reference edge.
-• If the font inline sequence is 180°, the baseline descender is the number of L-units from the
+• If the font inline sequence is 180°, the baseline descender is the number of L-units from the [IPDS-14-299]
 character baseline to the top character-box reference edge.
 Characters with a font inline sequence of 90° or 270° have a baseline that is parallel to the left
 and right character reference edges, as follows:
-• If the font inline sequence is 90°, the baseline descender is the number of L-units from the
+• If the font inline sequence is 90°, the baseline descender is the number of L-units from the [IPDS-14-300]
 character baseline to the left character-box reference edge.
-• If the a font inline sequence is 270°, the baseline descender is the number of L-units from
+• If the a font inline sequence is 270°, the baseline descender is the number of L-units from [IPDS-14-301]
 the character baseline to the right character-box reference edge.
 This field specifies a dimension in L-units that can be used as a quick check to determine if a
 row of characters is completely contained in the current valid printable area. If the maximum
 baseline extent value indicates that one of the characters in the font might extend outside of
 the current valid printable area, further checking must be done.
 If fixed-metric technology is specified in byte 10 of the LFC command, the printer must support
-all values in the range X'0000' through X'0100' in this field. If relative-metric technology is
+all values in the range X'0000' through X'0100' in this field. If relative-metric technology is [IPDS-14-302]
 ## Load Font Index (LFI)
 
 
@@ -2342,7 +2342,7 @@ default variable-space increment is used only if the control sequence specifies 
 default or if the control sequence has not been issued.
 For single-byte coded fonts, the printer ignores this field when the VSP function is disabled
 (byte 3, bit 0 equals B'0'). For double-byte coded fonts, this field is used as the increment for
-double-byte code points that reference a font section that is not stored in the printer.
+double-byte code points that reference a font section that is not stored in the printer. [IPDS-14-303]
 ## Load Font Index (LFI)
 
 
@@ -2420,9 +2420,9 @@ description.
 Bytes 0–1 Character flags
 Bits 0–2 Flags
 Flags for the corresponding character indicating that it is:
-1. Defined or undefined
-2. To be printed or not to be printed
-3. Incrementing or nonincrementing
+1. Defined or undefined [IPDS-14-304]
+2. To be printed or not to be printed [IPDS-14-305]
+3. Incrementing or nonincrementing [IPDS-14-306]
 The values of these three flags are as follows:
 B'000' Defined, printing, incrementing
 This value indicates a typical character. This combination causes a
@@ -2445,7 +2445,7 @@ B'100' Undefined, printing, incrementing
 This value produces a data-check exception unless reporting of
 undefined character checks is blocked through the XOA Exception-
 Handling Control; refer to “XOA Exception-Handling Control”
-277. If the data-check exception is blocked, this combination is
+277. If the data-check exception is blocked, this combination is [IPDS-14-307]
 treated as if it indicated a typical character (B'000').
 B'101' Undefined, printing, nonincrementing
 This value produces a data-check exception unless reporting of
@@ -2456,7 +2456,7 @@ B'110' Undefined, nonprinting, incrementing
 This value produces a data-check exception unless reporting of
 undefined character checks is blocked through the XOA Exception-
 Handling Control. If the data-check exception is blocked, this
-combination can be used as a space character (B'010').
+combination can be used as a space character (B'010'). [IPDS-14-308]
 ## Load Font Index (LFI)
 
 
@@ -2505,13 +2505,13 @@ If fixed-metric technology is specified in byte 10 of the LFC command, the print
 all values in the range X'FF00' through X'0100' in this field. If relative-metric technology is
 specified in byte 10 of the LFC command, the printer must support all values in the range
 X'8000' through X'7FFF' in this field. If an invalid or unsupported value is specified in this field,
-exception ID X'023C..02' exists.
+exception ID X'023C..02' exists. [IPDS-14-309]
 ## Load Font Index (LFI)
 
 
 These bytes are used to locate the baseline component of the character reference point, that
 coincides with the print position when the character is printed.
-If a uniform baseline offset is in effect, this field is ignored.
+If a uniform baseline offset is in effect, this field is ignored. [IPDS-14-310]
 ## Load Font Index (LFI)
 
 
@@ -2540,9 +2540,9 @@ marked here as “Retired item nn”. IPDS printers may thus ignore the contents
 The LSS data loaded with this command overwrites the font data for any matching code points in an existing
 symbol set with the same font Host-Assigned ID. The font Host-Assigned ID is associated with the symbol set
 through an LFE or AR command. Only two cases exist:
-• No previous symbol set with a font Host-Assigned ID matching bytes 15–16 is activated. Therefore, this
+• No previous symbol set with a font Host-Assigned ID matching bytes 15–16 is activated. Therefore, this [IPDS-14-311]
 command establishes a new symbol set.
-• A previous symbol set with a font Host-Assigned ID matching bytes 15–16 is activated. Therefore, the
+• A previous symbol set with a font Host-Assigned ID matching bytes 15–16 is activated. Therefore, the [IPDS-14-312]
 information transmitted by this command replaces some or all of the existing control information and all of the
 existing raster information for the matching code points. This replacement happens even when the existing
 information was loaded by a previous LSS command. The degree to which existing data is replaced is
@@ -2550,7 +2550,7 @@ explained separately for each of the parameters below.
 The LSS command transmits 4 + E + T + R bytes of data where:
 E is an arbitrary number of bytes defined by an extension parameter.
 T is an arbitrary number of bytes defined by one or more triplets.
-R is the number of bytes of raster data. Refer to the formulas.
+R is the number of bytes of raster data. Refer to the formulas. [IPDS-14-313]
 ## Load Symbol Set (LSS)
 
 
@@ -2561,26 +2561,26 @@ The length of the LSS command can be:
 Without CID X'0017'–X'7FFF'
 With CID X'0019'–X'7FFF'
 Exception ID X'0202..02' exists if the command length is invalid or unsupported.
-The data field for the LSS command follows:
+The data field for the LSS command follows: [IPDS-14-314]
 
 | Offset | Type | Name | Range | Meaning | LF2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | BITS | Flags1 | X'90', X'91' | Flags; bit mapped | X'90' |
-| 1 | X'00' | | | Retired item 69 | X'00' |
-| 2 | CODE | SCODE | X'00'–X'FF' | Starting code point | X'01'–X'FF' |
-| 3 | X'00' | | | Retired item 70 | X'00' |
-| 4 | UBIN | Length | X'0D'–X'FF' | Additional parameter byte length. See byte description. | X'0D' |
-| 5 | BITS | Flags2 | X'60', X'61' | Flags; bit mapped | X'60', X'61' |
-| 6 | UBIN | X box size | X'01'–X'FF' | Uniform character-box size X dimension, measured in pels | Per XOH OPC |
-| 7 | UBIN | Y box size | X'01'–X'FF' | Uniform character-box size Y dimension, measured in pels | Per XOH OPC |
-| 8 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single-byte<br>Double-byte section ID | X'00' |
-| 9–10 | X'0000' | | | Retired items 74 and 75 | X'0000' |
-| 11 | CODE | ECODE | Starting code point–X'FF' | Ending code point | Starting code point–X'FF' |
-| 12–14 | X'000000' | | | Retired items 76, 77, 78 | X'000000' |
-| 15–16 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' |
-| 17–i | X'00...00' | | | Retired item 79 | X'00...00' |
-| j–k | Triplets | | See byte description. | One or more triplets | X'02FF' |
-| (k+1) to end of cmnd | UNDF | Raster | See byte description. | Character raster patterns | Any value |
+| 0 | BITS | Flags1 | X'90', X'91' | Flags; bit mapped | X'90' [IPDS-14-315]|
+| 1 | X'00' | | | Retired item 69 | X'00' [IPDS-14-316]|
+| 2 | CODE | SCODE | X'00'–X'FF' | Starting code point | X'01'–X'FF' [IPDS-14-317]|
+| 3 | X'00' | | | Retired item 70 | X'00' [IPDS-14-318]|
+| 4 | UBIN | Length | X'0D'–X'FF' | Additional parameter byte length. See byte description. | X'0D' [IPDS-14-319]|
+| 5 | BITS | Flags2 | X'60', X'61' | Flags; bit mapped | X'60', X'61' [IPDS-14-320]|
+| 6 | UBIN | X box size | X'01'–X'FF' | Uniform character-box size X dimension, measured in pels | Per XOH OPC [IPDS-14-321]|
+| 7 | UBIN | Y box size | X'01'–X'FF' | Uniform character-box size Y dimension, measured in pels | Per XOH OPC [IPDS-14-322]|
+| 8 | CODE | Section ID | X'00', X'41'–X'FE' | Section identifier:<br>Single-byte<br>Double-byte section ID | X'00' [IPDS-14-323]|
+| 9–10 | X'0000' | | | Retired items 74 and 75 | X'0000' [IPDS-14-324]|
+| 11 | CODE | ECODE | Starting code point–X'FF' | Ending code point | Starting code point–X'FF' [IPDS-14-325]|
+| 12–14 | X'000000' | | | Retired items 76, 77, 78 | X'000000' [IPDS-14-326]|
+| 15–16 | CODE | HAID | X'0001' – X'7EFF' | Font Host-Assigned ID | X'0001' – X'7EFF' [IPDS-14-327]|
+| 17–i | X'00...00' | | | Retired item 79 | X'00...00' [IPDS-14-328]|
+| j–k | Triplets | | See byte description. | One or more triplets | X'02FF' [IPDS-14-329]|
+| (k+1) to end of cmnd | UNDF | Raster | See byte description. | Character raster patterns | Any value [IPDS-14-330]|
 ## Load Symbol Set (LSS)
 
 
@@ -2590,7 +2590,7 @@ Bit 0 Retired item 66 (must be B'1')
 Bit 1 Retired item 67 (must be B'0')
 Bit 2 Retired item 68 (must be B'0')
 Bits 3–7 Pattern download format
-• A value of B'10000' indicates that the character patterns contained in bytes
+• A value of B'10000' indicates that the character patterns contained in bytes [IPDS-14-331]
 k+1 through the end of the command will be downloaded in a vertical
 format.
 This format has the bits organized as a sequence of vertical cell slices.
@@ -2605,7 +2605,7 @@ character box. The last slice received is the right reference edge of the
 character box. The first received pel of each slice is the top reference edge
 of each character box. The last received pel of each slice that is not padded
 is the bottom reference edge of each character box.
-• A value of B'10001' indicates that the character patterns contained in bytes
+• A value of B'10001' indicates that the character patterns contained in bytes [IPDS-14-332]
 k+1 through the end of the command will be downloaded in a horizontal
 format.
 This format is identical to the format for coded-font characters. The bits are
@@ -2627,7 +2627,7 @@ This byte is the first code point in an increasing sequence of points. The endin
 specified in byte 11.
 Exception ID X'0249..02' exists if an invalid or unsupported starting-code-point value is
 specified.
-Byte 3 Retired item 70
+Byte 3 Retired item 70 [IPDS-14-333]
 ## Load Symbol Set (LSS)
 
 
@@ -2672,7 +2672,7 @@ for double-byte coded fonts. This value should be X'00' for single-byte coded fo
 byte coded fonts have section identifiers ranging from X'41' through X'FE'.
 Exception ID X'0248..02' exists if an invalid or unsupported section ID value is specified.
 Byte 9 Retired item 74
-Byte 10 Retired item 75
+Byte 10 Retired item 75 [IPDS-14-334]
 ## Load Symbol Set (LSS)
 
 
@@ -2716,7 +2716,7 @@ M = Number of code points
 ÷ = The symbol for division
 If the font Host-Assigned ID in bytes 15–16 matches an existing HAID and if one or more of
 the code points specified in byte 2 and byte 11 overlap previously specified code points, the
-character patterns of the previously specified code points are replaced.
+character patterns of the previously specified code points are replaced. [IPDS-14-335]
 ## Load Symbol Set (LSS)
 
 

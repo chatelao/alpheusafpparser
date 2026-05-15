@@ -1,9 +1,9 @@
 # Appendix E. Cross-References
 This appendix provides tables that list:
-• MO:DCA structured fields sorted by identifier
-• MO:DCA structured fields sorted by acronym
-• MO:DCA triplets sorted by identifier
-• MO:DCA triplets sorted by name
+• MO:DCA structured fields sorted by identifier [MODCA-E-001]
+• MO:DCA structured fields sorted by acronym [MODCA-E-002]
+• MO:DCA triplets sorted by identifier [MODCA-E-003]
+• MO:DCA triplets sorted by name [MODCA-E-004]
 Note: The MO:DCA architecture serves as a central registry for MO:DCA-like structures, such as structured
 fields and triplets, that are used in other AFP architectures, such as the Font Object Content
 Architecture (FOCA), the AFP Line Data Architecture, and the Intelligent Printer Data Stream (IPDS)
@@ -35,7 +35,7 @@ X'D3A6C5' FGD Form Environment Group Descriptor (O) 555
 X'D3A6EB' BDD Bar Code Data Descriptor 124
 X'D3A6FB' IDD Image Data Descriptor 196
 X'D3A77B' IOC IM Image Output Control (C) 605
-X'D3A788' MMC Medium Modification Control 276
+X'D3A788' MMC Medium Modification Control 276 [MODCA-E-005]
 
 
 Table 53 Structured Fields Sorted by ID (cont'd.)

@@ -22,11 +22,11 @@ This recommendation is especially important when the application is written in a
 on z/OS (for example COBOL on z/OS), because the CPU cost of character conversion on z/OS can be
 very expensive.
 For example:
-• COBOL and PL/I on z/OS use UTF-16 or UTF-8 for Unicode data. Even if your compiler supports
+• COBOL and PL/I on z/OS use UTF-16 or UTF-8 for Unicode data. Even if your compiler supports [DB2Z-4-001]
 UTF-8 data, the optimal situation is to store your data in Db2 in UTF-16. UTF-16 data can potentially
 take more storage than UTF-8 data, but because no conversion occurs when you use UTF-16 data,
 you avoid a significant performance impact.
-• For Java applications that use IBM Data Server Driver for JDBC and SQLJ type 4 connectivity, which
+• For Java applications that use IBM Data Server Driver for JDBC and SQLJ type 4 connectivity, which [DB2Z-4-002]
 sends the data in UTF-8, store your data in Db2 as UTF-8 data.
 If you have both local and remote applications on different operating systems, choose the format
 based on the encoding of the local application.
@@ -41,7 +41,7 @@ characters, this format uses considerably less space than UTF-16.
 MQ, CICS Transaction Gateway, and IMS Connect messages
 When messages are passed from one technology to another, everything in the message is usually
 converted to characters. You should consider the size of these messages when you decide when
-and where to use certain UTFs. For example, suppose that you have COBOL applications, which use
+and where to use certain UTFs. For example, suppose that you have COBOL applications, which use [DB2Z-4-003]
 
 
 
@@ -61,19 +61,19 @@ Recommendation: When you create objects, use standard characters for the object 
 names. Unique characters, such as ü or é, can complicate your applications if conversions are needed.
 Procedure
 To create a Unicode table:
-1. In the CREATE DATABASE, CREATE TABLESPACE, or CREATE TABLE statement, specify the CCSID
+1. In the CREATE DATABASE, CREATE TABLESPACE, or CREATE TABLE statement, specify the CCSID [DB2Z-4-004]
 UNICODE clause.
 By default, the encoding scheme of a table is the same as the encoding scheme of its table space.
 Also by default, the encoding scheme of the table space is the same as the encoding scheme of its
 database. You can override the encoding scheme with the CCSID clause in the CREATE TABLESPACE or
 CREATE TABLE statement. However, all tables within a table space must have the same CCSID.
-2. In the CREATE TABLE statement, for each column definition, specify the appropriate data type,
+2. In the CREATE TABLE statement, for each column definition, specify the appropriate data type, [DB2Z-4-005]
 subtype, and length value.
 data type
 Use one of the following data types:
-• For UTF-8 data, create columns of type CHAR, VARCHAR, or CLOB.
-• For UTF-16 data, create columns of type GRAPHIC, VARGRAPHIC, or DBCLOB.
-• For binary data, create columns of type BINARY, VARBINARY, and BLOB.
+• For UTF-8 data, create columns of type CHAR, VARCHAR, or CLOB. [DB2Z-4-006]
+• For UTF-16 data, create columns of type GRAPHIC, VARGRAPHIC, or DBCLOB. [DB2Z-4-007]
+• For binary data, create columns of type BINARY, VARBINARY, and BLOB. [DB2Z-4-008]
 Recommendation: In general, use varying-length columns for Unicode tables because the number
 of bytes in a Unicode column usually is two to three times that of an EBCDIC column.
 The general guideline is to use variable length for columns that are greater than 18 bytes unless
@@ -88,13 +88,13 @@ this case, you want to use a varying-length column, because the name field is li
 blanks and you do not want to store them.
 subtype
 For character columns, optionally specify one the following subtypes for the column by adding the
-FOR subtype DATA clause to the column definition:
+FOR subtype DATA clause to the column definition: [DB2Z-4-009]
 
 
 
 SBCS
 Specify this subtype if the column is to contain only those UTF-8 characters that are stored as
-1 byte. Those characters are the first 128 characters in the Unicode code page. Data that is
+1 byte. Those characters are the first 128 characters in the Unicode code page. Data that is [DB2Z-4-010]
 stored in a SBCS character column in a Unicode table has a CCSID of 367.
 MIXED
 Specify this subtype if the column is to contain any UTF-8 data that is more than 1 byte. MIXED
@@ -119,24 +119,24 @@ size for Unicode data”.
 Db2 associates a certain CCSID with the column depending on the data type that you specify. The
 following table summarizes the possible column data types in a Unicode table and the CCSIDs that are
 associated with the data in those columns.
-Table 16. CCSIDs that are associated with columns in a Unicode table
+Table 16. CCSIDs that are associated with columns in a Unicode table [DB2Z-4-011]
 
 | Column data type | Associated CCSID | Format in which the data is stored |
 | :--- | :--- | :--- |
-| CHAR<sup>a</sup> | 1208 | UTF-8 |
-| CHAR FOR SBCS DATA | 367 | 7-bit ASCII |
-| CHAR FOR MIXED DATA | 1208 | UTF-8 |
-| CHAR FOR BIT DATA | 66534 | NA |
-| VARCHAR<sup>a</sup> | 1208 | UTF-8 |
-| VARCHAR FOR SBCS DATA | 367 | 7-bit ASCII |
-| VARCHAR FOR MIXED DATA | 1208 | UTF-8 |
-| VARCHAR FOR BIT DATA | 66534 | NA |
-| CLOB<sup>a</sup> | 1208 | UTF-8 |
-| CLOB FOR SBCS DATA | 367 | 7-bit ASCII |
-| CLOB FOR MIXED DATA | 1208 | UTF-8 |
-| GRAPHIC | 1200 | UTF-16 |
-| VARGRAPHIC | 1200 | UTF-16 |
-| DBCLOB | 1200 | UTF-16 |
+| CHAR<sup>a</sup> | 1208 | UTF-8 [DB2Z-4-012]|
+| CHAR FOR SBCS DATA | 367 | 7-bit ASCII [DB2Z-4-013]|
+| CHAR FOR MIXED DATA | 1208 | UTF-8 [DB2Z-4-014]|
+| CHAR FOR BIT DATA | 66534 | NA [DB2Z-4-015]|
+| VARCHAR<sup>a</sup> | 1208 | UTF-8 [DB2Z-4-016]|
+| VARCHAR FOR SBCS DATA | 367 | 7-bit ASCII [DB2Z-4-017]|
+| VARCHAR FOR MIXED DATA | 1208 | UTF-8 [DB2Z-4-018]|
+| VARCHAR FOR BIT DATA | 66534 | NA [DB2Z-4-019]|
+| CLOB<sup>a</sup> | 1208 | UTF-8 [DB2Z-4-020]|
+| CLOB FOR SBCS DATA | 367 | 7-bit ASCII [DB2Z-4-021]|
+| CLOB FOR MIXED DATA | 1208 | UTF-8 [DB2Z-4-022]|
+| GRAPHIC | 1200 | UTF-16 [DB2Z-4-023]|
+| VARGRAPHIC | 1200 | UTF-16 [DB2Z-4-024]|
+| DBCLOB | 1200 | UTF-16 [DB2Z-4-025]|
 
 **Note:**
 a. If you do not specify a subtype, Db2 assumes FOR MIXED DATA.
@@ -157,10 +157,10 @@ ASCII format.) Columns C2 and C5 can contain any UTF-8 data. Columns C3 and C6 c
 data.
 The CHAR and VARCHAR columns each have a length of 4 bytes. That length means that each of these
 columns can contain one of the following characters or sets of characters:
-• one UTF-8 character that is 4 bytes
-• two UTF-8 characters that are each 2 bytes
-• one 3-byte UTF-8 character and one one-byte UTF-8 character
-• four one-byte UTF-8 characters
+• one UTF-8 character that is 4 bytes [DB2Z-4-026]
+• two UTF-8 characters that are each 2 bytes [DB2Z-4-027]
+• one 3-byte UTF-8 character and one one-byte UTF-8 character [DB2Z-4-028]
+• four one-byte UTF-8 characters [DB2Z-4-029]
 The GRAPHIC and VARGRAPHIC columns each have a length of 4 UTF-16 code units. (A UTF-16 code unit
 is 16 bits or 2 bytes.) For UTF-16 characters that are 2 bytes, this length means 4 characters. However,
 this length does not always correlate to 4 characters. Consider supplementary UTF-16 characters, which
@@ -168,9 +168,9 @@ are each 2 UTF-16 code units or 4 bytes. If you include any supplementary charac
 column cannot include 4 characters. Thus, the length of this column can contain 2, 3, or 4 characters,
 depending on the size of the character. For example, each of these GRAPHIC and VARGRAPHIC columns
 can contain one of the following characters or sets of characters:
-• four 2-byte UTF-16 characters
-• two 4-byte UTF-16 characters
-• one 4-byte UTF-16 character and two 2-byte UTF-16 characters
+• four 2-byte UTF-16 characters [DB2Z-4-030]
+• two 4-byte UTF-16 characters [DB2Z-4-031]
+• one 4-byte UTF-16 character and two 2-byte UTF-16 characters [DB2Z-4-032]
 Related tasks
 Generating escaped Unicode data
 If you pass Unicode characters to an application or object that is not intended to handle Unicode data,
@@ -182,7 +182,7 @@ UTFs
 CREATE DATABASE statement (Db2 SQL)
 CREATE TABLE statement (Db2 SQL)
 CREATE TABLESPACE statement (Db2 SQL)
-MIXED DATA field (MIXED DECP value) (Db2 Installation and Migration)
+MIXED DATA field (MIXED DECP value) (Db2 Installation and Migration) [DB2Z-4-033]
 
 
 
@@ -208,11 +208,11 @@ take 2 or 4 bytes. Even though UTF-16 often takes more storage, UTF-16 is someti
 for performance reasons. Also, in some cases, UTF-16 takes up less space. For example, Japanese
 characters are 3 or 4 bytes in UTF-8, but 2 or 4 bytes in UTF-16.
 If possible, use the following general recommendations to minimize the storage impact of Unicode data:
-• Use data compression.
-• Use non-padded indexes. If you are converting data that has padded indexes to Unicode, change those
+• Use data compression. [DB2Z-4-034]
+• Use non-padded indexes. If you are converting data that has padded indexes to Unicode, change those [DB2Z-4-035]
 indexes to be non-padded. This type of index can save index storage space.
-• If a column length is more than 18 bytes, use variable length data types.
-• Use 8-KB pages instead of the default 4-KB pages by increasing the size of the buffer pools. (The buffer
+• If a column length is more than 18 bytes, use variable length data types. [DB2Z-4-036]
+• Use 8-KB pages instead of the default 4-KB pages by increasing the size of the buffer pools. (The buffer [DB2Z-4-037]
 pool in which you define the table space determines the page size.)
 Related tasks
 Compressing your data (Db2 Performance)
@@ -223,7 +223,7 @@ Estimating the column size for Unicode data
 When you create a table to store Unicode data, allocate columns for storage length, not for display length.
 Procedure
 To estimate the column size for Unicode data, perform one of the following actions:
-• For UTF-8 data, allocate three times the column size that you would allocate for a non-Unicode table.
+• For UTF-8 data, allocate three times the column size that you would allocate for a non-Unicode table. [DB2Z-4-038]
 For example, if you use CHAR(10) for a name column in an EBCDIC table, use VARCHAR(30) for the
 same column in a Unicode table. This column can contain 30 bytes or ten 3-byte characters. In this
 case, use VARCHAR instead of CHAR, because the length (30) is greater than 18. (18 is traditionally the
@@ -231,7 +231,7 @@ length when VARCHAR should be used instead of CHAR.)
 This estimate allows for the worst-case expansion of UTF-8 data. The worst case for SBCS data
 is that 1 byte in ASCII or EBCDIC expands to 3 bytes in UTF-8. For mixed data, such as Chinese,
 Japanese, or Korean characters, the same worst-case scenario applies. You might have 2-, 3- and 4-byte characters, depending on the encoding, that expand to a four-byte UTF-8 character in the worst case. However, because these characters used more than one byte in ASCII or EBCDIC, the worst-case expansion in UTF-8 is still three times the original size.
-• For UTF-16 data, allocate two times the column size that you would allocate for a non-Unicode table,
+• For UTF-16 data, allocate two times the column size that you would allocate for a non-Unicode table, [DB2Z-4-039]
 and use the GRAPHIC or VARGRAPHIC data types.
 For example, if you use CHAR(10) for a name column in an EBCDIC table, use VARGRAPHIC(10) for the
 same column in a Unicode table. CHAR(10) is 10 bytes long. VARGRAPHIC(10) is 20 bytes long or the
@@ -247,15 +247,15 @@ statements are straightforward. But suppose that you want to insert a character 
 keyboard, such as the yen sign (¥) on the U.S. keyboard. That process requires some extra steps.
 Procedure
 To insert data into a Unicode table, use one of the following methods:
-• Load the data from a data set by using the LOAD utility. If the input data set is already in Unicode,
+• Load the data from a data set by using the LOAD utility. If the input data set is already in Unicode, [DB2Z-4-040]
 specify the UNICODE option. If the data is not in Unicode, ensure that you specify the appropriate
 encoding scheme keyword (ASCII, EBCDIC, or CCSID) in the LOAD utility statement. The default is
 EBCDIC. Db2 converts ASCII and EBCDIC data to Unicode when it is loaded into a Unicode table. Be
 aware that this conversion might cause the data to expand.
-• Load the data from another table by using the cross-loader function. If the data is from an EBCDIC
+• Load the data from another table by using the cross-loader function. If the data is from an EBCDIC [DB2Z-4-041]
 or ASCII table, Db2 converts it to Unicode when it is loaded into the target Unicode table. Be aware
 that this conversion might cause the data to expand.
-• Insert individual rows by using the INSERT statement. For characters that cannot be typed on your
+• Insert individual rows by using the INSERT statement. For characters that cannot be typed on your [DB2Z-4-042]
 keyboard, use the Unicode constant UX'xxxx'.
 This constant is always in UTF-16, which means that you need to specify the value in UTF-16 format.
 To determine the Unicode constant for a particular character perform the following steps:
@@ -265,13 +265,13 @@ b) Convert the Unicode code point to UTF-16 format by performing one of the foll
 – If the Unicode code point U+yyyy is less than U+FFFF, encoding it in UTF-16 is simple. Just
 copy the value. For example, the following Unicode code points can be specified as the following
 Unicode constants:
-Table 17. Unicode code points and their corresponding Unicode constants for Unicode code points that are less than U+FFFF
+Table 17. Unicode code points and their corresponding Unicode constants for Unicode code points that are less than U+FFFF [DB2Z-4-043]
 
 | Character | Unicode code point | UTF-16 format | Unicode constant |
 | :--- | :--- | :--- | :--- |
-| ¥ | U+00A5 | X'00A5' | UX'00A5' |
-| ĸ | U+0138 | X'0138' | UX'0138' |
-|   | U+270E | X'270E' | UX'270E' |
+| ¥ | U+00A5 | X'00A5' | UX'00A5' [DB2Z-4-044]|
+| ĸ | U+0138 | X'0138' | UX'0138' [DB2Z-4-045]|
+|   | U+270E | X'270E' | UX'270E' [DB2Z-4-046]|
 
 
 
@@ -303,9 +303,9 @@ cannot be represented in the target encoding scheme. Using escaped data ensures 
 are preserved.
 Procedure
 To insert Unicode data into a non-Unicode table, perform one of the following actions:
-• If the target table is ASCII, use the ASCII_STR function to generate escaped data for those characters
+• If the target table is ASCII, use the ASCII_STR function to generate escaped data for those characters [DB2Z-4-047]
 that do not exist in ASCII.
-• If the target table is EBCDIC, use the EBCDIC_STR function to generate escaped data for those
+• If the target table is EBCDIC, use the EBCDIC_STR function to generate escaped data for those [DB2Z-4-048]
 characters that do not exist in EBCDIC.
 Related concepts
 Potential problems when inserting non-Unicode data into a Unicode table
@@ -319,7 +319,7 @@ data through an application that has EBCDIC host variables. Or you might want to
 non-Unicode table.
 Related reference
 ASCII_STR or ASCIISTR scalar function (Db2 SQL)
-EBCDIC_STR scalar function (Db2 SQL)
+EBCDIC_STR scalar function (Db2 SQL) [DB2Z-4-049]
 
 
 
@@ -332,9 +332,9 @@ ensure data integrity. However, Unicode data might require more space. Depending
 characters can be two to three times the size of EBCDIC or ASCII characters.
 Before you begin
 Before you convert your existing Db2 data to Unicode, think about the following items:
-• Consider the affects on all associated applications and tools. For example, consider the affects on any
+• Consider the affects on all associated applications and tools. For example, consider the affects on any [DB2Z-4-050]
 green screen applications.
-• Understand where the data originally came from. If the data was already converted from its original
+• Understand where the data originally came from. If the data was already converted from its original [DB2Z-4-051]
 form, it might contain substitution characters. If so, consider converting the data back to its original
 form and then converting it to Unicode.
 For example, suppose that you convert data from EBCDIC to Unicode, and the data was originally in
@@ -347,10 +347,10 @@ the example of the trademark symbol ™ in “Round-trip conversion”.) Convert
 ASCII first recovers the original values before you convert to Unicode.
 Procedure
 To convert existing Db2 data to Unicode:
-1. Create one or more Unicode tables for this data.
-2. Use one of the following techniques to load the existing data into your new Unicode tables. Db2
+1. Create one or more Unicode tables for this data. [DB2Z-4-052]
+2. Use one of the following techniques to load the existing data into your new Unicode tables. Db2 [DB2Z-4-053]
 converts the data to Unicode when it loads it.
-• Use the INSERT statement with a subselect.
+• Use the INSERT statement with a subselect. [DB2Z-4-054]
 INSERT INTO UNICODETABLE
      SELECT *
      FROM EBCDICTABLE;
@@ -359,7 +359,7 @@ are compatible. For example, if the first column of EBCDICTABLE is a character c
 first column of UNICODETABLE should also be a character column; if the second column of
 EBCDICTABLE is a numeric column, the second column of UNICODETABLE should also be a
 numeric column.
-• Use the UNLOAD utility to unload the data as is into an EBCDIC or ASCII data set. Then, LOAD
+• Use the UNLOAD utility to unload the data as is into an EBCDIC or ASCII data set. Then, LOAD [DB2Z-4-055]
 the data into your new Unicode table. Specify the appropriate encoding scheme keyword (ASCII,
 EBCDIC, or CCSID) in the LOAD statement.
 Recommendation: Use the PUNCHDDN option of the UNLOAD utility to generate corresponding
@@ -371,7 +371,7 @@ option. This option generates (in the SYSPUNCH data set) corresponding LOAD stat
 load the data back into the original table, T2. To use this SYSPUNCH file to load the unloaded
 data to table T1, you must modify the SYSPUNCH or JCL.
 – STEP3 then loads the data that was unloaded in STEP2 into Unicode table T1. Because the
-catalog defines the table as Unicode, the data is converted to Unicode when it is loaded.
+catalog defines the table as Unicode, the data is converted to Unicode when it is loaded. [DB2Z-4-056]
 
 
 
@@ -386,16 +386,16 @@ END
     COMMIT;
     CREATE DATABASE DB1 CCSID UNICODE;
     CREATE TABLESPACE TS1 IN DB1;
-    CREATE TABLE T1 (C1 CHAR(7)) IN DB1.TS1;
+    CREATE TABLE T1 (C1 CHAR(7)) IN DB1.TS1; [DB2Z-4-057]
 
     DROP DATABASE DB2;
     COMMIT;
     CREATE DATABASE DB2 CCSID EBCDIC;
     CREATE TABLESPACE TS2 IN DB2;
     CREATE TABLE T2 (C1 CHAR(7)) IN DB2.TS2;
-    INSERT INTO T2 VALUES ('ABCDEFG');
+    INSERT INTO T2 VALUES ('ABCDEFG'); [DB2Z-4-058]
 
-    INSERT INTO T1 (SELECT * FROM T2);
+    INSERT INTO T1 (SELECT * FROM T2); [DB2Z-4-059]
 
     SELECT * FROM SYSADM.T1;
     SELECT * FROM SYSADM.T2;
@@ -457,7 +457,7 @@ SELECT * FROM SYSADM.T2;
 
 
 
-• Use the cross-loader function to load the output of a dynamic SQL SELECT statement into your new
+• Use the cross-loader function to load the output of a dynamic SQL SELECT statement into your new [DB2Z-4-060]
 Unicode table. The SELECT statement selects the entire table. In the following example, assume
 that table T1 is in Unicode and table T2 is in EBCDIC. This example uses a cursor to select all data
 from T2 and then load it into T1. This process is known as the cross-loader function. The data is
@@ -476,7 +476,7 @@ EXEC SQL
   DECLARE C1 CURSOR FOR SELECT C1 FROM SYSADM.T2
 ENDEXEC
 
-LOAD DATA REPLACE INCURSOR C1 INTO TABLE SYSADM.T1
+LOAD DATA REPLACE INCURSOR C1 INTO TABLE SYSADM.T1 [DB2Z-4-061]
 
 //********************************************************************
 //STEP1    EXEC TSOBATCH,DB2LEV=DB2A
@@ -487,7 +487,7 @@ RUN PROGRAM DSNTEP2 PLAN(DSNTEPC1)
 SELECT * FROM SYSADM.T1;
 SELECT * FROM SYSADM.T2;
 /*
-3. Modify any SQL in your applications to account for length differences. If you use any length functions,
+3. Modify any SQL in your applications to account for length differences. If you use any length functions, [DB2Z-4-062]
 such as CHARACTER_LENGTH and SUBSTRING, use the CODEUNITS16 and CODEUNITS32 options to
 specify how you want Db2 to calculate the length.
 Related concepts
@@ -514,12 +514,12 @@ a Unicode table.
 For example, the schemas are likely different in Unicode tables than EBCDIC tables. The index key might
 be longer. For example, an index might be 5 levels in Unicode instead of 4 levels in EBCDIC. Also, the
 number of rows per page might be fewer.
-All of the regular rules for access paths and tuning queries still apply to Unicode tables.
+All of the regular rules for access paths and tuning queries still apply to Unicode tables. [DB2Z-4-063]
 
 
 
 Related tasks
-Writing efficient SQL queries (Db2 Performance)
+Writing efficient SQL queries (Db2 Performance) [DB2Z-4-064]
 
 
 

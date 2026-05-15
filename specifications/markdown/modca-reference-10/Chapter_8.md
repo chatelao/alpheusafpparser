@@ -1,9 +1,9 @@
 Chapter 8. MO:DCA Function Sets
 This chapter:
-• Describes function sets
-• Describes compliance in terms of function sets
-• Registers each function set
-• Defines the extensions made by each registered function set to specific interchange sets
+• Describes function sets [MODCA-8-001]
+• Describes compliance in terms of function sets [MODCA-8-002]
+• Registers each function set [MODCA-8-003]
+• Defines the extensions made by each registered function set to specific interchange sets [MODCA-8-004]
 Function Sets
 A MO:DCA function set is a set of constructs that are used to extend the functionality of a MO:DCA
 interchange set. The function set is normally not sufficiently pervasive or complex to warrant definition of a new
@@ -14,13 +14,13 @@ Since MO:DCA interchange compliance is based on interchange sets, when an interc
 with one or more function sets, compliance is based on the definition of the interchange set plus the function
 set(s). A print file or document that claims compliance with an interchange set plus a function set must specify
 this compliance as follows:
-• The MO:DCA Interchange Set (X'18') triplet on the BPF/BDT must specify the interchange set and indicate
+• The MO:DCA Interchange Set (X'18') triplet on the BPF/BDT must specify the interchange set and indicate [MODCA-8-005]
 that the interchange set is extended with one or more function sets, e.g. ISid=X'0D80': IS/3 + function set(s)
-• The MO:DCA Function Set (X'8F') triplet on the BPF/BDT must specify the function set ID using the FctSetID
+• The MO:DCA Function Set (X'8F') triplet on the BPF/BDT must specify the function set ID using the FctSetID [MODCA-8-006]
 parameter, e.g. FctSetID=X'0001': MO:DCA GA.
 This edition of the Mixed Object Document Content Architecture Reference contains one function set
 definition:
-• MO:DCA GA (Graphic Arts)
+• MO:DCA GA (Graphic Arts) [MODCA-8-007]
 ### MO:DCA Function Set X'0001': MO:DCA GA (Graphic Arts)
 The FctSetID parameter in the MO:DCA Function Set (X'8F') triplet is set to X'0001' for this function set.
 MO:DCA GA and IS/3
@@ -30,10 +30,10 @@ Table 38. IS/3 + MO:DCA GA Containers - Presentation Objects. This table contain
 Component
 ID
 Object Type Encoded Object-type OID
-25 PDF Single-page Object X'06072B120004010119'
-49 PDF Single-page Object with Transparency X'06072B120004010131'
-63 PDF Multiple Page File X'06072B12000401013F'
-64 PDF Multiple Page - with Transparency - File X'06072B120004010140'
+25 PDF Single-page Object X'06072B120004010119' [MODCA-8-008]
+49 PDF Single-page Object with Transparency X'06072B120004010131' [MODCA-8-009]
+63 PDF Multiple Page File X'06072B12000401013F' [MODCA-8-010]
+64 PDF Multiple Page - with Transparency - File X'06072B120004010140' [MODCA-8-011]
 
 
 Table 39. IS/3 + MO:DCA GA IOB and DOR RAT Presentation Object Containers. This table contains rows that extend
@@ -41,10 +41,10 @@ Table 30.
 Component
 ID
 Object Type Encoded Object-type OID
-25 PDF Single-page Object X'06072B120004010119'
-49 PDF Single-page Object with Transparency X'06072B120004010131'
-63 PDF Multiple Page File X'06072B12000401013F'
-64 PDF Multiple Page - with Transparency - File X'06072B120004010140'
+25 PDF Single-page Object X'06072B120004010119' [MODCA-8-012]
+49 PDF Single-page Object with Transparency X'06072B120004010131' [MODCA-8-013]
+63 PDF Multiple Page File X'06072B12000401013F' [MODCA-8-014]
+64 PDF Multiple Page - with Transparency - File X'06072B120004010140' [MODCA-8-015]
 Table 40. IS/3 + MO:DCA GA Data Objects and Secondary Resources. This table contains rows that extend Table 31 on
 page 499.
 Data Object Resource Secondary Resource Internal Resource Identifier

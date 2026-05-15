@@ -2,44 +2,44 @@
 The IO-Image command set contains the commands for presenting IOCA image data in a page, a page
 segment, or an overlay; these commands can also be used to download an IO Image as a resource. This
 command set contains the following commands:
-Table 42. IO-Image Commands
+Table 42. IO-Image Commands [IPDS-7-001]
 
 | Command | Code | Description | In IO1 Subset? |
 | :--- | :--- | :--- | :--- |
-| WIC2 | X'D63E' | “Write Image Control 2” | Yes |
-| WI2 | X'D64E' | “Write Image 2” | Yes |
+| WIC2 | X'D63E' | “Write Image Control 2” | Yes [IPDS-7-002]|
+| WI2 | X'D64E' | “Write Image 2” | Yes [IPDS-7-003]|
 Both the IO-Image and the IM-Image command sets contain commands that enter the printer into the
 respective image state, and allow the subsequent transmission of image data to the printer. The IO-Image
 command-set commands provide a variety of functional additions, such as image compression and arbitrary
 scaling, over the IM-Image command-set commands. A printer can implement both the IO-Image and the IM-
 Image command sets. The following table indicates the major differences.
-Table 43. IM-Image and IO-Image Comparison
+Table 43. IM-Image and IO-Image Comparison [IPDS-7-004]
 
 | Functions or Controls | IM Image | IO Image |
 | :--- | :---: | :---: |
-| Replicate and trim input to fill output | X | O |
-| Bilevel image | X | X |
-| Bilevel image with a color specification | X | O |
-| Unpadded recording algorithm | X | O |
-| Grayscale image | | X |
-| Compression | | X |
-| Resolution-independent data presentation | | X |
-| Resolution correction to device resolution | | X |
-| Scaling | | X |
-| Position and trim | | X |
-| Center and trim | | X |
-| Scale to fill | | O |
-| Full-color image | | O |
-| Color Management Resources (CMRs); see note | | O |
-| Image Banding | | O |
-| Subsampling | | O |
-| Relative resolution for a tile | | O |
-| Tiling | | O |
-| Transparency masks | | O |
-| Bit allocation | | O |
-| Area coloring | | O |
-| IOCA tile resources | | O |
-| Multiple image contents in an IOCA image segment | | O |
+| Replicate and trim input to fill output | X | O [IPDS-7-005]|
+| Bilevel image | X | X [IPDS-7-006]|
+| Bilevel image with a color specification | X | O [IPDS-7-007]|
+| Unpadded recording algorithm | X | O [IPDS-7-008]|
+| Grayscale image | | X [IPDS-7-009]|
+| Compression | | X [IPDS-7-010]|
+| Resolution-independent data presentation | | X [IPDS-7-011]|
+| Resolution correction to device resolution | | X [IPDS-7-012]|
+| Scaling | | X [IPDS-7-013]|
+| Position and trim | | X [IPDS-7-014]|
+| Center and trim | | X [IPDS-7-015]|
+| Scale to fill | | O [IPDS-7-016]|
+| Full-color image | | O [IPDS-7-017]|
+| Color Management Resources (CMRs); see note | | O [IPDS-7-018]|
+| Image Banding | | O [IPDS-7-019]|
+| Subsampling | | O [IPDS-7-020]|
+| Relative resolution for a tile | | O [IPDS-7-021]|
+| Tiling | | O [IPDS-7-022]|
+| Transparency masks | | O [IPDS-7-023]|
+| Bit allocation | | O [IPDS-7-024]|
+| Area coloring | | O [IPDS-7-025]|
+| IOCA tile resources | | O [IPDS-7-026]|
+| Multiple image contents in an IOCA image segment | | O [IPDS-7-027]|
 
 **Key:** X: supported, O: optional function (supported by some, but not all printers)
 Note: Color Management Resources (CMRs) are associated with all print data using the CMR-usage hierarchy.
@@ -100,7 +100,7 @@ object area is trimmed. This type of trimming does not cause an exception. For a
 mapping, refer to “Image Output Control”.
 With replicate-and-trim mapping, the origin of the image presentation space is positioned coincident with the
 origin of the image object area, and the image presentation space is presented at the size specified in bytes 6–
-14 of the IDD self-defining field. The image presentation space is then replicated in the X and Y directions of
+14 of the IDD self-defining field. The image presentation space is then replicated in the X and Y directions of [IPDS-7-028]
 the image object area until the object area is filled. Each new replicate of the image presentation space in the X
 direction is precisely aligned with the image presentation space previously placed in the X direction. Each new
 replicate of the image presentation space in the Y direction is precisely aligned with the image presentation
@@ -110,7 +110,7 @@ image object area is trimmed (not printed). This type of trimming does not cause
 falls within the image object area extents is presented, but data that falls outside of the image object area is not
 presented.
 Note: Not all printers support the replicate-and-trim mapping option; the X'F300' property pair is returned in the
-IO-Image command-set vector of an STM reply by those printers that do support the mapping option.
+IO-Image command-set vector of an STM reply by those printers that do support the mapping option. [IPDS-7-029]
 
 
 This mapping option is used for migration from IM Images to IOCA FS10 images and is not supported
@@ -131,7 +131,7 @@ the IDD of the WIC2 command. Printers do not syntax check the data within the WI
 time; the syntax checking is done later when the image is included with an IDO command.
 When an IO Image is downloaded as a resource, no color mapping is done. However, when the resource is
 later included in a page or overlay via an IDO command, the color mapping table (if any) that is in effect at
-include time is applied to the image.
+include time is applied to the image. [IPDS-7-030]
 
 
 Write Image Control 2
@@ -152,13 +152,13 @@ enter metadata state, where exactly one metadata object is included. Metadata st
 receives the End command, at which point the printer returns to the IO-Image state it was in when the WMC
 was received.
 The WIC2 data field consists of two or three consecutive self-defining fields in the following order:
-1. Image Area Position (IAP)
-2. Image Output Control (IOC), optional
-3. Image Data Descriptor (IDD)
+1. Image Area Position (IAP) [IPDS-7-031]
+2. Image Output Control (IOC), optional [IPDS-7-032]
+3. Image Data Descriptor (IDD) [IPDS-7-033]
 Each self-defining field contains a two-byte length field, then a two-byte self-defining field ID, and finally a data
 field.
 If an invalid self-defining field is specified, a self-defining field is out of order, a required self-defining field is not
-specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists.
+specified, or one of the self-defining fields appears more than once, exception ID X'020B..05' exists. [IPDS-7-034]
 
 
 Figure 79. Locating, Sizing, and Orienting the Image Object Area
@@ -182,20 +182,20 @@ Image Area Position
 The IAP is a mandatory self-defining field in the WIC2 command. It defines the position and orientation of the
 image object area. The origin and orientation of the image object area are defined relative to the reference
 coordinate system.
-The format of the IAP is as follows:
+The format of the IAP is as follows: [IPDS-7-035]
 
 | Offset | Type | Name | Range | Meaning | IO1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'000B' to end of IAP | Length of IAP, including this length field | X'000B' to end of IAP |
-| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' |
-| 4–5 | SBIN | X offset | X'8000' – X'7FFF' | Image object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' |
-| 6–7 | SBIN | Y offset | X'8000' – X'7FFF' | Image object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' |
-| 8–9 | CODE | Image object area orientation | | | |
-| | bits 0–8 | Degrees | B'000000000' – B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' |
-| | bits 9–14 | Minutes | B'000000' – B'111011' | Number of minutes (0–59) in the orientation | B'000000' |
-| | bit 15 | | B'0' | Reserved | B'0' |
-| 10 | CODE | Coordinate system | X'00' X'20' X'40' X'60' X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00' X'20' X'40' X'60' X'A0' |
-| 11 to end of IAP | UNDF | | | Data without architectural definition | |
+| 0–1 | UBIN | Length | X'000B' to end of IAP | Length of IAP, including this length field | X'000B' to end of IAP [IPDS-7-036]|
+| 2–3 | CODE | SDF ID | X'AC6B' | Self-defining-field ID | X'AC6B' [IPDS-7-037]|
+| 4–5 | SBIN | X offset | X'8000' – X'7FFF' | Image object area origin; an $X_{p}$, I, or I-offset coordinate position in L-units | X'8000'–X'7FFF' [IPDS-7-038]|
+| 6–7 | SBIN | Y offset | X'8000' – X'7FFF' | Image object area origin; a $Y_{p}$, B, or B-offset coordinate position in L-units | X'8000'–X'7FFF' [IPDS-7-039]|
+| 8–9 | CODE | Image object area orientation [IPDS-7-040]| | | |
+| | bits 0–8 | Degrees | B'000000000' – B'101100111' | Number of degrees (0–359) in the orientation | B'000000000' [IPDS-7-041]|
+| | bits 9–14 | Minutes | B'000000' – B'111011' | Number of minutes (0–59) in the orientation | B'000000' [IPDS-7-042]|
+| | bit 15 | | B'0' | Reserved | B'0' [IPDS-7-043]|
+| 10 | CODE | Coordinate system | X'00' X'20' X'40' X'60' X'A0' | Reference coordinate system:<br>Absolute I, absolute B<br>Absolute I, relative B<br>Relative I, absolute B<br>Relative I, relative B<br>Page $X_{p}, Y_{p}$ | X'00' X'20' X'40' X'60' X'A0' [IPDS-7-044]|
+| 11 to end of IAP | UNDF | | | Data without architectural definition [IPDS-7-045]| |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -207,7 +207,7 @@ Bytes 2–3 Self-defining-field ID
 Bytes 4–5 IO-Image object area origin X offset in L-units
 These bytes specify the image object area origin (top-left corner) as an $X_{p}, I$, or $I$-offset
 coordinate position. The units of measure used to interpret this L-unit value are specified in the
-LPD command that is current when this object is printed in a page or overlay.
+LPD command that is current when this object is printed in a page or overlay. [IPDS-7-046]
 
 
 Exception ID X'0860..00' exists if the position cannot be represented by the printer.
@@ -241,10 +241,10 @@ printer. Exception ID X'0203..05' exists if the printer does not support the req
 value.
 For reference, the four basic orientation values correspond to the following hexadecimal and
 binary values of these two bytes:
-0 degrees
-90 degrees
-180 degrees
-270 degrees
+0 degrees [IPDS-7-047]
+90 degrees [IPDS-7-048]
+180 degrees [IPDS-7-049]
+270 degrees [IPDS-7-050]
 X'0000'
 X'2D00'
 X'5A00'
@@ -264,22 +264,22 @@ system origin.
 An inline coordinate value specified as relative means that the value in IAP bytes 4 and 5 is an
 offset from the current inline coordinate location. A baseline coordinate value specified as
 relative means that the value in IAP bytes 6 and 7 is an offset from the current baseline
-coordinate location. Therefore, the following applies:
+coordinate location. Therefore, the following applies: [IPDS-7-051]
 
 
-• If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin.
+• If byte 10 equals X'00', the absolute inline and baseline coordinates determine the origin. [IPDS-7-052]
 IAP bytes 4 and 5 specify the text inline coordinate; IAP bytes 6 and 7 specify the text
 baseline coordinate.
-• If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the
+• If byte 10 equals X'20', the absolute inline and relative baseline coordinates determine the [IPDS-7-053]
 origin. IAP bytes 4 and 5 specify the text inline coordinate; IAP bytes 6 and 7 are added to
 the current text baseline coordinate.
-• If byte 10 equals X'40', the relative inline and absolute baseline coordinates determine the
+• If byte 10 equals X'40', the relative inline and absolute baseline coordinates determine the [IPDS-7-054]
 origin. IAP bytes 4 and 5 are added to the current text inline coordinate. IAP bytes 6 and 7
 specify the text baseline coordinate.
-• If byte 10 equals X'60', the relative inline and baseline coordinates determine the origin. IAP
+• If byte 10 equals X'60', the relative inline and baseline coordinates determine the origin. IAP [IPDS-7-055]
 bytes 4 and 5 are added to the current text inline coordinate. IAP bytes 6 and 7 are added to
 the current text baseline coordinate.
-• If byte 10 equals X'A0', the current logical page $X_{p}$ and $Y_{p}$ coordinates determine the origin.
+• If byte 10 equals X'A0', the current logical page $X_{p}$ and $Y_{p}$ coordinates determine the origin. [IPDS-7-056]
 When the image is within a page, IAP bytes 4–7 specify the offset from the $X_{p}$-coordinate
 and $Y_{p}$-coordinate origin specified in a previously received LPP command (or from the
 printer default coordinates if no LPP command received). When the image is within an
@@ -292,7 +292,7 @@ Bytes 11 to
 end of IAP
 Data without architectural definition
 This is a reserved field that might be used for future expansion. IPDS receivers should accept,
-but ignore this field; generators should not specify this field.
+but ignore this field; generators should not specify this field. [IPDS-7-057]
 
 
 Image Output Control
@@ -300,26 +300,26 @@ The Image Output Control is a self-defining field that specifies the size of the
 for mapping the image presentation space into the image object area.
 This self-defining field is optional and can be omitted from the WIC2 command. If the IOC field is omitted, the
 printer uses the following:
-• Mapping option X'30' (position and trim).
-• $X_{oa}$ offset and $Y_{oa}$ offset equals 0.
-• Image object area size equals the image presentation space size defined in the IDD self-defining field.
-• No coloring.
-• No object-level CMRs.
-• No object-level rendering intent.
-The format of the IOC is as follows:
+• Mapping option X'30' (position and trim). [IPDS-7-058]
+• $X_{oa}$ offset and $Y_{oa}$ offset equals 0. [IPDS-7-059]
+• Image object area size equals the image presentation space size defined in the IDD self-defining field. [IPDS-7-060]
+• No coloring. [IPDS-7-061]
+• No object-level CMRs. [IPDS-7-062]
+• No object-level rendering intent. [IPDS-7-063]
+The format of the IOC is as follows: [IPDS-7-064]
 
 | Offset | Type | Name | Range | Meaning | IO1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'0010', X'0012' to end of IOC | Length of IOC, including this length field | X'0010', X'0012' to end of IOC |
-| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' |
-| 4 | CODE | Unit base | X'00' X'01' | Ten inches<br>Ten centimeters | X'00' |
-| 5–6 | UBIN | UPUB | X'0001' – X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' |
-| 7–8 | UBIN | $X_{oa}$ extent | X'0001' – X'7FFF' X'FFFF' | $X_{oa}$ extent of IO-Image object area in L-units<br>X'FFFF' = Use the LPD value. | See byte description. |
-| 9–10 | UBIN | $Y_{oa}$ extent | X'0001' – X'7FFF' X'FFFF' | $Y_{oa}$ extent of IO-Image object area in L-units<br>X'FFFF' = Use the LPD value. | See byte description. |
-| 11 | CODE | Mapping control option | X'10' X'20' X'30' X'41' X'42' X'50' X'60' | Mapping control option:<br>X'10' = Scale to fit<br>X'20' = Center and trim<br>X'30' = Position and trim<br>X'41' = Point to pel<br>X'42' = Point to pel w/ double dot<br>X'50' = Replicate & trim (FS10 only)<br>X'60' = Scale to fill | X'10' X'20' X'30' X'41' X'42' |
-| 12–13 | SBIN | $X_{oa}$ offset | X'8000' – X'7FFF' | $X_{oa}$ offset in L-units (for position-and-trim only) | X'0000' – X'7FFF' |
-| 14–15 | SBIN | $Y_{oa}$ offset | X'8000' – X'7FFF' | $Y_{oa}$ offset in L-units (for position-and-trim only) | X'0000' – X'7FFF' |
-| 16– | Triplets | | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet | |
+| 0–1 | UBIN | Length | X'0010', X'0012' to end of IOC | Length of IOC, including this length field | X'0010', X'0012' to end of IOC [IPDS-7-065]|
+| 2–3 | CODE | SDF ID | X'A66B' | Self-defining-field ID | X'A66B' [IPDS-7-066]|
+| 4 | CODE | Unit base | X'00' X'01' | Ten inches<br>Ten centimeters | X'00' [IPDS-7-067]|
+| 5–6 | UBIN | UPUB | X'0001' – X'7FFF' | $X_{oa}$ and $Y_{oa}$ units per unit base | X'3840' [IPDS-7-068]|
+| 7–8 | UBIN | $X_{oa}$ extent | X'0001' – X'7FFF' X'FFFF' | $X_{oa}$ extent of IO-Image object area in L-units<br>X'FFFF' = Use the LPD value. | See byte description. [IPDS-7-069]|
+| 9–10 | UBIN | $Y_{oa}$ extent | X'0001' – X'7FFF' X'FFFF' | $Y_{oa}$ extent of IO-Image object area in L-units<br>X'FFFF' = Use the LPD value. | See byte description. [IPDS-7-070]|
+| 11 | CODE | Mapping control option | X'10' X'20' X'30' X'41' X'42' X'50' X'60' | Mapping control option:<br>X'10' = Scale to fit<br>X'20' = Center and trim<br>X'30' = Position and trim<br>X'41' = Point to pel<br>X'42' = Point to pel w/ double dot<br>X'50' = Replicate & trim (FS10 only)<br>X'60' = Scale to fill | X'10' X'20' X'30' X'41' X'42' [IPDS-7-071]|
+| 12–13 | SBIN | $X_{oa}$ offset | X'8000' – X'7FFF' | $X_{oa}$ offset in L-units (for position-and-trim only) | X'0000' – X'7FFF' [IPDS-7-072]|
+| 14–15 | SBIN | $Y_{oa}$ offset | X'8000' – X'7FFF' | $Y_{oa}$ offset in L-units (for position-and-trim only) | X'0000' – X'7FFF' [IPDS-7-073]|
+| 16– | Triplets | | | Zero or more optional triplets; not all IPDS printers support these triplets:<br>X'4E' Color Specification triplet<br>X'70' Presentation Space Reset Mixing triplet<br>X'92' Invoke CMR triplet<br>X'95' Rendering Intent triplet [IPDS-7-074]| |
 Note: The subset range for fields expressed in L-units has been specified assuming a unit of measure of
 1/1440 of an inch. Many receivers support the subset plus additional function. If a receiver supports
 additional units of measure, the IPDS architecture requires the receiver to at least support a range
@@ -351,7 +351,7 @@ printed in a page or overlay.
 Note: For the duration of an overlay, the LPD associated with that overlay defines the current
 logical page.
 The printer must support all values in the range X'0001'–X'7FFF'; refer to “L-Unit Range
-Conversion Algorithm”. The printer must support X'FFFF' for pages and overlays.
+Conversion Algorithm”. The printer must support X'FFFF' for pages and overlays. [IPDS-7-075]
 
 
 The printer may optionally support X'FFFF' for page segments. Property pair X'1206' in the IO-
@@ -386,7 +386,7 @@ the resolution of the image points in the image presentation space in one or bot
 is different from the device resolution.
 The size of the image object area is defined in the IOC self-defining field using the units of
 measure specified in bytes 4–6 of the IOC.
-Exception ID X'0208..05' exists if an invalid or unsupported mapping option is specified.
+Exception ID X'0208..05' exists if an invalid or unsupported mapping option is specified. [IPDS-7-076]
 
 
 X'10' Scale to fit
@@ -459,7 +459,7 @@ image object area by doubling the image point in both dimensions. Any portion of
 image presentation space that falls outside the image object area is trimmed at the
 object area boundaries.
 Note: No resolution correction is required, therefore the size of the image in the image
-object area is dependent on the device resolution.
+object area is dependent on the device resolution. [IPDS-7-077]
 
 
 X'50' Replicate and trim
@@ -548,7 +548,7 @@ Mixing (X'70') triplet is followed by a Color Specification (X'4E') triplet spec
 Specification (X'4E') triplet specifying red, the area is colored red and the first two triplets are ignored. Also, if a
 Color Specification (X'4E') triplet specifying green is followed by a Presentation Space Reset Mixing (X'70')
 triplet, the resulting color of the area depends on the reset flag. If the reset flag is B'0' (do not reset), the area is
-colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium.
+colored green; if the reset flag is B'1' (reset to color of medium), the area is colored in the color of medium. [IPDS-7-078]
 
 
 Invoke CMR (X'92') and Rendering Intent (X'95') Triplet Considerations
@@ -577,25 +577,25 @@ triplet will be used and additional X'95' triplets are ignored.
 The X'F205' property pair in the Device-Control command-set vector of an STM reply indicates support for
 Invoke CMR (X'92') and Rendering Intent (X'95') triplets in the WIC2 command. The X'F212' property pair in
 the Device-Control command-set vector of an STM reply indicates support for Invoke Tertiary Resource (X'A2')
-triplets in the WBCC command.
+triplets in the WBCC command. [IPDS-7-079]
 
 
 Image Data Descriptor
 The IDD is a mandatory self-defining field in the WIC2 command. It specifies parameters that define the image
 presentation space size and resolution.
-The format of the IDD is as follows:
+The format of the IDD is as follows: [IPDS-7-080]
 
 | Offset | Type | Name | Range | Meaning | IO1 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0–1 | UBIN | Length | X'000F' to end of IDD | Length of IDD, including this length field | X'000F' to end of IDD |
-| 2–3 | CODE | SDF ID | X'A6FB' | Self-defining-field ID | X'A6FB' |
-| 4–5 | CODE | HAID | X'0000' X'0001' – X'7EFF' | No value assigned<br>Data object resource Host-Assigned ID | X'0000' |
-| 6 | CODE | Unit base | X'00' X'01' | Ten inches<br>Ten centimeters | X'00' |
-| 7–8 | UBIN | $X_{io}$ resolution | X'0001' – X'7FFF' | $X_{io}$ image points per unit base | X'0001' – X'7FFF' |
-| 9–10 | UBIN | $Y_{io}$ resolution | X'0001' – X'7FFF' | $Y_{io}$ image points per unit base | X'0001' – X'7FFF' |
-| 11–12 | UBIN | $X_{io}$ extent | X'0001' – X'7FFF' | $X_{io}$ extent of the image presentation space in image points | X'0001' – X'7FFF' |
-| 13–14 | UBIN | $Y_{io}$ extent | X'0001' – X'7FFF' | $Y_{io}$ extent of the image presentation space in image points | X'0001' – X'7FFF' |
-| 15– | | | | Zero or more of the following IOCA self-defining fields:<br>X'F4' Set Extended Bilevel Image Color<br>X'F6' Set Bilevel Image Color | |
+| 0–1 | UBIN | Length | X'000F' to end of IDD | Length of IDD, including this length field | X'000F' to end of IDD [IPDS-7-081]|
+| 2–3 | CODE | SDF ID | X'A6FB' | Self-defining-field ID | X'A6FB' [IPDS-7-082]|
+| 4–5 | CODE | HAID | X'0000' X'0001' – X'7EFF' | No value assigned<br>Data object resource Host-Assigned ID | X'0000' [IPDS-7-083]|
+| 6 | CODE | Unit base | X'00' X'01' | Ten inches<br>Ten centimeters | X'00' [IPDS-7-084]|
+| 7–8 | UBIN | $X_{io}$ resolution | X'0001' – X'7FFF' | $X_{io}$ image points per unit base | X'0001' – X'7FFF' [IPDS-7-085]|
+| 9–10 | UBIN | $Y_{io}$ resolution | X'0001' – X'7FFF' | $Y_{io}$ image points per unit base | X'0001' – X'7FFF' [IPDS-7-086]|
+| 11–12 | UBIN | $X_{io}$ extent | X'0001' – X'7FFF' | $X_{io}$ extent of the image presentation space in image points | X'0001' – X'7FFF' [IPDS-7-087]|
+| 13–14 | UBIN | $Y_{io}$ extent | X'0001' – X'7FFF' | $Y_{io}$ extent of the image presentation space in image points | X'0001' – X'7FFF' [IPDS-7-088]|
+| 15– | | | | Zero or more of the following IOCA self-defining fields:<br>X'F4' Set Extended Bilevel Image Color<br>X'F6' Set Bilevel Image Color [IPDS-7-089]| |
 Bytes 0–1 Length of the IDD self-defining field
 Exception ID X'0202..05' exists if an invalid length value is specified.
 Bytes 2–3 Data descriptor self-defining-field ID
@@ -614,7 +614,7 @@ the X and Y dimensions is ten inches; X'01' indicates the measurement unit is te
 The value X'02' is retired as Retired item 56.
 Property pair X'FB00' in the Device-Control command-set vector of an STM reply indicates
 support for all architected units of measure.
-Exception ID X'0205..05' exists if an invalid or unsupported unit base value is specified.
+Exception ID X'0205..05' exists if an invalid or unsupported unit base value is specified. [IPDS-7-090]
 
 
 Bytes 7–8 $X_{io}$ image points per unit base
@@ -638,7 +638,7 @@ These bytes specify the $Y_{io}$ dimension of the image presentation space in im
 Exception ID X'0207..05' exists if an invalid extent value is specified.
 Note: Some printers encounter storage limitations when scaling image data for a very large
 image presentation space or image object area; for example, larger than 136 inches by
-136 inches. Refer to your printer documentation for specific information.
+136 inches. Refer to your printer documentation for specific information. [IPDS-7-091]
 Bytes 15 to
 end of IDD
 IOCA self-defining fields
@@ -663,7 +663,7 @@ Set Bilevel Image Color IOCA self-defining field (X'F6')
 This IOCA self-defining field applies only to bilevel images, and is ignored for all other
 images. Printers that do not support bilevel image color also ignore this IOCA self-defining
 field, and print the image in the device-default color. Presence of the X'40nn' property pair in
-the IO-Image command-set vector of an STM reply with any defined nn bit set to B'1'
+the IO-Image command-set vector of an STM reply with any defined nn bit set to B'1' [IPDS-7-092]
 
 
 indicates that the printer supports the Set Bilevel Image Color (X'F6') IOCA self-defining
@@ -671,17 +671,17 @@ field.
 If an invalid or unsupported value is encountered in the length, applicability area, or named-
 color fields, the entire IOCA self-defining field is ignored and the image is printed in the
 device-default color. If multiple Set Bilevel Image Color SDFs with the same area value are
-encountered, the last one encountered is used and the others are ignored.
+encountered, the last one encountered is used and the others are ignored. [IPDS-7-093]
 | Offset | Type | Name | Range | Meaning | Required |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | IOCA SDF ID | X'F6' | Set Bilevel Image Color SDF ID | X'F6' |
-| 1 | UBIN | Length | X'04' | Length of the parameters that follow | X'04' |
-| 2 | CODE | Area | X'00' | Applicability area:<br>X'00' = Foreground IDEs | X'00' |
-| 3 | | | X'00' | Reserved | X'00' |
-| 4–5 | CODE | Named color | | Named-color value for each of the image data elements in the applicability area. The following values are defined, all other values are reserved:<br>X'0000' Printer default<br>X'0001' Blue<br>X'0002' Red<br>X'0003' Pink/magenta<br>X'0004' Green<br>X'0005' Turquoise/cyan<br>X'0006' Yellow<br>X'0007' White, see note<br>X'0008' Black<br>X'0009' Dark blue<br>X'000A' Orange<br>X'000B' Purple<br>X'000C' Dark green<br>X'000D' Dark turquoise<br>X'000E' Mustard<br>X'000F' Gray<br>X'0010' Brown<br>X'FF00' Printer default<br>X'FF01' Blue<br>X'FF02' Red<br>X'FF03' Pink/magenta<br>X'FF04' Green<br>X'FF05' Turquoise/cyan<br>X'FF06' Yellow<br>X'FF07' Printer default<br>X'FF08' Color of medium<br>X'FFFF' Printer default | X'FF07' |
+| 0 | CODE | IOCA SDF ID | X'F6' | Set Bilevel Image Color SDF ID | X'F6' [IPDS-7-094]|
+| 1 | UBIN | Length | X'04' | Length of the parameters that follow | X'04' [IPDS-7-095]|
+| 2 | CODE | Area | X'00' | Applicability area:<br>X'00' = Foreground IDEs | X'00' [IPDS-7-096]|
+| 3 | | | X'00' | Reserved | X'00' [IPDS-7-097]|
+| 4–5 | CODE | Named color | | Named-color value for each of the image data elements in the applicability area. The following values are defined, all other values are reserved:<br>X'0000' Printer default<br>X'0001' Blue<br>X'0002' Red<br>X'0003' Pink/magenta<br>X'0004' Green<br>X'0005' Turquoise/cyan<br>X'0006' Yellow<br>X'0007' White, see note<br>X'0008' Black<br>X'0009' Dark blue<br>X'000A' Orange<br>X'000B' Purple<br>X'000C' Dark green<br>X'000D' Dark turquoise<br>X'000E' Mustard<br>X'000F' Gray<br>X'0010' Brown<br>X'FF00' Printer default<br>X'FF01' Blue<br>X'FF02' Red<br>X'FF03' Pink/magenta<br>X'FF04' Green<br>X'FF05' Turquoise/cyan<br>X'FF06' Yellow<br>X'FF07' Printer default<br>X'FF08' Color of medium<br>X'FFFF' Printer default | X'FF07' [IPDS-7-098]|
 Note: The color rendered on presentation devices that do not support white is device-
 dependent. For example, some printers simulate with color of medium that results in
-white when white media is used.
+white when white media is used. [IPDS-7-099]
 
 
 Write Image 2
@@ -698,40 +698,40 @@ IOCA data from one of the supported IOCA function sets (FS10, FS11, FS14,
 FS40, FS42, FS45, or FS48 );
 refer to the Image Object Content Architecture Reference for a description of these function sets.
 One or more consecutive WI2 commands carry IOCA data within a sequence of IOCA self-defining fields. The
-IOCA self-defining fields are:
+IOCA self-defining fields are: [IPDS-7-100]
 
-Table 44. IOCA Self-Defining Fields
+Table 44. IOCA Self-Defining Fields [IPDS-7-101]
 
 | CODE | Name | Function Set |
 | :--- | :--- | :--- |
-| X'70' | Begin Segment | All |
-| X'71' | End Segment | All |
-| X'8C' | Begin Tile Parameter | FS40, FS42, FS45, FS48 |
-| X'8D' | End Tile Parameter | FS40, FS42, FS45, FS48 |
-| X'8E' | Begin Transparency Mask Parameter | FS14, FS45, FS48 |
-| X'8F' | End Transparency Mask Parameter | FS14, FS45, FS48 |
-| X'91' | Begin Image Content | All |
-| X'93' | End Image Content | All |
-| X'94' | Image Size Parameter | FS10, FS11, FS14, FS45, FS48 |
-| X'95' | Image Encoding Parameter | All |
-| X'96' | Image Data Element Size Parameter | All |
-| X'97' | Image Look Up Table ID Parameter | FS10, FS11 |
-| X'98' | Band Image Parameter | FS11, FS14, FS42, FS45, FS48 |
-| X'9B' | Image Data Element Structure Parameter | FS11, FS14, FS40, FS42, FS45, FS48 |
-| X'9F' | External Algorithm Specification Parameter | FS11 |
-| X'B5' | Tile Position Parameter | FS40, FS42, FS45, FS48 |
-| X'B6' | Tile Size Parameter | FS40, FS42, FS45, FS48 |
-| X'B7' | Tile Set Color Parameter | FS42, FS45, FS48 |
-| X'FE92' | Image Data (one or more) | All |
-| X'FE9C' | Band Image Data (one or more) | FS11, FS14, FS42, FS45, FS48 |
-| X'FEB3' | nColor Names | All |
-| X'FEB8' | Include Tile Parameter | FS45, FS48 |
-| X'FEBB' | Tile TOC Parameter | FS40, FS42, FS45, FS48 |
-| X'FECE' | Image Subsampling Parameter | FS11, FS14 |
+| X'70' | Begin Segment | All [IPDS-7-102]|
+| X'71' | End Segment | All [IPDS-7-103]|
+| X'8C' | Begin Tile Parameter | FS40, FS42, FS45, FS48 [IPDS-7-104]|
+| X'8D' | End Tile Parameter | FS40, FS42, FS45, FS48 [IPDS-7-105]|
+| X'8E' | Begin Transparency Mask Parameter | FS14, FS45, FS48 [IPDS-7-106]|
+| X'8F' | End Transparency Mask Parameter | FS14, FS45, FS48 [IPDS-7-107]|
+| X'91' | Begin Image Content | All [IPDS-7-108]|
+| X'93' | End Image Content | All [IPDS-7-109]|
+| X'94' | Image Size Parameter | FS10, FS11, FS14, FS45, FS48 [IPDS-7-110]|
+| X'95' | Image Encoding Parameter | All [IPDS-7-111]|
+| X'96' | Image Data Element Size Parameter | All [IPDS-7-112]|
+| X'97' | Image Look Up Table ID Parameter | FS10, FS11 [IPDS-7-113]|
+| X'98' | Band Image Parameter | FS11, FS14, FS42, FS45, FS48 [IPDS-7-114]|
+| X'9B' | Image Data Element Structure Parameter | FS11, FS14, FS40, FS42, FS45, FS48 [IPDS-7-115]|
+| X'9F' | External Algorithm Specification Parameter | FS11 [IPDS-7-116]|
+| X'B5' | Tile Position Parameter | FS40, FS42, FS45, FS48 [IPDS-7-117]|
+| X'B6' | Tile Size Parameter | FS40, FS42, FS45, FS48 [IPDS-7-118]|
+| X'B7' | Tile Set Color Parameter | FS42, FS45, FS48 [IPDS-7-119]|
+| X'FE92' | Image Data (one or more) | All [IPDS-7-120]|
+| X'FE9C' | Band Image Data (one or more) | FS11, FS14, FS42, FS45, FS48 [IPDS-7-121]|
+| X'FEB3' | nColor Names | All [IPDS-7-122]|
+| X'FEB8' | Include Tile Parameter | FS45, FS48 [IPDS-7-123]|
+| X'FEBB' | Tile TOC Parameter | FS40, FS42, FS45, FS48 [IPDS-7-124]|
+| X'FECE' | Image Subsampling Parameter | FS11, FS14 [IPDS-7-125]|
 Note: The following additional IOCA code values can exist in the WIC2-IDD:
-• X'F4' – Set Extended Bilevel Image Color
-• X'F6' – Set Bilevel Image Color
-• X'F7' – IOCA Function Set identification (allowed in the MO:DCA IDD; ignored by IPDS receivers)
+• X'F4' – Set Extended Bilevel Image Color [IPDS-7-126]
+• X'F6' – Set Bilevel Image Color [IPDS-7-127]
+• X'F7' – IOCA Function Set identification (allowed in the MO:DCA IDD; ignored by IPDS receivers) [IPDS-7-128]
 Only one IOCA segment is allowed in each WIC2... END command stream. An IOCA segment can span two
 or more consecutive WI2 commands. There is no restriction on how much or how little data is sent to the
 printer in a single WI2 command, except for the length limit of the command.
@@ -739,10 +739,10 @@ All image segments are executed in immediate mode. That is, segments are process
 by the printer and are not retained or stored as named segments.
 The Look Up Table ID supported by IPDS printer implementations is X'00', the default Look Up Table ID. This
 ID specifies a Look Up Table with the following characteristics:
-• If the number of bits per image point of the Image Data Element size parameter is X'01', this Look-Up Table
+• If the number of bits per image point of the Image Data Element size parameter is X'01', this Look-Up Table [IPDS-7-129]
 specifies a bilevel image with B'1' representing significant bits, image points representing toned pels in the
 printer, and B'0' representing insignificant bits, image points representing untoned pels in the printer.
-• If the number of bits per image point of the Image Data Element size parameter is greater than X'01', this
+• If the number of bits per image point of the Image Data Element size parameter is greater than X'01', this [IPDS-7-130]
 Look-Up Table specifies a grayscale image. Each Image Data Element is a positive binary number that
 represents a grayscale value for an image point. A value of X'00' indicates maximum density, for example,
 black. Greater values represent increasingly lighter shades. Exception ID X'0596..11' exists if an Image Data
@@ -764,7 +764,7 @@ Unless overridden by a Color Fidelity (X'75') triplet in a PFC command, printers
 will simulate an unsupported color value with a supported color value. This simulation capability is in addition to
 the optional simulation of Standard OCA color values in the Set Bilevel Image Color IOCA self-defining field (or
 the Set Extended Bilevel Image Color IOCA self-defining field) as reported in the IO-Image command-set
-vector in an STM reply.
+vector in an STM reply. [IPDS-7-131]
 
 
 Unsupported IOCA function in an IPDS Environment
@@ -775,73 +775,73 @@ FS40, FS42, FS45, or FS48 image is sent to an IPDS printer that only supports IO
 will encounter a data stream error and will return one or more exception conditions such as X'0500..01' (invalid
 or unsupported IOCA self-defining field code) or X'0595..10' (unsupported compression algorithm).
 An X in the following table indicates that the exception ID should be supported by an implementation that
-supports the given function set:
+supports the given function set: [IPDS-7-132]
 
-Table 45. Exception IDs for IOCA Function Sets
+Table 45. Exception IDs for IOCA Function Sets [IPDS-7-133]
 
 | Exception ID | FS10 | FS11 | FS14 | FS40 | FS42 | FS45 | FS48 |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| X'0500..01' | X | X | X | X | X | X | X |
-| X'0500..03' | X | X | X | X | X | X | X |
-| X'0500..04' | X | X | X | X | X | X | X |
-| X'0570..0F' | X | X | X | X | X | X | X |
-| X'0571..0F' | X | X | X | X | X | X | X |
-| X'058C..0F' | | | | X | X | X | X |
-| X'058D..0F' | | | | X | X | X | X |
-| X'058E..0F' | | | | | | X | X |
-| X'058F..0F' | | | | | | X | X |
-| X'0591..0F' | X | X | X | X | X | X | X |
-| X'0592..01' | | X | X | X | X | X | |
-| X'0592..0F' | X | X | X | X | X | X | X |
-| X'0593..0F' | X | X | X | X | X | X | X |
-| X'0594..01' | | X | X | X | X | X | |
-| X'0594..0F' | | X | X | X | X | X | |
-| X'0594..10' | | X | X | X | X | X | |
-| X'0594..11' | | X | X | X | X | X | |
-| X'0595..0F' | X | X | X | X | X | X | X |
-| X'0595..10' | X | X | X | X | X | X | X |
-| X'0595..11' | X | X | X | X | X | X | X |
-| X'0596..0F' | X | X | X | X | X | X | X |
-| X'0596..10' | X | X | X | X | X | X | X |
-| X'0596..11' | X | X | X | X | X | X | X |
-| X'0597..0F' | X | X | | | | | |
-| X'0597..10' | X | X | | | | | |
-| X'0598..01' | | X | X | | | | |
-| X'0598..0F' | | X | X | | | X | X |
-| X'0598..10' | | X | X | | | X | X |
-| X'0598..14' | | X | X | | | X | X |
-| X'0598..15' | | X | X | | | X | X |
-| X'059B..0F' | | X | X | X | X | X | X |
-| X'059B..10' | | X | X | X | X | X | X |
-| X'059B..18' | | X | X | X | X | X | X |
-| X'059C..01' | | X | X | | | X | X |
-| X'059C..0F' | | X | X | | | X | X |
-| X'059C..17' | | X | X | | | X | X |
-| X'059F..01' | | X | | | | | |
-| X'059F..0F' | | X | | | | | |
-| X'059F..10' | | X | | | | | |
-| X'059F..11' | | X | | | | | |
-| X'05A9..02' | X | X | X | X | X | X | X |
-| X'05B3..0F' | | | | | | | |
-| X'05B3..10' | | | | | | | |
-| X'05B3..11' | | | | | | | |
-| X'05B5..0F' | | | | X | X | X | X |
-| X'05B5..10' | | | | X | X | X | X |
-| X'05B5..11' | | | | X | X | X | X |
-| X'05B6..0F' | | | | X | X | X | X |
-| X'05B6..10' | | | | X | X | X | X |
-| X'05B6..11' | | | | X | X | X | X |
-| X'05B7..0F' | | | | | X | X | X |
-| X'05B7..10' | | | | | X | X | X |
-| X'05B7..11' | | | | | X | X | X |
-| X'05B8..0F' | | | | | | X | X |
-| X'05B8..11' | | | | | | X | X |
-| X'05BB..0F' | | | | X | X | X | X |
-| X'05BB..10' | | | | X | X | X | X |
-| X'05BB..11' | | | | X | X | X | X |
-| X'05CE..01' | | X | X | | | | |
-| X'05CE..0F' | | X | X | | | | |
-| X'05CE..10' | | X | X | | | | |
-| X'05F4..10' | | | | | | | |
+| X'0500..01' | X | X | X | X | X | X | X [IPDS-7-134]|
+| X'0500..03' | X | X | X | X | X | X | X [IPDS-7-135]|
+| X'0500..04' | X | X | X | X | X | X | X [IPDS-7-136]|
+| X'0570..0F' | X | X | X | X | X | X | X [IPDS-7-137]|
+| X'0571..0F' | X | X | X | X | X | X | X [IPDS-7-138]|
+| X'058C..0F' | | | | X | X | X | X [IPDS-7-139]|
+| X'058D..0F' | | | | X | X | X | X [IPDS-7-140]|
+| X'058E..0F' | | | | | | X | X [IPDS-7-141]|
+| X'058F..0F' | | | | | | X | X [IPDS-7-142]|
+| X'0591..0F' | X | X | X | X | X | X | X [IPDS-7-143]|
+| X'0592..01' | | X | X | X | X | X [IPDS-7-144]| |
+| X'0592..0F' | X | X | X | X | X | X | X [IPDS-7-145]|
+| X'0593..0F' | X | X | X | X | X | X | X [IPDS-7-146]|
+| X'0594..01' | | X | X | X | X | X [IPDS-7-147]| |
+| X'0594..0F' | | X | X | X | X | X [IPDS-7-148]| |
+| X'0594..10' | | X | X | X | X | X [IPDS-7-149]| |
+| X'0594..11' | | X | X | X | X | X [IPDS-7-150]| |
+| X'0595..0F' | X | X | X | X | X | X | X [IPDS-7-151]|
+| X'0595..10' | X | X | X | X | X | X | X [IPDS-7-152]|
+| X'0595..11' | X | X | X | X | X | X | X [IPDS-7-153]|
+| X'0596..0F' | X | X | X | X | X | X | X [IPDS-7-154]|
+| X'0596..10' | X | X | X | X | X | X | X [IPDS-7-155]|
+| X'0596..11' | X | X | X | X | X | X | X [IPDS-7-156]|
+| X'0597..0F' | X | X [IPDS-7-157]| | | | | |
+| X'0597..10' | X | X [IPDS-7-158]| | | | | |
+| X'0598..01' | | X | X [IPDS-7-159]| | | | |
+| X'0598..0F' | | X | X | | | X | X [IPDS-7-160]|
+| X'0598..10' | | X | X | | | X | X [IPDS-7-161]|
+| X'0598..14' | | X | X | | | X | X [IPDS-7-162]|
+| X'0598..15' | | X | X | | | X | X [IPDS-7-163]|
+| X'059B..0F' | | X | X | X | X | X | X [IPDS-7-164]|
+| X'059B..10' | | X | X | X | X | X | X [IPDS-7-165]|
+| X'059B..18' | | X | X | X | X | X | X [IPDS-7-166]|
+| X'059C..01' | | X | X | | | X | X [IPDS-7-167]|
+| X'059C..0F' | | X | X | | | X | X [IPDS-7-168]|
+| X'059C..17' | | X | X | | | X | X [IPDS-7-169]|
+| X'059F..01' | | X [IPDS-7-170]| | | | | |
+| X'059F..0F' | | X [IPDS-7-171]| | | | | |
+| X'059F..10' | | X [IPDS-7-172]| | | | | |
+| X'059F..11' | | X [IPDS-7-173]| | | | | |
+| X'05A9..02' | X | X | X | X | X | X | X [IPDS-7-174]|
+| X'05B3..0F' [IPDS-7-175]| | | | | | | |
+| X'05B3..10' [IPDS-7-176]| | | | | | | |
+| X'05B3..11' [IPDS-7-177]| | | | | | | |
+| X'05B5..0F' | | | | X | X | X | X [IPDS-7-178]|
+| X'05B5..10' | | | | X | X | X | X [IPDS-7-179]|
+| X'05B5..11' | | | | X | X | X | X [IPDS-7-180]|
+| X'05B6..0F' | | | | X | X | X | X [IPDS-7-181]|
+| X'05B6..10' | | | | X | X | X | X [IPDS-7-182]|
+| X'05B6..11' | | | | X | X | X | X [IPDS-7-183]|
+| X'05B7..0F' | | | | | X | X | X [IPDS-7-184]|
+| X'05B7..10' | | | | | X | X | X [IPDS-7-185]|
+| X'05B7..11' | | | | | X | X | X [IPDS-7-186]|
+| X'05B8..0F' | | | | | | X | X [IPDS-7-187]|
+| X'05B8..11' | | | | | | X | X [IPDS-7-188]|
+| X'05BB..0F' | | | | X | X | X | X [IPDS-7-189]|
+| X'05BB..10' | | | | X | X | X | X [IPDS-7-190]|
+| X'05BB..11' | | | | X | X | X | X [IPDS-7-191]|
+| X'05CE..01' | | X | X [IPDS-7-192]| | | | |
+| X'05CE..0F' | | X | X [IPDS-7-193]| | | | |
+| X'05CE..10' | | X | X [IPDS-7-194]| | | | |
+| X'05F4..10' [IPDS-7-195]| | | | | | | |
 
 

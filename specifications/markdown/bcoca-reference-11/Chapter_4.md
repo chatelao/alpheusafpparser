@@ -11,7 +11,7 @@ that every receiver supports. Most receivers support more than the minimum range
 BCD2 Subset
 BCD2 is a superset of BCD1 that provides additional function and bar code types that are required by the
 MO:DCA IS/3 interchange set. In particular, BCD2 adds the following functions:
-• Additional bar code types:
+• Additional bar code types: [BCOCA-4-001]
 Australia Post Bar Code
 Codabar
 Code 93
@@ -23,10 +23,10 @@ MaxiCode (2D bar code)
 PDF417 (2D bar code)
 QR Code, modifier X'02' (2D bar code)
 RM4SCC (Royal Mail and Dutch KIX)
-• Bar code symbol suppression
-• Color specification triplet in the MO:DCA and IPDS Bar Code Data Descriptor
-• Full range for font local IDs
-• Full range for units per unit base
+• Bar code symbol suppression [BCOCA-4-002]
+• Color specification triplet in the MO:DCA and IPDS Bar Code Data Descriptor [BCOCA-4-003]
+• Full range for font local IDs [BCOCA-4-004]
+• Full range for units per unit base [BCOCA-4-005]
 The AFP Consortium recommends that BCOCA implementations support at least the function defined for
 BCD2.
 
@@ -90,7 +90,7 @@ Royal Mail RED TAG (deprecated)
 UPC Two-digit Supplemental - modifiers X'01' and X'02'
 UPC Five-digit Supplemental - modifiers X'01' and X'02'
 Additional Function:
-0 , 90 , 180 , and 270 object-area orientation support
+0 , 90 , 180 , and 270 object-area orientation support [BCOCA-4-006]
 o o o o
 All values of degrees and minutes for object-area orientation
 Bar code objects may be sent in any order
@@ -103,26 +103,26 @@ BCOCAKey:
 BCD2
 BCD1
 BCOCA Data StructuresThe BSD specifies the size of the bar code presentation space, the type of bar code to be generated, and the
-parameters used to generate the bar code symbols.
+parameters used to generate the bar code symbols. [BCOCA-4-007]
 ### Table 8. Bar Code Symbol Descriptor (BSD) Data Structure
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' | X'00' |
-| 1 | | | X'00' | Reserved | X'00' | X'00' |
-| 2–3 | UBIN | $X_{UPUB}$ | X'0001'–X'7FFF' | Units per unit base in the $X_{bc}$ direction | X'3840' | X'0001'–X'7FFF' |
-| 4–5 | UBIN | $Y_{UPUB}$ | X'0001'–X'7FFF' | Units per unit base in the $Y_{bc}$ direction; must be the same as $X_{UPUB}$ | X'3840' | X'0001'–X'7FFF' |
-| 6–7 | UBIN | $X$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Width of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
-| 8–9 | UBIN | $Y$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Length of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
-| 10–11 | UBIN | Symbol width | X'0000'<br>X'0001'–X'7FFF' | Desired symbol width:<br>Not specified (use module width)<br>Desired width of symbol in L-units<br>Not supported by all BCOCA receivers | X'0000' | X'0000' |
-| 12 | CODE | Type | X'01'–X'03',<br>X'05'–X'0D',<br>X'11',<br>X'16'–X'18',<br>X'1A'–X'27' | Bar code type | Specified in Table 9 | Specified in Table 9 |
-| 13 | CODE | Modifier | See field description | Bar code modifier | Specified in Table 10 | Specified in Table 10 |
-| 14 | CODE | Local ID | X'00'–X'FE'<br>X'FF' | Font Local ID for HRI<br>Default | X'01'–X'7F'<br>X'FF' | X'00'–X'FE'<br>X'FF' |
-| 15–16 | CODE | Color | X'0000'–X'0010'<br>X'FF00'–X'FF08'<br>X'FFFF' | Color | X'FF07' | X'FF07' |
-| 17 | UBIN | Module width | X'01'–X'FE'<br>X'FF' | Module width in mils<br>Default | Device specific<br>X'FF' | Device specific<br>X'FF' |
-| 18–19 | UBIN | Element height | X'0001'–X'7FFF'<br>X'FFFF' | Element height in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' |
-| 20 | UBIN | Multiplier | X'01'–X'FF' | Height multiplier | X'01'–X'FF' | X'01'–X'FF' |
-| 21–22 | UBIN | WE:NE | X'0000'<br>X'0001'–X'7FFF'<br>X'FFFF' | Bar code (see byte 12) does not use ratio<br>Wide-to-narrow ratio<br>Default | X'0000'<br>At least one value<br>X'FFFF' | X'0000'<br>At least one value<br>X'FFFF' |
+| 0 | CODE | Unit base | X'00'<br>X'01' | Ten inches<br>Ten centimeters | X'00' | X'00' [BCOCA-4-008]|
+| 1 | | | X'00' | Reserved | X'00' | X'00' [BCOCA-4-009]|
+| 2–3 | UBIN | $X_{UPUB}$ | X'0001'–X'7FFF' | Units per unit base in the $X_{bc}$ direction | X'3840' | X'0001'–X'7FFF' [BCOCA-4-010]|
+| 4–5 | UBIN | $Y_{UPUB}$ | X'0001'–X'7FFF' | Units per unit base in the $Y_{bc}$ direction; must be the same as $X_{UPUB}$ | X'3840' | X'0001'–X'7FFF' [BCOCA-4-011]|
+| 6–7 | UBIN | $X$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Width of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' [BCOCA-4-012]|
+| 8–9 | UBIN | $Y$ extent | X'0001'–X'7FFF'<br>X'FFFF' | Length of bar code presentation space in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' [BCOCA-4-013]|
+| 10–11 | UBIN | Symbol width | X'0000'<br>X'0001'–X'7FFF' | Desired symbol width:<br>Not specified (use module width)<br>Desired width of symbol in L-units<br>Not supported by all BCOCA receivers | X'0000' | X'0000' [BCOCA-4-014]|
+| 12 | CODE | Type | X'01'–X'03',<br>X'05'–X'0D',<br>X'11',<br>X'16'–X'18',<br>X'1A'–X'27' | Bar code type | Specified in Table 9 | Specified in Table 9 [BCOCA-4-015]|
+| 13 | CODE | Modifier | See field description | Bar code modifier | Specified in Table 10 | Specified in Table 10 [BCOCA-4-016]|
+| 14 | CODE | Local ID | X'00'–X'FE'<br>X'FF' | Font Local ID for HRI<br>Default | X'01'–X'7F'<br>X'FF' | X'00'–X'FE'<br>X'FF' [BCOCA-4-017]|
+| 15–16 | CODE | Color | X'0000'–X'0010'<br>X'FF00'–X'FF08'<br>X'FFFF' | Color | X'FF07' | X'FF07' [BCOCA-4-018]|
+| 17 | UBIN | Module width | X'01'–X'FE'<br>X'FF' | Module width in mils<br>Default | Device specific<br>X'FF' | Device specific<br>X'FF' [BCOCA-4-019]|
+| 18–19 | UBIN | Element height | X'0001'–X'7FFF'<br>X'FFFF' | Element height in L-units<br>Default | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' | X'0001'–X'7FFF' (Refer to the note following the table.)<br>X'FFFF' [BCOCA-4-020]|
+| 20 | UBIN | Multiplier | X'01'–X'FF' | Height multiplier | X'01'–X'FF' | X'01'–X'FF' [BCOCA-4-021]|
+| 21–22 | UBIN | WE:NE | X'0000'<br>X'0001'–X'7FFF'<br>X'FFFF' | Bar code (see byte 12) does not use ratio<br>Wide-to-narrow ratio<br>Default | X'0000'<br>At least one value<br>X'FFFF' | X'0000'<br>At least one value<br>X'FFFF' [BCOCA-4-022]|
 Note: The BCD1 and BCD2 range for these fields has been specified assuming a unit of measure of 1/1440 of
 an inch. Many receivers support the BCD1 or BCD2 subset plus additional function. If a receiver
 supports additional units of measure, the BCOCA architecture requires the receiver to at least support a
@@ -154,7 +154,7 @@ environment area in the $X_{bc}$ direction is to be used. Exception condition EC
 presentation space extent specified is invalid or unsupported.
 Note: The size of a bar code symbol is not always known in advance. It is good practice to
 specify the size of the bar code presentation space large enough to include plenty of
-white space around the expected symbols and HRI.
+white space around the expected symbols and HRI. [BCOCA-4-023]
 
 
 
@@ -177,8 +177,8 @@ Bearer Bars are used with an Interleaved 2-of-5 symbol, the symbol width include
 zone on both ends of the symbol and also the width of the vertical Bearer Bars (if present).
 The BCOCA receiver will use the desired symbol width value to attempt to create the widest
 bar code symbol that fits within the desired symbol width. The BCOCA receiver does this by:
-1. Ignoring the specified module width value (byte 17)
-2. Calculating an optimal module width value that will produce the widest symbol that fits into
+1. Ignoring the specified module width value (byte 17) [BCOCA-4-024]
+2. Calculating an optimal module width value that will produce the widest symbol that fits into [BCOCA-4-025]
 the desired width. The following algorithm is used for all symbologies except for fixed-size
 symbols:
 a. First the BCOCA receiver calculates how many X values there will be in the symbol
@@ -198,87 +198,87 @@ c. The resulting value replaces the module width value within the BSD and the sy
 generated using that value and all of the other user-specified BSD values to produce
 the requested symbol. The resulting symbol might be smaller than the desired symbol
 width.
-3. For fixed-size symbols, the optimal-symbol-size value is used unless the BCOCA receiver
+3. For fixed-size symbols, the optimal-symbol-size value is used unless the BCOCA receiver [BCOCA-4-026]
 provides small-symbol support (in which case the value used can be either the optimal or
 the small value, whichever is best for producing a symbol close to the desired symbol
 width). Exception condition EC-0611 exists if the resulting fixed-size symbol is wider than
 the desired symbol width.
 The fixed-size bar code types are: Australia Post Bar Code, Dutch KIX, Intelligent Mail
 Barcode, MaxiCode, PLANET (deprecated), POSTNET (deprecated), RM4SCC, Royal
-Mail RED TAG (deprecated), and Royal Mail Mailmark.
+Mail RED TAG (deprecated), and Royal Mail Mailmark. [BCOCA-4-027]
 
 
 
-4. For UPC or EAN symbols that include a supplemental (bar code types X'06', X'07', X'16',
+4. For UPC or EAN symbols that include a supplemental (bar code types X'06', X'07', X'16', [BCOCA-4-028]
 X'17' with modifier X'01' or X'02'), the desired symbol width includes both the base symbol
 and the supplemental.
 Note: When a non-zero value is specified in the desired-symbol-width field, an appropriate
 module-width value should also be specified in byte 17 (a good choice is X'FF' to select
 the default module width). The module-width value is used in the following cases:
-• When the standard action for exception EC-0611 is taken because the printer cannot
+• When the standard action for exception EC-0611 is taken because the printer cannot [BCOCA-4-029]
 generate a symbol that fits within the desired width.
-• When the bar code object is sent to a BCOCA receiver that does not support the
+• When the bar code object is sent to a BCOCA receiver that does not support the [BCOCA-4-030]
 desired-symbol-width parameter.
-• When X'0000' is specified in the desired-symbol-width field.
+• When X'0000' is specified in the desired-symbol-width field. [BCOCA-4-031]
 Byte 12 Type
 Indicates the type of bar code symbol to be generated. Exception condition EC-0300 exists if
 the bar code type value is invalid or unsupported. Exception condition EC-1100 exists if a
 portion of the bar code symbol extends beyond the bar code presentation space, the
 intersection of the mapped bar code presentation space and the controlling environment
 object area, or beyond the maximum presentation area.
-The bar code types are defined as follows:
+The bar code types are defined as follows: [BCOCA-4-032]
 ### Table 9. Bar Code Types
 
 | Type | Bar Code Symbology | In BCD1 Subset? | In BCD2 Subset? |
 | :--- | :--- | :--- | :--- |
-| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | Yes | Yes |
-| X'02' | MSI (modified Plessey code) | Yes | Yes |
-| X'03' | UPC/CGPC—Version A | Yes | Yes |
-| X'05' | UPC/CGPC—Version E | Yes | Yes |
-| X'06' | UPC—Two-Digit Supplemental (Periodicals) | Yes | Yes |
-| X'07' | UPC—Five-Digit Supplemental (Paperbacks) | Yes | Yes |
-| X'08' | EAN-8 (includes JAN-short) | Yes | Yes |
-| X'09' | EAN-13 (includes JAN-standard) | Yes | Yes |
-| X'0A' | Industrial 2-of-5 | No | No |
-| X'0B' | Matrix 2-of-5 | No | No |
-| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | Yes | Yes |
-| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | No | Yes |
-| X'11' | Code 128, GS1-128, UCC/EAN 128, AIM USS-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode | No | Yes |
-| X'16' | EAN Two-Digit Supplemental | Yes | Yes |
-| X'17' | EAN Five-Digit Supplemental | Yes | Yes |
-| X'18' | POSTNET (deprecated) and PLANET (deprecated) | No | No |
-| X'1A' | RM4SCC and Dutch KIX | No | Yes |
-| X'1B' | Japan Postal Bar Code | No | Yes |
-| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | No | Yes |
-| X'1D' | MaxiCode (2D bar code) | No | Yes |
-| X'1E' | PDF417 (2D bar code) | No | Yes |
-| X'1F' | Australia Post Bar Code | No | Yes |
-| X'20' | QR Code, QR Code with Image (2D bar code) | No | Yes |
-| X'21' | Code 93 | No | Yes |
-| X'22' | Intelligent Mail Barcode | No | Yes |
-| X'23' | Royal Mail RED TAG (deprecated) | No | No |
-| X'24' | GS1 DataBar | No | No |
-| X'25' | Royal Mail Mailmark | No | No |
-| X'26' | Aztec Code | No | No |
-| X'27' | Han Xin Code | No | No |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | Yes | Yes [BCOCA-4-033]|
+| X'02' | MSI (modified Plessey code) | Yes | Yes [BCOCA-4-034]|
+| X'03' | UPC/CGPC—Version A | Yes | Yes [BCOCA-4-035]|
+| X'05' | UPC/CGPC—Version E | Yes | Yes [BCOCA-4-036]|
+| X'06' | UPC—Two-Digit Supplemental (Periodicals) | Yes | Yes [BCOCA-4-037]|
+| X'07' | UPC—Five-Digit Supplemental (Paperbacks) | Yes | Yes [BCOCA-4-038]|
+| X'08' | EAN-8 (includes JAN-short) | Yes | Yes [BCOCA-4-039]|
+| X'09' | EAN-13 (includes JAN-standard) | Yes | Yes [BCOCA-4-040]|
+| X'0A' | Industrial 2-of-5 | No | No [BCOCA-4-041]|
+| X'0B' | Matrix 2-of-5 | No | No [BCOCA-4-042]|
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | Yes | Yes [BCOCA-4-043]|
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | No | Yes [BCOCA-4-044]|
+| X'11' | Code 128, GS1-128, UCC/EAN 128, AIM USS-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode | No | Yes [BCOCA-4-045]|
+| X'16' | EAN Two-Digit Supplemental | Yes | Yes [BCOCA-4-046]|
+| X'17' | EAN Five-Digit Supplemental | Yes | Yes [BCOCA-4-047]|
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | No | No [BCOCA-4-048]|
+| X'1A' | RM4SCC and Dutch KIX | No | Yes [BCOCA-4-049]|
+| X'1B' | Japan Postal Bar Code | No | Yes [BCOCA-4-050]|
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | No | Yes [BCOCA-4-051]|
+| X'1D' | MaxiCode (2D bar code) | No | Yes [BCOCA-4-052]|
+| X'1E' | PDF417 (2D bar code) | No | Yes [BCOCA-4-053]|
+| X'1F' | Australia Post Bar Code | No | Yes [BCOCA-4-054]|
+| X'20' | QR Code, QR Code with Image (2D bar code) | No | Yes [BCOCA-4-055]|
+| X'21' | Code 93 | No | Yes [BCOCA-4-056]|
+| X'22' | Intelligent Mail Barcode | No | Yes [BCOCA-4-057]|
+| X'23' | Royal Mail RED TAG (deprecated) | No | No [BCOCA-4-058]|
+| X'24' | GS1 DataBar | No | No [BCOCA-4-059]|
+| X'25' | Royal Mail Mailmark | No | No [BCOCA-4-060]|
+| X'26' | Aztec Code | No | No [BCOCA-4-061]|
+| X'27' | Han Xin Code | No | No [BCOCA-4-062]|
 
-**Retired Bar Code Types**
+**Retired Bar Code Types** [BCOCA-4-063]
 
 | Type | Bar Code Symbology | In BCD1 Subset? | In BCD2 Subset? |
 | :--- | :--- | :--- | :--- |
-| X'04' | Retired item 7 | No | No |
-| X'0E' | Retired item 10 | No | No |
-| X'0F' | Retired item 11 | No | No |
-| X'10' | Retired item 12 | No | No |
-| X'12' | Retired item 13 | No | No |
-| X'13' | Retired item 14 | No | No |
-| X'14' | Retired item 15 | No | No |
-| X'15' | Retired item 16 | No | No |
-| X'19' | Retired item 19 | No | No |
-| X'EC' | Retired item 22 | No | No |
-| X'ED' | Retired item 23 | No | No |
-| X'EE' | Retired item 24 | No | No |
-| X'EF' | Retired item 25 | No | No |
+| X'04' | Retired item 7 | No | No [BCOCA-4-064]|
+| X'0E' | Retired item 10 | No | No [BCOCA-4-065]|
+| X'0F' | Retired item 11 | No | No [BCOCA-4-066]|
+| X'10' | Retired item 12 | No | No [BCOCA-4-067]|
+| X'12' | Retired item 13 | No | No [BCOCA-4-068]|
+| X'13' | Retired item 14 | No | No [BCOCA-4-069]|
+| X'14' | Retired item 15 | No | No [BCOCA-4-070]|
+| X'15' | Retired item 16 | No | No [BCOCA-4-071]|
+| X'19' | Retired item 19 | No | No [BCOCA-4-072]|
+| X'EC' | Retired item 22 | No | No [BCOCA-4-073]|
+| X'ED' | Retired item 23 | No | No [BCOCA-4-074]|
+| X'EE' | Retired item 24 | No | No [BCOCA-4-075]|
+| X'EF' | Retired item 25 | No | No [BCOCA-4-076]|
 Note: In the table above, when a given bar code type is said to be in a subset, that means that
 at least one combination of that bar code type and some modifier value (byte 13) is in
 the subset.
@@ -327,7 +327,7 @@ X'18' POSTNET (deprecated) and
 PLANET (deprecated)
 X'00' through X'04' No No
 X'1A' RM4SCC and Dutch KIX X'00' and X'01' No Yes
-X'1B' Japan Postal Bar Code X'00' and X'01' No Yes
+X'1B' Japan Postal Bar Code X'00' and X'01' No Yes [BCOCA-4-077]
 
 
 
@@ -375,7 +375,7 @@ X'ED' Retired item 23 X'00' No No
 X'EE' Retired item 24 X'00' No No
 X'EF' Retired item 25 X'00' and X'01' No No
 Refer to “Bar Code Type and Modifier Descriptions” for a detailed description of
-each bar code type and modifier combination.
+each bar code type and modifier combination. [BCOCA-4-078]
 
 
 
@@ -395,10 +395,10 @@ For those symbologies that require a specific type style or code page for HRI, e
 condition EC-0400 exists if the printer cannot determine the type style or code page of the
 specified font.
 Notes:
-1. Specifying LID = X'FF' is the easiest way to guarantee that a proper font is selected. If
+1. Specifying LID = X'FF' is the easiest way to guarantee that a proper font is selected. If [BCOCA-4-079]
 another LID is specified, the font must be appropriate for the specified symbology; using a
 printer-resident font is recommended in this case.
-2. Not all printers can determine the type style or code page of a coded font from the IPDS
+2. Not all printers can determine the type style or code page of a coded font from the IPDS [BCOCA-4-080]
 LFC, LF , LFI, LSS, LCPC, LCP , or LFCSC commands.
 Exception condition EC-0400 exists if a local ID is unsupported or the font is not available. If
 the requested font is not available, a substitution can be made that preserves as many
@@ -406,7 +406,7 @@ characteristics as possible of the originally requested font; the code page sele
 superset of the requested code page. Otherwise, terminate bar code object processing and
 continue with the next object.
 Some bar code symbologies specify a set of type styles to be used for HRI data. Font
-substitution for HRI data must follow the bar code symbology specification being used.
+substitution for HRI data must follow the bar code symbology specification being used. [BCOCA-4-081]
 
 
 
@@ -414,59 +414,59 @@ Bytes 15–16 Color
 Specifies the color in which the bars of the bar code symbol and the HRI is to be presented
 (note 4 describes another way to specify color). Valid values for specifying color
 include the OCA standard color values (X'0000'–X'0010' and X'FF00'–X'FF08') shown in Table
-11 and the special value X'FFFF' that selects the device default color. Exception condition EC-
-0500 exists if the color specified is invalid or unsupported. If the color is unsupported, the
+11 and the special value X'FFFF' that selects the device default color. Exception condition EC- [BCOCA-4-082]
+0500 exists if the color specified is invalid or unsupported. If the color is unsupported, the [BCOCA-4-083]
 presentation device default color is used. Some devices simulate an unsupported color
 without reporting an exception condition.
 The specified color value is applied to foreground areas of the bar code presentation space.
 Foreground areas consist of the following:
 – Bars and 2D modules
 – Stroked and filled portion of HRI characters
-All other areas of the bar code presentation space are background.
+All other areas of the bar code presentation space are background. [BCOCA-4-084]
 ### Table 11. Standard OCA Color-Value Table
 | Value | Color | Red (R) | Green (G) | Blue (B) |
 | :--- | :--- | :---: | :---: | :---: |
-| X'0000' or X'FF00' | Device default | | | |
-| X'0001' or X'FF01' | Blue | 0 | 0 | 255 |
-| X'0002' or X'FF02' | Red | 255 | 0 | 0 |
-| X'0003' or X'FF03' | Pink/magenta | 255 | 0 | 255 |
-| X'0004' or X'FF04' | Green | 0 | 255 | 0 |
-| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 |
-| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 |
-| X'0007' | White; see note 1 | 255 | 255 | 255 |
-| X'0008' | Black; see note 2 | 0 | 0 | 0 |
-| X'0009' | Dark blue | 0 | 0 | 170 |
-| X'000A' | Orange | 255 | 128 | 0 |
-| X'000B' | Purple | 170 | 0 | 170 |
-| X'000C' | Dark green | 0 | 146 | 0 |
-| X'000D' | Dark turquoise | 0 | 146 | 170 |
-| X'000E' | Mustard | 196 | 160 | 32 |
-| X'000F' | Gray | 131 | 131 | 131 |
-| X'0010' | Brown | 144 | 48 | 0 |
-| X'FF07' | Device default | | | |
-| X'FF08' | Color of medium; also known as reset color | | | |
+| X'0000' or X'FF00' | Device default [BCOCA-4-085]| | | |
+| X'0001' or X'FF01' | Blue | 0 | 0 | 255 [BCOCA-4-086]|
+| X'0002' or X'FF02' | Red | 255 | 0 | 0 [BCOCA-4-087]|
+| X'0003' or X'FF03' | Pink/magenta | 255 | 0 | 255 [BCOCA-4-088]|
+| X'0004' or X'FF04' | Green | 0 | 255 | 0 [BCOCA-4-089]|
+| X'0005' or X'FF05' | Turquoise/cyan | 0 | 255 | 255 [BCOCA-4-090]|
+| X'0006' or X'FF06' | Yellow | 255 | 255 | 0 [BCOCA-4-091]|
+| X'0007' | White; see note 1 | 255 | 255 | 255 [BCOCA-4-092]|
+| X'0008' | Black; see note 2 | 0 | 0 | 0 [BCOCA-4-093]|
+| X'0009' | Dark blue | 0 | 0 | 170 [BCOCA-4-094]|
+| X'000A' | Orange | 255 | 128 | 0 [BCOCA-4-095]|
+| X'000B' | Purple | 170 | 0 | 170 [BCOCA-4-096]|
+| X'000C' | Dark green | 0 | 146 | 0 [BCOCA-4-097]|
+| X'000D' | Dark turquoise | 0 | 146 | 170 [BCOCA-4-098]|
+| X'000E' | Mustard | 196 | 160 | 32 [BCOCA-4-099]|
+| X'000F' | Gray | 131 | 131 | 131 [BCOCA-4-100]|
+| X'0010' | Brown | 144 | 48 | 0 [BCOCA-4-101]|
+| X'FF07' | Device default [BCOCA-4-102]| | | |
+| X'FF08' | Color of medium; also known as reset color [BCOCA-4-103]| | | |
 Note: The table specifies the RGB values for each named color; the actual printed color is device dependent.
 Notes:
-1. The color rendered on presentation devices that do not support white is device dependent.
+1. The color rendered on presentation devices that do not support white is device dependent. [BCOCA-4-104]
 For example, some printers simulate with color of medium, which results in white when
 white media is used.
-2. It is recommended that OCA Black (X'0008') be rendered as C=M=Y= X'00' and K = X'FF'.
+2. It is recommended that OCA Black (X'0008') be rendered as C=M=Y= X'00' and K = X'FF'. [BCOCA-4-105]
 
 
 
-3. Some symbologies, such as Data Matrix, allow the bar code symbol to be presented in a
+3. Some symbologies, such as Data Matrix, allow the bar code symbol to be presented in a [BCOCA-4-106]
 reverse video manner (light modules on a dark background). T o achieve this effect, color
 the bar code object area with a dark color and specify color of medium (X'FF08') for the
 symbol color. In a MO:DCA environment, the bar code object area can be colored using a
 Color Specification triplet in the Object Area Descriptor. In an IPDS environment, the bar
 code object area can be colored using a Color Specification triplet in the Bar Code Output
 Control.
-4. In some environments, such as AFP Line Data, IPDS, and MO:DCA environments, colors
+4. In some environments, such as AFP Line Data, IPDS, and MO:DCA environments, colors [BCOCA-4-107]
 for the bar code symbol and HRI (using an RGB, CMYK, highlight, or CIELAB color value)
 can be specified with a Color Specification (X'4E') triplet. In this case, the Color
 Specification triplet overrides the color value specified in BSD bytes 15-16. Refer to
 Appendix C, “IPDS Environment”, and Appendix B, “MO:DCA Environment”, for more information about color specification in these environments.
-5. Neither the color specified in the BSD, bytes 15–16, or in the Color Specification (X'4E')
+5. Neither the color specified in the BSD, bytes 15–16, or in the Color Specification (X'4E') [BCOCA-4-108]
 triplet discussed in the previous note, have any effect on the color of an image in a QR
 Code with Image bar code.
 Byte 17 Module width
@@ -503,7 +503,7 @@ might cause this symbol to not scan properly.
 Note that BCOCA receivers that do not provide “small-symbol support” simply ignore the
 module-width value (with one exception) and produce an optimal size symbol. The exception
 is that both options (optimal and small) are supported for Intelligent Mail Barcodes.
-The following table describes this option for the fixed-size symbologies.
+The following table describes this option for the fixed-size symbologies. [BCOCA-4-109]
 
 
 
@@ -511,30 +511,30 @@ Note: The table provides theoretical sizes. Presentation devices must map the mo
 specification (or recommendation) to an integer number of device pels. This mapping
 yields an approximation of the user request and can cause the actual width and height
 of a bar code symbol to be slightly different at different device resolutions. Refer to the
-symbology specification for bar code types that list multiple widths.
+symbology specification for bar code types that list multiple widths. [BCOCA-4-110]
 ### Table 12. Sizing Targets for Fixed-Size Bar Code Types
 | Bar Code Type | Optimal-Symbol Size | Small-Symbol Size |
 | :--- | :--- | :--- |
-| Australia Post Bar Code | Symbol width = 39.60 mm, 55.85 mm, or 72.15 mm<br>Symbol height = 5.00 mm | (only with small-symbol support)<br>Symbol width = 37.0 mm, 52.2 mm, or 67.5 mm<br>Symbol height = 4.2 mm |
-| MaxiCode | Symbol width = 25.5 mm<br>Symbol height = 24.38 mm | (only with small-symbol support)<br>Symbol width = 24.03 mm<br>Symbol height = 22.98 mm |
-| POSTNET (deprecated) | Symbol width = 1.429 in, 2.338 in, or 2.793 in<br>Symbol height = 0.125 in | (only with small-symbol support)<br>Symbol width = 1.307 in, 2.140 in, or 2.557 in<br>Symbol height = 0.115 in |
-| PLANET (deprecated) | Symbol width = 2.793 in or 3.247 in<br>Symbol height = 0.125 in | (only with small-symbol support)<br>Symbol width = 2.557 in or 2.973 in<br>Symbol height = 0.115 in |
-| RM4SCC (for a 5 character symbol) | Symbol width = 38.61 mm<br>Symbol height = 5.03 mm | (only with small-symbol support)<br>Symbol width = 35.31 mm<br>Symbol height = 4.22 mm |
-| Dutch KIX (for an 8 character symbol) | Symbol width = 36.30 mm<br>Symbol height = 5.03 mm | (only with small-symbol support)<br>Symbol width = 33.19 mm<br>Symbol height = 4.22 mm |
-| Intelligent Mail Barcode | Symbol width = 2.95 in<br>Symbol height = 0.145 in | Symbol width = 2.68 in<br>Symbol height = 0.125 in |
+| Australia Post Bar Code | Symbol width = 39.60 mm, 55.85 mm, or 72.15 mm<br>Symbol height = 5.00 mm | (only with small-symbol support)<br>Symbol width = 37.0 mm, 52.2 mm, or 67.5 mm<br>Symbol height = 4.2 mm [BCOCA-4-111]|
+| MaxiCode | Symbol width = 25.5 mm<br>Symbol height = 24.38 mm | (only with small-symbol support)<br>Symbol width = 24.03 mm<br>Symbol height = 22.98 mm [BCOCA-4-112]|
+| POSTNET (deprecated) | Symbol width = 1.429 in, 2.338 in, or 2.793 in<br>Symbol height = 0.125 in | (only with small-symbol support)<br>Symbol width = 1.307 in, 2.140 in, or 2.557 in<br>Symbol height = 0.115 in [BCOCA-4-113]|
+| PLANET (deprecated) | Symbol width = 2.793 in or 3.247 in<br>Symbol height = 0.125 in | (only with small-symbol support)<br>Symbol width = 2.557 in or 2.973 in<br>Symbol height = 0.115 in [BCOCA-4-114]|
+| RM4SCC (for a 5 character symbol) | Symbol width = 38.61 mm<br>Symbol height = 5.03 mm | (only with small-symbol support)<br>Symbol width = 35.31 mm<br>Symbol height = 4.22 mm [BCOCA-4-115]|
+| Dutch KIX (for an 8 character symbol) | Symbol width = 36.30 mm<br>Symbol height = 5.03 mm | (only with small-symbol support)<br>Symbol width = 33.19 mm<br>Symbol height = 4.22 mm [BCOCA-4-116]|
+| Intelligent Mail Barcode | Symbol width = 2.95 in<br>Symbol height = 0.145 in | Symbol width = 2.68 in<br>Symbol height = 0.125 in [BCOCA-4-117]|
 Note: Some IPDS printers used the original
 USPS symbology specification that defined
 the smallest symbol size as 2.58 inches
 wide and 0.160 inches high. The USPS
 specification (Revision B) was changed in
-2006 to allow the height of the smallest
+2006 to allow the height of the smallest [BCOCA-4-118]
 symbol to be closer to the height of a
 POSTNET (deprecated) symbol (yielding a
 smallest symbol size of 2.68 inches wide
 and 0.134 inches high). In 2007, the
 specification (Revision D) was changed
 again to allow the smallest symbol to be
-0.125 inches high.
+0.125 inches high. [BCOCA-4-119]
 Royal Mail RED TAG
 (deprecated) Symbol width = 56.32 mm
 Symbol height = 5.03 mm
@@ -550,14 +550,14 @@ Symbol width (Bar code C) = 69.85 mm
 Symbol width (Bar code L) = 82.55 mm
 Symbol height = 4.22 mm
 The following equations can be used to convert between L-units, mils, and millimeters, where
-X is the symbol for multiplication and / is the symbol for division:
+X is the symbol for multiplication and / is the symbol for division: [BCOCA-4-120]
 
 
 
-1. Inches X (units per unit base) = L-units, also L-units / (units per unit base) = inches
+1. Inches X (units per unit base) = L-units, also L-units / (units per unit base) = inches [BCOCA-4-121]
 For example, when units per unit base is 1440ths, Inches X 1440 = L-units
-2. Inches X 1000 = mils, also mils / 1000 = inches
-3. Inches X 25.4 = mm, also mm / 25.4 = inches
+2. Inches X 1000 = mils, also mils / 1000 = inches [BCOCA-4-122]
+3. Inches X 25.4 = mm, also mm / 25.4 = inches [BCOCA-4-123]
 From (1), (2), and (3) above, using units per unit base of 1440:
 mils X 1.44 = L-units and mm X 1440 / 25.4 = L-units
 Bytes 18–19 Element height
@@ -566,26 +566,26 @@ measurement unit base is specified in BSD bytes 0–5. The element height and he
 multiplier values are used to specify the total bar height presented. The height of the HRI is not
 included in this total height for many bar code symbologies; however, for the following
 symbologies, the total symbol height includes both bar patterns as well as the HRI:
-• UPC/CGPC Version A, modifier X'00'
-• UPC/CGPC Version E, modifier X'00'
-• UPC Two-Digit Supplemental, modifiers X'01' and X'02' (the total height applies to the main
+• UPC/CGPC Version A, modifier X'00' [BCOCA-4-124]
+• UPC/CGPC Version E, modifier X'00' [BCOCA-4-125]
+• UPC Two-Digit Supplemental, modifiers X'01' and X'02' (the total height applies to the main [BCOCA-4-126]
 symbol; the height of the supplement is calculated from the main-symbol height)
-• UPC Five-Digit Supplemental, modifiers X'01' and X'02' (the total height applies to the main
+• UPC Five-Digit Supplemental, modifiers X'01' and X'02' (the total height applies to the main [BCOCA-4-127]
 symbol; the height of the supplement is calculated from the main-symbol height)
-• EAN-8, modifier X'00'
-• EAN-13, modifier X'00'
-• EAN Two-Digit Supplemental, modifier X'01' (the total height applies to the main symbol; the
+• EAN-8, modifier X'00' [BCOCA-4-128]
+• EAN-13, modifier X'00' [BCOCA-4-129]
+• EAN Two-Digit Supplemental, modifier X'01' (the total height applies to the main symbol; the [BCOCA-4-130]
 height of the supplement is calculated from the main-symbol height)
-• EAN Five-Digit Supplemental, modifier X'01' (the total height applies to the main symbol; the
+• EAN Five-Digit Supplemental, modifier X'01' (the total height applies to the main symbol; the [BCOCA-4-131]
 height of the supplement is calculated from the main-symbol height)
 Notes:
-1. If the total height includes the height of the HRI characters and it is less than or equal to
+1. If the total height includes the height of the HRI characters and it is less than or equal to [BCOCA-4-132]
 the height of the HRI characters, the result is device dependent. Some BCOCA products
 report exception condition EC-0700, other products use the total height as the height of
 the tallest bar.
-2. For Interleaved 2-of-5 symbols, the total height does not include the width of horizontal
+2. For Interleaved 2-of-5 symbols, the total height does not include the width of horizontal [BCOCA-4-133]
 Bearer Bars placed above and below the symbol.
-3. Since the modules for a Data Matrix symbol and a QR Code symbol are defined to be
+3. Since the modules for a Data Matrix symbol and a QR Code symbol are defined to be [BCOCA-4-134]
 square, the module width parameter specifies both dimensions, and the element height
 and height multiplier parameters are not used for these symbologies.
 A value of X'FFFF' indicates the default element height of the presentation device is to be
@@ -601,24 +601,24 @@ supported element height or zero, the bar code object processor uses the smalles
 value.
 The height of GS1 DataBar symbols depends on the version of the symbol. Exception
 condition EC-0805 exists if the element height and height multiplier values specified are
-invalid for the modifier selected. Rules for GS1 DataBar symbol heights are as follows:
+invalid for the modifier selected. Rules for GS1 DataBar symbol heights are as follows: [BCOCA-4-135]
 
 
 
-• GS1 DataBar Omnidirectional – The symbol height specified must be greater than or equal
+• GS1 DataBar Omnidirectional – The symbol height specified must be greater than or equal [BCOCA-4-136]
 to 33 times the module width.
-• GS1 DataBar Truncated – The symbol height specified must be greater than or equal to 13
+• GS1 DataBar Truncated – The symbol height specified must be greater than or equal to 13 [BCOCA-4-137]
 times the module width.
-• GS1 DataBar Stacked – The symbol height is fixed; the element height and height multiplier
+• GS1 DataBar Stacked – The symbol height is fixed; the element height and height multiplier [BCOCA-4-138]
 parameters are ignored.
-• GS1 DataBar Stacked Omnidirectional – The row height specified must be greater than or
+• GS1 DataBar Stacked Omnidirectional – The row height specified must be greater than or [BCOCA-4-139]
 equal to 33 times the module width; the symbol height includes both rows plus the height of
 the three-module-high separator pattern.
-• GS1 DataBar Limited – The symbol height specified must be greater than or equal to 10
+• GS1 DataBar Limited – The symbol height specified must be greater than or equal to 10 [BCOCA-4-140]
 times the module width.
-• GS1 DataBar Expanded – The symbol height specified must be greater than or equal to 34
+• GS1 DataBar Expanded – The symbol height specified must be greater than or equal to 34 [BCOCA-4-141]
 times the module width.
-• GS1 DataBar Expanded Stacked – The symbol height is fixed; the element height and
+• GS1 DataBar Expanded Stacked – The symbol height is fixed; the element height and [BCOCA-4-142]
 height multiplier parameters are ignored.
 Byte 20 Height multiplier
 Specifies a value that, when multiplied by the element height, yields the total bar height
@@ -638,14 +638,14 @@ expressed as a decimal number and normally varies between 2.00 and 3.00. Refer t
 appropriate symbology specification and printer specification to determine if values outside of
 the normal range (decimal values below 2.00 and above 3.00) are supported for that
 symbology; if an unsupported (or invalid) WE:NE value is specified, exception condition EC-
-0900 exists.
+0900 exists. [BCOCA-4-143]
 The WE:NE parameter is used with the following bar code types:
-• X'01' – Code 39 (3-of-9 Code), AIM USS-39
-• X'02' – MSI (modified Plessey code)
-• X'0A' – Industrial 2-of-5
-• X'0B' – Matrix 2-of-5
-• X'0C' – Interleaved 2-of-5, ITF-14, AIM USS-I 2/5
-• X'0D' – Codabar, 2-of-7, AIM USS-Codabar
+• X'01' – Code 39 (3-of-9 Code), AIM USS-39 [BCOCA-4-144]
+• X'02' – MSI (modified Plessey code) [BCOCA-4-145]
+• X'0A' – Industrial 2-of-5 [BCOCA-4-146]
+• X'0B' – Matrix 2-of-5 [BCOCA-4-147]
+• X'0C' – Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 [BCOCA-4-148]
+• X'0D' – Codabar, 2-of-7, AIM USS-Codabar [BCOCA-4-149]
 This parameter is the binary representation of a decimal number of the form n.nnnn; the
 decimal point follows the first significant digit. For example, a WE:NE value of X'0002'
 represents a wide-to-narrow ratio of 2 to 1 and a WE:NE value of X'00E1' represents a wide-
@@ -654,7 +654,7 @@ for example, the WE:NE values X'0015', X'00D2', X'0834', and X'5208' all represe
 narrow ratio of 2.1 to 1.
 The value X'FFFF' indicates that the bar code object processor is to use the default ratio for
 the specified bar code symbology or presentation device; refer to Table 13 for a list
-of recommended default values. If the presentation device cannot present the specified
+of recommended default values. If the presentation device cannot present the specified [BCOCA-4-150]
 
 
 
@@ -669,7 +669,7 @@ QR Code with Image, RM4SCC, Royal Mail RED TAG (deprecated), and Royal Mail Mail
 symbologies do not define a wide-to-narrow ratio. The Code 128, EAN, and UPC symbologies
 are referred to as four-level codes. A four-level bar code has four bar-and-space-width levels.
 The second, third, and fourth levels are automatically calculated as two, three, and four times
-the module width. When these bar code types are specified, this field is ignored.
+the module width. When these bar code types are specified, this field is ignored. [BCOCA-4-151]
 
 
 
@@ -687,52 +687,52 @@ these values.
 ### Table 13. Recommended Default Values for Module Width, Element Height, and Wide-to-Narrow Ratio
 | Type | Bar Code Symbology | Recommended Default Module Width<sup>1</sup> | Recommended Default Element Height | Recommended Default Wide-to-Narrow Ratio |
 | :--- | :--- | :--- | :--- | :--- |
-| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
-| X'02' | MSI (modified Plessey code) | 13 mils | Greater of 300 mils or 15% of symbol width | 2.0 |
-| X'03' | UPC/CGPC-Version A | 13 mils | 1020 mils | Not applicable |
-| X'05' | UPC/CGPC-Version E | 13 mils | 1020 mils | Not applicable |
-| X'06' | UPC—Two-Digit Supplemental (Periodicals) | 13 mils | 770 mils (bar height) | Not applicable |
-| X'07' | UPC—Five-Digit Supplemental (Paperbacks) | 13 mils | 770 mils (bar height) | Not applicable |
-| X'08' | EAN-8 (includes JAN-short) | 13 mils | 840 mils | Not applicable |
-| X'09' | EAN-13 (includes JAN-standard) | 13 mils | 1020 mils | Not applicable |
-| X'0A' | Industrial 2-of-5 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
-| X'0B' | Matrix 2-of-5 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
-| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 13 mils<sup>2</sup> | Greater of 250 mils or 15% of symbol width<sup>2</sup> | 2.5 |
-| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 |
-| X'11' | Code 128, AIM USS-128 | | | |
-| | Code 128 modifier X'02' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
-| | UCC/EAN 128, Code 128 modifier X'03' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
-| | UCC/EAN 128 and GS1-128, Code 128 modifier X'04' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
-| | Intelligent Mail Container Barcode, Code 128 modifier X'05' | 25 mils | 925 mils | Not applicable |
-| | Intelligent Mail Package Barcode, Code 128 modifier X'06' | 16 mils | 750 mils | Not applicable |
-| X'16' | EAN Two-Digit Supplemental | 13 mils | 840 mils (bar height) | Not applicable |
-| X'17' | EAN Five-Digit Supplemental | 13 mils | 840 mils (bar height) | Not applicable |
-| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 20 mils with a horizontal pitch of 22 bars/inch | 125 mils | Not applicable |
-| X'1A' | RM4SCC and Dutch KIX | 20 mils with a horizontal pitch of 22 bars/inch | 198 mils | Not applicable |
-| X'1B' | Japan Postal Bar Code | 24 mils | 6 times module width | Not applicable |
-| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | 21 mils | 21 mils | Not applicable |
-| X'1D' | MaxiCode (2D bar code) | Defined in symbology | Defined in symbology | Not applicable |
-| X'1E' | PDF417 (2D bar code) | 14 mils | 4 times module width | Not applicable |
-| X'1F' | Australia Post Bar Code | 20 mils with a horizontal pitch of 23.5 bars/inch | 197 mils | Not applicable |
-| X'20' | QR Code, QR Code with Image (2D bar code) | 12 mils | 12 mils | Not applicable |
-| X'21' | Code 93 | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable |
-| X'22' | Intelligent Mail Barcode | 20 mils with a horizontal pitch of 22 bars/inch | 145 mils | Not applicable |
-| X'23' | Royal Mail RED TAG (deprecated) | 20 mils with a horizontal pitch of 23 bars/inch | 198 mils | Not applicable |
-| X'24' | GS1 DataBar: | 10 mils | | Not applicable |
-| | Omnidirectional (X'00') | | 33 times modwidth | |
-| | Truncated (X'01') | | 13 times modwidth | |
-| | Stacked (X'02') | | Not applicable | |
-| | Stacked - Omnidirectional (X'03') | | 33 times modwidth | |
-| | Limited (X'04') | | 10 times modwidth | |
-| | Expanded (X'11') | | 34 times modwidth | |
-| | Expanded - Stacked (X'12'–X'1B') | | Not applicable | |
-| X'25' | Royal Mail Mailmark | 21 mils with a horizontal pitch of 21.2 bars/inch | 201 mils | Not applicable |
-| X'26' | Aztec Code | 14 mils | 14 mils | Not applicable |
-| X'27' | Han Xin Code | 12 mils | 12 mils | Not applicable |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 [BCOCA-4-152]|
+| X'02' | MSI (modified Plessey code) | 13 mils | Greater of 300 mils or 15% of symbol width | 2.0 [BCOCA-4-153]|
+| X'03' | UPC/CGPC-Version A | 13 mils | 1020 mils | Not applicable [BCOCA-4-154]|
+| X'05' | UPC/CGPC-Version E | 13 mils | 1020 mils | Not applicable [BCOCA-4-155]|
+| X'06' | UPC—Two-Digit Supplemental (Periodicals) | 13 mils | 770 mils (bar height) | Not applicable [BCOCA-4-156]|
+| X'07' | UPC—Five-Digit Supplemental (Paperbacks) | 13 mils | 770 mils (bar height) | Not applicable [BCOCA-4-157]|
+| X'08' | EAN-8 (includes JAN-short) | 13 mils | 840 mils | Not applicable [BCOCA-4-158]|
+| X'09' | EAN-13 (includes JAN-standard) | 13 mils | 1020 mils | Not applicable [BCOCA-4-159]|
+| X'0A' | Industrial 2-of-5 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 [BCOCA-4-160]|
+| X'0B' | Matrix 2-of-5 | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 [BCOCA-4-161]|
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 13 mils<sup>2</sup> | Greater of 250 mils or 15% of symbol width<sup>2</sup> | 2.5 [BCOCA-4-162]|
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 13 mils | Greater of 250 mils or 15% of symbol width | 2.5 [BCOCA-4-163]|
+| X'11' | Code 128, AIM USS-128 [BCOCA-4-164]| | | |
+| | Code 128 modifier X'02' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable [BCOCA-4-165]|
+| | UCC/EAN 128, Code 128 modifier X'03' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable [BCOCA-4-166]|
+| | UCC/EAN 128 and GS1-128, Code 128 modifier X'04' | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable [BCOCA-4-167]|
+| | Intelligent Mail Container Barcode, Code 128 modifier X'05' | 25 mils | 925 mils | Not applicable [BCOCA-4-168]|
+| | Intelligent Mail Package Barcode, Code 128 modifier X'06' | 16 mils | 750 mils | Not applicable [BCOCA-4-169]|
+| X'16' | EAN Two-Digit Supplemental | 13 mils | 840 mils (bar height) | Not applicable [BCOCA-4-170]|
+| X'17' | EAN Five-Digit Supplemental | 13 mils | 840 mils (bar height) | Not applicable [BCOCA-4-171]|
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 20 mils with a horizontal pitch of 22 bars/inch | 125 mils | Not applicable [BCOCA-4-172]|
+| X'1A' | RM4SCC and Dutch KIX | 20 mils with a horizontal pitch of 22 bars/inch | 198 mils | Not applicable [BCOCA-4-173]|
+| X'1B' | Japan Postal Bar Code | 24 mils | 6 times module width | Not applicable [BCOCA-4-174]|
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | 21 mils | 21 mils | Not applicable [BCOCA-4-175]|
+| X'1D' | MaxiCode (2D bar code) | Defined in symbology | Defined in symbology | Not applicable [BCOCA-4-176]|
+| X'1E' | PDF417 (2D bar code) | 14 mils | 4 times module width | Not applicable [BCOCA-4-177]|
+| X'1F' | Australia Post Bar Code | 20 mils with a horizontal pitch of 23.5 bars/inch | 197 mils | Not applicable [BCOCA-4-178]|
+| X'20' | QR Code, QR Code with Image (2D bar code) | 12 mils | 12 mils | Not applicable [BCOCA-4-179]|
+| X'21' | Code 93 | 13 mils | Greater of 250 mils or 15% of symbol width | Not applicable [BCOCA-4-180]|
+| X'22' | Intelligent Mail Barcode | 20 mils with a horizontal pitch of 22 bars/inch | 145 mils | Not applicable [BCOCA-4-181]|
+| X'23' | Royal Mail RED TAG (deprecated) | 20 mils with a horizontal pitch of 23 bars/inch | 198 mils | Not applicable [BCOCA-4-182]|
+| X'24' | GS1 DataBar: | 10 mils | | Not applicable [BCOCA-4-183]|
+| | Omnidirectional (X'00') | | 33 times modwidth [BCOCA-4-184]| |
+| | Truncated (X'01') | | 13 times modwidth [BCOCA-4-185]| |
+| | Stacked (X'02') | | Not applicable [BCOCA-4-186]| |
+| | Stacked - Omnidirectional (X'03') | | 33 times modwidth [BCOCA-4-187]| |
+| | Limited (X'04') | | 10 times modwidth [BCOCA-4-188]| |
+| | Expanded (X'11') | | 34 times modwidth [BCOCA-4-189]| |
+| | Expanded - Stacked (X'12'–X'1B') | | Not applicable [BCOCA-4-190]| |
+| X'25' | Royal Mail Mailmark | 21 mils with a horizontal pitch of 21.2 bars/inch | 201 mils | Not applicable [BCOCA-4-191]|
+| X'26' | Aztec Code | 14 mils | 14 mils | Not applicable [BCOCA-4-192]|
+| X'27' | Han Xin Code | 12 mils | 12 mils | Not applicable [BCOCA-4-193]|
 
 **Notes:**
-1. Module width measures the width of the smallest bar in the symbol and, for most bar codes, this is also the size of the smallest space. However, some postal bar codes specify symbol width in terms of bar width and also horizontal pitch. Horizontal pitch measures the number of bars per inch (or bars per 25.4 mm); this typically causes the spaces between bars to be different than the bar width.
-2. The module width and element height for ITF-14 symbols is defined by the application specification based on the needs of the application. Therefore, the default values might not be appropriate for all applications of the ITF-14 symbol; refer to GS1 General Specifications for more information.
+1. Module width measures the width of the smallest bar in the symbol and, for most bar codes, this is also the size of the smallest space. However, some postal bar codes specify symbol width in terms of bar width and also horizontal pitch. Horizontal pitch measures the number of bars per inch (or bars per 25.4 mm); this typically causes the spaces between bars to be different than the bar width. [BCOCA-4-194]
+2. The module width and element height for ITF-14 symbols is defined by the application specification based on the needs of the application. Therefore, the default values might not be appropriate for all applications of the ITF-14 symbol; refer to GS1 General Specifications for more information. [BCOCA-4-195]
 
 
 
@@ -753,7 +753,7 @@ Code 39 character set. This is sometimes referred to as “Extended Code 39” a
 BCOCA receivers. In this case, the two bar code characters used to specify the “extended character”
 will be shown in the Human-Readable Interpretation and the bar code scanner will interpret the two-
 character combination bar/space pattern appropriately.
-Code 39 (3-of-9 Code)
+Code 39 (3-of-9 Code) [BCOCA-4-196]
 
 
 
@@ -784,18 +784,18 @@ remainder; a first check digit value of 10 is assigned the value zero. Specify 1
 X'08' Present the bar code with two check digits. The first check digit is generated using the NCR modulo-11
 algorithm; the second using the IBM modulo-10 algorithm. The first check digit equals 11 minus the
 remainder; exception condition EC-0E00 exists if the first check-digit calculation results in a value of
-10. Specify 1 to 13 digits of input data.
+10. Specify 1 to 13 digits of input data. [BCOCA-4-197]
 X'09' Present the bar code with two check digits. The first check digit is generated using the IBM modulo-11
 algorithm; the second using the IBM modulo-10 algorithm. The first check digit equals 11 minus the
 remainder; exception condition EC-0E00 exists if the first check-digit calculation results in a value of
-10. Specify 1 to 13 digits of input data.
-MSI (modified Plessey code)
+10. Specify 1 to 13 digits of input data. [BCOCA-4-198]
+MSI (modified Plessey code) [BCOCA-4-199]
 
 
 
 
 UPC/CGPC – Version A (modifier value X'00')
-0 512345 67890
+0 512345 67890 [BCOCA-4-200]
 UPC Version A
 (encoding 01234567890)
 X'00' Present the standard UPC-A bar code with a generated check digit. The data to be encoded consists
@@ -805,7 +805,7 @@ information characters.
 Note: The UPC-A symbology is controlled by the GS1 standards organization and is described in GS1 General
 Specifications.
 UPC/CGPC – Version E (modifier value X'00')
-0 1078349
+0 1078349 [BCOCA-4-201]
 UPC Version E
 (encoding 078349)
 X'00' Present a UPC-E bar code symbol. Of the 10 input digits, six digits are encoded. The check digit is
@@ -816,13 +816,13 @@ characters to produce a shorter symbol. All 10 digits are information characters
 character should not be specified (it is assumed to be 0).
 Note: The UPC-E symbology is controlled by the GS1 standards organization and is described in GS1 General
 Specifications.
-UPC/CGPC—Version A and Version E
+UPC/CGPC—Version A and Version E [BCOCA-4-202]
 
 
 
 
 UPC – Two-Digit Supplemental (modifier values X'00' through X'02')
-0 806338 95260
+0 806338 95260 [BCOCA-4-203]
 4 2
 UPC A + Two-digit Supplemental
 (encoding 00633895260, supplemental = 24)
@@ -848,14 +848,14 @@ the two digits.
 Specify 12 digits of input data.
 Note: The UPC Two-Digit Supplemental symbology is controlled by the GS1 standards organization and is
 described in GS1 General Specifications.
-UPC—Two-Digit Supplemental
+UPC—Two-Digit Supplemental [BCOCA-4-204]
 
 
 
 
 UPC – Five-Digit Supplemental (modifier values X'00' through X'02')
-0 698277 21123
-6 2 8 1 2
+0 698277 21123 [BCOCA-4-205]
+6 2 8 1 2 [BCOCA-4-206]
 UPC A + Five-digit Supplemental
 (encoding 09827721123, supplemental = 21826)
 X'00' Present the UPC Five-Digit Supplemental bar code symbol. This option assumes that the base UPC
@@ -882,7 +882,7 @@ is not encoded or interpreted.
 Specify 15 digits of input data.
 Note: The UPC Five-Digit Supplemental symbology is controlled by the GS1 standards organization and is
 described in GS1 General Specifications.
-UPC—Five-Digit Supplemental
+UPC—Five-Digit Supplemental [BCOCA-4-207]
 
 
 
@@ -896,7 +896,7 @@ article number digits. All seven digits are encoded along with a generated check
 Note: The EAN-8 symbology is controlled by the GS1 standards organization and is described in GS1 General
 Specifications.
 EAN-13 (includes JAN-standard, modifier value X'00')
-0412345 678903
+0412345 678903 [BCOCA-4-208]
 EAN 13
 (encoding 041234567890)
 X'00' Present an EAN-13 bar code symbol. The input data consists of twelve digits: two flag digits and ten
@@ -958,7 +958,7 @@ Bearer Bars at Top and Bottom
 1234567895
 (encoding 1234567895)
 Note: ITF-14 is a special case of Interleaved 2-of-5, which encodes 13 input digits and a check digit. The ITF-
-14 symbology is controlled by the GS1 standards organization and is described in GS1 General
+14 symbology is controlled by the GS1 standards organization and is described in GS1 General [BCOCA-4-209]
 Specifications.
 2-of-5 Codes
 
@@ -968,7 +968,7 @@ Specifications.
 Codabar, 2-of-7, AIM USS-Codabar (modifier values X'01' and X'02')
 Codabar
 (encoding A34698735B)
-3 4 6 9 8 7 3 5
+3 4 6 9 8 7 3 5 [BCOCA-4-210]
 X'01' Present the bar code without a generated check digit. The input data consists of a start character,
 digits to be encoded, and a stop character, in that order. Start and stop characters can be A, B, C, or D,
 and can only be used at the beginning and end of the symbol.
@@ -1000,7 +1000,7 @@ X'03' or modifier X'04'. GS1-128 symbols use modifier X'04'.
 Modifier X'05' – Intelligent Mail Container Barcode
 This is a bar code that is defined in BARCODE, CONTAINER, INTELLIGENT MAIL (USPS-B-3215)
 published by the United States Postal Service (USPS). The bar code uses a special form of the GS1-
-128 symbol that is defined in GS1 General Specifications published by GS1.
+128 symbol that is defined in GS1 General Specifications published by GS1. [BCOCA-4-211]
 Modifier X'06' – Intelligent Mail Package Barcode
 This is a bar code that is defined in Barcode, Package, Intelligent Mail (USPS2000508) published by
 the United States Postal Service (USPS). The bar code uses a special form of the GS1-128 symbol
@@ -1021,10 +1021,10 @@ modulo 10 check digit (m). Also, note that all except the first “FNC1” are f
 appear when the preceding ai data is of variable length. Refer to UCC/EAN-128 APPLICATION IDENTIFIER
 STANDARD from the Uniform Code Council, Inc. for a description of application identifiers and the use of
 “FNC1”. When building the bar code symbol, the printer will:
-1. produce a start character based on the 1993 algorithm
-2. bar encode the data including all of the “FNC1”, “ai”, “data”, and “m” check digit
-3. produce a modulo 103 check digit
-4. produce a stop character.
+1. produce a start character based on the 1993 algorithm [BCOCA-4-212]
+2. bar encode the data including all of the “FNC1”, “ai”, “data”, and “m” check digit [BCOCA-4-213]
+3. produce a modulo 103 check digit [BCOCA-4-214]
+4. produce a stop character. [BCOCA-4-215]
 The Intelligent Mail Tray Barcode defined by the United States Postal Service uses the Code 128 bar code
 symbology.
 Code 128
@@ -1074,18 +1074,18 @@ page (CPGID = 1303, GCSGID = 1454) is used to interpret the bar code symbol data
 and present it with the bar code.
 The UCC/EAN 128 data is checked for validity and exception condition EC-1200 exists if one or more of the
 following conditions are encountered:
-• FNC1 is not the first data character
-• Invalid application identifier (ai) value encountered
-• Data for an ai doesn't match the ai definition
-• Insufficient (or no) data following an ai
-• T oo much data for an ai
-• Invalid use of FNC1 character
+• FNC1 is not the first data character [BCOCA-4-216]
+• Invalid application identifier (ai) value encountered [BCOCA-4-217]
+• Data for an ai doesn't match the ai definition [BCOCA-4-218]
+• Insufficient (or no) data following an ai [BCOCA-4-219]
+• T oo much data for an ai [BCOCA-4-220]
+• Invalid use of FNC1 character [BCOCA-4-221]
 Notes:
-1. UCC/EAN 128 is a variation of Code 128 that begins with an FNC1 character, followed by an Application
+1. UCC/EAN 128 is a variation of Code 128 that begins with an FNC1 character, followed by an Application [BCOCA-4-222]
 Identifier and the data to be bar encoded. All of these characters (including the FNC1 character) must be
 supplied within the Bar Code Symbol Data (BSA). UCC/EAN 128 also requires that the symbol begin in
 subset C. The GS1-128 symbology allows symbols to begin with either subset A, B, or C.
-2. For UCC/EAN 128 symbols, the start character, the FNC1 characters, the modulo 103 check digit, and the
+2. For UCC/EAN 128 symbols, the start character, the FNC1 characters, the modulo 103 check digit, and the [BCOCA-4-223]
 stop character are not shown in the human readable format.
 Code 128
 
@@ -1112,7 +1112,7 @@ Code 128
 
 
 Code 128 modifier X'05' – Intelligent Mail Container Barcode
-99  M  123456  -----ABC1234
+99  M  123456  -----ABC1234 [BCOCA-4-224]
 USPS SCAN REQUIRED
 (encoding   99M123456-----ABC1234)
 F
@@ -1122,7 +1122,7 @@ C
 Intelligent Mail Container Barcode
 The Intelligent Mail Container Barcode symbology is defined and used by the United States Postal Service
 (USPS) for the Full Service category of automation discounts. The bar code uses a special form of the GS1-
-128 (also known as UCC/EAN 128) symbology for printing on mailer-generated pallet labels to uniquely
+128 (also known as UCC/EAN 128) symbology for printing on mailer-generated pallet labels to uniquely [BCOCA-4-225]
 identify pallets and similar containers and to identify the mail owner; a unique serial number can also be
 provided for each container.
 The printer will generate a GS1-128 symbol as described in the USPS symbology specification (BARCODE,
@@ -1147,15 +1147,15 @@ Symbol
 Character
 USPS
 assigned
-1 byte FNC1 (X'8F')
+1 byte FNC1 (X'8F') [BCOCA-4-226]
 Application
 Identifier
 USPS
 assigned
-2 bytes (numeric) 99
+2 bytes (numeric) 99 [BCOCA-4-227]
 Type Indicator USPS
 assigned
-1 byte (alphabetic) M
+1 byte (alphabetic) M [BCOCA-4-228]
 Mailer ID USPS
 assigned
 either 6 bytes or 9 bytes
@@ -1165,7 +1165,7 @@ Nine-byte Mailer IDs are in the range 900000000–999999999
 Serial Number Mailer
 assigned
 either 12 bytes or
-9 bytes (alphanumeric)
+9 bytes (alphanumeric) [BCOCA-4-229]
 Any alphanumeric value
 When the Mailer ID is 6 bytes, the Serial Number is 12 bytes
 When the Mailer ID is 9 bytes, the Serial Number is 9 bytes
@@ -1189,7 +1189,7 @@ Code 128
 
 Code 128 modifier X'06' – Intelligent Mail Package Barcode
 USPS TRACKING # eVS
-9374 8901 0000 0003 9850 39
+9374 8901 0000 0003 9850 39 [BCOCA-4-230]
 Intelligent Mail Package Barcode
 (encoding    42021234    9374890100000003985039)
 F
@@ -1202,7 +1202,7 @@ C
 1
 The Intelligent Mail Package Barcode symbology is defined and used by the United States Postal Service
 (USPS) for parcels, and is required to obtain certain discounts. The bar code uses a special form of the GS1-
-128 (also known as UCC/EAN 128) symbology. Concatenated data allows for presenting both routing
+128 (also known as UCC/EAN 128) symbology. Concatenated data allows for presenting both routing [BCOCA-4-231]
 information and package identification information in a single bar code. Fields are available to specify mailer
 identification, device identification, package serial number, as well as other fields. There are three different
 overall data formats, based on the possible values of the “Channel Application Identifier” (AI) field; different
@@ -1240,12 +1240,12 @@ Code 128
 
 
 EAN Two-Digit Supplemental (modifier values X'00' and X'01')
-0 412345 678903
+0 412345 678903 [BCOCA-4-232]
 9 9
 EAN + 2 Digit Supplemental
 (encoding 041234567890, supplemental = 99)
 X'00' Present the EAN Two-Digit Supplemental bar code symbol. This option assumes that the base EAN-
-13 symbol is presented as a separate bar code object. The value of the Two-Digit Supplemental data
+13 symbol is presented as a separate bar code object. The value of the Two-Digit Supplemental data [BCOCA-4-233]
 determines their bar and space patterns chosen from number sets A and B.
 Specify 2 digits of input data.
 X'01' The Two-Digit Supplemental bar code symbol is preceded by a normal EAN-13 bar code symbol. The
@@ -1255,14 +1255,14 @@ as determined by the two supplemental digits chosen from number sets A and B.
 Specify 14 digits of input data.
 Note: The EAN Two-Digit Supplemental symbology is controlled by the GS1 standards organization and is
 described in GS1 General Specifications.
-EAN Two-Digit Supplemental
+EAN Two-Digit Supplemental [BCOCA-4-234]
 
 
 
 
 EAN Five-Digit Supplemental (modifier values X'00' and X'01')
-0 412345 678903
-1 2 3 4 5
+0 412345 678903 [BCOCA-4-235]
+1 2 3 4 5 [BCOCA-4-236]
 EAN + 5 Digit Supplemental
 (encoding 041234567890, supplemental = 54321)
 X'00' Present the EAN Five-Digit Supplemental bar code. This option assumes that the base EAN-13
@@ -1277,7 +1277,7 @@ space patterns from number sets A and B. The check digit is not encoded or inter
 Specify 17 digits of input data.
 Note: The EAN Five-Digit Supplemental symbology is controlled by the GS1 standards organization and is
 described in GS1 General Specifications.
-EAN Five-Digit Supplemental
+EAN Five-Digit Supplemental [BCOCA-4-237]
 
 
 
@@ -1315,7 +1315,7 @@ variable-length bar code consists of a leading frame bar, the encoded data, a co
 trailing frame bar.
 X'04' Present a PLANET Code symbol. The PLANET Code is a reverse topology variation of POSTNET that
 encodes 11 digits of data; the first 2 digits represent a service code (such as, 21 = Origin Confirm and
-22 = Destination Confirm) and the next 9 digits identify the mail piece. A 12th digit is generated by the
+22 = Destination Confirm) and the next 9 digits identify the mail piece. A 12th digit is generated by the [BCOCA-4-238]
 printer as a check digit. The PLANET Code symbol consists of a leading frame bar, the encoded data,
 a check digit, and a trailing frame bar.
 POSTNET and PLANET
@@ -1339,7 +1339,7 @@ The start and stop bars identify the beginning and end of the bar code symbol an
 of the symbol.
 X'01' Dutch KIX variation – Present an RM4SCC bar code symbol with no start bar, no checksum character,
 and no stop bar.
-Royal Mail RM4SCC and Dutch KIX
+Royal Mail RM4SCC and Dutch KIX [BCOCA-4-239]
 
 
 
@@ -1355,19 +1355,19 @@ stop character.
 The generated bar code symbol will consist of a start code, a 7-digit new postal code, a 13-digit
 address indication number, a check digit, and a stop code. The variable data to be encoded (BSA
 bytes 5–n) will be used as follows:
-1. The first few digits is the new postal code in either the form nnn-nnnn or the form nnnnnnn; the
+1. The first few digits is the new postal code in either the form nnn-nnnn or the form nnnnnnn; the [BCOCA-4-240]
 hyphen, if present, is ignored and the other 7 digits must be numeric. These 7 digits will be placed
 in the new postal code field of the bar code symbol.
-2. If the next character is a hyphen, it is ignored and is not used in generating the bar code symbol.
-3. The remainder of the BSA data is the address indication number that can contain numbers,
+2. If the next character is a hyphen, it is ignored and is not used in generating the bar code symbol. [BCOCA-4-241]
+3. The remainder of the BSA data is the address indication number that can contain numbers, [BCOCA-4-242]
 hyphens, and alphabetic characters (A–Z). Each number and each hyphen represents one digit in
 the bar code symbol; each alphabetic character is represented by a combination of a control code
 (CC1, CC2, or CC3) and a numerical code and shall be handled as two digits in the bar code
 symbol. 13 digits of this address indication number data will be placed in the address indication
 number field of the bar code symbol.
-• If less than 13 additional digits are present, the shortage shall be filled in with the bar code
+• If less than 13 additional digits are present, the shortage shall be filled in with the bar code [BCOCA-4-243]
 corresponding to control code CC4 up to the 13th digit.
-• If more than 13 additional digits are present, the first 13 digits will be used and the remainder
+• If more than 13 additional digits are present, the first 13 digits will be used and the remainder [BCOCA-4-244]
 ignored with no exception condition reported. However, if the 13th digit is the control code for an
 alphabetic (A–Z) character, only the control code is included and the numeric part is omitted.
 X'01' Present a Japan Postal Bar Code symbol directly from the bar code data.
@@ -1378,7 +1378,7 @@ code, a 13-digit address indication number, a valid check digit, and a stop code
 must consist of 7 numeric digits. The address indication number must consist of 13 characters that can
 be numeric, hyphen, or control characters (CC1 through CC8). The following table lists the valid code
 points for modifier X'01'.
-Japan Postal Bar Code
+Japan Postal Bar Code [BCOCA-4-245]
 
 
 
@@ -1400,7 +1400,7 @@ Implementation Note:
 These code points are EBCDIC-based to match early Japan Postal Bar Code
 implementations that used fonts instead of BCOCA; there is no known requirement for
 ASCII-based code points.
-Japan Postal Bar Code
+Japan Postal Bar Code [BCOCA-4-246]
 
 
 
@@ -1414,8 +1414,8 @@ X'00' Present a Data Matrix Bar Code symbol using Error Checking and Correcting 
 The symbol must be one of the originally-defined Data Matrix symbols, which comprised 24 square
 and 6 rectangular symbols.
 X'01' Present a Data Matrix Bar Code symbol using ECC algorithm 200. The symbol must be either:
-• One of the originally-defined 24 square and 6 rectangular symbols, or
-• One of the additional 18 rectangular symbols defined in the Extended Rectangular Data Matrix
+• One of the originally-defined 24 square and 6 rectangular symbols, or [BCOCA-4-247]
+• One of the additional 18 rectangular symbols defined in the Extended Rectangular Data Matrix [BCOCA-4-248]
 (DMRE) specification.
 The bar code data is assumed to start with the default character encodation (ECI 000003 = ISO 8859-1). This
 is an international Latin 1 code page that is equivalent to the IBM ASCII code page 819. T o change to a
@@ -1438,9 +1438,9 @@ rules that must be followed when specifying the parameters and data for the bar 
 example, some applications require a particular encodation scheme; therefore, an IPDS printer used to
 print the symbol must support both Data Matrix and the encodation scheme option (STM property pair
 X'1303'). Examples of Data Matrix applications with special rules include the following:
-• The GS1 DataMatrix symbology is controlled by the GS1 standards organization and is described in
+• The GS1 DataMatrix symbology is controlled by the GS1 standards organization and is described in [BCOCA-4-249]
 the GS1 General Specifications.
-• The Royal Mail Complex Mail Data Marks (CMDM) symbology is controlled by Royal Mail and is
+• The Royal Mail Complex Mail Data Marks (CMDM) symbology is controlled by Royal Mail and is [BCOCA-4-250]
 described in the Royal Mail Mailmark Definition Document. CMDM symbols use the C40 encodation
 scheme.
 Data Matrix
@@ -1503,9 +1503,9 @@ Codewords
 Right Row
 Indicator
 Codewords
-3 Data Symbol Characters
+3 Data Symbol Characters [BCOCA-4-251]
 per Row
-3 Data Symbol Characters
+3 Data Symbol Characters [BCOCA-4-252]
 per Row
 13 Rows
 This is a two-dimensional stacked bar code symbology as defined in the AIM Uniform Symbology Specification
@@ -1621,7 +1621,7 @@ needed filler bars, and generate the Reed Solomon ECC bars.
 Human-readable interpretation (HRI) can be selected with this bar code type and should be printed above the
 symbol. The format control code, Delivery Point Identifier, and customer information field (if any) appears in the
 HRI, but the ECC does not.
-Australia Post Bar Code
+Australia Post Bar Code [BCOCA-4-253]
 
 
 
@@ -1637,14 +1637,14 @@ X'12' Present a QR Code Bar Code symbol as in modifier X'02', but in addition, o
 placed in conjunction with the QR Code symbol.
 The bar code data is assumed to start with the default character encodation (ECI 000020). This is a single–
 byte code page representing the JIS8 and Shift JIS character sets; it is equivalent to the IBM ASCII code page
-897. T o change to a different character encodation within the data, the ECI protocol as defined in the AIM
+897. T o change to a different character encodation within the data, the ECI protocol as defined in the AIM [BCOCA-4-254]
 International “Extended Channel Interpretation (ECI) Assignments”, must be used.
 Since the default character encodation for this bar code is ASCII, the EBCDIC-to-ASCII translation flag (see
 page 132) can be used in the following manner:
-• When all of the input data for the bar code is single–byte EBCDIC using one of the supported code pages
+• When all of the input data for the bar code is single–byte EBCDIC using one of the supported code pages [BCOCA-4-255]
 (500, 290, or 1027), set the EBCDIC-to-ASCII translation flag to B'1' and select the correct code page in the
 conversion parameter.
-• When all of the input data for the bar code is mixed-byte EBCDIC AFP Line Data using SO and SI controls
+• When all of the input data for the bar code is mixed-byte EBCDIC AFP Line Data using SO and SI controls [BCOCA-4-256]
 (SOSI data), set the EBCDIC-to-ASCII translation flag to B'1' and select the desired conversion value in the
 conversion parameter.
 If the bar code data contains more than one character encodation or if the data needs to be encoded within the
@@ -1707,13 +1707,13 @@ and 0.145 inches high.
 The input data is all numeric and consists of 5 data fields. The first four fields are essentially fixed length and
 the 5th field can have one of four lengths; the bar code modifier is used to specify the length of the 5th field.
 The total length of the input data can be 20, 25, 29, or 31 digits that is defined as follows:
-• Barcode ID (2 digits) – assigned by USPS, the 2nd digit must be 0–4; thus, the valid values are: 00-04, 10–
+• Barcode ID (2 digits) – assigned by USPS, the 2nd digit must be 0–4; thus, the valid values are: 00-04, 10– [BCOCA-4-257]
 14, 20–24, 30–34, 40–44, 50–54, 60–64, 70–74, 80–84, and 90–94
-• Service Type ID (3 digits) – assigned by USPS; valid values are 000–999
-• Mailer ID fields; 15 digits in the range 000000000000000–999999999999999
+• Service Type ID (3 digits) – assigned by USPS; valid values are 000–999 [BCOCA-4-258]
+• Mailer ID fields; 15 digits in the range 000000000000000–999999999999999 [BCOCA-4-259]
 – Mailer ID (6 or 9 digits) – assigned by USPS
 – Sequence or serial number (9 or 6 digits) – assigned by the mailer
-• Routing ZIP Code (0, 5, 9, or 11 digits) – refer to the modifier for valid values; also called Delivery Point ZIP
+• Routing ZIP Code (0, 5, 9, or 11 digits) – refer to the modifier for valid values; also called Delivery Point ZIP [BCOCA-4-260]
 Code
 Intelligent Mail Barcode modifier values are defined as follows:
 X'00' Present an Intelligent Mail Barcode symbol with no Routing ZIP Code. The input data for this bar code
@@ -1732,10 +1732,10 @@ HRI is appropriate.
 There must be a quiet zone surrounding the symbol (all four sides) that is at least 0.04 inches above and below
 and at least 0.125 inches on both sides of the symbol.
 Intelligent Mail Barcode
-1. The United States Postal Service (USPS) developed this symbology for use in the USPS mail stream and has named it the
+1. The United States Postal Service (USPS) developed this symbology for use in the USPS mail stream and has named it the [BCOCA-4-261]
 “Intelligent Mail Barcode”. Originally, BCOCA architecture used the name “USPS Four-State bar code” for this symbology. The bar
 code is also known as the “OneCode SOLUTION Barcode” and the “4-state Customer Barcode” and has been abbreviated in several
-ways: OneCode (4CB), OneCode (4-CB), 4CB, or 4-CB.
+ways: OneCode (4CB), OneCode (4-CB), 4CB, or 4-CB. [BCOCA-4-262]
 
 
 
@@ -1823,13 +1823,13 @@ The height of the symbol is different for each version (modifier value). Because
 code symbol is a space, no quiet zone is needed for this bar code.
 Human-Readable Interpretation (HRI) can be printed below a GS1 DataBar symbol. The content of the HRI
 depends on the version of the symbol:
-• For modifiers X'00' – X'04', the HRI consists of implied application ID 01 in parentheses followed by the 14
+• For modifiers X'00' – X'04', the HRI consists of implied application ID 01 in parentheses followed by the 14 [BCOCA-4-263]
 digit input data. The implied application ID is not part of the input data, nor is it included within the symbol. An
 example of HRI for GS1 DataBar symbols is shown in each modifier description.
 The input data consists of 14 digits with the last (14th) digit being an implied check digit; this check digit is not
 validated and is not used in building the bar code symbol, however all 14 of the input digits appear in the
 HRI.
-• For modifiers X'11' – X'1B', the HRI consists of the input data with the application IDs surrounded by
+• For modifiers X'11' – X'1B', the HRI consists of the input data with the application IDs surrounded by [BCOCA-4-264]
 parentheses and the FNC1 characters suppressed.
 Modifier X'00'
 GS1 DataBar Omnidirectional
@@ -1909,11 +1909,11 @@ form:
 ai, data, [m], [FNC1], ai, data, [m], [FNC1], ..., ai, data, [m]
 The GS1 DataBar Expanded data is checked for validity and exception condition EC-1200
 exists if one or more of the following conditions are encountered:
-• Invalid application identifier (ai) value encountered
-• Data for an ai doesn't match the ai definition
-• Insufficient (or no) data following an ai
-• T oo much data for an ai
-• Invalid use of FNC1 character
+• Invalid application identifier (ai) value encountered [BCOCA-4-265]
+• Data for an ai doesn't match the ai definition [BCOCA-4-266]
+• Insufficient (or no) data following an ai [BCOCA-4-267]
+• T oo much data for an ai [BCOCA-4-268]
+• Invalid use of FNC1 character [BCOCA-4-269]
 Note: Because the data for an Expanded symbol is similar to the data for a UCC/EAN 128
 symbol, BCOCA receivers will tolerate FNC1 characters that precede the first ai by
 ignoring them.
@@ -1962,15 +1962,15 @@ The BCOCA receiver will encode the input data to determine how many symbol chara
 needed and will then attempt to create an Expanded Stacked symbol that contains the
 requested number of symbol characters per row. The receiver must work within the constraints
 defined by the GS1 DataBar symbology:
-• There can be between two and eleven rows for an Expanded Stacked symbol; an Expanded
+• There can be between two and eleven rows for an Expanded Stacked symbol; an Expanded [BCOCA-4-270]
 symbol has one row.
-• Each row, except for the bottom row, must have an even number of symbol characters.
+• Each row, except for the bottom row, must have an even number of symbol characters. [BCOCA-4-271]
 GS1 DataBar
 
 
 
 
-• The bottom row must contain a minimum of two symbol characters (with padding added to
+• The bottom row must contain a minimum of two symbol characters (with padding added to [BCOCA-4-272]
 the last symbol character if necessary).
 The BCOCA receiver will attempt to create an Expanded Stacked symbol for which each row
 contains the requested number of symbol characters. Depending on the number of actual
@@ -2003,9 +2003,9 @@ Royal Mail Mailmark
 DAATATTTADTAATTFADDDDTTFTFDDDDFFDFDAFTADDTFFTDDATADTTFATTDAFDTFDDA
 The Royal Mail Mailmark symbology is defined and used by Royal Mail Group Ltd. for intelligent mail tracking
 and reporting. This bar code is a four-state symbol that has two variations, each with a fixed number of bars:
-1. Barcode C (66 bars) – A variable content code that has a unique identifier (ID) and includes Postcode and
+1. Barcode C (66 bars) – A variable content code that has a unique identifier (ID) and includes Postcode and [BCOCA-4-273]
 Delivery Point information
-2. Barcode L (78 bars) – A variable content code that has a unique ID and includes Postcode and Delivery
+2. Barcode L (78 bars) – A variable content code that has a unique ID and includes Postcode and Delivery [BCOCA-4-274]
 Point information
 The Royal Mail Mailmark symbology limits the symbol size; therefore BSD element height, height multiplier,
 and wide-to-narrow ratio fields are not applicable to this symbology and are ignored by BCOCA receivers. The
@@ -2028,9 +2028,9 @@ X'01' Barcode L
 Present a 78 bar, variable-content-code symbol that has a unique ID and includes Postcode and
 Delivery Point information.
 Notes:
-1. The four-state Mailmark™ symbology replaces an earlier version called RED TAG. The RED TAG
+1. The four-state Mailmark™ symbology replaces an earlier version called RED TAG. The RED TAG [BCOCA-4-275]
 symbology has been retired by Royal Mail and has also been deprecated in the BCOCA architecture.
-2. There is also a 2D variation of the Mailmark symbology, called Complex Mail Data Marks (CMDM), which is
+2. There is also a 2D variation of the Mailmark symbology, called Complex Mail Data Marks (CMDM), which is [BCOCA-4-276]
 produced as a Data Matrix symbol. Refer to the Royal Mail Mailmark Definition Document for a description
 of Complex Mail Data Marks.
 Royal Mail Mailmark
@@ -2051,11 +2051,11 @@ codewords. As an example, the compact symbol shown above has an 11x11 module cor
 by two data layers (the outside four modules all around the outside of the symbol).
 The core symbol is the “Aztec pyramid” in the center of the symbol and the one single layer of modules
 surrounding the pyramid. The core symbol contains:
-• The finder pattern—that is, the pyramid.
-• Orientation modules. These are on each corner of the finder pattern, in the surrounding module layer, and
+• The finder pattern—that is, the pyramid. [BCOCA-4-277]
+• Orientation modules. These are on each corner of the finder pattern, in the surrounding module layer, and [BCOCA-4-278]
 allow a scanner to determine which corner of the symbol is the upper-left, and also allow a scanner to
 determine if the symbol is being read as a reflection or from behind.
-• The mode message. These are modules in the layer surrounding the finder pattern that encode:
+• The mode message. These are modules in the layer surrounding the finder pattern that encode: [BCOCA-4-279]
 – The number of two-module-deep layers of codewords surrounding the core—this then defines the exact
 size of the symbol in terms of modules.
 – The number of codewords used to contain the encoded data.
@@ -2141,36 +2141,36 @@ Some bar code types and modifiers call for the calculation and presentation of c
 method of verifying data integrity during the bar coding reading process. Except for UPC/CGPC Version E, the
 check digit is always presented in the bar code bar and space patterns, but is not always presented in the HRI.
 The following table shows the check digit calculation methods for each bar code type and the presence or
-absence of the check digit in the HRI.
+absence of the check digit in the HRI. [BCOCA-4-280]
 ### Table 19. Check Digit Calculation Methods
 | Type | Bar Code Symbology | Modifier | In HRI? | Check Digit Calculation |
 | :--- | :--- | :--- | :---: | :--- |
-| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | X'02' | Yes | Modulo 43 of the sum of the data characters' numerical values as described in a Code 39 specification. The start and stop codes are not included in the calculation. |
-| X'02' | MSI (modified Plessey code) | X'02' – X'09' | No | **IBM Modulus 10 check digit:**<br>1. Multiply each digit of the original number by a weighting factor of 1 or 2 as follows: multiply the units digit by 2, the tens digit by 1, the hundreds digit by 2, the thousands digit by 1, and so forth.<br>2. Sum the digits of the products from step 1. This is not the same as summing the values of the products.<br>3. The check digit is described by the following equation where "sum" is the resulting value of step 2:<br>(10 - (sum modulo 10)) modulo 10<br><br>**IBM Modulus 11 check digit:**<br>1. Multiply each digit of the original number by a repeating weighting factor pattern of 2, 3, 4, 5, 6, 7 as follows: multiply the units digit by 2, the tens digit by 3, the hundreds digit by 4, the thousands digit by 5, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit depends on the bar code modifier. The check digit as the remainder is described by the following equation where "sum" is the resulting value of step 2:<br>(sum modulo 11)<br>The check digit as 11 minus the remainder is described by the following equation:<br>(11 - (sum modulo 11)) modulo 11<br><br>**NCR Modulus 11 check digit:**<br>1. Multiply each digit of the original number by a repeating weighting factor pattern of 2, 3, 4, 5, 6, 7, 8, 9 as follows: multiply the units digit by 2, the tens digit by 3, the hundreds digit by 4, the thousands digit by 5, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit depends on the bar code modifier. The check digit as the remainder is described by the following equation where "sum" is the resulting value of step 2:<br>(sum modulo 11)<br>The check digit as 11 minus the remainder is described by the following equation:<br>(11 - (sum modulo 11)) modulo 11 |
-| X'03' | UPC/CGPC Version A | X'00' | Yes | **UPC/EAN check digit calculation:**<br>1. Multiply each digit of the original number by a weighting factor of 1 or 3 as follows: multiply the units digit by 3, the tens digit by 1, the hundreds digit by 3, the thousands digit by 1, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit is described by the following equation, where "sum" is the resulting value of step 2:<br>(10 - (sum modulo 10)) modulo 10 |
-| X'05' | UPC/CGPC Version E | X'00' | Yes | See X'03' – UPC/CGPC Version A |
-| X'08' | EAN 8 (includes JAN-short) | X'00' | Yes | See X'03' – UPC/CGPC Version A |
-| X'09' | EAN 13 (includes JAN-standard) | X'00' | Yes | See X'03' – UPC/CGPC Version A |
-| X'0A' | Industrial 2-of-5 | X'02' | Yes | See X'03' – UPC/CGPC Version A |
-| X'0B' | Matrix 2-of-5 | X'02' | Yes | See X'03' – UPC/CGPC Version A |
-| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | X'02' – X'04' | Yes | See X'03' – UPC/CGPC Version A |
-| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | X'02' | Varies by receiver | **Codabar check digit calculation:**<br>1. Sum of the data characters' numerical values as described in a Codabar specification. All data characters are used, including the start and stop characters.<br>2. The check digit is described by the following equation where "sum" is the resulting value of step 1:<br>(16 - (sum modulo 16)) modulo 16 |
-| X'11' | Code 128, GS1-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode, UCC/EAN 128, AIM USS-128 | X'02' – X'06' | No | **Code 128 check digit calculation:**<br>1. Going left to right starting at the start character, sum the value of the start character and the weighted values of data and special characters. The weights are 1 for the first data or special character, 2 for the second, 3 for the third, and so forth. The stop character is not included in the calculation.<br>2. The check digit is modulo 103 of the resulting value of step 1. |
-| X'18' | POSTNET (deprecated) and PLANET (deprecated) | X'00' – X'04' | NA | The check digit is (10 - (sum modulo 10)) modulo 10, where sum is the sum of the user data from the BSA data field. |
-| X'1A' | RM4SCC and Dutch KIX | X'00' | NA | For RM4SCC, the checksum digit is calculated using an algorithm that weights each of the 4 bars within a character in relation to its position within the character. Dutch KIX (modifier X'01') does not use a checksum digit. |
-| X'1B' | Japan Postal Bar Code | X'00' | NA | **The Japan Postal Bar Code check digit calculation:**<br>1. Convert each character in the bar code data into decimal numbers. Numeric characters are converted to decimal, each hyphen character is converted to the number 10, each alphabetic character is converted to two numbers according to the symbology definition. For example, A becomes "11 and 0", B becomes "11 and 1", ..., J becomes "11 and 9", K becomes "12 and 0", L becomes "12 and 1", ..., T becomes "12 and 9", U becomes "13 and 0", V becomes "13 and 1", ..., and Z becomes "13 and 5".<br>2. Sum the resulting decimal numbers and calculate the remainder modulo 19.<br>3. The check digit is (19 minus the remainder) modulo 19. |
-| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | X'00' – X'01' | NA | The Data Matrix symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
-| X'1D' | MaxiCode (2D bar code) | X'00' | NA | The MaxiCode symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
-| X'1E' | PDF417 (2D bar code) | X'00' – X'01' | NA | The PDF417 symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
-| X'1F' | Australia Post Bar Code | X'01' – X'08' | No | The Australia Post Bar Code uses a Reed Solomon error correction code based on Galois Field 64. |
-| X'20' | QR Code, QR Code with Image (2D bar code) | X'02', X'12' | NA | The QR Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
-| X'21' | Code 93 | X'00' | No | Both check digits (C and K) are calculated as Modulo 47 of the sum of the products of the data-character numerical values as described in the Code 93 specification and a weighting sequence. The start and stop codes are not included in the calculation. |
-| X'22' | Intelligent Mail Barcode | X'00' – X'03' | No | There is no check digit, but error detection and correction is added as part of the encoding process. Refer to United States Postal Service Specification USPS-B-3200, Barcode, 4-State Customer. |
-| X'23' | Royal Mail RED TAG (deprecated) | X'00' | No | There is no check digit, but error detection and correction is added as part of the encoding process. Refer to Royal Mail RED TAG Mailpiece Requirements. |
-| X'24' | GS1 DataBar | X'00' – X'04' and X'11' – X'1B' | No | There is no check digit, but an error detection checksum is calculated and is contained within the finder patterns. Refer to GS1 General Specifications. |
-| X'25' | Royal Mail Mailmark | X'00'–X'01' | No | There is no check digit, but error detection and correction is added as part of the encoding process to ensure at least 25% error correction. |
-| X'26' | Aztec Code (2D bar code) | X'00' – X'03' | NA | The Aztec Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
-| X'27' | Han Xin Code (2D bar code) | X'00' | NA | The Han Xin Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | X'02' | Yes | Modulo 43 of the sum of the data characters' numerical values as described in a Code 39 specification. The start and stop codes are not included in the calculation. [BCOCA-4-281]|
+| X'02' | MSI (modified Plessey code) | X'02' – X'09' | No | **IBM Modulus 10 check digit:**<br>1. Multiply each digit of the original number by a weighting factor of 1 or 2 as follows: multiply the units digit by 2, the tens digit by 1, the hundreds digit by 2, the thousands digit by 1, and so forth.<br>2. Sum the digits of the products from step 1. This is not the same as summing the values of the products.<br>3. The check digit is described by the following equation where "sum" is the resulting value of step 2:<br>(10 - (sum modulo 10)) modulo 10<br><br>**IBM Modulus 11 check digit:**<br>1. Multiply each digit of the original number by a repeating weighting factor pattern of 2, 3, 4, 5, 6, 7 as follows: multiply the units digit by 2, the tens digit by 3, the hundreds digit by 4, the thousands digit by 5, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit depends on the bar code modifier. The check digit as the remainder is described by the following equation where "sum" is the resulting value of step 2:<br>(sum modulo 11)<br>The check digit as 11 minus the remainder is described by the following equation:<br>(11 - (sum modulo 11)) modulo 11<br><br>**NCR Modulus 11 check digit:**<br>1. Multiply each digit of the original number by a repeating weighting factor pattern of 2, 3, 4, 5, 6, 7, 8, 9 as follows: multiply the units digit by 2, the tens digit by 3, the hundreds digit by 4, the thousands digit by 5, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit depends on the bar code modifier. The check digit as the remainder is described by the following equation where "sum" is the resulting value of step 2:<br>(sum modulo 11)<br>The check digit as 11 minus the remainder is described by the following equation:<br>(11 - (sum modulo 11)) modulo 11 [BCOCA-4-282]|
+| X'03' | UPC/CGPC Version A | X'00' | Yes | **UPC/EAN check digit calculation:**<br>1. Multiply each digit of the original number by a weighting factor of 1 or 3 as follows: multiply the units digit by 3, the tens digit by 1, the hundreds digit by 3, the thousands digit by 1, and so forth.<br>2. Sum the products from step 1.<br>3. The check digit is described by the following equation, where "sum" is the resulting value of step 2:<br>(10 - (sum modulo 10)) modulo 10 [BCOCA-4-283]|
+| X'05' | UPC/CGPC Version E | X'00' | Yes | See X'03' – UPC/CGPC Version A [BCOCA-4-284]|
+| X'08' | EAN 8 (includes JAN-short) | X'00' | Yes | See X'03' – UPC/CGPC Version A [BCOCA-4-285]|
+| X'09' | EAN 13 (includes JAN-standard) | X'00' | Yes | See X'03' – UPC/CGPC Version A [BCOCA-4-286]|
+| X'0A' | Industrial 2-of-5 | X'02' | Yes | See X'03' – UPC/CGPC Version A [BCOCA-4-287]|
+| X'0B' | Matrix 2-of-5 | X'02' | Yes | See X'03' – UPC/CGPC Version A [BCOCA-4-288]|
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | X'02' – X'04' | Yes | See X'03' – UPC/CGPC Version A [BCOCA-4-289]|
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | X'02' | Varies by receiver | **Codabar check digit calculation:**<br>1. Sum of the data characters' numerical values as described in a Codabar specification. All data characters are used, including the start and stop characters.<br>2. The check digit is described by the following equation where "sum" is the resulting value of step 1:<br>(16 - (sum modulo 16)) modulo 16 [BCOCA-4-290]|
+| X'11' | Code 128, GS1-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode, UCC/EAN 128, AIM USS-128 | X'02' – X'06' | No | **Code 128 check digit calculation:**<br>1. Going left to right starting at the start character, sum the value of the start character and the weighted values of data and special characters. The weights are 1 for the first data or special character, 2 for the second, 3 for the third, and so forth. The stop character is not included in the calculation.<br>2. The check digit is modulo 103 of the resulting value of step 1. [BCOCA-4-291]|
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | X'00' – X'04' | NA | The check digit is (10 - (sum modulo 10)) modulo 10, where sum is the sum of the user data from the BSA data field. [BCOCA-4-292]|
+| X'1A' | RM4SCC and Dutch KIX | X'00' | NA | For RM4SCC, the checksum digit is calculated using an algorithm that weights each of the 4 bars within a character in relation to its position within the character. Dutch KIX (modifier X'01') does not use a checksum digit. [BCOCA-4-293]|
+| X'1B' | Japan Postal Bar Code | X'00' | NA | **The Japan Postal Bar Code check digit calculation:**<br>1. Convert each character in the bar code data into decimal numbers. Numeric characters are converted to decimal, each hyphen character is converted to the number 10, each alphabetic character is converted to two numbers according to the symbology definition. For example, A becomes "11 and 0", B becomes "11 and 1", ..., J becomes "11 and 9", K becomes "12 and 0", L becomes "12 and 1", ..., T becomes "12 and 9", U becomes "13 and 0", V becomes "13 and 1", ..., and Z becomes "13 and 5".<br>2. Sum the resulting decimal numbers and calculate the remainder modulo 19.<br>3. The check digit is (19 minus the remainder) modulo 19. [BCOCA-4-294]|
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | X'00' – X'01' | NA | The Data Matrix symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. [BCOCA-4-295]|
+| X'1D' | MaxiCode (2D bar code) | X'00' | NA | The MaxiCode symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. [BCOCA-4-296]|
+| X'1E' | PDF417 (2D bar code) | X'00' – X'01' | NA | The PDF417 symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. [BCOCA-4-297]|
+| X'1F' | Australia Post Bar Code | X'01' – X'08' | No | The Australia Post Bar Code uses a Reed Solomon error correction code based on Galois Field 64. [BCOCA-4-298]|
+| X'20' | QR Code, QR Code with Image (2D bar code) | X'02', X'12' | NA | The QR Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. [BCOCA-4-299]|
+| X'21' | Code 93 | X'00' | No | Both check digits (C and K) are calculated as Modulo 47 of the sum of the products of the data-character numerical values as described in the Code 93 specification and a weighting sequence. The start and stop codes are not included in the calculation. [BCOCA-4-300]|
+| X'22' | Intelligent Mail Barcode | X'00' – X'03' | No | There is no check digit, but error detection and correction is added as part of the encoding process. Refer to United States Postal Service Specification USPS-B-3200, Barcode, 4-State Customer. [BCOCA-4-301]|
+| X'23' | Royal Mail RED TAG (deprecated) | X'00' | No | There is no check digit, but error detection and correction is added as part of the encoding process. Refer to Royal Mail RED TAG Mailpiece Requirements. [BCOCA-4-302]|
+| X'24' | GS1 DataBar | X'00' – X'04' and X'11' – X'1B' | No | There is no check digit, but an error detection checksum is calculated and is contained within the finder patterns. Refer to GS1 General Specifications. [BCOCA-4-303]|
+| X'25' | Royal Mail Mailmark | X'00'–X'01' | No | There is no check digit, but error detection and correction is added as part of the encoding process to ensure at least 25% error correction. [BCOCA-4-304]|
+| X'26' | Aztec Code (2D bar code) | X'00' – X'03' | NA | The Aztec Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. [BCOCA-4-305]|
+| X'27' | Han Xin Code (2D bar code) | X'00' | NA | The Han Xin Code symbology uses a Reed-Solomon Error Checking and Correcting (ECC) algorithm. [BCOCA-4-306]|
 
 
 
@@ -2179,23 +2179,23 @@ Bar Code Symbol Data (BSA)
 The BSA data structure contains the parameters to position the bar code symbol within a bar code
 presentation space and the data to be encoded. The data is encoded according to the parameters specified in
 the Bar Code Symbol Descriptor (BSD) data structure.
-The format of the BSA data structure follows:
+The format of the BSA data structure follows: [BCOCA-4-307]
 ### Table 20. Bar Code Symbol Data (BSA) Data Structure
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 | BITS | Bar code flags | | | | |
-| | bit 0 | HRI | B'0'<br>B'1' | HRI is presented<br>HRI not presented | B'0'<br>B'1' | B'0'<br>B'1' |
-| | bits 1–2 | Position | B'00'<br>B'01'<br>B'10' | Default<br>HRI below<br>HRI above | B'00'<br>B'01'<br>B'10' | B'00'<br>B'01'<br>B'10' |
-| | bit 3 | SSCAST | B'0'<br>B'1' | Asterisk is not presented<br>Asterisk is presented | B'0'<br>B'1' | B'0'<br>B'1' |
-| | bit 4 | | B'0' | Retired item 21 | B'0' | B'0' |
-| | bit 5 | Suppress bar code symbol | B'0'<br>B'1' | Bar code suppression:<br>Present symbol<br>Suppress symbol | B'0' | B'0'<br>B'1' |
-| | bit 6 | Suppress blanks | B'0'<br>B'1' | Desired method of adjusting for trailing blanks:<br>Don't suppress<br>Suppress and adjust | B'0' | B'0' |
-| | bit 7 | | B'0' | Retired item 3 | B'0' | B'0' |
-| 1–2 | UBIN | $X$ offset | X'0001'–X'7FFF' | $X_{bc}$-coordinate of the symbol origin in the bar code presentation space | X'0001'–X'7FFF' (Refer to note) | X'0001'–X'7FFF' (Refer to note) |
-| 3–4 | UBIN | $Y$ offset | X'0001'–X'7FFF' | $Y_{bc}$-coordinate of the symbol origin in the bar code presentation space | X'0001'–X'7FFF' (Refer to note) | X'0001'–X'7FFF' (Refer to note) |
-| 5–n | | Special functions | See field description | Special-function information that is specific to the bar code type (Only used with: Aztec Code, Data Matrix, Han Xin Code, Intelligent Mail Package Barcode, MaxiCode, PDF417, QR Code, QR Code with Image) | Not supported in BCD1 | See field description |
-| n+1 to end | UNDF | Data | Any value defined for the bar code type selected by the BSD | Data to be encoded | Any value defined for the bar code type selected by the BSD | Any value defined for the bar code type selected by the BSD |
-Bar Code Symbol Data (BSA)
+| 0 | BITS | Bar code flags [BCOCA-4-308]| | | | |
+| | bit 0 | HRI | B'0'<br>B'1' | HRI is presented<br>HRI not presented | B'0'<br>B'1' | B'0'<br>B'1' [BCOCA-4-309]|
+| | bits 1–2 | Position | B'00'<br>B'01'<br>B'10' | Default<br>HRI below<br>HRI above | B'00'<br>B'01'<br>B'10' | B'00'<br>B'01'<br>B'10' [BCOCA-4-310]|
+| | bit 3 | SSCAST | B'0'<br>B'1' | Asterisk is not presented<br>Asterisk is presented | B'0'<br>B'1' | B'0'<br>B'1' [BCOCA-4-311]|
+| | bit 4 | | B'0' | Retired item 21 | B'0' | B'0' [BCOCA-4-312]|
+| | bit 5 | Suppress bar code symbol | B'0'<br>B'1' | Bar code suppression:<br>Present symbol<br>Suppress symbol | B'0' | B'0'<br>B'1' [BCOCA-4-313]|
+| | bit 6 | Suppress blanks | B'0'<br>B'1' | Desired method of adjusting for trailing blanks:<br>Don't suppress<br>Suppress and adjust | B'0' | B'0' [BCOCA-4-314]|
+| | bit 7 | | B'0' | Retired item 3 | B'0' | B'0' [BCOCA-4-315]|
+| 1–2 | UBIN | $X$ offset | X'0001'–X'7FFF' | $X_{bc}$-coordinate of the symbol origin in the bar code presentation space | X'0001'–X'7FFF' (Refer to note) | X'0001'–X'7FFF' (Refer to note) [BCOCA-4-316]|
+| 3–4 | UBIN | $Y$ offset | X'0001'–X'7FFF' | $Y_{bc}$-coordinate of the symbol origin in the bar code presentation space | X'0001'–X'7FFF' (Refer to note) | X'0001'–X'7FFF' (Refer to note) [BCOCA-4-317]|
+| 5–n | | Special functions | See field description | Special-function information that is specific to the bar code type (Only used with: Aztec Code, Data Matrix, Han Xin Code, Intelligent Mail Package Barcode, MaxiCode, PDF417, QR Code, QR Code with Image) | Not supported in BCD1 | See field description [BCOCA-4-318]|
+| n+1 to end | UNDF | Data | Any value defined for the bar code type selected by the BSD | Data to be encoded | Any value defined for the bar code type selected by the BSD | Any value defined for the bar code type selected by the BSD [BCOCA-4-319]|
+Bar Code Symbol Data (BSA) [BCOCA-4-320]
 
 
 
@@ -2232,22 +2232,22 @@ B'01' The HRI is presented below the bar code symbol.
 B'10' The HRI is presented above the bar code symbol.
 B'11' Exception condition EC-1000 exists.
 Notes:
-1. HRI for GS1 DataBar, Intelligent Mail Container Barcode, and Intelligent Mail
+1. HRI for GS1 DataBar, Intelligent Mail Container Barcode, and Intelligent Mail [BCOCA-4-321]
 Package Barcode symbols must be positioned below the bar code symbol. The
 position flags (bits 1–2) are ignored for these symbols. HRI for Australia Post Bar
 Code should be positioned above the symbol.
-2. For the UPC family only, some IPDS printers ignore the position settings and
+2. For the UPC family only, some IPDS printers ignore the position settings and [BCOCA-4-322]
 place the HRI as specified in the symbology specification. Specifically, the location
 of the regular symbol HRI is specified to be below the bars and the supplement
 symbol HRI above the bars. Other IPDS printers require the position bits to be set
 according to the symbology specification.
-3. If either the UPC or EAN Two-Digit and Five-Digit Supplemental bar code is
+3. If either the UPC or EAN Two-Digit and Five-Digit Supplemental bar code is [BCOCA-4-323]
 selected in the BSD TYPE field (X'06' , X'07', X'16', or X'17' respectively) and if the
 BSD MOD (modifier) field has a value other than X'00', the position bits cannot be
 properly set to indicate the HRI locations for both the regular and supplemental
 symbol. For these cases, the position bits must be set to the default value setting
 (B'00').
-Bar Code Symbol Data (BSA)
+Bar Code Symbol Data (BSA) [BCOCA-4-324]
 
 
 
@@ -2289,7 +2289,7 @@ follows:
 B'0' Do not suppress trailing blanks in the bar code data.
 B'1' Suppress all trailing blanks in the bar code data and adjust the bar code type
 and modifier to match the resulting data length.
-Bar Code Symbol Data (BSA)
+Bar Code Symbol Data (BSA) [BCOCA-4-325]
 
 
 
@@ -2301,38 +2301,38 @@ If the user specified an EAN bar code type (X'08', X'09', X'16', or X'17'):
 Truncate the data and set the bar code type and modifier based on the resulting
 data length:
 Resulting Data Length Bar Code Type Bar Code Modifier
-2 X'16' – Two-Digit Supplemental X'00'
-5 X'17' – Five-Digit Supplemental X'00'
-7 X'08' – EAN-8 X'00'
-12 X'09' – EAN-13 X'00'
-14 X'16' – Two-Digit Supplemental X'01'
-17 X'17' – Five-Digit Supplemental X'01'
+2 X'16' – Two-Digit Supplemental X'00' [BCOCA-4-326]
+5 X'17' – Five-Digit Supplemental X'00' [BCOCA-4-327]
+7 X'08' – EAN-8 X'00' [BCOCA-4-328]
+12 X'09' – EAN-13 X'00' [BCOCA-4-329]
+14 X'16' – Two-Digit Supplemental X'01' [BCOCA-4-330]
+17 X'17' – Five-Digit Supplemental X'01' [BCOCA-4-331]
 any other value error
 If the user specified a UPC bar code type (X'03', X'05', X'06', or X'07'):
 Truncate the data and set the bar code type and modifier based on the resulting
 data length:
 Resulting Data Length Bar Code Type Bar Code Modifier
-2 X'06' – Two-Digit Supplemental X'00'
-5 X'07' – Five-Digit Supplemental X'00'
-10 X'05' – UPC version E X'00'
-11 X'03' – UPC version A X'00'
-12 X'06' – Two-Digit Supplemental X'02'
-13 X'06' – Two-Digit Supplemental X'01'
-15 X'07' – Five-Digit Supplemental X'02'
-16 X'07' – Five-Digit Supplemental X'01'
+2 X'06' – Two-Digit Supplemental X'00' [BCOCA-4-332]
+5 X'07' – Five-Digit Supplemental X'00' [BCOCA-4-333]
+10 X'05' – UPC version E X'00' [BCOCA-4-334]
+11 X'03' – UPC version A X'00' [BCOCA-4-335]
+12 X'06' – Two-Digit Supplemental X'02' [BCOCA-4-336]
+13 X'06' – Two-Digit Supplemental X'01' [BCOCA-4-337]
+15 X'07' – Five-Digit Supplemental X'02' [BCOCA-4-338]
+16 X'07' – Five-Digit Supplemental X'01' [BCOCA-4-339]
 any other value error
 If the user specified a POSTNET (deprecated) bar code type (X'18'):
 Truncate the data and set the bar code type and modifier based on the resulting
 data length:
 Resulting Data Length Bar Code Type Bar Code Modifier
-5 X'18' – POSTNET X'00'
-9 X'18' – POSTNET X'01'
-11 X'18' – POSTNET If X'02' or X'04' was
+5 X'18' – POSTNET X'00' [BCOCA-4-340]
+9 X'18' – POSTNET X'01' [BCOCA-4-341]
+11 X'18' – POSTNET If X'02' or X'04' was [BCOCA-4-342]
 specified, that value is used;
 if any other modifier was
 specified, X'02' is used.
 any other value X'18' – POSTNET X'03'
-Bar Code Symbol Data (BSA)
+Bar Code Symbol Data (BSA) [BCOCA-4-343]
 
 
 
@@ -2341,10 +2341,10 @@ If the user specified an Intelligent Mail Barcode type (X'22'):
 Truncate the data and set the bar code type and modifier based on the resulting
 data length:
 Resulting Data Length Bar Code Type Bar Code Modifier
-20 X'22' – Intelligent Mail Barcode X'00'
-25 X'22' – Intelligent Mail Barcode X'01'
-29 X'22' – Intelligent Mail Barcode X'02'
-31 X'22' – Intelligent Mail Barcode X'03'
+20 X'22' – Intelligent Mail Barcode X'00' [BCOCA-4-344]
+25 X'22' – Intelligent Mail Barcode X'01' [BCOCA-4-345]
+29 X'22' – Intelligent Mail Barcode X'02' [BCOCA-4-346]
+31 X'22' – Intelligent Mail Barcode X'03' [BCOCA-4-347]
 any other value error
 If the user specified any other bar code type:
 Use the user-specified bar code type and modifier.
@@ -2365,18 +2365,18 @@ for the first character of the HRI. It is referenced to the bar code presentatio
 space origin in the units of measure specified in the BSD data structure.
 Exception condition EC-0A00 exists if the X offset value is invalid or unsupported.
 Notes:
-1. In most cases, the symbol origin is the top-left corner of the leftmost bar; however, this is
+1. In most cases, the symbol origin is the top-left corner of the leftmost bar; however, this is [BCOCA-4-348]
 not an appropriate origin for some bar code types, such as Dutch KIX, Intelligent Mail
 Barcode, MaxiCode, and Royal Mail Mailmark. The original BCOCA symbol origin
 definition was the “top-left corner of the leftmost bar”; therefore, some older
 implementations might still use the original definition (this is not considered to be a
 deviation from the architecture for these older implementations).
-2. For MaxiCode symbols, use the top-left corner of an imaginary rectangle of minimum size
+2. For MaxiCode symbols, use the top-left corner of an imaginary rectangle of minimum size [BCOCA-4-349]
 that bounds the symbol.
-3. For Royal Mail RED TAG (deprecated) symbols, use the top-left corner of the leftmost bar.
-4. For GS1 DataBar symbols, the origin of the bar code symbol is the top-left corner of the
+3. For Royal Mail RED TAG (deprecated) symbols, use the top-left corner of the leftmost bar. [BCOCA-4-350]
+4. For GS1 DataBar symbols, the origin of the bar code symbol is the top-left corner of the [BCOCA-4-351]
 leftmost space (since GS1 DataBar symbols begin with a space).
-Bar Code Symbol Data (BSA)
+Bar Code Symbol Data (BSA) [BCOCA-4-352]
 
 
 
@@ -2429,33 +2429,33 @@ Table 34 lists, for each symbology, the valid code page from which characters ar
 chosen and the type style used when printing HRI in terms of an IBM registered CPGID and
 FGID. More information about these values can be found in the documents listed in Table 5 on
 page xiii.
-Bar Code Symbol Data (BSA)
+Bar Code Symbol Data (BSA) [BCOCA-4-353]
 
 Aztec Code Special-Function Parameters
-Table 21. Aztec Code Special-Function Parameters
+Table 21. Aztec Code Special-Function Parameters [BCOCA-4-354]
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5 | BITS | Control flags | | | Not supported in BCD1 | Not supported in BCD2 |
-| | | bit 0 | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>• Do not translate<br>• Convert data to ASCII | | |
-| | | bit 1 | B'0'<br>B'1' | Escape-sequence handling:<br>• Process escape sequences<br>• Ignore all escape sequences | | |
-| | | bit 2 | B'0'<br>B'1' | If too much data:<br>• Use a bigger Aztec Code symbol<br>• Exception EC-0F17 exists | | |
-| | | bits 3–7 | B'00000' | Reserved | | |
-| 6 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
-| 7 | UBIN | Desired number of layers | X'00'–X'20'<br>X'FF' | Number of layers (0 to 32)<br>Smallest symbol | Not supported in BCD1 | Not supported in BCD2 |
-| 8 | CODE | Error correction level | X'05'–X'5F'<br>X'FF' | Level of error correction (5% to 95%)<br>Use default | Not supported in BCD1 | Not supported in BCD2 |
-| 9 | BITS | Special-function flags | | | Not supported in BCD1 | Not supported in BCD2 |
-| | | bit 0 | B'0'<br>B'1' | Alternate data type identifier:<br>• User-defined symbol<br>• Symbol conforms to GS1 standards | | |
-| | | bit 1 | B'0'<br>B'1' | Alternate data type identifier:<br>• User-defined symbol<br>• Symbol conforms to industry standards | | |
-| | | bit 2 | B'0'<br>B'1' | Reader initialization symbol:<br>• Symbol encodes a data symbol<br>• Symbol encodes a reader initialization symbol | | |
-| | | bits 3–7 | B'00000' | Reserved | | |
-| 10 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 |
-| 11 | UBIN | Sequence indicator | X'00'–X'1A' | Structured append sequence indicator | Not supported in BCD1 | Not supported in BCD2 |
-| 12 | UBIN | Total symbols | X'00' or X'02'–X'1A' | Total number of structured-append symbols | Not supported in BCD1 | Not supported in BCD2 |
-| 13 | UBIN | Append ID length | X'00'–X'FF' | Structured append ID length | Not supported in BCD1 | Not supported in BCD2 |
-| 14–m | CHAR | Append ID | | Structured append ID | Not supported in BCD1 | Not supported in BCD2 |
-| m+1 | UBIN | Addl parms length | X'00'–X'FF' | Length of additional parameter bytes that follow | Not supported in BCD1 | Not supported in BCD2 |
-| m+2 to end | | Addl parms | | Reserved; data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-355]|
+| | | bit 0 | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>• Do not translate<br>• Convert data to ASCII [BCOCA-4-356]| | |
+| | | bit 1 | B'0'<br>B'1' | Escape-sequence handling:<br>• Process escape sequences<br>• Ignore all escape sequences [BCOCA-4-357]| | |
+| | | bit 2 | B'0'<br>B'1' | If too much data:<br>• Use a bigger Aztec Code symbol<br>• Exception EC-0F17 exists [BCOCA-4-358]| | |
+| | | bits 3–7 | B'00000' | Reserved [BCOCA-4-359]| | |
+| 6 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-360]|
+| 7 | UBIN | Desired number of layers | X'00'–X'20'<br>X'FF' | Number of layers (0 to 32)<br>Smallest symbol | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-361]|
+| 8 | CODE | Error correction level | X'05'–X'5F'<br>X'FF' | Level of error correction (5% to 95%)<br>Use default | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-362]|
+| 9 | BITS | Special-function flags | | | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-363]|
+| | | bit 0 | B'0'<br>B'1' | Alternate data type identifier:<br>• User-defined symbol<br>• Symbol conforms to GS1 standards [BCOCA-4-364]| | |
+| | | bit 1 | B'0'<br>B'1' | Alternate data type identifier:<br>• User-defined symbol<br>• Symbol conforms to industry standards [BCOCA-4-365]| | |
+| | | bit 2 | B'0'<br>B'1' | Reader initialization symbol:<br>• Symbol encodes a data symbol<br>• Symbol encodes a reader initialization symbol [BCOCA-4-366]| | |
+| | | bits 3–7 | B'00000' | Reserved [BCOCA-4-367]| | |
+| 10 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-368]|
+| 11 | UBIN | Sequence indicator | X'00'–X'1A' | Structured append sequence indicator | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-369]|
+| 12 | UBIN | Total symbols | X'00' or X'02'–X'1A' | Total number of structured-append symbols | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-370]|
+| 13 | UBIN | Append ID length | X'00'–X'FF' | Structured append ID length | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-371]|
+| 14–m | CHAR | Append ID | | Structured append ID | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-372]|
+| m+1 | UBIN | Addl parms length | X'00'–X'FF' | Length of additional parameter bytes that follow | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-373]|
+| m+2 to end | | Addl parms | | Reserved; data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-374]|
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -2465,7 +2465,7 @@ If this flag is B'0', the data is assumed to begin in the default character enco
 (ECI 000003, also known as ISO/IEC 8859–1) and no translation is done.
 If this flag is B'1', the BCOCA receiver will convert each byte of the bar code data, as
 well as each byte of the structured append ID if there is one, from EBCDIC code page
-500 into ASCII code page 819 (equivalent to ECI 000003) before this data is used to
+500 into ASCII code page 819 (equivalent to ECI 000003) before this data is used to [BCOCA-4-375]
 build the bar code symbol.
 Bit 1 Escape-sequence handling
 If this flag is B'0', each X'5C' (backslash) within the bar code data is treated as an
@@ -2478,9 +2478,9 @@ characters (X'E0') will first be converted into X'5C' before the escape-sequence
 handling flag is applied.
 Bit 2 T oo much data
 This flag specifies the behavior when both of the following two conditions exist:
-• The desired-number-of-layers parameter (byte 7) is in the range X'01'–X'20'; that is,
+• The desired-number-of-layers parameter (byte 7) is in the range X'01'–X'20'; that is, [BCOCA-4-376]
 it requests a specific number of layers.
-• The bar code data to be encoded, combined with the error correction level
+• The bar code data to be encoded, combined with the error correction level [BCOCA-4-377]
 requested (byte 8), will not fit in an Aztec Code symbol using the requested number
 of layers.
 This flag is ignored otherwise.
@@ -2493,7 +2493,7 @@ produced is required to be a specific size.
 Bits
 3–7
 Reserved
-Aztec Code Special-Function Parameters
+Aztec Code Special-Function Parameters [BCOCA-4-378]
 
 
 
@@ -2508,10 +2508,10 @@ data is supplied, the symbol will be padded with extra error correction codeword
 reach the requested symbol size. If too much data is supplied for the requested symbol
 size, the behavior depends on the value of the too-much-data flag (bit 2) in the control
 flags (byte 5):
-• If B'0', the symbol will be bigger than requested and will be the smallest symbol, in the
+• If B'0', the symbol will be bigger than requested and will be the smallest symbol, in the [BCOCA-4-379]
 format corresponding to the modifier value (BSD byte 13), that can accommodate the
 bar code data.
-• If B'1', exception EC-0F17 exists.
+• If B'1', exception EC-0F17 exists. [BCOCA-4-380]
 The potential values for this parameter are:
 X'00'–X'20' Specifies the desired number of layers, from 0 to 32. Not all values are valid in
 all cases; see Table 22.
@@ -2532,23 +2532,23 @@ symbol could have been produced if the flag had been
 B'0'.
 The valid number of layers varies depending on the format of Aztec Code requested—that is,
 on the modifier value (BSD byte 13) for this Aztec Code—as well as on the reader-init flag (bit
-2 of byte 9):
-Table 22. Supported Number of Layers for an Aztec Code Symbol
+2 of byte 9): [BCOCA-4-381]
+Table 22. Supported Number of Layers for an Aztec Code Symbol [BCOCA-4-382]
 
 | Aztec Code Format | Modifier Value | Reader-Init Flag | Valid Layer Range |
 | :--- | :--- | :--- | :--- |
-| Full-range | X'00' | B'0' | X'01'–X'20' (1–32), X'FF' |
-| | | B'1' | X'01'–X'16' (1–22), X'FF' |
-| Compact | X'01' | B'0' | X'01'–X'04' (1–4), X'FF' |
-| | | B'1' | X'01' (1), X'FF' |
-| Rune | X'02' | ignored | X'00' |
-| Smallest compact or full-range | X'03' | B'0' or B'1' | X'FF' |
+| Full-range | X'00' | B'0' | X'01'–X'20' (1–32), X'FF' [BCOCA-4-383]|
+| | | B'1' | X'01'–X'16' (1–22), X'FF' [BCOCA-4-384]|
+| Compact | X'01' | B'0' | X'01'–X'04' (1–4), X'FF' [BCOCA-4-385]|
+| | | B'1' | X'01' (1), X'FF' [BCOCA-4-386]|
+| Rune | X'02' | ignored | X'00' [BCOCA-4-387]|
+| Smallest compact or full-range | X'03' | B'0' or B'1' | X'FF' [BCOCA-4-388]|
 Notes:
-1. Full-range Aztec Code symbols with 1–3 layers always take more space than the
+1. Full-range Aztec Code symbols with 1–3 layers always take more space than the [BCOCA-4-389]
 equivalent compact Aztec Code symbol encoding the same data. However, when
 producing reader initialization symbols, 1–3 layer full-range symbols are sometimes
 required.
-2. Aztec Code rune symbols (modifier value X'02') will only be produced when explicitly
+2. Aztec Code rune symbols (modifier value X'02') will only be produced when explicitly [BCOCA-4-390]
 requested and will never be produced when the smallest symbol is requested.
 Exception condition EC-0F18 exists if an invalid desired-number-of-layers value is specified.
 Byte 8 Level of error correction
@@ -2574,7 +2574,7 @@ correction codewords, there would be 34.
 Exception condition EC-0F19 exists if an invalid error-correction-level value is specified.
 When an Aztec Code rune symbol is being produced, this parameter is ignored and should be
 set to X'FF'.
-Aztec Code Special-Function Parameters
+Aztec Code Special-Function Parameters [BCOCA-4-391]
 
 
 
@@ -2626,7 +2626,7 @@ together to encode large amounts of data. The logically linked symbols can be pr
 the same or on different physical media, and are logically recombined after they are scanned.
 From 2 to 26 Aztec Code symbols can be linked. This parameter specifies where this symbol
 is logically linked (1-26) in a sequence of symbols.
-Aztec Code Special-Function Parameters
+Aztec Code Special-Function Parameters [BCOCA-4-392]
 
 
 
@@ -2676,34 +2676,34 @@ Additional parameters
 This area is reserved for potential future use. The content of this area is not checked by
 BCOCA receivers. BCOCA generators should not include anything in this area; that is, the
 addl-parms-length field in byte m+1 should be X'00'.
-Aztec Code Special-Function Parameters
+Aztec Code Special-Function Parameters [BCOCA-4-393]
 
 
 
 
-Data Matrix Special-Function Parameters
+Data Matrix Special-Function Parameters [BCOCA-4-394]
 
-Table 23. Data Matrix Special-Function Parameters
+Table 23. Data Matrix Special-Function Parameters [BCOCA-4-395]
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5 | BITS | Control flags | | | | |
-| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger Data Matrix symbol<br>Exception EC-0F20 exists | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 3–7 | | B'00000' | Reserved | B'00000' | B'00000' |
-| 6–7 | UBIN | Desired row size | X'0000'<br>X'0001'–X'FFFF' | No size specified<br>Matrix row size as allowed by symbology; see field description | Not supported in BCD1 | X'0000'<br>All row sizes within Table 24 |
-| 8–9 | UBIN | Desired number of rows | X'0000'<br>X'0001'–X'FFFF' | No size specified<br>Number of rows as allowed by symbology; see field description | Not supported in BCD1 | X'0000'<br>All number-of-rows values within Table 24 |
-| 10 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'10' |
-| 11 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'10' |
-| 12 | UBIN | File ID 1st byte | X'01'–X'FE' | High-order byte of a 2-byte unique file identification for a set of structured-append symbols | Not supported in BCD1 | X'01'–X'FE' |
-| 13 | UBIN | File ID 2nd byte | X'01'–X'FE' | Low-order byte of a 2-byte unique file identification for a set of structured-append symbols | Not supported in BCD1 | X'01'–X'FE' |
-| 14 | BITS | Special-function flags | | | | |
-| | bit 0 | GS1 FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to GS1 standards | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 2 | Reader programming | B'0'<br>B'1' | Reader programming symbol:<br>Symbol encodes a data symbol<br>Symbol encodes a message used to program the reader system | Not supported in BCD1 | B'0'<br>B'1' |
-| | bits 3–4 | Hdr/Trl Macro | B'00'<br>B'01'<br>B'10'<br>B'11' | Header and trailer instructions to the bar code reader:<br>No header or trailer<br>Use the 05 Macro header/trailer<br>Use the 06 Macro header/trailer<br>No header or trailer | Not supported in BCD1 | B'00'<br>B'01'<br>B'10'<br>B'11' |
-| | bits 5–7 | Encodation scheme | B'000'<br>B'001'<br>B'010'<br>B'011'<br>B'100'<br>B'101'<br>B'110'<br>B'111' | Encodation scheme used to produce the bar code symbol:<br>Device default – usually Auto encoding<br>ASCII<br>C40<br>Text<br>X12<br>EDIFACT<br>Base 256<br>Auto encoding | B'000'<br>Other values not supported in BCD1 | B'000'<br>Other values not supported in BCD2 |
+| 5 | BITS | Control flags [BCOCA-4-396]| | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-397]|
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-398]|
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger Data Matrix symbol<br>Exception EC-0F20 exists | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-399]|
+| | bits 3–7 | | B'00000' | Reserved | B'00000' | B'00000' [BCOCA-4-400]|
+| 6–7 | UBIN | Desired row size | X'0000'<br>X'0001'–X'FFFF' | No size specified<br>Matrix row size as allowed by symbology; see field description | Not supported in BCD1 | X'0000'<br>All row sizes within Table 24 [BCOCA-4-401]|
+| 8–9 | UBIN | Desired number of rows | X'0000'<br>X'0001'–X'FFFF' | No size specified<br>Number of rows as allowed by symbology; see field description | Not supported in BCD1 | X'0000'<br>All number-of-rows values within Table 24 [BCOCA-4-402]|
+| 10 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'10' [BCOCA-4-403]|
+| 11 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'10' [BCOCA-4-404]|
+| 12 | UBIN | File ID 1st byte | X'01'–X'FE' | High-order byte of a 2-byte unique file identification for a set of structured-append symbols | Not supported in BCD1 | X'01'–X'FE' [BCOCA-4-405]|
+| 13 | UBIN | File ID 2nd byte | X'01'–X'FE' | Low-order byte of a 2-byte unique file identification for a set of structured-append symbols | Not supported in BCD1 | X'01'–X'FE' [BCOCA-4-406]|
+| 14 | BITS | Special-function flags [BCOCA-4-407]| | | | |
+| | bit 0 | GS1 FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to GS1 standards | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-408]|
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-409]|
+| | bit 2 | Reader programming | B'0'<br>B'1' | Reader programming symbol:<br>Symbol encodes a data symbol<br>Symbol encodes a message used to program the reader system | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-410]|
+| | bits 3–4 | Hdr/Trl Macro | B'00'<br>B'01'<br>B'10'<br>B'11' | Header and trailer instructions to the bar code reader:<br>No header or trailer<br>Use the 05 Macro header/trailer<br>Use the 06 Macro header/trailer<br>No header or trailer | Not supported in BCD1 | B'00'<br>B'01'<br>B'10'<br>B'11' [BCOCA-4-411]|
+| | bits 5–7 | Encodation scheme | B'000'<br>B'001'<br>B'010'<br>B'011'<br>B'100'<br>B'101'<br>B'110'<br>B'111' | Encodation scheme used to produce the bar code symbol:<br>Device default – usually Auto encoding<br>ASCII<br>C40<br>Text<br>X12<br>EDIFACT<br>Base 256<br>Auto encoding | B'000'<br>Other values not supported in BCD1 | B'000'<br>Other values not supported in BCD2 [BCOCA-4-412]|
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -2723,17 +2723,17 @@ page switching can occur within the data.
 Note: If the EBCDIC-to-ASCII translation flag is also set to B'1', all EBCDIC backslash
 characters (X'E0') will first be converted into X'5C' before the escape-sequence
 handling flag is applied.
-Data Matrix Special-Function Parameters
+Data Matrix Special-Function Parameters [BCOCA-4-413]
 
 
 
 
 Bit 2 T oo much data
 This flag specifies the behavior when both of the following two conditions exist:
-• At least one of the desired row size (bytes 6–7) or desired number of rows (bytes 8–
+• At least one of the desired row size (bytes 6–7) or desired number of rows (bytes 8– [BCOCA-4-414]
 9) parameters are specified with a value that is non-zero; that is, the parameters
 request a symbol of a specific height and/or width.
-• The number of bytes of data to be encoded will not fit in a Data Matrix symbol of the
+• The number of bytes of data to be encoded will not fit in a Data Matrix symbol of the [BCOCA-4-415]
 requested size.
 This flag is ignored otherwise.
 If this flag is B'0', the symbol will be made bigger to fit the data, but the aspect ratio will
@@ -2743,8 +2743,8 @@ If this flag is B'1', exception EC-0F20 exists. This value is useful when the Da
 symbol to be produced is required to be a specific size. BCOCA receiver support for
 this functionality depends on the modifier value (BSD byte 13) of the Data Matrix bar
 code:
-• For modifier X'01', the B'1' value of this flag is a mandatory function.
-• For modifier X'00', the B'1' value of this flag is an optional function that is not
+• For modifier X'01', the B'1' value of this flag is a mandatory function. [BCOCA-4-416]
+• For modifier X'00', the B'1' value of this flag is an optional function that is not [BCOCA-4-417]
 supported by all BCOCA receivers. IPDS printers indicate support for this function
 for modifier X'00' with Sense Type and Model property pair X'1307'. Any BCOCA
 receiver that supports both modifier values X'00' and X'01' is required to support the
@@ -2758,9 +2758,9 @@ depends on the amount of data to be encoded. If not enough data is supplied, the
 symbol will be padded with null data to reach the requested symbol size. If too much
 data is supplied for the requested symbol size, the behavior depends on the value of
 the too much data flag (bit 2) in the control flags (byte 5):
-• If B'0', the symbol will be bigger than requested, but the aspect ratio will be
+• If B'0', the symbol will be bigger than requested, but the aspect ratio will be [BCOCA-4-418]
 maintained as closely as possible.
-• If B'1', exception EC-0F20 exists.
+• If B'1', exception EC-0F20 exists. [BCOCA-4-419]
 For a Data Matrix symbol, this parameter specifies the desired number of modules in each row
 including the finder pattern. There must be an even number of modules per row and an even
 number of rows.
@@ -2778,7 +2778,7 @@ regarding the size and/or shape of the symbol. In all cases, the size selected b
 BCOCA receiver when X'0000' is received for either or both of bytes 6–7 and bytes 8–9
 is device specific. In particular, the selected size could be either a square or rectangular
 shape, although receivers are recommended to lean toward square sizes when both
-Data Matrix Special-Function Parameters
+Data Matrix Special-Function Parameters [BCOCA-4-420]
 
 
 
@@ -2786,62 +2786,62 @@ Data Matrix Special-Function Parameters
 values are specified as X'0000'; note that this recommendation was added much later
 than DataMatrix support was added to BCOCA, so many BCOCA receivers might not
 follow this recommendation.
-Table 24. Supported Sizes for a Modifier X'00' Data Matrix Symbol
+Table 24. Supported Sizes for a Modifier X'00' Data Matrix Symbol [BCOCA-4-421]
 
 | Square Symbols | | | | Rectangular Symbols | | | |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Symbol Size** | | **Data Region** | | **Symbol Size** | | **Data Region** | |
-| **Number of Rows** | **Row Size** | **Size** | **Number** | **Number of Rows** | **Row Size** | **Size** | **Number** |
-| 10 | 10 | 8x8 | 1 | 8 | 18 | 6x16 | 1 |
-| 12 | 12 | 10x10 | 1 | 8 | 32 | 6x14 | 2 |
-| 14 | 14 | 12x12 | 1 | 12 | 26 | 10x24 | 1 |
-| 16 | 16 | 14x14 | 1 | 12 | 36 | 10x16 | 2 |
-| 18 | 18 | 16x16 | 1 | 16 | 36 | 14x16 | 2 |
-| 20 | 20 | 18x18 | 1 | 16 | 48 | 14x22 | 2 |
-| 22 | 22 | 20x20 | 1 | | | | |
-| 24 | 24 | 22x22 | 1 | | | | |
-| 26 | 26 | 24x24 | 1 | | | | |
-| 32 | 32 | 14x14 | 4 | | | | |
-| 36 | 36 | 16x16 | 4 | | | | |
-| 40 | 40 | 18x18 | 4 | | | | |
-| 44 | 44 | 20x20 | 4 | | | | |
-| 48 | 48 | 22x22 | 4 | | | | |
-| 52 | 52 | 24x24 | 4 | | | | |
-| 64 | 64 | 14x14 | 16 | | | | |
-| 72 | 72 | 16x16 | 16 | | | | |
-| 80 | 80 | 18x18 | 16 | | | | |
-| 88 | 88 | 20x20 | 16 | | | | |
-| 96 | 96 | 22x22 | 16 | | | | |
-| 104 | 104 | 24x24 | 16 | | | | |
-| 120 | 120 | 18x18 | 36 | | | | |
-| 132 | 132 | 20x20 | 36 | | | | |
-| 144 | 144 | 22x22 | 36 | | | | |
+| **Symbol Size** | | **Data Region** | | **Symbol Size** | | **Data Region** [BCOCA-4-422]| |
+| **Number of Rows** | **Row Size** | **Size** | **Number** | **Number of Rows** | **Row Size** | **Size** | **Number** [BCOCA-4-423]|
+| 10 | 10 | 8x8 | 1 | 8 | 18 | 6x16 | 1 [BCOCA-4-424]|
+| 12 | 12 | 10x10 | 1 | 8 | 32 | 6x14 | 2 [BCOCA-4-425]|
+| 14 | 14 | 12x12 | 1 | 12 | 26 | 10x24 | 1 [BCOCA-4-426]|
+| 16 | 16 | 14x14 | 1 | 12 | 36 | 10x16 | 2 [BCOCA-4-427]|
+| 18 | 18 | 16x16 | 1 | 16 | 36 | 14x16 | 2 [BCOCA-4-428]|
+| 20 | 20 | 18x18 | 1 | 16 | 48 | 14x22 | 2 [BCOCA-4-429]|
+| 22 | 22 | 20x20 | 1 [BCOCA-4-430]| | | | |
+| 24 | 24 | 22x22 | 1 [BCOCA-4-431]| | | | |
+| 26 | 26 | 24x24 | 1 [BCOCA-4-432]| | | | |
+| 32 | 32 | 14x14 | 4 [BCOCA-4-433]| | | | |
+| 36 | 36 | 16x16 | 4 [BCOCA-4-434]| | | | |
+| 40 | 40 | 18x18 | 4 [BCOCA-4-435]| | | | |
+| 44 | 44 | 20x20 | 4 [BCOCA-4-436]| | | | |
+| 48 | 48 | 22x22 | 4 [BCOCA-4-437]| | | | |
+| 52 | 52 | 24x24 | 4 [BCOCA-4-438]| | | | |
+| 64 | 64 | 14x14 | 16 [BCOCA-4-439]| | | | |
+| 72 | 72 | 16x16 | 16 [BCOCA-4-440]| | | | |
+| 80 | 80 | 18x18 | 16 [BCOCA-4-441]| | | | |
+| 88 | 88 | 20x20 | 16 [BCOCA-4-442]| | | | |
+| 96 | 96 | 22x22 | 16 [BCOCA-4-443]| | | | |
+| 104 | 104 | 24x24 | 16 [BCOCA-4-444]| | | | |
+| 120 | 120 | 18x18 | 36 [BCOCA-4-445]| | | | |
+| 132 | 132 | 20x20 | 36 [BCOCA-4-446]| | | | |
+| 144 | 144 | 22x22 | 36 [BCOCA-4-447]| | | | |
 
-Table 25. Supported Sizes for a Modifier X'01' Data Matrix Symbol
+Table 25. Supported Sizes for a Modifier X'01' Data Matrix Symbol [BCOCA-4-448]
 
 | Square Symbols | | | | Rectangular Symbols | | | |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Symbol Size** | | **Data Region** | | **Symbol Size** | | **Data Region** | |
-| **Number of Rows** | **Row Size** | **Size** | **Number** | **Number of Rows** | **Row Size** | **Size** | **Number** |
-| All supported sizes for a modifier X'00' Data Matrix symbol (found in Table 24) are also supported for a modifier X'01' Data Matrix symbol (in this table); in addition, the sizes below are supported: | | | | | | | |
-| | | | | 8 | 48 | 6x22 | 2 |
-| | | | | 8 | 64 | 6x14 | 4 |
-| | | | | 8 | 80 | 6x18 | 4 |
-| | | | | 8 | 96 | 6x22 | 4 |
-| | | | | 8 | 120 | 6x18 | 6 |
-| | | | | 8 | 144 | 6x22 | 6 |
-| | | | | 12 | 64 | 10x14 | 4 |
-| | | | | 12 | 88 | 10x20 | 4 |
-| | | | | 16 | 64 | 14x14 | 4 |
-| | | | | 20 | 36 | 18x16 | 2 |
-| | | | | 20 | 44 | 18x20 | 2 |
-| | | | | 20 | 64 | 18x14 | 4 |
-| | | | | 22 | 48 | 20x22 | 2 |
-| | | | | 24 | 48 | 22x22 | 2 |
-| | | | | 24 | 64 | 22x14 | 4 |
-| | | | | 26 | 40 | 24x18 | 2 |
-| | | | | 26 | 48 | 24x22 | 2 |
-| | | | | 26 | 64 | 24x14 | 4 |
+| **Symbol Size** | | **Data Region** | | **Symbol Size** | | **Data Region** [BCOCA-4-449]| |
+| **Number of Rows** | **Row Size** | **Size** | **Number** | **Number of Rows** | **Row Size** | **Size** | **Number** [BCOCA-4-450]|
+| All supported sizes for a modifier X'00' Data Matrix symbol (found in Table 24) are also supported for a modifier X'01' Data Matrix symbol (in this table); in addition, the sizes below are supported: [BCOCA-4-451]| | | | | | | |
+| | | | | 8 | 48 | 6x22 | 2 [BCOCA-4-452]|
+| | | | | 8 | 64 | 6x14 | 4 [BCOCA-4-453]|
+| | | | | 8 | 80 | 6x18 | 4 [BCOCA-4-454]|
+| | | | | 8 | 96 | 6x22 | 4 [BCOCA-4-455]|
+| | | | | 8 | 120 | 6x18 | 6 [BCOCA-4-456]|
+| | | | | 8 | 144 | 6x22 | 6 [BCOCA-4-457]|
+| | | | | 12 | 64 | 10x14 | 4 [BCOCA-4-458]|
+| | | | | 12 | 88 | 10x20 | 4 [BCOCA-4-459]|
+| | | | | 16 | 64 | 14x14 | 4 [BCOCA-4-460]|
+| | | | | 20 | 36 | 18x16 | 2 [BCOCA-4-461]|
+| | | | | 20 | 44 | 18x20 | 2 [BCOCA-4-462]|
+| | | | | 20 | 64 | 18x14 | 4 [BCOCA-4-463]|
+| | | | | 22 | 48 | 20x22 | 2 [BCOCA-4-464]|
+| | | | | 24 | 48 | 22x22 | 2 [BCOCA-4-465]|
+| | | | | 24 | 64 | 22x14 | 4 [BCOCA-4-466]|
+| | | | | 26 | 40 | 24x18 | 2 [BCOCA-4-467]|
+| | | | | 26 | 48 | 24x22 | 2 [BCOCA-4-468]|
+| | | | | 26 | 64 | 24x14 | 4 [BCOCA-4-469]|
 Bytes 8–9 Desired number of rows
 For a Data Matrix symbol, this parameter specifies the desired number of rows including the
 finder pattern. Exception condition EC-0F00 exists if an unsupported size value is specified.
@@ -2855,7 +2855,7 @@ shape, although receivers are recommended to lean toward square sizes when both
 values are specified as X'0000'; note that this recommendation was added much later
 than DataMatrix support was added to BCOCA, so many BCOCA receivers might not
 follow this recommendation.
-Data Matrix Special-Function Parameters
+Data Matrix Special-Function Parameters [BCOCA-4-470]
 
 
 
@@ -2905,7 +2905,7 @@ B'0', the reader programming flag must be B'0', and the hdr/trl macro must be B'
 B'11'. Exception condition EC-0F0A exists if an incompatible combination of these
 parameters is specified.
 Bit 1 Industry FNC1 alternate data type identifier
-Data Matrix Special-Function Parameters
+Data Matrix Special-Function Parameters [BCOCA-4-471]
 
 
 
@@ -2963,7 +2963,7 @@ double digit numerics, 8 bits per data character for ASCII values 0–
 C40 (B'010')
 This encodation scheme is used when the input data is primarily
 upper-case alphanumeric and produces 5.33 bits per data character.
-Data Matrix Special-Function Parameters
+Data Matrix Special-Function Parameters [BCOCA-4-472]
 
 
 
@@ -2989,32 +2989,32 @@ The C40, Text, X12, and EDIFACT encodation schemes do not support all 256
 possible input characters. Exception condition EC-1201 exists if one of these
 encodation schemes is selected and an unsupported character is encountered in the
 bar code data.
-Data Matrix Special-Function Parameters
+Data Matrix Special-Function Parameters [BCOCA-4-473]
 
 
 
 
 Han Xin Code Special-Function Parameters
-Table 26. Han Xin Code Special-Function Parameters
+Table 26. Han Xin Code Special-Function Parameters [BCOCA-4-474]
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5 | BITS | Control flags | | | | |
-| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger Han Xin Code symbol<br>Exception EC-0F21 exists | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 3–7 | | B'00000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| 6 | | | X'00' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| 7 | UBIN | Version | X'00'<br>X'01' – X'54' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 84) | Not supported in BCD1 | Not supported in BCD2 |
-| 8 | CODE | Error correction level | X'01'<br>X'02'<br>X'03'<br>X'04' | Level of error correction:<br>Level 1 (8% recovery)<br>Level 2 (15% recovery)<br>Level 3 (23% recovery)<br>Level 4 (30% recovery) | Not supported in BCD1 | Not supported in BCD2 |
-| 9 | BITS | Special-function flags | | | | |
-| | bit 0 | GS1 FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to GS1 standards | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| 10 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 |
-| 11 | UBIN | Addl parms length | X'00' – X'FF' | Length of additional parameter bytes that follow | Not supported in BCD1 | Not supported in BCD2 |
-| 12 to end | | Addl parms | | Reserved; data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 |
-Han Xin Code Special-Function Parameters
+| 5 | BITS | Control flags [BCOCA-4-475]| | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-476]|
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-477]|
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger Han Xin Code symbol<br>Exception EC-0F21 exists | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-478]|
+| | bits 3–7 | | B'00000' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-479]|
+| 6 | | | X'00' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-480]|
+| 7 | UBIN | Version | X'00'<br>X'01' – X'54' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 84) | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-481]|
+| 8 | CODE | Error correction level | X'01'<br>X'02'<br>X'03'<br>X'04' | Level of error correction:<br>Level 1 (8% recovery)<br>Level 2 (15% recovery)<br>Level 3 (23% recovery)<br>Level 4 (30% recovery) | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-482]|
+| 9 | BITS | Special-function flags [BCOCA-4-483]| | | | |
+| | bit 0 | GS1 FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to GS1 standards | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-484]|
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-485]|
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-486]|
+| 10 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-487]|
+| 11 | UBIN | Addl parms length | X'00' – X'FF' | Length of additional parameter bytes that follow | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-488]|
+| 12 to end | | Addl parms | | Reserved; data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-489]|
+Han Xin Code Special-Function Parameters [BCOCA-4-490]
 
 
 
@@ -3040,9 +3040,9 @@ characters (X'E0') will first be converted into X'5C' before the escape-sequence
 handling flag is applied.
 Bit 2 T oo much data
 This flag specifies the behavior when both of the following two conditions exist:
-• The version parameter (byte 7) is in the range X'01'–X'54'; that is, it requests a
+• The version parameter (byte 7) is in the range X'01'–X'54'; that is, it requests a [BCOCA-4-491]
 specific version of the symbol.
-• The bar code data to be encoded, combined with the error correction level
+• The bar code data to be encoded, combined with the error correction level [BCOCA-4-492]
 requested (byte 8), will not fit in the Han Xin Code version specified by the version
 parameter.
 This flag is ignored otherwise.
@@ -3059,45 +3059,45 @@ of the symbol depends on the amount of data to be encoded. If not enough data is
 supplied, the symbol will be padded with null data to reach the requested symbol size. If
 too much data is supplied for the requested symbol size, the behavior depends on the
 value of the too much data flag (bit 2) in the control flags (byte 5):
-• If B'0', the symbol will be bigger than requested and will be the smallest symbol that
+• If B'0', the symbol will be bigger than requested and will be the smallest symbol that [BCOCA-4-493]
 can accommodate that amount of data.
-• If B'1', exception EC-0F21 exists.
+• If B'1', exception EC-0F21 exists. [BCOCA-4-494]
 This parameter specifies the desired size of the symbol; each version specifies a particular
 number of modules per row and column. The size of each square module is specified by the
 module width parameter (byte 17 in the BSD). The following table lists the complete set of
 supported versions. Exception condition EC-0F22 exists if an invalid version value is
 specified.
-Han Xin Code Special-Function Parameters
+Han Xin Code Special-Function Parameters [BCOCA-4-495]
 
 
 
 
-Table 27. Supported Versions for a Han Xin Code Symbol
+Table 27. Supported Versions for a Han Xin Code Symbol [BCOCA-4-496]
 
 | Version | Symbol Size | Version | Symbol Size | Version | Symbol Size | Version | Symbol Size |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 0 (X'00') | smallest | 22 (X'16') | 65x65 | 44 (X'2C') | 109x109 | 66 (X'42') | 153x153 |
-| 1 (X'01') | 23x23 | 23 (X'17') | 67x67 | 45 (X'2D') | 111x111 | 67 (X'43') | 155x155 |
-| 2 (X'02') | 25x25 | 24 (X'18') | 69x69 | 46 (X'2E') | 113x113 | 68 (X'44') | 157x157 |
-| 3 (X'03') | 27x27 | 25 (X'19') | 71x71 | 47 (X'2F') | 115x115 | 69 (X'45') | 159x159 |
-| 4 (X'04') | 29x29 | 26 (X'1A') | 73x73 | 48 (X'30') | 117x117 | 70 (X'46') | 161x161 |
-| 5 (X'05') | 31x31 | 27 (X'1B') | 75x75 | 49 (X'31') | 119x119 | 71 (X'47') | 163x163 |
-| 6 (X'06') | 33x33 | 28 (X'1C') | 77x77 | 50 (X'32') | 121x121 | 72 (X'48') | 165x165 |
-| 7 (X'07') | 35x35 | 29 (X'1D') | 79x79 | 51 (X'33') | 123x123 | 73 (X'49') | 167x167 |
-| 8 (X'08') | 37x37 | 30 (X'1E') | 81x81 | 52 (X'34') | 125x125 | 74 (X'4A') | 169x169 |
-| 9 (X'09') | 39x39 | 31 (X'1F') | 83x83 | 53 (X'35') | 127x127 | 75 (X'4B') | 171x171 |
-| 10 (X'0A') | 41x41 | 32 (X'20') | 85x85 | 54 (X'36') | 129x129 | 76 (X'4C') | 173x173 |
-| 11 (X'0B') | 43x43 | 33 (X'21') | 87x87 | 55 (X'37') | 131x131 | 77 (X'4D') | 175x175 |
-| 12 (X'0C') | 45x45 | 34 (X'22') | 89x89 | 56 (X'38') | 133x133 | 78 (X'4E') | 177x177 |
-| 13 (X'0D') | 47x47 | 35 (X'23') | 91x91 | 57 (X'39') | 135x135 | 79 (X'4F') | 179x179 |
-| 14 (X'0E') | 49x49 | 36 (X'24') | 93x93 | 58 (X'3A') | 137x137 | 80 (X'50') | 181x181 |
-| 15 (X'0F') | 51x51 | 37 (X'25') | 95x95 | 59 (X'3B') | 139x139 | 81 (X'51') | 183x183 |
-| 16 (X'10') | 53x53 | 38 (X'26') | 97x97 | 60 (X'3C') | 141x141 | 82 (X'52') | 185x185 |
-| 17 (X'11') | 55x55 | 39 (X'27') | 99x99 | 61 (X'3D') | 143x143 | 83 (X'53') | 187x187 |
-| 18 (X'12') | 57x57 | 40 (X'28') | 101x101 | 62 (X'3E') | 145x145 | 84 (X'54') | 189x189 |
-| 19 (X'13') | 59x59 | 41 (X'29') | 103x103 | 63 (X'3F') | 147x147 | | |
-| 20 (X'14') | 61x61 | 42 (X'2A') | 105x105 | 64 (X'40') | 149x149 | | |
-| 21 (X'15') | 63x63 | 43 (X'2B') | 107x107 | 65 (X'41') | 151x151 | | |
+| 0 (X'00') | smallest | 22 (X'16') | 65x65 | 44 (X'2C') | 109x109 | 66 (X'42') | 153x153 [BCOCA-4-497]|
+| 1 (X'01') | 23x23 | 23 (X'17') | 67x67 | 45 (X'2D') | 111x111 | 67 (X'43') | 155x155 [BCOCA-4-498]|
+| 2 (X'02') | 25x25 | 24 (X'18') | 69x69 | 46 (X'2E') | 113x113 | 68 (X'44') | 157x157 [BCOCA-4-499]|
+| 3 (X'03') | 27x27 | 25 (X'19') | 71x71 | 47 (X'2F') | 115x115 | 69 (X'45') | 159x159 [BCOCA-4-500]|
+| 4 (X'04') | 29x29 | 26 (X'1A') | 73x73 | 48 (X'30') | 117x117 | 70 (X'46') | 161x161 [BCOCA-4-501]|
+| 5 (X'05') | 31x31 | 27 (X'1B') | 75x75 | 49 (X'31') | 119x119 | 71 (X'47') | 163x163 [BCOCA-4-502]|
+| 6 (X'06') | 33x33 | 28 (X'1C') | 77x77 | 50 (X'32') | 121x121 | 72 (X'48') | 165x165 [BCOCA-4-503]|
+| 7 (X'07') | 35x35 | 29 (X'1D') | 79x79 | 51 (X'33') | 123x123 | 73 (X'49') | 167x167 [BCOCA-4-504]|
+| 8 (X'08') | 37x37 | 30 (X'1E') | 81x81 | 52 (X'34') | 125x125 | 74 (X'4A') | 169x169 [BCOCA-4-505]|
+| 9 (X'09') | 39x39 | 31 (X'1F') | 83x83 | 53 (X'35') | 127x127 | 75 (X'4B') | 171x171 [BCOCA-4-506]|
+| 10 (X'0A') | 41x41 | 32 (X'20') | 85x85 | 54 (X'36') | 129x129 | 76 (X'4C') | 173x173 [BCOCA-4-507]|
+| 11 (X'0B') | 43x43 | 33 (X'21') | 87x87 | 55 (X'37') | 131x131 | 77 (X'4D') | 175x175 [BCOCA-4-508]|
+| 12 (X'0C') | 45x45 | 34 (X'22') | 89x89 | 56 (X'38') | 133x133 | 78 (X'4E') | 177x177 [BCOCA-4-509]|
+| 13 (X'0D') | 47x47 | 35 (X'23') | 91x91 | 57 (X'39') | 135x135 | 79 (X'4F') | 179x179 [BCOCA-4-510]|
+| 14 (X'0E') | 49x49 | 36 (X'24') | 93x93 | 58 (X'3A') | 137x137 | 80 (X'50') | 181x181 [BCOCA-4-511]|
+| 15 (X'0F') | 51x51 | 37 (X'25') | 95x95 | 59 (X'3B') | 139x139 | 81 (X'51') | 183x183 [BCOCA-4-512]|
+| 16 (X'10') | 53x53 | 38 (X'26') | 97x97 | 60 (X'3C') | 141x141 | 82 (X'52') | 185x185 [BCOCA-4-513]|
+| 17 (X'11') | 55x55 | 39 (X'27') | 99x99 | 61 (X'3D') | 143x143 | 83 (X'53') | 187x187 [BCOCA-4-514]|
+| 18 (X'12') | 57x57 | 40 (X'28') | 101x101 | 62 (X'3E') | 145x145 | 84 (X'54') | 189x189 [BCOCA-4-515]|
+| 19 (X'13') | 59x59 | 41 (X'29') | 103x103 | 63 (X'3F') | 147x147 [BCOCA-4-516]| | |
+| 20 (X'14') | 61x61 | 42 (X'2A') | 105x105 | 64 (X'40') | 149x149 [BCOCA-4-517]| | |
+| 21 (X'15') | 63x63 | 43 (X'2B') | 107x107 | 65 (X'41') | 151x151 [BCOCA-4-518]| | |
 If X'00' is specified for this parameter, an appropriate row/column size will be used based on
 the amount of symbol data; the smallest symbol that can accommodate the amount of data is
 produced.
@@ -3113,7 +3113,7 @@ Level 2 (X'02') allows recovery of 15% of symbol codewords
 Level 3 (X'03') allows recovery of 23% of symbol codewords
 Level 4 (X'04') allows recovery of 30% of symbol codewords
 Exception condition EC-0F23 exists if an invalid level-of-error-correction value is specified.
-Han Xin Code Special-Function Parameters
+Han Xin Code Special-Function Parameters [BCOCA-4-519]
 
 
 
@@ -3154,24 +3154,24 @@ Additional parameters
 This area is reserved for potential future use. The content of this area is not checked by
 BCOCA receivers. BCOCA generators should not include anything in this area; that is, the
 addl-parms-length field in byte 11 should be X'00'.
-Han Xin Code Special-Function Parameters
+Han Xin Code Special-Function Parameters [BCOCA-4-520]
 
 
 
 
-Intelligent Mail Package Barcode Special-Function Parameters
+Intelligent Mail Package Barcode Special-Function Parameters [BCOCA-4-521]
 ### Table 28. Intelligent Mail Package Barcode Special-Function Parameters
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
-| 6 | BITS | Intelligent Mail Package Barcode flags | | | | |
-| | bit 0 | Banner | B'0'<br>B'1' | Suppress USPS Service Banner:<br>Do not suppress<br>Suppress | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 1 | IDBars | B'0'<br>B'1' | Suppress Identification Bars:<br>Do not suppress<br>Suppress | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| 7 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 |
-| 8 | UBIN | Banner length | X'00'–X'FE', even values only | Length of USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 |
-| 9–n | CHAR | Banner string | | USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 |
+| 5 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-522]|
+| 6 | BITS | Intelligent Mail Package Barcode flags [BCOCA-4-523]| | | | |
+| | bit 0 | Banner | B'0'<br>B'1' | Suppress USPS Service Banner:<br>Do not suppress<br>Suppress | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-524]|
+| | bit 1 | IDBars | B'0'<br>B'1' | Suppress Identification Bars:<br>Do not suppress<br>Suppress | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-525]|
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-526]|
+| 7 | X'00' | Reserved | | | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-527]|
+| 8 | UBIN | Banner length | X'00'–X'FE', even values only | Length of USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-528]|
+| 9–n | CHAR | Banner string | | USPS Service Banner string | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-529]|
 Byte 5 Reserved
 Byte 6 Intelligent Mail Package Barcode flags
 These flags control how the Intelligent Mail Package Barcode is printed.
@@ -3194,7 +3194,7 @@ Byte 8 Length of USPS Service Banner that follows
 This field specifies the length, in bytes, of the USPS Service Banner string that follows in bytes
 9–n; this length does not contain the length field itself. If the length is not an even value,
 exception condition EC-0F15 exists.
-Intelligent Mail Package Barcode Special-Function Parameters
+Intelligent Mail Package Barcode Special-Function Parameters [BCOCA-4-530]
 
 
 
@@ -3218,26 +3218,26 @@ that when reducing the font size, care must be taken to avoid reducing below the
 character height specified in the symbology. Reduction of the font size of the Service Banner
 should not also reduce the font size of the HRI printed below the symbol.
 If the Suppress USPS Service Banner flag is B'1', byte 8 and bytes 9–n are ignored.
-Intelligent Mail Package Barcode Special-Function Parameters
+Intelligent Mail Package Barcode Special-Function Parameters [BCOCA-4-531]
 
 
 
 
-MaxiCode Special-Function Parameters
+MaxiCode Special-Function Parameters [BCOCA-4-532]
 ### Table 29. MaxiCode Special-Function Parameters
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5 | BITS | Control flags | | | | |
-| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' |
-| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' |
-| 6 | CODE | Symbol mode | X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06' | Mode 2<br>Mode 3<br>Mode 4<br>Mode 5<br>Mode 6 | Not supported in BCD1 | X'02', X'03', X'04', X'05', X'06' |
-| 7 | UBIN | Sequence indicator | X'00'–X'08' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'08' |
-| 8 | UBIN | Total symbols | X'00' or X'02'–X'08' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'08' |
-| 9 | BITS | Special-function flags | | | | |
-| | bit 0 | Zipper | B'0'<br>B'1' | No zipper pattern<br>Vertical zipper pattern on right | Not supported in BCD1 | B'0'<br>B'1' |
-| | bits 1–7 | | B'0000000' | Reserved | B'0000000' | B'0000000' |
+| 5 | BITS | Control flags [BCOCA-4-533]| | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-534]|
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-535]|
+| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' [BCOCA-4-536]|
+| 6 | CODE | Symbol mode | X'02'<br>X'03'<br>X'04'<br>X'05'<br>X'06' | Mode 2<br>Mode 3<br>Mode 4<br>Mode 5<br>Mode 6 | Not supported in BCD1 | X'02', X'03', X'04', X'05', X'06' [BCOCA-4-537]|
+| 7 | UBIN | Sequence indicator | X'00'–X'08' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'08' [BCOCA-4-538]|
+| 8 | UBIN | Total symbols | X'00' or X'02'–X'08' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'08' [BCOCA-4-539]|
+| 9 | BITS | Special-function flags [BCOCA-4-540]| | | | |
+| | bit 0 | Zipper | B'0'<br>B'1' | No zipper pattern<br>Vertical zipper pattern on right | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-541]|
+| | bits 1–7 | | B'0000000' | Reserved | B'0000000' | B'0000000' [BCOCA-4-542]|
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -3260,7 +3260,7 @@ handling flag is applied.
 Bits
 2–7
 Reserved
-MaxiCode Special-Function Parameters
+MaxiCode Special-Function Parameters [BCOCA-4-543]
 
 
 
@@ -3319,7 +3319,7 @@ of the bar code data must not contain the backslash escape character to
 change the ECI character set. The postal code must be one to six
 alphanumeric characters with each character being one of the printable
 characters in MaxiCode Code Set A. Postal codes less than 6 characters will
-MaxiCode Special-Function Parameters
+MaxiCode Special-Function Parameters [BCOCA-4-544]
 
 
 
@@ -3373,7 +3373,7 @@ than the number of bar code data characters due to the overhead of switching
 to and from the different code sets. The Code Set A consists of the byte
 values X'0D', X'1C' to X'1E', X'20', X'22' to X'3A', and X'41' to X'5A'.
 Exception condition EC-0F05 exists if an invalid symbol-mode value is specified.
-MaxiCode Special-Function Parameters
+MaxiCode Special-Function Parameters [BCOCA-4-545]
 
 
 
@@ -3411,7 +3411,7 @@ spaced zipper pattern and contrast block.
 Bits
 1–7
 Reserved
-MaxiCode Special-Function Parameters
+MaxiCode Special-Function Parameters [BCOCA-4-546]
 
 
 
@@ -3442,25 +3442,25 @@ Zipper pattern anchor point
 Guideline Dimensions for the Zipper and Contrast Block
 10/203 10/203
 32/203
-MaxiCode Special-Function Parameters
+MaxiCode Special-Function Parameters [BCOCA-4-547]
 
 
 
 
 PDF417 Special-Function Parameters
-Table 30. PDF417 Special-Function Parameters
+Table 30. PDF417 Special-Function Parameters [BCOCA-4-548]
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5 | BITS | Control flags | | | Not supported in BCD1 | |
-| | | bit 0 | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>• Do not translate<br>• Convert data to ASCII | | B'0'<br>B'1' |
-| | | bit 1 | B'0'<br>B'1' | Escape-sequence handling:<br>• Process escape sequences<br>• Ignore all escape sequences | | B'0'<br>B'1' |
-| | | bits 2–7 | B'000000' | Reserved | B'000000' | B'000000' |
-| 6 | UBIN | Data symbols | X'01'–X'1E' | Number of data symbol characters per row | Not supported in BCD1 | X'01'–X'1E' |
-| 7 | UBIN | Rows | X'03'–X'5A'<br>X'FF' | Desired number of rows<br>Minimum necessary rows | Not supported in BCD1 | X'03'–X'5A'<br>X'FF' |
-| 8 | UBIN | Security | X'00'–X'08' | Security level | Not supported in BCD1 | X'00'–X'08' |
-| 9–10 | UBIN | Macro length | X'0000'–X'7FED' | Length of Macro PDF417 Control Block that follows | Not supported in BCD1 | X'0000'–X'7FED' |
-| 11–n | UBIN | Macro data | Any value | Data for a Macro PDF417 Control Block | Not supported in BCD1 | Any value |
+| 5 | BITS | Control flags | | | Not supported in BCD1 [BCOCA-4-549]| |
+| | | bit 0 | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>• Do not translate<br>• Convert data to ASCII | | B'0'<br>B'1' [BCOCA-4-550]|
+| | | bit 1 | B'0'<br>B'1' | Escape-sequence handling:<br>• Process escape sequences<br>• Ignore all escape sequences | | B'0'<br>B'1' [BCOCA-4-551]|
+| | | bits 2–7 | B'000000' | Reserved | B'000000' | B'000000' [BCOCA-4-552]|
+| 6 | UBIN | Data symbols | X'01'–X'1E' | Number of data symbol characters per row | Not supported in BCD1 | X'01'–X'1E' [BCOCA-4-553]|
+| 7 | UBIN | Rows | X'03'–X'5A'<br>X'FF' | Desired number of rows<br>Minimum necessary rows | Not supported in BCD1 | X'03'–X'5A'<br>X'FF' [BCOCA-4-554]|
+| 8 | UBIN | Security | X'00'–X'08' | Security level | Not supported in BCD1 | X'00'–X'08' [BCOCA-4-555]|
+| 9–10 | UBIN | Macro length | X'0000'–X'7FED' | Length of Macro PDF417 Control Block that follows | Not supported in BCD1 | X'0000'–X'7FED' [BCOCA-4-556]|
+| 11–n | UBIN | Macro data | Any value | Data for a Macro PDF417 Control Block | Not supported in BCD1 | Any value [BCOCA-4-557]|
 Byte 5 Control flags
 These flags control how the bar code data is processed by the BCOCA receiver; the receiver
 can be an IPDS printer or any other product that processes BCOCA objects.
@@ -3483,7 +3483,7 @@ code points; from this set, the 75 code points that have no EBCDIC equivalent ar
 follows:
 158, 159, 169, 176–224, 226–229, 231–240, 242–245, 247, 249, 251–252, and
 254.
-PDF417 Special-Function Parameters
+PDF417 Special-Function Parameters [BCOCA-4-558]
 
 
 
@@ -3505,7 +3505,7 @@ Hex Digits
 -4
 -5
 -6
-0- 5- 6-1- 7-2- 8-3- 4- 9- A- B- C- D- E- F-
+0- 5- 6-1- 7-2- 8-3- 4- 9- A- B- C- D- E- F- [BCOCA-4-559]
 SE030000
 SE040000
 SE100000
@@ -3754,7 +3754,7 @@ LY170000
 LO180000
 ²
 Ö Ü
-PDF417 Special-Function Parameters
+PDF417 Special-Function Parameters [BCOCA-4-560]
 
 
 
@@ -3793,7 +3793,7 @@ the security level selected. If more rows than necessary are specified, the symb
 fill the requested number of rows. If not enough rows are specified, enough extra rows will be
 inserted by the printer to produce the symbol.
 If too much data is specified to fit in the bar code symbol, exception condition EC-0F08 exists.
-PDF417 Special-Function Parameters
+PDF417 Special-Function Parameters [BCOCA-4-561]
 
 
 
@@ -3825,7 +3825,7 @@ Number of Data Codewords Recommended Security Level
 161–320 4
 321–863 5
 Exception condition EC-0F09 exists if an invalid security level value is specified.
-PDF417 Special-Function Parameters
+PDF417 Special-Function Parameters [BCOCA-4-562]
 
 
 
@@ -3866,18 +3866,18 @@ X'20' through X'7E'. These values represent the upper case letters A through Z, 
 lower case letters a through z, and the digits 0 through 9, plus some punctuation and
 special characters (for GLI 0). For the numeric digits, the byte values must be from X'30'
 through X'39'.
-• For field designator “\001”, the one to five numeric digits that follow represent the
+• For field designator “\001”, the one to five numeric digits that follow represent the [BCOCA-4-563]
 segment count. This value must be greater than or equal to the segment index value.
-• For field designator “\002”, the one to eleven numeric digits that follow represent the
+• For field designator “\002”, the one to eleven numeric digits that follow represent the [BCOCA-4-564]
 time stamp on the source file expressed as the elapsed time in seconds since January
 1, 1970 00:00 GMT .
-• For field designator “\005”, one or more numeric digits must follow.
-• For field designator “\006”, the one to five numeric digits that follow represent the
+• For field designator “\005”, one or more numeric digits must follow. [BCOCA-4-565]
+• For field designator “\006”, the one to five numeric digits that follow represent the [BCOCA-4-566]
 decimal value of the 16-bit CRC checksum over the entire source file. This checksum
 value must be a decimal value from 0 through 65,535.
 Note that the file name, segment count, time stamp, sender, addressee, file size, and
 checksum are provided in the optional fields of the Macro PDF417 Control Block and the
-PDF417 Special-Function Parameters
+PDF417 Special-Function Parameters [BCOCA-4-567]
 
 
 
@@ -3887,39 +3887,39 @@ previously stated restrictions). If the Macro PDF417 Control Block data does not
 rules, exception condition EC-0F0D exists. Note that the Uniform Symbology Specification
 PDF417 has the following additional claims. The BCOCA receiver does not check for these
 claims nor does it report any exceptions conditions if these claims are violated:
-• If the optional Segment Count is given in the Macro PDF417 Control Block of one of the
+• If the optional Segment Count is given in the Macro PDF417 Control Block of one of the [BCOCA-4-568]
 segments (symbols) of the macro, then it should be used in all of the segments (symbols) of
 the macro.
-• All optional fields, other than the Segment Count, only need to appear in one of the
+• All optional fields, other than the Segment Count, only need to appear in one of the [BCOCA-4-569]
 segments (symbols) of the macro.
-• If an optional field with the same field designator appears in more than one segment
+• If an optional field with the same field designator appears in more than one segment [BCOCA-4-570]
 (symbol) of the same macro, then it must appear identically in every segment (symbol).
-PDF417 Special-Function Parameters
+PDF417 Special-Function Parameters [BCOCA-4-571]
 
 
 
 
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-572]
 ### Table 31. QR Code Special-Function Parameters
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5 | BITS | Control flags | | | | |
-| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger QR Code symbol version<br>Exception EC-0F16 exists | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 3–7 | | B'00000' | Reserved | B'00000' | B'00000' |
-| 6 | CODE | Conversion | X'00'<br>X'01'–X'03'<br>X'04'–X'09' | No conversion specified<br>SBCS EBCDIC code page used to encode data:<br>X'01': Code page 500 (International #5)<br>X'02': Code page 290 (Japanese Katakana Ext.)<br>X'03': Code page 1027 (Japanese Latin Extended)<br>AFP Line Data SOSI-data conversion:<br>X'04': CCSID 1390 to CCSID 943<br>X'05': CCSID 1399 to CCSID 943<br>X'06': CCSID 1390 to CCSID 932<br>X'07': CCSID 1399 to CCSID 932<br>X'08': CCSID 1390 to CCSID 942<br>X'09': CCSID 1399 to CCSID 942 | Not supported in BCD1 | X'00', X'01', X'02', X'03' |
-| 7 | CODE | Version | X'00'<br>X'01'–X'28' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 40) | Not supported in BCD1 | X'00', X'01'–X'28' |
-| 8 | CODE | Error correction level | X'00'<br>X'01'<br>X'02'<br>X'03' | Level of error correction:<br>Level L (7% recovery)<br>Level M (15% recovery)<br>Level Q (25% recovery)<br>Level H (30% recovery) | Not supported in BCD1 | X'00', X'01', X'02', X'03' |
-| 9 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'10' |
-| 10 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'10' |
-| 11 | UBIN | Parity Data | X'00'–X'FF' | Structured append parity data | Not supported in BCD1 | X'00'–X'FF' |
-| 12 | BITS | Special-function flags | | | | |
-| | bit 0 | UCC/EAN FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to UCC/EAN standards | Not supported in BCD1 | B'0'<br>B'1' |
-| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | B'0'<br>B'1' |
-| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' |
-| 13 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | All values listed in the field description |
+| 5 | BITS | Control flags [BCOCA-4-573]| | | | |
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-574]|
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-575]|
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger QR Code symbol version<br>Exception EC-0F16 exists | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-576]|
+| | bits 3–7 | | B'00000' | Reserved | B'00000' | B'00000' [BCOCA-4-577]|
+| 6 | CODE | Conversion | X'00'<br>X'01'–X'03'<br>X'04'–X'09' | No conversion specified<br>SBCS EBCDIC code page used to encode data:<br>X'01': Code page 500 (International #5)<br>X'02': Code page 290 (Japanese Katakana Ext.)<br>X'03': Code page 1027 (Japanese Latin Extended)<br>AFP Line Data SOSI-data conversion:<br>X'04': CCSID 1390 to CCSID 943<br>X'05': CCSID 1399 to CCSID 943<br>X'06': CCSID 1390 to CCSID 932<br>X'07': CCSID 1399 to CCSID 932<br>X'08': CCSID 1390 to CCSID 942<br>X'09': CCSID 1399 to CCSID 942 | Not supported in BCD1 | X'00', X'01', X'02', X'03' [BCOCA-4-578]|
+| 7 | CODE | Version | X'00'<br>X'01'–X'28' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 40) | Not supported in BCD1 | X'00', X'01'–X'28' [BCOCA-4-579]|
+| 8 | CODE | Error correction level | X'00'<br>X'01'<br>X'02'<br>X'03' | Level of error correction:<br>Level L (7% recovery)<br>Level M (15% recovery)<br>Level Q (25% recovery)<br>Level H (30% recovery) | Not supported in BCD1 | X'00', X'01', X'02', X'03' [BCOCA-4-580]|
+| 9 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | X'00'–X'10' [BCOCA-4-581]|
+| 10 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | X'00' or X'02'–X'10' [BCOCA-4-582]|
+| 11 | UBIN | Parity Data | X'00'–X'FF' | Structured append parity data | Not supported in BCD1 | X'00'–X'FF' [BCOCA-4-583]|
+| 12 | BITS | Special-function flags [BCOCA-4-584]| | | | |
+| | bit 0 | UCC/EAN FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to UCC/EAN standards | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-585]|
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | B'0'<br>B'1' [BCOCA-4-586]|
+| | bits 2–7 | | B'000000' | Reserved | B'000000' | B'000000' [BCOCA-4-587]|
+| 13 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | All values listed in the field description [BCOCA-4-588]|
 Byte 5 Control flags
 These flags control how the bar code data (bytes n+1 to end) is processed by the BCOCA
 receiver; the receiver can be an IPDS printer or any other product that processes BCOCA
@@ -3929,16 +3929,16 @@ If this flag is B'0', the data is assumed to begin in the default character enco
 (ECI 000020) and no translation is done.
 If this flag is B'1' and a non-zero value is selected in byte 6, the EBCDIC input data will
 be converted into the default character encodation, as follows:
-• When the conversion parameter (byte 6) is X'01', X'02', or X'03', the BCOCA
+• When the conversion parameter (byte 6) is X'01', X'02', or X'03', the BCOCA [BCOCA-4-589]
 receiver will convert each byte of the bar code data from the EBCDIC single-byte
 code page specified in byte 6 into ASCII code page 897 before this data is used to
 build the bar code symbol. These conversion choices are supported by IPDS
 printers.
-• Conversion parameters X'04' – X'09' are defined for software products that build
+• Conversion parameters X'04' – X'09' are defined for software products that build [BCOCA-4-590]
 BCOCA bar codes from AFP Line Data (these values are not supported by IPDS
 printers). The AFP Line Data software will convert the input line data from EBCDIC
 SOSI data into mixed-byte ASCII as specified by the conversion parameter.
-• When the conversion parameter (byte 6) is X'00', no translation is done.
+• When the conversion parameter (byte 6) is X'00', no translation is done. [BCOCA-4-591]
 Bit 1 Escape-sequence handling
 If this flag is B'0', each X'5C' (¥) within the bar code data is treated as an escape
 character according to the QR Code symbology specification.
@@ -3948,16 +3948,16 @@ page switching can occur within the data.
 Note: If the EBCDIC-to-ASCII translation flag is also set to B'1', all EBCDIC ¥
 characters will first be converted into X'5C' before the escape-sequence
 handling flag is applied.
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-592]
 
 
 
 
 Bit 2 T oo much data
 This flag specifies the behavior when both of the following two conditions exist:
-• The version parameter (byte 7) is in the range X'01'–X'28'; that is, it requests a
+• The version parameter (byte 7) is in the range X'01'–X'28'; that is, it requests a [BCOCA-4-593]
 specific version of the symbol.
-• The number of bytes of data to be encoded, combined with the error correction level
+• The number of bytes of data to be encoded, combined with the error correction level [BCOCA-4-594]
 requested (byte 8), will not fit in the QR Code version specified by the version
 parameter.
 This flag is ignored otherwise.
@@ -3970,7 +3970,7 @@ support for this function with Sense Type and Model property pair X'1306'.
 Bits
 3–7
 Reserved
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-595]
 
 
 
@@ -4019,7 +4019,7 @@ Convert from: CCSID 1399 – Extended Japanese Latin-Kanji Host Mixed for JIS
 X0213 including 6205 UDC, Extended SBCS (includes SBCS &
 DBCS euro)
 Convert to: CCSID 932 – Japanese PC Data Mixed including 1880 UDC
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-596]
 
 
 
@@ -4051,7 +4051,7 @@ Hex Digits
 -4
 -5
 -6
-0- 5- 6-1- 7-2- 8-3- 4- 9- A- B- C- D- E- F-
+0- 5- 6-1- 7-2- 8-3- 4- 9- A- B- C- D- E- F- [BCOCA-4-597]
 SE030000
 SE040000
 SE100000
@@ -4203,7 +4203,7 @@ SD150000
 |
 SM150000
 _
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-598]
 
 
 
@@ -4214,9 +4214,9 @@ of the symbol depends on the amount of data to be encoded. If not enough data is
 supplied, the symbol will be padded with null data to reach the requested symbol size. If
 too much data is supplied for the requested symbol size, the behavior depends on the
 value of the too much data flag (bit 2) in the control flags (byte 5):
-• If B'0', the symbol will be bigger than requested and will be the smallest symbol that
+• If B'0', the symbol will be bigger than requested and will be the smallest symbol that [BCOCA-4-599]
 can accommodate that amount of data.
-• If B'1', exception EC-0F16 exists.
+• If B'1', exception EC-0F16 exists. [BCOCA-4-600]
 This parameter specifies the desired size of the symbol; each version specifies a particular
 number of modules per row and column. The size of each square module is specified by the
 module width parameter (byte 17 in the BSD). The following table lists the complete set of
@@ -4226,31 +4226,31 @@ specified.
 
 | Version | Symbol Size | Version | Symbol Size |
 | :--- | :--- | :--- | :--- |
-| 0 (X'00') | smallest | 21 (X'15') | 101x101 |
-| 1 (X'01') | 21x21 | 22 (X'16') | 105x105 |
-| 2 (X'02') | 25x25 | 23 (X'17') | 109x109 |
-| 3 (X'03') | 29x29 | 24 (X'18') | 113x113 |
-| 4 (X'04') | 33x33 | 25 (X'19') | 117x117 |
-| 5 (X'05') | 37x37 | 26 (X'1A') | 121x121 |
-| 6 (X'06') | 41x41 | 27 (X'1B') | 125x125 |
-| 7 (X'07') | 45x45 | 28 (X'1C') | 129x129 |
-| 8 (X'08') | 49x49 | 29 (X'1D') | 133x133 |
-| 9 (X'09') | 53x53 | 30 (X'1E') | 137x137 |
-| 10 (X'0A') | 57x57 | 31 (X'1F') | 141x141 |
-| 11 (X'0B') | 61x61 | 32 (X'20') | 145x145 |
-| 12 (X'0C') | 65x65 | 33 (X'21') | 149x149 |
-| 13 (X'0D') | 69x69 | 34 (X'22') | 153x153 |
-| 14 (X'0E') | 73x73 | 35 (X'23') | 157x157 |
-| 15 (X'0F') | 77x77 | 36 (X'24') | 161x161 |
-| 16 (X'10') | 81x81 | 37 (X'25') | 165x165 |
-| 17 (X'11') | 85x85 | 38 (X'26') | 169x169 |
-| 18 (X'12') | 89x89 | 39 (X'27') | 173x173 |
-| 19 (X'13') | 93x93 | 40 (X'28') | 177x177 |
-| 20 (X'14') | 97x97 | | |
+| 0 (X'00') | smallest | 21 (X'15') | 101x101 [BCOCA-4-601]|
+| 1 (X'01') | 21x21 | 22 (X'16') | 105x105 [BCOCA-4-602]|
+| 2 (X'02') | 25x25 | 23 (X'17') | 109x109 [BCOCA-4-603]|
+| 3 (X'03') | 29x29 | 24 (X'18') | 113x113 [BCOCA-4-604]|
+| 4 (X'04') | 33x33 | 25 (X'19') | 117x117 [BCOCA-4-605]|
+| 5 (X'05') | 37x37 | 26 (X'1A') | 121x121 [BCOCA-4-606]|
+| 6 (X'06') | 41x41 | 27 (X'1B') | 125x125 [BCOCA-4-607]|
+| 7 (X'07') | 45x45 | 28 (X'1C') | 129x129 [BCOCA-4-608]|
+| 8 (X'08') | 49x49 | 29 (X'1D') | 133x133 [BCOCA-4-609]|
+| 9 (X'09') | 53x53 | 30 (X'1E') | 137x137 [BCOCA-4-610]|
+| 10 (X'0A') | 57x57 | 31 (X'1F') | 141x141 [BCOCA-4-611]|
+| 11 (X'0B') | 61x61 | 32 (X'20') | 145x145 [BCOCA-4-612]|
+| 12 (X'0C') | 65x65 | 33 (X'21') | 149x149 [BCOCA-4-613]|
+| 13 (X'0D') | 69x69 | 34 (X'22') | 153x153 [BCOCA-4-614]|
+| 14 (X'0E') | 73x73 | 35 (X'23') | 157x157 [BCOCA-4-615]|
+| 15 (X'0F') | 77x77 | 36 (X'24') | 161x161 [BCOCA-4-616]|
+| 16 (X'10') | 81x81 | 37 (X'25') | 165x165 [BCOCA-4-617]|
+| 17 (X'11') | 85x85 | 38 (X'26') | 169x169 [BCOCA-4-618]|
+| 18 (X'12') | 89x89 | 39 (X'27') | 173x173 [BCOCA-4-619]|
+| 19 (X'13') | 93x93 | 40 (X'28') | 177x177 [BCOCA-4-620]|
+| 20 (X'14') | 97x97 [BCOCA-4-621]| | |
 If X'00' is specified for this parameter, an appropriate row/column size will be used based on
 the amount of symbol data; the smallest symbol that can accommodate the amount of data is
 produced.
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-622]
 
 
 
@@ -4291,7 +4291,7 @@ the parity-data value should be the same in each of the structured-append symbol
 The parity-data value is obtained by XORing byte by byte the ASCII/JIS values of all the
 original input data before division into structured-append symbols.
 If this symbol is not a structured append, this parameter is ignored and should be set to X'00'.
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-623]
 
 
 
@@ -4324,7 +4324,7 @@ for application indicator “01”, specify X'01'
 for application indicator “99”, specify X'63'
 When the Industry FNC1 flag is B'0', this parameter is ignored and should be set to X'00'.
 Exception condition EC-0F12 exists if an invalid application-indicator value is specified.
-QR Code Special-Function Parameters
+QR Code Special-Function Parameters [BCOCA-4-624]
 
 
 
@@ -4351,7 +4351,7 @@ should be familiar to any AFP implementation, even though these concepts are not
 than this one situation. The Mixed Object Document Content Architecture (MO:DCA) Reference and the
 Intelligent Printer Data Stream Reference will therefore be very useful as information on placing image objects.
 However, although similar, the image placement is not exactly the same. The main differences:
-• There exists a new coordinate system that is unique to the QR Code with Image bar code, the X
+• There exists a new coordinate system that is unique to the QR Code with Image bar code, the X [BCOCA-4-625]
 qr,Yqr
 coordinate system. The origin of this coordinate system is exactly the origin of the QR Code symbol, and the
 orientation is the orientation of the X bc,Ybc coordinate system.
@@ -4359,10 +4359,10 @@ T o be clear, this is the origin of the QR Code symbol itself—not the bar code
 object area, but the actual symbol, as presented. Thus, (x
 qr=0,yqr=0) is the position of the upper-left corner of
 the presented QR Code symbol.
-• The origin of the object area of the image to be placed in conjunction with the QR Code symbol is specified in
+• The origin of the object area of the image to be placed in conjunction with the QR Code symbol is specified in [BCOCA-4-626]
 the Xqr,Yqr coordinate system. In this way, the image’s object area is directly related to the location of the QR
 Code symbol.
-• The X qr,Yqr coordinate system has an aspect that other AFP coordinate systems do not have: it has, in
+• The X qr,Yqr coordinate system has an aspect that other AFP coordinate systems do not have: it has, in [BCOCA-4-627]
 addition to an origin at (0,0), a special point, called LR qr, which is the lower-right corner of the QR Code
 symbol, as presented. Due to the unpredictability of the exact size of a presented QR Code symbol (due to
 different pixel sizes, for example), the true LR
@@ -4379,7 +4379,7 @@ image object area orientation of 0 places the image in the left half of the uppe
 Code symbol.
 – Specifying an image object area offset of (–25%,–25%), an image object area extent of (150%,150%), and
 an image object area orientation of 0 centers the image “around” the QR Code symbol, extending out in all
-QR Code with Image Special-Function Parameters
+QR Code with Image Special-Function Parameters [BCOCA-4-628]
 
 
 
@@ -4405,7 +4405,7 @@ and these QR Code with Image special-function parameters that define them. Figur
 Figure 17 show the same QR Code and image used in Figure 15, but with the
 image oriented at 90° and 45°, respectively; in order that the image still be centered on the QR Code symbol,
 the image object area origin must be adjusted, as shown in the figures.
-• Many of the parameters for presenting an image are contained in the QR Code with Image special-function
+• Many of the parameters for presenting an image are contained in the QR Code with Image special-function [BCOCA-4-629]
 parameters described in this section. However, not all image parameters specifiable in the controlling
 environments are specifiable here. Such parameters, when they exist in the controlling environment, must be
 used, with values from the image object in the controlling environment, when presenting the image object.
@@ -4425,7 +4425,7 @@ Image Presentation Space
 Y Extent
 +X
 +Y
-QR Code with Image Special-Function Parameters
+QR Code with Image Special-Function Parameters [BCOCA-4-630]
 
 
 
@@ -4470,7 +4470,7 @@ bytes +15-+17, +20-+21)
 to allow easier display of image object area)
 +Xoa
 +Yoa
-QR Code with Image Special-Function Parameters
+QR Code with Image Special-Function Parameters [BCOCA-4-631]
 
 
 
@@ -4516,7 +4516,7 @@ Image Object Area Y Extent = 16%
 (Special-Function Parameters
 bytes +15-+17, +20-+21)
 +Xoa+Yoa
-QR Code with Image Special-Function Parameters
+QR Code with Image Special-Function Parameters [BCOCA-4-632]
 
 
 
@@ -4525,88 +4525,88 @@ QR Code with Image Special-Function Parameters
 
 | Offset | Type | Name | Range | Meaning | BCD1 Range | BCD2 Range |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Bytes 5–13 are the same as bytes 5–13 in the QR Code Special-Function Parameters, except for the “BCD2 Range” column, which in this table is always “Not supported in BCD2”** | | | | | | |
-| 5 | BITS | Control flags | | | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII | | |
-| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences | | |
-| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger QR Code symbol version<br>Exception EC-0F16 exists | | |
-| | bits 3–7 | | B'00000' | Reserved | | |
-| 6 | CODE | Conversion | X'00'<br>X'01'–X'03'<br>X'04'–X'09' | No conversion specified<br>SBCS EBCDIC code page used to encode data:<br>X'01': Code page 500 (International #5)<br>X'02': Code page 290 (Japanese Katakana Ext.)<br>X'03': Code page 1027 (Japanese Latin Extended)<br>AFP Line Data SOSI-data conversion:<br>X'04'–X'09' | Not supported in BCD1 | Not supported in BCD2 |
-| 7 | CODE | Version | X'00'<br>X'01'–X'28' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 40) | Not supported in BCD1 | Not supported in BCD2 |
-| 8 | CODE | Error correction level | X'00'<br>X'01'<br>X'02'<br>X'03' | Level of error correction:<br>Level L (7% recovery)<br>Level M (15% recovery)<br>Level Q (25% recovery)<br>Level H (30% recovery) | Not supported in BCD1 | Not supported in BCD2 |
-| 9 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | Not supported in BCD2 |
-| 10 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | Not supported in BCD2 |
-| 11 | UBIN | Parity Data | X'00'–X'FF' | Structured append parity data | Not supported in BCD1 | Not supported in BCD2 |
-| 12 | BITS | Special-function flags | | | | |
-| | bit 0 | UCC/EAN FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to UCC/EAN standards | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| 13 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 |
-| 14 | BITS | QR Code with Image special-function flags | | | | |
-| | bit 0 | Presentation order | B'0'<br>B'1' | Present QR Code symbol first<br>Present images first | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 1 | Present only images | B'0'<br>B'1' | Whether to present only the images:<br>Present both the QR Code symbol and the images<br>Present only the images | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| 15–16 | UBIN | RepGrps Length | X'0000'<br>X'0017'–X'7000' | Total length of all repeating groups that follow | Not supported in BCD1 | Not supported in BCD2 |
-| **Zero or more Image Information Blocks in the following format:** | | | | | | |
-| +0 | UBIN | ImgInfo Length | X'16'–X'FF' | Length of the image information that follows | Not supported in BCD1 | Not supported in BCD2 |
-| +1–2 | | | X'0000' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| +3–4 | CODE | Image local ID | X'0000'–X'7FFF' | Local ID of the image object to be used | Not supported in BCD1 | Not supported in BCD2 |
-| +5 | CODE | Offset unit base | X'00'<br>X'01'<br>X'64' | Unit base for offset:<br>Ten inches<br>Ten centimeters<br>One percent | Not supported in BCD1 | Not supported in BCD2 |
-| +6–7 | UBIN | Offset UPUB | X'0001'–X'7FFF' | Units per unit base for offset | Not supported in BCD1 | Not supported in BCD2 |
-| +8–9 | SBIN | X offset | X'8000'–X'7FFF' | X coordinate of the image object area origin | Not supported in BCD1 | Not supported in BCD2 |
-| +10–11 | SBIN | Y offset | X'8000'–X'7FFF' | Y coordinate of the image object area origin | Not supported in BCD1 | Not supported in BCD2 |
-| +12–13 | CODE | Image object area orientation | | | | |
-| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | Not supported in BCD1 | Not supported in BCD2 |
-| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | Not supported in BCD1 | Not supported in BCD2 |
-| | bit 15 | | B'0' | Reserved | Not supported in BCD1 | Not supported in BCD2 |
-| +14 | CODE | Coordinate system | X'F0' | Reference coordinate system:<br>QR Code symbol $X_{qr}, Y_{qr}$ | Not supported in BCD1 | Not supported in BCD2 |
-| +15 | CODE | Extent unit base | X'00'<br>X'01'<br>X'64' | Unit base for extent:<br>Ten inches<br>Ten centimeters<br>One percent | Not supported in BCD1 | Not supported in BCD2 |
-| +16–17 | UBIN | Extent UPUB | X'0001'–X'7FFF' | Units per unit base for extent | Not supported in BCD1 | Not supported in BCD2 |
-| +18–19 | UBIN | X extent | X'0001'–X'7FFF' | X extent of the image object area | Not supported in BCD1 | Not supported in BCD2 |
-| +20–21 | UBIN | Y extent | X'0001'–X'7FFF' | Y extent of the image object area | Not supported in BCD1 | Not supported in BCD2 |
-| +22 | CODE | Mapping option | X'10'<br>X'20'<br>X'30'<br>X'60' | Mapping control option:<br>Scale to fit<br>Center and trim<br>Position and trim<br>Scale to fill | Not supported in BCD1 | Not supported in BCD2 |
-| +23 to end of block | | | | Data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 |
+| **Bytes 5–13 are the same as bytes 5–13 in the QR Code Special-Function Parameters, except for the “BCD2 Range” column, which in this table is always “Not supported in BCD2”** [BCOCA-4-633]| | | | | | |
+| 5 | BITS | Control flags | | | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-634]|
+| | bit 0 | EBCDIC | B'0'<br>B'1' | EBCDIC-to-ASCII translation:<br>Do not translate<br>Convert data to ASCII [BCOCA-4-635]| | |
+| | bit 1 | Escape sequence handling | B'0'<br>B'1' | Escape-sequence handling:<br>Process escape sequences<br>Ignore all escape sequences [BCOCA-4-636]| | |
+| | bit 2 | Too much data | B'0'<br>B'1' | If too much data:<br>Use a bigger QR Code symbol version<br>Exception EC-0F16 exists [BCOCA-4-637]| | |
+| | bits 3–7 | | B'00000' | Reserved [BCOCA-4-638]| | |
+| 6 | CODE | Conversion | X'00'<br>X'01'–X'03'<br>X'04'–X'09' | No conversion specified<br>SBCS EBCDIC code page used to encode data:<br>X'01': Code page 500 (International #5)<br>X'02': Code page 290 (Japanese Katakana Ext.)<br>X'03': Code page 1027 (Japanese Latin Extended)<br>AFP Line Data SOSI-data conversion:<br>X'04'–X'09' | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-639]|
+| 7 | CODE | Version | X'00'<br>X'01'–X'28' | Version of symbol:<br>Smallest symbol<br>Version number (1 to 40) | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-640]|
+| 8 | CODE | Error correction level | X'00'<br>X'01'<br>X'02'<br>X'03' | Level of error correction:<br>Level L (7% recovery)<br>Level M (15% recovery)<br>Level Q (25% recovery)<br>Level H (30% recovery) | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-641]|
+| 9 | UBIN | Sequence indicator | X'00'–X'10' | Structured append sequence indicator | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-642]|
+| 10 | UBIN | Total symbols | X'00' or X'02'–X'10' | Total number of structured-append symbols | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-643]|
+| 11 | UBIN | Parity Data | X'00'–X'FF' | Structured append parity data | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-644]|
+| 12 | BITS | Special-function flags [BCOCA-4-645]| | | | |
+| | bit 0 | UCC/EAN FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to UCC/EAN standards | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-646]|
+| | bit 1 | Industry FNC1 | B'0'<br>B'1' | Alternate data type identifier:<br>User-defined symbol<br>Symbol conforms to industry standards | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-647]|
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-648]|
+| 13 | CODE | Application indicator | See field description | Application indicator for Industry FNC1 | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-649]|
+| 14 | BITS | QR Code with Image special-function flags [BCOCA-4-650]| | | | |
+| | bit 0 | Presentation order | B'0'<br>B'1' | Present QR Code symbol first<br>Present images first | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-651]|
+| | bit 1 | Present only images | B'0'<br>B'1' | Whether to present only the images:<br>Present both the QR Code symbol and the images<br>Present only the images | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-652]|
+| | bits 2–7 | | B'000000' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-653]|
+| 15–16 | UBIN | RepGrps Length | X'0000'<br>X'0017'–X'7000' | Total length of all repeating groups that follow | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-654]|
+| **Zero or more Image Information Blocks in the following format:** [BCOCA-4-655]| | | | | | |
+| +0 | UBIN | ImgInfo Length | X'16'–X'FF' | Length of the image information that follows | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-656]|
+| +1–2 | | | X'0000' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-657]|
+| +3–4 | CODE | Image local ID | X'0000'–X'7FFF' | Local ID of the image object to be used | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-658]|
+| +5 | CODE | Offset unit base | X'00'<br>X'01'<br>X'64' | Unit base for offset:<br>Ten inches<br>Ten centimeters<br>One percent | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-659]|
+| +6–7 | UBIN | Offset UPUB | X'0001'–X'7FFF' | Units per unit base for offset | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-660]|
+| +8–9 | SBIN | X offset | X'8000'–X'7FFF' | X coordinate of the image object area origin | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-661]|
+| +10–11 | SBIN | Y offset | X'8000'–X'7FFF' | Y coordinate of the image object area origin | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-662]|
+| +12–13 | CODE | Image object area orientation [BCOCA-4-663]| | | | |
+| | bits 0–8 | Degrees | B'000000000'–B'101100111' | Number of degrees (0–359) in the orientation | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-664]|
+| | bits 9–14 | Minutes | B'000000'–B'111011' | Number of minutes (0–59) in the orientation | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-665]|
+| | bit 15 | | B'0' | Reserved | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-666]|
+| +14 | CODE | Coordinate system | X'F0' | Reference coordinate system:<br>QR Code symbol $X_{qr}, Y_{qr}$ | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-667]|
+| +15 | CODE | Extent unit base | X'00'<br>X'01'<br>X'64' | Unit base for extent:<br>Ten inches<br>Ten centimeters<br>One percent | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-668]|
+| +16–17 | UBIN | Extent UPUB | X'0001'–X'7FFF' | Units per unit base for extent | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-669]|
+| +18–19 | UBIN | X extent | X'0001'–X'7FFF' | X extent of the image object area | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-670]|
+| +20–21 | UBIN | Y extent | X'0001'–X'7FFF' | Y extent of the image object area | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-671]|
+| +22 | CODE | Mapping option | X'10'<br>X'20'<br>X'30'<br>X'60' | Mapping control option:<br>Scale to fit<br>Center and trim<br>Position and trim<br>Scale to fill | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-672]|
+| +23 to end of block | | | | Data without current architectural definition | Not supported in BCD1 | Not supported in BCD2 [BCOCA-4-673]|
 
 
 
 ### Table 34. Valid Code Pages and Type Styles
 
-| Type | Bar Code Symbology | CPGID | FGID (see note 1) |
+| Type | Bar Code Symbology | CPGID | FGID (see note 1) [BCOCA-4-674]|
 | :--- | :--- | :--- | :--- |
-| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 500 | Device specific |
-| X'02' | MSI (modified Plessey code) | 500 | Device specific |
-| X'03' | UPC/CGPC – Version A | 893 | 3 (OCR-B) |
-| X'05' | UPC/CGPC – Version E | 893 | 3 (OCR-B) |
-| X'06' | UPC – Two-Digit Supplemental (Periodicals) | 893 | 3 (OCR-B) |
-| X'07' | UPC – Five-Digit Supplemental (Paperbacks) | 893 | 3 (OCR-B) |
-| X'08' | EAN-8 (includes JAN-short) | 893 | 3 (OCR-B) |
-| X'09' | EAN-13 (includes JAN-standard) | 893 | 3 (OCR-B) |
-| X'0A' | Industrial 2-of-5 | 500 | Device specific |
-| X'0B' | Matrix 2-of-5 | 500 | Device specific |
-| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 500 | Device specific |
-| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 500 | Device specific |
-| X'11' | Code 128, GS1-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode, UCC/EAN 128, AIM USS-128 | 1303 (see note 2) | Device specific |
-| X'16' | EAN Two-Digit Supplemental | 893 | 3 (OCR-B) |
-| X'17' | EAN Five-Digit Supplemental | 893 | 3 (OCR-B) |
-| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 500 | None |
-| X'1A' | RM4SCC and Dutch KIX | 500 | None |
-| X'1B' | Japan Postal Bar Code | 500 | None |
-| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
-| X'1D' | MaxiCode (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
-| X'1E' | PDF417 (2D bar code) | Default CPGID=437; code page is selectable within the symbol using GLI protocol | None |
-| X'1F' | Australia Post Bar Code | 500 | Device specific |
-| X'20' | QR Code, QR Code with Image (2D bar code) | Default CPGID=897; code page is selectable within the symbol using ECI protocol | None |
-| X'21' | Code 93 | 500 | Device specific |
-| X'22' | Intelligent Mail Barcode | 500 | Device specific |
-| X'23' | Royal Mail RED TAG (deprecated) | 500 | None |
-| X'24' | GS1 DataBar | 1303 | Device specific |
-| X'25' | Royal Mail Mailmark | 500 | None |
-| X'26' | Aztec Code (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
-| X'27' | Han Xin Code (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 500 | Device specific [BCOCA-4-675]|
+| X'02' | MSI (modified Plessey code) | 500 | Device specific [BCOCA-4-676]|
+| X'03' | UPC/CGPC – Version A | 893 | 3 (OCR-B) [BCOCA-4-677]|
+| X'05' | UPC/CGPC – Version E | 893 | 3 (OCR-B) [BCOCA-4-678]|
+| X'06' | UPC – Two-Digit Supplemental (Periodicals) | 893 | 3 (OCR-B) [BCOCA-4-679]|
+| X'07' | UPC – Five-Digit Supplemental (Paperbacks) | 893 | 3 (OCR-B) [BCOCA-4-680]|
+| X'08' | EAN-8 (includes JAN-short) | 893 | 3 (OCR-B) [BCOCA-4-681]|
+| X'09' | EAN-13 (includes JAN-standard) | 893 | 3 (OCR-B) [BCOCA-4-682]|
+| X'0A' | Industrial 2-of-5 | 500 | Device specific [BCOCA-4-683]|
+| X'0B' | Matrix 2-of-5 | 500 | Device specific [BCOCA-4-684]|
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 500 | Device specific [BCOCA-4-685]|
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 500 | Device specific [BCOCA-4-686]|
+| X'11' | Code 128, GS1-128, Intelligent Mail Container Barcode, Intelligent Mail Package Barcode, UCC/EAN 128, AIM USS-128 | 1303 (see note 2) | Device specific [BCOCA-4-687]|
+| X'16' | EAN Two-Digit Supplemental | 893 | 3 (OCR-B) [BCOCA-4-688]|
+| X'17' | EAN Five-Digit Supplemental | 893 | 3 (OCR-B) [BCOCA-4-689]|
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 500 | None [BCOCA-4-690]|
+| X'1A' | RM4SCC and Dutch KIX | 500 | None [BCOCA-4-691]|
+| X'1B' | Japan Postal Bar Code | 500 | None [BCOCA-4-692]|
+| X'1C' | Data Matrix, GS1 DataMatrix (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None [BCOCA-4-693]|
+| X'1D' | MaxiCode (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None [BCOCA-4-694]|
+| X'1E' | PDF417 (2D bar code) | Default CPGID=437; code page is selectable within the symbol using GLI protocol | None [BCOCA-4-695]|
+| X'1F' | Australia Post Bar Code | 500 | Device specific [BCOCA-4-696]|
+| X'20' | QR Code, QR Code with Image (2D bar code) | Default CPGID=897; code page is selectable within the symbol using ECI protocol | None [BCOCA-4-697]|
+| X'21' | Code 93 | 500 | Device specific [BCOCA-4-698]|
+| X'22' | Intelligent Mail Barcode | 500 | Device specific [BCOCA-4-699]|
+| X'23' | Royal Mail RED TAG (deprecated) | 500 | None [BCOCA-4-700]|
+| X'24' | GS1 DataBar | 1303 | Device specific [BCOCA-4-701]|
+| X'25' | Royal Mail Mailmark | 500 | None [BCOCA-4-702]|
+| X'26' | Aztec Code (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None [BCOCA-4-703]|
+| X'27' | Han Xin Code (2D bar code) | Default CPGID=819; code page is selectable within the symbol using ECI protocol | None [BCOCA-4-704]|
 
 **Notes:**
-1. Some symbologies allow a variety of FGIDs, but individual printers restrict the choice; when “Device specific” is specified in the FGID column, refer to printer documentation for information about supported FGIDs.
-2. For the Intelligent Mail Package Barcode, while the data is encoded using CPGID 1303 as all other Code 128 bar codes, the characters for the USPS Service Banner are encoded using UTF-16BE.
+1. Some symbologies allow a variety of FGIDs, but individual printers restrict the choice; when “Device specific” is specified in the FGID column, refer to printer documentation for information about supported FGIDs. [BCOCA-4-705]
+2. For the Intelligent Mail Package Barcode, while the data is encoded using CPGID 1303 as all other Code 128 bar codes, the characters for the USPS Service Banner are encoded using UTF-16BE. [BCOCA-4-706]
 
 
 
@@ -4618,191 +4618,191 @@ characters are allowed. For example, the UPC/CGPC Version E symbol limits the ra
 last 5 digits based on the value of the first 5 digits. Refer to the appropriate symbology specification for a full
 description of the rules for laying out bar code data; the symbology specifications are listed in Appendix A, “Bar
 Code Symbology Specification References”,.
-**Table 35. Valid Characters and Data Lengths**
+**Table 35. Valid Characters and Data Lengths** [BCOCA-4-707]
 
 | Type | Bar Code Symbology | Valid Characters | Valid Data Length |
 | :--- | :--- | :--- | :--- |
-| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>-.$/+%<br>(space)<br>A total of 43 valid input characters | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
-| X'02' | MSI (modified Plessey code) | 0123456789 | 3 to 15 characters for Modifier X'01'<br>2 to 14 characters for Modifier X'02'<br>1 to 13 characters for all other modifiers |
-| X'03' | UPC/CGPC - Version A | 0123456789 (see note 1) | 11 characters |
-| X'05' | UPC/CGPC - Version E | 0123456789 (see note 1) | 10 characters |
-| X'06' | UPC - Two-Digit Supplemental (Periodicals) | 0123456789 | 2 characters for Modifier X'00'<br>13 characters for Modifier X'01'<br>12 characters for Modifier X'02' |
-| X'07' | UPC - Five-Digit Supplemental (Paperbacks) | 0123456789 | 5 characters for Modifier X'00'<br>16 characters for Modifier X'01'<br>15 characters for Modifier X'02' |
-| X'08' | EAN-8 (includes JAN-short) | 0123456789 (see note 1) | 7 characters |
-| X'09' | EAN-13 (includes JAN-standard) | 0123456789 (see note 1) | 12 characters |
-| X'0A' | Industrial 2-of-5 | 0123456789 | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
-| X'0B' | Matrix 2-of-5 | 0123456789 | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
-| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 0123456789 | Interleaved 2-of-5 symbology: unlimited<br>ITF-14 symbology: 13 digits<br>BCOCA range: 0 to 50 characters (see note 2) |
-| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 0123456789<br>-$:/.+ABCD<br>16 characters plus 4 start/stop characters (ABCD) (see note 3) | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
-| X'11' | Code 128, AIM USS-128 (modifier X'02') | All characters defined in the Code 128 code page (see page 160) | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
-| | UCC/EAN 128 (modifier X'03') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>FNC1 (X'8F') | Maximum of 48 characters (see note 4) |
-| | UCC/EAN 128, GS1-128 (modifier X'04') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>FNC1 (X'8F') | Maximum of 48 characters (see note 4) |
-| | Intelligent Mail Container Barcode (modifier X'05') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>-<br>FNC1 (X'8F')<br>Some fields restrict the range of characters; refer to the modifier X'05' description in Table 14. | 22 characters |
-| | Intelligent Mail Package Barcode (modifier X'06') | 0123456789<br>FNC1 (X'8F') | 22, 26, 30, or 34 characters |
-| X'16' | EAN Two-Digit Supplemental | 0123456789 | 2 characters for Modifier X'00'<br>14 characters for Modifier X'01' |
-| X'17' | EAN Five-Digit Supplemental | 0123456789 | 5 characters for Modifier X'00'<br>17 characters for Modifier X'01' |
-| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 0123456789 | 5 characters for Modifier X'00'<br>9 characters for Modifier X'01'<br>11 characters for Modifier X'02'<br>11 characters for Modifier X'04'<br>BCOCA range for Modifier X'03': 0 to 50 characters (see note 2) |
-| X'1A' | Royal Mail (RM4SCC, modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
-| | Royal Mail (Dutch KIX variation, modifier X'01') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz | Symbology: maximum of 18 characters<br>BCOCA range: 0 to 50 characters (see note 2) |
-| X'1B' | Japan Postal Bar Code (Modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>- | Symbology: 7 or more<br>BCOCA range: 7 to 50 characters (see note 2) |
-| | Japan Postal Bar Code (Modifier X'01') | 0123456789<br>CC1,CC2,CC3,CC4,<br>CC5,CC6,CC7,CC8<br>-<br>start, stop | No length checking done; refer to the modifier X'01' description |
-| X'1C' | Data Matrix, GS1 DataMatrix | Any one-byte character or binary data | Symbology: up to 3116 depending on whether the data is character or numeric; refer to the symbology specification<br>BCOCA range: 0 to 3116 characters (see note 2) |
-| X'1D' | MaxiCode | Any one-byte character allowed by the symbol mode; refer to the description of symbol modes | Symbology: up to 93 alphanumeric characters per symbol depending on encoding overhead or up to 138 numeric characters per symbol; refer to the symbology specification<br>BCOCA range: 0 to 138 characters |
-| X'1E' | PDF417 | Any one-byte character or binary data | Symbology: up to 1850 text characters, 2710 ASCII numeric digits, or 1108 bytes of binary data per symbol depending on the security level; refer to the symbology specification<br>BCOCA range: 0 to 2710 characters |
-| X'1F' | Australia Post Bar Code – refer to the modifier (byte 13) description in “Australia Post Bar Code (modifier values X'01' through X'08')” for information about valid characters in specific parts of the symbol | | |
-| | Modifier X'01' – Standard Customer Barcode | 0123456789 | 8 digits |
-| | Modifier X'02' – Customer Barcode 2 using Table N | 0123456789 | 8–16 digits |
-| | Modifier X'03' – Customer Barcode 2 using Table C | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>(space)<br># | 8–13 characters |
-| | Modifier X'04' – Customer Barcode 2 using proprietary encoding | 0123456789 for sorting code<br>0–3 for customer information | 8–24 digits |
-| | Modifier X'05' – Customer Barcode 3 using Table N | 0123456789 | 8–23 digits |
-| | Modifier X'06' – Customer Barcode 3 using Table C | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>(space)<br># | 8–18 characters |
-| | Modifier X'07' – Customer Barcode 3 using proprietary encoding | 0123456789 for sorting code<br>0–3 for customer information | 8–39 digits |
-| | Modifier X'08' – Reply Paid Barcode | 0123456789 | 8 digits |
-| X'20' | QR Code, QR Code with Image | Any one-byte character or binary data | Symbology: Up to 7,089 characters depending on the size and type of the data; refer to the symbology specification<br>BCOCA range: 0 to 7,089 characters |
-| X'21' | Code 93 | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>-.$/+%<br>(space)<br>a (representing Shift 1)<br>b (representing Shift 2)<br>c (representing Shift 3)<br>d (representing Shift 4)<br>A total of 47 valid input characters | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) |
-| X'22' | Intelligent Mail Barcode | 0123456789 | 20 digits for Modifier X'00'<br>25 digits for Modifier X'01'<br>29 digits for Modifier X'02'<br>31 digits for Modifier X'03' |
-| X'23' | Royal Mail RED TAG (deprecated) | 0123456789 | 21 digits |
-| X'24' | GS1 DataBar Omnidirectional (Modifier X'00') | 0123456789 | 14 digits |
-| | Truncated (Modifier X'01') | 0123456789 | 14 digits |
-| | Stacked (Modifier X'02') | 0123456789 | 14 digits |
-| | Stacked Omnidirectional (Modifier X'03') | 0123456789 | 14 digits |
-| | Limited (Modifier X'04') | 0123456789<br>The first digit must be 0 or 1. | 14 digits |
-| | Expanded (Modifier X'11') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>!"%&'()*+,-./:;<=>?_<br>FNC1 (X'8F') | up to 74 digits or up to 41 alphabetic characters |
-| | Expanded Stacked (Modifiers X'12' through X'1B') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>!"%&'()*+,-./:;<=>?_<br>FNC1 (X'8F') | up to 74 digits or up to 41 alphabetic characters |
-| X'25' | Royal Mail Mailmark Barcode C (Modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>(space) | 22 characters |
-| | Barcode L (Modifier X'01') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>(space) | 26 characters |
-| X'26' | Aztec Code | Any one-byte character or binary data | Symbology: Up to approximately 3784 text characters, 4729 ASCII numeric digits, or 2360 bytes of binary data per symbol, using the 5% minimum error-correction level; refer to the symbology specification<br>BCOCA range: 0 to 4729 characters |
-| X'27' | Han Xin Code | Any character—including special processing for Chinese and Unicode characters—or binary data | Symbology: Up to 4350 ASCII characters, 7827 ASCII numeric digits, 2174 common Chinese characters, 1739 2-byte Chinese characters, 1044 4-byte Chinese characters, or 3261 bytes of binary data per symbol, using the 8% minimum error-correction level; refer to the symbology specification<br>BCOCA range: 0 to 7827 characters |
+| X'01' | Code 39 (3-of-9 Code), AIM USS-39 | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>-.$/+%<br>(space)<br>A total of 43 valid input characters | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-708]|
+| X'02' | MSI (modified Plessey code) | 0123456789 | 3 to 15 characters for Modifier X'01'<br>2 to 14 characters for Modifier X'02'<br>1 to 13 characters for all other modifiers [BCOCA-4-709]|
+| X'03' | UPC/CGPC - Version A | 0123456789 (see note 1) | 11 characters [BCOCA-4-710]|
+| X'05' | UPC/CGPC - Version E | 0123456789 (see note 1) | 10 characters [BCOCA-4-711]|
+| X'06' | UPC - Two-Digit Supplemental (Periodicals) | 0123456789 | 2 characters for Modifier X'00'<br>13 characters for Modifier X'01'<br>12 characters for Modifier X'02' [BCOCA-4-712]|
+| X'07' | UPC - Five-Digit Supplemental (Paperbacks) | 0123456789 | 5 characters for Modifier X'00'<br>16 characters for Modifier X'01'<br>15 characters for Modifier X'02' [BCOCA-4-713]|
+| X'08' | EAN-8 (includes JAN-short) | 0123456789 (see note 1) | 7 characters [BCOCA-4-714]|
+| X'09' | EAN-13 (includes JAN-standard) | 0123456789 (see note 1) | 12 characters [BCOCA-4-715]|
+| X'0A' | Industrial 2-of-5 | 0123456789 | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-716]|
+| X'0B' | Matrix 2-of-5 | 0123456789 | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-717]|
+| X'0C' | Interleaved 2-of-5, ITF-14, AIM USS-I 2/5 | 0123456789 | Interleaved 2-of-5 symbology: unlimited<br>ITF-14 symbology: 13 digits<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-718]|
+| X'0D' | Codabar, 2-of-7, AIM USS-Codabar | 0123456789<br>-$:/.+ABCD<br>16 characters plus 4 start/stop characters (ABCD) (see note 3) | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-719]|
+| X'11' | Code 128, AIM USS-128 (modifier X'02') | All characters defined in the Code 128 code page (see page 160) | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-720]|
+| | UCC/EAN 128 (modifier X'03') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>FNC1 (X'8F') | Maximum of 48 characters (see note 4) [BCOCA-4-721]|
+| | UCC/EAN 128, GS1-128 (modifier X'04') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>FNC1 (X'8F') | Maximum of 48 characters (see note 4) [BCOCA-4-722]|
+| | Intelligent Mail Container Barcode (modifier X'05') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>-<br>FNC1 (X'8F')<br>Some fields restrict the range of characters; refer to the modifier X'05' description in Table 14. | 22 characters [BCOCA-4-723]|
+| | Intelligent Mail Package Barcode (modifier X'06') | 0123456789<br>FNC1 (X'8F') | 22, 26, 30, or 34 characters [BCOCA-4-724]|
+| X'16' | EAN Two-Digit Supplemental | 0123456789 | 2 characters for Modifier X'00'<br>14 characters for Modifier X'01' [BCOCA-4-725]|
+| X'17' | EAN Five-Digit Supplemental | 0123456789 | 5 characters for Modifier X'00'<br>17 characters for Modifier X'01' [BCOCA-4-726]|
+| X'18' | POSTNET (deprecated) and PLANET (deprecated) | 0123456789 | 5 characters for Modifier X'00'<br>9 characters for Modifier X'01'<br>11 characters for Modifier X'02'<br>11 characters for Modifier X'04'<br>BCOCA range for Modifier X'03': 0 to 50 characters (see note 2) [BCOCA-4-727]|
+| X'1A' | Royal Mail (RM4SCC, modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-728]|
+| | Royal Mail (Dutch KIX variation, modifier X'01') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz | Symbology: maximum of 18 characters<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-729]|
+| X'1B' | Japan Postal Bar Code (Modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>- | Symbology: 7 or more<br>BCOCA range: 7 to 50 characters (see note 2) [BCOCA-4-730]|
+| | Japan Postal Bar Code (Modifier X'01') | 0123456789<br>CC1,CC2,CC3,CC4,<br>CC5,CC6,CC7,CC8<br>-<br>start, stop | No length checking done; refer to the modifier X'01' description [BCOCA-4-731]|
+| X'1C' | Data Matrix, GS1 DataMatrix | Any one-byte character or binary data | Symbology: up to 3116 depending on whether the data is character or numeric; refer to the symbology specification<br>BCOCA range: 0 to 3116 characters (see note 2) [BCOCA-4-732]|
+| X'1D' | MaxiCode | Any one-byte character allowed by the symbol mode; refer to the description of symbol modes | Symbology: up to 93 alphanumeric characters per symbol depending on encoding overhead or up to 138 numeric characters per symbol; refer to the symbology specification<br>BCOCA range: 0 to 138 characters [BCOCA-4-733]|
+| X'1E' | PDF417 | Any one-byte character or binary data | Symbology: up to 1850 text characters, 2710 ASCII numeric digits, or 1108 bytes of binary data per symbol depending on the security level; refer to the symbology specification<br>BCOCA range: 0 to 2710 characters [BCOCA-4-734]|
+| X'1F' | Australia Post Bar Code – refer to the modifier (byte 13) description in “Australia Post Bar Code (modifier values X'01' through X'08')” for information about valid characters in specific parts of the symbol [BCOCA-4-735]| | |
+| | Modifier X'01' – Standard Customer Barcode | 0123456789 | 8 digits [BCOCA-4-736]|
+| | Modifier X'02' – Customer Barcode 2 using Table N | 0123456789 | 8–16 digits [BCOCA-4-737]|
+| | Modifier X'03' – Customer Barcode 2 using Table C | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>(space)<br># | 8–13 characters [BCOCA-4-738]|
+| | Modifier X'04' – Customer Barcode 2 using proprietary encoding | 0123456789 for sorting code<br>0–3 for customer information | 8–24 digits [BCOCA-4-739]|
+| | Modifier X'05' – Customer Barcode 3 using Table N | 0123456789 | 8–23 digits [BCOCA-4-740]|
+| | Modifier X'06' – Customer Barcode 3 using Table C | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>(space)<br># | 8–18 characters [BCOCA-4-741]|
+| | Modifier X'07' – Customer Barcode 3 using proprietary encoding | 0123456789 for sorting code<br>0–3 for customer information | 8–39 digits [BCOCA-4-742]|
+| | Modifier X'08' – Reply Paid Barcode | 0123456789 | 8 digits [BCOCA-4-743]|
+| X'20' | QR Code, QR Code with Image | Any one-byte character or binary data | Symbology: Up to 7,089 characters depending on the size and type of the data; refer to the symbology specification<br>BCOCA range: 0 to 7,089 characters [BCOCA-4-744]|
+| X'21' | Code 93 | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>-.$/+%<br>(space)<br>a (representing Shift 1)<br>b (representing Shift 2)<br>c (representing Shift 3)<br>d (representing Shift 4)<br>A total of 47 valid input characters | Symbology: unlimited<br>BCOCA range: 0 to 50 characters (see note 2) [BCOCA-4-745]|
+| X'22' | Intelligent Mail Barcode | 0123456789 | 20 digits for Modifier X'00'<br>25 digits for Modifier X'01'<br>29 digits for Modifier X'02'<br>31 digits for Modifier X'03' [BCOCA-4-746]|
+| X'23' | Royal Mail RED TAG (deprecated) | 0123456789 | 21 digits [BCOCA-4-747]|
+| X'24' | GS1 DataBar Omnidirectional (Modifier X'00') | 0123456789 | 14 digits [BCOCA-4-748]|
+| | Truncated (Modifier X'01') | 0123456789 | 14 digits [BCOCA-4-749]|
+| | Stacked (Modifier X'02') | 0123456789 | 14 digits [BCOCA-4-750]|
+| | Stacked Omnidirectional (Modifier X'03') | 0123456789 | 14 digits [BCOCA-4-751]|
+| | Limited (Modifier X'04') | 0123456789<br>The first digit must be 0 or 1. | 14 digits [BCOCA-4-752]|
+| | Expanded (Modifier X'11') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>!"%&'()*+,-./:;<=>?_<br>FNC1 (X'8F') | up to 74 digits or up to 41 alphabetic characters [BCOCA-4-753]|
+| | Expanded Stacked (Modifiers X'12' through X'1B') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>!"%&'()*+,-./:;<=>?_<br>FNC1 (X'8F') | up to 74 digits or up to 41 alphabetic characters [BCOCA-4-754]|
+| X'25' | Royal Mail Mailmark Barcode C (Modifier X'00') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>(space) | 22 characters [BCOCA-4-755]|
+| | Barcode L (Modifier X'01') | 0123456789<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>(space) | 26 characters [BCOCA-4-756]|
+| X'26' | Aztec Code | Any one-byte character or binary data | Symbology: Up to approximately 3784 text characters, 4729 ASCII numeric digits, or 2360 bytes of binary data per symbol, using the 5% minimum error-correction level; refer to the symbology specification<br>BCOCA range: 0 to 4729 characters [BCOCA-4-757]|
+| X'27' | Han Xin Code | Any character—including special processing for Chinese and Unicode characters—or binary data | Symbology: Up to 4350 ASCII characters, 7827 ASCII numeric digits, 2174 common Chinese characters, 1739 2-byte Chinese characters, 1044 4-byte Chinese characters, or 3261 bytes of binary data per symbol, using the 8% minimum error-correction level; refer to the symbology specification<br>BCOCA range: 0 to 7827 characters [BCOCA-4-758]|
 Notes:
-1. The data for the UPC and EAN symbologies is numeric and of a fixed length, but not all numbers of the
+1. The data for the UPC and EAN symbologies is numeric and of a fixed length, but not all numbers of the [BCOCA-4-759]
 appropriate length are valid. This is because the coding scheme is designed to uniquely identify both a
 product and its manufacturer. The first part of the symbol represents the manufacturer and is defined in the
 symbology specification (not all numbers are valid in this part of the symbol). The second part of the
-Valid Characters and Data Lengths
+Valid Characters and Data Lengths [BCOCA-4-760]
 
 
 
 
 symbol represents a unique product identifier code assigned by the manufacturer. Refer to the description
 of GS1 company prefixes in the GS1 General Specifications for more details.
-2. All BCOCA receivers must support at least the BCOCA range. Some receivers support a larger data
+2. All BCOCA receivers must support at least the BCOCA range. Some receivers support a larger data [BCOCA-4-761]
 length.
-3. Some descriptions of Codabar show the characters “T ,N,*,E” as stop characters (representing the stop
+3. Some descriptions of Codabar show the characters “T ,N,*,E” as stop characters (representing the stop [BCOCA-4-762]
 characters “A,B,C,D”), but the Codabar symbology actually only allows “A,B,C,D” as start and stop
 characters. This alternate representation (“T ,N,*,E”) is used only to distinguish between the start and stop
 characters when describing a Codabar symbol; when coding a BCOCA Codabar symbol, start and stop
 characters must be represented using A, B, C, or D.
-4. A full description of the GS1-128 symbology is available in GS1 General Specifications. This document
+4. A full description of the GS1-128 symbology is available in GS1 General Specifications. This document [BCOCA-4-763]
 extends some of the Application Identifiers (AI) defined for UCC/EAN 128 to also allow 20 punctuation
 characters – !"%&'()*+,-./:;<=>?_ – for GS1-128 symbols. The document also lists the following symbol size
 characteristics for GS1-128 bar codes (but many BCOCA receivers that support modifiers X'03' and X'04'
 do not check for or enforce these limits):
-1. The maximum number of data characters in a single symbol is 48.
-2. The maximum physical length of a Code 128 symbol is 165 mm (6.5 inches) including quiet zones.
-Valid Characters and Data Lengths
+1. The maximum number of data characters in a single symbol is 48. [BCOCA-4-764]
+2. The maximum physical length of a Code 128 symbol is 165 mm (6.5 inches) including quiet zones. [BCOCA-4-765]
+Valid Characters and Data Lengths [BCOCA-4-766]
 
 
 
 
 ### Characters and Code Points
 
-The following table (Table 36) is informational and is not a formal part of the BCOCA architecture. The table is intended as a convenient listing of some EBCDIC and ASCII codes points and is not intended to be complete or to show all possible EBCDIC or ASCII encodings for any particular code point. The specific code pages are listed, using CPGIDs, in Table 34. For a formal definition of these codes pages and CPGIDs, refer to the Character Data Representation Architecture listed in Table 5. Note that this table does not necessarily cover all of the code points used for 2D bar codes and does not contain all of the characters available with CPGID = 1303.
+The following table (Table 36) is informational and is not a formal part of the BCOCA architecture. The table is intended as a convenient listing of some EBCDIC and ASCII codes points and is not intended to be complete or to show all possible EBCDIC or ASCII encodings for any particular code point. The specific code pages are listed, using CPGIDs, in Table 34. For a formal definition of these codes pages and CPGIDs, refer to the Character Data Representation Architecture listed in Table 5. Note that this table does not necessarily cover all of the code points used for 2D bar codes and does not contain all of the characters available with CPGID = 1303. [BCOCA-4-767]
 
-Table 36. Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing)
+Table 36. Characters and Code Points Commonly used in the BCOCA Symbologies (Not a Complete Listing) [BCOCA-4-768]
 
 | Character | EBCDIC Code Point | ASCII Code Point |
 | :--- | :--- | :--- |
-| 0 | X'F0' | X'30' |
-| 1 | X'F1' | X'31' |
-| 2 | X'F2' | X'32' |
-| 3 | X'F3' | X'33' |
-| 4 | X'F4' | X'34' |
-| 5 | X'F5' | X'35' |
-| 6 | X'F6' | X'36' |
-| 7 | X'F7' | X'37' |
-| 8 | X'F8' | X'38' |
-| 9 | X'F9' | X'39' |
-| A | X'C1' | X'41' |
-| B | X'C2' | X'42' |
-| C | X'C3' | X'43' |
-| D | X'C4' | X'44' |
-| E | X'C5' | X'45' |
-| F | X'C6' | X'46' |
-| G | X'C7' | X'47' |
-| H | X'C8' | X'48' |
-| I | X'C9' | X'49' |
-| J | X'D1' | X'4A' |
-| K | X'D2' | X'4B' |
-| L | X'D3' | X'4C' |
-| M | X'D4' | X'4D' |
-| N | X'D5' | X'4E' |
-| O | X'D6' | X'4F' |
-| P | X'D7' | X'50' |
-| Q | X'D8' | X'51' |
-| R | X'D9' | X'52' |
-| S | X'E2' | X'53' |
-| T | X'E3' | X'54' |
-| U | X'E4' | X'55' |
-| V | X'E5' | X'56' |
-| W | X'E6' | X'57' |
-| X | X'E7' | X'58' |
-| Y | X'E8' | X'59' |
-| Z | X'E9' | X'5A' |
-| a | X'81' | X'61' |
-| b | X'82' | X'62' |
-| c | X'83' | X'63' |
-| d | X'84' | X'64' |
-| e | X'85' | X'65' |
-| f | X'86' | X'66' |
-| g | X'87' | X'67' |
-| h | X'88' | X'68' |
-| i | X'89' | X'69' |
-| j | X'91' | X'6A' |
-| k | X'92' | X'6B' |
-| l | X'93' | X'6C' |
-| m | X'94' | X'6D' |
-| n | X'95' | X'6E' |
-| o | X'96' | X'6F' |
-| p | X'97' | X'70' |
-| q | X'98' | X'71' |
-| r | X'99' | X'72' |
-| s | X'A2' | X'73' |
-| t | X'A3' | X'74' |
-| u | X'A4' | X'75' |
-| v | X'A5' | X'76' |
-| w | X'A6' | X'77' |
-| x | X'A7' | X'78' |
-| y | X'A8' | X'79' |
-| z | X'A9' | X'7A' |
-| - | X'60' | X'2D' |
-| # | X'7B' | X'23' |
-| . | X'4B' | X'2E' |
-| $ | X'5B' | X'24' |
-| / | X'61' | X'2F' |
-| + | X'4E' | X'2B' |
-| % | X'6C' | X'25' |
-| : | X'7A' | X'3A' |
-| ! | X'4F' for CPGID = 500<br>X'4F' for CPGID = 893<br>X'5A' for CPGID = 1303 | X'21' |
-| " | X'7F' | X'22' |
-| & | X'50' | X'26' |
-| ' | X'7D' | X'27' |
-| ( | X'4D' | X'28' |
-| ) | X'5D' | X'29' |
-| [ | X'4A' | X'5B' |
-| * | X'5C' | X'2A' |
-| , | X'6B' | X'2C' |
-| ; | X'5E' | X'3B' |
-| < | X'4C' | X'3C' |
-| = | X'7E' | X'3D' |
-| > | X'6E' | X'3E' |
-| ? | X'6F' | X'3F' |
-| _ | X'6D' | X'5F' |
-| Space | X'40' | X'20' |
-| FNC1 | X'8F' for CPGID = 1303 | |
-| RS (record separator) | X'1E' | X'1E' |
-| GS (group separator) | X'1D' | X'1D' |
-| US (unit separator) | X'1F' | X'1F' |
-| EOT (end of transmission) | X'37' | X'04' |
+| 0 | X'F0' | X'30' [BCOCA-4-769]|
+| 1 | X'F1' | X'31' [BCOCA-4-770]|
+| 2 | X'F2' | X'32' [BCOCA-4-771]|
+| 3 | X'F3' | X'33' [BCOCA-4-772]|
+| 4 | X'F4' | X'34' [BCOCA-4-773]|
+| 5 | X'F5' | X'35' [BCOCA-4-774]|
+| 6 | X'F6' | X'36' [BCOCA-4-775]|
+| 7 | X'F7' | X'37' [BCOCA-4-776]|
+| 8 | X'F8' | X'38' [BCOCA-4-777]|
+| 9 | X'F9' | X'39' [BCOCA-4-778]|
+| A | X'C1' | X'41' [BCOCA-4-779]|
+| B | X'C2' | X'42' [BCOCA-4-780]|
+| C | X'C3' | X'43' [BCOCA-4-781]|
+| D | X'C4' | X'44' [BCOCA-4-782]|
+| E | X'C5' | X'45' [BCOCA-4-783]|
+| F | X'C6' | X'46' [BCOCA-4-784]|
+| G | X'C7' | X'47' [BCOCA-4-785]|
+| H | X'C8' | X'48' [BCOCA-4-786]|
+| I | X'C9' | X'49' [BCOCA-4-787]|
+| J | X'D1' | X'4A' [BCOCA-4-788]|
+| K | X'D2' | X'4B' [BCOCA-4-789]|
+| L | X'D3' | X'4C' [BCOCA-4-790]|
+| M | X'D4' | X'4D' [BCOCA-4-791]|
+| N | X'D5' | X'4E' [BCOCA-4-792]|
+| O | X'D6' | X'4F' [BCOCA-4-793]|
+| P | X'D7' | X'50' [BCOCA-4-794]|
+| Q | X'D8' | X'51' [BCOCA-4-795]|
+| R | X'D9' | X'52' [BCOCA-4-796]|
+| S | X'E2' | X'53' [BCOCA-4-797]|
+| T | X'E3' | X'54' [BCOCA-4-798]|
+| U | X'E4' | X'55' [BCOCA-4-799]|
+| V | X'E5' | X'56' [BCOCA-4-800]|
+| W | X'E6' | X'57' [BCOCA-4-801]|
+| X | X'E7' | X'58' [BCOCA-4-802]|
+| Y | X'E8' | X'59' [BCOCA-4-803]|
+| Z | X'E9' | X'5A' [BCOCA-4-804]|
+| a | X'81' | X'61' [BCOCA-4-805]|
+| b | X'82' | X'62' [BCOCA-4-806]|
+| c | X'83' | X'63' [BCOCA-4-807]|
+| d | X'84' | X'64' [BCOCA-4-808]|
+| e | X'85' | X'65' [BCOCA-4-809]|
+| f | X'86' | X'66' [BCOCA-4-810]|
+| g | X'87' | X'67' [BCOCA-4-811]|
+| h | X'88' | X'68' [BCOCA-4-812]|
+| i | X'89' | X'69' [BCOCA-4-813]|
+| j | X'91' | X'6A' [BCOCA-4-814]|
+| k | X'92' | X'6B' [BCOCA-4-815]|
+| l | X'93' | X'6C' [BCOCA-4-816]|
+| m | X'94' | X'6D' [BCOCA-4-817]|
+| n | X'95' | X'6E' [BCOCA-4-818]|
+| o | X'96' | X'6F' [BCOCA-4-819]|
+| p | X'97' | X'70' [BCOCA-4-820]|
+| q | X'98' | X'71' [BCOCA-4-821]|
+| r | X'99' | X'72' [BCOCA-4-822]|
+| s | X'A2' | X'73' [BCOCA-4-823]|
+| t | X'A3' | X'74' [BCOCA-4-824]|
+| u | X'A4' | X'75' [BCOCA-4-825]|
+| v | X'A5' | X'76' [BCOCA-4-826]|
+| w | X'A6' | X'77' [BCOCA-4-827]|
+| x | X'A7' | X'78' [BCOCA-4-828]|
+| y | X'A8' | X'79' [BCOCA-4-829]|
+| z | X'A9' | X'7A' [BCOCA-4-830]|
+| - | X'60' | X'2D' [BCOCA-4-831]|
+| # | X'7B' | X'23' [BCOCA-4-832]|
+| . | X'4B' | X'2E' [BCOCA-4-833]|
+| $ | X'5B' | X'24' [BCOCA-4-834]|
+| / | X'61' | X'2F' [BCOCA-4-835]|
+| + | X'4E' | X'2B' [BCOCA-4-836]|
+| % | X'6C' | X'25' [BCOCA-4-837]|
+| : | X'7A' | X'3A' [BCOCA-4-838]|
+| ! | X'4F' for CPGID = 500<br>X'4F' for CPGID = 893<br>X'5A' for CPGID = 1303 | X'21' [BCOCA-4-839]|
+| " | X'7F' | X'22' [BCOCA-4-840]|
+| & | X'50' | X'26' [BCOCA-4-841]|
+| ' | X'7D' | X'27' [BCOCA-4-842]|
+| ( | X'4D' | X'28' [BCOCA-4-843]|
+| ) | X'5D' | X'29' [BCOCA-4-844]|
+| [ | X'4A' | X'5B' [BCOCA-4-845]|
+| * | X'5C' | X'2A' [BCOCA-4-846]|
+| , | X'6B' | X'2C' [BCOCA-4-847]|
+| ; | X'5E' | X'3B' [BCOCA-4-848]|
+| < | X'4C' | X'3C' [BCOCA-4-849]|
+| = | X'7E' | X'3D' [BCOCA-4-850]|
+| > | X'6E' | X'3E' [BCOCA-4-851]|
+| ? | X'6F' | X'3F' [BCOCA-4-852]|
+| _ | X'6D' | X'5F' [BCOCA-4-853]|
+| Space | X'40' | X'20' [BCOCA-4-854]|
+| FNC1 | X'8F' for CPGID = 1303 [BCOCA-4-855]| |
+| RS (record separator) | X'1E' | X'1E' [BCOCA-4-856]|
+| GS (group separator) | X'1D' | X'1D' [BCOCA-4-857]|
+| US (unit separator) | X'1F' | X'1F' [BCOCA-4-858]|
+| EOT (end of transmission) | X'37' | X'04' [BCOCA-4-859]|
 
 
 
@@ -4822,7 +4822,7 @@ Hex Digits
 -4
 -5
 -6
-0- 5- 6-1- 7-2- 8-3- 4- 9- A- B- C- D- E- F-
+0- 5- 6-1- 7-2- 8-3- 4- 9- A- B- C- D- E- F- [BCOCA-4-860]
 SE030000
 SE040000
 SE100000
@@ -4905,7 +4905,7 @@ SE390000 SE330000
 SE420000SA010000 SP140000 SA050000
 SO130000 SP150000 SP040000
 SA040000
-| ? "
+| ? " [BCOCA-4-861]
 + ; > =
 -7
 -8
