@@ -14,6 +14,36 @@ public class CLITest {
     @Test
     public void testCLIDirectoryMode() throws Exception {
         File tempDir = new File("build/test-dir");
+        setupTestDirectory(tempDir);
+
+        Afp2Xml.main(new String[]{"-d", tempDir.getAbsolutePath()});
+
+        verifyDirectoryOutput(tempDir);
+    }
+
+    @Test
+    public void testCLIImplicitDirectoryMode() throws Exception {
+        File tempDir = new File("build/test-dir-implicit");
+        setupTestDirectory(tempDir);
+
+        // Pass directory without -d flag
+        Afp2Xml.main(new String[]{tempDir.getAbsolutePath()});
+
+        verifyDirectoryOutput(tempDir);
+    }
+
+    @Test
+    public void testCLIDirectoryFlagWithPath() throws Exception {
+        File tempDir = new File("build/test-dir-flag-path");
+        setupTestDirectory(tempDir);
+
+        // Pass -d followed by the directory path
+        Afp2Xml.main(new String[]{"-d", tempDir.getAbsolutePath()});
+
+        verifyDirectoryOutput(tempDir);
+    }
+
+    private void setupTestDirectory(File tempDir) throws Exception {
         if (tempDir.exists()) {
             File[] files = tempDir.listFiles();
             if (files != null) {
@@ -27,9 +57,9 @@ public class CLITest {
         File afpFile2 = new File(tempDir, "test2.AFP"); // test case insensitivity
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile1.toPath());
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile2.toPath());
+    }
 
-        Afp2Xml.main(new String[]{"-d", tempDir.getAbsolutePath()});
-
+    private void verifyDirectoryOutput(File tempDir) throws Exception {
         File xmlFile1 = new File(tempDir, "test1.afp.xml");
         File xmlFile2 = new File(tempDir, "test2.AFP.xml");
 

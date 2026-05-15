@@ -46,20 +46,39 @@ public class Afp2Xml {
         String xpathExpression = null;
 
         for (var i = 0; i < args.length; i++) {
-            if ("-d".equals(args[i]) || "--directory".equals(args[i])) {
-                isDirectoryMode = true;
-            } else if ("-x".equals(args[i]) || "--xpath".equals(args[i])) {
-                if (i + 1 < args.length) {
-                    xpathExpression = args[++i];
-                } else {
-                    System.err.println("Error: --xpath requires an expression.");
-                    printUsage();
-                    System.exit(1);
+            var arg = args[i];
+            switch (arg) {
+                case "-d", "--directory" -> {
+                    isDirectoryMode = true;
+                    if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
+                        inputPath = args[++i];
+                    }
                 }
-            } else if (inputPath == null) {
-                inputPath = args[i];
-            } else if (outputPath == null) {
-                outputPath = args[i];
+                case "-x", "--xpath" -> {
+                    if (i + 1 < args.length) {
+                        xpathExpression = args[++i];
+                    } else {
+                        System.err.println("Error: --xpath requires an expression.");
+                        printUsage();
+                        System.exit(1);
+                    }
+                }
+                default -> {
+                    if (arg.startsWith("-")) {
+                        System.err.println("Unknown option: " + arg);
+                        printUsage();
+                        System.exit(1);
+                    }
+                    if (inputPath == null) {
+                        inputPath = arg;
+                    } else if (outputPath == null) {
+                        outputPath = arg;
+                    } else {
+                        System.err.println("Too many arguments.");
+                        printUsage();
+                        System.exit(1);
+                    }
+                }
             }
         }
 
@@ -73,6 +92,10 @@ public class Afp2Xml {
             if (!input.exists()) {
                 System.err.println("Input not found: " + inputPath);
                 System.exit(1);
+            }
+
+            if (input.isDirectory()) {
+                isDirectoryMode = true;
             }
 
             if (isDirectoryMode) {
@@ -108,10 +131,11 @@ public class Afp2Xml {
     }
 
     private static void printUsage() {
-        System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory] [-x|--xpath <expression>] <input-afp-file/dir> [output-xml-file]");
+        System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory <dir>] [-x|--xpath <expression>] <input-afp-file/dir> [output-xml-file]");
         System.err.println("Options:");
-        System.err.println("  -d, --directory           Convert all .afp files in the specified directory to XML");
-        System.err.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression");
+        System.err.println("  -d, --directory <dir>     Convert all .afp files in the specified directory to XML.");
+        System.err.println("                            If a directory is provided as a positional argument, directory mode is enabled automatically.");
+        System.err.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
     }
 
     private static void convertToXml(File inputFile, File outputFile, String xpathExpression) throws Exception {
