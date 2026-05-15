@@ -61,8 +61,12 @@ public class UtilBinaryDecoding {
     }
     int result = 0;
     for (int i = 0; i < length; i++) {
+      int b = is.read();
+      if (b == -1) {
+        throw new IOException("Reached end of stream while parsing short.");
+      }
       result = (result << 8);
-      result += is.read();
+      result += b;
     }
     return (short) result;
   }
@@ -102,8 +106,12 @@ public class UtilBinaryDecoding {
     }
     int result = 0;
     for (int i = 0; i < length; i++) {
+      int b = is.read();
+      if (b == -1) {
+        throw new IOException("Reached end of stream while parsing integer.");
+      }
       result = (result << 8);
-      result += is.read();
+      result += b;
     }
     return result;
   }

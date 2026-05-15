@@ -35,9 +35,10 @@ public class MBC_MapBarCodeObject extends StructuredField {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-    checkDataLength(sfData, offset, length, 5);
+    int actualLength = getActualLength(sfData, offset, length);
+    checkDataLength(sfData, offset, actualLength, 5);
     lengthOfRepeatingGroup = UtilBinaryDecoding.parseShort(sfData, offset, 2);
-    triplet = TripletParser.parseTriplet(sfData, offset + 2, length - 2, config);
+    triplet = TripletParser.parseTriplet(sfData, offset + 2, actualLength - 2, config);
   }
 
 

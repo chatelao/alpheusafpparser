@@ -41,17 +41,34 @@ public class TripletParser {
     int actualLength = StructuredField.getActualLength(sfData, offset, length);
     int pos = 0;
     while (pos < actualLength) {
+      if (actualLength - pos < 2) {
+        // Not enough data for even the shortest triplet (length + ID)
+        Triplet.Undefined undef = new Triplet.Undefined();
+        undef.setLength((short)(actualLength - pos));
+        undef.setTripletID(TripletID.Undefined);
+        undef.setParsingException(new AFPParserException("Not enough data for triplet at offset " + (offset + pos)));
+        resultingTriplets.add(undef);
+        break;
+      }
       Triplet triplet;
       try {
         triplet = parseTriplet(sfData, offset + pos, actualLength - pos, config);
-      } catch (AFPParserException pex) {
+      } catch (Throwable pex) {
         Triplet.Undefined undef = null;
         triplet = undef = new Triplet.Undefined();
-        undef.setParsingException(pex);
+        if (pex instanceof AFPParserException) {
+          undef.setParsingException((AFPParserException) pex);
+        } else {
+          undef.setParsingException(new AFPParserException("An exception occured while parsing triplet.", pex));
+        }
         byte[] tripletData = new byte[actualLength];
         System.arraycopy(sfData, offset, tripletData, 0, actualLength);
         undef.setTripletData(tripletData);
-        undef.setLength((short) (sfData[offset + pos] & 0xFF));
+        int tLen = sfData[offset + pos] & 0xFF;
+        if (tLen < 2) {
+          tLen = actualLength - pos;
+        }
+        undef.setLength((short) tLen);
         undef.setTripletID(TripletID.Undefined);
       }
 
@@ -102,8 +119,17 @@ public class TripletParser {
   public static Triplet parseTriplet(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     Triplet resultingTriplet = null;
 
+    StructuredField.checkDataLength(sfData, offset, length, 2);
+
     short tripletLength = UtilBinaryDecoding.parseShort(sfData, offset, 1);
     short actualTripletID = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+
+    if (tripletLength < 2) {
+      throw new AFPParserException("Invalid triplet length: " + tripletLength);
+    }
+    if (offset + tripletLength > sfData.length || (length != -1 && tripletLength > length)) {
+      throw new AFPParserException("Triplet length exceeds available data.");
+    }
 
     TripletID tripletID = null;
 

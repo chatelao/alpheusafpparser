@@ -188,8 +188,17 @@ public enum SFTypeID {
 
   public static SFTypeID parse(InputStream is) throws IOException {
     int sfClass = is.read();
+    if (sfClass == -1) {
+      throw new IOException("Reached end of stream while parsing SFTypeID class.");
+    }
     int sfType = is.read();
+    if (sfType == -1) {
+      throw new IOException("Reached end of stream while parsing SFTypeID type.");
+    }
     int sfCategory = is.read();
+    if (sfCategory == -1) {
+      throw new IOException("Reached end of stream while parsing SFTypeID category.");
+    }
 
     for (SFTypeID sfTypeID : SFTypeID.values()) {
       if (sfTypeID.sfClass.val == sfClass

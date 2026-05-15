@@ -54,7 +54,7 @@ public class BDT_BeginDocument extends StructuredFieldBaseName implements IHasTr
     if (actualLength > 10) {
       triplets = TripletParser.parseTriplets(sfData, offset + 10, actualLength - 10, config);
     } else {
-      triplets = null;
+      triplets = new ArrayList<>();
     }
   }
 

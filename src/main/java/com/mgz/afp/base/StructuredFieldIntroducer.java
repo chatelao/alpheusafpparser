@@ -82,7 +82,11 @@ public class StructuredFieldIntroducer {
 
       sfi.sfTypeID = SFTypeID.parse(is);
 
-      sfi.flagByte = SFFlag.valueOf(is.read());
+      int fb = is.read();
+      if (fb == -1) {
+        throw new AFPParserException("Reached end of stream while parsing SF flag byte.");
+      }
+      sfi.flagByte = SFFlag.valueOf(fb);
 
       sfi.reserved = UtilBinaryDecoding.parseInt(is, 2);
     } catch (IOException ioex) {
@@ -91,9 +95,17 @@ public class StructuredFieldIntroducer {
 
     try {
       if (sfi.isFlagSet(SFFlag.hasExtension)) {
-        sfi.extenstionLength = (short) is.read();
+        int extLen = is.read();
+        if (extLen == -1) {
+          throw new AFPParserException("Reached end of stream while parsing SF extension length.");
+        }
+        sfi.extenstionLength = (short) extLen;
+        if (sfi.extenstionLength < 1) {
+          throw new AFPParserException("Invalid SF extension length: " + sfi.extenstionLength);
+        }
         sfi.extenstion = new byte[sfi.extenstionLength - 1];
-        if (sfi.extenstionLength - 1 < is.read(sfi.extenstion, 0, sfi.extenstionLength - 1)) {
+        int read = is.read(sfi.extenstion, 0, sfi.extenstionLength - 1);
+        if (sfi.extenstionLength - 1 > 0 && read < sfi.extenstionLength - 1) {
           throw new AFPParserException("Failed to read SFI extension data.");
         }
       }

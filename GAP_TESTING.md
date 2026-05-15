@@ -14,7 +14,7 @@ The Alpheus AFP Parser has achieved a high level of testing maturity. The infras
 | **Stateful Logic** | ✅ Good | `StatefulEncodingTest` and `CrossEncodingTest` verify dynamic font/encoding switching. |
 | **Encoding Coverage** | ✅ Good | Verified via `CrossEncodingTest` and `TRNEncodingTest`. |
 | **Implementation Depth** | ✅ Excellent | 0 shallow fields identified; all SFs provide full payload parsing. |
-| **Error Handling** | 🚧 Poor | Minimal testing of malformed or malicious AFP data. |
+| **Error Handling** | ✅ Excellent | Dedicated `ErrorHandlingTest` suite for malformed and truncated data. |
 
 ---
 
@@ -52,7 +52,16 @@ The Alpheus AFP Parser has achieved a high level of testing maturity. The infras
 
 ## 5. Infrastructure and Process
 
-### 5.1. JUnit 5 Migration
+### 5.1. Error Handling and Resilience
+*   **Status:** ✅ Complete.
+*   **Progress:** A dedicated `ErrorHandlingTest.java` suite has been implemented. It verifies parser resilience against:
+    *   Missing `0x5A` markers and premature EOF.
+    *   Truncated Structured Field Introducers (SFI) and missing extensions.
+    *   Inconsistent lengths (SFI length vs. actual payload data).
+    *   Malformed Triplet sequences (invalid lengths, oversized triplets).
+    *   The parser correctly handles these by either throwing `AFPParserException` (when escalation is enabled) or returning `StructuredFieldErrornouslyBuilt`.
+
+### 5.2. JUnit 5 Migration
 *   **Status:** ✅ Complete.
 *   **Progress:** The entire test suite has been migrated to JUnit 5 (Jupiter). Legacy JUnit 4 dependencies and imports have been removed.
 
@@ -60,14 +69,10 @@ The Alpheus AFP Parser has achieved a high level of testing maturity. The infras
 *   **Status:** ✅ Complete.
 *   **Progress:** The project has established a 1:1 mapping between specification chapters and test files. Over 122 minimal `.afp` files (BDT/EDT pairs) have been generated in `src/test/resources/afp/` to ensure every chapter of every specification is exercised.
 
-### 5.3. Error Handling and Fuzzing
-*   **Gap:** Current tests focus on "Happy Path" round-trips. There remains a lack of tests for:
-    *   Malformed Structured Field Introducers (SFI).
-    *   Inconsistent lengths (SF length vs. actual data).
-    *   Invalid Triplet sequences or truncated Triplets.
-*   **Recommendation:** Develop a dedicated suite for error injection and parser resilience.
+### 5.4. Fuzzing and Malicious Data
+*   **Gap:** While basic error handling is covered, systematic fuzzing with semi-valid data is still limited.
+*   **Recommendation:** Integrate a fuzzing tool to explore deeper edge cases in complex SF structures.
 
 ## 6. Summary of Action Items
 
-1.  **Error Injection:** (Ongoing) Develop a suite of tests that use malformed AFP data to verify parser resilience and exception handling.
-2.  **Semantic Validation:** Expand tests for architectural constraints beyond simple binary round-trips (e.g., mandatory triplets).
+1.  **Semantic Validation:** Expand tests for architectural constraints beyond simple binary round-trips (e.g., mandatory triplets).
