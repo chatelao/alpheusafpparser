@@ -352,7 +352,7 @@ In an unsigned number, all bits are used to express the absolute value of the nu
 
 Positive numbers are represented in true binary notation with the sign bit set to zero. Negative numbers are represented in two's-complement binary notation with the sign bit set to one. Specifically, a negative number is represented by the two's complement of the positive number. The two's-complement of a number is obtained by inverting each bit of the number and adding a one to the low-order bit position.
 
-Since the MO:DCA architecture defines X'F…F' as a default indicator, the arithmetic value -1 generally is not permitted. However, in the case where a parameter cannot be defaulted, the value which normally is the default indicator is interpreted as -1. Chapter 5, “MO:DCA Structured Fields”, and Chapter 6, “MO: DCA Triplets”, identify parameters that cannot be defaulted. The maximum absolute values for numbers that can be assigned to data elements that also can be assigned the default indicator are listed in Table 8. [MODCA-3-061]
+Since the MO:DCA architecture defines X'F…F' as a default indicator, the arithmetic value -1 generally is not permitted. However, in the case where a parameter cannot be defaulted, the value which normally is the default indicator is interpreted as -1. Chapter 5, “MO:DCA Structured Fields”, and Chapter 6, “MO:DCA Triplets”, identify parameters that cannot be defaulted. The maximum absolute values for numbers that can be assigned to data elements that also can be assigned the default indicator are listed in Table 8. [MODCA-3-061]
 
 **Table 8. Maximum Absolute Values of Numbers in the MO:DCA Architecture**
 
