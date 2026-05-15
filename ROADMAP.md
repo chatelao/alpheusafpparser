@@ -19,6 +19,25 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | ⏳ |
 
+## Granular Requirement Coverage Analysis
+This section tracks the verification status of ~21,000 granular normative requirements extracted from the AFP specifications.
+Verification is currently initialized to 0% and will progress as granular tests are implemented.
+
+| Specification | Covered | Total | % |
+| :--- | :---: | :---: | :---: |
+| [BCOCA](TEST_COVERAGE_BCOCA.md) | 0 | 1237 | 0.0% |
+| [CMOCA](TEST_COVERAGE_CMOCA.md) | 0 | 1085 | 0.0% |
+| [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
+| [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
+| [GOCA](TEST_COVERAGE_GOCA.md) | 0 | 2144 | 0.0% |
+| [IOCA](TEST_COVERAGE_IOCA.md) | 0 | 1587 | 0.0% |
+| [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
+| [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
+| [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
+| [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
+| [PTOCA](TEST_COVERAGE_PTOCA.md) | 0 | 1488 | 0.0% |
+| **Total** | **0** | **20955** | **0.0%** |
+
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
 - 🚧 Achieve 100% AFP specification coverage (MO:DCA, PTOCA, GOCA, etc.).
