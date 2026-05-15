@@ -16,7 +16,7 @@ public class CLITest {
         File tempDir = new File("build/test-dir");
         setupTestDirectory(tempDir);
 
-        Afp2Xml.main(new String[]{"-d", tempDir.getAbsolutePath()});
+        Afp2Xml.execute(new String[]{"-d", tempDir.getAbsolutePath()});
 
         verifyDirectoryOutput(tempDir);
     }
@@ -27,7 +27,7 @@ public class CLITest {
         setupTestDirectory(tempDir);
 
         // Pass directory without -d flag
-        Afp2Xml.main(new String[]{tempDir.getAbsolutePath()});
+        Afp2Xml.execute(new String[]{tempDir.getAbsolutePath()});
 
         verifyDirectoryOutput(tempDir);
     }
@@ -38,7 +38,7 @@ public class CLITest {
         setupTestDirectory(tempDir);
 
         // Pass -d followed by the directory path
-        Afp2Xml.main(new String[]{"-d", tempDir.getAbsolutePath()});
+        Afp2Xml.execute(new String[]{"-d", tempDir.getAbsolutePath()});
 
         verifyDirectoryOutput(tempDir);
     }
@@ -80,7 +80,7 @@ public class CLITest {
             outputFile.delete();
         }
 
-        Afp2Xml.main(new String[]{inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
+        Afp2Xml.execute(new String[]{inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
 
         assertTrue(outputFile.exists(), "Output XML file should exist");
 

@@ -30,15 +30,17 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class Afp2Xml {
     public static void main(String[] args) {
+        System.exit(execute(args));
+    }
+
+    public static int execute(String[] args) {
         if (args.length < 1) {
             printUsage(System.out);
-            System.exit(0);
+            return 0;
         }
 
         var isDirectoryMode = false;
@@ -51,7 +53,7 @@ public class Afp2Xml {
             switch (arg) {
                 case "-h", "--help" -> {
                     printUsage(System.out);
-                    System.exit(0);
+                    return 0;
                 }
                 case "-d", "--directory" -> {
                     isDirectoryMode = true;
@@ -65,14 +67,14 @@ public class Afp2Xml {
                     } else {
                         System.err.println("Error: --xpath requires an expression.");
                         printUsage(System.err);
-                        System.exit(1);
+                        return 1;
                     }
                 }
                 default -> {
                     if (arg.startsWith("-")) {
                         System.err.println("Unknown option: " + arg);
                         printUsage(System.err);
-                        System.exit(1);
+                        return 1;
                     }
                     if (inputPath == null) {
                         inputPath = arg;
@@ -81,7 +83,7 @@ public class Afp2Xml {
                     } else {
                         System.err.println("Too many arguments.");
                         printUsage(System.err);
-                        System.exit(1);
+                        return 1;
                     }
                 }
             }
@@ -89,14 +91,14 @@ public class Afp2Xml {
 
         if (inputPath == null) {
             printUsage(System.err);
-            System.exit(1);
+            return 1;
         }
 
         try {
             var input = new File(inputPath);
             if (!input.exists()) {
                 System.err.println("Input not found: " + inputPath);
-                System.exit(1);
+                return 1;
             }
 
             if (input.isDirectory()) {
@@ -108,27 +110,35 @@ public class Afp2Xml {
             if (isDirectoryMode) {
                 if (!input.isDirectory()) {
                     System.err.println("Input is not a directory: " + inputPath);
-                    System.exit(1);
+                    return 1;
                 }
 
                 var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
+                var hasErrors = false;
                 if (files != null) {
                     for (var f : files) {
                         var outputFile = new File(f.getAbsolutePath() + extension);
-                        convertToXml(f, outputFile, xpathExpression);
+                        try {
+                            convertToXml(f, outputFile, xpathExpression);
+                        } catch (Exception e) {
+                            System.err.println("Error processing file " + f.getName() + ": " + e.getMessage());
+                            hasErrors = true;
+                        }
                     }
                 }
+                return hasErrors ? 1 : 0;
             } else {
                 var outputFile = (outputPath != null) ? new File(outputPath) : null;
                 if (outputFile == null && xpathExpression != null && xpathExpression.endsWith("/text()")) {
                     outputFile = new File(inputPath + ".txt");
                 }
                 convertToXml(input, outputFile, xpathExpression);
+                return 0;
             }
         } catch (Exception e) {
             System.err.println("Error during XML export: " + e.getMessage());
             e.printStackTrace();
-            System.exit(1);
+            return 1;
         }
     }
 
