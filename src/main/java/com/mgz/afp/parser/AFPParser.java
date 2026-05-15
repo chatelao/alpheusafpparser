@@ -215,7 +215,35 @@ public class AFPParser {
       while (tmp != 0x5A && tmp != -1); // Move to the begin of next SF, or EOF.
 
       if (tmp != -1) {
-        sfi = StructuredFieldIntroducer.parse(is);
+        try {
+          sfi = StructuredFieldIntroducer.parse(is);
+        } catch (Throwable e) {
+          if (errSf == null) {
+            errSf = new StructuredFieldErrornouslyBuilt();
+            errSf.setStructuredFieldIntroducer(new StructuredFieldIntroducer());
+          }
+          if (e instanceof AFPParserException) {
+            ((AFPParserException) e).setErrornouslyBuiltStructuredField(errSf);
+            try {
+              error((AFPParserException) e);
+            } catch (AFPParserException ex) {
+              if (parserConf.isEscalateParsingErrors()) {
+                throw ex;
+              }
+            }
+          } else {
+            AFPParserException afpex = new AFPParserException("An exception occured when parsing structured field introducer at file index position 0x" + Long.toHexString(nrOfBytesRead) + ".", e);
+            afpex.setErrornouslyBuiltStructuredField(errSf);
+            try {
+              error(afpex);
+            } catch (AFPParserException ex) {
+              if (parserConf.isEscalateParsingErrors()) {
+                throw ex;
+              }
+            }
+          }
+          return errSf;
+        }
         sfi.setFileOffset(nrOfBytesRead - 1);
 
         StructuredField sf;
