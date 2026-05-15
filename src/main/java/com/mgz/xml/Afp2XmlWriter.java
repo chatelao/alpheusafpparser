@@ -27,6 +27,13 @@ import com.mgz.afp.triplets.Triplet;
 
 import javax.xml.bind.*;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +57,48 @@ public class Afp2XmlWriter {
   }
 
   public static void writeXML(OutputStream osw, AFPDocument doc) throws JAXBException {
+    var classes = getRequiredClasses(doc);
+
+    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    var jaxbMarshaller = jaxbContext.createMarshaller();
+    jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+    jaxbMarshaller.marshal(doc, osw);
+  }
+
+  public static void writeXML(OutputStream osw, AFPDocument doc, String xpathExpression) throws Exception {
+    if (xpathExpression == null || xpathExpression.isBlank()) {
+      writeXML(osw, doc);
+      return;
+    }
+
+    var classes = getRequiredClasses(doc);
+    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
+    var jaxbMarshaller = jaxbContext.createMarshaller();
+
+    var dbf = DocumentBuilderFactory.newInstance();
+    var db = dbf.newDocumentBuilder();
+    var domDoc = db.newDocument();
+
+    jaxbMarshaller.marshal(doc, domDoc);
+
+    var xpf = XPathFactory.newInstance();
+    var xpath = xpf.newXPath();
+    var nodes = (org.w3c.dom.NodeList) xpath.evaluate(xpathExpression, domDoc, XPathConstants.NODESET);
+
+    var tf = TransformerFactory.newInstance();
+    var transformer = tf.newTransformer();
+    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+    for (int i = 0; i < nodes.getLength(); i++) {
+      var node = nodes.item(i);
+      transformer.transform(new DOMSource(node), new StreamResult(osw));
+      osw.write('\n');
+    }
+  }
+
+  private static List<Class<?>> getRequiredClasses(AFPDocument doc) {
     var classes = new ArrayList<Class<?>>();
     classes.add(AFPDocument.class);
     doc.getStructuredFields().forEach(obj -> {
@@ -69,12 +118,7 @@ public class Afp2XmlWriter {
         }
       }
     });
-
-    var jaxbContext = JAXBContext.newInstance(classes.toArray(new Class[0]));
-    var jaxbMarshaller = jaxbContext.createMarshaller();
-    jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-    jaxbMarshaller.marshal(doc, osw);
+    return classes;
   }
 
   private static void addClassesFromSF(List<Class<?>> classes, StructuredField sf) {
