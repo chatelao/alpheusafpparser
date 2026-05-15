@@ -37,3 +37,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
+
+## Bonus
+
+Videos about the standard:
+- https://www.youtube.com/watch?v=X6cqw_TfjE0
+- https://www.youtube.com/watch?v=YaZHAKP9eDg
