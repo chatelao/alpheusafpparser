@@ -1,17 +1,17 @@
 # Chapter 3. MO:DCA Overview
 This chapter:
-• Describes the general syntax and semantics for MO:DCA structured fields [MODCA-3-001]
-• Describes state, as defined by the MO:DCA architecture [MODCA-3-002]
-• Describes the types and categories of MO:DCA parameters [MODCA-3-003]
-• Describes conventions used in the MO:DCA architecture for coordinate systems, measurement units, and [MODCA-3-004]
+* Describes the general syntax and semantics for MO:DCA structured fields [MODCA-3-001]
+* Describes state, as defined by the MO:DCA architecture [MODCA-3-002]
+* Describes the types and categories of MO:DCA parameters [MODCA-3-003]
+* Describes conventions used in the MO:DCA architecture for coordinate systems, measurement units, and [MODCA-3-004]
 rotation units
-• Describes MO:DCA mixing rules [MODCA-3-005]
-• Describes MO:DCA color management [MODCA-3-006]
-• Describes MO:DCA metadata objects [MODCA-3-007]
-• Describes font technologies used in MO:DCA documents [MODCA-3-008]
-• Describes MO:DCA document indexing [MODCA-3-009]
-• Describes other aspects of MO:DCA document presentation [MODCA-3-010]
-• Describes and defines the MO:DCA exception conditions [MODCA-3-011]
+* Describes MO:DCA mixing rules [MODCA-3-005]
+* Describes MO:DCA color management [MODCA-3-006]
+* Describes MO:DCA metadata objects [MODCA-3-007]
+* Describes font technologies used in MO:DCA documents [MODCA-3-008]
+* Describes MO:DCA document indexing [MODCA-3-009]
+* Describes other aspects of MO:DCA document presentation [MODCA-3-010]
+* Describes and defines the MO:DCA exception conditions [MODCA-3-011]
 ## MO:DCA Data Structures
 Each component of a mixed object document is explicitly defined and delimited in the data stream that
 transmits it. This is accomplished through the use of MO:DCA data structures, called structured fields, that
@@ -21,18 +21,18 @@ parameters. Each parameter provides one value from a set of values defined by th
 ## Notation Conventions
 In addition to the information provided in “How to Read the Syntax Diagrams” , the following notation
 conventions apply throughout this document:
-• Bytes are numbered from left to right beginning with byte zero, which is considered the high order (most [MODCA-3-013]
+* Bytes are numbered from left to right beginning with byte zero, which is considered the high order (most [MODCA-3-013]
 significant) byte position. This is referred to as big-endian byte order. For example, a three-byte field would
 consist of byte zero, byte one, and byte two.
-• Each byte is composed of eight bits. [MODCA-3-014]
-• Bits in a single byte are numbered from left to right beginning with bit zero, the most significant bit, and [MODCA-3-015]
+* Each byte is composed of eight bits. [MODCA-3-014]
+* Bits in a single byte are numbered from left to right beginning with bit zero, the most significant bit, and [MODCA-3-015]
 continuing through bit seven, the least significant bit. This is referred to as big-endian bit order.
-• When bits from multiple consecutive bytes are considered together, the first byte always contains bits zero to [MODCA-3-016]
+* When bits from multiple consecutive bytes are considered together, the first byte always contains bits zero to [MODCA-3-016]
 seven and the bits of the additional bytes are numbered eight to n, where n is equal to one less than the total
 number of bytes multiplied by eight. For example, a two-byte field would consist of bits zero to fifteen and a
 four-byte field would consist of bits zero to thirty-one.
-• Negative numbers are expressed in two's-complement form. See “Number” for details. [MODCA-3-017]
-• Field values are expressed in hexadecimal or binary notation: [MODCA-3-018]
+* Negative numbers are expressed in two's-complement form. See “Number” for details. [MODCA-3-017]
+* Field values are expressed in hexadecimal or binary notation: [MODCA-3-018]
 B'01111110' = X'7E' = +126
 X'7FFF' = +32,767
 X'8000' = -32,768 (when signed binary is used)
@@ -51,47 +51,28 @@ Structured Field Introducer
 The MO:DCA Structured Field Introducer (SFI) introduces a structured field, and identifies its type and its
 length. SFIs have the following format:
 SFI Syntax
-Table 6. Structured Field Introducer (SFI)
-Offset Type Name Range Meaning M/O Exc
-0–1 UBIN SFLength 8–32,767 T otal length of the structured field
-including the length of the
-introducer
-M X'82'
-2–4 CODE SFTypeID A three-byte code that uniquely
-identifies the structured field. See
-“SFI Semantics” for a
-description.
-M X'78'
-5 BITS FlagByte Used to indicate whether an [MODCA-3-020]
-extension, segmentation, or
-padding is in use
-M X'82'
-Bit 0 ExtFlag B'0', B'1' B'0' No SFI extension exists
-B'1' SFI extension is present
-Bit 1 Reserved; should be zero
-Bit 2 SegFlag B'0', B'1' B'0' Data is not segmented
-B'1' Data is segmented
-Bit 3 Reserved; should be zero
-Bit 4 PadFlag B'0', B'1' B'0' No padding data exists
-B'1' Padding data is present
-Bits 5–7 Reserved; should be zero
-6–7 Reserved; should be zero M X'82'
-The following optional extension appears only if bit 0 of FlagByte is B'1':
-Structured Field Syntax [MODCA-3-021]
+**Table 6. Structured Field Introducer (SFI)**
 
-Table 6 Structured Field Introducer (SFI) (cont'd.)
-Offset Type Name Range Meaning M/O Exc
-8 UBIN ExtLength 1–255 Length of the extension including [MODCA-3-022]
-the length of ExtLength itself
-O X'82'
-9 ExtData Reserved O X'00' [MODCA-3-023]
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :--- |
+| 0–1 | UBIN | SFLength | 8–32,767 | Total length of the structured field including the length of the introducer | M | X'82' |
+| 2–4 | CODE | SFTypeID | | A three-byte code that uniquely identifies the structured field. See “SFI Semantics” for a description. | M | X'78' |
+| 5 | BITS | FlagByte | | Used to indicate whether an extension, segmentation, or padding is in use: [MODCA-3-020]<br>Bit 0 ExtFlag: B'0' No SFI extension exists; B'1' SFI extension is present<br>Bit 1 Reserved; should be zero<br>Bit 2 SegFlag: B'0' Data is not segmented; B'1' Data is segmented<br>Bit 3 Reserved; should be zero<br>Bit 4 PadFlag: B'0' No padding data exists; B'1' Padding data is present<br>Bits 5–7 Reserved; should be zero | M | X'82' |
+| 6–7 | | Reserved | | should be zero | M | X'82' |
+
+The following optional extension appears only if bit 0 of FlagByte is B'1': [MODCA-3-021]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :--- |
+| 8 | UBIN | ExtLength | 1–255 | Length of the extension including the length of ExtLength itself | O | X'82' [MODCA-3-022] |
+| 9 | ExtData | Reserved | | | O | X'00' [MODCA-3-023] |
 SFI Semantics
 SFLength Defines the length of the structured field, including itself.
 Application Note: Some platforms include structured fields in a larger platform-specific
 record by surrounding the structured field with additional bytes (such as the X'5A' prefix).
 This can result in a record length greater than X'7FFF' if the structured field length is
 X'7FFF'. Such a record length can be misinterpreted as a negative number if the length
-is treated as SBIN. T o ensure portability of MO:DCA print files, it is strongly
+is treated as SBIN. To ensure portability of MO:DCA print files, it is strongly
 recommended that the maximum structured field length be limited to X'7FF0' = 32,752,
 which avoids such record length issues on the known platforms. Note that MO:DCA
 interchange sets have traditionally limited the maximum structured field length.
@@ -139,103 +120,60 @@ ExtData Contains up to 254 bytes of application-defined SFI extension data. For 
 0 of FlagByte must be B'1'. [MODCA-3-028]
 Type Codes
 The following type codes have been defined. All other type codes are reserved.
-Table 7. Type Codes
-Type Code Function Description
-X'A0' Attribute An attribute structured field defines an attribute with parameters
-such as name and value.
-X'A2' Copy Count A copy count structured field specifies groups of sheet copies,
-called copy subgroups, that are to be generated, and identifies
-modification control structured fields that specify modifications to be
-applied to each group.
-X'A6' Descriptor A descriptor structured field defines the initial characteristics and,
-optionally, the formatting directives for all objects, object areas, and
-pages. Depending on the specific descriptor structured field type, it
-may contain some set of parameters that identify:
-• The size of the page or object [MODCA-3-029]
-• Measurement units [MODCA-3-030]
-• Initial presentation conditions [MODCA-3-031]
-X'A7' Control A control structured field specifies the type of modifications that are
-to be applied to a group of sheet copies, or a copy subgroup.
-X'A8' Begin A begin structured field introduces and identifies a document
-component. In general, a begin structured field may contain a
-parameter that identifies the name of the component.
-X'A9' End An end structured field identifies the end of a document component.
-In general, an end structured field may contain a parameter that
-identifies the name of the component.
-X'AB' Map A map structured field provides the following functions in the
-MO:DCA architecture:
-• All occurrences of a variable embedded in structured field [MODCA-3-032]
-parameter data can be given a new value by changing only one
-reference in the mapping, rather than having to physically change
-each occurrence. Thus all references to font X may cause a
-Times Roman font to be used in one instance and a Helvetica
-font in another instance merely by specifying the proper map
-coded font structured field.
-• The presence of the map structured field in a MO:DCA [MODCA-3-033]
-environment group indicates use of the named resource within
-the scope of the environment group.
-X'AC' Position A position structured field specifies the coordinate offset value and
-orientation for presentation spaces.
-Structured Field Syntax [MODCA-3-034]
+**Table 7. Type Codes**
 
-Table 7 Type Codes (cont'd.)
-Type Code Function Description
-X'AD' Process A process structured field specifies processing to be performed on
-an object.
-X'AF' Include An include structured field selects a named resource which is to be
-embedded in the including data stream as if it appeared inline.
-External resource object names on the begin structured field may or
-may not coincide with the library name of that object, as library
-name resolution is outside the scope of the MO:DCA architecture.
-X'B0' Reserved See MO:DCA-L: The OS/2 PM Metafile (.met) Format, available at:
-www.afpcinc.org.
-X'B1' Migration A migration structured field is used to distinguish the MO:DCA
-structured field from a structured field with the same acronym from
-an earlier data-stream architecture. The earlier version is called
-Format 1. The MO:DCA version is called Format 2.
-X'B2' Variable A variable structured field defines or contains variable information.
-X'B4' Link A link structured field defines a logical connection, or linkage,
-between two document components.
-X'EE' Data A data structured field consists of data whose meaning and
-interpretation is governed by the object architecture for the
-particular data object type.
+| Type Code | Function | Description |
+| :--- | :--- | :--- |
+| X'A0' | Attribute | An attribute structured field defines an attribute with parameters such as name and value. |
+| X'A2' | Copy Count | A copy count structured field specifies groups of sheet copies, called copy subgroups, that are to be generated, and identifies modification control structured fields that specify modifications to be applied to each group. |
+| X'A6' | Descriptor | A descriptor structured field defines the initial characteristics and, optionally, the formatting directives for all objects, object areas, and pages. Depending on the specific descriptor structured field type, it may contain some set of parameters that identify:<br>* The size of the page or object [MODCA-3-029]<br>* Measurement units [MODCA-3-030]<br>* Initial presentation conditions [MODCA-3-031] |
+| X'A7' | Control | A control structured field specifies the type of modifications that are to be applied to a group of sheet copies, or a copy subgroup. |
+| X'A8' | Begin | A begin structured field introduces and identifies a document component. In general, a begin structured field may contain a parameter that identifies the name of the component. |
+| X'A9' | End | An end structured field identifies the end of a document component. In general, an end structured field may contain a parameter that identifies the name of the component. |
+| X'AB' | Map | A map structured field provides the following functions in the MO:DCA architecture:<br>* All occurrences of a variable embedded in structured field parameter data can be given a new value by changing only one reference in the mapping, rather than having to physically change each occurrence. Thus all references to font X may cause a Times Roman font to be used in one instance and a Helvetica font in another instance merely by specifying the proper map coded font structured field. [MODCA-3-032]<br>* The presence of the map structured field in a MO:DCA environment group indicates use of the named resource within the scope of the environment group. [MODCA-3-033] |
+| X'AC' | Position | A position structured field specifies the coordinate offset value and orientation for presentation spaces. [MODCA-3-034] |
+| X'AD' | Process | A process structured field specifies processing to be performed on an object. |
+| X'AF' | Include | An include structured field selects a named resource which is to be embedded in the including data stream as if it appeared inline. External resource object names on the begin structured field may or may not coincide with the library name of that object, as library name resolution is outside the scope of the MO:DCA architecture. |
+| X'B0' | Reserved | See MO:DCA-L: The OS/2 PM Metafile (.met) Format, available at: www.afpcinc.org. |
+| X'B1' | Migration | A migration structured field is used to distinguish the MO:DCA structured field from a structured field with the same acronym from an earlier data-stream architecture. The earlier version is called Format 1. The MO:DCA version is called Format 2. |
+| X'B2' | Variable | A variable structured field defines or contains variable information. |
+| X'B4' | Link | A link structured field defines a logical connection, or linkage, between two document components. |
+| X'EE' | Data | A data structured field consists of data whose meaning and interpretation is governed by the object architecture for the particular data object type. |
 Category Codes
 The following category codes have been defined. All other category codes are reserved.
-Category Code Description
-X'5F' Page Segment
-X'6B' Object Area
-X'77' Reserved. See MO:DCA-L: The OS/2 PM Metafile (.met) Format, available at:
-www.afpcinc.org.
-X'7B' IM Image
-X'88' Medium
-X'8A' Coded Font
-X'90' Process Element
-X'92' Object Container
-X'9B' Presentation T ext
-X'A5' Print File
-X'A7' Index
-X'A8' Document
-X'AD' Page Group
-X'AF' Page
-X'BB' Graphics
-X'C3' Data Resource
-X'C4' Document Environment Group (DEG)
-X'C6' Resource Group
-X'C7' Object Environment Group (OEG)
-X'C9' Active Environment Group (AEG)
-X'CC' Medium Map
-X'CD' Form Map
-X'CE' Name Resource
-Structured Field Syntax [MODCA-3-035]
-
-X'D8' Page Overlay
-X'D9' Resource Environment Group (REG)
-X'DC' Preprinted Form Overlay
-X'DF' Overlay
-X'EA' Data Suppression
-X'EB' Bar Code
-X'EE' No Operation
-X'FB' Image
+| Category Code | Description |
+| :---: | :--- |
+| X'5F' | Page Segment |
+| X'6B' | Object Area |
+| X'77' | Reserved. See MO:DCA-L: The OS/2 PM Metafile (.met) Format, available at: www.afpcinc.org. |
+| X'7B' | IM Image |
+| X'88' | Medium |
+| X'8A' | Coded Font |
+| X'90' | Process Element |
+| X'92' | Object Container |
+| X'9B' | Presentation Text |
+| X'A5' | Print File |
+| X'A7' | Index |
+| X'A8' | Document |
+| X'AD' | Page Group |
+| X'AF' | Page |
+| X'BB' | Graphics |
+| X'C3' | Data Resource |
+| X'C4' | Document Environment Group (DEG) |
+| X'C6' | Resource Group |
+| X'C7' | Object Environment Group (OEG) |
+| X'C9' | Active Environment Group (AEG) |
+| X'CC' | Medium Map |
+| X'CD' | Form Map |
+| X'CE' | Name Resource [MODCA-3-035] |
+| X'D8' | Page Overlay |
+| X'D9' | Resource Environment Group (REG) |
+| X'DC' | Preprinted Form Overlay |
+| X'DF' | Overlay |
+| X'EA' | Data Suppression |
+| X'EB' | Bar Code |
+| X'EE' | No Operation |
+| X'FB' | Image |
 Structured Field Data
 The structured field's data is contained in a parameter set that immediately follows the structured field's
 introducer. The syntax and semantics for each MO:DCA structured field parameter set is given in Chapter 5,
@@ -269,15 +207,15 @@ required by its introducer and parameter set. This could be done, for example, t
 same length or to make each structured field's length a multiple of some number. The use of padding is
 indicated by a value of B'1' in bit 4 of the SFI flag byte.
 If padding is indicated, the length of the padding is specified in the following manner:
-• For 1 or 2 bytes of padding, the length is specified in the last padding byte. [MODCA-3-036]
-• For 256 to 32,759 bytes of padding, the length is specified in the last three bytes of the padding data. The [MODCA-3-037]
+* For 1 or 2 bytes of padding, the length is specified in the last padding byte. [MODCA-3-036]
+* For 256 to 32,759 bytes of padding, the length is specified in the last three bytes of the padding data. The [MODCA-3-037]
 last byte must be X'00' and the two preceding bytes specify the padding length.
 Structured Field Syntax [MODCA-3-038]
 
-• For 3 to 255 bytes of padding, the length can be specified by either method. [MODCA-3-039]
+* For 3 to 255 bytes of padding, the length can be specified by either method. [MODCA-3-039]
 When padding is indicated:
-• The structured field length value specifies the total length of the structured field, including the padding data. [MODCA-3-040]
-• The padding length value specifies the total length of the padding data, including the padding length byte(s). [MODCA-3-041]
+* The structured field length value specifies the total length of the structured field, including the padding data. [MODCA-3-040]
+* The padding length value specifies the total length of the padding data, including the padding length byte(s). [MODCA-3-041]
 Structured Field Formats
 The MO:DCA architecture has evolved from several previous IBM data streams, namely the Composed Page
 Data Stream (CPDS), the Composite Document Presentation Data Stream (CDPDS), and the Advanced
@@ -290,7 +228,7 @@ These new structured fields are always assigned a structured field identifier cl
 Although the structured field identifiers clearly differentiate between the two versions of the same structured
 field, when referring to them by name or by acronym, the older version is known as Format 1 and the newer
 MO:DCA version is known as Format 2. Two such structured fields are the Map Coded Font structured field
-and the Presentation T ext Data Descriptor structured field.
+and the Presentation Text Data Descriptor structured field.
 Data Stream Format
 The MO:DCA architecture does not dictate the physical format of the data stream or how it is transported. The
 data stream may be carried within a communication protocol or it may be stored on a tape or disk. It may be
@@ -315,29 +253,28 @@ data streams respectively.
 Environment Hierarchies
 The Active Environment Group and Object Environment Group are also hierarchically related. Parameters
 specified in the OEG override like parameters specified in the AEG, while like parameters specified within the
-same environment—whenever this is allowed—replace the previous specification. T o illustrate this point,
-Data Stream States
+same environment—whenever this is allowed—replace the previous specification. To illustrate this point,
 
 consider the following example. Note that the same LID mapping rules apply when a resource object is
 mapped with a Map Data Resource (MDR) structured field.
-• A page contains an AEG with the following two Map Coded Font structured fields: [MODCA-3-042]
+* A page contains an AEG with the following two Map Coded Font structured fields: [MODCA-3-042]
 – An MCF that maps LID 1 to font A and LID 2 to font B
 – An MCF that maps LID 3 to font D
-• A graphics data object on that same page contains an OEG with the following two Map Coded Font [MODCA-3-043]
+* A graphics data object on that same page contains an OEG with the following two Map Coded Font [MODCA-3-043]
 structured fields:
 – An MCF that maps LID 3 to font E and LID 4 to font F
 – An MCF that maps LID 5 to font H
 For objects on that page that do not specify their own MCFs within their own OEGs, the LIDs and their
 associated fonts would be:
-• LID 1 = font A, from AEG MCF #1 [MODCA-3-044]
-• LID 2 = font B, from AEG MCF #2 [MODCA-3-045]
-• LID 3 = font D, from AEG MCF #2 [MODCA-3-046]
+* LID 1 = font A, from AEG MCF #1 [MODCA-3-044]
+* LID 2 = font B, from AEG MCF #2 [MODCA-3-045]
+* LID 3 = font D, from AEG MCF #2 [MODCA-3-046]
 The LIDs and their associated fonts available within the graphics object would be:
-• LID 1 = font A, from AEG MCF #1 [MODCA-3-047]
-• LID 2 = font B, from AEG MCF #2 [MODCA-3-048]
-• LID 3 = font E, from OEG MCF #1 [MODCA-3-049]
-• LID 4 = font F , from OEG MCF #1 [MODCA-3-050]
-• LID 5 = font H, from OEG MCF #2 [MODCA-3-051]
+* LID 1 = font A, from AEG MCF #1 [MODCA-3-047]
+* LID 2 = font B, from AEG MCF #2 [MODCA-3-048]
+* LID 3 = font E, from OEG MCF #1 [MODCA-3-049]
+* LID 4 = font F , from OEG MCF #1 [MODCA-3-050]
+* LID 5 = font H, from OEG MCF #2 [MODCA-3-051]
 In this case, fonts A and B were made available from the MCFs contained in the AEG which was higher in the
 environment hierarchy. However, font D was overridden when the first MCF in the OEG mapped LID 3 to font
 E.
@@ -362,7 +299,6 @@ Resources used by a MO:DCA document may be located in resource groups that are i
 (such resource groups are only supported in the retired MO:DCA IS/2 interchange set, see “Retired
 Interchange Set”), in resource groups that are external to the document (print file level resource
 groups), or in resource libraries.
-Data Stream States
 
 The general search order for MO:DCA resources is as follows:
 1. Internal (page level) resource groups (such resource groups are only supported in the retired MO:DCA IS/2 [MODCA-3-052]
@@ -370,9 +306,7 @@ interchange set, see “Retired Interchange Set”)
 2. External (print file level) resource groups [MODCA-3-053]
 3. External resource libraries [MODCA-3-054]
 For the formal definition of resource groups in MO:DCA data streams, see “Resource Groups”.
-Data Stream States
 
-Structured Field Parameters
 A structured field is composed of a set of parameters that provides data and control information to processors
 of the data stream. The MO:DCA architecture has established a length, a set of permissible values and a
 functional definition for each structured field parameter.
@@ -477,13 +411,13 @@ Multiple-occurrence parameters are parameters that can appear more than once in 
 occurrence parameters can be triplets or repeating groups. A repeating group may consist of fixed parameters,
 triplets, or a combination of fixed parameters and triplets. The following rules apply to multiple-occurrence
 parameters:
-• Triplets will not inherit values from higher levels of the document component hierarchy. [MODCA-3-057]
+* Triplets will not inherit values from higher levels of the document component hierarchy. [MODCA-3-057]
 – If some triplets are omitted from a structured field at a lower level, default values will not be used. The
 result will be that no values will exist for the omitted parameters for the scope of the structured field.
 – If all triplets are omitted from a structured field, architected default values will be used for those
 parameters that have them. The result will be that only those parameters having architected defaults will
 have effect for the scope of the structured field.
-• Fixed parameters will inherit values from higher levels of the document component hierarchy. If repeating [MODCA-3-058]
+* Fixed parameters will inherit values from higher levels of the document component hierarchy. If repeating [MODCA-3-058]
 groups of fixed parameters are specified at more than one level within the document component hierarchy
 and semantic conflicts occur, then the conflicts are resolved in favor of the lowest level for the scope of the
 structured field.
@@ -581,21 +515,20 @@ Since the MO:DCA architecture defines X'F…F' as a default indicator, the arith
 permitted. However, in the case where a parameter cannot be defaulted, the value which normally is the
 default indicator is interpreted as -1. Chapter 5, “MO:DCA Structured Fields”, and Chapter 6, “MO:
 DCA Triplets”, identify parameters that cannot be defaulted. The maximum absolute values for
-numbers that can be assigned to data elements that also can be assigned the default indicator are listed in
-T able 8.
-Structured Field Parameters [MODCA-3-061]
+numbers that can be assigned to data elements that also can be assigned the default indicator are listed in Table 8. [MODCA-3-061]
 
-Table 8. Maximum Absolute Values of Numbers in the MO:DCA Architecture
-Number of Bytes Data Type Absolute Values
-Hexadecimal Decimal
-1 SBIN X'7F' 127 [MODCA-3-062]
-1 UBIN X'FE' 254 [MODCA-3-063]
-2 SBIN X'7FFF' 32,767 [MODCA-3-064]
-2 UBIN X'FFFE' 65,534 [MODCA-3-065]
-3 SBIN X'7FFFFF' 8,388,607 [MODCA-3-066]
-3 UBIN X'FFFFFE' 16,777,214 [MODCA-3-067]
-4 SBIN X'7FFFFFFF' 2,147,483,647 [MODCA-3-068]
-4 UBIN X'FFFFFFFE' 4,294,967,294 [MODCA-3-069]
+**Table 8. Maximum Absolute Values of Numbers in the MO:DCA Architecture**
+
+| Number of Bytes | Data Type | Absolute Values (Hexadecimal) | Absolute Values (Decimal) |
+| :---: | :---: | :--- | :--- |
+| 1 | SBIN | X'7F' | 127 [MODCA-3-062] |
+| 1 | UBIN | X'FE' | 254 [MODCA-3-063] |
+| 2 | SBIN | X'7FFF' | 32,767 [MODCA-3-064] |
+| 2 | UBIN | X'FFFE' | 65,534 [MODCA-3-065] |
+| 3 | SBIN | X'7FFFFF' | 8,388,607 [MODCA-3-066] |
+| 3 | UBIN | X'FFFFFE' | 16,777,214 [MODCA-3-067] |
+| 4 | SBIN | X'7FFFFFFF' | 2,147,483,647 [MODCA-3-068] |
+| 4 | UBIN | X'FFFFFFFE' | 4,294,967,294 [MODCA-3-069] |
 Unique syntax is used for the expression of values that pertain to units of measurement and to rotation. See
 “Measurement Units” and “Rotation Units” for details of this syntax.
 Structured Field Parameters [MODCA-3-070]
@@ -625,22 +558,23 @@ Data Object Presentation Space
 The presentation space for a data object. This presentation space is defined by the
 corresponding data object architecture. For details on data object presentation spaces, refer
 to the reference manual for each specific data object architecture.
-The coordinate systems that correspond to the MO:DCA presentation spaces are listed in T able 9.
+The coordinate systems that correspond to the MO:DCA presentation spaces are listed in Table 9.
 Each coordinate system defines its own coordinate axes, measurement units, and extents.
-Table 9. MO:DCA Coordinate Systems
-Coordinate System Notation for Axes
-x direction y direction
-Medium Xm Ym
-Page Xpg Ypg
-Overlay Xol Yol
-Object Area Xoa Yoa
+**Table 9. MO:DCA Coordinate Systems**
+
+| Coordinate System | Notation for Axes: x direction | Notation for Axes: y direction |
+| :--- | :---: | :---: |
+| Medium | Xm | Ym |
+| Page | Xpg | Ypg |
+| Overlay | Xol | Yol |
+| Object Area | Xoa | Yoa |
 The origin of all MO:DCA coordinate systems is the point (0,0) where X equals zero and Y equals zero. The X
 and Y axes form the top and left edges, respectively, of the presentation space, as shown in Figure 5.
 The presentation space associated with the MO:DCA page can be specified to exist on either side of a sheet,
 and multiple page presentation spaces can exist on the same side of a sheet. [MODCA-3-071]
 ## Coordinate Systems
 
-Figure 5. A MO:DCA Presentation Space Coordinate System [MODCA-3-072]
+**Figure 5. A MO:DCA Presentation Space Coordinate System [MODCA-3-072]**
 ## Measurement and Rotation
 Measurement and rotation conventions are essential to the specification and interpretation of layout
 information for data-stream documents. MO:DCA's conventions for measurement include data element
@@ -658,8 +592,8 @@ Each individual measurement unit is specified as two separate values:
 Unit base
 This value represents the length of the measurement base. It is specified as a one-byte coded
 value. The valid codes and their associated meanings are as follows:
-X'00' T en inches
-X'01' T en centimeters
+X'00' Ten inches
+X'01' Ten centimeters
 Units per unit base
 This value represents the number of units in the measurement base. It is specified as a two-
 byte numeric value between 1 and 32,767.
@@ -695,7 +629,7 @@ origin and proceeds in positive X and Y directions within its current orientatio
 extent of the presentation area is represented by line segment 0R and the Y extent by line segment 0D. [MODCA-3-074]
 ## Measurement and Rotation
 
-Figure 6. Presentation Space Extents
+**Figure 6. Presentation Space Extents**
 The bottom edge of a presentation space is a line parallel to the X axis of the presentation space that
 intercepts the Y axis at the end point of the Y extent. The right edge of a presentation space is a line parallel to
 the Y axis of the presentation space that intercepts the X axis at the end point of the X extent.
@@ -720,7 +654,7 @@ A. Coordinate system B's origin is specified as the intersection of the lines dr
 axes at the specified X and Y offset values from coordinate system A. [MODCA-3-075]
 ## Measurement and Rotation
 
-Figure 7. Offset of a Coordinate System
+**Figure 7. Offset of a Coordinate System**
 Any portion of a coordinate system may be overlapped by one or more peer coordinate systems. For example,
 two different object areas could be defined with the same origin so that one completely overlapped the other, or
 their origins could be specified such that only a portion of the object areas overlapped.
@@ -738,8 +672,8 @@ extents, rotate around the contained coordinate system's origin point of 3 and 4
 containing coordinate system. [MODCA-3-076]
 ## Measurement and Rotation
 
-Figure 8. Examples of Coordinate System Orientation
-Figure 9. Inheritance of Coordinate System Orientation
+**Figure 8. Examples of Coordinate System Orientation**
+**Figure 9. Inheritance of Coordinate System Orientation**
 The orientation characteristics possessed by a MO:DCA coordinate system do not have to be the same as
 those of its reference coordinate system. Any MO:DCA coordinate system may possess orientation
 characteristics that are the same as, or different from, their reference coordinate system or any other MO:DCA
@@ -751,28 +685,28 @@ value of 180 degrees. [MODCA-3-077]
 
 Rotation Units
 The rotation of the X and Y axes of an object area are specified in terms of rotation units. Rotation unit values
-are expressed in degrees and minutes using two-byte, three-part binary numbers as shown in T able 10 on
+are expressed in degrees and minutes using two-byte, three-part binary numbers as shown in Table 10 on
 page 40.
-Table 10. Format for Numbers Expressed in Rotation Units
-Bit Position Name Meaning
-Bit 0–Bit 8 Degrees Used to represent 0 through 359 degrees. Values from 360
-through 511 are invalid.
-Bit 9–Bit 14 Minutes Used to represent 0 through 59 minutes. Values from 60
-through 63 are invalid.
-Bit 15 Reserved Value must be zero.
+**Table 10. Format for Numbers Expressed in Rotation Units**
+
+| Bit Position | Name | Meaning |
+| :--- | :--- | :--- |
+| Bit 0–Bit 8 | Degrees | Used to represent 0 through 359 degrees. Values from 360 through 511 are invalid. |
+| Bit 9–Bit 14 | Minutes | Used to represent 0 through 59 minutes. Values from 60 through 63 are invalid. |
+| Bit 15 | Reserved | Value must be zero. [MODCA-3-078] |
 A rotation value of zero specifies no rotation with respect to the X axis of the presentation space in which the
 origin of the page, page overlay, object area, or object is located. Increasing values indicate increasing
 clockwise rotation. The four major orientations, plus-X, plus-Y , minus-X, and minus-Y , have values of 0
 degrees, 90 degrees, 180 degrees, 270 degrees respectively. They are encoded as X'0000', X'2D00', X'5A00',
 and X'8700'. Most structured fields limit rotation to one of these four orientations. See Figure 10.
-Figure 10. Rotation of the X and Y Axes
-In addition, the data object area is subject to the full range of rotation. T o obtain the rotation values one must
+**Figure 10. Rotation of the X and Y Axes**
+In addition, the data object area is subject to the full range of rotation. To obtain the rotation values one must
 take into careful consideration the multi-part bit-expanded derivation of the 2–byte CODE. For example, 123
 degrees, 30 minutes rotation is represented as degrees (B'001111011') and minutes (B'011110') with the last bit
 (B'0') reserved. See Figure 11 . [MODCA-3-078]
 ## Measurement and Rotation
 
-Figure 11. Rotation Units for the Data Object Area — Arbitrary Orientation
+**Figure 11. Rotation Units for the Data Object Area — Arbitrary Orientation**
 Overlays for a page are always positioned relative to the current orientation of the page coordinate system.
 However, their X and Y extent values remain constant regardless of the orientation. Figure 12
 shows this graphically.
@@ -780,7 +714,7 @@ Shape
 The X and Y axes are perpendicular to each other, and the rotation of the Y axis is exactly 90 degrees more
 than the rotation specified for the X axis. All MO:DCA presentation spaces must be rectangles. The shape of
 the data object is not defined by the MO:DCA architecture and can take on any visual appearance.
-Figure 12. A Page Overlay Applied to a Page in Two Different Orientations
+**Figure 12. A Page Overlay Applied to a Page in Two Different Orientations**
 Page Orientation 0º
 Overlay Orientation 0º
 Xpo
@@ -796,81 +730,35 @@ of two parts: foreground and background. Foreground is the part of the presentat
 with object data. This data can be pure object data such as text, or mixed object data such as image overlaying
 text. Background is the part of the presentation space that is not occupied with object data. For data object
 presentation spaces, the data object defines foreground and background, and may specify a color attribute for
-Mixing
 
 both. For each data object type, foreground, background, and color attributes are defined by the architecture
 that defines the object content. For example, in a text presentation space, characters and rules are foreground,
-everything else is background. Foreground is assigned a color attribute using the “Set Extended T ext Color”
+everything else is background. Foreground is assigned a color attribute using the “Set Extended Text Color”
 control sequence. Background cannot be assigned a color and is therefore implicitly assigned the color of the
 medium. When no color is specified for the background of a presentation space, the background is implicitly
 assigned the color of the medium. The medium, page, and overlay presentation spaces are initially empty.
 Empty MO:DCA presentation spaces contain only background, which is assigned the color of the medium.
-T able 11summarizes the definition of foreground and background in AFP OCA-based object
+Table 11summarizes the definition of foreground and background in AFP OCA-based object
 presentation spaces:
-Table 11. Foreground/Background in Data Object Presentation Spaces
-Data Type Foreground Background
-PTOCA T ext • Stroked and filled portion of text characters
-• Stroked area of text rules [MODCA-3-079]
-• Stroked area of underscores [MODCA-3-080]
-Everything else
-IM image B'1' image points B'0' image points
-IOCA bilevel image
-IOCA bilevel tiled
-image
-Significant image points, except image points
-for which a transparency mask specifies B'0'
-• Insignificant image points [MODCA-3-081]
-• Image points for which a transparency mask [MODCA-3-082]
-specifies B'0'
-• All portions of the presentation space not [MODCA-3-083]
-covered by image or tiles
-IOCA grayscale or
-color image
-Entire image, except image points for which a
-transparency mask specifies B'0'
-• Image points for which a transparency mask [MODCA-3-084]
-specifies B'0'
-• All portions of the presentation space not [MODCA-3-085]
-covered by image points
-IOCA grayscale or
-color tiled image
-Entire tile, except image points for which a
-transparency mask specifies B'0'
-• Image points for which a transparency mask [MODCA-3-086]
-specifies B'0'
-• All portions of the presentation space not [MODCA-3-087]
-covered by tiles
-GOCA Graphics • Stroked area of lines (including arcs)
-• Stroked and filled portion of pattern symbols [MODCA-3-088]
-• Stroked and filled portion of marker symbols [MODCA-3-089]
-• Stroked and filled portion of graphic [MODCA-3-090]
-characters
-• B'1' image points [MODCA-3-091]
-• Entire area with solid fill [MODCA-3-092]
-Everything else
-BCOCA Bar Code • Bars and 2D modules
-• Stroked and filled portions of HRI characters [MODCA-3-093]
-• Stroked and filled portion of all other toned [MODCA-3-094]
-constructs in the symbol (for example,
-Bearer Bars)
-Everything else
-Colored object area,
-page, or overlay
-presentation space
-Complete presentation space None
-Empty object area,
-page, or overlay
-presentation space
-None Complete presentation space
-Non-OCA
-Presentation Objects
-See “Object Type Identifiers” See “Object Type Identifiers”
-Mixing
+**Table 11. Foreground/Background in Data Object Presentation Spaces**
+
+| Data Type | Foreground | Background |
+| :--- | :--- | :--- |
+| PTOCA Text | * Stroked and filled portion of text characters<br>* Stroked area of text rules [MODCA-3-079]<br>* Stroked area of underscores [MODCA-3-080] | Everything else |
+| IM image | B'1' image points | B'0' image points |
+| IOCA bilevel image IOCA bilevel tiled image | Significant image points, except image points for which a transparency mask specifies B'0' | * Insignificant image points [MODCA-3-081]<br>* Image points for which a transparency mask specifies B'0' [MODCA-3-082]<br>* All portions of the presentation space not covered by image or tiles [MODCA-3-083] |
+| IOCA grayscale or color image | Entire image, except image points for which a transparency mask specifies B'0' | * Image points for which a transparency mask specifies B'0' [MODCA-3-084]<br>* All portions of the presentation space not covered by image points [MODCA-3-085] |
+| IOCA grayscale or color tiled image | Entire tile, except image points for which a transparency mask specifies B'0' | * Image points for which a transparency mask specifies B'0' [MODCA-3-086]<br>* All portions of the presentation space not covered by tiles [MODCA-3-087] |
+| GOCA Graphics | * Stroked area of lines (including arcs)<br>* Stroked and filled portion of pattern symbols [MODCA-3-088]<br>* Stroked and filled portion of marker symbols [MODCA-3-089]<br>* Stroked and filled portion of graphic characters [MODCA-3-090]<br>* B'1' image points [MODCA-3-091]<br>* Entire area with solid fill [MODCA-3-092] | Everything else |
+| BCOCA Bar Code | * Bars and 2D modules<br>* Stroked and filled portions of HRI characters [MODCA-3-093]<br>* Stroked and filled portion of all other toned constructs in the symbol (for example, Bearer Bars) [MODCA-3-094] | Everything else |
+| Colored object area, page, or overlay presentation space | Complete presentation space | None |
+| Empty object area, page, or overlay presentation space | None | Complete presentation space |
+| Non-OCA Presentation Objects | See “Object Type Identifiers” | See “Object Type Identifiers” |
 
 Merging Presentation Spaces
 Presentation spaces in a MO:DCA document are merged in the order in which the document components that
 define these presentation spaces appear in the data stream, as follows:
-• Medium presentation space. This is the base MO:DCA presentation space upon which all other [MODCA-3-095]
+* Medium presentation space. This is the base MO:DCA presentation space upon which all other [MODCA-3-095]
 presentation spaces are merged.
 – Medium overlay presentation space. Merged on the medium presentation space with a keyword on the
 Medium Modification Control (MMC) structured field in a Medium Map. Medium overlays are merged on
@@ -881,18 +769,17 @@ corresponding page appears in the document, in accordance with the specification
 Map.
 ◦ Object area presentation space. Merged on the page presentation space in the order in which the
 corresponding data object is included on the page.
-• Data object presentation space. Merged on the corresponding object area presentation space. [MODCA-3-096]
+* Data object presentation space. Merged on the corresponding object area presentation space. [MODCA-3-096]
 ◦ Page overlay presentation space. If the page overlay is included via an IPO, it is merged on the page
 presentation space in the order in which the overlay is included on the page. If the page overlay is
 included via a PMC in a Medium Map, it is merged on the page presentation space before any data
 objects or overlays included via an IPO are merged.
-• Object area presentation space. Merged on the overlay presentation space in the order in which the [MODCA-3-097]
+* Object area presentation space. Merged on the overlay presentation space in the order in which the [MODCA-3-097]
 corresponding data object is included on the overlay.
-• Data object presentation space. Merged on the corresponding object area presentation space. [MODCA-3-098]
+* Data object presentation space. Merged on the corresponding object area presentation space. [MODCA-3-098]
 The MO:DCA presentation space merge-order is shown in Figure 13.
-Mixing
 
-Figure 13. Merging Presentation Spaces
+**Figure 13. Merging Presentation Spaces**
 Figure Notes (numbers shown circled in the Figure):
 1. Merged first on the medium presentation space as specified in a Medium Map print control object. [MODCA-3-099]
 Multiple medium overlays are merged in the order in which they occur. If the overlay is a Medium
@@ -909,7 +796,6 @@ Mixing Rules
 When multiple MO:DCA presentation spaces are merged, the background and foreground of the presentation
 spaces mix. The resultant foreground is the union of all presentation space foregrounds, that is, once an area
 is defined to be foreground, it remains foreground even if its color attribute is changed due to an “underpaint”
-Mixing
 
 mixing rule. The resultant background is everything else. The color of the resultant foreground and background
 is determined by the mixing rules specified in the MO:DCA architecture.
@@ -938,12 +824,14 @@ When a new presentation space P n is merged onto an existing presentation space 
 underpaints the background and foreground of P e, and the foreground of P n overpaints the background and
 foreground of P e.
 This default mixing rule can be summarized as follows:
-Table 12. Default Color Mixing Rules
-Mixing Type Default Mixing Rule
-Bn on Be Underpaint
-Bn on Fe Underpaint
-Fn on Be Overpaint
-Fn on Fe Overpaint
+**Table 12. Default Color Mixing Rules**
+
+| Mixing Type | Default Mixing Rule |
+| :--- | :--- |
+| Bn on Be | Underpaint |
+| Bn on Fe | Underpaint |
+| Fn on Be | Overpaint |
+| Fn on Fe | Overpaint |
 Preprinted Form Overlay (PFO) Mixing
 Preprinted Form Overlays (PFOs) are designed to enable proper simulation of preprinted forms, particularly
 their appearance when color data is presented on the form. This requires the definition of a special mixing rule,
@@ -952,15 +840,14 @@ overlay data is merged with the PFO data. The Formblend mixing rule makes use of
 whether it is an M-PFO or an PMC-PFO, is always merged last on the presentation space with which it is
 associated (the medium presentation space for an M-PFO, the page presentation space for a PMC-PFO). The
 Formblend mixing rule is defined as follows:
-Mixing
 
 Formblend This mixing rule is only used when a simulated preprinted form, which is simulated as either a
 Medium Preprinted Form overlay (M-PFO) or a PMC Preprinted Form overlay (PMC-PFO), is
 merged as a new presentation space P n, onto an existing presentation space P e. The
 intersection of Pn and Pe is assigned the following color attribute:
-• Wherever the color attribute of P e is either the color of medium, or the color white (CMYK = [MODCA-3-102]
+* Wherever the color attribute of P e is either the color of medium, or the color white (CMYK = [MODCA-3-102]
 X'00000000' or RGB = X'FFFFFF'), the intersection is assigned the color attribute of P n.
-• Wherever the color attribute of P e is not the color of medium and not the color white, the [MODCA-3-103]
+* Wherever the color attribute of P e is not the color of medium and not the color white, the [MODCA-3-103]
 intersection assumes a new color attribute that is generated in a device-specific manner to
 simulate how the P e color attribute would mix onto a preprinted form that has the color
 attribute of P n. In general, this mixing is a blending of the color attributes of P n and Pe that is
@@ -976,12 +863,14 @@ The complete mixing rules for PFOs are defined as follows. Since, by definition,
 medium presentation space for M-PFOs and the page presentation space for PMC-PFOs), P
 n corresponds to
 the PFO presentation space in this table:
-Table 13. Color Mixing Rules for PFOs
-Mixing Type Mixing Rule
-Bn (PFO) on B e Underpaint
-Bn (PFO) on Fe Underpaint
-Fn (PFO) on B e Overpaint
-Fn (PFO) on Fe Formblend
+**Table 13. Color Mixing Rules for PFOs**
+
+| Mixing Type | Mixing Rule |
+| :--- | :--- |
+| Bn (PFO) on B e | Underpaint |
+| Bn (PFO) on Fe | Underpaint |
+| Fn (PFO) on B e | Overpaint |
+| Fn (PFO) on Fe | Formblend |
 UP3i Print Data Mixing
 Special mixing rules are defined for mixing the UP3i Print Data object type with other data on a page or overlay.
 In that case, since the print data is presented by a UP3i device after (or possibly before) the complete page or
@@ -990,18 +879,17 @@ according to the default MO:DCA mixing rules. It would be difficult to merge thi
 which it is specified on a page since the UP3i Print Data object is normally rendered last (or first) due to the
 physical configuration of the system. A new type of mixing is therefore architected for UP3i Print Data that is
 defined as follows:
-• The object area of the presentation container mixes in accordance with the default MO:DCA mixing rules. An [MODCA-3-104]
+* The object area of the presentation container mixes in accordance with the default MO:DCA mixing rules. An [MODCA-3-104]
 empty object area is transparent. If a Presentation Space Reset (X'70') Mixing triplet is specified on the OBD,
 it can reset the space under the object area to color of medium. If a Color Specification (X'4E') triplet is
 specified on the OBD, it can color the object area. Any object on the page that is specified after the Print
 Data object can overpaint the object area with other data.
-• The UP3i Print Data object is processed in its own presentation space by the UP3i device in accordance with [MODCA-3-105]
+* The UP3i Print Data object is processed in its own presentation space by the UP3i device in accordance with [MODCA-3-105]
 the Print Data format, as identified with the Print Data Format ID in the first 4 bytes of the object. It mixes with
 the remainder of the page data in a manner that is defined by the Print Data format. For example, Print Data
 format 'x' might define the mixing such that a bar code is printed with invisible ink that underpaints all
 underlying data (i.e. the Print Data is transparent). Print Data format 'y' might define the mixing such that a
 MICR ink is used to stroke the characters and overpaints all underlying data (i.e. the Print Data is opaque).
-Mixing
 
 ## Color Management
 The AFP Color Management Architecture (ACMA) is based on the concept of a color management resource
@@ -1036,15 +924,15 @@ combinations.
 Indexed (IX) CMRs are used to map a two-byte indexed color value, specified in the
 data stream using the highlight color space, to device colors on a highlight color,
 process color, or monochrome device. The device colors can be one of the following:
-• A fractional mixture of one or more specific device colorants. [MODCA-3-106]
-• A presentation-system-dependent process color (CMYK for printers, RGB for [MODCA-3-107]
+* A fractional mixture of one or more specific device colorants. [MODCA-3-106]
+* A presentation-system-dependent process color (CMYK for printers, RGB for [MODCA-3-107]
 displays).
-• A gray value. [MODCA-3-108]
-• A CIELAB value. This value is always specified, even in the above cases, to provide [MODCA-3-109]
+* A gray value. [MODCA-3-108]
+* A CIELAB value. This value is always specified, even in the above cases, to provide [MODCA-3-109]
 a substitute color value if the device cannot generate the requested device color.
 Link color
 conversions
-CMRS that provide look-up tables (LUT s) that convert directly from an input color
+CMRS that provide look-up tables (LUTs) that convert directly from an input color
 space in the presentation data to the output color space of the presentation device.
 There are two subtypes of Link color conversion CMRs - Link LK CMRs and Link DL
 CMRs.
@@ -1112,25 +1000,17 @@ specified, or if the CMR is an instruction CC CMR, it is ignored and not used fo
 passthrough CC CMR is treated like other audit CC CMRs in terms of selecting an audit CC CMR from the
 hierarchy. There is no device-specific CMR which can be substituted for the passthrough CC CMR; it merely
 instructs the device to not do a color conversion on the data.
-T able 14 shows what processing modes are valid for each CMR type and whether the CMR type
+Table 14 shows what processing modes are valid for each CMR type and whether the CMR type
 can be specified as a generic CMR.
-Table 14. CMR Type: Processing Mode and Generic Capability
-CMR type
-Non-generic CMR Generic CMR
-Processing modes Processing modes
-Audit Instruction Link Audit Instruction Link
-Color
-conversion
-(CC)
-Valid Valid Invalid: error Invalid: error Invalid: error
-Tone transfer
-curve (TTC)
-Valid Valid Valid: ignored Valid
-Halftone (HT) Valid: ignored Valid Valid: ignored Valid
-Indexed (IX) Valid: ignored Valid Invalid: error
-Link (LK and
-DL)
-Invalid: error Valid Invalid: error
+**Table 14. CMR Type: Processing Mode and Generic Capability**
+
+| CMR type | Non-generic CMR: Audit | Non-generic CMR: Instruction | Non-generic CMR: Link | Generic CMR: Audit | Generic CMR: Instruction | Generic CMR: Link |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| Color conversion (CC) | Valid | Valid | Invalid: error | Invalid: error | Invalid: error | |
+| Tone transfer curve (TTC) | Valid | Valid | | Valid: ignored | Valid | |
+| Halftone (HT) | Valid: ignored | Valid | | Valid: ignored | Valid | |
+| Indexed (IX) | Valid: ignored | Valid | | | | Invalid: error |
+| Link (LK and DL) | Invalid: error | Valid | | | | Invalid: error |
 Note: A CC CMR that is referenced as an audit CMR may be defined as a passthrough audit CC CMR by
 specifying the character string “pasthru” in the version field of the CMR name. If such a CC CMR is
 referenced as an instruction CC CMR, it is ignored. If the CC CMR is referenced as a link CMR, or if any
@@ -1142,7 +1022,7 @@ causing errors on existing devices.
 2. Servers should not download invalid combinations of CMR type and processing mode. Instead, they [MODCA-3-113]
 should generate an error.
 CMR Installation
-CMRs in resource libraries are accessed using a CMR Resource Access T able (RAT). When CMRs are
+CMRs in resource libraries are accessed using a CMR Resource Access Table (RAT). When CMRs are
 installed in a resource library, the install program must build the CMR RAT entry that maps the CMR name to a
 file name, to an object OID, and optionally to additional CMRs such as Link LK CMRs. When a color
 conversion CMR is installed, a flag bit in the CMR RAT entry specifies whether this CMR would normally be
@@ -1196,33 +1076,33 @@ can be factored up from the Object Environment Group (OEG) of a data object or f
 an Include Object (IOB) structured field.
 Data object A CMR can be associated with a data object such as IOCA, EPS, PDF , TIFF , JFIF ,
 GIF in multiple ways:
-• The data object can be installed with an install program that generates a data object [MODCA-3-115]
-Resource Access T able (RAT). When this program builds the RAT entry for the data
+* The data object can be installed with an install program that generates a data object [MODCA-3-115]
+Resource Access Table (RAT). When this program builds the RAT entry for the data
 object, it can also specify one or more CMRs that are to be associated with the
 object. Each CMR reference indicates the processing mode of the CMR (audit or
 instruction).
 ## Color Management
 
-• If the data object is included on a page/overlay with an IOB, or if it is in a page [MODCA-3-116]
+* If the data object is included on a page/overlay with an IOB, or if it is in a page [MODCA-3-116]
 segment that is included on a page/overlay with an IOB, a CMR can be associated
 with this object by specifying the name of the CMR on the IOB as an external
 resource reference and then referencing the CMR with a Map Data Resource
 (MDR) in the Active Environment Group (AEG) of the page. This method is similar to
 how a resident SWOP or Euroscale color profile is associated with an EPS or PDF
 object, and how a PDF resource is associated with a PDF object.
-• If the data object is specified directly on the page/overlay, it can reference the CMR [MODCA-3-117]
+* If the data object is specified directly on the page/overlay, it can reference the CMR [MODCA-3-117]
 in its OEG with an
 MDR that references the CMR. Note that, for resource
 management, any CMR reference in the OEG must be factored up to the AEG of
 the including page or overlay.
-• If the data object is an image object to be presented in conjunction with a QR Code [MODCA-3-118]
+* If the data object is an image object to be presented in conjunction with a QR Code [MODCA-3-118]
 with Image bar code, and the bar code is included on a page/overlay with an IOB, a
 tertiary CMR can be associated with the image object by specifying, on the IOB, the
 name of the CMR as an external resource reference, paired with the internal
 resource name used within the bar code object to reference the image object. In
 addition, the CMR must also be referenced with an MDR in the AEG of the page or
 overlay.
-• If the data object is an image object to be presented in conjunction with a QR Code [MODCA-3-119]
+* If the data object is an image object to be presented in conjunction with a QR Code [MODCA-3-119]
 with Image bar code, and the bar code is specified directly on the page/overlay, a
 tertiary CMR can be associated with the image object by specifying, in an MDR in
 the OEG of the bar code object, the name of the CMR as an external resource
@@ -1230,7 +1110,7 @@ reference, paired with the internal resource name used within the bar code objec
 reference the image object. Note that, for resource management, any CMR
 reference in the OEG must be factored up to the AEG of the including page or
 overlay.
-• In either of the two previous cases, where the data object is an image object to be [MODCA-3-120]
+* In either of the two previous cases, where the data object is an image object to be [MODCA-3-120]
 presented in conjunction with a QR Code with Image bar code, a CMR can also be
 associated with the image object by being associated with the bar code object—that
 is, for such image objects, an object-level CMR provided for the including QR Code
@@ -1239,7 +1119,7 @@ object. Such image objects, then, can either have an object-level CMR associated
 directly to them, through the previous two cases, or can have an object-level CMR
 associated indirectly to them, by associating the object-level CMR with the bar code
 object that includes them. The direct association takes precedence.
-• The data object can contain embedded CMR-like information. An example is the [MODCA-3-121]
+* The data object can contain embedded CMR-like information. An example is the [MODCA-3-121]
 inclusion of an audit-like ICC profile in a TIFF object. Such information is used by
 the presentation device when an object level CMR is not provided. If the data object
 is installed using an install program, an embedded audit-like ICC profile can be
@@ -1262,19 +1142,19 @@ The proper use of CC CMRs and LK CMRs in a presentation device involves the conc
 Rendering intent is used to modify the appearance of color data. Rendering intents supported in AFP color
 management are based on the rendering intents defined by the ICC, which are also used in other presentation
 environments such as PostScript and PDF . The ICC defines four rendering intents:
-• Perceptual [MODCA-3-122]
-• Saturation [MODCA-3-123]
-• Media-relative colorimetric [MODCA-3-124]
-• ICC-absolute colorimetric [MODCA-3-125]
+* Perceptual [MODCA-3-122]
+* Saturation [MODCA-3-123]
+* Media-relative colorimetric [MODCA-3-124]
+* ICC-absolute colorimetric [MODCA-3-125]
 For more information on rendering intents, see ISO 15076-1:2010 “Image technology colour management –
 Architecture, profile format and data structure – Part 1: Based on ICC.1:2010”.
 Rendering intent is specified with the Rendering Intent (X'95') triplet on the Presentation Environment Control
 (PEC) structured field. For document hierarchy levels other than the object level, rendering intents can be
 specified independently for each major AFP color object type category, as follows:
-• IOCA objects [MODCA-3-126]
-• Object containers (EPS, PDF , TIFF , etc.) [MODCA-3-127]
-• PTOCA text [MODCA-3-128]
-• GOCA graphics objects [MODCA-3-129]
+* IOCA objects [MODCA-3-126]
+* Object containers (EPS, PDF , TIFF , etc.) [MODCA-3-127]
+* PTOCA text [MODCA-3-128]
+* GOCA graphics objects [MODCA-3-129]
 This allows one object type, such as text, to be rendered with a different rendering intent than another object
 type, such as continuous tone IOCA image, with a single specification of the Rendering Intent triplet.
 The rendering intent specified with the Rendering Intent (X'95') triplet, or with the Rendering Intent table vector
@@ -1286,11 +1166,11 @@ Color Specification (X'4E') triplet on the Bar Code Data Descriptor (BDD) struct
 rendering intent for BCOCA objects is fixed as media-relative colorimetric.
 Rendering intents may be associated with a MO:DCA document component at the same levels of the
 document hierarchy as CMRs, as follows:
-• Print file [MODCA-3-130]
-• Document [MODCA-3-131]
-• Group of pages or sheets [MODCA-3-132]
-• Page or overlay [MODCA-3-133]
-• Data object; the rendering intent may be associated with a data object in a number of ways: [MODCA-3-134]
+* Print file [MODCA-3-130]
+* Document [MODCA-3-131]
+* Group of pages or sheets [MODCA-3-132]
+* Page or overlay [MODCA-3-133]
+* Data object; the rendering intent may be associated with a data object in a number of ways: [MODCA-3-134]
 – By specifying a PEC with RI triplet in the OEG for the data object
 – By specifying the RI triplet on the IOB that includes the data object
 – By specifying the RI triplet on the PPO that is used to preprocess the data object
@@ -1307,18 +1187,18 @@ CMRs and print media
 Color rendering may also be significantly affected by the characteristics of the print media. CMRs may
 therefore be tuned to specific media; this is indicated by specifying one of the following four media attributes in
 an instruction CMR:
-• Media brightness [MODCA-3-136]
-• Media color [MODCA-3-137]
-• Media finish [MODCA-3-138]
-• Media weight [MODCA-3-139]
+* Media brightness [MODCA-3-136]
+* Media color [MODCA-3-137]
+* Media finish [MODCA-3-138]
+* Media weight [MODCA-3-139]
 Each attribute has a valid range of values that is defined in the Color Management Object Content Architecture
 Reference. An instruction CMR may specify none, some, or all of these attributes. The output device uses
 these CMR media attributes and the media attributes of the current media to select an optimum CMR using the
 following algorithm:
-• If none of the media attributes are specified in an instruction CMR, the printer uses it [MODCA-3-140]
-• If one or more of the media attributes in an instruction CMR are invalid, exception processing mode is [MODCA-3-141]
+* If none of the media attributes are specified in an instruction CMR, the printer uses it [MODCA-3-140]
+* If one or more of the media attributes in an instruction CMR are invalid, exception processing mode is [MODCA-3-141]
 entered
-• If all of the media attributes are specified in an instruction CMR and are valid, the CMR is processed as [MODCA-3-142]
+* If all of the media attributes are specified in an instruction CMR and are valid, the CMR is processed as [MODCA-3-142]
 follows:
 – If all attributes match the current media, the CMR is used.
 – If one or more attributes do not match the current media, the printer searches the hierarchy for a media-
@@ -1326,7 +1206,7 @@ specific CMR that matches the current media. Multiple applicable CMRs may exist 
 hierarchy and are included in the search, and each level of the hierarchy is searched in the normal order,
 except for the printer default level, which is not part of the search. If no matching media-specific CMR is
 found, exception processing mode is entered.
-• If some, but not all, of the media attributes are specified in an instruction CMR and are valid, the CMR is [MODCA-3-143]
+* If some, but not all, of the media attributes are specified in an instruction CMR and are valid, the CMR is [MODCA-3-143]
 processed as follows:
 – If all the specified attributes match the current media, the printer searches the hierarchy for a CMR whose
 media attributes are a better match with the current media. Multiple applicable CMRs may exist at each
@@ -1344,16 +1224,16 @@ CMRs are associated with a document component implicitly. That is, that document
 out the associated CMRs directly. [MODCA-3-144]
 ## Color Management
 
-• At the print file level, a CMR is associated by referencing the CMR in a MDR in the DEG for the form [MODCA-3-145]
+* At the print file level, a CMR is associated by referencing the CMR in a MDR in the DEG for the form [MODCA-3-145]
 definition. The CMR applies to all documents in the print file.
-• At the document level, the CMR is associated by referencing the CMR in a MDR in the DEG for the form [MODCA-3-146]
+* At the document level, the CMR is associated by referencing the CMR in a MDR in the DEG for the form [MODCA-3-146]
 definition, and by pointing to the specific document in the print file. The CMR then applies only to that
 document.
-• At the group of pages or sheets level, the CMR is associated by referencing the CMR with a MDR in the [MODCA-3-147]
+* At the group of pages or sheets level, the CMR is associated by referencing the CMR with a MDR in the [MODCA-3-147]
 invoked medium map. The CMR applies to all pages or sheets processed with that medium map.
-• At the page or overlay level, the CMR is associated by referencing the CMR in a MDR in the AEG for that [MODCA-3-148]
+* At the page or overlay level, the CMR is associated by referencing the CMR in a MDR in the AEG for that [MODCA-3-148]
 page or overlay. The CMR applies only to that page or overlay.
-• At the data object level, the CMR is associated with a data object in any of the following ways: [MODCA-3-149]
+* At the data object level, the CMR is associated with a data object in any of the following ways: [MODCA-3-149]
 – By referencing the CMR in the RAT entry for the object in a data object RAT
 – By referencing the CMR on the IOB that is used to include the data object
 – By referencing the CMR on the PPO that is used to preprocess the data object
@@ -1385,12 +1265,12 @@ Audit, instruction, and link (for Link DL CMRs) processing modes are specified w
 a document component. For print files, documents, page or sheet groups, pages, and overlays, the processing
 mode is specified with the CMR Descriptor triplet on the MDR. For data objects, the processing mode can be
 specified in multiple ways:
-• With a CMR Descriptor triplet on the MDR in the OEG for the object [MODCA-3-150]
-• With a CMR Descriptor triplet on the IOB that includes the object [MODCA-3-151]
-• With a CMR Descriptor triplet on the PPO that is used to preprocess the object [MODCA-3-152]
+* With a CMR Descriptor triplet on the MDR in the OEG for the object [MODCA-3-150]
+* With a CMR Descriptor triplet on the IOB that includes the object [MODCA-3-151]
+* With a CMR Descriptor triplet on the PPO that is used to preprocess the object [MODCA-3-152]
 ## Color Management
 
-• With a CMR Descriptor table vector (TV) in the data object RAT entry for the object [MODCA-3-153]
+* With a CMR Descriptor table vector (TV) in the data object RAT entry for the object [MODCA-3-153]
 IX CMRs should be processed as instruction CMRs. IX CMRs that are to be processed as audit CMRs are
 ignored by the output device.
 The link processing mode is valid only with LK CMRs. Such CMRs are not associated directly with a document
@@ -1428,7 +1308,7 @@ output appearance. Such CMRs are called generic CMRs. They are identified with a
 generic (encoded in UTF-16BE) in the version field of the CMR name. Generic HT and TTC CMRs should be
 referenced as instruction CMRs. Generic HT and TTC audit CMRs are ignored by the output device. Generic
 CMRs are processed as follows:
-• A server processes a reference to a generic instruction CMR in the same manner that it processes a [MODCA-3-154]
+* A server processes a reference to a generic instruction CMR in the same manner that it processes a [MODCA-3-154]
 reference to a device-specific CMR, with one exception. Because the CMR is generic, the server checks
 whether device-specific CMRs that match the device type and model of the target printer have been mapped
 to the generic CMR in the CMR RAT . If yes, the device-specific CMRs are used instead. Note that this
@@ -1438,7 +1318,7 @@ the container. If no matching device-specific CMR is mapped to the generic CMR e
 RAT , the server downloads (if necessary), activates, and invokes the generic CMR. [MODCA-3-155]
 ## Color Management
 
-• The printer processes the CMR hierarchy in the normal manner, with one exception. If the active instruction [MODCA-3-156]
+* The printer processes the CMR hierarchy in the normal manner, with one exception. If the active instruction [MODCA-3-156]
 halftone CMR or TTC CMR is a generic CMR, the printer substitutes an appropriate version of a device-
 specific default CMR.
 Default CMRs
@@ -1455,13 +1335,13 @@ may reference a device-specific instruction TTC CMR, but the output device does 
 TTC CMRs. The processing of such exceptions is controlled by the Color Fidelity (X'75') triplet.
 The above does not apply to CMRs that are mapped to referenced CMRs but that are themselves not directly
 referenced in the data stream or a data object RAT . This includes:
-• Link LK CMRs that are mapped to color conversion CMRs in a CMR RAT or on the BRS of an inline CMR [MODCA-3-157]
-• Device-specific halftone and tone transfer curve CMRs that are mapped to generic CMRs in a CMR RAT or [MODCA-3-158]
+* Link LK CMRs that are mapped to color conversion CMRs in a CMR RAT or on the BRS of an inline CMR [MODCA-3-157]
+* Device-specific halftone and tone transfer curve CMRs that are mapped to generic CMRs in a CMR RAT or [MODCA-3-158]
 on the BRS of an inline CMR
 The processing of such mapped CMRs is not governed by the Color Fidelity triplet. If a device does not support
 the download of such a mapped CMR, it does not cause a CMR exception and the mapped CMR is ignored.
 A CMR tag exception is detected when an unsupported CMR tag is encountered in a CMR. The processing of
-such exceptions is controlled by the CMR T ag Fidelity (X'76') triplet.
+such exceptions is controlled by the CMR Tag Fidelity (X'76') triplet.
 CMRs in Print file level Resource Groups
 CMRs may also be carried in the resource group for a print file, in which case they are called inline CMRs. The
 CMR is first wrapped in a BOC/EOC object container, which in turn is wrapped in a BRS/ERS resource
@@ -1475,7 +1355,6 @@ A Metadata Object (MO) is an architected object used to carry descriptive metada
 format. Metadata can be associated with a MO:DCA print file. MOs are defined in the Metadata Object Content
 Architecture (MOCA). This architecture is defined in the Metadata Object Content Architecture Reference.
 In AFP environments, the MOs have no presentation semantic and may be ignored by print servers or printers.
-Metadata
 
 Associating MOs with an AFP print file
 MO association and scope
@@ -1516,14 +1395,13 @@ Horizontal Metrics
 When a TrueType rasterizer RIPs the outline descriptions into character bitmaps, TrueType metrics are
 provided for positioning the bitmaps horizontally within a line of text. These metric values provide enough
 information to calculate the metrics defined by FOCA for the 0 degree character rotation. This information
-Fonts
 
 includes the width and depth of the bitmap, the distance from the character origin to a corner of the bitmap, and
 the distance to the origin of the next character.
 Figure 14 compares the parameters commonly used with TrueType fonts to the horizontal (0
 degree) metrics provided by a FOCA font. In practice, many TrueType fonts are built so that there is no top
 indent or left indent; in this case, the bitmap is a tight box around the character and the indent values are zero.
-Figure 14. Horizontal Metrics: TrueType/OpenType Fonts and FOCA Fonts
+**Figure 14. Horizontal Metrics: TrueType/OpenType Fonts and FOCA Fonts**
 Based on this illustration, the key FOCA horizontal metrics can be calculated as follows:
 Character Increment (HCI) = Escapement
 A-space (HAS) = Left Indent - X Origin
@@ -1540,7 +1418,6 @@ other parameters. For example, the font rasterizer can return the offset (xorigi
 origin of the top-left corner of the bitmap. This information can be related to the metrics formulas; for example:
 A-space (HAS) = Left Indent - X Origin = Left Indent + xorigin
 Baseline Offset (HBO) = Y Origin - Top Indent = yorigin - Top Indent
-Fonts
 
 Vertical Metrics
 Character rotations of 90 and 270 degrees are used to support vertical forms of writing. In addition to the
@@ -1556,13 +1433,11 @@ Simulating Vertical Metrics
 Figure 15 shows again the TrueType horizontal metrics and some additional TrueType metrics that
 can be obtained to describe the em-square. The figure also shows the target FOCA vertical metrics and a
 method for simulating 270 degree FOCA vertical metrics from TrueType horizontal metrics.
-Fonts
 
-Figure 15. Vertical Metrics: TrueType/OpenType Fonts and FOCA Fonts
+**Figure 15. Vertical Metrics: TrueType/OpenType Fonts and FOCA Fonts**
 Any approach taken to approximate these metrics is well served to consider the scripts in which vertical writing
 is most popular: East Asian scripts which use ideographic characters. These full width characters have
 properties that can be utilized to make these estimations. First, they typically have an equal, or fixed,
-Fonts
 
 increment. Second, they are designed on a square grid, so their width and height are equal. Third, they are
 usually the largest characters in the font.
@@ -1582,7 +1457,7 @@ the bitmap should reflect the relative horizontal baseline offset of the charact
 for the BLACK LENTICULAR BRACKETS, U+3010 and U+3011, are small compared to their increment and
 are designed to be positioned close to the character they enclose. This property must be preserved for vertical
 writing.
-T o accomplish these goals, first compute a constant value (Vy) to place the horizontal character origin relative
+To accomplish these goals, first compute a constant value (Vy) to place the horizontal character origin relative
 to the vertical character positioning point, using the TrueType em-square metrics and the following equation
 (note that max(HBE) = urY + llY and max(HBO) = urY):
 Vy(est) = int((em - max(HBE))/2) + max(HBO)
@@ -1611,7 +1486,6 @@ B-space (VBS) = Black Depth
 C-space (VCS) = VCI - VAS - Black Depth
 The vertical metrics for 90-degree character rotation can be directly deduced from the 270-degree metrics, in
 the same manner used to convert 0-degree metrics to 180-degree metrics.
-Fonts
 
 ## Document Indexing
 The document index defined by the MO:DCA architecture provides functions for indexing the document based
@@ -1620,14 +1494,14 @@ Index structured field and an End Document Index structured field and may be loc
 external to the document. MO:DCA elements that may be indexed are pages and page groups. When
 referenced by an index, they are called indexed objects. The MO:DCA elements within a document index that
 reference indexed objects are Index Element (IEL) structured fields. The MO:DCA elements within a document
-index that support content-based tagging are T ag Logical Element (TLE) structured fields.
+index that support content-based tagging are Tag Logical Element (TLE) structured fields.
 A MO:DCA document index consists of the following structured fields. These structured fields are described in
 detail in Chapter 5, “MO:DCA Structured Fields”,. Note that the IEL and TLE structured fields may
 occur multiple times.
 Begin Document Index (BDI)
 Index Element (IEL)
 Link Logical Element (LLE)
-T ag Logical Element (TLE)
+Tag Logical Element (TLE)
 End Document Index (EDI)
 When the document index is external to the document, the BDI structured field references the document using
 a Fully Qualified Name type X'83' triplet. The document name specified in this triplet is inherited by all IEL and
@@ -1643,27 +1517,27 @@ IELs, page group-level IELs, or both. The order in which page level IELs and pag
 the index must be the same as the order in which the indexed Begin Page and Begin Page Group structured
 fields appear in the document.
 The IEL structured field provides the following information for the indexed object:
-• Direct byte offset of the Begin indexed object structured field from the start of the Begin Document structured [MODCA-3-160]
+* Direct byte offset of the Begin indexed object structured field from the start of the Begin Document structured [MODCA-3-160]
 field.
-• Byte extent of the indexed object, from the first byte in the Begin structured field to the last byte in the End [MODCA-3-161]
+* Byte extent of the indexed object, from the first byte in the Begin structured field to the last byte in the End [MODCA-3-161]
 structured field.
-• Structured field offset of the Begin indexed object structured field, where the Begin Document structured field [MODCA-3-162]
+* Structured field offset of the Begin indexed object structured field, where the Begin Document structured field [MODCA-3-162]
 has offset 0, and all following structured fields increment the offset by 1.
-• Structured field extent of the indexed object, which is a count of the number of structured fields in the [MODCA-3-163]
+* Structured field extent of the indexed object, which is a count of the number of structured fields in the [MODCA-3-163]
 indexed object, starting with the Begin indexed object structured field and ending with the End indexed object
 structured field.
-• Object offset of the Begin indexed object structured field, using a specified object type. For example, this [MODCA-3-164]
+* Object offset of the Begin indexed object structured field, using a specified object type. For example, this [MODCA-3-164]
 parameter may specify the number of pages that precede an indexed page group in the document.
-• Object extent of the indexed object, using a specified subordinate object type. For example, if the [MODCA-3-165]
+* Object extent of the indexed object, using a specified subordinate object type. For example, if the [MODCA-3-165]
 subordinate object is a page, this parameter may specify the number of pages in an indexed page group.
-• If the indexed object is a page: [MODCA-3-166]
+* If the indexed object is a page: [MODCA-3-166]
 ## Document Indexing
 
 – The name of the medium map object that is active for formatting the indexed page on a physical medium
 – The number of the indexed page in the set of sequential pages controlled by the active medium map,
 where the first page in the set is number 1
 – The PGP repeating group used to process the page
-• If the indexed object is a page group: [MODCA-3-167]
+* If the indexed object is a page group: [MODCA-3-167]
 – The number of pages that precede the page group in the document
 – The number of pages contained in the page group
 – The name of the medium map object that is active for formatting the first page in the indexed page group
@@ -1673,36 +1547,36 @@ map, where the first page in the set is number 1, and where “active medium map
 map that is active at the beginning of the page-group
 – The PGP repeating group used to process the first page-group page
 An example of a page level IEL that specifies page offset and page extent is shown in Figure 16.
-Figure 16. Page level IEL: Offset and Extent
-An example of a page group level IEL that specifies page group offset and page group extent is shown in
-Figure 17.
-Figure 17. Page group level IEL: Offset and Extent [MODCA-3-168]
+**Figure 16. Page level IEL: Offset and Extent**
+An example of a page group level IEL that specifies page group offset and page group extent is shown in Figure 17.
+
+**Figure 17. Page group level IEL: Offset and Extent [MODCA-3-168]**
 ## Document Indexing
 
 Figure 18 shows how the Medium Map information in a page level IEL is used to determine page
 placement on a side of a sheet.
 Tag Logical Elements
-The T ag Logical Element (TLE) structured field supports the tagging of pages and page groups with an
+The Tag Logical Element (TLE) structured field supports the tagging of pages and page groups with an
 attribute that may be used as an index key. The attribute is specified using attribute name and attribute value
 triplets on the TLE structured field. When the TLE is specified in a document index, the element to be tagged
 may be identified using a Fully Qualified Name triplet on the TLE structured field:
-• FQN type X'87' triplet for a page [MODCA-3-169]
-• FQN type X'0D' triplet for a page group [MODCA-3-170]
+* FQN type X'87' triplet for a page [MODCA-3-169]
+* FQN type X'0D' triplet for a page group [MODCA-3-170]
 If a TLE in a document index does not contain an explicit page or page group reference, it inherits such a
 reference from the last preceding IEL in the index. A TLE that explicitly references a page, or that inherits a
 page reference from the last preceding IEL, is called a page level TLE. A TLE that explicitly references a page
 group, or that inherits a page group reference from the last preceding IEL, is called a page group level TLE.
-Figure 18. Page level IEL: Use of Medium Map Information
+**Figure 18. Page level IEL: Use of Medium Map Information**
 The TLE structured field tags the referenced element with the following information:
-• Name of the attribute [MODCA-3-171]
+* Name of the attribute [MODCA-3-171]
 ## Document Indexing
 
-• Value of the attribute [MODCA-3-172]
-• Sequence number of the attribute, used to distinguish otherwise identical attributes [MODCA-3-173]
-• Level number of the attribute, used to logically position the attribute in an application-defined hierarchy [MODCA-3-174]
+* Value of the attribute [MODCA-3-172]
+* Sequence number of the attribute, used to distinguish otherwise identical attributes [MODCA-3-173]
+* Level number of the attribute, used to logically position the attribute in an application-defined hierarchy [MODCA-3-174]
 Figure 19 shows how logical tags are applied to pages in a document using TLEs in an external
 document index.
-Figure 19. A Document with Logical Tags [MODCA-3-175]
+**Figure 19. A Document with Logical Tags [MODCA-3-175]**
 ## Document Links
 Online, interactive forms of document processing require that linkages be established among components
 within the document and from components within the document to components external to the document. One
@@ -1716,7 +1590,6 @@ document. A third example is the processing of appends. A document may be compos
 summarizing monthly phone calls. If a particular phone call is recorded late, it may need to be appended to an
 existing page in the document, which requires a link from the existing page to the document component that
 contains the late phone bill.
-Links
 
 Document links in the MO:DCA architecture are supported with Link Logical Element (LLE) structured fields.
 Link Logical Elements
@@ -1748,9 +1621,8 @@ gather all annotations and print them at the end of the source document with app
 pages.
 An example showing how an LLE can be embedded in a document index to link an area on a page in the
 source document to a text annotation is shown in Figure 20.
-Links
 
-Figure 20. Document Annotation using the LLE
+**Figure 20. Document Annotation using the LLE**
 Annotations and Appends
 An annotation is a comment or explanation that is associated with the contents of a source document.
 Annotations are normally generated based on a review of the final-form document using an interactive
@@ -1785,7 +1657,7 @@ may be rotated within their partitions, and Page Modification Control (PMC) over
 before they are placed in their partition. Figure 21 shows the partitioning for wide continuous-forms
 media, narrow continuous-forms media, and cut-sheet media; partitioning is not used with envelope media.
 Partition numbering for various media is shown in Figure 61 to Figure 72.
-Figure 21. N-up Partitions for Various Physical Media
+**Figure 21. N-up Partitions for Various Physical Media**
 1 Up
 2 Up
 3 Up
@@ -1801,9 +1673,8 @@ media. This logical division of the continuous-forms media is shown in Figure 22
 document is sent to a print server for printing in CSE mode, MO:DCA sheets and their content are mapped to
 cut-sheet CSE sheetlets at the printer. Note that the top of each sheetlet is a narrow edge, and the default
 sheetlet origin is the top-left corner of the sheetlet.
-CSE Print Mode
 
-Figure 22. Logical Division of Continuous Forms for Cut-sheet Emulation
+**Figure 22. Logical Division of Continuous Forms for Cut-sheet Emulation**
 The printer is configured for cut-sheet emulation mode by the printer operator while the printer is disconnected
 from the print server. Cut-sheet emulation mode is activated by the print server after the printer has indicated
 support for the mode. Note that cut-sheet emulation mode is not supported in viewing environments. Note also
@@ -1814,13 +1685,13 @@ and applied to each CSE sheetlet. That is, for finishing operations in CSE mode,
 is true whether the finishing operation is specified with a Finishing Operation (X'85') triplet or a UP3i Finishing
 Operation (X'8E') triplet. [MODCA-3-178]
 ## Simulation of Preprinted Forms
-Preprinted forms are often simulated with overlays. T o ensure that this simulation works correctly with any type
+Preprinted forms are often simulated with overlays. To ensure that this simulation works correctly with any type
 and color of page data, a new type of overlay, called a preprinted form overlay (PFO) is defined. In particular,
 there are two types of preprinted form overlays:
-• Medium Preprinted Form Overlay (M-PFO), which is used to simulate a preprinted form on a sheet-side. This [MODCA-3-179]
+* Medium Preprinted Form Overlay (M-PFO), which is used to simulate a preprinted form on a sheet-side. This [MODCA-3-179]
 PFO is invoked using a keyword on the MMC structured field and causes the M-PFO to be applied to each
 sheet-side in a copy subgroup.
-• PMC Preprinted Form Overlay (PMC-PFO), which is used to simulate a preprinted form on a page on a [MODCA-3-180]
+* PMC Preprinted Form Overlay (PMC-PFO), which is used to simulate a preprinted form on a page on a [MODCA-3-180]
 sheet-side. This PFO is invoked using the PMC structured field and causes the PFO to be applied to the
 page processed by a PGP repeating group.
 Only one type of PFO is allowed per sheet-side, and an M-PFO always overrides PMC-PFOs. If a M-PFO is
@@ -1850,29 +1721,29 @@ white), not yellow.
 new color occurs. The amount of blending depends on the two colors, the print technology (e.g. ink-jet or
 EP), and the halftoning technology. However, a simulation of that color using AFP default mixing rules will
 cause the new color to knock out the preprinted form color with no blending.
-T o properly simulate the behavior of true preprinted forms, the Formblend mixing rule is defined as the mixing
+To properly simulate the behavior of true preprinted forms, the Formblend mixing rule is defined as the mixing
 rule for PFOs as follows. When PFO data is merged onto existing data:
-• Wherever the color of the underlying data is either the color of medium or white (CMYK = X'00000000' or [MODCA-3-183]
+* Wherever the color of the underlying data is either the color of medium or white (CMYK = X'00000000' or [MODCA-3-183]
 RGB = X'FFFFFF'), the resultant color is the PFO color
-• Wherever the color of the underlying data is not color of medium or white, the resultant color is a device- [MODCA-3-184]
+* Wherever the color of the underlying data is not color of medium or white, the resultant color is a device- [MODCA-3-184]
 specific blending of the underlying color with the PFO color that simulates how that device would blend the
 underlying data onto a real preprinted form that has the PFO color. [MODCA-3-185]
 ## Document Finishing
 Finishing operations, such as stapling and folding, for a print file may be specified using structures in the form
 definition invoked for the print file. Such finishing operations may be applied at different levels of the print file,
 and at each level the finishing operations have a defined scope:
-• Print file level finishing: the scope is the complete print file. [MODCA-3-186]
-• Document level finishing, all documents: the scope is each individual document in the print file. [MODCA-3-187]
-• Document level finishing, selected document: the scope is a single document in the print file. [MODCA-3-188]
-• Medium map level finishing, group of sheets: the scope is a collection of sheets. [MODCA-3-189]
-• Medium map level finishing, each sheet: the scope is a single sheet. [MODCA-3-190]
+* Print file level finishing: the scope is the complete print file. [MODCA-3-186]
+* Document level finishing, all documents: the scope is each individual document in the print file. [MODCA-3-187]
+* Document level finishing, selected document: the scope is a single document in the print file. [MODCA-3-188]
+* Medium map level finishing, group of sheets: the scope is a collection of sheets. [MODCA-3-189]
+* Medium map level finishing, each sheet: the scope is a single sheet. [MODCA-3-190]
 Finishing operations for all levels are specified with a Medium Finishing Control (MFC) structured field. For
 print file level and document level finishing, the MFC is specified in the document environment group (DEG) of
 the form definition. For medium map level finishing, the MFC is specified in a medium map.
 The actual finishing operation and its parameters are specified on the MFC with finishing triplets. Two triplets
 are supported:
-• Finishing Operation (X'85') triplet [MODCA-3-191]
-• UP3i Finishing Operation (X'8E') triplet [MODCA-3-192]
+* Finishing Operation (X'85') triplet [MODCA-3-191]
+* UP3i Finishing Operation (X'8E') triplet [MODCA-3-192]
 These two triplets may be specified in any combination at any level, however the finishing operations must be
 compatible.
 When more than one finishing operation that involves a collection of media is specified for some portion of the
@@ -1902,19 +1773,19 @@ processing when it encounters exception conditions. This permits a process that 
 document to continue with its best approximation.
 Classifications
 Exception conditions can be classified as:
-• Syntactic [MODCA-3-195]
-• Semantic [MODCA-3-196]
+* Syntactic [MODCA-3-195]
+* Semantic [MODCA-3-196]
 Syntactic exception conditions defined for this architecture include:
-• Invalid or unknown structured field introducer (SFI); see “MO:DCA Structured Field Syntax” for [MODCA-3-197]
+* Invalid or unknown structured field introducer (SFI); see “MO:DCA Structured Field Syntax” for [MODCA-3-197]
 further discussion
-• Invalid or unknown parameter within a recognized structured field [MODCA-3-198]
-• Invalid parameter value within a recognized structured field [MODCA-3-199]
-• Component appears in an invalid location or is missing [MODCA-3-200]
-• Structured field appears in an invalid location or is missing [MODCA-3-201]
-• Parameter is missing within a recognized structured field [MODCA-3-202]
+* Invalid or unknown parameter within a recognized structured field [MODCA-3-198]
+* Invalid parameter value within a recognized structured field [MODCA-3-199]
+* Component appears in an invalid location or is missing [MODCA-3-200]
+* Structured field appears in an invalid location or is missing [MODCA-3-201]
+* Parameter is missing within a recognized structured field [MODCA-3-202]
 Semantic exception conditions defined for this architecture include:
-• Inconsistent or contradictory specifications [MODCA-3-203]
-• Invalid relationships among the data-stream structured fields [MODCA-3-204]
+* Inconsistent or contradictory specifications [MODCA-3-203]
+* Invalid relationships among the data-stream structured fields [MODCA-3-204]
 ## Exception Conditions
 
 Detection
@@ -1938,14 +1809,14 @@ particular interchange set being used. It does not include invalid category
 codes.
 Data stream state violation A valid structured field appears in an invalid context in the data stream. This
 exception includes:
-• Repetition of a structured field within a state where repetition is not [MODCA-3-205]
+* Repetition of a structured field within a state where repetition is not [MODCA-3-205]
 permitted. An example is the appearance of two Page Descriptor structured
 fields in a MO:DCA Active Environment Group.
-• Appearance of a structured field within a state where it is not permitted. An [MODCA-3-206]
+* Appearance of a structured field within a state where it is not permitted. An [MODCA-3-206]
 example is a Page Descriptor structured field appearing in a MO:DCA
 Object Environment Group.
-• Appearance of a structured field outside the specified structured field order [MODCA-3-207]
-for that particular state. An example is a Begin Presentation T ext Object
+* Appearance of a structured field outside the specified structured field order [MODCA-3-207]
+for that particular state. An example is a Begin Presentation Text Object
 structured field appearing in a MO:DCA Page before the Active
 Environment Group.
 Note: Not included in this category is the omission of a required structured
@@ -1953,11 +1824,11 @@ field.
 Unrecognized structured field
 or triplet
 This exception includes:
-• An SFI containing a category code: [MODCA-3-208]
+* An SFI containing a category code: [MODCA-3-208]
 – That is not valid in this architecture, or
 – That is valid in this architecture, but is not acceptable in the particular
 interchange set being used
-• A triplet containing an identifier: [MODCA-3-209]
+* A triplet containing an identifier: [MODCA-3-209]
 – That is not valid in this architecture, or
 – That is valid in this architecture, but is not valid in the particular
 interchange set being used
@@ -1984,7 +1855,7 @@ An example is a name in an end structured field that does not match the
 name in the corresponding begin structured field.
 MO:DCA syntax tables identify the categories of exception conditions that can occur for each data element
 through the use of a code listed in the Exc column. Each of the exception conditions is related to a bit position,
-as shown in T able 15. The value assigned to Exc is based on the positions of the bits that
+as shown in Table 15. The value assigned to Exc is based on the positions of the bits that
 represent the exception condition categories that can apply to the data element. If no exception condition is
 possible, the Exc column will contain X'00'.
 For example, if it is possible for the data element to contain a value outside of the prescribed range, or if it is
@@ -1994,19 +1865,19 @@ represented by bit position six or B'00000010', and the inconsistent parameter v
 position seven or B'00000001'. The code that is entered into the Exc column is formed by ORing the bit
 representations of the exception condition categories that are possible, in this example resulting in
 B'00000011' or X'03'.
-Table 15. Bit Representation of MO:DCA Exception Condition Categories
-Bit Position Exception Condition Category
-Code
-Binary Hexadecimal
-Bit 0 Invalid structured field identifier B'10000000' X'80'
-Bit 1 Unrecognized identifier code B'01000000' X'40'
-Bit 2 Data stream state violation B'00100000' X'20'
-Bit 3 Unrecognized structured field or triplet B'00010000' X'10'
-Bit 4 Required structured field missing B'00001000' X'08'
-Bit 5 Required parameter missing B'00000100' X'04'
-Bit 6 Unacceptable parameter value B'00000010' X'02'
-Bit 7 Inconsistent parameter values B'00000001' X'01'
-None None B'00000000' X'00'
+**Table 15. Bit Representation of MO:DCA Exception Condition Categories**
+
+| Bit Position | Exception Condition Category | Binary Code | Hexadecimal Code |
+| :---: | :--- | :---: | :---: |
+| Bit 0 | Invalid structured field identifier | B'10000000' | X'80' |
+| Bit 1 | Unrecognized identifier code | B'01000000' | X'40' |
+| Bit 2 | Data stream state violation | B'00100000' | X'20' |
+| Bit 3 | Unrecognized structured field or triplet | B'00010000' | X'10' |
+| Bit 4 | Required structured field missing | B'00001000' | X'08' |
+| Bit 5 | Required parameter missing | B'00000100' | X'04' |
+| Bit 6 | Unacceptable parameter value | B'00000010' | X'02' |
+| Bit 7 | Inconsistent parameter values | B'00000001' | X'01' |
+| None | None | B'00000000' | X'00' |
 Exception Action
 The action to be performed by a product that detects an exception condition is presentation-system dependent. [MODCA-3-211]
 ## Exception Conditions
