@@ -3,10 +3,13 @@ package com.mgz.acceptance;
 import com.mgz.cli.Afp2Xml;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CLITest {
@@ -28,7 +31,7 @@ public class CLITest {
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile1.toPath());
         Files.copy(new File("src/test/resources/afp/minimal.afp").toPath(), afpFile2.toPath());
 
-        Afp2Xml.main(new String[]{"-d", tempDir.getAbsolutePath()});
+        Afp2Xml.run(new String[]{"-d", tempDir.getAbsolutePath()}, System.out, System.err);
 
         File xmlFile1 = new File(tempDir, "test1.afp.xml");
         File xmlFile2 = new File(tempDir, "test2.AFP.xml");
@@ -50,7 +53,7 @@ public class CLITest {
             outputFile.delete();
         }
 
-        Afp2Xml.main(new String[]{inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
+        Afp2Xml.run(new String[]{inputFile.getAbsolutePath(), outputFile.getAbsolutePath()}, System.out, System.err);
 
         assertTrue(outputFile.exists(), "Output XML file should exist");
 
@@ -69,5 +72,27 @@ public class CLITest {
 
         assertTrue(foundXmlHeader, "XML header not found in output");
         assertTrue(foundAfpDocTag, "AFPDocument tag not found in output");
+    }
+
+    @Test
+    public void testCLIHelp() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ByteArrayOutputStream err = new ByteArrayOutputStream();
+        PrintStream outPS = new PrintStream(out);
+        PrintStream errPS = new PrintStream(err);
+
+        int exitCode = Afp2Xml.run(new String[]{}, outPS, errPS);
+        assertEquals(0, exitCode);
+        assertTrue(out.toString().contains("Usage: java -jar alpheus-afp-parser-cli-<version>.jar"), "Usage message should be printed to out");
+
+        out.reset();
+        exitCode = Afp2Xml.run(new String[]{"-h"}, outPS, errPS);
+        assertEquals(0, exitCode);
+        assertTrue(out.toString().contains("Usage: java -jar alpheus-afp-parser-cli-<version>.jar"), "Usage message should be printed to out with -h");
+
+        out.reset();
+        exitCode = Afp2Xml.run(new String[]{"--help"}, outPS, errPS);
+        assertEquals(0, exitCode);
+        assertTrue(out.toString().contains("Usage: java -jar alpheus-afp-parser-cli-<version>.jar"), "Usage message should be printed to out with --help");
     }
 }

@@ -30,14 +30,18 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Arrays;
 
 public class Afp2Xml {
     public static void main(String[] args) {
-        if (args.length < 1) {
-            printUsage();
-            System.exit(1);
+        System.exit(run(args, System.out, System.err));
+    }
+
+    public static int run(String[] args, PrintStream out, PrintStream err) {
+        if (args.length < 1 || Arrays.asList(args).contains("-h") || Arrays.asList(args).contains("--help")) {
+            printUsage(out);
+            return 0;
         }
 
         var isDirectoryMode = false;
@@ -55,39 +59,41 @@ public class Afp2Xml {
         }
 
         if (inputPath == null) {
-            printUsage();
-            System.exit(1);
+            printUsage(err);
+            return 1;
         }
 
         try {
             var input = new File(inputPath);
             if (!input.exists()) {
-                System.err.println("Input not found: " + inputPath);
-                System.exit(1);
+                err.println("Input not found: " + inputPath);
+                return 1;
             }
 
             if (isDirectoryMode) {
                 if (!input.isDirectory()) {
-                    System.err.println("Input is not a directory: " + inputPath);
-                    System.exit(1);
+                    err.println("Input is not a directory: " + inputPath);
+                    return 1;
                 }
 
                 var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
                 if (files != null) {
                     for (var f : files) {
                         var outputFile = new File(f.getAbsolutePath() + ".xml");
-                        convertToXml(f, outputFile);
+                        convertToXml(f, outputFile, out);
                     }
                 }
             } else {
                 var outputFile = (outputPath != null) ? new File(outputPath) : null;
-                convertToXml(input, outputFile);
+                convertToXml(input, outputFile, out);
             }
         } catch (Exception e) {
-            System.err.println("Error during XML export: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
+            err.println("Error during XML export: " + e.getMessage());
+            e.printStackTrace(err);
+            return 1;
         }
+
+        return 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -98,13 +104,29 @@ public class Afp2Xml {
                 sf);
     }
 
-    private static void printUsage() {
-        System.err.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory] <input-afp-file/dir> [output-xml-file]");
-        System.err.println("Options:");
-        System.err.println("  -d, --directory    Convert all .afp files in the specified directory to XML");
+    private static void printUsage(PrintStream out) {
+        out.println("Alpheus AFP to XML Converter");
+        out.println();
+        out.println("Usage: java -jar alpheus-afp-parser-cli-<version>.jar [-d|--directory] <input-afp-file/dir> [output-xml-file]");
+        out.println();
+        out.println("Options:");
+        out.println("  -d, --directory    Convert all .afp files in the specified directory to XML.");
+        out.println("                     In this mode, output files are created in the same directory");
+        out.println("                     with '.xml' appended to the original filenames.");
+        out.println("  -h, --help         Show this help message.");
+        out.println();
+        out.println("Examples:");
+        out.println("  Convert an AFP file and view the XML in the console:");
+        out.println("    java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp");
+        out.println();
+        out.println("  Convert an AFP file and save the result to a file:");
+        out.println("    java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp my_document.xml");
+        out.println();
+        out.println("  Batch convert all AFP files in a directory:");
+        out.println("    java -jar alpheus-afp-parser-cli-<version>.jar --directory ./afp_files/");
     }
 
-    private static void convertToXml(File inputFile, File outputFile) throws Exception {
+    private static void convertToXml(File inputFile, File outputFile, PrintStream out) throws Exception {
         try (var is = new BufferedInputStream(new FileInputStream(inputFile))) {
             var config = new AFPParserConfiguration();
             config.setInputStream(is);
@@ -120,9 +142,9 @@ public class Afp2Xml {
                 try (var os = new FileOutputStream(outputFile)) {
                     Afp2XmlWriter.writeXML(os, doc);
                 }
-                System.out.println("XML export successful: " + outputFile.getPath());
+                out.println("XML export successful: " + outputFile.getPath());
             } else {
-                Afp2XmlWriter.writeXML(System.out, doc);
+                Afp2XmlWriter.writeXML(out, doc);
             }
         }
     }
