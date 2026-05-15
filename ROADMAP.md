@@ -366,6 +366,25 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
         - ✅ PTOCA tests (5 files: PTOCARoundTrip, PTOCAGapReproduction, TRNEncoding, PTOCAControlSequenceRoundTrip, PTOCAControlSequenceTest).
         - ✅ Architecture Round Trip tests (4 files: FOCA, GOCA, IOCA, LineData).
         - ✅ Acceptance tests (3 files: AFPParserTest, AFPWriterTest, CLITest).
+
+### Granular Requirement Coverage Analysis
+*Following the completion of 100% high-level architectural coverage (verifying that every chapter and appendix has at least one associated test case), a new level of verification has been established. This phase involves mapping every individual normative requirement within the specifications to specific unit or integration tests.*
+
+| Specification | Requirements | Covered | % |
+| :--- | :---: | :---: | :---: |
+| BCOCA | 1,237 | 0 | 0.0% |
+| CMOCA | 1,085 | 0 | 0.0% |
+| DB2Z | 659 | 0 | 0.0% |
+| FOCA | 1,391 | 0 | 0.0% |
+| GOCA | 2,144 | 0 | 0.0% |
+| IOCA | 1,587 | 0 | 0.0% |
+| IPDS | 6,286 | 0 | 0.0% |
+| LINEDATA | 863 | 0 | 0.0% |
+| MOCA | 173 | 0 | 0.0% |
+| MODCA | 4,042 | 0 | 0.0% |
+| PTOCA | 1,488 | 0 | 0.0% |
+| **Total** | **20,955** | **0** | **0.0%** |
+
 - ✅ Encoding and Character Set Verification Suite (see `GAP_IBM-273.md`):
     - ✅ Implement the Cross-Encoding Test Suite for multi-codepage text extraction.
     - ✅ Implement the LID-to-Charset round-trip test (switching via `SCFL`).
