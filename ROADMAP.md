@@ -147,6 +147,10 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
 - ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks:
+    - ✅ Chapters 1-3.
+    - ⏳ Chapter 4.
+    - ⏳ Chapters 5-6.
 - ⏳ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
     - ⏳ Chapters 1-3.
     - ⏳ Chapter 4.

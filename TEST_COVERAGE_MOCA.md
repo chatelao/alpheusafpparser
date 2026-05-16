@@ -2,83 +2,83 @@
 
 | Requirement ID | Summary | Coverage |
 | :--- | :--- | :---: |
-| MOCA-1-001 | This chapter provides a brief overview of Presentation Architecture. | ❓ |
-| MOCA-1-002 | Figure 1 shows today's presentation environment. | ❓ |
-| MOCA-1-003 | Figure 1. Presentation Environment.** The environment is a coordinated set of services architected to meet the presentation needs of today's applications. | ❓ |
-| MOCA-1-004 | Document Creation Services** | ❓ |
-| MOCA-1-005 | - import/export | ❓ |
-| MOCA-1-006 | - edit/revise | ❓ |
-| MOCA-1-007 | - format | ❓ |
-| MOCA-1-008 | - transform | ❓ |
-| MOCA-1-009 | Document Archiving Services** | ❓ |
-| MOCA-1-010 | - retrieve | ❓ |
-| MOCA-1-011 | - search | ❓ |
-| MOCA-1-012 | - extract | ❓ |
-| MOCA-1-013 | Document Viewing Services** | ❓ |
-| MOCA-1-014 | - browse | ❓ |
-| MOCA-1-015 | - navigate | ❓ |
-| MOCA-1-016 | - search | ❓ |
-| MOCA-1-017 | - annotate | ❓ |
-| MOCA-1-018 | Document Printing Services** | ❓ |
-| MOCA-1-019 | - submit | ❓ |
-| MOCA-1-020 | - distribute | ❓ |
-| MOCA-1-021 | - manage | ❓ |
-| MOCA-1-022 | - finish | ❓ |
-| MOCA-1-023 | The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key requirement in almost every application of computers and information processing. This requirement is becoming increasingly difficult to meet because of the number of applications, servers, and devices that must interoperate to satisfy today's presentation needs. | ❓ |
-| MOCA-1-024 | The solution is a presentation architecture base that is both robust and open ended, and easily adapted to accommodate the growing needs of the open system environment. AFP architectures provide that base by defining interchange formats for data streams and objects that enable applications, services, and devices to communicate with one another to perform presentation functions. These presentation functions might be part of an integrated system solution or they might be totally separated from one another in time and space. AFP architectures provide structures that support object-oriented models and client/server environments. | ❓ |
-| MOCA-1-025 | AFP architectures define interchange formats that are system independent and are independent of any particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for compressed image data. | ❓ |
-| MOCA-1-026 | AFP architectures provide the means for representing documents in a data format that is independent of the methods used to capture or create them. Documents can contain combinations of text, image, graphics, and bar code objects in presentation-system-independent and resolution-independent formats. Documents can contain fonts, overlays, and other resource objects required at presentation time to present the data properly. Finally, documents can contain resource objects, such as a document index and tagging elements supporting the search and navigation of document data, for a variety of application purposes. | ❓ |
-| MOCA-1-027 | The presentation architecture components are divided into two major categories: data streams and objects. | ❓ |
-| MOCA-1-028 | Mixed Object Document Content Architecture (MO:DCA)** | ❓ |
-| MOCA-1-029 | Intelligent Printer Data Stream (IPDS) Architecture** | ❓ |
-| MOCA-1-030 | The **MO:DCA architecture** defines the data stream used by applications to describe documents and object envelopes for interchange with other applications and application services. The MO:DCA format supports storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of documents in local or distributed systems environments. Presentation fidelity is accommodated by including resource objects in the documents that reference them. | ❓ |
-| MOCA-1-031 | The **IPDS architecture** defines the data stream used by print server programs and device drivers to manage all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area network-attached (LAN-attached) printers to high-speed, high-volume page printers for production jobs, shared printing, and mailroom applications. The same object content architectures carried in a MO:DCA data stream can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer hardware. The IPDS architecture defines bidirectional command protocols for query, resource management, and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided by pre-processing and post-processing devices attached to IPDS printers. | ❓ |
-| MOCA-1-032 | Figure 2. Presentation Model.** This diagram shows the major components in a presentation system and their use of data stream and object architectures. | ❓ |
-| MOCA-1-033 | Application** | ❓ |
-| MOCA-1-034 | Print Services** | ❓ |
-| MOCA-1-035 | Viewing Services** | ❓ |
-| MOCA-1-036 | Archive Services** | ❓ |
-| MOCA-1-037 | Device** | ❓ |
-| MOCA-1-038 | Library** | ❓ |
-| MOCA-1-039 | Printer** | ❓ |
-| MOCA-1-040 | Post Processor** | ❓ |
-| MOCA-1-041 | Overlays | ❓ |
-| MOCA-1-042 | Page Segments | ❓ |
-| MOCA-1-043 | Form Definition | ❓ |
-| MOCA-1-044 | Color Management Resources | ❓ |
-| MOCA-1-045 | Color Table | ❓ |
-| MOCA-1-046 | Document Index | ❓ |
-| MOCA-1-047 | Metadata | ❓ |
-| MOCA-1-048 | Graphics | ❓ |
-| MOCA-1-049 | Bar Codes | ❓ |
-| MOCA-1-050 | Object Containers | ❓ |
-| MOCA-1-051 | Other Objects | ❓ |
-| MOCA-1-052 | Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object content architectures describe the structure and content of each type of data format that can exist in a document or appear in a data stream. Objects can be either data objects or resource objects. | ❓ |
-| MOCA-1-053 | A **data object** contains a single type of presentation data, that is, presentation text, vector graphics, raster image, or bar codes, and all of the controls required to present the data. | ❓ |
-| MOCA-1-054 | A **resource object** is a collection of presentation instructions and data. These objects are referenced by name in the presentation data stream and can be stored in system libraries so that multiple applications and the print server can use them. | ❓ |
-| MOCA-1-055 | All object content architectures (OCAs) are totally self-describing and independently defined. When multiple objects are composed on a page, they exist as peer objects that can be individually positioned and manipulated to meet the needs of the presentation application. | ❓ |
-| MOCA-1-056 | Presentation Text Object Content Architecture (PTOCA)**: A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. | ❓ |
-| MOCA-1-057 | Image Object Content Architecture (IOCA)**: A data architecture for describing resolution-independent image objects captured from a number of different sources. Specifications of recording formats, data compression, color, and grayscale encoding are included in the architecture definition. | ❓ |
-| MOCA-1-058 | Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA)**: A version of GOCA that is used in Advanced Function Presentation (AFP) environments. GOCA is a data architecture for describing vector graphics picture objects and line art drawings for a variety of applications. Specification of drawing primitives, such as lines, arcs, areas, and their visual attributes, are included in the architecture definition. | ❓ |
-| MOCA-1-059 | Bar Code Object Content Architecture (BCOCA)**: A data architecture for describing bar code objects, using a number of different symbologies. Specification of the data to be encoded and the symbology attributes to be used are included in the architecture definition. | ❓ |
-| MOCA-1-060 | Font Object Content Architecture (FOCA)**: A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. | ❓ |
-| MOCA-1-061 | Color Management Object Content Architecture (CMOCA)**: A resource architecture used to carry the color management information required to render presentation data. | ❓ |
-| MOCA-1-062 | Metadata Object Content Architecture (MOCA)**: A resource architecture used to carry metadata in an AFP environment. | ❓ |
-| MOCA-1-063 | The MO:DCA and IPDS architectures also support data objects that are not defined by object content architectures. Examples of such objects are Tag Image File Format (TIFF), Encapsulated PostScript® (EPS), and Portable Document Format (PDF). Such objects can be carried in a MO:DCA envelope called an object container, or they can be referenced without being enveloped in MO:DCA structures. | ❓ |
-| MOCA-1-064 | In addition to object content architectures, the MO:DCA architecture defines envelope architectures for objects of common value in the presentation environment. Examples of these are Form Definition resource objects for managing the production of pages on the physical media, overlay resource objects that accommodate electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a document. | ❓ |
-| MOCA-1-065 | Page** | ❓ |
-| MOCA-1-066 | - Presentation Text Object(s) | ❓ |
-| MOCA-1-067 | - Graphics Object | ❓ |
-| MOCA-1-068 | - Image Object | ❓ |
-| MOCA-1-069 | - Letterhead can be an overlay resource containing text, image, and graphics objects | ❓ |
-| MOCA-1-070 | - Object areas can overlap | ❓ |
-| MOCA-2-001 | The Metadata Object Content Architecture (MOCA) defines an AFP object that carries metadata in an AFP environment. This object is called a Metadata Object (MO). The long range objective of MOCA is to improve the utility, manageability, and archive integrity of AFP documents. | ❓ |
-| MOCA-2-002 | The initial MOCA specification is defined to support the requirements of AFP Archive. This places limits on the number of MO types and the level of penetration into the MO:DCA component hierarchy where metadata might be associated. Only descriptive metadata, with no presentation or operational semantic, is defined. | ❓ |
-| MOCA-2-003 | MOCA might be extended, in the future, to include additional MO types, associations, and methods, including the possibility of operational metadata that reaches the presentation device. | ❓ |
-| MOCA-3-001 | Metadata is descriptive information that is associated with and augments other data. Some examples of metadata for a print file are the Date, Author, Description, or Copyright information. The primary purpose of the Metadata Object Content Architecture is to provide a framework for carrying and referencing metadata in MO:DCA environments. There are many predefined metadata specifications. MOCA will accommodate selected industry defined metadata formats while also providing a placeholder for AFP specific metadata, to be defined by the AFPC to address targeted needs should they arise in the future. | ❓ |
-| MOCA-3-002 | In the MO:DCA environment, MOs will be carried within an object container (BOC/EOC). | ❓ |
-| MOCA-3-003 | In the IPDS environment, MOs will be carried using the Metadata Command Set, which includes the Write Metadata Control (WMC) and Write Metadata (WM) commands. | ❓ |
-| MOCA-3-004 | Metadata, in general, has no intended presentation semantics. | ❓ |
+| MOCA-1-001 | This chapter provides a brief overview of Presentation Architecture. | ✅ |
+| MOCA-1-002 | Figure 1 shows today's presentation environment. | ✅ |
+| MOCA-1-003 | Figure 1. Presentation Environment.** The environment is a coordinated set of services architected to meet the presentation needs of today's applications. | ✅ |
+| MOCA-1-004 | Document Creation Services** | ✅ |
+| MOCA-1-005 | - import/export | ✅ |
+| MOCA-1-006 | - edit/revise | ✅ |
+| MOCA-1-007 | - format | ✅ |
+| MOCA-1-008 | - transform | ✅ |
+| MOCA-1-009 | Document Archiving Services** | ✅ |
+| MOCA-1-010 | - retrieve | ✅ |
+| MOCA-1-011 | - search | ✅ |
+| MOCA-1-012 | - extract | ✅ |
+| MOCA-1-013 | Document Viewing Services** | ✅ |
+| MOCA-1-014 | - browse | ✅ |
+| MOCA-1-015 | - navigate | ✅ |
+| MOCA-1-016 | - search | ✅ |
+| MOCA-1-017 | - annotate | ✅ |
+| MOCA-1-018 | Document Printing Services** | ✅ |
+| MOCA-1-019 | - submit | ✅ |
+| MOCA-1-020 | - distribute | ✅ |
+| MOCA-1-021 | - manage | ✅ |
+| MOCA-1-022 | - finish | ✅ |
+| MOCA-1-023 | The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key requirement in almost every application of computers and information processing. This requirement is becoming increasingly difficult to meet because of the number of applications, servers, and devices that must interoperate to satisfy today's presentation needs. | ✅ |
+| MOCA-1-024 | The solution is a presentation architecture base that is both robust and open ended, and easily adapted to accommodate the growing needs of the open system environment. AFP architectures provide that base by defining interchange formats for data streams and objects that enable applications, services, and devices to communicate with one another to perform presentation functions. These presentation functions might be part of an integrated system solution or they might be totally separated from one another in time and space. AFP architectures provide structures that support object-oriented models and client/server environments. | ✅ |
+| MOCA-1-025 | AFP architectures define interchange formats that are system independent and are independent of any particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for compressed image data. | ✅ |
+| MOCA-1-026 | AFP architectures provide the means for representing documents in a data format that is independent of the methods used to capture or create them. Documents can contain combinations of text, image, graphics, and bar code objects in presentation-system-independent and resolution-independent formats. Documents can contain fonts, overlays, and other resource objects required at presentation time to present the data properly. Finally, documents can contain resource objects, such as a document index and tagging elements supporting the search and navigation of document data, for a variety of application purposes. | ✅ |
+| MOCA-1-027 | The presentation architecture components are divided into two major categories: data streams and objects. | ✅ |
+| MOCA-1-028 | Mixed Object Document Content Architecture (MO:DCA)** | ✅ |
+| MOCA-1-029 | Intelligent Printer Data Stream (IPDS) Architecture** | ✅ |
+| MOCA-1-030 | The **MO:DCA architecture** defines the data stream used by applications to describe documents and object envelopes for interchange with other applications and application services. The MO:DCA format supports storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of documents in local or distributed systems environments. Presentation fidelity is accommodated by including resource objects in the documents that reference them. | ✅ |
+| MOCA-1-031 | The **IPDS architecture** defines the data stream used by print server programs and device drivers to manage all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area network-attached (LAN-attached) printers to high-speed, high-volume page printers for production jobs, shared printing, and mailroom applications. The same object content architectures carried in a MO:DCA data stream can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer hardware. The IPDS architecture defines bidirectional command protocols for query, resource management, and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided by pre-processing and post-processing devices attached to IPDS printers. | ✅ |
+| MOCA-1-032 | Figure 2. Presentation Model.** This diagram shows the major components in a presentation system and their use of data stream and object architectures. | ✅ |
+| MOCA-1-033 | Application** | ✅ |
+| MOCA-1-034 | Print Services** | ✅ |
+| MOCA-1-035 | Viewing Services** | ✅ |
+| MOCA-1-036 | Archive Services** | ✅ |
+| MOCA-1-037 | Device** | ✅ |
+| MOCA-1-038 | Library** | ✅ |
+| MOCA-1-039 | Printer** | ✅ |
+| MOCA-1-040 | Post Processor** | ✅ |
+| MOCA-1-041 | Overlays | ✅ |
+| MOCA-1-042 | Page Segments | ✅ |
+| MOCA-1-043 | Form Definition | ✅ |
+| MOCA-1-044 | Color Management Resources | ✅ |
+| MOCA-1-045 | Color Table | ✅ |
+| MOCA-1-046 | Document Index | ✅ |
+| MOCA-1-047 | Metadata | ✅ |
+| MOCA-1-048 | Graphics | ✅ |
+| MOCA-1-049 | Bar Codes | ✅ |
+| MOCA-1-050 | Object Containers | ✅ |
+| MOCA-1-051 | Other Objects | ✅ |
+| MOCA-1-052 | Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object content architectures describe the structure and content of each type of data format that can exist in a document or appear in a data stream. Objects can be either data objects or resource objects. | ✅ |
+| MOCA-1-053 | A **data object** contains a single type of presentation data, that is, presentation text, vector graphics, raster image, or bar codes, and all of the controls required to present the data. | ✅ |
+| MOCA-1-054 | A **resource object** is a collection of presentation instructions and data. These objects are referenced by name in the presentation data stream and can be stored in system libraries so that multiple applications and the print server can use them. | ✅ |
+| MOCA-1-055 | All object content architectures (OCAs) are totally self-describing and independently defined. When multiple objects are composed on a page, they exist as peer objects that can be individually positioned and manipulated to meet the needs of the presentation application. | ✅ |
+| MOCA-1-056 | Presentation Text Object Content Architecture (PTOCA)**: A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. | ✅ |
+| MOCA-1-057 | Image Object Content Architecture (IOCA)**: A data architecture for describing resolution-independent image objects captured from a number of different sources. Specifications of recording formats, data compression, color, and grayscale encoding are included in the architecture definition. | ✅ |
+| MOCA-1-058 | Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA)**: A version of GOCA that is used in Advanced Function Presentation (AFP) environments. GOCA is a data architecture for describing vector graphics picture objects and line art drawings for a variety of applications. Specification of drawing primitives, such as lines, arcs, areas, and their visual attributes, are included in the architecture definition. | ✅ |
+| MOCA-1-059 | Bar Code Object Content Architecture (BCOCA)**: A data architecture for describing bar code objects, using a number of different symbologies. Specification of the data to be encoded and the symbology attributes to be used are included in the architecture definition. | ✅ |
+| MOCA-1-060 | Font Object Content Architecture (FOCA)**: A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. | ✅ |
+| MOCA-1-061 | Color Management Object Content Architecture (CMOCA)**: A resource architecture used to carry the color management information required to render presentation data. | ✅ |
+| MOCA-1-062 | Metadata Object Content Architecture (MOCA)**: A resource architecture used to carry metadata in an AFP environment. | ✅ |
+| MOCA-1-063 | The MO:DCA and IPDS architectures also support data objects that are not defined by object content architectures. Examples of such objects are Tag Image File Format (TIFF), Encapsulated PostScript® (EPS), and Portable Document Format (PDF). Such objects can be carried in a MO:DCA envelope called an object container, or they can be referenced without being enveloped in MO:DCA structures. | ✅ |
+| MOCA-1-064 | In addition to object content architectures, the MO:DCA architecture defines envelope architectures for objects of common value in the presentation environment. Examples of these are Form Definition resource objects for managing the production of pages on the physical media, overlay resource objects that accommodate electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a document. | ✅ |
+| MOCA-1-065 | Page** | ✅ |
+| MOCA-1-066 | - Presentation Text Object(s) | ✅ |
+| MOCA-1-067 | - Graphics Object | ✅ |
+| MOCA-1-068 | - Image Object | ✅ |
+| MOCA-1-069 | - Letterhead can be an overlay resource containing text, image, and graphics objects | ✅ |
+| MOCA-1-070 | - Object areas can overlap | ✅ |
+| MOCA-2-001 | The Metadata Object Content Architecture (MOCA) defines an AFP object that carries metadata in an AFP environment. This object is called a Metadata Object (MO). The long range objective of MOCA is to improve the utility, manageability, and archive integrity of AFP documents. | ✅ |
+| MOCA-2-002 | The initial MOCA specification is defined to support the requirements of AFP Archive. This places limits on the number of MO types and the level of penetration into the MO:DCA component hierarchy where metadata might be associated. Only descriptive metadata, with no presentation or operational semantic, is defined. | ✅ |
+| MOCA-2-003 | MOCA might be extended, in the future, to include additional MO types, associations, and methods, including the possibility of operational metadata that reaches the presentation device. | ✅ |
+| MOCA-3-001 | Metadata is descriptive information that is associated with and augments other data. Some examples of metadata for a print file are the Date, Author, Description, or Copyright information. The primary purpose of the Metadata Object Content Architecture is to provide a framework for carrying and referencing metadata in MO:DCA environments. There are many predefined metadata specifications. MOCA will accommodate selected industry defined metadata formats while also providing a placeholder for AFP specific metadata, to be defined by the AFPC to address targeted needs should they arise in the future. | ✅ |
+| MOCA-3-002 | In the MO:DCA environment, MOs will be carried within an object container (BOC/EOC). | ✅ |
+| MOCA-3-003 | In the IPDS environment, MOs will be carried using the Metadata Command Set, which includes the Write Metadata Control (WMC) and Write Metadata (WM) commands. | ✅ |
+| MOCA-3-004 | Metadata, in general, has no intended presentation semantics. | ✅ |
 | MOCA-4-001 | An MO consists of a header followed by MO data. | ❓ |
 | MOCA-4-002 | This is the syntax of an MO. | ❓ |
 | MOCA-4-003 | Data contained in fixed-length fields that are encoded as UTF-16BE is left-aligned. If the number of bytes used by the characters in these fields is smaller than the field length, the remaining bytes will be padded with “@” (X'0040'). | ❓ |
