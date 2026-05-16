@@ -129,8 +129,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - 🚧 Chapters 4-8 in-progress.
         - ⏳ Appendices A-F, Glossary, Index, Front Matter, and Notices.
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
-        - ✅ Chapters 1-2 complete.
-        - 🚧 Chapters 3-5 in-progress.
+        - ✅ Chapters 1-3 complete.
+        - 🚧 Chapters 4-5 in-progress.
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
 - ⏳ Improve Javadoc quality and compliance:
