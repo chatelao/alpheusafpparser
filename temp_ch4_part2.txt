@@ -1,0 +1,364 @@
+## Graphics Objects
+Graphics data consists of controls and parameters to generate pictures based on lines, characters, and
+shaded areas. The graphics data object is defined by the Graphics Object Content Architecture for Advanced
+Function Presentation.
+**Figure 40.** Graphics Object Structure
+Begin Graphics Object (BGR, D3A8BB)
+( D3..C7) Object Environment Group
+[ ( D3..92) Object Container (MO Type only) (S) ]
+[ (GAD, D3EEBB) Graphics Data (S) ]
+End Graphics Object (EGR, D3A9BB)
+Object Environment Group (OEG) for Graphics Object
+Begin Object Environment Group (BOG, D3A8C7)
+[ (PEC, D3A7A8) Presentation Environment Control ]
+(OBD, D3A66B) Object Area Descriptor
+(OBP, D3AC6B) Object Area Position
+[ (MGO, D3ABBB) Map Graphics Object ]
+[ (MCF, D3AB8A) Map Coded Font F2 (S) ]
+[ (MDR, D3ABC3) Map Data Resource (S) ]
+(GDD, D3A6BB) Graphics Data Descriptor
+End Object Environment Group (EOG, D3A9C7)
+Notes:
+1. Refer to the Graphics Object Content Architecture for AFP Reference for a full description of the GOCA [MODCA-4-184]
+object content, syntax, and semantics for MO:DCA data streams.
+2. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within [MODCA-4-185]
+the data object structure. The MO Type object container(s) must directly follow the Object Environment
+Group (OEG), otherwise they are ignored. When including multiple MOs the series of MO Type object
+containers must be contiguous and, as a whole, constitute the metadata for the data object. MO:DCA
+places no restriction on or significance to the sequence or order of included metadata.
+Application Notes:
+1. For purposes of print server resource management, each MCF that maps a font in the graphics OEG must [MODCA-4-186]
+have a corresponding MCF mapping the same font in the AEG for the page or overlay that includes the
+graphics object. The local ID used in the page or overlay AEG need not match the ID in the object OEG. ID
+X'FE' may be used in the AEG for fonts mapped in the AEG solely due to their presence in an object's
+OEG.
+2. An MDR is used to map a non-FOCA data-object font resource in a graphics object. For purposes of print [MODCA-4-187]
+server resource management, each MDR that maps a font in the graphics OEG must have a
+corresponding MDR mapping the same font resource and attributes in the AEG for the page or overlay that
+includes the graphics object. The local ID used in the page or overlay AEG need not match the ID in the
+object OEG. ID X'FE' may be used in the AEG for fonts mapped in the AEG solely due to their presence in
+an object's OEG.
+3. An MDR is used to map a Color Management Resource (CMR) that is to be associated with the graphics [MODCA-4-188]
+object and that is to be used for rendering the graphics object. For purposes of print server resource
+management, each MDR that maps a CMR in the graphics OEG must have a corresponding MDR
+mapping the same CMR in the AEG for the page or overlay that includes the graphics object.
+4. The mapping of a font local ID to a font must be unique; that is, the font local ID can only be mapped to one [MODCA-4-189]
+font in the OEG. However, different font local IDs can be mapped to the same font. The font mapping in an
+OEG must always be factored up to a mapping in the AEG. [MODCA-4-190]
+
+5. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA [MODCA-4-191]
+receivers also issue a message when this occurs.
+Architecture Note:
+1. The PEC structured field in the OEG for the graphics object is only used to specify the rendering intent for [MODCA-4-192]
+the object using the Rendering Intent triplet; all other PEC triplets are ignored. [MODCA-4-193]
+
+## Mapping the Graphics Presentation Space
+The mapping option is specified by the Mapping Option (X'04') triplet on the Map Graphics Object (MGO)
+structured field. The valid mapping options are:
+* Scale to fit [MODCA-4-194]
+* Scale to fill [MODCA-4-195]
+* Center and trim [MODCA-4-196]
+* Position and trim [MODCA-4-197]
+The replicate-and-trim mapping option has been retired for graphics objects; see “Retired Parameters” on
+page 570.
+These mapping options are shown in Figure 41, Figure 42, Figure 43,
+and Figure 44.
+**Figure 41.** Graphics Presentation Space Mapping: Scale to Fit [MODCA-4-198]
+
+**Figure 42.** Graphics Presentation Space Mapping: Scale to Fill
+Note that the scale to fill mapping option is similar to scale to fit except that the Graphics presentation space
+window may be scaled asymmetrically to fill the object area completely. This means that the aspect ratio of the
+graphics picture may not be preserved. [MODCA-4-199]
+
+**Figure 43.** Graphics Presentation Space Mapping: Center and Trim [MODCA-4-200]
+
+**Figure 44.** Graphics Presentation Space Mapping: Position and Trim [MODCA-4-201]
+
+## Image Objects
+Image data consists of an electronic representation of a picture in the form of an array of raster data, along with
+the controls to present this data. The image data object is defined by the Image Object Content Architecture
+and is sometimes referred to as an IO image object.
+MO:DCA also supports the IM image object for migration purposes. For a definition of this object, see “IM
+Image Object”.
+**Figure 45.** Image Object Structure
+Begin Image Object (BIM, D3A8FB)
+( D3..C7) Object Environment Group
+[ ( D3..92) Object Container (MO Type only) (S) ]
+[ (IPD, D3EEFB) Image Picture Data (S) ]
+End Image Object (EIM, D3A9FB)
+Object Environment Group (OEG) for Image Object
+Begin Object Environment Group (BOG, D3A8C7)
+[ (PEC, D3A7A8) Presentation Environment Control ]
+(OBD, D3A66B) Object Area Descriptor
+(OBP, D3AC6B) Object Area Position
+[ (MIO, D3ABFB) Map Image Object ]
+[ (MDR, D3ABC3) Map Data Resource (S) ]
+(IDD, D3A6FB) Image Data Descriptor
+End Object Environment Group (EOG, D3A9C7)
+Notes:
+1. Refer to the Image Object Content Architecture Reference for a full description of the IOCA object content, [MODCA-4-202]
+syntax, and semantics for MO:DCA data streams.
+2. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within [MODCA-4-203]
+the data object structure. The MO Type object container(s) must directly follow the Object Environment
+Group (OEG), otherwise they are ignored. When including multiple MOs the series of MO Type object
+containers must be contiguous and, as a whole, constitute the metadata for the data object. MO:DCA
+places no restriction on or significance to the sequence or order of included metadata.
+Application Notes:
+1. An MDR is used to map a Tile Resource that is invoked by the IOCA object. For purposes of print server [MODCA-4-204]
+resource management, each MDR that maps a Tile Resource in the image OEG must have a
+corresponding MDR mapping the same resource in the AEG for the page or overlay that includes the
+image object.
+2. An MDR is also used to map a Color Management Resource (CMR) that is to be associated with the IOCA [MODCA-4-205]
+object and that is to be used for rendering the IOCA object. For purposes of print server resource
+management, each MDR that maps a CMR in the image OEG must have a corresponding MDR mapping
+the same CMR in the AEG for the page or overlay that includes the image object.
+3. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA [MODCA-4-206]
+receivers also issue a message when this occurs.
+Architecture Note:
+1. The PEC structured field in the OEG for the image object is only used to specify the rendering intent for the [MODCA-4-207]
+object using the Rendering Intent triplet; all other PEC triplets are ignored. [MODCA-4-208]
+
+## Mapping the Image Presentation Space
+The mapping option is specified by the Mapping Option (X'04') triplet on the Map Image Object (MIO)
+structured field. The valid mapping options are:
+* Scale to fit [MODCA-4-209]
+* Scale to fill [MODCA-4-210]
+* Center and trim [MODCA-4-211]
+* Position and trim [MODCA-4-212]
+These mapping options are shown in Figure 46, Figure 47, Figure 48,
+and Figure 49.
+**Figure 46.** Image Presentation Space Mapping: Scale to Fit [MODCA-4-213]
+
+**Figure 47.** Image Presentation Space Mapping: Scale to Fill
+Note that the scale to fill mapping option is similar to scale to fit except that the Image presentation space may
+be scaled asymmetrically to fill the object area completely. This means that the aspect ratio of the image may
+not be preserved.
+
+**Figure 48.** Image Presentation Space Mapping: Center and Trim [MODCA-4-214]
+
+**Figure 49.** Image Presentation Space Mapping: Position and Trim
+The MO:DCA architecture supports three additional mappings for the IOCA FS10 object for IM image migration
+purposes. For a definition of these mappings, see “Coexistence Triplets”.
+## Text Objects
+Presentation text data consists of graphic character code points and the controls required to position and
+present the corresponding graphic characters. The presentation text data object is defined by the Presentation
+Text Object Content Architecture. The presentation text object in MO:DCA can have two structures that differ
+by the presence or absence of an Object Environment Group (OEG).
+**Note:** Refer to the Presentation Text Object Content Architecture Reference for a full description of the PTOCA
+object content, syntax, and semantics for MO:DCA environments.
+**Figure 50.** Presentation Text Object Structure - Without OEG
+Begin Presentation Text Object (BPT, D3A89B)
+[ (PTX, D3EE9B) Presentation Text Data (S) ]
+End Presentation Text Object (EPT, D3A99B)
+When the presentation text object in a MO:DCA data stream does not contain an OEG, the presentation
+parameters normally specified in the OEG are specified in the Active Environment Group (AEG) of the
+containing page or overlay as follows:
+* Object Area Descriptor (OBD). Optionally included once in the AEG, therefore it applies to all presentation [MODCA-4-215]
+text objects on the page or overlay that do not contain an OEG. Furthermore, MO:DCA interchange sets [MODCA-4-216]
+
+require that the OBD specify measurement units and extents that match those specified for the page or
+overlay in the PGD. If the OBD is omitted, the architected default is to use the measurement units and
+extents specified in the PGD for the text object area measurement units and object area extents.
+* Object Area Position (OBP). Optionally included once in the AEG, therefore it applies to all presentation text [MODCA-4-217]
+objects on the page or overlay that do not contain an OEG. Furthermore, MO:DCA interchange sets require
+that the OBP specifies zeros for the object area origin and the object content origin and that it specifies a 0°
+object area rotation. If the OBP is omitted, the architected default is to set the object area origin and the
+object content origin to zeros, and the object area rotation to 0°.
+* Object mapping options. Not defined for presentation text objects that do not contain an OEG. The text data [MODCA-4-218]
+is presented as specified by the text object.
+* Font mapping. All fonts required by presentation text objects that do not contain an OEG must be mapped [MODCA-4-219]
+with MCF or MDRstructured fields in the AEG of the page or overlay.
+* Presentation Text Descriptor (PTD). Included once in the AEG, therefore it applies to all presentation text [MODCA-4-220]
+objects on the page or overlay that do not contain an OEG. When the BPT structured field is processed for a
+PTOCA object without OEG, all initial text conditions specified in the Presentation Text Descriptor (PTD)
+structured field of the page or overlay's AEG are set prior to processing the text object.
+**Application Note:** Whenever a BPT is encountered for a text object without OEG, AFP servers set default
+page-level initial text conditions before the PTD initial conditions are set; see Table 16.
+**Note:** Presentation text objects that do not contain an OEG that are found in a page or overlay may be referred
+to as text major.
+**Figure 51.** Presentation Text Object Structure - With OEG
+Begin Presentation Text Object (BPT, D3A89B)
+( D3..C7) Object Environment Group
+[ ( D3..92) Object Container (MO Type only) (S) ]
+[ (PTX, D3EE9B) Presentation Text Data (S) ]
+End Presentation Text Object (EPT, D3A99B)
+Object Environment Group (OEG) for Presentation Text Object
+Begin Object Environment Group (BOG, D3A8C7)
+[ (PEC, D3A7A8) Presentation Environment Control ]
+(OBD, D3A66B) Object Area Descriptor
+(OBP, D3AC6B) Object Area Position
+[ (MPT, D3AB9B) Map Presentation Text ]
+[ (MCF, D3AB8A) Map Coded Font F2 (S) ]
+[ (MDR, D3ABC3) Map Data Resource (S) ]
+(PTD, D3B19B) Presentation Text Data Descriptor
+End Object Environment Group (EOG, D3A9C7)
+When the presentation text object in a MO:DCA data stream contains an OEG, all initial text conditions
+specified in the Presentation Text Descriptor (PTD) structured field of the OEG are set prior to processing the
+text object. For such text objects, the OBD, OBP , and PTD structured fields in the AEG of the page or overlay
+are ignored.
+**Architecture Note:** The coexistence PTD-1 structured field is not allowed in the OEG of the Presentation Text
+Object.
+**Note:** Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
+the data object structure. The MO Type object container(s) must directly follow the Object Environment [MODCA-4-221]
+
+Group (OEG), otherwise they are ignored. When including multiple MOs the series of MO Type object
+containers must be contiguous and, as a whole, constitute the metadata for the data object. MO:DCA
+places no restriction on or significance to the sequence or order of included metadata.
+Application Notes:
+1. For purposes of print server resource management, each MCF that maps a font in the text OEG must have [MODCA-4-222]
+a corresponding MCF mapping the same font in the AEG for the page or overlay that includes the text
+object. The local ID used in the page or overlay AEG need not match the ID in the object OEG. ID X'FE'
+may be used in the AEG for fonts mapped in the AEG solely due to their presence in an object's OEG.
+2. An MDR is used to map a non-FOCA data-object font resource in a text object. For purposes of print server [MODCA-4-223]
+resource management, each MDR that maps a font in the text OEG must have a corresponding MDR
+mapping the same font resource and attributes in the AEG for the page or overlay that includes the text
+object. The local ID used in the page or overlay AEG need not match the ID in the object OEG. ID X'FE'
+may be used in the AEG for fonts mapped in the AEG solely due to their presence in an object's OEG.
+3. An MDR is used to map a Color Management Resource (CMR) that is to be associated with the text object [MODCA-4-224]
+and that is to be used for rendering the text object. For purposes of print server resource management,
+each MDR that maps a CMR in the text OEG must have a corresponding MDR mapping the same CMR in
+the AEG for the page or overlay that includes the text object.
+4. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA [MODCA-4-225]
+receivers also issue a message when this occurs.
+Architecture Notes:
+1. The PEC structured field in the OEG for the image object is only used to specify the rendering intent for the [MODCA-4-226]
+object using the Rendering Intent triplet; all other PEC triplets are ignored.
+2. Any text suppressions that need to be applied, whether the text object contains an OEG or not, need to be [MODCA-4-227]
+specified in the active Medium Map.
+3. The mapping of a font local ID to a font must be unique; that is, the font local ID can only be mapped to one [MODCA-4-228]
+font in the OEG. However, different font local IDs can be mapped to the same font. The font mapping in an
+OEG must always be factored up to a mapping in the AEG. [MODCA-4-229]
+
+Mapping the Text Presentation Space (Text Object with OEG)
+The mapping option is specified by the Mapping Option (X'04') triplet on the Map Presentation Text (MPT)
+structured field. The valid mapping option is:
+* Position [MODCA-4-230]
+This mapping option is shown in Figure 52.
+**Figure 52.** Text Presentation Space Mapping: Position [MODCA-4-231]
+## Object Containers
+Object containers are MO:DCA objects that envelop and carry object data. The object data may or may not be
+specified by an AFP architecture. The object data is not constrained to be traditional text, image, or graphics.
+However if it is a presentation object, it must have a well-defined processing semantic resulting in a fixed,
+deterministic presentation when processed by a receiver capable of presenting the object. If the object is a
+traditional time-invariant presentation object, it must be paginated, that is its presentation space must be
+constrained to a single page. For presentation objects, the object data in the container is presented when the
+object container is included on a page or overlay using the Include Object (IOB) structured field. The object
+container may also be included directly on a page or overlay. Figure 53 shows how object
+container data is included on a page using the Include Object (IOB) structured field.
+When a presentation object container is included on a page or overlay, the object is first completely processed
+into final-form in its own presentation space, including applying any transformations specified within the object,
+before that object presentation space is mapped into the MO:DCA object area and the MO:DCA position,
+rotation, and scaling parameters are applied to the object area. [MODCA-4-232]
+
+**Figure 53.** Use of the IOB to Include Object Container Data
+The object container provides a range of functions that may be used to identify and structure the enveloped
+object data. At minimum, the container provides Begin and End structured fields, categorizes the object into a
+class, identifies the object type using a registered numeric identifier, and carries the object data in OCD
+structured fields. Above this minimum level of function, the object container may include additional optional
+functions such as an OEG to specify data object presentation space size, position, mapping and orientation.
+For presentation objects, the required container structure depends on where the object is stored and how it is
+included in a page or overlay:
+* If the object is included directly in a page or overlay, the container must, at a minimum, have the following [MODCA-4-233]
+structure:
+– BOC/EOC with the Object Classification (X'10') triplet on the BOC specifying the registered object-type
+identifier (encoded object-type OID) for the object data format
+– OEG with OBD, OBP , and CDD
+– All object data partitioned into OCDs
+* If the object is included using an Include Object (IOB) structured field and is carried in an external (print file [MODCA-4-234]
+level) resource group, the container must, at a minimum, have the following structure:
+– BOC/EOC with the Object Classification (X'10') triplet on the BOC specifying the registered object-type
+identifier (encoded object-type OID) for the object data format
+– All object data partitioned into OCDs [MODCA-4-235]
+
+* If the object is included using an Include Object (IOB) structured field and is stored in a resource library, there [MODCA-4-236]
+is no minimum container structure requirement, that is, the object may be stored and included in its
+unaltered, original form. However, if the included object is carried in a BOC/EOC container, the object data
+must be partitioned into OCDs. If the object is installed in a resource library using a Data Object Resource
+Access Table (DO RAT), it must not be wrapped with a MO:DCA object envelope such as BOC/EOC, that is,
+it must be installed in its raw source format. Examples of presentation objects that can be installed using a
+DO RAT are EPS, PDF , GIF , TIFF , and AFPC JPEG objects.
+**Figure 54.** Object Container Structure for Presentation Objects
+Begin Object Container (BOC, D3A892)
+[ ( D3..C7) Object Environment Group ]
+[ ( D3..92) Object Container (MO Type only) (S) ]
+[ (OCD, D3EE92) Object Container Data (S) ]
+End Object Container (EOC, D3A992)
+Object Environment Group (OEG) for Object Container
+Begin Object Environment Group (BOG, D3A8C7)
+[ (PEC, D3A7A8) Presentation Environment Control ]
+[ (OBD, D3A66B) Object Area Descriptor ]
+[ (OBP, D3AC6B) Object Area Position ]
+[ (MCD, D3AB92) Map Container Data ]
+[ (MDR, D3ABC3) Map Data Resource (S) ]
+[ (CDD, D3A692) Container Data Descriptor ]
+End Object Environment Group (EOG, D3A9C7)
+**Note:** Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
+the object container structure. The MO Type object container(s) must directly follow the Object
+Environment Group (OEG), otherwise they are ignored. When including multiple MOs the series of MO
+Type object containers must be contiguous and, as a whole, constitute the metadata for the data object.
+MO:DCA places no restriction on or significance to the sequence or order of included metadata.
+Application Notes:
+1. For purposes of print server resource management, each MDR that is specified in the object container [MODCA-4-237]
+OEG must have a corresponding MDR mapping the same resource in the AEG for the page or overlay that
+includes the object container. Note that an FQN type X'BE' triplet, if specified on the MDR in the OEG, is
+not factored up to the AEG, unless the MDR maps a data-object font.
+2. An MDR is used to map a Color Management Resource (CMR) that is to be associated with the object in [MODCA-4-238]
+the container and that is to be used for rendering the object. For purposes of print server resource
+management, each MDR that maps a CMR in the object container OEG must have a corresponding MDR
+mapping the same CMR in the AEG for the page or overlay that includes the object container.
+3. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA [MODCA-4-239]
+receivers also issue a message when this occurs.
+Architecture Notes:
+1. An MDR reference to a specific resource may only be specified once in the object container OEG. [MODCA-4-240]
+2. The PEC structured field in the OEG for the object container is only used to specify the rendering intent for [MODCA-4-241]
+the object using the Rendering Intent triplet; all other PEC triplets are ignored.
+For non-presentation objects, the required container structure depends on where the object is stored:
+* If the object is carried in an external (print file level) resource group, the container must have the following [MODCA-4-242]
+structure:
+
+– BOC/EOC with the Object Classification (X'10') triplet on the BOC specifying the registered object-type
+identifier (encoded object-type OID) for the object data format
+– All object data partitioned into OCDs
+* If the object is stored in a resource library, there is no minimum container structure requirement, that is, the [MODCA-4-243]
+object may be stored in its unaltered, original form. However, if the object is stored in a BOC/EOC container,
+the object data must be partitioned into OCDs. If the non-presentation object is installed in a resource library
+using a Resource Access Table (RAT), it must not be wrapped with a MO:DCA object envelope such as
+BOC/EOC, that is, it must be installed in its raw source format. Examples of non-presentation objects that are
+installed using a RAT and that must not be wrapped with a BOC/EOC envelope are:
+– TrueType/OpenType fonts and TrueType/OpenType Collections
+– Color Management Resources (CMRs)
+**Figure 55.** Object Container Structure for Non-Presentation Objects
+Begin Object Container (BOC, D3A892)
+[ ( D3..92) Object Container (MO Type only) (S) ]
+[ (OCD, D3EE92) Object Container Data (S) ]
+End Object Container (EOC, D3A992)
+Notes:
+1. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within [MODCA-4-244]
+the object container structure. The MO Type only object container(s) must directly follow the Begin Object
+Container (BOC), otherwise they are ignored. When including multiple MOs, the series of MO Type object
+containers must be contiguous and, as a whole, constitute the metadata for the data object. MO:DCA
+places no restriction on or significance to the sequence or order of included metadata.
+2. If the object container data in the non-presentation object contains an MO, then the additional metadata [MODCA-4-245]
+(MO type only) object containers are not allowed in the object container structure.
+Application Notes:
+1. When an object container is carried in an external (print file level) resource group in AFP environments, a [MODCA-4-246]
+BRS/ERS envelope is mandatory.
+2. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA [MODCA-4-247]
+receivers also issue a message when this occurs.
+## Mapping the Container Data Presentation Space
+The mapping option is specified by the Mapping Option (X'04') triplet on the Map Container Data (MCD)
+structured field. The valid mapping options are:
+* Scale to fit [MODCA-4-248]
+* Scale to fill [MODCA-4-249]
+* Center and trim [MODCA-4-250]
+* Position and trim [MODCA-4-251]
+* Position [MODCA-4-252]
+* UP3i Print Data mapping; only valid for the UP3i Print Data object [MODCA-4-253]
+For a description of the supported mapping options see “Mapping Option Triplet X'04'”. For the
+scale-to-fit and scale-to-fill mapping of presentation data in an object container, a data object presentation
+space size is required. See “Object Type Identifiers” for information on how the presentation
+space size is specified by various data objects. If the presentation space size is not specified by the object, the
+architected default is the presentation space size of the including page or overlay. [MODCA-4-254]
+
+The UP3i Print Data mapping is only valid for the UP3i Print Data object type; if any other mapping option is
+specified for this object type a X'02' exception condition exists. [MODCA-4-255]

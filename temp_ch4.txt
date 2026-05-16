@@ -1,0 +1,323 @@
+## Print Control Objects
+Print control objects are resource objects that are used to control the presentation of pages on physical media,
+also known as forms or sheets, in a printer. There are two types of print control objects, form maps, also known
+as form definitions or formdefs, and medium maps, also known as copy groups.
+## Form Map
+A form map is a print control resource object that consists of: [MODCA-4-118]
+
+* An optional document environment group (DEG) that defines the print environment for the form map [MODCA-4-119]
+* One or more medium map resource objects that are invokable on document and page boundaries and that [MODCA-4-120]
+specify a complete set of print controls. The name assigned to each medium map object is unique within the
+form map
+A form map is selected for controlling print file presentation when the print request for the print file is generated.
+The scope of a form map is a print file, and control for presentation starts with the first medium map in the form
+map. If the form map is associated with a print file that contains multiple documents, control for presentation is
+returned to the first medium map in the form map whenever a new document is encountered.
+**Figure 33.** Form Map Structure
+Begin Form Map (BFM, D3A8CD)
+[ ( D3..C4) Document Environment Group ]
+[ ( D3..92) Object Container (MO Type only) (S) ]
+( D3..CC) Medium Map (S)
+End Form Map (EFM, D3A9CD)
+Document Environment Group
+The document environment group (DEG), when present, establishes the presentation environment for a form
+map resource object. This presentation environment consist of the following:
+* A definition of the medium presentation space, including units of measure, size, and orientation [MODCA-4-121]
+* The default position of the logical page on the medium presentation space [MODCA-4-122]
+* A mapping of overlay local IDs, as specified in a medium map in the form map, to overlay names [MODCA-4-123]
+* A mapping of text suppression local IDs, as specified in a medium map in the form map, to text suppression [MODCA-4-124]
+names
+* A specification of the fidelity that is required for presentation [MODCA-4-125]
+* A specification of finishing operations that are to be applied to media [MODCA-4-126]
+* A specification of the rendering intent that is to be applied to the print file or to documents in the print file [MODCA-4-127]
+* A specification of an appearance to be assumed by the presentation device for the processing of the print file [MODCA-4-128]
+* A specification of Color Management Resources (CMRs) that are to be associated with the print file or with a [MODCA-4-129]
+document in the print file
+* A specification of a setup name that is to be associated with the print file [MODCA-4-130]
+If a parameter is specified in the DEG as well as in a medium map, the specification in the medium map takes
+precedence.
+**Note:** When an internal (inline) medium map is used, structured fields which can be specified in the DEG and/
+or in a medium map, specifically the MDD, MMO, PEC, MDR, and PGP , must be specified in the internal
+medium map if they are to affect the pages/sheets processed using that medium map. If they are
+specified in the Document Environment Group (DEG), they do not apply to the pages/sheets processed
+using internal medium maps. Therefore if a PEC with the Device Appearance (X'97') triplet is not
+specified in the internal medium map, the device assumes its device default appearance, it does not
+inherit the appearance specified in the DEG. Similarly, if a PEC with Rendering Intent (X'95') triplet is not
+specified in the internal medium map, the rendering intent from the DEG is not inherited and does not
+apply to the pages/sheets processed with the inline medium map. Structured fields and triplets that
+can
+only be specified in the DEG and not in a medium map, such as the MSU, PFC, and Setup Name (X'9E')
+triplet in the PEC apply to the complete document or print file and are independent of internal medium [MODCA-4-131]
+
+maps and medium maps in the form map. The MFC structured field can be specified in the DEG and/or
+a Medium Map and defines its scope explicitly.
+**Figure 34.** Document Environment Group Structure
+Begin Document Environment Group (BDG, D3A8C4)
+[ (PFC, D3B288) Presentation Fidelity Control (S) ]
+[ (PEC, D3A7A8) Presentation Environment Control (S) ]
+[ (MMO, D3B1DF) Map Medium Overlay ]
+[ (MSU, D3ABEA) Map Suppression ]
+(PGP, D3B1AF) Page Position F2
+(MDD, D3A688) Medium Descriptor
+[ (MFC, D3A088) Medium Finishing Control (S) ]
+[ (MDR, D3ABC3) Map Data Resource (S) ]
+End Document Environment Group (EDG, D3A9C4)
+Notes:
+1. An MMO is required in either the document environment group or a medium map if an MMC structured field [MODCA-4-132]
+references a medium overlay. If specified in both, the structured field in the medium map takes
+precedence.
+2. A PGP and an MDD is required in either the document environment group or a medium map. If specified in [MODCA-4-133]
+both, the structured field in the medium map takes precedence.
+3. The DEG may contain one print file level MFC that applies to the complete print file, one document level [MODCA-4-134]
+MFC that applies to all documents in the print file, and one or more document level MFCs that apply to
+single documents in the print file. In the last case, only one MFC in the DEG may select a given document
+in the print file. If the DEG contains more than one print file level MFC, more than one document level MFC
+that applies to all documents, or more than one document level MFC that selects the same document, only
+the last-specified MFC having that particular scope is used.
+4. The PEC may be specified with the Rendering Intent (X'95') triplet, the Device Appearance (X'97') triplet, or [MODCA-4-135]
+both. Only a single rendering intent and a single device appearance should be assigned to the print file or
+to a specific document in the print file; if more than one is assigned, only the last assignment is used and
+the rest are ignored. For example, if two PECs assign a rendering intent to the third document in the print
+file, the second rendering intent is used and the first is ignored.
+5. The PEC may be specified with the Device Appearance (X'97') triplet in the DEG and in a medium map. If [MODCA-4-136]
+specified in both, the PEC with Device Appearance triplet in the medium map takes precedence.
+6. The MDR may only be used in the DEG to reference Color Management Resources (CMRs); MDR [MODCA-4-137]
+repeating groups referencing any other resource are ignored.
+7. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within [MODCA-4-138]
+the form map structure. The MO Type object container(s) must directly follow the Document Environment
+Group (DEG), otherwise they are ignored. When including multiple MOs the series of MO Type object
+containers must be contiguous and, as a whole, constitute the metadata for the form map. While the scope
+of a form map is the print file, the scope of this embedded metadata is simply the form map, itself. MO:DCA
+places no restriction on or significance to the sequence or order of included metadata.
+**Application Note:** When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some
+MO:DCA receivers also issue a message when this occurs.
+## Medium Map
+A medium map is a print control resource object that contains the print control parameters for presenting pages
+on a physical medium and for generating copies of the physical medium. Print control parameters may be
+grouped into two categories: [MODCA-4-139]
+
+* Medium level controls [MODCA-4-140]
+* Page level controls [MODCA-4-141]
+Medium level controls are controls that affect the medium, such as the specification of medium overlays,
+medium size, medium orientation, medium copies, simplex or duplex, medium finishing, device appearance,
+rendering intent, and media source and destination selection. These controls are defined by the Map Medium
+Overlay (MMO), Medium Descriptor (MDD), Medium Copy Count (MCC), Medium Finishing Control (MFC),
+Map Media Type (MMT), Map Media Destination (MMD), Presentation Environment Control (PEC), and
+Medium Modification Control (MMC) structured fields. Page level controls are controls that affect the pages
+that are placed on the medium, such as the specification of page modifications, page position, and page
+orientation. These controls are defined by the Map Page Overlay (MPO), Page Position (PGP), and Page
+Modification Control (PMC) structured fields. When N-up partitioning is specified, the Media Eject Control
+(X'45') triplet may be included on the Begin Medium Map structured field to specify the type of media eject that
+is performed and the type of controls that are activated when the medium map is invoked.
+A medium map contains one Medium Copy Count (MCC) structured field that generates a copy group for each
+sheet, therefore a medium map is also sometimes referred to as a copy group. Each MCC contains one or
+more copy subgroups that specify the number of copies of a sheet to be generated for the copy subgroup and
+the modifications to be applied to all copies in the copy subgroup. The modifications are specified by a Medium
+Modification Control (MMC) structured field. If the modifications for a copy subgroup specify duplexing, that
+copy subgroup and all successive copy subgroups are paired such that the first copy subgroup in the pair
+specifies the copy count as well as the modifications to be applied to the front side of each copy, and the
+second copy subgroup in the pair specifies the same copy count as well as an independent set of modifications
+to be applied to the back side of each copy. The pairing of copy subgroups continues as long as duplexing is
+specified. Note that with simplex printing, each copy subgroup builds the front sheet-side on all sheet copies
+generated by the copy subgroup. With duplex printing, the first and second copy subgroup in each pair of copy
+subgroups build front and back sheet-sides, respectively, on all sheet copies generated by the pair of copy
+subgroups. Figure 35 illustrates the copy subgroup concept.
+**Figure 35.** Copy Subgroups
+Medium Modiﬁcation Control (MMC)
+Fixed
+Medium
+Information ID
+Offset Media
+Source
+Overlays Suppressions
+Duplex PQC CFCID
+Medium Modiﬁcation Control (MMC)
+Medium Modiﬁcation Control (MMC)
+ID
+ID
+Fixed
+Medium
+Information
+Fixed
+Medium
+Information
+Offset
+Offset
+Media
+Source
+Media
+Source
+Overlays Suppressions
+Overlays Suppressions
+Duplex PQC CFC
+Duplex PQC CFC
+ID ID ID ID ID. . . . . .
+ID ID ID ID ID ID. . . . . .
+ID ID ID ID ID ID. . . . . .
+Medium Copy
+Count (MCC)
+copies
+/ID
+. . .
+. . .
+copies
+/ID
+copies
+/ID
+## Invocation of Medium Maps
+* A medium map can be invoked by name on any page boundary in a document. This is done by including an [MODCA-4-142]
+IMM (Invoke Medium Map) structured field in the document data stream. Multiple IMMs may be used within a
+single document.
+* A medium map can be directly included on any page boundary in the document data stream. Such a medium [MODCA-4-143]
+map is called an internal medium map. Multiple internal medium maps may be included in a document. An [MODCA-4-144]
+
+internal medium map is activated by following it immediately with an IMM that invokes the internal medium
+map. If an internal medium map is not explicitly invoked with an immediately-following IMM, it is ignored.
+IMMs cannot be used to invoke internal medium maps elsewhere in the document. When an IMM does not
+follow and reference an internal medium map, it references an external medium map in the processing
+system's form map.
+The name assigned to each internal medium map object is unique within the document.
+**Note:** When an internal (inline) medium map is used, structured fields which can be specified in the DEG
+and/or in a medium map, specifically the MDD, MMO, PEC, MDR, and PGP , must be specified in the
+internal medium map if they are to affect the pages/sheets processed using that medium map. If they
+are specified in the Document Environment Group (DEG), they do not apply to the pages/sheets
+processed using internal medium maps. Therefore if a PEC with the Device Appearance (X'97') triplet
+is not specified in the internal medium map, the device assumes its device default appearance, it does
+not inherit the appearance specified in the DEG. Similarly, if a PEC with Rendering Intent (X'95') triplet
+is not specified in the internal medium map, the rendering intent from the DEG is not inherited and
+does not apply to the pages/sheets processed with the inline medium map. Structured fields and
+triplets that
+can only be specified in the DEG and not in a medium map, such as the MSU, PFC, and
+Setup Name (X'9E') triplet in the PEC apply to the complete document or print file and are
+independent of internal medium maps and medium maps in the form map. The MFC structured field
+can be specified in the DEG and/or a Medium Map and defines its scope explicitly.
+Application Notes:
+1. Internal (inline) medium maps are not supported by all AFP print servers; consult your product [MODCA-4-145]
+documentation.
+2. The use of internal medium maps may significantly decrease document processing throughput, [MODCA-4-146]
+especially if the internal medium map specifies conditional media ejects using the Media Eject Control
+(X'45') triplet.
+3. Internal medium maps are also sometimes referred to as inline medium maps. The term “internal” is [MODCA-4-147]
+preferred.
+* If a parameter is specified both in the Document Environment Group (DEG) and in a medium map, the [MODCA-4-148]
+specification in the medium map takes precedence.
+* A medium map remains in effect until another medium map is selected or the end of the document is [MODCA-4-149]
+reached.
+* If a document does not invoke a medium map by name, and if it does not include an internal medium map, [MODCA-4-150]
+the first medium map in the selected form map controls the printing.
+* When an invoked medium map is used to process medium overlays or variable page data, it causes a media [MODCA-4-151]
+eject to occur before any data is presented. If not explicitly specified otherwise, the eject is to a new physical
+medium (form). When N-up partitioning is specified, the Media Eject Control (X'45') triplet may be included
+on the Begin Medium Map structured field to specify one of the following partition ejects:
+– Conditional eject to next partition
+– Conditional eject to next front-side partition
+– Conditional eject to next back-side partition
+However, this triplet is ignored when it occurs on the medium map that is activated at the beginning of a
+document regardless of whether this medium map is explicitly invoked or implicitly invoked as the default.
+* If a contiguous sequence of IMMs is specified in the data stream, they are processed according to the [MODCA-4-152]
+following rules:
+– If the sequence of IMMs is followed by a page, the last IMM must invoke a medium map that allows the
+presentation of pages. If it does not, an exception is generated.
+– If the sequence of IMMs is followed by a page, only the last invoked medium map is used for processing;
+preceding medium maps are ignored. For example, if the first invoked medium map specifies a conditional
+eject to the next front partition and the last invoked medium map specifies a conditional eject to the next
+partition, the page is placed into the next partition. Similarly, if the first invoked medium map specifies [MODCA-4-153]
+
+“constant front” but allows page placement on the back, and if the last invoked medium map specifies
+“constant back” but allows page placement on the front, the first invoked medium map is ignored and the
+page is placed on the front, with constant data placed on the back. For a definition of the constant forms
+control, see page 283.
+– If the sequence of IMMs invoke medium maps that prohibit the presentation of pages but that present
+medium overlays or PMC overlays, each medium map generates a sheet or multiple copies of a sheet with
+constant overlay data, as specified. These sheets are generated whether the last IMM is followed by a
+page or not.
+**Application Note:** Page groups are often processed in standalone fashion, that is, they are indexed, retrieved,
+and presented outside the context of the containing document. While the pages in the group are
+independent of each other and of any other pages in the document, their formatting on media depends
+on when the last medium map was invoked and on how many pages precede the BNG since this
+invocation. To make the media formatting of page groups self-contained, a Medium Map should be
+invoked at the beginning of the page group between the Begin Named Group (BNG) structured field and
+the first Begin Page (BPG) structured field. If this is not done, the presentation system may need to “play
+back” all pages between the invocation of the active medium map and the BNG to determine media
+formatting such as sheet-side and partition number for the first page in the group.
+It is therefore strongly recommended that in environments where standalone page group processing is
+required or anticipated, page groups are built with an Invoke Medium Map (IMM) structured field
+specified after the BNG and before the first BPG. Note that some AFP applications that generate page
+groups will support a user option which ensures that an IMM is specified after BNG and before the first
+BPG, and some AFP archive servers will expect an IMM there and may not present the page group
+correctly if none is found. This may cause the complete document to print differently.
+A newer method to specify how a page or page group should be formatted involves use of the Page
+Position Information (X'81') triplet. This triplet may be specified on a BPG and indicates the repeating
+group in the PGP structured field in the active Medium Map that should be used to format the page.
+**Figure 36.** Medium Map Structure
+Begin Medium Map (BMM, D3A8CC)
+[ ( D3..92) Object Container (MO Type only) (S) ]
+[ (MMO, D3B1DF) Map Medium Overlay ]
+[ (MPO, D3ABD8) Map Page Overlay (S) ]
+[ (MMT, D3AB88) Map Media Type (S) ]
+[ (MMD, D3ABCD) Map Media Destination (S) ]
+[ (MDR, D3ABC3) Map Data Resource (S) ]
+(PGP, D3B1AF) Page Position F2
+(MDD, D3A688) Medium Descriptor
+(MCC, D3A288) Medium Copy Count
+[ (MMC, D3A788) Medium Modification Control (S) ]
+[ (PMC, D3A7AF) Page Modification Control (S) ]
+[ (MFC, D3A088) Medium Finishing Control (S) ]
+[ (PEC, D3A7A8) Presentation Environment Control ]
+End Medium Map (EMM, D3A9CC)
+Notes:
+1. An MMO is required in either the document environment group or a medium map if an MMC structured field [MODCA-4-154]
+references a medium overlay. If specified in both, the structured field in the medium map takes
+precedence.
+
+2. Within a medium map, a given media type local ID may only be mapped once to a media type OID and/or a [MODCA-4-155]
+media type name using an MMT .
+3. The MDR may only be used in a Medium Map to reference Color Management Resources (CMRs); MDR [MODCA-4-156]
+repeating groups referencing any other resource are ignored.
+4. A PGP and an MDD is required in either the document environment group or a medium map. If specified in [MODCA-4-157]
+both, the structured field in the medium map takes precedence.
+5. MMC identifiers must be unique for all MMC structured fields in the medium map. PMC identifiers must be [MODCA-4-158]
+unique for all PMCstructured fields in the medium map.
+6. Each overlay included on a page with a PMC must first be mapped to a local ID with an MPO in the [MODCA-4-159]
+medium map containing the PMC.
+7. Modifications specified by PMCstructured fields are applied to pages on the medium depending on the [MODCA-4-160]
+MMC N-up Format Control (X'FC') keyword as follows:
+* If N-up is not specified, the page on each sheet-side is processed with the PGP repeating group for that [MODCA-4-161]
+sheet side. All modifications specified by all PMCs in the active medium map are applied to the page on
+the sheet-side.
+* If N-up with default page placement is specified, all pages on a sheet-side are processed with the PGP [MODCA-4-162]
+repeating group for that sheet side. If this repeating group does not specify a PMC identifier, or if the
+PMC identifier specifies X'FF', all modifications specified by all PMCs in the active medium map are
+applied to each page on the sheet side. If this repeating group specifies a PMC identifier, only the
+modifications included by the selected PMC are applied to all pages on the sheet-side.
+* If N-up with explicit page placement is specified, each page is processed with a PGP repeating group. If [MODCA-4-163]
+this repeating group does not specify a PMC identifier, or if the PMC identifier specifies X'FF', all
+modifications specified by all PMCs in the active medium map are applied to the page. If this repeating
+group specifies a PMC identifier, only the modifications included by the selected PMC are applied to the
+page.
+8. The actual presentation of the selected PMC modifications is controlled by the MMC Constant Forms [MODCA-4-164]
+Control (X'F9') keyword and the PGP PgFlgs parameter. See “Page Position (PGP) Format 2”.
+9. All overlays included with a PMCstructured field are presented on the page presentation space before any [MODCA-4-165]
+variable page data is presented.
+10. MFCs can be specified in the document environment group, in a medium map, or in both places. When [MODCA-4-166]
+specified in both places, all specified finishing operations are applied according to their scope, as long as
+the operations are compatible. Note that the location of the MFC may restrict which operations are
+supported. For rules on how finishing operations are nested, see “Finishing Operation Nesting Rules” on
+page 270.
+11. The PEC may be specified with the Rendering Intent (X'95') triplet, the Device Appearance (X'97') triplet, or [MODCA-4-167]
+both. Only a single rendering intent and a single device appearance should be assigned to the group of
+pages/sheets processed by this medium map; if more than one is assigned, only the last assignment is
+used and the rest are ignored.
+12. The PEC may be specified with the Rendering Intent (X'95') triplet and the Device Appearance (X'97') [MODCA-4-168]
+triplet in the DEG and in a medium map. If specified in both, the triplet on the PEC in the medium map
+takes precedence.
+13. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within [MODCA-4-169]
+the medium map structure. The MO Type object container(s) must directly follow the Begin Medium Map
+(BMM), otherwise they are ignored. When including multiple MOs the series of MO Type object containers
+must be contiguous and, as a whole, constitute the metadata for the document. The MO:DCA architecture
+places no restriction on or significance to the sequence or order of included metadata. If an object
+container is specified in medium map state, the ObjClass parameter on the mandatory Object
+Classification (X'10') triplet must be set to X'50'—Metadata; otherwise, the object container is ignored. [MODCA-4-170]
+
+**Application Note:** When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some
+MO:DCA receivers also issue a message when this occurs. [MODCA-4-171]
