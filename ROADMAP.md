@@ -125,11 +125,11 @@ Verification is currently initialized to 0% and will progress as granular tests 
 ## Phase 9: Project Documentation and Maintenance
 - 🚧 Improve all `specifications/markdown` formatting up to the 'Excellent' standard of neighbouring specifications (consistent with PTOCA).
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
-        - ✅ Chapter 1-2 complete.
+        - ✅ Chapter 1-4 complete.
         - 🚧 Chapter 3 in-progress.
         - ⏳ Chapters 4-8, Appendices A-F, Glossary, Index, Front Matter, and Notices.
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
-        - ✅ Chapter 1-2 complete.
+        - ✅ Chapter 1-4 complete.
         - ⏳ Chapters 3-5, Appendices A-B, and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
 - ⏳ Improve Javadoc quality and compliance:
