@@ -126,15 +126,11 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - 🚧 Improve all `specifications/markdown` formatting up to the 'Excellent' standard of neighbouring specifications (consistent with PTOCA).
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
         - ✅ Chapters 1-3 complete.
-        - 🚧 Chapter 4 (Partially reformatted) in-progress:
-            - ⏳ Print File, Document, and Index structures.
-            - ⏳ Page and Page Group structures.
-            - ⏳ Resource Objects and Groups.
-            - ⏳ Data Objects and Object Containers.
-        - 🚧 Chapter 5 (Begin-type Structured Fields) in-progress:
+        - ✅ Chapter 4 complete.
+        - 🚧 Chapter 5 in-progress:
             - ✅ BAG through BIM and all other 'Begin' fields (BMM through BSG) complete.
-            - ⏳ Remaining SF Groups A-D.
-            - ⏳ SF Groups E-I.
+            - ✅ Remaining SF Groups A-D complete.
+            - ✅ SF Groups E-I complete.
             - ⏳ SF Groups J-O.
             - ⏳ SF Groups P-T.
             - ⏳ SF Groups U-Z.
@@ -147,6 +143,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
 - ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
+- ✅ Analyzing and updating the `TEST_COVERAGE_MODCA.md` Chapters 5-6.
 - ⏳ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
     - ⏳ Chapters 1-3.
     - ⏳ Chapter 4.
