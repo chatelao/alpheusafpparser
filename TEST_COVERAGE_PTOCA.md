@@ -2,543 +2,543 @@
 
 | Requirement ID | Summary | Coverage |
 | :--- | :--- | :---: |
-| PTOCA-1-001 | This chapter provides a brief overview of Presentation Architecture. | ❓ |
-| PTOCA-1-002 | Figure 1 shows today's presentation environment. | ❓ |
-| PTOCA-1-003 | Figure 1. Presentation Environment.** The environment is a coordinated set of services architected to meet the presentation needs of today's applications. | ❓ |
-| PTOCA-1-004 | Document Creation Services**: import/export, edit/revise, format, scan, transform | ❓ |
-| PTOCA-1-005 | Document Archiving Services**: store, retrieve, index, search, extract | ❓ |
-| PTOCA-1-006 | Document Viewing Services**: browse, navigate, search, clip, annotate, tag | ❓ |
-| PTOCA-1-007 | Document Printing Services**: print, submit, distribute, manage, print, finish | ❓ |
-| PTOCA-1-008 | The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key requirement in almost every application of computers and information processing. This requirement is becoming increasingly difficult to meet because of the number of applications, servers, and devices that must interoperate to satisfy today's presentation needs. | ❓ |
-| PTOCA-1-009 | The solution is a presentation architecture base that is both robust and open ended, and easily adapted to accommodate the growing needs of the open system environment. AFP architectures provide that base by defining interchange formats for data streams and objects that enable applications, services, and devices to communicate with one another to perform presentation functions. These presentation functions might be part of an integrated system solution or they might be totally separated from one another in time and space. AFP architectures provide structures that support object-oriented models and client/server environments. | ❓ |
-| PTOCA-1-010 | AFP architectures define interchange formats that are system independent and are independent of any particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for compressed image data. | ❓ |
-| PTOCA-1-011 | AFP architectures provide the means for representing documents in a data format that is independent of the methods used to capture or create them. Documents can contain combinations of text, image, graphics, and bar code objects in presentation-system-independent and resolution-independent formats. Documents can contain fonts, overlays, and other resource objects required at presentation time to present the data properly. Finally, documents can contain resource objects, such as a document index and tagging elements supporting the search and navigation of document data, for a variety of application purposes. | ❓ |
-| PTOCA-1-012 | The presentation architecture components are divided into two major categories: data streams and objects. | ❓ |
-| PTOCA-1-013 | A data stream is a continuous ordered stream of data elements and objects conforming to a given format. Application programs can generate data streams destined for a presentation service, archive library, presentation device, or another application program. The strategic presentation data stream architectures are: | ❓ |
-| PTOCA-1-014 | Mixed Object Document Content Architecture (MO:DCA) | ❓ |
-| PTOCA-1-015 | Intelligent Printer Data Stream (IPDS) Architecture | ❓ |
-| PTOCA-1-016 | The MO:DCA architecture defines the data stream used by applications to describe documents and object envelopes for interchange with other applications and application services. The MO:DCA format supports storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of documents in local or distributed systems environments. Presentation fidelity is accommodated by including resource objects in the documents that reference them. | ❓ |
-| PTOCA-1-017 | The IPDS architecture defines the data stream used by print server programs and device drivers to manage all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area network-attached (LAN-attached) printers to high-speed, high-volume page printers for production jobs, shared printing, and mailroom applications. The same object content architectures carried in a MO:DCA data stream can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer hardware. The IPDS architecture defines bidirectional command protocols for query, resource management, and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided by pre-processing and post-processing devices attached to IPDS printers. | ❓ |
-| PTOCA-1-018 | Figure 2. Presentation Model.** This diagram shows the major components in a presentation system and their use of data stream and object architectures. | ❓ |
-| PTOCA-1-019 | MO:DCA** to presentation servers | ❓ |
-| PTOCA-1-020 | IPDS** to printers and post processors | ❓ |
-| PTOCA-1-021 | Resource Objects**: Fonts, Overlays, Page Segments, Form Definition, Color Management Resources, Color Table, Document Index, Metadata | ❓ |
-| PTOCA-1-022 | Data Objects**: Text, Image, Graphics, Bar Codes, Object Containers, Other Objects | ❓ |
-| PTOCA-1-023 | Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object content architectures describe the structure and content of each type of data format that can exist in a document or appear in a data stream. Objects can be either data objects or resource objects. | ❓ |
-| PTOCA-1-024 | A data object contains a single type of presentation data, that is, presentation text, vector graphics, raster image, or bar codes, and all of the controls required to present the data. | ❓ |
-| PTOCA-1-025 | A resource object is a collection of presentation instructions and data. These objects are referenced by name in the presentation data stream and can be stored in system libraries so that multiple applications and the print server can use them. | ❓ |
-| PTOCA-1-026 | All object content architectures (OCAs) are totally self-describing and independently defined. When multiple objects are composed on a page, they exist as peer objects that can be individually positioned and manipulated to meet the needs of the presentation application. | ❓ |
-| PTOCA-1-027 | The AFPC-defined object content architectures are: | ❓ |
-| PTOCA-1-028 | Presentation Text Object Content Architecture (PTOCA)**: A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. | ❓ |
-| PTOCA-1-029 | Image Object Content Architecture (IOCA)**: A data architecture for describing resolution-independent image objects captured from a number of different sources. Specifications of recording formats, data compression, color, and grayscale encoding are included in the architecture definition. | ❓ |
-| PTOCA-1-030 | Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA)**: A version of GOCA that is used in Advanced Function Presentation (AFP) environments. GOCA is a data architecture for describing vector graphics picture objects and line art drawings for a variety of applications. Specification of drawing primitives, such as lines, arcs, areas, and their visual attributes, are included in the architecture definition. | ❓ |
-| PTOCA-1-031 | Bar Code Object Content Architecture (BCOCA)**: A data architecture for describing bar code objects, using a number of different symbologies. Specification of the data to be encoded and the symbology attributes to be used are included in the architecture definition. | ❓ |
-| PTOCA-1-032 | Font Object Content Architecture (FOCA)**: A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. | ❓ |
-| PTOCA-1-033 | Color Management Object Content Architecture (CMOCA)**: A resource architecture used to carry the color management information required to render presentation data. | ❓ |
-| PTOCA-1-034 | Metadata Object Content Architecture (MOCA)**: A resource architecture used to carry metadata in an AFP environment. | ❓ |
-| PTOCA-1-035 | The MO:DCA and IPDS architectures also support data objects that are not defined by object content architectures. Examples of such objects are Tag Image File Format (TIFF), Encapsulated PostScript® (EPS), and Portable Document Format (PDF). Such objects can be carried in a MO:DCA envelope called an object container, or they can be referenced without being enveloped in MO:DCA structures. | ❓ |
-| PTOCA-1-036 | In addition to object content architectures, the MO:DCA architecture defines envelope architectures for objects of common value in the presentation environment. Examples of these are Form Definition resource objects for managing the production of pages on the physical media, overlay resource objects that accommodate electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a document. | ❓ |
-| PTOCA-1-037 | Figure 3. Presentation Page.** This is an example of a mixed-object page that can be composed in a presentation-system-independent MO:DCA format and printed on an IPDS printer. | ❓ |
-| PTOCA-1-038 | Presentation Text Object(s) | ❓ |
-| PTOCA-1-039 | Graphics Object | ❓ |
-| PTOCA-1-040 | Image Object | ❓ |
-| PTOCA-1-041 | Letterhead can be an overlay resource containing text, image, and graphics objects | ❓ |
-| PTOCA-1-042 | Object areas can overlap | ❓ |
-| PTOCA-2-001 | The Presentation Text object is the data object used in document processing environments for representing text which has been prepared for presentation. Text, as used here, means an ordered string of characters, such as graphic symbols, numbers, and letters, that are suitable for the specific purpose of representing coherent information. Text which has been prepared for presentation has been reduced to a primitive form through explicit specification of the characters and their placement in the presentation space. Control sequences which designate specific control functions may be embedded within the text. These functions extend the primitive form by applying specific characteristics to the text when it is presented. The collection of the graphic characters and control sequences is called Presentation Text, and the object that contains the Presentation Text is called the Presentation Text object. | ❓ |
-| PTOCA-2-002 | Presentation Text is associated with the output of text information. A Presentation Text object is the description of Presentation text for a portion of a document, the intended connotation being finished product or formatted output. This output version of text contained within the object is in the form specified by Presentation Text Object Content Architecture (PTOCA) and has been designed for direct output on devices, such as displays or printers. | ❓ |
-| PTOCA-2-003 | A Presentation Text object is a device-independent, self-defining representation of a two-dimensional presentation space, called the Presentation Text object space, or object space, which contains the Presentation Text data. The rules of PTOCA specify how the object space is constituted, what the boundaries are for text positioning, what the text content is, and how the text content is to be placed within the object space, using concepts such as sequential order, orientation, and position. | ❓ |
-| PTOCA-2-004 | Architecture Note:** Note that when presentation text is processed in a MO:DCA environment where the Presentation Text Data Descriptor (PTD) is carried in the Active Environment Group (AEG) for the page, or when such text is processed in an IPDS environment, the Presentation Text object is bounded by the beginning of the page and the end of the page. This is sometimes called a text major environment. When the PTD is carried in the Object Environment Group (OEG) of a MO:DCA text object, the text object is bounded by the Begin Presentation Text (BPT) and End Presentation Text (EPT) structured fields. For such objects, the PTD in the AEG is ignored. | ❓ |
-| PTOCA-2-005 | The Presentation Text object space is defined on the Xp, Yp coordinate system, which is an orthogonal coordinate system based on the fourth quadrant of a standard Cartesian coordinate system. The object space is positioned within the data stream's object area. Coincident with the Xp, Yp coordinate system is the I, Bcoordinate system, which is a translation of the Xp, Yp coordinate system. | ❓ |
-| PTOCA-2-006 | The position of the elements in the object space is described in terms of the I, Bcoordinate system. The increasing I-axis is the inline direction, which is normally the reading direction of the text. The increasing B-axis is the baseline direction, which is normally the direction for adding lines of text. | ❓ |
-| PTOCA-2-007 | The basic elements of the object are the graphic characters which are identified as code points of a code page. The identification of graphic characters, their relationship to each other, and the relationship of the code point to the graphic character are given by the coded font selected to present the text. | ❓ |
-| PTOCA-2-008 | The relationship of the elements to the space they occupy is described in terms of their orientation, starting location, and units of measure. | ❓ |
-| PTOCA-2-009 | The positioning of the graphic characters on a line is accomplished by moving the presentation position. Graphic characters may be placed adjacent to one another or positioned anywhere in the object space through the use of control sequences defined by PTOCA. Control sequences have been defined to move the presentation position to another position, to move to the beginning of another line, to adjust the distance between two adjacent characters, to draw lines such as rules, to adjust the distance between lines, to change the font, to specify the color of characters and rules, to overstrike a text field with a specified character, and to underscore a text field. | ❓ |
-| PTOCA-2-010 | National Language Support (NLS) is handled in the level of formatting above the Presentation Text object. Font NLS support is provided in the font mapping function in the controlling environment. | ❓ |
-| PTOCA-3-001 | Summarizes the concepts that form the basis of PTOCA | ❓ |
-| PTOCA-3-002 | Summarizes the data structures in PTOCA | ❓ |
-| PTOCA-3-003 | Formatting from revisable text | ❓ |
-| PTOCA-3-004 | Transformation from other data streams | ❓ |
-| PTOCA-3-005 | Editor or formatting process | ❓ |
-| PTOCA-3-006 | Direct generation process | ❓ |
-| PTOCA-3-007 | Once created, the object can be presented, revised, or used in a resource such as an overlay. It occupies a given amount of space, the object space, and can be located and oriented in a physical area, the object area. The environment that carries the object is the provider of all external relationships for the object, including the object area. | ❓ |
-| PTOCA-3-008 | The object space consists of an array or matrix of addressable positions which identify potential locations at which to place the basic elements of the object, graphic characters. Graphic characters are placed at addressable positions called the presentation positions, rotated relative to a baseline, and have the baseline of a group of characters undergo orientation to various angular positions, such as vertical presentation. These positioning functions are specified by control sequences which are carried along with the graphic characters. The initial positions or beginning values for many of the control sequences are described in a descriptor. | ❓ |
-| PTOCA-3-009 | The Presentation Text object is designed to be carried by and become part of a data stream, called the controlling environment. The data stream defines rules by which the object can be carried. Further information about data streams can be found in Appendix A, "MO:DCA Environment" and Appendix B, "IPDS Environment". | ❓ |
-| PTOCA-3-010 | The Presentation Text Data Descriptor carries the size, shape, and other special information about the object. The data stream is responsible for providing the proper information to the receiver, but PTOCA specifies a hierarchical method for determining the default values to be used by the receiver if the data stream does not supply the requisite information. | ❓ |
-| PTOCA-3-011 | The Presentation Text data contains the code points that identify the graphic characters and the control sequences that specify where and how the graphic characters are to be positioned within the object space. The graphic character code points that represent text information can be specified in a Transparent Data (TRN), a Repeat String (RPS), or a Unicode Complex Text (UCT) control sequence, or they can be specified as free-standing code points that appear between control sequences. Graphic character code points can also be resolved to glyph IDs in a font. These glyph IDs are carried in Glyph Layout Control (GLC) chains for presentation. | ❓ |
-| PTOCA-3-012 | Further information about PTOCA data structures is found under "Presentation Text Data" and "Presentation Text Data Descriptor". | ❓ |
-| PTOCA-3-013 | The control sequences represent the functional capabilities provided by the Presentation Text object. Since receivers of the object might not all have equivalent capabilities, it is convenient to create subsets, also called subset levels, of the total function that is available. The base is a set of functions required in any environment, including the ability to interpret and validate the control sequences and parameters, and to detect and report exception conditions that are within the PTOCA subsets. | ❓ |
-| PTOCA-3-014 | PT1**: Includes a set of relatively primitive control sequences that a receiver is expected to support. | ❓ |
-| PTOCA-3-015 | PT2**: Includes all of the PT1 subset plus new control sequences for underscore, overstrike, superscripts and subscripts. | ❓ |
-| PTOCA-3-016 | PT3**: Includes all of the PT2 subset plus a new control sequence to enable spot (highlight) colors and process colors for text and rules. | ❓ |
-| PTOCA-3-017 | PT4**: Includes new control sequences to support the rendering of complex text. | ❓ |
-| PTOCA-3-018 | The intent of subsets is to reduce the number of combinations of supported controls so that interchange between host processors is manageable. For further information about subsets, see Chapter 6, "Compliance with PTOCA", Appendix A, "MO:DCA Environment", and Appendix B, "IPDS Environment". | ❓ |
-| PTOCA-3-019 | The Presentation Text object space defines the presentation space into which the presented text characters will fit. The object space is the matrix of addressable positions which are available to the generating process that defined it. This space has no relationship to the physical medium or printed page until it is placed in an object area by a composition process as part of the creation of a page or overlay. The Presentation Text object has no concept of pages, although the composition process may create an entire page from one object. | ❓ |
-| PTOCA-3-020 | Positioning of the object space within the object area is accomplished by a mapping within the controlling environment. The object area is the boundary for text presentation by a receiver, and the controlling environment specifies the error recovery action that must occur if any portion of a character or rule violates the object area boundary. The object space is the boundary for the text positioned for presentation. | ❓ |
-| PTOCA-3-021 | 1.  **Xp, Yp coordinate system**: Simulates the reader's view of the object space. | ❓ |
-| PTOCA-3-022 | 2.  **I, Bcoordinate system**: Indicates the direction of the addition of characters to form words and lines, and the direction of the addition of subsequent lines. | ❓ |
-| PTOCA-3-023 | The Xp, Yp coordinate is an orthogonal coordinate system based on the fourth quadrant of a standard Cartesian coordinate system. Both the Xp axis and the Yp axis specify positive values, which is a difference from the Cartesian system where the Y axis in the fourth quadrant specifies negative values. The origin of the coordinate system is in the upper left corner; the positive Xp-axis is from left-to-right, and the positive Yp-axis is from top-to-bottom. The frame of reference for the Xp, Yp coordinate system is provided by the environment's coordinate system for the object area into which the object space is placed. The location of the Xp, Yp coordinate system origin is specified as an offset from the object area's coordinate system origin. | ❓ |
-| PTOCA-3-024 | Xp-origin, Yp-origin | ❓ |
-| PTOCA-3-025 | Xp-extent, Yp-origin | ❓ |
-| PTOCA-3-026 | Xp-extent, Yp-extent | ❓ |
-| PTOCA-3-027 | Xp-origin, Yp-extent | ❓ |
-| PTOCA-3-028 | The Xp, Yp coordinate system and the I, Bcoordinate system are closely related, as indicated in Figure 5. In fact, the Xp-extent is equal to one of the I, Bcoordinate extents, either the I-extent or the B-extent, and the Yp-extent is equal to the other. Therefore, the angle between the I-axis and B-axis will be identical to the angle between the Xp-axis and the Yp-axis. The Xp, Yp coordinate system describes the spatial viewport for the reader, while the I, Bcoordinate system describes the directions to be used for presentation and for interpretation by the reader of the graphic characters being presented. | ❓ |
-| PTOCA-3-029 | Figure 4. Presentation Space Definition** | ❓ |
-| PTOCA-3-030 | The I, Bcoordinate system adds a concept of direction to the object space definition. The reader of text comprehends the text by assembling the characters into words or phrases. The direction in which the reader normally constructs the words or phrases is called the inline direction or I-direction. The inline direction for typical Latin-based text is left-to-right, but for languages such as Japanese, or tasks such as labeling graphs, the inline direction may be top-to-bottom or one of the other possible directions. Please see Figure 5. | ❓ |
-| PTOCA-3-031 | Figure 5. I, B Coordinate System Examples** | ❓ |
-| PTOCA-3-032 | The inline direction is also the direction of increasing positive values of *i* along the I-axis, and prescribes the order in which succeeding characters are processed by a receiver. The maximum value of *i* is the I-extent. | ❓ |
-| PTOCA-3-033 | All of the graphic characters placed in the inline direction for a given value of *b* constitute a line. The direction in which successive lines are placed for continued reading of the text is the baseline direction or B-direction. The baseline direction for typical Latin-based text is top-to-bottom, but for other languages, such as Japanese vertical writing, the baseline direction is from right-to-left. The baseline direction is also the direction of increasing positive values of *b* along the B-axis. The maximum value of *b* is the B-extent. | ❓ |
-| PTOCA-3-034 | Although the controlling environment, as a carrier of the Presentation Text object, specifies the layout characteristics of the object presentation, the object, as a self-defining portion, provides the measurement units used by the generator in formatting the data. The Presentation Text object provides for both the English and metric systems of measurement. The measurement units for the object are specified in the Presentation Text Data Descriptor or determined by defaults. Measurement units can be specified so that the Xp-axis and the Yp-axis have different resolutions. | ❓ |
-| PTOCA-3-035 | Measurement units are used throughout PTOCA to identify the units of measure to be used for such things as extents and offsets along the X and Y axes of a coordinate system. | ❓ |
-| PTOCA-3-036 | Unit base**: This value represents the length of the measurement base. It is specified as a one-byte coded value: | ❓ |
-| PTOCA-3-037 | X'00': Ten inches | ❓ |
-| PTOCA-3-038 | X'01': Ten centimeters | ❓ |
-| PTOCA-3-039 | Units per unit base**: This value represents the number of units in the measurement base. It is specified as a two-byte numeric value between 1 and 32,767. | ❓ |
-| PTOCA-3-040 | The term *units of measure* is defined as the measurement base value divided by the value of the units per unit base. | ❓ |
-| PTOCA-3-041 | For example, if the measurement base is 10 inches and the units per unit base value is 5,000, the units of measure are 10 inches / 5000 or one five-hundredth of an inch. Here are some additional examples: | ❓ |
-| PTOCA-3-042 | 1,440 X 1,440 units/inch | 14,400 divisions in 10 inches on both axes | ❓ |
-| PTOCA-3-043 | 80 X 77 units/centimeter | 800 divisions in 10 centimeters on Xp and 770 divisions in 10 centimeters on Yp | ❓ |
-| PTOCA-3-044 | The size of the object space is specified in measurement units. Each addressable position is one measurement unit away from another addressable position in any direction. That is, a specified measurement unit along the Xp-axis separates the addressable positions in the direction parallel to the Xp-axis, and another specified measurement unit along the Yp-axis separates the addressable positions in the direction parallel to the Yp-axis. This creates an array of addressable positions, each of which has the potential of being designated as the position of a graphic character. | ❓ |
-| PTOCA-3-045 | The measurement units thus defined become the measurement units for all linear measurements within the object. The receivers must convert from these measurement units to measurement units for their environment as required, and keep track of rounding errors, making appropriate adjustments as needed to ensure presentation fidelity at a given level of capability. | ❓ |
-| PTOCA-3-046 | The measurement units for angular dimensions are degrees. | ❓ |
-| PTOCA-3-047 | What character is represented by the code point? | ❓ |
-| PTOCA-3-048 | Is the character valid? | ❓ |
-| PTOCA-3-049 | What is the shape of the character? | ❓ |
-| PTOCA-3-050 | The assignment of code points to characters is done by means of a code page or similar encoding structure such as a character map. A code page or character map can be envisioned as a table which contains pairs of values, where the first element of each pair is the code point and the second element is the identifier of the graphic character. The code page also defines the number of bytes required to represent a character, that is, bytes per code point. | ❓ |
-| PTOCA-3-051 | For some font technologies such as the FOCA font technology, the validity of a character may be verified by referring to a graphic character set. A graphic character set is a set of letters, digits, punctuation marks, arithmetic operators, chemical symbols, or other symbols. If the character represented by the code point is not | ❓ |
-| PTOCA-3-052 | contained in the graphic character set, then that character is invalid, and another graphic character must be substituted for it. The active coded font designates what graphic character should be substituted in its place. | ❓ |
-| PTOCA-3-053 | Style: Bodoni | ❓ |
-| PTOCA-3-054 | Size: 10-point | ❓ |
-| PTOCA-3-055 | Weight: bold | ❓ |
-| PTOCA-3-056 | Other characteristics: italic | ❓ |
-| PTOCA-3-057 | This algorithm could consist of a style manual, raster patterns, vector graphic command lists, stroke generation programs, engraved type, or other means of specifying the necessary attributes. The font also specifies the character increment or escapement, that is, the width of the character, and the character reference point or character origin, that is, the point within the graphic pattern which is to be aligned with the presentation position. Within a Presentation Text object, the desired characteristics are specified through a reference to a specific font. The coded font contains the encoding and the shape and metric information which are assigned to each graphic character. The presentation process applies the graphic character code points found within the Presentation Text object to the active coded font in order to determine the presentation characteristics of the characters. The font is managed as a font resource in the controlling environment. A Presentation Text object uses this resource by making reference to the coded font. | ❓ |
-| PTOCA-3-058 | The structure and content of FOCA-based fonts is defined by the Font Object Content Architecture (FOCA), which is described in *Font Object Content Architecture Reference*, AFPC-0007. | ❓ |
-| PTOCA-3-059 | OpenType Specification Version 1.4 (Microsoft Corporation: October 11, 2002), at http://www.microsoft.com/typography/otspec/default.htm | ❓ |
-| PTOCA-3-060 | TrueType Reference Manual (Apple Computer, Inc.: December 18, 2002), at http://developer.apple.com/fonts/TrueType-Reference-Manual | ❓ |
-| PTOCA-3-061 | Graphic characters are the basic elements of the Presentation Text object. The control sequences defined by PTOCA deal with the presentation of these graphic characters regarding either their positioning within the object, or some attribute of their presentation, such as color. | ❓ |
-| PTOCA-3-062 | PTOCA assumes that the graphic characters are identified by one-byte or multi-byte code points that are defined within the encoding structure for a font. Each graphic character thus identified has a defined character reference point or character origin, a character increment or character escapement, and a character baseline that allows them to be correctly positioned along the baseline in the I-direction of the Presentation Text object. Please see Figure 6. | ❓ |
-| PTOCA-3-063 | Figure 6. Horizontal Metrics: TrueType/OpenType Fonts and FOCA Fonts** | ❓ |
-| PTOCA-3-064 | The presentation of a graphic character is accomplished by placing the character reference point or character origin of the graphic character at the presentation position. The presentation position is an I, Bcoordinate pair, that is, an addressable position in the object space. The *b* value is fixed for the current baseline, Bc. The current *i* value, the new presentation position, is calculated from the previous *i* value by adding the character increment or character escapement of the graphic character being presented to the previous value of *i*, that is, the previous presentation position. | ❓ |
-| PTOCA-3-065 | The presentation position in PTOCA designates a between-the-pels position on a presentation surface, not a pel centerline intersection position. The concept of between-the-pels positioning is especially important for the presentation of rules. Please see "Graphic Character Processing" for more information. | ❓ |
-| PTOCA-3-066 | Object generators will determine which characters are to be placed on each line of the object. This does not require that the font be known at generation time in all cases. For fixed pitch fonts where the character increment is a constant value and for fonts utilizing standard metrics, it is possible for any font with the same metrics to be specified without modification to the relative positioning of the graphic characters. | ❓ |
-| PTOCA-3-067 | Spacing between the characters can be modified by an adjustment, which is either an increment or a decrement on the character increment values provided for the graphic characters. In addition, the character increment specified for the space code point may be changed to a different value at any time to provide variation in the spacing between words. | ❓ |
-| PTOCA-3-068 | Lines of graphic characters are ended by moving the presentation position to the beginning of the next line. This may be done using the positioning control sequences or through the use of a control sequence that causes the baseline increment value and the inline margin to set the presentation position to the next line. | ❓ |
-| PTOCA-3-069 | PTOCA is intended to be precise enough to permit multiple products to reproduce the Presentation Text object faithfully. Faithful reproduction includes such aspects as the size and relative positions of graphic characters and strings of graphic characters. The responsibility for faithful reproduction belongs to the process that presents the object. PTOCA is also designed to permit less than faithful reproduction. It is possible to specify exception conditions for which continuation of processing is acceptable. This permits a process that cannot faithfully reproduce the object to continue with its best approximation. If less than faithful reproduction is acceptable for an application, interchange among a larger set of receivers is possible. | ❓ |
-| PTOCA-3-070 | The Presentation Text object uses a control sequence to indicate that a function is to be performed. The control sequence consists of the Control Sequence Introducer and a list of parameters. | ❓ |
-| PTOCA-3-071 | A one-byte prefix, X'2B' | ❓ |
-| PTOCA-3-072 | A one-byte class, X'D3' | ❓ |
-| PTOCA-3-073 | A one-byte length | ❓ |
-| PTOCA-3-074 | A one-byte function type | ❓ |
-| PTOCA-3-075 | Control sequences can be chained together using a chaining convention. Although the first control sequence in a chain has the prefix and class, the remaining chained control sequences do not. Chaining reduces the number of bytes to be handled and removes the need to determine whether the next character is a control sequence or not. Please see Table 4 for a list of PTOCA control sequences, showing both unchained and chained function types. Please see "Control Sequence Chaining" for more information about chaining. | ❓ |
-| PTOCA-3-076 | Graphic characters may be grouped together as character strings to eliminate the necessity of checking for the Control Sequence Prefix. This capability is useful for creating strings of repeated characters. An example is the leader dots in a table of contents. The leader dot graphic character occurs only once per line in the object although it is repeated many times at presentation. | ❓ |
-| PTOCA-3-077 | In addition this capability, when used in conjunction with chaining, allows the object to be described in terms of two parsing modes: control sequences and graphic characters. These two basic modes can then be optimized separately in an implementation. | ❓ |
-| PTOCA-3-078 | Simple line graphic functions have been incorporated to satisfy requirements for figure enclosures, tables, boxes, line drawings, and so on. The capability includes vertical and horizontal rules which may have both the length and the width of the rules specified. | ❓ |
-| PTOCA-3-079 | An ability to restrict the presentation of the graphic characters in a controlled way is provided by the suppression function. Suppression is accomplished by marking the text data to be suppressed and specifying | ❓ |
-| PTOCA-3-080 | an identifier to allow grouping of the marked text data. All data marked with an active suppression identifier is prevented from being presented when the object is processed. The controlling environment specifies which suppression identifiers are active for the object. | ❓ |
-| PTOCA-3-081 | Suppression can be used to create form letters that have portions of the form left blank, or filled in differently, depending on the intended audience of each instance of the letter. | ❓ |
-| PTOCA-3-082 | There are times when it is desirable to place graphic characters in other than the customary upright reading position. For example, when labeling a graph, the graphic characters would be placed upright, but the line would be vertical; that is, the I-direction would be top-to-bottom. The I-direction and B-direction determine the orientation of the text, and an I-direction change is called a change of orientation. However, since the upright position is with respect to the I-axis, when reorientation occurs the characters appear to rotate at the same time. To create a vertical effect, such as in a graph, the graphic characters must also be rotated. Please see Figure 7. This figure illustrates changes in orientation with no change in character rotation. | ❓ |
-| PTOCA-3-083 | Figure 7. Orientation Examples** | ❓ |
-| PTOCA-3-084 | Orientation is specified in degrees in a clockwise direction from the zero-degree starting point. The zero-degree starting point is the I-axis when the I-direction is left-to-right. A change in text orientation may also move the I, Borigin to a different corner of the text object space. Figure 7 shows the location of the I, Borigin for the 8 text orientations. The rotation of the characters is described in terms of angular movement of the character shape with respect to the character baseline, and is specified as part of the selection criteria for fonts. | ❓ |
-| PTOCA-3-085 | Controls are provided in PTOCA to accomplish specialized functions. These functions include underscore, overstrike, superscript, and subscript. | ❓ |
-| PTOCA-3-086 | This group of control sequences follows a modal concept in that, once started, the function does not terminate until stopped. Each control sequence marks the beginning or the ending of a text field for which the function is invoked. The same control sequence syntax with a non-zero parameter value begins the text field, and with a zero parameter value indicates the end of the field. All other control sequences are valid within these text fields without causing termination of the field. | ❓ |
-| PTOCA-3-087 | Underscore is the capability of drawing a line under individual characters or groups of characters. Overstrike is the capability of filling a field with a specific character to provide a marked-out appearance. | ❓ |
-| PTOCA-3-088 | The superscript and subscript functions require the ability to move temporarily from the designated baseline by small amounts. The superscript function requires movement in the negative B-direction, that is, above the baseline. The subscript function requires movement in the positive B-direction, that is, below the baseline. The amount of the incremental moves about the baseline is also variable. This allows a sophisticated implementation to provide a wide range of superscript and subscript capability, to be used, for example, when positioning the various parts of mathematical equations. | ❓ |
-| PTOCA-3-089 | The Unicode standard recommends that text for all languages be stored in the order that it would be read or spoken, without regard to presentation order. With few exceptions, Latin, Cyrillic, and Greek scripts present text in the same order that data processing systems store the text. These exceptions are ligatures which are combinations of characters and accented characters. Traditionally, computer applications encode these combined characters using one encoding point and one graphic character. As an example, most systems encode Latin small ligature ff as one character. | ❓ |
-| PTOCA-3-090 | Complex text languages provide different layouts for the presentation of text and its storage. Bi-directional (BIDI) languages present text normally from right to left; however, some text such as numbers and embedded Latin, Cyrillic, and Greek scripts, are written from left to right. These languages include Arabic, Urdu, Farsi, and Hebrew. | ❓ |
-| PTOCA-3-091 | Data Storage order: my address is SUITE B 100 YORK BLVD richmond hill | ❓ |
-| PTOCA-3-092 | Presentation order: my address is DVLB KROY 100 B ETIUS richmond hill | ❓ |
-| PTOCA-3-093 | Some languages require that characters be presented with different shapes or in a different order than their storage order. Arabic characters can be represented by one of four shapes depending on their position in a word. Arabic characters can also combine to form ligatures. In many south Asian languages, characters may need to be repositioned, reordered, or split, depending on adjacent characters. | ❓ |
-| PTOCA-3-094 | Composition applications that need to present Complex Text will use layout engines such as International Components for Unicode (ICU), Windows® Uniscribe, Apple Advanced Typography, Pango, Scribe, or Graphite, to present text. Each engine has a different implementation. Outputs from the engines will differ somewhat. Some engines have better support for some language scripts than others. | ❓ |
-| PTOCA-3-095 | PTOCA supports consistent text presentation through the Unicode Complex Text (UCT) control sequence and its complementary supporting glyph run control sequences. PTOCA presents text on a line-by-line basis. This means that applications must provide text boundary analysis. ICU provides iterators that support this type of analysis. These break iterators support determining character, word, line-break, and sentence boundaries. The Unicode Standard Annex #29 provides definitions for these boundaries. The ICU User Guide provides examples of boundary analysis. The Unicode BIDI algorithm works best on paragraphs, so the composition application should apply the algorithm before breaking the text into individual lines. | ❓ |
-| PTOCA-3-096 | A font is a collection of images called glyphs. Each glyph in the font has a unique 16-bit id. | ❓ |
-| PTOCA-3-097 | There is a mapping from Unicode code points to glyph ids. Some glyphs may not have a mapping. | ❓ |
-| PTOCA-3-098 | There is a method to get the width of each glyph. | ❓ |
-| PTOCA-3-099 | There is a method to get the position of a control point for each glyph | ❓ |
-| PTOCA-3-100 | Client applications perform boundary analysis and determine text direction runs as necessary. They then call the layout engine to produce an array of glyph indices in display order, an array of x, y position pairs for each glyph, and optionally an array that maps each glyph back to the input text array. | ❓ |
-| PTOCA-3-101 | The MO:DCA Presentation Text Data Descriptor and Presentation Text Data structured fields carry Presentation Text Objects in MO:DCA documents. The Presentation Text object space provides the coordinate system that allows object generators to position graphic characters and glyphs without error. It is the responsibility of the generator to ensure that it positions the graphic characters and glyphs correctly so that they do not exceed the object space. | ❓ |
-| PTOCA-3-102 | If the data contains bi-directional scripts, use the Unicode BIDI algorithm to break the text into directional sequences. The Unicode BIDI algorithm works best with paragraphs, so it must be applied before text is broken into separate lines. | ❓ |
-| PTOCA-3-103 | If multiple TrueType/OpenType fonts are used to present the text, composition applications must identify the individual font that will be used for each substring of text to which the layout engine is applied. This step should be performed prior to, or concurrent with, the script analysis that identifies the appropriate layout engine. The ICU Paragraph Layout API provides class interfaces to represent linked fonts with methods to request the individual font and the extent of the text string to be composed. If the entire Unicode text is not rendered with a single font, the subsequent steps must be repeated for each font and substring. | ❓ |
-| PTOCA-3-104 | The application will need to determine where line breaks occur because PTOCA constrains text output sequences to individual lines. The appropriate position to break text can vary by language or script. The Unicode Standard Annex #29 provides definitions for character, word, line-break, and sentence boundaries. International Components for Unicode provides break iterators that support this type of analysis. The ICU User Guide provides examples of boundary analysis. | ❓ |
-| PTOCA-3-105 | The application will use a layout engine to format text sequences. A text sequence is a run of text that use the same font (e.g. typeface with the same typographic attributes including weight, width, height, posture) where the text accumulates in the same direction. Layout engines normally return: | ❓ |
-| PTOCA-3-106 | Arrays of glyph indices | ❓ |
-| PTOCA-3-107 | Arrays of glyph positions | ❓ |
-| PTOCA-3-108 | The application will then normalize the positions with respect to the origin established for the current text object. | ❓ |
-| PTOCA-3-109 | The application will obtain or calculate the Object Identifier (OID) value of the TrueType/OpenType font used to generate the glyph ID values. This value allows presentation devices to verify that they retrieve the glyphs from the exact same font that the application used. See the *Mixed Object Document Content Architecture Reference*, AFPC-0004 for the definition of the algorithm used to calculate the OID of a TrueType/OpenType font. | ❓ |
-| PTOCA-3-110 | The application will provide the full font name (FFN) of the TrueType/OpenType font used to generate the glyph ID values. This name provides a human-readable identification of the font and is also used to select a specific font in a font collection when the font OID identifies a collection. | ❓ |
-| PTOCA-3-111 | Successful completion of these tasks will result in the application having the presentation data normalized so that it can create the GIR/GAR[/GOR] sequences and the preceding GLC control (the notation "[/GOR]" will be | ❓ |
-| PTOCA-3-112 | A Glyph Layout Control (GLC)** which identifies the start of the complex text position requirements sequence for this text run. The GLC specifies: | ❓ |
-| PTOCA-3-113 | 1.  the advance along the current baseline caused by processing this GLC chain | ❓ |
-| PTOCA-3-114 | 2.  the font OID to identify and validate the font used for the subsequent glyph run control sequences | ❓ |
-| PTOCA-3-115 | 3.  the full font name of the font, which is used to select a specific font from a font collection when the font OID identifies a collection | ❓ |
-| PTOCA-3-116 | One or more groups of**: | ❓ |
-| PTOCA-3-117 | 1.  a Glyph ID Run (GIR) which contains the glyph IDs for this text run | ❓ |
-| PTOCA-3-118 | 2.  a Glyph Advance Run (GAR) which contains the advances in the inline direction for each glyph | ❓ |
-| PTOCA-3-119 | 3.  an optional Glyph Offset Run (GOR) that provides the offsets of each glyph from the baseline. This control provides the ability to position glyphs such as diacritical marks and accents | ❓ |
-| PTOCA-3-120 | An optional Unicode Complex Text (UCT) control sequence** which contains the text encoded in UTF16-BE in data storage order. Use of the UCT is recommended as it provides applications the ability to interpret the sequence of glyphs rendered by the printer. | ❓ |
-| PTOCA-3-121 | The maximum length of a PTOCA control sequence limits a single GIR to no more than 125 glyphs. This means that print applications must be prepared to generate multiple GIR/GAR[/GOR] groupings to support long Unicode encoded text strings. | ❓ |
-| PTOCA-3-122 | If multiple fonts linked to the currently active font are used to render the text, a GLC chain must be generated for each substring that uses a different linked font. The presentation device will use the FONTOID parameter of the GLC to identify and validate the linked font used for the subsequent glyph run control sequences. If the FONTOID parameter identifies a font collection, the presentation device uses the FFONTNME parameter of the GLC to select the specific font from the collection. | ❓ |
-| PTOCA-3-123 | In certain regulatory environments, such as the financial industry, there exists the need to protect customer information such as Personal Identification Numbers (PINs) and Transaction Authentication Numbers (TANs) until presentation time. Typically, this private information must be encrypted, meaning that the code points that make up the character string to be protected cannot appear in the data stream as directly readable code points. Using special algorithms, an encryption/decryption key can be used to turn the character code points into encrypted bytes. | ❓ |
-| PTOCA-3-124 | At presentation time, these encrypted bytes can then be turned back into code points in a character string by applying the same encryption/decryption key to algorithmically convert them back into presentation text. To preserve the security of the data stream, the actual encryption/decryption key does not appear in the data stream; key information is passed instead. The decryption device has a lookup table to correlate the key information with the actual encryption/decryption key to be used for decryption. | ❓ |
-| PTOCA-3-125 | PTOCA has the ability to identify encrypted bytes that represent this protected information. It also provides a means to set the key information for these encrypted bytes to facilitate decryption into code points in a character string at presentation time. If the decryption should fail, a mechanism is provided in PTOCA to substitute alternate text in the place where the decrypted code points were intended to go. | ❓ |
-| PTOCA-3-126 | PTOCA defines exception condition codes that identify the various exception conditions that can arise during the processing of a Presentation Text object. These codes are provided for reference purposes only. PTOCA also specifies a standard action for each exception condition that indicates the recommended action a processor should take when it encounters the exception condition. The manner in which a PTOCA receiver processes exception conditions depends upon the controlling environment. For any PTOCA exception condition the controlling environment may provide its own identifier, which overrides the PTOCA exception condition code. The controlling environment also may provide its own action, which overrides the PTOCA standard action. | ❓ |
-| PTOCA-3-127 | graphic characters to be presented | ❓ |
-| PTOCA-3-128 | control sequences that position them | ❓ |
-| PTOCA-3-129 | modal control sequences that adjust the positions by small amounts | ❓ |
-| PTOCA-3-130 | other functions which cause the text output to be presented with differences in appearance | ❓ |
-| PTOCA-3-131 | The graphic characters are expected to conform to a font representation so that they can be translated from the code point in the object data to the character in the font. The units of measure for linear displacements are derived from the Presentation Text Data Descriptor or from the hierarchical defaults. | ❓ |
-| PTOCA-3-132 | The following pages contain summary descriptions of the PTOCA control sequences. Summary tables are provided following the descriptions. Please see "Control Sequence Detailed Descriptions" for detailed descriptions of syntax, semantics, and pragmatics. | ❓ |
-| PTOCA-3-133 | Establishes the baseline and the current presentation position at a new B-axis coordinate, Bcnew, which is a specified number of measurement units from the I-axis. There is no change to the current I-axis coordinate, Ic. | ❓ |
-| PTOCA-3-134 | Establishes the current presentation position on the baseline at a new I-axis coordinate, Icnew, which is a specified number of measurement units from the B-axis. There is no change to the current B-axis coordinate, Bc. | ❓ |
-| PTOCA-3-135 | Establishes the current presentation position on the baseline with the new I-axis coordinate, Icnew, equal to the inline margin, and the new B-axis coordinate, Bcnew, increased by the amount of the baseline increment from Bc. The baseline increment is established by the Set Baseline Increment control sequence. | ❓ |
-| PTOCA-3-136 | Marks the beginning of a field of presentation text, identified by a local identifier (LID), which is not to be presented when the LID is activated in the controlling environment. This control sequence does not alter the effects of other control sequences within it, except that graphic characters and rules are not presented. | ❓ |
-| PTOCA-3-137 | Suppression of presentation text by more than one control sequence at a time is not allowed; that is, nesting of suppression control sequences is not allowed. | ❓ |
-| PTOCA-3-138 | Draws a line of specified length and specified width in the B-direction from the current presentation position. The location of the current presentation position is unchanged. | ❓ |
-| PTOCA-3-139 | Draws a line of specified length and specified width in the I-direction from the current presentation position. The location of the current presentation position is unchanged. | ❓ |
-| PTOCA-3-140 | Specifies a sequence of encrypted bytes that must be decrypted into a corresponding character string before standard text processing can be performed. | ❓ |
-| PTOCA-3-141 | Marks the end of a field of presentation text, identified by a LID, which is not to be presented when the LID is activated by the controlling environment. | ❓ |
-| PTOCA-3-142 | Specifies the displacement of glyphs along the current baseline. | ❓ |
-| PTOCA-3-143 | Specifies the IDs of glyphs to be placed along the current baseline. | ❓ |
-| PTOCA-3-144 | Specifies control information for the start of one or more glyph runs along the current baseline. | ❓ |
-| PTOCA-3-145 | Specifies offsets of glyphs above or below the current baseline. | ❓ |
-| PTOCA-3-146 | Specifies a string of bytes that are to be ignored. | ❓ |
-| PTOCA-3-147 | Specifies a text field that is to be overstruck with a specified graphic character. The overstrike function is initiated by an OVS control sequence with a non-zero bypass identifier, and is terminated by an OVS control sequence with a zero-value bypass identifier. The fields may not be nested or overlapped. The bypass identifier controls which portions of a line are to be overstruck; this provides for bypassing white space created by AMI, RMI, and space characters. | ❓ |
-| PTOCA-3-148 | Establishes the presentation position on the baseline at a new B-axis coordinate, Bcnew, which is a specified number of measurement units from the current B-axis coordinate, Bc. There is no change to the current I-axis coordinate, Ic. | ❓ |
-| PTOCA-3-149 | Establishes the presentation position on the baseline at a new I-axis coordinate, Icnew, which is a specified number of measurement units from the current I-axis position, Ic. There is no change to the current B-axis coordinate, Bc. | ❓ |
-| PTOCA-3-150 | Specifies a string of characters that are to be repeated until the number of bytes in the graphic characters presented is equal to a specified number of bytes. The string is not checked for control sequences. When the specified number of bytes is equal to the number of bytes in the characters in the data parameter, this control sequence is identical in function to the Transparent Data control sequence. | ❓ |
-| PTOCA-3-151 | Specifies the value of the increment to be added to the B-axis coordinate of the current presentation position, Bc, when a Begin Line control sequence is processed. | ❓ |
-| PTOCA-3-152 | Specifies a LID to be used as an index into the font map of the controlling environment to determine which coded font, character rotation, and font modification parameters have been selected for use in the object. | ❓ |
-| PTOCA-3-153 | Specifies the alternate text used (should the decryption fail) for all Encrypted Data (ENC) control sequences that follow. | ❓ |
-| PTOCA-3-154 | Specifies a color value and defines the color space and encoding for that value. Supports spot (highlight) colors and process colors. The specified color value is applied to foreground areas of the text presentation space, that is, characters, rules, and underscores. | ❓ |
-| PTOCA-3-155 | Specifies the value to be used as the new I-axis coordinate, Icnew, of the new presentation position after a Begin Line control sequence is processed. The new presentation position is the addressable position nearest to the B-axis at which the character reference point of a graphic character may be placed. | ❓ |
-| PTOCA-3-156 | Specifies the increment to be added to or subtracted from the I-axis coordinate of the current presentation position, Ic. The direction parameter indicates whether to add or subtract the increment. If the direction is positive, the increment is added; if negative, the increment is subtracted. This control sequence may be used to compress or expand words for emphasis, improved appearance, or justification. | ❓ |
-| PTOCA-3-157 | Specifies the encryption key information used to decrypt data for all Encrypted Data (ENC) control sequences that follow. | ❓ |
-| PTOCA-3-158 | Specifies a named color value to be applied to foreground areas of the text presentation space, that is, characters, rules, and underscores. The values of the foreground color parameter serve as indexes into the color-value table found in Table 13. | ❓ |
-| PTOCA-3-159 | Establishes the positive I-axis orientation as an angular displacement from the Xp-axis, determining the I-direction. This control sequence also establishes the positive B-axis orientation as an angular displacement from the Xp-axis, determining the B-direction. | ❓ |
-| PTOCA-3-160 | The I-axis must be parallel to one of the Xp, Yp coordinate axes and the B-axis must be parallel to the other. The determination of the orientation and direction of the I-axis and B-axis places the origin of the I, Bcoordinate system at one of the corners of the rectangular object space. | ❓ |
-| PTOCA-3-161 | Specifies the increment to be used as the character increment for the character identified as the Variable Space Character by the font or by the controlling environment. This increment is added to the I-axis coordinate of the current presentation position, Ic, when the Variable Space Character code point is processed in order to establish the new presentation position. This has no effect on the B-axis coordinate value. | ❓ |
-| PTOCA-3-162 | Above**: Direction parameter = 3 | ❓ |
-| PTOCA-3-163 | Below**: Direction parameter = 2 | ❓ |
-| PTOCA-3-164 | Back to the established baseline**: Direction parameter = 1 | ❓ |
-| PTOCA-3-165 | The temporary baseline function is terminated by a TBM control sequence which returns the temporary baseline to the same B-axis coordinate as that of the established baseline. | ❓ |
-| PTOCA-3-166 | Specifies a string of characters that are to be presented, but not checked for control sequences. | ❓ |
-| PTOCA-3-167 | Specifies a text field that is to be underscored. The underscore function is initiated by an Underscore control sequence with a non-zero bypass identifier, and is terminated by a USC control sequence with a bypass identifier of zero. The fields may not be nested or overlapped. The bypass identifier controls which portions of a line are to be underscored; this provides for bypassing white space created by AMI, RMI, and space characters. | ❓ |
-| PTOCA-3-168 | Identifies a sequence of Unicode code points that can be processed as Unicode complex text. The sequence starts with the first byte following the end of the UCT control sequence and ends with the last byte identified by the complex text length parameter in the control sequence. Rendering complex text involves bidirectional (bidi) layout processing and glyph processing. | ❓ |
-| PTOCA-3-169 | Table 4. Summary of PTOCA Control Sequences** | ❓ |
-| PTOCA-3-170 | Inline Controls** | ❓ |
-| PTOCA-3-171 | "Set Inline Margin (SIM)" | X'C0' | X'C1' | ❓ |
-| PTOCA-3-172 | "Set Intercharacter Adjustment (SIA)" | X'C2' | X'C3' | ❓ |
-| PTOCA-3-173 | "Set Variable Space Character Increment (SVI)" | X'C4' | X'C5' | ❓ |
-| PTOCA-3-174 | "Absolute Move Inline (AMI)" | X'C6' | X'C7' | ❓ |
-| PTOCA-3-175 | "Relative Move Inline (RMI)" | X'C8' | X'C9' | ❓ |
-| PTOCA-3-176 | Baseline Controls** | ❓ |
-| PTOCA-3-177 | "Set Baseline Increment (SBI)" | X'D0' | X'D1' | ❓ |
-| PTOCA-3-178 | "Absolute Move Baseline (AMB)" | X'D2' | X'D3' | ❓ |
-| PTOCA-3-179 | "Relative Move Baseline (RMB)" | X'D4' | X'D5' | ❓ |
-| PTOCA-3-180 | "Begin Line (BLN)" | X'D8' | X'D9' | ❓ |
-| PTOCA-3-181 | "Set Text Orientation (STO)" | X'F6' | X'F7' | ❓ |
-| PTOCA-3-182 | Controls for Data Strings** | ❓ |
-| PTOCA-3-183 | "Unicode Complex Text (UCT)" | X'6A' | — | ❓ |
-| PTOCA-3-184 | "Glyph Layout Control (GLC)" | X'6D' | — | ❓ |
-| PTOCA-3-185 | "Glyph ID Run (GIR)" | X'8B' | — | ❓ |
-| PTOCA-3-186 | "Glyph Advance Run (GAR)" | X'8C' | X'8D' | ❓ |
-| PTOCA-3-187 | "Glyph Offset Run (GOR)" | X'8E' | X'8F' | ❓ |
-| PTOCA-3-188 | "Encrypted Data (ENC)" | X'98' | X'99' | ❓ |
-| PTOCA-3-189 | "Set Encrypted Alternate (SEA)" | X'9C' | X'9D' | ❓ |
-| PTOCA-3-190 | "Transparent Data (TRN)" | X'DA' | X'DB' | ❓ |
-| PTOCA-3-191 | "Repeat String (RPS)" | X'EE' | X'EF' | ❓ |
-| PTOCA-3-192 | "No Operation (NOP)" | X'F8' | X'F9' | ❓ |
-| PTOCA-3-193 | Controls for Rules** | ❓ |
-| PTOCA-3-194 | "Draw I-axis Rule (DIR)" | X'E4' | X'E5' | ❓ |
-| PTOCA-3-195 | "Draw B-axis Rule (DBR)" | X'E6' | X'E7' | ❓ |
-| PTOCA-3-196 | Character Controls** | ❓ |
-| PTOCA-3-197 | "Set Text Color (STC)" | X'74' | X'75' | ❓ |
-| PTOCA-3-198 | "Set Extended Text Color (SEC)" | X'80' | X'81' | ❓ |
-| PTOCA-3-199 | Table 4 Summary of PTOCA Control Sequences (cont'd.)** | ❓ |
-| PTOCA-3-200 | "Set Key Information (SKI)" | X'9A' | X'9B' | ❓ |
-| PTOCA-3-201 | "Set Coded Font Local (SCFL)" | X'F0' | X'F1' | ❓ |
-| PTOCA-3-202 | "Begin Suppression (BSU)" | X'F2' | X'F3' | ❓ |
-| PTOCA-3-203 | "End Suppression (ESU)" | X'F4' | X'F5' | ❓ |
-| PTOCA-3-204 | Field Controls** | ❓ |
-| PTOCA-3-205 | "Overstrike (OVS)" | X'72' | X'73' | ❓ |
-| PTOCA-3-206 | "Underscore (USC)" | X'76' | X'77' | ❓ |
-| PTOCA-3-207 | "Temporary Baseline Move (TBM)" | X'78' | X'79' | ❓ |
-| PTOCA-3-208 | Table 5. Explanation of Symbols Used in Tables** | ❓ |
-| PTOCA-3-209 | Ic | Current inline addressable position | ❓ |
-| PTOCA-3-210 | Bc | Current baseline addressable position | ❓ |
-| PTOCA-3-211 | Icnew | New current inline addressable position | ❓ |
-| PTOCA-3-212 | Bcnew | New current baseline addressable position | ❓ |
-| PTOCA-3-213 | Io | Inline addressable position at origin | ❓ |
-| PTOCA-3-214 | Bo | Baseline addressable position at origin | ❓ |
-| PTOCA-3-215 | Ih | Initial I-axis coordinate established by data stream | ❓ |
-| PTOCA-3-216 | Bh | Initial B-axis coordinate established by data stream | ❓ |
-| PTOCA-3-217 | Imargin | I-axis coordinate at left margin | ❓ |
-| PTOCA-3-218 | Best | Established B-axis coordinate | ❓ |
-| PTOCA-3-219 | CI | Character increment specified by font resource | ❓ |
-| PTOCA-3-220 | ADJSTMNT | Intercharacter adjustment (increment or decrement) | ❓ |
-| PTOCA-3-221 | VSI | Variable Space Character increment | ❓ |
-| PTOCA-3-222 | CHAR | Any character with CI > 0 (non-null character) | ❓ |
-| PTOCA-3-223 | NULLCHAR | Any character with CI = 0 (null character) | ❓ |
-| PTOCA-3-224 | Table 6. Summary of Directive Control Sequences** | ❓ |
-| PTOCA-3-225 | Absolute Move Baseline | AMB | DSPLCMNT | Bcnew = Bo + DSPLCMNT | ❓ |
-| PTOCA-3-226 | Absolute Move Inline | AMI | DSPLCMNT | Icnew = Io + DSPLCMNT | ❓ |
-| PTOCA-3-227 | Begin Line | BLN | None | Icnew = Imargin, Bcnew = Bc + INCRMENT, Best = Best + INCRMENT | ❓ |
-| PTOCA-3-228 | Begin Suppression | BSU | LID | Do not present text following this control through next ESU with same LID, if LID is active at controlling environment level. | ❓ |
-| PTOCA-3-229 | Draw B-Axis Rule | DBR | RLENGTH, RWIDTH | Draw rule in B-direction from Bc to Bc + RLENGTH. Rule width = RWIDTH. Ic and Bc are unchanged. | ❓ |
-| PTOCA-3-230 | Draw I-Axis Rule | DIR | RLENGTH, RWIDTH | Draw rule in I-direction from Ic to Ic + RLENGTH. Rule width = RWIDTH. Ic and Bc are unchanged. | ❓ |
-| PTOCA-3-231 | Encrypted Data | ENC | ENCDATA | Encrypted bytes that must be decrypted into text characters for standard text processing. | ❓ |
-| PTOCA-3-232 | End Suppression | ESU | LID | End suppression of characters if same LID as preceding BSU. | ❓ |
-| PTOCA-3-233 | Table 6 Summary of Directive Control Sequences (cont'd.)** | ❓ |
-| PTOCA-3-234 | Glyph Advance Run | GAR | ADVANCE | Specifies the displacement of glyphs along the current baseline. | ❓ |
-| PTOCA-3-235 | Glyph ID Run | GIR | GLYPHID | Specifies the IDs of glyphs to be placed along the current baseline. | ❓ |
-| PTOCA-3-236 | Glyph Layout Control | GLC | IADVNCE, OIDLGTH, FFNLGTH, FONTOID, FFONTNME | Specifies control information for the start of one or more glyph runs along the current baseline. | ❓ |
-| PTOCA-3-237 | Glyph Offset Run | GOR | OFFSET | Specifies offsets of glyphs above or below the current baseline. | ❓ |
-| PTOCA-3-238 | No Operation | NOP | IGNDATA | Ignore bytes IGNDATA. No change to Ic or Bc. | ❓ |
-| PTOCA-3-239 | Relative Move Baseline | RMB | INCRMENT | Bcnew = Bc + INCRMENT | ❓ |
-| PTOCA-3-240 | Relative Move Inline | RMI | INCRMENT | Icnew = Ic + INCRMENT | ❓ |
-| PTOCA-3-241 | Repeat String | RPS | RLENGTH, RPTDATA | Repeat RPTDATA until RLENGTH bytes from RPTDATA have been presented. | ❓ |
-| PTOCA-3-242 | Transparent Data | TRN | TRNDATA | Process all code points in TRNDATA as characters. | ❓ |
-| PTOCA-3-243 | Unicode Complex Text | UCT | UCTVERS, CTLNGTH, CTFLGS, BIDICT, GLYPHCT, ALTIPOS | Process the next CTLNGTH Unicode code points as complex text. | ❓ |
-| PTOCA-3-244 | Table 7. Summary of Modal Control Sequences** | ❓ |
-| PTOCA-3-245 | Set Baseline Increment | SBI | INCRMENT | Upon execution of BLN, Bcnew = Bc + INCRMENT. | ❓ |
-| PTOCA-3-246 | Set Coded Font Local | SCFL | LID | Establish active font, character rotation, and font modification parameters. | ❓ |
-| PTOCA-3-247 | Set Encrypted Alternate | SEA | ALTTEXT | Sets the alternate text to be used if the decryption of encrypted bytes in the Encrypted Data (ENC) control sequences that follow should fail. | ❓ |
-| PTOCA-3-248 | Set Extended Text Color | SEC | COLSPCE, COLSIZE1, COLSIZE2, COLSIZE3, COLSIZE4, COLVALUE | Set process color and highlight color for text, rules, and underscores. | ❓ |
-| PTOCA-3-249 | Table 7 Summary of Modal Control Sequences (cont'd.)** | ❓ |
-| PTOCA-3-250 | Set Intercharacter Adjustment | SIA | ADJSTMNT, DIRCTION | If current character follows another character, Icnew = Ic +/- ADJSTMNT. Present character: Icnew = Ic + character increment. DIRCTION = 0 means ADJSTMNT is positive, DIRCTION = 1 means ADJSTMNT is negative. | ❓ |
-| PTOCA-3-251 | Set Inline Margin | SIM | DSPLCMNT | Upon execution of BLN, Icnew = Io + DSPLCMNT = Imargin. | ❓ |
-| PTOCA-3-252 | Set Key Information | SKI | KEYINFO | Sets the encryption key information used to decrypt data for all Encrypted Data (ENC) control sequences that follow. | ❓ |
-| PTOCA-3-253 | Set Text Color | STC | FRGCOLOR | Set named color for text, rules, and underscores. | ❓ |
-| PTOCA-3-254 | Set Text Orientation | STO | IORNTION, BORNTION | Establish angle of I-axis and B-axis with respect to Xp-axis. | ❓ |
-| PTOCA-3-255 | Set Variable Space Character Increment | SVI | INCRMENT | Establish character increment of Variable Space Character. | ❓ |
-| PTOCA-3-256 | Table 8. Summary of Field Control Sequences** | ❓ |
-| PTOCA-3-257 | Overstrike | OVS | BYPSIDEN, OVERCHAR | Overstrike following text with OVERCHAR. BYPSIDEN controls overstrike of white space. BYPSIDEN = 0 terminates. Baseline reference is Bc. | ❓ |
-| PTOCA-3-258 | Underscore | USC | BYPSIDEN | Underscore following text. BYPSIDEN controls underscore of white space. BYPSIDEN = 0 terminates. Baseline reference is Best. | ❓ |
-| PTOCA-3-259 | Temporary Baseline Move | TBM | DIRCTION, PRECSION, INCRMENT | Create temporary baseline at Bcnew = Bc + INCRMENT. Best is unchanged. | ❓ |
-| PTOCA-3-260 | Unit base | ❓ |
-| PTOCA-3-261 | Xp-units per unit base | ❓ |
-| PTOCA-3-262 | Yp-units per unit base | ❓ |
-| PTOCA-3-263 | Xp-extent of the presentation space | ❓ |
-| PTOCA-3-264 | Yp-extent of the presentation space | ❓ |
-| PTOCA-3-265 | Initial text conditions | ❓ |
-| PTOCA-3-266 | The initial text conditions are values provided by the Presentation Text Data Descriptor to initialize the modal parameters of the control sequences. Modal control sequences typically are characterized by the word *set* in the name of the control sequence. Modal parameters are identified as such in their semantic descriptions. | ❓ |
-| PTOCA-3-267 | Baseline increment | ❓ |
-| PTOCA-3-268 | Extended text color | ❓ |
-| PTOCA-3-269 | Coded font local ID | ❓ |
-| PTOCA-3-270 | Initial baseline coordinate | ❓ |
-| PTOCA-3-271 | Initial inline coordinate | ❓ |
-| PTOCA-3-272 | Inline margin | ❓ |
-| PTOCA-3-273 | Intercharacter adjustment | ❓ |
-| PTOCA-3-274 | Text color | ❓ |
-| PTOCA-3-275 | Text orientation | ❓ |
-| PTOCA-3-276 | The following pages contain summary descriptions of the initial text conditions. Please refer to "Objects" for detailed descriptions of semantics and pragmatics. Also see the corresponding control sequence, if appropriate, for additional information. | ❓ |
-| PTOCA-3-277 | Specifies the value to be used for the increment parameter of the Set Baseline Increment control sequence. This increment represents the number of measurement units to be added to the B-axis coordinate of the current presentation position, Bc, when a Begin Line control sequence is processed. The current I-axis coordinate, Ic, is unchanged. The default value is the Default Baseline Increment associated with the default coded font of the device. | ❓ |
-| PTOCA-3-278 | Specifies the value to be used as the LID in the Set Coded Font Local control sequence. This LID represents an index into a font map of the controlling environment used in the determination of which font, character rotation, and font modification parameters have been selected for use in the object. The default value is the LID of the default font of the device. | ❓ |
-| PTOCA-3-279 | Specifies a foreground spot (highlight) color or process color to be used to present graphic characters, rules, and underscores. | ❓ |
-| PTOCA-3-280 | Specifies the value of the current presentation position B-axis coordinate, Bc. This value represents the displacement in the B-direction from the I-axis for the initial position for presentation of graphic characters or processing of control sequences. The default value is device-dependent. | ❓ |
-| PTOCA-3-281 | Specifies the value of the current presentation position I-axis coordinate, Ic. This value represents the displacement in the I-direction from the B-axis for the initial position for presentation of graphic characters or processing of control sequences. The default value is zero. | ❓ |
-| PTOCA-3-282 | Specifies the value to be used for the displacement parameter of the Set Inline Margin control sequence. This value represents the I-axis coordinate of the presentation position nearest to the B-axis after a Begin Line control sequence is processed. The default value is zero. | ❓ |
-| PTOCA-3-283 | Specifies the value to be used for the adjustment parameter of the Set Intercharacter Adjustment control sequence. This value represents the number of measurement units by which the I-axis coordinate of the current presentation position is adjusted when the SIA control sequence is processed. The direction of the adjustment is determined by the direction parameter. If the direction is positive, the adjustment is added; if negative, the adjustment is subtracted. The default value is zero for both the adjustment parameter and the direction parameter. | ❓ |
-| PTOCA-3-284 | Specifies a foreground named color value to be used to present text, rules, and underscores. A foreground color parameter value represents an index into the color-value table in Table 13. The default value is X'FF07'. | ❓ |
-| PTOCA-3-285 | Specifies the angular displacement values to be used for the I-axis orientation and the B-axis orientation parameters of the Set Text Orientation control sequence. The I-axis value represents the positive I-axis orientation as an angular displacement from the Xp-axis, and the resultant I-direction. The B-axis value represents the positive B-axis orientation as an angular displacement from the Xp-axis, and the resultant B-direction. The default value for the I-axis is X'0000', that is, zero degrees. The default value for the B-axis is X'2D00', that is, 90 degrees. | ❓ |
-| PTOCA-4-001 | Describes the role of parameters | ❓ |
-| PTOCA-4-002 | Explains documentation conventions used in this chapter | ❓ |
-| PTOCA-4-003 | Provides a detailed description of the control sequence | ❓ |
-| PTOCA-4-004 | Explains how graphic characters are processed | ❓ |
-| PTOCA-4-005 | Provides a detailed description of the Presentation Text data | ❓ |
-| PTOCA-4-006 | Provides a detailed description of the Presentation Text Data Descriptor | ❓ |
-| PTOCA-4-007 | current values each time presentation of a Presentation Text object begins. | ❓ |
-| PTOCA-4-008 | . A receiver may determine the maximum | ❓ |
-| PTOCA-4-009 | . Two bytes considered together are sixteen bits, called bits 0 - 15. Bit 0 is in the high-order | ❓ |
-| PTOCA-4-010 | . The first byte received is the high-order byte, that is, bits 0 - 7. The | ❓ |
-| PTOCA-4-011 | the same parameter in the current object according to the hierarchy. | ❓ |
-| PTOCA-4-012 | Table 9. Parameter Specification Hierarchy** | ❓ |
-| PTOCA-4-013 | Measurement Units | | X | Receiver dependent | ❓ |
-| PTOCA-4-014 | Size | | X | Receiver dependent | ❓ |
-| PTOCA-4-015 | Baseline Increment | X | X | Receiver dependent, should be based on the coded font | ❓ |
-| PTOCA-4-016 | Suppression identifier | | | None | ❓ |
-| PTOCA-4-017 | Coded Font Local ID | X | X | Receiver dependent | ❓ |
-| PTOCA-4-018 | Intercharacter Adjustment | X | X | 0 | ❓ |
-| PTOCA-4-019 | Intercharacter Direction | X | X | 0 | ❓ |
-| PTOCA-4-020 | Inline Margin | X | X | 0 | ❓ |
-| PTOCA-4-021 | Initial Baseline Coordinate | | X | Receiver dependent | ❓ |
-| PTOCA-4-022 | Initial Inline Coordinate | | X | 0 | ❓ |
-| PTOCA-4-023 | Foreground Color | X | X | X'FF07' | ❓ |
-| PTOCA-4-024 | Text Orientation | X | X | 0,90 | ❓ |
-| PTOCA-4-025 | Rule Length | X | | None | ❓ |
-| PTOCA-4-026 | Rule Width | X | | Receiver dependent | ❓ |
-| PTOCA-4-027 | Overstrike Bypass Identifiers | X | | X'01' | ❓ |
-| PTOCA-4-028 | Overstrike Character | X | | Coded font dependent | ❓ |
-| PTOCA-4-029 | Temporary Baseline Increment | X | | ½ the Baseline Increment | ❓ |
-| PTOCA-4-030 | Temporary Baseline Direction | X | | 0 | ❓ |
-| PTOCA-4-031 | Temporary Baseline Precision | X | | 0 | ❓ |
-| PTOCA-4-032 | Underscore Bypass Identifiers | X | | X'01' | ❓ |
-| PTOCA-4-033 | Variable Space Character Code | | | Coded font dependent | ❓ |
-| PTOCA-4-034 | Variable Space Character Increment | X | | Coded font dependent | ❓ |
-| PTOCA-4-035 | Alternate Text | X | | None | ❓ |
-| PTOCA-4-036 | Key Information | X | | None | ❓ |
-| PTOCA-4-037 | Key Information X None | ❓ |
-| PTOCA-4-038 | object supports only one type of control sequence. | ❓ |
-| PTOCA-4-039 | A one-byte prefix, X'2B' | ❓ |
-| PTOCA-4-040 | A one-byte class, X'D3' | ❓ |
-| PTOCA-4-041 | A one-byte length | ❓ |
-| PTOCA-4-042 | A one-byte function type | ❓ |
-| PTOCA-4-043 | A one-byte length | ❓ |
-| PTOCA-4-044 | A one-byte function type | ❓ |
-| PTOCA-4-045 | chained or unchained. | ❓ |
-| PTOCA-4-046 | types, both unchained and chained. | ❓ |
-| PTOCA-4-047 | A previous modal control sequence in the current Presentation Text object | ❓ |
-| PTOCA-4-048 | Externally to the Presentation Text object | ❓ |
-| PTOCA-4-049 | By default | ❓ |
-| PTOCA-4-050 | of the text object space can be set to any value in the allowed range. | ❓ |
-| PTOCA-4-051 | hierarchical default value for that parameter. The hierarchical default values are listed in Table 9. | ❓ |
-| PTOCA-4-052 | Syntax:** A Control Sequence Introducer can appear only at the beginning of a control sequence. | ❓ |
-| PTOCA-4-053 | An unchained Control Sequence Introducer has the following format: | ❓ |
-| PTOCA-4-054 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
-| PTOCA-4-055 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-056 | 2 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-057 | 3 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-058 | A chained Control Sequence Introducer has the following format: | ❓ |
-| PTOCA-4-059 | 0 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-060 | 1 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-061 | Pragmatics: A Control Sequence Introducer immediately precedes the data portion of a control sequence. | ❓ |
-| PTOCA-4-062 | This mode of interpretation continues until the control sequence or control sequence chain is terminated. | ❓ |
-| PTOCA-4-063 | ignore the control sequence. | ❓ |
-| PTOCA-4-064 | If a mandatory parameter is missing from the control sequence, the standard action is to ignore the control | ❓ |
-| PTOCA-4-065 | If the control sequence is longer than specified, the standard action is to ignore only the undefined | ❓ |
-| PTOCA-4-066 | , is one measurement unit beyond the I-extent. | ❓ |
-| PTOCA-4-067 | A font may contain smaller graphic characters which are designed to appear as superscripts or subscripts. | ❓ |
-| PTOCA-4-068 | A font may consist entirely of graphic characters which are designed so that they will appear as superscripts | ❓ |
-| PTOCA-4-069 | A font may be designed without smaller characters for use as superscripts and subscripts. With a font like | ❓ |
-| PTOCA-4-070 | Nested superscripts and subscripts, that is, superscripts and subscripts of superscripts or subscripts | ❓ |
-| PTOCA-4-071 | Mathematical symbols of different sizes, for example, integrals, sums, products, and exponents | ❓ |
-| PTOCA-4-072 | Specially stylized superscripts or subscripts, such as italic characters and Greek letters | ❓ |
-| PTOCA-4-073 | Table 10. Equations for Graphic Character Presentation** | ❓ |
-| PTOCA-4-074 | Enter Object** | Use initial values from data stream | $I_c$ = $I_h$, $B_c$ = $B_h$ | ❓ |
-| PTOCA-4-075 | Or use default initial values | $I_c$ = $I_o$ = 0, $B_c$ = $B_o$ = 0 | ❓ |
-| PTOCA-4-076 | Present character, general case** | $B_c$ = $B_o$ = 0 | ❓ |
-| PTOCA-4-077 | Present variable space character | $I_{cnew}$ = $I_c$ + VSI | ❓ |
-| PTOCA-4-078 | Present graphic character | $I_{cnew}$ = $I_c$ + CI | ❓ |
-| PTOCA-4-079 | Present character, specific cases** | **Following incrementing character:** | ❓ |
-| PTOCA-4-080 | Present first character (incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT | ❓ |
-| PTOCA-4-081 | Followed by second character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI | ❓ |
-| PTOCA-4-082 | $I_{cnew}$ = $I_c$ +/- ADJSTMNT | ❓ |
-| PTOCA-4-083 | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI | ❓ |
-| PTOCA-4-084 | Following incrementing character:** | ❓ |
-| PTOCA-4-085 | Present first character (non-incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT | ❓ |
-| PTOCA-4-086 | Present second character (incrementing) | Present first character (non-incrementing): $I_{cnew}$ = $I_c$ | ❓ |
-| PTOCA-4-087 | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI | ❓ |
-| PTOCA-4-088 | Following incrementing character:** | ❓ |
-| PTOCA-4-089 | Present Variable Space Character | $I_{cnew}$ = $I_c$ + VSI | ❓ |
-| PTOCA-4-090 | Followed by first character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI | ❓ |
-| PTOCA-4-091 | This table shows how the $I_{cnew}$ coordinate is modified during the presentation of characters. | ❓ |
-| PTOCA-4-092 | Figure 9. Presentation Position with Intercharacter Adjustment | ❓ |
-| PTOCA-4-093 | Figure 11. Between-the-Pels Illustrations for Baseline Rules | ❓ |
-| PTOCA-4-094 | EC-1E01...A mandatory parameter is missing. | ❓ |
-| PTOCA-4-095 | EC-1C01...The control sequence class is invalid. | ❓ |
-| PTOCA-4-096 | EC-1E01...The control sequence length is not valid. | ❓ |
-| PTOCA-4-097 | EC-1E01...An optional parameter is partially missing. | ❓ |
-| PTOCA-4-098 | EC-0001...The control sequence function type is invalid. | ❓ |
-| PTOCA-4-099 | EC-2100...The Presentation Text object contains a graphic character code point that is not defined in the | ❓ |
-| PTOCA-4-100 | EC-0103...An attempt is made to present a character or a rule outside of the object space. | ❓ |
-| PTOCA-4-101 | The V ariable Space Character, which is normally X'40' for EBCDIC single-byte fonts, X'20' for ASCII single- | ❓ |
-| PTOCA-4-102 | The Control Sequence Prefix, which is X'2B'. | ❓ |
-| PTOCA-4-103 | sequences be chained. | ❓ |
-| PTOCA-4-104 | Offset refers to the position of a parameter. | ❓ |
-| PTOCA-4-105 | Type denotes the syntax of the parameter by data type. Please see “Parameter Data Types” for | ❓ |
-| PTOCA-4-106 | Name is a short field name suitable for coding. | ❓ |
-| PTOCA-4-107 | Range denotes the smallest and largest valid values that may occur in this field. Negative numbers are | ❓ |
-| PTOCA-4-108 | Meaning gives an explanatory or descriptive name for the parameter. | ❓ |
-| PTOCA-4-109 | M/O refers to the parameter's appearance in the control sequence. O means that the parameter is optional. | ❓ |
-| PTOCA-4-110 | Def refers to the existence of a PTOC A default value for the parameter which is to be used when no explicit | ❓ |
-| PTOCA-4-111 | Ind specifies the validity of the default indicator. Y means that the default indicator is valid. N means that the | ❓ |
-| PTOCA-4-112 | 1. Calculate the number of actual supported units per inch (X) as follows: | ❓ |
-| PTOCA-4-113 | If the measurement base is ten inches, divide the number of supported units per ten inches by 10. | ❓ |
-| PTOCA-4-114 | If the measurement base is ten centimeters, multiply the number of supported units per ten centimeters | ❓ |
-| PTOCA-4-115 | 2. Calculate the ratio of actual supported units per inch (X) to the assumed 1,440 units per inch as follows: | ❓ |
-| PTOCA-4-116 | Divide (X) by 1,440, yielding the ratio (Y). | ❓ |
-| PTOCA-4-117 | 3. Calculate the new range value in the supported measurement units as follows: | ❓ |
-| PTOCA-4-118 | Convert the old range value to base ten; then multiply it by the ratio (Y). | ❓ |
-| PTOCA-4-119 | Round to the nearest integer. | ❓ |
-| PTOCA-4-120 | 1. Supported units per inch = 2,400 ÷ 10 = 240 | ❓ |
-| PTOCA-4-121 | 2. Ratio of supported units per inch to 1,440 units per inch = 240 ÷ 1,440 = 1/6 | ❓ |
-| PTOCA-4-122 | 3. Range at 2,400 units per 10 inches: | ❓ |
-| PTOCA-4-123 | The Absolute Move Baseline control sequence moves the baseline coordinate relative to the I-axis. | ❓ |
-| PTOCA-4-124 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
-| PTOCA-4-125 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-126 | 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-127 | 3 | CODE | TYPE | X'D2' – X'D3' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-128 | 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N | ❓ |
-| PTOCA-4-129 | stream documentation. | ❓ |
-| PTOCA-4-130 | EC-1301...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA. | ❓ |
-| PTOCA-4-131 | EC-0103...The presentation position is outside the object space and presentation is attempted. | ❓ |
-| PTOCA-4-132 | EC-1403...Negative DSPLCMNT is not valid. | ❓ |
-| PTOCA-4-133 | The Absolute Move Inline control sequence moves the inline coordinate position relative to the B-axis. | ❓ |
-| PTOCA-4-134 | 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N | ❓ |
-| PTOCA-4-135 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-136 | 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-137 | 3 | CODE | TYPE | X'C6' – X'C7' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-138 | 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N | ❓ |
-| PTOCA-4-139 | stream documentation. | ❓ |
-| PTOCA-4-140 | for the character being presented. Then presentation of characters may resume. | ❓ |
-| PTOCA-4-141 | EC-1401...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA. | ❓ |
-| PTOCA-4-142 | EC-0103...The presentation position is outside the object space and presentation is attempted. | ❓ |
-| PTOCA-4-143 | The Begin Line control sequence begins a new line. | ❓ |
-| PTOCA-4-144 | 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N | ❓ |
-| PTOCA-4-145 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-146 | 2 | UBIN | LENGTH | 2 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-147 | 3 | CODE | TYPE | X'D8' – X'D9' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-148 | suppressed from the visible output. | ❓ |
-| PTOCA-4-149 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
-| PTOCA-4-150 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-151 | 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-152 | 3 | CODE | TYPE | X'F2' – X'F3' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-153 | 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N | ❓ |
-| PTOCA-4-154 | 9801 exists. The standard action in this case is to ignore the control sequence. Please see the Pragmatics | ❓ |
-| PTOCA-4-155 | corresponding End Suppression control sequence are processed as no-operations. | ❓ |
-| PTOCA-4-156 | Nesting of Begin and End Suppression control sequences is not allowed. If a second Begin Suppression | ❓ |
-| PTOCA-4-157 | If a Begin Suppression control sequence is followed by an End Suppression control sequence that has a | ❓ |
-| PTOCA-4-158 | If an End Suppression control sequence occurs in a Presentation Text object without a previous valid Begin | ❓ |
-| PTOCA-4-159 | If a Begin Suppression control sequence appears in a Presentation Text object with no corresponding End | ❓ |
-| PTOCA-4-160 | object. That is, all of the data following the Begin Suppression control sequence is suppressed. | ❓ |
-| PTOCA-4-161 | EC-9801...The value of the LID is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-162 | EC-0601...Nesting exists. | ❓ |
-| PTOCA-4-163 | EC-0201...The values of the LIDs do not match within a BSU, ESU pair. | ❓ |
-| PTOCA-4-164 | EC-0201...An ESU control sequence occurs without a preceding BSU control sequence. | ❓ |
-| PTOCA-4-165 | EC-0401...A BSU control sequence occurs without a succeeding ESU control sequence. | ❓ |
-| PTOCA-4-166 | The Draw B-axis Rule control sequence draws a rule in the B-direction. | ❓ |
-| PTOCA-4-167 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
-| PTOCA-4-168 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-169 | 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-170 | 3 | CODE | TYPE | X'E6' – X'E7' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-171 | 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N | ❓ |
-| PTOCA-4-172 | 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y | ❓ |
-| PTOCA-4-173 | conversion routine described in “Interpreting Ranges”. | ❓ |
-| PTOCA-4-174 | A is a two-byte binary number from -32,768 through +32,767 | ❓ |
-| PTOCA-4-175 | B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement | ❓ |
-| PTOCA-4-176 | For extensions in the B-direction, truncate the rule at the object space boundary. Receivers using character | ❓ |
-| PTOCA-4-177 | For extensions in the I-direction, limit presentation to the portion of the rule that can be presented within the | ❓ |
-| PTOCA-4-178 | For further information on rule positioning, please refer to Figure 11. | ❓ |
-| PTOCA-4-179 | EC-0103...A parameter value will cause the rule to be outside the object space. | ❓ |
-| PTOCA-4-180 | EC-1E01...RLENGTH is missing. | ❓ |
-| PTOCA-4-181 | EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-182 | EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a | ❓ |
-| PTOCA-4-183 | The Draw I-axis Rule control sequence draws a rule in the I-direction. | ❓ |
-| PTOCA-4-184 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
-| PTOCA-4-185 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-186 | 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-187 | 3 | CODE | TYPE | X'E4' – X'E5' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-188 | 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N | ❓ |
-| PTOCA-4-189 | 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y | ❓ |
-| PTOCA-4-190 | conversion routine described in “Interpreting Ranges”. | ❓ |
-| PTOCA-4-191 | A is a two-byte binary number from -32,768 through +32,767 | ❓ |
-| PTOCA-4-192 | B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement | ❓ |
-| PTOCA-4-193 | stream documentation. | ❓ |
-| PTOCA-4-194 | 0103 exists. The standard actions in this case are the following: | ❓ |
-| PTOCA-4-195 | For extensions in the I-direction, truncate the rule at the object space boundary. Receivers using character | ❓ |
-| PTOCA-4-196 | For extensions in the B-direction, presentation is limited to the portion of the rule that can be presented within | ❓ |
-| PTOCA-4-197 | For further information on rule positioning, please refer to Figure 10. | ❓ |
-| PTOCA-4-198 | EC-0103...A parameter value will cause the rule to be outside the object space. | ❓ |
-| PTOCA-4-199 | EC-1E01...RLENGTH is missing. | ❓ |
-| PTOCA-4-200 | EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA. | ❓ |
+| PTOCA-1-001 | This chapter provides a brief overview of Presentation Architecture. | ✅ |
+| PTOCA-1-002 | Figure 1 shows today's presentation environment. | ✅ |
+| PTOCA-1-003 | Figure 1. Presentation Environment.** The environment is a coordinated set of services architected to meet the presentation needs of today's applications. | ✅ |
+| PTOCA-1-004 | Document Creation Services**: import/export, edit/revise, format, scan, transform | ✅ |
+| PTOCA-1-005 | Document Archiving Services**: store, retrieve, index, search, extract | ✅ |
+| PTOCA-1-006 | Document Viewing Services**: browse, navigate, search, clip, annotate, tag | ✅ |
+| PTOCA-1-007 | Document Printing Services**: print, submit, distribute, manage, print, finish | ✅ |
+| PTOCA-1-008 | The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key requirement in almost every application of computers and information processing. This requirement is becoming increasingly difficult to meet because of the number of applications, servers, and devices that must interoperate to satisfy today's presentation needs. | ✅ |
+| PTOCA-1-009 | The solution is a presentation architecture base that is both robust and open ended, and easily adapted to accommodate the growing needs of the open system environment. AFP architectures provide that base by defining interchange formats for data streams and objects that enable applications, services, and devices to communicate with one another to perform presentation functions. These presentation functions might be part of an integrated system solution or they might be totally separated from one another in time and space. AFP architectures provide structures that support object-oriented models and client/server environments. | ✅ |
+| PTOCA-1-010 | AFP architectures define interchange formats that are system independent and are independent of any particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for compressed image data. | ✅ |
+| PTOCA-1-011 | AFP architectures provide the means for representing documents in a data format that is independent of the methods used to capture or create them. Documents can contain combinations of text, image, graphics, and bar code objects in presentation-system-independent and resolution-independent formats. Documents can contain fonts, overlays, and other resource objects required at presentation time to present the data properly. Finally, documents can contain resource objects, such as a document index and tagging elements supporting the search and navigation of document data, for a variety of application purposes. | ✅ |
+| PTOCA-1-012 | The presentation architecture components are divided into two major categories: data streams and objects. | ✅ |
+| PTOCA-1-013 | A data stream is a continuous ordered stream of data elements and objects conforming to a given format. Application programs can generate data streams destined for a presentation service, archive library, presentation device, or another application program. The strategic presentation data stream architectures are: | ✅ |
+| PTOCA-1-014 | Mixed Object Document Content Architecture (MO:DCA) | ✅ |
+| PTOCA-1-015 | Intelligent Printer Data Stream (IPDS) Architecture | ✅ |
+| PTOCA-1-016 | The MO:DCA architecture defines the data stream used by applications to describe documents and object envelopes for interchange with other applications and application services. The MO:DCA format supports storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of documents in local or distributed systems environments. Presentation fidelity is accommodated by including resource objects in the documents that reference them. | ✅ |
+| PTOCA-1-017 | The IPDS architecture defines the data stream used by print server programs and device drivers to manage all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area network-attached (LAN-attached) printers to high-speed, high-volume page printers for production jobs, shared printing, and mailroom applications. The same object content architectures carried in a MO:DCA data stream can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer hardware. The IPDS architecture defines bidirectional command protocols for query, resource management, and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided by pre-processing and post-processing devices attached to IPDS printers. | ✅ |
+| PTOCA-1-018 | Figure 2. Presentation Model.** This diagram shows the major components in a presentation system and their use of data stream and object architectures. | ✅ |
+| PTOCA-1-019 | MO:DCA** to presentation servers | ✅ |
+| PTOCA-1-020 | IPDS** to printers and post processors | ✅ |
+| PTOCA-1-021 | Resource Objects**: Fonts, Overlays, Page Segments, Form Definition, Color Management Resources, Color Table, Document Index, Metadata | ✅ |
+| PTOCA-1-022 | Data Objects**: Text, Image, Graphics, Bar Codes, Object Containers, Other Objects | ✅ |
+| PTOCA-1-023 | Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object content architectures describe the structure and content of each type of data format that can exist in a document or appear in a data stream. Objects can be either data objects or resource objects. | ✅ |
+| PTOCA-1-024 | A data object contains a single type of presentation data, that is, presentation text, vector graphics, raster image, or bar codes, and all of the controls required to present the data. | ✅ |
+| PTOCA-1-025 | A resource object is a collection of presentation instructions and data. These objects are referenced by name in the presentation data stream and can be stored in system libraries so that multiple applications and the print server can use them. | ✅ |
+| PTOCA-1-026 | All object content architectures (OCAs) are totally self-describing and independently defined. When multiple objects are composed on a page, they exist as peer objects that can be individually positioned and manipulated to meet the needs of the presentation application. | ✅ |
+| PTOCA-1-027 | The AFPC-defined object content architectures are: | ✅ |
+| PTOCA-1-028 | Presentation Text Object Content Architecture (PTOCA)**: A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. | ✅ |
+| PTOCA-1-029 | Image Object Content Architecture (IOCA)**: A data architecture for describing resolution-independent image objects captured from a number of different sources. Specifications of recording formats, data compression, color, and grayscale encoding are included in the architecture definition. | ✅ |
+| PTOCA-1-030 | Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA)**: A version of GOCA that is used in Advanced Function Presentation (AFP) environments. GOCA is a data architecture for describing vector graphics picture objects and line art drawings for a variety of applications. Specification of drawing primitives, such as lines, arcs, areas, and their visual attributes, are included in the architecture definition. | ✅ |
+| PTOCA-1-031 | Bar Code Object Content Architecture (BCOCA)**: A data architecture for describing bar code objects, using a number of different symbologies. Specification of the data to be encoded and the symbology attributes to be used are included in the architecture definition. | ✅ |
+| PTOCA-1-032 | Font Object Content Architecture (FOCA)**: A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. | ✅ |
+| PTOCA-1-033 | Color Management Object Content Architecture (CMOCA)**: A resource architecture used to carry the color management information required to render presentation data. | ✅ |
+| PTOCA-1-034 | Metadata Object Content Architecture (MOCA)**: A resource architecture used to carry metadata in an AFP environment. | ✅ |
+| PTOCA-1-035 | The MO:DCA and IPDS architectures also support data objects that are not defined by object content architectures. Examples of such objects are Tag Image File Format (TIFF), Encapsulated PostScript® (EPS), and Portable Document Format (PDF). Such objects can be carried in a MO:DCA envelope called an object container, or they can be referenced without being enveloped in MO:DCA structures. | ✅ |
+| PTOCA-1-036 | In addition to object content architectures, the MO:DCA architecture defines envelope architectures for objects of common value in the presentation environment. Examples of these are Form Definition resource objects for managing the production of pages on the physical media, overlay resource objects that accommodate electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a document. | ✅ |
+| PTOCA-1-037 | Figure 3. Presentation Page.** This is an example of a mixed-object page that can be composed in a presentation-system-independent MO:DCA format and printed on an IPDS printer. | ✅ |
+| PTOCA-1-038 | Presentation Text Object(s) | ✅ |
+| PTOCA-1-039 | Graphics Object | ✅ |
+| PTOCA-1-040 | Image Object | ✅ |
+| PTOCA-1-041 | Letterhead can be an overlay resource containing text, image, and graphics objects | ✅ |
+| PTOCA-1-042 | Object areas can overlap | ✅ |
+| PTOCA-2-001 | The Presentation Text object is the data object used in document processing environments for representing text which has been prepared for presentation. Text, as used here, means an ordered string of characters, such as graphic symbols, numbers, and letters, that are suitable for the specific purpose of representing coherent information. Text which has been prepared for presentation has been reduced to a primitive form through explicit specification of the characters and their placement in the presentation space. Control sequences which designate specific control functions may be embedded within the text. These functions extend the primitive form by applying specific characteristics to the text when it is presented. The collection of the graphic characters and control sequences is called Presentation Text, and the object that contains the Presentation Text is called the Presentation Text object. | ✅ |
+| PTOCA-2-002 | Presentation Text is associated with the output of text information. A Presentation Text object is the description of Presentation text for a portion of a document, the intended connotation being finished product or formatted output. This output version of text contained within the object is in the form specified by Presentation Text Object Content Architecture (PTOCA) and has been designed for direct output on devices, such as displays or printers. | ✅ |
+| PTOCA-2-003 | A Presentation Text object is a device-independent, self-defining representation of a two-dimensional presentation space, called the Presentation Text object space, or object space, which contains the Presentation Text data. The rules of PTOCA specify how the object space is constituted, what the boundaries are for text positioning, what the text content is, and how the text content is to be placed within the object space, using concepts such as sequential order, orientation, and position. | ✅ |
+| PTOCA-2-004 | Architecture Note:** Note that when presentation text is processed in a MO:DCA environment where the Presentation Text Data Descriptor (PTD) is carried in the Active Environment Group (AEG) for the page, or when such text is processed in an IPDS environment, the Presentation Text object is bounded by the beginning of the page and the end of the page. This is sometimes called a text major environment. When the PTD is carried in the Object Environment Group (OEG) of a MO:DCA text object, the text object is bounded by the Begin Presentation Text (BPT) and End Presentation Text (EPT) structured fields. For such objects, the PTD in the AEG is ignored. | ✅ |
+| PTOCA-2-005 | The Presentation Text object space is defined on the Xp, Yp coordinate system, which is an orthogonal coordinate system based on the fourth quadrant of a standard Cartesian coordinate system. The object space is positioned within the data stream's object area. Coincident with the Xp, Yp coordinate system is the I, Bcoordinate system, which is a translation of the Xp, Yp coordinate system. | ✅ |
+| PTOCA-2-006 | The position of the elements in the object space is described in terms of the I, Bcoordinate system. The increasing I-axis is the inline direction, which is normally the reading direction of the text. The increasing B-axis is the baseline direction, which is normally the direction for adding lines of text. | ✅ |
+| PTOCA-2-007 | The basic elements of the object are the graphic characters which are identified as code points of a code page. The identification of graphic characters, their relationship to each other, and the relationship of the code point to the graphic character are given by the coded font selected to present the text. | ✅ |
+| PTOCA-2-008 | The relationship of the elements to the space they occupy is described in terms of their orientation, starting location, and units of measure. | ✅ |
+| PTOCA-2-009 | The positioning of the graphic characters on a line is accomplished by moving the presentation position. Graphic characters may be placed adjacent to one another or positioned anywhere in the object space through the use of control sequences defined by PTOCA. Control sequences have been defined to move the presentation position to another position, to move to the beginning of another line, to adjust the distance between two adjacent characters, to draw lines such as rules, to adjust the distance between lines, to change the font, to specify the color of characters and rules, to overstrike a text field with a specified character, and to underscore a text field. | ✅ |
+| PTOCA-2-010 | National Language Support (NLS) is handled in the level of formatting above the Presentation Text object. Font NLS support is provided in the font mapping function in the controlling environment. | ✅ |
+| PTOCA-3-001 | Summarizes the concepts that form the basis of PTOCA | ✅ |
+| PTOCA-3-002 | Summarizes the data structures in PTOCA | ✅ |
+| PTOCA-3-003 | Formatting from revisable text | ✅ |
+| PTOCA-3-004 | Transformation from other data streams | ✅ |
+| PTOCA-3-005 | Editor or formatting process | ✅ |
+| PTOCA-3-006 | Direct generation process | ✅ |
+| PTOCA-3-007 | Once created, the object can be presented, revised, or used in a resource such as an overlay. It occupies a given amount of space, the object space, and can be located and oriented in a physical area, the object area. The environment that carries the object is the provider of all external relationships for the object, including the object area. | ✅ |
+| PTOCA-3-008 | The object space consists of an array or matrix of addressable positions which identify potential locations at which to place the basic elements of the object, graphic characters. Graphic characters are placed at addressable positions called the presentation positions, rotated relative to a baseline, and have the baseline of a group of characters undergo orientation to various angular positions, such as vertical presentation. These positioning functions are specified by control sequences which are carried along with the graphic characters. The initial positions or beginning values for many of the control sequences are described in a descriptor. | ✅ |
+| PTOCA-3-009 | The Presentation Text object is designed to be carried by and become part of a data stream, called the controlling environment. The data stream defines rules by which the object can be carried. Further information about data streams can be found in Appendix A, "MO:DCA Environment" and Appendix B, "IPDS Environment". | ✅ |
+| PTOCA-3-010 | The Presentation Text Data Descriptor carries the size, shape, and other special information about the object. The data stream is responsible for providing the proper information to the receiver, but PTOCA specifies a hierarchical method for determining the default values to be used by the receiver if the data stream does not supply the requisite information. | ✅ |
+| PTOCA-3-011 | The Presentation Text data contains the code points that identify the graphic characters and the control sequences that specify where and how the graphic characters are to be positioned within the object space. The graphic character code points that represent text information can be specified in a Transparent Data (TRN), a Repeat String (RPS), or a Unicode Complex Text (UCT) control sequence, or they can be specified as free-standing code points that appear between control sequences. Graphic character code points can also be resolved to glyph IDs in a font. These glyph IDs are carried in Glyph Layout Control (GLC) chains for presentation. | ✅ |
+| PTOCA-3-012 | Further information about PTOCA data structures is found under "Presentation Text Data" and "Presentation Text Data Descriptor". | ✅ |
+| PTOCA-3-013 | The control sequences represent the functional capabilities provided by the Presentation Text object. Since receivers of the object might not all have equivalent capabilities, it is convenient to create subsets, also called subset levels, of the total function that is available. The base is a set of functions required in any environment, including the ability to interpret and validate the control sequences and parameters, and to detect and report exception conditions that are within the PTOCA subsets. | ✅ |
+| PTOCA-3-014 | PT1**: Includes a set of relatively primitive control sequences that a receiver is expected to support. | ✅ |
+| PTOCA-3-015 | PT2**: Includes all of the PT1 subset plus new control sequences for underscore, overstrike, superscripts and subscripts. | ✅ |
+| PTOCA-3-016 | PT3**: Includes all of the PT2 subset plus a new control sequence to enable spot (highlight) colors and process colors for text and rules. | ✅ |
+| PTOCA-3-017 | PT4**: Includes new control sequences to support the rendering of complex text. | ✅ |
+| PTOCA-3-018 | The intent of subsets is to reduce the number of combinations of supported controls so that interchange between host processors is manageable. For further information about subsets, see Chapter 6, "Compliance with PTOCA", Appendix A, "MO:DCA Environment", and Appendix B, "IPDS Environment". | ✅ |
+| PTOCA-3-019 | The Presentation Text object space defines the presentation space into which the presented text characters will fit. The object space is the matrix of addressable positions which are available to the generating process that defined it. This space has no relationship to the physical medium or printed page until it is placed in an object area by a composition process as part of the creation of a page or overlay. The Presentation Text object has no concept of pages, although the composition process may create an entire page from one object. | ✅ |
+| PTOCA-3-020 | Positioning of the object space within the object area is accomplished by a mapping within the controlling environment. The object area is the boundary for text presentation by a receiver, and the controlling environment specifies the error recovery action that must occur if any portion of a character or rule violates the object area boundary. The object space is the boundary for the text positioned for presentation. | ✅ |
+| PTOCA-3-021 | 1.  **Xp, Yp coordinate system**: Simulates the reader's view of the object space. | ✅ |
+| PTOCA-3-022 | 2.  **I, Bcoordinate system**: Indicates the direction of the addition of characters to form words and lines, and the direction of the addition of subsequent lines. | ✅ |
+| PTOCA-3-023 | The Xp, Yp coordinate is an orthogonal coordinate system based on the fourth quadrant of a standard Cartesian coordinate system. Both the Xp axis and the Yp axis specify positive values, which is a difference from the Cartesian system where the Y axis in the fourth quadrant specifies negative values. The origin of the coordinate system is in the upper left corner; the positive Xp-axis is from left-to-right, and the positive Yp-axis is from top-to-bottom. The frame of reference for the Xp, Yp coordinate system is provided by the environment's coordinate system for the object area into which the object space is placed. The location of the Xp, Yp coordinate system origin is specified as an offset from the object area's coordinate system origin. | ✅ |
+| PTOCA-3-024 | Xp-origin, Yp-origin | ✅ |
+| PTOCA-3-025 | Xp-extent, Yp-origin | ✅ |
+| PTOCA-3-026 | Xp-extent, Yp-extent | ✅ |
+| PTOCA-3-027 | Xp-origin, Yp-extent | ✅ |
+| PTOCA-3-028 | The Xp, Yp coordinate system and the I, Bcoordinate system are closely related, as indicated in Figure 5. In fact, the Xp-extent is equal to one of the I, Bcoordinate extents, either the I-extent or the B-extent, and the Yp-extent is equal to the other. Therefore, the angle between the I-axis and B-axis will be identical to the angle between the Xp-axis and the Yp-axis. The Xp, Yp coordinate system describes the spatial viewport for the reader, while the I, Bcoordinate system describes the directions to be used for presentation and for interpretation by the reader of the graphic characters being presented. | ✅ |
+| PTOCA-3-029 | Figure 4. Presentation Space Definition** | ✅ |
+| PTOCA-3-030 | The I, Bcoordinate system adds a concept of direction to the object space definition. The reader of text comprehends the text by assembling the characters into words or phrases. The direction in which the reader normally constructs the words or phrases is called the inline direction or I-direction. The inline direction for typical Latin-based text is left-to-right, but for languages such as Japanese, or tasks such as labeling graphs, the inline direction may be top-to-bottom or one of the other possible directions. Please see Figure 5. | ✅ |
+| PTOCA-3-031 | Figure 5. I, B Coordinate System Examples** | ✅ |
+| PTOCA-3-032 | The inline direction is also the direction of increasing positive values of *i* along the I-axis, and prescribes the order in which succeeding characters are processed by a receiver. The maximum value of *i* is the I-extent. | ✅ |
+| PTOCA-3-033 | All of the graphic characters placed in the inline direction for a given value of *b* constitute a line. The direction in which successive lines are placed for continued reading of the text is the baseline direction or B-direction. The baseline direction for typical Latin-based text is top-to-bottom, but for other languages, such as Japanese vertical writing, the baseline direction is from right-to-left. The baseline direction is also the direction of increasing positive values of *b* along the B-axis. The maximum value of *b* is the B-extent. | ✅ |
+| PTOCA-3-034 | Although the controlling environment, as a carrier of the Presentation Text object, specifies the layout characteristics of the object presentation, the object, as a self-defining portion, provides the measurement units used by the generator in formatting the data. The Presentation Text object provides for both the English and metric systems of measurement. The measurement units for the object are specified in the Presentation Text Data Descriptor or determined by defaults. Measurement units can be specified so that the Xp-axis and the Yp-axis have different resolutions. | ✅ |
+| PTOCA-3-035 | Measurement units are used throughout PTOCA to identify the units of measure to be used for such things as extents and offsets along the X and Y axes of a coordinate system. | ✅ |
+| PTOCA-3-036 | Unit base**: This value represents the length of the measurement base. It is specified as a one-byte coded value: | ✅ |
+| PTOCA-3-037 | X'00': Ten inches | ✅ |
+| PTOCA-3-038 | X'01': Ten centimeters | ✅ |
+| PTOCA-3-039 | Units per unit base**: This value represents the number of units in the measurement base. It is specified as a two-byte numeric value between 1 and 32,767. | ✅ |
+| PTOCA-3-040 | The term *units of measure* is defined as the measurement base value divided by the value of the units per unit base. | ✅ |
+| PTOCA-3-041 | For example, if the measurement base is 10 inches and the units per unit base value is 5,000, the units of measure are 10 inches / 5000 or one five-hundredth of an inch. Here are some additional examples: | ✅ |
+| PTOCA-3-042 | 1,440 X 1,440 units/inch | 14,400 divisions in 10 inches on both axes | ✅ |
+| PTOCA-3-043 | 80 X 77 units/centimeter | 800 divisions in 10 centimeters on Xp and 770 divisions in 10 centimeters on Yp | ✅ |
+| PTOCA-3-044 | The size of the object space is specified in measurement units. Each addressable position is one measurement unit away from another addressable position in any direction. That is, a specified measurement unit along the Xp-axis separates the addressable positions in the direction parallel to the Xp-axis, and another specified measurement unit along the Yp-axis separates the addressable positions in the direction parallel to the Yp-axis. This creates an array of addressable positions, each of which has the potential of being designated as the position of a graphic character. | ✅ |
+| PTOCA-3-045 | The measurement units thus defined become the measurement units for all linear measurements within the object. The receivers must convert from these measurement units to measurement units for their environment as required, and keep track of rounding errors, making appropriate adjustments as needed to ensure presentation fidelity at a given level of capability. | ✅ |
+| PTOCA-3-046 | The measurement units for angular dimensions are degrees. | ✅ |
+| PTOCA-3-047 | What character is represented by the code point? | ✅ |
+| PTOCA-3-048 | Is the character valid? | ✅ |
+| PTOCA-3-049 | What is the shape of the character? | ✅ |
+| PTOCA-3-050 | The assignment of code points to characters is done by means of a code page or similar encoding structure such as a character map. A code page or character map can be envisioned as a table which contains pairs of values, where the first element of each pair is the code point and the second element is the identifier of the graphic character. The code page also defines the number of bytes required to represent a character, that is, bytes per code point. | ✅ |
+| PTOCA-3-051 | For some font technologies such as the FOCA font technology, the validity of a character may be verified by referring to a graphic character set. A graphic character set is a set of letters, digits, punctuation marks, arithmetic operators, chemical symbols, or other symbols. If the character represented by the code point is not | ✅ |
+| PTOCA-3-052 | contained in the graphic character set, then that character is invalid, and another graphic character must be substituted for it. The active coded font designates what graphic character should be substituted in its place. | ✅ |
+| PTOCA-3-053 | Style: Bodoni | ✅ |
+| PTOCA-3-054 | Size: 10-point | ✅ |
+| PTOCA-3-055 | Weight: bold | ✅ |
+| PTOCA-3-056 | Other characteristics: italic | ✅ |
+| PTOCA-3-057 | This algorithm could consist of a style manual, raster patterns, vector graphic command lists, stroke generation programs, engraved type, or other means of specifying the necessary attributes. The font also specifies the character increment or escapement, that is, the width of the character, and the character reference point or character origin, that is, the point within the graphic pattern which is to be aligned with the presentation position. Within a Presentation Text object, the desired characteristics are specified through a reference to a specific font. The coded font contains the encoding and the shape and metric information which are assigned to each graphic character. The presentation process applies the graphic character code points found within the Presentation Text object to the active coded font in order to determine the presentation characteristics of the characters. The font is managed as a font resource in the controlling environment. A Presentation Text object uses this resource by making reference to the coded font. | ✅ |
+| PTOCA-3-058 | The structure and content of FOCA-based fonts is defined by the Font Object Content Architecture (FOCA), which is described in *Font Object Content Architecture Reference*, AFPC-0007. | ✅ |
+| PTOCA-3-059 | OpenType Specification Version 1.4 (Microsoft Corporation: October 11, 2002), at http://www.microsoft.com/typography/otspec/default.htm | ✅ |
+| PTOCA-3-060 | TrueType Reference Manual (Apple Computer, Inc.: December 18, 2002), at http://developer.apple.com/fonts/TrueType-Reference-Manual | ✅ |
+| PTOCA-3-061 | Graphic characters are the basic elements of the Presentation Text object. The control sequences defined by PTOCA deal with the presentation of these graphic characters regarding either their positioning within the object, or some attribute of their presentation, such as color. | ✅ |
+| PTOCA-3-062 | PTOCA assumes that the graphic characters are identified by one-byte or multi-byte code points that are defined within the encoding structure for a font. Each graphic character thus identified has a defined character reference point or character origin, a character increment or character escapement, and a character baseline that allows them to be correctly positioned along the baseline in the I-direction of the Presentation Text object. Please see Figure 6. | ✅ |
+| PTOCA-3-063 | Figure 6. Horizontal Metrics: TrueType/OpenType Fonts and FOCA Fonts** | ✅ |
+| PTOCA-3-064 | The presentation of a graphic character is accomplished by placing the character reference point or character origin of the graphic character at the presentation position. The presentation position is an I, Bcoordinate pair, that is, an addressable position in the object space. The *b* value is fixed for the current baseline, Bc. The current *i* value, the new presentation position, is calculated from the previous *i* value by adding the character increment or character escapement of the graphic character being presented to the previous value of *i*, that is, the previous presentation position. | ✅ |
+| PTOCA-3-065 | The presentation position in PTOCA designates a between-the-pels position on a presentation surface, not a pel centerline intersection position. The concept of between-the-pels positioning is especially important for the presentation of rules. Please see "Graphic Character Processing" for more information. | ✅ |
+| PTOCA-3-066 | Object generators will determine which characters are to be placed on each line of the object. This does not require that the font be known at generation time in all cases. For fixed pitch fonts where the character increment is a constant value and for fonts utilizing standard metrics, it is possible for any font with the same metrics to be specified without modification to the relative positioning of the graphic characters. | ✅ |
+| PTOCA-3-067 | Spacing between the characters can be modified by an adjustment, which is either an increment or a decrement on the character increment values provided for the graphic characters. In addition, the character increment specified for the space code point may be changed to a different value at any time to provide variation in the spacing between words. | ✅ |
+| PTOCA-3-068 | Lines of graphic characters are ended by moving the presentation position to the beginning of the next line. This may be done using the positioning control sequences or through the use of a control sequence that causes the baseline increment value and the inline margin to set the presentation position to the next line. | ✅ |
+| PTOCA-3-069 | PTOCA is intended to be precise enough to permit multiple products to reproduce the Presentation Text object faithfully. Faithful reproduction includes such aspects as the size and relative positions of graphic characters and strings of graphic characters. The responsibility for faithful reproduction belongs to the process that presents the object. PTOCA is also designed to permit less than faithful reproduction. It is possible to specify exception conditions for which continuation of processing is acceptable. This permits a process that cannot faithfully reproduce the object to continue with its best approximation. If less than faithful reproduction is acceptable for an application, interchange among a larger set of receivers is possible. | ✅ |
+| PTOCA-3-070 | The Presentation Text object uses a control sequence to indicate that a function is to be performed. The control sequence consists of the Control Sequence Introducer and a list of parameters. | ✅ |
+| PTOCA-3-071 | A one-byte prefix, X'2B' | ✅ |
+| PTOCA-3-072 | A one-byte class, X'D3' | ✅ |
+| PTOCA-3-073 | A one-byte length | ✅ |
+| PTOCA-3-074 | A one-byte function type | ✅ |
+| PTOCA-3-075 | Control sequences can be chained together using a chaining convention. Although the first control sequence in a chain has the prefix and class, the remaining chained control sequences do not. Chaining reduces the number of bytes to be handled and removes the need to determine whether the next character is a control sequence or not. Please see Table 4 for a list of PTOCA control sequences, showing both unchained and chained function types. Please see "Control Sequence Chaining" for more information about chaining. | ✅ |
+| PTOCA-3-076 | Graphic characters may be grouped together as character strings to eliminate the necessity of checking for the Control Sequence Prefix. This capability is useful for creating strings of repeated characters. An example is the leader dots in a table of contents. The leader dot graphic character occurs only once per line in the object although it is repeated many times at presentation. | ✅ |
+| PTOCA-3-077 | In addition this capability, when used in conjunction with chaining, allows the object to be described in terms of two parsing modes: control sequences and graphic characters. These two basic modes can then be optimized separately in an implementation. | ✅ |
+| PTOCA-3-078 | Simple line graphic functions have been incorporated to satisfy requirements for figure enclosures, tables, boxes, line drawings, and so on. The capability includes vertical and horizontal rules which may have both the length and the width of the rules specified. | ✅ |
+| PTOCA-3-079 | An ability to restrict the presentation of the graphic characters in a controlled way is provided by the suppression function. Suppression is accomplished by marking the text data to be suppressed and specifying | ✅ |
+| PTOCA-3-080 | an identifier to allow grouping of the marked text data. All data marked with an active suppression identifier is prevented from being presented when the object is processed. The controlling environment specifies which suppression identifiers are active for the object. | ✅ |
+| PTOCA-3-081 | Suppression can be used to create form letters that have portions of the form left blank, or filled in differently, depending on the intended audience of each instance of the letter. | ✅ |
+| PTOCA-3-082 | There are times when it is desirable to place graphic characters in other than the customary upright reading position. For example, when labeling a graph, the graphic characters would be placed upright, but the line would be vertical; that is, the I-direction would be top-to-bottom. The I-direction and B-direction determine the orientation of the text, and an I-direction change is called a change of orientation. However, since the upright position is with respect to the I-axis, when reorientation occurs the characters appear to rotate at the same time. To create a vertical effect, such as in a graph, the graphic characters must also be rotated. Please see Figure 7. This figure illustrates changes in orientation with no change in character rotation. | ✅ |
+| PTOCA-3-083 | Figure 7. Orientation Examples** | ✅ |
+| PTOCA-3-084 | Orientation is specified in degrees in a clockwise direction from the zero-degree starting point. The zero-degree starting point is the I-axis when the I-direction is left-to-right. A change in text orientation may also move the I, Borigin to a different corner of the text object space. Figure 7 shows the location of the I, Borigin for the 8 text orientations. The rotation of the characters is described in terms of angular movement of the character shape with respect to the character baseline, and is specified as part of the selection criteria for fonts. | ✅ |
+| PTOCA-3-085 | Controls are provided in PTOCA to accomplish specialized functions. These functions include underscore, overstrike, superscript, and subscript. | ✅ |
+| PTOCA-3-086 | This group of control sequences follows a modal concept in that, once started, the function does not terminate until stopped. Each control sequence marks the beginning or the ending of a text field for which the function is invoked. The same control sequence syntax with a non-zero parameter value begins the text field, and with a zero parameter value indicates the end of the field. All other control sequences are valid within these text fields without causing termination of the field. | ✅ |
+| PTOCA-3-087 | Underscore is the capability of drawing a line under individual characters or groups of characters. Overstrike is the capability of filling a field with a specific character to provide a marked-out appearance. | ✅ |
+| PTOCA-3-088 | The superscript and subscript functions require the ability to move temporarily from the designated baseline by small amounts. The superscript function requires movement in the negative B-direction, that is, above the baseline. The subscript function requires movement in the positive B-direction, that is, below the baseline. The amount of the incremental moves about the baseline is also variable. This allows a sophisticated implementation to provide a wide range of superscript and subscript capability, to be used, for example, when positioning the various parts of mathematical equations. | ✅ |
+| PTOCA-3-089 | The Unicode standard recommends that text for all languages be stored in the order that it would be read or spoken, without regard to presentation order. With few exceptions, Latin, Cyrillic, and Greek scripts present text in the same order that data processing systems store the text. These exceptions are ligatures which are combinations of characters and accented characters. Traditionally, computer applications encode these combined characters using one encoding point and one graphic character. As an example, most systems encode Latin small ligature ff as one character. | ✅ |
+| PTOCA-3-090 | Complex text languages provide different layouts for the presentation of text and its storage. Bi-directional (BIDI) languages present text normally from right to left; however, some text such as numbers and embedded Latin, Cyrillic, and Greek scripts, are written from left to right. These languages include Arabic, Urdu, Farsi, and Hebrew. | ✅ |
+| PTOCA-3-091 | Data Storage order: my address is SUITE B 100 YORK BLVD richmond hill | ✅ |
+| PTOCA-3-092 | Presentation order: my address is DVLB KROY 100 B ETIUS richmond hill | ✅ |
+| PTOCA-3-093 | Some languages require that characters be presented with different shapes or in a different order than their storage order. Arabic characters can be represented by one of four shapes depending on their position in a word. Arabic characters can also combine to form ligatures. In many south Asian languages, characters may need to be repositioned, reordered, or split, depending on adjacent characters. | ✅ |
+| PTOCA-3-094 | Composition applications that need to present Complex Text will use layout engines such as International Components for Unicode (ICU), Windows® Uniscribe, Apple Advanced Typography, Pango, Scribe, or Graphite, to present text. Each engine has a different implementation. Outputs from the engines will differ somewhat. Some engines have better support for some language scripts than others. | ✅ |
+| PTOCA-3-095 | PTOCA supports consistent text presentation through the Unicode Complex Text (UCT) control sequence and its complementary supporting glyph run control sequences. PTOCA presents text on a line-by-line basis. This means that applications must provide text boundary analysis. ICU provides iterators that support this type of analysis. These break iterators support determining character, word, line-break, and sentence boundaries. The Unicode Standard Annex #29 provides definitions for these boundaries. The ICU User Guide provides examples of boundary analysis. The Unicode BIDI algorithm works best on paragraphs, so the composition application should apply the algorithm before breaking the text into individual lines. | ✅ |
+| PTOCA-3-096 | A font is a collection of images called glyphs. Each glyph in the font has a unique 16-bit id. | ✅ |
+| PTOCA-3-097 | There is a mapping from Unicode code points to glyph ids. Some glyphs may not have a mapping. | ✅ |
+| PTOCA-3-098 | There is a method to get the width of each glyph. | ✅ |
+| PTOCA-3-099 | There is a method to get the position of a control point for each glyph | ✅ |
+| PTOCA-3-100 | Client applications perform boundary analysis and determine text direction runs as necessary. They then call the layout engine to produce an array of glyph indices in display order, an array of x, y position pairs for each glyph, and optionally an array that maps each glyph back to the input text array. | ✅ |
+| PTOCA-3-101 | The MO:DCA Presentation Text Data Descriptor and Presentation Text Data structured fields carry Presentation Text Objects in MO:DCA documents. The Presentation Text object space provides the coordinate system that allows object generators to position graphic characters and glyphs without error. It is the responsibility of the generator to ensure that it positions the graphic characters and glyphs correctly so that they do not exceed the object space. | ✅ |
+| PTOCA-3-102 | If the data contains bi-directional scripts, use the Unicode BIDI algorithm to break the text into directional sequences. The Unicode BIDI algorithm works best with paragraphs, so it must be applied before text is broken into separate lines. | ✅ |
+| PTOCA-3-103 | If multiple TrueType/OpenType fonts are used to present the text, composition applications must identify the individual font that will be used for each substring of text to which the layout engine is applied. This step should be performed prior to, or concurrent with, the script analysis that identifies the appropriate layout engine. The ICU Paragraph Layout API provides class interfaces to represent linked fonts with methods to request the individual font and the extent of the text string to be composed. If the entire Unicode text is not rendered with a single font, the subsequent steps must be repeated for each font and substring. | ✅ |
+| PTOCA-3-104 | The application will need to determine where line breaks occur because PTOCA constrains text output sequences to individual lines. The appropriate position to break text can vary by language or script. The Unicode Standard Annex #29 provides definitions for character, word, line-break, and sentence boundaries. International Components for Unicode provides break iterators that support this type of analysis. The ICU User Guide provides examples of boundary analysis. | ✅ |
+| PTOCA-3-105 | The application will use a layout engine to format text sequences. A text sequence is a run of text that use the same font (e.g. typeface with the same typographic attributes including weight, width, height, posture) where the text accumulates in the same direction. Layout engines normally return: | ✅ |
+| PTOCA-3-106 | Arrays of glyph indices | ✅ |
+| PTOCA-3-107 | Arrays of glyph positions | ✅ |
+| PTOCA-3-108 | The application will then normalize the positions with respect to the origin established for the current text object. | ✅ |
+| PTOCA-3-109 | The application will obtain or calculate the Object Identifier (OID) value of the TrueType/OpenType font used to generate the glyph ID values. This value allows presentation devices to verify that they retrieve the glyphs from the exact same font that the application used. See the *Mixed Object Document Content Architecture Reference*, AFPC-0004 for the definition of the algorithm used to calculate the OID of a TrueType/OpenType font. | ✅ |
+| PTOCA-3-110 | The application will provide the full font name (FFN) of the TrueType/OpenType font used to generate the glyph ID values. This name provides a human-readable identification of the font and is also used to select a specific font in a font collection when the font OID identifies a collection. | ✅ |
+| PTOCA-3-111 | Successful completion of these tasks will result in the application having the presentation data normalized so that it can create the GIR/GAR[/GOR] sequences and the preceding GLC control (the notation "[/GOR]" will be | ✅ |
+| PTOCA-3-112 | A Glyph Layout Control (GLC)** which identifies the start of the complex text position requirements sequence for this text run. The GLC specifies: | ✅ |
+| PTOCA-3-113 | 1.  the advance along the current baseline caused by processing this GLC chain | ✅ |
+| PTOCA-3-114 | 2.  the font OID to identify and validate the font used for the subsequent glyph run control sequences | ✅ |
+| PTOCA-3-115 | 3.  the full font name of the font, which is used to select a specific font from a font collection when the font OID identifies a collection | ✅ |
+| PTOCA-3-116 | One or more groups of**: | ✅ |
+| PTOCA-3-117 | 1.  a Glyph ID Run (GIR) which contains the glyph IDs for this text run | ✅ |
+| PTOCA-3-118 | 2.  a Glyph Advance Run (GAR) which contains the advances in the inline direction for each glyph | ✅ |
+| PTOCA-3-119 | 3.  an optional Glyph Offset Run (GOR) that provides the offsets of each glyph from the baseline. This control provides the ability to position glyphs such as diacritical marks and accents | ✅ |
+| PTOCA-3-120 | An optional Unicode Complex Text (UCT) control sequence** which contains the text encoded in UTF16-BE in data storage order. Use of the UCT is recommended as it provides applications the ability to interpret the sequence of glyphs rendered by the printer. | ✅ |
+| PTOCA-3-121 | The maximum length of a PTOCA control sequence limits a single GIR to no more than 125 glyphs. This means that print applications must be prepared to generate multiple GIR/GAR[/GOR] groupings to support long Unicode encoded text strings. | ✅ |
+| PTOCA-3-122 | If multiple fonts linked to the currently active font are used to render the text, a GLC chain must be generated for each substring that uses a different linked font. The presentation device will use the FONTOID parameter of the GLC to identify and validate the linked font used for the subsequent glyph run control sequences. If the FONTOID parameter identifies a font collection, the presentation device uses the FFONTNME parameter of the GLC to select the specific font from the collection. | ✅ |
+| PTOCA-3-123 | In certain regulatory environments, such as the financial industry, there exists the need to protect customer information such as Personal Identification Numbers (PINs) and Transaction Authentication Numbers (TANs) until presentation time. Typically, this private information must be encrypted, meaning that the code points that make up the character string to be protected cannot appear in the data stream as directly readable code points. Using special algorithms, an encryption/decryption key can be used to turn the character code points into encrypted bytes. | ✅ |
+| PTOCA-3-124 | At presentation time, these encrypted bytes can then be turned back into code points in a character string by applying the same encryption/decryption key to algorithmically convert them back into presentation text. To preserve the security of the data stream, the actual encryption/decryption key does not appear in the data stream; key information is passed instead. The decryption device has a lookup table to correlate the key information with the actual encryption/decryption key to be used for decryption. | ✅ |
+| PTOCA-3-125 | PTOCA has the ability to identify encrypted bytes that represent this protected information. It also provides a means to set the key information for these encrypted bytes to facilitate decryption into code points in a character string at presentation time. If the decryption should fail, a mechanism is provided in PTOCA to substitute alternate text in the place where the decrypted code points were intended to go. | ✅ |
+| PTOCA-3-126 | PTOCA defines exception condition codes that identify the various exception conditions that can arise during the processing of a Presentation Text object. These codes are provided for reference purposes only. PTOCA also specifies a standard action for each exception condition that indicates the recommended action a processor should take when it encounters the exception condition. The manner in which a PTOCA receiver processes exception conditions depends upon the controlling environment. For any PTOCA exception condition the controlling environment may provide its own identifier, which overrides the PTOCA exception condition code. The controlling environment also may provide its own action, which overrides the PTOCA standard action. | ✅ |
+| PTOCA-3-127 | graphic characters to be presented | ✅ |
+| PTOCA-3-128 | control sequences that position them | ✅ |
+| PTOCA-3-129 | modal control sequences that adjust the positions by small amounts | ✅ |
+| PTOCA-3-130 | other functions which cause the text output to be presented with differences in appearance | ✅ |
+| PTOCA-3-131 | The graphic characters are expected to conform to a font representation so that they can be translated from the code point in the object data to the character in the font. The units of measure for linear displacements are derived from the Presentation Text Data Descriptor or from the hierarchical defaults. | ✅ |
+| PTOCA-3-132 | The following pages contain summary descriptions of the PTOCA control sequences. Summary tables are provided following the descriptions. Please see "Control Sequence Detailed Descriptions" for detailed descriptions of syntax, semantics, and pragmatics. | ✅ |
+| PTOCA-3-133 | Establishes the baseline and the current presentation position at a new B-axis coordinate, Bcnew, which is a specified number of measurement units from the I-axis. There is no change to the current I-axis coordinate, Ic. | ✅ |
+| PTOCA-3-134 | Establishes the current presentation position on the baseline at a new I-axis coordinate, Icnew, which is a specified number of measurement units from the B-axis. There is no change to the current B-axis coordinate, Bc. | ✅ |
+| PTOCA-3-135 | Establishes the current presentation position on the baseline with the new I-axis coordinate, Icnew, equal to the inline margin, and the new B-axis coordinate, Bcnew, increased by the amount of the baseline increment from Bc. The baseline increment is established by the Set Baseline Increment control sequence. | ✅ |
+| PTOCA-3-136 | Marks the beginning of a field of presentation text, identified by a local identifier (LID), which is not to be presented when the LID is activated in the controlling environment. This control sequence does not alter the effects of other control sequences within it, except that graphic characters and rules are not presented. | ✅ |
+| PTOCA-3-137 | Suppression of presentation text by more than one control sequence at a time is not allowed; that is, nesting of suppression control sequences is not allowed. | ✅ |
+| PTOCA-3-138 | Draws a line of specified length and specified width in the B-direction from the current presentation position. The location of the current presentation position is unchanged. | ✅ |
+| PTOCA-3-139 | Draws a line of specified length and specified width in the I-direction from the current presentation position. The location of the current presentation position is unchanged. | ✅ |
+| PTOCA-3-140 | Specifies a sequence of encrypted bytes that must be decrypted into a corresponding character string before standard text processing can be performed. | ✅ |
+| PTOCA-3-141 | Marks the end of a field of presentation text, identified by a LID, which is not to be presented when the LID is activated by the controlling environment. | ✅ |
+| PTOCA-3-142 | Specifies the displacement of glyphs along the current baseline. | ✅ |
+| PTOCA-3-143 | Specifies the IDs of glyphs to be placed along the current baseline. | ✅ |
+| PTOCA-3-144 | Specifies control information for the start of one or more glyph runs along the current baseline. | ✅ |
+| PTOCA-3-145 | Specifies offsets of glyphs above or below the current baseline. | ✅ |
+| PTOCA-3-146 | Specifies a string of bytes that are to be ignored. | ✅ |
+| PTOCA-3-147 | Specifies a text field that is to be overstruck with a specified graphic character. The overstrike function is initiated by an OVS control sequence with a non-zero bypass identifier, and is terminated by an OVS control sequence with a zero-value bypass identifier. The fields may not be nested or overlapped. The bypass identifier controls which portions of a line are to be overstruck; this provides for bypassing white space created by AMI, RMI, and space characters. | ✅ |
+| PTOCA-3-148 | Establishes the presentation position on the baseline at a new B-axis coordinate, Bcnew, which is a specified number of measurement units from the current B-axis coordinate, Bc. There is no change to the current I-axis coordinate, Ic. | ✅ |
+| PTOCA-3-149 | Establishes the presentation position on the baseline at a new I-axis coordinate, Icnew, which is a specified number of measurement units from the current I-axis position, Ic. There is no change to the current B-axis coordinate, Bc. | ✅ |
+| PTOCA-3-150 | Specifies a string of characters that are to be repeated until the number of bytes in the graphic characters presented is equal to a specified number of bytes. The string is not checked for control sequences. When the specified number of bytes is equal to the number of bytes in the characters in the data parameter, this control sequence is identical in function to the Transparent Data control sequence. | ✅ |
+| PTOCA-3-151 | Specifies the value of the increment to be added to the B-axis coordinate of the current presentation position, Bc, when a Begin Line control sequence is processed. | ✅ |
+| PTOCA-3-152 | Specifies a LID to be used as an index into the font map of the controlling environment to determine which coded font, character rotation, and font modification parameters have been selected for use in the object. | ✅ |
+| PTOCA-3-153 | Specifies the alternate text used (should the decryption fail) for all Encrypted Data (ENC) control sequences that follow. | ✅ |
+| PTOCA-3-154 | Specifies a color value and defines the color space and encoding for that value. Supports spot (highlight) colors and process colors. The specified color value is applied to foreground areas of the text presentation space, that is, characters, rules, and underscores. | ✅ |
+| PTOCA-3-155 | Specifies the value to be used as the new I-axis coordinate, Icnew, of the new presentation position after a Begin Line control sequence is processed. The new presentation position is the addressable position nearest to the B-axis at which the character reference point of a graphic character may be placed. | ✅ |
+| PTOCA-3-156 | Specifies the increment to be added to or subtracted from the I-axis coordinate of the current presentation position, Ic. The direction parameter indicates whether to add or subtract the increment. If the direction is positive, the increment is added; if negative, the increment is subtracted. This control sequence may be used to compress or expand words for emphasis, improved appearance, or justification. | ✅ |
+| PTOCA-3-157 | Specifies the encryption key information used to decrypt data for all Encrypted Data (ENC) control sequences that follow. | ✅ |
+| PTOCA-3-158 | Specifies a named color value to be applied to foreground areas of the text presentation space, that is, characters, rules, and underscores. The values of the foreground color parameter serve as indexes into the color-value table found in Table 13. | ✅ |
+| PTOCA-3-159 | Establishes the positive I-axis orientation as an angular displacement from the Xp-axis, determining the I-direction. This control sequence also establishes the positive B-axis orientation as an angular displacement from the Xp-axis, determining the B-direction. | ✅ |
+| PTOCA-3-160 | The I-axis must be parallel to one of the Xp, Yp coordinate axes and the B-axis must be parallel to the other. The determination of the orientation and direction of the I-axis and B-axis places the origin of the I, Bcoordinate system at one of the corners of the rectangular object space. | ✅ |
+| PTOCA-3-161 | Specifies the increment to be used as the character increment for the character identified as the Variable Space Character by the font or by the controlling environment. This increment is added to the I-axis coordinate of the current presentation position, Ic, when the Variable Space Character code point is processed in order to establish the new presentation position. This has no effect on the B-axis coordinate value. | ✅ |
+| PTOCA-3-162 | Above**: Direction parameter = 3 | ✅ |
+| PTOCA-3-163 | Below**: Direction parameter = 2 | ✅ |
+| PTOCA-3-164 | Back to the established baseline**: Direction parameter = 1 | ✅ |
+| PTOCA-3-165 | The temporary baseline function is terminated by a TBM control sequence which returns the temporary baseline to the same B-axis coordinate as that of the established baseline. | ✅ |
+| PTOCA-3-166 | Specifies a string of characters that are to be presented, but not checked for control sequences. | ✅ |
+| PTOCA-3-167 | Specifies a text field that is to be underscored. The underscore function is initiated by an Underscore control sequence with a non-zero bypass identifier, and is terminated by a USC control sequence with a bypass identifier of zero. The fields may not be nested or overlapped. The bypass identifier controls which portions of a line are to be underscored; this provides for bypassing white space created by AMI, RMI, and space characters. | ✅ |
+| PTOCA-3-168 | Identifies a sequence of Unicode code points that can be processed as Unicode complex text. The sequence starts with the first byte following the end of the UCT control sequence and ends with the last byte identified by the complex text length parameter in the control sequence. Rendering complex text involves bidirectional (bidi) layout processing and glyph processing. | ✅ |
+| PTOCA-3-169 | Table 4. Summary of PTOCA Control Sequences** | ✅ |
+| PTOCA-3-170 | Inline Controls** | ✅ |
+| PTOCA-3-171 | "Set Inline Margin (SIM)" | X'C0' | X'C1' | ✅ |
+| PTOCA-3-172 | "Set Intercharacter Adjustment (SIA)" | X'C2' | X'C3' | ✅ |
+| PTOCA-3-173 | "Set Variable Space Character Increment (SVI)" | X'C4' | X'C5' | ✅ |
+| PTOCA-3-174 | "Absolute Move Inline (AMI)" | X'C6' | X'C7' | ✅ |
+| PTOCA-3-175 | "Relative Move Inline (RMI)" | X'C8' | X'C9' | ✅ |
+| PTOCA-3-176 | Baseline Controls** | ✅ |
+| PTOCA-3-177 | "Set Baseline Increment (SBI)" | X'D0' | X'D1' | ✅ |
+| PTOCA-3-178 | "Absolute Move Baseline (AMB)" | X'D2' | X'D3' | ✅ |
+| PTOCA-3-179 | "Relative Move Baseline (RMB)" | X'D4' | X'D5' | ✅ |
+| PTOCA-3-180 | "Begin Line (BLN)" | X'D8' | X'D9' | ✅ |
+| PTOCA-3-181 | "Set Text Orientation (STO)" | X'F6' | X'F7' | ✅ |
+| PTOCA-3-182 | Controls for Data Strings** | ✅ |
+| PTOCA-3-183 | "Unicode Complex Text (UCT)" | X'6A' | — | ✅ |
+| PTOCA-3-184 | "Glyph Layout Control (GLC)" | X'6D' | — | ✅ |
+| PTOCA-3-185 | "Glyph ID Run (GIR)" | X'8B' | — | ✅ |
+| PTOCA-3-186 | "Glyph Advance Run (GAR)" | X'8C' | X'8D' | ✅ |
+| PTOCA-3-187 | "Glyph Offset Run (GOR)" | X'8E' | X'8F' | ✅ |
+| PTOCA-3-188 | "Encrypted Data (ENC)" | X'98' | X'99' | ✅ |
+| PTOCA-3-189 | "Set Encrypted Alternate (SEA)" | X'9C' | X'9D' | ✅ |
+| PTOCA-3-190 | "Transparent Data (TRN)" | X'DA' | X'DB' | ✅ |
+| PTOCA-3-191 | "Repeat String (RPS)" | X'EE' | X'EF' | ✅ |
+| PTOCA-3-192 | "No Operation (NOP)" | X'F8' | X'F9' | ✅ |
+| PTOCA-3-193 | Controls for Rules** | ✅ |
+| PTOCA-3-194 | "Draw I-axis Rule (DIR)" | X'E4' | X'E5' | ✅ |
+| PTOCA-3-195 | "Draw B-axis Rule (DBR)" | X'E6' | X'E7' | ✅ |
+| PTOCA-3-196 | Character Controls** | ✅ |
+| PTOCA-3-197 | "Set Text Color (STC)" | X'74' | X'75' | ✅ |
+| PTOCA-3-198 | "Set Extended Text Color (SEC)" | X'80' | X'81' | ✅ |
+| PTOCA-3-199 | Table 4 Summary of PTOCA Control Sequences (cont'd.)** | ✅ |
+| PTOCA-3-200 | "Set Key Information (SKI)" | X'9A' | X'9B' | ✅ |
+| PTOCA-3-201 | "Set Coded Font Local (SCFL)" | X'F0' | X'F1' | ✅ |
+| PTOCA-3-202 | "Begin Suppression (BSU)" | X'F2' | X'F3' | ✅ |
+| PTOCA-3-203 | "End Suppression (ESU)" | X'F4' | X'F5' | ✅ |
+| PTOCA-3-204 | Field Controls** | ✅ |
+| PTOCA-3-205 | "Overstrike (OVS)" | X'72' | X'73' | ✅ |
+| PTOCA-3-206 | "Underscore (USC)" | X'76' | X'77' | ✅ |
+| PTOCA-3-207 | "Temporary Baseline Move (TBM)" | X'78' | X'79' | ✅ |
+| PTOCA-3-208 | Table 5. Explanation of Symbols Used in Tables** | ✅ |
+| PTOCA-3-209 | Ic | Current inline addressable position | ✅ |
+| PTOCA-3-210 | Bc | Current baseline addressable position | ✅ |
+| PTOCA-3-211 | Icnew | New current inline addressable position | ✅ |
+| PTOCA-3-212 | Bcnew | New current baseline addressable position | ✅ |
+| PTOCA-3-213 | Io | Inline addressable position at origin | ✅ |
+| PTOCA-3-214 | Bo | Baseline addressable position at origin | ✅ |
+| PTOCA-3-215 | Ih | Initial I-axis coordinate established by data stream | ✅ |
+| PTOCA-3-216 | Bh | Initial B-axis coordinate established by data stream | ✅ |
+| PTOCA-3-217 | Imargin | I-axis coordinate at left margin | ✅ |
+| PTOCA-3-218 | Best | Established B-axis coordinate | ✅ |
+| PTOCA-3-219 | CI | Character increment specified by font resource | ✅ |
+| PTOCA-3-220 | ADJSTMNT | Intercharacter adjustment (increment or decrement) | ✅ |
+| PTOCA-3-221 | VSI | Variable Space Character increment | ✅ |
+| PTOCA-3-222 | CHAR | Any character with CI > 0 (non-null character) | ✅ |
+| PTOCA-3-223 | NULLCHAR | Any character with CI = 0 (null character) | ✅ |
+| PTOCA-3-224 | Table 6. Summary of Directive Control Sequences** | ✅ |
+| PTOCA-3-225 | Absolute Move Baseline | AMB | DSPLCMNT | Bcnew = Bo + DSPLCMNT | ✅ |
+| PTOCA-3-226 | Absolute Move Inline | AMI | DSPLCMNT | Icnew = Io + DSPLCMNT | ✅ |
+| PTOCA-3-227 | Begin Line | BLN | None | Icnew = Imargin, Bcnew = Bc + INCRMENT, Best = Best + INCRMENT | ✅ |
+| PTOCA-3-228 | Begin Suppression | BSU | LID | Do not present text following this control through next ESU with same LID, if LID is active at controlling environment level. | ✅ |
+| PTOCA-3-229 | Draw B-Axis Rule | DBR | RLENGTH, RWIDTH | Draw rule in B-direction from Bc to Bc + RLENGTH. Rule width = RWIDTH. Ic and Bc are unchanged. | ✅ |
+| PTOCA-3-230 | Draw I-Axis Rule | DIR | RLENGTH, RWIDTH | Draw rule in I-direction from Ic to Ic + RLENGTH. Rule width = RWIDTH. Ic and Bc are unchanged. | ✅ |
+| PTOCA-3-231 | Encrypted Data | ENC | ENCDATA | Encrypted bytes that must be decrypted into text characters for standard text processing. | ✅ |
+| PTOCA-3-232 | End Suppression | ESU | LID | End suppression of characters if same LID as preceding BSU. | ✅ |
+| PTOCA-3-233 | Table 6 Summary of Directive Control Sequences (cont'd.)** | ✅ |
+| PTOCA-3-234 | Glyph Advance Run | GAR | ADVANCE | Specifies the displacement of glyphs along the current baseline. | ✅ |
+| PTOCA-3-235 | Glyph ID Run | GIR | GLYPHID | Specifies the IDs of glyphs to be placed along the current baseline. | ✅ |
+| PTOCA-3-236 | Glyph Layout Control | GLC | IADVNCE, OIDLGTH, FFNLGTH, FONTOID, FFONTNME | Specifies control information for the start of one or more glyph runs along the current baseline. | ✅ |
+| PTOCA-3-237 | Glyph Offset Run | GOR | OFFSET | Specifies offsets of glyphs above or below the current baseline. | ✅ |
+| PTOCA-3-238 | No Operation | NOP | IGNDATA | Ignore bytes IGNDATA. No change to Ic or Bc. | ✅ |
+| PTOCA-3-239 | Relative Move Baseline | RMB | INCRMENT | Bcnew = Bc + INCRMENT | ✅ |
+| PTOCA-3-240 | Relative Move Inline | RMI | INCRMENT | Icnew = Ic + INCRMENT | ✅ |
+| PTOCA-3-241 | Repeat String | RPS | RLENGTH, RPTDATA | Repeat RPTDATA until RLENGTH bytes from RPTDATA have been presented. | ✅ |
+| PTOCA-3-242 | Transparent Data | TRN | TRNDATA | Process all code points in TRNDATA as characters. | ✅ |
+| PTOCA-3-243 | Unicode Complex Text | UCT | UCTVERS, CTLNGTH, CTFLGS, BIDICT, GLYPHCT, ALTIPOS | Process the next CTLNGTH Unicode code points as complex text. | ✅ |
+| PTOCA-3-244 | Table 7. Summary of Modal Control Sequences** | ✅ |
+| PTOCA-3-245 | Set Baseline Increment | SBI | INCRMENT | Upon execution of BLN, Bcnew = Bc + INCRMENT. | ✅ |
+| PTOCA-3-246 | Set Coded Font Local | SCFL | LID | Establish active font, character rotation, and font modification parameters. | ✅ |
+| PTOCA-3-247 | Set Encrypted Alternate | SEA | ALTTEXT | Sets the alternate text to be used if the decryption of encrypted bytes in the Encrypted Data (ENC) control sequences that follow should fail. | ✅ |
+| PTOCA-3-248 | Set Extended Text Color | SEC | COLSPCE, COLSIZE1, COLSIZE2, COLSIZE3, COLSIZE4, COLVALUE | Set process color and highlight color for text, rules, and underscores. | ✅ |
+| PTOCA-3-249 | Table 7 Summary of Modal Control Sequences (cont'd.)** | ✅ |
+| PTOCA-3-250 | Set Intercharacter Adjustment | SIA | ADJSTMNT, DIRCTION | If current character follows another character, Icnew = Ic +/- ADJSTMNT. Present character: Icnew = Ic + character increment. DIRCTION = 0 means ADJSTMNT is positive, DIRCTION = 1 means ADJSTMNT is negative. | ✅ |
+| PTOCA-3-251 | Set Inline Margin | SIM | DSPLCMNT | Upon execution of BLN, Icnew = Io + DSPLCMNT = Imargin. | ✅ |
+| PTOCA-3-252 | Set Key Information | SKI | KEYINFO | Sets the encryption key information used to decrypt data for all Encrypted Data (ENC) control sequences that follow. | ✅ |
+| PTOCA-3-253 | Set Text Color | STC | FRGCOLOR | Set named color for text, rules, and underscores. | ✅ |
+| PTOCA-3-254 | Set Text Orientation | STO | IORNTION, BORNTION | Establish angle of I-axis and B-axis with respect to Xp-axis. | ✅ |
+| PTOCA-3-255 | Set Variable Space Character Increment | SVI | INCRMENT | Establish character increment of Variable Space Character. | ✅ |
+| PTOCA-3-256 | Table 8. Summary of Field Control Sequences** | ✅ |
+| PTOCA-3-257 | Overstrike | OVS | BYPSIDEN, OVERCHAR | Overstrike following text with OVERCHAR. BYPSIDEN controls overstrike of white space. BYPSIDEN = 0 terminates. Baseline reference is Bc. | ✅ |
+| PTOCA-3-258 | Underscore | USC | BYPSIDEN | Underscore following text. BYPSIDEN controls underscore of white space. BYPSIDEN = 0 terminates. Baseline reference is Best. | ✅ |
+| PTOCA-3-259 | Temporary Baseline Move | TBM | DIRCTION, PRECSION, INCRMENT | Create temporary baseline at Bcnew = Bc + INCRMENT. Best is unchanged. | ✅ |
+| PTOCA-3-260 | Unit base | ✅ |
+| PTOCA-3-261 | Xp-units per unit base | ✅ |
+| PTOCA-3-262 | Yp-units per unit base | ✅ |
+| PTOCA-3-263 | Xp-extent of the presentation space | ✅ |
+| PTOCA-3-264 | Yp-extent of the presentation space | ✅ |
+| PTOCA-3-265 | Initial text conditions | ✅ |
+| PTOCA-3-266 | The initial text conditions are values provided by the Presentation Text Data Descriptor to initialize the modal parameters of the control sequences. Modal control sequences typically are characterized by the word *set* in the name of the control sequence. Modal parameters are identified as such in their semantic descriptions. | ✅ |
+| PTOCA-3-267 | Baseline increment | ✅ |
+| PTOCA-3-268 | Extended text color | ✅ |
+| PTOCA-3-269 | Coded font local ID | ✅ |
+| PTOCA-3-270 | Initial baseline coordinate | ✅ |
+| PTOCA-3-271 | Initial inline coordinate | ✅ |
+| PTOCA-3-272 | Inline margin | ✅ |
+| PTOCA-3-273 | Intercharacter adjustment | ✅ |
+| PTOCA-3-274 | Text color | ✅ |
+| PTOCA-3-275 | Text orientation | ✅ |
+| PTOCA-3-276 | The following pages contain summary descriptions of the initial text conditions. Please refer to "Objects" for detailed descriptions of semantics and pragmatics. Also see the corresponding control sequence, if appropriate, for additional information. | ✅ |
+| PTOCA-3-277 | Specifies the value to be used for the increment parameter of the Set Baseline Increment control sequence. This increment represents the number of measurement units to be added to the B-axis coordinate of the current presentation position, Bc, when a Begin Line control sequence is processed. The current I-axis coordinate, Ic, is unchanged. The default value is the Default Baseline Increment associated with the default coded font of the device. | ✅ |
+| PTOCA-3-278 | Specifies the value to be used as the LID in the Set Coded Font Local control sequence. This LID represents an index into a font map of the controlling environment used in the determination of which font, character rotation, and font modification parameters have been selected for use in the object. The default value is the LID of the default font of the device. | ✅ |
+| PTOCA-3-279 | Specifies a foreground spot (highlight) color or process color to be used to present graphic characters, rules, and underscores. | ✅ |
+| PTOCA-3-280 | Specifies the value of the current presentation position B-axis coordinate, Bc. This value represents the displacement in the B-direction from the I-axis for the initial position for presentation of graphic characters or processing of control sequences. The default value is device-dependent. | ✅ |
+| PTOCA-3-281 | Specifies the value of the current presentation position I-axis coordinate, Ic. This value represents the displacement in the I-direction from the B-axis for the initial position for presentation of graphic characters or processing of control sequences. The default value is zero. | ✅ |
+| PTOCA-3-282 | Specifies the value to be used for the displacement parameter of the Set Inline Margin control sequence. This value represents the I-axis coordinate of the presentation position nearest to the B-axis after a Begin Line control sequence is processed. The default value is zero. | ✅ |
+| PTOCA-3-283 | Specifies the value to be used for the adjustment parameter of the Set Intercharacter Adjustment control sequence. This value represents the number of measurement units by which the I-axis coordinate of the current presentation position is adjusted when the SIA control sequence is processed. The direction of the adjustment is determined by the direction parameter. If the direction is positive, the adjustment is added; if negative, the adjustment is subtracted. The default value is zero for both the adjustment parameter and the direction parameter. | ✅ |
+| PTOCA-3-284 | Specifies a foreground named color value to be used to present text, rules, and underscores. A foreground color parameter value represents an index into the color-value table in Table 13. The default value is X'FF07'. | ✅ |
+| PTOCA-3-285 | Specifies the angular displacement values to be used for the I-axis orientation and the B-axis orientation parameters of the Set Text Orientation control sequence. The I-axis value represents the positive I-axis orientation as an angular displacement from the Xp-axis, and the resultant I-direction. The B-axis value represents the positive B-axis orientation as an angular displacement from the Xp-axis, and the resultant B-direction. The default value for the I-axis is X'0000', that is, zero degrees. The default value for the B-axis is X'2D00', that is, 90 degrees. | ✅ |
+| PTOCA-4-001 | Describes the role of parameters | ✅ |
+| PTOCA-4-002 | Explains documentation conventions used in this chapter | ✅ |
+| PTOCA-4-003 | Provides a detailed description of the control sequence | ✅ |
+| PTOCA-4-004 | Explains how graphic characters are processed | ✅ |
+| PTOCA-4-005 | Provides a detailed description of the Presentation Text data | ✅ |
+| PTOCA-4-006 | Provides a detailed description of the Presentation Text Data Descriptor | ✅ |
+| PTOCA-4-007 | current values each time presentation of a Presentation Text object begins. | ✅ |
+| PTOCA-4-008 | . A receiver may determine the maximum | ✅ |
+| PTOCA-4-009 | . Two bytes considered together are sixteen bits, called bits 0 - 15. Bit 0 is in the high-order | ✅ |
+| PTOCA-4-010 | . The first byte received is the high-order byte, that is, bits 0 - 7. The | ✅ |
+| PTOCA-4-011 | the same parameter in the current object according to the hierarchy. | ✅ |
+| PTOCA-4-012 | Table 9. Parameter Specification Hierarchy** | ✅ |
+| PTOCA-4-013 | Measurement Units | | X | Receiver dependent | ✅ |
+| PTOCA-4-014 | Size | | X | Receiver dependent | ✅ |
+| PTOCA-4-015 | Baseline Increment | X | X | Receiver dependent, should be based on the coded font | ✅ |
+| PTOCA-4-016 | Suppression identifier | | | None | ✅ |
+| PTOCA-4-017 | Coded Font Local ID | X | X | Receiver dependent | ✅ |
+| PTOCA-4-018 | Intercharacter Adjustment | X | X | 0 | ✅ |
+| PTOCA-4-019 | Intercharacter Direction | X | X | 0 | ✅ |
+| PTOCA-4-020 | Inline Margin | X | X | 0 | ✅ |
+| PTOCA-4-021 | Initial Baseline Coordinate | | X | Receiver dependent | ✅ |
+| PTOCA-4-022 | Initial Inline Coordinate | | X | 0 | ✅ |
+| PTOCA-4-023 | Foreground Color | X | X | X'FF07' | ✅ |
+| PTOCA-4-024 | Text Orientation | X | X | 0,90 | ✅ |
+| PTOCA-4-025 | Rule Length | X | | None | ✅ |
+| PTOCA-4-026 | Rule Width | X | | Receiver dependent | ✅ |
+| PTOCA-4-027 | Overstrike Bypass Identifiers | X | | X'01' | ✅ |
+| PTOCA-4-028 | Overstrike Character | X | | Coded font dependent | ✅ |
+| PTOCA-4-029 | Temporary Baseline Increment | X | | ½ the Baseline Increment | ✅ |
+| PTOCA-4-030 | Temporary Baseline Direction | X | | 0 | ✅ |
+| PTOCA-4-031 | Temporary Baseline Precision | X | | 0 | ✅ |
+| PTOCA-4-032 | Underscore Bypass Identifiers | X | | X'01' | ✅ |
+| PTOCA-4-033 | Variable Space Character Code | | | Coded font dependent | ✅ |
+| PTOCA-4-034 | Variable Space Character Increment | X | | Coded font dependent | ✅ |
+| PTOCA-4-035 | Alternate Text | X | | None | ✅ |
+| PTOCA-4-036 | Key Information | X | | None | ✅ |
+| PTOCA-4-037 | Key Information X None | ✅ |
+| PTOCA-4-038 | object supports only one type of control sequence. | ✅ |
+| PTOCA-4-039 | A one-byte prefix, X'2B' | ✅ |
+| PTOCA-4-040 | A one-byte class, X'D3' | ✅ |
+| PTOCA-4-041 | A one-byte length | ✅ |
+| PTOCA-4-042 | A one-byte function type | ✅ |
+| PTOCA-4-043 | A one-byte length | ✅ |
+| PTOCA-4-044 | A one-byte function type | ✅ |
+| PTOCA-4-045 | chained or unchained. | ✅ |
+| PTOCA-4-046 | types, both unchained and chained. | ✅ |
+| PTOCA-4-047 | A previous modal control sequence in the current Presentation Text object | ✅ |
+| PTOCA-4-048 | Externally to the Presentation Text object | ✅ |
+| PTOCA-4-049 | By default | ✅ |
+| PTOCA-4-050 | of the text object space can be set to any value in the allowed range. | ✅ |
+| PTOCA-4-051 | hierarchical default value for that parameter. The hierarchical default values are listed in Table 9. | ✅ |
+| PTOCA-4-052 | Syntax:** A Control Sequence Introducer can appear only at the beginning of a control sequence. | ✅ |
+| PTOCA-4-053 | An unchained Control Sequence Introducer has the following format: | ✅ |
+| PTOCA-4-054 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ✅ |
+| PTOCA-4-055 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-056 | 2 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-057 | 3 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-058 | A chained Control Sequence Introducer has the following format: | ✅ |
+| PTOCA-4-059 | 0 | UBIN | LENGTH | 2–255 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-060 | 1 | CODE | TYPE | X'00' – X'FE' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-061 | Pragmatics: A Control Sequence Introducer immediately precedes the data portion of a control sequence. | ✅ |
+| PTOCA-4-062 | This mode of interpretation continues until the control sequence or control sequence chain is terminated. | ✅ |
+| PTOCA-4-063 | ignore the control sequence. | ✅ |
+| PTOCA-4-064 | If a mandatory parameter is missing from the control sequence, the standard action is to ignore the control | ✅ |
+| PTOCA-4-065 | If the control sequence is longer than specified, the standard action is to ignore only the undefined | ✅ |
+| PTOCA-4-066 | , is one measurement unit beyond the I-extent. | ✅ |
+| PTOCA-4-067 | A font may contain smaller graphic characters which are designed to appear as superscripts or subscripts. | ✅ |
+| PTOCA-4-068 | A font may consist entirely of graphic characters which are designed so that they will appear as superscripts | ✅ |
+| PTOCA-4-069 | A font may be designed without smaller characters for use as superscripts and subscripts. With a font like | ✅ |
+| PTOCA-4-070 | Nested superscripts and subscripts, that is, superscripts and subscripts of superscripts or subscripts | ✅ |
+| PTOCA-4-071 | Mathematical symbols of different sizes, for example, integrals, sums, products, and exponents | ✅ |
+| PTOCA-4-072 | Specially stylized superscripts or subscripts, such as italic characters and Greek letters | ✅ |
+| PTOCA-4-073 | Table 10. Equations for Graphic Character Presentation** | ✅ |
+| PTOCA-4-074 | Enter Object** | Use initial values from data stream | $I_c$ = $I_h$, $B_c$ = $B_h$ | ✅ |
+| PTOCA-4-075 | Or use default initial values | $I_c$ = $I_o$ = 0, $B_c$ = $B_o$ = 0 | ✅ |
+| PTOCA-4-076 | Present character, general case** | $B_c$ = $B_o$ = 0 | ✅ |
+| PTOCA-4-077 | Present variable space character | $I_{cnew}$ = $I_c$ + VSI | ✅ |
+| PTOCA-4-078 | Present graphic character | $I_{cnew}$ = $I_c$ + CI | ✅ |
+| PTOCA-4-079 | Present character, specific cases** | **Following incrementing character:** | ✅ |
+| PTOCA-4-080 | Present first character (incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT | ✅ |
+| PTOCA-4-081 | Followed by second character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI | ✅ |
+| PTOCA-4-082 | $I_{cnew}$ = $I_c$ +/- ADJSTMNT | ✅ |
+| PTOCA-4-083 | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI | ✅ |
+| PTOCA-4-084 | Following incrementing character:** | ✅ |
+| PTOCA-4-085 | Present first character (non-incrementing) | $I_{cnew}$ = $I_c$ +/- ADJSTMNT | ✅ |
+| PTOCA-4-086 | Present second character (incrementing) | Present first character (non-incrementing): $I_{cnew}$ = $I_c$ | ✅ |
+| PTOCA-4-087 | Present second character (incrementing): $I_{cnew}$ = $I_c$ + CI | ✅ |
+| PTOCA-4-088 | Following incrementing character:** | ✅ |
+| PTOCA-4-089 | Present Variable Space Character | $I_{cnew}$ = $I_c$ + VSI | ✅ |
+| PTOCA-4-090 | Followed by first character (incrementing) | Present first character (incrementing): $I_{cnew}$ = $I_c$ + CI | ✅ |
+| PTOCA-4-091 | This table shows how the $I_{cnew}$ coordinate is modified during the presentation of characters. | ✅ |
+| PTOCA-4-092 | Figure 9. Presentation Position with Intercharacter Adjustment | ✅ |
+| PTOCA-4-093 | Figure 11. Between-the-Pels Illustrations for Baseline Rules | ✅ |
+| PTOCA-4-094 | EC-1E01...A mandatory parameter is missing. | ✅ |
+| PTOCA-4-095 | EC-1C01...The control sequence class is invalid. | ✅ |
+| PTOCA-4-096 | EC-1E01...The control sequence length is not valid. | ✅ |
+| PTOCA-4-097 | EC-1E01...An optional parameter is partially missing. | ✅ |
+| PTOCA-4-098 | EC-0001...The control sequence function type is invalid. | ✅ |
+| PTOCA-4-099 | EC-2100...The Presentation Text object contains a graphic character code point that is not defined in the | ✅ |
+| PTOCA-4-100 | EC-0103...An attempt is made to present a character or a rule outside of the object space. | ✅ |
+| PTOCA-4-101 | The V ariable Space Character, which is normally X'40' for EBCDIC single-byte fonts, X'20' for ASCII single- | ✅ |
+| PTOCA-4-102 | The Control Sequence Prefix, which is X'2B'. | ✅ |
+| PTOCA-4-103 | sequences be chained. | ✅ |
+| PTOCA-4-104 | Offset refers to the position of a parameter. | ✅ |
+| PTOCA-4-105 | Type denotes the syntax of the parameter by data type. Please see “Parameter Data Types” for | ✅ |
+| PTOCA-4-106 | Name is a short field name suitable for coding. | ✅ |
+| PTOCA-4-107 | Range denotes the smallest and largest valid values that may occur in this field. Negative numbers are | ✅ |
+| PTOCA-4-108 | Meaning gives an explanatory or descriptive name for the parameter. | ✅ |
+| PTOCA-4-109 | M/O refers to the parameter's appearance in the control sequence. O means that the parameter is optional. | ✅ |
+| PTOCA-4-110 | Def refers to the existence of a PTOC A default value for the parameter which is to be used when no explicit | ✅ |
+| PTOCA-4-111 | Ind specifies the validity of the default indicator. Y means that the default indicator is valid. N means that the | ✅ |
+| PTOCA-4-112 | 1. Calculate the number of actual supported units per inch (X) as follows: | ✅ |
+| PTOCA-4-113 | If the measurement base is ten inches, divide the number of supported units per ten inches by 10. | ✅ |
+| PTOCA-4-114 | If the measurement base is ten centimeters, multiply the number of supported units per ten centimeters | ✅ |
+| PTOCA-4-115 | 2. Calculate the ratio of actual supported units per inch (X) to the assumed 1,440 units per inch as follows: | ✅ |
+| PTOCA-4-116 | Divide (X) by 1,440, yielding the ratio (Y). | ✅ |
+| PTOCA-4-117 | 3. Calculate the new range value in the supported measurement units as follows: | ✅ |
+| PTOCA-4-118 | Convert the old range value to base ten; then multiply it by the ratio (Y). | ✅ |
+| PTOCA-4-119 | Round to the nearest integer. | ✅ |
+| PTOCA-4-120 | 1. Supported units per inch = 2,400 ÷ 10 = 240 | ✅ |
+| PTOCA-4-121 | 2. Ratio of supported units per inch to 1,440 units per inch = 240 ÷ 1,440 = 1/6 | ✅ |
+| PTOCA-4-122 | 3. Range at 2,400 units per 10 inches: | ✅ |
+| PTOCA-4-123 | The Absolute Move Baseline control sequence moves the baseline coordinate relative to the I-axis. | ✅ |
+| PTOCA-4-124 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ✅ |
+| PTOCA-4-125 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-126 | 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-127 | 3 | CODE | TYPE | X'D2' – X'D3' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-128 | 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N | ✅ |
+| PTOCA-4-129 | stream documentation. | ✅ |
+| PTOCA-4-130 | EC-1301...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA. | ✅ |
+| PTOCA-4-131 | EC-0103...The presentation position is outside the object space and presentation is attempted. | ✅ |
+| PTOCA-4-132 | EC-1403...Negative DSPLCMNT is not valid. | ✅ |
+| PTOCA-4-133 | The Absolute Move Inline control sequence moves the inline coordinate position relative to the B-axis. | ✅ |
+| PTOCA-4-134 | 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N | ✅ |
+| PTOCA-4-135 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-136 | 2 | UBIN | LENGTH | 4 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-137 | 3 | CODE | TYPE | X'C6' – X'C7' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-138 | 4–5 | SBIN | DSPLCMNT | X'0000' – X'7FFF' | Displacement | M | N | N | ✅ |
+| PTOCA-4-139 | stream documentation. | ✅ |
+| PTOCA-4-140 | for the character being presented. Then presentation of characters may resume. | ✅ |
+| PTOCA-4-141 | EC-1401...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA. | ✅ |
+| PTOCA-4-142 | EC-0103...The presentation position is outside the object space and presentation is attempted. | ✅ |
+| PTOCA-4-143 | The Begin Line control sequence begins a new line. | ✅ |
+| PTOCA-4-144 | 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N | ✅ |
+| PTOCA-4-145 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-146 | 2 | UBIN | LENGTH | 2 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-147 | 3 | CODE | TYPE | X'D8' – X'D9' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-148 | suppressed from the visible output. | ✅ |
+| PTOCA-4-149 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ✅ |
+| PTOCA-4-150 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-151 | 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-152 | 3 | CODE | TYPE | X'F2' – X'F3' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-153 | 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N | ✅ |
+| PTOCA-4-154 | 9801 exists. The standard action in this case is to ignore the control sequence. Please see the Pragmatics | ✅ |
+| PTOCA-4-155 | corresponding End Suppression control sequence are processed as no-operations. | ✅ |
+| PTOCA-4-156 | Nesting of Begin and End Suppression control sequences is not allowed. If a second Begin Suppression | ✅ |
+| PTOCA-4-157 | If a Begin Suppression control sequence is followed by an End Suppression control sequence that has a | ✅ |
+| PTOCA-4-158 | If an End Suppression control sequence occurs in a Presentation Text object without a previous valid Begin | ✅ |
+| PTOCA-4-159 | If a Begin Suppression control sequence appears in a Presentation Text object with no corresponding End | ✅ |
+| PTOCA-4-160 | object. That is, all of the data following the Begin Suppression control sequence is suppressed. | ✅ |
+| PTOCA-4-161 | EC-9801...The value of the LID is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-162 | EC-0601...Nesting exists. | ✅ |
+| PTOCA-4-163 | EC-0201...The values of the LIDs do not match within a BSU, ESU pair. | ✅ |
+| PTOCA-4-164 | EC-0201...An ESU control sequence occurs without a preceding BSU control sequence. | ✅ |
+| PTOCA-4-165 | EC-0401...A BSU control sequence occurs without a succeeding ESU control sequence. | ✅ |
+| PTOCA-4-166 | The Draw B-axis Rule control sequence draws a rule in the B-direction. | ✅ |
+| PTOCA-4-167 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ✅ |
+| PTOCA-4-168 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-169 | 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-170 | 3 | CODE | TYPE | X'E6' – X'E7' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-171 | 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N | ✅ |
+| PTOCA-4-172 | 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y | ✅ |
+| PTOCA-4-173 | conversion routine described in “Interpreting Ranges”. | ✅ |
+| PTOCA-4-174 | A is a two-byte binary number from -32,768 through +32,767 | ✅ |
+| PTOCA-4-175 | B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement | ✅ |
+| PTOCA-4-176 | For extensions in the B-direction, truncate the rule at the object space boundary. Receivers using character | ✅ |
+| PTOCA-4-177 | For extensions in the I-direction, limit presentation to the portion of the rule that can be presented within the | ✅ |
+| PTOCA-4-178 | For further information on rule positioning, please refer to Figure 11. | ✅ |
+| PTOCA-4-179 | EC-0103...A parameter value will cause the rule to be outside the object space. | ✅ |
+| PTOCA-4-180 | EC-1E01...RLENGTH is missing. | ✅ |
+| PTOCA-4-181 | EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-182 | EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a | ✅ |
+| PTOCA-4-183 | The Draw I-axis Rule control sequence draws a rule in the I-direction. | ✅ |
+| PTOCA-4-184 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ✅ |
+| PTOCA-4-185 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-186 | 2 | UBIN | LENGTH | 4, 7 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-187 | 3 | CODE | TYPE | X'E4' – X'E5' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-188 | 4–5 | SBIN | RLENGTH | X'8000' – X'7FFF' | Length | M | N | N | ✅ |
+| PTOCA-4-189 | 6–8 | SBIN | RWIDTH | See Semantics section | Width | O | Y | Y | ✅ |
+| PTOCA-4-190 | conversion routine described in “Interpreting Ranges”. | ✅ |
+| PTOCA-4-191 | A is a two-byte binary number from -32,768 through +32,767 | ✅ |
+| PTOCA-4-192 | B is a one-byte binary fraction with bit 0 denoting 1/2 measurement unit, bit 1 denoting 1/4 measurement | ✅ |
+| PTOCA-4-193 | stream documentation. | ✅ |
+| PTOCA-4-194 | 0103 exists. The standard actions in this case are the following: | ✅ |
+| PTOCA-4-195 | For extensions in the I-direction, truncate the rule at the object space boundary. Receivers using character | ✅ |
+| PTOCA-4-196 | For extensions in the B-direction, presentation is limited to the portion of the rule that can be presented within | ✅ |
+| PTOCA-4-197 | For further information on rule positioning, please refer to Figure 10. | ✅ |
+| PTOCA-4-198 | EC-0103...A parameter value will cause the rule to be outside the object space. | ✅ |
+| PTOCA-4-199 | EC-1E01...RLENGTH is missing. | ✅ |
+| PTOCA-4-200 | EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA. | ✅ |
 | PTOCA-4-201 | EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a | ❓ |
 | PTOCA-4-202 | into text strings for standard text processing. This data is not scanned for embedded control sequences. | ❓ |
 | PTOCA-4-203 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
