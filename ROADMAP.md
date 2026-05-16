@@ -34,10 +34,10 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [IOCA](TEST_COVERAGE_IOCA.md) | 0 | 1587 | 0.0% |
 | [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
-| [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
+| [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **1488** | **20955** | **7.1%** |
+| **Total** | **1661** | **20955** | **7.9%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -147,10 +147,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
 - ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
-- ⏳ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks:
-    - ✅ Chapters 1-3.
-    - ⏳ Chapter 4.
-    - ⏳ Chapters 5-6.
+- ✅ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks.
 - ⏳ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
     - ⏳ Chapters 1-3.
     - ⏳ Chapter 4.

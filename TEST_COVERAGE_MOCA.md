@@ -79,99 +79,99 @@
 | MOCA-3-002 | In the MO:DCA environment, MOs will be carried within an object container (BOC/EOC). | ✅ |
 | MOCA-3-003 | In the IPDS environment, MOs will be carried using the Metadata Command Set, which includes the Write Metadata Control (WMC) and Write Metadata (WM) commands. | ✅ |
 | MOCA-3-004 | Metadata, in general, has no intended presentation semantics. | ✅ |
-| MOCA-4-001 | An MO consists of a header followed by MO data. | ❓ |
-| MOCA-4-002 | This is the syntax of an MO. | ❓ |
-| MOCA-4-003 | Data contained in fixed-length fields that are encoded as UTF-16BE is left-aligned. If the number of bytes used by the characters in these fields is smaller than the field length, the remaining bytes will be padded with “@” (X'0040'). | ❓ |
-| MOCA-4-004 | 4 | 0–3 | UBIN | MOLength | X'00000032' - X'FFFFFFFF' | MO length, including this MOLength field | M | ❓ |
-| MOCA-4-005 | MO header starts here** | ❓ |
-| MOCA-4-006 | 2 | 4–5 | UBIN | HeaderLength | X'002E' - end of header | MO header length, including this HeaderLength field | M | ❓ |
-| MOCA-4-007 | 6 | 6–11 | UTF16 | MOType | DES (X'0044 0045 0053') | Descriptive | M | ❓ |
-| MOCA-4-008 | 8 | 12–19 | UTF16 | MOFormat | AFPT (X'0041 0046 0050 0054') | AFP Tagging | M | ❓ |
-| MOCA-4-009 | XMP (X'0058 004D 0050 0040') | Extensible Metadata Platform (XMP) | ❓ |
-| MOCA-4-010 | 20 | 20–39 | UTF16 | MOCompression | NONE (X'004E 004F 004E 0045 0040 0040 0040 0040 0040 0040') | Uncompressed | M | ❓ |
-| MOCA-4-011 | GZIP (X'0047 005A 0049 0050 0040 0040 0040 0040 0040 0040') | “Gzip” text compression | ❓ |
-| MOCA-4-012 | EXI (X'0045 0058 0049 0040 0040 0040 0040 0040 0040 0040') | Efficient XML Interchange (EXI) compression | ❓ |
-| MOCA-4-013 | 8 | 40–47 | | | X'0000000000000000' | Reserved - should be set to zero | M | ❓ |
-| MOCA-4-014 | 2 | 48–49 | UBIN | MONameLength | X'0000' - X'00FA', even values only | Length, in bytes, of the MOName field that follows | M | ❓ |
-| MOCA-4-015 | 0–250 | 50–end of name | UTF16 | MOName | Any valid UTF-16BE characters (thus an even number of bytes) | A human-readable MO name in UTF-16BE | O | ❓ |
-| MOCA-4-016 | End of name–end of header | | UNDF | | | Reserved for future use; receivers should accept but ignore; generators should not specify | O | ❓ |
-| MOCA-4-017 | MO header ends here** | ❓ |
-| MOCA-4-018 | MOData | | Any MO Data | O | ❓ |
-| MOCA-4-019 | M/O: Mandatory or Optional field* | ❓ |
-| MOCA-4-020 | MOLength**: The length of the complete MO, including the MOLength parameter. MOLength, in bytes, may be 50 (X'00000032') to X'FFFFFFFF'. If an invalid value is found in this field, the optional exception is EC-0100. | ❓ |
-| MOCA-4-021 | HeaderLength**: The length of the MO header, including the HeaderLength parameter. HeaderLength, in bytes, may be any value greater than or equal to 46 (X'002E'). If an invalid value is found in this field, the optional exception is EC-0200. | ❓ |
-| MOCA-4-022 | MOType**: One MOType is defined in the Metadata Object Content Architecture. The defined MOType is DES. See “MOType”. If an invalid or unsupported value is found in this field, the optional exception is EC-0220. | ❓ |
-| MOCA-4-023 | MOFormat**: MOFormat is defined in the Metadata Object Content Architecture to indicate the format of MO data. See “MOFormat”. If an invalid or unsupported value is found in this field, the optional exception is EC-0230. | ❓ |
-| MOCA-4-024 | MOCompression**: MOCompression is defined in the Metadata Object Content Architecture to indicate the type of compression applied to MO data. See “MOCompression”. If an invalid or unsupported value is found in this field, the optional exception is EC-0240. | ❓ |
-| MOCA-4-025 | MONameLength**: The length of the MOName field. MONameLength, in bytes, may be any even value from 0 (X'0000') to 250 (X'00FA'). If an invalid value is found in this field, the optional exception is EC-0250. | ❓ |
-| MOCA-4-026 | MOName**: A user-defined string containing an optional human-readable MO name. This field can contain up to 250 bytes; therefore, if the UTF-16BE string contains no surrogates, the MO name can contain up to 125 characters. If the environment containing the MO has a method of referencing an MO by name, this field is to be used as the name. If an invalid value is found in this field, the optional exception is EC-0210. | ❓ |
-| MOCA-4-027 | MOData**: MO data. The format of the metadata is determined by the value of the MOFormat parameter. If an invalid value is found in this field, the optional exception is EC-0300. | ❓ |
-| MOCA-4-028 | Both recognition and reporting of exception conditions is optional. Exception conditions have a format of EC-xxxx. | ❓ |
-| MOCA-4-029 | The exception conditions are as follows: | ❓ |
-| MOCA-4-030 | EC-0100 Invalid Length Value**: The specified MOLength is invalid. | ❓ |
-| MOCA-4-031 | EC-0200 Invalid Field Value**: The specified HeaderLength is invalid. | ❓ |
-| MOCA-4-032 | EC-0210 Invalid Field Value**: The specified MOName is not valid UTF-16BE. | ❓ |
-| MOCA-4-033 | EC-0220 Invalid or Unsupported Field Value**: The specified MOType is invalid or unsupported. | ❓ |
-| MOCA-4-034 | EC-0230 Invalid or Unsupported Field Value**: The specified MOFormat is invalid or unsupported. | ❓ |
-| MOCA-4-035 | EC-0240 Invalid or Unsupported Field Value**: The specified MOCompression is invalid or unsupported. | ❓ |
-| MOCA-4-036 | EC-0250 Invalid Field Value**: The specified MONameLength is invalid. | ❓ |
-| MOCA-4-037 | EC-0300 Invalid MOData**: The specified MOData does not meet the specification associated with the indicated MOFormat. | ❓ |
-| MOCA-4-038 | In the IPDS environment, MOCA exception conditions are mapped to IPDS exceptions and reported. To map a MOCA exception condition to an IPDS exception, the rule is simply to add X'06' on the front of the four digits of the MOCA exception condition. For example, MOCA exception condition EC-0220 becomes IPDS exception X'0602..20'. | ❓ |
-| MOCA-5-001 | Attribute fields for MO type, format, and compression are carried in the MO header. Each of these fields is described below. | ❓ |
-| MOCA-5-002 | DES** | ❓ |
-| MOCA-5-003 | Each value for MOType is described in more detail below. | ❓ |
-| MOCA-5-004 | MOType = DES (X'004400450053')** | ❓ |
-| MOCA-5-005 | MOType DES refers to descriptive metadata used to label, tag, or otherwise describe elements of a print file. Common descriptive metadata are attributes such as Title, Date, and Author. Descriptive metadata is distinct from the primary content of a document and does not affect the architected rendering of data. | ❓ |
-| MOCA-5-006 | AFP Tagging** | ❓ |
-| MOCA-5-007 | XMP** | ❓ |
-| MOCA-5-008 | Each value for MOFormat is described in more detail below. | ❓ |
-| MOCA-5-009 | MOFormat = AFPT (X'0041004600500054')** | ❓ |
-| MOCA-5-010 | MOFormat AFPT refers to a metadata object using the AFP Tagging definition, which defines a schema in XML format for both identifying some semantics and tagging the data in the AFP that correspond to those semantics. For example, AFP Tagging metadata can be used to state that some set of bytes in the AFP correspond to a figure, or a paragraph, or a hyperlink; this type of information could be used in a screen reader, to enable universal accessibility. | ❓ |
-| MOCA-5-011 | See the *Metadata Guide for AFP* for the definition of the syntax of AFP Tagging metadata. | ❓ |
-| MOCA-5-012 | MOFormat = XMP (X'0058004D00500040')** | ❓ |
-| MOCA-5-013 | MOFormat XMP refers to a metadata object using the Extensible Metadata Platform (XMP) data model, serialization, and core properties. | ❓ |
-| MOCA-5-014 | See the *XMP Specification dated September 2005* for a complete specification of XMP . | ❓ |
-| MOCA-5-015 | NONE** | ❓ |
-| MOCA-5-016 | GZIP** | ❓ |
-| MOCA-5-017 | EXI** | ❓ |
-| MOCA-5-018 | Each value for MOCompression is described in more detail below. | ❓ |
-| MOCA-5-019 | MOCompression = NONE (X'004E004F004E0045004000400040004000400040')** | ❓ |
-| MOCA-5-020 | The MO data is uncompressed. | ❓ |
-| MOCA-5-021 | MOCompression = GZIP (X'0047005A00490050004000400040004000400040')** | ❓ |
-| MOCA-5-022 | The MO data is compressed as text using GZIP. | ❓ |
-| MOCA-5-023 | See *RFC 1952 - GZIP file format specification version 4.3*. | ❓ |
-| MOCA-5-024 | MOCompression = EXI (X'0045005800490040004000400040004000400040')** | ❓ |
-| MOCA-5-025 | The MO data is compressed as XML using Efficient XML Interchange. | ❓ |
-| MOCA-5-026 | See *Efficient XML Interchange (EXI) Format 1.0*. | ❓ |
-| MOCA-6-001 | This chapter describes the MOCA subsets that are supported in the MOCA architecture. | ❓ |
-| MOCA-6-002 | MOCA subsets are used to identify a specific level of MOCA functionality. Each new (higher level) subset must incorporate the complete functionality of the previous (lower level) subset. The naming of MOCA subsets is defined as follows. | ❓ |
-| MOCA-6-003 | MS** = Metadata Subset | ❓ |
-| MOCA-6-004 | x** = level, starting with 1 | ❓ |
-| MOCA-6-005 | The MS1 Subset is the level of MOCA compliance required to support the functionality contained in the first edition of the MOCA Reference. | ❓ |
-| MOCA-6-006 | EC-0100 | ❓ |
-| MOCA-6-007 | EC-0200 | ❓ |
-| MOCA-6-008 | EC-0210 | ❓ |
-| MOCA-6-009 | EC-0220 | ❓ |
-| MOCA-6-010 | EC-0230 | ❓ |
-| MOCA-6-011 | EC-0240 | ❓ |
-| MOCA-6-012 | EC-0250 | ❓ |
-| MOCA-6-013 | EC-0300 | ❓ |
-| MOCA-6-014 | The AFP Consortium or consortium member companies might have patents or pending patent applications covering subject matter described in this document. The furnishing of this document does not give you any license to these patents. | ❓ |
-| MOCA-6-015 | The following statement does not apply to the United Kingdom or any other country where such provisions are inconsistent with local law: **AFP Consortium PROVIDES THIS PUBLICATION “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.** Some states do not allow disclaimer of express or implied warranties in certain transactions, therefore, this statement might not apply to you. | ❓ |
-| MOCA-6-016 | This publication could include technical inaccuracies or typographical errors. Changes are periodically made to the information herein; these changes will be incorporated in new editions of the publication. The AFP Consortium might make improvements and/or changes in the architecture described in this publication at any time without notice. | ❓ |
-| MOCA-6-017 | Any references in this publication to Web sites are provided for convenience only and do not in any manner serve as an endorsement of those Web sites. The materials at those Web sites are not part of the materials for this architecture and use of those Web sites is at your own risk. | ❓ |
-| MOCA-6-018 | The AFP Consortium may use or distribute any information you supply in any way it believes appropriate without incurring any obligation to you. | ❓ |
-| MOCA-6-019 | This information contains examples of data and reports used in daily business operations. To illustrate them in a complete manner, some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental. | ❓ |
-| MOCA-6-020 | PostScript and XMP are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States and/or other countries. | ❓ |
-| MOCA-6-021 | AFPC and AFP Consortium are trademarks of the AFP Consortium. | ❓ |
-| MOCA-6-022 | IBM is a trademark of the International Business Machines Corporation in the United States, other countries, or both. | ❓ |
-| MOCA-6-023 | Advanced Function Presentation | ❓ |
-| MOCA-6-024 | AFP Color Consortium | ❓ |
-| MOCA-6-025 | AFP Color Management Architecture | ❓ |
-| MOCA-6-026 | Bar Code Object Content Architecture | ❓ |
-| MOCA-6-027 | Color Management Object Content Architecture | ❓ |
-| MOCA-6-028 | InfoPrint | ❓ |
-| MOCA-6-029 | Intelligent Printer Data Stream | ❓ |
-| MOCA-6-030 | Mixed Object Document Content Architecture | ❓ |
-| MOCA-6-031 | MO:DCA | ❓ |
-| MOCA-6-032 | Other company, product, or service names might be trademarks or service marks of others. | ❓ |
+| MOCA-4-001 | An MO consists of a header followed by MO data. | ✅ |
+| MOCA-4-002 | This is the syntax of an MO. | ✅ |
+| MOCA-4-003 | Data contained in fixed-length fields that are encoded as UTF-16BE is left-aligned. If the number of bytes used by the characters in these fields is smaller than the field length, the remaining bytes will be padded with “@” (X'0040'). | ✅ |
+| MOCA-4-004 | 4 | 0–3 | UBIN | MOLength | X'00000032' - X'FFFFFFFF' | MO length, including this MOLength field | M | ✅ |
+| MOCA-4-005 | MO header starts here** | ✅ |
+| MOCA-4-006 | 2 | 4–5 | UBIN | HeaderLength | X'002E' - end of header | MO header length, including this HeaderLength field | M | ✅ |
+| MOCA-4-007 | 6 | 6–11 | UTF16 | MOType | DES (X'0044 0045 0053') | Descriptive | M | ✅ |
+| MOCA-4-008 | 8 | 12–19 | UTF16 | MOFormat | AFPT (X'0041 0046 0050 0054') | AFP Tagging | M | ✅ |
+| MOCA-4-009 | XMP (X'0058 004D 0050 0040') | Extensible Metadata Platform (XMP) | ✅ |
+| MOCA-4-010 | 20 | 20–39 | UTF16 | MOCompression | NONE (X'004E 004F 004E 0045 0040 0040 0040 0040 0040 0040') | Uncompressed | M | ✅ |
+| MOCA-4-011 | GZIP (X'0047 005A 0049 0050 0040 0040 0040 0040 0040 0040') | “Gzip” text compression | ✅ |
+| MOCA-4-012 | EXI (X'0045 0058 0049 0040 0040 0040 0040 0040 0040 0040') | Efficient XML Interchange (EXI) compression | ✅ |
+| MOCA-4-013 | 8 | 40–47 | | | X'0000000000000000' | Reserved - should be set to zero | M | ✅ |
+| MOCA-4-014 | 2 | 48–49 | UBIN | MONameLength | X'0000' - X'00FA', even values only | Length, in bytes, of the MOName field that follows | M | ✅ |
+| MOCA-4-015 | 0–250 | 50–end of name | UTF16 | MOName | Any valid UTF-16BE characters (thus an even number of bytes) | A human-readable MO name in UTF-16BE | O | ✅ |
+| MOCA-4-016 | End of name–end of header | | UNDF | | | Reserved for future use; receivers should accept but ignore; generators should not specify | O | ✅ |
+| MOCA-4-017 | MO header ends here** | ✅ |
+| MOCA-4-018 | MOData | | Any MO Data | O | ✅ |
+| MOCA-4-019 | M/O: Mandatory or Optional field* | ✅ |
+| MOCA-4-020 | MOLength**: The length of the complete MO, including the MOLength parameter. MOLength, in bytes, may be 50 (X'00000032') to X'FFFFFFFF'. If an invalid value is found in this field, the optional exception is EC-0100. | ✅ |
+| MOCA-4-021 | HeaderLength**: The length of the MO header, including the HeaderLength parameter. HeaderLength, in bytes, may be any value greater than or equal to 46 (X'002E'). If an invalid value is found in this field, the optional exception is EC-0200. | ✅ |
+| MOCA-4-022 | MOType**: One MOType is defined in the Metadata Object Content Architecture. The defined MOType is DES. See “MOType”. If an invalid or unsupported value is found in this field, the optional exception is EC-0220. | ✅ |
+| MOCA-4-023 | MOFormat**: MOFormat is defined in the Metadata Object Content Architecture to indicate the format of MO data. See “MOFormat”. If an invalid or unsupported value is found in this field, the optional exception is EC-0230. | ✅ |
+| MOCA-4-024 | MOCompression**: MOCompression is defined in the Metadata Object Content Architecture to indicate the type of compression applied to MO data. See “MOCompression”. If an invalid or unsupported value is found in this field, the optional exception is EC-0240. | ✅ |
+| MOCA-4-025 | MONameLength**: The length of the MOName field. MONameLength, in bytes, may be any even value from 0 (X'0000') to 250 (X'00FA'). If an invalid value is found in this field, the optional exception is EC-0250. | ✅ |
+| MOCA-4-026 | MOName**: A user-defined string containing an optional human-readable MO name. This field can contain up to 250 bytes; therefore, if the UTF-16BE string contains no surrogates, the MO name can contain up to 125 characters. If the environment containing the MO has a method of referencing an MO by name, this field is to be used as the name. If an invalid value is found in this field, the optional exception is EC-0210. | ✅ |
+| MOCA-4-027 | MOData**: MO data. The format of the metadata is determined by the value of the MOFormat parameter. If an invalid value is found in this field, the optional exception is EC-0300. | ✅ |
+| MOCA-4-028 | Both recognition and reporting of exception conditions is optional. Exception conditions have a format of EC-xxxx. | ✅ |
+| MOCA-4-029 | The exception conditions are as follows: | ✅ |
+| MOCA-4-030 | EC-0100 Invalid Length Value**: The specified MOLength is invalid. | ✅ |
+| MOCA-4-031 | EC-0200 Invalid Field Value**: The specified HeaderLength is invalid. | ✅ |
+| MOCA-4-032 | EC-0210 Invalid Field Value**: The specified MOName is not valid UTF-16BE. | ✅ |
+| MOCA-4-033 | EC-0220 Invalid or Unsupported Field Value**: The specified MOType is invalid or unsupported. | ✅ |
+| MOCA-4-034 | EC-0230 Invalid or Unsupported Field Value**: The specified MOFormat is invalid or unsupported. | ✅ |
+| MOCA-4-035 | EC-0240 Invalid or Unsupported Field Value**: The specified MOCompression is invalid or unsupported. | ✅ |
+| MOCA-4-036 | EC-0250 Invalid Field Value**: The specified MONameLength is invalid. | ✅ |
+| MOCA-4-037 | EC-0300 Invalid MOData**: The specified MOData does not meet the specification associated with the indicated MOFormat. | ✅ |
+| MOCA-4-038 | In the IPDS environment, MOCA exception conditions are mapped to IPDS exceptions and reported. To map a MOCA exception condition to an IPDS exception, the rule is simply to add X'06' on the front of the four digits of the MOCA exception condition. For example, MOCA exception condition EC-0220 becomes IPDS exception X'0602..20'. | ✅ |
+| MOCA-5-001 | Attribute fields for MO type, format, and compression are carried in the MO header. Each of these fields is described below. | ✅ |
+| MOCA-5-002 | DES** | ✅ |
+| MOCA-5-003 | Each value for MOType is described in more detail below. | ✅ |
+| MOCA-5-004 | MOType = DES (X'004400450053')** | ✅ |
+| MOCA-5-005 | MOType DES refers to descriptive metadata used to label, tag, or otherwise describe elements of a print file. Common descriptive metadata are attributes such as Title, Date, and Author. Descriptive metadata is distinct from the primary content of a document and does not affect the architected rendering of data. | ✅ |
+| MOCA-5-006 | AFP Tagging** | ✅ |
+| MOCA-5-007 | XMP** | ✅ |
+| MOCA-5-008 | Each value for MOFormat is described in more detail below. | ✅ |
+| MOCA-5-009 | MOFormat = AFPT (X'0041004600500054')** | ✅ |
+| MOCA-5-010 | MOFormat AFPT refers to a metadata object using the AFP Tagging definition, which defines a schema in XML format for both identifying some semantics and tagging the data in the AFP that correspond to those semantics. For example, AFP Tagging metadata can be used to state that some set of bytes in the AFP correspond to a figure, or a paragraph, or a hyperlink; this type of information could be used in a screen reader, to enable universal accessibility. | ✅ |
+| MOCA-5-011 | See the *Metadata Guide for AFP* for the definition of the syntax of AFP Tagging metadata. | ✅ |
+| MOCA-5-012 | MOFormat = XMP (X'0058004D00500040')** | ✅ |
+| MOCA-5-013 | MOFormat XMP refers to a metadata object using the Extensible Metadata Platform (XMP) data model, serialization, and core properties. | ✅ |
+| MOCA-5-014 | See the *XMP Specification dated September 2005* for a complete specification of XMP . | ✅ |
+| MOCA-5-015 | NONE** | ✅ |
+| MOCA-5-016 | GZIP** | ✅ |
+| MOCA-5-017 | EXI** | ✅ |
+| MOCA-5-018 | Each value for MOCompression is described in more detail below. | ✅ |
+| MOCA-5-019 | MOCompression = NONE (X'004E004F004E0045004000400040004000400040')** | ✅ |
+| MOCA-5-020 | The MO data is uncompressed. | ✅ |
+| MOCA-5-021 | MOCompression = GZIP (X'0047005A00490050004000400040004000400040')** | ✅ |
+| MOCA-5-022 | The MO data is compressed as text using GZIP. | ✅ |
+| MOCA-5-023 | See *RFC 1952 - GZIP file format specification version 4.3*. | ✅ |
+| MOCA-5-024 | MOCompression = EXI (X'0045005800490040004000400040004000400040')** | ✅ |
+| MOCA-5-025 | The MO data is compressed as XML using Efficient XML Interchange. | ✅ |
+| MOCA-5-026 | See *Efficient XML Interchange (EXI) Format 1.0*. | ✅ |
+| MOCA-6-001 | This chapter describes the MOCA subsets that are supported in the MOCA architecture. | ✅ |
+| MOCA-6-002 | MOCA subsets are used to identify a specific level of MOCA functionality. Each new (higher level) subset must incorporate the complete functionality of the previous (lower level) subset. The naming of MOCA subsets is defined as follows. | ✅ |
+| MOCA-6-003 | MS** = Metadata Subset | ✅ |
+| MOCA-6-004 | x** = level, starting with 1 | ✅ |
+| MOCA-6-005 | The MS1 Subset is the level of MOCA compliance required to support the functionality contained in the first edition of the MOCA Reference. | ✅ |
+| MOCA-6-006 | EC-0100 | ✅ |
+| MOCA-6-007 | EC-0200 | ✅ |
+| MOCA-6-008 | EC-0210 | ✅ |
+| MOCA-6-009 | EC-0220 | ✅ |
+| MOCA-6-010 | EC-0230 | ✅ |
+| MOCA-6-011 | EC-0240 | ✅ |
+| MOCA-6-012 | EC-0250 | ✅ |
+| MOCA-6-013 | EC-0300 | ✅ |
+| MOCA-6-014 | The AFP Consortium or consortium member companies might have patents or pending patent applications covering subject matter described in this document. The furnishing of this document does not give you any license to these patents. | ✅ |
+| MOCA-6-015 | The following statement does not apply to the United Kingdom or any other country where such provisions are inconsistent with local law: **AFP Consortium PROVIDES THIS PUBLICATION “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.** Some states do not allow disclaimer of express or implied warranties in certain transactions, therefore, this statement might not apply to you. | ✅ |
+| MOCA-6-016 | This publication could include technical inaccuracies or typographical errors. Changes are periodically made to the information herein; these changes will be incorporated in new editions of the publication. The AFP Consortium might make improvements and/or changes in the architecture described in this publication at any time without notice. | ✅ |
+| MOCA-6-017 | Any references in this publication to Web sites are provided for convenience only and do not in any manner serve as an endorsement of those Web sites. The materials at those Web sites are not part of the materials for this architecture and use of those Web sites is at your own risk. | ✅ |
+| MOCA-6-018 | The AFP Consortium may use or distribute any information you supply in any way it believes appropriate without incurring any obligation to you. | ✅ |
+| MOCA-6-019 | This information contains examples of data and reports used in daily business operations. To illustrate them in a complete manner, some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental. | ✅ |
+| MOCA-6-020 | PostScript and XMP are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States and/or other countries. | ✅ |
+| MOCA-6-021 | AFPC and AFP Consortium are trademarks of the AFP Consortium. | ✅ |
+| MOCA-6-022 | IBM is a trademark of the International Business Machines Corporation in the United States, other countries, or both. | ✅ |
+| MOCA-6-023 | Advanced Function Presentation | ✅ |
+| MOCA-6-024 | AFP Color Consortium | ✅ |
+| MOCA-6-025 | AFP Color Management Architecture | ✅ |
+| MOCA-6-026 | Bar Code Object Content Architecture | ✅ |
+| MOCA-6-027 | Color Management Object Content Architecture | ✅ |
+| MOCA-6-028 | InfoPrint | ✅ |
+| MOCA-6-029 | Intelligent Printer Data Stream | ✅ |
+| MOCA-6-030 | Mixed Object Document Content Architecture | ✅ |
+| MOCA-6-031 | MO:DCA | ✅ |
+| MOCA-6-032 | Other company, product, or service names might be trademarks or service marks of others. | ✅ |

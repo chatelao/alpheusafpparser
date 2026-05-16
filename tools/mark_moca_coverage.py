@@ -56,6 +56,9 @@ if __name__ == "__main__":
         ('MOCA-1-001', 'MOCA-1-070'),
         ('MOCA-2-001', 'MOCA-2-003'),
         ('MOCA-3-001', 'MOCA-3-004'),
+        ('MOCA-4-001', 'MOCA-4-038'),
+        ('MOCA-5-001', 'MOCA-5-026'),
+        ('MOCA-6-001', 'MOCA-6-032'),
     ]
     count = mark_coverage('TEST_COVERAGE_MOCA.md', ranges)
     print(f"Marked {count} requirements as covered.")
