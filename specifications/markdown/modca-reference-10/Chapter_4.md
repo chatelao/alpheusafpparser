@@ -226,18 +226,19 @@ receivers also issue a message when this occurs. [MODCA-4-057]
 A page group object is a named set of sequential pages in a document. All pages in a page group inherit the
 attributes and processing characteristics that are assigned to the page group. A page group is delimited by
 Begin Named Page Group and End Named Page Group structured fields.
-**Figure 28.** Page Group Structure
-Begin Named Page Group (BNG, D3A8AD)
-[ (TLE, D3A090) Tag Logical Element (S) ]
-[ ( D3..92) Object Container (MO Type only) (S) ]
-+ [ (IMM, D3ABCC) Invoke Medium Map (S) ]
-+ [ (IPG, D3AFAF) Include Page (S) ]
-+ [ (LLE, D3B490) Link Logical Element (S) ]
-+ [ ( D3..CC) Medium Map (S) ]
-+ [ ( D3..D9) Resource Environment Group (S) ]
-+ [ ( D3..AF) Page (S) ]
-+ [ ( D3..AD) Page Group (S) ]
-End Named Page Group (ENG, D3A9AD)
+**Figure 28. Page Group Structure**
+
+*   Begin Named Page Group (BNG, D3A8AD)
+*   [ (TLE, D3A090) Tag Logical Element (S) ]
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   + [ (IMM, D3ABCC) Invoke Medium Map (S) ]
+*   + [ (IPG, D3AFAF) Include Page (S) ]
+*   + [ (LLE, D3B490) Link Logical Element (S) ]
+*   + [ (D3..CC) Medium Map (S) ]
+*   + [ (D3..D9) Resource Environment Group (S) ]
+*   + [ (D3..AF) Page (S) ]
+*   + [ (D3..AD) Page Group (S) ]
+*   End Named Page Group (ENG, D3A9AD)
 Figure 28 shows the general form of a MO:DCA page group object. MO:DCA interchange sets may
 specify a more restrictive page group structure; however, such a structure must be a proper subset of the
 general form.
@@ -339,25 +340,27 @@ which is available on the Microsoft web site. [MODCA-4-077]
 An overlay is a MO:DCA resource object. It may be stored in an external resource library or it may be carried in
 a resource group. An overlay is similar to a page in that it defines its own environment and carries the same
 data objects.
-**Figure 29.** Overlay Structure
-Begin Overlay (BMO, D3A8DF)
-( D3..C9) Active Environment Group
-+ [ (LLE, D3B490) Link Logical Element (S) ]
-+ [ (TLE, D3A090) Tag Logical Element (S) ]
-+ [ ( D3..EB) Bar Code Object (S) ]
-+ [ ( D3..BB) Graphics Object (S) ]
-+ [ ( D3..FB) Image Object (S) ]
-+ [ ( D3..9B) Presentation Text Object (S) ]
-+ [ ( D3..92) Object Container (see Note 10 for MO)
-(S) ]
-+ [ (IOB, D3AFC3) Include Object (S) ]
-+ [ (IPS, D3AF5F) Include Page Segment (S) ]
-End Overlay (EMO, D3A9DF)
-Active Environment Group (AEG)
-Begin Active Environment Group (BAG, D3A8C9)
-[ (PEC, D3A7A8) Presentation Environment Control ]
-[ (MCF, D3AB8A) Map Coded Font F2 (S) ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
+**Figure 29. Overlay Structure**
+
+*   Begin Overlay (BMO, D3A8DF)
+*   (D3..C9) Active Environment Group
+*   + [ (LLE, D3B490) Link Logical Element (S) ]
+*   + [ (TLE, D3A090) Tag Logical Element (S) ]
+*   + [ (D3..EB) Bar Code Object (S) ]
+*   + [ (D3..BB) Graphics Object (S) ]
+*   + [ (D3..FB) Image Object (S) ]
+*   + [ (D3..9B) Presentation Text Object (S) ]
+*   + [ (D3..92) Object Container (see Note 10 for MO) (S) ]
+*   + [ (IOB, D3AFC3) Include Object (S) ]
+*   + [ (IPS, D3AF5F) Include Page Segment (S) ]
+*   End Overlay (EMO, D3A9DF)
+
+**Active Environment Group (AEG)**
+
+*   Begin Active Environment Group (BAG, D3A8C9)
+*   [ (PEC, D3A7A8) Presentation Environment Control ]
+*   [ (MCF, D3AB8A) Map Coded Font F2 (S) ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
 [ (MPS, D3B15F) Map Page Segment (S) ]
 (PGD, D3A6AF) Page Descriptor
 [ (OBD, D3A66B) Object Area Descriptor ]
@@ -459,12 +462,13 @@ soft page segment.
 A page segment resource object does not contain an active environment group and therefore does not define
 its own environment. Instead, the page segment assumes the environment definition of the including page or
 overlay.
-**Figure 30.** Page Segment Structure
-Begin Page Segment (BPS, D3A85F)
-+ [ ( D3..EB) Bar Code Object (S) ]
-+ [ ( D3..BB) Graphics Object (S) ]
-+ [ ( D3..FB) Image Object (S) ]
-End Page Segment (EPS, D3A95F)
+**Figure 30. Page Segment Structure**
+
+*   Begin Page Segment (BPS, D3A85F)
+*   + [ (D3..EB) Bar Code Object (S) ]
+*   + [ (D3..BB) Graphics Object (S) ]
+*   + [ (D3..FB) Image Object (S) ]
+*   End Page Segment (EPS, D3A95F)
 MO:DCA supports the AFP Page Segment object for migration purposes. For a definition of this object, see
 “AFP Page Segment”.
 **Application Note:** For hard page segments included via IPS, the OEGs for all objects in the page segment
@@ -501,18 +505,19 @@ The general search order for MO:DCA resources is as follows:
 2. External resource libraries [MODCA-4-104]
 Within a resource group, resource objects of the same type must have unique identifiers; if they do not, the
 treatment of such resources is presentation-system-dependent.
-**Figure 31.** External (Print file level) Resource Group Structure
-Begin Resource Group (BRG, D3A8C6)
-+ [ ( D3..DF) Overlay (S) ]
-+ [ ( D3..5F) Page Segment (S) ]
-+ [ ( D3..CD) Form Map (S) ]
-+ [ ( D3..EB) Bar Code Object (S) ]
-+ [ ( D3..BB) Graphics Object (S) ]
-+ [ ( D3..FB) Image Object (S) ]
-+ [ ( D3..92) Object Container (S) ]
-+ [ ( D3..9B) Presentation Text Object (S) ]
-[ ( D3..A8) Document (S) ]
-End Resource Group (ERG, D3A9C6)
+**Figure 31. External (Print file level) Resource Group Structure**
+
+*   Begin Resource Group (BRG, D3A8C6)
+*   + [ (D3..DF) Overlay (S) ]
+*   + [ (D3..5F) Page Segment (S) ]
+*   + [ (D3..CD) Form Map (S) ]
+*   + [ (D3..EB) Bar Code Object (S) ]
+*   + [ (D3..BB) Graphics Object (S) ]
+*   + [ (D3..FB) Image Object (S) ]
+*   + [ (D3..92) Object Container (S) ]
+*   + [ (D3..9B) Presentation Text Object (S) ]
+*   [ (D3..A8) Document (S) ]
+*   End Resource Group (ERG, D3A9C6)
 Notes:
 1. In AFP environments, resources carried in print file level (external) resource groups are called inline [MODCA-4-105]
 resources.
@@ -532,10 +537,11 @@ structured fields.
 Group (PTOCA with OEG).
 In AFP environments, each resource object in an external resource group must be wrapped with a Begin
 Resource (BRS) and End Resource (ERS) envelope as shown in Figure 32.
-**Figure 32.** BRS/ERS Envelope for Resources in External (Print File Level) Resource Group
-[ (BRS, D3A8CE) Begin Resource ]
-( D3..xx) Resource Object
-[ (ERS, D3A9CE) End Resource ]
+**Figure 32. BRS/ERS Envelope for Resources in External (Print File Level) Resource Group**
+
+*   [ (BRS, D3A8CE) Begin Resource ]
+*   (D3..xx) Resource Object
+*   [ (ERS, D3A9CE) End Resource ]
 The BRS and ERS structured fields must be specified as a pair, that is, one may not be specified without the
 other.
 **Application Note:** In AFP environments, the following objects may also be included in print file level (external)
@@ -623,11 +629,12 @@ A form map is selected for controlling print file presentation when the print re
 The scope of a form map is a print file, and control for presentation starts with the first medium map in the form
 map. If the form map is associated with a print file that contains multiple documents, control for presentation is
 returned to the first medium map in the form map whenever a new document is encountered.
-**Figure 33.** Form Map Structure
-Begin Form Map (BFM, D3A8CD)
-[ ( D3..C4) Document Environment Group ]
-[ ( D3..92) Object Container (MO Type only) (S) ]
-( D3..CC) Medium Map (S)
+**Figure 33. Form Map Structure**
+
+*   Begin Form Map (BFM, D3A8CD)
+*   [ (D3..C4) Document Environment Group ]
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   (D3..CC) Medium Map (S)
 End Form Map (EFM, D3A9CD)
 Document Environment Group
 The document environment group (DEG), when present, establishes the presentation environment for a form
@@ -661,17 +668,18 @@ triplet in the PEC apply to the complete document or print file and are independ
 
 maps and medium maps in the form map. The MFC structured field can be specified in the DEG and/or
 a Medium Map and defines its scope explicitly.
-**Figure 34.** Document Environment Group Structure
-Begin Document Environment Group (BDG, D3A8C4)
-[ (PFC, D3B288) Presentation Fidelity Control (S) ]
-[ (PEC, D3A7A8) Presentation Environment Control (S) ]
-[ (MMO, D3B1DF) Map Medium Overlay ]
-[ (MSU, D3ABEA) Map Suppression ]
-(PGP, D3B1AF) Page Position F2
-(MDD, D3A688) Medium Descriptor
-[ (MFC, D3A088) Medium Finishing Control (S) ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-End Document Environment Group (EDG, D3A9C4)
+**Figure 34. Document Environment Group Structure**
+
+*   Begin Document Environment Group (BDG, D3A8C4)
+*   [ (PFC, D3B288) Presentation Fidelity Control (S) ]
+*   [ (PEC, D3A7A8) Presentation Environment Control (S) ]
+*   [ (MMO, D3B1DF) Map Medium Overlay ]
+*   [ (MSU, D3ABEA) Map Suppression ]
+*   (PGP, D3B1AF) Page Position F2
+*   (MDD, D3A688) Medium Descriptor
+*   [ (MFC, D3A088) Medium Finishing Control (S) ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   End Document Environment Group (EDG, D3A9C4)
 Notes:
 1. An MMO is required in either the document environment group or a medium map if an MMC structured field [MODCA-4-132]
 references a medium overlay. If specified in both, the structured field in the medium map takes
@@ -859,22 +867,23 @@ correctly if none is found. This may cause the complete document to print differ
 A newer method to specify how a page or page group should be formatted involves use of the Page
 Position Information (X'81') triplet. This triplet may be specified on a BPG and indicates the repeating
 group in the PGP structured field in the active Medium Map that should be used to format the page.
-**Figure 36.** Medium Map Structure
-Begin Medium Map (BMM, D3A8CC)
-[ ( D3..92) Object Container (MO Type only) (S) ]
-[ (MMO, D3B1DF) Map Medium Overlay ]
-[ (MPO, D3ABD8) Map Page Overlay (S) ]
-[ (MMT, D3AB88) Map Media Type (S) ]
-[ (MMD, D3ABCD) Map Media Destination (S) ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-(PGP, D3B1AF) Page Position F2
-(MDD, D3A688) Medium Descriptor
-(MCC, D3A288) Medium Copy Count
-[ (MMC, D3A788) Medium Modification Control (S) ]
-[ (PMC, D3A7AF) Page Modification Control (S) ]
-[ (MFC, D3A088) Medium Finishing Control (S) ]
-[ (PEC, D3A7A8) Presentation Environment Control ]
-End Medium Map (EMM, D3A9CC)
+**Figure 36. Medium Map Structure**
+
+*   Begin Medium Map (BMM, D3A8CC)
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   [ (MMO, D3B1DF) Map Medium Overlay ]
+*   [ (MPO, D3ABD8) Map Page Overlay (S) ]
+*   [ (MMT, D3AB88) Map Media Type (S) ]
+*   [ (MMD, D3ABCD) Map Media Destination (S) ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   (PGP, D3B1AF) Page Position F2
+*   (MDD, D3A688) Medium Descriptor
+*   (MCC, D3A288) Medium Copy Count
+*   [ (MMC, D3A788) Medium Modification Control (S) ]
+*   [ (PMC, D3A7AF) Page Modification Control (S) ]
+*   [ (MFC, D3A088) Medium Finishing Control (S) ]
+*   [ (PEC, D3A7A8) Presentation Environment Control ]
+*   End Medium Map (EMM, D3A9CC)
 Notes:
 1. An MMO is required in either the document environment group or a medium map if an MMC structured field [MODCA-4-154]
 references a medium overlay. If specified in both, the structured field in the medium map takes
@@ -950,21 +959,24 @@ Bar code data consists of patterns of bars and spaces that represent alphanumeri
 of the patterns are defined by specific bar code symbologies. A bar code object carries the alphanumeric
 information that is to be presented as a bar code and the controls to present this information using a specific
 bar code symbology. The bar code data object is defined by the Bar Code Object Content Architecture.
-**Figure 38.** Bar Code Object Structure
-Begin Bar Code Object (BBC, D3A8EB)
-( D3..C7) Object Environment Group
-[ ( D3..92) Object Container (MO Type only) (S) ]
-[ (BDA, D3EEEB) Bar Code Data (S) ]
-End Bar Code Object (EBC, D3A9EB)
-Object Environment Group (OEG) for Bar Code Object
-Begin Object Environment Group (BOG, D3A8C7)
-(OBD, D3A66B) Object Area Descriptor
-(OBP, D3AC6B) Object Area Position
-[ (MBC, D3ABEB) Map Bar Code Object ]
-[ (MCF, D3AB8A) Map Coded Font F2 (S) ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-(BDD, D3A6EB) Bar Code Data Descriptor
-End Object Environment Group (EOG, D3A9C7)
+**Figure 38. Bar Code Object Structure**
+
+*   Begin Bar Code Object (BBC, D3A8EB)
+*   (D3..C7) Object Environment Group
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   [ (BDA, D3EEEB) Bar Code Data (S) ]
+*   End Bar Code Object (EBC, D3A9EB)
+
+**Object Environment Group (OEG) for Bar Code Object**
+
+*   Begin Object Environment Group (BOG, D3A8C7)
+*   (OBD, D3A66B) Object Area Descriptor
+*   (OBP, D3AC6B) Object Area Position
+*   [ (MBC, D3ABEB) Map Bar Code Object ]
+*   [ (MCF, D3AB8A) Map Coded Font F2 (S) ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   (BDD, D3A6EB) Bar Code Data Descriptor
+*   End Object Environment Group (EOG, D3A9C7)
 **Note:** Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
 the data object structure. The MO Type object container(s) must directly follow the Object Environment
 Group (OEG), otherwise they are ignored. When including multiple MOs the series of MO Type object
@@ -1040,22 +1052,25 @@ structured field. The only valid option is position. This mapping is shown in Fi
 Graphics data consists of controls and parameters to generate pictures based on lines, characters, and
 shaded areas. The graphics data object is defined by the Graphics Object Content Architecture for Advanced
 Function Presentation.
-**Figure 40.** Graphics Object Structure
-Begin Graphics Object (BGR, D3A8BB)
-( D3..C7) Object Environment Group
-[ ( D3..92) Object Container (MO Type only) (S) ]
-[ (GAD, D3EEBB) Graphics Data (S) ]
-End Graphics Object (EGR, D3A9BB)
-Object Environment Group (OEG) for Graphics Object
-Begin Object Environment Group (BOG, D3A8C7)
-[ (PEC, D3A7A8) Presentation Environment Control ]
-(OBD, D3A66B) Object Area Descriptor
-(OBP, D3AC6B) Object Area Position
-[ (MGO, D3ABBB) Map Graphics Object ]
-[ (MCF, D3AB8A) Map Coded Font F2 (S) ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-(GDD, D3A6BB) Graphics Data Descriptor
-End Object Environment Group (EOG, D3A9C7)
+**Figure 40. Graphics Object Structure**
+
+*   Begin Graphics Object (BGR, D3A8BB)
+*   (D3..C7) Object Environment Group
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   [ (GAD, D3EEBB) Graphics Data (S) ]
+*   End Graphics Object (EGR, D3A9BB)
+
+**Object Environment Group (OEG) for Graphics Object**
+
+*   Begin Object Environment Group (BOG, D3A8C7)
+*   [ (PEC, D3A7A8) Presentation Environment Control ]
+*   (OBD, D3A66B) Object Area Descriptor
+*   (OBP, D3AC6B) Object Area Position
+*   [ (MGO, D3ABBB) Map Graphics Object ]
+*   [ (MCF, D3AB8A) Map Coded Font F2 (S) ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   (GDD, D3A6BB) Graphics Data Descriptor
+*   End Object Environment Group (EOG, D3A9C7)
 Notes:
 1. Refer to the Graphics Object Content Architecture for AFP Reference for a full description of the GOCA [MODCA-4-184]
 object content, syntax, and semantics for MO:DCA data streams.
@@ -1118,21 +1133,24 @@ the controls to present this data. The image data object is defined by the Image
 and is sometimes referred to as an IO image object.
 MO:DCA also supports the IM image object for migration purposes. For a definition of this object, see “IM
 Image Object”.
-**Figure 45.** Image Object Structure
-Begin Image Object (BIM, D3A8FB)
-( D3..C7) Object Environment Group
-[ ( D3..92) Object Container (MO Type only) (S) ]
-[ (IPD, D3EEFB) Image Picture Data (S) ]
-End Image Object (EIM, D3A9FB)
-Object Environment Group (OEG) for Image Object
-Begin Object Environment Group (BOG, D3A8C7)
-[ (PEC, D3A7A8) Presentation Environment Control ]
-(OBD, D3A66B) Object Area Descriptor
-(OBP, D3AC6B) Object Area Position
-[ (MIO, D3ABFB) Map Image Object ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-(IDD, D3A6FB) Image Data Descriptor
-End Object Environment Group (EOG, D3A9C7)
+**Figure 45. Image Object Structure**
+
+*   Begin Image Object (BIM, D3A8FB)
+*   (D3..C7) Object Environment Group
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   [ (IPD, D3EEFB) Image Picture Data (S) ]
+*   End Image Object (EIM, D3A9FB)
+
+**Object Environment Group (OEG) for Image Object**
+
+*   Begin Object Environment Group (BOG, D3A8C7)
+*   [ (PEC, D3A7A8) Presentation Environment Control ]
+*   (OBD, D3A66B) Object Area Descriptor
+*   (OBP, D3AC6B) Object Area Position
+*   [ (MIO, D3ABFB) Map Image Object ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   (IDD, D3A6FB) Image Data Descriptor
+*   End Object Environment Group (EOG, D3A9C7)
 Notes:
 1. Refer to the Image Object Content Architecture Reference for a full description of the IOCA object content, [MODCA-4-202]
 syntax, and semantics for MO:DCA data streams.
@@ -1184,10 +1202,11 @@ Text Object Content Architecture. The presentation text object in MO:DCA can hav
 by the presence or absence of an Object Environment Group (OEG).
 **Note:** Refer to the Presentation Text Object Content Architecture Reference for a full description of the PTOCA
 object content, syntax, and semantics for MO:DCA environments.
-**Figure 50.** Presentation Text Object Structure - Without OEG
-Begin Presentation Text Object (BPT, D3A89B)
-[ (PTX, D3EE9B) Presentation Text Data (S) ]
-End Presentation Text Object (EPT, D3A99B)
+**Figure 50. Presentation Text Object Structure - Without OEG**
+
+*   Begin Presentation Text Object (BPT, D3A89B)
+*   [ (PTX, D3EE9B) Presentation Text Data (S) ]
+*   End Presentation Text Object (EPT, D3A99B)
 When the presentation text object in a MO:DCA data stream does not contain an OEG, the presentation
 parameters normally specified in the OEG are specified in the Active Environment Group (AEG) of the
 containing page or overlay as follows:
@@ -1214,22 +1233,25 @@ structured field of the page or overlay's AEG are set prior to processing the te
 page-level initial text conditions before the PTD initial conditions are set; see Table 16.
 **Note:** Presentation text objects that do not contain an OEG that are found in a page or overlay may be referred
 to as text major.
-**Figure 51.** Presentation Text Object Structure - With OEG
-Begin Presentation Text Object (BPT, D3A89B)
-( D3..C7) Object Environment Group
-[ ( D3..92) Object Container (MO Type only) (S) ]
-[ (PTX, D3EE9B) Presentation Text Data (S) ]
-End Presentation Text Object (EPT, D3A99B)
-Object Environment Group (OEG) for Presentation Text Object
-Begin Object Environment Group (BOG, D3A8C7)
-[ (PEC, D3A7A8) Presentation Environment Control ]
-(OBD, D3A66B) Object Area Descriptor
-(OBP, D3AC6B) Object Area Position
-[ (MPT, D3AB9B) Map Presentation Text ]
-[ (MCF, D3AB8A) Map Coded Font F2 (S) ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-(PTD, D3B19B) Presentation Text Data Descriptor
-End Object Environment Group (EOG, D3A9C7)
+**Figure 51. Presentation Text Object Structure - With OEG**
+
+*   Begin Presentation Text Object (BPT, D3A89B)
+*   (D3..C7) Object Environment Group
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   [ (PTX, D3EE9B) Presentation Text Data (S) ]
+*   End Presentation Text Object (EPT, D3A99B)
+
+**Object Environment Group (OEG) for Presentation Text Object**
+
+*   Begin Object Environment Group (BOG, D3A8C7)
+*   [ (PEC, D3A7A8) Presentation Environment Control ]
+*   (OBD, D3A66B) Object Area Descriptor
+*   (OBP, D3AC6B) Object Area Position
+*   [ (MPT, D3AB9B) Map Presentation Text ]
+*   [ (MCF, D3AB8A) Map Coded Font F2 (S) ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   (PTD, D3B19B) Presentation Text Data Descriptor
+*   End Object Environment Group (EOG, D3A9C7)
 When the presentation text object in a MO:DCA data stream contains an OEG, all initial text conditions
 specified in the Presentation Text Descriptor (PTD) structured field of the OEG are set prior to processing the
 text object. For such text objects, the OBD, OBP , and PTD structured fields in the AEG of the page or overlay
@@ -1315,21 +1337,24 @@ must be partitioned into OCDs. If the object is installed in a resource library 
 Access Table (DO RAT), it must not be wrapped with a MO:DCA object envelope such as BOC/EOC, that is,
 it must be installed in its raw source format. Examples of presentation objects that can be installed using a
 DO RAT are EPS, PDF , GIF , TIFF , and AFPC JPEG objects.
-**Figure 54.** Object Container Structure for Presentation Objects
-Begin Object Container (BOC, D3A892)
-[ ( D3..C7) Object Environment Group ]
-[ ( D3..92) Object Container (MO Type only) (S) ]
-[ (OCD, D3EE92) Object Container Data (S) ]
-End Object Container (EOC, D3A992)
-Object Environment Group (OEG) for Object Container
-Begin Object Environment Group (BOG, D3A8C7)
-[ (PEC, D3A7A8) Presentation Environment Control ]
-[ (OBD, D3A66B) Object Area Descriptor ]
-[ (OBP, D3AC6B) Object Area Position ]
-[ (MCD, D3AB92) Map Container Data ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-[ (CDD, D3A692) Container Data Descriptor ]
-End Object Environment Group (EOG, D3A9C7)
+**Figure 54. Object Container Structure for Presentation Objects**
+
+*   Begin Object Container (BOC, D3A892)
+*   [ (D3..C7) Object Environment Group ]
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   [ (OCD, D3EE92) Object Container Data (S) ]
+*   End Object Container (EOC, D3A992)
+
+**Object Environment Group (OEG) for Object Container**
+
+*   Begin Object Environment Group (BOG, D3A8C7)
+*   [ (PEC, D3A7A8) Presentation Environment Control ]
+*   [ (OBD, D3A66B) Object Area Descriptor ]
+*   [ (OBP, D3AC6B) Object Area Position ]
+*   [ (MCD, D3AB92) Map Container Data ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   [ (CDD, D3A692) Container Data Descriptor ]
+*   End Object Environment Group (EOG, D3A9C7)
 **Note:** Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within
 the object container structure. The MO Type object container(s) must directly follow the Object
 Environment Group (OEG), otherwise they are ignored. When including multiple MOs the series of MO
@@ -1365,11 +1390,12 @@ BOC/EOC, that is, it must be installed in its raw source format. Examples of non
 installed using a RAT and that must not be wrapped with a BOC/EOC envelope are:
 – TrueType/OpenType fonts and TrueType/OpenType Collections
 – Color Management Resources (CMRs)
-**Figure 55.** Object Container Structure for Non-Presentation Objects
-Begin Object Container (BOC, D3A892)
-[ ( D3..92) Object Container (MO Type only) (S) ]
-[ (OCD, D3EE92) Object Container Data (S) ]
-End Object Container (EOC, D3A992)
+**Figure 55. Object Container Structure for Non-Presentation Objects**
+
+*   Begin Object Container (BOC, D3A892)
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   [ (OCD, D3EE92) Object Container Data (S) ]
+*   End Object Container (EOC, D3A992)
 Notes:
 1. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within [MODCA-4-244]
 the object container structure. The MO Type only object container(s) must directly follow the Begin Object
