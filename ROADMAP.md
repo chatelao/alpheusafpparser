@@ -126,23 +126,41 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - 🚧 Improve all `specifications/markdown` formatting up to the 'Excellent' standard of neighbouring specifications (consistent with PTOCA).
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
         - ✅ Chapters 1-3 complete.
-        - 🚧 Chapter 4 (Partially reformatted) in-progress.
-        - 🚧 Chapter 5 (Begin-type Structured Fields) in-progress.
+        - 🚧 Chapter 4 (Partially reformatted) in-progress:
+            - ⏳ Print File, Document, and Index structures.
+            - ⏳ Page and Page Group structures.
+            - ⏳ Resource Objects and Groups.
+            - ⏳ Data Objects and Object Containers.
+        - 🚧 Chapter 5 (Begin-type Structured Fields) in-progress:
+            - ✅ BAG through BIM and all other 'Begin' fields (BMM through BSG) complete.
+            - ⏳ Remaining SF Groups A-D.
+            - ⏳ SF Groups E-I.
+            - ⏳ SF Groups J-O.
+            - ⏳ SF Groups P-T.
+            - ⏳ SF Groups U-Z.
         - ⏳ Chapters 6-8.
         - ⏳ Appendices A-F, Glossary, Index, Front Matter, and Notices.
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
         - ✅ Chapters 1-3 complete.
-        - 🚧 Chapters 4-5 in-progress.
+        - 🚧 Chapter 4 in-progress.
+        - ⏳ Chapter 5.
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
-- 🚧 Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks:
-    - ✅ Chapters 1-2.
-    - ✅ Chapter 3.
-    - ✅ Chapter 4.
-    - ✅ Chapter 5.
-    - ✅ Chapter 6.
-    - ✅ Appendices A-B.
-    - ✅ Appendix C.
+- ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-3.
+    - ⏳ Chapter 4.
+    - ⏳ Chapters 5-6.
+    - ⏳ Chapter 7.
+    - ⏳ Chapters 8-9.
+    - ⏳ Appendices A-D.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-3.
+    - ⏳ Chapter 4.
+    - ⏳ Chapter 5.
+    - ⏳ Chapter 6.
+    - ⏳ Chapter 7.
+    - ⏳ Appendices A-G.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
