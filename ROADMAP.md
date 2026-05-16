@@ -36,8 +36,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
-| [PTOCA](TEST_COVERAGE_PTOCA.md) | 1106 | 1488 | 74.3% |
-| **Total** | **1106** | **20955** | **5.3%** |
+| [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
+| **Total** | **1488** | **20955** | **7.1%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -137,14 +137,11 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - 🚧 Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks:
     - ✅ Chapters 1-2.
     - ✅ Chapter 3.
-    - ✅ Chapter 4 (Requirements 001-200).
-    - ✅ Chapter 4 (Requirements 201-400).
-    - ✅ Chapter 4 (Requirements 401-600).
-    - ✅ Chapter 4 (Requirements 601-769).
-    - ⏳ Chapter 5.
-    - ⏳ Chapter 6.
-    - ⏳ Appendices A-B.
-    - ⏳ Appendix C.
+    - ✅ Chapter 4.
+    - ✅ Chapter 5.
+    - ✅ Chapter 6.
+    - ✅ Appendices A-B.
+    - ✅ Appendix C.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
