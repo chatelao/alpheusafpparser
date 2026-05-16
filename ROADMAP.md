@@ -36,8 +36,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
-| [PTOCA](TEST_COVERAGE_PTOCA.md) | 537 | 1488 | 36.1% |
-| **Total** | **537** | **20955** | **2.6%** |
+| [PTOCA](TEST_COVERAGE_PTOCA.md) | 737 | 1488 | 49.5% |
+| **Total** | **737** | **20955** | **3.5%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -137,7 +137,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Chapters 1-2.
     - ✅ Chapter 3.
     - ✅ Chapter 4 (Requirements 001-200).
-    - ⏳ Chapter 4 (Requirements 201-400).
+    - ✅ Chapter 4 (Requirements 201-400).
     - ⏳ Chapter 4 (Requirements 401-600).
     - ⏳ Chapter 4 (Requirements 601-769).
     - ⏳ Chapters 5-6.
