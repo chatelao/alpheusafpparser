@@ -134,15 +134,17 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - 🚧 Chapters 4-5 in-progress.
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
-- 🚧 Analyze and update `TEST_COVERAGE_PTOCA.md` in reasonable chunks:
+- 🚧 Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks:
     - ✅ Chapters 1-2.
     - ✅ Chapter 3.
     - ✅ Chapter 4 (Requirements 001-200).
     - ✅ Chapter 4 (Requirements 201-400).
     - ⏳ Chapter 4 (Requirements 401-600).
     - ⏳ Chapter 4 (Requirements 601-769).
-    - ⏳ Chapters 5-6.
-    - ⏳ Appendices A-C.
+    - ⏳ Chapter 5.
+    - ⏳ Chapter 6.
+    - ⏳ Appendices A-B.
+    - ⏳ Appendix C.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
