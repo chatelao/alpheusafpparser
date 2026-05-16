@@ -84,7 +84,6 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-      IDD_ImageDataDescriptor.checkDataLength(sfData, offset, length, 6);
       fieldType = SelfDefiningFieldType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
       applicabilityArea = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
@@ -145,13 +144,19 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
       reserved2 = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
       colorSpace = AFPColorSpace.valueOf(sfData[offset + 3]);
       reserved4_7 = new byte[4];
-      System.arraycopy(sfData, offset + 5, reserved4_7, 0, 4);
+      System.arraycopy(sfData, offset + 4, reserved4_7, 0, 4);
       nrOfBitsComponent1 = sfData[offset + 8];
       nrOfBitsComponent2 = sfData[offset + 9];
       nrOfBitsComponent3 = sfData[offset + 10];
       nrOfBitsComponent4 = sfData[offset + 11];
-      colorValue = new byte[lengthOfFollowingData - 10];
-      System.arraycopy(sfData, offset + 12, colorValue, 0, colorValue.length);
+      int headerSize = 10; // offset 2 to 11
+      int colorDataLen = lengthOfFollowingData - headerSize;
+      if (colorDataLen > 0) {
+        colorValue = new byte[colorDataLen];
+        System.arraycopy(sfData, offset + 12, colorValue, 0, colorValue.length);
+      } else {
+        colorValue = null;
+      }
     }
 
     @Override
@@ -240,7 +245,6 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-      StructuredField.checkDataLength(sfData, offset, length, 4);
       fieldType = SelfDefiningFieldType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
       functionSetCategory = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
@@ -274,9 +278,11 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
     public enum FunctionSetIdentifier {
       FS10(0x0A),
       FS11(0x0B),
+      FS14(0x0E),
       FS40(0x28),
       FS42(0x2A),
-      FS45(0x2D);
+      FS45(0x2D),
+      FS48(0x30);
       int code;
 
       FunctionSetIdentifier(int fsCodeByte) {

@@ -148,8 +148,8 @@ public class IPD_ImagePictureData extends StructuredField {
           ipdSegment = new BandImageData();
         }
         break;
-        case nColorNames: {
-          ipdSegment = new nColorNames();
+        case NColorNames: {
+          ipdSegment = new NColorNames();
         }
         break;
         case UnknownIPDSegmentLong: {

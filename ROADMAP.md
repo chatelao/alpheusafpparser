@@ -31,13 +31,13 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
 | [GOCA](TEST_COVERAGE_GOCA.md) | 0 | 2144 | 0.0% |
-| [IOCA](TEST_COVERAGE_IOCA.md) | 0 | 1587 | 0.0% |
+| [IOCA](TEST_COVERAGE_IOCA.md) | 1587 | 1587 | 100.0% |
 | [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **1488** | **20955** | **7.1%** |
+| **Total** | **3075** | **20955** | **14.7%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -154,13 +154,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ⏳ Chapter 7.
     - ⏳ Chapters 8-9.
     - ⏳ Appendices A-D.
-- ⏳ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks:
-    - ⏳ Chapters 1-3.
-    - ⏳ Chapter 4.
-    - ⏳ Chapter 5.
-    - ⏳ Chapter 6.
-    - ⏳ Chapter 7.
-    - ⏳ Appendices A-G.
+- ✅ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks (Complete).
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
