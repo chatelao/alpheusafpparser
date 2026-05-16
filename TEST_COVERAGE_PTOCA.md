@@ -1108,385 +1108,385 @@
 | PTOCA-4-767 | orientation values not within the range specified by PTOCA. | ✅ |
 | PTOCA-4-768 | EC-6802...The I-axis is not parallel to the $X_p$ | ✅ |
 | PTOCA-4-769 | EC-6902...The B-axis is not parallel to the $X_p$ | ✅ |
-| PTOCA-5-001 | Describes exception condition detection | ❓ |
-| PTOCA-5-002 | Describes exception responses and standard actions | ❓ |
-| PTOCA-5-003 | Lists the PTOCA exception condition codes | ❓ |
-| PTOCA-5-004 | Invalid or unsupported parameter value | ❓ |
-| PTOCA-5-005 | Invalid or unsupported parameter | ❓ |
-| PTOCA-5-006 | Invalid or unsupported control sequence | ❓ |
-| PTOCA-5-007 | Syntactic | ❓ |
-| PTOCA-5-008 | Semantic | ❓ |
-| PTOCA-5-009 | Pragmatic | ❓ |
-| PTOCA-5-010 | Invalid control sequence | ❓ |
-| PTOCA-5-011 | Invalid parameter value | ❓ |
-| PTOCA-5-012 | Control sequence appearing in invalid context | ❓ |
-| PTOCA-5-013 | Selection of inconsistent or contradictory functions | ❓ |
-| PTOCA-5-014 | Loss of presentation information | ❓ |
-| PTOCA-5-015 | Mismatch of characteristics of Presentation Text object and presentation product | ❓ |
-| PTOCA-5-016 | Unavailable resource, for example, coded font | ❓ |
-| PTOCA-5-017 | Unavailable function, for example, overstrike | ❓ |
-| PTOCA-5-018 | Unsupported control sequence | ❓ |
-| PTOCA-5-019 | between an invalid parameter value and a parameter value out of the product's range. | ❓ |
-| PTOCA-5-020 | exception conditions. If it does not, this detection must be performed by the receiver. | ❓ |
-| PTOCA-5-021 | cannot process some of the Presentation Text object, the standard action could be to present it with | ❓ |
-| PTOCA-5-022 | initiates the specified action, and is responsible for its satisfactory completion. | ❓ |
-| PTOCA-5-023 | T erminate processing Presentation Text object | ❓ |
-| PTOCA-5-024 | Ignore the control that caused the exception condition and continue processing the object | ❓ |
-| PTOCA-5-025 | Partially process the control that caused the exception condition | ❓ |
-| PTOCA-5-026 | Report exception condition back to generator or forward it to the presenter of the object | ❓ |
-| PTOCA-5-027 | Cause an intervention-required condition to occur at the receiver | ❓ |
-| PTOCA-5-028 | Mark the presentation information with diagnostic information | ❓ |
-| PTOCA-5-029 | conditions received from the object processor. | ❓ |
-| PTOCA-5-030 | Invalid or unsupported function type in control sequence. | ❓ |
-| PTOCA-5-031 | Invalid control sequence or initial text condition parameter. | ❓ |
-| PTOCA-5-032 | Invalid or unsupported initial text condition parameter identifier. | ❓ |
-| PTOCA-5-033 | Control sequence or initial text condition parameter is not in the | ❓ |
-| PTOCA-5-034 | A character has been positioned so that a portion of its character box | ❓ |
-| PTOCA-5-035 | Caution - this exception condition is applicable only within a valid object | ❓ |
-| PTOCA-5-036 | The active BSU LID is not the same as the LID specified in the ESU. | ❓ |
-| PTOCA-5-037 | No active BSU LID when an ESU is processed. | ❓ |
-| PTOCA-5-038 | BSU is encountered before the previous suppression has ended. | ❓ |
-| PTOCA-5-039 | - or $Y_p$ | ❓ |
-| PTOCA-5-040 | - or $Y_p$ | ❓ |
-| PTOCA-5-041 | Baseline or inline orientation specified is not a valid or supported value. | ❓ |
-| PTOCA-5-042 | The I and Borientations are identical. | ❓ |
-| PTOCA-5-043 | Neither the I-direction nor the B-direction is parallel to the $X_p$ | ❓ |
-| PTOCA-5-044 | The necessary mapping is not provided to support the specified coded | ❓ |
-| PTOCA-5-045 | The specified coded font is not available to the receiver. | ❓ |
-| PTOCA-5-046 | The target count parameter for RPS is invalid or unsupported. | ❓ |
-| PTOCA-5-047 | The data string length for TRN or RPS is an odd number. It must be | ❓ |
-| PTOCA-5-048 | The byte count specified for code points following UCT is an odd | ❓ |
-| PTOCA-5-049 | number. It must be even for double–byte encoded data. | ❓ |
-| PTOCA-5-050 | A high-order surrogate code value was not immediately followed by a | ❓ |
-| PTOCA-5-051 | A low-order surrogate code value was not immediately preceded by a | ❓ |
-| PTOCA-5-052 | An illegal UTF-8 byte sequence, as defined in the Unicode 3.2 | ❓ |
-| PTOCA-5-053 | The RPS repeat length is an odd number when a double-byte font is | ❓ |
-| PTOCA-5-054 | The class of a X'2B' control sequence is not X'D3'. | ❓ |
-| PTOCA-5-055 | A required parameter has not been not specified. | ❓ |
-| PTOCA-5-056 | Invalid control sequence or initial text condition parameter length. | ❓ |
-| PTOCA-5-057 | Part of an optional parameter in a control sequence is missing. | ❓ |
-| PTOCA-5-058 | A Coded Font LID has been omitted in a SCFL control sequence or in a | ❓ |
-| PTOCA-5-059 | SVIcontrol sequence increment parameter is missing. | ❓ |
-| PTOCA-5-060 | DBR or DIR length parameter is missing. | ❓ |
-| PTOCA-5-061 | SIM displacement parameter is missing. | ❓ |
-| PTOCA-5-062 | I-orientation parameter or B-orientation parameter is missing in an STO | ❓ |
-| PTOCA-5-063 | The RPS control sequence length is four and the repeat length is not | ❓ |
-| PTOCA-5-064 | Receiver is unable to support TBM by printing full size characters. | ❓ |
-| PTOCA-5-065 | Receiver cannot support substitution character in the TBM field. | ❓ |
-| PTOCA-5-066 | Temporary move size exceeds the device limitations. | ❓ |
-| PTOCA-5-067 | Substitution method receiver cannot support multi-offset temporary | ❓ |
-| PTOCA-5-068 | Character increment of overstrike character is less than or equal to | ❓ |
-| PTOCA-5-069 | Character increment of overstrike character is less than the character- | ❓ |
-| PTOCA-5-070 | Overstrike character is a non-printing character. | ❓ |
-| PTOCA-5-071 | been set for decryption. | ❓ |
-| PTOCA-6-001 | Describes the base level of PTOCA | ❓ |
-| PTOCA-6-002 | Describes the PT1 subset of PTOCA | ❓ |
-| PTOCA-6-003 | Describes the PT2 subset of PTOCA | ❓ |
-| PTOCA-6-004 | Describes the PT3 subset of PTOCA | ❓ |
-| PTOCA-6-005 | Describes the PT4 subset of PTOCA | ❓ |
-| PTOCA-6-006 | States general requirements for compliance | ❓ |
-| PTOCA-6-007 | Recognition of control sequences, chained or unchained | ❓ |
-| PTOCA-6-008 | Interpretation and validation of the control sequence | ❓ |
-| PTOCA-6-009 | Rejection of control sequences and parameters, including return of error data, that are not supported within | ❓ |
-| PTOCA-6-010 | Reporting, on request from the controlling environment, the supported features | ❓ |
-| PTOCA-6-011 | Reporting exception conditions to the controlling environment | ❓ |
-| PTOCA-6-012 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ❓ |
-| PTOCA-6-013 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ❓ |
-| PTOCA-6-014 | 6-256 RPTDATA 8 | ❓ |
-| PTOCA-6-015 | 6 DIRECTION X'00' 9 | ❓ |
-| PTOCA-6-016 | 6 PRECISION X'00'-X'01' 3,10 | ❓ |
-| PTOCA-6-017 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3 | ❓ |
-| PTOCA-6-018 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ❓ |
-| PTOCA-6-019 | 2. The PTOCA range for RWI DTH is X'8000' - X'7FFF' plus a fractional value byte ranging from X'00' - X'FF'. | ❓ |
-| PTOCA-6-020 | 3. The default indicator is allowed, meaning obtain a value from the hierarchy. | ❓ |
-| PTOCA-6-021 | 4. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ❓ |
-| PTOCA-6-022 | -units per unit base are assumed to be | ❓ |
-| PTOCA-6-023 | 5. For the PTOCA range, see “Set Text Color (STC)”. The PT1 range is X'FF07'. | ❓ |
-| PTOCA-6-024 | 6. The Begin Line (BLN) control sequence has no parameters. | ❓ |
-| PTOCA-6-025 | 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. The | ❓ |
-| PTOCA-6-026 | 8. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ❓ |
-| PTOCA-6-027 | 9. The default indicator is not allowed for this parameter in this subset. | ❓ |
-| PTOCA-6-028 | 10. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ❓ |
-| PTOCA-6-029 | generators should not specify this parameter and new receivers should ignore it.. | ❓ |
-| PTOCA-6-030 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ❓ |
-| PTOCA-6-031 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ❓ |
-| PTOCA-6-032 | 5-6 OVERCHAR X'0000'-X'FFFF' | ❓ |
-| PTOCA-6-033 | 6-256 RPTDATA 8 | ❓ |
-| PTOCA-6-034 | 6 DIRECTION X'00'-X'01' 3 | ❓ |
-| PTOCA-6-035 | 6 PRECISION X'00'-X'01' 3,9 | ❓ |
-| PTOCA-6-036 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3 | ❓ |
-| PTOCA-6-037 | 5 PRECISION X'00'-X'01' 3 | ❓ |
-| PTOCA-6-038 | 6-7 INCRMENT X'0000'-X'7FFF' 3,4 | ❓ |
-| PTOCA-6-039 | USC 4 BYPSIDEN X'00'-X'0E' 3 | ❓ |
-| PTOCA-6-040 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ❓ |
-| PTOCA-6-041 | 2. The PTOCA range for RWI DTH is X'8000' - X'7FFF' plus a fractional value byte ranging from X'00' - X'FF'. | ❓ |
-| PTOCA-6-042 | 3. The default indicator is allowed, meaning obtain a value from the hierarchy. | ❓ |
-| PTOCA-6-043 | 4. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ❓ |
-| PTOCA-6-044 | 5. For the PTOCA range, see “Set Text Color (STC)”. The PT2 range is X'0000', X'FF00', | ❓ |
-| PTOCA-6-045 | 6. The Begin Line (BLN) control sequence has no parameters. | ❓ |
-| PTOCA-6-046 | 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. | ❓ |
-| PTOCA-6-047 | 8. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ❓ |
-| PTOCA-6-048 | 9. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ❓ |
-| PTOCA-6-049 | generators should not specify this parameter and new receivers should ignore it. | ❓ |
-| PTOCA-6-050 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ❓ |
-| PTOCA-6-051 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ❓ |
-| PTOCA-6-052 | 5-6 OVERCHAR X'0000'-X'FFFF' | ❓ |
-| PTOCA-6-053 | 6-256 RPTDATA 8 | ❓ |
-| PTOCA-6-054 | 6 DIRECTION X'00'-X'01' 3 | ❓ |
-| PTOCA-6-055 | 6 PRECISION X'00'-X'01' 3,9 | ❓ |
-| PTOCA-6-056 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3 | ❓ |
-| PTOCA-6-057 | TBM 4 DIRECTION X'00'-X'03' 3 | ❓ |
-| PTOCA-6-058 | 5 PRECISION X'00'-X'01' 3 | ❓ |
-| PTOCA-6-059 | 6-7 INCRMENT X'0000'-X'7FFF' 3,4 | ❓ |
-| PTOCA-6-060 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ❓ |
-| PTOCA-6-061 | 2. The PTOCA range for RWI DTH is X'8000' - X'7FFF' plus a fractional value byte ranging from X'00' - X'FF'. | ❓ |
-| PTOCA-6-062 | 3. The default indicator is allowed, meaning obtain a value from the hierarchy. | ❓ |
-| PTOCA-6-063 | 4. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ❓ |
-| PTOCA-6-064 | 5. For the PTOCA range, see “Set Text Color (STC)”. The PT3 range is X'0000', X'FF00', | ❓ |
-| PTOCA-6-065 | 6. The Begin Line (BLN) control sequence has no parameters. | ❓ |
-| PTOCA-6-066 | 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. | ❓ |
-| PTOCA-6-067 | 8. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ❓ |
-| PTOCA-6-068 | 9. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ❓ |
-| PTOCA-6-069 | generators should not specify this parameter and new receivers should ignore it.. | ❓ |
-| PTOCA-6-070 | 6 OIDLGTH 0, 13-129 | ❓ |
-| PTOCA-6-071 | 7 FFNLGTH 0-(255-(10+OIDLGTH)) | ❓ |
-| PTOCA-6-072 | 12 -n FONTOID (first byte) X'06' | ❓ |
-| PTOCA-6-073 | 5-6 OVERCHAR X'0000'-X'FFFF' | ❓ |
-| PTOCA-6-074 | 6-256 RPTDATA 7 | ❓ |
-| PTOCA-6-075 | 6 DIRECTION X'00'-X'01' 2 | ❓ |
-| PTOCA-6-076 | 6 PRECISION X'00'-X'01' 2,8 | ❓ |
-| PTOCA-6-077 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 2 | ❓ |
-| PTOCA-6-078 | 5 PRECISION X'00'-X'01' 2 | ❓ |
-| PTOCA-6-079 | 6-7 INCRMENT X'0000'-X'7FFF' 2,3 | ❓ |
-| PTOCA-6-080 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ❓ |
-| PTOCA-6-081 | 2. The default indicator is allowed, meaning obtain a value from the hierarchy. | ❓ |
-| PTOCA-6-082 | 3. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ❓ |
-| PTOCA-6-083 | 4. For the PTOCA range, see “Set Text Color (STC)”. The PT4 range is the full Standard OCA | ❓ |
-| PTOCA-6-084 | 5. The Begin Line (BLN) control sequence has no parameters. | ❓ |
-| PTOCA-6-085 | 6. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. | ❓ |
-| PTOCA-6-086 | 7. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ❓ |
-| PTOCA-6-087 | 8. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ❓ |
-| PTOCA-6-088 | 9. The UCT must be chained to a GAR or GOR and is not rendered; all parameters are ignored. | ❓ |
-| PTOCA-6-089 | General Requirements for Compliance | ❓ |
-| PTOCA-A-001 | A set of rules that must be followed by all generators when constructing Presentation Text objects. | ❓ |
-| PTOCA-A-002 | A set of Presentation Text processing capabilities that are guaranteed to be supported by all receivers. | ❓ |
-| PTOCA-A-003 | characters it places in the object space are positioned so that they do not exceed the object space. | ❓ |
-| PTOCA-A-004 | 164 PTOCA Reference | ❓ |
-| PTOCA-A-005 | 0 CODE XPBASE X'00'–X'01' Unit base for X axis; must | ❓ |
-| PTOCA-A-006 | 1 CODE YPBASE X'00' –X'01' Unit base for Y axis; must | ❓ |
-| PTOCA-A-007 | 1. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is ten | ❓ |
-| PTOCA-A-008 | 2. The default indicator is not allowed for this parameter in this subset. | ❓ |
-| PTOCA-A-009 | 3. The TEXTFLAGS parameter is reserved. Generators should set this parameter to X'0000', and receivers | ❓ |
-| PTOCA-A-010 | 4. See the description of the control sequence that specifies the initial text condition. | ❓ |
-| PTOCA-A-011 | Presentation Text Structured Fields | ❓ |
-| PTOCA-A-012 | Presentation Text Data Descriptor (PTD) | ❓ |
-| PTOCA-A-013 | 166 PTOCA Reference | ❓ |
-| PTOCA-A-014 | 0 CODE XPBASE X'00' Unit base for X axis; ten | ❓ |
-| PTOCA-A-015 | 1 CODE YPBASE X'00' Unit base for Y axis; ten | ❓ |
-| PTOCA-A-016 | Presentation Text Data (PTX) | ❓ |
-| PTOCA-A-017 | Additional Related Structured Fields | ❓ |
-| PTOCA-A-018 | 168 PTOCA Reference | ❓ |
-| PTOCA-B-001 | The context of Presentation Text objects in the IPDS environment; as either text-major text or as independent | ❓ |
-| PTOCA-B-002 | A comparison of PTOCA and IPDS exception conditions | ❓ |
-| PTOCA-B-003 | IPDS commands specific to presentation text | ❓ |
-| PTOCA-B-004 | Command structure and syntax | ❓ |
-| PTOCA-B-005 | Initial conditions for the object | ❓ |
-| PTOCA-B-006 | A means of reporting exception conditions | ❓ |
-| PTOCA-B-007 | A means of resolving fonts and suppression identifiers | ❓ |
-| PTOCA-B-008 | 1. All IPDS printers allow text to be placed directly within a logical page using the Write Text command. The | ❓ |
-| PTOCA-B-009 | 2. Some IPDS printers support text objects (in addition to the text-major concept). In this case, the Write Text | ❓ |
-| PTOCA-B-010 | specified in a text object. | ❓ |
-| PTOCA-B-011 | 170 PTOCA Reference | ❓ |
-| PTOCA-B-012 | 1. If a receiver cannot provide the color specified by FRGCOLOR, it may substitute values from Table 13 on | ❓ |
-| PTOCA-B-013 | 2. The default indicator is allowed, meaning use the printer default. | ❓ |
-| PTOCA-B-014 | 3. The TEXTFLAGS parameter is reserved. This parameter is not used in the IPDS environment. | ❓ |
-| PTOCA-B-015 | 4. DIRCTION is always defaulted to X'00', that is, the positive direction, so this parameter is not carried in the | ❓ |
-| PTOCA-B-016 | 5. The default indicator is not allowed for this parameter in this subset. | ❓ |
-| PTOCA-B-017 | IPDS Text Command Set | ❓ |
-| PTOCA-B-018 | 6 CODE Unit base X'00' | ❓ |
-| PTOCA-B-019 | 7 X'00' Reserved X'00' | ❓ |
-| PTOCA-B-020 | Presentation Exception Conditions | ❓ |
-| PTOCA-B-021 | 172 PTOCA Reference | ❓ |
-| PTOCA-B-022 | 0201..03 for text objects | ❓ |
-| PTOCA-B-023 | Presentation Exception Conditions | ❓ |
-| PTOCA-B-024 | Additional Related Commands | ❓ |
-| PTOCA-B-025 | 174 PTOCA Reference | ❓ |
-| PTOCA-B-026 | The external suppression value maps to the LID parameter of the BSU control sequence. For example, if the | ❓ |
-| PTOCA-B-027 | The external suppression value maps to the LID through an equivalence table, using the current Load | ❓ |
-| PTOCA-B-028 | Activate Resource (AR) | ❓ |
-| PTOCA-B-029 | Deactivate Data-Object-Font Component (DDOFC) | ❓ |
-| PTOCA-B-030 | Deactivate Font (DF) | ❓ |
-| PTOCA-B-031 | Load Code Page (LCP) | ❓ |
-| PTOCA-B-032 | Load Code Page Control (LCPC) | ❓ |
-| PTOCA-B-033 | Write Object Container Control (WOCC) | ❓ |
-| PTOCA-B-034 | Write Object Container (WOC) | ❓ |
-| PTOCA-B-035 | XOH Erase Residual Font Data (ERFD) | ❓ |
-| PTOCA-B-036 | XOH Erase Residual Print Data (ERPD) | ❓ |
-| PTOCA-B-037 | Activate Resource (AR) | ❓ |
-| PTOCA-B-038 | Deactivate Font (DF) | ❓ |
-| PTOCA-B-039 | Load Code Page (LCP) | ❓ |
-| PTOCA-B-040 | Load Code Page Control (LCPC) | ❓ |
-| PTOCA-B-041 | Load Font (LF) | ❓ |
-| PTOCA-B-042 | Load Font Character Set Control (LFCSC) | ❓ |
-| PTOCA-B-043 | Load Font Equivalence (LFE) | ❓ |
-| PTOCA-B-044 | XOH Erase Residual Font Data (ERFD) | ❓ |
-| PTOCA-B-045 | Activate Resource (AR) | ❓ |
-| PTOCA-B-046 | Deactivate Font (DF) | ❓ |
-| PTOCA-B-047 | Load Font (LF) | ❓ |
-| PTOCA-B-048 | Load Font Control (LFC) | ❓ |
-| PTOCA-B-049 | Load Font Equivalence (LFE) | ❓ |
-| PTOCA-B-050 | Load Font Index (LFI) | ❓ |
-| PTOCA-B-051 | XOH Erase Residual Font Data (ERFD) | ❓ |
-| PTOCA-B-052 | Activate Resource (AR) | ❓ |
-| PTOCA-B-053 | Deactivate Font (DF) | ❓ |
-| PTOCA-B-054 | Load Font Equivalence (LFE) | ❓ |
-| PTOCA-B-055 | Load Symbol Set (LSS) | ❓ |
-| PTOCA-B-056 | 176 PTOCA Reference | ❓ |
-| PTOCA-C-001 | Describes retired functions that may occur in a PTOCA object | ❓ |
-| PTOCA-C-002 | 5803 exists. The standard action in this case is to use X'FF07'. If PRECSION is X'01', and if the FRGCOLOR | ❓ |
-| PTOCA-C-003 | 1. Value set by Text Color initial text condition parameter in Descriptor | ❓ |
-| PTOCA-C-004 | 2. PTOCA default - X'00' | ❓ |
-| PTOCA-C-005 | 1. Value previously set by Text Color initial text condition parameter in descriptor | ❓ |
-| PTOCA-C-006 | 2. Data stream specified value | ❓ |
-| PTOCA-C-007 | 3. Receiver's best possible value | ❓ |
-| PTOCA-C-008 | 178 PTOCA Reference | ❓ |
-| PTOCA-C-009 | 1. Receiver's best possible value | ❓ |
-| PTOCA-C-010 | 2. Value previously set by Text Color initial text condition parameter in descriptor | ❓ |
-| PTOCA-C-011 | 3. Data stream specified value | ❓ |
-| PTOCA-C-012 | entirely coincidental. | ❓ |
-| PTOCA-C-013 | 180 PTOCA Reference | ❓ |
-| PTOCA-C-014 | Other company , product, or service names might be trademarks or service marks of others. | ❓ |
-| PTOCA-C-015 | Mixed Object Document Content Architecture (MO:DCA); | ❓ |
-| PTOCA-C-016 | Intelligent Printer Data Stream (IPDS) | ❓ |
-| PTOCA-C-017 | AFP Line Data Architecture | ❓ |
-| PTOCA-C-018 | Bar Code Object Content Architecture (BCOCA) | ❓ |
-| PTOCA-C-019 | Color Management Object Content Architecture | ❓ |
-| PTOCA-C-020 | Font Object Content Architecture (FOCA) | ❓ |
-| PTOCA-C-021 | Graphics Object Content Architecture for AFP (AFP | ❓ |
-| PTOCA-C-022 | Image Object Content Architecture (IOCA) | ❓ |
-| PTOCA-C-023 | Metadata Object Content Architecture (MOCA) | ❓ |
-| PTOCA-C-024 | Presentation Text Object Content Architecture (PTOCA) | ❓ |
-| PTOCA-C-025 | 182 PTOCA Reference | ❓ |
-| PTOCA-C-026 | AFP • application program | ❓ |
-| PTOCA-C-027 | 184 PTOCA Reference | ❓ |
-| PTOCA-C-028 | . See current baseline presentation coordinate. | ❓ |
-| PTOCA-C-029 | . See current baseline print coordinate. | ❓ |
-| PTOCA-C-030 | Bar Code command set • Bcoordinate | ❓ |
-| PTOCA-C-031 | . See initial baseline print coordinate. | ❓ |
-| PTOCA-C-032 | . For example, if P | ❓ |
-| PTOCA-C-033 | . See baseline presentation origin. | ❓ |
-| PTOCA-C-034 | B direction (B) • CGCSGID | ❓ |
-| PTOCA-C-035 | 186 PTOCA Reference | ❓ |
-| PTOCA-C-036 | CGPC • character reference point | ❓ |
-| PTOCA-C-037 | character rotation • Code 39 | ❓ |
-| PTOCA-C-038 | 188 PTOCA Reference | ❓ |
-| PTOCA-C-039 | Code 128 • color management | ❓ |
-| PTOCA-C-040 | Color Management Object Content Architecture (CMOCA) • control sequence | ❓ |
-| PTOCA-C-041 | 190 PTOCA Reference | ❓ |
-| PTOCA-C-042 | A TrueType/OpenType font, an optional code page, and | ❓ |
-| PTOCA-C-043 | A TrueType/OpenType collection, either an index value | ❓ |
-| PTOCA-C-044 | current drawing attributes • data object resource | ❓ |
-| PTOCA-C-045 | 192 PTOCA Reference | ❓ |
-| PTOCA-C-046 | Used to prepare for the presentation of a data object; | ❓ |
-| PTOCA-C-047 | Included in a page or overlay via the Include Data Object | ❓ |
-| PTOCA-C-048 | Invoked from within a data object; examples | ❓ |
-| PTOCA-C-049 | data stream • device resolution | ❓ |
-| PTOCA-C-050 | Print file (highest level) | ❓ |
-| PTOCA-C-051 | Document | ❓ |
-| PTOCA-C-052 | Page group | ❓ |
-| PTOCA-C-053 | Data object (lowest level) | ❓ |
-| PTOCA-C-054 | 300 dpi, there are 90,000 dots or bits of electronic data | ❓ |
-| PTOCA-C-055 | device-version code page • dpi | ❓ |
-| PTOCA-C-056 | 194 PTOCA Reference | ❓ |
-| PTOCA-C-057 | error diffusion halftone • fixed medium information | ❓ |
-| PTOCA-C-058 | 196 PTOCA Reference | ❓ |
-| PTOCA-C-059 | fixed metrics • Font Typeface Global Identifier (FGID) | ❓ |
-| PTOCA-C-060 | For fixed-pitch, uniform character increment fonts: the | ❓ |
-| PTOCA-C-061 | For PSM fonts: the width of the space character | ❓ |
-| PTOCA-C-062 | For typographic, proportionally spaced fonts: one-third of | ❓ |
-| PTOCA-C-063 | Wherever the color attribute of P | ❓ |
-| PTOCA-C-064 | . Likewise, | ❓ |
-| PTOCA-C-065 | With other overlapping color values, the intersection | ❓ |
-| PTOCA-C-066 | . In general, this mixing is a | ❓ |
-| PTOCA-C-067 | . The intersection of the foregrounds | ❓ |
-| PTOCA-C-068 | Wherever the color attribute of P | ❓ |
-| PTOCA-C-069 | Wherever the color attribute of P | ❓ |
-| PTOCA-C-070 | . In general, this mixing is a blending | ❓ |
-| PTOCA-C-071 | font width (FW) • fully described font | ❓ |
-| PTOCA-C-072 | 198 PTOCA Reference | ❓ |
-| PTOCA-C-073 | Coded Character Set Identifier (CCSID) | ❓ |
-| PTOCA-C-074 | Coded Graphic Character Set Global Identifier | ❓ |
-| PTOCA-C-075 | Code Page Global ID (CPGID) | ❓ |
-| PTOCA-C-076 | Font Typeface Global Identifier (FGID) | ❓ |
-| PTOCA-C-077 | Global Resource Identifier (GRID) | ❓ |
-| PTOCA-C-078 | Graphic Character Global Identifier (GCGID) | ❓ |
-| PTOCA-C-079 | Graphic Character Set Global Identifier (GCSGID) | ❓ |
-| PTOCA-C-080 | Graphic Character UCS Identifier (GCUID) | ❓ |
-| PTOCA-C-081 | An identifier used by a data object to reference a | ❓ |
-| PTOCA-C-082 | In MO:DCA, an encoded graphic character string that | ❓ |
-| PTOCA-C-083 | Object identifier (OID) | ❓ |
-| PTOCA-C-084 | A Uniform Resource Locator (URL), as defined in RFC | ❓ |
-| PTOCA-C-085 | 1. GCSGID of a minimum set of graphic characters | ❓ |
-| PTOCA-C-086 | 2. CPGID of the associated code page | ❓ |
-| PTOCA-C-087 | 3. FGID of the associated font character set | ❓ |
-| PTOCA-C-088 | 4. Font width in 1440ths of an inch. | ❓ |
-| PTOCA-C-089 | 200 PTOCA Reference | ❓ |
-| PTOCA-C-090 | For fixed-pitch, uniform character increment fonts: the | ❓ |
-| PTOCA-C-091 | For PSM fonts: the width of the space character | ❓ |
-| PTOCA-C-092 | For typographic fonts and proportionally spaced fonts: | ❓ |
-| PTOCA-C-093 | guard bars • HSV color space | ❓ |
-| PTOCA-C-094 | . See current inline presentation coordinate. | ❓ |
-| PTOCA-C-095 | . See current inline print coordinate. | ❓ |
-| PTOCA-C-096 | . See initial inline print coordinate. | ❓ |
-| PTOCA-C-097 | human-readable interpretation (HRI) • image object | ❓ |
-| PTOCA-C-098 | 202 PTOCA Reference | ❓ |
-| PTOCA-C-099 | image object area • intercharacter gap | ❓ |
-| PTOCA-C-100 | . See inline presentation origin. | ❓ |
-| PTOCA-C-101 | intercharacter increment • JPEG File Interchange Format (JFIF) | ❓ |
-| PTOCA-C-102 | 204 PTOCA Reference | ❓ |
-| PTOCA-C-103 | Kanji • local area network (LAN) | ❓ |
-| PTOCA-C-104 | 1 logical unit = 1/1440 inch | ❓ |
-| PTOCA-C-105 | 1 logical unit = 1/240 inch | ❓ |
-| PTOCA-C-106 | 1 L unit = 1/1440 inch | ❓ |
-| PTOCA-C-107 | 1 L unit = 1/240 inch | ❓ |
-| PTOCA-C-108 | Local Character Set Identifier (LCID) • maximum descender depth | ❓ |
-| PTOCA-C-109 | 206 PTOCA Reference | ❓ |
-| PTOCA-C-110 | meaning • MO:DCA IS/1 | ❓ |
-| PTOCA-C-111 | . See also bilevel. | ❓ |
-| PTOCA-C-112 | MO:DCA IS/2 • neutral white | ❓ |
-| PTOCA-C-113 | 208 PTOCA Reference | ❓ |
-| PTOCA-C-114 | non-presentation object • ordered page | ❓ |
-| PTOCA-C-115 | orientation • page segment | ❓ |
-| PTOCA-C-116 | 210 PTOCA Reference | ❓ |
-| PTOCA-C-117 | . The proprietary P ANT ONE color matching | ❓ |
-| PTOCA-C-118 | . A set of printer commands, developed by Hewlett- | ❓ |
-| PTOCA-C-119 | Page-Segment command set • picket fence bar code | ❓ |
-| PTOCA-C-120 | picture chain • presentation space orientation | ❓ |
-| PTOCA-C-121 | 212 PTOCA Reference | ❓ |
-| PTOCA-C-122 | presentation system • quantization | ❓ |
-| PTOCA-C-123 | quiet zone • relative move | ❓ |
-| PTOCA-C-124 | 214 PTOCA Reference | ❓ |
-| PTOCA-C-125 | Fields or values that have been used by a product in a | ❓ |
-| PTOCA-C-126 | Fields or values that have been removed from an | ❓ |
-| PTOCA-C-127 | relative positioning • Royal Mail 4 State Customer Code (RM4SCC) | ❓ |
-| PTOCA-C-128 | rule • sequential baseline | ❓ |
-| PTOCA-C-129 | 216 PTOCA Reference | ❓ |
-| PTOCA-C-130 | sequential baseline position • spot color | ❓ |
-| PTOCA-C-131 | 218 PTOCA Reference | ❓ |
-| PTOCA-C-132 | Document-processing applications can obtain resolution- | ❓ |
-| PTOCA-C-133 | Device-service applications can obtain device-specific | ❓ |
-| PTOCA-C-134 | symbol set • transform matrix | ❓ |
-| PTOCA-C-135 | 1440 twips in one inch. | ❓ |
-| PTOCA-C-136 | . This is also referred to as “transparent” or “leave | ❓ |
-| PTOCA-C-137 | 220 PTOCA Reference | ❓ |
-| PTOCA-C-138 | UTF-16 • variable space character | ❓ |
-| PTOCA-C-139 | variable space character increment • X dimension | ❓ |
-| PTOCA-C-140 | 222 PTOCA Reference | ❓ |
-| PTOCA-C-141 | coordinate system • Yxy color space | ❓ |
-| PTOCA-C-142 | 1 15, 1 17, 142 | ❓ |
-| PTOCA-C-143 | EC-9601 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .55 | ❓ |
-| PTOCA-C-144 | 224 PTOCA Reference | ❓ |
-| PTOCA-C-145 | 1 10, 1 17, 141–143 | ❓ |
-| PTOCA-C-146 | variable space character increment . . . . . . . . . . . . . . . . . . . . . . . . . 24, 108 | ❓ |
-| PTOCA-C-147 | USC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 17 | ❓ |
-| PTOCA-C-148 | ReferenceAFPC-0009-04 | ❓ |
+| PTOCA-5-001 | Describes exception condition detection | ✅ |
+| PTOCA-5-002 | Describes exception responses and standard actions | ✅ |
+| PTOCA-5-003 | Lists the PTOCA exception condition codes | ✅ |
+| PTOCA-5-004 | Invalid or unsupported parameter value | ✅ |
+| PTOCA-5-005 | Invalid or unsupported parameter | ✅ |
+| PTOCA-5-006 | Invalid or unsupported control sequence | ✅ |
+| PTOCA-5-007 | Syntactic | ✅ |
+| PTOCA-5-008 | Semantic | ✅ |
+| PTOCA-5-009 | Pragmatic | ✅ |
+| PTOCA-5-010 | Invalid control sequence | ✅ |
+| PTOCA-5-011 | Invalid parameter value | ✅ |
+| PTOCA-5-012 | Control sequence appearing in invalid context | ✅ |
+| PTOCA-5-013 | Selection of inconsistent or contradictory functions | ✅ |
+| PTOCA-5-014 | Loss of presentation information | ✅ |
+| PTOCA-5-015 | Mismatch of characteristics of Presentation Text object and presentation product | ✅ |
+| PTOCA-5-016 | Unavailable resource, for example, coded font | ✅ |
+| PTOCA-5-017 | Unavailable function, for example, overstrike | ✅ |
+| PTOCA-5-018 | Unsupported control sequence | ✅ |
+| PTOCA-5-019 | between an invalid parameter value and a parameter value out of the product's range. | ✅ |
+| PTOCA-5-020 | exception conditions. If it does not, this detection must be performed by the receiver. | ✅ |
+| PTOCA-5-021 | cannot process some of the Presentation Text object, the standard action could be to present it with | ✅ |
+| PTOCA-5-022 | initiates the specified action, and is responsible for its satisfactory completion. | ✅ |
+| PTOCA-5-023 | T erminate processing Presentation Text object | ✅ |
+| PTOCA-5-024 | Ignore the control that caused the exception condition and continue processing the object | ✅ |
+| PTOCA-5-025 | Partially process the control that caused the exception condition | ✅ |
+| PTOCA-5-026 | Report exception condition back to generator or forward it to the presenter of the object | ✅ |
+| PTOCA-5-027 | Cause an intervention-required condition to occur at the receiver | ✅ |
+| PTOCA-5-028 | Mark the presentation information with diagnostic information | ✅ |
+| PTOCA-5-029 | conditions received from the object processor. | ✅ |
+| PTOCA-5-030 | Invalid or unsupported function type in control sequence. | ✅ |
+| PTOCA-5-031 | Invalid control sequence or initial text condition parameter. | ✅ |
+| PTOCA-5-032 | Invalid or unsupported initial text condition parameter identifier. | ✅ |
+| PTOCA-5-033 | Control sequence or initial text condition parameter is not in the | ✅ |
+| PTOCA-5-034 | A character has been positioned so that a portion of its character box | ✅ |
+| PTOCA-5-035 | Caution - this exception condition is applicable only within a valid object | ✅ |
+| PTOCA-5-036 | The active BSU LID is not the same as the LID specified in the ESU. | ✅ |
+| PTOCA-5-037 | No active BSU LID when an ESU is processed. | ✅ |
+| PTOCA-5-038 | BSU is encountered before the previous suppression has ended. | ✅ |
+| PTOCA-5-039 | - or $Y_p$ | ✅ |
+| PTOCA-5-040 | - or $Y_p$ | ✅ |
+| PTOCA-5-041 | Baseline or inline orientation specified is not a valid or supported value. | ✅ |
+| PTOCA-5-042 | The I and Borientations are identical. | ✅ |
+| PTOCA-5-043 | Neither the I-direction nor the B-direction is parallel to the $X_p$ | ✅ |
+| PTOCA-5-044 | The necessary mapping is not provided to support the specified coded | ✅ |
+| PTOCA-5-045 | The specified coded font is not available to the receiver. | ✅ |
+| PTOCA-5-046 | The target count parameter for RPS is invalid or unsupported. | ✅ |
+| PTOCA-5-047 | The data string length for TRN or RPS is an odd number. It must be | ✅ |
+| PTOCA-5-048 | The byte count specified for code points following UCT is an odd | ✅ |
+| PTOCA-5-049 | number. It must be even for double–byte encoded data. | ✅ |
+| PTOCA-5-050 | A high-order surrogate code value was not immediately followed by a | ✅ |
+| PTOCA-5-051 | A low-order surrogate code value was not immediately preceded by a | ✅ |
+| PTOCA-5-052 | An illegal UTF-8 byte sequence, as defined in the Unicode 3.2 | ✅ |
+| PTOCA-5-053 | The RPS repeat length is an odd number when a double-byte font is | ✅ |
+| PTOCA-5-054 | The class of a X'2B' control sequence is not X'D3'. | ✅ |
+| PTOCA-5-055 | A required parameter has not been not specified. | ✅ |
+| PTOCA-5-056 | Invalid control sequence or initial text condition parameter length. | ✅ |
+| PTOCA-5-057 | Part of an optional parameter in a control sequence is missing. | ✅ |
+| PTOCA-5-058 | A Coded Font LID has been omitted in a SCFL control sequence or in a | ✅ |
+| PTOCA-5-059 | SVIcontrol sequence increment parameter is missing. | ✅ |
+| PTOCA-5-060 | DBR or DIR length parameter is missing. | ✅ |
+| PTOCA-5-061 | SIM displacement parameter is missing. | ✅ |
+| PTOCA-5-062 | I-orientation parameter or B-orientation parameter is missing in an STO | ✅ |
+| PTOCA-5-063 | The RPS control sequence length is four and the repeat length is not | ✅ |
+| PTOCA-5-064 | Receiver is unable to support TBM by printing full size characters. | ✅ |
+| PTOCA-5-065 | Receiver cannot support substitution character in the TBM field. | ✅ |
+| PTOCA-5-066 | Temporary move size exceeds the device limitations. | ✅ |
+| PTOCA-5-067 | Substitution method receiver cannot support multi-offset temporary | ✅ |
+| PTOCA-5-068 | Character increment of overstrike character is less than or equal to | ✅ |
+| PTOCA-5-069 | Character increment of overstrike character is less than the character- | ✅ |
+| PTOCA-5-070 | Overstrike character is a non-printing character. | ✅ |
+| PTOCA-5-071 | been set for decryption. | ✅ |
+| PTOCA-6-001 | Describes the base level of PTOCA | ✅ |
+| PTOCA-6-002 | Describes the PT1 subset of PTOCA | ✅ |
+| PTOCA-6-003 | Describes the PT2 subset of PTOCA | ✅ |
+| PTOCA-6-004 | Describes the PT3 subset of PTOCA | ✅ |
+| PTOCA-6-005 | Describes the PT4 subset of PTOCA | ✅ |
+| PTOCA-6-006 | States general requirements for compliance | ✅ |
+| PTOCA-6-007 | Recognition of control sequences, chained or unchained | ✅ |
+| PTOCA-6-008 | Interpretation and validation of the control sequence | ✅ |
+| PTOCA-6-009 | Rejection of control sequences and parameters, including return of error data, that are not supported within | ✅ |
+| PTOCA-6-010 | Reporting, on request from the controlling environment, the supported features | ✅ |
+| PTOCA-6-011 | Reporting exception conditions to the controlling environment | ✅ |
+| PTOCA-6-012 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ✅ |
+| PTOCA-6-013 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ✅ |
+| PTOCA-6-014 | 6-256 RPTDATA 8 | ✅ |
+| PTOCA-6-015 | 6 DIRECTION X'00' 9 | ✅ |
+| PTOCA-6-016 | 6 PRECISION X'00'-X'01' 3,10 | ✅ |
+| PTOCA-6-017 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3 | ✅ |
+| PTOCA-6-018 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ✅ |
+| PTOCA-6-019 | 2. The PTOCA range for RWI DTH is X'8000' - X'7FFF' plus a fractional value byte ranging from X'00' - X'FF'. | ✅ |
+| PTOCA-6-020 | 3. The default indicator is allowed, meaning obtain a value from the hierarchy. | ✅ |
+| PTOCA-6-021 | 4. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ✅ |
+| PTOCA-6-022 | -units per unit base are assumed to be | ✅ |
+| PTOCA-6-023 | 5. For the PTOCA range, see “Set Text Color (STC)”. The PT1 range is X'FF07'. | ✅ |
+| PTOCA-6-024 | 6. The Begin Line (BLN) control sequence has no parameters. | ✅ |
+| PTOCA-6-025 | 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. The | ✅ |
+| PTOCA-6-026 | 8. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ✅ |
+| PTOCA-6-027 | 9. The default indicator is not allowed for this parameter in this subset. | ✅ |
+| PTOCA-6-028 | 10. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ✅ |
+| PTOCA-6-029 | generators should not specify this parameter and new receivers should ignore it.. | ✅ |
+| PTOCA-6-030 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ✅ |
+| PTOCA-6-031 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ✅ |
+| PTOCA-6-032 | 5-6 OVERCHAR X'0000'-X'FFFF' | ✅ |
+| PTOCA-6-033 | 6-256 RPTDATA 8 | ✅ |
+| PTOCA-6-034 | 6 DIRECTION X'00'-X'01' 3 | ✅ |
+| PTOCA-6-035 | 6 PRECISION X'00'-X'01' 3,9 | ✅ |
+| PTOCA-6-036 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3 | ✅ |
+| PTOCA-6-037 | 5 PRECISION X'00'-X'01' 3 | ✅ |
+| PTOCA-6-038 | 6-7 INCRMENT X'0000'-X'7FFF' 3,4 | ✅ |
+| PTOCA-6-039 | USC 4 BYPSIDEN X'00'-X'0E' 3 | ✅ |
+| PTOCA-6-040 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ✅ |
+| PTOCA-6-041 | 2. The PTOCA range for RWI DTH is X'8000' - X'7FFF' plus a fractional value byte ranging from X'00' - X'FF'. | ✅ |
+| PTOCA-6-042 | 3. The default indicator is allowed, meaning obtain a value from the hierarchy. | ✅ |
+| PTOCA-6-043 | 4. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ✅ |
+| PTOCA-6-044 | 5. For the PTOCA range, see “Set Text Color (STC)”. The PT2 range is X'0000', X'FF00', | ✅ |
+| PTOCA-6-045 | 6. The Begin Line (BLN) control sequence has no parameters. | ✅ |
+| PTOCA-6-046 | 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. | ✅ |
+| PTOCA-6-047 | 8. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ✅ |
+| PTOCA-6-048 | 9. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ✅ |
+| PTOCA-6-049 | generators should not specify this parameter and new receivers should ignore it. | ✅ |
+| PTOCA-6-050 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ✅ |
+| PTOCA-6-051 | 6-8 RWIDTH X'0000'-X'00C0' 1,2,3 | ✅ |
+| PTOCA-6-052 | 5-6 OVERCHAR X'0000'-X'FFFF' | ✅ |
+| PTOCA-6-053 | 6-256 RPTDATA 8 | ✅ |
+| PTOCA-6-054 | 6 DIRECTION X'00'-X'01' 3 | ✅ |
+| PTOCA-6-055 | 6 PRECISION X'00'-X'01' 3,9 | ✅ |
+| PTOCA-6-056 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 3 | ✅ |
+| PTOCA-6-057 | TBM 4 DIRECTION X'00'-X'03' 3 | ✅ |
+| PTOCA-6-058 | 5 PRECISION X'00'-X'01' 3 | ✅ |
+| PTOCA-6-059 | 6-7 INCRMENT X'0000'-X'7FFF' 3,4 | ✅ |
+| PTOCA-6-060 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ✅ |
+| PTOCA-6-061 | 2. The PTOCA range for RWI DTH is X'8000' - X'7FFF' plus a fractional value byte ranging from X'00' - X'FF'. | ✅ |
+| PTOCA-6-062 | 3. The default indicator is allowed, meaning obtain a value from the hierarchy. | ✅ |
+| PTOCA-6-063 | 4. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ✅ |
+| PTOCA-6-064 | 5. For the PTOCA range, see “Set Text Color (STC)”. The PT3 range is X'0000', X'FF00', | ✅ |
+| PTOCA-6-065 | 6. The Begin Line (BLN) control sequence has no parameters. | ✅ |
+| PTOCA-6-066 | 7. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. | ✅ |
+| PTOCA-6-067 | 8. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ✅ |
+| PTOCA-6-068 | 9. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ✅ |
+| PTOCA-6-069 | generators should not specify this parameter and new receivers should ignore it.. | ✅ |
+| PTOCA-6-070 | 6 OIDLGTH 0, 13-129 | ✅ |
+| PTOCA-6-071 | 7 FFNLGTH 0-(255-(10+OIDLGTH)) | ✅ |
+| PTOCA-6-072 | 12 -n FONTOID (first byte) X'06' | ✅ |
+| PTOCA-6-073 | 5-6 OVERCHAR X'0000'-X'FFFF' | ✅ |
+| PTOCA-6-074 | 6-256 RPTDATA 7 | ✅ |
+| PTOCA-6-075 | 6 DIRECTION X'00'-X'01' 2 | ✅ |
+| PTOCA-6-076 | 6 PRECISION X'00'-X'01' 2,8 | ✅ |
+| PTOCA-6-077 | 6-7 BORNTION X'0000', X'2D00', X'5A00', X'8700' 2 | ✅ |
+| PTOCA-6-078 | 5 PRECISION X'00'-X'01' 2 | ✅ |
+| PTOCA-6-079 | 6-7 INCRMENT X'0000'-X'7FFF' 2,3 | ✅ |
+| PTOCA-6-080 | 1. This parameter is a signed binary number that may be positive or negative. Negative numbers are | ✅ |
+| PTOCA-6-081 | 2. The default indicator is allowed, meaning obtain a value from the hierarchy. | ✅ |
+| PTOCA-6-082 | 3. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is | ✅ |
+| PTOCA-6-083 | 4. For the PTOCA range, see “Set Text Color (STC)”. The PT4 range is the full Standard OCA | ✅ |
+| PTOCA-6-084 | 5. The Begin Line (BLN) control sequence has no parameters. | ✅ |
+| PTOCA-6-085 | 6. The No Operation (NOP) control sequence may contain any data that does not exceed the field length. | ✅ |
+| PTOCA-6-086 | 7. The Transparent Data (TRN) and Repeat String (RPS) control sequences may contain any data that does | ✅ |
+| PTOCA-6-087 | 8. The STC PRECISION parameter has been retired; see “Retired Parameters”. New PTOCA | ✅ |
+| PTOCA-6-088 | 9. The UCT must be chained to a GAR or GOR and is not rendered; all parameters are ignored. | ✅ |
+| PTOCA-6-089 | General Requirements for Compliance | ✅ |
+| PTOCA-A-001 | A set of rules that must be followed by all generators when constructing Presentation Text objects. | ✅ |
+| PTOCA-A-002 | A set of Presentation Text processing capabilities that are guaranteed to be supported by all receivers. | ✅ |
+| PTOCA-A-003 | characters it places in the object space are positioned so that they do not exceed the object space. | ✅ |
+| PTOCA-A-004 | 164 PTOCA Reference | ✅ |
+| PTOCA-A-005 | 0 CODE XPBASE X'00'–X'01' Unit base for X axis; must | ✅ |
+| PTOCA-A-006 | 1 CODE YPBASE X'00' –X'01' Unit base for Y axis; must | ✅ |
+| PTOCA-A-007 | 1. The range values shown assume a measurement unit of 1/1440 inch. That is, the measurement base is ten | ✅ |
+| PTOCA-A-008 | 2. The default indicator is not allowed for this parameter in this subset. | ✅ |
+| PTOCA-A-009 | 3. The TEXTFLAGS parameter is reserved. Generators should set this parameter to X'0000', and receivers | ✅ |
+| PTOCA-A-010 | 4. See the description of the control sequence that specifies the initial text condition. | ✅ |
+| PTOCA-A-011 | Presentation Text Structured Fields | ✅ |
+| PTOCA-A-012 | Presentation Text Data Descriptor (PTD) | ✅ |
+| PTOCA-A-013 | 166 PTOCA Reference | ✅ |
+| PTOCA-A-014 | 0 CODE XPBASE X'00' Unit base for X axis; ten | ✅ |
+| PTOCA-A-015 | 1 CODE YPBASE X'00' Unit base for Y axis; ten | ✅ |
+| PTOCA-A-016 | Presentation Text Data (PTX) | ✅ |
+| PTOCA-A-017 | Additional Related Structured Fields | ✅ |
+| PTOCA-A-018 | 168 PTOCA Reference | ✅ |
+| PTOCA-B-001 | The context of Presentation Text objects in the IPDS environment; as either text-major text or as independent | ✅ |
+| PTOCA-B-002 | A comparison of PTOCA and IPDS exception conditions | ✅ |
+| PTOCA-B-003 | IPDS commands specific to presentation text | ✅ |
+| PTOCA-B-004 | Command structure and syntax | ✅ |
+| PTOCA-B-005 | Initial conditions for the object | ✅ |
+| PTOCA-B-006 | A means of reporting exception conditions | ✅ |
+| PTOCA-B-007 | A means of resolving fonts and suppression identifiers | ✅ |
+| PTOCA-B-008 | 1. All IPDS printers allow text to be placed directly within a logical page using the Write Text command. The | ✅ |
+| PTOCA-B-009 | 2. Some IPDS printers support text objects (in addition to the text-major concept). In this case, the Write Text | ✅ |
+| PTOCA-B-010 | specified in a text object. | ✅ |
+| PTOCA-B-011 | 170 PTOCA Reference | ✅ |
+| PTOCA-B-012 | 1. If a receiver cannot provide the color specified by FRGCOLOR, it may substitute values from Table 13 on | ✅ |
+| PTOCA-B-013 | 2. The default indicator is allowed, meaning use the printer default. | ✅ |
+| PTOCA-B-014 | 3. The TEXTFLAGS parameter is reserved. This parameter is not used in the IPDS environment. | ✅ |
+| PTOCA-B-015 | 4. DIRCTION is always defaulted to X'00', that is, the positive direction, so this parameter is not carried in the | ✅ |
+| PTOCA-B-016 | 5. The default indicator is not allowed for this parameter in this subset. | ✅ |
+| PTOCA-B-017 | IPDS Text Command Set | ✅ |
+| PTOCA-B-018 | 6 CODE Unit base X'00' | ✅ |
+| PTOCA-B-019 | 7 X'00' Reserved X'00' | ✅ |
+| PTOCA-B-020 | Presentation Exception Conditions | ✅ |
+| PTOCA-B-021 | 172 PTOCA Reference | ✅ |
+| PTOCA-B-022 | 0201..03 for text objects | ✅ |
+| PTOCA-B-023 | Presentation Exception Conditions | ✅ |
+| PTOCA-B-024 | Additional Related Commands | ✅ |
+| PTOCA-B-025 | 174 PTOCA Reference | ✅ |
+| PTOCA-B-026 | The external suppression value maps to the LID parameter of the BSU control sequence. For example, if the | ✅ |
+| PTOCA-B-027 | The external suppression value maps to the LID through an equivalence table, using the current Load | ✅ |
+| PTOCA-B-028 | Activate Resource (AR) | ✅ |
+| PTOCA-B-029 | Deactivate Data-Object-Font Component (DDOFC) | ✅ |
+| PTOCA-B-030 | Deactivate Font (DF) | ✅ |
+| PTOCA-B-031 | Load Code Page (LCP) | ✅ |
+| PTOCA-B-032 | Load Code Page Control (LCPC) | ✅ |
+| PTOCA-B-033 | Write Object Container Control (WOCC) | ✅ |
+| PTOCA-B-034 | Write Object Container (WOC) | ✅ |
+| PTOCA-B-035 | XOH Erase Residual Font Data (ERFD) | ✅ |
+| PTOCA-B-036 | XOH Erase Residual Print Data (ERPD) | ✅ |
+| PTOCA-B-037 | Activate Resource (AR) | ✅ |
+| PTOCA-B-038 | Deactivate Font (DF) | ✅ |
+| PTOCA-B-039 | Load Code Page (LCP) | ✅ |
+| PTOCA-B-040 | Load Code Page Control (LCPC) | ✅ |
+| PTOCA-B-041 | Load Font (LF) | ✅ |
+| PTOCA-B-042 | Load Font Character Set Control (LFCSC) | ✅ |
+| PTOCA-B-043 | Load Font Equivalence (LFE) | ✅ |
+| PTOCA-B-044 | XOH Erase Residual Font Data (ERFD) | ✅ |
+| PTOCA-B-045 | Activate Resource (AR) | ✅ |
+| PTOCA-B-046 | Deactivate Font (DF) | ✅ |
+| PTOCA-B-047 | Load Font (LF) | ✅ |
+| PTOCA-B-048 | Load Font Control (LFC) | ✅ |
+| PTOCA-B-049 | Load Font Equivalence (LFE) | ✅ |
+| PTOCA-B-050 | Load Font Index (LFI) | ✅ |
+| PTOCA-B-051 | XOH Erase Residual Font Data (ERFD) | ✅ |
+| PTOCA-B-052 | Activate Resource (AR) | ✅ |
+| PTOCA-B-053 | Deactivate Font (DF) | ✅ |
+| PTOCA-B-054 | Load Font Equivalence (LFE) | ✅ |
+| PTOCA-B-055 | Load Symbol Set (LSS) | ✅ |
+| PTOCA-B-056 | 176 PTOCA Reference | ✅ |
+| PTOCA-C-001 | Describes retired functions that may occur in a PTOCA object | ✅ |
+| PTOCA-C-002 | 5803 exists. The standard action in this case is to use X'FF07'. If PRECSION is X'01', and if the FRGCOLOR | ✅ |
+| PTOCA-C-003 | 1. Value set by Text Color initial text condition parameter in Descriptor | ✅ |
+| PTOCA-C-004 | 2. PTOCA default - X'00' | ✅ |
+| PTOCA-C-005 | 1. Value previously set by Text Color initial text condition parameter in descriptor | ✅ |
+| PTOCA-C-006 | 2. Data stream specified value | ✅ |
+| PTOCA-C-007 | 3. Receiver's best possible value | ✅ |
+| PTOCA-C-008 | 178 PTOCA Reference | ✅ |
+| PTOCA-C-009 | 1. Receiver's best possible value | ✅ |
+| PTOCA-C-010 | 2. Value previously set by Text Color initial text condition parameter in descriptor | ✅ |
+| PTOCA-C-011 | 3. Data stream specified value | ✅ |
+| PTOCA-C-012 | entirely coincidental. | ✅ |
+| PTOCA-C-013 | 180 PTOCA Reference | ✅ |
+| PTOCA-C-014 | Other company , product, or service names might be trademarks or service marks of others. | ✅ |
+| PTOCA-C-015 | Mixed Object Document Content Architecture (MO:DCA); | ✅ |
+| PTOCA-C-016 | Intelligent Printer Data Stream (IPDS) | ✅ |
+| PTOCA-C-017 | AFP Line Data Architecture | ✅ |
+| PTOCA-C-018 | Bar Code Object Content Architecture (BCOCA) | ✅ |
+| PTOCA-C-019 | Color Management Object Content Architecture | ✅ |
+| PTOCA-C-020 | Font Object Content Architecture (FOCA) | ✅ |
+| PTOCA-C-021 | Graphics Object Content Architecture for AFP (AFP | ✅ |
+| PTOCA-C-022 | Image Object Content Architecture (IOCA) | ✅ |
+| PTOCA-C-023 | Metadata Object Content Architecture (MOCA) | ✅ |
+| PTOCA-C-024 | Presentation Text Object Content Architecture (PTOCA) | ✅ |
+| PTOCA-C-025 | 182 PTOCA Reference | ✅ |
+| PTOCA-C-026 | AFP • application program | ✅ |
+| PTOCA-C-027 | 184 PTOCA Reference | ✅ |
+| PTOCA-C-028 | . See current baseline presentation coordinate. | ✅ |
+| PTOCA-C-029 | . See current baseline print coordinate. | ✅ |
+| PTOCA-C-030 | Bar Code command set • Bcoordinate | ✅ |
+| PTOCA-C-031 | . See initial baseline print coordinate. | ✅ |
+| PTOCA-C-032 | . For example, if P | ✅ |
+| PTOCA-C-033 | . See baseline presentation origin. | ✅ |
+| PTOCA-C-034 | B direction (B) • CGCSGID | ✅ |
+| PTOCA-C-035 | 186 PTOCA Reference | ✅ |
+| PTOCA-C-036 | CGPC • character reference point | ✅ |
+| PTOCA-C-037 | character rotation • Code 39 | ✅ |
+| PTOCA-C-038 | 188 PTOCA Reference | ✅ |
+| PTOCA-C-039 | Code 128 • color management | ✅ |
+| PTOCA-C-040 | Color Management Object Content Architecture (CMOCA) • control sequence | ✅ |
+| PTOCA-C-041 | 190 PTOCA Reference | ✅ |
+| PTOCA-C-042 | A TrueType/OpenType font, an optional code page, and | ✅ |
+| PTOCA-C-043 | A TrueType/OpenType collection, either an index value | ✅ |
+| PTOCA-C-044 | current drawing attributes • data object resource | ✅ |
+| PTOCA-C-045 | 192 PTOCA Reference | ✅ |
+| PTOCA-C-046 | Used to prepare for the presentation of a data object; | ✅ |
+| PTOCA-C-047 | Included in a page or overlay via the Include Data Object | ✅ |
+| PTOCA-C-048 | Invoked from within a data object; examples | ✅ |
+| PTOCA-C-049 | data stream • device resolution | ✅ |
+| PTOCA-C-050 | Print file (highest level) | ✅ |
+| PTOCA-C-051 | Document | ✅ |
+| PTOCA-C-052 | Page group | ✅ |
+| PTOCA-C-053 | Data object (lowest level) | ✅ |
+| PTOCA-C-054 | 300 dpi, there are 90,000 dots or bits of electronic data | ✅ |
+| PTOCA-C-055 | device-version code page • dpi | ✅ |
+| PTOCA-C-056 | 194 PTOCA Reference | ✅ |
+| PTOCA-C-057 | error diffusion halftone • fixed medium information | ✅ |
+| PTOCA-C-058 | 196 PTOCA Reference | ✅ |
+| PTOCA-C-059 | fixed metrics • Font Typeface Global Identifier (FGID) | ✅ |
+| PTOCA-C-060 | For fixed-pitch, uniform character increment fonts: the | ✅ |
+| PTOCA-C-061 | For PSM fonts: the width of the space character | ✅ |
+| PTOCA-C-062 | For typographic, proportionally spaced fonts: one-third of | ✅ |
+| PTOCA-C-063 | Wherever the color attribute of P | ✅ |
+| PTOCA-C-064 | . Likewise, | ✅ |
+| PTOCA-C-065 | With other overlapping color values, the intersection | ✅ |
+| PTOCA-C-066 | . In general, this mixing is a | ✅ |
+| PTOCA-C-067 | . The intersection of the foregrounds | ✅ |
+| PTOCA-C-068 | Wherever the color attribute of P | ✅ |
+| PTOCA-C-069 | Wherever the color attribute of P | ✅ |
+| PTOCA-C-070 | . In general, this mixing is a blending | ✅ |
+| PTOCA-C-071 | font width (FW) • fully described font | ✅ |
+| PTOCA-C-072 | 198 PTOCA Reference | ✅ |
+| PTOCA-C-073 | Coded Character Set Identifier (CCSID) | ✅ |
+| PTOCA-C-074 | Coded Graphic Character Set Global Identifier | ✅ |
+| PTOCA-C-075 | Code Page Global ID (CPGID) | ✅ |
+| PTOCA-C-076 | Font Typeface Global Identifier (FGID) | ✅ |
+| PTOCA-C-077 | Global Resource Identifier (GRID) | ✅ |
+| PTOCA-C-078 | Graphic Character Global Identifier (GCGID) | ✅ |
+| PTOCA-C-079 | Graphic Character Set Global Identifier (GCSGID) | ✅ |
+| PTOCA-C-080 | Graphic Character UCS Identifier (GCUID) | ✅ |
+| PTOCA-C-081 | An identifier used by a data object to reference a | ✅ |
+| PTOCA-C-082 | In MO:DCA, an encoded graphic character string that | ✅ |
+| PTOCA-C-083 | Object identifier (OID) | ✅ |
+| PTOCA-C-084 | A Uniform Resource Locator (URL), as defined in RFC | ✅ |
+| PTOCA-C-085 | 1. GCSGID of a minimum set of graphic characters | ✅ |
+| PTOCA-C-086 | 2. CPGID of the associated code page | ✅ |
+| PTOCA-C-087 | 3. FGID of the associated font character set | ✅ |
+| PTOCA-C-088 | 4. Font width in 1440ths of an inch. | ✅ |
+| PTOCA-C-089 | 200 PTOCA Reference | ✅ |
+| PTOCA-C-090 | For fixed-pitch, uniform character increment fonts: the | ✅ |
+| PTOCA-C-091 | For PSM fonts: the width of the space character | ✅ |
+| PTOCA-C-092 | For typographic fonts and proportionally spaced fonts: | ✅ |
+| PTOCA-C-093 | guard bars • HSV color space | ✅ |
+| PTOCA-C-094 | . See current inline presentation coordinate. | ✅ |
+| PTOCA-C-095 | . See current inline print coordinate. | ✅ |
+| PTOCA-C-096 | . See initial inline print coordinate. | ✅ |
+| PTOCA-C-097 | human-readable interpretation (HRI) • image object | ✅ |
+| PTOCA-C-098 | 202 PTOCA Reference | ✅ |
+| PTOCA-C-099 | image object area • intercharacter gap | ✅ |
+| PTOCA-C-100 | . See inline presentation origin. | ✅ |
+| PTOCA-C-101 | intercharacter increment • JPEG File Interchange Format (JFIF) | ✅ |
+| PTOCA-C-102 | 204 PTOCA Reference | ✅ |
+| PTOCA-C-103 | Kanji • local area network (LAN) | ✅ |
+| PTOCA-C-104 | 1 logical unit = 1/1440 inch | ✅ |
+| PTOCA-C-105 | 1 logical unit = 1/240 inch | ✅ |
+| PTOCA-C-106 | 1 L unit = 1/1440 inch | ✅ |
+| PTOCA-C-107 | 1 L unit = 1/240 inch | ✅ |
+| PTOCA-C-108 | Local Character Set Identifier (LCID) • maximum descender depth | ✅ |
+| PTOCA-C-109 | 206 PTOCA Reference | ✅ |
+| PTOCA-C-110 | meaning • MO:DCA IS/1 | ✅ |
+| PTOCA-C-111 | . See also bilevel. | ✅ |
+| PTOCA-C-112 | MO:DCA IS/2 • neutral white | ✅ |
+| PTOCA-C-113 | 208 PTOCA Reference | ✅ |
+| PTOCA-C-114 | non-presentation object • ordered page | ✅ |
+| PTOCA-C-115 | orientation • page segment | ✅ |
+| PTOCA-C-116 | 210 PTOCA Reference | ✅ |
+| PTOCA-C-117 | . The proprietary P ANT ONE color matching | ✅ |
+| PTOCA-C-118 | . A set of printer commands, developed by Hewlett- | ✅ |
+| PTOCA-C-119 | Page-Segment command set • picket fence bar code | ✅ |
+| PTOCA-C-120 | picture chain • presentation space orientation | ✅ |
+| PTOCA-C-121 | 212 PTOCA Reference | ✅ |
+| PTOCA-C-122 | presentation system • quantization | ✅ |
+| PTOCA-C-123 | quiet zone • relative move | ✅ |
+| PTOCA-C-124 | 214 PTOCA Reference | ✅ |
+| PTOCA-C-125 | Fields or values that have been used by a product in a | ✅ |
+| PTOCA-C-126 | Fields or values that have been removed from an | ✅ |
+| PTOCA-C-127 | relative positioning • Royal Mail 4 State Customer Code (RM4SCC) | ✅ |
+| PTOCA-C-128 | rule • sequential baseline | ✅ |
+| PTOCA-C-129 | 216 PTOCA Reference | ✅ |
+| PTOCA-C-130 | sequential baseline position • spot color | ✅ |
+| PTOCA-C-131 | 218 PTOCA Reference | ✅ |
+| PTOCA-C-132 | Document-processing applications can obtain resolution- | ✅ |
+| PTOCA-C-133 | Device-service applications can obtain device-specific | ✅ |
+| PTOCA-C-134 | symbol set • transform matrix | ✅ |
+| PTOCA-C-135 | 1440 twips in one inch. | ✅ |
+| PTOCA-C-136 | . This is also referred to as “transparent” or “leave | ✅ |
+| PTOCA-C-137 | 220 PTOCA Reference | ✅ |
+| PTOCA-C-138 | UTF-16 • variable space character | ✅ |
+| PTOCA-C-139 | variable space character increment • X dimension | ✅ |
+| PTOCA-C-140 | 222 PTOCA Reference | ✅ |
+| PTOCA-C-141 | coordinate system • Yxy color space | ✅ |
+| PTOCA-C-142 | 1 15, 1 17, 142 | ✅ |
+| PTOCA-C-143 | EC-9601 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .55 | ✅ |
+| PTOCA-C-144 | 224 PTOCA Reference | ✅ |
+| PTOCA-C-145 | 1 10, 1 17, 141–143 | ✅ |
+| PTOCA-C-146 | variable space character increment . . . . . . . . . . . . . . . . . . . . . . . . . 24, 108 | ✅ |
+| PTOCA-C-147 | USC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 17 | ✅ |
+| PTOCA-C-148 | ReferenceAFPC-0009-04 | ✅ |
