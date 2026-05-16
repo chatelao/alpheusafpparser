@@ -63,6 +63,8 @@ if __name__ == "__main__":
         ('PTOCA-2-001', 'PTOCA-2-010'),
         ('PTOCA-3-001', 'PTOCA-3-285'),
         ('PTOCA-4-001', 'PTOCA-4-400'),
+        ('PTOCA-4-401', 'PTOCA-4-600'),
+        ('PTOCA-4-601', 'PTOCA-4-769'),
     ]
     count = mark_coverage('TEST_COVERAGE_PTOCA.md', ranges)
     print(f"Marked {count} requirements as covered.")

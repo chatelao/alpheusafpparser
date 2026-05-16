@@ -739,375 +739,375 @@
 | PTOCA-4-398 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
 | PTOCA-4-399 | 2 UBIN LENGTH 14–16 Control sequence length M N N | ✅ |
 | PTOCA-4-400 | 3 CODE TYPE X'80' – X'81' Control sequence | ✅ |
-| PTOCA-4-401 | 4 Reserved; should be zero M N N | ❓ |
-| PTOCA-4-402 | 5 CODE COLSPCE Color space M N N | ❓ |
-| PTOCA-4-403 | 10 UBIN COLSIZE1 X'01' – X'08', | ❓ |
-| PTOCA-4-404 | 1 1 UBIN COLSIZE2 X'00' – X'08' Number of bits in | ❓ |
-| PTOCA-4-405 | 12 UBIN COLSIZE3 X'00' – X'08' Number of bits in | ❓ |
-| PTOCA-4-406 | 13 UBIN COLSIZE4 X'00' – X'08' Number of bits in | ❓ |
-| PTOCA-4-407 | 14–(n-1) COL Value See | ❓ |
-| PTOCA-4-408 | Color specifications M N N | ❓ |
-| PTOCA-4-409 | - 1), where N=1,2,3. | ❓ |
-| PTOCA-4-410 | 3. A value of X'00' indicates that component 3 is not specified in the color value, in which case | ❓ |
-| PTOCA-4-411 | 1. The color that is rendered when a highlight color is specified is device dependent. For | ❓ |
-| PTOCA-4-412 | 2. If the specified highlight color is 'presentation device default', devices whose default color | ❓ |
-| PTOCA-4-413 | 3. On printing devices, the color of medium is normally white, in which case a coverage of n | ❓ |
-| PTOCA-4-414 | 4. The highlight color space can also specify indexed colors when used in conjunction with a | ❓ |
-| PTOCA-4-415 | - 1). The range for the a and b components is -127 to +127, which is mapped to the binary | ❓ |
-| PTOCA-4-416 | - 1) to +(2 | ❓ |
-| PTOCA-4-417 | 1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows: | ❓ |
-| PTOCA-4-418 | For PTOCA text data, it is the presentation device default | ❓ |
-| PTOCA-4-419 | 2. The color rendered on presentation devices that do not support white is device-dependent. For | ❓ |
-| PTOCA-4-420 | 3. The presentation-process default specified by X'FF07' is resolved as the presentation device | ❓ |
-| PTOCA-4-421 | 4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some | ❓ |
-| PTOCA-4-422 | For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to | ❓ |
-| PTOCA-4-423 | 5. While the RGB values in the table can be used to render the OCA named colors, many | ❓ |
-| PTOCA-4-424 | data-stream documentation. | ❓ |
-| PTOCA-4-425 | action in this case is to use the presentation device default color. | ❓ |
-| PTOCA-4-426 | EC-0E02...Invalid or unsupported color space. | ❓ |
-| PTOCA-4-427 | EC-0E03...Invalid or unsupported color value. | ❓ |
-| PTOCA-4-428 | EC-0E04...Invalid percent value. | ❓ |
-| PTOCA-4-429 | EC-0E05...Invalid or unsupported number of bits in a color component. | ❓ |
-| PTOCA-4-430 | graphic characters. This is a modal control sequence. | ❓ |
-| PTOCA-4-431 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-432 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-433 | 2 UBIN LENGTH 4–5 Control sequence length M N N | ❓ |
-| PTOCA-4-434 | 3 CODE TYPE X'C2' – X'C3' Control sequence | ❓ |
-| PTOCA-4-435 | 6 CODE DIRECTION X'00' – X'01' Direction O Y Y | ❓ |
-| PTOCA-4-436 | A space character or variable space character | ❓ |
-| PTOCA-4-437 | A Begin Line control sequence | ❓ |
-| PTOCA-4-438 | A Relative Move Inline control sequence | ❓ |
-| PTOCA-4-439 | An Absolute Move Inline control sequence | ❓ |
-| PTOCA-4-440 | The space character or variable space character | ❓ |
-| PTOCA-4-441 | Begin Line control sequences | ❓ |
-| PTOCA-4-442 | Relative Move Inline control sequences | ❓ |
-| PTOCA-4-443 | Absolute Move Inline control sequences | ❓ |
-| PTOCA-4-444 | X'40' in EBCDIC single-byte code pages | ❓ |
-| PTOCA-4-445 | X'20' in ASCII single-byte code pages | ❓ |
-| PTOCA-4-446 | X'4040' in EBCDIC double-byte code pages | ❓ |
-| PTOCA-4-447 | X'2020' in ASCII double-byte code pages | ❓ |
-| PTOCA-4-448 | X'0020' | ❓ |
-| PTOCA-4-449 | X'00A0' | ❓ |
-| PTOCA-4-450 | stream documentation. | ❓ |
-| PTOCA-4-451 | The current presentation position | ❓ |
-| PTOCA-4-452 | The current I-unit value | ❓ |
-| PTOCA-4-453 | The current inline margin | ❓ |
-| PTOCA-4-454 | The current intercharacter increment value | ❓ |
-| PTOCA-4-455 | The current intercharacter decrement value | ❓ |
-| PTOCA-4-456 | EC-1201...The value of ADJSTMNT or DIRECTION is not supported or is not in the range specified by | ❓ |
-| PTOCA-4-457 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-458 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-459 | 2 UBIN LENGTH 4 Control sequence length M N N | ❓ |
-| PTOCA-4-460 | 3 CODE TYPE X'C0' – X'C1' Control sequence | ❓ |
-| PTOCA-4-461 | This control sequence does not change the current addressable position. | ❓ |
-| PTOCA-4-462 | the value of DSPLCMNT is zero, the inline margin is at the B-axis. | ❓ |
-| PTOCA-4-463 | EC-1E01...DSPLCMNT is missing. | ❓ |
-| PTOCA-4-464 | EC-1001...The value of DSPLCMNT is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-465 | (ENC) controls. This is a modal control sequence. | ❓ |
-| PTOCA-4-466 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-467 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-468 | 2 UBIN LENGTH 6, 7–255 Control sequence length M N N | ❓ |
-| PTOCA-4-469 | 3 CODE TYPE X'9A' – X'9B' Control sequence | ❓ |
-| PTOCA-4-470 | indicator, but X'F....F' is valid. | ❓ |
-| PTOCA-4-471 | stream documentation. | ❓ |
-| PTOCA-4-472 | 249 bytes. Consecutive, in this case, means the SKI controls have no intervening PTOCA controls between | ❓ |
-| PTOCA-4-473 | effe ctively ignored, while consecutive SKIs after it, if any, begin a new KEYINFO definition. | ❓ |
-| PTOCA-4-474 | EC-1E01...LENGTH is not valid. | ❓ |
-| PTOCA-4-475 | EC-9D01...Decryption is not available on this device. | ❓ |
-| PTOCA-4-476 | The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters, | ❓ |
-| PTOCA-4-477 | The stroked area of a rule | ❓ |
-| PTOCA-4-478 | The stroked area of an underscore | ❓ |
-| PTOCA-4-479 | a definition of modal control sequences, see “Modal Control Sequences”. | ❓ |
-| PTOCA-4-480 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-481 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-482 | 2 UBIN LENGTH 4, 5 Control sequence length M N N | ❓ |
-| PTOCA-4-483 | 3 CODE TYPE X'74' – X'75' Control sequence | ❓ |
-| PTOCA-4-484 | 4–5 CODE FRGCOLOR See | ❓ |
-| PTOCA-4-485 | 6 Retired parameter, see | ❓ |
-| PTOCA-4-486 | 6. This parameter has been retired. It should not be generated by new applications, and should be | ❓ |
-| PTOCA-4-487 | ignored by new printers. For a definition of this parameter, see “Retired Parameters”. | ❓ |
-| PTOCA-4-488 | 1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows: | ❓ |
-| PTOCA-4-489 | For PTOCA text data, it is the presentation device default | ❓ |
-| PTOCA-4-490 | 2. The color rendered on presentation devices that do not support white is device-dependent. For example, some | ❓ |
-| PTOCA-4-491 | 3. The presentation-process default specified by X'FF07' is resolved as the presentation device default. This color | ❓ |
-| PTOCA-4-492 | 4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some objects as a default | ❓ |
-| PTOCA-4-493 | For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to indicate that the | ❓ |
-| PTOCA-4-494 | 5. While the RGB values in the table can be used to render the OCA named colors, many implementations are and | ❓ |
-| PTOCA-4-495 | stream documentation. | ❓ |
-| PTOCA-4-496 | 1. Value set by Text Color initial text condition parameter in descriptor | ❓ |
-| PTOCA-4-497 | 2. PTOCA default X'FF07' | ❓ |
-| PTOCA-4-498 | EC-5803...The value of FRGCOLOR is invalid, or the specified color is not supported. | ❓ |
-| PTOCA-4-499 | 1. The MO:DCA environment supports a Color Mapping Table (CMT) that may be used to map colors in a | ❓ |
-| PTOCA-4-500 | 2. The IPDS environment allows a presentation device to implement limited simulated color support for | ❓ |
-| PTOCA-4-501 | This is a modal control sequence. | ❓ |
-| PTOCA-4-502 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-503 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-504 | 2 UBIN LENGTH 6 Control sequence length M N N | ❓ |
-| PTOCA-4-505 | 3 CODE TYPE X'F6' – X'F7' Control sequence | ❓ |
-| PTOCA-4-506 | 4–5 CODE IORNTION See | ❓ |
-| PTOCA-4-507 | 6–7 CODE BORNTION See | ❓ |
-| PTOCA-4-508 | The PTOCA default for IORNTION is zero. The PTOCA default for BORNTION is 90. | ❓ |
-| PTOCA-4-509 | A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360 | ❓ |
-| PTOCA-4-510 | B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through | ❓ |
-| PTOCA-4-511 | 63 are invalid. | ❓ |
-| PTOCA-4-512 | C is a one-bit reserved field (bit 15) which must be 0. | ❓ |
-| PTOCA-4-513 | 1. The following remain as previously specified: | ❓ |
-| PTOCA-4-514 | The current presentation position, an $X_p$,$Y_p$ coordinate, | ❓ |
-| PTOCA-4-515 | The current I-unit value, | ❓ |
-| PTOCA-4-516 | The current inline margin, | ❓ |
-| PTOCA-4-517 | The current intercharacter increment value, | ❓ |
-| PTOCA-4-518 | The current intercharacter decrement value, | ❓ |
-| PTOCA-4-519 | The current B-unit value, | ❓ |
-| PTOCA-4-520 | The current baseline increment value, | ❓ |
-| PTOCA-4-521 | The current coded font. | ❓ |
-| PTOCA-4-522 | 2. The following will change: | ❓ |
-| PTOCA-4-523 | The $X_p$ | ❓ |
-| PTOCA-4-524 | Font character rotations appropriate to the new orientation are used. | ❓ |
-| PTOCA-4-525 | Presentation position should be respecified if subsequent text is to be positioned elsewhere in the | ❓ |
-| PTOCA-4-526 | Other modal parameter values should be respecified if they are more appropriate to the new orientation. | ❓ |
-| PTOCA-4-527 | A new coded font should be specified: | ❓ |
-| PTOCA-4-528 | 3. If the Presentation Text object measurement units specified for the $X_p$ | ❓ |
-| PTOCA-4-529 | unexpected and use of a Set Text Orientation control sequence should be avoided. | ❓ |
-| PTOCA-4-530 | EC-1E01...IORNTION or BORNTION is missing. | ❓ |
-| PTOCA-4-531 | EC-0F01...IORNTION and BORNTION are identical. | ❓ |
-| PTOCA-4-532 | EC-0F01...IORNTION or BORNTION not parallel to $X_p$ | ❓ |
-| PTOCA-4-533 | EC-0F01...IORNTION and BORNTION not supported by receiver. | ❓ |
-| PTOCA-4-534 | character. This is a modal control sequence. | ❓ |
-| PTOCA-4-535 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-536 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-537 | 2 UBIN LENGTH 4 Control sequence length M N N | ❓ |
-| PTOCA-4-538 | 3 CODE TYPE X'C4' – X'C5' Control sequence | ❓ |
-| PTOCA-4-539 | conversion routine described in “Interpreting Ranges”. | ❓ |
-| PTOCA-4-540 | stream documentation. | ❓ |
-| PTOCA-4-541 | 1. The current variable space character increment | ❓ |
-| PTOCA-4-542 | 2. The default variable space character increment of the active coded font | ❓ |
-| PTOCA-4-543 | 3. The character increment of the default variable space character code point | ❓ |
-| PTOCA-4-544 | The current presentation position, an $X_p$,$Y_p$ coordinate | ❓ |
-| PTOCA-4-545 | The current I-unit value | ❓ |
-| PTOCA-4-546 | The current inline margin, | ❓ |
-| PTOCA-4-547 | The current intercharacter increment value | ❓ |
-| PTOCA-4-548 | The current intercharacter decrement value | ❓ |
-| PTOCA-4-549 | The current B-unit value | ❓ |
-| PTOCA-4-550 | The current baseline increment value | ❓ |
-| PTOCA-4-551 | The current coded font | ❓ |
-| PTOCA-4-552 | X'40' in EBCDIC single-byte code pages | ❓ |
-| PTOCA-4-553 | X'20' in ASCII single-byte code pages | ❓ |
-| PTOCA-4-554 | X'4040' in EBCDIC double-byte code pages | ❓ |
-| PTOCA-4-555 | X'2020' in ASCII double-byte code pages | ❓ |
-| PTOCA-4-556 | X'0020' | ❓ |
-| PTOCA-4-557 | X'00A0' | ❓ |
-| PTOCA-4-558 | increment of the active coded font is used. | ❓ |
-| PTOCA-4-559 | EC-1E01...INCRMENT is missing | ❓ |
-| PTOCA-4-560 | EC-1701...The value of INCRMENT is not supported or is not in the range specified by PTOCA.EC-1E01EC- | ❓ |
-| PTOCA-4-561 | 1 10 PTOCA Reference | ❓ |
-| PTOCA-4-562 | established baseline. | ❓ |
-| PTOCA-4-563 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-564 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-565 | 2 UBIN LENGTH 3, 4, 6 Control sequence length M N N | ❓ |
-| PTOCA-4-566 | 3 CODE TYPE X'78' – X'79' Control sequence | ❓ |
-| PTOCA-4-567 | 4 CODE DIRECTION X'00' – X'03' Direction M Y Y | ❓ |
-| PTOCA-4-568 | 5 BITS PRECISION X'00' – X'01' Precision O Y Y | ❓ |
-| PTOCA-4-569 | 1/2 the baseline increment value. The PTOC A default value for DIRECTION and PRECISION is zero. | ❓ |
-| PTOCA-4-570 | Change the current baseline coordinate by the amount specified by INCRMENT in the direction specified by | ❓ |
-| PTOCA-4-571 | Return the baseline coordinate to the established baseline coordinate position | ❓ |
-| PTOCA-4-572 | - INCRMENT | ❓ |
-| PTOCA-4-573 | stream documentation. | ❓ |
-| PTOCA-4-574 | How TBM operates: | ❓ |
-| PTOCA-4-575 | 1 12 PTOCA Reference | ❓ |
-| PTOCA-4-576 | How TBM affects other control sequences: | ❓ |
-| PTOCA-4-577 | How TBM uses the PRECISION parameter: | ❓ |
-| PTOCA-4-578 | 9803 exists. The standard action is to present the requested character at the established baseline | ❓ |
-| PTOCA-4-579 | How TBM relates to underscore and overstrike: | ❓ |
-| PTOCA-4-580 | Miscellaneous TBM exception conditions: | ❓ |
-| PTOCA-4-581 | characters were being presented. | ❓ |
-| PTOCA-4-582 | EC-9803...The value of INCRMENT, PRECISION, or DIRECTION is not supported or is not in the range | ❓ |
-| PTOCA-4-583 | EC-9803...The PRECISION parameterspecifies the actual placement method but the receiver does not | ❓ |
-| PTOCA-4-584 | EC-9803...A receiver using the substitution method cannot generate the required substitution character. | ❓ |
-| PTOCA-4-585 | EC-9803...For a receiver that uses the actual placement method, the INCRMENT parameter exceeds the | ❓ |
-| PTOCA-4-586 | EC-9803...A multi-offset TBM control sequence is received by a receiver that uses the substitution method. | ❓ |
-| PTOCA-4-587 | 1 14 PTOCA Reference | ❓ |
-| PTOCA-4-588 | EC-0103...The control sequence will cause part of a character's character box to be outside of the object | ❓ |
-| PTOCA-4-589 | for embedded control sequences. | ❓ |
-| PTOCA-4-590 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-591 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-592 | 2 UBIN LENGTH 2–255 Control sequence length M N N | ❓ |
-| PTOCA-4-593 | 3 CODE TYPE X'DA' – X'DB' Control sequence | ❓ |
-| PTOCA-4-594 | The contents of TRNDATA are unknown. TRNDATA does not accept the default indicator, but X'F....F' is valid. | ❓ |
-| PTOCA-4-595 | 1 16 PTOCA Reference | ❓ |
-| PTOCA-4-596 | EC-0103...The control sequence will cause part of a character's character box to be outside the object | ❓ |
-| PTOCA-4-597 | EC-1A01...The control sequence length is an odd number, but a double-byte font is active. | ❓ |
-| PTOCA-4-598 | EC-1A03...Invalid Unicode data. This can be caused by one of the following: | ❓ |
-| PTOCA-4-599 | The Underscore control sequence identifies text fields that are to be underscored. | ❓ |
-| PTOCA-4-600 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-601 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-602 | 2 UBIN LENGTH 3 Control sequence length M N N | ❓ |
-| PTOCA-4-603 | 3 CODE TYPE X'76' – X'77' Control sequence | ❓ |
-| PTOCA-4-604 | 4 BITS BYPSIDEN See | ❓ |
-| PTOCA-4-605 | Absolute Move Inline control sequence | ❓ |
-| PTOCA-4-606 | Relative Move Inline control sequence | ❓ |
-| PTOCA-4-607 | Space character or variable space character | ❓ |
-| PTOCA-4-608 | X'40' in EBCDIC single-byte code pages | ❓ |
-| PTOCA-4-609 | X'20' in ASCII single-byte code pages | ❓ |
-| PTOCA-4-610 | X'4040' in EBCDIC double-byte code pages | ❓ |
-| PTOCA-4-611 | X'2020' in ASCII double-byte code pages | ❓ |
-| PTOCA-4-612 | X'0020' | ❓ |
-| PTOCA-4-613 | X'00A0' | ❓ |
-| PTOCA-4-614 | 1 18 PTOCA Reference | ❓ |
-| PTOCA-4-615 | 0-3 Reserved, that is, set to 0 by generators and ignored by receivers | ❓ |
-| PTOCA-4-616 | 4 Bypass Relative Move Inline | ❓ |
-| PTOCA-4-617 | 5 Bypass Absolute Move Inline | ❓ |
-| PTOCA-4-618 | 6 Bypass space characters and variable space characters | ❓ |
-| PTOCA-4-619 | 7 No Bypass in effect | ❓ |
-| PTOCA-4-620 | A beginning USC | ❓ |
-| PTOCA-4-621 | Either end of bypassed controlled inline white space | ❓ |
-| PTOCA-4-622 | Either end of a baseline move, which may be for the established baseline or for a temporary baseline | ❓ |
-| PTOCA-4-623 | The beginning of negative changes in the presentation position caused by inline moves or negative | ❓ |
-| PTOCA-4-624 | Boundaries where violation causes truncation | ❓ |
-| PTOCA-4-625 | An ending USC | ❓ |
-| PTOCA-4-626 | The end of the Presentation Text object | ❓ |
-| PTOCA-4-627 | the inline margin is underscored only if this area is entered by means of an inline move. | ❓ |
-| PTOCA-4-628 | the active font is not a data-object font | ❓ |
-| PTOCA-4-629 | the data is not encoded in a Unicode-based character encoding | ❓ |
-| PTOCA-4-630 | the writing mode is vertical, as determined by a font character rotation of 90° or 270° | ❓ |
-| PTOCA-4-631 | 1. When the UCT is specified within a GLC chain, that is when it is chained from a GAR or a GOR, it is used | ❓ |
-| PTOCA-4-632 | 2. When the UCT is specified outside a GLC chain (a “stand-alone“ UCT), it is used to process and render the | ❓ |
-| PTOCA-4-633 | bidirectional (bidi) layout processing. When the writing mode is horizontal, as determined by a character | ❓ |
-| PTOCA-4-634 | glyph processing. Characters may require language-specific shaping such as arabic character shaping, | ❓ |
-| PTOCA-4-635 | from the Unicode Consortium at http://unicode.org/standard/standard.html. | ❓ |
-| PTOCA-4-636 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-637 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-638 | 2 UBIN LENGTH X'10' Control sequence length M N N | ❓ |
-| PTOCA-4-639 | 3 CODE TYPE X'6A' Control sequence function type M N N | ❓ |
-| PTOCA-4-640 | 4 CODE UCTVERS X'01' UCT version level | ❓ |
-| PTOCA-4-641 | 5 Reserved; should be zero M N N | ❓ |
-| PTOCA-4-642 | 8 BITS CTFLGS See | ❓ |
-| PTOCA-4-643 | 9 Reserved; should be zero M N N | ❓ |
-| PTOCA-4-644 | 10 CODE BIDICT X'02', X'04', | ❓ |
-| PTOCA-4-645 | 1 1 CODE GLYPHCT X'01', X'20' Glyph processing control: | ❓ |
-| PTOCA-4-646 | routine described in “Interpreting Ranges”. | ❓ |
-| PTOCA-4-647 | For graphic characters following each other: | ❓ |
-| PTOCA-4-648 | For graphic characters following RMI, AMI, or BLN control sequences or following a space character or | ❓ |
-| PTOCA-4-649 | For the variable space character: | ❓ |
-| PTOCA-4-650 | For a non-incrementing character: | ❓ |
-| PTOCA-4-651 | In all cases: | ❓ |
-| PTOCA-4-652 | If $I_c$ | ❓ |
-| PTOCA-4-653 | sum = summation over all the graphemes that were presented for the UCT | ❓ |
-| PTOCA-4-654 | 0 Normalization | ❓ |
-| PTOCA-4-655 | 1 Alternate inline position (I | ❓ |
-| PTOCA-4-656 | 2 Alternate inline position (I | ❓ |
-| PTOCA-4-657 | 3 Maintain current inline position ($I_c$ | ❓ |
-| PTOCA-4-658 | 4 Reset paragraph direction | ❓ |
-| PTOCA-4-659 | 5-7 Reserved, that is, set to B'0' by generators and ignored by receivers | ❓ |
-| PTOCA-4-660 | . In this case the range of I | ❓ |
-| PTOCA-4-661 | 1. The terms 'left', 'right', 'top', and 'bottom–as in 'L→R', 'R→L', 'T→B', and 'B→T'–only have meaning when | ❓ |
-| PTOCA-4-662 | 2. The (+) i-direction is the direction of increasing i-values; the (-) i-direction is the direction of decreasing | ❓ |
-| PTOCA-4-663 | either code points or the start of an unchained control sequence. | ❓ |
-| PTOCA-4-664 | EC-1A01...The CTLNGTH parameter is an odd number, but the character encoding is double byte. | ❓ |
-| PTOCA-4-665 | EC-9B01...The CTLNGTH, UCTVERS, BIDICT, or GLYPHCT parameter values are invalid. | ❓ |
-| PTOCA-4-666 | EC-1A03...Invalid Unicode data. This can be caused by one of the following: | ❓ |
-| PTOCA-4-667 | The value in the 1st byte of the UTF-8 byte sequence was not in the legal UTF-8 range (X'00' - X'7F' and | ❓ |
-| PTOCA-4-668 | The value in the 2nd byte of the UTF-8 byte sequence was not in the legal UTF-8 range allowed by the value | ❓ |
-| PTOCA-4-669 | The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF-8 range for that byte | ❓ |
-| PTOCA-4-670 | Text orientation. The orientation of the (i,b) coordinate system which specifies the baseline on which glyphs | ❓ |
-| PTOCA-4-671 | Character rotation. Alignment of a character with respect to the baseline. Differentiates between horizontal | ❓ |
-| PTOCA-4-672 | Writing mode. Can be horizontal (L→R or R→L) or vertical (top->bottom or bottom->top). Determines– | ❓ |
-| PTOCA-4-673 | Bidirectional character property. A property value assigned by the Unicode standard to each character, | ❓ |
-| PTOCA-4-674 | Text direction. Specifies the visual ordering of characters in a given directional run. The inherent directional | ❓ |
-| PTOCA-4-675 | Paragraph direction. Specifies the dominant text direction for a UCT. Used as an input to the Unicode bidi | ❓ |
-| PTOCA-4-676 | The text direction of the L | ❓ |
-| PTOCA-4-677 | The text direction of the R | ❓ |
-| PTOCA-4-678 | The text direction can also be set by the BIDICT parameter on the UCT. With BIDICT values X'22'and X'23', | ❓ |
-| PTOCA-4-679 | If the paragraph direction is R→L, the complete string is rendered as: | ❓ |
-| PTOCA-4-680 | If the paragraph direction is L→R, the complete string is rendered as: | ❓ |
-| PTOCA-4-681 | Writing mode L→R, paragraph direction L→R: | ❓ |
-| PTOCA-4-682 | Writing mode R→L, paragraph direction L→R: | ❓ |
-| PTOCA-4-683 | Writing mode L→R, paragraph direction R→L: | ❓ |
-| PTOCA-4-684 | Writing mode R→L, paragraph direction R→L: | ❓ |
-| PTOCA-4-685 | Writing mode L→R, paragraph direction L→R: | ❓ |
-| PTOCA-4-686 | Writing mode L→R, paragraph direction R→L: | ❓ |
-| PTOCA-4-687 | Writing mode R→L, paragraph direction R→L: | ❓ |
-| PTOCA-4-688 | Writing mode R→L, paragraph direction L→R: | ❓ |
-| PTOCA-4-689 | Overstrike (OVS). Table 16 defines which Unicode space characters are treated as PTOCA | ❓ |
-| PTOCA-4-690 | Set Intercharacter Adjustment (SIA). If glyph processing or bidi layout processing is enabled, intercharacter | ❓ |
-| PTOCA-4-691 | Set Text Orientation (STO). If bidi layout processing is enabled and the writing mode is horizontal, characters | ❓ |
-| PTOCA-4-692 | Set V ariable Space Character Increment (SVI). Table 16 defines which Unicode space | ❓ |
-| PTOCA-4-693 | Temporary Baseline Move (TBM). If glyph processing or bidi layout processing is enabled, the precision | ❓ |
-| PTOCA-4-694 | Underscore (USC). Table 16 defines which Unicode space characters are treated as PTOCA | ❓ |
-| PTOCA-4-695 | 1. Measurement units parameters: | ❓ |
-| PTOCA-4-696 | Unit base | ❓ |
-| PTOCA-4-697 | 2. Size parameters | ❓ |
-| PTOCA-4-698 | 3. Initial text condition parameters | ❓ |
-| PTOCA-4-699 | 0 Ten inches | ❓ |
-| PTOCA-4-700 | 1 Ten centimeters | ❓ |
-| PTOCA-4-701 | 2-254 Reserved | ❓ |
-| PTOCA-4-702 | 5000 or one five-hundredth of an inch. Here are further examples. | ❓ |
-| PTOCA-4-703 | 800 X 800 units/in. Unit base = 0 | ❓ |
-| PTOCA-4-704 | 80 X 77 units/cm. Unit base = 1 | ❓ |
-| PTOCA-4-705 | 800 divisions in 10 cm. on $X_p$ | ❓ |
-| PTOCA-4-706 | 770 divisions in 10 cm. on $Y_p$ | ❓ |
-| PTOCA-4-707 | 203.3 X 195.5 | ❓ |
-| PTOCA-4-708 | 240 x 240 units/in. Unit base = 0 | ❓ |
-| PTOCA-4-709 | specified by PTOCA, exception condition EC-0705 exists. The standard action is to ignore the invalid | ❓ |
-| PTOCA-4-710 | EC-0505...The value of the unit base parameter is not supported, or is not in the range specified by PTOC A. | ❓ |
-| PTOCA-4-711 | EC-0605...The value of the $X_p$ | ❓ |
-| PTOCA-4-712 | EC-0705...The value of the $X_p$ | ❓ |
-| PTOCA-4-713 | EC-0103...The contents of the Presentation Text object will cause presentation outside of the object space. | ❓ |
-| PTOCA-4-714 | Semantics: This parameter is reserved. Generators should set it to zero and receivers should ignore it. | ❓ |
-| PTOCA-4-715 | Baseline increment | ❓ |
-| PTOCA-4-716 | Coded font local ID | ❓ |
-| PTOCA-4-717 | Extended text color | ❓ |
-| PTOCA-4-718 | Initial baseline coordinate | ❓ |
-| PTOCA-4-719 | Initial inline coordinate | ❓ |
-| PTOCA-4-720 | Inline margin | ❓ |
-| PTOCA-4-721 | Intercharacter adjustment | ❓ |
-| PTOCA-4-722 | Text color | ❓ |
-| PTOCA-4-723 | Text orientation | ❓ |
-| PTOCA-4-724 | Increment control sequence. | ❓ |
-| PTOCA-4-725 | EC-1 101...The value of the baseline increment parameter is not supported or is not in the range specified by | ❓ |
-| PTOCA-4-726 | The default value is the LID of the default coded font of the device. | ❓ |
-| PTOCA-4-727 | The Coded Font Local ID parameter is present in the Presentation Text Data Descriptor but a corresponding | ❓ |
-| PTOCA-4-728 | An equate of the local identifier to a global identifier does not exist, or substitution parameters do not exist, in | ❓ |
-| PTOCA-4-729 | The standard action is to substitute the receiver's default font for the requested font and continue processing. | ❓ |
-| PTOCA-4-730 | EC-0C01...The value of the LID parameter is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-731 | EC-3F02...The font is not compatible with the text orientation. | ❓ |
-| PTOCA-4-732 | EC-1802...The font requested cannot be provided. | ❓ |
-| PTOCA-4-733 | The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters, | ❓ |
-| PTOCA-4-734 | The stroked area of a rule. | ❓ |
-| PTOCA-4-735 | The stroked area of an underscore. | ❓ |
-| PTOCA-4-736 | The standard action in this case is to use the presentation device default color. | ❓ |
-| PTOCA-4-737 | EC-0E02...Invalid or unsupported color space. | ❓ |
-| PTOCA-4-738 | EC-0E03...Invalid or unsupported color value. | ❓ |
-| PTOCA-4-739 | EC-0E04...Invalid percent value. | ❓ |
-| PTOCA-4-740 | EC-0E05...Invalid or unsupported number of bits in a color component. | ❓ |
-| PTOCA-4-741 | at the I-axis. This does not affect the inline margin. | ❓ |
-| PTOCA-4-742 | EC-6B02...The value of the B-displacement parameter is not supported or is not in the range specified by | ❓ |
-| PTOCA-4-743 | the B-axis. This does not affect the inline margin. | ❓ |
-| PTOCA-4-744 | EC-6A02...The value of the I-displacement parameter is not supported or is not in the range specified by | ❓ |
-| PTOCA-4-745 | page 163 and Appendix B, “IPDS Environment”, for more information about valid ranges. | ❓ |
-| PTOCA-4-746 | X'0000', the inline margin is at the B-axis. | ❓ |
-| PTOCA-4-747 | EC-1001...The displacement parameter is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-748 | A space character or variable space character | ❓ |
-| PTOCA-4-749 | A Begin Line control sequence | ❓ |
-| PTOCA-4-750 | A Relative Move Inline control sequence | ❓ |
-| PTOCA-4-751 | An Absolute Move Inline control sequence | ❓ |
-| PTOCA-4-752 | decrement appears between graphic characters. | ❓ |
-| PTOCA-4-753 | EC-1201...The value of the adjustment parameter or the direction parameter is not supported, or is not in the | ❓ |
-| PTOCA-4-754 | range specified by PTOCA. | ❓ |
-| PTOCA-4-755 | The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters, | ❓ |
-| PTOCA-4-756 | The stroked area of a rule. | ❓ |
-| PTOCA-4-757 | The stroked area of an underscore. | ❓ |
-| PTOCA-4-758 | 103 for the foreground color values and their associated colors. The default color attribute value is X'FF07'. | ❓ |
-| PTOCA-4-759 | 1. Value set by Text Color initial text condition parameter in Descriptor | ❓ |
-| PTOCA-4-760 | 2. PTOCA default – X'FF07'. | ❓ |
-| PTOCA-4-761 | EC-5803...The foreground color parameter (FRGCOLOR) value is invalid, or the specified color is not | ❓ |
-| PTOCA-4-762 | is a two-byte, three-part code of the form ABC. | ❓ |
-| PTOCA-4-763 | A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360 | ❓ |
-| PTOCA-4-764 | B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through | ❓ |
-| PTOCA-4-765 | 63 are invalid. | ❓ |
-| PTOCA-4-766 | C is a one-bit reserved field (bit 15) which must be B'0'. | ❓ |
-| PTOCA-4-767 | orientation values not within the range specified by PTOCA. | ❓ |
-| PTOCA-4-768 | EC-6802...The I-axis is not parallel to the $X_p$ | ❓ |
-| PTOCA-4-769 | EC-6902...The B-axis is not parallel to the $X_p$ | ❓ |
+| PTOCA-4-401 | 4 Reserved; should be zero M N N | ✅ |
+| PTOCA-4-402 | 5 CODE COLSPCE Color space M N N | ✅ |
+| PTOCA-4-403 | 10 UBIN COLSIZE1 X'01' – X'08', | ✅ |
+| PTOCA-4-404 | 1 1 UBIN COLSIZE2 X'00' – X'08' Number of bits in | ✅ |
+| PTOCA-4-405 | 12 UBIN COLSIZE3 X'00' – X'08' Number of bits in | ✅ |
+| PTOCA-4-406 | 13 UBIN COLSIZE4 X'00' – X'08' Number of bits in | ✅ |
+| PTOCA-4-407 | 14–(n-1) COL Value See | ✅ |
+| PTOCA-4-408 | Color specifications M N N | ✅ |
+| PTOCA-4-409 | - 1), where N=1,2,3. | ✅ |
+| PTOCA-4-410 | 3. A value of X'00' indicates that component 3 is not specified in the color value, in which case | ✅ |
+| PTOCA-4-411 | 1. The color that is rendered when a highlight color is specified is device dependent. For | ✅ |
+| PTOCA-4-412 | 2. If the specified highlight color is 'presentation device default', devices whose default color | ✅ |
+| PTOCA-4-413 | 3. On printing devices, the color of medium is normally white, in which case a coverage of n | ✅ |
+| PTOCA-4-414 | 4. The highlight color space can also specify indexed colors when used in conjunction with a | ✅ |
+| PTOCA-4-415 | - 1). The range for the a and b components is -127 to +127, which is mapped to the binary | ✅ |
+| PTOCA-4-416 | - 1) to +(2 | ✅ |
+| PTOCA-4-417 | 1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows: | ✅ |
+| PTOCA-4-418 | For PTOCA text data, it is the presentation device default | ✅ |
+| PTOCA-4-419 | 2. The color rendered on presentation devices that do not support white is device-dependent. For | ✅ |
+| PTOCA-4-420 | 3. The presentation-process default specified by X'FF07' is resolved as the presentation device | ✅ |
+| PTOCA-4-421 | 4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some | ✅ |
+| PTOCA-4-422 | For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to | ✅ |
+| PTOCA-4-423 | 5. While the RGB values in the table can be used to render the OCA named colors, many | ✅ |
+| PTOCA-4-424 | data-stream documentation. | ✅ |
+| PTOCA-4-425 | action in this case is to use the presentation device default color. | ✅ |
+| PTOCA-4-426 | EC-0E02...Invalid or unsupported color space. | ✅ |
+| PTOCA-4-427 | EC-0E03...Invalid or unsupported color value. | ✅ |
+| PTOCA-4-428 | EC-0E04...Invalid percent value. | ✅ |
+| PTOCA-4-429 | EC-0E05...Invalid or unsupported number of bits in a color component. | ✅ |
+| PTOCA-4-430 | graphic characters. This is a modal control sequence. | ✅ |
+| PTOCA-4-431 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-432 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-433 | 2 UBIN LENGTH 4–5 Control sequence length M N N | ✅ |
+| PTOCA-4-434 | 3 CODE TYPE X'C2' – X'C3' Control sequence | ✅ |
+| PTOCA-4-435 | 6 CODE DIRECTION X'00' – X'01' Direction O Y Y | ✅ |
+| PTOCA-4-436 | A space character or variable space character | ✅ |
+| PTOCA-4-437 | A Begin Line control sequence | ✅ |
+| PTOCA-4-438 | A Relative Move Inline control sequence | ✅ |
+| PTOCA-4-439 | An Absolute Move Inline control sequence | ✅ |
+| PTOCA-4-440 | The space character or variable space character | ✅ |
+| PTOCA-4-441 | Begin Line control sequences | ✅ |
+| PTOCA-4-442 | Relative Move Inline control sequences | ✅ |
+| PTOCA-4-443 | Absolute Move Inline control sequences | ✅ |
+| PTOCA-4-444 | X'40' in EBCDIC single-byte code pages | ✅ |
+| PTOCA-4-445 | X'20' in ASCII single-byte code pages | ✅ |
+| PTOCA-4-446 | X'4040' in EBCDIC double-byte code pages | ✅ |
+| PTOCA-4-447 | X'2020' in ASCII double-byte code pages | ✅ |
+| PTOCA-4-448 | X'0020' | ✅ |
+| PTOCA-4-449 | X'00A0' | ✅ |
+| PTOCA-4-450 | stream documentation. | ✅ |
+| PTOCA-4-451 | The current presentation position | ✅ |
+| PTOCA-4-452 | The current I-unit value | ✅ |
+| PTOCA-4-453 | The current inline margin | ✅ |
+| PTOCA-4-454 | The current intercharacter increment value | ✅ |
+| PTOCA-4-455 | The current intercharacter decrement value | ✅ |
+| PTOCA-4-456 | EC-1201...The value of ADJSTMNT or DIRECTION is not supported or is not in the range specified by | ✅ |
+| PTOCA-4-457 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-458 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-459 | 2 UBIN LENGTH 4 Control sequence length M N N | ✅ |
+| PTOCA-4-460 | 3 CODE TYPE X'C0' – X'C1' Control sequence | ✅ |
+| PTOCA-4-461 | This control sequence does not change the current addressable position. | ✅ |
+| PTOCA-4-462 | the value of DSPLCMNT is zero, the inline margin is at the B-axis. | ✅ |
+| PTOCA-4-463 | EC-1E01...DSPLCMNT is missing. | ✅ |
+| PTOCA-4-464 | EC-1001...The value of DSPLCMNT is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-465 | (ENC) controls. This is a modal control sequence. | ✅ |
+| PTOCA-4-466 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-467 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-468 | 2 UBIN LENGTH 6, 7–255 Control sequence length M N N | ✅ |
+| PTOCA-4-469 | 3 CODE TYPE X'9A' – X'9B' Control sequence | ✅ |
+| PTOCA-4-470 | indicator, but X'F....F' is valid. | ✅ |
+| PTOCA-4-471 | stream documentation. | ✅ |
+| PTOCA-4-472 | 249 bytes. Consecutive, in this case, means the SKI controls have no intervening PTOCA controls between | ✅ |
+| PTOCA-4-473 | effe ctively ignored, while consecutive SKIs after it, if any, begin a new KEYINFO definition. | ✅ |
+| PTOCA-4-474 | EC-1E01...LENGTH is not valid. | ✅ |
+| PTOCA-4-475 | EC-9D01...Decryption is not available on this device. | ✅ |
+| PTOCA-4-476 | The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters, | ✅ |
+| PTOCA-4-477 | The stroked area of a rule | ✅ |
+| PTOCA-4-478 | The stroked area of an underscore | ✅ |
+| PTOCA-4-479 | a definition of modal control sequences, see “Modal Control Sequences”. | ✅ |
+| PTOCA-4-480 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-481 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-482 | 2 UBIN LENGTH 4, 5 Control sequence length M N N | ✅ |
+| PTOCA-4-483 | 3 CODE TYPE X'74' – X'75' Control sequence | ✅ |
+| PTOCA-4-484 | 4–5 CODE FRGCOLOR See | ✅ |
+| PTOCA-4-485 | 6 Retired parameter, see | ✅ |
+| PTOCA-4-486 | 6. This parameter has been retired. It should not be generated by new applications, and should be | ✅ |
+| PTOCA-4-487 | ignored by new printers. For a definition of this parameter, see “Retired Parameters”. | ✅ |
+| PTOCA-4-488 | 1. The presentation-process default specified by X'0000' and X'FF00' is resolved as follows: | ✅ |
+| PTOCA-4-489 | For PTOCA text data, it is the presentation device default | ✅ |
+| PTOCA-4-490 | 2. The color rendered on presentation devices that do not support white is device-dependent. For example, some | ✅ |
+| PTOCA-4-491 | 3. The presentation-process default specified by X'FF07' is resolved as the presentation device default. This color | ✅ |
+| PTOCA-4-492 | 4. The value X'FFFF' is not defined in the Standard OCA Color Value Table but is used by some objects as a default | ✅ |
+| PTOCA-4-493 | For PTOCA text data, X'FFFF' may be specified in the Set Text Color (STC) control sequence to indicate that the | ✅ |
+| PTOCA-4-494 | 5. While the RGB values in the table can be used to render the OCA named colors, many implementations are and | ✅ |
+| PTOCA-4-495 | stream documentation. | ✅ |
+| PTOCA-4-496 | 1. Value set by Text Color initial text condition parameter in descriptor | ✅ |
+| PTOCA-4-497 | 2. PTOCA default X'FF07' | ✅ |
+| PTOCA-4-498 | EC-5803...The value of FRGCOLOR is invalid, or the specified color is not supported. | ✅ |
+| PTOCA-4-499 | 1. The MO:DCA environment supports a Color Mapping Table (CMT) that may be used to map colors in a | ✅ |
+| PTOCA-4-500 | 2. The IPDS environment allows a presentation device to implement limited simulated color support for | ✅ |
+| PTOCA-4-501 | This is a modal control sequence. | ✅ |
+| PTOCA-4-502 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-503 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-504 | 2 UBIN LENGTH 6 Control sequence length M N N | ✅ |
+| PTOCA-4-505 | 3 CODE TYPE X'F6' – X'F7' Control sequence | ✅ |
+| PTOCA-4-506 | 4–5 CODE IORNTION See | ✅ |
+| PTOCA-4-507 | 6–7 CODE BORNTION See | ✅ |
+| PTOCA-4-508 | The PTOCA default for IORNTION is zero. The PTOCA default for BORNTION is 90. | ✅ |
+| PTOCA-4-509 | A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360 | ✅ |
+| PTOCA-4-510 | B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through | ✅ |
+| PTOCA-4-511 | 63 are invalid. | ✅ |
+| PTOCA-4-512 | C is a one-bit reserved field (bit 15) which must be 0. | ✅ |
+| PTOCA-4-513 | 1. The following remain as previously specified: | ✅ |
+| PTOCA-4-514 | The current presentation position, an $X_p$,$Y_p$ coordinate, | ✅ |
+| PTOCA-4-515 | The current I-unit value, | ✅ |
+| PTOCA-4-516 | The current inline margin, | ✅ |
+| PTOCA-4-517 | The current intercharacter increment value, | ✅ |
+| PTOCA-4-518 | The current intercharacter decrement value, | ✅ |
+| PTOCA-4-519 | The current B-unit value, | ✅ |
+| PTOCA-4-520 | The current baseline increment value, | ✅ |
+| PTOCA-4-521 | The current coded font. | ✅ |
+| PTOCA-4-522 | 2. The following will change: | ✅ |
+| PTOCA-4-523 | The $X_p$ | ✅ |
+| PTOCA-4-524 | Font character rotations appropriate to the new orientation are used. | ✅ |
+| PTOCA-4-525 | Presentation position should be respecified if subsequent text is to be positioned elsewhere in the | ✅ |
+| PTOCA-4-526 | Other modal parameter values should be respecified if they are more appropriate to the new orientation. | ✅ |
+| PTOCA-4-527 | A new coded font should be specified: | ✅ |
+| PTOCA-4-528 | 3. If the Presentation Text object measurement units specified for the $X_p$ | ✅ |
+| PTOCA-4-529 | unexpected and use of a Set Text Orientation control sequence should be avoided. | ✅ |
+| PTOCA-4-530 | EC-1E01...IORNTION or BORNTION is missing. | ✅ |
+| PTOCA-4-531 | EC-0F01...IORNTION and BORNTION are identical. | ✅ |
+| PTOCA-4-532 | EC-0F01...IORNTION or BORNTION not parallel to $X_p$ | ✅ |
+| PTOCA-4-533 | EC-0F01...IORNTION and BORNTION not supported by receiver. | ✅ |
+| PTOCA-4-534 | character. This is a modal control sequence. | ✅ |
+| PTOCA-4-535 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-536 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-537 | 2 UBIN LENGTH 4 Control sequence length M N N | ✅ |
+| PTOCA-4-538 | 3 CODE TYPE X'C4' – X'C5' Control sequence | ✅ |
+| PTOCA-4-539 | conversion routine described in “Interpreting Ranges”. | ✅ |
+| PTOCA-4-540 | stream documentation. | ✅ |
+| PTOCA-4-541 | 1. The current variable space character increment | ✅ |
+| PTOCA-4-542 | 2. The default variable space character increment of the active coded font | ✅ |
+| PTOCA-4-543 | 3. The character increment of the default variable space character code point | ✅ |
+| PTOCA-4-544 | The current presentation position, an $X_p$,$Y_p$ coordinate | ✅ |
+| PTOCA-4-545 | The current I-unit value | ✅ |
+| PTOCA-4-546 | The current inline margin, | ✅ |
+| PTOCA-4-547 | The current intercharacter increment value | ✅ |
+| PTOCA-4-548 | The current intercharacter decrement value | ✅ |
+| PTOCA-4-549 | The current B-unit value | ✅ |
+| PTOCA-4-550 | The current baseline increment value | ✅ |
+| PTOCA-4-551 | The current coded font | ✅ |
+| PTOCA-4-552 | X'40' in EBCDIC single-byte code pages | ✅ |
+| PTOCA-4-553 | X'20' in ASCII single-byte code pages | ✅ |
+| PTOCA-4-554 | X'4040' in EBCDIC double-byte code pages | ✅ |
+| PTOCA-4-555 | X'2020' in ASCII double-byte code pages | ✅ |
+| PTOCA-4-556 | X'0020' | ✅ |
+| PTOCA-4-557 | X'00A0' | ✅ |
+| PTOCA-4-558 | increment of the active coded font is used. | ✅ |
+| PTOCA-4-559 | EC-1E01...INCRMENT is missing | ✅ |
+| PTOCA-4-560 | EC-1701...The value of INCRMENT is not supported or is not in the range specified by PTOCA.EC-1E01EC- | ✅ |
+| PTOCA-4-561 | 1 10 PTOCA Reference | ✅ |
+| PTOCA-4-562 | established baseline. | ✅ |
+| PTOCA-4-563 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-564 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-565 | 2 UBIN LENGTH 3, 4, 6 Control sequence length M N N | ✅ |
+| PTOCA-4-566 | 3 CODE TYPE X'78' – X'79' Control sequence | ✅ |
+| PTOCA-4-567 | 4 CODE DIRECTION X'00' – X'03' Direction M Y Y | ✅ |
+| PTOCA-4-568 | 5 BITS PRECISION X'00' – X'01' Precision O Y Y | ✅ |
+| PTOCA-4-569 | 1/2 the baseline increment value. The PTOC A default value for DIRECTION and PRECISION is zero. | ✅ |
+| PTOCA-4-570 | Change the current baseline coordinate by the amount specified by INCRMENT in the direction specified by | ✅ |
+| PTOCA-4-571 | Return the baseline coordinate to the established baseline coordinate position | ✅ |
+| PTOCA-4-572 | - INCRMENT | ✅ |
+| PTOCA-4-573 | stream documentation. | ✅ |
+| PTOCA-4-574 | How TBM operates: | ✅ |
+| PTOCA-4-575 | 1 12 PTOCA Reference | ✅ |
+| PTOCA-4-576 | How TBM affects other control sequences: | ✅ |
+| PTOCA-4-577 | How TBM uses the PRECISION parameter: | ✅ |
+| PTOCA-4-578 | 9803 exists. The standard action is to present the requested character at the established baseline | ✅ |
+| PTOCA-4-579 | How TBM relates to underscore and overstrike: | ✅ |
+| PTOCA-4-580 | Miscellaneous TBM exception conditions: | ✅ |
+| PTOCA-4-581 | characters were being presented. | ✅ |
+| PTOCA-4-582 | EC-9803...The value of INCRMENT, PRECISION, or DIRECTION is not supported or is not in the range | ✅ |
+| PTOCA-4-583 | EC-9803...The PRECISION parameterspecifies the actual placement method but the receiver does not | ✅ |
+| PTOCA-4-584 | EC-9803...A receiver using the substitution method cannot generate the required substitution character. | ✅ |
+| PTOCA-4-585 | EC-9803...For a receiver that uses the actual placement method, the INCRMENT parameter exceeds the | ✅ |
+| PTOCA-4-586 | EC-9803...A multi-offset TBM control sequence is received by a receiver that uses the substitution method. | ✅ |
+| PTOCA-4-587 | 1 14 PTOCA Reference | ✅ |
+| PTOCA-4-588 | EC-0103...The control sequence will cause part of a character's character box to be outside of the object | ✅ |
+| PTOCA-4-589 | for embedded control sequences. | ✅ |
+| PTOCA-4-590 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-591 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-592 | 2 UBIN LENGTH 2–255 Control sequence length M N N | ✅ |
+| PTOCA-4-593 | 3 CODE TYPE X'DA' – X'DB' Control sequence | ✅ |
+| PTOCA-4-594 | The contents of TRNDATA are unknown. TRNDATA does not accept the default indicator, but X'F....F' is valid. | ✅ |
+| PTOCA-4-595 | 1 16 PTOCA Reference | ✅ |
+| PTOCA-4-596 | EC-0103...The control sequence will cause part of a character's character box to be outside the object | ✅ |
+| PTOCA-4-597 | EC-1A01...The control sequence length is an odd number, but a double-byte font is active. | ✅ |
+| PTOCA-4-598 | EC-1A03...Invalid Unicode data. This can be caused by one of the following: | ✅ |
+| PTOCA-4-599 | The Underscore control sequence identifies text fields that are to be underscored. | ✅ |
+| PTOCA-4-600 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-601 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-602 | 2 UBIN LENGTH 3 Control sequence length M N N | ✅ |
+| PTOCA-4-603 | 3 CODE TYPE X'76' – X'77' Control sequence | ✅ |
+| PTOCA-4-604 | 4 BITS BYPSIDEN See | ✅ |
+| PTOCA-4-605 | Absolute Move Inline control sequence | ✅ |
+| PTOCA-4-606 | Relative Move Inline control sequence | ✅ |
+| PTOCA-4-607 | Space character or variable space character | ✅ |
+| PTOCA-4-608 | X'40' in EBCDIC single-byte code pages | ✅ |
+| PTOCA-4-609 | X'20' in ASCII single-byte code pages | ✅ |
+| PTOCA-4-610 | X'4040' in EBCDIC double-byte code pages | ✅ |
+| PTOCA-4-611 | X'2020' in ASCII double-byte code pages | ✅ |
+| PTOCA-4-612 | X'0020' | ✅ |
+| PTOCA-4-613 | X'00A0' | ✅ |
+| PTOCA-4-614 | 1 18 PTOCA Reference | ✅ |
+| PTOCA-4-615 | 0-3 Reserved, that is, set to 0 by generators and ignored by receivers | ✅ |
+| PTOCA-4-616 | 4 Bypass Relative Move Inline | ✅ |
+| PTOCA-4-617 | 5 Bypass Absolute Move Inline | ✅ |
+| PTOCA-4-618 | 6 Bypass space characters and variable space characters | ✅ |
+| PTOCA-4-619 | 7 No Bypass in effect | ✅ |
+| PTOCA-4-620 | A beginning USC | ✅ |
+| PTOCA-4-621 | Either end of bypassed controlled inline white space | ✅ |
+| PTOCA-4-622 | Either end of a baseline move, which may be for the established baseline or for a temporary baseline | ✅ |
+| PTOCA-4-623 | The beginning of negative changes in the presentation position caused by inline moves or negative | ✅ |
+| PTOCA-4-624 | Boundaries where violation causes truncation | ✅ |
+| PTOCA-4-625 | An ending USC | ✅ |
+| PTOCA-4-626 | The end of the Presentation Text object | ✅ |
+| PTOCA-4-627 | the inline margin is underscored only if this area is entered by means of an inline move. | ✅ |
+| PTOCA-4-628 | the active font is not a data-object font | ✅ |
+| PTOCA-4-629 | the data is not encoded in a Unicode-based character encoding | ✅ |
+| PTOCA-4-630 | the writing mode is vertical, as determined by a font character rotation of 90° or 270° | ✅ |
+| PTOCA-4-631 | 1. When the UCT is specified within a GLC chain, that is when it is chained from a GAR or a GOR, it is used | ✅ |
+| PTOCA-4-632 | 2. When the UCT is specified outside a GLC chain (a “stand-alone“ UCT), it is used to process and render the | ✅ |
+| PTOCA-4-633 | bidirectional (bidi) layout processing. When the writing mode is horizontal, as determined by a character | ✅ |
+| PTOCA-4-634 | glyph processing. Characters may require language-specific shaping such as arabic character shaping, | ✅ |
+| PTOCA-4-635 | from the Unicode Consortium at http://unicode.org/standard/standard.html. | ✅ |
+| PTOCA-4-636 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-637 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-638 | 2 UBIN LENGTH X'10' Control sequence length M N N | ✅ |
+| PTOCA-4-639 | 3 CODE TYPE X'6A' Control sequence function type M N N | ✅ |
+| PTOCA-4-640 | 4 CODE UCTVERS X'01' UCT version level | ✅ |
+| PTOCA-4-641 | 5 Reserved; should be zero M N N | ✅ |
+| PTOCA-4-642 | 8 BITS CTFLGS See | ✅ |
+| PTOCA-4-643 | 9 Reserved; should be zero M N N | ✅ |
+| PTOCA-4-644 | 10 CODE BIDICT X'02', X'04', | ✅ |
+| PTOCA-4-645 | 1 1 CODE GLYPHCT X'01', X'20' Glyph processing control: | ✅ |
+| PTOCA-4-646 | routine described in “Interpreting Ranges”. | ✅ |
+| PTOCA-4-647 | For graphic characters following each other: | ✅ |
+| PTOCA-4-648 | For graphic characters following RMI, AMI, or BLN control sequences or following a space character or | ✅ |
+| PTOCA-4-649 | For the variable space character: | ✅ |
+| PTOCA-4-650 | For a non-incrementing character: | ✅ |
+| PTOCA-4-651 | In all cases: | ✅ |
+| PTOCA-4-652 | If $I_c$ | ✅ |
+| PTOCA-4-653 | sum = summation over all the graphemes that were presented for the UCT | ✅ |
+| PTOCA-4-654 | 0 Normalization | ✅ |
+| PTOCA-4-655 | 1 Alternate inline position (I | ✅ |
+| PTOCA-4-656 | 2 Alternate inline position (I | ✅ |
+| PTOCA-4-657 | 3 Maintain current inline position ($I_c$ | ✅ |
+| PTOCA-4-658 | 4 Reset paragraph direction | ✅ |
+| PTOCA-4-659 | 5-7 Reserved, that is, set to B'0' by generators and ignored by receivers | ✅ |
+| PTOCA-4-660 | . In this case the range of I | ✅ |
+| PTOCA-4-661 | 1. The terms 'left', 'right', 'top', and 'bottom–as in 'L→R', 'R→L', 'T→B', and 'B→T'–only have meaning when | ✅ |
+| PTOCA-4-662 | 2. The (+) i-direction is the direction of increasing i-values; the (-) i-direction is the direction of decreasing | ✅ |
+| PTOCA-4-663 | either code points or the start of an unchained control sequence. | ✅ |
+| PTOCA-4-664 | EC-1A01...The CTLNGTH parameter is an odd number, but the character encoding is double byte. | ✅ |
+| PTOCA-4-665 | EC-9B01...The CTLNGTH, UCTVERS, BIDICT, or GLYPHCT parameter values are invalid. | ✅ |
+| PTOCA-4-666 | EC-1A03...Invalid Unicode data. This can be caused by one of the following: | ✅ |
+| PTOCA-4-667 | The value in the 1st byte of the UTF-8 byte sequence was not in the legal UTF-8 range (X'00' - X'7F' and | ✅ |
+| PTOCA-4-668 | The value in the 2nd byte of the UTF-8 byte sequence was not in the legal UTF-8 range allowed by the value | ✅ |
+| PTOCA-4-669 | The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF-8 range for that byte | ✅ |
+| PTOCA-4-670 | Text orientation. The orientation of the (i,b) coordinate system which specifies the baseline on which glyphs | ✅ |
+| PTOCA-4-671 | Character rotation. Alignment of a character with respect to the baseline. Differentiates between horizontal | ✅ |
+| PTOCA-4-672 | Writing mode. Can be horizontal (L→R or R→L) or vertical (top->bottom or bottom->top). Determines– | ✅ |
+| PTOCA-4-673 | Bidirectional character property. A property value assigned by the Unicode standard to each character, | ✅ |
+| PTOCA-4-674 | Text direction. Specifies the visual ordering of characters in a given directional run. The inherent directional | ✅ |
+| PTOCA-4-675 | Paragraph direction. Specifies the dominant text direction for a UCT. Used as an input to the Unicode bidi | ✅ |
+| PTOCA-4-676 | The text direction of the L | ✅ |
+| PTOCA-4-677 | The text direction of the R | ✅ |
+| PTOCA-4-678 | The text direction can also be set by the BIDICT parameter on the UCT. With BIDICT values X'22'and X'23', | ✅ |
+| PTOCA-4-679 | If the paragraph direction is R→L, the complete string is rendered as: | ✅ |
+| PTOCA-4-680 | If the paragraph direction is L→R, the complete string is rendered as: | ✅ |
+| PTOCA-4-681 | Writing mode L→R, paragraph direction L→R: | ✅ |
+| PTOCA-4-682 | Writing mode R→L, paragraph direction L→R: | ✅ |
+| PTOCA-4-683 | Writing mode L→R, paragraph direction R→L: | ✅ |
+| PTOCA-4-684 | Writing mode R→L, paragraph direction R→L: | ✅ |
+| PTOCA-4-685 | Writing mode L→R, paragraph direction L→R: | ✅ |
+| PTOCA-4-686 | Writing mode L→R, paragraph direction R→L: | ✅ |
+| PTOCA-4-687 | Writing mode R→L, paragraph direction R→L: | ✅ |
+| PTOCA-4-688 | Writing mode R→L, paragraph direction L→R: | ✅ |
+| PTOCA-4-689 | Overstrike (OVS). Table 16 defines which Unicode space characters are treated as PTOCA | ✅ |
+| PTOCA-4-690 | Set Intercharacter Adjustment (SIA). If glyph processing or bidi layout processing is enabled, intercharacter | ✅ |
+| PTOCA-4-691 | Set Text Orientation (STO). If bidi layout processing is enabled and the writing mode is horizontal, characters | ✅ |
+| PTOCA-4-692 | Set V ariable Space Character Increment (SVI). Table 16 defines which Unicode space | ✅ |
+| PTOCA-4-693 | Temporary Baseline Move (TBM). If glyph processing or bidi layout processing is enabled, the precision | ✅ |
+| PTOCA-4-694 | Underscore (USC). Table 16 defines which Unicode space characters are treated as PTOCA | ✅ |
+| PTOCA-4-695 | 1. Measurement units parameters: | ✅ |
+| PTOCA-4-696 | Unit base | ✅ |
+| PTOCA-4-697 | 2. Size parameters | ✅ |
+| PTOCA-4-698 | 3. Initial text condition parameters | ✅ |
+| PTOCA-4-699 | 0 Ten inches | ✅ |
+| PTOCA-4-700 | 1 Ten centimeters | ✅ |
+| PTOCA-4-701 | 2-254 Reserved | ✅ |
+| PTOCA-4-702 | 5000 or one five-hundredth of an inch. Here are further examples. | ✅ |
+| PTOCA-4-703 | 800 X 800 units/in. Unit base = 0 | ✅ |
+| PTOCA-4-704 | 80 X 77 units/cm. Unit base = 1 | ✅ |
+| PTOCA-4-705 | 800 divisions in 10 cm. on $X_p$ | ✅ |
+| PTOCA-4-706 | 770 divisions in 10 cm. on $Y_p$ | ✅ |
+| PTOCA-4-707 | 203.3 X 195.5 | ✅ |
+| PTOCA-4-708 | 240 x 240 units/in. Unit base = 0 | ✅ |
+| PTOCA-4-709 | specified by PTOCA, exception condition EC-0705 exists. The standard action is to ignore the invalid | ✅ |
+| PTOCA-4-710 | EC-0505...The value of the unit base parameter is not supported, or is not in the range specified by PTOC A. | ✅ |
+| PTOCA-4-711 | EC-0605...The value of the $X_p$ | ✅ |
+| PTOCA-4-712 | EC-0705...The value of the $X_p$ | ✅ |
+| PTOCA-4-713 | EC-0103...The contents of the Presentation Text object will cause presentation outside of the object space. | ✅ |
+| PTOCA-4-714 | Semantics: This parameter is reserved. Generators should set it to zero and receivers should ignore it. | ✅ |
+| PTOCA-4-715 | Baseline increment | ✅ |
+| PTOCA-4-716 | Coded font local ID | ✅ |
+| PTOCA-4-717 | Extended text color | ✅ |
+| PTOCA-4-718 | Initial baseline coordinate | ✅ |
+| PTOCA-4-719 | Initial inline coordinate | ✅ |
+| PTOCA-4-720 | Inline margin | ✅ |
+| PTOCA-4-721 | Intercharacter adjustment | ✅ |
+| PTOCA-4-722 | Text color | ✅ |
+| PTOCA-4-723 | Text orientation | ✅ |
+| PTOCA-4-724 | Increment control sequence. | ✅ |
+| PTOCA-4-725 | EC-1 101...The value of the baseline increment parameter is not supported or is not in the range specified by | ✅ |
+| PTOCA-4-726 | The default value is the LID of the default coded font of the device. | ✅ |
+| PTOCA-4-727 | The Coded Font Local ID parameter is present in the Presentation Text Data Descriptor but a corresponding | ✅ |
+| PTOCA-4-728 | An equate of the local identifier to a global identifier does not exist, or substitution parameters do not exist, in | ✅ |
+| PTOCA-4-729 | The standard action is to substitute the receiver's default font for the requested font and continue processing. | ✅ |
+| PTOCA-4-730 | EC-0C01...The value of the LID parameter is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-731 | EC-3F02...The font is not compatible with the text orientation. | ✅ |
+| PTOCA-4-732 | EC-1802...The font requested cannot be provided. | ✅ |
+| PTOCA-4-733 | The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters, | ✅ |
+| PTOCA-4-734 | The stroked area of a rule. | ✅ |
+| PTOCA-4-735 | The stroked area of an underscore. | ✅ |
+| PTOCA-4-736 | The standard action in this case is to use the presentation device default color. | ✅ |
+| PTOCA-4-737 | EC-0E02...Invalid or unsupported color space. | ✅ |
+| PTOCA-4-738 | EC-0E03...Invalid or unsupported color value. | ✅ |
+| PTOCA-4-739 | EC-0E04...Invalid percent value. | ✅ |
+| PTOCA-4-740 | EC-0E05...Invalid or unsupported number of bits in a color component. | ✅ |
+| PTOCA-4-741 | at the I-axis. This does not affect the inline margin. | ✅ |
+| PTOCA-4-742 | EC-6B02...The value of the B-displacement parameter is not supported or is not in the range specified by | ✅ |
+| PTOCA-4-743 | the B-axis. This does not affect the inline margin. | ✅ |
+| PTOCA-4-744 | EC-6A02...The value of the I-displacement parameter is not supported or is not in the range specified by | ✅ |
+| PTOCA-4-745 | page 163 and Appendix B, “IPDS Environment”, for more information about valid ranges. | ✅ |
+| PTOCA-4-746 | X'0000', the inline margin is at the B-axis. | ✅ |
+| PTOCA-4-747 | EC-1001...The displacement parameter is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-748 | A space character or variable space character | ✅ |
+| PTOCA-4-749 | A Begin Line control sequence | ✅ |
+| PTOCA-4-750 | A Relative Move Inline control sequence | ✅ |
+| PTOCA-4-751 | An Absolute Move Inline control sequence | ✅ |
+| PTOCA-4-752 | decrement appears between graphic characters. | ✅ |
+| PTOCA-4-753 | EC-1201...The value of the adjustment parameter or the direction parameter is not supported, or is not in the | ✅ |
+| PTOCA-4-754 | range specified by PTOCA. | ✅ |
+| PTOCA-4-755 | The stroked and filled areas of solid text characters, including overstrike characters. With hollow characters, | ✅ |
+| PTOCA-4-756 | The stroked area of a rule. | ✅ |
+| PTOCA-4-757 | The stroked area of an underscore. | ✅ |
+| PTOCA-4-758 | 103 for the foreground color values and their associated colors. The default color attribute value is X'FF07'. | ✅ |
+| PTOCA-4-759 | 1. Value set by Text Color initial text condition parameter in Descriptor | ✅ |
+| PTOCA-4-760 | 2. PTOCA default – X'FF07'. | ✅ |
+| PTOCA-4-761 | EC-5803...The foreground color parameter (FRGCOLOR) value is invalid, or the specified color is not | ✅ |
+| PTOCA-4-762 | is a two-byte, three-part code of the form ABC. | ✅ |
+| PTOCA-4-763 | A is a nine-bit binary number (bits 0 - 8) which provides from 0 through 359 degrees. Values from 360 | ✅ |
+| PTOCA-4-764 | B is a six-bit binary number (bits 9 - 14) which provides from 0 through 59 minutes. Values from 60 through | ✅ |
+| PTOCA-4-765 | 63 are invalid. | ✅ |
+| PTOCA-4-766 | C is a one-bit reserved field (bit 15) which must be B'0'. | ✅ |
+| PTOCA-4-767 | orientation values not within the range specified by PTOCA. | ✅ |
+| PTOCA-4-768 | EC-6802...The I-axis is not parallel to the $X_p$ | ✅ |
+| PTOCA-4-769 | EC-6902...The B-axis is not parallel to the $X_p$ | ✅ |
 | PTOCA-5-001 | Describes exception condition detection | ❓ |
 | PTOCA-5-002 | Describes exception responses and standard actions | ❓ |
 | PTOCA-5-003 | Lists the PTOCA exception condition codes | ❓ |
