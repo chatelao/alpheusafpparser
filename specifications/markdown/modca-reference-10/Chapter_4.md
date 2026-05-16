@@ -1,270 +1,179 @@
 # Chapter 4. MO:DCA Objects
+
 This chapter:
-* Defines the structure of a MO:DCA print file [MODCA-4-001]
-* Defines the structure of a MO:DCA document [MODCA-4-002]
-* Defines the structure of a MO:DCA index [MODCA-4-003]
-* Defines the structure of a MO:DCA page [MODCA-4-004]
-* Defines the structure of a MO:DCA page group [MODCA-4-005]
-* Describes the resource objects that may be referenced in a MO:DCA document and defines their structure [MODCA-4-006]
-* Describes how resource objects may be carried in resource groups [MODCA-4-007]
-* Defines the structure of print control resource objects [MODCA-4-008]
-* Describes the data objects that may be included in a MO:DCA document and defines their structure [MODCA-4-009]
-* Defines the structure of object containers [MODCA-4-010]
+*   Defines the structure of a MO:DCA print file [MODCA-4-001]
+*   Defines the structure of a MO:DCA document [MODCA-4-002]
+*   Defines the structure of a MO:DCA index [MODCA-4-003]
+*   Defines the structure of a MO:DCA page [MODCA-4-004]
+*   Defines the structure of a MO:DCA page group [MODCA-4-005]
+*   Describes the resource objects that may be referenced in a MO:DCA document and defines their structure [MODCA-4-006]
+*   Describes how resource objects may be carried in resource groups [MODCA-4-007]
+*   Defines the structure of print control resource objects [MODCA-4-008]
+*   Describes the data objects that may be included in a MO:DCA document and defines their structure [MODCA-4-009]
+*   Defines the structure of object containers [MODCA-4-010]
+
 ## Object Syntax Structure
+
 This section specifies the syntax used to define MO:DCA objects.
-If a structured field that is not identified as being part of the object appears anywhere within the object, a X'40'
-exception condition exists. If a structured field appears out of the stated order or more than the permitted
-number of times, a X'20' exception condition exists. If a structured field that is identified as required does not
-appear within the object, a X'08' exception condition exists.
+
+If a structured field that is not identified as being part of the object appears anywhere within the object, a X'40' exception condition exists. If a structured field appears out of the stated order or more than the permitted number of times, a X'20' exception condition exists. If a structured field that is identified as required does not appear within the object, a X'08' exception condition exists.
+
 The conventions used in these structured field groupings are:
-( ) The structured field acronym and identifier are shown in parentheses. The presence of dots or
-periods in the identifier indicates that the item is not a structured field, but instead is a
-structure, for example a medium map. The structure is composed of an assortment of
-structured fields, and is defined separately.
-[ ] Brackets indicate optional structured fields. When a structured field is shown without brackets,
-it must appear between the begin and end structured fields.
-+ Plus signs indicate structured fields may appear in any order relative to those that precede or
-succeed it except when the preceding or succeeding structured field does not have a plus (+)
-sign. In that case, the order is as listed.
-(S) The enclosed (S) indicates that the structured field may be repeated. When present on a
-required structured field, at least one occurrence of the structured field is required, but multiple
-instances of it may occur.
-F2 An F2 indicates that the structured field is a format two structured field. See “Structured Field
-Formats”
-**Note:** The No Operation structured field may appear within any begin-end domain. Therefore, it is not listed in
-the structured field groupings. [MODCA-4-011]
+*   **( )** The structured field acronym and identifier are shown in parentheses. The presence of dots or periods in the identifier indicates that the item is not a structured field, but instead is a structure, for example a medium map. The structure is composed of an assortment of structured fields, and is defined separately.
+*   **[ ]** Brackets indicate optional structured fields. When a structured field is shown without brackets, it must appear between the begin and end structured fields.
+*   **+** Plus signs indicate structured fields may appear in any order relative to those that precede or succeed it except when the preceding or succeeding structured field does not have a plus (+) sign. In that case, the order is as listed.
+*   **(S)** The enclosed (S) indicates that the structured field may be repeated. When present on a required structured field, at least one occurrence of the structured field is required, but multiple instances of it may occur.
+*   **F2** An F2 indicates that the structured field is a format two structured field. See “Structured Field Formats”.
+
+**Note:** The No Operation structured field may appear within any begin-end domain. Therefore, it is not listed in the structured field groupings. [MODCA-4-011]
+
 ## Print File
-The print file is an object that contains one or more documents to be printed. A print file may also optionally
-contain an external resource group, also referred to as a print file level resource group, as well as document
-indexes. Resources carried in a print file level resource group are sometimes referred to as inline resources. [MODCA-4-012]
 
-**Figure 23.** Print File Structure
-[ Begin Print File (BPF, D3A8A5) ]
-[ ( D3..C6) Resource Group ]
-( D3..A7/A8) Index + Document (S)
-[ End Print File (EPF, D3A9A5) ]
-Index + Document Structure
-[ ( D3..A7) Document Index ]
-( D3..A8) Document (S)
+The print file is an object that contains one or more documents to be printed. A print file may also optionally contain an external resource group, also referred to as a print file level resource group, as well as document indexes. Resources carried in a print file level resource group are sometimes referred to as inline resources. [MODCA-4-012]
+
+**Figure 23. Print File Structure**
+
+*   [ Begin Print File (BPF, D3A8A5) ]
+*   [ (D3..C6) Resource Group ]
+*   (D3..A7/A8) Index + Document (S)
+*   [ End Print File (EPF, D3A9A5) ]
+
+**Index + Document Structure**
+*   [ (D3..A7) Document Index ]
+*   (D3..A8) Document (S)
+
 Figure 23 shows the interchange form of a MO:DCA print file.
-Warning: Any other form may cause inconsistent, presentation-system-dependent results.
+
+**Warning:** Any other form may cause inconsistent, presentation-system-dependent results.
+
 For a definition of the Resource Group structure, see “Resource Groups”.
-Notes:
-1. The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as [MODCA-4-013]
-well.
-2. Only one BPF/EPF pair is allowed in a print file, and a single Form Map is associated with each print file. [MODCA-4-014]
-**Architecture Note:** The BPF / EPF pair is not intended to provide significant additional functionality in and
-of itself; it is intended to add an explicit wrapper to the existing print file definition. For example, it is
-not intended to allow trivial print stream concatenation, support multiple inline resource groups, or
-legalize any other function that is not otherwise allowed without the BPF / EPF wrapper. Simply
-adding BFP/EPF around an “illegal” print stream (multiple inline resource groups, for example)
-cannot be used to make it legal or correct, especially in the case of print stream concatenation.
-**Application Note:** All operating systems that support printing have the concept of a file that is to be printed.
-These systems know where the file starts and where it ends. Such a file is often generically referred
-to as a “physical file”. When a physical file contains AFP data, that file is printed with a single
-MO:DCA Form Definition. The MO:DCA architecture does not define the relationship between a
-print file and a physical file. However, AFP consumers, including print servers that process MO:DCA
-data, should consider a physical file to be a single MO:DCA (AFP) print file that contains at most one
-BPF/EPF pair and at most one print file level resource group. MO:DCA IS/3 compliant consumers
-and print servers must treat the physical file in this manner and should generate a presentation-
-system-specific exception if the physical file contains more than one BPF/EPF pair. This is true even
-when the physical file is streamed with protocols such as sockets or named pipes. Consult your
-product documentation for its definition of a physical file and its relationship to a MO:DCA (AFP)
-print file.
-3. The index, as shown in the Index + Document Structure, is optional. When specified, it must precede the [MODCA-4-015]
-document to be indexed and is implicitly tied to that document. Pointers from the index to the document
-and pointers from the document back to the index are not needed in this case and are ignored. That is, any
-FQN type X'83'—Begin Document triplet on the BDI is ignored, and any X'98'—Begin Document Index on
-the BDT is ignored.
-4. Only a single resource group is permitted at the print file level. If multiple resource groups appear before [MODCA-4-016]
-the first document, or if one or more resource groups follow the first document, the treatment of these
-resource groups is presentation-system-dependent.
-5. A single document index before the inline resource group is accepted by AFP print servers and is implicitly [MODCA-4-017]
-tied to the first document in the print file. However, this format is not compliant with the MO:DCA
-interchange print file format and its use is discouraged.
-6. Metadata may be associated with a print file and is optional. To specify metadata, one or more metadata [MODCA-4-018]
-objects (MO) may be included within the resource group of the print file. The MO Type object container(s)
 
-must directly follow the Begin Resource Group (BRG), otherwise they are ignored. When including multiple
-MOs the series of object containers must be contiguous and, as a whole, constitutes the metadata for the
-print file. The MO: DCA architecture places no restriction on or significance to the sequence or order of
-included metadata.
+**Notes:**
+1.  The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as well. [MODCA-4-013]
+2.  Only one BPF/EPF pair is allowed in a print file, and a single Form Map is associated with each print file. [MODCA-4-014]
+
+**Architecture Note:** The BPF / EPF pair is not intended to provide significant additional functionality in and of itself; it is intended to add an explicit wrapper to the existing print file definition. For example, it is not intended to allow trivial print stream concatenation, support multiple inline resource groups, or legalize any other function that is not otherwise allowed without the BPF / EPF wrapper. Simply adding BFP/EPF around an “illegal” print stream (multiple inline resource groups, for example) cannot be used to make it legal or correct, especially in the case of print stream concatenation.
+
+**Application Note:** All operating systems that support printing have the concept of a file that is to be printed. These systems know where the file starts and where it ends. Such a file is often generically referred to as a “physical file”. When a physical file contains AFP data, that file is printed with a single MO:DCA Form Definition. The MO:DCA architecture does not define the relationship between a print file and a physical file. However, AFP consumers, including print servers that process MO:DCA data, should consider a physical file to be a single MO:DCA (AFP) print file that contains at most one BPF/EPF pair and at most one print file level resource group. MO:DCA IS/3 compliant consumers and print servers must treat the physical file in this manner and should generate a presentation-system-specific exception if the physical file contains more than one BPF/EPF pair. This is true even when the physical file is streamed with protocols such as sockets or named pipes. Consult your product documentation for its definition of a physical file and its relationship to a MO:DCA (AFP) print file.
+
+3.  The index, as shown in the Index + Document Structure, is optional. When specified, it must precede the document to be indexed and is implicitly tied to that document. Pointers from the index to the document and pointers from the document back to the index are not needed in this case and are ignored. That is, any FQN type X'83'—Begin Document triplet on the BDI is ignored, and any X'98'—Begin Document Index on the BDT is ignored. [MODCA-4-015]
+4.  Only a single resource group is permitted at the print file level. If multiple resource groups appear before the first document, or if one or more resource groups follow the first document, the treatment of these resource groups is presentation-system-dependent. [MODCA-4-016]
+5.  A single document index before the inline resource group is accepted by AFP print servers and is implicitly tied to the first document in the print file. However, this format is not compliant with the MO:DCA interchange print file format and its use is discouraged. [MODCA-4-017]
+6.  Metadata may be associated with a print file and is optional. To specify metadata, one or more metadata objects (MO) may be included within the resource group of the print file. The MO Type object container(s) must directly follow the Begin Resource Group (BRG), otherwise they are ignored. When including multiple MOs the series of object containers must be contiguous and, as a whole, constitutes the metadata for the print file. The MO: DCA architecture places no restriction on or significance to the sequence or order of included metadata. [MODCA-4-018]
 ## Document
-The document is the highest level object in the MO:DCA document component hierarchy. A document is
-delimited by Begin Document and End Document structured fields.
-**Figure 24.** Document Structure
-Begin Document (BDT, D3A8A8)
-[ ( D3..92) Object Container (MO Type only) (S) ]
-+ [ (IMM, D3ABCC) Invoke Medium Map (S) ]
-+ [ (IPG, D3AFAF) Include Page (S) ]
-+ [ (LLE, D3B490) Link Logical Element (S) ]
-+ [ ( D3..CC) Medium Map (S) ]
-+ [ ( D3..D9) Resource Environment Group (S) ]
-+ [ ( D3..AF) Page (S) ]
-+ [ ( D3..AD) Page Group (S) ]
-End Document (EDT, D3A9A8)
-**Architecture Note:** The retired MO:DCA IS/2 interchange set allows an optional Document Index, bounded by
-BDI/EDI, to occur once directly following BDT . The content of the document index structure is defined in
-the IS/2 definition; see “Retired Functions”. This structure is still allowed in products that
-support MO:DCA IS/2.
-Figure 24 shows the general form of a MO:DCA document. MO:DCA interchange sets may specify
-a more restrictive document structure; however, such a structure must be a proper subset of the general form.
-Notes:
-1. At the beginning of a document, if a document does not invoke a medium map by name, and if it does not [MODCA-4-019]
-include an internal medium map, the first medium map in the selected form map controls the printing. The
-Media Eject Control (X'45') triplet, which may be included on the Begin Medium Map structured field to
-specify a partition eject, is ignored when it occurs on the medium map that is activated at the beginning of a
-document regardless of whether this medium map is explicitly invoked or implicitly invoked as the default.
-As a result, a sheet-eject is processed when the first medium map in a document is selected to control
-printing. Note that in Cut-sheet Emulation mode (CSE), this means an eject to the front side of a new
-sheetlet.
-2. If a medium map is included internal (inline) to the document, it is activated by immediately following it with [MODCA-4-020]
-an IMM that explicitly invokes it; otherwise, the internal medium map is ignored. An IMM that does not
-follow an internal medium map may not invoke an internal medium map elsewhere in the document and is
-assumed to reference a medium map in the processing system's form map.
-3. A page that is included with an IPG in document state may be indexed using an offset to the location of the [MODCA-4-021]
-IPG in the document.
-4. A Resource Environment Group (REG) maps some of the resources required to present the pages that [MODCA-4-022]
-follow. Resources mapped in a REG must still be mapped in the AEG for the page that uses the resources.
-The scope of the resource mapping in the REG is from the point where it occurs up to the next REG, which
-is a complete replacement for the current REG, or the end of the document, whichever occurs first. [MODCA-4-023]
 
-5. Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within [MODCA-4-024]
-the document structure. The MO Type object container(s) must directly follow the Begin Document (BDT),
-otherwise they are ignored. When including multiple MOs the series of object containers must be
-contiguous and, as a whole, constitute the metadata for the document. The MO:DCA architecture places
-no restriction on or significance to the sequence or order of included metadata. If an object container is
-specified in document state, the ObjClass parameter on the mandatory Object Classification (X'10') triplet
-must be set to X'50'—Metadata; otherwise, the object container is ignored.
-Application Notes:
-1. Internal (inline) medium maps are not supported by all AFP print servers; consult your product [MODCA-4-025]
-documentation.
-2. The use of internal medium maps may significantly decrease document processing throughput, especially [MODCA-4-026]
-if the internal Medium Map specifies conditional media ejects using the Media Eject Control (X'45') triplet.
-3. For optimum performance a REG is normally placed at the beginning of the document before the first page. [MODCA-4-027]
-4. When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA [MODCA-4-028]
-receivers also issue a message when this occurs. [MODCA-4-029]
+The document is the highest level object in the MO:DCA document component hierarchy. A document is delimited by Begin Document and End Document structured fields.
+
+**Figure 24. Document Structure**
+
+*   Begin Document (BDT, D3A8A8)
+*   [ (D3..92) Object Container (MO Type only) (S) ]
+*   \+ [ (IMM, D3ABCC) Invoke Medium Map (S) ]
+*   \+ [ (IPG, D3AFAF) Include Page (S) ]
+*   \+ [ (LLE, D3B490) Link Logical Element (S) ]
+*   \+ [ (D3..CC) Medium Map (S) ]
+*   \+ [ (D3..D9) Resource Environment Group (S) ]
+*   \+ [ (D3..AF) Page (S) ]
+*   \+ [ (D3..AD) Page Group (S) ]
+*   End Document (EDT, D3A9A8)
+
+**Architecture Note:** The retired MO:DCA IS/2 interchange set allows an optional Document Index, bounded by BDI/EDI, to occur once directly following BDT. The content of the document index structure is defined in the IS/2 definition; see “Retired Functions”. This structure is still allowed in products that support MO:DCA IS/2.
+
+Figure 24 shows the general form of a MO:DCA document. MO:DCA interchange sets may specify a more restrictive document structure; however, such a structure must be a proper subset of the general form.
+
+**Notes:**
+1.  At the beginning of a document, if a document does not invoke a medium map by name, and if it does not include an internal medium map, the first medium map in the selected form map controls the printing. The Media Eject Control (X'45') triplet, which may be included on the Begin Medium Map structured field to specify a partition eject, is ignored when it occurs on the medium map that is activated at the beginning of a document regardless of whether this medium map is explicitly invoked or implicitly invoked as the default. As a result, a sheet-eject is processed when the first medium map in a document is selected to control printing. Note that in Cut-sheet Emulation mode (CSE), this means an eject to the front side of a new sheetlet. [MODCA-4-019]
+2.  If a medium map is included internal (inline) to the document, it is activated by immediately following it with an IMM that explicitly invokes it; otherwise, the internal medium map is ignored. An IMM that does not follow an internal medium map may not invoke an internal medium map elsewhere in the document and is assumed to reference a medium map in the processing system's form map. [MODCA-4-020]
+3.  A page that is included with an IPG in document state may be indexed using an offset to the location of the IPG in the document. [MODCA-4-021]
+4.  A Resource Environment Group (REG) maps some of the resources required to present the pages that follow. Resources mapped in a REG must still be mapped in the AEG for the page that uses the resources. The scope of the resource mapping in the REG is from the point where it occurs up to the next REG, which is a complete replacement for the current REG, or the end of the document, whichever occurs first. [MODCA-4-022] [MODCA-4-023]
+5.  Metadata is optional. If metadata is present, one or more metadata objects (MO) may be included within the document structure. The MO Type object container(s) must directly follow the Begin Document (BDT), otherwise they are ignored. When including multiple MOs the series of object containers must be contiguous and, as a whole, constitute the metadata for the document. The MO:DCA architecture places no restriction on or significance to the sequence or order of included metadata. If an object container is specified in document state, the ObjClass parameter on the mandatory Object Classification (X'10') triplet must be set to X'50'—Metadata; otherwise, the object container is ignored. [MODCA-4-024]
+
+**Application Notes:**
+1.  Internal (inline) medium maps are not supported by all AFP print servers; consult your product documentation. [MODCA-4-025]
+2.  The use of internal medium maps may significantly decrease document processing throughput, especially if the internal Medium Map specifies conditional media ejects using the Media Eject Control (X'45') triplet. [MODCA-4-026]
+3.  For optimum performance a REG is normally placed at the beginning of the document before the first page. [MODCA-4-027]
+4.  When encountering a misplaced MO, some MO:DCA receivers ignore or discard it. Some MO:DCA receivers also issue a message when this occurs. [MODCA-4-028] [MODCA-4-029]
+
 ## Document Index
-A document index is an object that provides functions for indexing the document based on document structure
-and on application-defined document tags. A document index is delimited by Begin Document Index and End
-Document Index structured fields.
-A document index is used for informational purposes only. Parameters in a document index are descriptive in
-nature and do not provide presentation specifications.
-**Figure 25.** Document Index Structure
-Begin Document Index (BDI, D3A8A7)
-+ (IEL, D3B2A7) Index Element (S)
-+ [ (LLE, D3B490) Link Logical Element (S) ]
-+ [ (TLE, D3A090) Tag Logical Element (S) ]
-End Document Index (EDI, D3A9A7) [MODCA-4-030]
-## Resource Environment Group
-A resource environment group (REG) is associated with a document or a group of pages in a document. It is
-contained in the document's begin-end envelope in the data stream. The REG is used to identify complex
-resources, such as high-resolution color images, that need to be downloaded to the presentation device before
-the pages that follow are processed. The scope of a REG is the pages that follow, up to the next REG, which is
-a complete replacement for the current REG, or the end of the document, whichever occurs first. The mapping
-of resources in a REG is optional. Resources mapped in a REG must still be mapped in the AEG for the page
-that uses the resources. When more than one REG is specified in a document, each REG is a complete
-replacement for the preceding REG.
-**Figure 26.** Resource Environment Group Structure
-Begin Resource Environment Group (BSG, D3A8D9)
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-[ (MPO, D3ABD8) Map Page Overlay (S) ]
-[ (PPO, D3ADC3) Preprocess Presentation Object (S) ] [MODCA-4-031]
 
-End Resource Environment Group (ESG, D3A9D9)
-Notes:
-1. When an MDR is specified in a REG, the FQN type X'BE' triplet, which specifies the internal identifier used [MODCA-4-032]
-to reference the resource being mapped, is ignored. An example of an internal identifier is the local ID used
-to reference a data-object font in a PTOCA object. The assignment of internal identifier to resource name is
-made when the MDR is specified in the environment group of the object that uses the resource. For
-example, in the case of a data-object font used in a PTOCA object, the internal identifier of the font is
-mapped to the font name in the AEG of the page. If the data-object font is used in an AFP GOCA object or
-a BCOCA object, the internal identifier of the font is mapped to the resource name in the OEG of the object.
-2. There is no correlation between MPO Resource Local IDs (LIDs) in an AEG and MPO LIDs in an REG. For [MODCA-4-033]
-example, an MPO in an AEG can use LID x, and an MPO for the same overlay in a REG can use LID x or a
-different LID. The only restriction is that regardless of where the MPO is specified, it is not permissible
-within a given MPO to map the same LID to more than one overlay.
-3. An MDR reference to a specific resource may only be specified once in the REG. [MODCA-4-034]
-4. Any object specified for preprocessing in a PPO must first be mapped in an MDR or an MPO in the same [MODCA-4-035]
-REG. This includes secondary resources that are specified in the PPO and that are required by the object
-to be preprocessed.
-5. When an MDR in the REG is used to map a Color Management Resource (CMR), the processing mode, as [MODCA-4-036]
-specified in the mandatory CMR Descriptor (X'91') triplet, is downloaded along with the CMR and is used
-by the presentation device. However, the CMR scope, which is also specified in the CMR Descriptor triplet,
-is ignored and must be established in an ensuing mapping of the same CMR with the same processing
-mode at the page/sheet group (Medium Map) level, page/overlay level, or data object level.
-**Application Note:** For optimum performance a REG is normally placed at the beginning of the document
-before the first page. [MODCA-4-037]
+A document index is an object that provides functions for indexing the document based on document structure and on application-defined document tags. A document index is delimited by Begin Document Index and End Document Index structured fields.
+
+A document index is used for informational purposes only. Parameters in a document index are descriptive in nature and do not provide presentation specifications.
+
+**Figure 25. Document Index Structure**
+
+*   Begin Document Index (BDI, D3A8A7)
+*   \+ (IEL, D3B2A7) Index Element (S)
+*   \+ [ (LLE, D3B490) Link Logical Element (S) ]
+*   \+ [ (TLE, D3A090) Tag Logical Element (S) ]
+*   End Document Index (EDI, D3A9A7) [MODCA-4-030]
+
+## Resource Environment Group
+
+A resource environment group (REG) is associated with a document or a group of pages in a document. It is contained in the document's begin-end envelope in the data stream. The REG is used to identify complex resources, such as high-resolution color images, that need to be downloaded to the presentation device before the pages that follow are processed. The scope of a REG is the pages that follow, up to the next REG, which is a complete replacement for the current REG, or the end of the document, whichever occurs first. The mapping of resources in a REG is optional. Resources mapped in a REG must still be mapped in the AEG for the page that uses the resources. When more than one REG is specified in a document, each REG is a complete replacement for the preceding REG.
+
+**Figure 26. Resource Environment Group Structure**
+
+*   Begin Resource Environment Group (BSG, D3A8D9)
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   [ (MPO, D3ABD8) Map Page Overlay (S) ]
+*   [ (PPO, D3ADC3) Preprocess Presentation Object (S) ] [MODCA-4-031]
+*   End Resource Environment Group (ESG, D3A9D9)
+
+**Notes:**
+1.  When an MDR is specified in a REG, the FQN type X'BE' triplet, which specifies the internal identifier used to reference the resource being mapped, is ignored. An example of an internal identifier is the local ID used to reference a data-object font in a PTOCA object. The assignment of internal identifier to resource name is made when the MDR is specified in the environment group of the object that uses the resource. For example, in the case of a data-object font used in a PTOCA object, the internal identifier of the font is mapped to the font name in the AEG of the page. If the data-object font is used in an AFP GOCA object or a BCOCA object, the internal identifier of the font is mapped to the resource name in the OEG of the object. [MODCA-4-032]
+2.  There is no correlation between MPO Resource Local IDs (LIDs) in an AEG and MPO LIDs in an REG. For example, an MPO in an AEG can use LID x, and an MPO for the same overlay in a REG can use LID x or a different LID. The only restriction is that regardless of where the MPO is specified, it is not permissible within a given MPO to map the same LID to more than one overlay. [MODCA-4-033]
+3.  An MDR reference to a specific resource may only be specified once in the REG. [MODCA-4-034]
+4.  Any object specified for preprocessing in a PPO must first be mapped in an MDR or an MPO in the same REG. This includes secondary resources that are specified in the PPO and that are required by the object to be preprocessed. [MODCA-4-035]
+5.  When an MDR in the REG is used to map a Color Management Resource (CMR), the processing mode, as specified in the mandatory CMR Descriptor (X'91') triplet, is downloaded along with the CMR and is used by the presentation device. However, the CMR scope, which is also specified in the CMR Descriptor triplet, is ignored and must be established in an ensuing mapping of the same CMR with the same processing mode at the page/sheet group (Medium Map) level, page/overlay level, or data object level. [MODCA-4-036]
+
+**Application Note:** For optimum performance a REG is normally placed at the beginning of the document before the first page. [MODCA-4-037]
 
 ## Page
-A page is an object that contains the data objects to be presented. A page establishes its own environment and
-is independent of any other page in the document. A page is delimited by Begin Page and End Page structured
-fields. A MO:DCA page object has the following syntax structure:
-**Figure 27.** Page Structure
-Begin Page (BPG, D3A8AF)
-( D3..C9) Active Environment Group
-+ [ (IOB, D3AFC3) Include Object (S) ]
-+ [ (IPG, D3AFAF) Include Page ]
-+ [ (IPO, D3AFD8) Include Page Overlay (S) ]
-+ [ (IPS, D3AF5F) Include Page Segment (S) ]
-+ [ (LLE, D3B490) Link Logical Element (S) ]
-+ [ (TLE, D3A090) Tag Logical Element (S) ]
-+ [ ( D3..EB) Bar Code Object (S) ]
-+ [ ( D3..BB) Graphics Object (S) ]
-+ [ ( D3..FB) Image Object (S) ]
-+ [ ( D3..92) Object Container (see Note 13 for MO)
-(S) ]
-+ [ ( D3..9B) Presentation Text Object (S) ]
-End Page (EPG, D3A9AF)
-Active Environment Group (AEG)
-Begin Active Environment Group (BAG, D3A8C9) [MODCA-4-038]
 
-[ (PEC, D3A7A8) Presentation Environment Control ]
-[ (MCF, D3AB8A) Map Coded Font F2 (S) ]
-[ (MDR, D3ABC3) Map Data Resource (S) ]
-[ (MPG, D3ABAF) Map Page ]
-[ (MPO, D3ABD8) Map Page Overlay (S) ]
-[ (MPS, D3B15F) Map Page Segment (S) ]
-(PGD, D3A6AF) Page Descriptor
-[ (OBD, D3A66B) Object Area Descriptor ]
-[ (OBP, D3AC6B) Object Area Position ]
-(PTD, D3B19B) Presentation Text Data Descriptor F2
-End Active Environment Group (EAG, D3A9C9)
-**Architecture Note:** The retired MO:DCA IS/2 interchange set allowed an optional Resource Group, bounded
-by BRG/ERG, to occur once directly following BPG. The content of the resource group structure is
-defined in the IS/2 definition; see “Retired Functions”. This structure is still allowed in
-products that support MO:DCA IS/2.
-Figure 27 shows the general form of a MO:DCA page object. MO:DCA interchange sets may
-specify a more restrictive page structure; however, such a structure must be a proper subset of the general
-form.
-Notes:
-1. The presentation text object in MO:DCA documents can have two structures that differ by the presence or [MODCA-4-039]
-absence of an optional Object Environment Group (OEG). When the presentation text object does not
-contain an OEG, some of the presentation parameters normally specified in the OEG are specified in the
-Active Environment Group (AEG) of the containing page.
-2. The OBD and OBP structured fields in the AEG for the page are only used for presentation text objects that [MODCA-4-040]
-do not contain an Object Environment Group (OEG), in which case they are optional. MO:DCA interchange
-sets require that the OBD specify measurement units and extents that match those specified for the page
-in the PGD. If the OBD is omitted, the architected default is to use the measurement units and extents
-specified in the PGD for the text object area measurement units and object area extents. MO:DCA
-interchange sets also require that the OBP specifies zeros for the object area origin and the object content
-origin and that it specifies a 0° object area rotation. If the OBP is omitted, the architected default is to set
-the object area origin and the object content origin to zeros, and the object area rotation to 0°.
-3. The PTD structured field in the AEG for the page is only used when the page contains one or more [MODCA-4-041]
-presentation text objects that do not contain an Object Environment Group (OEG), in which case it is
-mandatory. When the PTD is included in the AEG for a page, some AFP print servers require that the
-measurement units in the PTD match the measurement units in the Page Descriptor (PGD). It is therefore
-strongly recommended that whenever the PTD is included in the AEG, the same measurement units are
-specified in both the PTD and PGD.
-4. If a presentation text object that does not contain an OEGspecifies a font other than the presentation [MODCA-4-042]
-environment default font, the font local ID must be mapped to a font global name with an MCF or MDR
-structured field in the AEG for the page. This mapping must be unique, that is, the font local ID can only be
-mapped to one font in the AEG. However different font local IDs can be mapped to the same font. For rules
-on mapping local IDs (LIDs) to resource identifiers such as font global names, see “Environment
-Hierarchies”.
-5. If a presentation text object contains an OEG, each MCF or MDR that maps a font in the text object's OEG [MODCA-4-043]
-must have a corresponding MCF or MDR mapping the same font in the AEG for that page. Local ID X'FE'
-may be used for such font mappings in the AEG to distinguish them from font mappings for presentation
+A page is an object that contains the data objects to be presented. A page establishes its own environment and is independent of any other page in the document. A page is delimited by Begin Page and End Page structured fields. A MO:DCA page object has the following syntax structure:
+
+**Figure 27. Page Structure**
+
+*   Begin Page (BPG, D3A8AF)
+*   (D3..C9) Active Environment Group
+*   \+ [ (IOB, D3AFC3) Include Object (S) ]
+*   \+ [ (IPG, D3AFAF) Include Page ]
+*   \+ [ (IPO, D3AFD8) Include Page Overlay (S) ]
+*   \+ [ (IPS, D3AF5F) Include Page Segment (S) ]
+*   \+ [ (LLE, D3B490) Link Logical Element (S) ]
+*   \+ [ (TLE, D3A090) Tag Logical Element (S) ]
+*   \+ [ (D3..EB) Bar Code Object (S) ]
+*   \+ [ (D3..BB) Graphics Object (S) ]
+*   \+ [ (D3..FB) Image Object (S) ]
+*   \+ [ (D3..92) Object Container (see Note 13 for MO) (S) ]
+*   \+ [ (D3..9B) Presentation Text Object (S) ]
+*   End Page (EPG, D3A9AF)
+
+**Active Environment Group (AEG)**
+*   Begin Active Environment Group (BAG, D3A8C9) [MODCA-4-038]
+*   [ (PEC, D3A7A8) Presentation Environment Control ]
+*   [ (MCF, D3AB8A) Map Coded Font F2 (S) ]
+*   [ (MDR, D3ABC3) Map Data Resource (S) ]
+*   [ (MPG, D3ABAF) Map Page ]
+*   [ (MPO, D3ABD8) Map Page Overlay (S) ]
+*   [ (MPS, D3B15F) Map Page Segment (S) ]
+*   (PGD, D3A6AF) Page Descriptor
+*   [ (OBD, D3A66B) Object Area Descriptor ]
+*   [ (OBP, D3AC6B) Object Area Position ]
+*   (PTD, D3B19B) Presentation Text Data Descriptor F2
+*   End Active Environment Group (EAG, D3A9C9)
+
+**Architecture Note:** The retired MO:DCA IS/2 interchange set allowed an optional Resource Group, bounded by BRG/ERG, to occur once directly following BPG. The content of the resource group structure is defined in the IS/2 definition; see “Retired Functions”. This structure is still allowed in products that support MO:DCA IS/2.
+
+Figure 27 shows the general form of a MO:DCA page object. MO:DCA interchange sets may specify a more restrictive page structure; however, such a structure must be a proper subset of the general form.
+
+**Notes:**
+1.  The presentation text object in MO:DCA documents can have two structures that differ by the presence or absence of an optional Object Environment Group (OEG). When the presentation text object does not contain an OEG, some of the presentation parameters normally specified in the OEG are specified in the Active Environment Group (AEG) of the containing page. [MODCA-4-039]
+2.  The OBD and OBP structured fields in the AEG for the page are only used for presentation text objects that do not contain an Object Environment Group (OEG), in which case they are optional. MO:DCA interchange sets require that the OBD specify measurement units and extents that match those specified for the page in the PGD. If the OBD is omitted, the architected default is to use the measurement units and extents specified in the PGD for the text object area measurement units and object area extents. MO:DCA interchange sets also require that the OBP specifies zeros for the object area origin and the object content origin and that it specifies a 0° object area rotation. If the OBP is omitted, the architected default is to set the object area origin and the object content origin to zeros, and the object area rotation to 0°. [MODCA-4-040]
+3.  The PTD structured field in the AEG for the page is only used when the page contains one or more presentation text objects that do not contain an Object Environment Group (OEG), in which case it is mandatory. When the PTD is included in the AEG for a page, some AFP print servers require that the measurement units in the PTD match the measurement units in the Page Descriptor (PGD). It is therefore strongly recommended that whenever the PTD is included in the AEG, the same measurement units are specified in both the PTD and PGD. [MODCA-4-041]
+4.  If a presentation text object that does not contain an OEG specifies a font other than the presentation environment default font, the font local ID must be mapped to a font global name with an MCF or MDR structured field in the AEG for the page. This mapping must be unique, that is, the font local ID can only be mapped to one font in the AEG. However different font local IDs can be mapped to the same font. For rules on mapping local IDs (LIDs) to resource identifiers such as font global names, see “Environment Hierarchies”. [MODCA-4-042]
+5.  If a presentation text object contains an OEG, each MCF or MDR that maps a font in the text object's OEG must have a corresponding MCF or MDR mapping the same font in the AEG for that page. Local ID X'FE' may be used for such font mappings in the AEG to distinguish them from font mappings for presentation
 text objects without OEG. [MODCA-4-044]
 
 6. If a presentation object container is included directly in a page, it must specify, at minimum, BOC/EOC, an [MODCA-4-045]

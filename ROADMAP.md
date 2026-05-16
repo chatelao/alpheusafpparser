@@ -36,8 +36,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
-| [PTOCA](TEST_COVERAGE_PTOCA.md) | 537 | 1488 | 36.1% |
-| **Total** | **537** | **20955** | **2.6%** |
+| [PTOCA](TEST_COVERAGE_PTOCA.md) | 737 | 1488 | 49.5% |
+| **Total** | **737** | **20955** | **3.5%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -126,7 +126,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - 🚧 Improve all `specifications/markdown` formatting up to the 'Excellent' standard of neighbouring specifications (consistent with PTOCA).
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
         - ✅ Chapters 1-3 complete.
-        - 🚧 Chapters 4-8 in-progress.
+        - 🚧 Chapter 4 (Partially reformatted) in-progress.
+        - ⏳ Chapters 5-8.
         - ⏳ Appendices A-F, Glossary, Index, Front Matter, and Notices.
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
         - ✅ Chapters 1-3 complete.
@@ -137,7 +138,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Chapters 1-2.
     - ✅ Chapter 3.
     - ✅ Chapter 4 (Requirements 001-200).
-    - ⏳ Chapter 4 (Requirements 201-400).
+    - ✅ Chapter 4 (Requirements 201-400).
     - ⏳ Chapter 4 (Requirements 401-600).
     - ⏳ Chapter 4 (Requirements 601-769).
     - ⏳ Chapters 5-6.
@@ -152,8 +153,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`) (~1,600 warnings).
     - ⏳ Address remaining miscellaneous violations (e.g., ✅ `FileTabCharacter` is resolved, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
-- ⏳ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
-- ⏳ Implement a SECURITY.md policy.
+- ✅ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
+- ✅ Implement a SECURITY.md policy.
 
 ## Phase 10: Performance Optimization
 This phase focuses on the architectural improvements outlined in `CONCEPT_PERFORMANCE.md` to support high-performance parsing and conversion of large AFP files (5 MB to 50 MB and beyond).

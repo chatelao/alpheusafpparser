@@ -539,206 +539,206 @@
 | PTOCA-4-198 | EC-0103...A parameter value will cause the rule to be outside the object space. | ✅ |
 | PTOCA-4-199 | EC-1E01...RLENGTH is missing. | ✅ |
 | PTOCA-4-200 | EC-8002...The value for RWIDTH is not supported or is not in the range specified by PTOCA. | ✅ |
-| PTOCA-4-201 | EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a | ❓ |
-| PTOCA-4-202 | into text strings for standard text processing. This data is not scanned for embedded control sequences. | ❓ |
-| PTOCA-4-203 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
-| PTOCA-4-204 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-205 | 2 | UBIN | LENGTH | 7–255 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-206 | 3 | CODE | TYPE | X'98' – X'99' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-207 | 4-7 | | | | Reserved; should be zero | M | N | N | ❓ |
-| PTOCA-4-208 | 8-256 | UNDF | ENCDATA | Not applicable | Encrypted bytes to be decrypted | M | N | N | ❓ |
-| PTOCA-4-209 | indicator, but X'F....F' is valid. | ❓ |
-| PTOCA-4-210 | 1. The ENCDATA can be decrypted into printable code points | ❓ |
-| PTOCA-4-211 | 2. The ENCDATA cannot be decrypted | ❓ |
-| PTOCA-4-212 | 3. The ENCDATA cannot be decrypted and alternate text is used | ❓ |
-| PTOCA-4-213 | remainder of the code points in the alternate text and continue processing. | ❓ |
-| PTOCA-4-214 | EC-0103...The decrypted character string or alternate text will cause part of a character's character box to be | ❓ |
-| PTOCA-4-215 | EC-1A01...The length of the decrypted character string or alternate text is an odd number, but a double-byte | ❓ |
-| PTOCA-4-216 | EC-1A03...Invalid Unicode data in the decrypted character string or alternate text. This can be caused by | ❓ |
-| PTOCA-4-217 | EC-1E01...LENGTH is not valid. | ❓ |
-| PTOCA-4-218 | EC-9D01...Decryption is not available on this device. | ❓ |
-| PTOCA-4-219 | EC-9D02...Decryption reported an error. | ❓ |
-| PTOCA-4-220 | EC-9D03...No key information has been set for decryption. | ❓ |
-| PTOCA-4-221 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ❓ |
-| PTOCA-4-222 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
-| PTOCA-4-223 | 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N | ❓ |
-| PTOCA-4-224 | 3 | CODE | TYPE | X'F4' – X'F5' | Control sequence function type | M | N | N | ❓ |
-| PTOCA-4-225 | 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N | ❓ |
-| PTOCA-4-226 | stream documentation. | ❓ |
-| PTOCA-4-227 | must activate the LID. | ❓ |
-| PTOCA-4-228 | EC-9801...The value of LID is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-229 | 0 UBIN LENGTH X'04' – X'FE'; | ❓ |
-| PTOCA-4-230 | 1 CODE TYPE X'8C', X'8D' Control sequence | ❓ |
-| PTOCA-4-231 | 2-3 X'0000' Reserved; should be zero M N N | ❓ |
-| PTOCA-4-232 | conversion routine described in “Interpreting Ranges”. | ❓ |
-| PTOCA-4-233 | terminates the GLC chain. | ❓ |
-| PTOCA-4-234 | EC-9C03...Invalid sequence. The GAR is not preceded by a GIR, or, if it indicates chaining, it is not followed | ❓ |
-| PTOCA-4-235 | EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was | ❓ |
-| PTOCA-4-236 | EC-9C08...Glyph Advance count mismatch. The number of glyph advances specified is not the same as the | ❓ |
-| PTOCA-4-237 | The Glyph ID Run control sequence specifies an array of glyph IDs from the current TrueType/OpenType font. | ❓ |
-| PTOCA-4-238 | 0 UBIN LENGTH X'04' – X'FE'; | ❓ |
-| PTOCA-4-239 | 1 CODE TYPE X'8B' Control sequence | ❓ |
-| PTOCA-4-240 | 2-3 X'0000' Reserved; should be zero M N N | ❓ |
-| PTOCA-4-241 | in this control sequence. | ❓ |
-| PTOCA-4-242 | the chained GAR must contain n advances and the optional GOR must contain n offsets. | ❓ |
-| PTOCA-4-243 | EC-9C02...Invalid glyph ID. The current font does not contain a specified glyph ID. | ❓ |
-| PTOCA-4-244 | EC-9C03...Invalid sequence. The GIR is not preceded by either a GLC or a GAR or a GOR. | ❓ |
-| PTOCA-4-245 | EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was | ❓ |
-| PTOCA-4-246 | render text using arrays of glyph identifiers and positions. | ❓ |
-| PTOCA-4-247 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-248 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-249 | 2 UBIN LENGTH 10 - (p - 1) Control sequence length M N N | ❓ |
-| PTOCA-4-250 | 3 CODE TYPE X'6D' Control sequence function | ❓ |
-| PTOCA-4-251 | 6 UBIN OIDLGTH 0, 13-129 Length of FONTOID | ❓ |
-| PTOCA-4-252 | 7 UBIN FFNLGTH 0 - (255 - (10 + | ❓ |
-| PTOCA-4-253 | 8-1 1 X'00...00' Reserved; should be zero M N N | ❓ |
-| PTOCA-4-254 | Offset 12 – must be X'06' | ❓ |
-| PTOCA-4-255 | Offset 13 – length of | ❓ |
-| PTOCA-4-256 | Offset 14 to n – OID | ❓ |
-| PTOCA-4-257 | condition EC-9C0B exists. | ❓ |
-| PTOCA-4-258 | Example 1. GLC chain without optional controls. The GLC may reference the base font, or any font linked to | ❓ |
-| PTOCA-4-259 | Example 2. GLC chain with optional controls. Since one or more glyphs must be positioned with an offset | ❓ |
-| PTOCA-4-260 | Example 3. GLC chain with multiple GIR/GAR[/GOR] groupings. The text required more glyphs than a single | ❓ |
-| PTOCA-4-261 | GLC GIR GAR GOR GIR GAR UCT <<chain ends>> | ❓ |
-| PTOCA-4-262 | EC-9C00...Font Mismatch. The object OID specified in the GLC control sequence does not match the object | ❓ |
-| PTOCA-4-263 | EC-9C01...Font format not valid for use with glyph layout control sequences. The current font is not a | ❓ |
-| PTOCA-4-264 | EC-9C03...Unexpected control sequence. An unexpected control sequence was encountered between the | ❓ |
-| PTOCA-4-265 | EC-9C09...Missing font OID. The GLC specified an OIDLGTH of zero, but no previous font OID was supplied | ❓ |
-| PTOCA-4-266 | EC-9C0A...Count mismatch or invalid length. The byte count specified by the OIDLGTH and FFONTNME | ❓ |
-| PTOCA-4-267 | EC-9C0B...Full Font Name specified without font OID. A font OID was not specified (OIDLGTH = 0), but a | ❓ |
-| PTOCA-4-268 | the b-direction) to the glyph origin for each glyph ID in the preceding GIR. | ❓ |
-| PTOCA-4-269 | 0 UBIN LENGTH X'04' – X'FE'; | ❓ |
-| PTOCA-4-270 | 1 CODE TYPE X'8E', X'8F' Control sequence | ❓ |
-| PTOCA-4-271 | 2-3 X'0000' Reserved; should be zero M N N | ❓ |
-| PTOCA-4-272 | advances so that presentation devices can offset the correct glyph. | ❓ |
-| PTOCA-4-273 | EC-9C03...Invalid sequence. The GOR is not preceded by a GAR, or, if it indicates chaining, is not followed | ❓ |
-| PTOCA-4-274 | EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was | ❓ |
-| PTOCA-4-275 | EC-9C08...Glyph offset count mismatch. The number of glyph offsets specified is not the same as the | ❓ |
-| PTOCA-4-276 | The No Operation control sequence has no effect on presentation. | ❓ |
-| PTOCA-4-277 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-278 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-279 | 2 UBIN LENGTH 2–255 Control sequence length M N N | ❓ |
-| PTOCA-4-280 | 3 CODE TYPE X'F8' – X'F9' Control sequence | ❓ |
-| PTOCA-4-281 | The Overstrike control sequence identifies text that is to be overstruck with a specified character. | ❓ |
-| PTOCA-4-282 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-283 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-284 | 2 UBIN LENGTH 5 Control sequence length M N N | ❓ |
-| PTOCA-4-285 | 3 CODE TYPE X'72' – X'73' Control sequence | ❓ |
-| PTOCA-4-286 | 4 BITS BYPSIDEN See | ❓ |
-| PTOCA-4-287 | accept the default indicator. | ❓ |
-| PTOCA-4-288 | The overstrike character | ❓ |
-| PTOCA-4-289 | How to place the overstrike characters in relation to the characters in the text field | ❓ |
-| PTOCA-4-290 | Which controlled inline white space is to be overstruck | ❓ |
-| PTOCA-4-291 | Absolute Move Inline control sequence | ❓ |
-| PTOCA-4-292 | Relative Move Inline control sequence | ❓ |
-| PTOCA-4-293 | Space character or variable space character | ❓ |
-| PTOCA-4-294 | X'40' in EBCDIC single-byte code pages | ❓ |
-| PTOCA-4-295 | X'20' in ASCII single-byte code pages | ❓ |
-| PTOCA-4-296 | X'4040' in EBCDIC double-byte code pages | ❓ |
-| PTOCA-4-297 | X'2020' in ASCII double-byte code pages | ❓ |
-| PTOCA-4-298 | X'0020' | ❓ |
-| PTOCA-4-299 | X'00A0' | ❓ |
-| PTOCA-4-300 | 0-3 Reserved, that is, set to B'0' by generators and ignored by receivers | ❓ |
-| PTOCA-4-301 | 4 Bypass Relative Move Inline | ❓ |
-| PTOCA-4-302 | 5 Bypass Absolute Move Inline | ❓ |
-| PTOCA-4-303 | 6 Bypass space characters and variable space characters | ❓ |
-| PTOCA-4-304 | 7 No Bypass in Effect | ❓ |
-| PTOCA-4-305 | A beginning OVS | ❓ |
-| PTOCA-4-306 | Either end of bypassed controlled inline white space | ❓ |
-| PTOCA-4-307 | Either end of a baseline move, which may be for the established baseline or for a temporary baseline | ❓ |
-| PTOCA-4-308 | The beginning of negative changes in the presentation position caused by inline moves or negative | ❓ |
-| PTOCA-4-309 | Boundaries where violation causes truncation | ❓ |
-| PTOCA-4-310 | An ending OVS | ❓ |
-| PTOCA-4-311 | The end of the Presentation Text object | ❓ |
-| PTOCA-4-312 | condition exists. See the Pragmatics section for the exception condition code and the standard action. | ❓ |
-| PTOCA-4-313 | 2100 exists. The standard action is to use a device default character as the overstrike character. If the graphic | ❓ |
-| PTOCA-4-314 | At least one overstrike character must occur in an overstrike area. | ❓ |
-| PTOCA-4-315 | The overstrike characters must be positioned relative to the delimiters of the overstrike area, rather than to | ❓ |
-| PTOCA-4-316 | Overlap of any portion of the B-space of the overstrike character with the B-space of a character not within | ❓ |
-| PTOCA-4-317 | Overlap of any portion of the B-space of the overstrike character with the B-space of another overstrike | ❓ |
-| PTOCA-4-318 | Rounding of f the number of overstrike characters is permitted. The minimum required support is to round of f | ❓ |
-| PTOCA-4-319 | Multiple passes over the same portions of the presentation space through the use of AMI and RMI control | ❓ |
-| PTOCA-4-320 | An area of zero length is not considered to be a valid overstrike area. | ❓ |
-| PTOCA-4-321 | EC-2100...The graphic character specified is not valid in the active font. | ❓ |
-| PTOCA-4-322 | EC-3F02...The graphic character specified does not have a rotation available that is equivalent to the current | ❓ |
-| PTOCA-4-323 | EC-9A01...The graphic character specified has an invalid character increment or is not a printable character. | ❓ |
-| PTOCA-4-324 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-325 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-326 | 2 UBIN LENGTH 4 Control sequence length M N N | ❓ |
-| PTOCA-4-327 | 3 CODE TYPE X'D4' – X'D5' Control sequence | ❓ |
-| PTOCA-4-328 | measurement unit, please see the conversion routine described in “Interpreting Ranges”. | ❓ |
-| PTOCA-4-329 | stream documentation. | ❓ |
-| PTOCA-4-330 | EC-1601...The value of INCRMENT is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-331 | EC-0103..The presentation position is outside the object space and presentation is attempted. | ❓ |
-| PTOCA-4-332 | EC-1403...Negative INCRMENT is not valid. | ❓ |
-| PTOCA-4-333 | the current inline position. | ❓ |
-| PTOCA-4-334 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-335 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-336 | 2 UBIN LENGTH 4 Control sequence length M N N | ❓ |
-| PTOCA-4-337 | 3 CODE TYPE X'C8' – X'C9' Control sequence | ❓ |
-| PTOCA-4-338 | measurement unit, please see the conversion routine described in “Interpreting Ranges”. | ❓ |
-| PTOCA-4-339 | stream documentation. | ❓ |
-| PTOCA-4-340 | character being presented. Then presentation of characters may resume. | ❓ |
-| PTOCA-4-341 | EC-1501...The value of INCRMENT is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-342 | EC-0103..The presentation position is outside the object space and presentation is attempted. | ❓ |
-| PTOCA-4-343 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-344 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-345 | 2 UBIN LENGTH 4–255 Control sequence length M N N | ❓ |
-| PTOCA-4-346 | 3 CODE TYPE X'EE' – X'EF' Control sequence | ❓ |
-| PTOCA-4-347 | RPTDATA do not accept the default indicator. | ❓ |
-| PTOCA-4-348 | data-stream documentation. | ❓ |
-| PTOCA-4-349 | RPS control sequence not be used in this manner, and that the TRN control sequence be used instead. | ❓ |
-| PTOCA-4-350 | EC-1A01...A double-byte font is active and the length of RPTDATA is an odd number. | ❓ |
-| PTOCA-4-351 | EC-1A03...Invalid Unicode data. This can be caused by one of the following: | ❓ |
-| PTOCA-4-352 | EC-1B01...A double-byte font is active and RLENGTH is an odd number. | ❓ |
-| PTOCA-4-353 | EC-1901...The value of RLENGTH is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-354 | EC-0103...A parameter value will cause part of a character's character box to be outside the object space, | ❓ |
-| PTOCA-4-355 | EC-1F01...The control sequence length parameter is four and RLENGTH is not zero. | ❓ |
-| PTOCA-4-356 | coordinate when a Begin Line control sequence is executed. This is a modal control sequence. | ❓ |
-| PTOCA-4-357 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-358 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-359 | 2 UBIN LENGTH 4 Control sequence length M N N | ❓ |
-| PTOCA-4-360 | 3 CODE TYPE X'D0' – X'D1' Control sequence | ❓ |
-| PTOCA-4-361 | INCRMENT should be the Default Baseline Increment of the default coded font for the device. | ❓ |
-| PTOCA-4-362 | 1 101 exists. The standard action is to ignore this control sequence and continue presentation with the value | ❓ |
-| PTOCA-4-363 | Presentation Text Data Descriptor. | ❓ |
-| PTOCA-4-364 | EC-1 101...The value of INCRMENT is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-365 | used. This is a modal control sequence. | ❓ |
-| PTOCA-4-366 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-367 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-368 | 2 UBIN LENGTH 3 Control sequence length M N N | ❓ |
-| PTOCA-4-369 | 3 CODE TYPE X'F0' – X'F1' Control sequence | ❓ |
-| PTOCA-4-370 | 4 CODE LID X'00' – X'FE' Local identifier M Y Y | ❓ |
-| PTOCA-4-371 | The PTOCA default value for the LID is X'00'. | ❓ |
-| PTOCA-4-372 | stream documentation. | ❓ |
-| PTOCA-4-373 | The receiver provides internal mapping, using device defaults. | ❓ |
-| PTOCA-4-374 | The controlling environment provides the mapping to the receiver. | ❓ |
-| PTOCA-4-375 | SCFL Control Sequence | ❓ |
-| PTOCA-4-376 | not an exception condition in PTOCA. | ❓ |
-| PTOCA-4-377 | EC-1E01...The LID is missing. | ❓ |
-| PTOCA-4-378 | EC-0C01...The value of the LID is not supported or is not in the range specified by PTOCA. | ❓ |
-| PTOCA-4-379 | EC-1802...A font mapping has not been provided. | ❓ |
-| PTOCA-4-380 | EC-1802...The coded font specified by the mapping is not available to the receiver. | ❓ |
-| PTOCA-4-381 | EC-3F02...The specified coded font is not compatible with the text orientation. | ❓ |
-| PTOCA-4-382 | SCFL Control Sequence | ❓ |
-| PTOCA-4-383 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-384 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-385 | 2 UBIN LENGTH 6, 7–255 Control sequence length M N N | ❓ |
-| PTOCA-4-386 | 3 CODE TYPE X'9C' – X'9D' Control sequence | ❓ |
-| PTOCA-4-387 | 4-7 Reserved; should be zero M N N | ❓ |
-| PTOCA-4-388 | 8-256 CHAR ALTTEXT Not | ❓ |
-| PTOCA-4-389 | default indicator, but X'F....F' is valid. | ❓ |
-| PTOCA-4-390 | the ENC Semantics for a description of the details). | ❓ |
-| PTOCA-4-391 | ignore the control sequence and continue processing. | ❓ |
-| PTOCA-4-392 | EC-1E01...LENGTH is not valid. | ❓ |
-| PTOCA-4-393 | The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters, | ❓ |
-| PTOCA-4-394 | The stroked area of a rule | ❓ |
-| PTOCA-4-395 | The stroked area of an underscore | ❓ |
-| PTOCA-4-396 | a definition of modal control sequences, see “Modal Control Sequences”. | ❓ |
-| PTOCA-4-397 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
-| PTOCA-4-398 | 1 CODE CLASS X'D3' Control sequence class M N N | ❓ |
-| PTOCA-4-399 | 2 UBIN LENGTH 14–16 Control sequence length M N N | ❓ |
-| PTOCA-4-400 | 3 CODE TYPE X'80' – X'81' Control sequence | ❓ |
+| PTOCA-4-201 | EC-8202...The value for RLENGTH is not supported or is not in the range specified by PTOCA; or, a | ✅ |
+| PTOCA-4-202 | into text strings for standard text processing. This data is not scanned for embedded control sequences. | ✅ |
+| PTOCA-4-203 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ✅ |
+| PTOCA-4-204 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-205 | 2 | UBIN | LENGTH | 7–255 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-206 | 3 | CODE | TYPE | X'98' – X'99' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-207 | 4-7 | | | | Reserved; should be zero | M | N | N | ✅ |
+| PTOCA-4-208 | 8-256 | UNDF | ENCDATA | Not applicable | Encrypted bytes to be decrypted | M | N | N | ✅ |
+| PTOCA-4-209 | indicator, but X'F....F' is valid. | ✅ |
+| PTOCA-4-210 | 1. The ENCDATA can be decrypted into printable code points | ✅ |
+| PTOCA-4-211 | 2. The ENCDATA cannot be decrypted | ✅ |
+| PTOCA-4-212 | 3. The ENCDATA cannot be decrypted and alternate text is used | ✅ |
+| PTOCA-4-213 | remainder of the code points in the alternate text and continue processing. | ✅ |
+| PTOCA-4-214 | EC-0103...The decrypted character string or alternate text will cause part of a character's character box to be | ✅ |
+| PTOCA-4-215 | EC-1A01...The length of the decrypted character string or alternate text is an odd number, but a double-byte | ✅ |
+| PTOCA-4-216 | EC-1A03...Invalid Unicode data in the decrypted character string or alternate text. This can be caused by | ✅ |
+| PTOCA-4-217 | EC-1E01...LENGTH is not valid. | ✅ |
+| PTOCA-4-218 | EC-9D01...Decryption is not available on this device. | ✅ |
+| PTOCA-4-219 | EC-9D02...Decryption reported an error. | ✅ |
+| PTOCA-4-220 | EC-9D03...No key information has been set for decryption. | ✅ |
+| PTOCA-4-221 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix | M | N | N | ✅ |
+| PTOCA-4-222 | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ✅ |
+| PTOCA-4-223 | 2 | UBIN | LENGTH | 3 | Control sequence length | M | N | N | ✅ |
+| PTOCA-4-224 | 3 | CODE | TYPE | X'F4' – X'F5' | Control sequence function type | M | N | N | ✅ |
+| PTOCA-4-225 | 4 | CODE | LID | X'00' – X'FF' | Suppression identifier | M | N | N | ✅ |
+| PTOCA-4-226 | stream documentation. | ✅ |
+| PTOCA-4-227 | must activate the LID. | ✅ |
+| PTOCA-4-228 | EC-9801...The value of LID is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-229 | 0 UBIN LENGTH X'04' – X'FE'; | ✅ |
+| PTOCA-4-230 | 1 CODE TYPE X'8C', X'8D' Control sequence | ✅ |
+| PTOCA-4-231 | 2-3 X'0000' Reserved; should be zero M N N | ✅ |
+| PTOCA-4-232 | conversion routine described in “Interpreting Ranges”. | ✅ |
+| PTOCA-4-233 | terminates the GLC chain. | ✅ |
+| PTOCA-4-234 | EC-9C03...Invalid sequence. The GAR is not preceded by a GIR, or, if it indicates chaining, it is not followed | ✅ |
+| PTOCA-4-235 | EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was | ✅ |
+| PTOCA-4-236 | EC-9C08...Glyph Advance count mismatch. The number of glyph advances specified is not the same as the | ✅ |
+| PTOCA-4-237 | The Glyph ID Run control sequence specifies an array of glyph IDs from the current TrueType/OpenType font. | ✅ |
+| PTOCA-4-238 | 0 UBIN LENGTH X'04' – X'FE'; | ✅ |
+| PTOCA-4-239 | 1 CODE TYPE X'8B' Control sequence | ✅ |
+| PTOCA-4-240 | 2-3 X'0000' Reserved; should be zero M N N | ✅ |
+| PTOCA-4-241 | in this control sequence. | ✅ |
+| PTOCA-4-242 | the chained GAR must contain n advances and the optional GOR must contain n offsets. | ✅ |
+| PTOCA-4-243 | EC-9C02...Invalid glyph ID. The current font does not contain a specified glyph ID. | ✅ |
+| PTOCA-4-244 | EC-9C03...Invalid sequence. The GIR is not preceded by either a GLC or a GAR or a GOR. | ✅ |
+| PTOCA-4-245 | EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was | ✅ |
+| PTOCA-4-246 | render text using arrays of glyph identifiers and positions. | ✅ |
+| PTOCA-4-247 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-248 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-249 | 2 UBIN LENGTH 10 - (p - 1) Control sequence length M N N | ✅ |
+| PTOCA-4-250 | 3 CODE TYPE X'6D' Control sequence function | ✅ |
+| PTOCA-4-251 | 6 UBIN OIDLGTH 0, 13-129 Length of FONTOID | ✅ |
+| PTOCA-4-252 | 7 UBIN FFNLGTH 0 - (255 - (10 + | ✅ |
+| PTOCA-4-253 | 8-1 1 X'00...00' Reserved; should be zero M N N | ✅ |
+| PTOCA-4-254 | Offset 12 – must be X'06' | ✅ |
+| PTOCA-4-255 | Offset 13 – length of | ✅ |
+| PTOCA-4-256 | Offset 14 to n – OID | ✅ |
+| PTOCA-4-257 | condition EC-9C0B exists. | ✅ |
+| PTOCA-4-258 | Example 1. GLC chain without optional controls. The GLC may reference the base font, or any font linked to | ✅ |
+| PTOCA-4-259 | Example 2. GLC chain with optional controls. Since one or more glyphs must be positioned with an offset | ✅ |
+| PTOCA-4-260 | Example 3. GLC chain with multiple GIR/GAR[/GOR] groupings. The text required more glyphs than a single | ✅ |
+| PTOCA-4-261 | GLC GIR GAR GOR GIR GAR UCT <<chain ends>> | ✅ |
+| PTOCA-4-262 | EC-9C00...Font Mismatch. The object OID specified in the GLC control sequence does not match the object | ✅ |
+| PTOCA-4-263 | EC-9C01...Font format not valid for use with glyph layout control sequences. The current font is not a | ✅ |
+| PTOCA-4-264 | EC-9C03...Unexpected control sequence. An unexpected control sequence was encountered between the | ✅ |
+| PTOCA-4-265 | EC-9C09...Missing font OID. The GLC specified an OIDLGTH of zero, but no previous font OID was supplied | ✅ |
+| PTOCA-4-266 | EC-9C0A...Count mismatch or invalid length. The byte count specified by the OIDLGTH and FFONTNME | ✅ |
+| PTOCA-4-267 | EC-9C0B...Full Font Name specified without font OID. A font OID was not specified (OIDLGTH = 0), but a | ✅ |
+| PTOCA-4-268 | the b-direction) to the glyph origin for each glyph ID in the preceding GIR. | ✅ |
+| PTOCA-4-269 | 0 UBIN LENGTH X'04' – X'FE'; | ✅ |
+| PTOCA-4-270 | 1 CODE TYPE X'8E', X'8F' Control sequence | ✅ |
+| PTOCA-4-271 | 2-3 X'0000' Reserved; should be zero M N N | ✅ |
+| PTOCA-4-272 | advances so that presentation devices can offset the correct glyph. | ✅ |
+| PTOCA-4-273 | EC-9C03...Invalid sequence. The GOR is not preceded by a GAR, or, if it indicates chaining, is not followed | ✅ |
+| PTOCA-4-274 | EC-9C06...GIR, GAR, or GOR control sequence found outside of a GLC chain. A GIR, GAR, or GOR was | ✅ |
+| PTOCA-4-275 | EC-9C08...Glyph offset count mismatch. The number of glyph offsets specified is not the same as the | ✅ |
+| PTOCA-4-276 | The No Operation control sequence has no effect on presentation. | ✅ |
+| PTOCA-4-277 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-278 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-279 | 2 UBIN LENGTH 2–255 Control sequence length M N N | ✅ |
+| PTOCA-4-280 | 3 CODE TYPE X'F8' – X'F9' Control sequence | ✅ |
+| PTOCA-4-281 | The Overstrike control sequence identifies text that is to be overstruck with a specified character. | ✅ |
+| PTOCA-4-282 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-283 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-284 | 2 UBIN LENGTH 5 Control sequence length M N N | ✅ |
+| PTOCA-4-285 | 3 CODE TYPE X'72' – X'73' Control sequence | ✅ |
+| PTOCA-4-286 | 4 BITS BYPSIDEN See | ✅ |
+| PTOCA-4-287 | accept the default indicator. | ✅ |
+| PTOCA-4-288 | The overstrike character | ✅ |
+| PTOCA-4-289 | How to place the overstrike characters in relation to the characters in the text field | ✅ |
+| PTOCA-4-290 | Which controlled inline white space is to be overstruck | ✅ |
+| PTOCA-4-291 | Absolute Move Inline control sequence | ✅ |
+| PTOCA-4-292 | Relative Move Inline control sequence | ✅ |
+| PTOCA-4-293 | Space character or variable space character | ✅ |
+| PTOCA-4-294 | X'40' in EBCDIC single-byte code pages | ✅ |
+| PTOCA-4-295 | X'20' in ASCII single-byte code pages | ✅ |
+| PTOCA-4-296 | X'4040' in EBCDIC double-byte code pages | ✅ |
+| PTOCA-4-297 | X'2020' in ASCII double-byte code pages | ✅ |
+| PTOCA-4-298 | X'0020' | ✅ |
+| PTOCA-4-299 | X'00A0' | ✅ |
+| PTOCA-4-300 | 0-3 Reserved, that is, set to B'0' by generators and ignored by receivers | ✅ |
+| PTOCA-4-301 | 4 Bypass Relative Move Inline | ✅ |
+| PTOCA-4-302 | 5 Bypass Absolute Move Inline | ✅ |
+| PTOCA-4-303 | 6 Bypass space characters and variable space characters | ✅ |
+| PTOCA-4-304 | 7 No Bypass in Effect | ✅ |
+| PTOCA-4-305 | A beginning OVS | ✅ |
+| PTOCA-4-306 | Either end of bypassed controlled inline white space | ✅ |
+| PTOCA-4-307 | Either end of a baseline move, which may be for the established baseline or for a temporary baseline | ✅ |
+| PTOCA-4-308 | The beginning of negative changes in the presentation position caused by inline moves or negative | ✅ |
+| PTOCA-4-309 | Boundaries where violation causes truncation | ✅ |
+| PTOCA-4-310 | An ending OVS | ✅ |
+| PTOCA-4-311 | The end of the Presentation Text object | ✅ |
+| PTOCA-4-312 | condition exists. See the Pragmatics section for the exception condition code and the standard action. | ✅ |
+| PTOCA-4-313 | 2100 exists. The standard action is to use a device default character as the overstrike character. If the graphic | ✅ |
+| PTOCA-4-314 | At least one overstrike character must occur in an overstrike area. | ✅ |
+| PTOCA-4-315 | The overstrike characters must be positioned relative to the delimiters of the overstrike area, rather than to | ✅ |
+| PTOCA-4-316 | Overlap of any portion of the B-space of the overstrike character with the B-space of a character not within | ✅ |
+| PTOCA-4-317 | Overlap of any portion of the B-space of the overstrike character with the B-space of another overstrike | ✅ |
+| PTOCA-4-318 | Rounding of f the number of overstrike characters is permitted. The minimum required support is to round of f | ✅ |
+| PTOCA-4-319 | Multiple passes over the same portions of the presentation space through the use of AMI and RMI control | ✅ |
+| PTOCA-4-320 | An area of zero length is not considered to be a valid overstrike area. | ✅ |
+| PTOCA-4-321 | EC-2100...The graphic character specified is not valid in the active font. | ✅ |
+| PTOCA-4-322 | EC-3F02...The graphic character specified does not have a rotation available that is equivalent to the current | ✅ |
+| PTOCA-4-323 | EC-9A01...The graphic character specified has an invalid character increment or is not a printable character. | ✅ |
+| PTOCA-4-324 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-325 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-326 | 2 UBIN LENGTH 4 Control sequence length M N N | ✅ |
+| PTOCA-4-327 | 3 CODE TYPE X'D4' – X'D5' Control sequence | ✅ |
+| PTOCA-4-328 | measurement unit, please see the conversion routine described in “Interpreting Ranges”. | ✅ |
+| PTOCA-4-329 | stream documentation. | ✅ |
+| PTOCA-4-330 | EC-1601...The value of INCRMENT is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-331 | EC-0103..The presentation position is outside the object space and presentation is attempted. | ✅ |
+| PTOCA-4-332 | EC-1403...Negative INCRMENT is not valid. | ✅ |
+| PTOCA-4-333 | the current inline position. | ✅ |
+| PTOCA-4-334 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-335 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-336 | 2 UBIN LENGTH 4 Control sequence length M N N | ✅ |
+| PTOCA-4-337 | 3 CODE TYPE X'C8' – X'C9' Control sequence | ✅ |
+| PTOCA-4-338 | measurement unit, please see the conversion routine described in “Interpreting Ranges”. | ✅ |
+| PTOCA-4-339 | stream documentation. | ✅ |
+| PTOCA-4-340 | character being presented. Then presentation of characters may resume. | ✅ |
+| PTOCA-4-341 | EC-1501...The value of INCRMENT is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-342 | EC-0103..The presentation position is outside the object space and presentation is attempted. | ✅ |
+| PTOCA-4-343 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-344 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-345 | 2 UBIN LENGTH 4–255 Control sequence length M N N | ✅ |
+| PTOCA-4-346 | 3 CODE TYPE X'EE' – X'EF' Control sequence | ✅ |
+| PTOCA-4-347 | RPTDATA do not accept the default indicator. | ✅ |
+| PTOCA-4-348 | data-stream documentation. | ✅ |
+| PTOCA-4-349 | RPS control sequence not be used in this manner, and that the TRN control sequence be used instead. | ✅ |
+| PTOCA-4-350 | EC-1A01...A double-byte font is active and the length of RPTDATA is an odd number. | ✅ |
+| PTOCA-4-351 | EC-1A03...Invalid Unicode data. This can be caused by one of the following: | ✅ |
+| PTOCA-4-352 | EC-1B01...A double-byte font is active and RLENGTH is an odd number. | ✅ |
+| PTOCA-4-353 | EC-1901...The value of RLENGTH is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-354 | EC-0103...A parameter value will cause part of a character's character box to be outside the object space, | ✅ |
+| PTOCA-4-355 | EC-1F01...The control sequence length parameter is four and RLENGTH is not zero. | ✅ |
+| PTOCA-4-356 | coordinate when a Begin Line control sequence is executed. This is a modal control sequence. | ✅ |
+| PTOCA-4-357 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-358 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-359 | 2 UBIN LENGTH 4 Control sequence length M N N | ✅ |
+| PTOCA-4-360 | 3 CODE TYPE X'D0' – X'D1' Control sequence | ✅ |
+| PTOCA-4-361 | INCRMENT should be the Default Baseline Increment of the default coded font for the device. | ✅ |
+| PTOCA-4-362 | 1 101 exists. The standard action is to ignore this control sequence and continue presentation with the value | ✅ |
+| PTOCA-4-363 | Presentation Text Data Descriptor. | ✅ |
+| PTOCA-4-364 | EC-1 101...The value of INCRMENT is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-365 | used. This is a modal control sequence. | ✅ |
+| PTOCA-4-366 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-367 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-368 | 2 UBIN LENGTH 3 Control sequence length M N N | ✅ |
+| PTOCA-4-369 | 3 CODE TYPE X'F0' – X'F1' Control sequence | ✅ |
+| PTOCA-4-370 | 4 CODE LID X'00' – X'FE' Local identifier M Y Y | ✅ |
+| PTOCA-4-371 | The PTOCA default value for the LID is X'00'. | ✅ |
+| PTOCA-4-372 | stream documentation. | ✅ |
+| PTOCA-4-373 | The receiver provides internal mapping, using device defaults. | ✅ |
+| PTOCA-4-374 | The controlling environment provides the mapping to the receiver. | ✅ |
+| PTOCA-4-375 | SCFL Control Sequence | ✅ |
+| PTOCA-4-376 | not an exception condition in PTOCA. | ✅ |
+| PTOCA-4-377 | EC-1E01...The LID is missing. | ✅ |
+| PTOCA-4-378 | EC-0C01...The value of the LID is not supported or is not in the range specified by PTOCA. | ✅ |
+| PTOCA-4-379 | EC-1802...A font mapping has not been provided. | ✅ |
+| PTOCA-4-380 | EC-1802...The coded font specified by the mapping is not available to the receiver. | ✅ |
+| PTOCA-4-381 | EC-3F02...The specified coded font is not compatible with the text orientation. | ✅ |
+| PTOCA-4-382 | SCFL Control Sequence | ✅ |
+| PTOCA-4-383 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-384 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-385 | 2 UBIN LENGTH 6, 7–255 Control sequence length M N N | ✅ |
+| PTOCA-4-386 | 3 CODE TYPE X'9C' – X'9D' Control sequence | ✅ |
+| PTOCA-4-387 | 4-7 Reserved; should be zero M N N | ✅ |
+| PTOCA-4-388 | 8-256 CHAR ALTTEXT Not | ✅ |
+| PTOCA-4-389 | default indicator, but X'F....F' is valid. | ✅ |
+| PTOCA-4-390 | the ENC Semantics for a description of the details). | ✅ |
+| PTOCA-4-391 | ignore the control sequence and continue processing. | ✅ |
+| PTOCA-4-392 | EC-1E01...LENGTH is not valid. | ✅ |
+| PTOCA-4-393 | The stroked and filled areas of solid text characters, including overstrike characters; with hollow characters, | ✅ |
+| PTOCA-4-394 | The stroked area of a rule | ✅ |
+| PTOCA-4-395 | The stroked area of an underscore | ✅ |
+| PTOCA-4-396 | a definition of modal control sequences, see “Modal Control Sequences”. | ✅ |
+| PTOCA-4-397 | 0 CODE PREFIX X'2B' Control Sequence Prefix M N N | ✅ |
+| PTOCA-4-398 | 1 CODE CLASS X'D3' Control sequence class M N N | ✅ |
+| PTOCA-4-399 | 2 UBIN LENGTH 14–16 Control sequence length M N N | ✅ |
+| PTOCA-4-400 | 3 CODE TYPE X'80' – X'81' Control sequence | ✅ |
 | PTOCA-4-401 | 4 Reserved; should be zero M N N | ❓ |
 | PTOCA-4-402 | 5 CODE COLSPCE Color space M N N | ❓ |
 | PTOCA-4-403 | 10 UBIN COLSIZE1 X'01' – X'08', | ❓ |
