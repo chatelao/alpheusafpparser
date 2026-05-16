@@ -13,7 +13,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 5a | CI/CD Optimizations | ✅ |
 | 5b | Specification Excellence | ✅ |
 | 6a | Testing and Quality Assurance (i) | ✅ |
-| 6b | Complete AFP Syntax Implementation | 🚧 |
+| 6b | Complete AFP Syntax Implementation | ✅ |
 | 6c | Testing and Quality Assurance (ii) | ✅ |
 | 7 | Modernization of Build System and Language | ✅ |
 | 8 | Modernized Publishing and Distribution | 🚧 |
@@ -93,13 +93,13 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ nColor Names (X'FEB3').
     - ✅ Improve `GAD_GraphicsData` to handle all GOCA drawing orders more robustly.
     - ✅ Improve `IPD_ImagePictureData` to handle all IOCA segments, reducing "Unknown" segments.
-- 🚧 Stateful Encoding and Character Set Resolution:
+- ✅ Stateful Encoding and Character Set Resolution:
     - ✅ Implement context in `AFPParser` to track stateful LID-to-Charset bindings.
     - ✅ Update `AFPParserConfiguration` to maintain a registry of active Coded Font Local Identifiers (LIDs).
     - ✅ Implement logic for `PTX` streams to dynamically switch active Charset upon `SCFL` (Set Coded Font Local) commands.
     - ✅ Fix hardcoded `cp500` defaults in `getText()` methods for GOCA, BCOCA, IOCA, and FOCA (PTOCA/PTX fixed).
-- 🚧 Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
-    - 🚧 Fix PTOCA Text Visibility Gaps (see `PTOCA_GAP.md`):
+- ✅ Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
+    - ✅ Fix PTOCA Text Visibility Gaps (see `PTOCA_GAP.md`):
         - ✅ Support **free-standing graphic characters** interleaved with control sequences in `PTX`.
         - ✅ Implement missing PT4 Glyph Layout sequences: `GLC` (X'6D'), `GIR` (X'8B'), `GAR` (X'8C/8D'), `GOR` (X'8E/8F').
         - ✅ Support **concatenated payloads** for `SEA` (Alternate Text) and `SKI` (Key Info).

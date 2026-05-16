@@ -1,18 +1,18 @@
 Chapter 5. MO:DCA Structured Fields
 This chapter:
-• Briefly describes the purpose of each MO:DCA structured field [MODCA-5-001]
-• Provides the syntax and semantics for each MO:DCA structured field [MODCA-5-002]
-• Identifies each structured field's parameter set [MODCA-5-003]
-• Identifies exception conditions [MODCA-5-004]
+* Briefly describes the purpose of each MO:DCA structured field [MODCA-5-001]
+* Provides the syntax and semantics for each MO:DCA structured field [MODCA-5-002]
+* Identifies each structured field's parameter set [MODCA-5-003]
+* Identifies exception conditions [MODCA-5-004]
 General Information
 Chapter 3, “MO:DCA Overview”, provides a general discussion of the syntax and semantics of
 MO:DCA structured fields. Detailed formats, syntaxes and semantics are provided here to enable product
 developers to design and produce applications that can use MO:DCA data streams.
 The syntax tables in this chapter describe the less restrictive requirements of the overall architecture. Thus,
 these syntax tables may not agree exactly with a specific interchange set with regard to:
-• Whether a data element is mandatory or optional [MODCA-5-005]
-• The number of times a particular data element may validly occur [MODCA-5-006]
-• The order in which the data elements must occur [MODCA-5-007]
+* Whether a data element is mandatory or optional [MODCA-5-005]
+* The number of times a particular data element may validly occur [MODCA-5-006]
+* The order in which the data elements must occur [MODCA-5-007]
 In those cases where there is disagreement with an interchange set, the interchange set requirement governs.
 The exception condition column of the syntax tables for these structured fields identifies only those exception
 conditions that could occur for the individual parameters.
@@ -54,7 +54,7 @@ Triplets Appear as follows: [MODCA-5-015]
 | --- | --- | --- [MODCA-5-017]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-018]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-019]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-020]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-020]
 #### BAG Exception Condition Summary
 X'08' A subsequent matching End Active Environment Group structured field is not present in the
 page or overlay.
@@ -86,12 +86,12 @@ Triplets Appear as follows: [MODCA-5-026]
 | X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-031]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-032]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-033]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-034]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-034]
 ### Begin Bar Code Object (BBC)
 
 
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field:
-• Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-035]
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
+* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-035]
 X'27'”.
 #### BBC Exception Condition Summary
 X'08' A subsequent matching End Bar Code Object structured field is not present in the page,
@@ -112,7 +112,7 @@ Structured Field Data [MODCA-5-038]
 #### BDA Semantics
 BCOCAdat Contains the BCOCA-defined data. See the MO:DCA environment appendix in the Bar Code
 Object Content Architecture Reference for detailed information.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-042]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-042]
 ### Bar Code Data (BDA)
 
 
@@ -129,9 +129,9 @@ Structured Field Data [MODCA-5-044]
 #### BDD Semantics
 BCOCAdes Contains the BCOCA-defined descriptor data. See the MO:DCA environment appendix in the
 Bar Code Object Content Architecture Reference for detailed information.
-Architecture Note: The BCOCA-defined descriptor supports the Color Specification (X'4E')
+**Architecture Note:**  The BCOCA-defined descriptor supports the Color Specification (X'4E')
 triplet.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-048]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-048]
 ### Bar Code Data Descriptor (BDD)
 
 
@@ -158,7 +158,7 @@ Triplets Appear as follows: [MODCA-5-055]
 | --- | --- | --- [MODCA-5-057]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-058]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-059]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-060]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-060]
 #### BDG Exception Condition Summary
 X'08' A subsequent matching End Document Environment Group structured field is not present in
 the form map.
@@ -196,7 +196,7 @@ Triplets Appear as follows: [MODCA-5-067]
 | --- | --- | --- [MODCA-5-076]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-077]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-078]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-079]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-079]
 #### BDI Exception Condition Summary
 X'08' A subsequent matching End Document Index structured field is not present in the print file. [MODCA-5-080]
 ### Begin Document Index (BDI)
@@ -218,7 +218,7 @@ Structured Field Data [MODCA-5-082]
 DocName Is the name of the document described by the data stream. If a Fully Qualified Name type
 X'01' (Replace First GID) triplet appears in this structured field, the name specified in this
 parameter is ignored and the GID provided by the triplet is used instead.
-Architecture Note: The semantic that stated “If the value of the first two bytes of DocName
+**Architecture Note:**  The semantic that stated “If the value of the first two bytes of DocName
 are X'FFFF', the processing system provides the document name” is no longer
 applicable and has been removed from the architecture. The document name on the
 BDT is first specified by the application that creates the document, and may be modified
@@ -231,7 +231,7 @@ Triplets Appear as follows: [MODCA-5-088]
 | Triplet | Type | Usage [MODCA-5-089]|
 | --- | --- | --- [MODCA-5-090]|
 | X'01' | | Coded Graphic Character Set Global Identifier Mandatory. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-091]|
-Implementation Note: Not all MO:DCA products have historically
+**Implementation Note:**  Not all MO:DCA products have historically
 implemented this triplet as a mandatory triplet on the BDT ;
 instead they have assumed that the encoding for parameters
 with CHAR data type in a MO:DCA document is EBCDIC-based.
@@ -273,16 +273,16 @@ triplet is not specified, the MO:DCA Function Set triplet must not be
 specified. See “MO:DCA Function Set Triplet X'8F'”.
 The data stream containing the Begin Document structured field must also contain a subsequent matching End
 Document structured field, or a X'08' exception condition exists.
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field: [MODCA-5-092]
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field: [MODCA-5-092]
 ### Begin Document (BDT)
 
 
-• Object Function Set Specification (X'21') triplet; see “Object Function Set Specification Triplet X'21'” [MODCA-5-093]
+* Object Function Set Specification (X'21') triplet; see “Object Function Set Specification Triplet X'21'” [MODCA-5-093]
 .
 #### BDT Exception Condition Summary
 X'01' This condition exists when:
-• Multiple type X'01' (Replace First GID) Fully Qualified Name triplets appear. [MODCA-5-094]
-• Multiple MO:DCA Interchange Set (X'18') triplets appear. [MODCA-5-095]
+* Multiple type X'01' (Replace First GID) Fully Qualified Name triplets appear. [MODCA-5-094]
+* Multiple MO:DCA Interchange Set (X'18') triplets appear. [MODCA-5-095]
 X'08' A subsequent matching End Document structured field is not present in the data stream. [MODCA-5-096]
 ### Begin Document (BDT)
 
@@ -313,7 +313,7 @@ Triplets Appear as follows: [MODCA-5-102]
 | X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-106]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-107]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-108]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-109]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-109]
 #### BFM Exception Condition Summary
 X'08' The form map is not terminated with a subsequent matching End Form Map structured field. [MODCA-5-110]
 ### Begin Form Map (BFM)
@@ -344,12 +344,12 @@ Triplets Appear as follows: [MODCA-5-116]
 | X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-121]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-122]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-123]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-124]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-124]
 ### Begin Graphics Object (BGR)
 
 
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field:
-• Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-125]
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
+* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-125]
 X'27'”.
 #### BGR Exception Condition Summary
 X'08' A subsequent matching End Graphics Object structured field is not present in the page,
@@ -360,7 +360,7 @@ overlay, or resource group. [MODCA-5-126]
 ### Begin Image Object (BIM)
 The Begin Image Object structured field begins an IOCA image data object, which becomes the current data
 object.
-Architecture Note: A migration form of the image object is supported in AFP environments and is defined as
+**Architecture Note:**  A migration form of the image object is supported in AFP environments and is defined as
 the IM Image Object in “IM Image Object”. [MODCA-5-127]
 #### BIM (X'D3A8FB') Syntax
 Structured Field Introducer
@@ -389,9 +389,9 @@ Triplets Appear as follows: [MODCA-5-133]
 | --- | --- | --- [MODCA-5-140]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-141]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-142]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field:
-• Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-143]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
+* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-143]
 X'27'”.
 #### BIM Exception Condition Summary
 X'08' A subsequent matching End Image Object structured field is not present in the page, overlay,
@@ -404,8 +404,8 @@ The Begin Medium Map structured field begins a medium map resource object. A med
 control resource object that contains a complete set of controls for presenting pages on physical media such
 as sheets and for generating multiple copies of sheets with selectable modifications. These controls may be
 grouped into two categories:
-• Medium level controls [MODCA-5-144]
-• Page level controls [MODCA-5-145]
+* Medium level controls [MODCA-5-144]
+* Page level controls [MODCA-5-145]
 Medium level controls are controls that affect the medium, such as the specification of medium overlays,
 medium size, medium orientation, medium copies, simplex or duplex, medium finishing, media type, and
 media source and destination selection. These controls are defined by the Map Medium Overlay (MMO),
@@ -436,16 +436,16 @@ Triplets Appear as follows: [MODCA-5-152]
 | --- | --- | --- [MODCA-5-154]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-155]|
 | X'45' | | Media Eject Control Optional. May occur once. See “Media Eject Control Triplet X'45'”. Specifies the type of media eject that should be performed when this medium map is invoked and N-up partitioning is specified. This triplet is ignored when it occurs on the medium map that is activated at the beginning of a document regardless of whether this medium map is explicitly invoked or implicitly invoked as the default. [MODCA-5-156]|
-Note: If this triplet is not present, the architected default for the
+**Note:**  If this triplet is not present, the architected default for the
 EjCtrl parameter in the triplet is X'01'; that is, perform a sheet
 eject and activate all controls specified by the medium map.
 X'65' Comment Optional. May occur more than once. Carries unarchitected data.
 See “Comment Triplet X'65'”. [MODCA-5-157]
 #### BMM Exception Condition Summary
 X'01' This exception condition exists when:
-• The Begin Medium Map structured field specifies a conditional eject to a front-side partition [MODCA-5-158]
+* The Begin Medium Map structured field specifies a conditional eject to a front-side partition [MODCA-5-158]
 and the PGP in the medium map does not specify a front-side partition.
-• The Begin Medium Map structured field specifies a conditional eject to a back-side partition [MODCA-5-159]
+* The Begin Medium Map structured field specifies a conditional eject to a back-side partition [MODCA-5-159]
 and the PGP in the medium map does not specify a back-side partition.
 X'08' The medium map is not terminated with a subsequent matching End Medium Map structured
 field.
@@ -456,11 +456,11 @@ field.
 The Begin Overlay structured field begins an overlay. An overlay contains an active environment group to
 establish parameters such as the size of the overlay's presentation space and the fonts to be used by the data
 objects. It may also contain any mixture of:
-• Bar code objects [MODCA-5-160]
-• Graphics objects [MODCA-5-161]
-• Image objects [MODCA-5-162]
-• Object containers [MODCA-5-163]
-• Presentation text objects [MODCA-5-164]
+* Bar code objects [MODCA-5-160]
+* Graphics objects [MODCA-5-161]
+* Image objects [MODCA-5-162]
+* Object containers [MODCA-5-163]
+* Presentation text objects [MODCA-5-164]
 #### BMO (X'D3A8DF') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3A8DF' Flags (1B) Reserved;
@@ -481,7 +481,7 @@ Triplets Appear as follows: [MODCA-5-170]
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-173]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is: X'01'—Replace First GID Name. This GID overrides the Begin Overlay structured field name and is used as the name of the overlay. [MODCA-5-174]|
 | X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-175]|
-Application Note: In environments that include an intermediate
+**Application Note:**  In environments that include an intermediate
 caching device such as Remote Print Manager (RPM) or
 Distributed Print Facility (DPF), time stamps on the BMO
 structured field must be specified using the X'62' triplet. [MODCA-5-176]
@@ -492,9 +492,9 @@ structured field must be specified using the X'62' triplet. [MODCA-5-176]
 | --- | --- | --- [MODCA-5-178]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-179]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. Overlays reside in external resource libraries or in resource groups. See “Resource Groups” for details on locating resource objects within libraries and resource groups. [MODCA-5-180]|
-Architecture Note: In AFP environments, the following retired triplets are used on this structured field:
-• Object Checksum (X'63') triplet; see “Object Checksum Triplet X'63'” [MODCA-5-181]
-• Object Origin Identifier (X'64') triplet; see “Object Origin Identifier Triplet X'64'” [MODCA-5-182]
+**Architecture Note:**  In AFP environments, the following retired triplets are used on this structured field:
+* Object Checksum (X'63') triplet; see “Object Checksum Triplet X'63'” [MODCA-5-181]
+* Object Origin Identifier (X'64') triplet; see “Object Origin Identifier Triplet X'64'” [MODCA-5-182]
 #### BMO Exception Condition Summary
 X'01' Multiple Begin Overlay structured fields with the same name exist within the same resource
 group.
@@ -538,7 +538,7 @@ Triplets Appear in the Begin Named Page Group structured field as follows: [MODC
 | Triplet | Type | Usage [MODCA-5-194]|
 | --- | --- | --- [MODCA-5-195]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'8D'—Begin Medium Map Reference. Specifies the name of the medium map that is active at the beginning of the page group. [MODCA-5-196]|
-Application Note: This triplet is typically specified on the BNG
+**Application Note:**  This triplet is typically specified on the BNG
 structured fields when the page group is to be archived with a
 specific form map. It allows the page group to be retrieved and
 viewed at a later time without “playing back” the whole document.
@@ -548,7 +548,7 @@ first page-group page in the set of sequential pages controlled by
 the medium map that is active at the beginning of the page group.
 The first page in the set has sequence number 1. See “Medium
 Map Page Number Triplet X'56'”.
-Application Note: This triplet is typically specified on the BNG
+**Application Note:**  This triplet is typically specified on the BNG
 structured fields when the page group is to be archived with a
 specific form map. It allows the page group to be retrieved and
 viewed at a later time without “playing back” the whole document.
@@ -569,11 +569,11 @@ is ignored for printing. See “Presentation Control Triplet X'83'”.
 X'9D' Keep Group T ogether Optional. May occur once. Specifies that the page group should be
 kept together for the purpose indicated by the triplet. See “Keep
 Group T ogether Triplet X'9D'”.
-Architecture Note: If this triplet specifies GrpFnct = X'01' - Keep
+**Architecture Note:**  If this triplet specifies GrpFnct = X'01' - Keep
 group together as a recovery unit, full operation of this function at
 the IPDS level requires that the page group start on a sheet
 boundary.
-Architecture Note: If page group level indexing is used for a document that contains page groups, it is
+**Architecture Note:**  If page group level indexing is used for a document that contains page groups, it is
 recommended that the page group name, whether it is specified by an 8-byte token name or by a fully
 qualified name, be unique with respect to other page group names within the document.
 Application Notes:
@@ -605,14 +605,14 @@ in the PGP structured field in the active medium map that should be used to form
 as a recovery unit, full operation of this function in an IPDS environment requires that this group starts on a
 sheet boundary. It is therefore strongly recommended that if this triplet is specified on the BNG, a sheet
 eject is generated by:
-• immediately preceding the BNG by an Invoke Medium Map (IMM) that causes a sheet eject, or [MODCA-5-203]
-• following the BNG with an IMM that causes a sheet eject, as long as that IMM occurs before the first [MODCA-5-204]
+* immediately preceding the BNG by an Invoke Medium Map (IMM) that causes a sheet eject, or [MODCA-5-203]
+* following the BNG with an IMM that causes a sheet eject, as long as that IMM occurs before the first [MODCA-5-204]
 Begin Page (BPG) in the page group
 If such an IMM is not specified, IPDS printers in general will not be able to treat the group as a logical unit
 for error recovery, but normally can still indicate when an error has occurred while printing such a group.
 6. Using cut-sheet emulation can affect the printer’s ability to keep recovery unit groups together because: [MODCA-5-205]
-• the printer increments the page counters on a sheet basis rather than on a sheetlet basis [MODCA-5-206]
-• the server cannot control when a group is on a sheet boundary [MODCA-5-207]
+* the printer increments the page counters on a sheet basis rather than on a sheetlet basis [MODCA-5-206]
+* the server cannot control when a group is on a sheet boundary [MODCA-5-207]
 When cut-sheet emulation is being used, if a “Keep T ogether” page group does not begin on a sheet
 boundary, the group operation is suspended and blank sheets might occur within that group; this results in
 a presentation-system exception (for example, IPDS exception ID X'4040..00' or X'0140..00' with action
@@ -624,8 +624,8 @@ When the data stream contains page groups defined by the Keep Group T ogether (X
 and also generates sheet groups based on functions specified in medium maps, such as medium finishing
 groups, care must be taken to avoid overlap of these two types of groups. In particular, the following rules must
 be followed:
-• A “Keep T ogether” page group must not be nested inside another “Keep T ogether” page group. [MODCA-5-208]
-• Sheet groups may be nested inside “Keep T ogether” page groups and vice versa, but the two group types [MODCA-5-209]
+* A “Keep T ogether” page group must not be nested inside another “Keep T ogether” page group. [MODCA-5-208]
+* Sheet groups may be nested inside “Keep T ogether” page groups and vice versa, but the two group types [MODCA-5-209]
 must not overlap. That is, the two group types, if specified, must be properly nested. For example, if a “Keep
 T ogether” page group is started after a sheet group, it must be terminated before or at the point in the data
 stream where the sheet group is terminated. The same is true if a sheet group is started after a “Keep
@@ -667,7 +667,7 @@ Triplets Appear in the Begin Object Container structured field as follows: [MODC
 | Triplet | Type | Usage [MODCA-5-219]|
 | --- | --- | --- [MODCA-5-220]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-221]|
-Application Note: It is strongly recommended that this triplet is
+**Application Note:**  It is strongly recommended that this triplet is
 specified even if the parameter on the BOC defines a fixed
 encoding. For example, if the parameter defines a fixed UTF-
 16BE encoding, the triplet can be specified using the CCSID form
@@ -679,7 +679,7 @@ First GID name. This GID overrides the Begin Object Container
 structured field name and is used as the identifier of the object
 container. The identifier may be specified in one—and only one—of
 the following formats:
-• If FQNFmt = X'00', the identifier is a character-encoded name. [MODCA-5-222]
+* If FQNFmt = X'00', the identifier is a character-encoded name. [MODCA-5-222]
 See “External Resource Naming Conventions” for a
 description of the naming conventions used in AFP environments.
 The character-encoded name on the BOC is optional if the
@@ -691,7 +691,7 @@ this version of the triplet may occur more than once, and each
 instance of the triplet is used to specify the full font name in a
 language used in the font naming table. The character encoding
 is UTF-16BE.
-• If FQNFmt = X'10', the identifier is a ASN.1 OID encoded using [MODCA-5-223]
+* If FQNFmt = X'10', the identifier is a ASN.1 OID encoded using [MODCA-5-223]
 the definite short form. This format provides a unique and system-
 independent method to identify a resource. It may be used to
 identify resources that are resident in, or have been captured by,
@@ -705,7 +705,7 @@ OTF , a TrueType collection file, a data object, or a CMR, the OID
 may be used to locate a printer-resident version of the object. It
 also makes the object a candidate for capture by the printer. In
 this case this version of the triplet may only occur once.
-Architecture Note: If the BOC is used to carry a TTF/OTF , a data
+**Architecture Note:**  If the BOC is used to carry a TTF/OTF , a data
 object, or a CMR in a print file level resource group, the
 FQN type X'01' triplet on the mandatory BRS must specify
 the full font name, or the data object name, or the CMR
@@ -734,7 +734,7 @@ makes the object a candidate for capture by the printer. [MODCA-5-224]
 | X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-236]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-237]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-238]|
-Application Note: T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same. For TrueType/OpenType fonts, optimal performance can be achieved by using UTF-16BE as
@@ -746,10 +746,10 @@ the encoding scheme.
 X'01' This condition exists when a BOC parameter that is also allowed on a BRS in a
 BRS/BOC...EOC/ERS resource envelope and that is used for processing conflicts with the
 corresponding BRS parameter. Examples are:
-• Object Classification (X'10') triplet [MODCA-5-239]
-• FQN type X'41' - Color Management Resource (CMR) Reference triplet [MODCA-5-240]
-• FQN type X'6E' - Data-object Font Base Font Identifier triplet [MODCA-5-241]
-• FQN type X'7E' - Data-object Font Linked Font Identifier triplet [MODCA-5-242]
+* Object Classification (X'10') triplet [MODCA-5-239]
+* FQN type X'41' - Color Management Resource (CMR) Reference triplet [MODCA-5-240]
+* FQN type X'6E' - Data-object Font Base Font Identifier triplet [MODCA-5-241]
+* FQN type X'7E' - Data-object Font Linked Font Identifier triplet [MODCA-5-242]
 Note that since some of these parameters are simply optional repetitions of the same
 parameter on the BRS, they may not be used for processing by some applications and
 therefore may not result in an exception if specified inconsistently.
@@ -780,7 +780,7 @@ Triplets Appear as follows: [MODCA-5-250]
 | --- | --- | --- [MODCA-5-252]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-253]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-254]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-255]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-255]
 #### BOG Exception Condition Summary
 X'08' A subsequent matching End Object Environment Group structured field is not present in the
 object.
@@ -807,7 +807,7 @@ Triplets Appear as follows: [MODCA-5-262]
 | X'01'” | |. [MODCA-5-266]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the Begin Print File structured field name and is used as the name of the print file. [MODCA-5-267]|
 | X'18' | | MO:DCA Interchange Set For interchange data streams, this triplet is mandatory and must occur once. For private or exchange data streams, this triplet is not permitted. See “MO:DCA Interchange Set Triplet X'18'”. [MODCA-5-268]|
-Application Note: The X'18' triplet is used by AFP generators to
+**Application Note:**  The X'18' triplet is used by AFP generators to
 indicate that the print file is intended to be compliant with the
 specified MO:DCA interchange set. Compliance and certification
 tools and utilities may use this indicator to check a print file for
@@ -825,7 +825,7 @@ interchange set specification in the X'18' triplet. [MODCA-5-269]
 | Triplet | Type | Usage [MODCA-5-270]|
 | --- | --- | --- [MODCA-5-271]|
 | X'5E' | | Object Count Optional. May occur once with SubObj = X'AF' to specify the number of pages in this print file. See “Object Count Triplet X'5E'”. [MODCA-5-272]|
-Application Note: The number of pages in a print file is defined by
+**Application Note:**  The number of pages in a print file is defined by
 the number of page objects bounded by BPG/EPG or included by
 IPG in the documents in that print file. Pages that are specified in
 a document resource that is carried in a print-file-level resource
@@ -849,7 +849,7 @@ triplet is not specified, the MO:DCA Function Set triplet must not be
 specified. See “MO:DCA Function Set Triplet X'8F'”.
 The data stream containing the Begin Print File structured field must also contain a subsequent matching End
 Print File structured field, or a X'08' exception condition exists.
-Note: If a triplet is included on this structured field, the optional PFName positional parameter becomes
+**Note:**  If a triplet is included on this structured field, the optional PFName positional parameter becomes
 mandatory.
 #### BPF Exception Condition Summary
 X'08' A subsequent matching End Print File structured field is not present in the data stream. [MODCA-5-273]
@@ -860,11 +860,11 @@ X'08' A subsequent matching End Print File structured field is not present in th
 The Begin Page structured field begins a presentation page. A presentation page contains an active
 environment group to establish parameters such as the size of the page's presentation space and the fonts to
 be used by the data objects. It may also contain any mixture of:
-• Bar code objects [MODCA-5-274]
-• Graphics objects [MODCA-5-275]
-• Image objects [MODCA-5-276]
-• Object containers [MODCA-5-277]
-• Presentation text objects [MODCA-5-278]
+* Bar code objects [MODCA-5-274]
+* Graphics objects [MODCA-5-275]
+* Image objects [MODCA-5-276]
+* Object containers [MODCA-5-277]
+* Presentation text objects [MODCA-5-278]
 #### BPG (X'D3A8AF') Syntax
 Structured Field Introducer
 SF Length (2B) ID = X'D3A8AF' Flags (1B) Reserved;
@@ -889,7 +889,7 @@ Triplets Appear as follows: [MODCA-5-284]
 | Triplet | Type | Usage [MODCA-5-289]|
 | --- | --- | --- [MODCA-5-290]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'8D'—Begin Medium Map Reference. Specifies the name of the medium map object that is active for presenting the page on a physical medium. [MODCA-5-291]|
-Application Note: This triplet is typically specified on the BPG
+**Application Note:**  This triplet is typically specified on the BPG
 structured fields when the page or page group is to be archived
 with a specific form map. It allows the page or page group to be
 retrieved and viewed at a later time without “playing back” the
@@ -898,7 +898,7 @@ X'56' Medium Map Page Number Optional. May occur once. Specifies the sequence nu
 page in the set of sequential pages controlled by the active medium
 map. The first page in the set has sequence number 1. See
 “Medium Map Page Number Triplet X'56'”.
-Application Note: This triplet is typically specified on the BPG
+**Application Note:**  This triplet is typically specified on the BPG
 structured fields when the page is to be archived with a specific
 form map. It allows the page to be retrieved and viewed at a later
 time without “playing back” the whole document. This triplet is
@@ -921,7 +921,7 @@ architected default is that the page is intended to be viewed. If this
 triplet is also specified on an Index Element (IEL) that indexes the
 page, the IEL triplet overrides if there is a conflict. This triplet is
 ignored for printing. See “Presentation Control Triplet X'83'”.
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
 Application Notes:
 1. If a page is to be indexed or if it is to be included in a resource document, a page name is required so that [MODCA-5-292]
 the page can be identified and referenced. It is therefore highly recommended that the BPG structured field
@@ -944,15 +944,15 @@ X'08' A subsequent matching End Page structured field is not present in the docu
 ### Begin Page Segment (BPS)
 The Begin Page Segment structured field begins a page segment. A page segment is a resource object that
 can be referenced from a page or overlay and that contains any mixture of:
-• Bar code objects (BCOCA) [MODCA-5-297]
-• Graphics objects (GOCA) [MODCA-5-298]
-• Image objects (IOCA) [MODCA-5-299]
+* Bar code objects (BCOCA) [MODCA-5-297]
+* Graphics objects (GOCA) [MODCA-5-298]
+* Image objects (IOCA) [MODCA-5-299]
 Objects in a page segment must specify an object area offset of zero so that they are positioned either at the
 origin of the including page or overlay coordinate system or at a reference point that is defined on the including
 page or overlay coordinate system by the Include Page Segment (IPS) structured field.
 A page segment does not contain an active environment group. The environment for a page segment is
 defined by the active environment group of the including page or overlay.
-Architecture Note: A migration form of the page segment resource object is supported in AFP environments
+**Architecture Note:**  A migration form of the page segment resource object is supported in AFP environments
 and is defined in “AFP Page Segment”. [MODCA-5-300]
 #### BPS (X'D3A85F') Syntax
 Structured Field Introducer
@@ -973,7 +973,7 @@ Triplets Appear as follows: [MODCA-5-306]
 | --- | --- | --- [MODCA-5-308]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-309]|
 | X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-310]|
-Application Note: In environments that include an intermediate
+**Application Note:**  In environments that include an intermediate
 caching device such as Remote Print Manager (RPM) or
 Distributed Print Facility (DPF), time stamps on the BPS
 structured field must be specified using the X'62' triplet. [MODCA-5-311]
@@ -984,12 +984,12 @@ structured field must be specified using the X'62' triplet. [MODCA-5-311]
 | --- | --- | --- [MODCA-5-313]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-314]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. Page segments reside in external resource libraries or in resource groups. See “Resource Groups” for details on locating resource objects within libraries or resource groups. [MODCA-5-315]|
-Application Note: For purposes of print server resource management, the OEGs for all objects in a page
+**Application Note:**  For purposes of print server resource management, the OEGs for all objects in a page
 segment must not contain MCF or MDR structured fields when the page segment is referenced with an
 IOB or IPS structured field.
-Architecture Note: In AFP environments, the following retired triplets are used on this structured field:
-• Object Checksum (X'63') triplet; see “Object Checksum Triplet X'63'” [MODCA-5-316]
-• Object Origin Identifier (X'64') triplet; see “Object Origin Identifier Triplet X'64'” [MODCA-5-317]
+**Architecture Note:**  In AFP environments, the following retired triplets are used on this structured field:
+* Object Checksum (X'63') triplet; see “Object Checksum Triplet X'63'” [MODCA-5-316]
+* Object Origin Identifier (X'64') triplet; see “Object Origin Identifier Triplet X'64'” [MODCA-5-317]
 #### BPS Exception Condition Summary
 X'01' Multiple Begin Page Segment structured fields with the same name exist within the same
 resource group.
@@ -1026,12 +1026,12 @@ Triplets Appear as follows: [MODCA-5-324]
 ### Begin Presentation Text Object (BPT)
 
 
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
-Application Note: When the BPT structured field is processed, all initial text conditions specified in the
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
+**Application Note:**  When the BPT structured field is processed, all initial text conditions specified in the
 Presentation T ext Descriptor (PTD) structured field are set prior to processing the text object. In addition,
 AFP servers set the following default page level initial text conditions before the PTD initial text
 conditions are set:
-Table 16. Default BPT Page-Level Initial Text Conditions
+**Table 16.**  Default BPT Page-Level Initial Text Conditions
 Parameter Value
 Initial (I,B) Presentation Position (0,0)
 T ext Orientation 0°,90°
@@ -1040,8 +1040,8 @@ Baseline Increment 6 lpi
 Inline Margin 0
 Intercharacter Adjustment 0
 T ext Color X'FFFF' (default color)
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field:
-• Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-332]
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
+* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-332]
 X'27'”.
 #### BPT Exception Condition Summary
 X'08' A subsequent matching End Presentation T ext Object structured field is not present in the
@@ -1080,7 +1080,7 @@ Triplets Appear as follows: [MODCA-5-339]
 | --- | --- | --- [MODCA-5-347]|
 | X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-348]|
 | X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-349]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-350]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-350]
 #### BRG Exception Condition Summary
 X'08' A subsequent matching End Resource Group structured field is not present in the print file,
 document, page, or data object. [MODCA-5-351]
@@ -1091,7 +1091,7 @@ document, page, or data object. [MODCA-5-351]
 The Begin Resource structured field begins an envelope that is used to carry resource objects in print file level
 (external) resource groups. Resource references in the data stream are matched against the resource
 identifier specified by the Begin Resource structured field.
-Application Note: T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same. For TrueType/OpenType fonts, optimal performance can be achieved by using UTF-16BE as
@@ -1118,12 +1118,12 @@ Triplets Appear in the Begin Resource structured field as follows: [MODCA-5-358]
 | Triplet | Type | Usage [MODCA-5-359]|
 | --- | --- | --- [MODCA-5-360]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-361]|
-Implementation Note: Not all AFP servers support the inheritance
+**Implementation Note:**  Not all AFP servers support the inheritance
 of encoding scheme from higher levels of the document hierarchy,
 therefore it is recommended that this triplet be specified directly
 on the BRS if required by a parameter such as the FQN type
 X'01' triplet.
-Application Note: It is strongly recommended that this triplet is
+**Application Note:**  It is strongly recommended that this triplet is
 specified even if the parameter on the BRS defines a fixed
 encoding. For example, if the parameter defines a fixed UTF-
 16BE encoding, the triplet can be specified using the CCSID
@@ -1134,11 +1134,11 @@ once. See “Fully Qualified Name Triplet X'02'”.
 The Fully Qualified Name type that may appear is X'6E'—Data-
 object Font Base Font Identifier . This triplet may be specified on a
 BRS to indicate the following:
-• If the BRS envelopes a TrueType Collection (TTC) file, the FQN [MODCA-5-362]
+* If the BRS envelopes a TrueType Collection (TTC) file, the FQN [MODCA-5-362]
 type X'6E' triplet specifies a base TrueType/OpenType font that is
 contained in the collection.
 The identifier may be specified in the following format.
-• If FQNFmt = X'00', the identifier is a character-encoded name. [MODCA-5-363]
+* If FQNFmt = X'00', the identifier is a character-encoded name. [MODCA-5-363]
 The character string that identifies the font must be the full font
 name specified in a name record in the mandatory Naming T able
 of the font file. This parameter is specified in a name record with
@@ -1181,10 +1181,10 @@ The first matching font container or collection container is used. If a collecti
 the complete TTC—if not already in the presentation device—is downloaded to the device, which must be
 able to index the required font in the collection. The font container or collection container may also specify
 one or more linked fonts for the referenced font.
-• On a font container, linked fonts for the base font are specified with Data-object Font Linked Font [MODCA-5-378]
+* On a font container, linked fonts for the base font are specified with Data-object Font Linked Font [MODCA-5-378]
 Identifier (FQN type X'7E') triplets, which carry the full font name of the linked fonts, on the BRS of the
 font container.
-• On a collection container, linked fonts are specified with Data-object Font Linked Font Identifier (FQN [MODCA-5-379]
+* On a collection container, linked fonts are specified with Data-object Font Linked Font Identifier (FQN [MODCA-5-379]
 type X'7E') triplets that immediately follow the Data Object Font Base Font Identifier (X'6E') triplet for the
 base font on the BRS of the collection container. Note that if the base font is specified in multiple
 languages using multiple FQN type X'6E' triplets, each instance of the FQN type X'6E' triplet must be
@@ -1193,12 +1193,12 @@ The full font names for the linked fonts are used in turn to search the resource
 a collection container that carries a font that matches the full font name of the linked font. On a font
 container, the linked font name is matched against the FQN type X'01' triplet on the BRS; on a collection
 container it is matched against the FQN type X'6E' triplets on the BRS.
-• The first matching font container or collection container is used, and its font is processed as a linked font [MODCA-5-380]
+* The first matching font container or collection container is used, and its font is processed as a linked font [MODCA-5-380]
 for the base font. Multiple linked fonts may be specified, and the order in which they are specified on the
 BRS of the font container or collection container determines the order in which they are processed. The
 base font is always processed first, followed by the first-specified linked font, followed by the next-
 specified linked font, and so on. The last linked font is processed last.
-• If a linked font cannot be found in either an inline font container or an inline collection container, the full [MODCA-5-381]
+* If a linked font cannot be found in either an inline font container or an inline collection container, the full [MODCA-5-381]
 font name of the linked font is used to index the RAT to locate the linked font in a resource library. If a
 specified linked font cannot be found in the resource group or in a resource library, a X'04' exception
 condition exists.
@@ -1229,7 +1229,7 @@ If a match is found, the inline CMR is processed as follows. [MODCA-5-383]
 ### Begin Resource (BRS)
 
 
-Table 17. Print Server CMR Processing: Inline CMRs
+**Table 17.**  Print Server CMR Processing: Inline CMRs
 CMR type Processing mode
 Device-specific or
 generic Processing
@@ -1284,7 +1284,7 @@ are ignored.
 ### Begin Resource (BRS)
 
 
-Table 17 Print Server CMR Processing: Inline CMRs (cont'd.)
+**Table 17.** Print Server CMR Processing: Inline CMRs (cont'd.)
 CMR type Processing mode
 Device-specific or
 generic Processing
@@ -1319,18 +1319,18 @@ Link DL Link Device-specific If the target device supports downloaded Link
 DL CMRs, the referenced CMR is
 downloaded, if necessary, and activated. All
 mapped CMRs are ignored.
-Implementation Note: It is not necessary for resource-collection applications to collect Link LK CMRs and
+**Implementation Note:**  It is not necessary for resource-collection applications to collect Link LK CMRs and
 place them in the inline resource group it builds. Such applications should provide different CMR
 resource collection options:
-• Option 1: the user wants all CMRs collected and specifies a device type and model. In this case all [MODCA-5-384]
+* Option 1: the user wants all CMRs collected and specifies a device type and model. In this case all [MODCA-5-384]
 CMRs referenced in the datastream or via the Data Object RAT and CMR RAT (except Link LK CMRs)
 are collected. The character string specified for the device type and model is used to obtain any
 device specific CMRs substituted for generic instruction HT and TTC CMRs.
-• Option 2: the user wants all CMRs collected (except Link LK CMRs) but no device type and model [MODCA-5-385]
+* Option 2: the user wants all CMRs collected (except Link LK CMRs) but no device type and model [MODCA-5-385]
 information has been specified. In this case, CMRs for all device type and models mapped to a given
 generic instruction CMR should be collected. If there are duplicates, the first one found in the search
 order should be the one collected.
-• Option 3: the user just wants to collect any CMRs that are referenced explicitly in the datastream plus [MODCA-5-386]
+* Option 3: the user just wants to collect any CMRs that are referenced explicitly in the datastream plus [MODCA-5-386]
 any non-device specific CMRs that are referenced by the Data Object RAT or CMR RAT . This will keep
 the output generated by the application from being device-specific unless the datastream explicitly
 referenced a device-specific CMR. The only CMRs referenced by the Data Object RAT or CMR RAT
@@ -1351,7 +1351,7 @@ The Begin Resource Environment Group structured field begins a Resource Environm
 defines a subset of the resources required for a document or for a group of pages in a document. The scope of
 the Resource Environment Group is the group of pages that follow, up to the next REG, which is a complete
 replacement for the current REG, or the end of the document, whichever occurs first.
-Note: Resources that are mapped in a REG must still be mapped in the AEG for the page that uses the
+**Note:**  Resources that are mapped in a REG must still be mapped in the AEG for the page that uses the
 resources.
 #### BSG (X'D3A8D9') Syntax
 Structured Field Introducer
@@ -1376,7 +1376,7 @@ structured field parameters defined with a CHAR data type. See
 “Coded Graphic Character Set Global Identifier Triplet X'01'”.
 X'65' Comment Optional. May occur more than once. Carries unarchitected data.
 See “Comment Triplet X'65'”.
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-393]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-393]
 #### BSG Exception Condition Summary
 X'08' A subsequent matching End Resource Environment Group structured field is not present in
 the document.
@@ -1471,7 +1471,7 @@ Triplets Appear as follows: [MODCA-5-423]
 | Triplet | Type | Usage [MODCA-5-424]|
 | --- | --- | --- [MODCA-5-425]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Bar Code Object structured field name and is used as the name of the bar code data object being terminated. [MODCA-5-426]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-427]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-427]
 #### EBC Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Bar Code Object
 structured field.
@@ -1533,7 +1533,7 @@ Triplets Appear as follows: [MODCA-5-441]
 | Triplet | Type | Usage [MODCA-5-442]|
 | --- | --- | --- [MODCA-5-443]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Document Index structured field name and is used as the name of the document index being terminated. [MODCA-5-444]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-445]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-445]
 #### EDI Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Document Index
 structured field.
@@ -1566,7 +1566,7 @@ Triplets Appear as follows: [MODCA-5-453]
 | Triplet | Type | Usage [MODCA-5-454]|
 | --- | --- | --- [MODCA-5-455]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The only Fully Qualified Name type that may appear is X'01'— Replace First GID Name. This GID overrides the End Document structured field name and is used as the name of the document being terminated. [MODCA-5-456]|
-Note: If a triplet is included on this structured field, the optional DocName positional parameter becomes
+**Note:**  If a triplet is included on this structured field, the optional DocName positional parameter becomes
 mandatory.
 #### EDT Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Document
@@ -1627,7 +1627,7 @@ Triplets Appear as follows: [MODCA-5-468]
 | Triplet | Type | Usage [MODCA-5-469]|
 | --- | --- | --- [MODCA-5-470]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Graphics Object structured field name and is used as the name of the graphics data object being terminated. [MODCA-5-471]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-472]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-472]
 #### EGR Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Graphics Object
 structured field.
@@ -1661,7 +1661,7 @@ Triplets Appear as follows: [MODCA-5-479]
 | Triplet | Type | Usage [MODCA-5-480]|
 | --- | --- | --- [MODCA-5-481]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Image Object structured field name and is used as the name of the image data object being terminated. [MODCA-5-482]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-483]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-483]
 #### EIM Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Image Object
 structured field.
@@ -1720,7 +1720,7 @@ Triplets Appear as follows: [MODCA-5-494]
 | Triplet | Type | Usage [MODCA-5-495]|
 | --- | --- | --- [MODCA-5-496]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Overlay structured field name and is used as the name of the overlay being terminated. [MODCA-5-497]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-498]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-498]
 #### EMO Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Overlay
 structured field.
@@ -1758,7 +1758,7 @@ Triplets Appear in the End Named Page Group structured field as follows: [MODCA-
 | Triplet | Type | Usage [MODCA-5-507]|
 | --- | --- | --- [MODCA-5-508]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the End Named Page Group structured field name and is used as the name of the page group being terminated. [MODCA-5-509]|
-Note: If a triplet is included on this structured field, the optional PGrpName positional parameter becomes
+**Note:**  If a triplet is included on this structured field, the optional PGrpName positional parameter becomes
 mandatory.
 ### End Named Page Group (ENG)
 
@@ -1795,7 +1795,7 @@ Triplets Appear in the End Object Container structured field as follows: [MODCA-
 | Triplet | Type | Usage [MODCA-5-517]|
 | --- | --- | --- [MODCA-5-518]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the End Object Container structured field name and is used as the name of the object container being terminated. [MODCA-5-519]|
-Note: If a triplet is included on this structured field, the optional ObjCName positional parameter becomes
+**Note:**  If a triplet is included on this structured field, the optional ObjCName positional parameter becomes
 mandatory.
 #### EOC Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Object Container
@@ -1855,7 +1855,7 @@ Triplets Appear as follows: [MODCA-5-534]
 | Triplet | Type | Usage [MODCA-5-535]|
 | --- | --- | --- [MODCA-5-536]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The only Fully Qualified Name type that may appear is X'01'— Replace First GID name. This GID overrides the End Print File structured field name and is used as the name of the print file being terminated. [MODCA-5-537]|
-Note: If a triplet is included on this structured field, the optional PFName positional parameter becomes
+**Note:**  If a triplet is included on this structured field, the optional PFName positional parameter becomes
 mandatory.
 #### EPF Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Print File
@@ -1889,7 +1889,7 @@ Triplets Appear as follows: [MODCA-5-543]
 | Triplet | Type | Usage [MODCA-5-544]|
 | --- | --- | --- [MODCA-5-545]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Page structured field name and is used as the name of the page being terminated. [MODCA-5-546]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-547]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-547]
 #### EPG Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Page structured
 field.
@@ -1949,7 +1949,7 @@ Triplets Appear as follows: [MODCA-5-561]
 | Triplet | Type | Usage [MODCA-5-562]|
 | --- | --- | --- [MODCA-5-563]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Presentation T ext Object structured field name and is used as the name of the presentation text data object being terminated. [MODCA-5-564]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-565]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-565]
 #### EPT Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Presentation T ext
 Object structured field.
@@ -1983,7 +1983,7 @@ Triplets Appear as follows: [MODCA-5-573]
 | Triplet | Type | Usage [MODCA-5-574]|
 | --- | --- | --- [MODCA-5-575]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Resource Group structured field name and is used as the name of the resource group being terminated. [MODCA-5-576]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-577]
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-577]
 #### ERG Exception Condition Summary
 X'01' A name is specified that does not match the name on the most recent Begin Resource Group
 structured field.
@@ -2059,7 +2059,7 @@ Structured Field Data [MODCA-5-593]
 #### GAD Semantics
 GOCAdat Contains the GOCA-defined data. See the MO:DCA environment appendix in the Graphics
 Object Content Architecture for AFP Reference for detailed information.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-597]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-597]
 ### Graphics Data (GAD)
 
 
@@ -2076,7 +2076,7 @@ Structured Field Data [MODCA-5-599]
 #### GDD Semantics
 GOCAdes Contains the GOCA-defined descriptor data. See the MO:DCA environment appendix in the
 Graphics Object Content Architecture for AFP Reference for detailed information.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-603]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-603]
 ### Graphics Data Descriptor (GDD)
 
 
@@ -2093,7 +2093,7 @@ Structured Field Data [MODCA-5-605]
 #### IDD Semantics
 IOCAdes Contains the IOCA-defined descriptor data. See the MO:DCA environment appendix in the
 Image Object Content Architecture Reference for detailed information.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-609]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-609]
 ### Image Data Descriptor (IDD)
 
 
@@ -2134,9 +2134,9 @@ Triplets Appear in the Index Element structured field as follows: [MODCA-5-615]
 | X'83' | | Presentation Control Optional. May occur once. Specified on a page level IEL to indicate whether the page is intended to be viewed. If this triplet is not specified, the architected default is that the page is intended to be viewed. See “Presentation Control Triplet X'83'”. [MODCA-5-635]|
 #### IEL Exception Condition Summary
 X'01' This exception condition exists when:
-• Multiple type X'CA' (Index Element GID) Fully Qualified Name triplets appear. [MODCA-5-636]
-• The same object type is counted in more than one X'5A' triplet. [MODCA-5-637]
-• The same subordinate object type is counted in more than one X'5E' triplet. [MODCA-5-638]
+* Multiple type X'CA' (Index Element GID) Fully Qualified Name triplets appear. [MODCA-5-636]
+* The same object type is counted in more than one X'5A' triplet. [MODCA-5-637]
+* The same subordinate object type is counted in more than one X'5E' triplet. [MODCA-5-638]
 ### Index Element (IEL)
 
 
@@ -2192,8 +2192,8 @@ document to print differently.
 3. A newer method to specify how a page or page group should be formatted involves use of the Page [MODCA-5-651]
 Position Information (X'81') triplet. This triplet may be specified on a BPG and indicates the repeating group
 in the PGP structured field in the active medium map that should be used to format the page.
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field:
-• IMM Insertion triplet X'73' [MODCA-5-652]
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
+* IMM Insertion triplet X'73' [MODCA-5-652]
 ; see “IMM Insertion Triplet X'73'”. [MODCA-5-653]
 ### Invoke Medium Map (IMM)
 
@@ -2266,7 +2266,7 @@ object-type OID for the object type and must characterize the object as being
 a presentation object. This triplet also specifies whether the object data is
 carried in a MO:DCA object container, whether it is unwrapped object data, or
 whether the container structure of the object data is unknown.
-Application Note: If the object is installed in a resource library using a
+**Application Note:**  If the object is installed in a resource library using a
 Resource Access T able (RAT), it must not be wrapped with a MO:DCA
 object container envelope, that is, it must be installed in its raw source
 format.
@@ -2286,7 +2286,7 @@ presentation system, consult the product documentation. [MODCA-5-673]
 X'9B' Presentation T ext (PTOCA) object that contains an OEG, with MO:DCA
 object syntax as defined in “T ext Objects”. If the text object does
 not contain an OEG, exception condition X'01'exists.
-Application Note: A PTOCA object that contains an OEG is always
+**Application Note:**  A PTOCA object that contains an OEG is always
 processed as a soft object. The OEG for the object should only contain
 secondary resource mappings using MCFs to map FOCA fonts and
 MDRs to map data-object fonts (TrueType/OpenType fonts); these
@@ -2295,7 +2295,7 @@ other secondary resource mappings in the OEG, such as CMR
 references, are ignored and must be specified directly on the IOB.
 X'BB' Graphics (GOCA) object with MO:DCA object syntax as defined in “Graphics
 Objects”.
-Application Note: A GOCA object included via IOB is always processed as a
+**Application Note:**  A GOCA object included via IOB is always processed as a
 soft object. The OEG for the object should only contain secondary
 resource mappings using MCFs to map FOCA fonts and MDRs to map
 data-object fonts (TrueType/OpenType fonts); these mappings must be
@@ -2304,7 +2304,7 @@ resource mappings in the OEG, such as CMR references, are ignored
 and must be specified directly on the IOB.
 X'EB' Bar code (BCOCA) object with MO:DCA object syntax as defined in “Bar
 Code Objects”.
-Application Note: A BCOCA object included via IOB is always processed as
+**Application Note:**  A BCOCA object included via IOB is always processed as
 a soft object. The OEG of a BCOCA object may contain several types
 of secondary resources and if it is a QR Code with Image bar code,
 tertiary resources. Refer to the Application Notes in “Bar Code Objects”
@@ -2312,11 +2312,11 @@ for how to factor up resources mapped in the bar code
 OEG to the AEG of the page or overlay that is including the bar code.
 The following secondary and tertiary resources, if specified in the bar
 code OEG, must also be specified on the IOB:
-• Secondary presentation data objects (only when including QR Code [MODCA-5-674]
+* Secondary presentation data objects (only when including QR Code [MODCA-5-674]
 with Image bar codes): Both the external name (FQN types X'CE',
 X'DE', or X'84') and, if specified in the OEG, the corresponding
 internal name (FQN type X'BE').
-• T ertiary non-presentation data objects (only when including QR Code [MODCA-5-675]
+* T ertiary non-presentation data objects (only when including QR Code [MODCA-5-675]
 with Image bar codes): As with secondary presentation data objects,
 both the external name and, if specified in the OEG,
 the corresponding internal name. However, in the case of a
@@ -2325,11 +2325,11 @@ name of the CMR must instead be mapped using an FQN type X'EE',
 which must be paired with the internal name (FQN type X'BE') of the
 image; this is the internal name that is specified inside the QR Code
 with Image bar code object.
-• CMRs used directly by the bar code: The external name using FQN [MODCA-5-676]
+* CMRs used directly by the bar code: The external name using FQN [MODCA-5-676]
 type X'DE'.
 X'FB' Image (IOCA) object with MO:DCA object syntax as defined in “Image
 Objects”.
-Application Note: Secondary resource mappings in the OEG of the IOCA
+**Application Note:**  Secondary resource mappings in the OEG of the IOCA
 object, such as CMR references, are ignored and must be specified
 directly on the IOB.
 All others Reserved
@@ -2391,7 +2391,7 @@ B'0010110100000000' (90 degrees). [MODCA-5-678]
 ### Include Object (IOB)
 
 
-Note: If the object area orientation is such that the sum of the object area origin offset and the
+**Note:**  If the object area orientation is such that the sum of the object area origin offset and the
 object area extent exceeds the size of the including presentation space in either the X
 or Y direction, all of the object area will not fit in the including presentation space. The
 including presentation space in this case is the page or overlay presentation space. If
@@ -2427,7 +2427,7 @@ If the object does not specify the Y-axis offset in an OEG, the architected defa
 RefCSys Specifies the coordinate system used to position the object area.
 Value Description
 X'00' Retired for private use.
-Architecture Note: This value is used in AFP line-data environments to
+**Architecture Note:**  This value is used in AFP line-data environments to
 position and rotate the object area with respect to the current text (I,B)
 coordinate system. For more information, see Advanced Function
 Presentation: Programming Guide and Line Data Reference.
@@ -2440,7 +2440,7 @@ Triplets Appear in the Include Object structured field as follows: [MODCA-5-679]
 | Triplet | Type | Usage [MODCA-5-680]|
 | --- | --- | --- [MODCA-5-681]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-682]|
-Implementation Note: Not all AFP servers support the inheritance
+**Implementation Note:**  Not all AFP servers support the inheritance
 of encoding scheme from higher levels of the document hierarchy,
 therefore it is recommended that this triplet be specified directly
 on the IOB if required by a parameter such as the FQN type X'DE'
@@ -2452,7 +2452,7 @@ First GID name.
 This identifier overrides the Include Object structured field name and
 is used as the identifier of the object. The identifier may be specified
 in one—and only one—of the following formats:
-• If FQNFmt = X'00', the identifier is a character-encoded name. See [MODCA-5-683]
+* If FQNFmt = X'00', the identifier is a character-encoded name. See [MODCA-5-683]
 “External Resource Naming Conventions” for a
 description of the naming conventions used in AFP environments. [MODCA-5-684]
 ### Include Object (IOB)
@@ -2461,7 +2461,7 @@ description of the naming conventions used in AFP environments. [MODCA-5-684]
 | Triplet | Type | Usage [MODCA-5-685]|
 | --- | --- | --- [MODCA-5-686]|
 | X'02' | | Fully Qualified Name Optional. May occur more than once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'DE'—Data Object External Resource Reference. Specifies the external identifier of a resource object that is used by the object being included. The identifier is used by the presentation system to locate the resource object in the resource hierarchy. The identifier may be specified in one of the following two formats, but not in both formats: • If FQNFmt = X'00', the identifier is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. • If FQNFmt = X'10', the identifier is an ASN.1 OID encoded using the definite short form. This format provides a unique and system- independent method to identify and reference an object. It may be used to select resources that are resident in the presentation device. Such an identifier is referred to as an object OID. [MODCA-5-687]|
-Architecture Note: The FQN type X'DE' triplet with FQNFmt =
+**Architecture Note:**  The FQN type X'DE' triplet with FQNFmt =
 X'10' (OID) is only used to reference the CMYK SWOP and
 CMYK Euroscale resident color profiles registered in the
 MO:DCA Registry; see “Resident Color Profile Identifiers”
@@ -2489,7 +2489,7 @@ data-object font (TrueType/OpenType font) for a GOCA or BCOCA
 object (other than a QR Code with Image bar code)
 ; such a
 reference causes an exception.
-Note: When a non-OCA object such as PDF or SVG references a
+**Note:**  When a non-OCA object such as PDF or SVG references a
 TTF/OTF as a secondary resource, the FQN type X'DE' triplet
 on the IOB must specify the full font name of the font. This
 font must also be mapped with an MDR reference that
@@ -2509,7 +2509,7 @@ Object Internal Resource Reference. [MODCA-5-688]
 | X'02' | | Fully Qualified Name Optional. May occur more than once if the included object is a QR Code with Image bar code. If the OEG of the bar code object has an MDR that references an object container from T able 48 , then this triplet is mandatory. See “Fully Qualified Name Triplet X'02'” The Fully Qualified Name type that may appear is X'CE'—Other Object Data Reference. Specifies the identifier of a resource object that is used by the object being included. The identifier is used by the presentation system to locate the resource object in the resource hierarchy. The identifier must be specified using FQNFmt X'00', which is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. If the resource is mapped with an MDR reference, the FQN type [MODCA-5-694]|
 | X'CE' | | triplet must specify the same reference using the same FQN format. If the included object also references the resource with an internal identifier, this identifier must be specified on the IOB with a FQN type [MODCA-5-695]|
 | X'BE' | | triplet that immediately follows the FQN type X'CE' triplet. The paired triplets map the internal identifier to the external identifier. Resources that are used by data objects that may themselves be processed as resources are called secondary resources. See “Secondary Resource Objects”. [MODCA-5-696]|
-Architecture Note: For purposes of print server resource
+**Architecture Note:**  For purposes of print server resource
 management, each MDR that maps a presentation data object
 resource in the bar code OEG must have a corresponding MDR
 mapping the same resource in the AEG for the page or overlay,
@@ -2531,7 +2531,7 @@ resource identifier to the external resource identifier. [MODCA-5-697]
 | X'00', | | which is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. If the resource is mapped with an MDR reference, the FQN type [MODCA-5-703]|
 | X'84' | | triplet must specify the same reference using the same FQN format. If the included object also references the resource with an internal identifier, this identifier must be specified on the IOB with a FQN type [MODCA-5-704]|
 | X'BE' | | triplet that immediately follows the FQN type X'84' triplet. The paired triplets map the internal identifier to the external identifier. Resources that are used by data objects that may themselves be processed as resources are called secondary resources. See “Secondary Resource Objects”. [MODCA-5-705]|
-Architecture Note: For purposes of print server resource
+**Architecture Note:**  For purposes of print server resource
 management, each MDR that maps an IOCA object resource in
 the bar code OEG must have a corresponding MDR mapping the
 same resource in the AEG for the page or overlay, without the
@@ -2550,7 +2550,7 @@ external resource identifier. [MODCA-5-706]
 | X'02' | | Fully Qualified Name Optional. Must occur once for every FQN type X'84' triplet specified on the IOB. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'BE'—Data Object Internal Resource Reference. Specifies the identifier that is used internally by the bar code to reference the resource whose external identifier is specified by the FQN type X'84' triplet. The identifier must be specified using FQNFmt X'00', which, for this FQN type, indicates that the data type is defined by the specific data object that generates the internal resource reference and is undefined (UNDF) at the MO:DCA data stream level. When specified, this triplet must immediately follow the FQN type [MODCA-5-709]|
 | X'84' | | triplet that specifies the identifier of the IOCA Image resource, or a X'04' exception condition exists. Resources that are used by data objects that may themselves be processed as resources are called secondary resources. See “Secondary Resource Objects”. [MODCA-5-710]|
 | X'02' | | Fully Qualified Name Optional. May occur more than once if the included object is a QR Code with Image bar code. If the OEG of the bar code object has an MDR that references a secondary image resource that requires a tertiary CMR resource, then this triplet is mandatory. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'EE'—Tertiary Data Object External Resource Reference. Specifies the external name of the tertiary CMR associated with the secondary image resource. The identifier is used by the presentation system to locate the tertiary resource object in the resource hierarchy. The identifier must be specified using FQNFmt X'00', which is a character- encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. The FQN type X'EE' for the tertiary CMR must be followed by an FQN type X'BE' triplet identifying the local id of the secondary image resource that uses it. The paired triplets map the external CMR identifier with the internal secondary image resource identifier. Resources that are used by data objects that may themselves be processed as resources are called secondary resources and resources used by secondary resources are called tertiary resources. See “Secondary Resource Objects” and “T ertiary Resource Objects ”. [MODCA-5-711]|
-Architecture Note: For purposes of print server resource
+**Architecture Note:**  For purposes of print server resource
 management, each MDR that maps a CMR to a secondary image
 resource in the bar code OEG must have a corresponding MDR
 mapping the same resource in the AEG for the page or overlay. [MODCA-5-712]
@@ -2571,7 +2571,7 @@ mapping the same resource in the AEG for the page or overlay. [MODCA-5-712]
 | Triplet | Type | Usage [MODCA-5-721]|
 | --- | --- | --- [MODCA-5-722]|
 | X'4C' | | Object Area Size Optional. May occur once. If present, specifies the size of the object area (XoaSize, YoaSize) into which the object data is mapped. If the referenced object specifies an Object Environment Group (OEG), this triplet overrides the corresponding triplet on the Object Area Descriptor (OBD) structured field of the OEG. If the referenced object is a page segment, this triplet overrides the corresponding triplet on the OBD structured field in all objects that comprise the page segment. If this triplet is omitted, the object area size specified in the object's OEG is used. If the object does not specify the object area size in an OEG, the architected default is to use the presentation space size of the including page or overlay. See “Object Area Size Triplet X'4C'”. [MODCA-5-723]|
-Note: For presentation objects, a presentation space size is required
+**Note:**  For presentation objects, a presentation space size is required
 for a scale-to-fit or scale-to-fill mapping of the object presentation
 space to the object area. See “Object Type Identifiers”for information on how the presentation space size is
 specified by various objects. If the object does not specify the
@@ -2614,7 +2614,7 @@ Triplet X'4E'”.
 | Triplet | Type | Usage [MODCA-5-724]|
 | --- | --- | --- [MODCA-5-725]|
 | X'5A' | | Object Offset Optional. If this IOB references a file with ObjType = X'92' that contains multiple pages or paginated objects, may occur once with ObjTpe=X'AF' to specify that pages or paginated objects are the objects to be counted. The triplet is ignored in all other cases. Selects a single paginated object to be included by specifying how many paginated objects in the referenced file precede that object. The offset is measured from the beginning of the file, so that the first paginated object has offset 0, the second has offset 1, and the nth has offset (n-1). Only the selected object is included. The IOB triplet overrides any Object Offset triplet specified on the CDD. If this triplet is not specified when the IOB references a file with ObjType = X'92' that contains multiple paginated objects, the default is to include the first paginated object in the file. For more information on selecting paginated objects, see “Object Offset Triplet X'5A'”. [MODCA-5-726]|
-Architecture Note: While only the selected paginated object in the
+**Architecture Note:**  While only the selected paginated object in the
 file is actually presented on the page or overlay, the file referenced
 by the IOB can be processed by the presentation system as a
 complete entity. This means that the complete file can be
@@ -2657,7 +2657,7 @@ the triplet specified on the OBD of the object's OEG is used. If the
 object does not specify this triplet on the OBD in an OEG, the
 architected default is to use the default mixing rule, that is, this triplet
 is ignored. For a definition of mixing rules see “Mixing Rules”. See “Presentation Space Mixing Rules Triplet X'71'”.
-Implementation Note: The Presentation Space Mixing Rules (X'71')
+**Implementation Note:**  The Presentation Space Mixing Rules (X'71')
 triplet is currently not used in AFP environments. [MODCA-5-727]
 ### Include Object (IOB)
 
@@ -2676,37 +2676,37 @@ triplet is currently not used in AFP environments. [MODCA-5-727]
 | X'FF' | | Triplet Extender Optional. May occur more than once in a contiguous sequence, but only in the following cases . It is ignored in all other cases. See “Triplet Extender Triplet X'FF'”. • The IOB must specify one of the following object types: [MODCA-5-736]|
 | X'92' | | Other object data – The IOB references a secondary resource for other object data using an FQN type X'DE' triplet – The secondary resource is the generic non-OCA Resource object – The IOB associates an internal resource reference to the secondary resource with an FQN type X'BE' triplet – The triplet extenders must follow the FQN type X'BE' triplet and must occur in a contiguous sequence [MODCA-5-737]|
 | X'EB' | | Bar code object – The IOB references a secondary resource for other object data using an FQN type X'CE' triplet – That secondary resource references a tertiary resource that is the generic non-OCA Resource object, using the FQN type X'DE' triplet – The IOB associates an internal resource reference to the tertiary resource referenced by the FQN type X'DE' with an FQN type X'BE' triplet – The triplet extenders must follow the FQN type X'BE' triplet and must occur in a contiguous sequence Specifies a portion of a secondary or tertiary resource reference that occurs internal to the data object referenced by the IOB. Use of the triplet extender allows the length of the internal resource reference to exceed the 250 byte capacity of the FQN type X'BE' triplet. [MODCA-5-738]|
-Note: The non-OCA Resource Object must be mapped with an MDR
+**Note:**  The non-OCA Resource Object must be mapped with an MDR
 reference that matches the FQN type X'DE' reference on the
 IOB.
-Application Note: T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same.
 ### Include Object (IOB)
 
 
-Architecture Note: When the IOB structured field is used in a page definition object in AFP line-data
+**Architecture Note:**  When the IOB structured field is used in a page definition object in AFP line-data
 environments, an Extended Resource Local Identifier (X'22') triplet must be specified with ResType=
 X'30'—IOB Reference. The same triplet is used on a Descriptor in the Page Definition to reference the
 IOB and cause the specified object to be included. [MODCA-5-739]
 #### IOB Exception Condition Summary
 X'01' This exception condition exists when:
-• The value specified for YoaOrent is not 90 degrees greater rotation than the value specified [MODCA-5-740]
+* The value specified for YoaOrent is not 90 degrees greater rotation than the value specified [MODCA-5-740]
 for XoaOrent.
-• An attempt is made to present data outside the presentation space of the containing [MODCA-5-741]
+* An attempt is made to present data outside the presentation space of the containing [MODCA-5-741]
 coordinate system.
-• The mapping option is position and an attempt is made to present data outside the object [MODCA-5-742]
+* The mapping option is position and an attempt is made to present data outside the object [MODCA-5-742]
 area presentation space.
-• A Presentation Space Reset Mixing triplet and a Presentation Space Mixing Rules triplet are [MODCA-5-743]
+* A Presentation Space Reset Mixing triplet and a Presentation Space Mixing Rules triplet are [MODCA-5-743]
 specified.
-• A Presentation T ext object is to be included, but it does not contain an OEG. [MODCA-5-744]
+* A Presentation T ext object is to be included, but it does not contain an OEG. [MODCA-5-744]
 X'02' The mapping option specified in a Mapping Option triplet is not valid for one or more of the
 referenced objects.
 X'04' This exception condition exists when:
-• An FQN type X'BE' triplet is specified but does not immediately follow an FQN type X'DE', [MODCA-5-745]
+* An FQN type X'BE' triplet is specified but does not immediately follow an FQN type X'DE', [MODCA-5-745]
 X'84', X'CE', or X'EE' triplet.
-• A Color Management Resource Descriptor triplet is specified but does not either [MODCA-5-746]
+* A Color Management Resource Descriptor triplet is specified but does not either [MODCA-5-746]
 immediately follow an FQN type X'DE' triplet that references a CMR, or immediately follow
 the FQN type X'BE' triplet that follows the FQN type X'EE' triplet that references a CMR . [MODCA-5-747]
 ### Include Object (IOB)
@@ -2725,7 +2725,7 @@ Structured Field Data [MODCA-5-749]
 #### IPD Semantics
 IOCAdat Contains the IOCA defined data. See the MO:DCA environment appendix in the Image Object
 Content Architecture Reference for detailed information.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-753]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-753]
 ### Image Picture Data (IPD)
 
 
@@ -2771,7 +2771,7 @@ Triplets Appear in the Include Page structured field as follows: [MODCA-5-763]
 | X'02'” | |. The Fully Qualified Name type that may appear is X'83'—Begin Document Name. Specifies the name of the document that contains the referenced page. [MODCA-5-768]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Include Page structured field name and is used as the name of the page. [MODCA-5-769]|
 | X'5A' | | Object Offset Optional. May occur once, with ObjTpe=X'AF' to specify that pages are the objects to be counted for the offset. Specifies how many pages in the referenced document precede the page to be included. The page offset is measured from the beginning of the referenced document, so that the first page has offset 0, the second page has offset 1, and the nth page has offset (n-1). When this triplet is specified, the page name, as specified by the PgName parameter or by the Fully Qualified Name type X'01' triplet, is ignored. See “Object Offset Triplet X'5A'”. [MODCA-5-770]|
-Application Note: T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same.
@@ -2787,10 +2787,10 @@ presentation device must process and save a copy of the page for each set of tex
 IPG is processed for multiple copy subgroups, the presentation device uses the copy of the saved page
 whose text suppressions match those required by the current medium map.
 3. The following rules apply to overlays when a page is processed and saved by the presentation device: [MODCA-5-773]
-• Page overlays are processed and saved with the page. [MODCA-5-774]
-• PMC overlays are not processed and saved with the page. They are applied to the page when it is [MODCA-5-775]
+* Page overlays are processed and saved with the page. [MODCA-5-774]
+* PMC overlays are not processed and saved with the page. They are applied to the page when it is [MODCA-5-775]
 included with an IPG as specified by the medium map that is active during page presentation.
-• Medium overlays are not processed and saved with the page. They are applied to the medium as [MODCA-5-776]
+* Medium overlays are not processed and saved with the page. They are applied to the medium as [MODCA-5-776]
 specified by the medium map that is active during page presentation. [MODCA-5-777]
 ### Include Page (IPG)
 
@@ -2805,9 +2805,9 @@ m or Ym
 direction. If an attempt is made to present data in the portion of the page that overflows the medium
 presentation space, that portion of the data is not presented and a X'01' exception condition exists.
 6. A page that is included with an IPG may be indexed as follows: [MODCA-5-780]
-• If the IPG occurs in document state or in page-group state, the included page may be indexed using an [MODCA-5-781]
+* If the IPG occurs in document state or in page-group state, the included page may be indexed using an [MODCA-5-781]
 offset to the location of the IPG in the document.
-• If the IPG occurs in page state, the included page becomes a part of the containing page, therefore only [MODCA-5-782]
+* If the IPG occurs in page state, the included page becomes a part of the containing page, therefore only [MODCA-5-782]
 the containing page may be indexed using an offset to its location in the document. [MODCA-5-783]
 ### Include Page (IPG)
 
@@ -2851,7 +2851,7 @@ relative to the X axis, X pg, of the including page coordinate system. The page 
 rotation is limited to 0, 90, 180, and 270 degrees. The page overlay Y-axis rotation is always
 90 degrees greater than the page overlay X-axis rotation. [MODCA-5-793]
 If no value is specified for this parameter, the architected default is 0 degrees.
-Note: If the rotation is such that the sum of the page overlay origin offset and the page overlay
+**Note:**  If the rotation is such that the sum of the page overlay origin offset and the page overlay
 extent exceeds the size of the including presentation space in either the X or Y direction,
 all of the object area will not fit on the including presentation space. The including
 presentation space in this case is the medium presentation space. If an attempt is made
@@ -2863,16 +2863,16 @@ Triplets Appear in the Include Page Overlay structured field as follows: [MODCA-
 | --- | --- | --- [MODCA-5-796]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-797]|
 | X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Include Overlay structured field name and is used as the name of the overlay. [MODCA-5-798]|
-Note: If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
-Application Note: T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
+**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same.
 Architecture Notes:
 1. In AFP environments, the following retired triplets are used on this structured field: [MODCA-5-799]
-• Page Overlay Conditional Processing (X'46') triplet, may occur zero or more times; see “Page Overlay [MODCA-5-800]
+* Page Overlay Conditional Processing (X'46') triplet, may occur zero or more times; see “Page Overlay [MODCA-5-800]
 Conditional Processing Triplet X'46'”.
-• Resource Usage Attribute (X'47') triplet, may occur zero or once; see “Resource Usage Attribute Triplet [MODCA-5-801]
+* Resource Usage Attribute (X'47') triplet, may occur zero or once; see “Resource Usage Attribute Triplet [MODCA-5-801]
 X'47'”.
 2. In AFP line data environments, the value X'FFFFFF' is supported for the XolOset and YolOset parameters [MODCA-5-802]
 to indicate that the X
@@ -3020,7 +3020,7 @@ for a set of points, the point closest to the page origin is defined by the mini
 
 T able 18 shows which document components may be specified as link sources in
 a link source repeating group or as link targets in a link target repeating group.
-Table 18. Link Sources and Link Targets
+**Table 18.**  Link Sources and Link Targets
 Component Link Source Link Target
 Document Yes Yes
 Page group Yes Yes
@@ -3030,37 +3030,37 @@ Process element (TLE) Yes Yes
 Rectangular area Yes Yes
 Other object data Yes Yes
 Triplets Appear in Link Logical Element structured field repeating groups as shown in Figure 56.
-Figure 56. Triplets in Link Attribute, Source, and Target Repeating Groups
+**Figure 56.**  Triplets in Link Attribute, Source, and Target Repeating Groups
 Link Attribute Repeating Group
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-829]
-• Fully Qualified Name (X'02') triplet, type X'0C'—Process Element (LLE) Name [MODCA-5-830]
-• Parameter Value (X'82') triplet [MODCA-5-831]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-829]
+* Fully Qualified Name (X'02') triplet, type X'0C'—Process Element (LLE) Name [MODCA-5-830]
+* Parameter Value (X'82') triplet [MODCA-5-831]
 Link Source Repeating Group
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-832]
-• Fully Qualified Name (X'02') triplet, type X'09'—MO:DCA Resource Hierarchy Reference [MODCA-5-833]
-• Fully Qualified Name (X'02') triplet, type X'0A'—Begin Resource Group Reference [MODCA-5-834]
-• Fully Qualified Name (X'02') triplet, type X'0C'—Process Element (TLE) Name [MODCA-5-835]
-• Fully Qualified Name (X'02') triplet, type X'0D'—Begin Page Group Reference [MODCA-5-836]
-• Fully Qualified Name (X'02') triplet, type X'83'—Begin Document Reference [MODCA-5-837]
-• Fully Qualified Name (X'02') triplet, type X'87'—Begin Page Reference [MODCA-5-838]
-• Fully Qualified Name (X'02') triplet, type X'B0'—Begin Overlay Reference [MODCA-5-839]
-• Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-840]
-• Object Classification (X'10') triplet [MODCA-5-841]
-• Measurement Units (X'4B') triplet [MODCA-5-842]
-• Area Definition (X'4D') triplet [MODCA-5-843]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-832]
+* Fully Qualified Name (X'02') triplet, type X'09'—MO:DCA Resource Hierarchy Reference [MODCA-5-833]
+* Fully Qualified Name (X'02') triplet, type X'0A'—Begin Resource Group Reference [MODCA-5-834]
+* Fully Qualified Name (X'02') triplet, type X'0C'—Process Element (TLE) Name [MODCA-5-835]
+* Fully Qualified Name (X'02') triplet, type X'0D'—Begin Page Group Reference [MODCA-5-836]
+* Fully Qualified Name (X'02') triplet, type X'83'—Begin Document Reference [MODCA-5-837]
+* Fully Qualified Name (X'02') triplet, type X'87'—Begin Page Reference [MODCA-5-838]
+* Fully Qualified Name (X'02') triplet, type X'B0'—Begin Overlay Reference [MODCA-5-839]
+* Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-840]
+* Object Classification (X'10') triplet [MODCA-5-841]
+* Measurement Units (X'4B') triplet [MODCA-5-842]
+* Area Definition (X'4D') triplet [MODCA-5-843]
 Link Target Repeating Group
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-844]
-• Fully Qualified Name (X'02') triplet, type X'09'—MO:DCA Resource Hierarchy Reference [MODCA-5-845]
-• Fully Qualified Name (X'02') triplet, type X'0A'—Begin Resource Group Reference [MODCA-5-846]
-• Fully Qualified Name (X'02') triplet, type X'0C'—Process Element (TLE) Name [MODCA-5-847]
-• Fully Qualified Name (X'02') triplet, type X'0D'—Begin Page Group Reference [MODCA-5-848]
-• Fully Qualified Name (X'02') triplet, type X'83'—Begin Document Reference [MODCA-5-849]
-• Fully Qualified Name (X'02') triplet, type X'87'—Begin Page Reference [MODCA-5-850]
-• Fully Qualified Name (X'02') triplet, type X'B0'—Begin Overlay Reference [MODCA-5-851]
-• Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-852]
-• Object Classification (X'10') triplet [MODCA-5-853]
-• Measurement Units (X'4B') triplet [MODCA-5-854]
-• Area Definition (X'4D') triplet [MODCA-5-855]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-844]
+* Fully Qualified Name (X'02') triplet, type X'09'—MO:DCA Resource Hierarchy Reference [MODCA-5-845]
+* Fully Qualified Name (X'02') triplet, type X'0A'—Begin Resource Group Reference [MODCA-5-846]
+* Fully Qualified Name (X'02') triplet, type X'0C'—Process Element (TLE) Name [MODCA-5-847]
+* Fully Qualified Name (X'02') triplet, type X'0D'—Begin Page Group Reference [MODCA-5-848]
+* Fully Qualified Name (X'02') triplet, type X'83'—Begin Document Reference [MODCA-5-849]
+* Fully Qualified Name (X'02') triplet, type X'87'—Begin Page Reference [MODCA-5-850]
+* Fully Qualified Name (X'02') triplet, type X'B0'—Begin Overlay Reference [MODCA-5-851]
+* Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-852]
+* Object Classification (X'10') triplet [MODCA-5-853]
+* Measurement Units (X'4B') triplet [MODCA-5-854]
+* Area Definition (X'4D') triplet [MODCA-5-855]
 ### Link Logical Element (LLE)
 
 
@@ -3120,7 +3120,7 @@ Triplets Appear in the Map Bar Code Object structured field as follows: [MODCA-5
 | --- | --- | --- [MODCA-5-883]|
 | X'04' | | Mapping Option Mandatory. Must occur once in each repeating group. See “Mapping Option Triplet X'04'”. The valid mapping options for the MBC structured field are: Value Description [MODCA-5-884]|
 | X'00' | | Position All others Reserved [MODCA-5-885]|
-Note: If this structured field is not present in the data stream, the architected default is position. [MODCA-5-886]
+**Note:**  If this structured field is not present in the data stream, the architected default is position. [MODCA-5-886]
 #### MBC Exception Condition Summary
 X'01' The Map Bar Code Object structured field contains more than one repeating group.
 X'02' A Mapping Option (X'04') triplet value other than X'00' is specified. [MODCA-5-887]
@@ -3167,9 +3167,9 @@ environment-specific set of default modifications. [MODCA-5-896]
 
 #### MCC Exception Condition Summary
 X'01' This exception condition exists when:
-• For all copy subgroups other than the first, the starting copy number in a copy subgroup is [MODCA-5-897]
+* For all copy subgroups other than the first, the starting copy number in a copy subgroup is [MODCA-5-897]
 not 1 greater than the ending copy number in the preceding copy subgroup.
-• The ending copy number in a copy subgroup is not equal to or greater than the starting copy [MODCA-5-898]
+* The ending copy number in a copy subgroup is not equal to or greater than the starting copy [MODCA-5-898]
 number in the same copy subgroup.
 X'02' The copy count in a copy subgroup is greater than 255. [MODCA-5-899]
 ### Medium Copy Count (MCC)
@@ -3217,9 +3217,9 @@ Map Coded Font (MCF) Format 2
 The Map Coded Font structured field maps a unique coded font resource local ID, which may be embedded
 one or more times within an object's data and descriptor, to the identifier of a coded font resource object. This
 identifier may be specified in one of the following formats:
-• A coded font Global Resource Identifier (GRID) [MODCA-5-920]
-• A coded font name [MODCA-5-921]
-• A combination of code page name and font character set name [MODCA-5-922]
+* A coded font Global Resource Identifier (GRID) [MODCA-5-920]
+* A coded font name [MODCA-5-921]
+* A combination of code page name and font character set name [MODCA-5-922]
 Additionally, the Map Coded Font structured field specifies a set of resource attributes for the coded font. For a
 description of coded fonts, see the Font Object Content Architecture Reference. [MODCA-5-923]
 #### MCF (X'D3AB8A') Syntax
@@ -3242,7 +3242,7 @@ Triplets Appear within each repeating group as follows: [MODCA-5-929]
 | --- | --- | --- [MODCA-5-931]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-932]|
 | X'02' | | Fully Qualified Name Mandatory. A Fully Qualified Name (X'02') triplet of any permitted type may appear only once in a repeating group. The Fully Qualified Name types permitted in a repeating group are: • X'07'—Font Family Name • X'08'—Font Typeface Name • X'84'—Coded Font GRID Reference • X'85'—Code Page Name Reference • X'86'—Font Character Set Name Reference • X'8E'—Coded Font Name Reference At a minimum, each repeating group must contain one of these triplets or triplet groups: • A single Fully Qualified Name type X'84' (Coded Font GRID Reference) triplet • A Fully Qualified Name type X'85' (Code Page Name Reference) and a Fully Qualified Name type X'86' (Font Character Set Name Reference) triplet • A single Fully Qualified Name type X'8E' (Coded Font Name Reference) triplet See “Fully Qualified Name Triplet X'02'”. The type X'84' (Coded Font GRID Reference) is not permitted in the same repeating group with the type X'8E' (Coded Font Name Reference), and neither is permitted in the same repeating group with a type X'85' (Code Page Name Reference) or a type X'86' (Font Character Set Name Reference). When the type X'84' (Coded Font GRID Reference) identifies a font encoded using the EBCDIC Presentation double-byte encoding scheme (encoding scheme ID X'62nn') or the EBCDIC Presentation single-byte encoding scheme (encoding scheme ID X'61nn'), it is not permitted in the same repeating group with a Resource Section Number (X'25') triplet having a value other than X'00'. For a description of coded font naming conventions, see the Font Summary for AFP Font Collection. If a Fully Qualified Name type X'84' triplet specifies a font width in the global resource identifier (GRID), and if a vertical font size is not specified by a Font Descriptor (X'1F') triplet, this parameter may be used to generate the vertical font size, which is used to scale outline technology fonts to the desired point size. For a description of the GRID, see “Global Resource Identifier (GRID) Definition” [MODCA-5-933]|
-Architecture Note: If a coded font reference consists of only the
+**Architecture Note:**  If a coded font reference consists of only the
 GRID and does not contain a Font Descriptor triplet, it is
 assumed to have been generated by an application that was
 using integer point sizes. When the font width in such a font
@@ -3257,18 +3257,18 @@ is rounded to the nearest positive, non-zero, integer point size. [MODCA-5-934]
 | X'1F' | | Font Descriptor Specification Optional. May occur once in each repeating group. The specified vertical font size in this triplet may be used to scale an outline technology font to the desired point size and overrides any vertical font size that is calculated from a specified horizontal font size. If the vertical font size is not specified, the font width in the GRID may be used to calculate the specified vertical font size for scaling outline technology fonts. If a font width was not specified in the GRID, the specified horizontal font size in this triplet may be used to calculate the specified vertical font size for scaling outline technology fonts. If the specified vertical font size conflicts with the nominal vertical font size in the font object, the specified vertical font size overrides. A coded font reference may not always specify a vertical font size, such as when the reference does not include a GRID or a Font Descriptor triplet. In that case, the font object must provide the vertical font size for scaling an outline technology font. See “Font Descriptor Specification Triplet X'1F'”. [MODCA-5-937]|
 | X'20' | | Font Coded Graphic Character Set Global Identifier Optional. May occur once in each repeating group. See “Font Coded Graphic Character Set Global Identifier Triplet X'20'”. [MODCA-5-938]|
 | X'24' | | Resource Local Identifier Optional. May occur once in each repeating group. See “Resource Local Identifier Triplet X'24'”. The only resource type that may appear is X'05'—Coded Font. [MODCA-5-939]|
-Note: If a resource LID is not specified in a Map Coded Font
+**Note:**  If a resource LID is not specified in a Map Coded Font
 structured field, the architected default LID is X'00' and the
 architected default LID type is X'00'.
 Application Notes:
-• For purposes of print server resource management, each MCF [MODCA-5-940]
+* For purposes of print server resource management, each MCF [MODCA-5-940]
 that maps a font in a data object OEG must have a
 corresponding MCF mapping the same font in the AEG for that
 page or overlay. The ID used in the AEG need not match the ID
 in the object OEG. ID X'FE' may be used in the AEG for fonts
 mapped in the AEG solely due to their presence in an object's
 OEG.
-• Most AFP print servers only support the LID range that is [MODCA-5-941]
+* Most AFP print servers only support the LID range that is [MODCA-5-941]
 defined in the MO:DCA IS/1 interchange set definition which is
 X'01' to X'7F', and the value X'FE'.
 X'25' Resource Section Number Optional. May occur once in each repeating group. See “Resource
@@ -3281,7 +3281,7 @@ Rotation Triplet X'26'”. [MODCA-5-942]
 | Triplet | Type | Usage [MODCA-5-943]|
 | --- | --- | --- [MODCA-5-944]|
 | X'50' | | Encoding Scheme ID Optional. May occur once in each repeating group. See “Encoding Scheme ID Triplet X'50'”. The ESidCP parameter specifies the encoding scheme associated with the code page in the referenced font. Additionally, the ESidUD parameter may be specified to indicate the encoding scheme for the user data to be rendered with the referenced font. When the two encoding schemes do not match, the presentation system may need to transform the user data to match the encoding in the code page. Not all presentation systems support such transforms. T o see which transforms are supported, consult your product documentation. See T able 19 for the combinations of ESidCP and ESidUD that are valid for the MCF . [MODCA-5-945]|
-Note: If this triplet is omitted, the architected default for the
+**Note:**  If this triplet is omitted, the architected default for the
 encoding scheme is EBCDIC Presentation for single-byte fonts
 and EBCDIC Presentation for double-byte fonts. The architected
 default for the user data encoding scheme is the code page
@@ -3317,8 +3317,8 @@ information for a raster coded font. See page “Font Resolution and
 Metric T echnology Triplet X'84'”. Note that the
 presence of this triplet indicates that the MCF references a raster-
 technology coded font.
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field:
-• T ext Orientation (X'1D') triplet. See “T ext Orientation Triplet X'1D'”. [MODCA-5-946]
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
+* T ext Orientation (X'1D') triplet. See “T ext Orientation Triplet X'1D'”. [MODCA-5-946]
 MCF Usage Information
 Only a Map Coded Font structured field can map a resource local ID to a pair of code page/font character set
 names.
@@ -3334,39 +3334,39 @@ structured field.
 Double-byte Font References
 The same Resource Local Identifier (X'24') triplet value may be mapped to different sections of the same
 double-byte font. When this is done, the following rules apply:
-• All repeating groups associated with the double-byte font must be contiguous. [MODCA-5-947]
-• Each repeating group must either default the LID value or contain a Resource Local Identifier (X'24') triplet [MODCA-5-948]
+* All repeating groups associated with the double-byte font must be contiguous. [MODCA-5-947]
+* Each repeating group must either default the LID value or contain a Resource Local Identifier (X'24') triplet [MODCA-5-948]
 with the same value.
-• Each repeating group must contain a Fully Qualified Name type X'85' (Code Page Name Reference) and [MODCA-5-949]
+* Each repeating group must contain a Fully Qualified Name type X'85' (Code Page Name Reference) and [MODCA-5-949]
 Fully Qualified Name type X'86' (Font Character Set Name Reference).
-• When the font uses the EBCDIC Presentation double-byte encoding scheme (encoding scheme ID X'62nn'), [MODCA-5-950]
+* When the font uses the EBCDIC Presentation double-byte encoding scheme (encoding scheme ID X'62nn'), [MODCA-5-950]
 each repeating group must contain a Resource Section Number (X'25') triplet that specifies a valid double-
 byte section number in the range X'41' through X'FE'.
-• Each Resource Section Number (X'25') triplet value specified must be unique within the entire set of [MODCA-5-951]
+* Each Resource Section Number (X'25') triplet value specified must be unique within the entire set of [MODCA-5-951]
 repeating groups associated with the double-byte font.
-• A Character Rotation (X'26') triplet may be specified in any of the repeating groups associated with the font [MODCA-5-952]
+* A Character Rotation (X'26') triplet may be specified in any of the repeating groups associated with the font [MODCA-5-952]
 and need only be specified in one of the repeating groups. However, if specified in more than one of the
 associated repeating groups, the value of all Character Rotation (X'26') triplets must be identical.
-• A Encoding Scheme ID (X'50') triplet may be specified in any of the repeating groups associated with the font [MODCA-5-953]
+* A Encoding Scheme ID (X'50') triplet may be specified in any of the repeating groups associated with the font [MODCA-5-953]
 and need only be specified in one of the repeating groups. However, if specified in more than one of the
 associated repeating groups, the value of all Encoding Scheme ID (X'50') triplets must be identical.
-• A Font Horizontal Scale Factor (X'5D') triplet may be specified in any of the repeating groups associated with [MODCA-5-954]
+* A Font Horizontal Scale Factor (X'5D') triplet may be specified in any of the repeating groups associated with [MODCA-5-954]
 the font and need only be specified in one of the repeating groups. However, if specified in more than one of
 the associated repeating groups, the value of all Font Horizontal Scale Factor (X'5D') triplets must be
 identical.
-• A Font Resolution and Metric T echnology (X'84') triplet may be specified in any of the repeating groups [MODCA-5-955]
+* A Font Resolution and Metric T echnology (X'84') triplet may be specified in any of the repeating groups [MODCA-5-955]
 associated with the font and need only be specified in one of the repeating groups. If specified in more than
 one of the associated repeating groups, the last specified Font Resolution and Metric T echnology (X'84')
 triplet is used.
 Using the X'50' Triplet to Specify Encoding
 If the optional ESidUD parameter is included, the following ESidCP and ESidUD combinations are allowed in
 the X'50' triplet when specified in an MCF repeating group:
-Table 19. Valid ESidCP/ESidUD Combinations for the MCF
+**Table 19.**  Valid ESidCP/ESidUD Combinations for the MCF
 ESidUD ESidCP
 X'7200'—UTF-16, including surrogates; byte order is big
 endian (UTF-16BE)
 X'8200'—Unicode Presentation; byte order is big endian
-Architecture Note: The following additional ESidUD/ESidCP combinations are supported in the AFP Line
+**Architecture Note:**  The following additional ESidUD/ESidCP combinations are supported in the AFP Line
 Data architecture when the X'50' triplet is specified on the MCF in a Page Definition. Note that for the [MODCA-5-956]
 ### Map Coded Font (MCF)
 
@@ -3384,58 +3384,58 @@ X'7807'—UTF-8 X'2100'—PC-Data SBCS (ASCII-based) [MODCA-5-958]
 #### MCF Exception Condition Summary
 X'01' The exception condition exists when any of the following conditions are encountered in any of
 the repeating groups:
-• A Fully Qualified Name type X'84' (Coded Font GRID Reference) and a Fully Qualified [MODCA-5-959]
+* A Fully Qualified Name type X'84' (Coded Font GRID Reference) and a Fully Qualified [MODCA-5-959]
 Name of either type X'85' (Code Page Name Reference) or type X'86' (Font Character Set
 Name Reference).
-• A Fully Qualified Name type X'8E' (Coded Font Name Reference) and a Fully Qualified [MODCA-5-960]
+* A Fully Qualified Name type X'8E' (Coded Font Name Reference) and a Fully Qualified [MODCA-5-960]
 Name of either type X'85' (Code Page Name Reference) or type X'86' (Font Character Set
 Name Reference).
-• A Fully Qualified Name type X'84' (Coded Font GRID Reference) and a Fully Qualified [MODCA-5-961]
+* A Fully Qualified Name type X'84' (Coded Font GRID Reference) and a Fully Qualified [MODCA-5-961]
 Name type X'8E' (Coded Font Name Reference).
-• A Fully Qualified Name type X'84' (Coded Font GRID Reference) that identifies a font [MODCA-5-962]
+* A Fully Qualified Name type X'84' (Coded Font GRID Reference) that identifies a font [MODCA-5-962]
 encoded using the EBCDIC Presentation double-byte encoding scheme (encoding scheme
 ID X'62nn') or the EBCDIC Presentation single-byte encoding scheme (encoding scheme ID
 X'61nn'), and a Resource Section Number with a value other than X'00'.
-• A Fully Qualified Name type X'8E' (Coded Font Name Reference) that identifies a font [MODCA-5-963]
+* A Fully Qualified Name type X'8E' (Coded Font Name Reference) that identifies a font [MODCA-5-963]
 encoded using the EBCDIC Presentation double-byte encoding scheme (encoding scheme
 ID X'62nn') or the EBCDIC Presentation single-byte encoding scheme (encoding scheme ID
 X'61nn'), and a Resource Section Number with a value other than X'00'.
-• Multiple Fully Qualified Names of the same type. [MODCA-5-964]
-• Multiple triplets of the same type, except Fully Qualified Name (X'02') triplet. [MODCA-5-965]
-• An Encoding Scheme ID where either the encoding scheme or the bytes-per-code-point [MODCA-5-966]
+* Multiple Fully Qualified Names of the same type. [MODCA-5-964]
+* Multiple triplets of the same type, except Fully Qualified Name (X'02') triplet. [MODCA-5-965]
+* An Encoding Scheme ID where either the encoding scheme or the bytes-per-code-point [MODCA-5-966]
 indicator do not match the characteristics of the specified code page.
 The exception condition also exists when any of the following conditions are encountered
 within the same Map Coded Font structured field:
-• The Resource Local Identifier value is repeated in two or more repeating groups that do not [MODCA-5-967]
+* The Resource Local Identifier value is repeated in two or more repeating groups that do not [MODCA-5-967]
 map to the same double-byte font using a Fully Qualified Name type X'85' (Code Page
 Name Reference) and a Fully Qualified Name type X'86' (Font Character Set Name
 Reference).
-• The Resource Local Identifier value is repeated in two or more repeating groups that are not [MODCA-5-968]
+* The Resource Local Identifier value is repeated in two or more repeating groups that are not [MODCA-5-968]
 contiguous.
-• The Resource Local Identifier value is repeated in two or more repeating groups that do not [MODCA-5-969]
+* The Resource Local Identifier value is repeated in two or more repeating groups that do not [MODCA-5-969]
 each have a valid, unique Resource Section Number value.
-• The Resource Local Identifier value is repeated in two or more repeating groups that have [MODCA-5-970]
+* The Resource Local Identifier value is repeated in two or more repeating groups that have [MODCA-5-970]
 different Character Rotation values.
-• The Resource Local Identifier value is repeated in two or more repeating groups that have [MODCA-5-971]
+* The Resource Local Identifier value is repeated in two or more repeating groups that have [MODCA-5-971]
 different Encoding Scheme ID values.
-• The Resource Local Identifier value is repeated in two or more repeating groups that have [MODCA-5-972]
+* The Resource Local Identifier value is repeated in two or more repeating groups that have [MODCA-5-972]
 different Font Horizontal Scale Factor values. [MODCA-5-973]
 ### Map Coded Font (MCF)
 
 
 X'02' The exception condition exists when:
-• A Fully Qualified Name (X'02') triplet other than a type X'07' (Font Family Name), a type [MODCA-5-974]
+* A Fully Qualified Name (X'02') triplet other than a type X'07' (Font Family Name), a type [MODCA-5-974]
 X'08' (Font Typeface Name), type X'84' (Coded Font GRID Reference), type X'85' (Code
 Page Name Reference), type X'86' (Font Character Set Name Reference), or a type X'8E'
 (Coded Font Name Reference) appears within any repeating group.
-• A Resource Local Identifier (X'24') triplet type other than X'05' appears within any repeating [MODCA-5-975]
+* A Resource Local Identifier (X'24') triplet type other than X'05' appears within any repeating [MODCA-5-975]
 group.
 X'04' The exception condition exists when any repeating group does not contain one of the
 following:
-• A Fully Qualified Name type X'84' (Coded Font GRID Reference). [MODCA-5-976]
-• A Fully Qualified Name type X'85' (Code Page Name Reference) and a Fully Qualified [MODCA-5-977]
+* A Fully Qualified Name type X'84' (Coded Font GRID Reference). [MODCA-5-976]
+* A Fully Qualified Name type X'85' (Code Page Name Reference) and a Fully Qualified [MODCA-5-977]
 Name type X'86' (Font Character Set Name Reference).
-• A Fully Qualified Name type X'8E' (Coded Font Name Reference). [MODCA-5-978]
+* A Fully Qualified Name type X'8E' (Coded Font Name Reference). [MODCA-5-978]
 ### Map Coded Font (MCF)
 
 
@@ -3456,11 +3456,11 @@ Structured Field Data [MODCA-5-980]
 | 6–8 | UBIN | XmSize | | 1–32,767 Medium extent for the X axis | M | X'06' X'000000' X-axis extent not specified X'FFFFFF' Presentation process default [MODCA-5-987]|
 | 9–11 | UBIN | YmSize | | 1–32,767 Medium extent for the Y axis | M | X'06' X'000000' Y-axis extent not specified X'FFFFFF' Presentation process default [MODCA-5-988]|
 | 12 BITS MDDFlgs Specify control information for | | | | | | the media. See MDD Semantics for bit definitions. M X'06' [MODCA-5-989]|
-| 13–n Triplets See MDD Semantics for triplet | | | | | | applicability. O X'10' Architecture Note: Pre-1989 AFP Data Stream documentation defined a short MDD that ended with the YmUnits parameter at byte offset 4 - 5. T o accommodate old AFP applications that generate such MDDs, MO:DCA receivers should tolerate MDDs whose data field ends after this parameter. The total structured field length in that case is X'000E'. [MODCA-5-990]|
+| 13–n Triplets See MDD Semantics for triplet | | | | | | applicability. O X'10' **Architecture Note:**  Pre-1989 AFP Data Stream documentation defined a short MDD that ended with the YmUnits parameter at byte offset 4 - 5. T o accommodate old AFP applications that generate such MDDs, MO:DCA receivers should tolerate MDDs whose data field ends after this parameter. The total structured field length in that case is X'000E'. [MODCA-5-990]|
 #### MDD Semantics
 XmBase Specifies the unit base for the X axis of the medium coordinate system.
 YmBase Specifies the unit base for the Y axis of the medium coordinate system.
-Note: A X'01' exception condition exists if the XmBase and YmBase values are not identical. [MODCA-5-991]
+**Note:**  A X'01' exception condition exists if the XmBase and YmBase values are not identical. [MODCA-5-991]
 ### Medium Descriptor (MDD)
 
 
@@ -3495,8 +3495,8 @@ Triplets Appear in the Medium Descriptor structured field as follows: [MODCA-5-9
 | Triplet | Type | Usage [MODCA-5-994]|
 | --- | --- | --- [MODCA-5-995]|
 | X'68' | | Medium Orientation Optional. May occur once. Specifies the orientation of the medium presentation space on the physical medium. See “Medium Orientation Triplet X'68'”. If this triplet is not specified, the architected default for the medium orientation is X'00' (portrait). [MODCA-5-996]|
-Architecture Note: In AFP environments, the following retired triplet is used on this structured field:
-• MDD Two-up Triplet X'10'; see “Retired Triplets”. [MODCA-5-997]
+**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
+* MDD Two-up Triplet X'10'; see “Retired Triplets”. [MODCA-5-997]
 ### Medium Descriptor (MDD)
 
 
@@ -3506,7 +3506,7 @@ reference is defined in a repeating group and is identified with a file name, th
 field for the resource, or any other identifier associated with the resource. The MDR repeating group may
 additionally specify a local or internal identifier for the resource object. Such a local identifier may be
 embedded one or more times within an object's data.
-Application Note: T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same. For TrueType/OpenType fonts, optimal performance can be achieved by using UTF-16BE as
@@ -3525,14 +3525,14 @@ RGLength Specifies the total length of the repeating group, including the length
 parameter itself.
 Triplets Appear in the Map Data Resource structured field repeating groups as follows. For examples
 of the triplet groups that can be specified for various types of MDR repeating groups, see
-Figure 58.
+**Figure 58.**
 ### Map Data Resource (MDR)
 
 
 | Triplet | Type | Usage [MODCA-5-1003]|
 | --- | --- | --- [MODCA-5-1004]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1005]|
-Implementation Note: Not all AFP servers support the inheritance
+**Implementation Note:**  Not all AFP servers support the inheritance
 of encoding scheme from higher levels of the document hierarchy,
 therefore it is recommended that this triplet be specified directly
 on the MDR if required by a parameter such as the FQN type
@@ -3544,12 +3544,12 @@ presentation device, and must match the identifier for an object or a
 X'01' exception condition exists. See “Fully Qualified Name Triplet
 X'02'”.
 The Fully Qualified Name types that may appear are:
-• X'84'—Begin Resource Object Reference, which is used to map [MODCA-5-1006]
+* X'84'—Begin Resource Object Reference, which is used to map [MODCA-5-1006]
 an IOCA image object. The GID is used to locate the resource
 object in the resource hierarchy, which may include the
 presentation device, and must match the identifier for an object or
 a X'01' exception condition exists.
-• X'CE'—Other Object Data Reference, which is used to map a [MODCA-5-1007]
+* X'CE'—Other Object Data Reference, which is used to map a [MODCA-5-1007]
 data object whose format may or may not be defined by an AFP
 architecture. The GID is used to locate the object in the resource
 hierarchy, which may include the presentation device, and must
@@ -3557,11 +3557,11 @@ match the identifier for an object or a X'01' exception condition
 exists. This FQN type may not be used to map OCA objects, that
 is, IOCA, GOCA, BCOCA, or PTOCA objects. FQN type X'84' is
 used to map IOCA objects.
-Application Note: If the object is installed in a resource library
+**Application Note:**  If the object is installed in a resource library
 using a Resource Access T able (RAT), it must not be
 wrapped with a MO:DCA object container envelope, that is,
 it must be installed in its raw source format.
-• X'DE'—Data Object External Resource Reference, which is used [MODCA-5-1008]
+* X'DE'—Data Object External Resource Reference, which is used [MODCA-5-1008]
 to map a resource object that is used by a data object. The GID is
 used to locate the resource object in the resource hierarchy,
 which may include the presentation device, and must match the
@@ -3576,7 +3576,7 @@ processed as resources are called secondary resources. See
 | Triplet | Type | Usage [MODCA-5-1010]|
 | --- | --- | --- • X'EE'—Tertiary Data Object External Resource Reference, which is used to map a tertiary CMR resource object that is used by a secondary image resource object in a QR Code with Image bar code. The GID is used to locate the CMR resource object in the resource hierarchy, and must match the identifier for an object resource or a X'01' exception condition exists. Secondary presentation data object resources may themselves contain OEGs with MDRs for non-presentation data object resources (IOCA tiles, CMRs, data object fonts,etc.); these are known as tertiary resources. See “T ertiary Resource Objects”. Note that in MO:DCA data streams, the FQN type X'84', X'CE', and [MODCA-5-1011]|
 | X'EE' | | triplets may appear on an MDR that is specified in an OEG for a QR Code with Image bar code (BCOCA) data object. However, such triplets may not appear on an MDR that is specified in an OEG for any other data object , or a X'02' exception condition exists. The reference in the FQN type X'84', FQN type X'CE', and FQN type X'EE' triplets may be specified in the following format: • FQNFmt = X'00' - the reference is made with a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. The reference in the FQN type X'DE' triplet may be specified in one of the following two formats: • FQNFmt = X'00' - the reference is made with a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. • FQNFmt = X'10' - the reference is made with a ASN.1 OID encoded using the definite short form. This format provides a unique and system-independent method to identify and reference an object. It may be used to select objects that are resident in the presentation device. Such an identifier is referred to as an object OID. [MODCA-5-1012]|
-Architecture Note: The FQN type X'DE' triplet with FQNFmt =
+**Architecture Note:**  The FQN type X'DE' triplet with FQNFmt =
 X'10' (OID) is only used to reference the CMYK SWOP
 and CMYK Euroscale resident color profiles registered in
 the MO:DCA Registry; see “Resident Color Profile
@@ -3594,7 +3594,7 @@ Architecture Notes:
 
 | Triplet | Type | Usage [MODCA-5-1013]|
 | --- | --- | --- 1. If the TTF/OTF is used as a secondary resource by a non-OCA object such as PDF or SVG, the association of internal identifier to full font name is specified on the IOB or PPO that includes the non-OCA object. In that case the MDR does not specify the internal identifier for the TTF/OTF using the FQN type X'BE' triplet; if specified, it is ignored. 2. A non-OCA object that is placed directly on a page or overlay can reference a TTF/OTF used on that page or overlay. [MODCA-5-1014]|
-Application Note: When a full font name is specified in a Resource
+**Application Note:**  When a full font name is specified in a Resource
 Access T able (RAT), the encoding for the name is UTF-16BE.
 This encoding is characterized by CCSID 1200 (X'04B0'). A
 performance benefit may be achieved if the full font name
@@ -3612,9 +3612,9 @@ If an IOB is used to reference the mapped object, the IOB must
 specify the same reference, using the same FQNFmt, as the MDR.
 X'02' Fully Qualified Name Optional. May occur once in each repeating group that also
 specifies a FQN type X'DE' triplet, but only:
-• when the MDR is specified in the OEG of a data object or object [MODCA-5-1015]
+* when the MDR is specified in the OEG of a data object or object [MODCA-5-1015]
 container
-• when the MDR references a data-object font and [MODCA-5-1016]
+* when the MDR references a data-object font and [MODCA-5-1016]
 – the MDR is in the AEG for PTOCA text, or
 – the MDR is in the OEG for BCOCA or AFP GOCA T ext, or
 – the MDR is in the OEG of an object container
@@ -3640,7 +3640,7 @@ Architecture Notes:
 | Triplet | Type | Usage [MODCA-5-1017]|
 | --- | --- | --- 1. For data-object fonts referenced by AFP text (PTOCA),AFP graphics (GOCA), and AFP bar code (BCOCA) objects, the data type of the internal identifier is a CODE that consists of a one-byte local ID. 2. For tile resources referenced by IOCA data objects, the data type of the internal identifier is a CODE that consists of a four- byte local ID. 3. For purposes of print server resource management, each MDR that is specified in an OEG for a data-object font must have a corresponding MDR mapping the same font in the AEG for the page or overlay. The local ID used in the page or overlay AEG need not match the ID in the object OEG. ID X'FE' may be used in the AEG for fonts mapped in the AEG solely due to their presence in an object's OEG. 4. For a TrueType/OpenType font that is used as a secondary resource by a non-OCA object such as PDF or SVG, the association of internal identifier to full font name is specified on the IOB or PPO that includes the non-OCA object. In that case the MDR does not specify the internal identifier for the TTF/OTF using the FQN type X'BE' triplet; if specified, it is ignored. When both the FQN type X'DE' and the FQN type X'BE' triplets are specified on an MDR repeating group, they map the internal resource identifier to the external resource identifier. Resources that are used by data objects that may themselves be processed as resources are called secondary resources. See “Secondary Resource Objects”. [MODCA-5-1018]|
 | X'02' | | Fully Qualified Name Optional. May occur once in each repeating group that also specifies an FQN type X'84' or X'CE' triplet, but only: • when the MDR is specified in the OEG of a bar code object and the MDR references an IOCA image or an object container from T able 48, in which case this triplet is mandatory. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'BE'—Data Object Internal Resource Reference. The identifier is used internally by the bar code to reference the resource whose external identifier is specified by the FQN type X'84' or FQN type X'CE' triplets. The identifier must be specified using FQNFmt X'00', which, for this FQN type, indicates that the data type is defined by the specific data object that generates the internal resource reference and is undefined (UNDF) at the MO:DCA data stream level. [MODCA-5-1019]|
-Architecture Note: For purposes of print server resource
+**Architecture Note:**  For purposes of print server resource
 management, each MDR that maps a presentation data object
 resource in the bar code OEG must have a corresponding MDR
 mapping the same resource in the AEG for the page or overlay,
@@ -3687,7 +3687,7 @@ with the object types shown in T able 48. [MODCA-5-1020]
 | X'91'” | |. [MODCA-5-1041]|
 | X'FF' | | Triplet Extender Optional. May occur more than once in a contiguous sequence, but only in the following case. It is ignored in all other cases. See “Triplet Extender Triplet X'FF'”. • The MDR must specify one of the following object types: [MODCA-5-1042]|
 | X'92' | | Other object data • The MDR references a secondary resource for other object data using an FQN type X'DE' triplet • The secondary resource is the generic non-OCA Resource object • The MDR associates an internal resource reference to the secondary resource with an FQN type X'BE' triplet • The triplet extenders must follow the FQN type X'BE' triplet and must occur in a contiguous sequence Specifies a portion of a secondary resource reference that occurs internal to the data object referenced by the MDR. Use of the triplet extender allows the length of the internal resource reference to exceed the 250 byte capacity of the FQN type X'BE' triplet. [MODCA-5-1043]|
-Architecture Note: The Extended Resource Local Identifier Mandatory (X'22') triplet is mandatory on the MDR
+**Architecture Note:**  The Extended Resource Local Identifier Mandatory (X'22') triplet is mandatory on the MDR
 in MO:DCA-L data streams and must occur once in each repeating group when the MDR maps a
 resource with a FQN type X'84'—Begin Resource Object Reference triplet. See “Extended Resource
 Local Identifier Triplet X'22'”. The only resource type that may be specified in the X'22'
@@ -3700,7 +3700,7 @@ map different local IDs to the same image resource. Note that the MO:DCA-L forma
 
 functionally capped and is no longer defined in the MO:DCA reference; for a definition of this format, see
 MO:DCA-L: The OS/2 PM Metafile (.met) Format.
-Application Note: A non-OCA data object or an IOCA image object that is included on a page or overlay with
+**Application Note:**  A non-OCA data object or an IOCA image object that is included on a page or overlay with
 an IOB, if first mapped with an MDR in the AEG for that page or overlay, is processed as a hard object.
 In that case the object is sent to the presentation device once as a resource object and can then be
 presented multiple times using IOBs. If the object is not mapped, it is processed as a soft object and is
@@ -3709,7 +3709,7 @@ Using the X'50' Triplet to Specify Encoding
 T able 20 shows the ESidCP and ESidUD combinations that are allowed in the X'50' triplet when
 the MDR references a TrueType/OpenType font with EncEnv = Microsoft (X'0003') and EncID = Unicode
 (X'0001'):
-Table 20. Valid ESidUD/ESidCP Combinations for the MDR
+**Table 20.**  Valid ESidUD/ESidCP Combinations for the MDR
 ESidUD ESidCP
 Not specified X'2100'—PC-Data SBCS (ASCII)
 Not specified X'6100'—EBCDIC SBCS
@@ -3723,19 +3723,19 @@ name specified in a name record in the mandatory Naming T able of the font file.
 a name record with Name ID 4. An example of a full font name is Times New Roman Bold. Two characteristics
 of the full font name must be taken into account when using it to reference a TrueType/OpenType font:
 language and encoding.
-• Language. The full font name may be specified in a number of languages. The language used for a given [MODCA-5-1045]
+* Language. The full font name may be specified in a number of languages. The language used for a given [MODCA-5-1045]
 name record is specified with a language identifier (LCID). For example, English-United States is assigned
 LCID X'0409' (1033). The language used to specify the full font name in the FQN type X'DE' triplet may be
 any of the languages specified in a name record for the full font name with the encoding defined by EncEnv =
 Microsoft (X'0003') and EncID = Unicode (X'0001').
-• Encoding. The encoding used to specify the character string in the FQN type X'DE' triplet is defined by a [MODCA-5-1046]
+* Encoding. The encoding used to specify the character string in the FQN type X'DE' triplet is defined by a [MODCA-5-1046]
 Coded Graphic Character Set Global Identifier (X'01') triplet that precedes the FQN type X'DE' triplet. This
 triplet may be specified on the MDR or on a structured field that is higher in the document hierarchy than the
 MDR: for example on the BPG for the page that contains the MDR or on the BDT for the document. See
 “Coded Graphic Character Set Global Identifier Triplet X'01'” for a definition of the scoping rules
 for the X'01' triplet. Note that the encoding for the FQN type X'DE' triplet need not match the encoding for the
 full font name in the font Naming T able.
-Implementation Note: Not all AFP servers support the inheritance of encoding scheme from higher levels of
+**Implementation Note:**  Not all AFP servers support the inheritance of encoding scheme from higher levels of
 the document hierarchy, therefore it is recommended that this triplet be specified directly on the MDR
 if required by a parameter such as the FQN type X'DE' triplet. [MODCA-5-1047]
 ### Map Data Resource (MDR)
@@ -3747,27 +3747,27 @@ platform. Additional information such as the file name is normally required to l
 mapping from full font name to file name is provided for each platform that requires this by a font install
 program. This program builds a Resource Access T able (RAT) that must, at minimum, contain the following
 information:
-• The full font name encoded in UTF-16BE. This full font name is specified multiple times in all languages used [MODCA-5-1048]
+* The full font name encoded in UTF-16BE. This full font name is specified multiple times in all languages used [MODCA-5-1048]
 in the naming table. The UTF-16 encoding matches the encoding defined by EncEnv = Microsoft (X'0003')
 and EncID = Unicode (X'0001') in the Naming T able. Figure 57 shows the full font name of the MS Mincho
 font in two different languages.
-Figure 57. Example of a Full Font Name in Two Languages
-• A mapping of the full font name—in each language—to the name of the file that contains the font. For [MODCA-5-1049]
+**Figure 57.**  Example of a Full Font Name in Two Languages
+* A mapping of the full font name—in each language—to the name of the file that contains the font. For [MODCA-5-1049]
 example, if the Naming T able contains two name records for the full font name (Name ID 4), one in English-
 United States (LCID = X'0409') and one in German-Standard (LCID = X'0407'), both in the encoding defined
 by EncEnv = Microsoft (X'0003') and EncID = Unicode (X'0001'), the font install table must map both
 language versions of this full font name to the same file name.
-• If the font also has an object OID assigned and can therefore be resident in the printer, the mapping from full [MODCA-5-1050]
+* If the font also has an object OID assigned and can therefore be resident in the printer, the mapping from full [MODCA-5-1050]
 font name to font file name also includes the object OID for the font. This allows use of the resident version of
 the font and avoids a font download.
-• If the font is contained in a TrueType Collection file (TTC), the full font name must be mapped to the file name [MODCA-5-1051]
+* If the font is contained in a TrueType Collection file (TTC), the full font name must be mapped to the file name [MODCA-5-1051]
 of the TTC. A TTC consists of a collection of TrueType/OpenType font files which may share some of the font
 tables. The table directories for each font file are indexed from a single TTC Header T able. If the collection
 has an object OID assigned, the mapping from full font name to collection file name also includes the object
 OID for the collection. When a mapped TrueType/OpenType font is part of a TTC, the complete TTC (if not
 already in the presentation device) is downloaded to the device, which must be able to index the required
 font in the collection.
-• If the font has linked fonts the RAT must link the full font name of the font to the full font names of the linked [MODCA-5-1052]
+* If the font has linked fonts the RAT must link the full font name of the font to the full font names of the linked [MODCA-5-1052]
 fonts. When a font has linked fonts, it is referred to as a base font to differentiate it from its linked fonts.
 Linked fonts are TTFs/OTFs that can be used to extend the character sets in a base font or to add user-
 defined characters (UDCs) to the base font. All linked fonts for a base font (if not already in the presentation
@@ -3789,7 +3789,7 @@ such as an object OID, is associated with the raw font resource by the Resource 
 install program must ensure that the TrueType/OpenType font resources are installed in this manner. BOC/
 EOC object containers for TrueType/OpenType font resources are only supported when such resources are
 placed into a print file resource group, in which case they are mandatory.
-Architecture Note: In AFP environments, when a TrueType/OpenType font resource is carried in a BOC/EOC
+**Architecture Note:**  In AFP environments, when a TrueType/OpenType font resource is carried in a BOC/EOC
 container in an external (print file level) resource group, the container must be wrapped with a BRS/ERS
 envelope.
 TrueType/OpenType Font Resources in an External (Print file level) Resource Group
@@ -3802,18 +3802,18 @@ hierarchy, presentation servers process a TrueType/OpenType font reference in an
 as follows:
 1. The resource group, if present, is searched for a font (TTF/OTF) container or a collection (TTC) container [MODCA-5-1054]
 that specifies a matching full font name.
-• A font container specifies the full font name using a FQN type X'01' triplet on the Begin Resource (BRS) [MODCA-5-1055]
+* A font container specifies the full font name using a FQN type X'01' triplet on the Begin Resource (BRS) [MODCA-5-1055]
 structured field for the font container.
-• A collection container specifies the full font name of a font in the collection using a FQN type X'6E'—Data [MODCA-5-1056]
+* A collection container specifies the full font name of a font in the collection using a FQN type X'6E'—Data [MODCA-5-1056]
 Object Font Base Font Identifier triplet on the BRS of the collection container.
 The first matching font container or collection container is used. If a collection containing the font is found,
 the complete TTC (if not already in the presentation device) is downloaded to the device, which must be
 able to index the required font in the collection. The font container or collection container may also specify
 one or more linked fonts for the referenced font.
-• On a font container, linked fonts for the base font are specified with FQN type X'7E'—Data-object Font [MODCA-5-1057]
+* On a font container, linked fonts for the base font are specified with FQN type X'7E'—Data-object Font [MODCA-5-1057]
 Linked Font Identifier triplets, which carry the full font name of the linked fonts, on the BRS of the font
 container.
-• On a collection container, linked fonts are specified with FQN type X'7E' triplets that immediately follow [MODCA-5-1058]
+* On a collection container, linked fonts are specified with FQN type X'7E' triplets that immediately follow [MODCA-5-1058]
 the FQN type X'6E' triplet for the base font on the BRS of the collection container. Note that if the base
 font is specified in multiple languages using multiple FQN type X'6E' triplets, each instance of the FQN
 type X'6E' triplet must be followed by the sequence of FQN type X'7E' triplets that identify the linked fonts
@@ -3822,7 +3822,7 @@ The full font names for the linked fonts are used in turn to search the resource
 a collection container that carries a font that matches the full font name of the linked font. On a font
 container, the linked font name is matched against the FQN type X'01' triplet on the BRS; on a collection
 container it is matched against the FQN type X'6E' triplets on the BRS.
-• The first matching font container or collection container is used, and its font is processed as a linked font [MODCA-5-1059]
+* The first matching font container or collection container is used, and its font is processed as a linked font [MODCA-5-1059]
 for the base font. Multiple linked fonts may be specified, and the order in which they are specified on the [MODCA-5-1060]
 ### Map Data Resource (MDR)
 
@@ -3830,7 +3830,7 @@ for the base font. Multiple linked fonts may be specified, and the order in whic
 BRS of the font container or collection container determines the order in which they are processed. The
 base font is always processed first, followed by the first-specified linked font, followed by the next-
 specified linked font, and so on. The last linked font is processed last.
-• If a linked font cannot be found in either an inline font container or an inline collection container, the full [MODCA-5-1061]
+* If a linked font cannot be found in either an inline font container or an inline collection container, the full [MODCA-5-1061]
 font name of the linked font is used to index the RAT to locate the linked font in a resource library. If a
 specified linked font cannot be found in the resource group or in a resource library, a X'04' exception
 condition exists.
@@ -3849,53 +3849,53 @@ FQN type X'6E' triplets on the BRS of the collection container. [MODCA-5-1063]
 ### Map Data Resource (MDR)
 
 
-Figure 58. Examples of MDR Repeating Groups
+**Figure 58.**  Examples of MDR Repeating Groups
 MDR Repeating Group Mapping an IOCA Image in an AEG
-• Fully Qualified Name (X'02') triplet, type X'84'—Begin Resource Object Reference [MODCA-5-1064]
+* Fully Qualified Name (X'02') triplet, type X'84'—Begin Resource Object Reference [MODCA-5-1064]
 MDR Repeating Group Mapping a PDF Object in an AEG
-• Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-1065]
-• Object Classification (X'10') triplet [MODCA-5-1066]
+* Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-1065]
+* Object Classification (X'10') triplet [MODCA-5-1066]
 MDR Repeating Group Mapping a PDF Resource in an AEG
-• Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1067]
-• Object Classification (X'10') triplet [MODCA-5-1068]
+* Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1067]
+* Object Classification (X'10') triplet [MODCA-5-1068]
 MDR Repeating Group Mapping an IOCA image for use as a secondary resource to a BCOCA QR Code with
 Image bar code, in the OEG of the bar code
-• Fully Qualified Name (X'02') triplet, type X'84'—Begin Resource Object Reference [MODCA-5-1069]
-• Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1070]
+* Fully Qualified Name (X'02') triplet, type X'84'—Begin Resource Object Reference [MODCA-5-1069]
+* Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1070]
 MDR Repeating Group Mapping a TIFF image for use as a secondary resource to a BCOCA QR Code with
 Image bar code, in the OEG of the bar code
-• Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-1071]
-• Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1072]
-• Object Classification (X'10') triplet [MODCA-5-1073]
+* Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-1071]
+* Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1072]
+* Object Classification (X'10') triplet [MODCA-5-1073]
 MDR Repeating Group Mapping a CMR for use as a tertiary resource to a TIFF image being used as a
 secondary resource to a BCOCA QR Code with Image bar code, in the OEG of the bar code
-• Fully Qualified Name (X'02') triplet, type X'EE'—Tertiary Data Object External Resource Reference [MODCA-5-1074]
-• Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1075]
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1076]
-• Object Classification (X'10') triplet [MODCA-5-1077]
-• Color Management Resource Descriptor (X'91') triplet [MODCA-5-1078]
+* Fully Qualified Name (X'02') triplet, type X'EE'—Tertiary Data Object External Resource Reference [MODCA-5-1074]
+* Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1075]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1076]
+* Object Classification (X'10') triplet [MODCA-5-1077]
+* Color Management Resource Descriptor (X'91') triplet [MODCA-5-1078]
 MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding = font encoding) in an AEG
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1079]
-• Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1080]
-• Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1081]
-• Object Classification (X'10') triplet [MODCA-5-1082]
-• Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1083]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1079]
+* Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1080]
+* Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1081]
+* Object Classification (X'10') triplet [MODCA-5-1082]
+* Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1083]
 MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding = UTF-8) in an AEG
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1084]
-• Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1085]
-• Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1086]
-• Object Classification (X'10') triplet [MODCA-5-1087]
-• Encoding Scheme ID (X'50') triplet [MODCA-5-1088]
-• Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1089]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1084]
+* Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1085]
+* Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1086]
+* Object Classification (X'10') triplet [MODCA-5-1087]
+* Encoding Scheme ID (X'50') triplet [MODCA-5-1088]
+* Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1089]
 MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding defined by EBCDIC/ASCII code
 page) in an AEG
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1090]
-• Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1091]
-• Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1092]
-• Object Classification (X'10') triplet [MODCA-5-1093]
-• Font Coded Graphic Character Set Global Identifier (X'20') triplet [MODCA-5-1094]
-• Encoding Scheme ID (X'50') triplet [MODCA-5-1095]
-• Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1096]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1090]
+* Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1091]
+* Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1092]
+* Object Classification (X'10') triplet [MODCA-5-1093]
+* Font Coded Graphic Character Set Global Identifier (X'20') triplet [MODCA-5-1094]
+* Encoding Scheme ID (X'50') triplet [MODCA-5-1095]
+* Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1096]
 ### Map Data Resource (MDR)
 
 
@@ -3911,7 +3911,7 @@ the MDR, for example on the BPG for the page that contains the MDR or on the BDT
 the X'01' triplet description for a definition of the scoping rules for the X'01' triplet. Note that the encoding for the
 FQN type X'DE' or X'EE'
 triplet need not match the UTF-16BE encoding for the CMR name in the CMR header.
-Implementation Note: Not all AFP servers support the inheritance of encoding scheme from higher levels of
+**Implementation Note:**  Not all AFP servers support the inheritance of encoding scheme from higher levels of
 the document hierarchy, therefore it is recommended that this triplet be specified directly on the MDR if
 required by a parameter such as the FQN type X'DE' or X'EE'
 triplet.
@@ -3944,15 +3944,15 @@ In general, the CMR name does not provide sufficient information to find the CMR
 Additional information such as the file name is normally required to locate the CMR. The mapping from CMR
 name to file name is provided for each platform that requires this by a CMR install program. This program
 builds a CMR Resource Access T able (RAT) entry that must, at minimum, contain the following information:
-• The CMR name encoded in UTF-16BE. [MODCA-5-1097]
+* The CMR name encoded in UTF-16BE. [MODCA-5-1097]
 ### Map Data Resource (MDR)
 
 
-• A mapping of the CMR name to the name of the file that contains the CMR. [MODCA-5-1098]
-• A mapping of the CMR name to the object OID for the CMR. This allows use of a printer-resident version of [MODCA-5-1099]
+* A mapping of the CMR name to the name of the file that contains the CMR. [MODCA-5-1098]
+* A mapping of the CMR name to the object OID for the CMR. This allows use of a printer-resident version of [MODCA-5-1099]
 the CMR, allows the CMR to be captured by the printer, and also allows the accurate generation of Link LK
 CMRs.
-• Optionally, mappings to other CMRs. For Color Conversion CMRs, these may be mappings to Link LK CMRs [MODCA-5-1100]
+* Optionally, mappings to other CMRs. For Color Conversion CMRs, these may be mappings to Link LK CMRs [MODCA-5-1100]
 that convert the color space in the CC CMR to the color spaces, defined by other CC CMRs, of presentation
 devices. For generic Halftone and T one Transfer Curve CMRs, these may be mappings to device-specific
 versions of the same CMR type.
@@ -3974,7 +3974,7 @@ be specified as generic CMRs, identified with a fixed character pattern in the v
 and with the absence of device-specific fields in the name, are T one Transfer Curve (TTC) CMRs and Halftone
 (HT) CMRs. Note also that if a mapped CMR does not specify a device type and model, it matches any target
 device type and model.
-Table 21. Print Server CMR Processing: CMRs in Resource Libraries
+**Table 21.**  Print Server CMR Processing: CMRs in Resource Libraries
 CMR type Processing mode
 Device-specific or
 generic Processing
@@ -4001,7 +4001,7 @@ are ignored.
 ### Map Data Resource (MDR)
 
 
-Table 21 Print Server CMR Processing: CMRs in Resource Libraries (cont'd.)
+**Table 21.** Print Server CMR Processing: CMRs in Resource Libraries (cont'd.)
 CMR type Processing mode
 Device-specific or
 generic Processing
@@ -4063,7 +4063,7 @@ triplets. When resolving a CMR reference in the data stream, the print server mu
 resource group—if one exists—first. The CMRname is matched against the CMRname that is specified on the
 BRS of the resource container. If no match is found, the search continues with the CMR RAT .
 If a match is found, the inline CMR is processed as follows.
-Table 22. Print Server CMR Processing: Inline CMRs
+**Table 22.**  Print Server CMR Processing: Inline CMRs
 CMR type Processing mode
 Device-specific or
 generic Processing
@@ -4114,7 +4114,7 @@ mapped CMRs are also ignored. [MODCA-5-1102]
 ### Map Data Resource (MDR)
 
 
-Table 22 Print Server CMR Processing: Inline CMRs (cont'd.)
+**Table 22.** Print Server CMR Processing: Inline CMRs (cont'd.)
 CMR type Processing mode
 Device-specific or
 generic Processing
@@ -4153,18 +4153,18 @@ Link DL Link Device-specific If the target device supports downloaded Link
 DL CMRs, the referenced CMR is
 downloaded, if necessary, and activated. All
 mapped CMRs are ignored.
-Figure 59. Examples of MDR Repeating Groups
+**Figure 59.**  Examples of MDR Repeating Groups
 MDR Repeating Group Mapping a CMR
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1103]
-• Object Classification (X'10') triplet [MODCA-5-1104]
-• Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1105]
-• Color Management Resource Descriptor (X'91') triplet [MODCA-5-1106]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1103]
+* Object Classification (X'10') triplet [MODCA-5-1104]
+* Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1105]
+* Color Management Resource Descriptor (X'91') triplet [MODCA-5-1106]
 MDR Repeating Group Mapping a Tertiary CMR
-• Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1107]
-• Object Classification (X'10') triplet [MODCA-5-1108]
-• Fully Qualified Name (X'02') triplet, type X'EE'—Tertiary Data Object External Resource Reference [MODCA-5-1109]
-• Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1110]
-• Color Management Resource Descriptor (X'91') triplet [MODCA-5-1111]
+* Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1107]
+* Object Classification (X'10') triplet [MODCA-5-1108]
+* Fully Qualified Name (X'02') triplet, type X'EE'—Tertiary Data Object External Resource Reference [MODCA-5-1109]
+* Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1110]
+* Color Management Resource Descriptor (X'91') triplet [MODCA-5-1111]
 ### Map Data Resource (MDR)
 
 
@@ -4181,10 +4181,10 @@ If a data object is referenced using its natural name and not a file name, addit
 locate and process the object on a given platform. This information is provided in the Data Object RAT entry
 built by the install program when the object is installed. This entry must, at minimum, contain the following
 information:
-• The object name encoded in UTF-16BE. [MODCA-5-1112]
-• A mapping of the data object name to the name of the file that contains the object. [MODCA-5-1113]
-• A mapping of the data object name to the object OID for the object. [MODCA-5-1114]
-• Optionally, mappings to CMRs that are to be associated with the data object. Such mappings must also [MODCA-5-1115]
+* The object name encoded in UTF-16BE. [MODCA-5-1112]
+* A mapping of the data object name to the name of the file that contains the object. [MODCA-5-1113]
+* A mapping of the data object name to the object OID for the object. [MODCA-5-1114]
+* Optionally, mappings to CMRs that are to be associated with the data object. Such mappings must also [MODCA-5-1115]
 specify the processing mode for the CMR—audit or instruction. Note that if mapped CMRs are to be used
 with a data object that is processed with a Data Object RAT , the data object must be mapped as a resource
 in the data stream, that is, it must be a hard object.
@@ -4196,23 +4196,23 @@ not wrapped with a MO:DCA BOC/EOC envelope, that is, they are installed in their
 allows these objects to be used by system components that do not understand MO:DCA container envelopes. [MODCA-5-1116]
 #### MDR Exception Condition Summary
 X'01' This exception condition exists when:
-• A resource with the same identifier as that specified on the type X'84' (Begin Resource [MODCA-5-1117]
+* A resource with the same identifier as that specified on the type X'84' (Begin Resource [MODCA-5-1117]
 Object Reference) Fully Qualified Name triplet, or on the type X'CE' (Other Object Data
 Reference) Fully Qualified Name triplet, or on the type X'DE' (Data Object External
 Resource Reference) Fully Qualified Name triplet, or on the type X'EE' (T ertiary Data Object
 External Resource Reference) Fully Qualified Name triplet
 cannot be located.
-• The same repeating group contains an invalid number or combination of Fully Qualified [MODCA-5-1118]
+* The same repeating group contains an invalid number or combination of Fully Qualified [MODCA-5-1118]
 Name triplets.
-• The same Resource LID is mapped to more than one resource object of the same type [MODCA-5-1119]
+* The same Resource LID is mapped to more than one resource object of the same type [MODCA-5-1119]
 within the same structured field.
 X'02' This exception condition exists when:
-• A Fully Qualified Name (X'02') triplet other than a type X'84' (Begin Resource Object [MODCA-5-1120]
+* A Fully Qualified Name (X'02') triplet other than a type X'84' (Begin Resource Object [MODCA-5-1120]
 Reference), a type X'85' (Code Page Name Reference), a type X'CE' (Other Object Data
 Reference), a type X'DE' (Data Object External Resource Reference), a type X'EE' (T ertiary
 Data Object External Resource Reference), or a type X'BE' (Data Object Internal Resource
 Reference) appears within any repeating group.
-• The same resource reference is specified in more than one repeating group. [MODCA-5-1121]
+* The same resource reference is specified in more than one repeating group. [MODCA-5-1121]
 ### Map Data Resource (MDR)
 
 
@@ -4222,7 +4222,7 @@ can be specified for a media collection at the print file level or at the docume
 document environment group (DEG) of the form map. Finishing can be specified for a media collection at the
 medium map level by placing the MFC in a medium map. Finishing can be specified for individual media, or
 sheets, at the medium map level by placing the MFC in a medium map.
-• When the MFC is specified in the document environment group (DEG) of the form map, its scope is specified [MODCA-5-1122]
+* When the MFC is specified in the document environment group (DEG) of the form map, its scope is specified [MODCA-5-1122]
 to be one of the following:
 – The complete print file
 – Each individual document in the print file
@@ -4249,7 +4249,7 @@ level finishing is applied to the complete print file.
 If a document is selected for finishing using an MFC whose scope is each document in the print file, and if it
 is also selected by one or more MFCs whose scope is a single document, the finishing operations that apply
 to each document in the print file are applied before the finishing operations that apply to a single document.
-• When the MFC is specified in a medium map, its scope is specified to be one of the following: [MODCA-5-1123]
+* When the MFC is specified in a medium map, its scope is specified to be one of the following: [MODCA-5-1123]
 – Each medium, or sheet, generated by the medium map. When the scope is each medium in the medium
 map, the MFC defines medium map level sheet finishing, and the specified finishing operations are applied
 to each medium, not to the media collection.
@@ -4488,10 +4488,10 @@ MO:DCA data. The following rules specify how the scope of the finishing operatio
 that contains line-data and mixed-data documents, with or without BDT/EDT , as well as composed
 documents. For more information on line data and mixed data, see the Advanced Function Presentation:
 Programming Guide and Line Data Reference.
-• If the MFC specifies print file level finishing, all media in the print file is collected for finishing in a print file [MODCA-5-1215]
+* If the MFC specifies print file level finishing, all media in the print file is collected for finishing in a print file [MODCA-5-1215]
 level media collection, and the finishing operations are applied to the complete collection, that is, the
 complete print file.
-• If the MFC specifies document level finishing and selects all documents, the print file is processed as a [MODCA-5-1216]
+* If the MFC specifies document level finishing and selects all documents, the print file is processed as a [MODCA-5-1216]
 set of documents as follows:
 – Any document bounded by BDT/EDT is processed as a single document regardless of whether the
 data between BDT/EDT is line data, mixed data, or composed data. [MODCA-5-1217]
@@ -4505,16 +4505,16 @@ reached. In either case, the implied document is terminated with an implied EDT 
 The media in each document, whether implied or explicit, is collected for finishing in a document level
 media collection, and the finishing operations are applied to each collection, that is each document,
 individually.
-• If the MFC specifies document level finishing and selects a single document, the print file is processed as [MODCA-5-1218]
+* If the MFC specifies document level finishing and selects a single document, the print file is processed as [MODCA-5-1218]
 a set of documents in the same manner as when all documents are selected. The offset of the selected
 document is calculated by counting all documents, whether implied or explicit, and the selected
 document may itself be an implied document. The media in the selected document are collected for
 finishing, and the finishing operations are applied to the single collection, that is the single document. [MODCA-5-1219]
 #### MFC Exception Condition Summary
 X'01' This exception condition exists when:
-• The FOpCnt parameter in a Finishing Operation (X'85') triplet is non-zero but does not [MODCA-5-1220]
+* The FOpCnt parameter in a Finishing Operation (X'85') triplet is non-zero but does not [MODCA-5-1220]
 match the specified number of OpPos parameters.
-• The MedColl parameter is X'00' and the MFCScpe parameter is X'05'. [MODCA-5-1221]
+* The MedColl parameter is X'00' and the MFCScpe parameter is X'05'. [MODCA-5-1221]
 ### Medium Finishing Control (MFC)
 
 
@@ -4541,7 +4541,7 @@ Triplets Appear in the Map Graphics Object structured field as follows: [MODCA-5
 | X'30' | | Center and trim [MODCA-5-1234]|
 | X'50' | | Retired mapping option; see “Retired Parameters”. [MODCA-5-1235]|
 | X'60' | | Scale to fill All others Reserved [MODCA-5-1236]|
-Note: If this structured field is not present in the data stream, the architected default is scale to fit. [MODCA-5-1237]
+**Note:**  If this structured field is not present in the data stream, the architected default is scale to fit. [MODCA-5-1237]
 #### MGO Exception Condition Summary
 X'01' The Map Graphics Object structured field contains more than one repeating group.
 X'02' A Mapping Option (X'04') triplet value of X'00' is specified. [MODCA-5-1238]
@@ -4573,7 +4573,7 @@ Triplets Appear in the Map Image Object structured field as follows: [MODCA-5-12
 | X'42' | | Migration mapping option: Image point-to-pel with double dot. See “Coexistence Triplets” for a description. [MODCA-5-1253]|
 | X'50' | | Migration mapping option: Replicate and trim. See “Coexistence Triplets” for a description. [MODCA-5-1254]|
 | X'60' | | Scale to fill All others Reserved [MODCA-5-1255]|
-Note: If this structured field is not present in the data stream, the architected default is scale to fit. [MODCA-5-1256]
+**Note:**  If this structured field is not present in the data stream, the architected default is scale to fit. [MODCA-5-1256]
 ### Map Image Object (MIO)
 
 
@@ -4595,7 +4595,7 @@ Structured Field Data [MODCA-5-1259]
 | --- | --- | --- | --- | --- | --- | --- [MODCA-5-1261]|
 | 0 CODE MMCid 1–127 Medium Modification Control | | | | | | identifier M X'06' [MODCA-5-1262]|
 | 1 | CODE | X'FF' | | Constant data | M | X'06' [MODCA-5-1263]|
-| 2–n CODE Zero or more keywords in ascending order, in the format shown in the following table. When | | | | | | keywords occur in pairs, the ordering applies to the first keyword. Keyword ID Parameter Range Meaning M/O Exc X'0E' X'01'–X'20', X'FF' Horizontal print adjustment; retired for the IBM 3800 printer O X'02' X'90' X'01'–X'FF'. Note: X'00' is not valid with keyword X'9100' Media destination selector—high O X'02' X'91' X'01'–X'FF'. Note: X'00' is not valid with keyword X'9000' Media destination selector—low O X'02' X'A0' X'00'–X'FE' Fixed medium information: a local identifier for the particular fixed medium information selected O X'02' X'FF' Apply all currently supported fixed medium information identifiers X'A1' X'00' Fixed perforation cut. Apply a perforation cut at a fixed location on the physical medium. O X'02' X'A2' X'00' Fixed separation cut. Apply a separation cut at a fixed location on the physical medium. O X'02' X'B4' X'00'–X'FF' Presentation subsystem set-up ID: high-order byte O X'00' X'B5' X'00'–X'FF' Presentation subsystem set-up ID: low-order byte O X'00' X'D1' X'00'–X'01' Offset stack/edge mark change: X'00' No offset stack or edge mark change X'01' Apply offset stack or edge mark change O X'02' [MODCA-5-1264]|
+| 2–n CODE Zero or more keywords in ascending order, in the format shown in the following table. When | | | | | | keywords occur in pairs, the ordering applies to the first keyword. Keyword ID Parameter Range Meaning M/O Exc X'0E' X'01'–X'20', X'FF' Horizontal print adjustment; retired for the IBM 3800 printer O X'02' X'90' X'01'–X'FF'.  **Note:**  X'00' is not valid with keyword X'9100' Media destination selector—high O X'02' X'91' X'01'–X'FF'.  **Note:**  X'00' is not valid with keyword X'9000' Media destination selector—low O X'02' X'A0' X'00'–X'FE' Fixed medium information: a local identifier for the particular fixed medium information selected O X'02' X'FF' Apply all currently supported fixed medium information identifiers X'A1' X'00' Fixed perforation cut. Apply a perforation cut at a fixed location on the physical medium. O X'02' X'A2' X'00' Fixed separation cut. Apply a separation cut at a fixed location on the physical medium. O X'02' X'B4' X'00'–X'FF' Presentation subsystem set-up ID: high-order byte O X'00' X'B5' X'00'–X'FF' Presentation subsystem set-up ID: low-order byte O X'00' X'D1' X'00'–X'01' Offset stack/edge mark change: X'00' No offset stack or edge mark change X'01' Apply offset stack or edge mark change O X'02' [MODCA-5-1264]|
 ### Medium Modification Control (MMC)
 
 
@@ -4663,7 +4663,7 @@ keyword is not present, the high-order portion of the media destination ID is se
 
 keyword is not present and the X'91' keyword is not present, the media destination is not
 specified and a presentation environment default is used.
-Note: If the copy subgroup that references this MMC belongs to a duplex copy-subgroup pair,
+**Note:**  If the copy subgroup that references this MMC belongs to a duplex copy-subgroup pair,
 the media destination specified by this keyword must match the media destination
 specified for the other copy subgroup in the pair.
 Keyword
@@ -4674,7 +4674,7 @@ is, the media destination ID X'0000' is reserved. This keyword may appear once. 
 keyword is not present, the low-order portion of the media destination ID is set to X'00'. If this
 keyword is not present and the X'90' keyword is not present, the media destination is not
 specified and a presentation environment default is used.
-Note: If the copy subgroup that references this MMC belongs to a duplex copy-subgroup pair,
+**Note:**  If the copy subgroup that references this MMC belongs to a duplex copy-subgroup pair,
 the media destination specified by this keyword must match the media destination
 specified for the other copy subgroup in the pair.
 Keyword
@@ -4690,20 +4690,20 @@ X'FF' Select all currently-supported local IDs for fixed medium information to b
 applied to the sheet-side.
 This keyword may appear multiple times and specify multiple local IDs for fixed medium
 information.
-Note: All Medium Modification Control structured fields that are referenced by the same
+**Note:**  All Medium Modification Control structured fields that are referenced by the same
 Medium Copy Count structured field must specify the same local IDs for fixed medium
 information.
 Keyword
 X'A100'
 Specifies a perforation cut at a fixed location on the physical medium according to the current
 setup of the printer or printer-attached device.
-Note: All Medium Modification Control structured fields that are referenced by the same
+**Note:**  All Medium Modification Control structured fields that are referenced by the same
 Medium Copy Count structured field must specify the same perforation cuts.
 Keyword
 X'A200'
 Specifies a separation cut at a fixed location on the physical medium according to the current
 setup of the printer or printer-attached device.
-Note: All Medium Modification Control structured fields that are referenced by the same
+**Note:**  All Medium Modification Control structured fields that are referenced by the same
 Medium Copy Count structured field must specify the same separation cuts.
 Keyword
 X'B4nn'
@@ -4717,7 +4717,7 @@ presentation subsystem, which typically consists of the presentation device and 
 processing devices. If a match is found, presentation is allowed to proceed. If there is no
 match, the required set-up is not active in the presentation subsystem and presentation is
 terminated.
-Note: A set-up ID is not the same as a setup name, which is a user-created name for a set of
+**Note:**  A set-up ID is not the same as a setup name, which is a user-created name for a set of
 specific settings on a presentation device. A presentation device can support setup
 names, or set-up IDs, or both (the two functions do not necessarily interact). [MODCA-5-1266]
 ### Medium Modification Control (MMC)
@@ -4735,7 +4735,7 @@ presentation subsystem, which typically consists of the presentation device and 
 processing devices. If a match is found, presentation is allowed to proceed. If there is no
 match, the required set-up is not active in the presentation subsystem and presentation is
 terminated.
-Note: All Medium Modification Control structured fields that are referenced by the same
+**Note:**  All Medium Modification Control structured fields that are referenced by the same
 Medium Copy Count structured field must specify the same presentation subsystem
 set-up IDs.
 Application Notes:
@@ -4757,11 +4757,11 @@ The keyword values are defined as follows:
 Value Description
 X'00' No offset (no jog), no change in edge marks
 X'01' Apply offset (jog) or change edge marks
-Note: When processing partition ejects with N-up presentation, multiple medium maps may be
+**Note:**  When processing partition ejects with N-up presentation, multiple medium maps may be
 invoked while building a single sheet. In that case, only the first X'D1nn' keyword is
 processed for a sheet. All other X'D1nn' keywords specified in medium maps invoked
 for the same sheet are ignored.
-Implementation Note: Print servers that automatically issue a jog command between jobs
+**Implementation Note:**  Print servers that automatically issue a jog command between jobs
 and between multiple copies of a job may ignore the X'D1nn' keyword in the medium
 map used for the first sheet of the user's print file.
 T able 23 shows how the jog control specified by this keyword is processed with
@@ -4774,7 +4774,7 @@ medium map that specifies the jog is first invoked. [MODCA-5-1269]
 ### Medium Modification Control (MMC)
 
 
-Table 23. Sheet Jogging and Conditional Ejects
+**Table 23.**  Sheet Jogging and Conditional Ejects
 Jog Control in
 Existing MM
 Jog Control in
@@ -4896,10 +4896,10 @@ Type Identifiers”.
 ### Medium Modification Control (MMC)
 
 
-Note: If the copy subgroup that references this MMC belongs to a duplex copy-subgroup pair,
+**Note:**  If the copy subgroup that references this MMC belongs to a duplex copy-subgroup pair,
 the media type specified by this keyword must match the media type specified for the
 other copy subgroup in the pair.
-Implementation Note: AFP print servers will attempt to select the media type requested by
+**Implementation Note:**  AFP print servers will attempt to select the media type requested by
 the X'E8'/X'E9' keyword pair using the following priority:
 1. Attempt to find an available media source containing the media type that matches [MODCA-5-1276]
 the specified OID. The media source cannot be an inserter bin.
@@ -4939,8 +4939,8 @@ See Figure 60 for a description of normal duplex and tumble duplex. [MODCA-5-128
 ### Medium Modification Control (MMC)
 
 
-Figure 60. Normal Duplex and Tumble Duplex Printing
-Note: All Medium Modification Control structured fields that are referenced by the same
+**Figure 60.**  Normal Duplex and Tumble Duplex Printing
+**Note:**  All Medium Modification Control structured fields that are referenced by the same
 Medium Copy Count structured field must specify the same value for this keyword.
 Keyword
 X'F8nn'
@@ -4990,9 +4990,9 @@ rotation is specified in the Page Position structured field.
 Pages are positioned within their partition relative to the partition origin using the offsets
 specified in the Page Position structured field. Modifications may be applied to pages before
 they are placed in their partition using the Page Modification Control (PMC) structured field.
-Figure 21 shows the partitioning for wide continuous-forms media, narrow
+**Figure 21.** shows the partitioning for wide continuous-forms media, narrow
 continuous-forms media, and cut-sheet media. Partitioning is not used with envelope media.
-Figure 61 through Figure 72 show partition numbering for various
+**Figure 61.** through Figure 72 show partition numbering for various
 media. This keyword may appear once.
 The keyword values are defined as follows:
 Value Description
@@ -5008,12 +5008,12 @@ physical medium.
 X'04' 4-up partitioning. The medium presentation space is divided into four
 partitions. Four pages (simplex) or eight pages (duplex) are presented on the
 physical medium.
-Note: All Medium Modification Control structured fields that are referenced by the same
+**Note:**  All Medium Modification Control structured fields that are referenced by the same
 Medium Copy Count structured field must specify the same value for this keyword. [MODCA-5-1282]
 ### Medium Modification Control (MMC)
 
 
-Application Note: IPDS printers require that pages be contained within their partition if default N-up page
+**Application Note:**  IPDS printers require that pages be contained within their partition if default N-up page
 placement is specified, otherwise an exception is generated. This restriction does not exist if explicit N-
 up page placement is specified. That is, pages may overflow their partition without necessarily causing
 an exception.
@@ -5025,7 +5025,7 @@ X'02' An undefined keyword is encountered in an MMC structured field. [MODCA-5-1
 ### Map Media Destination (MMD)
 The Map Media Destination structured field maps a media destination local ID to the name of a media
 destination.
-Architecture Note: A media destination local ID is specified with the X'90nn' + X'91nn' keyword pair on the
+**Architecture Note:**  A media destination local ID is specified with the X'90nn' + X'91nn' keyword pair on the
 MMC structured field. [MODCA-5-1284]
 #### MMD (X'D3ABCD') Syntax
 Structured Field Introducer
@@ -5047,7 +5047,7 @@ Triplets Appear in the Map Media Destination structured field repeating groups a
 | --- | --- | --- [MODCA-5-1292]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1293]|
 | X'02' | | Fully Qualified Name Mandatory. Must occur once in each repeating group. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'12'— Media Destination Reference. The media destination reference may be specified in the following format: • FQNFmt = X'00'; the reference is made with a character- encoded name. [MODCA-5-1294]|
-Architecture Note: In the UP3i architecture, the media
+**Architecture Note:**  In the UP3i architecture, the media
 destination name must be encoded using UTF-
 16BE; it is therefore recommended that the same
 encoding be used in the FQN type X'12' triplet
@@ -5058,7 +5058,7 @@ Mandatory. Must occur once in each repeating group. See
 “Extended Resource Local Identifier Triplet X'22'”.
 The only Extended Resource Local Identifier type that may
 appear is X'42'—Media Destination Resource.
-Architecture Note: The local IDs used with resource type
+**Architecture Note:**  The local IDs used with resource type
 X'42' are specified with a X'90nn' + X'91nn' keyword pair
 on the MMC that can only carry a 2-byte ID. Therefore,
 the range for this resource type is restricted to 2-byte
@@ -5066,24 +5066,24 @@ values.
 Within the same medium map, you may not map the same media destination local ID to more than one media
 destination name or a X'01' exception condition exists. Within the same medium map, different media
 destination local IDs may be mapped to the same media destination name.
-Implementation Note: AFP print servers will process the media destination name as follows. Note that, for
+**Implementation Note:**  AFP print servers will process the media destination name as follows. Note that, for
 UP3i devices, media destination names are reported as UP3i tupel names in the UP3i Tupel sdf in the
 IPDS XOH-OPC reply. The same UP3i Tupel sdf also specifies a 2-byte tupel ID.
-• If a media destination local ID is specified in the MMC, the server checks for a mapping to a media [MODCA-5-1295]
+* If a media destination local ID is specified in the MMC, the server checks for a mapping to a media [MODCA-5-1295]
 destination name in MMD structured fields in the Medium Map.
 – If a mapping is found, the server checks the UP3i Tupel sdfs in the IPDS XOH-OPC for a matching
 tupel name. If one is found, the server uses the tupel ID (which is also reported in the UP3i Tupel
 sdf) that corresponds to that name as a media destination ID to select the media destination.
 – If no mapping is found, or if a mapping is found but there is no matching tupel name, the server uses
 the MMC media destination local ID to select the media destination.
-• If there is no media destination local ID specified in the MMC, the servers selects a default media [MODCA-5-1296]
+* If there is no media destination local ID specified in the MMC, the servers selects a default media [MODCA-5-1296]
 destination.
 #### MMD Exception Condition Summary
 X'01' The same LID is mapped to more than one media destination within the same structured field.
 X'02' This exception condition exists when:
-• A Fully Qualified Name (X'02') triplet other than a type X'12' (Media Destination Reference) [MODCA-5-1297]
+* A Fully Qualified Name (X'02') triplet other than a type X'12' (Media Destination Reference) [MODCA-5-1297]
 appears within any repeating group.
-• An Extended Resource Local Identifier (X'22') triplet type other than X'42' appears within any [MODCA-5-1298]
+* An Extended Resource Local Identifier (X'22') triplet type other than X'42' appears within any [MODCA-5-1298]
 repeating group.
 ### Map Media Destination (MMD)
 
@@ -5118,7 +5118,7 @@ OVLname External name of the medium overlay. [MODCA-5-1310]
 ### Map Media Type (MMT)
 The Map Media Type structured field maps a media type local ID to the name or OID of a media type. See
 “Media Type Identifiers” for a list of media types registered by their name and their OID.
-Architecture Note: A media type local ID is specified with the X'E8nn' + X'E9nn' keyword pair on the MMC
+**Architecture Note:**  A media type local ID is specified with the X'E8nn' + X'E9nn' keyword pair on the MMC
 structured field.
 #### MMT (X'D3AB88') Syntax
 Structured Field Introducer
@@ -5141,7 +5141,7 @@ Triplets Appear in the Map Media Type structured field repeating groups as follo
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1319]|
 | X'02' | | Fully Qualified Name Mandatory. Must occur once in each repeating group. May occur twice in each repeating group if one occurrence uses FQNFmt X'00' (name), and the other occurrence uses FQNFmt X'10' (OID). See “Fully Qualified Name Triplet [MODCA-5-1320]|
 | X'02'” | |. The Fully Qualified Name type that may appear is X'11'— Media Type Reference. The media type reference may be specified in one of two ways: • If FQNFmt = X'00', the reference is made with a character-encoded name. [MODCA-5-1321]|
-Architecture Note: In the IPDS architecture, the media
+**Architecture Note:**  In the IPDS architecture, the media
 type name must be encoded using IBM code
 page 500, character set 640 (plus space
 character). It is strongly recommended that the
@@ -5151,7 +5151,7 @@ servers are able to process other encodings.
 Note that when the OID format is used to identify
 the media type, it is specified in hexadecimal
 format as defined in “Media Type Identifiers”.
-• If FQNFmt = X'10', the reference is made with an ASN.1 [MODCA-5-1322]
+* If FQNFmt = X'10', the reference is made with an ASN.1 [MODCA-5-1322]
 OID encoded using the definite short form. A registry of
 standard media types along with their OID is provided in
 “Media Type Identifiers”.
@@ -5164,7 +5164,7 @@ Mandatory. Must occur once in each repeating group. See
 “Extended Resource Local Identifier Triplet X'22'”.
 The only Extended Resource Local Identifier type that may
 appear is X'40'—Media Type resource.
-Architecture Note: The local IDs used with resource type
+**Architecture Note:**  The local IDs used with resource type
 X'40' are specified with a X'E8nn' + X'E9nn' keyword
 pair on the MMC that can only carry a 2-byte ID.
 Therefore, the range for this resource type is restricted
@@ -5176,7 +5176,7 @@ the same medium map, different Resource Local IDs may be mapped to the same medi
 ### Map Media Type (MMT)
 
 
-Implementation Note: AFP print servers will attempt to select the requested media type using the following
+**Implementation Note:**  AFP print servers will attempt to select the requested media type using the following
 priority:
 1. Attempt to find an available media source containing the media type that matches the specified OID. [MODCA-5-1324]
 The media source cannot be an inserter bin.
@@ -5188,9 +5188,9 @@ the MMC.
 #### MMT Exception Condition Summary
 X'01' The same LID is mapped to more than one media type within the same structured field.
 X'02' This exception condition exists when:
-• A Fully Qualified Name (X'02') triplet other than a type X'11' (Media Type Reference) [MODCA-5-1328]
+* A Fully Qualified Name (X'02') triplet other than a type X'11' (Media Type Reference) [MODCA-5-1328]
 appears within any repeating group.
-• An Extended Resource Local Identifier (X'22') triplet type other than X'40' appears within any [MODCA-5-1329]
+* An Extended Resource Local Identifier (X'22') triplet type other than X'40' appears within any [MODCA-5-1329]
 repeating group.
 ### Map Media Type (MMT)
 
@@ -5222,15 +5222,15 @@ Triplets Appear in the Map Page structured field as follows: [MODCA-5-1336]
 | --- | --- | --- [MODCA-5-1342]|
 | X'02' | | Fully Qualified Name Mandatory. Must occur once in each repeating group. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'87'— Begin Page Reference. Specifies the name of the page to be mapped and included with an IPG. [MODCA-5-1343]|
 | X'5A' | | Object Offset Optional. May occur once, with ObjTpe=X'AF', to specify that pages are the objects to be counted for the offset. Specifies how many pages in the referenced document precede the page to be mapped. The page offset is measured from the beginning of the referenced document, so that the first page has offset 0, the second page has offset 1, and the nth page has offset (n-1). When this triplet is specified, the page name, as specified by the Fully Qualified Name type X'87' triplet, is ignored. See “Object Offset Triplet X'5A'”. [MODCA-5-1344]|
-Application Note: T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same.
 #### MPG Exception Condition Summary
 X'01' This exception condition exists when:
-• Multiple type X'87' (Begin Page Reference) Fully Qualified Name triplets appear within the [MODCA-5-1345]
+* Multiple type X'87' (Begin Page Reference) Fully Qualified Name triplets appear within the [MODCA-5-1345]
 repeating group.
-• Multiple type X'83' (Begin Document Reference) Fully Qualified Name triplets appear within [MODCA-5-1346]
+* Multiple type X'83' (Begin Document Reference) Fully Qualified Name triplets appear within [MODCA-5-1346]
 the repeating group.
 X'02' A Fully Qualified Name (X'02') triplet other than a type X'87' (Begin Page Reference) or a type
 X'83' (Begin Document Reference) appears within the repeating group. [MODCA-5-1347]
@@ -5268,23 +5268,23 @@ dependent manner to manage the overlay resource.
 2. T o optimize print performance, it is strongly recommended that the same encoding scheme be used for a [MODCA-5-1362]
 resource reference wherever in a print file that resource reference is specified. That is, the encoding
 scheme used for the resource include, the resource map, and the resource wrapper should be the same.
-Architecture Note: In AFP environments, the following retired triplets are used on this structured field:
-• Page Overlay Conditional Processing (X'46') triplet, may occur zero or more times; see “Page Overlay [MODCA-5-1363]
+**Architecture Note:**  In AFP environments, the following retired triplets are used on this structured field:
+* Page Overlay Conditional Processing (X'46') triplet, may occur zero or more times; see “Page Overlay [MODCA-5-1363]
 Conditional Processing Triplet X'46'”.
-• Resource Usage Attribute (X'47') triplet, may occur zero or once; see “Resource Usage Attribute [MODCA-5-1364]
+* Resource Usage Attribute (X'47') triplet, may occur zero or once; see “Resource Usage Attribute [MODCA-5-1364]
 Triplet X'47'”.
 #### MPO Exception Condition Summary
 X'01' This exception condition exists when:
-• An overlay with the same name as that specified on the FQN type X'84' triplet cannot be [MODCA-5-1365]
+* An overlay with the same name as that specified on the FQN type X'84' triplet cannot be [MODCA-5-1365]
 located.
-• Multiple FQN type X'84' triplets appear within the same repeating group. [MODCA-5-1366]
-• Multiple type X'02' Resource Local Identifier (X'24') triplets appear within the same repeating [MODCA-5-1367]
+* Multiple FQN type X'84' triplets appear within the same repeating group. [MODCA-5-1366]
+* Multiple type X'02' Resource Local Identifier (X'24') triplets appear within the same repeating [MODCA-5-1367]
 group.
-• The same LID is mapped to more than one page overlay within the same structured field. [MODCA-5-1368]
+* The same LID is mapped to more than one page overlay within the same structured field. [MODCA-5-1368]
 X'02' This exception condition exists when:
-• A Fully Qualified Name (X'02') triplet other than a type X'84' (Begin Resource Object [MODCA-5-1369]
+* A Fully Qualified Name (X'02') triplet other than a type X'84' (Begin Resource Object [MODCA-5-1369]
 Reference) appears within any repeating group.
-• A Resource Local Identifier (X'24') triplet type other than X'02' appears within any repeating [MODCA-5-1370]
+* A Resource Local Identifier (X'24') triplet type other than X'02' appears within any repeating [MODCA-5-1370]
 group.
 ### Map Page Overlay (MPO)
 
@@ -5338,7 +5338,7 @@ Triplets Appear in the Map Presentation T ext structured field as follows: [MODC
 | --- | --- | --- [MODCA-5-1389]|
 | X'04' | | Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The valid mapping options for the MPT structured field are: Value Description [MODCA-5-1390]|
 | X'00' | | Position All others Reserved [MODCA-5-1391]|
-Note: If this structured field is not present in the data stream, the architected default is position. [MODCA-5-1392]
+**Note:**  If this structured field is not present in the data stream, the architected default is position. [MODCA-5-1392]
 #### MPT Exception Condition Summary
 X'01' The Map Presentation T ext structured field contains more than one repeating group. [MODCA-5-1393]
 ### Map Presentation Text (MPT)
@@ -5363,8 +5363,8 @@ Structured Field Data [MODCA-5-1395]
 SUPname Name of the text suppression.
 SUPid T ext suppression local identifier, as specified by a keyword in an MMC structured field. The
 allowed range is X'01'—X'7F'.
-Note: The local ID may be mapped to more than one text suppression name.
-Architecture Note: When processing AFP line data with Page Definitions, the Descriptor structured fields can
+**Note:**  The local ID may be mapped to more than one text suppression name.
+**Architecture Note:**  When processing AFP line data with Page Definitions, the Descriptor structured fields can
 enable the text suppression function for a record, and, if so, assign an eight-byte name to the
 suppression function. This name is mapped to a local identifier using the MSU structured field. For more
 information on line data and Page Definitions, see the Advanced Function Presentation: Programming
@@ -5385,7 +5385,7 @@ Structured Field Data [MODCA-5-1403]
 #### NOP Semantics
 UndfData Is data that has no architectural definition.
 The No Operation structured field may be specified within any begin-end domain.
-Note: The No Operation structured field may be used to carry comments or any other type of unarchitected
+**Note:**  The No Operation structured field may be used to carry comments or any other type of unarchitected
 data. Although this is not recommended, it may also be used to carry semantic data in private or
 exchange data streams. However, because receivers of interchange data streams should ignore the
 content of No Operation structured fields, and because receiver-generator products are not required to
@@ -5414,7 +5414,7 @@ Triplets Appear in the Object Area Descriptor structured field as follows: [MODC
 | X'4C' | | Object Area Size Mandatory. Must occur once. See “Object Area Size Triplet [MODCA-5-1417]|
 | X'4C'” | |. [MODCA-5-1418]|
 | X'4E' | | Color Specification Optional. May occur once. Specifies a color for the object area. The color specification defines a color space, the syntax for specifying color values in the color space, and the actual color value. When this triplet is specified on an object area, the complete object area becomes foreground data that is colored with the specified color before any object data is added to the area. If the default mixing rules are used, the object area, once it becomes foreground data, overpaints (covers) any data that is underneath. See “Color Specification Triplet X'4E'”. [MODCA-5-1419]|
-Note: This triplet is not permitted on the OBD for
+**Note:**  This triplet is not permitted on the OBD for
 presentation text that may optionally occur in the AEG
 for a page or overlay. [MODCA-5-1420]
 ### Object Area Descriptor (OBD)
@@ -5424,10 +5424,10 @@ for a page or overlay. [MODCA-5-1420]
 | --- | --- | --- [MODCA-5-1422]|
 | X'70' | | Presentation Space Reset Mixing Optional. May occur once. If this triplet specifies a reset to the color of medium (BgMxFlag=B'1'), the reset takes place at the point in the data stream where the triplet occurs. This triplet may not appear in the Object Area Descriptor structured field with a Presentation Space Mixing Rules triplet. See “Presentation Space Reset Mixing Triplet X'70'”. [MODCA-5-1423]|
 | X'71' | | Presentation Space Mixing Rules Optional. May occur once. This triplet may not appear in the Object Area Descriptor structured field with a Presentation Space Reset Mixing triplet. See “Presentation Space Mixing Rules Triplet X'71'”. [MODCA-5-1424]|
-Implementation Note: The Presentation Space Mixing
+**Implementation Note:**  The Presentation Space Mixing
 Rules (X'71') triplet is currently not used in AFP
 environments.
-Architecture Note: Triplets that affect the object area presentation space are processed in the order in which
+**Architecture Note:**  Triplets that affect the object area presentation space are processed in the order in which
 they occur on the OBD. For example, if a Presentation Space Reset Mixing (X'70') triplet on the OBD is
 followed by a Color Specification (X'4E') triplet, the object area is colored with the color specified in the
 X'4E' triplet and covers any data underneath it regardless of whether the X'70' triplet specified “reset to
@@ -5491,7 +5491,7 @@ origin relative to the X axis of the reference coordinate system.
 YoaOrent Specifies the amount of clockwise rotation of the object area's Y axis, Y oa, about its defined
 origin relative to the X axis of the reference coordinate system. The YoaOrent value must be
 90 degrees greater than the XoaOrent value or a X'01' exception condition exists. [MODCA-5-1444]
-Note: If the object area orientation is such that the sum of the object area origin offset and the
+**Note:**  If the object area orientation is such that the sum of the object area origin offset and the
 object area extent exceeds the size of the including presentation space in either the X
 or Y direction, all of the object area will not fit on the including presentation space. The
 including presentation space in this case is the page or overlay presentation space. If
@@ -5517,7 +5517,7 @@ XocaOrent Specifies the amount of rotation of the object content's X axis about 
 to the X axis of the object area coordinate system.
 YocaOrent Specifies the amount of rotation of the object content's Y axis about its defined origin relative
 to the X axis of the object area coordinate system.
-Note: If the object content orientation is such that the object content origin offset exceeds the
+**Note:**  If the object content orientation is such that the object content origin offset exceeds the
 size of the object area presentation space in either the X or Y direction, the object data
 will not fit on the object area presentation space. If the mapping option is position, that
 is X'00', and an attempt is made to actually present data outside the object area
@@ -5538,11 +5538,11 @@ X'05' Retired value. See “Retired Parameters”.
 All others Reserved
 #### OBP Exception Condition Summary
 X'01' This exception condition exists when:
-• The value specified for YoaOrent is not 90 degrees greater rotation than the value specified [MODCA-5-1448]
+* The value specified for YoaOrent is not 90 degrees greater rotation than the value specified [MODCA-5-1448]
 for XoaOrent.
-• An attempt is made to present data outside the presentation space of the containing [MODCA-5-1449]
+* An attempt is made to present data outside the presentation space of the containing [MODCA-5-1449]
 coordinate system.
-• The mapping option is position and an attempt is made to present data outside the object [MODCA-5-1450]
+* The mapping option is position and an attempt is made to present data outside the object [MODCA-5-1450]
 area presentation space. [MODCA-5-1451]
 ### Object Area Position (OBP)
 
@@ -5560,7 +5560,7 @@ Structured Field Data [MODCA-5-1453]
 | 0–n | UNDF | ObjCdat | | Up to 32,759 bytes of object data | O | X'00' [MODCA-5-1456]|
 #### OCD Semantics
 ObjCdat Contains the object data.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-1457]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-1457]
 ### Object Container Data (OCD)
 
 
@@ -5588,26 +5588,26 @@ Triplets Appear as follows: [MODCA-5-1463]
 ### Presentation Environment Control (PEC)
 
 
-• in a medium map, in which case it is considered to be a medium level control for [MODCA-5-1470]
+* in a medium map, in which case it is considered to be a medium level control for [MODCA-5-1470]
 purposes of n-up partition/sheet eject processing
-• in the Active Environment Group (AEG) of a page or overlay [MODCA-5-1471]
-• in the Object Environment Group (OEG) of a PTOCA, GOCA, or IOCA object, or in the [MODCA-5-1472]
+* in the Active Environment Group (AEG) of a page or overlay [MODCA-5-1471]
+* in the Object Environment Group (OEG) of a PTOCA, GOCA, or IOCA object, or in the [MODCA-5-1472]
 OEG of an Object Container
 For more information, see the appropriate environment group structure definitions in
 Chapter 4, “MO:DCA Objects”,.
 2. The PEC can be used to specify a device appearance with the Device Appearance (X'97') [MODCA-5-1473]
 triplet as follows:
-• in the Document Environment Group (DEG) of a form map [MODCA-5-1474]
-• in a medium map, in which case it is considered to be a medium level control for [MODCA-5-1475]
+* in the Document Environment Group (DEG) of a form map [MODCA-5-1474]
+* in a medium map, in which case it is considered to be a medium level control for [MODCA-5-1475]
 purposes of n-up partition/sheet eject processing
 For more information, see the appropriate environment group and medium map structure
 definitions in Chapter 4, “MO:DCA Objects”,.
 3. The PEC can be used to specify a setup name with the Setup Name (X'9E') triplet as [MODCA-5-1476]
 follows:
-• in the Document Environment Group (DEG) of a form map [MODCA-5-1477]
+* in the Document Environment Group (DEG) of a form map [MODCA-5-1477]
 For more information, see the appropriate environment group structure definitions in
 Chapter 4, “MO:DCA Objects”,.
-Note: A setup name is not the same as a set-up ID (see “Medium Modification Control
+**Note:**  A setup name is not the same as a set-up ID (see “Medium Modification Control
 (MMC)”). A presentation device can support setup names, or set-up
 IDs, or both (the two functions do not necessarily interact). [MODCA-5-1478]
 ### Presentation Environment Control (PEC)
@@ -5659,7 +5659,7 @@ Triplets Appear in the Presentation Fidelity Control structured field as follows
 | X'87' | | Media Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a request for a specific media or a specific media bin cannot be satisfied. See “Media Fidelity Triplet X'87'”. [MODCA-5-1497]|
 | X'88' | | Finishing Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a finishing exception is detected while processing the data stream. See “Finishing Fidelity Triplet X'88'”. [MODCA-5-1498]|
 | X'96' | | CMR T ag Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a CMR tag exception is detected while processing the data stream. See “CMR T ag Fidelity Triplet X'96'”. [MODCA-5-1499]|
-Application Note: Some presentation platforms allow presentation fidelity parameters to be specified in the
+**Application Note:**  Some presentation platforms allow presentation fidelity parameters to be specified in the
 print request. For example, in the MVS™ environment, invalid character exceptions and positioning
 exceptions may be blocked with a data check parameter in the JCL. In the OS/400 ® environment, a print
 fidelity indicator may be used to specify whether absolute fidelity is required, so that the presentation
@@ -5692,7 +5692,7 @@ Structured Field Data [MODCA-5-1502]
 #### PGD Semantics
 XpgBase Specifies the unit base for the X axis of the page or overlay coordinate system.
 YpgBase Specifies the unit base for the Y axis of the page or overlay coordinate system.
-Note: A X'01' exception condition exists if the XpgBase and YpgBase values are not identical.
+**Note:**  A X'01' exception condition exists if the XpgBase and YpgBase values are not identical.
 XpgUnits Specifies the number of units per unit base for the X axis of the page or overlay coordinate
 system.
 YpgUnits Specifies the number of units per unit base for the Y axis of the page or overlay coordinate
@@ -5701,7 +5701,7 @@ XpgSize Specifies the extent of the X axis of the page or overlay coordinate sys
 as the page or overlay's X-axis size.
 YpgSize Specifies the extent of the Y axis of the page or overlay coordinate system. This is also known
 as the page or overlay's Y-axis size.
-Note: If the sum of the page or overlay origin offset and the page or overlay extent exceeds
+**Note:**  If the sum of the page or overlay origin offset and the page or overlay extent exceeds
 the size of the including presentation space in either the X or Y direction, all of the page
 or overlay will not fit on the including presentation space. The including presentation
 space in this case is the medium presentation space. If an attempt is made to actually [MODCA-5-1513]
@@ -5723,17 +5723,17 @@ units per inch should be specified in the PGD for the page measurement units. Us
 range of 1 to 32,767, this allows a maximum page size in the X and Y directions of 136.5
 inches, is supported by all IPDS printers, and keeps the complete page presentation
 space within the range of 2-byte addressing parameters in the IPDS architecture.
-Application Note:
+**Application Note:**
 Triplets Appear in the Page Descriptor structured field as follows: [MODCA-5-1516]
 | Triplet | Type | Usage [MODCA-5-1517]|
 | --- | --- | --- [MODCA-5-1518]|
 | X'4E' | | Color Specification Optional. May occur once. Specifies a color for the page or overlay presentation space. The color specification defines a color space, the syntax for specifying color values in the color space, and the actual color value. When this triplet is specified on a page or overlay presentation space, the complete presentation space becomes foreground data that is colored with the specified color before any object data is added to the presentation space. If the default mixing rules are used, the page or overlay presentation space, when it becomes foreground data, overpaints (covers) any data that is underneath. See “Color Specification Triplet X'4E'”. [MODCA-5-1519]|
 | X'70' | | Presentation Space Reset Mixing Optional. May occur once. If this triplet specifies a reset to the color of medium (BgMxFlag=B'1'), the reset takes place at the point in the data stream where the triplet occurs. This triplet may not appear in the Page Descriptor structured field with a Presentation Space Mixing Rules triplet. See “Presentation Space Reset Mixing Triplet X'70'”. [MODCA-5-1520]|
 | X'71' | | Presentation Space Mixing Rules Optional. May occur once. This triplet may not appear in the Page Descriptor structured field with a Presentation Space Reset Mixing triplet. See “Presentation Space Mixing Rules Triplet X'71'”. [MODCA-5-1521]|
-Implementation Note: The Presentation Space Mixing
+**Implementation Note:**  The Presentation Space Mixing
 Rules (X'71') triplet is currently not used in AFP
 environments.
-Architecture Note: Triplets that affect the page or overlay presentation space are processed in the order in
+**Architecture Note:**  Triplets that affect the page or overlay presentation space are processed in the order in
 which they occur on the PGD. For example, if a Presentation Space Reset Mixing (X'70') triplet on the
 PGD is followed by a Color Specification (X'4E') triplet, the presentation space is colored with the color
 specified in the X'4E' triplet and covers any data underneath it regardless of whether the X'70' triplet
@@ -5747,10 +5747,10 @@ medium”, the X'70' triplet does not change the presentation space and it remai
 colored with the color specified by the X'4E' triplet. [MODCA-5-1523]
 #### PGD Exception Condition Summary
 X'01' This exception condition exists when:
-• The XpgBase and YpgBase values are not identical. [MODCA-5-1524]
-• An attempt is made to present data outside the medium presentation space. See the note [MODCA-5-1525]
+* The XpgBase and YpgBase values are not identical. [MODCA-5-1524]
+* An attempt is made to present data outside the medium presentation space. See the note [MODCA-5-1525]
 under YpgSize for details.
-• The PGD structured field contains both a Presentation Space Reset Mixing triplet and a [MODCA-5-1526]
+* The PGD structured field contains both a Presentation Space Reset Mixing triplet and a [MODCA-5-1526]
 Presentation Space Mixing Rules triplet. [MODCA-5-1527]
 ### Page Descriptor (PGD)
 
@@ -5764,11 +5764,11 @@ Control structured field in the active medium map, the medium presentation space
 of a sheet are divided into N partitions; and the Page Position structured field specifies the partition into which
 each page is mapped and with respect to which the page presentation space is positioned and oriented. The
 N-up page-to-partition mapping can be specified in two mutually exclusive ways:
-• Default N-up page placement. Pages are processed in the order in which they appear in the data stream and [MODCA-5-1528]
+* Default N-up page placement. Pages are processed in the order in which they appear in the data stream and [MODCA-5-1528]
 are placed into consecutively-numbered partitions, that is, the first page is placed into partition 1, the second
 page is placed into partition 2, the third page is placed into partition 3, and the 4th page is placed into
 partition 4. Partition numbering for various media is shown in Figure 61 to Figure 72.
-• Explicit N-up page placement. Pages are processed in the order in which they appear in the data stream and [MODCA-5-1529]
+* Explicit N-up page placement. Pages are processed in the order in which they appear in the data stream and [MODCA-5-1529]
 are placed into the partition that is explicitly specified by the repeating group for the page. Multiple pages
 may be placed into the same partition. If N-up simplex is specified, the Page Position structured field must
 contain N repeating groups, one for each page on the sheet-side. If N-up duplex is specified, the Page
@@ -5797,7 +5797,7 @@ Structured Field Data [MODCA-5-1531]
 The Page Position structured field contains repeating groups that are used to map pages to the medium
 presentation space or to partitions on the medium presentation space. The number of repeating groups that
 may appear on the Page Position structured field is determined as follows:
-• If N-up is not specified by the Medium Modification Control structured field in the active medium map, the [MODCA-5-1544]
+* If N-up is not specified by the Medium Modification Control structured field in the active medium map, the [MODCA-5-1544]
 Page Position structured field contains one repeating group for the front sheet-side for simplex printing, and
 two repeating groups, one for the front sheet-side and one for the back sheet-side for duplex printing. Each
 repeating group specifies the offset, orientation, and optional modifications for the page that is to be
@@ -5808,7 +5808,7 @@ always processed before the back sheet-side, regardless of the order of the two 
 ### Page Position (PGP)
 
 
-• If N-up is specified by the Medium Modification Control structured field in the active medium map and the [MODCA-5-1546]
+* If N-up is specified by the Medium Modification Control structured field in the active medium map and the [MODCA-5-1546]
 default N-up page placement is desired, the Page Position structured field contains one repeating group for
 the front sheet-side for simplex printing, and two repeating groups, one for the front sheet-side and one for
 the back sheet-side for duplex printing. Each repeating group must specify default N-up page placement,
@@ -5817,7 +5817,7 @@ sheet-side. The page offset is measured with respect to the origin of the partit
 placed, and the page orientation is measured with respect to the medium presentation space X axis. Pages
 are processed sequentially as they appear in the data stream. For duplex printing, the front sheet-side is
 always processed before the back sheet-side, regardless of the order of the two repeating groups.
-• If N-up is specified by the Medium Modification Control structured field in the active medium map and if [MODCA-5-1547]
+* If N-up is specified by the Medium Modification Control structured field in the active medium map and if [MODCA-5-1547]
 explicit N-up page placement is desired, the Page Position structured field contains N repeating groups for
 simplex printing, and 2N repeating groups for duplex printing. Pages are processed sequentially as they
 appear in the data stream using consecutive PGP repeating groups. The first page is processed using the
@@ -5862,7 +5862,7 @@ X'8700' 270° rotation [MODCA-5-1550]
 ### Page Position (PGP)
 
 
-Note: If the page rotation is such that the sum of the page origin offset and the page extent
+**Note:**  If the page rotation is such that the sum of the page origin offset and the page extent
 exceeds the size of the including medium presentation space in either the X m or Ym
 direction, all of the page presentation space will not fit on the medium presentation
 space. If an attempt is made to actually present data in the portion of the page
@@ -5879,7 +5879,7 @@ X'00' Single page placed on front sheet-side if no N-up specified, default page
 placement on front sheet-side if N-up specified.
 X'01' Single page placed on back sheet-side if no N-up specified, default page
 placement on back sheet-side if N-up specified.
-Note: If default N-up page placement is specified for the front sheet-side, it
+**Note:**  If default N-up page placement is specified for the front sheet-side, it
 must also be specified for the back sheet-side. With default N-up page
 placement, one repeating group (simplex) or two repeating groups
 (duplex) are specified, and the specified offset and orientation apply to
@@ -5892,7 +5892,7 @@ X'30' Explicit N-up page placement; page is mapped to partition 3, front sheet-s
 X'31' Explicit N-up page placement; page is mapped to partition 3, back sheet-side.
 X'40' Explicit N-up page placement; page is mapped to partition 4, front sheet-side.
 X'41' Explicit N-up page placement; page is mapped to partition 4, back sheet-side.
-Application Note: IPDS printers require that pages be contained within their partition if
+**Application Note:**  IPDS printers require that pages be contained within their partition if
 default N-up page placement is specified, otherwise an exception is generated. This
 restriction does not exist if explicit N-up page placement is specified, that is, pages may
 overflow their partition without necessarily causing an exception.
@@ -5951,7 +5951,7 @@ Control X'F9' keyword in the MMC, treat PMC overlays as variable page data.
 functions provided by the Constant Forms Control (X'F9') keyword and the Medium
 Overlay Local ID (X'F2') keyword in the MMC at the medium level. When the PgFlgs
 parameter, the X'F9' keyword, and the X'F2' keyword are present, they interact as follows:
-• The Constant Forms Control (X'F9') keyword is not supported with N-up explicit page [MODCA-5-1559]
+* The Constant Forms Control (X'F9') keyword is not supported with N-up explicit page [MODCA-5-1559]
 placement and is ignored if it occurs. Similar functionality can be achieved for a sheet
 side by explicitly including the medium overlay as a PMC overlay on a partition without
 any variable page data.
@@ -5972,12 +5972,12 @@ applied to any partition on the sheet side. [MODCA-5-1560]
 When the X'F9' keyword specifies that variable page data including PMC overlays can
 be applied to the sheet side, the PgFlgs parameter determines whether variable page
 data and PMC overlay data is placed into partitions on that sheet side.
-• With default N-up page placement, if a sheet-side contains only constant data (MMC [MODCA-5-1561]
+* With default N-up page placement, if a sheet-side contains only constant data (MMC [MODCA-5-1561]
 Constant Forms Control X'F9' keyword is specified or PGP PgFlgs bit 0 = B'1'), it is built
 as long as:
 – At least a single page is placed anywhere on that sheet; or
 – The other sheet-side also contains only constant data
-• The Medium Overlay Local ID (X'F2') keyword controls the application of medium [MODCA-5-1562]
+* The Medium Overlay Local ID (X'F2') keyword controls the application of medium [MODCA-5-1562]
 overlays to the sheet side, while the PgFlgs parameter controls the application of PMC
 overlays to the page in a partition. These two overlay types are included or omitted
 independently.
@@ -5989,12 +5989,12 @@ For example, if the PGP specifies explicit page placement but does not contain a
 repeating group for a back-side partition, and if the MMC for the back side copy
 subgroup calls out a medium overlay with the X'F2' keyword, this medium overlay will
 not be presented.
-• In general, if the Constant Forms Control (X'F9') keyword is not specified for a sheet- [MODCA-5-1563]
+* In general, if the Constant Forms Control (X'F9') keyword is not specified for a sheet- [MODCA-5-1563]
 side, any medium overlays specified for that sheet-side are only presented if at least a
 single page is placed on the same sheet-side. Note that this page could be a page with
 variable data, a blank page with only PMC overlays, or even a blank page without PMC
 overlays, as determined by the setting of the PgFlgs parameter.
-Application Note: Bits 0–1 of the PgFlgs parameter can be used to place a blank page into a
+**Application Note:**  Bits 0–1 of the PgFlgs parameter can be used to place a blank page into a
 partition or to fill a partition with constant data specified in a PMC overlay.
 PMCid Identifies a Page Modification Control (PMC) structured field in the active medium map that
 specifies modifications to be applied to the page before it is placed in the partition. If this
@@ -6025,34 +6025,34 @@ mixing rules defined for PMC-PFOs. See “Mixing Rules”. [MODCA-5-1566]
 
 3. All PMC overlays included by a PGP repeating group must be mapped with an MPO [MODCA-5-1567]
 structured field.
-Application Note: The N-up function provided by the PGP structured field provides powerful and flexible
+**Application Note:**  The N-up function provided by the PGP structured field provides powerful and flexible
 functionality for placing multiple pages on a single sheet. Not all of this functionality maps easily to a
 viewing environment, which is normally page-based. When creating N-up applications that are to be
 both printed and viewed, you should follow these guidelines:
-• Do not use medium overlays. Medium overlays are tied to a sheet-side, not to a page, and should be [MODCA-5-1568]
+* Do not use medium overlays. Medium overlays are tied to a sheet-side, not to a page, and should be [MODCA-5-1568]
 replaced with PMC overlays, which can be tied to a page. If medium overlays are used, the page and
 PMC overlay position and rotation with respect to the medium origin must be preserved. This may
 generate blank space on the display screen and may even cause the page and PMC overlays to
 position or rotate off the screen. T o avoid these problems, some viewing applications may not support
 medium overlays when presenting N-up data.
-• Generate the PGP so that all data that must be displayed with a particular page is referenced by the [MODCA-5-1569]
+* Generate the PGP so that all data that must be displayed with a particular page is referenced by the [MODCA-5-1569]
 PGP repeating group that is used to process the page.
-• Avoid creating special effects by overlapping two or more pages since these effects will not be [MODCA-5-1570]
+* Avoid creating special effects by overlapping two or more pages since these effects will not be [MODCA-5-1570]
 displayed by a page-based N-up viewing system.
-• Avoid splitting page content across more than one page, since this would require a multi-page viewing [MODCA-5-1571]
+* Avoid splitting page content across more than one page, since this would require a multi-page viewing [MODCA-5-1571]
 capability.
 ### Page Position (PGP)
 
 
 #### PGP Exception Condition Summary
 X'01' This exception condition exists when:
-• One repeating group specifies default N-up page placement and another repeating group [MODCA-5-1572]
+* One repeating group specifies default N-up page placement and another repeating group [MODCA-5-1572]
 specifies explicit N-up page placement.
-• The Page Position structured field contains an invalid number of repeating groups for the [MODCA-5-1573]
+* The Page Position structured field contains an invalid number of repeating groups for the [MODCA-5-1573]
 given N-up and simplex/duplex specification.
-• Explicit N-up page placement is specified, but the active medium map does not specify N-up [MODCA-5-1574]
+* Explicit N-up page placement is specified, but the active medium map does not specify N-up [MODCA-5-1574]
 partitioning.
-• A repeating group specifies invalid data, such as a back sheet-side partition when the active [MODCA-5-1575]
+* A repeating group specifies invalid data, such as a back sheet-side partition when the active [MODCA-5-1575]
 medium map specifies simplex, or partition #3 when the active medium map specifies 2-up.
 Partition Numbering for N-up
 Partition numbering for various media is shown in Figure 61 to Figure 72. The
@@ -6070,36 +6070,36 @@ All sheets have three holes punched along one of the long sides and one hole pun
 long side. The small square indicates the medium origin, and the arrow indicates the direction of the
 medium X
 m axis.
-Figure 61. 1-up Partition Numbering, Front Sheet-Side [MODCA-5-1576]
+**Figure 61.**  1-up Partition Numbering, Front Sheet-Side [MODCA-5-1576]
 ### Page Position (PGP)
 
 
-Figure 62. 2-up Partition Numbering, Front Sheet-Side
-Figure 63. 3-up Partition Numbering, Front Sheet-Side [MODCA-5-1577]
+**Figure 62.**  2-up Partition Numbering, Front Sheet-Side
+**Figure 63.**  3-up Partition Numbering, Front Sheet-Side [MODCA-5-1577]
 ### Page Position (PGP)
 
 
-Figure 64. 4-up Partition Numbering, Front Sheet-Side
-Figure 65. 1-up Partition Numbering, Back Sheet-Side, Normal Duplex [MODCA-5-1578]
+**Figure 64.**  4-up Partition Numbering, Front Sheet-Side
+**Figure 65.**  1-up Partition Numbering, Back Sheet-Side, Normal Duplex [MODCA-5-1578]
 ### Page Position (PGP)
 
 
-Figure 66. 2-up Partition Numbering, Back Sheet-Side, Normal Duplex
-Figure 67. 3-up Partition Numbering, Back Sheet-Side, Normal Duplex [MODCA-5-1579]
+**Figure 66.**  2-up Partition Numbering, Back Sheet-Side, Normal Duplex
+**Figure 67.**  3-up Partition Numbering, Back Sheet-Side, Normal Duplex [MODCA-5-1579]
 ### Page Position (PGP)
 
 
-Figure 68. 4-up Partition Numbering, Back Sheet-Side, Normal Duplex
-Figure 69. 1-up Partition Numbering, Back Sheet-Side, Tumble Duplex [MODCA-5-1580]
+**Figure 68.**  4-up Partition Numbering, Back Sheet-Side, Normal Duplex
+**Figure 69.**  1-up Partition Numbering, Back Sheet-Side, Tumble Duplex [MODCA-5-1580]
 ### Page Position (PGP)
 
 
-Figure 70. 2-up Partition Numbering, Back Sheet-Side, Tumble Duplex
-Figure 71. 3-up Partition Numbering, Back Sheet-Side, Tumble Duplex [MODCA-5-1581]
+**Figure 70.**  2-up Partition Numbering, Back Sheet-Side, Tumble Duplex
+**Figure 71.**  3-up Partition Numbering, Back Sheet-Side, Tumble Duplex [MODCA-5-1581]
 ### Page Position (PGP)
 
 
-Figure 72. 4-up Partition Numbering, Back Sheet-Side, Tumble Duplex [MODCA-5-1582]
+**Figure 72.**  4-up Partition Numbering, Back Sheet-Side, Tumble Duplex [MODCA-5-1582]
 ### Page Position (PGP)
 
 
@@ -6139,7 +6139,7 @@ Triplets Appear in the Page Modification Control structured field as follows: [M
 | X'4B' | | Measurement Units Optional. May occur once. Specifies the units of measure to be used for positioning included objects on the page. See “Measurement Units Triplet X'4B'”. If this triplet is omitted, the units of measure specified in the Medium Descriptor (MDD) that is in the same medium map as the PMC are used to position included objects on the page. [MODCA-5-1595]|
 | X'6C' | | Resource Object Include Optional. May occur more than once, but only one occurrence can specify object type X'DC' - Preprinted Form Overlay (PFO). If this triplet is specified more than once with object type X'DC', the additional occurrences are ignored. Identifies an object to be included on the page at a specified position. See “Resource Object Include Triplet [MODCA-5-1596]|
 | X'6C'” | |. [MODCA-5-1597]|
-Note: Overlays that are included on a page using the PMC structured field are called PMC overlays. If the
+**Note:**  Overlays that are included on a page using the PMC structured field are called PMC overlays. If the
 overlay is a Preprinted Form (PFO) overlay, it is called a PMC-PFO. Each overlay included on a page
 with a PMC must first be mapped to a local ID with an MPO in the medium map containing the PMC. [MODCA-5-1598]
 ### Page Modification Control (PMC)
@@ -6186,7 +6186,7 @@ presentation object. See “Non-OCA Object Types Supported by the IOB
 Structured Field” for a list of object types that may be included in
 MO:DCA data streams. T o see which encoded object-type OIDs are
 supported by the presentation system, consult the product documentation.
-Application Note: If the object is installed in a resource library using a
+**Application Note:**  If the object is installed in a resource library using a
 Resource Access T able (RAT), it must not be wrapped with a MO:DCA
 object container envelope, that is, it must be installed in its raw source
 format.
@@ -6198,7 +6198,7 @@ ProcFlgs Specify additional processing information for the PPO structured field
 Bits 0–3: Object Orientation
 Specify one or more orientations, measured in a clockwise direction, of the X-
 axis of the object with respect to the leading edge of the media.
-Application Note: Many factors, such as media selection, media side, media
+**Application Note:**  Many factors, such as media selection, media side, media
 loading, media orientation, page rotation, and object area rotation
 affect the orientation of an object with respect to the media leading
 edge. Proper specification of this parameter may require visual
@@ -6258,7 +6258,7 @@ Triplets Appear in the Preprocess Presentation Object structured field repeating
 | Triplet | Type | Usage [MODCA-5-1618]|
 | --- | --- | --- [MODCA-5-1619]|
 | X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once in each repeating group. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1620]|
-Implementation Note: Not all AFP servers support the
+**Implementation Note:**  Not all AFP servers support the
 inheritance of encoding scheme from higher levels of the
 document hierarchy, therefore it is recommended that
 this triplet be specified directly on the PPO if required by
@@ -6299,7 +6299,7 @@ maps the object as a resource. [MODCA-5-1621]
 | --- | --- | --- [MODCA-5-1623]|
 | X'02' | | Fully Qualified Name Optional. May occur more than once in each repeating group. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is: [MODCA-5-1624]|
 | X'DE'—Data | | Object External Resource Reference. Specifies the external identifier of a resource object that is used by the object to be preprocessed. The identifier is used by the presentation system to locate the resource object in the resource hierarchy. The identifier may be specified in one of the following two formats, but not in both formats: If FQNFmt = X'00', the identifier is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. If FQNFmt = X'10', the identifier is an ASN.1 OID encoded using the definite short form. This format provides a unique and system-independent method to identify and reference an object. It may be used to select resources that are resident in the presentation device. Such an identifier is referred to as an object OID. [MODCA-5-1625]|
-Architecture Note: The FQN type X'DE' triplet with
+**Architecture Note:**  The FQN type X'DE' triplet with
 FQNFmt = X'10' (OID) is only used to reference the
 CMYK SWOP and CMYK Euroscale resident color
 profiles registered in the MO:DCA Registry; see
@@ -6317,7 +6317,7 @@ must be specified on the PPO with a FQN type X'BE' triplet
 that immediately follows the FQN type X'DE' triplet. The
 paired triplets map the internal identifier to the external
 identifier.
-Note: When a non-OCA object such as PDF or SVG
+**Note:**  When a non-OCA object such as PDF or SVG
 references a TTF/OTF as a secondary resource, the
 FQN type X'DE' triplet on the PPO must specify the full
 font name of the font. This font must also be mapped
@@ -6340,7 +6340,7 @@ internally by the object to be preprocessed to reference [MODCA-5-1626]
 | X'10' | | Object Classification Mandatory if the repeating group specifies a Fully Qualified Name type X'CE'—Other Object Data Reference, in which case it must occur once in the repeating group and identifies the object type to be preprocessed. See “Object Classification Triplet X'10'”. [MODCA-5-1630]|
 | X'4B' | | Measurement Units Mandatory if the PPO specifies any of the following parameters: • XocaOset • YocaOset • XoaSize, specified in the Object Area Size (X'4C') triplet • YoaSize, specified in the Object Area Size (X'4C') triplet In which case this triplet must occur once in the repeating group and defines the measurement units for the parameter values. This triplet is ignored for ObjType = [MODCA-5-1631]|
 | X'DF'—Overlay. | | See “Measurement Units Triplet X'4B'”. [MODCA-5-1632]|
-Application Note: When the units of measure values
+**Application Note:**  When the units of measure values
 specified on the PPO are different than the values
 specified on a subsequent IOB that includes the
 preprocessed object, the presentation device might
@@ -6364,7 +6364,7 @@ Size Triplet X'4C'”.
 | X'92' | | Other object data. Triplet is ignored if the object type is not an image file format that specifies a bilevel or grayscale image, as defined in Appendix D, “MO:DCA Registry”,. [MODCA-5-1636]|
 | X'FB' | | Image (IOCA); triplet is ignored if the image is not bilevel. When this triplet is applied to IOCA image, it only applies to bilevel image; it is ignored when the image is not bilevel. When this triplet is applied to non-OCA image file formats, it only applies to bilevel or grayscale image; it is ignored when the image is not bilevel or grayscale. Note that all 1- bit per pixel image objects are considered bilevel. When the image is grayscale, this triplet specifies the color that is to be grayscaled. The color space selected in the triplet must be supported in the object’s data descriptor structured field. For example, if the triplet specifies a default color using ColSpce =X'08' - CIELAB, the object’s data descriptor must also support the CIELAB color space. If ColSpce =X'06' - Highlight color space, the % coverage and % shading parameters are ignored. If the above conditions are not met, the triplet is ignored. See “Color Specification Triplet X'4E'”. [MODCA-5-1637]|
 | X'5A' | | Object Offset Optional. May occur once in each repeating group. If this PPO references a file with ObjType = X'92' that contains multiple pages or paginated objects, may occur once with ObjTpe=X'AF' to specify that pages or paginated objects are the objects to be counted. The triplet is ignored in all other cases. Selects a single paginated object to be preprocessed by specifying how many paginated objects in the referenced file precede that object. The offset is measured from the beginning of the file, so that the first paginated object has offset 0, the second has offset 1, and the nth has offset (n-1). Only the selected object is preprocessed. The PPO triplet overrides any Object Offset triplet specified on the CDD. If this triplet is not specified when the PPO references a file with ObjType = X'92' that contains multiple paginated objects, the default is to preprocess the first paginated object in the file. For more information on selecting paginated objects, see “Object Offset Triplet X'5A'”. [MODCA-5-1638]|
-Architecture Note: While only the selected paginated
+**Architecture Note:**  While only the selected paginated
 object in the file is actually presented on the page or
 overlay, the file referenced by the PPO can be
 processed by the presentation system as a complete
@@ -6389,11 +6389,11 @@ a multi-page PDF , pages included from that file can be [MODCA-5-1639]
 | X'9C' | | Object Container Presentation Space Size Optional. May occur once in each repeating group for certain object types defined by ObjType = X'92' - “other object data”; ignored for IOCA image objects and all other object types. May be specified for the following object types: • PDF - all presentation object types • AFPC SVG Subset Specifies the presentation space size of the object container. For PDF object types, specifies how this size is determined. For SVG, specifies the actual size, and overrides any presentation space size specified within the SVG object. The PPO triplet overrides any specification of object container presentation space size in the Data Object RAT or on the CDD. See “Object Container Presentation Space Size Triplet X'9C'”. [MODCA-5-1647]|
 | X'FF' | | Triplet Extender Optional. May occur more than once in a contiguous sequence, but only in the following case. It is ignored in all other cases. • The PPO must specify one of the following object types: [MODCA-5-1648]|
 | X'92' | | Other object data • The PPO references a secondary resource for the other object data using an FQN type X'DE' triplet • The secondary resource is the generic non-OCA Resource object • The PPO associates an internal resource reference to the secondary resource with an FQN type X'BE' triplet • The triplet extenders must follow the FQN type X'BE' triplet and must occur in a contiguous sequence. Specifies a portion of a secondary resource reference that occurs internal to the data object referenced by the PPO. Use of the triplet extender allows the length of the internal resource reference to exceed the 250 byte capacity of the FQN type X'BE' triplet. [MODCA-5-1649]|
-Note: The non-OCA Resource Object must be mapped
+**Note:**  The non-OCA Resource Object must be mapped
 with an MDR reference that matches the FQN type
 X'DE' reference on the PPO.
 See “Triplet Extender Triplet X'FF'”.
-Application Note: Objects referenced by a PPO are always processed as hard objects. If the referenced
+**Application Note:**  Objects referenced by a PPO are always processed as hard objects. If the referenced
 object contains an OEG, secondary resource mappings in the OEG, such as CMR references, are
 ignored and must be specified directly on the PPO.
 Processing Rules
@@ -6446,37 +6446,37 @@ actually presented. However there are presentation parameters that may be in eff
 were not taken into account when the object was preprocessed. In such cases the preprocessed and cached
 object is not used for presentation and the system throughput improvement is not realized. Examples of such
 presentation parameters are:
-• Specification of an unsupported preprocessing mapping, such as a migration image mapping, on the include [MODCA-5-1651]
+* Specification of an unsupported preprocessing mapping, such as a migration image mapping, on the include [MODCA-5-1651]
 structured field
 ### Preprocess Presentation Object (PPO)
 
 
-• Specification of a color override on the include structured field, such as use of the Color Specification (X'4E') [MODCA-5-1652]
+* Specification of a color override on the include structured field, such as use of the Color Specification (X'4E') [MODCA-5-1652]
 triplet to override a default OCA color
-• Invocation of a non-reset Color Mapping T able [MODCA-5-1653]
-• Specification of a non-default print quality (objects are always preprocessed at default print quality) [MODCA-5-1654]
-• Activation of a text suppression for overlays (overlays are always preprocessed without text suppressions) [MODCA-5-1655]
+* Invocation of a non-reset Color Mapping T able [MODCA-5-1653]
+* Specification of a non-default print quality (objects are always preprocessed at default print quality) [MODCA-5-1654]
+* Activation of a text suppression for overlays (overlays are always preprocessed without text suppressions) [MODCA-5-1655]
 #### PPO Exception Condition Summary
 X'01' This exception condition exists when:
-• A resource with the same identifier as that specified on the type X'84' (Coded Font [MODCA-5-1656]
+* A resource with the same identifier as that specified on the type X'84' (Coded Font [MODCA-5-1656]
 Reference), Fully Qualified Name triplet, or on the type X'CE' (Other Object Data Reference)
 Fully Qualified Name triplet, or on the type X'DE' (Data Object External Resource
 Reference) Fully Qualified Name triplet was not previously mapped in the same resource
 group or could not be located.
-• The same repeating group contains an invalid number or combination of Fully Qualified [MODCA-5-1657]
+* The same repeating group contains an invalid number or combination of Fully Qualified [MODCA-5-1657]
 Name triplets.
 X'02' This exception condition exists when:
-• A Fully Qualified Name (X'02') triplet other than a type X'84' (Coded Font Reference), a type [MODCA-5-1658]
+* A Fully Qualified Name (X'02') triplet other than a type X'84' (Coded Font Reference), a type [MODCA-5-1658]
 X'BE' (Data Object Internal Resource Reference), type X'CE' (Other Object Data
 Reference), or a type X'DE' (Data Object External Resource Reference) appears within any
 repeating group.
-• The resource reference is specified using FQNFmt X'10' (object OID), but the object either is [MODCA-5-1659]
+* The resource reference is specified using FQNFmt X'10' (object OID), but the object either is [MODCA-5-1659]
 not carried in a valid MO:DCA structure or is carried in a valid MO:DCA structure but does
 not have a matching object OID.
 X'04' This exception condition exists when:
-• A FQN type X'BE' triplet is specified but does not immediately follow a FQN type X'DE' [MODCA-5-1660]
+* A FQN type X'BE' triplet is specified but does not immediately follow a FQN type X'DE' [MODCA-5-1660]
 triplet.
-• A Color Management Resource Descriptor triplet is specified but does not immediately [MODCA-5-1661]
+* A Color Management Resource Descriptor triplet is specified but does not immediately [MODCA-5-1661]
 follow a FQN type X'DE' triplet that references a CMR. [MODCA-5-1662]
 ### Preprocess Presentation Object (PPO)
 
@@ -6495,8 +6495,8 @@ Structured Field Data [MODCA-5-1663]
 #### PTD Semantics
 PTOCAdes Contains the PTOCA-defined text descriptor. See the MO:DCA environment appendix in the
 Presentation Text Object Content Architecture Reference for detailed information.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set.
-Application Note: When the PTD is included in the AEG for a page, some AFP print servers require that the
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set.
+**Application Note:**  When the PTD is included in the AEG for a page, some AFP print servers require that the
 measurement units in the PTD match the measurement units in the Page Descriptor (PGD). It is
 therefore strongly recommended that whenever the PTD is included in the AEG, the same
 measurement units are specified in both the PTD and PGD. [MODCA-5-1667]
@@ -6516,7 +6516,7 @@ Structured Field Data [MODCA-5-1669]
 #### PTX Semantics
 PTOCAdat Contains the PTOCA-defined text descriptor. See the MO:DCA environment appendix in the
 Presentation Text Object Content Architecture Reference for detailed information.
-Note: The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-1673]
+**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-1673]
 ### Presentation Text Data (PTX)
 
 
