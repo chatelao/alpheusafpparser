@@ -127,7 +127,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
         - ✅ Chapters 1-3 complete.
         - 🚧 Chapter 4 (Partially reformatted) in-progress.
-        - ⏳ Chapters 5-8.
+        - 🚧 Chapter 5 (Begin-type Structured Fields) in-progress.
+        - ⏳ Chapters 6-8.
         - ⏳ Appendices A-F, Glossary, Index, Front Matter, and Notices.
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
         - ✅ Chapters 1-3 complete.
