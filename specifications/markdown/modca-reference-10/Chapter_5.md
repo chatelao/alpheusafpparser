@@ -1,404 +1,365 @@
 Chapter 5. MO:DCA Structured Fields
+
 This chapter:
 * Briefly describes the purpose of each MO:DCA structured field [MODCA-5-001]
 * Provides the syntax and semantics for each MO:DCA structured field [MODCA-5-002]
 * Identifies each structured field's parameter set [MODCA-5-003]
 * Identifies exception conditions [MODCA-5-004]
-General Information
-Chapter 3, “MO:DCA Overview”, provides a general discussion of the syntax and semantics of
-MO:DCA structured fields. Detailed formats, syntaxes and semantics are provided here to enable product
-developers to design and produce applications that can use MO:DCA data streams.
-The syntax tables in this chapter describe the less restrictive requirements of the overall architecture. Thus,
-these syntax tables may not agree exactly with a specific interchange set with regard to:
+
+## General Information
+
+Chapter 3, “MO:DCA Overview”, provides a general discussion of the syntax and semantics of MO:DCA structured fields. Detailed formats, syntaxes and semantics are provided here to enable product developers to design and produce applications that can use MO:DCA data streams.
+
+The syntax tables in this chapter describe the less restrictive requirements of the overall architecture. Thus, these syntax tables may not agree exactly with a specific interchange set with regard to:
 * Whether a data element is mandatory or optional [MODCA-5-005]
 * The number of times a particular data element may validly occur [MODCA-5-006]
 * The order in which the data elements must occur [MODCA-5-007]
+
 In those cases where there is disagreement with an interchange set, the interchange set requirement governs.
-The exception condition column of the syntax tables for these structured fields identifies only those exception
-conditions that could occur for the individual parameters.
-Structured fields that have triplets reflect an exception condition code of either X'10' or X'14' in this column for
-the triplet entry. This reflects only the possibility that the structured field could include an invalid triplet, or that a
-required triplet could be missing. Any exception conditions relating to a triplet's data elements are addressed in
-Chapter 6, “MO:DCA Triplets”,.
-Those exception conditions that may occur because of special conditions such as a mismatch between the
-individual parameters of one or more structured fields are listed under the Semantics headings when only one
-such exception condition is identified. When multiple exception conditions are identified, all are listed under the
-“Exception Condition Summary” heading. A more detailed explanation may be provided under the “Semantics”
-heading.
-Architected defaults are identified in the semantic description of the individual parameters. When an
-architected default exists for an entire structured field, the default is documented at the end of the semantic
-description for that structured field.
+
+The exception condition column of the syntax tables for these structured fields identifies only those exception conditions that could occur for the individual parameters.
+
+Structured fields that have triplets reflect an exception condition code of either X'10' or X'14' in this column for the triplet entry. This reflects only the possibility that the structured field could include an invalid triplet, or that a required triplet could be missing. Any exception conditions relating to a triplet's data elements are addressed in Chapter 6, “MO:DCA Triplets”,.
+
+Those exception conditions that may occur because of special conditions such as a mismatch between the individual parameters of one or more structured fields are listed under the Semantics headings when only one such exception condition is identified. When multiple exception conditions are identified, all are listed under the “Exception Condition Summary” heading. A more detailed explanation may be provided under the “Semantics” heading.
+
+Architected defaults are identified in the semantic description of the individual parameters. When an architected default exists for an entire structured field, the default is documented at the end of the semantic description for that structured field.
+
 The following structured field definitions are sorted in alphabetical order based on structured field acronym. [MODCA-5-008]
 
-
 ### Begin Active Environment Group (BAG)
-The Begin Active Environment Group structured field begins an Active Environment Group, which establishes
-the environment parameters for the page or overlay. The scope of the active environment group is the
-containing page or overlay. [MODCA-5-009]
+
+The Begin Active Environment Group structured field begins an Active Environment Group, which establishes the environment parameters for the page or overlay. The scope of the active environment group is the containing page or overlay. [MODCA-5-009]
+
 #### BAG (X'D3A8C9') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8C9' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-010]
+SF Length (2B) ID = X'D3A8C9' Flags (1B) Reserved; X'0000' [MODCA-5-010]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-011]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-012]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-012]|
 | 0–7 | CHAR | AEGName | | Name of the active environment group | O | X'02' [MODCA-5-013]|
 | 8–n | Triplets | | | See BAG Semantics for triplet applicability. | O | X'10' [MODCA-5-014]|
+
 #### BAG Semantics
-AEGName Is the name of the active environment group.
-The page or overlay containing the Begin Active Environment Group structured field must also
-contain a subsequent matching End Active Environment Group structured field, or a X'08'
-exception condition exists.
-Triplets Appear as follows: [MODCA-5-015]
+
+**AEGName** Is the name of the active environment group.
+
+The page or overlay containing the Begin Active Environment Group structured field must also contain a subsequent matching End Active Environment Group structured field, or a X'08' exception condition exists.
+
+**Triplets** Appear as follows: [MODCA-5-015]
+
 | Triplet | Type | Usage [MODCA-5-016]|
-| --- | --- | --- [MODCA-5-017]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-018]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-019]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-020]
+| :---: | :--- | :--- [MODCA-5-017]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-018]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-019]|
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-020]
+
 #### BAG Exception Condition Summary
-X'08' A subsequent matching End Active Environment Group structured field is not present in the
-page or overlay.
-### Begin Active Environment Group (BAG)
 
+*   **X'08'** A subsequent matching End Active Environment Group structured field is not present in the page or overlay.
 
 ### Begin Bar Code Object (BBC)
-The Begin Bar Code Object structured field begins a bar code data object, which becomes the current data
-object.
+
+The Begin Bar Code Object structured field begins a bar code data object, which becomes the current data object.
+
 #### BBC (X'D3A8EB') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8EB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-021]
+SF Length (2B) ID = X'D3A8EB' Flags (1B) Reserved; X'0000' [MODCA-5-021]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-022]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-023]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-023]|
 | 0–7 | CHAR | BCdoName | | Name of the bar code data object | O | X'02' [MODCA-5-024]|
-| 8–n Triplets See BBC Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-025]|
+| 8–n | Triplets | | | See BBC Semantics for triplet applicability. | O | X'10' [MODCA-5-025]|
+
 #### BBC Semantics
-BCdoName Is the name of the bar code data object.
-The page, overlay, or resource group containing the Begin Bar Code Object structured field
-must also contain a subsequent matching End Bar Code Object structured field, or a X'08'
-exception condition exists.
-Triplets Appear as follows: [MODCA-5-026]
+
+**BCdoName** Is the name of the bar code data object.
+
+The page, overlay, or resource group containing the Begin Bar Code Object structured field must also contain a subsequent matching End Bar Code Object structured field, or a X'08' exception condition exists.
+
+**Triplets** Appear as follows: [MODCA-5-026]
+
 | Triplet | Type | Usage [MODCA-5-027]|
-| --- | --- | --- [MODCA-5-028]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-029]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Bar Code Object structured field name and is used as the name of the bar code data object. [MODCA-5-030]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-031]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-032]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-033]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-034]
-### Begin Bar Code Object (BBC)
+| :---: | :--- | :--- [MODCA-5-028]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-029]|
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Bar Code Object structured field name and is used as the name of the bar code data object. [MODCA-5-030]|
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-031]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-032]|
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-033]|
 
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-034]
 
-**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
-* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-035]
-X'27'”.
+**Architecture Note:** In AFP environments, the following retired triplet is used on this structured field:
+*   Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet X'27'”. [MODCA-5-035]
+
 #### BBC Exception Condition Summary
-X'08' A subsequent matching End Bar Code Object structured field is not present in the page,
-overlay, or resource group. [MODCA-5-036]
-### Begin Bar Code Object (BBC)
 
+*   **X'08'** A subsequent matching End Bar Code Object structured field is not present in the page, overlay, or resource group. [MODCA-5-036]
 
 ### Bar Code Data (BDA)
-The Bar Code Data structured field contains the data for a bar code object. [MODCA-5-037]
+
+The Bar Code Data structured field carries the bar code data and the control information for presenting the bar code. [MODCA-5-037]
+
 #### BDA (X'D3EEEB') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3EEEB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-038]
+SF Length (2B) ID = X'D3EEEB' Flags (1B) Reserved; X'0000' [MODCA-5-038]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-039]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-040]|
-| 0–n UNDF BCOCAdat Up to 32,759 bytes of BCOCA- | | | | | | defined data O X'00' [MODCA-5-041]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-040]|
+| 0–n | UNDEF | BDAData | | BCOCA bar code data | M | |
+
 #### BDA Semantics
-BCOCAdat Contains the BCOCA-defined data. See the MO:DCA environment appendix in the Bar Code
-Object Content Architecture Reference for detailed information.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-042]
-### Bar Code Data (BDA)
 
+**BDAData** Contains the bar code data. The format of the data is defined by the Bar Code Object Content Architecture (BCOCA). See the *Bar Code Object Content Architecture Reference* for more information. [MODCA-5-041]
 
 ### Bar Code Data Descriptor (BDD)
-The Bar Code Data Descriptor structured field contains the descriptor data for a bar code data object. [MODCA-5-043]
+
+The Bar Code Data Descriptor structured field contains the descriptor data for a bar code data object. [MODCA-5-042]
+
 #### BDD (X'D3A6EB') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A6EB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-044]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-045]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-046]|
-| 0–n UNDF BCOCAdes Up to 32,759 bytes of BCOCA- | | | | | | defined descriptor data O X'00' [MODCA-5-047]|
+SF Length (2B) ID = X'D3A6EB' Flags (1B) Reserved; X'0000' [MODCA-5-043]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-044]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-045]|
+| 0–n | UNDEF | BDDData | | BCOCA bar code descriptor data | M | |
+
 #### BDD Semantics
-BCOCAdes Contains the BCOCA-defined descriptor data. See the MO:DCA environment appendix in the
-Bar Code Object Content Architecture Reference for detailed information.
-**Architecture Note:**  The BCOCA-defined descriptor supports the Color Specification (X'4E')
-triplet.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-048]
-### Bar Code Data Descriptor (BDD)
 
+**BDDData** Contains the bar code descriptor data. The format of the data is defined by the Bar Code Object Content Architecture (BCOCA). See the *Bar Code Object Content Architecture Reference* for more information. [MODCA-5-046]
 
 ### Begin Document Environment Group (BDG)
-The Begin Document Environment Group structured field begins a document environment group, which
-establishes the environment parameters for the form map object. The scope of the document environment
-group is the containing form map. [MODCA-5-049]
+
+The Begin Document Environment Group structured field begins a Document Environment Group (DEG), which establishes the environment parameters for the document. The scope of the document environment group is the containing document or form map. [MODCA-5-047]
+
 #### BDG (X'D3A8C4') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8C4' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-050]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-051]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-052]|
-| 0–7 CHAR DEGName Name of the document | | | | | | environment group O X'02' [MODCA-5-053]|
-| 8–n Triplets See BDG Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-054]|
+SF Length (2B) ID = X'D3A8C4' Flags (1B) Reserved; X'0000' [MODCA-5-048]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-049]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-050]|
+| 0–7 | CHAR | DEGName | | Name of the document environment group | O | X'02' [MODCA-5-051]|
+| 8–n | Triplets | | | See BDG Semantics for triplet applicability. | O | X'10' [MODCA-5-052]|
+
 #### BDG Semantics
-DEGName Is the name of the document environment group.
-The form map containing the Begin Document Environment Group structured field must also
-contain a subsequent matching End Document Environment Group structured field, or a X'08'
-exception condition exists.
-Triplets Appear as follows: [MODCA-5-055]
-| Triplet | Type | Usage [MODCA-5-056]|
-| --- | --- | --- [MODCA-5-057]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-058]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-059]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-060]
+
+**DEGName** Is the name of the document environment group.
+
+The document or form map containing the Begin Document Environment Group structured field must also contain a subsequent matching End Document Environment Group structured field, or a X'08' exception condition exists.
+
+**Triplets** Appear as follows: [MODCA-5-053]
+
+| Triplet | Type | Usage [MODCA-5-054]|
+| :---: | :--- | :--- [MODCA-5-055]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-056]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-057]|
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-058]
+
 #### BDG Exception Condition Summary
-X'08' A subsequent matching End Document Environment Group structured field is not present in
-the form map.
-### Begin Document Environment Group (BDG)
 
+*   **X'08'** A subsequent matching End Document Environment Group structured field is not present in the document or form map.
 
 ### Begin Document Index (BDI)
-The Begin Document Index structured field begins the document index. [MODCA-5-061]
+
+The Begin Document Index structured field begins a document index, which contains indexing information for the document. [MODCA-5-059]
+
 #### BDI (X'D3A8A7') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8A7' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-062]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-063]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-064]|
-| 0–7 | CHAR | IndxName | | Name of the document index | O | X'02' [MODCA-5-065]|
-| 8–n Triplets See BDI Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-066]|
+SF Length (2B) ID = X'D3A8A7' Flags (1B) Reserved; X'0000' [MODCA-5-060]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-061]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-062]|
+| 0–7 | CHAR | IndxName | | Name of the document index | O | X'02' [MODCA-5-063]|
+| 8–n | Triplets | | | See BDI Semantics for triplet applicability. | O | X'10' [MODCA-5-064]|
+
 #### BDI Semantics
-IndxName Is the name of the document index.
-The print file containing the Begin Document Index structured field must also contain a
-subsequent matching End Document Index structured field, or a X'08' exception condition
-exists.
-Triplets Appear as follows: [MODCA-5-067]
-| Triplet | Type | Usage [MODCA-5-068]|
-| --- | --- | --- [MODCA-5-069]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-070]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Document Index structured field name and is used as the name of the document index. [MODCA-5-071]|
-| X'02' | | Fully Qualified Name Optional. May occur once. The Fully Qualified Name type that may appear is X'83'—Begin Document Name. Specifies the name of the document that is indexed by this document index. See “Fully Qualified Name Triplet [MODCA-5-072]|
-| X'02'” | |. [MODCA-5-073]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'” [MODCA-5-074]|
-### Begin Document Index (BDI)
 
+**IndxName** Is the name of the document index.
 
-| Triplet | Type | Usage [MODCA-5-075]|
-| --- | --- | --- [MODCA-5-076]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-077]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-078]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-079]
+The print file or document containing the Begin Document Index structured field must also contain a subsequent matching End Document Index structured field, or a X'08' exception condition exists.
+
+**Triplets** Appear as follows: [MODCA-5-065]
+
+| Triplet | Type | Usage [MODCA-5-066]|
+| :---: | :--- | :--- [MODCA-5-067]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-068]|
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Document Index structured field name and is used as the name of the document index. [MODCA-5-069]|
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-070]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-071]|
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-072]|
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-073]
+
 #### BDI Exception Condition Summary
-X'08' A subsequent matching End Document Index structured field is not present in the print file. [MODCA-5-080]
-### Begin Document Index (BDI)
 
+*   **X'08'** A subsequent matching End Document Index structured field is not present in the print file or document.
 
 ### Begin Document (BDT)
-The Begin Document structured field names and begins the document. [MODCA-5-081]
+
+The Begin Document structured field begins a MO:DCA document. [MODCA-5-074]
+
 #### BDT (X'D3A8A8') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8A8' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-082]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-083]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-084]|
-| 0–7 | CHAR | DocName | | Name of the document | M | X'06' [MODCA-5-085]|
-| 8–9 | Reserved; | should | | be zero | M | X'06' [MODCA-5-086]|
-| 10–n Triplets See BDT Semantics for triplet | | | | | | applicability. M X'14' [MODCA-5-087]|
+SF Length (2B) ID = X'D3A8A8' Flags (1B) Reserved; X'0000' [MODCA-5-075]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-076]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-077]|
+| 0–7 | CHAR | DocName | | Name of the document | O | X'02' [MODCA-5-078]|
+| 8–9 | | Reserved | X'0000' | | M | |
+| 10–n | Triplets | | | See BDT Semantics for triplet applicability. | O | X'10' [MODCA-5-079]|
+
 #### BDT Semantics
-DocName Is the name of the document described by the data stream. If a Fully Qualified Name type
-X'01' (Replace First GID) triplet appears in this structured field, the name specified in this
-parameter is ignored and the GID provided by the triplet is used instead.
-**Architecture Note:**  The semantic that stated “If the value of the first two bytes of DocName
-are X'FFFF', the processing system provides the document name” is no longer
-applicable and has been removed from the architecture. The document name on the
-BDT is first specified by the application that creates the document, and may be modified
-later by applications that process the document regardless of whether the first two bytes
-of DocName are X'FFFF' or not.
-Triplets Appear as follows: [MODCA-5-088]
-### Begin Document (BDT)
 
+**DocName** Is the name of the document.
 
-| Triplet | Type | Usage [MODCA-5-089]|
-| --- | --- | --- [MODCA-5-090]|
-| X'01' | | Coded Graphic Character Set Global Identifier Mandatory. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-091]|
-**Implementation Note:**  Not all MO:DCA products have historically
-implemented this triplet as a mandatory triplet on the BDT ;
-instead they have assumed that the encoding for parameters
-with CHAR data type in a MO:DCA document is EBCDIC-based.
-T o accommodate this practice, the MO:DCA IS/3 interchange set
-defines this triplet as optional and does not include support for
-the inheritance of encoding scheme definition by lower-level
-document components. Furthermore, IS/3 specifies the default
-encoding for character strings with CHAR data type to be defined
-by CCSID 500 (corresponding to the combination of CPGID 500
-and GCSGID 697).
-X'02' Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”
-.
-The Fully Qualified Name type that may appear is X'01'—Replace
-First GID name. This GID overrides the Begin Document structured
-field name and is used as the name of the document.
-X'02' Fully Qualified Name Optional. May occur once.
-The Fully Qualified Name type that may appear is X'0A'—Begin
-Resource Group Name. Specifies the name of a resource group
-that contains resources referenced in this document. See “Fully
-Qualified Name Triplet X'02'”.
-X'02' Fully Qualified Name Optional. May occur once.
-The Fully Qualified Name type that may appear is X'98'—Begin
-Document Index Name. Specifies the name of a document index
-resource object that provides index information for this document.
-See “Fully Qualified Name Triplet X'02'”.
-X'18' MO:DCA Interchange Set For interchange data streams, this triplet is mandatory and must
-occur once. For private or exchange data streams, this triplet is not
-permitted. See “MO:DCA Interchange Set Triplet X'18'”.
-X'65' Comment Optional. May occur more than once. Carries unarchitected data.
-See “Comment Triplet X'65'”.
-X'72' Universal Date and Time Stamp Optional. May occur once. Assigns a universal date and time stamp
-to the object. See “Universal Date and Time Stamp Triplet X'72'”.
-X'8F' MO:DCA Function Set Mandatory if the MO:DCA Interchange Set (X'18') triplet is specified
-to indicate compliance with an interchange set and one or more
-function sets, in which case this triplet must occur at least once. If
-the MO:DCA Interchange Set triplet does not indicate compliance
-with an interchange set plus one or more function sets, or if that
-triplet is not specified, the MO:DCA Function Set triplet must not be
-specified. See “MO:DCA Function Set Triplet X'8F'”.
-The data stream containing the Begin Document structured field must also contain a subsequent matching End
-Document structured field, or a X'08' exception condition exists.
-**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field: [MODCA-5-092]
-### Begin Document (BDT)
+**Triplets** Appear as follows: [MODCA-5-080]
 
+| Triplet | Type | Usage [MODCA-5-081]|
+| :---: | :--- | :--- [MODCA-5-082]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-083]|
+| X'02' | | **Fully Qualified Name** Optional. May occur more than once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name types that may appear are: [MODCA-5-084] <br> • X'01'—Replace First GID Name. This GID overrides the Begin Document structured field name and is used as the name of the document. <br> • X'0B'—Begin Document Index Reference. Specifies the name of the BDI that indexes this document. <br> • X'83'—Begin Document. Specifies the global name of the document. |
+| X'18' | | **MO:DCA Interchange Set** Optional. May occur once. Identifies the interchange set to which the document conforms. See “MO:DCA Interchange Set Triplet X'18'”. [MODCA-5-085]|
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-086]|
+| X'63' | | **External Resources Invoked** Optional. May occur once. Identifies resource objects that are required for presenting the document. See “External Resources Invoked Triplet X'63'”. [MODCA-5-087]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-088]|
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-089]|
+| X'8F' | | **MO:DCA Function Set** Mandatory if the MO:DCA Interchange Set (X'18') triplet is specified to indicate compliance with an interchange set and one or more function sets, in which case this triplet must occur at least once. If the MO:DCA Interchange Set triplet does not indicate compliance with an interchange set plus one or more function sets, or if that triplet is not specified, the MO:DCA Function Set triplet must not be specified. See “MO:DCA Function Set Triplet X'8F'”. [MODCA-5-090]|
 
-* Object Function Set Specification (X'21') triplet; see “Object Function Set Specification Triplet X'21'” [MODCA-5-093]
-.
+The data stream containing the Begin Document structured field must also contain a subsequent matching End Document structured field, or a X'08' exception condition exists. [MODCA-5-091]
+
+**Architecture Note:** In AFP environments, the following retired triplet is used on this structured field: [MODCA-5-092]
+*   Object Function Set Specification (X'21') triplet; see “Object Function Set Specification Triplet X'21'”. [MODCA-5-093]
+
 #### BDT Exception Condition Summary
-X'01' This condition exists when:
-* Multiple type X'01' (Replace First GID) Fully Qualified Name triplets appear. [MODCA-5-094]
-* Multiple MO:DCA Interchange Set (X'18') triplets appear. [MODCA-5-095]
-X'08' A subsequent matching End Document structured field is not present in the data stream. [MODCA-5-096]
-### Begin Document (BDT)
 
+*   **X'01'** This condition exists when:
+    *   Multiple type X'01' (Replace First GID) Fully Qualified Name triplets appear. [MODCA-5-094]
+    *   Multiple MO:DCA Interchange Set (X'18') triplets appear. [MODCA-5-095]
+*   **X'08'** A subsequent matching End Document structured field is not present in the data stream. [MODCA-5-096]
 
 ### Begin Form Map (BFM)
-The Begin Form Map structured field begins a form map object, also called a form definition or formdef. A form
-map is a print control resource object that contains one or more medium map resource objects that are
-invokable on document and page boundaries and that specify a complete set of presentation controls. It also
-contains an optional document environment group (DEG) that defines the presentation environment for the
-form map.
+
+The Begin Form Map structured field begins a form map object, also called a form definition or formdef. A form map is a print control resource object that contains one or more medium map resource objects that are invokable on document and page boundaries and that specify a complete set of presentation controls. It also contains an optional document environment group (DEG) that defines the presentation environment for the form map.
+
 #### BFM (X'D3A8CD') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8CD' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-097]
+SF Length (2B) ID = X'D3A8CD' Flags (1B) Reserved; X'0000' [MODCA-5-097]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-098]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-099]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-099]|
 | 0–7 | CHAR | FMName | | Name of the form map | O | X'02' [MODCA-5-100]|
-| 8–n Triplets See BFM Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-101]|
+| 8–n | Triplets | | | See BFM Semantics for triplet applicability. | O | X'10' [MODCA-5-101]|
+
 #### BFM Semantics
-FMName Is the name of the form map.
-A form map resource object must be terminated with a subsequent matching End Form Map
-structured field, or a X'08' exception condition exists.
-Triplets Appear as follows: [MODCA-5-102]
+
+**FMName** Is the name of the form map.
+
+A form map resource object must be terminated with a subsequent matching End Form Map structured field, or a X'08' exception condition exists.
+
+**Triplets** Appear as follows: [MODCA-5-102]
+
 | Triplet | Type | Usage [MODCA-5-103]|
-| --- | --- | --- [MODCA-5-104]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-105]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-106]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-107]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-108]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-109]
+| :---: | :--- | :--- [MODCA-5-104]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-105]|
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-106]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-107]|
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-108]|
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-109]
+
 #### BFM Exception Condition Summary
-X'08' The form map is not terminated with a subsequent matching End Form Map structured field. [MODCA-5-110]
-### Begin Form Map (BFM)
 
+*   **X'08'** The form map is not terminated with a subsequent matching End Form Map structured field. [MODCA-5-110]
 
 ### Begin Graphics Object (BGR)
-The Begin Graphics Object structured field begins a graphics data object which becomes the current data
-object.
+
+The Begin Graphics Object structured field begins a graphics data object which becomes the current data object.
+
 #### BGR (X'D3A8BB') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8BB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-111]
+SF Length (2B) ID = X'D3A8BB' Flags (1B) Reserved; X'0000' [MODCA-5-111]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-112]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-113]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-113]|
 | 0–7 | CHAR | GdoName | | Name of the graphics data object | O | X'02' [MODCA-5-114]|
-| 8–n Triplets See BGR Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-115]|
+| 8–n | Triplets | | | See BGR Semantics for triplet applicability. | O | X'10' [MODCA-5-115]|
+
 #### BGR Semantics
-GdoName Is the name of the graphics data object.
-The page, overlay, or resource group containing the Begin Graphics Object structured field
-must also contain a subsequent matching End Graphics Object structured field, or a X'08'
-exception condition exists.
-Triplets Appear as follows: [MODCA-5-116]
+
+**GdoName** Is the name of the graphics data object.
+
+The page, overlay, or resource group containing the Begin Graphics Object structured field must also contain a subsequent matching End Graphics Object structured field, or a X'08' exception condition exists.
+
+**Triplets** Appear as follows: [MODCA-5-116]
+
 | Triplet | Type | Usage [MODCA-5-117]|
-| --- | --- | --- [MODCA-5-118]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-119]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Graphics Object structured field name and is used as the name of the graphics data object. [MODCA-5-120]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-121]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-122]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-123]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-124]
-### Begin Graphics Object (BGR)
+| :---: | :--- | :--- [MODCA-5-118]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-119]|
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Graphics Object structured field name and is used as the name of the graphics data object. [MODCA-5-120]|
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-121]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-122]|
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-123]|
 
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-124]
 
-**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
-* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-125]
-X'27'”.
+**Architecture Note:** In AFP environments, the following retired triplet is used on this structured field:
+*   Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet X'27'”. [MODCA-5-125]
+
 #### BGR Exception Condition Summary
-X'08' A subsequent matching End Graphics Object structured field is not present in the page,
-overlay, or resource group. [MODCA-5-126]
-### Begin Graphics Object (BGR)
 
+*   **X'08'** A subsequent matching End Graphics Object structured field is not present in the page, overlay, or resource group. [MODCA-5-126]
 
 ### Begin Image Object (BIM)
-The Begin Image Object structured field begins an IOCA image data object, which becomes the current data
-object.
-**Architecture Note:**  A migration form of the image object is supported in AFP environments and is defined as
-the IM Image Object in “IM Image Object”. [MODCA-5-127]
+
+The Begin Image Object structured field begins an IOCA image data object, which becomes the current data object.
+
+**Architecture Note:** A migration form of the image object is supported in AFP environments and is defined as the IM Image Object in “IM Image Object”. [MODCA-5-127]
+
 #### BIM (X'D3A8FB') Syntax
+
 Structured Field Introducer
-SF Length (2B) ID = X'D3A8FB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-128]
+SF Length (2B) ID = X'D3A8FB' Flags (1B) Reserved; X'0000' [MODCA-5-128]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-129]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-130]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-130]|
 | 0–7 | CHAR | IdoName | | Name of the image data object | O | X'02' [MODCA-5-131]|
-| 8–n Triplets See BIM Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-132]|
+| 8–n | Triplets | | | See BIM Semantics for triplet applicability. | O | X'10' [MODCA-5-132]|
+
 #### BIM Semantics
-IdoName Is the name of the IOCA image data object.
-The page, overlay, or resource group containing the Begin Image Object structured field must
-also contain a subsequent matching End Image Object structured field, or a X'08' exception
-condition exists.
-Triplets Appear as follows: [MODCA-5-133]
+
+**IdoName** Is the name of the IOCA image data object.
+
+The page, overlay, or resource group containing the Begin Image Object structured field must also contain a subsequent matching End Image Object structured field, or a X'08' exception condition exists.
+
+**Triplets** Appear as follows: [MODCA-5-133]
+
 | Triplet | Type | Usage [MODCA-5-134]|
-| --- | --- | --- [MODCA-5-135]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-136]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Image Object structured field name and is used as the identifier of the image data object. The identifier may be specified in one—and only one—of the following formats: • If FQNFmt = X'00', the identifier is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. [MODCA-5-137]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-138]|
-### Begin Image Object (BIM)
+| :---: | :--- | :--- [MODCA-5-135]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-136]|
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Image Object structured field name and is used as the identifier of the image data object. The identifier may be specified in one—and only one—of the following formats: • If FQNFmt = X'00', the identifier is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. [MODCA-5-137]|
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-138]|
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-141]|
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-142]|
 
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
 
-| Triplet | Type | Usage [MODCA-5-139]|
-| --- | --- | --- [MODCA-5-140]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-141]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-142]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
-**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
-* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-143]
-X'27'”.
+**Architecture Note:** In AFP environments, the following retired triplet is used on this structured field:
+*   Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet X'27'”. [MODCA-5-143]
+
 #### BIM Exception Condition Summary
-X'08' A subsequent matching End Image Object structured field is not present in the page, overlay,
-or resource group.
-### Begin Image Object (BIM)
 
-
+*   **X'08'** A subsequent matching End Image Object structured field is not present in the page, overlay, or resource group.
 ### Begin Medium Map (BMM)
 The Begin Medium Map structured field begins a medium map resource object. A medium map is a print
 control resource object that contains a complete set of controls for presenting pages on physical media such
