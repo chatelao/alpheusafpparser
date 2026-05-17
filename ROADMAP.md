@@ -127,10 +127,11 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
         - ✅ Chapters 1-3 complete.
         - ✅ Chapter 4 complete.
-        - 🚧 Chapter 5 (Begin-type Structured Fields) in-progress:
-            - ✅ BAG through BIM and all other 'Begin' fields (BMM through BSG) complete.
-            - ⏳ Remaining SF Groups A-D.
-            - ⏳ SF Groups E-I.
+        - 🚧 Chapter 5 in-progress:
+            - ✅ All 'Begin' fields complete (BAG-BSG).
+            - ✅ All 'End' fields complete (EAG-ESG).
+            - ⏳ SF Groups A-D.
+            - ⏳ SF Groups G-I.
             - ⏳ SF Groups J-O.
             - ⏳ SF Groups P-T.
             - ⏳ SF Groups U-Z.
@@ -138,7 +139,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ Appendices A-F, Glossary, Index, Front Matter, and Notices.
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
         - ✅ Chapters 1-3 complete.
-        - 🚧 Chapter 4 in-progress.
+        - ✅ Chapter 4 complete.
         - ⏳ Chapter 5.
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
