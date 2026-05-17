@@ -78,12 +78,12 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x01: {
           drawingOrder = new GCOMT_Comment();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x04: {
           drawingOrder = new GSGCH_SegmentCharacteristics();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x08: {
@@ -108,7 +108,7 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x11: {
           drawingOrder = new GSFLW_SetFractionLineWidth();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x18: {
@@ -133,22 +133,22 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x20: {
           drawingOrder = new GSCLT_SetCustomLineType();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x21: {
           drawingOrder = new GSCP_SetCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x22: {
           drawingOrder = new GSAP_SetArcParameters();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x26: {
           drawingOrder = new GSECOL_SetExtendedColor();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x28: {
@@ -163,22 +163,22 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x33: {
           drawingOrder = new GSCC_SetCharacterCell();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x34: {
           drawingOrder = new GSCA_SetCharacterAngle();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x35: {
           drawingOrder = new GSCH_SetCharacterShear();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x37: {
           drawingOrder = new GSMC_SetMarkerCell();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x38: {
@@ -223,7 +223,7 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x60: {
           drawingOrder = new GEAR_EndArea();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x68: {
@@ -244,136 +244,136 @@ public class GAD_GraphicsData extends StructuredField {
         break;
         case 0x80: {
           drawingOrder = new GCBOX_BoxAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x81: {
           drawingOrder = new GCLINE_LineAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x82: {
           drawingOrder = new GCMRK_MarkerAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x83: {
           drawingOrder = new GCCHST_CharacterStringAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x85: {
           drawingOrder = new GCFLT_FilletAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x87: {
           drawingOrder = new GCFARC_FullArcAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x91: {
           drawingOrder = new GCBIMG_BeginImageAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x92: {
           drawingOrder = new GIMD_ImageData();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0x93: {
           drawingOrder = new GEIMG_EndImage();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xa0: {
           drawingOrder = new GSPRP_SetPatternReferencePoint();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xa1: {
           drawingOrder = new GCRLINE_RelativeLineAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xa3: {
           drawingOrder = new GCPARC_PartialArcAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xa5: {
           drawingOrder = new GCCBEZ_CubicBezierCurveAtCurrentPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xb2: {
           drawingOrder = new GSPCOL_SetProcessColor();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xc0: {
           drawingOrder = new GBOX_BoxAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xc1: {
           drawingOrder = new GLINE_LineAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xc2: {
           drawingOrder = new GMRK_MarkerAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xc3: {
           drawingOrder = new GCHST_CharacterStringAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xc5: {
           drawingOrder = new GFLT_FilletAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xc7: {
           drawingOrder = new GFARC_FullArcAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xd1: {
           drawingOrder = new GBIMG_BeginImageAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xe1: {
           drawingOrder = new GRLINE_RelativeLineAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xe3: {
           drawingOrder = new GPARC_PartialArcAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xde: {
           drawingOrder = new GBCP_BeginCustomPattern();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xdf: {
           drawingOrder = new GDPT_DeletePattern();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xe5: {
           drawingOrder = new GCBEZ_CubicBezierCurveAtGivenPosition();
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
+          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
         }
         break;
         case 0xfe: {
-          int qualifier = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1);
+          int qualifier = (sfData[offset + pos + 1] & 0xFF);
           if (qualifier == 0xDC) {
             drawingOrder = new GLGD_LinearGradient();
           } else if (qualifier == 0xDD) {
