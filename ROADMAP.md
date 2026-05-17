@@ -132,7 +132,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ All 'End' fields complete (EAG-ESG).
             - ✅ SF Groups A-D.
             - ✅ SF Groups G-I.
-            - ⏳ SF Groups J-O.
+            - 🚧 SF Groups J-O (LLE-MCF complete).
             - ⏳ SF Groups P-T.
             - ⏳ SF Groups U-Z.
         - ⏳ Chapters 6-8.
