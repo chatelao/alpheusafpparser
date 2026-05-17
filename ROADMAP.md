@@ -142,7 +142,12 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ✅ Chapter 4 complete.
         - ⏳ Chapter 5.
         - ⏳ Appendices A-B and Front Matter.
-    - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
+    - 🚧 Improve all `specifications/markdown/ioca-reference-09` chapters:
+        - ⏳ Chapters 1-3.
+        - ⏳ Chapters 4-6.
+        - ⏳ Chapter 7.
+        - ⏳ Appendices A-G, Glossary, and Index.
+    - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IPDS, MOCA, PTOCA).
 - ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
 - ✅ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks.
 - ✅ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
@@ -156,6 +161,18 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Chapters 1-6 complete.
     - ✅ Chapter 7 (Function Sets) complete.
     - ✅ Appendices A-G complete.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_MODCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-3.
+    - ⏳ Chapter 4.
+    - ⏳ Chapter 5 (Structured Fields).
+    - ⏳ Chapter 6 (Triplets).
+    - ⏳ Chapters 7-8.
+    - ⏳ Appendices A-F.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-3.
+    - ⏳ Chapter 4 (Bar Code Commands).
+    - ⏳ Chapter 5-6.
+    - ⏳ Appendices A-G.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
