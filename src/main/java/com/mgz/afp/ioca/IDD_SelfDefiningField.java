@@ -145,7 +145,7 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
       reserved2 = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
       colorSpace = AFPColorSpace.valueOf(sfData[offset + 3]);
       reserved4_7 = new byte[4];
-      System.arraycopy(sfData, offset + 5, reserved4_7, 0, 4);
+      System.arraycopy(sfData, offset + 4, reserved4_7, 0, 4);
       nrOfBitsComponent1 = sfData[offset + 8];
       nrOfBitsComponent2 = sfData[offset + 9];
       nrOfBitsComponent3 = sfData[offset + 10];
@@ -274,9 +274,11 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
     public enum FunctionSetIdentifier {
       FS10(0x0A),
       FS11(0x0B),
+      FS14(0x0E),
       FS40(0x28),
       FS42(0x2A),
-      FS45(0x2D);
+      FS45(0x2D),
+      FS48(0x30);
       int code;
 
       FunctionSetIdentifier(int fsCodeByte) {

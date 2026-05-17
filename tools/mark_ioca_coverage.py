@@ -58,8 +58,15 @@ def is_in_range(req_id, start, end):
 
 if __name__ == "__main__":
     ranges = [
-        ('IOCA-1-001', 'IOCA-4-037'),
-        ('IOCA-7-001', 'IOCA-7-1068'),
+        ('IOCA-1-001', 'IOCA-7-1068'),
+        ('IOCA-A-001', 'IOCA-A-039'),
+        ('IOCA-B-001', 'IOCA-B-007'),
+        ('IOCA-C-001', 'IOCA-C-007'),
+        ('IOCA-D-001', 'IOCA-D-021'),
+        ('IOCA-E-001', 'IOCA-E-011'),
+        ('IOCA-F-001', 'IOCA-F-003'),
+        ('IOCA-F1-001', 'IOCA-F1-011'),
+        ('IOCA-G-001', 'IOCA-G-009'),
     ]
     count = mark_coverage('TEST_COVERAGE_IOCA.md', ranges)
     print(f"Marked {count} requirements as covered.")

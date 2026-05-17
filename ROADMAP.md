@@ -31,13 +31,13 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
 | [GOCA](TEST_COVERAGE_GOCA.md) | 2144 | 2144 | 100.0% |
-| [IOCA](TEST_COVERAGE_IOCA.md) | 0 | 1587 | 0.0% |
+| [IOCA](TEST_COVERAGE_IOCA.md) | 1587 | 1587 | 100.0% |
 | [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **3805** | **20955** | **18.2%** |
+| **Total** | **5392** | **20955** | **25.7%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -152,16 +152,10 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Chapter 7 (Commands and Drawing Orders) complete.
     - ✅ Chapters 8-9 complete.
     - ✅ Appendices A-D complete.
-- ⏳ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks:
-    - ⏳ Chapters 1-3.
-    - ⏳ Chapter 4.
-    - ⏳ Chapter 5.
-    - ⏳ Chapter 6.
-    - ⏳ Chapter 7 (Function Sets) in-progress:
-        - ⏳ Legacy and Basic Sets (FS10, FS11, FS14) [IOCA-7-001 to IOCA-7-386].
-        - ⏳ Tiled Image Support (FS40, FS42) [IOCA-7-387 to IOCA-7-820].
-        - ⏳ Advanced Function Sets (FS45, FS48) [IOCA-7-821 to IOCA-7-1068].
-    - ⏳ Appendices A-G.
+- ✅ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks:
+    - ✅ Chapters 1-6 complete.
+    - ✅ Chapter 7 (Function Sets) complete.
+    - ✅ Appendices A-G complete.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
