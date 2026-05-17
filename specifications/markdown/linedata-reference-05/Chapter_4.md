@@ -2,7 +2,7 @@
 
 Chapter 3, “Using a Page Definition to Print Data” describes how Page Definitions can be used to format traditional application line data without the need to make any application programming changes. Under certain circumstances, however, functions are needed that can only be accomplished by changing the application. These functions can be invoked by using one of a small set of MO:DCA structured fields, any of which can be intermixed with line data to obtain specific results. A document of this type, in which structured fields are intermixed with line data, is called a mixed document.
 
-*Note:* MO:DCA structured fields cannot be combined with XML data.
+**Note:** MO:DCA structured fields cannot be combined with XML data.
 
 MO:DCA structured fields cannot be interspersed with line data records indiscriminately. Data object structured fields and resource structured fields can appear only within their respective objects and resources, and only in the sequence allowed by the architecture. [LINEDATA-4-001] For example, the Map Coded Font (MCF) structured field is part of the Active Environment Group that in turn can appear in a presentation page, an overlay, or a Page Definition. However, it is not permitted to include an MCF between line-mode data records in an output file or to bracket line-mode records with Begin Page and End Page structured fields. Refer to “Page Definition Structure” for the structure of the Page Definition object and refer to the Mixed Object Document Content Architecture (MO:DCA) Reference for the structure of other data and resource objects.
 
@@ -14,7 +14,7 @@ This chapter discusses how data and resource objects can be intermixed with line
 *   Include Object [LINEDATA-4-006]
 *   Presentation Text [LINEDATA-4-007]
 
-*Note:* The No Operation (NOP) structured field may appear anywhere in a mixed document and thus is not listed in the structured field groupings.
+**Note:** The No Operation (NOP) structured field may appear anywhere in a mixed document and thus is not listed in the structured field groupings.
 
 This chapter contains coding examples for some of these structured fields. Chapter 5, “Structured Fields in a Page Definition and in Line Data” contains additional information on the format of these structured fields. See the Mixed Object Document Content Architecture (MO:DCA) Reference for the formal definition of all MO:DCA structured fields.
 
@@ -56,11 +56,11 @@ An AFP print file consists of an optional inline resource group followed by one 
     *   **End Document (EDT)**
 *   **End Print File (EPF)** \*
 
-*Legend:*
+**Legend:**
 *   \* = optional [LINEDATA-4-010]
 *   (S) = can appear more than once
 
-*Notes:*
+**Notes:**
 1.  The BPF/EPF structured fields are optional as a pair; if one is specified, the other must be specified as well. [LINEDATA-4-011]
 2.  The mixed line-page documents and composed documents can occur in any order following the inline resource group. [LINEDATA-4-012]
 3.  Each AFP (MO:DCA) document may optionally be preceded by a single document index that is implicitly tied to the document and that indexes the document. For the formal definition of the MO:DCA document index, see the Mixed Object Document Content Architecture (MO:DCA) Reference. [LINEDATA-4-013]
@@ -70,7 +70,7 @@ An AFP print file consists of an optional inline resource group followed by one 
 The objects that comprise an AFP print file are as follows:
 
 *   **Inline Resource Group**: Contains one or more resource objects to be associated with printing this file. See “Inline Resource Group Structure” for a detailed description of the structure of the resource group and the objects it can contain.
-    *   *Note:* In the MO:DCA architecture, these resource groups are called external resource groups because they occur outside a document.
+    *   **Note:** In the MO:DCA architecture, these resource groups are called external resource groups because they occur outside a document.
     *   The Inline Resource Group is an optional component of the Print File. If no Inline Resource Group is defined, the resources stored in the AFP resource library of the system are used. (In MVS/ESA™ with USERLIB support, resources might be stored in private libraries that are used at print time for individual data sets. Up to eight private libraries may be used with a single data set. The libraries are named in the USERLIB parameter of the OUTPUT JCL statement.)
     *   The scope of an inline resource group is the print file. Once the last document in the print file has been processed, the resources in the resource group are no longer available to the presentation system for use with another print file.
 *   **Documents**: The print file may contain one or more documents to be printed. These may be fully composed-page documents, line-mode documents, or mixed-mode documents, in any order. If multiple composed-page documents appear, each one must be delimited by a BDT and an EDT structured field. For the complete definitions of document structure, see Appendix A, “Document and Resource Object Diagrams”. [LINEDATA-4-017]
@@ -112,11 +112,11 @@ The structured fields and objects in an inline resource group are as follows. (C
     *   A Form Definition [LINEDATA-4-029]
     *   A Page Definition [LINEDATA-4-030]
     *   A font object (a code page, a font character set, or a coded font) [LINEDATA-4-031]
-    *   *Note:* See the description of the BRS structured field in the MO:DCA Reference for the hexadecimal codes identifying each type.
+    *   **Note:** See the description of the BRS structured field in the MO:DCA Reference for the hexadecimal codes identifying each type.
 *   **ERS (End Resource)**: Ends the resource object. Any name specified in the ERS must match the name specified in the BRS.
 *   **ERG (End Resource Group)**: Ends the inline resource group. Any name specified in the ERG must match the name specified in the BRG.
 
-*Note:* Not all presentation services programs support all resource objects in a Resource Group.
+**Note:** Not all presentation services programs support all resource objects in a Resource Group.
 
 ### Programming Considerations for Inline Resources
 
@@ -126,7 +126,7 @@ Because most resource objects consist of variable-length records, any print file
 
 The Invoke Data Map (IDM) structured field selects a new Data Map for printing line data and ends the current line-format page.
 
-*Note:* When using machine carriage control characters, care must be taken to prevent a blank page from being printed at the start of a document. If the application inserts IDM structured fields following records that have a “skip to channel nn immediate” carriage control (X'8B') without making an exception for the start of the document, a blank page will be generated. When the first line data record contains a skip immediate carriage control, a line-format page is started even though there is no data to be printed. When the IDM follows the initial skip immediate carriage control at the start of the document to be printed, the IDM ends the current page, causing a blank page to be printed. When the skip immediate carriage control is used later in the document to end the page and it is followed by the IDM structured field, a blank page does not occur since the skip immediate carriage control has already ended the current line-format page.
+**Note:** When using machine carriage control characters, care must be taken to prevent a blank page from being printed at the start of a document. If the application inserts IDM structured fields following records that have a “skip to channel nn immediate” carriage control (X'8B') without making an exception for the start of the document, a blank page will be generated. When the first line data record contains a skip immediate carriage control, a line-format page is started even though there is no data to be printed. When the IDM follows the initial skip immediate carriage control at the start of the document to be printed, the IDM ends the current page, causing a blank page to be printed. When the skip immediate carriage control is used later in the document to end the page and it is followed by the IDM structured field, a blank page does not occur since the skip immediate carriage control has already ended the current line-format page.
 
 *   For traditional line data, processing begins with the first Line Descriptor (LND) structured field of the invoked Data Map for the next line-format page. [LINEDATA-4-032]
 *   For record-format line data, processing begins with the first Record Descriptor (RCD) structured field that matches the record ID of the first record processed following the IDM. [LINEDATA-4-033]
@@ -342,11 +342,11 @@ Special care must be taken when including page segments in line data to ensure t
     *   If the page segment is included with a Resource Object Include (X'6C') triplet on the LND or RCD, the page segment origin is located at the specified offset measured with respect to the position specified in the current LND or RCD, using the current text (I,B) coordinate system. [LINEDATA-4-047]
     *   *Summary:* The origin of a page segment in line data is always positioned using the text (I,B) coordinate system specified in the current LND or RCD.
 *   **Position and Orientation of IM Image Objects in a Page Segment:** The image object area offset, as specified in the IOC structured field is measured with respect to the page segment origin, using the text (I,B) coordinate system specified in the current LND or RCD. If the image is celled, the Image Cell Position (ICP) structured field specifies an offset from the image object origin that is measured using the current text (I,B) coordinate system. The rotation of the IM image is specified in the IOC and is measured with respect to the page coordinate system Xp-axis (origin is top-left corner of page). [LINEDATA-4-048]
-    *   *Note:* For page segments in MO:DCA data, if the IM image is complex (celled), it is recommended that the rotation be set to (0°,90°). For page segments in mixed data, the rotation should be set to match the current text orientation.
+    *   **Note:** For page segments in MO:DCA data, if the IM image is complex (celled), it is recommended that the rotation be set to (0°,90°). For page segments in mixed data, the rotation should be set to match the current text orientation.
 *   **Position and Orientation of Image, Graphics, and Bar Code Objects in a Page Segment:**
     *   If the Object Area Position (OBP) structured field specifies byte 23 (RefCSys) = X'00' (current), the object area offset is measured with respect to the page segment origin, using the text (I,B) coordinate system specified in the current LND or RCD. The object area rotation is measured with respect to the I-axis of the current text (I,B) coordinate system.
     *   If OBP byte 23 = X'01' (page or overlay), the object area offset is measured with respect to the page origin (top-left corner of page) using the page coordinate system. The object area rotation is measured with respect to the page coordinate system Xp-axis (origin is top-left corner of page).
-    *   *Note:* When line data that includes an IPS structured field is transformed into a MO:DCA document by an AFP application program, the text orientation that was set when the page segment and its objects were positioned must be captured and retained in order to properly position the page segment on the MO:DCA page. This can be done using a Line Data Object Position Migration (X'27') triplet on the IPS structured field in the MO:DCA document.
+    *   **Note:** When line data that includes an IPS structured field is transformed into a MO:DCA document by an AFP application program, the text orientation that was set when the page segment and its objects were positioned must be captured and retained in order to properly position the page segment on the MO:DCA page. This can be done using a Line Data Object Position Migration (X'27') triplet on the IPS structured field in the MO:DCA document.
 
 ### Sample IPS Structured Field
 
@@ -367,7 +367,7 @@ The Include Page Overlay (IPO) structured field functions in a manner similar to
 
 The overlay name must appear in the Map Page Overlay structured field of the Active Environment Group of the Data Map currently in effect. The overlay contains its own Active Environment Group definition that specifies the coordinate system for positioning and rotating objects, the size of the overlay, and the names of any fonts used in it. Considerations for the current line position are the same as those discussed in the previous programming tip. The current line position is unchanged after the overlay has been placed.
 
-*Note:* The IBM 3800 printer does not support the IPO function.
+**Note:** The IBM 3800 printer does not support the IPO function.
 
 ### Positioning Overlays
 
@@ -379,7 +379,7 @@ Because overlays define their own coordinate system and environment, the rules f
     *   If the overlay is included with a Resource Object Include (X'6C') triplet on the LND or RCD, the overlay origin is located at the specified offset measured with respect to the position specified in the current LND or RCD, using the current text (I,B) coordinate system. [LINEDATA-4-053]
 *   **Orientation of Overlay:** If the overlay is included either with an IPO or with a Resource Object Include (X'6C') triplet on the LND or RCD, the overlay rotation may be specified as 0°, 90°, 180°, or 270°, and is measured with respect to the page coordinate system Xp axis (origin is top-left corner of page). However, the 90°, 180°, and 270° rotations of a page overlay are not supported in all AFP environments. Consult the product documentation to see which rotations are supported. Note that the MO:DCA IS/1 and IS/2 interchange sets only support 0° rotation of a page overlay.
 *   **Position and Orientation of IM Image Object in an Overlay:** The image object area offset, as specified in the IOC structured field, is measured using the overlay coordinate system (origin is top-left corner of overlay). The rotation of the IM image is specified in the IOC and is measured with respect to the overlay coordinate system X-axis (origin is top-left corner of overlay). [LINEDATA-4-054]
-    *   *Note:* If the IM image is complex (celled), AFP print servers require the rotation set to 0°,90°.
+    *   **Note:** If the IM image is complex (celled), AFP print servers require the rotation set to 0°,90°.
 *   **Position and Orientation of IO Image, Graphics, and Bar Code Objects in an Overlay:** If the Object Area Position (OBP) structured field specifies byte 23 (RefCSys) = X'00' (current) or X'01' (page or overlay), the object area offset is measured with respect to the overlay origin (top-left corner of overlay) using the overlay coordinate system. The rotation of the OCA object is specified and measured using the overlay coordinate system X-axis (origin is top-left corner of overlay).
 
 ### Sample IPO Structured Field
@@ -428,7 +428,7 @@ Page segments containing IM image data do not have an Object Environment Group, 
 
 The rotation of the IM image is specified in the IOC and is measured with respect to the page coordinate system Xp-axis (origin is top-left corner of page).
 
-*Note:* For page segments in MO:DCA data, if the IM image is complex (celled), it is recommended that the rotation be set to (0°,90°). For page segments in mixed data, the rotation should be set to match the current text orientation.
+**Note:** For page segments in MO:DCA data, if the IM image is complex (celled), it is recommended that the rotation be set to (0°,90°). For page segments in mixed data, the rotation should be set to match the current text orientation.
 
 The Begin Page Segment (X'D3A85F') and End Page Segment (X'D3A95F') structured fields should be deleted. The remaining structured fields can then be placed in the print stream at the point where the image is to appear.
 
@@ -566,7 +566,7 @@ Examples of applications using fully-composed output:
 *   Insurance policies with client-specific clauses. [LINEDATA-4-078]
 *   Financial statements with varied account descriptions and boxes/shading.
 
-*Note:* In composed documents, PTX structured fields must be bracketed by BPT and EPT structured fields. These are allowed only in fully composed documents. [LINEDATA-4-079]
+**Note:** In composed documents, PTX structured fields must be bracketed by BPT and EPT structured fields. These are allowed only in fully composed documents. [LINEDATA-4-079]
 
 ### Overall Document Structure
 

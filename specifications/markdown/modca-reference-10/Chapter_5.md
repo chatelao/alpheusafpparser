@@ -1142,630 +1142,904 @@ container for such objects. [MODCA-5-409]
 
 
 ### End Active Environment Group (EAG)
+
 The End Active Environment Group structured field terminates the definition of an Active Environment Group
 initiated by a Begin Active Environment Group structured field. [MODCA-5-410]
+
 #### EAG (X'D3A9C9') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9C9' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-411]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-412]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-413]|
-| 0–7 CHAR AEGName Name of the active environment | | | | | | group O X'02' [MODCA-5-414]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9C9' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-411]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **AEGName** | | Name of the active environment group | O | X'02' [MODCA-5-414] |
+
 #### EAG Semantics
-AEGName Is the name of the active environment group being terminated. If a name is specified, it must
+
+**AEGName** Is the name of the active environment group being terminated. If a name is specified, it must
 match the name in the most recent Begin Active Environment Group structured field in the
 page or a X'01' exception condition exists. If the first two bytes in AEGName contain the value
 X'FFFF', the name matches any name specified on the Begin Active Environment Group
 structured field that initiated the current definition.
+
 A matching Begin Active Environment Group structured field must appear within the page at
 some location preceding the End Active Environment Group structured field, or a X'20'
 exception condition exists. [MODCA-5-415]
+
 #### EAG Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Active
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Active
 Environment Group structured field.
-X'20' Not preceded by a matching Begin Active Environment Group structured field. [MODCA-5-416]
-### End Active Environment Group (EAG)
+
+**X'20'** Not preceded by a matching Begin Active Environment Group structured field. [MODCA-5-416]
 
 
 ### End Bar Code Object (EBC)
+
 The End Bar Code Object structured field terminates the current bar code object initiated by a Begin Bar Code
 Object structured field. [MODCA-5-417]
+
 #### EBC (X'D3A9EB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9EB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-418]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-419]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-420]|
-| 0–7 | CHAR | BCdoName | | Name of the bar code data object | O | X'02' [MODCA-5-421]|
-| 8–n Triplets See EBC Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-422]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9EB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-418]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **BCdoName** | | Name of the bar code data object | O | X'02' [MODCA-5-421] |
+| 8–n | Triplets | | | See EBC Semantics for triplet applicability. | O | X'10' [MODCA-5-422] |
+
 #### EBC Semantics
-BCdoName Is the name of the bar code data object being terminated. If a name is specified, it must match
+
+**BCdoName** Is the name of the bar code data object being terminated. If a name is specified, it must match
 the name in the most recent Begin Bar Code Object structured field in the page, overlay, or
 resource group, or a X'01' exception condition exists. If the first two bytes of BCdoName
 contain the value X'FFFF', the name matches any name specified on the Begin Bar Code
 Object structured field that initiated the current definition.
+
 A matching Begin Bar Code Object structured field must appear within the containing structure
 at some location preceding the End Bar Code Object structured field, or a X'20' exception
 condition exists.
-Triplets Appear as follows: [MODCA-5-423]
-| Triplet | Type | Usage [MODCA-5-424]|
-| --- | --- | --- [MODCA-5-425]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Bar Code Object structured field name and is used as the name of the bar code data object being terminated. [MODCA-5-426]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-427]
+
+**Triplets** Appear as follows: [MODCA-5-423]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Bar Code Object structured field name and is used as the name of the bar code data object being terminated. [MODCA-5-426] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-427]
+
 #### EBC Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Bar Code Object
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Bar Code Object
 structured field.
-X'20' The End Bar Code Object structured field is not preceded by a matching Begin Bar Code
+
+**X'20'** The End Bar Code Object structured field is not preceded by a matching Begin Bar Code
 Object structured field. [MODCA-5-428]
-### End Bar Code Object (EBC)
 
 
 ### End Document Environment Group (EDG)
+
 The End Document Environment Group structured field terminates the definition of a document environment
 group initiated by a Begin Document Environment Group structured field. [MODCA-5-429]
+
 #### EDG (X'D3A9C4') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9C4' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-430]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-431]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-432]|
-| 0–7 CHAR DEGName Name of the document | | | | | | environment group O X'02' [MODCA-5-433]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9C4' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-430]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **DEGName** | | Name of the document environment group | O | X'02' [MODCA-5-433] |
+
 #### EDG Semantics
-DEGName Is the name of the document environment group being terminated. If a name is specified, it
+
+**DEGName** Is the name of the document environment group being terminated. If a name is specified, it
 must match the name in the most recent Begin Document Environment Group structured field
 in the form map or a X'01' exception condition exists. If the first two bytes in DEGName
 contain the value X'FFFF', the name matches any name specified on the Begin Document
 Environment Group structured field that initiated the current definition.
+
 A matching Begin Document Environment Group structured field must appear at some
 location within the form map preceding the End Document Environment Group structured
 field, or a X'20' exception condition exists. [MODCA-5-434]
+
 #### EDG Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Document
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Document
 Environment Group structured field.
-X'20' The End Document Environment Group structured field is not preceded by a matching Begin
+
+**X'20'** The End Document Environment Group structured field is not preceded by a matching Begin
 Document Environment Group structured field. [MODCA-5-435]
-### End Document Environment Group (EDG)
 
 
 ### End Document Index (EDI)
+
 The End Document Index structured field terminates the document index initiated by a Begin Document Index
 structured field.
+
 #### EDI (X'D3A9A7') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9A7' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-436]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-437]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-438]|
-| 0–7 | CHAR | IndxName | | Name of the document index | O | X'02' [MODCA-5-439]|
-| 8–n Triplets See EDI Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-440]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9A7' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-436]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **IndxName** | | Name of the document index | O | X'02' [MODCA-5-439] |
+| 8–n | Triplets | | | See EDI Semantics for triplet applicability. | O | X'10' [MODCA-5-440] |
+
 #### EDI Semantics
-IndxName Is the name of the document index being terminated. If a name is specified, it must match the
+
+**IndxName** Is the name of the document index being terminated. If a name is specified, it must match the
 name in the most recent Begin Document Index structured field in the print file or document, or
 a X'01' exception condition exists. If the first two bytes of IndxName contain the value X'FFFF',
 the name matches any name specified on the Begin Document Index structured field that
 initiated the current definition.
+
 A matching Begin Document Index structured field must appear within the print file or
 document at some location preceding the End Document Index structured field, or a X'20'
 exception condition exists.
-Triplets Appear as follows: [MODCA-5-441]
-| Triplet | Type | Usage [MODCA-5-442]|
-| --- | --- | --- [MODCA-5-443]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Document Index structured field name and is used as the name of the document index being terminated. [MODCA-5-444]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-445]
+
+**Triplets** Appear as follows: [MODCA-5-441]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Document Index structured field name and is used as the name of the document index being terminated. [MODCA-5-444] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-445]
+
 #### EDI Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Document Index
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Document Index
 structured field.
-X'20' The End Document Index structured field is not preceded by a matching Begin Document
+
+**X'20'** The End Document Index structured field is not preceded by a matching Begin Document
 Index structured field. [MODCA-5-446]
-### End Document Index (EDI)
 
 
 ### End Document (EDT)
+
 The End Document structured field terminates the MO:DCA document data stream initiated by a Begin
 Document structured field. [MODCA-5-447]
+
 #### EDT (X'D3A9A8') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9A8' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-448]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-449]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-450]|
-| 0–7 | CHAR | DocName | | Name of the document | O | X'02' [MODCA-5-451]|
-| 8–n Triplets See EDT Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-452]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9A8' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-448]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **DocName** | | Name of the document | O | X'02' [MODCA-5-451] |
+| 8–n | Triplets | | | See EDT Semantics for triplet applicability. | O | X'10' [MODCA-5-452] |
+
 #### EDT Semantics
-DocName Is the name of the document being terminated. If a name is specified, it must match the name
+
+**DocName** Is the name of the document being terminated. If a name is specified, it must match the name
 in the most recent Begin Document structured field in the data stream or a X'01' exception
 condition exists. If the first two bytes of DocName contain the value X'FFFF', the name
 matches any name specified on the Begin Document structured field that initiated the current
 definition.
+
 A matching Begin Document structured field must appear within the data stream at some
 location preceding the End Document structured field, or a X'20' exception condition exists.
-Triplets Appear as follows: [MODCA-5-453]
-| Triplet | Type | Usage [MODCA-5-454]|
-| --- | --- | --- [MODCA-5-455]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The only Fully Qualified Name type that may appear is X'01'— Replace First GID Name. This GID overrides the End Document structured field name and is used as the name of the document being terminated. [MODCA-5-456]|
-**Note:**  If a triplet is included on this structured field, the optional DocName positional parameter becomes
+
+**Triplets** Appear as follows: [MODCA-5-453]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The only Fully Qualified Name type that may appear is X'01'— Replace First GID Name. This GID overrides the End Document structured field name and is used as the name of the document being terminated. [MODCA-5-456] |
+
+**Note:** If a triplet is included on this structured field, the optional DocName positional parameter becomes
 mandatory.
+
 #### EDT Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Document
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Document
 structured field.
-X'20' The End Document structured field is not preceded by a matching Begin Document structured
+
+**X'20'** The End Document structured field is not preceded by a matching Begin Document structured
 field.
-### End Document (EDT)
 
 
 ### End Form Map (EFM)
+
 The End Form Map structured field terminates the form map object initiated by a Begin Form Map structured
-field
+field.
+
 #### EFM (X'D3A9CD') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9CD' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-457]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-458]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-459]|
-| 0–7 | CHAR | FMName | | Name of the form map | O | X'02' [MODCA-5-460]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9CD' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-457]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **FMName** | | Name of the form map | O | X'02' [MODCA-5-460] |
+
 #### EFM Semantics
-FMName Is the name of the form map being terminated. If a name is specified, it must match the name
+
+**FMName** Is the name of the form map being terminated. If a name is specified, it must match the name
 in the most recent Begin Form Map structured field or a X'01' exception condition exists. If the
 first two bytes of FMName contain the value X'FFFF', the name matches any name specified
 on the Begin Form Map structured field that initiated the current definition.
+
 A matching Begin Form Map structured field must appear at some location preceding the End
 Form Map structured field, or a X'20' exception condition exists. [MODCA-5-461]
+
 #### EFM Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Form Map
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Form Map
 structured field.
-X'20' The End Form Map structured field is not preceded by a matching Begin Form Map structured
+
+**X'20'** The End Form Map structured field is not preceded by a matching Begin Form Map structured
 field.
-### End Form Map (EFM)
 
 
 ### End Graphics Object (EGR)
+
 The End Graphics Object structured field terminates the current graphics object initiated by a Begin Graphics
 Object structured field. [MODCA-5-462]
+
 #### EGR (X'D3A9BB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9BB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-463]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-464]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-465]|
-| 0–7 | CHAR | GdoName | | Name of the graphics data object | O | X'02' [MODCA-5-466]|
-| 8–n Triplets See EGR Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-467]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9BB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-463]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **GdoName** | | Name of the graphics data object | O | X'02' [MODCA-5-466] |
+| 8–n | Triplets | | | See EGR Semantics for triplet applicability. | O | X'10' [MODCA-5-467] |
+
 #### EGR Semantics
-GdoName Is the name of the graphics data object being terminated. If a name is specified, it must match
+
+**GdoName** Is the name of the graphics data object being terminated. If a name is specified, it must match
 the name in the most recent Begin Graphics Object structured field in the containing page,
 overlay, or resource group, or a X'01' exception condition exists. If the first two bytes of
 GdoName contain the value X'FFFF', the name matches any name specified on the Begin
 Graphics Object structured field that initiated the current definition.
+
 A matching Begin Graphics Object structured field must appear within the containing structure
 at some location preceding the End Graphics Object structured field, or a X'20' exception
 condition exists.
-Triplets Appear as follows: [MODCA-5-468]
-| Triplet | Type | Usage [MODCA-5-469]|
-| --- | --- | --- [MODCA-5-470]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Graphics Object structured field name and is used as the name of the graphics data object being terminated. [MODCA-5-471]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-472]
+
+**Triplets** Appear as follows: [MODCA-5-468]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Graphics Object structured field name and is used as the name of the graphics data object being terminated. [MODCA-5-471] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-472]
+
 #### EGR Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Graphics Object
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Graphics Object
 structured field.
-X'20' The End Graphics Object structured field is not preceded by a matching Begin Graphics
+
+**X'20'** The End Graphics Object structured field is not preceded by a matching Begin Graphics
 Object structured field. [MODCA-5-473]
-### End Graphics Object (EGR)
 
 
 ### End Image Object (EIM)
+
 The End Image Object structured field terminates the current image object initiated by a Begin Image Object
 structured field.
+
 #### EIM (X'D3A9FB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9FB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-474]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-475]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-476]|
-| 0–7 | CHAR | IdoName | | Name of the image data object | O | X'02' [MODCA-5-477]|
-| 8–n Triplets See EIM Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-478]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9FB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-474]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **IdoName** | | Name of the image data object | O | X'02' [MODCA-5-477] |
+| 8–n | Triplets | | | See EIM Semantics for triplet applicability. | O | X'10' [MODCA-5-478] |
+
 #### EIM Semantics
-IdoName Is the name of the image data object being terminated. If a name is specified, it must match
+
+**IdoName** Is the name of the image data object being terminated. If a name is specified, it must match
 the name in the most recent Begin Image Object structured field in the containing page,
 overlay, or resource group, or a X'01' exception condition exists. If the first two bytes of
 IdoName contain the value X'FFFF', the name matches any name specified on the Begin
 Image Object structured field that initiated the current definition.
+
 A matching Begin Image Object structured field must appear within the containing structure at
 some location preceding the End Image Object structured field, or a X'20' exception condition
 exists.
-Triplets Appear as follows: [MODCA-5-479]
-| Triplet | Type | Usage [MODCA-5-480]|
-| --- | --- | --- [MODCA-5-481]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Image Object structured field name and is used as the name of the image data object being terminated. [MODCA-5-482]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-483]
+
+**Triplets** Appear as follows: [MODCA-5-479]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Image Object structured field name and is used as the name of the image data object being terminated. [MODCA-5-482] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-483]
+
 #### EIM Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Image Object
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Image Object
 structured field.
-X'20' The End Image Object structured field is not preceded by a matching Begin Image Object
+
+**X'20'** The End Image Object structured field is not preceded by a matching Begin Image Object
 structured field.
-### End Image Object (EIM)
 
 
 ### End Medium Map (EMM)
+
 The End Medium Map structured field terminates the medium map object initiated by a Begin Medium Map
-structured field
+structured field.
+
 #### EMM (X'D3A9CC') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9CC' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-484]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-485]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-486]|
-| 0–7 | CHAR | MMName | | Name of the medium map | O | X'02' [MODCA-5-487]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9CC' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-484]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **MMName** | | Name of the medium map | O | X'02' [MODCA-5-487] |
+
 #### EMM Semantics
-MMName Is the name of the medium map being terminated. If a name is specified, it must match the
+
+**MMName** Is the name of the medium map being terminated. If a name is specified, it must match the
 name in the most recent Begin Medium Map structured field or a X'01' exception condition
 exists. If the first two bytes of MMName contain the value X'FFFF', the name matches any
 name specified on the Begin Medium Map structured field that initiated the current definition.
+
 A matching Begin Medium Map structured field must appear at some location preceding the
 End Medium Map structured field, or a X'20' exception condition exists. [MODCA-5-488]
+
 #### EMM Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Medium Map
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Medium Map
 structured field.
-X'20' The End Medium Map structured field is not preceded by a matching Begin Medium Map
+
+**X'20'** The End Medium Map structured field is not preceded by a matching Begin Medium Map
 structured field.
-### End Medium Map (EMM)
 
 
 ### End Overlay (EMO)
+
 The End Overlay structured field terminates the overlay resource object initiated by a Begin Overlay structured
 field.
+
 #### EMO (X'D3A9DF') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9DF' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-489]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-490]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-491]|
-| 0–7 | CHAR | OvlyName | | Name of the overlay | O | X'02' [MODCA-5-492]|
-| 8–n Triplets See EMO Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-493]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9DF' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-489]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **OvlyName** | | Name of the overlay | O | X'02' [MODCA-5-492] |
+| 8–n | Triplets | | | See EMO Semantics for triplet applicability. | O | X'10' [MODCA-5-493] |
+
 #### EMO Semantics
-OvlyName Is the name of the overlay that is being terminated. If a name is specified, it must match the
+
+**OvlyName** Is the name of the overlay that is being terminated. If a name is specified, it must match the
 name in the most recent Begin Overlay structured field in the resource group or a X'01'
 exception condition exists. If the first two bytes of OvlyName contain the value X'FFFF', the
 name matches any name specified on the Begin Overlay structured field that initiated the
 current definition.
+
 A matching Begin Overlay structured field must appear within the resource group at some
 location preceding the End Overlay structured field, or a X'20' exception condition exists.
-Triplets Appear as follows: [MODCA-5-494]
-| Triplet | Type | Usage [MODCA-5-495]|
-| --- | --- | --- [MODCA-5-496]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Overlay structured field name and is used as the name of the overlay being terminated. [MODCA-5-497]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-498]
+
+**Triplets** Appear as follows: [MODCA-5-494]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Overlay structured field name and is used as the name of the overlay being terminated. [MODCA-5-497] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-498]
+
 #### EMO Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Overlay
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Overlay
 structured field.
-X'20' The End Overlay structured field is not preceded by a matching Begin Overlay structured field. [MODCA-5-499]
-### End Overlay (EMO)
+
+**X'20'** The End Overlay structured field is not preceded by a matching Begin Overlay structured field. [MODCA-5-499]
 
 
 ### End Named Page Group (ENG)
+
 The End Named Page Group structured field terminates a page group that was initiated by a Begin Named
 Page Group structured field. [MODCA-5-500]
+
 #### ENG (X'D3A9AD') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9AD' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-501]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-502]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-503]|
-| 0–7 | CHAR | PGrpName | | Name of the overlay | O | X'02' [MODCA-5-504]|
-| 8–n Triplets See ENG Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-505]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9AD' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-501]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **PGrpName** | | Name of the page group | O | X'02' [MODCA-5-504] |
+| 8–n | Triplets | | | See ENG Semantics for triplet applicability. | O | X'10' [MODCA-5-505] |
+
 #### ENG Semantics
-PGrpName Is the name of the page group that is being terminated. If a name is specified, it must match
+
+**PGrpName** Is the name of the page group that is being terminated. If a name is specified, it must match
 the name in the most recent Begin Named Page Group structured field in the document or a
 X'01' exception condition exists. If the first two bytes of PGrpName contain the value X'FFFF',
 the name matches any name specified on the Begin Named Page Group structured field that
 initiated the current definition.
+
 A matching Begin Named Page Group structured field must appear within the document at
 some location preceding the End Named Page Group structured field, or a X'20' exception
 condition exists.
-If the Keep Group T ogether (X'9D') triplet is specified on the Begin Named Page Group
+
+If the Keep Group Together (X'9D') triplet is specified on the Begin Named Page Group
 structured field that corresponds to this End Named Page Group structured field, the page
 group name in the ENG must exactly match the page group name in the BNG, or a X'01'
 exception condition exists. That is, in this case, the value X'FFFF' cannot be specified for the
 page group name in the ENG structured field.
-Triplets Appear in the End Named Page Group structured field as follows: [MODCA-5-506]
-| Triplet | Type | Usage [MODCA-5-507]|
-| --- | --- | --- [MODCA-5-508]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the End Named Page Group structured field name and is used as the name of the page group being terminated. [MODCA-5-509]|
-**Note:**  If a triplet is included on this structured field, the optional PGrpName positional parameter becomes
-mandatory.
-### End Named Page Group (ENG)
 
+**Triplets** Appear in the End Named Page Group structured field as follows: [MODCA-5-506]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the End Named Page Group structured field name and is used as the name of the page group being terminated. [MODCA-5-509] |
+
+**Note:** If a triplet is included on this structured field, the optional PGrpName positional parameter becomes
+mandatory.
 
 #### ENG Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Named Page
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Named Page
 Group structured field.
-X'20' The End Named Page Group structured field is not preceded by a matching Begin Named
+
+**X'20'** The End Named Page Group structured field is not preceded by a matching Begin Named
 Page Group structured field. [MODCA-5-510]
-### End Named Page Group (ENG)
 
 
 ### End Object Container (EOC)
+
 The End Object Container structured field terminates an object container initiated by a Begin Object Container
 structured field.
+
 #### EOC (X'D3A992') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A992' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-511]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-512]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-513]|
-| 0–7 | CHAR | ObjCName | | Name of the object container | O | X'02' [MODCA-5-514]|
-| 8–n Triplets See EOC Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-515]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A992' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-511]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **ObjCName** | | Name of the object container | O | X'02' [MODCA-5-514] |
+| 8–n | Triplets | | | See EOC Semantics for triplet applicability. | O | X'10' [MODCA-5-515] |
+
 #### EOC Semantics
-ObjCName Is the name of the object container that is being terminated. If a name is specified, it must
+
+**ObjCName** Is the name of the object container that is being terminated. If a name is specified, it must
 match the name in the most recent Begin Object Container structured field or a X'01'
 exception condition exists. If the first two bytes of ObjCName contain the value X'FFFF', the
 name matches any name specified on the Begin Object Container structured field that initiated
 the current definition.
+
 A matching Begin Object Container structured field must appear at some location preceding
 the End Object Container structured field, or a X'20' exception condition exists.
-Triplets Appear in the End Object Container structured field as follows: [MODCA-5-516]
-| Triplet | Type | Usage [MODCA-5-517]|
-| --- | --- | --- [MODCA-5-518]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the End Object Container structured field name and is used as the name of the object container being terminated. [MODCA-5-519]|
-**Note:**  If a triplet is included on this structured field, the optional ObjCName positional parameter becomes
+
+**Triplets** Appear in the End Object Container structured field as follows: [MODCA-5-516]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the End Object Container structured field name and is used as the name of the object container being terminated. [MODCA-5-519] |
+
+**Note:** If a triplet is included on this structured field, the optional ObjCName positional parameter becomes
 mandatory.
+
 #### EOC Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Object Container
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Object Container
 structured field.
-X'20' The End Object Container structured field is not preceded by a matching Begin Object
+
+**X'20'** The End Object Container structured field is not preceded by a matching Begin Object
 Container structured field. [MODCA-5-520]
-### End Object Container (EOC)
 
 
 ### End Object Environment Group (EOG)
+
 The End Object Environment Group structured field terminates the definition of an Object Environment Group
 initiated by a Begin Object Environment Group structured field. [MODCA-5-521]
+
 #### EOG (X'D3A9C7') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9C7' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-522]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-523]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-524]|
-| 0–7 CHAR OEGName Name of the object environment | | | | | | group O X'02' [MODCA-5-525]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9C7' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-522]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **OEGName** | | Name of the object environment group | O | X'02' [MODCA-5-525] |
+
 #### EOG Semantics
-OEGName Is the name of the object environment group that is being terminated. If a name is specified, it
+
+**OEGName** Is the name of the object environment group that is being terminated. If a name is specified, it
 must match the name in the most recent Begin Object Environment Group structured field in
 the object or a X'01' exception condition exists. If the first two bytes of OEGName contain the
 value X'FFFF', the name matches any name specified on the Begin Object Environment
 Group structured field that initiated the current definition.
+
 A matching Begin Object Environment Group structured field must appear within the object at
 some location preceding the End Object Environment Group structured field, or a X'20'
 exception condition exists. [MODCA-5-526]
+
 #### EOG Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Object
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Object
 Environment Group structured field.
-X'20' The End Object Environment Group structured field is not preceded by a matching Begin
+
+**X'20'** The End Object Environment Group structured field is not preceded by a matching Begin
 Object Environment Group structured field. [MODCA-5-527]
-### End Object Environment Group (EOG)
 
 
 ### End Print File (EPF)
+
 The End Print File structured field terminates the data stream initiated by a Begin Print File structured field. [MODCA-5-528]
+
 #### EPF (X'D3A9A5') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9A5' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-529]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-530]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-531]|
-| 0–7 | CHAR | PFName | | Name of the print file | O | X'02' [MODCA-5-532]|
-| 8–n Triplets See EPF Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-533]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9A5' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-529]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **PFName** | | Name of the print file | O | X'02' [MODCA-5-532] |
+| 8–n | Triplets | | | See EPF Semantics for triplet applicability. | O | X'10' [MODCA-5-533] |
+
 #### EPF Semantics
-PFName Is the name of the print file being terminated. If a name is specified, it must match the name in
+
+**PFName** Is the name of the print file being terminated. If a name is specified, it must match the name in
 the most recent Begin Print File structured field in the data stream or a X'01' exception
 condition exists. If the first two bytes of PFName contain the value X'FFFF', the name matches
 any name specified on the Begin Print File structured field that initiated the current definition.
+
 A matching Begin Print File structured field must appear within the data stream at some
 location preceding the End Print File structured field, or a X'20' exception condition exists.
-Triplets Appear as follows: [MODCA-5-534]
-| Triplet | Type | Usage [MODCA-5-535]|
-| --- | --- | --- [MODCA-5-536]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The only Fully Qualified Name type that may appear is X'01'— Replace First GID name. This GID overrides the End Print File structured field name and is used as the name of the print file being terminated. [MODCA-5-537]|
-**Note:**  If a triplet is included on this structured field, the optional PFName positional parameter becomes
+
+**Triplets** Appear as follows: [MODCA-5-534]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The only Fully Qualified Name type that may appear is X'01'— Replace First GID name. This GID overrides the End Print File structured field name and is used as the name of the print file being terminated. [MODCA-5-537] |
+
+**Note:** If a triplet is included on this structured field, the optional PFName positional parameter becomes
 mandatory.
+
 #### EPF Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Print File
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Print File
 structured field.
-X'20' The End Print File structured field is not preceded by a matching Begin Print File structured
+
+**X'20'** The End Print File structured field is not preceded by a matching Begin Print File structured
 field.
-### End Print File (EPF)
 
 
 ### End Page (EPG)
+
 The End Page structured field terminates the current presentation page definition initiated by a Begin Page
 structured field.
+
 #### EPG (X'D3A9AF') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9AF' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-538]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-539]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-540]|
-| 0–7 | CHAR | PageName | | Name of the page | O | X'02' [MODCA-5-541]|
-| 8–n Triplets See EPG Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-542]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9AF' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-538]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **PageName** | | Name of the page | O | X'02' [MODCA-5-541] |
+| 8–n | Triplets | | | See EPG Semantics for triplet applicability. | O | X'10' [MODCA-5-542] |
+
 #### EPG Semantics
-PageName Is the name of the page that is being terminated. If a name is specified, it must match the
+
+**PageName** Is the name of the page that is being terminated. If a name is specified, it must match the
 name in the most recent Begin Page structured field in the document or a X'01' exception
 condition exists. If the first two bytes of PageName contain the value X'FFFF', the name
 matches any name specified on the Begin Page structured field that initiated the current
 definition.
+
 A matching Begin Page structured field must appear within the document at some location
 preceding the End Page structured field, or a X'20' exception condition exists.
-Triplets Appear as follows: [MODCA-5-543]
-| Triplet | Type | Usage [MODCA-5-544]|
-| --- | --- | --- [MODCA-5-545]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Page structured field name and is used as the name of the page being terminated. [MODCA-5-546]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-547]
+
+**Triplets** Appear as follows: [MODCA-5-543]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Page structured field name and is used as the name of the page being terminated. [MODCA-5-546] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-547]
+
 #### EPG Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Page structured
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Page structured
 field.
-X'20' The End Page structured field is not preceded by a matching Begin Page structured field. [MODCA-5-548]
-### End Page (EPG)
+
+**X'20'** The End Page structured field is not preceded by a matching Begin Page structured field. [MODCA-5-548]
 
 
 ### End Page Segment (EPS)
+
 The End Page Segment structured field terminates the page segment resource object initiated by a Begin
 Page Segment structured field. [MODCA-5-549]
+
 #### EPS (X'D3A95F') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A95F' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-550]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-551]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-552]|
-| 0–7 | CHAR | PsegName | | Name of the page segment | O | X'02' [MODCA-5-553]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A95F' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-550]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **PsegName** | | Name of the page segment | O | X'02' [MODCA-5-553] |
+
 #### EPS Semantics
-PsegName Is the name of the page segment that is being terminated. If a name is specified, it must match
+
+**PsegName** Is the name of the page segment that is being terminated. If a name is specified, it must match
 the name in the most recent Begin Page Segment structured field or a X'01' exception
 condition exists. If the first two bytes of PsegName contain the value X'FFFF', the name
 matches any name specified on the Begin Page Segment structured field that initiated the
 current definition.
+
 A matching Begin Page Segment structured field must appear at some location preceding the
 End Page Segment structured field, or a X'20' exception condition exists. [MODCA-5-554]
+
 #### EPS Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Page Segment
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Page Segment
 structured field.
-X'20' The End Page Segment structured field is not preceded by a matching Begin Page Segment
+
+**X'20'** The End Page Segment structured field is not preceded by a matching Begin Page Segment
 structured field.
-### End Page Segment (EPS)
 
 
 ### End Presentation Text Object (EPT)
-The End Presentation T ext Object structured field terminates the current presentation text object initiated by a
-Begin Presentation T ext Object structured field. [MODCA-5-555]
+
+The End Presentation Text Object structured field terminates the current presentation text object initiated by a
+Begin Presentation Text Object structured field. [MODCA-5-555]
+
 #### EPT (X'D3A99B') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A99B' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-556]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-557]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-558]|
-| 0–7 CHAR PTdoName Name of the presentation text | | | | | | data object O X'02' [MODCA-5-559]|
-| 8–n Triplets See EPT Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-560]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A99B' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-556]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **PTdoName** | | Name of the presentation text data object | O | X'02' [MODCA-5-559] |
+| 8–n | Triplets | | | See EPT Semantics for triplet applicability. | O | X'10' [MODCA-5-560] |
+
 #### EPT Semantics
-PTdoName Is the name of the presentation text data object that is being terminated. If a name is specified,
-it must match the name in the most recent Begin Presentation T ext Object structured field in
+
+**PTdoName** Is the name of the presentation text data object that is being terminated. If a name is specified,
+it must match the name in the most recent Begin Presentation Text Object structured field in
 the page, or overlay, or a X'01' exception condition exists. If the first two bytes of PTdoName
 contain the value X'FFFF', the name matches any name specified on the Begin Presentation
-T ext Object structured field that initiated the current definition.
-A matching Begin Presentation T ext Object structured field must appear within the containing
-structure at some location preceding the End Presentation T ext Object structured field, or a
+Text Object structured field that initiated the current definition.
+
+A matching Begin Presentation Text Object structured field must appear within the containing
+structure at some location preceding the End Presentation Text Object structured field, or a
 X'20' exception condition exists.
-Triplets Appear as follows: [MODCA-5-561]
-| Triplet | Type | Usage [MODCA-5-562]|
-| --- | --- | --- [MODCA-5-563]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Presentation T ext Object structured field name and is used as the name of the presentation text data object being terminated. [MODCA-5-564]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-565]
+
+**Triplets** Appear as follows: [MODCA-5-561]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Presentation Text Object structured field name and is used as the name of the presentation text data object being terminated. [MODCA-5-564] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-565]
+
 #### EPT Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Presentation T ext
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Presentation Text
 Object structured field.
-X'20' The End Presentation T ext Object structured field is not preceded by a matching Begin
-Presentation T ext Object structured field. [MODCA-5-566]
-### End Presentation Text Object (EPT)
+
+**X'20'** The End Presentation Text Object structured field is not preceded by a matching Begin
+Presentation Text Object structured field. [MODCA-5-566]
 
 
 ### End Resource Group (ERG)
+
 The End Resource Group structured field terminates the definition of a resource group initiated by a Begin
 Resource Group structured field. [MODCA-5-567]
+
 #### ERG (X'D3A9C6') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9C6' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-568]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-569]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-570]|
-| 0–7 | CHAR | RGrpName | | Name of the resource group | O | X'02' [MODCA-5-571]|
-| 8–n Triplets See ERG Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-572]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9C6' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-568]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **RGrpName** | | Name of the resource group | O | X'02' [MODCA-5-571] |
+| 8–n | Triplets | | | See ERG Semantics for triplet applicability. | O | X'10' [MODCA-5-572] |
+
 #### ERG Semantics
-RGrpName Is the name of the resource group that is being terminated. If a name is specified, it must
+
+**RGrpName** Is the name of the resource group that is being terminated. If a name is specified, it must
 match the name in the most recent Begin Resource Group structured field in the print file,
 document, page, or data object, or a X'01' exception condition exists. If the first two bytes of
 RGrpName contain the value X'FFFF', the name matches any name specified on the Begin
 Resource Group structured field that initiated the current definition.
+
 A matching Begin Resource Group structured field must appear within the print file, document,
 page, or data object at some location preceding the End Resource Group structured field, or a
 X'20' exception condition exists.
-Triplets Appear as follows: [MODCA-5-573]
-| Triplet | Type | Usage [MODCA-5-574]|
-| --- | --- | --- [MODCA-5-575]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Resource Group structured field name and is used as the name of the resource group being terminated. [MODCA-5-576]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-577]
+
+**Triplets** Appear as follows: [MODCA-5-573]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the End Resource Group structured field name and is used as the name of the resource group being terminated. [MODCA-5-576] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-577]
+
 #### ERG Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Resource Group
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Resource Group
 structured field.
-X'20' The End Resource Group structured field is not preceded by a matching Begin Resource
+
+**X'20'** The End Resource Group structured field is not preceded by a matching Begin Resource
 Group structured field. [MODCA-5-578]
-### End Resource Group (ERG)
 
 
 ### End Resource (ERS)
+
 The End Resource structured field terminates an envelope that is used to carry resource objects in external
 (print file level) resource groups. The envelope is initiated by a Begin Resource (BRS) structured field. [MODCA-5-579]
+
 #### ERS (X'D3A9CE') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9CE' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-580]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-581]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-582]|
-| 0–7 | CHAR | RSName | | Name of the resource | O | X'02' [MODCA-5-583]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9CE' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-580]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **RSName** | | Name of the resource | O | X'02' [MODCA-5-583] |
+
 #### ERS Semantics
-RSName Is the name of the resource being terminated. If a name is specified, it must match the name in
+
+**RSName** Is the name of the resource being terminated. If a name is specified, it must match the name in
 the most recent Begin Resource structured field. If the first two bytes in RSName contain the
 value X'FFFF', the name matches any name specified on the Begin Resource structured field
 that initiated the current definition.
+
 A matching Begin Resource structured field must appear within the resource group at some
 location preceding the End Resource structured field, or a X'20' exception condition exists. [MODCA-5-584]
+
 #### ERS Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Resource
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Resource
 structured field.
-X'20' The End Resource structured field is not preceded by a matching Begin Resource structured
+
+**X'20'** The End Resource structured field is not preceded by a matching Begin Resource structured
 field.
-### End Resource (ERS)
 
 
 ### End Resource Environment Group (ESG)
+
 The End Resource Environment Group structured field terminates the definition of a Resource Environment
 Group initiated by a Begin Resource Environment Group structured field. [MODCA-5-585]
+
 #### ESG (X'D3A9D9') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A9D9' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-586]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-587]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-588]|
-| 0–7 CHAR REGName Name of the resource | | | | | | environment group O X'02' [MODCA-5-589]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A9D9' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-586]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **REGName** | | Name of the resource environment group | O | X'02' [MODCA-5-589] |
+
 #### ESG Semantics
-REGName Is the name of the resource environment group being terminated. If a name is specified, it
+
+**REGName** Is the name of the resource environment group being terminated. If a name is specified, it
 must match the name in the most recent Begin Resource Environment Group structured field
 in the document or a X'01' exception condition exists. If the first two bytes in REGName
 contain the value X'FFFF', the name matches any name specified on the Begin Resource
 Environment Group structured field that initiated the current definition.
+
 A matching Begin Resource Environment Group structured field must appear within the
 document at some location preceding the End Resource Environment Group structured field,
 or a X'20' exception condition exists. [MODCA-5-590]
+
 #### ESG Exception Condition Summary
-X'01' A name is specified that does not match the name on the most recent Begin Resource
+
+**X'01'** A name is specified that does not match the name on the most recent Begin Resource
 Environment Group structured field.
-X'20' The End Resource Environment Group structured field is not preceded by a matching Begin
+
+**X'20'** The End Resource Environment Group structured field is not preceded by a matching Begin
 Resource Environment Group structured field. [MODCA-5-591]
-### End Resource Environment Group (ESG)
 
 
 ### Graphics Data (GAD)
