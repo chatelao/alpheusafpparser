@@ -73,6 +73,16 @@ if __name__ == "__main__":
         ('GOCA-7-163', 'GOCA-7-186'), # Begin Image
         ('GOCA-7-194', 'GOCA-7-217'), # Box
         ('GOCA-7-218', 'GOCA-7-239'), # Character String
+        ('GOCA-7-246', 'GOCA-7-251'), # Comment
+        ('GOCA-7-252', 'GOCA-7-299'), # Bezier
+        ('GOCA-7-300', 'GOCA-7-309'), # Delete Pattern
+        ('GOCA-7-310', 'GOCA-7-315'), # End Area
+        ('GOCA-7-316', 'GOCA-7-321'), # End Custom Pattern
+        ('GOCA-7-322', 'GOCA-7-328'), # End Image
+        ('GOCA-7-329', 'GOCA-7-336'), # End Prolog
+        ('GOCA-7-337', 'GOCA-7-384'), # Fillet
+        ('GOCA-7-385', 'GOCA-7-417'), # Full Arc
+        ('GOCA-7-418', 'GOCA-7-463'), # Linear Gradient
         ('GOCA-7-464', 'GOCA-7-498'), # Marker and NOP
         ('GOCA-7-499', 'GOCA-7-537'), # Partial Arc
         ('GOCA-7-538', 'GOCA-7-620'), # Radial Gradient
