@@ -130,13 +130,13 @@ public class FNP_FontPosition extends StructuredField {
     @AFPField(size = 5)
     private byte[] reserved10_14 = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00};
     @AFPField
-    private short retired15 = 0x01;
+    private byte retired15 = 0x01;
     @AFPField
-    private short reserved16 = 0x00;
+    private byte reserved16 = 0x00;
     @AFPField
-    private short underscoreWidth_Units;
+    private short underscoreWidth;
     @AFPField
-    private short underscoreWidthFraction = 0x00;
+    private byte underscoreWidthFraction = 0x00;
     @AFPField
     private short underscorePosition;
 
@@ -151,10 +151,10 @@ public class FNP_FontPosition extends StructuredField {
       maxDescenderDepth = UtilBinaryDecoding.parseShort(sfData, offset + 8, 2);
       reserved10_14 = new byte[5];
       System.arraycopy(sfData, offset + 10, reserved10_14, 0, reserved10_14.length);
-      retired15 = (short) (sfData[offset + 15] & 0xFF);
-      reserved16 = (short) (sfData[offset + 16] & 0xFF);
-      underscoreWidth_Units = UtilBinaryDecoding.parseShort(sfData, offset + 17, 2);
-      underscoreWidthFraction = (short) (sfData[offset + 19] & 0xFF);
+      retired15 = sfData[offset + 15];
+      reserved16 = sfData[offset + 16];
+      underscoreWidth = UtilBinaryDecoding.parseShort(sfData, offset + 17, 2);
+      underscoreWidthFraction = sfData[offset + 19];
       underscorePosition = UtilBinaryDecoding.parseShort(sfData, offset + 20, 2);
     }
 
@@ -168,7 +168,7 @@ public class FNP_FontPosition extends StructuredField {
       os.write(reserved10_14);
       os.write(retired15);
       os.write(reserved16);
-      os.write(UtilBinaryDecoding.shortToByteArray(underscoreWidth_Units, 2));
+      os.write(UtilBinaryDecoding.shortToByteArray(underscoreWidth, 2));
       os.write(underscoreWidthFraction);
       os.write(UtilBinaryDecoding.shortToByteArray(underscorePosition, 2));
     }
@@ -221,35 +221,35 @@ public class FNP_FontPosition extends StructuredField {
       this.reserved10_14 = reserved10_14;
     }
 
-    public short getRetired15() {
+    public byte getRetired15() {
       return retired15;
     }
 
-    public void setRetired15(short retired15) {
+    public void setRetired15(byte retired15) {
       this.retired15 = retired15;
     }
 
-    public short getReserved16() {
+    public byte getReserved16() {
       return reserved16;
     }
 
-    public void setReserved16(short reserved16) {
+    public void setReserved16(byte reserved16) {
       this.reserved16 = reserved16;
     }
 
-    public short getUnderscoreWidth_Units() {
-      return underscoreWidth_Units;
+    public short getUnderscoreWidth() {
+      return underscoreWidth;
     }
 
-    public void setUnderscoreWidth_Units(short underscoreWidth_Units) {
-      this.underscoreWidth_Units = underscoreWidth_Units;
+    public void setUnderscoreWidth(short underscoreWidth) {
+      this.underscoreWidth = underscoreWidth;
     }
 
-    public short getUnderscoreWidthFraction() {
+    public byte getUnderscoreWidthFraction() {
       return underscoreWidthFraction;
     }
 
-    public void setUnderscoreWidthFraction(short underscoreWidthFraction) {
+    public void setUnderscoreWidthFraction(byte underscoreWidthFraction) {
       this.underscoreWidthFraction = underscoreWidthFraction;
     }
 

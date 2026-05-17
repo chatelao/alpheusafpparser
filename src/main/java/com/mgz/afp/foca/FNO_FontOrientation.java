@@ -57,17 +57,22 @@ public class FNO_FontOrientation extends StructuredField {
     var pos = 0;
     while (pos + rgLen <= actualLength) {
       var rg = new FNO_RepeatingGroup();
-      rg.charRotation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + pos, 2));
-      rg.maxBaselineOffset = UtilBinaryDecoding.parseShort(sfData, offset + pos + 2, 2);
-      rg.maxCharacterIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 4, 2);
-      rg.spaceCharacterIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 6, 2);
-      rg.maxBaselineExtent = UtilBinaryDecoding.parseShort(sfData, offset + pos + 8, 2);
-      rg.controlFlags = FnoControlFlag.valueOf(sfData[offset + pos + 10]);
-      rg.emSpaceIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 11, 2);
-      rg.figureSpaceIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 13, 2);
-      rg.nominalCharacterIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 15, 2);
-      rg.defaultBaselineIncrement = UtilBinaryDecoding.parseInt(sfData, offset + pos + 17, 3);
-      rg.minASpace = UtilBinaryDecoding.parseShort(sfData, offset + pos + 20, 2);
+      rg.reserved0_1 = new byte[2];
+      System.arraycopy(sfData, offset + pos, rg.reserved0_1, 0, 2);
+      rg.charRotation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + pos + 2, 2));
+      rg.maxBaselineOffset = UtilBinaryDecoding.parseShort(sfData, offset + pos + 4, 2);
+      rg.maxCharacterIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 6, 2);
+      rg.spaceCharacterIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 8, 2);
+      rg.maxBaselineExtent = UtilBinaryDecoding.parseShort(sfData, offset + pos + 10, 2);
+      rg.controlFlags = FnoControlFlag.valueOf(sfData[offset + pos + 12]);
+      rg.reserved13 = sfData[offset + pos + 13];
+      rg.emSpaceIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 14, 2);
+      rg.reserved16_17 = new byte[2];
+      System.arraycopy(sfData, offset + pos + 16, rg.reserved16_17, 0, 2);
+      rg.figureSpaceIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 18, 2);
+      rg.nominalCharacterIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 20, 2);
+      rg.defaultBaselineIncrement = UtilBinaryDecoding.parseInt(sfData, offset + pos + 22, 2);
+      rg.minASpace = UtilBinaryDecoding.parseShort(sfData, offset + pos + 24, 2);
 
       repeatingGroups.add(rg);
       pos += rgLen;
@@ -87,16 +92,19 @@ public class FNO_FontOrientation extends StructuredField {
     if (repeatingGroups != null) {
       for (var rg : repeatingGroups) {
         var rgBaos = new ByteArrayOutputStream();
+        rgBaos.write(rg.reserved0_1 != null ? rg.reserved0_1 : new byte[] {0, 0});
         rgBaos.write(rg.charRotation != null ? rg.charRotation.toBytes() : new byte[] {0, 0});
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.maxBaselineOffset, 2));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.maxCharacterIncrement, 2));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.spaceCharacterIncrement, 2));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.maxBaselineExtent, 2));
         rgBaos.write(FnoControlFlag.toByte(rg.controlFlags));
+        rgBaos.write(rg.reserved13);
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.emSpaceIncrement, 2));
+        rgBaos.write(rg.reserved16_17 != null ? rg.reserved16_17 : new byte[] {0, 0});
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.figureSpaceIncrement, 2));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.nominalCharacterIncrement, 2));
-        rgBaos.write(UtilBinaryDecoding.intToByteArray(rg.defaultBaselineIncrement, 3));
+        rgBaos.write(UtilBinaryDecoding.shortToByteArray((short) rg.defaultBaselineIncrement, 2));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.minASpace, 2));
 
         var rgData = rgBaos.toByteArray();
@@ -153,6 +161,8 @@ public class FNO_FontOrientation extends StructuredField {
    * FNO Repeating Group.
    */
   public static class FNO_RepeatingGroup {
+    @AFPField(size = 2)
+    private byte[] reserved0_1 = new byte[] {0x00, 0x00};
     @AFPField
     private AFPOrientation charRotation;
     @AFPField
@@ -166,7 +176,11 @@ public class FNO_FontOrientation extends StructuredField {
     @AFPField
     private EnumSet<FnoControlFlag> controlFlags;
     @AFPField
+    private byte reserved13 = 0x00;
+    @AFPField
     private short emSpaceIncrement;
+    @AFPField(size = 2)
+    private byte[] reserved16_17 = new byte[] {0x00, 0x00};
     @AFPField
     private short figureSpaceIncrement;
     @AFPField

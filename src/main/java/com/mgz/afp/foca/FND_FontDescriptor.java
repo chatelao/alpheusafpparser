@@ -46,61 +46,61 @@ public class FND_FontDescriptor extends StructuredField {
   @AFPField
   private byte fontWidthClass;
   @AFPField
-  private short maxBaselineExtent;
-  @AFPField(size = 4)
-  private byte[] reserved36_39 = new byte[4];
+  private short maxVerticalSize;
   @AFPField
-  private short fontClassificationFlags;
+  private short nominalVerticalSize;
   @AFPField
-  private byte designRes;
-  @AFPField(size = 2)
-  private byte[] reserved43_44 = new byte[2];
+  private short minimumVerticalSize;
   @AFPField
-  private short capMHeight;
+  private short maxHorizontalSize;
   @AFPField
-  private short lowercaseHeight;
+  private short nominalHorizontalSize;
   @AFPField
-  private short lowercaseAscenderHeight;
+  private short minimumHorizontalSize;
   @AFPField
-  private short lowercaseDescenderDepth;
-  @AFPField(size = 20)
-  private byte[] reserved53_72 = new byte[20];
+  private byte designGeneralClass;
+  @AFPField
+  private byte designSubclass;
+  @AFPField
+  private byte designSpecificGroup;
+  @AFPField(size = 15)
+  private byte[] reserved49_63 = new byte[15];
+  @AFPField
+  private short fontDesignFlags;
+  @AFPField(size = 10)
+  private byte[] reserved66_75 = new byte[10];
   @AFPField
   private short gcsgid;
   @AFPField
   private short fgid;
-  @AFPField(size = 4)
-  private byte[] reserved77_80 = new byte[4];
-  @AFPField
-  private byte reserved81 = 0x00;
   @AFPField
   private List<Triplet> triplets;
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     var actualLength = getActualLength(sfData, offset, length);
-    checkDataLength(sfData, offset, length, 82);
+    checkDataLength(sfData, offset, length, 80);
 
     typefaceDescription = new String(sfData, offset, 32, config.getAfpCharSet()).trim();
     fontWeightClass = sfData[offset + 32];
     fontWidthClass = sfData[offset + 33];
-    maxBaselineExtent = UtilBinaryDecoding.parseShort(sfData, offset + 34, 2);
-    System.arraycopy(sfData, offset + 36, reserved36_39, 0, 4);
-    fontClassificationFlags = UtilBinaryDecoding.parseShort(sfData, offset + 40, 2);
-    designRes = sfData[offset + 42];
-    System.arraycopy(sfData, offset + 43, reserved43_44, 0, 2);
-    capMHeight = UtilBinaryDecoding.parseShort(sfData, offset + 45, 2);
-    lowercaseHeight = UtilBinaryDecoding.parseShort(sfData, offset + 47, 2);
-    lowercaseAscenderHeight = UtilBinaryDecoding.parseShort(sfData, offset + 49, 2);
-    lowercaseDescenderDepth = UtilBinaryDecoding.parseShort(sfData, offset + 51, 2);
-    System.arraycopy(sfData, offset + 53, reserved53_72, 0, 20);
-    gcsgid = UtilBinaryDecoding.parseShort(sfData, offset + 73, 2);
-    fgid = UtilBinaryDecoding.parseShort(sfData, offset + 75, 2);
-    System.arraycopy(sfData, offset + 77, reserved77_80, 0, 4);
-    reserved81 = sfData[offset + 81];
+    maxVerticalSize = UtilBinaryDecoding.parseShort(sfData, offset + 34, 2);
+    nominalVerticalSize = UtilBinaryDecoding.parseShort(sfData, offset + 36, 2);
+    minimumVerticalSize = UtilBinaryDecoding.parseShort(sfData, offset + 38, 2);
+    maxHorizontalSize = UtilBinaryDecoding.parseShort(sfData, offset + 40, 2);
+    nominalHorizontalSize = UtilBinaryDecoding.parseShort(sfData, offset + 42, 2);
+    minimumHorizontalSize = UtilBinaryDecoding.parseShort(sfData, offset + 44, 2);
+    designGeneralClass = sfData[offset + 46];
+    designSubclass = sfData[offset + 47];
+    designSpecificGroup = sfData[offset + 48];
+    System.arraycopy(sfData, offset + 49, reserved49_63, 0, 15);
+    fontDesignFlags = UtilBinaryDecoding.parseShort(sfData, offset + 64, 2);
+    System.arraycopy(sfData, offset + 66, reserved66_75, 0, 10);
+    gcsgid = UtilBinaryDecoding.parseShort(sfData, offset + 76, 2);
+    fgid = UtilBinaryDecoding.parseShort(sfData, offset + 78, 2);
 
-    if (actualLength > 82) {
-      triplets = TripletParser.parseTriplets(sfData, offset + 82, actualLength - 82, config);
+    if (actualLength > 80) {
+      triplets = TripletParser.parseTriplets(sfData, offset + 80, actualLength - 80, config);
     }
   }
 
@@ -110,20 +110,20 @@ public class FND_FontDescriptor extends StructuredField {
     baos.write(UtilCharacterEncoding.stringToByteArray(typefaceDescription, config.getAfpCharSet(), 32, (byte) 0x40));
     baos.write(fontWeightClass);
     baos.write(fontWidthClass);
-    baos.write(UtilBinaryDecoding.shortToByteArray(maxBaselineExtent, 2));
-    baos.write(reserved36_39);
-    baos.write(UtilBinaryDecoding.shortToByteArray(fontClassificationFlags, 2));
-    baos.write(designRes);
-    baos.write(reserved43_44);
-    baos.write(UtilBinaryDecoding.shortToByteArray(capMHeight, 2));
-    baos.write(UtilBinaryDecoding.shortToByteArray(lowercaseHeight, 2));
-    baos.write(UtilBinaryDecoding.shortToByteArray(lowercaseAscenderHeight, 2));
-    baos.write(UtilBinaryDecoding.shortToByteArray(lowercaseDescenderDepth, 2));
-    baos.write(reserved53_72);
+    baos.write(UtilBinaryDecoding.shortToByteArray(maxVerticalSize, 2));
+    baos.write(UtilBinaryDecoding.shortToByteArray(nominalVerticalSize, 2));
+    baos.write(UtilBinaryDecoding.shortToByteArray(minimumVerticalSize, 2));
+    baos.write(UtilBinaryDecoding.shortToByteArray(maxHorizontalSize, 2));
+    baos.write(UtilBinaryDecoding.shortToByteArray(nominalHorizontalSize, 2));
+    baos.write(UtilBinaryDecoding.shortToByteArray(minimumHorizontalSize, 2));
+    baos.write(designGeneralClass);
+    baos.write(designSubclass);
+    baos.write(designSpecificGroup);
+    baos.write(reserved49_63);
+    baos.write(UtilBinaryDecoding.shortToByteArray(fontDesignFlags, 2));
+    baos.write(reserved66_75);
     baos.write(UtilBinaryDecoding.shortToByteArray(gcsgid, 2));
     baos.write(UtilBinaryDecoding.shortToByteArray(fgid, 2));
-    baos.write(reserved77_80);
-    baos.write(reserved81);
 
     if (triplets != null) {
       for (var triplet : triplets) {
@@ -162,60 +162,84 @@ public class FND_FontDescriptor extends StructuredField {
     this.fontWidthClass = fontWidthClass;
   }
 
-  public short getMaxBaselineExtent() {
-    return maxBaselineExtent;
+  public short getMaxVerticalSize() {
+    return maxVerticalSize;
   }
 
-  public void setMaxBaselineExtent(short maxBaselineExtent) {
-    this.maxBaselineExtent = maxBaselineExtent;
+  public void setMaxVerticalSize(short maxVerticalSize) {
+    this.maxVerticalSize = maxVerticalSize;
   }
 
-  public short getFontClassificationFlags() {
-    return fontClassificationFlags;
+  public short getNominalVerticalSize() {
+    return nominalVerticalSize;
   }
 
-  public void setFontClassificationFlags(short fontClassificationFlags) {
-    this.fontClassificationFlags = fontClassificationFlags;
+  public void setNominalVerticalSize(short nominalVerticalSize) {
+    this.nominalVerticalSize = nominalVerticalSize;
   }
 
-  public byte getDesignRes() {
-    return designRes;
+  public short getMinimumVerticalSize() {
+    return minimumVerticalSize;
   }
 
-  public void setDesignRes(byte designRes) {
-    this.designRes = designRes;
+  public void setMinimumVerticalSize(short minimumVerticalSize) {
+    this.minimumVerticalSize = minimumVerticalSize;
   }
 
-  public short getCapMHeight() {
-    return capMHeight;
+  public short getMaxHorizontalSize() {
+    return maxHorizontalSize;
   }
 
-  public void setCapMHeight(short capMHeight) {
-    this.capMHeight = capMHeight;
+  public void setMaxHorizontalSize(short maxHorizontalSize) {
+    this.maxHorizontalSize = maxHorizontalSize;
   }
 
-  public short getLowercaseHeight() {
-    return lowercaseHeight;
+  public short getNominalHorizontalSize() {
+    return nominalHorizontalSize;
   }
 
-  public void setLowercaseHeight(short lowercaseHeight) {
-    this.lowercaseHeight = lowercaseHeight;
+  public void setNominalHorizontalSize(short nominalHorizontalSize) {
+    this.nominalHorizontalSize = nominalHorizontalSize;
   }
 
-  public short getLowercaseAscenderHeight() {
-    return lowercaseAscenderHeight;
+  public short getMinimumHorizontalSize() {
+    return minimumHorizontalSize;
   }
 
-  public void setLowercaseAscenderHeight(short lowercaseAscenderHeight) {
-    this.lowercaseAscenderHeight = lowercaseAscenderHeight;
+  public void setMinimumHorizontalSize(short minimumHorizontalSize) {
+    this.minimumHorizontalSize = minimumHorizontalSize;
   }
 
-  public short getLowercaseDescenderDepth() {
-    return lowercaseDescenderDepth;
+  public byte getDesignGeneralClass() {
+    return designGeneralClass;
   }
 
-  public void setLowercaseDescenderDepth(short lowercaseDescenderDepth) {
-    this.lowercaseDescenderDepth = lowercaseDescenderDepth;
+  public void setDesignGeneralClass(byte designGeneralClass) {
+    this.designGeneralClass = designGeneralClass;
+  }
+
+  public byte getDesignSubclass() {
+    return designSubclass;
+  }
+
+  public void setDesignSubclass(byte designSubclass) {
+    this.designSubclass = designSubclass;
+  }
+
+  public byte getDesignSpecificGroup() {
+    return designSpecificGroup;
+  }
+
+  public void setDesignSpecificGroup(byte designSpecificGroup) {
+    this.designSpecificGroup = designSpecificGroup;
+  }
+
+  public short getFontDesignFlags() {
+    return fontDesignFlags;
+  }
+
+  public void setFontDesignFlags(short fontDesignFlags) {
+    this.fontDesignFlags = fontDesignFlags;
   }
 
   public short getGcsgid() {
