@@ -126,11 +126,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - 🚧 Improve all `specifications/markdown` formatting up to the 'Excellent' standard of neighbouring specifications (consistent with PTOCA).
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
         - ✅ Chapters 1-3 complete.
-        - 🚧 Chapter 4 (Partially reformatted) in-progress:
-            - ⏳ Print File, Document, and Index structures.
-            - ⏳ Page and Page Group structures.
-            - ⏳ Resource Objects and Groups.
-            - ⏳ Data Objects and Object Containers.
+        - ✅ Chapter 4 complete.
         - 🚧 Chapter 5 (Begin-type Structured Fields) in-progress:
             - ✅ BAG through BIM and all other 'Begin' fields (BMM through BSG) complete.
             - ⏳ Remaining SF Groups A-D.
