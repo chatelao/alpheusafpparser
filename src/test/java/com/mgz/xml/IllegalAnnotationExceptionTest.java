@@ -19,7 +19,7 @@ public class IllegalAnnotationExceptionTest {
     @Test
     public void testClashingBeginSegments() throws JAXBException {
         Class<?>[] classes = new Class<?>[] {
-            com.mgz.afp.goca.GAD_GraphicsData.BeginSegment.class,
+            com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment.class,
             com.mgz.afp.ioca.IPD_Segment.BeginSegment.class
         };
         JAXBContext.newInstance(classes);

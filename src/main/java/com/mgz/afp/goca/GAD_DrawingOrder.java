@@ -24,15 +24,20 @@ import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.enums.IMutualExclusiveGroupedFlag;
+import com.mgz.afp.enums.MutualExclusiveGroupedFlagHandler;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable {
@@ -211,7 +216,245 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     }
   }
 
-  public static final class GDGCH_SegmentCharacteristics extends GAD_DrawingOrder {
+  @XmlRootElement
+  @XmlType(name = "gocaBeginSegment")
+  public static final class GBSEG_BeginSegment extends GAD_DrawingOrder {
+    public static short COMMANDCODE_BeginSegment = 0x70;
+    @AFPField
+    short commandCode = COMMANDCODE_BeginSegment;
+    @AFPField
+    short lengthOfFollowingParameters = 0x0C;
+    @AFPField
+    String nameOfSegment;
+    @AFPField
+    byte flagAnyValue;
+    @AFPField
+    EnumSet<SegmentPropertiesFlag> segmentPropertiesFlags = EnumSet.noneOf(SegmentPropertiesFlag.class);
+    @AFPField
+    int segmentDataLength;
+    @AFPField
+    String nameOfPredecessorSuccessorSegment;
+    @AFPField
+    List<GAD_DrawingOrder> drawingOrders;
+    String text;
+
+    @XmlElement(name = "text")
+    public String getText() {
+      return UtilCharacterEncoding.sanitizeForXml(text);
+    }
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      commandCode = drawingOrderType;
+      lengthOfFollowingParameters = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      nameOfSegment = new String(sfData, offset + 2, 4, config.getAfpCharSet());
+      flagAnyValue = sfData[offset + 6];
+      segmentPropertiesFlags = SegmentPropertiesFlag.valueOF(sfData[offset + 7]);
+      segmentDataLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
+      nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, config.getAfpCharSet());
+
+      if (UtilCharacterEncoding.isHumanReadable(nameOfSegment.getBytes(config.getAfpCharSet()), config.getAfpCharSet())) {
+        text = nameOfSegment.trim();
+      }
+
+      if (segmentDataLength > 0) {
+        drawingOrders = GAD_GraphicsData.buildDrawingOrders(sfData, offset + 14, segmentDataLength, config);
+      } else {
+        drawingOrders = null;
+      }
+    }
+
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      byte[] drawingOrdersData = null;
+
+      os.write(commandCode);
+      os.write(lengthOfFollowingParameters);
+      os.write(nameOfSegment.getBytes(config.getAfpCharSet()));
+      os.write(flagAnyValue);
+      if (segmentPropertiesFlags != null) {
+        os.write(SegmentPropertiesFlag.toByte(segmentPropertiesFlags));
+      } else {
+        os.write(0x00);
+      }
+
+      if (drawingOrders != null && drawingOrders.size() > 0) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        for (GAD_DrawingOrder order : drawingOrders) {
+          if (order == null) {
+            continue;
+          }
+          order.writeAFP(baos, config);
+        }
+        drawingOrdersData = baos.toByteArray();
+        segmentDataLength = drawingOrdersData.length;
+      } else {
+        segmentDataLength = 0;
+      }
+
+      os.write(UtilBinaryDecoding.intToByteArray(segmentDataLength, 2));
+      os.write(nameOfPredecessorSuccessorSegment.getBytes(config.getAfpCharSet()));
+
+      if (drawingOrdersData != null) {
+        os.write(drawingOrdersData);
+      }
+    }
+
+    /**
+     * Sets the given {@link SegmentPropertiesFlag} and un-sets corresponding mutual exclusive
+     * flags.
+     *
+     * @param flag {@link SegmentPropertiesFlag} to set.
+     */
+    public void setSegmentPropertiesFlag(SegmentPropertiesFlag flag) {
+      if (segmentPropertiesFlags == null) {
+        segmentPropertiesFlags = EnumSet.noneOf(SegmentPropertiesFlag.class);
+      }
+      SegmentPropertiesFlag.setFlag(segmentPropertiesFlags, flag);
+    }
+
+    public short getCommandCode() {
+      return commandCode;
+    }
+
+    public void setCommandCode(short commandCode) {
+      this.commandCode = commandCode;
+    }
+
+    public short getLengthOfFollowingParameters() {
+      return lengthOfFollowingParameters;
+    }
+
+    public void setLengthOfFollowingParameters(short lengthOfFollowingParameters) {
+      this.lengthOfFollowingParameters = lengthOfFollowingParameters;
+    }
+
+    public String getNameOfSegment() {
+      return nameOfSegment;
+    }
+
+    public void setNameOfSegment(String nameOfSegment) {
+      this.nameOfSegment = nameOfSegment;
+    }
+
+    public byte getFlagAnyValue() {
+      return flagAnyValue;
+    }
+
+    public void setFlagAnyValue(byte flagAnyValue) {
+      this.flagAnyValue = flagAnyValue;
+    }
+
+    public EnumSet<SegmentPropertiesFlag> getSegmentPropertiesFlags() {
+      return segmentPropertiesFlags;
+    }
+
+    public void setSegmentPropertiesFlags(
+        EnumSet<SegmentPropertiesFlag> segmentPropertiesFlags) {
+      this.segmentPropertiesFlags = segmentPropertiesFlags;
+    }
+
+    public int getSegmentDataLength() {
+      return segmentDataLength;
+    }
+
+    public void setSegmentDataLength(int segmentDataLength) {
+      this.segmentDataLength = segmentDataLength;
+    }
+
+    public String getNameOfPredecessorSuccessorSegment() {
+      return nameOfPredecessorSuccessorSegment;
+    }
+
+    public void setNameOfPredecessorSuccessorSegment(
+        String nameOfPredecessorSuccessorSegment) {
+      this.nameOfPredecessorSuccessorSegment = nameOfPredecessorSuccessorSegment;
+    }
+
+    public List<GAD_DrawingOrder> getDrawingOrders() {
+      return drawingOrders;
+    }
+
+    public void setDrawingOrders(List<GAD_DrawingOrder> drawingOrders) {
+      this.drawingOrders = drawingOrders;
+    }
+
+    public enum SegmentPropertiesFlag implements IMutualExclusiveGroupedFlag {
+      Chained(0),
+      Unchained(0),
+      NoProlog(1),
+      Prolog(1),
+      NewSegment(2),
+      Reserved_01(2),
+      Reserved_10(2),
+      AppendToExisting(2);
+
+      int group;
+
+      SegmentPropertiesFlag(int group) {
+        this.group = group;
+      }
+
+      public static EnumSet<SegmentPropertiesFlag> valueOF(byte flagsByte) {
+        EnumSet<SegmentPropertiesFlag> result = EnumSet.noneOf(SegmentPropertiesFlag.class);
+        if ((flagsByte & 0x80) == 0) {
+          result.add(Chained);
+        } else {
+          result.add(Unchained);
+        }
+        if ((flagsByte & 0x10) == 0) {
+          result.add(NoProlog);
+        } else {
+          result.add(Prolog);
+        }
+        int appFlags = (flagsByte >> 1) & 0x03;
+        if (appFlags == 0x00) {
+          result.add(NewSegment);
+        } else if (appFlags == 0x01) {
+          result.add(Reserved_01);
+        } else if (appFlags == 0x02) {
+          result.add(Reserved_10);
+        } else if (appFlags == 0x03) {
+          result.add(AppendToExisting);
+        }
+        return result;
+      }
+
+      public static int toByte(EnumSet<SegmentPropertiesFlag> flags) {
+        int result = 0;
+
+        if (flags.contains(Unchained)) {
+          result |= 0x80;
+        }
+        if (flags.contains(Prolog)) {
+          result |= 0x10;
+        }
+        if (flags.contains(Reserved_01)) {
+          result += 2;
+        } else if (flags.contains(Reserved_10)) {
+          result += 4;
+        } else if (flags.contains(AppendToExisting)) {
+          result += 6;
+        }
+
+        return result;
+      }
+
+      public static void setFlag(EnumSet<SegmentPropertiesFlag> set, SegmentPropertiesFlag flag) {
+        new MutualExclusiveGroupedFlagHandler<SegmentPropertiesFlag>().setFlag(set, flag);
+      }
+
+      @Override
+      public int getGroup() {
+        return group;
+      }
+    }
+
+  }
+
+  public static final class GSGCH_SegmentCharacteristics extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData;
     @AFPField
@@ -1974,7 +2217,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     }
   }
 
-  public static final class GEIMD_EndImage extends GAD_DrawingOrder {
+  public static final class GEIMG_EndImage extends GAD_DrawingOrder {
     @AFPField
     short lengthOfFollowingData = 0x00;
     @AFPField(maxSize = 255)

@@ -30,14 +30,14 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [CMOCA](TEST_COVERAGE_CMOCA.md) | 0 | 1085 | 0.0% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
-| [GOCA](TEST_COVERAGE_GOCA.md) | 0 | 2144 | 0.0% |
+| [GOCA](TEST_COVERAGE_GOCA.md) | 1747 | 2144 | 81.5% |
 | [IOCA](TEST_COVERAGE_IOCA.md) | 0 | 1587 | 0.0% |
 | [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **1661** | **20955** | **7.9%** |
+| **Total** | **3408** | **20955** | **16.3%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -148,17 +148,17 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
 - ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
 - ✅ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks.
-- ⏳ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
-    - ⏳ Chapters 1-3.
-    - ⏳ Chapter 4.
-    - ⏳ Chapters 5-6.
-    - ⏳ Chapter 7 (Commands and Drawing Orders) in-progress:
-        - ⏳ Commands and Primitive Drawing Orders (Lines, Arcs, Areas, Boxes) [GOCA-7-001 to GOCA-7-217].
-        - ⏳ Character and Marker Drawing Orders [GOCA-7-218 to GOCA-7-537].
-        - ⏳ Gradients, Patterns, and Images [GOCA-7-538 to GOCA-7-672].
-        - ⏳ Attribute-Setting Drawing Orders [GOCA-7-673 to GOCA-7-1025].
-    - ⏳ Chapters 8-9.
-    - ⏳ Appendices A-D.
+- ✅ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
+    - ✅ Chapters 1-3 complete.
+    - ✅ Chapter 4 complete.
+    - ✅ Chapters 5-6 complete.
+    - ✅ Chapter 7 (Commands and Drawing Orders) in-progress:
+        - ✅ Commands and Primitive Drawing Orders (Lines, Arcs, Areas, Boxes) [GOCA-7-001 to GOCA-7-217] complete.
+        - ✅ Character and Marker Drawing Orders [GOCA-7-218 to GOCA-7-537] complete.
+        - ✅ Gradients, Patterns, and Images [GOCA-7-538 to GOCA-7-672] complete.
+        - ✅ Attribute-Setting Drawing Orders [GOCA-7-673 to GOCA-7-1025] complete.
+    - ✅ Chapters 8-9 complete.
+    - ✅ Appendices A-D complete.
 - ⏳ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks:
     - ⏳ Chapters 1-3.
     - ⏳ Chapter 4.
