@@ -767,16 +767,16 @@
 | GOCA-7-045 | For fixed 2-byte orders, bit 0 is set to 0, and bit 4 is set to 1, that is, the first digit of the order code is less than 8, and the second digit is greater than, or equal to, 8. | ✅ |
 | GOCA-7-046 | Orders that are not any of the other three formats are long format orders. | ✅ |
 | GOCA-7-047 | Extended orders have an order code of X'FE', which introduces the extended format. | ✅ |
-| GOCA-7-048 | . The sequence of parameters in coordinate data is (X g , Y g ); the format of the parameters is 16-bit twos-complement signed binary integers (SBIN). The drawing processor interprets coordinate data and raises an exception condition if the length of the data is not consistent with complete specification of points. | ❓ |
-| GOCA-7-049 | All current attributes and drawing process controls are set to their default values when the environment containing the graphics processor is initialized. These default values are referred to as the standard defaults. | ❓ |
-| GOCA-7-050 | - Environment-dependent values. | ❓ |
-| GOCA-7-051 | - Architected values, that is, one of the values that can be selected with a nonzero attribute value has been architected as the default. | ❓ |
-| GOCA-7-052 | The standard defaults are copied into another set of defaults, referred to as the current defaults, when the graphics processor is initialized. | ❓ |
-| GOCA-7-053 | The current defaults can be changed by the Set Current Defaults control instruction. | ❓ |
-| GOCA-7-054 | When a drawing process is initiated, the current defaults are copied into a set of defaults called the drawing defaults. These are the defaults that are assumed during the execution of the drawing process. | ❓ |
-| GOCA-7-055 | The current values of the primitive attributes are either set or propagated at the start of a segment. “Current | ❓ |
-| GOCA-7-056 | The current values of the drawing process controls are either set or propagated at the start of a segment. | ❓ |
-| GOCA-7-057 | “Drawing Process Controls” describes how the initial values are determined. | ❓ |
+| GOCA-7-048 | . The sequence of parameters in coordinate data is (X g , Y g ); the format of the parameters is 16-bit twos-complement signed binary integers (SBIN). The drawing processor interprets coordinate data and raises an exception condition if the length of the data is not consistent with complete specification of points. | ✅ |
+| GOCA-7-049 | All current attributes and drawing process controls are set to their default values when the environment containing the graphics processor is initialized. These default values are referred to as the standard defaults. | ✅ |
+| GOCA-7-050 | - Environment-dependent values. | ✅ |
+| GOCA-7-051 | - Architected values, that is, one of the values that can be selected with a nonzero attribute value has been architected as the default. | ✅ |
+| GOCA-7-052 | The standard defaults are copied into another set of defaults, referred to as the current defaults, when the graphics processor is initialized. | ✅ |
+| GOCA-7-053 | The current defaults can be changed by the Set Current Defaults control instruction. | ✅ |
+| GOCA-7-054 | When a drawing process is initiated, the current defaults are copied into a set of defaults called the drawing defaults. These are the defaults that are assumed during the execution of the drawing process. | ✅ |
+| GOCA-7-055 | The current values of the primitive attributes are either set or propagated at the start of a segment. “Current | ✅ |
+| GOCA-7-056 | The current values of the drawing process controls are either set or propagated at the start of a segment. | ✅ |
+| GOCA-7-057 | “Drawing Process Controls” describes how the initial values are determined. | ✅ |
 | GOCA-7-058 | 1-byte | X'00' | GNOP1 | No-Operation | ✅ |
 | GOCA-7-059 | Long | X'01' | GCOMT | Comment | ✅ |
 | GOCA-7-060 | Long | X'04' | GSGCH | Segment Characteristics | ✅ |
@@ -906,13 +906,13 @@
 | GOCA-7-184 | Data, | Comment, | or | No-Operation | orders, and these are the only orders permitted. | ✅ |
 | GOCA-7-185 | The | XPOS | and | YPOS | parameters define the position of the image origin—that is, the first point of the first row—which is at the top-left corner of the image. This origin is defined in GPS units. | ✅ |
 | GOCA-7-186 | Begin Image | ✅ |
-| GOCA-7-187 | Printers that have a fixed resolution map point-to-pel at that resolution. | ❓ |
-| GOCA-7-188 | Printers that have an acceptance mode for a fixed resolution map point-to-pel at the acceptance-mode resolution and then scale to the device resolution. | ❓ |
-| GOCA-7-189 | Printers that have a fixed resolution but scale transparently to a diff erent device resolution map point- to-pel at the fixed resolution and then scale to the device resolution. | ❓ |
-| GOCA-7-190 | Printers that support multiple raster source resolutions map point-to-pel to the single (maximum) device resolution reported in the IPDS XOH-OPC IM-Image and Coded-Font Resolution self-defining field. Such printers normally also provide acceptance modes at lower resolutions, so that if the GOCA image size is too small at the device resolution, the customer can switch to a lower-resolution acceptance mode. | ❓ |
-| GOCA-7-191 | The image is not scaled when a scale-to-fit or scale-to-fill mapping to the object area is specified for the graphics object. | ❓ |
-| GOCA-7-192 | 1. The practical limit for the WIDTH parameter range is 2040, which is the maximum number of bits in the | ❓ |
-| GOCA-7-193 | 2. Some presentation devices support a smaller range than X'0000'-X'FFFF' for the HEIGHT parameter . | ❓ |
+| GOCA-7-187 | Printers that have a fixed resolution map point-to-pel at that resolution. | ✅ |
+| GOCA-7-188 | Printers that have an acceptance mode for a fixed resolution map point-to-pel at the acceptance-mode resolution and then scale to the device resolution. | ✅ |
+| GOCA-7-189 | Printers that have a fixed resolution but scale transparently to a diff erent device resolution map point- to-pel at the fixed resolution and then scale to the device resolution. | ✅ |
+| GOCA-7-190 | Printers that support multiple raster source resolutions map point-to-pel to the single (maximum) device resolution reported in the IPDS XOH-OPC IM-Image and Coded-Font Resolution self-defining field. Such printers normally also provide acceptance modes at lower resolutions, so that if the GOCA image size is too small at the device resolution, the customer can switch to a lower-resolution acceptance mode. | ✅ |
+| GOCA-7-191 | The image is not scaled when a scale-to-fit or scale-to-fill mapping to the object area is specified for the graphics object. | ✅ |
+| GOCA-7-192 | 1. The practical limit for the WIDTH parameter range is 2040, which is the maximum number of bits in the | ✅ |
+| GOCA-7-193 | 2. Some presentation devices support a smaller range than X'0000'-X'FFFF' for the HEIGHT parameter . | ✅ |
 | GOCA-7-194 | These orders define a box with square or round corners, drawn with its first corner at a given position or at the current position. | ✅ |
 | GOCA-7-195 | 0 | CODE | X'C0' | GBOX | Order code | ✅ |
 | GOCA-7-196 | 1 | UBIN | LENGTH | 10, 12, 14 | Length of following data | ✅ |
@@ -959,12 +959,12 @@
 | GOCA-7-237 | The | way | in | which | characters in the string are merged with any output primitives that have already been drawn is controlled by the values of the character mix and background mix attributes. | ✅ |
 | GOCA-7-238 | The | current | values | of | the line type, line width, pattern set, and pattern symbol attributes have no effect on the appearance of the characters in the string. | ✅ |
 | GOCA-7-239 | Character String | ✅ |
-| GOCA-7-240 | A high-order surrogate code value was not immediately followed by a low-order surrogate code value. The high-order surrogate range is U+D800 through U+DBFF . | ❓ |
-| GOCA-7-241 | A low-order surrogate code value was not immediately preceded by a high-order surrogate code value. The low-order surrogate range is U+DC00 through U+DFFF . | ❓ |
-| GOCA-7-242 | An illegal UTF-8 byte sequence, as defined in the Unicode Specification, was specified. | ❓ |
-| GOCA-7-243 | The value in the 1st byte of the UTF-8 byte sequence was not in the legal UTF-8 range (X'00' - X'7F' and X'C2' - X'F4'). | ❓ |
-| GOCA-7-244 | The value in the 2nd byte of the UTF-8 byte sequence was not in the legal UTF-8 range allowed by the value in the 1st byte. The valid ranges for the 2nd byte are shown in Table 14. | ❓ |
-| GOCA-7-245 | The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF- 8 range for that byte (X'80' - X'BF'). | ❓ |
+| GOCA-7-240 | A high-order surrogate code value was not immediately followed by a low-order surrogate code value. The high-order surrogate range is U+D800 through U+DBFF . | ✅ |
+| GOCA-7-241 | A low-order surrogate code value was not immediately preceded by a high-order surrogate code value. The low-order surrogate range is U+DC00 through U+DFFF . | ✅ |
+| GOCA-7-242 | An illegal UTF-8 byte sequence, as defined in the Unicode Specification, was specified. | ✅ |
+| GOCA-7-243 | The value in the 1st byte of the UTF-8 byte sequence was not in the legal UTF-8 range (X'00' - X'7F' and X'C2' - X'F4'). | ✅ |
+| GOCA-7-244 | The value in the 2nd byte of the UTF-8 byte sequence was not in the legal UTF-8 range allowed by the value in the 1st byte. The valid ranges for the 2nd byte are shown in Table 14. | ✅ |
+| GOCA-7-245 | The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF- 8 range for that byte (X'80' - X'BF'). | ✅ |
 | GOCA-7-246 | This order enables data to be stored within a segment. | ✅ |
 | GOCA-7-247 | 0 | CODE | X'01' | GCOMT | Order code | ✅ |
 | GOCA-7-248 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ✅ |
@@ -1745,94 +1745,94 @@
 | GOCA-7-1023 | 2. If colors are simulated in AFP environments, color exceptions need not be generated. | ✅ |
 | GOCA-7-1024 | 3. When a color space other than the standard OCA color space is selected with this drawing order, the concept of mixing color index values in the GPS does not apply. The use of mixing rules other than "Overpaint" or "Leave Alone" is not possible. | ✅ |
 | GOCA-7-1025 | 4. For a description of color spaces and their relationships, see R. Hunt, The Reproduction of Colour in Photography, Printing, and Television, Fifth Edition, Fountain Press, 1995. | ✅ |
-| GOCA-8-001 | If the SET parameter (byte 2) is invalid or unsupported | ❓ |
-| GOCA-8-002 | If the FLAGS parameter (byte 5) bits 1-3 are not B'000', or bits 4-7 are not B'1 1 1 1' | ❓ |
-| GOCA-8-003 | If an unallocated item is referenced in the MASK parameter (bytes 3-4) | ❓ |
-| GOCA-8-004 | If the FLAGS parameter (byte 5) bit 0 is B'0' and LENGTH is not X'04' | ❓ |
-| GOCA-8-005 | If the FLAGS parameter (byte 5) bit 0 is B'1' and the length of the immediate data (byte 6 onward) does not exactly match the length implied by the MASK parameter | ❓ |
-| GOCA-8-006 | CPC-70C5 Insufficien t data. The segment data is less than the length specified by SEGL parameter. | ❓ |
-| GOCA-8-007 | For each exception condition, the AFP GOCA architecture defines the action that is to be taken when the condition arises. This action is one of the following: | ❓ |
-| GOCA-8-008 | - Report a drawing process check (DPC). The identifier of the DPC is the same as that of the exception condition; that is, exception condition EC-xxxx raises DPC-xxxx. | ❓ |
-| GOCA-8-009 | - Perform some architecture- or implementation-defined Standard action. For example, for EC-C301 on the | ❓ |
-| GOCA-8-010 | The environment—for example, the IPDS environment—optionally can provide an exception handling control that causes the drawing processor to raise a drawing process check for each and every exception condition, rather than execute the standard action, if any , defined for the exception condition. This exception handling control, if provided, can specify what is to happen after the drawing process check has been raised; for example, terminate the draw function or skip to the next drawing order. | ❓ |
-| GOCA-8-011 | Those for which no architected standard action is defined | ❓ |
-| GOCA-8-012 | Those that have a standard action defined | ❓ |
-| GOCA-8-013 | Drawing Order Exceptions | ❓ |
-| GOCA-8-014 | The order is a fixed, two-byte format order, and the second byte is not in the segment. | ❓ |
-| GOCA-8-015 | The order is a long format order, and the length byte is not in the segment. | ❓ |
-| GOCA-8-016 | The order is a long or extended format order, and the number of bytes from the end of the length field to the end of the segment is less than the value of the length count. | ❓ |
-| GOCA-8-017 | The order is an extended format order, and the qualifier byte is not in the segment. | ❓ |
-| GOCA-8-018 | The order is an extended format order, and one or both of the length bytes are not in the segment. | ❓ |
-| GOCA-8-019 | An order that is not valid in the prolog has been detected. | ❓ |
-| GOCA-8-020 | The end of the segment has been reached without an End Prolog order. | ❓ |
-| GOCA-8-021 | Drawing Order Exceptions | ❓ |
-| GOCA-8-022 | Drawing Order Exceptions | ❓ |
-| GOCA-8-023 | Drawing Order Exceptions | ❓ |
-| GOCA-8-024 | Drawing Order Exceptions | ❓ |
-| GOCA-8-025 | Drawing Order Exceptions | ❓ |
-| GOCA-8-026 | Drawing Order Exceptions | ❓ |
-| GOCA-9-001 | GRS = Graphics Subset | ❓ |
-| GOCA-9-002 | x = level. GRS levels start with “2” = level 2. The next level can be called “3” = level 3. The GRS levels are not tied to the GOCA “DR” levels, although the starting level (“2”) is chosen to indicate a relationship to | ❓ |
-| GOCA-9-003 | Recognition of commands and modes | ❓ |
-| GOCA-9-004 | Interpretation and validation of the commands within the mode | ❓ |
-| GOCA-9-005 | Rejection of those commands and modes that are not supported, and return of error data, within the supported subset levels | ❓ |
-| GOCA-9-006 | Reporting, on request of the environment, the supported features of the drawing process | ❓ |
-| GOCA-9-007 | Reporting error conditions to the environment | ❓ |
-| GOCA-9-008 | Begin Segment (chained) in immediate mode | ❓ |
-| GOCA-9-009 | Length | ❓ |
-| GOCA-9-010 | Name (ignored in AFP GOCA) | ❓ |
-| GOCA-9-011 | Prolog | ❓ |
-| GOCA-9-012 | New/Append | ❓ |
-| GOCA-9-013 | Begin Area (GBAR) order. The required support for INSIDE flag is Alternate Mode. | ❓ |
-| GOCA-9-014 | Begin Image (GBIMG, GCBIMG) orders (format X'00' only) | ❓ |
-| GOCA-9-015 | Character String (GCHST, GCCHST) orders | ❓ |
-| GOCA-9-016 | Comment (GCOMT) order | ❓ |
-| GOCA-9-017 | End Area (GEAR) order | ❓ |
-| GOCA-9-018 | End Image (GEIMG) order | ❓ |
-| GOCA-9-019 | End Prolog (GEPROL) order | ❓ |
-| GOCA-9-020 | Fillet (GFLT , GCFLT) orders | ❓ |
-| GOCA-9-021 | Full Arc (GFARC, GCFARC) orders | ❓ |
-| GOCA-9-022 | Image Data (GIMD) order | ❓ |
-| GOCA-9-023 | Line (GLINE, GCLINE) orders | ❓ |
-| GOCA-9-024 | Marker (GMRK, GCMRK) orders | ❓ |
-| GOCA-9-025 | No-Operation (GNOP1) order | ❓ |
-| GOCA-9-026 | Relative Line (GRLINE, GCRLINE) orders | ❓ |
-| GOCA-9-027 | Segment Characteristics (GSGCH) order. A check that this order is in the prolog state is optionally performed. | ❓ |
-| GOCA-9-028 | Set Arc Parameters (GSAP) order | ❓ |
-| GOCA-9-029 | Set Background Mix (GSBMX) order. The required support is X'00' and X'05'—Leave Alone. | ❓ |
-| GOCA-9-030 | Set Character Angle (GSCA) order. The required support is 90-degree angles when applied to precision 2 symbols. | ❓ |
-| GOCA-9-031 | Set Character Cell (GSCC) order | ❓ |
-| GOCA-9-032 | Set Character Direction (GSCD) order | ❓ |
-| GOCA-9-033 | Set Character Precision (GSCR) order. The required support is drawing default and precisions 1 and 2. | ❓ |
-| GOCA-9-034 | Set Character Set (GSCS) order | ❓ |
-| GOCA-9-035 | Set Character Shear (GSCH) order. The required support is drawing default and “no shear”. Other values can be treated as “no shear”, but generators should not produce these values. | ❓ |
-| GOCA-9-036 | Set Color (GSCOL) order | ❓ |
-| GOCA-9-037 | Set Current Position (GSCP) order | ❓ |
-| GOCA-9-038 | Set Extended Color (GSECOL) order | ❓ |
-| GOCA-9-039 | Set Line Type (GSLT) order | ❓ |
-| GOCA-9-040 | Set Line Width (GSLW) order. The required support is normal line width, plus a further line width selectable by a multiplier of two. | ❓ |
-| GOCA-9-041 | Set Marker Cell (GSMC) order. The required support is drawing default. | ❓ |
-| GOCA-9-042 | Set Marker Precision (GSMP) order. The required support is drawing default and precisions 1 and 2. | ❓ |
-| GOCA-9-043 | Set Marker Set (GSMS) order. The required support is drawing default (default marker set). | ❓ |
-| GOCA-9-044 | Set Marker Symbol (GSMT) order | ❓ |
-| GOCA-9-045 | Set Mix (GSMX) order. The required support is X'00' and X'02'—Overpaint. | ❓ |
-| GOCA-9-046 | Set Pattern Set (GSPS) order. The required support is drawing default (default pattern set). | ❓ |
-| GOCA-9-047 | Set Pattern Symbol (GSPT) order | ❓ |
-| GOCA-9-048 | 1. Some AFP printers accept the Set Fractional Line Width (GSFLW) order. | ❓ |
-| GOCA-9-049 | 2. Some AFP printers accept the following drawing orders and process them as No-Ops: | ❓ |
-| GOCA-9-050 | Set Pick Identifier (GSPIK, X'43'). This drawing order is in long format. | ❓ |
-| GOCA-9-051 | End Segment drawing order (X'71'). This drawing order is in fixed 2-byte format, where the second byte is reserved and should be set to X'00'. | ❓ |
-| GOCA-9-052 | Set Fractional Line Width (GSFLW) order | ❓ |
-| GOCA-9-053 | Set Process Color (GSPCOL) order | ❓ |
-| GOCA-9-054 | Box (GBOX, GCBOX) orders; required support does not include the ability to draw boxes in a clockwise direction | ❓ |
-| GOCA-9-055 | Partial Arc (GP ARC, GCP ARC) orders | ❓ |
-| GOCA-9-056 | Image resolution information for GOCA image in MO:DCA and IPDS Graphics Data Descriptor (GDD) | ❓ |
-| GOCA-9-057 | New exception EC-C303 for T rueType/OpenType font support | ❓ |
-| GOCA-9-058 | Extensions to Set Current Defaults instruction: | ❓ |
-| GOCA-9-059 | - Set Process Color (SET = X'10') - Set Normal Line Width (SET = X'11') | ❓ |
-| GOCA-9-060 | Support for clockwise arcs in addition to the support for counterclockwise arcs (which was part of DR/2V0), as specified by the determinant of the arc parameters | ❓ |
-| GOCA-9-061 | Support for the full range of possible line widths in the Set Line Width (GSLW) order | ❓ |
-| GOCA-9-062 | Architecture note: As with DR/2V0, the Set Pick Identifier (X'43') and End Segment (X'71') drawing orders are tolerated, but not defined, in GRS3. As a recommendation, GRS3-compliant receivers should accept these two drawing orders and treat them as No-Ops, GRS3-compliant generators should not generate them, and GRS3 validators must allow them (but may generate a warning to discourage future use). | ❓ |
+| GOCA-8-001 | If the SET parameter (byte 2) is invalid or unsupported | ✅ |
+| GOCA-8-002 | If the FLAGS parameter (byte 5) bits 1-3 are not B'000', or bits 4-7 are not B'1 1 1 1' | ✅ |
+| GOCA-8-003 | If an unallocated item is referenced in the MASK parameter (bytes 3-4) | ✅ |
+| GOCA-8-004 | If the FLAGS parameter (byte 5) bit 0 is B'0' and LENGTH is not X'04' | ✅ |
+| GOCA-8-005 | If the FLAGS parameter (byte 5) bit 0 is B'1' and the length of the immediate data (byte 6 onward) does not exactly match the length implied by the MASK parameter | ✅ |
+| GOCA-8-006 | CPC-70C5 Insufficien t data. The segment data is less than the length specified by SEGL parameter. | ✅ |
+| GOCA-8-007 | For each exception condition, the AFP GOCA architecture defines the action that is to be taken when the condition arises. This action is one of the following: | ✅ |
+| GOCA-8-008 | - Report a drawing process check (DPC). The identifier of the DPC is the same as that of the exception condition; that is, exception condition EC-xxxx raises DPC-xxxx. | ✅ |
+| GOCA-8-009 | - Perform some architecture- or implementation-defined Standard action. For example, for EC-C301 on the | ✅ |
+| GOCA-8-010 | The environment—for example, the IPDS environment—optionally can provide an exception handling control that causes the drawing processor to raise a drawing process check for each and every exception condition, rather than execute the standard action, if any , defined for the exception condition. This exception handling control, if provided, can specify what is to happen after the drawing process check has been raised; for example, terminate the draw function or skip to the next drawing order. | ✅ |
+| GOCA-8-011 | Those for which no architected standard action is defined | ✅ |
+| GOCA-8-012 | Those that have a standard action defined | ✅ |
+| GOCA-8-013 | Drawing Order Exceptions | ✅ |
+| GOCA-8-014 | The order is a fixed, two-byte format order, and the second byte is not in the segment. | ✅ |
+| GOCA-8-015 | The order is a long format order, and the length byte is not in the segment. | ✅ |
+| GOCA-8-016 | The order is a long or extended format order, and the number of bytes from the end of the length field to the end of the segment is less than the value of the length count. | ✅ |
+| GOCA-8-017 | The order is an extended format order, and the qualifier byte is not in the segment. | ✅ |
+| GOCA-8-018 | The order is an extended format order, and one or both of the length bytes are not in the segment. | ✅ |
+| GOCA-8-019 | An order that is not valid in the prolog has been detected. | ✅ |
+| GOCA-8-020 | The end of the segment has been reached without an End Prolog order. | ✅ |
+| GOCA-8-021 | Drawing Order Exceptions | ✅ |
+| GOCA-8-022 | Drawing Order Exceptions | ✅ |
+| GOCA-8-023 | Drawing Order Exceptions | ✅ |
+| GOCA-8-024 | Drawing Order Exceptions | ✅ |
+| GOCA-8-025 | Drawing Order Exceptions | ✅ |
+| GOCA-8-026 | Drawing Order Exceptions | ✅ |
+| GOCA-9-001 | GRS = Graphics Subset | ✅ |
+| GOCA-9-002 | x = level. GRS levels start with “2” = level 2. The next level can be called “3” = level 3. The GRS levels are not tied to the GOCA “DR” levels, although the starting level (“2”) is chosen to indicate a relationship to | ✅ |
+| GOCA-9-003 | Recognition of commands and modes | ✅ |
+| GOCA-9-004 | Interpretation and validation of the commands within the mode | ✅ |
+| GOCA-9-005 | Rejection of those commands and modes that are not supported, and return of error data, within the supported subset levels | ✅ |
+| GOCA-9-006 | Reporting, on request of the environment, the supported features of the drawing process | ✅ |
+| GOCA-9-007 | Reporting error conditions to the environment | ✅ |
+| GOCA-9-008 | Begin Segment (chained) in immediate mode | ✅ |
+| GOCA-9-009 | Length | ✅ |
+| GOCA-9-010 | Name (ignored in AFP GOCA) | ✅ |
+| GOCA-9-011 | Prolog | ✅ |
+| GOCA-9-012 | New/Append | ✅ |
+| GOCA-9-013 | Begin Area (GBAR) order. The required support for INSIDE flag is Alternate Mode. | ✅ |
+| GOCA-9-014 | Begin Image (GBIMG, GCBIMG) orders (format X'00' only) | ✅ |
+| GOCA-9-015 | Character String (GCHST, GCCHST) orders | ✅ |
+| GOCA-9-016 | Comment (GCOMT) order | ✅ |
+| GOCA-9-017 | End Area (GEAR) order | ✅ |
+| GOCA-9-018 | End Image (GEIMG) order | ✅ |
+| GOCA-9-019 | End Prolog (GEPROL) order | ✅ |
+| GOCA-9-020 | Fillet (GFLT , GCFLT) orders | ✅ |
+| GOCA-9-021 | Full Arc (GFARC, GCFARC) orders | ✅ |
+| GOCA-9-022 | Image Data (GIMD) order | ✅ |
+| GOCA-9-023 | Line (GLINE, GCLINE) orders | ✅ |
+| GOCA-9-024 | Marker (GMRK, GCMRK) orders | ✅ |
+| GOCA-9-025 | No-Operation (GNOP1) order | ✅ |
+| GOCA-9-026 | Relative Line (GRLINE, GCRLINE) orders | ✅ |
+| GOCA-9-027 | Segment Characteristics (GSGCH) order. A check that this order is in the prolog state is optionally performed. | ✅ |
+| GOCA-9-028 | Set Arc Parameters (GSAP) order | ✅ |
+| GOCA-9-029 | Set Background Mix (GSBMX) order. The required support is X'00' and X'05'—Leave Alone. | ✅ |
+| GOCA-9-030 | Set Character Angle (GSCA) order. The required support is 90-degree angles when applied to precision 2 symbols. | ✅ |
+| GOCA-9-031 | Set Character Cell (GSCC) order | ✅ |
+| GOCA-9-032 | Set Character Direction (GSCD) order | ✅ |
+| GOCA-9-033 | Set Character Precision (GSCR) order. The required support is drawing default and precisions 1 and 2. | ✅ |
+| GOCA-9-034 | Set Character Set (GSCS) order | ✅ |
+| GOCA-9-035 | Set Character Shear (GSCH) order. The required support is drawing default and “no shear”. Other values can be treated as “no shear”, but generators should not produce these values. | ✅ |
+| GOCA-9-036 | Set Color (GSCOL) order | ✅ |
+| GOCA-9-037 | Set Current Position (GSCP) order | ✅ |
+| GOCA-9-038 | Set Extended Color (GSECOL) order | ✅ |
+| GOCA-9-039 | Set Line Type (GSLT) order | ✅ |
+| GOCA-9-040 | Set Line Width (GSLW) order. The required support is normal line width, plus a further line width selectable by a multiplier of two. | ✅ |
+| GOCA-9-041 | Set Marker Cell (GSMC) order. The required support is drawing default. | ✅ |
+| GOCA-9-042 | Set Marker Precision (GSMP) order. The required support is drawing default and precisions 1 and 2. | ✅ |
+| GOCA-9-043 | Set Marker Set (GSMS) order. The required support is drawing default (default marker set). | ✅ |
+| GOCA-9-044 | Set Marker Symbol (GSMT) order | ✅ |
+| GOCA-9-045 | Set Mix (GSMX) order. The required support is X'00' and X'02'—Overpaint. | ✅ |
+| GOCA-9-046 | Set Pattern Set (GSPS) order. The required support is drawing default (default pattern set). | ✅ |
+| GOCA-9-047 | Set Pattern Symbol (GSPT) order | ✅ |
+| GOCA-9-048 | 1. Some AFP printers accept the Set Fractional Line Width (GSFLW) order. | ✅ |
+| GOCA-9-049 | 2. Some AFP printers accept the following drawing orders and process them as No-Ops: | ✅ |
+| GOCA-9-050 | Set Pick Identifier (GSPIK, X'43'). This drawing order is in long format. | ✅ |
+| GOCA-9-051 | End Segment drawing order (X'71'). This drawing order is in fixed 2-byte format, where the second byte is reserved and should be set to X'00'. | ✅ |
+| GOCA-9-052 | Set Fractional Line Width (GSFLW) order | ✅ |
+| GOCA-9-053 | Set Process Color (GSPCOL) order | ✅ |
+| GOCA-9-054 | Box (GBOX, GCBOX) orders; required support does not include the ability to draw boxes in a clockwise direction | ✅ |
+| GOCA-9-055 | Partial Arc (GP ARC, GCP ARC) orders | ✅ |
+| GOCA-9-056 | Image resolution information for GOCA image in MO:DCA and IPDS Graphics Data Descriptor (GDD) | ✅ |
+| GOCA-9-057 | New exception EC-C303 for T rueType/OpenType font support | ✅ |
+| GOCA-9-058 | Extensions to Set Current Defaults instruction: | ✅ |
+| GOCA-9-059 | - Set Process Color (SET = X'10') - Set Normal Line Width (SET = X'11') | ✅ |
+| GOCA-9-060 | Support for clockwise arcs in addition to the support for counterclockwise arcs (which was part of DR/2V0), as specified by the determinant of the arc parameters | ✅ |
+| GOCA-9-061 | Support for the full range of possible line widths in the Set Line Width (GSLW) order | ✅ |
+| GOCA-9-062 | Architecture note: As with DR/2V0, the Set Pick Identifier (X'43') and End Segment (X'71') drawing orders are tolerated, but not defined, in GRS3. As a recommendation, GRS3-compliant receivers should accept these two drawing orders and treat them as No-Ops, GRS3-compliant generators should not generate them, and GRS3 validators must allow them (but may generate a warning to discourage future use). | ✅ |
 | GOCA-A-001 | A set of rules that must be followed by all generators when constructing graphics objects | ✅ |
 | GOCA-A-002 | A set of graphics processing capabilities that are guaranteed to be supported by all receivers | ✅ |
 | GOCA-A-003 | In order to conform to a particular MO:DCA Interchange Set, products that receive graphics objects and convert them using a processor for output to some device, are required to support all the graphics facilities defined in that interchange set. | ✅ |
@@ -2078,71 +2078,71 @@
 | GOCA-C-044 | AFP | GOCA | receivers | should | not report this exception condition. | ✅ |
 | GOCA-C-045 | Note: | Some | pre-May-2012 | receivers | might report this exception condition when new functions are encountered that use previously reserved bits. | ✅ |
 | GOCA-C-046 | AFP | GOCA | Migration | | Functions | ✅ |
-| GOCA-D-001 | AFP GOCA commands sorted by identifier | ❓ |
-| GOCA-D-002 | AFP GOCA commands sorted by acronym | ❓ |
-| GOCA-D-003 | AFP GOCA control instructions sorted by identifier | ❓ |
-| GOCA-D-004 | AFP GOCA control instructions sorted by acronym | ❓ |
-| GOCA-D-005 | AFP GOCA drawing orders sorted by identifier | ❓ |
-| GOCA-D-006 | AFP GOCA drawing orders sorted by acronym | ❓ |
-| GOCA-D-007 | SCD X'21' Set Current Defaults 66 | ❓ |
-| GOCA-D-008 | X'80' Box at Current Position GCBOX90 | ❓ |
-| GOCA-D-009 | 1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some | ❓ |
-| GOCA-D-010 | 2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some | ❓ |
-| GOCA-D-011 | AFP printers and treated as a No-Op. | ❓ |
-| GOCA-D-012 | GSBMX X'0D' Set Background Mix 132 | ❓ |
-| GOCA-D-013 | 1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some | ❓ |
-| GOCA-D-014 | 2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some | ❓ |
-| GOCA-D-015 | AFP printers and treated as a No-Op. | ❓ |
-| GOCA-D-016 | This information contains examples of data and reports used in daily business operations. T o illustrate them in a complete manner , some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental. | ❓ |
-| GOCA-D-017 | Other company , product, or service names may be trademarks or service marks of others. | ❓ |
-| GOCA-D-018 | Mixed Object Document Content Architecture (MO:DCA); | ❓ |
-| GOCA-D-019 | Intelligent Printer Data Stream (IPDS) | ❓ |
-| GOCA-D-020 | AFP Line Data Architecture | ❓ |
-| GOCA-D-021 | Bar Code Object Content Architecture (BCOCA) | ❓ |
-| GOCA-D-022 | Color Management Object Content Architecture (CMOCA) | ❓ |
-| GOCA-D-023 | Font Object Content Architecture (FOCA) | ❓ |
-| GOCA-D-024 | Graphics Object Content Architecture for AFP (AFP | ❓ |
-| GOCA-D-025 | Image Object Content Architecture (IOCA) | ❓ |
-| GOCA-D-026 | Metadata Object Content Architecture (MOCA) | ❓ |
-| GOCA-D-027 | Presentation T ext Object Content Architecture (PTOCA) | ❓ |
-| GOCA-D-028 | American National Standards Institute (ANSI). An organization consisting of producers, consumers, and general interest groups. ANSI establishes the procedures by which accredited organizations create and maintain | ❓ |
-| GOCA-D-029 | anamorphic scaling • character | ❓ |
-| GOCA-D-030 | CIELAB color space. Internationally accepted color model used as a standard to define color within the graphic arts industry , as well as other industries. L*, a*, and b* are plotted at right angles to one another . Equal distances in the space represent approximately equal color difference. clipping. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with trimming. character angle • clipping | ❓ |
-| GOCA-D-031 | CMOCA • color of medium | ❓ |
-| GOCA-D-032 | default. A value, attribute, or option that is assumed when none has been specified and one is needed to continue processing. See also default drawing attributes and default drawing controls. default drawing attributes. Synonymous with drawing defaults. default drawing controls. The set of drawing controls adopted at the start of a drawing process and usually at the start of each root segment that is processed. Contrast with current drawing controls. default indicator . A field whose bits are all B'1' indicating that a hierarchical default value is to be used. The value can be specified by an external parameter . See also external parameter . default pattern set. A set of predefined patterns, like solid, dots, or horizontal lines. Contrast with custom pattern. color space • default pattern set | ❓ |
-| GOCA-D-033 | The number of bits, the number of bytes, the allowable ranges of bytes, the maximum number of characters, and the meanings assigned to some generic and specific bit patterns, are some examples of specifications to be found in such a definition. deprecated • encoding scheme | ❓ |
-| GOCA-D-034 | Encoding Scheme Identifier (ESID) • font width (FW) | ❓ |
-| GOCA-D-035 | For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment | ❓ |
-| GOCA-D-036 | For PSM fonts: the width of the space character | ❓ |
-| GOCA-D-037 | For typographic, proportionally-spaced fonts: one-third of the vertical font size, which is also the default size of the space character . | ❓ |
-| GOCA-D-038 | Coded Character Set Identifier (CCSID) | ❓ |
-| GOCA-D-039 | Coded Graphic Character Set Global Identifier (CGCSGID) | ❓ |
-| GOCA-D-040 | Code Page Global ID (CPGID) | ❓ |
-| GOCA-D-041 | Font Typeface Global Identifier (FGID) | ❓ |
-| GOCA-D-042 | Global Resource Identifier (GRID) | ❓ |
-| GOCA-D-043 | Graphic Character Global Identifier (GCGID) | ❓ |
-| GOCA-D-044 | Graphic Character Set Global Identifier (GCSGID) | ❓ |
-| GOCA-D-045 | Graphic Character UCS Identifier (GCUID) | ❓ |
-| GOCA-D-046 | An identifier used by a data object to reference a resource | ❓ |
-| GOCA-D-047 | In the MO:DCA environment, an encoded graphic character string that provides a reference name for a document element. | ❓ |
-| GOCA-D-048 | GPS • horizontal font size | ❓ |
-| GOCA-D-049 | For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment | ❓ |
-| GOCA-D-050 | For PSM fonts: the width of the space character | ❓ |
-| GOCA-D-051 | For typographic fonts and proportionally-spaced fonts: | ❓ |
-| GOCA-D-052 | kerning. The design of graphic characters so that their character boxes overlap, resulting in the reduction of space horizontal scale factor • kerning | ❓ |
-| GOCA-D-053 | 1 logical unit = 1/1440 inch (unit base = 10 inches, units per unit base = 14,400) | ❓ |
-| GOCA-D-054 | 1 logical unit = 1/240 inch (unit base = 10 inches, units per unit base = 2400) | ❓ |
-| GOCA-D-055 | M mandatory support level. Within the base-and-towers concept, the smallest portion of architected function that is allowed to be implemented. This is represented by a base with no towers. Synonymous with base support level. marker . A symbol with a recognizable appearance that is used to identify a particular location. An example of a marker is a symbol that is positioned by the center point of its cell. marker attributes. The characteristics that control the appearance of a marker . Examples of marker attributes are cell-size and color . marker cell. A conceptual rectangular box that can include a marker symbol and the space surrounding that symbol. marker precision. A method used to specify the degree of influence that marker attributes have on the appearance of a marker; this method has been made obsolete . marker set. In GOCA, a set of graphic symbols used to indicate a position. marker symbol. A symbol that is used for a marker . keyword • marker symbol | ❓ |
-| GOCA-D-056 | O object. (1) A collection of structured fields. The first structured field provides a begin-object function, and the last structured field provides an end-object function. The object can contain one or more other structured fields whose content consists of one or more data elements of a particular data type. An object can be assigned a name that can be used to reference the object. Examples of objects are presentation text, font, graphics, and image objects. (2) Something that a user works with to perform a task. object area. A rectangular area in a presentation space into which a data object is mapped. The presentation space can be for a page or an overlay . Examples are a graphics object area, an image object area, and a bar code object area. object data. A collection of related data elements bundled together . Examples of object data include graphic characters, image data elements, and drawing orders. obsolete. Removed from the architecture, and thus ignored by receivers. offline. A device state in which the device is not under the direct control of a host. Contrast with online. offset. A table heading for architecture syntax. The entries under this heading indicate the numeric displacement into a construct. The offset is measured in meaning • offset | ❓ |
-| GOCA-D-057 | physical printable area. A bounded area defined on a side of a sheet within which printing can take place. The physical printable area is an attribute of sheet size and printer capabilities, and cannot be altered by the host. The physical printable area is mapped to the medium presentation space, and is used in user printable area and valid printable area calculations. Contrast with user printable area and valid printable area. picture element. Synonymous with pel. pixel. Synonymous with pel. point. (1) A unit of measure used mainly for measuring typographical material. There are seventy-two points to an inch. (2) In GOCA, a parameter that specifies the position online • point | ❓ |
-| GOCA-D-058 | Em square, the same metrics can be used for different point sizes and different raster pattern resolutions. Relative metrics require defining the unit of measure for the Em square, the point size of the font, and, if applicable, the resolution of the raster pattern. relative positioning. The establishment of a position within a coordinate system as an offset from the current position. Contrast with absolute positioning. repeating group. A group of parameter specifications that can be repeated. reserved. Having no assigned meaning and put aside for future use. The content of reserved fields is not used by receivers, and should be set by generators to a specified polyline • reserved | ❓ |
-| GOCA-D-059 | Fields or values that have been used by a product in a manner not compliant with the architected definition | ❓ |
-| GOCA-D-060 | Fields or values that have been removed from an architecture | ❓ |
-| GOCA-D-061 | segment properties. The segment characteristics used by a drawing process. Examples of segment properties are segment name and segment length. reset color • segment properties | ❓ |
-| GOCA-D-062 | trimming. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with clipping. triplet. A three-part self-defining variable-length parameter consisting of a length byte, an identifier byte, and parameter-value bytes. semantics • triplet | ❓ |
-| GOCA-D-063 | UTF-32LE UTF-32 serialized as bytes in least- significant-byte-first order (little endian). uniformly spaced font. A font with graphic characters having a uniform character increment. The distance between reference points of adjacent graphic characters is constant in the escapement direction. The blank space between the graphic characters can vary . Synonymous with monospaced font. Contrast with proportionally spaced font and typographic font. triplet identifier • uniformly spaced font | ❓ |
-| GOCA-D-064 | X pg ,Y pg coordinate system. The coordinate system of a page presentation space. This coordinate system describes the size, position, and orientation of a page presentation space. Orientation of an X pg ,Y pg coordinate system is relative to an environment-specified coordinate system, for example, an X m ,Y m coordinate system. unit base • X pg ,Y pg coordinate system | ❓ |
-| GOCA-D-065 | Set Process Color (GSPCOL) order . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 161 drawing process check . . . . . . . . . . . . . . . . . . 168 drawing process controls . . . . . . . . . . . . . . . . .70 current position . . . . . . . . . . . . . . . . . . . . . . . . . .19 drawing processing environment . . . . . . . . .61 drawing processor . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 drawing processor facilities drawing process controls . . . . . . . . . . . . . . .70 | ❓ |
-| GOCA-D-066 | GPS window . . . . . . . . . . . . . . . . . . . . . . . . . . . 190 graphics object areas . . . . . . . . . . . . . . . . . 190 mapping control options . . . . . . . . . . . . . . 190 mapping defaults . . . . . . . . . . . . . . . . . . . . . . 190 | ❓ |
-| GOCA-D-067 | Write Graphics Control . . . . . . . . . . . . . . . . . . 189 | ❓ |
-| GOCA-D-068 | ReferenceAFPC-0008-03 | ❓ |
+| GOCA-D-001 | AFP GOCA commands sorted by identifier | ✅ |
+| GOCA-D-002 | AFP GOCA commands sorted by acronym | ✅ |
+| GOCA-D-003 | AFP GOCA control instructions sorted by identifier | ✅ |
+| GOCA-D-004 | AFP GOCA control instructions sorted by acronym | ✅ |
+| GOCA-D-005 | AFP GOCA drawing orders sorted by identifier | ✅ |
+| GOCA-D-006 | AFP GOCA drawing orders sorted by acronym | ✅ |
+| GOCA-D-007 | SCD X'21' Set Current Defaults 66 | ✅ |
+| GOCA-D-008 | X'80' Box at Current Position GCBOX90 | ✅ |
+| GOCA-D-009 | 1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some | ✅ |
+| GOCA-D-010 | 2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some | ✅ |
+| GOCA-D-011 | AFP printers and treated as a No-Op. | ✅ |
+| GOCA-D-012 | GSBMX X'0D' Set Background Mix 132 | ✅ |
+| GOCA-D-013 | 1. The Set Pick Identifier (X'43') long-format drawing order is not formally part of AFP GOCA, but is accepted by some | ✅ |
+| GOCA-D-014 | 2. The End Segment (X'71') fixed two-byte drawing order is not formally part of AFP GOCA, but is accepted by some | ✅ |
+| GOCA-D-015 | AFP printers and treated as a No-Op. | ✅ |
+| GOCA-D-016 | This information contains examples of data and reports used in daily business operations. T o illustrate them in a complete manner , some examples include the names of individuals, companies, brands, or products. These names are fictitious and any similarity to the names and addresses used by an actual business enterprise is entirely coincidental. | ✅ |
+| GOCA-D-017 | Other company , product, or service names may be trademarks or service marks of others. | ✅ |
+| GOCA-D-018 | Mixed Object Document Content Architecture (MO:DCA); | ✅ |
+| GOCA-D-019 | Intelligent Printer Data Stream (IPDS) | ✅ |
+| GOCA-D-020 | AFP Line Data Architecture | ✅ |
+| GOCA-D-021 | Bar Code Object Content Architecture (BCOCA) | ✅ |
+| GOCA-D-022 | Color Management Object Content Architecture (CMOCA) | ✅ |
+| GOCA-D-023 | Font Object Content Architecture (FOCA) | ✅ |
+| GOCA-D-024 | Graphics Object Content Architecture for AFP (AFP | ✅ |
+| GOCA-D-025 | Image Object Content Architecture (IOCA) | ✅ |
+| GOCA-D-026 | Metadata Object Content Architecture (MOCA) | ✅ |
+| GOCA-D-027 | Presentation T ext Object Content Architecture (PTOCA) | ✅ |
+| GOCA-D-028 | American National Standards Institute (ANSI). An organization consisting of producers, consumers, and general interest groups. ANSI establishes the procedures by which accredited organizations create and maintain | ✅ |
+| GOCA-D-029 | anamorphic scaling • character | ✅ |
+| GOCA-D-030 | CIELAB color space. Internationally accepted color model used as a standard to define color within the graphic arts industry , as well as other industries. L*, a*, and b* are plotted at right angles to one another . Equal distances in the space represent approximately equal color difference. clipping. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with trimming. character angle • clipping | ✅ |
+| GOCA-D-031 | CMOCA • color of medium | ✅ |
+| GOCA-D-032 | default. A value, attribute, or option that is assumed when none has been specified and one is needed to continue processing. See also default drawing attributes and default drawing controls. default drawing attributes. Synonymous with drawing defaults. default drawing controls. The set of drawing controls adopted at the start of a drawing process and usually at the start of each root segment that is processed. Contrast with current drawing controls. default indicator . A field whose bits are all B'1' indicating that a hierarchical default value is to be used. The value can be specified by an external parameter . See also external parameter . default pattern set. A set of predefined patterns, like solid, dots, or horizontal lines. Contrast with custom pattern. color space • default pattern set | ✅ |
+| GOCA-D-033 | The number of bits, the number of bytes, the allowable ranges of bytes, the maximum number of characters, and the meanings assigned to some generic and specific bit patterns, are some examples of specifications to be found in such a definition. deprecated • encoding scheme | ✅ |
+| GOCA-D-034 | Encoding Scheme Identifier (ESID) • font width (FW) | ✅ |
+| GOCA-D-035 | For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment | ✅ |
+| GOCA-D-036 | For PSM fonts: the width of the space character | ✅ |
+| GOCA-D-037 | For typographic, proportionally-spaced fonts: one-third of the vertical font size, which is also the default size of the space character . | ✅ |
+| GOCA-D-038 | Coded Character Set Identifier (CCSID) | ✅ |
+| GOCA-D-039 | Coded Graphic Character Set Global Identifier (CGCSGID) | ✅ |
+| GOCA-D-040 | Code Page Global ID (CPGID) | ✅ |
+| GOCA-D-041 | Font Typeface Global Identifier (FGID) | ✅ |
+| GOCA-D-042 | Global Resource Identifier (GRID) | ✅ |
+| GOCA-D-043 | Graphic Character Global Identifier (GCGID) | ✅ |
+| GOCA-D-044 | Graphic Character Set Global Identifier (GCSGID) | ✅ |
+| GOCA-D-045 | Graphic Character UCS Identifier (GCUID) | ✅ |
+| GOCA-D-046 | An identifier used by a data object to reference a resource | ✅ |
+| GOCA-D-047 | In the MO:DCA environment, an encoded graphic character string that provides a reference name for a document element. | ✅ |
+| GOCA-D-048 | GPS • horizontal font size | ✅ |
+| GOCA-D-049 | For fixed-pitch, uniform character increment fonts: the fixed character increment, which is also the space character increment | ✅ |
+| GOCA-D-050 | For PSM fonts: the width of the space character | ✅ |
+| GOCA-D-051 | For typographic fonts and proportionally-spaced fonts: | ✅ |
+| GOCA-D-052 | kerning. The design of graphic characters so that their character boxes overlap, resulting in the reduction of space horizontal scale factor • kerning | ✅ |
+| GOCA-D-053 | 1 logical unit = 1/1440 inch (unit base = 10 inches, units per unit base = 14,400) | ✅ |
+| GOCA-D-054 | 1 logical unit = 1/240 inch (unit base = 10 inches, units per unit base = 2400) | ✅ |
+| GOCA-D-055 | M mandatory support level. Within the base-and-towers concept, the smallest portion of architected function that is allowed to be implemented. This is represented by a base with no towers. Synonymous with base support level. marker . A symbol with a recognizable appearance that is used to identify a particular location. An example of a marker is a symbol that is positioned by the center point of its cell. marker attributes. The characteristics that control the appearance of a marker . Examples of marker attributes are cell-size and color . marker cell. A conceptual rectangular box that can include a marker symbol and the space surrounding that symbol. marker precision. A method used to specify the degree of influence that marker attributes have on the appearance of a marker; this method has been made obsolete . marker set. In GOCA, a set of graphic symbols used to indicate a position. marker symbol. A symbol that is used for a marker . keyword • marker symbol | ✅ |
+| GOCA-D-056 | O object. (1) A collection of structured fields. The first structured field provides a begin-object function, and the last structured field provides an end-object function. The object can contain one or more other structured fields whose content consists of one or more data elements of a particular data type. An object can be assigned a name that can be used to reference the object. Examples of objects are presentation text, font, graphics, and image objects. (2) Something that a user works with to perform a task. object area. A rectangular area in a presentation space into which a data object is mapped. The presentation space can be for a page or an overlay . Examples are a graphics object area, an image object area, and a bar code object area. object data. A collection of related data elements bundled together . Examples of object data include graphic characters, image data elements, and drawing orders. obsolete. Removed from the architecture, and thus ignored by receivers. offline. A device state in which the device is not under the direct control of a host. Contrast with online. offset. A table heading for architecture syntax. The entries under this heading indicate the numeric displacement into a construct. The offset is measured in meaning • offset | ✅ |
+| GOCA-D-057 | physical printable area. A bounded area defined on a side of a sheet within which printing can take place. The physical printable area is an attribute of sheet size and printer capabilities, and cannot be altered by the host. The physical printable area is mapped to the medium presentation space, and is used in user printable area and valid printable area calculations. Contrast with user printable area and valid printable area. picture element. Synonymous with pel. pixel. Synonymous with pel. point. (1) A unit of measure used mainly for measuring typographical material. There are seventy-two points to an inch. (2) In GOCA, a parameter that specifies the position online • point | ✅ |
+| GOCA-D-058 | Em square, the same metrics can be used for different point sizes and different raster pattern resolutions. Relative metrics require defining the unit of measure for the Em square, the point size of the font, and, if applicable, the resolution of the raster pattern. relative positioning. The establishment of a position within a coordinate system as an offset from the current position. Contrast with absolute positioning. repeating group. A group of parameter specifications that can be repeated. reserved. Having no assigned meaning and put aside for future use. The content of reserved fields is not used by receivers, and should be set by generators to a specified polyline • reserved | ✅ |
+| GOCA-D-059 | Fields or values that have been used by a product in a manner not compliant with the architected definition | ✅ |
+| GOCA-D-060 | Fields or values that have been removed from an architecture | ✅ |
+| GOCA-D-061 | segment properties. The segment characteristics used by a drawing process. Examples of segment properties are segment name and segment length. reset color • segment properties | ✅ |
+| GOCA-D-062 | trimming. Eliminating those parts of a picture that are outside of a clipping boundary such as a viewing window or presentation space. Synonymous with clipping. triplet. A three-part self-defining variable-length parameter consisting of a length byte, an identifier byte, and parameter-value bytes. semantics • triplet | ✅ |
+| GOCA-D-063 | UTF-32LE UTF-32 serialized as bytes in least- significant-byte-first order (little endian). uniformly spaced font. A font with graphic characters having a uniform character increment. The distance between reference points of adjacent graphic characters is constant in the escapement direction. The blank space between the graphic characters can vary . Synonymous with monospaced font. Contrast with proportionally spaced font and typographic font. triplet identifier • uniformly spaced font | ✅ |
+| GOCA-D-064 | X pg ,Y pg coordinate system. The coordinate system of a page presentation space. This coordinate system describes the size, position, and orientation of a page presentation space. Orientation of an X pg ,Y pg coordinate system is relative to an environment-specified coordinate system, for example, an X m ,Y m coordinate system. unit base • X pg ,Y pg coordinate system | ✅ |
+| GOCA-D-065 | Set Process Color (GSPCOL) order . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 161 drawing process check . . . . . . . . . . . . . . . . . . 168 drawing process controls . . . . . . . . . . . . . . . . .70 current position . . . . . . . . . . . . . . . . . . . . . . . . . .19 drawing processing environment . . . . . . . . .61 drawing processor . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 drawing processor facilities drawing process controls . . . . . . . . . . . . . . .70 | ✅ |
+| GOCA-D-066 | GPS window . . . . . . . . . . . . . . . . . . . . . . . . . . . 190 graphics object areas . . . . . . . . . . . . . . . . . 190 mapping control options . . . . . . . . . . . . . . 190 mapping defaults . . . . . . . . . . . . . . . . . . . . . . 190 | ✅ |
+| GOCA-D-067 | Write Graphics Control . . . . . . . . . . . . . . . . . . 189 | ✅ |
+| GOCA-D-068 | ReferenceAFPC-0008-03 | ✅ |
