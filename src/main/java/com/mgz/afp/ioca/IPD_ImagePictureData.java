@@ -76,6 +76,10 @@ public class IPD_ImagePictureData extends StructuredField {
           ipdSegment = new IDESize();
         }
         break;
+        case ImageLUTID: {
+          ipdSegment = new ImageLUTID();
+        }
+        break;
         case BandImage: {
           ipdSegment = new BandImage();
         }

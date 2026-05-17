@@ -70,6 +70,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     ImageSize(0x94),
     ImageEncoding(0x95),
     IDESize(0x96),
+    ImageLUTID(0x97),
     BandImage(0x98),
     IDEStructure(0x9B),
     ExternalAlgorithmSpecification(0x9F),
@@ -132,7 +133,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     G4_ModifiedModifiedREAD(0x82),
     JPEG(0x83),
     JBIG2(0x84),
-    UserDefinedAlgorithm(0x85);
+    UserDefinedAlgorithm(0xFE);
     int type;
 
     IPD_CompressionAlgorithm(int type) {
@@ -467,6 +468,33 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
+  public static final class ImageLUTID extends IPD_Segment.IPD_SegmentLong {
+    short lutId;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      lutId = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = 1;
+      os.write(segmentType.toBytes());
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
+      os.write(lutId);
+    }
+
+    public short getLutId() {
+      return lutId;
+    }
+
+    public void setLutId(short lutId) {
+      this.lutId = lutId;
+    }
+  }
+
   public static final class BandImage extends IPD_Segment.IPD_SegmentLong {
     short numberOfBands;
     List<Short> bandSizes;
@@ -502,10 +530,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     EnumSet<IDEStructure.IDEStructureFlag> flags;
     AFPColorSpace colorSpace;
     byte[] reserved4_6 = new byte[] {0x00, 0x00, 0x00};
-    short nrOfBitsIDEsComponent1;
-    Short nrOfBitsIDEsComponent2;
-    Short nrOfBitsIDEsComponent3;
-    Short nrOfBitsIDEsComponent4;
+    List<Short> componentSizes;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -515,40 +540,27 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       colorSpace = AFPColorSpace.valueOf(sfData[offset + 3]);
       reserved4_6 = new byte[3];
       System.arraycopy(sfData, offset + 4, reserved4_6, 0, reserved4_6.length);
-      nrOfBitsIDEsComponent1 = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
-      nrOfBitsIDEsComponent2 = UtilBinaryDecoding.parseShort(sfData, offset + 8, 1);
-      nrOfBitsIDEsComponent3 = UtilBinaryDecoding.parseShort(sfData, offset + 9, 1);
-      nrOfBitsIDEsComponent4 = UtilBinaryDecoding.parseShort(sfData, offset + 10, 1);
+      componentSizes = new ArrayList<>();
+      int pos = 0;
+      while (pos < lengthOfFollowingData - 5) {
+        componentSizes.add(UtilBinaryDecoding.parseShort(sfData, offset + 7 + pos, 1));
+        pos++;
+      }
     }
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      short actualLengthOfData = 0x06;
-      if (nrOfBitsIDEsComponent2 != null) {
-        actualLengthOfData = 0x07;
-        if (nrOfBitsIDEsComponent3 != null) {
-          actualLengthOfData = 0x08;
-          if (nrOfBitsIDEsComponent4 != null) {
-            actualLengthOfData = 0x09;
-          }
-        }
-      }
-      lengthOfFollowingData = actualLengthOfData;
+      lengthOfFollowingData = 5 + (componentSizes != null ? componentSizes.size() : 0);
 
       os.write(segmentType.toBytes());
       os.write(lengthOfFollowingData);
       os.write(IDEStructureFlag.toByte(flags));
       os.write(colorSpace.toByte());
       os.write(reserved4_6);
-      os.write(nrOfBitsIDEsComponent1);
-      if (lengthOfFollowingData >= 0x07) {
-        os.write(nrOfBitsIDEsComponent2);
-      }
-      if (lengthOfFollowingData >= 0x08) {
-        os.write(nrOfBitsIDEsComponent3);
-      }
-      if (lengthOfFollowingData >= 0x09) {
-        os.write(nrOfBitsIDEsComponent4);
+      if (componentSizes != null) {
+        for (Short s : componentSizes) {
+          os.write(s);
+        }
       }
     }
 
@@ -587,36 +599,12 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       this.reserved4_6 = reserved4_6;
     }
 
-    public short getNrOfBitsIDEsComponent1() {
-      return nrOfBitsIDEsComponent1;
+    public List<Short> getComponentSizes() {
+      return componentSizes;
     }
 
-    public void setNrOfBitsIDEsComponent1(short nrOfBitsIDEsComponent1) {
-      this.nrOfBitsIDEsComponent1 = nrOfBitsIDEsComponent1;
-    }
-
-    public Short getNrOfBitsIDEsComponent2() {
-      return nrOfBitsIDEsComponent2;
-    }
-
-    public void setNrOfBitsIDEsComponent2(Short nrOfBitsIDEsComponent2) {
-      this.nrOfBitsIDEsComponent2 = nrOfBitsIDEsComponent2;
-    }
-
-    public Short getNrOfBitsIDEsComponent3() {
-      return nrOfBitsIDEsComponent3;
-    }
-
-    public void setNrOfBitsIDEsComponent3(Short nrOfBitsIDEsComponent3) {
-      this.nrOfBitsIDEsComponent3 = nrOfBitsIDEsComponent3;
-    }
-
-    public Short getNrOfBitsIDEsComponent4() {
-      return nrOfBitsIDEsComponent4;
-    }
-
-    public void setNrOfBitsIDEsComponent4(Short nrOfBitsIDEsComponent4) {
-      this.nrOfBitsIDEsComponent4 = nrOfBitsIDEsComponent4;
+    public void setComponentSizes(List<Short> componentSizes) {
+      this.componentSizes = componentSizes;
     }
 
     public enum IDEStructureFlag implements IMutualExclusiveGroupedFlag {
@@ -1125,7 +1113,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
       public static TileSize.RelativeTileResolution valueOf(byte codeByte) {
         for (TileSize.RelativeTileResolution rtr : values()) {
-          return rtr;
+          if (rtr.code == codeByte) {
+            return rtr;
+          }
         }
         return null;
       }
@@ -1214,7 +1204,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
           int hSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 8, 4);
           int vSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 12, 4);
           var relRes = TileSize.RelativeTileResolution.valueOf(sfData[offset + 4 + pos + 16]);
-          var compAlg = AlgorithmSpecificationCompression.CompressionAlgorithmID.valueOf(
+          var compAlg = IPD_CompressionAlgorithm.valueOf(
               UtilBinaryDecoding.parseShort(sfData, offset + 4 + pos + 17, 1));
           long offsetToTile = UtilBinaryDecoding.parseLong(sfData, offset + 4 + pos + 18, 8);
           listOfRepeatingGroups.add(new TileTOC_RepeatingGroup(hOff, vOff, hSize, vSize, relRes,
@@ -1262,7 +1252,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
         @AFPField int horizontalSize,
         @AFPField int verticalSize,
         @AFPField TileSize.RelativeTileResolution relativeTileResolution,
-        @AFPField AlgorithmSpecificationCompression.CompressionAlgorithmID compressionAlgorithmID,
+        @AFPField IPD_CompressionAlgorithm compressionAlgorithmID,
         @AFPField long offsetInBytesFromBeginSegmentToBeginTile) {}
   }
 
@@ -1322,9 +1312,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class SetExtendedBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
-    short area;
-    short reserved3 = 0x00;
+    short reserved2 = 0x00;
     AFPColorSpace colorSpace;
+    byte[] reserved4_7 = new byte[] {0x00, 0x00, 0x00, 0x00};
     byte colSize1;
     byte colSize2;
     byte colSize3;
@@ -1335,27 +1325,28 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-      area = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
-      reserved3 = UtilBinaryDecoding.parseShort(sfData, offset + 3, 1);
-      colorSpace = AFPColorSpace.valueOf(sfData[offset + 4]);
-      colSize1 = sfData[offset + 5];
-      colSize2 = sfData[offset + 6];
-      colSize3 = sfData[offset + 7];
-      colSize4 = sfData[offset + 8];
-      if (lengthOfFollowingData > 7) {
-        color = new byte[lengthOfFollowingData - 7];
-        System.arraycopy(sfData, offset + 9, color, 0, color.length);
+      reserved2 = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
+      colorSpace = AFPColorSpace.valueOf(sfData[offset + 3]);
+      reserved4_7 = new byte[4];
+      System.arraycopy(sfData, offset + 4, reserved4_7, 0, reserved4_7.length);
+      colSize1 = sfData[offset + 8];
+      colSize2 = sfData[offset + 9];
+      colSize3 = sfData[offset + 10];
+      colSize4 = sfData[offset + 11];
+      if (lengthOfFollowingData > 10) {
+        color = new byte[lengthOfFollowingData - 10];
+        System.arraycopy(sfData, offset + 12, color, 0, color.length);
       }
     }
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      lengthOfFollowingData = 7 + (color != null ? color.length : 0);
+      lengthOfFollowingData = 10 + (color != null ? color.length : 0);
       os.write(segmentType.toBytes());
       os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
-      os.write(area);
-      os.write(reserved3);
+      os.write(reserved2);
       os.write(colorSpace.toByte());
+      os.write(reserved4_7);
       os.write(colSize1);
       os.write(colSize2);
       os.write(colSize3);
@@ -1401,24 +1392,25 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 2));
-      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      lengthOfFollowingData = UtilBinaryDecoding.parseInt(sfData, offset + 2, 2);
       reserved4_5 = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
       if (lengthOfFollowingData > 2) {
         repeatingGroups = new ArrayList<ColorNameRepeatingGroup>();
         StringBuilder sb = new StringBuilder();
         int pos = 0;
         while (pos < lengthOfFollowingData - 2) {
-          short dataValue = UtilBinaryDecoding.parseShort(sfData, offset + 6 + pos, 1);
-          byte[] colorName = new byte[12];
-          System.arraycopy(sfData, offset + 6 + pos + 1, colorName, 0, 12);
-          repeatingGroups.add(new ColorNameRepeatingGroup(dataValue, colorName));
+          short reserved = UtilBinaryDecoding.parseShort(sfData, offset + 6 + pos, 1);
+          short nameLen = UtilBinaryDecoding.parseShort(sfData, offset + 6 + pos + 1, 1);
+          byte[] colorName = new byte[nameLen];
+          System.arraycopy(sfData, offset + 6 + pos + 2, colorName, 0, nameLen);
+          repeatingGroups.add(new ColorNameRepeatingGroup(reserved, colorName));
 
           if (sb.length() > 0) {
             sb.append(", ");
           }
-          sb.append(new String(colorName, config.getAfpCharSet()).trim());
+          sb.append(new String(colorName, Constants.utf16be).trim());
 
-          pos += 13;
+          pos += 2 + nameLen;
         }
         text = sb.toString();
       } else {
@@ -1428,19 +1420,26 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      lengthOfFollowingData = 2 + (repeatingGroups != null ? repeatingGroups.size() * 13 : 0);
+      int payloadLen = 2;
+      if (repeatingGroups != null) {
+        for (ColorNameRepeatingGroup rg : repeatingGroups) {
+          payloadLen += 2 + rg.colorName().length;
+        }
+      }
+      lengthOfFollowingData = payloadLen;
       os.write(segmentType.toBytes());
       os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
       os.write(UtilBinaryDecoding.shortToByteArray(reserved4_5, 2));
       if (repeatingGroups != null) {
         for (ColorNameRepeatingGroup rg : repeatingGroups) {
-          os.write(rg.dataValue());
+          os.write(rg.reserved());
+          os.write(rg.colorName().length);
           os.write(rg.colorName());
         }
       }
     }
 
-    public record ColorNameRepeatingGroup(short dataValue, byte[] colorName) {}
+    public record ColorNameRepeatingGroup(short reserved, byte[] colorName) {}
   }
 
   public static final class ImageData extends IPD_Segment.IPD_SegmentExtended {
