@@ -42,6 +42,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 Videos about the standard:
 - AFP Technical Series #1 Introduction to AFP: https://www.youtube.com/watch?v=X6cqw_TfjE0
-- AFP Technical Series #2 Know your OCAhttps://www.youtube.com/watch?v=YaZHAKP9eDg
+- AFP Technical Series #2 Know your OCA: https://www.youtube.com/watch?v=YaZHAKP9eDg
 - AFP Technical Series #3 AFP to PDF Conversion Demo: https://www.youtube.com/watch?v=sawL0DV67b0
 - AFP Technical Series #4 AFP Indexing Demo: https://www.youtube.com/watch?v=7kzIemQAUUk
