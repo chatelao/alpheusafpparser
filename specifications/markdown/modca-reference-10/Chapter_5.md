@@ -303,33 +303,13 @@ of DocName are X'FFFF' or not.
 | Triplet | Type | Usage |
 | :--- | :--- | :--- |
 | X'01' | | **Coded Graphic Character Set Global Identifier** Mandatory. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-091] <br><br> **Implementation Note:** Not all MO:DCA products have historically implemented this triplet as a mandatory triplet on the BDT; instead they have assumed that the encoding for parameters with CHAR data type in a MO:DCA document is EBCDIC-based. To accommodate this practice, the MO:DCA IS/3 interchange set defines this triplet as optional and does not include support for the inheritance of encoding scheme definition by lower-level document components. Furthermore, IS/3 specifies the default encoding for character strings with CHAR data type to be defined by CCSID 500 (corresponding to the combination of CPGID 500 and GCSGID 697). |
-| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace
-First GID name. This GID overrides the Begin Document structured
-field name and is used as the name of the document.
-X'02' Fully Qualified Name Optional. May occur once.
-The Fully Qualified Name type that may appear is X'0A'—Begin
-Resource Group Name. Specifies the name of a resource group
-that contains resources referenced in this document. See “Fully
-Qualified Name Triplet X'02'”.
-X'02' Fully Qualified Name Optional. May occur once.
-The Fully Qualified Name type that may appear is X'98'—Begin
-Document Index Name. Specifies the name of a document index
-resource object that provides index information for this document.
-See “Fully Qualified Name Triplet X'02'”.
-X'18' MO:DCA Interchange Set For interchange data streams, this triplet is mandatory and must
-occur once. For private or exchange data streams, this triplet is not
-permitted. See “MO:DCA Interchange Set Triplet X'18'”.
-X'65' Comment Optional. May occur more than once. Carries unarchitected data.
-See “Comment Triplet X'65'”.
-X'72' Universal Date and Time Stamp Optional. May occur once. Assigns a universal date and time stamp
-to the object. See “Universal Date and Time Stamp Triplet X'72'”.
-X'8F' MO:DCA Function Set Mandatory if the MO:DCA Interchange Set (X'18') triplet is specified
-to indicate compliance with an interchange set and one or more
-function sets, in which case this triplet must occur at least once. If
-the MO:DCA Interchange Set triplet does not indicate compliance
-with an interchange set plus one or more function sets, or if that
-triplet is not specified, the MO:DCA Function Set triplet must not be
-specified. See “MO:DCA Function Set Triplet X'8F'”.
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID name. This GID overrides the Begin Document structured field name and is used as the name of the document. |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. The Fully Qualified Name type that may appear is X'0A'—Begin Resource Group Name. Specifies the name of a resource group that contains resources referenced in this document. See “Fully Qualified Name Triplet X'02'”. |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. The Fully Qualified Name type that may appear is X'98'—Begin Document Index Name. Specifies the name of a document index resource object that provides index information for this document. See “Fully Qualified Name Triplet X'02'”. |
+| X'18' | | **MO:DCA Interchange Set** For interchange data streams, this triplet is mandatory and must occur once. For private or exchange data streams, this triplet is not permitted. See “MO:DCA Interchange Set Triplet X'18'”. |
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. |
+| X'72' | | **Universal Date and Time Stamp** Optional. May occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. |
+| X'8F' | | **MO:DCA Function Set** Mandatory if the MO:DCA Interchange Set (X'18') triplet is specified to indicate compliance with an interchange set and one or more function sets, in which case this triplet must occur at least once. If the MO:DCA Interchange Set triplet does not indicate compliance with an interchange set plus one or more function sets, or if that triplet is not specified, the MO:DCA Function Set triplet must not be specified. See “MO:DCA Function Set Triplet X'8F'”. |
 The data stream containing the Begin Document structured field must also contain a subsequent matching End
 Document structured field, or a X'08' exception condition exists.
 **Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field: [MODCA-5-092]
@@ -347,115 +327,148 @@ X'08' A subsequent matching End Document structured field is not present in the 
 
 
 ### Begin Form Map (BFM)
+
 The Begin Form Map structured field begins a form map object, also called a form definition or formdef. A form
 map is a print control resource object that contains one or more medium map resource objects that are
 invokable on document and page boundaries and that specify a complete set of presentation controls. It also
 contains an optional document environment group (DEG) that defines the presentation environment for the
 form map.
+
 #### BFM (X'D3A8CD') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A8CD' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-097]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-098]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-099]|
-| 0–7 | CHAR | FMName | | Name of the form map | O | X'02' [MODCA-5-100]|
-| 8–n Triplets See BFM Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-101]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A8CD' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-097]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **FMName** | | Name of the form map | O | X'02' [MODCA-5-100] |
+| 8–n | Triplets | | | See BFM Semantics for triplet applicability. | O | X'10' [MODCA-5-101] |
+
 #### BFM Semantics
-FMName Is the name of the form map.
+
+**FMName** Is the name of the form map.
+
 A form map resource object must be terminated with a subsequent matching End Form Map
 structured field, or a X'08' exception condition exists.
-Triplets Appear as follows: [MODCA-5-102]
-| Triplet | Type | Usage [MODCA-5-103]|
-| --- | --- | --- [MODCA-5-104]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-105]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-106]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-107]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-108]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-109]
+
+**Triplets** Appear as follows: [MODCA-5-102]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-105] |
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-106] |
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-107] |
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-108] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-109]
+
 #### BFM Exception Condition Summary
-X'08' The form map is not terminated with a subsequent matching End Form Map structured field. [MODCA-5-110]
-### Begin Form Map (BFM)
+
+**X'08'** The form map is not terminated with a subsequent matching End Form Map structured field. [MODCA-5-110]
 
 
 ### Begin Graphics Object (BGR)
+
 The Begin Graphics Object structured field begins a graphics data object which becomes the current data
 object.
+
 #### BGR (X'D3A8BB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A8BB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-111]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-112]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-113]|
-| 0–7 | CHAR | GdoName | | Name of the graphics data object | O | X'02' [MODCA-5-114]|
-| 8–n Triplets See BGR Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-115]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A8BB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-111]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **GdoName** | | Name of the graphics data object | O | X'02' [MODCA-5-114] |
+| 8–n | Triplets | | | See BGR Semantics for triplet applicability. | O | X'10' [MODCA-5-115] |
+
 #### BGR Semantics
-GdoName Is the name of the graphics data object.
+
+**GdoName** Is the name of the graphics data object.
+
 The page, overlay, or resource group containing the Begin Graphics Object structured field
 must also contain a subsequent matching End Graphics Object structured field, or a X'08'
 exception condition exists.
-Triplets Appear as follows: [MODCA-5-116]
-| Triplet | Type | Usage [MODCA-5-117]|
-| --- | --- | --- [MODCA-5-118]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-119]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Graphics Object structured field name and is used as the name of the graphics data object. [MODCA-5-120]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-121]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-122]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-123]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-124]
-### Begin Graphics Object (BGR)
 
+**Triplets** Appear as follows: [MODCA-5-116]
 
-**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
-* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-125]
-X'27'”.
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-119] |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Graphics Object structured field name and is used as the name of the graphics data object. [MODCA-5-120] |
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-121] |
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-122] |
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-123] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory. [MODCA-5-124]
+
+**Architecture Note:** In AFP environments, the following retired triplet is used on this structured field:
+*   **Line Data Object Position Migration (X'27') triplet**; see “Line Data Object Position Migration Triplet X'27'”. [MODCA-5-125]
+
 #### BGR Exception Condition Summary
-X'08' A subsequent matching End Graphics Object structured field is not present in the page,
-overlay, or resource group. [MODCA-5-126]
-### Begin Graphics Object (BGR)
+
+**X'08'** A subsequent matching End Graphics Object structured field is not present in the page, overlay, or resource group. [MODCA-5-126]
 
 
 ### Begin Image Object (BIM)
+
 The Begin Image Object structured field begins an IOCA image data object, which becomes the current data
 object.
-**Architecture Note:**  A migration form of the image object is supported in AFP environments and is defined as
+
+**Architecture Note:** A migration form of the image object is supported in AFP environments and is defined as
 the IM Image Object in “IM Image Object”. [MODCA-5-127]
+
 #### BIM (X'D3A8FB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A8FB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-128]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-129]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-130]|
-| 0–7 | CHAR | IdoName | | Name of the image data object | O | X'02' [MODCA-5-131]|
-| 8–n Triplets See BIM Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-132]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A8FB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-128]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **IdoName** | | Name of the image data object | O | X'02' [MODCA-5-131] |
+| 8–n | Triplets | | | See BIM Semantics for triplet applicability. | O | X'10' [MODCA-5-132] |
+
 #### BIM Semantics
-IdoName Is the name of the IOCA image data object.
+
+**IdoName** Is the name of the IOCA image data object.
+
 The page, overlay, or resource group containing the Begin Image Object structured field must
 also contain a subsequent matching End Image Object structured field, or a X'08' exception
 condition exists.
-Triplets Appear as follows: [MODCA-5-133]
-| Triplet | Type | Usage [MODCA-5-134]|
-| --- | --- | --- [MODCA-5-135]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-136]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Image Object structured field name and is used as the identifier of the image data object. The identifier may be specified in one—and only one—of the following formats: • If FQNFmt = X'00', the identifier is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. [MODCA-5-137]|
-| X'62' | | Local Date and Time Stamp Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-138]|
-### Begin Image Object (BIM)
 
+**Triplets** Appear as follows: [MODCA-5-133]
 
-| Triplet | Type | Usage [MODCA-5-139]|
-| --- | --- | --- [MODCA-5-140]|
-| X'65' | | Comment Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-141]|
-| X'72' | | Universal Date and Time Stamp Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-142]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
-**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
-* Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet [MODCA-5-143]
-X'27'”.
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-136] |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Begin Image Object structured field name and is used as the identifier of the image data object. The identifier may be specified in one—and only one—of the following formats:<br>• If FQNFmt = X'00', the identifier is a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. [MODCA-5-137] |
+| X'62' | | **Local Date and Time Stamp** Optional. This triplet or the Universal Date and Time Stamp (X'72') triplet may occur once. Assigns a date and time stamp to the object. See “Local Date and Time Stamp Triplet X'62'”. [MODCA-5-138] |
+| X'65' | | **Comment** Optional. May occur more than once. Carries unarchitected data. See “Comment Triplet X'65'”. [MODCA-5-141] |
+| X'72' | | **Universal Date and Time Stamp** Optional. This triplet or the Local Date and Time Stamp (X'62') triplet may occur once. Assigns a universal date and time stamp to the object. See “Universal Date and Time Stamp Triplet X'72'”. [MODCA-5-142] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
+
+**Architecture Note:** In AFP environments, the following retired triplet is used on this structured field:
+*   **Line Data Object Position Migration (X'27') triplet**; see “Line Data Object Position Migration Triplet X'27'”. [MODCA-5-143]
+
 #### BIM Exception Condition Summary
-X'08' A subsequent matching End Image Object structured field is not present in the page, overlay,
-or resource group.
-### Begin Image Object (BIM)
+
+**X'08'** A subsequent matching End Image Object structured field is not present in the page, overlay, or resource group.
 
 
 ### Begin Medium Map (BMM)
@@ -2043,218 +2056,264 @@ Resource Environment Group structured field. [MODCA-5-591]
 
 
 ### Graphics Data (GAD)
+
 The Graphics Data structured field contains the data for a graphics object. [MODCA-5-592]
+
 #### GAD (X'D3EEBB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3EEBB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-593]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-594]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-595]|
-| 0–n UNDF GOCAdat Up to 32,759 bytes of GOCA- | | | | | | defined data O X'00' [MODCA-5-596]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3EEBB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-593]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–n | UNDF | **GOCAdat** | | Up to 32,759 bytes of GOCA-defined data | O | X'00' [MODCA-5-596] |
+
 #### GAD Semantics
-GOCAdat Contains the GOCA-defined data. See the MO:DCA environment appendix in the Graphics
-Object Content Architecture for AFP Reference for detailed information.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-597]
-### Graphics Data (GAD)
+
+**GOCAdat** Contains the GOCA-defined data. See the MO:DCA environment appendix in the *Graphics
+Object Content Architecture for AFP Reference* for detailed information.
+
+**Note:** The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-597]
 
 
 ### Graphics Data Descriptor (GDD)
+
 The Graphics Data Descriptor structured field contains the descriptor data for a graphics object. [MODCA-5-598]
+
 #### GDD (X'D3A6BB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A6BB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-599]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-600]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-601]|
-| 0–n UNDF GOCAdes Up to 32,759 bytes of GOCA- | | | | | | defined descriptor data O X'00' [MODCA-5-602]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A6BB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-599]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–n | UNDF | **GOCAdes** | | Up to 32,759 bytes of GOCA-defined descriptor data | O | X'00' [MODCA-5-602] |
+
 #### GDD Semantics
-GOCAdes Contains the GOCA-defined descriptor data. See the MO:DCA environment appendix in the
-Graphics Object Content Architecture for AFP Reference for detailed information.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-603]
-### Graphics Data Descriptor (GDD)
+
+**GOCAdes** Contains the GOCA-defined descriptor data. See the MO:DCA environment appendix in the
+*Graphics Object Content Architecture for AFP Reference* for detailed information.
+
+**Note:** The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-603]
 
 
 ### Image Data Descriptor (IDD)
+
 The Image Data Descriptor structured field contains the descriptor data for an image data object. [MODCA-5-604]
+
 #### IDD (X'D3A6FB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A6FB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-605]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-606]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-607]|
-| 0–n UNDF IOCAdes Up to 32,759 bytes of IOCA- | | | | | | defined descriptor data O X'00' [MODCA-5-608]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A6FB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-605]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–n | UNDF | **IOCAdes** | | Up to 32,759 bytes of IOCA-defined descriptor data | O | X'00' [MODCA-5-608] |
+
 #### IDD Semantics
-IOCAdes Contains the IOCA-defined descriptor data. See the MO:DCA environment appendix in the
-Image Object Content Architecture Reference for detailed information.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-609]
-### Image Data Descriptor (IDD)
+
+**IOCAdes** Contains the IOCA-defined descriptor data. See the MO:DCA environment appendix in the
+*Image Object Content Architecture Reference* for detailed information.
+
+**Note:** The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-609]
 
 
 ### Index Element (IEL)
+
 The Index Element structured field identifies begin structured fields for use within a document index. [MODCA-5-610]
+
 #### IEL (X'D3B2A7') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3B2A7' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-611]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-612]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-613]|
-| 0–n Triplets See IEL Semantics for triplet | | | | | | applicability. M X'14' [MODCA-5-614]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3B2A7' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-611]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–n | Triplets | | | See IEL Semantics for triplet applicability. | M | X'14' [MODCA-5-614] |
+
 #### IEL Semantics
-Triplets Appear in the Index Element structured field as follows: [MODCA-5-615]
-| Triplet | Type | Usage [MODCA-5-616]|
-| --- | --- | --- [MODCA-5-617]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-618]|
-| X'02' | | Fully Qualified Name Mandatory. Must occur once. See “Fully Qualified Name Triplet [MODCA-5-619]|
-| X'02'” | |. The Fully Qualified Name type that may appear is X'CA'—Index Element GID, which is used as the name of this Index Element structured field. [MODCA-5-620]|
-| X'02' | | Fully Qualified Name Optional. One of the following Fully Qualified Name types may appear on the Index Element structured field. • X'0D'—Begin Page Group Name. Specifies the name of the page group indexed by the Index Element structured field. • X'87'—Begin Page Name. Specifies the name of the page indexed by the Index Element structured field. [MODCA-5-621]|
-| X'02' | | Fully Qualified Name Optional. May occur once. The Fully Qualified Name type that may appear is X'8D'—Begin Medium Map Name. For a page level IEL, specifies the name of the medium map that is active for presenting the indexed page on a physical medium. For a page group level IEL, specifies the name of the medium map that is active for presenting the first page in the indexed page group on a physical medium. [MODCA-5-622]|
-| X'2D' | | Object Byte Offset Mandatory. Must occur once. Specifies the offset, in bytes, from the beginning of the document to the indexed object. See “Object Byte Offset Triplet X'2D'”. [MODCA-5-623]|
-### Index Element (IEL)
 
+**Triplets** Appear in the Index Element structured field as follows: [MODCA-5-615]
 
-| Triplet | Type | Usage [MODCA-5-624]|
-| --- | --- | --- [MODCA-5-625]|
-| X'56' | | Medium Map Page Number Optional. May occur once. For a page level IEL, specifies the sequence number of the indexed page in the set of sequential pages controlled by the active medium map. For a page group level IEL, specifies the sequence number of the first page-group page in the set of sequential pages controlled by the medium map that is active at the beginning of the indexed page group. See “Medium Map Page Number Triplet X'56'”. If the Page Position Information (X'81') triplet is also specified on this IEL, it overrides the Medium Map Page Number (X'56') triplet. [MODCA-5-626]|
-| X'57' | | Object Byte Extent Optional. May occur once. Specifies the extent, in bytes, of the indexed object. See “Object Byte Extent Triplet X'57'”. [MODCA-5-627]|
-| X'58' | | Object Structured Field Offset Optional. May occur once. Specifies the offset, in structured fields, from the beginning of the document to the indexed object. See “Object Structured Field Offset Triplet X'58'”. [MODCA-5-628]|
-| X'59' | | Object Structured Field Extent Optional. May occur once. Specifies the extent, in structured fields, of the indexed object. See “Object Structured Field Extent Triplet [MODCA-5-629]|
-| X'59'” | |. [MODCA-5-630]|
-| X'5A' | | Object Offset Optional. May occur once for each object type counted. Specifies how many objects of a particular type precede the indexed object in the document. See “Object Offset Triplet X'5A'”. [MODCA-5-631]|
-| X'5E' | | Object Count Optional. May occur once for each subordinate object type counted. Specifies how many subordinate objects of a particular type are contained within the indexed object. See “Object Count Triplet [MODCA-5-632]|
-| X'5E'” | |. [MODCA-5-633]|
-| X'81' | | Page Position Information Optional. May occur once. For a page level IEL, specifies the PGP repeating group that is used to view the page and its PMC overlay data. For a page group level IEL, specifies the PGP repeating group that is used to view the first page in the group. The PGP is specified in the medium map referenced by a FQN type X'8D'—Begin Medium Map Reference triplet. If the X'81' triplet is specified, it overrides a Medium Map Page Number (X'56') triplet. See “Page Position Information Triplet X'81'”. [MODCA-5-634]|
-| X'83' | | Presentation Control Optional. May occur once. Specified on a page level IEL to indicate whether the page is intended to be viewed. If this triplet is not specified, the architected default is that the page is intended to be viewed. See “Presentation Control Triplet X'83'”. [MODCA-5-635]|
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-618] |
+| X'02' | | **Fully Qualified Name** Mandatory. Must occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'CA'—Index Element GID, which is used as the name of this Index Element structured field. [MODCA-5-620] |
+| X'02' | | **Fully Qualified Name** Optional. One of the following Fully Qualified Name types may appear on the Index Element structured field: • X'0D'—Begin Page Group Name. Specifies the name of the page group indexed by the Index Element structured field. • X'87'—Begin Page Name. Specifies the name of the page indexed by the Index Element structured field. [MODCA-5-621] |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. The Fully Qualified Name type that may appear is X'8D'—Begin Medium Map Name. For a page level IEL, specifies the name of the medium map that is active for presenting the indexed page on a physical medium. For a page group level IEL, specifies the name of the medium map that is active for presenting the first page in the indexed page group on a physical medium. [MODCA-5-622] |
+| X'2D' | | **Object Byte Offset** Mandatory. Must occur once. Specifies the offset, in bytes, from the beginning of the document to the indexed object. See “Object Byte Offset Triplet X'2D'”. [MODCA-5-623] |
+| X'56' | | **Medium Map Page Number** Optional. May occur once. For a page level IEL, specifies the sequence number of the indexed page in the set of sequential pages controlled by the active medium map. For a page group level IEL, specifies the sequence number of the first page-group page in the set of sequential pages controlled by the medium map that is active at the beginning of the indexed page group. See “Medium Map Page Number Triplet X'56'”. If the Page Position Information (X'81') triplet is also specified on this IEL, it overrides the Medium Map Page Number (X'56') triplet. [MODCA-5-626] |
+| X'57' | | **Object Byte Extent** Optional. May occur once. Specifies the extent, in bytes, of the indexed object. See “Object Byte Extent Triplet X'57'”. [MODCA-5-627] |
+| X'58' | | **Object Structured Field Offset** Optional. May occur once. Specifies the offset, in structured fields, from the beginning of the document to the indexed object. See “Object Structured Field Offset Triplet X'58'”. [MODCA-5-628] |
+| X'59' | | **Object Structured Field Extent** Optional. May occur once. Specifies the extent, in structured fields, of the indexed object. See “Object Structured Field Extent Triplet X'59'”. [MODCA-5-630] |
+| X'5A' | | **Object Offset** Optional. May occur once for each object type counted. Specifies how many objects of a particular type precede the indexed object in the document. See “Object Offset Triplet X'5A'”. [MODCA-5-631] |
+| X'5E' | | **Object Count** Optional. May occur once for each subordinate object type counted. Specifies how many subordinate objects of a particular type are contained within the indexed object. See “Object Count Triplet X'5E'”. [MODCA-5-633] |
+| X'81' | | **Page Position Information** Optional. May occur once. For a page level IEL, specifies the PGP repeating group that is used to view the page and its PMC overlay data. For a page group level IEL, specifies the PGP repeating group that is used to view the first page in the group. The PGP is specified in the medium map referenced by a FQN type X'8D'—Begin Medium Map Reference triplet. If the X'81' triplet is specified, it overrides a Medium Map Page Number (X'56') triplet. See “Page Position Information Triplet X'81'”. [MODCA-5-634] |
+| X'83' | | **Presentation Control** Optional. May occur once. Specified on a page level IEL to indicate whether the page is intended to be viewed. If this triplet is not specified, the architected default is that the page is intended to be viewed. See “Presentation Control Triplet X'83'”. [MODCA-5-635] |
+
 #### IEL Exception Condition Summary
-X'01' This exception condition exists when:
-* Multiple type X'CA' (Index Element GID) Fully Qualified Name triplets appear. [MODCA-5-636]
-* The same object type is counted in more than one X'5A' triplet. [MODCA-5-637]
-* The same subordinate object type is counted in more than one X'5E' triplet. [MODCA-5-638]
-### Index Element (IEL)
+
+**X'01'** This exception condition exists when:
+*   Multiple type X'CA' (Index Element GID) Fully Qualified Name triplets appear. [MODCA-5-636]
+*   The same object type is counted in more than one X'5A' triplet. [MODCA-5-637]
+*   The same subordinate object type is counted in more than one X'5E' triplet. [MODCA-5-638]
 
 
 ### Invoke Medium Map (IMM)
+
 The Invoke Medium Map structured field identifies the medium map that is to become active for the document.
 An Invoke Medium Map structured field affects the document's current environment. The medium map's effect
 on current environment parameter values lasts until a new medium map is invoked.
+
 The processing system's form map is searched for the specified medium map unless the IMM directly follows
 an internal medium map, in which case the IMM can reference and activate that internal medium map. An IMM
 that does not follow an internal medium map cannot be used to reference an internal medium map elsewhere
 in the document and is assumed to reference a medium map in the processing system's form map.
+
 If a document does not invoke a medium map by name, and if it does not include an internal medium map, the
 first medium map in the selected form map controls document presentation.
+
 For a detailed description of IMM processing, particularly when contiguous IMMs are specified and when
-constant forms control is used, see 94. [MODCA-5-639]
+constant forms control is used, see “Invoke Medium Map (IMM) Structured Field” in Chapter 4. [MODCA-5-639]
+
 #### IMM (X'D3ABCC') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3ABCC' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-640]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-641]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-642]|
-| 0–7 CHAR MMPName Name of the medium map to be | | | | | | invoked M X'0E' [MODCA-5-643]|
-| 8–n Triplets See IMM Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-644]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3ABCC' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-640]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **MMPName** | | Name of the medium map to be invoked | M | X'0E' [MODCA-5-643] |
+| 8–n | Triplets | | | See IMM Semantics for triplet applicability. | O | X'10' [MODCA-5-644] |
+
 #### IMM Semantics
-MMPName Is the name of the medium map.
-Triplets Appear as follows: [MODCA-5-645]
-| Triplet | Type | Usage [MODCA-5-646]|
-| --- | --- | --- [MODCA-5-647]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. Effect On Parameter Values The parameter values contained in the structured fields within the invoked medium map replace those that were established previously by those structured fields. [MODCA-5-648]|
-### Invoke Medium Map (IMM)
 
+**MMPName** Is the name of the medium map.
 
-Parameter Conflict Resolution
+**Triplets** Appear as follows: [MODCA-5-645]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. |
+
+**Effect On Parameter Values**
+
+The parameter values contained in the structured fields within the invoked medium map replace those that were established previously by those structured fields. [MODCA-5-648]
+
+**Parameter Conflict Resolution**
+
 All conflicts with existing environment settings are resolved in favor of the medium map specified by the Invoke
 Medium Map structured field.
-Application Notes:
-1. Page groups are often processed in standalone fashion, that is, they are indexed, retrieved, and presented [MODCA-5-649]
-outside the context of the containing document. While the pages in the group are independent of each
-other and of any other pages in the document, their formatting on media depends on when the last medium
-map was invoked and on how many pages precede the BNG since this invocation. T o make the media
-formatting of page groups self-contained, a medium map should be invoked at the beginning of the page
-group between the Begin Named Group (BNG) structured field and the first Begin Page (BPG) structured
-field. If this is not done, the presentation system may need to “play back” all pages between the invocation
-of the active medium map and the BNG to determine media formatting such as sheet-side and partition
-number for the first page in the group. It is therefore strongly recommended that in environments where
-standalone page group processing is required or anticipated, page groups are built with an Invoke Medium
-Map (IMM) structured field specified after the BNG and before the first BPG.
-2. Some AFP applications that generate page groups will support a user option that ensures that an IMM is [MODCA-5-650]
-specified after BNG and before the first BPG, and some AFP archive servers will expect an IMM there and
-may not present the page group correctly if none is found. However, note that this may cause the complete
-document to print differently.
-3. A newer method to specify how a page or page group should be formatted involves use of the Page [MODCA-5-651]
-Position Information (X'81') triplet. This triplet may be specified on a BPG and indicates the repeating group
-in the PGP structured field in the active medium map that should be used to format the page.
-**Architecture Note:**  In AFP environments, the following retired triplet is used on this structured field:
-* IMM Insertion triplet X'73' [MODCA-5-652]
-; see “IMM Insertion Triplet X'73'”. [MODCA-5-653]
-### Invoke Medium Map (IMM)
+
+**Application Notes:**
+
+1.  Page groups are often processed in standalone fashion, that is, they are indexed, retrieved, and presented outside the context of the containing document. While the pages in the group are independent of each other and of any other pages in the document, their formatting on media depends on when the last medium map was invoked and on how many pages precede the BNG since this invocation. To make the media formatting of page groups self-contained, a medium map should be invoked at the beginning of the page group between the Begin Named Group (BNG) structured field and the first Begin Page (BPG) structured field. If this is not done, the presentation system may need to “play back” all pages between the invocation of the active medium map and the BNG to determine media formatting such as sheet-side and partition number for the first page in the group. It is therefore strongly recommended that in environments where standalone page group processing is required or anticipated, page groups are built with an Invoke Medium Map (IMM) structured field specified after the BNG and before the first BPG. [MODCA-5-649]
+2.  Some AFP applications that generate page groups will support a user option that ensures that an IMM is specified after BNG and before the first BPG, and some AFP archive servers will expect an IMM there and may not present the page group correctly if none is found. However, note that this may cause the complete document to print differently. [MODCA-5-650]
+3.  A newer method to specify how a page or page group should be formatted involves use of the Page Position Information (X'81') triplet. This triplet may be specified on a BPG and indicates the repeating group in the PGP structured field in the active medium map that should be used to format the page. [MODCA-5-651]
+
+**Architecture Note:** In AFP environments, the following retired triplet is used on this structured field:
+*   **IMM Insertion triplet X'73'**; see “IMM Insertion Triplet X'73'”. [MODCA-5-652]
 
 
 ### Include Object (IOB)
+
 An Include Object structured field references an object on a page or overlay. It optionally contains parameters
 that identify the object and that specify presentation parameters such as object position, size, orientation,
 mapping, and default color. Where the presentation parameters conflict with parameters specified in the
 object's environment group (OEG), the parameters in the Include Object structured field override. If the
 referenced object is a page segment, the IOB parameters override the corresponding environment group
 parameters on all data objects in the page segment. [MODCA-5-654]
+
 #### IOB (X'D3AFC3') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AFC3' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-655]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-656]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-657]|
-| 0–7 | CHAR | ObjName | | Name of the object | M | X'06' [MODCA-5-658]|
-| 8 | Reserved; | should | | be zero | M | X'06' [MODCA-5-659]|
-| 9 CODE ObjType X'5F', X'92', | | | | | | X'9B', X'BB', X'EB', X'FB' Object type: X'5F' Page Segment X'92' Other object data X'9B' Presentation T ext (PTOCA) with OEG X'BB' Graphics (GOCA) X'EB' Bar Code (BCOCA) X'FB' Image (IOCA) M X'06' [MODCA-5-660]|
-| 10–12 | SBIN | XoaOset | | -32,768–32,767 X-axis origin of the object area | M | X'06' X'FFFFFF' Use the X-axis origin defined in the object [MODCA-5-661]|
-| 13–15 | SBIN | YoaOset | | -32,768–32,767 Y-axis origin of the object area | M | X'06' X'FFFFFF' Use the Y-axis origin defined in the object [MODCA-5-662]|
-| 16–17 CODE XoaOrent The object area's X-axis rotation | | | | | | from the X axis of the reference coordinate system, in degrees and minutes. Frequently used values: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees X'FFFF' Use the X-axis rotation defined in the object M X'06' Bits 0–8 Degrees B'000000000' — B'101100111' Degrees rotation (0–359) B'111111111' Use the X-axis rotation defined in the object when all 16 bits in XoaOrent are B'1' [MODCA-5-663]|
-### Include Object (IOB)
 
+**Structured Field Introducer**
 
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-664]|
-| --- | --- | --- | --- | --- | --- | --- Bits 9–14 Minutes B'000000' — B'111011' Minutes rotation (0–59) B'111111' Use the X-axis rotation defined in the object when all 16 bits in XoaOrent are B'1' Bit 15 B'0' Reserved B'1' Use the X-axis rotation defined in the object when all 16 bits in XoaOrent are B'1' [MODCA-5-665]|
-| 18–19 CODE YoaOrent The object area's Y-axis rotation | | | | | | from the X axis of the reference coordinate system, in degrees and minutes. Frequently used values: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees X'FFFF' Use the X-axis rotation defined in the object M X'06' Bits 0–8 Degrees B'000000000' — B'101100111' Degrees rotation (0–359) B'111111111' Use the Y-axis rotation defined in the object when all 16 bits in YoaOrent are B'1' Bits 9–14 Minutes B'000000' — B'111011' Minutes rotation (0–59) B'111111' Use the Y-axis rotation defined in the object when all 16 bits in YoaOrent are B'1' Bit 15 B'0' Reserved B'1' Use the Y-axis rotation defined in the object when all 16 bits in YoaOrent are B'1' [MODCA-5-666]|
-| 20–22 | SBIN | XocaOset | | -32,768–32,767 X-axis origin for object content | M | X'06' X'FFFFFF' Use the X-axis origin defined in the object [MODCA-5-667]|
-| 23–25 | SBIN | YocaOset | | -32,768–32,767 Y-axis origin for object content | M | X'06' X'FFFFFF' Use the Y-axis origin defined in the object [MODCA-5-668]|
-| 26 CODE RefCSys X'01' Reference coordinate system: | | | | | | X'01' Page or overlay coordinate system M X'06' [MODCA-5-669]|
-| 27–n Triplets See “IOB Semantics”for triplet applicability. | | | | | | M X'14' [MODCA-5-670]|
-### Include Object (IOB)
+| SF Length (2B) | ID = X'D3AFC3' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
 
+**Structured Field Data** [MODCA-5-655]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **ObjName** | | Name of the object | M | X'06' [MODCA-5-658] |
+| 8 | | **Reserved** | | Should be zero | M | X'06' [MODCA-5-659] |
+| 9 | CODE | **ObjType** | X'5F', X'92', X'9B', X'BB', X'EB', X'FB' | Object type: <br> X'5F' Page Segment <br> X'92' Other object data <br> X'9B' Presentation Text (PTOCA) with OEG <br> X'BB' Graphics (GOCA) <br> X'EB' Bar Code (BCOCA) <br> X'FB' Image (IOCA) | M | X'06' [MODCA-5-660] |
+| 10–12 | SBIN | **XoaOset** | -32,768–32,767 | X-axis origin of the object area <br> X'FFFFFF' Use the X-axis origin defined in the object | M | X'06' [MODCA-5-661] |
+| 13–15 | SBIN | **YoaOset** | -32,768–32,767 | Y-axis origin of the object area <br> X'FFFFFF' Use the Y-axis origin defined in the object | M | X'06' [MODCA-5-662] |
+| 16–17 | CODE | **XoaOrent** | | The object area's X-axis rotation from the X axis of the reference coordinate system, in degrees and minutes. Frequently used values: <br> X'0000' 0 degrees <br> X'2D00' 90 degrees <br> X'5A00' 180 degrees <br> X'8700' 270 degrees <br> X'FFFF' Use the X-axis rotation defined in the object | M | X'06' [MODCA-5-663] |
+| | | | | **Bits 0–8 Degrees** B'000000000' – B'101100111' Degrees rotation (0–359) <br> B'111111111' Use the X-axis rotation defined in the object when all 16 bits in XoaOrent are B'1' | | |
+| | | | | **Bits 9–14 Minutes** B'000000' – B'111011' Minutes rotation (0–59) <br> B'111111' Use the X-axis rotation defined in the object when all 16 bits in XoaOrent are B'1' | | |
+| | | | | **Bit 15** B'0' Reserved <br> B'1' Use the X-axis rotation defined in the object when all 16 bits in XoaOrent are B'1' | | [MODCA-5-665] |
+| 18–19 | CODE | **YoaOrent** | | The object area's Y-axis rotation from the X axis of the reference coordinate system, in degrees and minutes. Frequently used values: <br> X'0000' 0 degrees <br> X'2D00' 90 degrees <br> X'5A00' 180 degrees <br> X'8700' 270 degrees <br> X'FFFF' Use the X-axis rotation defined in the object | M | X'06' [MODCA-5-666] |
+| | | | | **Bits 0–8 Degrees** B'000000000' – B'101100111' Degrees rotation (0–359) <br> B'111111111' Use the Y-axis rotation defined in the object when all 16 bits in YoaOrent are B'1' | | |
+| | | | | **Bits 9–14 Minutes** B'000000' – B'111011' Minutes rotation (0–59) <br> B'111111' Use the Y-axis rotation defined in the object when all 16 bits in YoaOrent are B'1' | | |
+| | | | | **Bit 15** B'0' Reserved <br> B'1' Use the Y-axis rotation defined in the object when all 16 bits in YoaOrent are B'1' | | |
+| 20–22 | SBIN | **XocaOset** | -32,768–32,767 | X-axis origin for object content <br> X'FFFFFF' Use the X-axis origin defined in the object | M | X'06' [MODCA-5-667] |
+| 23–25 | SBIN | **YocaOset** | -32,768–32,767 | Y-axis origin for object content <br> X'FFFFFF' Use the Y-axis origin defined in the object | M | X'06' [MODCA-5-668] |
+| 26 | CODE | **RefCSys** | X'01' | Reference coordinate system: <br> X'01' Page or overlay coordinate system | M | X'06' [MODCA-5-669] |
+| 27–n | Triplets | | | See **IOB Semantics** for triplet applicability. | M | X'14' [MODCA-5-670] |
 
 #### IOB Semantics
-ObjName Is the name of the object being referenced. This name may be a file name or any other
+
+**ObjName** Is the name of the object being referenced. This name may be a file name or any other
 identifier associated with the object data.
-ObjType Identifies the type of object being referenced.
-Value Description
-X'5F' Page segment object. The page segment must be a MO:DCA page segment.
+
+**ObjType** Identifies the type of object being referenced.
+
+**Value Description**
+
+**X'5F'** Page segment object. The page segment must be a MO:DCA page segment.
 AFP migration page segments are not supported in the IOB. For a definition
 of MO:DCA page segments, see “Page Segment Objects”. For a
 definition of AFP page segments, see “AFP Page Segment”.
-Application Notes:
-1. A page segment included via IOB is always processed as a soft object. [MODCA-5-671]
-The OEGs for all objects in the page segment should only contain
-secondary resource mappings using MCFs to map FOCA fonts and
-MDRs to map data-object fonts (TrueType/OpenType fonts); these
-mappings must be factored up to the including page or overlay. All other
-secondary resource mappings in the OEGs, such as CMR references, are
-ignored and must be specified directly on the IOB.
-2. Page segments have traditionally been referenced with 8-byte names [MODCA-5-672]
-using a single-byte EBCDIC encoding, such as the encoding defined by
-code page 500 and character set 697. The 8-byte name limit is a formal
-restriction in the IPS and MPS structured fields, which do not support the
-FQN type X'01' triplet for extended name references. As a result, some
-AFP print servers only support 8-byte single-byte encoded page segment
-names, even when the page segment is referenced with an IOB which
-does support the FQN type X'01' triplet. It is therefore strongly
-recommended that page segment references in an IOB be limited to 8
-bytes and use a single-byte EBCDIC encoding.
-X'92' Other object data. The object data to be included is a paginated presentation
+
+**Application Notes:**
+
+1.  A page segment included via IOB is always processed as a soft object. [MODCA-5-671]
+    The OEGs for all objects in the page segment should only contain
+    secondary resource mappings using MCFs to map FOCA fonts and
+    MDRs to map data-object fonts (TrueType/OpenType fonts); these
+    mappings must be factored up to the including page or overlay. All other
+    secondary resource mappings in the OEGs, such as CMR references, are
+    ignored and must be specified directly on the IOB.
+2.  Page segments have traditionally been referenced with 8-byte names [MODCA-5-672]
+    using a single-byte EBCDIC encoding, such as the encoding defined by
+    code page 500 and character set 697. The 8-byte name limit is a formal
+    restriction in the IPS and MPS structured fields, which do not support the
+    FQN type X'01' triplet for extended name references. As a result, some
+    AFP print servers only support 8-byte single-byte encoded page segment
+    names, even when the page segment is referenced with an IOB which
+    does support the FQN type X'01' triplet. It is therefore strongly
+    recommended that page segment references in an IOB be limited to 8
+    bytes and use a single-byte EBCDIC encoding.
+
+**X'92'** Other object data. The object data to be included is a paginated presentation
 object whose format may or may not be defined by an AFP architecture. The
 object data is characterized and identified by a mandatory Object
 Classification (X'10') triplet, which must specify the registered encoded
@@ -2289,148 +2348,98 @@ MDRs to map data-object fonts (TrueType/OpenType fonts); these
 mappings must be factored up to the including page or overlay. All
 other secondary resource mappings in the OEG, such as CMR
 references, are ignored and must be specified directly on the IOB.
-X'BB' Graphics (GOCA) object with MO:DCA object syntax as defined in “Graphics
-Objects”.
-**Application Note:**  A GOCA object included via IOB is always processed as a
-soft object. The OEG for the object should only contain secondary
-resource mappings using MCFs to map FOCA fonts and MDRs to map
-data-object fonts (TrueType/OpenType fonts); these mappings must be
-factored up to the including page or overlay. All other secondary
-resource mappings in the OEG, such as CMR references, are ignored
-and must be specified directly on the IOB.
-X'EB' Bar code (BCOCA) object with MO:DCA object syntax as defined in “Bar
-Code Objects”.
-**Application Note:**  A BCOCA object included via IOB is always processed as
-a soft object. The OEG of a BCOCA object may contain several types
-of secondary resources and if it is a QR Code with Image bar code,
-tertiary resources. Refer to the Application Notes in “Bar Code Objects”
-for how to factor up resources mapped in the bar code
-OEG to the AEG of the page or overlay that is including the bar code.
-The following secondary and tertiary resources, if specified in the bar
-code OEG, must also be specified on the IOB:
-* Secondary presentation data objects (only when including QR Code [MODCA-5-674]
-with Image bar codes): Both the external name (FQN types X'CE',
-X'DE', or X'84') and, if specified in the OEG, the corresponding
-internal name (FQN type X'BE').
-* T ertiary non-presentation data objects (only when including QR Code [MODCA-5-675]
-with Image bar codes): As with secondary presentation data objects,
-both the external name and, if specified in the OEG,
-the corresponding internal name. However, in the case of a
-secondary image resource with a tertiary CMR resource, the external
-name of the CMR must instead be mapped using an FQN type X'EE',
-which must be paired with the internal name (FQN type X'BE') of the
-image; this is the internal name that is specified inside the QR Code
-with Image bar code object.
-* CMRs used directly by the bar code: The external name using FQN [MODCA-5-676]
-type X'DE'.
-X'FB' Image (IOCA) object with MO:DCA object syntax as defined in “Image
-Objects”.
-**Application Note:**  Secondary resource mappings in the OEG of the IOCA
-object, such as CMR references, are ignored and must be specified
-directly on the IOB.
-All others Reserved
-XoaOset Specifies the offset along the X axis, X pg or Xol, of the including page or overlay coordinate
-system to the origin of the X axis, X oa, of the object area coordinate system. The value for this [MODCA-5-677]
-### Include Object (IOB)
+**X'BB'** Graphics (GOCA) object with MO:DCA object syntax as defined in “Graphics Objects”.
 
+**Application Note:** A GOCA object included via IOB is always processed as a soft object. The OEG for the object should only contain secondary resource mappings using MCFs to map FOCA fonts and MDRs to map data-object fonts (TrueType/OpenType fonts); these mappings must be factored up to the including page or overlay. All other secondary resource mappings in the OEG, such as CMR references, are ignored and must be specified directly on the IOB.
 
-parameter is expressed in terms of the number of page or overlay coordinate system X-axis
-measurement units.
-If the referenced object specifies an object environment group (OEG), this parameter
-overrides the corresponding parameter in the Object Area Position (OBP) structured field of
-the OEG.
-If the object is a page segment, this parameter overrides the corresponding OBP parameters
-in the environment groups of all objects that comprise the page segment and specifies the
-object area offsets from the page or overlay origin for all data objects in the page segment.
-A value of X'FFFFFF' indicates that the X-axis offset specified in the object's OEG is to be
-used. Therefore, the offset value (-1) is not included in the allowed range.
+**X'EB'** Bar code (BCOCA) object with MO:DCA object syntax as defined in “Bar Code Objects”.
+
+**Application Note:** A BCOCA object included via IOB is always processed as a soft object. The OEG of a BCOCA object may contain several types of secondary resources and if it is a QR Code with Image bar code, tertiary resources. Refer to the Application Notes in “Bar Code Objects” for how to factor up resources mapped in the bar code OEG to the AEG of the page or overlay that is including the bar code. The following secondary and tertiary resources, if specified in the bar code OEG, must also be specified on the IOB:
+*   Secondary presentation data objects (only when including QR Code [MODCA-5-674] with Image bar codes): Both the external name (FQN types X'CE', X'DE', or X'84') and, if specified in the OEG, the corresponding internal name (FQN type X'BE').
+*   Tertiary non-presentation data objects (only when including QR Code [MODCA-5-675] with Image bar codes): As with secondary presentation data objects, both the external name and, if specified in the OEG, the corresponding internal name. However, in the case of a secondary image resource with a tertiary CMR resource, the external name of the CMR must instead be mapped using an FQN type X'EE', which must be paired with the internal name (FQN type X'BE') of the image; this is the internal name that is specified inside the QR Code with Image bar code object.
+*   CMRs used directly by the bar code: The external name using FQN [MODCA-5-676] type X'DE'.
+
+**X'FB'** Image (IOCA) object with MO:DCA object syntax as defined in “Image Objects”.
+
+**Application Note:** Secondary resource mappings in the OEG of the IOCA object, such as CMR references, are ignored and must be specified directly on the IOB.
+
+**All others** Reserved
+
+**XoaOset** Specifies the offset along the X axis, Xpg or Xol, of the including page or overlay coordinate system to the origin of the X axis, Xoa, of the object area coordinate system. The value for this parameter is expressed in terms of the number of page or overlay coordinate system X-axis measurement units. [MODCA-5-677]
+
+If the referenced object specifies an object environment group (OEG), this parameter overrides the corresponding parameter in the Object Area Position (OBP) structured field of the OEG.
+
+If the object is a page segment, this parameter overrides the corresponding OBP parameters in the environment groups of all objects that comprise the page segment and specifies the object area offsets from the page or overlay origin for all data objects in the page segment.
+
+A value of X'FFFFFF' indicates that the X-axis offset specified in the object's OEG is to be used. Therefore, the offset value (-1) is not included in the allowed range.
+
 If the object does not specify the X-axis offset in an OEG, the architected default is X'000000'.
-YoaOset Specifies the offset along the Y axis, Y
-pg or Yol, of the including page or overlay coordinate
-system to the origin of the Y axis, Y oa, of the object area coordinate system. The value for this
-parameter is expressed in terms of the number of page or overlay coordinate system Y-axis
-measurement units.
-If the referenced object specifies an object environment group (OEG), this parameter
-overrides the corresponding parameter in the Object Area Position (OBP) structured field of
-the OEG.
-If the object is a page segment, this parameter overrides the corresponding OBP parameters
-in the environment groups of all objects that comprise the page segment and specifies the
-object area offsets from the page or overlay origin for all data objects in the page segment.
-A value of X'FFFFFF' indicates that the Y-axis offset specified in the object's OEG is to be
-used. Therefore, the offset value (-1) is not included in the allowed range.
+
+**YoaOset** Specifies the offset along the Y axis, Ypg or Yol, of the including page or overlay coordinate system to the origin of the Y axis, Yoa, of the object area coordinate system. The value for this parameter is expressed in terms of the number of page or overlay coordinate system Y-axis measurement units.
+
+If the referenced object specifies an object environment group (OEG), this parameter overrides the corresponding parameter in the Object Area Position (OBP) structured field of the OEG.
+
+If the object is a page segment, this parameter overrides the corresponding OBP parameters in the environment groups of all objects that comprise the page segment and specifies the object area offsets from the page or overlay origin for all data objects in the page segment.
+
+A value of X'FFFFFF' indicates that the Y-axis offset specified in the object's OEG is to be used. Therefore, the offset value (-1) is not included in the allowed range.
+
 If the object does not specify the Y-axis offset in an OEG, the architected default is X'000000'.
-XoaOrent Specifies the amount of clockwise rotation of the object area's X axis, X
-oa, about its defined
-origin relative to the X axis of the page or overlay coordinate system.
-If the referenced object specifies an object environment group (OEG), this parameter
-overrides the corresponding parameter in the Object Area Position (OBP) structured field of
-the OEG.
-If the object is a page segment, this parameter overrides the corresponding OBP parameters
-in the environment groups of all objects that comprise the page segment.
-A value of B'1111111111111111' indicates that the X-axis rotation specified in the object's OEG
-is to be used.
-If the object does not specify the X-axis rotation in an OEG, the architected default is
-B'0000000000000000' (0 degrees).
-YoaOrent Specifies the amount of clockwise rotation of the object area's Y axis, Y
-oa, about its defined
-origin relative to the X axis of the page or overlay coordinate system. The YoaOrent value
-must be 90 degrees greater than the XoaOrent value or a X'01' exception condition exists.
-If the referenced object specifies an object environment group (OEG), this parameter
-overrides the corresponding parameter in the Object Area Position (OBP) structured field of
-the OEG.
-If the object is a page segment, this parameter overrides the corresponding OBP parameters
-in the environment groups of all objects that comprise the page segment.
-A value of B'1111111111111111' indicates that the Y-axis rotation specified in the object's OEG
-is to be used.
-If the object does not specify the Y-axis rotation in an OEG, the architected default is
-B'0010110100000000' (90 degrees). [MODCA-5-678]
-### Include Object (IOB)
 
+**XoaOrent** Specifies the amount of clockwise rotation of the object area's X axis, Xoa, about its defined origin relative to the X axis of the page or overlay coordinate system.
 
-**Note:**  If the object area orientation is such that the sum of the object area origin offset and the
-object area extent exceeds the size of the including presentation space in either the X
-or Y direction, all of the object area will not fit in the including presentation space. The
-including presentation space in this case is the page or overlay presentation space. If
-an attempt is made to actually present data in the portion of the object area that falls
-outside the including presentation space, that portion of the data is not presented, and a
-X'01' exception condition exists.
-XocaOset Used in position and position and trim mappings to specify the offset along the X axis of the
-object area coordinate system, X
-oa, to the X origin of the object content. The value for this
-parameter is expressed in terms of the number of object area coordinate system X-axis
-measurement units.
-If the referenced object specifies an object environment group (OEG), this parameter
-overrides the corresponding parameter in the Object Area Position (OBP) structured field of
-the OEG.
-If the object is a page segment, this parameter overrides the corresponding OBP parameters
-in the environment groups of all objects that comprise the page segment.
-A value of X'FFFFFF' indicates that the X-axis offset specified in the object's OEG is to be
-used. Therefore, the offset value (-1) is not included in the allowed range.
+If the referenced object specifies an object environment group (OEG), this parameter overrides the corresponding parameter in the Object Area Position (OBP) structured field of the OEG.
+
+If the object is a page segment, this parameter overrides the corresponding OBP parameters in the environment groups of all objects that comprise the page segment.
+
+A value of B'1111111111111111' indicates that the X-axis rotation specified in the object's OEG is to be used.
+
+If the object does not specify the X-axis rotation in an OEG, the architected default is B'0000000000000000' (0 degrees).
+
+**YoaOrent** Specifies the amount of clockwise rotation of the object area's Y axis, Yoa, about its defined origin relative to the X axis of the page or overlay coordinate system. The YoaOrent value must be 90 degrees greater than the XoaOrent value or a X'01' exception condition exists.
+
+If the referenced object specifies an object environment group (OEG), this parameter overrides the corresponding parameter in the Object Area Position (OBP) structured field of the OEG.
+
+If the object is a page segment, this parameter overrides the corresponding OBP parameters in the environment groups of all objects that comprise the page segment.
+
+A value of B'1111111111111111' indicates that the Y-axis rotation specified in the object's OEG is to be used.
+
+If the object does not specify the Y-axis rotation in an OEG, the architected default is B'0010110100000000' (90 degrees). [MODCA-5-678]
+
+**Note:** If the object area orientation is such that the sum of the object area origin offset and the object area extent exceeds the size of the including presentation space in either the X or Y direction, all of the object area will not fit in the including presentation space. The including presentation space in this case is the page or overlay presentation space. If an attempt is made to actually present data in the portion of the object area that falls outside the including presentation space, that portion of the data is not presented, and a X'01' exception condition exists.
+
+**XocaOset** Used in position and position and trim mappings to specify the offset along the X axis of the object area coordinate system, Xoa, to the X origin of the object content. The value for this parameter is expressed in terms of the number of object area coordinate system X-axis measurement units.
+
+If the referenced object specifies an object environment group (OEG), this parameter overrides the corresponding parameter in the Object Area Position (OBP) structured field of the OEG.
+
+If the object is a page segment, this parameter overrides the corresponding OBP parameters in the environment groups of all objects that comprise the page segment.
+
+A value of X'FFFFFF' indicates that the X-axis offset specified in the object's OEG is to be used. Therefore, the offset value (-1) is not included in the allowed range.
+
 If the object does not specify the X-axis offset in an OEG, the architected default is X'000000'.
-YocaOset Used in position and position and trim mappings to specify the offset along the Y axis of the
-object area coordinate system, Y
-oa, to the Y origin of the object content. The value for this
-parameter is expressed in terms of the number of object area coordinate system Y-axis
-measurement units.
-If the referenced object specifies an object environment group (OEG), this parameter
-overrides the corresponding parameter in the Object Area Position (OBP) structured field of
-the OEG.
-If the object is a page segment, this parameter overrides the corresponding OBP parameters
-in the environment groups of all objects that comprise the page segment.
-A value of X'FFFFFF' indicates that the Y-axis offset specified in the object's OEG is to be
-used. Therefore, the offset value (-1) is not included in the allowed range.
+
+**YocaOset** Used in position and position and trim mappings to specify the offset along the Y axis of the object area coordinate system, Yoa, to the Y origin of the object content. The value for this parameter is expressed in terms of the number of object area coordinate system Y-axis measurement units.
+
+If the referenced object specifies an object environment group (OEG), this parameter overrides the corresponding parameter in the Object Area Position (OBP) structured field of the OEG.
+
+If the object is a page segment, this parameter overrides the corresponding OBP parameters in the environment groups of all objects that comprise the page segment.
+
+A value of X'FFFFFF' indicates that the Y-axis offset specified in the object's OEG is to be used. Therefore, the offset value (-1) is not included in the allowed range.
+
 If the object does not specify the Y-axis offset in an OEG, the architected default is X'000000'.
-RefCSys Specifies the coordinate system used to position the object area.
-Value Description
-X'00' Retired for private use.
-**Architecture Note:**  This value is used in AFP line-data environments to
-position and rotate the object area with respect to the current text (I,B)
-coordinate system. For more information, see Advanced Function
-Presentation: Programming Guide and Line Data Reference.
-X'01' Page or overlay coordinate system
-All others Reserved
-Triplets Appear in the Include Object structured field as follows: [MODCA-5-679]
-### Include Object (IOB)
+
+**RefCSys** Specifies the coordinate system used to position the object area.
+
+**Value Description**
+
+**X'00'** Retired for private use.
+
+**Architecture Note:** This value is used in AFP line-data environments to position and rotate the object area with respect to the current text (I,B) coordinate system. For more information, see *Advanced Function Presentation: Programming Guide and Line Data Reference*.
+
+**X'01'** Page or overlay coordinate system
+
+**All others** Reserved
+
+**Triplets** Appear in the Include Object structured field as follows: [MODCA-5-679]
 
 
 | Triplet | Type | Usage [MODCA-5-680]|
@@ -2709,223 +2718,273 @@ the FQN type X'BE' triplet that follows the FQN type X'EE' triplet that referenc
 
 
 ### Image Picture Data (IPD)
+
 The Image Picture Data structured field contains the data for an image data object. [MODCA-5-748]
+
 #### IPD (X'D3EEFB') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3EEFB' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-749]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-750]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-751]|
-| 0–n UNDF IOCAdat Up to 32,759 bytes of IOCA | | | | | | defined data O X'00' [MODCA-5-752]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3EEFB' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-749]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–n | UNDF | **IOCAdat** | | Up to 32,759 bytes of IOCA-defined data | O | X'00' [MODCA-5-752] |
+
 #### IPD Semantics
-IOCAdat Contains the IOCA defined data. See the MO:DCA environment appendix in the Image Object
-Content Architecture Reference for detailed information.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-753]
-### Image Picture Data (IPD)
+
+**IOCAdat** Contains the IOCA-defined data. See the MO:DCA environment appendix in the *Image Object
+Content Architecture Reference* for detailed information.
+
+**Note:** The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-753]
 
 
 ### Include Page (IPG)
+
 The Include Page structured field references a page that is to be included in the document. The Include Page
 structured field may occur in document state, page-group state, or page state. In all three cases the referenced
-page is positioned on the media using the (X
-m, Ym) offsets specified in the PGP structured field in the active
+page is positioned on the media using the (Xm, Ym) offsets specified in the PGP structured field in the active
 medium map. The referenced page must not contain another Include Page structured field. [MODCA-5-754]
+
 #### IPG (X'D3AFAF') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AFAF' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-755]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-756]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-757]|
-| 0–7 | CHAR | PgName | | Name of the page | M | X'06' [MODCA-5-758]|
-| 8–15 | Reserved; | should | | be zero | M | X'06' [MODCA-5-759]|
-| 16 BITS IPgFlgs Specify control information for | | | | | | the included page. See IPG Semantics for bit definitions. M X'06' [MODCA-5-760]|
-| 17–n Triplets See IPG Semantics for triplet | | | | | | applicability. M X'14' [MODCA-5-761]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3AFAF' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-755]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **PgName** | | Name of the page | M | X'06' [MODCA-5-758] |
+| 8–15 | | **Reserved** | | Should be zero | M | X'06' [MODCA-5-759] |
+| 16 | BITS | **IPgFlgs** | | Specify control information for the included page. See IPG Semantics for bit definitions. | M | X'06' [MODCA-5-760] |
+| 17–n | Triplets | | | See IPG Semantics for triplet applicability. | M | X'14' [MODCA-5-761] |
+
 #### IPG Semantics
-PgName Is the name of the page being referenced. The page name is qualified, using the Fully
+
+**PgName** Is the name of the page being referenced. The page name is qualified, using the Fully
 Qualified Name (X'02') type X'83' triplet, with the name of the document that contains the
 page.
-IPgFlgs Specify control information for the included page.
-Bit Description
-0 Format of included page, must be set to B'1'. [MODCA-5-762]
-B'0' Reserved
-B'1' The referenced page is carried in a document in a print file level resource
-group. Before this page can be included with the IPG, it must be processed
-with all required resources and saved in the presentation device. The
-processing includes the application of all text suppressions specified in the
-medium map that is active when the page is saved.
-1–7 Reserved; all bits should be B'0'.
-Triplets Appear in the Include Page structured field as follows: [MODCA-5-763]
-### Include Page (IPG)
 
+**IPgFlgs** Specify control information for the included page.
 
-| Triplet | Type | Usage [MODCA-5-764]|
-| --- | --- | --- [MODCA-5-765]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-766]|
-| X'02' | | Fully Qualified Name Mandatory. Must occur once. See “Fully Qualified Name Triplet [MODCA-5-767]|
-| X'02'” | |. The Fully Qualified Name type that may appear is X'83'—Begin Document Name. Specifies the name of the document that contains the referenced page. [MODCA-5-768]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Include Page structured field name and is used as the name of the page. [MODCA-5-769]|
-| X'5A' | | Object Offset Optional. May occur once, with ObjTpe=X'AF' to specify that pages are the objects to be counted for the offset. Specifies how many pages in the referenced document precede the page to be included. The page offset is measured from the beginning of the referenced document, so that the first page has offset 0, the second page has offset 1, and the nth page has offset (n-1). When this triplet is specified, the page name, as specified by the PgName parameter or by the Fully Qualified Name type X'01' triplet, is ignored. See “Object Offset Triplet X'5A'”. [MODCA-5-770]|
-**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
+**Bit Description**
+
+**0** Format of included page, must be set to B'1'. [MODCA-5-762]
+*   B'0' Reserved
+*   B'1' The referenced page is carried in a document in a print file level resource group. Before this page can be included with the IPG, it must be processed with all required resources and saved in the presentation device. The processing includes the application of all text suppressions specified in the medium map that is active when the page is saved.
+
+**1–7** Reserved; all bits should be B'0'.
+
+**Triplets** Appear in the Include Page structured field as follows: [MODCA-5-763]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-766] |
+| X'02' | | **Fully Qualified Name** Mandatory. Must occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'83'—Begin Document Name. Specifies the name of the document that contains the referenced page. [MODCA-5-768] |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Include Page structured field name and is used as the name of the page. [MODCA-5-769] |
+| X'5A' | | **Object Offset** Optional. May occur once, with ObjTpe=X'AF' to specify that pages are the objects to be counted for the offset. Specifies how many pages in the referenced document precede the page to be included. The page offset is measured from the beginning of the referenced document, so that the first page has offset 0, the second page has offset 1, and the nth page has offset (n-1). When this triplet is specified, the page name, as specified by the PgName parameter or by the Fully Qualified Name type X'01' triplet, is ignored. See “Object Offset Triplet X'5A'”. [MODCA-5-770] |
+
+**Application Note:** To optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same.
-Notes:
-1. Care must be taken when activating text suppressions on pages to be saved. The document that contains [MODCA-5-771]
-the pages to be saved must be processed with the same form map as the document that references the
-saved pages. However, unless the two documents have the identical structure with respect to pages,
-Invoke Medium Map (IMM) structured fields, and internal (inline) medium maps, the medium map that is
-active when the page is saved may specify different text suppressions than the medium map that is active
-when the page is included, which may yield unexpected results.
-2. If the medium map specifies multiple copy subgroups with different text suppression activations, the [MODCA-5-772]
-presentation device must process and save a copy of the page for each set of text suppressions. When an
-IPG is processed for multiple copy subgroups, the presentation device uses the copy of the saved page
-whose text suppressions match those required by the current medium map.
-3. The following rules apply to overlays when a page is processed and saved by the presentation device: [MODCA-5-773]
-* Page overlays are processed and saved with the page. [MODCA-5-774]
-* PMC overlays are not processed and saved with the page. They are applied to the page when it is [MODCA-5-775]
-included with an IPG as specified by the medium map that is active during page presentation.
-* Medium overlays are not processed and saved with the page. They are applied to the medium as [MODCA-5-776]
-specified by the medium map that is active during page presentation. [MODCA-5-777]
-### Include Page (IPG)
 
+**Notes:**
 
-4. Overlays that are included on the saved page may overflow the saved page presentation space. Such [MODCA-5-778]
-overflow areas need to be saved with the page since they only cause an exception at presentation time if
-they contain data that overflows the medium presentation space. If an attempt is made to present overlay
-data that overflows the medium presentation space, that portion of the data is not presented and a X'01'
-exception condition exists.
-5. The size of the page may exceed the size of the medium presentation space in either the X [MODCA-5-779]
-m or Ym
-direction. If an attempt is made to present data in the portion of the page that overflows the medium
-presentation space, that portion of the data is not presented and a X'01' exception condition exists.
-6. A page that is included with an IPG may be indexed as follows: [MODCA-5-780]
-* If the IPG occurs in document state or in page-group state, the included page may be indexed using an [MODCA-5-781]
-offset to the location of the IPG in the document.
-* If the IPG occurs in page state, the included page becomes a part of the containing page, therefore only [MODCA-5-782]
-the containing page may be indexed using an offset to its location in the document. [MODCA-5-783]
-### Include Page (IPG)
+1.  Care must be taken when activating text suppressions on pages to be saved. The document that contains [MODCA-5-771]
+    the pages to be saved must be processed with the same form map as the document that references the
+    saved pages. However, unless the two documents have the identical structure with respect to pages,
+    Invoke Medium Map (IMM) structured fields, and internal (inline) medium maps, the medium map that is
+    active when the page is saved may specify different text suppressions than the medium map that is active
+    when the page is included, which may yield unexpected results.
+2.  If the medium map specifies multiple copy subgroups with different text suppression activations, the [MODCA-5-772]
+    presentation device must process and save a copy of the page for each set of text suppressions. When an
+    IPG is processed for multiple copy subgroups, the presentation device uses the copy of the saved page
+    whose text suppressions match those required by the current medium map.
+3.  The following rules apply to overlays when a page is processed and saved by the presentation device: [MODCA-5-773]
+    *   Page overlays are processed and saved with the page. [MODCA-5-774]
+    *   PMC overlays are not processed and saved with the page. They are applied to the page when it is [MODCA-5-775]
+        included with an IPG as specified by the medium map that is active during page presentation.
+    *   Medium overlays are not processed and saved with the page. They are applied to the medium as [MODCA-5-776]
+        specified by the medium map that is active during page presentation. [MODCA-5-777]
+4.  Overlays that are included on the saved page may overflow the saved page presentation space. Such [MODCA-5-778]
+    overflow areas need to be saved with the page since they only cause an exception at presentation time if
+    they contain data that overflows the medium presentation space. If an attempt is made to present overlay
+    data that overflows the medium presentation space, that portion of the data is not presented and a X'01'
+    exception condition exists.
+5.  The size of the page may exceed the size of the medium presentation space in either the Xm or Ym
+    direction. If an attempt is made to present data in the portion of the page that overflows the medium
+    presentation space, that portion of the data is not presented and a X'01' exception condition exists. [MODCA-5-779]
+6.  A page that is included with an IPG may be indexed as follows: [MODCA-5-780]
+    *   If the IPG occurs in document state or in page-group state, the included page may be indexed using an [MODCA-5-781]
+        offset to the location of the IPG in the document.
+    *   If the IPG occurs in page state, the included page becomes a part of the containing page, therefore only [MODCA-5-782]
+        the containing page may be indexed using an offset to its location in the document. [MODCA-5-783]
 
 
 ### Include Page Overlay (IPO)
+
 The Include Page Overlay structured field references an overlay resource definition that is to be positioned on
 the page. A page overlay can be referenced at any time during the page state, but not during an object state.
 The overlay contains its own active environment group definition.
 The current environment of the page that included the overlay is restored when the Include Page Overlay has
 been completed.
+
 #### IPO (X'D3AFD8') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AFD8' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-784]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-785]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-786]|
-| 0–7 | CHAR | OvlyName | | Name of the overlay resource | M | X'06' [MODCA-5-787]|
-| 8–10 | SBIN | XolOset | | -32,768–32,767 X-axis origin for the page overlay | M | X'06' X'FFFFFF' Retired value [MODCA-5-788]|
-| 11–13 | SBIN | YolOset | | -32,768–32,767 Y-axis origin for the page overlay | M | X'06' X'FFFFFF' Retired value [MODCA-5-789]|
-| 14–15 CODE OvlyOrent X'0000', X'2D00', | | | | | | X'5A00', X'8700' The overlay's X-axis rotation from the X axis of the including page coordinate system: X'0000' 0 degrees X'2D00' 90 degrees X'5A00' 180 degrees X'8700' 270 degrees O X'02' [MODCA-5-790]|
-| 16–n Triplets See IPO Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-791]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3AFD8' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-784]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **OvlyName** | | Name of the overlay resource | M | X'06' [MODCA-5-787] |
+| 8–10 | SBIN | **XolOset** | -32,768–32,767 | X-axis origin for the page overlay <br> X'FFFFFF' Retired value | M | X'06' [MODCA-5-788] |
+| 11–13 | SBIN | **YolOset** | -32,768–32,767 | Y-axis origin for the page overlay <br> X'FFFFFF' Retired value | M | X'06' [MODCA-5-789] |
+| 14–15 | CODE | **OvlyOrent** | | The overlay's X-axis rotation from the X axis of the including page coordinate system: <br> X'0000' 0 degrees <br> X'2D00' 90 degrees <br> X'5A00' 180 degrees <br> X'8700' 270 degrees | O | X'02' [MODCA-5-790] |
+| 16–n | Triplets | | | See **IPO Semantics** for triplet applicability. | O | X'10' [MODCA-5-791] |
+
 #### IPO Semantics
-OvlyName Is the name of the overlay resource being referenced.
-XolOset Specifies the offset along the X-axis of the including page coordinate system, X pg, to the origin
-of the X axis for the page overlay coordinate system, X ol. The value X'FFFFFF' is retired,
+
+**OvlyName** Is the name of the overlay resource being referenced.
+
+**XolOset** Specifies the offset along the X-axis of the including page coordinate system, Xpg, to the origin
+of the X axis for the page overlay coordinate system, Xol. The value X'FFFFFF' is retired,
 therefore the offset value (-1) is not included in the allowed range. See the architecture note
 following the Triplets section. The value for this parameter is expressed in terms of the number
 of page coordinate system X-axis measurement units.
-YolOset Specifies the offset along the Y axis of the including page coordinate system, Y
-pg, to the origin
-of the Y axis for the page overlay coordinate system, Y ol. The value X'FFFFFF' is retired,
+
+**YolOset** Specifies the offset along the Y axis of the including page coordinate system, Ypg, to the origin
+of the Y axis for the page overlay coordinate system, Yol. The value X'FFFFFF' is retired,
 therefore the offset value (-1) is not included in the allowed range. See the architecture note
 following the Triplets section. The value for this parameter is expressed in terms of the number
 of page coordinate system Y-axis measurement units.
-OvlyOrent Specifies the amount of rotation of the page overlay's X axis, X ol, about the page overlay origin
-relative to the X axis, X pg, of the including page coordinate system. The page overlay X axis [MODCA-5-792]
-### Include Page Overlay (IPO)
 
-
+**OvlyOrent** Specifies the amount of rotation of the page overlay's X axis, Xol, about the page overlay origin
+relative to the X axis, Xpg, of the including page coordinate system. The page overlay X axis
 rotation is limited to 0, 90, 180, and 270 degrees. The page overlay Y-axis rotation is always
-90 degrees greater than the page overlay X-axis rotation. [MODCA-5-793]
+90 degrees greater than the page overlay X-axis rotation. [MODCA-5-792] [MODCA-5-793]
+
 If no value is specified for this parameter, the architected default is 0 degrees.
-**Note:**  If the rotation is such that the sum of the page overlay origin offset and the page overlay
+
+**Note:** If the rotation is such that the sum of the page overlay origin offset and the page overlay
 extent exceeds the size of the including presentation space in either the X or Y direction,
 all of the object area will not fit on the including presentation space. The including
 presentation space in this case is the medium presentation space. If an attempt is made
 to actually present data in the portion of the page overlay that falls outside the including
 presentation space, that portion of the data is not presented, and a X'01' exception
 condition exists.
-Triplets Appear in the Include Page Overlay structured field as follows: [MODCA-5-794]
-| Triplet | Type | Usage [MODCA-5-795]|
-| --- | --- | --- [MODCA-5-796]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-797]|
-| X'02' | | Fully Qualified Name Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Include Overlay structured field name and is used as the name of the overlay. [MODCA-5-798]|
-**Note:**  If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
-**Application Note:**  T o optimize print performance, it is strongly recommended that the same encoding scheme
+
+**Triplets** Appear in the Include Page Overlay structured field as follows: [MODCA-5-794]
+
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-797] |
+| X'02' | | **Fully Qualified Name** Optional. May occur once. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'01'—Replace First GID Name. This GID overrides the Include Overlay structured field name and is used as the name of the overlay. [MODCA-5-798] |
+
+**Note:** If a triplet is included on this structured field, the optional positional parameter becomes mandatory.
+
+**Application Note:** To optimize print performance, it is strongly recommended that the same encoding scheme
 be used for a resource reference wherever in a print file that resource reference is specified. That is, the
 encoding scheme used for the resource include, the resource map, and the resource wrapper should be
 the same.
-Architecture Notes:
-1. In AFP environments, the following retired triplets are used on this structured field: [MODCA-5-799]
-* Page Overlay Conditional Processing (X'46') triplet, may occur zero or more times; see “Page Overlay [MODCA-5-800]
-Conditional Processing Triplet X'46'”.
-* Resource Usage Attribute (X'47') triplet, may occur zero or once; see “Resource Usage Attribute Triplet [MODCA-5-801]
-X'47'”.
-2. In AFP line data environments, the value X'FFFFFF' is supported for the XolOset and YolOset parameters [MODCA-5-802]
-to indicate that the X
-p or Yp position, respectively, defined by the current Line Descriptor (LND) in the page
-definition is to be used as the origin for the overlay. This value was also valid in pre-1992 AFP data streams
-to specify the current text print position and is supported by some print servers for migration of such data
-streams. However, this value is not valid in MO:DCA data streams and should not be generated by
-MO:DCA applications. T o record support for this value by some AFP print servers and to limit any further
-use, this value is retired; see “Retired Parameters”. [MODCA-5-803]
+
+**Architecture Notes:**
+
+1.  In AFP environments, the following retired triplets are used on this structured field: [MODCA-5-799]
+    *   **Page Overlay Conditional Processing (X'46') triplet**, may occur zero or more times; see “Page Overlay Conditional Processing Triplet X'46'”. [MODCA-5-800]
+    *   **Resource Usage Attribute (X'47') triplet**, may occur zero or once; see “Resource Usage Attribute Triplet X'47'”. [MODCA-5-801]
+2.  In AFP line data environments, the value X'FFFFFF' is supported for the XolOset and YolOset parameters [MODCA-5-802]
+    to indicate that the Xp or Yp position, respectively, defined by the current Line Descriptor (LND) in the page
+    definition is to be used as the origin for the overlay. This value was also valid in pre-1992 AFP data streams
+    to specify the current text print position and is supported by some print servers for migration of such data
+    streams. However, this value is not valid in MO:DCA data streams and should not be generated by
+    MO:DCA applications. To record support for this value by some AFP print servers and to limit any further
+    use, this value is retired; see “Retired Parameters”. [MODCA-5-803]
+
 #### IPO Exception Condition Summary
-X'01' An attempt is made to present data outside the medium presentation space. See the note
+
+**X'01'** An attempt is made to present data outside the medium presentation space. See the note
 under OvlyOrent for details. [MODCA-5-804]
-### Include Page Overlay (IPO)
 
 
 ### Include Page Segment (IPS)
+
 The Include Page Segment structured field references a page segment resource object that is to be presented
 on the page or overlay presentation space. The IPS specifies a reference point on the including page or
 overlay coordinate system that may be used to position objects contained in the page segment. A page
 segment can be referenced at any time during page or overlay state, but not during an object state. The page
 segment inherits the active environment group definition of the including page or overlay. [MODCA-5-805]
+
 #### IPS (X'D3AF5F') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3AF5F' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-806]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-807]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-808]|
-| 0–7 CHAR PsegName Name of the page segment | | | | | | resource M X'06' [MODCA-5-809]|
-| 8–10 SBIN XpsOset -32,768–32,767 X axis origin for positioning | | | | | | objects M X'06' X'FFFFFF' Retired value [MODCA-5-810]|
-| 11–13 SBIN YpsOset -32,768–32,767 Y-axis origin for positioning | | | | | | objects M X'06' X'FFFFFF' Retired value [MODCA-5-811]|
-| 14–n Triplets See IPS Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-812]|
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3AF5F' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-806]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–7 | CHAR | **PsegName** | | Name of the page segment resource | M | X'06' [MODCA-5-809] |
+| 8–10 | SBIN | **XpsOset** | -32,768–32,767 | X-axis origin for positioning objects <br> X'FFFFFF' Retired value | M | X'06' [MODCA-5-810] |
+| 11–13 | SBIN | **YpsOset** | -32,768–32,767 | Y-axis origin for positioning objects <br> X'FFFFFF' Retired value | M | X'06' [MODCA-5-811] |
+| 14–n | Triplets | | | See **IPS Semantics** for triplet applicability. | O | X'10' [MODCA-5-812] |
+
 #### IPS Semantics
-PsegName Is the name of the page segment resource object being referenced.
-XpsOset Specifies the offset along the X axis of the including page coordinate system, X pg, or the
-including overlay coordinate system, X ol, to the reference point that may be used to position
+
+**PsegName** Is the name of the page segment resource object being referenced.
+
+**XpsOset** Specifies the offset along the X axis of the including page coordinate system, Xpg, or the
+including overlay coordinate system, Xol, to the reference point that may be used to position
 objects in the page segment. The value X'FFFFFF' is retired, therefore the offset value (-1) is
 not included in the allowed range. See the architecture note following the Triplets section. The
 value for this parameter is expressed in terms of the number of page or overlay coordinate
 system X-axis measurement units.
-YpsOset Specifies the offset along the Y axis of the including page coordinate system, Y
-pg, or the
-including overlay coordinate system, Y ol, to the reference point that may be used to position
+
+**YpsOset** Specifies the offset along the Y axis of the including page coordinate system, Ypg, or the
+including overlay coordinate system, Yol, to the reference point that may be used to position
 objects in the page segment. The value X'FFFFFF' is retired, therefore the offset value (-1) is
 not included in the allowed range. See the architecture note following the Triplets section. The
 value for this parameter is expressed in terms of the number of page or overlay coordinate
 system Y-axis measurement units.
-Triplets Appear as follows: [MODCA-5-813]
-### Include Page Segment (IPS)
 
+**Triplets** Appear as follows: [MODCA-5-813]
 
-| Triplet | Type | Usage [MODCA-5-814]|
-| --- | --- | --- [MODCA-5-815]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. Application Notes: 1. A page segment included on a page or overlay with an IPS may optionally be mapped with an MPS in the AEG for that page or overlay. If such a mapping exists, the page segment is sent to the presentation device as a separate object and is called a hard page segment. If such a mapping does not exist, the page segment data is sent to the presentation device as part of the page or overlay and is called a soft page segment. 2. For a hard page segment included via IPS, the OEGs for all objects in the page segment should not contain any secondary resource mappings, such as font mappings and CMR references using MCF and MDR structured fields; such mappings are ignored. 3. For a soft page segment included via IPS, all secondary resource mappings in the OEGs for objects in the page segment, such as font mappings and CMR references using MCF and MDR structured fields, must be factored up to the including page or overlay. 4. T o optimize print performance, it is strongly recommended that the same encoding scheme be used for a resource reference wherever in a print file that resource reference is specified. That is, the encoding scheme used for the resource include, the resource map, and the resource wrapper should be the same. Architecture Notes: 1. In AFP environments, the following retired triplet is used on this structured field: • Line Data Object Position Migration (X'27') triplet; see “Line Data Object Position Migration Triplet X'27'”. 2. In AFP line data environments, the value X'FFFFFF' is supported for the XpsOset and YpsOset parameters to indicate that the X p or Yp position, respectively, defined by the current Line Descriptor (LND) in the Page Definition is to be used as the “origin” for the page segment. This value was also valid in pre-1992 AFP data streams to specify the current text print position and is supported by some print servers for migration of such data streams. However this value is not valid in MO:DCA data streams and should not be generated by MO:DCA applications. T o record support for this value by some AFP print servers and to limit any further use, this value is retired, see “Retired Parameters”. [MODCA-5-816]|
+| Triplet | Type | Usage |
+| :--- | :--- | :--- |
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. |
+
+**Application Notes:**
+
+1.  A page segment included on a page or overlay with an IPS may optionally be mapped with an MPS in the AEG for that page or overlay. If such a mapping exists, the page segment is sent to the presentation device as a separate object and is called a hard page segment. If such a mapping does not exist, the page segment data is sent to the presentation device as part of the page or overlay and is called a soft page segment.
+2.  For a hard page segment included via IPS, the OEGs for all objects in the page segment should not contain any secondary resource mappings, such as font mappings and CMR references using MCF and MDR structured fields; such mappings are ignored.
+3.  For a soft page segment included via IPS, all secondary resource mappings in the OEGs for objects in the page segment, such as font mappings and CMR references using MCF and MDR structured fields, must be factored up to the including page or overlay.
+4.  To optimize print performance, it is strongly recommended that the same encoding scheme be used for a resource reference wherever in a print file that resource reference is specified. That is, the encoding scheme used for the resource include, the resource map, and the resource wrapper should be the same.
+
+**Architecture Notes:**
+
+1.  In AFP environments, the following retired triplet is used on this structured field:
+    *   **Line Data Object Position Migration (X'27') triplet**; see “Line Data Object Position Migration Triplet X'27'”.
+2.  In AFP line data environments, the value X'FFFFFF' is supported for the XpsOset and YpsOset parameters to indicate that the Xp or Yp position, respectively, defined by the current Line Descriptor (LND) in the Page Definition is to be used as the “origin” for the page segment. This value was also valid in pre-1992 AFP data streams to specify the current text print position and is supported by some print servers for migration of such data streams. However this value is not valid in MO:DCA data streams and should not be generated by MO:DCA applications. To record support for this value by some AFP print servers and to limit any further use, this value is retired; see “Retired Parameters”. [MODCA-5-816]
+
 #### IPS Exception Condition Summary
-X'01' An attempt is made to present data outside the medium presentation space. [MODCA-5-817]
-### Include Page Segment (IPS)
+
+**X'01'** An attempt is made to present data outside the medium presentation space. [MODCA-5-817]
 
 
 ### Link Logical Element (LLE)
