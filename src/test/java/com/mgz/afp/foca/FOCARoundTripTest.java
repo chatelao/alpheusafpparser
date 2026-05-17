@@ -125,16 +125,28 @@ public class FOCARoundTripTest {
 
     @Test
     public void testFNDRoundTrip() throws Exception {
-        byte[] data = new byte[91];
-        data[0] = 0x5A; data[1] = 0x00; data[2] = 0x5A;
+        byte[] data = new byte[9 + 80];
+        data[0] = 0x5A; data[1] = 0x00; data[2] = (byte) (9 + 80 - 1);
         data[3] = (byte) 0xD3; data[4] = (byte) 0xA6; data[5] = (byte) 0x89;
         // Typeface (9-40) - 32 bytes
         for (int i = 9; i < 41; i++) data[i] = 0x40; // EBCDIC spaces
         byte[] typeface = "HELVETICA".getBytes("cp500");
         System.arraycopy(typeface, 0, data, 9, typeface.length);
 
-        data[41] = 0x04; // fontWeightClass (at payload offset 32)
-        data[42] = 0x04; // fontWidthClass (at payload offset 33)
+        data[41] = 0x05; // fontWeightClass
+        data[42] = 0x05; // fontWidthClass
+        data[43] = 0x00; data[44] = 0x64; // maxVerticalSize (100)
+        data[45] = 0x00; data[46] = 0x64; // nominalVerticalSize
+        data[47] = 0x00; data[48] = 0x64; // minimumVerticalSize
+        data[49] = 0x00; data[50] = 0x50; // maxHorizontalSize (80)
+        data[51] = 0x00; data[52] = 0x50; // nominalHorizontalSize
+        data[53] = 0x00; data[54] = 0x50; // minimumHorizontalSize
+        data[55] = 0x01; // designGeneralClass
+        data[56] = 0x02; // designSubclass
+        data[57] = 0x03; // designSpecificGroup
+        data[73] = 0x00; data[74] = 0x01; // fontDesignFlags
+        data[85] = 0x01; data[86] = (byte) 0xB9; // GCSGID (441)
+        data[87] = 0x03; data[88] = (byte) 0xE8; // FGID (1000)
 
         RoundTripTestUtils.assertRoundTrip(new FND_FontDescriptor(), data);
     }
@@ -224,6 +236,17 @@ public class FOCARoundTripTest {
         byte[] data = new byte[9 + 26];
         data[0] = 0x5A; data[1] = 0x00; data[2] = 0x22;
         data[3] = (byte) 0xD3; data[4] = (byte) 0xAE; data[5] = (byte) 0x89;
+        data[11] = 0x2D; data[12] = 0x00; // charRotation (ori90 = 0x2D00)
+        data[13] = 0x00; data[14] = 0x0A; // maxBaselineOffset (10)
+        data[15] = 0x00; data[16] = 0x14; // maxCharacterIncrement (20)
+        data[17] = 0x00; data[18] = 0x1E; // spaceCharacterIncrement (30)
+        data[19] = 0x00; data[20] = 0x28; // maxBaselineExtent (40)
+        data[21] = (byte) 0x80; // controlFlags (BaselineCoordinateSystem_XAxisDown)
+        data[23] = 0x00; data[24] = 0x32; // emSpaceIncrement (50)
+        data[27] = 0x00; data[28] = 0x3C; // figureSpaceIncrement (60)
+        data[29] = 0x00; data[30] = 0x46; // nominalCharacterIncrement (70)
+        data[31] = 0x00; data[32] = 0x50; // defaultBaselineIncrement (80)
+        data[33] = 0x00; data[34] = 0x5A; // minASpace (90)
 
         AFPParserConfiguration config = new AFPParserConfiguration();
         FNC_FontControl fnc = new FNC_FontControl();
@@ -238,6 +261,14 @@ public class FOCARoundTripTest {
         byte[] data = new byte[9 + 22];
         data[0] = 0x5A; data[1] = 0x00; data[2] = 0x1E;
         data[3] = (byte) 0xD3; data[4] = (byte) 0xAC; data[5] = (byte) 0x89;
+        data[11] = 0x00; data[12] = 0x0A; // lowercaseHeight
+        data[13] = 0x00; data[14] = 0x14; // capMHeight
+        data[15] = 0x00; data[16] = 0x1E; // maxAscenderHeight
+        data[17] = 0x00; data[18] = 0x28; // maxDescenderDepth
+        data[24] = 0x01; // retired15
+        data[26] = 0x00; data[27] = 0x32; // underscoreWidth
+        data[28] = 0x00; // underscoreWidthFraction
+        data[29] = 0x00; data[30] = 0x3C; // underscorePosition
 
         AFPParserConfiguration config = new AFPParserConfiguration();
         FNC_FontControl fnc = new FNC_FontControl();

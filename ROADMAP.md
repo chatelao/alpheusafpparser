@@ -29,7 +29,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [BCOCA](TEST_COVERAGE_BCOCA.md) | 0 | 1237 | 0.0% |
 | [CMOCA](TEST_COVERAGE_CMOCA.md) | 0 | 1085 | 0.0% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
-| [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
+| [FOCA](TEST_COVERAGE_FOCA.md) | 1391 | 1391 | 100.0% |
 | [GOCA](TEST_COVERAGE_GOCA.md) | 2144 | 2144 | 100.0% |
 | [IOCA](TEST_COVERAGE_IOCA.md) | 1587 | 1587 | 100.0% |
 | [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
@@ -37,7 +37,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **5392** | **20955** | **25.7%** |
+| **Total** | **6783** | **20955** | **32.4%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -142,9 +142,15 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ✅ Chapter 4 complete.
         - ⏳ Chapter 5.
         - ⏳ Appendices A-B and Front Matter.
-    - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, FOCA, GOCA, IOCA, IPDS, MOCA, PTOCA).
+    - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, CMOCA, DB2Z, GOCA, IOCA, IPDS, MOCA, PTOCA).
+    - 🚧 Improve all `specifications/markdown/foca-reference-06` chapters:
+        - ⏳ Chapters 1-5.
+        - ✅ Chapter 6 complete.
+        - ⏳ Chapter 7.
+        - ⏳ Appendices A-C, Glossary, and Front Matter.
 - ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
 - ✅ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks.
+- ✅ Analyzing and updating the `TEST_COVERAGE_FOCA.md` complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
     - ✅ Chapters 1-3 complete.
     - ✅ Chapter 4 complete.
