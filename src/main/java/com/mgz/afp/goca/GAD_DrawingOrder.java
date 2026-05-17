@@ -57,6 +57,11 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
 
+      if (lengthOfFollowingData % 4 != 0) {
+        throw new AFPParserException("Invalid length for drawing order 0x" + Integer.toHexString(drawingOrderType)
+            + ": " + lengthOfFollowingData + ". Must be a multiple of 4.");
+      }
+
       if (lengthOfFollowingData > 0) {
         points = new ArrayList<GOCA_Point>();
         int pos = 0;
@@ -2276,9 +2281,44 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     }
   }
 
-  public static final class GCRLINE_RelativeLineAtCurrentPosition extends DrawingOrder_HasPoints {
-    public GCRLINE_RelativeLineAtCurrentPosition() {
-      isAtCurrentPosition = true;
+  public static final class GCRLINE_RelativeLineAtCurrentPosition extends GAD_DrawingOrder {
+    @AFPField
+    short lengthOfFollowingData;
+    @AFPField
+    List<GOCA_RelativePoint> relativeOffsets;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+
+      if (lengthOfFollowingData % 2 != 0) {
+        throw new AFPParserException("Invalid length for GCRLINE (0xA1): " + lengthOfFollowingData
+            + ". Must be a multiple of 2.");
+      }
+
+      if (lengthOfFollowingData > 0) {
+        relativeOffsets = new ArrayList<>();
+        int pos = 0;
+        while (pos < lengthOfFollowingData) {
+          byte dx = sfData[offset + 2 + pos];
+          byte dy = sfData[offset + 2 + pos + 1];
+          relativeOffsets.add(new GOCA_RelativePoint(dx, dy));
+          pos += 2;
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = (short) (relativeOffsets != null ? relativeOffsets.size() * 2 : 0);
+      os.write(drawingOrderType);
+      os.write(lengthOfFollowingData);
+      if (relativeOffsets != null) {
+        for (GOCA_RelativePoint rp : relativeOffsets) {
+          os.write(rp.toBytes());
+        }
+      }
     }
   }
 
@@ -2400,6 +2440,15 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GCCBEZ_CubicBezierCurveAtCurrentPosition extends DrawingOrder_HasPoints {
     public GCCBEZ_CubicBezierCurveAtCurrentPosition() {
       isAtCurrentPosition = true;
+    }
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
+      if (lengthOfFollowingData % 12 != 0) {
+        throw new AFPParserException("Invalid length for GCCBEZ (0xA5): " + lengthOfFollowingData
+            + ". Must be a multiple of 12 (3 points per curve).");
+      }
     }
   }
 
@@ -2868,9 +2917,51 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     }
   }
 
-  public static final class GRLINE_RelativeLineAtGivenPosition extends DrawingOrder_HasPoints {
-    public GRLINE_RelativeLineAtGivenPosition() {
-      isAtCurrentPosition = false;
+  public static final class GRLINE_RelativeLineAtGivenPosition extends GAD_DrawingOrder {
+    @AFPField
+    short lengthOfFollowingData;
+    @AFPField
+    GOCA_Point startPoint;
+    @AFPField
+    List<GOCA_RelativePoint> relativeOffsets;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+
+      if (lengthOfFollowingData < 4 || (lengthOfFollowingData - 4) % 2 != 0) {
+        throw new AFPParserException("Invalid length for GRLINE (0xE1): " + lengthOfFollowingData
+            + ". Must be at least 4 and (length-4) must be a multiple of 2.");
+      }
+
+      short x = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
+      short y = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      startPoint = new GOCA_Point(x, y);
+
+      if (lengthOfFollowingData > 4) {
+        relativeOffsets = new ArrayList<>();
+        int pos = 4;
+        while (pos < lengthOfFollowingData) {
+          byte dx = sfData[offset + 2 + pos];
+          byte dy = sfData[offset + 2 + pos + 1];
+          relativeOffsets.add(new GOCA_RelativePoint(dx, dy));
+          pos += 2;
+        }
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      lengthOfFollowingData = (short) (4 + (relativeOffsets != null ? relativeOffsets.size() * 2 : 0));
+      os.write(drawingOrderType);
+      os.write(lengthOfFollowingData);
+      os.write(startPoint.toBytes());
+      if (relativeOffsets != null) {
+        for (GOCA_RelativePoint rp : relativeOffsets) {
+          os.write(rp.toBytes());
+        }
+      }
     }
   }
 
@@ -2980,6 +3071,15 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GCBEZ_CubicBezierCurveAtGivenPosition extends DrawingOrder_HasPoints {
     public GCBEZ_CubicBezierCurveAtGivenPosition() {
       isAtCurrentPosition = false;
+    }
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      super.decodeAFP(sfData, offset, length, config);
+      if (lengthOfFollowingData < 4 || (lengthOfFollowingData - 4) % 12 != 0) {
+        throw new AFPParserException("Invalid length for GCBEZ (0xE5): " + lengthOfFollowingData
+            + ". Must be at least 4 and (length-4) must be a multiple of 12.");
+      }
     }
   }
 
@@ -3330,6 +3430,15 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public record GOCA_Point(@AFPField short xCoordinate, @AFPField short yCoordinate) {
     public byte[] toBytes() {
       return new byte[] {(byte) (xCoordinate >>> 8), (byte) (xCoordinate & 0xFF), (byte) (yCoordinate >>> 8), (byte) (yCoordinate & 0xFF)};
+    }
+  }
+
+  /**
+   * Specifies a relative point (offset) as used in GOCA.
+   */
+  public record GOCA_RelativePoint(@AFPField byte xOffset, @AFPField byte yOffset) {
+    public byte[] toBytes() {
+      return new byte[] {xOffset, yOffset};
     }
   }
 }

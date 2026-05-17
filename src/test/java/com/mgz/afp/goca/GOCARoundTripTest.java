@@ -186,4 +186,38 @@ public class GOCARoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
     }
+
+    @Test
+    public void testGADRoundTrip_RelativeLines() throws Exception {
+        // GAD: D3EEBB
+        // Drawing Orders:
+        // 1. GRLINE (0xE1), Len 8, X=100 (0x0064), Y=200 (0x00C8), dx1=10 (0x0A), dy1=20 (0x14), dx2=-10 (0xF6), dy2=-20 (0xEC)
+        //    -> E1 08 00 64 00 C8 0A 14 F6 EC
+        // 2. GCRLINE (0xA1), Len 4, dx1=5 (0x05), dy1=5 (0x05), dx2=0 (0x00), dy2=0 (0x00)
+        //    -> A1 04 05 05 00 00
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xEE, (byte) 0xBB, 0x00, 0x00, 0x00,
+            (byte) 0xE1, 0x08, 0x00, 0x64, 0x00, (byte) 0xC8, 0x0A, 0x14, (byte) 0xF6, (byte) 0xEC,
+            (byte) 0xA1, 0x04, 0x05, 0x05, 0x00, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
+    }
+
+    @Test
+    public void testGADRoundTrip_BezierCurves() throws Exception {
+        // GAD: D3EEBB
+        // Drawing Orders:
+        // 1. GCBEZ (0xE5), Len 16 (12*1 + 4), P0(0,0), P1(1,1), P2(2,2), P3(3,3)
+        //    -> E5 10 00 00 00 00 00 01 00 01 00 02 00 02 00 03 00 03
+        // 2. GCCBEZ (0xA5), Len 12 (12*1), P1(4,4), P2(5,5), P3(6,6)
+        //    -> A5 0C 00 04 00 04 00 05 00 05 00 06 00 06
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x2A, (byte) 0xD3, (byte) 0xEE, (byte) 0xBB, 0x00, 0x00, 0x00,
+            (byte) 0xE5, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02, 0x00, 0x02, 0x00, 0x03, 0x00, 0x03,
+            (byte) 0xA5, 0x0C, 0x00, 0x04, 0x00, 0x04, 0x00, 0x05, 0x00, 0x05, 0x00, 0x06, 0x00, 0x06
+        };
+        RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
+    }
 }
