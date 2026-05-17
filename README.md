@@ -1,6 +1,6 @@
 # AFP Parser [![Build](https://github.com/chatelao/alpheusafpparser/actions/workflows/ci.yml/badge.svg)](https://github.com/chatelao/alpheusafpparser/actions)
 
-Alpheus AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) 
+The AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) 
 document/print stream format.
 
 ![Architecture Diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/chatelao/alpheusafpparser/master/TOP_LEVEL.puml)
