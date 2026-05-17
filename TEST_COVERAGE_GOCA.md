@@ -965,224 +965,224 @@
 | GOCA-7-243 | The value in the 1st byte of the UTF-8 byte sequence was not in the legal UTF-8 range (X'00' - X'7F' and X'C2' - X'F4'). | ❓ |
 | GOCA-7-244 | The value in the 2nd byte of the UTF-8 byte sequence was not in the legal UTF-8 range allowed by the value in the 1st byte. The valid ranges for the 2nd byte are shown in Table 14. | ❓ |
 | GOCA-7-245 | The value in the 3rd or 4th byte of the UTF-8 byte sequence was not in the legal UTF- 8 range for that byte (X'80' - X'BF'). | ❓ |
-| GOCA-7-246 | This order enables data to be stored within a segment. | ❓ |
-| GOCA-7-247 | 0 | CODE | X'01' | GCOMT | Order code | ❓ |
-| GOCA-7-248 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ❓ |
-| GOCA-7-249 | 2–n | UNDF | DATA | Any value | Comment data | ❓ |
-| GOCA-7-250 | This order is treated as a No-Op. It has no effect on the GPS or on any current attribute or control. The data within the order can be any value and is ignored. The order can appear anywhere within a segment. | ❓ |
-| GOCA-7-251 | This order does not raise any exception conditions. | ❓ |
-| GOCA-7-252 | These orders generate a Cubic Bezier Curve that starts at a given position or at the current position. | ❓ |
-| GOCA-7-253 | 0 | CODE | X'E5' | GCBEZ | Order code | ❓ |
-| GOCA-7-254 | 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and be equal to 12m + 4, where m is the number of curves | ❓ |
-| GOCA-7-255 | 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve start point | ❓ |
-| GOCA-7-256 | 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve start point | ❓ |
-| GOCA-7-257 | 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, first control point | ❓ |
-| GOCA-7-258 | 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, first control point | ❓ |
-| GOCA-7-259 | 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, second control point | ❓ |
-| GOCA-7-260 | 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, second control point | ❓ |
-| GOCA-7-261 | 14–15 | SBIN | XPOS3 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve endpoint, second curve start point | ❓ |
-| GOCA-7-262 | 16–17 | SBIN | YPOS3 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve endpoint, second curve start point | ❓ |
-| GOCA-7-263 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ❓ |
-| GOCA-7-264 | SBIN | XPOSF-2 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, first control point | ❓ |
-| GOCA-7-265 | SBIN | YPOSF-2 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, first control point | ❓ |
-| GOCA-7-266 | SBIN | XPOSF-1 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, second control point | ❓ |
-| GOCA-7-267 | SBIN | YPOSF-1 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, second control point | ❓ |
-| GOCA-7-268 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final curve endpoint | ❓ |
-| GOCA-7-269 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve endpoint | ❓ |
-| GOCA-7-270 | Offset | Type | Name | Range | Meaning | ❓ |
-| GOCA-7-271 | 0 | CODE | X'A5' | GCCBEZ | Order code | ❓ |
-| GOCA-7-272 | 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and be equal to 12m, where m is the number of curves | ❓ |
-| GOCA-7-273 | 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, first control point | ❓ |
-| GOCA-7-274 | 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, first control point | ❓ |
-| GOCA-7-275 | 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, second control point | ❓ |
-| GOCA-7-276 | 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, second control point | ❓ |
-| GOCA-7-277 | 10–11 | SBIN | XPOS3 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve endpoint, second curve start point | ❓ |
-| GOCA-7-278 | 12–13 | SBIN | YPOS3 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve endpoint, second curve start point | ❓ |
-| GOCA-7-279 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ❓ |
-| GOCA-7-280 | SBIN | XPOSF-2 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, first control point | ❓ |
-| GOCA-7-281 | SBIN | YPOSF-2 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, first control point | ❓ |
-| GOCA-7-282 | SBIN | XPOSF-1 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, second control point | ❓ |
-| GOCA-7-283 | SBIN | YPOSF-1 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, second control point | ❓ |
-| GOCA-7-284 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final curve endpoint | ❓ |
-| GOCA-7-285 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve endpoint | ❓ |
-| GOCA-7-286 | The Cubic Bezier Curve at Given Position (GCBEZ) order generates a curve that starts at $P_0$ and uses points $P_1, P_2$, and $P_3$. The Cubic Bezier Curve at Current Position (GCCBEZ) order generates a curve that starts at the current position and uses points $P_1, P_2$, and $P_3$. | ❓ |
-| GOCA-7-287 | Further points are used in groups of three to form a polycurve. Each group of points, together with the last point of the previous curve, generates a new curve, every curve being drawn independently for the set of four points. | ❓ |
-| GOCA-7-288 | See “Cubic Bezier Curve” for details of curve drawing. | ❓ |
-| GOCA-7-289 | The length of the order, LENGTH, must be consistent with the two-byte x-coordinates and two-byte y-coordinates and the requirement for sets of points, three at a time after the initial curve. | ❓ |
-| GOCA-7-290 | The current values of the line attributes are taken into account when drawing the curve. | ❓ |
-| GOCA-7-291 | A Cubic Bezier Curve at Given Position (GCBEZ) order with only one point is permitted. This serves only to move the current position, which is set to the specified point. A Cubic Bezier Curve at Current Position (GCCBEZ) order with only one point (the current position) is permitted and is treated as a No-Op. | ❓ |
-| GOCA-7-292 | - **EC-0003**: The order has an incorrect length. The number of points, including the current position for the GCCBEZ drawing order, must equal $3m + 1$, where $m$ is the number of curves. Each point requires a length of 4 bytes. | ❓ |
-| GOCA-7-293 | This order deletes a previously defined custom pattern or gradient, or deletes all previously defined custom patterns or gradients in a given pattern set. | ❓ |
-| GOCA-7-294 | 0 | CODE | X'DF' | GDPT | Order code | ❓ |
-| GOCA-7-295 | 1 | UBIN | LENGTH | 3, 4 | Length of following data | ❓ |
-| GOCA-7-296 | 2–3 | RES | X'0000' | Reserved; only valid value | ❓ |
-| GOCA-7-297 | 4 | CODE | PATTSET | X'01'–X'FD' | Pattern set of the pattern(s) to be deleted | ❓ |
-| GOCA-7-298 | 5 | CODE | PATTSYM | X'01'–X'FF' | (Optional) Pattern symbol of the pattern to be deleted | ❓ |
-| GOCA-7-299 | The Delete Pattern order, when it specifies a pattern symbol value, deletes one single custom pattern or gradient that was previously defined using the Begin Custom Pattern, Linear Gradient, or Radial Gradient orders. When the Delete Pattern order does not specify a pattern symbol value, it deletes all previously defined patterns in the specified pattern set. | ❓ |
-| GOCA-7-300 | The PATTSET value specifies the pattern set of the pattern(s) to be deleted. The PATTSYM value, if included, specifies the pattern symbol of the pattern to be deleted. | ❓ |
-| GOCA-7-301 | A request to delete all patterns in a given pattern set does not raise an exception condition if that pattern set has no patterns defined in it. However, a request to delete a specific pattern that has not been defined raises exception condition EC-DF00, for which the standard action is to ignore the Delete Pattern order. | ❓ |
-| GOCA-7-302 | Patterns in the default pattern set cannot be deleted. An attempt to do so will raise exception condition EC-DF01, for which the standard action is to ignore the Delete Pattern order. | ❓ |
-| GOCA-7-303 | - **EC-0003**: The order has an incorrect length. | ❓ |
-| GOCA-7-304 | - **EC-DF00**: The PATTSET and PATTSYM parameters are within the valid range, but no pattern exists with the pattern set and pattern symbol specified. | ❓ |
-| GOCA-7-305 | - Standard action: Ignore the Delete Pattern order. | ❓ |
-| GOCA-7-306 | - **EC-DF01**: The value specified for the PATTSET parameter is invalid. | ❓ |
-| GOCA-7-307 | - Standard action: Ignore the Delete Pattern order. | ❓ |
-| GOCA-7-308 | - **EC-DF02**: The value specified for the PATTSYM parameter is invalid; pattern symbol X'00' cannot be deleted. | ❓ |
-| GOCA-7-309 | - Standard action: Ignore the Delete Pattern order. | ❓ |
-| GOCA-7-310 | This order indicates the end of a set of primitives that define an area boundary. | ❓ |
-| GOCA-7-311 | 0 | CODE | X'60' | GEAR | Order code | ❓ |
-| GOCA-7-312 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ❓ |
-| GOCA-7-313 | 2–n | DATA | X'00'... | Reserved; only valid value | ❓ |
-| GOCA-7-314 | The End Area order identifies the end of an area. The bytes of data on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero. | ❓ |
-| GOCA-7-315 | - **EC-6000**: An End Area order has been executed without an unmatched Begin Area order having previously been executed. | ❓ |
-| GOCA-7-316 | This order indicates the end of a set of primitives that define a custom pattern. | ❓ |
-| GOCA-7-317 | 0 | CODE | X'5E' | GECP | Order code | ❓ |
-| GOCA-7-318 | 1 | RES | X'00' | Reserved; only valid value | ❓ |
-| GOCA-7-319 | The End Custom Pattern order identifies the end of the definition of a custom pattern. | ❓ |
-| GOCA-7-320 | - **EC-5E00**: An End Custom Pattern order has been executed without an unmatched Begin Custom Pattern order having previously been executed. | ❓ |
-| GOCA-7-321 | - Standard action: Ignore the End Custom Pattern order. | ❓ |
-| GOCA-7-322 | This order identifies the end of an image definition. | ❓ |
-| GOCA-7-323 | 0 | CODE | X'93' | GEIMG | Order code | ❓ |
-| GOCA-7-324 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ❓ |
-| GOCA-7-325 | 2–n | DATA | X'00'... | Reserved; only valid value | ❓ |
-| GOCA-7-326 | The End Image order identifies the end of an image. The bytes of data on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero. | ❓ |
-| GOCA-7-327 | - **EC-9300**: An End Image order is executed without an unmatched Begin Image order having been executed previously. | ❓ |
-| GOCA-7-328 | - **EC-9301**: The number of Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as given by the value of HEIGHT in the Begin Image order. | ❓ |
-| GOCA-7-329 | This order indicates the end of the prolog of a segment. | ❓ |
-| GOCA-7-330 | 0 | CODE | X'3E' | GEPROL | Order code | ❓ |
-| GOCA-7-331 | 1 | RES | X'00' | Reserved; only valid value | ❓ |
-| GOCA-7-332 | The End Prolog order indicates the end of the prolog section of a segment. See “Segment Prolog” for details of the processing of segment prologs. | ❓ |
-| GOCA-7-333 | - **EC-000C**: One of the following conditions has occurred within the prolog section of a segment: | ❓ |
-| GOCA-7-334 | - A supported order that is not valid within a prolog is specified. | ❓ |
-| GOCA-7-335 | - The end of the segment has been reached without an End Prolog order. | ❓ |
-| GOCA-7-336 | - **EC-3E00**: An End Prolog order has occurred outside the prolog section of a segment. | ❓ |
-| GOCA-7-337 | These orders draw a curved line tangential to a specified set of straight lines, at the given position or at the current position. | ❓ |
-| GOCA-7-338 | 0 | CODE | X'C5' | GFLT | Order code | ❓ |
-| GOCA-7-339 | 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 | ❓ |
-| GOCA-7-340 | 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first line start point | ❓ |
-| GOCA-7-341 | 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line start point | ❓ |
-| GOCA-7-342 | 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-343 | 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-344 | 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-345 | 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-346 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ❓ |
-| GOCA-7-347 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-348 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-349 | Offset | Type | Name | Range | Meaning | ❓ |
-| GOCA-7-350 | 0 | CODE | X'85' | GCFLT | Order code | ❓ |
-| GOCA-7-351 | 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 | ❓ |
-| GOCA-7-352 | 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-353 | 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-354 | 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-355 | 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-356 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ❓ |
-| GOCA-7-357 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-358 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-359 | The Fillet at Given Position (GFLT) order generates a single curve that starts at a specified position. The Fillet at Current Position (GCFLT) order generates a single curve that starts at the current position. Additional points can be added to form a polycurve. | ❓ |
-| GOCA-7-360 | The points specified in the order are joined by imaginary straight lines and a curve is then fitted to the lines. The curve is tangential to the first line at its start point and to the last line at its end point. If there are intermediate lines, the curve is tangential to these lines at their center points. See “Fillet” for the definition of the curves drawn. | ❓ |
-| GOCA-7-361 | A Fillet at Given Position (GFLT) order with only an initial position is permitted. This serves only to move the current position. A Fillet at Current Position (GCFLT) order with only an initial position (the current position) is permitted and is treated as a No-Op. | ❓ |
-| GOCA-7-362 | When only two points are supplied, a straight line results. | ❓ |
-| GOCA-7-363 | The current values of the line attributes are taken into account when drawing the fillet, and the current position is set to the last point specified. | ❓ |
-| GOCA-7-364 | - **EC-0003**: The order has an incorrect length. | ❓ |
-| GOCA-7-365 | These orders construct a full circle or an ellipse with the center at a specified point or at the current position. | ❓ |
-| GOCA-7-366 | 0 | CODE | X'C7' | GFARC | Order code | ❓ |
-| GOCA-7-367 | 1 | UBIN | LENGTH | 6 | Length of following data | ❓ |
-| GOCA-7-368 | 2–3 | SBIN | XPOS | X'8000'–X'7FFF' | $X_g$ coordinate of the center of the circle or ellipse | ❓ |
-| GOCA-7-369 | 4–5 | SBIN | YPOS | X'8000'–X'7FFF' | $Y_g$ coordinate of the center of the circle or ellipse | ❓ |
-| GOCA-7-370 | 6 | UBIN | MH | X'00'–X'FF' | Integer portion of multiplier | ❓ |
-| GOCA-7-371 | 7 | UBIN | MFR | X'00'–X'FF' | Fractional portion of multiplier | ❓ |
-| GOCA-7-372 | Offset | Type | Name | Range | Meaning | ❓ |
-| GOCA-7-373 | 0 | CODE | X'87' | GCFARC | Order code | ❓ |
-| GOCA-7-374 | 1 | UBIN | LENGTH | 2 | Length of following data | ❓ |
-| GOCA-7-375 | 2 | UBIN | MH | X'00'–X'FF' | Integer portion of multiplier | ❓ |
-| GOCA-7-376 | 3 | UBIN | MFR | X'00'–X'FF' | Fractional portion of multiplier | ❓ |
-| GOCA-7-377 | The Full Arc at Given Position (GFARC) order constructs a circle or an ellipse with its center at the specified position. The Full Arc at Current Position (GCFARC) order constructs a circle or an ellipse with its center at the current position. A previous Set Arc Parameters drawing order determines the shape and orientation of the arc. | ❓ |
-| GOCA-7-378 | If no Set Arc Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters. The drawing direction is defined by the determinant of the transform, which is defined by the arc parameters. | ❓ |
-| GOCA-7-379 | Note: The current position is set to (XPOS, YPOS) (GFARC), or is unchanged (GCFARC). | ❓ |
-| GOCA-7-380 | The current values of the line attributes, except for line join, are taken into account when drawing the full arc. The line end attribute is used only for the internal ends of dotted or dashed lines. | ❓ |
-| GOCA-7-381 | If this drawing order is in an area definition, the arc is treated as a closed figure. The BOUNDARY parameter in the Begin Area order determines whether the boundary of the arc is drawn. | ❓ |
-| GOCA-7-382 | MH specifies the integer portion of a scale factor; MFR specifies the fractional portion of the scale factor. A combined value of X'0000' specifies a scale factor of 0. A decimal point is implied between MH and MFR. The fractional portion of the scale factor is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the scale factor of 1/4. | ❓ |
-| GOCA-7-383 | For a circle, the radius is $(MH \cdot R + MFR \cdot R)$ where $R$ is the radius of the circle defined by the current arc parameters. For an ellipse, the major and minor axes are $(MH \cdot MAJ + MFR \cdot MAJ)$ and $(MH \cdot MIN + MFR \cdot MIN)$, where $MAJ$ and $MIN$ are the major and minor axes of the ellipse defined by the current arc parameters. | ❓ |
-| GOCA-7-384 | - **EC-0003**: The order has an incorrect length. | ❓ |
-| GOCA-7-385 | - **EC-C601**: The drawing processor has detected an exceptional condition that can prevent the drawing of the arc within the normal limits of pel accuracy. | ❓ |
-| GOCA-7-386 | - Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines. | ❓ |
-| GOCA-7-387 | This order specifies the raster data for one scan line or row of an image. | ❓ |
-| GOCA-7-388 | 0 | CODE | X'92' | GIMD | Order code | ❓ |
-| GOCA-7-389 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ❓ |
-| GOCA-7-390 | 2–n | BITS | DATA | Any value | Image Data | ❓ |
-| GOCA-7-391 | The Image Data order contains the data for one scan line or row of an image. Each Image Data order can contain any number of bytes of data, from zero up to a maximum of 255 bytes. | ❓ |
-| GOCA-7-392 | The current position is not changed by the order. | ❓ |
-| GOCA-7-393 | If the LENGTH parameter is not equal to the rounded-up quotient of image WIDTH divided by 8, there are too few or too many data bytes, and exception EC-9201 exists. | ❓ |
-| GOCA-7-394 | See “Begin Image (GBIMG, GCBIMG) Orders” for details of the image construct. | ❓ |
-| GOCA-7-395 | - **EC-9200**: A Begin Image order was not executed before the Image Data order in this segment. | ❓ |
-| GOCA-7-396 | - **EC-9201**: There are insufficient, or too many, bytes of data in the Image Data order. | ❓ |
-| GOCA-7-397 | - **EC-9301**: The number of Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as specified by the HEIGHT parameter in the Begin Image order. | ❓ |
-| GOCA-7-398 | These orders define one or more connected straight lines, drawn from the given position or from the current position. | ❓ |
-| GOCA-7-399 | 0 | CODE | X'C1' | GLINE | Order code | ❓ |
-| GOCA-7-400 | 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 | ❓ |
-| GOCA-7-401 | 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first line start point | ❓ |
-| GOCA-7-402 | 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line start point | ❓ |
-| GOCA-7-403 | 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-404 | 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-405 | 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-406 | 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-407 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ❓ |
-| GOCA-7-408 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-409 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-410 | Offset | Type | Name | Range | Meaning | ❓ |
-| GOCA-7-411 | 0 | CODE | X'81' | GCLINE | Order code | ❓ |
-| GOCA-7-412 | 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 | ❓ |
-| GOCA-7-413 | 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-414 | 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ❓ |
-| GOCA-7-415 | 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-416 | 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ❓ |
-| GOCA-7-417 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ❓ |
-| GOCA-7-418 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-419 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ❓ |
-| GOCA-7-420 | The Line at Given Position (GLINE) order draws a line from the point specified by the first pair of coordinates to the point specified by the second pair of coordinates. If additional coordinate pairs are specified, the presentation process draws a line from the previous endpoint to the next coordinate pair. | ❓ |
-| GOCA-7-421 | The Line at Current Position (GCLINE) order draws a line from the current position to the point specified by the first coordinate pair. If additional coordinate pairs are specified, the presentation process draws a line from the previous endpoint to the next coordinate pair. Consecutive points in the orders are joined by straight lines. | ❓ |
-| GOCA-7-422 | The current values of the line attributes are taken into account when drawing the line. The current position is set to the last point specified. | ❓ |
-| GOCA-7-423 | A Line at Given Position (GLINE) order with only an initial position is permitted. This form of GLINE moves the current position. A Line at Current Position (GCLINE) order with only an initial position (the current position) is permitted and is treated as a No-Op. | ❓ |
-| GOCA-7-424 | - **EC-0003**: The order has an incorrect length. | ❓ |
-| GOCA-7-425 | This order defines a linear gradient to be used to fill an area. | ❓ |
-| GOCA-7-426 | 0 | CODE | X'FE' | Extended | Format order code | ❓ |
-| GOCA-7-427 | 1 | CODE | X'DC' | GLGD | Qualifier code | ❓ |
-| GOCA-7-428 | 2–3 | UBIN | LENGTH | 29–65,535 | Length of following data | ❓ |
-| GOCA-7-429 | 4–5 | RES | X'0000' | Reserved; only valid value | ❓ |
-| GOCA-7-430 | 6 | CODE | PATTSET | X'01'–X'FD' | Pattern set of the gradient | ❓ |
-| GOCA-7-431 | 7 | CODE | PATTSYM | X'01'–X'FF' | Pattern symbol of the gradient | ❓ |
-| GOCA-7-432 | 8–9 | SBIN | $X_S$ | X'8000'–X'7FFF' | $X_g$ coordinate of the start of the gradient line | ❓ |
-| GOCA-7-433 | 10–11 | SBIN | $Y_S$ | X'8000'–X'7FFF' | $Y_g$ coordinate of the start of the gradient line | ❓ |
-| GOCA-7-434 | 12–13 | SBIN | $X_E$ | X'8000'–X'7FFF' | $X_g$ coordinate of the end of the gradient line | ❓ |
-| GOCA-7-435 | 14–15 | SBIN | $Y_E$ | X'8000'–X'7FFF' | $Y_g$ coordinate of the end of the gradient line | ❓ |
-| GOCA-7-436 | 16–n | COLSPEC_S | | See Semantics | Color specification of the start color (13–15 bytes) | ❓ |
-| GOCA-7-437 | (n+1)–m | COLVALUE_E | | See Semantics | Color value of the end color (2–4 bytes) | ❓ |
-| GOCA-7-438 | m+1 | CODE | OUTSIDE_S | X'00'–X'03' | Value for how to fill areas outside the start side of the gradient:<br> - X'00' None<br> - X'01' Pad<br> - X'02' Repeat<br> - X'03' Reflect<br> - All other values: Reserved | ❓ |
-| GOCA-7-439 | m+2 | CODE | OUTSIDE_E | X'00'–X'03' | Value for how to fill areas outside the end side of the gradient:<br> - X'00' None<br> - X'01' Pad<br> - X'02' Repeat<br> - X'03' Reflect<br> - All other values: Reserved | ❓ |
-| GOCA-7-440 | _Optional:_ | ❓ |
-| GOCA-7-441 | m+3 | UBIN | OFFSET_1 | 0–10,000 | Offset along the gradient line of the first optional color stop (2 bytes) | ❓ |
-| GOCA-7-442 | COLVALUE_1 | | See Semantics | Color value of the color of the first color stop (2–4 bytes) | ❓ |
-| GOCA-7-443 | UBIN | OFFSET_2 | 0–10,000 | Offset along the gradient line of the second optional color stop (2 bytes) | ❓ |
-| GOCA-7-444 | COLVALUE_2 | | See Semantics | Color value of the color of the second color stop (2–4 bytes) | ❓ |
-| GOCA-7-445 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ❓ |
-| GOCA-7-446 | UBIN | OFFSET_F | 0–10,000 | Offset along the gradient line of the final optional color stop (2 bytes) | ❓ |
-| GOCA-7-447 | COLVALUE_F | | See Semantics | Color value of the color of the final color stop (2–4 bytes) | ❓ |
-| GOCA-7-448 | The Linear Gradient order defines a linear gradient to be used later to fill an area. See “Gradients” for details of gradients. | ❓ |
-| GOCA-7-449 | The gradient goes from the start point ($X_S, Y_S$) to the end point ($X_E, Y_E$), with the color gradually changing from the start color (COLSPEC_S) to the end color (COLVALUE_E). Areas outside the gradient are filled based on the OUTSIDE_S and OUTSIDE_E parameters. Any number of color stops can be defined along the gradient line from the start point to the end point, which define offsets along the line where a specific color is to be found. | ❓ |
-| GOCA-7-450 | If the start point and end point are the same point, usage of the gradient will result in no fill, no matter the value of the OUTSIDE_S and OUTSIDE_E parameters and no matter how many color stops have been specified. | ❓ |
-| GOCA-7-451 | The offset fields in the color stops have values that can range from 0 to 10,000. This value is then divided by 10,000 to produce a number from 0.0 to 1.0, with 0.0 meaning the start point, 1.0 the end point, 0.5 the halfway point, and so on. | ❓ |
-| GOCA-7-452 | The color stops must be in increasing order of offset; that is, each color stop offset value must be greater than or equal to the previous color stop offset value. If a color stop has an offset value that is smaller than the offset value of any previous color stop, or is otherwise invalid, exception condition EC-DC05 is raised, for which the standard action is to ignore the color stop. | ❓ |
-| GOCA-7-453 | The color specification of the start color, COLSPEC_S, has the same format as bytes 1–end of the Set Process Color (GSPCOL) drawing order; see “Set Process Color (GSPCOL) Order” for information on how to process the color specification. Included in the color specification is a length field, a color space field, and four fields indicating how many bits are in each color component, as well as a color value field. The color value field specifies the start color and is interpreted using the other fields in the color specification. For all other colors in this order—that is, for the end color and for all color stop colors—only the color value field is specified. These color values are all the same length as the color value contained in COLSPEC_S, and are interpreted in the same way. As an example, if the start color is an RGB color encoded in three bytes, one for each component (R, G, and B), then all other colors in this order will also be three-byte values, one byte for each component. | ❓ |
-| GOCA-7-454 | For problems with the colors specified in this order, exception conditions EC-0E02, EC-0E03, EC-0E04, and EC-0E05 are reported as described in the Set Process Color order. Note, however, that the standard action for the EC-0E02, EC-0E03, and EC-0E05 exceptions is different for this order than for the Set Process Color drawing order. For all three exception conditions, the standard action is to ignore this Linear Gradient order. | ❓ |
-| GOCA-7-455 | If the length field in COLSPEC_S (the first byte) is invalid, exception condition EC-DC06 is raised, for which the standard action is to ignore the Linear Gradient order. | ❓ |
-| GOCA-7-456 | - The Standard OCA color space (X'40') cannot be used. | ❓ |
-| GOCA-7-457 | - If the Highlight color space (X'06') is used, all color values must resolve to Indexed CMR Color Palette tags. | ❓ |
-| GOCA-7-458 | If the color specifications do not follow these rules, exception condition EC-DC07 is raised, for which the standard action is to ignore the Linear Gradient order. | ❓ |
-| GOCA-7-459 | 1 14 GOCA for AFP Reference | ❓ |
-| GOCA-7-460 | Linear interpolation is done. | ❓ |
-| GOCA-7-461 | Interpolation is done in the specified color space. If the specified color space is the Highlight color space: | ❓ |
-| GOCA-7-462 | - If all colors resolve to Color Palette tags of the same type, interpolation is done in the color space corresponding to that type; for example, if all colors resolve to Color Palette CMYK tags, interpolation is done in the CMYK color space. - A special case of the above is if all colors resolve to Color Palette Named Colorants tags. In this case, if all named colorants required for all the colors in the gradient are available in the device, interpolation is done in the intensity of the named colorants; otherwise, interpolation is done in the CIELAB color space, using the CIELABValue field of the Color Palette Named Colorants tags. - If all colors do not resolve to Color Palette tags of the same type, interpolation in done in the CIELAB color space, using the CIELABValue field of the Color Palette tags. | ❓ |
-| GOCA-7-463 | 1 16 GOCA for AFP Reference | ❓ |
+| GOCA-7-246 | This order enables data to be stored within a segment. | ✅ |
+| GOCA-7-247 | 0 | CODE | X'01' | GCOMT | Order code | ✅ |
+| GOCA-7-248 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ✅ |
+| GOCA-7-249 | 2–n | UNDF | DATA | Any value | Comment data | ✅ |
+| GOCA-7-250 | This order is treated as a No-Op. It has no effect on the GPS or on any current attribute or control. The data within the order can be any value and is ignored. The order can appear anywhere within a segment. | ✅ |
+| GOCA-7-251 | This order does not raise any exception conditions. | ✅ |
+| GOCA-7-252 | These orders generate a Cubic Bezier Curve that starts at a given position or at the current position. | ✅ |
+| GOCA-7-253 | 0 | CODE | X'E5' | GCBEZ | Order code | ✅ |
+| GOCA-7-254 | 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and be equal to 12m + 4, where m is the number of curves | ✅ |
+| GOCA-7-255 | 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve start point | ✅ |
+| GOCA-7-256 | 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve start point | ✅ |
+| GOCA-7-257 | 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, first control point | ✅ |
+| GOCA-7-258 | 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, first control point | ✅ |
+| GOCA-7-259 | 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, second control point | ✅ |
+| GOCA-7-260 | 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, second control point | ✅ |
+| GOCA-7-261 | 14–15 | SBIN | XPOS3 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve endpoint, second curve start point | ✅ |
+| GOCA-7-262 | 16–17 | SBIN | YPOS3 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve endpoint, second curve start point | ✅ |
+| GOCA-7-263 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ✅ |
+| GOCA-7-264 | SBIN | XPOSF-2 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, first control point | ✅ |
+| GOCA-7-265 | SBIN | YPOSF-2 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, first control point | ✅ |
+| GOCA-7-266 | SBIN | XPOSF-1 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, second control point | ✅ |
+| GOCA-7-267 | SBIN | YPOSF-1 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, second control point | ✅ |
+| GOCA-7-268 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final curve endpoint | ✅ |
+| GOCA-7-269 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve endpoint | ✅ |
+| GOCA-7-270 | Offset | Type | Name | Range | Meaning | ✅ |
+| GOCA-7-271 | 0 | CODE | X'A5' | GCCBEZ | Order code | ✅ |
+| GOCA-7-272 | 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and be equal to 12m, where m is the number of curves | ✅ |
+| GOCA-7-273 | 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, first control point | ✅ |
+| GOCA-7-274 | 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, first control point | ✅ |
+| GOCA-7-275 | 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve, second control point | ✅ |
+| GOCA-7-276 | 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve, second control point | ✅ |
+| GOCA-7-277 | 10–11 | SBIN | XPOS3 | X'8000'–X'7FFF' | $X_g$ coordinate of first curve endpoint, second curve start point | ✅ |
+| GOCA-7-278 | 12–13 | SBIN | YPOS3 | X'8000'–X'7FFF' | $Y_g$ coordinate of first curve endpoint, second curve start point | ✅ |
+| GOCA-7-279 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ✅ |
+| GOCA-7-280 | SBIN | XPOSF-2 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, first control point | ✅ |
+| GOCA-7-281 | SBIN | YPOSF-2 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, first control point | ✅ |
+| GOCA-7-282 | SBIN | XPOSF-1 | X'8000'–X'7FFF' | $X_g$ coordinate of final curve, second control point | ✅ |
+| GOCA-7-283 | SBIN | YPOSF-1 | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve, second control point | ✅ |
+| GOCA-7-284 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final curve endpoint | ✅ |
+| GOCA-7-285 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final curve endpoint | ✅ |
+| GOCA-7-286 | The Cubic Bezier Curve at Given Position (GCBEZ) order generates a curve that starts at $P_0$ and uses points $P_1, P_2$, and $P_3$. The Cubic Bezier Curve at Current Position (GCCBEZ) order generates a curve that starts at the current position and uses points $P_1, P_2$, and $P_3$. | ✅ |
+| GOCA-7-287 | Further points are used in groups of three to form a polycurve. Each group of points, together with the last point of the previous curve, generates a new curve, every curve being drawn independently for the set of four points. | ✅ |
+| GOCA-7-288 | See “Cubic Bezier Curve” for details of curve drawing. | ✅ |
+| GOCA-7-289 | The length of the order, LENGTH, must be consistent with the two-byte x-coordinates and two-byte y-coordinates and the requirement for sets of points, three at a time after the initial curve. | ✅ |
+| GOCA-7-290 | The current values of the line attributes are taken into account when drawing the curve. | ✅ |
+| GOCA-7-291 | A Cubic Bezier Curve at Given Position (GCBEZ) order with only one point is permitted. This serves only to move the current position, which is set to the specified point. A Cubic Bezier Curve at Current Position (GCCBEZ) order with only one point (the current position) is permitted and is treated as a No-Op. | ✅ |
+| GOCA-7-292 | - **EC-0003**: The order has an incorrect length. The number of points, including the current position for the GCCBEZ drawing order, must equal $3m + 1$, where $m$ is the number of curves. Each point requires a length of 4 bytes. | ✅ |
+| GOCA-7-293 | This order deletes a previously defined custom pattern or gradient, or deletes all previously defined custom patterns or gradients in a given pattern set. | ✅ |
+| GOCA-7-294 | 0 | CODE | X'DF' | GDPT | Order code | ✅ |
+| GOCA-7-295 | 1 | UBIN | LENGTH | 3, 4 | Length of following data | ✅ |
+| GOCA-7-296 | 2–3 | RES | X'0000' | Reserved; only valid value | ✅ |
+| GOCA-7-297 | 4 | CODE | PATTSET | X'01'–X'FD' | Pattern set of the pattern(s) to be deleted | ✅ |
+| GOCA-7-298 | 5 | CODE | PATTSYM | X'01'–X'FF' | (Optional) Pattern symbol of the pattern to be deleted | ✅ |
+| GOCA-7-299 | The Delete Pattern order, when it specifies a pattern symbol value, deletes one single custom pattern or gradient that was previously defined using the Begin Custom Pattern, Linear Gradient, or Radial Gradient orders. When the Delete Pattern order does not specify a pattern symbol value, it deletes all previously defined patterns in the specified pattern set. | ✅ |
+| GOCA-7-300 | The PATTSET value specifies the pattern set of the pattern(s) to be deleted. The PATTSYM value, if included, specifies the pattern symbol of the pattern to be deleted. | ✅ |
+| GOCA-7-301 | A request to delete all patterns in a given pattern set does not raise an exception condition if that pattern set has no patterns defined in it. However, a request to delete a specific pattern that has not been defined raises exception condition EC-DF00, for which the standard action is to ignore the Delete Pattern order. | ✅ |
+| GOCA-7-302 | Patterns in the default pattern set cannot be deleted. An attempt to do so will raise exception condition EC-DF01, for which the standard action is to ignore the Delete Pattern order. | ✅ |
+| GOCA-7-303 | - **EC-0003**: The order has an incorrect length. | ✅ |
+| GOCA-7-304 | - **EC-DF00**: The PATTSET and PATTSYM parameters are within the valid range, but no pattern exists with the pattern set and pattern symbol specified. | ✅ |
+| GOCA-7-305 | - Standard action: Ignore the Delete Pattern order. | ✅ |
+| GOCA-7-306 | - **EC-DF01**: The value specified for the PATTSET parameter is invalid. | ✅ |
+| GOCA-7-307 | - Standard action: Ignore the Delete Pattern order. | ✅ |
+| GOCA-7-308 | - **EC-DF02**: The value specified for the PATTSYM parameter is invalid; pattern symbol X'00' cannot be deleted. | ✅ |
+| GOCA-7-309 | - Standard action: Ignore the Delete Pattern order. | ✅ |
+| GOCA-7-310 | This order indicates the end of a set of primitives that define an area boundary. | ✅ |
+| GOCA-7-311 | 0 | CODE | X'60' | GEAR | Order code | ✅ |
+| GOCA-7-312 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ✅ |
+| GOCA-7-313 | 2–n | DATA | X'00'... | Reserved; only valid value | ✅ |
+| GOCA-7-314 | The End Area order identifies the end of an area. The bytes of data on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero. | ✅ |
+| GOCA-7-315 | - **EC-6000**: An End Area order has been executed without an unmatched Begin Area order having previously been executed. | ✅ |
+| GOCA-7-316 | This order indicates the end of a set of primitives that define a custom pattern. | ✅ |
+| GOCA-7-317 | 0 | CODE | X'5E' | GECP | Order code | ✅ |
+| GOCA-7-318 | 1 | RES | X'00' | Reserved; only valid value | ✅ |
+| GOCA-7-319 | The End Custom Pattern order identifies the end of the definition of a custom pattern. | ✅ |
+| GOCA-7-320 | - **EC-5E00**: An End Custom Pattern order has been executed without an unmatched Begin Custom Pattern order having previously been executed. | ✅ |
+| GOCA-7-321 | - Standard action: Ignore the End Custom Pattern order. | ✅ |
+| GOCA-7-322 | This order identifies the end of an image definition. | ✅ |
+| GOCA-7-323 | 0 | CODE | X'93' | GEIMG | Order code | ✅ |
+| GOCA-7-324 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ✅ |
+| GOCA-7-325 | 2–n | DATA | X'00'... | Reserved; only valid value | ✅ |
+| GOCA-7-326 | The End Image order identifies the end of an image. The bytes of data on this order must all be X'00'. LENGTH is the number of bytes of zeros, and can be zero. | ✅ |
+| GOCA-7-327 | - **EC-9300**: An End Image order is executed without an unmatched Begin Image order having been executed previously. | ✅ |
+| GOCA-7-328 | - **EC-9301**: The number of Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as given by the value of HEIGHT in the Begin Image order. | ✅ |
+| GOCA-7-329 | This order indicates the end of the prolog of a segment. | ✅ |
+| GOCA-7-330 | 0 | CODE | X'3E' | GEPROL | Order code | ✅ |
+| GOCA-7-331 | 1 | RES | X'00' | Reserved; only valid value | ✅ |
+| GOCA-7-332 | The End Prolog order indicates the end of the prolog section of a segment. See “Segment Prolog” for details of the processing of segment prologs. | ✅ |
+| GOCA-7-333 | - **EC-000C**: One of the following conditions has occurred within the prolog section of a segment: | ✅ |
+| GOCA-7-334 | - A supported order that is not valid within a prolog is specified. | ✅ |
+| GOCA-7-335 | - The end of the segment has been reached without an End Prolog order. | ✅ |
+| GOCA-7-336 | - **EC-3E00**: An End Prolog order has occurred outside the prolog section of a segment. | ✅ |
+| GOCA-7-337 | These orders draw a curved line tangential to a specified set of straight lines, at the given position or at the current position. | ✅ |
+| GOCA-7-338 | 0 | CODE | X'C5' | GFLT | Order code | ✅ |
+| GOCA-7-339 | 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 | ✅ |
+| GOCA-7-340 | 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first line start point | ✅ |
+| GOCA-7-341 | 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line start point | ✅ |
+| GOCA-7-342 | 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-343 | 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-344 | 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-345 | 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-346 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ✅ |
+| GOCA-7-347 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-348 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-349 | Offset | Type | Name | Range | Meaning | ✅ |
+| GOCA-7-350 | 0 | CODE | X'85' | GCFLT | Order code | ✅ |
+| GOCA-7-351 | 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 | ✅ |
+| GOCA-7-352 | 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-353 | 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-354 | 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-355 | 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-356 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ✅ |
+| GOCA-7-357 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-358 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-359 | The Fillet at Given Position (GFLT) order generates a single curve that starts at a specified position. The Fillet at Current Position (GCFLT) order generates a single curve that starts at the current position. Additional points can be added to form a polycurve. | ✅ |
+| GOCA-7-360 | The points specified in the order are joined by imaginary straight lines and a curve is then fitted to the lines. The curve is tangential to the first line at its start point and to the last line at its end point. If there are intermediate lines, the curve is tangential to these lines at their center points. See “Fillet” for the definition of the curves drawn. | ✅ |
+| GOCA-7-361 | A Fillet at Given Position (GFLT) order with only an initial position is permitted. This serves only to move the current position. A Fillet at Current Position (GCFLT) order with only an initial position (the current position) is permitted and is treated as a No-Op. | ✅ |
+| GOCA-7-362 | When only two points are supplied, a straight line results. | ✅ |
+| GOCA-7-363 | The current values of the line attributes are taken into account when drawing the fillet, and the current position is set to the last point specified. | ✅ |
+| GOCA-7-364 | - **EC-0003**: The order has an incorrect length. | ✅ |
+| GOCA-7-365 | These orders construct a full circle or an ellipse with the center at a specified point or at the current position. | ✅ |
+| GOCA-7-366 | 0 | CODE | X'C7' | GFARC | Order code | ✅ |
+| GOCA-7-367 | 1 | UBIN | LENGTH | 6 | Length of following data | ✅ |
+| GOCA-7-368 | 2–3 | SBIN | XPOS | X'8000'–X'7FFF' | $X_g$ coordinate of the center of the circle or ellipse | ✅ |
+| GOCA-7-369 | 4–5 | SBIN | YPOS | X'8000'–X'7FFF' | $Y_g$ coordinate of the center of the circle or ellipse | ✅ |
+| GOCA-7-370 | 6 | UBIN | MH | X'00'–X'FF' | Integer portion of multiplier | ✅ |
+| GOCA-7-371 | 7 | UBIN | MFR | X'00'–X'FF' | Fractional portion of multiplier | ✅ |
+| GOCA-7-372 | Offset | Type | Name | Range | Meaning | ✅ |
+| GOCA-7-373 | 0 | CODE | X'87' | GCFARC | Order code | ✅ |
+| GOCA-7-374 | 1 | UBIN | LENGTH | 2 | Length of following data | ✅ |
+| GOCA-7-375 | 2 | UBIN | MH | X'00'–X'FF' | Integer portion of multiplier | ✅ |
+| GOCA-7-376 | 3 | UBIN | MFR | X'00'–X'FF' | Fractional portion of multiplier | ✅ |
+| GOCA-7-377 | The Full Arc at Given Position (GFARC) order constructs a circle or an ellipse with its center at the specified position. The Full Arc at Current Position (GCFARC) order constructs a circle or an ellipse with its center at the current position. A previous Set Arc Parameters drawing order determines the shape and orientation of the arc. | ✅ |
+| GOCA-7-378 | If no Set Arc Parameters drawing order has been received, the presentation process draws an arc using the drawing default values of the arc parameters. The drawing direction is defined by the determinant of the transform, which is defined by the arc parameters. | ✅ |
+| GOCA-7-379 | Note: The current position is set to (XPOS, YPOS) (GFARC), or is unchanged (GCFARC). | ✅ |
+| GOCA-7-380 | The current values of the line attributes, except for line join, are taken into account when drawing the full arc. The line end attribute is used only for the internal ends of dotted or dashed lines. | ✅ |
+| GOCA-7-381 | If this drawing order is in an area definition, the arc is treated as a closed figure. The BOUNDARY parameter in the Begin Area order determines whether the boundary of the arc is drawn. | ✅ |
+| GOCA-7-382 | MH specifies the integer portion of a scale factor; MFR specifies the fractional portion of the scale factor. A combined value of X'0000' specifies a scale factor of 0. A decimal point is implied between MH and MFR. The fractional portion of the scale factor is calculated by dividing MFR by 256. For example, if MFR=X'40', its decimal value is 64, which, divided by 256 results in a fractional component for the scale factor of 1/4. | ✅ |
+| GOCA-7-383 | For a circle, the radius is $(MH \cdot R + MFR \cdot R)$ where $R$ is the radius of the circle defined by the current arc parameters. For an ellipse, the major and minor axes are $(MH \cdot MAJ + MFR \cdot MAJ)$ and $(MH \cdot MIN + MFR \cdot MIN)$, where $MAJ$ and $MIN$ are the major and minor axes of the ellipse defined by the current arc parameters. | ✅ |
+| GOCA-7-384 | - **EC-0003**: The order has an incorrect length. | ✅ |
+| GOCA-7-385 | - **EC-C601**: The drawing processor has detected an exceptional condition that can prevent the drawing of the arc within the normal limits of pel accuracy. | ✅ |
+| GOCA-7-386 | - Standard action: The arc is drawn as accurately as the implementation can define. This action might produce straight lines. | ✅ |
+| GOCA-7-387 | This order specifies the raster data for one scan line or row of an image. | ✅ |
+| GOCA-7-388 | 0 | CODE | X'92' | GIMD | Order code | ✅ |
+| GOCA-7-389 | 1 | UBIN | LENGTH | 0–255 | Length of following data | ✅ |
+| GOCA-7-390 | 2–n | BITS | DATA | Any value | Image Data | ✅ |
+| GOCA-7-391 | The Image Data order contains the data for one scan line or row of an image. Each Image Data order can contain any number of bytes of data, from zero up to a maximum of 255 bytes. | ✅ |
+| GOCA-7-392 | The current position is not changed by the order. | ✅ |
+| GOCA-7-393 | If the LENGTH parameter is not equal to the rounded-up quotient of image WIDTH divided by 8, there are too few or too many data bytes, and exception EC-9201 exists. | ✅ |
+| GOCA-7-394 | See “Begin Image (GBIMG, GCBIMG) Orders” for details of the image construct. | ✅ |
+| GOCA-7-395 | - **EC-9200**: A Begin Image order was not executed before the Image Data order in this segment. | ✅ |
+| GOCA-7-396 | - **EC-9201**: There are insufficient, or too many, bytes of data in the Image Data order. | ✅ |
+| GOCA-7-397 | - **EC-9301**: The number of Image Data orders between the Begin Image and End Image orders is not equal to the number of rows in the image, as specified by the HEIGHT parameter in the Begin Image order. | ✅ |
+| GOCA-7-398 | These orders define one or more connected straight lines, drawn from the given position or from the current position. | ✅ |
+| GOCA-7-399 | 0 | CODE | X'C1' | GLINE | Order code | ✅ |
+| GOCA-7-400 | 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 | ✅ |
+| GOCA-7-401 | 2–3 | SBIN | XPOS0 | X'8000'–X'7FFF' | $X_g$ coordinate of first line start point | ✅ |
+| GOCA-7-402 | 4–5 | SBIN | YPOS0 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line start point | ✅ |
+| GOCA-7-403 | 6–7 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-404 | 8–9 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-405 | 10–11 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-406 | 12–13 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-407 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ✅ |
+| GOCA-7-408 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-409 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-410 | Offset | Type | Name | Range | Meaning | ✅ |
+| GOCA-7-411 | 0 | CODE | X'81' | GCLINE | Order code | ✅ |
+| GOCA-7-412 | 1 | UBIN | LENGTH | 0–n | Length of following data; n must be less than 255 and a multiple of 4 | ✅ |
+| GOCA-7-413 | 2–3 | SBIN | XPOS1 | X'8000'–X'7FFF' | $X_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-414 | 4–5 | SBIN | YPOS1 | X'8000'–X'7FFF' | $Y_g$ coordinate of first line endpoint | ✅ |
+| GOCA-7-415 | 6–7 | SBIN | XPOS2 | X'8000'–X'7FFF' | $X_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-416 | 8–9 | SBIN | YPOS2 | X'8000'–X'7FFF' | $Y_g$ coordinate of second line endpoint | ✅ |
+| GOCA-7-417 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ✅ |
+| GOCA-7-418 | SBIN | XPOSF | X'8000'–X'7FFF' | $X_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-419 | SBIN | YPOSF | X'8000'–X'7FFF' | $Y_g$ coordinate of final line endpoint | ✅ |
+| GOCA-7-420 | The Line at Given Position (GLINE) order draws a line from the point specified by the first pair of coordinates to the point specified by the second pair of coordinates. If additional coordinate pairs are specified, the presentation process draws a line from the previous endpoint to the next coordinate pair. | ✅ |
+| GOCA-7-421 | The Line at Current Position (GCLINE) order draws a line from the current position to the point specified by the first coordinate pair. If additional coordinate pairs are specified, the presentation process draws a line from the previous endpoint to the next coordinate pair. Consecutive points in the orders are joined by straight lines. | ✅ |
+| GOCA-7-422 | The current values of the line attributes are taken into account when drawing the line. The current position is set to the last point specified. | ✅ |
+| GOCA-7-423 | A Line at Given Position (GLINE) order with only an initial position is permitted. This form of GLINE moves the current position. A Line at Current Position (GCLINE) order with only an initial position (the current position) is permitted and is treated as a No-Op. | ✅ |
+| GOCA-7-424 | - **EC-0003**: The order has an incorrect length. | ✅ |
+| GOCA-7-425 | This order defines a linear gradient to be used to fill an area. | ✅ |
+| GOCA-7-426 | 0 | CODE | X'FE' | Extended | Format order code | ✅ |
+| GOCA-7-427 | 1 | CODE | X'DC' | GLGD | Qualifier code | ✅ |
+| GOCA-7-428 | 2–3 | UBIN | LENGTH | 29–65,535 | Length of following data | ✅ |
+| GOCA-7-429 | 4–5 | RES | X'0000' | Reserved; only valid value | ✅ |
+| GOCA-7-430 | 6 | CODE | PATTSET | X'01'–X'FD' | Pattern set of the gradient | ✅ |
+| GOCA-7-431 | 7 | CODE | PATTSYM | X'01'–X'FF' | Pattern symbol of the gradient | ✅ |
+| GOCA-7-432 | 8–9 | SBIN | $X_S$ | X'8000'–X'7FFF' | $X_g$ coordinate of the start of the gradient line | ✅ |
+| GOCA-7-433 | 10–11 | SBIN | $Y_S$ | X'8000'–X'7FFF' | $Y_g$ coordinate of the start of the gradient line | ✅ |
+| GOCA-7-434 | 12–13 | SBIN | $X_E$ | X'8000'–X'7FFF' | $X_g$ coordinate of the end of the gradient line | ✅ |
+| GOCA-7-435 | 14–15 | SBIN | $Y_E$ | X'8000'–X'7FFF' | $Y_g$ coordinate of the end of the gradient line | ✅ |
+| GOCA-7-436 | 16–n | COLSPEC_S | | See Semantics | Color specification of the start color (13–15 bytes) | ✅ |
+| GOCA-7-437 | (n+1)–m | COLVALUE_E | | See Semantics | Color value of the end color (2–4 bytes) | ✅ |
+| GOCA-7-438 | m+1 | CODE | OUTSIDE_S | X'00'–X'03' | Value for how to fill areas outside the start side of the gradient:<br> - X'00' None<br> - X'01' Pad<br> - X'02' Repeat<br> - X'03' Reflect<br> - All other values: Reserved | ✅ |
+| GOCA-7-439 | m+2 | CODE | OUTSIDE_E | X'00'–X'03' | Value for how to fill areas outside the end side of the gradient:<br> - X'00' None<br> - X'01' Pad<br> - X'02' Repeat<br> - X'03' Reflect<br> - All other values: Reserved | ✅ |
+| GOCA-7-440 | _Optional:_ | ✅ |
+| GOCA-7-441 | m+3 | UBIN | OFFSET_1 | 0–10,000 | Offset along the gradient line of the first optional color stop (2 bytes) | ✅ |
+| GOCA-7-442 | COLVALUE_1 | | See Semantics | Color value of the color of the first color stop (2–4 bytes) | ✅ |
+| GOCA-7-443 | UBIN | OFFSET_2 | 0–10,000 | Offset along the gradient line of the second optional color stop (2 bytes) | ✅ |
+| GOCA-7-444 | COLVALUE_2 | | See Semantics | Color value of the color of the second color stop (2–4 bytes) | ✅ |
+| GOCA-7-445 | ⋮ | ⋮ | ⋮ | ⋮ | ⋮ | ✅ |
+| GOCA-7-446 | UBIN | OFFSET_F | 0–10,000 | Offset along the gradient line of the final optional color stop (2 bytes) | ✅ |
+| GOCA-7-447 | COLVALUE_F | | See Semantics | Color value of the color of the final color stop (2–4 bytes) | ✅ |
+| GOCA-7-448 | The Linear Gradient order defines a linear gradient to be used later to fill an area. See “Gradients” for details of gradients. | ✅ |
+| GOCA-7-449 | The gradient goes from the start point ($X_S, Y_S$) to the end point ($X_E, Y_E$), with the color gradually changing from the start color (COLSPEC_S) to the end color (COLVALUE_E). Areas outside the gradient are filled based on the OUTSIDE_S and OUTSIDE_E parameters. Any number of color stops can be defined along the gradient line from the start point to the end point, which define offsets along the line where a specific color is to be found. | ✅ |
+| GOCA-7-450 | If the start point and end point are the same point, usage of the gradient will result in no fill, no matter the value of the OUTSIDE_S and OUTSIDE_E parameters and no matter how many color stops have been specified. | ✅ |
+| GOCA-7-451 | The offset fields in the color stops have values that can range from 0 to 10,000. This value is then divided by 10,000 to produce a number from 0.0 to 1.0, with 0.0 meaning the start point, 1.0 the end point, 0.5 the halfway point, and so on. | ✅ |
+| GOCA-7-452 | The color stops must be in increasing order of offset; that is, each color stop offset value must be greater than or equal to the previous color stop offset value. If a color stop has an offset value that is smaller than the offset value of any previous color stop, or is otherwise invalid, exception condition EC-DC05 is raised, for which the standard action is to ignore the color stop. | ✅ |
+| GOCA-7-453 | The color specification of the start color, COLSPEC_S, has the same format as bytes 1–end of the Set Process Color (GSPCOL) drawing order; see “Set Process Color (GSPCOL) Order” for information on how to process the color specification. Included in the color specification is a length field, a color space field, and four fields indicating how many bits are in each color component, as well as a color value field. The color value field specifies the start color and is interpreted using the other fields in the color specification. For all other colors in this order—that is, for the end color and for all color stop colors—only the color value field is specified. These color values are all the same length as the color value contained in COLSPEC_S, and are interpreted in the same way. As an example, if the start color is an RGB color encoded in three bytes, one for each component (R, G, and B), then all other colors in this order will also be three-byte values, one byte for each component. | ✅ |
+| GOCA-7-454 | For problems with the colors specified in this order, exception conditions EC-0E02, EC-0E03, EC-0E04, and EC-0E05 are reported as described in the Set Process Color order. Note, however, that the standard action for the EC-0E02, EC-0E03, and EC-0E05 exceptions is different for this order than for the Set Process Color drawing order. For all three exception conditions, the standard action is to ignore this Linear Gradient order. | ✅ |
+| GOCA-7-455 | If the length field in COLSPEC_S (the first byte) is invalid, exception condition EC-DC06 is raised, for which the standard action is to ignore the Linear Gradient order. | ✅ |
+| GOCA-7-456 | - The Standard OCA color space (X'40') cannot be used. | ✅ |
+| GOCA-7-457 | - If the Highlight color space (X'06') is used, all color values must resolve to Indexed CMR Color Palette tags. | ✅ |
+| GOCA-7-458 | If the color specifications do not follow these rules, exception condition EC-DC07 is raised, for which the standard action is to ignore the Linear Gradient order. | ✅ |
+| GOCA-7-459 | 1 14 GOCA for AFP Reference | ✅ |
+| GOCA-7-460 | Linear interpolation is done. | ✅ |
+| GOCA-7-461 | Interpolation is done in the specified color space. If the specified color space is the Highlight color space: | ✅ |
+| GOCA-7-462 | - If all colors resolve to Color Palette tags of the same type, interpolation is done in the color space corresponding to that type; for example, if all colors resolve to Color Palette CMYK tags, interpolation is done in the CMYK color space. - A special case of the above is if all colors resolve to Color Palette Named Colorants tags. In this case, if all named colorants required for all the colors in the gradient are available in the device, interpolation is done in the intensity of the named colorants; otherwise, interpolation is done in the CIELAB color space, using the CIELABValue field of the Color Palette Named Colorants tags. - If all colors do not resolve to Color Palette tags of the same type, interpolation in done in the CIELAB color space, using the CIELABValue field of the Color Palette tags. | ✅ |
+| GOCA-7-463 | 1 16 GOCA for AFP Reference | ✅ |
 | GOCA-7-464 | These orders draw the current marker symbol at one or more positions starting from the given position or from the current position. | ✅ |
 | GOCA-7-465 | 0 | CODE | X'C2' | GMRK | Order code | ✅ |
 | GOCA-7-466 | 1 | UBIN | LENGTH | 4–n | Length of following data; n must be less than 255 and a multiple of 4 | ✅ |

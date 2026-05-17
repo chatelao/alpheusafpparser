@@ -512,13 +512,13 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
       flags = IDEStructureFlag.valueOf(sfData[offset + 2]);
-      colorSpace = AFPColorSpace.valueOf(sfData[offset + 2]);
+      colorSpace = AFPColorSpace.valueOf(sfData[offset + 3]);
       reserved4_6 = new byte[3];
-      System.arraycopy(sfData, offset + 3, reserved4_6, 0, reserved4_6.length);
-      nrOfBitsIDEsComponent1 = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
-      nrOfBitsIDEsComponent2 = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
-      nrOfBitsIDEsComponent3 = UtilBinaryDecoding.parseShort(sfData, offset + 8, 1);
-      nrOfBitsIDEsComponent4 = UtilBinaryDecoding.parseShort(sfData, offset + 9, 1);
+      System.arraycopy(sfData, offset + 4, reserved4_6, 0, reserved4_6.length);
+      nrOfBitsIDEsComponent1 = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
+      nrOfBitsIDEsComponent2 = UtilBinaryDecoding.parseShort(sfData, offset + 8, 1);
+      nrOfBitsIDEsComponent3 = UtilBinaryDecoding.parseShort(sfData, offset + 9, 1);
+      nrOfBitsIDEsComponent4 = UtilBinaryDecoding.parseShort(sfData, offset + 10, 1);
     }
 
     @Override
@@ -1151,7 +1151,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
       colorSpace = AFPColorSpace.valueOf(sfData[offset + 2]);
       reserved3_5 = new byte[3];
-      System.arraycopy(sfData, offset + 6, reserved3_5, 0, reserved3_5.length);
+      System.arraycopy(sfData, offset + 3, reserved3_5, 0, reserved3_5.length);
       nrOfBitsIDEsComponent1 = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
       nrOfBitsIDEsComponent2 = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
       nrOfBitsIDEsComponent3 = UtilBinaryDecoding.parseShort(sfData, offset + 8, 1);
