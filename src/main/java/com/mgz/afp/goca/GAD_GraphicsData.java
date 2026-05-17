@@ -57,7 +57,7 @@ public class GAD_GraphicsData extends StructuredField {
   @AFPField
   private List<GAD_DrawingOrder> drawingOrders;
 
-  private static final List<GAD_DrawingOrder> buildDrawingOrders(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+  public static final List<GAD_DrawingOrder> buildDrawingOrders(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
 
     int actualLength = length != -1 ? length : sfData.length - offset;
 
@@ -82,7 +82,7 @@ public class GAD_GraphicsData extends StructuredField {
         }
         break;
         case 0x04: {
-          drawingOrder = new GDGCH_SegmentCharacteristics();
+          drawingOrder = new GSGCH_SegmentCharacteristics();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
         }
         break;
@@ -231,6 +231,12 @@ public class GAD_GraphicsData extends StructuredField {
           dotLength = 2;
         }
         break;
+        case 0x70: {
+          drawingOrder = new GBSEG_BeginSegment();
+          int segDataLen = UtilBinaryDecoding.parseInt(sfData, offset + pos + 8, 2);
+          dotLength = 14 + segDataLen;
+        }
+        break;
         case 0x71: {
           drawingOrder = new GESEG_EndSegment();
           dotLength = 2;
@@ -277,7 +283,7 @@ public class GAD_GraphicsData extends StructuredField {
         }
         break;
         case 0x93: {
-          drawingOrder = new GEIMD_EndImage();
+          drawingOrder = new GEIMG_EndImage();
           dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 1, 1) + 2;
         }
         break;
@@ -429,242 +435,5 @@ public class GAD_GraphicsData extends StructuredField {
     this.drawingOrders = drawingOrders;
   }
 
-  @XmlRootElement
-  @XmlType(name = "gocaBeginSegment")
-  public static class BeginSegment implements IAFPDecodeableWriteable {
-    public static short COMMANDCODE_BeginSegment = 0x70;
-    @AFPField
-    short commandCode = COMMANDCODE_BeginSegment;
-    @AFPField
-    short lengtOfFollowingParameters = 0x0C;
-    @AFPField
-    String nameOfSegment;
-    @AFPField
-    byte flagAnyValue;
-    @AFPField
-    EnumSet<SegmentPropertiesFlag> segmentPropertiesFlags = EnumSet.noneOf(SegmentPropertiesFlag.class);
-    @AFPField
-    int segmentDataLength;
-    @AFPField
-    String nameOfPredecessorSuccessorSegment;
-    @AFPField
-    List<GAD_DrawingOrder> drawingOrders;
-    String text;
-
-    @XmlElement(name = "text")
-    public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
-    }
-
-    @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-
-      commandCode = UtilBinaryDecoding.parseShort(sfData, offset, 1);
-      lengtOfFollowingParameters = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-      nameOfSegment = new String(sfData, offset + 2, 4, config.getAfpCharSet());
-      flagAnyValue = sfData[offset + 6];
-      segmentPropertiesFlags = SegmentPropertiesFlag.valueOF(sfData[offset + 7]);
-      segmentDataLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
-      nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, config.getAfpCharSet());
-
-      if (UtilCharacterEncoding.isHumanReadable(nameOfSegment.getBytes(config.getAfpCharSet()), config.getAfpCharSet())) {
-        text = nameOfSegment.trim();
-      }
-
-      if (segmentDataLength > 0) {
-        drawingOrders = buildDrawingOrders(sfData, offset + 13, segmentDataLength, config);
-      } else {
-        drawingOrders = null;
-      }
-    }
-
-
-    @Override
-    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      byte[] drawingOrdersData = null;
-
-      os.write(commandCode);
-      os.write(lengtOfFollowingParameters);
-      os.write(nameOfSegment.getBytes(config.getAfpCharSet()));
-      os.write(flagAnyValue);
-      if (segmentPropertiesFlags != null) {
-        os.write(SegmentPropertiesFlag.toByte(segmentPropertiesFlags));
-      } else {
-        os.write(0x00);
-      }
-
-      if (drawingOrders != null && drawingOrders.size() > 0) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (GAD_DrawingOrder order : drawingOrders) {
-          if (order == null) {
-            continue;
-          }
-          order.writeAFP(baos, config);
-        }
-        drawingOrdersData = baos.toByteArray();
-        segmentDataLength = drawingOrdersData.length;
-      } else {
-        segmentDataLength = 0;
-      }
-
-      os.write(UtilBinaryDecoding.intToByteArray(segmentDataLength, 2));
-      os.write(nameOfPredecessorSuccessorSegment.getBytes(config.getAfpCharSet()));
-
-      if (drawingOrdersData != null) {
-        os.write(drawingOrdersData);
-      }
-    }
-
-    /**
-     * Sets the given {@link SegmentPropertiesFlag} and un-sets corresponding mutual exclusive
-     * flags.
-     *
-     * @param flag {@link SegmentPropertiesFlag} to set.
-     */
-    public void setSegmentPropertiesFlag(SegmentPropertiesFlag flag) {
-      if (segmentPropertiesFlags == null) {
-        segmentPropertiesFlags = EnumSet.noneOf(SegmentPropertiesFlag.class);
-      }
-      SegmentPropertiesFlag.setFlag(segmentPropertiesFlags, flag);
-    }
-
-    public short getCommandCode() {
-      return commandCode;
-    }
-
-    public void setCommandCode(short commandCode) {
-      this.commandCode = commandCode;
-    }
-
-    public short getLengtOfFollowingParameters() {
-      return lengtOfFollowingParameters;
-    }
-
-    public void setLengtOfFollowingParameters(short lengtOfFollowingParameters) {
-      this.lengtOfFollowingParameters = lengtOfFollowingParameters;
-    }
-
-    public String getNameOfSegment() {
-      return nameOfSegment;
-    }
-
-    public void setNameOfSegment(String nameOfSegment) {
-      this.nameOfSegment = nameOfSegment;
-    }
-
-    public byte getFlagAnyValue() {
-      return flagAnyValue;
-    }
-
-    public void setFlagAnyValue(byte flagAnyValue) {
-      this.flagAnyValue = flagAnyValue;
-    }
-
-    public EnumSet<SegmentPropertiesFlag> getSegmentPropertiesFlags() {
-      return segmentPropertiesFlags;
-    }
-
-    public void setSegmentPropertiesFlags(
-        EnumSet<SegmentPropertiesFlag> segmentPropertiesFlags) {
-      this.segmentPropertiesFlags = segmentPropertiesFlags;
-    }
-
-    public int getSegmentDataLength() {
-      return segmentDataLength;
-    }
-
-    public void setSegmentDataLength(int segmentDataLength) {
-      this.segmentDataLength = segmentDataLength;
-    }
-
-    public String getNameOfPredecessorSuccessorSegment() {
-      return nameOfPredecessorSuccessorSegment;
-    }
-
-    public void setNameOfPredecessorSuccessorSegment(
-        String nameOfPredecessorSuccessorSegment) {
-      this.nameOfPredecessorSuccessorSegment = nameOfPredecessorSuccessorSegment;
-    }
-
-    public List<GAD_DrawingOrder> getDrawingOrders() {
-      return drawingOrders;
-    }
-
-    public void setDrawingOrders(List<GAD_DrawingOrder> drawingOrders) {
-      this.drawingOrders = drawingOrders;
-    }
-
-    public enum SegmentPropertiesFlag implements IMutualExclusiveGroupedFlag {
-      Chained(0),
-      Unchained(0),
-      NoProlog(1),
-      Prolog(1),
-      NewSegment(2),
-      Reserved_01(2),
-      Reserved_10(2),
-      AppendToExisting(2);
-
-      int group;
-
-      SegmentPropertiesFlag(int group) {
-        this.group = group;
-      }
-
-      public static EnumSet<SegmentPropertiesFlag> valueOF(byte flagsByte) {
-        EnumSet<SegmentPropertiesFlag> result = EnumSet.noneOf(SegmentPropertiesFlag.class);
-        if ((flagsByte & 0x80) == 0) {
-          result.add(Chained);
-        } else {
-          result.add(Unchained);
-        }
-        if ((flagsByte & 0x10) == 0) {
-          result.add(NoProlog);
-        } else {
-          result.add(Prolog);
-        }
-        int crap = (flagsByte >> 1) & 0x03;
-        if (crap == 0x00) {
-          result.add(NewSegment);
-        } else if (crap == 0x01) {
-          result.add(Reserved_01);
-        } else if (crap == 0x02) {
-          result.add(Reserved_10);
-        } else if (crap == 0x03) {
-          result.add(AppendToExisting);
-        }
-        return result;
-      }
-
-      public static int toByte(EnumSet<SegmentPropertiesFlag> flags) {
-        int result = 0;
-
-        if (flags.contains(Unchained)) {
-          result |= 0x80;
-        }
-        if (flags.contains(Prolog)) {
-          result |= 0x10;
-        }
-        if (flags.contains(Reserved_01)) {
-          result += 2;
-        } else if (flags.contains(Reserved_10)) {
-          result += 4;
-        } else if (flags.contains(AppendToExisting)) {
-          result += 6;
-        }
-
-        return result;
-      }
-
-      public static void setFlag(EnumSet<SegmentPropertiesFlag> set, SegmentPropertiesFlag flag) {
-        new MutualExclusiveGroupedFlagHandler<SegmentPropertiesFlag>().setFlag(set, flag);
-      }
-
-      @Override
-      public int getGroup() {
-        return group;
-      }
-    }
-
-  }
 }
 

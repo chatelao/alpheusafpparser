@@ -167,4 +167,23 @@ public class GOCARoundTripTest {
 
         RoundTripTestUtils.assertRoundTrip(new GDD_GraphicsDataDescriptor(), data);
     }
+
+    @Test
+    public void testGADRoundTrip_BeginSegment() throws Exception {
+        // GAD: D3EEBB
+        // Drawing Orders:
+        // 1. GBSEG (0x70), BSI (14 bytes):
+        //    Len (0x0C), Name (4): "SEG1", Flag (0x00), Prop (0x00=Chained,NoProlog,New), DataLen (0x0006), Pred/Succ (4): "    "
+        //    -> 70 0C E2 C5 C7 F1 00 00 00 06 40 40 40 40
+        //    Nested Drawing Order (6 bytes):
+        //    GSCP (0x21), Len 4, X=100 (0x0064), Y=200 (0x00C8) -> 21 04 00 64 00 C8
+        // Total GAD Payload Len: 14 + 6 = 20. SFLen = introducer (8) + payload (20) = 28 (0x001C)
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x1C, (byte) 0xD3, (byte) 0xEE, (byte) 0xBB, 0x00, 0x00, 0x00,
+            0x70, 0x0C, (byte) 0xE2, (byte) 0xC5, (byte) 0xC7, (byte) 0xF1, 0x00, 0x00, 0x00, 0x06, 0x40, 0x40, 0x40, 0x40,
+            0x21, 0x04, 0x00, 0x64, 0x00, (byte) 0xC8
+        };
+        RoundTripTestUtils.assertRoundTrip(new GAD_GraphicsData(), data);
+    }
 }
