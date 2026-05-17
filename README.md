@@ -1,11 +1,12 @@
 # AFP Parser [![Build](https://github.com/chatelao/alpheusafpparser/actions/workflows/ci.yml/badge.svg)](https://github.com/chatelao/alpheusafpparser/actions)
 
+The AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) 
+document/print stream format.
+
+
 > [!IMPORTANT]
 > This Java library is an independent open-source development. It is **not** provided, endorsed, sponsored, or maintained by International Business Machines Corporation (IBM).
 > * _"AFP" and "Advanced Function Presentation" are trademarks or architectural standards originally developed by IBM. This project is implemented independently of IBM._
-
-The AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) 
-document/print stream format.
 
 ![Architecture Diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/chatelao/alpheusafpparser/master/TOP_LEVEL.puml)
 
