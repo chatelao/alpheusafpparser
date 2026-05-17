@@ -3,7 +3,7 @@
 The AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) 
 document/print stream format.
 
-> [!IMPORTANT]
+> [!IMPORTANT NOTE]
 > This Java library is an independent open-source development. _It is **not** provided, endorsed, sponsored, or maintained by International Business Machines Corporation (IBM). The "AFP" and "Advanced Function Presentation" are trademarks and architectural standards originally developed by IBM._
 
 ![Architecture Diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/chatelao/alpheusafpparser/master/TOP_LEVEL.puml)
