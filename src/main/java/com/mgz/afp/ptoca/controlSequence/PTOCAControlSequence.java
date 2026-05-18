@@ -182,7 +182,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-   @XmlRootElement public static class ControlSequenceIntroducer {
+  @XmlRootElement
+  public static class ControlSequenceIntroducer {
 
     short csPrefix; // 0x2B
     short csClass; // 0xD3
@@ -289,9 +290,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-   @XmlRootElement
-   @XmlType(name = "ptocaUndefined")
-   public static final class Undefined extends PTOCAControlSequence {
+  @XmlRootElement
+  @XmlType(name = "ptocaUndefined")
+  public static final class Undefined extends PTOCAControlSequence {
     @AFPField
     byte[] undefinedData;
     String text;
@@ -329,7 +330,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
    * PTOCA, Page 51. <br>The Absolute Move Baseline control sequence moves the baseline coordinate
    * relative to the I-axis.
    */
-   @XmlRootElement public static final class AMB_AbsoluteMoveBaseline extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class AMB_AbsoluteMoveBaseline extends PTOCAControlSequence {
     short displacement;
 
     @Override
@@ -355,7 +357,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
    * PTOCA, Page 53. <br>The Absolute Move Inline control sequence moves the inline coordinate
    * position relative to the B-axis.
    */
-   @XmlRootElement public static final class AMI_AbsoluteMoveInline extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class AMI_AbsoluteMoveInline extends PTOCAControlSequence {
     short displacement;
 
     @Override
@@ -380,7 +383,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   /**
    * PTOCA, Page 55. <br> The Begin Line control sequence begins a new line.
    */
-   @XmlRootElement public static final class BLN_BeginLine extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class BLN_BeginLine extends PTOCAControlSequence {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException { /* NOP */}
 
@@ -393,7 +397,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
    * PTOCA, Page 56. <br>The Begin Suppression control sequence marks the beginning of a string of
    * presentation text that may be suppressed from the visible output.
    */
-   @XmlRootElement public static final class BSU_BeginSuppression extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class BSU_BeginSuppression extends PTOCAControlSequence {
     short suppressionID;
 
     @Override
@@ -418,7 +423,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   /**
    * PTOCA, Page 58. <br>The Draw B-axis Rule control sequence draws a rule in the B-direction.
    */
-   @XmlRootElement public static final class DBR_DrawBaxisRule extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class DBR_DrawBaxisRule extends PTOCAControlSequence {
     short length;
     Short width;
     Byte widthFraction;
@@ -474,8 +480,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 60. <br> The Draw I-axis Rule control sequence draws a rule in the I-direction.*/
-   @XmlRootElement public static final class DIR_DrawIaxisRule extends PTOCAControlSequence {
+  /** PTOCA, Page 60. <br> The Draw I-axis Rule control sequence draws a rule in the I-direction.*/
+  @XmlRootElement
+  public static final class DIR_DrawIaxisRule extends PTOCAControlSequence {
     short length;
     Short width;
     Byte widthFraction;
@@ -531,8 +538,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 62. <br> */
-   @XmlRootElement public static final class ESU_EndSuppression extends PTOCAControlSequence {
+  /** PTOCA, Page 62. <br> */
+  @XmlRootElement
+  public static final class ESU_EndSuppression extends PTOCAControlSequence {
     short suppressionID;
 
     @Override
@@ -554,10 +562,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 63. <br> */
-   @XmlRootElement
-   @XmlType(name = "ptocaNOP_NoOperation")
-   public static final class NOP_NoOperation extends PTOCAControlSequence {
+  /** PTOCA, Page 63. <br> */
+  @XmlRootElement
+  @XmlType(name = "ptocaNOP_NoOperation")
+  public static final class NOP_NoOperation extends PTOCAControlSequence {
     byte[] ignoredData;
     String text;
 
@@ -597,8 +605,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 64. <br> */
-   @XmlRootElement public static final class OVS_Overstrike extends PTOCAControlSequence {
+  /** PTOCA, Page 64. <br> */
+  @XmlRootElement
+  public static final class OVS_Overstrike extends PTOCAControlSequence {
     PTOCA_BypassFlag bypassFlag;
     int overStrikeCharacterCodePoint;
     String text;
@@ -644,8 +653,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 69. <br> */
-   @XmlRootElement public static final class RMB_RelativeMoveBaseline extends PTOCAControlSequence {
+  /** PTOCA, Page 69. <br> */
+  @XmlRootElement
+  public static final class RMB_RelativeMoveBaseline extends PTOCAControlSequence {
     short increment;
 
     @Override
@@ -667,8 +677,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 71. <br> */
-   @XmlRootElement public static final class RMI_RelativeMoveInline extends PTOCAControlSequence {
+  /** PTOCA, Page 71. <br> */
+  @XmlRootElement
+  public static final class RMI_RelativeMoveInline extends PTOCAControlSequence {
     short increment;
 
     @Override
@@ -690,8 +701,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 73. <br> */
-   @XmlRootElement public static final class RPS_RepeatString extends PTOCAControlSequence {
+  /** PTOCA, Page 73. <br> */
+  @XmlRootElement
+  public static final class RPS_RepeatString extends PTOCAControlSequence {
     short repeatLength;
     byte[] repeatData;
     String text;
@@ -754,8 +766,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
   }
 
-  /* PTOCA, Page 75. <br> The Set Baseline Increment control sequence specifies the increment to be added to the current baseline coordinate when a Begin Line control sequence is executed. This is a modal control sequence. */
-   @XmlRootElement public static final class SBI_SetBaselineIncrement extends PTOCAControlSequence {
+  /** PTOCA, Page 75. <br> The Set Baseline Increment control sequence specifies the increment to be added to the current baseline coordinate when a Begin Line control sequence is executed. This is a modal control sequence. */
+  @XmlRootElement
+  public static final class SBI_SetBaselineIncrement extends PTOCAControlSequence {
     short increment;
 
     @Override
@@ -777,8 +790,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 77. <br> The Set Coded Font Local control sequence activates a coded font and specifies the character attributes to be used. This is a modal control sequence. */
-   @XmlRootElement public static final class SCFL_SetCodedFontLocal extends PTOCAControlSequence {
+  /** PTOCA, Page 77. <br> The Set Coded Font Local control sequence activates a coded font and specifies the character attributes to be used. This is a modal control sequence. */
+  @XmlRootElement
+  public static final class SCFL_SetCodedFontLocal extends PTOCAControlSequence {
     short codedFontLocalID;
 
     @Override
@@ -804,8 +818,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 79. <br> The Set Extended Text Color control sequence specifies a color value and defines the color space and encoding for that value. The specified color value is applied to foreground areas of the text presentation space. */
-   @XmlRootElement public static final class SEC_SetExtendedTextColor extends PTOCAControlSequence {
+  /** PTOCA, Page 79. <br> The Set Extended Text Color control sequence specifies a color value and defines the color space and encoding for that value. The specified color value is applied to foreground areas of the text presentation space. */
+  @XmlRootElement
+  public static final class SEC_SetExtendedTextColor extends PTOCAControlSequence {
     byte reserved4 = 0x00;
     AFPColorSpace colorSpace;
     byte[] reserved6_9 = new byte[4];
@@ -906,8 +921,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 84. <br> The Set Intercharacter Adjustment control sequence specifies additional increment or decrement between graphic characters. This is a modal control sequence. */
-   @XmlRootElement public static final class SIA_SetIntercharacterAdjustment extends PTOCAControlSequence {
+  /** PTOCA, Page 84. <br> The Set Intercharacter Adjustment control sequence specifies additional increment or decrement between graphic characters. This is a modal control sequence. */
+  @XmlRootElement
+  public static final class SIA_SetIntercharacterAdjustment extends PTOCAControlSequence {
     short adjustment;
     SIA_Direction direction;
 
@@ -967,8 +983,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 87. <br> The Set Inline Margin control sequence specifies the position of an inline margin. This is a modal control sequence. */
-   @XmlRootElement public static final class SIM_SetInlineMargin extends PTOCAControlSequence {
+  /** PTOCA, Page 87. <br> The Set Inline Margin control sequence specifies the position of an inline margin. This is a modal control sequence. */
+  @XmlRootElement
+  public static final class SIM_SetInlineMargin extends PTOCAControlSequence {
     short displacement;
 
     @Override
@@ -990,8 +1007,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 89. <br> The Set Text Color control sequence specifies a color attribute for the foreground areas of the text presentation space. */
-   @XmlRootElement public static final class STC_SetTextColor extends PTOCAControlSequence {
+  /** PTOCA, Page 89. <br> The Set Text Color control sequence specifies a color attribute for the foreground areas of the text presentation space. */
+  @XmlRootElement
+  public static final class STC_SetTextColor extends PTOCAControlSequence {
     AFPColorValue foregroundColor;
     STC_Precision precision;
 
@@ -1052,8 +1070,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 92. <br> The Set Text Orientation control sequence establishes the I-direction and B-direction for the subsequent text. This is a modal control sequence. */
-   @XmlRootElement public static final class STO_SetTextOrientation extends PTOCAControlSequence {
+  /** PTOCA, Page 92. <br> The Set Text Orientation control sequence establishes the I-direction and B-direction for the subsequent text. This is a modal control sequence. */
+  @XmlRootElement
+  public static final class STO_SetTextOrientation extends PTOCAControlSequence {
     AFPOrientation xOrientation;
     AFPOrientation yOrientation;
 
@@ -1086,8 +1105,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 95. <br> The Set Variable Space Character Increment control sequence specifies the increment for a variable space character.*/
-   @XmlRootElement public static final class SVI_SetVariableSpaceCharacterIncrement extends PTOCAControlSequence {
+  /** PTOCA, Page 95. <br> The Set Variable Space Character Increment control sequence specifies the increment for a variable space character.*/
+  @XmlRootElement
+  public static final class SVI_SetVariableSpaceCharacterIncrement extends PTOCAControlSequence {
     short increment;
 
     @Override
@@ -1109,8 +1129,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 97. <br> The Temporary Baseline Move control sequence changes the position of the baseline without changing the established baseline. */
-   @XmlRootElement public static final class TBM_TemporaryBaselineMove extends PTOCAControlSequence {
+  /** PTOCA, Page 97. <br> The Temporary Baseline Move control sequence changes the position of the baseline without changing the established baseline. */
+  @XmlRootElement
+  public static final class TBM_TemporaryBaselineMove extends PTOCAControlSequence {
     TBM_Direction direction;
     TBM_Precision precision;
     Short temporaryBaselineIncrement;
@@ -1206,8 +1227,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 103. <br> The Transparent Data control sequence contains a sequence of code points that are presented without a scan for embedded control sequences. */
-   @XmlRootElement public static final class TRN_TransparentData extends PTOCAControlSequence {
+  /** PTOCA, Page 103. <br> The Transparent Data control sequence contains a sequence of code points that are presented without a scan for embedded control sequences. */
+  @XmlRootElement
+  public static final class TRN_TransparentData extends PTOCAControlSequence {
     String transparentData;
     byte[] transparentDataEBCDIC;
 
@@ -1287,7 +1309,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
    * PTOCA, Page 123. <br>The Unicode Complex Text control sequence marks the start of a string of
    * code points, all of which are to be processed as graphic characters.
    */
-   @XmlRootElement public static final class UCT_UnicodeComplexText extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class UCT_UnicodeComplexText extends PTOCAControlSequence {
     byte uctVers = 0x01;
     int ctLength;
     byte ctFlags;
@@ -1393,7 +1416,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
    * PTOCA, Page 101. <br>The Encrypted Data control sequence contains a sequence of bytes that are
    * encrypted and must be decrypted into text strings for standard text processing.
    */
-   @XmlRootElement public static final class ENC_EncryptedData extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class ENC_EncryptedData extends PTOCAControlSequence {
     @AFPField
     int reserved4_7 = 0x00;
     @AFPField
@@ -1440,7 +1464,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
    * PTOCA, Page 78. <br>The Set Key Information control sequence provides encryption key
    * information to be used with Encrypted Data (ENC) controls.
    */
-   @XmlRootElement public static final class SKI_SetKeyInformation extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class SKI_SetKeyInformation extends PTOCAControlSequence {
     @AFPField
     int reserved4_7 = 0x00;
     @AFPField
@@ -1516,7 +1541,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
    * as a series of code points to be used if the decryption of the encrypted bytes in the ENC
    * control fails.
    */
-   @XmlRootElement public static final class SEA_SetEncryptedAlternate extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class SEA_SetEncryptedAlternate extends PTOCAControlSequence {
     @AFPField
     int reserved4_7 = 0x00;
     @AFPField
@@ -1597,8 +1623,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-  /* PTOCA, Page 105. <br> The Underscore control sequence identifies text fields that are to be underscored. */
-   @XmlRootElement public static final class USC_Underscore extends PTOCAControlSequence {
+  /** PTOCA, Page 105. <br> The Underscore control sequence identifies text fields that are to be underscored. */
+  @XmlRootElement
+  public static final class USC_Underscore extends PTOCAControlSequence {
     PTOCA_BypassFlag bypassFlag;
 
     @Override
@@ -1623,7 +1650,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   /**
    * Represents a run of free-standing graphic characters in a PTX field.
    */
-   @XmlRootElement public static final class GraphicCharacters extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class GraphicCharacters extends PTOCAControlSequence {
     @AFPField
     byte[] data;
     String text;
@@ -1662,7 +1690,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-   @XmlRootElement public static final class GLC_GlyphLayoutControl extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class GLC_GlyphLayoutControl extends PTOCAControlSequence {
     short iAdvance;
     short oidLgth;
     short ffnLgth;
@@ -1750,7 +1779,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-   @XmlRootElement public static final class GIR_GlyphIdRun extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class GIR_GlyphIdRun extends PTOCAControlSequence {
     int[] glyphIds;
 
     @Override
@@ -1785,7 +1815,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-   @XmlRootElement public static final class GAR_GlyphAdvanceRun extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class GAR_GlyphAdvanceRun extends PTOCAControlSequence {
     short[] advances;
 
     @Override
@@ -1820,7 +1851,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
   }
 
-   @XmlRootElement public static final class GOR_GlyphOffsetRun extends PTOCAControlSequence {
+  @XmlRootElement
+  public static final class GOR_GlyphOffsetRun extends PTOCAControlSequence {
     short[] offsets;
 
     @Override
