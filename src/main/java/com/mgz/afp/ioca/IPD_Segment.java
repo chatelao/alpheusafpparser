@@ -16,7 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.ioca;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.annotations.AFPField;
@@ -60,7 +62,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   public void setLengthOfFollowingData(int lengthOfFollowingData) {
     this.lengthOfFollowingData = lengthOfFollowingData;
   }
-
 
   public enum IPD_SegmentType {
     BeginSegment(0x70),
@@ -402,7 +403,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       yImageSize = UtilBinaryDecoding.parseShort(sfData, offset + 9, 2);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(segmentType.toBytes());
@@ -431,7 +431,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       }
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(segmentType.toBytes());
@@ -458,7 +457,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
       numberOfBitsInEachIDE = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -510,7 +508,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
         bandSizes.add(UtilBinaryDecoding.parseShort(sfData, offset + 3 + i, 1));
       }
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -692,7 +689,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(reserved3);
       os.write(algorithmSpecificationData);
     }
-
 
     public enum AlgorithmType {
       Recording(0x00),
@@ -1150,7 +1146,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       System.arraycopy(sfData, offset + 10, color, 0, color.length);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       lengthOfFollowingData = 8 + color.length;
@@ -1175,7 +1170,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2); // Two bytes length of following data.
       tileResourceLocalID = UtilBinaryDecoding.parseLong(sfData, offset + 4, 4);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -1213,7 +1207,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
         }
       }
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -1263,7 +1256,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(segmentType.toBytes());
@@ -1277,7 +1269,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -1453,7 +1444,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       System.arraycopy(sfData, offset + 4, imageData, 0, imageData.length);
     }
 
-
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       lengthOfFollowingData = imageData.length;
@@ -1482,7 +1472,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
         bandData = null;
       }
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

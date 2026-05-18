@@ -190,11 +190,31 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
 - ⏳ Resolve Checkstyle violations (~4,400 warnings):
-    - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`) (~950 warnings).
-    - ✅ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`) (~770 warnings).
+    - ⏳ Fix Javadoc-related violations (~1,000 warnings):
+        - ⏳ `MissingJavadocMethod` (~530).
+        - ⏳ `MissingJavadocType` (~380).
+        - ⏳ `JavadocParagraph` (~64).
+        - ⏳ `SummaryJavadoc` (~18).
+    - 🚧 Fix Naming and Abbreviation violations (~1,270 warnings):
+        - ⏳ `AbbreviationAsWordInName` (~715).
+        - ⏳ `TypeName` (~318).
+        - ⏳ `GoogleNonConstantFieldName` (~124).
+        - ⏳ `ParameterName` (~107).
+        - ⏳ `LocalVariableName` (~8).
     - ✅ Fix `AvoidStarImport` violations.
-    - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`) (~1,600 warnings).
-    - ⏳ Address remaining miscellaneous violations (e.g., ✅ `FileTabCharacter` is resolved, `CommentsIndentation`).
+    - 🚧 Fix Formatting and Layout violations (~2,000 warnings):
+        - ⏳ `LineLength` (~700).
+        - ⏳ `CustomImportOrder` (~528).
+        - 🚧 `EmptyLineSeparator` (~331):
+            - ✅ Package declaration separators.
+            - ✅ Top violating files (CMR, GAD, PTOCA, IOCA, Triplet).
+            - ⏳ Remaining files (~330).
+        - ⏳ `Indentation` (~182).
+        - ⏳ `LeftCurly` / `RightCurly` (~180).
+    - ⏳ Address remaining miscellaneous violations (~130 warnings):
+        - ✅ `FileTabCharacter` resolved.
+        - ⏳ `CommentsIndentation` (~28).
+        - ⏳ `AnnotationLocation` (~32).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ✅ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ✅ Implement a SECURITY.md policy.
