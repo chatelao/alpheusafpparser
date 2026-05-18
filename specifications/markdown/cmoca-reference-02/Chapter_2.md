@@ -13,11 +13,11 @@ The device that presents the data could be a printer, a display, or other system
 
 A Color Management Resource (CMR) is an architected resource that is used to carry the color management information required to render a print file, document, page, or data object. Each CMR carries a single type of color management resource. There are five types of CMRs: [CMOCA-2-008]
 
-1.  Halftone [CMOCA-2-009]
-2.  Tone Transfer Curve [CMOCA-2-010]
-3.  Color Conversion [CMOCA-2-011]
-4.  Link Color Conversion [CMOCA-2-012]
-5.  Indexed [CMOCA-2-013]
+1.  **Halftone** [CMOCA-2-009]
+2.  **Tone Transfer Curve** [CMOCA-2-010]
+3.  **Color Conversion** [CMOCA-2-011]
+4.  **Link Color Conversion** [CMOCA-2-012]
+5.  **Indexed** [CMOCA-2-013]
 
 **Note:** Not all CMR types are applicable for a particular kind of presentation device; for instance, halftones are not applicable for a display. [CMOCA-2-014]
 
@@ -31,8 +31,8 @@ Development of CMOCA has the following goals: [CMOCA-2-018]
 
 *   To allow a means to represent color management information in any environment [CMOCA-2-019]
 *   To use a format that is flexible enough to allow it to exist intact in interactive, presentation, and interchange environments that are defined in the following data stream architectures: [CMOCA-2-020]
-    *   Intelligent Printer Data Stream (IPDS) and [CMOCA-2-021]
-    *   Mixed Object Document Content Architecture (MO:DCA) [CMOCA-2-022]
+    *   **Intelligent Printer Data Stream (IPDS)** and [CMOCA-2-021]
+    *   **Mixed Object Document Content Architecture (MO:DCA)** [CMOCA-2-022]
 *   To describe the CMR in terms of architected tags [CMOCA-2-023]
 *   To use industry-standard constructs when architecting the CMRs [CMOCA-2-024]
 *   To allow the CMR to be fully described in device-independent and process-independent terms [CMOCA-2-025]
