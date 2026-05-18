@@ -215,8 +215,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ `LeftCurly` / `RightCurly` (~180).
     - ⏳ Address remaining miscellaneous violations (~130 warnings):
         - ✅ `FileTabCharacter` resolved.
-        - ⏳ `CommentsIndentation` (~28).
-        - ⏳ `AnnotationLocation` (~32).
+        - ✅ `CommentsIndentation`.
+        - ✅ `AnnotationLocation`.
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ✅ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ✅ Implement a SECURITY.md policy.
