@@ -188,6 +188,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - ⏳ Resolve Checkstyle violations (~4,400 warnings):
     - ⏳ Fix Javadoc-related violations (`MissingJavadocMethod`, `MissingJavadocType`, `JavadocParagraph`, `SummaryJavadoc`) (~950 warnings).
     - ✅ Fix Naming and Abbreviation violations (`AbbreviationAsWordInName`, `TypeName`, `GoogleNonConstantFieldName`, `ParameterName`) (~770 warnings).
+    - ✅ Fix `AvoidStarImport` violations.
     - ⏳ Fix Formatting and Layout violations (`LineLength`, `CustomImportOrder`, `EmptyLineSeparator`, `Indentation`, `LeftCurly`, `RightCurly`) (~1,600 warnings).
     - ⏳ Address remaining miscellaneous violations (e.g., ✅ `FileTabCharacter` is resolved, `CommentsIndentation`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.

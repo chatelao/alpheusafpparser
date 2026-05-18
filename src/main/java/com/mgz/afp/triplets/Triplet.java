@@ -17,13 +17,15 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 package com.mgz.afp.triplets;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.base.annotations.AFPType;
-import com.mgz.afp.enums.*;
+import com.mgz.afp.enums.AFPColorSpace;
+import com.mgz.afp.enums.AFPObjectType;
+import com.mgz.afp.enums.AFPOrientation;
+import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.enums.IMutualExclusiveGroupedFlag;
+import com.mgz.afp.enums.MutualExclusiveGroupedFlagHandler;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -32,12 +34,14 @@ import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import javax.xml.bind.annotation.XmlType;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @AFPType
 public abstract sealed class Triplet implements IAFPDecodeableWriteable {
