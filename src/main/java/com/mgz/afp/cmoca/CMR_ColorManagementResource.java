@@ -30,6 +30,7 @@ import com.mgz.util.UtilBinaryDecoding;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * Color Management Resource (CMR).
@@ -80,6 +81,8 @@ public class CMR_ColorManagementResource extends StructuredField {
   @AFPField
   private byte[] cmrData;
 
+  private List<CMRTag> tags;
+
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
@@ -112,8 +115,10 @@ public class CMR_ColorManagementResource extends StructuredField {
     if (actualLength > 164) {
       this.cmrData = new byte[actualLength - 164];
       System.arraycopy(sfData, offset + 164, this.cmrData, 0, this.cmrData.length);
+      this.tags = CMRTag.parseTags(this.cmrData);
     } else {
       this.cmrData = null;
+      this.tags = null;
     }
   }
 
@@ -260,4 +265,6 @@ public class CMR_ColorManagementResource extends StructuredField {
   public byte[] getCmrData() { return cmrData; }
 
   public void setCmrData(byte[] cmrData) { this.cmrData = cmrData; }
+  public List<CMRTag> getTags() { return tags; }
+  public void setTags(List<CMRTag> tags) { this.tags = tags; }
 }
