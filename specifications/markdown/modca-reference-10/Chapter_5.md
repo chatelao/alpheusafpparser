@@ -5494,100 +5494,99 @@ ObjCdat Contains the object data.
 
 
 ### Presentation Environment Control (PEC)
-The Presentation Environment Control structured field specifies parameters that affect the rendering of
-presentation data, the appearance that is to be assumed by the presentation device, and the setup name to be
-used.
+
+The Presentation Environment Control structured field specifies parameters that affect the rendering of presentation data, the appearance that is to be assumed by the presentation device, and the setup name to be used.
+
 #### PEC (X'D3A7A8') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A7A8' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1458]
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A7A8' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1458]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1459]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1460]|
-| 0–1 | Reserved; | should | | be zero | M | X'06' [MODCA-5-1461]|
-| 2–n Triplets See PEC Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-1462]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1460]|
+| 0–1 | | **Reserved** | | Should be zero | M | X'06' [MODCA-5-1461]|
+| 2–n | | **Triplets** | | See PEC Semantics for triplet applicability | O | X'10' [MODCA-5-1462]|
+
 #### PEC Semantics
-Triplets Appear as follows: [MODCA-5-1463]
+
+**Triplets** Appear in the Presentation Environment Control structured field as follows: [MODCA-5-1463]
+
 | Triplet | Type | Usage [MODCA-5-1464]|
-| --- | --- | --- [MODCA-5-1465]|
-| X'5A' | | Object Offset Optional. If this PEC specifies the Rendering Intent X'95' triplet and/ or the Device Appearance X'97' triplet and is specified in the DEG of a form map, this triplet may occur once with ObjTpe=X'A8' to specify that documents are the objects to be counted. Specifies how many documents in the print file precede the document to be assigned this rendering intent and/or to be processed with this device appearance. The offset is measured from the beginning of the print file, so that the first document has offset 0, the second document has offset 1, and the nth document has offset (n-1). This triplet is ignored in all other cases. See “Object Offset Triplet X'5A'”. [MODCA-5-1466]|
-| X'95' | | Rendering Intent Optional. May occur once. Specifies the rendering intent that is to be used when presenting the document component that this PEC applies to. See “Rendering Intent Triplet X'95'”. [MODCA-5-1467]|
-| X'97' | | Device Appearance Optional. May occur once. Specifies the appearance that is to be assumed by the presentation device. See “Device Appearance Triplet X'97'”. [MODCA-5-1468]|
-| X'9E' | | Setup Name Optional. May occur once. Specifies the setup name to be used by the presentation device. See “Setup Name Triplet X'9E' ”. Notes: 1. The PEC can be used to specify a rendering intent with the Rendering Intent (X'95') triplet as follows: • in the Document Environment Group (DEG) of a form map [MODCA-5-1469]|
-### Presentation Environment Control (PEC)
+| :--- | :--- | :--- [MODCA-5-1465]|
+| X'5A' | | **Object Offset** Optional. If this PEC specifies the Rendering Intent X'95' triplet and/or the Device Appearance X'97' triplet and is specified in the DEG of a form map, this triplet may occur once with ObjTpe=X'A8' to specify that documents are the objects to be counted. Specifies how many documents in the print file precede the document to be assigned this rendering intent and/or to be processed with this device appearance. The offset is measured from the beginning of the print file, so that the first document has offset 0, the second document has offset 1, and the nth document has offset (n-1). This triplet is ignored in all other cases. See “Object Offset Triplet X'5A'”. [MODCA-5-1466]|
+| X'95' | | **Rendering Intent** Optional. May occur once. Specifies the rendering intent that is to be used when presenting the document component that this PEC applies to. See “Rendering Intent Triplet X'95'”. [MODCA-5-1467]|
+| X'97' | | **Device Appearance** Optional. May occur once. Specifies the appearance that is to be assumed by the presentation device. See “Device Appearance Triplet X'97'”. [MODCA-5-1468]|
+| X'9E' | | **Setup Name** Optional. May occur once. Specifies the setup name to be used by the presentation device. See “Setup Name Triplet X'9E'”. [MODCA-5-1469]|
 
+**Notes:**
 
-* in a medium map, in which case it is considered to be a medium level control for [MODCA-5-1470]
-purposes of n-up partition/sheet eject processing
-* in the Active Environment Group (AEG) of a page or overlay [MODCA-5-1471]
-* in the Object Environment Group (OEG) of a PTOCA, GOCA, or IOCA object, or in the [MODCA-5-1472]
-OEG of an Object Container
-For more information, see the appropriate environment group structure definitions in
-Chapter 4, “MO:DCA Objects”,.
-2. The PEC can be used to specify a device appearance with the Device Appearance (X'97') [MODCA-5-1473]
-triplet as follows:
-* in the Document Environment Group (DEG) of a form map [MODCA-5-1474]
-* in a medium map, in which case it is considered to be a medium level control for [MODCA-5-1475]
-purposes of n-up partition/sheet eject processing
-For more information, see the appropriate environment group and medium map structure
-definitions in Chapter 4, “MO:DCA Objects”,.
-3. The PEC can be used to specify a setup name with the Setup Name (X'9E') triplet as [MODCA-5-1476]
-follows:
-* in the Document Environment Group (DEG) of a form map [MODCA-5-1477]
-For more information, see the appropriate environment group structure definitions in
-Chapter 4, “MO:DCA Objects”,.
-**Note:**  A setup name is not the same as a set-up ID (see “Medium Modification Control
-(MMC)”). A presentation device can support setup names, or set-up
-IDs, or both (the two functions do not necessarily interact). [MODCA-5-1478]
-### Presentation Environment Control (PEC)
+1.  The PEC can be used to specify a rendering intent with the **Rendering Intent (X'95')** triplet as follows:
+    *   In the Document Environment Group (DEG) of a form map
+    *   In a medium map, in which case it is considered to be a medium level control for purposes of n-up partition/sheet eject processing [MODCA-5-1470]
+    *   In the Active Environment Group (AEG) of a page or overlay [MODCA-5-1471]
+    *   In the Object Environment Group (OEG) of a PTOCA, GOCA, or IOCA object, or in the OEG of an Object Container [MODCA-5-1472]
+    For more information, see the appropriate environment group structure definitions in Chapter 4, “MO:DCA Objects”.
+
+2.  The PEC can be used to specify a device appearance with the **Device Appearance (X'97')** triplet as follows:
+    *   In the Document Environment Group (DEG) of a form map [MODCA-5-1473] [MODCA-5-1474]
+    *   In a medium map, in which case it is considered to be a medium level control for purposes of n-up partition/sheet eject processing [MODCA-5-1475]
+    For more information, see the appropriate environment group and medium map structure definitions in Chapter 4, “MO:DCA Objects”.
+
+3.  The PEC can be used to specify a setup name with the **Setup Name (X'9E')** triplet as follows:
+    *   In the Document Environment Group (DEG) of a form map [MODCA-5-1476] [MODCA-5-1477]
+    For more information, see the appropriate environment group structure definitions in Chapter 4, “MO:DCA Objects”.
+
+**Note:** A setup name is not the same as a set-up ID (see “Medium Modification Control (MMC)”). A presentation device can support setup names, or set-up IDs, or both (the two functions do not necessarily interact). [MODCA-5-1478]
 
 
 ### Presentation Fidelity Control (PFC)
-The Presentation Fidelity Control structured field specifies the user fidelity requirements for data presented on
-physical media and for operations performed on physical media. The scope of the Presentation Fidelity Control
-structured field is the document or print file controlled by the form map that contains this structured field. [MODCA-5-1479]
+
+The Presentation Fidelity Control structured field specifies the user fidelity requirements for data presented on physical media and for operations performed on physical media. The scope of the Presentation Fidelity Control structured field is the document or print file controlled by the form map that contains this structured field. [MODCA-5-1479]
+
 #### PFC (X'D3B288') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3B288' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1480]
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3B288' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1480]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1481]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1482]|
-| 0 | Reserved; | should | | be zero | M | X'06' [MODCA-5-1483]|
-| 1 | BITS | PFCFlgs | | Flags | M | X'06' Bit 0 B'0', B'1' B'0' Reset fidelity controls to defaults and apply PFC controls B'1' Do not reset fidelity controls to defaults before applying PFC controls Bits 1–7 B'0000000' Reserved; should be zero [MODCA-5-1484]|
-| 2–3 | Reserved; | should | | be zero | M | X'06' [MODCA-5-1485]|
-| 4–n Triplets See PFC Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-1486]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1482]|
+| 0 | | **Reserved** | | Should be zero | M | X'06' [MODCA-5-1483]|
+| 1 | BITS | **PFCFlgs** | | Flags | M | X'06' [MODCA-5-1484]|
+| 2–3 | | **Reserved** | | Should be zero | M | X'06' [MODCA-5-1485]|
+| 4–n | | **Triplets** | | See PFC Semantics for triplet applicability | O | X'10' [MODCA-5-1486]|
+
 #### PFC Semantics
-Triplets are used on the Presentation Fidelity Control structured field to define specific presentation fidelity
-requirements that are to be applied by the presentation process as data is presented on physical media. While
-triplets may be conceptually related, each triplet is processed independently of any other triplet. Therefore, it is
-the responsibility of the generator of the Presentation Fidelity Control structured field to ensure cross-triplet
-consistency. If a particular fidelity triplet is not specified on this structured field, or if this structured field is not
-specified, presentation process defaults are used to control the presentation fidelity.
-PFCFlgs The following flags are defined:
-Bit Description
-0 Fidelity Control Activation [MODCA-5-1487]
-B'0' Reset all fidelity controls to their presentation process defaults, then apply
-fidelity controls specified by this PFC structured field
-B'1' Leave all fidelity controls at their current setting, and additionally apply fidelity
-controls specified by this PFC structured field. If there is a conflict between an
-existing fidelity control and a new fidelity control, the last-specified fidelity
-control takes precedence.
-1–7 Reserved; all bits should be B'0'. [MODCA-5-1488]
-### Presentation Fidelity Control (PFC)
 
+Triplets are used on the Presentation Fidelity Control structured field to define specific presentation fidelity requirements that are to be applied by the presentation process as data is presented on physical media. While triplets may be conceptually related, each triplet is processed independently of any other triplet. Therefore, it is the responsibility of the generator of the Presentation Fidelity Control structured field to ensure cross-triplet consistency. If a particular fidelity triplet is not specified on this structured field, or if this structured field is not specified, presentation process defaults are used to control the presentation fidelity.
 
-Triplets Appear in the Presentation Fidelity Control structured field as follows: [MODCA-5-1489]
+**PFCFlgs** The following flags are defined:
+
+*   **Bit 0: Fidelity Control Activation** [MODCA-5-1487]
+    *   B'0' Reset all fidelity controls to their presentation process defaults, then apply fidelity controls specified by this PFC structured field
+    *   B'1' Leave all fidelity controls at their current setting, and additionally apply fidelity controls specified by this PFC structured field. If there is a conflict between an existing fidelity control and a new fidelity control, the last-specified fidelity control takes precedence.
+*   **Bits 1–7: Reserved**; all bits should be B'0'. [MODCA-5-1488]
+
+**Triplets** Appear in the Presentation Fidelity Control structured field as follows: [MODCA-5-1489]
+
 | Triplet | Type | Usage [MODCA-5-1490]|
-| --- | --- | --- [MODCA-5-1491]|
-| X'74' | | T oner Saver Optional. May occur once. Used to activate and deactivate a toner saver mode for printing. See “T oner Saver Triplet [MODCA-5-1492]|
-| X'74'” | |. [MODCA-5-1493]|
-| X'75' | | Color Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a color exception is detected while processing the data stream. See “Color Fidelity Triplet X'75'”. [MODCA-5-1494]|
-| X'78' | | Font Fidelity May occur once. Specifies the actions to be taken by the presentation process when a font resolution exception is detected while processing the data stream. See “Font Fidelity Triplet X'78'”. [MODCA-5-1495]|
-| X'86' | | T ext Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a text exception is detected while processing the data stream. See “T ext Fidelity Triplet X'86'”. [MODCA-5-1496]|
-| X'87' | | Media Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a request for a specific media or a specific media bin cannot be satisfied. See “Media Fidelity Triplet X'87'”. [MODCA-5-1497]|
-| X'88' | | Finishing Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a finishing exception is detected while processing the data stream. See “Finishing Fidelity Triplet X'88'”. [MODCA-5-1498]|
-| X'96' | | CMR T ag Fidelity Optional. May occur once. Specifies the actions to be taken by the presentation process when a CMR tag exception is detected while processing the data stream. See “CMR T ag Fidelity Triplet X'96'”. [MODCA-5-1499]|
+| :--- | :--- | :--- [MODCA-5-1491]|
+| X'74' | | **Toner Saver** Optional. May occur once. Used to activate and deactivate a toner saver mode for printing. See “Toner Saver Triplet X'74'”. [MODCA-5-1492] [MODCA-5-1493]|
+| X'75' | | **Color Fidelity** Optional. May occur once. Specifies the actions to be taken by the presentation process when a color exception is detected while processing the data stream. See “Color Fidelity Triplet X'75'”. [MODCA-5-1494]|
+| X'78' | | **Font Fidelity** May occur once. Specifies the actions to be taken by the presentation process when a font resolution exception is detected while processing the data stream. See “Font Fidelity Triplet X'78'”. [MODCA-5-1495]|
+| X'86' | | **Text Fidelity** Optional. May occur once. Specifies the actions to be taken by the presentation process when a text exception is detected while processing the data stream. See “Text Fidelity Triplet X'86'”. [MODCA-5-1496]|
+| X'87' | | **Media Fidelity** Optional. May occur once. Specifies the actions to be taken by the presentation process when a request for a specific media or a specific media bin cannot be satisfied. See “Media Fidelity Triplet X'87'”. [MODCA-5-1497]|
+| X'88' | | **Finishing Fidelity** Optional. May occur once. Specifies the actions to be taken by the presentation process when a finishing exception is detected while processing the data stream. See “Finishing Fidelity Triplet X'88'”. [MODCA-5-1498]|
+| X'96' | | **CMR Tag Fidelity** Optional. May occur once. Specifies the actions to be taken by the presentation process when a CMR tag exception is detected while processing the data stream. See “CMR Tag Fidelity Triplet X'96'”. [MODCA-5-1499]|
 **Application Note:**  Some presentation platforms allow presentation fidelity parameters to be specified in the
 print request. For example, in the MVS™ environment, invalid character exceptions and positioning
 exceptions may be blocked with a data check parameter in the JCL. In the OS/400 ® environment, a print
@@ -5602,63 +5601,63 @@ specification in the print request, the presentation process may terminate proce
 
 
 ### Page Descriptor (PGD)
+
 The Page Descriptor structured field specifies the size and attributes of a page or overlay presentation space. [MODCA-5-1501]
+
 #### PGD (X'D3A6AF') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A6AF' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1502]
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A6AF' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1502]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1503]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1504]|
-| 0 CODE XpgBase X'00'–X'01' Page unit base for the X axis: | | | | | | X'00' 10 inches X'01' 10 centimeters M X'07' [MODCA-5-1505]|
-| 1 CODE YpgBase X'00'–X'01' Page unit base for the Y axis: | | | | | | X'00' 10 inches X'01' 10 centimeters M X'07' [MODCA-5-1506]|
-| 2–3 UBIN XpgUnits 1–32,767 Page units per unit base for the X | | | | | | axis M X'06' [MODCA-5-1507]|
-| 4–5 UBIN YpgUnits 1–32,767 Page units per unit base for the Y | | | | | | axis M X'06' [MODCA-5-1508]|
-| 6–8 | UBIN | XpgSize | | 1–32,767 Page extent for the X axis | M | X'06' [MODCA-5-1509]|
-| 9–11 | UBIN | YpgSize | | 1–32,767 Page extent for the Y axis | M | X'06' [MODCA-5-1510]|
-| 12–14 | Reserved; | should | | be binary zero | M | X'06' [MODCA-5-1511]|
-| 15–n Triplets See PGD Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-1512]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1504]|
+| 0 | CODE | **XpgBase** | X'00'–X'01' | Page unit base for the X axis | M | X'07' [MODCA-5-1505]|
+| 1 | CODE | **YpgBase** | X'00'–X'01' | Page unit base for the Y axis | M | X'07' [MODCA-5-1506]|
+| 2–3 | UBIN | **XpgUnits** | 1–32,767 | Page units per unit base for the X axis | M | X'06' [MODCA-5-1507]|
+| 4–5 | UBIN | **YpgUnits** | 1–32,767 | Page units per unit base for the Y axis | M | X'06' [MODCA-5-1508]|
+| 6–8 | UBIN | **XpgSize** | 1–32,767 | Page extent for the X axis | M | X'06' [MODCA-5-1509]|
+| 9–11 | UBIN | **YpgSize** | 1–32,767 | Page extent for the Y axis | M | X'06' [MODCA-5-1510]|
+| 12–14 | | **Reserved** | | Should be binary zero | M | X'06' [MODCA-5-1511]|
+| 15–n | | **Triplets** | | See PGD Semantics for triplet applicability | O | X'10' [MODCA-5-1512]|
+
 #### PGD Semantics
-XpgBase Specifies the unit base for the X axis of the page or overlay coordinate system.
-YpgBase Specifies the unit base for the Y axis of the page or overlay coordinate system.
-**Note:**  A X'01' exception condition exists if the XpgBase and YpgBase values are not identical.
-XpgUnits Specifies the number of units per unit base for the X axis of the page or overlay coordinate
-system.
-YpgUnits Specifies the number of units per unit base for the Y axis of the page or overlay coordinate
-system.
-XpgSize Specifies the extent of the X axis of the page or overlay coordinate system. This is also known
-as the page or overlay's X-axis size.
-YpgSize Specifies the extent of the Y axis of the page or overlay coordinate system. This is also known
-as the page or overlay's Y-axis size.
-**Note:**  If the sum of the page or overlay origin offset and the page or overlay extent exceeds
-the size of the including presentation space in either the X or Y direction, all of the page
-or overlay will not fit on the including presentation space. The including presentation
-space in this case is the medium presentation space. If an attempt is made to actually [MODCA-5-1513]
-### Page Descriptor (PGD)
 
+**XpgBase** Specifies the unit base for the X axis of the page or overlay coordinate system:
+*   X'00' 10 inches
+*   X'01' 10 centimeters
+**Note:** A X'01' exception condition exists if the XpgBase and YpgBase values are not identical.
 
-present data in the portion of the page or overlay that falls outside the including
-presentation space, that portion of the data is not presented, and a X'01' exception
-condition exists.
-Application Notes:
-1. Some AFP print servers require that the measurement units in the PGD match the [MODCA-5-1514]
-measurement units in the Presentation T ext Descriptor (PTD) when the latter is included in
-the AEG for a page. It is therefore strongly recommended that whenever the PTD is
-included in the AEG, the same measurement units are specified in both the PTD and
-PGD.
-2. The IS/1 interchange set definition limits the page size to 22.75 inches in the X and Y [MODCA-5-1515]
-directions; the IS/3 interchange set definition does not. T o specify a larger page size, 240
-units per inch should be specified in the PGD for the page measurement units. Using a
-range of 1 to 32,767, this allows a maximum page size in the X and Y directions of 136.5
-inches, is supported by all IPDS printers, and keeps the complete page presentation
-space within the range of 2-byte addressing parameters in the IPDS architecture.
-**Application Note:**
-Triplets Appear in the Page Descriptor structured field as follows: [MODCA-5-1516]
+**YpgBase** Specifies the unit base for the Y axis of the page or overlay coordinate system:
+*   X'00' 10 inches
+*   X'01' 10 centimeters
+
+**XpgUnits** Specifies the number of units per unit base for the X axis of the page or overlay coordinate system.
+
+**YpgUnits** Specifies the number of units per unit base for the Y axis of the page or overlay coordinate system.
+
+**XpgSize** Specifies the extent of the X axis of the page or overlay coordinate system. This is also known as the page or overlay's X-axis size.
+
+**YpgSize** Specifies the extent of the Y axis of the page or overlay coordinate system. This is also known as the page or overlay's Y-axis size.
+
+**Note:** If the sum of the page or overlay origin offset and the page or overlay extent exceeds the size of the including presentation space in either the X or Y direction, all of the page or overlay will not fit on the including presentation space. The including presentation space in this case is the medium presentation space. If an attempt is made to actually present data in the portion of the page or overlay that falls outside the including presentation space, that portion of the data is not presented, and a X'01' exception condition exists. [MODCA-5-1513]
+
+**Application Notes:**
+
+1.  Some AFP print servers require that the measurement units in the PGD match the measurement units in the **Presentation Text Descriptor (PTD)** when the latter is included in the AEG for a page. It is therefore strongly recommended that whenever the PTD is included in the AEG, the same measurement units are specified in both the PTD and PGD. [MODCA-5-1514]
+2.  The IS/1 interchange set definition limits the page size to 22.75 inches in the X and Y directions; the IS/3 interchange set definition does not. To specify a larger page size, 240 units per inch should be specified in the PGD for the page measurement units. Using a range of 1 to 32,767, this allows a maximum page size in the X and Y directions of 136.5 inches, is supported by all IPDS printers, and keeps the complete page presentation space within the range of 2-byte addressing parameters in the IPDS architecture. [MODCA-5-1515]
+
+**Triplets** Appear in the Page Descriptor structured field as follows: [MODCA-5-1516]
+
 | Triplet | Type | Usage [MODCA-5-1517]|
-| --- | --- | --- [MODCA-5-1518]|
-| X'4E' | | Color Specification Optional. May occur once. Specifies a color for the page or overlay presentation space. The color specification defines a color space, the syntax for specifying color values in the color space, and the actual color value. When this triplet is specified on a page or overlay presentation space, the complete presentation space becomes foreground data that is colored with the specified color before any object data is added to the presentation space. If the default mixing rules are used, the page or overlay presentation space, when it becomes foreground data, overpaints (covers) any data that is underneath. See “Color Specification Triplet X'4E'”. [MODCA-5-1519]|
-| X'70' | | Presentation Space Reset Mixing Optional. May occur once. If this triplet specifies a reset to the color of medium (BgMxFlag=B'1'), the reset takes place at the point in the data stream where the triplet occurs. This triplet may not appear in the Page Descriptor structured field with a Presentation Space Mixing Rules triplet. See “Presentation Space Reset Mixing Triplet X'70'”. [MODCA-5-1520]|
-| X'71' | | Presentation Space Mixing Rules Optional. May occur once. This triplet may not appear in the Page Descriptor structured field with a Presentation Space Reset Mixing triplet. See “Presentation Space Mixing Rules Triplet X'71'”. [MODCA-5-1521]|
+| :--- | :--- | :--- [MODCA-5-1518]|
+| X'4E' | | **Color Specification** Optional. May occur once. Specifies a color for the page or overlay presentation space. The color specification defines a color space, the syntax for specifying color values in the color space, and the actual color value. When this triplet is specified on a page or overlay presentation space, the complete presentation space becomes foreground data that is colored with the specified color before any object data is added to the presentation space. If the default mixing rules are used, the page or overlay presentation space, when it becomes foreground data, overpaints (covers) any data that is underneath. See “Color Specification Triplet X'4E'”. [MODCA-5-1519]|
+| X'70' | | **Presentation Space Reset Mixing** Optional. May occur once. If this triplet specifies a reset to the color of medium (BgMxFlag=B'1'), the reset takes place at the point in the data stream where the triplet occurs. This triplet may not appear in the Page Descriptor structured field with a Presentation Space Mixing Rules triplet. See “Presentation Space Reset Mixing Triplet X'70'”. [MODCA-5-1520]|
+| X'71' | | **Presentation Space Mixing Rules** Optional. May occur once. This triplet may not appear in the Page Descriptor structured field with a Presentation Space Reset Mixing triplet. See “Presentation Space Mixing Rules Triplet X'71'”. [MODCA-5-1521]|
 **Implementation Note:**  The Presentation Space Mixing
 Rules (X'71') triplet is currently not used in AFP
 environments.
@@ -5684,44 +5683,40 @@ Presentation Space Mixing Rules triplet. [MODCA-5-1527]
 ### Page Descriptor (PGD)
 
 
-Page Position (PGP) Format 2
-The Page Position structured field specifies the position and orientation of a page's presentation space on the
-medium presentation space for the physical medium. The PGP may be located in a medium map or in the
-document environment group of a form map. When present in the active medium map, it overrides a PGP in
-the document environment group of the form map. If N-up partitioning is specified by the Medium Modification
-Control structured field in the active medium map, the medium presentation spaces on the front and back sides
-of a sheet are divided into N partitions; and the Page Position structured field specifies the partition into which
-each page is mapped and with respect to which the page presentation space is positioned and oriented. The
-N-up page-to-partition mapping can be specified in two mutually exclusive ways:
-* Default N-up page placement. Pages are processed in the order in which they appear in the data stream and [MODCA-5-1528]
-are placed into consecutively-numbered partitions, that is, the first page is placed into partition 1, the second
-page is placed into partition 2, the third page is placed into partition 3, and the 4th page is placed into
-partition 4. Partition numbering for various media is shown in Figure 61 to Figure 72.
-* Explicit N-up page placement. Pages are processed in the order in which they appear in the data stream and [MODCA-5-1529]
-are placed into the partition that is explicitly specified by the repeating group for the page. Multiple pages
-may be placed into the same partition. If N-up simplex is specified, the Page Position structured field must
-contain N repeating groups, one for each page on the sheet-side. If N-up duplex is specified, the Page
-Position structured field must contain 2N repeating groups, one for each page on the sheet. [MODCA-5-1530]
-#### PGP (X'D3B1AF') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3B1AF' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1531]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1532]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1533]|
-| 0 CODE Constant X'01' Reserved constant; must be | | | | | | X'01' M X'06' One or more repeating groups in the following format: [MODCA-5-1534]|
-| 0 | UBIN | RGLength | | X'0A'–X'0C' Length of each repeating group | M | X'06' [MODCA-5-1535]|
-| 1–3 SBIN X mOset -32,768–32,767 X m coordinate of page | | | | | | presentation space origin M X'06' [MODCA-5-1536]|
-| 4–6 SBIN Y mOset -32,768–32,767 Y m coordinate of page | | | | | | presentation space origin M X'06' [MODCA-5-1537]|
-| 7–8 CODE PGorient X'0000', X'2D00', | | | | | | X'5A00', X'8700' The page presentation space X- axis rotation from the X axis of the medium presentation space: X'0000' 0° rotation X'2D00' 90° rotation X'5A00' 180° rotation X'8700' 270° rotation M X'06' [MODCA-5-1538]|
 ### Page Position (PGP)
 
+#### Page Position (PGP) Format 2
 
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1539]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1540]|
-| 9 CODE SHside X'00'–X'01', | | | | | | X'10'–X'11', X'20'–X'21', X'30'–X'31', X'40'–X'41' Sheet side and partition selection X'00' Page on front side if no N-up, default page placement on front side if N-up X'01' Page on back side if no N-up, default page placement on back side if N-up X'10' Explicit N-up page placement: partition 1, front side X'11' Explicit N-up page placement: partition 1, back side X'20' Explicit N-up page placement: partition 2, front side X'21' Explicit N-up page placement: partition 2, back side X'30' Explicit N-up page placement: partition 3, front side X'31' Explicit N-up page placement: partition 3, back side X'40' Explicit N-up page placement: partition 4, front side X'41' Explicit N-up page placement: partition 4, back side M X'06' [MODCA-5-1541]|
-| 10 BITS PgFlgs Specify additional presentation | | | | | | controls for the partition. See PGP Semantics for PgFlgs bit definitions. O X'02' [MODCA-5-1542]|
-| 11 CODE PMCid 0–127 Page Modification Control | | | | | | identifier O X'02' X'FF' Apply all modifications [MODCA-5-1543]|
+The Page Position structured field specifies the position and orientation of a page's presentation space on the medium presentation space for the physical medium. The PGP may be located in a medium map or in the document environment group of a form map. When present in the active medium map, it overrides a PGP in the document environment group of the form map. If N-up partitioning is specified by the Medium Modification Control structured field in the active medium map, the medium presentation spaces on the front and back sides of a sheet are divided into N partitions; and the Page Position structured field specifies the partition into which each page is mapped and with respect to which the page presentation space is positioned and oriented. The N-up page-to-partition mapping can be specified in two mutually exclusive ways:
+
+*   **Default N-up page placement.** Pages are processed in the order in which they appear in the data stream and are placed into consecutively-numbered partitions, that is, the first page is placed into partition 1, the second page is placed into partition 2, the third page is placed into partition 3, and the 4th page is placed into partition 4. Partition numbering for various media is shown in Figure 61 to Figure 72. [MODCA-5-1528]
+*   **Explicit N-up page placement.** Pages are processed in the order in which they appear in the data stream and are placed into the partition that is explicitly specified by the repeating group for the page. Multiple pages may be placed into the same partition. If N-up simplex is specified, the Page Position structured field must contain N repeating groups, one for each page on the sheet-side. If N-up duplex is specified, the Page Position structured field must contain 2N repeating groups, one for each page on the sheet. [MODCA-5-1529] [MODCA-5-1530]
+
+#### PGP (X'D3B1AF') Syntax
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3B1AF' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1531]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1532]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1533]|
+| 0 | CODE | **Constant** | X'01' | Reserved constant; must be X'01' | M | X'06' [MODCA-5-1534]|
+
+*One or more repeating groups in the following format:*
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0 | UBIN | **RGLength** | X'0A'–X'0C' | Length of each repeating group | M | X'06' [MODCA-5-1535]|
+| 1–3 | SBIN | **XmOset** | -32,768–32,767 | Xm coordinate of page presentation space origin | M | X'06' [MODCA-5-1536]|
+| 4–6 | SBIN | **YmOset** | -32,768–32,767 | Ym coordinate of page presentation space origin | M | X'06' [MODCA-5-1537]|
+| 7–8 | CODE | **PGorient** | | The page presentation space X-axis rotation from the X axis of the medium presentation space | M | X'06' [MODCA-5-1538]|
+| 9 | CODE | **SHside** | | Sheet side and partition selection | M | X'06' [MODCA-5-1541]|
+| 10 | BITS | **PgFlgs** | | Flags | O | X'02' [MODCA-5-1542]|
+| 11 | CODE | **PMCid** | 0–127, X'FF' | Page Modification Control identifier | O | X'02' [MODCA-5-1543]|
 #### PGP Semantics
 The Page Position structured field contains repeating groups that are used to map pages to the medium
 presentation space or to partitions on the medium presentation space. The number of repeating groups that
@@ -6033,89 +6028,79 @@ m axis.
 
 
 ### Page Modification Control (PMC)
-The Page Modification Control structured field specifies modifications to be applied to a page presented on a
-physical medium.
-If the ID of a specific PMC is selected in the PGP structured field of the active medium map in N-up mode, only
-the modifications specified by that PMC are applied to pages placed on the medium. If a specific PMC is not
-selected in N-up mode, all modifications specified by all PMCs in the active medium map are applied to pages
-placed on the medium.
-A PMC structured field may specify only one Preprinted Form Overlay (PMC-PFO); if it specifies more than
-one, the additional PMC-PFOs are ignored. If a specific PMC ID is not selected for a page, and therefore all
-PMCs in the active medium map are applied to the page, only the first PMC-PFO is applied; all additional
-PMC-PFOs are ignored. Note that if the active medium map specifies a Medium PFO (M-PFO) for a sheet-
-side, all PMC-PFOs for pages on that sheet-side are ignored. [MODCA-5-1583]
-#### PMC (X'D3A7AF') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A7AF' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1584]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1585]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1586]|
-| 0 CODE PMCid 0–127 Page Modification Control | | | | | | identifier M X'06' [MODCA-5-1587]|
-| 1 | Reserved; | should | | be zero | M | X'06' [MODCA-5-1588]|
-| 2–n Triplets See PMC Semantics for triplet | | | | | | applicability. O X'10' [MODCA-5-1589]|
-#### PMC Semantics
-PMCid Page Modification Control Identifier. The identifier for the modifications specified by this
-structured field.
-Triplets Appear in the Page Modification Control structured field as follows: [MODCA-5-1590]
-### Page Modification Control (PMC)
 
+The Page Modification Control structured field specifies modifications to be applied to a page presented on a physical medium.
+
+If the ID of a specific PMC is selected in the PGP structured field of the active medium map in N-up mode, only the modifications specified by that PMC are applied to pages placed on the medium. If a specific PMC is not selected in N-up mode, all modifications specified by all PMCs in the active medium map are applied to pages placed on the medium.
+
+A PMC structured field may specify only one Preprinted Form Overlay (PMC-PFO); if it specifies more than one, the additional PMC-PFOs are ignored. If a specific PMC ID is not selected for a page, and therefore all PMCs in the active medium map are applied to the page, only the first PMC-PFO is applied; all additional PMC-PFOs are ignored. Note that if the active medium map specifies a Medium PFO (M-PFO) for a sheet-side, all PMC-PFOs for pages on that sheet-side are ignored. [MODCA-5-1583]
+
+#### PMC (X'D3A7AF') Syntax
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A7AF' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1584]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1585]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1586]|
+| 0 | CODE | **PMCid** | 0–127 | Page Modification Control identifier | M | X'06' [MODCA-5-1587]|
+| 1 | | **Reserved** | | Should be zero | M | X'06' [MODCA-5-1588]|
+| 2–n | | **Triplets** | | See PMC Semantics for triplet applicability | O | X'10' [MODCA-5-1589]|
+
+#### PMC Semantics
+
+**PMCid** Page Modification Control Identifier. The identifier for the modifications specified by this structured field.
+
+**Triplets** Appear in the Page Modification Control structured field as follows: [MODCA-5-1590]
 
 | Triplet | Type | Usage [MODCA-5-1591]|
-| --- | --- | --- [MODCA-5-1592]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur multiple times. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet [MODCA-5-1593]|
-| X'01'” | |. [MODCA-5-1594]|
-| X'4B' | | Measurement Units Optional. May occur once. Specifies the units of measure to be used for positioning included objects on the page. See “Measurement Units Triplet X'4B'”. If this triplet is omitted, the units of measure specified in the Medium Descriptor (MDD) that is in the same medium map as the PMC are used to position included objects on the page. [MODCA-5-1595]|
-| X'6C' | | Resource Object Include Optional. May occur more than once, but only one occurrence can specify object type X'DC' - Preprinted Form Overlay (PFO). If this triplet is specified more than once with object type X'DC', the additional occurrences are ignored. Identifies an object to be included on the page at a specified position. See “Resource Object Include Triplet [MODCA-5-1596]|
-| X'6C'” | |. [MODCA-5-1597]|
-**Note:**  Overlays that are included on a page using the PMC structured field are called PMC overlays. If the
-overlay is a Preprinted Form (PFO) overlay, it is called a PMC-PFO. Each overlay included on a page
-with a PMC must first be mapped to a local ID with an MPO in the medium map containing the PMC. [MODCA-5-1598]
-### Page Modification Control (PMC)
+| :--- | :--- | :--- [MODCA-5-1592]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur multiple times. Specifies encoding for structured field parameters defined with a CHAR data type. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1593] [MODCA-5-1594]|
+| X'4B' | | **Measurement Units** Optional. May occur once. Specifies the units of measure to be used for positioning included objects on the page. See “Measurement Units Triplet X'4B'”. If this triplet is omitted, the units of measure specified in the Medium Descriptor (MDD) that is in the same medium map as the PMC are used to position included objects on the page. [MODCA-5-1595]|
+| X'6C' | | **Resource Object Include** Optional. May occur more than once, but only one occurrence can specify object type X'DC' - Preprinted Form Overlay (PFO). If this triplet is specified more than once with object type X'DC', the additional occurrences are ignored. Identifies an object to be included on the page at a specified position. See “Resource Object Include Triplet X'6C'”. [MODCA-5-1596] [MODCA-5-1597]|
+
+**Note:** Overlays that are included on a page using the PMC structured field are called PMC overlays. If the overlay is a Preprinted Form (PFO) overlay, it is called a PMC-PFO. Each overlay included on a page with a PMC must first be mapped to a local ID with an MPO in the medium map containing the PMC. [MODCA-5-1598]
 
 
 ### Preprocess Presentation Object (PPO)
-The Preprocess Presentation Object structured field specifies presentation parameters for a data object that
-has been mapped as a resource. These parameters allow the presentation device to preprocess and cache
-the object so that it is in presentation-ready format when it is included with a subsequent include structured
-field in the document. Such preprocessing may involve a rasterization or RIP of the object, but is not limited to
-that. The resource is identified with a file name, the identifier of a begin structured field for the resource, or any
-other identifier associated with the resource. The referenced resource and all required secondary resources
-must previously have been mapped with an MDR or an MPO in the same environment group.
-Preprocessing is not supported for objects that are included with structures that are outside the document.
-Examples of such objects are medium overlays and PMC overlays, both of which are included with structures
-in the form map.
+
+The Preprocess Presentation Object structured field specifies presentation parameters for a data object that has been mapped as a resource. These parameters allow the presentation device to preprocess and cache the object so that it is in presentation-ready format when it is included with a subsequent include structured field in the document. Such preprocessing may involve a rasterization or RIP of the object, but is not limited to that. The resource is identified with a file name, the identifier of a begin structured field for the resource, or any other identifier associated with the resource. The referenced resource and all required secondary resources must previously have been mapped with an MDR or an MPO in the same environment group.
+
+Preprocessing is not supported for objects that are included with structures that are outside the document. Examples of such objects are medium overlays and PMC overlays, both of which are included with structures in the form map.
+
 #### PPO (X'D3ADC3') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3ADC3' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1599]
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3ADC3' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1599]
+
+*One to 254 repeating groups in the following format:* [MODCA-5-1601]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1600]|
-| --- | --- | --- | --- | --- | --- | --- One to 254 repeating groups in the following format: [MODCA-5-1601]|
-| 0–1 UBIN RGLength 18–(n+1) T otal length of this repeating | | | | | | group M X'06' [MODCA-5-1602]|
-| 2 CODE ObjType X'92', X'DF', X'FB' Object type: | | | | | | X'92' Other object data X'DF' Overlay X'FB' Image (IOCA) M X'06' [MODCA-5-1603]|
-| 3–4 | Reserved; | should | | be zero | M | X'06' [MODCA-5-1604]|
-| 5 BITS ProcFlgs Processing flags; see PPO | | | | | | Semantics for bit definitions M X'06' [MODCA-5-1605]|
-| 6–8 | SBIN | XocaOset | | -32,768–32,767 X axis origin for object content | M | X'06' X'FFFFFF' Not specified [MODCA-5-1606]|
-| 9–11 | SBIN | YocaOset | | -32,768–32,767 Y axis origin for object content | M | X'06' X'FFFFFF' Not specified [MODCA-5-1607]|
-| 12–n Triplets See PPO Semantics for triplet | | | | | | applicability. M X'14' [MODCA-5-1608]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| 0–1 | UBIN | **RGLength** | 18–(n+1) | Total length of this repeating group | M | X'06' [MODCA-5-1602]|
+| 2 | CODE | **ObjType** | X'92', X'DF', X'FB' | Object type | M | X'06' [MODCA-5-1603]|
+| 3–4 | | **Reserved** | | Should be zero | M | X'06' [MODCA-5-1604]|
+| 5 | BITS | **ProcFlgs** | | Processing flags; see PPO Semantics for bit definitions | M | X'06' [MODCA-5-1605]|
+| 6–8 | SBIN | **XocaOset** | -32,768–32,767, X'FFFFFF' | X axis origin for object content | M | X'06' [MODCA-5-1606]|
+| 9–11 | SBIN | **YocaOset** | -32,768–32,767, X'FFFFFF' | Y axis origin for object content | M | X'06' [MODCA-5-1607]|
+| 12–n | | **Triplets** | | See PPO Semantics for triplet applicability | M | X'14' [MODCA-5-1608]|
+
 #### PPO Semantics
-RGLength Specifies the total length of the repeating group, including the length of the RGLength
-parameter itself.
-ObjType Identifies the type of object being referenced. [MODCA-5-1609]
-### Preprocess Presentation Object (PPO)
 
+**RGLength** Specifies the total length of the repeating group, including the length of the RGLength parameter itself.
 
-Value Description
-X'92' Other object data. The object data to be preprocessed is a non-OCA
-paginated presentation object. The object data is characterized and identified
-by a mandatory Object Classification (X'10') triplet, which must specify the
-registered OID for the object type and must characterize the object as being a
-presentation object. See “Non-OCA Object Types Supported by the IOB
-Structured Field” for a list of object types that may be included in
-MO:DCA data streams. T o see which encoded object-type OIDs are
-supported by the presentation system, consult the product documentation.
-**Application Note:**  If the object is installed in a resource library using a
+**ObjType** Identifies the type of object being referenced. [MODCA-5-1609]
+*   X'92' **Other object data.** The object data to be preprocessed is a non-OCA paginated presentation object. The object data is characterized and identified by a mandatory **Object Classification (X'10')** triplet, which must specify the registered OID for the object type and must characterize the object as being a presentation object. See “Non-OCA Object Types Supported by the IOB Structured Field” for a list of object types that may be included in MO:DCA data streams. To see which encoded object-type OIDs are supported by the presentation system, consult the product documentation.
+    **Application Note:** If the object is installed in a resource library using a
 Resource Access T able (RAT), it must not be wrapped with a MO:DCA
 object container envelope, that is, it must be installed in its raw source
 format.
@@ -6410,85 +6395,93 @@ follow a FQN type X'DE' triplet that references a CMR. [MODCA-5-1662]
 ### Preprocess Presentation Object (PPO)
 
 
-Presentation Text Data Descriptor (PTD) Format 2
-The Presentation T ext Data Descriptor structured field contains the descriptor data for a presentation text data
-object.
-#### PTD (X'D3B19B') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3B19B' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1663]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1664]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1665]|
-| 0–n UNDF PTOCAdes Up to 32,759 bytes of PTOCA- | | | | | | defined descriptor data O X'00' [MODCA-5-1666]|
-#### PTD Semantics
-PTOCAdes Contains the PTOCA-defined text descriptor. See the MO:DCA environment appendix in the
-Presentation Text Object Content Architecture Reference for detailed information.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set.
-**Application Note:**  When the PTD is included in the AEG for a page, some AFP print servers require that the
-measurement units in the PTD match the measurement units in the Page Descriptor (PGD). It is
-therefore strongly recommended that whenever the PTD is included in the AEG, the same
-measurement units are specified in both the PTD and PGD. [MODCA-5-1667]
 ### Presentation Text Data Descriptor (PTD)
 
+#### Presentation Text Data Descriptor (PTD) Format 2
+
+The Presentation Text Data Descriptor structured field contains the descriptor data for a presentation text data object.
+
+#### PTD (X'D3B19B') Syntax
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3B19B' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1663]
+
+| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1664]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1665]|
+| 0–n | UNDF | **PTOCAdes** | | Up to 32,759 bytes of PTOCA-defined descriptor data | O | X'00' [MODCA-5-1666]|
+
+#### PTD Semantics
+
+**PTOCAdes** Contains the PTOCA-defined text descriptor. See the MO:DCA environment appendix in the *Presentation Text Object Content Architecture Reference* for detailed information.
+
+**Note:** The number of data bytes allowed in this structured field may be restricted by an interchange set.
+
+**Application Note:** When the PTD is included in the AEG for a page, some AFP print servers require that the measurement units in the PTD match the measurement units in the Page Descriptor (PGD). It is therefore strongly recommended that whenever the PTD is included in the AEG, the same measurement units are specified in both the PTD and PGD. [MODCA-5-1667]
 
 ### Presentation Text Data (PTX)
-The Presentation T ext Data structured field contains the data for a presentation text data object. [MODCA-5-1668]
+
+The Presentation Text Data structured field contains the data for a presentation text data object. [MODCA-5-1668]
+
 #### PTX (X'D3EE9B') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3EE9B' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1669]
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3EE9B' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1669]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1670]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1671]|
-| 0–n UNDF PTOCAdat Up to 32,759 bytes of PTOCA- | | | | | | defined data O X'00' [MODCA-5-1672]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1671]|
+| 0–n | UNDF | **PTOCAdat** | | Up to 32,759 bytes of PTOCA-defined data | O | X'00' [MODCA-5-1672]|
+
 #### PTX Semantics
-PTOCAdat Contains the PTOCA-defined text descriptor. See the MO:DCA environment appendix in the
-Presentation Text Object Content Architecture Reference for detailed information.
-**Note:**  The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-1673]
-### Presentation Text Data (PTX)
+
+**PTOCAdat** Contains the PTOCA-defined text data. See the MO:DCA environment appendix in the *Presentation Text Object Content Architecture Reference* for detailed information.
+
+**Note:** The number of data bytes allowed in this structured field may be restricted by an interchange set. [MODCA-5-1673]
 
 
 ### Tag Logical Element (TLE)
-A T ag Logical Element structured field assigns an attribute name and an attribute value to a page or page
-group. The T ag Logical Element structured field may be embedded directly in the page or page group, or it may
-reference the page or page group from a document index.
-When a T ag Logical Element structured field references a page or is embedded in a page following the active
-environment group, it is associated with the page. When a T ag Logical Element structured field references a
-page group or is embedded in a page group following the Begin Named Page Group structured field, it is
-associated with the page group. When a T ag Logical Element structured field is associated with a page group,
-the parameters of the T ag Logical Element structured field are inherited by all pages in the page group and by
-all other page groups that are nested in the page group.
-The scope of a T ag Logical Element is determined by its position with respect to other TLEs that reference, or
-are embedded in, the same page or page group. The T ag Logical Element structured field does not provide
-any presentation specifications and therefore has no effect on the appearance of a document when it is
-presented.
+
+A Tag Logical Element structured field assigns an attribute name and an attribute value to a page or page group. The Tag Logical Element structured field may be embedded directly in the page or page group, or it may reference the page or page group from a document index.
+
+When a Tag Logical Element structured field references a page or is embedded in a page following the active environment group, it is associated with the page. When a Tag Logical Element structured field references a page group or is embedded in a page group following the Begin Named Page Group structured field, it is associated with the page group. When a Tag Logical Element structured field is associated with a page group, the parameters of the Tag Logical Element structured field are inherited by all pages in the page group and by all other page groups that are nested in the page group.
+
+The scope of a Tag Logical Element is determined by its position with respect to other TLEs that reference, or are embedded in, the same page or page group. The Tag Logical Element structured field does not provide any presentation specifications and therefore has no effect on the appearance of a document when it is presented.
+
 #### TLE (X'D3A090') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A090' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1674]
+
+**Structured Field Introducer**
+
+| SF Length (2B) | ID = X'D3A090' | Flags (1B) | Reserved (2B) |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1674]
+
 | Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1675]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1676]|
-| 0–n Triplets See TLE Semantics for triplet | | | | | | applicability. M X'14' [MODCA-5-1677]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1676]|
+| 0–n | | **Triplets** | | See TLE Semantics for triplet applicability | M | X'14' [MODCA-5-1677]|
+
 #### TLE Semantics
-Triplets Appear in the T ag Logical Element structured field as follows: [MODCA-5-1678]
+
+**Triplets** Appear in the Tag Logical Element structured field as follows: [MODCA-5-1678]
+
 | Triplet | Type | Usage [MODCA-5-1679]|
-| --- | --- | --- [MODCA-5-1680]|
-| X'01' | | Coded Graphic Character Set Global Identifier Optional. May occur multiple times. If present, specifies the code page and character set for interpretation of subsequent character strings in the TLE. If not present, the including object specifies the code page and character set for interpretation of character strings in the TLE. By including the triplet multiple times, you can specify a unique code page and character set for the character data in every triplet on the TLE. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1681]|
-| X'02' | | Fully Qualified Name Mandatory. Must occur once. The Fully Qualified Name type that may appear is X'0B'— Attribute Name. Specifies the attribute name of the tag logical element. See “Fully Qualified Name Triplet X'02'”. [MODCA-5-1682]|
-### Tag Logical Element (TLE)
-
-
-| Triplet | Type | Usage [MODCA-5-1683]|
-| --- | --- | --- [MODCA-5-1684]|
-| X'02' | | Fully Qualified Name Optional. One of the following Fully Qualified Name types may appear once if the T ag Logical Element structured field references a page or page group from a document index: • X'87'—Begin Page Name. Specifies the name of the page that is referenced by the tag logical element. • X'0D'—Begin Page Group Name. Specifies the name of the page group that is referenced by the tag logical element. See “Fully Qualified Name Triplet X'02'”. [MODCA-5-1685]|
-| X'02' | | Fully Qualified Name Optional. May occur once. The Fully Qualified Name type that may appear is X'0C'— Process Element Name. Specifies the name of the tag logical element. See “Fully Qualified Name Triplet X'02'”. [MODCA-5-1686]|
-| X'36' | | Attribute Value Mandatory. Must occur once. Specifies the attribute value of the tag logical element. See “Attribute Value Triplet [MODCA-5-1687]|
-| X'36'” | |. [MODCA-5-1688]|
-| X'80' | | Attribute Qualifier Optional. May occur once. Specifies an attribute qualifier for the tag logical element. See “Attribute Qualifier Triplet [MODCA-5-1689]|
-| X'80'” | |. [MODCA-5-1690]|
-### Tag Logical Element (TLE)
+| :--- | :--- | :--- [MODCA-5-1680]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur multiple times. If present, specifies the code page and character set for interpretation of subsequent character strings in the TLE. If not present, the including object specifies the code page and character set for interpretation of character strings in the TLE. By including the triplet multiple times, you can specify a unique code page and character set for the character data in every triplet on the TLE. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1681]|
+| X'02' | | **Fully Qualified Name** Mandatory. Must occur once. The Fully Qualified Name type that may appear is X'0B'—Attribute Name. Specifies the attribute name of the tag logical element. See “Fully Qualified Name Triplet X'02'”. [MODCA-5-1682]|
+| X'02' | | **Fully Qualified Name** Optional. One of the following Fully Qualified Name types may appear once if the Tag Logical Element structured field references a page or page group from a document index:<br>• X'87'—Begin Page Name. Specifies the name of the page that is referenced by the tag logical element.<br>• X'0D'—Begin Page Group Name. Specifies the name of the page group that is referenced by the tag logical element.<br>See “Fully Qualified Name Triplet X'02'”. [MODCA-5-1683] [MODCA-5-1684] [MODCA-5-1685]|
+| X'02' | | **Fully Qualified Name** Optional. May occur once. The Fully Qualified Name type that may appear is X'0C'—Process Element Name. Specifies the name of the tag logical element. See “Fully Qualified Name Triplet X'02'”. [MODCA-5-1686]|
+| X'36' | | **Attribute Value** Mandatory. Must occur once. Specifies the attribute value of the tag logical element. See “Attribute Value Triplet X'36'”. [MODCA-5-1687] [MODCA-5-1688]|
+| X'80' | | **Attribute Qualifier** Optional. May occur once. Specifies an attribute qualifier for the tag logical element. See “Attribute Qualifier Triplet X'80'”. [MODCA-5-1689] [MODCA-5-1690]|
 
 
 
