@@ -46,7 +46,7 @@ public class FDS_FixedDataSize extends StructuredField {
   }
 
   /**
-   * Number of data bytes in following FDX structured fields
+   * Number of data bytes in following FDX structured fields.
    *
    * @return number of data bytes in following FDX structured fields.
    */

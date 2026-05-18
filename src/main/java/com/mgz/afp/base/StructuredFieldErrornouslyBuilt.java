@@ -37,7 +37,7 @@ public class StructuredFieldErrornouslyBuilt extends StructuredFieldBaseData {
 
   /**
    * Returns the exception that happened when the parser tried to build this {@link
-   * StructuredFieldErrornouslyBuilt}
+   * StructuredFieldErrornouslyBuilt}.
    */
   public Throwable getCausingException() {
     return causingException;

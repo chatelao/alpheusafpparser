@@ -38,19 +38,19 @@ import java.util.EnumSet;
 public class StructuredFieldIntroducer {
 
   /**
-   * SFLength[0,1]
+   * SFLength[0,1].
    */
   @AFPField(isEditable = false)
   int sfLength;
   @AFPField(isEditable = false)
   SFTypeID sfTypeID;
   /**
-   * FlagByte[5]
+   * FlagByte[5].
    */
   @AFPField
   EnumSet<SFFlag> flagByte;
   /**
-   * reserved[6,7] (should be zero; usually used as SF counter[6,7].
+   * The reserved[6,7] (should be zero; usually used as SF counter[6,7]).
    */
   @AFPField
   int reserved = 0x0000;

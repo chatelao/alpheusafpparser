@@ -24,7 +24,7 @@ public enum AFPBasicDataType {
    */
   CODE,
   /**
-   * Character string, which may consist of any code points
+   * Character string, which may consist of any code points.
    */
   CHAR,
   /**

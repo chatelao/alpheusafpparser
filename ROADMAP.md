@@ -196,7 +196,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ `MissingJavadocMethod` (~530).
         - ⏳ `MissingJavadocType` (~380).
         - ⏳ `JavadocParagraph` (~64).
-        - ⏳ `SummaryJavadoc` (~18).
+        - ✅ `SummaryJavadoc`.
     - 🚧 Fix Naming and Abbreviation violations (~1,270 warnings):
         - ⏳ `AbbreviationAsWordInName` (~715).
         - ⏳ `TypeName` (~318).
