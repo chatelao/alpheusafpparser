@@ -1193,16 +1193,16 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       if (pos < lengthOfFollowingData) {
         listOfRepeatingGroups = new ArrayList<TileTOC.TileTOC_RepeatingGroup>();
         while (pos < lengthOfFollowingData) {
-          int hOff = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos, 4);
-          int vOff = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 4, 4);
-          int hSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 8, 4);
-          int vSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 12, 4);
+          int horizontalOffset = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos, 4);
+          int verticalOffset = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 4, 4);
+          int horizontalSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 8, 4);
+          int verticalSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 12, 4);
           var relRes = TileSize.RelativeTileResolution.valueOf(sfData[offset + 4 + pos + 16]);
           var compAlg = IPD_CompressionAlgorithm.valueOf(
               UtilBinaryDecoding.parseShort(sfData, offset + 4 + pos + 17, 1));
           long offsetToTile = UtilBinaryDecoding.parseLong(sfData, offset + 4 + pos + 18, 8);
-          listOfRepeatingGroups.add(new TileTOC_RepeatingGroup(hOff, vOff, hSize, vSize, relRes,
-              compAlg, offsetToTile));
+          listOfRepeatingGroups.add(new TileTOC_RepeatingGroup(horizontalOffset, verticalOffset,
+              horizontalSize, verticalSize, relRes, compAlg, offsetToTile));
           pos += 26;
         }
       }

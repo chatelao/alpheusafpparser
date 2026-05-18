@@ -64,11 +64,11 @@ public class TripletParser {
         byte[] tripletData = new byte[actualLength];
         System.arraycopy(sfData, offset, tripletData, 0, actualLength);
         undef.setTripletData(tripletData);
-        int tLen = sfData[offset + pos] & 0xFF;
-        if (tLen < 2) {
-          tLen = actualLength - pos;
+        int tripletLength = sfData[offset + pos] & 0xFF;
+        if (tripletLength < 2) {
+          tripletLength = actualLength - pos;
         }
-        undef.setLength((short) tLen);
+        undef.setLength((short) tripletLength);
         undef.setTripletID(TripletID.Undefined);
       }
 
