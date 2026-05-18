@@ -23,7 +23,7 @@ import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlTransient;

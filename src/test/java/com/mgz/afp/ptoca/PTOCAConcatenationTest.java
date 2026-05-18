@@ -1,9 +1,9 @@
 package com.mgz.afp.ptoca;
 
 import com.mgz.afp.parser.AFPParserConfiguration;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEA_SetEncryptedAlternate;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SKI_SetKeyInformation;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.SEA_SetEncryptedAlternate;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.SKI_SetKeyInformation;
 import com.mgz.util.Constants;
 import org.junit.jupiter.api.Test;
 

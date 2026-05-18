@@ -20,12 +20,12 @@ package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEA_SetEncryptedAlternate;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SKI_SetKeyInformation;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.ControlSequenceIntroducer;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.GraphicCharacters;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.SEA_SetEncryptedAlternate;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.SKI_SetKeyInformation;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,19 +120,21 @@ public class PTOCAControlSequenceParser {
     return controlSequences;
   }
 
-  public static final PTOCAControlSequence createControlSequenceInstance(ControlSequenceIntroducer csi) throws AFPParserException {
+  public static final PTOCAControlSequence createControlSequenceInstance(ControlSequenceIntroducer csi)
+      throws AFPParserException {
     PTOCAControlSequence cs = null;
     String className = null;
     try {
-      className = com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.class.getName() + "$" + csi.getControlSequenceFunctionType().name();
+      className = PTOCAControlSequence.class.getName() + "$" + csi.getControlSequenceFunctionType().name();
       Class<?> clazz = Class.forName(className);
       cs = (PTOCAControlSequence) clazz.getDeclaredConstructor().newInstance();
     } catch (Throwable cnfex) {
-      throw new AFPParserException(PTOCAControlSequence.class.getSimpleName() + ": failed to instantiate control sequence class '" + className + "'.");
+      throw new AFPParserException(PTOCAControlSequence.class.getSimpleName()
+          + ": failed to instantiate control sequence class '" + className + "'.");
     }
 
     if (cs == null) {
-      cs = new com.mgz.afp.ptoca.controlSequence.Undefined();
+      cs = new com.mgz.afp.ptoca.controlsequence.Undefined();
     }
     cs.setCsi(csi);
 

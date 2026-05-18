@@ -4,7 +4,7 @@ import com.mgz.afp.RoundTripTestUtils;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

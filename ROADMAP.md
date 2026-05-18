@@ -133,16 +133,16 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ SF Groups A-D.
             - ✅ SF Groups G-I.
             - 🚧 SF Groups J-O (LLE-MCF complete).
-            - ⏳ SF Groups P-T:
-                - ⏳ PEC (Presentation Environment Control).
-                - ⏳ PFC (Presentation Fidelity Control).
-                - ⏳ PGD (Page Descriptor).
-                - ⏳ PGP (Page Position).
-                - ⏳ PMC (Page Modification Control).
-                - ⏳ PPO (Preprocess Presentation Object).
-                - ⏳ PTD (Presentation Text Data Descriptor).
-                - ⏳ PTX (Presentation Text Data).
-                - ⏳ TLE (Tag Logical Element).
+            - ✅ SF Groups P-T:
+                - ✅ PEC (Presentation Environment Control).
+                - ✅ PFC (Presentation Fidelity Control).
+                - ✅ PGD (Page Descriptor).
+                - ✅ PGP (Page Position).
+                - ✅ PMC (Page Modification Control).
+                - ✅ PPO (Preprocess Presentation Object).
+                - ✅ PTD (Presentation Text Data Descriptor).
+                - ✅ PTX (Presentation Text Data).
+                - ✅ TLE (Tag Logical Element).
             - ⏳ SF Groups U-Z:
                 - ⏳ XMD (XML Descriptor).
         - ⏳ Chapter 6 (Triplets).
@@ -187,6 +187,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Appendices A-G complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_CMOCA.md` complete.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_MODCA.md` in reasonable chunks.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).

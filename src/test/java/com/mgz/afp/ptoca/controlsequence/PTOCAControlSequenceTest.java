@@ -16,12 +16,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
-package com.mgz.afp.ptoca.controlSequence;
+package com.mgz.afp.ptoca.controlsequence;
 
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceFunctionType;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.ControlSequenceFunctionType;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.ControlSequenceIntroducer;
 
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,7 @@ public class PTOCAControlSequenceTest {
       csi.setControlSequenceFunctionType(csft);
       PTOCAControlSequence cs = PTOCAControlSequenceParser.createControlSequenceInstance(csi);
       assertEquals(csft.name(), cs.getClass().getSimpleName());
-      assertFalse(csft != ControlSequenceFunctionType.Undefined && cs instanceof com.mgz.afp.ptoca.controlSequence.Undefined);
+      assertFalse(csft != ControlSequenceFunctionType.Undefined && cs instanceof com.mgz.afp.ptoca.controlsequence.Undefined);
 
     }
 

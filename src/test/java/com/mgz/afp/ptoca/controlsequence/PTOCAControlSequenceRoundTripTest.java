@@ -1,8 +1,8 @@
-package com.mgz.afp.ptoca.controlSequence;
+package com.mgz.afp.ptoca.controlsequence;
 
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.*;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.*;
 import com.mgz.util.UtilBinaryDecoding;
 import org.junit.jupiter.api.Test;
 
