@@ -26,7 +26,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 
 | Specification | Covered | Total | % |
 | :--- | :---: | :---: | :---: |
-| [BCOCA](TEST_COVERAGE_BCOCA.md) | 0 | 1237 | 0.0% |
+| [BCOCA](TEST_COVERAGE_BCOCA.md) | 1237 | 1237 | 100.0% |
 | [CMOCA](TEST_COVERAGE_CMOCA.md) | 0 | 1085 | 0.0% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 1391 | 1391 | 100.0% |
@@ -37,7 +37,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **6783** | **20955** | **32.4%** |
+| **Total** | **8020** | **20955** | **38.3%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -133,10 +133,28 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ SF Groups A-D.
             - ✅ SF Groups G-I.
             - 🚧 SF Groups J-O (LLE-MCF complete).
-            - ⏳ SF Groups P-T.
-            - ⏳ SF Groups U-Z.
-        - ⏳ Chapters 6-8.
-        - ⏳ Appendices A-F, Glossary, Index, Front Matter, and Notices.
+            - ⏳ SF Groups P-T:
+                - ⏳ PEC (Presentation Environment Control).
+                - ⏳ PFC (Presentation Fidelity Control).
+                - ⏳ PGD (Page Descriptor).
+                - ⏳ PGP (Page Position).
+                - ⏳ PMC (Page Modification Control).
+                - ⏳ PPO (Preprocess Presentation Object).
+                - ⏳ PTD (Presentation Text Data Descriptor).
+                - ⏳ PTX (Presentation Text Data).
+                - ⏳ TLE (Tag Logical Element).
+            - ⏳ SF Groups U-Z:
+                - ⏳ XMD (XML Descriptor).
+        - ⏳ Chapter 6 (Triplets).
+        - ⏳ Chapter 7 (Interchange Sets).
+        - ⏳ Chapter 8 (Function Sets).
+        - ⏳ Appendix A (Color Resources).
+        - ⏳ Appendix B (Standard OCA Color Value Table).
+        - ⏳ Appendix C (MO:DCA Registry).
+        - ⏳ Appendix D (MO:DCA Resource Search Order).
+        - ⏳ Appendix E (Cross-Reference Tables).
+        - ⏳ Appendix F (MO:DCA Summary Tables).
+        - ⏳ Glossary, Index, Front Matter, and Notices.
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
         - ✅ Chapters 1-3 complete.
         - ✅ Chapter 4 complete.
@@ -162,6 +180,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Chapters 1-6 complete.
     - ✅ Chapter 7 (Function Sets) complete.
     - ✅ Appendices A-G complete.
+- ✅ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` complete.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
