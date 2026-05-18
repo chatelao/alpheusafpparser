@@ -2,364 +2,364 @@
 
 | Requirement ID | Summary | Coverage |
 | :--- | :--- | :---: |
-| CMOCA-1-001 | This chapter provides a brief overview of Presentation Architecture. | ❓ |
-| CMOCA-1-002 | Figure 1 shows today's presentation environment. | ❓ |
-| CMOCA-1-003 | Figure 1. Presentation Environment.** The environment is a coordinated set of services architected to meet the presentation needs of today's applications. | ❓ |
-| CMOCA-1-004 | Document Creation Services** | ❓ |
-| CMOCA-1-005 | import/export | ❓ |
-| CMOCA-1-006 | edit/revise | ❓ |
-| CMOCA-1-007 | format | ❓ |
-| CMOCA-1-008 | transform | ❓ |
-| CMOCA-1-009 | Document Archiving Services** | ❓ |
-| CMOCA-1-010 | retrieve | ❓ |
-| CMOCA-1-011 | search | ❓ |
-| CMOCA-1-012 | extract | ❓ |
-| CMOCA-1-013 | Document Viewing Services** | ❓ |
-| CMOCA-1-014 | browse | ❓ |
-| CMOCA-1-015 | navigate | ❓ |
-| CMOCA-1-016 | search | ❓ |
-| CMOCA-1-017 | annotate | ❓ |
-| CMOCA-1-018 | Document Printing Services** | ❓ |
-| CMOCA-1-019 | submit | ❓ |
-| CMOCA-1-020 | distribute | ❓ |
-| CMOCA-1-021 | manage | ❓ |
-| CMOCA-1-022 | finish | ❓ |
-| CMOCA-1-023 | The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key requirement in almost every application of computers and information processing. This requirement is becoming increasingly difficult to meet because of the number of applications, servers, and devices that must interoperate to satisfy today's presentation needs. | ❓ |
-| CMOCA-1-024 | The solution is a presentation architecture base that is both robust and open ended, and easily adapted to accommodate the growing needs of the open system environment. AFP architectures provide that base by defining interchange formats for data streams and objects that enable applications, services, and devices to communicate with one another to perform presentation functions. These presentation functions might be part of an integrated system solution or they might be totally separated from one another in time and space. AFP architectures provide structures that support object-oriented models and client/server environments. | ❓ |
-| CMOCA-1-025 | AFP architectures define interchange formats that are system independent and are independent of any particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for compressed image data. | ❓ |
-| CMOCA-1-026 | AFP architectures provide the means for representing documents in a data format that is independent of the methods used to capture or create them. Documents can contain combinations of text, image, graphics, and bar code objects in presentation-system-independent and resolution-independent formats. Documents can contain fonts, overlays, and other resource objects required at presentation time to present the data properly. Finally, documents can contain resource objects, such as a document index and tagging elements supporting the search and navigation of document data, for a variety of application purposes. | ❓ |
-| CMOCA-1-027 | The presentation architecture components are divided into two major categories: data streams and objects. | ❓ |
-| CMOCA-1-028 | A data stream is a continuous ordered stream of data elements and objects conforming to a given format. Application programs can generate data streams destined for a presentation service, archive library, presentation device, or another application program. The strategic presentation data stream architectures are: | ❓ |
-| CMOCA-1-029 | Mixed Object Document Content Architecture (MO:DCA)** | ❓ |
-| CMOCA-1-030 | Intelligent Printer Data Stream (IPDS) Architecture** | ❓ |
-| CMOCA-1-031 | The MO:DCA architecture defines the data stream used by applications to describe documents and object envelopes for interchange with other applications and application services. The MO:DCA format supports storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of documents in local or distributed systems environments. Presentation fidelity is accommodated by including resource objects in the documents that reference them. | ❓ |
-| CMOCA-1-032 | The IPDS architecture defines the data stream used by print server programs and device drivers to manage all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area network-attached (LAN-attached) printers to high-speed, high-volume page printers for production jobs, shared printing, and mailroom applications. The same object content architectures carried in a MO:DCA data stream can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer hardware. The IPDS architecture defines bidirectional command protocols for query, resource management, and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided by pre-processing and post-processing devices attached to IPDS printers. | ❓ |
-| CMOCA-1-033 | Figure 2 shows a system model relating MO:DCA and IPDS data streams to the presentation environment previously described. Also shown in the model are the object content architectures that apply to all levels of presentation processing in a system. | ❓ |
-| CMOCA-1-034 | Figure 2. Presentation Model.** This diagram shows the major components in a presentation system and their use of data stream and object architectures. | ❓ |
-| CMOCA-1-035 | Data Objects** | ❓ |
-| CMOCA-1-036 | Graphics | ❓ |
-| CMOCA-1-037 | Bar Codes | ❓ |
-| CMOCA-1-038 | Object Containers | ❓ |
-| CMOCA-1-039 | Other Objects | ❓ |
-| CMOCA-1-040 | Resource Objects** | ❓ |
-| CMOCA-1-041 | Overlays | ❓ |
-| CMOCA-1-042 | Page Segments | ❓ |
-| CMOCA-1-043 | Form Definition | ❓ |
-| CMOCA-1-044 | Color Management Resources | ❓ |
-| CMOCA-1-045 | Color Table | ❓ |
-| CMOCA-1-046 | Document Index | ❓ |
-| CMOCA-1-047 | Metadata | ❓ |
-| CMOCA-1-048 | Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object content architectures describe the structure and content of each type of data format that can exist in a document or appear in a data stream. Objects can be either data objects or resource objects. | ❓ |
-| CMOCA-1-049 | A data object contains a single type of presentation data, that is, presentation text, vector graphics, raster image, or bar codes, and all of the controls required to present the data. | ❓ |
-| CMOCA-1-050 | A resource object is a collection of presentation instructions and data. These objects are referenced by name in the presentation data stream and can be stored in system libraries so that multiple applications and the print server can use them. | ❓ |
-| CMOCA-1-051 | All object content architectures (OCAs) are totally self-describing and independently defined. When multiple objects are composed on a page, they exist as peer objects that can be individually positioned and manipulated to meet the needs of the presentation application. | ❓ |
-| CMOCA-1-052 | The AFPC-defined object content architectures are: | ❓ |
-| CMOCA-1-053 | Presentation Text Object Content Architecture (PTOCA):** A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. | ❓ |
-| CMOCA-1-054 | Image Object Content Architecture (IOCA):** A data architecture for describing resolution-independent image objects captured from a number of different sources. Specifications of recording formats, data compression, color, and grayscale encoding are included in the architecture definition. | ❓ |
-| CMOCA-1-055 | Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA):** A version of GOCA that is used in Advanced Function Presentation (AFP) environments. GOCA is a data architecture for describing vector graphics picture objects and line art drawings for a variety of applications. Specification of drawing primitives, such as lines, arcs, areas, and their visual attributes, are included in the architecture definition. | ❓ |
-| CMOCA-1-056 | Bar Code Object Content Architecture (BCOCA):** A data architecture for describing bar code objects, using a number of different symbologies. Specification of the data to be encoded and the symbology attributes to be used are included in the architecture definition. | ❓ |
-| CMOCA-1-057 | Font Object Content Architecture (FOCA):** A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. | ❓ |
-| CMOCA-1-058 | Color Management Object Content Architecture (CMOCA):** A resource architecture used to carry the color management information required to render presentation data. | ❓ |
-| CMOCA-1-059 | Metadata Object Content Architecture (MOCA):** A resource architecture used to carry metadata in an AFP environment. | ❓ |
-| CMOCA-1-060 | The MO:DCA and IPDS architectures also support data objects that are not defined by object content architectures. Examples of such objects are Tag Image File Format (TIFF), Encapsulated PostScript® (EPS), and Portable Document Format (PDF). Such objects can be carried in a MO:DCA envelope called an object container, or they can be referenced without being enveloped in MO:DCA structures. | ❓ |
-| CMOCA-1-061 | In addition to object content architectures, the MO:DCA architecture defines envelope architectures for objects of common value in the presentation environment. Examples of these are Form Definition resource objects for managing the production of pages on the physical media, overlay resource objects that accommodate electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a document. | ❓ |
-| CMOCA-1-062 | Figure 3 shows an example of an all-points-addressable page composed of multiple presentation objects. | ❓ |
-| CMOCA-1-063 | Figure 3. Presentation Page.** This is an example of a mixed-object page that can be composed in a presentation-system-independent MO:DCA format and printed on an IPDS printer. | ❓ |
-| CMOCA-2-001 | The Color Management Object Content Architecture (CMOCA) defines objects that provide color management in presentation environments. These objects are called Color Management Resources (CMRs). CMOCA has the following objectives: | ❓ |
-| CMOCA-2-002 | Consistent output across different devices | ❓ |
-| CMOCA-2-003 | Accurate output, to the best of the device capability, from a wide variety of inputs provided that the input color information is properly described | ❓ |
-| CMOCA-2-004 | Consistent output across different data streams | ❓ |
-| CMOCA-2-005 | Flexible controls that enable customers to obtain output to their exact specifications | ❓ |
-| CMOCA-2-006 | The architecture described in this document is defined in the terms of the AFP architectures to support color management in AFP environments, but care has been taken to make the mechanisms applicable to other presentation environments as well. | ❓ |
-| CMOCA-2-007 | The device that presents the data could be a printer, a display, or other system. This document frequently references printers but it should be understood that the architecture also applies to displays and other presentation devices. | ❓ |
-| CMOCA-2-008 | A Color Management Resource (CMR) is an architected resource that is used to carry the color management information required to render a print file, document, page, or data object. Each CMR carries a single type of color management resource. There are five types of CMRs: | ❓ |
-| CMOCA-2-009 | 1.  Halftone | ❓ |
-| CMOCA-2-010 | 2.  Tone Transfer Curve | ❓ |
-| CMOCA-2-011 | 3.  Color Conversion | ❓ |
-| CMOCA-2-012 | 4.  Link Color Conversion | ❓ |
-| CMOCA-2-013 | 5.  Indexed | ❓ |
-| CMOCA-2-014 | Note:** Not all CMR types are applicable for a particular kind of presentation device; for instance, halftones are not applicable for a display. | ❓ |
-| CMOCA-2-015 | A CMR can reflect processing that has been done on an object, in which case it is referred to as an **audit CMR**, or it can specify processing that is to be done to an object, in which case it is referred to as an **instruction CMR**. Finally, there is a special case of an audit and instruction color conversion pair that has been combined to produce a link color conversion. This combined color conversion is called a **link CMR**. | ❓ |
-| CMOCA-2-016 | In AFP environments, CMRs are processed as AFP resources by print servers so they can be downloaded once, captured, and used repeatedly without additional downloads. CMRs are also applicable to non-AFP environments such as PostScript, PDF, and PCL®. | ❓ |
-| CMOCA-2-017 | The primary purpose of the Color Management Object Content Architecture is to provide a standard definition for color management resources that are used for controlling presentation of color objects. “Color objects”, as used in the document, means full-color, grayscale, and monochrome objects. This standardization provides conventions and directions for current and future products to present objects in a consistent way. | ❓ |
-| CMOCA-2-018 | Development of CMOCA has the following goals: | ❓ |
-| CMOCA-2-019 | To allow a means to represent color management information in any environment | ❓ |
-| CMOCA-2-020 | To use a format that is flexible enough to allow it to exist intact in interactive, presentation, and interchange environments that are defined in the following data stream architectures: | ❓ |
-| CMOCA-2-021 | Intelligent Printer Data Stream (IPDS) and | ❓ |
-| CMOCA-2-022 | Mixed Object Document Content Architecture (MO:DCA) | ❓ |
-| CMOCA-2-023 | To describe the CMR in terms of architected tags | ❓ |
-| CMOCA-2-024 | To use industry-standard constructs when architecting the CMRs | ❓ |
-| CMOCA-2-025 | To allow the CMR to be fully described in device-independent and process-independent terms | ❓ |
-| CMOCA-2-026 | To use a naming convention for the CMRs that allow device-specific color resources to be substituted for generic resources | ❓ |
-| CMOCA-2-027 | To define CMRs so that multiple CMRs can be invoked at one time, and a hierarchy can be searched to determine the appropriate CMRs to use | ❓ |
-| CMOCA-2-028 | In AFP environments, CMRs will be carried within an object container. CMRs can be associated with a document component at various levels: | ❓ |
-| CMOCA-2-029 | 1.  Print file | ❓ |
-| CMOCA-2-030 | 2.  Document | ❓ |
-| CMOCA-2-031 | 3.  A group of pages or sheets | ❓ |
-| CMOCA-2-032 | 4.  Page/Overlay | ❓ |
-| CMOCA-2-033 | 5.  Data Object - for example, IOCA, EPS, TIFF | ❓ |
-| CMOCA-2-034 | Within the IPDS data stream, CMRs are activated and deactivated like all other IPDS resources but the CMR is not used until it is explicitly invoked (except for certain Link Color Conversions CMRs, that need not be invoked). Within the device, IPDS hierarchical rules are used to determine which CMRs are actually applied. | ❓ |
-| CMOCA-3-001 | A CMR consists of a header followed by CMR data. | ❓ |
-| CMOCA-3-002 | To start, for simplicity, assume that the source data is specified in a device-independent color space (that is, an ICC Profile Connection Space (PCS) such as CIEXYZ or CIELAB). The procedure for producing output uses the following sequence: | ❓ |
-| CMOCA-3-003 | Figure 4. Procedure for Producing Halftone Output from PCS** | ❓ |
-| CMOCA-3-004 | 1.  Color Convert from PCS to color space of output device | ❓ |
-| CMOCA-3-005 | 2.  Color Calibration | ❓ |
-| CMOCA-3-006 | 3.  Halftone Data | ❓ |
-| CMOCA-3-007 | When color data has been processed using the above sequence, the resulting object can be stored in a database. It might be useful to keep an audit trail of the operations that were performed to create the object. This audit information can be merely descriptive, or it can be used to undo some of the operations performed on the object and thus restore it to the original form when it was expressed in the PCS color space. In this case, the inverse of each function is applied in this sequence: | ❓ |
-| CMOCA-3-008 | Figure 5. Procedure for Converting Input Data to Full Color in PCS** | ❓ |
-| CMOCA-3-009 | 1.  Undo Halftoning (Note: typically not stored) | ❓ |
-| CMOCA-3-010 | 2.  Undo Color Calibration | ❓ |
-| CMOCA-3-011 | 3.  Undo Color Conversion (i.e. convert source color space to PCS) | ❓ |
-| CMOCA-3-012 | (halftone data)⁻¹ → (color calibration)⁻¹ → (color conversion)⁻¹ | ❓ |
-| CMOCA-3-013 | In actuality, halftoning is not typically undone. The halftoned version is typically not stored in the database. Further, undoing the halftoning is very complex. Note also that objects prepared for a display are not halftoned. Therefore, this document assumes that no attempt will be made to go from halftoned data back to the object represented in the PCS color space. | ❓ |
-| CMOCA-3-014 | Now, let's assume that the source data is specified in a device-dependent color space and it is desired to render it on an output device. The source data must be converted to the color space of the device. This involves the following combined sequence: | ❓ |
-| CMOCA-3-015 | Figure 6. Procedure for Creating Halftone Data from Device-Specific Color Data** | ❓ |
-| CMOCA-3-016 | 1.  Convert from source color space to PCS | ❓ |
-| CMOCA-3-017 | 2.  Undo source Color Calibration | ❓ |
-| CMOCA-3-018 | 3.  Color Calibration (Target) | ❓ |
-| CMOCA-3-019 | 4.  Convert from PCS to color space of output device | ❓ |
-| CMOCA-3-020 | 5.  Halftone Data | ❓ |
-| CMOCA-3-021 | Information that relates to the creation of the source data is referred to as an **audit CMR**. It might describe how the source data was created, as in an audit halftone. Or it might describe how to undo an operation that was used to create the source data. For instance, an audit color conversion profile tells how to convert from the color space of the source data to a PCS. Audit tone transfer curves have been architected to describe an action that was done to create the source data. There is also an optional tag that describes how to undo the tone transfer curve. | ❓ |
-| CMOCA-3-022 | The above discussion assumes that the color was specified using a color space. It is also possible to specify a color using an index and then define how to produce that color using a palette that tells which component inks/toners are used, in which concentration. An Indexed CMR is used to define how to produce the indexed colors. | ❓ |
-| CMOCA-3-023 | There are seven basic uses of the CMR that must be considered: | ❓ |
-| CMOCA-3-024 | 1.  **Audit Halftone** can be attached to an image that has been halftoned and indicates which halftone was used. | ❓ |
-| CMOCA-3-025 | 2.  **Audit Tone Transfer Curve** indicates a one-dimensional conversion that was applied to the input color before halftoning. The inverse curve needs to be applied to get back to the input color space. | ❓ |
-| CMOCA-3-026 | 3.  **Audit Color Conversion** is used to convert from the input color space to a profile connection space. | ❓ |
-| CMOCA-3-027 | 4.  **Instruction Color Conversion** is used to convert from the profile connection space to the color space of the output device. | ❓ |
-| CMOCA-3-028 | 5.  **Instruction Tone Transfer Curve** is a one-dimensional conversion applied to the output color before halftoning (or a set of 1-D conversions, one for each color component). | ❓ |
-| CMOCA-3-029 | 6.  **Instruction Halftone** is used to halftone the output colored data. | ❓ |
-| CMOCA-3-030 | 7.  **Link Color Conversion** provides an efficient means for converting directly from the input color space to the output color space and can be substituted for the Audit Color Conversion/Instruction Color Conversion pair. A special type of Link Color Conversion, ICC DeviceLink, converts directly from input to output space without reference to an audit/instruction pair. | ❓ |
-| CMOCA-3-031 | When a presentation device is processing data using the CMR system, these are the basic steps that are followed. Note that device-default CMRs are used if an applicable CMR is not explicitly invoked. If a CMR is ignored, the device must accept it but does not error check or process the contents. | ❓ |
-| CMOCA-3-032 | 1.  The device ignores an Audit Halftone. It might be useful information to store with the image in a database, but it is not currently used in the presentation device since undoing halftoning is not a simple process. | ❓ |
-| CMOCA-3-033 | 2.  The device applies an applicable Audit Tone Transfer Curve. If an inverse tone transfer curve is specified, it is used. Otherwise, the function specified by the tone transfer curve must be inverted before it is applied. Note that the inverse tone transfer curve is not a well-defined function. | ❓ |
-| CMOCA-3-034 | 3.  If an applicable ICC DeviceLink exists, it is used. This link color conversion converts the input color space to the output color space of the current device. If this CMR is selected for use, the next two steps (selection of Audit Color Conversion and Instruction Color Conversion CMRs) are skipped. | ❓ |
-| CMOCA-3-035 | 4.  If an applicable Audit Color Conversion exists, it is used. This audit Color Conversion converts the input color space (RGB, CMYK, grayscale...) to a profile connection space. | ❓ |
-| CMOCA-3-036 | 5.  An Instruction Color Conversion is used to convert from the profile connection space into the output color space of the current device. | ❓ |
-| CMOCA-3-037 | 6.  If an Instruction Tone Transfer Curve exists, the color is modified using it. | ❓ |
-| CMOCA-3-038 | 7.  The colored data is halftoned using an Instruction Halftone. | ❓ |
-| CMOCA-3-039 | In reality, the processing of sequential steps can be combined to improve performance. A Link Color Conversion CMR can be used in place of a combined audit/instruction color conversion pair. Chapter 6 discusses how CMRs are used in more detail. | ❓ |
-| CMOCA-3-040 | The Indexed CMR does not fit into the scheme discussed above. It is used to define how to produce indexed color. | ❓ |
-| CMOCA-3-041 | This is the syntax of a CMR. Bytes 0–163 represent the CMR Header. Each field in the CMR header has a fixed length. The fields from byte 10–155 are character data encoded as UTF-16BE. Data in these fields are left aligned. If the number of the characters in these fields is smaller than the field length, the remaining bytes will be padded with @ (X'0040'). Any field from byte 44–139 is “unspecified” if it is filled with @ characters. | ❓ |
-| CMOCA-3-042 | The CMR name is the concatenated fields in bytes 10–155, exactly in the order specified in the CMR header. The CMR name is 73 characters (146 bytes) long. It should be unique, since it is the name that will be used in the MO:DCA data stream to reference the resource. For example, if the CMR header fields are: | ❓ |
-| CMOCA-3-043 | Alias=JohnMay4, CMRType=HT, CMRVersion=1.2, ManufacturerName=IBM, DeviceType=4100, DeviceModel=PD1, MediaBrightness=94, MediaColor=wht, MediaFinish=gl, MediaWeight=90, number of device levels=2, Halftone type=rnd, line screen frequency=141, resolution=600, and rotation=proc | ❓ |
-| CMOCA-3-044 | `JohnMay4HT001.200IBM@@4100@@PD194@whtgl90@2@@@@rnd@@@141@600@proc@@@@@@@@` | ❓ |
-| CMOCA-3-045 | 4 | 0–3 | 4-byte UBIN | Length | X'000000A4' – X'FFFFFFFF' | CMR length, including length field | M | ❓ |
-| CMOCA-3-046 | 4 | 4–7 | CODE | CMRSig | X'434D5239' | Signature of this CMR | M | ❓ |
-| CMOCA-3-047 | 2 | 8–9 | | Reserved | X'0000' | Reserved: should be set to zero | M | ❓ |
-| CMOCA-3-048 | CMR Name starts here. It is composed of bytes 10–155.** | ❓ |
-| CMOCA-3-049 | 16 | 10–25 | UTF16 | CMRAlias | No restriction | Human-readable alias | M | ❓ |
-| CMOCA-3-050 | 4 | 26–29 | UTF16 | CMRType | CC (X'0043 0043') | Color Conversion | M | ❓ |
-| CMOCA-3-051 | DL (X'0044 004C') | ICC DeviceLink Color Conversion | ❓ |
-| CMOCA-3-052 | HT (X'0048 0054') | Halftone | ❓ |
-| CMOCA-3-053 | IX (X'0049 0058') | Indexed | ❓ |
-| CMOCA-3-054 | LK (X'004C 004B') | Link Color Conversion | ❓ |
-| CMOCA-3-055 | TC (X'0054 0043') | Tone Transfer Curve | ❓ |
-| CMOCA-3-056 | 14 | 30–43 | UTF16 | CMRVersion | ddd.ddd | CMRVersion number | M | ❓ |
-| CMOCA-3-057 | AFP .ddd | Special AFP version number | ❓ |
-| CMOCA-3-058 | generic | “generic” | ❓ |
-| CMOCA-3-059 | pasthru | “passthrough” | ❓ |
-| CMOCA-3-060 | 10 | 44–53 | UTF16 | Manufacturer Name | See description | Name of the manufacturer | M | ❓ |
-| CMOCA-3-061 | 12 | 54–65 | UTF16 | DeviceType | See description | Type of the device | M | ❓ |
-| CMOCA-3-062 | 6 | 66–71 | UTF16 | DeviceModel | See description | Model of the device | M | ❓ |
-| CMOCA-3-063 | 6 | 72–77 | UTF16 | Media Brightness | 0–100 | For print media, percentage of light reflected | M | ❓ |
-| CMOCA-3-064 | Zxy | For screen, a CIE illuminant | ❓ |
-| CMOCA-3-065 | 6 | 78–83 | UTF16 | MediaColor | | Color of the media: | M | ❓ |
-| CMOCA-3-066 | blu | blue | ❓ |
-| CMOCA-3-067 | buf | buff | ❓ |
-| CMOCA-3-068 | gdr | goldenrod | ❓ |
-| CMOCA-3-069 | grn | green | ❓ |
-| CMOCA-3-070 | gry | gray | ❓ |
-| CMOCA-3-071 | ivy | ivory | ❓ |
-| CMOCA-3-072 | noc | no-color | ❓ |
-| CMOCA-3-073 | org | orange | ❓ |
-| CMOCA-3-074 | pnk | pink | ❓ |
-| CMOCA-3-075 | red | red | ❓ |
-| CMOCA-3-076 | wht | white | ❓ |
-| CMOCA-3-077 | ylw | yellow | ❓ |
-| CMOCA-3-078 | custom | three upper-case characters [A,Z] | ❓ |
-| CMOCA-3-079 | @@@ | not specified | ❓ |
-| CMOCA-3-080 | 4 | 84–87 | UTF16 | MediaFinish | | Surface characteristics: | M | ❓ |
-| CMOCA-3-081 | cm | commodity | ❓ |
-| CMOCA-3-082 | ct | coated | ❓ |
-| CMOCA-3-083 | gl | glossy | ❓ |
-| CMOCA-3-084 | hg | high-gloss | ❓ |
-| CMOCA-3-085 | mt | matte | ❓ |
-| CMOCA-3-086 | no | none | ❓ |
-| CMOCA-3-087 | np | newsprint | ❓ |
-| CMOCA-3-088 | sg | semi-gloss | ❓ |
-| CMOCA-3-089 | st | satin | ❓ |
-| CMOCA-3-090 | tr | treated | ❓ |
-| CMOCA-3-091 | custom | two upper-case characters [A,Z] | ❓ |
-| CMOCA-3-092 | @@ | not specified | ❓ |
-| CMOCA-3-093 | 6 | 88–93 | UTF16 | MediaWeight | 1–999 | The basic weight of the paper | M | ❓ |
-| CMOCA-3-094 | 10 | 94–103 | UTF16 | Prop1 | See description | CMRType property-specific field 1 | M | ❓ |
-| CMOCA-3-095 | 12 | 104–115 | UTF16 | Prop2 | See description | CMRType property-specific field 2 | M | ❓ |
-| CMOCA-3-096 | 8 | 116–123 | UTF16 | Prop3 | See description | CMRType property-specific field 3 | M | ❓ |
-| CMOCA-3-097 | 8 | 124–131 | UTF16 | Prop4 | See description | CMRType property-specific field 4 | M | ❓ |
-| CMOCA-3-098 | 8 | 132–139 | UTF16 | Prop5 | See description | CMRType property-specific field 5 | M | ❓ |
-| CMOCA-3-099 | 16 | 140–155 | UTF16 | @@@@@@@@ | | Reserved | M | ❓ |
-| CMOCA-3-100 | CMR Name ends here. It is composed of bytes 10–155.** | ❓ |
-| CMOCA-3-101 | 8 | 156–163 | | X'00...00' | | Reserved: should be set to zero | M | ❓ |
-| CMOCA-3-102 | 164–end | | CMRData | Any | | Resource data | O | ❓ |
-| CMOCA-3-103 | 1. M/O denotes a mandatory or optional field | ❓ |
-| CMOCA-3-104 | 2. UTF16 denotes UTF-16BE | ❓ |
-| CMOCA-3-105 | The length of the complete CMR, including the Length parameter. Length may be 164 (X'000000A4') bytes up to X'FFFFFFFF'. | ❓ |
-| CMOCA-3-106 | The signature of the CMR that allows it to be easily recognized. It will be three ASCII characters “CMR” followed by X'39', that is, X'434D5239'. | ❓ |
-| CMOCA-3-107 | Eight-character user-defined string to enable an easy way of identifying the CMR. | ❓ |
-| CMOCA-3-108 | Five CMRTypes are defined in this Color Management Object Content Architecture. They are: Halftone, Tone Transfer Curve, Color Conversion, Link Color Conversion, and Indexed. The value of the CMRType must be specified in the header or an exception will be generated. Note that a Link Color Conversion CMR has two possible identifiers in this field: LK for LinkColorConversion LUT subset and DL for ICC DeviceLink subset. | ❓ |
-| CMOCA-3-109 | The CMRVersion number consists of a major version number (an integer of 1–3 digits) and a minor version number (an integer of 1–3 digits), separated by a decimal point (. =DECIMAL POINT=X'002E'). If the number of digits is smaller than 3, zeroes will be padded to the left side of the major number or to the right side of the minor number. For example, if the version number is 1.20 then the value of the CMRVersion is 001.200. | ❓ |
-| CMOCA-3-110 | A value of “AFP .ddd” is used to specify a minor version number along with “AFP” to indicate that the CMR is a standard Color Conversion CMR that is supported by the AFP Consortium. The supported standard color spaces will be spaces like SWOP, CMYK, and sRGB. | ❓ |
-| CMOCA-3-111 | A value of “generic” (X'0067 0065 006E 0065 0072 0069 0063') in this field identifies a generic CMR. Only Halftone and Tone Transfer Curve CMRs may be identified as generic. CMR data in generic CMRs is optional and is not used in AFP color management systems. | ❓ |
-| CMOCA-3-112 | A value of “pasthru” (X'0070 0061 0073 0074 0068 0072 0075') identifies a color space that should not be color-converted. Only Color Conversion CMRs may be identified as passthrough. There is no data in a passthrough CMR. | ❓ |
-| CMOCA-3-113 | The value of the CMRVersion must be specified in the header. The CMRVersion tracks changes besides the changes in the device-specific fields, media-specific fields, and the CMRType property-specific fields. It reflects changes of algorithm, toner, and so on. | ❓ |
-| CMOCA-3-114 | For IPDS receivers, the ManufacturerName, DeviceType, and DeviceModel values must be provided in accordance with the IPDS description of the Product Identifier self-defining field of the XOH Obtain Printer Characteristics (OPC) reply. Refer to the Intelligent Printer Data Stream Reference. The field descriptions are as follows: | ❓ |
-| CMOCA-3-115 | ManufacturerName:** Name of the manufacturer. | ❓ |
-| CMOCA-3-116 | DeviceType:** Device type of the printer that corresponds to the device type imprinted on the serial number plate that is physically attached to the printer. | ❓ |
-| CMOCA-3-117 | DeviceModel:** Model number of the printer that corresponds to the model number imprinted on the serial number plate that is physically attached to the printer. | ❓ |
-| CMOCA-3-118 | For the non-IPDS devices, a maximum of five characters are allowed for the ManufacturerName. The stock symbol (maximum five characters), a unique name assigned by stock exchanges worldwide, is recommended to be used for the ManufacturerName. The DeviceType and DeviceModel have to be unique and meaningful for the devices. Alternatively, the ICC Manufacture ASCII Signature and Device ASCII Signature can be used for the ManufacturerName and the DeviceModel. | ❓ |
-| CMOCA-3-119 | Implementation notes:** | ❓ |
-| CMOCA-3-120 | 1.  If the DeviceType is unspecified (@@@@@@), then it automatically matches the DeviceType of the target device. Similarly, if the DeviceModel is unspecified (@@@), then it automatically matches the DeviceModel of the target device. The DeviceType and DeviceModel are sometimes used by print servers to determine which CMRs to send to the presentation device. In particular, link CMRs are targeted for a particular device based on the DeviceType and DeviceModel of the instruction Color Conversion CMR. Multiple link CMRs can be associated with (or mapped to) an audit CC CMR in the CMR RAT. The link CMRs that are sent down to the device are determined by finding matches with the DeviceType and DeviceModel of the target device. Furthermore, Generic Tone Transfer Curve and Halftone CMRs can have mapped device-specific CMRs in the CMR RAT; such mapped CMRs are sent to the device if the DeviceType and DeviceModel in the mapped CMR match the DeviceType and DeviceModel of the target device. In some situations, it is acceptable to let the CMR header values for DeviceType and DeviceModel be unspecified (@@@@@@ or @@@). For example, CMRs that will be used only as audit CMRs can have unspecified values for DeviceType and DeviceModel. If a link CMR or a device-specific HT or TTC CMR is associated with another CMR in the CMR RAT and does not specify a DeviceType and/or DeviceModel, the unspecified parameter(s) match the DeviceType and/or DeviceModel of any target printer. | ❓ |
-| CMOCA-3-121 | 2.  The device types and model numbers specified in the XOH-OPC reply and in the CMR header's DeviceType might not use the same format. For instance, for the InfoPrint 4100, the XOH-OPC reply for the device type would be “004100” encoded using EBCDIC. In the CMR header, the DeviceType is padded with “@” on the right. Therefore, depending on the input provided to the Installer, the CMR DeviceType field might be “004100” or “4100@@” encoded using UTF-16BE. Tools that compare the device type in the XOH-OPC reply and in the CMR header must be prepared to indicate a match taking into account the differences in padding practices. | ❓ |
-| CMOCA-3-122 | Media-specific fields describe the media and consist of four attributes: media brightness, media color, media finish, and media weight. The values for the MediaColor and the MediaFinish are consistent with the values defined by the Internet Printing Protocol (IPP) of the Printer Working Group (PWG). If the target device is a display, only media brightness is specified. | ❓ |
-| CMOCA-3-123 | To use an instruction CMR, its media type must match the media currently being used by the device. Similarly, in order to use an ICC DeviceLink CMR, its media attributes must match the device's media attributes. See “Matching Media Type of CMR With Media Type of Device” for a discussion of this requirement. | ❓ |
-| CMOCA-3-124 | MediaBrightness:** For print media, indicates the percentage of light reflected from the media. The brightness is measured with a brightmeter machine. The scale is based on the TAPPI GE scale in the US and the ISO scale in the rest of the world. The ISO scale is usually about two units higher than the GE value. For example, 100 ISO brightness is equivalent to 98 brightness on the GE scale. In order to ensure that the CMR's media type matches the media currently being used in the device, the scale that is used to specify each value must be the same. For screens, the brightness is defined as the CIE standard illuminant as Zxy, where Z is a capitalized letter, and xy is a two-digit number (see ISO/CIE 10526:1999: CIE standard illuminants for colorimetry). For example, D50, D65, etc. | ❓ |
-| CMOCA-3-125 | MediaColor:** Indicates the color of the media being specified. CMOCA-recommended values exist to encourage interoperability; a CMOCA-recommended value should be used if appropriate for a CMR associated with a specific media. The value “noc” means transparency. Custom values may be defined by the administrator. There is no restriction on what value may be entered for this field as it is not checked for validity. | ❓ |
-| CMOCA-3-126 | MediaFinish:** Indicates the surface characteristics of the media. CMOCA-recommended values exist to encourage interoperability; a CMOCA-recommended value should be used if appropriate for a CMR associated with a specific media. The value “no” means no coating. Custom values may be defined by the administrator. There is no restriction on what value may be entered for this field as it is not checked for validity. | ❓ |
-| CMOCA-3-127 | MediaWeight:** Indicates the weight of the media rounded to the nearest whole number of grams per square meter. | ❓ |
-| CMOCA-3-128 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ❓ |
-| CMOCA-3-129 | Prop1: Number of Device Levels** | ❓ |
-| CMOCA-3-130 | Prop2: Halftone Type** | ❓ |
-| CMOCA-3-131 | Defines the halftone type. Halftone types are divided into four major categories: clustered-dot, stochastic, dispersed, and error diffusion. The dot shape is used to specify the type of the clustered-dot, and the error diffusion filter name is used to specify the type of error diffusion halftone. | ❓ |
-| CMOCA-3-132 | Table 5. Halftone Types** | ❓ |
-| CMOCA-3-133 | rnd@@@** | Round dot for the clustered-dot halftone | ❓ |
-| CMOCA-3-134 | sqr@@@** | Square dot for the clustered-dot halftone | ❓ |
-| CMOCA-3-135 | dia@@@** | Diamond dot for the clustered-dot halftone | ❓ |
-| CMOCA-3-136 | rhm@@@** | Rhombus dot for the clustered-dot halftone | ❓ |
-| CMOCA-3-137 | elp@@@** | Elliptical dot for the clustered-dot halftone | ❓ |
-| CMOCA-3-138 | eud@@@** | Euclidean dot for the clustered-dot halftone | ❓ |
-| CMOCA-3-139 | lin@@@** | Line shape dot for the clustered-dot halftone | ❓ |
-| CMOCA-3-140 | sto@@@** | Stochastic halftone | ❓ |
-| CMOCA-3-141 | dsp@@@** | Dispersed halftone | ❓ |
-| CMOCA-3-142 | erd@@@** | Unspecified error diffusion halftone | ❓ |
-| CMOCA-3-143 | f-d@@@** | Floyd-Steinberg error diffusion halftone | ❓ |
-| CMOCA-3-144 | jjn@@@** | Jarvis-Judice-Ninke error diffusion halftone | ❓ |
-| CMOCA-3-145 | stu@@@** | Stucki error diffusion halftone | ❓ |
-| CMOCA-3-146 | brk@@@** | Burkes error diffusion halftone | ❓ |
-| CMOCA-3-147 | sra@@@** | Sierra error diffusion halftone | ❓ |
-| CMOCA-3-148 | s-a@@@** | Stevenson Arce error diffusion halftone | ❓ |
-| CMOCA-3-149 | Prop3: Line Screen Frequency** | ❓ |
-| CMOCA-3-150 | Prop4: Resolution** | ❓ |
-| CMOCA-3-151 | Prop5: Rotation** | ❓ |
-| CMOCA-3-152 | Defines the orientation of the halftone. There are three possible values: orientation independent, along the scan direction, and along the process direction. | ❓ |
-| CMOCA-3-153 | Table 6. Halftone Rotations** | ❓ |
-| CMOCA-3-154 | indp** | Orientation independent | ❓ |
-| CMOCA-3-155 | scan** | Scan direction | ❓ |
-| CMOCA-3-156 | proc** | Process direction | ❓ |
-| CMOCA-3-157 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ❓ |
-| CMOCA-3-158 | Prop1: Profile/Device Class Signature** | ❓ |
-| CMOCA-3-159 | The definition of the Device Class Signature is consistent with the definition in the ICC header. There are four basic profile/device classes: Input, Display, Output, and ColorSpace Conversion. | ❓ |
-| CMOCA-3-160 | Table 7. ICC Profile/Device Classes for Tone Transfer Curve CMRs** | ❓ |
-| CMOCA-3-161 | scnr@** | Input Device | ❓ |
-| CMOCA-3-162 | mntr@** | Display Device | ❓ |
-| CMOCA-3-163 | prtr@** | Output Device | ❓ |
-| CMOCA-3-164 | spac@** | ColorSpace Conversion | ❓ |
-| CMOCA-3-165 | Prop2: Look-and-Feel** | ❓ |
-| CMOCA-3-166 | Look-and-Feel produced in the output when this Tone Transfer Curve is applied. See Appendix B, “Generic CMR Name Registry” for an explanation of what these values mean. | ❓ |
-| CMOCA-3-167 | Table 8. Look-and-Feel Values** | ❓ |
-| CMOCA-3-168 | hilmid** | Highlight Midtone | ❓ |
-| CMOCA-3-169 | standd** | Standard | ❓ |
-| CMOCA-3-170 | dark@@** | Dark | ❓ |
-| CMOCA-3-171 | accutn** | Accutone | ❓ |
-| CMOCA-3-172 | Prop3: Halftone Characterization** | ❓ |
-| CMOCA-3-173 | Prop4: Reserved for future use.** | ❓ |
-| CMOCA-3-174 | Prop5: Reserved for future use.** | ❓ |
-| CMOCA-3-175 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ❓ |
-| CMOCA-3-176 | Prop1: Profile/Device Class Signature** | ❓ |
-| CMOCA-3-177 | It is consistent with the definition of the Profile/Device Class Signature in the ICC header. | ❓ |
-| CMOCA-3-178 | Table 9. ICC Profile/Device Classes for Color Conversion CMRs** | ❓ |
-| CMOCA-3-179 | scnr@** | Input Device profile | ❓ |
-| CMOCA-3-180 | mntr@** | Display Device profile | ❓ |
-| CMOCA-3-181 | prtr@** | Output Device profile | ❓ |
-| CMOCA-3-182 | spac@** | ColorSpace Conversion profile | ❓ |
-| CMOCA-3-183 | Prop2: Reserved for future use.** | ❓ |
-| CMOCA-3-184 | Prop3: Reserved for future use.** | ❓ |
-| CMOCA-3-185 | Prop4: Color Space of Data** | ❓ |
-| CMOCA-3-186 | It is consistent with the definition of the Color Space of Data in the ICC header. Table 10 shows the possible values. | ❓ |
-| CMOCA-3-187 | Table 10. The ICC Color Space of Data** | ❓ |
-| CMOCA-3-188 | XYZ@** | XYZData | ❓ |
-| CMOCA-3-189 | Lab@** | labData | ❓ |
-| CMOCA-3-190 | Luv@** | luvData | ❓ |
-| CMOCA-3-191 | YCbr** | YCbCrData | ❓ |
-| CMOCA-3-192 | Yxy@** | YxyData | ❓ |
-| CMOCA-3-193 | RGB@** | rgbData | ❓ |
-| CMOCA-3-194 | GRAY** | grayData | ❓ |
-| CMOCA-3-195 | HSV@** | hsvData | ❓ |
-| CMOCA-3-196 | HLS@** | hlsData | ❓ |
-| CMOCA-3-197 | CMYK** | cmykData | ❓ |
-| CMOCA-3-198 | CMY@** | cmyData | ❓ |
-| CMOCA-3-199 | 2CLR** | 2colorData | ❓ |
-| CMOCA-3-200 | 3CLR** | 3colorData (if not listed above) | ❓ |
-| CMOCA-3-201 | 4CLR** | 4colorData (if not listed above) | ❓ |
-| CMOCA-3-202 | 5CLR** | 5colorData | ❓ |
-| CMOCA-3-203 | 6CLR** | 6colorData | ❓ |
-| CMOCA-3-204 | 7CLR** | 7colorData | ❓ |
-| CMOCA-3-205 | 8CLR** | 8colorData | ❓ |
-| CMOCA-3-206 | 9CLR** | 9colorData | ❓ |
-| CMOCA-3-207 | ACLR** | 10colorData | ❓ |
-| CMOCA-3-208 | BCLR** | 11colorData | ❓ |
-| CMOCA-3-209 | CCLR** | 12colorData | ❓ |
-| CMOCA-3-210 | DCLR** | 13colorData | ❓ |
-| CMOCA-3-211 | ECLR** | 14colorData | ❓ |
-| CMOCA-3-212 | FCLR** | 15colorData | ❓ |
-| CMOCA-3-213 | Prop5: PCS** | ❓ |
-| CMOCA-3-214 | The profile connection space specified as either CIEXYZ (XYZ) or CIELAB (Lab), encoded as for Prop4. | ❓ |
-| CMOCA-3-215 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ❓ |
-| CMOCA-3-216 | Prop1: Input Device ManufacturerName** | ❓ |
-| CMOCA-3-217 | Prop2: Input DeviceType** | ❓ |
-| CMOCA-3-218 | Prop3: Input DeviceModel** | ❓ |
-| CMOCA-3-219 | Prop4: Input Color Space** | ❓ |
-| CMOCA-3-220 | Prop5: Output Color Space** | ❓ |
-| CMOCA-3-221 | Device-specific color space, a subset of the Color Space of Data defined in the ICC profile header. Possible values are shown in the following table. | ❓ |
-| CMOCA-3-222 | Table 11. Output Color Spaces** | ❓ |
-| CMOCA-3-223 | RGB@** | rgbData | ❓ |
-| CMOCA-3-224 | GRAY** | grayData | ❓ |
-| CMOCA-3-225 | CMYK** | cmykData | ❓ |
-| CMOCA-3-226 | CMY@** | cmyData | ❓ |
-| CMOCA-3-227 | 2CLR** | 2colorData | ❓ |
-| CMOCA-3-228 | 3CLR** | 3colorData (if not listed above) | ❓ |
-| CMOCA-3-229 | 4CLR** | 4colorData (if not listed above) | ❓ |
-| CMOCA-3-230 | 5CLR** | 5colorData | ❓ |
-| CMOCA-3-231 | 6CLR** | 6colorData | ❓ |
-| CMOCA-3-232 | 7CLR** | 7colorData | ❓ |
-| CMOCA-3-233 | 8CLR** | 8colorData | ❓ |
-| CMOCA-3-234 | 9CLR** | 9colorData | ❓ |
-| CMOCA-3-235 | ACLR** | 10colorData | ❓ |
-| CMOCA-3-236 | BCLR** | 11colorData | ❓ |
-| CMOCA-3-237 | CCLR** | 12colorData | ❓ |
-| CMOCA-3-238 | DCLR** | 13colorData | ❓ |
-| CMOCA-3-239 | ECLR** | 14colorData | ❓ |
-| CMOCA-3-240 | FCLR** | 15colorData | ❓ |
-| CMOCA-3-241 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ❓ |
-| CMOCA-3-242 | Prop1: Reserved for future use.** | ❓ |
-| CMOCA-3-243 | Prop2: Reserved for future use.** | ❓ |
-| CMOCA-3-244 | Prop3: Reserved for future use.** | ❓ |
-| CMOCA-3-245 | Prop4: Reserved for future use.** | ❓ |
-| CMOCA-3-246 | Prop5: Reserved for future use.** | ❓ |
-| CMOCA-3-247 | The content of the data is defined by the CMR type. The CMR data carries the color resource data. The resource data is carried in a tagged format. The tags are loosely based on the TIFF tag syntax, but with significant changes and additions. The tag syntax is defined in Chapter 5, “CMR Data Architecture”. | ❓ |
-| CMOCA-3-248 | CMR data is optional for generic and passthrough CMRs. If CMR data is specified for a generic or passthrough CMR, it is ignored. | ❓ |
-| CMOCA-3-249 | On encountering an error, an exception is raised. Exception conditions have a format of EC-xxxxyy. xxxx represents the tag value. For the purposes of error reporting, the fields in the CMR header are treated as “implied tags”. The architecture defines the tags that describe data fields to have TagIDs of X'0000'–X'FFFF'. However, IDs in the range X'EF00'–X'EFFF' have been reserved for error handling in the CMR Header. Currently, IDs in the range X'EFF0'–X'EFF7' are used for CMR header error codes. | ❓ |
-| CMOCA-3-250 | X'03' Invalid length | ❓ |
-| CMOCA-3-251 | X'10' Invalid or unsupported field value | ❓ |
-| CMOCA-3-252 | The exception conditions are as follows: | ❓ |
-| CMOCA-3-253 | EC-EFF003 Invalid Length Value:** The specified Length is invalid. | ❓ |
-| CMOCA-3-254 | EC-EFF110 Invalid Field Value:** The specified value for CMRSig is not X'434D5239'. | ❓ |
-| CMOCA-3-255 | EC-EFF210 Invalid Field Value:** The specified CMRType is invalid. | ❓ |
-| CMOCA-3-256 | EC-EFF310 Invalid Field Value:** The specified CMRVersion is invalid. | ❓ |
-| CMOCA-3-257 | EC-EFF410 Invalid Field Value:** The specified MediaBrightness is invalid. | ❓ |
-| CMOCA-3-258 | EC-EFF510** Retired item 1. | ❓ |
-| CMOCA-3-259 | EC-EFF610** Retired item 2. | ❓ |
-| CMOCA-3-260 | EC-EFF710 Invalid Field Value:** The specified MediaWeight is invalid. | ❓ |
-| CMOCA-3-261 | Prop 1–5 are informational. The values are not checked. | ❓ |
+| CMOCA-1-001 | This chapter provides a brief overview of Presentation Architecture. | ✅ |
+| CMOCA-1-002 | Figure 1 shows today's presentation environment. | ✅ |
+| CMOCA-1-003 | Figure 1. Presentation Environment.** The environment is a coordinated set of services architected to meet the presentation needs of today's applications. | ✅ |
+| CMOCA-1-004 | Document Creation Services** | ✅ |
+| CMOCA-1-005 | import/export | ✅ |
+| CMOCA-1-006 | edit/revise | ✅ |
+| CMOCA-1-007 | format | ✅ |
+| CMOCA-1-008 | transform | ✅ |
+| CMOCA-1-009 | Document Archiving Services** | ✅ |
+| CMOCA-1-010 | retrieve | ✅ |
+| CMOCA-1-011 | search | ✅ |
+| CMOCA-1-012 | extract | ✅ |
+| CMOCA-1-013 | Document Viewing Services** | ✅ |
+| CMOCA-1-014 | browse | ✅ |
+| CMOCA-1-015 | navigate | ✅ |
+| CMOCA-1-016 | search | ✅ |
+| CMOCA-1-017 | annotate | ✅ |
+| CMOCA-1-018 | Document Printing Services** | ✅ |
+| CMOCA-1-019 | submit | ✅ |
+| CMOCA-1-020 | distribute | ✅ |
+| CMOCA-1-021 | manage | ✅ |
+| CMOCA-1-022 | finish | ✅ |
+| CMOCA-1-023 | The ability to create, store, retrieve, view, and print data in presentation formats friendly to people is a key requirement in almost every application of computers and information processing. This requirement is becoming increasingly difficult to meet because of the number of applications, servers, and devices that must interoperate to satisfy today's presentation needs. | ✅ |
+| CMOCA-1-024 | The solution is a presentation architecture base that is both robust and open ended, and easily adapted to accommodate the growing needs of the open system environment. AFP architectures provide that base by defining interchange formats for data streams and objects that enable applications, services, and devices to communicate with one another to perform presentation functions. These presentation functions might be part of an integrated system solution or they might be totally separated from one another in time and space. AFP architectures provide structures that support object-oriented models and client/server environments. | ✅ |
+| CMOCA-1-025 | AFP architectures define interchange formats that are system independent and are independent of any particular format used for physically transmitting or storing data. Where appropriate, AFP architectures use industry and international standards, such as the ITU-TSS (formerly known as CCITT) facsimile standards for compressed image data. | ✅ |
+| CMOCA-1-026 | AFP architectures provide the means for representing documents in a data format that is independent of the methods used to capture or create them. Documents can contain combinations of text, image, graphics, and bar code objects in presentation-system-independent and resolution-independent formats. Documents can contain fonts, overlays, and other resource objects required at presentation time to present the data properly. Finally, documents can contain resource objects, such as a document index and tagging elements supporting the search and navigation of document data, for a variety of application purposes. | ✅ |
+| CMOCA-1-027 | The presentation architecture components are divided into two major categories: data streams and objects. | ✅ |
+| CMOCA-1-028 | A data stream is a continuous ordered stream of data elements and objects conforming to a given format. Application programs can generate data streams destined for a presentation service, archive library, presentation device, or another application program. The strategic presentation data stream architectures are: | ✅ |
+| CMOCA-1-029 | Mixed Object Document Content Architecture (MO:DCA)** | ✅ |
+| CMOCA-1-030 | Intelligent Printer Data Stream (IPDS) Architecture** | ✅ |
+| CMOCA-1-031 | The MO:DCA architecture defines the data stream used by applications to describe documents and object envelopes for interchange with other applications and application services. The MO:DCA format supports storing and retrieving documents in an archive, viewing, annotation, and printing of documents or parts of documents in local or distributed systems environments. Presentation fidelity is accommodated by including resource objects in the documents that reference them. | ✅ |
+| CMOCA-1-032 | The IPDS architecture defines the data stream used by print server programs and device drivers to manage all-points-addressable page printing on a full spectrum of devices from low-end workstation and local area network-attached (LAN-attached) printers to high-speed, high-volume page printers for production jobs, shared printing, and mailroom applications. The same object content architectures carried in a MO:DCA data stream can be carried in an IPDS data stream to be interpreted and presented by microcode executing in printer hardware. The IPDS architecture defines bidirectional command protocols for query, resource management, and error recovery. The IPDS architecture also provides interfaces for document finishing operations provided by pre-processing and post-processing devices attached to IPDS printers. | ✅ |
+| CMOCA-1-033 | Figure 2 shows a system model relating MO:DCA and IPDS data streams to the presentation environment previously described. Also shown in the model are the object content architectures that apply to all levels of presentation processing in a system. | ✅ |
+| CMOCA-1-034 | Figure 2. Presentation Model.** This diagram shows the major components in a presentation system and their use of data stream and object architectures. | ✅ |
+| CMOCA-1-035 | Data Objects** | ✅ |
+| CMOCA-1-036 | Graphics | ✅ |
+| CMOCA-1-037 | Bar Codes | ✅ |
+| CMOCA-1-038 | Object Containers | ✅ |
+| CMOCA-1-039 | Other Objects | ✅ |
+| CMOCA-1-040 | Resource Objects** | ✅ |
+| CMOCA-1-041 | Overlays | ✅ |
+| CMOCA-1-042 | Page Segments | ✅ |
+| CMOCA-1-043 | Form Definition | ✅ |
+| CMOCA-1-044 | Color Management Resources | ✅ |
+| CMOCA-1-045 | Color Table | ✅ |
+| CMOCA-1-046 | Document Index | ✅ |
+| CMOCA-1-047 | Metadata | ✅ |
+| CMOCA-1-048 | Documents can be made up of different kinds of data, such as text, graphics, image, and bar code. Object content architectures describe the structure and content of each type of data format that can exist in a document or appear in a data stream. Objects can be either data objects or resource objects. | ✅ |
+| CMOCA-1-049 | A data object contains a single type of presentation data, that is, presentation text, vector graphics, raster image, or bar codes, and all of the controls required to present the data. | ✅ |
+| CMOCA-1-050 | A resource object is a collection of presentation instructions and data. These objects are referenced by name in the presentation data stream and can be stored in system libraries so that multiple applications and the print server can use them. | ✅ |
+| CMOCA-1-051 | All object content architectures (OCAs) are totally self-describing and independently defined. When multiple objects are composed on a page, they exist as peer objects that can be individually positioned and manipulated to meet the needs of the presentation application. | ✅ |
+| CMOCA-1-052 | The AFPC-defined object content architectures are: | ✅ |
+| CMOCA-1-053 | Presentation Text Object Content Architecture (PTOCA):** A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. | ✅ |
+| CMOCA-1-054 | Image Object Content Architecture (IOCA):** A data architecture for describing resolution-independent image objects captured from a number of different sources. Specifications of recording formats, data compression, color, and grayscale encoding are included in the architecture definition. | ✅ |
+| CMOCA-1-055 | Graphics Object Content Architecture for Advanced Function Presentation (AFP GOCA):** A version of GOCA that is used in Advanced Function Presentation (AFP) environments. GOCA is a data architecture for describing vector graphics picture objects and line art drawings for a variety of applications. Specification of drawing primitives, such as lines, arcs, areas, and their visual attributes, are included in the architecture definition. | ✅ |
+| CMOCA-1-056 | Bar Code Object Content Architecture (BCOCA):** A data architecture for describing bar code objects, using a number of different symbologies. Specification of the data to be encoded and the symbology attributes to be used are included in the architecture definition. | ✅ |
+| CMOCA-1-057 | Font Object Content Architecture (FOCA):** A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. | ✅ |
+| CMOCA-1-058 | Color Management Object Content Architecture (CMOCA):** A resource architecture used to carry the color management information required to render presentation data. | ✅ |
+| CMOCA-1-059 | Metadata Object Content Architecture (MOCA):** A resource architecture used to carry metadata in an AFP environment. | ✅ |
+| CMOCA-1-060 | The MO:DCA and IPDS architectures also support data objects that are not defined by object content architectures. Examples of such objects are Tag Image File Format (TIFF), Encapsulated PostScript® (EPS), and Portable Document Format (PDF). Such objects can be carried in a MO:DCA envelope called an object container, or they can be referenced without being enveloped in MO:DCA structures. | ✅ |
+| CMOCA-1-061 | In addition to object content architectures, the MO:DCA architecture defines envelope architectures for objects of common value in the presentation environment. Examples of these are Form Definition resource objects for managing the production of pages on the physical media, overlay resource objects that accommodate electronic storage of forms data, and index resource objects that support indexing and tagging of pages in a document. | ✅ |
+| CMOCA-1-062 | Figure 3 shows an example of an all-points-addressable page composed of multiple presentation objects. | ✅ |
+| CMOCA-1-063 | Figure 3. Presentation Page.** This is an example of a mixed-object page that can be composed in a presentation-system-independent MO:DCA format and printed on an IPDS printer. | ✅ |
+| CMOCA-2-001 | The Color Management Object Content Architecture (CMOCA) defines objects that provide color management in presentation environments. These objects are called Color Management Resources (CMRs). CMOCA has the following objectives: | ✅ |
+| CMOCA-2-002 | Consistent output across different devices | ✅ |
+| CMOCA-2-003 | Accurate output, to the best of the device capability, from a wide variety of inputs provided that the input color information is properly described | ✅ |
+| CMOCA-2-004 | Consistent output across different data streams | ✅ |
+| CMOCA-2-005 | Flexible controls that enable customers to obtain output to their exact specifications | ✅ |
+| CMOCA-2-006 | The architecture described in this document is defined in the terms of the AFP architectures to support color management in AFP environments, but care has been taken to make the mechanisms applicable to other presentation environments as well. | ✅ |
+| CMOCA-2-007 | The device that presents the data could be a printer, a display, or other system. This document frequently references printers but it should be understood that the architecture also applies to displays and other presentation devices. | ✅ |
+| CMOCA-2-008 | A Color Management Resource (CMR) is an architected resource that is used to carry the color management information required to render a print file, document, page, or data object. Each CMR carries a single type of color management resource. There are five types of CMRs: | ✅ |
+| CMOCA-2-009 | 1.  Halftone | ✅ |
+| CMOCA-2-010 | 2.  Tone Transfer Curve | ✅ |
+| CMOCA-2-011 | 3.  Color Conversion | ✅ |
+| CMOCA-2-012 | 4.  Link Color Conversion | ✅ |
+| CMOCA-2-013 | 5.  Indexed | ✅ |
+| CMOCA-2-014 | Note:** Not all CMR types are applicable for a particular kind of presentation device; for instance, halftones are not applicable for a display. | ✅ |
+| CMOCA-2-015 | A CMR can reflect processing that has been done on an object, in which case it is referred to as an **audit CMR**, or it can specify processing that is to be done to an object, in which case it is referred to as an **instruction CMR**. Finally, there is a special case of an audit and instruction color conversion pair that has been combined to produce a link color conversion. This combined color conversion is called a **link CMR**. | ✅ |
+| CMOCA-2-016 | In AFP environments, CMRs are processed as AFP resources by print servers so they can be downloaded once, captured, and used repeatedly without additional downloads. CMRs are also applicable to non-AFP environments such as PostScript, PDF, and PCL®. | ✅ |
+| CMOCA-2-017 | The primary purpose of the Color Management Object Content Architecture is to provide a standard definition for color management resources that are used for controlling presentation of color objects. “Color objects”, as used in the document, means full-color, grayscale, and monochrome objects. This standardization provides conventions and directions for current and future products to present objects in a consistent way. | ✅ |
+| CMOCA-2-018 | Development of CMOCA has the following goals: | ✅ |
+| CMOCA-2-019 | To allow a means to represent color management information in any environment | ✅ |
+| CMOCA-2-020 | To use a format that is flexible enough to allow it to exist intact in interactive, presentation, and interchange environments that are defined in the following data stream architectures: | ✅ |
+| CMOCA-2-021 | Intelligent Printer Data Stream (IPDS) and | ✅ |
+| CMOCA-2-022 | Mixed Object Document Content Architecture (MO:DCA) | ✅ |
+| CMOCA-2-023 | To describe the CMR in terms of architected tags | ✅ |
+| CMOCA-2-024 | To use industry-standard constructs when architecting the CMRs | ✅ |
+| CMOCA-2-025 | To allow the CMR to be fully described in device-independent and process-independent terms | ✅ |
+| CMOCA-2-026 | To use a naming convention for the CMRs that allow device-specific color resources to be substituted for generic resources | ✅ |
+| CMOCA-2-027 | To define CMRs so that multiple CMRs can be invoked at one time, and a hierarchy can be searched to determine the appropriate CMRs to use | ✅ |
+| CMOCA-2-028 | In AFP environments, CMRs will be carried within an object container. CMRs can be associated with a document component at various levels: | ✅ |
+| CMOCA-2-029 | 1.  Print file | ✅ |
+| CMOCA-2-030 | 2.  Document | ✅ |
+| CMOCA-2-031 | 3.  A group of pages or sheets | ✅ |
+| CMOCA-2-032 | 4.  Page/Overlay | ✅ |
+| CMOCA-2-033 | 5.  Data Object - for example, IOCA, EPS, TIFF | ✅ |
+| CMOCA-2-034 | Within the IPDS data stream, CMRs are activated and deactivated like all other IPDS resources but the CMR is not used until it is explicitly invoked (except for certain Link Color Conversions CMRs, that need not be invoked). Within the device, IPDS hierarchical rules are used to determine which CMRs are actually applied. | ✅ |
+| CMOCA-3-001 | A CMR consists of a header followed by CMR data. | ✅ |
+| CMOCA-3-002 | To start, for simplicity, assume that the source data is specified in a device-independent color space (that is, an ICC Profile Connection Space (PCS) such as CIEXYZ or CIELAB). The procedure for producing output uses the following sequence: | ✅ |
+| CMOCA-3-003 | Figure 4. Procedure for Producing Halftone Output from PCS** | ✅ |
+| CMOCA-3-004 | 1.  Color Convert from PCS to color space of output device | ✅ |
+| CMOCA-3-005 | 2.  Color Calibration | ✅ |
+| CMOCA-3-006 | 3.  Halftone Data | ✅ |
+| CMOCA-3-007 | When color data has been processed using the above sequence, the resulting object can be stored in a database. It might be useful to keep an audit trail of the operations that were performed to create the object. This audit information can be merely descriptive, or it can be used to undo some of the operations performed on the object and thus restore it to the original form when it was expressed in the PCS color space. In this case, the inverse of each function is applied in this sequence: | ✅ |
+| CMOCA-3-008 | Figure 5. Procedure for Converting Input Data to Full Color in PCS** | ✅ |
+| CMOCA-3-009 | 1.  Undo Halftoning (Note: typically not stored) | ✅ |
+| CMOCA-3-010 | 2.  Undo Color Calibration | ✅ |
+| CMOCA-3-011 | 3.  Undo Color Conversion (i.e. convert source color space to PCS) | ✅ |
+| CMOCA-3-012 | (halftone data)⁻¹ → (color calibration)⁻¹ → (color conversion)⁻¹ | ✅ |
+| CMOCA-3-013 | In actuality, halftoning is not typically undone. The halftoned version is typically not stored in the database. Further, undoing the halftoning is very complex. Note also that objects prepared for a display are not halftoned. Therefore, this document assumes that no attempt will be made to go from halftoned data back to the object represented in the PCS color space. | ✅ |
+| CMOCA-3-014 | Now, let's assume that the source data is specified in a device-dependent color space and it is desired to render it on an output device. The source data must be converted to the color space of the device. This involves the following combined sequence: | ✅ |
+| CMOCA-3-015 | Figure 6. Procedure for Creating Halftone Data from Device-Specific Color Data** | ✅ |
+| CMOCA-3-016 | 1.  Convert from source color space to PCS | ✅ |
+| CMOCA-3-017 | 2.  Undo source Color Calibration | ✅ |
+| CMOCA-3-018 | 3.  Color Calibration (Target) | ✅ |
+| CMOCA-3-019 | 4.  Convert from PCS to color space of output device | ✅ |
+| CMOCA-3-020 | 5.  Halftone Data | ✅ |
+| CMOCA-3-021 | Information that relates to the creation of the source data is referred to as an **audit CMR**. It might describe how the source data was created, as in an audit halftone. Or it might describe how to undo an operation that was used to create the source data. For instance, an audit color conversion profile tells how to convert from the color space of the source data to a PCS. Audit tone transfer curves have been architected to describe an action that was done to create the source data. There is also an optional tag that describes how to undo the tone transfer curve. | ✅ |
+| CMOCA-3-022 | The above discussion assumes that the color was specified using a color space. It is also possible to specify a color using an index and then define how to produce that color using a palette that tells which component inks/toners are used, in which concentration. An Indexed CMR is used to define how to produce the indexed colors. | ✅ |
+| CMOCA-3-023 | There are seven basic uses of the CMR that must be considered: | ✅ |
+| CMOCA-3-024 | 1.  **Audit Halftone** can be attached to an image that has been halftoned and indicates which halftone was used. | ✅ |
+| CMOCA-3-025 | 2.  **Audit Tone Transfer Curve** indicates a one-dimensional conversion that was applied to the input color before halftoning. The inverse curve needs to be applied to get back to the input color space. | ✅ |
+| CMOCA-3-026 | 3.  **Audit Color Conversion** is used to convert from the input color space to a profile connection space. | ✅ |
+| CMOCA-3-027 | 4.  **Instruction Color Conversion** is used to convert from the profile connection space to the color space of the output device. | ✅ |
+| CMOCA-3-028 | 5.  **Instruction Tone Transfer Curve** is a one-dimensional conversion applied to the output color before halftoning (or a set of 1-D conversions, one for each color component). | ✅ |
+| CMOCA-3-029 | 6.  **Instruction Halftone** is used to halftone the output colored data. | ✅ |
+| CMOCA-3-030 | 7.  **Link Color Conversion** provides an efficient means for converting directly from the input color space to the output color space and can be substituted for the Audit Color Conversion/Instruction Color Conversion pair. A special type of Link Color Conversion, ICC DeviceLink, converts directly from input to output space without reference to an audit/instruction pair. | ✅ |
+| CMOCA-3-031 | When a presentation device is processing data using the CMR system, these are the basic steps that are followed. Note that device-default CMRs are used if an applicable CMR is not explicitly invoked. If a CMR is ignored, the device must accept it but does not error check or process the contents. | ✅ |
+| CMOCA-3-032 | 1.  The device ignores an Audit Halftone. It might be useful information to store with the image in a database, but it is not currently used in the presentation device since undoing halftoning is not a simple process. | ✅ |
+| CMOCA-3-033 | 2.  The device applies an applicable Audit Tone Transfer Curve. If an inverse tone transfer curve is specified, it is used. Otherwise, the function specified by the tone transfer curve must be inverted before it is applied. Note that the inverse tone transfer curve is not a well-defined function. | ✅ |
+| CMOCA-3-034 | 3.  If an applicable ICC DeviceLink exists, it is used. This link color conversion converts the input color space to the output color space of the current device. If this CMR is selected for use, the next two steps (selection of Audit Color Conversion and Instruction Color Conversion CMRs) are skipped. | ✅ |
+| CMOCA-3-035 | 4.  If an applicable Audit Color Conversion exists, it is used. This audit Color Conversion converts the input color space (RGB, CMYK, grayscale...) to a profile connection space. | ✅ |
+| CMOCA-3-036 | 5.  An Instruction Color Conversion is used to convert from the profile connection space into the output color space of the current device. | ✅ |
+| CMOCA-3-037 | 6.  If an Instruction Tone Transfer Curve exists, the color is modified using it. | ✅ |
+| CMOCA-3-038 | 7.  The colored data is halftoned using an Instruction Halftone. | ✅ |
+| CMOCA-3-039 | In reality, the processing of sequential steps can be combined to improve performance. A Link Color Conversion CMR can be used in place of a combined audit/instruction color conversion pair. Chapter 6 discusses how CMRs are used in more detail. | ✅ |
+| CMOCA-3-040 | The Indexed CMR does not fit into the scheme discussed above. It is used to define how to produce indexed color. | ✅ |
+| CMOCA-3-041 | This is the syntax of a CMR. Bytes 0–163 represent the CMR Header. Each field in the CMR header has a fixed length. The fields from byte 10–155 are character data encoded as UTF-16BE. Data in these fields are left aligned. If the number of the characters in these fields is smaller than the field length, the remaining bytes will be padded with @ (X'0040'). Any field from byte 44–139 is “unspecified” if it is filled with @ characters. | ✅ |
+| CMOCA-3-042 | The CMR name is the concatenated fields in bytes 10–155, exactly in the order specified in the CMR header. The CMR name is 73 characters (146 bytes) long. It should be unique, since it is the name that will be used in the MO:DCA data stream to reference the resource. For example, if the CMR header fields are: | ✅ |
+| CMOCA-3-043 | Alias=JohnMay4, CMRType=HT, CMRVersion=1.2, ManufacturerName=IBM, DeviceType=4100, DeviceModel=PD1, MediaBrightness=94, MediaColor=wht, MediaFinish=gl, MediaWeight=90, number of device levels=2, Halftone type=rnd, line screen frequency=141, resolution=600, and rotation=proc | ✅ |
+| CMOCA-3-044 | `JohnMay4HT001.200IBM@@4100@@PD194@whtgl90@2@@@@rnd@@@141@600@proc@@@@@@@@` | ✅ |
+| CMOCA-3-045 | 4 | 0–3 | 4-byte UBIN | Length | X'000000A4' – X'FFFFFFFF' | CMR length, including length field | M | ✅ |
+| CMOCA-3-046 | 4 | 4–7 | CODE | CMRSig | X'434D5239' | Signature of this CMR | M | ✅ |
+| CMOCA-3-047 | 2 | 8–9 | | Reserved | X'0000' | Reserved: should be set to zero | M | ✅ |
+| CMOCA-3-048 | CMR Name starts here. It is composed of bytes 10–155.** | ✅ |
+| CMOCA-3-049 | 16 | 10–25 | UTF16 | CMRAlias | No restriction | Human-readable alias | M | ✅ |
+| CMOCA-3-050 | 4 | 26–29 | UTF16 | CMRType | CC (X'0043 0043') | Color Conversion | M | ✅ |
+| CMOCA-3-051 | DL (X'0044 004C') | ICC DeviceLink Color Conversion | ✅ |
+| CMOCA-3-052 | HT (X'0048 0054') | Halftone | ✅ |
+| CMOCA-3-053 | IX (X'0049 0058') | Indexed | ✅ |
+| CMOCA-3-054 | LK (X'004C 004B') | Link Color Conversion | ✅ |
+| CMOCA-3-055 | TC (X'0054 0043') | Tone Transfer Curve | ✅ |
+| CMOCA-3-056 | 14 | 30–43 | UTF16 | CMRVersion | ddd.ddd | CMRVersion number | M | ✅ |
+| CMOCA-3-057 | AFP .ddd | Special AFP version number | ✅ |
+| CMOCA-3-058 | generic | “generic” | ✅ |
+| CMOCA-3-059 | pasthru | “passthrough” | ✅ |
+| CMOCA-3-060 | 10 | 44–53 | UTF16 | Manufacturer Name | See description | Name of the manufacturer | M | ✅ |
+| CMOCA-3-061 | 12 | 54–65 | UTF16 | DeviceType | See description | Type of the device | M | ✅ |
+| CMOCA-3-062 | 6 | 66–71 | UTF16 | DeviceModel | See description | Model of the device | M | ✅ |
+| CMOCA-3-063 | 6 | 72–77 | UTF16 | Media Brightness | 0–100 | For print media, percentage of light reflected | M | ✅ |
+| CMOCA-3-064 | Zxy | For screen, a CIE illuminant | ✅ |
+| CMOCA-3-065 | 6 | 78–83 | UTF16 | MediaColor | | Color of the media: | M | ✅ |
+| CMOCA-3-066 | blu | blue | ✅ |
+| CMOCA-3-067 | buf | buff | ✅ |
+| CMOCA-3-068 | gdr | goldenrod | ✅ |
+| CMOCA-3-069 | grn | green | ✅ |
+| CMOCA-3-070 | gry | gray | ✅ |
+| CMOCA-3-071 | ivy | ivory | ✅ |
+| CMOCA-3-072 | noc | no-color | ✅ |
+| CMOCA-3-073 | org | orange | ✅ |
+| CMOCA-3-074 | pnk | pink | ✅ |
+| CMOCA-3-075 | red | red | ✅ |
+| CMOCA-3-076 | wht | white | ✅ |
+| CMOCA-3-077 | ylw | yellow | ✅ |
+| CMOCA-3-078 | custom | three upper-case characters [A,Z] | ✅ |
+| CMOCA-3-079 | @@@ | not specified | ✅ |
+| CMOCA-3-080 | 4 | 84–87 | UTF16 | MediaFinish | | Surface characteristics: | M | ✅ |
+| CMOCA-3-081 | cm | commodity | ✅ |
+| CMOCA-3-082 | ct | coated | ✅ |
+| CMOCA-3-083 | gl | glossy | ✅ |
+| CMOCA-3-084 | hg | high-gloss | ✅ |
+| CMOCA-3-085 | mt | matte | ✅ |
+| CMOCA-3-086 | no | none | ✅ |
+| CMOCA-3-087 | np | newsprint | ✅ |
+| CMOCA-3-088 | sg | semi-gloss | ✅ |
+| CMOCA-3-089 | st | satin | ✅ |
+| CMOCA-3-090 | tr | treated | ✅ |
+| CMOCA-3-091 | custom | two upper-case characters [A,Z] | ✅ |
+| CMOCA-3-092 | @@ | not specified | ✅ |
+| CMOCA-3-093 | 6 | 88–93 | UTF16 | MediaWeight | 1–999 | The basic weight of the paper | M | ✅ |
+| CMOCA-3-094 | 10 | 94–103 | UTF16 | Prop1 | See description | CMRType property-specific field 1 | M | ✅ |
+| CMOCA-3-095 | 12 | 104–115 | UTF16 | Prop2 | See description | CMRType property-specific field 2 | M | ✅ |
+| CMOCA-3-096 | 8 | 116–123 | UTF16 | Prop3 | See description | CMRType property-specific field 3 | M | ✅ |
+| CMOCA-3-097 | 8 | 124–131 | UTF16 | Prop4 | See description | CMRType property-specific field 4 | M | ✅ |
+| CMOCA-3-098 | 8 | 132–139 | UTF16 | Prop5 | See description | CMRType property-specific field 5 | M | ✅ |
+| CMOCA-3-099 | 16 | 140–155 | UTF16 | @@@@@@@@ | | Reserved | M | ✅ |
+| CMOCA-3-100 | CMR Name ends here. It is composed of bytes 10–155.** | ✅ |
+| CMOCA-3-101 | 8 | 156–163 | | X'00...00' | | Reserved: should be set to zero | M | ✅ |
+| CMOCA-3-102 | 164–end | | CMRData | Any | | Resource data | O | ✅ |
+| CMOCA-3-103 | 1. M/O denotes a mandatory or optional field | ✅ |
+| CMOCA-3-104 | 2. UTF16 denotes UTF-16BE | ✅ |
+| CMOCA-3-105 | The length of the complete CMR, including the Length parameter. Length may be 164 (X'000000A4') bytes up to X'FFFFFFFF'. | ✅ |
+| CMOCA-3-106 | The signature of the CMR that allows it to be easily recognized. It will be three ASCII characters “CMR” followed by X'39', that is, X'434D5239'. | ✅ |
+| CMOCA-3-107 | Eight-character user-defined string to enable an easy way of identifying the CMR. | ✅ |
+| CMOCA-3-108 | Five CMRTypes are defined in this Color Management Object Content Architecture. They are: Halftone, Tone Transfer Curve, Color Conversion, Link Color Conversion, and Indexed. The value of the CMRType must be specified in the header or an exception will be generated. Note that a Link Color Conversion CMR has two possible identifiers in this field: LK for LinkColorConversion LUT subset and DL for ICC DeviceLink subset. | ✅ |
+| CMOCA-3-109 | The CMRVersion number consists of a major version number (an integer of 1–3 digits) and a minor version number (an integer of 1–3 digits), separated by a decimal point (. =DECIMAL POINT=X'002E'). If the number of digits is smaller than 3, zeroes will be padded to the left side of the major number or to the right side of the minor number. For example, if the version number is 1.20 then the value of the CMRVersion is 001.200. | ✅ |
+| CMOCA-3-110 | A value of “AFP .ddd” is used to specify a minor version number along with “AFP” to indicate that the CMR is a standard Color Conversion CMR that is supported by the AFP Consortium. The supported standard color spaces will be spaces like SWOP, CMYK, and sRGB. | ✅ |
+| CMOCA-3-111 | A value of “generic” (X'0067 0065 006E 0065 0072 0069 0063') in this field identifies a generic CMR. Only Halftone and Tone Transfer Curve CMRs may be identified as generic. CMR data in generic CMRs is optional and is not used in AFP color management systems. | ✅ |
+| CMOCA-3-112 | A value of “pasthru” (X'0070 0061 0073 0074 0068 0072 0075') identifies a color space that should not be color-converted. Only Color Conversion CMRs may be identified as passthrough. There is no data in a passthrough CMR. | ✅ |
+| CMOCA-3-113 | The value of the CMRVersion must be specified in the header. The CMRVersion tracks changes besides the changes in the device-specific fields, media-specific fields, and the CMRType property-specific fields. It reflects changes of algorithm, toner, and so on. | ✅ |
+| CMOCA-3-114 | For IPDS receivers, the ManufacturerName, DeviceType, and DeviceModel values must be provided in accordance with the IPDS description of the Product Identifier self-defining field of the XOH Obtain Printer Characteristics (OPC) reply. Refer to the Intelligent Printer Data Stream Reference. The field descriptions are as follows: | ✅ |
+| CMOCA-3-115 | ManufacturerName:** Name of the manufacturer. | ✅ |
+| CMOCA-3-116 | DeviceType:** Device type of the printer that corresponds to the device type imprinted on the serial number plate that is physically attached to the printer. | ✅ |
+| CMOCA-3-117 | DeviceModel:** Model number of the printer that corresponds to the model number imprinted on the serial number plate that is physically attached to the printer. | ✅ |
+| CMOCA-3-118 | For the non-IPDS devices, a maximum of five characters are allowed for the ManufacturerName. The stock symbol (maximum five characters), a unique name assigned by stock exchanges worldwide, is recommended to be used for the ManufacturerName. The DeviceType and DeviceModel have to be unique and meaningful for the devices. Alternatively, the ICC Manufacture ASCII Signature and Device ASCII Signature can be used for the ManufacturerName and the DeviceModel. | ✅ |
+| CMOCA-3-119 | Implementation notes:** | ✅ |
+| CMOCA-3-120 | 1.  If the DeviceType is unspecified (@@@@@@), then it automatically matches the DeviceType of the target device. Similarly, if the DeviceModel is unspecified (@@@), then it automatically matches the DeviceModel of the target device. The DeviceType and DeviceModel are sometimes used by print servers to determine which CMRs to send to the presentation device. In particular, link CMRs are targeted for a particular device based on the DeviceType and DeviceModel of the instruction Color Conversion CMR. Multiple link CMRs can be associated with (or mapped to) an audit CC CMR in the CMR RAT. The link CMRs that are sent down to the device are determined by finding matches with the DeviceType and DeviceModel of the target device. Furthermore, Generic Tone Transfer Curve and Halftone CMRs can have mapped device-specific CMRs in the CMR RAT; such mapped CMRs are sent to the device if the DeviceType and DeviceModel in the mapped CMR match the DeviceType and DeviceModel of the target device. In some situations, it is acceptable to let the CMR header values for DeviceType and DeviceModel be unspecified (@@@@@@ or @@@). For example, CMRs that will be used only as audit CMRs can have unspecified values for DeviceType and DeviceModel. If a link CMR or a device-specific HT or TTC CMR is associated with another CMR in the CMR RAT and does not specify a DeviceType and/or DeviceModel, the unspecified parameter(s) match the DeviceType and/or DeviceModel of any target printer. | ✅ |
+| CMOCA-3-121 | 2.  The device types and model numbers specified in the XOH-OPC reply and in the CMR header's DeviceType might not use the same format. For instance, for the InfoPrint 4100, the XOH-OPC reply for the device type would be “004100” encoded using EBCDIC. In the CMR header, the DeviceType is padded with “@” on the right. Therefore, depending on the input provided to the Installer, the CMR DeviceType field might be “004100” or “4100@@” encoded using UTF-16BE. Tools that compare the device type in the XOH-OPC reply and in the CMR header must be prepared to indicate a match taking into account the differences in padding practices. | ✅ |
+| CMOCA-3-122 | Media-specific fields describe the media and consist of four attributes: media brightness, media color, media finish, and media weight. The values for the MediaColor and the MediaFinish are consistent with the values defined by the Internet Printing Protocol (IPP) of the Printer Working Group (PWG). If the target device is a display, only media brightness is specified. | ✅ |
+| CMOCA-3-123 | To use an instruction CMR, its media type must match the media currently being used by the device. Similarly, in order to use an ICC DeviceLink CMR, its media attributes must match the device's media attributes. See “Matching Media Type of CMR With Media Type of Device” for a discussion of this requirement. | ✅ |
+| CMOCA-3-124 | MediaBrightness:** For print media, indicates the percentage of light reflected from the media. The brightness is measured with a brightmeter machine. The scale is based on the TAPPI GE scale in the US and the ISO scale in the rest of the world. The ISO scale is usually about two units higher than the GE value. For example, 100 ISO brightness is equivalent to 98 brightness on the GE scale. In order to ensure that the CMR's media type matches the media currently being used in the device, the scale that is used to specify each value must be the same. For screens, the brightness is defined as the CIE standard illuminant as Zxy, where Z is a capitalized letter, and xy is a two-digit number (see ISO/CIE 10526:1999: CIE standard illuminants for colorimetry). For example, D50, D65, etc. | ✅ |
+| CMOCA-3-125 | MediaColor:** Indicates the color of the media being specified. CMOCA-recommended values exist to encourage interoperability; a CMOCA-recommended value should be used if appropriate for a CMR associated with a specific media. The value “noc” means transparency. Custom values may be defined by the administrator. There is no restriction on what value may be entered for this field as it is not checked for validity. | ✅ |
+| CMOCA-3-126 | MediaFinish:** Indicates the surface characteristics of the media. CMOCA-recommended values exist to encourage interoperability; a CMOCA-recommended value should be used if appropriate for a CMR associated with a specific media. The value “no” means no coating. Custom values may be defined by the administrator. There is no restriction on what value may be entered for this field as it is not checked for validity. | ✅ |
+| CMOCA-3-127 | MediaWeight:** Indicates the weight of the media rounded to the nearest whole number of grams per square meter. | ✅ |
+| CMOCA-3-128 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ✅ |
+| CMOCA-3-129 | Prop1: Number of Device Levels** | ✅ |
+| CMOCA-3-130 | Prop2: Halftone Type** | ✅ |
+| CMOCA-3-131 | Defines the halftone type. Halftone types are divided into four major categories: clustered-dot, stochastic, dispersed, and error diffusion. The dot shape is used to specify the type of the clustered-dot, and the error diffusion filter name is used to specify the type of error diffusion halftone. | ✅ |
+| CMOCA-3-132 | Table 5. Halftone Types** | ✅ |
+| CMOCA-3-133 | rnd@@@** | Round dot for the clustered-dot halftone | ✅ |
+| CMOCA-3-134 | sqr@@@** | Square dot for the clustered-dot halftone | ✅ |
+| CMOCA-3-135 | dia@@@** | Diamond dot for the clustered-dot halftone | ✅ |
+| CMOCA-3-136 | rhm@@@** | Rhombus dot for the clustered-dot halftone | ✅ |
+| CMOCA-3-137 | elp@@@** | Elliptical dot for the clustered-dot halftone | ✅ |
+| CMOCA-3-138 | eud@@@** | Euclidean dot for the clustered-dot halftone | ✅ |
+| CMOCA-3-139 | lin@@@** | Line shape dot for the clustered-dot halftone | ✅ |
+| CMOCA-3-140 | sto@@@** | Stochastic halftone | ✅ |
+| CMOCA-3-141 | dsp@@@** | Dispersed halftone | ✅ |
+| CMOCA-3-142 | erd@@@** | Unspecified error diffusion halftone | ✅ |
+| CMOCA-3-143 | f-d@@@** | Floyd-Steinberg error diffusion halftone | ✅ |
+| CMOCA-3-144 | jjn@@@** | Jarvis-Judice-Ninke error diffusion halftone | ✅ |
+| CMOCA-3-145 | stu@@@** | Stucki error diffusion halftone | ✅ |
+| CMOCA-3-146 | brk@@@** | Burkes error diffusion halftone | ✅ |
+| CMOCA-3-147 | sra@@@** | Sierra error diffusion halftone | ✅ |
+| CMOCA-3-148 | s-a@@@** | Stevenson Arce error diffusion halftone | ✅ |
+| CMOCA-3-149 | Prop3: Line Screen Frequency** | ✅ |
+| CMOCA-3-150 | Prop4: Resolution** | ✅ |
+| CMOCA-3-151 | Prop5: Rotation** | ✅ |
+| CMOCA-3-152 | Defines the orientation of the halftone. There are three possible values: orientation independent, along the scan direction, and along the process direction. | ✅ |
+| CMOCA-3-153 | Table 6. Halftone Rotations** | ✅ |
+| CMOCA-3-154 | indp** | Orientation independent | ✅ |
+| CMOCA-3-155 | scan** | Scan direction | ✅ |
+| CMOCA-3-156 | proc** | Process direction | ✅ |
+| CMOCA-3-157 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ✅ |
+| CMOCA-3-158 | Prop1: Profile/Device Class Signature** | ✅ |
+| CMOCA-3-159 | The definition of the Device Class Signature is consistent with the definition in the ICC header. There are four basic profile/device classes: Input, Display, Output, and ColorSpace Conversion. | ✅ |
+| CMOCA-3-160 | Table 7. ICC Profile/Device Classes for Tone Transfer Curve CMRs** | ✅ |
+| CMOCA-3-161 | scnr@** | Input Device | ✅ |
+| CMOCA-3-162 | mntr@** | Display Device | ✅ |
+| CMOCA-3-163 | prtr@** | Output Device | ✅ |
+| CMOCA-3-164 | spac@** | ColorSpace Conversion | ✅ |
+| CMOCA-3-165 | Prop2: Look-and-Feel** | ✅ |
+| CMOCA-3-166 | Look-and-Feel produced in the output when this Tone Transfer Curve is applied. See Appendix B, “Generic CMR Name Registry” for an explanation of what these values mean. | ✅ |
+| CMOCA-3-167 | Table 8. Look-and-Feel Values** | ✅ |
+| CMOCA-3-168 | hilmid** | Highlight Midtone | ✅ |
+| CMOCA-3-169 | standd** | Standard | ✅ |
+| CMOCA-3-170 | dark@@** | Dark | ✅ |
+| CMOCA-3-171 | accutn** | Accutone | ✅ |
+| CMOCA-3-172 | Prop3: Halftone Characterization** | ✅ |
+| CMOCA-3-173 | Prop4: Reserved for future use.** | ✅ |
+| CMOCA-3-174 | Prop5: Reserved for future use.** | ✅ |
+| CMOCA-3-175 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ✅ |
+| CMOCA-3-176 | Prop1: Profile/Device Class Signature** | ✅ |
+| CMOCA-3-177 | It is consistent with the definition of the Profile/Device Class Signature in the ICC header. | ✅ |
+| CMOCA-3-178 | Table 9. ICC Profile/Device Classes for Color Conversion CMRs** | ✅ |
+| CMOCA-3-179 | scnr@** | Input Device profile | ✅ |
+| CMOCA-3-180 | mntr@** | Display Device profile | ✅ |
+| CMOCA-3-181 | prtr@** | Output Device profile | ✅ |
+| CMOCA-3-182 | spac@** | ColorSpace Conversion profile | ✅ |
+| CMOCA-3-183 | Prop2: Reserved for future use.** | ✅ |
+| CMOCA-3-184 | Prop3: Reserved for future use.** | ✅ |
+| CMOCA-3-185 | Prop4: Color Space of Data** | ✅ |
+| CMOCA-3-186 | It is consistent with the definition of the Color Space of Data in the ICC header. Table 10 shows the possible values. | ✅ |
+| CMOCA-3-187 | Table 10. The ICC Color Space of Data** | ✅ |
+| CMOCA-3-188 | XYZ@** | XYZData | ✅ |
+| CMOCA-3-189 | Lab@** | labData | ✅ |
+| CMOCA-3-190 | Luv@** | luvData | ✅ |
+| CMOCA-3-191 | YCbr** | YCbCrData | ✅ |
+| CMOCA-3-192 | Yxy@** | YxyData | ✅ |
+| CMOCA-3-193 | RGB@** | rgbData | ✅ |
+| CMOCA-3-194 | GRAY** | grayData | ✅ |
+| CMOCA-3-195 | HSV@** | hsvData | ✅ |
+| CMOCA-3-196 | HLS@** | hlsData | ✅ |
+| CMOCA-3-197 | CMYK** | cmykData | ✅ |
+| CMOCA-3-198 | CMY@** | cmyData | ✅ |
+| CMOCA-3-199 | 2CLR** | 2colorData | ✅ |
+| CMOCA-3-200 | 3CLR** | 3colorData (if not listed above) | ✅ |
+| CMOCA-3-201 | 4CLR** | 4colorData (if not listed above) | ✅ |
+| CMOCA-3-202 | 5CLR** | 5colorData | ✅ |
+| CMOCA-3-203 | 6CLR** | 6colorData | ✅ |
+| CMOCA-3-204 | 7CLR** | 7colorData | ✅ |
+| CMOCA-3-205 | 8CLR** | 8colorData | ✅ |
+| CMOCA-3-206 | 9CLR** | 9colorData | ✅ |
+| CMOCA-3-207 | ACLR** | 10colorData | ✅ |
+| CMOCA-3-208 | BCLR** | 11colorData | ✅ |
+| CMOCA-3-209 | CCLR** | 12colorData | ✅ |
+| CMOCA-3-210 | DCLR** | 13colorData | ✅ |
+| CMOCA-3-211 | ECLR** | 14colorData | ✅ |
+| CMOCA-3-212 | FCLR** | 15colorData | ✅ |
+| CMOCA-3-213 | Prop5: PCS** | ✅ |
+| CMOCA-3-214 | The profile connection space specified as either CIEXYZ (XYZ) or CIELAB (Lab), encoded as for Prop4. | ✅ |
+| CMOCA-3-215 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ✅ |
+| CMOCA-3-216 | Prop1: Input Device ManufacturerName** | ✅ |
+| CMOCA-3-217 | Prop2: Input DeviceType** | ✅ |
+| CMOCA-3-218 | Prop3: Input DeviceModel** | ✅ |
+| CMOCA-3-219 | Prop4: Input Color Space** | ✅ |
+| CMOCA-3-220 | Prop5: Output Color Space** | ✅ |
+| CMOCA-3-221 | Device-specific color space, a subset of the Color Space of Data defined in the ICC profile header. Possible values are shown in the following table. | ✅ |
+| CMOCA-3-222 | Table 11. Output Color Spaces** | ✅ |
+| CMOCA-3-223 | RGB@** | rgbData | ✅ |
+| CMOCA-3-224 | GRAY** | grayData | ✅ |
+| CMOCA-3-225 | CMYK** | cmykData | ✅ |
+| CMOCA-3-226 | CMY@** | cmyData | ✅ |
+| CMOCA-3-227 | 2CLR** | 2colorData | ✅ |
+| CMOCA-3-228 | 3CLR** | 3colorData (if not listed above) | ✅ |
+| CMOCA-3-229 | 4CLR** | 4colorData (if not listed above) | ✅ |
+| CMOCA-3-230 | 5CLR** | 5colorData | ✅ |
+| CMOCA-3-231 | 6CLR** | 6colorData | ✅ |
+| CMOCA-3-232 | 7CLR** | 7colorData | ✅ |
+| CMOCA-3-233 | 8CLR** | 8colorData | ✅ |
+| CMOCA-3-234 | 9CLR** | 9colorData | ✅ |
+| CMOCA-3-235 | ACLR** | 10colorData | ✅ |
+| CMOCA-3-236 | BCLR** | 11colorData | ✅ |
+| CMOCA-3-237 | CCLR** | 12colorData | ✅ |
+| CMOCA-3-238 | DCLR** | 13colorData | ✅ |
+| CMOCA-3-239 | ECLR** | 14colorData | ✅ |
+| CMOCA-3-240 | FCLR** | 15colorData | ✅ |
+| CMOCA-3-241 | Note:** These fields are informational only. They are not checked for validity. Any value may be entered in the Prop fields since no error checking is done. | ✅ |
+| CMOCA-3-242 | Prop1: Reserved for future use.** | ✅ |
+| CMOCA-3-243 | Prop2: Reserved for future use.** | ✅ |
+| CMOCA-3-244 | Prop3: Reserved for future use.** | ✅ |
+| CMOCA-3-245 | Prop4: Reserved for future use.** | ✅ |
+| CMOCA-3-246 | Prop5: Reserved for future use.** | ✅ |
+| CMOCA-3-247 | The content of the data is defined by the CMR type. The CMR data carries the color resource data. The resource data is carried in a tagged format. The tags are loosely based on the TIFF tag syntax, but with significant changes and additions. The tag syntax is defined in Chapter 5, “CMR Data Architecture”. | ✅ |
+| CMOCA-3-248 | CMR data is optional for generic and passthrough CMRs. If CMR data is specified for a generic or passthrough CMR, it is ignored. | ✅ |
+| CMOCA-3-249 | On encountering an error, an exception is raised. Exception conditions have a format of EC-xxxxyy. xxxx represents the tag value. For the purposes of error reporting, the fields in the CMR header are treated as “implied tags”. The architecture defines the tags that describe data fields to have TagIDs of X'0000'–X'FFFF'. However, IDs in the range X'EF00'–X'EFFF' have been reserved for error handling in the CMR Header. Currently, IDs in the range X'EFF0'–X'EFF7' are used for CMR header error codes. | ✅ |
+| CMOCA-3-250 | X'03' Invalid length | ✅ |
+| CMOCA-3-251 | X'10' Invalid or unsupported field value | ✅ |
+| CMOCA-3-252 | The exception conditions are as follows: | ✅ |
+| CMOCA-3-253 | EC-EFF003 Invalid Length Value:** The specified Length is invalid. | ✅ |
+| CMOCA-3-254 | EC-EFF110 Invalid Field Value:** The specified value for CMRSig is not X'434D5239'. | ✅ |
+| CMOCA-3-255 | EC-EFF210 Invalid Field Value:** The specified CMRType is invalid. | ✅ |
+| CMOCA-3-256 | EC-EFF310 Invalid Field Value:** The specified CMRVersion is invalid. | ✅ |
+| CMOCA-3-257 | EC-EFF410 Invalid Field Value:** The specified MediaBrightness is invalid. | ✅ |
+| CMOCA-3-258 | EC-EFF510** Retired item 1. | ✅ |
+| CMOCA-3-259 | EC-EFF610** Retired item 2. | ✅ |
+| CMOCA-3-260 | EC-EFF710 Invalid Field Value:** The specified MediaWeight is invalid. | ✅ |
+| CMOCA-3-261 | Prop 1–5 are informational. The values are not checked. | ✅ |
 | CMOCA-4-001 | The following CMRTypes are defined: | ❓ |
 | CMOCA-4-002 | Halftone | ❓ |
 | CMOCA-4-003 | Tone Transfer Curve | ❓ |

@@ -27,7 +27,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | Specification | Covered | Total | % |
 | :--- | :---: | :---: | :---: |
 | [BCOCA](TEST_COVERAGE_BCOCA.md) | 1237 | 1237 | 100.0% |
-| [CMOCA](TEST_COVERAGE_CMOCA.md) | 0 | 1085 | 0.0% |
+| [CMOCA](TEST_COVERAGE_CMOCA.md) | 358 | 1085 | 33.0% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 1391 | 1391 | 100.0% |
 | [GOCA](TEST_COVERAGE_GOCA.md) | 2144 | 2144 | 100.0% |
@@ -37,7 +37,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **8020** | **20955** | **38.3%** |
+| **Total** | **8378** | **20955** | **40.0%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -181,6 +181,10 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Chapter 7 (Function Sets) complete.
     - ✅ Appendices A-G complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` complete.
+- 🚧 Analyzing and updating the `TEST_COVERAGE_CMOCA.md` in reasonable chunks:
+    - 🚧 Chapters 1-3 complete.
+    - ⏳ Chapters 4-6.
+    - ⏳ Appendices A-C.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
