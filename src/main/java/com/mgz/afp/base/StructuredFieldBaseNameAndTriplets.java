@@ -63,12 +63,12 @@ public abstract class StructuredFieldBaseNameAndTriplets extends StructuredField
 
     if (triplets != null) {
       for (Triplet triplet : triplets) {
-        String tText = triplet.getText();
-        if (tText != null && !tText.trim().isEmpty()) {
+        String tripletText = triplet.getText();
+        if (tripletText != null && !tripletText.trim().isEmpty()) {
           if (sb.length() > 0) {
             sb.append(" ");
           }
-          sb.append(tText.trim());
+          sb.append(tripletText.trim());
         }
       }
     }
