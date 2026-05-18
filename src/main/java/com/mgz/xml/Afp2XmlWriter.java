@@ -74,8 +74,8 @@ public class Afp2XmlWriter {
     // output pretty printed
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-    var qName = new QName(sf.getClass().getSimpleName());
-    var root = new JAXBElement<>(qName, Object.class, sf);
+    var qualifiedName = new QName(sf.getClass().getSimpleName());
+    var root = new JAXBElement<>(qualifiedName, Object.class, sf);
 
     jaxbMarshaller.marshal(root, osw);
   }

@@ -200,7 +200,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ `TypeName` (~318).
         - ⏳ `GoogleNonConstantFieldName` (~124).
         - ⏳ `ParameterName` (~107).
-        - ⏳ `LocalVariableName` (~8).
+        - ✅ `LocalVariableName` resolved.
     - ✅ Fix `AvoidStarImport` violations.
     - 🚧 Fix Formatting and Layout violations (~2,000 warnings):
         - ⏳ `LineLength` (~700).
