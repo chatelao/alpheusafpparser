@@ -360,453 +360,453 @@
 | CMOCA-3-259 | EC-EFF610** Retired item 2. | ✅ |
 | CMOCA-3-260 | EC-EFF710 Invalid Field Value:** The specified MediaWeight is invalid. | ✅ |
 | CMOCA-3-261 | Prop 1–5 are informational. The values are not checked. | ✅ |
-| CMOCA-4-001 | The following CMRTypes are defined: | ❓ |
-| CMOCA-4-002 | Halftone | ❓ |
-| CMOCA-4-003 | Tone Transfer Curve | ❓ |
-| CMOCA-4-004 | Color Conversion | ❓ |
-| CMOCA-4-005 | Link Color Conversion | ❓ |
-| CMOCA-4-006 | Indexed | ❓ |
-| CMOCA-4-007 | Each of the CMRTypes is described in more detail below. | ❓ |
-| CMOCA-4-008 | In the following descriptions, the Optional Tags and Mandatory Tags are listed to show which tags are meaningful for each type and subset. Any other tags present are ignored by the receiver. The Comment tag is optional. The End Data tag is required in all CMR objects. | ❓ |
-| CMOCA-4-009 | CMR Type HT (X'0048 0054')** | ❓ |
-| CMOCA-4-010 | Halftone can be classified into two types: point-operation halftone and neighborhood-operation halftone. The output of the point-operation halftone depends only on the value of the current pixel. It can be used for numerous common halftone types including clustered dot, dispersed, and stochastic. Threshold arrays are commonly used for the bilevel point-operation halftones, and lookup tables are commonly used for the multilevel point-operation halftones. The error diffusion halftone is commonly used for the neighborhood-operation halftone. The most common error diffusion filters include Floyd-Steinberg, Jarvis-Judice-Ninke, Stucki, etc. The Halftone Subset tag indicates the halftone type, and thus determines required and optional tags for this Halftone CMR. | ❓ |
-| CMOCA-4-011 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Bilevel Point-Operation Screen Data, End Data | ❓ |
-| CMOCA-4-012 | Optional Tags:** Comment, Date and Time Stamp, Number of Components, Offset Tiling | ❓ |
-| CMOCA-4-013 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Max Image Value, Number of Device Levels, Multilevel Point-Operation Screen Data, End Data | ❓ |
-| CMOCA-4-014 | Optional Tags:** Comment, Date and Time Stamp, Number of Components, Offset Tiling | ❓ |
-| CMOCA-4-015 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Error Diffusion Filter, Location of Current Pixel, Raster Direction, Boundary Condition, Threshold Value, End Data | ❓ |
-| CMOCA-4-016 | Optional Tags:** Comment, Date and Time Stamp, Number of Components | ❓ |
-| CMOCA-4-017 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Number of Device Levels, Error Diffusion Filter, Location of Current Pixel, Raster Direction, Boundary Condition, Quantization Boundary Table, End Data | ❓ |
-| CMOCA-4-018 | Optional Tags:** Comment, Date and Time Stamp, Number of Components | ❓ |
-| CMOCA-4-019 | CMR Type TC (X'0054 0043')** | ❓ |
-| CMOCA-4-020 | Tone transfer curves are applied to data prior to halftoning or output. The inverse tone transfer curves are applied to restore data to the original state. The printer tone transfer curve produces a desired appearance by compensating for dot gain. The tone transfer curve for a display or other input device is used to correct non-linearity (gamma) of the device. Currently, there are two tone transfer curve subsets: ToneTransferCurve Array and ToneTransferCurve Identity. The Subset tag indicates the tone transfer curve type, and thus determines required and optional tags for this Tone Transfer Curve CMR. | ❓ |
-| CMOCA-4-021 | Mandatory Tags:** Tone Transfer Curve Subset, Tone Transfer Curve Data, End Data | ❓ |
-| CMOCA-4-022 | Optional Tags:** Comment, Date and Time Stamp, Number of Components, Tone Transfer Curve Length, Inverse Tone Transfer Curve Data | ❓ |
-| CMOCA-4-023 | The tone transfer curve for each component is the identity. No data is sent with this subset, that is, no tone transfer curve is to be applied. This subset is implemented for performance reasons. | ❓ |
-| CMOCA-4-024 | Mandatory Tags:** Tone Transfer Curve Subset, End Data | ❓ |
-| CMOCA-4-025 | Optional Tags:** Comment, Date and Time Stamp | ❓ |
-| CMOCA-4-026 | CMR Type CC (X'0043 0043')** | ❓ |
-| CMOCA-4-027 | Each instance of this CMR type is a subset of the standard ICC profile. This allows the CMR to be used in any color management system. | ❓ |
-| CMOCA-4-028 | The ICC Profile Data starts with a 128-byte header followed by the ICCTags. The ICCHeaderFields are contained in pre-defined byte positions as defined in Table 35. | ❓ |
-| CMOCA-4-029 | Each subset of the ICC profile type, selected by the ICC Profile Subset tag, defines a subset of the ICC specification. For each subset, the Color Management Object Content Architecture defines the mandatory and optional ICCHeaderFields and ICCTags. Optional ICCTags and ICCHeaderFields will be processed as applicable if encountered. Any other ICCTags will be ignored. | ❓ |
-| CMOCA-4-030 | Note:** The chromaticAdaptationTag is shown as optional for each subset. However, it is mandatory if the value in the mediaWhitePointTag is not D50. | ❓ |
-| CMOCA-4-031 | Two ICCHeaderFields are mandatory for the Color Conversion CMR: Color Space of Data and Profile Connection Space. The descriptions are as follows: | ❓ |
-| CMOCA-4-032 | Color Space of Data:** The ICC-supported color spaces and their signatures are listed in Table 10. | ❓ |
-| CMOCA-4-033 | Profile Connection Space:** The ICC profile connection space is either CIELAB D50 or CIEXYZ D50 for all ICC profiles except the ICC DeviceLink profile. The CIELAB signature is “Lab” and the CIEXYZ signature is “XYZ”. | ❓ |
-| CMOCA-4-034 | The currently allowed ICC profile subsets for Color Conversion CMRs include all the ICC profile types except for the DeviceLink and the Named Colour profiles. (For complete information, please refer to sections 8.6 and 8.9 in ICC 1:2004-10 Version 4.2.0.0.) | ❓ |
-| CMOCA-4-035 | The ICC profile subsets for the Color Conversion CMR are listed in Table 12. | ❓ |
-| CMOCA-4-036 | Monochrome input profile | Scanner, digital camera | Device → PCS | ❓ |
-| CMOCA-4-037 | Monochrome display profile | Display | Device ← → PCS | ❓ |
-| CMOCA-4-038 | Monochrome output profile | Printer | Device → PCS | ❓ |
-| CMOCA-4-039 | Three-component matrix-based input profile | Scanner, digital camera | Device → PCS | ❓ |
-| CMOCA-4-040 | Three-component matrix-based display profile | Display | Device ← → PCS | ❓ |
-| CMOCA-4-041 | N-component LUT-based input profile | Scanner, digital camera | Device → PCS | ❓ |
-| CMOCA-4-042 | N-component LUT-based display profile | Display | Device ← → PCS | ❓ |
-| CMOCA-4-043 | N-component LUT-based output profiles | Printer, film recorder | PCS → Device | ❓ |
-| CMOCA-4-044 | ColorSpace conversion profile | Non-device color space (e.g., sRGB, D65) | Non-device ← → PCS | ❓ |
-| CMOCA-4-045 | The Basic Intents Column describes the most commonly used color conversion direction(s) for each ICC profile subset. | ❓ |
-| CMOCA-4-046 | Mandatory Tags:** ICC Profile Subset, ICC Profile Data, End Data | ❓ |
-| CMOCA-4-047 | Optional Tags:** Comment, Date and Time Stamp, ICC Profile Filename | ❓ |
-| CMOCA-4-048 | Implementation note:** It is very important to include the ICC Profile Filename tag for debugging purposes regardless of the fact that it is optional. | ❓ |
-| CMOCA-4-049 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-050 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-051 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-052 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-053 | Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-054 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag | ❓ |
-| CMOCA-4-055 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-056 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-057 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-058 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-059 | Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-060 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag | ❓ |
-| CMOCA-4-061 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-062 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-063 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-064 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-065 | Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-066 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag | ❓ |
-| CMOCA-4-067 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-068 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-069 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-070 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-071 | Mandatory ICCTags:** profileDescriptionTag, redMatrixColumnTag, greenMatrixColumnTag, blueMatrixColumnTag, redTRCTag, greenTRCTag, blueTRCTag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-072 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag | ❓ |
-| CMOCA-4-073 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-074 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-075 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-076 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-077 | Mandatory ICCTags:** profileDescriptionTag, redMatrixColumnTag, greenMatrixColumnTag, blueMatrixColumnTag, redTRCTag, greenTRCTag, blueTRCTag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-078 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag | ❓ |
-| CMOCA-4-079 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-080 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-081 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-082 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-083 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-084 | Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag | ❓ |
-| CMOCA-4-085 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-086 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-087 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-088 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-089 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-090 | Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA1Tag, BT oA2Tag, gamutTag | ❓ |
-| CMOCA-4-091 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-092 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-093 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-094 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-095 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, AT oB1Tag, BT oA1Tag, AT oB2Tag, BT oA2Tag, gamutTag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-096 | Optional ICCTags:** chromaticAdaptationTag, colorantTableTag | ❓ |
-| CMOCA-4-097 | This subset should be used as an audit color conversion. | ❓ |
-| CMOCA-4-098 | Mandatory ICCHeaderFields** | ❓ |
-| CMOCA-4-099 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-4-100 | 20–23 | Profile Connection Space | ❓ |
-| CMOCA-4-101 | Optional ICCHeaderFields:** All other header fields | ❓ |
-| CMOCA-4-102 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, mediaWhitePointTag, copyrightTag | ❓ |
-| CMOCA-4-103 | Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA1Tag, BT oA2Tag, gamutTag | ❓ |
-| CMOCA-4-104 | CMR Type LK (X'004C 004B') or DL (X'0044 004C')** | ❓ |
-| CMOCA-4-105 | The purpose of the Link Color Conversion CMR is to convert directly from the input to the output color space. There are two major types of Link Color Conversion: | ❓ |
-| CMOCA-4-106 | Link Color Conversion** with up to four Lookup Tables (LUTs) representing different rendering intents. It is selected for use based on the audit and instruction OIDs that are contained in its tags. | ❓ |
-| CMOCA-4-107 | ICC DeviceLink** contains an ICC profile of type DeviceLink. It contains a complex color conversion description (with up to five processing elements) for exactly one rendering intent. It is selected for use when it is found during a search of the hierarchy of invoked link CMRs (only ICC DeviceLink CMRs are invoked, other link CMR subsets are not invoked). It is not based on an audit and instruction Color Conversion pair. | ❓ |
-| CMOCA-4-108 | LinkColorConversion LUT subset:** Its purpose is to combine an audit Color Conversion CMR with an instruction Color Conversion CMR to improve performance. It allows up to four LUTs, each representing one of the four ICC rendering intents. It is permissible to reference the same LUT tag data for multiple rendering intents. The LUT is constructed by combining the processing required for the audit and the instruction color conversions. If one of the AT oB/BT oA tags in an audit or instruction CMR is missing when constructing the link LUT, the tag data for the rendering intent specified in that CMR's ICC profile header is used in place of the missing tag data. The default rendering intent profile header is used in place of the missing tag data. The default rendering intent for the Link Color Conversion CMR is the rendering intent specified in the ICCHeader Field of the instruction Color Conversion CMR. The processing detail is described in “Creating Link Color Conversion CMRs – LinkColorConversion LUT subset”. | ❓ |
-| CMOCA-4-109 | ICC DeviceLink subset:** Its purpose is to provide a customized path to convert directly from input to output space with no dependency on an audit and instruction CMR. It allows only one single AT oB0Tag representing one rendering intent. The rendering intent is indicated in the header of the ICC profile. The AT oB0Tag contains up to five processing elements, possibly making the conversion more complex than if a single LUT were used. Whereas link CMRs in general are not invoked, CMRs with this subset ID must be invoked in order to be used. A hierarchical search is performed to determine if there is an applicable ICC DeviceLink that can be used. The device should search for an ICC DeviceLink before searching for an Audit/Instruction Color Conversion pair. The currently active Rendering Intent is ignored when an ICC DeviceLink is selected for use. | ❓ |
-| CMOCA-4-110 | Currently, three Link Color Conversion subsets are defined. Table 22 lists the Link Color Conversion CMR subsets and their descriptions: | ❓ |
-| CMOCA-4-111 | X'01' | LinkColorConversion LUT | Connection between two device color spaces, or the connection between a non-device color space and a device color space (e.g., scanner→printer or sRGB→printer). Selected based on OIDs of selected audit/instruction CC CMRs. | ❓ |
-| CMOCA-4-112 | X'02' | LinkColorConversion Identity | No conversion needed. Selected based on OIDs of selected audit/instruction CC CMRs. | ❓ |
-| CMOCA-4-113 | X'03' | ICC DeviceLink | Direct conversion between input and output space without reference to audit/instruction CC pair and without use of a PCS. | ❓ |
-| CMOCA-4-114 | Mandatory Tags:** Link Color Conversion Subset, Link Audit CMR OID, Link Instruction CMR OID, Link Audit CMR Name, Link Instruction CMR Name, Default Rendering Intent, Link LUT Perceptual, End Data | ❓ |
-| CMOCA-4-115 | Optional Tags:** Comment, Date and Time Stamp, Link LUT Media-Relative Colorimetric, Link LUT Saturation, Link LUT ICC-Absolute Colorimetric, Link CMRE Identifier | ❓ |
-| CMOCA-4-116 | This subset is used when the input space is the same as the device's output space and no color conversion is to be done. There is no data with this subset. The OIDs for the audit and instruction Color Conversion CMR must be the same. | ❓ |
-| CMOCA-4-117 | Mandatory Tags:** Link Color Conversion Subset, Link Audit CMR OID, Link Instruction CMR OID, Link Audit CMR Name, Link Instruction CMR Name, End Data | ❓ |
-| CMOCA-4-118 | Optional Tags:** Comment, Date and Time Stamp, Link CMRE Identifier | ❓ |
-| CMOCA-4-119 | Mandatory Tags:** Link Color Conversion Subset, ICC Profile Data, End Data | ❓ |
-| CMOCA-4-120 | Optional Tags:** Comment, Date and Time Stamp, ICC Profile Filename | ❓ |
-| CMOCA-4-121 | Mandatory ICCTags:** profileDescriptionTag, copyrightTag, profileSequenceDescTag, AtoB0Tag, colorantTableTag (required only if Data Colour Space is xCLR), colorantTableOutTag (required only if Profile Connection Space is xCLR) | ❓ |
-| CMOCA-4-122 | Optional ICCTags:** None | ❓ |
-| CMOCA-4-123 | CMR Type IX (X'0049 0058')** | ❓ |
-| CMOCA-4-124 | An Indexed CMR contains one or more Color Palette tags that translate 2-byte indexed color values to the target color space. Five Color Palette tags are defined for the color spaces of gray, RGB, CMYK, CIELAB, and named colorants. The named colorants are defined through a set of colorant names that are specified in the Colorant Identification List tag. Currently, only one Indexed CMR subset is defined for the multi-output color spaces. It allows the mixture of different output color spaces in an Indexed CMR. When multiple Color Palette tags are present in a CMR, and the same indexed color value is specified in different Color Palette tags, the indexed color value in the Color Palette tag with the lower TagID number is used. If the color space of that Color Palette tag is not applicable for the output device, the CIELAB value specified for this indexed color value in the Color Palette tag is used for the substitution. | ❓ |
-| CMOCA-4-125 | Color Palette Gray | Color Palette tag for monochrome output devices | ❓ |
-| CMOCA-4-126 | Color Palette CMYK | Color Palette tag for CMYK output devices | ❓ |
-| CMOCA-4-127 | Color Palette RGB | Color Palette tag for RGB output devices | ❓ |
-| CMOCA-4-128 | Color Palette CIELAB | Color Palette tag for the D50 CIELAB color space | ❓ |
-| CMOCA-4-129 | Color Palette Named Colorants | Color Palette tag for the named colorants color space | ❓ |
-| CMOCA-4-130 | Mandatory Tags:** Indexed Subset, one of Color Palette tags, End Data | ❓ |
-| CMOCA-4-131 | Optional Tags:** Comment, Date and Time Stamp, Color Palette tags | ❓ |
-| CMOCA-4-132 | If no Color Palette tag is specified, exception condition EC-50400E exists. It is shown in “Color Palette Named Colorants”. | ❓ |
-| CMOCA-4-133 | EC-50400E Missing Required Tag:** At least one Color Palette tag is required but none were specified. | ❓ |
-| CMOCA-5-001 | The CMR Data field carries all the actual color resource data. The resource data is carried in a tagged format. CMR is big endian. The tags are loosely based on the TIFF tag syntax, but with significant changes and additions. The tags are carried first, optionally followed by the tag data. The last tag is always the End Data tag. | ❓ |
-| CMOCA-5-002 | Each tag consists of 12 bytes in the following format: | ❓ |
-| CMOCA-5-003 | 0–1 | CODE | TagID | X'0000'–X'FFFF' | Unique identifier for the tag | ❓ |
-| CMOCA-5-004 | 2 | | Reserved | X'00' | Should be set to zero | ❓ |
-| CMOCA-5-005 | 3 | CODE | Field Type | X'01' | 1-byte UBIN | ❓ |
-| CMOCA-5-006 | X'02' | 2-byte UBIN | ❓ |
-| CMOCA-5-007 | X'04' | 4-byte UBIN | ❓ |
-| CMOCA-5-008 | X'05' | BYTE (8 bits) | ❓ |
-| CMOCA-5-009 | X'06' | ASCII | ❓ |
-| CMOCA-5-010 | X'07' | UTF16 (UTF-16BE) | ❓ |
-| CMOCA-5-011 | X'08' | CODE (8 bit architected constant) | ❓ |
-| CMOCA-5-012 | X'09' | BITS | ❓ |
-| CMOCA-5-013 | 4–7 | UBIN | Count | X'00000000' – X'FFFFFFFF' | Number of values of the indicated Field Type (may be zero) | ❓ |
-| CMOCA-5-014 | 8–11 | | ValueOffset | Any | Data, left-aligned, if it fits into 4 bytes. Otherwise, offset to data is an offset from byte 164 of the CMR (i.e., from the start of CMRData). | ❓ |
-| CMOCA-5-015 | Field Type X'05' (BYTE) is used for the tags whose data has a defined structure, such as OID, Date and Time Stamp, ICC Profile Data, and Link LUT tags. Field Type X'06' (ASCII) is defined in the MO:DCA architecture with encoding scheme ID X'2100' – PC-Data, single byte. UBIN is defined as unsigned binary. | ❓ |
-| CMOCA-5-016 | Tags X'F000'–X'FFFE' are private tags. Organizations may use a private tag in this range for their exclusive use without disclosing the tag contents. The architecture requires that such tag be non-essential, in the sense that any receivers not supporting the tag will not fail on parsing or using the resource. | ❓ |
-| CMOCA-5-017 | X'EF00'–X'EFFF' are reserved for error handling for the CMR header. | ❓ |
-| CMOCA-5-018 | The tags in a CMR must be specified in increasing order by their TagIDs. If they are out of order, the Exception EC-xxxx0F exists. Unless otherwise specified within the individual tag description, each TagID may appear at most once and Exception EC-xxxx0F exists if it is specified more than once. Multiple tags with the same ID may be accepted if the particular tag description explicitly states that it may repeat. The description in the tag must explain how the multiple tags are used and which one wins in cases of conflict. Tag values in the CMR tags are listed in the tag registry, that can be found in Appendix A, “Tag Registry”. Private tags are ignored. Any TagID not supported by the device causes the Exception EC-xxxx04. The last tag must be the End Data tag (TagID of X'FFFF'), or exception EC-FFFF0E exists. | ❓ |
-| CMOCA-5-019 | There is no restriction on where the actual data fields are located, as long as they are within the CMRData field scope. Note that all the offsets are from the beginning of the CMRData field, so that the location of the CMR header can be changed without any need to update the ValueOffset values. The offsets do not have to be increasing as the TagIDs increase, nor do they have to follow any other rule. There is no requirement that all the data in the scope be used, that is, it is permissible to have data not referenced by any tag. | ❓ |
-| CMOCA-5-020 | The number of bytes of data for a tag is the value of Count multiplied by the size of each data item as indicated by Field Type. For example, a Count of 1 indicates two bytes if Field Type is X'02' (2-byte UBIN) or X'07' (UTF16). | ❓ |
-| CMOCA-5-021 | Each type of CMR has a list of Mandatory Tags and a list of optional tags. The receivers should ignore any unknown tags. If an optional tag is not present, the default value (if one exists) should be used. | ❓ |
-| CMOCA-5-022 | On encountering an error, an exception is raised. Each exception is defined by a three byte value. The first two bytes are the relevant TagID value (X'0000'–X'FFFF'), while the third byte is the exception code. The exception codes are defined as follows: | ❓ |
-| CMOCA-5-023 | X'04' | Unsupported TagID Value in a CMR tag | ❓ |
-| CMOCA-5-024 | X'05' | Invalid Count Value | ❓ |
-| CMOCA-5-025 | X'06' | Invalid Field Type | ❓ |
-| CMOCA-5-026 | X'0E' | Missing Required Tag | ❓ |
-| CMOCA-5-027 | X'0F' | Invalid Sequence | ❓ |
-| CMOCA-5-028 | X'10' | Invalid or unsupported field value or an offset that causes the tag data to start or end after the end of the CMR (as defined by the CMR length) | ❓ |
-| CMOCA-5-029 | X'11' | Inconsistent Tag Contents | ❓ |
-| CMOCA-5-030 | X'12' | Incorrect order of repeating groups | ❓ |
-| CMOCA-5-031 | X'13' | Duplicate value | ❓ |
-| CMOCA-5-032 | The CMR coordinate system is a two dimensional Cartesian coordinate system. The horizontal axis is labeled x, and the vertical axis is labeled y. Positive x is to the right of the origin, and positive y is above the origin. The measurement unit is pixel. | ❓ |
-| CMOCA-5-033 | Figure 7. Cartesian Coordinate System** | ❓ |
-| CMOCA-5-034 | This section defines the CMR tags. | ❓ |
-| CMOCA-5-035 | TagID:** X'0004' | ❓ |
-| CMOCA-5-036 | Field Type:** X'06' (ASCII), X'07' (UTF16) | ❓ |
-| CMOCA-5-037 | Count:** Number of characters | ❓ |
-| CMOCA-5-038 | This tag defines arbitrary comment text, ignored by receivers. There is no default. | ❓ |
-| CMOCA-5-039 | EC-000406 Invalid Field Type:** The specified Field Type is invalid for the tag. | ❓ |
-| CMOCA-5-040 | EC-00040F Invalid Sequence:** The tag has been encountered out of sequence or more than once. | ❓ |
-| CMOCA-5-041 | EC-000410 Invalid Value:** The offset caused some portion of the tag data to be outside of the CMRdata. | ❓ |
-| CMOCA-5-042 | TagID:** X'0008' | ❓ |
-| CMOCA-5-043 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-044 | Count:** 10 | ❓ |
-| CMOCA-5-045 | This tag contains the date and time of the creation of the CMR. It is defined consistently with the MO:DCA definition of the Universal Date and Time Stamp Triplet X'72' that is specified in accordance with the format defined in ISO 8601:1988 (E). The tag is informational. The date and time values are not checked for validity. | ❓ |
-| CMOCA-5-046 | 0–1 | 2-byte UBIN | YearAD | 0–65,535 | Year AD using Gregorian calendar | ❓ |
-| CMOCA-5-047 | 2 | 1-byte UBIN | Month | 1–12 | Month of the year | ❓ |
-| CMOCA-5-048 | 3 | 1-byte UBIN | Day | 1–31 | Day of the month | ❓ |
-| CMOCA-5-049 | 4 | 1-byte UBIN | Hour | 0–23 | Hour of the day in 24-hour format | ❓ |
-| CMOCA-5-050 | 5 | 1-byte UBIN | Minute | 0–59 | Minute of the hour | ❓ |
-| CMOCA-5-051 | 6 | 1-byte UBIN | Second | 0–59 | Second of the minute | ❓ |
-| CMOCA-5-052 | 7 | CODE | TimeZone | X'00', X'01', X'02' | Relationship of time to UTC (Coordinated, Ahead, Behind) | ❓ |
-| CMOCA-5-053 | 8 | 1-byte UBIN | UTCDiffH | 0–23 | Hours ahead of or behind UTC | ❓ |
-| CMOCA-5-054 | 9 | 1-byte UBIN | UTCDiffM | 0–59 | Minutes ahead of or behind UTC | ❓ |
-| CMOCA-5-055 | YearAD:** Specifies the year AD using the Gregorian calendar. For example, the year 1999 is specified as X'07CF'. Represents the YYYY component. | ❓ |
-| CMOCA-5-056 | Month:** Specifies the month of the year. January is X'01'. Represents the MM component. | ❓ |
-| CMOCA-5-057 | Day:** Specifies the day of the month. The first day is X'01'. Represents the DD component. | ❓ |
-| CMOCA-5-058 | Hour:** Specifies the hour (0-23). Represents the hh component. | ❓ |
-| CMOCA-5-059 | Minute:** Specifies the minute (0-59). Represents the mm component. | ❓ |
-| CMOCA-5-060 | Second:** Specifies the second (0-59). Represents the ss component. | ❓ |
-| CMOCA-5-061 | TimeZone:** Defines the relation to UTC. | ❓ |
-| CMOCA-5-062 | X'00':** Time is specified in UTC. UTCDiffH/M should be X'00'. (Suffix Z) | ❓ |
-| CMOCA-5-063 | X'01':** Ahead of UTC. UTCDiffH/M specify the difference. (Suffix +hhmm) | ❓ |
-| CMOCA-5-064 | X'02':** Behind UTC. UTCDiffH/M specify the difference. (Suffix -hhmm) | ❓ |
-| CMOCA-5-065 | EC-000805 Invalid Count Value:** The specified Count field value is invalid for the tag. | ❓ |
-| CMOCA-5-066 | EC-000806 Invalid Field Type:** The specified Field Type is invalid for the tag. | ❓ |
-| CMOCA-5-067 | EC-00080F Invalid Sequence:** The tag has been encountered out of sequence or more than once. | ❓ |
-| CMOCA-5-068 | EC-000810 Invalid Value:** The offset caused some portion of the tag data to be outside of the CMRdata. | ❓ |
-| CMOCA-5-069 | TagID:** X'0011' | ❓ |
-| CMOCA-5-070 | Field Type:** X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-071 | Count:** 1 | ❓ |
-| CMOCA-5-072 | This tag defines the number of color components referenced by this resource. To comply with ICC, the number of components must be in the range of 1–15. | ❓ |
-| CMOCA-5-073 | XYZ | X | Y | Z | ❓ |
-| CMOCA-5-074 | Lab | L | a | b | ❓ |
-| CMOCA-5-075 | Luv | L | u | v | ❓ |
-| CMOCA-5-076 | Yxy | Y | X | y | ❓ |
-| CMOCA-5-077 | YCbr | Y | Cb | Cr | ❓ |
-| CMOCA-5-078 | RGB | R | G | B | ❓ |
-| CMOCA-5-079 | GRAY | K | ❓ |
-| CMOCA-5-080 | HSV | H | S | V | ❓ |
-| CMOCA-5-081 | HLS | H | L | S | ❓ |
-| CMOCA-5-082 | CMYK | C | M | Y | K | ❓ |
-| CMOCA-5-083 | CMY | C | M | Y | ❓ |
-| CMOCA-5-084 | 2CLR | Component 1 | Component 2 | ❓ |
-| CMOCA-5-085 | 3CLR | Component 1 | Component 2 | Component 3 | ❓ |
-| CMOCA-5-086 | 4CLR | Component 1 | Component 2 | Component 3 | Component 4 | ❓ |
-| CMOCA-5-087 | The components are numbered according to the order in the ICC data tag. Additional color spaces can be added simply by defining the signature component assignments. Default is 1. | ❓ |
-| CMOCA-5-088 | EC-001105 Invalid Count Value** | ❓ |
-| CMOCA-5-089 | EC-001106 Invalid Field Type** | ❓ |
-| CMOCA-5-090 | EC-00110F Invalid Sequence** | ❓ |
-| CMOCA-5-091 | EC-001110 Invalid Value:** number of components is zero or greater than 15. | ❓ |
-| CMOCA-5-092 | TagID:** X'1011' | ❓ |
-| CMOCA-5-093 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-094 | Count:** 1 | ❓ |
-| CMOCA-5-095 | This tag denotes a subset of the Halftone CMR type. | ❓ |
-| CMOCA-5-096 | X'01' | Bilevel Point-Operation Halftone | ❓ |
-| CMOCA-5-097 | X'02' | Multilevel Point-Operation Halftone | ❓ |
-| CMOCA-5-098 | X'03' | Bilevel Error Diffusion Halftone | ❓ |
-| CMOCA-5-099 | X'04' | Multilevel Error Diffusion Halftone | ❓ |
-| CMOCA-5-100 | EC-101110 Invalid Value:** specified subset value is none of X'01', X'02', X'03', or X'04'. | ❓ |
-| CMOCA-5-101 | TagID:** X'1021' | ❓ |
-| CMOCA-5-102 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ❓ |
-| CMOCA-5-103 | Count:** Number of color components | ❓ |
-| CMOCA-5-104 | This tag defines the width of the array along the x-direction in pixels for each color component. | ❓ |
-| CMOCA-5-105 | TagID:** X'1025' | ❓ |
-| CMOCA-5-106 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ❓ |
-| CMOCA-5-107 | Count:** Number of color components | ❓ |
-| CMOCA-5-108 | This tag defines the height of the array along the y-direction in pixels for each color component. | ❓ |
-| CMOCA-5-109 | TagID:** X'1030' | ❓ |
-| CMOCA-5-110 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-111 | Count:** Number of color components | ❓ |
-| CMOCA-5-112 | This tag defines the maximum input image value per component. | ❓ |
-| CMOCA-5-113 | TagID:** X'1035' | ❓ |
-| CMOCA-5-114 | Field Type:** X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-115 | Count:** Number of color components | ❓ |
-| CMOCA-5-116 | This tag defines the number of device levels per component for multilevel devices. Each specified Number of Device Levels must be greater than 2. | ❓ |
-| CMOCA-5-117 | TagID:** X'1040' | ❓ |
-| CMOCA-5-118 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ❓ |
-| CMOCA-5-119 | Count:** Number of color components | ❓ |
-| CMOCA-5-120 | This tag defines the amount of shift in pixels between the halftone tiles in two adjacent rows for each component. | ❓ |
-| CMOCA-5-121 | Figure 8. Illustration of Offset Tiling with Offset Tiling=2** | ❓ |
-| CMOCA-5-122 | TagID:** X'1045' | ❓ |
-| CMOCA-5-123 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-124 | Count:** Sum of (Array Width × Array Height) over all color components | ❓ |
-| CMOCA-5-125 | This tag specifies the threshold array values for each screen. Arranged in row-major format. Component-wise structured. | ❓ |
-| CMOCA-5-126 | TagID:** X'1050' | ❓ |
-| CMOCA-5-127 | Field Type:** X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-128 | Count:** Sum of (Array Width × Array Height × (Max Image Value + 1)) over all color components | ❓ |
-| CMOCA-5-129 | This tag gives the device gray level for each pixel. Each screen is a 3-d table lookup. Dimensions are m × n × (Max Image Value + 1). | ❓ |
-| CMOCA-5-130 | TagID:** X'1055' | ❓ |
-| CMOCA-5-131 | Field Type:** X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-132 | Count:** Sum of (Array Width × Array Height) over all color components | ❓ |
-| CMOCA-5-133 | This tag specifies a set of values in the error diffusion filter. Arranged in a 2-dimensional array for each color plane. | ❓ |
-| CMOCA-5-134 | Figure 9. Illustration of Error Distribution with Floyd-Steinberg Filter** | ❓ |
-| CMOCA-5-135 | TagID:** X'1060' | ❓ |
-| CMOCA-5-136 | Field Type:** X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-137 | Count:** 2 × number of color components | ❓ |
-| CMOCA-5-138 | Specifies a pair of values (row, column) describing the location of the current pixel in an error diffusion filter. | ❓ |
-| CMOCA-5-139 | TagID:** X'1065' | ❓ |
-| CMOCA-5-140 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-141 | Count:** Number of color components | ❓ |
-| CMOCA-5-142 | X'01' | Normal raster | ❓ |
-| CMOCA-5-143 | X'02' | Serpentine raster | ❓ |
-| CMOCA-5-144 | Figure 10. Illustration of Normal Raster and Serpentine Raster** | ❓ |
-| CMOCA-5-145 | TagID:** X'1070' | ❓ |
-| CMOCA-5-146 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-147 | Count:** Number of color components | ❓ |
-| CMOCA-5-148 | X'01' | None | ❓ |
-| CMOCA-5-149 | X'02' | Zero boundary | ❓ |
-| CMOCA-5-150 | X'03' | Reflect | ❓ |
-| CMOCA-5-151 | X'04' | Periodic | ❓ |
-| CMOCA-5-152 | TagID:** X'1075' | ❓ |
-| CMOCA-5-153 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-154 | Count:** Number of color components | ❓ |
-| CMOCA-5-155 | Specifies a single threshold value for bilevel error diffusion halftones. | ❓ |
-| CMOCA-5-156 | TagID:** X'1080' | ❓ |
-| CMOCA-5-157 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-158 | Count:** Sum of (Number of Device Levels – 1) over all color components | ❓ |
-| CMOCA-5-159 | Specifies n one-dimensional arrays for multilevel error diffusion halftone. | ❓ |
-| CMOCA-5-160 | 1 | 60 | ❓ |
-| CMOCA-5-161 | 2 | 120 | ❓ |
-| CMOCA-5-162 | 3 | 200 | ❓ |
-| CMOCA-5-163 | Initial Value | Output Device Level | Corrected value | ❓ |
-| CMOCA-5-164 | I ∈ [0, 60) | 0 | 0 | ❓ |
-| CMOCA-5-165 | I ∈ [60, 120) | 1 | 85 | ❓ |
-| CMOCA-5-166 | I ∈ [120, 200) | 2 | 170 | ❓ |
-| CMOCA-5-167 | I ∈ [200, 255] | 3 | 255 | ❓ |
-| CMOCA-5-168 | TagID:** X'2004' | ❓ |
-| CMOCA-5-169 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-170 | Count:** 1 | ❓ |
-| CMOCA-5-171 | X'01' | ToneTransferCurve Array | ❓ |
-| CMOCA-5-172 | X'02' | ToneTransferCurve Identity | ❓ |
-| CMOCA-5-173 | TagID:** X'2011' | ❓ |
-| CMOCA-5-174 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-175 | Count:** Number of color components | ❓ |
-| CMOCA-5-176 | X'01' | 256 1-byte entries | ❓ |
-| CMOCA-5-177 | X'02' | 65,536 2-byte entries | ❓ |
-| CMOCA-5-178 | TagID:** X'2015' | ❓ |
-| CMOCA-5-179 | Field Type:** X'05' (byte) | ❓ |
-| CMOCA-5-180 | Count:** Total length of the data | ❓ |
-| CMOCA-5-181 | TagID:** X'2020' | ❓ |
-| CMOCA-5-182 | Field Type:** X'05' (Byte) | ❓ |
-| CMOCA-5-183 | Count:** Total length of the data | ❓ |
-| CMOCA-5-184 | TagID:** X'3011' | ❓ |
-| CMOCA-5-185 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-186 | Count:** 1 | ❓ |
-| CMOCA-5-187 | X'01' | Monochrome input profile | ❓ |
-| CMOCA-5-188 | X'02' | Monochrome display profile | ❓ |
-| CMOCA-5-189 | X'03' | Monochrome output profile | ❓ |
-| CMOCA-5-190 | X'04' | Three-component matrix-based input profile | ❓ |
-| CMOCA-5-191 | X'05' | Three-component matrix-based display profile | ❓ |
-| CMOCA-5-192 | X'06' | N-component LUT-based input profile | ❓ |
-| CMOCA-5-193 | X'07' | N-component LUT-based display profile | ❓ |
-| CMOCA-5-194 | X'08' | N-component LUT-based output profiles | ❓ |
-| CMOCA-5-195 | X'09' | ColorSpace conversion profile | ❓ |
-| CMOCA-5-196 | X'0A' | Retired item 3 (Abstract profile) | ❓ |
-| CMOCA-5-197 | TagID:** X'3015' | ❓ |
-| CMOCA-5-198 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-199 | Count:** The number of bytes in the profile | ❓ |
-| CMOCA-5-200 | 0–3 | Profile size | ❓ |
-| CMOCA-5-201 | 4–7 | CMM Type signature | ❓ |
-| CMOCA-5-202 | 8–11 | Profile version number | ❓ |
-| CMOCA-5-203 | 12–15 | Profile/Device Class signature | ❓ |
-| CMOCA-5-204 | 16–19 | Color Space of Data | ❓ |
-| CMOCA-5-205 | 20–23 | Profile Connection Space (PCS) | ❓ |
-| CMOCA-5-206 | 24–35 | Date and time this profile was first created | ❓ |
-| CMOCA-5-207 | 36–39 | acsp (61637370h) profile file signature | ❓ |
-| CMOCA-5-208 | 40–43 | Primary Platform signature | ❓ |
-| CMOCA-5-209 | 44–47 | Flags to indicate various options for the CMM | ❓ |
-| CMOCA-5-210 | 48–51 | Device manufacturer | ❓ |
-| CMOCA-5-211 | 52–55 | Device model | ❓ |
-| CMOCA-5-212 | 56–63 | Device attributes (e.g., media type) | ❓ |
-| CMOCA-5-213 | 64–67 | Rendering Intent | ❓ |
-| CMOCA-5-214 | 68–79 | XYZ values of the illuminant (must be D50) | ❓ |
-| CMOCA-5-215 | 80–83 | Profile Creator signature | ❓ |
-| CMOCA-5-216 | 84–99 | Profile ID | ❓ |
-| CMOCA-5-217 | 100–127 | 28 bytes reserved (set to zeros) | ❓ |
-| CMOCA-5-218 | TagID:** X'3025' | ❓ |
-| CMOCA-5-219 | Field Type:** X'06' (ASCII), X'07' (UTF16) | ❓ |
-| CMOCA-5-220 | Count:** Number of characters | ❓ |
-| CMOCA-5-221 | TagID:** X'4011' | ❓ |
-| CMOCA-5-222 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-223 | Count:** 1 | ❓ |
-| CMOCA-5-224 | X'01' | LinkColorConversion LUT | ❓ |
-| CMOCA-5-225 | X'02' | LinkColorConversion Identity | ❓ |
-| CMOCA-5-226 | X'03' | ICC DeviceLink | ❓ |
-| CMOCA-5-227 | TagID:** X'4015' | ❓ |
-| CMOCA-5-228 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-229 | Count:** Number of bytes in the OID | ❓ |
-| CMOCA-5-230 | TagID:** X'4020' | ❓ |
-| CMOCA-5-231 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-232 | Count:** Number of bytes in the OID | ❓ |
-| CMOCA-5-233 | TagID:** X'4025' | ❓ |
-| CMOCA-5-234 | Field Type:** X'07' (UTF16) | ❓ |
-| CMOCA-5-235 | Count:** Number of characters | ❓ |
-| CMOCA-5-236 | TagID:** X'4030' | ❓ |
-| CMOCA-5-237 | Field Type:** X'07' (UTF16) | ❓ |
-| CMOCA-5-238 | Count:** Number of characters | ❓ |
-| CMOCA-5-239 | TagID:** X'4035' | ❓ |
-| CMOCA-5-240 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-241 | Count:** 1 | ❓ |
-| CMOCA-5-242 | Perceptual | X'00' | ❓ |
-| CMOCA-5-243 | Media-Relative Colorimetric | X'01' | ❓ |
-| CMOCA-5-244 | Saturation | X'02' | ❓ |
-| CMOCA-5-245 | ICC-Absolute Colorimetric | X'03' | ❓ |
-| CMOCA-5-246 | TagID:** X'4040' | ❓ |
-| CMOCA-5-247 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-248 | Count:** The number of bytes in the LUT + 20 bytes of the header | ❓ |
-| CMOCA-5-249 | 0 | 1 | 1-byte UBIN | 1–15 | Number of components of the input color space | ❓ |
-| CMOCA-5-250 | 1 | 1 | 1-byte UBIN | 1–15 | Number of components of the output color space | ❓ |
-| CMOCA-5-251 | 2–16 | 15 | 1-byte UBIN | 0–255 | Number of grid points in each component of input | ❓ |
-| CMOCA-5-252 | 17 | 1 | 1-byte UBIN | 1, 2 | Precision: 1=1-byte UBIN, 2=2-byte UBIN | ❓ |
-| CMOCA-5-253 | 18 | 1 | BITS | | Additional use flags: bit 0: Media-rel, bit 1: Saturation, bit 2: ICC-Abs | ❓ |
-| CMOCA-5-254 | 19 | 1 | | 0 | Reserved | ❓ |
-| CMOCA-5-255 | 20 to end | | | | LUT data | ❓ |
-| CMOCA-5-256 | TagID:** X'4045' | ❓ |
-| CMOCA-5-257 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-258 | TagID:** X'4050' | ❓ |
-| CMOCA-5-259 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-260 | TagID:** X'4055' | ❓ |
-| CMOCA-5-261 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-262 | TagID:** X'4090' | ❓ |
-| CMOCA-5-263 | Field Type:** X'07' (UTF16) | ❓ |
-| CMOCA-5-264 | Count:** Number of characters | ❓ |
-| CMOCA-5-265 | TagID:** X'5011' | ❓ |
-| CMOCA-5-266 | Field Type:** X'08' (CODE) | ❓ |
-| CMOCA-5-267 | Count:** 1 | ❓ |
-| CMOCA-5-268 | X'01' | Multi-output color spaces | ❓ |
-| CMOCA-5-269 | TagID:** X'5015' | ❓ |
-| CMOCA-5-270 | Field Type:** X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-271 | Count:** 1 | ❓ |
-| CMOCA-5-272 | TagID:** X'5020' | ❓ |
-| CMOCA-5-273 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-274 | Count:** 9 × the number of color entries | ❓ |
-| CMOCA-5-275 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ❓ |
-| CMOCA-5-276 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ❓ |
-| CMOCA-5-277 | 8 | 1-byte UBIN | Component_1 | X'00'–X'FF' | Intensity of gray (X'00'=black, X'FF'=white) | ❓ |
-| CMOCA-5-278 | TagID:** X'5025' | ❓ |
-| CMOCA-5-279 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-280 | Count:** 12 × the number of color entries | ❓ |
-| CMOCA-5-281 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ❓ |
-| CMOCA-5-282 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ❓ |
-| CMOCA-5-283 | 8 | 1-byte UBIN | Component_1 | X'00'–X'FF' | Cyan | ❓ |
-| CMOCA-5-284 | 9 | 1-byte UBIN | Component_2 | X'00'–X'FF' | Magenta | ❓ |
-| CMOCA-5-285 | 10 | 1-byte UBIN | Component_3 | X'00'–X'FF' | Yellow | ❓ |
-| CMOCA-5-286 | 11 | 1-byte UBIN | Component_4 | X'00'–X'FF' | Black | ❓ |
-| CMOCA-5-287 | TagID:** X'5030' | ❓ |
-| CMOCA-5-288 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-289 | Count:** 11 × the number of color entries | ❓ |
-| CMOCA-5-290 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ❓ |
-| CMOCA-5-291 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ❓ |
-| CMOCA-5-292 | 8 | 1-byte UBIN | Component_1 | X'00'–X'FF' | Red | ❓ |
-| CMOCA-5-293 | 9 | 1-byte UBIN | Component_2 | X'00'–X'FF' | Green | ❓ |
-| CMOCA-5-294 | 10 | 1-byte UBIN | Component_3 | X'00'–X'FF' | Blue | ❓ |
-| CMOCA-5-295 | TagID:** X'5035' | ❓ |
-| CMOCA-5-296 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-297 | Count:** 8 × the number of color entries | ❓ |
-| CMOCA-5-298 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ❓ |
-| CMOCA-5-299 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ❓ |
-| CMOCA-5-300 | TagID:** X'5040' | ❓ |
-| CMOCA-5-301 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-302 | Count:** (Number of Named Colorants + 8) × the number of color entries | ❓ |
-| CMOCA-5-303 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ❓ |
-| CMOCA-5-304 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ❓ |
-| CMOCA-5-305 | 8 to 7+n | 1-byte UBIN | Component_i | X'00'–X'FF' | Intensity of i-th colorant | ❓ |
-| CMOCA-5-306 | TagID:** X'5045' | ❓ |
-| CMOCA-5-307 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-308 | Count:** Sum of the length over the Number of Named Colorants | ❓ |
-| CMOCA-5-309 | 0 | 1-byte UBIN | Length | X'03'–X'FB' | Length of this repeating group | ❓ |
-| CMOCA-5-310 | 1–end | UTF-16 | Colorant Name | | Colorant name in free format UTF-16BE | ❓ |
-| CMOCA-5-311 | TagID:** X'FFFF' | ❓ |
-| CMOCA-5-312 | Field Type:** X'05' (BYTE) | ❓ |
-| CMOCA-5-313 | Count:** 0 | ❓ |
-| CMOCA-5-314 | Signifies the end of the tag list. | ❓ |
+| CMOCA-4-001 | The following CMRTypes are defined: | ✅ |
+| CMOCA-4-002 | Halftone | ✅ |
+| CMOCA-4-003 | Tone Transfer Curve | ✅ |
+| CMOCA-4-004 | Color Conversion | ✅ |
+| CMOCA-4-005 | Link Color Conversion | ✅ |
+| CMOCA-4-006 | Indexed | ✅ |
+| CMOCA-4-007 | Each of the CMRTypes is described in more detail below. | ✅ |
+| CMOCA-4-008 | In the following descriptions, the Optional Tags and Mandatory Tags are listed to show which tags are meaningful for each type and subset. Any other tags present are ignored by the receiver. The Comment tag is optional. The End Data tag is required in all CMR objects. | ✅ |
+| CMOCA-4-009 | CMR Type HT (X'0048 0054')** | ✅ |
+| CMOCA-4-010 | Halftone can be classified into two types: point-operation halftone and neighborhood-operation halftone. The output of the point-operation halftone depends only on the value of the current pixel. It can be used for numerous common halftone types including clustered dot, dispersed, and stochastic. Threshold arrays are commonly used for the bilevel point-operation halftones, and lookup tables are commonly used for the multilevel point-operation halftones. The error diffusion halftone is commonly used for the neighborhood-operation halftone. The most common error diffusion filters include Floyd-Steinberg, Jarvis-Judice-Ninke, Stucki, etc. The Halftone Subset tag indicates the halftone type, and thus determines required and optional tags for this Halftone CMR. | ✅ |
+| CMOCA-4-011 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Bilevel Point-Operation Screen Data, End Data | ✅ |
+| CMOCA-4-012 | Optional Tags:** Comment, Date and Time Stamp, Number of Components, Offset Tiling | ✅ |
+| CMOCA-4-013 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Max Image Value, Number of Device Levels, Multilevel Point-Operation Screen Data, End Data | ✅ |
+| CMOCA-4-014 | Optional Tags:** Comment, Date and Time Stamp, Number of Components, Offset Tiling | ✅ |
+| CMOCA-4-015 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Error Diffusion Filter, Location of Current Pixel, Raster Direction, Boundary Condition, Threshold Value, End Data | ✅ |
+| CMOCA-4-016 | Optional Tags:** Comment, Date and Time Stamp, Number of Components | ✅ |
+| CMOCA-4-017 | Mandatory Tags:** Halftone Subset, Array Width, Array Height, Number of Device Levels, Error Diffusion Filter, Location of Current Pixel, Raster Direction, Boundary Condition, Quantization Boundary Table, End Data | ✅ |
+| CMOCA-4-018 | Optional Tags:** Comment, Date and Time Stamp, Number of Components | ✅ |
+| CMOCA-4-019 | CMR Type TC (X'0054 0043')** | ✅ |
+| CMOCA-4-020 | Tone transfer curves are applied to data prior to halftoning or output. The inverse tone transfer curves are applied to restore data to the original state. The printer tone transfer curve produces a desired appearance by compensating for dot gain. The tone transfer curve for a display or other input device is used to correct non-linearity (gamma) of the device. Currently, there are two tone transfer curve subsets: ToneTransferCurve Array and ToneTransferCurve Identity. The Subset tag indicates the tone transfer curve type, and thus determines required and optional tags for this Tone Transfer Curve CMR. | ✅ |
+| CMOCA-4-021 | Mandatory Tags:** Tone Transfer Curve Subset, Tone Transfer Curve Data, End Data | ✅ |
+| CMOCA-4-022 | Optional Tags:** Comment, Date and Time Stamp, Number of Components, Tone Transfer Curve Length, Inverse Tone Transfer Curve Data | ✅ |
+| CMOCA-4-023 | The tone transfer curve for each component is the identity. No data is sent with this subset, that is, no tone transfer curve is to be applied. This subset is implemented for performance reasons. | ✅ |
+| CMOCA-4-024 | Mandatory Tags:** Tone Transfer Curve Subset, End Data | ✅ |
+| CMOCA-4-025 | Optional Tags:** Comment, Date and Time Stamp | ✅ |
+| CMOCA-4-026 | CMR Type CC (X'0043 0043')** | ✅ |
+| CMOCA-4-027 | Each instance of this CMR type is a subset of the standard ICC profile. This allows the CMR to be used in any color management system. | ✅ |
+| CMOCA-4-028 | The ICC Profile Data starts with a 128-byte header followed by the ICCTags. The ICCHeaderFields are contained in pre-defined byte positions as defined in Table 35. | ✅ |
+| CMOCA-4-029 | Each subset of the ICC profile type, selected by the ICC Profile Subset tag, defines a subset of the ICC specification. For each subset, the Color Management Object Content Architecture defines the mandatory and optional ICCHeaderFields and ICCTags. Optional ICCTags and ICCHeaderFields will be processed as applicable if encountered. Any other ICCTags will be ignored. | ✅ |
+| CMOCA-4-030 | Note:** The chromaticAdaptationTag is shown as optional for each subset. However, it is mandatory if the value in the mediaWhitePointTag is not D50. | ✅ |
+| CMOCA-4-031 | Two ICCHeaderFields are mandatory for the Color Conversion CMR: Color Space of Data and Profile Connection Space. The descriptions are as follows: | ✅ |
+| CMOCA-4-032 | Color Space of Data:** The ICC-supported color spaces and their signatures are listed in Table 10. | ✅ |
+| CMOCA-4-033 | Profile Connection Space:** The ICC profile connection space is either CIELAB D50 or CIEXYZ D50 for all ICC profiles except the ICC DeviceLink profile. The CIELAB signature is “Lab” and the CIEXYZ signature is “XYZ”. | ✅ |
+| CMOCA-4-034 | The currently allowed ICC profile subsets for Color Conversion CMRs include all the ICC profile types except for the DeviceLink and the Named Colour profiles. (For complete information, please refer to sections 8.6 and 8.9 in ICC 1:2004-10 Version 4.2.0.0.) | ✅ |
+| CMOCA-4-035 | The ICC profile subsets for the Color Conversion CMR are listed in Table 12. | ✅ |
+| CMOCA-4-036 | Monochrome input profile | Scanner, digital camera | Device → PCS | ✅ |
+| CMOCA-4-037 | Monochrome display profile | Display | Device ← → PCS | ✅ |
+| CMOCA-4-038 | Monochrome output profile | Printer | Device → PCS | ✅ |
+| CMOCA-4-039 | Three-component matrix-based input profile | Scanner, digital camera | Device → PCS | ✅ |
+| CMOCA-4-040 | Three-component matrix-based display profile | Display | Device ← → PCS | ✅ |
+| CMOCA-4-041 | N-component LUT-based input profile | Scanner, digital camera | Device → PCS | ✅ |
+| CMOCA-4-042 | N-component LUT-based display profile | Display | Device ← → PCS | ✅ |
+| CMOCA-4-043 | N-component LUT-based output profiles | Printer, film recorder | PCS → Device | ✅ |
+| CMOCA-4-044 | ColorSpace conversion profile | Non-device color space (e.g., sRGB, D65) | Non-device ← → PCS | ✅ |
+| CMOCA-4-045 | The Basic Intents Column describes the most commonly used color conversion direction(s) for each ICC profile subset. | ✅ |
+| CMOCA-4-046 | Mandatory Tags:** ICC Profile Subset, ICC Profile Data, End Data | ✅ |
+| CMOCA-4-047 | Optional Tags:** Comment, Date and Time Stamp, ICC Profile Filename | ✅ |
+| CMOCA-4-048 | Implementation note:** It is very important to include the ICC Profile Filename tag for debugging purposes regardless of the fact that it is optional. | ✅ |
+| CMOCA-4-049 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-050 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-051 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-052 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-053 | Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-054 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag | ✅ |
+| CMOCA-4-055 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-056 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-057 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-058 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-059 | Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-060 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag | ✅ |
+| CMOCA-4-061 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-062 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-063 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-064 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-065 | Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-066 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag | ✅ |
+| CMOCA-4-067 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-068 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-069 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-070 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-071 | Mandatory ICCTags:** profileDescriptionTag, redMatrixColumnTag, greenMatrixColumnTag, blueMatrixColumnTag, redTRCTag, greenTRCTag, blueTRCTag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-072 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag | ✅ |
+| CMOCA-4-073 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-074 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-075 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-076 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-077 | Mandatory ICCTags:** profileDescriptionTag, redMatrixColumnTag, greenMatrixColumnTag, blueMatrixColumnTag, redTRCTag, greenTRCTag, blueTRCTag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-078 | Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag | ✅ |
+| CMOCA-4-079 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-080 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-081 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-082 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-083 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-084 | Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag | ✅ |
+| CMOCA-4-085 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-086 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-087 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-088 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-089 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-090 | Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA1Tag, BT oA2Tag, gamutTag | ✅ |
+| CMOCA-4-091 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-092 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-093 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-094 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-095 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, AT oB1Tag, BT oA1Tag, AT oB2Tag, BT oA2Tag, gamutTag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-096 | Optional ICCTags:** chromaticAdaptationTag, colorantTableTag | ✅ |
+| CMOCA-4-097 | This subset should be used as an audit color conversion. | ✅ |
+| CMOCA-4-098 | Mandatory ICCHeaderFields** | ✅ |
+| CMOCA-4-099 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-4-100 | 20–23 | Profile Connection Space | ✅ |
+| CMOCA-4-101 | Optional ICCHeaderFields:** All other header fields | ✅ |
+| CMOCA-4-102 | Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, mediaWhitePointTag, copyrightTag | ✅ |
+| CMOCA-4-103 | Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA1Tag, BT oA2Tag, gamutTag | ✅ |
+| CMOCA-4-104 | CMR Type LK (X'004C 004B') or DL (X'0044 004C')** | ✅ |
+| CMOCA-4-105 | The purpose of the Link Color Conversion CMR is to convert directly from the input to the output color space. There are two major types of Link Color Conversion: | ✅ |
+| CMOCA-4-106 | Link Color Conversion** with up to four Lookup Tables (LUTs) representing different rendering intents. It is selected for use based on the audit and instruction OIDs that are contained in its tags. | ✅ |
+| CMOCA-4-107 | ICC DeviceLink** contains an ICC profile of type DeviceLink. It contains a complex color conversion description (with up to five processing elements) for exactly one rendering intent. It is selected for use when it is found during a search of the hierarchy of invoked link CMRs (only ICC DeviceLink CMRs are invoked, other link CMR subsets are not invoked). It is not based on an audit and instruction Color Conversion pair. | ✅ |
+| CMOCA-4-108 | LinkColorConversion LUT subset:** Its purpose is to combine an audit Color Conversion CMR with an instruction Color Conversion CMR to improve performance. It allows up to four LUTs, each representing one of the four ICC rendering intents. It is permissible to reference the same LUT tag data for multiple rendering intents. The LUT is constructed by combining the processing required for the audit and the instruction color conversions. If one of the AT oB/BT oA tags in an audit or instruction CMR is missing when constructing the link LUT, the tag data for the rendering intent specified in that CMR's ICC profile header is used in place of the missing tag data. The default rendering intent profile header is used in place of the missing tag data. The default rendering intent for the Link Color Conversion CMR is the rendering intent specified in the ICCHeader Field of the instruction Color Conversion CMR. The processing detail is described in “Creating Link Color Conversion CMRs – LinkColorConversion LUT subset”. | ✅ |
+| CMOCA-4-109 | ICC DeviceLink subset:** Its purpose is to provide a customized path to convert directly from input to output space with no dependency on an audit and instruction CMR. It allows only one single AT oB0Tag representing one rendering intent. The rendering intent is indicated in the header of the ICC profile. The AT oB0Tag contains up to five processing elements, possibly making the conversion more complex than if a single LUT were used. Whereas link CMRs in general are not invoked, CMRs with this subset ID must be invoked in order to be used. A hierarchical search is performed to determine if there is an applicable ICC DeviceLink that can be used. The device should search for an ICC DeviceLink before searching for an Audit/Instruction Color Conversion pair. The currently active Rendering Intent is ignored when an ICC DeviceLink is selected for use. | ✅ |
+| CMOCA-4-110 | Currently, three Link Color Conversion subsets are defined. Table 22 lists the Link Color Conversion CMR subsets and their descriptions: | ✅ |
+| CMOCA-4-111 | X'01' | LinkColorConversion LUT | Connection between two device color spaces, or the connection between a non-device color space and a device color space (e.g., scanner→printer or sRGB→printer). Selected based on OIDs of selected audit/instruction CC CMRs. | ✅ |
+| CMOCA-4-112 | X'02' | LinkColorConversion Identity | No conversion needed. Selected based on OIDs of selected audit/instruction CC CMRs. | ✅ |
+| CMOCA-4-113 | X'03' | ICC DeviceLink | Direct conversion between input and output space without reference to audit/instruction CC pair and without use of a PCS. | ✅ |
+| CMOCA-4-114 | Mandatory Tags:** Link Color Conversion Subset, Link Audit CMR OID, Link Instruction CMR OID, Link Audit CMR Name, Link Instruction CMR Name, Default Rendering Intent, Link LUT Perceptual, End Data | ✅ |
+| CMOCA-4-115 | Optional Tags:** Comment, Date and Time Stamp, Link LUT Media-Relative Colorimetric, Link LUT Saturation, Link LUT ICC-Absolute Colorimetric, Link CMRE Identifier | ✅ |
+| CMOCA-4-116 | This subset is used when the input space is the same as the device's output space and no color conversion is to be done. There is no data with this subset. The OIDs for the audit and instruction Color Conversion CMR must be the same. | ✅ |
+| CMOCA-4-117 | Mandatory Tags:** Link Color Conversion Subset, Link Audit CMR OID, Link Instruction CMR OID, Link Audit CMR Name, Link Instruction CMR Name, End Data | ✅ |
+| CMOCA-4-118 | Optional Tags:** Comment, Date and Time Stamp, Link CMRE Identifier | ✅ |
+| CMOCA-4-119 | Mandatory Tags:** Link Color Conversion Subset, ICC Profile Data, End Data | ✅ |
+| CMOCA-4-120 | Optional Tags:** Comment, Date and Time Stamp, ICC Profile Filename | ✅ |
+| CMOCA-4-121 | Mandatory ICCTags:** profileDescriptionTag, copyrightTag, profileSequenceDescTag, AtoB0Tag, colorantTableTag (required only if Data Colour Space is xCLR), colorantTableOutTag (required only if Profile Connection Space is xCLR) | ✅ |
+| CMOCA-4-122 | Optional ICCTags:** None | ✅ |
+| CMOCA-4-123 | CMR Type IX (X'0049 0058')** | ✅ |
+| CMOCA-4-124 | An Indexed CMR contains one or more Color Palette tags that translate 2-byte indexed color values to the target color space. Five Color Palette tags are defined for the color spaces of gray, RGB, CMYK, CIELAB, and named colorants. The named colorants are defined through a set of colorant names that are specified in the Colorant Identification List tag. Currently, only one Indexed CMR subset is defined for the multi-output color spaces. It allows the mixture of different output color spaces in an Indexed CMR. When multiple Color Palette tags are present in a CMR, and the same indexed color value is specified in different Color Palette tags, the indexed color value in the Color Palette tag with the lower TagID number is used. If the color space of that Color Palette tag is not applicable for the output device, the CIELAB value specified for this indexed color value in the Color Palette tag is used for the substitution. | ✅ |
+| CMOCA-4-125 | Color Palette Gray | Color Palette tag for monochrome output devices | ✅ |
+| CMOCA-4-126 | Color Palette CMYK | Color Palette tag for CMYK output devices | ✅ |
+| CMOCA-4-127 | Color Palette RGB | Color Palette tag for RGB output devices | ✅ |
+| CMOCA-4-128 | Color Palette CIELAB | Color Palette tag for the D50 CIELAB color space | ✅ |
+| CMOCA-4-129 | Color Palette Named Colorants | Color Palette tag for the named colorants color space | ✅ |
+| CMOCA-4-130 | Mandatory Tags:** Indexed Subset, one of Color Palette tags, End Data | ✅ |
+| CMOCA-4-131 | Optional Tags:** Comment, Date and Time Stamp, Color Palette tags | ✅ |
+| CMOCA-4-132 | If no Color Palette tag is specified, exception condition EC-50400E exists. It is shown in “Color Palette Named Colorants”. | ✅ |
+| CMOCA-4-133 | EC-50400E Missing Required Tag:** At least one Color Palette tag is required but none were specified. | ✅ |
+| CMOCA-5-001 | The CMR Data field carries all the actual color resource data. The resource data is carried in a tagged format. CMR is big endian. The tags are loosely based on the TIFF tag syntax, but with significant changes and additions. The tags are carried first, optionally followed by the tag data. The last tag is always the End Data tag. | ✅ |
+| CMOCA-5-002 | Each tag consists of 12 bytes in the following format: | ✅ |
+| CMOCA-5-003 | 0–1 | CODE | TagID | X'0000'–X'FFFF' | Unique identifier for the tag | ✅ |
+| CMOCA-5-004 | 2 | | Reserved | X'00' | Should be set to zero | ✅ |
+| CMOCA-5-005 | 3 | CODE | Field Type | X'01' | 1-byte UBIN | ✅ |
+| CMOCA-5-006 | X'02' | 2-byte UBIN | ✅ |
+| CMOCA-5-007 | X'04' | 4-byte UBIN | ✅ |
+| CMOCA-5-008 | X'05' | BYTE (8 bits) | ✅ |
+| CMOCA-5-009 | X'06' | ASCII | ✅ |
+| CMOCA-5-010 | X'07' | UTF16 (UTF-16BE) | ✅ |
+| CMOCA-5-011 | X'08' | CODE (8 bit architected constant) | ✅ |
+| CMOCA-5-012 | X'09' | BITS | ✅ |
+| CMOCA-5-013 | 4–7 | UBIN | Count | X'00000000' – X'FFFFFFFF' | Number of values of the indicated Field Type (may be zero) | ✅ |
+| CMOCA-5-014 | 8–11 | | ValueOffset | Any | Data, left-aligned, if it fits into 4 bytes. Otherwise, offset to data is an offset from byte 164 of the CMR (i.e., from the start of CMRData). | ✅ |
+| CMOCA-5-015 | Field Type X'05' (BYTE) is used for the tags whose data has a defined structure, such as OID, Date and Time Stamp, ICC Profile Data, and Link LUT tags. Field Type X'06' (ASCII) is defined in the MO:DCA architecture with encoding scheme ID X'2100' – PC-Data, single byte. UBIN is defined as unsigned binary. | ✅ |
+| CMOCA-5-016 | Tags X'F000'–X'FFFE' are private tags. Organizations may use a private tag in this range for their exclusive use without disclosing the tag contents. The architecture requires that such tag be non-essential, in the sense that any receivers not supporting the tag will not fail on parsing or using the resource. | ✅ |
+| CMOCA-5-017 | X'EF00'–X'EFFF' are reserved for error handling for the CMR header. | ✅ |
+| CMOCA-5-018 | The tags in a CMR must be specified in increasing order by their TagIDs. If they are out of order, the Exception EC-xxxx0F exists. Unless otherwise specified within the individual tag description, each TagID may appear at most once and Exception EC-xxxx0F exists if it is specified more than once. Multiple tags with the same ID may be accepted if the particular tag description explicitly states that it may repeat. The description in the tag must explain how the multiple tags are used and which one wins in cases of conflict. Tag values in the CMR tags are listed in the tag registry, that can be found in Appendix A, “Tag Registry”. Private tags are ignored. Any TagID not supported by the device causes the Exception EC-xxxx04. The last tag must be the End Data tag (TagID of X'FFFF'), or exception EC-FFFF0E exists. | ✅ |
+| CMOCA-5-019 | There is no restriction on where the actual data fields are located, as long as they are within the CMRData field scope. Note that all the offsets are from the beginning of the CMRData field, so that the location of the CMR header can be changed without any need to update the ValueOffset values. The offsets do not have to be increasing as the TagIDs increase, nor do they have to follow any other rule. There is no requirement that all the data in the scope be used, that is, it is permissible to have data not referenced by any tag. | ✅ |
+| CMOCA-5-020 | The number of bytes of data for a tag is the value of Count multiplied by the size of each data item as indicated by Field Type. For example, a Count of 1 indicates two bytes if Field Type is X'02' (2-byte UBIN) or X'07' (UTF16). | ✅ |
+| CMOCA-5-021 | Each type of CMR has a list of Mandatory Tags and a list of optional tags. The receivers should ignore any unknown tags. If an optional tag is not present, the default value (if one exists) should be used. | ✅ |
+| CMOCA-5-022 | On encountering an error, an exception is raised. Each exception is defined by a three byte value. The first two bytes are the relevant TagID value (X'0000'–X'FFFF'), while the third byte is the exception code. The exception codes are defined as follows: | ✅ |
+| CMOCA-5-023 | X'04' | Unsupported TagID Value in a CMR tag | ✅ |
+| CMOCA-5-024 | X'05' | Invalid Count Value | ✅ |
+| CMOCA-5-025 | X'06' | Invalid Field Type | ✅ |
+| CMOCA-5-026 | X'0E' | Missing Required Tag | ✅ |
+| CMOCA-5-027 | X'0F' | Invalid Sequence | ✅ |
+| CMOCA-5-028 | X'10' | Invalid or unsupported field value or an offset that causes the tag data to start or end after the end of the CMR (as defined by the CMR length) | ✅ |
+| CMOCA-5-029 | X'11' | Inconsistent Tag Contents | ✅ |
+| CMOCA-5-030 | X'12' | Incorrect order of repeating groups | ✅ |
+| CMOCA-5-031 | X'13' | Duplicate value | ✅ |
+| CMOCA-5-032 | The CMR coordinate system is a two dimensional Cartesian coordinate system. The horizontal axis is labeled x, and the vertical axis is labeled y. Positive x is to the right of the origin, and positive y is above the origin. The measurement unit is pixel. | ✅ |
+| CMOCA-5-033 | Figure 7. Cartesian Coordinate System** | ✅ |
+| CMOCA-5-034 | This section defines the CMR tags. | ✅ |
+| CMOCA-5-035 | TagID:** X'0004' | ✅ |
+| CMOCA-5-036 | Field Type:** X'06' (ASCII), X'07' (UTF16) | ✅ |
+| CMOCA-5-037 | Count:** Number of characters | ✅ |
+| CMOCA-5-038 | This tag defines arbitrary comment text, ignored by receivers. There is no default. | ✅ |
+| CMOCA-5-039 | EC-000406 Invalid Field Type:** The specified Field Type is invalid for the tag. | ✅ |
+| CMOCA-5-040 | EC-00040F Invalid Sequence:** The tag has been encountered out of sequence or more than once. | ✅ |
+| CMOCA-5-041 | EC-000410 Invalid Value:** The offset caused some portion of the tag data to be outside of the CMRdata. | ✅ |
+| CMOCA-5-042 | TagID:** X'0008' | ✅ |
+| CMOCA-5-043 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-044 | Count:** 10 | ✅ |
+| CMOCA-5-045 | This tag contains the date and time of the creation of the CMR. It is defined consistently with the MO:DCA definition of the Universal Date and Time Stamp Triplet X'72' that is specified in accordance with the format defined in ISO 8601:1988 (E). The tag is informational. The date and time values are not checked for validity. | ✅ |
+| CMOCA-5-046 | 0–1 | 2-byte UBIN | YearAD | 0–65,535 | Year AD using Gregorian calendar | ✅ |
+| CMOCA-5-047 | 2 | 1-byte UBIN | Month | 1–12 | Month of the year | ✅ |
+| CMOCA-5-048 | 3 | 1-byte UBIN | Day | 1–31 | Day of the month | ✅ |
+| CMOCA-5-049 | 4 | 1-byte UBIN | Hour | 0–23 | Hour of the day in 24-hour format | ✅ |
+| CMOCA-5-050 | 5 | 1-byte UBIN | Minute | 0–59 | Minute of the hour | ✅ |
+| CMOCA-5-051 | 6 | 1-byte UBIN | Second | 0–59 | Second of the minute | ✅ |
+| CMOCA-5-052 | 7 | CODE | TimeZone | X'00', X'01', X'02' | Relationship of time to UTC (Coordinated, Ahead, Behind) | ✅ |
+| CMOCA-5-053 | 8 | 1-byte UBIN | UTCDiffH | 0–23 | Hours ahead of or behind UTC | ✅ |
+| CMOCA-5-054 | 9 | 1-byte UBIN | UTCDiffM | 0–59 | Minutes ahead of or behind UTC | ✅ |
+| CMOCA-5-055 | YearAD:** Specifies the year AD using the Gregorian calendar. For example, the year 1999 is specified as X'07CF'. Represents the YYYY component. | ✅ |
+| CMOCA-5-056 | Month:** Specifies the month of the year. January is X'01'. Represents the MM component. | ✅ |
+| CMOCA-5-057 | Day:** Specifies the day of the month. The first day is X'01'. Represents the DD component. | ✅ |
+| CMOCA-5-058 | Hour:** Specifies the hour (0-23). Represents the hh component. | ✅ |
+| CMOCA-5-059 | Minute:** Specifies the minute (0-59). Represents the mm component. | ✅ |
+| CMOCA-5-060 | Second:** Specifies the second (0-59). Represents the ss component. | ✅ |
+| CMOCA-5-061 | TimeZone:** Defines the relation to UTC. | ✅ |
+| CMOCA-5-062 | X'00':** Time is specified in UTC. UTCDiffH/M should be X'00'. (Suffix Z) | ✅ |
+| CMOCA-5-063 | X'01':** Ahead of UTC. UTCDiffH/M specify the difference. (Suffix +hhmm) | ✅ |
+| CMOCA-5-064 | X'02':** Behind UTC. UTCDiffH/M specify the difference. (Suffix -hhmm) | ✅ |
+| CMOCA-5-065 | EC-000805 Invalid Count Value:** The specified Count field value is invalid for the tag. | ✅ |
+| CMOCA-5-066 | EC-000806 Invalid Field Type:** The specified Field Type is invalid for the tag. | ✅ |
+| CMOCA-5-067 | EC-00080F Invalid Sequence:** The tag has been encountered out of sequence or more than once. | ✅ |
+| CMOCA-5-068 | EC-000810 Invalid Value:** The offset caused some portion of the tag data to be outside of the CMRdata. | ✅ |
+| CMOCA-5-069 | TagID:** X'0011' | ✅ |
+| CMOCA-5-070 | Field Type:** X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-071 | Count:** 1 | ✅ |
+| CMOCA-5-072 | This tag defines the number of color components referenced by this resource. To comply with ICC, the number of components must be in the range of 1–15. | ✅ |
+| CMOCA-5-073 | XYZ | X | Y | Z | ✅ |
+| CMOCA-5-074 | Lab | L | a | b | ✅ |
+| CMOCA-5-075 | Luv | L | u | v | ✅ |
+| CMOCA-5-076 | Yxy | Y | X | y | ✅ |
+| CMOCA-5-077 | YCbr | Y | Cb | Cr | ✅ |
+| CMOCA-5-078 | RGB | R | G | B | ✅ |
+| CMOCA-5-079 | GRAY | K | ✅ |
+| CMOCA-5-080 | HSV | H | S | V | ✅ |
+| CMOCA-5-081 | HLS | H | L | S | ✅ |
+| CMOCA-5-082 | CMYK | C | M | Y | K | ✅ |
+| CMOCA-5-083 | CMY | C | M | Y | ✅ |
+| CMOCA-5-084 | 2CLR | Component 1 | Component 2 | ✅ |
+| CMOCA-5-085 | 3CLR | Component 1 | Component 2 | Component 3 | ✅ |
+| CMOCA-5-086 | 4CLR | Component 1 | Component 2 | Component 3 | Component 4 | ✅ |
+| CMOCA-5-087 | The components are numbered according to the order in the ICC data tag. Additional color spaces can be added simply by defining the signature component assignments. Default is 1. | ✅ |
+| CMOCA-5-088 | EC-001105 Invalid Count Value** | ✅ |
+| CMOCA-5-089 | EC-001106 Invalid Field Type** | ✅ |
+| CMOCA-5-090 | EC-00110F Invalid Sequence** | ✅ |
+| CMOCA-5-091 | EC-001110 Invalid Value:** number of components is zero or greater than 15. | ✅ |
+| CMOCA-5-092 | TagID:** X'1011' | ✅ |
+| CMOCA-5-093 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-094 | Count:** 1 | ✅ |
+| CMOCA-5-095 | This tag denotes a subset of the Halftone CMR type. | ✅ |
+| CMOCA-5-096 | X'01' | Bilevel Point-Operation Halftone | ✅ |
+| CMOCA-5-097 | X'02' | Multilevel Point-Operation Halftone | ✅ |
+| CMOCA-5-098 | X'03' | Bilevel Error Diffusion Halftone | ✅ |
+| CMOCA-5-099 | X'04' | Multilevel Error Diffusion Halftone | ✅ |
+| CMOCA-5-100 | EC-101110 Invalid Value:** specified subset value is none of X'01', X'02', X'03', or X'04'. | ✅ |
+| CMOCA-5-101 | TagID:** X'1021' | ✅ |
+| CMOCA-5-102 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
+| CMOCA-5-103 | Count:** Number of color components | ✅ |
+| CMOCA-5-104 | This tag defines the width of the array along the x-direction in pixels for each color component. | ✅ |
+| CMOCA-5-105 | TagID:** X'1025' | ✅ |
+| CMOCA-5-106 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
+| CMOCA-5-107 | Count:** Number of color components | ✅ |
+| CMOCA-5-108 | This tag defines the height of the array along the y-direction in pixels for each color component. | ✅ |
+| CMOCA-5-109 | TagID:** X'1030' | ✅ |
+| CMOCA-5-110 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-111 | Count:** Number of color components | ✅ |
+| CMOCA-5-112 | This tag defines the maximum input image value per component. | ✅ |
+| CMOCA-5-113 | TagID:** X'1035' | ✅ |
+| CMOCA-5-114 | Field Type:** X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-115 | Count:** Number of color components | ✅ |
+| CMOCA-5-116 | This tag defines the number of device levels per component for multilevel devices. Each specified Number of Device Levels must be greater than 2. | ✅ |
+| CMOCA-5-117 | TagID:** X'1040' | ✅ |
+| CMOCA-5-118 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
+| CMOCA-5-119 | Count:** Number of color components | ✅ |
+| CMOCA-5-120 | This tag defines the amount of shift in pixels between the halftone tiles in two adjacent rows for each component. | ✅ |
+| CMOCA-5-121 | Figure 8. Illustration of Offset Tiling with Offset Tiling=2** | ✅ |
+| CMOCA-5-122 | TagID:** X'1045' | ✅ |
+| CMOCA-5-123 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-124 | Count:** Sum of (Array Width × Array Height) over all color components | ✅ |
+| CMOCA-5-125 | This tag specifies the threshold array values for each screen. Arranged in row-major format. Component-wise structured. | ✅ |
+| CMOCA-5-126 | TagID:** X'1050' | ✅ |
+| CMOCA-5-127 | Field Type:** X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-128 | Count:** Sum of (Array Width × Array Height × (Max Image Value + 1)) over all color components | ✅ |
+| CMOCA-5-129 | This tag gives the device gray level for each pixel. Each screen is a 3-d table lookup. Dimensions are m × n × (Max Image Value + 1). | ✅ |
+| CMOCA-5-130 | TagID:** X'1055' | ✅ |
+| CMOCA-5-131 | Field Type:** X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-132 | Count:** Sum of (Array Width × Array Height) over all color components | ✅ |
+| CMOCA-5-133 | This tag specifies a set of values in the error diffusion filter. Arranged in a 2-dimensional array for each color plane. | ✅ |
+| CMOCA-5-134 | Figure 9. Illustration of Error Distribution with Floyd-Steinberg Filter** | ✅ |
+| CMOCA-5-135 | TagID:** X'1060' | ✅ |
+| CMOCA-5-136 | Field Type:** X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-137 | Count:** 2 × number of color components | ✅ |
+| CMOCA-5-138 | Specifies a pair of values (row, column) describing the location of the current pixel in an error diffusion filter. | ✅ |
+| CMOCA-5-139 | TagID:** X'1065' | ✅ |
+| CMOCA-5-140 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-141 | Count:** Number of color components | ✅ |
+| CMOCA-5-142 | X'01' | Normal raster | ✅ |
+| CMOCA-5-143 | X'02' | Serpentine raster | ✅ |
+| CMOCA-5-144 | Figure 10. Illustration of Normal Raster and Serpentine Raster** | ✅ |
+| CMOCA-5-145 | TagID:** X'1070' | ✅ |
+| CMOCA-5-146 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-147 | Count:** Number of color components | ✅ |
+| CMOCA-5-148 | X'01' | None | ✅ |
+| CMOCA-5-149 | X'02' | Zero boundary | ✅ |
+| CMOCA-5-150 | X'03' | Reflect | ✅ |
+| CMOCA-5-151 | X'04' | Periodic | ✅ |
+| CMOCA-5-152 | TagID:** X'1075' | ✅ |
+| CMOCA-5-153 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-154 | Count:** Number of color components | ✅ |
+| CMOCA-5-155 | Specifies a single threshold value for bilevel error diffusion halftones. | ✅ |
+| CMOCA-5-156 | TagID:** X'1080' | ✅ |
+| CMOCA-5-157 | Field Type:** X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-158 | Count:** Sum of (Number of Device Levels – 1) over all color components | ✅ |
+| CMOCA-5-159 | Specifies n one-dimensional arrays for multilevel error diffusion halftone. | ✅ |
+| CMOCA-5-160 | 1 | 60 | ✅ |
+| CMOCA-5-161 | 2 | 120 | ✅ |
+| CMOCA-5-162 | 3 | 200 | ✅ |
+| CMOCA-5-163 | Initial Value | Output Device Level | Corrected value | ✅ |
+| CMOCA-5-164 | I ∈ [0, 60) | 0 | 0 | ✅ |
+| CMOCA-5-165 | I ∈ [60, 120) | 1 | 85 | ✅ |
+| CMOCA-5-166 | I ∈ [120, 200) | 2 | 170 | ✅ |
+| CMOCA-5-167 | I ∈ [200, 255] | 3 | 255 | ✅ |
+| CMOCA-5-168 | TagID:** X'2004' | ✅ |
+| CMOCA-5-169 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-170 | Count:** 1 | ✅ |
+| CMOCA-5-171 | X'01' | ToneTransferCurve Array | ✅ |
+| CMOCA-5-172 | X'02' | ToneTransferCurve Identity | ✅ |
+| CMOCA-5-173 | TagID:** X'2011' | ✅ |
+| CMOCA-5-174 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-175 | Count:** Number of color components | ✅ |
+| CMOCA-5-176 | X'01' | 256 1-byte entries | ✅ |
+| CMOCA-5-177 | X'02' | 65,536 2-byte entries | ✅ |
+| CMOCA-5-178 | TagID:** X'2015' | ✅ |
+| CMOCA-5-179 | Field Type:** X'05' (byte) | ✅ |
+| CMOCA-5-180 | Count:** Total length of the data | ✅ |
+| CMOCA-5-181 | TagID:** X'2020' | ✅ |
+| CMOCA-5-182 | Field Type:** X'05' (Byte) | ✅ |
+| CMOCA-5-183 | Count:** Total length of the data | ✅ |
+| CMOCA-5-184 | TagID:** X'3011' | ✅ |
+| CMOCA-5-185 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-186 | Count:** 1 | ✅ |
+| CMOCA-5-187 | X'01' | Monochrome input profile | ✅ |
+| CMOCA-5-188 | X'02' | Monochrome display profile | ✅ |
+| CMOCA-5-189 | X'03' | Monochrome output profile | ✅ |
+| CMOCA-5-190 | X'04' | Three-component matrix-based input profile | ✅ |
+| CMOCA-5-191 | X'05' | Three-component matrix-based display profile | ✅ |
+| CMOCA-5-192 | X'06' | N-component LUT-based input profile | ✅ |
+| CMOCA-5-193 | X'07' | N-component LUT-based display profile | ✅ |
+| CMOCA-5-194 | X'08' | N-component LUT-based output profiles | ✅ |
+| CMOCA-5-195 | X'09' | ColorSpace conversion profile | ✅ |
+| CMOCA-5-196 | X'0A' | Retired item 3 (Abstract profile) | ✅ |
+| CMOCA-5-197 | TagID:** X'3015' | ✅ |
+| CMOCA-5-198 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-199 | Count:** The number of bytes in the profile | ✅ |
+| CMOCA-5-200 | 0–3 | Profile size | ✅ |
+| CMOCA-5-201 | 4–7 | CMM Type signature | ✅ |
+| CMOCA-5-202 | 8–11 | Profile version number | ✅ |
+| CMOCA-5-203 | 12–15 | Profile/Device Class signature | ✅ |
+| CMOCA-5-204 | 16–19 | Color Space of Data | ✅ |
+| CMOCA-5-205 | 20–23 | Profile Connection Space (PCS) | ✅ |
+| CMOCA-5-206 | 24–35 | Date and time this profile was first created | ✅ |
+| CMOCA-5-207 | 36–39 | acsp (61637370h) profile file signature | ✅ |
+| CMOCA-5-208 | 40–43 | Primary Platform signature | ✅ |
+| CMOCA-5-209 | 44–47 | Flags to indicate various options for the CMM | ✅ |
+| CMOCA-5-210 | 48–51 | Device manufacturer | ✅ |
+| CMOCA-5-211 | 52–55 | Device model | ✅ |
+| CMOCA-5-212 | 56–63 | Device attributes (e.g., media type) | ✅ |
+| CMOCA-5-213 | 64–67 | Rendering Intent | ✅ |
+| CMOCA-5-214 | 68–79 | XYZ values of the illuminant (must be D50) | ✅ |
+| CMOCA-5-215 | 80–83 | Profile Creator signature | ✅ |
+| CMOCA-5-216 | 84–99 | Profile ID | ✅ |
+| CMOCA-5-217 | 100–127 | 28 bytes reserved (set to zeros) | ✅ |
+| CMOCA-5-218 | TagID:** X'3025' | ✅ |
+| CMOCA-5-219 | Field Type:** X'06' (ASCII), X'07' (UTF16) | ✅ |
+| CMOCA-5-220 | Count:** Number of characters | ✅ |
+| CMOCA-5-221 | TagID:** X'4011' | ✅ |
+| CMOCA-5-222 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-223 | Count:** 1 | ✅ |
+| CMOCA-5-224 | X'01' | LinkColorConversion LUT | ✅ |
+| CMOCA-5-225 | X'02' | LinkColorConversion Identity | ✅ |
+| CMOCA-5-226 | X'03' | ICC DeviceLink | ✅ |
+| CMOCA-5-227 | TagID:** X'4015' | ✅ |
+| CMOCA-5-228 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-229 | Count:** Number of bytes in the OID | ✅ |
+| CMOCA-5-230 | TagID:** X'4020' | ✅ |
+| CMOCA-5-231 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-232 | Count:** Number of bytes in the OID | ✅ |
+| CMOCA-5-233 | TagID:** X'4025' | ✅ |
+| CMOCA-5-234 | Field Type:** X'07' (UTF16) | ✅ |
+| CMOCA-5-235 | Count:** Number of characters | ✅ |
+| CMOCA-5-236 | TagID:** X'4030' | ✅ |
+| CMOCA-5-237 | Field Type:** X'07' (UTF16) | ✅ |
+| CMOCA-5-238 | Count:** Number of characters | ✅ |
+| CMOCA-5-239 | TagID:** X'4035' | ✅ |
+| CMOCA-5-240 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-241 | Count:** 1 | ✅ |
+| CMOCA-5-242 | Perceptual | X'00' | ✅ |
+| CMOCA-5-243 | Media-Relative Colorimetric | X'01' | ✅ |
+| CMOCA-5-244 | Saturation | X'02' | ✅ |
+| CMOCA-5-245 | ICC-Absolute Colorimetric | X'03' | ✅ |
+| CMOCA-5-246 | TagID:** X'4040' | ✅ |
+| CMOCA-5-247 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-248 | Count:** The number of bytes in the LUT + 20 bytes of the header | ✅ |
+| CMOCA-5-249 | 0 | 1 | 1-byte UBIN | 1–15 | Number of components of the input color space | ✅ |
+| CMOCA-5-250 | 1 | 1 | 1-byte UBIN | 1–15 | Number of components of the output color space | ✅ |
+| CMOCA-5-251 | 2–16 | 15 | 1-byte UBIN | 0–255 | Number of grid points in each component of input | ✅ |
+| CMOCA-5-252 | 17 | 1 | 1-byte UBIN | 1, 2 | Precision: 1=1-byte UBIN, 2=2-byte UBIN | ✅ |
+| CMOCA-5-253 | 18 | 1 | BITS | | Additional use flags: bit 0: Media-rel, bit 1: Saturation, bit 2: ICC-Abs | ✅ |
+| CMOCA-5-254 | 19 | 1 | | 0 | Reserved | ✅ |
+| CMOCA-5-255 | 20 to end | | | | LUT data | ✅ |
+| CMOCA-5-256 | TagID:** X'4045' | ✅ |
+| CMOCA-5-257 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-258 | TagID:** X'4050' | ✅ |
+| CMOCA-5-259 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-260 | TagID:** X'4055' | ✅ |
+| CMOCA-5-261 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-262 | TagID:** X'4090' | ✅ |
+| CMOCA-5-263 | Field Type:** X'07' (UTF16) | ✅ |
+| CMOCA-5-264 | Count:** Number of characters | ✅ |
+| CMOCA-5-265 | TagID:** X'5011' | ✅ |
+| CMOCA-5-266 | Field Type:** X'08' (CODE) | ✅ |
+| CMOCA-5-267 | Count:** 1 | ✅ |
+| CMOCA-5-268 | X'01' | Multi-output color spaces | ✅ |
+| CMOCA-5-269 | TagID:** X'5015' | ✅ |
+| CMOCA-5-270 | Field Type:** X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-271 | Count:** 1 | ✅ |
+| CMOCA-5-272 | TagID:** X'5020' | ✅ |
+| CMOCA-5-273 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-274 | Count:** 9 × the number of color entries | ✅ |
+| CMOCA-5-275 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ✅ |
+| CMOCA-5-276 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ✅ |
+| CMOCA-5-277 | 8 | 1-byte UBIN | Component_1 | X'00'–X'FF' | Intensity of gray (X'00'=black, X'FF'=white) | ✅ |
+| CMOCA-5-278 | TagID:** X'5025' | ✅ |
+| CMOCA-5-279 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-280 | Count:** 12 × the number of color entries | ✅ |
+| CMOCA-5-281 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ✅ |
+| CMOCA-5-282 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ✅ |
+| CMOCA-5-283 | 8 | 1-byte UBIN | Component_1 | X'00'–X'FF' | Cyan | ✅ |
+| CMOCA-5-284 | 9 | 1-byte UBIN | Component_2 | X'00'–X'FF' | Magenta | ✅ |
+| CMOCA-5-285 | 10 | 1-byte UBIN | Component_3 | X'00'–X'FF' | Yellow | ✅ |
+| CMOCA-5-286 | 11 | 1-byte UBIN | Component_4 | X'00'–X'FF' | Black | ✅ |
+| CMOCA-5-287 | TagID:** X'5030' | ✅ |
+| CMOCA-5-288 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-289 | Count:** 11 × the number of color entries | ✅ |
+| CMOCA-5-290 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ✅ |
+| CMOCA-5-291 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ✅ |
+| CMOCA-5-292 | 8 | 1-byte UBIN | Component_1 | X'00'–X'FF' | Red | ✅ |
+| CMOCA-5-293 | 9 | 1-byte UBIN | Component_2 | X'00'–X'FF' | Green | ✅ |
+| CMOCA-5-294 | 10 | 1-byte UBIN | Component_3 | X'00'–X'FF' | Blue | ✅ |
+| CMOCA-5-295 | TagID:** X'5035' | ✅ |
+| CMOCA-5-296 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-297 | Count:** 8 × the number of color entries | ✅ |
+| CMOCA-5-298 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ✅ |
+| CMOCA-5-299 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ✅ |
+| CMOCA-5-300 | TagID:** X'5040' | ✅ |
+| CMOCA-5-301 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-302 | Count:** (Number of Named Colorants + 8) × the number of color entries | ✅ |
+| CMOCA-5-303 | 0–1 | 2-byte UBIN | IndexedColorValue | X'0100' – X'FFFF' | 2-byte indexed color value | ✅ |
+| CMOCA-5-304 | 2–7 | 2-byte UBIN | CIELABValue | X'0000' – X'FFFF' | L*, a*, b* components | ✅ |
+| CMOCA-5-305 | 8 to 7+n | 1-byte UBIN | Component_i | X'00'–X'FF' | Intensity of i-th colorant | ✅ |
+| CMOCA-5-306 | TagID:** X'5045' | ✅ |
+| CMOCA-5-307 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-308 | Count:** Sum of the length over the Number of Named Colorants | ✅ |
+| CMOCA-5-309 | 0 | 1-byte UBIN | Length | X'03'–X'FB' | Length of this repeating group | ✅ |
+| CMOCA-5-310 | 1–end | UTF-16 | Colorant Name | | Colorant name in free format UTF-16BE | ✅ |
+| CMOCA-5-311 | TagID:** X'FFFF' | ✅ |
+| CMOCA-5-312 | Field Type:** X'05' (BYTE) | ✅ |
+| CMOCA-5-313 | Count:** 0 | ✅ |
+| CMOCA-5-314 | Signifies the end of the tag list. | ✅ |
 | CMOCA-6-001 | Takes presentation data specified in an input color space | ❓ |
 | CMOCA-6-002 | Converts it to the output color space of the presentation device | ❓ |
 | CMOCA-6-003 | Modifies the colors to create the desired output for a particular device | ❓ |
