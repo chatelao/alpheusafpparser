@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.util;
 
 import java.io.File;
@@ -26,7 +27,17 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Utility class for file operations.
+ */
 public class UtilFile {
+  /**
+   * Computes the MD5 digest of a file.
+   *
+   * @param file the file to digest
+   * @return the MD5 digest, or null if MD5 algorithm is not available
+   * @throws IOException if an I/O error occurs
+   */
   public static byte[] digestFile(File file) throws IOException {
     byte[] buffer = new byte[10 * 1024];
 

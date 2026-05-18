@@ -1,7 +1,7 @@
 package com.mgz.xml;
 
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import org.junit.jupiter.api.Test;
 

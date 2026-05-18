@@ -93,9 +93,9 @@ public class TRNEncodingTest {
 
         PTX_PresentationTextData ptxSF = (PTX_PresentationTextData) ptx;
         String extractedText = null;
-        for (com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence cs : ptxSF.getControlSequences()) {
-            if (cs instanceof com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData) {
-                extractedText = ((com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData) cs).getText();
+        for (com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence cs : ptxSF.getControlSequences()) {
+            if (cs instanceof com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.TRN_TransparentData) {
+                extractedText = ((com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.TRN_TransparentData) cs).getText();
             }
         }
 

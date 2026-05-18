@@ -23,7 +23,7 @@ import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence;
 import com.mgz.util.UtilBinaryDecoding;
 
 import java.io.ByteArrayOutputStream;

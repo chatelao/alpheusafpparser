@@ -10,7 +10,7 @@ public class IllegalAnnotationExceptionTest {
     public void testClashingClasses() throws JAXBException {
         Class<?>[] classes = new Class<?>[] {
             com.mgz.afp.modca.NOP_NoOperation.class,
-            com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.NOP_NoOperation.class
+            com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.NOP_NoOperation.class
         };
         // This should NO LONGER throw IllegalAnnotationsException
         JAXBContext.newInstance(classes);
@@ -38,7 +38,7 @@ public class IllegalAnnotationExceptionTest {
     public void testClashingUndefined() throws JAXBException {
         Class<?>[] classes = new Class<?>[] {
             com.mgz.afp.base.Undefined.class,
-            com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.Undefined.class,
+            com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence.Undefined.class,
             com.mgz.afp.triplets.Triplet.Undefined.class
         };
         JAXBContext.newInstance(classes);

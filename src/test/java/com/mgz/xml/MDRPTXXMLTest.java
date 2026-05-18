@@ -4,7 +4,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlsequence.PTOCAControlSequence;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
