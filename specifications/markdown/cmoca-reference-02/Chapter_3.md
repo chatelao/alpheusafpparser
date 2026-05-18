@@ -79,70 +79,70 @@ then the CMR name is:
 
 ### Table 4. CMR Object Syntax
 
-| Length in Bytes | Offset | Type | Name | Range | Meaning | M/O |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 4 | 0–3 | 4-byte UBIN | Length | X'000000A4' – X'FFFFFFFF' | CMR length, including length field | M [CMOCA-3-045]|
-| 4 | 4–7 | CODE | CMRSig | X'434D5239' | Signature of this CMR | M [CMOCA-3-046]|
-| 2 | 8–9 | | Reserved | X'0000' | Reserved: should be set to zero | M [CMOCA-3-047]|
-| **CMR Name starts here. It is composed of bytes 10–155.** [CMOCA-3-048]| | | | | | |
-| 16 | 10–25 | UTF16 | CMRAlias | No restriction | Human-readable alias | M [CMOCA-3-049]|
-| 4 | 26–29 | UTF16 | CMRType | CC (X'0043 0043') | Color Conversion | M [CMOCA-3-050]|
-| | | | | DL (X'0044 004C') | ICC DeviceLink Color Conversion [CMOCA-3-051]| |
-| | | | | HT (X'0048 0054') | Halftone [CMOCA-3-052]| |
-| | | | | IX (X'0049 0058') | Indexed [CMOCA-3-053]| |
-| | | | | LK (X'004C 004B') | Link Color Conversion [CMOCA-3-054]| |
-| | | | | TC (X'0054 0043') | Tone Transfer Curve [CMOCA-3-055]| |
-| 14 | 30–43 | UTF16 | CMRVersion | ddd.ddd | CMRVersion number | M [CMOCA-3-056]|
-| | | | | AFP .ddd | Special AFP version number [CMOCA-3-057]| |
-| | | | | generic | “generic” [CMOCA-3-058]| |
-| | | | | pasthru | “passthrough” [CMOCA-3-059]| |
-| 10 | 44–53 | UTF16 | Manufacturer Name | See description | Name of the manufacturer | M [CMOCA-3-060]|
-| 12 | 54–65 | UTF16 | DeviceType | See description | Type of the device | M [CMOCA-3-061]|
-| 6 | 66–71 | UTF16 | DeviceModel | See description | Model of the device | M [CMOCA-3-062]|
-| 6 | 72–77 | UTF16 | Media Brightness | 0–100 | For print media, percentage of light reflected | M [CMOCA-3-063]|
-| | | | | Zxy | For screen, a CIE illuminant [CMOCA-3-064]| |
-| 6 | 78–83 | UTF16 | MediaColor | | Color of the media: | M [CMOCA-3-065]|
-| | | | | blu | blue [CMOCA-3-066]| |
-| | | | | buf | buff [CMOCA-3-067]| |
-| | | | | gdr | goldenrod [CMOCA-3-068]| |
-| | | | | grn | green [CMOCA-3-069]| |
-| | | | | gry | gray [CMOCA-3-070]| |
-| | | | | ivy | ivory [CMOCA-3-071]| |
-| | | | | noc | no-color [CMOCA-3-072]| |
-| | | | | org | orange [CMOCA-3-073]| |
-| | | | | pnk | pink [CMOCA-3-074]| |
-| | | | | red | red [CMOCA-3-075]| |
-| | | | | wht | white [CMOCA-3-076]| |
-| | | | | ylw | yellow [CMOCA-3-077]| |
-| | | | | custom | three upper-case characters [A,Z] [CMOCA-3-078]| |
-| | | | | @@@ | not specified [CMOCA-3-079]| |
-| 4 | 84–87 | UTF16 | MediaFinish | | Surface characteristics: | M [CMOCA-3-080]|
-| | | | | cm | commodity [CMOCA-3-081]| |
-| | | | | ct | coated [CMOCA-3-082]| |
-| | | | | gl | glossy [CMOCA-3-083]| |
-| | | | | hg | high-gloss [CMOCA-3-084]| |
-| | | | | mt | matte [CMOCA-3-085]| |
-| | | | | no | none [CMOCA-3-086]| |
-| | | | | np | newsprint [CMOCA-3-087]| |
-| | | | | sg | semi-gloss [CMOCA-3-088]| |
-| | | | | st | satin [CMOCA-3-089]| |
-| | | | | tr | treated [CMOCA-3-090]| |
-| | | | | custom | two upper-case characters [A,Z] [CMOCA-3-091]| |
-| | | | | @@ | not specified [CMOCA-3-092]| |
-| 6 | 88–93 | UTF16 | MediaWeight | 1–999 | The basic weight of the paper | M [CMOCA-3-093]|
-| 10 | 94–103 | UTF16 | Prop1 | See description | CMRType property-specific field 1 | M [CMOCA-3-094]|
-| 12 | 104–115 | UTF16 | Prop2 | See description | CMRType property-specific field 2 | M [CMOCA-3-095]|
-| 8 | 116–123 | UTF16 | Prop3 | See description | CMRType property-specific field 3 | M [CMOCA-3-096]|
-| 8 | 124–131 | UTF16 | Prop4 | See description | CMRType property-specific field 4 | M [CMOCA-3-097]|
-| 8 | 132–139 | UTF16 | Prop5 | See description | CMRType property-specific field 5 | M [CMOCA-3-098]|
-| 16 | 140–155 | UTF16 | @@@@@@@@ | | Reserved | M [CMOCA-3-099]|
-| **CMR Name ends here. It is composed of bytes 10–155.** [CMOCA-3-100]| | | | | | |
-| 8 | 156–163 | | X'00...00' | | Reserved: should be set to zero | M [CMOCA-3-101]|
-| 164–end | | CMRData | Any | | Resource data | O [CMOCA-3-102]|
+| Length | Offset | Type | Name | Range | Meaning | M/O |
+| :---: | :--- | :--- | :--- | :--- | :--- | :---: |
+| 4 | 0–3 | 4-byte UBIN | Length | X'000000A4'–X'FFFFFFFF' | CMR length, including length field [CMOCA-3-045] | M |
+| 4 | 4–7 | CODE | CMRSig | X'434D5239' | Signature of this CMR [CMOCA-3-046] | M |
+| 2 | 8–9 | | Reserved | X'0000' | Reserved; should be set to zero [CMOCA-3-047] | M |
+| **(CMR Name starts here. It is composed of bytes 10–155.)** [CMOCA-3-048] | | | | | | |
+| 16 | 10–25 | UTF16 | CMRAlias | No restriction | Human-readable alias [CMOCA-3-049] | M |
+| 4 | 26–29 | UTF16 | CMRType | CC (X'0043 0043') | Color Conversion [CMOCA-3-050] | M |
+| | | | | DL (X'0044 004C') | ICC DeviceLink Color Conversion [CMOCA-3-051] | |
+| | | | | HT (X'0048 0054') | Halftone [CMOCA-3-052] | |
+| | | | | IX (X'0049 0058') | Indexed [CMOCA-3-053] | |
+| | | | | LK (X'004C 004B') | Link Color Conversion [CMOCA-3-054] | |
+| | | | | TC (X'0054 0043') | Tone Transfer Curve [CMOCA-3-055] | |
+| 14 | 30–43 | UTF16 | CMRVersion | ddd.ddd | CMRVersion number [CMOCA-3-056] | M |
+| | | | | AFP .ddd | Special AFP version number [CMOCA-3-057] | |
+| | | | | generic | “generic” [CMOCA-3-058] | |
+| | | | | pasthru | “passthrough” [CMOCA-3-059] | |
+| 10 | 44–53 | UTF16 | Manufacturer Name | See description | Name of the manufacturer [CMOCA-3-060] | M |
+| 12 | 54–65 | UTF16 | DeviceType | See description | Type of the device [CMOCA-3-061] | M |
+| 6 | 66–71 | UTF16 | DeviceModel | See description | Model of the device [CMOCA-3-062] | M |
+| 6 | 72–77 | UTF16 | MediaBrightness | 0–100 | For print media, percentage of light reflected [CMOCA-3-063] | M |
+| | | | | Zxy | For screen, a CIE illuminant [CMOCA-3-064] | |
+| 6 | 78–83 | UTF16 | MediaColor | | Color of the media: [CMOCA-3-065] | M |
+| | | | | blu | blue [CMOCA-3-066] | |
+| | | | | buf | buff [CMOCA-3-067] | |
+| | | | | gdr | goldenrod [CMOCA-3-068] | |
+| | | | | grn | green [CMOCA-3-069] | |
+| | | | | gry | gray [CMOCA-3-070] | |
+| | | | | ivy | ivory [CMOCA-3-071] | |
+| | | | | noc | no-color [CMOCA-3-072] | |
+| | | | | org | orange [CMOCA-3-073] | |
+| | | | | pnk | pink [CMOCA-3-074] | |
+| | | | | red | red [CMOCA-3-075] | |
+| | | | | wht | white [CMOCA-3-076] | |
+| | | | | ylw | yellow [CMOCA-3-077] | |
+| | | | | custom | three upper-case characters [A,Z] [CMOCA-3-078] | |
+| | | | | @@@ | not specified [CMOCA-3-079] | |
+| 4 | 84–87 | UTF16 | MediaFinish | | Surface characteristics: [CMOCA-3-080] | M |
+| | | | | cm | commodity [CMOCA-3-081] | |
+| | | | | ct | coated [CMOCA-3-082] | |
+| | | | | gl | glossy [CMOCA-3-083] | |
+| | | | | hg | high-gloss [CMOCA-3-084] | |
+| | | | | mt | matte [CMOCA-3-085] | |
+| | | | | no | none [CMOCA-3-086] | |
+| | | | | np | newsprint [CMOCA-3-087] | |
+| | | | | sg | semi-gloss [CMOCA-3-088] | |
+| | | | | st | satin [CMOCA-3-089] | |
+| | | | | tr | treated [CMOCA-3-090] | |
+| | | | | custom | two upper-case characters [A,Z] [CMOCA-3-091] | |
+| | | | | @@ | not specified [CMOCA-3-092] | |
+| 6 | 88–93 | UTF16 | MediaWeight | 1–999 | The basic weight of the paper [CMOCA-3-093] | M |
+| 10 | 94–103 | UTF16 | Prop1 | See description | CMRType property-specific field 1 [CMOCA-3-094] | M |
+| 12 | 104–115 | UTF16 | Prop2 | See description | CMRType property-specific field 2 [CMOCA-3-095] | M |
+| 8 | 116–123 | UTF16 | Prop3 | See description | CMRType property-specific field 3 [CMOCA-3-096] | M |
+| 8 | 124–131 | UTF16 | Prop4 | See description | CMRType property-specific field 4 [CMOCA-3-097] | M |
+| 8 | 132–139 | UTF16 | Prop5 | See description | CMRType property-specific field 5 [CMOCA-3-098] | M |
+| 16 | 140–155 | UTF16 | @@@@@@@@ | | Reserved [CMOCA-3-099] | M |
+| **(CMR Name ends here. It is composed of bytes 10–155.)** [CMOCA-3-100] | | | | | | |
+| 8 | 156–163 | | X'00...00' | | Reserved; should be set to zero [CMOCA-3-101] | M |
+| Variable | 164–end | | CMRData | Any | Resource data [CMOCA-3-102] | O |
 
 **Notes:**
-1. M/O denotes a mandatory or optional field [CMOCA-3-103]
-2. UTF16 denotes UTF-16BE [CMOCA-3-104]
+1. **M/O** denotes a mandatory or optional field. [CMOCA-3-103]
+2. **UTF16** denotes UTF-16BE. [CMOCA-3-104]
 
 ## CMR Header Semantics
 
@@ -210,22 +210,22 @@ To use an instruction CMR, its media type must match the media currently being u
 
 | Value | Meaning |
 | :--- | :--- |
-| **rnd@@@** | Round dot for the clustered-dot halftone [CMOCA-3-133]|
-| **sqr@@@** | Square dot for the clustered-dot halftone [CMOCA-3-134]|
-| **dia@@@** | Diamond dot for the clustered-dot halftone [CMOCA-3-135]|
-| **rhm@@@** | Rhombus dot for the clustered-dot halftone [CMOCA-3-136]|
-| **elp@@@** | Elliptical dot for the clustered-dot halftone [CMOCA-3-137]|
-| **eud@@@** | Euclidean dot for the clustered-dot halftone [CMOCA-3-138]|
-| **lin@@@** | Line shape dot for the clustered-dot halftone [CMOCA-3-139]|
-| **sto@@@** | Stochastic halftone [CMOCA-3-140]|
-| **dsp@@@** | Dispersed halftone [CMOCA-3-141]|
-| **erd@@@** | Unspecified error diffusion halftone [CMOCA-3-142]|
-| **f-d@@@** | Floyd-Steinberg error diffusion halftone [CMOCA-3-143]|
-| **jjn@@@** | Jarvis-Judice-Ninke error diffusion halftone [CMOCA-3-144]|
-| **stu@@@** | Stucki error diffusion halftone [CMOCA-3-145]|
-| **brk@@@** | Burkes error diffusion halftone [CMOCA-3-146]|
-| **sra@@@** | Sierra error diffusion halftone [CMOCA-3-147]|
-| **s-a@@@** | Stevenson Arce error diffusion halftone [CMOCA-3-148]|
+| **rnd@@@** | Round dot for the clustered-dot halftone [CMOCA-3-133] |
+| **sqr@@@** | Square dot for the clustered-dot halftone [CMOCA-3-134] |
+| **dia@@@** | Diamond dot for the clustered-dot halftone [CMOCA-3-135] |
+| **rhm@@@** | Rhombus dot for the clustered-dot halftone [CMOCA-3-136] |
+| **elp@@@** | Elliptical dot for the clustered-dot halftone [CMOCA-3-137] |
+| **eud@@@** | Euclidean dot for the clustered-dot halftone [CMOCA-3-138] |
+| **lin@@@** | Line shape dot for the clustered-dot halftone [CMOCA-3-139] |
+| **sto@@@** | Stochastic halftone [CMOCA-3-140] |
+| **dsp@@@** | Dispersed halftone [CMOCA-3-141] |
+| **erd@@@** | Unspecified error diffusion halftone [CMOCA-3-142] |
+| **f-d@@@** | Floyd-Steinberg error diffusion halftone [CMOCA-3-143] |
+| **jjn@@@** | Jarvis-Judice-Ninke error diffusion halftone [CMOCA-3-144] |
+| **stu@@@** | Stucki error diffusion halftone [CMOCA-3-145] |
+| **brk@@@** | Burkes error diffusion halftone [CMOCA-3-146] |
+| **sra@@@** | Sierra error diffusion halftone [CMOCA-3-147] |
+| **s-a@@@** | Stevenson Arce error diffusion halftone [CMOCA-3-148] |
 
 *   **Prop3: Line Screen Frequency** [CMOCA-3-149]
     Defines the maximum line screen frequency of all the component screens. Line frequency is specified in terms of the printer's resolution. A line screen frequency of zero should be used for stochastic, dispersed, and error diffusion type halftones.
@@ -238,9 +238,9 @@ To use an instruction CMR, its media type must match the media currently being u
 
 | Value | Meaning |
 | :--- | :--- |
-| **indp** | Orientation independent [CMOCA-3-154]|
-| **scan** | Scan direction [CMOCA-3-155]|
-| **proc** | Process direction [CMOCA-3-156]|
+| **indp** | Orientation independent [CMOCA-3-154] |
+| **scan** | Scan direction [CMOCA-3-155] |
+| **proc** | Process direction [CMOCA-3-156] |
 
 #### CMRtype=Tone Transfer Curve
 
@@ -253,10 +253,10 @@ To use an instruction CMR, its media type must match the media currently being u
 
 | Value | Meaning |
 | :--- | :--- |
-| **scnr@** | Input Device [CMOCA-3-161]|
-| **mntr@** | Display Device [CMOCA-3-162]|
-| **prtr@** | Output Device [CMOCA-3-163]|
-| **spac@** | ColorSpace Conversion [CMOCA-3-164]|
+| **scnr@** | Input Device [CMOCA-3-161] |
+| **mntr@** | Display Device [CMOCA-3-162] |
+| **prtr@** | Output Device [CMOCA-3-163] |
+| **spac@** | ColorSpace Conversion [CMOCA-3-164] |
 
 *   **Prop2: Look-and-Feel** [CMOCA-3-165]
     Look-and-Feel produced in the output when this Tone Transfer Curve is applied. See Appendix B, “Generic CMR Name Registry” for an explanation of what these values mean. [CMOCA-3-166]
@@ -265,10 +265,10 @@ To use an instruction CMR, its media type must match the media currently being u
 
 | Value | Meaning |
 | :--- | :--- |
-| **hilmid** | Highlight Midtone [CMOCA-3-168]|
-| **standd** | Standard [CMOCA-3-169]|
-| **dark@@** | Dark [CMOCA-3-170]|
-| **accutn** | Accutone [CMOCA-3-171]|
+| **hilmid** | Highlight Midtone [CMOCA-3-168] |
+| **standd** | Standard [CMOCA-3-169] |
+| **dark@@** | Dark [CMOCA-3-170] |
+| **accutn** | Accutone [CMOCA-3-171] |
 
 *   **Prop3: Halftone Characterization** [CMOCA-3-172]
     This Tone Transfer Curve was designed to work with a particular Halftone. This value is used to identify that Halftone. For clustered-dot halftones, it is the line screen frequency (Prop3 of Halftone). For other types of halftones, it is the halftone type (Halftone Prop2 but just the first four characters).
@@ -286,10 +286,10 @@ To use an instruction CMR, its media type must match the media currently being u
 
 | Value | Meaning |
 | :--- | :--- |
-| **scnr@** | Input Device profile [CMOCA-3-179]|
-| **mntr@** | Display Device profile [CMOCA-3-180]|
-| **prtr@** | Output Device profile [CMOCA-3-181]|
-| **spac@** | ColorSpace Conversion profile [CMOCA-3-182]|
+| **scnr@** | Input Device profile [CMOCA-3-179] |
+| **mntr@** | Display Device profile [CMOCA-3-180] |
+| **prtr@** | Output Device profile [CMOCA-3-181] |
+| **spac@** | ColorSpace Conversion profile [CMOCA-3-182] |
 
 *   **Prop2: Reserved for future use.** [CMOCA-3-183]
 *   **Prop3: Reserved for future use.** [CMOCA-3-184]
@@ -300,31 +300,31 @@ To use an instruction CMR, its media type must match the media currently being u
 
 | Value | Meaning |
 | :--- | :--- |
-| **XYZ@** | XYZData [CMOCA-3-188]|
-| **Lab@** | labData [CMOCA-3-189]|
-| **Luv@** | luvData [CMOCA-3-190]|
-| **YCbr** | YCbCrData [CMOCA-3-191]|
-| **Yxy@** | YxyData [CMOCA-3-192]|
-| **RGB@** | rgbData [CMOCA-3-193]|
-| **GRAY** | grayData [CMOCA-3-194]|
-| **HSV@** | hsvData [CMOCA-3-195]|
-| **HLS@** | hlsData [CMOCA-3-196]|
-| **CMYK** | cmykData [CMOCA-3-197]|
-| **CMY@** | cmyData [CMOCA-3-198]|
-| **2CLR** | 2colorData [CMOCA-3-199]|
-| **3CLR** | 3colorData (if not listed above) [CMOCA-3-200]|
-| **4CLR** | 4colorData (if not listed above) [CMOCA-3-201]|
-| **5CLR** | 5colorData [CMOCA-3-202]|
-| **6CLR** | 6colorData [CMOCA-3-203]|
-| **7CLR** | 7colorData [CMOCA-3-204]|
-| **8CLR** | 8colorData [CMOCA-3-205]|
-| **9CLR** | 9colorData [CMOCA-3-206]|
-| **ACLR** | 10colorData [CMOCA-3-207]|
-| **BCLR** | 11colorData [CMOCA-3-208]|
-| **CCLR** | 12colorData [CMOCA-3-209]|
-| **DCLR** | 13colorData [CMOCA-3-210]|
-| **ECLR** | 14colorData [CMOCA-3-211]|
-| **FCLR** | 15colorData [CMOCA-3-212]|
+| **XYZ@** | XYZData [CMOCA-3-188] |
+| **Lab@** | labData [CMOCA-3-189] |
+| **Luv@** | luvData [CMOCA-3-190] |
+| **YCbr** | YCbCrData [CMOCA-3-191] |
+| **Yxy@** | YxyData [CMOCA-3-192] |
+| **RGB@** | rgbData [CMOCA-3-193] |
+| **GRAY** | grayData [CMOCA-3-194] |
+| **HSV@** | hsvData [CMOCA-3-195] |
+| **HLS@** | hlsData [CMOCA-3-196] |
+| **CMYK** | cmykData [CMOCA-3-197] |
+| **CMY@** | cmyData [CMOCA-3-198] |
+| **2CLR** | 2colorData [CMOCA-3-199] |
+| **3CLR** | 3colorData (if not listed above) [CMOCA-3-200] |
+| **4CLR** | 4colorData (if not listed above) [CMOCA-3-201] |
+| **5CLR** | 5colorData [CMOCA-3-202] |
+| **6CLR** | 6colorData [CMOCA-3-203] |
+| **7CLR** | 7colorData [CMOCA-3-204] |
+| **8CLR** | 8colorData [CMOCA-3-205] |
+| **9CLR** | 9colorData [CMOCA-3-206] |
+| **ACLR** | 10colorData [CMOCA-3-207] |
+| **BCLR** | 11colorData [CMOCA-3-208] |
+| **CCLR** | 12colorData [CMOCA-3-209] |
+| **DCLR** | 13colorData [CMOCA-3-210] |
+| **ECLR** | 14colorData [CMOCA-3-211] |
+| **FCLR** | 15colorData [CMOCA-3-212] |
 
 *   **Prop5: PCS** [CMOCA-3-213]
     The profile connection space specified as either CIEXYZ (XYZ) or CIELAB (Lab), encoded as for Prop4. [CMOCA-3-214]
@@ -348,24 +348,24 @@ To use an instruction CMR, its media type must match the media currently being u
 
 | Value | Meaning |
 | :--- | :--- |
-| **RGB@** | rgbData [CMOCA-3-223]|
-| **GRAY** | grayData [CMOCA-3-224]|
-| **CMYK** | cmykData [CMOCA-3-225]|
-| **CMY@** | cmyData [CMOCA-3-226]|
-| **2CLR** | 2colorData [CMOCA-3-227]|
-| **3CLR** | 3colorData (if not listed above) [CMOCA-3-228]|
-| **4CLR** | 4colorData (if not listed above) [CMOCA-3-229]|
-| **5CLR** | 5colorData [CMOCA-3-230]|
-| **6CLR** | 6colorData [CMOCA-3-231]|
-| **7CLR** | 7colorData [CMOCA-3-232]|
-| **8CLR** | 8colorData [CMOCA-3-233]|
-| **9CLR** | 9colorData [CMOCA-3-234]|
-| **ACLR** | 10colorData [CMOCA-3-235]|
-| **BCLR** | 11colorData [CMOCA-3-236]|
-| **CCLR** | 12colorData [CMOCA-3-237]|
-| **DCLR** | 13colorData [CMOCA-3-238]|
-| **ECLR** | 14colorData [CMOCA-3-239]|
-| **FCLR** | 15colorData [CMOCA-3-240]|
+| **RGB@** | rgbData [CMOCA-3-223] |
+| **GRAY** | grayData [CMOCA-3-224] |
+| **CMYK** | cmykData [CMOCA-3-225] |
+| **CMY@** | cmyData [CMOCA-3-226] |
+| **2CLR** | 2colorData [CMOCA-3-227] |
+| **3CLR** | 3colorData (if not listed above) [CMOCA-3-228] |
+| **4CLR** | 4colorData (if not listed above) [CMOCA-3-229] |
+| **5CLR** | 5colorData [CMOCA-3-230] |
+| **6CLR** | 6colorData [CMOCA-3-231] |
+| **7CLR** | 7colorData [CMOCA-3-232] |
+| **8CLR** | 8colorData [CMOCA-3-233] |
+| **9CLR** | 9colorData [CMOCA-3-234] |
+| **ACLR** | 10colorData [CMOCA-3-235] |
+| **BCLR** | 11colorData [CMOCA-3-236] |
+| **CCLR** | 12colorData [CMOCA-3-237] |
+| **DCLR** | 13colorData [CMOCA-3-238] |
+| **ECLR** | 14colorData [CMOCA-3-239] |
+| **FCLR** | 15colorData [CMOCA-3-240] |
 
 #### CMRType=Indexed
 

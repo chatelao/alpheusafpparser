@@ -162,7 +162,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, DB2Z, GOCA, IOCA, IPDS, MOCA, PTOCA).
     - 🚧 Improve all `specifications/markdown/cmoca-reference-02` chapters:
-        - ⏳ Chapters 1-3.
+        - ✅ Chapters 1-3 complete.
         - ⏳ Chapters 4-5.
         - ⏳ Chapter 6.
         - ⏳ Appendices A-C.
