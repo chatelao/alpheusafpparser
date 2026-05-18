@@ -83,7 +83,7 @@ The currently allowed ICC profile subsets for Color Conversion CMRs include all 
 
 The ICC profile subsets for the Color Conversion CMR are listed in Table 12. [CMOCA-4-035]
 
-### Table 12. ICC Profile Subsets for the Color Conversion CMR
+### **Table 12. ICC Profile Subsets for the Color Conversion CMR**
 
 | Subset Name | Usage | Basic Intents |
 | :--- | :--- | :--- |
@@ -107,10 +107,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'01': Monochrome Input Profile
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-049]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-050]|
-    | 20–23 | Profile Connection Space [CMOCA-4-051]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-050]|
+| 20–23 | Profile Connection Space [CMOCA-4-051]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-052]
 *   **Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag [CMOCA-4-053]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag [CMOCA-4-054]
@@ -118,10 +120,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'02': Monochrome Display Profile
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-055]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-056]|
-    | 20–23 | Profile Connection Space [CMOCA-4-057]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-056]|
+| 20–23 | Profile Connection Space [CMOCA-4-057]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-058]
 *   **Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag [CMOCA-4-059]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag [CMOCA-4-060]
@@ -129,10 +133,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'03': Monochrome Output Profile
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-061]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-062]|
-    | 20–23 | Profile Connection Space [CMOCA-4-063]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-062]|
+| 20–23 | Profile Connection Space [CMOCA-4-063]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-064]
 *   **Mandatory ICCTags:** profileDescriptionTag, grayTRCTag, mediaWhitePointTag, copyrightTag [CMOCA-4-065]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag [CMOCA-4-066]
@@ -140,10 +146,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'04': Three-Component Matrix-Based Input Profile
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-067]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-068]|
-    | 20–23 | Profile Connection Space [CMOCA-4-069]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-068]|
+| 20–23 | Profile Connection Space [CMOCA-4-069]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-070]
 *   **Mandatory ICCTags:** profileDescriptionTag, redMatrixColumnTag, greenMatrixColumnTag, blueMatrixColumnTag, redTRCTag, greenTRCTag, blueTRCTag, mediaWhitePointTag, copyrightTag [CMOCA-4-071]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag [CMOCA-4-072]
@@ -151,10 +159,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'05': Three-Component Matrix-Based Display Profile
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-073]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-074]|
-    | 20–23 | Profile Connection Space [CMOCA-4-075]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-074]|
+| 20–23 | Profile Connection Space [CMOCA-4-075]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-076]
 *   **Mandatory ICCTags:** profileDescriptionTag, redMatrixColumnTag, greenMatrixColumnTag, blueMatrixColumnTag, redTRCTag, greenTRCTag, blueTRCTag, mediaWhitePointTag, copyrightTag [CMOCA-4-077]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB0Tag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag [CMOCA-4-078]
@@ -162,10 +172,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'06': N-Component LUT-Based Input Profile
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-079]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-080]|
-    | 20–23 | Profile Connection Space [CMOCA-4-081]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-080]|
+| 20–23 | Profile Connection Space [CMOCA-4-081]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-082]
 *   **Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, mediaWhitePointTag, copyrightTag [CMOCA-4-083]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA0Tag, BT oA1Tag, BT oA2Tag, gamutTag [CMOCA-4-084]
@@ -173,10 +185,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'07': N-Component LUT-Based Display Profile
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-085]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-086]|
-    | 20–23 | Profile Connection Space [CMOCA-4-087]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-086]|
+| 20–23 | Profile Connection Space [CMOCA-4-087]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-088]
 *   **Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, mediaWhitePointTag, copyrightTag [CMOCA-4-089]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA1Tag, BT oA2Tag, gamutTag [CMOCA-4-090]
@@ -184,10 +198,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 ### Subset X'08': N-Component LUT-Based Output Profiles
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-091]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-092]|
-    | 20–23 | Profile Connection Space [CMOCA-4-093]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-092]|
+| 20–23 | Profile Connection Space [CMOCA-4-093]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-094]
 *   **Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, AT oB1Tag, BT oA1Tag, AT oB2Tag, BT oA2Tag, gamutTag, mediaWhitePointTag, copyrightTag [CMOCA-4-095]
 *   **Optional ICCTags:** chromaticAdaptationTag, colorantTableTag [CMOCA-4-096]
@@ -197,10 +213,12 @@ The Basic Intents Column describes the most commonly used color conversion direc
 This subset should be used as an audit color conversion. [CMOCA-4-097]
 
 *   **Mandatory ICCHeaderFields** [CMOCA-4-098]
-    | Byte Offset | Content |
-    | :--- | :--- |
-    | 16–19 | Color Space of Data [CMOCA-4-099]|
-    | 20–23 | Profile Connection Space [CMOCA-4-100]|
+
+| Byte Offset | Content |
+| :--- | :--- |
+| 16–19 | Color Space of Data [CMOCA-4-099]|
+| 20–23 | Profile Connection Space [CMOCA-4-100]|
+
 *   **Optional ICCHeaderFields:** All other header fields [CMOCA-4-101]
 *   **Mandatory ICCTags:** profileDescriptionTag, AT oB0Tag, BT oA0Tag, mediaWhitePointTag, copyrightTag [CMOCA-4-102]
 *   **Optional ICCTags:** chromaticAdaptationTag, AT oB1Tag, AT oB2Tag, BT oA1Tag, BT oA2Tag, gamutTag [CMOCA-4-103]
@@ -224,7 +242,7 @@ The purpose of the Link Color Conversion CMR is to convert directly from the inp
 
 Currently, three Link Color Conversion subsets are defined. Table 22 lists the Link Color Conversion CMR subsets and their descriptions: [CMOCA-4-110]
 
-### Table 22. Link Color Conversion Subsets
+### **Table 22. Link Color Conversion Subsets**
 
 | Subset ID | Subset Name | Usage |
 | :--- | :--- | :--- |
@@ -260,7 +278,7 @@ This subset is used when the input space is the same as the device's output spac
 
 An Indexed CMR contains one or more Color Palette tags that translate 2-byte indexed color values to the target color space. Five Color Palette tags are defined for the color spaces of gray, RGB, CMYK, CIELAB, and named colorants. The named colorants are defined through a set of colorant names that are specified in the Colorant Identification List tag. Currently, only one Indexed CMR subset is defined for the multi-output color spaces. It allows the mixture of different output color spaces in an Indexed CMR. When multiple Color Palette tags are present in a CMR, and the same indexed color value is specified in different Color Palette tags, the indexed color value in the Color Palette tag with the lower TagID number is used. If the color space of that Color Palette tag is not applicable for the output device, the CIELAB value specified for this indexed color value in the Color Palette tag is used for the substitution. [CMOCA-4-124]
 
-### Table 23. List of Color Palette Tags
+### **Table 23. List of Color Palette Tags**
 
 | Name | Meaning |
 | :--- | :--- |
