@@ -6,7 +6,7 @@ The CMR Data field carries all the actual color resource data. The resource data
 
 Each tag consists of 12 bytes in the following format: [CMOCA-5-002]
 
-### Table 24. CMR Data Tag Syntax
+### **Table 24. CMR Data Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -72,6 +72,7 @@ This section defines the CMR tags. [CMOCA-5-034]
 This tag defines arbitrary comment text, ignored by receivers. There is no default. [CMOCA-5-038]
 
 **Exception Conditions:**
+
 *   **EC-000406 Invalid Field Type:** The specified Field Type is invalid for the tag. [CMOCA-5-039]
 *   **EC-00040F Invalid Sequence:** The tag has been encountered out of sequence or more than once. [CMOCA-5-040]
 *   **EC-000410 Invalid Value:** The offset caused some portion of the tag data to be outside of the CMRdata. [CMOCA-5-041]
@@ -84,7 +85,7 @@ This tag defines arbitrary comment text, ignored by receivers. There is no defau
 
 This tag contains the date and time of the creation of the CMR. It is defined consistently with the MO:DCA definition of the Universal Date and Time Stamp Triplet X'72' that is specified in accordance with the format defined in ISO 8601:1988 (E). The tag is informational. The date and time values are not checked for validity. [CMOCA-5-045]
 
-#### Table 25. Date and Time Stamp Tag Syntax
+#### **Table 25. Date and Time Stamp Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -110,6 +111,7 @@ This tag contains the date and time of the creation of the CMR. It is defined co
     *   **X'02':** Behind UTC. UTCDiffH/M specify the difference. (Suffix -hhmm) [CMOCA-5-064]
 
 **Exception Conditions:**
+
 *   **EC-000805 Invalid Count Value:** The specified Count field value is invalid for the tag. [CMOCA-5-065]
 *   **EC-000806 Invalid Field Type:** The specified Field Type is invalid for the tag. [CMOCA-5-066]
 *   **EC-00080F Invalid Sequence:** The tag has been encountered out of sequence or more than once. [CMOCA-5-067]
@@ -123,7 +125,7 @@ This tag contains the date and time of the creation of the CMR. It is defined co
 
 This tag defines the number of color components referenced by this resource. To comply with ICC, the number of components must be in the range of 1–15. [CMOCA-5-072]
 
-#### Table 26. Ordering Sequence of Color Spaces
+#### **Table 26. Ordering Sequence of Color Spaces**
 
 | Color Space | Component 1 | Component 2 | Component 3 | Component 4 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -145,6 +147,7 @@ This tag defines the number of color components referenced by this resource. To 
 The components are numbered according to the order in the ICC data tag. Additional color spaces can be added simply by defining the signature component assignments. Default is 1. [CMOCA-5-087]
 
 **Exception Conditions:**
+
 *   **EC-001105 Invalid Count Value** [CMOCA-5-088]
 *   **EC-001106 Invalid Field Type** [CMOCA-5-089]
 *   **EC-00110F Invalid Sequence** [CMOCA-5-090]
@@ -158,7 +161,7 @@ The components are numbered according to the order in the ICC data tag. Addition
 
 This tag denotes a subset of the Halftone CMR type. [CMOCA-5-095]
 
-#### Table 27. Halftone Subsets
+#### **Table 27. Halftone Subsets**
 
 | Subset ID | Name |
 | :--- | :--- |
@@ -168,6 +171,7 @@ This tag denotes a subset of the Halftone CMR type. [CMOCA-5-095]
 | X'04' | Multilevel Error Diffusion Halftone [CMOCA-5-099]|
 
 **Exception Conditions:**
+
 *   **EC-101110 Invalid Value:** specified subset value is none of X'01', X'02', X'03', or X'04'. [CMOCA-5-100]
 
 ### Array Width
@@ -252,7 +256,7 @@ Specifies a pair of values (row, column) describing the location of the current 
 *   **Field Type:** X'08' (CODE) [CMOCA-5-140]
 *   **Count:** Number of color components [CMOCA-5-141]
 
-#### Table 28. Raster Direction Values
+#### **Table 28. Raster Direction Values**
 
 | Value | Meaning |
 | :--- | :--- |
@@ -267,7 +271,7 @@ Specifies a pair of values (row, column) describing the location of the current 
 *   **Field Type:** X'08' (CODE) [CMOCA-5-146]
 *   **Count:** Number of color components [CMOCA-5-147]
 
-#### Table 29. Boundary Condition Values
+#### **Table 29. Boundary Condition Values**
 
 | Value | Meaning |
 | :--- | :--- |
@@ -292,7 +296,7 @@ Specifies a single threshold value for bilevel error diffusion halftones. [CMOCA
 
 Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMOCA-5-159]
 
-#### Table 30. Illustration of Quantization Boundary Table
+#### **Table 30. Illustration of Quantization Boundary Table**
 
 | Index (i) | Array Entry (Threshold Value) |
 | :--- | :--- |
@@ -300,7 +304,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 | 2 | 120 [CMOCA-5-161]|
 | 3 | 200 [CMOCA-5-162]|
 
-#### Table 31. Implementation of Quantization Boundary Table
+#### **Table 31. Implementation of Quantization Boundary Table**
 
 | Initial Value | Output Device Level | Corrected value [CMOCA-5-163]|
 | :--- | :--- | :--- |
@@ -315,7 +319,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'08' (CODE) [CMOCA-5-169]
 *   **Count:** 1 [CMOCA-5-170]
 
-#### Table 32. Tone Transfer Curve Subsets
+#### **Table 32. Tone Transfer Curve Subsets**
 
 | Subset ID | Name |
 | :--- | :--- |
@@ -328,7 +332,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'08' (CODE) [CMOCA-5-174]
 *   **Count:** Number of color components [CMOCA-5-175]
 
-#### Table 33. Tone Transfer Curve Length Values
+#### **Table 33. Tone Transfer Curve Length Values**
 
 | Value | Meaning |
 | :--- | :--- |
@@ -353,7 +357,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'08' (CODE) [CMOCA-5-185]
 *   **Count:** 1 [CMOCA-5-186]
 
-#### Table 34. ICC Profile Subsets
+#### **Table 34. ICC Profile Subsets**
 
 | Subset ID | Name |
 | :--- | :--- |
@@ -374,7 +378,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-198]
 *   **Count:** The number of bytes in the profile [CMOCA-5-199]
 
-#### Table 35. ICC Header Fields
+#### **Table 35. ICC Header Fields**
 
 | Byte Offset | Content |
 | :--- | :--- |
@@ -409,7 +413,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'08' (CODE) [CMOCA-5-222]
 *   **Count:** 1 [CMOCA-5-223]
 
-#### Table 36. Link Color Conversion Subsets
+#### **Table 36. Link Color Conversion Subsets**
 
 | Subset ID | Name |
 | :--- | :--- |
@@ -447,7 +451,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'08' (CODE) [CMOCA-5-240]
 *   **Count:** 1 [CMOCA-5-241]
 
-#### Table 37. ICC Rendering Intents
+#### **Table 37. ICC Rendering Intents**
 
 | Rendering Intent | Value |
 | :--- | :--- |
@@ -462,7 +466,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-247]
 *   **Count:** The number of bytes in the LUT + 20 bytes of the header [CMOCA-5-248]
 
-#### Table 38. Link LUT Perceptual Tag Syntax
+#### **Table 38. Link LUT Perceptual Tag Syntax**
 
 | Bytes | Length | Type | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -501,7 +505,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'08' (CODE) [CMOCA-5-266]
 *   **Count:** 1 [CMOCA-5-267]
 
-#### Table 42. Indexed CMR Subset
+#### **Table 42. Indexed CMR Subset**
 
 | Subset ID | Name |
 | :--- | :--- |
@@ -519,7 +523,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-273]
 *   **Count:** 9 × the number of color entries [CMOCA-5-274]
 
-#### Table 43. Color Palette Gray Tag Syntax
+#### **Table 43. Color Palette Gray Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -533,7 +537,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-279]
 *   **Count:** 12 × the number of color entries [CMOCA-5-280]
 
-#### Table 44. Color Palette CMYK Tag Syntax
+#### **Table 44. Color Palette CMYK Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -550,7 +554,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-288]
 *   **Count:** 11 × the number of color entries [CMOCA-5-289]
 
-#### Table 45. Color Palette RGB Tag Syntax
+#### **Table 45. Color Palette RGB Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -566,7 +570,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-296]
 *   **Count:** 8 × the number of color entries [CMOCA-5-297]
 
-#### Table 46. Color Palette CIELAB Tag Syntax
+#### **Table 46. Color Palette CIELAB Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -579,7 +583,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-301]
 *   **Count:** (Number of Named Colorants + 8) × the number of color entries [CMOCA-5-302]
 
-#### Table 47. Color Palette Named Colorants Tag Syntax
+#### **Table 47. Color Palette Named Colorants Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
@@ -593,7 +597,7 @@ Specifies n one-dimensional arrays for multilevel error diffusion halftone. [CMO
 *   **Field Type:** X'05' (BYTE) [CMOCA-5-307]
 *   **Count:** Sum of the length over the Number of Named Colorants [CMOCA-5-308]
 
-#### Table 48. Colorant Identification List Tag Syntax
+#### **Table 48. Colorant Identification List Tag Syntax**
 
 | Offset | Type | Name | Range | Meaning |
 | :--- | :--- | :--- | :--- | :--- |
