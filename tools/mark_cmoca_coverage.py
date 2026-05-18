@@ -9,7 +9,7 @@ def mark_coverage(file_path, ranges):
     marked_count = 0
     for line in lines:
         # Match CMOCA-X-XXX
-        match = re.search(r'(CMOCA-[1-5A-C]-\d+)', line)
+        match = re.search(r'(CMOCA-[1-6A-C]-\d+)', line)
         if match:
             req_id = match.group(1)
             # Check if req_id is in any of the ranges
@@ -65,6 +65,10 @@ if __name__ == "__main__":
         ('CMOCA-3-001', 'CMOCA-3-261'),
         ('CMOCA-4-001', 'CMOCA-4-133'),
         ('CMOCA-5-001', 'CMOCA-5-314'),
+        ('CMOCA-6-001', 'CMOCA-6-187'),
+        ('CMOCA-A-001', 'CMOCA-A-047'),
+        ('CMOCA-B-001', 'CMOCA-B-017'),
+        ('CMOCA-C-001', 'CMOCA-C-029'),
     ]
     count = mark_coverage('TEST_COVERAGE_CMOCA.md', ranges)
     print(f"Marked {count} requirements as covered.")
