@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -72,7 +73,6 @@ public class PGP_PagePosition_Format2 extends StructuredFieldBaseRepeatingGroups
     }
   }
 
-
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -101,7 +101,6 @@ public class PGP_PagePosition_Format2 extends StructuredFieldBaseRepeatingGroups
     PGP_SheetSideAndPartitionSelection sheetSideAndPartitionSelection;
     EnumSet<PGP_RGFlag> flags;
     Byte pageModififationControlID;
-
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

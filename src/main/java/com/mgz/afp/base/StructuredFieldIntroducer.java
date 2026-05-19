@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.base;
 
 import com.mgz.afp.base.annotations.AFPField;
@@ -29,7 +30,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
-
 
 /**
  * <b>Structured Field Introducer (SFI)</b><br> The MO:DCA Structured Field Introducer (SFI)
@@ -253,7 +253,6 @@ public class StructuredFieldIntroducer {
   public void setFlagByte(EnumSet<SFFlag> flagByte) {
     this.flagByte = flagByte;
   }
-
 
   public AFPParserConfiguration getActualConfig() {
     return actualConfig;
