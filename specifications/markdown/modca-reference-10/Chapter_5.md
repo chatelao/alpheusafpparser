@@ -3460,354 +3460,124 @@ One to 254 repeating groups in the following format: [MODCA-5-1000]
 | **Triplet** | **Type** | **Usage** [MODCA-5-1004]|
 | :--- | :--- | :--- [MODCA-5-1005]|
 | X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1006]|
-**Implementation Note:**  Not all AFP servers support the inheritance
-of encoding scheme from higher levels of the document hierarchy,
-therefore it is recommended that this triplet be specified directly
-on the MDR if required by a parameter such as the FQN type
-X'DE' triplet.
-X'02' Fully Qualified Name Mandatory. Must occur once in each repeating group. Specifies the
-reference to the resource object. The GID is used to locate the
-resource object in the resource hierarchy, which may include the
-presentation device, and must match the identifier for an object or a
-X'01' exception condition exists. See “Fully Qualified Name Triplet
-X'02'”.
-The Fully Qualified Name types that may appear are:
-* X'84'—Begin Resource Object Reference, which is used to map [MODCA-5-1006]
-an IOCA image object. The GID is used to locate the resource
-object in the resource hierarchy, which may include the
-presentation device, and must match the identifier for an object or
-a X'01' exception condition exists.
-* X'CE'—Other Object Data Reference, which is used to map a [MODCA-5-1007]
-data object whose format may or may not be defined by an AFP
-architecture. The GID is used to locate the object in the resource
-hierarchy, which may include the presentation device, and must
-match the identifier for an object or a X'01' exception condition
-exists. This FQN type may not be used to map OCA objects, that
-is, IOCA, GOCA, BCOCA, or PTOCA objects. FQN type X'84' is
-used to map IOCA objects.
-**Application Note:**  If the object is installed in a resource library
-using a Resource Access T able (RAT), it must not be
-wrapped with a MO:DCA object container envelope, that is,
-it must be installed in its raw source format.
-* X'DE'—Data Object External Resource Reference, which is used [MODCA-5-1008]
-to map a resource object that is used by a data object. The GID is
-used to locate the resource object in the resource hierarchy,
-which may include the presentation device, and must match the
-identifier for an object resource or a X'01' exception condition
-exists.
-Resources that are used by data objects that may themselves be
-processed as resources are called secondary resources. See
-“Secondary Resource Objects”. Also see T able 49. [MODCA-5-1009]
-### Map Data Resource (MDR)
+| X'02' | | **Fully Qualified Name** Mandatory. Must occur once in each repeating group. Specifies the reference to the resource object. The GID is used to locate the resource object in the resource hierarchy, which may include the presentation device, and must match the identifier for an object or a X'01' exception condition exists. See “Fully Qualified Name Triplet X'02'”.<br><br>The Fully Qualified Name types that may appear are:<br>* X'84'—Begin Resource Object Reference, which is used to map an IOCA image object. [MODCA-5-1006]<br>* X'CE'—Other Object Data Reference, which is used to map a data object whose format may or may not be defined by an AFP architecture. [MODCA-5-1007]<br>* X'DE'—Data Object External Resource Reference, which is used to map a resource object that is used by a data object. [MODCA-5-1008]<br>* X'EE'—Tertiary Data Object External Resource Reference, which is used to map a tertiary CMR resource object that is used by a secondary image resource object in a QR Code with Image bar code. [MODCA-5-1010]<br>* X'BE'—Data Object Internal Resource Reference. The identifier is used internally by the data object to reference the resource whose external identifier is specified by the FQN type X'DE' triplet. [MODCA-5-1015]<br>* X'85'—Code Page Name Reference. Only used when the MDR references a data-object font with the FQN type X'DE' triplet. [MODCA-5-1026]|
+| X'10' | | **Object Classification** Mandatory if the repeating group specifies a Fully Qualified Name type X'CE'—Other Object Data Reference, a Fully Qualified Name type X'DE'—Data Object External Resource Reference, or a Fully Qualified Name type X'EE'—Tertiary Data Object External Resource Reference. [MODCA-5-1029]|
+| X'20' | | **Font Coded Graphic Character Set Global Identifier** Optional. May occur once in each repeating group. Only used when the MDR references a data-object font with the FQN type X'DE' triplet. [MODCA-5-1031]|
+| X'50' | | **Encoding Scheme ID** Optional. May occur once in each repeating group. Only used when the MDR references a data-object font and the encoding in the user data is different than the encoding in the referenced font. [MODCA-5-1032]|
+| X'5A' | | **Object Offset** Optional. If this MDR references a CMR and is specified in the DEG of a Form Map, may occur once with ObjTpe=X'A8' to specify that documents are the objects to be counted. [MODCA-5-1037]|
+| X'8B' | | **Data-Object Font Descriptor** Optional. May occur once in each repeating group. Only used when the MDR references a data-object font with the FQN type X'DE' triplet. [MODCA-5-1038]|
+| X'8C' | | **Locale Selector** Optional. May occur once. Establishes the creation locale for the resource referenced by the MDR. [MODCA-5-1039]|
+| X'91' | | **Color Management Resource Descriptor** Optional. May occur once. Only used when the MDR references a Color Management Resource (CMR) with the FQN type X'DE' or type X'EE' triplet. [MODCA-5-1040]|
+| X'FF' | | **Triplet Extender** Optional. May occur more than once in a contiguous sequence. [MODCA-5-1042]|
 
+**Implementation Note:** Not all AFP servers support the inheritance of encoding scheme from higher levels of the document hierarchy, therefore it is recommended that the X'01' triplet be specified directly on the MDR if required by a parameter such as the FQN type X'DE' triplet.
 
-| Triplet | Type | Usage [MODCA-5-1010]|
-| --- | --- | --- • X'EE'—Tertiary Data Object External Resource Reference, which is used to map a tertiary CMR resource object that is used by a secondary image resource object in a QR Code with Image bar code. The GID is used to locate the CMR resource object in the resource hierarchy, and must match the identifier for an object resource or a X'01' exception condition exists. Secondary presentation data object resources may themselves contain OEGs with MDRs for non-presentation data object resources (IOCA tiles, CMRs, data object fonts,etc.); these are known as tertiary resources. See “T ertiary Resource Objects”. Note that in MO:DCA data streams, the FQN type X'84', X'CE', and [MODCA-5-1011]|
-| X'EE' | | triplets may appear on an MDR that is specified in an OEG for a QR Code with Image bar code (BCOCA) data object. However, such triplets may not appear on an MDR that is specified in an OEG for any other data object , or a X'02' exception condition exists. The reference in the FQN type X'84', FQN type X'CE', and FQN type X'EE' triplets may be specified in the following format: • FQNFmt = X'00' - the reference is made with a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. The reference in the FQN type X'DE' triplet may be specified in one of the following two formats: • FQNFmt = X'00' - the reference is made with a character-encoded name. See “External Resource Naming Conventions” for a description of the naming conventions used in AFP environments. • FQNFmt = X'10' - the reference is made with a ASN.1 OID encoded using the definite short form. This format provides a unique and system-independent method to identify and reference an object. It may be used to select objects that are resident in the presentation device. Such an identifier is referred to as an object OID. [MODCA-5-1012]|
-**Architecture Note:**  The FQN type X'DE' triplet with FQNFmt =
-X'10' (OID) is only used to reference the CMYK SWOP
-and CMYK Euroscale resident color profiles registered in
-the MO:DCA Registry; see “Resident Color Profile
-Identifiers”.
-When an
-FQN type X'DE' triplet with FQNFmt X'00' is used to
-reference a data-object font, the GID is a full font name that
-uniquely identifies the font. The encoding for this character string is
-specified by the X'01' triplet, which can be located either in this
-structured field or in the MO:DCA document hierarchy. See “Using
-the MDR to Map a TrueType/OpenType Font”.
-Architecture Notes:
-### Map Data Resource (MDR)
+**Architecture Note:** The FQN type X'DE' triplet with FQNFmt = X'10' (OID) is only used to reference the CMYK SWOP and CMYK Euroscale resident color profiles registered in the MO:DCA Registry; see “Resident Color Profile Identifiers”.
 
+When an FQN type X'DE' triplet with FQNFmt X'00' is used to reference a data-object font, the GID is a full font name that uniquely identifies the font. The encoding for this character string is specified by the X'01' triplet, which can be located either in this structured field or in the MO:DCA document hierarchy. See “Using the MDR to Map a TrueType/OpenType Font”.
 
-| Triplet | Type | Usage [MODCA-5-1013]|
-| --- | --- | --- 1. If the TTF/OTF is used as a secondary resource by a non-OCA object such as PDF or SVG, the association of internal identifier to full font name is specified on the IOB or PPO that includes the non-OCA object. In that case the MDR does not specify the internal identifier for the TTF/OTF using the FQN type X'BE' triplet; if specified, it is ignored. 2. A non-OCA object that is placed directly on a page or overlay can reference a TTF/OTF used on that page or overlay. [MODCA-5-1014]|
-**Application Note:**  When a full font name is specified in a Resource
-Access T able (RAT), the encoding for the name is UTF-16BE.
-This encoding is characterized by CCSID 1200 (X'04B0'). A
-performance benefit may be achieved if the full font name
-specified on the MDR—which is used to index the RAT—already
-uses this encoding, thereby eliminating the need for an encoding
-conversion.
-When an
-FQN type X'DE' or X'EE' triplet with FQNFmt X'00' is used
-to reference a Color Management Resource (CMR), the GID is a
-CMR name that matches the name specified in the header of the
-CMR and that uniquely identifies the CMR. The encoding for this
-character string is specified by the X'01' triplet, which can be located
-either in this structured field or in the MO:DCA document hierarchy.
-If an IOB is used to reference the mapped object, the IOB must
-specify the same reference, using the same FQNFmt, as the MDR.
-X'02' Fully Qualified Name Optional. May occur once in each repeating group that also
-specifies a FQN type X'DE' triplet, but only:
-* when the MDR is specified in the OEG of a data object or object [MODCA-5-1015]
-container
-* when the MDR references a data-object font and [MODCA-5-1016]
-– the MDR is in the AEG for PTOCA text, or
-– the MDR is in the OEG for BCOCA or AFP GOCA T ext, or
-– the MDR is in the OEG of an object container
-in which case this triplet is mandatory. When the MDR is in the
-AEG for BCOCA or AFP GOCA text, this triplet is also mandatory
-but the LID is not used; ID X'FE' may be specified in that case.
-Aside from the FQN type X'84', FQN type X'CE' , or FQN type X'EE'
-triplet cases described in the following two rows, this triplet is
-ignored in all other cases. See “Fully Qualified Name Triplet X'02'”
-.
-The Fully Qualified Name type that may appear is X'BE'—Data
-Object Internal Resource Reference. The identifier is used internally
-by the data object to reference the resource whose external
-identifier is specified by the FQN type X'DE' triplet. The identifier
-must be specified using FQNFmt X'00', which, for this FQN type,
-indicates that the data type is defined by the specific data object
-that generates the internal resource reference and is undefined
-(UNDF) at the MO:DCA data stream level.
-Architecture Notes:
-### Map Data Resource (MDR)
+**Application Note:** When a full font name is specified in a Resource Access Table (RAT), the encoding for the name is UTF-16BE. This encoding is characterized by CCSID 1200 (X'04B0'). A performance benefit may be achieved if the full font name specified on the MDR—which is used to index the RAT—already uses this encoding, thereby eliminating the need for an encoding conversion.
 
+When an FQN type X'DE' or X'EE' triplet with FQNFmt X'00' is used to reference a Color Management Resource (CMR), the GID is a CMR name that matches the name specified in the header of the CMR and that uniquely identifies the CMR. The encoding for this character string is specified by the X'01' triplet, which can be located either in this structured field or in the MO:DCA document hierarchy. If an IOB is used to reference the mapped object, the IOB must specify the same reference, using the same FQNFmt, as the MDR.
 
-| Triplet | Type | Usage [MODCA-5-1017]|
-| --- | --- | --- 1. For data-object fonts referenced by AFP text (PTOCA),AFP graphics (GOCA), and AFP bar code (BCOCA) objects, the data type of the internal identifier is a CODE that consists of a one-byte local ID. 2. For tile resources referenced by IOCA data objects, the data type of the internal identifier is a CODE that consists of a four- byte local ID. 3. For purposes of print server resource management, each MDR that is specified in an OEG for a data-object font must have a corresponding MDR mapping the same font in the AEG for the page or overlay. The local ID used in the page or overlay AEG need not match the ID in the object OEG. ID X'FE' may be used in the AEG for fonts mapped in the AEG solely due to their presence in an object's OEG. 4. For a TrueType/OpenType font that is used as a secondary resource by a non-OCA object such as PDF or SVG, the association of internal identifier to full font name is specified on the IOB or PPO that includes the non-OCA object. In that case the MDR does not specify the internal identifier for the TTF/OTF using the FQN type X'BE' triplet; if specified, it is ignored. When both the FQN type X'DE' and the FQN type X'BE' triplets are specified on an MDR repeating group, they map the internal resource identifier to the external resource identifier. Resources that are used by data objects that may themselves be processed as resources are called secondary resources. See “Secondary Resource Objects”. [MODCA-5-1018]|
-| X'02' | | Fully Qualified Name Optional. May occur once in each repeating group that also specifies an FQN type X'84' or X'CE' triplet, but only: • when the MDR is specified in the OEG of a bar code object and the MDR references an IOCA image or an object container from T able 48, in which case this triplet is mandatory. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'BE'—Data Object Internal Resource Reference. The identifier is used internally by the bar code to reference the resource whose external identifier is specified by the FQN type X'84' or FQN type X'CE' triplets. The identifier must be specified using FQNFmt X'00', which, for this FQN type, indicates that the data type is defined by the specific data object that generates the internal resource reference and is undefined (UNDF) at the MO:DCA data stream level. [MODCA-5-1019]|
-**Architecture Note:**  For purposes of print server resource
-management, each MDR that maps a presentation data object
-resource in the bar code OEG must have a corresponding MDR
-mapping the same resource in the AEG for the page or overlay,
-without the FQN type X'BE' triplet. The same presentation data
-object can be used as a primary resource on the page or overlay
-and as a secondary resource in the bar code by using the FQN
-type X'BE' triplet on the MDR of the barcode OEG. When the
-presentation data object resource is an IOCA image, the FQN
-type X'BE' triplet would be paired with an FQN type X'84' triplet.
-When the presentation data object resource is a non-OCA
-presentation object, the FQN type X'BE' triplet would be paired
-with an FQN type X'CE' triplet. Presentation data object
-resources supported for this purpose are IOCA images along
-with the object types shown in T able 48. [MODCA-5-1020]
-### Map Data Resource (MDR)
+**Architecture Note:** The Extended Resource Local Identifier Mandatory (X'22') triplet is mandatory on the MDR in MO:DCA-L data streams and must occur once in each repeating group when the MDR maps a resource with a FQN type X'84'—Begin Resource Object Reference triplet. See “Extended Resource Local Identifier Triplet X'22'”. The only resource type that may be specified in the X'22' triplet is Restype = X'10' - Image resource. Note that within the same MDR structured field, it is not permissible to map the same local ID to more than one image resource or a X'01' exception condition exists. However, two or more repeating groups within the same MDR structured field may be used to map different local IDs to the same image resource. Note that the MO:DCA-L format has been functionally capped and is no longer defined in the MO:DCA reference; for a definition of this format, see MO:DCA-L: The OS/2 PM Metafile (.met) Format. [MODCA-5-1044]
 
+**Application Note:** A non-OCA data object or an IOCA image object that is included on a page or overlay with an IOB, if first mapped with an MDR in the AEG for that page or overlay, is processed as a hard object. In that case the object is sent to the presentation device once as a resource object and can then be presented multiple times using IOBs. If the object is not mapped, it is processed as a soft object and is sent to the presentation device as part of the page or overlay.
 
-| Triplet | Type | Usage [MODCA-5-1021]|
-| --- | --- | --- When both the FQN type X'BE' triplet and one of the FQN type [MODCA-5-1022]|
-| X'CE' | | or X'84' triplets are specified on an MDR repeating group, they map the internal resource identifier to the external resource identifier. [MODCA-5-1023]|
-| X'02' | | Fully Qualified Name Optional. May occur once in each repeating group that also specifies an FQN type X'EE' triplet, but only: • when the MDR is specified in the OEG of a QR Code with Image bar code object, in which case this triplet is mandatory. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is X'BE'—Data Object Internal Resource Reference. Specifies the identifier that is used internally by the bar code to reference the secondary image resource that is to be associated with the CMR whose external identifier is specified by the FQN type [MODCA-5-1024]|
-| X'EE' | | triplet. The identifier must be specified using FQNFmt X'00', which, for this FQN type, indicates that the data type is defined by the specific data object that generates the internal resource reference and is undefined (UNDF) at the MO:DCA data stream level. When both the FQN type X'EE' and FQN type X'BE' triplets are specified on an MDR repeating group, they map the internal identifier of the secondary image resource to the external identifier of the tertiary CMR resource used by the secondary image resource. Resources that are used by data objects that may themselves be processed as resources are called secondary resources and resources used by secondary resources are called tertiary resources. See “Secondary Resource Objects” and “T ertiary Resource Objects”. [MODCA-5-1025]|
-| X'02' | | Fully Qualified Name Optional. May occur once in each repeating group. See “Fully Qualified Name Triplet X'02'”. The Fully Qualified Name type that may appear is: X'85'—Code Page Name Reference. Only used when the MDR references a data-object font with the FQN type X'DE' triplet, in which case this triplet specifies the name of an AFP code page that defines the encoding in the user data. It is ignored in all other cases. Either this triplet or the X'20' triplet may be specified. If the MDR repeating group specifies both the FQN type X'85' triplet and a X'20' triplet, the FQN type X'85' triplet is ignored. Application Notes: 1. The referenced code page must map code points to AFP Graphic Character Global Identifiers (GCGIDs). The presentation device maps GCGIDs to the UTF-16 code points in the font. 2. The code page name consists of 8 characters and follows the naming conventions for AFP code pages defined in Font Summary for AFP Font Collection. An example of a code page name is T1V10500. 3. If the user-data encoding is double-byte, the referenced code page must be a valid double-byte code page. [MODCA-5-1026]|
-### Map Data Resource (MDR)
+#### Using the X'50' Triplet to Specify Encoding
 
+Table 20 shows the ESidCP and ESidUD combinations that are allowed in the X'50' triplet when the MDR references a TrueType/OpenType font with EncEnv = Microsoft (X'0003') and EncID = Unicode (X'0001'):
 
-| Triplet | Type | Usage [MODCA-5-1027]|
-| --- | --- | --- [MODCA-5-1028]|
-| X'10' | | Object Classification Mandatory if the repeating group specifies a Fully Qualified Name type X'CE'—Other Object Data Reference, a Fully Qualified Name type X'DE'—Data Object External Resource Reference, or a Fully Qualified Name type X'EE'—T ertiary Data Object External Resource Reference, in which case it must occur once in the repeating group and identifies the resource type. See “Object Classification Triplet [MODCA-5-1029]|
-| X'10'” | |. [MODCA-5-1030]|
-| X'20' | | Font Coded Graphic Character Set Global Identifier Optional. May occur once in each repeating group. Only used when the MDR references a data-object font with the FQN type X'DE' triplet, in which case this triplet specifies the Code Page Global Identifier (CPGID) and Graphic Character Set Global Identifier (GCSGID) of an AFP code page that defines the encoding in the user data. It is ignored in all other cases. See “Font Coded Graphic Character Set Global Identifier Triplet X'20'”. Either this triplet or the FQN type X'85' triplet may be specified. If the MDR repeating group specifies both the FQN type X'85' triplet and a X'20' triplet, the FQN type X'85' triplet is ignored. Application Notes: 1. The referenced code page must map code points to AFP Graphic Character Global Identifiers (GCGIDs). The presentation device maps GCGIDs to the UTF-16 code points in the font. 2. For a description of GCGIDs, GCSGIDs, and CPGIDs, see Character Data Representation Architecture Reference and Registry. 3. If the user-data encoding is double-byte, the referenced code page must be a valid double-byte code page. 4. Note that this code page is not part of the referenced data- object font. In particular, the code page is not within the scope of the flag in the Data-Object Font Descriptor triplet that may indicate that the font is in the print file resource group. [MODCA-5-1031]|
-| X'50' | | Encoding Scheme ID Optional. May occur once in each repeating group. Only used when the MDR references a data-object font and the encoding in the user data is different than the encoding in the referenced font. In that case this triplet specifies the encoding in the user data. The user data encoding can be specified in two ways: • With a code page identifier—specified either as a CPGID in the [MODCA-5-1032]|
-| X'20' | | triplet or as a name in the FQN type X'85' triplet—and an optional X'50' triplet with the ESidCP parameter that specifies the encoding for the code page. The ESidUD parameter in the X'50' triplet is ignored in this case since the user data encoding is defined by the code page. • With the ESidUD parameter in the X'50' triplet and no code page identifier. The ESidCP parameter in the X'50' triplet is ignored in this case. For a list of valid ESidUD and ESidCP combinations, see “Using the X'50' Triplet to Specify Encoding”. If the X'50' triplet is omitted and a code page is specified—either as a CPGID in the X'20' triplet or as a name in the FQN type X'85' triplet—the architected default is that the ESidUD and ESidCP parameters match the code page encoding. If the X'50' triplet is omitted and no code page is specified the architected default is that the ESidUD = ESidCP = X'7200' (UTF-16), which matches the encoding in the data object font. See “Encoding Scheme ID Triplet [MODCA-5-1033]|
-| X'50'” | |. [MODCA-5-1034]|
-### Map Data Resource (MDR)
+**Table 20. Valid ESidUD/ESidCP Combinations for the MDR**
 
+| **ESidUD** | **ESidCP** |
+| :--- | :--- |
+| Not specified | X'2100'—PC-Data SBCS (ASCII) |
+| Not specified | X'6100'—EBCDIC SBCS |
+| Not specified | X'6200'—EBCDIC DBCS |
+| X'7807'—UTF-8 | Ignored |
 
-| Triplet | Type | Usage [MODCA-5-1035]|
-| --- | --- | --- [MODCA-5-1036]|
-| X'5A' | | Object Offset Optional. If this MDR references a CMR and is specified in the DEG of a Form Map, may occur once with ObjTpe=X'A8' to specify that documents are the objects to be counted. The triplet is ignored in all other cases. Specifies how many documents in the print file precede the document to be associated with the CMR. If this triplet is not specified in this case, the first document in the print file is selected. The offset is measured from the beginning of the print file, so that the first document has offset 0, the second document has offset 1, and the nth document has offset (n-1). See “Object Offset Triplet X'5A'”. [MODCA-5-1037]|
-| X'8B' | | Data-Object Font Descriptor Optional. May occur once in each repeating group. Only used when the MDR references a data-object font with the FQN type X'DE' triplet, in which case this triplet specifies information used to render the font, and is mandatory for OCA objects. It is ignored in all other cases. See “Data-Object Font Descriptor Triplet X'8B'”. [MODCA-5-1038]|
-| X'8C' | | Locale Selector Optional. May occur once. Establishes the creation locale for the resource referenced by the MDR. If the MDR references a data- object font such as a TrueType font, this parameter defines the creation locale for the character string that is rendered with this font. See “Locale Selector Triplet X'8C'”. [MODCA-5-1039]|
-| X'91' | | Color Management Resource Descriptor Optional. May occur once. Only used when the MDR references a Color Management Resource (CMR) with the FQN type X'DE' or type X'EE' triplet, in which case it is mandatory; it is ignored in all other cases. This triplet specifies the processing mode and scope for the CMR. See “Color Management Resource Descriptor Triplet [MODCA-5-1040]|
-| X'91'” | |. [MODCA-5-1041]|
-| X'FF' | | Triplet Extender Optional. May occur more than once in a contiguous sequence, but only in the following case. It is ignored in all other cases. See “Triplet Extender Triplet X'FF'”. • The MDR must specify one of the following object types: [MODCA-5-1042]|
-| X'92' | | Other object data • The MDR references a secondary resource for other object data using an FQN type X'DE' triplet • The secondary resource is the generic non-OCA Resource object • The MDR associates an internal resource reference to the secondary resource with an FQN type X'BE' triplet • The triplet extenders must follow the FQN type X'BE' triplet and must occur in a contiguous sequence Specifies a portion of a secondary resource reference that occurs internal to the data object referenced by the MDR. Use of the triplet extender allows the length of the internal resource reference to exceed the 250 byte capacity of the FQN type X'BE' triplet. [MODCA-5-1043]|
-**Architecture Note:**  The Extended Resource Local Identifier Mandatory (X'22') triplet is mandatory on the MDR
-in MO:DCA-L data streams and must occur once in each repeating group when the MDR maps a
-resource with a FQN type X'84'—Begin Resource Object Reference triplet. See “Extended Resource
-Local Identifier Triplet X'22'”. The only resource type that may be specified in the X'22'
-triplet is Restype = X'10' - Image resource. Note that within the same MDR structured field, it is not
-permissible to map the same local ID to more than one image resource or a X'01' exception condition
-exists. However, two or more repeating groups within the same MDR structured field may be used to
-map different local IDs to the same image resource. Note that the MO:DCA-L format has been [MODCA-5-1044]
-### Map Data Resource (MDR)
+#### Using the MDR to Map a TrueType/OpenType Font
 
+**Font Name**
 
-functionally capped and is no longer defined in the MO:DCA reference; for a definition of this format, see
-MO:DCA-L: The OS/2 PM Metafile (.met) Format.
-**Application Note:**  A non-OCA data object or an IOCA image object that is included on a page or overlay with
-an IOB, if first mapped with an MDR in the AEG for that page or overlay, is processed as a hard object.
-In that case the object is sent to the presentation device once as a resource object and can then be
-presented multiple times using IOBs. If the object is not mapped, it is processed as a soft object and is
-sent to the presentation device as part of the page or overlay.
-Using the X'50' Triplet to Specify Encoding
-T able 20 shows the ESidCP and ESidUD combinations that are allowed in the X'50' triplet when
-the MDR references a TrueType/OpenType font with EncEnv = Microsoft (X'0003') and EncID = Unicode
-(X'0001'):
-**Table 20.**  Valid ESidUD/ESidCP Combinations for the MDR
-ESidUD ESidCP
-Not specified X'2100'—PC-Data SBCS (ASCII)
-Not specified X'6100'—EBCDIC SBCS
-Not specified X'6200'—EBCDIC DBCS
-X'7807'—UTF-8 Ignored
-Using the MDR to Map a TrueType/OpenType Font
-Font Name
-When the MDR is used to map a data-object font resource that is a TrueType/OpenType font and specifies a
-FQN type X'DE' triplet with FQNFmt = X'00', the character string that identifies the font must be the full font
-name specified in a name record in the mandatory Naming T able of the font file. This parameter is specified in
-a name record with Name ID 4. An example of a full font name is Times New Roman Bold. Two characteristics
-of the full font name must be taken into account when using it to reference a TrueType/OpenType font:
-language and encoding.
-* Language. The full font name may be specified in a number of languages. The language used for a given [MODCA-5-1045]
-name record is specified with a language identifier (LCID). For example, English-United States is assigned
-LCID X'0409' (1033). The language used to specify the full font name in the FQN type X'DE' triplet may be
-any of the languages specified in a name record for the full font name with the encoding defined by EncEnv =
-Microsoft (X'0003') and EncID = Unicode (X'0001').
-* Encoding. The encoding used to specify the character string in the FQN type X'DE' triplet is defined by a [MODCA-5-1046]
-Coded Graphic Character Set Global Identifier (X'01') triplet that precedes the FQN type X'DE' triplet. This
-triplet may be specified on the MDR or on a structured field that is higher in the document hierarchy than the
-MDR: for example on the BPG for the page that contains the MDR or on the BDT for the document. See
-“Coded Graphic Character Set Global Identifier Triplet X'01'” for a definition of the scoping rules
-for the X'01' triplet. Note that the encoding for the FQN type X'DE' triplet need not match the encoding for the
-full font name in the font Naming T able.
-**Implementation Note:**  Not all AFP servers support the inheritance of encoding scheme from higher levels of
-the document hierarchy, therefore it is recommended that this triplet be specified directly on the MDR
-if required by a parameter such as the FQN type X'DE' triplet. [MODCA-5-1047]
-### Map Data Resource (MDR)
+When the MDR is used to map a data-object font resource that is a TrueType/OpenType font and specifies a FQN type X'DE' triplet with FQNFmt = X'00', the character string that identifies the font must be the full font name specified in a name record in the mandatory Naming Table of the font file. This parameter is specified in a name record with Name ID 4. An example of a full font name is Times New Roman Bold. Two characteristics of the full font name must be taken into account when using it to reference a TrueType/OpenType font: language and encoding.
 
+* **Language.** The full font name may be specified in a number of languages. The language used for a given name record is specified with a language identifier (LCID). For example, English-United States is assigned LCID X'0409' (1033). The language used to specify the full font name in the FQN type X'DE' triplet may be any of the languages specified in a name record for the full font name with the encoding defined by EncEnv = Microsoft (X'0003') and EncID = Unicode (X'0001'). [MODCA-5-1045]
+* **Encoding.** The encoding used to specify the character string in the FQN type X'DE' triplet is defined by a Coded Graphic Character Set Global Identifier (X'01') triplet that precedes the FQN type X'DE' triplet. This triplet may be specified on the MDR or on a structured field that is higher in the document hierarchy than the MDR: for example on the BPG for the page that contains the MDR or on the BDT for the document. See “Coded Graphic Character Set Global Identifier Triplet X'01'” for a definition of the scoping rules for the X'01' triplet. Note that the encoding for the FQN type X'DE' triplet need not match the encoding for the full font name in the font Naming Table. [MODCA-5-1046]
 
-Font Install Program
-In general, the full font name does not provide sufficient information to find the font resource on a given
-platform. Additional information such as the file name is normally required to locate the font resource. The
-mapping from full font name to file name is provided for each platform that requires this by a font install
-program. This program builds a Resource Access T able (RAT) that must, at minimum, contain the following
-information:
-* The full font name encoded in UTF-16BE. This full font name is specified multiple times in all languages used [MODCA-5-1048]
-in the naming table. The UTF-16 encoding matches the encoding defined by EncEnv = Microsoft (X'0003')
-and EncID = Unicode (X'0001') in the Naming T able. Figure 57 shows the full font name of the MS Mincho
-font in two different languages.
-**Figure 57.**  Example of a Full Font Name in Two Languages
-* A mapping of the full font name—in each language—to the name of the file that contains the font. For [MODCA-5-1049]
-example, if the Naming T able contains two name records for the full font name (Name ID 4), one in English-
-United States (LCID = X'0409') and one in German-Standard (LCID = X'0407'), both in the encoding defined
-by EncEnv = Microsoft (X'0003') and EncID = Unicode (X'0001'), the font install table must map both
-language versions of this full font name to the same file name.
-* If the font also has an object OID assigned and can therefore be resident in the printer, the mapping from full [MODCA-5-1050]
-font name to font file name also includes the object OID for the font. This allows use of the resident version of
-the font and avoids a font download.
-* If the font is contained in a TrueType Collection file (TTC), the full font name must be mapped to the file name [MODCA-5-1051]
-of the TTC. A TTC consists of a collection of TrueType/OpenType font files which may share some of the font
-tables. The table directories for each font file are indexed from a single TTC Header T able. If the collection
-has an object OID assigned, the mapping from full font name to collection file name also includes the object
-OID for the collection. When a mapped TrueType/OpenType font is part of a TTC, the complete TTC (if not
-already in the presentation device) is downloaded to the device, which must be able to index the required
-font in the collection.
-* If the font has linked fonts the RAT must link the full font name of the font to the full font names of the linked [MODCA-5-1052]
-fonts. When a font has linked fonts, it is referred to as a base font to differentiate it from its linked fonts.
-Linked fonts are TTFs/OTFs that can be used to extend the character sets in a base font or to add user-
-defined characters (UDCs) to the base font. All linked fonts for a base font (if not already in the presentation
-device) are downloaded to the device and are treated as extensions to the base font by the device. The order
-in which the linked fonts are specified determines the order in which they are processed by the device. The
-base font is always processed first, followed by the first-specified linked font, followed by the next-specified
-linked font, and so on. The last linked font is processed last. [MODCA-5-1053]
-### Map Data Resource (MDR)
+**Implementation Note:** Not all AFP servers support the inheritance of encoding scheme from higher levels of the document hierarchy, therefore it is recommended that this triplet be specified directly on the MDR if required by a parameter such as the FQN type X'DE' triplet. [MODCA-5-1047]
 
+**Font Install Program**
 
-The Resource Access T able (RAT) used in AFP environments is defined in “The Resource Access T able
-(RAT)”.
-TrueType/OpenType Font Resources in a Resource Library
-When TrueType/OpenType fonts are installed in a resource library, they must not be wrapped with a MO:DCA
-object envelope such as BOC/EOC, that is, they must be installed in their raw source format. This allows the
-font resources to be used by all system components, particularly those that do not understand MO:DCA object
-envelopes such as BOC/EOC. Any of the necessary information that such an envelope normally provides,
-such as an object OID, is associated with the raw font resource by the Resource Access T able (RAT). The font
-install program must ensure that the TrueType/OpenType font resources are installed in this manner. BOC/
-EOC object containers for TrueType/OpenType font resources are only supported when such resources are
-placed into a print file resource group, in which case they are mandatory.
-**Architecture Note:**  In AFP environments, when a TrueType/OpenType font resource is carried in a BOC/EOC
-container in an external (print file level) resource group, the container must be wrapped with a BRS/ERS
-envelope.
-TrueType/OpenType Font Resources in an External (Print file level) Resource Group
-TrueType/OpenType fonts (TTFs/OTFs), TrueType/OpenType fonts that are used as linked fonts, and
-TrueType/OpenType font collections (TTCs), may be carried in the resource group for a print file. This is called
-a print file level resource group, and these resources are said to be inline. When presentation servers search
-for a font that is referenced in the data stream, such a resource group is searched ahead of system level
-resource libraries, and if an inline font is found it must be used in place of the system level font. T o support this
-hierarchy, presentation servers process a TrueType/OpenType font reference in an MDR for inline resources
-as follows:
-1. The resource group, if present, is searched for a font (TTF/OTF) container or a collection (TTC) container [MODCA-5-1054]
-that specifies a matching full font name.
-* A font container specifies the full font name using a FQN type X'01' triplet on the Begin Resource (BRS) [MODCA-5-1055]
-structured field for the font container.
-* A collection container specifies the full font name of a font in the collection using a FQN type X'6E'—Data [MODCA-5-1056]
-Object Font Base Font Identifier triplet on the BRS of the collection container.
-The first matching font container or collection container is used. If a collection containing the font is found,
-the complete TTC (if not already in the presentation device) is downloaded to the device, which must be
-able to index the required font in the collection. The font container or collection container may also specify
-one or more linked fonts for the referenced font.
-* On a font container, linked fonts for the base font are specified with FQN type X'7E'—Data-object Font [MODCA-5-1057]
-Linked Font Identifier triplets, which carry the full font name of the linked fonts, on the BRS of the font
-container.
-* On a collection container, linked fonts are specified with FQN type X'7E' triplets that immediately follow [MODCA-5-1058]
-the FQN type X'6E' triplet for the base font on the BRS of the collection container. Note that if the base
-font is specified in multiple languages using multiple FQN type X'6E' triplets, each instance of the FQN
-type X'6E' triplet must be followed by the sequence of FQN type X'7E' triplets that identify the linked fonts
-for the base font.
-The full font names for the linked fonts are used in turn to search the resource group for a font container or
-a collection container that carries a font that matches the full font name of the linked font. On a font
-container, the linked font name is matched against the FQN type X'01' triplet on the BRS; on a collection
-container it is matched against the FQN type X'6E' triplets on the BRS.
-* The first matching font container or collection container is used, and its font is processed as a linked font [MODCA-5-1059]
-for the base font. Multiple linked fonts may be specified, and the order in which they are specified on the [MODCA-5-1060]
-### Map Data Resource (MDR)
+In general, the full font name does not provide sufficient information to find the font resource on a given platform. Additional information such as the file name is normally required to locate the font resource. The mapping from full font name to file name is provided for each platform that requires this by a font install program. This program builds a Resource Access Table (RAT) that must, at minimum, contain the following information:
 
+* The full font name encoded in UTF-16BE. This full font name is specified multiple times in all languages used in the naming table. The UTF-16 encoding matches the encoding defined by EncEnv = Microsoft (X'0003') and EncID = Unicode (X'0001') in the Naming Table. [MODCA-5-1048]
+* A mapping of the full font name—in each language—to the name of the file that contains the font. [MODCA-5-1049]
+* If the font also has an object OID assigned and can therefore be resident in the printer, the mapping from full font name to font file name also includes the object OID for the font. This allows use of the resident version of the font and avoids a font download. [MODCA-5-1050]
+* If the font is contained in a TrueType Collection file (TTC), the full font name must be mapped to the file name of the TTC. [MODCA-5-1051]
+* If the font has linked fonts the RAT must link the full font name of the font to the full font names of the linked fonts. When a font has linked fonts, it is referred to as a base font to differentiate it from its linked fonts. Linked fonts are TTFs/OTFs that can be used to extend the character sets in a base font or to add user-defined characters (UDCs) to the base font. [MODCA-5-1052]
 
-BRS of the font container or collection container determines the order in which they are processed. The
-base font is always processed first, followed by the first-specified linked font, followed by the next-
-specified linked font, and so on. The last linked font is processed last.
-* If a linked font cannot be found in either an inline font container or an inline collection container, the full [MODCA-5-1061]
-font name of the linked font is used to index the RAT to locate the linked font in a resource library. If a
-specified linked font cannot be found in the resource group or in a resource library, a X'04' exception
-condition exists.
-Only one level of linking is supported. That is, if a linked font specifies its own linked fonts, either with FQN
-type X'7E' triplets on its inline container or with linked font pointers in the RAT , these “secondary” linked
-fonts are not processed as linked fonts for the original base font.
-2. If a font matching the MDR reference is not found in an inline font container or in an inline collection [MODCA-5-1062]
-container, the presentation server accesses the RAT with the full font name to locate the referenced font in
-a resource library. In this case, all linked fonts are specified in the RAT repeating group for the referenced
-font, and the order in which they are specified determines the order in which they are processed. Both
-inline linked fonts and library-based linked fonts are used, and the print file level resource group is always
-searched for linked fonts ahead of the resource library. The resource group search includes font
-containers, in which case the linked font name is matched against the FQN type X'01' triplet on the BRS of
-the font container, and collection containers, in which case the linked font name is matched against the
-FQN type X'6E' triplets on the BRS of the collection container. [MODCA-5-1063]
-### Map Data Resource (MDR)
+The Resource Access Table (RAT) used in AFP environments is defined in “The Resource Access Table (RAT)”.
 
+**TrueType/OpenType Font Resources in a Resource Library**
 
-**Figure 58.**  Examples of MDR Repeating Groups
+When TrueType/OpenType fonts are installed in a resource library, they must not be wrapped with a MO:DCA object envelope such as BOC/EOC, that is, they must be installed in their raw source format. This allows the font resources to be used by all system components, particularly those that do not understand MO:DCA object envelopes such as BOC/EOC. Any of the necessary information that such an envelope normally provides, such as an object OID, is associated with the raw font resource by the Resource Access Table (RAT). The font install program must ensure that the TrueType/OpenType font resources are installed in this manner. BOC/EOC object containers for TrueType/OpenType font resources are only supported when such resources are placed into a print file resource group, in which case they are mandatory.
+
+**Architecture Note:** In AFP environments, when a TrueType/OpenType font resource is carried in a BOC/EOC container in an external (print file level) resource group, the container must be wrapped with a BRS/ERS envelope.
+
+**TrueType/OpenType Font Resources in an External (Print file level) Resource Group**
+
+TrueType/OpenType fonts (TTFs/OTFs), TrueType/OpenType fonts that are used as linked fonts, and TrueType/OpenType font collections (TTCs), may be carried in the resource group for a print file. This is called a print file level resource group, and these resources are said to be inline. When presentation servers search for a font that is referenced in the data stream, such a resource group is searched ahead of system level resource libraries, and if an inline font is found it must be used in place of the system level font. To support this hierarchy, presentation servers process a TrueType/OpenType font reference in an MDR for inline resources as follows:
+
+1. The resource group, if present, is searched for a font (TTF/OTF) container or a collection (TTC) container that specifies a matching full font name. [MODCA-5-1054]
+   * A font container specifies the full font name using a FQN type X'01' triplet on the Begin Resource (BRS) structured field for the font container. [MODCA-5-1055]
+   * A collection container specifies the full font name of a font in the collection using a FQN type X'6E'—Data Object Font Base Font Identifier triplet on the BRS of the collection container. [MODCA-5-1056]
+   The first matching font container or collection container is used. If a collection containing the font is found, the complete TTC (if not already in the presentation device) is downloaded to the device, which must be able to index the required font in the collection. The font container or collection container may also specify one or more linked fonts for the referenced font.
+   * On a font container, linked fonts for the base font are specified with FQN type X'7E'—Data-object Font Linked Font Identifier triplets, which carry the full font name of the linked fonts, on the BRS of the font container. [MODCA-5-1057]
+   * On a collection container, linked fonts are specified with FQN type X'7E' triplets that immediately follow the FQN type X'6E' triplet for the base font on the BRS of the collection container. [MODCA-5-1058]
+   The full font names for the linked fonts are used in turn to search the resource group for a font container or a collection container that carries a font that matches the full font name of the linked font. On a font container, the linked font name is matched against the FQN type X'01' triplet on the BRS; on a collection container it is matched against the FQN type X'6E' triplets on the BRS.
+   * The first matching font container or collection container is used, and its font is processed as a linked font for the base font. [MODCA-5-1059]
+   * If a linked font cannot be found in either an inline font container or an inline collection container, the full font name of the linked font is used to index the RAT to locate the linked font in a resource library. If a specified linked font cannot be found in the resource group or in a resource library, a X'04' exception condition exists. [MODCA-5-1061]
+   Only one level of linking is supported. That is, if a linked font specifies its own linked fonts, either with FQN type X'7E' triplets on its inline container or with linked font pointers in the RAT, these “secondary” linked fonts are not processed as linked fonts for the original base font.
+2. If a font matching the MDR reference is not found in an inline font container or in an inline collection container, the presentation server accesses the RAT with the full font name to locate the referenced font in a resource library. [MODCA-5-1062]
+
+**Figure 58. Examples of MDR Repeating Groups**
+
 MDR Repeating Group Mapping an IOCA Image in an AEG
 * Fully Qualified Name (X'02') triplet, type X'84'—Begin Resource Object Reference [MODCA-5-1064]
+
 MDR Repeating Group Mapping a PDF Object in an AEG
 * Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-1065]
 * Object Classification (X'10') triplet [MODCA-5-1066]
+
 MDR Repeating Group Mapping a PDF Resource in an AEG
 * Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1067]
 * Object Classification (X'10') triplet [MODCA-5-1068]
-MDR Repeating Group Mapping an IOCA image for use as a secondary resource to a BCOCA QR Code with
-Image bar code, in the OEG of the bar code
+
+MDR Repeating Group Mapping an IOCA image for use as a secondary resource to a BCOCA QR Code with Image bar code, in the OEG of the bar code
 * Fully Qualified Name (X'02') triplet, type X'84'—Begin Resource Object Reference [MODCA-5-1069]
 * Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1070]
-MDR Repeating Group Mapping a TIFF image for use as a secondary resource to a BCOCA QR Code with
-Image bar code, in the OEG of the bar code
+
+MDR Repeating Group Mapping a TIFF image for use as a secondary resource to a BCOCA QR Code with Image bar code, in the OEG of the bar code
 * Fully Qualified Name (X'02') triplet, type X'CE'—Other Object Data Reference [MODCA-5-1071]
 * Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1072]
 * Object Classification (X'10') triplet [MODCA-5-1073]
-MDR Repeating Group Mapping a CMR for use as a tertiary resource to a TIFF image being used as a
-secondary resource to a BCOCA QR Code with Image bar code, in the OEG of the bar code
+
+MDR Repeating Group Mapping a CMR for use as a tertiary resource to a TIFF image being used as a secondary resource to a BCOCA QR Code with Image bar code, in the OEG of the bar code
 * Fully Qualified Name (X'02') triplet, type X'EE'—Tertiary Data Object External Resource Reference [MODCA-5-1074]
 * Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1075]
 * Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1076]
 * Object Classification (X'10') triplet [MODCA-5-1077]
 * Color Management Resource Descriptor (X'91') triplet [MODCA-5-1078]
+
 MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding = font encoding) in an AEG
 * Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1079]
 * Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1080]
 * Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1081]
 * Object Classification (X'10') triplet [MODCA-5-1082]
 * Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1083]
+
 MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding = UTF-8) in an AEG
 * Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1084]
 * Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1085]
@@ -3815,8 +3585,8 @@ MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding = UTF-8) in 
 * Object Classification (X'10') triplet [MODCA-5-1087]
 * Encoding Scheme ID (X'50') triplet [MODCA-5-1088]
 * Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1089]
-MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding defined by EBCDIC/ASCII code
-page) in an AEG
+
+MDR Repeating Group Mapping a TrueType/OpenType Font (user encoding defined by EBCDIC/ASCII code page) in an AEG
 * Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1090]
 * Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1091]
 * Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1092]
@@ -3824,626 +3594,309 @@ page) in an AEG
 * Font Coded Graphic Character Set Global Identifier (X'20') triplet [MODCA-5-1094]
 * Encoding Scheme ID (X'50') triplet [MODCA-5-1095]
 * Data-Object Font Descriptor (X'8B') triplet [MODCA-5-1096]
-### Map Data Resource (MDR)
 
+#### Using the MDR to Map a Color Management Resource (CMR)
 
-### Using the MDR to Map a Color Management Resource (CMR)
-CMR Name
-When the MDR is used to map a Color Management Resource (CMR) and specifies a FQN type X'DE' or X'EE'
-triplet with FQNFmt = X'00', the character string that identifies the CMR must be the CMRname specified in the
-CMR header of the CMR file. The CMR name has a fixed length of 73 characters (146 bytes if encoded in UTF-
-16BE). The encoding used to specify the character string in the FQN type X'DE' or X'EE' triplet is defined by a
-Coded Graphic Character Set Global Identifier (X'01') triplet that precedes the FQN type X'DE' or X'EE' triplet.
-This triplet may be specified on the MDR or on a structured field that is higher in the document hierarchy than
-the MDR, for example on the BPG for the page that contains the MDR or on the BDT for the document. See
-the X'01' triplet description for a definition of the scoping rules for the X'01' triplet. Note that the encoding for the
-FQN type X'DE' or X'EE'
-triplet need not match the UTF-16BE encoding for the CMR name in the CMR header.
-**Implementation Note:**  Not all AFP servers support the inheritance of encoding scheme from higher levels of
-the document hierarchy, therefore it is recommended that this triplet be specified directly on the MDR if
-required by a parameter such as the FQN type X'DE' or X'EE'
-triplet.
-Generic CMRs
-Halftone CMRs and T one Transfer Curve CMRs can be specified in a generic sense and referenced as
-instruction CMRs to request an intended output appearance. When used in this manner, such CMRs are called
-generic CMRs. They are identified with a fixed character pattern of “generic” in the version field of the CMR
-name and with the absence of device-specific fields in the name. The CMR Architecture registers all valid
-generic CMR names for HT and TTC CMRs. Generic CMRs are never used directly by an output device, they
-are always replaced by device-specific CMRs that will provide the intended appearance. This replacement is
-done either by the print server based on processing inline CMRs or the CMR RAT , or by the output device.
-Generic audit HT and TTC CMRs are ignored by the output device.
-Device support for downloaded CC CMRs and generic HT and TTC CMRs is mandatory. Device support for
-downloaded device-specific HT and TTC CMRs, and for IX CMRs is optional. If an optional CMR is referenced
-in a print file and is not supported by the output device, the print server recognizes an exception condition. The
-reporting of this exception condition and the continuation of print file processing are controlled by user-
-specified fidelity controls.
-Link CMRs
-Link color conversion CMRs provide look-up tables (LUT s) that convert directly from an input color space in the
-presentation data to the output color space of the presentation device. There are two subtypes of Link color
-conversion CMRs - Link LK CMRs and Link DL CMRs. Link LK CMRs are generated and processed internally
-in AFP systems and cannot be referenced in the data stream. Link LK CMRs can be important for presentation
-device performance, but device support for downloaded Link LK CMRs is optional; devices that do not support
-this function may generate Link LK CMRs internally. Link DL CMRs carry ICC DeviceLink Profiles. They are
-similar to Link LK CMRs in that they provide a direct conversion from an input color space to the output color
-space of the presentation device. However Link DL CMRs are exposed to the AFP application and the job
-submitter and are referenced in the data stream.
-CMR Install Program
-In general, the CMR name does not provide sufficient information to find the CMR on a given platform.
-Additional information such as the file name is normally required to locate the CMR. The mapping from CMR
-name to file name is provided for each platform that requires this by a CMR install program. This program
-builds a CMR Resource Access T able (RAT) entry that must, at minimum, contain the following information:
+**CMR Name**
+
+When the MDR is used to map a Color Management Resource (CMR) and specifies a FQN type X'DE' or X'EE' triplet with FQNFmt = X'00', the character string that identifies the CMR must be the CMRname specified in the CMR header of the CMR file. The CMR name has a fixed length of 73 characters (146 bytes if encoded in UTF-16BE). The encoding used to specify the character string in the FQN type X'DE' or X'EE' triplet is defined by a Coded Graphic Character Set Global Identifier (X'01') triplet that precedes the FQN type X'DE' or X'EE' triplet. This triplet may be specified on the MDR or on a structured field that is higher in the document hierarchy than the MDR, for example on the BPG for the page that contains the MDR or on the BDT for the document. See the X'01' triplet description for a definition of the scoping rules for the X'01' triplet. Note that the encoding for the FQN type X'DE' or X'EE' triplet need not match the UTF-16BE encoding for the CMR name in the CMR header.
+
+**Implementation Note:** Not all AFP servers support the inheritance of encoding scheme from higher levels of the document hierarchy, therefore it is recommended that this triplet be specified directly on the MDR if required by a parameter such as the FQN type X'DE' or X'EE' triplet.
+
+**Generic CMRs**
+
+Halftone CMRs and Tone Transfer Curve CMRs can be specified in a generic sense and referenced as instruction CMRs to request an intended output appearance. When used in this manner, such CMRs are called generic CMRs. They are identified with a fixed character pattern of “generic” in the version field of the CMR name and with the absence of device-specific fields in the name. The CMR Architecture registers all valid generic CMR names for HT and TTC CMRs. Generic CMRs are never used directly by an output device, they are always replaced by device-specific CMRs that will provide the intended appearance. This replacement is done either by the print server based on processing inline CMRs or the CMR RAT, or by the output device. Generic audit HT and TTC CMRs are ignored by the output device.
+
+Device support for downloaded CC CMRs and generic HT and TTC CMRs is mandatory. Device support for downloaded device-specific HT and TTC CMRs, and for IX CMRs is optional. If an optional CMR is referenced in a print file and is not supported by the output device, the print server recognizes an exception condition. The reporting of this exception condition and the continuation of print file processing are controlled by user-specified fidelity controls.
+
+**Link CMRs**
+
+Link color conversion CMRs provide look-up tables (LUTs) that convert directly from an input color space in the presentation data to the output color space of the presentation device. There are two subtypes of Link color conversion CMRs - Link LK CMRs and Link DL CMRs. Link LK CMRs are generated and processed internally in AFP systems and cannot be referenced in the data stream. Link LK CMRs can be important for presentation device performance, but device support for downloaded Link LK CMRs is optional; devices that do not support this function may generate Link LK CMRs internally. Link DL CMRs carry ICC DeviceLink Profiles. They are similar to Link LK CMRs in that they provide a direct conversion from an input color space to the output color space of the presentation device. However Link DL CMRs are exposed to the AFP application and the job submitter and are referenced in the data stream.
+
+**CMR Install Program**
+
+In general, the CMR name does not provide sufficient information to find the CMR on a given platform. Additional information such as the file name is normally required to locate the CMR. The mapping from CMR name to file name is provided for each platform that requires this by a CMR install program. This program builds a CMR Resource Access Table (RAT) entry that must, at minimum, contain the following information:
+
 * The CMR name encoded in UTF-16BE. [MODCA-5-1097]
-### Map Data Resource (MDR)
-
-
 * A mapping of the CMR name to the name of the file that contains the CMR. [MODCA-5-1098]
-* A mapping of the CMR name to the object OID for the CMR. This allows use of a printer-resident version of [MODCA-5-1099]
-the CMR, allows the CMR to be captured by the printer, and also allows the accurate generation of Link LK
-CMRs.
-* Optionally, mappings to other CMRs. For Color Conversion CMRs, these may be mappings to Link LK CMRs [MODCA-5-1100]
-that convert the color space in the CC CMR to the color spaces, defined by other CC CMRs, of presentation
-devices. For generic Halftone and T one Transfer Curve CMRs, these may be mappings to device-specific
-versions of the same CMR type.
-CMRs in a Resource Library
-When CMRs are installed in a resource library, they must not be wrapped with a MO:DCA object envelope
-such as BOC/EOC, that is, they must be installed in their raw source format. This allows the CMRs to be used
-by system components that do not understand MO:DCA object envelopes. Any of the necessary information
-that such an envelope normally provides, such as an object OID, is associated with the CMR by the CMR
-Resource Access T able (RAT). The install program must ensure that the CMRs are installed in this manner.
-When a presentation server accesses the CMR RAT with a CMR reference from an MDR, which can only occur
-after the print file level resource group has been accessed unsuccessfully with that CMR reference, the
-following algorithm is used. Note that the same algorithm is used if the CMR was referenced from an IOB, a
-PPO, or from an entry in the Data Object RAT .
-The print server accesses the RAT entry with the CMR name, the processing mode—audit or instruction—and
-the device type and model of the target output device, and processes the CMR RAT entry as follows. Note that
-all Color Conversion CMRs, all Indexed CMRs, and all Link Color Conversion CMRs, are normally device-
-specific and their device type and model are specified as part of the CMR name. The only CMR types that can
-be specified as generic CMRs, identified with a fixed character pattern in the version field of the CMR name
-and with the absence of device-specific fields in the name, are T one Transfer Curve (TTC) CMRs and Halftone
-(HT) CMRs. Note also that if a mapped CMR does not specify a device type and model, it matches any target
-device type and model.
-**Table 21.**  Print Server CMR Processing: CMRs in Resource Libraries
-CMR type Processing mode
-Device-specific or
-generic Processing
-Color conversion Audit or instruction Device-specific The referenced CMR is downloaded, if
-necessary, and activated. If the target device
-supports downloaded Link LK CMRs, all Link
-LK CMRs that are mapped to the referenced
-CMR and that match the target device type
-and model are downloaded, if necessary, and
-activated. All other mapped CMRs are
-ignored.
-Halftone Audit Device-specific If the target device supports downloaded HT
-CMRs, the referenced CMR can be
-downloaded and activated, but the target
-device ignores it. All mapped CMRs are also
-ignored.
-Halftone Audit Generic The referenced CMR can be downloaded and
-activated, but the target device ignores it. All
-mapped CMRs are also ignored.
-Halftone Instruction Device-specific If the target device supports downloaded HT
-CMRs, the referenced CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-### Map Data Resource (MDR)
+* A mapping of the CMR name to the object OID for the CMR. [MODCA-5-1099]
+* Optionally, mappings to other CMRs. [MODCA-5-1100]
 
+**CMRs in a Resource Library**
 
-**Table 21.** Print Server CMR Processing: CMRs in Resource Libraries (cont'd.)
-CMR type Processing mode
-Device-specific or
-generic Processing
-Halftone Instruction Generic If the target device supports downloaded HT
-CMRs, all mapped device-specific HT CMRs
-that match the device type and model of the
-target output device are downloaded, if
-necessary, and activated. These CMRs
-replace the referenced generic CMR.
-Otherwise, the generic CMR is downloaded, if
-necessary, activated, and replaced by the
-output device with a device-specific HT CMR.
-T one transfer curve Audit Device-specific If the target device supports downloaded TTC
-CMRs, the referenced CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-T one transfer curve Audit Generic The referenced CMR can be downloaded and
-activated, but the target device ignores it. All
-mapped CMRs are also ignored.
-T one transfer curve Instruction Device-specific If the target device supports downloaded TTC
-CMRs, the referenced CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-T one transfer curve Instruction Generic If the target device supports downloaded TTC
-CMRs, all mapped device-specific TTC CMRs
-that match the device type and model of the
-target output device are downloaded, if
-necessary, and activated. These CMRs
-replace the referenced generic CMR.
-Otherwise, the generic CMR is downloaded, if
-necessary, activated, and replaced by the
-output device with a device-specific TTC
-CMR.
-Indexed Audit Device-specific If the target device supports downloaded IX
-CMRs, the referenced CMR can be
-downloaded and activated, but the target
-device ignores it. All mapped CMRs are also
-ignored.
-Indexed Instruction Device-specific If the target device supports downloaded IX
-CMRs, the referenced CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-Link DL Link Device-specific If the target device supports downloaded Link
-DL CMRs, the referenced CMR is
-downloaded, if necessary, and activated. All
-mapped CMRs are ignored.
-CMRs in an External (Print file level) Resource Group
-CMRs may also be carried in the resource group for a print file, in which case they are called inline CMRs. The
-CMR must first be wrapped in a BOC/EOC object container, which in turn must be wrapped in a BRS/ERS
-resource envelope. The BRS specifies the CMR name, encoded in UTF-16BE, with a FQN type X'01' triplet. If
-the CMR in the container is a Color Conversion (CC) CMR, the BRS may also specify the names of Link LK
-CMRs, also encoded in UTF-16BE, that are mapped to the CMR using FQN type X'41' - Color Management [MODCA-5-1101]
-### Map Data Resource (MDR)
+When CMRs are installed in a resource library, they must not be wrapped with a MO:DCA object envelope such as BOC/EOC, that is, they must be installed in their raw source format. This allows the CMRs to be used by system components that do not understand MO:DCA object envelopes. Any of the necessary information that such an envelope normally provides, such as an object OID, is associated with the CMR by the CMR Resource Access Table (RAT). The install program must ensure that the CMRs are installed in this manner. When a presentation server accesses the CMR RAT with a CMR reference from an MDR, which can only occur after the print file level resource group has been accessed unsuccessfully with that CMR reference, the following algorithm is used.
 
+The print server accesses the RAT entry with the CMR name, the processing mode—audit or instruction—and the device type and model of the target output device, and processes the CMR RAT entry as follows.
 
-Resource (CMR) Reference triplets. If the CMR in the container is a generic HT or TTC instruction CMR, the
-BRS may also specify device-specific CMR replacements for the generic CMR using the FQN type X'41'
-triplets. When resolving a CMR reference in the data stream, the print server must always search the print file
-resource group—if one exists—first. The CMRname is matched against the CMRname that is specified on the
-BRS of the resource container. If no match is found, the search continues with the CMR RAT .
+**Table 21. Print Server CMR Processing: CMRs in Resource Libraries**
+
+| **CMR type** | **Processing mode** | **Device-specific or generic** | **Processing** |
+| :--- | :--- | :--- | :--- |
+| Color conversion | Audit or instruction | Device-specific | The referenced CMR is downloaded, if necessary, and activated. If the target device supports downloaded Link LK CMRs, all Link LK CMRs that are mapped to the referenced CMR and that match the target device type and model are downloaded, if necessary, and activated. All other mapped CMRs are ignored. |
+| Halftone | Audit | Device-specific | If the target device supports downloaded HT CMRs, the referenced CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Halftone | Audit | Generic | The referenced CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Halftone | Instruction | Device-specific | If the target device supports downloaded HT CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Halftone | Instruction | Generic | If the target device supports downloaded HT CMRs, all mapped device-specific HT CMRs that match the device type and model of the target output device are downloaded, if necessary, and activated. These CMRs replace the referenced generic CMR. Otherwise, the generic CMR is downloaded, if necessary, activated, and replaced by the output device with a device-specific HT CMR. |
+| Tone transfer curve | Audit | Device-specific | If the target device supports downloaded TTC CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Tone transfer curve | Audit | Generic | The referenced CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Tone transfer curve | Instruction | Device-specific | If the target device supports downloaded TTC CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Tone transfer curve | Instruction | Generic | If the target device supports downloaded TTC CMRs, all mapped device-specific TTC CMRs that match the device type and model of the target output device are downloaded, if necessary, and activated. These CMRs replace the referenced generic CMR. Otherwise, the generic CMR is downloaded, if necessary, activated, and replaced by the output device with a device-specific TTC CMR. |
+| Indexed | Audit | Device-specific | If the target device supports downloaded IX CMRs, the referenced CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Indexed | Instruction | Device-specific | If the target device supports downloaded IX CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Link DL | Link | Device-specific | If the target device supports downloaded Link DL CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+
+**CMRs in an External (Print file level) Resource Group**
+
+CMRs may also be carried in the resource group for a print file, in which case they are called inline CMRs. The CMR must first be wrapped in a BOC/EOC object container, which in turn must be wrapped in a BRS/ERS resource envelope. The BRS specifies the CMR name, encoded in UTF-16BE, with a FQN type X'01' triplet. If the CMR in the container is a Color Conversion (CC) CMR, the BRS may also specify the names of Link LK CMRs, also encoded in UTF-16BE, that are mapped to the CMR using FQN type X'41' - Color Management Resource (CMR) Reference triplets. [MODCA-5-1101]
+
 If a match is found, the inline CMR is processed as follows.
-**Table 22.**  Print Server CMR Processing: Inline CMRs
-CMR type Processing mode
-Device-specific or
-generic Processing
-Color conversion Audit or instruction Device-specific The inline CMR is downloaded, if necessary,
-and activated. If the target device supports
-downloaded Link LK CMRs, all Link LK CMRs
-that are mapped to the referenced CMR with a
-FQN type X'41' triplet on the BRS and that
-match the target device type and model are
-downloaded, if necessary, and activated. All
-other mapped CMRs are ignored.
-Halftone Audit Device-specific If the target device supports downloaded HT
-CMRs, the inline CMR can be downloaded
-and activated, but the target device ignores it.
-All mapped CMRs are also ignored.
-Halftone Audit Generic The inline CMR can be downloaded and
-activated, but the target device ignores it. All
-mapped CMRs are also ignored.
-Halftone Instruction Device-specific If the target device supports downloaded HT
-CMRs, the inline CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-Halftone Instruction Generic If the target device supports downloaded HT
-CMRs, and if the BRS references device-
-specific HT CMRs that match the device type
-and model of the target device, these CMRs
-are downloaded, if necessary, and activated.
-These CMRs replace the inline generic CMR.
-Otherwise, the search continues with the CMR
-RAT .
-If a matching generic CMR RAT entry is found,
-and if the target device supports downloaded
-HT CMRs, all mapped device-specific CMRs
-that match the device type and model of the
-target device are downloaded, if necessary,
-and activated. These CMRs replace the inline
-generic CMR. Otherwise, the inline generic
-CMR is downloaded, if necessary, activated,
-and replaced by the output device with a
-device-specific HT CMR.
-T one transfer curve Audit Device-specific If the target device supports downloaded TTC
-CMRs, the referenced CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-T one transfer curve Audit Generic The referenced CMR can be downloaded and
-activated, but the target device ignores it. All
-mapped CMRs are also ignored. [MODCA-5-1102]
-### Map Data Resource (MDR)
 
+**Table 22. Print Server CMR Processing: Inline CMRs**
 
-**Table 22.** Print Server CMR Processing: Inline CMRs (cont'd.)
-CMR type Processing mode
-Device-specific or
-generic Processing
-T one transfer curve Instruction Device-specific If the target device supports downloaded TTC
-CMRs, the referenced CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-T one transfer curve Instruction Generic If the target device supports downloaded TTC
-CMRs, and if the BRS references device-
-specific TTC CMRs that match the device type
-and model of the target device, these CMRs
-are downloaded, if necessary, and activated.
-These CMRs replace the inline generic CMR.
-Otherwise, the search continues with the CMR
-RAT .
-If a matching generic CMR RAT entry is found,
-and if the target device supports downloaded
-TTC CMRs, all mapped device-specific CMRs
-that match the device type and model of the
-target device are downloaded, if necessary,
-and activated. These CMRs replace the inline
-generic CMR. Otherwise, the inline generic
-CMR is downloaded, if necessary, activated,
-and replaced by the output device with a
-device-specific TTC CMR.
-Indexed Audit Device-specific If the target device supports downloaded IX
-CMRs, the referenced CMR can be
-downloaded and activated, but the target
-device ignores it. All mapped CMRs are also
-ignored.
-Indexed Instruction Device-specific If the target device supports downloaded IX
-CMRs, the referenced CMR is downloaded, if
-necessary, and activated. All mapped CMRs
-are ignored.
-Link DL Link Device-specific If the target device supports downloaded Link
-DL CMRs, the referenced CMR is
-downloaded, if necessary, and activated. All
-mapped CMRs are ignored.
-**Figure 59.**  Examples of MDR Repeating Groups
+| **CMR type** | **Processing mode** | **Device-specific or generic** | **Processing** |
+| :--- | :--- | :--- | :--- |
+| Color conversion | Audit or instruction | Device-specific | The inline CMR is downloaded, if necessary, and activated. If the target device supports downloaded Link LK CMRs, all Link LK CMRs that are mapped to the referenced CMR with a FQN type X'41' triplet on the BRS and that match the target device type and model are downloaded, if necessary, and activated. All other mapped CMRs are ignored. |
+| Halftone | Audit | Device-specific | If the target device supports downloaded HT CMRs, the inline CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Halftone | Audit | Generic | The inline CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Halftone | Instruction | Device-specific | If the target device supports downloaded HT CMRs, the inline CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Halftone | Instruction | Generic | If the target device supports downloaded HT CMRs, and if the BRS references device-specific HT CMRs that match the device type and model of the target device, these CMRs are downloaded, if necessary, and activated. These CMRs replace the inline generic CMR. Otherwise, the search continues with the CMR RAT. [MODCA-5-1102] |
+| Tone transfer curve | Audit | Device-specific | If the target device supports downloaded TTC CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Tone transfer curve | Audit | Generic | The referenced CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Tone transfer curve | Instruction | Device-specific | If the target device supports downloaded TTC CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Tone transfer curve | Instruction | Generic | If the target device supports downloaded TTC CMRs, and if the BRS references device-specific TTC CMRs that match the device type and model of the target device, these CMRs are downloaded, if necessary, and activated. These CMRs replace the inline generic CMR. Otherwise, the search continues with the CMR RAT. |
+| Indexed | Audit | Device-specific | If the target device supports downloaded IX CMRs, the referenced CMR can be downloaded and activated, but the target device ignores it. All mapped CMRs are also ignored. |
+| Indexed | Instruction | Device-specific | If the target device supports downloaded IX CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+| Link DL | Link | Device-specific | If the target device supports downloaded Link DL CMRs, the referenced CMR is downloaded, if necessary, and activated. All mapped CMRs are ignored. |
+
+**Figure 59. Examples of MDR Repeating Groups**
+
 MDR Repeating Group Mapping a CMR
 * Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1103]
 * Object Classification (X'10') triplet [MODCA-5-1104]
 * Fully Qualified Name (X'02') triplet, type X'DE'—Data Object External Resource Reference [MODCA-5-1105]
 * Color Management Resource Descriptor (X'91') triplet [MODCA-5-1106]
+
 MDR Repeating Group Mapping a Tertiary CMR
 * Coded Graphic Character Set Global Identifier (X'01') triplet [MODCA-5-1107]
 * Object Classification (X'10') triplet [MODCA-5-1108]
 * Fully Qualified Name (X'02') triplet, type X'EE'—Tertiary Data Object External Resource Reference [MODCA-5-1109]
 * Fully Qualified Name (X'02') triplet, type X'BE'—Data Object Internal Resource Reference [MODCA-5-1110]
 * Color Management Resource Descriptor (X'91') triplet [MODCA-5-1111]
-### Map Data Resource (MDR)
 
+#### Using the MDR to Map a Data Object Resource
 
-Using the MDR to Map a Data Object Resource
-Data Objects can also be installed with an install program and processed by the print server using a Resource
-Access T able (RAT), which in this case is called the Data Object RAT . A significant advantage of installing and
-processing with a RAT is that the data object reference in the data stream is not subject to any platform-specific
-file system naming conventions. That is, the object can be referenced using an unrestricted, natural, platform-
-independent name, and the RAT entry is then used to map this name to a platform-specific file name. Data
-objects can also be installed in any number of traditional methods and processed without a RAT . In general, if a
-data object reference on an MDR, PPO, or IOB is processed against a resource library that contains a Data
-Object RAT , the reference is first processed against the RAT .
-If a data object is referenced using its natural name and not a file name, additional information is required to
-locate and process the object on a given platform. This information is provided in the Data Object RAT entry
-built by the install program when the object is installed. This entry must, at minimum, contain the following
-information:
+Data Objects can also be installed with an install program and processed by the print server using a Resource Access Table (RAT), which in this case is called the Data Object RAT. A significant advantage of installing and processing with a RAT is that the data object reference in the data stream is not subject to any platform-specific file system naming conventions. That is, the object can be referenced using an unrestricted, natural, platform-independent name, and the RAT entry is then used to map this name to a platform-specific file name. Data objects can also be installed in any number of traditional methods and processed without a RAT. In general, if a data object reference on an MDR, PPO, or IOB is processed against a resource library that contains a Data Object RAT, the reference is first processed against the RAT.
+
+If a data object is referenced using its natural name and not a file name, additional information is required to locate and process the object on a given platform. This information is provided in the Data Object RAT entry built by the install program when the object is installed. This entry must, at minimum, contain the following information:
+
 * The object name encoded in UTF-16BE. [MODCA-5-1112]
 * A mapping of the data object name to the name of the file that contains the object. [MODCA-5-1113]
 * A mapping of the data object name to the object OID for the object. [MODCA-5-1114]
-* Optionally, mappings to CMRs that are to be associated with the data object. Such mappings must also [MODCA-5-1115]
-specify the processing mode for the CMR—audit or instruction. Note that if mapped CMRs are to be used
-with a data object that is processed with a Data Object RAT , the data object must be mapped as a resource
-in the data stream, that is, it must be a hard object.
-The install program may also optionally provide the capability to copy or extract ICC profiles embedded in the
-data object, to transform these profiles into CC CMRs to be associated with the object, and to install a
-compacted version of the data object.
-When non-OCA data objects, such as EPS, PDF , GIF , TIFF , JFIF are installed in a resource library, they are
-not wrapped with a MO:DCA BOC/EOC envelope, that is, they are installed in their raw source format. This
-allows these objects to be used by system components that do not understand MO:DCA container envelopes. [MODCA-5-1116]
+* Optionally, mappings to CMRs that are to be associated with the data object. [MODCA-5-1115]
+
+When non-OCA data objects, such as EPS, PDF, GIF, TIFF, JFIF are installed in a resource library, they are not wrapped with a MO:DCA BOC/EOC envelope, that is, they are installed in their raw source format. [MODCA-5-1116]
+
 #### MDR Exception Condition Summary
-X'01' This exception condition exists when:
-* A resource with the same identifier as that specified on the type X'84' (Begin Resource [MODCA-5-1117]
-Object Reference) Fully Qualified Name triplet, or on the type X'CE' (Other Object Data
-Reference) Fully Qualified Name triplet, or on the type X'DE' (Data Object External
-Resource Reference) Fully Qualified Name triplet, or on the type X'EE' (T ertiary Data Object
-External Resource Reference) Fully Qualified Name triplet
-cannot be located.
-* The same repeating group contains an invalid number or combination of Fully Qualified [MODCA-5-1118]
-Name triplets.
-* The same Resource LID is mapped to more than one resource object of the same type [MODCA-5-1119]
-within the same structured field.
-X'02' This exception condition exists when:
-* A Fully Qualified Name (X'02') triplet other than a type X'84' (Begin Resource Object [MODCA-5-1120]
-Reference), a type X'85' (Code Page Name Reference), a type X'CE' (Other Object Data
-Reference), a type X'DE' (Data Object External Resource Reference), a type X'EE' (T ertiary
-Data Object External Resource Reference), or a type X'BE' (Data Object Internal Resource
-Reference) appears within any repeating group.
+
+**X'01'** This exception condition exists when:
+* A resource with the same identifier as that specified on the type X'84' (Begin Resource Object Reference) Fully Qualified Name triplet, or on the type X'CE' (Other Object Data Reference) Fully Qualified Name triplet, or on the type X'DE' (Data Object External Resource Reference) Fully Qualified Name triplet, or on the type X'EE' (Tertiary Data Object External Resource Reference) Fully Qualified Name triplet cannot be located. [MODCA-5-1117]
+* The same repeating group contains an invalid number or combination of Fully Qualified Name triplets. [MODCA-5-1118]
+* The same Resource LID is mapped to more than one resource object of the same type within the same structured field. [MODCA-5-1119]
+
+**X'02'** This exception condition exists when:
+* A Fully Qualified Name (X'02') triplet other than a type X'84' (Begin Resource Object Reference), a type X'85' (Code Page Name Reference), a type X'CE' (Other Object Data Reference), a type X'DE' (Data Object External Resource Reference), a type X'EE' (Tertiary Data Object External Resource Reference), or a type X'BE' (Data Object Internal Resource Reference) appears within any repeating group. [MODCA-5-1120]
 * The same resource reference is specified in more than one repeating group. [MODCA-5-1121]
-### Map Data Resource (MDR)
-
-
 ### Medium Finishing Control (MFC)
-The Medium Finishing Control structured field specifies the finishing requirements for physical media. Finishing
-can be specified for a media collection at the print file level or at the document level by placing the MFC in the
-document environment group (DEG) of the form map. Finishing can be specified for a media collection at the
-medium map level by placing the MFC in a medium map. Finishing can be specified for individual media, or
-sheets, at the medium map level by placing the MFC in a medium map.
-* When the MFC is specified in the document environment group (DEG) of the form map, its scope is specified [MODCA-5-1122]
-to be one of the following:
-– The complete print file
-– Each individual document in the print file
-– A selected document in the print file
-If the scope is the print file, the MFC defines print file level finishing, and all media in the print file are
-collected for finishing in a print file level media collection. The specified finishing operations are applied to the
-complete collection, that is, the complete print file. Note that the print file level media collection excludes
-other material that may accompany the print file, such as header pages, trailer pages, and message pages.
-Such material can be generated as a separate print file. Therefore, it may be collected in a separate print file
-level media collection and processed with separate finishing operations.
-If the scope is each individual document in the print file, the MFC defines document level finishing, and all
-media in each document are collected for finishing in a document level media collection. The specified
-finishing operations are applied to each collection, that is each document, individually. Note that, in this case,
-the same finishing operations are applied to each document.
-If the scope is a selected document in the print file, the MFC defines document level finishing, and all media
-in the selected document are collected for finishing in a document level media collection. The specified
-finishing operations are applied to this single collection. If the same document is selected multiple times,
-finishing operations are applied in the order specified. Note that, using this type of MFC, unique finishing
-operations may be specified for each document in the print file.
-A single print file level MFC, a single document level MFC for all documents, or multiple document level
-MFCs for single documents can be specified in the DEG. If a print file level MFC and document level MFCs
-are specified in the same DEG, document level finishing is applied to the selected documents, and print file
-level finishing is applied to the complete print file.
-If a document is selected for finishing using an MFC whose scope is each document in the print file, and if it
-is also selected by one or more MFCs whose scope is a single document, the finishing operations that apply
-to each document in the print file are applied before the finishing operations that apply to a single document.
+
+The Medium Finishing Control structured field specifies the finishing requirements for physical media. Finishing can be specified for a media collection at the print file level or at the document level by placing the MFC in the document environment group (DEG) of the form map. Finishing can be specified for a media collection at the medium map level by placing the MFC in a medium map. Finishing can be specified for individual media, or sheets, at the medium map level by placing the MFC in a medium map.
+
+* When the MFC is specified in the document environment group (DEG) of the form map, its scope is specified to be one of the following: [MODCA-5-1122]
+  - The complete print file
+  - Each individual document in the print file
+  - A selected document in the print file
+
+If the scope is the print file, the MFC defines print file level finishing, and all media in the print file are collected for finishing in a print file level media collection. The specified finishing operations are applied to the complete collection, that is, the complete print file. Note that the print file level media collection excludes other material that may accompany the print file, such as header pages, trailer pages, and message pages. Such material can be generated as a separate print file. Therefore, it may be collected in a separate print file level media collection and processed with separate finishing operations.
+
+If the scope is each individual document in the print file, the MFC defines document level finishing, and all media in each document are collected for finishing in a document level media collection. The specified finishing operations are applied to each collection, that is each document, individually. Note that, in this case, the same finishing operations are applied to each document.
+
+If the scope is a selected document in the print file, the MFC defines document level finishing, and all media in the selected document are collected for finishing in a document level media collection. The specified finishing operations are applied to this single collection. If the same document is selected multiple times, finishing operations are applied in the order specified. Note that, using this type of MFC, unique finishing operations may be specified for each document in the print file.
+
+A single print file level MFC, a single document level MFC for all documents, or multiple document level MFCs for single documents can be specified in the DEG. If a print file level MFC and document level MFCs are specified in the same DEG, document level finishing is applied to the selected documents, and print file level finishing is applied to the complete print file.
+
+If a document is selected for finishing using an MFC whose scope is each document in the print file, and if it is also selected by one or more MFCs whose scope is a single document, the finishing operations that apply to each document in the print file are applied before the finishing operations that apply to a single document.
+
 * When the MFC is specified in a medium map, its scope is specified to be one of the following: [MODCA-5-1123]
-– Each medium, or sheet, generated by the medium map. When the scope is each medium in the medium
-map, the MFC defines medium map level sheet finishing, and the specified finishing operations are applied
-to each medium, not to the media collection.
-– The collection of media, or the collection of sheets generated by the medium map. In this case the MFC
-defines medium map level group finishing, and all media generated by the medium map are collected for
-finishing in a medium map level sheet finishing. The specified finishing operations are applied to this single
-collection.
-When an MFC is specified both in a medium map and in the DEG, both sets of finishing operations are applied
-according to their scope, as long as the operations are compatible. For rules on how finishing operations are
-nested, see “Finishing Operation Nesting Rules”. Note that not all combinations of finishing
-operations are compatible. Compatible combinations of finishing operations are presentation-device specific. [MODCA-5-1124]
-### Medium Finishing Control (MFC)
+  - Each medium, or sheet, generated by the medium map. When the scope is each medium in the medium map, the MFC defines medium map level sheet finishing, and the specified finishing operations are applied to each medium, not to the media collection.
+  - The collection of media, or the collection of sheets generated by the medium map. In this case the MFC defines medium map level group finishing, and all media generated by the medium map are collected for finishing in a medium map level sheet finishing. The specified finishing operations are applied to this single collection.
 
+When an MFC is specified both in a medium map and in the DEG, both sets of finishing operations are applied according to their scope, as long as the operations are compatible. For rules on how finishing operations are nested, see “Finishing Operation Nesting Rules”. Note that not all combinations of finishing operations are compatible. Compatible combinations of finishing operations are presentation-device specific. [MODCA-5-1124]
 
 #### MFC (X'D3A088') Syntax
-Structured Field Introducer
-SF Length (2B) ID = X'D3A088' Flags (1B) Reserved;
-X'0000'
-Structured Field Data [MODCA-5-1125]
-| Offset | Type | Name | Range | Meaning | M/O | Exc [MODCA-5-1126]|
-| --- | --- | --- | --- | --- | --- | --- [MODCA-5-1127]|
-| 0 BITS MFCFlgs See “MFC Semantics”for the MFCFlgs parameter | | | | | | bit definitions. M X'06' [MODCA-5-1128]|
-| 1 | Reserved; | should | | be zero | M | X'06' [MODCA-5-1129]|
-| 2 CODE MedColl X'00'–X'02' Boundary conditions for medium- | | | | | | map level sheet collection X'00' No sheet collection processed at the medium map level X'01' Begin medium map level sheet collection X'02' Continue medium map level sheet collection M X'06' [MODCA-5-1130]|
-| 3 CODE MFCScpe X'01'–X'05' MFC Scope: | | | | | | X'01' Print file level MFC X'02' Document level MFC, all documents X'03' Document level MFC, selected document X'04' Medium map level MFC, each medium or sheet X'05' Medium map level MFC, collection of media or sheets X'06' Retired value; see “Retired Parameters” M X'06' [MODCA-5-1131]|
-| 4–n Triplets See “MFC Semantics”for triplet applicability. | | | | | | M X'14' [MODCA-5-1132]|
-### Medium Finishing Control (MFC)
 
+**Structured Field Introducer**
+
+| **SF Length (2B)** | **ID = X'D3A088'** | **Flags (1B)** | **Reserved (2B)** |
+| :--- | :--- | :--- | :--- |
+| | | | X'0000' |
+
+**Structured Field Data** [MODCA-5-1125]
+
+| **Offset** | **Type** | **Name** | **Range** | **Meaning** | **M/O** | **Exc** [MODCA-5-1126]|
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: [MODCA-5-1127]|
+| 0 | BITS | **MFCFlgs** | | See MFC Semantics for the MFCFlgs parameter bit definitions. | M | X'06' [MODCA-5-1128]|
+| 1 | | **Reserved** | | Reserved; should be zero | M | X'06' [MODCA-5-1129]|
+| 2 | CODE | **MedColl** | X'00'–X'02' | Boundary conditions for medium-map level sheet collection:<br>X'00' No sheet collection processed at the medium map level<br>X'01' Begin medium map level sheet collection<br>X'02' Continue medium map level sheet collection | M | X'06' [MODCA-5-1130]|
+| 3 | CODE | **MFCScpe** | X'01'–X'05' | MFC Scope:<br>X'01' Print file level MFC<br>X'02' Document level MFC, all documents<br>X'03' Document level MFC, selected document<br>X'04' Medium map level MFC, each medium or sheet<br>X'05' Medium map level MFC, collection of media or sheets | M | X'06' [MODCA-5-1131]|
+| 4–n | | **Triplets** | | See MFC Semantics for triplet applicability. | M | X'14' [MODCA-5-1132]|
 
 #### MFC Semantics
-MFCFlgs The following flags are defined:
-Bit Description
-0 Activate Medium Finishing Control [MODCA-5-1133]
-B'0' Process this structured field as a NoOp.
-B'1' Process this structured field as specified.
-1–7 Reserved; all bits must be B'0'.
-MedColl is a parameter that defines the boundary conditions for the media collection generated by this
-medium map. This parameter is only processed if MFCScpe = X'05'—medium map level MFC,
-collection of sheets. It is ignored in all other cases.
-Value Scope
-X'00' No sheet collection is to be processed at the medium map level. This value
-should be specified when MFCScpe is set to values other than X'05'—
-medium map level MFC, collection of sheets. If this value is specified when
-MFCScpe is set to X'05', a X'01' exception condition exists.
-X'01' Begin medium map level sheet collection.
-This causes a sheet eject to be generated and starts a medium map level
-sheet collection for the finishing operation specified on this MFC. Note that if a
-collection for this same finishing operation is already in progress from a
-previous medium map, that collection is terminated and the specified finishing
-operation is applied. The sheet collection that is started by this MFC
-continues until:
-1. A medium map is invoked that does not contain an MFC with MFCScpe= [MODCA-5-1134]
-X'05' and MedColl = X'02' (Continue) for this same operation.
-2. A medium map level finishing operation with MFCScpe = X'05' that is [MODCA-5-1135]
-nested outside this operation is applied.
-3. End of document is reached. [MODCA-5-1136]
-When this sheet collection is terminated for any of the above reasons, the
-specified finishing operation is applied to the collection, and a sheet eject is
-generated.
-X'02' Continue medium map level sheet collection.
-This continues a medium map level sheet collection that was started for the
-same finishing operation by a previous medium map. The sheet collection
-that is continued by this MFC continues until:
-1. A medium map is invoked that does not contain an MFC with MFCScpe= [MODCA-5-1137]
-X'05' and MedColl = X'02' (Continue) for this same operation.
-2. A medium map level finishing operation with MFCScpe = X'05' that is [MODCA-5-1138]
-nested outside this operation is applied.
-3. End of document is reached. [MODCA-5-1139]
-When a sheet collection is terminated for any of the above reasons, the
-specified finishing operation is applied to the collection, and a sheet eject is
-generated.
-If the same finishing operation was not previously started, the continue
-operation request is ignored.
-Note that the MFC that continues an operation need not be specified in the
-same order in the medium map as the MFC that started the operation. [MODCA-5-1140]
-### Medium Finishing Control (MFC)
 
+**MFCFlgs** The following flags are defined:
 
-All others Reserved.
-MFCScpe Is a parameter that defines the scope of the finishing operations specified by this MFC
-structured field.
-Value Scope
-X'01' Print file level MFC. The scope of this MFC is the complete print file. All media
-in the print file are collected for finishing in a print file level media collection,
-and the specified finishing operations are applied to this collection.
-X'02' Document level MFC, all documents. The scope of this MFC is each
-individual document in the print file. The media in each document are
-collected for finishing in a document level media collection, and the specified
-finishing operations are applied to each collection individually.
-X'03' Document level MFC, single document. The scope of this MFC is a single
-document in the print file. The document is selected by specifying its position
-in the print file using an Object Offset (X'5A') triplet. If this triplet is not
-specified, the first document in the print file is selected. The media in this
-document are collected for finishing in a document level media collection, and
-the specified finishing operations are applied to that collection.
-X'04' Medium map level MFC, each medium, or sheet. The scope of this MFC is
-each medium generated by the medium map, and the specified finishing
-operations are applied to each medium, or sheet, individually.
-X'05' Medium map level MFC, collection of media or sheets. The scope of this MFC
-is the set of media, or sheets, generated by the medium map. All sheets
-generated by this medium map are collected in a medium map level sheet
-collection, and the specified finishing operations are applied to this collection.
-The MedColl parameter specifies whether this MFC begins a collection
-(MedColl = X'01'), or continues a collection (MedColl = X'02').
-X'06' Retired value; see “Retired Parameters”.
-All others Reserved
-When the MFC is specified in a DEG, the following values for MFCScpe are supported:
-X'01' Print file level MFC
-X'02' Document level MFC, all documents
-X'03' Document level MFC, single document
-X'06' Retired value; see “Retired Parameters”
-If any other value is specified, the MFC is ignored.
-When the MFC is specified in a medium map, the following values for MFCScpe are
-supported:
-X'04' Medium map level MFC, each medium
-X'05' Medium map level MFC, collection of media
-If any other value is specified, the MFC is ignored.
-The MedColl and MFCScpe parameters affect the generation of sheet ejects when N-up
-processing is active. For a description of how sheet and partition ejects are handled when N-
-up processing is active and an MFC is specified in the medium map, see “Media Eject Control
-Triplet X'45'”.
-Triplets Appear in the Medium Finishing Control structured field as follows: [MODCA-5-1141]
-### Medium Finishing Control (MFC)
+| **Bit** | **Description** |
+| :--- | :--- |
+| 0 | **Activate Medium Finishing Control** [MODCA-5-1133]<br>B'0' Process this structured field as a NoOp.<br>B'1' Process this structured field as specified. |
+| 1–7 | Reserved; all bits must be B'0'. |
 
+**MedColl** is a parameter that defines the boundary conditions for the media collection generated by this medium map. This parameter is only processed if MFCScpe = X'05'—medium map level MFC, collection of sheets. It is ignored in all other cases.
 
-| Triplet | Type | Usage [MODCA-5-1142]|
-| --- | --- | --- [MODCA-5-1143]|
-| X'5A' | | Object Offset Optional. If MFCScpe=X'03' and the MFC is specified in the DEG of a Form Map, may occur once with ObjTpe=X'A8' to specify that documents are the objects to be counted. The triplet is ignored in all other cases. If this triplet is not specified in this case, the first document in the print file is selected. Specifies how many documents in the print file precede the document to be finished. The offset is measured from the beginning of the print file, so that the first document has offset 0, the second document has offset 1, and the nth document has offset (n-1). See “Object Offset Triplet X'5A'”. [MODCA-5-1144]|
-| X'85' | | Finishing Operation One occurrence of either this triplet or the UP3i Finishing Operation (X'8E') triplet is mandatory. May occur more than once. Specifies finishing operations to be applied to collected media. If this triplet is specified more than once, finishing operations are applied in the order in which the triplets are specified. Multiple identical X'85' triplets are ignored. See “Finishing Operation Triplet X'85'”. For rules on how finishing operations are nested, see “Finishing Operation Nesting Rules”. The following finishing operations may be specified when this triplet is specified on the MFC in a DEG: [MODCA-5-1145]|
-| X'01' | | Corner Staple [MODCA-5-1146]|
-| X'02' | | Saddle Stitch Out [MODCA-5-1147]|
-| X'03' | | Edge Stitch [MODCA-5-1148]|
-| X'04' | | Fold In [MODCA-5-1149]|
-| X'05' | | Separation Cut [MODCA-5-1150]|
-| X'06' | | Perforation Cut [MODCA-5-1151]|
-| X'08' | | Center Fold In [MODCA-5-1152]|
-| X'09' | | Trim after center fold or saddle stitch [MODCA-5-1153]|
-| X'0A' | | Punch [MODCA-5-1154]|
-| X'0C' | | Perfect bind [MODCA-5-1155]|
-| X'0D' | | Ring bind [MODCA-5-1156]|
-| X'0E' | | C-fold In [MODCA-5-1157]|
-| X'0F' | | Accordion Fold In [MODCA-5-1158]|
-| X'12' | | Saddle Stitch In [MODCA-5-1159]|
-| X'14' | | Fold Out [MODCA-5-1160]|
-| X'18' | | Center Fold Out [MODCA-5-1161]|
-| X'19' | | Trim [MODCA-5-1162]|
-| X'1E' | | C-fold Out [MODCA-5-1163]|
-| X'1F' | | Accordion Fold Out [MODCA-5-1164]|
-| X'22' | | Single Gate Fold In [MODCA-5-1165]|
-| X'32' | | Single Gate Fold Out If any other finishing operation is specified, this triplet is ignored. The following finishing operations may be specified when this triplet is specified on the MFC in a medium map with MFCScpe = X'04': [MODCA-5-1166]|
-| X'04' | | Fold In [MODCA-5-1167]|
-| X'05' | | Separation Cut [MODCA-5-1168]|
-| X'06' | | Perforation Cut [MODCA-5-1169]|
-| X'07' | | Z-fold [MODCA-5-1170]|
-| X'08' | | Center Fold In [MODCA-5-1171]|
-| X'0A' | | Punch [MODCA-5-1172]|
-| X'0E' | | C-fold In [MODCA-5-1173]|
-| X'0F' | | Accordion Fold In [MODCA-5-1174]|
-| X'14' | | Fold Out [MODCA-5-1175]|
-| X'18' | | Center Fold Out [MODCA-5-1176]|
-| X'19' | | Trim [MODCA-5-1177]|
-| X'1E' | | C-fold Out [MODCA-5-1178]|
-### Medium Finishing Control (MFC)
+| **Value** | **Scope** |
+| :--- | :--- |
+| X'00' | No sheet collection is to be processed at the medium map level. This value should be specified when MFCScpe is set to values other than X'05'—medium map level MFC, collection of sheets. If this value is specified when MFCScpe is set to X'05', a X'01' exception condition exists. |
+| X'01' | **Begin medium map level sheet collection.**<br>This causes a sheet eject to be generated and starts a medium map level sheet collection for the finishing operation specified on this MFC. Note that if a collection for this same finishing operation is already in progress from a previous medium map, that collection is terminated and the specified finishing operation is applied. The sheet collection that is started by this MFC continues until:<br>1. A medium map is invoked that does not contain an MFC with MFCScpe= [MODCA-5-1134] X'05' and MedColl = X'02' (Continue) for this same operation.<br>2. A medium map level finishing operation with MFCScpe = X'05' that is [MODCA-5-1135] nested outside this operation is applied.<br>3. End of document is reached. [MODCA-5-1136]<br>When this sheet collection is terminated for any of the above reasons, the specified finishing operation is applied to the collection, and a sheet eject is generated. Note that when the collection is terminated due to end of document, the finishing operation is applied even if the last sheet generated is not the last sheet in the collection, that is, it is not the sheet that normally terminates the collection. |
+| X'02' | **Continue medium map level sheet collection.**<br>This causes all sheets generated by this medium map to be included in the collection of sheets started by a previous MFC with MedColl = X'01' (Begin) for this same operation. |
 
+**MFCScpe** Specifies the scope of the Medium Finishing Control.
 
-| Triplet | Type | Usage [MODCA-5-1179]|
-| --- | --- | --- [MODCA-5-1180]|
-| X'1F' | | Accordion Fold Out [MODCA-5-1181]|
-| X'20' | | Double Parallel Fold In [MODCA-5-1182]|
-| X'21' | | Double Gate Fold In [MODCA-5-1183]|
-| X'22' | | Single Gate Fold In [MODCA-5-1184]|
-| X'30' | | Double Parallel Fold Out [MODCA-5-1185]|
-| X'31' | | Double Gate Fold Out [MODCA-5-1186]|
-| X'32' | | Single Gate Fold Out If any other finishing operation is specified, this triplet is ignored. The following finishing operations may be specified when this triplet is specified on the MFC in a medium map with MFCScpe = X'05': [MODCA-5-1187]|
-| X'01' | | Corner Staple [MODCA-5-1188]|
-| X'02' | | Saddle Stitch Out [MODCA-5-1189]|
-| X'03' | | Edge Stitch [MODCA-5-1190]|
-| X'04' | | Fold In [MODCA-5-1191]|
-| X'05' | | Separation Cut [MODCA-5-1192]|
-| X'06' | | Perforation Cut [MODCA-5-1193]|
-| X'08' | | Center Fold In [MODCA-5-1194]|
-| X'09' | | Trim after center fold or saddle stitch [MODCA-5-1195]|
-| X'0A' | | Punch [MODCA-5-1196]|
-| X'0C' | | Perfect bind [MODCA-5-1197]|
-| X'0D' | | Ring bind [MODCA-5-1198]|
-| X'0E' | | C-fold In [MODCA-5-1199]|
-| X'0F' | | Accordion Fold In [MODCA-5-1200]|
-| X'12' | | Saddle Stitch In [MODCA-5-1201]|
-| X'14' | | Fold Out [MODCA-5-1202]|
-| X'18' | | Center Fold Out [MODCA-5-1203]|
-| X'19' | | Trim [MODCA-5-1204]|
-| X'1E' | | C-fold Out [MODCA-5-1205]|
-| X'1F' | | Accordion Fold Out [MODCA-5-1206]|
-| X'22' | | Single Gate Fold In [MODCA-5-1207]|
-| X'32' | | Single Gate Fold Out If any other finishing operation is specified, this triplet is ignored. [MODCA-5-1208]|
-| X'8E' | | UP3i Finishing Operation One occurrence of either this triplet or the Finishing Operation (X'85') triplet is mandatory. May occur more than once. Specifies finishing operations to be applied to collected media. If this triplet is specified more than once, finishing operations are applied in the order in which the triplets are specified. See the UP3i Finishing Operation triplet description. Multiple identical X'8E' triplets are ignored. See “UP3i Finishing Operation Triplet X'8E'”. For rules on how finishing operations are nested, see “Finishing Operation Nesting Rules”. The UP3i Finishing Operation triplet can be specified on the MFC either in a DEG or in a medium map with all architected values for the MFCScpe parameter. There is no architected restriction on which UP3i finishing operations may be specified with MFCScpe = [MODCA-5-1209]|
-| X'04' | | or MFCScpe = X'05'. However, the UP3i Specification as well as UP3i equipment may limit the scope of UP3i finishing operations; for further information consult the current UP3i Specification. This specification is available at: www.afpcinc.org. Finishing Operation Nesting Rules When more than one finishing operation that involves a collection of media is specified for some portion of the print file, a nesting of the operations is defined first by the scope of the operation (print file, document, [MODCA-5-1210]|
-### Medium Finishing Control (MFC)
+| **Value** | **Scope** |
+| :--- | :--- |
+| X'01' | **Print file level MFC.** Specifies that finishing applies to the entire print file. [MODCA-5-1137] |
+| X'02' | **Document level MFC, all documents.** Specifies that finishing applies to each individual document in the print file. [MODCA-5-1138] |
+| X'03' | **Document level MFC, selected document.** Specifies that finishing applies to a single document in the print file. The document is selected using the Object Offset (X'5A') triplet. [MODCA-5-1139] |
+| X'04' | **Medium map level MFC, each medium or sheet.** Specifies that finishing applies to each individual sheet generated by the current medium map. [MODCA-5-1140] |
+| X'05' | **Medium map level MFC, collection of media or sheets.** Specifies that finishing applies to the collection of sheets generated by the current medium map. [MODCA-5-1141] |
 
+**Triplets** Appear in the Medium Finishing Control structured field as follows: [MODCA-5-1142]
 
-medium), and second by the order of the operation in the data stream. Finishing operations with an inherently
-broader scope, e.g. operations at the print file level, are nested outside of finishing operations with an
-inherently narrower scope, for example, operations at the medium map level.
-If more than one operation is specified with the same scope, for example, if two operations are specified at the
-medium map level, the order of the Finishing Operation (X'85') triplets and of the UP3i Finishing Operation
-(X'8E') triplets (whether specified on the same MFC or on different MFCs) defines the order of the nesting. In
-that case, the first finishing operation specified defines the outermost nesting, and the last finishing operation
-specified defines the innermost nesting.
-The following defines how finishing operations are nested starting with the outermost nesting and ending with
-the innermost nesting.
-Printfile level finishing (outermost level), MFCScpe = X'01'
-Document level finishing: each document in the print file, MFCScpe = X'02'
-Document level finishing: a selected document in the print file, MFCScpe = X'03'
-Medium map level finishing: collection of sheets (innermost level), MFCScpe = X'05'.
-Nesting may in turn affect the scope of a finishing operation. When a finishing operation is applied, all finishing
-operations nested inside this operation are also applied. Finishing operations that are nested outside this
-operation are not affected. Note that nesting does not apply to medium map level sheet finishing (MFCScpe =
-X'04'). Such finishing is applied to individual sheets and does not involve starting, continuing, and ending a
-collection of sheets. Each medium map that is to generate such finishing must specify the operation explicitly.
-Implementation Notes:
-1. AFP Environments limit the number of finishing operations that can be nested at the medium map level to [MODCA-5-1211]
-sixteen. This limit does not apply to nesting at the document or print file level. For example, if two finishing
-operations are nested at the medium map level, and these operations are nested within one finishing
-operation at the document level, which in turn is nested within one finishing operation at the print file level,
-the level of nesting counted against the AFP nesting limit is two.
-2. In AFP environments, the nesting of identical finishing operations at the medium map level is not [MODCA-5-1212]
-supported. Two finishing operations are considered identical if they are specified by the same triplet (either
-the Finishing Operation (X'85') triplet or the UP3i Finishing Operation (X'8E') triplet), and the triplet
-contents are identical.
-Architecture Notes:
-1. For some printers, the offset stacking function (X'D1nn' keyword on the MMC structured field), when [MODCA-5-1213]
-invoked inside a document or print file, cannot be combined with a finishing operation. In this case, the
-offset stacking request is ignored and the finishing operation is performed.
-2. Finishing operations may be applied to print files that contain a mixture of MO:DCA documents and non- [MODCA-5-1214]
-MO:DCA data. The following rules specify how the scope of the finishing operations applies to a print file
-that contains line-data and mixed-data documents, with or without BDT/EDT , as well as composed
-documents. For more information on line data and mixed data, see the Advanced Function Presentation:
-Programming Guide and Line Data Reference.
-* If the MFC specifies print file level finishing, all media in the print file is collected for finishing in a print file [MODCA-5-1215]
-level media collection, and the finishing operations are applied to the complete collection, that is, the
-complete print file.
-* If the MFC specifies document level finishing and selects all documents, the print file is processed as a [MODCA-5-1216]
-set of documents as follows:
-– Any document bounded by BDT/EDT is processed as a single document regardless of whether the
-data between BDT/EDT is line data, mixed data, or composed data. [MODCA-5-1217]
-### Medium Finishing Control (MFC)
+| **Triplet** | **Type** | **Usage** [MODCA-5-1143]|
+| :--- | :--- | :--- [MODCA-5-1144]|
+| X'01' | | **Coded Graphic Character Set Global Identifier** Optional. May occur more than once. See “Coded Graphic Character Set Global Identifier Triplet X'01'”. [MODCA-5-1145]|
+| X'5A' | | **Object Offset** Optional if MFCScpe = X'03', ignored in all other cases. Specifies how many documents in the print file precede the document to be selected for finishing. If this triplet is not specified when MFCScpe = X'03', the first document in the print file is selected. The offset is measured from the beginning of the print file, so that the first document has offset 0, the second document has offset 1, and the nth document has offset (n-1). See “Object Offset Triplet X'5A'”. [MODCA-5-1146]|
+| X'85' | | **Finishing Operation** One occurrence of either this triplet or the UP3i Finishing Operation (X'8E') triplet is mandatory. May occur more than once. Specifies finishing operations to be applied to collected media. If this triplet is specified more than once, finishing operations are applied in the order in which the triplets are specified. See “Finishing Operation Triplet X'85'”. Multiple identical X'85' triplets are ignored. For rules on how finishing operations are nested, see “Finishing Operation Nesting Rules”. [MODCA-5-1147]|
 
+The following finishing operations may be specified when the X'85' triplet is specified on the MFC in a DEG:
 
-– Line data and mixed data that is not bounded explicitly by BDT/EDT is processed as an implied
-document with implied BDT/EDT . When such data follows the resource group or an EDT , a BDT is
-implied, and the implied document lasts until a BDT is encountered or until the end of the print file is
-reached. In either case, the implied document is terminated with an implied EDT .
-The media in each document, whether implied or explicit, is collected for finishing in a document level
-media collection, and the finishing operations are applied to each collection, that is each document,
-individually.
-* If the MFC specifies document level finishing and selects a single document, the print file is processed as [MODCA-5-1218]
-a set of documents in the same manner as when all documents are selected. The offset of the selected
-document is calculated by counting all documents, whether implied or explicit, and the selected
-document may itself be an implied document. The media in the selected document are collected for
-finishing, and the finishing operations are applied to the single collection, that is the single document. [MODCA-5-1219]
+| **Value** | **Operation** |
+| :--- | :--- |
+| X'01' | Corner Staple [MODCA-5-1148] |
+| X'02' | Saddle Stitch Out [MODCA-5-1149] |
+| X'03' | Edge Stitch [MODCA-5-1150] |
+| X'04' | Fold In [MODCA-5-1151] |
+| X'08' | Center Fold In [MODCA-5-1152] |
+| X'09' | Trim after center fold or saddle stitch [MODCA-5-1153] |
+| X'0A' | Punch [MODCA-5-1154] |
+| X'0C' | Perfect bind [MODCA-5-1155] |
+| X'0D' | Ring bind [MODCA-5-1156] |
+| X'0E' | C-fold In [MODCA-5-1157] |
+| X'0F' | Accordion Fold In [MODCA-5-1158] |
+| X'12' | Saddle Stitch In [MODCA-5-1159] |
+| X'14' | Fold Out [MODCA-5-1160] |
+| X'18' | Center Fold Out [MODCA-5-1161] |
+| X'19' | Trim [MODCA-5-1162] |
+| X'1E' | C-fold Out [MODCA-5-1163] |
+| X'1F' | Accordion Fold Out [MODCA-5-1164] |
+| X'22' | Single Gate Fold In [MODCA-5-1165] |
+| X'32' | Single Gate Fold Out [MODCA-5-1166] |
+
+The following finishing operations may be specified when the X'85' triplet is specified on the MFC in a medium map with MFCScpe = X'04':
+
+| **Value** | **Operation** |
+| :--- | :--- |
+| X'04' | Fold In [MODCA-5-1167] |
+| X'05' | Separation Cut [MODCA-5-1168] |
+| X'06' | Perforation Cut [MODCA-5-1169] |
+| X'07' | Z-fold [MODCA-5-1170] |
+| X'08' | Center Fold In [MODCA-5-1171] |
+| X'0A' | Punch [MODCA-5-1172] |
+| X'0E' | C-fold In [MODCA-5-1173] |
+| X'0F' | Accordion Fold In [MODCA-5-1174] |
+| X'14' | Fold Out [MODCA-5-1175] |
+| X'18' | Center Fold Out [MODCA-5-1176] |
+| X'19' | Trim [MODCA-5-1177] |
+| X'1E' | C-fold Out [MODCA-5-1178] |
+| X'1F' | Accordion Fold Out [MODCA-5-1181] |
+| X'20' | Double Parallel Fold In [MODCA-5-1182] |
+| X'21' | Double Gate Fold In [MODCA-5-1183] |
+| X'22' | Single Gate Fold In [MODCA-5-1184] |
+| X'30' | Double Parallel Fold Out [MODCA-5-1185] |
+| X'31' | Double Gate Fold Out [MODCA-5-1186] |
+| X'32' | Single Gate Fold Out [MODCA-5-1187] |
+
+The following finishing operations may be specified when the X'85' triplet is specified on the MFC in a medium map with MFCScpe = X'05':
+
+| **Value** | **Operation** |
+| :--- | :--- |
+| X'01' | Corner Staple [MODCA-5-1188] |
+| X'02' | Saddle Stitch Out [MODCA-5-1189] |
+| X'03' | Edge Stitch [MODCA-5-1190] |
+| X'04' | Fold In [MODCA-5-1191] |
+| X'05' | Separation Cut [MODCA-5-1192] |
+| X'06' | Perforation Cut [MODCA-5-1193] |
+| X'08' | Center Fold In [MODCA-5-1194] |
+| X'09' | Trim after center fold or saddle stitch [MODCA-5-1195] |
+| X'0A' | Punch [MODCA-5-1196] |
+| X'0C' | Perfect bind [MODCA-5-1197] |
+| X'0D' | Ring bind [MODCA-5-1198] |
+| X'0E' | C-fold In [MODCA-5-1199] |
+| X'0F' | Accordion Fold In [MODCA-5-1200] |
+| X'12' | Saddle Stitch In [MODCA-5-1201] |
+| X'14' | Fold Out [MODCA-5-1202] |
+| X'18' | Center Fold Out [MODCA-5-1203] |
+| X'19' | Trim [MODCA-5-1204] |
+| X'1E' | C-fold Out [MODCA-5-1205] |
+| X'1F' | Accordion Fold Out [MODCA-5-1206] |
+| X'22' | Single Gate Fold In [MODCA-5-1207] |
+| X'32' | Single Gate Fold Out [MODCA-5-1208] |
+
+| **Triplet** | **Type** | **Usage** |
+| :--- | :--- | :--- |
+| X'8E' | | **UP3i Finishing Operation** One occurrence of either this triplet or the Finishing Operation (X'85') triplet is mandatory. May occur more than once. Specifies finishing operations to be applied to collected media. If this triplet is specified more than once, finishing operations are applied in the order in which the triplets are specified. See the UP3i Finishing Operation triplet description. Multiple identical X'8E' triplets are ignored. See “UP3i Finishing Operation Triplet X'8E'”. For rules on how finishing operations are nested, see “Finishing Operation Nesting Rules”. The UP3i Finishing Operation triplet can be specified on the MFC either in a DEG or in a medium map with all architected values for the MFCScpe parameter. There is no architected restriction on which UP3i finishing operations may be specified with MFCScpe = X'04' or MFCScpe = X'05'. However, the UP3i Specification as well as UP3i equipment may limit the scope of UP3i finishing operations; for further information consult the current UP3i Specification. This specification is available at: www.afpcinc.org. [MODCA-5-1209] |
+
+**Finishing Operation Nesting Rules**
+
+When more than one finishing operation that involves a collection of media is specified for some portion of the print file, a nesting of the operations is defined first by the scope of the operation (print file, document, medium), and second by the order of the operation in the data stream. Finishing operations with an inherently broader scope, e.g. operations at the print file level, are nested outside of finishing operations with an inherently narrower scope, for example, operations at the medium map level. [MODCA-5-1210]
+
+If more than one operation is specified with the same scope, for example, if two operations are specified at the medium map level, the order of the Finishing Operation (X'85') triplets and of the UP3i Finishing Operation (X'8E') triplets (whether specified on the same MFC or on different MFCs) defines the order of the nesting. In that case, the first finishing operation specified defines the outermost nesting, and the last finishing operation specified defines the innermost nesting.
+
+The following defines how finishing operations are nested starting with the outermost nesting and ending with the innermost nesting.
+1. Printfile level finishing (outermost level), MFCScpe = X'01'
+2. Document level finishing: each document in the print file, MFCScpe = X'02'
+3. Document level finishing: a selected document in the print file, MFCScpe = X'03'
+4. Medium map level finishing: collection of sheets (innermost level), MFCScpe = X'05'.
+
+Nesting may in turn affect the scope of a finishing operation. When a finishing operation is applied, all finishing operations nested inside this operation are also applied. Finishing operations that are nested outside this operation are not affected. Note that nesting does not apply to medium map level sheet finishing (MFCScpe = X'04'). Such finishing is applied to individual sheets and does not involve starting, continuing, and ending a collection of sheets. Each medium map that is to generate such finishing must specify the operation explicitly.
+
+**Implementation Notes:**
+
+1. AFP Environments limit the number of finishing operations that can be nested at the medium map level to sixteen. This limit does not apply to nesting at the document or print file level. For example, if two finishing operations are nested at the medium map level, and these operations are nested within one finishing operation at the document level, which in turn is nested within one finishing operation at the print file level, the level of nesting counted against the AFP nesting limit is two. [MODCA-5-1211]
+2. In AFP environments, the nesting of identical finishing operations at the medium map level is not supported. Two finishing operations are considered identical if they are specified by the same triplet (either the Finishing Operation (X'85') triplet or the UP3i Finishing Operation (X'8E') triplet), and the triplet contents are identical. [MODCA-5-1212]
+
+**Architecture Notes:**
+
+1. For some printers, the offset stacking function (X'D1nn' keyword on the MMC structured field), when invoked inside a document or print file, cannot be combined with a finishing operation. In this case, the offset stacking request is ignored and the finishing operation is performed. [MODCA-5-1213]
+2. Finishing operations may be applied to print files that contain a mixture of MO:DCA documents and non-MO:DCA data. The following rules specify how the scope of the finishing operations applies to a print file that contains line-data and mixed-data documents, with or without BDT/EDT, as well as composed documents. For more information on line data and mixed data, see the Advanced Function Presentation: Programming Guide and Line Data Reference. [MODCA-5-1214]
+   * If the MFC specifies print file level finishing, all media in the print file is collected for finishing in a print file level media collection, and the finishing operations are applied to the complete collection, that is, the complete print file. [MODCA-5-1215]
+   * If the MFC specifies document level finishing and selects all documents, the print file is processed as a set of documents as follows: [MODCA-5-1216]
+     - Any document bounded by BDT/EDT is processed as a single document regardless of whether the data between BDT/EDT is line data, mixed data, or composed data. [MODCA-5-1217]
+     - Line data and mixed data that is not bounded explicitly by BDT/EDT is processed as an implied document with implied BDT/EDT. When such data follows the resource group or an EDT, a BDT is implied, and the implied document lasts until a BDT is encountered or until the end of the print file is reached. In either case, the implied document is terminated with an implied EDT.
+     The media in each document, whether implied or explicit, is collected for finishing in a document level media collection, and the finishing operations are applied to each collection, that is each document, individually.
+   * If the MFC specifies document level finishing and selects a single document, the print file is processed as a set of documents in the same manner as when all documents are selected. The offset of the selected document is calculated by counting all documents, whether implied or explicit, and the selected document may itself be an implied document. The media in the selected document are collected for finishing, and the finishing operations are applied to the single collection, that is the single document. [MODCA-5-1218] [MODCA-5-1219]
+
 #### MFC Exception Condition Summary
-X'01' This exception condition exists when:
-* The FOpCnt parameter in a Finishing Operation (X'85') triplet is non-zero but does not [MODCA-5-1220]
-match the specified number of OpPos parameters.
+
+**X'01'** This exception condition exists when:
+* The FOpCnt parameter in a Finishing Operation (X'85') triplet is non-zero but does not match the specified number of OpPos parameters. [MODCA-5-1220]
 * The MedColl parameter is X'00' and the MFCScpe parameter is X'05'. [MODCA-5-1221]
-### Medium Finishing Control (MFC)
 
 
 ### Map Graphics Object (MGO)
