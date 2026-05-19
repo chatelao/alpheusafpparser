@@ -238,7 +238,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   }
 
   /**
-   * Specifies the GID format
+   * Specifies the GID format.
    */
   public enum GlobalID_Format {
     CharacterString(0x00),
@@ -1739,7 +1739,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   }
 
   /**
-   * MODCA page 579<br><br>
+   * MODCA page 579.<br><br>
    * <p>
    * The use of this triplet is restricted to the BMO and BPS structured fields in external (print
    * file level) AFP resource groups for the following products: v PSF/MVS v PSF/VSE v RPM 2.0 v RPM

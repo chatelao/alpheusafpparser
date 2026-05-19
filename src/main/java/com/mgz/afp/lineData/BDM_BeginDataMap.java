@@ -102,7 +102,7 @@ public class BDM_BeginDataMap extends StructuredFieldBaseTriplets implements IHa
   }
 
   /**
-   * Format of the data map of {@link BDM_BeginDataMap}
+   * Format of the data map of {@link BDM_BeginDataMap}.
    */
   public enum BDM_DataFormat {
     UsingLND,

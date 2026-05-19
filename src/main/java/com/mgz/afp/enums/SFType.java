@@ -31,7 +31,7 @@ public enum SFType {
   Undefined(0x00),
 
   /**
-   * FOCA ???
+   * FOCA ???.
    */
   Index(0x8C),
 
@@ -68,11 +68,12 @@ public enum SFType {
    */
   End(0xA9),
   /**
-   * ???
+   * ???.
    */
   Size(0xAA),
   /**
-   * A map structured field    provides the following functions in the MO:DCA architecture:<ul><li>All
+   * A map structured field provides the following functions in the MO:DCA architecture.
+   * <ul><li>All
    * occurrences of a variable embedded in structured field parameter data can be given a new value
    * by changing only one reference in the mapping, rather than having to physically change each
    * occurrence. Thus all references to font X may cause a Times Roman font to be used in one
@@ -91,7 +92,7 @@ public enum SFType {
    */
   Process(0xAD),
   /**
-   * FOCA ???
+   * FOCA ???.
    */
   Orientation(0xAE),
   /**

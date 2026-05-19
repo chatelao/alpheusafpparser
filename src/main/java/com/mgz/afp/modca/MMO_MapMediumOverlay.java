@@ -149,7 +149,7 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
 
     /**
      * Shows whether the overlay is to be loaded into the printer as a raster pattern overlay or as
-     * a coded overlay:
+     * a coded overlay.
      */
     public enum MMO_Flag {
       RasterIndicator_CodedOverlay,

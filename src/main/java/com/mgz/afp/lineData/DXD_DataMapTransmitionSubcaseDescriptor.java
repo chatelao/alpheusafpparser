@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Programming Guide and Line Data Reference (ha3l3r04.pdf), page 87<br> <br>
+ * Programming Guide and Line Data Reference (ha3l3r04.pdf), page 87.<br> <br>
  */
 public class DXD_DataMapTransmitionSubcaseDescriptor extends StructuredField {
   @AFPField

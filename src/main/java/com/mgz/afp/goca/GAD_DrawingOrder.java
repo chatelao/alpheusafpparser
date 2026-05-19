@@ -2383,7 +2383,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     }
 
     /**
-     * see {@link #setStartAngle(int)}.
+     * Gets the start angle of the partial arc.
      *
      * @return start angle of the partial arc.
      */
@@ -2404,7 +2404,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     }
 
     /**
-     * see {@link #setSweepAngle(int)}.
+     * Gets the sweep angle of the partial arc.
      *
      * @return sweep angle of the partial arc.
      */
