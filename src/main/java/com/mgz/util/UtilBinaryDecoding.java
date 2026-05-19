@@ -23,6 +23,7 @@ import com.mgz.afp.exceptions.AFPParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.BitSet;
 
 /**
@@ -42,6 +43,68 @@ public class UtilBinaryDecoding {
     byte[] result = new byte[nrOfBytes];
     for (int i = 0; i < nrOfBytes && i < 2; i++) {
       result[nrOfBytes - 1 - i] = (byte) (value >>> (i * 8));
+    }
+    return result;
+  }
+
+  /**
+   * Parses a short value from a {@link ByteBuffer} at the given offset.
+   *
+   * @param buffer the buffer to parse from
+   * @param offset the starting offset in the buffer
+   * @param length the number of bytes to parse
+   * @return the parsed short value
+   * @throws AFPParserException if the length exceeds the size of a short
+   */
+  public static short parseShort(ByteBuffer buffer, int offset, int length) throws AFPParserException {
+    if (length > 2) {
+      throw new AFPParserException("Short has max length of two bytes.");
+    }
+    short result = 0;
+    for (int i = 0; i < length; i++) {
+      result = (short) (result << 8);
+      result += (buffer.get(offset + i) & 0xFF);
+    }
+    return result;
+  }
+
+  /**
+   * Parses a short value from a {@link ByteBuffer}.
+   *
+   * @param buffer the buffer to parse from
+   * @param length the number of bytes to parse
+   * @return the parsed short value
+   * @throws AFPParserException if the length exceeds the size of a short
+   */
+  public static short parseShort(ByteBuffer buffer, int length) throws AFPParserException {
+    if (length > 2) {
+      throw new AFPParserException("Short has max length of two bytes.");
+    }
+    short result = 0;
+    for (int i = 0; i < length; i++) {
+      result = (short) (result << 8);
+      result += (buffer.get() & 0xFF);
+    }
+    return result;
+  }
+
+  /**
+   * Parses an integer value from a {@link ByteBuffer} at the given offset.
+   *
+   * @param buffer the buffer to parse from
+   * @param offset the starting offset in the buffer
+   * @param length the number of bytes to parse
+   * @return the parsed integer value
+   * @throws AFPParserException if the length exceeds the size of an integer
+   */
+  public static int parseInt(ByteBuffer buffer, int offset, int length) throws AFPParserException {
+    if (length > 4) {
+      throw new AFPParserException("Integer has max length of four bytes.");
+    }
+    int result = 0;
+    for (int i = 0; i < length; i++) {
+      result = (result << 8);
+      result += (buffer.get(offset + i) & 0xFF);
     }
     return result;
   }
@@ -94,6 +157,47 @@ public class UtilBinaryDecoding {
   }
 
   /**
+   * Parses a long value from a {@link ByteBuffer} at the given offset.
+   *
+   * @param buffer the buffer to parse from
+   * @param offset the starting offset in the buffer
+   * @param length the number of bytes to parse
+   * @return the parsed long value
+   * @throws AFPParserException if the length exceeds the size of a long
+   */
+  public static long parseLong(ByteBuffer buffer, int offset, int length) throws AFPParserException {
+    if (length > 8) {
+      throw new AFPParserException("Long integer has max length of eight bytes.");
+    }
+    long result = 0;
+    for (int i = 0; i < length; i++) {
+      result = (result << 8);
+      result += (buffer.get(offset + i) & 0xFF);
+    }
+    return result;
+  }
+
+  /**
+   * Parses an integer value from a {@link ByteBuffer}.
+   *
+   * @param buffer the buffer to parse from
+   * @param length the number of bytes to parse
+   * @return the parsed integer value
+   * @throws AFPParserException if the length exceeds the size of an integer
+   */
+  public static int parseInt(ByteBuffer buffer, int length) throws AFPParserException {
+    if (length > 4) {
+      throw new AFPParserException("Integer has max length of four bytes.");
+    }
+    int result = 0;
+    for (int i = 0; i < length; i++) {
+      result = (result << 8);
+      result += (buffer.get() & 0xFF);
+    }
+    return result;
+  }
+
+  /**
    * Parses an integer value from an input stream.
    *
    * @param is the input stream to read from
@@ -113,6 +217,26 @@ public class UtilBinaryDecoding {
       }
       result = (result << 8);
       result += b;
+    }
+    return result;
+  }
+
+  /**
+   * Parses a long value from a {@link ByteBuffer}.
+   *
+   * @param buffer the buffer to parse from
+   * @param length the number of bytes to parse
+   * @return the parsed long value
+   * @throws AFPParserException if the length exceeds the size of a long
+   */
+  public static long parseLong(ByteBuffer buffer, int length) throws AFPParserException {
+    if (length > 8) {
+      throw new AFPParserException("Long integer has max length of eight bytes.");
+    }
+    long result = 0;
+    for (int i = 0; i < length; i++) {
+      result = (result << 8);
+      result += (buffer.get() & 0xFF);
     }
     return result;
   }
@@ -225,6 +349,29 @@ public class UtilBinaryDecoding {
     int pos = 0;
     for (int i = 0; i < length; i++) {
       byte b = sfData[offset + i];
+      for (int j = 0; j < 8; j++) {
+        boolean val = (b & (0x01 << 7 - j)) != 0;
+        bitSet.set(pos, val);
+        pos++;
+      }
+    }
+
+    return bitSet;
+  }
+
+  /**
+   * Parses a BitSet from a {@link ByteBuffer}.
+   *
+   * @param buffer the buffer to parse from
+   * @param length the number of bytes to parse
+   * @return the parsed BitSet
+   */
+  public static BitSet parseBitSet(ByteBuffer buffer, int length) {
+    BitSet bitSet = new BitSet(length * 8);
+
+    int pos = 0;
+    for (int i = 0; i < length; i++) {
+      byte b = buffer.get();
       for (int j = 0; j < 8; j++) {
         boolean val = (b & (0x01 << 7 - j)) != 0;
         bitSet.set(pos, val);

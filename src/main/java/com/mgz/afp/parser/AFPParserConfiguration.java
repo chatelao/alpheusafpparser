@@ -32,7 +32,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.security.DigestInputStream;
 import java.util.HashMap;
@@ -56,6 +59,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   boolean isBuildShallow;
   boolean escalateParsingErrors = true;
   File afpFile;
+  private transient MappedByteBuffer mappedByteBuffer;
   private CPD_CodePageDescriptor currentCodePageDescriptor;
   private CPC_CodePageControl currentPageControl;
   private FNC_FontControl currentFontControl;
@@ -345,6 +349,23 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    */
   public void setAFPFile(File afpFile) {
     this.afpFile = afpFile;
+    this.mappedByteBuffer = null;
+  }
+
+  /**
+   * Returns a {@link MappedByteBuffer} of the configured AFP file.
+   *
+   * @return the mapped buffer, or null if no file is configured
+   * @throws IOException if mapping the file fails
+   */
+  public MappedByteBuffer getByteBuffer() throws IOException {
+    if (mappedByteBuffer == null && afpFile != null) {
+      try (RandomAccessFile raf = new RandomAccessFile(afpFile, "r");
+           FileChannel fc = raf.getChannel()) {
+        mappedByteBuffer = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+      }
+    }
+    return mappedByteBuffer;
   }
 
   /**
