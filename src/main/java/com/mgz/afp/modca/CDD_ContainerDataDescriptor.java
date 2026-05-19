@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CDD_ContainerDataDescriptor extends StructuredField implements IHasTriplets {
-  byte retiredParameters[];
+  byte[] retiredParameters;
   List<Triplet> triplets;
 
 
