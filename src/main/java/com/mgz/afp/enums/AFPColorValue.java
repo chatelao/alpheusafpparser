@@ -99,7 +99,9 @@ public enum AFPColorValue {
   Default_0xFFFF(0xFFFF, 0, 0, 0);
 
   int code;
-  int red, green, blue;
+  int red;
+  int green;
+  int blue;
 
   AFPColorValue(int code, int red, int green, int blue) {
     this.code = code;

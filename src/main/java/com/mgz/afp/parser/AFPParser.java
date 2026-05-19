@@ -255,7 +255,8 @@ public class AFPParser {
 
         int lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
         byte[] grossPayload = new byte[lenOfGrossPayload];
-        byte[] sfData, padding;
+        byte[] sfData;
+        byte[] padding;
 
 
         // Determine payload.

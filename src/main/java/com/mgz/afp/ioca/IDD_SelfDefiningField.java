@@ -302,7 +302,7 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
 
   public static class UnknownSelfDefiningField extends IDD_SelfDefiningField {
     short unknownFieldType;
-    byte data[];
+    byte[] data;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

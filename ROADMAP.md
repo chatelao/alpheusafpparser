@@ -217,6 +217,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ✅ `FileTabCharacter` resolved.
         - ✅ `CommentsIndentation`.
         - ✅ `AnnotationLocation`.
+        - ✅ Miscellaneous low-count violations (`EmptyCatchBlock`, `ArrayTypeStyle`, `MultipleVariableDeclarations`).
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ✅ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ✅ Implement a SECURITY.md policy.
