@@ -132,7 +132,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ All 'End' fields complete (EAG-ESG).
             - ✅ SF Groups A-D.
             - ✅ SF Groups G-I.
-            - 🚧 SF Groups J-O (LLE-MCF complete).
+            - 🚧 SF Groups J-O (LLE-MDD complete).
             - ✅ SF Groups P-T (PEC, PFC, PGD, PGP, PMC, PPO, PTD, PTX, TLE complete).
             - ⏳ SF Groups U-Z:
                 - ⏳ XMD (XML Descriptor).
