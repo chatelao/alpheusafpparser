@@ -60,12 +60,11 @@ public class UtilBinaryDecoding {
     if (length > 2) {
       throw new AFPParserException("Short has max length of two bytes.");
     }
-    short result = 0;
+    int result = 0;
     for (int i = 0; i < length; i++) {
-      result = (short) (result << 8);
-      result += (buffer.get(offset + i) & 0xFF);
+      result = (result << 8) | (buffer.get(offset + i) & 0xFF);
     }
-    return result;
+    return (short) result;
   }
 
   /**
@@ -80,12 +79,11 @@ public class UtilBinaryDecoding {
     if (length > 2) {
       throw new AFPParserException("Short has max length of two bytes.");
     }
-    short result = 0;
+    int result = 0;
     for (int i = 0; i < length; i++) {
-      result = (short) (result << 8);
-      result += (buffer.get() & 0xFF);
+      result = (result << 8) | (buffer.get() & 0xFF);
     }
-    return result;
+    return (short) result;
   }
 
   /**
@@ -103,8 +101,7 @@ public class UtilBinaryDecoding {
     }
     int result = 0;
     for (int i = 0; i < length; i++) {
-      result = (result << 8);
-      result += (buffer.get(offset + i) & 0xFF);
+      result = (result << 8) | (buffer.get(offset + i) & 0xFF);
     }
     return result;
   }
@@ -129,8 +126,7 @@ public class UtilBinaryDecoding {
       if (b == -1) {
         throw new IOException("Reached end of stream while parsing short.");
       }
-      result = (result << 8);
-      result += b;
+      result = (result << 8) | (b & 0xFF);
     }
     return (short) result;
   }
@@ -148,12 +144,11 @@ public class UtilBinaryDecoding {
     if (length > 2) {
       throw new AFPParserException("Short has max length of two bytes.");
     }
-    short result = 0;
+    int result = 0;
     for (int i = 0; i < length; i++) {
-      result = (short) (result << 8);
-      result += (sfData[offset + i] & 0xFF);
+      result = (result << 8) | (sfData[offset + i] & 0xFF);
     }
-    return result;
+    return (short) result;
   }
 
   /**
@@ -171,8 +166,7 @@ public class UtilBinaryDecoding {
     }
     long result = 0;
     for (int i = 0; i < length; i++) {
-      result = (result << 8);
-      result += (buffer.get(offset + i) & 0xFF);
+      result = (result << 8) | (buffer.get(offset + i) & 0xFF);
     }
     return result;
   }
@@ -191,8 +185,7 @@ public class UtilBinaryDecoding {
     }
     int result = 0;
     for (int i = 0; i < length; i++) {
-      result = (result << 8);
-      result += (buffer.get() & 0xFF);
+      result = (result << 8) | (buffer.get() & 0xFF);
     }
     return result;
   }
@@ -215,8 +208,7 @@ public class UtilBinaryDecoding {
       if (b == -1) {
         throw new IOException("Reached end of stream while parsing integer.");
       }
-      result = (result << 8);
-      result += b;
+      result = (result << 8) | (b & 0xFF);
     }
     return result;
   }
@@ -235,8 +227,7 @@ public class UtilBinaryDecoding {
     }
     long result = 0;
     for (int i = 0; i < length; i++) {
-      result = (result << 8);
-      result += (buffer.get() & 0xFF);
+      result = (result << 8) | (buffer.get() & 0xFF);
     }
     return result;
   }
@@ -256,8 +247,7 @@ public class UtilBinaryDecoding {
     }
     int result = 0;
     for (int i = 0; i < length; i++) {
-      result = (result << 8);
-      result += (sfData[offset + i] & 0xFF);
+      result = (result << 8) | (sfData[offset + i] & 0xFF);
     }
     return result;
   }
@@ -292,8 +282,11 @@ public class UtilBinaryDecoding {
     }
     long result = 0;
     for (int i = 0; i < length; i++) {
-      result = (result << 8);
-      result += is.read();
+      int b = is.read();
+      if (b == -1) {
+        throw new IOException("Reached end of stream while parsing long.");
+      }
+      result = (result << 8) | (b & 0xFF);
     }
     return result;
   }
@@ -313,8 +306,7 @@ public class UtilBinaryDecoding {
     }
     long result = 0;
     for (int i = 0; i < length; i++) {
-      result = (result << 8);
-      result += (sfData[offset + i] << 0) & 0xFF;
+      result = (result << 8) | (sfData[offset + i] & 0xFF);
     }
     return result;
   }
