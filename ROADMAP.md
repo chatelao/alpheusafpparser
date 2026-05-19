@@ -35,9 +35,9 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
-| [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4042 | 0.0% |
+| [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4139 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **8825** | **20955** | **42.1%** |
+| **Total** | **8825** | **21052** | **41.9%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -132,7 +132,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ All 'End' fields complete (EAG-ESG).
             - ✅ SF Groups A-D.
             - ✅ SF Groups G-I.
-            - 🚧 SF Groups J-O (LLE-MDD complete).
+            - ✅ SF Groups J-O (LLE-MFC complete).
             - ✅ SF Groups P-T (PEC, PFC, PGD, PGP, PMC, PPO, PTD, PTX, TLE complete).
             - ⏳ SF Groups U-Z:
                 - ⏳ XMD (XML Descriptor).
