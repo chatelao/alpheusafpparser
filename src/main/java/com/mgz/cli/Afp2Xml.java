@@ -19,14 +19,11 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.cli;
 
-import com.mgz.afp.base.AFPDocument;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import com.mgz.xml.Afp2XmlWriter;
+import com.mgz.xml.AfpStreamingXmlWriter;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -143,14 +140,6 @@ public class Afp2Xml {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T extends StructuredField> JAXBElement<T> createJAXBElement(T sf) {
-        return new JAXBElement<>(
-                new QName(sf.getClass().getSimpleName()),
-                (Class<T>) sf.getClass(),
-                sf);
-    }
-
     private static void printUsage(PrintStream out) {
         out.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory <dir>] [-x|--xpath <expression>] <input-afp-file/dir> [output-xml-file]");
         out.println("Options:");
@@ -166,19 +155,22 @@ public class Afp2Xml {
             config.setInputStream(is);
             var parser = new AFPParser(config);
 
-            var doc = new AFPDocument();
-            StructuredField sf;
-            while ((sf = parser.parseNextSF()) != null) {
-                doc.addStructuredField(createJAXBElement(sf));
-            }
-
             if (outputFile != null) {
-                try (var os = new FileOutputStream(outputFile)) {
-                    Afp2XmlWriter.writeXML(os, doc, xpathExpression);
+                try (var os = new FileOutputStream(outputFile);
+                     var writer = new AfpStreamingXmlWriter(os, xpathExpression)) {
+                    StructuredField sf;
+                    while ((sf = parser.parseNextSF()) != null) {
+                        writer.writeField(sf);
+                    }
                 }
                 System.out.println("Export successful: " + outputFile.getPath());
             } else {
-                Afp2XmlWriter.writeXML(System.out, doc, xpathExpression);
+                try (var writer = new AfpStreamingXmlWriter(System.out, xpathExpression)) {
+                    StructuredField sf;
+                    while ((sf = parser.parseNextSF()) != null) {
+                        writer.writeField(sf);
+                    }
+                }
             }
         }
     }

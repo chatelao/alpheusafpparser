@@ -53,7 +53,7 @@ public class Afp2XmlWriter {
 
   private static final Map<List<Class<?>>, JAXBContext> JAXB_CONTEXT_CACHE = new ConcurrentHashMap<>();
 
-  private static JAXBContext getCachedJaxbContext(List<Class<?>> classes) throws JAXBException {
+  public static JAXBContext getCachedJaxbContext(List<Class<?>> classes) throws JAXBException {
     var sortedClasses = new ArrayList<>(classes);
     sortedClasses.sort(Comparator.comparing(Class::getName));
     return JAXB_CONTEXT_CACHE.computeIfAbsent(Collections.unmodifiableList(sortedClasses), cl -> {
@@ -143,7 +143,7 @@ public class Afp2XmlWriter {
     return classes;
   }
 
-  private static void addClassesFromSF(List<Class<?>> classes, StructuredField sf) {
+  public static void addClassesFromSF(List<Class<?>> classes, StructuredField sf) {
     if (sf instanceof IHasTriplets iHasTriplets) {
       var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
@@ -183,7 +183,7 @@ public class Afp2XmlWriter {
     }
   }
 
-  private static void addClass(List<Class<?>> classes, Class<?> clazz) {
+  public static void addClass(List<Class<?>> classes, Class<?> clazz) {
     if (!classes.contains(clazz)) {
       classes.add(clazz);
       // Check if it's an inner class and add it as well
