@@ -376,7 +376,15 @@ public class AFPParser {
 
         var lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
 
-        if (parserConf.isBuildShallow()) {
+        boolean mustDecode = sf instanceof FNC_FontControl
+            || sf instanceof CPD_CodePageDescriptor
+            || sf instanceof CPC_CodePageControl
+            || sf instanceof BDD_BarCodeDataDescriptor
+            || sf instanceof MCF_MapCodedFont_Format1
+            || sf instanceof MCF_MapCodedFont_Format2
+            || sf instanceof MDR_MapDataResource;
+
+        if (parserConf.isBuildShallow() && !mustDecode) {
           var actualConf = parserConf.clone();
           actualConf.setInputStream(null);
           sfi.setActualConfig(actualConf);
