@@ -62,7 +62,6 @@ public class MCA_MapColorAttributeTable extends StructuredFieldBaseRepeatingGrou
     }
   }
 
-
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();

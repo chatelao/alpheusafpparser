@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -61,7 +62,6 @@ public class PPO_PreprocessPresentationObject extends StructuredFieldBaseRepeati
     }
   }
 
-
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -91,7 +91,6 @@ public class PPO_PreprocessPresentationObject extends StructuredFieldBaseRepeati
       yOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 9, 3);
       triplets = TripletParser.parseTriplets(sfData, offset + 12, repeatingGroupLength - 12, config);
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

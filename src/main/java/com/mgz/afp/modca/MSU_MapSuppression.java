@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -54,7 +55,6 @@ public class MSU_MapSuppression extends StructuredFieldBaseRepeatingGroups {
     }
   }
 
-
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -79,7 +79,6 @@ public class MSU_MapSuppression extends StructuredFieldBaseRepeatingGroups {
       reserved8 = sfData[offset + 8];
       localID = sfData[offset + 9];
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

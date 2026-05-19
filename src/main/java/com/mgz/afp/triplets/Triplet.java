@@ -90,10 +90,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     TextOrientation(0x1D), // Retired.
     LineDataObjectPositionMigration(0x27), // Retired.
 
-
     FontDescriptorSpecification(0x1F),
     FontCodedGraphicCharacterSetGlobalID(0x20),
-
 
     /**
      * MODCA page 379.<br><br> The Resource Object Type triplet identifies the type of object
@@ -104,7 +102,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
      */
     ResourceObjectType(UNFORTUNATE_TRIPLETID),
     ObjectFunctionSetSpecification_Retired(UNFORTUNATE_TRIPLETID),
-
 
     ExtendedResourceLocalIdentifier(0x22),
     ResourceLocalIdentifier(0x24),
@@ -140,7 +137,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     UniversalDateAndTimeStamp(0x72),
 
     IMMInsertionTriplet(0x73), // Retired.
-
 
     TonerSaver(0x74),
     ColorFidelity(0x75),
@@ -560,7 +556,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       length = (short) (baos.size() + 1);
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
-
 
     }
 
@@ -2083,7 +2078,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       xUnitsPerUnitbase = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
       yUnitsPerUnitbase = UtilBinaryDecoding.parseShort(sfData, offset + 6, 2);
 
-
     }
 
     @Override
@@ -2386,7 +2380,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       }
 
     }
-
 
   }
 

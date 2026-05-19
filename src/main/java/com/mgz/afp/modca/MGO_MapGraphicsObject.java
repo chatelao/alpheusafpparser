@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -50,7 +51,6 @@ public class MGO_MapGraphicsObject extends StructuredFieldBaseRepeatingGroups {
     }
     super.writeFullStructuredField(os, baos.toByteArray());
   }
-
 
   @XmlRootElement
   public static class MGO_RepeatingGroup extends RepeatingGroupWithTriplets {

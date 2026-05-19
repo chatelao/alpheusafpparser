@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.base;
 
 import com.mgz.afp.base.annotations.AFPField;
@@ -30,7 +31,6 @@ import java.io.OutputStream;
 public class Undefined extends StructuredField {
   @AFPField(maxSize = 32759)
   byte[] payload;
-
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

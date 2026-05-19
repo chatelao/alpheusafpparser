@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.writer;
 
 import com.mgz.afp.base.StructuredField;
@@ -83,7 +84,6 @@ public class AFPWriterHumanReadable implements IAFPWriter {
             continue;
           }
 
-
           if (o != null) {
             sb.append("\"").append(f.getName()).append("\":");
 
@@ -96,7 +96,6 @@ public class AFPWriterHumanReadable implements IAFPWriter {
             } else if (o instanceof Collection<?> || o.getClass().isArray()) {
 
               sb.append("[");
-
 
               if (o.getClass().isArray() && Array.getLength(o) >= 0 && Array.get(o, 0) instanceof Byte) {
                 sb.append('"').append(UtilCharacterEncoding.bytesToHexString((byte[]) o)).append('"');

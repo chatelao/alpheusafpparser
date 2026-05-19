@@ -201,7 +201,6 @@ public class AFPParser {
   long nrOfSFBuilt;
   long nrOfErrSFBuilt;
 
-
   /**
    * Constructor.
    *
@@ -257,7 +256,6 @@ public class AFPParser {
         byte[] grossPayload = new byte[lenOfGrossPayload];
         byte[] sfData;
         byte[] padding;
-
 
         // Determine payload.
         if (lenOfGrossPayload > 0) {

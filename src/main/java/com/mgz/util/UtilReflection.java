@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.util;
 
 import com.mgz.afp.base.annotations.AFPField;
@@ -122,7 +123,6 @@ public class UtilReflection {
 
   public static List<Field> getAfpFields(Class<?> clazz) {
     AFPField defaultAnnotation = null;
-
 
     List<Class<?>> listOfClasses = new ArrayList<Class<?>>();
     while (clazz != null && clazz != Object.class) {

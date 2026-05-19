@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -58,7 +59,6 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
       repeatingGroups = null;
     }
   }
-
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
@@ -105,7 +105,6 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
       System.arraycopy(sfData, offset + 2, reserved2_3, 0, reserved2_3.length);
       nameOfMediumOverlay = new String(sfData, offset + 4, 8, config.getAfpCharSet());
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {

@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
+
 package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -59,7 +60,6 @@ public class MPS_MapPageSegment extends StructuredFieldBaseRepeatingGroups {
     }
   }
 
-
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -102,7 +102,6 @@ public class MPS_MapPageSegment extends StructuredFieldBaseRepeatingGroups {
       System.arraycopy(sfData, offset, reserved0_3, 0, reserved0_3.length);
       nameOfPageSegment = new String(sfData, offset + 4, 8, config.getAfpCharSet());
     }
-
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
