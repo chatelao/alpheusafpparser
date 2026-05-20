@@ -127,13 +127,13 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - 🚧 Improve all `specifications/markdown/modca-reference-10` chapters:
         - ✅ Chapters 1-3 complete.
         - ✅ Chapter 4 complete.
-        - 🚧 Chapter 5 in-progress:
+        - ✅ Chapter 5 complete:
             - ✅ All 'Begin' fields complete (BAG-BSG).
             - ✅ All 'End' fields complete (EAG-ESG).
             - ✅ SF Groups A-D.
             - ✅ SF Groups G-I.
-            - ✅ SF Groups J-O (LLE-MFC complete).
-            - ✅ SF Groups P-T (PEC, PFC, PGD, PGP, PMC, PPO, PTD, PTX, TLE complete).
+            - ✅ SF Groups J-O (Complete).
+            - ✅ SF Groups P-T (Complete).
             - ✅ SF Groups U-Z (XMD moved to Line Data).
         - ⏳ Chapter 6 (Triplets).
         - ⏳ Chapter 7 (Interchange Sets).
