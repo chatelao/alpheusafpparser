@@ -3,10 +3,13 @@ package com.mgz.acceptance;
 import com.mgz.cli.Afp2Xml;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CLITest {
@@ -68,6 +71,47 @@ public class CLITest {
 
         assertTrue(Files.readString(xmlFile1.toPath()).contains("<AFPDocument>"), "XML 1 should contain AFPDocument tag");
         assertTrue(Files.readString(xmlFile2.toPath()).contains("<AFPDocument>"), "XML 2 should contain AFPDocument tag");
+    }
+
+    @Test
+    public void testDefaultOutputFileXml() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+        File expectedOutputFile = new File(inputFile.getAbsolutePath() + ".xml");
+
+        if (expectedOutputFile.exists()) {
+            expectedOutputFile.delete();
+        }
+
+        Afp2Xml.execute(new String[]{inputFile.getAbsolutePath()});
+
+        try {
+            assertTrue(expectedOutputFile.exists(), "Default XML output file should be created");
+        } finally {
+            if (expectedOutputFile.exists()) {
+                expectedOutputFile.delete();
+            }
+        }
+    }
+
+    @Test
+    public void testExplicitStdoutWithDash() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(bos));
+
+        try {
+            Afp2Xml.execute(new String[]{inputFile.getAbsolutePath(), "-"});
+
+            String output = bos.toString();
+            assertTrue(output.contains("<AFPDocument>"), "Stdout should contain XML output");
+
+            File unexpectedOutputFile = new File(inputFile.getAbsolutePath() + ".xml");
+            assertFalse(unexpectedOutputFile.exists(), "Default output file should NOT be created when '-' is used");
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
     @Test

@@ -23,157 +23,179 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.xml.AfpStreamingXmlWriter;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
+/**
+ * Command line utility to convert AFP files to XML.
+ */
 public class Afp2Xml {
-    public static void main(String[] args) {
-        System.exit(execute(args));
+  /**
+   * Main entry point for the CLI.
+   *
+   * @param args Command line arguments.
+   */
+  public static void main(String[] args) {
+    System.exit(execute(args));
+  }
+
+  /**
+   * Executes the CLI logic.
+   *
+   * @param args Command line arguments.
+   * @return Exit code.
+   */
+  public static int execute(String[] args) {
+    if (args.length < 1) {
+      printUsage(System.out);
+      return 0;
     }
 
-    public static int execute(String[] args) {
-        if (args.length < 1) {
-            printUsage(System.out);
-            return 0;
+    var isDirectoryMode = false;
+    String inputPath = null;
+    String outputPath = null;
+    String xpathExpression = null;
+
+    for (var i = 0; i < args.length; i++) {
+      var arg = args[i];
+      switch (arg) {
+        case "-h", "--help" -> {
+          printUsage(System.out);
+          return 0;
         }
-
-        var isDirectoryMode = false;
-        String inputPath = null;
-        String outputPath = null;
-        String xpathExpression = null;
-
-        for (var i = 0; i < args.length; i++) {
-            var arg = args[i];
-            switch (arg) {
-                case "-h", "--help" -> {
-                    printUsage(System.out);
-                    return 0;
-                }
-                case "-d", "--directory" -> {
-                    isDirectoryMode = true;
-                    if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
-                        inputPath = args[++i];
-                    }
-                }
-                case "-x", "--xpath" -> {
-                    if (i + 1 < args.length) {
-                        xpathExpression = args[++i];
-                    } else {
-                        System.err.println("Error: --xpath requires an expression.");
-                        printUsage(System.err);
-                        return 1;
-                    }
-                }
-                default -> {
-                    if (arg.startsWith("-")) {
-                        System.err.println("Unknown option: " + arg);
-                        printUsage(System.err);
-                        return 1;
-                    }
-                    if (inputPath == null) {
-                        inputPath = arg;
-                    } else if (outputPath == null) {
-                        outputPath = arg;
-                    } else {
-                        System.err.println("Too many arguments.");
-                        printUsage(System.err);
-                        return 1;
-                    }
-                }
-            }
+        case "-d", "--directory" -> {
+          isDirectoryMode = true;
+          if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
+            inputPath = args[++i];
+          }
         }
-
-        if (inputPath == null) {
+        case "-x", "--xpath" -> {
+          if (i + 1 < args.length) {
+            xpathExpression = args[++i];
+          } else {
+            System.err.println("Error: --xpath requires an expression.");
             printUsage(System.err);
             return 1;
+          }
         }
-
-        try {
-            var input = new File(inputPath);
-            if (!input.exists()) {
-                System.err.println("Input not found: " + inputPath);
-                return 1;
-            }
-
-            if (input.isDirectory()) {
-                isDirectoryMode = true;
-            }
-
-            var extension = (xpathExpression != null && xpathExpression.endsWith("/text()")) ? ".txt" : ".xml";
-
-            if (isDirectoryMode) {
-                if (!input.isDirectory()) {
-                    System.err.println("Input is not a directory: " + inputPath);
-                    return 1;
-                }
-
-                var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
-                var hasErrors = false;
-                if (files != null) {
-                    for (var f : files) {
-                        var outputFile = new File(f.getAbsolutePath() + extension);
-                        try {
-                            convertToXml(f, outputFile, xpathExpression);
-                        } catch (Exception e) {
-                            System.err.println("Error processing file " + f.getName() + ": " + e.getMessage());
-                            hasErrors = true;
-                        }
-                    }
-                }
-                return hasErrors ? 1 : 0;
-            } else {
-                var outputFile = (outputPath != null) ? new File(outputPath) : null;
-                if (outputFile == null && xpathExpression != null && xpathExpression.endsWith("/text()")) {
-                    outputFile = new File(inputPath + ".txt");
-                }
-                convertToXml(input, outputFile, xpathExpression);
-                return 0;
-            }
-        } catch (Exception e) {
-            System.err.println("Error during XML export: " + e.getMessage());
-            e.printStackTrace();
+        default -> {
+          if (arg.startsWith("-") && !"-".equals(arg)) {
+            System.err.println("Unknown option: " + arg);
+            printUsage(System.err);
             return 1;
+          }
+          if (inputPath == null) {
+            inputPath = arg;
+          } else if (outputPath == null) {
+            outputPath = arg;
+          } else {
+            System.err.println("Too many arguments.");
+            printUsage(System.err);
+            return 1;
+          }
         }
+      }
     }
 
-    private static void printUsage(PrintStream out) {
-        out.println("Usage: java -jar alpheus-afp-parser-cli.jar [-d|--directory <dir>] [-x|--xpath <expression>] <input-afp-file/dir> [output-xml-file]");
-        out.println("Options:");
-        out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory to XML.");
-        out.println("                            If a directory is provided as a positional argument, directory mode is enabled automatically.");
-        out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
-        out.println("  -h, --help                Show this help message.");
+    if (inputPath == null) {
+      printUsage(System.err);
+      return 1;
     }
 
-    private static void convertToXml(File inputFile, File outputFile, String xpathExpression) throws Exception {
-        try (var is = new BufferedInputStream(new FileInputStream(inputFile))) {
-            var config = new AFPParserConfiguration();
-            config.setInputStream(is);
-            var parser = new AFPParser(config);
+    try {
+      var input = new File(inputPath);
+      if (!input.exists()) {
+        System.err.println("Input not found: " + inputPath);
+        return 1;
+      }
 
-            if (outputFile != null) {
-                try (var os = new FileOutputStream(outputFile);
-                     var writer = new AfpStreamingXmlWriter(os, xpathExpression)) {
-                    StructuredField sf;
-                    while ((sf = parser.parseNextSF()) != null) {
-                        writer.writeField(sf);
-                        sf.release();
-                    }
-                }
-                System.out.println("Export successful: " + outputFile.getPath());
-            } else {
-                try (var writer = new AfpStreamingXmlWriter(System.out, xpathExpression)) {
-                    StructuredField sf;
-                    while ((sf = parser.parseNextSF()) != null) {
-                        writer.writeField(sf);
-                        sf.release();
-                    }
-                }
+      if (input.isDirectory()) {
+        isDirectoryMode = true;
+      }
+
+      var isTxt = xpathExpression != null && xpathExpression.endsWith("/text()");
+      var extension = isTxt ? ".txt" : ".xml";
+
+      if (isDirectoryMode) {
+        if (!input.isDirectory()) {
+          System.err.println("Input is not a directory: " + inputPath);
+          return 1;
+        }
+
+        var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
+        var hasErrors = false;
+        if (files != null) {
+          for (var f : files) {
+            var outputFile = new File(f.getAbsolutePath() + extension);
+            try {
+              convertToXml(f, outputFile, xpathExpression);
+            } catch (Exception e) {
+              System.err.println("Error processing file " + f.getName() + ": " + e.getMessage());
+              hasErrors = true;
             }
+          }
         }
+        return hasErrors ? 1 : 0;
+      } else {
+        File outputFile;
+        if ("-".equals(outputPath)) {
+          outputFile = null;
+        } else if (outputPath != null) {
+          outputFile = new File(outputPath);
+        } else {
+          outputFile = new File(inputPath + extension);
+        }
+        convertToXml(input, outputFile, xpathExpression);
+        return 0;
+      }
+    } catch (Exception e) {
+      System.err.println("Error during XML export: " + e.getMessage());
+      e.printStackTrace();
+      return 1;
     }
+  }
+
+  private static void printUsage(PrintStream out) {
+    out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
+        + "[-d|--directory <dir>] [-x|--xpath <expression>] <input-afp-file/dir> [output-xml-file]");
+    out.println("Options:");
+    out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
+        + "to XML.");
+    out.println("                            If a directory is provided as a positional "
+        + "argument, directory mode is enabled automatically.");
+    out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
+    out.println("  -h, --help                Show this help message.");
+  }
+
+  private static void convertToXml(File inputFile, File outputFile, String xpathExpression)
+      throws Exception {
+    try (var is = new BufferedInputStream(new FileInputStream(inputFile))) {
+      var config = new AFPParserConfiguration();
+      config.setInputStream(is);
+      var parser = new AFPParser(config);
+
+      if (outputFile != null) {
+        try (var os = new FileOutputStream(outputFile);
+             var writer = new AfpStreamingXmlWriter(os, xpathExpression)) {
+          StructuredField sf;
+          while ((sf = parser.parseNextSF()) != null) {
+            writer.writeField(sf);
+            sf.release();
+          }
+        }
+        System.out.println("Export successful: " + outputFile.getPath());
+      } else {
+        try (var writer = new AfpStreamingXmlWriter(System.out, xpathExpression)) {
+          StructuredField sf;
+          while ((sf = parser.parseNextSF()) != null) {
+            writer.writeField(sf);
+            sf.release();
+          }
+        }
+      }
+    }
+  }
 }

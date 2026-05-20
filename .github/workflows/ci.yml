@@ -37,7 +37,7 @@ jobs:
     - name: CLI Smoke Test
       run: |
         CLI_JAR=$(ls build/libs/alpheus-afp-parser-cli-*.jar)
-        java -jar $CLI_JAR src/test/resources/afp/minimal.afp | grep "<AFPDocument>"
+        java -jar $CLI_JAR src/test/resources/afp/minimal.afp - | grep "<AFPDocument>"
     - name: Create Latest CLI Artifact
       run: cp build/libs/alpheus-afp-parser-cli-*.jar build/libs/alpheus-afp-parser-cli-latest.jar
     - name: Verify Latest Artifact
