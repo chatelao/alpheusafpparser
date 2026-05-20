@@ -69,7 +69,7 @@ public class Afp2Xml {
                     }
                 }
                 default -> {
-                    if (arg.startsWith("-")) {
+                    if (arg.startsWith("-") && !"-".equals(arg)) {
                         System.err.println("Unknown option: " + arg);
                         printUsage(System.err);
                         return 1;
@@ -126,9 +126,13 @@ public class Afp2Xml {
                 }
                 return hasErrors ? 1 : 0;
             } else {
-                var outputFile = (outputPath != null) ? new File(outputPath) : null;
-                if (outputFile == null && xpathExpression != null && xpathExpression.endsWith("/text()")) {
-                    outputFile = new File(inputPath + ".txt");
+                File outputFile;
+                if ("-".equals(outputPath)) {
+                    outputFile = null;
+                } else if (outputPath != null) {
+                    outputFile = new File(outputPath);
+                } else {
+                    outputFile = new File(inputPath + extension);
                 }
                 convertToXml(input, outputFile, xpathExpression);
                 return 0;
