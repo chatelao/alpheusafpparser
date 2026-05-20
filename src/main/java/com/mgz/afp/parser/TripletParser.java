@@ -23,6 +23,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.afp.triplets.Triplet.TripletID;
+import com.mgz.afp.triplets.TripletPool;
 import com.mgz.util.UtilBinaryDecoding;
 
 import java.util.ArrayList;
@@ -246,8 +247,11 @@ public class TripletParser {
   }
 
   public static final Triplet createTripletInstance(TripletID tid) {
-    Triplet cs = TRIPLET_SUPPLIERS.getOrDefault(tid, Triplet.Undefined::new).get();
-    cs.setTripletID(tid);
+    Triplet cs = TripletPool.acquire(tid);
+    if (cs == null) {
+      cs = TRIPLET_SUPPLIERS.getOrDefault(tid, Triplet.Undefined::new).get();
+      cs.setTripletID(tid);
+    }
     return cs;
   }
 }

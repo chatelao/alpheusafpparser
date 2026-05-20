@@ -53,6 +53,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   @AFPField(isHidden = true)
   TripletID tripletID;
 
+  /**
+   * Resets all fields to their default values for reuse in an object pool.
+   */
+  public void reset() {
+    length = 0;
+    tripletID = null;
+  }
+
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     this.length = UtilBinaryDecoding.parseShort(sfData, offset, 1);
@@ -310,6 +318,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public void setParsingException(AFPParserException parsingException) {
       this.parsingException = parsingException;
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      tripletData = null;
+      parsingException = null;
+    }
   }
 
   /**
@@ -343,6 +358,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       length = (short) (baos.size() + 1);
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      graphicCharacterSetGlobalID = 0;
+      codePageGlobalID_codedCharacterSetID = 0;
     }
 
     /**
@@ -430,6 +452,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(nameAsString);
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      type = null;
+      format = null;
+      nameAsBytes = null;
+      nameAsString = null;
+    }
   }
 
   /**
@@ -451,6 +482,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(tripletID.toByte());
       os.write(dataObjecMapingOption.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      dataObjecMapingOption = null;
     }
 
     public enum DataObjecMapingOption {
@@ -557,6 +594,19 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
 
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      objectClass = null;
+      reserved4_5 = new byte[2];
+      structureFlags = null;
+      registeredObjectID = null;
+      objectTypeName = null;
+      objectVersion = null;
+      companyName = null;
     }
 
     /**
@@ -732,6 +782,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(baos.toByteArray());
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      type = null;
+      identifier = null;
+    }
+
     public enum MODCAInterchangeSet_Type {
       Presentation;
 
@@ -797,6 +854,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved2_3);
       os.write(UtilBinaryDecoding.intToByteArray(fctSetID, 2));
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[] {0x00, 0x00};
+      fctSetID = 0;
+    }
   }
 
   /**
@@ -857,6 +921,18 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       length = (short) (baos.size() + 1);
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      fontWeigthClass = null;
+      fontWidthClass = null;
+      fontHeight = 0;
+      fontWidth = 0;
+      fontDsFlags = null;
+      reserved9_18 = null;
+      fontUsFlags = null;
     }
 
     public enum FDS_FontWeigthClass {
@@ -1112,6 +1188,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      codedGraphicCharacterSetGlobalID = 0;
+      codePageGlobalID = 0;
+    }
   }
 
   /**
@@ -1146,6 +1229,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       length = (short) (baos.size() + 1);
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      objectType = null;
+      constantData = null;
     }
 
     /**
@@ -1234,6 +1324,16 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(baos.toByteArray());
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      objectType = null;
+      ocaArchitectureLevel = 0;
+      modcaFunctionSetIdentifier = 0;
+      ocaFunctionSet = null;
+      reserved = null;
+    }
+
     public enum OCAFunctionSet {
       PTOCA_PT1_or_BCOCA_BCD1(0x0000),
       PTOCA_PT2_or_GOCA_DR2V0(0x4000),
@@ -1290,6 +1390,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
 
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      resourceType = null;
+      extendedResourceLocalID = 0;
     }
 
     /**
@@ -1351,6 +1458,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(resourceType.toByte());
       os.write(UtilBinaryDecoding.shortToByteArray(resourceLocalID, 1));
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      resourceType = null;
+      resourceLocalID = 0;
     }
 
     public RLI_ResourceType getResourceType() {
@@ -1421,6 +1535,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(UtilBinaryDecoding.shortToByteArray(resourceSectionNumber, 1));
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      resourceSectionNumber = 0;
+    }
   }
 
   /**
@@ -1445,6 +1565,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(tripletID.toByte());
       os.write(characterRotation.toBytes());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      characterRotation = null;
     }
   }
 
@@ -1477,6 +1603,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       if (byteOffsetHighOrder != null) {
         os.write(UtilBinaryDecoding.longToByteArray(byteOffsetHighOrder, 4));
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      byteOffset = 0;
+      byteOffsetHighOrder = null;
     }
   }
 
@@ -1540,6 +1673,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(attributeValue);
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[2];
+      attributeValue = null;
+    }
   }
 
   /**
@@ -1563,6 +1703,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(objectAreaDescriptorID);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      objectAreaDescriptorID = 0;
     }
   }
 
@@ -1590,6 +1736,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(reserved2);
       os.write(mediaEjectControl.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      mediaEjectControl = null;
     }
 
     public enum MediaEjectControlType {
@@ -1662,6 +1815,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       }
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      pageOverlayType = null;
+      levelOfOverlay = null;
+    }
+
     public enum PageOverlayType {
       Normal,
       Annotation,
@@ -1707,6 +1867,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(frequencyOfUse.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      frequencyOfUse = null;
     }
 
     /**
@@ -1764,6 +1930,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(checksumFormat.toByte());
       os.write(UtilBinaryDecoding.intToByteArray(crcCheckSum, 2));
       os.write(ChecksumFlag.toByte(objectCheckSumFlags));
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      checksumFormat = null;
+      crcCheckSum = 0;
+      objectCheckSumFlags = null;
     }
 
     public CheckSumFormat getChecksumFormat() {
@@ -1909,6 +2083,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilCharacterEncoding.stringToByteArray(dataSetID, config.getAfpCharSet(), 44, Constants.EBCDIC_BLANK));
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      originationSystem = null;
+      systemIDSerialNumber = null;
+      storageMediaID = null;
+      dataSetID = null;
+    }
+
     public enum AFPSystem {
       MVS,
       VM,
@@ -1969,6 +2152,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved2_3);
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[2];
+    }
+
   }
 
   /**
@@ -2005,6 +2194,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(xOrientation.toBytes());
       os.write(yOrientation.toBytes());
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      xOrientation = null;
+      yOrientation = null;
+    }
   }
 
   /**
@@ -2034,6 +2230,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(locationAndOrientation.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      locationAndOrientation = null;
     }
 
     public enum LocationAndOrientation {
@@ -2092,6 +2294,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(yUnitsPerUnitbase, 2));
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      xUnitBase = null;
+      yUnitBase = null;
+      xUnitsPerUnitbase = 0;
+      yUnitsPerUnitbase = 0;
+    }
+
   }
 
   /**
@@ -2121,6 +2332,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(sizeType_0x02);
       os.write(UtilBinaryDecoding.intToByteArray(xSize, 3));
       os.write(UtilBinaryDecoding.intToByteArray(ySize, 3));
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      sizeType_0x02 = 0;
+      xSize = 0;
+      ySize = 0;
     }
   }
 
@@ -2160,6 +2379,16 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.intToByteArray(yOrigin, 3));
       os.write(UtilBinaryDecoding.intToByteArray(xSize, 3));
       os.write(UtilBinaryDecoding.intToByteArray(ySize, 3));
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      xOrigin = 0;
+      yOrigin = 0;
+      xSize = 0;
+      ySize = 0;
     }
 
   }
@@ -2210,6 +2439,19 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(nrOfBitsComponent4);
       os.write(colorValue);
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      colorSpace = null;
+      reserved4_7 = new byte[4];
+      nrOfBitsComponent1 = 0;
+      nrOfBitsComponent2 = 0;
+      nrOfBitsComponent3 = 0;
+      nrOfBitsComponent4 = 0;
+      colorValue = null;
+    }
   }
 
   /**
@@ -2242,6 +2484,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       if (encodingSchemeForUserData != null) {
         os.write(EncodingScheme.toBytes(encodingSchemeForUserData));
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      encodingSchemeForCodePage = null;
+      encodingSchemeForUserData = null;
     }
 
     public EnumSet<EncodingScheme> getEncodingSchemeForCodePage() {
@@ -2405,6 +2654,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(UtilBinaryDecoding.intToByteArray(pageNumber, 4));
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      pageNumber = 0;
+    }
   }
 
   /**
@@ -2430,6 +2685,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(UtilBinaryDecoding.longToByteArray(byteExtentLow, 4));
       os.write(UtilBinaryDecoding.longToByteArray(byteExtentHigh, 4));
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      byteExtentLow = 0;
+      byteExtentHigh = 0;
     }
   }
 
@@ -2462,6 +2724,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       if (offsetHigh != null) {
         os.write(UtilBinaryDecoding.longToByteArray(offsetHigh, 4));
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      offsetLow = 0;
+      offsetHigh = null;
     }
   }
 
@@ -2497,6 +2766,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       if (numberOfSFHigh != null) {
         os.write(UtilBinaryDecoding.longToByteArray(numberOfSFHigh, 4));
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      numberOfSFLow = 0;
+      numberOfSFHigh = null;
     }
   }
 
@@ -2539,6 +2815,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       if (nrOfPrecedingObjectsHigh != null) {
         os.write(UtilBinaryDecoding.longToByteArray(nrOfPrecedingObjectsHigh, 4));
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      objectType = null;
+      reserved3 = 0x00;
+      nrOfPrecedingObjectsLow = 0;
+      nrOfPrecedingObjectsHigh = null;
     }
 
     public enum ObjectType {
@@ -2589,6 +2874,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(UtilBinaryDecoding.shortToByteArray(horizontalScaleFactor, 2));
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      horizontalScaleFactor = 0;
+    }
   }
 
   /**
@@ -2626,6 +2917,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       if (numberOfObjectsHigh != null) {
         os.write(UtilBinaryDecoding.longToByteArray(numberOfObjectsHigh, 4));
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      subordinateObjectType = 0xFA;
+      reserved3 = 0x00;
+      numberOfObjectsLow = 0;
+      numberOfObjectsHigh = null;
     }
   }
 
@@ -2671,6 +2971,19 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.intToByteArray(secondOfMinute, 2));
       os.write(UtilBinaryDecoding.intToByteArray(hundredthOfSecond, 2));
 
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      dateAndTimeStampType = null;
+      hundreds = 0;
+      tens = 0;
+      dayOfYear = 0;
+      hourOfDay = 0;
+      minuteOfHour = 0;
+      secondOfMinute = 0;
+      hundredthOfSecond = 0;
     }
 
     public enum DateAndTimeStampType {
@@ -2742,6 +3055,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public byte[] getCommentBytes(AFPParserConfiguration config) {
       return comment.getBytes(config.getAfpCharSet());
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      comment = null;
+    }
   }
 
   /**
@@ -2764,6 +3083,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(mediumOrientation.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      mediumOrientation = null;
     }
 
     public enum MediumOrientationValue {
@@ -2828,6 +3153,16 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
         os.write(orientation.toBytes());
       }
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      objectType = 0xDF;
+      objectName = null;
+      xOrigin = 0;
+      yOrigin = 0;
+      orientation = null;
+    }
   }
 
   /**
@@ -2850,6 +3185,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(backgroundMixingFlag.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      backgroundMixingFlag = null;
     }
 
     public enum BackgroundMixingFlag {
@@ -2932,6 +3273,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
         return;
       }
       mixingRules.remove(mixingRule);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      mixingRules = null;
     }
 
     public enum MixingKeyword {
@@ -3054,6 +3401,21 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(diffMinutes);
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      year = 0;
+      monthOfYear = 0;
+      dayOfMonth = 0;
+      hourOfDay = 0;
+      minuteOfHour = 0;
+      secondOfMinute = 0;
+      timeZone = null;
+      diffHours = 0;
+      diffMinutes = 0;
+    }
+
     public enum TimeZone {
       CoordinatedUTC,
       AheadUTC,
@@ -3106,6 +3468,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved2);
       os.write(tonerSaverFunction.toByte());
       os.write(reserved4_5);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      tonerSaverFunction = null;
+      reserved4_5 = new byte[2];
     }
 
     public enum TonerSaverFunction {
@@ -3169,6 +3539,17 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved5);
       os.write(exceptionSubstitutionRule.toByte());
       os.write(reserved7);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      exceptionContinuationRule = null;
+      reserved3 = 0x00;
+      exceptionReportingRule = null;
+      reserved5 = 0x00;
+      exceptionSubstitutionRule = null;
+      reserved7 = 0x00;
     }
 
     public enum ExceptionContinuationRule {
@@ -3252,6 +3633,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(exceptionContinuationRule.toByte());
       os.write(reserved3_6);
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      exceptionContinuationRule = null;
+      reserved3_6 = new byte[4];
+    }
   }
 
   /**
@@ -3279,6 +3667,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.intToByteArray(sequenceNumber, 4));
       os.write(UtilBinaryDecoding.intToByteArray(levelNumber, 4));
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      sequenceNumber = 0;
+      levelNumber = 0;
+    }
   }
 
   /**
@@ -3305,6 +3700,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(repeatingGroupNumber);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      repeatingGroupNumber = 0;
     }
   }
 
@@ -3346,6 +3747,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       length = (short) (baos.size() + 1);
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(baos.toByteArray());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      parameterSyntax = null;
+      parameterValue = null;
     }
 
     public enum ParameterSyntax {
@@ -3392,6 +3801,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(length);
       os.write(tripletID.toByte());
       os.write(PresentationControlFlags.toByte(presentationControlFlags));
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      presentationControlFlags = null;
     }
 
     public EnumSet<PresentationControlFlags> getPresentationControlFlags() {
@@ -3499,6 +3914,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(unitsPerUnitBase, 2));
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      metricTechnology = null;
+      unitBase = null;
+      unitsPerUnitBase = 0;
+    }
+
     public enum MetricTechnology {
       Fixed,
       Relative;
@@ -3570,6 +3993,17 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
           os.write(UtilBinaryDecoding.shortToByteArray(s, 2));
         }
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      operationType = null;
+      reserved3_4 = new byte[2];
+      referenceCorner = null;
+      operationCount = 0;
+      offsetOfOperation = 0;
+      positions = null;
     }
 
     public enum OperationType {
@@ -3667,6 +4101,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(exceptionReportingRule.toByte());
       os.write(reserved5_6);
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      exceptionContinuationRule = null;
+      reserved3 = 0x00;
+      exceptionReportingRule = null;
+      reserved5_6 = new byte[] {0x00, 0x00};
+    }
   }
 
   /**
@@ -3701,6 +4144,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved3);
       os.write(exceptionReportingRule.toByte());
       os.write(reserved5_6);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      exceptionContinuationRule = null;
+      reserved3 = 0x00;
+      exceptionReportingRule = null;
+      reserved5_6 = new byte[] {0x00, 0x00};
     }
   }
 
@@ -3737,6 +4189,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved3);
       os.write(exceptionReportingRule.toByte());
       os.write(reserved5_6);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      exceptionContinuationRule = null;
+      reserved3 = 0x00;
+      exceptionReportingRule = null;
+      reserved5_6 = new byte[] {0x00, 0x00};
     }
   }
 
@@ -3784,6 +4245,19 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(encodingEnvironment, 2));
       os.write(UtilBinaryDecoding.shortToByteArray(encodingIdentifier, 2));
       os.write(reserved14_15);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      fontInformationFlags = null;
+      fontTechnology = 0;
+      specifiedVerticalFontSize = 0;
+      horizontalScaleFactor = 0;
+      characterOrientation = null;
+      encodingEnvironment = 0;
+      encodingIdentifier = 0;
+      reserved14_15 = new byte[] {0x00, 0x00};
     }
 
     public enum FontInformationFlag implements IMutualExclusiveGroupedFlag {
@@ -3885,6 +4359,18 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       if (variantCodeData != null) {
         os.write(variantCodeData);
       }
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      flags = null;
+      languageCode = null;
+      scriptCode = null;
+      regionCode = null;
+      reserved28_35 = new byte[8];
+      variantCode = null;
     }
 
     public byte getReserved2() {
@@ -4067,6 +4553,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(up3iData);
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      sequenceNumber = 0;
+      reserved3 = 0x00;
+      up3iData = null;
+    }
+
     public short getSequenceNumber() {
       return sequenceNumber;
     }
@@ -4116,6 +4610,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved2_3);
       os.write(grpFnct);
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[] {0x00, 0x00};
+      grpFnct = 0;
+    }
   }
 
   /**
@@ -4147,6 +4648,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(reserved2_3);
       os.write(nameBytes);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[] {0x00, 0x00};
+      setupName = null;
     }
 
     @XmlElement(name = "text")
@@ -4183,6 +4691,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved2);
       os.write(cmrProcessingMode.toByte());
       os.write(cmrScope.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      cmrProcessingMode = null;
+      cmrScope = null;
     }
 
     public byte getReserved2() {
@@ -4291,6 +4807,17 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(reserved8_9);
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[2];
+      intentForIOCA = null;
+      intentForContainerNonIOCA = null;
+      intentForPTOCA = null;
+      intentForGOCA = null;
+      reserved8_9 = new byte[2];
+    }
+
     public enum Intent {
       Perceptual,
       MediaRelativeColorimetric,
@@ -4354,6 +4881,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(exceptionReportingRule.toByte());
       os.write(reserved5_6);
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      exceptionContinuationRule = null;
+      reserved3 = 0x00;
+      exceptionReportingRule = null;
+      reserved5_6 = new byte[] {0x00, 0x00};
+    }
   }
 
   /**
@@ -4385,6 +4921,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(appearance.toByte());
       os.write(0);
       os.write(reserved5_6);
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2 = 0x00;
+      appearance = null;
+      reserved5_6 = new byte[] {0x00, 0x00};
     }
 
     public enum Appearance {
@@ -4439,6 +4983,16 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(xUnitsPerUnitBase, 2));
       os.write(UtilBinaryDecoding.shortToByteArray(yUnitsPerUnitBase, 2));
     }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[] {0x00, 0x00};
+      xUnitBase = null;
+      yUnitBase = null;
+      xUnitsPerUnitBase = 0;
+      yUnitsPerUnitBase = 0;
+    }
   }
 
   /**
@@ -4474,6 +5028,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       }
     }
 
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[] {0x00, 0x00};
+      datExt = null;
+    }
+
     public byte[] getDatExt() {
       return datExt;
     }
@@ -4506,6 +5067,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       os.write(tripletID.toByte());
       os.write(reserved2_3);
       os.write(pdfPresentationSpace.toByte());
+    }
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved2_3 = new byte[] {0x00, 0x00};
+      pdfPresentationSpace = null;
     }
 
     public enum PDFPresentationSpace {

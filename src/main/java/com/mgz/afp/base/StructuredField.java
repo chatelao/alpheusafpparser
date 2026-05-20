@@ -30,6 +30,8 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.triplets.Triplet;
+import com.mgz.afp.triplets.TripletPool;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 
@@ -71,11 +73,52 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   }
 
   /**
-   * Releases the {@link StructuredFieldIntroducer} of this structured field back to the pool.
-   * After calling this method, the {@link StructuredFieldIntroducer} reference of this
-   * structured field will be null.
+   * Releases the {@link StructuredFieldIntroducer} and any associated {@link Triplet}s of this
+   * structured field back to their respective pools. After calling this method, the
+   * {@link StructuredFieldIntroducer} and triplet references of this structured field will be null.
    */
   public void release() {
+    if (this instanceof IHasTriplets iHasTriplets) {
+      java.util.List<Triplet> triplets = iHasTriplets.getTriplets();
+      if (triplets != null) {
+        for (Triplet triplet : triplets) {
+          TripletPool.release(triplet);
+        }
+        iHasTriplets.setTriplets(null);
+      }
+    }
+
+    if (this instanceof IHasRepeatingGroups iHasRepeatingGroups) {
+      java.util.List<IRepeatingGroup> groups = iHasRepeatingGroups.getRepeatingGroups();
+      if (groups != null) {
+        for (IRepeatingGroup group : groups) {
+          if (group instanceof IHasTriplets iHasTripletsGroup) {
+            java.util.List<Triplet> triplets = iHasTripletsGroup.getTriplets();
+            if (triplets != null) {
+              for (Triplet triplet : triplets) {
+                TripletPool.release(triplet);
+              }
+              iHasTripletsGroup.setTriplets(null);
+            }
+          }
+        }
+      }
+    }
+
+    if (this instanceof com.mgz.afp.modca.MCF_MapCodedFont_Format1 mcf1) {
+      java.util.List<com.mgz.afp.modca.MCF_MapCodedFont_Format1.MCF_RepeatingGroup> groups = mcf1.getRepeatingGroups();
+      if (groups != null) {
+        groups.clear();
+      }
+    }
+
+    if (this instanceof com.mgz.afp.modca.MCC_MediumCopyCount mcc) {
+      java.util.List<com.mgz.afp.modca.MCC_MediumCopyCount.MCC_RepeatingGroup> groups = mcc.getRepeatingGroups();
+      if (groups != null) {
+        groups.clear();
+      }
+    }
+
     if (structuredFieldIntroducer != null) {
       SfiPool.release(structuredFieldIntroducer);
       structuredFieldIntroducer = null;
