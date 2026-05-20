@@ -460,7 +460,7 @@ public class AFPParser {
     } catch (Throwable e) {
       if (errSf == null) {
         errSf = new StructuredFieldErrornouslyBuilt();
-        errSf.setStructuredFieldIntroducer(sfi != null ? sfi : new StructuredFieldIntroducer());
+        errSf.setStructuredFieldIntroducer(sfi != null ? sfi : StructuredFieldIntroducer.acquire());
       }
       errSf.setCausingException(e);
       if (sfi != null) {
@@ -506,7 +506,7 @@ public class AFPParser {
         } catch (Throwable e) {
           if (errSf == null) {
             errSf = new StructuredFieldErrornouslyBuilt();
-            errSf.setStructuredFieldIntroducer(new StructuredFieldIntroducer());
+            errSf.setStructuredFieldIntroducer(StructuredFieldIntroducer.acquire());
           }
           if (e instanceof AFPParserException) {
             ((AFPParserException) e).setErrornouslyBuiltStructuredField(errSf);

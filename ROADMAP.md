@@ -226,10 +226,10 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
         - ✅ Update `StructuredFieldIntroducer` and `StructuredField` to support reading payloads from `ByteBuffer`.
         - ✅ Implement AFP file mapping using `FileChannel.map`.
         - ✅ Adapt `AFPParser` to utilize `MappedByteBuffer` for parsing.
-    - ⏳ Implement object pooling for `StructuredFieldIntroducer` and common payload objects.
+    - ✅ Implement object pooling for `StructuredFieldIntroducer` and common payload objects.
 - ⏳ Parallel Processing:
     - ⏳ Implement "seek-and-parse" worker pool strategy for parallel page parsing:
-        - ⏳ Implement page boundary discovery by scanning for `BPG_BeginPage` markers.
+        - ✅ Implement page boundary discovery by scanning for `BPG_BeginPage` markers.
         - ⏳ Create a worker pool for processing identified page segments in parallel.
         - ⏳ Implement logic to merge global state updates from parallel workers into `AFPParserConfiguration`.
     - ⏳ Utilize `AsynchronousFileChannel` for overlapping I/O and processing.
