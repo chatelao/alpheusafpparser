@@ -63,7 +63,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IPD_ImagePictureData extends StructuredField {
-  List<IPD_Segment> listOfSegments;
+  private List<IPD_Segment> listOfSegments;
+
+  public List<IPD_Segment> getListOfSegments() {
+    return listOfSegments;
+  }
+
+  public void setListOfSegments(List<IPD_Segment> listOfSegments) {
+    this.listOfSegments = listOfSegments;
+  }
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -78,122 +86,122 @@ public class IPD_ImagePictureData extends StructuredField {
       }
       IPD_SegmentType segmentType = IPD_SegmentType.valueOf(segmentTypeCode);
 
-      IPD_Segment ipdSegment = null;
+      IPD_Segment ipdSegment = IpdSegmentPool.acquire(segmentType);
       switch (segmentType) {
         case BeginSegment: {
-          ipdSegment = new BeginSegment();
+          if (ipdSegment == null) ipdSegment = new BeginSegment();
         }
         break;
         case EndSegment: {
-          ipdSegment = new EndSegment();
+          if (ipdSegment == null) ipdSegment = new EndSegment();
         }
         break;
         case BeginImageContent: {
-          ipdSegment = new BeginImageContent();
+          if (ipdSegment == null) ipdSegment = new BeginImageContent();
         }
         break;
         case EndImageContent: {
-          ipdSegment = new EndImageContent();
+          if (ipdSegment == null) ipdSegment = new EndImageContent();
         }
         break;
         case ImageSize: {
-          ipdSegment = new ImageSize();
+          if (ipdSegment == null) ipdSegment = new ImageSize();
         }
         break;
         case ImageEncoding: {
-          ipdSegment = new ImageEncoding();
+          if (ipdSegment == null) ipdSegment = new ImageEncoding();
         }
         break;
         case IDESize: {
-          ipdSegment = new IDESize();
+          if (ipdSegment == null) ipdSegment = new IDESize();
         }
         break;
         case ImageLUTID: {
-          ipdSegment = new ImageLUTID();
+          if (ipdSegment == null) ipdSegment = new ImageLUTID();
         }
         break;
         case BandImage: {
-          ipdSegment = new BandImage();
+          if (ipdSegment == null) ipdSegment = new BandImage();
         }
         break;
         case IDEStructure: {
-          ipdSegment = new IDEStructure();
+          if (ipdSegment == null) ipdSegment = new IDEStructure();
         }
         break;
         case ExternalAlgorithmSpecification: {
-          ipdSegment = new ExternalAlgorithmSpecification();
+          if (ipdSegment == null) ipdSegment = new ExternalAlgorithmSpecification();
         }
         break;
         case ImageSubsampling: {
-          ipdSegment = new ImageSubsampling();
+          if (ipdSegment == null) ipdSegment = new ImageSubsampling();
         }
         break;
         case BeginTile: {
-          ipdSegment = new BeginTile();
+          if (ipdSegment == null) ipdSegment = new BeginTile();
         }
         break;
         case EndTile: {
-          ipdSegment = new EndTile();
+          if (ipdSegment == null) ipdSegment = new EndTile();
         }
         break;
         case TilePosition: {
-          ipdSegment = new TilePosition();
+          if (ipdSegment == null) ipdSegment = new TilePosition();
         }
         break;
         case TileSize: {
-          ipdSegment = new TileSize();
+          if (ipdSegment == null) ipdSegment = new TileSize();
         }
         break;
         case TileSetColor: {
-          ipdSegment = new TileSetColor();
+          if (ipdSegment == null) ipdSegment = new TileSetColor();
         }
         break;
         case SetExtendedBilevelImageColor: {
-          ipdSegment = new SetExtendedBilevelImageColor();
+          if (ipdSegment == null) ipdSegment = new SetExtendedBilevelImageColor();
         }
         break;
         case SetBilevelImageColor: {
-          ipdSegment = new SetBilevelImageColor();
+          if (ipdSegment == null) ipdSegment = new SetBilevelImageColor();
         }
         break;
         case FunctionSetIdentification: {
-          ipdSegment = new FunctionSetIdentification();
+          if (ipdSegment == null) ipdSegment = new FunctionSetIdentification();
         }
         break;
         case IncludeTile: {
-          ipdSegment = new IncludeTile();
+          if (ipdSegment == null) ipdSegment = new IncludeTile();
         }
         break;
         case TileTOC: {
-          ipdSegment = new TileTOC();
+          if (ipdSegment == null) ipdSegment = new TileTOC();
         }
         break;
         case BeginTransparencyMask: {
-          ipdSegment = new BeginTransparencyMask();
+          if (ipdSegment == null) ipdSegment = new BeginTransparencyMask();
         }
         break;
         case EndTransparencyMask: {
-          ipdSegment = new EndTransparencyMask();
+          if (ipdSegment == null) ipdSegment = new EndTransparencyMask();
         }
         break;
         case ImageData: {
-          ipdSegment = new ImageData();
+          if (ipdSegment == null) ipdSegment = new ImageData();
         }
         break;
         case BandImageData: {
-          ipdSegment = new BandImageData();
+          if (ipdSegment == null) ipdSegment = new BandImageData();
         }
         break;
         case nColorNames: {
-          ipdSegment = new nColorNames();
+          if (ipdSegment == null) ipdSegment = new nColorNames();
         }
         break;
         case UnknownIPDSegmentLong: {
-          ipdSegment = new UnknownSegmentLong();
+          if (ipdSegment == null) ipdSegment = new UnknownSegmentLong();
         }
         break;
         case UnknownIPDSegmentExtended: {
-          ipdSegment = new UnknownSegmentExtended();
+          if (ipdSegment == null) ipdSegment = new UnknownSegmentExtended();
         }
         break;
       }
@@ -207,6 +215,17 @@ public class IPD_ImagePictureData extends StructuredField {
         pos += (2 + ipdSegment.lengthOfFollowingData);
       }
     }
+  }
+
+  @Override
+  public void release() {
+    if (listOfSegments != null) {
+      for (IPD_Segment segment : listOfSegments) {
+        segment.release();
+      }
+      listOfSegments = null;
+    }
+    super.release();
   }
 
   @Override
