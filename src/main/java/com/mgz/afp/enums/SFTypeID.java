@@ -21,6 +21,7 @@ package com.mgz.afp.enums;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 public enum SFTypeID {
   Undefined(0, 0, 0),
@@ -200,6 +201,47 @@ public enum SFTypeID {
       throw new IOException("Reached end of stream while parsing SFTypeID category.");
     }
 
+    for (SFTypeID sfTypeID : SFTypeID.values()) {
+      if (sfTypeID.sfClass.val == sfClass
+          && sfTypeID.sfType.val == sfType
+          && sfTypeID.sfCategory.val == sfCategory) {
+        return sfTypeID;
+      }
+    }
+
+    return Undefined;
+  }
+
+  /**
+   * Parses a {@link SFTypeID} from a {@link ByteBuffer}.
+   *
+   * @param buffer the buffer to parse from
+   * @return the parsed {@link SFTypeID}
+   */
+  public static SFTypeID parse(ByteBuffer buffer) {
+    int sfClass = buffer.get() & 0xFF;
+    int sfType = buffer.get() & 0xFF;
+    int sfCategory = buffer.get() & 0xFF;
+
+    return valueOf(sfClass, sfType, sfCategory);
+  }
+
+  /**
+   * Parses a {@link SFTypeID} from a {@link ByteBuffer} at the given offset.
+   *
+   * @param buffer the buffer to parse from
+   * @param offset the starting offset in the buffer
+   * @return the parsed {@link SFTypeID}
+   */
+  public static SFTypeID parse(ByteBuffer buffer, int offset) {
+    int sfClass = buffer.get(offset) & 0xFF;
+    int sfType = buffer.get(offset + 1) & 0xFF;
+    int sfCategory = buffer.get(offset + 2) & 0xFF;
+
+    return valueOf(sfClass, sfType, sfCategory);
+  }
+
+  private static SFTypeID valueOf(int sfClass, int sfType, int sfCategory) {
     for (SFTypeID sfTypeID : SFTypeID.values()) {
       if (sfTypeID.sfClass.val == sfClass
           && sfTypeID.sfType.val == sfType

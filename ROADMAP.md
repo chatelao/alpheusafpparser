@@ -222,10 +222,10 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
     - ✅ Implement a basic streaming XPath filter. **Note:** The XPath engine functionality must be preserved, though it may be limited to XPath 1.0 in streaming mode.
 - 🚧 Memory-Efficient Object Model:
     - ✅ Standardize the use of `isBuildShallow` in `AFPParser` to ensure state-relevant fields (MCF, MDR, FNC, etc.) are always decoded.
-    - ⏳ Integrate `java.nio.MappedByteBuffer` for zero-copy parsing:
-        - ⏳ Update `StructuredFieldIntroducer` and `StructuredField` to support reading payloads from `ByteBuffer`.
-        - ⏳ Implement AFP file mapping using `FileChannel.map`.
-        - ⏳ Adapt `AFPParser` to utilize `MappedByteBuffer` for parsing.
+    - ✅ Integrate `java.nio.MappedByteBuffer` for zero-copy parsing:
+        - ✅ Update `StructuredFieldIntroducer` and `StructuredField` to support reading payloads from `ByteBuffer`.
+        - ✅ Implement AFP file mapping using `FileChannel.map`.
+        - ✅ Adapt `AFPParser` to utilize `MappedByteBuffer` for parsing.
     - ⏳ Implement object pooling for `StructuredFieldIntroducer` and common payload objects.
 - ⏳ Parallel Processing:
     - ⏳ Implement "seek-and-parse" worker pool strategy for parallel page parsing:

@@ -29,6 +29,7 @@ import com.mgz.util.UtilBinaryDecoding;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.EnumSet;
 
 /**
@@ -111,6 +112,66 @@ public class StructuredFieldIntroducer {
       }
     } catch (IOException ioex) {
       throw new AFPParserException("Failed to decode decode SFI extension data.", ioex);
+    }
+
+    return sfi;
+  }
+
+  /**
+   * Parses a {@link StructuredFieldIntroducer} from a {@link ByteBuffer} at the given offset.
+   *
+   * @param buffer the buffer to parse from
+   * @param offset the starting offset in the buffer
+   * @return the parsed {@link StructuredFieldIntroducer}
+   * @throws AFPParserException if parsing fails
+   */
+  public static StructuredFieldIntroducer parse(ByteBuffer buffer, int offset) throws AFPParserException {
+    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+
+    sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, offset, 2);
+    sfi.sfTypeID = SFTypeID.parse(buffer, offset + 2);
+    sfi.flagByte = SFFlag.valueOf(buffer.get(offset + 5) & 0xFF);
+    sfi.reserved = UtilBinaryDecoding.parseInt(buffer, offset + 6, 2);
+
+    if (sfi.isFlagSet(SFFlag.hasExtension)) {
+      int extLen = buffer.get(offset + 8) & 0xFF;
+      sfi.extenstionLength = (short) extLen;
+      if (sfi.extenstionLength < 1) {
+        throw new AFPParserException("Invalid SF extension length: " + sfi.extenstionLength);
+      }
+      sfi.extenstion = new byte[sfi.extenstionLength - 1];
+      int oldPos = buffer.position();
+      buffer.position(offset + 9);
+      buffer.get(sfi.extenstion);
+      buffer.position(oldPos);
+    }
+
+    return sfi;
+  }
+
+  /**
+   * Parses a {@link StructuredFieldIntroducer} from a {@link ByteBuffer}.
+   *
+   * @param buffer the buffer to parse from
+   * @return the parsed {@link StructuredFieldIntroducer}
+   * @throws AFPParserException if parsing fails
+   */
+  public static StructuredFieldIntroducer parse(ByteBuffer buffer) throws AFPParserException {
+    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+
+    sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, 2);
+    sfi.sfTypeID = SFTypeID.parse(buffer);
+    sfi.flagByte = SFFlag.valueOf(buffer.get() & 0xFF);
+    sfi.reserved = UtilBinaryDecoding.parseInt(buffer, 2);
+
+    if (sfi.isFlagSet(SFFlag.hasExtension)) {
+      int extLen = buffer.get() & 0xFF;
+      sfi.extenstionLength = (short) extLen;
+      if (sfi.extenstionLength < 1) {
+        throw new AFPParserException("Invalid SF extension length: " + sfi.extenstionLength);
+      }
+      sfi.extenstion = new byte[sfi.extenstionLength - 1];
+      buffer.get(sfi.extenstion);
     }
 
     return sfi;
