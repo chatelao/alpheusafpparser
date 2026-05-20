@@ -31,12 +31,56 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <b>Structured Field Introducer (SFI)</b><br> The MO:DCA Structured Field Introducer (SFI)
  * identifies type and length of the structured field.
  */
 public class StructuredFieldIntroducer {
+
+  private static final ConcurrentLinkedQueue<StructuredFieldIntroducer> POOL = new ConcurrentLinkedQueue<>();
+  private static final AtomicInteger POOL_SIZE = new AtomicInteger(0);
+  private static final int MAX_POOL_SIZE = 1000;
+
+  /**
+   * Acquires a {@link StructuredFieldIntroducer} from the pool or creates a new one.
+   *
+   * @return a {@link StructuredFieldIntroducer} instance
+   */
+  public static StructuredFieldIntroducer acquire() {
+    StructuredFieldIntroducer sfi = POOL.poll();
+    if (sfi == null) {
+      return new StructuredFieldIntroducer();
+    }
+    POOL_SIZE.decrementAndGet();
+    sfi.reset();
+    return sfi;
+  }
+
+  /**
+   * Releases a {@link StructuredFieldIntroducer} back to the pool.
+   *
+   * @param sfi the instance to release
+   */
+  public static void release(StructuredFieldIntroducer sfi) {
+    if (sfi != null && POOL_SIZE.get() < MAX_POOL_SIZE) {
+      POOL.offer(sfi);
+      POOL_SIZE.incrementAndGet();
+    }
+  }
+
+  private void reset() {
+    sfLength = 0;
+    sfTypeID = null;
+    flagByte = null;
+    reserved = 0x0000;
+    extenstionLength = 0;
+    extenstion = null;
+    actualConfig = null;
+    fileOffset = 0;
+  }
 
   /**
    * SFLength[0,1].
@@ -76,7 +120,7 @@ public class StructuredFieldIntroducer {
   private long fileOffset;
 
   public static StructuredFieldIntroducer parse(InputStream is) throws AFPParserException {
-    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+    StructuredFieldIntroducer sfi = acquire();
 
     try {
       sfi.sfLength = UtilBinaryDecoding.parseInt(is, 2);
@@ -126,7 +170,7 @@ public class StructuredFieldIntroducer {
    * @throws AFPParserException if parsing fails
    */
   public static StructuredFieldIntroducer parse(ByteBuffer buffer, int offset) throws AFPParserException {
-    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+    StructuredFieldIntroducer sfi = acquire();
 
     sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, offset, 2);
     sfi.sfTypeID = SFTypeID.parse(buffer, offset + 2);
@@ -157,7 +201,7 @@ public class StructuredFieldIntroducer {
    * @throws AFPParserException if parsing fails
    */
   public static StructuredFieldIntroducer parse(ByteBuffer buffer) throws AFPParserException {
-    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+    StructuredFieldIntroducer sfi = acquire();
 
     sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, 2);
     sfi.sfTypeID = SFTypeID.parse(buffer);
