@@ -1569,145 +1569,143 @@
 | MODCA-5-1221 | The MedColl parameter is X'00' and the MFCScpe parameter is X'05'. | ❓ |
 | MODCA-5-1222 | The Map Graphics Object structured field specifies how a graphics data object is mapped into its ... | ❓ |
 | MODCA-5-1223 | Structured Field Data | ❓ |
+| MODCA-5-1225 | One repeating group in the following format: | ❓ |
 | MODCA-5-1224 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1225 | ---   ---   ---   ---   ---   ---   --- One repeating group in the following format: | ❓ |
-| MODCA-5-1226 | 0–1 UBIN RGLength 5 T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1227 | 2–4   Triplets   Mapping     Option triplet   M   X'14' | ❓ |
+| MODCA-5-1226 | 0–1   UBIN   RGLength   5   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1227 | 2–4   Triplets       Mapping Option triplet   M   X'14' | ❓ |
 | MODCA-5-1228 | Triplets Appear in the Map Graphics Object structured field as follows: | ❓ |
 | MODCA-5-1229 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1230 | ---   ---   --- | ❓ |
+| MODCA-5-1230 | :---   :---   :--- | ❓ |
 | MODCA-5-1231 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
-| MODCA-5-1232 | X'10'     Position and trim | ❓ |
-| MODCA-5-1233 | X'20'     Scale to fit | ❓ |
-| MODCA-5-1234 | X'30'     Center and trim | ❓ |
-| MODCA-5-1235 | X'50'     Retired mapping option; see “Retired Parameters”. | ❓ |
-| MODCA-5-1236 | X'60'     Scale to fill All others Reserved | ❓ |
-| MODCA-5-1237 | Note:  If this structured field is not present in the data stream, the architected default is sca... | ❓ |
+| MODCA-5-1232 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1233 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1234 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1235 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1236 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1237 | Note: If this structured field is not present in the data stream, the architected default is scal... | ❓ |
 | MODCA-5-1238 | X'02' A Mapping Option (X'04') triplet value of X'00' is specified. | ❓ |
 | MODCA-5-1239 | The Map Image Object structured field specifies how an image data object is mapped into its objec... | ❓ |
 | MODCA-5-1240 | Structured Field Data | ❓ |
+| MODCA-5-1242 | One repeating group in the following format: | ❓ |
 | MODCA-5-1241 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1242 | ---   ---   ---   ---   ---   ---   --- One repeating group in the following format: | ❓ |
-| MODCA-5-1243 | 0–1 UBIN RGLength 5 T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1244 | 2–4   Triplets   Mapping     Option triplet   M   X'14' | ❓ |
+| MODCA-5-1243 | 0–1   UBIN   RGLength   5   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1244 | 2–4   Triplets       Mapping Option triplet   M   X'14' | ❓ |
 | MODCA-5-1245 | Triplets Appear in the Map Image Object structured field as follows: | ❓ |
 | MODCA-5-1246 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1247 | ---   ---   --- | ❓ |
+| MODCA-5-1247 | :---   :---   :--- | ❓ |
 | MODCA-5-1248 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
-| MODCA-5-1249 | X'10'     Position and trim | ❓ |
-| MODCA-5-1250 | X'20'     Scale to fit | ❓ |
-| MODCA-5-1251 | X'30'     Center and trim | ❓ |
-| MODCA-5-1252 | X'41'     Migration mapping option: Image point-to-pel. See “Coexistence Triplets” for a descript... | ❓ |
-| MODCA-5-1253 | X'42'     Migration mapping option: Image point-to-pel with double dot. See “Coexistence Triplets... | ❓ |
-| MODCA-5-1254 | X'50'     Migration mapping option: Replicate and trim. See “Coexistence Triplets” for a descript... | ❓ |
-| MODCA-5-1255 | X'60'     Scale to fill All others Reserved | ❓ |
-| MODCA-5-1256 | Note:  If this structured field is not present in the data stream, the architected default is sca... | ❓ |
+| MODCA-5-1249 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1250 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1251 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1252 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1253 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1254 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1255 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1256 | Note: If this structured field is not present in the data stream, the architected default is scal... | ❓ |
 | MODCA-5-1257 | X'02' A Mapping Option (X'04') triplet value of X'00' is specified. | ❓ |
-| MODCA-5-1258 | subgroup specified in the Medium Copy Count (MCC) structured field. | ❓ |
+| MODCA-5-1258 | The Medium Modification Control structured field specifies the medium modifications to be applied... | ❓ |
 | MODCA-5-1259 | Structured Field Data | ❓ |
 | MODCA-5-1260 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1261 | ---   ---   ---   ---   ---   ---   --- | ❓ |
-| MODCA-5-1262 | 0 CODE MMCid 1–127 Medium Modification Control             identifier M X'06' | ❓ |
-| MODCA-5-1263 | 1   CODE   X'FF'     Constant data   M   X'06' | ❓ |
-| MODCA-5-1264 | 2–n CODE Zero or more keywords in ascending order, in the format shown in the following table. Wh... | ❓ |
-| MODCA-5-1265 | keyword is not present, the high-order portion of the media destination ID is set to X'00'. If this | ❓ |
-| MODCA-5-1266 | names, or set-up IDs, or both (the two functions do not necessarily interact). | ❓ |
+| MODCA-5-1261 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
+| MODCA-5-1262 | 0   CODE   MMCid   1–127   Medium Modification Control identifier   M   X'06' | ❓ |
+| MODCA-5-1263 | 1   CODE     X'FF'   Constant data   M   X'06' | ❓ |
+| MODCA-5-1264 | 2–n   CODE       Zero or more keywords in ascending order, in the format shown in the following t... | ❓ |
+| MODCA-5-1265 | Keyword X'90nn' Specifies the high-order portion of a two-byte media destination ID. The allowed ... | ❓ |
+| MODCA-5-1266 | Note: A set-up ID is not the same as a setup name, which is a user-created name for a set of spec... | ❓ |
 | MODCA-5-1267 | 1. When presentation is terminated, the print file is put into a state where it can be | ❓ |
 | MODCA-5-1268 | 2. Presentation Subsystem set-up IDs are intended to be specified for one or more | ❓ |
-| MODCA-5-1269 | medium map that specifies the jog is first invoked. | ❓ |
+| MODCA-5-1269 | Table 23 shows how the jog control specified by this keyword is processed with N-up presentation ... | ❓ |
 | MODCA-5-1270 | 1. If the copy subgroup that references this MMC belongs to a duplex copy-subgroup pair, | ❓ |
 | MODCA-5-1271 | 2. The selected media source may be an inserter bin. Inserter bins do not support printing | ❓ |
 | MODCA-5-1272 | 1. In AFP environments, the default media source is normally the first media source reported | ❓ |
-| MODCA-5-1273 | 2. T o cause the insertion of a single sheet from the inserter bin, the application generates a | ❓ |
-| MODCA-5-1274 | inserted sheet. However, if the inserter bin is not available, the presentation system will | ❓ |
+| MODCA-5-1273 | 2. To cause the insertion of a single sheet from the inserter bin, the application generates a | ❓ |
+| MODCA-5-1274 | 2. To cause the insertion of a single sheet from the inserter bin, the application generates a  d... | ❓ |
 | MODCA-5-1275 | 3. An application can also cause the insertion of one or more sheets without generating | ❓ |
 | MODCA-5-1276 | 1. Attempt to find an available media source containing the media type that matches | ❓ |
 | MODCA-5-1277 | 2. Attempt to find an available media source containing the media type that matches | ❓ |
 | MODCA-5-1278 | 3. Attempt to find an available media source whose ID matches the ID specified in a | ❓ |
 | MODCA-5-1279 | 4. Use the presentation process defaults for finding an available media source. | ❓ |
 | MODCA-5-1280 | See Figure 60 for a description of normal duplex and tumble duplex. | ❓ |
-| MODCA-5-1281 | data should be generated on all sheet-sides generated by this copy subgroup. This functions | ❓ |
-| MODCA-5-1282 | Medium Copy Count structured field must specify the same value for this keyword. | ❓ |
+| MODCA-5-1281 | Keyword X'F9nn' Specifies whether both variable page data and medium overlay data or only medium ... | ❓ |
+| MODCA-5-1282 | Note: All Medium Modification Control structured fields that are referenced by the same Medium Co... | ❓ |
 | MODCA-5-1283 | X'02' An undefined keyword is encountered in an MMC structured field. | ❓ |
-| MODCA-5-1284 | MMC structured field. | ❓ |
+| MODCA-5-1284 | The Map Media Destination structured field maps a media destination local ID to the name of a med... | ❓ |
 | MODCA-5-1285 | Structured Field Data | ❓ |
+| MODCA-5-1287 | One or more repeating groups in the following format: | ❓ |
 | MODCA-5-1286 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1287 | ---   ---   ---   ---   ---   ---   --- One or more repeating groups in the following format: | ❓ |
-| MODCA-5-1288 | 0–1 UBIN RGLength 14–(n+1) T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1289 | 2–n Triplets See MMD Semantics for triplet             applicability. M X'14' | ❓ |
+| MODCA-5-1288 | 0–1   UBIN   RGLength   14–(n+1)   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1289 | 2–n   Triplets       See MMD Semantics for triplet applicability.   M   X'14' | ❓ |
 | MODCA-5-1290 | Triplets Appear in the Map Media Destination structured field repeating groups as follows: | ❓ |
 | MODCA-5-1291 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1292 | ---   ---   --- | ❓ |
+| MODCA-5-1292 | :---   :---   :--- | ❓ |
 | MODCA-5-1293 | X'01'     Coded Graphic Character Set Global Identifier Optional. May occur more than once. See “... | ❓ |
 | MODCA-5-1294 | X'02'     Fully Qualified Name Mandatory. Must occur once in each repeating group. See “Fully Qua... | ❓ |
 | MODCA-5-1295 | If a media destination local ID is specified in the MMC, the server checks for a mapping to a media | ❓ |
-| MODCA-5-1296 | If there is no media destination local ID specified in the MMC, the servers selects a default media | ❓ |
+| MODCA-5-1296 | If there is no media destination local ID specified in the MMC, the server selects a default media | ❓ |
 | MODCA-5-1297 | A Fully Qualified Name (X'02') triplet other than a type X'12' (Media Destination Reference) | ❓ |
 | MODCA-5-1298 | An Extended Resource Local Identifier (X'22') triplet type other than X'42' appears within any | ❓ |
-| MODCA-5-1299 | keywords in the Medium Modification Control (MMC) structured field to medium overlay names. | ❓ |
+| MODCA-5-1299 | The Map Medium Overlay structured field maps one-byte medium overlay local identifiers that are s... | ❓ |
 | MODCA-5-1300 | Structured Field Data | ❓ |
 | MODCA-5-1301 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1302 | ---   ---   ---   ---   ---   ---   --- | ❓ |
+| MODCA-5-1302 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
 | MODCA-5-1303 | 0   UBIN   RGLength     X'0C' Length of each repeating group   M   X'06' | ❓ |
-| MODCA-5-1304 | 1–3   Reserved;   should     be zero   M   X'06' Zero to 127 repeating groups in the following fo... | ❓ |
+| MODCA-5-1304 | Zero to 127 repeating groups in the following format: | ❓ |
 | MODCA-5-1305 | 0   UBIN   OVLid     X'01'–X'7F' Medium overlay local identifier   M   X'06' | ❓ |
-| MODCA-5-1306 | 1 BITS Flags M X'06'             Bit 0 B'0'–B'1' Raster indicator; retired for the IBM 3800 print... | ❓ |
-| MODCA-5-1307 | 2–3   Reserved;   should     be zero   M   X'06' | ❓ |
+| MODCA-5-1306 | 1   BITS   Flags     Bit 0: Raster indicator; retired for the IBM 3800 printer<br>Bits 1–7: Reser... | ❓ |
+| MODCA-5-1307 | 2–3   Reserved       Should be zero   M   X'06' | ❓ |
 | MODCA-5-1308 | 4–11   CHAR   OVLname     Name of medium overlay   M   X'06' | ❓ |
 | MODCA-5-1309 | 0 Retired parameter for the IBM 3800 printer. See “Retired Parameters” for a description. | ❓ |
 | MODCA-5-1310 | OVLname External name of the medium overlay. | ❓ |
 | MODCA-5-1311 | Structured Field Data | ❓ |
+| MODCA-5-1313 | One or more repeating groups in the following format: | ❓ |
 | MODCA-5-1312 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1313 | ---   ---   ---   ---   ---   ---   --- One or more repeating groups in the following format: | ❓ |
-| MODCA-5-1314 | 0–1 UBIN RGLength 14–(n+1) T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1315 | 8–n Triplets See MMT Semantics for triplet             applicability. M X'14' | ❓ |
+| MODCA-5-1314 | 0–1   UBIN   RGLength   14–(n+1)   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1315 | 2–n   Triplets       See MMT Semantics for triplet applicability.   M   X'14' | ❓ |
 | MODCA-5-1316 | Triplets Appear in the Map Media Type structured field repeating groups as follows: | ❓ |
 | MODCA-5-1317 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1318 | ---   ---   --- | ❓ |
+| MODCA-5-1318 | :---   :---   :--- | ❓ |
 | MODCA-5-1319 | X'01'     Coded Graphic Character Set Global Identifier Optional. May occur more than once. See “... | ❓ |
 | MODCA-5-1320 | X'02'     Fully Qualified Name Mandatory. Must occur once in each repeating group. May occur twic... | ❓ |
-| MODCA-5-1321 | X'02'”    . The Fully Qualified Name type that may appear is X'11'— Media Type Reference. The med... | ❓ |
-| MODCA-5-1322 | If FQNFmt = X'10', the reference is made with an ASN.1 | ❓ |
-| MODCA-5-1323 | the same medium map, different Resource Local IDs may be mapped to the same media type. | ❓ |
+| MODCA-5-1321 | X'02'     Fully Qualified Name Mandatory. Must occur once in each repeating group. May occur twic... | ❓ |
+| MODCA-5-1322 | X'02'     Fully Qualified Name Mandatory. Must occur once in each repeating group. May occur twic... | ❓ |
+| MODCA-5-1323 | Within the same medium map, you may not map the same Resource Local ID to more than one media typ... | ❓ |
 | MODCA-5-1324 | 1. Attempt to find an available media source containing the media type that matches the specified... | ❓ |
 | MODCA-5-1325 | 2. Attempt to find an available media source containing the media type that matches the specified | ❓ |
 | MODCA-5-1326 | 3. Attempt to find an available media source whose ID matches the ID specified in a X'E1' keyword on | ❓ |
 | MODCA-5-1327 | 4. Use the presentation process defaults for finding an available media source. | ❓ |
 | MODCA-5-1328 | A Fully Qualified Name (X'02') triplet other than a type X'11' (Media Type Reference) | ❓ |
 | MODCA-5-1329 | An Extended Resource Local Identifier (X'22') triplet type other than X'40' appears within any | ❓ |
-| MODCA-5-1330 | using an Include Page (IPG) structured field. | ❓ |
+| MODCA-5-1330 | The Map Page structured field identifies a page that is to be merged with data specified for the ... | ❓ |
 | MODCA-5-1331 | Structured Field Data | ❓ |
+| MODCA-5-1333 | One repeating group in the following format: | ❓ |
 | MODCA-5-1332 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1333 | ---   ---   ---   ---   ---   ---   --- One repeating group in the following format: | ❓ |
-| MODCA-5-1334 | 0–1 UBIN RGLength 12–(n+1) T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1335 | 2–n Triplets See MPG Semantics for triplet             applicability. M X'14' | ❓ |
+| MODCA-5-1334 | 0–1   UBIN   RGLength   12–(n+1)   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1335 | 2–n   Triplets       See MPG Semantics for triplet applicability.   M   X'14' | ❓ |
 | MODCA-5-1336 | Triplets Appear in the Map Page structured field as follows: | ❓ |
 | MODCA-5-1337 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1338 | ---   ---   --- | ❓ |
+| MODCA-5-1338 | :---   :---   :--- | ❓ |
 | MODCA-5-1339 | X'01'     Coded Graphic Character Set Global Identifier Optional. May occur more than once in eac... | ❓ |
 | MODCA-5-1340 | X'02'     Fully Qualified Name Mandatory. Must occur once in each repeating group. See “Fully Qua... | ❓ |
-| MODCA-5-1341 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1342 | ---   ---   --- | ❓ |
 | MODCA-5-1343 | X'02'     Fully Qualified Name Mandatory. Must occur once in each repeating group. See “Fully Qua... | ❓ |
 | MODCA-5-1344 | X'5A'     Object Offset Optional. May occur once, with ObjTpe=X'AF', to specify that pages are th... | ❓ |
 | MODCA-5-1345 | Multiple type X'87' (Begin Page Reference) Fully Qualified Name triplets appear within the | ❓ |
 | MODCA-5-1346 | Multiple type X'83' (Begin Document Reference) Fully Qualified Name triplets appear within | ❓ |
-| MODCA-5-1347 | X'83' (Begin Document Reference) appears within the repeating group. | ❓ |
+| MODCA-5-1347 | X'02' A Fully Qualified Name (X'02') triplet other than a type X'87' (Begin Page Reference) or a ... | ❓ |
 | MODCA-5-1348 | The Map Page Overlay structured field maps local identifiers to page overlay names. | ❓ |
 | MODCA-5-1349 | Structured Field Data | ❓ |
+| MODCA-5-1351 | One to 254 repeating groups in the following format: | ❓ |
 | MODCA-5-1350 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1351 | ---   ---   ---   ---   ---   ---   --- One to 254 repeating groups in the following format: | ❓ |
-| MODCA-5-1352 | 0–1 UBIN RGLength 11–(n)+1 T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1353 | 2–n Triplets See MPO Semantics for triplet             applicability. M X'14' | ❓ |
+| MODCA-5-1352 | 0–1   UBIN   RGLength   11–(n)+1   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1353 | 2–n   Triplets       See MPO Semantics for triplet applicability.   M   X'14' | ❓ |
 | MODCA-5-1354 | Triplets Appear in the Map Page Overlay structured field as follows: | ❓ |
 | MODCA-5-1355 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1356 | ---   ---   --- | ❓ |
+| MODCA-5-1356 | :---   :---   :--- | ❓ |
 | MODCA-5-1357 | X'01'     Coded Graphic Character Set Global Identifier Optional. May occur more than once. Speci... | ❓ |
 | MODCA-5-1358 | X'02'     Fully Qualified Name Mandatory. Must occur once in each repeating group. See “Fully Qua... | ❓ |
 | MODCA-5-1359 | X'24'     Resource Local Identifier Mandatory. Must occur once in each repeating group. See “Reso... | ❓ |
-| MODCA-5-1360 | X'02'—Page     Overlay. Within the same Map Page Overlay structured field, you may not map the sa... | ❓ |
+| MODCA-5-1360 | Within the same Map Page Overlay structured field, you may not map the same Resource Local ID to ... | ❓ |
 | MODCA-5-1361 | 1. The local identifier specified in the MPO structured field is not used to reference the page o... | ❓ |
-| MODCA-5-1362 | 2. T o optimize print performance, it is strongly recommended that the same encoding scheme be us... | ❓ |
+| MODCA-5-1362 | 2. To optimize print performance, it is strongly recommended that the same encoding scheme be use... | ❓ |
 | MODCA-5-1363 | Page Overlay Conditional Processing (X'46') triplet, may occur zero or more times; see “Page Overlay | ❓ |
 | MODCA-5-1364 | Resource Usage Attribute (X'47') triplet, may occur zero or once; see “Resource Usage Attribute | ❓ |
 | MODCA-5-1365 | An overlay with the same name as that specified on the FQN type X'84' triplet cannot be | ❓ |
@@ -1718,91 +1716,88 @@
 | MODCA-5-1370 | A Resource Local Identifier (X'24') triplet type other than X'02' appears within any repeating | ❓ |
 | MODCA-5-1371 | Structured Field Data | ❓ |
 | MODCA-5-1372 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1373 | ---   ---   ---   ---   ---   ---   --- | ❓ |
+| MODCA-5-1373 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
 | MODCA-5-1374 | 0   UBIN   RGLength     X'0C' Length of each repeating group   M   X'06' | ❓ |
-| MODCA-5-1375 | 1–3   Reserved;   should     be zero   M   X'06' Zero to 127 repeating groups in the following fo... | ❓ |
-| MODCA-5-1376 | 0–3   Reserved;   should     be zero   M   X'06' | ❓ |
+| MODCA-5-1375 | Zero to 127 repeating groups in the following format: | ❓ |
+| MODCA-5-1376 | 0–3   Reserved       Should be zero   M   X'06' | ❓ |
 | MODCA-5-1377 | 4–11   CHAR   PsegName     Name of page segment   M   X'06' | ❓ |
 | MODCA-5-1378 | 1. A page segment included on a page or overlay with an IPS may optionally be mapped with an MPS ... | ❓ |
-| MODCA-5-1379 | 2. T o optimize print performance, it is strongly recommended that the same encoding scheme be us... | ❓ |
-| MODCA-5-1380 | scheme used for the resource include, the resource map, and the resource wrapper should be the same. | ❓ |
-| MODCA-5-1381 | Environment Group (OEG) is mapped into its object area. | ❓ |
+| MODCA-5-1379 | 2. To optimize print performance, it is strongly recommended that the same encoding scheme be use... | ❓ |
+| MODCA-5-1380 | 2. To optimize print performance, it is strongly recommended that the same encoding scheme be use... | ❓ |
+| MODCA-5-1381 | The Map Presentation Text structured field specifies how a presentation text object that contains... | ❓ |
 | MODCA-5-1382 | Structured Field Data | ❓ |
+| MODCA-5-1384 | One repeating group in the following format: | ❓ |
 | MODCA-5-1383 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1384 | ---   ---   ---   ---   ---   ---   --- One repeating group in the following format: | ❓ |
-| MODCA-5-1385 | 0–1 UBIN RGLength 5 T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1386 | 2–4 Triplets See MPT Semantics for triplet             applicability. M X'14' | ❓ |
-| MODCA-5-1387 | Triplets Appear in the Map Presentation T ext structured field as follows: | ❓ |
+| MODCA-5-1385 | 0–1   UBIN   RGLength   5   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1386 | 2–4   Triplets       Mapping Option triplet   M   X'14' | ❓ |
+| MODCA-5-1387 | Triplets Appear in the Map Presentation Text structured field as follows: | ❓ |
 | MODCA-5-1388 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1389 | ---   ---   --- | ❓ |
+| MODCA-5-1389 | :---   :---   :--- | ❓ |
 | MODCA-5-1390 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
-| MODCA-5-1391 | X'00'     Position All others Reserved | ❓ |
-| MODCA-5-1392 | Note:  If this structured field is not present in the data stream, the architected default is pos... | ❓ |
-| MODCA-5-1393 | X'01' The Map Presentation T ext structured field contains more than one repeating group. | ❓ |
-| MODCA-5-1394 | by specifying its local identifier in a Medium Modification Control (MMC) structured field in a m... | ❓ |
+| MODCA-5-1391 | X'04'     Mapping Option Mandatory. Must occur once. See “Mapping Option Triplet X'04'”. The vali... | ❓ |
+| MODCA-5-1392 | Note: If this structured field is not present in the data stream, the architected default is posi... | ❓ |
+| MODCA-5-1393 | X'01' The Map Presentation Text structured field contains more than one repeating group. | ❓ |
+| MODCA-5-1394 | The Map Suppression structured field maps one-byte text suppression local identifiers to text sup... | ❓ |
 | MODCA-5-1395 | Structured Field Data | ❓ |
+| MODCA-5-1397 | Zero to 127 repeating groups in the following format: | ❓ |
 | MODCA-5-1396 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1397 | ---   ---   ---   ---   ---   ---   --- Zero to 127 repeating groups in the following format: | ❓ |
 | MODCA-5-1398 | 0–7   CHAR   SUPname     Name of text suppression   M   X'06' | ❓ |
-| MODCA-5-1399 | 8   Reserved;   should     be zero   M   X'06' | ❓ |
-| MODCA-5-1400 | 9   CODE   SUPid     X'01'–X'7F' T ext suppression local identifier   M   X'06' | ❓ |
-| MODCA-5-1401 | Guide and Line Data Reference. | ❓ |
+| MODCA-5-1399 | 8   Reserved       Should be zero   M   X'06' | ❓ |
+| MODCA-5-1400 | 9   CODE   SUPid     X'01'–X'7F' Text suppression local identifier   M   X'06' | ❓ |
+| MODCA-5-1401 | Architecture Note: When processing AFP line data with Page Definitions, the Descriptor structured... | ❓ |
 | MODCA-5-1402 | The No Operation structured field performs no function. | ❓ |
 | MODCA-5-1403 | Structured Field Data | ❓ |
 | MODCA-5-1404 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1405 | ---   ---   ---   ---   ---   ---   --- | ❓ |
-| MODCA-5-1406 | 0–n UNDF UndfData Up to 32,759 bytes of data with             no architectural definition O X'00' | ❓ |
-| MODCA-5-1407 | Operation structured field in interchange data streams. | ❓ |
+| MODCA-5-1405 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
+| MODCA-5-1406 | 0–n   UNDF   UndfData     Up to 32,759 bytes of data with no architectural definition   O   X'00' | ❓ |
+| MODCA-5-1407 | Note: The No Operation structured field may be used to carry comments or any other type of unarch... | ❓ |
 | MODCA-5-1408 | Structured Field Data | ❓ |
 | MODCA-5-1409 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1410 | ---   ---   ---   ---   ---   ---   --- | ❓ |
-| MODCA-5-1411 | 0–19 Triplets See OBD Semantics for triplet             applicability. M X'14' | ❓ |
+| MODCA-5-1410 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
+| MODCA-5-1411 | 0–n   Triplets       See OBD Semantics for triplet applicability.   M   X'14' | ❓ |
 | MODCA-5-1412 | Triplets Appear in the Object Area Descriptor structured field as follows: | ❓ |
 | MODCA-5-1413 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1414 | ---   ---   --- | ❓ |
+| MODCA-5-1414 | :---   :---   :--- | ❓ |
 | MODCA-5-1415 | X'43'     Descriptor Position Mandatory. Must occur once. See “Descriptor Position Triplet X'43'”. | ❓ |
 | MODCA-5-1416 | X'4B'     Measurement Units Mandatory. Must occur once. See “Measurement Units Triplet X'4B'”. | ❓ |
-| MODCA-5-1417 | X'4C'     Object Area Size Mandatory. Must occur once. See “Object Area Size Triplet | ❓ |
-| MODCA-5-1418 | X'4C'”    . | ❓ |
-| MODCA-5-1419 | X'4E'     Color Specification Optional. May occur once. Specifies a color for the object area. Th... | ❓ |
-| MODCA-5-1420 | for a page or overlay. | ❓ |
-| MODCA-5-1421 | Triplet   Type   Usage | ❓ |
-| MODCA-5-1422 | ---   ---   --- | ❓ |
+| MODCA-5-1417 | X'4C'     Object Area Size Mandatory. Must occur once. See “Object Area Size Triplet X'4C'”. | ❓ |
+| MODCA-5-1418 | X'4C'     Object Area Size Mandatory. Must occur once. See “Object Area Size Triplet X'4C'”. | ❓ |
+| MODCA-5-1419 | X'4E'     Color Specification Optional. May occur once. Specifies a color for the object area. Wh... | ❓ |
 | MODCA-5-1423 | X'70'     Presentation Space Reset Mixing Optional. May occur once. If this triplet specifies a r... | ❓ |
-| MODCA-5-1424 | X'71'     Presentation Space Mixing Rules Optional. May occur once. This triplet may not appear i... | ❓ |
-| MODCA-5-1425 | Presentation Space Mixing Rules triplet. | ❓ |
-| MODCA-5-1426 | and orientation of the object content within the object area. | ❓ |
+| MODCA-5-1424 | X'71'     Presentation Space Mixing Rules Optional. May occur once. This triplet may not appear w... | ❓ |
+| MODCA-5-1420 | Note: The Color Specification (X'4E') triplet is not permitted on the OBD for presentation text t... | ❓ |
+| MODCA-5-1425 | X'01' The OBD structured field contains both a Presentation Space Reset Mixing triplet and a Pres... | ❓ |
+| MODCA-5-1426 | The Object Area Position structured field specifies the origin and orientation of the object area... | ❓ |
 | MODCA-5-1427 | Structured Field Data | ❓ |
 | MODCA-5-1428 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1429 | ---   ---   ---   ---   ---   ---   --- | ❓ |
-| MODCA-5-1430 | 0   CODE   OAPosID     X'01'–X'7F' The object area position identifier   M   X'06' One repeating ... | ❓ |
-| MODCA-5-1431 | 1 UBIN RGLength 23 T otal length of this repeating             group M X'06' | ❓ |
-| MODCA-5-1432 | 2–4   SBIN   XoaOset     -32,768–32,767 X-axis origin of the object area   M   X'06' | ❓ |
-| MODCA-5-1433 | 5–7   SBIN   YoaOset     -32,768–32,767 Y-axis origin of the object area   M   X'06' | ❓ |
-| MODCA-5-1434 | 8–9 CODE XoaOrent The object area's X-axis rotation             from the X axis of the reference ... | ❓ |
-| MODCA-5-1435 | 10-11 CODE YoaOrent The object area's Y axis rotation             from the X axis of the referenc... | ❓ |
-| MODCA-5-1436 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1437 | ---   ---   ---   ---   ---   ---   --- | ❓ |
-| MODCA-5-1438 | 12   Reserved;   should     be zero   M   X'06' | ❓ |
-| MODCA-5-1439 | 13–15   SBIN   XocaOset     -32,768–32,767 X-axis origin for object content   M   X'06' | ❓ |
-| MODCA-5-1440 | 16–18   SBIN   YocaOset     -32,768–32,767 Y-axis origin for object content   M   X'06' | ❓ |
-| MODCA-5-1441 | 19–20 CODE XocaOrent X'0000' The object content's X-axis             rotation from the X axis of ... | ❓ |
-| MODCA-5-1442 | 21–22 CODE YocaOrent X'2D00' The object content's Y-axis             rotation from the X axis of ... | ❓ |
-| MODCA-5-1443 | 23 CODE RefCSys X'00', X'01', X'05' Reference coordinate system:             X'00' Page or overla... | ❓ |
-| MODCA-5-1444 | 90 degrees greater than the XoaOrent value or a X'01' exception condition exists. | ❓ |
-| MODCA-5-1445 | X'01' exception condition exists. | ❓ |
+| MODCA-5-1429 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
+| MODCA-5-1430 | 0   CODE   OAPosID   X'01'–X'7F'   The object area position identifier   M   X'06' | ❓ |
+| MODCA-5-1430 | One repeating group in the following format: | ❓ |
+| MODCA-5-1431 | 0–1   UBIN   RGLength   23   Total length of this repeating group   M   X'06' | ❓ |
+| MODCA-5-1432 | 2–4   SBIN   XoaOset   -32,768–32,767   X-axis origin of the object area   M   X'06' | ❓ |
+| MODCA-5-1433 | 5–7   SBIN   YoaOset   -32,768–32,767   Y-axis origin of the object area   M   X'06' | ❓ |
+| MODCA-5-1434 | 8–9   CODE   XoaOrent     The object area's X-axis rotation from the X axis of the reference coor... | ❓ |
+| MODCA-5-1435 | 10–11   CODE   YoaOrent     The object area's Y axis rotation from the X axis of the reference co... | ❓ |
+| MODCA-5-1438 | 12   Reserved       Should be zero   M   X'06' | ❓ |
+| MODCA-5-1439 | 13–15   SBIN   XocaOset   -32,768–32,767   X-axis origin for object content   M   X'06' | ❓ |
+| MODCA-5-1440 | 16–18   SBIN   YocaOset   -32,768–32,767   Y-axis origin for object content   M   X'06' | ❓ |
+| MODCA-5-1441 | 19–20   CODE   XocaOrent   X'0000'   The object content's X-axis rotation from the X axis of the ... | ❓ |
+| MODCA-5-1442 | 21–22   CODE   YocaOrent   X'2D00'   The object content's Y-axis rotation from the X axis of the ... | ❓ |
+| MODCA-5-1443 | 23   CODE   RefCSys   X'00', X'01', X'05'   Reference coordinate system:<br>X'00' Page/overlay; o... | ❓ |
+| MODCA-5-1444 | YoaOrent Specifies the amount of clockwise rotation of the object area's Y axis, Yoa, about its d... | ❓ |
+| MODCA-5-1445 | Note: If the object area orientation is such that the sum of the object area origin offset and th... | ❓ |
 | MODCA-5-1446 | 1. The object content is developed in the data object presentation space; within the context | ❓ |
 | MODCA-5-1447 | 2. The XocaOset and YocaOset parameters are used only when a position or position and | ❓ |
 | MODCA-5-1448 | The value specified for YoaOrent is not 90 degrees greater rotation than the value specified | ❓ |
 | MODCA-5-1449 | An attempt is made to present data outside the presentation space of the containing | ❓ |
 | MODCA-5-1450 | The mapping option is position and an attempt is made to present data outside the object | ❓ |
-| MODCA-5-1451 | area presentation space. | ❓ |
-| MODCA-5-1452 | “Object Type Identifiers” for the list of object types that may be carried in an object container. | ❓ |
+| MODCA-5-1451 | The mapping option is position and an attempt is made to present data outside the object  area pr... | ❓ |
+| MODCA-5-1452 | The Object Container Data structured field contains the data for an object carried in an object c... | ❓ |
 | MODCA-5-1453 | Structured Field Data | ❓ |
 | MODCA-5-1454 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
-| MODCA-5-1455 | ---   ---   ---   ---   ---   ---   --- | ❓ |
+| MODCA-5-1455 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
 | MODCA-5-1456 | 0–n   UNDF   ObjCdat     Up to 32,759 bytes of object data   O   X'00' | ❓ |
-| MODCA-5-1457 | Note:  The number of data bytes allowed in this structured field may be restricted by an intercha... | ❓ |
+| MODCA-5-1457 | Note: The number of data bytes allowed in this structured field may be restricted by an interchan... | ❓ |
 | MODCA-5-1458 | Structured Field Data | ❓ |
 | MODCA-5-1459 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
 | MODCA-5-1460 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
