@@ -104,4 +104,15 @@ public class PTX_PresentationTextData extends StructuredField {
     }
     controlSequences.remove(cs);
   }
+
+  @Override
+  public void release() {
+    if (controlSequences != null) {
+      for (PTOCAControlSequence sequence : controlSequences) {
+        sequence.release();
+      }
+      controlSequences = null;
+    }
+    super.release();
+  }
 }

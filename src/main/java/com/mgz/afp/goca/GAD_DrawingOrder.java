@@ -45,6 +45,28 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   @AFPField
   short drawingOrderType;
 
+  /**
+   * Resets the drawing order to its initial state for reuse.
+   */
+  public void reset() {
+    drawingOrderType = 0;
+  }
+
+  /**
+   * Recursively releases any resources held by this drawing order back to their pools.
+   */
+  public void release() {
+    DrawingOrderPool.release(this);
+  }
+
+  public short getDrawingOrderType() {
+    return drawingOrderType;
+  }
+
+  public void setDrawingOrderType(short drawingOrderType) {
+    this.drawingOrderType = drawingOrderType;
+  }
+
   protected static abstract sealed class DrawingOrder_HasPoints extends GAD_DrawingOrder {
     @AFPField(isHidden = true)
     protected boolean isAtCurrentPosition;
@@ -52,6 +74,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short lengthOfFollowingData;
     @AFPField
     List<GOCA_Point> points;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      points = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -161,6 +190,11 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GNOP1_NopOperation extends GAD_DrawingOrder {
     @Override
+    public void reset() {
+      super.reset();
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
     }
@@ -177,6 +211,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField(maxSize = 255)
     byte[] comment;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      comment = null;
+      text = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -243,6 +285,31 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     List<GAD_DrawingOrder> drawingOrders;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      commandCode = COMMANDCODE_BeginSegment;
+      lengthOfFollowingParameters = 0x0C;
+      nameOfSegment = null;
+      flagAnyValue = 0;
+      segmentPropertiesFlags = EnumSet.noneOf(SegmentPropertiesFlag.class);
+      segmentDataLength = 0;
+      nameOfPredecessorSuccessorSegment = null;
+      drawingOrders = null;
+      text = null;
+    }
+
+    @Override
+    public void release() {
+      if (drawingOrders != null) {
+        for (GAD_DrawingOrder order : drawingOrders) {
+          order.release();
+        }
+        drawingOrders = null;
+      }
+      super.release();
+    }
 
     @XmlElement(name = "text")
     public String getText() {
@@ -468,6 +535,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     byte[] parameters;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      identificationCode = 0;
+      parameters = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -517,6 +592,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short patternLocalID;
 
     @Override
+    public void reset() {
+      super.reset();
+      patternLocalID = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       patternLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -540,6 +621,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSCOL_SetColor extends GAD_DrawingOrder {
     @AFPField
     AFPColorValue color;
+
+    @Override
+    public void reset() {
+      super.reset();
+      color = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -567,6 +654,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short mixMode;
 
     @Override
+    public void reset() {
+      super.reset();
+      mixMode = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       mixMode = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -590,6 +683,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSBMX_SetBackgroundMix extends GAD_DrawingOrder {
     @AFPField
     short mixMode;
+
+    @Override
+    public void reset() {
+      super.reset();
+      mixMode = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -619,6 +718,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short integralMultiplier;
     @AFPField
     short fractionalMultiplier;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      integralMultiplier = 0;
+      fractionalMultiplier = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -665,6 +772,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSLT_SetLineType extends GAD_DrawingOrder {
     @AFPField
     short lineType;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lineType = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -717,6 +830,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short pickIdentifier;
 
     @Override
+    public void reset() {
+      super.reset();
+      pickIdentifier = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       pickIdentifier = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -734,6 +853,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short reserved0 = 0x00;
 
     @Override
+    public void reset() {
+      super.reset();
+      reserved0 = 0x00;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       reserved0 = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -749,6 +874,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSLW_SetLineWidth extends GAD_DrawingOrder {
     @AFPField
     short lineWidth;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lineWidth = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -774,6 +905,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSLE_SetLineEnd extends GAD_DrawingOrder {
     @AFPField
     LineEnd lineEnd;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lineEnd = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -819,6 +956,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSLJ_SetLineJoin extends GAD_DrawingOrder {
     @AFPField
     LineJoin lineJoin;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lineJoin = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -868,6 +1011,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     List<DashMoveRepeatingGroup> repeatingGroups;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      repeatingGroups = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -915,6 +1065,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short coordinateX;
     @AFPField
     short coordinateY;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      coordinateX = 0;
+      coordinateY = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -968,6 +1126,16 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short arcTransformR;
     @AFPField
     short arcTransformS;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      arcTransformP = 0;
+      arcTransformQ = 0;
+      arcTransformR = 0;
+      arcTransformS = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1038,6 +1206,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     AFPColorValue color;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      color = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1073,6 +1248,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short patternSymbolCodePoint;
 
     @Override
+    public void reset() {
+      super.reset();
+      patternSymbolCodePoint = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       patternSymbolCodePoint = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1096,6 +1277,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSMT_SetMarkerSymbol extends GAD_DrawingOrder {
     @AFPField
     short markerSymbolCodePoint;
+
+    @Override
+    public void reset() {
+      super.reset();
+      markerSymbolCodePoint = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1129,6 +1316,16 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     Short widthOfCharacterCellFractionalPart;
     @AFPField(isOptional = true)
     Short heightOfCharacterCellFractionalPart;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      widthOfCharacterCellIntegerPart = 0;
+      heightOfCharacterCellIntegerPart = 0;
+      widthOfCharacterCellFractionalPart = null;
+      heightOfCharacterCellFractionalPart = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1218,6 +1415,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     GOCA_Point anglePoint;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      anglePoint = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1272,6 +1476,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short divisorOfShearRatio;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      dividendOfShearRatio = 0;
+      divisorOfShearRatio = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1323,6 +1535,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short heightOfMarkerCell;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      widthOfMarkerCell = 0;
+      heightOfMarkerCell = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1370,6 +1590,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short characterSetLocalID;
 
     @Override
+    public void reset() {
+      super.reset();
+      characterSetLocalID = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       characterSetLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1399,6 +1625,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short characterPrecision;
 
     @Override
+    public void reset() {
+      super.reset();
+      characterPrecision = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       characterPrecision = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1422,6 +1654,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GSCD_SetCharacterDirection extends GAD_DrawingOrder {
     @AFPField
     short characterDirection;
+
+    @Override
+    public void reset() {
+      super.reset();
+      characterDirection = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1449,6 +1687,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short markerPrecision;
 
     @Override
+    public void reset() {
+      super.reset();
+      markerPrecision = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       markerPrecision = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1474,6 +1718,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short markerSetLocalID;
 
     @Override
+    public void reset() {
+      super.reset();
+      markerSetLocalID = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       markerSetLocalID = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1497,6 +1747,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GEPROL_EndProlog extends GAD_DrawingOrder {
     @AFPField
     short reserved0 = 0x00;
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved0 = 0x00;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1550,6 +1806,20 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short yTopWindow;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0x0D;
+      reserved2_3 = 0x0000;
+      flags = 0;
+      patternSet = 0;
+      patternSymbol = 0;
+      xLeftWindow = 0;
+      xRightWindow = 0;
+      yBottomWindow = 0;
+      yTopWindow = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1589,6 +1859,15 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     Short patternSymbol;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      reserved2_3 = 0x0000;
+      patternSet = 0;
+      patternSymbol = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1615,6 +1894,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GECP_EndCustomPattern extends GAD_DrawingOrder {
     @AFPField
     short reserved0 = 0x00;
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved0 = 0x00;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1653,6 +1938,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField(maxSize = 255)
     byte[] data;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      data = null;
+      text = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1715,6 +2008,12 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short internalFlags;
 
     @Override
+    public void reset() {
+      super.reset();
+      internalFlags = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       internalFlags = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1754,6 +2053,16 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     Short xAxisLengthForRoundCorner;
     @AFPField(isOptional = true, indexNr = 1)
     Short yAxisLengthForRoundCorner;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      reserved2_3 = 0x0000;
+      diagonalCorner = null;
+      xAxisLengthForRoundCorner = null;
+      yAxisLengthForRoundCorner = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1885,6 +2194,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     String text;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      codePoints = null;
+      text = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -1955,6 +2272,15 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short multiplierFractionalPortion;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      arcCenter = null;
+      multiplierIntegerPortion = 0;
+      multiplierFractionalPortion = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2018,6 +2344,16 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     int widthOfImageInImagePoints;
     @AFPField
     int heightOfImageInImagePoints;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      formatOfImageData = 0;
+      reserved3 = 0x00;
+      widthOfImageInImagePoints = 0;
+      heightOfImageInImagePoints = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2088,6 +2424,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     byte[] imageData;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      imageData = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2150,6 +2493,16 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short coordinateX;
     @AFPField
     short coordinateY;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      flags = 0;
+      reserved3 = 0x00;
+      coordinateX = 0;
+      coordinateY = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2219,6 +2572,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     byte[] reservedData = new byte[0];
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0x00;
+      reservedData = new byte[0];
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2277,6 +2637,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     List<GOCA_RelativePoint> relativeOffsets;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      relativeOffsets = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2324,6 +2691,17 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     int startAngle;
     @AFPField
     int sweepAngle;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      arcCenter = null;
+      multiplierIntegerPortion = 0;
+      multiplierFractionalPortion = 0;
+      startAngle = 0;
+      sweepAngle = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2461,6 +2839,20 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     byte[] colorValue;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      reserved2 = 0x00;
+      colorSpace = null;
+      reserved4_7 = 0x00;
+      nrOfBitsComponent1 = 0;
+      nrOfBitsComponent2 = 0;
+      nrOfBitsComponent3 = 0;
+      nrOfBitsComponent4 = 0;
+      colorValue = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2580,6 +2972,17 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     Short yAxisLengthForRoundCorner;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      reserved2_3 = 0x00;
+      firstCorner = null;
+      diagonalCorner = null;
+      xAxisLengthForRoundCorner = null;
+      yAxisLengthForRoundCorner = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2694,6 +3097,15 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     String text;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      originPoint = null;
+      codePoints = null;
+      text = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2775,6 +3187,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     short multiplierFractionalPortion;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      multiplierIntegerPortion = 0;
+      multiplierFractionalPortion = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2828,6 +3248,17 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     int widthOfImageInImagePoints;
     @AFPField
     int heightOfImageInImagePoints;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      origin = null;
+      formatOfImageData = 0;
+      reserved3 = 0x00;
+      widthOfImageInImagePoints = 0;
+      heightOfImageInImagePoints = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2912,6 +3343,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     List<GOCA_RelativePoint> relativeOffsets;
 
     @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      startPoint = null;
+      relativeOffsets = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -2966,6 +3405,18 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     int startAngle;
     @AFPField
     int sweepAngle;
+
+    @Override
+    public void reset() {
+      super.reset();
+      lengthOfFollowingData = 0;
+      lineStartPoint = null;
+      arcCenter = null;
+      multiplierIntegerPortion = 0;
+      multiplierFractionalPortion = 0;
+      startAngle = 0;
+      sweepAngle = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -3078,6 +3529,14 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     byte[] extendedData;
 
     @Override
+    public void reset() {
+      super.reset();
+      qualifier = 0;
+      lengthOfFollowingData = 0;
+      extendedData = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
       qualifier = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
@@ -3152,6 +3611,25 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     byte outsideEnd;
     @AFPField
     List<ColorStop> colorStops;
+
+    @Override
+    public void reset() {
+      super.reset();
+      qualifier = 0xDC;
+      lengthOfFollowingData = 0;
+      reserved4_5 = 0x0000;
+      patternSet = 0;
+      patternSymbol = 0;
+      xStart = 0;
+      yStart = 0;
+      xEnd = 0;
+      yEnd = 0;
+      startColorSpec = null;
+      endColorValue = null;
+      outsideStart = 0;
+      outsideEnd = 0;
+      colorStops = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -3256,6 +3734,29 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     byte outsideEnd;
     @AFPField
     List<ColorStop> colorStops;
+
+    @Override
+    public void reset() {
+      super.reset();
+      qualifier = 0xDD;
+      lengthOfFollowingData = 0;
+      reserved4_5 = 0x0000;
+      patternSet = 0;
+      patternSymbol = 0;
+      xStart = 0;
+      yStart = 0;
+      mhStart = 0;
+      mfrStart = 0;
+      xEnd = 0;
+      yEnd = 0;
+      mhEnd = 0;
+      mfrEnd = 0;
+      startColorSpec = null;
+      endColorValue = null;
+      outsideStart = 0;
+      outsideEnd = 0;
+      colorStops = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

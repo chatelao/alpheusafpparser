@@ -81,6 +81,20 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   @AFPField(isHidden = true)
   ControlSequenceIntroducer csi;
 
+  /**
+   * Resets the control sequence to its initial state for reuse.
+   */
+  public void reset() {
+    csi = null;
+  }
+
+  /**
+   * Recursively releases any resources held by this control sequence back to their pools.
+   */
+  public void release() {
+    ControlSequencePool.release(this);
+  }
+
   public ControlSequenceIntroducer getCsi() {
     return csi;
   }
@@ -297,6 +311,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     byte[] undefinedData;
     String text;
 
+    @Override
+    public void reset() {
+      super.reset();
+      undefinedData = null;
+      text = null;
+    }
+
     @XmlElement(name = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
@@ -335,6 +356,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short displacement;
 
     @Override
+    public void reset() {
+      super.reset();
+      displacement = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       displacement = UtilBinaryDecoding.parseShort(sfData, offset, 2);
     }
@@ -360,6 +387,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   @XmlRootElement
   public static final class AMI_AbsoluteMoveInline extends PTOCAControlSequence {
     short displacement;
+
+    @Override
+    public void reset() {
+      super.reset();
+      displacement = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -402,6 +435,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short suppressionID;
 
     @Override
+    public void reset() {
+      super.reset();
+      suppressionID = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       suppressionID = UtilBinaryDecoding.parseShort(sfData, offset, 1);
     }
@@ -428,6 +467,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short length;
     Short width;
     Byte widthFraction;
+
+    @Override
+    public void reset() {
+      super.reset();
+      length = 0;
+      width = null;
+      widthFraction = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -488,6 +535,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     Byte widthFraction;
 
     @Override
+    public void reset() {
+      super.reset();
+      length = 0;
+      width = null;
+      widthFraction = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       this.length = UtilBinaryDecoding.parseShort(sfData, offset, 2);
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
@@ -544,6 +599,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short suppressionID;
 
     @Override
+    public void reset() {
+      super.reset();
+      suppressionID = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       suppressionID = UtilBinaryDecoding.parseShort(sfData, offset, 1);
     }
@@ -568,6 +629,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   public static final class NOP_NoOperation extends PTOCAControlSequence {
     byte[] ignoredData;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      ignoredData = null;
+      text = null;
+    }
 
     @XmlElement(name = "text")
     public String getText() {
@@ -611,6 +679,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     PTOCA_BypassFlag bypassFlag;
     int overStrikeCharacterCodePoint;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      bypassFlag = null;
+      overStrikeCharacterCodePoint = 0;
+      text = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -659,6 +735,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short increment;
 
     @Override
+    public void reset() {
+      super.reset();
+      increment = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       increment = UtilBinaryDecoding.parseShort(sfData, offset, 2);
     }
@@ -681,6 +763,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   @XmlRootElement
   public static final class RMI_RelativeMoveInline extends PTOCAControlSequence {
     short increment;
+
+    @Override
+    public void reset() {
+      super.reset();
+      increment = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -707,6 +795,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short repeatLength;
     byte[] repeatData;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      repeatLength = 0;
+      repeatData = null;
+      text = null;
+    }
 
     @XmlElement(name = "text")
     public String getText() {
@@ -772,6 +868,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short increment;
 
     @Override
+    public void reset() {
+      super.reset();
+      increment = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       increment = UtilBinaryDecoding.parseShort(sfData, offset, 2);
     }
@@ -794,6 +896,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   @XmlRootElement
   public static final class SCFL_SetCodedFontLocal extends PTOCAControlSequence {
     short codedFontLocalID;
+
+    @Override
+    public void reset() {
+      super.reset();
+      codedFontLocalID = 0;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -829,6 +937,19 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     byte nrOfBitsComponent3;
     byte nrOfBitsComponent4;
     byte[] colorValue;
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved4 = 0x00;
+      colorSpace = null;
+      reserved6_9 = new byte[4];
+      nrOfBitsComponent1 = 0;
+      nrOfBitsComponent2 = 0;
+      nrOfBitsComponent3 = 0;
+      nrOfBitsComponent4 = 0;
+      colorValue = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -928,6 +1049,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     SIA_Direction direction;
 
     @Override
+    public void reset() {
+      super.reset();
+      adjustment = 0;
+      direction = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       adjustment = UtilBinaryDecoding.parseShort(sfData, offset, 2);
       if (StructuredField.getActualLength(sfData, offset, length) >= 3) {
@@ -989,6 +1117,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short displacement;
 
     @Override
+    public void reset() {
+      super.reset();
+      displacement = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       displacement = UtilBinaryDecoding.parseShort(sfData, offset, 2);
     }
@@ -1012,6 +1146,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   public static final class STC_SetTextColor extends PTOCAControlSequence {
     AFPColorValue foregroundColor;
     STC_Precision precision;
+
+    @Override
+    public void reset() {
+      super.reset();
+      foregroundColor = null;
+      precision = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1077,6 +1218,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     AFPOrientation yOrientation;
 
     @Override
+    public void reset() {
+      super.reset();
+      xOrientation = null;
+      yOrientation = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       xOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 2));
       yOrientation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 2, 2));
@@ -1111,6 +1259,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short increment;
 
     @Override
+    public void reset() {
+      super.reset();
+      increment = 0;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       increment = UtilBinaryDecoding.parseShort(sfData, offset, 2);
     }
@@ -1135,6 +1289,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     TBM_Direction direction;
     TBM_Precision precision;
     Short temporaryBaselineIncrement;
+
+    @Override
+    public void reset() {
+      super.reset();
+      direction = null;
+      precision = null;
+      temporaryBaselineIncrement = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1235,6 +1397,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     volatile boolean isUseEBCDICData;
 
+    @Override
+    public void reset() {
+      super.reset();
+      transparentData = null;
+      transparentDataEBCDIC = null;
+      isUseEBCDICData = false;
+    }
+
     @XmlElement(name = "text")
     public String getText() {
       if (transparentDataEBCDIC == null || transparentDataEBCDIC.length == 0) {
@@ -1318,6 +1488,18 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     byte glyphCt;
     short altiPos;
     byte[] complexText;
+
+    @Override
+    public void reset() {
+      super.reset();
+      uctVers = 0x01;
+      ctLength = 0;
+      ctFlags = 0;
+      bidiCt = 0;
+      glyphCt = 0;
+      altiPos = 0;
+      complexText = null;
+    }
 
     @XmlElement(name = "text")
     public String getText() {
@@ -1424,6 +1606,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     byte[] encryptedData;
 
     @Override
+    public void reset() {
+      super.reset();
+      reserved4_7 = 0x00;
+      encryptedData = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       reserved4_7 = UtilBinaryDecoding.parseInt(sfData, offset, 4);
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
@@ -1470,6 +1659,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     int reserved4_7 = 0x00;
     @AFPField
     byte[] keyInfo;
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved4_7 = 0x00;
+      keyInfo = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1548,6 +1744,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     @AFPField
     byte[] alternateText;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      reserved4_7 = 0x00;
+      alternateText = null;
+      text = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1629,6 +1833,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     PTOCA_BypassFlag bypassFlag;
 
     @Override
+    public void reset() {
+      super.reset();
+      bypassFlag = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       bypassFlag = PTOCA_BypassFlag.valueOf(sfData[offset]);
     }
@@ -1655,6 +1865,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     @AFPField
     byte[] data;
     String text;
+
+    @Override
+    public void reset() {
+      super.reset();
+      data = null;
+      text = null;
+    }
 
     @XmlElement(name = "text")
     public String getText() {
@@ -1697,6 +1914,16 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short ffnLgth;
     byte[] fontOid;
     String ffontName;
+
+    @Override
+    public void reset() {
+      super.reset();
+      iAdvance = 0;
+      oidLgth = 0;
+      ffnLgth = 0;
+      fontOid = null;
+      ffontName = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
@@ -1784,6 +2011,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     int[] glyphIds;
 
     @Override
+    public void reset() {
+      super.reset();
+      glyphIds = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
         throws AFPParserException {
       // PTOCA-04 (AFPC-0005-04), page 83: LL=4 + n*2. Bytes 2-3 are Reserved.
@@ -1820,6 +2053,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     short[] advances;
 
     @Override
+    public void reset() {
+      super.reset();
+      advances = null;
+    }
+
+    @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
         throws AFPParserException {
       // PTOCA-04 (AFPC-0005-04), page 82: LL=4 + n*2. Bytes 2-3 are Reserved.
@@ -1854,6 +2093,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   @XmlRootElement
   public static final class GOR_GlyphOffsetRun extends PTOCAControlSequence {
     short[] offsets;
+
+    @Override
+    public void reset() {
+      super.reset();
+      offsets = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
