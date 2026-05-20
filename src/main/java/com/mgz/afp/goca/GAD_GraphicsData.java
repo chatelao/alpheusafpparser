@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 
+
 package com.mgz.afp.goca;
 import javax.xml.bind.annotation.XmlRootElement;
 

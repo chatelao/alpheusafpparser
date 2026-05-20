@@ -7,5 +7,5 @@ Source Compatibility: 21
 > Task :classes UP-TO-DATE
 > Task :checkstyleMain UP-TO-DATE
 
-BUILD SUCCESSFUL in 932ms
+BUILD SUCCESSFUL in 905ms
 2 actionable tasks: 2 up-to-date

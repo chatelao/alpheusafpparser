@@ -161,6 +161,7 @@ public class Afp2Xml {
                     StructuredField sf;
                     while ((sf = parser.parseNextSF()) != null) {
                         writer.writeField(sf);
+                        sf.release();
                     }
                 }
                 System.out.println("Export successful: " + outputFile.getPath());
@@ -169,6 +170,7 @@ public class Afp2Xml {
                     StructuredField sf;
                     while ((sf = parser.parseNextSF()) != null) {
                         writer.writeField(sf);
+                        sf.release();
                     }
                 }
             }

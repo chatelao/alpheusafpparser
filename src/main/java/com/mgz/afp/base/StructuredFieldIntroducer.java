@@ -76,7 +76,7 @@ public class StructuredFieldIntroducer {
   private long fileOffset;
 
   public static StructuredFieldIntroducer parse(InputStream is) throws AFPParserException {
-    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+    StructuredFieldIntroducer sfi = SfiPool.acquire();
 
     try {
       sfi.sfLength = UtilBinaryDecoding.parseInt(is, 2);
@@ -126,7 +126,7 @@ public class StructuredFieldIntroducer {
    * @throws AFPParserException if parsing fails
    */
   public static StructuredFieldIntroducer parse(ByteBuffer buffer, int offset) throws AFPParserException {
-    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+    StructuredFieldIntroducer sfi = SfiPool.acquire();
 
     sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, offset, 2);
     sfi.sfTypeID = SFTypeID.parse(buffer, offset + 2);
@@ -157,7 +157,7 @@ public class StructuredFieldIntroducer {
    * @throws AFPParserException if parsing fails
    */
   public static StructuredFieldIntroducer parse(ByteBuffer buffer) throws AFPParserException {
-    StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
+    StructuredFieldIntroducer sfi = SfiPool.acquire();
 
     sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, 2);
     sfi.sfTypeID = SFTypeID.parse(buffer);
@@ -321,6 +321,22 @@ public class StructuredFieldIntroducer {
 
   public void setActualConfig(AFPParserConfiguration actualConfig) {
     this.actualConfig = actualConfig;
+  }
+
+  /**
+   * Resets all fields to their default values for reuse in an object pool.
+   */
+  public void reset() {
+    sfLength = 0;
+    sfTypeID = null;
+    if (flagByte != null) {
+      flagByte.clear();
+    }
+    reserved = 0x0000;
+    extenstionLength = 0;
+    extenstion = null;
+    actualConfig = null;
+    fileOffset = 0;
   }
 
   @Override

@@ -134,8 +134,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ SF Groups G-I.
             - ✅ SF Groups J-O (LLE-MFC complete).
             - ✅ SF Groups P-T (PEC, PFC, PGD, PGP, PMC, PPO, PTD, PTX, TLE complete).
-            - ⏳ SF Groups U-Z:
-                - ⏳ XMD (XML Descriptor).
+            - ✅ SF Groups U-Z (XMD moved to Line Data).
         - ⏳ Chapter 6 (Triplets).
         - ⏳ Chapter 7 (Interchange Sets).
         - ⏳ Chapter 8 (Function Sets).
@@ -149,7 +148,8 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - 🚧 Improve all `specifications/markdown/linedata-reference-05` chapters:
         - ✅ Chapters 1-3 complete.
         - ✅ Chapter 4 complete.
-        - ⏳ Chapter 5.
+        - 🚧 Chapter 5 in-progress:
+            - ⏳ XMD (XML Descriptor).
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, DB2Z, GOCA, IOCA, IPDS, MOCA, PTOCA).
     - 🚧 Improve all `specifications/markdown/cmoca-reference-02` chapters:
@@ -198,10 +198,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - 🚧 Fix Formatting and Layout violations (~2,000 warnings):
         - ⏳ `LineLength` (~700).
         - ⏳ `CustomImportOrder` (~528).
-        - 🚧 `EmptyLineSeparator` (~331):
-            - ✅ Package declaration separators.
-            - ✅ Top violating files (CMR, GAD, PTOCA, IOCA, Triplet).
-            - ⏳ Remaining files (~330).
+        - ✅ `EmptyLineSeparator`.
         - ⏳ `Indentation` (~182).
         - ⏳ `LeftCurly` / `RightCurly` (~180).
     - ⏳ Address remaining miscellaneous violations (~130 warnings):
@@ -226,7 +223,9 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
         - ✅ Update `StructuredFieldIntroducer` and `StructuredField` to support reading payloads from `ByteBuffer`.
         - ✅ Implement AFP file mapping using `FileChannel.map`.
         - ✅ Adapt `AFPParser` to utilize `MappedByteBuffer` for parsing.
-    - ⏳ Implement object pooling for `StructuredFieldIntroducer` and common payload objects.
+    - 🚧 Implement object pooling:
+        - ✅ `StructuredFieldIntroducer` pooling.
+        - ⏳ common payload objects pooling.
 - ⏳ Parallel Processing:
     - ⏳ Implement "seek-and-parse" worker pool strategy for parallel page parsing:
         - ⏳ Implement page boundary discovery by scanning for `BPG_BeginPage` markers.
