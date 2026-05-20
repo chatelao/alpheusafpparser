@@ -226,12 +226,13 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
     - 🚧 Implement object pooling:
         - ✅ `StructuredFieldIntroducer` pooling.
         - ⏳ common payload objects pooling.
-- ⏳ Parallel Processing:
+- 🚧 Parallel Processing:
     - ⏳ Implement "seek-and-parse" worker pool strategy for parallel page parsing:
-        - ⏳ Implement page boundary discovery by scanning for `BPG_BeginPage` markers.
+        - ✅ Implement page boundary discovery by scanning for `BPG_BeginPage` markers.
         - ⏳ Create a worker pool for processing identified page segments in parallel.
         - ⏳ Implement logic to merge global state updates from parallel workers into `AFPParserConfiguration`.
     - ⏳ Utilize `AsynchronousFileChannel` for overlapping I/O and processing.
 - 🚧 Specialized Optimizations:
     - ✅ Replace reflection-based class lookup in `AFPParser` with a pre-computed static mapping (Supplier-based).
+    - ✅ Replace reflection-based class lookup in `TripletParser` with a pre-computed static mapping (Supplier-based).
     - ✅ Implement custom fast CP500 EBCDIC-to-UTF8 decoder for high-frequency fields.
