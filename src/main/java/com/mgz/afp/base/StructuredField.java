@@ -71,6 +71,18 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   }
 
   /**
+   * Releases the {@link StructuredFieldIntroducer} of this structured field back to the pool.
+   * After calling this method, the {@link StructuredFieldIntroducer} reference of this
+   * structured field will be null.
+   */
+  public void release() {
+    if (structuredFieldIntroducer != null) {
+      SfiPool.release(structuredFieldIntroducer);
+      structuredFieldIntroducer = null;
+    }
+  }
+
+  /**
    * Returns the actual length of data to process contained in sfData.
    *
    * @param sfData the data array
