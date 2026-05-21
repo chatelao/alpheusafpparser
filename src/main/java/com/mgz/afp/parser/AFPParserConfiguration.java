@@ -38,8 +38,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.security.DigestInputStream;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The AFPParserConfiguration is used to configure the {@link AFPParser}, see {@link
@@ -64,7 +64,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   private CPC_CodePageControl currentPageControl;
   private FNC_FontControl currentFontControl;
   private BDD_BarCodeDataDescriptor currentBarCodeDataDescriptor;
-  private Map<Short, Charset> codedFontLocalIdToCharsetMap = new HashMap<>();
+  private Map<Short, Charset> codedFontLocalIdToCharsetMap = new ConcurrentHashMap<>();
 
   /**
    * Default constructor for AFPParserConfiguration.

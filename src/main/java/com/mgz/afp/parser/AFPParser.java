@@ -761,6 +761,16 @@ public class AFPParser {
   }
 
   /**
+   * Sets the number of bytes read, effectively setting the starting offset for the next parsing
+   * operation.
+   *
+   * @param offset the new offset
+   */
+  public void setNrOfBytesRead(long offset) {
+    this.nrOfBytesRead = offset;
+  }
+
+  /**
    * Quits the parsing process and cleans up resources.
    *
    * @throws AFPParserException if closing the input stream fails
