@@ -31,6 +31,12 @@ public abstract class StructuredFieldBaseRepeatingGroups extends StructuredField
   @XmlTransient
   protected List<IRepeatingGroup> repeatingGroups;
 
+  @Override
+  public void reset() {
+    super.reset();
+    repeatingGroups = null;
+  }
+
   @XmlTransient
   @Override
   public final List<IRepeatingGroup> getRepeatingGroups() {

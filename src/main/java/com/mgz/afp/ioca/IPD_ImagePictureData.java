@@ -65,6 +65,12 @@ import java.util.List;
 public class IPD_ImagePictureData extends StructuredField {
   private List<IPD_Segment> listOfSegments;
 
+  @Override
+  public void reset() {
+    super.reset();
+    listOfSegments = null;
+  }
+
   public List<IPD_Segment> getListOfSegments() {
     return listOfSegments;
   }

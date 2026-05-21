@@ -220,7 +220,10 @@ public class AFPParser {
    * @return a new instance of the corresponding structured field, or an Undefined SF if not found
    */
   public static StructuredField createSFInstance(StructuredFieldIntroducer sfi) {
-    StructuredField sf = SF_SUPPLIERS.getOrDefault(sfi.getSFTypeID(), Undefined::new).get();
+    StructuredField sf = com.mgz.afp.base.StructuredFieldPool.acquire(sfi.getSFTypeID());
+    if (sf == null) {
+      sf = SF_SUPPLIERS.getOrDefault(sfi.getSFTypeID(), Undefined::new).get();
+    }
     sf.setStructuredFieldIntroducer(sfi);
     return sf;
   }

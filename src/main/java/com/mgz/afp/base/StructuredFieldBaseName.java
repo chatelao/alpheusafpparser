@@ -40,6 +40,12 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
   protected String name;
 
   @Override
+  public void reset() {
+    super.reset();
+    name = null;
+  }
+
+  @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength >= 8) {

@@ -225,6 +225,8 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
         - ✅ Adapt `AFPParser` to utilize `MappedByteBuffer` for parsing.
     - ✅ Implement object pooling:
         - ✅ `StructuredFieldIntroducer` pooling.
+        - ✅ `Triplet` pooling.
+        - ✅ `StructuredField` pooling.
         - ✅ `GAD_DrawingOrder`, `IPD_Segment`, and `PTOCAControlSequence` pooling.
 - ✅ Parallel Processing:
     - ✅ Implement "seek-and-parse" worker pool strategy for parallel page parsing:
