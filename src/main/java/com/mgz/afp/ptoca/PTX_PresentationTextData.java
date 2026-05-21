@@ -48,6 +48,14 @@ public class PTX_PresentationTextData extends StructuredField {
   volatile Throwable controlSequenceException;
 
   @Override
+  public void reset() {
+    super.reset();
+    controlSequences = null;
+    originalPayload = null;
+    controlSequenceException = null;
+  }
+
+  @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 0) {

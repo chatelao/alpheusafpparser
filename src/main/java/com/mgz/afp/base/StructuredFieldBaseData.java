@@ -38,6 +38,13 @@ public class StructuredFieldBaseData extends StructuredField {
   protected byte[] data;
   protected String text;
 
+  @Override
+  public void reset() {
+    super.reset();
+    data = null;
+    text = null;
+  }
+
   @XmlElement(name = "text")
   public String getText() {
     return UtilCharacterEncoding.sanitizeForXml(text);

@@ -60,6 +60,14 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   @AFPField(isOptional = true, maxSize = 32759)
   byte[] padding;
 
+  /**
+   * Resets the structured field to its initial state for reuse in an object pool.
+   */
+  public void reset() {
+    structuredFieldIntroducer = null;
+    padding = null;
+  }
+
   public static void checkDataLength(byte[] sfData, int offset, int length, int minLength) throws AFPParserException {
     if (length == -1) {
       length = sfData.length - offset;
@@ -84,6 +92,9 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
    * {@link StructuredFieldIntroducer} and triplet references of this structured field will be null.
    */
   public void release() {
+    com.mgz.afp.enums.SFTypeID type =
+        structuredFieldIntroducer != null ? structuredFieldIntroducer.getSFTypeID() : null;
+
     if (this instanceof IHasTriplets iHasTriplets) {
       java.util.List<Triplet> triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
@@ -129,6 +140,8 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
       SfiPool.release(structuredFieldIntroducer);
       structuredFieldIntroducer = null;
     }
+
+    StructuredFieldPool.release(this, type);
   }
 
   /**

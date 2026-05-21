@@ -41,6 +41,12 @@ public abstract class StructuredFieldBaseTriplets extends StructuredField implem
   @XmlTransient
   protected List<Triplet> triplets;
 
+  @Override
+  public void reset() {
+    super.reset();
+    triplets = null;
+  }
+
   @XmlTransient
   @Override
   public final List<Triplet> getTriplets() {

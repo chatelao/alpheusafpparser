@@ -121,6 +121,12 @@ public class GAD_GraphicsData extends StructuredField {
   @AFPField
   private List<GAD_DrawingOrder> drawingOrders;
 
+  @Override
+  public void reset() {
+    super.reset();
+    drawingOrders = null;
+  }
+
   public static final List<GAD_DrawingOrder> buildDrawingOrders(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
 
     int actualLength = length != -1 ? length : sfData.length - offset;
