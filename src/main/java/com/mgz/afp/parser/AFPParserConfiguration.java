@@ -34,9 +34,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.nio.file.StandardOpenOption;
 import java.security.DigestInputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,7 +62,8 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   boolean isBuildShallow;
   boolean escalateParsingErrors = true;
   File afpFile;
-  private transient MappedByteBuffer mappedByteBuffer;
+  private transient ByteBuffer byteBuffer;
+  private transient AsynchronousFileChannel asyncFileChannel;
   private CPD_CodePageDescriptor currentCodePageDescriptor;
   private CPC_CodePageControl currentPageControl;
   private FNC_FontControl currentFontControl;
@@ -349,23 +353,58 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    */
   public void setAFPFile(File afpFile) {
     this.afpFile = afpFile;
-    this.mappedByteBuffer = null;
+    this.byteBuffer = null;
+    this.asyncFileChannel = null;
   }
 
   /**
-   * Returns a {@link MappedByteBuffer} of the configured AFP file.
+   * Returns a {@link ByteBuffer} of the configured AFP file.
    *
-   * @return the mapped buffer, or null if no file is configured
+   * @return the buffer, or null if no file is configured
    * @throws IOException if mapping the file fails
    */
-  public MappedByteBuffer getByteBuffer() throws IOException {
-    if (mappedByteBuffer == null && afpFile != null) {
+  public ByteBuffer getByteBuffer() throws IOException {
+    if (byteBuffer == null && afpFile != null) {
       try (RandomAccessFile raf = new RandomAccessFile(afpFile, "r");
            FileChannel fc = raf.getChannel()) {
-        mappedByteBuffer = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+        byteBuffer = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
       }
     }
-    return mappedByteBuffer;
+    return byteBuffer;
+  }
+
+  /**
+   * Sets the {@link ByteBuffer} to be parsed.
+   *
+   * @param buffer the {@link ByteBuffer} to set
+   */
+  public void setByteBuffer(ByteBuffer buffer) {
+    this.byteBuffer = buffer;
+  }
+
+  /**
+   * Returns an {@link AsynchronousFileChannel} of the configured AFP file.
+   *
+   * @return the asynchronous channel, or null if no file is configured
+   * @throws IOException if opening the channel fails
+   */
+  public AsynchronousFileChannel getAsyncFileChannel() throws IOException {
+    if (asyncFileChannel == null && afpFile != null) {
+      asyncFileChannel = AsynchronousFileChannel.open(afpFile.toPath(), StandardOpenOption.READ);
+    }
+    return asyncFileChannel;
+  }
+
+  /**
+   * Closes the {@link AsynchronousFileChannel} if it is open.
+   *
+   * @throws IOException if closing the channel fails
+   */
+  public void closeAsyncFileChannel() throws IOException {
+    if (asyncFileChannel != null) {
+      asyncFileChannel.close();
+      asyncFileChannel = null;
+    }
   }
 
   /**

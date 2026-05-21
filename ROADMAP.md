@@ -223,18 +223,21 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
         - ✅ Update `StructuredFieldIntroducer` and `StructuredField` to support reading payloads from `ByteBuffer`.
         - ✅ Implement AFP file mapping using `FileChannel.map`.
         - ✅ Adapt `AFPParser` to utilize `MappedByteBuffer` for parsing.
-    - ✅ Implement object pooling:
+    - 🚧 Implement object pooling:
         - ✅ `StructuredFieldIntroducer` pooling.
         - ✅ `Triplet` pooling.
         - ✅ `StructuredField` pooling.
         - ✅ `GAD_DrawingOrder`, `IPD_Segment`, and `PTOCAControlSequence` pooling.
+        - ⏳ `IRepeatingGroup` pooling.
+        - ⏳ `StructuredFieldBaseData` pooling.
 - ✅ Parallel Processing:
     - ✅ Implement "seek-and-parse" worker pool strategy for parallel page parsing:
         - ✅ Implement page boundary discovery by scanning for `BPG_BeginPage` markers.
         - ✅ Create a worker pool for processing identified page segments in parallel.
         - ✅ Implement logic to merge global state updates from parallel workers into `AFPParserConfiguration`.
-    - ⏳ Utilize `AsynchronousFileChannel` for overlapping I/O and processing.
+    - ✅ Utilize `AsynchronousFileChannel` for overlapping I/O and processing.
 - 🚧 Specialized Optimizations:
+    - ⏳ Off-heap buffer management for large payloads.
     - ✅ Replace reflection-based class lookup in `AFPParser` with a pre-computed static mapping (Supplier-based).
     - ✅ Replace reflection-based class lookup in `TripletParser` with a pre-computed static mapping (Supplier-based).
     - ✅ Implement custom fast CP500 EBCDIC-to-UTF8 decoder for high-frequency fields.
