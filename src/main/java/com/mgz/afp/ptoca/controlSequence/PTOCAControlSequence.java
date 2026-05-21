@@ -1417,9 +1417,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
+        transparentData = UtilCharacterEncoding.decodeEbcdic(sfData, offset, length, config);
         transparentDataEBCDIC = new byte[actualLength];
         System.arraycopy(sfData, offset, transparentDataEBCDIC, 0, actualLength);
-        transparentData = new String(transparentDataEBCDIC, config.getAfpCharSet());
       } else {
         transparentData = null;
         transparentDataEBCDIC = null;
@@ -1882,9 +1882,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
+        text = UtilCharacterEncoding.decodeEbcdic(sfData, offset, length, config);
         data = new byte[actualLength];
         System.arraycopy(sfData, offset, data, 0, actualLength);
-        text = new String(data, config.getAfpCharSet());
       } else {
         data = null;
         text = null;
