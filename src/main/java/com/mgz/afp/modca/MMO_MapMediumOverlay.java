@@ -22,6 +22,7 @@ package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.base.RepeatingGroupPool;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -51,7 +52,10 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
     if (actualLength > 4) {
       int pos = 4;
       while (pos < actualLength) {
-        MMO_RepeatingGroup rg = new MMO_RepeatingGroup();
+        MMO_RepeatingGroup rg = RepeatingGroupPool.acquire(MMO_RepeatingGroup.class);
+        if (rg == null) {
+          rg = new MMO_RepeatingGroup();
+        }
         rg.decodeAFP(sfData, offset + pos, actualLength - pos, config);
         addRepeatingGroup(rg);
         pos += lengthOfEachRepeatingGroup;
@@ -97,6 +101,14 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
     MMO_Flag flag;
     byte[] reserved2_3 = new byte[2];
     String nameOfMediumOverlay;
+
+    @Override
+    public void reset() {
+      mediumOverlayLocalId = 0;
+      flag = null;
+      reserved2_3 = new byte[2];
+      nameOfMediumOverlay = null;
+    }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

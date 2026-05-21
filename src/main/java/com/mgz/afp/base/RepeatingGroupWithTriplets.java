@@ -36,6 +36,12 @@ public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IH
   @XmlTransient
   protected List<Triplet> triplets;
 
+  @Override
+  public void reset() {
+    super.reset();
+    triplets = null;
+  }
+
   @XmlTransient
   @Override
   public List<Triplet> getTriplets() {

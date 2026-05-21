@@ -22,6 +22,7 @@ package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.base.RepeatingGroupPool;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
@@ -48,7 +49,10 @@ public class MDR_MapDataResource extends StructuredFieldBaseRepeatingGroups {
     int acualLength = getActualLength(sfData, offset, length);
     int pos = 0;
     while (pos < acualLength) {
-      MDR_RepeatingGroup rg = new MDR_RepeatingGroup();
+      MDR_RepeatingGroup rg = RepeatingGroupPool.acquire(MDR_RepeatingGroup.class);
+      if (rg == null) {
+        rg = new MDR_RepeatingGroup();
+      }
       rg.decodeAFP(sfData, offset + pos, acualLength - pos, config);
       repeatingGroups.add(rg);
       pos += rg.getRepeatingGroupLength();

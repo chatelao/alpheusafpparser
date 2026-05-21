@@ -118,7 +118,9 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
               iHasTripletsGroup.setTriplets(null);
             }
           }
+          RepeatingGroupPool.release(group);
         }
+        groups.clear();
       }
     }
 
@@ -141,7 +143,11 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
       structuredFieldIntroducer = null;
     }
 
-    StructuredFieldPool.release(this, type);
+    if (this instanceof StructuredFieldBaseData sfBaseData) {
+      StructuredFieldBaseDataPool.release(sfBaseData);
+    } else {
+      StructuredFieldPool.release(this, type);
+    }
   }
 
   /**

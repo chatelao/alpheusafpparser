@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.foca;
 
+import com.mgz.afp.base.RepeatingGroupPool;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -67,7 +68,10 @@ public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
     // Section 2: Repeating Groups
     if (gcgidCount > 0 && rgLen > 0) {
       for (int i = 0; i < gcgidCount && (pos + rgLen) <= actualLength; i++) {
-        var rg = new FNN_RepeatingGroup();
+        var rg = RepeatingGroupPool.acquire(FNN_RepeatingGroup.class);
+        if (rg == null) {
+          rg = new FNN_RepeatingGroup();
+        }
         rg.decodeAFP(sfData, offset + pos, rgLen, config);
         addRepeatingGroup(rg);
         pos += rgLen;
