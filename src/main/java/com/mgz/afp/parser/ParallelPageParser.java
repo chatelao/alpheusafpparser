@@ -23,6 +23,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.exceptions.AFPParserException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -55,15 +56,21 @@ public class ParallelPageParser {
    */
   public List<StructuredField> parseParallel() throws AFPParserException, IOException {
     ByteBuffer buffer = config.getByteBuffer();
+    AsynchronousFileChannel asyncChannel = null;
     if (buffer == null) {
-      throw new AFPParserException("MappedByteBuffer is required for parallel parsing.");
+      asyncChannel = config.getAsyncFileChannel();
     }
 
-    AFPScanner scanner = new AFPScanner(buffer);
+    if (buffer == null && asyncChannel == null) {
+      throw new AFPParserException("MappedByteBuffer or AsynchronousFileChannel is required for parallel parsing.");
+    }
+
+    AFPScanner scanner = (buffer != null) ? new AFPScanner(buffer) : new AFPScanner(asyncChannel);
     List<Long> pageOffsets = scanner.findPageBoundaries();
 
     List<StructuredField> allFields = new ArrayList<>();
-    long firstPageOffset = pageOffsets.isEmpty() ? buffer.limit() : pageOffsets.get(0);
+    long fileSize = (buffer != null) ? buffer.limit() : asyncChannel.size();
+    long firstPageOffset = pageOffsets.isEmpty() ? fileSize : pageOffsets.get(0);
 
     // 1. Parse Preamble sequentially to establish global state (Resource Groups, etc.)
     if (firstPageOffset > 0) {
@@ -90,7 +97,7 @@ public class ParallelPageParser {
       // 3. Dispatch Page Tasks
       for (int i = 0; i < pageOffsets.size(); i++) {
         long start = pageOffsets.get(i);
-        long end = (i + 1 < pageOffsets.size()) ? pageOffsets.get(i + 1) : buffer.limit();
+        long end = (i + 1 < pageOffsets.size()) ? pageOffsets.get(i + 1) : fileSize;
 
         // Clone config for each task to avoid interference on page-local state,
         // but shared state like codedFontLocalIdToCharsetMap (ConcurrentHashMap) remains shared.
@@ -108,6 +115,9 @@ public class ParallelPageParser {
       }
     } finally {
       executor.shutdown();
+      if (asyncChannel != null) {
+        config.closeAsyncFileChannel();
+      }
     }
 
     return allFields;
@@ -127,14 +137,36 @@ public class ParallelPageParser {
     @Override
     public List<StructuredField> call() throws Exception {
       List<StructuredField> fields = new ArrayList<>();
-      AFPParser parser = new AFPParser(taskConfig);
-      parser.setNrOfBytesRead(startOffset);
 
-      StructuredField sf;
-      while ((sf = parser.parseNextSF()) != null) {
-        fields.add(sf);
-        if (parser.getCountReadByte() >= endOffset) {
-          break;
+      // If using AsynchronousFileChannel, pre-load page data into a ByteBuffer
+      if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
+        int pageSize = (int) (endOffset - startOffset);
+        ByteBuffer pageData = ByteBuffer.allocateDirect(pageSize);
+        Future<Integer> readFuture = taskConfig.getAsyncFileChannel().read(pageData, startOffset);
+        readFuture.get();
+        pageData.flip();
+
+        taskConfig.setByteBuffer(pageData);
+        AFPParser parser = new AFPParser(taskConfig);
+
+        StructuredField sf;
+        while ((sf = parser.parseNextSF()) != null) {
+          if (sf.getStructuredFieldIntroducer() != null) {
+            sf.getStructuredFieldIntroducer().setFileOffset(
+                sf.getStructuredFieldIntroducer().getFileOffset() + startOffset);
+          }
+          fields.add(sf);
+        }
+      } else {
+        AFPParser parser = new AFPParser(taskConfig);
+        parser.setNrOfBytesRead(startOffset);
+
+        StructuredField sf;
+        while ((sf = parser.parseNextSF()) != null) {
+          fields.add(sf);
+          if (parser.getCountReadByte() >= endOffset) {
+            break;
+          }
         }
       }
       return fields;

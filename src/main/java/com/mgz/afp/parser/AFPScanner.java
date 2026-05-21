@@ -22,17 +22,22 @@ package com.mgz.afp.parser;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.util.UtilBinaryDecoding;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
- * High-performance scanner for identifying Structured Field offsets within a {@link ByteBuffer}.
+ * High-performance scanner for identifying Structured Field offsets within a {@link ByteBuffer}
+ * or an {@link AsynchronousFileChannel}.
  * It navigates the {@code 0x5A} record chain to avoid full object instantiation.
  */
 public class AFPScanner {
 
   private final ByteBuffer buffer;
+  private final AsynchronousFileChannel asyncChannel;
 
   /**
    * Constructs an {@code AFPScanner} for the given buffer.
@@ -41,18 +46,35 @@ public class AFPScanner {
    */
   public AFPScanner(ByteBuffer buffer) {
     this.buffer = buffer;
+    this.asyncChannel = null;
   }
 
   /**
-   * Scans the buffer for all structured fields of the specified type.
+   * Constructs an {@code AFPScanner} for the given asynchronous file channel.
+   *
+   * @param asyncChannel the channel to scan
+   */
+  public AFPScanner(AsynchronousFileChannel asyncChannel) {
+    this.buffer = null;
+    this.asyncChannel = asyncChannel;
+  }
+
+  /**
+   * Scans for all structured fields of the specified type.
    *
    * @param typeID the type of structured field to look for
    * @return a list of absolute offsets to the {@code 0x5A} marker of each matching field
    */
   public List<Long> scanFor(SFTypeID typeID) {
-    if (buffer == null) {
-      return new ArrayList<>();
+    if (buffer != null) {
+      return scanForBuffer(typeID);
+    } else if (asyncChannel != null) {
+      return scanForAsyncChannel(typeID);
     }
+    return new ArrayList<>();
+  }
+
+  private List<Long> scanForBuffer(SFTypeID typeID) {
     List<Long> offsets = new ArrayList<>();
     int pos = buffer.position();
     int limit = buffer.limit();
@@ -89,6 +111,67 @@ public class AFPScanner {
       } else {
         pos++;
       }
+    }
+    return offsets;
+  }
+
+  private List<Long> scanForAsyncChannel(SFTypeID typeID) {
+    List<Long> offsets = new ArrayList<>();
+    try {
+      long fileSize = asyncChannel.size();
+      long currentFilePos = 0;
+      ByteBuffer chunk = ByteBuffer.allocateDirect(1024 * 1024); // 1MB chunks
+
+      while (currentFilePos + 8 <= fileSize) {
+        chunk.clear();
+        Future<Integer> future = asyncChannel.read(chunk, currentFilePos);
+        int bytesRead = future.get();
+        if (bytesRead <= 0) {
+          break;
+        }
+        chunk.flip();
+
+        int chunkPos = 0;
+        while (chunkPos < bytesRead) {
+          // Find next 0x5A marker
+          if ((chunk.get(chunkPos) & 0xFF) == 0x5A) {
+            if (chunkPos + 8 > bytesRead) {
+              // SFI header spans across chunks or is truncated at EOF.
+              // If it's EOF, we can't do anything, but if it spans, we re-read.
+              if (currentFilePos + chunkPos + 8 > fileSize) {
+                // Truncated at end of file, skip it.
+                chunkPos++;
+                break;
+              }
+              break;
+            }
+
+            int sfLength;
+            try {
+              sfLength = UtilBinaryDecoding.parseInt(chunk, chunkPos + 1, 2);
+            } catch (Exception e) {
+              chunkPos++;
+              continue;
+            }
+
+            SFTypeID foundType = SFTypeID.parse(chunk, chunkPos + 3);
+            if (foundType == typeID) {
+              offsets.add(currentFilePos + chunkPos);
+            }
+
+            if (sfLength < 8) {
+              chunkPos++;
+            } else {
+              chunkPos += 1 + sfLength;
+            }
+          } else {
+            chunkPos++;
+          }
+        }
+        currentFilePos += chunkPos;
+      }
+    } catch (Exception e) {
+      // Fallback: return what we found so far
     }
     return offsets;
   }
