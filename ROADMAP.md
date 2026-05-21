@@ -228,8 +228,8 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
         - ✅ `Triplet` pooling.
         - ✅ `StructuredField` pooling.
         - ✅ `GAD_DrawingOrder`, `IPD_Segment`, and `PTOCAControlSequence` pooling.
-        - ⏳ `IRepeatingGroup` pooling.
-        - ⏳ `StructuredFieldBaseData` pooling.
+        - ✅ `IRepeatingGroup` pooling.
+        - ✅ `StructuredFieldBaseData` pooling.
 - ✅ Parallel Processing:
     - ✅ Implement "seek-and-parse" worker pool strategy for parallel page parsing:
         - ✅ Implement page boundary discovery by scanning for `BPG_BeginPage` markers.

@@ -23,4 +23,8 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 
 public interface IRepeatingGroup extends IAFPDecodeableWriteable {
 
+  /**
+   * Resets the repeating group to its initial state for reuse in an object pool.
+   */
+  void reset();
 }

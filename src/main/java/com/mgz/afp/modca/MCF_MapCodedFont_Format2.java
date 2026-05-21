@@ -22,6 +22,7 @@ package com.mgz.afp.modca;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.base.RepeatingGroupPool;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
@@ -49,7 +50,10 @@ public class MCF_MapCodedFont_Format2 extends StructuredFieldBaseRepeatingGroups
     repeatingGroups = new ArrayList<IRepeatingGroup>();
     int pos = 0;
     while (pos < actualLength) {
-      MCF_RepeatingGroup rg = new MCF_RepeatingGroup();
+      MCF_RepeatingGroup rg = RepeatingGroupPool.acquire(MCF_RepeatingGroup.class);
+      if (rg == null) {
+        rg = new MCF_RepeatingGroup();
+      }
       rg.decodeAFP(sfData, offset + pos, -1, config);
       repeatingGroups.add(rg);
       pos += rg.getRepeatingGroupLength();

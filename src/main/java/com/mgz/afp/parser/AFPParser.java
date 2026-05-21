@@ -21,6 +21,7 @@ package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldBaseData;
+import com.mgz.afp.base.StructuredFieldBaseDataPool;
 import com.mgz.afp.base.StructuredFieldErrornouslyBuilt;
 import com.mgz.afp.base.StructuredFieldIntroducer;
 import com.mgz.afp.base.Undefined;
@@ -407,7 +408,7 @@ public class AFPParser {
 
       StructuredField sf;
       if (parserConf.isParseToStructuredFieldsBaseData) {
-        sf = new StructuredFieldBaseData();
+        sf = StructuredFieldBaseDataPool.acquire();
         sf.setStructuredFieldIntroducer(sfi);
       } else {
         sf = createSFInstance(sfi);
@@ -537,7 +538,7 @@ public class AFPParser {
 
         StructuredField sf;
         if (parserConf.isParseToStructuredFieldsBaseData) {
-          sf = new StructuredFieldBaseData();
+          sf = StructuredFieldBaseDataPool.acquire();
           sf.setStructuredFieldIntroducer(sfi);
         } else {
           sf = createSFInstance(sfi);

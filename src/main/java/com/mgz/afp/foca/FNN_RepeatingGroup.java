@@ -44,6 +44,12 @@ public class FNN_RepeatingGroup implements IRepeatingGroup {
   private long tsOffset;
 
   @Override
+  public void reset() {
+    gcgid = null;
+    tsOffset = 0;
+  }
+
+  @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     // FOCA spec says Section 2 RG length is typically 12 bytes.
     // However, FNC.FNNRepeatingGroupLength (byte 35) defines the actual length.

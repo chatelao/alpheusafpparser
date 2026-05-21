@@ -21,6 +21,7 @@ package com.mgz.afp.modca_L;
 
 import com.mgz.afp.base.IHasRepeatingGroups;
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.base.RepeatingGroupPool;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
@@ -55,7 +56,10 @@ public class MCA_MapColorAttributeTable extends StructuredFieldBaseRepeatingGrou
     repeatingGroups = new ArrayList<IRepeatingGroup>();
     int pos = 0;
     while (pos < actualLength) {
-      MCA_RepeatingGroup rg = new MCA_RepeatingGroup();
+      MCA_RepeatingGroup rg = RepeatingGroupPool.acquire(MCA_RepeatingGroup.class);
+      if (rg == null) {
+        rg = new MCA_RepeatingGroup();
+      }
       rg.decodeAFP(sfData, offset + pos, -1, config);
       repeatingGroups.add(rg);
       pos += rg.getRepeatingGroupLength();

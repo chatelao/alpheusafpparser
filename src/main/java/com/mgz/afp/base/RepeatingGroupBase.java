@@ -33,6 +33,11 @@ public class RepeatingGroupBase implements IRepeatingGroup {
   protected int repeatingGroupLength;
 
   @Override
+  public void reset() {
+    repeatingGroupLength = 0;
+  }
+
+  @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     repeatingGroupLength = UtilBinaryDecoding.parseInt(sfData, offset, 2);
   }
