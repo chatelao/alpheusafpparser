@@ -102,7 +102,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * GOCA, 164.<br><br>
@@ -118,6 +121,76 @@ import java.util.List;
  * optional in a MO:DCA graphics object and may be repeated multiple times.
  */
 public class GAD_GraphicsData extends StructuredField {
+
+  private static final Map<Short, Supplier<GAD_DrawingOrder>> DO_SUPPLIERS = new HashMap<>();
+  private static final Map<Short, Supplier<GAD_DrawingOrder>> DO_EXT_SUPPLIERS = new HashMap<>();
+
+  static {
+    DO_SUPPLIERS.put((short) 0x00, GNOP1_NopOperation::new);
+    DO_SUPPLIERS.put((short) 0x01, GCOMT_Comment::new);
+    DO_SUPPLIERS.put((short) 0x04, GSGCH_SegmentCharacteristics::new);
+    DO_SUPPLIERS.put((short) 0x08, GSPS_SetPatternSet::new);
+    DO_SUPPLIERS.put((short) 0x0a, GSCOL_SetColor::new);
+    DO_SUPPLIERS.put((short) 0x0c, GSMX_SetMix::new);
+    DO_SUPPLIERS.put((short) 0x0d, GSBMX_SetBackgroundMix::new);
+    DO_SUPPLIERS.put((short) 0x11, GSFLW_SetFractionLineWidth::new);
+    DO_SUPPLIERS.put((short) 0x18, GSLT_SetLineType::new);
+    DO_SUPPLIERS.put((short) 0x19, GSLW_SetLineWidth::new);
+    DO_SUPPLIERS.put((short) 0x1a, GSLE_SetLineEnd::new);
+    DO_SUPPLIERS.put((short) 0x1b, GSLJ_SetLineJoin::new);
+    DO_SUPPLIERS.put((short) 0x20, GSCLT_SetCustomLineType::new);
+    DO_SUPPLIERS.put((short) 0x21, GSCP_SetCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x22, GSAP_SetArcParameters::new);
+    DO_SUPPLIERS.put((short) 0x26, GSECOL_SetExtendedColor::new);
+    DO_SUPPLIERS.put((short) 0x28, GSPT_SetPatternSymbol::new);
+    DO_SUPPLIERS.put((short) 0x29, GSMT_SetMarkerSymbol::new);
+    DO_SUPPLIERS.put((short) 0x33, GSCC_SetCharacterCell::new);
+    DO_SUPPLIERS.put((short) 0x34, GSCA_SetCharacterAngle::new);
+    DO_SUPPLIERS.put((short) 0x35, GSCH_SetCharacterShear::new);
+    DO_SUPPLIERS.put((short) 0x37, GSMC_SetMarkerCell::new);
+    DO_SUPPLIERS.put((short) 0x38, GSCS_SetCharacterSet::new);
+    DO_SUPPLIERS.put((short) 0x39, GSCR_SetCharacterPrecision::new);
+    DO_SUPPLIERS.put((short) 0x3a, GSCD_SetCharacterDirection::new);
+    DO_SUPPLIERS.put((short) 0x3b, GSMP_SetMarkerPrecision::new);
+    DO_SUPPLIERS.put((short) 0x3c, GSMS_SetMarkerSet::new);
+    DO_SUPPLIERS.put((short) 0x3e, GEPROL_EndProlog::new);
+    DO_SUPPLIERS.put((short) 0x43, GSPIK_SetPickIdentifier::new);
+    DO_SUPPLIERS.put((short) 0x5e, GECP_EndCustomPattern::new);
+    DO_SUPPLIERS.put((short) 0x60, GEAR_EndArea::new);
+    DO_SUPPLIERS.put((short) 0x68, GBAR_BeginArea::new);
+    DO_SUPPLIERS.put((short) 0x70, GBSEG_BeginSegment::new);
+    DO_SUPPLIERS.put((short) 0x71, GESEG_EndSegment::new);
+    DO_SUPPLIERS.put((short) 0x80, GCBOX_BoxAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x81, GCLINE_LineAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x82, GCMRK_MarkerAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x83, GCCHST_CharacterStringAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x85, GCFLT_FilletAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x87, GCFARC_FullArcAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x91, GCBIMG_BeginImageAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0x92, GIMD_ImageData::new);
+    DO_SUPPLIERS.put((short) 0x93, GEIMG_EndImage::new);
+    DO_SUPPLIERS.put((short) 0xa0, GSPRP_SetPatternReferencePoint::new);
+    DO_SUPPLIERS.put((short) 0xa1, GCRLINE_RelativeLineAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0xa3, GCPARC_PartialArcAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0xa5, GCCBEZ_CubicBezierCurveAtCurrentPosition::new);
+    DO_SUPPLIERS.put((short) 0xb2, GSPCOL_SetProcessColor::new);
+    DO_SUPPLIERS.put((short) 0xc0, GBOX_BoxAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xc1, GLINE_LineAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xc2, GMRK_MarkerAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xc3, GCHST_CharacterStringAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xc5, GFLT_FilletAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xc7, GFARC_FullArcAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xd1, GBIMG_BeginImageAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xe1, GRLINE_RelativeLineAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xe3, GPARC_PartialArcAtGivenPosition::new);
+    DO_SUPPLIERS.put((short) 0xde, GBCP_BeginCustomPattern::new);
+    DO_SUPPLIERS.put((short) 0xdf, GDPT_DeletePattern::new);
+    DO_SUPPLIERS.put((short) 0xe5, GCBEZ_CubicBezierCurveAtGivenPosition::new);
+
+    DO_EXT_SUPPLIERS.put((short) 0xDC, GLGD_LinearGradient::new);
+    DO_EXT_SUPPLIERS.put((short) 0xDD, GRGD_RadialGradient::new);
+  }
+
   @AFPField
   private List<GAD_DrawingOrder> drawingOrders;
 
@@ -140,335 +213,56 @@ public class GAD_GraphicsData extends StructuredField {
       GAD_DrawingOrder drawingOrder = null;
 
       short drawingOrderCode = (short) (sfData[offset + pos] & 0xFF);
-      drawingOrder = DrawingOrderPool.acquire(drawingOrderCode);
+      if (drawingOrderCode == (short) 0xFE) {
+        short qualifier = (short) (sfData[offset + pos + 1] & 0xFF);
+        drawingOrder = DrawingOrderPool.acquire(drawingOrderCode, qualifier);
+        if (drawingOrder == null) {
+          drawingOrder = DO_EXT_SUPPLIERS.getOrDefault(qualifier, GEXO_ExtendedOrder::new).get();
+        }
+        dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 2, 2) + 4;
+      } else {
+        drawingOrder = DrawingOrderPool.acquire(drawingOrderCode);
+        if (drawingOrder == null) {
+          drawingOrder = DO_SUPPLIERS.getOrDefault(drawingOrderCode, () -> null).get();
+        }
 
-      switch (drawingOrderCode) {
-        case 0x00: {
-          if (drawingOrder == null) drawingOrder = new GNOP1_NopOperation();
-          dotLength = 1;
+        if (drawingOrder == null) {
+          throw new AFPParserException("The drawing order code 0x" + Integer.toHexString(drawingOrderCode) + " is unknown.");
         }
-        break;
-        case 0x01: {
-          if (drawingOrder == null) drawingOrder = new GCOMT_Comment();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x04: {
-          if (drawingOrder == null) drawingOrder = new GSGCH_SegmentCharacteristics();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x08: {
-          if (drawingOrder == null) drawingOrder = new GSPS_SetPatternSet();
-          dotLength = 2;
-        }
-        break;
-        case 0x0a: {
-          if (drawingOrder == null) drawingOrder = new GSCOL_SetColor();
-          dotLength = 2;
-        }
-        break;
-        case 0x0c: {
-          if (drawingOrder == null) drawingOrder = new GSMX_SetMix();
-          dotLength = 2;
-        }
-        break;
-        case 0x0d: {
-          if (drawingOrder == null) drawingOrder = new GSBMX_SetBackgroundMix();
-          dotLength = 2;
-        }
-        break;
-        case 0x11: {
-          if (drawingOrder == null) drawingOrder = new GSFLW_SetFractionLineWidth();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x18: {
-          if (drawingOrder == null) drawingOrder = new GSLT_SetLineType();
-          dotLength = 2;
-        }
-        break;
-        case 0x19: {
-          if (drawingOrder == null) drawingOrder = new GSLW_SetLineWidth();
-          dotLength = 2;
-        }
-        break;
-        case 0x1a: {
-          if (drawingOrder == null) drawingOrder = new GSLE_SetLineEnd();
-          dotLength = 2;
-        }
-        break;
-        case 0x1b: {
-          if (drawingOrder == null) drawingOrder = new GSLJ_SetLineJoin();
-          dotLength = 2;
-        }
-        break;
-        case 0x20: {
-          if (drawingOrder == null) drawingOrder = new GSCLT_SetCustomLineType();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x21: {
-          if (drawingOrder == null) drawingOrder = new GSCP_SetCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x22: {
-          if (drawingOrder == null) drawingOrder = new GSAP_SetArcParameters();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x26: {
-          if (drawingOrder == null) drawingOrder = new GSECOL_SetExtendedColor();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x28: {
-          if (drawingOrder == null) drawingOrder = new GSPT_SetPatternSymbol();
-          dotLength = 2;
-        }
-        break;
-        case 0x29: {
-          if (drawingOrder == null) drawingOrder = new GSMT_SetMarkerSymbol();
-          dotLength = 2;
-        }
-        break;
-        case 0x33: {
-          if (drawingOrder == null) drawingOrder = new GSCC_SetCharacterCell();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x34: {
-          if (drawingOrder == null) drawingOrder = new GSCA_SetCharacterAngle();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x35: {
-          if (drawingOrder == null) drawingOrder = new GSCH_SetCharacterShear();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x37: {
-          if (drawingOrder == null) drawingOrder = new GSMC_SetMarkerCell();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x38: {
-          if (drawingOrder == null) drawingOrder = new GSCS_SetCharacterSet();
-          dotLength = 2;
-        }
-        break;
-        case 0x39: {
-          if (drawingOrder == null) drawingOrder = new GSCR_SetCharacterPrecision();
-          dotLength = 2;
-        }
-        break;
-        case 0x3a: {
-          if (drawingOrder == null) drawingOrder = new GSCD_SetCharacterDirection();
-          dotLength = 2;
-        }
-        break;
-        case 0x3b: {
-          if (drawingOrder == null) drawingOrder = new GSMP_SetMarkerPrecision();
-          dotLength = 2;
-        }
-        break;
-        case 0x3c: {
-          if (drawingOrder == null) drawingOrder = new GSMS_SetMarkerSet();
-          dotLength = 2;
-        }
-        break;
-        case 0x3e: {
-          if (drawingOrder == null) drawingOrder = new GEPROL_EndProlog();
-          dotLength = 2;
-        }
-        break;
-        case 0x43: {
-          if (drawingOrder == null) drawingOrder = new GSPIK_SetPickIdentifier();
-          dotLength = 2;
-        }
-        break;
-        case 0x5e: {
-          if (drawingOrder == null) drawingOrder = new GECP_EndCustomPattern();
-          dotLength = 2;
-        }
-        break;
-        case 0x60: {
-          if (drawingOrder == null) drawingOrder = new GEAR_EndArea();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x68: {
-          if (drawingOrder == null) drawingOrder = new GBAR_BeginArea();
-          dotLength = 2;
-        }
-        break;
-        case 0x70: {
-          if (drawingOrder == null) drawingOrder = new GBSEG_BeginSegment();
-          int segDataLen = UtilBinaryDecoding.parseInt(sfData, offset + pos + 8, 2);
-          dotLength = 14 + segDataLen;
-        }
-        break;
-        case 0x71: {
-          if (drawingOrder == null) drawingOrder = new GESEG_EndSegment();
-          dotLength = 2;
-        }
-        break;
-        case 0x80: {
-          if (drawingOrder == null) drawingOrder = new GCBOX_BoxAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x81: {
-          if (drawingOrder == null) drawingOrder = new GCLINE_LineAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x82: {
-          if (drawingOrder == null) drawingOrder = new GCMRK_MarkerAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x83: {
-          if (drawingOrder == null) drawingOrder = new GCCHST_CharacterStringAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x85: {
-          if (drawingOrder == null) drawingOrder = new GCFLT_FilletAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x87: {
-          if (drawingOrder == null) drawingOrder = new GCFARC_FullArcAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x91: {
-          if (drawingOrder == null) drawingOrder = new GCBIMG_BeginImageAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x92: {
-          if (drawingOrder == null) drawingOrder = new GIMD_ImageData();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0x93: {
-          if (drawingOrder == null) drawingOrder = new GEIMG_EndImage();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xa0: {
-          if (drawingOrder == null) drawingOrder = new GSPRP_SetPatternReferencePoint();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xa1: {
-          if (drawingOrder == null) drawingOrder = new GCRLINE_RelativeLineAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xa3: {
-          if (drawingOrder == null) drawingOrder = new GCPARC_PartialArcAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xa5: {
-          if (drawingOrder == null) drawingOrder = new GCCBEZ_CubicBezierCurveAtCurrentPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xb2: {
-          if (drawingOrder == null) drawingOrder = new GSPCOL_SetProcessColor();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xc0: {
-          if (drawingOrder == null) drawingOrder = new GBOX_BoxAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xc1: {
-          if (drawingOrder == null) drawingOrder = new GLINE_LineAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xc2: {
-          if (drawingOrder == null) drawingOrder = new GMRK_MarkerAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xc3: {
-          if (drawingOrder == null) drawingOrder = new GCHST_CharacterStringAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xc5: {
-          if (drawingOrder == null) drawingOrder = new GFLT_FilletAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xc7: {
-          if (drawingOrder == null) drawingOrder = new GFARC_FullArcAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xd1: {
-          if (drawingOrder == null) drawingOrder = new GBIMG_BeginImageAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xe1: {
-          if (drawingOrder == null) drawingOrder = new GRLINE_RelativeLineAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xe3: {
-          if (drawingOrder == null) drawingOrder = new GPARC_PartialArcAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xde: {
-          if (drawingOrder == null) drawingOrder = new GBCP_BeginCustomPattern();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xdf: {
-          if (drawingOrder == null) drawingOrder = new GDPT_DeletePattern();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xe5: {
-          if (drawingOrder == null) drawingOrder = new GCBEZ_CubicBezierCurveAtGivenPosition();
-          dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
-        }
-        break;
-        case 0xfe: {
-          short qualifier = (short) (sfData[offset + pos + 1] & 0xFF);
-          if (drawingOrder != null) {
-            DrawingOrderPool.release(drawingOrder); // Return the generic 0xFE order
-          }
-          drawingOrder = DrawingOrderPool.acquire(drawingOrderCode, qualifier);
 
-          if (qualifier == 0xDC) {
-            if (drawingOrder == null) drawingOrder = new GLGD_LinearGradient();
-          } else if (qualifier == 0xDD) {
-            if (drawingOrder == null) drawingOrder = new GRGD_RadialGradient();
-          } else {
-            if (drawingOrder == null) drawingOrder = new GEXO_ExtendedOrder();
-          }
-          dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 2, 2) + 4;
+        switch (drawingOrderCode) {
+          case 0x00:
+            dotLength = 1;
+            break;
+          case 0x08:
+          case 0x0a:
+          case 0x0c:
+          case 0x0d:
+          case 0x18:
+          case 0x19:
+          case 0x1a:
+          case 0x1b:
+          case 0x28:
+          case 0x29:
+          case 0x38:
+          case 0x39:
+          case 0x3a:
+          case 0x3b:
+          case 0x3c:
+          case 0x3e:
+          case 0x43:
+          case 0x5e:
+          case 0x68:
+          case 0x71:
+            dotLength = 2;
+            break;
+          case 0x70:
+            dotLength = 14 + UtilBinaryDecoding.parseInt(sfData, offset + pos + 8, 2);
+            break;
+          default:
+            dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
+            break;
         }
-        break;
-        default: {
-          drawingOrder = null;
-        }
-        break;
-      }
-
-      if (drawingOrder == null) {
-        throw new AFPParserException("The drawing order code 0x" + Integer.toHexString(drawingOrderCode) + "is unknown.");
       }
 
       drawingOrder.decodeAFP(sfData, offset + pos, dotLength, config);
