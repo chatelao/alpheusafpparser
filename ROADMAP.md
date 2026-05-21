@@ -217,13 +217,13 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
     - ✅ Implement StAX-based Streaming Writer to decouple XML generation from the `AFPDocument` list.
     - ✅ Update `Afp2Xml` CLI to process SFs in a loop (`parse` -> `write` -> `discard`) for O(1) memory footprint.
     - ✅ Implement a basic streaming XPath filter. **Note:** The XPath engine functionality must be preserved, though it may be limited to XPath 1.0 in streaming mode.
-- 🚧 Memory-Efficient Object Model:
+- ✅ Memory-Efficient Object Model:
     - ✅ Standardize the use of `isBuildShallow` in `AFPParser` to ensure state-relevant fields (MCF, MDR, FNC, etc.) are always decoded.
     - ✅ Integrate `java.nio.MappedByteBuffer` for zero-copy parsing:
         - ✅ Update `StructuredFieldIntroducer` and `StructuredField` to support reading payloads from `ByteBuffer`.
         - ✅ Implement AFP file mapping using `FileChannel.map`.
         - ✅ Adapt `AFPParser` to utilize `MappedByteBuffer` for parsing.
-    - 🚧 Implement object pooling:
+    - ✅ Implement object pooling:
         - ✅ `StructuredFieldIntroducer` pooling.
         - ✅ `Triplet` pooling.
         - ✅ `StructuredField` pooling.
@@ -240,4 +240,6 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
     - ⏳ Off-heap buffer management for large payloads.
     - ✅ Replace reflection-based class lookup in `AFPParser` with a pre-computed static mapping (Supplier-based).
     - ✅ Replace reflection-based class lookup in `TripletParser` with a pre-computed static mapping (Supplier-based).
+    - ✅ Replace switch-based class lookup in GOCA Drawing Orders with a pre-computed static mapping (Supplier-based).
+    - ✅ Replace switch-based class lookup in IOCA Segments with a pre-computed static mapping (Supplier-based).
     - ✅ Implement custom fast CP500 EBCDIC-to-UTF8 decoder for high-frequency fields.

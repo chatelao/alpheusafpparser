@@ -60,9 +60,47 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class IPD_ImagePictureData extends StructuredField {
+
+  private static final EnumMap<IPD_SegmentType, Supplier<IPD_Segment>> SEGMENT_SUPPLIERS =
+      new EnumMap<>(IPD_SegmentType.class);
+
+  static {
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.BeginSegment, BeginSegment::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.EndSegment, EndSegment::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.BeginImageContent, BeginImageContent::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.EndImageContent, EndImageContent::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.ImageSize, ImageSize::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.ImageEncoding, ImageEncoding::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.IDESize, IDESize::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.ImageLUTID, ImageLUTID::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.BandImage, BandImage::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.IDEStructure, IDEStructure::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.ExternalAlgorithmSpecification, ExternalAlgorithmSpecification::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.ImageSubsampling, ImageSubsampling::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.BeginTile, BeginTile::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.EndTile, EndTile::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.TilePosition, TilePosition::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.TileSize, TileSize::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.TileSetColor, TileSetColor::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.SetExtendedBilevelImageColor, SetExtendedBilevelImageColor::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.SetBilevelImageColor, SetBilevelImageColor::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.FunctionSetIdentification, FunctionSetIdentification::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.IncludeTile, IncludeTile::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.TileTOC, TileTOC::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.BeginTransparencyMask, BeginTransparencyMask::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.EndTransparencyMask, EndTransparencyMask::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.ImageData, ImageData::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.BandImageData, BandImageData::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.nColorNames, nColorNames::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.UnknownIPDSegmentLong, UnknownSegmentLong::new);
+    SEGMENT_SUPPLIERS.put(IPD_SegmentType.UnknownIPDSegmentExtended, UnknownSegmentExtended::new);
+  }
+
   private List<IPD_Segment> listOfSegments;
 
   @Override
@@ -93,123 +131,8 @@ public class IPD_ImagePictureData extends StructuredField {
       IPD_SegmentType segmentType = IPD_SegmentType.valueOf(segmentTypeCode);
 
       IPD_Segment ipdSegment = IpdSegmentPool.acquire(segmentType);
-      switch (segmentType) {
-        case BeginSegment: {
-          if (ipdSegment == null) ipdSegment = new BeginSegment();
-        }
-        break;
-        case EndSegment: {
-          if (ipdSegment == null) ipdSegment = new EndSegment();
-        }
-        break;
-        case BeginImageContent: {
-          if (ipdSegment == null) ipdSegment = new BeginImageContent();
-        }
-        break;
-        case EndImageContent: {
-          if (ipdSegment == null) ipdSegment = new EndImageContent();
-        }
-        break;
-        case ImageSize: {
-          if (ipdSegment == null) ipdSegment = new ImageSize();
-        }
-        break;
-        case ImageEncoding: {
-          if (ipdSegment == null) ipdSegment = new ImageEncoding();
-        }
-        break;
-        case IDESize: {
-          if (ipdSegment == null) ipdSegment = new IDESize();
-        }
-        break;
-        case ImageLUTID: {
-          if (ipdSegment == null) ipdSegment = new ImageLUTID();
-        }
-        break;
-        case BandImage: {
-          if (ipdSegment == null) ipdSegment = new BandImage();
-        }
-        break;
-        case IDEStructure: {
-          if (ipdSegment == null) ipdSegment = new IDEStructure();
-        }
-        break;
-        case ExternalAlgorithmSpecification: {
-          if (ipdSegment == null) ipdSegment = new ExternalAlgorithmSpecification();
-        }
-        break;
-        case ImageSubsampling: {
-          if (ipdSegment == null) ipdSegment = new ImageSubsampling();
-        }
-        break;
-        case BeginTile: {
-          if (ipdSegment == null) ipdSegment = new BeginTile();
-        }
-        break;
-        case EndTile: {
-          if (ipdSegment == null) ipdSegment = new EndTile();
-        }
-        break;
-        case TilePosition: {
-          if (ipdSegment == null) ipdSegment = new TilePosition();
-        }
-        break;
-        case TileSize: {
-          if (ipdSegment == null) ipdSegment = new TileSize();
-        }
-        break;
-        case TileSetColor: {
-          if (ipdSegment == null) ipdSegment = new TileSetColor();
-        }
-        break;
-        case SetExtendedBilevelImageColor: {
-          if (ipdSegment == null) ipdSegment = new SetExtendedBilevelImageColor();
-        }
-        break;
-        case SetBilevelImageColor: {
-          if (ipdSegment == null) ipdSegment = new SetBilevelImageColor();
-        }
-        break;
-        case FunctionSetIdentification: {
-          if (ipdSegment == null) ipdSegment = new FunctionSetIdentification();
-        }
-        break;
-        case IncludeTile: {
-          if (ipdSegment == null) ipdSegment = new IncludeTile();
-        }
-        break;
-        case TileTOC: {
-          if (ipdSegment == null) ipdSegment = new TileTOC();
-        }
-        break;
-        case BeginTransparencyMask: {
-          if (ipdSegment == null) ipdSegment = new BeginTransparencyMask();
-        }
-        break;
-        case EndTransparencyMask: {
-          if (ipdSegment == null) ipdSegment = new EndTransparencyMask();
-        }
-        break;
-        case ImageData: {
-          if (ipdSegment == null) ipdSegment = new ImageData();
-        }
-        break;
-        case BandImageData: {
-          if (ipdSegment == null) ipdSegment = new BandImageData();
-        }
-        break;
-        case nColorNames: {
-          if (ipdSegment == null) ipdSegment = new nColorNames();
-        }
-        break;
-        case UnknownIPDSegmentLong: {
-          if (ipdSegment == null) ipdSegment = new UnknownSegmentLong();
-        }
-        break;
-        case UnknownIPDSegmentExtended: {
-          if (ipdSegment == null) ipdSegment = new UnknownSegmentExtended();
-        }
-        break;
+      if (ipdSegment == null) {
+        ipdSegment = SEGMENT_SUPPLIERS.get(segmentType).get();
       }
 
       ipdSegment.decodeAFP(sfData, offset + pos, actualLength - pos, config);
