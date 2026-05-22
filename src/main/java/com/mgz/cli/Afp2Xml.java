@@ -172,6 +172,7 @@ public class Afp2Xml {
       throws Exception {
     var config = new AFPParserConfiguration();
     config.setAFPFile(inputFile);
+    config.setEscalateParsingErrors(false);
     var parser = new AFPParser(config);
     try {
       if (outputFile != null) {
