@@ -103,16 +103,20 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
     Afp2XmlWriter.addClassesFromSF(classes, sf);
 
     JAXBContext jaxbContext = Afp2XmlWriter.getCachedJaxbContext(classes);
-    Marshaller marshaller = jaxbContext.createMarshaller();
-    marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
-    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    Marshaller marshaller = Afp2XmlWriter.acquireMarshaller(jaxbContext);
+    try {
+      marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-    var qualifiedName = new QName(sf.getClass().getSimpleName());
-    var root = new JAXBElement<>(qualifiedName, Object.class, sf);
+      var qualifiedName = new QName(sf.getClass().getSimpleName());
+      var root = new JAXBElement<>(qualifiedName, Object.class, sf);
 
-    xsw.writeCharacters("  ");
-    marshaller.marshal(root, xsw);
-    xsw.writeCharacters("\n");
+      xsw.writeCharacters("  ");
+      marshaller.marshal(root, xsw);
+      xsw.writeCharacters("\n");
+    } finally {
+      Afp2XmlWriter.releaseMarshaller(jaxbContext, marshaller);
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -123,31 +127,35 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
     Afp2XmlWriter.addClassesFromSF(classes, sf);
 
     JAXBContext jaxbContext = Afp2XmlWriter.getCachedJaxbContext(classes);
-    Marshaller marshaller = jaxbContext.createMarshaller();
+    Marshaller marshaller = Afp2XmlWriter.acquireMarshaller(jaxbContext);
 
-    Document doc = DBF.newDocumentBuilder().newDocument();
-    com.mgz.afp.base.AFPDocument afpDoc = new com.mgz.afp.base.AFPDocument();
-    var qualifiedName = new QName(sf.getClass().getSimpleName());
-    var element = new JAXBElement<>(qualifiedName, (Class<StructuredField>) sf.getClass(), sf);
-    afpDoc.addStructuredField(element);
-    marshaller.marshal(afpDoc, doc);
+    try {
+      Document doc = DBF.newDocumentBuilder().newDocument();
+      com.mgz.afp.base.AFPDocument afpDoc = new com.mgz.afp.base.AFPDocument();
+      var qualifiedName = new QName(sf.getClass().getSimpleName());
+      var element = new JAXBElement<>(qualifiedName, (Class<StructuredField>) sf.getClass(), sf);
+      afpDoc.addStructuredField(element);
+      marshaller.marshal(afpDoc, doc);
 
-    var xpath = XPF.newXPath();
-    // We evaluate the XPath against a temporary AFPDocument containing only the current field.
-    // This allows absolute paths like /AFPDocument/TLE to work as they did in non-streaming mode.
-    Object result = xpath.evaluate(xpathExpression, doc, XPathConstants.NODESET);
-    var nodes = (org.w3c.dom.NodeList) result;
+      var xpath = XPF.newXPath();
+      // We evaluate the XPath against a temporary AFPDocument containing only the current field.
+      // This allows absolute paths like /AFPDocument/TLE to work as they did in non-streaming mode.
+      Object result = xpath.evaluate(xpathExpression, doc, XPathConstants.NODESET);
+      var nodes = (org.w3c.dom.NodeList) result;
 
-    if (nodes.getLength() > 0) {
-      var transformer = TF.newTransformer();
-      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      if (nodes.getLength() > 0) {
+        var transformer = TF.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
-      for (int i = 0; i < nodes.getLength(); i++) {
-        var node = nodes.item(i);
-        transformer.transform(new DOMSource(node), new StreamResult(os));
-        os.write('\n');
+        for (int i = 0; i < nodes.getLength(); i++) {
+          var node = nodes.item(i);
+          transformer.transform(new DOMSource(node), new StreamResult(os));
+          os.write('\n');
+        }
       }
+    } finally {
+      Afp2XmlWriter.releaseMarshaller(jaxbContext, marshaller);
     }
   }
 

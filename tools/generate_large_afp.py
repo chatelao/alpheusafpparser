@@ -1,6 +1,6 @@
 import os
 
-def generate_large_afp(output_path, size_mb=1):
+def generate_large_afp(output_path, size_mb=10):
     # DOC00001 in EBCDIC IBM273 (German)
     # Based on UtilCharacterEncoding.java:
     # 'D' -> 0xC4
@@ -36,4 +36,4 @@ def generate_large_afp(output_path, size_mb=1):
         f.write(edt)
 
 if __name__ == "__main__":
-    generate_large_afp("src/test/resources/afp/large_ibm273.afp", size_mb=1)
+    generate_large_afp("src/test/resources/afp/large_ibm273.afp", size_mb=10)
