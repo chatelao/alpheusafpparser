@@ -54,7 +54,7 @@ public class FDX_FixedDataText extends StructuredField {
     if (text != null) {
       writeFullStructuredField(os, text.getBytes(config.getAfpCharSet()));
     } else {
-      writeFullStructuredField(os, null);
+      writeFullStructuredField(os, (byte[]) null);
     }
   }
 

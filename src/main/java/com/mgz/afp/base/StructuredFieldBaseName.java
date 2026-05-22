@@ -62,7 +62,7 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
           UtilCharacterEncoding.stringToByteArray(name, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER)
       );
     } else {
-      writeFullStructuredField(os, null);
+      writeFullStructuredField(os, (byte[]) null);
     }
   }
 

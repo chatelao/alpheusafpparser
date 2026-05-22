@@ -29,5 +29,5 @@ public class Constants {
   public static final byte[] EMPTYBYTES_4 = new byte[] {0x00, 0x00, 0x00, 0x00};
   public static final byte EBCDIC_BLANK = 0x40;
   public static final byte EBCDIC_ID_FILLER = EBCDIC_BLANK;
-  public static int AFPBeginByte_0xA5 = 0x5A;
+  public static final int AFP_BEGIN_BYTE = 0x5A;
 }

@@ -65,6 +65,8 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   @AFPField(isOptional = true, maxSize = 32759)
   @XmlTransient
   byte[] padding;
+  @XmlTransient
+  protected java.nio.ByteBuffer paddingBuffer;
 
   /**
    * Resets the structured field to its initial state for reuse in an object pool.
@@ -72,6 +74,7 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   public void reset() {
     structuredFieldIntroducer = null;
     padding = null;
+    paddingBuffer = null;
   }
 
   public static void checkDataLength(byte[] sfData, int offset, int length, int minLength) throws AFPParserException {
@@ -212,10 +215,31 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
    */
   public void setPadding(byte[] padding) {
     this.padding = padding;
+    this.paddingBuffer = null;
     if (padding != null && padding.length == 0) {
       padding = null;
     }
     if (padding != null) {
+      structuredFieldIntroducer.setFlag(SFFlag.isPadded);
+    } else {
+      structuredFieldIntroducer.removeFlag(SFFlag.isPadded);
+    }
+  }
+
+  /**
+   * Sets the padding buffer of this structured field and set the padding flag.
+   * <p>
+   * If the given padding buffer is null the padding flag is revoked.
+   *
+   * @param paddingBuffer the padding buffer of this structured field, may be null.
+   */
+  public void setPadding(java.nio.ByteBuffer paddingBuffer) {
+    this.paddingBuffer = paddingBuffer;
+    this.padding = null;
+    if (paddingBuffer != null && !paddingBuffer.hasRemaining()) {
+      this.paddingBuffer = null;
+    }
+    if (this.paddingBuffer != null) {
       structuredFieldIntroducer.setFlag(SFFlag.isPadded);
     } else {
       structuredFieldIntroducer.removeFlag(SFFlag.isPadded);
@@ -234,6 +258,11 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
    * @throws IOException if writing to the given {@link OutputStream} fails.
    */
   protected void writeFullStructuredField(OutputStream os, byte[] netPayloadWithoutSFIandPadding) throws IOException {
+    if (netPayloadWithoutSFIandPadding == null && paddingBuffer != null) {
+      writeFullStructuredField(os, (java.nio.ByteBuffer) null);
+      return;
+    }
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     baos.write(this.structuredFieldIntroducer.toBytes());
@@ -244,6 +273,14 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
 
     if (padding != null) {
       baos.write(padding);
+    } else if (paddingBuffer != null) {
+      // If we only have paddingBuffer, we still use the legacy path for now if byte[] payload is used.
+      // Ideally we should refactor all to use the zero-copy path.
+      byte[] pad = new byte[paddingBuffer.remaining()];
+      int oldPos = paddingBuffer.position();
+      paddingBuffer.get(pad);
+      paddingBuffer.position(oldPos);
+      baos.write(pad);
     }
 
     byte[] sfData = baos.toByteArray();
@@ -253,9 +290,59 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
     }
     structuredFieldIntroducer.setSFLength(sfData.length);
 
-    os.write(Constants.AFPBeginByte_0xA5);
+    os.write(Constants.AFP_BEGIN_BYTE);
     os.write(sfData);
 
+  }
+
+  /**
+   * Writes out the SFI, the given net payload, and padding data using zero-copy approach.
+   *
+   * @param os         {@link OutputStream} to write to.
+   * @param netPayload the net payload as a {@link java.nio.ByteBuffer}. May be null.
+   * @throws IOException if writing fails.
+   */
+  protected void writeFullStructuredField(OutputStream os, java.nio.ByteBuffer netPayload) throws IOException {
+    int payloadLen = netPayload != null ? netPayload.remaining() : 0;
+    int padLen = padding != null ? padding.length : (paddingBuffer != null ? paddingBuffer.remaining() : 0);
+    int totalLen = structuredFieldIntroducer.getLengthOfStructuredFieldIntroducerIncludingExtension() + payloadLen + padLen;
+
+    structuredFieldIntroducer.setSFLength(totalLen);
+
+    os.write(Constants.AFP_BEGIN_BYTE);
+    structuredFieldIntroducer.write(os);
+
+    if (netPayload != null && netPayload.hasRemaining()) {
+      if (netPayload.hasArray()) {
+        os.write(netPayload.array(), netPayload.arrayOffset() + netPayload.position(), netPayload.remaining());
+      } else {
+        byte[] buffer = new byte[Math.min(netPayload.remaining(), 8192)];
+        int oldPos = netPayload.position();
+        while (netPayload.hasRemaining()) {
+          int len = Math.min(netPayload.remaining(), buffer.length);
+          netPayload.get(buffer, 0, len);
+          os.write(buffer, 0, len);
+        }
+        netPayload.position(oldPos);
+      }
+    }
+
+    if (padding != null) {
+      os.write(padding);
+    } else if (paddingBuffer != null && paddingBuffer.hasRemaining()) {
+      if (paddingBuffer.hasArray()) {
+        os.write(paddingBuffer.array(), paddingBuffer.arrayOffset() + paddingBuffer.position(), paddingBuffer.remaining());
+      } else {
+        byte[] buffer = new byte[Math.min(paddingBuffer.remaining(), 8192)];
+        int oldPos = paddingBuffer.position();
+        while (paddingBuffer.hasRemaining()) {
+          int len = Math.min(paddingBuffer.remaining(), buffer.length);
+          paddingBuffer.get(buffer, 0, len);
+          os.write(buffer, 0, len);
+        }
+        paddingBuffer.position(oldPos);
+      }
+    }
   }
 
   /**
