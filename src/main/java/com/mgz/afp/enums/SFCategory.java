@@ -77,17 +77,30 @@ public enum SFCategory {
 
   int val;
 
+  private static final SFCategory[] VAL_MAP = new SFCategory[256];
+
+  static {
+    for (SFCategory category : values()) {
+      VAL_MAP[category.val & 0xFF] = category;
+    }
+  }
+
   SFCategory(int val) {
     this.val = val;
   }
 
+  /**
+   * Returns the {@link SFCategory} for given byte value sfCategoryByte.
+   *
+   * @param sfCategoryByte the byte value
+   * @return the corresponding {@link SFCategory}, or {@link #Undefined} if not found
+   */
   public static SFCategory valueOf(int sfCategoryByte) {
-    for (SFCategory sfCategory : SFCategory.values()) {
-      if (sfCategory.val == sfCategoryByte) {
-        return sfCategory;
-      }
+    if (sfCategoryByte < 0 || sfCategoryByte > 255) {
+      return Undefined;
     }
-    return Undefined;
+    SFCategory category = VAL_MAP[sfCategoryByte];
+    return category != null ? category : Undefined;
   }
 
   public int toByte() {

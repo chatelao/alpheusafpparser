@@ -129,17 +129,30 @@ public enum SFType {
 
   int val;
 
+  private static final SFType[] VAL_MAP = new SFType[256];
+
+  static {
+    for (SFType type : values()) {
+      VAL_MAP[type.val & 0xFF] = type;
+    }
+  }
+
   SFType(int val) {
     this.val = val;
   }
 
+  /**
+   * Returns the {@link SFType} for given byte value sfTypeByte.
+   *
+   * @param sfTypeByte the byte value
+   * @return the corresponding {@link SFType}, or {@link #Undefined} if not found
+   */
   public static SFType valueOf(int sfTypeByte) {
-    for (SFType sfType : SFType.values()) {
-      if (sfType.val == sfTypeByte) {
-        return sfType;
-      }
+    if (sfTypeByte < 0 || sfTypeByte > 255) {
+      return Undefined;
     }
-    return Undefined;
+    SFType type = VAL_MAP[sfTypeByte];
+    return type != null ? type : Undefined;
   }
 
   public int toByte() {
