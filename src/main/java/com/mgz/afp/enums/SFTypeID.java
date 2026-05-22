@@ -22,7 +22,12 @@ package com.mgz.afp.enums;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * The MO:DCA Structured Field Type Identifier.
+ */
 public enum SFTypeID {
   Undefined(0, 0, 0),
   /**
@@ -168,6 +173,15 @@ public enum SFTypeID {
   TLE_TagLogicalElement(0xD3, 0xA0, 0x90),
   XMD_XMLDescriptor(0xD3, 0xA6, 0x8E),;
 
+  private static final Map<Integer, SFTypeID> LOOKUP = new HashMap<>();
+
+  static {
+    for (SFTypeID id : values()) {
+      int key = (id.sfClass.val << 16) | (id.sfType.val << 8) | id.sfCategory.val;
+      LOOKUP.put(key, id);
+    }
+  }
+
   /**
    * SFTypeID[2].
    */
@@ -201,15 +215,7 @@ public enum SFTypeID {
       throw new IOException("Reached end of stream while parsing SFTypeID category.");
     }
 
-    for (SFTypeID sfTypeID : SFTypeID.values()) {
-      if (sfTypeID.sfClass.val == sfClass
-          && sfTypeID.sfType.val == sfType
-          && sfTypeID.sfCategory.val == sfCategory) {
-        return sfTypeID;
-      }
-    }
-
-    return Undefined;
+    return valueOf(sfClass, sfType, sfCategory);
   }
 
   /**
@@ -242,15 +248,8 @@ public enum SFTypeID {
   }
 
   private static SFTypeID valueOf(int sfClass, int sfType, int sfCategory) {
-    for (SFTypeID sfTypeID : SFTypeID.values()) {
-      if (sfTypeID.sfClass.val == sfClass
-          && sfTypeID.sfType.val == sfType
-          && sfTypeID.sfCategory.val == sfCategory) {
-        return sfTypeID;
-      }
-    }
-
-    return Undefined;
+    int key = (sfClass << 16) | (sfType << 8) | sfCategory;
+    return LOOKUP.getOrDefault(key, Undefined);
   }
 
   public byte[] toBytes() {
