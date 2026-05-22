@@ -22,6 +22,8 @@ package com.mgz.afp.enums;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum SFTypeID {
   Undefined(0, 0, 0),
@@ -181,10 +183,22 @@ public enum SFTypeID {
    */
   SFCategory sfCategory;
 
+  private static final Map<Integer, SFTypeID> VAL_MAP = new HashMap<>();
+
+  static {
+    for (SFTypeID type : values()) {
+      VAL_MAP.put(calcKey(type.sfClass.val, type.sfType.val, type.sfCategory.val), type);
+    }
+  }
+
   SFTypeID(int sfClass, int sfType, int sfCategory) {
     this.sfClass = SFClass.valueOf(sfClass);
     this.sfType = SFType.valueOf(sfType);
     this.sfCategory = SFCategory.valueOf(sfCategory);
+  }
+
+  private static int calcKey(int sfClass, int sfType, int sfCategory) {
+    return ((sfClass & 0xFF) << 16) | ((sfType & 0xFF) << 8) | (sfCategory & 0xFF);
   }
 
   public static SFTypeID parse(InputStream is) throws IOException {
@@ -201,15 +215,8 @@ public enum SFTypeID {
       throw new IOException("Reached end of stream while parsing SFTypeID category.");
     }
 
-    for (SFTypeID sfTypeID : SFTypeID.values()) {
-      if (sfTypeID.sfClass.val == sfClass
-          && sfTypeID.sfType.val == sfType
-          && sfTypeID.sfCategory.val == sfCategory) {
-        return sfTypeID;
-      }
-    }
-
-    return Undefined;
+    SFTypeID sfTypeID = VAL_MAP.get(calcKey(sfClass, sfType, sfCategory));
+    return sfTypeID != null ? sfTypeID : Undefined;
   }
 
   /**
@@ -242,15 +249,8 @@ public enum SFTypeID {
   }
 
   private static SFTypeID valueOf(int sfClass, int sfType, int sfCategory) {
-    for (SFTypeID sfTypeID : SFTypeID.values()) {
-      if (sfTypeID.sfClass.val == sfClass
-          && sfTypeID.sfType.val == sfType
-          && sfTypeID.sfCategory.val == sfCategory) {
-        return sfTypeID;
-      }
-    }
-
-    return Undefined;
+    SFTypeID sfTypeID = VAL_MAP.get(calcKey(sfClass, sfType, sfCategory));
+    return sfTypeID != null ? sfTypeID : Undefined;
   }
 
   public byte[] toBytes() {

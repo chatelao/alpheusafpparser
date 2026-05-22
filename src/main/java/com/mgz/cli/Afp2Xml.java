@@ -23,9 +23,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.xml.AfpStreamingXmlWriter;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
@@ -172,11 +170,10 @@ public class Afp2Xml {
 
   private static void convertToXml(File inputFile, File outputFile, String xpathExpression)
       throws Exception {
-    try (var is = new BufferedInputStream(new FileInputStream(inputFile))) {
-      var config = new AFPParserConfiguration();
-      config.setInputStream(is);
-      var parser = new AFPParser(config);
-
+    var config = new AFPParserConfiguration();
+    config.setAFPFile(inputFile);
+    var parser = new AFPParser(config);
+    try {
       if (outputFile != null) {
         try (var os = new FileOutputStream(outputFile);
              var writer = new AfpStreamingXmlWriter(os, xpathExpression)) {
@@ -196,6 +193,8 @@ public class Afp2Xml {
           }
         }
       }
+    } finally {
+      parser.quitParsing();
     }
   }
 }

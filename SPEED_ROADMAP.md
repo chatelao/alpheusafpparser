@@ -26,17 +26,29 @@ Focus on optimizing the processing of high-frequency text-bearing fields.
   - Introduce a configurable size limit for automatic human-readable detection (e.g., skip for >1KB).
   - *Verification*: Faster processing of large opaque data fields (like `NOP` with large payloads or `IRD`).
 
-## Phase 3: NIO & Zero-Copy Enhancements
-Focus on maximizing I/O throughput for the CLI.
+## Phase 3: Core Parser & Object Model Optimizations
+Focus on reducing CPU cycles per structured field.
 
-- **Task 3.1: Enforce `MappedByteBuffer` in CLI**
+- **Task 3.1: Precomputed SFTypeID Lookup**
+  - Replace linear search in `SFTypeID.parse` and `valueOf` with a static `Map` lookup.
+  - *Verification*: Significantly reduced time in `SFTypeID` resolution during profiling.
+- **Task 3.2: O(1) SFType and SFCategory Lookups**
+  - Replace linear searches in `SFType.valueOf` and `SFCategory.valueOf` with sparse array lookups.
+  - *Verification*: Immediate mapping from byte to enum constant.
+
+## Phase 4: NIO & CLI Enhancements
+Focus on maximizing I/O throughput and resource management.
+
+- **Task 4.1: Enforce `MappedByteBuffer` in CLI**
   - Ensure the `Afp2Xml` CLI always utilizes memory-mapped files via `AFPParserConfiguration`.
   - *Verification*: Reduced kernel-to-user space copying in system-level profiles.
+- **Task 4.2: Robust Resource Management in CLI**
+  - Ensure `AFPParser.quitParsing()` is always called in the CLI tool.
 
-## Phase 4: Benchmarking & Verification
-- **Task 4.1: Automated Performance Regression Test**
+## Phase 5: Benchmarking & Verification
+- **Task 5.1: Automated Performance Regression Test**
   - Create a test case that processes a synthetic 10MB AFP file and asserts it completes within a specific time threshold (e.g., < 2s).
-  - *Verification*: Continuous monitoring of performance gains.
+  - *Verification*: Continuous monitoring of performance gains via `PerformanceRegressionTest`.
 
 ---
 
@@ -46,5 +58,6 @@ Focus on maximizing I/O throughput for the CLI.
 | :--- | :--- | :---: |
 | 1 | JAXB & Marshalling Optimizations | ✅ |
 | 2 | Character Encoding & Text Detection | ✅ |
-| 3 | NIO & Zero-Copy Enhancements | ⏳ |
-| 4 | Benchmarking & Verification | ⏳ |
+| 3 | Core Parser & Object Model Optimizations | ✅ |
+| 4 | NIO & CLI Enhancements | ✅ |
+| 5 | Benchmarking & Verification | ✅ |
