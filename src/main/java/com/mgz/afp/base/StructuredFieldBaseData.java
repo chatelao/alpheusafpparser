@@ -56,7 +56,7 @@ public class StructuredFieldBaseData extends StructuredField {
     if (actualLength > 0) {
       data = new byte[actualLength];
       System.arraycopy(sfData, offset, data, 0, actualLength);
-      if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+      if (actualLength < 1024 && UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
         text = new String(data, config.getAfpCharSet());
       }
     } else {

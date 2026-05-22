@@ -357,6 +357,14 @@ public class UtilCharacterEncoding {
     if (charset == null) {
       charset = Constants.cpIBM500;
     }
+
+    String charsetName = charset.name();
+    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
+      return isHumanReadableCp500(data);
+    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
+      return isHumanReadableCp273(data);
+    }
+
     String decoded = new String(data, charset);
     int printableCount = 0;
     for (int i = 0; i < decoded.length(); i++) {
@@ -368,6 +376,28 @@ public class UtilCharacterEncoding {
       }
     }
     return (double) printableCount / decoded.length() >= 0.9;
+  }
+
+  private static boolean isHumanReadableCp500(byte[] data) {
+    int printableCount = 0;
+    for (byte b : data) {
+      char c = EBCDIC_CP500_TO_UTF8[b & 0xFF];
+      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
+        printableCount++;
+      }
+    }
+    return (double) printableCount / data.length >= 0.9;
+  }
+
+  private static boolean isHumanReadableCp273(byte[] data) {
+    int printableCount = 0;
+    for (byte b : data) {
+      char c = EBCDIC_CP273_TO_UTF8[b & 0xFF];
+      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
+        printableCount++;
+      }
+    }
+    return (double) printableCount / data.length >= 0.9;
   }
 
   /**

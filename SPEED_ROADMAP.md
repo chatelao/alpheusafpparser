@@ -59,8 +59,8 @@ Focus on maximizing I/O throughput for the CLI.
 
 | Phase | Description | Status |
 | :--- | :--- | :---: |
-| 1 | JAXB & Marshalling Optimizations | ⏳ |
-| 2 | Character Encoding & Text Detection | ⏳ |
+| 1 | JAXB & Marshalling Optimizations | ✅ |
+| 2 | Character Encoding & Text Detection | ✅ |
 | 3 | Core Parser & Object Model Optimizations | ⏳ |
 | 4 | NIO & Zero-Copy Enhancements | ⏳ |
 | 5 | Benchmarking & Verification | ⏳ |
