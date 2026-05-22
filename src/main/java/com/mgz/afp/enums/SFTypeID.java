@@ -25,6 +25,9 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The MO:DCA Structured Field Type Identifier.
+ */
 public enum SFTypeID {
   Undefined(0, 0, 0),
   /**
