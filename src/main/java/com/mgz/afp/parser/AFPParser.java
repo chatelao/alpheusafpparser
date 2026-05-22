@@ -399,19 +399,12 @@ public class AFPParser {
       return null;
     }
 
-    int sfiStart = pos + 1;
+    nrOfBytesRead = pos + 1;
+    int sfiStart = (int) nrOfBytesRead;
 
     try {
-      if (sfiStart + 8 > limit) {
-        throw new AFPParserException("Truncated SF introducer at offset " + pos);
-      }
       sfi = StructuredFieldIntroducer.parse(buffer, sfiStart);
       sfi.setFileOffset(pos);
-
-      if (pos + 1 + sfi.getSFLength() > limit) {
-        throw new AFPParserException("Truncated SF at offset " + pos + ". Expected length: "
-            + (1 + sfi.getSFLength()) + ", but only " + (limit - pos) + " bytes available.");
-      }
 
       StructuredField sf;
       if (parserConf.isParseToStructuredFieldsBaseData) {
