@@ -434,14 +434,10 @@ public class AFPParser {
               lenOfPadding = UtilBinaryDecoding.parseInt(buffer, payloadStart + lenOfGrossPayload - 3, 2);
             }
             lenOfSFData = lenOfGrossPayload - lenOfPadding;
-            padding = new byte[lenOfPadding];
-            int oldPos = buffer.position();
-            buffer.position(payloadStart + lenOfSFData);
-            buffer.get(padding);
-            buffer.position(oldPos);
+            sf.setPadding(buffer.slice(payloadStart + lenOfSFData, lenOfPadding).asReadOnlyBuffer());
+          } else {
+            sf.setPadding((byte[]) null);
           }
-
-          sf.setPadding(padding);
           sf.decodeAFP(buffer, payloadStart, lenOfSFData, parserConf);
         }
       }

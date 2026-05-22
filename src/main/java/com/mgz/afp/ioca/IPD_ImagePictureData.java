@@ -166,7 +166,7 @@ public class IPD_ImagePictureData extends StructuredField {
       }
       writeFullStructuredField(os, baos.toByteArray());
     } else {
-      writeFullStructuredField(os, null);
+      writeFullStructuredField(os, (byte[]) null);
     }
   }
 }

@@ -205,6 +205,33 @@ public class StructuredFieldIntroducer {
     return b.toByteArray();
   }
 
+  /**
+   * Writes the SFI directly to the given {@link OutputStream}.
+   *
+   * @param os the {@link OutputStream} to write to
+   * @throws IOException if writing fails
+   */
+  public void write(java.io.OutputStream os) throws IOException {
+    os.write(UtilBinaryDecoding.intToByteArray(sfLength, 2));
+    if (sfTypeID != null) {
+      sfTypeID.write(os);
+    } else {
+      os.write(new byte[] {0, 0, 0});
+    }
+    if (flagByte != null) {
+      os.write(SFFlag.toByte(flagByte));
+    } else {
+      os.write(0);
+    }
+    os.write(UtilBinaryDecoding.intToByteArray(reserved, 2));
+    if (flagByte != null && flagByte.contains(SFFlag.hasExtension)) {
+      os.write(extenstionLength & 0xFF);
+      if (extenstion != null) {
+        os.write(extenstion);
+      }
+    }
+  }
+
   public int getLengthOfStructuredFieldIntroducerIncludingExtension() {
     if (isFlagSet(SFFlag.hasExtension)) {
       return 8 + extenstionLength;

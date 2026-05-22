@@ -261,6 +261,18 @@ public enum SFTypeID {
     return data;
   }
 
+  /**
+   * Writes the SFTypeID directly to the given {@link OutputStream}.
+   *
+   * @param os the {@link OutputStream} to write to
+   * @throws IOException if writing fails
+   */
+  public void write(java.io.OutputStream os) throws IOException {
+    os.write(sfClass.val);
+    os.write(sfType.val);
+    os.write(sfCategory.val);
+  }
+
   public SFClass getSfClass() {
     return sfClass;
   }

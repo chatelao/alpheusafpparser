@@ -28,6 +28,7 @@ import com.mgz.util.UtilCharacterEncoding;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -39,12 +40,15 @@ import java.nio.charset.Charset;
 public class StructuredFieldBaseData extends StructuredField {
   @AFPField(maxSize = 32759)
   protected byte[] data;
+  @XmlTransient
+  protected java.nio.ByteBuffer payloadBuffer;
   protected String text;
 
   @Override
   public void reset() {
     super.reset();
     data = null;
+    payloadBuffer = null;
     text = null;
   }
 
@@ -77,12 +81,10 @@ public class StructuredFieldBaseData extends StructuredField {
       } else {
         text = null;
       }
-      data = new byte[actualLength];
-      int oldPos = buffer.position();
-      buffer.position(offset);
-      buffer.get(data);
-      buffer.position(oldPos);
+      payloadBuffer = buffer.slice(offset, actualLength).asReadOnlyBuffer();
+      data = null;
     } else {
+      payloadBuffer = null;
       data = null;
       text = null;
     }
@@ -90,15 +92,30 @@ public class StructuredFieldBaseData extends StructuredField {
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-    writeFullStructuredField(os, data);
+    if (payloadBuffer != null) {
+      writeFullStructuredField(os, payloadBuffer);
+    } else {
+      writeFullStructuredField(os, data);
+    }
   }
 
   public byte[] getData() {
+    if (data == null && payloadBuffer != null) {
+      synchronized (this) {
+        if (data == null) {
+          data = new byte[payloadBuffer.remaining()];
+          int oldPos = payloadBuffer.position();
+          payloadBuffer.get(data);
+          payloadBuffer.position(oldPos);
+        }
+      }
+    }
     return data;
   }
 
   public void setData(byte[] data) {
     this.data = data;
+    this.payloadBuffer = null;
   }
 
 }
