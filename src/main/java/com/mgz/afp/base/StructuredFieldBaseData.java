@@ -69,6 +69,26 @@ public class StructuredFieldBaseData extends StructuredField {
   }
 
   @Override
+  public void decodeAFP(java.nio.ByteBuffer buffer, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    int actualLength = length != -1 ? length : buffer.limit() - offset;
+    if (actualLength > 0) {
+      if (actualLength < 1024 && UtilCharacterEncoding.isHumanReadable(buffer, offset, actualLength, config.getAfpCharSet())) {
+        text = UtilCharacterEncoding.decodeEbcdic(buffer, offset, actualLength, config);
+      } else {
+        text = null;
+      }
+      data = new byte[actualLength];
+      int oldPos = buffer.position();
+      buffer.position(offset);
+      buffer.get(data);
+      buffer.position(oldPos);
+    } else {
+      data = null;
+      text = null;
+    }
+  }
+
+  @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     writeFullStructuredField(os, data);
   }

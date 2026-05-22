@@ -50,6 +50,24 @@ Focus on maximizing I/O throughput and resource management.
   - Create a test case that processes a synthetic 10MB AFP file and asserts it completes within a specific time threshold (e.g., < 2s).
   - *Verification*: Continuous monitoring of performance gains via `PerformanceRegressionTest`.
 
+## Phase 6: Advanced Performance Optimizations
+Focus on zero-copy parsing and reducing overhead in XML serialization.
+
+- **Task 6.1: `ByteBuffer` support in `UtilCharacterEncoding`**
+  - Implement overloads for `isHumanReadable` and `decodeEbcdic` that accept `ByteBuffer`.
+  - *Verification*: Direct parsing from buffers without intermediate array allocations.
+- **Task 6.2: Zero-copy `decodeAFP` in `StructuredFieldBaseData` & `AFPParser`**
+  - Override `decodeAFP(ByteBuffer, ...)` to avoid intermediate byte array copies.
+  - Refactor `AFPParser` to use the buffer-based decoding path.
+  - *Verification*: Reduced memory churn during parsing of large opaque fields.
+- **Task 6.3: Optimized JAXB & Class Discovery**
+  - Implement fast-path for single-class `JAXBContext` lookups in `Afp2XmlWriter`.
+  - Refactor class discovery to use loops instead of streams.
+  - *Verification*: Reduced per-field CPU overhead in conversion.
+- **Task 6.4: Reuse XML Infrastructure**
+  - Cache and reuse `DocumentBuilder`, `XPath`, and `Transformer` in `AfpStreamingXmlWriter`.
+  - *Verification*: Faster XPath-filtered conversion.
+
 ---
 
 ## Status Tracking
@@ -61,3 +79,4 @@ Focus on maximizing I/O throughput and resource management.
 | 3 | Core Parser & Object Model Optimizations | ✅ |
 | 4 | NIO & CLI Enhancements | ✅ |
 | 5 | Benchmarking & Verification | ✅ |
+| 6 | Advanced Performance Optimizations | 🚧 |
