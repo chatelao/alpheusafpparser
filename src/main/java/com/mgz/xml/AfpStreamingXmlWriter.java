@@ -52,6 +52,10 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
   private final OutputStream os;
   private final String xpathExpression;
 
+  private javax.xml.parsers.DocumentBuilder cachedDocumentBuilder;
+  private javax.xml.xpath.XPath cachedXPath;
+  private javax.xml.transform.Transformer cachedTransformer;
+
   /**
    * Constructor for AfpStreamingXmlWriter.
    *
@@ -98,11 +102,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
   }
 
   private void writeFieldDirectly(StructuredField sf) throws Exception {
-    var classes = new ArrayList<Class<?>>();
-    classes.add(sf.getClass());
-    Afp2XmlWriter.addClassesFromSF(classes, sf);
-
-    JAXBContext jaxbContext = Afp2XmlWriter.getCachedJaxbContext(classes);
+    JAXBContext jaxbContext = Afp2XmlWriter.getCachedJaxbContext(sf);
     Marshaller marshaller = Afp2XmlWriter.acquireMarshaller(jaxbContext);
     try {
       marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
@@ -130,27 +130,34 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
     Marshaller marshaller = Afp2XmlWriter.acquireMarshaller(jaxbContext);
 
     try {
-      Document doc = DBF.newDocumentBuilder().newDocument();
+      if (cachedDocumentBuilder == null) {
+        cachedDocumentBuilder = DBF.newDocumentBuilder();
+      }
+      Document doc = cachedDocumentBuilder.newDocument();
       com.mgz.afp.base.AFPDocument afpDoc = new com.mgz.afp.base.AFPDocument();
       var qualifiedName = new QName(sf.getClass().getSimpleName());
       var element = new JAXBElement<>(qualifiedName, (Class<StructuredField>) sf.getClass(), sf);
       afpDoc.addStructuredField(element);
       marshaller.marshal(afpDoc, doc);
 
-      var xpath = XPF.newXPath();
+      if (cachedXPath == null) {
+        cachedXPath = XPF.newXPath();
+      }
       // We evaluate the XPath against a temporary AFPDocument containing only the current field.
       // This allows absolute paths like /AFPDocument/TLE to work as they did in non-streaming mode.
-      Object result = xpath.evaluate(xpathExpression, doc, XPathConstants.NODESET);
+      Object result = cachedXPath.evaluate(xpathExpression, doc, XPathConstants.NODESET);
       var nodes = (org.w3c.dom.NodeList) result;
 
       if (nodes.getLength() > 0) {
-        var transformer = TF.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        if (cachedTransformer == null) {
+          cachedTransformer = TF.newTransformer();
+          cachedTransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+          cachedTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        }
 
         for (int i = 0; i < nodes.getLength(); i++) {
           var node = nodes.item(i);
-          transformer.transform(new DOMSource(node), new StreamResult(os));
+          cachedTransformer.transform(new DOMSource(node), new StreamResult(os));
           os.write('\n');
         }
       }

@@ -425,34 +425,24 @@ public class AFPParser {
         sfi.setActualConfig(actualConf);
       } else {
         if (lenOfGrossPayload > 0) {
-          byte[] sfData;
-          byte[] padding;
+          byte[] padding = null;
+          int lenOfSFData = lenOfGrossPayload;
 
           if (sfi.isFlagSet(SFFlag.isPadded)) {
             int lenOfPadding = buffer.get(payloadStart + lenOfGrossPayload - 1) & 0xFF;
             if (lenOfPadding == 0) {
               lenOfPadding = UtilBinaryDecoding.parseInt(buffer, payloadStart + lenOfGrossPayload - 3, 2);
             }
-            int lenOfSFData = lenOfGrossPayload - lenOfPadding;
-
-            sfData = new byte[lenOfSFData];
+            lenOfSFData = lenOfGrossPayload - lenOfPadding;
             padding = new byte[lenOfPadding];
             int oldPos = buffer.position();
-            buffer.position(payloadStart);
-            buffer.get(sfData);
+            buffer.position(payloadStart + lenOfSFData);
             buffer.get(padding);
             buffer.position(oldPos);
-          } else {
-            sfData = new byte[lenOfGrossPayload];
-            int oldPos = buffer.position();
-            buffer.position(payloadStart);
-            buffer.get(sfData);
-            buffer.position(oldPos);
-            padding = null;
           }
 
           sf.setPadding(padding);
-          sf.decodeAFP(sfData, 0, -1, parserConf);
+          sf.decodeAFP(buffer, payloadStart, lenOfSFData, parserConf);
         }
       }
 

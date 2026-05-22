@@ -22,6 +22,7 @@ package com.mgz.xml;
 import com.mgz.afp.base.AFPDocument;
 import com.mgz.afp.base.IHasRepeatingGroups;
 import com.mgz.afp.base.IHasTriplets;
+import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.triplets.Triplet;
@@ -53,18 +54,50 @@ public class Afp2XmlWriter {
   private static final TransformerFactory TF = TransformerFactory.newInstance();
 
   private static final Map<List<Class<?>>, JAXBContext> JAXB_CONTEXT_CACHE = new ConcurrentHashMap<>();
+  private static final Map<Class<?>, JAXBContext> SINGLE_CLASS_CONTEXT_CACHE = new ConcurrentHashMap<>();
   private static final Map<JAXBContext, ConcurrentLinkedQueue<Marshaller>> MARSHALLER_POOL =
       new ConcurrentHashMap<>();
 
+  /**
+   * Returns a cached JAXBContext for a single class.
+   *
+   * @param clazz the class
+   * @return the JAXBContext
+   * @throws JAXBException if creation fails
+   */
+  public static JAXBContext getCachedJaxbContext(Class<?> clazz) throws JAXBException {
+    var context = SINGLE_CLASS_CONTEXT_CACHE.get(clazz);
+    if (context == null) {
+      context = JAXBContext.newInstance(clazz);
+      SINGLE_CLASS_CONTEXT_CACHE.put(clazz, context);
+    }
+    return context;
+  }
+
+  /**
+   * Returns a cached JAXBContext for the given structured field, including its triplets and
+   * repeating groups.
+   *
+   * @param sf the structured field
+   * @return the JAXBContext
+   * @throws JAXBException if creation fails
+   */
+  public static JAXBContext getCachedJaxbContext(StructuredField sf) throws JAXBException {
+    if (!(sf instanceof IHasTriplets) && !(sf instanceof IHasRepeatingGroups)
+        && !(sf instanceof com.mgz.afp.modca.MCF_MapCodedFont_Format1)
+        && !(sf instanceof com.mgz.afp.foca.CFI_CodedFontIndex)) {
+      return getCachedJaxbContext(sf.getClass());
+    }
+
+    var classes = new ArrayList<Class<?>>();
+    classes.add(sf.getClass());
+    addClassesFromSF(classes, sf);
+    return getCachedJaxbContext(classes);
+  }
+
   public static JAXBContext getCachedJaxbContext(List<Class<?>> classes) throws JAXBException {
     if (classes.size() == 1) {
-      return JAXB_CONTEXT_CACHE.computeIfAbsent(Collections.singletonList(classes.getFirst()), cl -> {
-        try {
-          return JAXBContext.newInstance(cl.toArray(new Class[0]));
-        } catch (JAXBException e) {
-          throw new RuntimeException(e);
-        }
-      });
+      return getCachedJaxbContext(classes.get(0));
     }
     var sortedClasses = new ArrayList<>(classes);
     sortedClasses.sort(Comparator.comparing(Class::getName));
@@ -188,28 +221,46 @@ public class Afp2XmlWriter {
     if (sf instanceof IHasTriplets iHasTriplets) {
       var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
-        triplets.stream().filter(java.util.Objects::nonNull).forEach(t -> addClass(classes, t.getClass()));
+        for (int i = 0; i < triplets.size(); i++) {
+          Triplet t = triplets.get(i);
+          if (t != null) {
+            addClass(classes, t.getClass());
+          }
+        }
       }
     }
     if (sf instanceof IHasRepeatingGroups iHasRepeatingGroups) {
       var rgs = iHasRepeatingGroups.getRepeatingGroups();
       if (rgs != null) {
-        rgs.stream().filter(java.util.Objects::nonNull).forEach(rg -> addClassWithTriplets(classes, rg));
+        for (int i = 0; i < rgs.size(); i++) {
+          IRepeatingGroup rg = rgs.get(i);
+          if (rg != null) {
+            addClassWithTriplets(classes, rg);
+          }
+        }
       }
     }
     // Handle other SFs that might have lists of objects but don't implement IHasRepeatingGroups
-    // We could use reflection here to find all List fields, but for now let's be more specific or find a better way.
-    // Let's check some common ones.
     if (sf instanceof com.mgz.afp.modca.MCF_MapCodedFont_Format1 mcf1) {
       var rgs = mcf1.getRepeatingGroups();
       if (rgs != null) {
-        rgs.stream().filter(java.util.Objects::nonNull).forEach(rg -> addClass(classes, rg.getClass()));
+        for (int i = 0; i < rgs.size(); i++) {
+          var rg = rgs.get(i);
+          if (rg != null) {
+            addClass(classes, rg.getClass());
+          }
+        }
       }
     }
     if (sf instanceof com.mgz.afp.foca.CFI_CodedFontIndex cfi) {
       var rgs = cfi.getCfiRepeatingGroups();
       if (rgs != null) {
-        rgs.stream().filter(java.util.Objects::nonNull).forEach(rg -> addClass(classes, rg.getClass()));
+        for (int i = 0; i < rgs.size(); i++) {
+          var rg = rgs.get(i);
+          if (rg != null) {
+            addClass(classes, rg.getClass());
+          }
+        }
       }
     }
   }
@@ -219,7 +270,12 @@ public class Afp2XmlWriter {
     if (obj instanceof IHasTriplets iHasTriplets) {
       var triplets = iHasTriplets.getTriplets();
       if (triplets != null) {
-        triplets.stream().filter(java.util.Objects::nonNull).forEach(t -> addClass(classes, t.getClass()));
+        for (int i = 0; i < triplets.size(); i++) {
+          Triplet t = triplets.get(i);
+          if (t != null) {
+            addClass(classes, t.getClass());
+          }
+        }
       }
     }
   }
