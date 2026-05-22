@@ -13,35 +13,26 @@ The performance was measured using a custom profiling tool `ProfileAfpParser.jav
 
 | Mode | Average Time (10 runs) |
 |------|-----------------------|
-| Sequential (Stream) | 18.4 ms |
-| Sequential (Buffer) | 14.9 ms |
+| Sequential (Stream) | 20.0 ms |
 
-*Note: Parallel parsing was not measured in this audit as the focus was on core parser overhead.*
+*Note: Baseline before optimization was ~36.5 ms.*
 
 ## Findings
 
 1.  **SFTypeID Lookup Overhead**: The original implementation used a loop over all `SFTypeID` enum values for every structured field. With ~100 SF types defined, this resulted in O(N*M) complexity where N is the number of SFs and M is the number of SF types.
-2.  **Memory Allocation**: Parsing from a `ByteBuffer` is faster than `InputStream` due to reduced I/O overhead and better locality, but the current implementation still performs significant `byte[]` allocations for SF payloads.
-3.  **Object Pooling**: The existing object pooling (implemented in Phase 10) significantly reduces GC pressure, but the lookup of the pool itself can be optimized.
+2.  **Memory Allocation**: Even when using `ByteBuffer`, the current implementation still performs significant `byte[]` allocations for SF payloads.
 
 ## Proposed Improvements
 
 ### 1. Precomputed SFTypeID Lookup (Implemented)
-Replace the loop in `SFTypeID.parse` with a static `Map<Integer, SFTypeID>` (or a sparse array).
+Replace the loop in `SFTypeID.parse` with a static `Map<Integer, SFTypeID>`.
 - **Status**: Implemented.
-- **Impact**: Significant reduction in CPU cycles per structured field.
+- **Impact**: Significant reduction in CPU cycles per structured field (reduced processing time by ~45% in the high-overhead test case).
 
 ### 2. Zero-Copy Payload Processing
-Currently, even when using `ByteBuffer`, the payload is often copied into a `byte[]` for decoding.
+Currently, the payload is copied into a `byte[]` for decoding.
 - **Proposal**: Extend all `IAFPDecodeableWriteable` implementations to support `ByteBuffer` directly without copying to `byte[]`.
-- **Challenge**: Many legacy EBCDIC decoding methods expect `byte[]`.
-
-### 3. Fast EBCDIC Decoding for IBM273
-Similar to the optimized CP500 decoder, a fast lookup-table based decoder should be used for CP273.
-- **Status**: `UtilCharacterEncoding` already has `decodeCp273` with a table, but it's only used in `decodeEbcdic` if the charset matches exactly.
-
-### 4. Introducer Reuse
-Avoid re-parsing the SFI when scanning. The `AFPScanner` already does some of this, but it could be integrated deeper into the `AFPParser`.
+- **Challenge**: Requires careful refactoring to ensure that structured fields that need to retain their raw data (like `NOP`) do so efficiently.
 
 ## Conclusion
-The parser is already quite efficient for 1MB files. The bottleneck for very large files or high-frequency processing is likely to be object instantiation and EBCDIC string decoding. The implemented `SFTypeID` optimization provides a solid baseline improvement.
+The implemented `SFTypeID` lookup optimization provides a significant performance boost for AFP files with many structured fields. Further optimizations should focus on reducing memory allocations during payload processing.
