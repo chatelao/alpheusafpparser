@@ -25,6 +25,8 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -33,6 +35,7 @@ import java.nio.charset.Charset;
 /**
  * Base class for {@link StructuredField}s that consists only of opaque data.
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class StructuredFieldBaseData extends StructuredField {
   @AFPField(maxSize = 32759)
   protected byte[] data;

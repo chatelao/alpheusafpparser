@@ -117,7 +117,8 @@ public class Afp2XmlWriter {
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
     var qualifiedName = new QName(sf.getClass().getSimpleName());
-    var root = new JAXBElement<>(qualifiedName, Object.class, sf);
+    @SuppressWarnings("unchecked")
+    var root = new JAXBElement<>(qualifiedName, (Class<StructuredField>) sf.getClass(), sf);
 
     jaxbMarshaller.marshal(root, osw);
   }

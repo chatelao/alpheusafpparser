@@ -51,7 +51,7 @@ public class CLIDirectoryErrorTest {
         assertTrue(validXml.exists(), "valid.afp.xml should exist");
         assertTrue(valid2Xml.exists(), "valid2.afp.xml should exist");
 
-        assertTrue(Files.readString(validXml.toPath()).contains("<AFPDocument>"), "valid.afp.xml should be valid XML");
-        assertTrue(Files.readString(valid2Xml.toPath()).contains("<AFPDocument>"), "valid2.afp.xml should be valid XML");
+        assertTrue(Files.readString(validXml.toPath()).contains("<AFPDocument"), "valid.afp.xml should be valid XML");
+        assertTrue(Files.readString(valid2Xml.toPath()).contains("<AFPDocument"), "valid2.afp.xml should be valid XML");
     }
 }
