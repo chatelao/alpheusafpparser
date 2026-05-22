@@ -32,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -52,8 +53,19 @@ public class Afp2XmlWriter {
   private static final TransformerFactory TF = TransformerFactory.newInstance();
 
   private static final Map<List<Class<?>>, JAXBContext> JAXB_CONTEXT_CACHE = new ConcurrentHashMap<>();
+  private static final Map<JAXBContext, ConcurrentLinkedQueue<Marshaller>> MARSHALLER_POOL =
+      new ConcurrentHashMap<>();
 
   public static JAXBContext getCachedJaxbContext(List<Class<?>> classes) throws JAXBException {
+    if (classes.size() == 1) {
+      return JAXB_CONTEXT_CACHE.computeIfAbsent(Collections.singletonList(classes.getFirst()), cl -> {
+        try {
+          return JAXBContext.newInstance(cl.toArray(new Class[0]));
+        } catch (JAXBException e) {
+          throw new RuntimeException(e);
+        }
+      });
+    }
     var sortedClasses = new ArrayList<>(classes);
     sortedClasses.sort(Comparator.comparing(Class::getName));
     return JAXB_CONTEXT_CACHE.computeIfAbsent(Collections.unmodifiableList(sortedClasses), cl -> {
@@ -63,6 +75,35 @@ public class Afp2XmlWriter {
         throw new RuntimeException(e);
       }
     });
+  }
+
+  /**
+   * Acquires a Marshaller for the given JAXBContext from the pool, or creates a new one.
+   *
+   * @param context the JAXBContext
+   * @return a Marshaller
+   * @throws JAXBException if creation fails
+   */
+  public static Marshaller acquireMarshaller(JAXBContext context) throws JAXBException {
+    var pool = MARSHALLER_POOL.computeIfAbsent(context, c -> new ConcurrentLinkedQueue<>());
+    var marshaller = pool.poll();
+    if (marshaller == null) {
+      marshaller = context.createMarshaller();
+    }
+    return marshaller;
+  }
+
+  /**
+   * Releases a Marshaller back to the pool.
+   *
+   * @param context    the JAXBContext
+   * @param marshaller the Marshaller to release
+   */
+  public static void releaseMarshaller(JAXBContext context, Marshaller marshaller) {
+    var pool = MARSHALLER_POOL.get(context);
+    if (pool != null) {
+      pool.offer(marshaller);
+    }
   }
 
   public static void writeXML(OutputStream osw, StructuredField sf, AFPParserConfiguration conf) throws JAXBException {
