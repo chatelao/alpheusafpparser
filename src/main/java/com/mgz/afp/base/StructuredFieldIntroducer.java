@@ -29,6 +29,7 @@ import com.mgz.util.UtilBinaryDecoding;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
 
@@ -211,7 +212,7 @@ public class StructuredFieldIntroducer {
    * @param os the {@link OutputStream} to write to
    * @throws IOException if writing fails
    */
-  public void write(java.io.OutputStream os) throws IOException {
+  public void write(OutputStream os) throws IOException {
     os.write(UtilBinaryDecoding.intToByteArray(sfLength, 2));
     if (sfTypeID != null) {
       sfTypeID.write(os);
