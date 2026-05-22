@@ -21,6 +21,7 @@ package com.mgz.afp.enums;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -267,7 +268,7 @@ public enum SFTypeID {
    * @param os the {@link OutputStream} to write to
    * @throws IOException if writing fails
    */
-  public void write(java.io.OutputStream os) throws IOException {
+  public void write(OutputStream os) throws IOException {
     os.write(sfClass.val);
     os.write(sfType.val);
     os.write(sfCategory.val);
