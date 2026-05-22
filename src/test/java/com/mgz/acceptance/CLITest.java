@@ -69,8 +69,8 @@ public class CLITest {
         assertTrue(xmlFile1.exists(), "XML file 1 should exist");
         assertTrue(xmlFile2.exists(), "XML file 2 should exist");
 
-        assertTrue(Files.readString(xmlFile1.toPath()).contains("<AFPDocument>"), "XML 1 should contain AFPDocument tag");
-        assertTrue(Files.readString(xmlFile2.toPath()).contains("<AFPDocument>"), "XML 2 should contain AFPDocument tag");
+        assertTrue(Files.readString(xmlFile1.toPath()).contains("<AFPDocument"), "XML 1 should contain AFPDocument tag");
+        assertTrue(Files.readString(xmlFile2.toPath()).contains("<AFPDocument"), "XML 2 should contain AFPDocument tag");
     }
 
     @Test
@@ -105,7 +105,7 @@ public class CLITest {
             Afp2Xml.execute(new String[]{inputFile.getAbsolutePath(), "-"});
 
             String output = bos.toString();
-            assertTrue(output.contains("<AFPDocument>"), "Stdout should contain XML output");
+            assertTrue(output.contains("<AFPDocument"), "Stdout should contain XML output");
 
             File unexpectedOutputFile = new File(inputFile.getAbsolutePath() + ".xml");
             assertFalse(unexpectedOutputFile.exists(), "Default output file should NOT be created when '-' is used");
@@ -136,7 +136,7 @@ public class CLITest {
             if (line.contains("<?xml version=\"1.0\"")) {
                 foundXmlHeader = true;
             }
-            if (line.contains("<AFPDocument>")) {
+            if (line.contains("<AFPDocument")) {
                 foundAfpDocTag = true;
             }
         }

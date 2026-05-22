@@ -76,7 +76,9 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
       this.xsw = XOF.createXMLStreamWriter(os, "UTF-8");
       this.xsw.writeStartDocument("UTF-8", "1.0");
       this.xsw.writeCharacters("\n");
+      this.xsw.setPrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
       this.xsw.writeStartElement("AFPDocument");
+      this.xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
       this.xsw.writeCharacters("\n");
     } else {
       this.xsw = null;
@@ -109,7 +111,8 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
       var qualifiedName = new QName(sf.getClass().getSimpleName());
-      var root = new JAXBElement<>(qualifiedName, Object.class, sf);
+      @SuppressWarnings("unchecked")
+      var root = new JAXBElement<>(qualifiedName, (Class<StructuredField>) sf.getClass(), sf);
 
       xsw.writeCharacters("  ");
       marshaller.marshal(root, xsw);
