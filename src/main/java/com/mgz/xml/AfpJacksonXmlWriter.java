@@ -62,6 +62,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   private final String xpathExpression;
   private final XmlMapper mapper;
   private final XmlMapper fragmentMapper;
+  private ToXmlGenerator fragmentGenerator;
 
   private javax.xml.parsers.DocumentBuilder cachedDocumentBuilder;
   private javax.xml.xpath.XPath cachedXpath;
@@ -140,8 +141,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       writePtxDirectly(ptx);
     } else {
       String rootName = sf.getClass().getSimpleName();
-      ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-      fragmentMapper.writer().withRootName(rootName).writeValue(g, sf);
+      fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), sf);
     }
     xsw.writeCharacters("\n");
   }
@@ -206,8 +206,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       xsw.writeEndElement();
     } else {
       // Fallback to Jackson for other triplets
-      ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(g, triplet);
+      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(getFragmentGenerator(), triplet);
     }
   }
 
@@ -215,9 +214,14 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     xsw.writeStartElement("PTX_PresentationTextData");
     List<PTOCAControlSequence> sequences = ptx.getControlSequences();
     if (sequences != null) {
+      boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
       for (PTOCAControlSequence cs : sequences) {
         xsw.writeCharacters("\n    ");
+        long csStart = ptxDebug ? System.nanoTime() : 0;
         writeControlSequence(cs);
+        if (csStart > 0) {
+          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart);
+        }
       }
     }
     xsw.writeCharacters("\n  ");
@@ -236,11 +240,38 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       writeElement("\n      ", "text", gc.getText());
       xsw.writeCharacters("\n    ");
       xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
+      xsw.writeStartElement("AMI_AbsoluteMoveInline");
+      writeElement("\n      ", "displacement", String.valueOf(ami.getDisplacement()));
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
+      xsw.writeStartElement("AMB_AbsoluteMoveBaseline");
+      writeElement("\n      ", "displacement", String.valueOf(amb.getDisplacement()));
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
+      xsw.writeStartElement("SCFL_SetCodedFontLocal");
+      writeElement("\n      ", "codedFontLocalID", String.valueOf(scfl.getCodedFontLocalID()));
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
+      xsw.writeStartElement("STO_SetTextOrientation");
+      writeElement("\n      ", "xOrientation", sto.getxOrientation().name());
+      writeElement("\n      ", "yOrientation", sto.getyOrientation().name());
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
     } else {
       // Fallback to Jackson
-      ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-      fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(g, cs);
+      fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(getFragmentGenerator(), cs);
     }
+  }
+
+  private ToXmlGenerator getFragmentGenerator() throws java.io.IOException {
+    if (fragmentGenerator == null) {
+      fragmentGenerator = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+    }
+    return fragmentGenerator;
   }
 
   private void writeElement(String indent, String name, String value) throws Exception {
@@ -291,6 +322,9 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
 
   @Override
   public void close() throws Exception {
+    if (fragmentGenerator != null) {
+      fragmentGenerator.flush();
+    }
     if (xsw != null) {
       xsw.writeEndElement();
       xsw.writeCharacters("\n");
