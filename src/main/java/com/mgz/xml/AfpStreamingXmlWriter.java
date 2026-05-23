@@ -44,7 +44,7 @@ import org.w3c.dom.Document;
  */
 public class AfpStreamingXmlWriter implements AutoCloseable {
 
-  private static final XMLOutputFactory XOF = XMLOutputFactory.newInstance();
+  private static final XMLOutputFactory XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
   private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
   private static final XPathFactory XPF = XPathFactory.newInstance();
   private static final TransformerFactory TF = TransformerFactory.newInstance();
