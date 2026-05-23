@@ -20,11 +20,11 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.xml;
 
 import com.mgz.util.MnemonicPerformanceMonitor;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 /**
  * A decorator for {@link XMLStreamWriter} that measures the time spent writing each element.
@@ -47,34 +47,34 @@ public class MnemonicXMLStreamWriter implements XMLStreamWriter {
   }
 
   @Override
-  public void writeStartElement(String namespaceURI, String localName) throws XMLStreamException {
+  public void writeStartElement(String namespaceUri, String localName) throws XMLStreamException {
     String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
     MnemonicPerformanceMonitor.startWrite(localName);
     elementStack.push(mnemonic != null ? mnemonic : "");
-    delegate.writeStartElement(namespaceURI, localName);
+    delegate.writeStartElement(namespaceUri, localName);
   }
 
   @Override
-  public void writeStartElement(String prefix, String localName, String namespaceURI)
+  public void writeStartElement(String prefix, String localName, String namespaceUri)
       throws XMLStreamException {
     String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
     MnemonicPerformanceMonitor.startWrite(localName);
     elementStack.push(mnemonic != null ? mnemonic : "");
-    delegate.writeStartElement(prefix, localName, namespaceURI);
+    delegate.writeStartElement(prefix, localName, namespaceUri);
   }
 
   @Override
-  public void writeEmptyElement(String namespaceURI, String localName) throws XMLStreamException {
+  public void writeEmptyElement(String namespaceUri, String localName) throws XMLStreamException {
     MnemonicPerformanceMonitor.startWrite(localName);
-    delegate.writeEmptyElement(namespaceURI, localName);
+    delegate.writeEmptyElement(namespaceUri, localName);
     MnemonicPerformanceMonitor.endWrite();
   }
 
   @Override
-  public void writeEmptyElement(String prefix, String localName, String namespaceURI)
+  public void writeEmptyElement(String prefix, String localName, String namespaceUri)
       throws XMLStreamException {
     MnemonicPerformanceMonitor.startWrite(localName);
-    delegate.writeEmptyElement(prefix, localName, namespaceURI);
+    delegate.writeEmptyElement(prefix, localName, namespaceUri);
     MnemonicPerformanceMonitor.endWrite();
   }
 
@@ -117,25 +117,25 @@ public class MnemonicXMLStreamWriter implements XMLStreamWriter {
   }
 
   @Override
-  public void writeAttribute(String prefix, String namespaceURI, String localName, String value)
+  public void writeAttribute(String prefix, String namespaceUri, String localName, String value)
       throws XMLStreamException {
-    delegate.writeAttribute(prefix, namespaceURI, localName, value);
+    delegate.writeAttribute(prefix, namespaceUri, localName, value);
   }
 
   @Override
-  public void writeAttribute(String namespaceURI, String localName, String value)
+  public void writeAttribute(String namespaceUri, String localName, String value)
       throws XMLStreamException {
-    delegate.writeAttribute(namespaceURI, localName, value);
+    delegate.writeAttribute(namespaceUri, localName, value);
   }
 
   @Override
-  public void writeNamespace(String prefix, String namespaceURI) throws XMLStreamException {
-    delegate.writeNamespace(prefix, namespaceURI);
+  public void writeNamespace(String prefix, String namespaceUri) throws XMLStreamException {
+    delegate.writeNamespace(prefix, namespaceUri);
   }
 
   @Override
-  public void writeDefaultNamespace(String namespaceURI) throws XMLStreamException {
-    delegate.writeDefaultNamespace(namespaceURI);
+  public void writeDefaultNamespace(String namespaceUri) throws XMLStreamException {
+    delegate.writeDefaultNamespace(namespaceUri);
   }
 
   @Override

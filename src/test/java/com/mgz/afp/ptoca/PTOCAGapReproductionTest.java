@@ -19,42 +19,37 @@ public class PTOCAGapReproductionTest {
         // Payload: "ABC" (EBCDIC CP500: C1 C2 C3) followed by SCFL 2B D3 03 F0 01
         // ABC = C1 C2 C3
         // SCFL = 2B D3 03 F0 01
-        // Total Payload: 3 + 5 = 8 bytes
+        // Total Payload: 3 + 5 = 8 bytes. SF length = 9 + 8 = 17.
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xEE, (byte) 0x9B, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x11, (byte) 0xD3, (byte) 0xEE, (byte) 0x9B, 0x00, 0x00, 0x00,
             (byte) 0xC1, (byte) 0xC2, (byte) 0xC3, 0x2B, (byte) 0xD3, 0x03, (byte) 0xF0, 0x01
         };
 
         PTX_PresentationTextData ptx = new PTX_PresentationTextData();
-        // This is expected to fail or misparse if the parser only looks for 2B
-        try {
-            ptx.decodeAFP(data, 0, 17, new AFPParserConfiguration());
-            List<PTOCAControlSequence> sequences = ptx.getControlSequences();
+        ptx.decodeAFP(data, 0, 17, new AFPParserConfiguration());
+        List<PTOCAControlSequence> sequences = ptx.getControlSequences();
 
-            assertNotNull(sequences);
-        } catch (Exception e) {
-            System.out.println("Caught exception during free-standing text parsing: " + e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
-        }
+        assertNotNull(sequences);
+        assertEquals(2, sequences.size());
+        assertTrue(sequences.get(0) instanceof PTOCAControlSequence.GraphicCharacters);
+        assertTrue(sequences.get(1) instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal);
     }
 
     @Test
     public void testGLCParsing() throws Exception {
-        // GLC: 2B D3 0A 6D ... (Length 10, Type 6D)
+        // GLC: 2B D3 0A 6C ... (Length 10, Type 6C)
+        // Total CS length = 2 (prefix) + 10 (LL) = 12 bytes.
+        // GLC.decodeAFP needs at least 8 bytes from offset to get FF Name.
+        // Let's provide 12 bytes.
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x12, (byte) 0xD3, (byte) 0xEE, (byte) 0x9B, 0x00, 0x00, 0x00,
-            0x2B, (byte) 0xD3, 0x0A, 0x6D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+            0x2B, (byte) 0xD3, 0x0A, (byte) 0x6C,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         };
         PTX_PresentationTextData ptx = new PTX_PresentationTextData();
-        try {
-            ptx.decodeAFP(data, 0, 20, new AFPParserConfiguration());
-            // This will fail because GLC_GlyphLayoutControl is not in the enum/classes
-        } catch (AFPParserException e) {
-            assertTrue(e.getMessage().contains("failed to instantiate control sequence class"));
-            System.out.println("Caught expected exception for missing GLC: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Caught unexpected exception during GLC parsing: " + e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
-        }
+        ptx.decodeAFP(data, 0, 12, new AFPParserConfiguration());
+        List<PTOCAControlSequence> sequences = ptx.getControlSequences();
+        assertNotNull(sequences);
+        assertEquals(1, sequences.size());
+        assertTrue(sequences.get(0) instanceof PTOCAControlSequence.GLC_GlyphLayoutControl);
     }
 }

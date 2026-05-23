@@ -98,10 +98,14 @@ public class PTOCAControlSequenceParser {
           gc = new GraphicCharacters();
         }
         MnemonicPerformanceMonitor.startParse(gc);
+        long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
         try {
           gc.decodeAFP(sfData, offset + runStart, pos - runStart, config);
         } finally {
           MnemonicPerformanceMonitor.endParse();
+          if (config.isPtxDebug()) {
+            com.mgz.util.PTXPerformanceMonitor.recordPtocaParse("GraphicCharacters", System.nanoTime() - startTime);
+          }
         }
         controlSequences.add(gc);
         continue;
@@ -131,10 +135,14 @@ public class PTOCAControlSequenceParser {
       }
 
       MnemonicPerformanceMonitor.startParse(cs);
+      long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
       try {
         cs.decodeAFP(sfData, offset + pos, csi.getLength() - 2, config);
       } finally {
         MnemonicPerformanceMonitor.endParse();
+        if (config.isPtxDebug()) {
+          com.mgz.util.PTXPerformanceMonitor.recordPtocaParse(cs.getClass().getSimpleName(), System.nanoTime() - startTime);
+        }
       }
 
       if (cs instanceof UCT_UnicodeComplexText uct) {
