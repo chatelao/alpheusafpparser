@@ -22,6 +22,7 @@ package com.mgz.cli;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.xml.AfpStreamingXmlWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +55,7 @@ public class Afp2Xml {
 
     var isDirectoryMode = false;
     var useJackson = false;
+    var measure = false;
     String inputPath = null;
     String outputPath = null;
     String xpathExpression = null;
@@ -83,6 +85,9 @@ public class Afp2Xml {
         case "-j", "--jackson" -> {
           useJackson = true;
         }
+        case "-m", "--measure" -> {
+          measure = true;
+        }
         default -> {
           if (arg.startsWith("-") && !"-".equals(arg)) {
             System.err.println("Unknown option: " + arg);
@@ -105,6 +110,10 @@ public class Afp2Xml {
     if (inputPath == null) {
       printUsage(System.err);
       return 1;
+    }
+
+    if (measure) {
+      MnemonicPerformanceMonitor.setEnabled(true);
     }
 
     try {
@@ -158,12 +167,16 @@ public class Afp2Xml {
       System.err.println("Error during XML export: " + e.getMessage());
       e.printStackTrace();
       return 1;
+    } finally {
+      if (measure) {
+        MnemonicPerformanceMonitor.printSummary();
+      }
     }
   }
 
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
-        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] "
+        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
         + "<input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
@@ -172,6 +185,8 @@ public class Afp2Xml {
         + "argument, directory mode is enabled automatically.");
     out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
     out.println("  -j, --jackson             Use Jackson XML for streaming (experimental).");
+    out.println("  -m, --measure             Measure and sum up the time needed to parse and "
+        + "write each mnemonic.");
     out.println("  -h, --help                Show this help message.");
   }
 

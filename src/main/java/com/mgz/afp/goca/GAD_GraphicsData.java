@@ -92,6 +92,7 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
@@ -265,7 +266,12 @@ public class GAD_GraphicsData extends StructuredField {
         }
       }
 
-      drawingOrder.decodeAFP(sfData, offset + pos, dotLength, config);
+      MnemonicPerformanceMonitor.startParse(drawingOrder);
+      try {
+        drawingOrder.decodeAFP(sfData, offset + pos, dotLength, config);
+      } finally {
+        MnemonicPerformanceMonitor.endParse();
+      }
       drawingOrders.add(drawingOrder);
 
       pos += dotLength;

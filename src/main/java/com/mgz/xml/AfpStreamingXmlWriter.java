@@ -20,6 +20,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.xml;
 
 import com.mgz.afp.base.StructuredField;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import javax.xml.bind.JAXBContext;
@@ -77,7 +78,8 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
     this.os = os;
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
     if (this.xpathExpression == null) {
-      this.xsw = XOF.createXMLStreamWriter(os, "UTF-8");
+      XMLStreamWriter baseWriter = XOF.createXMLStreamWriter(os, "UTF-8");
+      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(baseWriter) : baseWriter;
       this.xsw.writeStartDocument("UTF-8", "1.0");
       this.xsw.writeCharacters("\n");
       this.xsw.setPrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");

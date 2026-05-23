@@ -39,6 +39,7 @@ import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.UtilCharacterEncoding;
 import com.mgz.util.UtilBinaryDecoding;
 
@@ -296,7 +297,12 @@ public class AFPParser {
       }
 
       sf.setPadding(padding);
-      sf.decodeAFP(sfData, 0, -1, conf);
+      MnemonicPerformanceMonitor.startParse(sf);
+      try {
+        sf.decodeAFP(sfData, 0, -1, conf);
+      } finally {
+        MnemonicPerformanceMonitor.endParse();
+      }
     }
   }
 
@@ -438,7 +444,12 @@ public class AFPParser {
           } else {
             sf.setPadding((byte[]) null);
           }
-          sf.decodeAFP(buffer, payloadStart, lenOfSFData, parserConf);
+          MnemonicPerformanceMonitor.startParse(sf);
+          try {
+            sf.decodeAFP(buffer, payloadStart, lenOfSFData, parserConf);
+          } finally {
+            MnemonicPerformanceMonitor.endParse();
+          }
         }
       }
 
@@ -586,7 +597,12 @@ public class AFPParser {
               }
 
               sf.setPadding(padding);
-              sf.decodeAFP(sfData, 0, -1, parserConf);
+              MnemonicPerformanceMonitor.startParse(sf);
+              try {
+                sf.decodeAFP(sfData, 0, -1, parserConf);
+              } finally {
+                MnemonicPerformanceMonitor.endParse();
+              }
             }
           } catch (Throwable th) {
             sf = errSf = new StructuredFieldErrornouslyBuilt();
