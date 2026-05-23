@@ -119,6 +119,10 @@ public class PerformanceRegressionTest {
 
         System.out.println("Comprehensive performance test (5 fields of every type):");
 
+        // Warm-up phase
+        runConversion(tempAfp, false);
+        runConversion(tempAfp, true);
+
         ConversionResult jaxbResult = runConversion(tempAfp, false);
         ConversionResult jacksonResult = runConversion(tempAfp, true);
 

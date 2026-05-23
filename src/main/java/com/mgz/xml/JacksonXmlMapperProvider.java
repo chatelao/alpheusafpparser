@@ -21,9 +21,12 @@ package com.mgz.xml;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import com.fasterxml.aalto.stax.InputFactoryImpl;
+import com.fasterxml.aalto.stax.OutputFactoryImpl;
 
 /**
  * Provides a thread-safe, singleton {@link XmlMapper} configured for AFP to XML conversion.
@@ -33,7 +36,7 @@ public class JacksonXmlMapperProvider {
   private static final XmlMapper XML_MAPPER;
 
   static {
-    XML_MAPPER = new XmlMapper();
+    XML_MAPPER = new XmlMapper(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()));
     // Honor JAXB annotations
     XML_MAPPER.registerModule(new JaxbAnnotationModule());
     // Match current JAXB output formatting
