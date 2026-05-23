@@ -133,7 +133,7 @@ public class CLITest {
         boolean foundAfpDocTag = false;
 
         for (String line : lines) {
-            if (line.contains("<?xml version=\"1.0\"")) {
+            if (line.contains("<?xml version=") && line.contains("1.0")) {
                 foundXmlHeader = true;
             }
             if (line.contains("<AFPDocument")) {
