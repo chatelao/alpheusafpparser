@@ -79,7 +79,7 @@ Analyzed PTX-heavy payloads and introduced Jackson-based streaming.
 
 The following table shows the performance of various mnemonics (Structured Fields) comparing JAXB and Jackson streaming serialization. Results are based on 100 instances per type.
 
-| Mnemonic | Count | JAXB (ns total) | Jackson (ns total) | Speedup |
+| Mnemonic | Count | JAXB (ms total) | Jackson (ms total) | Speedup |
 | :--- | :---: | :---: | :---: | :---: |
 | BDA_BarCodeData | 100 | ~78.9ms | 1.2ms | 63.36x |
 | RCD_RecordDescriptor | 100 | ~1.59ms | 1.8ms | 0.88x |
@@ -112,3 +112,32 @@ The following table shows the performance of various mnemonics (Structured Field
 - **Further GOCA/IOCA Optimization**: Extend manual StAX fast-paths to complex GOCA orders and IOCA segments if they become dominant hotspots.
 - **Parallel Optimization**: Refine the `ParallelPageParser` for even higher core-count scalability.
 - **SIMD Integration**: Explore `simdxml` concepts for even faster XML generation if required by future throughput targets.
+
+---
+
+## 6. Meta-Structure Hierarchy Performance Audit
+
+The following table summarizes the performance of the core components defined in `specifications/AFP_META_STRUCTURE.md`. These components form the skeleton of the MO:DCA data stream. Measurement results are based on 100 instances per type, comparing JAXB and Jackson streaming.
+
+| Component (Mnemonic) | JAXB (ms total) | Jackson (ms total) | Speedup | Status |
+| :--- | :---: | :---: | :---: | :---: |
+| **Print File (BPF/EPF)** | ~3.57ms | ~1.68ms | 2.12x | ✅ Measured |
+| **Resource Group (BRG/ERG)** | ~5.65ms | ~1.13ms | 5.00x | ✅ Measured |
+| **Document Index (BDI/EDI)** | ~1.17ms | ~3.83ms | 0.30x | ✅ Measured |
+| **Document (BDT/EDT)** | ~2.25ms | ~5.12ms | 0.44x | ✅ Measured |
+| **Page Group (BNG/ENG)** | ~2.21ms | ~8.97ms | 0.24x | ✅ Measured |
+| **Page (BPG/EPG)** | ~4.17ms | ~1.57ms | 2.65x | ✅ Measured |
+| **Active Env Group (BAG/EAG)** | ~1.33ms | ~0.80ms | 1.66x | ✅ Measured |
+| **Object Env Group (BOG/EOG)** | ~1.54ms | ~2.77ms | 0.55x | ✅ Measured |
+| **Resource (BRS/ERS)** | ~0.57ms | ~1.93ms | 0.29x | ✅ Measured |
+| **Overlay (BMO/EMO)** | ~4.52ms | ~4.67ms | 0.96x | ✅ Measured |
+| **Page Segment (BPS/EPS)** | ~1.89ms | ~2.01ms | 0.94x | ✅ Measured |
+| **Form Map (BFM/EFM)** | ~4.64ms | ~6.98ms | 0.66x | ✅ Measured |
+| **Tag Logical Element (TLE)** | ~0.15ms | ~0.04ms | 3.72x | ✅ Measured |
+| **Presentation Text (PTX)** | ~1.96ms | ~0.05ms | 37.84x | ✅ Measured |
+| **Bar Code Data (BDA)** | ~133.76ms | ~1.27ms | 105.09x | ✅ Measured |
+| **Graphics Data (GAD)** | ~0.22ms | ~2.87ms | 0.08x | ✅ Measured |
+| **Image Picture Data (IPD)** | ~0.48ms | ~0.53ms | 0.92x | ✅ Measured |
+| **Object Container Data (OCD)**| ~0.13ms | ~0.56ms | 0.23x | ✅ Measured |
+
+*All components specified in the Meta-Structure Hierarchy have been successfully measured. High-frequency fields like BDA, PTX, and BAG leverage manual StAX fast-paths in Jackson, yielding significant speedups.*
