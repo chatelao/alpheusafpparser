@@ -2,6 +2,8 @@ package com.mgz.acceptance;
 
 import com.mgz.cli.Afp2Xml;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +12,7 @@ import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class CLIDirectoryErrorTest {
 
     @Test

@@ -7,6 +7,8 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.xml.AfpJacksonXmlWriter;
 import com.mgz.xml.AfpStreamingXmlWriter;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,6 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class PerformanceRegressionTest {
 
     @Test
