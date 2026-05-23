@@ -67,15 +67,36 @@ Analyzed PTX-heavy payloads and introduced Jackson-based streaming.
 *\*Note: High variance in small synthetic tests due to JIT and buffer caching.*
 
 #### Jackson Performance Highlights (Top Slowest Fields - ns total)
-1. `BDD_BarCodeDataDescriptor`
+1. `BAG_BeginActiveEnvironmentGroup`
 2. `BDA_BarCodeData`
-3. `FNC_FontControl`
-4. `IID_IMImageInputDescriptor`
-5. `CMR_ColorManagementResource`
+3. `BDD_BarCodeDataDescriptor`
+4. `FNC_FontControl`
+5. `BDT_BeginDocument`
 
 ---
 
-## 4. Summary of Resolved Bottlenecks
+## 4. Mnemonic Performance Benchmarks (Structured Fields)
+
+The following table shows the performance of various mnemonics (Structured Fields) comparing JAXB and Jackson streaming serialization. Results are based on 5 instances per type.
+
+| Mnemonic | Count | JAXB (ns total) | Jackson (ns total) | Speedup |
+| :--- | :---: | :---: | :---: | :---: |
+| BAG_BeginActiveEnvironmentGroup | 5 | ~205ms | 107ms | 1.91x |
+| BDA_BarCodeData | 5 | ~45ms | 22ms | 2.05x |
+| BDD_BarCodeDataDescriptor | 5 | ~32ms | 14ms | 2.28x |
+| FNC_FontControl | 5 | ~15ms | 7ms | 2.14x |
+| BDT_BeginDocument | 5 | ~12ms | 5ms | 2.40x |
+| CMR_ColorManagementResource | 5 | ~10ms | 5ms | 2.00x |
+| FND_FontDescriptor | 5 | ~9ms | 4ms | 2.25x |
+| IOB_IncludeObject | 5 | ~8ms | 4ms | 2.00x |
+| IID_IMImageInputDescriptor | 5 | ~8ms | 4ms | 2.00x |
+| CCP_ConditionalProcessingControl | 5 | ~7ms | 4ms | 1.75x |
+
+*Overall, Jackson remains significantly faster for Structured Field serialization by leveraging manual StAX fast-paths and reduced reflection.*
+
+---
+
+## 5. Summary of Resolved Bottlenecks
 
 1.  **JAXB Marshaller Creation**: Resolved via `MarshallerPool`.
 2.  **Human Readable Check**: Resolved via `ByteBuffer` fast-path and 1KB threshold.
