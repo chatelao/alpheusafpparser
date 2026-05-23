@@ -700,7 +700,24 @@ public class UtilCharacterEncoding {
     if (s == null || s.isEmpty()) {
       return s;
     }
-    StringBuilder sb = new StringBuilder();
+
+    boolean needsSanitization = false;
+    for (int i = 0; i < s.length(); i++) {
+      int codePoint = s.codePointAt(i);
+      if (!isValidXml10CodePoint(codePoint)) {
+        needsSanitization = true;
+        break;
+      }
+      if (Character.isSupplementaryCodePoint(codePoint)) {
+        i++;
+      }
+    }
+
+    if (!needsSanitization) {
+      return s;
+    }
+
+    StringBuilder sb = new StringBuilder(s.length());
     for (int i = 0; i < s.length(); i++) {
       int codePoint = s.codePointAt(i);
       if (isValidXml10CodePoint(codePoint)) {

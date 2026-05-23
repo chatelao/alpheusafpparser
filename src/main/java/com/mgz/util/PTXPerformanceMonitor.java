@@ -40,6 +40,7 @@ public class PTXPerformanceMonitor {
   private static final Map<String, AtomicLong> ptocaFunctionCounts = new ConcurrentHashMap<>();
   private static final Map<String, AtomicLong> ptocaFunctionParseTimes = new ConcurrentHashMap<>();
   private static final Map<String, AtomicLong> ptocaFunctionWriteTimes = new ConcurrentHashMap<>();
+  private static final Map<String, AtomicLong> ptocaFunctionPayloadSizes = new ConcurrentHashMap<>();
 
   public static void setEnabled(boolean enabled) {
     PTXPerformanceMonitor.enabled = enabled;
@@ -62,10 +63,11 @@ public class PTXPerformanceMonitor {
     totalPtxWriteTime.addAndGet(durationNs);
   }
 
-  public static void recordPtocaParse(String functionName, long durationNs) {
+  public static void recordPtocaParse(String functionName, long durationNs, int payloadSize) {
     if (!enabled) return;
     ptocaFunctionCounts.computeIfAbsent(functionName, k -> new AtomicLong()).incrementAndGet();
     ptocaFunctionParseTimes.computeIfAbsent(functionName, k -> new AtomicLong()).addAndGet(durationNs);
+    ptocaFunctionPayloadSizes.computeIfAbsent(functionName, k -> new AtomicLong()).addAndGet(payloadSize);
   }
 
   public static void recordPtocaWrite(String functionName, long durationNs) {
@@ -95,12 +97,16 @@ public class PTXPerformanceMonitor {
     if (!ptocaFunctionCounts.isEmpty()) {
       System.out.println("\n#### PTOCA Function Breakdown");
       System.out.println();
-      System.out.println(String.format("| %-40s | %10s | %15s | %15s |", "Function", "Count", "Parse (ms)", "Write (ms)"));
-      System.out.println("| :--- | ---: | ---: | ---: |");
+      System.out.println(String.format("| %-30s | %10s | %12s | %12s | %15s | %15s |", "Function", "Count", "Parse (ms)", "Write (ms)", "Total Payload", "Avg Payload"));
+      System.out.println("| :--- | ---: | ---: | ---: | ---: | ---: |");
       new TreeMap<>(ptocaFunctionCounts).forEach((name, fCount) -> {
+        long countValue = fCount.get();
         long pTime = ptocaFunctionParseTimes.getOrDefault(name, new AtomicLong()).get();
         long wTime = ptocaFunctionWriteTimes.getOrDefault(name, new AtomicLong()).get();
-        System.out.println(String.format("| %-40s | %10d | %15d | %15d |", name, fCount.get(), pTime / 1_000_000, wTime / 1_000_000));
+        long payload = ptocaFunctionPayloadSizes.getOrDefault(name, new AtomicLong()).get();
+        double avgPayload = countValue > 0 ? (double) payload / countValue : 0;
+        System.out.println(String.format("| %-30s | %10d | %12d | %12d | %15d | %15.2f |",
+            name, countValue, pTime / 1_000_000, wTime / 1_000_000, payload, avgPayload));
       });
     }
     System.out.println();

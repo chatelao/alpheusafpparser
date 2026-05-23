@@ -231,7 +231,6 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   private void writeControlSequence(PTOCAControlSequence cs) throws Exception {
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       xsw.writeStartElement("TRN_TransparentData");
-      writeElement("\n      ", "transparentData", trn.getTransparentData());
       writeElement("\n      ", "text", trn.getText());
       xsw.writeCharacters("\n    ");
       xsw.writeEndElement();
