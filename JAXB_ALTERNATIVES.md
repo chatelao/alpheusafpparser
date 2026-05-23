@@ -64,6 +64,7 @@ For the Alpheus AFP Parser, **Jakarta XML Binding 4.0** is the recommended "futu
 
 ### Secondary Recommendation: Jackson XML (For Performance)
 If the benchmarked speed of JAXB remains a bottleneck even after the Phase 1-6 optimizations, **Jackson XML** should be the next choice. It offers a significant performance boost without the maintenance nightmare of manual StAX writing.
+- **Upgrade Path**: See [JAXB_TO_JACKSON.md](JAXB_TO_JACKSON.md) for a detailed migration strategy.
 
 ### Avoid: Manual StAX
 Manual StAX writing should be reserved only for specific, high-frequency fields (like `NOP` or `TLE` in massive volumes) if they prove to be extreme outliers in performance profiles.
