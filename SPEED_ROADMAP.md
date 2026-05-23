@@ -35,6 +35,9 @@ Focus on reducing CPU cycles per structured field.
 - **Task 3.2: O(1) SFType and SFCategory Lookups**
   - Replace linear searches in `SFType.valueOf` and `SFCategory.valueOf` with sparse array lookups.
   - *Verification*: Immediate mapping from byte to enum constant.
+- **Task 3.3: Implement Object Pooling**
+  - Reuse common objects (Introducers, Triplets, Structured Fields, Repeating Groups) to reduce GC pressure.
+  - *Verification*: Reduced memory churn and GC pauses during high-volume parsing.
 
 ## Phase 4: NIO & CLI Enhancements
 Focus on maximizing I/O throughput and resource management.
@@ -67,6 +70,35 @@ Focus on zero-copy parsing and reducing overhead in XML serialization.
 - **Task 6.4: Reuse XML Infrastructure**
   - Cache and reuse `DocumentBuilder`, `XPath`, and `Transformer` in `AfpStreamingXmlWriter`.
   - *Verification*: Faster XPath-filtered conversion.
+- **Task 6.5: Manual StAX Fast-Paths for High-Frequency Fields**
+  - Implement manual StAX serialization for `NOP`, `PTX`, `BAG`, `TLE`, etc., in the Jackson writer.
+  - *Verification*: Significant speedup in Jackson streaming for text-heavy and high-frequency fields.
+
+## Phase 7: Parallel Processing & Async I/O
+Focus on leveraging multi-core systems and overlapping I/O.
+
+- **Task 7.1: Parallel Page Parsing**
+  - Implement a worker pool to process page segments (`BPG` to `EPG`) in parallel.
+  - *Verification*: Improved throughput on multi-core systems for large multi-page AFP files.
+- **Task 7.2: Asynchronous I/O**
+  - Utilize `AsynchronousFileChannel` for overlapping I/O and processing.
+  - *Verification*: Reduced idle CPU time during I/O-heavy parsing.
+
+## Phase 8: Refinement & Specialized Optimizations
+Focus on further reducing overhead and modernizing the stack.
+
+- **Task 8.1: Off-heap buffer management**
+  - Explore off-heap storage for large payloads to further reduce GC pressure.
+- **Task 8.2: Complete JAXB Removal**
+  - Replace all remaining JAXB annotations with Jackson native annotations and remove JAXB dependencies.
+
+## Phase 9: Experimental & Future Enhancements
+Focus on cutting-edge performance improvements.
+
+- **Task 9.1: SIMD Integration**
+  - Explore the use of SIMD (e.g., via `simdxml` concepts) for even faster XML generation.
+- **Task 9.2: Further GOCA/IOCA Optimization**
+  - Extend manual StAX fast-paths to complex GOCA drawing orders and IOCA segments.
 
 ---
 
@@ -80,3 +112,6 @@ Focus on zero-copy parsing and reducing overhead in XML serialization.
 | 4 | NIO & CLI Enhancements | ✅ |
 | 5 | Benchmarking & Verification | ✅ |
 | 6 | Advanced Performance Optimizations | ✅ |
+| 7 | Parallel Processing & Async I/O | ✅ |
+| 8 | Refinement & Specialized Optimizations | 🚧 |
+| 9 | Experimental & Future Enhancements | 🚧 |
