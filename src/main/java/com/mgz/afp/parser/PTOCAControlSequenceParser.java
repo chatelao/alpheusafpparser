@@ -29,6 +29,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEA_SetEncryptedAlternate;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SKI_SetKeyInformation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
+import com.mgz.util.MnemonicPerformanceMonitor;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -96,7 +97,12 @@ public class PTOCAControlSequenceParser {
         if (gc == null) {
           gc = new GraphicCharacters();
         }
-        gc.decodeAFP(sfData, offset + runStart, pos - runStart, config);
+        MnemonicPerformanceMonitor.startParse(gc);
+        try {
+          gc.decodeAFP(sfData, offset + runStart, pos - runStart, config);
+        } finally {
+          MnemonicPerformanceMonitor.endParse();
+        }
         controlSequences.add(gc);
         continue;
       }
@@ -124,7 +130,12 @@ public class PTOCAControlSequenceParser {
         throw new AFPParserException("Truncated PTOCA control sequence payload at offset " + pos);
       }
 
-      cs.decodeAFP(sfData, offset + pos, csi.getLength() - 2, config);
+      MnemonicPerformanceMonitor.startParse(cs);
+      try {
+        cs.decodeAFP(sfData, offset + pos, csi.getLength() - 2, config);
+      } finally {
+        MnemonicPerformanceMonitor.endParse();
+      }
 
       if (cs instanceof UCT_UnicodeComplexText uct) {
         int ctLen = uct.getCtLength();

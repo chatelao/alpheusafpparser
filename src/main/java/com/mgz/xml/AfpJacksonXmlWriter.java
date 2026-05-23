@@ -24,6 +24,7 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldBaseData;
 import com.mgz.afp.modca.NOP_NoOperation;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.OutputStream;
 import javax.xml.namespace.QName;
@@ -86,7 +87,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     this.fragmentMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
 
     if (this.xpathExpression == null) {
-      this.xsw = XOF.createXMLStreamWriter(os, "UTF-8");
+      XMLStreamWriter baseWriter = XOF.createXMLStreamWriter(os, "UTF-8");
+      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(baseWriter) : baseWriter;
       this.xsw.writeStartDocument("UTF-8", "1.0");
       this.xsw.writeCharacters("\n");
       this.xsw.setPrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
