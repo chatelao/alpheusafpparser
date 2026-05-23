@@ -118,13 +118,15 @@ public class PerformanceRegressionTest {
     public void testComprehensivePerformance() throws Exception {
         File tempAfp = File.createTempFile("perf_comprehensive", ".afp");
         tempAfp.deleteOnExit();
-        generateComprehensiveAfp(tempAfp, 5);
+        generateComprehensiveAfp(tempAfp, 100);
 
-        System.out.println("Comprehensive performance test (5 fields of every type):");
+        System.out.println("Comprehensive performance test (100 fields of every type):");
 
-        // Warm-up phase
-        runConversion(tempAfp, false);
-        runConversion(tempAfp, true);
+        // Warm-up phase - more iterations for better JIT
+        for (int i = 0; i < 5; i++) {
+            runConversion(tempAfp, false);
+            runConversion(tempAfp, true);
+        }
 
         ConversionResult jaxbResult = runConversion(tempAfp, false);
         ConversionResult jacksonResult = runConversion(tempAfp, true);
@@ -136,11 +138,20 @@ public class PerformanceRegressionTest {
             System.out.printf("Jackson is %.2fx faster than JAXB overall\n", (double) jaxbResult.totalTime / jacksonResult.totalTime);
         }
 
-        System.out.println("\nTop 10 slowest fields in Jackson:");
+        System.out.println("\nTop 10 slowest fields in Jackson with JAXB comparison:");
+        System.out.printf("%-35s | %-15s | %-15s | %-10s\n", "Mnemonic", "JAXB (ns)", "Jackson (ns)", "Speedup");
+        System.out.println("-------------------------------------------------------------------------------------");
         jacksonResult.fieldTimings.entrySet().stream()
             .sorted((e1, e2) -> Long.compare(e2.getValue().get(), e1.getValue().get()))
-            .limit(10)
-            .forEach(e -> System.out.println(e.getKey() + ": " + e.getValue().get() + "ns total"));
+            .limit(15)
+            .forEach(e -> {
+                String className = e.getKey();
+                long jacksonTime = e.getValue().get();
+                AtomicLong jaxbTimeAtomic = jaxbResult.fieldTimings.get(className);
+                long jaxbTime = (jaxbTimeAtomic != null) ? jaxbTimeAtomic.get() : 0;
+                double speedup = (jacksonTime > 0 && jaxbTime > 0) ? (double) jaxbTime / jacksonTime : 0;
+                System.out.printf("%-35s | %-15d | %-15d | %.2fx\n", className, jaxbTime, jacksonTime, speedup);
+            });
     }
 
     private static class ConversionResult {
@@ -176,6 +187,7 @@ public class PerformanceRegressionTest {
                     }
                 } catch (Throwable e) {
                     result.errorCount++;
+                    // Silence errors during the main run to keep output clean, but we know which fields fail
                 }
                 long endField = System.nanoTime();
                 result.fieldTimings.computeIfAbsent(className, k -> new AtomicLong()).addAndGet(endField - startField);
@@ -193,6 +205,9 @@ public class PerformanceRegressionTest {
             for (SFTypeID type : SFTypeID.values()) {
                 if (type == SFTypeID.Undefined) continue;
 
+                // Length 8 means just the introducer (which is 8 bytes in Alpheus + 0x5A prefix = 9 bytes total)
+                // Actually the introducer length field should be the length of the SF including the introducer itself.
+                // 8 bytes is the standard MO:DCA introducer length.
                 byte[] header = { 0x5A, 0x00, 0x08, (byte)type.getSfClass().toByte(), (byte)type.getSfType().toByte(), (byte)type.getSfCategory().toByte(), 0x00, 0x00, 0x00 };
 
                 for (int i = 0; i < countPerType; i++) {
