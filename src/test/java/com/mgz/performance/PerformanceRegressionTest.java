@@ -143,7 +143,6 @@ public class PerformanceRegressionTest {
         System.out.println("-------------------------------------------------------------------------------------");
         jacksonResult.fieldTimings.entrySet().stream()
             .sorted((e1, e2) -> Long.compare(e2.getValue().get(), e1.getValue().get()))
-            .limit(15)
             .forEach(e -> {
                 String className = e.getKey();
                 long jacksonTime = e.getValue().get();
