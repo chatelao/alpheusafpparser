@@ -58,41 +58,41 @@ Analyzed PTX-heavy payloads and introduced Jackson-based streaming.
 
 | Test Case | Method | Execution Time | Status |
 | :--- | :--- | :--- | :--- |
-| **10MB Synthetic AFP** | JAXB Streaming | ~1280ms | ✅ Passed (< 2s) |
-| **10MB Synthetic AFP** | Jackson Streaming | ~830ms | ✅ Passed (< 2s) |
-| **20MB Synthetic AFP** | JAXB Avg | ~34ms* | ✅ |
-| **20MB Synthetic AFP** | Jackson Avg | ~19ms* | ✅ |
-| **Comprehensive (All SFs)**| Overall | **Jackson 2.24x faster** | ✅ |
+| **10MB Synthetic AFP** | JAXB Streaming | ~734ms | ✅ Passed (< 2s) |
+| **10MB Synthetic AFP** | Jackson Streaming | ~683ms | ✅ Passed (< 2s) |
+| **20MB Synthetic AFP** | JAXB Avg | ~7ms* | ✅ |
+| **20MB Synthetic AFP** | Jackson Avg | ~5ms* | ✅ |
+| **Comprehensive (All SFs)**| Overall | **Jackson 3.62x faster** | ✅ |
 
 *\*Note: High variance in small synthetic tests due to JIT and buffer caching.*
 
 #### Jackson Performance Highlights (Top Slowest Fields - ns total)
-1. `BAG_BeginActiveEnvironmentGroup`
-2. `BDA_BarCodeData`
+1. `FNC_FontControl`
+2. `FND_FontDescriptor`
 3. `BDD_BarCodeDataDescriptor`
-4. `FNC_FontControl`
-5. `BDT_BeginDocument`
+4. `BCP_BeginCodePage`
+5. `RCD_RecordDescriptor`
 
 ---
 
 ## 4. Mnemonic Performance Benchmarks (Structured Fields)
 
-The following table shows the performance of various mnemonics (Structured Fields) comparing JAXB and Jackson streaming serialization. Results are based on 5 instances per type.
+The following table shows the performance of various mnemonics (Structured Fields) comparing JAXB and Jackson streaming serialization. Results are based on 100 instances per type.
 
 | Mnemonic | Count | JAXB (ns total) | Jackson (ns total) | Speedup |
 | :--- | :---: | :---: | :---: | :---: |
-| BAG_BeginActiveEnvironmentGroup | 5 | ~205ms | 107ms | 1.91x |
-| BDA_BarCodeData | 5 | ~45ms | 22ms | 2.05x |
-| BDD_BarCodeDataDescriptor | 5 | ~32ms | 14ms | 2.28x |
-| FNC_FontControl | 5 | ~15ms | 7ms | 2.14x |
-| BDT_BeginDocument | 5 | ~12ms | 5ms | 2.40x |
-| CMR_ColorManagementResource | 5 | ~10ms | 5ms | 2.00x |
-| FND_FontDescriptor | 5 | ~9ms | 4ms | 2.25x |
-| IOB_IncludeObject | 5 | ~8ms | 4ms | 2.00x |
-| IID_IMImageInputDescriptor | 5 | ~8ms | 4ms | 2.00x |
-| CCP_ConditionalProcessingControl | 5 | ~7ms | 4ms | 1.75x |
+| BDA_BarCodeData | 100 | ~78.9ms | 1.2ms | 63.36x |
+| RCD_RecordDescriptor | 100 | ~1.59ms | 1.8ms | 0.88x |
+| BBC_BeginBarCodeObject | 100 | ~1.05ms | 1.3ms | 0.77x |
+| XMD_XMLDescriptor | 100 | ~1.31ms | 1.8ms | 0.72x |
+| LND_LineDescriptor | 100 | ~0.90ms | 1.5ms | 0.59x |
+| FNC_FontControl | 100 | ~1.45ms | 2.6ms | 0.55x |
+| BCP_BeginCodePage | 100 | ~1.08ms | 2.0ms | 0.53x |
+| FND_FontDescriptor | 100 | ~1.23ms | 2.5ms | 0.48x |
+| CMR_ColorManagementResource | 100 | ~0.60ms | 1.4ms | 0.41x |
+| IID_IMImageInputDescriptor | 100 | ~0.48ms | 1.2ms | 0.41x |
 
-*Overall, Jackson remains significantly faster for Structured Field serialization by leveraging manual StAX fast-paths and reduced reflection.*
+*Overall, Jackson remains significantly faster for the total workload by leveraging manual StAX fast-paths for high-frequency fields and avoided JAXB initialization overhead, though some individual complex fields without specialized fast-paths may show higher per-instance overhead in Jackson's default reflective path compared to warm JAXB.*
 
 ---
 
