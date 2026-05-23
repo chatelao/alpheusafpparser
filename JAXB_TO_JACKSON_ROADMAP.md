@@ -26,15 +26,15 @@ The goal of this phase is to introduce Jackson without rewriting the existing 13
 3.  **Verification**: (DONE) Ensure `XmlMapper` can serialize a representative sample of Structured Fields identically to the current JAXB implementation.
     - Verified in `JacksonSerializationTest`.
 
-### Phase 2: Jackson-Based Streaming Writer
+### Phase 2: Jackson-Based Streaming Writer (DONE ✅)
 Replace the JAXB fragment marshalling in `AfpStreamingXmlWriter` with Jackson's `ToXmlGenerator`.
 
-1.  **Implement `AfpJacksonXmlWriter`**:
+1.  **Implement `AfpJacksonXmlWriter`**: (DONE)
     - Use `XmlMapper.createGenerator(OutputStream)` for high-performance streaming.
     - Replace `JAXBContext` lookups with a single, thread-safe `XmlMapper` instance.
-2.  **Refactor `Afp2Xml` CLI**:
+2.  **Refactor `Afp2Xml` CLI**: (DONE)
     - Add a toggle or configuration to switch between the JAXB-based and Jackson-based streaming writers.
-3.  **Verification**: Run `Afp2XmlComparisonTest` to ensure output parity.
+3.  **Verification**: (DONE) Run `Afp2XmlComparisonTest` to ensure output parity.
 
 ### Phase 3: Performance Benchmarking & Optimization
 Audit the performance gains and identify remaining bottlenecks.
