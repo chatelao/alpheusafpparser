@@ -13,16 +13,18 @@ While Jakarta XML Binding is the standard successor to JAXB, Jackson XML offers:
 
 ## 2. Phased Upgrade Path
 
-### Phase 1: Jackson Infrastructure & JAXB Compatibility
+### Phase 1: Jackson Infrastructure & JAXB Compatibility (DONE ✅)
 The goal of this phase is to introduce Jackson without rewriting the existing 130+ annotated classes.
 
-1.  **Add Dependencies**:
+1.  **Add Dependencies**: (DONE)
     - `com.fasterxml.jackson.dataformat:jackson-dataformat-xml`
     - `com.fasterxml.jackson.module:jackson-module-jaxb-annotations`
-2.  **Configure `XmlMapper`**:
+2.  **Configure `XmlMapper`**: (DONE)
     - Enable `JaxbAnnotationModule` to honor existing `@XmlRootElement` and `@XmlElement` annotations.
     - Configure indentation and header generation to match current output.
-3.  **Verification**: Ensure `XmlMapper` can serialize a representative sample of Structured Fields identically to the current JAXB implementation.
+    - Implemented in `JacksonXmlMapperProvider`.
+3.  **Verification**: (DONE) Ensure `XmlMapper` can serialize a representative sample of Structured Fields identically to the current JAXB implementation.
+    - Verified in `JacksonSerializationTest`.
 
 ### Phase 2: Jackson-Based Streaming Writer
 Replace the JAXB fragment marshalling in `AfpStreamingXmlWriter` with Jackson's `ToXmlGenerator`.
