@@ -39,8 +39,8 @@ public class JacksonXmlMapperProvider {
     // Match current JAXB output formatting
     XML_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
     XML_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
-    // Do not serialize null fields, similar to JAXB default behavior in many cases
-    XML_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    // Do not serialize empty or null fields, similar to JAXB default behavior in many cases
+    XML_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
   }
 
   /**
