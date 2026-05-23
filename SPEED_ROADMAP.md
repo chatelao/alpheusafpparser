@@ -68,6 +68,20 @@ Focus on zero-copy parsing and reducing overhead in XML serialization.
   - Cache and reuse `DocumentBuilder`, `XPath`, and `Transformer` in `AfpStreamingXmlWriter`.
   - *Verification*: Faster XPath-filtered conversion.
 
+## Phase 11: Production-Scale Optimizations
+Focus on bottlenecks identified during high-volume production data audits.
+
+- **Task 11.1: Fast-Path for MCF and Movement Controls**
+  - Implement manual StAX serialization for `MCF_MapCodedFont_Format2` in `AfpJacksonXmlWriter`.
+  - Implement manual StAX serialization for `AMI` and `AMB` control sequences.
+  - *Verification*: Reduced `Write (ms)` for MCF, AMI, and AMB in `MnemonicPerformanceMonitor` output.
+- **Task 11.2: Jackson Generator Reuse & Allocation Reduction**
+  - Refactor `AfpJacksonXmlWriter` to reuse `ToXmlGenerator` or minimize its creation for fallback fields.
+  - *Verification*: Reduced GC overhead and improved throughput in large file conversions.
+- **Task 11.3: Expanded Triplet Fast-Paths**
+  - Implement more common triplets in `writeTriplet` to further reduce Jackson fallback.
+  - *Verification*: Higher percentage of manual serialization in profiles.
+
 ---
 
 ## Status Tracking
@@ -80,3 +94,8 @@ Focus on zero-copy parsing and reducing overhead in XML serialization.
 | 4 | NIO & CLI Enhancements | ✅ |
 | 5 | Benchmarking & Verification | ✅ |
 | 6 | Advanced Performance Optimizations | ✅ |
+| 7 | JAXB to Jackson Infrastructure | ✅ |
+| 8 | Jackson-Based Streaming Writer | ✅ |
+| 9 | Performance Benchmarking (Jackson vs JAXB) | ✅ |
+| 10 | Specialized StAX + Aalto Optimizations | ✅ |
+| 11 | Production-Scale Optimizations | 🚧 |

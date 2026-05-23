@@ -141,3 +141,35 @@ The following table summarizes the performance of the core components defined in
 | **Object Container Data (OCD)**| ~0.13ms | ~0.56ms | 0.23x | ✅ Measured |
 
 *All components specified in the Meta-Structure Hierarchy have been successfully measured. High-frequency fields like BDA, PTX, and BAG leverage manual StAX fast-paths in Jackson, yielding significant speedups.*
+
+---
+
+## 7. Audit 3: Real-World Production Data Audit (High Volume)
+
+A performance audit was conducted on a production-scale dataset consisting of multiple large AFP files. The audit utilized the `MnemonicPerformanceMonitor` to aggregate parse and write timings.
+
+### Production Dataset Metrics (Aggregated)
+
+| Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |
+| :--- | :---: | :---: | :---: | :---: |
+| **PTX** | 2,434 | 10,607 | 91 | 10,516 |
+| **MCF** | 361 | 764 | 21 | 743 |
+| **TLE** | 3,255 | 760 | 46 | 714 |
+| **IPD** | 1,953 | 237 | 45 | 192 |
+| **OBD** | 662 | 165 | 10 | 155 |
+| **OBP** | 662 | 113 | 3 | 110 |
+| **IDD** | 651 | 109 | 6 | 103 |
+| **MIO** | 651 | 85 | 4 | 81 |
+
+### Key Observations & Bottlenecks
+
+1.  **PTX Write Hotspot**: Despite existing fast-paths for some control sequences, `PTX_PresentationTextData` remains the single largest bottleneck in the writing phase, accounting for over 10 seconds of processing time. This suggests that the complexity or variety of control sequences within these production files exceeds the current manual fast-path coverage.
+2.  **MCF and TLE Overhead**: `MCF` (Map Coded Font) and `TLE` (Tag Logical Element) show significant write overhead. `MCF` is particularly concerning given its relatively low count compared to `PTX` or `TLE`.
+3.  **Object/Data Descriptors**: `OBD`, `OBP`, `IDD`, and `MIO` represent a secondary tier of bottlenecks, likely due to repeated JAXB/Jackson reflective serialization of their structured metadata.
+4.  **Parse vs. Write Disparity**: In all cases, the Parse phase is significantly faster than the Write phase (often by an order of magnitude or more), confirming that XML serialization is the current primary performance bottleneck for the project.
+
+### Recommendations for Optimization
+
+- **Expand Fast-Paths**: Implement manual StAX fast-paths for `MCF`, `TLE`, and common PTOCA movement control sequences (`AMI`, `AMB`).
+- **Resource Reuse**: Optimize the `ToXmlGenerator` usage in `AfpJacksonXmlWriter` to further reduce per-field allocation overhead.
+- **PTOCA Serialization Refactoring**: Re-evaluate the PTOCA control sequence serialization logic to avoid recursive mapper calls for common but complex sequences.
