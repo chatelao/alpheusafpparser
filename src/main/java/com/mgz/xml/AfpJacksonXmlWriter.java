@@ -113,10 +113,18 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
    * @throws Exception if writing fails
    */
   public void writeField(StructuredField sf) throws Exception {
-    if (xpathExpression != null) {
-      writeFieldWithXPath(sf);
-    } else {
-      writeFieldDirectly(sf);
+    boolean isPtx = sf instanceof PTX_PresentationTextData;
+    long startTime = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? System.nanoTime() : 0;
+    try {
+      if (xpathExpression != null) {
+        writeFieldWithXPath(sf);
+      } else {
+        writeFieldDirectly(sf);
+      }
+    } finally {
+      if (startTime > 0) {
+        com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(System.nanoTime() - startTime);
+      }
     }
   }
 

@@ -61,6 +61,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   boolean isParseToStructuredFieldsBaseData;
   boolean isBuildShallow;
   boolean escalateParsingErrors = true;
+  volatile boolean ptxDebug = false;
   File afpFile;
   private transient ByteBuffer byteBuffer;
   private transient AsynchronousFileChannel asyncFileChannel;
@@ -235,6 +236,24 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    */
   public boolean isEscalateParsingErrors() {
     return escalateParsingErrors;
+  }
+
+  /**
+   * Returns whether PTX debug statistics should be collected.
+   *
+   * @return true if PTX debug is enabled
+   */
+  public boolean isPtxDebug() {
+    return ptxDebug;
+  }
+
+  /**
+   * Enables or disables PTX debug statistics collection.
+   *
+   * @param ptxDebug true to enable PTX debug
+   */
+  public void setPtxDebug(boolean ptxDebug) {
+    this.ptxDebug = ptxDebug;
   }
 
   /**
