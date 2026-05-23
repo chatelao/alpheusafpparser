@@ -138,16 +138,16 @@ public class MnemonicPerformanceMonitor {
       return;
     }
 
-    System.out.println("\nPerformance Summary per Mnemonic:");
-    System.out.println(String.format("%-10s | %8s | %15s | %15s | %15s",
-        "Mnemonic", "Count", "Total (ms)", "Parse (ms)", "Write (ms)"));
-    System.out.println("-".repeat(73));
+    System.out.println("\n### Performance Summary per Mnemonic");
+    System.out.println();
+    System.out.println("| Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |");
+    System.out.println("| :--- | ---: | ---: | ---: | ---: |");
 
     new TreeMap<>(statsMap).forEach((mnemonic, stats) -> {
       long parseMs = stats.parseTime.get() / 1_000_000;
       long writeMs = stats.writeTime.get() / 1_000_000;
       long totalMs = parseMs + writeMs;
-      System.out.println(String.format("%-10s | %8d | %15d | %15d | %15d",
+      System.out.println(String.format("| %-10s | %8d | %15d | %15d | %15d |",
           mnemonic, stats.count.get(), totalMs, parseMs, writeMs));
     });
     System.out.println();
