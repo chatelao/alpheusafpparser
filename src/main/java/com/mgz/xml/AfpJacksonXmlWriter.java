@@ -24,8 +24,14 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldBaseData;
 import com.mgz.afp.modca.NOP_NoOperation;
+import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
+import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.ptoca.PTX_PresentationTextData;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.OutputStream;
+import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLOutputFactory;
@@ -45,7 +51,7 @@ import org.w3c.dom.Document;
  */
 public class AfpJacksonXmlWriter implements AutoCloseable {
 
-  private static final XMLOutputFactory XOF = XMLOutputFactory.newInstance();
+  private static final XMLOutputFactory XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
   private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
   private static final XPathFactory XPF = XPathFactory.newInstance();
   private static final TransformerFactory TF = TransformerFactory.newInstance();
@@ -116,6 +122,12 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     xsw.writeCharacters("  ");
     if (sf instanceof NOP_NoOperation nop) {
       writeNOPDirectly(nop);
+    } else if (sf instanceof TLE_TagLogicalElement tle) {
+      writeTLEDirectly(tle);
+    } else if (sf instanceof BAG_BeginActiveEnvironmentGroup bag) {
+      writeBAGDirectly(bag);
+    } else if (sf instanceof PTX_PresentationTextData ptx) {
+      writePTXDirectly(ptx);
     } else {
       String rootName = sf.getClass().getSimpleName();
       ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
@@ -130,9 +142,102 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       xsw.writeEmptyElement("NOP_NoOperation");
     } else {
       xsw.writeStartElement("NOP_NoOperation");
+      xsw.writeCharacters("\n    ");
       xsw.writeStartElement("text");
       xsw.writeCharacters(text);
       xsw.writeEndElement();
+      xsw.writeCharacters("\n  ");
+      xsw.writeEndElement();
+    }
+  }
+
+  private void writeTLEDirectly(TLE_TagLogicalElement tle) throws Exception {
+    xsw.writeStartElement("TLE_TagLogicalElement");
+    writeTripletsAndText(tle.getTriplets(), tle.getText());
+    xsw.writeEndElement();
+  }
+
+  private void writeBAGDirectly(BAG_BeginActiveEnvironmentGroup bag) throws Exception {
+    xsw.writeStartElement("BAG_BeginActiveEnvironmentGroup");
+    writeTripletsAndText(bag.getTriplets(), bag.getText());
+    xsw.writeEndElement();
+  }
+
+  private void writeTripletsAndText(List<Triplet> triplets, String text) throws Exception {
+    if (triplets != null) {
+      for (Triplet triplet : triplets) {
+        xsw.writeCharacters("\n    ");
+        writeTriplet(triplet);
+      }
+    }
+    if (text != null && !text.isEmpty()) {
+      xsw.writeCharacters("\n    ");
+      xsw.writeStartElement("text");
+      xsw.writeCharacters(text);
+      xsw.writeEndElement();
+    }
+    xsw.writeCharacters("\n  ");
+  }
+
+  private void writeTriplet(Triplet triplet) throws Exception {
+    if (triplet instanceof Triplet.FullyQualifiedName fqn) {
+      xsw.writeStartElement("FullyQualifiedName");
+      writeElement("\n      ", "type", fqn.getType().name());
+      writeElement("\n      ", "format", fqn.getFormat().name());
+      writeElement("\n      ", "nameAsString", fqn.getNameAsString());
+      writeElement("\n      ", "text", fqn.getText());
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
+    } else if (triplet instanceof Triplet.AttributeValue av) {
+      xsw.writeStartElement("AttributeValue");
+      writeElement("\n      ", "attributeValue", av.getAttributeValue());
+      writeElement("\n      ", "text", av.getText());
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
+    } else {
+      // Fallback to Jackson for other triplets
+      ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(g, triplet);
+    }
+  }
+
+  private void writePTXDirectly(PTX_PresentationTextData ptx) throws Exception {
+    xsw.writeStartElement("PTX_PresentationTextData");
+    List<PTOCAControlSequence> sequences = ptx.getControlSequences();
+    if (sequences != null) {
+      for (PTOCAControlSequence cs : sequences) {
+        xsw.writeCharacters("\n    ");
+        writeControlSequence(cs);
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeControlSequence(PTOCAControlSequence cs) throws Exception {
+    if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
+      xsw.writeStartElement("TRN_TransparentData");
+      writeElement("\n      ", "transparentData", trn.getTransparentData());
+      writeElement("\n      ", "text", trn.getText());
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
+      xsw.writeStartElement("GraphicCharacters");
+      writeElement("\n      ", "text", gc.getText());
+      xsw.writeCharacters("\n    ");
+      xsw.writeEndElement();
+    } else {
+      // Fallback to Jackson
+      ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+      fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(g, cs);
+    }
+  }
+
+  private void writeElement(String indent, String name, String value) throws Exception {
+    if (value != null) {
+      xsw.writeCharacters(indent);
+      xsw.writeStartElement(name);
+      xsw.writeCharacters(value);
       xsw.writeEndElement();
     }
   }

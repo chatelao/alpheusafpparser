@@ -36,17 +36,17 @@ Replace the JAXB fragment marshalling in `AfpStreamingXmlWriter` with Jackson's 
     - Add a toggle or configuration to switch between the JAXB-based and Jackson-based streaming writers.
 3.  **Verification**: (DONE) Run `Afp2XmlComparisonTest` to ensure output parity.
 
-### Phase 3: Performance Benchmarking & Optimization
+### Phase 3: Performance Benchmarking & Optimization (DONE ✅)
 Audit the performance gains and identify remaining bottlenecks.
 
-1.  **Benchmark**: Compare Jackson vs. JAXB using `PerformanceRegressionTest`.
-2.  **Profile**: Use JFR (Java Flight Recorder) to identify any overhead in Jackson's handling of specific complex fields (e.g., nested PTOCA sequences).
+1.  **Benchmark**: Compare Jackson vs. JAXB using `PerformanceRegressionTest`. (DONE)
+2.  **Profile**: Use JFR (Java Flight Recorder) to identify any overhead in Jackson's handling of specific complex fields (e.g., nested PTOCA sequences). (DONE)
 
-### Phase 4: Targeted StAX + Aalto Optimization
+### Phase 4: Targeted StAX + Aalto Optimization (DONE ✅)
 For "sensitive" or high-frequency fields that Jackson handles inefficiently, implement manual StAX serialization using the Aalto implementation.
 
-1.  **Identify Sensitive Fields**: Focus on fields like `NOP` (high frequency) or `GAD`/`IPD` (massive payloads).
-2.  **Implement Manual Serialization**:
+1.  **Identify Sensitive Fields**: Focus on fields like `NOP` (high frequency), `TLE`, `BAG` or `GAD`/`IPD` (massive payloads). (DONE)
+2.  **Implement Manual Serialization**: (DONE)
     - Use Aalto's `XMLStreamWriter2` for ultra-fast, zero-copy text writing.
     - Integrate these manual paths into the `AfpJacksonXmlWriter`.
 
