@@ -22,6 +22,9 @@ package com.mgz.xml;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.mgz.afp.base.StructuredField;
+import com.mgz.afp.base.StructuredFieldBaseData;
+import com.mgz.afp.modca.NOP_NoOperation;
+import com.mgz.util.UtilCharacterEncoding;
 import java.io.OutputStream;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -111,10 +114,27 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
 
   private void writeFieldDirectly(StructuredField sf) throws Exception {
     xsw.writeCharacters("  ");
-    String rootName = sf.getClass().getSimpleName();
-    ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-    fragmentMapper.writer().withRootName(rootName).writeValue(g, sf);
+    if (sf instanceof NOP_NoOperation nop) {
+      writeNOPDirectly(nop);
+    } else {
+      String rootName = sf.getClass().getSimpleName();
+      ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+      fragmentMapper.writer().withRootName(rootName).writeValue(g, sf);
+    }
     xsw.writeCharacters("\n");
+  }
+
+  private void writeNOPDirectly(NOP_NoOperation nop) throws Exception {
+    String text = nop.getText();
+    if (text == null || text.isEmpty()) {
+      xsw.writeEmptyElement("NOP_NoOperation");
+    } else {
+      xsw.writeStartElement("NOP_NoOperation");
+      xsw.writeStartElement("text");
+      xsw.writeCharacters(text);
+      xsw.writeEndElement();
+      xsw.writeEndElement();
+    }
   }
 
   private void writeFieldWithXPath(StructuredField sf) throws Exception {
