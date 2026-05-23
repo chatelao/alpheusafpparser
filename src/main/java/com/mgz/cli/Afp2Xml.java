@@ -216,6 +216,9 @@ public class Afp2Xml {
                  : (AutoCloseable) new AfpStreamingXmlWriter(os, xpathExpression)) {
           StructuredField sf;
           while ((sf = parser.parseNextSF()) != null) {
+            if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
+                System.err.println("Error parsing file " + inputFile.getName() + ": " + errSf.getErrorMessage());
+            }
             if (writer instanceof com.mgz.xml.AfpJacksonXmlWriter jacksonWriter) {
               jacksonWriter.writeField(sf);
             } else {
@@ -225,7 +228,7 @@ public class Afp2Xml {
           }
         }
         if (parser.getNrOfSFBuiltWithErrors() > 0) {
-          throw new Exception("Error parsing SF from buffer");
+          throw new Exception("Failed to process " + parser.getNrOfSFBuiltWithErrors() + " structured fields correctly.");
         }
         System.out.println("Export successful: " + outputFile.getPath());
       } else {
@@ -234,6 +237,9 @@ public class Afp2Xml {
             : (AutoCloseable) new AfpStreamingXmlWriter(System.out, xpathExpression)) {
           StructuredField sf;
           while ((sf = parser.parseNextSF()) != null) {
+            if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
+                System.err.println("Error parsing file " + inputFile.getName() + ": " + errSf.getErrorMessage());
+            }
             if (writer instanceof com.mgz.xml.AfpJacksonXmlWriter jacksonWriter) {
               jacksonWriter.writeField(sf);
             } else {
@@ -243,7 +249,7 @@ public class Afp2Xml {
           }
         }
         if (parser.getNrOfSFBuiltWithErrors() > 0) {
-          throw new Exception("Error parsing SF from buffer");
+          throw new Exception("Failed to process " + parser.getNrOfSFBuiltWithErrors() + " structured fields correctly.");
         }
       }
     } finally {

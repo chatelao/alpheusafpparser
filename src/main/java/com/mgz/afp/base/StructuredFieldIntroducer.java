@@ -81,6 +81,9 @@ public class StructuredFieldIntroducer {
 
     try {
       sfi.sfLength = UtilBinaryDecoding.parseInt(is, 2);
+      if (sfi.sfLength < 8) {
+        throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
+      }
 
       sfi.sfTypeID = SFTypeID.parse(is);
 
@@ -127,9 +130,15 @@ public class StructuredFieldIntroducer {
    * @throws AFPParserException if parsing fails
    */
   public static StructuredFieldIntroducer parse(ByteBuffer buffer, int offset) throws AFPParserException {
+    if (offset + 8 > buffer.limit()) {
+      throw new AFPParserException("Not enough bytes for SF introducer at offset 0x" + Integer.toHexString(offset));
+    }
     StructuredFieldIntroducer sfi = SfiPool.acquire();
 
     sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, offset, 2);
+    if (sfi.sfLength < 8) {
+      throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
+    }
     sfi.sfTypeID = SFTypeID.parse(buffer, offset + 2);
     sfi.flagByte = SFFlag.valueOf(buffer.get(offset + 5) & 0xFF);
     sfi.reserved = UtilBinaryDecoding.parseInt(buffer, offset + 6, 2);
@@ -158,9 +167,15 @@ public class StructuredFieldIntroducer {
    * @throws AFPParserException if parsing fails
    */
   public static StructuredFieldIntroducer parse(ByteBuffer buffer) throws AFPParserException {
+    if (buffer.remaining() < 8) {
+      throw new AFPParserException("Not enough bytes remaining in buffer for SF introducer.");
+    }
     StructuredFieldIntroducer sfi = SfiPool.acquire();
 
     sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, 2);
+    if (sfi.sfLength < 8) {
+      throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
+    }
     sfi.sfTypeID = SFTypeID.parse(buffer);
     sfi.flagByte = SFFlag.valueOf(buffer.get() & 0xFF);
     sfi.reserved = UtilBinaryDecoding.parseInt(buffer, 2);

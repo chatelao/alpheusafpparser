@@ -209,4 +209,55 @@ public class ErrorHandlingTest {
             assertTrue(triplets.get(0) instanceof Triplet.Undefined, "Oversized triplet should be parsed as Undefined");
         }
     }
+
+    @Test
+    public void testErroneousSFDiagnostics() throws Exception {
+        // Buffer-based parsing for diagnostics check
+        byte[] data = new byte[]{
+            0x5A,
+            0x00, 0x0C, // Length 12
+            (byte)0xD3, (byte)0xA8, (byte)0xA8, // BDT
+            0x00, // Flags
+            0x00, 0x00, // Reserved
+            0x01, 0x02 // Only 2 bytes of payload provided, 4 expected
+        };
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setByteBuffer(java.nio.ByteBuffer.wrap(data));
+        config.setEscalateParsingErrors(false);
+        AFPParser parser = new AFPParser(config);
+
+        StructuredField sf = parser.parseNextSF();
+        assertTrue(sf instanceof StructuredFieldErrornouslyBuilt, "SF should be StructuredFieldErrornouslyBuilt");
+        StructuredFieldErrornouslyBuilt errSf = (StructuredFieldErrornouslyBuilt) sf;
+
+        assertEquals(0, errSf.getFileOffset());
+        assertEquals(com.mgz.afp.enums.SFTypeID.BDT_BeginDocument, errSf.getTypeId());
+        assertNotNull(errSf.getErrorMessage());
+        assertTrue(errSf.getErrorMessage().contains("0x0"), "Error message should contain offset");
+        assertTrue(errSf.getErrorMessage().contains("BDT_BeginDocument"), "Error message should contain SF type");
+    }
+
+    @Test
+    public void testInvalidSFLengthDiagnostics() throws Exception {
+        // SF length less than 8
+        byte[] data = new byte[]{
+            0x5A,
+            0x00, 0x07, // Invalid length 7
+            (byte)0xD3, (byte)0xA8, (byte)0xA8, // BDT
+            0x00, // Flags
+            0x00, 0x00  // Reserved
+        };
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setByteBuffer(java.nio.ByteBuffer.wrap(data));
+        config.setEscalateParsingErrors(false);
+        AFPParser parser = new AFPParser(config);
+
+        StructuredField sf = parser.parseNextSF();
+        assertTrue(sf instanceof StructuredFieldErrornouslyBuilt, "SF should be StructuredFieldErrornouslyBuilt");
+        StructuredFieldErrornouslyBuilt errSf = (StructuredFieldErrornouslyBuilt) sf;
+
+        assertEquals(0, errSf.getFileOffset());
+        assertNotNull(errSf.getRawIntroducer());
+        assertTrue(errSf.getErrorMessage().contains("Minimum length is 8"), "Error message should contain length error");
+    }
 }

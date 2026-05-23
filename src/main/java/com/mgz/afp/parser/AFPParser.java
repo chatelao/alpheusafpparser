@@ -409,8 +409,25 @@ public class AFPParser {
     int sfiStart = (int) nrOfBytesRead;
 
     try {
-      sfi = StructuredFieldIntroducer.parse(buffer, sfiStart);
-      sfi.setFileOffset(pos);
+      try {
+        sfi = StructuredFieldIntroducer.parse(buffer, sfiStart);
+        sfi.setFileOffset(pos);
+      } catch (Throwable e) {
+        errSf = new StructuredFieldErrornouslyBuilt();
+        errSf.setFileOffset(pos);
+        errSf.setCausingException(e);
+        // Try to capture raw SFI if possible
+        int lenToCapture = Math.min(8, buffer.limit() - sfiStart);
+        if (lenToCapture > 0) {
+            byte[] rawSfi = new byte[lenToCapture];
+            int oldPos = buffer.position();
+            buffer.position(sfiStart);
+            buffer.get(rawSfi);
+            buffer.position(oldPos);
+            errSf.setRawIntroducer(rawSfi);
+        }
+        throw e;
+      }
 
       StructuredField sf;
       if (parserConf.isParseToStructuredFieldsBaseData) {
@@ -462,6 +479,10 @@ public class AFPParser {
       if (errSf == null) {
         errSf = new StructuredFieldErrornouslyBuilt();
         errSf.setStructuredFieldIntroducer(sfi != null ? sfi : new StructuredFieldIntroducer());
+        errSf.setFileOffset(pos);
+        if (sfi != null) {
+            errSf.setTypeId(sfi.getSFTypeID());
+        }
       }
       errSf.setCausingException(e);
       if (sfi != null) {
@@ -513,6 +534,7 @@ public class AFPParser {
           if (errSf == null) {
             errSf = new StructuredFieldErrornouslyBuilt();
             errSf.setStructuredFieldIntroducer(new StructuredFieldIntroducer());
+            errSf.setFileOffset(nrOfBytesRead - 1);
           }
           if (e instanceof AFPParserException) {
             ((AFPParserException) e).setErrornouslyBuiltStructuredField(errSf);
@@ -608,6 +630,8 @@ public class AFPParser {
             sf = errSf = new StructuredFieldErrornouslyBuilt();
             errSf.setCausingException(th);
             errSf.setStructuredFieldIntroducer(sfi);
+            errSf.setFileOffset(sfi.getFileOffset());
+            errSf.setTypeId(sfi.getSFTypeID());
             errSf.setData(grossPayload);
             if (parserConf.isEscalateParsingErrors()) {
               throw th;
@@ -632,6 +656,10 @@ public class AFPParser {
       if (errSf == null) {
         errSf = new StructuredFieldErrornouslyBuilt();
         errSf.setStructuredFieldIntroducer(sfi);
+        if (sfi != null) {
+            errSf.setFileOffset(sfi.getFileOffset());
+            errSf.setTypeId(sfi.getSFTypeID());
+        }
       }
 
       nrOfBytesRead += errSf.getStructuredFieldIntroducer().getSFLength();
