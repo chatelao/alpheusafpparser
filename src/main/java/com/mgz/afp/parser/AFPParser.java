@@ -443,7 +443,7 @@ public class AFPParser {
       }
 
       handleStatePreservation(sf);
-      nrOfBytesRead = pos + sfi.getSFLength();
+      nrOfBytesRead = pos + 1 + sfi.getSFLength();
       nrOfSFBuilt++;
       return sf;
 
@@ -455,13 +455,18 @@ public class AFPParser {
       errSf.setCausingException(e);
       if (sfi != null) {
         int len = sfi.getSFLength();
-        byte[] data = new byte[len];
         int oldPos = buffer.position();
-        buffer.position(pos + 1);
-        buffer.get(data);
-        buffer.position(oldPos);
-        errSf.setData(data);
-        nrOfBytesRead = pos + len;
+        try {
+          if (pos + 1 + len <= buffer.limit()) {
+            byte[] data = new byte[len];
+            buffer.position(pos + 1);
+            buffer.get(data);
+            errSf.setData(data);
+          }
+        } finally {
+          buffer.position(oldPos);
+        }
+        nrOfBytesRead = pos + 1 + len;
       }
       nrOfSFBuilt++;
       nrOfErrSFBuilt++;
