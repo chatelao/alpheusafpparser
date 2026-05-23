@@ -56,6 +56,7 @@ public class Afp2Xml {
     var isDirectoryMode = false;
     var useJackson = false;
     var measure = false;
+    var ptxDebug = false;
     String inputPath = null;
     String outputPath = null;
     String xpathExpression = null;
@@ -88,6 +89,9 @@ public class Afp2Xml {
         case "-m", "--measure" -> {
           measure = true;
         }
+        case "--ptx-debug" -> {
+          ptxDebug = true;
+        }
         default -> {
           if (arg.startsWith("-") && !"-".equals(arg)) {
             System.err.println("Unknown option: " + arg);
@@ -114,6 +118,9 @@ public class Afp2Xml {
 
     if (measure) {
       MnemonicPerformanceMonitor.setEnabled(true);
+    }
+    if (ptxDebug) {
+      com.mgz.util.PTXPerformanceMonitor.setEnabled(true);
     }
 
     try {
@@ -142,7 +149,7 @@ public class Afp2Xml {
           for (var f : files) {
             var outputFile = new File(f.getAbsolutePath() + extension);
             try {
-              convertToXml(f, outputFile, xpathExpression, useJackson);
+              convertToXml(f, outputFile, xpathExpression, useJackson, ptxDebug);
             } catch (Exception e) {
               var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
               System.err.println("Error processing file " + f.getName() + ": " + msg);
@@ -160,7 +167,7 @@ public class Afp2Xml {
         } else {
           outputFile = new File(inputPath + extension);
         }
-        convertToXml(input, outputFile, xpathExpression, useJackson);
+        convertToXml(input, outputFile, xpathExpression, useJackson, ptxDebug);
         return 0;
       }
     } catch (Exception e) {
@@ -171,13 +178,16 @@ public class Afp2Xml {
       if (measure) {
         MnemonicPerformanceMonitor.printSummary();
       }
+      if (ptxDebug) {
+        com.mgz.util.PTXPerformanceMonitor.printSummary();
+      }
     }
   }
 
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
-        + "<input-afp-file/dir> [output-xml-file]");
+        + "[--ptx-debug] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
         + "to XML.");
@@ -187,14 +197,16 @@ public class Afp2Xml {
     out.println("  -j, --jackson             Use Jackson XML for streaming (experimental).");
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
+    out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
     out.println("  -h, --help                Show this help message.");
   }
 
   private static void convertToXml(File inputFile, File outputFile, String xpathExpression,
-      boolean useJackson) throws Exception {
+      boolean useJackson, boolean ptxDebug) throws Exception {
     var config = new AFPParserConfiguration();
     config.setAFPFile(inputFile);
     config.setEscalateParsingErrors(false);
+    config.setPtxDebug(ptxDebug);
     var parser = new AFPParser(config);
     try {
       if (outputFile != null) {

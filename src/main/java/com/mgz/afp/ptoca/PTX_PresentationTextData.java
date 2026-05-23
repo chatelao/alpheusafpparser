@@ -57,6 +57,7 @@ public class PTX_PresentationTextData extends StructuredField {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 0) {
       originalPayload = new byte[actualLength];
@@ -67,6 +68,10 @@ public class PTX_PresentationTextData extends StructuredField {
       controlSequences = null;
     }
 
+    if (config.isPtxDebug()) {
+      long duration = System.nanoTime() - startTime;
+      com.mgz.util.PTXPerformanceMonitor.recordPtxParse(duration, actualLength, controlSequences != null ? controlSequences.size() : 0);
+    }
   }
 
   @Override

@@ -367,14 +367,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       codePageGlobalID_codedCharacterSetID = 0;
     }
 
-    public int getGraphicCharacterSetGlobalID() {
-      return graphicCharacterSetGlobalID;
-    }
-
-    public int getCodePageGlobalID_codedCharacterSetID() {
-      return codePageGlobalID_codedCharacterSetID;
-    }
-
     /**
      * Returns true, if this in the "CCSID Form", meaning the {@link #codePageGlobalID_codedCharacterSetID}
      * contains a codedCharacterSetID (CCSID) instead of a code page global ID.
@@ -496,10 +488,6 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public void reset() {
       super.reset();
       dataObjecMapingOption = null;
-    }
-
-    public DataObjecMapingOption getDataObjecMapingOption() {
-      return dataObjecMapingOption;
     }
 
     public enum DataObjecMapingOption {
