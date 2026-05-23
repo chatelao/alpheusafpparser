@@ -54,7 +54,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
   private final String xpathExpression;
 
   private javax.xml.parsers.DocumentBuilder cachedDocumentBuilder;
-  private javax.xml.xpath.XPath cachedXPath;
+  private javax.xml.xpath.XPath cachedXpath;
   private javax.xml.transform.Transformer cachedTransformer;
 
   /**
@@ -102,7 +102,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
     long startTime = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? System.nanoTime() : 0;
     try {
       if (xpathExpression != null) {
-        writeFieldWithXPath(sf);
+        writeFieldWithXpath(sf);
       } else {
         writeFieldDirectly(sf);
       }
@@ -133,7 +133,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
   }
 
   @SuppressWarnings("unchecked")
-  private void writeFieldWithXPath(StructuredField sf) throws Exception {
+  private void writeFieldWithXpath(StructuredField sf) throws Exception {
     var classes = new ArrayList<Class<?>>();
     classes.add(com.mgz.afp.base.AFPDocument.class);
     classes.add(sf.getClass());
@@ -153,12 +153,12 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
       afpDoc.addStructuredField(element);
       marshaller.marshal(afpDoc, doc);
 
-      if (cachedXPath == null) {
-        cachedXPath = XPF.newXPath();
+      if (cachedXpath == null) {
+        cachedXpath = XPF.newXPath();
       }
       // We evaluate the XPath against a temporary AFPDocument containing only the current field.
       // This allows absolute paths like /AFPDocument/TLE to work as they did in non-streaming mode.
-      Object result = cachedXPath.evaluate(xpathExpression, doc, XPathConstants.NODESET);
+      Object result = cachedXpath.evaluate(xpathExpression, doc, XPathConstants.NODESET);
       var nodes = (org.w3c.dom.NodeList) result;
 
       if (nodes.getLength() > 0) {

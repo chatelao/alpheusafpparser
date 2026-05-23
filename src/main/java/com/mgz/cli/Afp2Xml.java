@@ -186,8 +186,8 @@ public class Afp2Xml {
 
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
-        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] [--ptx-debug] "
-        + "<input-afp-file/dir> [output-xml-file]");
+        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
+        + "[--ptx-debug] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
         + "to XML.");
