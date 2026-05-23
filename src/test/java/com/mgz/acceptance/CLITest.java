@@ -2,6 +2,8 @@ package com.mgz.acceptance;
 
 import com.mgz.cli.Afp2Xml;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -12,6 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class CLITest {
 
     @Test

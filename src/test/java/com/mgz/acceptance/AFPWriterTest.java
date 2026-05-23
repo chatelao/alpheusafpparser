@@ -26,6 +26,8 @@ import com.mgz.afp.writer.IAFPWriter;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class AFPWriterTest {
 
   public static final Logger LOG = Logger.getLogger("AFPWriterTest");
