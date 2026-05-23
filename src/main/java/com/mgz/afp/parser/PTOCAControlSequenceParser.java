@@ -101,6 +101,12 @@ public class PTOCAControlSequenceParser {
         continue;
       }
 
+      int remaining = actualLength - pos;
+      int csiLen = isChained ? 2 : 4;
+      if (remaining < csiLen) {
+        throw new AFPParserException("Truncated PTOCA control sequence introducer at offset " + pos);
+      }
+
       ControlSequenceIntroducer csi = ControlSequenceIntroducer.parseCSI(isChained, sfData, offset + pos, -1, config);
 
       PTOCAControlSequence cs = createControlSequenceInstance(csi);
@@ -109,6 +115,13 @@ public class PTOCAControlSequenceParser {
         pos += 2;
       } else {
         pos += 4;
+      }
+
+      if (csi.getLength() < 2) {
+        throw new AFPParserException("Invalid PTOCA control sequence length: " + csi.getLength());
+      }
+      if (pos + csi.getLength() - 2 > actualLength) {
+        throw new AFPParserException("Truncated PTOCA control sequence payload at offset " + pos);
       }
 
       cs.decodeAFP(sfData, offset + pos, csi.getLength() - 2, config);

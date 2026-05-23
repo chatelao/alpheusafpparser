@@ -128,21 +128,39 @@ public class IPD_ImagePictureData extends StructuredField {
       if (segmentTypeCode == 0xFE) {
         segmentTypeCode = UtilBinaryDecoding.parseInt(sfData, offset + pos, 2);
       }
+
+      int introducerLen = 2;
+      if (segmentTypeCode == 0xFE) {
+        if (pos + 4 > actualLength) {
+          throw new AFPParserException("Truncated extended IPD segment introducer at offset " + pos);
+        }
+        segmentTypeCode = UtilBinaryDecoding.parseInt(sfData, offset + pos, 2);
+        introducerLen = 4;
+      } else {
+        if (pos + 2 > actualLength) {
+          throw new AFPParserException("Truncated IPD segment introducer at offset " + pos);
+        }
+      }
       IPD_SegmentType segmentType = IPD_SegmentType.valueOf(segmentTypeCode);
 
       IPD_Segment ipdSegment = IpdSegmentPool.acquire(segmentType);
       if (ipdSegment == null) {
-        ipdSegment = SEGMENT_SUPPLIERS.get(segmentType).get();
+        var supplier = SEGMENT_SUPPLIERS.get(segmentType);
+        if (supplier == null) {
+          throw new AFPParserException("No supplier for IPD segment type: " + segmentType);
+        }
+        ipdSegment = supplier.get();
       }
 
       ipdSegment.decodeAFP(sfData, offset + pos, actualLength - pos, config);
+
+      if (pos + introducerLen + ipdSegment.getLengthOfFollowingData() > actualLength) {
+        throw new AFPParserException("Truncated IPD segment payload at offset " + pos);
+      }
+
       listOfSegments.add(ipdSegment);
 
-      if (ipdSegment instanceof IPD_SegmentExtended) {
-        pos += (4 + ipdSegment.lengthOfFollowingData);
-      } else {
-        pos += (2 + ipdSegment.lengthOfFollowingData);
-      }
+      pos += (introducerLen + ipdSegment.getLengthOfFollowingData());
     }
   }
 

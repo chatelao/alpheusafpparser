@@ -45,15 +45,21 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    int actualLength = getActualLength(sfData, offset, length);
+    if (actualLength < 4) {
+      throw new AFPParserException("MCF1 payload too short: " + actualLength);
+    }
     lengthOfRepeatingGroup = UtilBinaryDecoding.parseShort(sfData, offset, 1);
     reserved1_3 = new byte[3];
     System.arraycopy(sfData, offset + 1, reserved1_3, 0, reserved1_3.length);
 
-    int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 4) {
+      if (lengthOfRepeatingGroup <= 0) {
+        throw new AFPParserException("Invalid length of repeating group: " + lengthOfRepeatingGroup);
+      }
       repeatingGroups = new ArrayList<MCF_MapCodedFont_Format1.MCF_RepeatingGroup>((actualLength - 4) / lengthOfRepeatingGroup);
       int pos = 4;
-      while (pos < actualLength) {
+      while (pos + lengthOfRepeatingGroup <= actualLength) {
         MCF_RepeatingGroup rg = new MCF_RepeatingGroup();
         rg.decodeAFP(sfData, offset + pos, lengthOfRepeatingGroup, config);
         repeatingGroups.add(rg);
