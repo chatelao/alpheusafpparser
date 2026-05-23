@@ -184,6 +184,9 @@ public class Afp2Xml {
             sf.release();
           }
         }
+        if (parser.getNrOfSFBuiltWithErrors() > 0) {
+          throw new Exception("Error parsing SF from buffer");
+        }
         System.out.println("Export successful: " + outputFile.getPath());
       } else {
         try (var writer = new AfpStreamingXmlWriter(System.out, xpathExpression)) {
@@ -192,6 +195,9 @@ public class Afp2Xml {
             writer.writeField(sf);
             sf.release();
           }
+        }
+        if (parser.getNrOfSFBuiltWithErrors() > 0) {
+          throw new Exception("Error parsing SF from buffer");
         }
       }
     } finally {

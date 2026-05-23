@@ -443,7 +443,7 @@ public class AFPParser {
       }
 
       handleStatePreservation(sf);
-      nrOfBytesRead = pos + sfi.getSFLength();
+      nrOfBytesRead = pos + 1 + sfi.getSFLength();
       nrOfSFBuilt++;
       return sf;
 
@@ -466,7 +466,7 @@ public class AFPParser {
         } finally {
           buffer.position(oldPos);
         }
-        nrOfBytesRead = pos + len;
+        nrOfBytesRead = pos + 1 + len;
       }
       nrOfSFBuilt++;
       nrOfErrSFBuilt++;

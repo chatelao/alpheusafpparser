@@ -55,6 +55,15 @@ public class Afp2XmlWriter {
 
   private static final Map<List<Class<?>>, JAXBContext> JAXB_CONTEXT_CACHE = new ConcurrentHashMap<>();
   private static final Map<Class<?>, JAXBContext> SINGLE_CLASS_CONTEXT_CACHE = new ConcurrentHashMap<>();
+
+  static {
+    try {
+      SINGLE_CLASS_CONTEXT_CACHE.put(com.mgz.afp.ptoca.PTX_PresentationTextData.class,
+          JAXBContext.newInstance(com.mgz.afp.ptoca.PTX_PresentationTextData.class, com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.class));
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
+    }
+  }
   private static final Map<JAXBContext, ConcurrentLinkedQueue<Marshaller>> MARSHALLER_POOL =
       new ConcurrentHashMap<>();
 
@@ -85,7 +94,8 @@ public class Afp2XmlWriter {
   public static JAXBContext getCachedJaxbContext(StructuredField sf) throws JAXBException {
     if (!(sf instanceof IHasTriplets) && !(sf instanceof IHasRepeatingGroups)
         && !(sf instanceof com.mgz.afp.modca.MCF_MapCodedFont_Format1)
-        && !(sf instanceof com.mgz.afp.foca.CFI_CodedFontIndex)) {
+        && !(sf instanceof com.mgz.afp.foca.CFI_CodedFontIndex)
+        && !(sf instanceof com.mgz.afp.ptoca.PTX_PresentationTextData)) {
       return getCachedJaxbContext(sf.getClass());
     }
 
@@ -263,6 +273,9 @@ public class Afp2XmlWriter {
           }
         }
       }
+    }
+    if (sf instanceof com.mgz.afp.ptoca.PTX_PresentationTextData) {
+      addClass(classes, com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.class);
     }
   }
 

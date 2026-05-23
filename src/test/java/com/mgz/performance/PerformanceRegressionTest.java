@@ -53,6 +53,16 @@ public class PerformanceRegressionTest {
         byte[] bdt = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA8, (byte)0xA8, 0x00, 0x00, 0x00};
         byte[] edt = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA9, (byte)0xA8, 0x00, 0x00, 0x00};
 
+        // PTX with German text (CP273/IBM273)
+        // "Hällö Wörld äöüßÄÖÜ"
+        byte[] ptxPayload = {
+            0x2B, (byte)0xD3, 0x15, (byte)0xDA, // TRN CS, length 21
+            (byte)0xC8, (byte)0xC0, (byte)0x93, (byte)0x93, (byte)0x6A, 0x40, // Hällö
+            (byte)0xE6, (byte)0x6A, (byte)0x99, (byte)0x93, (byte)0x84, 0x40, // Wörld
+            (byte)0xC0, (byte)0x6A, (byte)0xD0, (byte)0xA1, (byte)0x4A, (byte)0xE0, (byte)0x5A // äöüßÄÖÜ
+        };
+        byte[] ptxHeader = {0x5A, 0x00, (byte)(ptxPayload.length + 8), (byte)0xD3, (byte)0xEE, (byte)0x9B, 0x00, 0x00, 0x00};
+
         byte[] basePayload = "This is a NOP field to fill space and test processing speed. ".getBytes();
         byte[] nopPayload = new byte[32000];
         for (int i = 0; i < nopPayload.length; i++) {
@@ -63,8 +73,16 @@ public class PerformanceRegressionTest {
         try (FileOutputStream fos = new FileOutputStream(output)) {
             fos.write(bdt);
             fos.write(nameEbcdic);
+
+            // Add some PTX fields first
+            for (int i = 0; i < 100; i++) {
+                fos.write(ptxHeader);
+                fos.write(ptxPayload);
+            }
+
             int nopSize = nopHeader.length + nopPayload.length;
-            int numNops = (sizeMb * 1024 * 1024) / nopSize;
+            int remainingSize = (sizeMb * 1024 * 1024) - (int)fos.getChannel().position() - edt.length - nameEbcdic.length;
+            int numNops = remainingSize / nopSize;
             for (int i = 0; i < numNops; i++) {
                 fos.write(nopHeader);
                 fos.write(nopPayload);
