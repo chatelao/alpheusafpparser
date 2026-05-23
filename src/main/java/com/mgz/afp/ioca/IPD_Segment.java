@@ -21,6 +21,7 @@ package com.mgz.afp.ioca;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPUnitBase;
@@ -1096,6 +1097,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
         int actualLength = length != -1 ? length : sfData.length - offset;
         int pos = 0;
         while (pos < actualLength) {
+          if (pos + 2 > actualLength) {
+            throw new AFPParserException("Truncated image subsampling field at offset " + pos);
+          }
           short fieldType = UtilBinaryDecoding.parseShort(sfData, offset + pos, 1);
           if (fieldType == 0x01) {
             ImageSubsamplingField.SamplingRatios ratios = new SamplingRatios();
@@ -1129,11 +1133,18 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
         @Override
         public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+          int actualLength = StructuredField.getActualLength(sfData, offset, length);
+          if (actualLength < 2) {
+            throw new AFPParserException("SamplingRatios payload too short: " + actualLength);
+          }
           fieldType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
           lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+          if (2 + lengthOfFollowingData > actualLength) {
+            throw new AFPParserException("Truncated SamplingRatios payload. Expected " + (2 + lengthOfFollowingData) + " but got " + actualLength);
+          }
           int pos = 0;
           samplingRatiosRepeatingGroups = new ArrayList<SamplingRatios.SamplingRatiosRepeatingGroup>();
-          while (pos < lengthOfFollowingData) {
+          while (pos + 2 <= lengthOfFollowingData) {
             samplingRatiosRepeatingGroups.add(new SamplingRatiosRepeatingGroup(
                 sfData[offset + 2 + pos],
                 sfData[offset + 2 + pos + 1]
@@ -1409,14 +1420,21 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      if (actualLength < 6) {
+        throw new AFPParserException("TileTOC payload too short: " + actualLength);
+      }
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 2)); // Two bytes segment type.
       lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2); // Two bytes length of following data.
+      if (4 + lengthOfFollowingData > actualLength) {
+        throw new AFPParserException("Truncated TileTOC payload. Expected " + (4 + lengthOfFollowingData) + " but got " + actualLength);
+      }
       reserved4_5 = new byte[2];
       System.arraycopy(sfData, offset + 4, reserved4_5, 0, reserved4_5.length);
       int pos = 2;
       if (pos < lengthOfFollowingData) {
         listOfRepeatingGroups = new ArrayList<TileTOC.TileTOC_RepeatingGroup>();
-        while (pos < lengthOfFollowingData) {
+        while (pos + 26 <= lengthOfFollowingData) {
           int horizontalOffset = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos, 4);
           int verticalOffset = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 4, 4);
           int horizontalSize = UtilBinaryDecoding.parseInt(sfData, offset + 4 + pos + 8, 4);

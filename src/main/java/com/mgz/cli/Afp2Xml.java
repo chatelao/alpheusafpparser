@@ -131,7 +131,8 @@ public class Afp2Xml {
             try {
               convertToXml(f, outputFile, xpathExpression);
             } catch (Exception e) {
-              System.err.println("Error processing file " + f.getName() + ": " + e.getMessage());
+              var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+              System.err.println("Error processing file " + f.getName() + ": " + msg);
               hasErrors = true;
             }
           }
