@@ -274,7 +274,12 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   @Override
   public AFPParserConfiguration clone() {
     try {
-      return (AFPParserConfiguration) super.clone();
+      AFPParserConfiguration clone = (AFPParserConfiguration) super.clone();
+      if (this.byteBuffer != null) {
+        clone.byteBuffer = this.byteBuffer.duplicate();
+      }
+      // asyncFileChannel is shared and thread-safe for reads at different offsets
+      return clone;
     } catch (CloneNotSupportedException e) {
       return null;
     }
