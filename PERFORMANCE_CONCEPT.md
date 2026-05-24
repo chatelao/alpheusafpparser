@@ -56,13 +56,13 @@ Analyzed PTX-heavy payloads and introduced Jackson-based streaming.
 ### Latest Benchmark Results (Current State)
 *Executed via `PerformanceRegressionTest`*
 
-| Test Case | Method | Execution Time | Status |
-| :--- | :--- | :--- | :--- |
-| **10MB Synthetic AFP** | JAXB Streaming | ~734ms | ✅ Passed (< 2s) |
-| **10MB Synthetic AFP** | Jackson Streaming | ~683ms | ✅ Passed (< 2s) |
-| **20MB Synthetic AFP** | JAXB Avg | ~7ms* | ✅ |
-| **20MB Synthetic AFP** | Jackson Avg | ~5ms* | ✅ |
-| **Comprehensive (All SFs)**| Overall | **Jackson 3.62x faster** | ✅ |
+| Test Case | Method | Execution Time | Re-measured | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **10MB Synthetic AFP** | JAXB Streaming | ~734ms | 955ms | ✅ Passed (< 2s) |
+| **10MB Synthetic AFP** | Jackson Streaming | ~683ms | 719ms | ✅ Passed (< 2s) |
+| **20MB Synthetic AFP** | JAXB Avg | ~7ms* | 7ms | ✅ |
+| **20MB Synthetic AFP** | Jackson Avg | ~5ms* | 4ms | ✅ |
+| **Comprehensive (All SFs)**| Overall | **Jackson 3.62x faster** | **Jackson 3.88x faster** | ✅ |
 
 *\*Note: High variance in small synthetic tests due to JIT and buffer caching.*
 
@@ -79,18 +79,18 @@ Analyzed PTX-heavy payloads and introduced Jackson-based streaming.
 
 The following table shows the performance of various mnemonics (Structured Fields) comparing JAXB and Jackson streaming serialization. Results are based on 100 instances per type.
 
-| Mnemonic | Count | JAXB (ms total) | Jackson (ms total) | Speedup |
-| :--- | :---: | :---: | :---: | :---: |
-| BDA_BarCodeData | 100 | ~78.9ms | 1.2ms | 63.36x |
-| RCD_RecordDescriptor | 100 | ~1.59ms | 1.8ms | 0.88x |
-| BBC_BeginBarCodeObject | 100 | ~1.05ms | 1.3ms | 0.77x |
-| XMD_XMLDescriptor | 100 | ~1.31ms | 1.8ms | 0.72x |
-| LND_LineDescriptor | 100 | ~0.90ms | 1.5ms | 0.59x |
-| FNC_FontControl | 100 | ~1.45ms | 2.6ms | 0.55x |
-| BCP_BeginCodePage | 100 | ~1.08ms | 2.0ms | 0.53x |
-| FND_FontDescriptor | 100 | ~1.23ms | 2.5ms | 0.48x |
-| CMR_ColorManagementResource | 100 | ~0.60ms | 1.4ms | 0.41x |
-| IID_IMImageInputDescriptor | 100 | ~0.48ms | 1.2ms | 0.41x |
+| Mnemonic | Count | JAXB (ms total) | Jackson (ms total) | Jackson (Re-measured) | Speedup |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| BDA_BarCodeData | 100 | ~78.9ms | 1.2ms | 1.07ms | 73.74x |
+| RCD_RecordDescriptor | 100 | ~1.59ms | 1.8ms | 2.31ms | 0.69x |
+| BBC_BeginBarCodeObject | 100 | ~1.05ms | 1.3ms | 1.30ms | 0.81x |
+| XMD_XMLDescriptor | 100 | ~1.31ms | 1.8ms | 2.03ms | 0.65x |
+| LND_LineDescriptor | 100 | ~0.90ms | 1.5ms | 2.30ms | 0.39x |
+| FNC_FontControl | 100 | ~1.45ms | 2.6ms | 5.21ms | 0.28x |
+| BCP_BeginCodePage | 100 | ~1.08ms | 2.0ms | 0.40ms | 2.70x |
+| FND_FontDescriptor | 100 | ~1.23ms | 2.5ms | 2.99ms | 0.41x |
+| CMR_ColorManagementResource | 100 | ~0.60ms | 1.4ms | 1.44ms | 0.42x |
+| IID_IMImageInputDescriptor | 100 | ~0.48ms | 1.2ms | 1.12ms | 0.43x |
 
 *Overall, Jackson remains significantly faster for the total workload by leveraging manual StAX fast-paths for high-frequency fields and avoided JAXB initialization overhead, though some individual complex fields without specialized fast-paths may show higher per-instance overhead in Jackson's default reflective path compared to warm JAXB.*
 
@@ -122,26 +122,26 @@ The following table shows the performance of various mnemonics (Structured Field
 
 The following table summarizes the performance of the core components defined in `specifications/AFP_META_STRUCTURE.md`. These components form the skeleton of the MO:DCA data stream. Measurement results are based on 100 instances per type, comparing JAXB and Jackson streaming.
 
-| Component (Mnemonic) | JAXB (ms total) | Jackson (ms total) | Speedup | Status |
-| :--- | :---: | :---: | :---: | :---: |
-| **Print File (BPF/EPF)** | ~3.57ms | ~1.68ms | 2.12x | ✅ Measured |
-| **Resource Group (BRG/ERG)** | ~5.65ms | ~1.13ms | 5.00x | ✅ Measured |
-| **Document Index (BDI/EDI)** | ~1.17ms | ~3.83ms | 0.30x | ✅ Measured |
-| **Document (BDT/EDT)** | ~2.25ms | ~5.12ms | 0.44x | ✅ Measured |
-| **Page Group (BNG/ENG)** | ~2.21ms | ~8.97ms | 0.24x | ✅ Measured |
-| **Page (BPG/EPG)** | ~4.17ms | ~1.57ms | 2.65x | ✅ Measured |
-| **Active Env Group (BAG/EAG)** | ~1.33ms | ~0.80ms | 1.66x | ✅ Measured |
-| **Object Env Group (BOG/EOG)** | ~1.54ms | ~2.77ms | 0.55x | ✅ Measured |
-| **Resource (BRS/ERS)** | ~0.57ms | ~1.93ms | 0.29x | ✅ Measured |
-| **Overlay (BMO/EMO)** | ~4.52ms | ~4.67ms | 0.96x | ✅ Measured |
-| **Page Segment (BPS/EPS)** | ~1.89ms | ~2.01ms | 0.94x | ✅ Measured |
-| **Form Map (BFM/EFM)** | ~4.64ms | ~6.98ms | 0.66x | ✅ Measured |
-| **Tag Logical Element (TLE)** | ~0.15ms | ~0.04ms | 3.72x | ✅ Measured |
-| **Presentation Text (PTX)** | ~1.96ms | ~0.05ms | 37.84x | ✅ Measured |
-| **Bar Code Data (BDA)** | ~133.76ms | ~1.27ms | 105.09x | ✅ Measured |
-| **Graphics Data (GAD)** | ~0.22ms | ~2.87ms | 0.08x | ✅ Measured |
-| **Image Picture Data (IPD)** | ~0.48ms | ~0.53ms | 0.92x | ✅ Measured |
-| **Object Container Data (OCD)**| ~0.13ms | ~0.56ms | 0.23x | ✅ Measured |
+| Component (Mnemonic) | JAXB (ms total) | Jackson (ms total) | Jackson (Re-measured) | Speedup | Status |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Print File (BPF/EPF)** | ~3.57ms | ~1.68ms | 0.47ms | 7.60x | ✅ Measured |
+| **Resource Group (BRG/ERG)** | ~5.65ms | ~1.13ms | 0.49ms | 11.53x | ✅ Measured |
+| **Document Index (BDI/EDI)** | ~1.17ms | ~3.83ms | 0.45ms | 2.60x | ✅ Measured |
+| **Document (BDT/EDT)** | ~2.25ms | ~5.12ms | 0.57ms | 3.95x | ✅ Measured |
+| **Page Group (BNG/ENG)** | ~2.21ms | ~8.97ms | 0.47ms | 4.70x | ✅ Measured |
+| **Page (BPG/EPG)** | ~4.17ms | ~1.57ms | 0.44ms | 9.48x | ✅ Measured |
+| **Active Env Group (BAG/EAG)** | ~1.33ms | ~0.80ms | 0.04ms | 33.25x | ✅ Measured |
+| **Object Env Group (BOG/EOG)** | ~1.54ms | ~2.77ms | 0.67ms | 2.30x | ✅ Measured |
+| **Resource (BRS/ERS)** | ~0.57ms | ~1.93ms | 0.84ms | 0.68x | ✅ Measured |
+| **Overlay (BMO/EMO)** | ~4.52ms | ~4.67ms | 0.61ms | 7.41x | ✅ Measured |
+| **Page Segment (BPS/EPS)** | ~1.89ms | ~2.01ms | 0.63ms | 3.00x | ✅ Measured |
+| **Form Map (BFM/EFM)** | ~4.64ms | ~6.98ms | 0.42ms | 11.05x | ✅ Measured |
+| **Tag Logical Element (TLE)** | ~0.15ms | ~0.04ms | 0.05ms | 3.00x | ✅ Measured |
+| **Presentation Text (PTX)** | ~1.96ms | ~0.05ms | 0.04ms | 49.00x | ✅ Measured |
+| **Bar Code Data (BDA)** | ~133.76ms | ~1.27ms | 1.07ms | 125.01x | ✅ Measured |
+| **Graphics Data (GAD)** | ~0.22ms | ~2.87ms | 0.54ms | 0.41x | ✅ Measured |
+| **Image Picture Data (IPD)** | ~0.48ms | ~0.53ms | 0.42ms | 1.14x | ✅ Measured |
+| **Object Container Data (OCD)**| ~0.13ms | ~0.56ms | 0.51ms | 0.25x | ✅ Measured |
 
 ---
 
