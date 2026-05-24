@@ -26,7 +26,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
@@ -67,22 +71,43 @@ public class AFPScanner {
    */
   public List<Long> scanFor(SFTypeID typeID) {
     if (buffer != null) {
-      return scanForBuffer(typeID);
+      return scanForBuffer(typeID, 0, buffer.limit());
     } else if (asyncChannel != null) {
       return scanForAsyncChannel(typeID);
     }
     return new ArrayList<>();
   }
 
-  private List<Long> scanForBuffer(SFTypeID typeID) {
-    List<Long> offsets = new ArrayList<>();
-    int pos = buffer.position();
-    int limit = buffer.limit();
+  /**
+   * Scans for all structured fields of the specified type in parallel.
+   *
+   * @param typeID the type of structured field to look for
+   * @param numThreads the number of threads to use
+   * @return a sorted list of absolute offsets to the {@code 0x5A} marker
+   */
+  public List<Long> scanForParallel(SFTypeID typeID, int numThreads) {
+    if (numThreads <= 1) {
+      return scanFor(typeID);
+    }
 
-    while (pos < limit) {
+    if (buffer != null) {
+      return scanForBufferParallel(typeID, numThreads);
+    } else if (asyncChannel != null) {
+      return scanForAsyncChannelParallel(typeID, numThreads);
+    }
+    return new ArrayList<>();
+  }
+
+  private List<Long> scanForBuffer(SFTypeID typeID, int start, int end) {
+    List<Long> offsets = new ArrayList<>();
+    int pos = Math.max(0, start);
+    int actualLimit = buffer.limit();
+    int searchLimit = Math.min(actualLimit, end);
+
+    while (pos < searchLimit) {
       // Find next 0x5A marker (MODCA structured field record marker)
       if ((buffer.get(pos) & 0xFF) == 0x5A) {
-        if (pos + 8 >= limit) {
+        if (pos + 8 >= actualLimit) {
           break; // Incomplete SFI at the end of the buffer
         }
 
@@ -176,6 +201,146 @@ public class AFPScanner {
     return offsets;
   }
 
+  private List<Long> scanForBufferParallel(SFTypeID typeID, int numThreads) {
+    List<Long> allOffsets = Collections.synchronizedList(new ArrayList<>());
+    ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+    int limit = buffer.limit();
+    int chunkSize = limit / numThreads;
+
+    try {
+      List<Future<Void>> futures = new ArrayList<>();
+      for (int i = 0; i < numThreads; i++) {
+        final int start = i * chunkSize;
+        final int end = (i == numThreads - 1) ? limit : (i + 1) * chunkSize;
+        futures.add(executor.submit(() -> {
+          List<Long> localOffsets = scanForBuffer(typeID, start, end);
+          allOffsets.addAll(localOffsets);
+          return null;
+        }));
+      }
+
+      for (Future<Void> future : futures) {
+        future.get();
+      }
+    } catch (Exception e) {
+      // Fallback
+    } finally {
+      executor.shutdown();
+    }
+
+    List<Long> result = new ArrayList<>(allOffsets);
+    Collections.sort(result);
+    // Remove duplicates that might occur if a record spans chunk boundaries
+    for (int i = 0; i < result.size() - 1; i++) {
+      if (result.get(i).equals(result.get(i + 1))) {
+        result.remove(i + 1);
+        i--;
+      }
+    }
+    return result;
+  }
+
+  private List<Long> scanForAsyncChannelParallel(SFTypeID typeID, int numThreads) {
+    List<Long> allOffsets = Collections.synchronizedList(new ArrayList<>());
+    ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+
+    try {
+      long fileSize = asyncChannel.size();
+      long chunkSize = fileSize / numThreads;
+
+      List<Future<Void>> futures = new ArrayList<>();
+      for (int i = 0; i < numThreads; i++) {
+        final long start = i * chunkSize;
+        final long end = (i == numThreads - 1) ? fileSize : (i + 1) * chunkSize;
+        futures.add(executor.submit(() -> {
+          List<Long> localOffsets = scanForAsyncChannelPart(typeID, start, end);
+          allOffsets.addAll(localOffsets);
+          return null;
+        }));
+      }
+
+      for (Future<Void> future : futures) {
+        future.get();
+      }
+    } catch (Exception e) {
+      // Fallback
+    } finally {
+      executor.shutdown();
+    }
+
+    List<Long> result = new ArrayList<>(allOffsets);
+    Collections.sort(result);
+    // Remove duplicates
+    for (int i = 0; i < result.size() - 1; i++) {
+      if (result.get(i).equals(result.get(i + 1))) {
+        result.remove(i + 1);
+        i--;
+      }
+    }
+    return result;
+  }
+
+  private List<Long> scanForAsyncChannelPart(SFTypeID typeID, long start, long end) {
+    List<Long> offsets = new ArrayList<>();
+    try {
+      long currentFilePos = start;
+      ByteBuffer chunk = ByteBuffer.allocateDirect(1024 * 1024); // 1MB chunks
+
+      while (currentFilePos + 8 <= end) {
+        chunk.clear();
+        int toRead = (int) Math.min(chunk.capacity(), end - currentFilePos + 8);
+        if (toRead > chunk.capacity()) toRead = chunk.capacity();
+        chunk.limit(toRead);
+
+        Future<Integer> future = asyncChannel.read(chunk, currentFilePos);
+        int bytesRead = future.get();
+        if (bytesRead <= 0) {
+          break;
+        }
+        chunk.flip();
+
+        int chunkPos = 0;
+        while (chunkPos < bytesRead) {
+          // Find next 0x5A marker
+          if ((chunk.get(chunkPos) & 0xFF) == 0x5A) {
+            if (chunkPos + 8 > bytesRead) {
+              break;
+            }
+
+            int sfLength;
+            try {
+              sfLength = UtilBinaryDecoding.parseInt(chunk, chunkPos + 1, 2);
+            } catch (Exception e) {
+              chunkPos++;
+              continue;
+            }
+
+            SFTypeID foundType = SFTypeID.parse(chunk, chunkPos + 3);
+            if (foundType == typeID) {
+              offsets.add(currentFilePos + chunkPos);
+            }
+
+            if (sfLength < 8) {
+              chunkPos++;
+            } else {
+              chunkPos += 1 + sfLength;
+            }
+          } else {
+            chunkPos++;
+          }
+        }
+        currentFilePos += chunkPos;
+        // If we didn't advance, something is wrong
+        if (chunkPos == 0 && (chunk.get(0) & 0xFF) != 0x5A) {
+           currentFilePos++;
+        }
+      }
+    } catch (Exception e) {
+      // Fallback
+    }
+    return offsets;
+  }
+
   /**
    * Specialized scan to find all {@code BPG_BeginPage} structured fields.
    * This is useful for identifying page boundaries for parallel processing.
@@ -184,5 +349,14 @@ public class AFPScanner {
    */
   public List<Long> findPageBoundaries() {
     return scanFor(SFTypeID.BPG_BeginPage);
+  }
+
+  /**
+   * Specialized scan to find all {@code BPG_BeginPage} structured fields in parallel.
+   *
+   * @return a list of absolute offsets to the {@code 0x5A} marker of each Begin Page field
+   */
+  public List<Long> findPageBoundariesParallel() {
+    return scanForParallel(SFTypeID.BPG_BeginPage, Runtime.getRuntime().availableProcessors());
   }
 }

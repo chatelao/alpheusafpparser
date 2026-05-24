@@ -105,17 +105,24 @@ public class PGP_PagePosition_Format2 extends StructuredFieldBaseRepeatingGroups
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      int actualLength = getActualLength(sfData, offset, length);
+      if (actualLength < 2) {
+        throw new AFPParserException("PGP Format 2 Repeating Group length missing.");
+      }
       super.decodeAFP(sfData, offset, length, config); // Decodes length of RG.
+      if (repeatingGroupLength < 11) {
+        throw new AFPParserException("Invalid PGP Format 2 Repeating Group length: " + repeatingGroupLength);
+      }
       xOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 2, 3);
       yOrigin = UtilBinaryDecoding.parseInt(sfData, offset + 5, 3);
       xRotation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 8, 2));
-      sheetSideAndPartitionSelection = PGP_SheetSideAndPartitionSelection.valueOf(sfData[offset + 10]);
-      if (repeatingGroupLength > 11 && sfData.length > offset + 11) {
+      sheetSideAndPartitionSelection = offset + 10 < sfData.length ? PGP_SheetSideAndPartitionSelection.valueOf(sfData[offset + 10]) : null;
+      if (repeatingGroupLength > 11 && actualLength > 11 && offset + 11 < sfData.length) {
         flags = PGP_RGFlag.valueOf(sfData[offset + 11]);
       } else {
         flags = null;
       }
-      if (repeatingGroupLength > 12 && sfData.length > offset + 12) {
+      if (repeatingGroupLength > 12 && actualLength > 12 && offset + 12 < sfData.length) {
         pageModififationControlID = sfData[offset + 12];
       } else {
         pageModififationControlID = null;

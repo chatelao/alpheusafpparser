@@ -66,4 +66,26 @@ class AFPScannerTest {
       }
     }
   }
+
+  @Test
+  void testScanForPageBoundariesParallel() throws Exception {
+    File afpFile = new File("src/test/resources/afp/external/afplib_start.afp");
+    if (!afpFile.exists()) {
+      return;
+    }
+
+    try (RandomAccessFile raf = new RandomAccessFile(afpFile, "r");
+         FileChannel channel = raf.getChannel()) {
+      MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+      AFPScanner scanner = new AFPScanner(buffer);
+
+      List<Long> sequentialOffsets = scanner.findPageBoundaries();
+      List<Long> parallelOffsets = scanner.findPageBoundariesParallel();
+
+      assertEquals(sequentialOffsets.size(), parallelOffsets.size(), "Sequential and parallel scan should find same number of BPGs");
+      for (int i = 0; i < sequentialOffsets.size(); i++) {
+        assertEquals(sequentialOffsets.get(i), parallelOffsets.get(i), "Offset should match at index " + i);
+      }
+    }
+  }
 }
