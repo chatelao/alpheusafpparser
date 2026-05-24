@@ -1,6 +1,7 @@
 package com.mgz.afp.ioca;
 
 import com.mgz.afp.RoundTripTestUtils;
+import com.mgz.afp.ioca.IPD_Segment.*;
 import org.junit.jupiter.api.Test;
 
 public class IOCARoundTripTest {
@@ -41,5 +42,47 @@ public class IOCARoundTripTest {
             (byte) 0xFE, (byte) 0x92, 0x00, 0x04, 0x01, 0x02, 0x03, 0x04
         };
         RoundTripTestUtils.assertRoundTrip(new IPD_ImagePictureData(), data);
+    }
+
+    @Test
+    public void testBeginImageContentRoundTrip() throws Exception {
+        // Type (0x91) | Len (0x01) | ObjType (0x01)
+        byte[] data = new byte[] { (byte) 0x91, 0x01, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new BeginImageContent(), data);
+    }
+
+    @Test
+    public void testEndImageContentRoundTrip() throws Exception {
+        // Type (0x93) | Len (0x00)
+        byte[] data = new byte[] { (byte) 0x93, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new EndImageContent(), data);
+    }
+
+    @Test
+    public void testIDESizeRoundTrip() throws Exception {
+        // Type (0x96) | Len (0x01) | Bits (0x08)
+        byte[] data = new byte[] { (byte) 0x96, 0x01, 0x08 };
+        RoundTripTestUtils.assertRoundTrip(new IDESize(), data);
+    }
+
+    @Test
+    public void testIDEStructureRoundTrip() throws Exception {
+        // Type (0x9B) | Len (0x08) | Flags (0x00) | ColorSpace (0x01 = RGB) | Res (00 00 00) | CompSizes (08 08 08)
+        byte[] data = new byte[] { (byte) 0x9B, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08 };
+        RoundTripTestUtils.assertRoundTrip(new IDEStructure(), data);
+    }
+
+    @Test
+    public void testImageLUTIDRoundTrip() throws Exception {
+        // Type (0x97) | Len (0x01) | LUTID (0x05)
+        byte[] data = new byte[] { (byte) 0x97, 0x01, 0x05 };
+        RoundTripTestUtils.assertRoundTrip(new ImageLUTID(), data);
+    }
+
+    @Test
+    public void testFunctionSetIdentificationRoundTrip() throws Exception {
+        // Type (0xF7) | Len (0x02) | Cat (0x01) | FctSet (0x0A)
+        byte[] data = new byte[] { (byte) 0xF7, 0x02, 0x01, 0x0A };
+        RoundTripTestUtils.assertRoundTrip(new FunctionSetIdentification(), data);
     }
 }
