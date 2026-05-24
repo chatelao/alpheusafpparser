@@ -19,10 +19,11 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.util;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * Utility to track detailed PTX and PTOCA performance statistics.
@@ -31,16 +32,18 @@ public class PTXPerformanceMonitor {
 
   private static volatile boolean enabled = false;
 
-  private static final AtomicLong totalPtxCount = new AtomicLong();
-  private static final AtomicLong totalPtxParseTime = new AtomicLong();
-  private static final AtomicLong totalPtxWriteTime = new AtomicLong();
-  private static final AtomicLong totalPtxPayloadSize = new AtomicLong();
-  private static final AtomicLong totalPtxControlSequences = new AtomicLong();
+  private static final LongAdder totalPtxCount = new LongAdder();
+  private static final LongAdder totalPtxParseTime = new LongAdder();
+  private static final LongAdder totalPtxWriteTime = new LongAdder();
+  private static final LongAdder totalPtxPayloadSize = new LongAdder();
+  private static final LongAdder totalPtxControlSequences = new LongAdder();
 
-  private static final Map<String, AtomicLong> ptocaFunctionCounts = new ConcurrentHashMap<>();
-  private static final Map<String, AtomicLong> ptocaFunctionParseTimes = new ConcurrentHashMap<>();
-  private static final Map<String, AtomicLong> ptocaFunctionWriteTimes = new ConcurrentHashMap<>();
-  private static final Map<String, AtomicLong> ptocaFunctionPayloadSizes = new ConcurrentHashMap<>();
+  private static final Map<String, LongAdder> ptocaFunctionCounts = new ConcurrentHashMap<>();
+  private static final Map<String, LongAdder> ptocaFunctionParseTimes = new ConcurrentHashMap<>();
+  private static final Map<String, LongAdder> ptocaFunctionWriteTimes = new ConcurrentHashMap<>();
+  private static final Map<String, LongAdder> ptocaFunctionPayloadSizes = new ConcurrentHashMap<>();
+
+  private static final ThreadLocal<LocalPtxStats> localStats = ThreadLocal.withInitial(LocalPtxStats::new);
 
   public static void setEnabled(boolean enabled) {
     PTXPerformanceMonitor.enabled = enabled;
@@ -52,47 +55,75 @@ public class PTXPerformanceMonitor {
 
   public static void recordPtxParse(long durationNs, int payloadSize, int csCount) {
     if (!enabled) return;
-    totalPtxCount.incrementAndGet();
-    totalPtxParseTime.addAndGet(durationNs);
-    totalPtxPayloadSize.addAndGet(payloadSize);
-    totalPtxControlSequences.addAndGet(csCount);
+    LocalPtxStats local = localStats.get();
+    local.totalPtxCount++;
+    local.totalPtxParseTime += durationNs;
+    local.totalPtxPayloadSize += payloadSize;
+    local.totalPtxControlSequences += csCount;
   }
 
   public static void recordPtxWrite(long durationNs) {
     if (!enabled) return;
-    totalPtxWriteTime.addAndGet(durationNs);
+    localStats.get().totalPtxWriteTime += durationNs;
   }
 
   public static void recordPtocaParse(String functionName, long durationNs, int payloadSize) {
     if (!enabled) return;
-    ptocaFunctionCounts.computeIfAbsent(functionName, k -> new AtomicLong()).incrementAndGet();
-    ptocaFunctionParseTimes.computeIfAbsent(functionName, k -> new AtomicLong()).addAndGet(durationNs);
-    ptocaFunctionPayloadSizes.computeIfAbsent(functionName, k -> new AtomicLong()).addAndGet(payloadSize);
+    LocalPtocaStats stats = localStats.get().ptocaStats.computeIfAbsent(functionName, k -> new LocalPtocaStats());
+    stats.count++;
+    stats.parseTime += durationNs;
+    stats.payloadSize += payloadSize;
   }
 
   public static void recordPtocaWrite(String functionName, long durationNs) {
     if (!enabled) return;
-    ptocaFunctionWriteTimes.computeIfAbsent(functionName, k -> new AtomicLong()).addAndGet(durationNs);
+    LocalPtocaStats stats = localStats.get().ptocaStats.computeIfAbsent(functionName, k -> new LocalPtocaStats());
+    stats.writeTime += durationNs;
+  }
+
+  /**
+   * Merges local thread statistics into the global counters and clears local state.
+   */
+  public static void merge() {
+    LocalPtxStats local = localStats.get();
+    if (local.totalPtxCount == 0 && local.totalPtxWriteTime == 0 && local.ptocaStats.isEmpty()) return;
+
+    totalPtxCount.add(local.totalPtxCount);
+    totalPtxParseTime.add(local.totalPtxParseTime);
+    totalPtxWriteTime.add(local.totalPtxWriteTime);
+    totalPtxPayloadSize.add(local.totalPtxPayloadSize);
+    totalPtxControlSequences.add(local.totalPtxControlSequences);
+
+    local.ptocaStats.forEach((name, stats) -> {
+      ptocaFunctionCounts.computeIfAbsent(name, k -> new LongAdder()).add(stats.count);
+      ptocaFunctionParseTimes.computeIfAbsent(name, k -> new LongAdder()).add(stats.parseTime);
+      ptocaFunctionWriteTimes.computeIfAbsent(name, k -> new LongAdder()).add(stats.writeTime);
+      ptocaFunctionPayloadSizes.computeIfAbsent(name, k -> new LongAdder()).add(stats.payloadSize);
+    });
+
+    local.reset();
   }
 
   public static void printSummary() {
-    if (totalPtxCount.get() == 0) {
+    merge();
+
+    if (totalPtxCount.sum() == 0) {
       System.out.println("No PTX statistics collected.");
       return;
     }
 
-    long count = totalPtxCount.get();
+    long count = totalPtxCount.sum();
     System.out.println("\n### PTX Debug Performance Summary");
     System.out.println();
     System.out.println("| Metric | Value |");
     System.out.println("| :--- | ---: |");
     System.out.println(String.format("| Total PTX Fields | %d |", count));
-    System.out.println(String.format("| Total Parse Time | %d ms |", totalPtxParseTime.get() / 1_000_000));
-    System.out.println(String.format("| Total Write Time | %d ms |", totalPtxWriteTime.get() / 1_000_000));
-    System.out.println(String.format("| Total Payload Size | %d bytes |", totalPtxPayloadSize.get()));
-    System.out.println(String.format("| Total Ctrl Sequences | %d |", totalPtxControlSequences.get()));
-    System.out.println(String.format("| Avg CS per PTX | %.2f |", (double) totalPtxControlSequences.get() / count));
-    System.out.println(String.format("| Avg Payload per PTX | %.2f bytes |", (double) totalPtxPayloadSize.get() / count));
+    System.out.println(String.format("| Total Parse Time | %d ms |", totalPtxParseTime.sum() / 1_000_000));
+    System.out.println(String.format("| Total Write Time | %d ms |", totalPtxWriteTime.sum() / 1_000_000));
+    System.out.println(String.format("| Total Payload Size | %d bytes |", totalPtxPayloadSize.sum()));
+    System.out.println(String.format("| Total Ctrl Sequences | %d |", totalPtxControlSequences.sum()));
+    System.out.println(String.format("| Avg CS per PTX | %.2f |", (double) totalPtxControlSequences.sum() / count));
+    System.out.println(String.format("| Avg Payload per PTX | %.2f bytes |", (double) totalPtxPayloadSize.sum() / count));
 
     if (!ptocaFunctionCounts.isEmpty()) {
       System.out.println("\n#### PTOCA Function Breakdown");
@@ -100,15 +131,40 @@ public class PTXPerformanceMonitor {
       System.out.println(String.format("| %-30s | %10s | %12s | %12s | %15s | %15s |", "Function", "Count", "Parse (ms)", "Write (ms)", "Total Payload", "Avg Payload"));
       System.out.println("| :--- | ---: | ---: | ---: | ---: | ---: |");
       new TreeMap<>(ptocaFunctionCounts).forEach((name, fCount) -> {
-        long countValue = fCount.get();
-        long pTime = ptocaFunctionParseTimes.getOrDefault(name, new AtomicLong()).get();
-        long wTime = ptocaFunctionWriteTimes.getOrDefault(name, new AtomicLong()).get();
-        long payload = ptocaFunctionPayloadSizes.getOrDefault(name, new AtomicLong()).get();
+        long countValue = fCount.sum();
+        long pTime = ptocaFunctionParseTimes.getOrDefault(name, new LongAdder()).sum();
+        long wTime = ptocaFunctionWriteTimes.getOrDefault(name, new LongAdder()).sum();
+        long payload = ptocaFunctionPayloadSizes.getOrDefault(name, new LongAdder()).sum();
         double avgPayload = countValue > 0 ? (double) payload / countValue : 0;
         System.out.println(String.format("| %-30s | %10d | %12d | %12d | %15d | %15.2f |",
             name, countValue, pTime / 1_000_000, wTime / 1_000_000, payload, avgPayload));
       });
     }
     System.out.println();
+  }
+
+  private static class LocalPtxStats {
+    long totalPtxCount = 0;
+    long totalPtxParseTime = 0;
+    long totalPtxWriteTime = 0;
+    long totalPtxPayloadSize = 0;
+    long totalPtxControlSequences = 0;
+    final Map<String, LocalPtocaStats> ptocaStats = new HashMap<>();
+
+    void reset() {
+      totalPtxCount = 0;
+      totalPtxParseTime = 0;
+      totalPtxWriteTime = 0;
+      totalPtxPayloadSize = 0;
+      totalPtxControlSequences = 0;
+      ptocaStats.clear();
+    }
+  }
+
+  private static class LocalPtocaStats {
+    long count = 0;
+    long parseTime = 0;
+    long writeTime = 0;
+    long payloadSize = 0;
   }
 }

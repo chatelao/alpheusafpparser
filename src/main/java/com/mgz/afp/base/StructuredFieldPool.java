@@ -20,16 +20,25 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.base;
 
 import com.mgz.afp.enums.SFTypeID;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A pool for {@link StructuredField} objects to reduce garbage collection overhead.
+ * Uses a two-tier strategy: L1 (ThreadLocal) and L2 (Global Concurrent Queues).
  */
 public final class StructuredFieldPool {
 
-  private static final ConcurrentHashMap<SFTypeID, ConcurrentLinkedQueue<StructuredField>> POOLS =
+  private static final int L1_CAPACITY_PER_TYPE = 16;
+  private static final ConcurrentHashMap<SFTypeID, ConcurrentLinkedQueue<StructuredField>> L2_POOLS =
       new ConcurrentHashMap<>();
+
+  private static final ThreadLocal<Map<SFTypeID, Deque<StructuredField>>> L1_POOLS =
+      ThreadLocal.withInitial(() -> new EnumMap<>(SFTypeID.class));
 
   private StructuredFieldPool() {
     // Utility class
@@ -45,11 +54,18 @@ public final class StructuredFieldPool {
     if (type == null) {
       return null;
     }
-    ConcurrentLinkedQueue<StructuredField> pool = POOLS.get(type);
-    if (pool == null) {
-      return null;
+
+    Map<SFTypeID, Deque<StructuredField>> l1Map = L1_POOLS.get();
+    Deque<StructuredField> l1 = l1Map.get(type);
+    StructuredField sf = (l1 != null) ? l1.pollFirst() : null;
+
+    if (sf == null) {
+      ConcurrentLinkedQueue<StructuredField> l2 = L2_POOLS.get(type);
+      if (l2 != null) {
+        sf = l2.poll();
+      }
     }
-    StructuredField sf = pool.poll();
+
     if (sf != null) {
       sf.reset();
     }
@@ -64,8 +80,15 @@ public final class StructuredFieldPool {
    */
   public static void release(StructuredField sf, SFTypeID type) {
     if (sf != null && type != null) {
-      POOLS.computeIfAbsent(type, k -> new ConcurrentLinkedQueue<>())
-          .offer(sf);
+      Map<SFTypeID, Deque<StructuredField>> l1Map = L1_POOLS.get();
+      Deque<StructuredField> l1 = l1Map.computeIfAbsent(type, k -> new ArrayDeque<>(L1_CAPACITY_PER_TYPE));
+
+      if (l1.size() < L1_CAPACITY_PER_TYPE) {
+        l1.addFirst(sf);
+      } else {
+        L2_POOLS.computeIfAbsent(type, k -> new ConcurrentLinkedQueue<>())
+            .offer(sf);
+      }
     }
   }
 }

@@ -21,10 +21,11 @@ package com.mgz.util;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * Utility to track parsing and writing performance per mnemonic.
@@ -33,7 +34,10 @@ public class MnemonicPerformanceMonitor {
 
   private static volatile boolean enabled = false;
 
-  private static final Map<String, MnemonicStats> statsMap = new ConcurrentHashMap<>();
+  private static final Map<String, MnemonicStats> globalStatsMap = new ConcurrentHashMap<>();
+
+  private static final ThreadLocal<Map<String, LocalStats>> localStatsMap =
+      ThreadLocal.withInitial(HashMap::new);
 
   private static final ThreadLocal<Deque<Measurement>> activeMeasurements =
       ThreadLocal.withInitial(ArrayDeque::new);
@@ -62,9 +66,9 @@ public class MnemonicPerformanceMonitor {
     if (!m.isParse) return;
     stack.pop();
     long duration = endTime - m.startTime;
-    MnemonicStats stats = statsMap.computeIfAbsent(m.mnemonic, k -> new MnemonicStats());
-    stats.parseTime.addAndGet(duration);
-    stats.count.incrementAndGet();
+    LocalStats stats = localStatsMap.get().computeIfAbsent(m.mnemonic, k -> new LocalStats());
+    stats.parseTime += duration;
+    stats.count++;
   }
 
   public static void startWrite(String name) {
@@ -83,8 +87,8 @@ public class MnemonicPerformanceMonitor {
     if (m.isParse) return;
     stack.pop();
     long duration = endTime - m.startTime;
-    MnemonicStats stats = statsMap.computeIfAbsent(m.mnemonic, k -> new MnemonicStats());
-    stats.writeTime.addAndGet(duration);
+    LocalStats stats = localStatsMap.get().computeIfAbsent(m.mnemonic, k -> new LocalStats());
+    stats.writeTime += duration;
   }
 
   public static String extractMnemonic(Object obj) {
@@ -132,8 +136,27 @@ public class MnemonicPerformanceMonitor {
       return true;
   }
 
+  /**
+   * Merges local thread statistics into the global statistics map and clears local state.
+   */
+  public static void merge() {
+    Map<String, LocalStats> local = localStatsMap.get();
+    if (local.isEmpty()) return;
+
+    local.forEach((mnemonic, localStats) -> {
+      MnemonicStats global = globalStatsMap.computeIfAbsent(mnemonic, k -> new MnemonicStats());
+      global.parseTime.add(localStats.parseTime);
+      global.writeTime.add(localStats.writeTime);
+      global.count.add(localStats.count);
+    });
+    local.clear();
+  }
+
   public static void printSummary() {
-    if (statsMap.isEmpty()) {
+    merge(); // Ensure all threads that called merge are included, but this only merges CURRENT thread.
+    // In parallel mode, each thread should call merge() at the end of its task.
+
+    if (globalStatsMap.isEmpty()) {
       System.out.println("No mnemonics measured.");
       return;
     }
@@ -143,20 +166,26 @@ public class MnemonicPerformanceMonitor {
     System.out.println("| Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |");
     System.out.println("| :--- | ---: | ---: | ---: | ---: |");
 
-    new TreeMap<>(statsMap).forEach((mnemonic, stats) -> {
-      long parseMs = stats.parseTime.get() / 1_000_000;
-      long writeMs = stats.writeTime.get() / 1_000_000;
+    new TreeMap<>(globalStatsMap).forEach((mnemonic, stats) -> {
+      long parseMs = stats.parseTime.sum() / 1_000_000;
+      long writeMs = stats.writeTime.sum() / 1_000_000;
       long totalMs = parseMs + writeMs;
       System.out.println(String.format("| %-10s | %8d | %15d | %15d | %15d |",
-          mnemonic, stats.count.get(), totalMs, parseMs, writeMs));
+          mnemonic, stats.count.sum(), totalMs, parseMs, writeMs));
     });
     System.out.println();
   }
 
   private static class MnemonicStats {
-    final AtomicLong parseTime = new AtomicLong();
-    final AtomicLong writeTime = new AtomicLong();
-    final AtomicLong count = new AtomicLong();
+    final LongAdder parseTime = new LongAdder();
+    final LongAdder writeTime = new LongAdder();
+    final LongAdder count = new LongAdder();
+  }
+
+  private static class LocalStats {
+    long parseTime = 0;
+    long writeTime = 0;
+    long count = 0;
   }
 
   private static class Measurement {

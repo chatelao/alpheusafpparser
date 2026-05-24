@@ -33,20 +33,18 @@ public class SfiPoolTest {
 
   @Test
   public void testAcquireAndRelease() {
-    int initialSize = SfiPool.size();
+    // Note: SfiPool.size() only returns L2 size.
+    // ThreadLocal L1 is not easily accessible for size checks without adding test-only methods.
 
     StructuredFieldIntroducer sfi1 = SfiPool.acquire();
     assertNotNull(sfi1);
-    assertEquals(initialSize, SfiPool.size()); // Should be same if pool was empty or 1 less if not
 
     sfi1.setSFLength(100);
     SfiPool.release(sfi1);
-    assertEquals(initialSize + 1, SfiPool.size());
 
     StructuredFieldIntroducer sfi2 = SfiPool.acquire();
-    assertSame(sfi1, sfi2);
+    assertSame(sfi1, sfi2, "Should acquire the same instance from L1 pool");
     assertEquals(0, sfi2.getSFLength()); // Should be reset
-    assertEquals(initialSize, SfiPool.size());
   }
 
   @Test
@@ -56,14 +54,31 @@ public class SfiPoolTest {
 
     assertNotSame(sfi1, sfi2);
 
+    // L1 is a LIFO Deque (ArrayDeque.addFirst/pollFirst)
     SfiPool.release(sfi1);
     SfiPool.release(sfi2);
 
     StructuredFieldIntroducer sfi3 = SfiPool.acquire();
     StructuredFieldIntroducer sfi4 = SfiPool.acquire();
 
-    // ConcurrentLinkedQueue is FIFO
-    assertSame(sfi1, sfi3);
-    assertSame(sfi2, sfi4);
+    assertSame(sfi2, sfi3, "Should be LIFO from L1");
+    assertSame(sfi1, sfi4, "Should be LIFO from L1");
+  }
+
+  @Test
+  public void testL2Spillover() {
+    // This test assumes L1_CAPACITY = 64
+    StructuredFieldIntroducer[] sfis = new StructuredFieldIntroducer[70];
+    for (int i = 0; i < sfis.length; i++) {
+        sfis[i] = SfiPool.acquire();
+    }
+
+    int initialL2Size = SfiPool.size();
+    for (int i = 0; i < sfis.length; i++) {
+        SfiPool.release(sfis[i]);
+    }
+
+    // 64 should be in L1, 6 should be in L2
+    assertEquals(initialL2Size + 6, SfiPool.size());
   }
 }
