@@ -18,7 +18,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 7 | Modernization of Build System and Language | ✅ |
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | 🚧 |
-| 10 | Performance Optimization | 🚧 |
+| 10 | Performance Optimization | ✅ |
 
 ## Granular Requirement Coverage Analysis
 This section tracks the verification status of ~21,000 granular normative requirements extracted from the AFP specifications.
@@ -47,7 +47,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 ---
 
 ## Phase 6b: Complete AFP Syntax Implementation and Coverage
-- ✅ Address MO:DCA implementation gaps (see `GAP_MODCA.md`).
+- ✅ Address MO:DCA implementation gaps.
     - ✅ Fix the keyword loop in `MMC_MediumModificationControl.decodeAFP`.
     - ✅ Fix triplet offset bug in `MBC_MapBarCodeObject` and `MCD_MapContainerData`.
     - ✅ Fix reserved byte offset bug in `MMO_MapMediumOverlay` repeating groups.
@@ -55,7 +55,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Implement missing Triplets: `X'8F'` (Function Set), `X'9D'` (Keep Group Together), `X'9E'` (Setup Name).
     - ✅ Implement `TripletExtender` (X'FF') logic in `TripletParser`.
     - ✅ Complete payload parsing for all identified "shallow" Structured Fields.
-    - ✅ Identify all Structured Fields currently using "shallow" implementations (see `SHALLOW_FIELDS_REPORT.md`).
+    - ✅ Identify all Structured Fields currently using "shallow" implementations.
         - ✅ Implement full `decodeAFP` and `writeAFP` for identified shallow fields:
         - ✅ MO:DCA Object Containers and Image Data (BII, EII, IRD, EIM, EOC, OCD).
         - ✅ MO:DCA Overlay and Page Segment.
@@ -99,7 +99,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Implement logic for `PTX` streams to dynamically switch active Charset upon `SCFL` (Set Coded Font Local) commands.
     - ✅ Fix hardcoded `cp500` defaults in `getText()` methods for GOCA, BCOCA, IOCA, and FOCA (PTOCA/PTX fixed).
 - ✅ Complete PTOCA support based on PTOCA Reference (AFPC-0005-04).
-    - ✅ Fix PTOCA Text Visibility Gaps (see `PTOCA_GAP.md`):
+    - ✅ Fix PTOCA Text Visibility Gaps:
         - ✅ Support **free-standing graphic characters** interleaved with control sequences in `PTX`.
         - ✅ Implement missing PT4 Glyph Layout sequences: `GLC` (X'6D'), `GIR` (X'8B'), `GAR` (X'8C/8D'), `GOR` (X'8E/8F').
         - ✅ Support **concatenated payloads** for `SEA` (Alternate Text) and `SKI` (Key Info).
@@ -107,7 +107,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Implement PTOCA Control Sequences:
         - ✅ Unicode Complex Text (UCT).
         - ✅ Encryption controls (SEA, SKI, ENC).
-    - ✅ Implement XML text extraction (`getText()`) for identified human-readable text sources (see `PRINTED_TEXT_SOURCES.md`):
+    - ✅ Implement XML text extraction (`getText()`) for identified human-readable text sources:
         - ✅ GOCA: `GCHST`, `GCCHST`, `GCOMT`, `BeginSegment`.
         - ✅ MO:DCA: `TLE`, Triplet `X'36'`, Triplet `X'65'`, `COMT`.
         - ✅ BCOCA: `BDA`.
@@ -211,7 +211,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - ✅ Implement a SECURITY.md policy.
 
 ## Phase 10: Performance Optimization
-This phase focuses on the architectural improvements outlined in `CONCEPT_PERFORMANCE.md` to support high-performance parsing and conversion of large AFP files (5 MB to 50 MB and beyond).
+This phase focuses on the architectural improvements outlined in `PERFORMANCE_CONCEPT.md`, `PERFORMANCE_DESIGN.md`, and `PERFORMANCE_ROADMAP.md` to support high-performance parsing and conversion of large AFP files (5 MB to 50 MB and beyond).
 
 - ✅ Streaming Architecture (Event-Driven):
     - ✅ Implement StAX-based Streaming Writer to decouple XML generation from the `AFPDocument` list.
@@ -236,8 +236,8 @@ This phase focuses on the architectural improvements outlined in `CONCEPT_PERFOR
         - ✅ Create a worker pool for processing identified page segments in parallel.
         - ✅ Implement logic to merge global state updates from parallel workers into `AFPParserConfiguration`.
     - ✅ Utilize `AsynchronousFileChannel` for overlapping I/O and processing.
-- 🚧 Specialized Optimizations:
-    - ⏳ Off-heap buffer management for large payloads.
+- ✅ Specialized Optimizations:
+    - ✅ Off-heap buffer management for large payloads.
     - ✅ Replace reflection-based class lookup in `AFPParser` with a pre-computed static mapping (Supplier-based).
     - ✅ Replace reflection-based class lookup in `TripletParser` with a pre-computed static mapping (Supplier-based).
     - ✅ Replace switch-based class lookup in GOCA Drawing Orders with a pre-computed static mapping (Supplier-based).

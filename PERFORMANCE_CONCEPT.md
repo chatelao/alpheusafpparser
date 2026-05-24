@@ -1,6 +1,6 @@
-# Speed & Performance Concept: Alpheus AFP Parser
+# Performance Concept: Alpheus AFP Parser
 
-This document combines the initial performance concepts, architectural decisions, and subsequent audit results for the Alpheus AFP Parser.
+This document combines the high-level performance concepts, architectural decisions, audit results, and testing strategies for the Alpheus AFP Parser.
 
 ---
 
@@ -20,7 +20,7 @@ Using `Class.forName()` and reflection for every Structured Field record added s
 
 ---
 
-## 2. Performance Roadmap & Architectural Decisions
+## 2. Performance Architecture & Decisions
 
 ### Strategy 1: Streaming Architecture (Event-Driven)
 Transitioned from a "Document-at-once" model to a "Streaming" model (O(1) memory footprint).
@@ -31,7 +31,7 @@ Transitioned from a "Document-at-once" model to a "Streaming" model (O(1) memory
 - **Zero-Copy Parsing**: Utilized `java.nio.MappedByteBuffer` to reference data directly.
 - **Object Pooling**: Reused `StructuredFieldIntroducer`, `IRepeatingGroup`, and other common objects to reduce GC pressure.
 
-### Strategy 3: Parallel Processing (Phase 10)
+### Strategy 3: Parallel Processing
 - **Parallel Page Parsing**: Master thread scans for page markers (`BPG`/`BGP`) and dispatches segments to worker pools.
 - **Asynchronous I/O**: Overlapped I/O using `AsynchronousFileChannel`.
 
@@ -94,6 +94,17 @@ The following table shows the performance of various mnemonics (Structured Field
 
 *Overall, Jackson remains significantly faster for the total workload by leveraging manual StAX fast-paths for high-frequency fields and avoided JAXB initialization overhead, though some individual complex fields without specialized fast-paths may show higher per-instance overhead in Jackson's default reflective path compared to warm JAXB.*
 
+### Real-world Profiling Results
+
+| Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |
+|----------|-------|------------|------------|------------|
+| BRS      | 2     | 37         | 35         | 2          |
+| BDT      | 134   | 16         | 3          | 13         |
+| EDT      | 133   | 14         | 2          | 12         |
+| PTX      | 1     | 9          | 9          | 0          |
+| MDD      | 4     | 4          | 0          | 4          |
+| TRN      | 93    | 1          | 1          | 0          |
+
 ---
 
 ## 5. Summary of Resolved Bottlenecks
@@ -104,14 +115,6 @@ The following table shows the performance of various mnemonics (Structured Field
 4.  **Reflection Overhead**: Resolved via pre-computed `Supplier` maps.
 5.  **Memory Pressure**: Resolved via Streaming Architecture and Object Pooling.
 6.  **I/O Latency**: Resolved via NIO and Memory-Mapped Files.
-
----
-
-## 5. Future Work & Recommendations
-
-- **Further GOCA/IOCA Optimization**: Extend manual StAX fast-paths to complex GOCA orders and IOCA segments if they become dominant hotspots.
-- **Parallel Optimization**: Refine the `ParallelPageParser` for even higher core-count scalability.
-- **SIMD Integration**: Explore `simdxml` concepts for even faster XML generation if required by future throughput targets.
 
 ---
 
@@ -140,8 +143,6 @@ The following table summarizes the performance of the core components defined in
 | **Image Picture Data (IPD)** | ~0.48ms | ~0.53ms | 0.92x | ✅ Measured |
 | **Object Container Data (OCD)**| ~0.13ms | ~0.56ms | 0.23x | ✅ Measured |
 
-*All components specified in the Meta-Structure Hierarchy have been successfully measured. High-frequency fields like BDA, PTX, and BAG leverage manual StAX fast-paths in Jackson, yielding significant speedups.*
-
 ---
 
 ## 7. Audit 3: Real-World Production Data Audit (High Volume)
@@ -163,13 +164,49 @@ A performance audit was conducted on a production-scale dataset consisting of mu
 
 ### Key Observations & Bottlenecks
 
-1.  **PTX Write Hotspot**: Despite existing fast-paths for some control sequences, `PTX_PresentationTextData` remains the single largest bottleneck in the writing phase, accounting for over 10 seconds of processing time. This suggests that the complexity or variety of control sequences within these production files exceeds the current manual fast-path coverage.
-2.  **MCF and TLE Overhead**: `MCF` (Map Coded Font) and `TLE` (Tag Logical Element) show significant write overhead. `MCF` is particularly concerning given its relatively low count compared to `PTX` or `TLE`.
-3.  **Object/Data Descriptors**: `OBD`, `OBP`, `IDD`, and `MIO` represent a secondary tier of bottlenecks, likely due to repeated JAXB/Jackson reflective serialization of their structured metadata.
-4.  **Parse vs. Write Disparity**: In all cases, the Parse phase is significantly faster than the Write phase (often by an order of magnitude or more), confirming that XML serialization is the current primary performance bottleneck for the project.
+1.  **PTX Write Hotspot**: Despite existing fast-paths for some control sequences, `PTX_PresentationTextData` remains the single largest bottleneck in the writing phase, accounting for over 10 seconds of processing time.
+2.  **MCF and TLE Overhead**: `MCF` (Map Coded Font) and `TLE` (Tag Logical Element) show significant write overhead.
+3.  **Object/Data Descriptors**: `OBD`, `OBP`, `IDD`, and `MIO` represent a secondary tier of bottlenecks, likely due to repeated JAXB/Jackson reflective serialization.
+4.  **Parse vs. Write Disparity**: In all cases, the Parse phase is significantly faster than the Write phase, confirming that XML serialization is the current primary performance bottleneck.
 
-### Recommendations for Optimization
+---
 
-- **Expand Fast-Paths**: Implement manual StAX fast-paths for `MCF`, `TLE`, and common PTOCA movement control sequences (`AMI`, `AMB`).
-- **Resource Reuse**: Optimize the `ToXmlGenerator` usage in `AfpJacksonXmlWriter` to further reduce per-field allocation overhead.
-- **PTOCA Serialization Refactoring**: Re-evaluate the PTOCA control sequence serialization logic to avoid recursive mapper calls for common but complex sequences.
+## 8. Parallel JUnit Execution Concept
+
+This section describes the strategy for parallel execution of JUnit tests in the Alpheus AFP Parser project.
+
+### Motivation
+With over 350 tests and the goal of high performance, an efficient test suite is crucial. Parallel tests shorten feedback cycles during development and in CI/CD (GitHub Actions).
+
+### Pros and Cons of Parallelization
+
+#### Pros
+- **Time Savings**: Significant reduction in overall test suite duration.
+- **Resource Utilization**: Better use of multi-core processors.
+- **Earlier Feedback**: Faster regressions alerts for developers.
+- **Uncovering Concurrency Issues**: Parallel tests can implicitly reveal race conditions in the application logic.
+
+#### Cons
+- **Flaky Tests**: Tests accessing shared resources (static fields, files, ports) can become unstable.
+- **Complexity**: Debugging failed tests in a parallel environment is more challenging.
+- **Resource Conflicts**: Increased memory consumption due to parallel instances.
+
+### Favored Strategy for Alpheus
+We use **JUnit 5 Native Parallel Execution** (Dynamic Strategy).
+
+1.  **Efficiency**: Lower overhead compared to process forks.
+2.  **Control**: Individual problematic test classes can be excluded via `@Execution(ExecutionMode.SAME_THREAD)`.
+3.  **Standardized**: Standard approach in the Java ecosystem.
+
+#### Guidelines for Parallel Tests
+- **No Static States**: Tests must not modify shared static variables.
+- **Isolated File System Access**: Use `@TempDir` for temporary AFP files.
+- **Thread Safety**: Ensure components (especially pooling mechanisms) are thread-safe.
+
+---
+
+## 9. Future Work & Recommendations
+
+- **Further GOCA/IOCA Optimization**: Extend manual StAX fast-paths to complex GOCA orders and IOCA segments if they become dominant hotspots.
+- **Parallel Optimization**: Refine the `ParallelPageParser` for even higher core-count scalability.
+- **SIMD Integration**: Explore `simdxml` concepts for even faster XML generation if required by future throughput targets.
