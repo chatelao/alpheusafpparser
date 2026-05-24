@@ -305,4 +305,52 @@ public class GOCADrawingOrderRoundTripTest {
         byte[] data = new byte[] { (byte) 0xA1, 0x02, 0x05, 0x05 };
         RoundTripTestUtils.assertRoundTrip(new GCRLINE_RelativeLineAtCurrentPosition(), data);
     }
+
+    @Test
+    public void testGSCRRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-739]
+        // GSCR (0x39) | Precision (0x02 = Character precision)
+        byte[] data = new byte[] { 0x39, 0x02 };
+        RoundTripTestUtils.assertRoundTrip(new GSCR_SetCharacterPrecision(), data);
+    }
+
+    @Test
+    public void testGSMPRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-083]
+        // GSMP (0x3B) | Precision (0x02)
+        byte[] data = new byte[] { 0x3B, 0x02 };
+        RoundTripTestUtils.assertRoundTrip(new GSMP_SetMarkerPrecision(), data);
+    }
+
+    @Test
+    public void testGEPROLRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-330]
+        // GEPROL (0x3E) | Reserved (0x00)
+        byte[] data = new byte[] { 0x3E, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new GEPROL_EndProlog(), data);
+    }
+
+    @Test
+    public void testGSPIKRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-117]
+        // GSPIK (0x43) | ID (0x07)
+        byte[] data = new byte[] { 0x43, 0x07 };
+        RoundTripTestUtils.assertRoundTrip(new GSPIK_SetPickIdentifier(), data);
+    }
+
+    @Test
+    public void testGSGCHRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-652]
+        // GSGCH (0x04) | Len (0x02) | ID (0x01) | Param (0xAA)
+        byte[] data = new byte[] { 0x04, 0x02, 0x01, (byte) 0xAA };
+        RoundTripTestUtils.assertRoundTrip(new GSGCH_SegmentCharacteristics(), data);
+    }
+
+    @Test
+    public void testGSPRPRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-938]
+        // GSPRP (0xA0) | Len (0x06) | Flags (0x00) | Res (0x00) | X (0x0064) | Y (0x00C8)
+        byte[] data = new byte[] { (byte) 0xA0, 0x06, 0x00, 0x00, 0x00, 0x64, 0x00, (byte) 0xC8 };
+        RoundTripTestUtils.assertRoundTrip(new GSPRP_SetPatternReferencePoint(), data);
+    }
 }
