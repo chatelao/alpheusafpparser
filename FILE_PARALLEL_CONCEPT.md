@@ -49,9 +49,9 @@ This document explores strategies to optimize the conversion of a single large A
 
 ---
 
-## 3. Implementation Strategy (Future)
+## 3. Implementation Roadmap Strategy
 
-1.  **Phase 1:** Refactor `AFPScanner` to support parallel chunk scanning.
-2.  **Phase 2:** Integrate `ParallelPageParser` with a streaming writer (avoiding the `List<StructuredField>` return).
-3.  **Phase 3:** Implement an ordered "Sliding Window" buffer to ensure XML fragments are written in correct sequence.
-4.  **Phase 4:** Expose parallel conversion in the CLI via a `--parallel` flag.
+1.  **Phase A: Parallel Scanning**: Refactor `AFPScanner` to support parallel chunk scanning.
+2.  **Phase B: Streaming Integration**: Integrate `ParallelPageParser` with a streaming writer (avoiding the `List<StructuredField>` return).
+3.  **Phase C: Ordered Buffering**: Implement an ordered "Sliding Window" buffer to ensure XML fragments are written in correct sequence.
+4.  **Phase D: CLI & User Control**: Expose parallel conversion in the CLI via a `--parallel` flag.
