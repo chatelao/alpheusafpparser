@@ -125,9 +125,6 @@ public class IPD_ImagePictureData extends StructuredField {
     int pos = 0;
     while (pos < actualLength) {
       int segmentTypeCode = sfData[offset + pos] & 0xFF;
-      if (segmentTypeCode == 0xFE) {
-        segmentTypeCode = UtilBinaryDecoding.parseInt(sfData, offset + pos, 2);
-      }
 
       int introducerLen = 2;
       if (segmentTypeCode == 0xFE) {

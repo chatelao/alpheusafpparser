@@ -26,13 +26,13 @@ The goal of this phase is to cover the most frequent building blocks of AFP docu
 ## Phase 2: Architectural Depth - GOCA, IOCA, FOCA (Target: 55%)
 This phase focuses on the data-heavy sub-specifications.
 
-### 2.1. GOCA Drawing Orders
-- Create a comprehensive suite for `com.mgz.afp.goca`.
-- Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic.
+### 2.1. GOCA Drawing Orders [🏗️ Partially Complete]
+- [x] Create a new suite for `com.mgz.afp.goca`: `GOCADrawingOrderRoundTripTest`.
+- [ ] Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic.
 
-### 2.2. IOCA Image Segments
-- Exercise all image segments in `com.mgz.afp.ioca` (e.g., `ImageSize`, `ImageEncoding`, `IDE`).
-- Verify support for different compression types (MMR, JPEG, etc.) at the parsing level.
+### 2.2. IOCA Image Segments [🏗️ Partially Complete]
+- [x] Exercise high-frequency image segments in `com.mgz.afp.ioca` (e.g., `IDESize`, `IDEStructure`, `FunctionSetIdentification`).
+- [ ] Verify support for different compression types (MMR, JPEG, etc.) at the parsing level.
 
 ### 2.3. FOCA Font Logic
 - Implement tests for Font Character Sets and Code Pages in `com.mgz.afp.foca`.
