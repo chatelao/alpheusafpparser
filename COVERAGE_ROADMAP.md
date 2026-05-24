@@ -28,7 +28,7 @@ This phase focuses on the data-heavy sub-specifications.
 
 ### 2.1. GOCA Drawing Orders [🏗️ Partially Complete]
 - [x] Create a new suite for `com.mgz.afp.goca`: `GOCADrawingOrderRoundTripTest`.
-- [ ] Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic. (Expanded coverage for `GNOP1`, `GCOMT`, `GBSEG`, `GSLT`, `GSBMX`, `GESEG`, `GSPS`).
+- [ ] Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic. (Expanded coverage for `GNOP1`, `GCOMT`, `GBSEG`, `GSLT`, `GSBMX`, `GESEG`, `GSPS`, `GSAP`, `GSCC`, `GSCD`, `GSCH`, `GSCS`, `GSFLW`, `GSECOL`, `GSPT`, `GSMT`, `GSMC`, `GSMS`).
 
 ### 2.2. IOCA Image Segments [🏗️ Partially Complete]
 - [x] Exercise high-frequency image segments in `com.mgz.afp.ioca` (e.g., `IDESize`, `IDEStructure`, `FunctionSetIdentification`).
