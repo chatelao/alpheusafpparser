@@ -29,8 +29,8 @@ This document outlines the phased strategy and implementation steps for enabling
 | Phase | Description | Status |
 | :--- | :--- | :---: |
 | A | Parallel Scanning | ✅ |
-| B | Streaming Integration | ⏳ |
-| C | Ordered Buffering | ⏳ |
-| D | CLI & User Control | ⏳ |
+| B | Streaming Integration | ✅ |
+| C | Ordered Buffering | ✅ |
+| D | CLI & User Control | ✅ |
 
 *Legend: ⏳ Planned, 🚧 In Progress, ✅ Complete*

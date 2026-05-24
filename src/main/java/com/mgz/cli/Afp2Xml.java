@@ -59,6 +59,7 @@ public class Afp2Xml {
     }
 
     var isDirectoryMode = false;
+    var isParallelMode = false;
     var useJackson = false;
     var measure = false;
     var ptxDebug = false;
@@ -97,6 +98,9 @@ public class Afp2Xml {
         }
         case "--ptx-debug" -> {
           ptxDebug = true;
+        }
+        case "-p", "--parallel" -> {
+          isParallelMode = true;
         }
         case "-t", "--threads" -> {
           if (i + 1 < args.length) {
@@ -227,15 +231,30 @@ public class Afp2Xml {
         }
         return hasErrors.get() ? 1 : 0;
       } else {
-        if ("-".equals(outputPath)) {
-          convertToXml(input, System.out, xpathExpression, useJackson, ptxDebug);
-        } else {
-          var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
-          var outputFile = new File(outputFilePath);
-          try (var fos = new FileOutputStream(outputFile)) {
-            convertToXml(input, fos, xpathExpression, useJackson, ptxDebug);
+        if (isParallelMode) {
+          if ("-".equals(outputPath)) {
+            new com.mgz.xml.ParallelAfpConverter(input, System.out, xpathExpression, useJackson,
+                ptxDebug, threadCount).convert();
+          } else {
+            var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
+            var outputFile = new File(outputFilePath);
+            try (var fos = new FileOutputStream(outputFile)) {
+              new com.mgz.xml.ParallelAfpConverter(input, fos, xpathExpression, useJackson,
+                  ptxDebug, threadCount).convert();
+            }
+            System.out.println("Export successful (parallel): " + outputFile.getPath());
           }
-          System.out.println("Export successful: " + outputFile.getPath());
+        } else {
+          if ("-".equals(outputPath)) {
+            convertToXml(input, System.out, xpathExpression, useJackson, ptxDebug);
+          } else {
+            var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
+            var outputFile = new File(outputFilePath);
+            try (var fos = new FileOutputStream(outputFile)) {
+              convertToXml(input, fos, xpathExpression, useJackson, ptxDebug);
+            }
+            System.out.println("Export successful: " + outputFile.getPath());
+          }
         }
         return 0;
       }
@@ -255,19 +274,20 @@ public class Afp2Xml {
 
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
-        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
-        + "[--ptx-debug] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
+        + "[-d|--directory <dir>] [-p|--parallel] [-x|--xpath <expression>] [-j|--jackson] "
+        + "[-m|--measure] [--ptx-debug] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
         + "to XML.");
     out.println("                            If a directory is provided as a positional "
         + "argument, directory mode is enabled automatically.");
+    out.println("  -p, --parallel            Enable parallel conversion for single large AFP files.");
     out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
     out.println("  -j, --jackson             Use Jackson XML for streaming (experimental).");
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
     out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
-    out.println("  -t, --threads <n>         Number of threads for parallel directory processing.");
+    out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -h, --help                Show this help message.");
   }

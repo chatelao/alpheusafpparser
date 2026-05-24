@@ -34,6 +34,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 public class JacksonXmlMapperProvider {
 
   private static final XmlMapper XML_MAPPER;
+  private static final XmlMapper FRAGMENT_MAPPER;
 
   static {
     XML_MAPPER = new XmlMapper(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()));
@@ -44,6 +45,11 @@ public class JacksonXmlMapperProvider {
     XML_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
     // Do not serialize empty or null fields, similar to JAXB default behavior in many cases
     XML_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+
+    FRAGMENT_MAPPER = XML_MAPPER.copy();
+    FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
+    // Enable this to allow multiple root elements in fragment mode if needed by StAX
+    // However, the issue is Aalto's strictness about the document structure.
   }
 
   /**
@@ -53,5 +59,14 @@ public class JacksonXmlMapperProvider {
    */
   public static XmlMapper getMapper() {
     return XML_MAPPER;
+  }
+
+  /**
+   * Returns the singleton fragment {@link XmlMapper} instance (no XML declaration).
+   *
+   * @return the fragment XmlMapper
+   */
+  public static XmlMapper getFragmentMapper() {
+    return FRAGMENT_MAPPER;
   }
 }
