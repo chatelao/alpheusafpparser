@@ -1,65 +1,40 @@
 # Directory Parallel Concept: High-Throughput Multi-File Conversion
 
-This document explores strategies to optimize the Alpheus AFP Parser for multi-file conversion on multi-core systems, specifically focusing on directory mode (`-d`).
+This document describes the strategies implemented in the Alpheus AFP Parser to optimize multi-file conversion on multi-core systems, specifically focusing on directory mode (`-d`).
 
 ---
 
-## 1. Current Weaknesses in Directory Processing
+## 1. Implemented Optimization Techniques
 
-### Weakness 1: Sequential File Execution
-**Description:** The `Afp2Xml` CLI currently iterates through files in a directory sequentially using a simple `for` loop. This leaves most CPU cores idle when processing a large number of files.
-- **Solution A: File-Level Thread Pool (`ExecutorService`)**
-  - Dispatch each file conversion task to a fixed-size thread pool.
-- **Solution B: Parallel Streams**
-  - Use `Arrays.stream(files).parallel().forEach(...)` for simplicity.
-- **Solution C: Reactive/Event-Loop Processing**
-  - Use a non-blocking framework (e.g., Project Loom or Vert.x) to handle file I/O and parsing.
-- **Proposed Solution:** **Solution A (File-Level Thread Pool)**. It provides the best balance of control (throttling), simplicity, and compatibility with the existing blocking I/O architecture.
+### Technique 1: File-Level Thread Pool
+**Description:** The `Afp2Xml` CLI utilizes a fixed-size thread pool to process multiple AFP files concurrently. This ensures maximum CPU utilization when converting large batches of documents.
+- **Implementation:** `Executors.newFixedThreadPool(threadCount)` dispatches file conversion tasks.
+- **Control:** The thread count can be explicitly set via the `-t` or `--threads` CLI flag, defaulting to the number of available processors.
 
-### Weakness 2: Shared Monitor Contention
-**Description:** Global monitors like `MnemonicPerformanceMonitor` use `ConcurrentHashMap` and `AtomicLong`. While thread-safe, high-frequency updates from many threads on the same keys can lead to cache-line contention and reduced throughput.
-- **Solution A: Partitioned Counters**
-  - Use `LongAdder` instead of `AtomicLong` to reduce contention on the same counter.
-- **Solution B: Thread-Local Aggregation**
-  - Collect statistics in `ThreadLocal` buffers and merge them into the global map only at the end of each file's processing or at program termination.
-- **Solution C: Sampling**
-  - Only record performance metrics for a subset of files or structured fields.
-- **Proposed Solution:** **Solution B (Thread-Local Aggregation)**. This eliminates contention entirely during the hot loop of parsing and writing.
+### Technique 2: Thread-Local Performance Monitoring
+**Description:** High-frequency performance monitoring for mnemonics and PTOCA control sequences is designed to avoid contention between threads.
+- **Implementation:** `MnemonicPerformanceMonitor` and `PTXPerformanceMonitor` use `ThreadLocal` maps for zero-contention local statistics collection.
+- **Aggregation:** Local statistics are merged into global `LongAdder` counters only at the end of each task or program execution via the `merge()` method, ensuring accurate results without compromising throughput.
 
-### Weakness 3: Global Object Pool Contention
-**Description:** Pools like `SfiPool` and `TripletPool` use a single `ConcurrentLinkedQueue`. Under high concurrency across many files, the overhead of `poll()` and `offer()` on a single queue can become a bottleneck.
-- **Solution A: Per-Thread Pools (ThreadLocal)**
-  - Give each thread its own small pool of objects, falling back to a global pool or new allocations only when empty.
-- **Solution B: Lock-Free Array-Based Pools**
-  - Use specialized high-performance concurrent collections (e.g., Agrona) instead of standard JDK queues.
-- **Solution C: Distributed Pools (Work-Stealing)**
-  - Implement a work-stealing pool architecture where threads can take from each other's local pools.
-- **Proposed Solution:** **Solution A (Per-Thread Pools)**. It is highly effective for reducing synchronization overhead and is relatively simple to implement using `ThreadLocal`.
+### Technique 3: Two-Tier Object Pooling
+**Description:** Allocation-heavy objects like Structured Field Introducers (SFIs) and Structured Fields themselves are managed via a two-tier pooling strategy to minimize garbage collection and lock contention.
+- **L1 Pool (ThreadLocal):** Each thread maintains a small, private pool for immediate reuse without synchronization.
+- **L2 Pool (Global):** A concurrent global pool (`ConcurrentLinkedQueue`) handles spill-over and sharing between threads when local pools are exhausted.
+- **Applied to:** `SfiPool`, `StructuredFieldPool`, `TripletPool`, `RepeatingGroupPool`, `StructuredFieldBaseDataPool`, `DrawingOrderPool`, `IpdSegmentPool`, and `ControlSequencePool`.
 
-### Weakness 4: Output Interleaving & Logging
-**Description:** Standard output (`System.out`) and error (`System.err`) are shared. Concurrent file processing leads to interleaved XML output (if writing to stdout) and garbled error logs.
-- **Solution A: Synchronized Output Wrappers**
-  - Wrap `System.out` in a synchronized decorator to ensure line-atomic writes.
-- **Solution B: Task-Based Buffering**
-  - Buffer the output/logs for a single file in memory or a temporary file, then flush it to the final destination in a single atomic operation once the task completes.
-- **Solution C: Structured Logging**
-  - Use a logging framework (like Log4j2) that handles thread IDs and ensures log integrity.
-- **Proposed Solution:** **Solution B (Task-Based Buffering)**. This is essential for maintaining the integrity of the generated XML when multiple files are being processed, ensuring each file's output remains contiguous.
+### Technique 4: Atomic Task-Based Output
+**Description:** To prevent interleaving of XML output and logging when multiple threads write to the same destination (e.g., `stdout`), the CLI implements task-based buffering.
+- **Buffering:** When writing to stdout (`-`), each task buffers its entire XML output in a `ByteArrayOutputStream`.
+- **Atomic Flush:** The buffer is flushed to `System.out` in a single synchronized block upon task completion.
+- **Logging:** Error messages are synchronized on `System.err` and include thread context for traceability.
 
 ---
 
-## 2. Summary of Proposed Architecture
+## 2. Summary of Implemented Architecture
 
-| Component | Target Optimization | Proposed Technique |
+| Component | Optimization | Technique |
 | :--- | :--- | :--- |
-| **Execution Model** | CPU Utilization | `FixedThreadPool` with configurable core count |
-| **Statistics** | Monitor Throughput | `ThreadLocal` stats merging |
-| **Object Reuse** | Allocation Overhead | `ThreadLocal` local pools + Global spill-over |
-| **I/O & Logs** | Data Integrity | Buffered per-task output |
-
-## 3. Implementation Roadmap Strategy
-
-1.  **Phase A:** Introduce a thread-safe `MnemonicPerformanceMonitor` using `ThreadLocal` or `LongAdder`.
-2.  **Phase B:** Refactor `Afp2Xml` to use an `ExecutorService` for directory mode.
-3.  **Phase C:** Implement per-thread object pooling for `SfiPool`.
-4.  **Phase D:** Add CLI flags (e.g., `-t` or `--threads`) to control concurrency.
+| **Execution Model** | CPU Utilization | `FixedThreadPool` with configurable core count (`-t`) |
+| **Statistics** | Monitor Throughput | `ThreadLocal` aggregation + `LongAdder` global counters |
+| **Object Reuse** | Allocation Overhead | Two-tier `ThreadLocal` (L1) and Global (L2) pools |
+| **I/O & Logs** | Data Integrity | Buffered per-task output with synchronized flushing |
