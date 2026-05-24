@@ -595,7 +595,7 @@ public class TripletRoundTripTest {
 
         // Length(1) | ID(1) | Type(1) | Reserved(1) | Low(4) | [High(4)]
         byte[] data = new byte[] {
-            0x08, 0x5E, (byte) 0xFA, 0x00, 0x00, 0x00, 0x00, 0x14 // 20 objects
+            0x08, 0x5E, (byte) 0FA, 0x00, 0x00, 0x00, 0x00, 0x14 // 20 objects
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);
@@ -896,6 +896,68 @@ public class TripletRoundTripTest {
             0x06, (byte) 0xFF, 0x00, 0x00, 0x01, 0x02
         };
 
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testTextOrientationRoundTrip() throws Exception {
+        // Reference: modca-reference-10/Appendix_C.md - Text Orientation Triplet X'1D'
+        Triplet.TextOrientation triplet = new Triplet.TextOrientation();
+        triplet.setTripletID(TripletID.TextOrientation);
+        // Length 6, ID 0x1D, I-axis 0, B-axis 90 (0x2D00)
+        byte[] data = new byte[] { 0x06, 0x1D, 0x00, 0x00, 0x2D, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testLineDataObjectPositionMigrationRoundTrip() throws Exception {
+        // Reference: modca-reference-10/Chapter_5.md - Line Data Object Position Migration Triplet X'27' [MODCA-5-035]
+        Triplet.LineDataObjectPositionMigration triplet = new Triplet.LineDataObjectPositionMigration();
+        triplet.setTripletID(TripletID.LineDataObjectPositionMigration);
+        // Length 3, ID 0x27, 0x00 (Standard_0)
+        byte[] data = new byte[] { 0x03, 0x27, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectOriginIdentifierRoundTrip() throws Exception {
+        // Reference: modca-reference-10/Appendix_C.md - Object Origin Identifier Triplet X'64' [MODCA-C-041]
+        Triplet.ObjectOriginIdentifier triplet = new Triplet.ObjectOriginIdentifier();
+        triplet.setTripletID(TripletID.ObjectOriginIdentifier);
+        // Length 61, ID 0x64, System 0x01 (MVS), SysID "SYSTEM11", MedID "VOL001", DSID "DATA.SET.NAME"
+        byte[] data = new byte[61];
+        data[0] = 61;
+        data[1] = 0x64;
+        data[2] = 0x01;
+        // systemIDSerialNumber (8 bytes) - EBCDIC
+        System.arraycopy(new byte[] { (byte)0xE2, (byte)0xE8, (byte)0xE2, (byte)0xE3, (byte)0xC5, (byte)0xD4, (byte)0xF1, (byte)0xF1 }, 0, data, 3, 8); // SYSTEM11
+        // storageMediaID (6 bytes)
+        System.arraycopy(new byte[] { (byte)0xE5, (byte)0xD6, (byte)0xD3, (byte)0xF0, (byte)0xF0, (byte)0xF1 }, 0, data, 11, 6); // VOL001
+        // dataSetID (44 bytes)
+        Arrays.fill(data, 17, 61, (byte) 0x40);
+        byte[] dsid = "DATA.SET.NAME".getBytes(java.nio.charset.Charset.forName("Cp500"));
+        System.arraycopy(dsid, 0, data, 17, dsid.length);
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testIMMInsertionTripletRoundTrip() throws Exception {
+        // Reference: modca-reference-10/Appendix_C.md - IMM Insertion Triplet X'73' [MODCA-C-144]
+        Triplet.IMMInsertionTriplet triplet = new Triplet.IMMInsertionTriplet();
+        triplet.setTripletID(TripletID.IMMInsertionTriplet);
+        // Length 4, ID 0x73, Reserved 0x0000
+        byte[] data = new byte[] { 0x04, 0x73, 0x00, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testObjectContainerPresentationSpaceSizeRoundTrip() throws Exception {
+        // Reference: modca-reference-10/Chapter_6.md - Object Container Presentation Space Size Triplet X'9C' [MODCA-6-858]
+        Triplet.ObjectContainerPresentationSpaceSize triplet = new Triplet.ObjectContainerPresentationSpaceSize();
+        triplet.setTripletID(TripletID.ObjectContainerPresentationSpaceSize);
+        // Length 5, ID 0x9C, Reserved 0x0000, PDFSize 0x01 (MediaBox)
+        byte[] data = new byte[] { 0x05, (byte) 0x9C, 0x00, 0x00, 0x01 };
         RoundTripTestUtils.assertRoundTrip(triplet, data);
     }
 }

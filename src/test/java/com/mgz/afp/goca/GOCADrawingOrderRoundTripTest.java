@@ -96,4 +96,32 @@ public class GOCADrawingOrderRoundTripTest {
         byte[] data = new byte[] { (byte) 0xFE, 0x01, 0x00, 0x02, (byte) 0xAA, (byte) 0xBB };
         RoundTripTestUtils.assertRoundTrip(new GEXO_ExtendedOrder(), data);
     }
+
+    @Test
+    public void testGNOP1RoundTrip() throws Exception {
+        // Reference: GOCA Chapter 6 - GNOP1 (0x00)
+        byte[] data = new byte[] { 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new GNOP1_NopOperation(), data);
+    }
+
+    @Test
+    public void testGCOMTRoundTrip() throws Exception {
+        // Reference: GOCA Chapter 6 - GCOMT (0x01)
+        byte[] data = new byte[] { 0x01, 0x04, (byte) 0xE3, (byte) 0xC5, (byte) 0xE2, (byte) 0xE3 }; // "TEST"
+        RoundTripTestUtils.assertRoundTrip(new GCOMT_Comment(), data);
+    }
+
+    @Test
+    public void testGBSEGRoundTrip() throws Exception {
+        // Reference: GOCA Chapter 6 - GBSEG (0x70)
+        // commandCode(1) | length(1) | name(4) | flag(1) | props(1) | dataLen(2) | predName(4)
+        byte[] data = new byte[] {
+            0x70, 0x0C,
+            (byte) 0xE2, (byte) 0xC5, (byte) 0xC7, 0x40, // "SEG "
+            0x00, 0x00,
+            0x00, 0x00,
+            0x40, 0x40, 0x40, 0x40 // predName "    "
+        };
+        RoundTripTestUtils.assertRoundTrip(new GBSEG_BeginSegment(), data);
+    }
 }
