@@ -40,6 +40,7 @@ dependencies {
     implementation("com.fasterxml:aalto-xml:1.3.2")
     testImplementation("junit:junit:4.12")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("com.code-intelligence:jazzer-junit:0.30.0")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.0")
 
     checkstyleConfig("com.puppycrawl.tools:checkstyle:13.4.2") {
