@@ -156,4 +156,92 @@ public class GOCADrawingOrderRoundTripTest {
         byte[] data = new byte[] { 0x08, 0x01 };
         RoundTripTestUtils.assertRoundTrip(new GSPS_SetPatternSet(), data);
     }
+
+    @Test
+    public void testGSAPRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-659]
+        // GSAP (0x22) | Len (0x08) | P (1) | Q (1) | R (0) | S (0)
+        byte[] data = new byte[] { 0x22, 0x08, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new GSAP_SetArcParameters(), data);
+    }
+
+    @Test
+    public void testGSCCRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-703]
+        // GSCC (0x33) | Len (0x04) | Width (10) | Height (11)
+        byte[] data = new byte[] { 0x33, 0x04, 0x00, 0x0A, 0x00, 0x0B };
+        RoundTripTestUtils.assertRoundTrip(new GSCC_SetCharacterCell(), data);
+    }
+
+    @Test
+    public void testGSCDRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-725]
+        // GSCD (0x3A) | Direction (0x01 = Left to right)
+        byte[] data = new byte[] { 0x3A, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new GSCD_SetCharacterDirection(), data);
+    }
+
+    @Test
+    public void testGSCHRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-763]
+        // GSCH (0x35) | Len (0x04) | HX (1) | HY (1)
+        byte[] data = new byte[] { 0x35, 0x04, 0x00, 0x01, 0x00, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new GSCH_SetCharacterShear(), data);
+    }
+
+    @Test
+    public void testGSCSRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-751]
+        // GSCS (0x38) | LCID (0x01)
+        byte[] data = new byte[] { 0x38, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new GSCS_SetCharacterSet(), data);
+    }
+
+    @Test
+    public void testGSFLWRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-838]
+        // GSFLW (0x11) | Len (0x02) | MH (1) | MFR (0)
+        byte[] data = new byte[] { 0x11, 0x02, 0x01, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new GSFLW_SetFractionLineWidth(), data);
+    }
+
+    @Test
+    public void testGSECOLRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-825]
+        // GSECOL (0x26) | Len (0x02) | Color (0x0001 = Blue)
+        byte[] data = new byte[] { 0x26, 0x02, 0x00, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new GSECOL_SetExtendedColor(), data);
+    }
+
+    @Test
+    public void testGSPTRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-960]
+        // GSPT (0x28) | Pattern (0x10 = Solid fill)
+        byte[] data = new byte[] { 0x28, 0x10 };
+        RoundTripTestUtils.assertRoundTrip(new GSPT_SetPatternSymbol(), data);
+    }
+
+    @Test
+    public void testGSMTRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-916]
+        // GSMT (0x29) | Symbol (0x01 = Cross)
+        byte[] data = new byte[] { 0x29, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new GSMT_SetMarkerSymbol(), data);
+    }
+
+    @Test
+    public void testGSMCRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-892]
+        // GSMC (0x37) | Len (0x04) | Width (7) | Height (7)
+        byte[] data = new byte[] { 0x37, 0x04, 0x00, 0x07, 0x00, 0x07 };
+        RoundTripTestUtils.assertRoundTrip(new GSMC_SetMarkerCell(), data);
+    }
+
+    @Test
+    public void testGSMSRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-908]
+        // GSMS (0x3C) | LCID (0x00 = Default)
+        byte[] data = new byte[] { 0x3C, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new GSMS_SetMarkerSet(), data);
+    }
 }
