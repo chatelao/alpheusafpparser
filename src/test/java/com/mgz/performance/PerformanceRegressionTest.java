@@ -4,6 +4,8 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.parser.ParallelAfpConverter;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.xml.AfpJacksonXmlWriter;
 import com.mgz.xml.AfpStreamingXmlWriter;
 import org.junit.jupiter.api.Test;
@@ -78,9 +80,18 @@ public class PerformanceRegressionTest {
         }
 
         long duration = System.currentTimeMillis() - startTime;
-        System.out.println("10MB AFP to Jackson XML conversion took: " + duration + "ms");
+        System.out.println("10MB AFP to Jackson XML (Seq) took: " + duration + "ms");
 
         assertTrue(duration < 2000, "Performance regression: 10MB Jackson conversion took too long: " + duration + "ms");
+
+        // Parallel 10MB
+        long startPar = System.currentTimeMillis();
+        AFPParserConfiguration parConfig = new AFPParserConfiguration();
+        parConfig.setAFPFile(tempAfp);
+        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, true, null);
+        converter.convert(new ByteArrayOutputStream());
+        long durationPar = System.currentTimeMillis() - startPar;
+        System.out.println("10MB AFP to Jackson XML (Parallel) took: " + durationPar + "ms");
     }
 
     @Test
@@ -115,6 +126,52 @@ public class PerformanceRegressionTest {
     }
 
     @Test
+    public void test100MBParallelPerformance() throws Exception {
+        File tempAfp = File.createTempFile("perf_test_100mb", ".afp");
+        tempAfp.deleteOnExit();
+
+        System.out.println("Generating 100MB AFP...");
+        generateLargeAfp(tempAfp, 100);
+
+        // Warm up
+        for (int i = 0; i < 2; i++) {
+            runConversion(tempAfp, true);
+            AFPParserConfiguration config = new AFPParserConfiguration();
+            config.setAFPFile(tempAfp);
+            ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, true, null);
+            converter.convert(new ByteArrayOutputStream(1024*1024));
+        }
+
+        // Sequential JAXB
+        long startJaxb = System.currentTimeMillis();
+        runConversion(tempAfp, false);
+        long durationJaxb = System.currentTimeMillis() - startJaxb;
+        System.out.println("100MB AFP to JAXB (Seq) took: " + durationJaxb + "ms");
+
+        // Sequential Jackson
+        long startJackson = System.currentTimeMillis();
+        runConversion(tempAfp, true);
+        long durationJackson = System.currentTimeMillis() - startJackson;
+        System.out.println("100MB AFP to Jackson (Seq) took: " + durationJackson + "ms");
+
+        // Parallel Jackson
+        long startParallel = System.currentTimeMillis();
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setAFPFile(tempAfp);
+        ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, true, null);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(20 * 1024 * 1024);
+        converter.convert(bos);
+        long durationParallel = System.currentTimeMillis() - startParallel;
+        System.out.println("100MB AFP to Jackson (Parallel) took: " + durationParallel + "ms");
+
+        if (durationParallel < durationJackson) {
+            System.out.printf("Parallel is %.2fx faster than Sequential Jackson\n", (double) durationJackson / durationParallel);
+        } else {
+            System.out.printf("Parallel is %.2fx slower than Sequential Jackson\n", (double) durationParallel / durationJackson);
+        }
+    }
+
+    @Test
     public void testComprehensivePerformance() throws Exception {
         File tempAfp = File.createTempFile("perf_comprehensive", ".afp");
         tempAfp.deleteOnExit();
@@ -131,16 +188,34 @@ public class PerformanceRegressionTest {
         ConversionResult jaxbResult = runConversion(tempAfp, false);
         ConversionResult jacksonResult = runConversion(tempAfp, true);
 
+        // Parallel run for comprehensive
+        MnemonicPerformanceMonitor.setEnabled(true);
+        MnemonicPerformanceMonitor.clear();
+        long startPar = System.currentTimeMillis();
+        AFPParserConfiguration parConfig = new AFPParserConfiguration();
+        parConfig.setAFPFile(tempAfp);
+        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, true, null);
+        long durationPar = -1;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            converter.convert(baos);
+            durationPar = System.currentTimeMillis() - startPar;
+        } catch (Exception e) {
+            System.err.println("Parallel conversion failed in comprehensive test: " + e.getMessage());
+            e.printStackTrace();
+        }
+        MnemonicPerformanceMonitor.setEnabled(false);
+
         System.out.println("JAXB Total: " + jaxbResult.totalTime + "ms, fields: " + jaxbResult.fieldCount + ", errors: " + jaxbResult.errorCount);
         System.out.println("Jackson Total: " + jacksonResult.totalTime + "ms, fields: " + jacksonResult.fieldCount + ", errors: " + jacksonResult.errorCount);
+        if (durationPar >= 0) System.out.println("Jackson Parallel Total: " + durationPar + "ms");
 
         if (jacksonResult.totalTime < jaxbResult.totalTime && jaxbResult.totalTime > 0) {
             System.out.printf("Jackson is %.2fx faster than JAXB overall\n", (double) jaxbResult.totalTime / jacksonResult.totalTime);
         }
 
-        System.out.println("\nTop 10 slowest fields in Jackson with JAXB comparison:");
-        System.out.printf("%-35s | %-15s | %-15s | %-10s\n", "Mnemonic", "JAXB (ns)", "Jackson (ns)", "Speedup");
-        System.out.println("-------------------------------------------------------------------------------------");
+        System.out.println("\nTop 10 slowest fields in Jackson with JAXB and Parallel comparison:");
+        System.out.printf("%-35s | %-12s | %-12s | %-12s | %-10s\n", "Mnemonic", "JAXB (ns)", "Jackson (ns)", "Parallel (ns)", "Speedup");
+        System.out.println("--------------------------------------------------------------------------------------------------");
         jacksonResult.fieldTimings.entrySet().stream()
             .sorted((e1, e2) -> Long.compare(e2.getValue().get(), e1.getValue().get()))
             .forEach(e -> {
@@ -148,8 +223,9 @@ public class PerformanceRegressionTest {
                 long jacksonTime = e.getValue().get();
                 AtomicLong jaxbTimeAtomic = jaxbResult.fieldTimings.get(className);
                 long jaxbTime = (jaxbTimeAtomic != null) ? jaxbTimeAtomic.get() : 0;
-                double speedup = (jacksonTime > 0 && jaxbTime > 0) ? (double) jaxbTime / jacksonTime : 0;
-                System.out.printf("%-35s | %-15d | %-15d | %.2fx\n", className, jaxbTime, jacksonTime, speedup);
+                long parallelTime = MnemonicPerformanceMonitor.getWriteTime(className);
+                double speedup = (parallelTime > 0 && jaxbTime > 0) ? (double) jaxbTime / parallelTime : 0;
+                System.out.printf("%-35s | %-12d | %-12d | %-12d | %.2fx\n", className, jaxbTime, jacksonTime, parallelTime, speedup);
             });
     }
 
@@ -201,18 +277,34 @@ public class PerformanceRegressionTest {
 
     private void generateComprehensiveAfp(File output, int countPerType) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(output)) {
+            byte[] bdt = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA8, (byte)0xA8, 0x00, 0x00, 0x00};
+            byte[] nameEbcdic = {(byte)0xC4, (byte)0xD6, (byte)0xC3, (byte)0xF0, (byte)0xF0, (byte)0xF0, (byte)0xF0, (byte)0xF1};
+            fos.write(bdt);
+            fos.write(nameEbcdic);
+
             for (SFTypeID type : SFTypeID.values()) {
                 if (type == SFTypeID.Undefined) continue;
 
-                // Length 8 means just the introducer (which is 8 bytes in Alpheus + 0x5A prefix = 9 bytes total)
-                // Actually the introducer length field should be the length of the SF including the introducer itself.
-                // 8 bytes is the standard MO:DCA introducer length.
+                // Wrap in a page
+                byte[] bpg = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA8, (byte)0xAF, 0x00, 0x00, 0x00};
+                byte[] epg = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA9, (byte)0xAF, 0x00, 0x00, 0x00};
+
+                fos.write(bpg);
+                fos.write(nameEbcdic);
+
                 byte[] header = { 0x5A, 0x00, 0x08, (byte)type.getSfClass().toByte(), (byte)type.getSfType().toByte(), (byte)type.getSfCategory().toByte(), 0x00, 0x00, 0x00 };
 
                 for (int i = 0; i < countPerType; i++) {
                     fos.write(header);
                 }
+
+                fos.write(epg);
+                fos.write(nameEbcdic);
             }
+
+            byte[] edt = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA9, (byte)0xA8, 0x00, 0x00, 0x00};
+            fos.write(edt);
+            fos.write(nameEbcdic);
         }
     }
 
@@ -220,6 +312,8 @@ public class PerformanceRegressionTest {
         byte[] nameEbcdic = {(byte)0xC4, (byte)0xD6, (byte)0xC3, (byte)0xF0, (byte)0xF0, (byte)0xF0, (byte)0xF0, (byte)0xF1};
         byte[] bdt = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA8, (byte)0xA8, 0x00, 0x00, 0x00};
         byte[] edt = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA9, (byte)0xA8, 0x00, 0x00, 0x00};
+        byte[] bpg = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA8, (byte)0xAF, 0x00, 0x00, 0x00};
+        byte[] epg = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA9, (byte)0xAF, 0x00, 0x00, 0x00};
 
         byte[] ptxPayload = {
             0x2B, (byte)0xD3, 0x15, (byte)0xDA, // TRN CS, length 21
@@ -240,18 +334,33 @@ public class PerformanceRegressionTest {
             fos.write(bdt);
             fos.write(nameEbcdic);
 
-            for (int i = 0; i < 100; i++) {
-                fos.write(ptxHeader);
-                fos.write(ptxPayload);
+            int targetSize = sizeMb * 1024 * 1024;
+            int currentSize = bdt.length + nameEbcdic.length;
+
+            while (currentSize < targetSize - 2000000) {
+                fos.write(bpg);
+                fos.write(nameEbcdic);
+                currentSize += bpg.length + nameEbcdic.length;
+
+                // 30 NOPs of 32KB = ~1MB
+                for (int j = 0; j < 30; j++) {
+                    fos.write(nopHeader);
+                    fos.write(nopPayload);
+                    currentSize += nopHeader.length + nopPayload.length;
+                }
+
+                // Some PTX
+                for (int j = 0; j < 100; j++) {
+                    fos.write(ptxHeader);
+                    fos.write(ptxPayload);
+                    currentSize += ptxHeader.length + ptxPayload.length;
+                }
+
+                fos.write(epg);
+                fos.write(nameEbcdic);
+                currentSize += epg.length + nameEbcdic.length;
             }
 
-            int nopSize = nopHeader.length + nopPayload.length;
-            int remainingSize = (sizeMb * 1024 * 1024) - (int)fos.getChannel().position() - edt.length - nameEbcdic.length;
-            int numNops = remainingSize / nopSize;
-            for (int i = 0; i < numNops; i++) {
-                fos.write(nopHeader);
-                fos.write(nopPayload);
-            }
             fos.write(edt);
             fos.write(nameEbcdic);
         }
