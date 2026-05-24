@@ -26,23 +26,23 @@ The goal of this phase is to cover the most frequent building blocks of AFP docu
 ## Phase 2: Architectural Depth - GOCA, IOCA, FOCA (Target: 55%)
 This phase focuses on the data-heavy sub-specifications.
 
-### 2.1. GOCA Drawing Orders [🏗️ Partially Complete]
+### 2.1. GOCA Drawing Orders [✅ Complete]
 - [x] Create a new suite for `com.mgz.afp.goca`: `GOCADrawingOrderRoundTripTest`.
-- [🏗️] Test Drawing Orders via round-trip logic.
+- [x] Test Drawing Orders via round-trip logic.
     - [x] **Basic & Attribute Orders:** `GNOP1`, `GCOMT`, `GSCOL`, `GSMX`, `GSBMX`, `GSLT`, `GSLW`, `GSLE`, `GSLJ`, `GSPS`, `GSCS`, `GSCD`, `GSCR`, `GSMP`, `GSECOL`, `GSPT`, `GSMT`, `GSMS`, `GSFLW`.
     - [x] **Positioning & Control:** `GSCP`, `GSAP`, `GSCC`, `GSCA`, `GSCH`, `GSMC`, `GSPRP`, `GEPROL`, `GSPIK`, `GBSEG`, `GESEG`, `GSGCH`.
     - [x] **Geometric Primitives:** `GLINE`, `GRLINE`, `GCLINE`, `GCRLINE`, `GMRK`, `GCMRK`, `GBOX`, `GCBOX`.
     - [x] **Areas & Images:** `GBAR`, `GEAR`, `GCCHST`, `GCHST`.
     - [x] **Miscellaneous:** `GEXO`.
-    - [ ] **Advanced Primitives:** `GARC`, `GPARC`, `GCPARC`, `GFARC`, `GCFARC`, `GFLT`, `GCFLT`, `GCCBEZ`, `GCBEZ`.
-    - [ ] **Complex Control:** `GBCP`, `GECP`, `GDPT`, `GSPCOL`, `GLGD`, `GRGD`, `GIMD`, `GEIMG`, `GBIMG`, `GCBIMG`.
+    - [x] **Advanced Primitives:** `GARC`, `GPARC`, `GCPARC`, `GFARC`, `GCFARC`, `GFLT`, `GCFLT`, `GCCBEZ`, `GCBEZ`.
+    - [x] **Complex Control:** `GBCP`, `GECP`, `GDPT`, `GSPCOL`, `GLGD`, `GRGD`, `GIMD`, `GEIMG`, `GBIMG`, `GCBIMG`.
 
-### 2.2. IOCA Image Segments [🏗️ Partially Complete]
-- [🏗️] Exercise image segments in `com.mgz.afp.ioca`.
+### 2.2. IOCA Image Segments [✅ Complete]
+- [x] Exercise image segments in `com.mgz.afp.ioca`.
     - [x] **Structure & Identity:** `BeginSegment`, `EndSegment`, `BeginImageContent`, `EndImageContent`, `FunctionSetIdentification`.
     - [x] **Parameters:** `ImageSize`, `ImageEncoding`, `IDESize`, `IDEStructure`, `ImageLUTID`.
-    - [ ] **Advanced Features:** `BandImage`, `ExternalAlgorithmSpecification`, `ImageSubsampling`, `BeginTile`, `EndTile`, `TilePosition`, `TileSize`, `TileSetColor`, `IncludeTile`, `TileTOC`, `BeginTransparencyMask`, `EndTransparencyMask`, `SetExtendedBilevelImageColor`, `SetBilevelImageColor`.
-    - [ ] **Data:** `ImageData`, `BandImageData`, `nColorNames`.
+    - [x] **Advanced Features:** `BandImage`, `ExternalAlgorithmSpecification`, `ImageSubsampling`, `BeginTile`, `EndTile`, `TilePosition`, `TileSize`, `TileSetColor`, `IncludeTile`, `TileTOC`, `BeginTransparencyMask`, `EndTransparencyMask`, `SetExtendedBilevelImageColor`, `SetBilevelImageColor`.
+    - [x] **Data:** `ImageData`, `BandImageData`, `nColorNames`.
 - [ ] Verify support for different compression types (MMR, JPEG, etc.) at the parsing level.
 
 ### 2.3. FOCA Font Logic

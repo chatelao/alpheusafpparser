@@ -109,4 +109,156 @@ public class IOCARoundTripTest {
         byte[] data = new byte[] { (byte) 0x95, 0x02, 0x03, 0x01 };
         RoundTripTestUtils.assertRoundTrip(new ImageEncoding(), data);
     }
+
+    @Test
+    public void testBandImageRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-086]
+        // Type (0x98) | Len (0x04) | NumBands (0x02) | Band1Size (0x08) | Band2Size (0x08)
+        byte[] data = new byte[] { (byte) 0x98, 0x04, 0x02, 0x08, 0x08 };
+        RoundTripTestUtils.assertRoundTrip(new BandImage(), data);
+    }
+
+    @Test
+    public void testExternalAlgorithmSpecificationRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-115]
+        // Type (0x9F) | Len (0x06) | Type(0x10=Comp) | Res(0) | ID(0x83=JPEG) | Res(0) | Ver(0x01) | Res(0) | Marker(0xC0) | Res(0,0,0)
+        // Corrected Length based on code: Type(0x9F) | Len(10) | ...
+        byte[] data = new byte[] {
+            (byte) 0x9F, 0x0A, 0x10, 0x00,
+            (byte) 0x83, 0x00, 0x01, 0x00, (byte) 0xC0, 0x00, 0x00, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new ExternalAlgorithmSpecification(), data);
+    }
+
+    @Test
+    public void testImageSubsamplingRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-144]
+        // Type (0xFECE) | Len (0x0004) | FieldType(0x01) | Len(0x02) | H(2) | V(2)
+        byte[] data = new byte[] { (byte) 0xFE, (byte) 0xCE, 0x00, 0x04, 0x01, 0x02, 0x02, 0x02 };
+        RoundTripTestUtils.assertRoundTrip(new ImageSubsampling(), data);
+    }
+
+    @Test
+    public void testBeginTileRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-162]
+        // Type (0x8C) | Len (0x00)
+        byte[] data = new byte[] { (byte) 0x8C, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new BeginTile(), data);
+    }
+
+    @Test
+    public void testEndTileRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-165]
+        // Type (0x8D) | Len (0x00)
+        byte[] data = new byte[] { (byte) 0x8D, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new EndTile(), data);
+    }
+
+    @Test
+    public void testTilePositionRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-167]
+        // Type (0xB5) | Len (0x08) | H(0) | V(0)
+        byte[] data = new byte[] { (byte) 0xB5, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new TilePosition(), data);
+    }
+
+    @Test
+    public void testTileSizeRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-171]
+        // Type (0xB6) | Len (0x09) | H(100) | V(100) | RelRes(1)
+        byte[] data = new byte[] { (byte) 0xB6, 0x09, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x64, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new TileSize(), data);
+    }
+
+    @Test
+    public void testTileSetColorRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-180]
+        // Type (0xB7) | Len (0x0B) | Space(1) | Res(0,0,0) | Bits(8,8,8,0) | Color(FF,00,00)
+        byte[] data = new byte[] {
+            (byte) 0xB7, 0x0B, 0x01, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08, 0x00, (byte) 0xFF, 0x00, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new TileSetColor(), data);
+    }
+
+    @Test
+    public void testIncludeTileRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-195]
+        // Type (0xFEB8) | Len (0x0004) | ID(0x00000001)
+        byte[] data = new byte[] { (byte) 0xFE, (byte) 0xB8, 0x00, 0x04, 0x00, 0x00, 0x00, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new IncludeTile(), data);
+    }
+
+    @Test
+    public void testTileTOCRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-198]
+        // Type (0xFEBB) | Len (0x001C) | Res(0,0) | [H(0), V(0), HS(100), VS(100), Rel(1), Comp(3), Off(0)]
+        byte[] data = new byte[] {
+            (byte) 0xFE, (byte) 0xBB, 0x00, 0x1C, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x64,
+            0x01, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new TileTOC(), data);
+    }
+
+    @Test
+    public void testBeginTransparencyMaskRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-222]
+        // Type (0x8E) | Len (0x00)
+        byte[] data = new byte[] { (byte) 0x8E, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new BeginTransparencyMask(), data);
+    }
+
+    @Test
+    public void testEndTransparencyMaskRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-225]
+        // Type (0x8F) | Len (0x00)
+        byte[] data = new byte[] { (byte) 0x8F, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new EndTransparencyMask(), data);
+    }
+
+    @Test
+    public void testSetBilevelImageColorRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-155]
+        // Type (0xF6) | Len (0x04) | Area(1) | Res(0) | Color(0x0001)
+        byte[] data = new byte[] { (byte) 0xF6, 0x04, 0x01, 0x00, 0x00, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new SetBilevelImageColor(), data);
+    }
+
+    @Test
+    public void testSetExtendedBilevelImageColorRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-147]
+        // Type (0xF4) | Len (0x0D) | Res(0) | Space(1) | Res(0,0,0,0) | Sizes(8,8,8,0) | Val(FF,00,00)
+        byte[] data = new byte[] {
+            (byte) 0xF4, 0x0D, 0x00, 0x01,
+            0x00, 0x00, 0x00, 0x00,
+            0x08, 0x08, 0x08, 0x00,
+            (byte) 0xFF, 0x00, 0x00
+        };
+        RoundTripTestUtils.assertRoundTrip(new SetExtendedBilevelImageColor(), data);
+    }
+
+    @Test
+    public void testBandImageDataRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-235]
+        // Type (0xFE9C) | Len (0x0007) | Band(1) | Res(0,0) | Data(01 02 03 04)
+        byte[] data = new byte[] { (byte) 0xFE, (byte) 0x9C, 0x00, 0x07, 0x01, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04 };
+        RoundTripTestUtils.assertRoundTrip(new BandImageData(), data);
+    }
+
+    @Test
+    public void testNColorNamesRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-110]
+        // Type (0xFEB3) | Len (0x000A) | Res(0,0) | [Res(0), Len(6), "COLOR1"]
+        // Note: Code uses UTF-16BE for text representation in text field, but raw bytes for round trip.
+        byte[] color1 = "COLOR1".getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
+        byte[] data = new byte[6 + 2 + color1.length];
+        data[0] = (byte) 0xFE; data[1] = (byte) 0xB3;
+        data[2] = 0x00; data[3] = (byte) (2 + 2 + color1.length);
+        data[4] = 0x00; data[5] = 0x00;
+        data[6] = 0x00; data[7] = (byte) color1.length;
+        System.arraycopy(color1, 0, data, 8, color1.length);
+
+        RoundTripTestUtils.assertRoundTrip(new nColorNames(), data);
+    }
 }
