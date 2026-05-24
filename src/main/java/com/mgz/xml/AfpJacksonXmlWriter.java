@@ -39,7 +39,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
+import org.codehaus.stax2.XMLStreamWriter2;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
@@ -60,7 +60,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   private static final XPathFactory XPF = XPathFactory.newInstance();
   private static final TransformerFactory TF = TransformerFactory.newInstance();
 
-  private final XMLStreamWriter xsw;
+  private final XMLStreamWriter2 xsw;
   private final OutputStream os;
   private final String xpathExpression;
   private final XmlMapper mapper;
@@ -97,7 +97,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     this.fragmentMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
 
     if (this.xpathExpression == null) {
-      XMLStreamWriter baseWriter = XOF.createXMLStreamWriter(os, "UTF-8");
+      XMLStreamWriter2 baseWriter = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(baseWriter) : baseWriter;
       this.xsw.writeStartDocument("UTF-8", "1.0");
       this.xsw.writeCharacters("\n");
@@ -341,7 +341,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
 
     // Use DOMResult to bridge Jackson to DOM
     DOMResult resultDom = new DOMResult(root);
-    XMLStreamWriter domXsw = XOF.createXMLStreamWriter(resultDom);
+    XMLStreamWriter2 domXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(resultDom);
     ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(domXsw);
     fragmentMapper.writer().withRootName(sf.getClass().getSimpleName()).writeValue(g, sf);
     domXsw.close();

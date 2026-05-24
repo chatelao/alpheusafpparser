@@ -22,20 +22,19 @@ package com.mgz.xml;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
+import org.codehaus.stax2.XMLStreamWriter2;
+import org.codehaus.stax2.util.StreamWriter2Delegate;
 
 /**
- * A decorator for {@link XMLStreamWriter} that measures the time spent writing each element.
+ * A decorator for {@link XMLStreamWriter2} that measures the time spent writing each element.
  */
-public class MnemonicXMLStreamWriter implements XMLStreamWriter {
+public class MnemonicXMLStreamWriter extends StreamWriter2Delegate {
 
-  private final XMLStreamWriter delegate;
   private final Deque<String> elementStack = new ArrayDeque<>();
 
-  public MnemonicXMLStreamWriter(XMLStreamWriter delegate) {
-    this.delegate = delegate;
+  public MnemonicXMLStreamWriter(XMLStreamWriter2 delegate) {
+    super(delegate);
   }
 
   @Override
@@ -43,7 +42,7 @@ public class MnemonicXMLStreamWriter implements XMLStreamWriter {
     String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
     MnemonicPerformanceMonitor.startWrite(localName);
     elementStack.push(mnemonic != null ? mnemonic : "");
-    delegate.writeStartElement(localName);
+    super.writeStartElement(localName);
   }
 
   @Override
@@ -51,7 +50,7 @@ public class MnemonicXMLStreamWriter implements XMLStreamWriter {
     String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
     MnemonicPerformanceMonitor.startWrite(localName);
     elementStack.push(mnemonic != null ? mnemonic : "");
-    delegate.writeStartElement(namespaceUri, localName);
+    super.writeStartElement(namespaceUri, localName);
   }
 
   @Override
@@ -60,13 +59,13 @@ public class MnemonicXMLStreamWriter implements XMLStreamWriter {
     String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
     MnemonicPerformanceMonitor.startWrite(localName);
     elementStack.push(mnemonic != null ? mnemonic : "");
-    delegate.writeStartElement(prefix, localName, namespaceUri);
+    super.writeStartElement(prefix, localName, namespaceUri);
   }
 
   @Override
   public void writeEmptyElement(String namespaceUri, String localName) throws XMLStreamException {
     MnemonicPerformanceMonitor.startWrite(localName);
-    delegate.writeEmptyElement(namespaceUri, localName);
+    super.writeEmptyElement(namespaceUri, localName);
     MnemonicPerformanceMonitor.endWrite();
   }
 
@@ -74,152 +73,25 @@ public class MnemonicXMLStreamWriter implements XMLStreamWriter {
   public void writeEmptyElement(String prefix, String localName, String namespaceUri)
       throws XMLStreamException {
     MnemonicPerformanceMonitor.startWrite(localName);
-    delegate.writeEmptyElement(prefix, localName, namespaceUri);
+    super.writeEmptyElement(prefix, localName, namespaceUri);
     MnemonicPerformanceMonitor.endWrite();
   }
 
   @Override
   public void writeEmptyElement(String localName) throws XMLStreamException {
     MnemonicPerformanceMonitor.startWrite(localName);
-    delegate.writeEmptyElement(localName);
+    super.writeEmptyElement(localName);
     MnemonicPerformanceMonitor.endWrite();
   }
 
   @Override
   public void writeEndElement() throws XMLStreamException {
-    delegate.writeEndElement();
+    super.writeEndElement();
     if (!elementStack.isEmpty()) {
       String mnemonic = elementStack.pop();
       if (!mnemonic.isEmpty()) {
         MnemonicPerformanceMonitor.endWrite();
       }
     }
-  }
-
-  @Override
-  public void writeEndDocument() throws XMLStreamException {
-    delegate.writeEndDocument();
-  }
-
-  @Override
-  public void close() throws XMLStreamException {
-    delegate.close();
-  }
-
-  @Override
-  public void flush() throws XMLStreamException {
-    delegate.flush();
-  }
-
-  @Override
-  public void writeAttribute(String localName, String value) throws XMLStreamException {
-    delegate.writeAttribute(localName, value);
-  }
-
-  @Override
-  public void writeAttribute(String prefix, String namespaceUri, String localName, String value)
-      throws XMLStreamException {
-    delegate.writeAttribute(prefix, namespaceUri, localName, value);
-  }
-
-  @Override
-  public void writeAttribute(String namespaceUri, String localName, String value)
-      throws XMLStreamException {
-    delegate.writeAttribute(namespaceUri, localName, value);
-  }
-
-  @Override
-  public void writeNamespace(String prefix, String namespaceUri) throws XMLStreamException {
-    delegate.writeNamespace(prefix, namespaceUri);
-  }
-
-  @Override
-  public void writeDefaultNamespace(String namespaceUri) throws XMLStreamException {
-    delegate.writeDefaultNamespace(namespaceUri);
-  }
-
-  @Override
-  public void writeComment(String data) throws XMLStreamException {
-    delegate.writeComment(data);
-  }
-
-  @Override
-  public void writeProcessingInstruction(String target) throws XMLStreamException {
-    delegate.writeProcessingInstruction(target);
-  }
-
-  @Override
-  public void writeProcessingInstruction(String target, String data) throws XMLStreamException {
-    delegate.writeProcessingInstruction(target, data);
-  }
-
-  @Override
-  public void writeCData(String data) throws XMLStreamException {
-    delegate.writeCData(data);
-  }
-
-  @Override
-  public void writeDTD(String dtd) throws XMLStreamException {
-    delegate.writeDTD(dtd);
-  }
-
-  @Override
-  public void writeEntityRef(String name) throws XMLStreamException {
-    delegate.writeEntityRef(name);
-  }
-
-  @Override
-  public void writeStartDocument() throws XMLStreamException {
-    delegate.writeStartDocument();
-  }
-
-  @Override
-  public void writeStartDocument(String version) throws XMLStreamException {
-    delegate.writeStartDocument(version);
-  }
-
-  @Override
-  public void writeStartDocument(String encoding, String version) throws XMLStreamException {
-    delegate.writeStartDocument(encoding, version);
-  }
-
-  @Override
-  public void writeCharacters(String text) throws XMLStreamException {
-    delegate.writeCharacters(text);
-  }
-
-  @Override
-  public void writeCharacters(char[] text, int start, int len) throws XMLStreamException {
-    delegate.writeCharacters(text, start, len);
-  }
-
-  @Override
-  public String getPrefix(String uri) throws XMLStreamException {
-    return delegate.getPrefix(uri);
-  }
-
-  @Override
-  public void setPrefix(String prefix, String uri) throws XMLStreamException {
-    delegate.setPrefix(prefix, uri);
-  }
-
-  @Override
-  public void setDefaultNamespace(String uri) throws XMLStreamException {
-    delegate.setDefaultNamespace(uri);
-  }
-
-  @Override
-  public void setNamespaceContext(NamespaceContext context) throws XMLStreamException {
-    delegate.setNamespaceContext(context);
-  }
-
-  @Override
-  public NamespaceContext getNamespaceContext() {
-    return delegate.getNamespaceContext();
-  }
-
-  @Override
-  public Object getProperty(String name) throws IllegalArgumentException {
-    return delegate.getProperty(name);
   }
 }

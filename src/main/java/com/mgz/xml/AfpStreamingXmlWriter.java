@@ -29,7 +29,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
+import org.codehaus.stax2.XMLStreamWriter2;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -49,7 +49,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
   private static final XPathFactory XPF = XPathFactory.newInstance();
   private static final TransformerFactory TF = TransformerFactory.newInstance();
 
-  private final XMLStreamWriter xsw;
+  private final XMLStreamWriter2 xsw;
   private final OutputStream os;
   private final String xpathExpression;
 
@@ -78,7 +78,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
     this.os = os;
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
     if (this.xpathExpression == null) {
-      XMLStreamWriter baseWriter = XOF.createXMLStreamWriter(os, "UTF-8");
+      XMLStreamWriter2 baseWriter = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(baseWriter) : baseWriter;
       this.xsw.writeStartDocument("UTF-8", "1.0");
       this.xsw.writeCharacters("\n");
