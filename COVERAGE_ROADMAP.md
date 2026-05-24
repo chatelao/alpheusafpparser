@@ -12,14 +12,14 @@ This document outlines a phased, actionable plan to increase the code coverage o
 ## Phase 1: Foundation - MO:DCA & Triplets (Target: 35%)
 The goal of this phase is to cover the most frequent building blocks of AFP documents.
 
-### 1.1. Systematic Round-Trip Testing for MO:DCA
+### 1.1. Systematic Round-Trip Testing for MO:DCA [🏗️ Partially Complete]
 - Implement `RoundTripTest` classes for all 80+ Structured Fields in `com.mgz.afp.modca`.
 - Use `RoundTripTestUtils` to verify that every SF can be decoded and encoded without data loss.
-- **Priority:** `BDT`, `EDT`, `BPG`, `EPG`, `BAG`, `EAG`.
+- [x] **Priority:** `BDT`, `EDT`, `BPG`, `EPG`, `BAG`, `EAG` (completed in `DocumentAndPageGroupRoundTripTest.java` and `EnvironmentAndResourceGroupRoundTripTest.java`).
 
-### 1.2. Triplet Coverage Expansion [🏗️ Partially Complete]
+### 1.2. Triplet Coverage Expansion [✅ Complete]
 - [x] Implement round-trip unit tests for all 60+ Triplets in `com.mgz.afp.triplets` (completed in `TripletRoundTripTest.java`).
-- [ ] Exercise all optional parameters and varying lengths for complex triplets like `FullyQualifiedName` (X'02') and `ColorSpecification` (X'4E').
+- [x] Exercise all optional parameters and varying lengths for complex triplets like `FullyQualifiedName` (X'02') and `ColorSpecification` (X'4E').
 
 ---
 
@@ -28,7 +28,7 @@ This phase focuses on the data-heavy sub-specifications.
 
 ### 2.1. GOCA Drawing Orders [🏗️ Partially Complete]
 - [x] Create a new suite for `com.mgz.afp.goca`: `GOCADrawingOrderRoundTripTest`.
-- [ ] Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic. (Expanded coverage for `GNOP1`, `GCOMT`, `GBSEG`).
+- [ ] Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic. (Expanded coverage for `GNOP1`, `GCOMT`, `GBSEG`, `GSLT`, `GSBMX`, `GESEG`, `GSPS`).
 
 ### 2.2. IOCA Image Segments [🏗️ Partially Complete]
 - [x] Exercise high-frequency image segments in `com.mgz.afp.ioca` (e.g., `IDESize`, `IDEStructure`, `FunctionSetIdentification`).

@@ -960,4 +960,58 @@ public class TripletRoundTripTest {
         byte[] data = new byte[] { 0x05, (byte) 0x9C, 0x00, 0x00, 0x01 };
         RoundTripTestUtils.assertRoundTrip(triplet, data);
     }
+
+    @Test
+    public void testFullyQualifiedNameURLRoundTrip() throws Exception {
+        // Reference: specifications/markdown/modca-reference-10/Chapter_6.md [MODCA-6-069]
+        FullyQualifiedName triplet = new FullyQualifiedName();
+        triplet.setTripletID(TripletID.FullyQualifiedName);
+
+        // Length(1) | ID(1) | Type(1) | Format(1) | URL(variable)
+        // Type 0xDE (DataObjectExternalResourceReference), Format 0x20 (URL), URL "http://example.com"
+        String url = "http://example.com";
+        byte[] urlBytes = url.getBytes(java.nio.charset.StandardCharsets.US_ASCII);
+        byte[] data = new byte[4 + urlBytes.length];
+        data[0] = (byte) (4 + urlBytes.length);
+        data[1] = 0x02;
+        data[2] = (byte) 0xDE;
+        data[3] = 0x20;
+        System.arraycopy(urlBytes, 0, data, 4, urlBytes.length);
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testColorSpecificationCMYKRoundTrip() throws Exception {
+        // Reference: specifications/markdown/modca-reference-10/Chapter_6.md [MODCA-6-365]
+        ColorSpecification triplet = new ColorSpecification();
+        triplet.setTripletID(TripletID.ColorSpecification);
+
+        // Length(1) | ID(1) | Reserved(1) | Space(1) | Reserved(4) | C1Size(1) | C2Size(1) | C3Size(1) | C4Size(1) | Value(4)
+        // CMYK(4), 8-bit components, Cyan(100%), Magenta(0%), Yellow(0%), Black(0%)
+        byte[] data = new byte[] {
+            0x10, 0x4E, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08, 0x08, (byte) 0xFF, 0x00, 0x00, 0x00
+        };
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
+
+    @Test
+    public void testFullyQualifiedNameOIDRoundTrip() throws Exception {
+        // Reference: specifications/markdown/modca-reference-10/Chapter_6.md [MODCA-6-066]
+        FullyQualifiedName triplet = new FullyQualifiedName();
+        triplet.setTripletID(TripletID.FullyQualifiedName);
+
+        // Length(1) | ID(1) | Type(1) | Format(1) | OID(variable)
+        // Type 0x11 (MediaTypeReference), Format 0x10 (OID), OID 06082B06010401813D01
+        byte[] oidBytes = new byte[] { 0x06, 0x08, 0x2B, 0x06, 0x01, 0x04, 0x01, (byte) 0x81, 0x3D, 0x01 };
+        byte[] data = new byte[4 + oidBytes.length];
+        data[0] = (byte) (4 + oidBytes.length);
+        data[1] = 0x02;
+        data[2] = 0x11;
+        data[3] = 0x10;
+        System.arraycopy(oidBytes, 0, data, 4, oidBytes.length);
+
+        RoundTripTestUtils.assertRoundTrip(triplet, data);
+    }
 }

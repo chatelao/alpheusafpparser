@@ -256,7 +256,9 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
     public static GlobalID_Format valueOf(byte codeByte) {
       for (GlobalID_Format f : values()) {
-        return f;
+        if (f.code == codeByte) {
+          return f;
+        }
       }
       return null;
     }

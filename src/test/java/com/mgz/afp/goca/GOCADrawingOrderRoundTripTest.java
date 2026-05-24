@@ -124,4 +124,36 @@ public class GOCADrawingOrderRoundTripTest {
         };
         RoundTripTestUtils.assertRoundTrip(new GBSEG_BeginSegment(), data);
     }
+
+    @Test
+    public void testGSLTRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-871]
+        // GSLT (0x18) | LineType (0x01 = Dotted)
+        byte[] data = new byte[] { 0x18, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new GSLT_SetLineType(), data);
+    }
+
+    @Test
+    public void testGSBMXRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-677]
+        // GSBMX (0x0D) | Mode (0x05 = Leave Alone)
+        byte[] data = new byte[] { 0x0D, 0x05 };
+        RoundTripTestUtils.assertRoundTrip(new GSBMX_SetBackgroundMix(), data);
+    }
+
+    @Test
+    public void testGESEGRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-118]
+        // GESEG (0x71) | Reserved (0x00)
+        byte[] data = new byte[] { 0x71, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new GESEG_EndSegment(), data);
+    }
+
+    @Test
+    public void testGSPSRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-951]
+        // GSPS (0x08) | LCID (0x01)
+        byte[] data = new byte[] { 0x08, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new GSPS_SetPatternSet(), data);
+    }
 }
