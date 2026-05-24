@@ -244,4 +244,65 @@ public class GOCADrawingOrderRoundTripTest {
         byte[] data = new byte[] { 0x3C, 0x00 };
         RoundTripTestUtils.assertRoundTrip(new GSMS_SetMarkerSet(), data);
     }
+
+    @Test
+    public void testGLINERoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-399]
+        // GLINE (0xC1) | Len (0x08) | P1(100, 200) | P2(300, 400)
+        byte[] data = new byte[] { (byte) 0xC1, 0x08, 0x00, 0x64, 0x00, (byte) 0xC8, 0x01, 0x2C, 0x01, (byte) 0x90 };
+        RoundTripTestUtils.assertRoundTrip(new GLINE_LineAtGivenPosition(), data);
+    }
+
+    @Test
+    public void testGMRKRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-465]
+        // GMRK (0xC2) | Len (0x04) | P1(10, 20)
+        byte[] data = new byte[] { (byte) 0xC2, 0x04, 0x00, 0x0A, 0x00, 0x14 };
+        RoundTripTestUtils.assertRoundTrip(new GMRK_MarkerAtGivenPosition(), data);
+    }
+
+    @Test
+    public void testGBOXRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-195]
+        // GBOX (0xC0) | Len (0x0E) | Res(0) | P1(100, 200) | P2(300, 400) | RoundX(5) | RoundY(10)
+        byte[] data = new byte[] {
+            (byte) 0xC0, 0x0E, 0x00, 0x00,
+            0x00, 0x64, 0x00, (byte) 0xC8,
+            0x01, 0x2C, 0x01, (byte) 0x90,
+            0x00, 0x05, 0x00, 0x0A
+        };
+        RoundTripTestUtils.assertRoundTrip(new GBOX_BoxAtGivenPosition(), data);
+    }
+
+    @Test
+    public void testGRLINERoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-622]
+        // GRLINE (0xE1) | Len (0x06) | Start(100, 200) | Offset(10, 20)
+        byte[] data = new byte[] { (byte) 0xE1, 0x06, 0x00, 0x64, 0x00, (byte) 0xC8, 0x0A, 0x14 };
+        RoundTripTestUtils.assertRoundTrip(new GRLINE_RelativeLineAtGivenPosition(), data);
+    }
+
+    @Test
+    public void testGCLINERoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-411]
+        // GCLINE (0x81) | Len (0x04) | P1(500, 600)
+        byte[] data = new byte[] { (byte) 0x81, 0x04, 0x01, (byte) 0xF4, 0x02, 0x58 };
+        RoundTripTestUtils.assertRoundTrip(new GCLINE_LineAtCurrentPosition(), data);
+    }
+
+    @Test
+    public void testGCMRKRoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-475]
+        // GCMRK (0x82) | Len (0x04) | P1(700, 800)
+        byte[] data = new byte[] { (byte) 0x82, 0x04, 0x02, (byte) 0xBC, 0x03, 0x20 };
+        RoundTripTestUtils.assertRoundTrip(new GCMRK_MarkerAtCurrentPosition(), data);
+    }
+
+    @Test
+    public void testGCRLINERoundTrip() throws Exception {
+        // Reference: specifications/markdown/afp-goca-reference-03/Chapter_7.md [GOCA-7-634]
+        // GCRLINE (0xA1) | Len (0x02) | Offset(5, 5)
+        byte[] data = new byte[] { (byte) 0xA1, 0x02, 0x05, 0x05 };
+        RoundTripTestUtils.assertRoundTrip(new GCRLINE_RelativeLineAtCurrentPosition(), data);
+    }
 }
