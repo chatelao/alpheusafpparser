@@ -1407,7 +1407,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @XmlElement(name = "text")
     public String getText() {
-      if (transparentDataEBCDIC == null || transparentDataEBCDIC.length == 0) {
+      if (transparentData == null || transparentData.isEmpty()) {
         return null;
       }
       return UtilCharacterEncoding.sanitizeForXml(transparentData);
@@ -1418,8 +1418,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
         transparentData = UtilCharacterEncoding.decodeEbcdic(sfData, offset, length, config);
-        transparentDataEBCDIC = new byte[actualLength];
-        System.arraycopy(sfData, offset, transparentDataEBCDIC, 0, actualLength);
+        if (isUseEBCDICData) {
+          transparentDataEBCDIC = new byte[actualLength];
+          System.arraycopy(sfData, offset, transparentDataEBCDIC, 0, actualLength);
+        } else {
+          transparentDataEBCDIC = null;
+        }
       } else {
         transparentData = null;
         transparentDataEBCDIC = null;
@@ -1439,6 +1443,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       }
     }
 
+    @javax.xml.bind.annotation.XmlTransient
     public String getTransparentData() {
       return transparentData;
     }

@@ -99,12 +99,13 @@ public class PTOCAControlSequenceParser {
         }
         MnemonicPerformanceMonitor.startParse(gc);
         long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
+        int runLen = pos - runStart;
         try {
-          gc.decodeAFP(sfData, offset + runStart, pos - runStart, config);
+          gc.decodeAFP(sfData, offset + runStart, runLen, config);
         } finally {
           MnemonicPerformanceMonitor.endParse();
           if (config.isPtxDebug()) {
-            com.mgz.util.PTXPerformanceMonitor.recordPtocaParse("GraphicCharacters", System.nanoTime() - startTime);
+            com.mgz.util.PTXPerformanceMonitor.recordPtocaParse("GraphicCharacters", System.nanoTime() - startTime, runLen);
           }
         }
         controlSequences.add(gc);
@@ -136,12 +137,13 @@ public class PTOCAControlSequenceParser {
 
       MnemonicPerformanceMonitor.startParse(cs);
       long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
+      int payloadLen = csi.getLength() - 2;
       try {
-        cs.decodeAFP(sfData, offset + pos, csi.getLength() - 2, config);
+        cs.decodeAFP(sfData, offset + pos, payloadLen, config);
       } finally {
         MnemonicPerformanceMonitor.endParse();
         if (config.isPtxDebug()) {
-          com.mgz.util.PTXPerformanceMonitor.recordPtocaParse(cs.getClass().getSimpleName(), System.nanoTime() - startTime);
+          com.mgz.util.PTXPerformanceMonitor.recordPtocaParse(cs.getClass().getSimpleName(), System.nanoTime() - startTime, payloadLen);
         }
       }
 
