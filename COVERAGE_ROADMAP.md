@@ -17,9 +17,9 @@ The goal of this phase is to cover the most frequent building blocks of AFP docu
 - Use `RoundTripTestUtils` to verify that every SF can be decoded and encoded without data loss.
 - **Priority:** `BDT`, `EDT`, `BPG`, `EPG`, `BAG`, `EAG`.
 
-### 1.2. Triplet Coverage Expansion
-- Implement unit tests for all 50+ Triplets in `com.mgz.afp.triplets`.
-- Exercise all optional parameters and varying lengths for complex triplets like `FullyQualifiedName` (X'02') and `ColorSpecification` (X'4E').
+### 1.2. Triplet Coverage Expansion [🏗️ Partially Complete]
+- [x] Implement round-trip unit tests for all 60+ Triplets in `com.mgz.afp.triplets` (completed in `TripletRoundTripTest.java`).
+- [ ] Exercise all optional parameters and varying lengths for complex triplets like `FullyQualifiedName` (X'02') and `ColorSpecification` (X'4E').
 
 ---
 
@@ -28,7 +28,7 @@ This phase focuses on the data-heavy sub-specifications.
 
 ### 2.1. GOCA Drawing Orders [🏗️ Partially Complete]
 - [x] Create a new suite for `com.mgz.afp.goca`: `GOCADrawingOrderRoundTripTest`.
-- [ ] Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic.
+- [ ] Test every Drawing Order (e.g., `Gline`, `GArc`, `GArea`) via round-trip logic. (Expanded coverage for `GNOP1`, `GCOMT`, `GBSEG`).
 
 ### 2.2. IOCA Image Segments [🏗️ Partially Complete]
 - [x] Exercise high-frequency image segments in `com.mgz.afp.ioca` (e.g., `IDESize`, `IDEStructure`, `FunctionSetIdentification`).
