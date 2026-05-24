@@ -595,7 +595,7 @@ public class TripletRoundTripTest {
 
         // Length(1) | ID(1) | Type(1) | Reserved(1) | Low(4) | [High(4)]
         byte[] data = new byte[] {
-            0x08, 0x5E, (byte) 0FA, 0x00, 0x00, 0x00, 0x00, 0x14 // 20 objects
+            0x08, 0x5E, (byte) 0xFA, 0x00, 0x00, 0x00, 0x00, 0x14 // 20 objects
         };
 
         RoundTripTestUtils.assertRoundTrip(triplet, data);
