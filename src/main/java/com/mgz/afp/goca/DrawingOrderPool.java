@@ -19,13 +19,24 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.goca;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A pool for {@link GAD_DrawingOrder} objects to reduce garbage collection overhead.
+ * Uses a two-tier strategy: L1 (ThreadLocal) and L2 (Global Concurrent Queues).
  */
 public final class DrawingOrderPool {
+
+  private static final int L1_CAPACITY_PER_TYPE = 32;
+  private static final ConcurrentHashMap<Long, ConcurrentLinkedQueue<GAD_DrawingOrder>> L2_POOLS =
+      new ConcurrentHashMap<>();
+  private static final ThreadLocal<Map<Long, Deque<GAD_DrawingOrder>>> L1_POOLS =
+      ThreadLocal.withInitial(HashMap::new);
 
   private DrawingOrderPool() {
     // Utility class
@@ -53,15 +64,18 @@ public final class DrawingOrderPool {
     return acquireInternal(key);
   }
 
-  private static final ConcurrentHashMap<Long, ConcurrentLinkedQueue<GAD_DrawingOrder>> POOLS_LONG =
-      new ConcurrentHashMap<>();
-
   private static GAD_DrawingOrder acquireInternal(long key) {
-    ConcurrentLinkedQueue<GAD_DrawingOrder> pool = POOLS_LONG.get(key);
-    if (pool == null) {
-      return null;
+    Map<Long, Deque<GAD_DrawingOrder>> l1Map = L1_POOLS.get();
+    Deque<GAD_DrawingOrder> l1 = l1Map.get(key);
+    GAD_DrawingOrder order = (l1 != null) ? l1.pollFirst() : null;
+
+    if (order == null) {
+      ConcurrentLinkedQueue<GAD_DrawingOrder> l2 = L2_POOLS.get(key);
+      if (l2 != null) {
+        order = l2.poll();
+      }
     }
-    GAD_DrawingOrder order = pool.poll();
+
     if (order != null) {
       order.reset();
     }
@@ -87,8 +101,16 @@ public final class DrawingOrderPool {
         }
       }
       long key = ((long) type << 16) | (qualifier & 0xFFFFL);
-      POOLS_LONG.computeIfAbsent(key, k -> new ConcurrentLinkedQueue<>())
-          .offer(order);
+
+      Map<Long, Deque<GAD_DrawingOrder>> l1Map = L1_POOLS.get();
+      Deque<GAD_DrawingOrder> l1 = l1Map.computeIfAbsent(key, k -> new ArrayDeque<>(L1_CAPACITY_PER_TYPE));
+
+      if (l1.size() < L1_CAPACITY_PER_TYPE) {
+        l1.addFirst(order);
+      } else {
+        L2_POOLS.computeIfAbsent(key, k -> new ConcurrentLinkedQueue<>())
+            .offer(order);
+      }
     }
   }
 }

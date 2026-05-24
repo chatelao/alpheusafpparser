@@ -19,16 +19,24 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A pool for {@link IRepeatingGroup} objects to reduce garbage collection overhead.
+ * Uses a two-tier strategy: L1 (ThreadLocal) and L2 (Global Concurrent Queues).
  */
 public final class RepeatingGroupPool {
 
-  private static final ConcurrentHashMap<Class<? extends IRepeatingGroup>, ConcurrentLinkedQueue<IRepeatingGroup>> POOLS =
+  private static final int L1_CAPACITY_PER_TYPE = 16;
+  private static final ConcurrentHashMap<Class<? extends IRepeatingGroup>, ConcurrentLinkedQueue<IRepeatingGroup>> L2_POOLS =
       new ConcurrentHashMap<>();
+  private static final ThreadLocal<Map<Class<? extends IRepeatingGroup>, Deque<IRepeatingGroup>>> L1_POOLS =
+      ThreadLocal.withInitial(HashMap::new);
 
   private RepeatingGroupPool() {
     // Utility class
@@ -46,11 +54,18 @@ public final class RepeatingGroupPool {
     if (clazz == null) {
       return null;
     }
-    ConcurrentLinkedQueue<IRepeatingGroup> pool = POOLS.get(clazz);
-    if (pool == null) {
-      return null;
+
+    Map<Class<? extends IRepeatingGroup>, Deque<IRepeatingGroup>> l1Map = L1_POOLS.get();
+    Deque<IRepeatingGroup> l1 = l1Map.get(clazz);
+    T rg = (l1 != null) ? (T) l1.pollFirst() : null;
+
+    if (rg == null) {
+      ConcurrentLinkedQueue<IRepeatingGroup> l2 = L2_POOLS.get(clazz);
+      if (l2 != null) {
+        rg = (T) l2.poll();
+      }
     }
-    T rg = (T) pool.poll();
+
     if (rg != null) {
       rg.reset();
     }
@@ -64,19 +79,27 @@ public final class RepeatingGroupPool {
    */
   public static void release(IRepeatingGroup rg) {
     if (rg != null) {
-      POOLS.computeIfAbsent(rg.getClass(), k -> new ConcurrentLinkedQueue<>())
-          .offer(rg);
+      Class<? extends IRepeatingGroup> clazz = rg.getClass();
+      Map<Class<? extends IRepeatingGroup>, Deque<IRepeatingGroup>> l1Map = L1_POOLS.get();
+      Deque<IRepeatingGroup> l1 = l1Map.computeIfAbsent(clazz, k -> new ArrayDeque<>(L1_CAPACITY_PER_TYPE));
+
+      if (l1.size() < L1_CAPACITY_PER_TYPE) {
+        l1.addFirst(rg);
+      } else {
+        L2_POOLS.computeIfAbsent(clazz, k -> new ConcurrentLinkedQueue<>())
+            .offer(rg);
+      }
     }
   }
 
   /**
-   * Returns the current size of the pool for the specified class.
+   * Returns the current size of the L2 pool for the specified class.
    *
    * @param clazz the repeating group class
-   * @return the pool size
+   * @return the L2 pool size
    */
   public static int size(Class<? extends IRepeatingGroup> clazz) {
-    ConcurrentLinkedQueue<IRepeatingGroup> pool = POOLS.get(clazz);
+    ConcurrentLinkedQueue<IRepeatingGroup> pool = L2_POOLS.get(clazz);
     return pool != null ? pool.size() : 0;
   }
 }

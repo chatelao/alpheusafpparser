@@ -181,13 +181,36 @@ public class Afp2Xml {
             final String finalXpath = xpathExpression;
             final boolean finalJackson = useJackson;
             final boolean finalPtxDebug = ptxDebug;
+            final String finalOutputPath = outputPath;
             executor.submit(() -> {
-              var outputFile = new File(f.getAbsolutePath() + extension);
+              var outputFileName = f.getName() + extension;
+              File outputFile;
+              if (finalOutputPath != null && !"-".equals(finalOutputPath)) {
+                outputFile = new File(finalOutputPath, outputFileName);
+              } else {
+                outputFile = new File(f.getParentFile(), outputFileName);
+              }
+
               try {
-                convertToXml(f, outputFile, finalXpath, finalJackson, finalPtxDebug);
+                if ("-".equals(finalOutputPath)) {
+                  var baos = new java.io.ByteArrayOutputStream();
+                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug);
+                  synchronized (System.out) {
+                    baos.writeTo(System.out);
+                    System.out.flush();
+                  }
+                } else {
+                  try (var fos = new FileOutputStream(outputFile)) {
+                    convertToXml(f, fos, finalXpath, finalJackson, finalPtxDebug);
+                  }
+                  System.out.println("Export successful: " + outputFile.getPath());
+                }
               } catch (Exception e) {
                 var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
-                System.err.println("Error processing file " + f.getName() + ": " + msg);
+                synchronized (System.err) {
+                  System.err.println("[" + Thread.currentThread().getName() + "] Error processing file "
+                      + f.getName() + ": " + msg);
+                }
                 hasErrors.set(true);
               } finally {
                 MnemonicPerformanceMonitor.merge();
@@ -204,15 +227,16 @@ public class Afp2Xml {
         }
         return hasErrors.get() ? 1 : 0;
       } else {
-        File outputFile;
         if ("-".equals(outputPath)) {
-          outputFile = null;
-        } else if (outputPath != null) {
-          outputFile = new File(outputPath);
+          convertToXml(input, System.out, xpathExpression, useJackson, ptxDebug);
         } else {
-          outputFile = new File(inputPath + extension);
+          var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
+          var outputFile = new File(outputFilePath);
+          try (var fos = new FileOutputStream(outputFile)) {
+            convertToXml(input, fos, xpathExpression, useJackson, ptxDebug);
+          }
+          System.out.println("Export successful: " + outputFile.getPath());
         }
-        convertToXml(input, outputFile, xpathExpression, useJackson, ptxDebug);
         return 0;
       }
     } catch (Exception e) {
@@ -248,7 +272,7 @@ public class Afp2Xml {
     out.println("  -h, --help                Show this help message.");
   }
 
-  private static void convertToXml(File inputFile, File outputFile, String xpathExpression,
+  private static void convertToXml(File inputFile, java.io.OutputStream os, String xpathExpression,
       boolean useJackson, boolean ptxDebug) throws Exception {
     var config = new AFPParserConfiguration();
     config.setAFPFile(inputFile);
@@ -256,48 +280,28 @@ public class Afp2Xml {
     config.setPtxDebug(ptxDebug);
     var parser = new AFPParser(config);
     try {
-      if (outputFile != null) {
-        try (var os = new FileOutputStream(outputFile);
-             var writer = useJackson
-                 ? (AutoCloseable) new com.mgz.xml.AfpJacksonXmlWriter(os, xpathExpression)
-                 : (AutoCloseable) new AfpStreamingXmlWriter(os, xpathExpression)) {
-          StructuredField sf;
-          while ((sf = parser.parseNextSF()) != null) {
-            if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
-                System.err.println("Error parsing file " + inputFile.getName() + ": " + errSf.getErrorMessage());
+      try (var writer = useJackson
+          ? (AutoCloseable) new com.mgz.xml.AfpJacksonXmlWriter(os, xpathExpression)
+          : (AutoCloseable) new AfpStreamingXmlWriter(os, xpathExpression)) {
+        StructuredField sf;
+        while ((sf = parser.parseNextSF()) != null) {
+          if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
+            synchronized (System.err) {
+              System.err.println("[" + Thread.currentThread().getName() + "] Error parsing file "
+                  + inputFile.getName() + ": " + errSf.getErrorMessage());
             }
-            if (writer instanceof com.mgz.xml.AfpJacksonXmlWriter jacksonWriter) {
-              jacksonWriter.writeField(sf);
-            } else {
-              ((AfpStreamingXmlWriter) writer).writeField(sf);
-            }
-            sf.release();
           }
-        }
-        if (parser.getNrOfSFBuiltWithErrors() > 0) {
-          throw new Exception("Failed to process " + parser.getNrOfSFBuiltWithErrors() + " structured fields correctly.");
-        }
-        System.out.println("Export successful: " + outputFile.getPath());
-      } else {
-        try (var writer = useJackson
-            ? (AutoCloseable) new com.mgz.xml.AfpJacksonXmlWriter(System.out, xpathExpression)
-            : (AutoCloseable) new AfpStreamingXmlWriter(System.out, xpathExpression)) {
-          StructuredField sf;
-          while ((sf = parser.parseNextSF()) != null) {
-            if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
-                System.err.println("Error parsing file " + inputFile.getName() + ": " + errSf.getErrorMessage());
-            }
-            if (writer instanceof com.mgz.xml.AfpJacksonXmlWriter jacksonWriter) {
-              jacksonWriter.writeField(sf);
-            } else {
-              ((AfpStreamingXmlWriter) writer).writeField(sf);
-            }
-            sf.release();
+          if (writer instanceof com.mgz.xml.AfpJacksonXmlWriter jacksonWriter) {
+            jacksonWriter.writeField(sf);
+          } else {
+            ((AfpStreamingXmlWriter) writer).writeField(sf);
           }
+          sf.release();
         }
-        if (parser.getNrOfSFBuiltWithErrors() > 0) {
-          throw new Exception("Failed to process " + parser.getNrOfSFBuiltWithErrors() + " structured fields correctly.");
-        }
+      }
+      if (parser.getNrOfSFBuiltWithErrors() > 0) {
+        throw new Exception("Failed to process " + parser.getNrOfSFBuiltWithErrors()
+            + " structured fields correctly.");
       }
     } finally {
       parser.quitParsing();
