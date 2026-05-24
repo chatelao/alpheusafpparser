@@ -137,6 +137,21 @@ public class MnemonicPerformanceMonitor {
   }
 
   /**
+   * Clears all global statistics.
+   */
+  public static void clear() {
+    globalStatsMap.clear();
+  }
+
+  public static long getWriteTime(String name) {
+    merge();
+    String mnemonic = extractMnemonicFromString(name);
+    if (mnemonic == null) return 0;
+    MnemonicStats stats = globalStatsMap.get(mnemonic);
+    return stats != null ? stats.writeTime.sum() : 0;
+  }
+
+  /**
    * Merges local thread statistics into the global statistics map and clears local state.
    */
   public static void merge() {

@@ -108,8 +108,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     this.fragmentMode = fragmentMode;
     this.mapper = JacksonXmlMapperProvider.getMapper();
     // Fragment mapper to avoid repeated XML declarations
-    this.fragmentMapper = mapper.copy();
-    this.fragmentMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
+    this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper();
 
     if (this.xpathExpression == null) {
       XMLStreamWriter2 baseWriter = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
