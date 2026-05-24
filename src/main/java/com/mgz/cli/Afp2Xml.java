@@ -27,6 +27,11 @@ import com.mgz.xml.AfpStreamingXmlWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Command line utility to convert AFP files to XML.
@@ -57,6 +62,7 @@ public class Afp2Xml {
     var useJackson = false;
     var measure = false;
     var ptxDebug = false;
+    var threadCount = 0;
     String inputPath = null;
     String outputPath = null;
     String xpathExpression = null;
@@ -91,6 +97,19 @@ public class Afp2Xml {
         }
         case "--ptx-debug" -> {
           ptxDebug = true;
+        }
+        case "-t", "--threads" -> {
+          if (i + 1 < args.length) {
+            try {
+              threadCount = Integer.parseInt(args[++i]);
+            } catch (NumberFormatException e) {
+              System.err.println("Error: --threads requires an integer.");
+              return 1;
+            }
+          } else {
+            System.err.println("Error: --threads requires a value.");
+            return 1;
+          }
         }
         default -> {
           if (arg.startsWith("-") && !"-".equals(arg)) {
@@ -144,20 +163,46 @@ public class Afp2Xml {
         }
 
         var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
-        var hasErrors = false;
-        if (files != null) {
+        if (files == null || files.length == 0) {
+          System.out.println("No .afp files found in directory: " + inputPath);
+          return 0;
+        }
+
+        if (threadCount <= 0) {
+          threadCount = Runtime.getRuntime().availableProcessors();
+        }
+
+        System.out.println("Processing " + files.length + " files using " + threadCount + " threads...");
+
+        var hasErrors = new AtomicBoolean(false);
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        try {
           for (var f : files) {
-            var outputFile = new File(f.getAbsolutePath() + extension);
-            try {
-              convertToXml(f, outputFile, xpathExpression, useJackson, ptxDebug);
-            } catch (Exception e) {
-              var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
-              System.err.println("Error processing file " + f.getName() + ": " + msg);
-              hasErrors = true;
-            }
+            final String finalXpath = xpathExpression;
+            final boolean finalJackson = useJackson;
+            final boolean finalPtxDebug = ptxDebug;
+            executor.submit(() -> {
+              var outputFile = new File(f.getAbsolutePath() + extension);
+              try {
+                convertToXml(f, outputFile, finalXpath, finalJackson, finalPtxDebug);
+              } catch (Exception e) {
+                var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+                System.err.println("Error processing file " + f.getName() + ": " + msg);
+                hasErrors.set(true);
+              } finally {
+                MnemonicPerformanceMonitor.merge();
+                com.mgz.util.PTXPerformanceMonitor.merge();
+              }
+            });
+          }
+        } finally {
+          executor.shutdown();
+          if (!executor.awaitTermination(1, TimeUnit.HOURS)) {
+            System.err.println("Timeout waiting for tasks to complete.");
+            hasErrors.set(true);
           }
         }
-        return hasErrors ? 1 : 0;
+        return hasErrors.get() ? 1 : 0;
       } else {
         File outputFile;
         if ("-".equals(outputPath)) {
@@ -187,7 +232,7 @@ public class Afp2Xml {
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
-        + "[--ptx-debug] <input-afp-file/dir> [output-xml-file]");
+        + "[--ptx-debug] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
         + "to XML.");
@@ -198,6 +243,8 @@ public class Afp2Xml {
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
     out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
+    out.println("  -t, --threads <n>         Number of threads for parallel directory processing.");
+    out.println("                            Defaults to the number of available processors.");
     out.println("  -h, --help                Show this help message.");
   }
 

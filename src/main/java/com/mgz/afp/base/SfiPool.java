@@ -19,14 +19,20 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A pool for {@link StructuredFieldIntroducer} objects to reduce garbage collection overhead.
+ * Uses a two-tier strategy: L1 (ThreadLocal) and L2 (Global Concurrent Queue).
  */
 public final class SfiPool {
 
-  private static final ConcurrentLinkedQueue<StructuredFieldIntroducer> POOL = new ConcurrentLinkedQueue<>();
+  private static final int L1_CAPACITY = 64;
+  private static final ConcurrentLinkedQueue<StructuredFieldIntroducer> L2_POOL = new ConcurrentLinkedQueue<>();
+  private static final ThreadLocal<Deque<StructuredFieldIntroducer>> L1_POOL =
+      ThreadLocal.withInitial(() -> new ArrayDeque<>(L1_CAPACITY));
 
   private SfiPool() {
     // Utility class
@@ -38,7 +44,12 @@ public final class SfiPool {
    * @return a {@link StructuredFieldIntroducer} instance
    */
   public static StructuredFieldIntroducer acquire() {
-    StructuredFieldIntroducer sfi = POOL.poll();
+    Deque<StructuredFieldIntroducer> l1 = L1_POOL.get();
+    StructuredFieldIntroducer sfi = l1.pollFirst();
+    if (sfi == null) {
+      sfi = L2_POOL.poll();
+    }
+
     if (sfi == null) {
       return new StructuredFieldIntroducer();
     }
@@ -53,16 +64,21 @@ public final class SfiPool {
    */
   public static void release(StructuredFieldIntroducer sfi) {
     if (sfi != null) {
-      POOL.offer(sfi);
+      Deque<StructuredFieldIntroducer> l1 = L1_POOL.get();
+      if (l1.size() < L1_CAPACITY) {
+        l1.addFirst(sfi);
+      } else {
+        L2_POOL.offer(sfi);
+      }
     }
   }
 
   /**
-   * Returns the current size of the pool.
+   * Returns the current size of the L2 pool.
    *
-   * @return the pool size
+   * @return the L2 pool size
    */
   public static int size() {
-    return POOL.size();
+    return L2_POOL.size();
   }
 }
