@@ -85,4 +85,28 @@ public class IOCARoundTripTest {
         byte[] data = new byte[] { (byte) 0xF7, 0x02, 0x01, 0x0A };
         RoundTripTestUtils.assertRoundTrip(new FunctionSetIdentification(), data);
     }
+
+    @Test
+    public void testBeginSegmentRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_4.md [IOCA-4-011]
+        // Type (0x70) | Len (0x04) | Name (0x01 02 03 04)
+        byte[] data = new byte[] { 0x70, 0x04, 0x01, 0x02, 0x03, 0x04 };
+        RoundTripTestUtils.assertRoundTrip(new BeginSegment(), data);
+    }
+
+    @Test
+    public void testEndSegmentRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_4.md [IOCA-4-012]
+        // Type (0x71) | Len (0x00)
+        byte[] data = new byte[] { 0x71, 0x00 };
+        RoundTripTestUtils.assertRoundTrip(new EndSegment(), data);
+    }
+
+    @Test
+    public void testImageEncodingRoundTrip() throws Exception {
+        // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-066]
+        // Type (0x95) | Len (0x02) | Comp (0x03) | Rec (0x01)
+        byte[] data = new byte[] { (byte) 0x95, 0x02, 0x03, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new ImageEncoding(), data);
+    }
 }
