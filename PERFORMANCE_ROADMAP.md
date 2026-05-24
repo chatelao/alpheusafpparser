@@ -52,6 +52,13 @@ This document outlines the phased strategy and implementation steps for performa
 - **Task 11.1: Fast-Path for MCF and Movement Controls**: Manual StAX for `MCF`, `AMI`, and `AMB`.
 - **Task 11.2: Jackson Generator Reuse**: Minimize allocation overhead.
 - **Task 11.3: Expanded Triplet Fast-Paths**: Native serialization for common triplets.
+- **Task 11.4: PTX Performance Monitoring**: Detailed analysis of PTX fields and PTOCA control sequences via `--ptx-debug`.
+
+### Phase 12: High-Throughput Single-File Parallelization 🚧
+- **Task 12.1: Parallel Scanning**: Chunk-based `0x5A` marker identification in `AFPScanner`. ✅
+- **Task 12.2: Streaming Parallel Parsing**: Producer-consumer model with backpressure. ⏳
+- **Task 12.3: Ordered Slotted Buffering**: In-order XML fragment emission. ⏳
+- **Task 12.4: CLI Integration**: `--parallel` flag and core scaling. ⏳
 
 ---
 
@@ -70,3 +77,4 @@ This document outlines the phased strategy and implementation steps for performa
 | 9 | Performance Benchmarking (Jackson vs JAXB) | ✅ |
 | 10 | Specialized StAX + Aalto Optimizations | ✅ |
 | 11 | Production-Scale Optimizations | ✅ |
+| 12 | High-Throughput Single-File Parallelization | 🚧 |
