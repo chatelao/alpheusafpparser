@@ -82,7 +82,7 @@ class AFPScannerTest {
       List<Long> sequentialOffsets = scanner.findPageBoundaries();
       List<Long> parallelOffsets = scanner.findPageBoundariesParallel();
 
-      assertEquals(sequentialOffsets.size(), parallelOffsets.size(), "Sequential and parallel scan should find same number of BPGs");
+      assertEquals(sequentialOffsets.size(), parallelOffsets.size(), "Sequential and parallel scan should find same number of BPGs. Expected " + sequentialOffsets + " but got " + parallelOffsets);
       for (int i = 0; i < sequentialOffsets.size(); i++) {
         assertEquals(sequentialOffsets.get(i), parallelOffsets.get(i), "Offset should match at index " + i);
       }

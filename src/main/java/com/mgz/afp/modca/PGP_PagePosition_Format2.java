@@ -185,7 +185,7 @@ public class PGP_PagePosition_Format2 extends StructuredFieldBaseRepeatingGroups
       this.flags = flags;
     }
 
-    public byte getPageModififationControlID() {
+    public Byte getPageModififationControlID() {
       return pageModififationControlID;
     }
 
