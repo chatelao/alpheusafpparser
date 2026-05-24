@@ -109,3 +109,6 @@ __pycache__/
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+
+# Jazzer/CIFuzz corpus
+.cifuzz-corpus/
