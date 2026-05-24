@@ -801,10 +801,12 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       }
 
       os.write(segmentType.toBytes());
-      os.write(lengthOfFollowingData);
+      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
       os.write(algorithmType.toByte());
       os.write(reserved3);
-      os.write(algorithmSpecificationData);
+      if (algorithmSpecificationData != null) {
+        os.write(algorithmSpecificationData);
+      }
     }
 
     public enum AlgorithmType {
@@ -1003,10 +1005,10 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       compressionAlgorithmID = CompressionAlgorithmID.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
       lengthOfData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
-      compressionAlgorithmCodePoint = UtilBinaryDecoding.parseLong(sfData, offset + 1, 4);
+      compressionAlgorithmCodePoint = UtilBinaryDecoding.parseLong(sfData, offset + 2, 4);
       if (lengthOfData > 4) {
         userDefinedSpecification = new byte[lengthOfData - 4];
-        System.arraycopy(sfData, offset + 4, userDefinedSpecification, 0, userDefinedSpecification.length);
+        System.arraycopy(sfData, offset + 6, userDefinedSpecification, 0, userDefinedSpecification.length);
       } else {
         userDefinedSpecification = null;
       }
@@ -1104,6 +1106,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
           if (fieldType == 0x01) {
             ImageSubsamplingField.SamplingRatios ratios = new SamplingRatios();
             ratios.decodeAFP(sfData, offset + pos, actualLength - pos, config);
+            result.add(ratios);
             pos += 2 + ratios.lengthOfFollowingData;
           } else {
             throw new AFPParserException("The image subsampling field type 0x" + Integer.toHexString(fieldType) + " is undefined.");
