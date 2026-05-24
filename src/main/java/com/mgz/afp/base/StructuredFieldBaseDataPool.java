@@ -19,14 +19,20 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A pool for {@link StructuredFieldBaseData} objects to reduce garbage collection overhead.
+ * Uses a two-tier strategy: L1 (ThreadLocal) and L2 (Global Concurrent Queue).
  */
 public final class StructuredFieldBaseDataPool {
 
-  private static final ConcurrentLinkedQueue<StructuredFieldBaseData> POOL = new ConcurrentLinkedQueue<>();
+  private static final int L1_CAPACITY = 64;
+  private static final ConcurrentLinkedQueue<StructuredFieldBaseData> L2_POOL = new ConcurrentLinkedQueue<>();
+  private static final ThreadLocal<Deque<StructuredFieldBaseData>> L1_POOL =
+      ThreadLocal.withInitial(() -> new ArrayDeque<>(L1_CAPACITY));
 
   private StructuredFieldBaseDataPool() {
     // Utility class
@@ -38,7 +44,12 @@ public final class StructuredFieldBaseDataPool {
    * @return a {@link StructuredFieldBaseData} instance
    */
   public static StructuredFieldBaseData acquire() {
-    StructuredFieldBaseData sf = POOL.poll();
+    Deque<StructuredFieldBaseData> l1 = L1_POOL.get();
+    StructuredFieldBaseData sf = l1.pollFirst();
+    if (sf == null) {
+      sf = L2_POOL.poll();
+    }
+
     if (sf == null) {
       return new StructuredFieldBaseData();
     }
@@ -53,16 +64,21 @@ public final class StructuredFieldBaseDataPool {
    */
   public static void release(StructuredFieldBaseData sf) {
     if (sf != null) {
-      POOL.offer(sf);
+      Deque<StructuredFieldBaseData> l1 = L1_POOL.get();
+      if (l1.size() < L1_CAPACITY) {
+        l1.addFirst(sf);
+      } else {
+        L2_POOL.offer(sf);
+      }
     }
   }
 
   /**
-   * Returns the current size of the pool.
+   * Returns the current size of the L2 pool.
    *
-   * @return the pool size
+   * @return the L2 pool size
    */
   public static int size() {
-    return POOL.size();
+    return L2_POOL.size();
   }
 }

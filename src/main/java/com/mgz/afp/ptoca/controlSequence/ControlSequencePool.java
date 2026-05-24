@@ -20,20 +20,27 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.ptoca.controlSequence;
 
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceFunctionType;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.EnumMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A pool for {@link PTOCAControlSequence} objects to reduce garbage collection overhead.
+ * Uses a two-tier strategy: L1 (ThreadLocal) and L2 (Global Concurrent Queues).
  */
 public final class ControlSequencePool {
 
-  private static final EnumMap<ControlSequenceFunctionType, ConcurrentLinkedQueue<PTOCAControlSequence>> POOLS =
+  private static final int L1_CAPACITY_PER_TYPE = 32;
+  private static final EnumMap<ControlSequenceFunctionType, ConcurrentLinkedQueue<PTOCAControlSequence>> L2_POOLS =
       new EnumMap<>(ControlSequenceFunctionType.class);
+  private static final ThreadLocal<Map<ControlSequenceFunctionType, Deque<PTOCAControlSequence>>> L1_POOLS =
+      ThreadLocal.withInitial(() -> new EnumMap<>(ControlSequenceFunctionType.class));
 
   static {
     for (ControlSequenceFunctionType type : ControlSequenceFunctionType.values()) {
-      POOLS.put(type, new ConcurrentLinkedQueue<>());
+      L2_POOLS.put(type, new ConcurrentLinkedQueue<>());
     }
   }
 
@@ -51,11 +58,18 @@ public final class ControlSequencePool {
     if (type == null) {
       return null;
     }
-    ConcurrentLinkedQueue<PTOCAControlSequence> pool = POOLS.get(type);
-    if (pool == null) {
-      return null;
+
+    Map<ControlSequenceFunctionType, Deque<PTOCAControlSequence>> l1Map = L1_POOLS.get();
+    Deque<PTOCAControlSequence> l1 = l1Map.get(type);
+    PTOCAControlSequence cs = (l1 != null) ? l1.pollFirst() : null;
+
+    if (cs == null) {
+      ConcurrentLinkedQueue<PTOCAControlSequence> l2 = L2_POOLS.get(type);
+      if (l2 != null) {
+        cs = l2.poll();
+      }
     }
-    PTOCAControlSequence cs = pool.poll();
+
     if (cs != null) {
       cs.reset();
     }
@@ -69,9 +83,17 @@ public final class ControlSequencePool {
    */
   public static void release(PTOCAControlSequence cs) {
     if (cs != null && cs.getCsi() != null && cs.getCsi().getControlSequenceFunctionType() != null) {
-      ConcurrentLinkedQueue<PTOCAControlSequence> pool = POOLS.get(cs.getCsi().getControlSequenceFunctionType());
-      if (pool != null) {
-        pool.offer(cs);
+      ControlSequenceFunctionType type = cs.getCsi().getControlSequenceFunctionType();
+      Map<ControlSequenceFunctionType, Deque<PTOCAControlSequence>> l1Map = L1_POOLS.get();
+      Deque<PTOCAControlSequence> l1 = l1Map.computeIfAbsent(type, k -> new ArrayDeque<>(L1_CAPACITY_PER_TYPE));
+
+      if (l1.size() < L1_CAPACITY_PER_TYPE) {
+        l1.addFirst(cs);
+      } else {
+        ConcurrentLinkedQueue<PTOCAControlSequence> pool = L2_POOLS.get(type);
+        if (pool != null) {
+          pool.offer(cs);
+        }
       }
     }
   }
