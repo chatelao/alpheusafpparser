@@ -21,13 +21,25 @@ package com.mgz.xml;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldBaseData;
+import com.mgz.afp.foca.FNC_FontControl;
+import com.mgz.afp.goca.GAD_DrawingOrder;
+import com.mgz.afp.goca.GAD_GraphicsData;
+import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IDD_SelfDefiningField;
+import com.mgz.afp.ioca.IPD_ImagePictureData;
+import com.mgz.afp.ioca.IPD_Segment;
+import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
+import com.mgz.afp.modca.MIO_MapImageObject;
 import com.mgz.afp.modca.NOP_NoOperation;
+import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
+import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
@@ -144,6 +156,22 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       writePtxDirectly(ptx);
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf) {
       writeMcfDirectly(mcf);
+    } else if (sf instanceof FNC_FontControl fnc) {
+      writeFncDirectly(fnc);
+    } else if (sf instanceof LND_LineDescriptor lnd) {
+      writeLndDirectly(lnd);
+    } else if (sf instanceof GAD_GraphicsData gad) {
+      writeGadDirectly(gad);
+    } else if (sf instanceof IPD_ImagePictureData ipd) {
+      writeIpdDirectly(ipd);
+    } else if (sf instanceof OBD_ObjectAreaDescriptor obd) {
+      writeObdDirectly(obd);
+    } else if (sf instanceof OBP_ObjectAreaPosition obp) {
+      writeObpDirectly(obp);
+    } else if (sf instanceof IDD_ImageDataDescriptor idd) {
+      writeIddDirectly(idd);
+    } else if (sf instanceof MIO_MapImageObject mio) {
+      writeMioDirectly(mio);
     } else {
       String rootName = sf.getClass().getSimpleName();
       fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), sf);
@@ -153,9 +181,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
 
   private void writeNopDirectly(NOP_NoOperation nop) throws Exception {
     String text = nop.getText();
-    if (text == null || text.isEmpty()) {
-      xsw.writeEmptyElement("NOP_NoOperation");
-    } else {
+    if (text != null && !text.isEmpty()) {
       xsw.writeStartElement("NOP_NoOperation");
       xsw.writeCharacters("\n    ");
       xsw.writeStartElement("text");
@@ -163,6 +189,19 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       xsw.writeEndElement();
       xsw.writeCharacters("\n  ");
       xsw.writeEndElement();
+    } else {
+      byte[] data = nop.getData();
+      if (data == null || data.length == 0) {
+        xsw.writeEmptyElement("NOP_NoOperation");
+      } else {
+        xsw.writeStartElement("NOP_NoOperation");
+        xsw.writeCharacters("\n    ");
+        xsw.writeStartElement("hexData");
+        xsw.writeCharacters(com.mgz.util.UtilCharacterEncoding.bytesToHexString(data));
+        xsw.writeEndElement();
+        xsw.writeCharacters("\n  ");
+        xsw.writeEndElement();
+      }
     }
   }
 
@@ -312,6 +351,244 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       // Fallback to Jackson
       fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(getFragmentGenerator(), cs);
     }
+  }
+
+  private void writeFncDirectly(FNC_FontControl fnc) throws Exception {
+    xsw.writeStartElement("FNC_FontControl");
+    String indent = "\n    ";
+    writeElement(indent, "retired0", String.valueOf(fnc.getRetired0()));
+    if (fnc.getPatternTechnologyIdentifier() != null) {
+      writeElement(indent, "patternTechnologyIdentifier", fnc.getPatternTechnologyIdentifier().name());
+    }
+    writeElement(indent, "reserved2", String.valueOf(fnc.getReserved2()));
+    if (fnc.getFontUseFlags() != null) {
+      xsw.writeCharacters(indent);
+      xsw.writeStartElement("fontUseFlags");
+      for (FNC_FontControl.FncFontUseFlag flag : fnc.getFontUseFlags()) {
+        xsw.writeCharacters(indent + "  ");
+        xsw.writeStartElement("fncFontUseFlag");
+        xsw.writeCharacters(flag.name());
+        xsw.writeEndElement();
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    }
+    if (fnc.getxUnitBase() != null) {
+      writeElement(indent, "xUnitBase", fnc.getxUnitBase().name());
+    }
+    if (fnc.getyUnitBase() != null) {
+      writeElement(indent, "yUnitBase", fnc.getyUnitBase().name());
+    }
+    writeElement(indent, "xUnitsPerUnitBase", String.valueOf(fnc.getxUnitsPerUnitBase()));
+    writeElement(indent, "yUnitsPerUnitBase", String.valueOf(fnc.getyUnitsPerUnitBase()));
+    writeElement(indent, "maxCharacterBoxWidth", String.valueOf(fnc.getMaxCharacterBoxWidth()));
+    writeElement(indent, "maxCharacterBoxHeight", String.valueOf(fnc.getMaxCharacterBoxHeight()));
+    writeElement(indent, "fnoRepeatingGroupLength", String.valueOf(fnc.getFnoRepeatingGroupLength()));
+    writeElement(indent, "fniRepeatingGroupLength", String.valueOf(fnc.getFniRepeatingGroupLength()));
+    if (fnc.getRasterPatternDataAlignment() != null) {
+      writeElement(indent, "rasterPatternDataAlignment", fnc.getRasterPatternDataAlignment().name());
+    }
+    writeElement(indent, "rasterPatternDataCount", String.valueOf(fnc.getRasterPatternDataCount()));
+    writeElement(indent, "fnpRepeatingGroupLength", String.valueOf(fnc.getFnpRepeatingGroupLength()));
+    writeElement(indent, "fnmRepeatingGroupLength", String.valueOf(fnc.getFnmRepeatingGroupLength()));
+    writeElement(indent, "shapeResolutionXUnitBase10Inches", String.valueOf(fnc.getShapeResolutionXUnitBase10Inches()));
+    writeElement(indent, "shapeResolutionYUnitBase10Inches", String.valueOf(fnc.getShapeResolutionYUnitBase10Inches()));
+    writeElement(indent, "shapeResolutionXUnitsPerUnitBase", String.valueOf(fnc.getShapeResolutionXUnitsPerUnitBase()));
+    writeElement(indent, "shapeResolutionYUnitsPerUnitBase", String.valueOf(fnc.getShapeResolutionYUnitsPerUnitBase()));
+    writeElement(indent, "outlinePatternDataCount", String.valueOf(fnc.getOutlinePatternDataCount()));
+    if (fnc.getReserved32_34() != null) {
+      writeElement(indent, "reserved32_34", com.mgz.util.UtilCharacterEncoding.bytesToHexString(fnc.getReserved32_34()));
+    }
+    writeElement(indent, "fnnRepeatingGroupLength", String.valueOf(fnc.getFnnRepeatingGroupLength()));
+    writeElement(indent, "fnnDataCount", String.valueOf(fnc.getFnnDataCount()));
+    writeElement(indent, "fnnIbmNameGcgidCount", String.valueOf(fnc.getFnnIbmNameGcgidCount()));
+
+    if (fnc.getTriplets() != null) {
+      for (Triplet triplet : fnc.getTriplets()) {
+        xsw.writeCharacters(indent);
+        writeTriplet(triplet, indent);
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeLndDirectly(LND_LineDescriptor lnd) throws Exception {
+    xsw.writeStartElement("LND_LineDescriptor");
+    String indent = "\n    ";
+    if (lnd.getFlags() != null) {
+      xsw.writeCharacters(indent);
+      xsw.writeStartElement("flags");
+      for (LND_LineDescriptor.LND_Flag flag : lnd.getFlags()) {
+        xsw.writeCharacters(indent + "  ");
+        xsw.writeStartElement("lndFlag");
+        xsw.writeCharacters(flag.name());
+        xsw.writeEndElement();
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    }
+    writeElement(indent, "inlinePosition", String.valueOf(lnd.getInlinePosition()));
+    writeElement(indent, "baselinePosition", String.valueOf(lnd.getBaselinePosition()));
+    if (lnd.getInlineOrientation() != null) {
+      writeElement(indent, "inlineOrientation", lnd.getInlineOrientation().name());
+    }
+    if (lnd.getBaselineOrientation() != null) {
+      writeElement(indent, "baselineOrientation", lnd.getBaselineOrientation().name());
+    }
+    writeElement(indent, "primaryFontLocalId", String.valueOf(lnd.getPrimaryFontLocalId()));
+    writeElement(indent, "channelCode", String.valueOf(lnd.getChannelCode()));
+    writeElement(indent, "nextLNDIfSkipping", String.valueOf(lnd.getNextLNDIfSkipping()));
+    writeElement(indent, "nextLNDIfSpacing", String.valueOf(lnd.getNextLNDIfSpacing()));
+    writeElement(indent, "nextLNDIfReusingData", String.valueOf(lnd.getNextLNDIfReusingData()));
+    writeElement(indent, "suppressionTokenName", lnd.getSuppressionTokenName());
+    writeElement(indent, "shiftOutLocalFontID", String.valueOf(lnd.getShiftOutLocalFontID()));
+    writeElement(indent, "dataStartPosition", String.valueOf(lnd.getDataStartPosition()));
+    writeElement(indent, "dataLength", String.valueOf(lnd.getDataLength()));
+    if (lnd.getTextColor() != null) {
+      writeElement(indent, "textColor", lnd.getTextColor().name());
+    }
+    writeElement(indent, "nextLNDIfConditionalProcessing", String.valueOf(lnd.getNextLNDIfConditionalProcessing()));
+    writeElement(indent, "subpageID", String.valueOf(lnd.getSubpageID()));
+    writeElement(indent, "ccpIdentifier", String.valueOf(lnd.getCcpIdentifier()));
+
+    if (lnd.getTriplets() != null) {
+      for (Triplet triplet : lnd.getTriplets()) {
+        xsw.writeCharacters(indent);
+        writeTriplet(triplet, indent);
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeGadDirectly(GAD_GraphicsData gad) throws Exception {
+    xsw.writeStartElement("GAD_GraphicsData");
+    String indent = "\n    ";
+    List<GAD_DrawingOrder> orders = gad.getDrawingOrders();
+    if (orders != null) {
+      for (GAD_DrawingOrder order : orders) {
+        xsw.writeCharacters(indent);
+        writeDrawingOrder(order, indent);
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeDrawingOrder(GAD_DrawingOrder order, String indent) throws Exception {
+    String rootName = order.getClass().getSimpleName();
+    fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), order);
+  }
+
+  private void writeIpdDirectly(IPD_ImagePictureData ipd) throws Exception {
+    xsw.writeStartElement("IPD_ImagePictureData");
+    String indent = "\n    ";
+    List<IPD_Segment> segments = ipd.getListOfSegments();
+    if (segments != null) {
+      for (IPD_Segment segment : segments) {
+        xsw.writeCharacters(indent);
+        String rootName = segment.getClass().getSimpleName();
+        fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), segment);
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeObdDirectly(OBD_ObjectAreaDescriptor obd) throws Exception {
+    xsw.writeStartElement("OBD_ObjectAreaDescriptor");
+    String indent = "\n    ";
+    if (obd.getTriplets() != null) {
+      for (Triplet triplet : obd.getTriplets()) {
+        xsw.writeCharacters(indent);
+        writeTriplet(triplet, indent);
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeObpDirectly(OBP_ObjectAreaPosition obp) throws Exception {
+    xsw.writeStartElement("OBP_ObjectAreaPosition");
+    String indent = "\n    ";
+    writeElement(indent, "objectAreaPositionID", String.valueOf(obp.getObjectAreaPositionID()));
+    if (obp.getRepeatingGroup() != null) {
+      xsw.writeCharacters(indent);
+      xsw.writeStartElement("repeatingGroup");
+      String childIndent = indent + "  ";
+      OBP_ObjectAreaPosition.OBP_RepeatingGroup rg = obp.getRepeatingGroup();
+      writeElement(childIndent, "repeatingGroupLength", String.valueOf(rg.getRepeatingGroupLength()));
+      writeElement(childIndent, "xOrigin", String.valueOf(rg.getxOrigin()));
+      writeElement(childIndent, "yOrigin", String.valueOf(rg.getyOrigin()));
+      if (rg.getxRotation() != null) {
+        writeElement(childIndent, "xRotation", rg.getxRotation().name());
+      }
+      if (rg.getyRotation() != null) {
+        writeElement(childIndent, "yRotation", rg.getyRotation().name());
+      }
+      writeElement(childIndent, "reserved11", String.valueOf(rg.getReserved11()));
+      writeElement(childIndent, "xOriginOfContent", String.valueOf(rg.getxOriginOfContent()));
+      writeElement(childIndent, "yOriginOfContent", String.valueOf(rg.getyOriginOfContent()));
+      if (rg.getxRotationOfContent() != null) {
+        writeElement(childIndent, "xRotationOfContent", rg.getxRotationOfContent().name());
+      }
+      if (rg.getyRotationOfContent() != null) {
+        writeElement(childIndent, "yRotationOfContent", rg.getyRotationOfContent().name());
+      }
+      if (rg.getReferenceCoordinateSystem() != null) {
+        writeElement(childIndent, "referenceCoordinateSystem", rg.getReferenceCoordinateSystem().name());
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeIddDirectly(IDD_ImageDataDescriptor idd) throws Exception {
+    xsw.writeStartElement("IDD_ImageDataDescriptor");
+    String indent = "\n    ";
+    if (idd.getUnitBase() != null) {
+      writeElement(indent, "unitBase", idd.getUnitBase().name());
+    }
+    writeElement(indent, "xImagePointsPerUnitBase", String.valueOf(idd.getxImagePointsPerUnitBase()));
+    writeElement(indent, "yImagePointsPerUnitBase", String.valueOf(idd.getyImagePointsPerUnitBase()));
+    writeElement(indent, "widthOfImageInImagePoints", String.valueOf(idd.getWidthOfImageInImagePoints()));
+    writeElement(indent, "heightOfImageInImagePoints", String.valueOf(idd.getHeightOfImageInImagePoints()));
+
+    if (idd.getSelfDefiningFields() != null) {
+      for (IDD_SelfDefiningField sdf : idd.getSelfDefiningFields()) {
+        xsw.writeCharacters(indent);
+        String rootName = sdf.getClass().getSimpleName();
+        fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), sdf);
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
+  }
+
+  private void writeMioDirectly(MIO_MapImageObject mio) throws Exception {
+    xsw.writeStartElement("MIO_MapImageObject");
+    String indent = "\n    ";
+    if (mio.getRepeatingGroups() != null) {
+      for (IRepeatingGroup rg : mio.getRepeatingGroups()) {
+        xsw.writeCharacters(indent);
+        xsw.writeStartElement("mioRepeatingGroup");
+        if (rg instanceof RepeatingGroupWithTriplets rgt) {
+          if (rgt.getTriplets() != null) {
+            for (Triplet t : rgt.getTriplets()) {
+              xsw.writeCharacters(indent + "  ");
+              writeTriplet(t, indent + "  ");
+            }
+          }
+        }
+        xsw.writeCharacters(indent);
+        xsw.writeEndElement();
+      }
+    }
+    xsw.writeCharacters("\n  ");
+    xsw.writeEndElement();
   }
 
   private ToXmlGenerator getFragmentGenerator() throws java.io.IOException {
