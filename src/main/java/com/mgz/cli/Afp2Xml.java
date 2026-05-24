@@ -62,6 +62,7 @@ public class Afp2Xml {
     var useJackson = false;
     var measure = false;
     var ptxDebug = false;
+    var parallel = false;
     var threadCount = 0;
     String inputPath = null;
     String outputPath = null;
@@ -97,6 +98,9 @@ public class Afp2Xml {
         }
         case "--ptx-debug" -> {
           ptxDebug = true;
+        }
+        case "-p", "--parallel" -> {
+          parallel = true;
         }
         case "-t", "--threads" -> {
           if (i + 1 < args.length) {
@@ -194,14 +198,14 @@ public class Afp2Xml {
               try {
                 if ("-".equals(finalOutputPath)) {
                   var baos = new java.io.ByteArrayOutputStream();
-                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug);
+                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug, false, 0);
                   synchronized (System.out) {
                     baos.writeTo(System.out);
                     System.out.flush();
                   }
                 } else {
                   try (var fos = new FileOutputStream(outputFile)) {
-                    convertToXml(f, fos, finalXpath, finalJackson, finalPtxDebug);
+                    convertToXml(f, fos, finalXpath, finalJackson, finalPtxDebug, false, 0);
                   }
                   System.out.println("Export successful: " + outputFile.getPath());
                 }
@@ -228,12 +232,12 @@ public class Afp2Xml {
         return hasErrors.get() ? 1 : 0;
       } else {
         if ("-".equals(outputPath)) {
-          convertToXml(input, System.out, xpathExpression, useJackson, ptxDebug);
+          convertToXml(input, System.out, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
           try (var fos = new FileOutputStream(outputFile)) {
-            convertToXml(input, fos, xpathExpression, useJackson, ptxDebug);
+            convertToXml(input, fos, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
           }
           System.out.println("Export successful: " + outputFile.getPath());
         }
@@ -256,7 +260,7 @@ public class Afp2Xml {
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
-        + "[--ptx-debug] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
+        + "[--ptx-debug] [-p|--parallel] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
         + "to XML.");
@@ -267,17 +271,25 @@ public class Afp2Xml {
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
     out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
-    out.println("  -t, --threads <n>         Number of threads for parallel directory processing.");
+    out.println("  -p, --parallel            Enable parallel conversion for single files.");
+    out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -h, --help                Show this help message.");
   }
 
   private static void convertToXml(File inputFile, java.io.OutputStream os, String xpathExpression,
-      boolean useJackson, boolean ptxDebug) throws Exception {
+      boolean useJackson, boolean ptxDebug, boolean parallel, int threadCount) throws Exception {
     var config = new AFPParserConfiguration();
     config.setAFPFile(inputFile);
     config.setEscalateParsingErrors(false);
     config.setPtxDebug(ptxDebug);
+
+    if (parallel) {
+      var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, useJackson, xpathExpression);
+      converter.convert(os);
+      return;
+    }
+
     var parser = new AFPParser(config);
     try {
       try (var writer = useJackson

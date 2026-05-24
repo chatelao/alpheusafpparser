@@ -52,6 +52,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
   private final XMLStreamWriter2 xsw;
   private final OutputStream os;
   private final String xpathExpression;
+  private final boolean fragmentMode;
 
   private javax.xml.parsers.DocumentBuilder cachedDocumentBuilder;
   private javax.xml.xpath.XPath cachedXpath;
@@ -64,7 +65,7 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
    * @throws Exception if initialization fails
    */
   public AfpStreamingXmlWriter(OutputStream os) throws Exception {
-    this(os, null);
+    this(os, null, false);
   }
 
   /**
@@ -75,17 +76,33 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
    * @throws Exception if initialization fails
    */
   public AfpStreamingXmlWriter(OutputStream os, String xpathExpression) throws Exception {
+    this(os, xpathExpression, false);
+  }
+
+  /**
+   * Constructor for AfpStreamingXmlWriter.
+   *
+   * @param os the output stream to write to
+   * @param xpathExpression the XPath expression to filter fields
+   * @param fragmentMode if true, skip XML declaration and root element
+   * @throws Exception if initialization fails
+   */
+  public AfpStreamingXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode)
+      throws Exception {
     this.os = os;
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
+    this.fragmentMode = fragmentMode;
     if (this.xpathExpression == null) {
       XMLStreamWriter2 baseWriter = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(baseWriter) : baseWriter;
-      this.xsw.writeStartDocument("UTF-8", "1.0");
-      this.xsw.writeCharacters("\n");
-      this.xsw.setPrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-      this.xsw.writeStartElement("AFPDocument");
-      this.xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-      this.xsw.writeCharacters("\n");
+      if (!fragmentMode) {
+        this.xsw.writeStartDocument("UTF-8", "1.0");
+        this.xsw.writeCharacters("\n");
+        this.xsw.setPrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        this.xsw.writeStartElement("AFPDocument");
+        this.xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        this.xsw.writeCharacters("\n");
+      }
     } else {
       this.xsw = null;
     }
@@ -182,11 +199,15 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
   @Override
   public void close() throws Exception {
     if (xsw != null) {
-      xsw.writeEndElement();
-      xsw.writeCharacters("\n");
-      xsw.writeEndDocument();
+      if (!fragmentMode) {
+        xsw.writeEndElement();
+        xsw.writeCharacters("\n");
+        xsw.writeEndDocument();
+      }
       xsw.flush();
-      xsw.close();
+      if (!fragmentMode) {
+        xsw.close();
+      }
     }
   }
 }
