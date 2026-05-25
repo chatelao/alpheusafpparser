@@ -15,6 +15,12 @@ The goal of this phase is to cover the most frequent building blocks of AFP docu
 ### 1.1. Systematic Round-Trip Testing for MO:DCA [🏗️ Partially Complete]
 - Implement `RoundTripTest` classes for all 80+ Structured Fields in `com.mgz.afp.modca`.
 - Use `RoundTripTestUtils` to verify that every SF can be decoded and encoded without data loss.
+- **Methodology: Deep Round-Trip Verification**
+    1. **Programmatic Generation:** Manually construct a `byte[]` payload that exercises all optional parameters and edge-case values.
+    2. **Decoding:** Parse the payload into a high-level Java object.
+    3. **Validation:** Assert that the object properties match the intended values (referencing specification IDs).
+    4. **Encoding:** Serialize the object back to a `byte[]`.
+    5. **Equality Check:** Verify that the original and re-encoded byte arrays are identical.
 - [x] **Priority:** `BDT`, `EDT`, `BPG`, `EPG`, `BAG`, `EAG` (completed in `DocumentAndPageGroupRoundTripTest.java` and `EnvironmentAndResourceGroupRoundTripTest.java`).
 
 ### 1.2. Triplet Coverage Expansion [✅ Complete]
@@ -63,6 +69,7 @@ Focus on branch coverage and defensive logic.
     - [x] **Padding:** SFs with trailing bytes (completed in `SFIExtensionsAndPaddingTest.java`).
     - **Encryption:** SFs with the encryption flag set.
     - [x] **Extension:** SFs with SFI extensions (completed in `SFIExtensionsAndPaddingTest.java`).
+    - **Length Variations:** Test minimum, maximum, and invalid lengths for all variable-sized fields.
 
 ### 3.3. Error Handling Paths [✅ Complete]
 - [x] Explicitly test every `AFPParserException` branch in `AFPParser` and `StructuredFieldIntroducer` (completed in `SFIErrorHandlingTest.java`).
@@ -73,15 +80,19 @@ Focus on branch coverage and defensive logic.
 Cover remaining specialized areas and refactored logic.
 
 ### 4.1. Special Specifications
-- Implement tests for `com.mgz.afp.lineData` and `com.mgz.afp.cmoca`.
+- Implement tests for `com.mgz.afp.lineData`, `com.mgz.afp.cmoca`, `com.mgz.afp.moca`, and `com.mgz.afp.bcoca`.
 - Verify the 1:1 mapping of normative requirements in `TEST_COVERAGE_*.md` files.
 
 ### 4.2. Performance fast-paths
-- Ensure that optimized fast-paths in `AfpJacksonXmlWriter` (e.g., for `PTX` and `TRN`) are verified against the default JAXB output.
+- Ensure that optimized fast-paths in `AfpJacksonXmlWriter` (e.g., for `PTX` and `TRN`) are verified against the generic reflective paths to ensure 100% equivalence.
+- **Performance Instrumentation Coverage:** Ensure that monitoring logic (`MnemonicPerformanceMonitor`, `PTXPerformanceMonitor`) is exercised by running tests in both "Standard" and "Performance Debug" modes.
 
 ---
 
 ## Implementation Strategy
-1. **Tooling:** Use a code generation script to create boilerplate `RoundTripTest` classes for any `StructuredField` with 0% coverage.
-2. **Acceptance Integration:** Add the synthetic files generated during unit testing to the `FilesSuite` to ensure they are also exercised in end-to-end CLI tests.
-3. **Continuous Monitoring:** Update `COVERAGE_GAP.md` after every major PR to track progress against this roadmap.
+1. **Traceability:** Every new test must explicitly reference a Requirement ID from the `/specifications/markdown/` directory (e.g., `[MODCA-3-021]`).
+2. **Tooling:** Use a code generation script to create boilerplate `RoundTripTest` classes for any `StructuredField` with 0% coverage.
+3. **Acceptance Integration:** Add the synthetic files generated during unit testing to the `FilesSuite` to ensure they are also exercised in end-to-end CLI tests.
+4. **Continuous Monitoring:**
+    - Run `./gradlew jacocoTestReport` as part of every local development cycle.
+    - Update `COVERAGE_GAP.md` after every major PR to track progress against this roadmap.
