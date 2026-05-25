@@ -1,64 +1,76 @@
 package com.mgz.afp.moca;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import com.mgz.afp.exceptions.AFPParserException;
-import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
+import java.nio.charset.StandardCharsets;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MetadataObjectTest {
 
-  @Test
-  public void testDecodeMoca() throws AFPParserException {
-    // Construct a MOCA byte array
-    // MOLength: 50 + 4 = 54 (0x00000036)
-    // HeaderLength: 46 (0x002E)
-    // MOType: DES (UTF-16BE)
-    // MOFormat: AFPT (UTF-16BE)
-    // MOCompression: NONE (UTF-16BE)
-    // Reserved: 0 (8 bytes)
-    // MONameLength: 4 (0x0004)
-    // MOName: "test" (UTF-16BE)
-    // MOData: "data" (UTF-16BE)
+    @Test
+    public void testMetadataObjectDecode() throws Exception {
+        // [MOCA-4-001] [MOCA-4-002] [MOCA-4-004] [MOCA-4-006] [MOCA-4-007] [MOCA-4-008] [MOCA-4-010] [MOCA-4-014] [MOCA-4-015] [MOCA-4-018]
+        int headerBaseSize = 46;
+        String name = "TEST NAME";
+        byte[] nameBytes = name.getBytes(StandardCharsets.UTF_16BE);
+        int nameLen = nameBytes.length;
+        int headerTotalSize = headerBaseSize + nameLen;
 
-    byte[] data = new byte[54 + 4 + 8]; // Some extra for data
-    // MOLength
-    data[0] = 0x00; data[1] = 0x00; data[2] = 0x00; data[3] = 0x42; // total length 66
-    // HeaderLength
-    data[4] = 0x00; data[5] = 0x36; // 54 bytes
-    // MOType "DES"
-    byte[] des = "DES".getBytes(StandardCharsets.UTF_16BE);
-    System.arraycopy(des, 0, data, 6, 6);
-    // MOFormat "AFPT    "
-    byte[] afpt = "AFPT".getBytes(StandardCharsets.UTF_16BE);
-    System.arraycopy(afpt, 0, data, 12, 8);
-    // MOCompression "NONE                "
-    byte[] none = "NONE".getBytes(StandardCharsets.UTF_16BE);
-    System.arraycopy(none, 0, data, 20, 8);
-    for (int i=28; i<40; i++) data[i] = 0; // Padding for NONE
-    // Reserved 40-47
-    // MONameLength
-    data[48] = 0x00; data[49] = 0x08; // 8 bytes for "test" in UTF-16BE
-    // MOName "test"
-    byte[] test = "test".getBytes(StandardCharsets.UTF_16BE);
-    System.arraycopy(test, 0, data, 50, 8);
-    // MOData "data" at offset 4 + 54 = 58
-    byte[] payload = "data".getBytes(StandardCharsets.UTF_16BE);
-    System.arraycopy(payload, 0, data, 58, 8);
+        byte[] moData = "HELLO MOCA".getBytes(StandardCharsets.UTF_16BE);
+        int totalPayloadLen = 4 + headerTotalSize + moData.length;
 
-    MetadataObject mo = new MetadataObject();
-    mo.decode(data);
+        byte[] data = new byte[totalPayloadLen];
 
-    assertEquals(0x42, mo.getMoLength());
-    assertEquals(54, mo.getHeaderLength());
-    assertEquals("DES", mo.getMoType());
-    assertEquals("AFPT", mo.getMoFormat());
-    assertEquals("NONE", mo.getMoCompression());
-    assertEquals(8, mo.getMoNameLength());
-    assertEquals("test", mo.getMoName());
-    assertArrayEquals(payload, mo.getMoData());
-    assertEquals("data", mo.getMoDataText());
-  }
+        // MOLength (4B)
+        data[0] = (byte)((totalPayloadLen >> 24) & 0xFF);
+        data[1] = (byte)((totalPayloadLen >> 16) & 0xFF);
+        data[2] = (byte)((totalPayloadLen >> 8) & 0xFF);
+        data[3] = (byte)(totalPayloadLen & 0xFF);
+
+        // HeaderLength (2B)
+        data[4] = (byte)((headerTotalSize >> 8) & 0xFF);
+        data[5] = (byte)(headerTotalSize & 0xFF);
+
+        // MOType (6B): "DES"
+        System.arraycopy("DES".getBytes(StandardCharsets.UTF_16BE), 0, data, 6, 6);
+
+        // MOFormat (8B): "AFPT" + "@@" (which is X'0041 0046 0050 0054' followed by X'0040 0040'?)
+        // Spec says AFPT is X'0041 0046 0050 0054'. That's 8 bytes.
+        System.arraycopy("AFPT".getBytes(StandardCharsets.UTF_16BE), 0, data, 12, 8);
+
+        // MOCompression (20B): "NONE" + "@@@@@@@@"
+        // NONE is 4 characters (8 bytes), we need 6 more characters (12 bytes) of padding
+        System.arraycopy("NONE@@@@@@@@".getBytes(StandardCharsets.UTF_16BE), 0, data, 20, 20);
+
+        // Reserved (8B) - 40 to 47 already 0
+
+        // MONameLength (2B)
+        data[48] = (byte)((nameLen >> 8) & 0xFF);
+        data[49] = (byte)(nameLen & 0xFF);
+
+        // MOName
+        System.arraycopy(nameBytes, 0, data, 50, nameLen);
+
+        // MOData
+        System.arraycopy(moData, 0, data, 4 + headerTotalSize, moData.length);
+
+        MetadataObject mo = new MetadataObject();
+        mo.decode(data);
+
+        assertEquals(totalPayloadLen, mo.getMoLength());
+        assertEquals(headerTotalSize, mo.getHeaderLength());
+        assertEquals("DES", mo.getMoType());
+        assertEquals("AFPT", mo.getMoFormat());
+        assertEquals("NONE", mo.getMoCompression());
+        assertEquals(nameLen, mo.getMoNameLength());
+        assertEquals(name, mo.getMoName());
+        assertArrayEquals(moData, mo.getMoData());
+        assertEquals("HELLO MOCA", mo.getMoDataText());
+    }
+
+    @Test
+    public void testMetadataObjectShortData() {
+        MetadataObject mo = new MetadataObject();
+        assertThrows(AFPParserException.class, () -> mo.decode(new byte[49]));
+    }
 }

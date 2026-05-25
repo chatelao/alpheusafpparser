@@ -106,7 +106,7 @@ public class MetadataObject {
 
   @XmlElement(name = "MOType")
   public String getMoType() {
-    return moType != null ? moType.trim() : null;
+    return trimMoca(moType);
   }
 
   public void setMoType(String moType) {
@@ -115,7 +115,7 @@ public class MetadataObject {
 
   @XmlElement(name = "MOFormat")
   public String getMoFormat() {
-    return moFormat != null ? moFormat.trim() : null;
+    return trimMoca(moFormat);
   }
 
   public void setMoFormat(String moFormat) {
@@ -124,7 +124,18 @@ public class MetadataObject {
 
   @XmlElement(name = "MOCompression")
   public String getMoCompression() {
-    return moCompression != null ? moCompression.trim() : null;
+    return trimMoca(moCompression);
+  }
+
+  private String trimMoca(String s) {
+    if (s == null) {
+      return null;
+    }
+    int last = s.length();
+    while (last > 0 && (s.charAt(last - 1) <= ' ' || s.charAt(last - 1) == '@')) {
+      last--;
+    }
+    return s.substring(0, last);
   }
 
   public void setMoCompression(String moCompression) {

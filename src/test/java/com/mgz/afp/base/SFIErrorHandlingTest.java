@@ -35,7 +35,7 @@ public class SFIErrorHandlingTest {
     @Test
     public void testReachedEndOfStreamExtensionLength() {
         // [MODCA-3-021] [MODCA-3-011]
-        byte[] data = new byte[]{0x00, 0x09, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, 0x20, 0x00, 0x00};
+        byte[] data = new byte[]{0x00, 0x09, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, (byte) 0x80, 0x00, 0x00};
         InputStream is = new ByteArrayInputStream(data);
         AFPParserException ex = assertThrows(AFPParserException.class, () -> StructuredFieldIntroducer.parse(is));
         assertTrue(ex.getMessage().contains("Reached end of stream while parsing SF extension length"));
@@ -44,7 +44,7 @@ public class SFIErrorHandlingTest {
     @Test
     public void testInvalidExtensionLength() {
         // [MODCA-3-022] [MODCA-3-011]
-        byte[] data = new byte[]{0x00, 0x09, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, 0x20, 0x00, 0x00, 0x00};
+        byte[] data = new byte[]{0x00, 0x09, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, (byte) 0x80, 0x00, 0x00, 0x00};
         InputStream is = new ByteArrayInputStream(data);
         AFPParserException ex = assertThrows(AFPParserException.class, () -> StructuredFieldIntroducer.parse(is));
         assertTrue(ex.getMessage().contains("Invalid SF extension length: 0"));
@@ -53,7 +53,7 @@ public class SFIErrorHandlingTest {
     @Test
     public void testFailedToReadExtensionData() {
         // [MODCA-3-023] [MODCA-3-011]
-        byte[] data = new byte[]{0x00, 0x0A, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, 0x20, 0x00, 0x00, 0x02};
+        byte[] data = new byte[]{0x00, 0x0A, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, (byte) 0x80, 0x00, 0x00, 0x02};
         InputStream is = new ByteArrayInputStream(data);
         AFPParserException ex = assertThrows(AFPParserException.class, () -> StructuredFieldIntroducer.parse(is));
         assertTrue(ex.getMessage().contains("Failed to read SFI extension data"));
@@ -87,7 +87,7 @@ public class SFIErrorHandlingTest {
     @Test
     public void testInvalidExtensionLengthByteBuffer() {
         // [MODCA-3-022] [MODCA-3-011]
-        byte[] data = new byte[]{0x00, 0x09, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, 0x20, 0x00, 0x00, 0x00};
+        byte[] data = new byte[]{0x00, 0x09, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, (byte) 0x80, 0x00, 0x00, 0x00};
         ByteBuffer buffer = ByteBuffer.wrap(data);
         AFPParserException ex = assertThrows(AFPParserException.class, () -> StructuredFieldIntroducer.parse(buffer));
         assertTrue(ex.getMessage().contains("Invalid SF extension length: 0"));
@@ -111,7 +111,7 @@ public class SFIErrorHandlingTest {
         // [MODCA-3-011]
         InputStream is = new InputStream() {
             int count = 0;
-            byte[] header = new byte[]{0x00, 0x0A, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, 0x20, 0x00, 0x00};
+            byte[] header = new byte[]{0x00, 0x0A, (byte) 0xD3, (byte) 0xA8, (byte) 0xA8, (byte) 0x80, 0x00, 0x00};
             @Override
             public int read() throws IOException {
                 if (count < header.length) {

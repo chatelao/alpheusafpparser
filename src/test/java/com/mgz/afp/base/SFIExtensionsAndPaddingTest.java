@@ -31,7 +31,7 @@ public class SFIExtensionsAndPaddingTest {
         byte[] serialized = sfi.toBytes();
         // 2 bytes length + 3 bytes type + 1 byte flag + 2 bytes reserved + 1 byte extLen + 2 bytes extData = 11 bytes
         assertEquals(11, serialized.length);
-        assertEquals(0x20, serialized[5] & 0x20); // hasExtension flag
+        assertEquals(0x80, serialized[5] & 0x80); // hasExtension flag
         assertEquals(0x03, serialized[8]); // extLen = data len (2) + 1 = 3
 
         StructuredFieldIntroducer parsed = StructuredFieldIntroducer.parse(new ByteArrayInputStream(serialized));
@@ -65,6 +65,29 @@ public class SFIExtensionsAndPaddingTest {
         // Verify data was correctly decoded (4 bytes)
         // NOP doesn't have much to decode but we can check if it was handled
         assertEquals(16, sf.getStructuredFieldIntroducer().getSFLength());
+
+        // Round trip write
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        sf.writeAFP(baos, config);
+        assertArrayEquals(sfBytes, baos.toByteArray());
+    }
+
+    @Test
+    public void testSFISegmentation() throws IOException, AFPParserException {
+        // [MODCA-3-025]
+        // NOP SF with isSegmented flag set (0x20)
+        byte[] sfBytes = new byte[] {
+            0x5A, 0x00, 0x0C, (byte)0xD3, (byte)0xEE, (byte)0xEE, (byte)0x20, 0x00, 0x00,
+            0x01, 0x02, 0x03, 0x04
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setInputStream(new ByteArrayInputStream(sfBytes));
+        AFPParser parser = new AFPParser(config);
+
+        StructuredField sf = parser.parseNextSF();
+        assertNotNull(sf);
+        assertTrue(sf.getStructuredFieldIntroducer().isFlagSet(SFFlag.isSegmented));
 
         // Round trip write
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

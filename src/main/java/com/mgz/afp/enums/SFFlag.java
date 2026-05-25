@@ -30,10 +30,10 @@ public enum SFFlag {
     EnumSet<SFFlag> result = EnumSet.noneOf(SFFlag.class);
 
     if ((flagByte & 0x80) != 0) {
-      result.add(isSegmented);
+      result.add(hasExtension);
     }
     if ((flagByte & 0x20) != 0) {
-      result.add(hasExtension);
+      result.add(isSegmented);
     }
     if ((flagByte & 0x08) != 0) {
       result.add(isPadded);
@@ -48,10 +48,10 @@ public enum SFFlag {
   public static int toByte(EnumSet<SFFlag> flags) {
     int result = 0;
 
-    if (flags.contains(isSegmented)) {
+    if (flags.contains(hasExtension)) {
       result += 0x80;
     }
-    if (flags.contains(hasExtension)) {
+    if (flags.contains(isSegmented)) {
       result += 0x20;
     }
     if (flags.contains(isPadded)) {
