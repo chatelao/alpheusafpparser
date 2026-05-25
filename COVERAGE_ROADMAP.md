@@ -63,9 +63,9 @@ Focus on branch coverage and defensive logic.
 - ⏳ Integrate `AFPFuzzTest` (Jazzer) into the regular CI feedback loop.
 - ⏳ Use the discovered "crashers" and "new paths" to create regression tests for complex decoding logic.
 
-### 3.2. SFI Extensions & Padding 🚧
-- ⏳ Create synthetic AFP streams that exercise Structured Field Introducer (SFI) extensions:
-    - ⏳ **Segmentation:** SFs split across multiple records.
+### 3.2. SFI Extensions & Padding ✅
+- ✅ Create synthetic AFP streams that exercise Structured Field Introducer (SFI) extensions:
+    - ✅ **Segmentation:** SFs split across multiple records (completed in `SFIExtensionsAndPaddingTest.java`).
     - ✅ **Padding:** SFs with trailing bytes (completed in `SFIExtensionsAndPaddingTest.java`).
     - ⏳ **Encryption:** SFs with the encryption flag set.
     - ✅ **Extension:** SFs with SFI extensions (completed in `SFIExtensionsAndPaddingTest.java`).
@@ -76,11 +76,12 @@ Focus on branch coverage and defensive logic.
 
 ---
 
-## Phase 4: Full Compliance & Optimization (Target: 85%+) ⏳
+## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 Cover remaining specialized areas and refactored logic.
 
-### 4.1. Special Specifications ⏳
-- ⏳ Implement tests for `com.mgz.afp.lineData`, `com.mgz.afp.cmoca`, `com.mgz.afp.moca`, and `com.mgz.afp.bcoca`.
+### 4.1. Special Specifications 🚧
+- ✅ Implement tests for `com.mgz.afp.moca` (completed in `MetadataObjectTest.java` and `ObjectAndDataRoundTripTest.java`).
+- ⏳ Implement tests for `com.mgz.afp.lineData`, `com.mgz.afp.cmoca`, and `com.mgz.afp.bcoca`.
 - ⏳ Verify the 1:1 mapping of normative requirements in `TEST_COVERAGE_*.md` files.
 
 ### 4.2. Performance fast-paths ⏳

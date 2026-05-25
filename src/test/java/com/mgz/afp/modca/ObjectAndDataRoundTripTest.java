@@ -227,6 +227,46 @@ public class ObjectAndDataRoundTripTest {
     }
 
     @Test
+    public void testOCDWithMOCARoundTrip() throws Exception {
+        // [MODCA-5-304] [MOCA-4-001]
+        // OCD with MOCA payload
+        int mocaHeaderSize = 50; // DES + AFPT + NONE + Reserved + MONameLen(0)
+        byte[] mocaHeader = new byte[mocaHeaderSize];
+        // MOLength (4B) = 60
+        mocaHeader[3] = 60;
+        // HeaderLength (2B) = 46
+        mocaHeader[5] = 46;
+        // MOType "DES"
+        System.arraycopy("DES".getBytes(java.nio.charset.StandardCharsets.UTF_16BE), 0, mocaHeader, 6, 6);
+        // MOFormat "AFPT"
+        System.arraycopy("AFPT".getBytes(java.nio.charset.StandardCharsets.UTF_16BE), 0, mocaHeader, 12, 8);
+        // MOCompression "NONE"
+        System.arraycopy("NONE@@@@@@@@".getBytes(java.nio.charset.StandardCharsets.UTF_16BE), 0, mocaHeader, 20, 20);
+        // MONameLength (2B) = 0 (48-49)
+
+        byte[] mocaData = "MOCADATA".getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
+        // "MOCADATA" in UTF-16BE is 16 bytes.
+        // Header is 50 bytes. Total 66 bytes.
+        byte[] fullMoca = new byte[66];
+        // MOLength (4B) = 66
+        mocaHeader[3] = 66;
+        System.arraycopy(mocaHeader, 0, fullMoca, 0, mocaHeaderSize);
+        System.arraycopy(mocaData, 0, fullMoca, 50, mocaData.length);
+
+        // OCD SF: D3EE92. Payload len = 66. SFLen = 9 + 66 - 1 = 74 (0x004A)
+        byte[] data = new byte[1 + 8 + 66];
+        data[0] = 0x5A;
+        data[1] = 0x00;
+        data[2] = 0x4A;
+        data[3] = (byte) 0xD3;
+        data[4] = (byte) 0xEE;
+        data[5] = (byte) 0x92;
+        System.arraycopy(fullMoca, 0, data, 9, 66);
+
+        RoundTripTestUtils.assertRoundTrip(new OCD_ObjectContainerData(), data);
+    }
+
+    @Test
     public void testIOCRoundTrip() throws Exception {
         // IOC: D3A77B
         // Payload: xO(3) | yO(3) | xR(2) | yR(2) | c10_17(8) | xM(2) | yM(2) | c22_23(2) -> 24 bytes
