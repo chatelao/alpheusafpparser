@@ -57,14 +57,15 @@ Focus on branch coverage and defensive logic.
 - Integrate `AFPFuzzTest` (Jazzer) into the regular CI feedback loop.
 - Use the discovered "crashers" and "new paths" to create regression tests for complex decoding logic.
 
-### 3.2. SFI Extensions & Padding
+### 3.2. SFI Extensions & Padding [🏗️ Partially Complete]
 - Create synthetic AFP streams that exercise Structured Field Introducer (SFI) extensions:
     - **Segmentation:** SFs split across multiple records.
-    - **Padding:** SFs with trailing bytes.
+    - [x] **Padding:** SFs with trailing bytes (completed in `SFIExtensionsAndPaddingTest.java`).
     - **Encryption:** SFs with the encryption flag set.
+    - [x] **Extension:** SFs with SFI extensions (completed in `SFIExtensionsAndPaddingTest.java`).
 
-### 3.3. Error Handling Paths
-- Explicitly test every `AFPParserException` branch in `AFPParser` and `StructuredFieldIntroducer`.
+### 3.3. Error Handling Paths [✅ Complete]
+- [x] Explicitly test every `AFPParserException` branch in `AFPParser` and `StructuredFieldIntroducer` (completed in `SFIErrorHandlingTest.java`).
 
 ---
 
