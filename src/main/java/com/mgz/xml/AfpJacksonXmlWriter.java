@@ -67,12 +67,23 @@ import org.w3c.dom.Document;
  */
 public class AfpJacksonXmlWriter implements AutoCloseable {
 
-  private static final XMLOutputFactory XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
+  private static final XMLOutputFactory XOF;
+  static {
+    XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
+    XOF.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+    try {
+        // Try to disable structure validation to allow multiple roots in fragment mode
+        XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+    } catch (Exception e) {
+        // Ignore if not supported
+    }
+  }
   private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
   private static final XPathFactory XPF = XPathFactory.newInstance();
   private static final TransformerFactory TF = TransformerFactory.newInstance();
 
   private final XMLStreamWriter2 xsw;
+  private final XMLStreamWriter2 baseXsw;
   private final OutputStream os;
   private final String xpathExpression;
   private final boolean fragmentMode;
@@ -122,9 +133,14 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     // Fragment mapper to avoid repeated XML declarations
     this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper();
 
+      if (fragmentMode) {
+        // Ensure Aalto doesn't complain about multiple roots when we are just writing fragments
+        // But the generator is created from xsw, which is an Aalto XMLStreamWriter.
+      }
+
     if (this.xpathExpression == null) {
-      XMLStreamWriter2 baseWriter = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
-      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(baseWriter) : baseWriter;
+      this.baseXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
+      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
       if (!fragmentMode) {
         this.xsw.writeStartDocument("UTF-8", "1.0");
         this.xsw.writeCharacters("\n");
@@ -132,9 +148,13 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         this.xsw.writeStartElement("AFPDocument");
         this.xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         this.xsw.writeCharacters("\n");
+      } else {
+        // In fragment mode, we need a root element for StAX validation and to avoid "Trying to output second root"
+        this.xsw.writeStartElement("AfpFragments");
       }
     } else {
       this.xsw = null;
+      this.baseXsw = null;
     }
   }
 
@@ -161,7 +181,10 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   }
 
   private void writeFieldDirectly(StructuredField sf) throws Exception {
-    xsw.writeCharacters("  ");
+    if (!fragmentMode) {
+      xsw.writeCharacters("  ");
+    }
+
     if (sf instanceof NOP_NoOperation nop) {
       writeNopDirectly(nop);
     } else if (sf instanceof TLE_TagLogicalElement tle) {
@@ -190,9 +213,16 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       writeMioDirectly(mio);
     } else {
       String rootName = sf.getClass().getSimpleName();
-      fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), sf);
+      // Use Jackson to write the field.
+      // Important: we must not close the generator because it would close our long-lived xsw.
+      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+      fragmentMapper.writer().withRootName(rootName).writeValue(gen, sf);
+      // gen.flush() is called by writeValue, but it's safer to not close it.
     }
-    xsw.writeCharacters("\n");
+
+    if (!fragmentMode) {
+      xsw.writeCharacters("\n");
+    }
   }
 
   private void writeNopDirectly(NOP_NoOperation nop) throws Exception {
@@ -278,7 +308,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       xsw.writeEndElement();
     } else {
       // Fallback to Jackson for other triplets
-      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(getFragmentGenerator(), triplet);
+      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(gen, triplet);
     }
   }
 
@@ -317,15 +348,15 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     if (sequences != null) {
       boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
       for (PTOCAControlSequence cs : sequences) {
-        xsw.writeCharacters("\n    ");
+        baseXsw.writeCharacters("\n    ");
         long csStart = ptxDebug ? System.nanoTime() : 0;
         writeControlSequence(cs, "\n    ");
         if (csStart > 0) {
-          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart);
+          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, 0);
         }
       }
     }
-    xsw.writeCharacters("\n  ");
+    baseXsw.writeCharacters("\n  ");
     xsw.writeEndElement();
   }
 
@@ -333,39 +364,108 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     String childIndent = indent + "  ";
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       xsw.writeStartElement("TRN_TransparentData");
-      writeElement(childIndent, "transparentData", trn.getTransparentData());
-      writeElement(childIndent, "text", trn.getText());
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "transparentData", trn.getTransparentData());
+      writeElement(baseXsw, childIndent, "text", trn.getText());
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
       xsw.writeStartElement("GraphicCharacters");
-      writeElement(childIndent, "text", gc.getText());
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "text", gc.getText());
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
       xsw.writeStartElement("AMI_AbsoluteMoveInline");
-      writeElement(childIndent, "displacement", String.valueOf(ami.getDisplacement()));
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "displacement", String.valueOf(ami.getDisplacement()));
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
       xsw.writeStartElement("AMB_AbsoluteMoveBaseline");
-      writeElement(childIndent, "displacement", String.valueOf(amb.getDisplacement()));
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "displacement", String.valueOf(amb.getDisplacement()));
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
       xsw.writeStartElement("SCFL_SetCodedFontLocal");
-      writeElement(childIndent, "codedFontLocalID", String.valueOf(scfl.getCodedFontLocalID()));
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "codedFontLocalID", String.valueOf(scfl.getCodedFontLocalID()));
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
       xsw.writeStartElement("STO_SetTextOrientation");
-      writeElement(childIndent, "xOrientation", sto.getxOrientation().name());
-      writeElement(childIndent, "yOrientation", sto.getyOrientation().name());
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "xOrientation", sto.getxOrientation().name());
+      writeElement(baseXsw, childIndent, "yOrientation", sto.getyOrientation().name());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
+      xsw.writeStartElement("SIA_SetIntercharacterAdjustment");
+      writeElement(baseXsw, childIndent, "adjustment", String.valueOf(sia.getAdjustment()));
+      if (sia.getDirection() != null) {
+        writeElement(baseXsw, childIndent, "direction", sia.getDirection().name());
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi) {
+      xsw.writeStartElement("SVI_SetVariableSpaceCharacterIncrement");
+      writeElement(baseXsw, childIndent, "increment", String.valueOf(svi.getIncrement()));
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
+      xsw.writeStartElement("SEC_SetExtendedTextColor");
+      writeElement(baseXsw, childIndent, "colorSpace", sec.getColorSpace().name());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent1", String.valueOf(sec.getNrOfBitsComponent1()));
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent2", String.valueOf(sec.getNrOfBitsComponent2()));
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent3", String.valueOf(sec.getNrOfBitsComponent3()));
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent4", String.valueOf(sec.getNrOfBitsComponent4()));
+      if (sec.getColorValue() != null) {
+        writeElement(baseXsw, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(sec.getColorValue()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
+      xsw.writeStartElement("DIR_DrawIaxisRule");
+      writeElement(baseXsw, childIndent, "length", String.valueOf(dir.getLength()));
+      if (dir.getWidth() != null) {
+        writeElement(baseXsw, childIndent, "width", String.valueOf(dir.getWidth()));
+      }
+      if (dir.getWidthFraction() != null) {
+        writeElement(baseXsw, childIndent, "widthFraction", String.valueOf(dir.getWidthFraction()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
+      xsw.writeStartElement("DBR_DrawBaxisRule");
+      writeElement(baseXsw, childIndent, "length", String.valueOf(dbr.getLength()));
+      if (dbr.getWidth() != null) {
+        writeElement(baseXsw, childIndent, "width", String.valueOf(dbr.getWidth()));
+      }
+      if (dbr.getWidthFraction() != null) {
+        writeElement(baseXsw, childIndent, "widthFraction", String.valueOf(dbr.getWidthFraction()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.NOP_NoOperation nop) {
+      xsw.writeStartElement("NOP_NoOperation");
+      if (nop.getText() != null) {
+        writeElement(baseXsw, childIndent, "text", nop.getText());
+      }
+      if (nop.getIgnoredData() != null) {
+        writeElement(baseXsw, childIndent, "ignoredData", UtilCharacterEncoding.bytesToHexString(nop.getIgnoredData()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
+      xsw.writeStartElement("RPS_RepeatString");
+      writeElement(baseXsw, childIndent, "repeatLength", String.valueOf(rps.getRepeatLength()));
+      if (rps.getText() != null) {
+        writeElement(baseXsw, childIndent, "text", rps.getText());
+      }
+      if (rps.getRepeatData() != null) {
+        writeElement(baseXsw, childIndent, "repeatData", UtilCharacterEncoding.bytesToHexString(rps.getRepeatData()));
+      }
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else {
       // Fallback to Jackson
-      fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(getFragmentGenerator(), cs);
+      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+      fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(gen, cs);
     }
   }
 
@@ -494,7 +594,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
 
   private void writeDrawingOrder(GAD_DrawingOrder order, String indent) throws Exception {
     String rootName = order.getClass().getSimpleName();
-    fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), order);
+    ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+    fragmentMapper.writer().withRootName(rootName).writeValue(gen, order);
   }
 
   private void writeIpdDirectly(IPD_ImagePictureData ipd) throws Exception {
@@ -505,7 +606,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       for (IPD_Segment segment : segments) {
         xsw.writeCharacters(indent);
         String rootName = segment.getClass().getSimpleName();
-        fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), segment);
+        ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+        fragmentMapper.writer().withRootName(rootName).writeValue(gen, segment);
       }
     }
     xsw.writeCharacters("\n  ");
@@ -577,7 +679,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       for (IDD_SelfDefiningField sdf : idd.getSelfDefiningFields()) {
         xsw.writeCharacters(indent);
         String rootName = sdf.getClass().getSimpleName();
-        fragmentMapper.writer().withRootName(rootName).writeValue(getFragmentGenerator(), sdf);
+        ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+        fragmentMapper.writer().withRootName(rootName).writeValue(gen, sdf);
       }
     }
     xsw.writeCharacters("\n  ");
@@ -607,20 +710,18 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     xsw.writeEndElement();
   }
 
-  private ToXmlGenerator getFragmentGenerator() throws java.io.IOException {
-    if (fragmentGenerator == null) {
-      fragmentGenerator = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+
+  private void writeElement(XMLStreamWriter2 writer, String indent, String name, String value) throws Exception {
+    if (value != null) {
+      writer.writeCharacters(indent);
+      writer.writeStartElement(name);
+      writer.writeCharacters(value);
+      writer.writeEndElement();
     }
-    return fragmentGenerator;
   }
 
   private void writeElement(String indent, String name, String value) throws Exception {
-    if (value != null) {
-      xsw.writeCharacters(indent);
-      xsw.writeStartElement(name);
-      xsw.writeCharacters(value);
-      xsw.writeEndElement();
-    }
+    writeElement(xsw, indent, name, value);
   }
 
   private void writeFieldWithXpath(StructuredField sf) throws Exception {
@@ -670,6 +771,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         xsw.writeEndElement();
         xsw.writeCharacters("\n");
         xsw.writeEndDocument();
+      } else {
+        xsw.writeEndElement(); // AfpFragments
       }
       xsw.flush();
       if (!fragmentMode) {

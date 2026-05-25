@@ -201,8 +201,57 @@ public class ParallelAfpConverter {
         PTXPerformanceMonitor.merge();
       }
 
-      collector.put(sequence, baos.toByteArray());
+      byte[] fullData = baos.toByteArray();
+      // Strip <AfpFragments> and </AfpFragments>
+      byte[] stripped = stripFragments(fullData);
+      collector.put(sequence, stripped);
       return null;
+    }
+
+    private byte[] stripFragments(byte[] data) {
+      if (data == null || data.length == 0) return data;
+      String startTag = "<AfpFragments>";
+      String endTag = "</AfpFragments>";
+
+      int startIdx = -1;
+      // Search for start tag
+      for (int i = 0; i < data.length - startTag.length(); i++) {
+        boolean match = true;
+        for (int j = 0; j < startTag.length(); j++) {
+          if (data[i + j] != startTag.charAt(j)) {
+            match = false;
+            break;
+          }
+        }
+        if (match) {
+          startIdx = i + startTag.length();
+          break;
+        }
+      }
+
+      if (startIdx == -1) return data;
+
+      int endIdx = -1;
+      // Search for end tag from the end
+      for (int i = data.length - endTag.length(); i >= startIdx; i--) {
+        boolean match = true;
+        for (int j = 0; j < endTag.length(); j++) {
+          if (data[i + j] != endTag.charAt(j)) {
+            match = false;
+            break;
+          }
+        }
+        if (match) {
+          endIdx = i;
+          break;
+        }
+      }
+
+      if (endIdx == -1) return data;
+
+      byte[] result = new byte[endIdx - startIdx];
+      System.arraycopy(data, startIdx, result, 0, result.length);
+      return result;
     }
   }
 }

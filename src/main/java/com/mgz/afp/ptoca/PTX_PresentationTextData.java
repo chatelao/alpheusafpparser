@@ -76,21 +76,37 @@ public class PTX_PresentationTextData extends StructuredField {
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-    byte[] actualPayload = null;
     if (controlSequences != null) {
+      boolean ptxDebug = config.isPtxDebug() || com.mgz.util.PTXPerformanceMonitor.isEnabled();
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       for (int i = 0; i < controlSequences.size(); i++) {
         PTOCAControlSequence cs = controlSequences.get(i);
-        ByteArrayOutputStream csBaos = new ByteArrayOutputStream();
-        cs.writeAFP(csBaos, config);
-        baos.write(cs.getCsi().toBytes());
-        baos.write(csBaos.toByteArray());
+        long csStart = ptxDebug ? System.nanoTime() : 0;
+        byte[] csiBytes = cs.getCsi().toBytes();
+        baos.write(csiBytes);
+
+        if (ptxDebug && config.isPtxDebug()) {
+            // High-precision debug path: capture payload for slowest instance tracking
+            ByteArrayOutputStream csBaos = new ByteArrayOutputStream();
+            cs.writeAFP(csBaos, config);
+            byte[] payload = csBaos.toByteArray();
+            baos.write(payload);
+            com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, payload.length, payload);
+        } else {
+            // Normal optimized path
+            int oldSize = baos.size();
+            cs.writeAFP(baos, config);
+            if (csStart > 0) {
+                com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, baos.size() - oldSize, null);
+            }
+        }
       }
-      actualPayload = baos.toByteArray();
+      writeFullStructuredField(os, baos.toByteArray());
     } else if (originalPayload != null) {
-      actualPayload = originalPayload;
+      writeFullStructuredField(os, originalPayload);
+    } else {
+      writeFullStructuredField(os, (byte[]) null);
     }
-    writeFullStructuredField(os, actualPayload);
   }
 
   public List<PTOCAControlSequence> getControlSequences() {
