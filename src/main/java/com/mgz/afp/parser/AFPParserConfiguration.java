@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -84,6 +85,9 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    * @return {@link Charset} used in the AFP data stream.
    */
   public Charset getAfpCharSet() {
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      MnemonicPerformanceMonitor.recordCharset(afpCharSet);
+    }
     return afpCharSet;
   }
 
@@ -95,6 +99,9 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    */
   public void setAfpCharSet(Charset afpCharSet) {
     this.afpCharSet = afpCharSet;
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      MnemonicPerformanceMonitor.recordCharset(afpCharSet);
+    }
   }
 
   /**

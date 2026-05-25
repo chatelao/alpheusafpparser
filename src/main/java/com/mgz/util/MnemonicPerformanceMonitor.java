@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.util;
 
+import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -35,8 +36,12 @@ public class MnemonicPerformanceMonitor {
   private static volatile boolean enabled = false;
 
   private static final Map<String, MnemonicStats> globalStatsMap = new ConcurrentHashMap<>();
+  private static final Map<String, LongAdder> globalCharsetMap = new ConcurrentHashMap<>();
 
   private static final ThreadLocal<Map<String, LocalStats>> localStatsMap =
+      ThreadLocal.withInitial(HashMap::new);
+
+  private static final ThreadLocal<Map<String, Long>> localCharsetMap =
       ThreadLocal.withInitial(HashMap::new);
 
   private static final ThreadLocal<Deque<Measurement>> activeMeasurements =
@@ -91,6 +96,13 @@ public class MnemonicPerformanceMonitor {
     stats.writeTime += duration;
   }
 
+  public static void recordCharset(Charset charset) {
+    if (!enabled || charset == null) return;
+    String name = charset.name();
+    Map<String, Long> local = localCharsetMap.get();
+    local.put(name, local.getOrDefault(name, 0L) + 1);
+  }
+
   public static String extractMnemonic(Object obj) {
     if (obj == null) return null;
     if (obj instanceof String s) return extractMnemonicFromString(s);
@@ -141,6 +153,7 @@ public class MnemonicPerformanceMonitor {
    */
   public static void clear() {
     globalStatsMap.clear();
+    globalCharsetMap.clear();
   }
 
   public static long getWriteTime(String name) {
@@ -156,38 +169,59 @@ public class MnemonicPerformanceMonitor {
    */
   public static void merge() {
     Map<String, LocalStats> local = localStatsMap.get();
-    if (local.isEmpty()) return;
+    if (!local.isEmpty()) {
+      local.forEach((mnemonic, localStats) -> {
+        MnemonicStats global = globalStatsMap.computeIfAbsent(mnemonic, k -> new MnemonicStats());
+        global.parseTime.add(localStats.parseTime);
+        global.writeTime.add(localStats.writeTime);
+        global.count.add(localStats.count);
+      });
+      local.clear();
+    }
 
-    local.forEach((mnemonic, localStats) -> {
-      MnemonicStats global = globalStatsMap.computeIfAbsent(mnemonic, k -> new MnemonicStats());
-      global.parseTime.add(localStats.parseTime);
-      global.writeTime.add(localStats.writeTime);
-      global.count.add(localStats.count);
-    });
-    local.clear();
+    Map<String, Long> localCharsets = localCharsetMap.get();
+    if (!localCharsets.isEmpty()) {
+      localCharsets.forEach((name, count) -> {
+        globalCharsetMap.computeIfAbsent(name, k -> new LongAdder()).add(count);
+      });
+      localCharsets.clear();
+    }
   }
 
   public static void printSummary() {
     merge(); // Ensure all threads that called merge are included, but this only merges CURRENT thread.
     // In parallel mode, each thread should call merge() at the end of its task.
 
-    if (globalStatsMap.isEmpty()) {
-      System.out.println("No mnemonics measured.");
+    if (globalStatsMap.isEmpty() && globalCharsetMap.isEmpty()) {
+      System.out.println("No measurements collected.");
       return;
     }
 
-    System.out.println("\n### Performance Summary per Mnemonic");
+    if (!globalStatsMap.isEmpty()) {
+      System.out.println("\n### Performance Summary per Mnemonic");
     System.out.println();
     System.out.println("| Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |");
     System.out.println("| :--- | ---: | ---: | ---: | ---: |");
 
-    new TreeMap<>(globalStatsMap).forEach((mnemonic, stats) -> {
-      long parseMs = stats.parseTime.sum() / 1_000_000;
-      long writeMs = stats.writeTime.sum() / 1_000_000;
-      long totalMs = parseMs + writeMs;
-      System.out.println(String.format("| %-10s | %8d | %15d | %15d | %15d |",
-          mnemonic, stats.count.sum(), totalMs, parseMs, writeMs));
-    });
+      new TreeMap<>(globalStatsMap).forEach((mnemonic, stats) -> {
+        long parseMs = stats.parseTime.sum() / 1_000_000;
+        long writeMs = stats.writeTime.sum() / 1_000_000;
+        long totalMs = parseMs + writeMs;
+        System.out.println(String.format("| %-10s | %8d | %15d | %15d | %15d |",
+            mnemonic, stats.count.sum(), totalMs, parseMs, writeMs));
+      });
+    }
+
+    if (!globalCharsetMap.isEmpty()) {
+      System.out.println("\n### Charsets Used");
+      System.out.println();
+      System.out.println("| Charset | Count |");
+      System.out.println("| :--- | ---: |");
+      new TreeMap<>(globalCharsetMap).forEach((name, count) -> {
+        System.out.println(String.format("| %-20s | %8d |", name, count.sum()));
+      });
+    }
+
     System.out.println();
   }
 
