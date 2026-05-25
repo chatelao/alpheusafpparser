@@ -150,25 +150,89 @@ The following table summarizes the performance of the core components defined in
 
 A performance audit was conducted on a production-scale dataset consisting of multiple large AFP files. The audit utilized the `MnemonicPerformanceMonitor` to aggregate parse and write timings.
 
-### Production Dataset Metrics (Aggregated)
+### Performance Summary per Mnemonic
 
 | Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |
 | :--- | :---: | :---: | :---: | :---: |
-| **PTX** | 2,434 | 10,607 | 91 | 10,516 |
-| **MCF** | 361 | 764 | 21 | 743 |
-| **TLE** | 3,255 | 760 | 46 | 714 |
-| **IPD** | 1,953 | 237 | 45 | 192 |
-| **OBD** | 662 | 165 | 10 | 155 |
-| **OBP** | 662 | 113 | 3 | 110 |
-| **IDD** | 651 | 109 | 6 | 103 |
-| **MIO** | 651 | 85 | 4 | 81 |
+| **AMB** | 23,040 | 3 | 3 | 0 |
+| **AMI** | 23,040 | 4 | 4 | 0 |
+| **BAG** | 0 | 5 | 0 | 5 |
+| **BGR** | 0 | 0 | 0 | 0 |
+| **BIM** | 0 | 17 | 0 | 17 |
+| **BNG** | 82 | 46 | 6 | 40 |
+| **BOG** | 0 | 7 | 0 | 7 |
+| **BPG** | 0 | 5 | 0 | 5 |
+| **BPT** | 0 | 51 | 0 | 51 |
+| **DBR** | 342 | 0 | 0 | 0 |
+| **DIR** | 2,843 | 1 | 1 | 0 |
+| **EAG** | 0 | 2 | 0 | 2 |
+| **EGR** | 0 | 0 | 0 | 0 |
+| **EIM** | 0 | 1 | 0 | 1 |
+| **ENG** | 82 | 5 | 0 | 5 |
+| **EOG** | 0 | 4 | 0 | 4 |
+| **EPG** | 0 | 5 | 0 | 5 |
+| **EPT** | 0 | 37 | 0 | 37 |
+| **GAD** | 35 | 15 | 14 | 1 |
+| **GBAR** | 283 | 0 | 0 | 0 |
+| **GBSEG** | 35 | 1 | 1 | 0 |
+| **GDD** | 11 | 4 | 3 | 1 |
+| **GEAR** | 283 | 0 | 0 | 0 |
+| **GSCP** | 1,642 | 0 | 0 | 0 |
+| **IDD** | 651 | 101 | 9 | 92 |
+| **IMM** | 82 | 6 | 0 | 6 |
+| **IPD** | 1,953 | 280 | 28 | 252 |
+| **IPS** | 193 | 15 | 1 | 14 |
+| **MCF** | 361 | 742 | 59 | 683 |
+| **MIO** | 651 | 56 | 5 | 51 |
+| **MPS** | 193 | 32 | 3 | 29 |
+| **NOP** | 4,148 | 157 | 113 | 44 |
+| **OBD** | 662 | 76 | 8 | 68 |
+| **OBP** | 662 | 141 | 5 | 136 |
+| **PGD** | 361 | 58 | 3 | 55 |
+| **PTD** | 361 | 36 | 2 | 34 |
+| **PTX** | 2,434 | 9,477 | 256 | 9,221 |
+| **SCFL** | 6,814 | 3 | 3 | 0 |
+| **SEC** | 3,505 | 3 | 3 | 0 |
+| **SIA** | 425 | 0 | 0 | 0 |
+| **STO** | 1,216 | 2 | 2 | 0 |
+| **SVI** | 3,913 | 0 | 0 | 0 |
+| **TLE** | 3,255 | 1,265 | 390 | 875 |
+| **TRN** | 19,855 | 24 | 24 | 0 |
+
+### PTX Debug Performance Summary
+
+| Metric | Value |
+| :--- | :--- |
+| **Total PTX Fields** | 2,434 |
+| **Total Parse Time** | 248 ms |
+| **Total Write Time** | 9,388 ms |
+| **Total Payload Size** | 582,502 bytes |
+| **Total Ctrl Sequences** | 87,427 |
+| **Avg CS per PTX** | 35.92 |
+| **Avg Payload per PTX** | 239.32 bytes |
+
+### PTOCA Function Breakdown
+
+| Function | Count | Parse (ms) | Write (ms) | Total Payload | Avg Payload |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **AMB_AbsoluteMoveBaseline** | 23,040 | 7 | 0 | 46,080 | 2.00 |
+| **AMI_AbsoluteMoveInline** | 23,040 | 13 | 0 | 46,080 | 2.00 |
+| **DBR_DrawBaxisRule** | 342 | 0 | 0 | 1,710 | 5.00 |
+| **DIR_DrawIaxisRule** | 2,843 | 1 | 0 | 14,215 | 5.00 |
+| **NOP_NoOperation** | 2,434 | 1 | 0 | 0 | 0.00 |
+| **SCFL_SetCodedFontLocal** | 6,814 | 4 | 0 | 6,814 | 1.00 |
+| **SEC_SetExtendedTextColor** | 3,505 | 4 | 0 | 45,615 | 13.01 |
+| **SIA_SetIntercharacterAdjustment** | 425 | 0 | 0 | 883 | 2.08 |
+| **STO_SetTextOrientation** | 1,216 | 3 | 0 | 4,864 | 4.00 |
+| **SVI_SetVariableSpaceCharacterIncrement** | 3,913 | 1 | 0 | 7,826 | 2.00 |
+| **TRN_TransparentData** | 19,855 | 29 | 0 | 228,693 | 11.52 |
 
 ### Key Observations & Bottlenecks
 
-1.  **PTX Write Hotspot**: Despite existing fast-paths for some control sequences, `PTX_PresentationTextData` remains the single largest bottleneck in the writing phase, accounting for over 10 seconds of processing time.
-2.  **MCF and TLE Overhead**: `MCF` (Map Coded Font) and `TLE` (Tag Logical Element) show significant write overhead.
-3.  **Object/Data Descriptors**: `OBD`, `OBP`, `IDD`, and `MIO` represent a secondary tier of bottlenecks, likely due to repeated JAXB/Jackson reflective serialization.
-4.  **Parse vs. Write Disparity**: In all cases, the Parse phase is significantly faster than the Write phase, confirming that XML serialization is the current primary performance bottleneck.
+1.  **PTX Write Hotspot**: Despite existing fast-paths for some control sequences, `PTX_PresentationTextData` remains the single largest bottleneck in the writing phase, accounting for over 9 seconds of processing time.
+2.  **TLE and MCF Overhead**: `TLE` (Tag Logical Element) and `MCF` (Map Coded Font) show significant write overhead, with TLE now exceeding 1.2s in total time.
+3.  **Object/Data Descriptors**: `IPD`, `OBP`, `IDD`, and `OBD` represent a secondary tier of bottlenecks, likely due to repeated Jackson reflective serialization for complex descriptor fields.
+4.  **Parse vs. Write Disparity**: In all cases, the Parse phase is significantly faster than the Write phase, confirming that XML serialization (specifically for PTOCA and complex MO:DCA fields) is the primary performance bottleneck.
 
 ---
 
