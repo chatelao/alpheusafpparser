@@ -84,11 +84,21 @@ public class PTX_PresentationTextData extends StructuredField {
         long csStart = ptxDebug ? System.nanoTime() : 0;
         byte[] csiBytes = cs.getCsi().toBytes();
         baos.write(csiBytes);
-        int oldSize = baos.size();
-        cs.writeAFP(baos, config);
-        if (csStart > 0) {
-          int payloadSize = baos.size() - oldSize;
-          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, payloadSize);
+
+        if (ptxDebug && config.isPtxDebug()) {
+            // High-precision debug path: capture payload for slowest instance tracking
+            ByteArrayOutputStream csBaos = new ByteArrayOutputStream();
+            cs.writeAFP(csBaos, config);
+            byte[] payload = csBaos.toByteArray();
+            baos.write(payload);
+            com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, payload.length, payload);
+        } else {
+            // Normal optimized path
+            int oldSize = baos.size();
+            cs.writeAFP(baos, config);
+            if (csStart > 0) {
+                com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, baos.size() - oldSize, null);
+            }
         }
       }
       writeFullStructuredField(os, baos.toByteArray());

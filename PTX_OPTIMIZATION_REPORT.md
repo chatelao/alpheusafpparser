@@ -37,7 +37,15 @@ Ordered by **Cost/Value Ratio** (highest value first).
 
 ## 3. Implementation Plan
 
-The immediate focus will be on the highest value optimizations:
-1.  **Manual StAX Fast-Paths**: Adding `SEC`, `SVI`, `DIR`, and `NOP` to `AfpJacksonXmlWriter`.
-2.  **Telemetry Guarding**: Minimizing `nanoTime()` overhead.
-3.  **Round-Trip Optimization**: Improving `writeAFP` in `PTX_PresentationTextData`.
+The following optimizations have been implemented:
+
+1.  **Manual StAX Fast-Paths**: Added optimized serialization for `SEC`, `SVI`, `DIR`, `DBR`, `NOP`, `RPS`, and `SIA` in `AfpJacksonXmlWriter`. This bypasses Jackson's reflective overhead for high-frequency PTOCA elements.
+2.  **Selective Instrumentation**: Modified `AfpJacksonXmlWriter` to bypass the `MnemonicXMLStreamWriter` decorator for PTOCA sub-elements. This eliminates thousands of redundant string manipulations and thread-local lookups, significantly reducing instrumentation jitter.
+3.  **Fragment Wrapping for Parallelism**: Implemented `<AfpFragments>` wrapping and post-processing stripping in `ParallelAfpConverter`. This resolves the "Trying to output second root" error, allowing full multi-core conversion for Jackson-heavy documents.
+4.  **Advanced Performance Telemetry**: Enhanced `PTXPerformanceMonitor` to track maximum write times and capture the hex payload of the slowest instances. This provides actionable data for debugging production performance regressions.
+5.  **Round-Trip Optimization**: Refactored `PTX_PresentationTextData.writeAFP` to use a single shared buffer, reducing allocation pressure during AFP-to-AFP serialization.
+
+### Results:
+- **Sequential Jackson**: Significant reduction in PTX write time.
+- **Parallel Jackson**: Fixed and fully functional, matching sequential output bit-for-bit (after fragment stripping).
+- **Instrumentation Overhead**: Minimized for high-frequency PTOCA data.
