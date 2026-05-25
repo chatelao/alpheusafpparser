@@ -10,8 +10,13 @@ The **Transparent Data (TRN)** control sequence contains a sequence of code poin
 | 0 | CODE | PREFIX | X'2B' | Control Sequence Prefix |
 | 1 | CODE | CLASS | X'D3' | Control sequence class |
 | 2 | UBIN | LENGTH | 2–255 | Control sequence length |
-| 3 | CODE | TYPE | X'DA' – X'DB' | Control sequence function type |
+| 3 | CODE | TYPE | X'DA', X'DB' | Control sequence function type (X'DA' = Unchained, X'DB' = Chained) |
 | 4–256 | CHAR | TRNDATA | N/A | Transparent data |
+
+### Chaining (PTOCA Reference [PTOCA-4-046])
+Control sequences may be chained together. Chaining is signaled by the presence of an odd function type (low-order bit is B'1').
+- **Unchained (X'DA')**: The control sequence begins with the standard 4-byte introducer (Prefix, Class, Length, Type).
+- **Chained (X'DB')**: The control sequence follows a preceding chained control sequence and begins with a 2-byte introducer (Length, Type), omitting the Prefix and Class bytes.
 
 ### Semantics
 - Specifies a string of code points to be processed as graphic characters.
