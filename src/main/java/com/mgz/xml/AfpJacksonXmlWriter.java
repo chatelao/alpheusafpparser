@@ -44,6 +44,7 @@ import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.triplets.Triplet;
+import com.mgz.util.EbcdicUtf8Encoder;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.OutputStream;
@@ -364,8 +365,23 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     String childIndent = indent + "  ";
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       xsw.writeStartElement("TRN_TransparentData");
-      writeElement(baseXsw, childIndent, "transparentData", trn.getTransparentData());
-      writeElement(baseXsw, childIndent, "text", trn.getText());
+      if (trn.rawData != null) {
+        xsw.flush();
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("transparentData");
+        baseXsw.flush();
+        EbcdicUtf8Encoder.writeXmlText(os, trn.rawData, trn.rawOffset, trn.rawLength, trn.rawCharset, false);
+        baseXsw.writeEndElement();
+
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("text");
+        baseXsw.flush();
+        EbcdicUtf8Encoder.writeXmlText(os, trn.rawData, trn.rawOffset, trn.rawLength, trn.rawCharset, true);
+        baseXsw.writeEndElement();
+      } else {
+        writeElement(baseXsw, childIndent, "transparentData", trn.getTransparentData());
+        writeElement(baseXsw, childIndent, "text", trn.getText());
+      }
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
