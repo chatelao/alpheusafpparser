@@ -50,6 +50,8 @@ public class JacksonXmlMapperProvider {
 
     FRAGMENT_MAPPER = XML_MAPPER.copy();
     FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
+    // Avoid "Trying to output second root" in fragment mode
+    FRAGMENT_MAPPER.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, true);
   }
 
   /**
