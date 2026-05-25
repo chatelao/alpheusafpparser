@@ -1395,6 +1395,11 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     String transparentData;
     byte[] transparentDataEBCDIC;
 
+    public byte[] rawData;
+    public int rawOffset;
+    public int rawLength;
+    public Charset rawCharset;
+
     volatile boolean isUseEBCDICData;
 
     @Override
@@ -1402,6 +1407,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       super.reset();
       transparentData = null;
       transparentDataEBCDIC = null;
+      rawData = null;
+      rawOffset = 0;
+      rawLength = 0;
+      rawCharset = null;
       isUseEBCDICData = false;
     }
 
@@ -1418,6 +1427,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
         transparentData = UtilCharacterEncoding.decodeEbcdic(sfData, offset, length, config);
+        rawData = sfData;
+        rawOffset = offset;
+        rawLength = actualLength;
+        rawCharset = config.getAfpCharSet();
         if (isUseEBCDICData) {
           transparentDataEBCDIC = new byte[actualLength];
           System.arraycopy(sfData, offset, transparentDataEBCDIC, 0, actualLength);
@@ -1427,6 +1440,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       } else {
         transparentData = null;
         transparentDataEBCDIC = null;
+        rawData = null;
+        rawOffset = 0;
+        rawLength = 0;
+        rawCharset = null;
       }
     }
 
@@ -1438,6 +1455,8 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       if (isUseEBCDICData && transparentDataEBCDIC != null) {
         os.write(transparentDataEBCDIC);
+      } else if (rawData != null && (transparentData == null || transparentData.equals(UtilCharacterEncoding.decodeEbcdic(rawData, rawOffset, rawLength, config)))) {
+        os.write(rawData, rawOffset, rawLength);
       } else if (transparentData != null) {
         os.write(transparentData.getBytes(config.getAfpCharSet()));
       }
