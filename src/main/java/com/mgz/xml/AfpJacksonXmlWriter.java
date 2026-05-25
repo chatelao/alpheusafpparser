@@ -353,7 +353,14 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         long csStart = ptxDebug ? System.nanoTime() : 0;
         writeControlSequence(cs, "\n    ");
         if (csStart > 0) {
-          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, 0);
+          int payloadSize = 0;
+          if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
+            payloadSize = gc.getData() != null ? gc.getData().length : 0;
+          } else if (cs.getCsi() != null) {
+            payloadSize = Math.max(0, cs.getCsi().getLength() - 2);
+          }
+          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(
+              cs.getClass().getSimpleName(), System.nanoTime() - csStart, payloadSize);
         }
       }
     }

@@ -18,7 +18,7 @@ public class AfpStreamingXmlWriterTest {
         }
         String output = baos.toString();
         // The output uses xsi:type and lowercase name for the tag because of how JAXB is configured or defaults.
-        assertTrue(output.contains("<AFPDocument>"), "Should contain AFPDocument");
+        assertTrue(output.contains("<AFPDocument"), "Should contain AFPDocument");
         assertTrue(output.contains("<BDT_BeginDocument"), "Should contain BDT_BeginDocument");
         assertTrue(output.contains("<name>TESTDOC </name>"), "Should contain name tag");
     }

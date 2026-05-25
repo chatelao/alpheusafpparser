@@ -35,6 +35,7 @@ public class MnemonicXMLStreamWriter extends StreamWriter2Delegate {
 
   public MnemonicXMLStreamWriter(XMLStreamWriter2 delegate) {
     super(delegate);
+    this.mDelegate2 = delegate;
   }
 
   @Override
