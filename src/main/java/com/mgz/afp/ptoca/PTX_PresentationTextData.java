@@ -76,27 +76,21 @@ public class PTX_PresentationTextData extends StructuredField {
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+    byte[] actualPayload = null;
     if (controlSequences != null) {
-      boolean ptxDebug = config.isPtxDebug() || com.mgz.util.PTXPerformanceMonitor.isEnabled();
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       for (int i = 0; i < controlSequences.size(); i++) {
         PTOCAControlSequence cs = controlSequences.get(i);
-        long csStart = ptxDebug ? System.nanoTime() : 0;
-        byte[] csiBytes = cs.getCsi().toBytes();
-        baos.write(csiBytes);
-        int oldSize = baos.size();
-        cs.writeAFP(baos, config);
-        if (csStart > 0) {
-          int payloadSize = baos.size() - oldSize;
-          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, payloadSize);
-        }
+        ByteArrayOutputStream csBaos = new ByteArrayOutputStream();
+        cs.writeAFP(csBaos, config);
+        baos.write(cs.getCsi().toBytes());
+        baos.write(csBaos.toByteArray());
       }
-      writeFullStructuredField(os, baos.toByteArray());
+      actualPayload = baos.toByteArray();
     } else if (originalPayload != null) {
-      writeFullStructuredField(os, originalPayload);
-    } else {
-      writeFullStructuredField(os, (byte[]) null);
+      actualPayload = originalPayload;
     }
+    writeFullStructuredField(os, actualPayload);
   }
 
   public List<PTOCAControlSequence> getControlSequences() {
