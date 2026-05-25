@@ -36,6 +36,8 @@ public class MnemonicPerformanceMonitor {
 
   private static final Map<String, MnemonicStats> globalStatsMap = new ConcurrentHashMap<>();
 
+  private static final Map<String, String> mnemonicCache = new ConcurrentHashMap<>();
+
   private static final ThreadLocal<Map<String, LocalStats>> localStatsMap =
       ThreadLocal.withInitial(HashMap::new);
 
@@ -94,7 +96,16 @@ public class MnemonicPerformanceMonitor {
   public static String extractMnemonic(Object obj) {
     if (obj == null) return null;
     if (obj instanceof String s) return extractMnemonicFromString(s);
-    return extractMnemonicFromClassName(obj.getClass().getName());
+
+    String className = obj.getClass().getName();
+    String cached = mnemonicCache.get(className);
+    if (cached != null) {
+      return cached.isEmpty() ? null : cached;
+    }
+
+    String mnemonic = extractMnemonicFromClassName(className);
+    mnemonicCache.put(className, mnemonic != null ? mnemonic : "");
+    return mnemonic;
   }
 
   private static String extractMnemonicFromClassName(String className) {
@@ -110,6 +121,17 @@ public class MnemonicPerformanceMonitor {
   private static String extractMnemonicFromString(String name) {
     if (name == null || name.isEmpty()) return null;
 
+    String cached = mnemonicCache.get(name);
+    if (cached != null) {
+      return cached.isEmpty() ? null : cached;
+    }
+
+    String mnemonic = doExtractMnemonicFromString(name);
+    mnemonicCache.put(name, mnemonic != null ? mnemonic : "");
+    return mnemonic;
+  }
+
+  private static String doExtractMnemonicFromString(String name) {
     int underscorePos = name.indexOf('_');
     if (underscorePos != -1) {
       String prefix = name.substring(0, underscorePos);

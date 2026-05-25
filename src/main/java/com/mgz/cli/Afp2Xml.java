@@ -24,6 +24,7 @@ import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.xml.AfpStreamingXmlWriter;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -181,11 +182,15 @@ public class Afp2Xml {
         var hasErrors = new AtomicBoolean(false);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         try {
+          final int totalThreads = threadCount;
+          final boolean finalParallel = parallel;
+
           for (var f : files) {
             final String finalXpath = xpathExpression;
             final boolean finalJackson = useJackson;
             final boolean finalPtxDebug = ptxDebug;
             final String finalOutputPath = outputPath;
+
             executor.submit(() -> {
               var outputFileName = f.getName() + extension;
               File outputFile;
@@ -195,17 +200,25 @@ public class Afp2Xml {
                 outputFile = new File(f.getParentFile(), outputFileName);
               }
 
+              // Distribute threads: if we have more cores than files, allow internal parallelism
+              int threadsPerFile = 0;
+              boolean useInternalParallel = finalParallel;
+              if (finalParallel) {
+                  threadsPerFile = Math.max(1, totalThreads / files.length);
+              }
+
               try {
                 if ("-".equals(finalOutputPath)) {
                   var baos = new java.io.ByteArrayOutputStream();
-                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug, false, 0);
+                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile);
                   synchronized (System.out) {
                     baos.writeTo(System.out);
                     System.out.flush();
                   }
                 } else {
-                  try (var fos = new FileOutputStream(outputFile)) {
-                    convertToXml(f, fos, finalXpath, finalJackson, finalPtxDebug, false, 0);
+                  try (var fos = new FileOutputStream(outputFile);
+                       var bos = new BufferedOutputStream(fos)) {
+                    convertToXml(f, bos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile);
                   }
                   System.out.println("Export successful: " + outputFile.getPath());
                 }
@@ -232,12 +245,15 @@ public class Afp2Xml {
         return hasErrors.get() ? 1 : 0;
       } else {
         if ("-".equals(outputPath)) {
-          convertToXml(input, System.out, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
+          var bos = new BufferedOutputStream(System.out);
+          convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
+          bos.flush();
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
-          try (var fos = new FileOutputStream(outputFile)) {
-            convertToXml(input, fos, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
+          try (var fos = new FileOutputStream(outputFile);
+               var bos = new BufferedOutputStream(fos)) {
+            convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
           }
           System.out.println("Export successful: " + outputFile.getPath());
         }
