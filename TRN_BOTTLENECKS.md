@@ -47,6 +47,76 @@ Control sequences may be chained together. Chaining is signaled by the presence 
 - Implements a manual StAX-based writer for `TRN_TransparentData` to avoid Jackson reflection overhead.
 - Directly writes `transparentData` and `text` (sanitized) elements to the `XMLStreamWriter`.
 
+### Charset Lifecycle and Logic
+The processing of text within TRN sequences follows a stateful lifecycle from the raw AFP stream to the final XML output.
+
+#### 1. Charset Definition
+The active character set is managed by `AFPParserConfiguration`:
+- **Default**: `Cp500` (International EBCDIC).
+- **Resolution**: Mapped via `MCF` (Map Coded Font) structured fields using Local IDs (LID).
+- **Activation**: Switched dynamically via the `SCFL_SetCodedFontLocal` control sequence within a PTX field.
+
+#### 2. Inbound Encoding (AFP to Java)
+- **Decoding**: Handled by `UtilCharacterEncoding.decodeEbcdic`.
+- **Optimization**: Uses static lookup tables for `Cp500` and `Cp273` to bypass Java NIO overhead.
+- **Storage**: Decoded UTF-16 strings are stored in the `transparentData` field.
+
+#### 3. Outbound Decoding (Java to XML)
+- **Sanitization**: `UtilCharacterEncoding.sanitizeForXml` replaces invalid XML 1.0 code points (e.g., EBCDIC control chars < 0x20) with a space (`0x20`).
+- **Output**: The writer outputs both raw `<transparentData>` and sanitized `<text>` elements.
+
+#### Logic Flow Diagram
+```plantuml
+@startuml
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+box "AFP Source" #LightBlue
+    participant "AFP Stream" as AFP
+end box
+
+box "Parser Logic (PTX/TRN)" #White
+    participant "SCFL Control" as SCFL
+    participant "TRN_TransparentData" as TRN
+    participant "AFPParserConfiguration" as Config
+    participant "UtilCharacterEncoding" as Util
+end box
+
+box "Output Context" #LightGreen
+    participant "Java String" as Java
+    participant "XML Stream" as XML
+end box
+
+== Charset Definition ==
+
+AFP -> SCFL : Encountered in PTX
+SCFL -> Config : getCharsetForLID(id)
+Config -> Config : setAfpCharSet(Charset)
+
+== Inbound Encoding (AFP to String) ==
+
+AFP -> TRN : decodeAFP(sfData)
+TRN -> Util : decodeEbcdic(bytes, config.getAfpCharSet())
+alt Optimized Path (Cp500/Cp273)
+    Util -> Util : Array Lookup (EBCDIC_CP500_TO_UTF8)
+else Standard Path
+    Util -> Java : new String(bytes, Charset)
+end
+Util -> TRN : return decodedString
+TRN -> Java : Store in 'transparentData' field
+
+== Outbound Decoding (String to XML) ==
+
+Java -> TRN : getText()
+TRN -> Util : sanitizeForXml(transparentData)
+Util -> Util : Filter invalid XML 1.0 chars\n(Replace with ' ')
+Util -> TRN : return sanitizedString
+TRN -> XML : write <transparentData> (Raw)
+TRN -> XML : write <text> (Sanitized)
+
+@enduml
+```
+
 ---
 
 ## 3. Speed Bottlenecks
