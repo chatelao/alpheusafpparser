@@ -42,6 +42,7 @@ public class PTXPerformanceMonitor {
   private static final Map<String, LongAdder> ptocaFunctionParseTimes = new ConcurrentHashMap<>();
   private static final Map<String, LongAdder> ptocaFunctionWriteTimes = new ConcurrentHashMap<>();
   private static final Map<String, LongAdder> ptocaFunctionMaxWriteTimes = new ConcurrentHashMap<>();
+  private static final Map<String, String> ptocaFunctionMaxPayloads = new ConcurrentHashMap<>();
   private static final Map<String, LongAdder> ptocaFunctionPayloadSizes = new ConcurrentHashMap<>();
 
   private static final ThreadLocal<LocalPtxStats> localStats = ThreadLocal.withInitial(LocalPtxStats::new);
@@ -77,12 +78,19 @@ public class PTXPerformanceMonitor {
   }
 
   public static void recordPtocaWrite(String functionName, long durationNs, int payloadSize) {
+    recordPtocaWrite(functionName, durationNs, payloadSize, null);
+  }
+
+  public static void recordPtocaWrite(String functionName, long durationNs, int payloadSize, byte[] payload) {
     if (!enabled) return;
     LocalPtocaStats stats = localStats.get().ptocaStats.computeIfAbsent(functionName, k -> new LocalPtocaStats());
     stats.writeTime += durationNs;
     stats.payloadSize += payloadSize;
     if (durationNs > stats.maxWriteTime) {
       stats.maxWriteTime = durationNs;
+      if (payload != null) {
+        stats.maxPayload = UtilCharacterEncoding.bytesToHexString(payload);
+      }
     }
   }
 
@@ -109,11 +117,13 @@ public class PTXPerformanceMonitor {
         if (v == null) {
           v = new LongAdder();
           v.add(stats.maxWriteTime);
+          if (stats.maxPayload != null) ptocaFunctionMaxPayloads.put(name, stats.maxPayload);
           return v;
         }
         if (stats.maxWriteTime > v.sum()) {
           v.reset();
           v.add(stats.maxWriteTime);
+          if (stats.maxPayload != null) ptocaFunctionMaxPayloads.put(name, stats.maxPayload);
         }
         return v;
       });
@@ -146,17 +156,19 @@ public class PTXPerformanceMonitor {
     if (!ptocaFunctionCounts.isEmpty()) {
       System.out.println("\n#### PTOCA Function Breakdown");
       System.out.println();
-      System.out.println(String.format("| %-30s | %10s | %12s | %12s | %12s | %15s | %15s |", "Function", "Count", "Parse (ms)", "Write (ms)", "Max Write(ms)", "Total Payload", "Avg Payload"));
-      System.out.println("| :--- | ---: | ---: | ---: | ---: | ---: | ---: |");
+      System.out.println(String.format("| %-30s | %10s | %12s | %12s | %12s | %15s | %15s | %s |", "Function", "Count", "Parse (ms)", "Write (ms)", "Max Write(ms)", "Total Payload", "Avg Payload", "Slowest Payload (Hex)"));
+      System.out.println("| :--- | ---: | ---: | ---: | ---: | ---: | ---: | :--- |");
       new TreeMap<>(ptocaFunctionCounts).forEach((name, fCount) -> {
         long countValue = fCount.sum();
         long pTime = ptocaFunctionParseTimes.getOrDefault(name, new LongAdder()).sum();
         long wTime = ptocaFunctionWriteTimes.getOrDefault(name, new LongAdder()).sum();
         long maxWTime = ptocaFunctionMaxWriteTimes.getOrDefault(name, new LongAdder()).sum();
         long payload = ptocaFunctionPayloadSizes.getOrDefault(name, new LongAdder()).sum();
+        String maxPayload = ptocaFunctionMaxPayloads.getOrDefault(name, "N/A");
+        if (maxPayload.length() > 50) maxPayload = maxPayload.substring(0, 47) + "...";
         double avgPayload = countValue > 0 ? (double) payload / countValue : 0;
-        System.out.println(String.format("| %-30s | %10d | %12d | %12d | %12d | %15d | %15.2f |",
-            name, countValue, pTime / 1_000_000, wTime / 1_000_000, maxWTime / 1_000_000, payload, avgPayload));
+        System.out.println(String.format("| %-30s | %10d | %12d | %12d | %12d | %15d | %15.2f | %s |",
+            name, countValue, pTime / 1_000_000, wTime / 1_000_000, maxWTime / 1_000_000, payload, avgPayload, maxPayload));
       });
     }
     System.out.println();
@@ -185,6 +197,7 @@ public class PTXPerformanceMonitor {
     long parseTime = 0;
     long writeTime = 0;
     long maxWriteTime = 0;
+    String maxPayload = null;
     long payloadSize = 0;
   }
 }

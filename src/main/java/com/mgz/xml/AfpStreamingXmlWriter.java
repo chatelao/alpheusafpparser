@@ -102,6 +102,8 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
         this.xsw.writeStartElement("AFPDocument");
         this.xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         this.xsw.writeCharacters("\n");
+      } else {
+        this.xsw.writeStartElement("AfpFragments");
       }
     } else {
       this.xsw = null;
@@ -203,6 +205,8 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
         xsw.writeEndElement();
         xsw.writeCharacters("\n");
         xsw.writeEndDocument();
+      } else {
+        xsw.writeEndElement();
       }
       xsw.flush();
       if (!fragmentMode) {
