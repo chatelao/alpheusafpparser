@@ -44,7 +44,6 @@ import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.triplets.Triplet;
-import com.mgz.util.EbcdicUtf8Encoder;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.OutputStream;
@@ -364,48 +363,33 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   private void writeControlSequence(PTOCAControlSequence cs, String indent) throws Exception {
     String childIndent = indent + "  ";
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
-      baseXsw.writeStartElement("TRN_TransparentData");
-      if (trn.rawData != null) {
-        xsw.flush();
-        baseXsw.writeCharacters(childIndent);
-        baseXsw.writeStartElement("transparentData");
-        baseXsw.flush();
-        EbcdicUtf8Encoder.writeXmlText(os, trn.rawData, trn.rawOffset, trn.rawLength, trn.rawCharset, false);
-        baseXsw.writeEndElement();
-
-        baseXsw.writeCharacters(childIndent);
-        baseXsw.writeStartElement("text");
-        baseXsw.flush();
-        EbcdicUtf8Encoder.writeXmlText(os, trn.rawData, trn.rawOffset, trn.rawLength, trn.rawCharset, true);
-        baseXsw.writeEndElement();
-      } else {
-        writeElement(baseXsw, childIndent, "transparentData", trn.getTransparentData());
-        writeElement(baseXsw, childIndent, "text", trn.getText());
-      }
+      xsw.writeStartElement("TRN_TransparentData");
+      writeElement(baseXsw, childIndent, "transparentData", trn.getTransparentData());
+      writeElement(baseXsw, childIndent, "text", trn.getText());
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
-      baseXsw.writeStartElement("GraphicCharacters");
+      xsw.writeStartElement("GraphicCharacters");
       writeElement(baseXsw, childIndent, "text", gc.getText());
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
-      baseXsw.writeStartElement("AMI_AbsoluteMoveInline");
+      xsw.writeStartElement("AMI_AbsoluteMoveInline");
       writeElement(baseXsw, childIndent, "displacement", String.valueOf(ami.getDisplacement()));
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
-      baseXsw.writeStartElement("AMB_AbsoluteMoveBaseline");
+      xsw.writeStartElement("AMB_AbsoluteMoveBaseline");
       writeElement(baseXsw, childIndent, "displacement", String.valueOf(amb.getDisplacement()));
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
-      baseXsw.writeStartElement("SCFL_SetCodedFontLocal");
+      xsw.writeStartElement("SCFL_SetCodedFontLocal");
       writeElement(baseXsw, childIndent, "codedFontLocalID", String.valueOf(scfl.getCodedFontLocalID()));
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
-      baseXsw.writeStartElement("STO_SetTextOrientation");
+      xsw.writeStartElement("STO_SetTextOrientation");
       if (sto.getxOrientation() != null) {
         writeElement(baseXsw, childIndent, "xOrientation", sto.getxOrientation().name());
       }
@@ -413,22 +397,22 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         writeElement(baseXsw, childIndent, "yOrientation", sto.getyOrientation().name());
       }
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
-      baseXsw.writeStartElement("SIA_SetIntercharacterAdjustment");
+      xsw.writeStartElement("SIA_SetIntercharacterAdjustment");
       writeElement(baseXsw, childIndent, "adjustment", String.valueOf(sia.getAdjustment()));
       if (sia.getDirection() != null) {
         writeElement(baseXsw, childIndent, "direction", sia.getDirection().name());
       }
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi) {
-      baseXsw.writeStartElement("SVI_SetVariableSpaceCharacterIncrement");
+      xsw.writeStartElement("SVI_SetVariableSpaceCharacterIncrement");
       writeElement(baseXsw, childIndent, "increment", String.valueOf(svi.getIncrement()));
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
-      baseXsw.writeStartElement("SEC_SetExtendedTextColor");
+      xsw.writeStartElement("SEC_SetExtendedTextColor");
       writeElement(baseXsw, childIndent, "colorSpace", sec.getColorSpace().name());
       writeElement(baseXsw, childIndent, "nrOfBitsComponent1", String.valueOf(sec.getNrOfBitsComponent1()));
       writeElement(baseXsw, childIndent, "nrOfBitsComponent2", String.valueOf(sec.getNrOfBitsComponent2()));
@@ -438,9 +422,9 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         writeElement(baseXsw, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(sec.getColorValue()));
       }
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
-      baseXsw.writeStartElement("DIR_DrawIaxisRule");
+      xsw.writeStartElement("DIR_DrawIaxisRule");
       writeElement(baseXsw, childIndent, "length", String.valueOf(dir.getLength()));
       if (dir.getWidth() != null) {
         writeElement(baseXsw, childIndent, "width", String.valueOf(dir.getWidth()));
@@ -449,9 +433,9 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         writeElement(baseXsw, childIndent, "widthFraction", String.valueOf(dir.getWidthFraction()));
       }
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
-      baseXsw.writeStartElement("DBR_DrawBaxisRule");
+      xsw.writeStartElement("DBR_DrawBaxisRule");
       writeElement(baseXsw, childIndent, "length", String.valueOf(dbr.getLength()));
       if (dbr.getWidth() != null) {
         writeElement(baseXsw, childIndent, "width", String.valueOf(dbr.getWidth()));
@@ -460,9 +444,9 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         writeElement(baseXsw, childIndent, "widthFraction", String.valueOf(dbr.getWidthFraction()));
       }
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.NOP_NoOperation nop) {
-      baseXsw.writeStartElement("NOP_NoOperation");
+      xsw.writeStartElement("NOP_NoOperation");
       if (nop.getText() != null) {
         writeElement(baseXsw, childIndent, "text", nop.getText());
       }
@@ -470,9 +454,9 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         writeElement(baseXsw, childIndent, "ignoredData", UtilCharacterEncoding.bytesToHexString(nop.getIgnoredData()));
       }
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
-      baseXsw.writeStartElement("RPS_RepeatString");
+      xsw.writeStartElement("RPS_RepeatString");
       writeElement(baseXsw, childIndent, "repeatLength", String.valueOf(rps.getRepeatLength()));
       if (rps.getText() != null) {
         writeElement(baseXsw, childIndent, "text", rps.getText());
@@ -481,10 +465,10 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
         writeElement(baseXsw, childIndent, "repeatData", UtilCharacterEncoding.bytesToHexString(rps.getRepeatData()));
       }
       baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
+      xsw.writeEndElement();
     } else {
       // Fallback to Jackson
-      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(baseXsw);
+      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
       fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(gen, cs);
     }
   }

@@ -4,7 +4,6 @@ This document tracks the implementation status of performance optimizations for 
 
 ## Status Summary (May 2026)
 - **Bottleneck Analysis:** ✅ Completed (Audit 3)
-- **Regression Monitoring:** ✅ Completed (Audit 4 - 2108 PTX / 60877 CS)
 - **High-Frequency Fast-Paths:** ✅ Completed
 - **Instrumentation Optimization:** ✅ Completed
 - **Parallel conversion Fix:** ✅ Completed
