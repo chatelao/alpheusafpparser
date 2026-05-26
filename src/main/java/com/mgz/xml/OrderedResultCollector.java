@@ -32,6 +32,8 @@ public class OrderedResultCollector {
   private final OutputStream out;
   private final TreeMap<Integer, byte[]> buffer = new TreeMap<>();
   private int nextSequence = 0;
+  private long totalBufferedSize = 0;
+  private final long maxBufferSize = 64 * 1024 * 1024; // 64MB
 
   /**
    * Constructs an OrderedResultCollector.
@@ -50,13 +52,30 @@ public class OrderedResultCollector {
    * @throws IOException if writing to the output stream fails
    */
   public synchronized void put(int sequence, byte[] data) throws IOException {
+    while (totalBufferedSize + data.length > maxBufferSize && sequence != nextSequence) {
+      try {
+        wait();
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        throw new IOException("Interrupted while waiting for buffer space", e);
+      }
+    }
+
     buffer.put(sequence, data);
+    totalBufferedSize += data.length;
+
+    boolean flushed = false;
     while (!buffer.isEmpty() && buffer.firstKey() == nextSequence) {
       byte[] fragment = buffer.remove(nextSequence);
       out.write(fragment);
+      totalBufferedSize -= fragment.length;
       nextSequence++;
+      flushed = true;
     }
-    out.flush();
+    if (flushed) {
+      out.flush();
+      notifyAll();
+    }
   }
 
   /**
