@@ -23,10 +23,14 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
 
 ## Phase 3: Model Refactoring ⏳
 - [ ] Remove all `javax.xml.bind` imports and annotations from the codebase.
+    - [x] Migrated `com.mgz.afp.ptoca`
+    - [x] Migrated `com.mgz.afp.modca_L`
+    - [x] Migrated `com.mgz.afp.moca`
+    - [x] Migrated `com.mgz.afp.bcoca`
 - [ ] Standardize model properties for Jackson:
-    - Replace `@XmlTransient` with `@JsonIgnore`.
-    - Replace `@XmlElement(name = "...")` with `@JacksonXmlProperty(localName = "...")`.
-    - Replace `@XmlAnyElement(lax = true)` with `@JacksonXmlProperty` + custom serializers if needed for polymorphic lists.
+    - [x] Replace `@XmlTransient` with `@JsonIgnore`.
+    - [x] Replace `@XmlElement(name = "...")` with `@JacksonXmlProperty(localName = "...")`.
+    - [x] Replace `@XmlAnyElement(lax = true)` with `@JacksonXmlProperty` + custom serializers if needed for polymorphic lists.
 - [ ] Remove `JaxbAnnotationModule` from `JacksonXmlMapperProvider`.
 
 ## Phase 4: Test Suite Modernization 🚧
