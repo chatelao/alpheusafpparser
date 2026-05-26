@@ -26,7 +26,7 @@ Address the memory and synchronization bottleneck when converting multiple files
 Enhance the efficiency of fragment flushing in both sequential and parallel modes.
 
 - ⏳ **Enhance `OrderedResultCollector`**:
-  - ⏳ **ByteBuffer-based API**: Refactor orchestrators to accept `ByteBuffer` instead of `byte[]`.
+  - ✅ **ByteBuffer-based API**: Refactor orchestrators to accept `ByteBuffer` instead of `byte[]`.
   - ⏳ **Fragment Batching**: Logic to group consecutive ready fragments.
   - ⏳ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
 - ⏳ **Direct Buffer Integration**:
