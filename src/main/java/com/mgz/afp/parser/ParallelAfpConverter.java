@@ -27,6 +27,7 @@ import com.mgz.xml.AfpJacksonXmlWriter;
 import com.mgz.xml.AfpStreamingXmlWriter;
 import com.mgz.xml.OrderedResultCollector;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -88,7 +89,12 @@ public class ParallelAfpConverter {
     long fileSize = (buffer != null) ? buffer.limit() : asyncChannel.size();
     long firstPageOffset = pageOffsets.isEmpty() ? fileSize : pageOffsets.get(0);
 
-    OrderedResultCollector collector = new OrderedResultCollector(out);
+    OrderedResultCollector collector;
+    if (out instanceof FileOutputStream fos) {
+        collector = new OrderedResultCollector(out, fos.getChannel());
+    } else {
+        collector = new OrderedResultCollector(out);
+    }
     int sequence = 0;
 
     // Correct approach:
