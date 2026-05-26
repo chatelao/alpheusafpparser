@@ -47,6 +47,12 @@ Extreme performance optimization for massive-scale conversion.
 - ⏳ **Shared Ring-Buffer**: Implement a Disruptor-like ring buffer for page-aligned `DirectByteBuffer`s.
 - ⏳ **Dedicated I/O Consumer**: Move all disk writes to a single dedicated thread pinned to a specific core to minimize context switches.
 
+## Phase 6: StAX Writer Rework (Integration) ⏳
+To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`) should be refactored to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
+
+- ⏳ **ByteBuffer-Based Writing**: Refactor `AfpJacksonXmlWriter` and other StAX writers to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
+- ⏳ **Zero-Copy Integration**: Support Zero-Copy strategies by allowing the StAX writer to write into memory that is already pre-mapped to the kernel.
+
 ---
 
 ## Implementation Strategy
