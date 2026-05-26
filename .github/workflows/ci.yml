@@ -50,7 +50,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: alpheus-afp-parser-artifacts
-        path: build/libs/
+        path: build/libs
     - name: Upload Test Reports
       if: failure()
       uses: actions/upload-artifact@v4
@@ -65,17 +65,20 @@ jobs:
     permissions:
       contents: write
     steps:
+    - uses: actions/checkout@v4
     - name: Download Artifacts
       uses: actions/download-artifact@v4
       with:
         name: alpheus-afp-parser-artifacts
-        path: build/libs
+        path: artifacts
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
+        tag_name: ${{ github.ref_name }}
         generate_release_notes: true
+        fail_on_unmatched_files: true
         files: |
-          build/libs/alpheus-afp-parser-cli-*.jar
-          build/libs/alpheus-afp-parser-cli-latest.jar
-          build/libs/alpheusafpparser-*.jar
-          build/libs/alpheusafpparser-*.pom
+          artifacts/alpheus-afp-parser-cli-*.jar
+          artifacts/alpheus-afp-parser-cli-latest.jar
+          artifacts/alpheusafpparser-*.jar
+          artifacts/alpheusafpparser-*.pom
