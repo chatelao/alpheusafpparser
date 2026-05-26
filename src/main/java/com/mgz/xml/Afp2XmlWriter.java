@@ -163,7 +163,19 @@ public class Afp2XmlWriter {
     @SuppressWarnings("unchecked")
     var root = new JAXBElement<>(qualifiedName, (Class<StructuredField>) sf.getClass(), sf);
 
-    jaxbMarshaller.marshal(root, osw);
+    try {
+        org.codehaus.stax2.XMLStreamWriter2 xsw = (org.codehaus.stax2.XMLStreamWriter2)
+            com.fasterxml.jackson.dataformat.xml.XmlFactory.builder()
+            .xmlOutputFactory(new com.fasterxml.aalto.stax.OutputFactoryImpl())
+            .build()
+            .getXMLOutputFactory()
+            .createXMLStreamWriter(osw, "UTF-8");
+        SanitizingXMLStreamWriter sanitizingWriter = new SanitizingXMLStreamWriter(xsw);
+        jaxbMarshaller.marshal(root, sanitizingWriter);
+        sanitizingWriter.flush();
+    } catch (Exception e) {
+        throw new JAXBException(e);
+    }
   }
 
   public static void writeXML(OutputStream osw, AFPDocument doc) throws JAXBException {
@@ -173,7 +185,19 @@ public class Afp2XmlWriter {
     var jaxbMarshaller = jaxbContext.createMarshaller();
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-    jaxbMarshaller.marshal(doc, osw);
+    try {
+        org.codehaus.stax2.XMLStreamWriter2 xsw = (org.codehaus.stax2.XMLStreamWriter2)
+            com.fasterxml.jackson.dataformat.xml.XmlFactory.builder()
+            .xmlOutputFactory(new com.fasterxml.aalto.stax.OutputFactoryImpl())
+            .build()
+            .getXMLOutputFactory()
+            .createXMLStreamWriter(osw, "UTF-8");
+        SanitizingXMLStreamWriter sanitizingWriter = new SanitizingXMLStreamWriter(xsw);
+        jaxbMarshaller.marshal(doc, sanitizingWriter);
+        sanitizingWriter.flush();
+    } catch (Exception e) {
+        throw new JAXBException(e);
+    }
   }
 
   public static void writeXML(OutputStream osw, AFPDocument doc, String xpathExpression) throws Exception {

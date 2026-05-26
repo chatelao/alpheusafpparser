@@ -94,7 +94,8 @@ public class AfpStreamingXmlWriter implements AutoCloseable {
     this.fragmentMode = fragmentMode;
     if (this.xpathExpression == null) {
       XMLStreamWriter2 baseWriter = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
-      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(baseWriter) : baseWriter;
+      XMLStreamWriter2 sanitizingWriter = new SanitizingXMLStreamWriter(baseWriter);
+      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(sanitizingWriter) : sanitizingWriter;
       if (!fragmentMode) {
         this.xsw.writeStartDocument("UTF-8", "1.0");
         this.xsw.writeCharacters("\n");
