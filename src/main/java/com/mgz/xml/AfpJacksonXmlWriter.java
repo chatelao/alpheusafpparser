@@ -139,7 +139,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       }
 
     if (this.xpathExpression == null) {
-      this.baseXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
+      XMLStreamWriter2 rawXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
+      this.baseXsw = new SanitizingXMLStreamWriter(rawXsw);
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
       if (!fragmentMode) {
         this.xsw.writeStartDocument("UTF-8", "1.0");
