@@ -13,11 +13,11 @@ This document outlines the phased implementation plan for maximizing I/O through
 ## Phase 1: Directory Mode Optimization (Strategy E) 🚧
 Address the memory and synchronization bottleneck when converting multiple files to stdout.
 
-- 🚧 **Implement `OrderedOutputOrchestrator`**:
+- ✅ **Implement `OrderedOutputOrchestrator`**:
   - ✅ Core logic and synchronization.
   - ✅ Unit verification.
-  - ⏳ CLI integration in `Afp2Xml`.
-- ⏳ **Replace `ByteArrayOutputStream`**: Refactor `Afp2Xml` directory mode to stream XML fragments to stdout instead of buffering entire files.
+  - ✅ CLI integration in `Afp2Xml`.
+- ✅ **Replace `ByteArrayOutputStream`**: Refactor `Afp2Xml` directory mode to stream XML fragments to stdout instead of buffering entire files.
 - ⏳ **Page-Level Streaming**: Ensure fragments are flushed at the page or structured field level to minimize memory footprint to $O(PageSize \times Threads)$.
 
 ## Phase 2: Vectorized Writes & Buffer Optimization (Strategy C) ⏳

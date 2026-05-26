@@ -24,11 +24,15 @@ import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.xml.AfpStreamingXmlWriter;
+import com.mgz.xml.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -173,18 +177,29 @@ public class Afp2Xml {
 
         var files = input.listFiles((dir, name) -> name.toLowerCase().endsWith(".afp"));
         if (files == null || files.length == 0) {
-          System.out.println("No .afp files found in directory: " + inputPath);
+          System.err.println("No .afp files found in directory: " + inputPath);
           return 0;
         }
+
+        // Sort files to ensure deterministic output order in stdout mode
+        Arrays.sort(files, Comparator.comparing(File::getName));
 
         if (threadCount <= 0) {
           threadCount = Runtime.getRuntime().availableProcessors();
         }
 
-        System.out.println("Processing " + files.length + " files using " + threadCount + " threads...");
+        if (!"-".equals(outputPath)) {
+          System.out.println("Processing " + files.length + " files using " + threadCount + " threads...");
+        } else {
+          System.err.println("Processing " + files.length + " files using " + threadCount + " threads...");
+        }
 
         var hasErrors = new AtomicBoolean(false);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+
+        final OrderedOutputOrchestrator orchestrator = "-".equals(outputPath)
+            ? new OrderedOutputOrchestrator(System.out) : null;
+
         try {
           final int totalThreads = threadCount;
           final boolean finalParallel = parallel;
@@ -195,6 +210,7 @@ public class Afp2Xml {
             final boolean finalJackson = useJackson;
             final boolean finalPtxDebug = ptxDebug;
             final String finalOutputPath = outputPath;
+            final int streamId = (orchestrator != null) ? orchestrator.registerStream() : -1;
 
             executor.submit(() -> {
               var outputFileName = f.getName() + extension;
@@ -214,11 +230,9 @@ public class Afp2Xml {
 
               try {
                 if ("-".equals(finalOutputPath)) {
-                  var baos = new java.io.ByteArrayOutputStream();
-                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
-                  synchronized (System.out) {
-                    baos.writeTo(System.out);
-                    System.out.flush();
+                  try (OutputStream orchestratedOs = orchestrator.createStreamOutputStream(streamId);
+                       OutputStream bos = new BufferedOutputStream(orchestratedOs)) {
+                    convertToXml(f, bos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   }
                 } else {
                   try (var fos = new FileOutputStream(outputFile);

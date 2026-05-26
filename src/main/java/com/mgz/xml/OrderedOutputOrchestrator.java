@@ -88,6 +88,16 @@ public class OrderedOutputOrchestrator {
     flushReady();
   }
 
+  /**
+   * Creates an OutputStream that writes to a specific stream ID in this orchestrator.
+   *
+   * @param streamId the ID of the stream
+   * @return an OutputStream that wraps orchestrator calls
+   */
+  public OutputStream createStreamOutputStream(int streamId) {
+    return new OrchestratedOutputStream(streamId);
+  }
+
   private void flushReady() throws IOException {
     while (streams.containsKey(activeStreamId)) {
       StreamBuffer stream = streams.get(activeStreamId);
@@ -110,6 +120,36 @@ public class OrderedOutputOrchestrator {
         // We cannot proceed to the next stream yet to preserve overall order.
         break;
       }
+    }
+  }
+
+  /**
+   * OutputStream implementation that automatically puts fragments into the orchestrator.
+   */
+  private class OrchestratedOutputStream extends OutputStream {
+    private final int streamId;
+    private int nextSequence = 0;
+
+    OrchestratedOutputStream(int streamId) {
+      this.streamId = streamId;
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+      write(new byte[]{(byte) b});
+    }
+
+    @Override
+    public void write(byte[] b, int off, int len) throws IOException {
+      if (len == 0) return;
+      byte[] data = new byte[len];
+      System.arraycopy(b, off, data, 0, len);
+      put(streamId, nextSequence++, data);
+    }
+
+    @Override
+    public void close() throws IOException {
+      finishStream(streamId);
     }
   }
 
