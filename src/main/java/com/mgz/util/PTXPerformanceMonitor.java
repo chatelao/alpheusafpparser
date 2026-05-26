@@ -51,6 +51,21 @@ public class PTXPerformanceMonitor {
     PTXPerformanceMonitor.enabled = enabled;
   }
 
+  public static void clear() {
+    totalPtxCount.reset();
+    totalPtxParseTime.reset();
+    totalPtxWriteTime.reset();
+    totalPtxPayloadSize.reset();
+    totalPtxControlSequences.reset();
+    ptocaFunctionCounts.clear();
+    ptocaFunctionParseTimes.clear();
+    ptocaFunctionWriteTimes.clear();
+    ptocaFunctionMaxWriteTimes.clear();
+    ptocaFunctionMaxPayloads.clear();
+    ptocaFunctionPayloadSizes.clear();
+    localStats.remove();
+  }
+
   public static boolean isEnabled() {
     return enabled;
   }
@@ -170,6 +185,11 @@ public class PTXPerformanceMonitor {
         System.out.println(String.format("| %-30s | %10d | %12d | %12d | %12d | %15d | %15.2f | %s |",
             name, countValue, pTime / 1_000_000, wTime / 1_000_000, maxWTime / 1_000_000, payload, avgPayload, maxPayload));
       });
+
+      long totalPtocaWriteTime = ptocaFunctionWriteTimes.values().stream().mapToLong(LongAdder::sum).sum();
+      if (totalPtocaWriteTime == 0 && totalPtxWriteTime.sum() > 0) {
+        System.out.println("\nNote: Individual PTOCA write times are 0. Use Jackson writer (-j) for granular metrics.");
+      }
     }
     System.out.println();
   }
