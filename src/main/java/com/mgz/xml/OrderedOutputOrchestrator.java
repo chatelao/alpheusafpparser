@@ -21,6 +21,7 @@ package com.mgz.xml;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,7 +74,20 @@ public class OrderedOutputOrchestrator {
    * @throws IOException if writing to the underlying output stream fails
    */
   public synchronized void put(int streamId, int sequence, byte[] data) throws IOException {
-    while (totalBufferedSize + data.length > maxBufferSize && !isNext(streamId, sequence)) {
+    put(streamId, sequence, ByteBuffer.wrap(data));
+  }
+
+  /**
+   * Adds a fragment to a specific stream.
+   *
+   * @param streamId the ID returned by registerStream
+   * @param sequence the sequence number of the fragment within the stream (starting at 0)
+   * @param data the fragment data
+   * @throws IOException if writing to the underlying output stream fails
+   */
+  public synchronized void put(int streamId, int sequence, ByteBuffer data) throws IOException {
+    int len = data.remaining();
+    while (totalBufferedSize + len > maxBufferSize && !isNext(streamId, sequence)) {
       try {
         wait();
       } catch (InterruptedException e) {
@@ -84,7 +98,7 @@ public class OrderedOutputOrchestrator {
 
     StreamBuffer stream = streams.computeIfAbsent(streamId, id -> new StreamBuffer());
     stream.put(sequence, data);
-    totalBufferedSize += data.length;
+    totalBufferedSize += len;
     flushReady();
   }
 
@@ -125,10 +139,17 @@ public class OrderedOutputOrchestrator {
 
       // Flush any ready fragments for the current active stream
       while (stream.hasReady()) {
-        byte[] fragment = stream.popNext();
-        if (fragment != null && fragment.length > 0) {
-          out.write(fragment);
-          totalBufferedSize -= fragment.length;
+        ByteBuffer fragment = stream.popNext();
+        if (fragment != null && fragment.hasRemaining()) {
+          int fragmentLen = fragment.remaining();
+          if (fragment.hasArray()) {
+            out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+          } else {
+            byte[] temp = new byte[fragmentLen];
+            fragment.get(temp);
+            out.write(temp);
+          }
+          totalBufferedSize -= fragmentLen;
           flushed = true;
         }
       }
@@ -169,8 +190,10 @@ public class OrderedOutputOrchestrator {
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
       if (len == 0) return;
-      byte[] data = new byte[len];
-      System.arraycopy(b, off, data, 0, len);
+      // We must copy the data because the caller might reuse the buffer (e.g. BufferedOutputStream)
+      ByteBuffer data = ByteBuffer.allocate(len);
+      data.put(b, off, len);
+      data.flip();
       put(streamId, nextSequence++, data);
     }
 
@@ -184,11 +207,11 @@ public class OrderedOutputOrchestrator {
    * Internal buffer for a single stream's fragments.
    */
   private static class StreamBuffer {
-    private final TreeMap<Integer, byte[]> fragments = new TreeMap<>();
+    private final TreeMap<Integer, ByteBuffer> fragments = new TreeMap<>();
     int nextSequence = 0;
     private boolean finished = false;
 
-    void put(int sequence, byte[] data) {
+    void put(int sequence, ByteBuffer data) {
       fragments.put(sequence, data);
     }
 
@@ -196,7 +219,7 @@ public class OrderedOutputOrchestrator {
       return !fragments.isEmpty() && fragments.firstKey() == nextSequence;
     }
 
-    byte[] popNext() {
+    ByteBuffer popNext() {
       return fragments.remove(nextSequence++);
     }
 

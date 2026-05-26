@@ -21,6 +21,7 @@ package com.mgz.xml;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.TreeMap;
 
 /**
@@ -30,7 +31,7 @@ import java.util.TreeMap;
 public class OrderedResultCollector {
 
   private final OutputStream out;
-  private final TreeMap<Integer, byte[]> buffer = new TreeMap<>();
+  private final TreeMap<Integer, ByteBuffer> buffer = new TreeMap<>();
   private int nextSequence = 0;
   private long totalBufferedSize = 0;
   private final long maxBufferSize = 64 * 1024 * 1024; // 64MB
@@ -52,7 +53,19 @@ public class OrderedResultCollector {
    * @throws IOException if writing to the output stream fails
    */
   public synchronized void put(int sequence, byte[] data) throws IOException {
-    while (totalBufferedSize + data.length > maxBufferSize && sequence != nextSequence) {
+    put(sequence, ByteBuffer.wrap(data));
+  }
+
+  /**
+   * Adds a fragment to the collector.
+   *
+   * @param sequence the sequence number of the fragment
+   * @param data the fragment data
+   * @throws IOException if writing to the output stream fails
+   */
+  public synchronized void put(int sequence, ByteBuffer data) throws IOException {
+    int len = data.remaining();
+    while (totalBufferedSize + len > maxBufferSize && sequence != nextSequence) {
       try {
         wait();
       } catch (InterruptedException e) {
@@ -62,13 +75,20 @@ public class OrderedResultCollector {
     }
 
     buffer.put(sequence, data);
-    totalBufferedSize += data.length;
+    totalBufferedSize += len;
 
     boolean flushed = false;
     while (!buffer.isEmpty() && buffer.firstKey() == nextSequence) {
-      byte[] fragment = buffer.remove(nextSequence);
-      out.write(fragment);
-      totalBufferedSize -= fragment.length;
+      ByteBuffer fragment = buffer.remove(nextSequence);
+      int fragmentLen = fragment.remaining();
+      if (fragment.hasArray()) {
+        out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+      } else {
+        byte[] temp = new byte[fragmentLen];
+        fragment.get(temp);
+        out.write(temp);
+      }
+      totalBufferedSize -= fragmentLen;
       nextSequence++;
       flushed = true;
     }
