@@ -22,6 +22,8 @@ package com.mgz.xml;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -77,22 +79,25 @@ public class OrderedResultCollector {
     buffer.put(sequence, data);
     totalBufferedSize += len;
 
-    boolean flushed = false;
+    List<ByteBuffer> readyFragments = new ArrayList<>();
     while (!buffer.isEmpty() && buffer.firstKey() == nextSequence) {
       ByteBuffer fragment = buffer.remove(nextSequence);
-      int fragmentLen = fragment.remaining();
-      if (fragment.hasArray()) {
-        out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
-      } else {
-        byte[] temp = new byte[fragmentLen];
-        fragment.get(temp);
-        out.write(temp);
-      }
-      totalBufferedSize -= fragmentLen;
+      readyFragments.add(fragment);
+      totalBufferedSize -= fragment.remaining();
       nextSequence++;
-      flushed = true;
     }
-    if (flushed) {
+
+    if (!readyFragments.isEmpty()) {
+      for (ByteBuffer fragment : readyFragments) {
+        int fragmentLen = fragment.remaining();
+        if (fragment.hasArray()) {
+          out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+        } else {
+          byte[] temp = new byte[fragmentLen];
+          fragment.get(temp);
+          out.write(temp);
+        }
+      }
       out.flush();
       notifyAll();
     }

@@ -22,6 +22,8 @@ package com.mgz.xml;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -133,24 +135,16 @@ public class OrderedOutputOrchestrator {
   }
 
   private void flushReady() throws IOException {
-    boolean flushed = false;
+    List<ByteBuffer> readyFragments = new ArrayList<>();
     while (streams.containsKey(activeStreamId)) {
       StreamBuffer stream = streams.get(activeStreamId);
 
-      // Flush any ready fragments for the current active stream
+      // Collect any ready fragments for the current active stream
       while (stream.hasReady()) {
         ByteBuffer fragment = stream.popNext();
         if (fragment != null && fragment.hasRemaining()) {
-          int fragmentLen = fragment.remaining();
-          if (fragment.hasArray()) {
-            out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
-          } else {
-            byte[] temp = new byte[fragmentLen];
-            fragment.get(temp);
-            out.write(temp);
-          }
-          totalBufferedSize -= fragmentLen;
-          flushed = true;
+          readyFragments.add(fragment);
+          totalBufferedSize -= fragment.remaining();
         }
       }
 
@@ -158,15 +152,25 @@ public class OrderedOutputOrchestrator {
         // Stream is fully consumed and marked as finished
         streams.remove(activeStreamId);
         activeStreamId++;
-        out.flush();
-        flushed = true;
       } else {
         // Active stream is either not yet finished or waiting for its next sequential fragment.
         // We cannot proceed to the next stream yet to preserve overall order.
         break;
       }
     }
-    if (flushed) {
+
+    if (!readyFragments.isEmpty()) {
+      for (ByteBuffer fragment : readyFragments) {
+        int fragmentLen = fragment.remaining();
+        if (fragment.hasArray()) {
+          out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+        } else {
+          byte[] temp = new byte[fragmentLen];
+          fragment.get(temp);
+          out.write(temp);
+        }
+      }
+      out.flush();
       notifyAll();
     }
   }

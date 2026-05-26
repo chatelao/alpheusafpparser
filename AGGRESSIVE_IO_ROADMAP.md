@@ -27,7 +27,7 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
 
 - ⏳ **Enhance `OrderedResultCollector`**:
   - ✅ **ByteBuffer-based API**: Refactor orchestrators to accept `ByteBuffer` instead of `byte[]`.
-  - ⏳ **Fragment Batching**: Logic to group consecutive ready fragments.
+  - ✅ **Fragment Batching**: Logic to group consecutive ready fragments.
   - ⏳ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
 - ⏳ **Direct Buffer Integration**:
   - ⏳ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
