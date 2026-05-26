@@ -40,16 +40,4 @@ public class XMLInvalidCharTest {
             });
         }
     }
-
-    @Test
-    public void testStreamingJAXBNulChar() throws Exception {
-        com.mgz.afp.modca.BDT_BeginDocument bdt = new com.mgz.afp.modca.BDT_BeginDocument();
-        bdt.setName("DOC\u0000001");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (AfpStreamingXmlWriter writer = new AfpStreamingXmlWriter(baos)) {
-            assertDoesNotThrow(() -> {
-                writer.writeField(bdt);
-            });
-        }
-    }
 }

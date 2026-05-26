@@ -46,7 +46,10 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.UtilCharacterEncoding;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -740,17 +743,17 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
     if (cachedDocumentBuilder == null) {
       cachedDocumentBuilder = DBF.newDocumentBuilder();
     }
-    Document doc = cachedDocumentBuilder.newDocument();
 
-    var root = doc.createElement("AFPDocument");
-    doc.appendChild(root);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
+        tempWriter.writeField(sf);
+    }
 
-    // Use DOMResult to bridge Jackson to DOM
-    DOMResult resultDom = new DOMResult(root);
-    XMLStreamWriter2 domXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(resultDom);
-    ToXmlGenerator g = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(domXsw);
-    fragmentMapper.writer().withRootName(sf.getClass().getSimpleName()).writeValue(g, sf);
-    domXsw.close();
+    String xml = baos.toString(StandardCharsets.UTF_8);
+    xml = xml.replace("<AfpFragments>", "<AFPDocument>").replace("</AfpFragments>", "</AFPDocument>");
+
+    Document doc = cachedDocumentBuilder.parse(
+        new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
     if (cachedXpath == null) {
       cachedXpath = XPF.newXPath();
