@@ -215,6 +215,7 @@ This phase focuses on the architectural improvements outlined in `PERFORMANCE_CO
 
 - ✅ Streaming Architecture (Event-Driven):
     - ✅ Implement StAX-based Streaming Writer to decouple XML generation from the `AFPDocument` list.
+    - 🚧 **Jackson-Only Modernization**: Transition away from JAXB to standardize on Jackson for all XML output. See [JACK_ONLY_ROADMAP.md](JACK_ONLY_ROADMAP.md).
     - ✅ Update `Afp2Xml` CLI to process SFs in a loop (`parse` -> `write` -> `discard`) for O(1) memory footprint.
     - ✅ Implement a basic streaming XPath filter. **Note:** The XPath engine functionality must be preserved, though it may be limited to XPath 1.0 in streaming mode.
 - ✅ Memory-Efficient Object Model:
