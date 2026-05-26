@@ -51,8 +51,8 @@ This phase focuses on the data-heavy sub-specifications.
     - ✅ **Data:** `ImageData`, `BandImageData`, `nColorNames`.
 - ⏳ Verify support for different compression types (MMR, JPEG, etc.) at the parsing level.
 
-### 2.3. FOCA Font Logic ⏳
-- ⏳ Implement tests for Font Character Sets and Code Pages in `com.mgz.afp.foca`.
+### 2.3. FOCA Font Logic ✅
+- ✅ Implement tests for Font Character Sets and Code Pages in `com.mgz.afp.foca` (completed in `FOCARoundTripTest.java`).
 
 ---
 
@@ -69,7 +69,7 @@ Focus on branch coverage and defensive logic.
     - ✅ **Padding:** SFs with trailing bytes (completed in `SFIExtensionsAndPaddingTest.java`).
     - ⏳ **Encryption:** SFs with the encryption flag set.
     - ✅ **Extension:** SFs with SFI extensions (completed in `SFIExtensionsAndPaddingTest.java`).
-    - ⏳ **Length Variations:** Test minimum, maximum, and invalid lengths for all variable-sized fields.
+    - ✅ **Length Variations:** Test minimum, maximum, and invalid lengths for all variable-sized fields (completed in `SFIExtensionsAndPaddingTest.java`).
 
 ### 3.3. Error Handling Paths ✅
 - ✅ Explicitly test every `AFPParserException` branch in `AFPParser` and `StructuredFieldIntroducer` (completed in `SFIErrorHandlingTest.java`).
@@ -79,9 +79,9 @@ Focus on branch coverage and defensive logic.
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 Cover remaining specialized areas and refactored logic.
 
-### 4.1. Special Specifications 🚧
+### 4.1. Special Specifications ✅
 - ✅ Implement tests for `com.mgz.afp.moca` (completed in `MetadataObjectTest.java` and `ObjectAndDataRoundTripTest.java`).
-- ⏳ Implement tests for `com.mgz.afp.lineData`, `com.mgz.afp.cmoca`, and `com.mgz.afp.bcoca`.
+- ✅ Implement tests for `com.mgz.afp.lineData`, `com.mgz.afp.cmoca`, and `com.mgz.afp.bcoca` (completed in `LineDataRoundTripTest.java`, `CMRRoundTripTest.java`, and `BCOCARoundTripTest.java`).
 - ⏳ Verify the 1:1 mapping of normative requirements in `TEST_COVERAGE_*.md` files.
 
 ### 4.2. Performance fast-paths ⏳

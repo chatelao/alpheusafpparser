@@ -15,6 +15,7 @@ import java.util.EnumSet;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SFIExtensionsAndPaddingTest {
@@ -93,6 +94,115 @@ public class SFIExtensionsAndPaddingTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         sf.writeAFP(baos, config);
         assertArrayEquals(sfBytes, baos.toByteArray());
+    }
+
+    @Test
+    public void testSFIMinimumLength() throws IOException, AFPParserException {
+        // [MODCA-3-022] Minimum SFI length is 8
+        byte[] sfBytes = new byte[] {
+            0x5A, 0x00, 0x08, (byte)0xD3, (byte)0xEE, (byte)0xEE, 0x00, 0x00, 0x00
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setInputStream(new ByteArrayInputStream(sfBytes));
+        AFPParser parser = new AFPParser(config);
+
+        StructuredField sf = parser.parseNextSF();
+        assertNotNull(sf);
+        assertEquals(8, sf.getStructuredFieldIntroducer().getSFLength());
+
+        // Round trip write
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        sf.writeAFP(baos, config);
+        assertArrayEquals(sfBytes, baos.toByteArray());
+    }
+
+    @Test
+    public void testSFIMaximumLength() throws IOException, AFPParserException {
+        // [MODCA-3-022] Maximum SFLength is X'7FFF' = 32767
+        int totalLen = 32767;
+        byte[] sfBytes = new byte[1 + totalLen];
+        sfBytes[0] = 0x5A;
+        sfBytes[1] = (byte)((totalLen >> 8) & 0xFF);
+        sfBytes[2] = (byte)(totalLen & 0xFF);
+        sfBytes[3] = (byte)0xD3;
+        sfBytes[4] = (byte)0xEE;
+        sfBytes[5] = (byte)0xEE;
+        sfBytes[6] = 0x00;
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setInputStream(new ByteArrayInputStream(sfBytes));
+        AFPParser parser = new AFPParser(config);
+
+        StructuredField sf = parser.parseNextSF();
+        assertNotNull(sf);
+        assertEquals(32767, sf.getStructuredFieldIntroducer().getSFLength());
+
+        // Round trip write
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        sf.writeAFP(baos, config);
+        assertArrayEquals(sfBytes, baos.toByteArray());
+    }
+
+    @Test
+    public void testSFIInvalidLength() {
+        // [MODCA-3-022] SFLength must be at least 8
+        byte[] sfBytes = new byte[] {
+            0x5A, 0x00, 0x07, (byte)0xD3, (byte)0xEE, (byte)0xEE, 0x00, 0x00, 0x00
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setInputStream(new ByteArrayInputStream(sfBytes));
+        AFPParser parser = new AFPParser(config);
+
+        assertThrows(AFPParserException.class, parser::parseNextSF);
+    }
+
+    @Test
+    public void testSFIExtensionMaximumLength() throws IOException, AFPParserException {
+        // [MODCA-3-022] SFI extension length is 1–255
+        // NOP with 255 byte extension.
+        // Total SF Length = 8 (introducer) + 255 (extension) = 263 (0x0107)
+        int extLen = 255;
+        int totalLen = 8 + extLen;
+        byte[] sfBytes = new byte[1 + totalLen];
+        sfBytes[0] = 0x5A;
+        sfBytes[1] = (byte)((totalLen >> 8) & 0xFF);
+        sfBytes[2] = (byte)(totalLen & 0xFF);
+        sfBytes[3] = (byte)0xD3;
+        sfBytes[4] = (byte)0xEE;
+        sfBytes[5] = (byte)0xEE;
+        sfBytes[6] = (byte)0x80; // hasExtension
+        sfBytes[9] = (byte)extLen; // ExtLength at offset 9 (including 0x5A)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setInputStream(new ByteArrayInputStream(sfBytes));
+        AFPParser parser = new AFPParser(config);
+
+        StructuredField sf = parser.parseNextSF();
+        assertNotNull(sf);
+        assertTrue(sf.getStructuredFieldIntroducer().isFlagSet(SFFlag.hasExtension));
+        assertEquals(255, sf.getStructuredFieldIntroducer().getExtensionLength());
+
+        // Round trip write
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        sf.writeAFP(baos, config);
+        assertArrayEquals(sfBytes, baos.toByteArray());
+    }
+
+    @Test
+    public void testSFIExtensionInvalidLength() {
+        // [MODCA-3-022] SFI extension length is 1–255. 0 is invalid.
+        byte[] sfBytes = new byte[] {
+            0x5A, 0x00, 0x09, (byte)0xD3, (byte)0xEE, (byte)0xEE, (byte)0x80, 0x00, 0x00,
+            0x00 // extLen = 0
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setInputStream(new ByteArrayInputStream(sfBytes));
+        AFPParser parser = new AFPParser(config);
+
+        assertThrows(AFPParserException.class, parser::parseNextSF);
     }
 
     @Test
