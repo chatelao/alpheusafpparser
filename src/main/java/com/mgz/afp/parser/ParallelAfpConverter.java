@@ -24,7 +24,6 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.PTXPerformanceMonitor;
 import com.mgz.xml.AfpJacksonXmlWriter;
-import com.mgz.xml.AfpStreamingXmlWriter;
 import com.mgz.xml.OrderedResultCollector;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -47,7 +46,6 @@ public class ParallelAfpConverter {
 
   private final AFPParserConfiguration config;
   private final int numThreads;
-  private final boolean useJackson;
   private final String xpathExpression;
 
   /**
@@ -55,13 +53,11 @@ public class ParallelAfpConverter {
    *
    * @param config the parser configuration
    * @param numThreads number of threads to use
-   * @param useJackson whether to use Jackson XML
    * @param xpathExpression optional XPath expression for filtering
    */
-  public ParallelAfpConverter(AFPParserConfiguration config, int numThreads, boolean useJackson, String xpathExpression) {
+  public ParallelAfpConverter(AFPParserConfiguration config, int numThreads, String xpathExpression) {
     this.config = config;
     this.numThreads = numThreads > 0 ? numThreads : Runtime.getRuntime().availableProcessors();
-    this.useJackson = useJackson;
     this.xpathExpression = xpathExpression;
   }
 
@@ -103,27 +99,20 @@ public class ParallelAfpConverter {
     // We will then write fragments directly to the underlying 'out' via the collector.
     // Finally, we close the master writer.
 
-    if (useJackson) {
-        try (AfpJacksonXmlWriter masterWriter = new AfpJacksonXmlWriter(out, xpathExpression, false)) {
-            processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterWriter);
-        }
-    } else {
-        try (AfpStreamingXmlWriter masterWriter = new AfpStreamingXmlWriter(out, xpathExpression, false)) {
-            processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterWriter);
-        }
+    try (AfpJacksonXmlWriter masterWriter = new AfpJacksonXmlWriter(out, xpathExpression, false)) {
+        processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterWriter);
     }
   }
 
   private void processPreambleAndPages(long firstPageOffset, List<Long> pageOffsets, long fileSize,
-      OrderedResultCollector collector, int sequence, Object masterWriter) throws Exception {
+      OrderedResultCollector collector, int sequence, AfpJacksonXmlWriter masterWriter) throws Exception {
     // 1. Parse and write Preamble sequentially
     if (firstPageOffset > 0) {
       AFPParser preambleParser = new AFPParser(config);
       while (preambleParser.getCountReadByte() < firstPageOffset) {
         StructuredField sf = preambleParser.parseNextSF();
         if (sf == null) break;
-        if (masterWriter instanceof AfpJacksonXmlWriter jw) jw.writeField(sf);
-        else ((AfpStreamingXmlWriter)masterWriter).writeField(sf);
+        masterWriter.writeField(sf);
         sf.release();
       }
     }
@@ -137,7 +126,7 @@ public class ParallelAfpConverter {
       for (int i = 0; i < pageOffsets.size(); i++) {
         long start = pageOffsets.get(i);
         long end = (i + 1 < pageOffsets.size()) ? pageOffsets.get(i + 1) : fileSize;
-        futures.add(executor.submit(new PageConversionTask(config.clone(), start, end, i, collector, useJackson, xpathExpression)));
+        futures.add(executor.submit(new PageConversionTask(config.clone(), start, end, i, collector, xpathExpression)));
       }
 
       for (Future<Void> future : futures) {
@@ -155,17 +144,15 @@ public class ParallelAfpConverter {
     private final long endOffset;
     private final int sequence;
     private final OrderedResultCollector collector;
-    private final boolean useJackson;
     private final String xpathExpression;
 
     PageConversionTask(AFPParserConfiguration config, long start, long end, int seq,
-        OrderedResultCollector collector, boolean useJackson, String xpath) {
+        OrderedResultCollector collector, String xpath) {
       this.taskConfig = config;
       this.startOffset = start;
       this.endOffset = end;
       this.sequence = seq;
       this.collector = collector;
-      this.useJackson = useJackson;
       this.xpathExpression = xpath;
     }
 
@@ -191,13 +178,10 @@ public class ParallelAfpConverter {
              }
         }
 
-        try (AutoCloseable writer = useJackson
-            ? new AfpJacksonXmlWriter(baos, xpathExpression, true)
-            : new AfpStreamingXmlWriter(baos, xpathExpression, true)) {
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, xpathExpression, true)) {
           StructuredField sf;
           while ((sf = parser.parseNextSF()) != null) {
-            if (useJackson) ((AfpJacksonXmlWriter)writer).writeField(sf);
-            else ((AfpStreamingXmlWriter)writer).writeField(sf);
+            writer.writeField(sf);
             sf.release();
             if (parser.getCountReadByte() >= endOffset) break;
           }

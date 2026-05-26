@@ -1,7 +1,7 @@
 package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
-import com.mgz.xml.AfpStreamingXmlWriter;
+import com.mgz.xml.AfpJacksonXmlWriter;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,7 +24,7 @@ class ParallelAfpConverterTest {
     AFPParserConfiguration seqConfig = new AFPParserConfiguration();
     seqConfig.setAFPFile(afpFile);
     AFPParser seqParser = new AFPParser(seqConfig);
-    try (AfpStreamingXmlWriter writer = new AfpStreamingXmlWriter(seqOut)) {
+    try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(seqOut)) {
       StructuredField sf;
       while ((sf = seqParser.parseNextSF()) != null) {
         writer.writeField(sf);
@@ -36,7 +36,7 @@ class ParallelAfpConverterTest {
     ByteArrayOutputStream parOut = new ByteArrayOutputStream();
     AFPParserConfiguration parConfig = new AFPParserConfiguration();
     parConfig.setAFPFile(afpFile);
-    ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 4, false, null);
+    ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 4, null);
     converter.convert(parOut);
 
     // 3. Compare XML output

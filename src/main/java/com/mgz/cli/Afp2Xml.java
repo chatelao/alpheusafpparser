@@ -23,7 +23,6 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
-import com.mgz.xml.AfpStreamingXmlWriter;
 import com.mgz.xml.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -67,7 +66,6 @@ public class Afp2Xml {
     }
 
     var isDirectoryMode = false;
-    var useJackson = false;
     var measure = false;
     var ptxDebug = false;
     var parallel = false;
@@ -98,9 +96,6 @@ public class Afp2Xml {
             printUsage(System.err);
             return 1;
           }
-        }
-        case "-j", "--jackson" -> {
-          useJackson = true;
         }
         case "-m", "--measure" -> {
           measure = true;
@@ -219,7 +214,6 @@ public class Afp2Xml {
 
           for (var f : files) {
             final String finalXpath = xpathExpression;
-            final boolean finalJackson = useJackson;
             final boolean finalPtxDebug = ptxDebug;
             final String finalOutputPath = outputPath;
             final int streamId = (orchestrator != null) ? orchestrator.registerStream() : -1;
@@ -244,12 +238,12 @@ public class Afp2Xml {
                 if ("-".equals(finalOutputPath)) {
                   try (OutputStream orchestratedOs = orchestrator.createStreamOutputStream(streamId);
                        OutputStream bos = new BufferedOutputStream(orchestratedOs)) {
-                    convertToXml(f, bos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                    convertToXml(f, bos, finalXpath, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   }
                 } else {
                   try (var fos = new FileOutputStream(outputFile);
                        var bos = new BufferedOutputStream(fos)) {
-                    convertToXml(f, bos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                    convertToXml(f, bos, finalXpath, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   }
                   System.out.println("Export successful: " + outputFile.getPath());
                 }
@@ -277,14 +271,14 @@ public class Afp2Xml {
       } else {
         if ("-".equals(outputPath)) {
           var bos = new BufferedOutputStream(System.out);
-          convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+          convertToXml(input, bos, xpathExpression, ptxDebug, parallel, threadCount, useCharsetOptimizations);
           bos.flush();
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
           try (var fos = new FileOutputStream(outputFile);
                var bos = new BufferedOutputStream(fos)) {
-            convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+            convertToXml(input, bos, xpathExpression, ptxDebug, parallel, threadCount, useCharsetOptimizations);
           }
           System.out.println("Export successful: " + outputFile.getPath());
         }
@@ -306,7 +300,7 @@ public class Afp2Xml {
 
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
-        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
+        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-m|--measure] "
         + "[--ptx-debug] [-c|--charset-opt] [-p|--parallel] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
@@ -314,7 +308,6 @@ public class Afp2Xml {
     out.println("                            If a directory is provided as a positional "
         + "argument, directory mode is enabled automatically.");
     out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
-    out.println("  -j, --jackson             Use Jackson XML for streaming (experimental).");
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
     out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
@@ -326,7 +319,7 @@ public class Afp2Xml {
   }
 
   private static void convertToXml(File inputFile, java.io.OutputStream os, String xpathExpression,
-      boolean useJackson, boolean ptxDebug, boolean parallel, int threadCount, boolean useCharsetOptimizations) throws Exception {
+      boolean ptxDebug, boolean parallel, int threadCount, boolean useCharsetOptimizations) throws Exception {
     var config = new AFPParserConfiguration();
     config.setAFPFile(inputFile);
     config.setEscalateParsingErrors(false);
@@ -334,16 +327,14 @@ public class Afp2Xml {
     config.setUseCharsetOptimizations(useCharsetOptimizations);
 
     if (parallel) {
-      var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, useJackson, xpathExpression);
+      var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, xpathExpression);
       converter.convert(os);
       return;
     }
 
     var parser = new AFPParser(config);
     try {
-      try (var writer = useJackson
-          ? (AutoCloseable) new com.mgz.xml.AfpJacksonXmlWriter(os, xpathExpression)
-          : (AutoCloseable) new AfpStreamingXmlWriter(os, xpathExpression)) {
+      try (var writer = new com.mgz.xml.AfpJacksonXmlWriter(os, xpathExpression)) {
         StructuredField sf;
         while ((sf = parser.parseNextSF()) != null) {
           if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
@@ -352,11 +343,7 @@ public class Afp2Xml {
                   + inputFile.getName() + ": " + errSf.getErrorMessage());
             }
           }
-          if (writer instanceof com.mgz.xml.AfpJacksonXmlWriter jacksonWriter) {
-            jacksonWriter.writeField(sf);
-          } else {
-            ((AfpStreamingXmlWriter) writer).writeField(sf);
-          }
+          writer.writeField(sf);
           sf.release();
         }
       }
