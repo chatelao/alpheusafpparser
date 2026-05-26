@@ -19,6 +19,7 @@ This roadmap outlines the project's evolution, from CI/CD migration to full AFP 
 | 8 | Modernized Publishing and Distribution | 🚧 |
 | 9 | Project Documentation and Maintenance | 🚧 |
 | 10 | Performance Optimization | ✅ |
+| 11 | PDF Generation | 🚧 |
 
 ## Granular Requirement Coverage Analysis
 This section tracks the verification status of ~21,000 granular normative requirements extracted from the AFP specifications.
@@ -244,3 +245,13 @@ This phase focuses on the architectural improvements outlined in `PERFORMANCE_CO
     - ✅ Replace switch-based class lookup in GOCA Drawing Orders with a pre-computed static mapping (Supplier-based).
     - ✅ Replace switch-based class lookup in IOCA Segments with a pre-computed static mapping (Supplier-based).
     - ✅ Implement custom fast CP500 EBCDIC-to-UTF8 decoder for high-frequency fields.
+
+## Phase 11: PDF Generation
+This phase focuses on the high-performance conversion of AFP streams to PDF/VT-1 (ISO 16612-2) using the iText 9 library. See [PDF_INTEGRATION_CONCEPT.md](PDF_INTEGRATION_CONCEPT.md).
+
+- 🚧 **High-Performance PDF Generator**:
+    - 🚧 Implement `PdfHandler` based on the iText 9 library.
+    - 🚧 Implement `PdfHandlerFactory` for parallel orchestration.
+    - 🚧 Implement `GraphicsStateStack` for AFP-to-PDF attribute mapping.
+    - 🚧 Implement `CoordinateTransformer` for Pel/1440-to-Points mapping.
+    - 🚧 Implement parallel assembly logic for zero-copy PDF merging.
