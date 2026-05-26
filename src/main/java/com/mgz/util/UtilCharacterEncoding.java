@@ -322,13 +322,15 @@ public class UtilCharacterEncoding {
     if (actualLength <= 0) {
       return "";
     }
-    String charsetName = config.getAfpCharSet().name();
-    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-      return decodeCp500(sfData, offset, actualLength);
-    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-      return decodeCp273(sfData, offset, actualLength);
-    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-      return decodeCp1141(sfData, offset, actualLength);
+    if (config != null && config.isUseCharsetOptimizations()) {
+      String charsetName = config.getAfpCharSet().name();
+      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
+        return decodeCp500(sfData, offset, actualLength);
+      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
+        return decodeCp273(sfData, offset, actualLength);
+      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
+        return decodeCp1141(sfData, offset, actualLength);
+      }
     }
     return new String(sfData, offset, actualLength, config.getAfpCharSet());
   }
@@ -348,13 +350,15 @@ public class UtilCharacterEncoding {
     if (actualLength <= 0) {
       return "";
     }
-    String charsetName = config.getAfpCharSet().name();
-    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-      return decodeCp500(buffer, offset, actualLength);
-    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-      return decodeCp273(buffer, offset, actualLength);
-    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-      return decodeCp1141(buffer, offset, actualLength);
+    if (config != null && config.isUseCharsetOptimizations()) {
+      String charsetName = config.getAfpCharSet().name();
+      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
+        return decodeCp500(buffer, offset, actualLength);
+      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
+        return decodeCp273(buffer, offset, actualLength);
+      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
+        return decodeCp1141(buffer, offset, actualLength);
+      }
     }
 
     byte[] data = new byte[actualLength];
@@ -481,10 +485,38 @@ public class UtilCharacterEncoding {
    * printable characters.
    *
    * @param data    byte array to test.
+   * @param config  {@link AFPParserConfiguration} used for decoding.
+   * @return true if data is human-readable.
+   */
+  public static boolean isHumanReadable(byte[] data, AFPParserConfiguration config) {
+    if (config == null) {
+      return isHumanReadable(data, Constants.cpIBM500);
+    }
+    return isHumanReadable(data, config.getAfpCharSet(), config.isUseCharsetOptimizations());
+  }
+
+  /**
+   * Returns true if the given data, when decoded with the given charset, consists mostly of
+   * printable characters.
+   *
+   * @param data    byte array to test.
    * @param charset Charset used for decoding.
    * @return true if data is human-readable.
    */
   public static boolean isHumanReadable(byte[] data, Charset charset) {
+    return isHumanReadable(data, charset, false);
+  }
+
+  /**
+   * Returns true if the given data, when decoded with the given charset, consists mostly of
+   * printable characters.
+   *
+   * @param data             byte array to test.
+   * @param charset          Charset used for decoding.
+   * @param useOptimizations true to use fast-path optimizations.
+   * @return true if data is human-readable.
+   */
+  public static boolean isHumanReadable(byte[] data, Charset charset, boolean useOptimizations) {
     if (data == null || data.length == 0) {
       return false;
     }
@@ -492,13 +524,15 @@ public class UtilCharacterEncoding {
       charset = Constants.cpIBM500;
     }
 
-    String charsetName = charset.name();
-    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-      return isHumanReadableCp500(data);
-    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-      return isHumanReadableCp273(data);
-    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-      return isHumanReadableCp1141(data);
+    if (useOptimizations) {
+      String charsetName = charset.name();
+      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
+        return isHumanReadableCp500(data);
+      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
+        return isHumanReadableCp273(data);
+      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
+        return isHumanReadableCp1141(data);
+      }
     }
 
     String decoded = new String(data, charset);
@@ -518,6 +552,25 @@ public class UtilCharacterEncoding {
    * Returns true if the given data in a {@link ByteBuffer}, when decoded with the given charset,
    * consists mostly of printable characters.
    *
+   * @param buffer buffer to test.
+   * @param offset starting offset.
+   * @param length length to test.
+   * @param config {@link AFPParserConfiguration} used for decoding.
+   * @return true if data is human-readable.
+   */
+  public static boolean isHumanReadable(
+      ByteBuffer buffer, int offset, int length, AFPParserConfiguration config) {
+    if (config == null) {
+      return isHumanReadable(buffer, offset, length, Constants.cpIBM500);
+    }
+    return isHumanReadable(
+        buffer, offset, length, config.getAfpCharSet(), config.isUseCharsetOptimizations());
+  }
+
+  /**
+   * Returns true if the given data in a {@link ByteBuffer}, when decoded with the given charset,
+   * consists mostly of printable characters.
+   *
    * @param buffer  buffer to test.
    * @param offset  starting offset.
    * @param length  length to test.
@@ -525,6 +578,22 @@ public class UtilCharacterEncoding {
    * @return true if data is human-readable.
    */
   public static boolean isHumanReadable(ByteBuffer buffer, int offset, int length, Charset charset) {
+    return isHumanReadable(buffer, offset, length, charset, false);
+  }
+
+  /**
+   * Returns true if the given data in a {@link ByteBuffer}, when decoded with the given charset,
+   * consists mostly of printable characters.
+   *
+   * @param buffer           buffer to test.
+   * @param offset           starting offset.
+   * @param length           length to test.
+   * @param charset          Charset used for decoding.
+   * @param useOptimizations true to use fast-path optimizations.
+   * @return true if data is human-readable.
+   */
+  public static boolean isHumanReadable(
+      ByteBuffer buffer, int offset, int length, Charset charset, boolean useOptimizations) {
     int actualLength = length != -1 ? length : buffer.limit() - offset;
     if (actualLength <= 0) {
       return false;
@@ -533,13 +602,15 @@ public class UtilCharacterEncoding {
       charset = Constants.cpIBM500;
     }
 
-    String charsetName = charset.name();
-    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-      return isHumanReadableCp500(buffer, offset, actualLength);
-    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-      return isHumanReadableCp273(buffer, offset, actualLength);
-    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-      return isHumanReadableCp1141(buffer, offset, actualLength);
+    if (useOptimizations) {
+      String charsetName = charset.name();
+      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
+        return isHumanReadableCp500(buffer, offset, actualLength);
+      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
+        return isHumanReadableCp273(buffer, offset, actualLength);
+      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
+        return isHumanReadableCp1141(buffer, offset, actualLength);
+      }
     }
 
     byte[] data = new byte[actualLength];

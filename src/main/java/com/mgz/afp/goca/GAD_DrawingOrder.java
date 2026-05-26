@@ -227,7 +227,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
       comment = new byte[lengthOfFollowingData];
       System.arraycopy(sfData, offset + 2, comment, 0, comment.length);
-      if (UtilCharacterEncoding.isHumanReadable(comment, config.getAfpCharSet())) {
+      if (UtilCharacterEncoding.isHumanReadable(comment, config)) {
         text = new String(comment, config.getAfpCharSet());
       }
     }
@@ -327,7 +327,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       segmentDataLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
       nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, config.getAfpCharSet());
 
-      if (UtilCharacterEncoding.isHumanReadable(nameOfSegment.getBytes(config.getAfpCharSet()), config.getAfpCharSet())) {
+      if (UtilCharacterEncoding.isHumanReadable(nameOfSegment.getBytes(config.getAfpCharSet()), config)) {
         text = nameOfSegment.trim();
       }
 
@@ -1954,7 +1954,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
       data = new byte[lengthOfFollowingData];
       System.arraycopy(sfData, offset + 2, data, 0, data.length);
-      if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+      if (UtilCharacterEncoding.isHumanReadable(data, config)) {
         text = new String(data, config.getAfpCharSet());
       }
     }
@@ -2209,7 +2209,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       if (lengthOfFollowingData > 0) {
         codePoints = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 2, codePoints, 0, codePoints.length);
-        if (UtilCharacterEncoding.isHumanReadable(codePoints, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(codePoints, config)) {
           text = new String(codePoints, config.getAfpCharSet());
         }
       } else {
@@ -3116,7 +3116,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       if (lengthOfFollowingData > 4) {
         codePoints = new byte[lengthOfFollowingData - 4];
         System.arraycopy(sfData, offset + 6, codePoints, 0, codePoints.length);
-        if (UtilCharacterEncoding.isHumanReadable(codePoints, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(codePoints, config)) {
           text = new String(codePoints, config.getAfpCharSet());
         }
       } else {

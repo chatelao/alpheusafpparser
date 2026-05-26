@@ -63,6 +63,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   boolean isBuildShallow;
   boolean escalateParsingErrors = true;
   volatile boolean ptxDebug = false;
+  boolean useCharsetOptimizations = false;
   File afpFile;
   private transient ByteBuffer byteBuffer;
   private transient AsynchronousFileChannel asyncFileChannel;
@@ -261,6 +262,24 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    */
   public void setPtxDebug(boolean ptxDebug) {
     this.ptxDebug = ptxDebug;
+  }
+
+  /**
+   * Returns whether charset optimizations are enabled.
+   *
+   * @return true if charset optimizations are enabled
+   */
+  public boolean isUseCharsetOptimizations() {
+    return useCharsetOptimizations;
+  }
+
+  /**
+   * Enables or disables charset optimizations.
+   *
+   * @param useCharsetOptimizations true to enable charset optimizations
+   */
+  public void setUseCharsetOptimizations(boolean useCharsetOptimizations) {
+    this.useCharsetOptimizations = useCharsetOptimizations;
   }
 
   /**

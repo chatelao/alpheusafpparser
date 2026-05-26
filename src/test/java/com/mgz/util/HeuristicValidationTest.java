@@ -50,6 +50,6 @@ public class HeuristicValidationTest {
     public void testIsHumanReadable_DefaultCharset() {
         String text = "Hello World";
         byte[] data = text.getBytes(Constants.cpIBM500);
-        assertTrue(UtilCharacterEncoding.isHumanReadable(data, null), "Should default to IBM500 if charset is null");
+        assertTrue(UtilCharacterEncoding.isHumanReadable(data, (Charset) null), "Should default to IBM500 if charset is null");
     }
 }

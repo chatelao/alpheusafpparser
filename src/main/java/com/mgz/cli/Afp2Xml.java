@@ -64,6 +64,7 @@ public class Afp2Xml {
     var measure = false;
     var ptxDebug = false;
     var parallel = false;
+    var useCharsetOptimizations = false;
     var threadCount = 0;
     String inputPath = null;
     String outputPath = null;
@@ -99,6 +100,9 @@ public class Afp2Xml {
         }
         case "--ptx-debug" -> {
           ptxDebug = true;
+        }
+        case "-c", "--charset-opt" -> {
+          useCharsetOptimizations = true;
         }
         case "-p", "--parallel" -> {
           parallel = true;
@@ -184,6 +188,7 @@ public class Afp2Xml {
         try {
           final int totalThreads = threadCount;
           final boolean finalParallel = parallel;
+          final boolean finalCharsetOpt = useCharsetOptimizations;
 
           for (var f : files) {
             final String finalXpath = xpathExpression;
@@ -210,7 +215,7 @@ public class Afp2Xml {
               try {
                 if ("-".equals(finalOutputPath)) {
                   var baos = new java.io.ByteArrayOutputStream();
-                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile);
+                  convertToXml(f, baos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   synchronized (System.out) {
                     baos.writeTo(System.out);
                     System.out.flush();
@@ -218,7 +223,7 @@ public class Afp2Xml {
                 } else {
                   try (var fos = new FileOutputStream(outputFile);
                        var bos = new BufferedOutputStream(fos)) {
-                    convertToXml(f, bos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile);
+                    convertToXml(f, bos, finalXpath, finalJackson, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   }
                   System.out.println("Export successful: " + outputFile.getPath());
                 }
@@ -246,14 +251,14 @@ public class Afp2Xml {
       } else {
         if ("-".equals(outputPath)) {
           var bos = new BufferedOutputStream(System.out);
-          convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
+          convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount, useCharsetOptimizations);
           bos.flush();
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
           try (var fos = new FileOutputStream(outputFile);
                var bos = new BufferedOutputStream(fos)) {
-            convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount);
+            convertToXml(input, bos, xpathExpression, useJackson, ptxDebug, parallel, threadCount, useCharsetOptimizations);
           }
           System.out.println("Export successful: " + outputFile.getPath());
         }
@@ -276,7 +281,7 @@ public class Afp2Xml {
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-j|--jackson] [-m|--measure] "
-        + "[--ptx-debug] [-p|--parallel] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
+        + "[--ptx-debug] [-c|--charset-opt] [-p|--parallel] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
         + "to XML.");
@@ -287,6 +292,7 @@ public class Afp2Xml {
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
     out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
+    out.println("  -c, --charset-opt         Enable optimized character set decoding.");
     out.println("  -p, --parallel            Enable parallel conversion for single files.");
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
@@ -294,11 +300,12 @@ public class Afp2Xml {
   }
 
   private static void convertToXml(File inputFile, java.io.OutputStream os, String xpathExpression,
-      boolean useJackson, boolean ptxDebug, boolean parallel, int threadCount) throws Exception {
+      boolean useJackson, boolean ptxDebug, boolean parallel, int threadCount, boolean useCharsetOptimizations) throws Exception {
     var config = new AFPParserConfiguration();
     config.setAFPFile(inputFile);
     config.setEscalateParsingErrors(false);
     config.setPtxDebug(ptxDebug);
+    config.setUseCharsetOptimizations(useCharsetOptimizations);
 
     if (parallel) {
       var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, useJackson, xpathExpression);
