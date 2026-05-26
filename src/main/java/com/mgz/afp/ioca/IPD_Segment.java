@@ -249,7 +249,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 0) {
         data = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 2, data, 0, data.length);
-        if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(data, config)) {
           text = new String(data, config.getAfpCharSet());
         }
       } else {
@@ -296,7 +296,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 0) {
         data = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 4, data, 0, data.length);
-        if (UtilCharacterEncoding.isHumanReadable(data, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(data, config)) {
           text = new String(data, config.getAfpCharSet());
         }
       } else {
@@ -344,7 +344,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       if (lengthOfFollowingData > 0) {
         name = new byte[lengthOfFollowingData];
         System.arraycopy(sfData, offset + 2, name, 0, name.length);
-        if (UtilCharacterEncoding.isHumanReadable(name, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(name, config)) {
           text = new String(name, config.getAfpCharSet());
         }
       } else {

@@ -87,7 +87,7 @@ public class BDA_BarCodeData extends StructuredField {
     if (actualLength > (5 + parameterDataLength)) {
       barCodeData = new byte[actualLength - (5 + parameterDataLength)];
       System.arraycopy(sfData, offset + (5 + parameterDataLength), barCodeData, 0, barCodeData.length);
-      if (UtilCharacterEncoding.isHumanReadable(barCodeData, config.getAfpCharSet())) {
+      if (UtilCharacterEncoding.isHumanReadable(barCodeData, config)) {
         text = new String(barCodeData, config.getAfpCharSet());
       }
     } else {

@@ -329,7 +329,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       if (actualLength > 0) {
         undefinedData = new byte[actualLength];
         System.arraycopy(sfData, offset, undefinedData, 0, actualLength);
-        if (UtilCharacterEncoding.isHumanReadable(undefinedData, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(undefinedData, config)) {
           text = new String(undefinedData, config.getAfpCharSet());
         }
       } else {
@@ -648,7 +648,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       if (actualLength > 0) {
         ignoredData = new byte[actualLength];
         System.arraycopy(sfData, offset, ignoredData, 0, actualLength);
-        if (UtilCharacterEncoding.isHumanReadable(ignoredData, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(ignoredData, config)) {
           text = new String(ignoredData, config.getAfpCharSet());
         }
       } else {
@@ -822,7 +822,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
         for (int i = 0; i < len; i++) {
           fullData[i] = repeatData[i % repeatData.length];
         }
-        if (UtilCharacterEncoding.isHumanReadable(fullData, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(fullData, config)) {
           text = new String(fullData, config.getAfpCharSet());
         }
       } else {
@@ -1765,7 +1765,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       if (actualLength > 4) {
         alternateText = new byte[actualLength - 4];
         System.arraycopy(sfData, offset + 4, alternateText, 0, alternateText.length);
-        if (UtilCharacterEncoding.isHumanReadable(alternateText, config.getAfpCharSet())) {
+        if (UtilCharacterEncoding.isHumanReadable(alternateText, config)) {
           text = new String(alternateText, config.getAfpCharSet());
         }
       } else {
