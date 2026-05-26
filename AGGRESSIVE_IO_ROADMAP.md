@@ -4,16 +4,19 @@ This document outlines the phased implementation plan for maximizing I/O through
 
 ## Status Summary (May 2026)
 - **Bottleneck Analysis:** ✅ Completed (Audit 3 & `AGGRESSIVE_IO_DESIGN.md`)
-- **Directory Mode Optimization:** ⏳ Pending
+- **Directory Mode Optimization:** 🚧 In-Progress
 - **Vectorized Writes:** ⏳ Pending
 - **Asynchronous I/O:** ⏳ Pending
 
 ---
 
-## Phase 1: Directory Mode Optimization (Strategy E) ⏳
+## Phase 1: Directory Mode Optimization (Strategy E) 🚧
 Address the memory and synchronization bottleneck when converting multiple files to stdout.
 
-- ⏳ **Implement `OrderedOutputOrchestrator`**: Create a specialized orchestrator to manage streaming fragments from multiple concurrent file conversions.
+- 🚧 **Implement `OrderedOutputOrchestrator`**:
+  - ✅ Core logic and synchronization.
+  - ✅ Unit verification.
+  - ⏳ CLI integration in `Afp2Xml`.
 - ⏳ **Replace `ByteArrayOutputStream`**: Refactor `Afp2Xml` directory mode to stream XML fragments to stdout instead of buffering entire files.
 - ⏳ **Page-Level Streaming**: Ensure fragments are flushed at the page or structured field level to minimize memory footprint to $O(PageSize \times Threads)$.
 
