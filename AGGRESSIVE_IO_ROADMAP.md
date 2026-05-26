@@ -30,7 +30,7 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
   - ✅ **Fragment Batching**: Logic to group consecutive ready fragments.
   - ✅ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
 - ⏳ **Direct Buffer Integration**:
-  - ⏳ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
+  - ✅ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
   - ⏳ Refactor writers to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
 - ⏳ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation.
 
@@ -38,7 +38,10 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
 Optimize large single-file conversions by mapping output files directly into memory.
 
 - ⏳ **Output Mapping Prototype**: Implement a prototype for `MappedByteBuffer`-based output in `AfpJacksonXmlWriter`.
-- ⏳ **Size Estimation Logic**: Develop heuristics to estimate XML output size based on AFP structured field counts.
+- ⏳ **Size Estimation Logic**:
+  - ⏳ **Heuristic Analysis**: Analyze correlation between AFP structured field sizes (PTX, GAD, etc.) and their XML representation.
+  - ⏳ **Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields.
+  - ⏳ **Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences.
 - ⏳ **Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
 - ⏳ **Atomic Pre-allocation**: Efficiently grow output files on the filesystem.
 
