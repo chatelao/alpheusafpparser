@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.xml;
 
+import com.mgz.util.DirectBufferPool;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -101,26 +102,32 @@ public class OrderedResultCollector {
     }
 
     if (!readyFragments.isEmpty()) {
-      if (channel != null) {
-        ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
-        long totalBytes = 0;
-        for (ByteBuffer b : srcs) totalBytes += b.remaining();
-        long written = 0;
-        while (written < totalBytes) {
-          written += channel.write(srcs);
-        }
-      } else {
-        for (ByteBuffer fragment : readyFragments) {
-          int fragmentLen = fragment.remaining();
-          if (fragment.hasArray()) {
-            out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
-          } else {
-            byte[] temp = new byte[fragmentLen];
-            fragment.get(temp);
-            out.write(temp);
+      try {
+        if (channel != null) {
+          ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
+          long totalBytes = 0;
+          for (ByteBuffer b : srcs) totalBytes += b.remaining();
+          long written = 0;
+          while (written < totalBytes) {
+            written += channel.write(srcs);
           }
+        } else {
+          for (ByteBuffer fragment : readyFragments) {
+            int fragmentLen = fragment.remaining();
+            if (fragment.hasArray()) {
+              out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+            } else {
+              byte[] temp = new byte[fragmentLen];
+              fragment.get(temp);
+              out.write(temp);
+            }
+          }
+          out.flush();
         }
-        out.flush();
+      } finally {
+        for (ByteBuffer fragment : readyFragments) {
+          DirectBufferPool.release(fragment);
+        }
       }
       notifyAll();
     }

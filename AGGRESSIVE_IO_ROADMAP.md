@@ -30,8 +30,8 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
   - ✅ **Fragment Batching**: Logic to group consecutive ready fragments.
   - ✅ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
 - ⏳ **Direct Buffer Integration**:
-  - ⏳ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
-  - ⏳ Refactor writers to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
+  - ✅ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
+  - ⏳ Refactor `AfpJacksonXmlWriter` to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
 - ⏳ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation.
 
 ## Phase 3: Memory-Mapped I/O for Output (Strategy B) ⏳
