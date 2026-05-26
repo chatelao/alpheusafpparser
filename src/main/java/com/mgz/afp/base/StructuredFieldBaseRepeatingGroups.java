@@ -22,7 +22,6 @@ package com.mgz.afp.base;
 import com.mgz.afp.base.annotations.AFPField;
 
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 

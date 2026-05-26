@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 /*
 Copyright 2015 Rudolf Fiala
 
@@ -40,9 +41,8 @@ import com.mgz.afp.triplets.Triplet;
 import com.mgz.afp.triplets.TripletPool;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,7 +52,7 @@ import java.io.OutputStream;
  * Base class for all {@link StructuredField}s.
  */
 @AFPType
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public abstract class StructuredField implements IAFPDecodeableWriteable {
 
   @AFPField

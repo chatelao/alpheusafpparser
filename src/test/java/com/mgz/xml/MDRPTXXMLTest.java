@@ -3,13 +3,10 @@ package com.mgz.xml;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import com.mgz.afp.ptoca.PTX_PresentationTextData;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -51,7 +48,9 @@ public class MDRPTXXMLTest {
         assertEquals("PTX_PresentationTextData", ptx.getClass().getSimpleName());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Afp2XmlWriter.writeXML(baos, ptx, config);
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
+            writer.writeField(ptx);
+        }
         String xml = baos.toString();
 
         System.out.println("XML for CP273:\n" + xml);
@@ -94,7 +93,9 @@ public class MDRPTXXMLTest {
         assertEquals("PTX_PresentationTextData", ptx.getClass().getSimpleName());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Afp2XmlWriter.writeXML(baos, ptx, config);
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
+            writer.writeField(ptx);
+        }
         String xml = baos.toString();
 
         System.out.println("XML for CP500:\n" + xml);

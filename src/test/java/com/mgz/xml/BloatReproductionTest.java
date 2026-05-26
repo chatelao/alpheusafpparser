@@ -17,7 +17,7 @@ public class BloatReproductionTest {
         nop.decodeAFP(data, 0, data.length, config);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (AfpStreamingXmlWriter writer = new AfpStreamingXmlWriter(baos)) {
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
             writer.writeField(nop);
         }
 
@@ -34,7 +34,7 @@ public class BloatReproductionTest {
         nop.decodeAFP(data, 0, data.length, config);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (AfpStreamingXmlWriter writer = new AfpStreamingXmlWriter(baos)) {
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
             writer.writeField(nop);
         }
 

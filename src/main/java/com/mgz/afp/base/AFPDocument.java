@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 /*
 Copyright 2015 Rudolf Fiala
 
@@ -19,8 +20,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import java.util.List;
  * Represents an AFP document containing a list of structured fields.
  */
 @XmlRootElement(name = "AFPDocument")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class AFPDocument {
     @XmlAnyElement(lax = true)
     private List<Object> structuredFields = new ArrayList<>();

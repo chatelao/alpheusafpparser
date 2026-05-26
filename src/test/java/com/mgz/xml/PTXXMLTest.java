@@ -5,8 +5,8 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PTXXMLTest {
 
     @Test
-    public void testPTXXML() throws JAXBException {
+    public void testPTXXML() throws IOException {
         PTX_PresentationTextData ptx = new PTX_PresentationTextData();
         AFPParserConfiguration config = new AFPParserConfiguration();
         Charset charset = config.getAfpCharSet();
@@ -25,7 +25,9 @@ public class PTXXMLTest {
         ptx.addControlSequence(trn);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Afp2XmlWriter.writeXML(baos, ptx, config);
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
+            writer.writeField(ptx);
+        }
 
         String xml = baos.toString();
         System.out.println(xml);

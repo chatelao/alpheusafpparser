@@ -4,7 +4,6 @@ import com.mgz.afp.modca.NOP_NoOperation;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
@@ -23,7 +22,9 @@ public class NOPXMLTest {
         nop.decodeAFP(data, 0, data.length, config);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Afp2XmlWriter.writeXML(baos, nop, config);
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
+            writer.writeField(nop);
+        }
 
         String xml = baos.toString();
         System.out.println(xml);
@@ -31,13 +32,15 @@ public class NOPXMLTest {
     }
 
     @Test
-    public void testNOPXMLWithBinary() throws JAXBException {
+    public void testNOPXMLWithBinary() throws Exception {
         NOP_NoOperation nop = new NOP_NoOperation();
         byte[] data = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
         nop.setData(data);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Afp2XmlWriter.writeXML(baos, nop, new AFPParserConfiguration());
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
+            writer.writeField(nop);
+        }
 
         String xml = baos.toString();
         System.out.println(xml);

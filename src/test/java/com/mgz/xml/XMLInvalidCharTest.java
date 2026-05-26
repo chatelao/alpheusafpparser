@@ -1,11 +1,9 @@
 package com.mgz.xml;
 
 import com.mgz.afp.goca.GAD_DrawingOrder;
-import com.mgz.afp.parser.AFPParserConfiguration;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -35,18 +33,6 @@ public class XMLInvalidCharTest {
         bdt.setName("DOC\u0000001");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
-            assertDoesNotThrow(() -> {
-                writer.writeField(bdt);
-            });
-        }
-    }
-
-    @Test
-    public void testStreamingJAXBNulChar() throws Exception {
-        com.mgz.afp.modca.BDT_BeginDocument bdt = new com.mgz.afp.modca.BDT_BeginDocument();
-        bdt.setName("DOC\u0000001");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (AfpStreamingXmlWriter writer = new AfpStreamingXmlWriter(baos)) {
             assertDoesNotThrow(() -> {
                 writer.writeField(bdt);
             });

@@ -3,7 +3,6 @@ package com.mgz.xml;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CrossEncodingTest {
@@ -80,13 +78,13 @@ public class CrossEncodingTest {
         StructuredField ptx = parser.parseNextSF();
 
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
-        Afp2XmlWriter.writeXML(xmlStream, ptx, config);
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(xmlStream)) {
+            writer.writeField(ptx);
+        }
         String xml = xmlStream.toString();
 
         System.out.println("XML output for testMunchenInDifferentCodePages:\n" + xml);
 
-        // Count occurrences of "München"
-        // We use a looser check because of potential duplication in XML (as seen in logs)
         assertTrue(xml.contains("München"), "XML should contain 'München'");
 
         int count = 0;
@@ -95,8 +93,6 @@ public class CrossEncodingTest {
             count++;
             lastIndex += "München".length();
         }
-        // It seems the current XML writer might duplicate sequences (one in controlSequences, one in trnTransparentData)
-        // So we expect at least 3, but more is likely.
         assertTrue(count >= 3, "XML should contain 'München' at least 3 times. Count was: " + count);
     }
 
@@ -155,7 +151,9 @@ public class CrossEncodingTest {
         StructuredField ptx = parser.parseNextSF();
 
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
-        Afp2XmlWriter.writeXML(xmlStream, ptx, config);
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(xmlStream)) {
+            writer.writeField(ptx);
+        }
         String xml = xmlStream.toString();
 
         System.out.println("XML output for testMixedEBCDICAndUCT:\n" + xml);

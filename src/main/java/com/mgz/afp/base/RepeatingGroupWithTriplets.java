@@ -20,7 +20,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.base;
 
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlTransient;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.AFPValidationException;
 import com.mgz.afp.parser.AFPParserConfiguration;

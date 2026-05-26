@@ -7,7 +7,6 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.ParallelAfpConverter;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.xml.AfpJacksonXmlWriter;
-import com.mgz.xml.AfpStreamingXmlWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -24,36 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Execution(ExecutionMode.SAME_THREAD)
 public class PerformanceRegressionTest {
-
-    @Test
-    public void test10MBConversionPerformance() throws Exception {
-        File tempAfp = File.createTempFile("perf_test", ".afp");
-        tempAfp.deleteOnExit();
-
-        generateLargeAfp(tempAfp, 10);
-
-        long startTime = System.currentTimeMillis();
-
-        AFPParserConfiguration config = new AFPParserConfiguration();
-        config.setAFPFile(tempAfp);
-        AFPParser parser = new AFPParser(config);
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(1024 * 1024);
-        try (AfpStreamingXmlWriter writer = new AfpStreamingXmlWriter(bos, null)) {
-            StructuredField sf;
-            while ((sf = parser.parseNextSF()) != null) {
-                writer.writeField(sf);
-                sf.release();
-            }
-        } finally {
-            parser.quitParsing();
-        }
-
-        long duration = System.currentTimeMillis() - startTime;
-        System.out.println("10MB AFP to XML conversion took: " + duration + "ms");
-
-        assertTrue(duration < 2000, "Performance regression: 10MB conversion took too long: " + duration + "ms");
-    }
 
     @Test
     public void testJackson10MBConversionPerformance() throws Exception {
@@ -88,41 +57,10 @@ public class PerformanceRegressionTest {
         long startPar = System.currentTimeMillis();
         AFPParserConfiguration parConfig = new AFPParserConfiguration();
         parConfig.setAFPFile(tempAfp);
-        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, true, null);
+        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, null);
         converter.convert(new ByteArrayOutputStream());
         long durationPar = System.currentTimeMillis() - startPar;
         System.out.println("10MB AFP to Jackson XML (Parallel) took: " + durationPar + "ms");
-    }
-
-    @Test
-    public void testJacksonPerformanceComparison() throws Exception {
-        File tempAfp = File.createTempFile("perf_comparison", ".afp");
-        tempAfp.deleteOnExit();
-        generateLargeAfp(tempAfp, 20);
-
-        runConversion(tempAfp, true);
-        runConversion(tempAfp, false);
-
-        long jaxbTotal = 0;
-        long jacksonTotal = 0;
-        int iterations = 3;
-
-        for (int i = 0; i < iterations; i++) {
-            jaxbTotal += runConversion(tempAfp, false).totalTime;
-            jacksonTotal += runConversion(tempAfp, true).totalTime;
-        }
-
-        long jaxbAvg = jaxbTotal / iterations;
-        long jacksonAvg = jacksonTotal / iterations;
-
-        System.out.println("Average 20MB JAXB conversion: " + jaxbAvg + "ms");
-        System.out.println("Average 20MB Jackson conversion: " + jacksonAvg + "ms");
-
-        if (jacksonAvg < jaxbAvg) {
-            System.out.printf("Jackson is %.2fx faster than JAXB\n", (double) jaxbAvg / jacksonAvg);
-        } else {
-            System.out.printf("Jackson is %.2fx slower than JAXB\n", (double) jacksonAvg / jaxbAvg);
-        }
     }
 
     @Test
@@ -135,22 +73,16 @@ public class PerformanceRegressionTest {
 
         // Warm up
         for (int i = 0; i < 2; i++) {
-            runConversion(tempAfp, true);
+            runConversion(tempAfp);
             AFPParserConfiguration config = new AFPParserConfiguration();
             config.setAFPFile(tempAfp);
-            ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, true, null);
+            ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, null);
             converter.convert(new ByteArrayOutputStream(1024*1024));
         }
 
-        // Sequential JAXB
-        long startJaxb = System.currentTimeMillis();
-        runConversion(tempAfp, false);
-        long durationJaxb = System.currentTimeMillis() - startJaxb;
-        System.out.println("100MB AFP to JAXB (Seq) took: " + durationJaxb + "ms");
-
         // Sequential Jackson
         long startJackson = System.currentTimeMillis();
-        runConversion(tempAfp, true);
+        runConversion(tempAfp);
         long durationJackson = System.currentTimeMillis() - startJackson;
         System.out.println("100MB AFP to Jackson (Seq) took: " + durationJackson + "ms");
 
@@ -158,7 +90,7 @@ public class PerformanceRegressionTest {
         long startParallel = System.currentTimeMillis();
         AFPParserConfiguration config = new AFPParserConfiguration();
         config.setAFPFile(tempAfp);
-        ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, true, null);
+        ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, null);
         ByteArrayOutputStream bos = new ByteArrayOutputStream(20 * 1024 * 1024);
         converter.convert(bos);
         long durationParallel = System.currentTimeMillis() - startParallel;
@@ -181,12 +113,10 @@ public class PerformanceRegressionTest {
 
         // Warm-up phase - more iterations for better JIT
         for (int i = 0; i < 5; i++) {
-            runConversion(tempAfp, false);
-            runConversion(tempAfp, true);
+            runConversion(tempAfp);
         }
 
-        ConversionResult jaxbResult = runConversion(tempAfp, false);
-        ConversionResult jacksonResult = runConversion(tempAfp, true);
+        ConversionResult jacksonResult = runConversion(tempAfp);
 
         // Parallel run for comprehensive
         MnemonicPerformanceMonitor.setEnabled(true);
@@ -194,7 +124,7 @@ public class PerformanceRegressionTest {
         long startPar = System.currentTimeMillis();
         AFPParserConfiguration parConfig = new AFPParserConfiguration();
         parConfig.setAFPFile(tempAfp);
-        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, true, null);
+        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, null);
         long durationPar = -1;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             converter.convert(baos);
@@ -205,27 +135,20 @@ public class PerformanceRegressionTest {
         }
         MnemonicPerformanceMonitor.setEnabled(false);
 
-        System.out.println("JAXB Total: " + jaxbResult.totalTime + "ms, fields: " + jaxbResult.fieldCount + ", errors: " + jaxbResult.errorCount);
         System.out.println("Jackson Total: " + jacksonResult.totalTime + "ms, fields: " + jacksonResult.fieldCount + ", errors: " + jacksonResult.errorCount);
         if (durationPar >= 0) System.out.println("Jackson Parallel Total: " + durationPar + "ms");
 
-        if (jacksonResult.totalTime < jaxbResult.totalTime && jaxbResult.totalTime > 0) {
-            System.out.printf("Jackson is %.2fx faster than JAXB overall\n", (double) jaxbResult.totalTime / jacksonResult.totalTime);
-        }
-
-        System.out.println("\nTop 10 slowest fields in Jackson with JAXB and Parallel comparison:");
-        System.out.printf("%-35s | %-12s | %-12s | %-12s | %-10s\n", "Mnemonic", "JAXB (ns)", "Jackson (ns)", "Parallel (ns)", "Speedup");
-        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.println("\nTop 10 slowest fields in Jackson with Parallel comparison:");
+        System.out.printf("%-35s | %-12s | %-12s\n", "Mnemonic", "Jackson (ns)", "Parallel (ns)");
+        System.out.println("------------------------------------------------------------------");
         jacksonResult.fieldTimings.entrySet().stream()
             .sorted((e1, e2) -> Long.compare(e2.getValue().get(), e1.getValue().get()))
+            .limit(10)
             .forEach(e -> {
                 String className = e.getKey();
                 long jacksonTime = e.getValue().get();
-                AtomicLong jaxbTimeAtomic = jaxbResult.fieldTimings.get(className);
-                long jaxbTime = (jaxbTimeAtomic != null) ? jaxbTimeAtomic.get() : 0;
                 long parallelTime = MnemonicPerformanceMonitor.getWriteTime(className);
-                double speedup = (parallelTime > 0 && jaxbTime > 0) ? (double) jaxbTime / parallelTime : 0;
-                System.out.printf("%-35s | %-12d | %-12d | %-12d | %.2fx\n", className, jaxbTime, jacksonTime, parallelTime, speedup);
+                System.out.printf("%-35s | %-12d | %-12d\n", className, jacksonTime, parallelTime);
             });
     }
 
@@ -236,7 +159,7 @@ public class PerformanceRegressionTest {
         Map<String, AtomicLong> fieldTimings = new HashMap<>();
     }
 
-    private ConversionResult runConversion(File afpFile, boolean useJackson) throws Exception {
+    private ConversionResult runConversion(File afpFile) throws Exception {
         AFPParserConfiguration config = new AFPParserConfiguration();
         config.setAFPFile(afpFile);
         config.setEscalateParsingErrors(false);
@@ -246,20 +169,14 @@ public class PerformanceRegressionTest {
         AFPParser parser = new AFPParser(config);
         ByteArrayOutputStream bos = new ByteArrayOutputStream(1024 * 1024);
 
-        try (AutoCloseable writer = useJackson
-                ? new AfpJacksonXmlWriter(bos, null)
-                : new AfpStreamingXmlWriter(bos, null)) {
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(bos, null)) {
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
                 result.fieldCount++;
                 String className = sf.getClass().getSimpleName();
                 long startField = System.nanoTime();
                 try {
-                    if (useJackson) {
-                        ((AfpJacksonXmlWriter)writer).writeField(sf);
-                    } else {
-                        ((AfpStreamingXmlWriter)writer).writeField(sf);
-                    }
+                    writer.writeField(sf);
                 } catch (Throwable e) {
                     result.errorCount++;
                     // Silence errors during the main run to keep output clean, but we know which fields fail
