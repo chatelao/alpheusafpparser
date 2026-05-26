@@ -4,13 +4,13 @@ This document outlines the phased implementation plan for maximizing I/O through
 
 ## Status Summary (May 2026)
 - **Bottleneck Analysis:** ✅ Completed (Audit 3 & `AGGRESSIVE_IO_DESIGN.md`)
-- **Directory Mode Optimization:** 🚧 In-Progress
+- **Directory Mode Optimization:** ✅ Completed
 - **Vectorized Writes:** ⏳ Pending
 - **Asynchronous I/O:** ⏳ Pending
 
 ---
 
-## Phase 1: Directory Mode Optimization (Strategy E) 🚧
+## Phase 1: Directory Mode Optimization (Strategy E) ✅
 Address the memory and synchronization bottleneck when converting multiple files to stdout.
 
 - ✅ **Implement `OrderedOutputOrchestrator`**:
@@ -18,21 +18,29 @@ Address the memory and synchronization bottleneck when converting multiple files
   - ✅ Unit verification.
   - ✅ CLI integration in `Afp2Xml`.
 - ✅ **Replace `ByteArrayOutputStream`**: Refactor `Afp2Xml` directory mode to stream XML fragments to stdout instead of buffering entire files.
-- ⏳ **Page-Level Streaming**: Ensure fragments are flushed at the page or structured field level to minimize memory footprint to $O(PageSize \times Threads)$.
+- ✅ **Page-Level Streaming**:
+  - ✅ Ensure fragments are flushed at the page or structured field level to minimize memory footprint to $O(PageSize \times Threads)$.
+  - ✅ **Implement back-pressure**: Added memory guardrails in `OrderedOutputOrchestrator` and `OrderedResultCollector` to prevent OOM during out-of-order buffering.
 
 ## Phase 2: Vectorized Writes & Buffer Optimization (Strategy C) ⏳
 Enhance the efficiency of fragment flushing in both sequential and parallel modes.
 
-- ⏳ **Enhance `OrderedResultCollector`**: Implement batching of consecutive fragments using `FileChannel.write(ByteBuffer[])`.
-- ⏳ **Direct Buffer Integration**: Refactor writers to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
+- ⏳ **Enhance `OrderedResultCollector`**:
+  - ⏳ **ByteBuffer-based API**: Refactor orchestrators to accept `ByteBuffer` instead of `byte[]`.
+  - ⏳ **Fragment Batching**: Logic to group consecutive ready fragments.
+  - ⏳ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
+- ⏳ **Direct Buffer Integration**:
+  - ⏳ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
+  - ⏳ Refactor writers to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
 - ⏳ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation.
 
 ## Phase 3: Memory-Mapped I/O for Output (Strategy B) ⏳
 Optimize large single-file conversions by mapping output files directly into memory.
 
 - ⏳ **Output Mapping Prototype**: Implement a prototype for `MappedByteBuffer`-based output in `AfpJacksonXmlWriter`.
-- ⏳ **Size Estimation Logic**: Develop heuristics to estimate XML output size for efficient pre-allocation and mapping.
-- ⏳ **Segmented Mapping**: Handle multi-gigabyte XML outputs by mapping the file in segments.
+- ⏳ **Size Estimation Logic**: Develop heuristics to estimate XML output size based on AFP structured field counts.
+- ⏳ **Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
+- ⏳ **Atomic Pre-allocation**: Efficiently grow output files on the filesystem.
 
 ## Phase 4: Asynchronous & Non-Blocking I/O (Strategy A) ⏳
 Decouple serialization from I/O to improve performance on high-latency storage (Cloud/NAS).

@@ -43,6 +43,8 @@ public class OrderedOutputOrchestrator {
   private final Map<Integer, StreamBuffer> streams = new TreeMap<>();
   private int activeStreamId = 0;
   private final AtomicInteger streamCounter = new AtomicInteger(0);
+  private long totalBufferedSize = 0;
+  private final long maxBufferSize = 64 * 1024 * 1024; // 64MB
 
   /**
    * Constructs an OrderedOutputOrchestrator.
@@ -71,9 +73,27 @@ public class OrderedOutputOrchestrator {
    * @throws IOException if writing to the underlying output stream fails
    */
   public synchronized void put(int streamId, int sequence, byte[] data) throws IOException {
+    while (totalBufferedSize + data.length > maxBufferSize && !isNext(streamId, sequence)) {
+      try {
+        wait();
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        throw new IOException("Interrupted while waiting for buffer space", e);
+      }
+    }
+
     StreamBuffer stream = streams.computeIfAbsent(streamId, id -> new StreamBuffer());
     stream.put(sequence, data);
+    totalBufferedSize += data.length;
     flushReady();
+  }
+
+  private boolean isNext(int streamId, int sequence) {
+    if (streamId != activeStreamId) {
+      return false;
+    }
+    StreamBuffer stream = streams.get(streamId);
+    return (stream == null) ? sequence == 0 : sequence == stream.nextSequence;
   }
 
   /**
@@ -99,6 +119,7 @@ public class OrderedOutputOrchestrator {
   }
 
   private void flushReady() throws IOException {
+    boolean flushed = false;
     while (streams.containsKey(activeStreamId)) {
       StreamBuffer stream = streams.get(activeStreamId);
 
@@ -107,6 +128,8 @@ public class OrderedOutputOrchestrator {
         byte[] fragment = stream.popNext();
         if (fragment != null && fragment.length > 0) {
           out.write(fragment);
+          totalBufferedSize -= fragment.length;
+          flushed = true;
         }
       }
 
@@ -115,11 +138,15 @@ public class OrderedOutputOrchestrator {
         streams.remove(activeStreamId);
         activeStreamId++;
         out.flush();
+        flushed = true;
       } else {
         // Active stream is either not yet finished or waiting for its next sequential fragment.
         // We cannot proceed to the next stream yet to preserve overall order.
         break;
       }
+    }
+    if (flushed) {
+      notifyAll();
     }
   }
 
@@ -158,7 +185,7 @@ public class OrderedOutputOrchestrator {
    */
   private static class StreamBuffer {
     private final TreeMap<Integer, byte[]> fragments = new TreeMap<>();
-    private int nextSequence = 0;
+    int nextSequence = 0;
     private boolean finished = false;
 
     void put(int sequence, byte[] data) {
