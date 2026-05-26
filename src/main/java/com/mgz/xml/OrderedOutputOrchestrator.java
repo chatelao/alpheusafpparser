@@ -22,6 +22,7 @@ package com.mgz.xml;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.channels.GatheringByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class OrderedOutputOrchestrator {
 
   private final OutputStream out;
+  private final GatheringByteChannel channel;
   private final Map<Integer, StreamBuffer> streams = new TreeMap<>();
   private int activeStreamId = 0;
   private final AtomicInteger streamCounter = new AtomicInteger(0);
@@ -55,7 +57,18 @@ public class OrderedOutputOrchestrator {
    * @param out the shared output stream to write to
    */
   public OrderedOutputOrchestrator(OutputStream out) {
+    this(out, null);
+  }
+
+  /**
+   * Constructs an OrderedOutputOrchestrator with an optional GatheringByteChannel.
+   *
+   * @param out the shared output stream to write to
+   * @param channel the channel to use for vectorized writes (can be null)
+   */
+  public OrderedOutputOrchestrator(OutputStream out, GatheringByteChannel channel) {
     this.out = out;
+    this.channel = channel;
   }
 
   /**
@@ -160,17 +173,27 @@ public class OrderedOutputOrchestrator {
     }
 
     if (!readyFragments.isEmpty()) {
-      for (ByteBuffer fragment : readyFragments) {
-        int fragmentLen = fragment.remaining();
-        if (fragment.hasArray()) {
-          out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
-        } else {
-          byte[] temp = new byte[fragmentLen];
-          fragment.get(temp);
-          out.write(temp);
+      if (channel != null) {
+        ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
+        long totalBytes = 0;
+        for (ByteBuffer b : srcs) totalBytes += b.remaining();
+        long written = 0;
+        while (written < totalBytes) {
+          written += channel.write(srcs);
         }
+      } else {
+        for (ByteBuffer fragment : readyFragments) {
+          int fragmentLen = fragment.remaining();
+          if (fragment.hasArray()) {
+            out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+          } else {
+            byte[] temp = new byte[fragmentLen];
+            fragment.get(temp);
+            out.write(temp);
+          }
+        }
+        out.flush();
       }
-      out.flush();
       notifyAll();
     }
   }

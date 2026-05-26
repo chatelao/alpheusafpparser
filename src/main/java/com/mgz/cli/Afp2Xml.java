@@ -30,6 +30,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.channels.Channels;
+import java.nio.channels.GatheringByteChannel;
+import java.nio.channels.WritableByteChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -197,8 +200,17 @@ public class Afp2Xml {
         var hasErrors = new AtomicBoolean(false);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 
-        final OrderedOutputOrchestrator orchestrator = "-".equals(outputPath)
-            ? new OrderedOutputOrchestrator(System.out) : null;
+        final OrderedOutputOrchestrator orchestrator;
+        if ("-".equals(outputPath)) {
+          WritableByteChannel stdoutChannel = Channels.newChannel(System.out);
+          if (stdoutChannel instanceof GatheringByteChannel gbc) {
+            orchestrator = new OrderedOutputOrchestrator(System.out, gbc);
+          } else {
+            orchestrator = new OrderedOutputOrchestrator(System.out);
+          }
+        } else {
+          orchestrator = null;
+        }
 
         try {
           final int totalThreads = threadCount;

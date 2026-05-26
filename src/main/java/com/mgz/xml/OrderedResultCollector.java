@@ -22,6 +22,7 @@ package com.mgz.xml;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.channels.GatheringByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -33,6 +34,7 @@ import java.util.TreeMap;
 public class OrderedResultCollector {
 
   private final OutputStream out;
+  private final GatheringByteChannel channel;
   private final TreeMap<Integer, ByteBuffer> buffer = new TreeMap<>();
   private int nextSequence = 0;
   private long totalBufferedSize = 0;
@@ -44,7 +46,18 @@ public class OrderedResultCollector {
    * @param out the output stream to write ordered results to
    */
   public OrderedResultCollector(OutputStream out) {
+    this(out, null);
+  }
+
+  /**
+   * Constructs an OrderedResultCollector with an optional GatheringByteChannel.
+   *
+   * @param out the output stream to write ordered results to
+   * @param channel the channel to use for vectorized writes (can be null)
+   */
+  public OrderedResultCollector(OutputStream out, GatheringByteChannel channel) {
     this.out = out;
+    this.channel = channel;
   }
 
   /**
@@ -88,17 +101,27 @@ public class OrderedResultCollector {
     }
 
     if (!readyFragments.isEmpty()) {
-      for (ByteBuffer fragment : readyFragments) {
-        int fragmentLen = fragment.remaining();
-        if (fragment.hasArray()) {
-          out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
-        } else {
-          byte[] temp = new byte[fragmentLen];
-          fragment.get(temp);
-          out.write(temp);
+      if (channel != null) {
+        ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
+        long totalBytes = 0;
+        for (ByteBuffer b : srcs) totalBytes += b.remaining();
+        long written = 0;
+        while (written < totalBytes) {
+          written += channel.write(srcs);
         }
+      } else {
+        for (ByteBuffer fragment : readyFragments) {
+          int fragmentLen = fragment.remaining();
+          if (fragment.hasArray()) {
+            out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+          } else {
+            byte[] temp = new byte[fragmentLen];
+            fragment.get(temp);
+            out.write(temp);
+          }
+        }
+        out.flush();
       }
-      out.flush();
       notifyAll();
     }
   }
