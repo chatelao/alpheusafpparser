@@ -21,6 +21,7 @@ package com.mgz.xml;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
@@ -68,7 +69,7 @@ import org.w3c.dom.Document;
  * A streaming XML writer for AFP structured fields using Jackson XML.
  * It uses StAX for the document structure and Jackson for individual fields.
  */
-public class AfpJacksonXmlWriter implements AutoCloseable {
+public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private static final XMLOutputFactory XOF;
   static {
@@ -162,6 +163,11 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       this.xsw = null;
       this.baseXsw = null;
     }
+  }
+
+  @Override
+  public void handle(StructuredField sf) throws Exception {
+    writeField(sf);
   }
 
   /**
