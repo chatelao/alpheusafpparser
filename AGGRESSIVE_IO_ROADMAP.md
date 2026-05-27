@@ -42,6 +42,8 @@ Optimize large single-file conversions by mapping output files directly into mem
 
 - ⏳ **3.1. Output Mapping Prototype**: Implement a prototype for `MappedByteBuffer`-based output in `AfpJacksonXmlWriter`.
   - ⏳ **3.1.1. Single-segment Mapping**: Implement fixed-size mapping for medium files (< 2GB).
+    - ✅ **3.1.1.1. Utility implementation**: Create `MappedBufferOutputStream` to wrap `MappedByteBuffer`.
+    - ⏳ **3.1.1.2. Integration**: Integrate `MappedBufferOutputStream` into `Afp2Xml` and `ParallelAfpConverter`.
   - ⏳ **3.1.2. Size-aware re-mapping**: Logic to unmap and re-map with larger capacity when estimates are exceeded.
   - ⏳ **3.1.3. Benchmarking**: Comparative analysis of MMap vs. standard NIO on different SSD/HDD tiers.
 - ⏳ **Size Estimation Logic**:
