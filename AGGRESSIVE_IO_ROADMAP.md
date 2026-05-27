@@ -32,6 +32,8 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
 - ⏳ **Direct Buffer Integration**:
   - ✅ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
   - ⏳ Refactor writers to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
+- ✅ **Typed Access API**: (From `STAX2_GAP.md`) Implement direct numeric writing in `AfpJacksonXmlWriter` to eliminate `String.valueOf()` overhead.
+- ✅ **Optimized Sanitization**: Refactor `SanitizingXMLStreamWriter` to avoid redundant string allocations when no sanitization is required.
 - ⏳ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation.
 
 ## Phase 3: Memory-Mapped I/O for Output (Strategy B) ⏳

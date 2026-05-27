@@ -10,15 +10,9 @@ The project has successfully transitioned from the standard JRE `XMLStreamWriter
 
 ## Identified Optimization Potentials
 
-### 1. Typed Access API (Fast-Path for Numbers)
+### 1. Typed Access API (Fast-Path for Numbers) ✅
 StAX2 provides a "Typed Access" API that allows writing primitives directly without manual `String.valueOf()` conversions.
-- **Potential**: Update `AfpJacksonXmlWriter` to use `writeInteger()`, `writeLong()`, and `writeDecimal()` for high-frequency fields.
-- **Target Fields**:
-    - `AMI_AbsoluteMoveInline.displacement`
-    - `AMB_AbsoluteMoveBaseline.displacement`
-    - `SCFL_SetCodedFontLocal.codedFontLocalID`
-    - `FNC_FontControl` resolution and box metrics.
-    - `LND_LineDescriptor` position and local ID fields.
+- **Status**: Completed in May 2026. `AfpJacksonXmlWriter` now uses `writeInt()` and `writeLong()` for all numeric fields.
 - **Benefit**: Eliminates redundant `String` object allocations and offloads numeric formatting to the StAX provider's optimized buffers.
 
 ### 2. Native Binary Encoding (Hex/Base64)
@@ -35,10 +29,9 @@ Aligned with `AGGRESSIVE_IO_ROADMAP.md` Phase 6.
 - **Potential**: Refactor `AfpJacksonXmlWriter` to use StAX2 implementations that can write directly into a `ByteBuffer`.
 - **Benefit**: Facilitates zero-copy strategies by allowing the XML generator to output directly into memory-mapped regions or direct buffers pooled by `DirectBufferPool`.
 
-### 4. Optimized Sanitization Decorator
+### 4. Optimized Sanitization Decorator ✅
 The current `SanitizingXMLStreamWriter` has a performance gap:
-- **Gap**: The `writeCharacters(char[] text, int start, int len)` implementation currently creates a new `String`, sanitizes it, and then converts it back to a `char[]`.
-- **Potential**: Implement an in-place or buffer-to-buffer sanitization logic that works directly on `char[]` or `ByteBuffer`.
+- **Status**: Completed in May 2026. Refactored to avoid redundant `String` allocations when no sanitization is required.
 
 ### 5. Async Parsing (Aalto Integration)
 Aalto XML supports non-blocking parsing.

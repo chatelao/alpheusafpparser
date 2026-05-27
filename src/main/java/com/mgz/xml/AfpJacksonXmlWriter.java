@@ -311,8 +311,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else if (triplet instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
       xsw.writeStartElement("CodedGraphicCharacterSetGlobalID");
-      writeElement(childIndent, "graphicCharacterSetGlobalID", String.valueOf(cgcs.getGraphicCharacterSetGlobalID()));
-      writeElement(childIndent, "codePageGlobalID_codedCharacterSetID", String.valueOf(cgcs.getCodePageGlobalID_codedCharacterSetID()));
+      writeElement(childIndent, "graphicCharacterSetGlobalID", cgcs.getGraphicCharacterSetGlobalID());
+      writeElement(childIndent, "codePageGlobalID_codedCharacterSetID", cgcs.getCodePageGlobalID_codedCharacterSetID());
       xsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (triplet instanceof Triplet.MappingOption mo) {
@@ -398,17 +398,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
       xsw.writeStartElement("AMI_AbsoluteMoveInline");
-      writeElement(baseXsw, childIndent, "displacement", String.valueOf(ami.getDisplacement()));
+      writeElement(baseXsw, childIndent, "displacement", ami.getDisplacement());
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
       xsw.writeStartElement("AMB_AbsoluteMoveBaseline");
-      writeElement(baseXsw, childIndent, "displacement", String.valueOf(amb.getDisplacement()));
+      writeElement(baseXsw, childIndent, "displacement", amb.getDisplacement());
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
       xsw.writeStartElement("SCFL_SetCodedFontLocal");
-      writeElement(baseXsw, childIndent, "codedFontLocalID", String.valueOf(scfl.getCodedFontLocalID()));
+      writeElement(baseXsw, childIndent, "codedFontLocalID", scfl.getCodedFontLocalID());
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
@@ -423,7 +423,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
       xsw.writeStartElement("SIA_SetIntercharacterAdjustment");
-      writeElement(baseXsw, childIndent, "adjustment", String.valueOf(sia.getAdjustment()));
+      writeElement(baseXsw, childIndent, "adjustment", sia.getAdjustment());
       if (sia.getDirection() != null) {
         writeElement(baseXsw, childIndent, "direction", sia.getDirection().name());
       }
@@ -431,16 +431,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi) {
       xsw.writeStartElement("SVI_SetVariableSpaceCharacterIncrement");
-      writeElement(baseXsw, childIndent, "increment", String.valueOf(svi.getIncrement()));
+      writeElement(baseXsw, childIndent, "increment", svi.getIncrement());
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
       xsw.writeStartElement("SEC_SetExtendedTextColor");
       writeElement(baseXsw, childIndent, "colorSpace", sec.getColorSpace().name());
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent1", String.valueOf(sec.getNrOfBitsComponent1()));
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent2", String.valueOf(sec.getNrOfBitsComponent2()));
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent3", String.valueOf(sec.getNrOfBitsComponent3()));
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent4", String.valueOf(sec.getNrOfBitsComponent4()));
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent1", sec.getNrOfBitsComponent1());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent2", sec.getNrOfBitsComponent2());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent3", sec.getNrOfBitsComponent3());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent4", sec.getNrOfBitsComponent4());
       if (sec.getColorValue() != null) {
         writeElement(baseXsw, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(sec.getColorValue()));
       }
@@ -448,23 +448,23 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
       xsw.writeStartElement("DIR_DrawIaxisRule");
-      writeElement(baseXsw, childIndent, "length", String.valueOf(dir.getLength()));
+      writeElement(baseXsw, childIndent, "length", dir.getLength());
       if (dir.getWidth() != null) {
-        writeElement(baseXsw, childIndent, "width", String.valueOf(dir.getWidth()));
+        writeElement(baseXsw, childIndent, "width", dir.getWidth());
       }
       if (dir.getWidthFraction() != null) {
-        writeElement(baseXsw, childIndent, "widthFraction", String.valueOf(dir.getWidthFraction()));
+        writeElement(baseXsw, childIndent, "widthFraction", dir.getWidthFraction());
       }
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
       xsw.writeStartElement("DBR_DrawBaxisRule");
-      writeElement(baseXsw, childIndent, "length", String.valueOf(dbr.getLength()));
+      writeElement(baseXsw, childIndent, "length", dbr.getLength());
       if (dbr.getWidth() != null) {
-        writeElement(baseXsw, childIndent, "width", String.valueOf(dbr.getWidth()));
+        writeElement(baseXsw, childIndent, "width", dbr.getWidth());
       }
       if (dbr.getWidthFraction() != null) {
-        writeElement(baseXsw, childIndent, "widthFraction", String.valueOf(dbr.getWidthFraction()));
+        writeElement(baseXsw, childIndent, "widthFraction", dbr.getWidthFraction());
       }
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
@@ -480,7 +480,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       xsw.writeStartElement("RPS_RepeatString");
-      writeElement(baseXsw, childIndent, "repeatLength", String.valueOf(rps.getRepeatLength()));
+      writeElement(baseXsw, childIndent, "repeatLength", rps.getRepeatLength());
       if (rps.getText() != null) {
         writeElement(baseXsw, childIndent, "text", rps.getText());
       }
@@ -499,11 +499,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeFncDirectly(FNC_FontControl fnc) throws Exception {
     xsw.writeStartElement("FNC_FontControl");
     String indent = "\n    ";
-    writeElement(indent, "retired0", String.valueOf(fnc.getRetired0()));
+    writeElement(indent, "retired0", fnc.getRetired0());
     if (fnc.getPatternTechnologyIdentifier() != null) {
       writeElement(indent, "patternTechnologyIdentifier", fnc.getPatternTechnologyIdentifier().name());
     }
-    writeElement(indent, "reserved2", String.valueOf(fnc.getReserved2()));
+    writeElement(indent, "reserved2", fnc.getReserved2());
     if (fnc.getFontUseFlags() != null) {
       xsw.writeCharacters(indent);
       xsw.writeStartElement("fontUseFlags");
@@ -522,29 +522,29 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (fnc.getyUnitBase() != null) {
       writeElement(indent, "yUnitBase", fnc.getyUnitBase().name());
     }
-    writeElement(indent, "xUnitsPerUnitBase", String.valueOf(fnc.getxUnitsPerUnitBase()));
-    writeElement(indent, "yUnitsPerUnitBase", String.valueOf(fnc.getyUnitsPerUnitBase()));
-    writeElement(indent, "maxCharacterBoxWidth", String.valueOf(fnc.getMaxCharacterBoxWidth()));
-    writeElement(indent, "maxCharacterBoxHeight", String.valueOf(fnc.getMaxCharacterBoxHeight()));
-    writeElement(indent, "fnoRepeatingGroupLength", String.valueOf(fnc.getFnoRepeatingGroupLength()));
-    writeElement(indent, "fniRepeatingGroupLength", String.valueOf(fnc.getFniRepeatingGroupLength()));
+    writeElement(indent, "xUnitsPerUnitBase", fnc.getxUnitsPerUnitBase());
+    writeElement(indent, "yUnitsPerUnitBase", fnc.getyUnitsPerUnitBase());
+    writeElement(indent, "maxCharacterBoxWidth", fnc.getMaxCharacterBoxWidth());
+    writeElement(indent, "maxCharacterBoxHeight", fnc.getMaxCharacterBoxHeight());
+    writeElement(indent, "fnoRepeatingGroupLength", fnc.getFnoRepeatingGroupLength());
+    writeElement(indent, "fniRepeatingGroupLength", fnc.getFniRepeatingGroupLength());
     if (fnc.getRasterPatternDataAlignment() != null) {
       writeElement(indent, "rasterPatternDataAlignment", fnc.getRasterPatternDataAlignment().name());
     }
-    writeElement(indent, "rasterPatternDataCount", String.valueOf(fnc.getRasterPatternDataCount()));
-    writeElement(indent, "fnpRepeatingGroupLength", String.valueOf(fnc.getFnpRepeatingGroupLength()));
-    writeElement(indent, "fnmRepeatingGroupLength", String.valueOf(fnc.getFnmRepeatingGroupLength()));
-    writeElement(indent, "shapeResolutionXUnitBase10Inches", String.valueOf(fnc.getShapeResolutionXUnitBase10Inches()));
-    writeElement(indent, "shapeResolutionYUnitBase10Inches", String.valueOf(fnc.getShapeResolutionYUnitBase10Inches()));
-    writeElement(indent, "shapeResolutionXUnitsPerUnitBase", String.valueOf(fnc.getShapeResolutionXUnitsPerUnitBase()));
-    writeElement(indent, "shapeResolutionYUnitsPerUnitBase", String.valueOf(fnc.getShapeResolutionYUnitsPerUnitBase()));
-    writeElement(indent, "outlinePatternDataCount", String.valueOf(fnc.getOutlinePatternDataCount()));
+    writeElement(indent, "rasterPatternDataCount", fnc.getRasterPatternDataCount());
+    writeElement(indent, "fnpRepeatingGroupLength", fnc.getFnpRepeatingGroupLength());
+    writeElement(indent, "fnmRepeatingGroupLength", fnc.getFnmRepeatingGroupLength());
+    writeElement(indent, "shapeResolutionXUnitBase10Inches", fnc.getShapeResolutionXUnitBase10Inches());
+    writeElement(indent, "shapeResolutionYUnitBase10Inches", fnc.getShapeResolutionYUnitBase10Inches());
+    writeElement(indent, "shapeResolutionXUnitsPerUnitBase", fnc.getShapeResolutionXUnitsPerUnitBase());
+    writeElement(indent, "shapeResolutionYUnitsPerUnitBase", fnc.getShapeResolutionYUnitsPerUnitBase());
+    writeElement(indent, "outlinePatternDataCount", fnc.getOutlinePatternDataCount());
     if (fnc.getReserved32_34() != null) {
       writeElement(indent, "reserved32_34", com.mgz.util.UtilCharacterEncoding.bytesToHexString(fnc.getReserved32_34()));
     }
-    writeElement(indent, "fnnRepeatingGroupLength", String.valueOf(fnc.getFnnRepeatingGroupLength()));
-    writeElement(indent, "fnnDataCount", String.valueOf(fnc.getFnnDataCount()));
-    writeElement(indent, "fnnIbmNameGcgidCount", String.valueOf(fnc.getFnnIbmNameGcgidCount()));
+    writeElement(indent, "fnnRepeatingGroupLength", fnc.getFnnRepeatingGroupLength());
+    writeElement(indent, "fnnDataCount", fnc.getFnnDataCount());
+    writeElement(indent, "fnnIbmNameGcgidCount", fnc.getFnnIbmNameGcgidCount());
 
     if (fnc.getTriplets() != null) {
       for (Triplet triplet : fnc.getTriplets()) {
@@ -571,29 +571,29 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeCharacters(indent);
       xsw.writeEndElement();
     }
-    writeElement(indent, "inlinePosition", String.valueOf(lnd.getInlinePosition()));
-    writeElement(indent, "baselinePosition", String.valueOf(lnd.getBaselinePosition()));
+    writeElement(indent, "inlinePosition", lnd.getInlinePosition());
+    writeElement(indent, "baselinePosition", lnd.getBaselinePosition());
     if (lnd.getInlineOrientation() != null) {
       writeElement(indent, "inlineOrientation", lnd.getInlineOrientation().name());
     }
     if (lnd.getBaselineOrientation() != null) {
       writeElement(indent, "baselineOrientation", lnd.getBaselineOrientation().name());
     }
-    writeElement(indent, "primaryFontLocalId", String.valueOf(lnd.getPrimaryFontLocalId()));
-    writeElement(indent, "channelCode", String.valueOf(lnd.getChannelCode()));
-    writeElement(indent, "nextLNDIfSkipping", String.valueOf(lnd.getNextLNDIfSkipping()));
-    writeElement(indent, "nextLNDIfSpacing", String.valueOf(lnd.getNextLNDIfSpacing()));
-    writeElement(indent, "nextLNDIfReusingData", String.valueOf(lnd.getNextLNDIfReusingData()));
+    writeElement(indent, "primaryFontLocalId", lnd.getPrimaryFontLocalId());
+    writeElement(indent, "channelCode", lnd.getChannelCode());
+    writeElement(indent, "nextLNDIfSkipping", lnd.getNextLNDIfSkipping());
+    writeElement(indent, "nextLNDIfSpacing", lnd.getNextLNDIfSpacing());
+    writeElement(indent, "nextLNDIfReusingData", lnd.getNextLNDIfReusingData());
     writeElement(indent, "suppressionTokenName", lnd.getSuppressionTokenName());
-    writeElement(indent, "shiftOutLocalFontID", String.valueOf(lnd.getShiftOutLocalFontID()));
-    writeElement(indent, "dataStartPosition", String.valueOf(lnd.getDataStartPosition()));
-    writeElement(indent, "dataLength", String.valueOf(lnd.getDataLength()));
+    writeElement(indent, "shiftOutLocalFontID", lnd.getShiftOutLocalFontID());
+    writeElement(indent, "dataStartPosition", lnd.getDataStartPosition());
+    writeElement(indent, "dataLength", lnd.getDataLength());
     if (lnd.getTextColor() != null) {
       writeElement(indent, "textColor", lnd.getTextColor().name());
     }
-    writeElement(indent, "nextLNDIfConditionalProcessing", String.valueOf(lnd.getNextLNDIfConditionalProcessing()));
-    writeElement(indent, "subpageID", String.valueOf(lnd.getSubpageID()));
-    writeElement(indent, "ccpIdentifier", String.valueOf(lnd.getCcpIdentifier()));
+    writeElement(indent, "nextLNDIfConditionalProcessing", lnd.getNextLNDIfConditionalProcessing());
+    writeElement(indent, "subpageID", lnd.getSubpageID());
+    writeElement(indent, "ccpIdentifier", lnd.getCcpIdentifier());
 
     if (lnd.getTriplets() != null) {
       for (Triplet triplet : lnd.getTriplets()) {
@@ -657,24 +657,24 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeObpDirectly(OBP_ObjectAreaPosition obp) throws Exception {
     xsw.writeStartElement("OBP_ObjectAreaPosition");
     String indent = "\n    ";
-    writeElement(indent, "objectAreaPositionID", String.valueOf(obp.getObjectAreaPositionID()));
+    writeElement(indent, "objectAreaPositionID", obp.getObjectAreaPositionID());
     if (obp.getRepeatingGroup() != null) {
       xsw.writeCharacters(indent);
       xsw.writeStartElement("repeatingGroup");
       String childIndent = indent + "  ";
       OBP_ObjectAreaPosition.OBP_RepeatingGroup rg = obp.getRepeatingGroup();
-      writeElement(childIndent, "repeatingGroupLength", String.valueOf(rg.getRepeatingGroupLength()));
-      writeElement(childIndent, "xOrigin", String.valueOf(rg.getxOrigin()));
-      writeElement(childIndent, "yOrigin", String.valueOf(rg.getyOrigin()));
+      writeElement(childIndent, "repeatingGroupLength", rg.getRepeatingGroupLength());
+      writeElement(childIndent, "xOrigin", rg.getxOrigin());
+      writeElement(childIndent, "yOrigin", rg.getyOrigin());
       if (rg.getxRotation() != null) {
         writeElement(childIndent, "xRotation", rg.getxRotation().name());
       }
       if (rg.getyRotation() != null) {
         writeElement(childIndent, "yRotation", rg.getyRotation().name());
       }
-      writeElement(childIndent, "reserved11", String.valueOf(rg.getReserved11()));
-      writeElement(childIndent, "xOriginOfContent", String.valueOf(rg.getxOriginOfContent()));
-      writeElement(childIndent, "yOriginOfContent", String.valueOf(rg.getyOriginOfContent()));
+      writeElement(childIndent, "reserved11", rg.getReserved11());
+      writeElement(childIndent, "xOriginOfContent", rg.getxOriginOfContent());
+      writeElement(childIndent, "yOriginOfContent", rg.getyOriginOfContent());
       if (rg.getxRotationOfContent() != null) {
         writeElement(childIndent, "xRotationOfContent", rg.getxRotationOfContent().name());
       }
@@ -697,10 +697,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (idd.getUnitBase() != null) {
       writeElement(indent, "unitBase", idd.getUnitBase().name());
     }
-    writeElement(indent, "xImagePointsPerUnitBase", String.valueOf(idd.getxImagePointsPerUnitBase()));
-    writeElement(indent, "yImagePointsPerUnitBase", String.valueOf(idd.getyImagePointsPerUnitBase()));
-    writeElement(indent, "widthOfImageInImagePoints", String.valueOf(idd.getWidthOfImageInImagePoints()));
-    writeElement(indent, "heightOfImageInImagePoints", String.valueOf(idd.getHeightOfImageInImagePoints()));
+    writeElement(indent, "xImagePointsPerUnitBase", idd.getxImagePointsPerUnitBase());
+    writeElement(indent, "yImagePointsPerUnitBase", idd.getyImagePointsPerUnitBase());
+    writeElement(indent, "widthOfImageInImagePoints", idd.getWidthOfImageInImagePoints());
+    writeElement(indent, "heightOfImageInImagePoints", idd.getHeightOfImageInImagePoints());
 
     if (idd.getSelfDefiningFields() != null) {
       for (IDD_SelfDefiningField sdf : idd.getSelfDefiningFields()) {
@@ -747,7 +747,29 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
+  private void writeElement(XMLStreamWriter2 writer, String indent, String name, int value) throws Exception {
+    writer.writeCharacters(indent);
+    writer.writeStartElement(name);
+    writer.writeInt(value);
+    writer.writeEndElement();
+  }
+
+  private void writeElement(XMLStreamWriter2 writer, String indent, String name, long value) throws Exception {
+    writer.writeCharacters(indent);
+    writer.writeStartElement(name);
+    writer.writeLong(value);
+    writer.writeEndElement();
+  }
+
   private void writeElement(String indent, String name, String value) throws Exception {
+    writeElement(xsw, indent, name, value);
+  }
+
+  private void writeElement(String indent, String name, int value) throws Exception {
+    writeElement(xsw, indent, name, value);
+  }
+
+  private void writeElement(String indent, String name, long value) throws Exception {
     writeElement(xsw, indent, name, value);
   }
 
