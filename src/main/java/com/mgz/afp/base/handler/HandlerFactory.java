@@ -20,6 +20,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.base.handler;
 
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 
 /**
  * Factory interface for creating {@link StructuredFieldHandler} instances.
@@ -35,4 +36,14 @@ public interface HandlerFactory {
    * @throws Exception if creation fails
    */
   StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception;
+
+  /**
+   * Strips any format-specific fragment wrappers from the data.
+   *
+   * @param data the data to strip
+   * @return the stripped data
+   */
+  default ByteBuffer stripFragmentWrapper(ByteBuffer data) {
+    return data;
+  }
 }

@@ -38,4 +38,4 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 1.  ✅ **Stub `PdfHandler`:** Create a skeleton implementation for performance testing (parsing without output).
 2.  ✅ **Benchmark PDF vs XML:** Measure the throughput of the parsing stage alone to establish a ceiling for PDF generation speed.
 3.  **Finalize iText 9-based integration design:** Document the mapping and parallel assembly strategy in [PDF_INTEGRATION_CONCEPT.md](PDF_INTEGRATION_CONCEPT.md).
-4.  **Decouple fragment assembly from XML-specific stripping:** Replace the manual XML tag stripping in `ParallelAfpConverter` with a generic assembly mechanism in `OrderedResultCollector` or via a specialized `FragmentAssembler`.
+4.  ✅ **Decouple fragment assembly from XML-specific stripping:** Replace the manual XML tag stripping in `ParallelAfpConverter` with a generic assembly mechanism in `OrderedResultCollector` or via a specialized `FragmentAssembler`.

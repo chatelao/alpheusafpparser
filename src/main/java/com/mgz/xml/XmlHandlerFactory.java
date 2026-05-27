@@ -22,11 +22,16 @@ package com.mgz.xml;
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Concrete implementation of {@link HandlerFactory} for XML output using Jackson.
  */
 public class XmlHandlerFactory implements HandlerFactory {
+
+  private static final byte[] START_TAG = "<AfpFragments>".getBytes(StandardCharsets.UTF_8);
+  private static final byte[] END_TAG = "</AfpFragments>".getBytes(StandardCharsets.UTF_8);
 
   private final String xpathExpression;
 
@@ -49,5 +54,53 @@ public class XmlHandlerFactory implements HandlerFactory {
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     return new AfpJacksonXmlWriter(os, xpathExpression, fragmentMode);
+  }
+
+  @Override
+  public ByteBuffer stripFragmentWrapper(ByteBuffer data) {
+    if (data == null || !data.hasRemaining()) return data;
+
+    int startIdx = -1;
+    int len = data.remaining();
+    int pos = data.position();
+
+    // Search for start tag
+    for (int i = 0; i <= len - START_TAG.length; i++) {
+      boolean match = true;
+      for (int j = 0; j < START_TAG.length; j++) {
+        if (data.get(pos + i + j) != START_TAG[j]) {
+          match = false;
+          break;
+        }
+      }
+      if (match) {
+        startIdx = i + START_TAG.length;
+        break;
+      }
+    }
+
+    if (startIdx == -1) return data;
+
+    int endIdx = -1;
+    // Search for end tag from the end
+    for (int i = len - END_TAG.length; i >= startIdx; i--) {
+      boolean match = true;
+      for (int j = 0; j < END_TAG.length; j++) {
+        if (data.get(pos + i + j) != END_TAG[j]) {
+          match = false;
+          break;
+        }
+      }
+      if (match) {
+        endIdx = i;
+        break;
+      }
+    }
+
+    if (endIdx == -1) return data;
+
+    data.position(pos + startIdx);
+    data.limit(pos + endIdx);
+    return data.slice();
   }
 }
