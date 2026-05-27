@@ -1,6 +1,6 @@
-# Optimization Summary: Top 20 Techniques
+# Optimization Summary: Top 30 Techniques
 
-This document summarizes the top 20 performance optimization techniques implemented in the Alpheus AFP Parser project, providing explanations and matching code samples.
+This document summarizes the top 30 performance optimization techniques implemented in the Alpheus AFP Parser project, providing explanations and matching code samples.
 
 ## 1. Manual StAX Fast-Paths
 **Explanation:** High-frequency AFP elements (like `PTX`, `TLE`, `NOP`) are written directly to the `XMLStreamWriter`. This avoids the overhead of Jackson's object-to-XML mapping for the majority of the data.
@@ -306,4 +306,136 @@ private void writeControlSequence(PTOCAControlSequence cs) throws Exception {
         // Fallback only for rare control sequences
     }
 }
+```
+
+## 21. Vectorized Writes (NIO Gathering)
+**Explanation:** The output orchestrators leverage `GatheringByteChannel.write(ByteBuffer[])` to perform vectorized I/O. This allows flushing multiple XML fragments (e.g., pages) in a single system call, significantly reducing kernel-mode transitions and improving throughput.
+**Code Sample (`OrderedResultCollector.java`):**
+```java
+if (channel != null) {
+    ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
+    long totalBytes = 0;
+    for (ByteBuffer b : srcs) totalBytes += b.remaining();
+    long written = 0;
+    while (written < totalBytes) {
+        written += channel.write(srcs);
+    }
+}
+```
+
+## 22. Tiered Direct Buffer Pooling
+**Explanation:** To minimize the high cost of `DirectByteBuffer` allocation and the resulting pressure on the native memory manager, the project uses a tiered, thread-safe pool. Buffers are bucketed by powers of two (8KB to 4MB) to ensure efficient recycling for varying fragment sizes.
+**Code Sample (`DirectBufferPool.java`):**
+```java
+public static ByteBuffer acquire(int capacity) {
+    int bucketIdx = getBucketIndex(capacity);
+    // ...
+    ByteBuffer buffer = BUCKETS[bucketIdx].poll();
+    if (buffer == null) {
+        int bucketCapacity = 1 << (bucketIdx + MIN_POWER);
+        return ByteBuffer.allocateDirect(bucketCapacity);
+    }
+    buffer.clear();
+    return buffer;
+}
+```
+
+## 23. Memory-Aware Back-pressure
+**Explanation:** Parallel conversion of high-volume AFP data can easily overwhelm the output stream, especially when piping to stdout. A blocking back-pressure mechanism limits the total size of buffered fragments (default 64MB), pausing producers until the consumer catches up.
+**Code Sample (`OrderedOutputOrchestrator.java`):**
+```java
+while (totalBufferedSize + len > maxBufferSize && !isNext(streamId, sequence)) {
+    try {
+        wait(); // Block until buffer space is released
+    } catch (InterruptedException e) {
+        // ...
+    }
+}
+```
+
+## 24. Heuristic XML Size Estimation
+**Explanation:** Before allocating buffers or mapping memory segments, the system uses heuristic multipliers (e.g., 12.0x for PTX) to estimate the eventual XML size of an AFP structured field. This allows for more efficient pre-allocation and reduces re-allocations.
+**Code Sample (`SFSizeEstimator.java`):**
+```java
+public static long estimateXmlSize(StructuredField sf) {
+    int afpSize = sf.getStructuredFieldIntroducer().getSFLength();
+    double multiplier = DEFAULT_MULTIPLIER;
+    if (sf instanceof PTX_PresentationTextData) {
+        multiplier = PTX_MULTIPLIER; // 12.0
+    }
+    // ... other multipliers ...
+    return (long) (afpSize * multiplier);
+}
+```
+
+## 25. Streaming Character Sanitization
+**Explanation:** XML 1.0 does not allow certain control characters (like null bytes). Instead of pre-sanitizing strings (which creates copies), a decorator for `XMLStreamWriter2` handles sanitization on-the-fly during the write phase.
+**Code Sample (`SanitizingXMLStreamWriter.java`):**
+```java
+@Override
+public void writeCharacters(String text) throws XMLStreamException {
+    super.writeCharacters(UtilCharacterEncoding.sanitizeForXml(text));
+}
+```
+
+## 26. Jackson Sanitization Serializer
+**Explanation:** For fields serialized via Jackson (the fallback path), a custom `JsonSerializer<String>` is registered globally. This ensures that even deeply nested or rare fields benefit from XML sanitization without manual intervention.
+**Code Sample (`JacksonXmlMapperProvider.java`):**
+```java
+private static class SanitizingStringSerializer extends JsonSerializer<String> {
+    @Override
+    public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        if (value != null) {
+            gen.writeString(UtilCharacterEncoding.sanitizeForXml(value));
+        }
+    }
+}
+```
+
+## 27. Deterministic Parallel Sequencing
+**Explanation:** To maintain XML validity and deterministic output when parsing in parallel, the `OrderedResultCollector` uses a `TreeMap` to buffer out-of-order fragments. It only flushes to the output stream when the absolute next sequential fragment is available.
+**Code Sample (`OrderedResultCollector.java`):**
+```java
+buffer.put(sequence, data);
+// ...
+while (!buffer.isEmpty() && buffer.firstKey() == nextSequence) {
+    ByteBuffer fragment = buffer.remove(nextSequence);
+    readyFragments.add(fragment);
+    nextSequence++;
+}
+```
+
+## 28. Disabling StAX Structure Validation
+**Explanation:** In fragment mode (used during parallel assembly or XPath filtering), Aalto's strict XML structure validation is disabled. This avoids "second root" errors and reduces the overhead of tracking the document's tag stack for intermediate results.
+**Code Sample (`AfpJacksonXmlWriter.java`):**
+```java
+static {
+    XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
+    try {
+        XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+    } catch (Exception e) { /* ... */ }
+}
+```
+
+## 29. Fragment Mapper Reuse
+**Explanation:** Creating a new `XmlMapper` or `ToXmlGenerator` is expensive. The system reuses a dedicated `FRAGMENT_MAPPER` singleton that is pre-configured to omit XML declarations, significantly speeding up the generation of thousands of small XML fragments.
+**Code Sample (`JacksonXmlMapperProvider.java`):**
+```java
+FRAGMENT_MAPPER = XML_MAPPER.copy();
+FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
+// ...
+public static XmlMapper getFragmentMapper() { return FRAGMENT_MAPPER; }
+```
+
+## 30. Orchestrated Stream Serialization
+**Explanation:** When converting an entire directory of AFP files to a single output (e.g., via the CLI), the `OrderedOutputOrchestrator` manages multiple logical streams. It ensures that while files are processed in parallel, their XML output remains contiguous and ordered by filename.
+**Code Sample (`Afp2Xml.java`):**
+```java
+// Register each file as a logical stream to maintain order in stdout
+final int streamId = orchestrator.registerStream();
+executor.submit(() -> {
+    try (OutputStream orchestratedOs = orchestrator.createStreamOutputStream(streamId)) {
+        convertToXml(f, orchestratedOs, ...);
+    }
+});
 ```
