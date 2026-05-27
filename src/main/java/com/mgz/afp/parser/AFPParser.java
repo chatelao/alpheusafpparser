@@ -524,8 +524,7 @@ public class AFPParser {
         if (tmp != -1) {
           nrOfBytesRead++;
         }
-      }
-      while (tmp != 0x5A && tmp != -1); // Move to the begin of next SF, or EOF.
+      } while (tmp != 0x5A && tmp != -1); // Move to the begin of next SF, or EOF.
 
       if (tmp != -1) {
         try {

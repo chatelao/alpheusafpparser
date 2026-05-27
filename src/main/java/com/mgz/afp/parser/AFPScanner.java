@@ -123,13 +123,17 @@ public class AFPScanner {
         chunk.clear();
         Future<Integer> future = asyncChannel.read(chunk, currentFilePos);
         int bytesRead = future.get();
-        if (bytesRead <= 0) break;
+        if (bytesRead <= 0) {
+          break;
+        }
         chunk.flip();
 
         int chunkPos = 0;
         while (chunkPos < bytesRead) {
           if ((chunk.get(chunkPos) & 0xFF) == 0x5A) {
-            if (chunkPos + 8 > bytesRead) break;
+            if (chunkPos + 8 > bytesRead) {
+              break;
+            }
 
             int sfLength;
             try {
@@ -155,7 +159,8 @@ public class AFPScanner {
         }
         currentFilePos += chunkPos;
       }
-    } catch (Exception e) {}
+    } catch (Exception e) {
+    }
     return offsets;
   }
 
@@ -175,9 +180,13 @@ public class AFPScanner {
           return null;
         }));
       }
-      for (Future<Void> future : futures) future.get();
-    } catch (Exception e) {}
-    finally { executor.shutdown(); }
+      for (Future<Void> future : futures) {
+        future.get();
+      }
+    } catch (Exception e) {
+    } finally {
+      executor.shutdown();
+    }
 
     List<Long> result = new ArrayList<>(allOffsets);
     Collections.sort(result);
@@ -207,9 +216,13 @@ public class AFPScanner {
           return null;
         }));
       }
-      for (Future<Void> future : futures) future.get();
-    } catch (Exception e) {}
-    finally { executor.shutdown(); }
+      for (Future<Void> future : futures) {
+        future.get();
+      }
+    } catch (Exception e) {
+    } finally {
+      executor.shutdown();
+    }
 
     List<Long> result = new ArrayList<>(allOffsets);
     Collections.sort(result);
@@ -234,13 +247,17 @@ public class AFPScanner {
         chunk.limit(toRead);
         Future<Integer> future = asyncChannel.read(chunk, currentFilePos);
         int bytesRead = future.get();
-        if (bytesRead <= 0) break;
+        if (bytesRead <= 0) {
+          break;
+        }
         chunk.flip();
 
         int chunkPos = 0;
         while (chunkPos < bytesRead) {
           if ((chunk.get(chunkPos) & 0xFF) == 0x5A) {
-            if (chunkPos + 8 > bytesRead) break;
+            if (chunkPos + 8 > bytesRead) {
+              break;
+            }
             int sfLength;
             try {
               sfLength = UtilBinaryDecoding.parseInt(chunk, chunkPos + 1, 2);
@@ -262,9 +279,12 @@ public class AFPScanner {
           }
         }
         currentFilePos += chunkPos;
-        if (chunkPos == 0) currentFilePos++;
+        if (chunkPos == 0) {
+          currentFilePos++;
+        }
       }
-    } catch (Exception e) {}
+    } catch (Exception e) {
+    }
     return offsets;
   }
 
