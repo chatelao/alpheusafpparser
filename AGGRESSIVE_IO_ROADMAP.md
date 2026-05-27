@@ -41,7 +41,7 @@ Optimize large single-file conversions by mapping output files directly into mem
 - ⏳ **Size Estimation Logic**:
   - ✅ **Heuristic Analysis**: Analyze correlation between AFP structured field sizes (PTX, GAD, etc.) and their XML representation. (Integrated in `PTXPerformanceMonitor`).
   - ✅ **Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
-  - ⏳ **Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences.
+  - ✅ **Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences. (Ratio-based Estimation implemented).
 - ⏳ **Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
 - ⏳ **Atomic Pre-allocation**: Efficiently grow output files on the filesystem.
   - ⏳ **Estimate-based Pre-allocation**: Use `SFSizeEstimator` to determine initial file size.
