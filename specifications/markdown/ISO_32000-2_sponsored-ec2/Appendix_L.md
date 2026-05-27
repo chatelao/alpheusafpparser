@@ -1,19 +1,12 @@
-Annex L
-(normative)
-Parent-child relationships between the standard structure
-elements in the standard structure namespace for PDF 2.0
+Annex L (normative) Parent-child relationships between the standard structure elements in the standard structure namespace for PDF 2.0
 
-NOTE        This annex was corrected (2020).
+> **NOTE** This annex was corrected (2020).
 This annex defines the acceptable children of the standard structure elements defined in PDF 2.0.
-Elements in the standard structure namespace for PDF 2.0 shall not have child or parent elements in
-the standard structure namespace for PDF 2.0 that are not explicitly listed in Table L.2.
+Elements in the standard structure namespace for PDF 2.0 shall not have child or parent elements in the standard structure namespace for PDF 2.0 that are not explicitly listed in Table L.2.
 
-The containment rules specified in Table L.2 shall also apply to structure elements that are role
-mapped into the standard structure namespace for PDF 2.0.
+The containment rules specified in Table L.2 shall also apply to structure elements that are role mapped into the standard structure namespace for PDF 2.0.
 
-An informative matrix representation of Table L.2 is attached to the PDF of this document as
-"ISO32000-2_AnnexL_matrix-version2020.pdf" and in machine-readable form, as "ISO32000-
-2_AnnexL_matrix-version2020.xlsx."
+An informative matrix representation of Table L.2 is attached to the PDF of this document as "ISO32000-2_AnnexL_matrix-version2020.pdf" and in machine-readable form, as "ISO32000- 2_AnnexL_matrix-version2020.xlsx."
 
 Table L.1 provides a legend for use in interpreting Table L.2.
 
@@ -21,7 +14,7 @@ Table Annex L.1 — Legend for Table L.2
 
 | Value | Valid usage relative to other standard structure types |
 
-ø          shall not occur
+ø shall not occur
 
 | ø* | shall not occur unless the parent element is used as a grouping level element |
 
@@ -42,8 +35,7 @@ Table Annex L.1 — Legend for Table L.2
 
 ISO 32000-2:2020
 
-Table Annex L.2 — Parent-child relationships between the standard structure elements in the
-standard structure namespace for PDF 2.0
+Table Annex L.2 — Parent-child relationships between the standard structure elements in the standard structure namespace for PDF 2.0
 | Structure Type | Children | Parents |  |
 | --- | --- | --- | --- |
 | Occ. | Structure Type | Occ. | Structure Type |
@@ -887,7 +879,7 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 | 0..n | content item |  |  |  |
 
-Table                            0..n     NonStruct                                            0..n      Document
+Table 0..n NonStruct 0..n Document
 | 0..n | TR | 0..n | DocumentFragment |
 | --- | --- | --- | --- |
 | 0..1 | THead | ‡ | Part |
@@ -1040,7 +1032,7 @@ ISO 32000-2:2020
 
 | Occ. | Structure Type | Occ. | Structure Type |
 
-Figure                          0..n      Part                                                 0..n      Document
+Figure 0..n Part 0..n Document
 | 0..n | Div | 0..n | DocumentFragment |
 | --- | --- | --- | --- |
 | 0..n | Sect | ‡ | Part |

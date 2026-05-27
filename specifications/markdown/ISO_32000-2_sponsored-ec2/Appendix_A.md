@@ -1,16 +1,12 @@
-Annex A
-(informative)
-Operator Summary
+Annex A (informative) Operator Summary
 
-A.1       General
+## A.1 General
 
 This annex lists, in alphabetical order, all the operators that may be used in PDF content streams.
 
-| A.2 | PDF content stream operators |
+## A.2 PDF content stream operators
 
-"Table A.1 — PDF content stream operators" lists each operator, its corresponding PostScript language
-operators (when it is an exact or near-exact equivalent of the PDF operator), a description of the
-operator, and references to the table where each operator is introduced.
+"Table A.1 — PDF content stream operators" lists each operator, its corresponding PostScript language operators (when it is an exact or near-exact equivalent of the PDF operator), a description of the operator, and references to the table where each operator is introduced.
 
 Table A.1 — PDF content stream operators
 
@@ -26,7 +22,8 @@ Table A.1 — PDF content stream operators
 | BDC | (PDF 1.2) Begin marked-content sequence | "Table 352 — Marked-content |
 | --- | --- | --- |
 | with property list | operators" |  |
-| BI | Begin inline image object | "Table 90 — Inline image operators" |
+
+# BI Begin inline image object "Table 90 — Inline image operators"
 
 | BMC | (PDF 1.2) Begin marked-content sequence | "Table 351 — Entries in a data dictionary" |
 | --- | --- | --- |
@@ -57,7 +54,7 @@ Table A.1 — PDF content stream operators
 | --- | --- | --- |
 | property list | operators" |  |
 
-| EI | End inline image object | "Table 90 — Inline image operators" |
+# EI End inline image object "Table 90 — Inline image operators"
 
 | EMC | (PDF 1.2) End marked-content sequence | "Table 352 — Marked-content operators" |
 
@@ -81,7 +78,7 @@ Table A.1 — PDF content stream operators
 
 | i | setflat | Set flatness tolerance | "Table 56 — Graphics state operators" |
 
-| ID | Begin inline image data | "Table 90 — Inline image operators" |
+# ID Begin inline image data "Table 90 — Inline image operators"
 
 | j | setlinejoin | Set line join style | "Table 56 — Graphics state operators" |
 

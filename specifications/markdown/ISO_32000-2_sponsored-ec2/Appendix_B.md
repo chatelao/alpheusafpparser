@@ -1,14 +1,10 @@
-Annex B
-(informative)
-Operators in Type 4 Functions
+Annex B (informative) Operators in Type 4 Functions
 
-B.1      General
+## B.1 General
 
-This annex summarises the PostScript language operators that may appear in a Type 4 function, as
-discussed in 7.10.5, "Type 4 (PostScript calculator) functions". For details on these operators, see the
-PostScript Language Reference, Third Edition.
+This annex summarises the PostScript language operators that may appear in a Type 4 function, as discussed in 7.10.5, "Type 4 (PostScript calculator) functions". For details on these operators, see the PostScript Language Reference, Third Edition.
 
-B.2      Arithmetic operators
+## B.2 Arithmetic operators
 
 | num1 num2 | add | sum | Return num1 plus num2 |
 
@@ -48,7 +44,7 @@ B.2      Arithmetic operators
 
 ## Page 864
 
-| B.3 | Relational, boolean, and bitwise operators |
+## B.3 Relational, boolean, and bitwise operators
 
 | any1  any2 | eq | bool | Test equal |
 
@@ -82,13 +78,13 @@ int2
 | --- | --- | --- | --- |
 | – | false | false | Return boolean value false |
 
-B.4       Conditional operators
+## B.4 Conditional operators
 
 | bool { expr } | if | – | Execute expr if bool is true |
 | --- | --- | --- | --- |
 | bool { expr1 }  { expr2 } | ifelse | – | Execute expr1 if bool is true, expr2 if false |
 
-B.5       Stack operators
+## B.5 Stack operators
 
 | any | pop | – | Discard top element |  |
 | --- | --- | --- | --- | --- |
