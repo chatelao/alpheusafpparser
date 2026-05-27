@@ -52,7 +52,7 @@ public class MDRPTXXMLTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
-            writer.writeField(ptx);
+            writer.handle(ptx);
         }
         String xml = baos.toString();
 
@@ -97,7 +97,7 @@ public class MDRPTXXMLTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
-            writer.writeField(ptx);
+            writer.handle(ptx);
         }
         String xml = baos.toString();
 

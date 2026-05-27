@@ -18,7 +18,7 @@ public class BloatReproductionTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
-            writer.writeField(nop);
+            writer.handle(nop);
         }
 
         System.out.println("Generated XML:\n" + baos.toString("UTF-8"));
@@ -35,7 +35,7 @@ public class BloatReproductionTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
-            writer.writeField(nop);
+            writer.handle(nop);
         }
 
         System.out.println("Generated XML with text:\n" + baos.toString("UTF-8"));

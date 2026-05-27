@@ -20,6 +20,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
+import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.PTXPerformanceMonitor;
@@ -99,20 +100,20 @@ public class ParallelAfpConverter {
     // We will then write fragments directly to the underlying 'out' via the collector.
     // Finally, we close the master writer.
 
-    try (AfpJacksonXmlWriter masterWriter = new AfpJacksonXmlWriter(out, xpathExpression, false)) {
-        processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterWriter);
+    try (StructuredFieldHandler masterHandler = new AfpJacksonXmlWriter(out, xpathExpression, false)) {
+        processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterHandler);
     }
   }
 
   private void processPreambleAndPages(long firstPageOffset, List<Long> pageOffsets, long fileSize,
-      OrderedResultCollector collector, int sequence, AfpJacksonXmlWriter masterWriter) throws Exception {
+      OrderedResultCollector collector, int sequence, StructuredFieldHandler masterHandler) throws Exception {
     // 1. Parse and write Preamble sequentially
     if (firstPageOffset > 0) {
       AFPParser preambleParser = new AFPParser(config);
       while (preambleParser.getCountReadByte() < firstPageOffset) {
         StructuredField sf = preambleParser.parseNextSF();
         if (sf == null) break;
-        masterWriter.writeField(sf);
+        masterHandler.handle(sf);
         sf.release();
       }
     }
@@ -178,10 +179,10 @@ public class ParallelAfpConverter {
              }
         }
 
-        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, xpathExpression, true)) {
+        try (StructuredFieldHandler handler = new AfpJacksonXmlWriter(baos, xpathExpression, true)) {
           StructuredField sf;
           while ((sf = parser.parseNextSF()) != null) {
-            writer.writeField(sf);
+            handler.handle(sf);
             sf.release();
             if (parser.getCountReadByte() >= endOffset) break;
           }

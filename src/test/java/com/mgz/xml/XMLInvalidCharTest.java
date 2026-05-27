@@ -24,7 +24,7 @@ public class XMLInvalidCharTest {
             gad.setDrawingOrders(java.util.List.of(gbseg));
 
             assertDoesNotThrow(() -> {
-                writer.writeField(gad);
+                writer.handle(gad);
             });
         }
     }
@@ -36,7 +36,7 @@ public class XMLInvalidCharTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
             assertDoesNotThrow(() -> {
-                writer.writeField(bdt);
+                writer.handle(bdt);
             });
         }
     }

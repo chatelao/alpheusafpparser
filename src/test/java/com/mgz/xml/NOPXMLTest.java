@@ -23,7 +23,7 @@ public class NOPXMLTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
-            writer.writeField(nop);
+            writer.handle(nop);
         }
 
         String xml = baos.toString();
@@ -38,7 +38,7 @@ public class NOPXMLTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
-            writer.writeField(nop);
+            writer.handle(nop);
         }
 
         String xml = baos.toString();

@@ -334,7 +334,7 @@ public class Afp2Xml {
 
     var parser = new AFPParser(config);
     try {
-      try (var writer = new com.mgz.xml.AfpJacksonXmlWriter(os, xpathExpression)) {
+      try (com.mgz.afp.base.handler.StructuredFieldHandler handler = new com.mgz.xml.AfpJacksonXmlWriter(os, xpathExpression)) {
         StructuredField sf;
         while ((sf = parser.parseNextSF()) != null) {
           if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
@@ -343,7 +343,7 @@ public class Afp2Xml {
                   + inputFile.getName() + ": " + errSf.getErrorMessage());
             }
           }
-          writer.writeField(sf);
+          handler.handle(sf);
           sf.release();
         }
       }

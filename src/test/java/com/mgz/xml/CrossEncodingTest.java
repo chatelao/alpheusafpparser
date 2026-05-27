@@ -81,7 +81,7 @@ public class CrossEncodingTest {
 
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(xmlStream)) {
-            writer.writeField(ptx);
+            writer.handle(ptx);
         }
         String xml = xmlStream.toString();
 
@@ -155,7 +155,7 @@ public class CrossEncodingTest {
 
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(xmlStream)) {
-            writer.writeField(ptx);
+            writer.handle(ptx);
         }
         String xml = xmlStream.toString();
 

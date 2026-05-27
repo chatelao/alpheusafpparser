@@ -24,7 +24,7 @@ public class Afp2XmlInvalidCharTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos)) {
             assertDoesNotThrow(() -> {
-                writer.writeField(nop);
+                writer.handle(nop);
             });
         }
     }
@@ -40,7 +40,7 @@ public class Afp2XmlInvalidCharTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, "//NOP_NoOperation/text")) {
             assertDoesNotThrow(() -> {
-                writer.writeField(nop);
+                writer.handle(nop);
             });
         }
     }

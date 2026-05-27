@@ -27,7 +27,7 @@ class ParallelAfpConverterTest {
     try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(seqOut)) {
       StructuredField sf;
       while ((sf = seqParser.parseNextSF()) != null) {
-        writer.writeField(sf);
+        writer.handle(sf);
         sf.release();
       }
     }

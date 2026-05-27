@@ -167,24 +167,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   @Override
   public void handle(StructuredField sf) throws Exception {
-    writeField(sf);
-  }
-
-  /**
-   * Writes a single structured field to the XML output.
-   *
-   * @param sf the structured field to write
-   * @throws Exception if writing fails
-   */
-  public void writeField(StructuredField sf) throws Exception {
     boolean isPtx = sf instanceof PTX_PresentationTextData;
     long startTime = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? System.nanoTime() : 0;
     long startCount = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? cos.getCount() : 0;
     try {
       if (xpathExpression != null) {
-        writeFieldWithXpath(sf);
+        handleWithXpath(sf);
       } else {
-        writeFieldDirectly(sf);
+        handleDirectly(sf);
       }
     } finally {
       if (startTime > 0) {
@@ -194,7 +184,19 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeFieldDirectly(StructuredField sf) throws Exception {
+  /**
+   * Writes a single structured field to the XML output.
+   *
+   * @param sf the structured field to write
+   * @throws Exception if writing fails
+   * @deprecated Use {@link #handle(StructuredField)} instead.
+   */
+  @Deprecated
+  public void writeField(StructuredField sf) throws Exception {
+    handle(sf);
+  }
+
+  private void handleDirectly(StructuredField sf) throws Exception {
     if (!fragmentMode) {
       xsw.writeCharacters("  ");
     }
@@ -751,14 +753,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(xsw, indent, name, value);
   }
 
-  private void writeFieldWithXpath(StructuredField sf) throws Exception {
+  private void handleWithXpath(StructuredField sf) throws Exception {
     if (cachedDocumentBuilder == null) {
       cachedDocumentBuilder = DBF.newDocumentBuilder();
     }
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
-        tempWriter.writeField(sf);
+        tempWriter.handle(sf);
     }
 
     String xml = baos.toString(StandardCharsets.UTF_8);
