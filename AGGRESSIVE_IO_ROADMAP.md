@@ -2,10 +2,11 @@
 
 This document outlines the phased implementation plan for maximizing I/O throughput in the Alpheus AFP Parser, as defined in `AGGRESSIVE_IO_DESIGN.md`.
 
-## Status Summary (May 2026)
+## Status Summary (June 2026)
 - **Bottleneck Analysis:** ✅ Completed (Audit 3 & `AGGRESSIVE_IO_DESIGN.md`)
 - **Directory Mode Optimization:** ✅ Completed
-- **Vectorized Writes:** ⏳ Pending
+- **Vectorized Writes:** ✅ Completed
+- **File-system Pre-allocation:** ✅ Completed
 - **Asynchronous I/O:** ⏳ Pending
 
 ---
@@ -22,10 +23,10 @@ Address the memory and synchronization bottleneck when converting multiple files
   - ✅ Ensure fragments are flushed at the page or structured field level to minimize memory footprint to $O(PageSize \times Threads)$.
   - ✅ **Implement back-pressure**: Added memory guardrails in `OrderedOutputOrchestrator` and `OrderedResultCollector` to prevent OOM during out-of-order buffering.
 
-## Phase 2: Vectorized Writes & Buffer Optimization (Strategy C) ⏳
+## Phase 2: Vectorized Writes & Buffer Optimization (Strategy C) 🚧
 Enhance the efficiency of fragment flushing in both sequential and parallel modes.
 
-- ⏳ **Enhance `OrderedResultCollector`**:
+- ✅ **Enhance `OrderedResultCollector`**:
   - ✅ **ByteBuffer-based API**: Refactor orchestrators to accept `ByteBuffer` instead of `byte[]`.
   - ✅ **Fragment Batching**: Logic to group consecutive ready fragments.
   - ✅ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
@@ -45,17 +46,17 @@ Optimize large single-file conversions by mapping output files directly into mem
   - ✅ **Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
   - ✅ **Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences. (Ratio-based Estimation implemented).
 - ⏳ **Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
-- ⏳ **Atomic Pre-allocation**: Efficiently grow output files and in-memory buffers.
+- ✅ **Atomic Pre-allocation**: Efficiently grow output files and in-memory buffers.
   - ✅ **In-memory Buffer Pre-allocation**: Use `SFSizeEstimator` to pre-size `ByteArrayOutputStream` in parallel and filtered paths.
-  - ⏳ **File-system Pre-allocation**: Use `SFSizeEstimator` to determine initial file size for physical disks.
-  - ⏳ **Allocation Strategy**: Evaluate `fallocate` (Linux) vs. zero-fill for efficient growth.
+  - ✅ **File-system Pre-allocation**: Use `SFSizeEstimator` to determine initial file size for physical disks. (Enabled via `--aggressive-io` CLI flag).
+  - 🚧 **Allocation Strategy**: Evaluate `fallocate` (Linux) vs. zero-fill for efficient growth. (Initial zero-fill implemented in CLI).
 
 ## Phase 4: Asynchronous & Non-Blocking I/O (Strategy A) ⏳
 Decouple serialization from I/O to improve performance on high-latency storage (Cloud/NAS).
 
 - ⏳ **NIO.2 Integration**: Transition `OrderedResultCollector` to use `AsynchronousFileChannel`.
 - ⏳ **Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
-- ⏳ **Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full.
+- ✅ **Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
 
 ## Phase 5: Zero-Copy Ring-Buffer (Strategy D) ⏳
 Extreme performance optimization for massive-scale conversion.

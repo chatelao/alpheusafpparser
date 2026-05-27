@@ -104,7 +104,17 @@ public class SFSizeEstimator {
    * @return the estimated XML size in bytes
    */
   public static long estimateXmlSize(int afpSize) {
-      // Use a slightly conservative average multiplier for unknown content
-      return (long) (afpSize * 8.0);
+    return estimateXmlSize((long) afpSize);
+  }
+
+  /**
+   * Estimates the size of the XML representation of a raw AFP payload.
+   *
+   * @param afpSize the size of the AFP payload in bytes
+   * @return the estimated XML size in bytes
+   */
+  public static long estimateXmlSize(long afpSize) {
+    // Use a slightly conservative average multiplier for unknown content
+    return (long) (afpSize * 8.0);
   }
 }
