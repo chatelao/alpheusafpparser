@@ -27,7 +27,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 
-import javax.xml.bind.annotation.XmlElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -191,7 +191,7 @@ public class CMR_ColorManagementResource extends StructuredField {
 
   public String getAlias() { return alias; }
 
-  @XmlElement(name = "text")
+  @JacksonXmlProperty(localName = "text")
   public String getText() {
     return UtilCharacterEncoding.sanitizeForXml(alias);
   }
