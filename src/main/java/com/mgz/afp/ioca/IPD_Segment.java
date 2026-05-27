@@ -19,8 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.ioca;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.enums.AFPColorSpace;
@@ -35,8 +33,8 @@ import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -237,7 +235,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       text = null;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
@@ -284,7 +282,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       text = null;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
@@ -320,7 +318,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  @XmlType(name = "iocaBeginSegment")
+  @JsonTypeName("iocaBeginSegment")
   public static final class BeginSegment extends IPD_Segment.IPD_SegmentLong {
     byte[] name;
     String text;
@@ -332,7 +330,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       text = null;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
@@ -1483,7 +1481,6 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
      * (2^64-1) bytes which is in fact only half the size as specified in IOCA but is still large
      * enough to cover Image Picture Data in the range of millions of terrabyte.<br>
      */
-    @XmlRootElement
     public record TileTOC_RepeatingGroup(
         @AFPField int horizontalOffset,
         @AFPField int verticalOffset,
@@ -1666,7 +1663,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       text = null;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
