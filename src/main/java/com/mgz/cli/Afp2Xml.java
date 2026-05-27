@@ -27,6 +27,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.DirectBufferOutputStream;
+import com.mgz.util.MappedBufferOutputStream;
 import com.mgz.xml.XmlHandlerFactory;
 import com.mgz.xml.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
@@ -34,6 +35,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.channels.Channels;
 import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.WritableByteChannel;
@@ -252,30 +256,26 @@ public class Afp2Xml {
                     os.flush();
                   }
                 } else {
-                  try (var fos = new FileOutputStream(outputFile)) {
-                    if (finalAggressiveIo) {
-                      long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
-                      if (estimatedSize > 0) {
-                        fos.getChannel().position(estimatedSize - 1);
-                        fos.write(0);
-                        fos.getChannel().position(0);
+                  if (finalAggressiveIo && !useInternalParallel) {
+                    long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
+                    if (estimatedSize > 0 && estimatedSize < 2L * 1024 * 1024 * 1024) {
+                      try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
+                        raf.setLength(estimatedSize);
+                        MappedByteBuffer mbb = raf.getChannel().map(FileChannel.MapMode.READ_WRITE, 0, estimatedSize);
+                        try (var os = new MappedBufferOutputStream(mbb)) {
+                          convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                          os.flush();
+                          long finalSize = mbb.position();
+                          raf.getChannel().truncate(finalSize);
+                        }
                       }
-                    }
-                    if (useInternalParallel) {
-                      convertToXml(f, fos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                      System.out.println("Export successful (MMap): " + outputFile.getPath());
                     } else {
-                      try (OutputStream os = finalAggressiveIo ?
-                          new DirectBufferOutputStream(128 * 1024, fos.getChannel()) :
-                          new BufferedOutputStream(fos)) {
-                        convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
-                        os.flush();
-                      }
+                      writeWithFileOutputStream(f, outputFile, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo);
                     }
-                    if (finalAggressiveIo) {
-                      fos.getChannel().truncate(fos.getChannel().position());
-                    }
+                  } else {
+                    writeWithFileOutputStream(f, outputFile, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo);
                   }
-                  System.out.println("Export successful: " + outputFile.getPath());
                 }
               } catch (Exception e) {
                 var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
@@ -323,6 +323,26 @@ public class Afp2Xml {
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
+
+          if (aggressiveIo && !parallel) {
+            long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length());
+            // Use MMap for single-file sequential mode if aggressive IO is on and size is reasonable
+            if (estimatedSize > 0 && estimatedSize < 2L * 1024 * 1024 * 1024) {
+              try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
+                raf.setLength(estimatedSize);
+                MappedByteBuffer mbb = raf.getChannel().map(FileChannel.MapMode.READ_WRITE, 0, estimatedSize);
+                try (var os = new MappedBufferOutputStream(mbb)) {
+                  convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+                  os.flush();
+                  long finalSize = mbb.position();
+                  raf.getChannel().truncate(finalSize);
+                }
+              }
+              System.out.println("Export successful (MMap): " + outputFile.getPath());
+              return 0;
+            }
+          }
+
           try (var fos = new FileOutputStream(outputFile)) {
             if (aggressiveIo) {
               long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length());
@@ -365,6 +385,34 @@ public class Afp2Xml {
         com.mgz.util.DirectBufferPool.printPoolStats(System.out);
       }
     }
+  }
+
+  private static void writeWithFileOutputStream(File f, File outputFile, HandlerFactory handlerFactory,
+      boolean ptxDebug, boolean parallel, int threadsPerFile, boolean charsetOpt, boolean aggressiveIo) throws Exception {
+    try (var fos = new FileOutputStream(outputFile)) {
+      if (aggressiveIo) {
+        long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
+        if (estimatedSize > 0) {
+          fos.getChannel().position(estimatedSize - 1);
+          fos.write(0);
+          fos.getChannel().position(0);
+        }
+      }
+      if (parallel) {
+        convertToXml(f, fos, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
+      } else {
+        try (OutputStream os = aggressiveIo ?
+            new DirectBufferOutputStream(128 * 1024, fos.getChannel()) :
+            new BufferedOutputStream(fos)) {
+          convertToXml(f, os, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
+          os.flush();
+        }
+      }
+      if (aggressiveIo) {
+        fos.getChannel().truncate(fos.getChannel().position());
+      }
+    }
+    System.out.println("Export successful: " + outputFile.getPath());
   }
 
   private static void printUsage(PrintStream out) {

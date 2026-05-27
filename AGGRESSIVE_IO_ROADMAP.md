@@ -45,7 +45,11 @@ Optimize large single-file conversions by mapping output files directly into mem
     - ✅ **3.1.1.1. Utility implementation**: Create `MappedBufferOutputStream` to wrap `MappedByteBuffer`.
     - ⏳ **3.1.1.2. Integration**: Integrate `MappedBufferOutputStream` into `Afp2Xml` and `ParallelAfpConverter`.
   - ⏳ **3.1.2. Size-aware re-mapping**: Logic to unmap and re-map with larger capacity when estimates are exceeded.
+    - ⏳ **3.1.2.1. Overflow detection**: Robust detection of `BufferOverflowException` in `MappedBufferOutputStream`.
+    - ⏳ **3.1.2.2. Buffer chaining/re-mapping logic**: Implement multi-segment mapping or re-mapping to larger segments.
   - ⏳ **3.1.3. Benchmarking**: Comparative analysis of MMap vs. standard NIO on different SSD/HDD tiers.
+    - ⏳ **3.1.3.1. MMap vs. Standard NIO comparison**: Direct throughput measurement for large single files.
+    - ⏳ **3.1.3.2. SSD vs. HDD tier analysis**: Verify MMap performance impact across different storage types.
 - ⏳ **Size Estimation Logic**:
   - ✅ **Heuristic Analysis**: Analyze correlation between AFP structured field sizes (PTX, GAD, etc.) and their XML representation. (Integrated in `PTXPerformanceMonitor`).
   - ✅ **Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
@@ -60,8 +64,8 @@ Optimize large single-file conversions by mapping output files directly into mem
 Decouple serialization from I/O to improve performance on high-latency storage (Cloud/NAS).
 
 - ⏳ **4.1. NIO.2 Integration**: Transition `OrderedResultCollector` to use `AsynchronousFileChannel`.
-  - ⏳ **4.1.1. Buffer lifecycle**: Manage buffer ownership between worker threads and NIO.2 handlers.
-  - ⏳ **4.1.2. Error handling**: Implement robust error propagation for async failures.
+  - ⏳ **4.1.1. Buffer lifecycle management**: Manage buffer ownership between worker threads and NIO.2 handlers.
+  - ⏳ **4.1.2. Error propagation for async failures**: Implement robust error propagation for async failures.
 - ⏳ **4.2. Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
 - ✅ **4.3. Async OutputStream Wrapper**: Create an `OutputStream` implementation that uses `AsynchronousFileChannel` for non-blocking background writes. (Implemented as `AsynchronousBufferOutputStream`).
 - ✅ **4.4. Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
@@ -82,6 +86,8 @@ To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`
 - ✅ **6.1. ByteBuffer-backed OutputStream**: Implement a pooled `OutputStream` that writes directly into `DirectByteBuffer`s from `DirectBufferPool`. (Implemented as `DirectBufferOutputStream`).
 - ✅ **6.2. Streaming Vectorized Output**: Enhance `DirectBufferOutputStream` to support periodic flushes to a `GatheringByteChannel`, enabling high-performance sequential I/O with minimal copying.
 - ⏳ **6.3. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` or similar extensions for non-blocking `ByteBuffer` output.
+  - ⏳ **6.3.1. Aalto AsyncXMLStreamWriter evaluation**: Analysis of feature parity and performance.
+  - ⏳ **6.3.2. Non-blocking ByteBuffer writer prototype**: Implementation of a minimal async writer wrapper.
 - ⏳ **6.4. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that eliminates `OutputStream` overhead by writing directly into memory that is already pre-mapped to the kernel.
   - ⏳ **6.4.1. Direct ByteBuffer access in AfpJacksonXmlWriter**: Expose methods to write structured fields directly to a provided `ByteBuffer`.
   - ⏳ **6.4.2. Structured Field fragment pooling**: Reuse pre-serialized XML fragments for repeating structured fields.

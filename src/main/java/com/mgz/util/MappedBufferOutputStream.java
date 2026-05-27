@@ -22,6 +22,7 @@ package com.mgz.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 
 /**
@@ -58,6 +59,23 @@ public class MappedBufferOutputStream extends OutputStream {
     }
     try {
       buffer.put(b, off, len);
+    } catch (BufferOverflowException e) {
+      throw new IOException("Mapped buffer overflow", e);
+    }
+  }
+
+  /**
+   * Writes the content of the provided ByteBuffer to this stream.
+   *
+   * @param src the source buffer
+   * @throws IOException if writing fails or if the buffer overflows
+   */
+  public void write(ByteBuffer src) throws IOException {
+    if (src == null || !src.hasRemaining()) {
+      return;
+    }
+    try {
+      buffer.put(src);
     } catch (BufferOverflowException e) {
       throw new IOException("Mapped buffer overflow", e);
     }
