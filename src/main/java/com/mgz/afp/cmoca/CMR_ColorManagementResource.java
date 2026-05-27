@@ -93,22 +93,22 @@ public class CMR_ColorManagementResource extends StructuredField {
     this.reserved1 = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
 
     // CMR Name starts here (Bytes 10-155)
-    this.alias = new String(sfData, offset + 10, 16, Constants.utf16be).trim();
-    this.type = new String(sfData, offset + 26, 4, Constants.utf16be).trim();
-    this.version = new String(sfData, offset + 30, 14, Constants.utf16be).trim();
-    this.manufacturerName = new String(sfData, offset + 44, 10, Constants.utf16be).trim();
-    this.deviceType = new String(sfData, offset + 54, 12, Constants.utf16be).trim();
-    this.deviceModel = new String(sfData, offset + 66, 6, Constants.utf16be).trim();
-    this.mediaBrightness = new String(sfData, offset + 72, 6, Constants.utf16be).trim();
-    this.mediaColor = new String(sfData, offset + 78, 6, Constants.utf16be).trim();
-    this.mediaFinish = new String(sfData, offset + 84, 4, Constants.utf16be).trim();
-    this.mediaWeight = new String(sfData, offset + 88, 6, Constants.utf16be).trim();
-    this.prop1 = new String(sfData, offset + 94, 10, Constants.utf16be).trim();
-    this.prop2 = new String(sfData, offset + 104, 12, Constants.utf16be).trim();
-    this.prop3 = new String(sfData, offset + 116, 8, Constants.utf16be).trim();
-    this.prop4 = new String(sfData, offset + 124, 8, Constants.utf16be).trim();
-    this.prop5 = new String(sfData, offset + 132, 8, Constants.utf16be).trim();
-    this.reserved2 = new String(sfData, offset + 140, 16, Constants.utf16be).trim();
+    this.alias = trimCmrString(new String(sfData, offset + 10, 16, Constants.utf16be));
+    this.type = trimCmrString(new String(sfData, offset + 26, 4, Constants.utf16be));
+    this.version = trimCmrString(new String(sfData, offset + 30, 14, Constants.utf16be));
+    this.manufacturerName = trimCmrString(new String(sfData, offset + 44, 10, Constants.utf16be));
+    this.deviceType = trimCmrString(new String(sfData, offset + 54, 12, Constants.utf16be));
+    this.deviceModel = trimCmrString(new String(sfData, offset + 66, 6, Constants.utf16be));
+    this.mediaBrightness = trimCmrString(new String(sfData, offset + 72, 6, Constants.utf16be));
+    this.mediaColor = trimCmrString(new String(sfData, offset + 78, 6, Constants.utf16be));
+    this.mediaFinish = trimCmrString(new String(sfData, offset + 84, 4, Constants.utf16be));
+    this.mediaWeight = trimCmrString(new String(sfData, offset + 88, 6, Constants.utf16be));
+    this.prop1 = trimCmrString(new String(sfData, offset + 94, 10, Constants.utf16be));
+    this.prop2 = trimCmrString(new String(sfData, offset + 104, 12, Constants.utf16be));
+    this.prop3 = trimCmrString(new String(sfData, offset + 116, 8, Constants.utf16be));
+    this.prop4 = trimCmrString(new String(sfData, offset + 124, 8, Constants.utf16be));
+    this.prop5 = trimCmrString(new String(sfData, offset + 132, 8, Constants.utf16be));
+    this.reserved2 = trimCmrString(new String(sfData, offset + 140, 16, Constants.utf16be));
 
     this.reserved3 = UtilBinaryDecoding.parseLong(sfData, offset + 156, 8);
 
@@ -159,6 +159,13 @@ public class CMR_ColorManagementResource extends StructuredField {
     }
 
     writeFullStructuredField(os, payload);
+  }
+
+  private String trimCmrString(String s) {
+    if (s == null) {
+      return null;
+    }
+    return s.replace('@', ' ').trim();
   }
 
   private void writeUTF16Padded(byte[] target, int offset, String value, int lengthInBytes) {
