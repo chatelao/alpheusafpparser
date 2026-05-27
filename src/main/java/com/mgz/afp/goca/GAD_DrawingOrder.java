@@ -31,9 +31,8 @@ import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -258,14 +257,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       this.comment = comment;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
   }
 
-  @XmlRootElement
-  @XmlType(name = "gocaBeginSegment")
+  @JacksonXmlRootElement(localName = "gocaBeginSegment")
   public static final class GBSEG_BeginSegment extends GAD_DrawingOrder {
     public static short COMMANDCODE_BeginSegment = 0x70;
     @AFPField
@@ -311,7 +309,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       super.release();
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
@@ -1973,7 +1971,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       return data;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
@@ -2249,7 +2247,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       this.codePoints = codePoints;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
@@ -3166,7 +3164,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       lengthOfFollowingData = codePoints != null ? (short) (4 + codePoints.length) : 4;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(text);
     }
