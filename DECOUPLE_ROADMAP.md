@@ -30,16 +30,22 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 
 1.  **Equality Check (Regression Testing):**
   - ✅ **4.1.1 Identify Reference Suite:** Select a representative set of AFP files (PTOCA, GOCA, IOCA, BCOCA).
-    - ⏳ **4.1.2 Archive Gold Standards:** Generate and store reference XML outputs from a known stable version.
+  - ⏳ **4.1.2 Archive Gold Standards:** Generate and store reference XML outputs from a known stable version.
   - ✅ **4.1.3 Automated Comparison:** Implement `Afp2XmlRegressionTest.java` for automated XML diffing.
   - ✅ **4.1.4 Mode Verification:** Verify bit-for-bit equality for both sequential and parallel (`-P`) modes.
 2.  **Performance Benchmarking:**
-    - ⏳ **4.2.1 Execution:** Run `PerformanceRegressionTest` to collect current throughput data.
-    - ⏳ **4.2.2 Baseline Comparison:** Compare results against `PERFORMANCE_CONCEPT.md` baselines.
-    - ⏳ **4.2.3 Abstraction Profiling:** Profile the handler-based execution path to identify potential overhead.
+  - ⏳ **4.2.1.1 Warm-up and JIT Stabilization:** Implement a benchmark runner that performs adequate warm-up cycles.
+  - ⏳ **4.2.1.2 Throughput Measurement:** Capture MB/s and SF/s for sequential vs. parallel modes.
+  - ⏳ **4.2.1.3 Resource Usage Logging:** Record Peak Heap and CPU utilization during runs.
+  - ⏳ **4.2.2 Baseline Comparison:** Compare results against `PERFORMANCE_CONCEPT.md` baselines.
+  - ⏳ **4.2.3.1 Hotspot Identification:** Use async-profiler to find bottlenecks in the handler interface path.
+  - ⏳ **4.2.3.2 Allocation Tracking:** Verify that the decoupled path does not introduce additional garbage collection pressure.
 3.  **Concurrency & Stability:**
-    - ⏳ **4.3.1 Stress Testing:** Run high-thread-count tests on multi-page files to ensure no race conditions.
-    - ⏳ **4.3.2 Memory Stability:** Verify O(1) memory footprint during parallel conversion of 100MB+ files.
+  - ⏳ **4.3.1.1 Multi-threaded Stress Test:** Execute parallel conversion on files with 10,000+ pages.
+  - ⏳ **4.3.1.2 Thread-Safety Audit:** Verify thread-safety of shared resource pools (SFI, Triplet, SF pools).
+  - ⏳ **4.3.1.3 Global State Consistency:** Ensure LID-to-Charset mappings are correctly synchronized/merged across workers.
+  - ⏳ **4.3.2.1 Heap Dump Analysis:** Perform memory analysis on 100MB+ file conversions to ensure no leaks.
+  - ⏳ **4.3.2.2 Native Memory Tracking:** Monitor DirectBuffer usage when `--aggressive-io` is enabled.
 
 ## Phase 5: PDF Generator Foundation
 **Goal:** Prepare for high-performance PDF generation.
