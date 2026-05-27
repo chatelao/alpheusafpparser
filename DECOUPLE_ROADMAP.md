@@ -2,21 +2,20 @@
 
 This roadmap outlines the serial implementation plan for decoupling the parser from XML generation.
 
-## Phase 1: Abstraction Layer (Core Interface)
+## Phase 1: Abstraction Layer (Core Interface) ✅
 **Goal:** Define the contracts for handlers and factories.
 
-1.  **Define `StructuredFieldHandler`:** Create the interface in `com.mgz.afp.base.handler`.
-2.  **Define `HandlerFactory`:** Create the interface for handler instantiation.
-3.  **Create `XmlHandlerFactory`:** A concrete implementation that encapsulates the logic for choosing between Streaming and Jackson XML writers.
+- ✅ **Define `StructuredFieldHandler`**: Create the interface in `com.mgz.afp.base.handler`.
+- ✅ **Define `HandlerFactory`**: Create the interface for handler instantiation.
+- ✅ **Create `XmlHandlerFactory`**: A concrete implementation that instantiates `AfpJacksonXmlWriter`.
 
-## Phase 2: Refactoring Output Modules (XML)
-**Goal:** Adapt existing XML writers to the new abstraction.
+## Phase 2: Refactoring Output Modules (XML) ⏳
+**Goal:** Adapt the Jackson XML writer to the new abstraction.
 
-1.  **Update `AfpStreamingXmlWriter`:** Implement `StructuredFieldHandler`.
-2.  **Update `AfpJacksonXmlWriter`:** Implement `StructuredFieldHandler`.
-3.  **Unify XML Writing Logic:** Ensure both writers use the same method signature for field processing.
+- ✅ **Update `AfpJacksonXmlWriter`**: Implement `StructuredFieldHandler`.
+- ⏳ **Unify XML Writing Logic**: Ensure the writer uses the `handle(sf)` method for field processing.
 
-## Phase 3: Integration (Orchestrators & CLI)
+## Phase 3: Integration (Orchestrators & CLI) ⏳
 **Goal:** Update the parser's consumers to use the abstraction.
 
 1.  **Refactor `ParallelAfpConverter`:**
