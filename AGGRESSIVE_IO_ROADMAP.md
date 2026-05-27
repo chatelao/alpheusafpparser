@@ -67,7 +67,7 @@ Extreme performance optimization for massive-scale conversion.
 ## Phase 6: StAX Writer Rework (Integration) ⏳
 To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`) should be refactored to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
 
-- ⏳ **6.1. ByteBuffer-backed OutputStream**: Implement a pooled `OutputStream` that writes directly into `DirectByteBuffer`s from `DirectBufferPool`.
+- ✅ **6.1. ByteBuffer-backed OutputStream**: Implement a pooled `OutputStream` that writes directly into `DirectByteBuffer`s from `DirectBufferPool`. (Implemented as `DirectBufferOutputStream`).
 - ⏳ **6.2. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` or similar extensions for non-blocking `ByteBuffer` output.
 - ⏳ **6.3. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that eliminates `OutputStream` overhead by writing directly into memory that is already pre-mapped to the kernel.
 
