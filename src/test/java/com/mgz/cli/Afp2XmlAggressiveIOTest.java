@@ -5,6 +5,8 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -65,5 +67,25 @@ class Afp2XmlAggressiveIOTest {
         assertEquals(0, exitCode, "Conversion should succeed");
         File[] files = outDir.toFile().listFiles((dir, name) -> name.endsWith(".xml"));
         assertTrue(files != null && files.length > 0, "Should have generated XML files");
+    }
+
+    @Test
+    void testAggressiveIODirectoryToStdout() throws Exception {
+        File afpDir = new File("src/test/resources/afp/afp-goca-reference-03/");
+        if (!afpDir.exists() || !afpDir.isDirectory()) return;
+
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(baos));
+            Afp2Xml.execute(new String[]{"--aggressive-io", "--directory", afpDir.getAbsolutePath(), "-"});
+        } finally {
+            System.setOut(originalOut);
+        }
+
+        String output = baos.toString();
+        assertTrue(output.contains("<AFPDocument"), "Output should contain AFPDocument");
+        assertTrue(output.contains("</AFPDocument>"), "Output should contain closing AFPDocument tag");
+        assertTrue(output.length() > 1000, "Output should be of significant size");
     }
 }

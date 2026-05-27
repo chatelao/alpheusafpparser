@@ -75,17 +75,17 @@ This special link CMR has precedence over audit/instruction color conversions. I
 
 The existence of an audit CC at some level has precedence over an ICC DeviceLink at a lower level. The search algorithm is shown here and the figure below diagrammatically shows how to search. [CMOCA-6-039]
 
-*   **Search at the object level** [CMOCA-6-040]
+1.  **Search at the object level** [CMOCA-6-040]
     *   Look for an ICC DeviceLink. If found, stop and use it. [CMOCA-6-041]
     *   Else look for an audit CC CMR. If found, stop, find an instruction CC CMR by searching all levels. Use the selected pair. [CMOCA-6-042]
-*   **If an ICC Profile exists within the object (e.g., TIFF)**, use it and find an instruction CC CMR by searching all levels. [CMOCA-6-043]
-*   **Else search at the page/overlay level** [CMOCA-6-044]
+2.  **If an ICC Profile exists within the object (e.g., TIFF)**, use it and find an instruction CC CMR by searching all levels. [CMOCA-6-043]
+3.  **Else search at the page/overlay level** [CMOCA-6-044]
     *   Look for an ICC DeviceLink. If found, stop and use it. [CMOCA-6-045]
     *   Else look for an audit CC CMR. If found, stop, find an instruction CC CMR by searching all levels. Use the selected pair. [CMOCA-6-046]
-*   **Else search at higher levels** [CMOCA-6-047]
+4.  **Else search at higher levels** [CMOCA-6-047]
     *   Look for an ICC DeviceLink. If found, stop and use it. [CMOCA-6-048]
     *   Else look for an audit CC CMR. If found, stop, find an instruction CC CMR by searching all levels. Use the selected pair. [CMOCA-6-049]
-*   **Else use the default audit CC CMR** [CMOCA-6-050]
+5.  **Else use the default audit CC CMR** [CMOCA-6-050]
     *   Note that there is no default ICC DeviceLink CMR. [CMOCA-6-051]
     *   Find an instruction CC CMR by searching all levels. Use the selected pair. [CMOCA-6-052]
 
@@ -104,7 +104,7 @@ The device may ignore any instruction CMRs that are not applicable, thus making 
 
 Table 49 shows which ICC profiles may be used for audit CMRs and which may be used for instruction CMRs. [CMOCA-6-059]
 
-### Table 49. Profile Subsets in Audit and Instruction Color Conversion CMRs
+### **Table 49. Profile Subsets in Audit and Instruction Color Conversion CMRs**
 
 | Type | Audit | Instruction |
 | :--- | :--- | :--- |
@@ -207,7 +207,7 @@ There are three possible processing modes: audit, instruction, and link. Only ce
 
 A CMR is generic if the CMRVersion in the CMR Header is “generic”. Only Tone Transfer Curve CMRs and Halftone CMRs have registered generic versions, so if the type is anything else, an exception occurs. [CMOCA-6-113]
 
-### Table 50. Allowed Processing Modes
+### **Table 50. Allowed Processing Modes**
 
 | CMR Type | Processing Mode: Non-Generic CMRs - Audit | Processing Mode: Non-Generic CMRs - Instruction | Processing Mode: Non-Generic CMRs - Link | Processing Mode: Generic CMRs - Audit | Processing Mode: Generic CMRs - Instruction | Processing Mode: Generic CMRs - Link |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
