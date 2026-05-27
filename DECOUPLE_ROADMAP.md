@@ -28,9 +28,18 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 ## Phase 4: Performance Validation & Regression
 **Goal:** Ensure zero performance loss and bit-for-bit XML equality.
 
-1.  **Equality Check:** Run the `Afp2Xml` CLI on a set of reference AFP files and compare the output against previous versions to ensure no regressions in XML format.
-2.  **Performance Benchmarking:** Run `PerformanceRegressionTest` and manual benchmarks using the `-m` (measure) flag. Compare results with the "Re-measured" baselines in `PERFORMANCE_CONCEPT.md`.
-3.  **Concurrency Testing:** Verify that parallel conversion remains thread-safe and efficient with the new handler-per-thread model.
+1.  **Equality Check (Regression Testing):**
+    - ⏳ **4.1.1 Identify Reference Suite:** Select a representative set of AFP files (PTOCA, GOCA, IOCA, BCOCA).
+    - ⏳ **4.1.2 Archive Gold Standards:** Generate and store reference XML outputs from a known stable version.
+    - ⏳ **4.1.3 Automated Comparison:** Implement `Afp2XmlRegressionTest.java` for automated XML diffing.
+    - ⏳ **4.1.4 Mode Verification:** Verify bit-for-bit equality for both sequential and parallel (`-P`) modes.
+2.  **Performance Benchmarking:**
+    - ⏳ **4.2.1 Execution:** Run `PerformanceRegressionTest` to collect current throughput data.
+    - ⏳ **4.2.2 Baseline Comparison:** Compare results against `PERFORMANCE_CONCEPT.md` baselines.
+    - ⏳ **4.2.3 Abstraction Profiling:** Profile the handler-based execution path to identify potential overhead.
+3.  **Concurrency & Stability:**
+    - ⏳ **4.3.1 Stress Testing:** Run high-thread-count tests on multi-page files to ensure no race conditions.
+    - ⏳ **4.3.2 Memory Stability:** Verify O(1) memory footprint during parallel conversion of 100MB+ files.
 
 ## Phase 5: PDF Generator Foundation
 **Goal:** Prepare for high-performance PDF generation.
