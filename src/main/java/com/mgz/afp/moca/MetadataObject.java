@@ -25,15 +25,12 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 import java.nio.charset.StandardCharsets;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * MOCA Chapter 4. Metadata Object (MO)
  */
 @AFPType
-@XmlAccessorType(XmlAccessType.NONE)
 public class MetadataObject {
 
   @AFPField
@@ -86,7 +83,7 @@ public class MetadataObject {
     }
   }
 
-  @XmlElement(name = "MOLength")
+  @JacksonXmlProperty(localName = "MOLength")
   public long getMoLength() {
     return moLength;
   }
@@ -95,7 +92,7 @@ public class MetadataObject {
     this.moLength = moLength;
   }
 
-  @XmlElement(name = "HeaderLength")
+  @JacksonXmlProperty(localName = "HeaderLength")
   public int getHeaderLength() {
     return headerLength;
   }
@@ -104,7 +101,7 @@ public class MetadataObject {
     this.headerLength = headerLength;
   }
 
-  @XmlElement(name = "MOType")
+  @JacksonXmlProperty(localName = "MOType")
   public String getMoType() {
     return trimMoca(moType);
   }
@@ -113,7 +110,7 @@ public class MetadataObject {
     this.moType = moType;
   }
 
-  @XmlElement(name = "MOFormat")
+  @JacksonXmlProperty(localName = "MOFormat")
   public String getMoFormat() {
     return trimMoca(moFormat);
   }
@@ -122,7 +119,7 @@ public class MetadataObject {
     this.moFormat = moFormat;
   }
 
-  @XmlElement(name = "MOCompression")
+  @JacksonXmlProperty(localName = "MOCompression")
   public String getMoCompression() {
     return trimMoca(moCompression);
   }
@@ -142,7 +139,7 @@ public class MetadataObject {
     this.moCompression = moCompression;
   }
 
-  @XmlElement(name = "MONameLength")
+  @JacksonXmlProperty(localName = "MONameLength")
   public int getMoNameLength() {
     return moNameLength;
   }
@@ -151,7 +148,7 @@ public class MetadataObject {
     this.moNameLength = moNameLength;
   }
 
-  @XmlElement(name = "MOName")
+  @JacksonXmlProperty(localName = "MOName")
   public String getMoName() {
     return UtilCharacterEncoding.sanitizeForXml(moName);
   }
@@ -160,7 +157,7 @@ public class MetadataObject {
     this.moName = moName;
   }
 
-  @XmlElement(name = "MOData")
+  @JacksonXmlProperty(localName = "MOData")
   public byte[] getMoData() {
     return moData;
   }
@@ -169,7 +166,7 @@ public class MetadataObject {
     this.moData = moData;
   }
 
-  @XmlElement(name = "MODataText")
+  @JacksonXmlProperty(localName = "MODataText")
   public String getMoDataText() {
     if (moData == null) {
       return null;

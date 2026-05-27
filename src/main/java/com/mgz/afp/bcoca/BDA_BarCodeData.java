@@ -29,7 +29,7 @@ import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -153,7 +153,7 @@ public class BDA_BarCodeData extends StructuredField {
     this.yOffset = yOffset;
   }
 
-  @XmlElement(name = "text")
+  @JacksonXmlProperty(localName = "text")
   public String getText() {
     return UtilCharacterEncoding.sanitizeForXml(text);
   }

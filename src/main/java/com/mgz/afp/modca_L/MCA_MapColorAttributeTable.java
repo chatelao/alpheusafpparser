@@ -30,7 +30,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * MO:DCA-L, page 12.
@@ -76,6 +75,5 @@ public class MCA_MapColorAttributeTable extends StructuredFieldBaseRepeatingGrou
     writeFullStructuredField(os, baos.toByteArray());
   }
 
-  @XmlRootElement
   public static class MCA_RepeatingGroup extends RepeatingGroupWithTriplets {}
 }
