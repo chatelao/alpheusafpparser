@@ -29,10 +29,10 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 **Goal:** Ensure zero performance loss and bit-for-bit XML equality.
 
 1.  **Equality Check (Regression Testing):**
-    - ⏳ **4.1.1 Identify Reference Suite:** Select a representative set of AFP files (PTOCA, GOCA, IOCA, BCOCA).
+  - ✅ **4.1.1 Identify Reference Suite:** Select a representative set of AFP files (PTOCA, GOCA, IOCA, BCOCA).
     - ⏳ **4.1.2 Archive Gold Standards:** Generate and store reference XML outputs from a known stable version.
-    - ⏳ **4.1.3 Automated Comparison:** Implement `Afp2XmlRegressionTest.java` for automated XML diffing.
-    - ⏳ **4.1.4 Mode Verification:** Verify bit-for-bit equality for both sequential and parallel (`-P`) modes.
+  - ✅ **4.1.3 Automated Comparison:** Implement `Afp2XmlRegressionTest.java` for automated XML diffing.
+  - ✅ **4.1.4 Mode Verification:** Verify bit-for-bit equality for both sequential and parallel (`-P`) modes.
 2.  **Performance Benchmarking:**
     - ⏳ **4.2.1 Execution:** Run `PerformanceRegressionTest` to collect current throughput data.
     - ⏳ **4.2.2 Baseline Comparison:** Compare results against `PERFORMANCE_CONCEPT.md` baselines.
@@ -46,5 +46,9 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 
 1.  ✅ **Stub `PdfHandler`:** Create a skeleton implementation for performance testing (parsing without output).
 2.  ✅ **Benchmark PDF vs XML:** Measure the throughput of the parsing stage alone to establish a ceiling for PDF generation speed.
-3.  **Finalize iText 9-based integration design:** Document the mapping and parallel assembly strategy in [PDF_INTEGRATION_CONCEPT.md](PDF_INTEGRATION_CONCEPT.md).
+3.  ⏳ **Finalize iText 9-based integration design:** Document the mapping and parallel assembly strategy in [PDF_INTEGRATION_CONCEPT.md](PDF_INTEGRATION_CONCEPT.md).
+    - ⏳ **5.3.1 Define Mapping Strategy:** Detail how PTOCA, GOCA, IOCA, and BCOCA map to iText low-level operators.
+    - ⏳ **5.3.2 Design Coordinate Transformation:** Address Pel/1440 DPI to PDF User Space (Points) conversion and rotations.
+    - ⏳ **5.3.3 Design Resource Handling:** Strategy for global resource caching (Fonts, Overlays) in PDF/VT.
+    - ⏳ **5.3.4 Design Parallel Assembly:** ID remapping and XRef table construction for O(1) memory merging.
 4.  ✅ **Decouple fragment assembly from XML-specific stripping:** Replace the manual XML tag stripping in `ParallelAfpConverter` with a generic assembly mechanism in `OrderedResultCollector` or via a specialized `FragmentAssembler`.
