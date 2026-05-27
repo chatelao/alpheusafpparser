@@ -28,8 +28,10 @@ import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.xml.XmlHandlerFactory;
 import com.mgz.xml.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
+import java.io.FilterOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.channels.Channels;
@@ -261,7 +263,7 @@ public class Afp2Xml {
                     if (useInternalParallel) {
                         convertToXml(f, fos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                     } else {
-                        try (var bos = new BufferedOutputStream(fos)) {
+                        try (var bos = new BufferedOutputStream(new NonClosingOutputStream(fos))) {
                             convertToXml(f, bos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                             bos.flush();
                         }
@@ -314,7 +316,7 @@ public class Afp2Xml {
             if (parallel) {
                 convertToXml(input, fos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
             } else {
-                try (var bos = new BufferedOutputStream(fos)) {
+                try (var bos = new BufferedOutputStream(new NonClosingOutputStream(fos))) {
                     convertToXml(input, bos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
                     bos.flush();
                 }
@@ -397,6 +399,20 @@ public class Afp2Xml {
       }
     } finally {
       parser.quitParsing();
+    }
+  }
+
+  /**
+   * An OutputStream that does not close the underlying stream.
+   */
+  private static class NonClosingOutputStream extends FilterOutputStream {
+    NonClosingOutputStream(OutputStream out) {
+      super(out);
+    }
+
+    @Override
+    public void close() throws IOException {
+      flush();
     }
   }
 }
