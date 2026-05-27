@@ -1913,8 +1913,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA page 579.<br><br>
-   * <p>
-   * The use of this triplet is restricted to the BMO and BPS structured fields in external (print
+   *
+   * <p>The use of this triplet is restricted to the BMO and BPS structured fields in external (print
    * file level) AFP resource groups for the following products: v PSF/MVS v PSF/VSE v RPM 2.0 v RPM
    * 3.0 v PSF/2 (DPF) v RMARK The Object Checksum object specifies a qualifier that can be used to
    * identify or fingerprint an object.
@@ -2131,8 +2131,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA page 582, retired function.<br><br>
-   * <p>
-   * The use of this triplet is restricted to the IMM structured field for the following products: v
+   *
+   * <p>The use of this triplet is restricted to the IMM structured field for the following products: v
    * AFP OnDemand v AFP Workbench The IMM Insertion triplet is used to indicate that the Invoke
    * Medium Map (IMM) structured field on which it is specified was inserted at the beginning of a
    * page group by a filtering application. The IMM was inserted between the BNG and the first BPG
@@ -2174,8 +2174,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA page 569, retired function.<br><br>
-   * <p>
-   * Text Orientation Triplet X'1D' The use of this triplet is restricted to the MCF-2 structured
+   *
+   * <p>Text Orientation Triplet X'1D' The use of this triplet is restricted to the MCF-2 structured
    * field for 3800 compatibility for the following products: v PSF/MVS v PSF/VM v PSF/VSE v PSF/400
    * v PSF/2 v Infoprint Manager (IPM) v 3800 printer v Applications that generate MCF-2s in
    * documents to be printed on the 3800 printer The Text Orientation triplet is used to specify the
@@ -2748,8 +2748,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 409.<br><br>
-   * <p>
-   * The Object Structured Field Extent triplet is used to specify the number of structured fields
+   *
+   * <p>The Object Structured Field Extent triplet is used to specify the number of structured fields
    * contained in an object, starting with the Begin Object structured field and ending with the End
    * Object structured field.
    */
@@ -2790,8 +2790,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 410.<br><br>
-   * <p>
-   * The Object Offset triplet specifies the number of objects of a particular type that precede a
+   *
+   * <p>The Object Offset triplet specifies the number of objects of a particular type that precede a
    * selected object in the document. If the object being counted is a document, this triplet
    * specifies the number of documents that precede the selected object in the print file.
    */
@@ -2865,8 +2865,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 413.<br><br>
-   * <p>
-   * The Font Horizontal Scale Factor triplet is used to carry information to support anamorphic
+   *
+   * <p>The Font Horizontal Scale Factor triplet is used to carry information to support anamorphic
    * scaling of an outline technology font.
    */
   @JacksonXmlRootElement(localName = "FontHorizontalScaleFactor")
@@ -3032,8 +3032,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 418.<br><br>
-   * <p>
-   * The Comment triplet is used to include comments for documentation purposes within a structured
+   *
+   * <p>The Comment triplet is used to include comments for documentation purposes within a structured
    * field.
    */
   @JacksonXmlRootElement(localName = "Comment")
@@ -3229,8 +3229,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 425.<br><br>
-   * <p>
-   * This triplet is used to specify the rules for establishing the color attribute of areas formed
+   *
+   * <p>This triplet is used to specify the rules for establishing the color attribute of areas formed
    * by the intersection of two presentation spaces. It is specified on structured fields associated
    * with a presentation space that is to be merged onto an existing presentation space.
    */
@@ -3450,8 +3450,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 430.<br><br>
-   * <p>
-   * The Toner Saver triplet activates a toner saver mode for printing. The toner saver control
+   *
+   * <p>The Toner Saver triplet activates a toner saver mode for printing. The toner saver control
    * specified by this triplet overrides any other toner saver controls that may be active in the
    * printer.
    */
@@ -3656,8 +3656,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 436.<br><br>
-   * <p>
-   * The Attribute Qualifier triplet is used to specify a qualifier for a document attribute.
+   *
+   * <p>The Attribute Qualifier triplet is used to specify a qualifier for a document attribute.
    */
   @JacksonXmlRootElement(localName = "AttributeQualifier")
   public static final class AttributeQualifier extends Triplet {
@@ -3723,8 +3723,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 438.<br><br>
-   * <p>
-   * The Parameter Value triplet is used to pass parameter values to an executable program such as
+   *
+   * <p>The Parameter Value triplet is used to pass parameter values to an executable program such as
    * an object handler or a system command interpreter.
    */
   @JacksonXmlRootElement(localName = "ParameterValue")
@@ -3896,8 +3896,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 440.<br><br>
-   * <p>
-   * The Font Resolution and Metric Technology specifies certain metric characteristics of a FOCA
+   *
+   * <p>The Font Resolution and Metric Technology specifies certain metric characteristics of a FOCA
    * raster-technology font character set which may have affected the formatting of the document
    * with this font. This information, as carried by the X'84' triplet, may be used by presentation
    * servers and presentation devices to select the best-matching coded font for presentation.
@@ -3956,8 +3956,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 442.<br><br>
-   * <p>
-   * The Finishing Operation triplet is used to specify finishing operations that are to be applied
+   *
+   * <p>The Finishing Operation triplet is used to specify finishing operations that are to be applied
    * to media.
    */
   @JacksonXmlRootElement(localName = "FinishingOperation")
@@ -4081,8 +4081,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 450.<br><br>
-   * <p>
-   * The Text Fidelity triplet is used to specify the exception continuation and reporting rules for
+   *
+   * <p>The Text Fidelity triplet is used to specify the exception continuation and reporting rules for
    * text exceptions. A text exception is detected when an unrecognized or unsupported text control
    * sequence is encountered in a PTOCA text object.
    */
@@ -4126,8 +4126,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 452.<br><br>
-   * <p>
-   * The Media Fidelity triplet is used to specify the continuation rule if a request for a specific
+   *
+   * <p>The Media Fidelity triplet is used to specify the continuation rule if a request for a specific
    * media or a specific media bin cannot be satisfied.
    */
   @JacksonXmlRootElement(localName = "MediaFidelity")
@@ -4170,8 +4170,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 454.<br><br>
-   * <p>
-   * The Finishing Fidelity triplet is used to specify the exception continuation and reporting
+   *
+   * <p>The Finishing Fidelity triplet is used to specify the exception continuation and reporting
    * rules for finishing exceptions. A finishing exception is detected when the specified finishing
    * operation cannot be satisfied.
    */
@@ -4319,8 +4319,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 461.<br><br>
-   * <p>
-   * The Locale Selector triplet is used to identify the end-user community for presentation text
+   *
+   * <p>The Locale Selector triplet is used to identify the end-user community for presentation text
    * data. The locale information consists of an ISO-639 based language code, an ISO-15924 based
    * script code, an ISO-3166 based region code, and an application-specific variant code. The
    * encoding for all four parameters is UTF-16BE. Additional information on these parameters can be
@@ -4677,8 +4677,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 466.<br><br>
-   * <p>
-   * The Color Management Resource Descriptor triplet specifies the processing mode and scope for a
+   *
+   * <p>The Color Management Resource Descriptor triplet specifies the processing mode and scope for a
    * Color Management Resource (CMR).
    */
   @JacksonXmlRootElement(localName = "ColorManagementResourceDescriptor")
@@ -4780,8 +4780,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 468.<br><br>
-   * <p>
-   * The Rendering Intent triplet specifies the rendering intent parameter, which is used to modify
+   *
+   * <p>The Rendering Intent triplet specifies the rendering intent parameter, which is used to modify
    * the final appearance of color data. This parameter is based on the rendering intents defined by
    * the International Color Consortium (ICC). For more information on rendering intents, see the
    * International Color Consortium Specification ICC.x, File Format for Color Profiles.
@@ -4861,8 +4861,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 471.<br><br>
-   * <p>
-   * The CMR Tag Fidelity triplet is used to specify the exception continuation and reporting rules
+   *
+   * <p>The CMR Tag Fidelity triplet is used to specify the exception continuation and reporting rules
    * for Color Management Resource (CMR) tag exceptions. A CMR tag exception is detected when an
    * unsupported CMR tag is encountered in a Color Management Resource (CMR).
    */
@@ -4906,8 +4906,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 473.<br><br>
-   * <p>
-   * The Device Appearance triplet specifies one of a set of architected appearances to be assumed
+   *
+   * <p>The Device Appearance triplet specifies one of a set of architected appearances to be assumed
    * by the presentation device.
    */
   @JacksonXmlRootElement(localName = "DeviceAppearance")
@@ -4963,8 +4963,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
   /**
    * MODCA, page 474.<br><br>
-   * <p>
-   * The Image Resolution triplet specifies the resolution of a raster image.
+   *
+   * <p>The Image Resolution triplet specifies the resolution of a raster image.
    */
   @JacksonXmlRootElement(localName = "ImageResolution")
   public static final class ImageResolution extends Triplet {

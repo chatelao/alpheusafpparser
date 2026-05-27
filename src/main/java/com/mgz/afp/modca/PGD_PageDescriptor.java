@@ -32,8 +32,8 @@ import java.io.OutputStream;
 
 /**
  * MO:DCA, page 309. <br><br>
- * <p>
- * The Page Descriptor structured field specifies the size and attributes of a page or overlay
+ *
+ * <p>The Page Descriptor structured field specifies the size and attributes of a page or overlay
  * presentation space.
  */
 public class PGD_PageDescriptor extends StructuredFieldBaseTriplets {

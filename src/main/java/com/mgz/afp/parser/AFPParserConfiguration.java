@@ -185,8 +185,8 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    * If set to true the parser produces structured fields of type {@link StructuredFieldBaseData}.
    * {@link StructuredFieldBaseData} have a full blown {@link StructuredFieldIntroducer} but beside
    * that provides only getter and setter for the structured fields's payload.
-   * <p>
-   * This mode is especially usefull when dealing with AFP data that isn't fully compliant to AFP
+   *
+   * <p>This mode is especially usefull when dealing with AFP data that isn't fully compliant to AFP
    * standards. In this mode, the parser is less restrictive, e.g. doesn't care if the length of the
    * structured field or individual attribute values are valid according to AFP specifications.
    *
@@ -286,8 +286,8 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    * If set to true (default) and a parsing error occurs, an {@link com.mgz.afp.exceptions.AFPParserException}
    * is thrown that carries the erroneous structured field as an
    * {@link com.mgz.afp.base.StructuredFieldErrornouslyBuilt}.
-   * <p>
-   * If set to false and a parsing error occurs, {@link AFPParser#parseNextSF()} returns a
+   *
+   * <p>If set to false and a parsing error occurs, {@link AFPParser#parseNextSF()} returns a
    * {@link StructuredField} of type {@link com.mgz.afp.base.StructuredFieldErrornouslyBuilt} without throwing
    * an exception and continues parsing the rest of the AFP stream.
    *

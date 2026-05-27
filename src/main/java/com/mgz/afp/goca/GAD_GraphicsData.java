@@ -107,8 +107,8 @@ import java.util.function.Supplier;
 
 /**
  * GOCA, 164.<br><br>
- * <p>
- * The graphics segments for a graphics object are contained within one or more GAD structured
+ *
+ * <p>The graphics segments for a graphics object are contained within one or more GAD structured
  * fields. Receipt of the first segment starts the drawing process. No restrictions exist on how
  * much or how little graphics data is specified in a single GAD, except for the length limit of the
  * structured field. A GAD, for example, can carry partial segments, full segments, multiple
