@@ -102,4 +102,44 @@ public final class DirectBufferPool {
     power = Math.max(power, MIN_POWER);
     return power - MIN_POWER;
   }
+
+  /**
+   * Prints statistics about the direct buffer pool to the specified stream.
+   *
+   * @param out the print stream to write to
+   */
+  public static void printPoolStats(java.io.PrintStream out) {
+    out.println("### DirectBufferPool Statistics");
+    out.println();
+    out.println("| Bucket Size | Count | Total Capacity (MB) |");
+    out.println("| :--- | ---: | ---: |");
+
+    long grandTotalCapacity = 0;
+    int grandTotalCount = 0;
+
+    for (int i = 0; i < NUM_BUCKETS; i++) {
+      int count = BUCKETS[i].size();
+      if (count > 0) {
+        long bucketSize = 1L << (i + MIN_POWER);
+        long totalBucketCapacity = count * bucketSize;
+        grandTotalCapacity += totalBucketCapacity;
+        grandTotalCount += count;
+
+        String sizeStr = bucketSize < 1024 * 1024
+            ? (bucketSize / 1024) + " KB"
+            : (bucketSize / (1024 * 1024)) + " MB";
+
+        out.println(String.format("| %-11s | %5d | %19.2f |",
+            sizeStr, count, (double) totalBucketCapacity / (1024 * 1024)));
+      }
+    }
+
+    if (grandTotalCount == 0) {
+      out.println("| Total       |     0 |                0.00 |");
+    } else {
+      out.println(String.format("| **Total**   | **%3d** | **%15.2f** |",
+          grandTotalCount, (double) grandTotalCapacity / (1024 * 1024)));
+    }
+    out.println();
+  }
 }

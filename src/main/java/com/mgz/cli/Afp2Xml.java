@@ -358,6 +358,9 @@ public class Afp2Xml {
       if (ptxDebug) {
         com.mgz.util.PTXPerformanceMonitor.printSummary();
       }
+      if (aggressiveIo) {
+        com.mgz.util.DirectBufferPool.printPoolStats(System.out);
+      }
     }
   }
 
