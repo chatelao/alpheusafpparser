@@ -116,13 +116,17 @@ public class OrderedResultCollector {
           }
         } else {
           for (ByteBuffer fragment : readyFragments) {
-            int fragmentLen = fragment.remaining();
-            if (fragment.hasArray()) {
-              out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+            if (out instanceof com.mgz.util.DirectBufferOutputStream dbos) {
+              dbos.write(fragment);
             } else {
-              byte[] temp = new byte[fragmentLen];
-              fragment.get(temp);
-              out.write(temp);
+              int fragmentLen = fragment.remaining();
+              if (fragment.hasArray()) {
+                out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+              } else {
+                byte[] temp = new byte[fragmentLen];
+                fragment.get(temp);
+                out.write(temp);
+              }
             }
           }
           out.flush();

@@ -165,6 +165,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       this.xsw = null;
       this.baseXsw = null;
     }
+
+    if (this.xsw != null) {
+      this.fragmentGenerator = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
+    } else {
+      this.fragmentGenerator = null;
+    }
   }
 
   @Override
@@ -235,8 +241,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       String rootName = sf.getClass().getSimpleName();
       // Use Jackson to write the field.
       // Important: we must not close the generator because it would close our long-lived xsw.
-      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-      fragmentMapper.writer().withRootName(rootName).writeValue(gen, sf);
+      fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, sf);
       // gen.flush() is called by writeValue, but it's safer to not close it.
     }
 
@@ -332,8 +337,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else {
       // Fallback to Jackson for other triplets
-      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(gen, triplet);
+      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(fragmentGenerator, triplet);
     }
   }
 
@@ -501,8 +505,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else {
       // Fallback to Jackson
-      ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-      fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(gen, cs);
+      fragmentMapper.writer().withRootName(cs.getClass().getSimpleName()).writeValue(fragmentGenerator, cs);
     }
   }
 
@@ -631,8 +634,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeDrawingOrder(GAD_DrawingOrder order, String indent) throws Exception {
     String rootName = order.getClass().getSimpleName();
-    ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-    fragmentMapper.writer().withRootName(rootName).writeValue(gen, order);
+    fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, order);
   }
 
   private void writeIpdDirectly(IPD_ImagePictureData ipd) throws Exception {
@@ -643,8 +645,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       for (IPD_Segment segment : segments) {
         xsw.writeCharacters(indent);
         String rootName = segment.getClass().getSimpleName();
-        ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-        fragmentMapper.writer().withRootName(rootName).writeValue(gen, segment);
+        fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, segment);
       }
     }
     XmlIndenter.writeIndent(xsw, 1);
@@ -716,8 +717,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       for (IDD_SelfDefiningField sdf : idd.getSelfDefiningFields()) {
         xsw.writeCharacters(indent);
         String rootName = sdf.getClass().getSimpleName();
-        ToXmlGenerator gen = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(xsw);
-        fragmentMapper.writer().withRootName(rootName).writeValue(gen, sdf);
+        fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, sdf);
       }
     }
     XmlIndenter.writeIndent(xsw, 1);

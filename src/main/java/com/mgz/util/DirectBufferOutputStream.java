@@ -79,6 +79,33 @@ public class DirectBufferOutputStream extends OutputStream {
     }
   }
 
+  /**
+   * Writes the content of the provided ByteBuffer to this stream.
+   *
+   * @param src the source buffer
+   * @throws IOException if writing fails
+   */
+  public void write(ByteBuffer src) throws IOException {
+    if (src == null || !src.hasRemaining()) {
+      return;
+    }
+
+    while (src.hasRemaining()) {
+      if (!buffer.hasRemaining()) {
+        ensureCapacity(1);
+      }
+      int toWrite = Math.min(src.remaining(), buffer.remaining());
+      if (toWrite == src.remaining()) {
+        buffer.put(src);
+      } else {
+        int oldLimit = src.limit();
+        src.limit(src.position() + toWrite);
+        buffer.put(src);
+        src.limit(oldLimit);
+      }
+    }
+  }
+
   private void ensureCapacity(int needed) throws IOException {
     if (buffer.remaining() < needed) {
       if (channel != null) {
