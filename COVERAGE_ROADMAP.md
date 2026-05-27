@@ -49,7 +49,7 @@ This phase focuses on the data-heavy sub-specifications.
     - ✅ **Parameters:** `ImageSize`, `ImageEncoding`, `IDESize`, `IDEStructure`, `ImageLUTID`.
     - ✅ **Advanced Features:** `BandImage`, `ExternalAlgorithmSpecification`, `ImageSubsampling`, `BeginTile`, `EndTile`, `TilePosition`, `TileSize`, `TileSetColor`, `IncludeTile`, `TileTOC`, `BeginTransparencyMask`, `EndTransparencyMask`, `SetExtendedBilevelImageColor`, `SetBilevelImageColor`.
     - ✅ **Data:** `ImageData`, `BandImageData`, `nColorNames`.
-- ⏳ Verify support for different compression types (MMR, JPEG, etc.) at the parsing level.
+- ✅ Verify support for different compression types (MMR, JPEG, etc.) at the parsing level (completed in `IOCARoundTripTest.java`).
 
 ### 2.3. FOCA Font Logic ✅
 - ✅ Implement tests for Font Character Sets and Code Pages in `com.mgz.afp.foca` (completed in `FOCARoundTripTest.java`).
@@ -86,7 +86,7 @@ Cover remaining specialized areas and refactored logic.
 
 ### 4.2. Performance fast-paths ⏳
 - ⏳ Ensure that optimized fast-paths in `AfpJacksonXmlWriter` (e.g., for `PTX` and `TRN`) are verified against the generic reflective paths to ensure 100% equivalence.
-- ⏳ **Performance Instrumentation Coverage:** Ensure that monitoring logic (`MnemonicPerformanceMonitor`, `PTXPerformanceMonitor`) is exercised by running tests in both "Standard" and "Performance Debug" modes.
+- ✅ **Performance Instrumentation Coverage:** Ensure that monitoring logic (`MnemonicPerformanceMonitor`, `PTXPerformanceMonitor`) is exercised (completed in `PerformanceInstrumentationTest.java`).
 
 ---
 

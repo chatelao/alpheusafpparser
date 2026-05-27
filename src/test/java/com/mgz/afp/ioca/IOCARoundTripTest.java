@@ -2,7 +2,11 @@ package com.mgz.afp.ioca;
 
 import com.mgz.afp.RoundTripTestUtils;
 import com.mgz.afp.ioca.IPD_Segment.*;
+import com.mgz.afp.ioca.IPD_Segment.ExternalAlgorithmSpecification.AlgorithmType;
+import com.mgz.afp.ioca.IPD_Segment.JPEGCompressionAlgorithmSpecification.JPEGCompressionAlgorithmSpecificationMarker;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class IOCARoundTripTest {
 
@@ -108,6 +112,14 @@ public class IOCARoundTripTest {
         // Type (0x95) | Len (0x02) | Comp (0x03) | Rec (0x01)
         byte[] data = new byte[] { (byte) 0x95, 0x02, 0x03, 0x01 };
         RoundTripTestUtils.assertRoundTrip(new ImageEncoding(), data);
+
+        // Test with bit order [IOCA-5-066]
+        byte[] dataWithBitOrder = new byte[] { (byte) 0x95, 0x03, 0x03, 0x01, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new ImageEncoding(), dataWithBitOrder);
+
+        // Test MMR compression [IOCA-5-066]
+        byte[] dataMMR = new byte[] { (byte) 0x95, 0x02, 0x01, 0x01 };
+        RoundTripTestUtils.assertRoundTrip(new ImageEncoding(), dataMMR);
     }
 
     @Test
@@ -121,13 +133,32 @@ public class IOCARoundTripTest {
     @Test
     public void testExternalAlgorithmSpecificationRoundTrip() throws Exception {
         // Reference: specifications/markdown/ioca-reference-09/Chapter_5.md [IOCA-5-115]
-        // Type (0x9F) | Len (0x06) | Type(0x10=Comp) | Res(0) | ID(0x83=JPEG) | Res(0) | Ver(0x01) | Res(0) | Marker(0xC0) | Res(0,0,0)
-        // Corrected Length based on code: Type(0x9F) | Len(10) | ...
-        byte[] data = new byte[] {
+        // Type (0x9F) | Len (10) | Type(0x10=Comp) | Res(0) | ID(0x83=JPEG) | Res(0) | Ver(0x01) | Res(0) | Marker(0xC0) | Res(0,0,0)
+        byte[] dataJPEG = new byte[] {
+            (byte) 0x9F, 0x0C, 0x10, 0x00,
+            (byte) 0x83, 0x00, 0x01, 0x00, (byte) 0xC0, 0x00, 0x00, 0x00
+        };
+        // Wait, IPD_Segment.java: lengthOfFollowingData = (short) (2 + algorithmSpecificationData.length);
+        // algorithmSpecificationData for JPEG is 8 bytes. 2 + 8 = 10.
+        // But writeAFP also writes algorithmType (1) and reserved3 (1). 10 + 2 = 12 total?
+        // Let's re-read writeAFP carefully.
+        // lengthOfFollowingData includes all bytes AFTER length byte.
+        // JPEG writeAFP: caid(1), res(1), ver(1), res(1), marker(1), res(3) = 8 bytes.
+        // ExternalAlgorithmSpecification writeAFP: type(1), res(1), then 8 bytes of JPEG = 10 bytes following.
+        byte[] dataJPEG_Correct = new byte[] {
             (byte) 0x9F, 0x0A, 0x10, 0x00,
             (byte) 0x83, 0x00, 0x01, 0x00, (byte) 0xC0, 0x00, 0x00, 0x00
         };
-        RoundTripTestUtils.assertRoundTrip(new ExternalAlgorithmSpecification(), data);
+        RoundTripTestUtils.assertRoundTrip(new ExternalAlgorithmSpecification(), dataJPEG_Correct);
+
+        // User Defined Algorithm [IOCA-5-115]
+        // User: caid(1), len(1), codepoint(4), data(0) = 6 bytes.
+        // External: type(1), res(1), then 6 bytes of User = 8 bytes following.
+        byte[] dataUser = new byte[] {
+            (byte) 0x9F, 0x08, 0x10, 0x00,
+            (byte) 0xFE, 0x04, 0x00, 0x00, 0x00, 0x01
+        };
+        RoundTripTestUtils.assertRoundTrip(new ExternalAlgorithmSpecification(), dataUser);
     }
 
     @Test
