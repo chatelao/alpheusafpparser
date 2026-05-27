@@ -23,6 +23,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
+import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.SFSizeEstimator;
 import com.mgz.util.DirectBufferOutputStream;
 import com.mgz.util.MnemonicPerformanceMonitor;
@@ -101,7 +102,7 @@ public class ParallelAfpConverter {
     // We will then write fragments directly to the underlying 'out' via the collector.
     // Finally, we close the master handler.
 
-    try (StructuredFieldHandler masterHandler = handlerFactory.createHandler(out, false)) {
+    try (StructuredFieldHandler masterHandler = handlerFactory.createHandler(new NonClosingOutputStream(out), false)) {
         processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterHandler);
     }
   }
