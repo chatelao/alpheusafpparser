@@ -23,7 +23,7 @@ Address the memory and synchronization bottleneck when converting multiple files
   - ✅ Ensure fragments are flushed at the page or structured field level to minimize memory footprint to $O(PageSize \times Threads)$.
   - ✅ **Implement back-pressure**: Added memory guardrails in `OrderedOutputOrchestrator` and `OrderedResultCollector` to prevent OOM during out-of-order buffering.
 
-## Phase 2: Vectorized Writes & Buffer Optimization (Strategy C) 🚧
+## Phase 2: Vectorized Writes & Buffer Optimization (Strategy C) ✅
 Enhance the efficiency of fragment flushing in both sequential and parallel modes.
 
 - ✅ **Enhance `OrderedResultCollector`**:
@@ -41,24 +41,27 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
 Optimize large single-file conversions by mapping output files directly into memory.
 
 - ⏳ **3.1. Output Mapping Prototype**: Implement a prototype for `MappedByteBuffer`-based output in `AfpJacksonXmlWriter`.
-  - ⏳ **3.1.1. Single-segment Mapping**: Implement fixed-size mapping for medium files (< 2GB).
+  - ✅ **3.1.1. Single-segment Mapping**: Implement fixed-size mapping for medium files (< 2GB).
     - ✅ **3.1.1.1. Utility implementation**: Create `MappedBufferOutputStream` to wrap `MappedByteBuffer`.
-    - ⏳ **3.1.1.2. Integration**: Integrate `MappedBufferOutputStream` into `Afp2Xml` and `ParallelAfpConverter`.
+    - ✅ **3.1.1.2. Integration**: Integrate `MappedBufferOutputStream` into `Afp2Xml` and `ParallelAfpConverter`.
   - ⏳ **3.1.2. Size-aware re-mapping**: Logic to unmap and re-map with larger capacity when estimates are exceeded.
     - ⏳ **3.1.2.1. Overflow detection**: Robust detection of `BufferOverflowException` in `MappedBufferOutputStream`.
     - ⏳ **3.1.2.2. Buffer chaining/re-mapping logic**: Implement multi-segment mapping or re-mapping to larger segments.
   - ⏳ **3.1.3. Benchmarking**: Comparative analysis of MMap vs. standard NIO on different SSD/HDD tiers.
     - ⏳ **3.1.3.1. MMap vs. Standard NIO comparison**: Direct throughput measurement for large single files.
     - ⏳ **3.1.3.2. SSD vs. HDD tier analysis**: Verify MMap performance impact across different storage types.
-- ⏳ **Size Estimation Logic**:
-  - ✅ **Heuristic Analysis**: Analyze correlation between AFP structured field sizes (PTX, GAD, etc.) and their XML representation. (Integrated in `PTXPerformanceMonitor`).
-  - ✅ **Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
-  - ✅ **Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences. (Ratio-based Estimation implemented).
-- ⏳ **Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
-- ✅ **Atomic Pre-allocation**: Efficiently grow output files and in-memory buffers.
-  - ✅ **In-memory Buffer Pre-allocation**: Use `SFSizeEstimator` to pre-size `ByteArrayOutputStream` in parallel and filtered paths.
-  - ✅ **File-system Pre-allocation**: Use `SFSizeEstimator` to determine initial file size for physical disks. (Enabled via `--aggressive-io` CLI flag).
-  - 🚧 **Allocation Strategy**: Evaluate `fallocate` (Linux) vs. zero-fill for efficient growth. (Initial zero-fill implemented in CLI).
+- ⏳ **3.2. Size Estimation Logic**:
+  - ✅ **3.2.1. Heuristic Analysis**: Analyze correlation between AFP structured field sizes (PTX, GAD, etc.) and their XML representation. (Integrated in `PTXPerformanceMonitor`).
+  - ✅ **3.2.2. Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
+  - ✅ **3.2.3. Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences. (Ratio-based Estimation implemented).
+- ⏳ **3.3. Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
+  - ⏳ **3.3.1. Segmented OutputStream Design**: Prototype an OutputStream that transparently handles multiple MappedByteBuffers.
+  - ⏳ **3.3.2. Multi-segment mapping logic**: Logic to map/unmap 2GB segments based on current position and file size.
+  - ⏳ **3.3.3. Boundary handling for cross-segment fragments**: Ensure large structured fields crossing a 2GB boundary are handled without corruption.
+- ✅ **3.4. Atomic Pre-allocation**: Efficiently grow output files and in-memory buffers.
+  - ✅ **3.4.1. In-memory Buffer Pre-allocation**: Use `SFSizeEstimator` to pre-size `ByteArrayOutputStream` in parallel and filtered paths.
+  - ✅ **3.4.2. File-system Pre-allocation**: Use `SFSizeEstimator` to determine initial file size for physical disks. (Enabled via `--aggressive-io` CLI flag).
+  - 🚧 **3.4.3. Allocation Strategy**: Evaluate `fallocate` (Linux) vs. zero-fill for efficient growth. (Initial zero-fill implemented in CLI).
 
 ## Phase 4: Asynchronous & Non-Blocking I/O (Strategy A) ⏳
 Decouple serialization from I/O to improve performance on high-latency storage (Cloud/NAS).
