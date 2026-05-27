@@ -48,4 +48,4 @@ Long-term performance goals.
 
 - ⏳ **SIMD XML Generation**: Explore `simdxml` for high-speed PTOCA serialization.
 - ⏳ **Custom TRN Encoder**: Implement a zero-allocation EBCDIC-to-UTF8 encoder for large `TransparentData` blocks.
-- ⏳ **Vectorized Indentation**: Use pre-filled buffers for XML indentation to avoid redundant string creation.
+- ✅ **Vectorized Indentation**: Use pre-filled buffers for XML indentation to avoid redundant string creation. (Implemented via `XmlIndenter`).
