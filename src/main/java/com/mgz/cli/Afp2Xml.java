@@ -104,16 +104,16 @@ public class Afp2Xml {
         case "-m", "--measure" -> {
           measure = true;
         }
-        case "--ptx-debug" -> {
+        case "-p", "--ptx-debug" -> {
           ptxDebug = true;
         }
         case "-c", "--charset-opt" -> {
           useCharsetOptimizations = true;
         }
-        case "-p", "--parallel" -> {
+        case "-P", "--parallel" -> {
           parallel = true;
         }
-        case "--aggressive-io" -> {
+        case "-a", "--aggressive-io" -> {
           aggressiveIo = true;
         }
         case "-t", "--threads" -> {
@@ -344,7 +344,7 @@ public class Afp2Xml {
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-m|--measure] "
-        + "[--ptx-debug] [-c|--charset-opt] [-p|--parallel] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
+        + "[-p|--ptx-debug] [-c|--charset-opt] [-P|--parallel] [-a|--aggressive-io] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
         + "to XML.");
@@ -353,10 +353,10 @@ public class Afp2Xml {
     out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
-    out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
+    out.println("  -p, --ptx-debug           Detailed PTX/PTOCA performance analysis.");
     out.println("  -c, --charset-opt         Enable optimized character set decoding.");
-    out.println("  -p, --parallel            Enable parallel conversion for single files.");
-    out.println("  --aggressive-io           Enable experimental high-performance I/O (pre-allocation).");
+    out.println("  -P, --parallel            Enable parallel conversion for single files.");
+    out.println("  -a, --aggressive-io       Enable experimental high-performance I/O (pre-allocation).");
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -h, --help                Show this help message.");
