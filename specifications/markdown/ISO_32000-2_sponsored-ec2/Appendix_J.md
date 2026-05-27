@@ -2,13 +2,10 @@ Annex J (informative) XObject comparison
 
 ## J.1 Background
 
-# A PDF document, as defined in 7.3, "Objects" can contain nine different types of basic objects -
-
-booleans, integers, real numbers, strings, names, arrays, dictionaries, streams, and the null object.
+A PDF document, as defined in 7.3, "Objects" can contain nine different types of basic objects booleans, integers, real numbers, strings, names, arrays, dictionaries, streams, and the null object.
 Objects except for stream objects may be direct or indirect, as described in 7.3.10, "Indirect objects", but for the purposes of comparison, this aspect of the object is not considered.
 
-> **NOTE 1** Clause 8.8, "External objects", defines the two types of external objects (XObjects) that can be
-present in a PDF - Image, and Form - as self-contained streams. These stream objects, like all other stream objects, actually consist of a stream of data preceded by a dictionary (7.3.8, "Stream objects").
+> **NOTE 1** Clause 8.8, "External objects", defines the two types of external objects (XObjects) that can be present in a PDF - Image, and Form - as self-contained streams. These stream objects, like all other stream objects, actually consist of a stream of data preceded by a dictionary (7.3.8, "Stream objects").
 This annex describes how to generally compare two objects of stream type, though it is expected that such comparison will be used strictly for the purpose of determining uniqueness among a pair of XObjects.
 
 ## J.2 General
@@ -21,16 +18,12 @@ In order to compare two PDF objects, it should first be determined if the object
 
 ### J.3.1 Boolean objects
 
-| Clause 7.3.2, "Boolean objects" clearly states that the keywords shall be | true and false. Comparison is a |
-
-simple boolean logic test. See 4, "Notation", for information regarding the notation of these keywords throughout this document.
+Clause 7.3.2, "Boolean objects" clearly states that the keywords shall be true and false. Comparison is a simple boolean logic test. See 4, "Notation", for information regarding the notation of these keywords throughout this document.
 
 ### J.3.2 Numeric objects
 
 As described in 7.3.3, "Numeric objects", PDF defines two types of basic numeric objects - integer and real. Integers are well defined and their comparison should be done using standard integer mathematical principles. Real numbers shall be interpreted and compared using the internal representation of the PDF processor. In the case where an integer is being compared to a real, the integer shall be promoted to a real and then real comparison shall take place.
 
-
-## Page 954
 
 ### J.3.3 String objects
 
@@ -42,9 +35,7 @@ Hexadecimal strings shall be simply converted from hexadecimal format to literal
 
 ### J.3.4 Name objects
 
-# A Name object is defined as being a sequence of any characters (8-bit values) except null (character
-
-code 0), with any values outside the range of EXCLAMATION MARK to TILDE being escaped using a NUMBER SIGN and hexadecimal digits (See 7.3.5, "Name objects"). All such escaping shall be expanded and the result shall form a sequence of bytes that shall be used for binary comparison.
+A Name object is defined as being a sequence of any characters (8-bit values) except null (character code 0), with any values outside the range of EXCLAMATION MARK to TILDE being escaped using a NUMBER SIGN and hexadecimal digits (See 7.3.5, "Name objects"). All such escaping shall be expanded and the result shall form a sequence of bytes that shall be used for binary comparison.
 
 ### J.3.5 Array objects
 
@@ -53,13 +44,9 @@ Comparison on two array objects is quite straightforward, in that each object (N
 If at any time, two objects do not match, then the arrays are non-equal. "Figure J.1 — Comparing two arrays" shows non-equal arrays.
 
 
-## Page 955
-
 ISO 32000-2:2020
 
-Figure J.1 — Comparing two arrays
-
-### J.3.6 Dictionary objects
+Figure J.1 — Comparing two arrays J.3.6     Dictionary objects
 
 Comparison of dictionaries is a relatively complex operation because of the flexibility of dictionary objects in PDF.
 
@@ -70,30 +57,21 @@ This lack of a standard ordering to keys in a dictionary requires that compariso
 Second, unlike PostScript, where a dictionary value of null is considered as a valid value, PDF instead stipulates that "A dictionary entry whose value is null shall be treated the same as if the entry does not
 
 
-## Page 956
-
 exist" (see 7.3.7, "Dictionary objects"). To ease comparison, any such key/value pairs shall be removed from a dictionary prior to processing.
 
-Finally, since any of the values may itself be a dictionary (or an array), there is the need to be able to do
-| a form of "tree comparison" (also known as breadth-first search), since processin | g can go from |
-
-dictionary to dictionary to dictionary, etc.
+Finally, since any of the values may itself be a dictionary (or an array), there is the need to be able to do a form of "tree comparison" (also known as breadth-first search), since processin g can go from dictionary to dictionary to dictionary, etc.
 
 Fortunately, even with these complexities, the process for dictionary comparison can be clearly defined
 | and made standard in a way that all implementations can agree on equality. | “Figure J.2 — Comparison |
 | --- | --- |
 | of two dictionaries” shows a comparison of two dictionar | ies. |
 
-Figure J.2 — Comparison of two dictionaries
-
-### J.3.7 Stream objects
+Figure J.2 — Comparison of two dictionaries J.3.7    Stream objects
 
 | Given two streams, there are two things to compare | - the stream data and the associated dictionary. |
 | --- | --- |
 | Comparison of the dictionary was addressed in the previous | subclause. |
 
-
-## Page 957
 
 ISO 32000-2:2020
 
@@ -110,8 +88,6 @@ One issue with this particular solution for comparison of XObject equality is th
 Consider the case where a PDF optimisation process has optimised the data of the stream itself - for example, converting all the end of line characters (e.g. CARRIAGE RETURN or LINE FEED) in the data of the stream to simpler SPACE characters in order to improve compression. The streams are equivalent -
 
 
-## Page 958
-
 in that they will produce the exact same content on the page but they will never compare correctly via binary comparison or hash generation.
 
 In addition, a similar optimisation process may remove any private data or metadata associated with an object. Doing so would leave an object with the same data stream but with a different dictionary, and thus a different object.
@@ -122,7 +98,5 @@ As noted in J.3.6, "Dictionary objects", it is possible that when processing a d
 
 For the specific use case of this document - comparison of XObjects - it is not expected that this will occur. However, should the recommendations in this document be used in the general case, then the PDF processor will need to protect itself.
 
-
-## Page 959
 
 ISO 32000-2:2020

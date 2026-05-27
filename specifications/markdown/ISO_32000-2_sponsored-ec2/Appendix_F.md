@@ -12,17 +12,14 @@ The primary goal for a linearized PDF file is to achieve the following behaviour
 To the extent possible, display the most useful data first.
 • Permit user interaction, such as following a link, to be performed even before the entire page has been received and displayed.
 
-> **NOTE** A linearized PDF is optimised for viewing of read-only PDF documents. A linearized PDF is
-intended to be generated once and read many times.
+> **NOTE** A linearized PDF is optimised for viewing of read-only PDF documents. A linearized PDF is intended to be generated once and read many times.
 Incremental update shall still be permitted, but the resulting PDF is no longer linearized and subsequently shall be treated as ordinary PDF. Linearizing it again may require reprocessing the entire PDF file; see G.7, "Accessing an updated file" for details.
 
 Linearized PDF requires two additions to the PDF specification:
 
 • When a PDF file is initially accessed (such as by following a URL hyper link from some other document), the file type is not known to the PDF processor. Therefore, the PDF processor initiates a transaction to retrieve the entire document and then inspects the MIME tag of the response as it arrives. The MIME tag for PDF is defined by Internet RFC 8118. Only at that point is the document known to be PDF. Additionally, with a properly configured server environment, the length of the document becomes known at that time.
-• Rules for the ordering of objects in the PDF file • Additional optional data structures, called hint tables, that enable efficient navigation within the document Both of these additions are relatively simple to describe; however, using them effectively requires a deeper understanding of their purpose. Consequently, this annex goes considerably beyond a simple specification of these PDF extensions to include background, motivation, and strategies.
+• Rules for the ordering of objects in the PDF file •    Additional optional data structures, called hint tables, that enable efficient navigation within the document Both of these additions are relatively simple to describe; however, using them effectively requires a deeper understanding of their purpose. Consequently, this annex goes considerably beyond a simple specification of these PDF extensions to include background, motivation, and strategies.
 
-
-## Page 895
 
 ISO 32000-2:2020
 
@@ -34,8 +31,7 @@ The reader is assumed to be familiar with the basic architecture of the Web, inc
 
 ## F.2 Background and assumptions
 
-> **NOTE 1** The principal problem addressed by the Linearized PDF design is the access of PDF documents
-through the Web. This environment has the following important properties: • The access protocol (HTTP) is a transaction consisting of a request and a response. The PDF processor presents a request in the form of a URL, and the server sends a response consisting of one or more MIME-tagged data blocks.
+> **NOTE 1** The principal problem addressed by the Linearized PDF design is the access of PDF documents through the Web. This environment has the following important properties: •    The access protocol (HTTP) is a transaction consisting of a request and a response. The PDF processor presents a request in the form of a URL, and the server sends a response consisting of one or more MIME-tagged data blocks.
 • After a transaction has completed, obtaining more data requires a new request-response transaction. The connection between PDF processor and server does not ordinarily persist beyond the end of a transaction, although some implementations might attempt to cache the open connection to expedite subsequent transactions with the same server.
 • Round-trip delay can be significant. A request-response transaction can take up to several seconds, independent of the amount of data requested.
 • The data rate can be limited. A typical bottleneck is a slow link between the PDF processor and the Internet service provider.
@@ -49,19 +45,13 @@ Some additional properties of the HTTP protocol are relevant to the problem of a
 • The PDF processor can request retrieval of portions of a document by specifying one or more byte ranges (by offset and count) in the HTTP request headers. Each range can be relative to either the beginning or the end of the file. The PDF processor can specify as many ranges as it wants in the request, and the response consists of multiple blocks, each properly tagged.
 
 
-## Page 896
-
 • The PDF processor can initiate multiple concurrent transactions in an attempt to obtain multiple responses in parallel. This is commonly done, for instance, to retrieve inline images referenced from an HTML document. This strategy is not always reliable and might backfire if the transactions interfere with each other by competing for scarce resources in the server or the communication channel.
 
-> **NOTE 2** Extensive experimentation has determined that having multiple concurrent transactions does
-not work very well for PDF in some important environments. Therefore, Linearized PDF is designed to enable good performance to be achieved using only one transaction at a time. In particular, this means that the PDF processor needs to have sufficient information to determine the byte ranges for all the objects needed to display a given page of the PDF file so that it can specify all those byte ranges in a single request.
+> **NOTE 2** Extensive experimentation has determined that having multiple concurrent transactions does not work very well for PDF in some important environments. Therefore, Linearized PDF is designed to enable good performance to be achieved using only one transaction at a time. In particular, this means that the PDF processor needs to have sufficient information to determine the byte ranges for all the objects needed to display a given page of the PDF file so that it can specify all those byte ranges in a single request.
 The following additional assumptions are made about the PDF processor and its local environment:
 
 • The PDF processor has plenty of local temporary storage available. It rarely will need to retrieve a given portion of a PDF document more than once from the server.
-• The PDF processor is able to display PDF data quickly once it has been received. The performance
-| bottleneck is assumed to be in the transpo | rt system (throughput or round-trip delay), not in the |
-
-processing of data after it arrives.
+• The PDF processor is able to display PDF data quickly once it has been received. The performance bottleneck is assumed to be in the transpo rt system (throughput or round-trip delay), not in the processing of data after it arrives.
 The consequence of these assumptions is that it might be advantageous for the PDF processor to do considerable extra work to minimise delays due to communications.
 
 Such work includes maintaining local caches and reordering actions according to when the needed data becomes available.
@@ -71,9 +61,7 @@ Such work includes maintaining local caches and reordering actions according to 
 ### F.3.1 General
 
 > **NOTE** This clause was updated to allow alternative part orderings (2020).
-| Except as noted below | , all elements of a Linearized PDF file shall be as specified in | 7.5, "File structure", |
-
-and all indirect objects in the PDF file shall be divided into two groups.
+Except as noted below , all elements of a Linearized PDF file shall be as specified in 7.5, "File structure", and all indirect objects in the PDF file shall be divided into two groups.
 
 • The first group shall consist of the document catalog dictionary, other document-level objects, and all objects belonging to the first page of the document. These objects shall be numbered sequentially, starting at the first object number after the last number of the second group. (The stream containing the hint tables, called a hint stream, may be numbered out of sequence; see F.3.6, "Hint streams (Parts 5 and 10)".
 • The second group shall consist of all remaining objects in the document, including all pages after the first, all shared objects (objects referenced from more than one page, not counting objects referenced from the first page), and so forth. These objects shall be numbered sequentially starting at 1.
@@ -84,8 +72,6 @@ Beginning with PDF 1.5, PDF files may contain object streams (7.5.7, "Object str
 • These additional objects may not be contained in an object stream: the linearization dictionary,
 
 
-## Page 897
-
 ISO 32000-2:2020
 
 the document catalog dictionary, and page objects.
@@ -95,7 +81,7 @@ the document catalog dictionary, and page objects.
 
 > **EXAMPLE 1** Part 1: Header
 
-| %PDF-2.0 | % … Binary characters … |
+%PDF-2.0 % … Binary characters …
 
 > **EXAMPLE 2** Part 2: Linearization parameter dictionary
 
@@ -113,10 +99,7 @@ the document catalog dictionary, and page objects.
 
 > **EXAMPLE 3** Part 3: First-page cross-reference table and trailer
 
-xref
-| 43 | 4 |
-
-0000000052 0000 n 0000000392 0000 n 0000001073 0000 n … Cross-reference entries for remaining objects in the first page … 0000000475 0000 n trailer
+xref 43 4 0000000052  0000 n 0000000392  0000 n 0000001073  0000 n … Cross-reference entries for remaining objects in the first page … 0000000475  0000 n trailer
 | << /Size 57 | % Total number of cross-reference table entries in document |
 | --- | --- |
 | /Prev 52776 | % Offset of main cross-reference table (part 11) |
@@ -127,18 +110,14 @@ startxref
 
 %%EOF
 
-> **EXAMPLE 4** Part 4: Document catalog dictionary and other required document -level objects (can precede or follow part
-5)
+> **EXAMPLE 4** Part 4: Document catalog dictionary and other required document -level objects (can precede or follow part 5)
 
 44 0 obj <</Type /Catalog /Pages 42 0 R >> endobj … Other objects …
 
 
-## Page 898
-
 > **EXAMPLE 5** Part 5: Primary hint stream (can precede or follow part 4 or part 6)
 
-56 0 obj <</Length 57 … Possibly other stream attributes, such as Filter …
-| /S | 21 | % Position of shared object hint table … Possibly entries for other hint tables … stream >> … Page offset hint table … … Shared object hint table … … Possibly other hint tables … endstream endobj |
+56 0 obj <</Length  57 … Possibly other stream attributes, such as Filter … /S 21 % Position of shared object hint table … Possibly entries for other hint tables … stream >> … Page offset hint table … … Shared object hint table … … Possibly other hint tables … endstream endobj
 
 > **EXAMPLE 6** Part 6: First-page section (can precede or follow part 5)
 
@@ -170,15 +149,12 @@ startxref
 
 > **EXAMPLE 11** Part 11: Main cross-reference table and trailer
 
-xref 0 43
+xref 0  43
 | 0000000000 | 65535 f … Cross-reference entries for all except first page’s objects … trailer |
 | --- | --- |
 | <</Size 43>> | % Trailer need not contain other entries; in particular, % it shall not have a Prev entry % Offset of first-page cross-reference table (part 3) startxref |
+| %%EOF |  |
 
-%%EOF
-
-
-## Page 899
 
 ISO 32000-2:2020
 
@@ -198,27 +174,21 @@ The linearization parameter dictionary shall be entirely contained within the fi
 Table F.1 — Entries in the linearization parameter dictionary
 
 | Parameter | Type | Value |
-
+| --- | --- | --- |
 | Linearized | number | (Required) A version identification for the linearized format. |
-
 | L | integer | (Required) The length of the entire PDF file in bytes. It shall be exactly equal to the actual length of the PDF file. A mismatch indicates that the file is not linearized and shall be treated as ordinary PDF file, ignoring linearization information. (If the mismatch resulted from appending an update, the linearization information may still be correct but requires validation; see G.7, "Accessing an updated file" for details.) |
-
 | H | array | (Required) An array of two or four integers, [offset1 length1] or [offset1 length1 offset2 length2]. offset1 shall be the offset of the primary hint stream from the beginning of the PDF file. (This is the beginning of the stream object, not the beginning of the stream data.) length1 shall be the length of this stream, including stream object overhead. If the value of the primary hint stream dictionary’s Length entry is an indirect reference, the object it refers to shall immediately follow the stream object, and length1 also shall include the length of the indirect length object, including object overhead. If there is an overflow hint stream, offset2 and length2 shall specify its offset and length. |
-
 | O | integer | (Required) The object number of the first page’s page object. |
-
 | E | integer | (Required) The offset of the end of the first page (the end of Example 6 in F.3, "Linearized PDF document structure"), relative to the beginning of the PDF file. |
-
 | N | integer | (Required) The number of pages in the document. |
 
 
-## Page 900
-
 | Parameter | Type | Value |
-
+| --- | --- | --- |
 | T | integer | (Required) In documents that use standard main cross-reference tables (including hybrid-reference files; see 7.5.8.4, "Compatibility with applications that do not support compressed reference streams"), this entry shall represent the offset of the white-space character preceding the first entry of the main cross-reference table (the entry for object number 0), relative to the beginning of the PDF file. Note that this differs from the Prev entry in the first-page trailer, which gives the location of the xref line that precedes the table. (PDF 1.5) Documents that use cross-reference streams exclusively (see 7.5.8, "Cross- reference streams"), this entry shall represent the offset of the main cross-reference stream object in the PDF file. |
+| P | integer | (Optional) The page number of the first page; see F.3.4, "First-page cross-reference |
 
-| P | integer | (Optional) The page number of the first page; see F.3.4, "First-page cross-reference table and trailer (Part 3)". Default value: 0. |
+table and trailer (Part 3)". Default value: 0.
 
 ### F.3.4 First-page cross-reference table and trailer (Part 3)
 
@@ -240,8 +210,6 @@ Following the first-page cross-reference table and trailer are the catalog dicti
 • The PDF processor ViewerPreferences entry in the document catalog dictionary.
 
 
-## Page 901
-
 ISO 32000-2:2020
 
 • The PageMode entry in the document catalog dictionary. Note that if the value of PageMode is UseOutlines, the outline hierarchy shall be located in part 6; otherwise, the outline hierarchy, if any, shall be located in part 9. See F.3.10, "Other objects (Part 9)" for details.
@@ -251,8 +219,7 @@ ISO 32000-2:2020
 • The Encrypt entry in the first-page trailer dictionary. All values in the encryption dictionary shall also be located here.
 All other objects shall not be located here but instead shall be at the end of the PDF file; see F.3.10, "Other objects (Part 9)". This includes objects such as page tree nodes, the document information dictionary, and the definitions for named destinations.
 
-> **NOTE** The objects located here are indexed by the first-page cross-reference table, even though they
-are not logically part of the first page.
+> **NOTE** The objects located here are indexed by the first-page cross-reference table, even though they are not logically part of the first page.
 
 ### F.3.6 Hint streams (Parts 5 and 10)
 
@@ -271,44 +238,29 @@ See Annex G, "Linearized PDF access strategies" for considerations on the choice
 The location and length of the primary hint stream, and of the overflow hint stream if present, shall be given in the linearization parameter dictionary at the beginning of the PDF file.
 
 
-## Page 902
-
 The hint streams shall be assigned the last object numbers in the PDF file — that is, after the object number for the last object in the first page, including any objects stored within object streams. Their cross-reference table entries shall be at the end of the first-page cross-reference table. This object number assignment shall be independent of the physical locations of the hint streams in the PDF file.
 
-> **NOTE** This convention keeps their object numbers from conflicting with the numbering of the
-linearized objects.
+> **NOTE** This convention keeps their object numbers from conflicting with the numbering of the linearized objects.
 With one exception, the values of all entries in the hint streams’ dictionaries shall be direct objects and may contain no indirect object references. The exception is the stream dictionary’s Length entry (see the discussion of the H entry in "Table F.1 — Entries in the linearization parameter dictionary".
 
 In addition to the standard stream attributes, the dictionary of the primary hint stream shall contain entries giving the position of the beginning of each hint table in the stream. These positions shall be counted in bytes relative to the beginning of the stream data (after decoding filters, if any, are applied) and with the overflow hint stream concatenated if present. The dictionary of the overflow hint stream shall not contain these entries. The keys designating the standard hint tables in the primary hint stream’s dictionary are listed in "Table F.2 — Standard hint tables"; F.4, "Hint tables" documents the format of these hint tables. Additionally, there is a required page offset hint table, which shall be the first table in the stream and shall start at offset 0 in the PDF file.
 
 Table F.2 — Standard hint tables
 
-Key Hint table
-
+| Key | Hint table |
+| --- | --- |
 | S | (Required) Shared object hint table (see F.4.3, "Shared object hint table") |
-
 | T | (Required only if thumbnail images exist) Thumbnail hint table (see F.4.4, "Thumbnail hint table") |
-
 | O | (Required only if a document outline exists) Outline hint table (see F.4.5, "Generic hint tables") |
-
 | A | (Required only if article threads exist) Thread information hint table (see F.4.5, "Generic hint tables") |
-
 | E | (Required only if named destinations exist) Named destination hint table (see F.4.5, "Generic hint tables") |
-
 | V | (Required only if an interactive form dictionary exists) Interactive form hint table (see F.4.6, "Extended generic hint tables") |
-
 | I | (Required only if a document information dictionary exists) Information dictionary hint table (see F.4.5, "Generic hint tables") |
-
 | C | (Required only if a logical structure hierarchy exists; PDF 1.3) Logical structure hint table (see F.4.6, "Extended generic hint tables") |
-
 | L | (PDF 1.3) Page label hint table (see F.4.5, "Generic hint tables") |
-
 | R | (Required only if a renditions name tree exists; PDF 1.5) Renditions name tree hint table (see F.4.6, "Extended generic hint tables") |
-
 | B | (Required only if embedded file streams exist; PDF 1.5) Embedded file stream hint table (see F.4.7, "Embedded file stream hint tables") |
 
-
-## Page 903
 
 ISO 32000-2:2020
 
@@ -321,8 +273,7 @@ This part of the PDF file contains all the objects needed to display the first p
 | --- | --- | --- |
 | document catalog dictionary contains an | OpenAction entry that specifies opening at some page other |  |
 
-than page 0, that page shall be considered the first page and shall be located here. The page number of
-| the first page is given in the | P entry of the linearization parameter dictionary. |
+than page 0, that page shall be considered the first page and shall be located here. The page number of the first page is given in the P entry of the linearization parameter dictionary.
 
 > **NOTE** As mentioned earlier, the section containing objects belonging to the first page of the document
 | can either precede or follow the primary hint stream. The starting | PDF file offset and length of |
@@ -337,52 +288,31 @@ than page 0, that page shall be considered the first page and shall be located h
 | specify all required attributes, such as | Resources and MediaBox; the attributes may not be |
 
 inherited from ancestor page tree nodes.
-• The entire outline hierarchy, if the value of the PageMode entry in the catalog dictionary is UseOutlines. If the PageMode entry is omitted or has some other value and the document has an
-| outline hierarchy, the outline hierarchy shall appear in part 9; see | F.3.10, "Other objects (Part 9)" |
-
-for details.
+• The entire outline hierarchy, if the value of the PageMode entry in the catalog dictionary is UseOutlines. If the PageMode entry is omitted or has some other value and the document has an outline hierarchy, the outline hierarchy shall appear in part 9; see F.3.10, "Other objects (Part 9)" for details.
 • All objects that the page object refers to, to an arbitrary depth, except page tree nodes, other page objects and DPart tree nodes.
 The order of objects referenced from the page object should facilitate early user interaction and incremental display of the page data as it arrives. The following order should be used:
 
 a) The Annots array and all annotation dictionar ies, to a depth sufficient for those annotations to be
 activated. Information required to draw the annotation may be deferred until later since annotations are always drawn on top of (hence after) the contents.
 b) The B (beads) array and all bead dictionaries , if any, for this page. If any beads exist for this page, the B
-array shall be present in the page dictionary. Additionally, each bead in the thread (not just the first
-| bead) shall contain a | T entry referring to the associated thread dictionary. |
-
+array shall be present in the page dictionary. Additionally, each bead in the thread (not just the first bead) shall contain a T entry referring to the associated thread dictionary.
 c) The Resources dictionary, but not the resource objects contained in the dictionary.
 d) Resource objects, other than the types listed below, in the order that they are first referenced (directly or
-| indirectly) from the content stream. If the contents are represented | as an array of streams, each resource |
-
-object shall precede the stream in which it is first referenced. Note that Font, FontDescriptor, and Encoding resources shall be included here, but not substitutable font files referenced from font
-| descriptors (see ite | m (g) below). |
-
+indirectly) from the content stream. If the contents are represented as an array of streams, each resource object shall precede the stream in which it is first referenced. Note that Font, FontDescriptor, and Encoding resources shall be included here, but not substitutable font files referenced from font descriptors (see ite m (g) below).
 e) The page contents ( Contents ). If large, this should be represented as an array of indirect references to
-content streams, which in turn shall be interleaved with the resources they require. If small, the entire
-| contents should be a single co | ntent stream preceding the resources. |
-
+content streams, which in turn shall be interleaved with the resources they require. If small, the entire contents should be a single co ntent stream preceding the resources.
 f) Image XObjects, in the order that they are first referenced. Images can be assumed to be large and slow
 to transfer; therefore, the PDF processor should defer rendering images until all the other contents have been displayed.
 
 
-## Page 904
-
 g) FontFile streams, which contain the actual definitions of embedded fonts. These can be assumed to be
-large and slow to transfer; therefore, the PDF processor should use substitute fonts until the real ones
-| have arrived. Only those fonts for | which substitution is possible may be deferred in this way. (Currently, |
-
-this includes any Type 1 or TrueType font that has a font descriptor with the Nonsymbolic flag set, indicating the Standard Latin character set).
+large and slow to transfer; therefore, the PDF processor should use substitute fonts until the real ones have arrived. Only those fonts for which substitution is possible may be deferred in this way. (Currently, this includes any Type 1 or TrueType font that has a font descriptor with the Nonsymbolic flag set, indicating the Standard Latin character set).
 h) See Annex G, "Linearized PDF access strategies" for additional discussion about object order and
 incremental drawing strategies.
 
 ### F.3.8 Remaining pages (Part 7)
 
-| Part 7 of the Linearized PDF file shall contai | n the page objects and nonshared objects for all remaining |
-
-pages of the PDFF file, with the objects for each page grouped together. The pages shall be contiguous
-| and shall be ordered by page number. If the first page of the | PDF file is not page 0, this sec | tion shall |
-
-start with page 0 and shall skip over the first page when its position in the sequence is reached.
+Part 7 of the Linearized PDF file shall contai n the page objects and nonshared objects for all remaining pages of the PDFF file, with the objects for each page grouped together. The pages shall be contiguous and shall be ordered by page number. If the first page of the PDF file is not page 0, this sec tion shall start with page 0 and shall skip over the first page when its position in the sequence is reached.
 
 For each page, the objects required to display that page shall be grouped together, except for resources
 | and other objects that are shared with ot | her pages. Shared objects shall be located in the shared |
@@ -391,9 +321,7 @@ For each page, the objects required to display that page shall be grouped togeth
 
 hint tables.
 
-| The recommended order of objects within a page is essentially the same as in the | first page. In |
-
-particular, the page object shall be the first object in each section.
+The recommended order of objects within a page is essentially the same as in the first page. In particular, the page object shall be the first object in each section.
 
 In most cases, unlike for the first page, little benefit is gained from interleaving contents with resources
 | because most resources other than images | — fonts in particula | r — are shared among multiple pages |
@@ -405,9 +333,8 @@ In most cases, unlike for the first page, little benefit is gained from interlea
 
 Part 8 of the PDF file contains objects, primarily named resources, that are referenced from more than one page but that are not referenced (directly or indirectly) from the first page. The hint tables contain
 | an index of these objects. For more information on named resourc | es, see 7.8.3, "Resource dictionaries | ". |
-
-| The order of these objects | can be arbitrary. However, wherever a resource consists of a multiple | -level |
 | --- | --- | --- |
+| The order of these objects | can be arbitrary. However, wherever a resource consists of a multiple | -level |
 | structure, all components of the structure shall be grouped together. If only the top | -level object is |  |
 | referenced from outside the group, the entire group may be described by a single ent | ry in the shared |  |
 
@@ -420,8 +347,6 @@ Following the shared objects are any other objects that are part of the document
 • The page tree. This object can be located in this section because the PDF processor never needs to consult it. Note that all Resources attributes and other inheritable attributes of the page objects shall be pushed down and replicated in each of the leaf page objects (but they may contain indirect references to shared objects).
 • Thumbnail images. These objects shall simply be ordered by page number. (The thumbnail image
 
-
-## Page 905
 
 ISO 32000-2:2020
 
@@ -437,9 +362,7 @@ Following that shall be the subtrees that were skipped over, in the order in whi
 • (PDF 1.3) The logical structure hierarchy.
 • (PDF 1.5) The renditions name tree hierarchy.
 • (PDF 1.5) Embedded file streams.
-• (PDF 2.0) DPart tree and Document Part Metadata
-
-### F.3.11 Main cross-reference and trailer (Part 11)
+• (PDF 2.0) DPart tree and Document Part Metadata F.3.11             Main cross-reference and trailer (Part 11)
 
 Part 11 is the cross-reference table for all objects in the PDF file except those listed in the first-page cross-reference table (part 3). As indicated earlier, this cross-reference table shall play the role of the original cross-reference table for the PDF file (before any updates are appended) and shall conform to the following rules:
 
@@ -448,11 +371,8 @@ Part 11 is the cross-reference table for all objects in the PDF file except thos
 • The remaining entries are for in-use objects, which shall be numbered consecutively, starting at 1.
 The startxref line shall give the offset of the first-page cross-reference table in the PDF file. The Prev entry of the first-page trailer shall give the offset of the main cross-reference table in the PDF file. The main trailer has no Prev entry and should not contain any entries other than Size.
 
-In PDF 1.5 and later, cross-reference streams (see 7.5.8, "Cross-reference streams") may be used in linearized PDF files in place of traditional cross-reference tables. The logic described in this subclause,
-| along with the appropriate syntactic changes for cross | -reference streams, still applies. |
+In PDF 1.5 and later, cross-reference streams (see 7.5.8, "Cross-reference streams") may be used in linearized PDF files in place of traditional cross-reference tables. The logic described in this subclause, along with the appropriate syntactic changes for cross -reference streams, still applies.
 
-
-## Page 906
 
 ## F.4 Hint tables
 
@@ -460,9 +380,7 @@ In PDF 1.5 and later, cross-reference streams (see 7.5.8, "Cross-reference strea
 
 The core of the linearization information shall be stored in two or more hint tables, as indicated by the attributes of the primary hint stream; see F.3.6, "Hint streams (Parts 5 and 10)". The format of the standard hint tables is described in this section.
 
-# A PDF writer may add additional hint tables for PDF processor-specific data. A generic format for such
-
-hint tables is defined; see F.4.5, "Generic hint tables" Alternatively, the format of a hint table may be private to the PDF processor; see Annex E, "Extending PDF" for further information.
+A PDF writer may add additional hint tables for PDF processor-specific data. A generic format for such hint tables is defined; see F.4.5, "Generic hint tables" Alternatively, the format of a hint table may be private to the PDF processor; see Annex E, "Extending PDF" for further information.
 
 Each hint table shall consist of a portion of the stream, beginning at the position in the stream indicated by the corresponding stream attribute. Additionally, a PDF writer shall include a page offset hint table, which shall be the first table in the stream and shall start at offset 0. If there is an overflow hint stream, its contents shall be appended seamlessly to the primary hint stream.
 
@@ -473,21 +391,16 @@ In general, this byte stream shall be treated as a bit stream, high-order bit fi
 Interpreting the hint tables requires reading them sequentially; they are not designed for random access.
 The PDF processor will be expected to read and decode the tables once and retain the information for as long as the document remains open.
 
-> **NOTE 3** A hint table encodes the positions of various objects in the PDF file. The representation is either
-explicit (an offset from the beginning of the PDF file) or implicit (accumulated lengths of preceding objects).
+> **NOTE 3** A hint table encodes the positions of various objects in the PDF file. The representation is either explicit (an offset from the beginning of the PDF file) or implicit (accumulated lengths of preceding objects).
 Regardless of the representation, the resulting positions shall be interpreted as if the primary hint stream itself were not present. That is, a position greater than the hint stream offset shall have the hint stream length added to it to determine the actual offset relative to the beginning of the PDF file.
 
-> **NOTE 4** The hint stream offset and hint stream length are the values offset1 and length1 in the H array in
-the linearization parameter dictionary at the beginning of the PDF file.
+> **NOTE 4** The hint stream offset and hint stream length are the values offset1 and length1 in the H array in the linearization parameter dictionary at the beginning of the PDF file.
 
 The reason for this rule is that the length of the primary hint stream depends on the information contained within the hint tables, which is not known until after they have been generated. Any information contained in the hint tables does not depend on knowing the primary hint stream’s length in advance.
 
-> **NOTE** that this rule applies only to offsets given in the hint tables and not to offsets given in the
-cross-reference tables or linearization parameter dictionary. Also, the offset and length of the overflow hint stream, if present, does not need to be taken into account, since this object follows all other objects in the PDF file.
+> **NOTE** that this rule applies only to offsets given in the hint tables and not to offsets given in the cross-reference tables or linearization parameter dictionary. Also, the offset and length of the overflow hint stream, if present, does not need to be taken into account, since this object follows all other objects in the PDF file.
 In linearized PDF files that use object streams (7.5.7, "Object streams"), the position specified in a hint table for a compressed object is to be interpreted as a byte range in which the object can be found, not
 
-
-## Page 907
 
 ISO 32000-2:2020
 
@@ -499,8 +412,7 @@ The page offset hint table provides information required for locating each page.
 
 This table shall begin with a header section, described in "Table F.3 — Page offset hint table, header section", followed by one or more per-page entries, described in "Table F.4 — Page offset hint table, per-page entry".
 
-> **NOTE** The items making up each per-page entry are not contiguous; they are broken up with items
-from entries for other pages.
+> **NOTE** The items making up each per-page entry are not contiguous; they are broken up with items from entries for other pages.
 The order of items making up the per-page entries shall be as follows:
 
 a) Item 1 for all pages, in page order starting with t he first page
@@ -521,41 +433,32 @@ g) Item 7 for all pages, in page order starting with the first p age
 Table F.3 — Page offset hint table, header section
 
 | Item | Size (bits) | Description |
-
+| --- | --- | --- |
 | 1 | 32 | The least number of objects in a page (including the page object itself). |
-
 | 2 | 32 | The location of the first page’s page object. |
-
 | 3 | 16 | The number of bits needed to represent the difference between the greatest and least number of objects in a page. |
-
 | 4 | 32 | The least length of a page in bytes. This shall be the least length from the beginning of a page object to the last byte of the last object used by that page. |
-
 | 5 | 16 | The number of bits needed to represent the difference between the greatest and least length of a page, in bytes. |
-
 | 6 | 32 | The least offset of the start of any content stream, relative to the beginning of its page. |
 
 
-## Page 908
-
 | Item | Size (bits) | Description |
-
+| --- | --- | --- |
 | 7 | 16 | The number of bits needed to represent the difference between the greatest and least offset to the start of the content stream. |
-
 | 8 | 32 | The least content stream length. |
-
 | 9 | 16 | The number of bits needed to represent the difference between the greatest and least content stream length. |
-
 | 10 | 16 | The number of bits needed to represent the greatest number of shared object references. |
+| 11 | 16 | The number of bits needed to represent the numerically greatest shared object identifier used by the pages (discussed further in "Table F.4 — Page offset hint |
 
-| 11 | 16 | The number of bits needed to represent the numerically greatest shared object identifier used by the pages (discussed further in "Table F.4 — Page offset hint table, per-page entry", item 4). |
+table, per-page entry", item 4).
 
-| 12 | 16 | The number of bits needed to represent the numerator of the fractional position for each shared object reference. For each shared object referenced from a page, there shall be an indication of where in the page’s content stream the object is first referenced. That position shall be given as the numerator of a fraction, whose denominator is specified once for the entire document (in the next item in this table). The fraction is explained in more detail in "Table F.4 — Page offset hint table, per-page entry", item 5. |
+12 16 The number of bits needed to represent the numerator of the fractional position for each shared object reference. For each shared object referenced from a page, there shall be an indication of where in the page’s content stream the object is first referenced. That position shall be given as the numerator of a fraction, whose denominator is specified once for the entire document (in the next item in this table). The fraction is explained in more detail in "Table F.4 — Page offset hint table, per-page entry", item 5.
 
-| 13 | 16 | The denominator of the fractional position for each shared object reference. |
+13 16 The denominator of the fractional position for each shared object reference.
 
 Table F.4 — Page offset hint table, per-page entry
 
-| Item | Size (bits) | Description |
+Item Size (bits) Description
 
 # 1 See "Table F.3 — Page A number that, when added to the least number of objects in a page
 
@@ -576,11 +479,9 @@ Table F.4 — Page offset hint table, per-page entry
 | header section", item | page. |
 
 
-## Page 909
-
 ISO 32000-2:2020
 
-| Item | Size (bits) | Description |
+Item Size (bits) Description
 
 # 4 See "Table F.3 — Page (One item for each shared object referenced from the page) A shared
 
@@ -599,8 +500,7 @@ This identifier combines with the numerators provided in item 5 to form a shared
 
 shall indicate where in the page’s content stream the shared object is first referenced. This item shall be interpreted as the numerator of a fraction whose denominator is specified once for the entire document ("Table F.3 — Page offset hint table, header section", item 13).
 
-> **EXAMPLE** If the denominator is d, a numerator ranging from 0 to d - 1
-indicates the corresponding portion of the page’s content stream. For example, if the denominator is 4, a numerator of 0, 1, 2, or 3 indicates
+> **EXAMPLE** If the denominator is d, a numerator ranging from 0 to d - 1 indicates the corresponding portion of the page’s content stream. For example, if the denominator is 4, a numerator of 0, 1, 2, or 3 indicates
 | that the first reference lies in the first, second, third, | or fourth quarter |
 | --- | --- |
 | of the content stream, respectively. | There are two (or more) other values for the numerator, which shall indicate that the shared object is not referenced from the content stream but instead is needed by |
@@ -623,14 +523,10 @@ Determining the first reference to a shared object entails inspecting the unenco
 
 ### F.4.3 Shared object hint table
 
-| The shared object hint table gives information required to locate shared objects; see | F.3.9, "Shared |
-
-objects (Part 8)". Shared objects may be physically located in either of two places: objects that are referenced from the first page shall be located with the first-page objects (part 6); all other shared objects shall be located in the shared objects section (part 8).
+The shared object hint table gives information required to locate shared objects; see F.3.9, "Shared objects (Part 8)". Shared objects may be physically located in either of two places: objects that are referenced from the first page shall be located with the first-page objects (part 6); all other shared objects shall be located in the shared objects section (part 8).
 
 A single entry in the shared object hint table may describe a group of adjacent objects under the following condition: Only the first object in the group is referenced from outside the group; the
 
-
-## Page 910
 
 remaining objects in the group are referenced only from other objects in the same group. The objects in a group shall have adjacent object numbers.
 
@@ -642,63 +538,42 @@ a) Item 1 for the first group, item 1 for the second group, and so on
 b) Item 2 for the first group, item 2 for the second group, and so on
 c) Item 3 for the first group, item 3 for the second group, and so on
 d) Item 4 for the first group, item 4 for the second group, and so on
-| All objects associat | ed with the first page (part 6) shall have entries in the shared object hint table, |
-
-regardless of whether they are actually shared. The first entry shall refer to the beginning of the first
-| page and shall have an object count and length that shall span all | the initial nonshared objects. The |
-
-next entry shall refer to a group of shared objects. Subsequent entries shall span additional groups of either shared or nonshared objects consecutively until all shared objects in the first page have been enumerated. (There shall not be any entries that refer to nonshared objects.)
+All objects associat ed with the first page (part 6) shall have entries in the shared object hint table, regardless of whether they are actually shared. The first entry shall refer to the beginning of the first page and shall have an object count and length that shall span all the initial nonshared objects. The next entry shall refer to a group of shared objects. Subsequent entries shall span additional groups of either shared or nonshared objects consecutively until all shared objects in the first page have been enumerated. (There shall not be any entries that refer to nonshared objects.)
 
 Table F.5 — Shared object hint table, header section
 
 | item | Size (bits) | Description |
-
+| --- | --- | --- |
 | 1 | 32 | The object number of the first object in the shared objects section (part 8). |
-
 | 2 | 32 | The location of the first object in the shared objects section. |
-
 | 3 | 32 | The number of shared object entries for the first page (including nonshared objects, as noted above). |
-
 | 4 | 32 | The number of shared object entries for the shared objects section, including the number of shared object entries for the first page (that is, the value of item 3). |
-
 | 5 | 16 | The number of bits needed to represent the greatest number of objects in a shared object group. |
-
 | 6 | 32 | The least length of a shared object group in bytes. |
-
 | 7 | 16 | The number of bits needed to represent the difference between the greatest and least length of a shared object group, in bytes. |
 
-
-## Page 911
 
 ISO 32000-2:2020
 
 Table F.6 — Shared object hint table, shared object group entry
 
-| Item | Size (bits) | Description |
+Item Size (bits) Description
 
 # 1 See "Table F.5 — A number that, when added to the least shared object group length
 
-| Shared object hint | ("Table F.5 — Shared object hint table, header section", item 6), gives |
-
-table, header section", the length of the object group in bytes. The location of the first object
-| item 7 | of the first page shall be given in the page offset hint table, header section ("Table F.3 — Page offset hint table, header section", item 4). The locations of subsequent object groups can be determined by accumulating the lengths of all previous object groups until all shared objects in the first page have been enumerated. Following that, the location of the first object in the shared objects section can be obtained from the header section of the shared object hint table ("Table F.5 — Shared object hint table, header section", item 2). |
-
+Shared object hint ("Table F.5 — Shared object hint table, header section", item 6), gives table, header section",       the length of the object group in bytes. The location of the first object
+| item 7 | of the first page shall be given in the page offset hint table, header section ("Table F.3 — Page offset hint table, header section", item 4). The locations of subsequent object groups can be determined by accumulating the lengths of all previous object groups until all shared objects in the first page have been enumerated. Following that, the location of the first object in the shared objects section can be obtained from the header section of the shared object hint table ("Table F.5 — Shared object hint table, header section", item 2). |  |
+| --- | --- | --- |
 | 2 | 1 | A flag indicating whether the shared object signature (item 3) is present; its value shall be 1 if the signature is present and 0 if it is absent. |
-
 | 3 | 128 | (Only if item 2 is 1) The shared object signature, a 16-byte MD5 hash that uniquely identifies the resource that the group of objects represents. |
 
-> **NOTE** It enables the PDF processor to substitute a locally cached copy of
-the resource instead of reading it from the PDF file. Note that this signature is unrelated to signature fields in interactive forms, as defined in 12.7.5.5, "Signature fields".
+> **NOTE** It enables the PDF processor to substitute a locally cached copy of the resource instead of reading it from the PDF file. Note that this signature is unrelated to signature fields in interactive forms, as defined in 12.7.5.5, "Signature fields".
 
 # 4 See "Table F.5 — A number equal to 1 less than the number of objects in the group. The
 
-| Shared object hint | first object of the first page shall be the one whose object number is |
+Shared object hint first object of the first page shall be the one whose object number is table, header section",       given by the O entry in the linearization parameter dictionary at the item 5 beginning of the PDF file. Object numbers for subsequent entries can be determined by accumulating the number of objects in all previous entries until all shared objects in the first page have been enumerated. Following that, the first object in the shared objects section has a number that can be obtained from the header section of the shared object hint table ("Table F.5 — Shared object hint table, header section", item 1).
 
-table, header section", given by the O entry in the linearization parameter dictionary at the
-| item 5 | beginning of the PDF file. Object numbers for subsequent entries can be determined by accumulating the number of objects in all previous entries until all shared objects in the first page have been enumerated. Following that, the first object in the shared objects section has a number that can be obtained from the header section of the shared object hint table ("Table F.5 — Shared object hint table, header section", item 1). |
-
-> **NOTE** In a document consisting of only one page, all of that page’s objects are treated as if they were
-shared; the shared object hint table reflects this.
+> **NOTE** In a document consisting of only one page, all of that page’s objects are treated as if they were shared; the shared object hint table reflects this.
 
 ### F.4.4 Thumbnail hint table
 
@@ -706,39 +581,26 @@ The thumbnail hint table shall consist of a header section ("Table F.7 — Thumb
 Thumbnail images may exist for some pages and not for others.
 
 
-## Page 912
-
 Table F.7 — Thumbnail hint table, header section
 
 | Item | Size (bits) | Description |
-
+| --- | --- | --- |
 | 1 | 32 | The object number of the first thumbnail image (that is, the thumbnail image that is described by the first entry in the thumbnails section). |
-
 | 2 | 32 | The location of the first thumbnail image. |
-
 | 3 | 32 | The number of pages that have thumbnail images. |
-
 | 4 | 16 | The number of bits needed to represent the greatest number of consecutive pages that do not have a thumbnail image. |
-
 | 5 | 32 | The least length of a thumbnail image in bytes. |
-
 | 6 | 16 | The number of bits needed to represent the difference between the greatest and least length of a thumbnail image. |
-
 | 7 | 32 | The least number of objects in a thumbnail image. |
-
 | 8 | 16 | The number of bits needed to represent the difference between the greatest and least number of objects in a thumbnail image. |
-
 | 9 | 32 | The object number of the first object in the thumbnail shared objects section (a subsection of part 9). This section includes objects (colour spaces, for example) that shall be referenced from some or all thumbnail objects and are not referenced from any other objects. The thumbnail shared objects shall be undifferentiated; there is no indication of which shared objects shall be referenced from any given page’s thumbnail image. |
-
 | 10 | 32 | The location of the first object in the thumbnail shared objects section. |
-
 | 11 | 32 | The number of thumbnail shared objects. |
-
 | 12 | 32 | The length of the thumbnail shared objects section in bytes. |
 
 Table F.8 — Thumbnail hint table, per-page entry
 
-| Item | Size (bits) | Description |
+Item Size (bits) Description
 
 # 1 See "Table F.7 — (Optional) The number of preceding pages lacking a thumbnail
 
@@ -759,8 +621,6 @@ Table F.8 — Thumbnail hint table, per-page entry
 | header section", item 6 | 5), gives the length of this page’s thumbnail image in bytes. |
 
 
-## Page 913
-
 ISO 32000-2:2020
 
 The order of items in "Table F.8 — Thumbnail hint table, per-page entry" is as follows:
@@ -771,63 +631,43 @@ c) 3 for all pages, in page order starting with the first page
 
 ### F.4.5 Generic hint tables
 
-| Categories of objects are associated with the document as a whole rather than | with individual pages |
+Categories of objects are associated with the document as a whole rather than with individual pages (see F.3.10, "Other objects (Part 9)"), and hints should be provided for accessing those objects efficiently. For each category of hints, there shall be a separate entry in the primary hint stream giving the starting position of the table within the stream; see F.3.6, "Hint streams (Parts 5 and 10) ".
 
-(see F.3.10, "Other objects (Part 9)"), and hints should be provided for accessing those objects efficiently. For each category of hints, there shall be a separate entry in the primary hint stream giving
-| the starting position of | the table within the stream; see | F.3.6, "Hint streams (Parts 5 and 10) | ". |
+Such hints shall be represented by a generic hint table, which describes a single group of objects that are located together in the PDF file. The entries in this table are listed in "Table F.9 — Generic hint table". This representation shall be used for the following hint tables, if needed:
 
-Such hints shall be represented by a generic hint table, which describes a single group of objects that
-| are located together in the PDF file. The entries in this table are listed in | "Table F.9 — Generic hint |
+• Outline hint table •    Thread information hint table •    Named destination hint table •    Information dictionary hint table •    Page label hint table Generic hint tables may be used for product -specific objects accessed by PDF processors.
 
-table". This representation shall be used for the following hint tables, if needed:
-
-• Outline hint table • Thread information hint table • Named destination hint table • Information dictionary hint table • Page label hint table
-| Generic hint tables may be used for product | -specific objects accessed by PDF processors. |
-
-> **NOTE** It is considerably more convenient for a PDF processor to use the generic hint representation
-than to specify custom hints.
+> **NOTE** It is considerably more convenient for a PDF processor to use the generic hint representation than to specify custom hints.
 
 Table F.9 — Generic hint table
 
 | item | Size (bits) | Description |
-
+| --- | --- | --- |
 | 1 | 32 | The object number of the first object in the group. |
-
 | 2 | 32 | The location of the first object in the group. |
-
 | 3 | 32 | The number of objects in the group. |
-
 | 4 | 32 | The length of the object group in bytes. |
 
 ### F.4.6 Extended generic hint tables
 
 An extended generic hint table shall begin with the same entries as in a generic hint table, and shall be followed by three additional entries, as shown in "Table F.10 — Extended generic hint table". This table provides hints for accessing objects that reference shared objects. As of PDF 1.5, the following hint tables, if needed, shall use the extended generic format:
 
-• Interactive form hint table • Logical structure hint table
+• Interactive form hint table •    Logical structure hint table
 
-
-## Page 914
 
 • Renditions name tree hint table Embedded file streams shall not be referred to by this hint table, even if they are reachable from nodes in the renditions name tree; instead they shall use the hint table described in F.4.7, "Embedded file stream hint tables".
 
 Table F.10 — Extended generic hint table
 
 | Item | Size (bits) | Description |
-
-| 1 | 32 | The object number of the first object in the group. |
-
-| 2 | 32 | The location of the first object in the group. |
-
-| 3 | 32 | The number of objects in the group. |
-
-| 4 | 32 | The length of the object group in bytes. |
-
-| 5 | 32 | The number of shared object references. |
-
-| 6 | 16 | The number of bits needed to represent the numerically greatest shared object identifier used by the objects in the group. |
-
-| 7 … | See "Table F.3 — Page | Starting with item 7, each of the remaining items in this table shall |
 | --- | --- | --- |
+| 1 | 32 | The object number of the first object in the group. |
+| 2 | 32 | The location of the first object in the group. |
+| 3 | 32 | The number of objects in the group. |
+| 4 | 32 | The length of the object group in bytes. |
+| 5 | 32 | The number of shared object references. |
+| 6 | 16 | The number of bits needed to represent the numerically greatest shared object identifier used by the objects in the group. |
+| 7 … | See "Table F.3 — Page | Starting with item 7, each of the remaining items in this table shall |
 | offset hint table, header | be a shared object identifier — that is, an index into the shared |  |
 | section", item 11 | object hint table (described in F.4.3, "Shared object hint table"). |  |
 
@@ -840,35 +680,28 @@ This hint table shall have a header section (see "Table F.11 — Embedded file s
 Table F.11 — Embedded file stream hint table, header section
 
 | Item | Size (bits) | Description |
-
+| --- | --- | --- |
 | 1 | 32 | The object number of the first object in the first embedded file stream group. |
-
 | 2 | 32 | The location of the first object in the first embedded file stream group. |
 
-
-## Page 915
 
 ISO 32000-2:2020
 
 | Item | Size (bits) | Description |
-
+| --- | --- | --- |
 | 3 | 32 | The number of embedded file stream groups referenced by this hint table. |
-
 | 4 | 16 | The number of bits needed to represent the highest object number corresponding to an embedded file stream object. |
-
 | 5 | 16 | The number of bits needed to represent the greatest number of objects in an embedded file stream group. |
-
 | 6 | 16 | The number of bits needed to represent the greatest length of an embedded file stream group, in bytes. |
-
 | 7 | 16 | The number of bits needed to represent the greatest number of shared object references in any embedded file stream group. |
 
 Table F.12 — Embedded file stream hint table, per-embedded file stream group entries
 
-| Item | Size (bits) | Description |
+Item Size (bits) Description
 
 # 1 See "Table F.11 — The object number of the embedded file stream that this entry is
 
-| Embedded file stream | associated with. hint table, header section", item 4 |
+Embedded file stream associated with. hint table, header section", item 4
 
 # 2 See "Table F.11 — The number of objects in this embedded file streams group. This
 
@@ -886,7 +719,7 @@ Table F.12 — Embedded file stream hint table, per-embedded file stream group e
 
 # 4 See "Table F.11 — The number of shared objects referenced by this embedded file
 
-| Embedded file stream | stream group. hint table, header section", item 7 |
+Embedded file stream stream group. hint table, header section", item 7
 
 # 5 See "Table F.3 — Page A bit-packed list of shared object identifiers; that is, indices into
 
@@ -894,6 +727,4 @@ Table F.12 — Embedded file stream hint table, per-embedded file stream group e
 | --- | --- |
 | section", item 11 | Item 4 for this group shall specify how many shared object identifiers shall be associated with the group. |
 
-
-## Page 916
 

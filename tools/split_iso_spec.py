@@ -34,6 +34,8 @@ def split_iso_file(filepath, output_base_dir):
     ]
 
     next_expected_chapter = 1
+    # Chapters usually start with "# N Title"
+    chapter_regex = re.compile(r'^#\s+(\d+)\s+(.*)')
     # Annexes usually start with "Annex A"
     annex_regex = re.compile(r'^Annex[\s\u00a0]+([A-Q])[\s\u00a0\(]')
     next_expected_annex_idx = 0
@@ -49,10 +51,13 @@ def split_iso_file(filepath, output_base_dir):
 
         is_clause = False
         if not is_toc and next_expected_chapter <= len(CHAPTER_TITLES):
-            expected_title = f"# {next_expected_chapter} {CHAPTER_TITLES[next_expected_chapter-1]}"
-            if stripped_line == expected_title:
-                is_clause = True
-                next_expected_chapter += 1
+            match = chapter_regex.match(stripped_line)
+            if match:
+                num = int(match.group(1))
+                title = match.group(2).strip()
+                if num == next_expected_chapter and title == CHAPTER_TITLES[next_expected_chapter-1]:
+                    is_clause = True
+                    next_expected_chapter += 1
 
         is_annex = False
         if not is_toc and not is_clause and next_expected_annex_idx < len(ANNEX_LETTERS):

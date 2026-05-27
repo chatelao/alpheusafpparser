@@ -1,19 +1,11 @@
-Annex H (informative)
-
-> **EXAMPLE** PDF files
+Annex H (informative) Example PDF files
 
 ## H.1 General
 
-| This annex presents several examples showing the structure of | actual PDF files: |
+This annex presents several examples showing the structure of actual PDF files:
 
-• A minimal file that can serve as a starting point for creating other PDF files (and that is the basis of later examples) (see H.2, "Minimal PDF file") • A simple example that shows a text string, the classic "Hello World" (see H.3, "Simple text string example") • A simple graphics example that draws lines and shapes (see H.4, "Simple graphics example") • A fragment of a PDF file that illustrates the structure of the page tree for a large document (see H.5, "Page tree example") and, similarly, two fragments that illustrate the structure of an outline hierarchy (see H.6, "Outline hierarchy example") • An example showing the structure of a PDF file as it is updated several times, illustrating multiple body sections, cross-reference sections, and trailers (see H.7, "Updating example")
-
-> **NOTE 1** The Length values of stream objects in the examples and the byte addresses in cross-reference
-tables are not necessarily accurate.
-• An example showing various cases of structure elements in a tagged PDF (see H.8, "Structure elements examples")
-
-> **NOTE 2** The structure elements examples are based on the default standard structure namespace of
-structure elements defined in ISO 32000-1, and have not been updated to illustrate the use of standard structure elements defined in the standard structure namespace for PDF 2.0 as defined in this document.
+• A minimal file that can serve as a starting point for creating other PDF files (and that is the basis of later examples) (see H.2, "Minimal PDF file") •    A simple example that shows a text string, the classic "Hello World" (see H.3, "Simple text string example") •    A simple graphics example that draws lines and shapes (see H.4, "Simple graphics example") •    A fragment of a PDF file that illustrates the structure of the page tree for a large document (see H.5, "Page tree example") and, similarly, two fragments that illustrate the structure of an outline hierarchy (see H.6, "Outline hierarchy example") •    An example showing the structure of a PDF file as it is updated several times, illustrating multiple body sections, cross-reference sections, and trailers (see H.7, "Updating example") NOTE 1       The Length values of stream objects in the examples and the byte addresses in cross-reference tables are not necessarily accurate.
+• An example showing various cases of structure elements in a tagged PDF (see H.8, "Structure elements examples") NOTE 2       The structure elements examples are based on the default standard structure namespace of structure elements defined in ISO 32000-1, and  have not been updated to illustrate the use of standard structure elements defined in the standard structure namespace for PDF 2.0  as defined in this document.
 
 ## H.2 Minimal PDF file
 
@@ -21,7 +13,7 @@ The example in this clause is a PDF file that does not draw anything; it is almo
 
 Table H.1 — Objects in minimal example
 
-| Object number | Object type |
+Object number Object type
 
 Catalog (document catalog)
 
@@ -32,11 +24,9 @@ Page (page object)
 Content stream
 
 
-## Page 921
-
 ISO 32000-2:2020
 
-| Object number | Object type |
+Object number Object type
 
 Metadata (metadata stream)
 
@@ -51,23 +41,12 @@ EXAMPLE
 
 endobj
 
-| 2 0 obj | %Pages catalog, containing a single page <</Type /Pages /Kids [3 0 R] >> |
+2 0 obj %Pages catalog, containing a single page <</Type /Pages /Kids [3 0 R] >> endobj 3 0 obj %Page dictionary <</Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >> endobj
 
-endobj
-| 3 0 obj | %Page dictionary <</Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >> |
+4 0 obj %Page contents for page 1 <</Length … number of bytes in page marking operators … >> stream … Page-marking operators … endstream endobj
 
-endobj
+5 0 obj %Document metadata <</Type /Metadata /Subtype /XML /Length … number of bytes in metadata … >> stream <?xpacket begin="…UTF-8 value of U+FEFF (efbbbf) …" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/"> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:pdf="http://ns.adobe.com/pdf/1.3/"> <pdf:Producer>… name of software which generates the PDF …</pdf:Producer> </rdf:Description> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> <xmp:CreatorTool>… name of tool used to create the document …</xmp:CreatorTool> <xmp:CreateDate>… timestamp, like 2012-12-25T12:34:56Z …</xmp:CreateDate> <xmp:ModifyDate>… timestamp, like 2012-12-25T12:34:56Z …</xmp:ModifyDate> </rdf:Description> <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"> <dc:format>application/pdf</dc:format> <dc:title><rdf:Alt> <rdf:li xml:lang="x-default">… document title …</rdf:li> </rdf:Alt></dc:title>
 
-| 4 0 obj | %Page contents for page 1 <</Length … number of bytes in page marking operators … >> |
-
-stream … Page-marking operators … endstream endobj
-
-| 5 0 obj | %Document metadata <</Type /Metadata /Subtype /XML /Length … number of bytes in metadata … >> |
-
-stream <?xpacket begin="…UTF-8 value of U+FEFF (efbbbf) …" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/"> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:pdf="http://ns.adobe.com/pdf/1.3/"> <pdf:Producer>… name of software which generates the PDF …</pdf:Producer> </rdf:Description> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> <xmp:CreatorTool>… name of tool used to create the document …</xmp:CreatorTool> <xmp:CreateDate>… timestamp, like 2012-12-25T12:34:56Z …</xmp:CreateDate> <xmp:ModifyDate>… timestamp, like 2012-12-25T12:34:56Z …</xmp:ModifyDate> </rdf:Description> <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"> <dc:format>application/pdf</dc:format> <dc:title><rdf:Alt> <rdf:li xml:lang="x-default">… document title …</rdf:li> </rdf:Alt></dc:title>
-
-
-## Page 922
 
 <dc:creator><rdf:Seq> <rdf:li>… document author’s personal name …</rdf:li> </rdf:Seq></dc:creator> </rdf:Description> <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"> <xmpMM:DocumentID>… unique GUID of document …</xmpMM:DocumentID> <xmpMM:InstanceID>… GUID changed for each save …</xmpMM:InstanceID> </rdf:Description> </rdf:RDF> </x:xmpmeta> … white-space padding to permit in-place updating of metadata … <?xpacket end="w"?> endstream endobj
 
@@ -81,7 +60,7 @@ The example in H.3, "Simple text string example" is the classic "Hello World" ex
 
 Table H.2 — Objects in simple text string example
 
-| Object number | Object type |
+Object number Object type
 
 Catalog (document catalog)
 
@@ -98,8 +77,6 @@ Font (Type 1 font)
 Metadata (metadata stream)
 
 
-## Page 923
-
 ISO 32000-2:2020
 
 EXAMPLE
@@ -108,12 +85,11 @@ EXAMPLE
 | … | %at least four binary characters > 127 |
 | --- | --- |
 | 1 0 obj | %Catalog (root) object to locate everything else |
-
-<</Type /Catalog /Pages 2 0 R /Metadata 7 0 R >> endobj
-
-| 2 0 obj | %Pages catalog, containing a single page <</Type /Pages /Kids [3 0 R] /Count 1 >> |
+| <</Type /Catalog /Pages 2 0 R /Metadata 7 0 R >> |  |
 
 endobj
+
+2 0 obj %Pages catalog, containing a single page <</Type /Pages /Kids [3 0 R] /Count 1 >> endobj
 
 | 3 0 obj | %Page dictionary <</Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R |
 | --- | --- |
@@ -122,9 +98,7 @@ endobj
 
 endobj
 
-| 4 0 obj | %Page contents for page 1 <</Length … number of bytes in page marking operators … >> |
-
-stream
+4 0 obj %Page contents for page 1 <</Length … number of bytes in page marking operators … >> stream
 
 %This content stream writes "Hello 32000-2 World" and shows a number of %points of interest.
 %- There is no font styling in PDF, italic (or bold) is a change of font %- There is no automatic underlining in PDF, applications need to draw lines %- Applications will usually need to do font position calculations %- If extracting text, spaces are not always found in text strings, they %may come from changes to position.
@@ -139,38 +113,26 @@ BT
 | /F1 24 Tf | %Choose font F1, 24 points |
 | 156.1 0 Td | %Position after implied space, relative to line |
 
-start
-| (Wor) Tj | %Show "Wor" (implied space before is just |
-
-visual)
+start (Wor) Tj %Show "Wor" (implied space before is just visual)
 | (ld) Tj | %Finish word with "ld" (notice no space added) ET |
-
-%Underline "32000-2". Position must be calculated by generator %including scaled per-font underline vertical offset
-
-| 133.3 694.2 m | %Move to start of line position |
 | --- | --- |
+| %Underline "32000-2". Position must be calculated by generator %including scaled per-font underline vertical offset |  |
+| 133.3 694.2 m | %Move to start of line position |
 | 221.4 694.2 l | %Set path to end of line position |
 | 1.2 w | %Set line width suitable for size of text |
 
 
-## Page 924
-
 | S | %Stroke path endstream endobj |
-
+| --- | --- |
 | 5 0 obj | %Font dictionary (Helvetica) <</Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding /FirstChar … /LastChar … /Widths […] /FontDescriptor … >> endobj |
-
 | 6 0 obj | %Font dictionary (Helvetica-Oblique) <</Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /FirstChar … /LastChar … /Widths […] /FontDescriptor … >> endobj |
-
 | 7 0 obj | %Document metadata <</Type /Metadata /Subtype /XML /Length … number of bytes in metadata … >> stream <?xpacket begin="… UTF-8 value of U+FEFF (efbbbf) …" id="W5M0MpCehiHzreSzNTczkc9d"?> … document metadata … <?xpacket end="w"?> endstream endobj |
-
-xref 0 8 … Note that the 10 digit byte offsets here must be recalculated by the software producing the PDF … … and that the entries must each occupy 20 bytes including white-space … 0000000000 65536 f 0000000017 00000 n … byte offset for object 2, exactly 10 digits … 00000 n … byte offset for object 3, exactly 10 digits … 00000 n 0000000848 00000 n 0000002452 00000 n … byte offset for object 6, exactly 10 digits … 00000 n 0000003309 00000 n trailer <</Size 8 /Root 1 0 R>> startxref … exact offset of the word xref from the start of the file … %%EOF
+| xref 0 8 … Note that the 10 digit byte offsets here must be recalculated by the software producing the PDF … … and that the entries must each occupy 20 bytes including white-space … 0000000000 65536 f 0000000017 00000 n … byte offset for object 2, exactly 10 digits … 00000 n … byte offset for object 3, exactly 10 digits … 00000 n 0000000848 00000 n 0000002452 00000 n … byte offset for object 6, exactly 10 digits … 00000 n 0000003309 00000 n trailer <</Size 8 /Root 1 0 R>> startxref … exact offset of the word xref from the start of the file … %%EOF |  |
 
 ## H.4 Simple graphics example
 
 The example in H.4, "Simple graphics example" draws a thin black line segment, a thick black dashed line segment, a filled and stroked rectangle, and a filled and stroked cubic Bézier curve. "Table H.3 — Objects in simple graphics example" lists the objects in this example, and "Figure H.1 — Output of the
 
-
-## Page 925
 
 ISO 32000-2:2020
 
@@ -178,7 +140,7 @@ following example" shows the resulting output. (Each shape has a red border, and
 
 Table H.3 — Objects in simple graphics example
 
-| Object number | Object type |
+Object number Object type
 
 Catalog (document catalog)
 
@@ -198,7 +160,7 @@ EXAMPLE
 
 %PDF-2.0
 | … | %at least 4 binary characters > 127 |
-
+| --- | --- |
 | 1 0 obj | %Catalog (root) object used to locate everything |
 
 else <</Type /Catalog /Pages 3 0 R /Metadata 6 0 R >> endobj
@@ -212,17 +174,11 @@ else <</Type /Catalog /Pages 3 0 R /Metadata 6 0 R >> endobj
 /Type key >>
 
 
-## Page 926
-
 stream … Flate compressed data of ICC profile for calibrated RGB colour space (raw binary) … … For example, this could be the compressed sRGB profile … endstream endobj
 
-| 3 0 obj | %Pages catalog, containing a single page <</Type /Pages /Kids [4 0 R] /Count 1 >> |
+3 0 obj %Pages catalog, containing a single page <</Type /Pages /Kids [4 0 R] /Count 1 >> endobj
 
-endobj
-
-| 4 0 obj | %Page dictionary <</Type /Page /Parent 3 0 R /MediaBox  [0 0 612 792] /Contents 5 0 R /Resources <</ColorSpace <</MyCS [/ICCBased 2 0 R] %MyCS, arbitrary resource name for calibrated RGB >> >> >> |
-
-endobj
+4 0 obj %Page dictionary <</Type /Page /Parent 3 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources <</ColorSpace <</MyCS [/ICCBased 2 0 R] %MyCS, arbitrary resource name for calibrated RGB >> >> >> endobj
 
 5 0 obj %Page contents for page 1 <</Length … number of bytes in page marking operators …>> stream %Draw a line segment, using the default colour space, colour and line width.
 %The initial colour space is DeviceGray and the initial colour is black.
@@ -235,10 +191,8 @@ endobj
 | 4 w | %Set line width to 4 user space units |
 | [4 6] 0 d | %Set dash pattern to 4 units on, 6 units off 150 250 m 400 250 l S |
 | Q | %Restore graphics state – undo w and d |
-
-%Select the calibrated RGB colour space for filling and stroking
+| %Select the calibrated RGB colour space for filling and stroking |  |
 | /MyCS cs | %Arbitrary name in resource dictionary |
-| --- | --- |
 | /MyCS CS | %leading to embedded calibrated RGB profile |
 
 stream
@@ -248,26 +202,17 @@ stream
 | --- | --- |
 | 0.5 0.75 1.0 scn | %Light blue (in calibrated RGB) for fill colour 200 300 50 75 re |
 | B | %fill/stroke with non-zero winding number rule |
-
-%Draw a curve filled with gray (DeviceGray, not calibrated RGB) and with a coloured border.
-0.5 0.1 0.2 SCN
+| %Draw a curve filled with gray (DeviceGray, not calibrated RGB) and with a coloured border. 0.5 0.1 0.2 SCN |  |
 | 0.7 g | %DeviceGray (uncalibrated); or 0.7 0.7 0.7 scn |
 
-for %a neutral (gray) in calibrated ICC-based RGB 300 300 m 300 400 400 400 400 300 c
-| b | % Close, fill, and stroke path using non-zero |
+for %a neutral (gray) in calibrated ICC-based RGB 300 300 m 300 400 400 400 400 300 c b % Close, fill, and stroke path using non-zero winding endstream
 
-winding endstream
-
-
-## Page 927
 
 ISO 32000-2:2020
 
 endobj
 
-| 6 0 obj | %Document metadata <</Type /Metadata /Subtype /XML /Length … number of bytes in metadata … >> stream <?xpacket begin="… UTF-8 value of U+FEFF (efbbbf) …" id="W5M0MpCehiHzreSzNTczkc9d"?> … document metadata … <?xpacket end="w"?> endstream endobj |
-
-%Cross reference and trailer xref 0 7 … Note that the 10 digit byte offsets here must be recalculated by the software producing the PDF … … and that the entries must each occupy 20 bytes including white-space … 0000000000 65535 f 0000000009 00000 n … byte offset for object 2, exactly 10 digits … 00000 n … byte offset for object 3, exactly 10 digits … 00000 n 0000002179 00000 n 0000002300 00000 n … byte offset for object 6, exactly 10 digits … 00000 n trailer <</Size 7 /Root 1 0 R>> startxref 2503 … needs to be the exact byte address of the word xref … %%EOF
+6 0 obj %Document metadata <</Type /Metadata /Subtype /XML /Length … number of bytes in metadata … >> stream <?xpacket begin="… UTF-8 value of U+FEFF (efbbbf) …" id="W5M0MpCehiHzreSzNTczkc9d"?> … document metadata … <?xpacket end="w"?> endstream endobj  %Cross reference and trailer xref 0 7 … Note that the 10 digit byte offsets here must be recalculated by the software producing the PDF … … and that the entries must each occupy 20 bytes including white-space … 0000000000 65535 f 0000000009 00000 n … byte offset for object 2, exactly 10 digits … 00000 n … byte offset for object 3, exactly 10 digits … 00000 n 0000002179 00000 n 0000002300 00000 n … byte offset for object 6, exactly 10 digits … 00000 n trailer <</Size 7 /Root 1 0 R>> startxref 2503 … needs to be the exact byte address of the word xref … %%EOF
 
 ## H.5 Page tree example
 
@@ -275,8 +220,6 @@ The example in H.5, "Page tree example" is a fragment of a PDF file illustrating
 
 Figure H.2 — Page tree for the following example
 
-
-## Page 928
 
 EXAMPLE
 
@@ -291,8 +234,6 @@ EXAMPLE
 43 0 obj <</Type /Pages /Parent 335 0 R /Kids [42 0 R 48 0 R 53 0 R 58 0 R 63 0 R 70 0 R ] /Count 6 >> endobj
 
 
-## Page 929
-
 ISO 32000-2:2020
 
 77 0 obj <</Type /Pages /Parent 335 0 R /Kids [76 0 R 82 0 R 87 0 R 92 0 R 97 0 R 102 0 R ] /Count 6 >> endobj
@@ -305,8 +246,6 @@ ISO 32000-2:2020
 
 201 0 obj <</Type /Pages /Parent 336 0 R /Kids [200 0 R 206 0 R 211 0 R 216 0 R 221 0 R 226 0 R ] /Count 6
 
-
-## Page 930
 
 >>
 
@@ -325,8 +264,6 @@ endobj
 This section from a PDF file illustrates the structure of an outline hierarchy with six items. Example 1 in H.6, "Outline hierarchy example" shows the outline with all items open, as illustrated in "Figure H.3 — Document outline as displayed in Example 1".
 
 
-## Page 931
-
 ISO 32000-2:2020
 
 Figure H.3 — Document outline as displayed in Example 1
@@ -344,14 +281,11 @@ Figure H.3 — Document outline as displayed in Example 1
 27 0 obj <</Title ( Subsection 1 ) /Parent 26 0 R /Dest [3 0 R /XYZ null 670 null] >> endobj
 
 
-## Page 932
-
 28 0 obj <</Title ( Section 3 ) /Parent 22 0 R /Prev 26 0 R /Dest [7 0 R /XYZ null 500 null] >> endobj
 
 29 0 obj <</Title ( Summary ) /Parent 21 0 R /Prev 22 0 R /Dest [8 0 R /XYZ null 199 null] >> endobj
 
-> **EXAMPLE 2** in H.6, "Outline hierarchy example" is the same as Example 1, except that one of the outline
-items has been closed in the display. The outline appears as shown in "Figure H.4 — Document outline as displayed in Example 2".
+> **EXAMPLE 2** in H.6, "Outline hierarchy example" is the same as Example 1, except that one of the outline items has been closed in the display. The outline appears as shown in "Figure H.4 — Document outline as displayed in Example 2".
 
 Figure H.4 — Document outline as displayed in Example 2
 
@@ -363,8 +297,6 @@ Figure H.4 — Document outline as displayed in Example 2
 
 25 0 obj <</Title (Section 1) /Parent 22 0 R /Next 26 0 R /Dest [3 0 R /XYZ null 701 null] >> endobj
 
-
-## Page 933
 
 ISO 32000-2:2020
 
@@ -395,31 +327,22 @@ d) Three text annotations are added.
 generation number, rather than simply by their object numbers as in earlier examples. This is necessary because the example reuses object numbers; therefore, the objects they denote are not
 
 
-## Page 934
-
 unique.
 
-> **NOTE** The tables in these subclauses show only those objects that are modified during the updating
-process. Objects from H.2, "Minimal PDF file" that are not altered during the update are not shown.
-
-### H.7.2 Stage 1: Add four text annotations
+> **NOTE** The tables in these subclauses show only those objects that are modified during the updating process. Objects from H.2, "Minimal PDF file" that are not altered during the update are not shown.
+H.7.2 Stage 1: Add four text annotations
 
 Four text annotations are added to the initial file and the file is saved. "Table H.4 — Object usage after adding four text annotations" lists the objects involved in this update.
 
 Table H.4 — Object usage after adding four text annotations
 
 | Object identifier | Object type |
-
+| --- | --- |
 | 4 0 | Page (page object) |
-
 | 7 0 | Annotation array |
-
 | 8 0 | Annot (annotation dictionary) |
-
 | 9 0 | Annot (annotation dictionary) |
-
 | 10 0 | Annot (annotation dictionary) |
-
 | 11 0 | Annot (annotation dictionary) |
 
 The example in H.7.2, "Stage 1: Add four text annotations" shows the lines added to the file by this update. The page object is updated because an Annots entry has been added to it. Note that the file’s trailer now contains a Prev entry, which points to the original cross-reference section in the file, while the startxref value at the end of the trailer points to the cross-reference section added by the update.
@@ -433,8 +356,6 @@ EXAMPLE
 8 0 obj <</Type /Annot /Subtype /Text /Rect [44 616 162 735] /Contents (Text #1) /Open true >>
 
 
-## Page 935
-
 ISO 32000-2:2020
 
 endobj
@@ -445,10 +366,7 @@ endobj
 
 11 0 obj <</Type /Annot /Subtype /Text /Rect [34 398 225 575] /Contents (Text #4) /Open false >> endobj
 
-xref
-| 0 | 1 |
-
-0000000000 65535 f 4 1 0000000632 00000 n 7 5 0000000810 00000 n 0000000883 00000 n 0000001024 00000 n 0000001167 00000 n 0000001309 00000 n trailer <</Size 12 /Root 1 0 R /Prev 408 >> startxref
+xref 0 1 0000000000 65535 f 4 1 0000000632 00000 n 7 5 0000000810 00000 n 0000000883 00000 n 0000001024 00000 n 0000001167 00000 n 0000001309 00000 n trailer <</Size 12 /Root 1 0 R /Prev 408 >> startxref
 
 %%EOF
 
@@ -457,12 +375,10 @@ xref
 One text annotation is modified and the file is saved. The example in, H.7.3, "Stage 2: Modify text of one annotation" shows the lines added to the file by this update. Note that the file now contains two copies of the object with identifier 10 0 (the text annotation that was modified) and that the added crossreference section points to the more recent version of the object. This added cross-reference section contains one subsection, which contains only an entry for the object that was modified. In addition, the Prev entry in the file’s trailer has been updated to point to the cross-reference section added in the previous stage, while the startxref value at the end of the trailer points to the newly added crossreference section.
 
 
-## Page 936
-
 Table H.5 — Object usage after modifying text of one annotation
 
 | Object identifier | Object type |
-
+| --- | --- |
 | 10 0 | Annot (annotation dictionary) |
 
 EXAMPLE
@@ -478,26 +394,22 @@ xref
 
 %%EOF
 
-### H.7.4 Stage 3: Delete two annotations
+H.7.4 Stage 3: Delete two annotations
 
 Two text annotations are deleted and the file is saved. "Table H.6 — Object usage after deleting two text annotations" lists the objects updated.
 
 Table H.6 — Object usage after deleting two text annotations
 
 | Object identifier | Object type |
-
+| --- | --- |
 | 7 0 | Annotation array |
-
-8 0 Free
-
-9 0 Free
+| 8 0 | Free |
+| 9 0 | Free |
 
 The Annots array is the only object that is written in this update. It is updated because it now contains two annotations fewer.
 
 The example in, H.7.4, "Stage 3: Delete two annotations" shows the lines added when the file was saved. Note that objects with identifiers 8 0 and 9 0 have been deleted, as can be seen from the fact that their entries in the cross-reference section end with the keyword f.
 
-
-## Page 937
 
 ISO 32000-2:2020
 
@@ -524,20 +436,15 @@ Finally, three new text annotations are added to the PDF file, and the PDF file�
 Table H.7 — Object usage after adding three text annotations
 
 | Object identifier | Object type |
-
+| --- | --- |
 | 6 0 | Metadata (metadata stream) |
-
 | 7 0 | Annotation array |
-
 | 8 1 | Annot (annotation dictionary) |
 
 
-## Page 938
-
 | Object identifier | Object type |
-
+| --- | --- |
 | 9 1 | Annot (annotation dictionary) |
-
 | 12 0 | Annot (annotation dictionary) |
 
 Object numbers 8 and 9, which were used for the two annotations deleted in the previous stage, have been reused; however, the new objects have been given a generation number of 1. In addition, the third text annotation added has been assigned the previously unused object identifier of 12 0.
@@ -556,21 +463,16 @@ EXAMPLE
 12 0 obj <</Type /Annot /Subtype /Text /Rect [44 253 473 337] /Contents (New Text #3\203a longer text annotation which we will continue \ onto a second line) /Open true >> endobj
 
 
-## Page 939
-
 ISO 32000-2:2020
 
 | 6 0 obj | %Metadata streams <</Type /Metadata /Subtype /XML /Length … number of bytes in updated metadata … >> stream %In this Metadata, "preserved" items are left unaltered, and not updated to reflect possibly %different software or a different author. Updating software needs to be able to parse the XMP %in any valid format and preserve all content which is not to be updated, even that with %unfamiliar tags. In this example some reordering of tags has taken place. Note further that %after incremental update there can be multiple XMP packets <?xpacket begin="… UTF-8 value of U+FEFF (efbbbf) …" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/"> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:pdf="http://ns.adobe.com/pdf/1.3/"> |
 | --- | --- |
 | <pdf:Producer>…  name of software which generated the PDF (preserved) | …</pdf:Producer> </rdf:Description> <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"> <dc:format>application/pdf</dc:format> <dc:title><rdf:Alt> <rdf:li xml:lang="x-default">… document title (preserved) …</rdf:li> </rdf:Alt></dc:title> <dc:creator><rdf:Seq> <rdf:li>… document author’s personal name (preserved) …</rdf:li> </rdf:Seq></dc:creator> </rdf:Description> <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"> <xmpMM:DocumentID>… unique GUID of document (preserved) …</xmpMM:DocumentID> <xmpMM:InstanceID>… GUID changed for each save (updated) …</xmpMM:InstanceID> </rdf:Description> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> <xmp:CreatorTool>… name of tool used to create the document (preserved) …</xmp:CreatorTool> <xmp:CreateDate>… timestamp, like 2012-12-25T12:34:56Z (preserved) …</xmp:CreateDate> <xmp:ModifyDate>… timestamp, like 2012-12-27T14:36:06Z (updated) …</xmp:ModifyDate> </rdf:Description> </rdf:RDF> </x:xmpmeta> … white-space padding to permit in-place updating of metadata … … Note that applications which fully understand PDF updating do not usually update in-place … <?xpacket end="w"?> endstream endobj |
+| xref 0 1 0000000000 65535 f 6 4 0000002814 00000 n … address where new object 7 is written … 00000 n 0000002302 00001 n 0000002447 00001 n 12 1 0000002594 00000 n trailer << /Size 13 /Root 1 0 R /Prev 2027 >> startxref |  |
+| %%EOF |  |
 
-xref 0 1 0000000000 65535 f 6 4 0000002814 00000 n … address where new object 7 is written … 00000 n 0000002302 00001 n 0000002447 00001 n 12 1 0000002594 00000 n trailer << /Size 13 /Root 1 0 R /Prev 2027 >> startxref
+The annotation with object identifier 12 0 illustrates splitting a long text string across multiple lines, as well as the technique for including nonstandard characters in a string. In this case, the charac ter is an
 
-%%EOF The annotation with object identifier 12 0 illustrates splitting a long text string across multiple lines, as
-| well as the technique for including nonstandard characters in a string. In this case, the charac | ter is an |
-
-
-## Page 940
 
 ellipsis (…), which is character code 203 (octal) in PDFDocEncoding, the encoding used for text annotations.
 
@@ -578,11 +480,11 @@ As in previous updates, the trailer’s Prev entry and startxref value have been
 
 ## H.8 Structure elements examples
 
-### H.8.1 General
+H.8.1 General
 
 H.8, "Structure elements examples" presents various examples illustrating how structure elements are used.
 
-### H.8.2 Table of Contents
+H.8.2 Table of Contents
 
 The structure element’s structure type entry (S) may have values that establish hierarchical relationships between entries in a table of contents. The TOCI value specifies an individual member of a table of contents. The TOC value specifies a list made up of other table of contents items that are individual members of the table of contents and/or lists of table of contents items. (The trailing character in TOCI is an upper case "i".)
 
@@ -591,14 +493,10 @@ The structure element’s structure type entry (S) may have values that establis
 Figure H.5 — Table of contents "Figure H.6 — Association between content and marked-content identifiers" illustrates the association between marked-content identifiers (MCID) and content. This illustration includes part of the stream object so you can see how the MCID entries are associated with the content in the table of contents.
 
 
-## Page 941
-
 ISO 32000-2:2020
 
 Figure H.6 — Association between content and marked-content identifiers "Figure H.7 — Hierarchy of structure elements and relationship with marked-content" shows how the relationships of the structure elements and their use of the TOC and TOCI structure types represent the structure of a table of contents.
 
-
-## Page 942
 
 Figure H.7 — Hierarchy of structure elements and relationship with marked-content
 
@@ -608,8 +506,6 @@ EXAMPLE
 
 5 0 obj <</Length 6 0 R>> stream /P <</MCID 1>> BDC BT T* (TABLE OF CONTENTS) Tj ET EMC /Lbl <</MCID 11>> BDC BT T* (1. ) Tj ET EMC /Reference <</MCID 12>> BDC BT (Chapter One ) Tj ET EMC /NonStruct <</MCID 13>> BDC BT (. . . . . . . . . ) Tj ET EMC /Reference <</MCID 14>> /BDC BT (3 ) Tj ET EMC /Lbl <</MCID 21>> BDC BT T* (1.1 ) Tj ET EMC /Reference <</MCID 22>> BDC BT (Section A ) Tj ET EMC /NonStruct <</MCID 23>> BDC BT (. . . . . . . . ) Tj ET EMC
 
-
-## Page 943
 
 ISO 32000-2:2020
 
@@ -622,11 +518,9 @@ ISO 32000-2:2020
 112 0 obj <</Type /StructElem /S /Reference /P 211 0 R /Pg 4 0 R /K 12 >> endobj
 
 
-## Page 944
-
 113 0 obj <</Type /StructElem /S /NonStruct /P 211 0 R /Pg 4 0 R /K 13 >> endobj
 
-114 0 obj </Type /StructElem /S /Reference /P 211 0 R /Pg 4 0 R /K 14 >> endobj … objects 121-124, 131-134, 141-144, 151-154 and 161-164 referencing MCIDs 21-24, 31-34, 41- 44, … … 51-54, and 61-64 are omitted in the interest of space. …
+114 0 obj </Type /StructElem /S /Reference /P 211 0 R /Pg 4 0 R /K 14 >> endobj … objects 121-124, 131-134, 141-144, 151-154 and 161-164 referencing MCIDs 21-24, 31-34, 4144, … … 51-54, and 61-64 are omitted in the interest of space. …
 
 201 0 obj <</Type /StructElem /S /Caption /P 400 0 R /K [101 0 R] >> endobj
 
@@ -640,8 +534,6 @@ ISO 32000-2:2020
 
 215 0 obj <</Type /StructElem /S /TOCI /P 400 0 R /K [151 0 R 152 0 R 153 0 R 154 0 R] >>
 
-
-## Page 945
 
 ISO 32000-2:2020
 
@@ -664,8 +556,6 @@ The structure element’s structure type entry (S) may have values that establis
 Figure H.8 — List
 
 
-## Page 946
-
 "Figure H.9 — Hierarchy of structure elements and relationship with marked-content" shows how the relationships of the structure elements and their use of the L and LI structure types defines the structure of a list as well as the relationship between the structure elements and marked-content.
 
 Figure H.9 — Hierarchy of structure elements and relationship with marked-content
@@ -676,8 +566,6 @@ EXAMPLE
 
 5 0 obj <</Length 6 0 R>> stream /P <</MCID 1>> BDC BT T* (INDEX) Tj ET EMC /Lbl <</MCID 11>> BDC BT T* (1. ) Tj ET EMC /LBody <</MCID 12>> /BDC BT (Cats ) Tj ET EMC /Lbl <</MCID 21>> BDC BT T* (a. ) Tj ET EMC /LBody <</MCID 22>> /BDC BT (Lions ) Tj ET EMC /Lbl <</MCID 31>> BDC BT T* (b. ) Tj ET EMC /LBody <</MCID 32>> /BDC BT (Tigers ) Tj ET EMC /Lbl <</MCID 41>> BDC BT T* (2. ) Tj ET EMC /LBody <</MCID 42>> /BDC BT (Bears ) Tj ET EMC /Lbl <</MCID 51>> BDC BT T* (3. ) Tj ET EM
 
-
-## Page 947
 
 ISO 32000-2:2020
 
@@ -698,8 +586,6 @@ ISO 32000-2:2020
 212 0 obj <</Type /StructElem /S /LI /P 301 0 R /K [121 0 R 122 0 R] >> endobj
 
 
-## Page 948
-
 213 0 obj <</Type /StructElem /S /LI /P 301 0 R /K [131 0 R 132 0 R] >> endobj
 
 214 0 obj <</Type /StructElem /S /LI /P 400 0 R /K [141 0 R 142 0 R] >> endobj
@@ -714,12 +600,10 @@ ISO 32000-2:2020
 
 400 0 obj <</Type /StructElem /S /L /K [201 0 R 211 0 R 301 0 R 214 0 R 215 0 R 302 0 R] >> endobj
 
-### H.8.4 Example of Sub standard structure type
+H.8.4 Example of Sub standard structure type
 
 This example demonstrates the use of the Sub standard structure type 14.8.4.6, "Sub-block level structure type" for lines in a stanza of a children’s poem, where the stanza uses the P structure type, containing four lines each enclosed by a structure element of subtype Sub.
 
-
-## Page 949
 
 ISO 32000-2:2020
 
@@ -740,15 +624,11 @@ EXAMPLE
 114 0 obj <</Type /StructElem /S /Sub /P 201 0 R /Pg 4 0 R /K 4 >>
 
 
-## Page 950
-
 endobj
 
 115 0 obj <</Type /StructElem /S /Sub /P 201 0 R /Pg 4 0 R /K 5 >> endobj
 
 201 0 obj … StructTreeRoot … endobj
 
-
-## Page 951
 
 ISO 32000-2:2020

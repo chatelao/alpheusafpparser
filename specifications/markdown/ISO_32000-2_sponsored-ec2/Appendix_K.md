@@ -10,8 +10,7 @@ If an interactive processor supports XFA forms, that processor shall clearly ind
 
 The introduction of dynamically generated pages guided by schemas is a considerable departure from the fixed page model of PDF files designed to address use cases where dynamic forms are a strong requirement and therefore this architecture is documented separately from PDF (XFA reference).
 
-> **EXAMPLE** An invoice form may need to provide a variable number of invoice item fields ranging from 2 or 3 to
-hundreds or thousands. When the exact number of invoice items is determined, using the directives found in the XFA schema, a specific set of pages can be created to accommodate the required number of fields.
+> **EXAMPLE** An invoice form may need to provide a variable number of invoice item fields ranging from 2 or 3 to hundreds or thousands. When the exact number of invoice items is determined, using the directives found in the XFA schema, a specific set of pages can be created to accommodate the required number of fields.
 
 The implementation of such a schema driven page generation involves considerable effort beyond that for a simple PDF viewer and therefore a PDF processor may choose to not implement this feature.
 
@@ -19,18 +18,14 @@ This annex describes how XFA is integrated into PDF, where the schema (template)
 
 ## K.2 Access to the XFA template and other resources
 
-| The XFA entry in the interactive forms dictionary (see | "Table 224 — Entries in the interactive form |
-
-dictionary") specifies an XFA resource, which shall be an XML stream that contains the form information. The format of an XFA resource is described in the XML Data Package (XDP) Specification.
+The XFA entry in the interactive forms dictionary (see "Table 224 — Entries in the interactive form dictionary") specifies an XFA resource, which shall be an XML stream that contains the form information. The format of an XFA resource is described in the XML Data Package (XDP) Specification.
 
 The XFA entry shall be either a stream containing the entire XFA resource or an array specifying individual packets that together make up the XFA resource. The resource includes but is not limited to the following information:
 
 • The form template (specified in the template packet), which describes the characteristics of the form, including its fields, calculations, validations, and formatting. The XML Template Specification describes the architecture of a form template.
 
 
-## Page 960
-
-• The data (specified in the datasets packet), which represents the state of the form • The configuration information (specified in the config packet), which shall be used to properly process the form template and associated data. Configuration information shall be formatted as described in the XML Configuration Specification.
+• The data (specified in the datasets packet), which represents the state of the form •    The configuration information (specified in the config packet), which shall be used to properly process the form template and associated data. Configuration information shall be formatted as described in the XML Configuration Specification.
 A packet is a pair of a string and stream. The string contains the name of the XML element and the stream contains the complete text of this XML element. Each packet represents a complete XML element, with the exception of the first and last packet, which specify begin and end tags for the xdp:xdp element (see Example 1 in this subclause).
 
 > **EXAMPLE 1** This example shows the XFA entry consisting of an array of packets.
@@ -53,14 +48,10 @@ endobj
 
 > **EXAMPLE 2** The following example shows the same entry specified as a stream.
 
-| 1 0 obj | %XFA entry in interactive form dictionary <</XFA 10 0 R>> |
-
-endobj
+1 0 obj %XFA entry in interactive form dictionary <</XFA 10 0 R>> endobj
 
 10 0 obj stream <xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/"> <template xmlns="http://www.xfa.org/schema/xfa-template/2.4/"> … remaining contents of template packet …
 
-
-## Page 961
 
 ISO 32000-2:2020
 
@@ -73,6 +64,4 @@ When creating or modifying a PDF file with an XFA resource, a PDF writer shall f
 • The XFA Scripting Object Model (XFA SOM) specifies a naming convention that shall be used to connect interactive form field names with field names in the XFA resource. Information about this model is available in the Adobe XML Architecture, XML Forms Architecture (XFA) Specification, version 3.3.
 • No A (see "Table 166 — Entries common to all annotation dictionaries") or AA entries (see "Table 190 — Additional entries specific to a screen annotation" and "Table 191 — Additional entries specific to a widget annotation") shall be present in the annotation dictionaries of fields that also have actions specified by the XFA resource.
 
-
-## Page 962
 
