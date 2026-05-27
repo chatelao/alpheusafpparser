@@ -35,6 +35,7 @@ public class PTXPerformanceMonitor {
   private static final LongAdder totalPtxCount = new LongAdder();
   private static final LongAdder totalPtxParseTime = new LongAdder();
   private static final LongAdder totalPtxWriteTime = new LongAdder();
+  private static final LongAdder totalPtxXmlSize = new LongAdder();
   private static final LongAdder totalPtxPayloadSize = new LongAdder();
   private static final LongAdder totalPtxControlSequences = new LongAdder();
 
@@ -44,6 +45,7 @@ public class PTXPerformanceMonitor {
   private static final Map<String, LongAdder> ptocaFunctionMaxWriteTimes = new ConcurrentHashMap<>();
   private static final Map<String, String> ptocaFunctionMaxPayloads = new ConcurrentHashMap<>();
   private static final Map<String, LongAdder> ptocaFunctionPayloadSizes = new ConcurrentHashMap<>();
+  private static final Map<String, LongAdder> ptocaFunctionXmlSizes = new ConcurrentHashMap<>();
 
   private static final ThreadLocal<LocalPtxStats> localStats = ThreadLocal.withInitial(LocalPtxStats::new);
 
@@ -55,6 +57,7 @@ public class PTXPerformanceMonitor {
     totalPtxCount.reset();
     totalPtxParseTime.reset();
     totalPtxWriteTime.reset();
+    totalPtxXmlSize.reset();
     totalPtxPayloadSize.reset();
     totalPtxControlSequences.reset();
     ptocaFunctionCounts.clear();
@@ -63,6 +66,7 @@ public class PTXPerformanceMonitor {
     ptocaFunctionMaxWriteTimes.clear();
     ptocaFunctionMaxPayloads.clear();
     ptocaFunctionPayloadSizes.clear();
+    ptocaFunctionXmlSizes.clear();
     localStats.remove();
   }
 
@@ -79,9 +83,11 @@ public class PTXPerformanceMonitor {
     local.totalPtxControlSequences += csCount;
   }
 
-  public static void recordPtxWrite(long durationNs) {
+  public static void recordPtxWrite(long durationNs, long xmlSize) {
     if (!enabled) return;
-    localStats.get().totalPtxWriteTime += durationNs;
+    LocalPtxStats local = localStats.get();
+    local.totalPtxWriteTime += durationNs;
+    local.totalPtxXmlSize += xmlSize;
   }
 
   public static void recordPtocaParse(String functionName, long durationNs, int payloadSize) {
@@ -93,14 +99,23 @@ public class PTXPerformanceMonitor {
   }
 
   public static void recordPtocaWrite(String functionName, long durationNs, int payloadSize) {
-    recordPtocaWrite(functionName, durationNs, payloadSize, null);
+    recordPtocaWrite(functionName, durationNs, payloadSize, 0, null);
+  }
+
+  public static void recordPtocaWrite(String functionName, long durationNs, int payloadSize, long xmlSize) {
+    recordPtocaWrite(functionName, durationNs, payloadSize, xmlSize, null);
   }
 
   public static void recordPtocaWrite(String functionName, long durationNs, int payloadSize, byte[] payload) {
+    recordPtocaWrite(functionName, durationNs, payloadSize, 0, payload);
+  }
+
+  public static void recordPtocaWrite(String functionName, long durationNs, int payloadSize, long xmlSize, byte[] payload) {
     if (!enabled) return;
     LocalPtocaStats stats = localStats.get().ptocaStats.computeIfAbsent(functionName, k -> new LocalPtocaStats());
     stats.writeTime += durationNs;
     stats.payloadSize += payloadSize;
+    stats.xmlSize += xmlSize;
     if (durationNs > stats.maxWriteTime) {
       stats.maxWriteTime = durationNs;
       if (payload != null) {
@@ -119,6 +134,7 @@ public class PTXPerformanceMonitor {
     totalPtxCount.add(local.totalPtxCount);
     totalPtxParseTime.add(local.totalPtxParseTime);
     totalPtxWriteTime.add(local.totalPtxWriteTime);
+    totalPtxXmlSize.add(local.totalPtxXmlSize);
     totalPtxPayloadSize.add(local.totalPtxPayloadSize);
     totalPtxControlSequences.add(local.totalPtxControlSequences);
 
@@ -127,6 +143,7 @@ public class PTXPerformanceMonitor {
       ptocaFunctionParseTimes.computeIfAbsent(name, k -> new LongAdder()).add(stats.parseTime);
       ptocaFunctionWriteTimes.computeIfAbsent(name, k -> new LongAdder()).add(stats.writeTime);
       ptocaFunctionPayloadSizes.computeIfAbsent(name, k -> new LongAdder()).add(stats.payloadSize);
+      ptocaFunctionXmlSizes.computeIfAbsent(name, k -> new LongAdder()).add(stats.xmlSize);
 
       ptocaFunctionMaxWriteTimes.compute(name, (k, v) -> {
         if (v == null) {
@@ -164,6 +181,9 @@ public class PTXPerformanceMonitor {
     System.out.println(String.format("| Total Parse Time | %d ms |", totalPtxParseTime.sum() / 1_000_000));
     System.out.println(String.format("| Total Write Time | %d ms |", totalPtxWriteTime.sum() / 1_000_000));
     System.out.println(String.format("| Total Payload Size | %d bytes |", totalPtxPayloadSize.sum()));
+    System.out.println(String.format("| Total XML Size | %d bytes |", totalPtxXmlSize.sum()));
+    double expansionRatio = totalPtxPayloadSize.sum() > 0 ? (double) totalPtxXmlSize.sum() / totalPtxPayloadSize.sum() : 0;
+    System.out.println(String.format("| PTX Expansion Ratio | %.2f |", expansionRatio));
     System.out.println(String.format("| Total Ctrl Sequences | %d |", totalPtxControlSequences.sum()));
     System.out.println(String.format("| Avg CS per PTX | %.2f |", (double) totalPtxControlSequences.sum() / count));
     System.out.println(String.format("| Avg Payload per PTX | %.2f bytes |", (double) totalPtxPayloadSize.sum() / count));
@@ -171,19 +191,21 @@ public class PTXPerformanceMonitor {
     if (!ptocaFunctionCounts.isEmpty()) {
       System.out.println("\n#### PTOCA Function Breakdown");
       System.out.println();
-      System.out.println(String.format("| %-30s | %10s | %12s | %12s | %12s | %15s | %15s | %s |", "Function", "Count", "Parse (ms)", "Write (ms)", "Max Write(ms)", "Total Payload", "Avg Payload", "Slowest Payload (Hex)"));
-      System.out.println("| :--- | ---: | ---: | ---: | ---: | ---: | ---: | :--- |");
+      System.out.println(String.format("| %-30s | %10s | %12s | %12s | %12s | %15s | %15s | %10s | %s |", "Function", "Count", "Parse (ms)", "Write (ms)", "Max Write(ms)", "Total Payload", "Avg Payload", "Ratio", "Slowest Payload (Hex)"));
+      System.out.println("| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |");
       new TreeMap<>(ptocaFunctionCounts).forEach((name, fCount) -> {
         long countValue = fCount.sum();
         long pTime = ptocaFunctionParseTimes.getOrDefault(name, new LongAdder()).sum();
         long wTime = ptocaFunctionWriteTimes.getOrDefault(name, new LongAdder()).sum();
         long maxWTime = ptocaFunctionMaxWriteTimes.getOrDefault(name, new LongAdder()).sum();
         long payload = ptocaFunctionPayloadSizes.getOrDefault(name, new LongAdder()).sum();
+        long xmlSize = ptocaFunctionXmlSizes.getOrDefault(name, new LongAdder()).sum();
         String maxPayload = ptocaFunctionMaxPayloads.getOrDefault(name, "N/A");
         if (maxPayload.length() > 50) maxPayload = maxPayload.substring(0, 47) + "...";
         double avgPayload = countValue > 0 ? (double) payload / countValue : 0;
-        System.out.println(String.format("| %-30s | %10d | %12d | %12d | %12d | %15d | %15.2f | %s |",
-            name, countValue, pTime / 1_000_000, wTime / 1_000_000, maxWTime / 1_000_000, payload, avgPayload, maxPayload));
+        double ratio = payload > 0 ? (double) xmlSize / payload : 0;
+        System.out.println(String.format("| %-30s | %10d | %12d | %12d | %12d | %15d | %15.2f | %10.2f | %s |",
+            name, countValue, pTime / 1_000_000, wTime / 1_000_000, maxWTime / 1_000_000, payload, avgPayload, ratio, maxPayload));
       });
 
       long totalPtocaWriteTime = ptocaFunctionWriteTimes.values().stream().mapToLong(LongAdder::sum).sum();
@@ -198,6 +220,7 @@ public class PTXPerformanceMonitor {
     long totalPtxCount = 0;
     long totalPtxParseTime = 0;
     long totalPtxWriteTime = 0;
+    long totalPtxXmlSize = 0;
     long totalPtxPayloadSize = 0;
     long totalPtxControlSequences = 0;
     final Map<String, LocalPtocaStats> ptocaStats = new HashMap<>();
@@ -206,6 +229,7 @@ public class PTXPerformanceMonitor {
       totalPtxCount = 0;
       totalPtxParseTime = 0;
       totalPtxWriteTime = 0;
+      totalPtxXmlSize = 0;
       totalPtxPayloadSize = 0;
       totalPtxControlSequences = 0;
       ptocaStats.clear();
@@ -219,5 +243,6 @@ public class PTXPerformanceMonitor {
     long maxWriteTime = 0;
     String maxPayload = null;
     long payloadSize = 0;
+    long xmlSize = 0;
   }
 }

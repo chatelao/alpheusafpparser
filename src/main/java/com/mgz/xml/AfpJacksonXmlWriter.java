@@ -88,6 +88,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   private final XMLStreamWriter2 xsw;
   private final XMLStreamWriter2 baseXsw;
   private final OutputStream os;
+  private final com.mgz.util.CountingOutputStream cos;
   private final String xpathExpression;
   private final boolean fragmentMode;
   private final XmlMapper mapper;
@@ -130,6 +131,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode)
       throws Exception {
     this.os = os;
+    this.cos = new com.mgz.util.CountingOutputStream(os);
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
     this.fragmentMode = fragmentMode;
     this.mapper = JacksonXmlMapperProvider.getMapper();
@@ -142,7 +144,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       }
 
     if (this.xpathExpression == null) {
-      XMLStreamWriter2 rawXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(os, "UTF-8");
+      XMLStreamWriter2 rawXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(cos, "UTF-8");
       this.baseXsw = new SanitizingXMLStreamWriter(rawXsw);
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
       if (!fragmentMode) {
@@ -171,6 +173,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
   public void writeField(StructuredField sf) throws Exception {
     boolean isPtx = sf instanceof PTX_PresentationTextData;
     long startTime = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? System.nanoTime() : 0;
+    long startCount = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? cos.getCount() : 0;
     try {
       if (xpathExpression != null) {
         writeFieldWithXpath(sf);
@@ -179,7 +182,8 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       }
     } finally {
       if (startTime > 0) {
-        com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(System.nanoTime() - startTime);
+        xsw.flush();
+        com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(System.nanoTime() - startTime, cos.getCount() - startCount);
       }
     }
   }
@@ -354,8 +358,10 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
       for (PTOCAControlSequence cs : sequences) {
         baseXsw.writeCharacters("\n    ");
         long csStart = ptxDebug ? System.nanoTime() : 0;
+        long csStartCount = ptxDebug ? cos.getCount() : 0;
         writeControlSequence(cs, "\n    ");
         if (csStart > 0) {
+          xsw.flush();
           int payloadSize = 0;
           if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
             payloadSize = gc.getData() != null ? gc.getData().length : 0;
@@ -363,7 +369,7 @@ public class AfpJacksonXmlWriter implements AutoCloseable {
             payloadSize = Math.max(0, cs.getCsi().getLength() - 2);
           }
           com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(
-              cs.getClass().getSimpleName(), System.nanoTime() - csStart, payloadSize);
+              cs.getClass().getSimpleName(), System.nanoTime() - csStart, payloadSize, cos.getCount() - csStartCount);
         }
       }
     }
