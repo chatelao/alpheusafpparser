@@ -20,6 +20,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
+import com.mgz.afp.base.handler.FragmentAssembler;
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
@@ -141,8 +142,6 @@ public class ParallelAfpConverter {
   }
 
   private static class PageConversionTask implements Callable<Void> {
-    private static final byte[] START_TAG = "<AfpFragments>".getBytes(java.nio.charset.StandardCharsets.UTF_8);
-    private static final byte[] END_TAG = "</AfpFragments>".getBytes(java.nio.charset.StandardCharsets.UTF_8);
 
     private final AFPParserConfiguration taskConfig;
     private final long startOffset;
@@ -198,57 +197,10 @@ public class ParallelAfpConverter {
       }
 
       byte[] fullData = baos.toByteArray();
-      // Strip <AfpFragments> and </AfpFragments>
-      ByteBuffer stripped = stripFragments(ByteBuffer.wrap(fullData));
-      collector.put(sequence, stripped);
+      FragmentAssembler assembler = handlerFactory.createAssembler();
+      ByteBuffer assembled = assembler.assemble(ByteBuffer.wrap(fullData));
+      collector.put(sequence, assembled);
       return null;
-    }
-
-    private ByteBuffer stripFragments(ByteBuffer data) {
-      if (data == null || !data.hasRemaining()) return data;
-
-      int startIdx = -1;
-      int len = data.remaining();
-      int pos = data.position();
-
-      // Search for start tag
-      for (int i = 0; i <= len - START_TAG.length; i++) {
-        boolean match = true;
-        for (int j = 0; j < START_TAG.length; j++) {
-          if (data.get(pos + i + j) != START_TAG[j]) {
-            match = false;
-            break;
-          }
-        }
-        if (match) {
-          startIdx = i + START_TAG.length;
-          break;
-        }
-      }
-
-      if (startIdx == -1) return data;
-
-      int endIdx = -1;
-      // Search for end tag from the end
-      for (int i = len - END_TAG.length; i >= startIdx; i--) {
-        boolean match = true;
-        for (int j = 0; j < END_TAG.length; j++) {
-          if (data.get(pos + i + j) != END_TAG[j]) {
-            match = false;
-            break;
-          }
-        }
-        if (match) {
-          endIdx = i;
-          break;
-        }
-      }
-
-      if (endIdx == -1) return data;
-
-      data.position(pos + startIdx);
-      data.limit(pos + endIdx);
-      return data.slice();
     }
   }
 }

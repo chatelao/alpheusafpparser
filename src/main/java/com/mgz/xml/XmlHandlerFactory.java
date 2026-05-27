@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.xml;
 
+import com.mgz.afp.base.handler.FragmentAssembler;
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import java.io.OutputStream;
@@ -49,5 +50,10 @@ public class XmlHandlerFactory implements HandlerFactory {
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     return new AfpJacksonXmlWriter(os, xpathExpression, fragmentMode);
+  }
+
+  @Override
+  public FragmentAssembler createAssembler() {
+    return new XmlFragmentAssembler();
   }
 }
