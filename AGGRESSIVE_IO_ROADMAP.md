@@ -40,7 +40,10 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
 ## Phase 3: Memory-Mapped I/O for Output (Strategy B) ⏳
 Optimize large single-file conversions by mapping output files directly into memory.
 
-- ⏳ **Output Mapping Prototype**: Implement a prototype for `MappedByteBuffer`-based output in `AfpJacksonXmlWriter`.
+- ⏳ **3.1. Output Mapping Prototype**: Implement a prototype for `MappedByteBuffer`-based output in `AfpJacksonXmlWriter`.
+  - ⏳ **3.1.1. Single-segment Mapping**: Implement fixed-size mapping for medium files (< 2GB).
+  - ⏳ **3.1.2. Size-aware re-mapping**: Logic to unmap and re-map with larger capacity when estimates are exceeded.
+  - ⏳ **3.1.3. Benchmarking**: Comparative analysis of MMap vs. standard NIO on different SSD/HDD tiers.
 - ⏳ **Size Estimation Logic**:
   - ✅ **Heuristic Analysis**: Analyze correlation between AFP structured field sizes (PTX, GAD, etc.) and their XML representation. (Integrated in `PTXPerformanceMonitor`).
   - ✅ **Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
@@ -58,7 +61,7 @@ Decouple serialization from I/O to improve performance on high-latency storage (
   - ⏳ **4.1.1. Buffer lifecycle**: Manage buffer ownership between worker threads and NIO.2 handlers.
   - ⏳ **4.1.2. Error handling**: Implement robust error propagation for async failures.
 - ⏳ **4.2. Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
-- ⏳ **4.3. Async OutputStream Wrapper**: Create an `OutputStream` implementation that uses `AsynchronousFileChannel` for non-blocking background writes.
+- ✅ **4.3. Async OutputStream Wrapper**: Create an `OutputStream` implementation that uses `AsynchronousFileChannel` for non-blocking background writes. (Implemented as `AsynchronousBufferOutputStream`).
 - ✅ **4.4. Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
 
 ## Phase 5: Zero-Copy Ring-Buffer (Strategy D) ⏳
@@ -78,6 +81,9 @@ To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`
 - ✅ **6.2. Streaming Vectorized Output**: Enhance `DirectBufferOutputStream` to support periodic flushes to a `GatheringByteChannel`, enabling high-performance sequential I/O with minimal copying.
 - ⏳ **6.3. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` or similar extensions for non-blocking `ByteBuffer` output.
 - ⏳ **6.4. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that eliminates `OutputStream` overhead by writing directly into memory that is already pre-mapped to the kernel.
+  - ⏳ **6.4.1. Direct ByteBuffer access in AfpJacksonXmlWriter**: Expose methods to write structured fields directly to a provided `ByteBuffer`.
+  - ⏳ **6.4.2. Structured Field fragment pooling**: Reuse pre-serialized XML fragments for repeating structured fields.
+  - ⏳ **6.4.3. Zero-copy fragment merging**: Use `FileChannel.transferTo` or similar for merging massive XML fragments.
 
 ---
 
