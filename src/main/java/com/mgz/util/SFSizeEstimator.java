@@ -46,11 +46,17 @@ public class SFSizeEstimator {
       return 0;
     }
 
+    if (sf instanceof PTX_PresentationTextData ptx && PTXPerformanceMonitor.hasData()) {
+      long dynamic = estimateDynamicPtxSize(ptx);
+      if (dynamic > 0) return dynamic;
+    }
+
     int afpSize = sf.getStructuredFieldIntroducer().getSFLength();
     double multiplier = DEFAULT_MULTIPLIER;
 
     if (sf instanceof PTX_PresentationTextData) {
-      multiplier = PTX_MULTIPLIER;
+      multiplier = PTXPerformanceMonitor.hasData() ?
+          PTXPerformanceMonitor.getGlobalPtxExpansionRatio() : PTX_MULTIPLIER;
     } else if (sf.getClass().getSimpleName().startsWith("GAD_")) {
       multiplier = GAD_MULTIPLIER;
     } else if (sf.getClass().getSimpleName().startsWith("IPD_") ||
@@ -62,6 +68,33 @@ public class SFSizeEstimator {
     }
 
     return (long) (afpSize * multiplier);
+  }
+
+  private static long estimateDynamicPtxSize(PTX_PresentationTextData ptx) {
+    var sequences = ptx.getControlSequences();
+    if (sequences == null || sequences.isEmpty()) {
+      return 0;
+    }
+
+    double totalEstimatedXmlSize = 0;
+    double globalPtxRatio = PTXPerformanceMonitor.getGlobalPtxExpansionRatio();
+    if (globalPtxRatio <= 0) globalPtxRatio = PTX_MULTIPLIER;
+
+    for (var cs : sequences) {
+      String name = cs.getClass().getSimpleName();
+      double ratio = PTXPerformanceMonitor.getGlobalPtocaExpansionRatio(name);
+      if (ratio <= 0) ratio = globalPtxRatio;
+
+      int payloadSize = 0;
+      if (cs instanceof com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters gc) {
+        payloadSize = gc.getData() != null ? gc.getData().length : 0;
+      } else if (cs.getCsi() != null) {
+        payloadSize = Math.max(0, cs.getCsi().getLength() - 2);
+      }
+      totalEstimatedXmlSize += (payloadSize * ratio) + 100; // +100 for tags and indentation
+    }
+
+    return (long) totalEstimatedXmlSize;
   }
 
   /**

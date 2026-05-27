@@ -74,8 +74,41 @@ public class PTXPerformanceMonitor {
     return enabled;
   }
 
+  /**
+   * Returns the global PTX expansion ratio (XML size / AFP payload size).
+   *
+   * @return the expansion ratio, or 0 if no data is available
+   */
+  public static double getGlobalPtxExpansionRatio() {
+    long payload = totalPtxPayloadSize.sum();
+    return payload > 0 ? (double) totalPtxXmlSize.sum() / payload : 0;
+  }
+
+  /**
+   * Returns the global expansion ratio for a specific PTOCA control sequence.
+   *
+   * @param functionName the simple name of the control sequence class
+   * @return the expansion ratio, or 0 if no data is available for this function
+   */
+  public static double getGlobalPtocaExpansionRatio(String functionName) {
+    LongAdder payloadAdder = ptocaFunctionPayloadSizes.get(functionName);
+    if (payloadAdder == null) return 0;
+    long payload = payloadAdder.sum();
+    if (payload <= 0) return 0;
+    LongAdder xmlSizeAdder = ptocaFunctionXmlSizes.get(functionName);
+    return xmlSizeAdder != null ? (double) xmlSizeAdder.sum() / payload : 0;
+  }
+
+  /**
+   * Returns true if any PTX data has been collected.
+   *
+   * @return true if data is available
+   */
+  public static boolean hasData() {
+    return totalPtxCount.sum() > 0;
+  }
+
   public static void recordPtxParse(long durationNs, int payloadSize, int csCount) {
-    if (!enabled) return;
     LocalPtxStats local = localStats.get();
     local.totalPtxCount++;
     local.totalPtxParseTime += durationNs;
@@ -84,14 +117,12 @@ public class PTXPerformanceMonitor {
   }
 
   public static void recordPtxWrite(long durationNs, long xmlSize) {
-    if (!enabled) return;
     LocalPtxStats local = localStats.get();
     local.totalPtxWriteTime += durationNs;
     local.totalPtxXmlSize += xmlSize;
   }
 
   public static void recordPtocaParse(String functionName, long durationNs, int payloadSize) {
-    if (!enabled) return;
     LocalPtocaStats stats = localStats.get().ptocaStats.computeIfAbsent(functionName, k -> new LocalPtocaStats());
     stats.count++;
     stats.parseTime += durationNs;
@@ -111,7 +142,6 @@ public class PTXPerformanceMonitor {
   }
 
   public static void recordPtocaWrite(String functionName, long durationNs, int payloadSize, long xmlSize, byte[] payload) {
-    if (!enabled) return;
     LocalPtocaStats stats = localStats.get().ptocaStats.computeIfAbsent(functionName, k -> new LocalPtocaStats());
     stats.writeTime += durationNs;
     stats.payloadSize += payloadSize;
@@ -129,7 +159,9 @@ public class PTXPerformanceMonitor {
    */
   public static void merge() {
     LocalPtxStats local = localStats.get();
-    if (local.totalPtxCount == 0 && local.totalPtxWriteTime == 0 && local.ptocaStats.isEmpty()) return;
+    if (local.totalPtxCount == 0 && local.totalPtxWriteTime == 0 && local.ptocaStats.isEmpty()) {
+      return;
+    }
 
     totalPtxCount.add(local.totalPtxCount);
     totalPtxParseTime.add(local.totalPtxParseTime);
