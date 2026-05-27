@@ -2,7 +2,7 @@
 
 In order to claim that the baseline Color Management Object Content Architecture is supported, a device is required to support certain CMRs as indicated in the following table. [CMOCA-C-001]
 
-### Table 52. CMR Architecture Compliance Requirements
+### **Table 52. CMR Architecture Compliance Requirements**
 
 | CMR Type | Required for Baseline Support? |
 | :--- | :--- |
