@@ -89,9 +89,9 @@ public class ParallelAfpConverter {
 
     OrderedResultCollector collector;
     if (out instanceof FileOutputStream fos) {
-        collector = new OrderedResultCollector(out, fos.getChannel());
+      collector = new OrderedResultCollector(out, fos.getChannel());
     } else {
-        collector = new OrderedResultCollector(out);
+      collector = new OrderedResultCollector(out);
     }
     int sequence = 0;
 
@@ -102,7 +102,7 @@ public class ParallelAfpConverter {
     // Finally, we close the master handler.
 
     try (StructuredFieldHandler masterHandler = handlerFactory.createHandler(out, false)) {
-        processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterHandler);
+      processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterHandler);
     }
   }
 
@@ -163,41 +163,41 @@ public class ParallelAfpConverter {
     public Void call() throws Exception {
       int initialCapacity = (int) SFSizeEstimator.estimateXmlSize((int) (endOffset - startOffset));
       try (DirectBufferOutputStream dbos = new DirectBufferOutputStream(initialCapacity)) {
-      try {
-        if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
-          int pageSize = (int) (endOffset - startOffset);
-          ByteBuffer pageData = ByteBuffer.allocateDirect(pageSize);
-          Future<Integer> readFuture = taskConfig.getAsyncFileChannel().read(pageData, startOffset);
-          readFuture.get();
-          pageData.flip();
-          taskConfig.setByteBuffer(pageData);
-        }
-
-        AFPParser parser = new AFPParser(taskConfig);
-        if (taskConfig.getByteBuffer() != null && startOffset < taskConfig.getByteBuffer().limit()) {
-             // If we pre-loaded, offsets in the buffer are 0-based
-             // but if we are using the original mapped buffer, we need to set start position
-             if (taskConfig.getByteBuffer().capacity() > (endOffset - startOffset)) {
-                  parser.setNrOfBytesRead(startOffset);
-             }
-        }
-
-        try (StructuredFieldHandler handler = handlerFactory.createHandler(dbos, true)) {
-          StructuredField sf;
-          while ((sf = parser.parseNextSF()) != null) {
-            handler.handle(sf);
-            sf.release();
-            if (parser.getCountReadByte() >= endOffset) break;
+        try {
+          if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
+            int pageSize = (int) (endOffset - startOffset);
+            ByteBuffer pageData = ByteBuffer.allocateDirect(pageSize);
+            Future<Integer> readFuture = taskConfig.getAsyncFileChannel().read(pageData, startOffset);
+            readFuture.get();
+            pageData.flip();
+            taskConfig.setByteBuffer(pageData);
           }
-        }
-      } finally {
-        MnemonicPerformanceMonitor.merge();
-        PTXPerformanceMonitor.merge();
-      }
 
-      ByteBuffer fullData = dbos.getBufferAndDetach();
-      ByteBuffer stripped = handlerFactory.stripFragmentWrapper(fullData);
-      collector.put(sequence, stripped);
+          AFPParser parser = new AFPParser(taskConfig);
+          if (taskConfig.getByteBuffer() != null && startOffset < taskConfig.getByteBuffer().limit()) {
+            // If we pre-loaded, offsets in the buffer are 0-based
+            // but if we are using the original mapped buffer, we need to set start position
+            if (taskConfig.getByteBuffer().capacity() > (endOffset - startOffset)) {
+              parser.setNrOfBytesRead(startOffset);
+            }
+          }
+
+          try (StructuredFieldHandler handler = handlerFactory.createHandler(dbos, true)) {
+            StructuredField sf;
+            while ((sf = parser.parseNextSF()) != null) {
+              handler.handle(sf);
+              sf.release();
+              if (parser.getCountReadByte() >= endOffset) break;
+            }
+          }
+        } finally {
+          MnemonicPerformanceMonitor.merge();
+          PTXPerformanceMonitor.merge();
+        }
+
+        ByteBuffer fullData = dbos.getBufferAndDetach();
+        ByteBuffer stripped = handlerFactory.stripFragmentWrapper(fullData);
+        collector.put(sequence, stripped);
       }
       return null;
     }

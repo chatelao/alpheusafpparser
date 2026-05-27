@@ -84,8 +84,8 @@ public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
       var tsid = new FNN_TSIdentifier();
       tsid.decodeAFP(sfData, offset + pos, actualLength - pos, config, technologyFormat);
       if (tsid.getTsidLen() <= 0) {
-          // Robustness: prevent infinite loop if length is 0 or negative
-          break;
+        // Robustness: prevent infinite loop if length is 0 or negative
+        break;
       }
       tsIdentifiers.add(tsid);
       pos += tsid.getTsidLen();

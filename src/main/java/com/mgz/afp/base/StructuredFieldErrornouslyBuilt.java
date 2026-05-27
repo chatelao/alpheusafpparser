@@ -86,9 +86,9 @@ public class StructuredFieldErrornouslyBuilt extends StructuredFieldBaseData {
     if (typeId != null) {
       sb.append(" (").append(typeId.name()).append(")");
     } else if (rawIntroducer != null && rawIntroducer.length >= 5) {
-        // Try to show the hex type if ID is unknown.
-        // Type ID (Class, Type, Category) is at indices 2, 3, 4 of the 8-byte SFI.
-        sb.append(" (Unknown Type: ")
+      // Try to show the hex type if ID is unknown.
+      // Type ID (Class, Type, Category) is at indices 2, 3, 4 of the 8-byte SFI.
+      sb.append(" (Unknown Type: ")
           .append(String.format("%02X%02X%02X", rawIntroducer[2], rawIntroducer[3], rawIntroducer[4]))
           .append(")");
     }

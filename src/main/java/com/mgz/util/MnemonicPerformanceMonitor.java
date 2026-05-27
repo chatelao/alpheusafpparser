@@ -148,26 +148,32 @@ public class MnemonicPerformanceMonitor {
     if (underscorePos != -1) {
       String prefix = name.substring(0, underscorePos);
       if (isLikelyMnemonic(prefix)) {
-          return prefix;
+        return prefix;
       }
     }
 
     if (isLikelyMnemonic(name)) {
-        return name;
+      return name;
     }
 
     return null;
   }
 
   private static boolean isLikelyMnemonic(String s) {
-      if (s.length() < 2 || s.length() > 5) return false;
-      for (int i = 0; i < s.length(); i++) {
-          char c = s.charAt(i);
-          if (!Character.isUpperCase(c) && !Character.isDigit(c)) return false;
+    if (s.length() < 2 || s.length() > 5) {
+      return false;
+    }
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (!Character.isUpperCase(c) && !Character.isDigit(c)) {
+        return false;
       }
-      // Common false positives in XML output
-      if ("AFPDocument".equals(s)) return false;
-      return true;
+    }
+    // Common false positives in XML output
+    if ("AFPDocument".equals(s)) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -221,9 +227,9 @@ public class MnemonicPerformanceMonitor {
 
     if (!globalStatsMap.isEmpty()) {
       System.out.println("\n### Performance Summary per Mnemonic");
-    System.out.println();
-    System.out.println("| Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |");
-    System.out.println("| :--- | ---: | ---: | ---: | ---: |");
+      System.out.println();
+      System.out.println("| Mnemonic | Count | Total (ms) | Parse (ms) | Write (ms) |");
+      System.out.println("| :--- | ---: | ---: | ---: | ---: |");
 
       new TreeMap<>(globalStatsMap).forEach((mnemonic, stats) -> {
         long parseMs = stats.parseTime.sum() / 1_000_000;
