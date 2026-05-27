@@ -38,12 +38,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @AFPType
 public abstract sealed class Triplet implements IAFPDecodeableWriteable {
@@ -277,8 +276,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * AFPParserConfiguration)} simple writes the data contained in field {@link #tripletData}. In
    * addition it resets the value of  the length field.
    */
-  @XmlRootElement
-  @XmlType(name = "tripletUndefined")
+  @JacksonXmlRootElement(localName = "tripletUndefined")
   public static final class Undefined extends Triplet {
     byte[] tripletData;
     AFPParserException parsingException;
@@ -337,7 +335,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * the character string specified with a Fully Qualified Name (X'02') triplet using FQNFmt = X'20'
    * - URL, which is encoded using the US-ASCII coded character set.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "CodedGraphicCharacterSetGlobalID")
   public static final class CodedGraphicCharacterSetGlobalID extends Triplet {
     int graphicCharacterSetGlobalID;
     int codePageGlobalID_codedCharacterSetID;
@@ -390,7 +388,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 353.<br><br> The Fully Qualified Name triplet enables the identification and
    * referencing of objects using Global Identifiers (GIDs).
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FullyQualifiedName")
   public static final class FullyQualifiedName extends Triplet {
     GlobalID_Use type;
     GlobalID_Format format;
@@ -458,7 +456,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       this.nameAsString = nameAsString;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(nameAsString);
     }
@@ -477,7 +475,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 365.<br><br> The Mapping Option is used to specify the mapping of a data object
    * presentation space to an object area.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MappingOption")
   public static final class MappingOption extends Triplet {
     DataObjecMapingOption dataObjecMapingOption;
 
@@ -539,7 +537,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 368.<br><br> The Object Classification is used to classify and identify object
    * data. The object data may or may not be defined by an AFP presentation architecture.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectClassification")
   public static final class ObjectClassification extends Triplet {
     byte reserved2 = 0x00;
     ObjectClass objectClass;
@@ -770,7 +768,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 372.<br><br> The MO:DCA Interchange Set triplet identifies the interchange set and
    * the data stream type.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MODCAInterchangeSet")
   public static final class MODCAInterchangeSet extends Triplet {
     MODCAInterchangeSet_Type type;
     MODCAInterchangeSet_Identifier identifier;
@@ -848,7 +846,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 464.<br><br> The MO:DCA Function Set triplet is used to specify the function
    * set of the MO:DCA data stream.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MODCAFunctionSet")
   public static final class MODCAFunctionSet extends Triplet {
     byte[] reserved2_3 = {0x00, 0x00};
     int fctSetID;
@@ -881,7 +879,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 374.<br><br> The Font Descriptor Specification triplet specifies the attributes of
    * the desired font in a coded font reference.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FontDescriptorSpecification")
   public static final class FontDescriptorSpecification extends Triplet {
     FDS_FontWeigthClass fontWeigthClass;
     FDS_FontWidthClass fontWidthClass;
@@ -1178,7 +1176,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 378.<br><br> The Font Coded Graphic Character Set Global Identifier triplet is
    * used to specify the code page and character set for a coded font.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FontCodedGraphicCharacterSetGlobalID")
   public static final class FontCodedGraphicCharacterSetGlobalID extends Triplet {
     int codedGraphicCharacterSetGlobalID;
     int codePageGlobalID;
@@ -1218,7 +1216,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * <b>unfortunately also uses triplet ID X'21'</b>, is retired but is still used on the BDT
    * structured field; see “Object Function Set Specification Triplet X'21'” on page 570.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ResourceObjectType")
   public static final class ResourceObjectType extends Triplet {
     ResourceObjectType.ROT_ObjectType objectType;
     byte[] constantData;
@@ -1297,7 +1295,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * triplet is used to specify the Object Content Architecture (OCA) level for objects in a MO:DCA
    * document.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectFunctionSetSpecification_Retired")
   public static final class ObjectFunctionSetSpecification_Retired extends Triplet {
     ResourceObjectType.ROT_ObjectType objectType;
     byte ocaArchitectureLevel;
@@ -1378,7 +1376,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * type and a four-byte local identifier or LID. The LID usually is associated with a specific
    * resource name by a map structured field, such as a Map Media Type structured field.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ExtendedResourceLocalIdentifier")
   public static final class ExtendedResourceLocalIdentifier extends Triplet {
     ERLI_ResourceType resourceType;
     long extendedResourceLocalID;
@@ -1452,7 +1450,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * type and a one-byte local identifier or LID. The LID usually is associated with a specific
    * resource name by a map structured field, such as a Map Coded Font structured field.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ResourceLocalIdentifier")
   public static final class ResourceLocalIdentifier extends Triplet {
     RLI_ResourceType resourceType;
     short resourceLocalID;
@@ -1531,7 +1529,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * entire double-byte coded font is required for processing. For a description of coded fonts see
    * the Font Object Content Architecture Reference.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ResourceSectionNumber")
   public static final class ResourceSectionNumber extends Triplet {
     short resourceSectionNumber;
 
@@ -1562,7 +1560,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * relative to the Character coordinate system. See  the Font Object Content Architecture
    * Reference for further information.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "CharacterRotation")
   public static final class CharacterRotation extends Triplet {
     AFPOrientation characterRotation;
 
@@ -1592,7 +1590,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA page 387.<br><br> The Object Byte Offset triplet is used to specify the byte offset of an
    * indexed object within a document.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectByteOffset")
   public static final class ObjectByteOffset extends Triplet {
     long byteOffset;
     Long byteOffsetHighOrder;
@@ -1631,7 +1629,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA page 388.<br><br> The Attribute Value triplet is used to specify a value for a document
    * attribute.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "AttributeValue")
   public static final class AttributeValue extends Triplet {
     byte[] reserved2_3 = new byte[2];
     String attributeValue;
@@ -1683,7 +1681,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       return attributeValue.getBytes(config.getAfpCharSet());
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(attributeValue);
     }
@@ -1700,7 +1698,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA page 389.<br><br> The Descriptor Position triplet is used to associate an Object Area
    * Position structured field with an Object Area Descriptor structured field.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "DescriptorPosition")
   public static final class DescriptorPosition extends Triplet {
     short objectAreaDescriptorID;
 
@@ -1731,7 +1729,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * eject that is performed and the type of controls that are activated when a new medium map is
    * invoked and N-up partitioning is specified.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MediaEjectControl")
   public static final class MediaEjectControl extends Triplet {
     byte reserved2 = 0x00;
     MediaEjectControlType mediaEjectControl;
@@ -1802,7 +1800,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * generator. This triplet can also be used to define an overlay level that determines whether the
    * overlay is to be processed.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "PageOverlayConditionalProcessing")
   public static final class PageOverlayConditionalProcessing extends Triplet {
     PageOverlayType pageOverlayType;
     Short levelOfOverlay;
@@ -1865,7 +1863,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * overlay is processed. This is indicated by assigning either a low or high value to this
    * triplet. The Resource Usage Attribute triplet has no processing semantics associated with it.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ResourceUsageAttribute")
   public static final class ResourceUsageAttribute extends Triplet {
     FrequencyOfUse frequencyOfUse;
 
@@ -1921,7 +1919,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * 3.0 v PSF/2 (DPF) v RMARK The Object Checksum object specifies a qualifier that can be used to
    * identify or fingerprint an object.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectChecksum")
   public static final class ObjectChecksum extends Triplet {
     CheckSumFormat checksumFormat;
     int crcCheckSum;
@@ -2067,7 +2065,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * products: v PSF/MVS v PSF/VSE v RPM 2.0 v PSF/2 v RMARK The Object Origin Identifier triplet is
    * used to identify the system on which an object originated.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectOriginIdentifier")
   public static final class ObjectOriginIdentifier extends Triplet {
     AFPSystem originationSystem;
     String systemIDSerialNumber;
@@ -2145,7 +2143,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * application to remove the IMM when it is desired to present the complete document as it
    * appeared before the IMM was inserted.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "IMMInsertionTriplet")
   public static final class IMMInsertionTriplet extends Triplet {
     byte[] reserved2_3 = new byte[2];
 
@@ -2187,7 +2185,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * one of the repeating groups. However, if specified in more than one of the associated repeating
    * groups, the value of all Text Orientation (X'1D') triplets must be identical.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "TextOrientation")
   public static final class TextOrientation extends Triplet {
     AFPOrientation xOrientation;
     AFPOrientation yOrientation;
@@ -2227,7 +2225,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * the following products: v ACIF v PSF/MVS v PSF/VM v PSF/VSE v PSF/2 v Infoprint Manager (IPM) v
    * PSF/400 v AFP Workbench
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "LineDataObjectPositionMigration")
   public static final class LineDataObjectPositionMigration extends Triplet {
     LocationAndOrientation locationAndOrientation;
 
@@ -2277,7 +2275,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 395.<br><br> The Measurement Units triplet is used to specify the units of measure
    * for a presentation space.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MeasurementUnits")
   public static final class MeasurementUnits extends Triplet {
     AFPUnitBase xUnitBase;
     AFPUnitBase yUnitBase;
@@ -2323,7 +2321,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 396.<br><br> The Object Area Sizeand Y directions. triplet is used to specify
    * theextent of an object area in the X
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectAreaSize")
   public static final class ObjectAreaSize extends Triplet {
     byte sizeType_0x02;
     int xSize;
@@ -2364,7 +2362,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * or it may be a data object, in which case the area is defined on the object area presentation
    * space.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "AreaDefinition")
   public static final class AreaDefinition extends Triplet {
     byte reserved2 = 0x00;
     int xOrigin;
@@ -2411,7 +2409,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 398.<br><br> The Color Specification triplet is used to specify a color value and
    * defines the color space and encoding for that value.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ColorSpecification")
   public static final class ColorSpecification extends Triplet {
     byte reserved2 = 0x00;
     AFPColorSpace colorSpace;
@@ -2473,7 +2471,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * associated with a code page. It may optionally also specify the encoding scheme for the user
    * data.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "EncodingSchemeID")
   public static final class EncodingSchemeID extends Triplet {
     EnumSet<EncodingScheme> encodingSchemeForCodePage;
     EnumSet<EncodingScheme> encodingSchemeForUserData;
@@ -2651,7 +2649,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * number of the page in the set of sequential pages whose presentation is controlled by the most
    * recently activated medium map.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MediumMapPageNumber")
   public static final class MediumMapPageNumber extends Triplet {
     int pageNumber;
 
@@ -2680,7 +2678,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 407.<br><br> The Object Byte Extent triplet is used to specify the number of bytes
    * contained in an object.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectByteExtent")
   public static final class ObjectByteExtent extends Triplet {
     long byteExtentLow;
     long byteExtentHigh;
@@ -2713,7 +2711,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 408.<br><br> The Object Structured Field Offset triplet is used to specify the
    * structuredoffset of an indexed object from the beginning of the document. field
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectStructuredFieldOffset")
   public static final class ObjectStructuredFieldOffset extends Triplet {
     long offsetLow;
     Long offsetHigh;
@@ -2755,7 +2753,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * contained in an object, starting with the Begin Object structured field and ending with the End
    * Object structured field.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectStructuredFieldExtent")
   public static final class ObjectStructuredFieldExtent extends Triplet {
     long numberOfSFLow;
     Long numberOfSFHigh;
@@ -2797,7 +2795,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * selected object in the document. If the object being counted is a document, this triplet
    * specifies the number of documents that precede the selected object in the print file.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectOffset")
   public static final class ObjectOffset extends Triplet {
     ObjectType objectType;
     byte reserved3 = 0x00;
@@ -2871,7 +2869,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * The Font Horizontal Scale Factor triplet is used to carry information to support anamorphic
    * scaling of an outline technology font.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FontHorizontalScaleFactor")
   public static final class FontHorizontalScaleFactor extends Triplet {
     short horizontalScaleFactor;
 
@@ -2900,7 +2898,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 414.<br><br> The Object Count triplet specifies the number of subordinate objects
    * of a particular type contained in an object.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectCount")
   public static final class ObjectCount extends Triplet {
     short subordinateObjectType = 0xFA;
     byte reserved3 = 0x00;
@@ -2947,7 +2945,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 416.<br><br> The Local Date and Time Stamp triplet specifies a date and time stamp
    * to be associated with an object.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "LocalObjectDateAndTimeStamp")
   public static final class LocalObjectDateAndTimeStamp extends Triplet {
     DateAndTimeStampType dateAndTimeStampType;
     short hundreds;
@@ -3038,11 +3036,11 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * The Comment triplet is used to include comments for documentation purposes within a structured
    * field.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "Comment")
   public static final class Comment extends Triplet {
     String comment;
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(comment);
     }
@@ -3081,7 +3079,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 419. The Medium Orientation triplet may be used to specify the orientation of the
    * medium presentation space on the physical medium.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MediumOrientation")
   public static final class MediumOrientation extends Triplet {
     MediumOrientationValue mediumOrientation;
 
@@ -3132,7 +3130,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 421.<br><br> The Resource Object Include triplet identifies an object to be
    * included on a presentation space at a specified position.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ResourceObjectInclude")
   public static final class ResourceObjectInclude extends Triplet {
     short objectType = 0xDF;
     String objectName;
@@ -3183,7 +3181,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 423.<br><br> This triplet is used to specify the resulting appearance when data in
    * a new presentation space is merged with data in an existing presentation space.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "PresentationSpaceResetMixing")
   public static final class PresentationSpaceResetMixing extends Triplet {
     BackgroundMixingFlag backgroundMixingFlag;
 
@@ -3236,7 +3234,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * by the intersection of two presentation spaces. It is specified on structured fields associated
    * with a presentation space that is to be merged onto an existing presentation space.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "PresentationSpaceMixingRule")
   public static final class PresentationSpaceMixingRule extends Triplet {
     List<MixingKeywordAndRule> mixingRules;
 
@@ -3370,7 +3368,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 427.<br><br> The Universal Date and Time Stamp triplet specifies a date and time in
    * accordance with the format defined in ISO 8601: 1988 (E).
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "UniversalDateAndTimeStamp")
   public static final class UniversalDateAndTimeStamp extends Triplet {
     byte reserved2 = 0x00;
     int year;
@@ -3457,7 +3455,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * specified by this triplet overrides any other toner saver controls that may be active in the
    * printer.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "TonerSaver")
   public static final class TonerSaver extends Triplet {
     byte reserved2 = 0x00;
     TonerSaverFunction tonerSaverFunction;
@@ -3522,7 +3520,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   /**
    * MODCA, page 432.<br><br>
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ColorFidelity")
   public static final class ColorFidelity extends Triplet {
     ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
@@ -3624,7 +3622,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 435. <br><br> The Font Fidelity triplet is used to specify the exception
    * continuation rules for font resolution exceptions.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FontFidelity")
   public static final class FontFidelity extends Triplet {
     ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte[] reserved3_6 = new byte[4];
@@ -3661,7 +3659,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * <p>
    * The Attribute Qualifier triplet is used to specify a qualifier for a document attribute.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "AttributeQualifier")
   public static final class AttributeQualifier extends Triplet {
     int sequenceNumber;
     int levelNumber;
@@ -3698,7 +3696,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * which is normally the form map that the document containing this page was archived
    * with.<br><br> This triplet is not used for printing and is ignored by print servers.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "PagePositionInformation")
   public static final class PagePositionInformation extends Triplet {
     byte repeatingGroupNumber;
 
@@ -3729,7 +3727,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * The Parameter Value triplet is used to pass parameter values to an executable program such as
    * an object handler or a system command interpreter.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ParameterValue")
   public static final class ParameterValue extends Triplet {
     byte reserved2 = 0x00;
     ParameterSyntax parameterSyntax;
@@ -3799,7 +3797,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 439.<br><br> The Presentation Control triplet specifies flags that control the
    * presentation of an object.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "PresentationControl")
   public static final class PresentationControl extends Triplet {
     EnumSet<PresentationControlFlags> presentationControlFlags;
 
@@ -3904,7 +3902,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * with this font. This information, as carried by the X'84' triplet, may be used by presentation
    * servers and presentation devices to select the best-matching coded font for presentation.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FontResolutionAndMetricTechnology")
   public static final class FontResolutionAndMetricTechnology extends Triplet {
     MetricTechnology metricTechnology;
     AFPUnitBase unitBase;
@@ -3962,7 +3960,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * The Finishing Operation triplet is used to specify finishing operations that are to be applied
    * to media.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FinishingOperation")
   public static final class FinishingOperation extends Triplet {
     OperationType operationType;
     byte[] reserved3_4 = new byte[2];
@@ -4088,7 +4086,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * text exceptions. A text exception is detected when an unrecognized or unsupported text control
    * sequence is encountered in a PTOCA text object.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "TextFidelity")
   public static final class TextFidelity extends Triplet {
     ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
@@ -4132,7 +4130,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * The Media Fidelity triplet is used to specify the continuation rule if a request for a specific
    * media or a specific media bin cannot be satisfied.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "MediaFidelity")
   public static final class MediaFidelity extends Triplet {
     ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
@@ -4177,7 +4175,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * rules for finishing exceptions. A finishing exception is detected when the specified finishing
    * operation cannot be satisfied.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "FinishingFidelity")
   public static final class FinishingFidelity extends Triplet {
     ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
@@ -4221,7 +4219,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * such as TrueType and OpenType fonts. An MDR structured field is used to map a data-object font
    * as a resource.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "DataObjectFontDescriptor")
   public static final class DataObjectFontDescriptor extends Triplet {
     EnumSet<FontInformationFlag> fontInformationFlags;
     short fontTechnology;
@@ -4331,7 +4329,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * be found at http://www.unicode.org/reports/tr24 <li> The definition of region codes can be
    * found at http://www.iso.org/iso/en/prods- services/iso3166ma/index.html </ul>
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "LocaleSelector")
   public static final class LocaleSelector extends Triplet {
     byte reserved2 = 0x00;
     EnumSet<LocalSelectorFlag> flags;
@@ -4542,7 +4540,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * finishing operations and parameters that are defined by the UP3i consortium in the UP3i
    * Specification.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "UP3iFinishingOperation")
   public static final class UP3iFinishingOperation extends Triplet {
     short sequenceNumber;
     byte reserved3 = 0x00;
@@ -4604,7 +4602,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 468.<br><br> The Keep Group Together triplet indicates that a group of pages
    * is a complete logical entity that should be processed as a unit.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "KeepGroupTogether")
   public static final class KeepGroupTogether extends Triplet {
     byte[] reserved2_3 = {0x00, 0x00};
     byte grpFnct;
@@ -4637,7 +4635,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 469.<br><br> The Setup Name triplet specifies a setup name that encompasses
    * some number of settings on a device.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "SetupName")
   public static final class SetupName extends Triplet {
     byte[] reserved2_3 = {0x00, 0x00};
     String setupName;
@@ -4671,7 +4669,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       setupName = null;
     }
 
-    @XmlElement(name = "text")
+    @JacksonXmlProperty(localName = "text")
     public String getText() {
       return UtilCharacterEncoding.sanitizeForXml(setupName);
     }
@@ -4683,7 +4681,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * The Color Management Resource Descriptor triplet specifies the processing mode and scope for a
    * Color Management Resource (CMR).
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ColorManagementResourceDescriptor")
   public static final class ColorManagementResourceDescriptor extends Triplet {
     byte reserved2;
     CMRProcessingMode cmrProcessingMode;
@@ -4788,7 +4786,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * the International Color Consortium (ICC). For more information on rendering intents, see the
    * International Color Consortium Specification ICC.x, File Format for Color Profiles.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "RenderingIntent")
   public static final class RenderingIntent extends Triplet {
     byte[] reserved2_3 = new byte[2];
     Intent intentForIOCA;
@@ -4868,7 +4866,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * for Color Management Resource (CMR) tag exceptions. A CMR tag exception is detected when an
    * unsupported CMR tag is encountered in a Color Management Resource (CMR).
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "CMRTagFidelity")
   public static final class CMRTagFidelity extends Triplet {
     ColorFidelity.ExceptionContinuationRule exceptionContinuationRule;
     byte reserved3 = 0x00;
@@ -4912,7 +4910,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * The Device Appearance triplet specifies one of a set of architected appearances to be assumed
    * by the presentation device.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "DeviceAppearance")
   public static final class DeviceAppearance extends Triplet {
     byte reserved2 = 0x00;
     Appearance appearance;
@@ -4968,7 +4966,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * <p>
    * The Image Resolution triplet specifies the resolution of a raster image.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ImageResolution")
   public static final class ImageResolution extends Triplet {
     byte[] reserved2_3 = {0x00, 0x00};
     AFPUnitBase xUnitBase;
@@ -5013,7 +5011,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MO:DCA, page 470.<br><br> The Triplet Extender triplet is used to extend the data portion
    * of the preceding triplet.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "TripletExtender")
   public static final class TripletExtender extends Triplet {
     byte[] reserved2_3 = {0x00, 0x00};
     byte[] datExt;
@@ -5062,7 +5060,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * MODCA, page 476.<br><br> The Object Container Presentation Space Size triplet specifies the
    * presentation space size, or how such a size is determined, for certain container object types.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement(localName = "ObjectContainerPresentationSpaceSize")
   public static final class ObjectContainerPresentationSpaceSize extends Triplet {
     byte[] reserved2_3 = {0x00, 0x00};
     PDFPresentationSpace pdfPresentationSpace;
