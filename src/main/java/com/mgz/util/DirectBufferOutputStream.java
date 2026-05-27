@@ -22,14 +22,18 @@ package com.mgz.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
 
 /**
  * An OutputStream that writes directly into pooled direct ByteBuffers.
- * It automatically grows by acquiring larger buffers from the {@link DirectBufferPool}.
+ * It can operate in two modes:
+ * 1. Buffered: Automatically grows by acquiring larger buffers from the {@link DirectBufferPool}.
+ * 2. Streaming: Periodically flushes to a {@link WritableByteChannel} when the buffer is full.
  */
 public class DirectBufferOutputStream extends OutputStream {
 
   private ByteBuffer buffer;
+  private final WritableByteChannel channel;
   private boolean detached = false;
 
   /**
@@ -38,7 +42,18 @@ public class DirectBufferOutputStream extends OutputStream {
    * @param initialCapacity the initial capacity
    */
   public DirectBufferOutputStream(int initialCapacity) {
+    this(initialCapacity, null);
+  }
+
+  /**
+   * Constructs a DirectBufferOutputStream that flushes to a channel.
+   *
+   * @param initialCapacity the initial capacity
+   * @param channel the channel to flush to (can be null for buffered mode)
+   */
+  public DirectBufferOutputStream(int initialCapacity, WritableByteChannel channel) {
     this.buffer = DirectBufferPool.acquire(initialCapacity);
+    this.channel = channel;
   }
 
   @Override
@@ -50,19 +65,47 @@ public class DirectBufferOutputStream extends OutputStream {
   @Override
   public void write(byte[] b, int off, int len) throws IOException {
     if (len <= 0) return;
-    ensureCapacity(len);
-    buffer.put(b, off, len);
+
+    int remainingInB = len;
+    int currentOff = off;
+    while (remainingInB > 0) {
+      if (!buffer.hasRemaining()) {
+        ensureCapacity(1);
+      }
+      int toWrite = Math.min(remainingInB, buffer.remaining());
+      buffer.put(b, currentOff, toWrite);
+      currentOff += toWrite;
+      remainingInB -= toWrite;
+    }
   }
 
-  private void ensureCapacity(int needed) {
+  private void ensureCapacity(int needed) throws IOException {
     if (buffer.remaining() < needed) {
-      int newCapacity = (buffer.capacity() + needed) * 2;
-      ByteBuffer newBuffer = DirectBufferPool.acquire(newCapacity);
-      buffer.flip();
-      newBuffer.put(buffer);
-      DirectBufferPool.release(buffer);
-      buffer = newBuffer;
+      if (channel != null) {
+        flush();
+      }
+
+      if (buffer.remaining() < needed) {
+        int newCapacity = Math.max(buffer.capacity() * 2, buffer.capacity() + needed);
+        ByteBuffer newBuffer = DirectBufferPool.acquire(newCapacity);
+        buffer.flip();
+        newBuffer.put(buffer);
+        DirectBufferPool.release(buffer);
+        buffer = newBuffer;
+      }
     }
+  }
+
+  @Override
+  public void flush() throws IOException {
+    if (channel != null && buffer.position() > 0) {
+      buffer.flip();
+      while (buffer.hasRemaining()) {
+        channel.write(buffer);
+      }
+      buffer.clear();
+    }
+    super.flush();
   }
 
   /**
@@ -81,6 +124,9 @@ public class DirectBufferOutputStream extends OutputStream {
   @Override
   public void close() throws IOException {
     if (!detached && buffer != null) {
+      if (channel != null) {
+        flush();
+      }
       DirectBufferPool.release(buffer);
       buffer = null;
     }

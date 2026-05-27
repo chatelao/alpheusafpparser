@@ -54,22 +54,24 @@ Optimize large single-file conversions by mapping output files directly into mem
 ## Phase 4: Asynchronous & Non-Blocking I/O (Strategy A) ⏳
 Decouple serialization from I/O to improve performance on high-latency storage (Cloud/NAS).
 
-- ⏳ **NIO.2 Integration**: Transition `OrderedResultCollector` to use `AsynchronousFileChannel`.
-- ⏳ **Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
-- ✅ **Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
+- ⏳ **4.1. NIO.2 Integration**: Transition `OrderedResultCollector` to use `AsynchronousFileChannel`.
+- ⏳ **4.2. Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
+- ⏳ **4.3. Async OutputStream Wrapper**: Create an `OutputStream` implementation that uses `AsynchronousFileChannel` for non-blocking background writes.
+- ✅ **4.4. Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
 
 ## Phase 5: Zero-Copy Ring-Buffer (Strategy D) ⏳
 Extreme performance optimization for massive-scale conversion.
 
-- ⏳ **Shared Ring-Buffer**: Implement a Disruptor-like ring buffer for page-aligned `DirectByteBuffer`s.
-- ⏳ **Dedicated I/O Consumer**: Move all disk writes to a single dedicated thread pinned to a specific core to minimize context switches.
+- ⏳ **5.1. Shared Ring-Buffer**: Implement a Disruptor-like ring buffer for page-aligned `DirectByteBuffer`s.
+- ⏳ **5.2. Dedicated I/O Consumer**: Move all disk writes to a single dedicated thread pinned to a specific core to minimize context switches.
 
-## Phase 6: StAX Writer Rework (Integration) ⏳
+## Phase 6: StAX Writer Rework (Integration) 🚧
 To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`) should be refactored to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
 
 - ✅ **6.1. ByteBuffer-backed OutputStream**: Implement a pooled `OutputStream` that writes directly into `DirectByteBuffer`s from `DirectBufferPool`. (Implemented as `DirectBufferOutputStream`).
-- ⏳ **6.2. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` or similar extensions for non-blocking `ByteBuffer` output.
-- ⏳ **6.3. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that eliminates `OutputStream` overhead by writing directly into memory that is already pre-mapped to the kernel.
+- ✅ **6.2. Streaming Vectorized Output**: Enhance `DirectBufferOutputStream` to support periodic flushes to a `GatheringByteChannel`, enabling high-performance sequential I/O with minimal copying.
+- ⏳ **6.3. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` or similar extensions for non-blocking `ByteBuffer` output.
+- ⏳ **6.4. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that eliminates `OutputStream` overhead by writing directly into memory that is already pre-mapped to the kernel.
 
 ---
 
