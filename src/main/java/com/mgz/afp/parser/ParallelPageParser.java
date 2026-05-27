@@ -66,6 +66,7 @@ public class ParallelPageParser {
     }
 
     AFPScanner scanner = (buffer != null) ? new AFPScanner(buffer) : new AFPScanner(asyncChannel);
+    scanner.setWellFormed(config.isWellFormed());
     List<Long> pageOffsets = scanner.findPageBoundariesParallel();
 
     List<StructuredField> allFields = new ArrayList<>();

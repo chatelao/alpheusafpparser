@@ -64,6 +64,7 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   boolean escalateParsingErrors = true;
   volatile boolean ptxDebug = false;
   boolean useCharsetOptimizations = false;
+  protected boolean wellFormed = false;
   File afpFile;
   private transient ByteBuffer byteBuffer;
   private transient AsynchronousFileChannel asyncFileChannel;
@@ -280,6 +281,26 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
    */
   public void setUseCharsetOptimizations(boolean useCharsetOptimizations) {
     this.useCharsetOptimizations = useCharsetOptimizations;
+  }
+
+  /**
+   * Returns whether the AFP stream is known to be well-formed.
+   * If true, the parser may use SFI length to jump to the next structured field
+   * instead of scanning byte-by-byte for the 0x5A marker.
+   *
+   * @return true if the stream is well-formed
+   */
+  public boolean isWellFormed() {
+    return wellFormed;
+  }
+
+  /**
+   * Sets whether the AFP stream is known to be well-formed.
+   *
+   * @param wellFormed true if the stream is well-formed
+   */
+  public void setWellFormed(boolean wellFormed) {
+    this.wellFormed = wellFormed;
   }
 
   /**

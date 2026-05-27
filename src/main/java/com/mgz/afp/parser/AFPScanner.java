@@ -41,6 +41,7 @@ public class AFPScanner {
 
   private final ByteBuffer buffer;
   private final AsynchronousFileChannel asyncChannel;
+  private boolean wellFormed = false;
 
   public AFPScanner(ByteBuffer buffer) {
     this.buffer = buffer;
@@ -50,6 +51,10 @@ public class AFPScanner {
   public AFPScanner(AsynchronousFileChannel asyncChannel) {
     this.buffer = null;
     this.asyncChannel = asyncChannel;
+  }
+
+  public void setWellFormed(boolean wellFormed) {
+    this.wellFormed = wellFormed;
   }
 
   public List<Long> scanFor(SFTypeID typeID) {
@@ -104,7 +109,11 @@ public class AFPScanner {
         if (foundType == typeID) {
           offsets.add((long) pos);
         }
-        pos++;
+        if (wellFormed) {
+          pos += 1 + sfLength;
+        } else {
+          pos++;
+        }
       } else {
         pos++;
       }
@@ -148,7 +157,11 @@ public class AFPScanner {
             if (foundType == typeID) {
               offsets.add(currentFilePos + chunkPos);
             }
-            chunkPos++;
+            if (wellFormed) {
+              chunkPos += 1 + sfLength;
+            } else {
+              chunkPos++;
+            }
           } else {
             chunkPos++;
           }
@@ -256,7 +269,11 @@ public class AFPScanner {
             if (foundType == typeID) {
               offsets.add(currentFilePos + chunkPos);
             }
-            chunkPos++;
+            if (wellFormed) {
+              chunkPos += 1 + sfLength;
+            } else {
+              chunkPos++;
+            }
           } else {
             chunkPos++;
           }

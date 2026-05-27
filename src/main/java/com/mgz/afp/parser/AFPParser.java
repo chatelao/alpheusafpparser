@@ -396,8 +396,12 @@ public class AFPParser {
     int pos = (int) nrOfBytesRead;
     int limit = buffer.limit();
 
-    while (pos < limit && (buffer.get(pos) & 0xFF) != 0x5A) {
-      pos++;
+    if (parserConf.isWellFormed() && pos < limit && (buffer.get(pos) & 0xFF) == 0x5A) {
+      // Direct hit, no scanning needed
+    } else {
+      while (pos < limit && (buffer.get(pos) & 0xFF) != 0x5A) {
+        pos++;
+      }
     }
 
     if (pos >= limit) {
@@ -516,16 +520,34 @@ public class AFPParser {
     try {
       var is = parserConf.getInputStream();
 
-      int tmp;
+      int tmp = -1;
       byte[] sfData;
       byte[] padding;
-      do {
+
+      if (parserConf.isWellFormed() && is.markSupported()) {
+        is.mark(1);
         tmp = is.read();
-        if (tmp != -1) {
+        if (tmp != 0x5A && tmp != -1) {
+          is.reset();
+          do {
+            tmp = is.read();
+            if (tmp != -1) {
+              nrOfBytesRead++;
+            }
+          }
+          while (tmp != 0x5A && tmp != -1);
+        } else if (tmp != -1) {
           nrOfBytesRead++;
         }
+      } else {
+        do {
+          tmp = is.read();
+          if (tmp != -1) {
+            nrOfBytesRead++;
+          }
+        }
+        while (tmp != 0x5A && tmp != -1); // Move to the begin of next SF, or EOF.
       }
-      while (tmp != 0x5A && tmp != -1); // Move to the begin of next SF, or EOF.
 
       if (tmp != -1) {
         try {
