@@ -1,199 +1,112 @@
-13 Multimedia features
+# 13 Multimedia features
 
-13.1 General
+## 13.1 General
 
-This clause describes those features of PDF that support embedding and playing multimedia content. It
-contains the following subclauses:
+This clause describes those features of PDF that support embedding and playing multimedia content. It contains the following subclauses:
 
-| • | 13.2, "Multimedia" describes the comprehensive set of multimedia capabilities that were |
-
-introduced in PDF 1.5.
+• 13.2, "Multimedia" describes the comprehensive set of multimedia capabilities that were introduced in PDF 1.5.
 13.3, "Sounds" and 13.4, "Movies" describe deprecated features superseded by 13.7, "
 
-•    Rich media".
-| • | 13.6, "3D Artwork" describes the capability of embedding three-dimensional graphics in a |
-
-document, introduced in PDF 1.6.
+• Rich media".
+• 13.6, "3D Artwork" describes the capability of embedding three-dimensional graphics in a document, introduced in PDF 1.6.
 13.7, "
 
-| • | Rich media" describes rich media annotations providing a common framework for video, audio, |
+• Rich media" describes rich media annotations providing a common framework for video, audio, animations and other multimedia presentations.
 
-animations and other multimedia presentations.
+## 13.2 Multimedia
 
-13.2 Multimedia
-
-13.2.1 General
+### 13.2.1 General
 
 PDF 1.5 introduces a comprehensive set of language constructs to enable the following capabilities:
 
-| • | Arbitrary media types may be embedded in PDF files. |
-| --- | --- |
-| • | Embedded media, as well as referenced media outside a PDF file, may be played with a variety of |
+• Arbitrary media types may be embedded in PDF files.
+• Embedded media, as well as referenced media outside a PDF file, may be played with a variety of player software. (In some situations, the player software may be the interactive PDF processor itself.)
 
-player software. (In some situations, the player software may be the interactive PDF processor
-itself.)
-NOTE 1       The term playing is used with a wide variety of media, and is not restricted to audio or video. For
+> **NOTE 1** The term playing is used with a wide variety of media, and is not restricted to audio or video. For
 example, it can be applied to static images such as JPEGs.
-| • | Media objects may have multiple renditions, which may be chosen at play-time based on |
-
-considerations such as available bandwidth.
-| • | Document authors may control play-time requirements, such as which player software should be |
-
-used to play a given media object.
-| • | Media objects may be played in various ways; for example, in a floating window as well as in a |
-
-region on a page.
-| • | Future extensions to the media constructs may be handled in an appropriate manner by current |
-
-interactive PDF processors. Authors may control how old interactive PDF processors treat future
-extensions.
-| • | Document authors may adapt the use of multimedia to accessibility requirements. |
-| --- | --- |
-| • | On-line media objects may be played efficiently, even when very large. |
-
+• Media objects may have multiple renditions, which may be chosen at play-time based on considerations such as available bandwidth.
+• Document authors may control play-time requirements, such as which player software should be used to play a given media object.
+• Media objects may be played in various ways; for example, in a floating window as well as in a region on a page.
+• Future extensions to the media constructs may be handled in an appropriate manner by current interactive PDF processors. Authors may control how old interactive PDF processors treat future extensions.
+• Document authors may adapt the use of multimedia to accessibility requirements.
+• On-line media objects may be played efficiently, even when very large.
 The following list summarises the multimedia features and indicates where each feature is discussed:
 
-| • | 13.2.2, "Viability" describes the rules for determining when media objects are suitable for playing |
-
-on a particular system.
-| • | Rendition actions (see 12.6.4.14, "Rendition actions") shall be used to begin the playing of |
+• 13.2.2, "Viability" describes the rules for determining when media objects are suitable for playing on a particular system.
+• Rendition actions (see 12.6.4.14, "Rendition actions") shall be used to begin the playing of
 
 
 ## Page 630
 
 multimedia content.
-| • | A rendition action associates a screen annotation (see 12.5.6.18, "Screen annotations") with a |
+• A rendition action associates a screen annotation (see 12.5.6.18, "Screen annotations") with a rendition (see 13.2.3, "Renditions").
+• Renditions are of two varieties: media renditions (see 13.2.3.2, "Media renditions") that define the characteristics of the media to be played, and selector renditions (see 13.2.3.3, "Selector renditions") that enables choosing which of a set of media renditions should be played.
+• Media renditions contain entries that specify what should be played (see 13.2.4, "Media clip objects"), how it should be played (see 13.2.5, "Media play parameters"), and where it should be played (see 13.2.6, "Media screen parameters").
+• 13.2.7, "Other multimedia objects" describes several PDF objects that are referenced by the preceding major objects.
 
-rendition (see 13.2.3, "Renditions").
-| • | Renditions are of two varieties: media renditions (see 13.2.3.2, "Media renditions") that define the |
-
-characteristics of the media to be played, and selector renditions (see 13.2.3.3, "Selector
-renditions") that enables choosing which of a set of media renditions should be played.
-| • | Media renditions contain entries that specify what should be played (see 13.2.4, "Media clip |
-
-objects"), how it should be played (see 13.2.5, "Media play parameters"), and where it should be
-played (see 13.2.6, "Media screen parameters").
-| • | 13.2.7, "Other multimedia objects" describes several PDF objects that are referenced by the |
-
-preceding major objects.
-NOTE 2       Some of the features described in the following subclauses have references to corresponding
+> **NOTE 2** Some of the features described in the following subclauses have references to corresponding
 elements in the Synchronized Multimedia Integration Language (SMIL 3.0) standard.
 
-13.2.2 Viability
+### 13.2.2 Viability
 
-When playing multimedia content, the interactive PDF processor shall often make decisions such as
-which player software and which options, such as volume and duration, to use.
+When playing multimedia content, the interactive PDF processor shall often make decisions such as which player software and which options, such as volume and duration, to use.
 
-In making these decisions, the viewer shall determine the viability of the objects used. If an object is
-considered non-viable, the media should not be played. If the object is viable, the media should be
-played, though possibly under less than optimum conditions.
+In making these decisions, the viewer shall determine the viability of the objects used. If an object is considered non-viable, the media should not be played. If the object is viable, the media should be played, though possibly under less than optimum conditions.
 
-There are several entries in the multimedia object dictionaries whose values shall have an effect on
-viability. In particular, some of the object dictionaries define two entries that divide options into one of
-two categories:
+There are several entries in the multimedia object dictionaries whose values shall have an effect on viability. In particular, some of the object dictionaries define two entries that divide options into one of two categories:
 
-| • | MH ("must honour"): The options specified by this entry shall be honoured; otherwise, the |
+• MH ("must honour"): The options specified by this entry shall be honoured; otherwise, the containing object shall be considered non-viable.
+• BE ("best effort"): An attempt should be made to honour the options; however, if they cannot be honoured, the containing object is still considered viable.
+MH and BE are both dictionaries, and the same entries shall be defined for both of them. In any dictionary where these entries are allowed, both entries may be present, or only one, or neither.
 
-containing object shall be considered non-viable.
-| • | BE ("best effort"): An attempt should be made to honour the options; however, if they cannot be |
-
-honoured, the containing object is still considered viable.
-MH and BE are both dictionaries, and the same entries shall be defined for both of them. In any
-dictionary where these entries are allowed, both entries may be present, or only one, or neither.
-
-EXAMPLE            The media play parameters dictionary (see "Table 293 — Entries in a media screen parameters dictionary")
+> **EXAMPLE** The media play parameters dictionary (see "Table 293 — Entries in a media screen parameters dictionary")
 | allows the playback volume to be set by means of the | V entry in its MH and BE dictionaries (see "Table 294 — Entries in a media screen parameters MH/BE dictionary"). |
 
-If the specified volume cannot be honoured, the object shall be considered non-viable if V is in the MH
-dictionary, and playback shall not occur. If V is in the BE dictionary (and not also in the MH dictionary),
-playback should still occur: the playing software attempts to honour the specified option as best it can.
+If the specified volume cannot be honoured, the object shall be considered non-viable if V is in the MH dictionary, and playback shall not occur. If V is in the BE dictionary (and not also in the MH dictionary), playback should still occur: the playing software attempts to honour the specified option as best it can.
 
 Using this mechanism, authors may specify minimum requirements (MH) and preferred options (BE).
-They may also specify how entries that are added in the future to the multimedia dictionaries shall be
-interpreted by old interactive PDF processors. If an entry that is unrecognised by the viewer is in the
-MH dictionary, the object shall be considered non-viable. If an unrecognised entry is in a BE dictionary,
-the entry shall be ignored and viability shall be unaffected. Unless otherwise stated, an object shall be
-considered non-viable if its MH dictionary contains an unrecognised key or an unrecognised value for a
-recognised key.
+They may also specify how entries that are added in the future to the multimedia dictionaries shall be interpreted by old interactive PDF processors. If an entry that is unrecognised by the viewer is in the MH dictionary, the object shall be considered non-viable. If an unrecognised entry is in a BE dictionary, the entry shall be ignored and viability shall be unaffected. Unless otherwise stated, an object shall be considered non-viable if its MH dictionary contains an unrecognised key or an unrecognised value for a recognised key.
 
 
 ## Page 631
 
-The following rules apply to the entries in MH and BE dictionaries, which behave somewhat differently
-from other PDF dictionaries:
+The following rules apply to the entries in MH and BE dictionaries, which behave somewhat differently from other PDF dictionaries:
 
-| • | If an entry is required, the requirement is met if the entry is present in either the MH dictionary |
+• If an entry is required, the requirement is met if the entry is present in either the MH dictionary or the BE dictionary.
+• If an optional entry is not present in either dictionary, it shall be considered to be present with its default value (if one is defined) in the BE dictionary.
+• If an instance of the same entry is present in both MH and BE, the instance in the BE dictionary shall be ignored unless otherwise specified.
+• If the value of an entry in an MH or a BE dictionary is a dictionary or array, it shall be treated as an atomic unit when determining viability. That is, all entries within the dictionary or array shall be honoured for the containing object to be viable.
 
-or the BE dictionary.
-| • | If an optional entry is not present in either dictionary, it shall be considered to be present with its |
+> **NOTE** When determining whether entries can be honoured, it is not required that each one be
+evaluated independently, since they can be dependent on one another. That is, an interactive PDF processor or player can examine multiple entries at once (even within different dictionaries) to determine whether their values can be honoured.
+The following media objects may have MH and BE dictionaries. They function as described previously, except where noted in the individual subclauses:
 
-default value (if one is defined) in the BE dictionary.
-| • | If an instance of the same entry is present in both MH and BE, the instance in the BE dictionary |
+• Rendition ("Table 278 — Entries in a rendition MH/BE dictionary") • Media clip data ("Table 287 — Entries in a media clip data MH/BE dictionary") • Media clip section ("Table 289 — Entries in a media clip section MH/BE dictionary") • Media play parameters ("Table 291 — Entries in a media play parameters MH/BE dictionary") • Media screen parameters ("Table 294 — Entries in a media screen parameters MH/BE dictionary")
 
-shall be ignored unless otherwise specified.
-| • | If the value of an entry in an MH or a BE dictionary is a dictionary or array, it shall be treated as |
+### 13.2.3 Renditions
 
-an atomic unit when determining viability. That is, all entries within the dictionary or array shall
-be honoured for the containing object to be viable.
-NOTE         When determining whether entries can be honoured, it is not required that each one be
-evaluated independently, since they can be dependent on one another. That is, an interactive
-PDF processor or player can examine multiple entries at once (even within different
-dictionaries) to determine whether their values can be honoured.
-The following media objects may have MH and BE dictionaries. They function as described previously,
-except where noted in the individual subclauses:
-
-| • | Rendition ("Table 278 — Entries in a rendition MH/BE dictionary") |
-| --- | --- |
-| • | Media clip data ("Table 287 — Entries in a media clip data MH/BE dictionary") |
-| • | Media clip section ("Table 289 — Entries in a media clip section MH/BE dictionary") |
-| • | Media play parameters ("Table 291 — Entries in a media play parameters MH/BE dictionary") |
-| • | Media screen parameters ("Table 294 — Entries in a media screen parameters MH/BE |
-
-dictionary")
-
-13.2.3 Renditions
-
-13.2.3.1 General
+#### 13.2.3.1 General
 
 There are two types of rendition objects:
 
-| • | A media rendition (see 13.2.3.2, "Media renditions") is a basic media object that specifies what to |
+• A media rendition (see 13.2.3.2, "Media renditions") is a basic media object that specifies what to play, how to play it, and where to play it.
+• A selector rendition (see 13.2.3.3, "Selector renditions") contains an ordered list of renditions. This list may include other selector renditions, resulting in a tree whose leaves are media renditions.
+The interactive PDF processor should play the first viable media rendition it encounters in the tree (see 13.2.2, "Viability").
 
-play, how to play it, and where to play it.
-| • | A selector rendition (see 13.2.3.3, "Selector renditions") contains an ordered list of renditions. This |
+> **NOTE 1** "Table 277 — Entries common to all rendition dictionaries" shows the entries common to all
+rendition dictionaries. The N entry in a rendition dictionary specifies a name that can be used to access the rendition object by means of name tree lookup (see "Table 32 — Entries in the name dictionary"). ECMAScript actions (see 12.6.4.17, "ECMAScript actions"), for example, use this mechanism.
+Since the values referenced by name trees shall be indirect objects, all rendition objects should be indirect objects.
 
-list may include other selector renditions, resulting in a tree whose leaves are media renditions.
-The interactive PDF processor should play the first viable media rendition it encounters in the
-tree (see 13.2.2, "Viability").
-NOTE 1       "Table 277 — Entries common to all rendition dictionaries" shows the entries common to all
-rendition dictionaries. The N entry in a rendition dictionary specifies a name that can be used to
-access the rendition object by means of name tree lookup (see "Table 32 — Entries in the name
-dictionary"). ECMAScript actions (see 12.6.4.17, "ECMAScript actions"), for example, use this
-mechanism.
-Since the values referenced by name trees shall be indirect objects, all rendition objects should be
-indirect objects.
-
-NOTE 2       A rendition dictionary is not required to have a name tree entry. When it does, the interactive
-PDF processor needs to ensure that the name specified in the tree is kept the same as the value
-of the N entry (for example, if the user interface allows the name to be changed). As a
+> **NOTE 2** A rendition dictionary is not required to have a name tree entry. When it does, the interactive
+PDF processor needs to ensure that the name specified in the tree is kept the same as the value of the N entry (for example, if the user interface allows the name to be changed). As a
 
 
 ## Page 632
 
-consequence it is recommended that a document not contain multiple renditions with the same
-name.
-The MH and BE entries are dictionaries whose entries may be present in one or the other of them, as
-described in 13.2.2, "Viability". For renditions, these dictionaries shall have a single entry C (see "Table
-278 — Entries in a rendition MH/BE dictionary"), whose value shall have a media criteria dictionary
-specifying a set of criteria that shall be met for the rendition to be considered viable (see "Table 279 —
-Entries in a media criteria dictionary").
+consequence it is recommended that a document not contain multiple renditions with the same name.
+The MH and BE entries are dictionaries whose entries may be present in one or the other of them, as described in 13.2.2, "Viability". For renditions, these dictionaries shall have a single entry C (see "Table 278 — Entries in a rendition MH/BE dictionary"), whose value shall have a media criteria dictionary specifying a set of criteria that shall be met for the rendition to be considered viable (see "Table 279 — Entries in a media criteria dictionary").
 
-The media criteria dictionary behaves somewhat differently than other MH/BE entries, as they are
-described in 13.2.2, "Viability". The criteria specified by all of its entries shall be met regardless of
-whether they are in an MH or a BE dictionary. The only exception is that if an entry in a BE dictionary
-is unrecognised by the interactive PDF processor, it shall not affect the viability of the object. If a media
-criteria dictionary is present in both MH and BE, the entries in both dictionaries shall be individually
-evaluated, with MH taking precedence (corresponding BE entries shall be ignored).
+The media criteria dictionary behaves somewhat differently than other MH/BE entries, as they are described in 13.2.2, "Viability". The criteria specified by all of its entries shall be met regardless of whether they are in an MH or a BE dictionary. The only exception is that if an entry in a BE dictionary is unrecognised by the interactive PDF processor, it shall not affect the viability of the object. If a media criteria dictionary is present in both MH and BE, the entries in both dictionaries shall be individually evaluated, with MH taking precedence (corresponding BE entries shall be ignored).
 
 Table 277 — Entries common to all rendition dictionaries
 
@@ -226,11 +139,11 @@ Table 279 — Entries in a media criteria dictionary
 
 | A | boolean | (Optional) If specified, the value of this entry shall match the user’s preference for whether to hear audio descriptions in order for this object to be viable. |
 
-NOTE 1    Equivalent to SMIL’s systemAudioDesc attribute.
+> **NOTE 1** Equivalent to SMIL’s systemAudioDesc attribute.
 
 | C | boolean | (Optional) If specified, the value of this entry shall match the user’s preference for whether to see text captions in order for this object to be viable. |
 
-NOTE 2    Equivalent to SMIL’s systemCaptions attribute.
+> **NOTE 2** Equivalent to SMIL’s systemCaptions attribute.
 
 | O | boolean | (Optional) If specified, the value of this entry shall match the user’s preference for whether to hear audio overdubs in order for this object to be viable. |
 
@@ -238,15 +151,15 @@ NOTE 2    Equivalent to SMIL’s systemCaptions attribute.
 
 | R | integer | (Optional) If specified, the system’s bandwidth (in bits per second) shall be greater than or equal to the value of this entry in order for this object to be viable. |
 
-NOTE 3    Equivalent to SMIL’s systemBitrate attribute.
+> **NOTE 3** Equivalent to SMIL’s systemBitrate attribute.
 
 | D | dictionary | (Optional) A dictionary (see "Table 280 — Entries in a minimum bit depth dictionary") specifying the minimum bit depth required in order for this object to be viable. |
 
-NOTE 4    Equivalent to SMIL’s systemScreenDepth attribute.
+> **NOTE 4** Equivalent to SMIL’s systemScreenDepth attribute.
 
 | Z | dictionary | (Optional) A dictionary (see "Table 281 — Entries in a minimum screen size dictionary") specifying the minimum screen size required in order for this object to be viable. |
 
-NOTE 5    Equivalent to SMIL’s systemScreenSize attribute.
+> **NOTE 5** Equivalent to SMIL’s systemScreenSize attribute.
 
 | V | array | (Optional) An array of software identifier objects (see 13.2.7.4, "Software identifier dictionary"). If this entry is present and non-empty, the interactive PDF processor shall be identified by one or more of the objects in the array in order for this object to be viable. |
 
@@ -259,7 +172,7 @@ NOTE 5    Equivalent to SMIL’s systemScreenSize attribute.
 
 | L | array | (Optional) An array of language identifiers (see 14.9.2.2, "Language identifiers"). If this entry is present and non-empty, the language in which the interactive PDF processor is running shall exactly match a language identifier, or consist only of a primary code that matches the primary code of an identifier, in order for this object to be viable. |
 
-NOTE 6    Equivalent to SMIL’s systemLanguage attribute.
+> **NOTE 6** Equivalent to SMIL’s systemLanguage attribute.
 
 Table 280 — Entries in a minimum bit depth dictionary
 
@@ -281,23 +194,19 @@ Table 281 — Entries in a minimum screen size dictionary
 
 | M | integer | (Optional) A monitor specifier (see "Table 304 — Monitor specifier values") that specifies which monitor the value of V should be tested against. If the value is unrecognised, the object shall be not viable. Default value: 0. |
 
-13.2.3.2 Media renditions
+#### 13.2.3.2 Media renditions
 
-"Table 282 — Additional entries in a media rendition dictionary" lists the entries in a media rendition
-dictionary. Its entries specify what media should be played (C), how (P), and where (SP) it should be
+"Table 282 — Additional entries in a media rendition dictionary" lists the entries in a media rendition dictionary. Its entries specify what media should be played (C), how (P), and where (SP) it should be
 | played. A media rendition object shall be viable if and only if the objects referenced by its | C, P, and SP |
 
 entries are viable.
 
-C may be omitted only in cases where a referenced player takes no meaningful input. This requires that
-P shall be present and that its referenced media play parameters dictionary (see "Table 290 — Entries
-in a media play parameters dictionary") shall contain a PL entry, whose referenced media players
+C may be omitted only in cases where a referenced player takes no meaningful input. This requires that P shall be present and that its referenced media play parameters dictionary (see "Table 290 — Entries in a media play parameters dictionary") shall contain a PL entry, whose referenced media players
 
 
 ## Page 635
 
-dictionary (see 13.2.7.2, "Media players dictionary") has a non-empty MU array or a non-empty A
-array.
+dictionary (see 13.2.7.2, "Media players dictionary") has a non-empty MU array or a non-empty A array.
 
 Table 282 — Additional entries in a media rendition dictionary
 
@@ -309,17 +218,11 @@ Table 282 — Additional entries in a media rendition dictionary
 
 | SP | dictionary | (Optional) A media screen parameters dictionary (see 13.2.6, "Media screen parameters") that specifies where the media rendition object should be played. Default value: a media screen parameters dictionary whose entries (see "Table 293 — Entries in a media screen parameters dictionary") all contain their default values. |
 
-13.2.3.3 Selector renditions
+#### 13.2.3.3 Selector renditions
 
-A selector rendition dictionary shall specify an array of rendition objects in its R entry (see "Table 283
-— Additional entries specific to a selector rendition dictionary"). The renditions in this array should be
-ordered by preference, with the most preferred rendition first. At play-time, the renditions in the array
-shall be evaluated and the first viable media rendition, if any, shall be played. If one of the renditions is
-itself a selector, that selector shall be evaluated in turn, yielding the equivalent of a depth-first tree
-search. A selector rendition itself may be non-viable; in this case, none of its associated media
-renditions shall be evaluated (in effect, this branch of the tree is skipped).
+A selector rendition dictionary shall specify an array of rendition objects in its R entry (see "Table 283 — Additional entries specific to a selector rendition dictionary"). The renditions in this array should be ordered by preference, with the most preferred rendition first. At play-time, the renditions in the array shall be evaluated and the first viable media rendition, if any, shall be played. If one of the renditions is itself a selector, that selector shall be evaluated in turn, yielding the equivalent of a depth-first tree search. A selector rendition itself may be non-viable; in this case, none of its associated media renditions shall be evaluated (in effect, this branch of the tree is skipped).
 
-NOTE          This mechanism can be used, for example, to specify that a large video clip need be used on highbandwidth machines and a smaller clip need be used on low-bandwidth machines.
+> **NOTE** This mechanism can be used, for example, to specify that a large video clip need be used on highbandwidth machines and a smaller clip need be used on low-bandwidth machines.
 
 Table 283 — Additional entries specific to a selector rendition dictionary
 
@@ -327,18 +230,16 @@ Table 283 — Additional entries specific to a selector rendition dictionary
 
 | R | array | (Required) An array of rendition objects. The first viable media rendition object found in the array, or nested within a selector rendition in the array, should be used. An empty array is valid. |
 
-13.2.4 Media clip objects
+### 13.2.4 Media clip objects
 
-13.2.4.1 General
+#### 13.2.4.1 General
 
 There are two types of media clip objects, determined by the subtype S, which can be either MCD for
 
 
 ## Page 636
 
-media clip data (see 13.2.4.2, "Media clip data") or MCS for media clip section (see 13.2.4.3, "Media clip
-section"). The entries for media clip dictionaries are listed in "Table 284 — Entries common to all
-media clip dictionaries".
+media clip data (see 13.2.4.2, "Media clip data") or MCS for media clip section (see 13.2.4.3, "Media clip section"). The entries for media clip dictionaries are listed in "Table 284 — Entries common to all media clip dictionaries".
 
 Table 284 — Entries common to all media clip dictionaries
 
@@ -350,12 +251,11 @@ Table 284 — Entries common to all media clip dictionaries
 
 | N | text string | (Optional) The name of the media clip, for use in the user interface. |
 
-13.2.4.2 Media clip data
+#### 13.2.4.2 Media clip data
 
-A media clip data dictionary defines the data for a media object that can be played. Its entries are listed
-in "Table 285 — Additional entries in a media clip data dictionary".
+A media clip data dictionary defines the data for a media object that can be played. Its entries are listed in "Table 285 — Additional entries in a media clip data dictionary".
 
-NOTE 1        Media clip data dictionaries can reference a URL to a streaming video presentation or a movie
+> **NOTE 1** Media clip data dictionaries can reference a URL to a streaming video presentation or a movie
 embedded in the PDF file.
 
 Table 285 — Additional entries in a media clip data dictionary
@@ -383,38 +283,23 @@ Table 285 — Additional entries in a media clip data dictionary
 
 | BE | dictionary | (Optional) A dictionary whose entries (see "Table 289 — Entries in a media clip section MH/BE dictionary") should only be honoured in a "best effort" sense. |
 
-The media clip data object is non-viable if the object referenced by the D entry does not contain a Type
-entry, the Type entry is unrecognised, or the referenced object is not a dictionary or stream.
+The media clip data object is non-viable if the object referenced by the D entry does not contain a Type entry, the Type entry is unrecognised, or the referenced object is not a dictionary or stream.
 
 This shall effectively exclude the use of simple file specifications (see 7.11, "File specifications").
 
-If D references a file specification that has an embedded file stream (see 7.11.4, "Embedded file
-streams"), the embedded file stream’s Subtype entry shall be ignored if present, and the media clip
-data dictionary’s CT entry shall identify the type of data.
+If D references a file specification that has an embedded file stream (see 7.11.4, "Embedded file streams"), the embedded file stream’s Subtype entry shall be ignored if present, and the media clip data dictionary’s CT entry shall identify the type of data.
 
-If D references a form XObject, the associated player is implicitly the interactive PDF processor, and the
-form XObject shall be rendered as if it were any other data type.
+If D references a form XObject, the associated player is implicitly the interactive PDF processor, and the form XObject shall be rendered as if it were any other data type.
 
-The F and D entries in the media play parameters dictionary (see "Table 290 — Entries in a media play
-parameters dictionary") apply to a form XObject just as they do to a QuickTime movie.
+The F and D entries in the media play parameters dictionary (see "Table 290 — Entries in a media play parameters dictionary") apply to a form XObject just as they do to a QuickTime movie.
 
-For media other than form XObjects, the media clip object shall provide enough information to allow an
-interactive PDF processor to locate an appropriate player. This may be done by providing one or both
-of the following entries, the first being the preferred method:
+For media other than form XObjects, the media clip object shall provide enough information to allow an interactive PDF processor to locate an appropriate player. This may be done by providing one or both of the following entries, the first being the preferred method:
 
-| • | A CT entry that specifies the content type of the media. If this entry is present, any player that is |
-
-selected shall support this content type.
-| • | A PL entry that specifies one or more players that may be used to play the referenced media. if CT |
-
-is present, there should also be a PL present.
+• A CT entry that specifies the content type of the media. If this entry is present, any player that is selected shall support this content type.
+• A PL entry that specifies one or more players that may be used to play the referenced media. if CT is present, there should also be a PL present.
 | The P entry specifies a media permissions dictionary (see | "Table 286 — Entries in a media |
 
-permissions dictionary") specifying the manner in which the data referenced by the media may be
-used by an interactive PDF processor. These permissions allow authors control over how their data are
-exposed to operations that could allow it to be copied. If the dictionary contains unrecognised entries
-or entries with unrecognised values, it is considered non-viable, and the interactive PDF processor
-shall not play the media.
+permissions dictionary") specifying the manner in which the data referenced by the media may be used by an interactive PDF processor. These permissions allow authors control over how their data are exposed to operations that could allow it to be copied. If the dictionary contains unrecognised entries or entries with unrecognised values, it is considered non-viable, and the interactive PDF processor shall not play the media.
 
 Table 286 — Entries in a media permissions dictionary
 
@@ -437,29 +322,19 @@ Table 286 — Entries in a media permissions dictionary
 
 An unrecognised value shall be treated as (TEMPNEVER).
 
-The BU entry in the media clip data MH and BE dictionaries (see "Table 287 — Entries in a media clip
-data MH/BE dictionary") specifies a base URL for the media data. Relative URLs in the media (which
-point to auxiliary files or are used for hyperlinking) should be resolved with respect to the value of BU.
+The BU entry in the media clip data MH and BE dictionaries (see "Table 287 — Entries in a media clip data MH/BE dictionary") specifies a base URL for the media data. Relative URLs in the media (which point to auxiliary files or are used for hyperlinking) should be resolved with respect to the value of BU.
 The following are additional requirements concerning the BU entry:
 
-| • | If BU is in the MH dictionary and the base URL is not honoured the media clip data shall be non- |
+• If BU is in the MH dictionary and the base URL is not honoured the media clip data shall be nonviable.
 
-viable.
-NOTE 2       An example of this is that the player does not accept base URLs.
-| • | Determining the viability of the object shall not require checking whether the base URL is valid |
+> **NOTE 2** An example of this is that the player does not accept base URLs.
+• Determining the viability of the object shall not require checking whether the base URL is valid (i.e., the target host exists).
+• Absolute URls within the media shall not be affected.
+• If the media itself contains a base URL, that value shall be used in preference to BU.
 
-(i.e., the target host exists).
-| • | Absolute URls within the media shall not be affected. |
-| --- | --- |
-| • | If the media itself contains a base URL, that value shall be used in preference to BU. |
-
-NOTE 3       An example of this is that the <BASE> element is defined in HTML.
-| • | BU is completely independent of and unrelated to the value of the URI entry in the document |
-
-catalog dictionary (see 7.7.2, "Document catalog dictionary").
-| • | If BU is not present and the media is embedded within the document, the URL to the PDF file itself |
-
-shall be used as if it were the value of a BU entry in the BE dictionary; that is, as an implicit besteffort base URL.
+> **NOTE 3** An example of this is that the <BASE> element is defined in HTML.
+• BU is completely independent of and unrelated to the value of the URI entry in the document catalog dictionary (see 7.7.2, "Document catalog dictionary").
+• If BU is not present and the media is embedded within the document, the URL to the PDF file itself shall be used as if it were the value of a BU entry in the BE dictionary; that is, as an implicit besteffort base URL.
 
 Table 287 — Entries in a media clip data MH/BE dictionary
 
@@ -472,16 +347,12 @@ Table 287 — Entries in a media clip data MH/BE dictionary
 
 ## Page 639
 
-13.2.4.3 Media clip section
+#### 13.2.4.3 Media clip section
 
-A media clip section dictionary (see "Table 288 — Additional entries in a media clip section dictionary")
-defines a continuous section of another media clip object (known as the next-level media clip object).
-The next-level media clip object, specified by the D entry, may be either a media clip data object or
-another media clip section object. However, the linked list formed by the D entries of media clip
-sections shall terminate in a media clip data object. If the next-level media object is non-viable, the
-media clip section shall be also non-viable.
+A media clip section dictionary (see "Table 288 — Additional entries in a media clip section dictionary") defines a continuous section of another media clip object (known as the next-level media clip object).
+The next-level media clip object, specified by the D entry, may be either a media clip data object or another media clip section object. However, the linked list formed by the D entries of media clip sections shall terminate in a media clip data object. If the next-level media object is non-viable, the media clip section shall be also non-viable.
 
-NOTE 1       A media clip section could define a 15-minute segment of a media clip data object representing a
+> **NOTE 1** A media clip section could define a 15-minute segment of a media clip data object representing a
 two-hour movie.
 
 Table 288 — Additional entries in a media clip section dictionary
@@ -496,44 +367,24 @@ Table 288 — Additional entries in a media clip section dictionary
 
 | BE | dictionary | (Optional) A dictionary whose entries (see "Table 289 — Entries in a media clip section MH/BE dictionary") shall only be honoured in a "best effort" sense. |
 
-The B and E entries in the media clip section’s MH and BE dictionaries (see "Table 289 — Entries in a
-media clip section MH/BE dictionary") shall define a subsection of the next-level media object
-referenced by D by specifying beginning and ending offsets into it. Depending on the media type, the
-offsets may be specified by time, frames, or markers (see 13.2.6.2, "Media offset dictionary"). B and E
-are not required to specify the same type of offset.
+The B and E entries in the media clip section’s MH and BE dictionaries (see "Table 289 — Entries in a media clip section MH/BE dictionary") shall define a subsection of the next-level media object referenced by D by specifying beginning and ending offsets into it. Depending on the media type, the offsets may be specified by time, frames, or markers (see 13.2.6.2, "Media offset dictionary"). B and E are not required to specify the same type of offset.
 
 The following rules apply to these offsets:
 
-| • | For media types where an offset makes no sense (such as JPEG images), B and E shall be ignored, |
-
-with no effect on viability.
-| • | When B or E are specified by time or frames, their value shall be considered to be relative to the |
-
-start of the next-level media clip. However, if E specifies an offset beyond the end of the next-level
-media clip, the end value shall be used instead, and there is no effect on viability.
-| • | When B or E are specified by markers, there shall be a corresponding absolute offset into the |
-
-underlying media clip data object. If this offset is not within the range defined by the next-level
-media clip (if any), or if the marker is not present in the underlying media clip, the existence of the
-entry shall be ignored, and there is no effect on viability.
+• For media types where an offset makes no sense (such as JPEG images), B and E shall be ignored, with no effect on viability.
+• When B or E are specified by time or frames, their value shall be considered to be relative to the start of the next-level media clip. However, if E specifies an offset beyond the end of the next-level media clip, the end value shall be used instead, and there is no effect on viability.
+• When B or E are specified by markers, there shall be a corresponding absolute offset into the underlying media clip data object. If this offset is not within the range defined by the next-level media clip (if any), or if the marker is not present in the underlying media clip, the existence of the entry shall be ignored, and there is no effect on viability.
 
 
 ## Page 640
 
-| • | If the absolute offset derived from the values of all B entries in a media clip section chain is |
+• If the absolute offset derived from the values of all B entries in a media clip section chain is greater than or equal to the absolute offset derived from the values of all E entries, an empty range shall be defined. An empty range is valid.
+• Any B or E entry in a media clip section’s MH dictionary shall be honoured at play-time in order for the media clip section to be considered viable.
 
-greater than or equal to the absolute offset derived from the values of all E entries, an empty
-range shall be defined. An empty range is valid.
-| • | Any B or E entry in a media clip section’s MH dictionary shall be honoured at play-time in order |
-
-for the media clip section to be considered viable.
-NOTE 2        The entry cannot be honoured if its value was not viable or if the player did not support its value;
+> **NOTE 2** The entry cannot be honoured if its value was not viable or if the player did not support its value;
 for example, the player did not support markers.
-| • | If a B or E entry is in a media clip section’s MH dictionary, all B or E entries, respectively, at |
-
-deeper levels (closer to the media clip data), shall be evaluated as if they were in an MH
-dictionary (even if they are actually within BE dictionaries).
-| • | If B or E entry in a BE dictionary cannot be supported, it may be ignored at play-time. |
+• If a B or E entry is in a media clip section’s MH dictionary, all B or E entries, respectively, at deeper levels (closer to the media clip data), shall be evaluated as if they were in an MH dictionary (even if they are actually within BE dictionaries).
+• If B or E entry in a BE dictionary cannot be supported, it may be ignored at play-time.
 
 Table 289 — Entries in a media clip section MH/BE dictionary
 
@@ -543,10 +394,9 @@ Table 289 — Entries in a media clip section MH/BE dictionary
 
 | E | dictionary | (Optional) A media offset dictionary (see 13.2.6.2, "Media offset dictionary") that specifies the offset into the next-level media object at which the media clip section ends. Default: the end of the next-level media object. |
 
-13.2.5 Media play parameters
+### 13.2.5 Media play parameters
 
-A media play parameters dictionary specifies how a media object should be played. It shall be
-referenced from a media rendition (see 13.2.3.2, "Media renditions").
+A media play parameters dictionary specifies how a media object should be played. It shall be referenced from a media rendition (see 13.2.3.2, "Media renditions").
 
 Table 290 — Entries in a media play parameters dictionary
 
@@ -571,45 +421,52 @@ Table 291 — Entries in a media play parameters MH/BE dictionary
 
 | C | boolean | (Optional) A flag specifying whether to display a player-specific controller user interface when playing. |
 
-EXAMPLE 1            play/pause/stop controls.
+> **EXAMPLE 1** play/pause/stop controls.
 
 Default value: false
 
 | F | integer | (Optional) The manner in which the player shall treat a visual media type that does not exactly fit the rectangle in which it plays. |
 
-0 The media’s width and height shall be scaled while preserving the aspect ratio so
-that the media and play rectangles have the greatest possible intersection while
-still displaying all media content.
-NOTE 1    Same as "meet" value of SMIL’s fit attribute.
+# 0 The media’s width and height shall be scaled while preserving the aspect ratio so
 
-1 The media’s width and height shall be scaled while preserving the aspect ratio so
-that the play rectangle is entirely filled, and the amount of media content that does
-not fit within the play rectangle shall be minimised.
-NOTE 2    Same as "slice" value of SMIL’s fit attribute.
+that the media and play rectangles have the greatest possible intersection while still displaying all media content.
 
-2 The media’s width and height shall be scaled independently so that the media and
+> **NOTE 1** Same as "meet" value of SMIL’s fit attribute.
+
+# 1 The media’s width and height shall be scaled while preserving the aspect ratio so
+
+that the play rectangle is entirely filled, and the amount of media content that does not fit within the play rectangle shall be minimised.
+
+> **NOTE 2** Same as "slice" value of SMIL’s fit attribute.
+
+# 2 The media’s width and height shall be scaled independently so that the media and
+
 play rectangles are the same; the aspect ratio shall not be preserved.
-NOTE 3    Same as "fill" value of SMIL’s fit attribute.
 
-3 The media shall not be scaled. A scrolling user interface shall be provided if the
+> **NOTE 3** Same as "fill" value of SMIL’s fit attribute.
+
+# 3 The media shall not be scaled. A scrolling user interface shall be provided if the
+
 media rectangle is wider or taller than the play rectangle.
-NOTE 4    Same as "scroll" value of SMIL’s fit attribute.
 
-4 The media shall not be scaled. Only the portions of the media rectangle that
+> **NOTE 4** Same as "scroll" value of SMIL’s fit attribute.
+
+# 4 The media shall not be scaled. Only the portions of the media rectangle that
+
 intersect the play rectangle shall be displayed.
-NOTE 5    Same as "hidden" value of SMIL’s fit attribute.
 
-5 Use the player’s default setting (author has no preference).
+> **NOTE 5** Same as "hidden" value of SMIL’s fit attribute.
+
+# 5 Use the player’s default setting (author has no preference).
+
 Default value: 5.
-An unrecognised value shall be treated as the default value if the entry is in a BE
-dictionary. If the entry is in an MH dictionary and it has an unrecognised value, the
-object shall be considered non-viable.
+An unrecognised value shall be treated as the default value if the entry is in a BE dictionary. If the entry is in an MH dictionary and it has an unrecognised value, the object shall be considered non-viable.
 
 | D | dictionary | (Optional) A media duration dictionary (see "Table 292 — Entries in a media duration dictionary"). Default value: a dictionary specifying the intrinsic duration (see RC). |
 
 | A | boolean | (Optional) If true, the media shall automatically play when activated. If false, the media shall be initially paused when activated. |
 
-EXAMPLE 2            The first frame is displayed.
+> **EXAMPLE 2** The first frame is displayed.
 
 Relevant only for media that may be paused. Default value: true.
 
@@ -620,29 +477,22 @@ Relevant only for media that may be paused. Default value: true.
 
 | RC | number | (Optional) Specifies the number of iterations of the duration D to repeat. Negative values shall be invalid; non-integral values shall be permitted. |
 
-NOTE 6   Similar to SMIL’s repeatCount attribute. Zero means repeat forever.
+> **NOTE 6** Similar to SMIL’s repeatCount attribute. Zero means repeat forever.
 Default value: 1.0.
 
-The value of the D entry is a media duration dictionary, whose entries are shown in "Table 292 —
-Entries in a media duration dictionary". It specifies a temporal duration.
+The value of the D entry is a media duration dictionary, whose entries are shown in "Table 292 — Entries in a media duration dictionary". It specifies a temporal duration.
 
-NOTE 1        The D entry dictionary temporal duration corresponds to the notion of a simple duration in
+> **NOTE 1** The D entry dictionary temporal duration corresponds to the notion of a simple duration in
 SMIL.
-The duration may be a specific amount of time, it may be infinity, or it may be the media’s intrinsic
-duration.
+The duration may be a specific amount of time, it may be infinity, or it may be the media’s intrinsic duration.
 
-EXAMPLE             The intrinsic duration of a two-hour QuickTime movie is two hours.
+> **EXAMPLE** The intrinsic duration of a two-hour QuickTime movie is two hours.
 
-The intrinsic duration may be modified when a media clip section (see 13.2.4.3, "Media clip section") is
-used: the intrinsic duration shall be the difference between the absolute begin and end offsets. For a
-media type having no notion of time (such as a JPEG image), the duration shall be considered to be
-infinity.
+The intrinsic duration may be modified when a media clip section (see 13.2.4.3, "Media clip section") is used: the intrinsic duration shall be the difference between the absolute begin and end offsets. For a media type having no notion of time (such as a JPEG image), the duration shall be considered to be infinity.
 
-If the simple duration is longer than the intrinsic duration, the player shall freeze the media in its final
-state until the simple duration has elapsed. For visual media types, the last appearance (frame) shall be
-displayed. For aural media types, the media is logically frozen but shall not continue to produce sound.
+If the simple duration is longer than the intrinsic duration, the player shall freeze the media in its final state until the simple duration has elapsed. For visual media types, the last appearance (frame) shall be displayed. For aural media types, the media is logically frozen but shall not continue to produce sound.
 
-NOTE 2        In this case, the RC entry, which specifies a repeat count, applies to the simple duration;
+> **NOTE 2** In this case, the RC entry, which specifies a repeat count, applies to the simple duration;
 therefore, the entire play-pause sequence is repeated RC times.
 
 Table 292 — Entries in a media duration dictionary
@@ -652,31 +502,28 @@ Table 292 — Entries in a media duration dictionary
 | Type | name | (Optional) The type of PDF object that this dictionary describes; if present, shall be MediaDuration for a media duration dictionary. |
 
 | S | name | (Required) The subtype of media duration dictionary. Valid values are: |
-| --- | --- | --- |
-| I | The duration is the intrinsic duration of the associated media |  |
-| F | The duration is infinity |  |
-| T | The duration shall be specified by the T entry The media duration dictionary is non-viable if the interactive PDF processor does not recognise the value of this entry. |  |
+
+# I The duration is the intrinsic duration of the associated media
+
+# F The duration is infinity
+
+| T | The duration shall be specified by the T entry The media duration dictionary is non-viable if the interactive PDF processor does not recognise the value of this entry. |
 
 | T | dictionary | (Required if the value of S is T; otherwise ignored) A timespan dictionary specifying an explicit duration (see "Table 300 — Entries in a timespan dictionary"). A negative duration shall not be permitted. |
 
 
 ## Page 643
 
-13.2.6 Media screen parameters
+### 13.2.6 Media screen parameters
 
-13.2.6.1 General
+#### 13.2.6.1 General
 
 A media screen parameters dictionary (see "Table 293 — Entries in a media screen parameters
 | dictionary") shall specify where a media object should be played. It shall contain | MH and BE |
 
-dictionaries (see "Table 294 — Entries in a media screen parameters MH/BE dictionary"), which shall
-function as discussed in 13.2.2, "Viability". All media clips that are being played shall be associated with
-a particular document and shall be stopped when the document is closed.
+dictionaries (see "Table 294 — Entries in a media screen parameters MH/BE dictionary"), which shall function as discussed in 13.2.2, "Viability". All media clips that are being played shall be associated with a particular document and shall be stopped when the document is closed.
 
-Document-based security attacks are possible if windows containing arbitrary media content can be
-displayed without indicating to the user that the window is only hosting a media object. This
-recommendation can be relaxed if it is possible to communicate the nature of such windows to the
-user; for example, with text in a floating window’s title bar.
+Document-based security attacks are possible if windows containing arbitrary media content can be displayed without indicating to the user that the window is only hosting a media object. This recommendation can be relaxed if it is possible to communicate the nature of such windows to the user; for example, with text in a floating window’s title bar.
 
 Table 293 — Entries in a media screen parameters dictionary
 
@@ -694,15 +541,15 @@ Table 294 — Entries in a media screen parameters MH/BE dictionary
 
 | W | integer | (Optional) The type of window that the media object shall play in. Valid values are: |
 
-0 A floating window
+# 0 A floating window
 
-1 A full-screen window that obscures all other windows
+# 1 A full-screen window that obscures all other windows
 
-2 A hidden window
+# 2 A hidden window
 
-3 The rectangle occupied by the screen annotation (see 12.5.6.18, "Screen annotations")
-associated with the media rendition
-Default value: 3. Unrecognised value in MH: object is non-viable; in BE: treat as default value.
+# 3 The rectangle occupied by the screen annotation (see 12.5.6.18, "Screen annotations")
+
+associated with the media rendition Default value: 3. Unrecognised value in MH: object is non-viable; in BE: treat as default value.
 
 
 ## Page 644
@@ -711,42 +558,28 @@ Default value: 3. Unrecognised value in MH: object is non-viable; in BE: treat a
 
 | B | array | (Optional) An array of three numbers in the range 0.0 to 1.0 that shall specify the components in the DeviceRGB colour space of the background colour for the rectangle in which the media is being played. This colour shall be used if the media object does not entirely cover the rectangle or if it has transparent sections. It shall be ignored for hidden windows. Default value: implementation-defined. The interactive PDF processor should choose a reasonable value based on the value of W. |
 
-EXAMPLE 1          A  system  default  background  colour  for  floating  windows  or  a  user-preferred
+> **EXAMPLE 1** A system default background colour for floating windows or a user-preferred
 background colour for full-screen windows.
 
-If a media format has an intrinsic background colour, B shall not override it. However, the B
-colour shall be visible if the media has transparent areas or otherwise does not cover the
-entire window.
+If a media format has an intrinsic background colour, B shall not override it. However, the B colour shall be visible if the media has transparent areas or otherwise does not cover the entire window.
 
 | O | number | (Optional) A number in the range 0.0 to 1.0 specifying the constant opacity value that shall be used in painting the background colour specified by B. A value below 1.0 means the window shall be transparent. |
 
-EXAMPLE 2          Windows behind a floating window show through if the media does not cover the
+> **EXAMPLE 2** Windows behind a floating window show through if the media does not cover the
 entire floating window.
 
-A value of 0.0 shall indicate full transparency and shall make B irrelevant. It shall be ignored
-for full-screen and hidden windows.
+A value of 0.0 shall indicate full transparency and shall make B irrelevant. It shall be ignored for full-screen and hidden windows.
 Default value: 1.0 (fully opaque).
 
 | M | integer | (Optional) A monitor specifier (see "Table 304 — Monitor specifier values") that shall specify which monitor in a multi-monitor system, a floating or full-screen window shall appear on. Ignored for other types. Default value: 0 (document monitor). Unrecognised value in MH: object is non-viable; in BE: treat as default value. |
 
 | F | dictionary | (Required if the value of W is 0; otherwise ignored) A floating window parameters dictionary (see "Table 295 — Entries in a floating window parameters dictionary") that shall specify the size, position, and options used in displaying floating windows. |
 
-The F entry in the media screen parameters MH/BE dictionaries shall be a floating window parameters
-dictionary, whose entries are listed in "Table 295 — Entries in a floating window parameters
-dictionary". The entries in the floating window parameters dictionary shall be treated as if they were
-present in the MH or BE dictionaries that they are referenced from. That is, the contained entries shall
-be individually evaluated for viability rather than the dictionary being evaluated as a whole. (There
-may be an F entry in both MH and BE. In such a case, if a given entry is present in both floating window
-parameters dictionaries, the one in the MH dictionary shall take precedence.)
+The F entry in the media screen parameters MH/BE dictionaries shall be a floating window parameters dictionary, whose entries are listed in "Table 295 — Entries in a floating window parameters dictionary". The entries in the floating window parameters dictionary shall be treated as if they were present in the MH or BE dictionaries that they are referenced from. That is, the contained entries shall be individually evaluated for viability rather than the dictionary being evaluated as a whole. (There may be an F entry in both MH and BE. In such a case, if a given entry is present in both floating window parameters dictionaries, the one in the MH dictionary shall take precedence.)
 
-The D, P, and RT entries shall be used to specify the rectangle that the floating window occupies. Once
-created, the floating window’s size and position shall not be tied to any other window, even if the initial
-size or position was computed relative to other windows.
+The D, P, and RT entries shall be used to specify the rectangle that the floating window occupies. Once created, the floating window’s size and position shall not be tied to any other window, even if the initial size or position was computed relative to other windows.
 
-Unrecognised values for the R, P, RT, and O entries shall be handled as follows: if they are nested
-within an MH dictionary, the floating window parameters object (and hence the media screen
-parameters object) shall be considered non-viable; if they are nested within a BE dictionary, they shall
-be considered to have their default values.
+Unrecognised values for the R, P, RT, and O entries shall be handled as follows: if they are nested within an MH dictionary, the floating window parameters object (and hence the media screen parameters object) shall be considered non-viable; if they are nested within a BE dictionary, they shall be considered to have their default values.
 
 
 ## Page 645
@@ -761,44 +594,46 @@ Table 295 — Entries in a floating window parameters dictionary
 
 | RT | integer | (Optional) The window relative to which the floating window shall be positioned. Valid values are: |
 
-0 The document window
+# 0 The document window
 
-1 The application window
+# 1 The application window
 
-2 The full virtual desktop
+# 2 The full virtual desktop
 
-3 The monitor specified by M in the media screen parameters MH or BE
-dictionary (see "Table 294 — Entries in a media screen parameters MH/BE
-dictionary") Default value: 0.
+# 3 The monitor specified by M in the media screen parameters MH or BE
+
+dictionary (see "Table 294 — Entries in a media screen parameters MH/BE dictionary") Default value: 0.
 
 | P | integer | (Optional) The location where the floating window (including such items as title bar and resizing handles) shall be positioned relative to the window specified by RT. Valid values are: |
 
-0 Upper-left corner
+# 0 Upper-left corner
 
-1 Upper centre
+# 1 Upper centre
 
-2 Upper-right corner
+# 2 Upper-right corner
 
-3 Centre left
+# 3 Centre left
 
-4 Centre
+# 4 Centre
 
-5 Centre right
+# 5 Centre right
 
-6 Lower-left corner
+# 6 Lower-left corner
 
-7 Lower centre
+# 7 Lower centre
 
-8 Lower-right corner
+# 8 Lower-right corner
+
 Default value: 4.
 
 | O | integer | (Optional) Specifies what shall occur if the floating window is positioned totally or partially offscreen (that is, not visible on any physical monitor). Valid values are: |
 
-0 Take no special action
+# 0 Take no special action
 
-1 Move and/or resize the window so that it is on-screen
+# 1 Move and/or resize the window so that it is on-screen
 
-2 Consider the object to be non-viable
+# 2 Consider the object to be non-viable
+
 Default value: 1.
 
 | T | boolean | (Optional) If true, the floating window shall have a title bar. Default value: true. |
@@ -812,22 +647,21 @@ Default value: 1.
 
 | R | integer | (Optional) Specifies whether the floating window may be resized by a user. Valid values are: |
 
-0 May not be resized
+# 0 May not be resized
 
-1 May be resized only if aspect ratio is preserved
+# 1 May be resized only if aspect ratio is preserved
 
-2 May be resized without preserving aspect ratio
+# 2 May be resized without preserving aspect ratio
+
 Default value: 0.
 
 | TT | array | (Optional; meaningful only if T is true) An array providing text to display on the floating window’s title bar. See 14.9.2.4, "Multi-language text arrays" If this entry is not present, the interactive PDF processor may provide default text. |
 
-13.2.6.2 Media offset dictionary
+#### 13.2.6.2 Media offset dictionary
 
-A media offset dictionary ("Table 296 — Entries common to all media offset dictionaries") shall specify
-an offset into a media object. The S (subtype) entry indicates how the offset shall be specified: in terms
-of time, frames or markers. Different media types support different types of offsets.
+A media offset dictionary ("Table 296 — Entries common to all media offset dictionaries") shall specify an offset into a media object. The S (subtype) entry indicates how the offset shall be specified: in terms of time, frames or markers. Different media types support different types of offsets.
 
-EXAMPLE             Time, "10 seconds"; frames, "frame 20"; markers, "Chapter One."
+> **EXAMPLE** Time, "10 seconds"; frames, "frame 20"; markers, "Chapter One."
 
 Table 296 — Entries common to all media offset dictionaries
 
@@ -838,8 +672,14 @@ Table 296 — Entries common to all media offset dictionaries
 | S | name | (Required) The subtype of media offset dictionary. Valid values shall be: |
 | --- | --- | --- |
 | T | A media offset time dictionary (see "Table 297 — Additional entries in a media offset time dictionary") |  |
-| F | A media offset frame dictionary (see "Table 298 — Additional entries in a media offset frame dictionary") |  |
-| M | A media offset marker dictionary (see "Table 299 — Additional entries in a media offset marker dictionary") The rendition is non-viable if the interactive PDF processor does not recognise the value of this entry. |  |
+
+# F A media offset frame dictionary (see "Table 298 — Additional
+
+entries in a media offset frame dictionary")
+
+# M A media offset marker dictionary (see "Table 299 — Additional
+
+entries in a media offset marker dictionary") The rendition is non-viable if the interactive PDF processor does not recognise the value of this entry.
 
 Table 297 — Additional entries in a media offset time dictionary
 
@@ -862,10 +702,9 @@ Table 299 — Additional entries in a media offset marker dictionary
 
 | M | text string | (Required) A text string that identifies a named offset within a media object. |
 
-13.2.6.3 Timespan dictionary
+#### 13.2.6.3 Timespan dictionary
 
-A timespan dictionary shall specify a length of time; its entries are shown in "Table 300 — Entries in a
-timespan dictionary".
+A timespan dictionary shall specify a length of time; its entries are shown in "Table 300 — Entries in a timespan dictionary".
 
 Table 300 — Entries in a timespan dictionary
 
@@ -877,26 +716,22 @@ Table 300 — Entries in a timespan dictionary
 
 | V | number | (Required) The number of seconds in the timespan. Non-integral values shall be allowed. Negative values shall not be used. This entry shall be used only if the value of the S entry is S. Subtypes defined in the future need not use this entry. |
 
-13.2.7 Other multimedia objects
+### 13.2.7 Other multimedia objects
 
-13.2.7.1 General
+#### 13.2.7.1 General
 
 This subclause defines several dictionary types that are referenced by the previous subclauses.
 
-13.2.7.2 Media players dictionary
+#### 13.2.7.2 Media players dictionary
 
-13.2.7.2.1 General
+##### 13.2.7.2.1 General
 
-A media players dictionary may be referenced by media clip data (see 13.2.4.2, "Media clip data") and
-media play parameters (see 13.2.5, "Media play parameters") dictionaries, and shall allow them to
-specify which players may or may not be used to play the associated media. The media players
-dictionary (see “Table 301 — Entries in a media players dictionary”) references media player info
+A media players dictionary may be referenced by media clip data (see 13.2.4.2, "Media clip data") and media play parameters (see 13.2.5, "Media play parameters") dictionaries, and shall allow them to specify which players may or may not be used to play the associated media. The media players dictionary (see “Table 301 — Entries in a media players dictionary”) references media player info
 
 
 ## Page 648
 
-dictionaries (see 13.2.7.3, "Media player info dictionary") that shall provide specific information about
-each player.
+dictionaries (see 13.2.7.3, "Media player info dictionary") that shall provide specific information about each player.
 
 Table 301 — Entries in a media players dictionary
 
@@ -906,57 +741,44 @@ Table 301 — Entries in a media players dictionary
 
 | MU | array | (Optional) An array of media player info dictionaries (see "Table 302 — Entries in a media player info dictionary") that shall specify a set of players, one of which shall be used in playing the associated media object. Any players specified in NU are effectively removed from MU. |
 
-EXAMPLE            If MU   specifies  versions  1  through  5  of  a  player  and  NU
+> **EXAMPLE** If MU specifies versions 1 through 5 of a player and NU
 | specifies versions 1 and 2 of the same player, | MU is effectively versions 3 through 5. |
 
 | A | array | (Optional) An array of media player info dictionaries (see | "Table 302 — Entries in a media player info dictionary") that shall specify a set of players, any of which may be used in playing the associated media object. If MU is also present and non-empty, A shall be ignored. |
 
 | NU | array | (Optional) An array of media player info dictionaries (see "Table 302 — Entries in a media player info dictionary") that shall specify a set of players that shall not be used in playing the associated media object (even if they are also specified in MU). |
 
-The MU, A, and NU entries each shall specify one or more media player info dictionaries. An empty
-array shall be treated as if it is not present. The media player info dictionaries shall be allowed to
-specify overlapping player ranges.
+The MU, A, and NU entries each shall specify one or more media player info dictionaries. An empty array shall be treated as if it is not present. The media player info dictionaries shall be allowed to specify overlapping player ranges.
 
-NOTE          MU could contain a media player info dictionary describing versions 1 to 10 of Player X and
+> **NOTE** MU could contain a media player info dictionary describing versions 1 to 10 of Player X and
 another describing versions 3 through 5 of Player X.
-If a non-viable media player info dictionary is referenced by MU, NU, or A, it shall be treated as if it
-were not present in its original array, and a media player info dictionary containing the same software
-identifier dictionary (see 13.2.7.4, "Software identifier dictionary") shall logically considered present in
-NU. The same rule shall apply to a media player info dictionary that contains a partially unrecognised
-software identifier dictionary.
+If a non-viable media player info dictionary is referenced by MU, NU, or A, it shall be treated as if it were not present in its original array, and a media player info dictionary containing the same software identifier dictionary (see 13.2.7.4, "Software identifier dictionary") shall logically considered present in NU. The same rule shall apply to a media player info dictionary that contains a partially unrecognised software identifier dictionary.
 
-Since both media clip data and media play parameters dictionaries may be employed in a play
-operation, and each may reference a media players dictionary, there is a potential for conflict between
-the contents of the two media players dictionaries.
+Since both media clip data and media play parameters dictionaries may be employed in a play operation, and each may reference a media players dictionary, there is a potential for conflict between the contents of the two media players dictionaries.
 
-13.2.7.2.2 Algorithm: Media Player
+##### 13.2.7.2.2 Algorithm: Media Player
 
-At play-time, the viewer shall use the following algorithm to determine whether a player present on
-the machine may be employed. The player may not be used if any of the following conditions are true:
+At play-time, the viewer shall use the following algorithm to determine whether a player present on the machine may be employed. The player may not be used if any of the following conditions are true:
 
 
 ## Page 649
 
-| a) | The content type is known and the | player does not support the type. |
-| --- | --- | --- |
-| b) | The player is found in the | NU array of either dictionary. |
-| c) | Both dictionaries have non | -empty MU arrays and the player is not found in both of them, or only one of |
-| the dictionaries has a non | -empty MU array and the player is not found in it. |  |
-| d) | Neither dictionary has a non | -empty MU array, the content type is not known, and the player is not found |
+a) The content type is known and the player does not support the type.
+b) The player is found in the NU array of either dictionary.
+c) Both dictionaries have non -empty MU arrays and the player is not found in both of them, or only one of
+| the dictionaries has a non | -empty MU array and the player is not found in it. |
 
+d) Neither dictionary has a non -empty MU array, the content type is not known, and the player is not found
 in the A array of either dictionary.
 | If none of the conditions are | true, the player may be used. |
 
-NOTE          A player is "found" in the NU, MU, or A arrays if it matches the information found in the PID
-entry of one of the entries, as described by the Algorithm in 13.2.7.4, "Software identifier
-dictionary".
+> **NOTE** A player is "found" in the NU, MU, or A arrays if it matches the information found in the PID
+entry of one of the entries, as described by the Algorithm in 13.2.7.4, "Software identifier dictionary".
 
-13.2.7.3 Media player info dictionary
+#### 13.2.7.3 Media player info dictionary
 
 A media player info dictionary shall provide a variety of information regarding a specific media player.
-Its entries (see "Table 302 — Entries in a media player info dictionary") shall associate information
-with a particular version or range of versions of a player. The PID entry shall provide information
-about the player, as described in 13.2.7.4, "Software identifier dictionary".
+Its entries (see "Table 302 — Entries in a media player info dictionary") shall associate information with a particular version or range of versions of a player. The PID entry shall provide information about the player, as described in 13.2.7.4, "Software identifier dictionary".
 
 Table 302 — Entries in a media player info dictionary
 
@@ -970,16 +792,11 @@ Table 302 — Entries in a media player info dictionary
 
 | BE | dictionary | (Optional) A dictionary containing entries that need only be honoured in a "best effort" sense. Currently, there are no defined entries for this dictionary |
 
-13.2.7.4 Software identifier dictionary
+#### 13.2.7.4 Software identifier dictionary
 
-13.2.7.4.1 General
+##### 13.2.7.4.1 General
 
-A software identifier dictionary shall allow software to be identified by name, range of versions, and
-operating systems; its entries are listed in "Table 303 — Entries in a software identifier dictionary". An
-interactive PDF processor uses this information to determine whether a given media player may be
-used in a given situation. If the dictionary contains keys that are unrecognised by the interactive PDF
-processor, it shall be considered to be partially recognised. The interactive PDF processor may or may
-not decide to treat the software identifier as viable, depending on the context in which it is used.
+A software identifier dictionary shall allow software to be identified by name, range of versions, and operating systems; its entries are listed in "Table 303 — Entries in a software identifier dictionary". An interactive PDF processor uses this information to determine whether a given media player may be used in a given situation. If the dictionary contains keys that are unrecognised by the interactive PDF processor, it shall be considered to be partially recognised. The interactive PDF processor may or may not decide to treat the software identifier as viable, depending on the context in which it is used.
 
 
 ## Page 650
@@ -1002,20 +819,17 @@ Table 303 — Entries in a software identifier dictionary
 
 | OS | array | (Optional) An array of byte strings representing operating system identifiers that shall indicate to which operating systems this object applies. The defined values are the same as those defined for SMIL 3.0’s systemOperatingSystem attribute. There may not be multiple copies of the same identifier in the array. An empty array represents all operating systems. Default value: an empty array. |
 
-13.2.7.4.2 Algorithm: software identifier
+##### 13.2.7.4.2 Algorithm: software identifier
 
-The following procedure shall be used to determine whether a piece of software is considered to match
-a software identifier dictionary:
+The following procedure shall be used to determine whether a piece of software is considered to match a software identifier dictionary:
 
-| a) | The software name shall match the name specified by the | U entry (see 13.2.7.4.3 | , "Software URIs | "). |
-| --- | --- | --- | --- | --- |
-| b) | The software version shall be within the interval specified by the | L, H, LI, and HI entries ( | see 13.2.7.4.4 | , |
-| "Version arrays | "). |  |  |  |
-| c) | The machine’s operating system name shall be an exact match for one present in the | OS array. If the |  |  |
-
+a) The software name shall match the name specified by the U entry (see 13.2.7.4.3 , "Software URIs ").
+b) The software version shall be within the interval specified by the L, H, LI, and HI entries ( see 13.2.7.4.4 ,
+"Version arrays ").
+c) The machine’s operating system name shall be an exact match for one present in the OS array. If the
 array is not present or empty, a match shall also be considered to exist.
 
-13.2.7.4.3 Software URIs
+##### 13.2.7.4.3 Software URIs
 
 The U entry is a URI (universal resource identifier) that identifies a piece of software. It shall be
 | interpreted according to its scheme; the only p | resently defined scheme is | vnd.adobe.swname | . The |
@@ -1028,92 +842,70 @@ The U entry is a URI (universal resource identifier) that identifies a piece of 
 
 ## Page 651
 
-where software_name shall be reg_name as defined in Internet RFC 3986. Also, software_name shall be a
-sequence of UTF-8-encoded characters that have been escaped with one pass of URL escaping (see
-14.10.3.2, "URL strings"). That is, to recover the original software name, software_name shall be
-unescaped and then treated as a sequence of UTF-8 characters. The actual software names shall be
-compared in a case-sensitive fashion.
+where software_name shall be reg_name as defined in Internet RFC 3986. Also, software_name shall be a sequence of UTF-8-encoded characters that have been escaped with one pass of URL escaping (see 14.10.3.2, "URL strings"). That is, to recover the original software name, software_name shall be unescaped and then treated as a sequence of UTF-8 characters. The actual software names shall be compared in a case-sensitive fashion.
 
 Software names shall be second-class names (see Annex E, "Extending PDF").
 
-EXAMPLE            The URI for Adobe Acrobat is
+> **EXAMPLE** The URI for Adobe Acrobat is
 
 vnd.adobe.swname:ADBE_Acrobat.
 
-13.2.7.4.4 Version arrays
+##### 13.2.7.4.4 Version arrays
 
-The L, H, LI, and HI entries shall be used to specify a range of software versions. L and H shall be
-version arrays containing zero or more non-negative integers representing subversion numbers. The
-first integer shall be the major version numbers, and subsequent integers shall be increasingly minor.
+The L, H, LI, and HI entries shall be used to specify a range of software versions. L and H shall be version arrays containing zero or more non-negative integers representing subversion numbers. The first integer shall be the major version numbers, and subsequent integers shall be increasingly minor.
 H shall be greater than or equal to L, according to the following rules for comparing version arrays:
 
 Algorithm: Comparing version arrays
 
-An empty version array shall be treated as infinity; that is, it shall be considered greater than any other
-version array except another empty array. Two empty arrays are equal.
+An empty version array shall be treated as infinity; that is, it shall be considered greater than any other version array except another empty array. Two empty arrays are equal.
 
-When comparing arrays that contain different numbers of elements, the smaller array shall be
-implicitly padded with zero-valued integers to make the number of elements equal.
+When comparing arrays that contain different numbers of elements, the smaller array shall be implicitly padded with zero-valued integers to make the number of elements equal.
 
-EXAMPLE            When comparing [5 1 2 3 4] to [5], the latter is treated as [5 0 0 0 0].
+> **EXAMPLE** When comparing [5 1 2 3 4] to [5], the latter is treated as [5 0 0 0 0].
 
-The corresponding elements of the arrays shall be compared, starting with the first. When a difference
-is found, the array containing the larger element shall be considered to have the larger version
-number. If no differences are found, the versions are equal.
+The corresponding elements of the arrays shall be compared, starting with the first. When a difference is found, the array containing the larger element shall be considered to have the larger version number. If no differences are found, the versions are equal.
 
 | If a version array contains negative numbers, it | is non-viable, as is the enclosing software identifier. |
 
-13.2.7.5 Monitor specifier
+#### 13.2.7.5 Monitor specifier
 
-A monitor specifier is an integer that shall identify a physical monitor attached to a system. It may have
-one of the values in "Table 304 — Monitor specifier values".
+A monitor specifier is an integer that shall identify a physical monitor attached to a system. It may have one of the values in "Table 304 — Monitor specifier values".
 
 Table 304 — Monitor specifier values
 
-Value     Description
+Value Description
 
-0 The monitor containing the largest section of the document window
+# 0 The monitor containing the largest section of the document window
 
-1 The monitor containing the smallest section of the document window
+# 1 The monitor containing the smallest section of the document window
 
-2 Primary monitor. If no monitor is considered primary, shall treat as case 0
+# 2 Primary monitor. If no monitor is considered primary, shall treat as case 0
 
-3 Monitor with the greatest colour depth
+# 3 Monitor with the greatest colour depth
 
-4 Monitor with the greatest area (in pixels squared)
+# 4 Monitor with the greatest area (in pixels squared)
 
 
 ## Page 652
 
-Value     Description
+Value Description
 
-5 Monitor with the greatest height (in pixels)
+# 5 Monitor with the greatest height (in pixels)
 
-6 Monitor with the greatest width (in pixels)
+# 6 Monitor with the greatest width (in pixels)
 
-For some of these values, it is possible have a "tie" at play-time; for example, two monitors might have
-the same colour depth. Ties may be broken in an implementation-dependent manner.
+For some of these values, it is possible have a "tie" at play-time; for example, two monitors might have the same colour depth. Ties may be broken in an implementation-dependent manner.
 
-13.3 Sounds
+## 13.3 Sounds
 
-The features described in this subclause are deprecated with PDF 2.0. They are superseded by the
-general multimedia framework described in 13.2, "Multimedia".
+The features described in this subclause are deprecated with PDF 2.0. They are superseded by the general multimedia framework described in 13.2, "Multimedia".
 
-A sound object (PDF 1.2) shall be a stream containing sample values that define a sound to be played
-through the computer’s speakers. The Sound entry in a sound annotation or sound action dictionary
-(see "Table 188 — Additional entries specific to a sound annotation" and "Table 212 — Additional
-entries specific to a sound action") shall identify a sound object representing the sound to be played
-when the annotation is activated.
+A sound object (PDF 1.2) shall be a stream containing sample values that define a sound to be played through the computer’s speakers. The Sound entry in a sound annotation or sound action dictionary (see "Table 188 — Additional entries specific to a sound annotation" and "Table 212 — Additional entries specific to a sound action") shall identify a sound object representing the sound to be played when the annotation is activated.
 
-Since a sound object is a stream, it may contain any of the standard entries common to all streams, as
-described in "Table 5 — Entries common to all stream dictionaries". In particular, if it contains an F
-(file specification) entry, the sound shall be defined in an external file. This sound file shall be selfdescribing, containing all information needed to render the sound; no additional information need be
-present in the PDF file.
+Since a sound object is a stream, it may contain any of the standard entries common to all streams, as described in "Table 5 — Entries common to all stream dictionaries". In particular, if it contains an F (file specification) entry, the sound shall be defined in an external file. This sound file shall be selfdescribing, containing all information needed to render the sound; no additional information need be present in the PDF file.
 
-NOTE         The AIFF, AIFF-C (Mac OS), RIFF (.wav), and snd (.au) file formats are all self-describing.
-If no F entry is present, the sound object itself shall contain the sample data and all other information
-needed to define the sound. “Table 305 — Additional entries specific to a sound object” shows the
-additional dictionary entries specific to a sound object.
+> **NOTE** The AIFF, AIFF-C (Mac OS), RIFF (.wav), and snd (.au) file formats are all self-describing.
+If no F entry is present, the sound object itself shall contain the sample data and all other information needed to define the sound. “Table 305 — Additional entries specific to a sound object” shows the additional dictionary entries specific to a sound object.
 
 Table 305 — Additional entries specific to a sound object
 
@@ -1145,44 +937,29 @@ Table 305 — Additional entries specific to a sound object
 
 No standard values have been defined for the CO and CP entries.
 
-Sample values shall be stored in the stream with the most significant bits first (big-endian order for
-samples larger than 8 bits). Samples that are not a multiple of 8 bits shall be packed into consecutive
-bytes, starting at the most significant end. If a sample extends across a byte boundary, the most
-significant bits shall be placed in the first byte, followed by less significant bits in subsequent bytes. For
-dual-channel stereophonic sounds, the samples shall be stored in an interleaved format, with each
-sample value for the left (channel 1) preceding the corresponding sample for the right (channel 2).
+Sample values shall be stored in the stream with the most significant bits first (big-endian order for samples larger than 8 bits). Samples that are not a multiple of 8 bits shall be packed into consecutive bytes, starting at the most significant end. If a sample extends across a byte boundary, the most significant bits shall be placed in the first byte, followed by less significant bits in subsequent bytes. For dual-channel stereophonic sounds, the samples shall be stored in an interleaved format, with each sample value for the left (channel 1) preceding the corresponding sample for the right (channel 2).
 
-To maximise the portability of PDF documents containing embedded sounds, interactive PDF
-processors should support at least the following formats (assuming the platform has sufficient
-hardware and OS support to play sounds at all):
+To maximise the portability of PDF documents containing embedded sounds, interactive PDF processors should support at least the following formats (assuming the platform has sufficient hardware and OS support to play sounds at all):
 
 | R | 8000, 11,025, or 22,050 samples per second |
 
-C        1 or 2 channels
+C 1 or 2 channels
 
-B        8 or 16 bits per channel
+B 8 or 16 bits per channel
 
-| E | Raw, Signed, or muLaw encoding |
+# E Raw, Signed, or muLaw encoding
 
-If the encoding (E) is Raw or Signed, R shall be 11,025 or 22,050 samples per channel. If the encoding is
-muLaw, R shall be 8000 samples per channel, C shall be 1 channel, and B shall be 8 bits per channel.
-Sound players shall convert between formats, downsample rates, and combine channels as necessary
-to render sound on the target platform.
+If the encoding (E) is Raw or Signed, R shall be 11,025 or 22,050 samples per channel. If the encoding is muLaw, R shall be 8000 samples per channel, C shall be 1 channel, and B shall be 8 bits per channel.
+Sound players shall convert between formats, downsample rates, and combine channels as necessary to render sound on the target platform.
 
-13.4 Movies
+## 13.4 Movies
 
-The features described in this subclause are deprecated with PDF 2.0. They are superseded by the
-general multimedia framework described in 13.2, "Multimedia".
+The features described in this subclause are deprecated with PDF 2.0. They are superseded by the general multimedia framework described in 13.2, "Multimedia".
 
 
 ## Page 654
 
-PDF may embed movies within a document by means of movie annotations (see 12.5.6.17, "Movie
-annotations"). Despite the name, a movie may consist entirely of sound with no visible images to be
-displayed on the screen. The Movie and A (activation) entries in the movie annotation dictionary shall
-refer, respectively, to a movie dictionary ("Table 306 — Entries in a movie dictionary") that shall
-describe the static characteristics of the movie and a movie activation dictionary ("Table 307 — Entries
-in a movie activation dictionary") that shall specify how it shall be presented.
+PDF may embed movies within a document by means of movie annotations (see 12.5.6.17, "Movie annotations"). Despite the name, a movie may consist entirely of sound with no visible images to be displayed on the screen. The Movie and A (activation) entries in the movie annotation dictionary shall refer, respectively, to a movie dictionary ("Table 306 — Entries in a movie dictionary") that shall describe the static characteristics of the movie and a movie activation dictionary ("Table 307 — Entries in a movie activation dictionary") that shall specify how it shall be presented.
 
 Table 306 — Entries in a movie dictionary
 
@@ -1201,10 +978,11 @@ Table 307 — Entries in a movie activation dictionary
 | Key | Type | Value |
 
 | Start | (various) | (Optional) The starting time shall be nominally a non-negative 64-bit integer, specified as follows: |
-| --- | --- | --- |
-| • | If it is representable as a 32 bit integer, it shall be specified as such. |  |
-| • | If it is not representable as a 32 bit integer, it shall be specified as an 8 | -byte string representing a 64-bit twos-complement integer, most significant byte first. |
-| • | If it is expressed in a time scale different from | that of the movie itself, it shall be represented as an array of two values: an integer or byte string denoting the starting time, followed by an integer specifying the time scale in units per second. If this entry is omitted, the movie shall be played from the beginning. |
+
+• If it is representable as a 32 bit integer, it shall be specified as such.
+• If it is not representable as a 32 bit integer, it shall be specified as an 8 -byte string representing a 64-bit twos-complement integer, most significant byte first.
+• If it is expressed in a time scale different from that of the movie itself, it shall be represented as an array of two values: an integer or byte string denoting the starting time, followed by an integer specifying the time scale in units per second.
+If this entry is omitted, the movie shall be played from the beginning.
 
 | Duration | (various) | (Optional) The duration of the movie segment to be played, that shall be specified in the same form as Start. If this entry is omitted, the movie shall be played to the end. |
 
@@ -1234,32 +1012,24 @@ Table 307 — Entries in a movie activation dictionary
 
 | FWPosition | array | (Optional) For floating play windows, the relative position of the window on the screen. The value shall be an array of two numbers [horiz vert] each in the range 0.0 to 1.0, denoting the relative horizontal and vertical position of the movie window with respect to the screen. |
 
-EXAMPLE            The value [0.5 0.5] centres the window on the screen.
+> **EXAMPLE** The value [0.5 0.5] centres the window on the screen.
 
 Default value: [0.5 0.5].
 
-13.5 Alternate presentations
+## 13.5 Alternate presentations
 
 The features described in this clause are deprecated with PDF 2.0.
 
-Beginning with PDF 1.4, a PDF document may contain alternate presentations, which specify alternative
-ways in which the document may be viewed. The optional AlternatePresentations entry (PDF 1.4) in
-a document’s name dictionary (see "Table 32 — Entries in the name dictionary") contains a name tree
-that maps name strings to the alternate presentations available for the document.
+Beginning with PDF 1.4, a PDF document may contain alternate presentations, which specify alternative ways in which the document may be viewed. The optional AlternatePresentations entry (PDF 1.4) in a document’s name dictionary (see "Table 32 — Entries in the name dictionary") contains a name tree that maps name strings to the alternate presentations available for the document.
 
-Since PDF processors are not required to support alternate presentations, authors of documents
-containing alternate presentations should define the files such that something useful and meaningful
+Since PDF processors are not required to support alternate presentations, authors of documents containing alternate presentations should define the files such that something useful and meaningful
 
 
 ## Page 656
 
-can be displayed and printed. For example, if the document contains an alternate presentation
-slideshow of a sequence of photographs, the photographs should be viewable in a static form by
-viewers that are not capable of playing the slideshow.
+can be displayed and printed. For example, if the document contains an alternate presentation slideshow of a sequence of photographs, the photographs should be viewable in a static form by viewers that are not capable of playing the slideshow.
 
-As of PDF 1.5, the only type of alternate presentation is a slideshow. Slideshows may be invoked by
-means of JavaScript actions (see 12.6.4.17, "ECMAScript actions") initiated by user action on an
-interactive form element (see 12.7, "Forms").
+As of PDF 1.5, the only type of alternate presentation is a slideshow. Slideshows may be invoked by means of JavaScript actions (see 12.6.4.17, "ECMAScript actions") initiated by user action on an interactive form element (see 12.7, "Forms").
 
 "Table 308 — Entries in a slideshow dictionary" shows the entries in a slideshow dictionary.
 
@@ -1279,24 +1049,16 @@ Table 308 — Entries in a slideshow dictionary
 | --- | --- | --- |
 | string | Resources entry. It shall define the root object for the slideshow presentation. |  |
 
-NOTE 1       The Resources name tree represents a virtual file system to the slideshow. It associates strings
-(“file names”) with PDF objects that represent resources used by the slideshow. For example, a
-root stream can reference a file name, which would be looked up in the Resources name tree,
-and the corresponding object would be loaded as the file. (This virtual file system is flat; that is,
-there is no way to reference subfolders.)
-NOTE 2       Typically, images are stored in the document as image XObjects (see                    8.9.5, "Image dictionaries"),
-thereby allowing them to be shared between the standard PDF representation and the
-slideshow. Other media objects are stored or embedded file streams (see 7.11.4, "Embedded file
-streams").
-To allow PDF processors to verify content against their own supported features, all referenced objects
-shall include a Type entry in their dictionary, even when the Type entry is normally optional for a
-given object.
+> **NOTE 1** The Resources name tree represents a virtual file system to the slideshow. It associates strings
+(“file names”) with PDF objects that represent resources used by the slideshow. For example, a root stream can reference a file name, which would be looked up in the Resources name tree, and the corresponding object would be loaded as the file. (This virtual file system is flat; that is, there is no way to reference subfolders.)
 
-EXAMPLE            The following example illustrates the use of alternate presentation slideshows.
+> **NOTE 2** Typically, images are stored in the document as image XObjects (see 8.9.5, "Image dictionaries"),
+thereby allowing them to be shared between the standard PDF representation and the slideshow. Other media objects are stored or embedded file streams (see 7.11.4, "Embedded file streams").
+To allow PDF processors to verify content against their own supported features, all referenced objects shall include a Type entry in their dictionary, even when the Type entry is normally optional for a given object.
 
-1 0 obj
-<</Type /Catalog
-/Pages 2 0 R
+> **EXAMPLE** The following example illustrates the use of alternate presentation slideshows.
+
+1 0 obj <</Type /Catalog /Pages 2 0 R
 | /Names 3 0 R | %Indirect reference to name dictionary … >> endobj |
 
 | 3 0 obj | %The name dictionary <</AlternatePresentations 4 0 R>> endobj |
@@ -1327,87 +1089,44 @@ endobj
 
 | 13.6 | 3D Artwork |
 
-13.6.1 General
+### 13.6.1 General
 
-Starting with PDF 1.6, collections of three-dimensional objects, such as those used by CAD software,
-may be embedded in PDF files. Such collections are often called 3D models; in the context of PDF, they
-shall be referred to as 3D artwork. The PDF constructs for 3D artwork support the following features:
+Starting with PDF 1.6, collections of three-dimensional objects, such as those used by CAD software, may be embedded in PDF files. Such collections are often called 3D models; in the context of PDF, they shall be referred to as 3D artwork. The PDF constructs for 3D artwork support the following features:
 
-| • | 3D artwork may be rendered within a page; that is, not as a separate window or user interface |
-
-element.
-| • | Multiple instances of 3D artwork may appear within a page or document. |
-| --- | --- |
-| • | Specific views of 3D artwork may be specified, including a default view that shall be displayed |
-
-initially and other views that may be selected. Views may have names that can be presented in a
-user interface.
-| • | (PDF 1.7) PDF documents may specify how embedded 3D artwork shall be rendered, coloured, lit, |
-
-and cross-sectioned, without the use of embedded ECMAScript. They may also specify state
-information that shall be applied to individual nodes (3D graphics objects or collections thereof)
-in the 3D artwork, such as visibility, opacity, position, or orientation.
-| • | Pages containing 3D artwork may be printed. |
+• 3D artwork may be rendered within a page; that is, not as a separate window or user interface element.
+• Multiple instances of 3D artwork may appear within a page or document.
+• Specific views of 3D artwork may be specified, including a default view that shall be displayed initially and other views that may be selected. Views may have names that can be presented in a user interface.
+• (PDF 1.7) PDF documents may specify how embedded 3D artwork shall be rendered, coloured, lit, and cross-sectioned, without the use of embedded ECMAScript. They may also specify state information that shall be applied to individual nodes (3D graphics objects or collections thereof) in the 3D artwork, such as visibility, opacity, position, or orientation.
+• Pages containing 3D artwork may be printed.
 
 
 ## Page 658
 
-| • | Users may pan, zoom and rotate the artwork, enabling them to examine complex objects from any |
+• Users may pan, zoom and rotate the artwork, enabling them to examine complex objects from any angle or orientation.
+• (PDF 1.7) Keyframe animations contained in 3D artwork may be played in specific styles and timescales, without programmatic intervention.
+• ECMAScripts and other software may programmatically manipulate objects in the artwork, creating dynamic presentations in which objects move, spin, appear, and disappear. See ISO/DIS 21757-1.
+• (PDF 1.7) The activation of 3D artwork can trigger the display of additional user interface items in an interactive PDF processor. Such items may include model trees and toolbars.
+• Two-dimensional (2D) content such as labels may be overlaid on 3D artwork. This feature is not the same as the ability to apply 2D markup annotations.
+• (PDF 1.7) 2D markup annotations may be applied to specific views of the 3D artwork, using the ExData entry to identify the 3D annotation and the 3D view in that annotation.
+The following subclauses describe the major PDF objects that relate to 3D artwork, as well as providing background information on 3D graphics:
 
-angle or orientation.
-| • | (PDF 1.7) Keyframe animations contained in 3D artwork may be played in specific styles and |
+• 3D annotations provide a virtual camera through which the artwork shall be viewed. (see13.6.2 13.6.2, "3D Annotations").
+• 3D streams shall contain the actual specification of a piece of 3D artwork (see 13.6.3, "3D streams"). This specification supports the Standard ECMA-363, Universal 3D file format developed by the 3D Industry Forum. PDF 2.0 extends PDF to support the ISO 14739-1 Product Representation Compact (PRC) file format.
+• 3D views shall specify information about the relationship between the camera and the 3D artwork (see 13.6.4, "3D views"). Beginning with PDF 1.7, views may also describe additional parameters such as render mode, lighting, cross sections, and nodes. Nodes shall be 3D graphic objects or collections thereof.
+• 3D coordinate systems are described in 13.6.5, "Coordinate systems for 3D" • 2D markup annotations applied to 3D artwork views are described in 13.6.6, "3D markup"
 
-timescales, without programmatic intervention.
-| • | ECMAScripts and other software may programmatically manipulate objects in the artwork, |
-
-creating dynamic presentations in which objects move, spin, appear, and disappear. See ISO/DIS
-21757-1.
-| • | (PDF 1.7) The activation of 3D artwork can trigger the display of additional user interface items in |
-
-an interactive PDF processor. Such items may include model trees and toolbars.
-| • | Two-dimensional (2D) content such as labels may be overlaid on 3D artwork. This feature is not |
-
-the same as the ability to apply 2D markup annotations.
-| • | (PDF 1.7) 2D markup annotations may be applied to specific views of the 3D artwork, using the |
-
-ExData entry to identify the 3D annotation and the 3D view in that annotation.
-The following subclauses describe the major PDF objects that relate to 3D artwork, as well as providing
-background information on 3D graphics:
-
-| • | 3D annotations provide a virtual camera through which the artwork shall be viewed. (see13.6.2 |
-
-13.6.2, "3D Annotations").
-| • | 3D streams shall contain the actual specification of a piece of 3D artwork (see 13.6.3, "3D |
-
-streams"). This specification supports the Standard ECMA-363, Universal 3D file format developed
-by the 3D Industry Forum. PDF 2.0 extends PDF to support the ISO 14739-1 Product
-Representation Compact (PRC) file format.
-| • | 3D views shall specify information about the relationship between the camera and the 3D artwork |
-
-(see 13.6.4, "3D views"). Beginning with PDF 1.7, views may also describe additional parameters
-such as render mode, lighting, cross sections, and nodes. Nodes shall be 3D graphic objects or
-collections thereof.
-| • | 3D coordinate systems are described in 13.6.5, "Coordinate systems for 3D" |
-| --- | --- |
-| • | 2D markup annotations applied to 3D artwork views are described in 13.6.6, "3D markup" |
-
-NOTE         Many of the concepts and terminology of 3D rendering are beyond the scope of this reference.
+> **NOTE** Many of the concepts and terminology of 3D rendering are beyond the scope of this reference.
 Readers interested in further information are encouraged to consult outside references.
 | 13.6.2 | 3D annotations |
 
-3D annotations (PDF 1.6) are a way to include 3D artwork in PDF documents. Rich media annotations
-are another method (see 0 "
+3D annotations (PDF 1.6) are a way to include 3D artwork in PDF documents. Rich media annotations are another method (see 0 "
 
-Rich media"). "Table 309 — Additional entries specific to a 3D annotation" shows the entries specific to
-a 3D annotation dictionary. "Table 166 — Entries common to all annotation dictionaries" describes the
-entries common to all annotation dictionaries.
+Rich media"). "Table 309 — Additional entries specific to a 3D annotation" shows the entries specific to a 3D annotation dictionary. "Table 166 — Entries common to all annotation dictionaries" describes the entries common to all annotation dictionaries.
 
 In addition to these entries, a 3D annotation shall provide an appearance stream in its AP entry (see
 | "Table 166 — Entries common to all annotation dictionaries | ") that has a normal appearance (the | N |
 
-entry in "Table 170 — Entries in an appearance dictionary"). This appearance may be used by
-applications that do not support 3D annotations and by all applications for the initial display of the
-annotation.
+entry in "Table 170 — Entries in an appearance dictionary"). This appearance may be used by applications that do not support 3D annotations and by all applications for the initial display of the annotation.
 
 
 ## Page 659
@@ -1423,10 +1142,11 @@ Table 309 — Additional entries specific to a 3D annotation
 | dictionary | dictionary (see 13.6.3.3, "3D reference dictionaries") that specifies the 3D artwork to be shown. |  |
 
 | 3DV | (various) | (Optional) An object that specifies the default initial view of the 3D artwork that shall be used when the annotation is activated. It may be either a 3D view dictionary (see 13.6.4, "3D views") or one of the following types specifying an element in the VA array in the 3D stream (see "Table 311 — Entries in a 3D stream dictionary"): |
-| --- | --- | --- |
-| • | An integer specifying an index into the VA array. |  |
-| • | A text string matching the IN entry in one of the views in the VA array. |  |
-| • | A name that indicates the first (F), last (L), or default (D) entries in the VA array. Default value: the default view in the 3D stream object specified by 3DD. |  |
+
+• An integer specifying an index into the VA array.
+• A text string matching the IN entry in one of the views in the VA array.
+• A name that indicates the first (F), last (L), or default (D) entries in the VA array.
+Default value: the default view in the 3D stream object specified by 3DD.
 
 | 3DA | dictionary | (Optional) An activation dictionary (see "Table 310 — Entries in a 3D activation dictionary") that defines the times at which the annotation shall be activated and deactivated and the state of the 3D artwork instance at those times. Default value: an activation dictionary containing default values for all its entries. |
 
@@ -1443,50 +1163,31 @@ Table 309 — Additional entries specific to a 3D annotation
 
 ## Page 660
 
-The 3DB entry specifies the 3D view box, a rectangle in which the 3D artwork appears. The view box
-shall fit within the annotation’s rectangle (specified by its Rect entry). It may be the same size, or it
-may be smaller if necessary to provide extra drawing area for additional 2D graphics within the
-annotation.
+The 3DB entry specifies the 3D view box, a rectangle in which the 3D artwork appears. The view box shall fit within the annotation’s rectangle (specified by its Rect entry). It may be the same size, or it may be smaller if necessary to provide extra drawing area for additional 2D graphics within the annotation.
 
-NOTE 1       Although 3D artwork can internally specify viewport size, interactive PDF processors ignore it in
+> **NOTE 1** Although 3D artwork can internally specify viewport size, interactive PDF processors ignore it in
 favour of information provided by the 3DB entry.
-The view box shall be specified in the annotation’s target coordinate system, whose origin is at the
-centre of the annotation’s rectangle. Units in this coordinate system are the same as default user space
-units. Therefore, the coordinates of the annotation’s rectangle in the target coordinate system are
+The view box shall be specified in the annotation’s target coordinate system, whose origin is at the centre of the annotation’s rectangle. Units in this coordinate system are the same as default user space units. Therefore, the coordinates of the annotation’s rectangle in the target coordinate system are
 
 [-w/2 -h/2 w/2 h/2]
 
 given w and h as the rectangle’s width and height.
 
-The 3DD entry shall specify a 3D stream that contains the 3D artwork to be shown in the annotation;
-3D streams are described in 13.6.3, "3D streams". The 3DD entry may specify a 3D stream directly; it
-may also specify a 3D stream indirectly by means of a 3D reference dictionary (see 13.6.3.3, "3D
-reference dictionaries"). These options control whether annotations shall share the same run-time
-instance of the artwork.
+The 3DD entry shall specify a 3D stream that contains the 3D artwork to be shown in the annotation; 3D streams are described in 13.6.3, "3D streams". The 3DD entry may specify a 3D stream directly; it may also specify a 3D stream indirectly by means of a 3D reference dictionary (see 13.6.3.3, "3D reference dictionaries"). These options control whether annotations shall share the same run-time instance of the artwork.
 
-The 3DV entry shall specify the view of the 3D artwork that is displayed when the annotation is
-activated (as described in the next paragraph). 3D views, which are described in 13.6.4, "3D views",
-represent settings for the virtual camera, such as position, orientation, and projection style. The view
-specified by 3DV shall be one of the 3D view dictionaries listed in the VA entry in a 3D stream (see
-"Table 311 — Entries in a 3D stream dictionary").
+The 3DV entry shall specify the view of the 3D artwork that is displayed when the annotation is activated (as described in the next paragraph). 3D views, which are described in 13.6.4, "3D views", represent settings for the virtual camera, such as position, orientation, and projection style. The view specified by 3DV shall be one of the 3D view dictionaries listed in the VA entry in a 3D stream (see "Table 311 — Entries in a 3D stream dictionary").
 
-The 3DA entry shall be an activation dictionary (see "Table 310 — Entries in a 3D activation
-dictionary") that determines how the state of the annotation and its associated artwork may change.
+The 3DA entry shall be an activation dictionary (see "Table 310 — Entries in a 3D activation dictionary") that determines how the state of the annotation and its associated artwork may change.
 
-NOTE 2       These states serve to delay the processing or display of 3D artwork until a user chooses to
+> **NOTE 2** These states serve to delay the processing or display of 3D artwork until a user chooses to
 interact with it. Such delays in activating 3D artwork can be advantageous to performance.
 At any given moment, a 3D annotation shall be in one of two states:
 
-| • | Inactive (the default initial state): the annotation displays the annotation’s normal appearance. |
+• Inactive (the default initial state): the annotation displays the annotation’s normal appearance.
 
-NOTE 3       It is typical, though not required, for the normal appearance to be a pre-rendered bitmap of the
-default view of the 3D artwork. PDF writers need to provide bitmaps of appropriate resolution
-for all intended uses of the document; for example, a high-resolution bitmap for high-quality
-printing and a screen-resolution bitmap for on-screen viewing. Optional content (see 8.11,
-"Optional content") can be used to select the appropriate bitmap for each situation.
-| • | Active: the annotation displays a rendering of the 3D artwork. This rendering shall be specified by |
-
-the annotation’s 3DV entry.
+> **NOTE 3** It is typical, though not required, for the normal appearance to be a pre-rendered bitmap of the
+default view of the 3D artwork. PDF writers need to provide bitmaps of appropriate resolution for all intended uses of the document; for example, a high-resolution bitmap for high-quality printing and a screen-resolution bitmap for on-screen viewing. Optional content (see 8.11, "Optional content") can be used to select the appropriate bitmap for each situation.
+• Active: the annotation displays a rendering of the 3D artwork. This rendering shall be specified by the annotation’s 3DV entry.
 
 
 ## Page 661
@@ -1496,21 +1197,34 @@ Table 310 — Entries in a 3D activation dictionary
 | Key | Type | Value |
 
 | A | name | (Optional) A name specifying the circumstances under which the annotation shall be activated. Valid values are: |
-| --- | --- | --- |
-| PO | The annotation shall be activated as soon as the page containing the annotation is opened. |  |
-| PV | The annotation shall be activated as soon as any part of the page containing the annotation becomes visible. |  |
-| XA | The annotation shall remain inactive until explicitly activated by a script or user action. At any one time, only a single page shall be considered open in an interactive PDF processor, even though more than one page might be visible, depending on the page layout. Default value: XA. For performance reasons, documents intended for viewing in a web browser should use explicit activation (XA). In non-interactive applications, such as printing systems or aggregating interactive PDF processors, PO and PV indicate that the annotation shall be activated when the page is printed or placed; XA indicates that the annotation shall never be activated and the normal appearance shall be used. |  |
+
+# PO The annotation shall be activated as soon as the page containing the
+
+annotation is opened.
+| PV | The annotation shall be activated as soon as any part of the page containing the annotation becomes visible. |
+| --- | --- |
+| XA | The annotation shall remain inactive until explicitly activated by a script or user action. At any one time, only a single page shall be considered open in an interactive PDF processor, even though more than one page might be visible, depending on the page layout. Default value: XA. For performance reasons, documents intended for viewing in a web browser should use explicit activation (XA). In non-interactive applications, such as printing systems or aggregating interactive PDF processors, PO and PV indicate that the annotation shall be activated when the page is printed or placed; XA indicates that the annotation shall never be activated and the normal appearance shall be used. |
 
 | AIS | name | (Optional) A name specifying the state of the artwork instance upon activation of the annotation. Valid values are: |
-| --- | --- | --- |
-| I | The artwork shall be instantiated, but real-time script-driven animations shall be disabled. |  |
-| L | Real-time script-driven animations shall be enabled if present; if not, the artwork shall be instantiated. Default value: L. In non-interactive PDF processors, the artwork shall be instantiated and scripts shall be disabled. |  |
+
+# I The artwork shall be instantiated, but real-time script-driven animations
+
+shall be disabled.
+
+# L Real-time script-driven animations shall be enabled if present; if not, the
+
+artwork shall be instantiated.
+Default value: L.
+In non-interactive PDF processors, the artwork shall be instantiated and scripts shall be disabled.
 
 | D | name | (Optional) A name specifying the circumstances under which the annotation shall be deactivated. Valid values are: |
-| --- | --- | --- |
-| PC | The annotation shall be deactivated as soon as the page is closed. |  |
-| PI | The annotation shall be deactivated as soon as the page containing the annotation becomes invisible. |  |
-| XD | The annotation shall remain active until explicitly deactivated by a script or user action. At any one time, only a single page shall be considered open in an interactive PDF processor, even though more than one page might be visible, depending on the page layout. Default value: PI. |  |
+
+# PC The annotation shall be deactivated as soon as the page is closed.
+
+# PI The annotation shall be deactivated as soon as the page containing the
+
+annotation becomes invisible.
+| XD | The annotation shall remain active until explicitly deactivated by a script or user action. At any one time, only a single page shall be considered open in an interactive PDF processor, even though more than one page might be visible, depending on the page layout. Default value: PI. |
 
 
 ## Page 662
@@ -1523,13 +1237,12 @@ Table 310 — Entries in a 3D activation dictionary
 | I | instantiated |  |
 | L | live Default value: U. |  |
 
-NOTE 1    If the value of this entry is L, uninstantiation of instantiated artwork is
-necessary unless it has been modified. Uninstantiation is never required in
-non-interactive PDF processors.
+> **NOTE 1** If the value of this entry is L, uninstantiation of instantiated artwork is
+necessary unless it has been modified. Uninstantiation is never required in non-interactive PDF processors.
 
 | TB | boolean | (Optional; PDF 1.7) A flag indicating the default behavior of an interactive toolbar associated with this annotation. If true, a toolbar shall be displayed by default when the annotation is activated and given focus. If false, a toolbar shall not be displayed by default. |
 
-NOTE 2    Typically, a toolbar is positioned in proximity to the 3D annotation.
+> **NOTE 2** Typically, a toolbar is positioned in proximity to the 3D annotation.
 Default value: true
 
 | NP | boolean | (Optional; PDF 1.7) A flag indicating the default behavior of the user interface for viewing or managing information about the 3D artwork. Such user interfaces can enable navigation to different views or can depict the hierarchy of the objects in the artwork (the model tree). If true, the user interface should be made visible when the annotation is activated. If false, the user interface should not be made visible by default. Default value: false |
@@ -1542,68 +1255,41 @@ Default value: true
 
 | Transparent | boolean | (Optional; PDF 2.0) A flag that indicates whether the interactive PDF processor shall display the underlying page content through the transparent areas of the rich media content (where the alpha value is less than 1.0). Default value: false |
 
-The A and D entries of the activation dictionary determine when a 3D annotation may become active
-and inactive. The AIS and DIS entries determine what state the associated artwork shall be in when the
-annotation is activated or deactivated. 3D artwork may be in one of three states:
+The A and D entries of the activation dictionary determine when a 3D annotation may become active and inactive. The AIS and DIS entries determine what state the associated artwork shall be in when the annotation is activated or deactivated. 3D artwork may be in one of three states:
 
-| • | Uninstantiated: the initial state of the artwork before it has been used in any way. |
-| --- | --- |
-| • | Instantiated: the state in which the artwork has been read and a run-time instance of the artwork |
-
-has been created. In this state, it may be rendered but script-driven real-time modifications (that
-is, animations) shall be disabled.
+• Uninstantiated: the initial state of the artwork before it has been used in any way.
+• Instantiated: the state in which the artwork has been read and a run-time instance of the artwork has been created. In this state, it may be rendered but script-driven real-time modifications (that is, animations) shall be disabled.
 
 
 ## Page 663
 
-| • | Live: the artwork has been instantiated, and it is being modified in real time to achieve some |
+• Live: the artwork has been instantiated, and it is being modified in real time to achieve some animation effect. In the case of keyframe animation, the artwork shall be live while it is playing and then shall revert to an instantiated state when playing completes or is stopped.
 
-animation effect. In the case of keyframe animation, the artwork shall be live while it is playing
-and then shall revert to an instantiated state when playing completes or is stopped.
-NOTE 4       The live state is valid only for keyframe animations or in interactive PDF processors that have
+> **NOTE 4** The live state is valid only for keyframe animations or in interactive PDF processors that have
 ECMAScript support.
-If 3D artwork becomes uninstantiated after having been instantiated, later use of the artwork requires
-re-instantiation (animations are lost, and the artwork appears in its initial form).
+If 3D artwork becomes uninstantiated after having been instantiated, later use of the artwork requires re-instantiation (animations are lost, and the artwork appears in its initial form).
 
-NOTE 5       For this reason, uninstantiation is not necessary unless the artwork has been modified in some
+> **NOTE 5** For this reason, uninstantiation is not necessary unless the artwork has been modified in some
 way; consumers can choose to keep unchanged artwork instantiated for performance reasons.
-NOTE 6       In non-interactive systems such as printing systems, the artwork cannot be changed. Therefore,
-applications can choose to deactivate annotations and uninstantiate artwork differently, based
-on factors such as memory usage and the time needed to instantiate artwork, and the TB, NP, D
-and DIS entries can be ignored.
-Multiple 3D annotations may share an instance of 3D artwork, as described in 13.6.3.3, "3D reference
-dictionaries". In such a case, the state of the artwork instance shall be determined in the following way:
 
-| • | If any active annotation dictates (through its activation dictionary) that the artwork shall be live, |
+> **NOTE 6** In non-interactive systems such as printing systems, the artwork cannot be changed. Therefore,
+applications can choose to deactivate annotations and uninstantiate artwork differently, based on factors such as memory usage and the time needed to instantiate artwork, and the TB, NP, D and DIS entries can be ignored.
+Multiple 3D annotations may share an instance of 3D artwork, as described in 13.6.3.3, "3D reference dictionaries". In such a case, the state of the artwork instance shall be determined in the following way:
 
-it shall be live.
-| • | Otherwise, if any active annotation dictates that the artwork shall be instantiated, it shall be |
+• If any active annotation dictates (through its activation dictionary) that the artwork shall be live, it shall be live.
+• Otherwise, if any active annotation dictates that the artwork shall be instantiated, it shall be instantiated.
+• Otherwise (that is, all active annotations dictate that the artwork shall be uninstantiated), the artwork shall be uninstantiated.
+The rules described in 13.6.2, "3D Annotations", apply only to active annotations. If all annotations referring to the artwork are inactive, the artwork nevertheless may be uninstantiated, instantiated, or live 3D streams.
 
-instantiated.
-| • | Otherwise (that is, all active annotations dictate that the artwork shall be uninstantiated), the |
+The Style and Window entries describe the mechanism that an interactive PDF processor shall use to present the 3D content in a floating window.
 
-artwork shall be uninstantiated.
-The rules described in 13.6.2, "3D Annotations", apply only to active annotations. If all annotations
-referring to the artwork are inactive, the artwork nevertheless may be uninstantiated, instantiated, or
-live 3D streams.
-
-The Style and Window entries describe the mechanism that an interactive PDF processor shall use to
-present the 3D content in a floating window.
-
-The Transparent entry provides a flag for specifying whether the background of a 3D view shall be
-rendered using transparency. If Transparent has the value of true, then some area of the page may be
-visible through the background if the resulting alpha value at that location is less than 1.0. See also the
-Transparent entry of "Table 310 — Entries in a 3D activation dictionary".
+The Transparent entry provides a flag for specifying whether the background of a 3D view shall be rendered using transparency. If Transparent has the value of true, then some area of the page may be visible through the background if the resulting alpha value at that location is less than 1.0. See also the Transparent entry of "Table 310 — Entries in a 3D activation dictionary".
 
 | 13.6.3 | 3D streams |
 
-13.6.3.1 General
+#### 13.6.3.1 General
 
-The specification of 3D artwork shall be contained in a 3D stream. 3D stream dictionaries, whose
-entries (in addition to the regular stream dictionary's entries; see 7.3.7, "Dictionary objects") are
-shown in "Table 311 — Entries in a 3D stream dictionary", may provide a set of predefined views of
-the artwork, as well as a default view. They may also provide scripts and resources for providing
-customised behaviours or presentations.
+The specification of 3D artwork shall be contained in a 3D stream. 3D stream dictionaries, whose entries (in addition to the regular stream dictionary's entries; see 7.3.7, "Dictionary objects") are shown in "Table 311 — Entries in a 3D stream dictionary", may provide a set of predefined views of the artwork, as well as a default view. They may also provide scripts and resources for providing customised behaviours or presentations.
 
 
 ## Page 664
@@ -1622,10 +1308,11 @@ Table 311 — Entries in a 3D stream dictionary
 | VA | array | (Optional) An array of 3D view dictionaries, each of which specifies a named preset view of this 3D artwork (see 13.6.4, "3D views"). |
 
 | DV | (various) | (Optional) An object that specifies the default (initial) view of the 3D artwork. It may be a 3D view dictionary (see 13.6.4, "3D views") or one of the following types: |
-| --- | --- | --- |
-| • | An integer specifying an index into the VA array. |  |
-| • | A text string matching the IN entry in one of the views in the VA array. |  |
-| • | A name that indicates the first (F) or last (L) entries in the VA array. Default value: 0 (the first entry in the VA array) if VA is present; if VA is not present, the default view shall be specified within the 3D stream itself. |  |
+
+• An integer specifying an index into the VA array.
+• A text string matching the IN entry in one of the views in the VA array.
+• A name that indicates the first (F) or last (L) entries in the VA array.
+Default value: 0 (the first entry in the VA array) if VA is present; if VA is not present, the default view shall be specified within the 3D stream itself.
 
 | Resources | name tree | (Optional) A name tree that maps name strings to objects that may be used by applications or scripts to modify the default view of the 3D artwork. The names in this name tree shall be text strings so as to be encoded in a way that will be accessible from ECMAScript. |
 
@@ -1637,46 +1324,30 @@ Table 311 — Entries in a 3D stream dictionary
 | --- | --- | --- |
 | array | values are encoded.  Valid values are the name DeviceRGB, an array specifying a valid CalRGB color space (see 8.6.5.3 "CalRGB colour spaces"), or an array specifying a valid RGB-based ICCBased color space (see 8.6.5.5 "ICCBased colour spaces"). If this key is not present, the colour space for the 3D artwork colour values are considered undefined and a PDF processor may choose any appropriate RGB-based colour space, such as sRGB. |  |
 
-The Subtype entry specifies the format of the 3D stream data. PDF processors shall be prepared to
-encounter unknown values for Subtype and recover appropriately, which usually means leaving the
-annotation in its inactive state, displaying its normal appearance.
+The Subtype entry specifies the format of the 3D stream data. PDF processors shall be prepared to encounter unknown values for Subtype and recover appropriately, which usually means leaving the annotation in its inactive state, displaying its normal appearance.
 
 
 ## Page 665
 
-NOTE         PDF processors need to follow the approach of falling back to the normal appearance with
-regard to entries in other dictionaries that can take different types or values than the ones
-specified here.
+> **NOTE** PDF processors need to follow the approach of falling back to the normal appearance with
+regard to entries in other dictionaries that can take different types or values than the ones specified here.
 If present, the VA entry shall be an array containing a list of named present views of the 3D artwork.
-Each entry in the array shall be a 3D view dictionary (see 13.6.4, "3D views") that shall contain the
-name of the view and the information needed to display the view. The order of array elements
+Each entry in the array shall be a 3D view dictionary (see 13.6.4, "3D views") that shall contain the name of the view and the information needed to display the view. The order of array elements
 | determines the order in which the views shall be presented in a user interface. The | DV entry specifies |
 
 the view that shall be used as the initial view of the 3D artwork.
 
-Default views shall be determined in the following order of precedence: in the annotation dictionary, in
-the 3D stream dictionary, or in the 3D artwork contained in the 3D stream.
+Default views shall be determined in the following order of precedence: in the annotation dictionary, in the 3D stream dictionary, or in the 3D artwork contained in the 3D stream.
 
-3D streams contain information that may be used by interactive PDF processors and by scripts to
-perform animations and other programmatically-defined behaviours, such as changing the viewing
-orientation or moving individual components of the artwork. If present, the OnInstantiate entry shall
-contain an ECMAScript script that shall be executed by applications that support ECMAScript
-whenever a 3D stream is read to create an instance of the 3D artwork. The Resources entry shall be a
-name tree that contains objects that may be used to modify the initial appearance of the 3D artwork.
+3D streams contain information that may be used by interactive PDF processors and by scripts to perform animations and other programmatically-defined behaviours, such as changing the viewing orientation or moving individual components of the artwork. If present, the OnInstantiate entry shall contain an ECMAScript script that shall be executed by applications that support ECMAScript whenever a 3D stream is read to create an instance of the 3D artwork. The Resources entry shall be a name tree that contains objects that may be used to modify the initial appearance of the 3D artwork.
 
 | 13.6.3.2 | 3D animation style dictionaries |
 
-A 3D animation style dictionary (PDF 1.7) specifies the method that interactive PDF processors should
-use to apply timeline scaling to keyframe animations. It may also specify that keyframe animations be
-played repeatedly. The AN entry of the 3D stream shall specify a 3D animation style dictionary.
+A 3D animation style dictionary (PDF 1.7) specifies the method that interactive PDF processors should use to apply timeline scaling to keyframe animations. It may also specify that keyframe animations be played repeatedly. The AN entry of the 3D stream shall specify a 3D animation style dictionary.
 
-A keyframe animation may be provided as the content of a 3D stream dictionary. A keyframe animation
-provides key frames and specifies the mapping for the position of geometry over a set period of time
-(animation timeline). Keyframe animation is an interactive feature that is highly dependent on the
-behaviour and controls provided by the interactive PDF processor.
+A keyframe animation may be provided as the content of a 3D stream dictionary. A keyframe animation provides key frames and specifies the mapping for the position of geometry over a set period of time (animation timeline). Keyframe animation is an interactive feature that is highly dependent on the behaviour and controls provided by the interactive PDF processor.
 
-“Table 312 — Entries in an 3D animation style dictionary” shows the entries in an animation style
-dictionary.
+“Table 312 — Entries in an 3D animation style dictionary” shows the entries in an animation style dictionary.
 
 Table 312 — Entries in an 3D animation style dictionary
 
@@ -1695,30 +1366,23 @@ Table 312 — Entries in an 3D animation style dictionary
 
 | TM | number | (Optional) A positive number specifying the time multiplier that shall be used when running the animation. A value greater than one shortens the time it takes to play the animation, or effectively speeds up the animation. |
 
-NOTE     This allows authors to adjust the desired speed of animations, without having
+> **NOTE** This allows authors to adjust the desired speed of animations, without having
 to re-author the 3D artwork.
 This value shall be ignored for animation styles of type None. Default value: 1
 
-The descriptions of the animation styles (see "Table 313 — Animation styles") use the following
-variables to represent application time or keyframe settings specified in the 3D artwork.
+The descriptions of the animation styles (see "Table 313 — Animation styles") use the following variables to represent application time or keyframe settings specified in the 3D artwork.
 
-| • | t is a point on the animation time line. This value shall be used in conjunction with the keyframe |
-
-animation data to determine the state of the 3D artwork.
-| • | [r0, r1] is the keyframe animation time line. |
-| --- | --- |
-| • | ta is the current time of the interactive PDF processor. |
-| • | t0 is the time when the interactive PDF processor starts the animation. |
-| • | p is the time it takes to play the keyframe animation through one cycle. In the case of the Linear |
-
-animation style, one cycle consists of playing the animation through once from beginning to end.
-In the case of the Oscillating animation style, one cycle consists of playing the animation from
-beginning to end and then from end to beginning.
-| • | m is the positive multiplier specified by the TM entry in the animation style dictionary. |
+• t is a point on the animation time line. This value shall be used in conjunction with the keyframe animation data to determine the state of the 3D artwork.
+• [r0, r1] is the keyframe animation time line.
+• ta is the current time of the interactive PDF processor.
+• t0 is the time when the interactive PDF processor starts the animation.
+• p is the time it takes to play the keyframe animation through one cycle. In the case of the Linear animation style, one cycle consists of playing the animation through once from beginning to end.
+In the case of the Oscillating animation style, one cycle consists of playing the animation from beginning to end and then from end to beginning.
+• m is the positive multiplier specified by the TM entry in the animation style dictionary.
 
 Table 313 — Animation styles
 
-Style                Description
+Style Description
 
 | None | Keyframe animations shall not be driven directly by the interactive PDF processor. This value shall be used by documents that are intended to drive animations through an alternative means, such as ECMAScript. |
 | --- | --- |
@@ -1738,19 +1402,10 @@ Style                Description
 
 | 13.6.3.3 | 3D reference dictionaries |
 
-More than one 3D annotation may be associated with the same 3D artwork. There are two ways in
-which this association may occur, as determined by the annotation’s 3DD entry (see "Table 314 —
-Entries in a 3D reference dictionary"):
+More than one 3D annotation may be associated with the same 3D artwork. There are two ways in which this association may occur, as determined by the annotation’s 3DD entry (see "Table 314 — Entries in a 3D reference dictionary"):
 
-| • | If the 3DD entry specifies a 3D stream, the annotation shall have its own run-time instance of the |
-
-3D artwork. Any changes to the artwork shall be reflected only in this annotation. Other
-annotations that refer to the same stream shall have separate run-time instances.
-| • | If the 3DD entry specifies a 3D reference dictionary (whose entries are shown in "Table 314 — |
-
-Entries in a 3D reference dictionary"), the annotation shall have a run-time instance of the 3D
-artwork with all other annotations that specify the same reference dictionary. Any changes to the
-artwork shall be reflected in all such annotations.
+• If the 3DD entry specifies a 3D stream, the annotation shall have its own run-time instance of the 3D artwork. Any changes to the artwork shall be reflected only in this annotation. Other annotations that refer to the same stream shall have separate run-time instances.
+• If the 3DD entry specifies a 3D reference dictionary (whose entries are shown in "Table 314 — Entries in a 3D reference dictionary"), the annotation shall have a run-time instance of the 3D artwork with all other annotations that specify the same reference dictionary. Any changes to the artwork shall be reflected in all such annotations.
 
 Table 314 — Entries in a 3D reference dictionary
 
@@ -1760,18 +1415,14 @@ Table 314 — Entries in a 3D reference dictionary
 
 | 3DD | stream | (Required) The 3D stream (see 13.6.3, "3D streams") containing the specification of the 3D artwork. |
 
-EXAMPLE            The following example and "Figure 87 — Default view of artwork" through "Figure 89 — Shared artwork
-(annotations 2 & 3) modified" show three annotations that use the same 3D artwork. Object 100 (Annotation
-1) has its own run-time instance of the 3D stream (object 200); object 101(Annotation 2) and object 102
-(Annotation 3) share a run-time instance through the 3D reference dictionary (object 201).
+> **EXAMPLE** The following example and "Figure 87 — Default view of artwork" through "Figure 89 — Shared artwork
+(annotations 2 & 3) modified" show three annotations that use the same 3D artwork. Object 100 (Annotation 1) has its own run-time instance of the 3D stream (object 200); object 101(Annotation 2) and object 102 (Annotation 3) share a run-time instance through the 3D reference dictionary (object 201).
 
 | 100 0 obj | %3D annotation 1 <</Type /Annot /Subtype /3D |
 | --- | --- |
 | /3DD 200 0 R | %Reference to the 3D stream containing the 3D artwork >> endobj |
 
-101 0 obj       %3D annotation 2
-<</Type /Annot
-/Subtype /3D
+101 0 obj %3D annotation 2 <</Type /Annot /Subtype /3D
 | /3DD 201 0 R | %Reference to a 3D reference dictionary >> endobj |
 
 | 102 0 obj | %3D annotation 3 <</Type /Annot /Subtype /3D |
@@ -1794,15 +1445,9 @@ Figure 87 — Default view of artwork
 
 Figure 88 — Annotation 2 rotated
 
-Figure 89 — Shared artwork (annotations 2 & 3) modified
-"Figure 87 — Default view of artwork" shows the same initial view of the artwork in all three
-annotations. "Figure 88 — Annotation 2 rotated" shows the results of rotating the view of the artwork
-within Annotation 2. "Figure 89 — Shared artwork (annotations 2 & 3) modified" shows the results of
-manipulating the artwork shared by Annotation 2 and Annotation 3: they both reflect the change in the
-artwork because they share the same run-time instance. Annotation 1 remains unchanged because it
-has its own run-time instance.
+Figure 89 — Shared artwork (annotations 2 & 3) modified "Figure 87 — Default view of artwork" shows the same initial view of the artwork in all three annotations. "Figure 88 — Annotation 2 rotated" shows the results of rotating the view of the artwork within Annotation 2. "Figure 89 — Shared artwork (annotations 2 & 3) modified" shows the results of manipulating the artwork shared by Annotation 2 and Annotation 3: they both reflect the change in the artwork because they share the same run-time instance. Annotation 1 remains unchanged because it has its own run-time instance.
 
-NOTE         When multiple annotations refer to the same instance of 3D artwork, the state of the instance is
+> **NOTE** When multiple annotations refer to the same instance of 3D artwork, the state of the instance is
 determined as described in 13.6.2, "3D Annotations"
 
 
@@ -1810,23 +1455,13 @@ determined as described in 13.6.2, "3D Annotations"
 
 | 13.6.4 | 3D views |
 
-13.6.4.1 General
+#### 13.6.4.1 General
 
-A 3D view (or simply view) specifies parameters that shall be applied to the virtual camera associated
-with a 3D annotation. These parameters may include orientation and position of the camera, details
-regarding the projection of camera coordinates into the annotation’s target coordinate system, and a
-description of the background on which the artwork shall be drawn. Starting with PDF 1.7, views may
-specify how 3D artwork is rendered, coloured, lit, and cross-sectioned, without the use of embedded
-ECMAScript. Views may also specify which nodes (three-dimensional areas) of 3D artwork shall be
-included in a view and whether those nodes are opaque or invisible.
+A 3D view (or simply view) specifies parameters that shall be applied to the virtual camera associated with a 3D annotation. These parameters may include orientation and position of the camera, details regarding the projection of camera coordinates into the annotation’s target coordinate system, and a description of the background on which the artwork shall be drawn. Starting with PDF 1.7, views may specify how 3D artwork is rendered, coloured, lit, and cross-sectioned, without the use of embedded ECMAScript. Views may also specify which nodes (three-dimensional areas) of 3D artwork shall be included in a view and whether those nodes are opaque or invisible.
 
-NOTE 1        Users can manipulate views by performing interactive operations such as free rotation and
-translation. In addition, 3D artwork can contain a set of predefined views that the author deems
-to be of particular interest. For example, a mechanical drawing of a part can have specific views
-showing the top, bottom, left, right, front, and back of an object.
-A 3D stream may contain a list of named preset views of the 3D artwork, as specified by the VA entry,
-which shall be an array of 3D view dictionaries. The entries in a 3D view dictionary are shown in
-"Table 315 — Entries in a 3D view dictionary".
+> **NOTE 1** Users can manipulate views by performing interactive operations such as free rotation and
+translation. In addition, 3D artwork can contain a set of predefined views that the author deems to be of particular interest. For example, a mechanical drawing of a part can have specific views showing the top, bottom, left, right, front, and back of an object.
+A 3D stream may contain a list of named preset views of the 3D artwork, as specified by the VA entry, which shall be an array of 3D view dictionaries. The entries in a 3D view dictionary are shown in "Table 315 — Entries in a 3D view dictionary".
 
 Table 315 — Entries in a 3D view dictionary
 
@@ -1839,11 +1474,12 @@ Table 315 — Entries in a 3D view dictionary
 | IN | text string | (Optional) The internal name of the view, used to refer to the view from other objects, such as the Go-To-3D-View action (see 12.6.4.16, "Go-To-3D-View actions"). If omitted, the external name XN shall be used. |
 
 | MS | name | (Optional) A name specifying how the 3D camera-to-world transformation matrix shall be determined. The following values are valid: |
-| --- | --- | --- |
-| M | Indicates that the C2W entry shall specify the matrix |  |
-| U3D | Indicates that the view node selected by the U3DPath entry in the 3D stream object shall specify the matrix. |  |
 
-NOTE 1   There is no corresponding MS field value for the PRC file format, that would
+# M Indicates that the C2W entry shall specify the matrix
+
+| U3D | Indicates that the view node selected by the U3DPath entry in the 3D stream object shall specify the matrix. |
+
+> **NOTE 1** There is no corresponding MS field value for the PRC file format, that would
 | correspond to a 3D stream object of type PRC. | M is the only valid entry for 3D stream objects of type PRC (or it can be omitted). If omitted, the view specified in the 3D artwork shall be used. |
 
 | MA | array | (Optional; PDF 2.0) An array of 3D measurement/markup dictionaries, where each dictionary represents an instance of a 3D measurement to be displayed in the context of this view. See "Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes" for the definition of a 3D measurement dictionary. |
@@ -1859,9 +1495,8 @@ NOTE 1   There is no corresponding MS field value for the PRC file format, that 
 | --- | --- | --- |
 | or array | more text strings used to access a view node within the 3D artwork. The first string in the array is a node ID for the root view node, and each subsequent string is the node ID for a child of the view node specified by the prior string. Each view node specifies a 3D transformation matrix (see 13.6.5, "Coordinate systems for 3D"); the concatenation of all the matrices forms the camera-to- world matrix. PDF writers should specify only a single text string, not an array, for this entry. |  |
 
-NOTE 2    Do not confuse View Nodes with nodes. A View Node is a parameter in the 3D
-artwork that specifies a view; a node is a PDF dictionary that specifies 3D
-graphic objects or collections thereof.
+> **NOTE 2** Do not confuse View Nodes with nodes. A View Node is a parameter in the 3D
+artwork that specifies a view; a node is a PDF dictionary that specifies 3D graphic objects or collections thereof.
 
 | CO | number | (Optional; used only if MS is present) A non-negative number indicating a distance in the camera coordinate system along the z axis to the centre of orbit for this view; see discussion following "Table 315 — Entries in a 3D view dictionary". If this entry is not present, the interactive PDF processor shall determine the centre of orbit. |
 
@@ -1889,65 +1524,41 @@ graphic objects or collections thereof.
 
 | NR | boolean | (Optional; PDF 1.7) Specifies whether nodes specified in the NA array shall be returned to their original states (as specified in the 3D artwork) before applying transformation matrices and opacity settings specified in the node dictionaries. If true, the artwork’s 3D node parameters shall be restored to their original states and then the dictionaries specified by the NA array shall be applied. If false, the dictionaries specified by the NA array shall be applied to the current states of the nodes. In addition to the parameters specified by a 3D node dictionary, this flag should also apply to any runtime parameters used by an interactive PDF processor. Default value: false |
 
-For any view, the PDF writer may provide 2D content specific to the view, to be drawn on top of the 3D
-artwork. The O entry specifies a form XObject that shall be overlaid on the rendered 3D artwork. The
+For any view, the PDF writer may provide 2D content specific to the view, to be drawn on top of the 3D artwork. The O entry specifies a form XObject that shall be overlaid on the rendered 3D artwork. The
 | coordinate system of the form XObject shall be defined to be the same as the ( | x, y, 0) plane in the |
 
 camera coordinate system (see 13.6.5, "Coordinate systems for 3D").
 
 Use of the O entry is subject to the following restrictions:
 
-| • | It can be specified only in 3D view dictionaries in which both a camera-to-world matrix (MS and |
+• It can be specified only in 3D view dictionaries in which both a camera-to-world matrix (MS and associated entries) and a projection dictionary (the P entry) are present.
+• The form XObject is required to be associated with a specific view (not with the camera position defined by the 3D view dictionary). The interactive PDF processor shall draw it only when the user navigates using the 3D view, and shall not draw it when the user happens to navigate to the same orientation by manual means.
+• The interactive PDF processor shall draw it only if the user has not invoked any actions that alter the artwork-to-world matrix.
 
-associated entries) and a projection dictionary (the P entry) are present.
-| • | The form XObject is required to be associated with a specific view (not with the camera position |
-
-defined by the 3D view dictionary). The interactive PDF processor shall draw it only when the
-user navigates using the 3D view, and shall not draw it when the user happens to navigate to the
-same orientation by manual means.
-| • | The interactive PDF processor shall draw it only if the user has not invoked any actions that alter |
-
-the artwork-to-world matrix.
-NOTE 2        Failure to abide by these restrictions could result in misalignment of the overlay with the
+> **NOTE 2** Failure to abide by these restrictions could result in misalignment of the overlay with the
 rendered 3D graphics.
-The CO entry specifies the distance from the camera to the centre of orbit for the 3D view, which is the
-point around which the camera shall rotate when performing an orbit-style navigation. "Figure 90 —
-Rotation around the centre of orbit" illustrates camera positioning when orbiting around the centre of
-orbit.
+The CO entry specifies the distance from the camera to the centre of orbit for the 3D view, which is the point around which the camera shall rotate when performing an orbit-style navigation. "Figure 90 — Rotation around the centre of orbit" illustrates camera positioning when orbiting around the centre of orbit.
 
 
 ## Page 673
 
 Figure 90 — Rotation around the centre of orbit
-NOTE 3       The LS entry allows the lighting of the 3D artwork to be changed without changing the artwork
-itself. This enables consumers to view a given piece of 3D artwork with a variety of lighting
-options without requiring multiple copies of the 3D artwork stream that differ only in lighting. It
-also enables artwork with poor lighting to be corrected in cases where the original content
-cannot be re-authored. See 13.6.4.5, "3D lighting scheme dictionaries"
-The SA entry provides cross section information for clipping 3D artwork while its associated
-view is active. This allows view authors to be more clear in calling out the intended areas of
-interest for a particular view, some of which might otherwise be completely obscured. See
-13.6.4.6, "3D cross section dictionaries"
-The NR and NA entries are meant to give a more accurate representation of the 3D artwork at a
-given state. These keys give view authors finer granularity in manipulating the artwork to be
+
+> **NOTE 3** The LS entry allows the lighting of the 3D artwork to be changed without changing the artwork
+itself. This enables consumers to view a given piece of 3D artwork with a variety of lighting options without requiring multiple copies of the 3D artwork stream that differ only in lighting. It also enables artwork with poor lighting to be corrected in cases where the original content cannot be re-authored. See 13.6.4.5, "3D lighting scheme dictionaries" The SA entry provides cross section information for clipping 3D artwork while its associated view is active. This allows view authors to be more clear in calling out the intended areas of interest for a particular view, some of which might otherwise be completely obscured. See 13.6.4.6, "3D cross section dictionaries" The NR and NA entries are meant to give a more accurate representation of the 3D artwork at a given state. These keys give view authors finer granularity in manipulating the artwork to be
 | presented in a particular way. They also provide a means for returning node paramet | ers to a known state after potential changes by interactive features such as keyframe animations and ECMAScript. See 13.6.4.7, "3D node dictionaries" |
 
-13.6.4.2 Projection dictionaries
+#### 13.6.4.2 Projection dictionaries
 
-A projection dictionary (see "Table 316 — Entries in a projection dictionary") defines the mapping of
-3D camera coordinates onto the target coordinate system of the annotation. Each 3D view may specify
-a projection dictionary by means of its P entry.
+A projection dictionary (see "Table 316 — Entries in a projection dictionary") defines the mapping of 3D camera coordinates onto the target coordinate system of the annotation. Each 3D view may specify a projection dictionary by means of its P entry.
 
-NOTE         Although view nodes can specify projection information, PDF consumers ignore                         it in favour of
+> **NOTE** Although view nodes can specify projection information, PDF consumers ignore it in favour of
 information in the projection dictionary.
 
 
 ## Page 674
 
-PDF 1.6 introduces near/far clipping. This type of clipping defines a near plane and a far plane (as
-shown in "Figure 91 — Perspective projection of 3D artwork onto the near plane"). Objects, or parts of
-objects, that are beyond the far plane or closer to the camera than the near plane are not drawn. 3D
-objects shall be projected onto the near plane and then scaled and positioned within the annotation’s
+PDF 1.6 introduces near/far clipping. This type of clipping defines a near plane and a far plane (as shown in "Figure 91 — Perspective projection of 3D artwork onto the near plane"). Objects, or parts of objects, that are beyond the far plane or closer to the camera than the near plane are not drawn. 3D objects shall be projected onto the near plane and then scaled and positioned within the annotation’s
 | target coordinate system, as described in "Table 316 — Entries in a projection dictionary | ". |
 
 Table 316 — Entries in a projection dictionary
@@ -1967,9 +1578,10 @@ Table 316 — Entries in a projection dictionary
 | PS | number | (Optional; meaningful only if Subtype is P) An object that specifies the scaling |
 | --- | --- | --- |
 | or name | used when projecting the 3D artwork onto the annotation’s target coordinate system. It defines the diameter of the circle formed by the intersection of the near plane and the cone specified by FOV. The value may be one of the following: |  |
-| • | A positive number that explicitly specifies the diameter as a distance in the annotation’s target coordinate system. |  |
-| • | A name specifying that the diameter shall be set to the width (W), height (H), |  |
-| minimum of width and height (Min), or maximum of width and height ( | Max) of the annotation’s 3D view box. Default value: W. |  |
+
+• A positive number that explicitly specifies the diameter as a distance in the annotation’s target coordinate system.
+• A name specifying that the diameter shall be set to the width (W), height (H),
+| minimum of width and height (Min), or maximum of width and height ( | Max) of the annotation’s 3D view box. Default value: W. |
 
 | OS | number | (Optional; meaningful only if Subtype is O) A positive number that specifies the scale factor to be applied to both the x and y coordinates when projecting onto the annotation’s target coordinate system (the z coordinate is discarded). Default value: 1. |
 
@@ -1981,27 +1593,21 @@ Table 316 — Entries in a projection dictionary
 | OB | name | (Optional; PDF 1.7; meaningful only if Subtype is O) A name that specifies a strategy for binding (scaling to fit) the near plane’s x and y coordinates onto the annotation’s target coordinate system. The scaling specified in this entry shall be applied in addition to the scaling factor specified by the OS entry. The value may be one of the following: |
 | --- | --- | --- |
 | W | Scale to fit the width of the annotation |  |
-| H | Scale to fit the height of the annotation |  |
-| Min | Scale to fit the lesser of width or height of the annotation |  |
-| Max | Scale to fit the greater of width or height of the annotation |  |
-| Absolute | No scaling should occur due to binding. Default value: Absolute. |  |
 
-The CS entry defines how the near and far planes are determined. A value of XNF means that the N and
-F entries explicitly specify the z coordinate of the near and far planes, respectively. A value of ANF for
-CS means that the near and far planes shall be determined automatically based on the objects in the
-artwork.
+# H Scale to fit the height of the annotation
 
-The Subtype entry specifies the type of projection, which determines how objects are projected onto
-the near plane and scaled. The allowed values are O for orthographic projection and P for perspective
-projection.
+| Min | Scale to fit the lesser of width or height of the annotation |
+| --- | --- |
+| Max | Scale to fit the greater of width or height of the annotation |
+| Absolute | No scaling should occur due to binding. Default value: Absolute. |
 
-For orthographic projection, objects shall be projected onto the near plane by simply discarding their z
-value. They shall be scaled from units of the near plane’s coordinate system to those of the annotation’s
-target coordinate system by the combined factors specified by the OS entry and the OB entry.
+The CS entry defines how the near and far planes are determined. A value of XNF means that the N and F entries explicitly specify the z coordinate of the near and far planes, respectively. A value of ANF for CS means that the near and far planes shall be determined automatically based on the objects in the artwork.
 
-For perspective projection, a given coordinate (x, y, z) shall be projected onto the near plane, defining a
-2D coordinate (x1, y1) using the following formulas:
-𝑥  =   𝑥 ×  𝑛
+The Subtype entry specifies the type of projection, which determines how objects are projected onto the near plane and scaled. The allowed values are O for orthographic projection and P for perspective projection.
+
+For orthographic projection, objects shall be projected onto the near plane by simply discarding their z value. They shall be scaled from units of the near plane’s coordinate system to those of the annotation’s target coordinate system by the combined factors specified by the OS entry and the OB entry.
+
+For perspective projection, a given coordinate (x, y, z) shall be projected onto the near plane, defining a 2D coordinate (x1, y1) using the following formulas: 𝑥 = 𝑥 × 𝑛
 | 1 | 𝑧 |
 | --- | --- |
 | 𝑦  = | 𝑦 ×  𝑛 |
@@ -2013,8 +1619,7 @@ where n is the z coordinate of the near plane.
 | --- | --- |
 | entry specifies an angle that defines a cone | centred along the z axis in the camera coordinate system |
 
-(see "Figure 91 — Perspective projection of 3D artwork onto the near plane"). The cone intersects with
-the near plane, forming a circular area on the near plane. "Figure 92 — Objects projected onto the near
+(see "Figure 91 — Perspective projection of 3D artwork onto the near plane"). The cone intersects with the near plane, forming a circular area on the near plane. "Figure 92 — Objects projected onto the near
 | clipping plane, as seen from the position of the camera | " shows this circle and graphics from the |
 
 position of the camera.
@@ -2024,17 +1629,9 @@ position of the camera.
 
 Figure 91 — Perspective projection of 3D artwork onto the near plane
 
-Figure 92 — Objects projected onto the near clipping plane, as seen from the position of the
-camera
-The PS entry specifies the diameter that this circle will have when the graphics projected onto the near
-plane are rendered in the annotation’s 3D view box (see "Figure 93 — Positioning and scaling the near
-plane onto the annotation’s 3D view box"). Although the diameter of the circle determines the scaling
-factor, graphics outside the circle shall also be displayed, providing they fit within the view box, as seen
-in the figure.
+Figure 92 — Objects projected onto the near clipping plane, as seen from the position of the camera The PS entry specifies the diameter that this circle will have when the graphics projected onto the near plane are rendered in the annotation’s 3D view box (see "Figure 93 — Positioning and scaling the near plane onto the annotation’s 3D view box"). Although the diameter of the circle determines the scaling factor, graphics outside the circle shall also be displayed, providing they fit within the view box, as seen in the figure.
 
-"Figure 94 — 3D annotation positioned on the page" shows the entire 3D annotation. In this case, the
-3D view box is smaller than the annotation’s rectangle, which also contains 2D content outside the 3D
-view box.
+"Figure 94 — 3D annotation positioned on the page" shows the entire 3D annotation. In this case, the 3D view box is smaller than the annotation’s rectangle, which also contains 2D content outside the 3D view box.
 
 
 ## Page 677
@@ -2044,19 +1641,13 @@ Figure 93 — Positioning and scaling the near plane onto the annotation’s 3D 
 Figure 94 — 3D annotation positioned on the page
 | 13.6.4.3 | 3D background dictionaries |
 
-A 3D background dictionary defines the background over which a 3D view shall be drawn. "Table 317
-— Entries in a 3D background dictionary" shows the entries in a background dictionary. Currently,
-only a single opaque colour is supported, where the colour shall be defined in the DeviceRGB colour
-space. 3D artwork may include transparent objects; however, there is no interaction between such
-objects and objects drawn below the annotation. In effect, the 3D artwork and its background form a
-transparency group whose flattened results have an opacity of 1 (see 11, "Transparency").
+A 3D background dictionary defines the background over which a 3D view shall be drawn. "Table 317 — Entries in a 3D background dictionary" shows the entries in a background dictionary. Currently, only a single opaque colour is supported, where the colour shall be defined in the DeviceRGB colour space. 3D artwork may include transparent objects; however, there is no interaction between such objects and objects drawn below the annotation. In effect, the 3D artwork and its background form a transparency group whose flattened results have an opacity of 1 (see 11, "Transparency").
 
 
 ## Page 678
 
-NOTE         An annotation’s normal appearance needs to have the same behaviour with respect to
-transparency when the appearance is intended to depict the 3D artwork. This does not apply
-when the appearance is used for another purpose, such as a compatibility warning message.
+> **NOTE** An annotation’s normal appearance needs to have the same behaviour with respect to
+transparency when the appearance is intended to depict the 3D artwork. This does not apply when the appearance is used for another purpose, such as a compatibility warning message.
 
 Table 317 — Entries in a 3D background dictionary
 
@@ -2078,16 +1669,12 @@ Table 317 — Entries in a 3D background dictionary
 
 A 3D render mode dictionary (PDF 1.7) specifies the style in which the 3D artwork shall be rendered.
 
-NOTE 1       Surfaces can be filled with opaque colours, they can be stroked as a "wireframe", or the artwork
+> **NOTE 1** Surfaces can be filled with opaque colours, they can be stroked as a "wireframe", or the artwork
 can be rendered with special lighting effects.
-NOTE 2       A render mode dictionary enables document authors to customise the rendered appearance of
-3D artwork to suit the needs of the intended consumer, without reauthoring the artwork. For
-interactive PDF processors concerned strictly with geometry, complex artwork rendered using
-the Wireframe or Points style can have much better performance without the added overhead
-of texturing and lighting effects. Artwork in a document intended for print can have a much more
-integrated feel when using the Illustration render mode style.
-The RM entry in the 3D views dictionary may specify a 3D render mode dictionary. "Table 318 —
-Entries in a render mode dictionary" shows the entries in a render mode dictionary.
+
+> **NOTE 2** A render mode dictionary enables document authors to customise the rendered appearance of
+3D artwork to suit the needs of the intended consumer, without reauthoring the artwork. For interactive PDF processors concerned strictly with geometry, complex artwork rendered using the Wireframe or Points style can have much better performance without the added overhead of texturing and lighting effects. Artwork in a document intended for print can have a much more integrated feel when using the Illustration render mode style.
+The RM entry in the 3D views dictionary may specify a 3D render mode dictionary. "Table 318 — Entries in a render mode dictionary" shows the entries in a render mode dictionary.
 
 Table 318 — Entries in a render mode dictionary
 
@@ -2113,19 +1700,13 @@ Table 318 — Entries in a render mode dictionary
 
 | CV | number | (Optional) A number specifying the angle, in degrees, that shall be used as the crease value when determining silhouette edges. If two front-facing faces share an edge and the angle between the normals of those faces is greater than or equal to the crease value, then that shared edge shall be considered a silhouette edge. Default value: 45 |
 
-For render modes that add a level of transparency to the rendering, the O entry specifies the additional
-opacity that shall be used. All such transparency effects use a standard additive blend mode.
+For render modes that add a level of transparency to the rendering, the O entry specifies the additional opacity that shall be used. All such transparency effects use a standard additive blend mode.
 
-The CV entry sets the crease value that shall be used when determining silhouette edges, which may be
-used to adjust the appearance of illustrated render modes. An edge shared by two faces is a silhouette
-edge if either of the following conditions is met:
+The CV entry sets the crease value that shall be used when determining silhouette edges, which may be used to adjust the appearance of illustrated render modes. An edge shared by two faces is a silhouette edge if either of the following conditions is met:
 
-| • | One face is front-facing and the other is back-facing. |
-| --- | --- |
-| • | The angle between the two faces is greater than or equal to the crease value. |
-
-"Table 319 — Render modes" describes the render modes that may be specified in a render mode
-dictionary.
+• One face is front-facing and the other is back-facing.
+• The angle between the two faces is greater than or equal to the crease value.
+"Table 319 — Render modes" describes the render modes that may be specified in a render mode dictionary.
 
 
 ## Page 680
@@ -2169,18 +1750,13 @@ Table 319 — Render modes
 
 | ShadedIllustration | Displays silhouette edges with lit and textured surfaces and an additional emissive term to remove poorly lit areas of the artwork. The colour of these edges shall be determined by the AC entry. |
 
-If a render mode type is encountered other than those described in "Table 319 — Render modes", the
-render mode dictionary containing that entry shall be ignored by its consumers. This allows future
-documents using new render modes to behave consistently with future documents using new 3D view
-constructs that are ignored by older viewers.
+If a render mode type is encountered other than those described in "Table 319 — Render modes", the render mode dictionary containing that entry shall be ignored by its consumers. This allows future documents using new render modes to behave consistently with future documents using new 3D view constructs that are ignored by older viewers.
 
 | 13.6.4.5 | 3D lighting scheme dictionaries |
 
-A 3D lighting scheme dictionary (PDF 1.7) specifies the lighting to apply to 3D artwork. The LS entry in
-the 3D view may include a 3D lighting scheme dictionary.
+A 3D lighting scheme dictionary (PDF 1.7) specifies the lighting to apply to 3D artwork. The LS entry in the 3D view may include a 3D lighting scheme dictionary.
 
-"Table 320 — Entries in a 3D lighting scheme dictionary" shows the entries in a 3D lighting scheme
-dictionary.
+"Table 320 — Entries in a 3D lighting scheme dictionary" shows the entries in a 3D lighting scheme dictionary.
 
 Table 320 — Entries in a 3D lighting scheme dictionary
 
@@ -2190,26 +1766,20 @@ Table 320 — Entries in a 3D lighting scheme dictionary
 
 | Subtype | name | (Required) The style of lighting scheme described by this dictionary (see "Table 321 — 3D lighting scheme styles"). |
 
-"Table 321 — 3D lighting scheme styles" describes the supported lighting schemes. With the exception
-of the Artwork lighting style, all the lights specified in "Table 321 — 3D lighting scheme styles" are
-infinite lights (also known as distant lights). Unlike lights from a point source, all rays from an infinite
-light source are emitted along a single direction vector. For lights specifying an ambient term, this term
-shall be added to the diffuse colour of an object’s material. All colours shall be specified in the
-DeviceRGB colour space.
+"Table 321 — 3D lighting scheme styles" describes the supported lighting schemes. With the exception of the Artwork lighting style, all the lights specified in "Table 321 — 3D lighting scheme styles" are infinite lights (also known as distant lights). Unlike lights from a point source, all rays from an infinite light source are emitted along a single direction vector. For lights specifying an ambient term, this term shall be added to the diffuse colour of an object’s material. All colours shall be specified in the DeviceRGB colour space.
 
-When a style other than Artwork is used, only those lights described shall be present; any lighting
-described in the artwork shall not be used.
+When a style other than Artwork is used, only those lights described shall be present; any lighting described in the artwork shall not be used.
 
 Table 321 — 3D lighting scheme styles
 
-Scheme             Description
+Scheme Description
 
 | Artwork | Lights as specified in the 3D artwork. This has the same effect as if the 3D lighting scheme dictionary were omitted. |
 
 
 ## Page 682
 
-Scheme              Description
+Scheme Description
 
 | None | No lights shall be used. That is, lighting specified in the 3D artwork shall be ignored. |
 
@@ -2259,7 +1829,7 @@ Scheme              Description
 
 ## Page 683
 
-Scheme             Description
+Scheme Description
 
 | Cube | Six gray infinite lights aligned with the major axes, no ambient term |  |
 | --- | --- | --- |
@@ -2270,9 +1840,10 @@ Scheme             Description
 | Light 5 | Colour: <.4, .4, .4> | Direction: <0.01, -1.0, 0.01> |
 | Light 6 | Colour: <.4, .4, .4> | Direction: <0.01, 0.01, -1.0> |
 
-| CAD | Three gray infinite lights and one light attached to the camera, no ambient term |  |
-| --- | --- | --- |
+# CAD Three gray infinite lights and one light attached to the camera, no ambient term
+
 | Light 1 | Colour: <0.72, 0.72, 0.81> | Direction: <0.0, 0.0, 0.0> |
+| --- | --- | --- |
 | Light 2 | Colour: <0.2, 0.2, 0.2> | Direction: <-2.0, -1.5, -0.5> |
 | Light 3 | Colour: <0.32, 0.32, 0.32> | Direction: <2.0, 1.1, -2.5> |
 | Light 4 | Colour: <0.36, 0.36, 0.36> | Direction: <0.04, 0.01, 2.0> |
@@ -2282,25 +1853,17 @@ Scheme             Description
 | Light 1 | Colour: <0.8, 0.8, 0.9> | Direction: <0.0, 0.0, 0.0> |
 | Ambient | Colour: <0.1, 0.1, 0.1> |  |
 
-If a lighting scheme style is encountered other than those described in "Table 321 — 3D lighting
-scheme styles" the lighting scheme dictionary containing that entry shall be ignored.
+If a lighting scheme style is encountered other than those described in "Table 321 — 3D lighting scheme styles" the lighting scheme dictionary containing that entry shall be ignored.
 
-NOTE          This allows future documents using new lighting schemes to behave consistently with future
-documents using new 3D view constructs. That is, the expected behaviour is for the interactive
-PDF processor to ignore unrecognised lighting styles and 3D view constructs.
+> **NOTE** This allows future documents using new lighting schemes to behave consistently with future
+documents using new 3D view constructs. That is, the expected behaviour is for the interactive PDF processor to ignore unrecognised lighting styles and 3D view constructs.
 | 13.6.4.6 | 3D cross section dictionaries |
 
-A 3D cross section dictionary (PDF 1.7) specifies how a portion of the 3D artwork shall be clipped for
-the purpose of showing artwork cross sections. The SA entry of a 3D view may specify multiple 3D
-cross section dictionaries.
+A 3D cross section dictionary (PDF 1.7) specifies how a portion of the 3D artwork shall be clipped for the purpose of showing artwork cross sections. The SA entry of a 3D view may specify multiple 3D cross section dictionaries.
 
-NOTE          Cross sections enable interactive PDF processors to display otherwise hidden parts of the
-artwork. They also allow users to comment on cross sections, using markup annotations. For
-example, markup annotations can be used to apply markup annotations to a cross section or to
-measure distances in a cross section. If multiple cross sections are specified for a view, the
-markup annotations in the view apply to all cross sections in the view.
-"Table 322 — Entries in a 3D cross section dictionary" shows the entries in a 3D cross section
-dictionary.
+> **NOTE** Cross sections enable interactive PDF processors to display otherwise hidden parts of the
+artwork. They also allow users to comment on cross sections, using markup annotations. For example, markup annotations can be used to apply markup annotations to a cross section or to measure distances in a cross section. If multiple cross sections are specified for a view, the markup annotations in the view apply to all cross sections in the view.
+"Table 322 — Entries in a 3D cross section dictionary" shows the entries in a 3D cross section dictionary.
 
 Table 322 — Entries in a 3D cross section dictionary
 
@@ -2332,29 +1895,19 @@ Table 322 — Entries in a 3D cross section dictionary
 
 ## Page 685
 
-The C entry specifies the centre of the cutting plane. This implies that the plane passes through the
-centre point, but it is also the point of reference when determining the orientation of the plane.
+The C entry specifies the centre of the cutting plane. This implies that the plane passes through the centre point, but it is also the point of reference when determining the orientation of the plane.
 
-The O array indicates the orientation of the cutting plane, taking into account its centre. The
-orientation may be determined by a two-step process:
+The O array indicates the orientation of the cutting plane, taking into account its centre. The orientation may be determined by a two-step process:
 
-a)  The plane shall be situated such that it passes through point C, and oriented such that it is
+a) The plane shall be situated such that it passes through point C, and oriented such that it is
 perpendicular to the axis specified by the array entry whose value is null.
-b)  For each of the other two axes, the plane shall be rotated the specified number of degrees around
-the associated axis, while maintaining C as a fixed point on the plane. Since the two axes are
-perpendicular, the order in which the rotations are performed is irrelevant.
-The PO entry specifies the opacity of the plane itself when rendered, while the PC entry provides its
-colour. When the PO entry is greater than 0, a visual representation of the cutting plane shall be
-rendered with the 3D artwork. This representation is a square with a side length equal to the length of
-the diagonal of the maximum bounding box for the 3D artwork, taking into account any keyframe
-animations present. When the PO entry is 0, no visible representation of the cutting plane shall be
-rendered.
+b) For each of the other two axes, the plane shall be rotated the specified number of degrees around
+the associated axis, while maintaining C as a fixed point on the plane. Since the two axes are perpendicular, the order in which the rotations are performed is irrelevant.
+The PO entry specifies the opacity of the plane itself when rendered, while the PC entry provides its colour. When the PO entry is greater than 0, a visual representation of the cutting plane shall be rendered with the 3D artwork. This representation is a square with a side length equal to the length of the diagonal of the maximum bounding box for the 3D artwork, taking into account any keyframe animations present. When the PO entry is 0, no visible representation of the cutting plane shall be rendered.
 
-The IV entry shall be a boolean value that determines whether a visual indication shall be drawn of the
-plane’s intersection with the 3D artwork. If such an indication is drawn, the IC entry shall specify its
-colour.
+The IV entry shall be a boolean value that determines whether a visual indication shall be drawn of the plane’s intersection with the 3D artwork. If such an indication is drawn, the IC entry shall specify its colour.
 
-EXAMPLE            The following example describes a set of views and corresponding cross sections that illustrate the various
+> **EXAMPLE** The following example describes a set of views and corresponding cross sections that illustrate the various
 effects of orientation.
 
 | 3 0 obj | %CrossSection1 << /Type /3DCrossSection /C [0 0 0] /O [null 0 0] /PO 0.35 /PC [/DeviceRGB 0.75 0.86 1] /IV true /IC [/DeviceRGB 0 1 0] >> |
@@ -2370,10 +1923,7 @@ endobj
 
 ## Page 686
 
-/IV true
-/IC [/DeviceRGB 0 1 0]
->>
-endobj
+/IV true /IC [/DeviceRGB 0 1 0] >> endobj
 
 | 6 0 obj | %CrossSection4 << /Type /3DCrossSection /C [0 0 0] /O [null -30 30] /PO 0.35 /PC [/DeviceRGB 0.75 0.86 1] /IV true /IC [/DeviceRGB 0 1 0] >> |
 
@@ -2406,84 +1956,45 @@ cross sections.
 
 ## Page 687
 
-Figure 95 — Rendering of the 3D artwork using View0 (no cross section)
-"Figure 95 — Rendering of the 3D artwork using View0 (no cross section)" through "Figure 99 —
+Figure 95 — Rendering of the 3D artwork using View0 (no cross section) "Figure 95 — Rendering of the 3D artwork using View0 (no cross section)" through "Figure 99 —
 | Rendering of the 3D artwork using View4 | " use world coordinates whose origin is | the centre of the |
 
-cube. The axes illustrated in each diagram show the relative orientation of the world coordinate axes,
-not the actual position of those axes. These axes are not part of the 3D artwork used in this example.
+cube. The axes illustrated in each diagram show the relative orientation of the world coordinate axes, not the actual position of those axes. These axes are not part of the 3D artwork used in this example.
 
-Figure 96 — Rendering of the 3D artwork using View1 (cross section perpendicular to the x
-axis)
-"Figure 96 — Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis)"
-shows the cross section specified for the 3DView that references CrossSection1. The illustration shows
-the edges of the cutting plane ending at the edges of the annotation’s rectangle. This cross section
-specifies a plane with the following characteristics:
+Figure 96 — Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis) "Figure 96 — Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis)" shows the cross section specified for the 3DView that references CrossSection1. The illustration shows the edges of the cutting plane ending at the edges of the annotation’s rectangle. This cross section specifies a plane with the following characteristics:
 
-| • | Includes the world art origin: /C [0 0 0] |
-| --- | --- |
-| • | Perpendicular to the X axis and parallel to the Y and Z axes: /O [null 0 0] |
-| • | Opacity of the cutting plane is 35%: /PO 0.35 |
-| • | Colour of the cutting plane is light blue: /PC [/DeviceRGB 0.75 0.86 1] |
-| • | Intersection of the cutting plane with the object is visible: /IV true |
-| • | Colour of the intersection of the cutting plane and the object is green: |
-
-/IC [/DeviceRGB 0 1 0]
+• Includes the world art origin: /C [0 0 0] • Perpendicular to the X axis and parallel to the Y and Z axes: /O [null 0 0] • Opacity of the cutting plane is 35%: /PO 0.35 • Colour of the cutting plane is light blue: /PC [/DeviceRGB 0.75 0.86 1] • Intersection of the cutting plane with the object is visible: /IV true • Colour of the intersection of the cutting plane and the object is green: /IC [/DeviceRGB 0 1 0]
 
 
 ## Page 688
 
-Figure 97 — Rendering of the 3D artwork using View2 (cross section rotated around the y axis
-by -30 degrees)
-"Figure 97 — Rendering of the 3D artwork using View2 (cross section rotated around the y axis
-by -30 degrees)" shows the cross section specified for the 3DView that references CrossSection2. This
+Figure 97 — Rendering of the 3D artwork using View2 (cross section rotated around the y axis by -30 degrees) "Figure 97 — Rendering of the 3D artwork using View2 (cross section rotated around the y axis by -30 degrees)" shows the cross section specified for the 3DView that references CrossSection2. This
 | cross section specifies a plane that differs from the one specified in CrossSection1 ( | "Figure 96 — |
 
-Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis)") in the following
-way:
+Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis)") in the following way:
 
-| • | Perpendicular to the X axis, rotated -30 degrees around the Y axis, and parallel to the Z axis: /O |
+• Perpendicular to the X axis, rotated -30 degrees around the Y axis, and parallel to the Z axis: /O [null -30 0]
 
-[null -30 0]
+Figure 98 — Rendering of the 3D artwork using View3 (cross section rotated around the z axis by 30 degrees) "Figure 98 — Rendering of the 3D artwork using View3 (cross section rotated around the z axis by 30 degrees)" shows the cross section specified for the 3DView that references CrossSection3. This cross section specifies a plane that differs from the one specified in CrossSection1 ("Figure 96 — Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis)") in the following way:
 
-Figure 98 — Rendering of the 3D artwork using View3 (cross section rotated around the z axis
-by 30 degrees)
-"Figure 98 — Rendering of the 3D artwork using View3 (cross section rotated around the z axis
-by 30 degrees)" shows the cross section specified for the 3DView that references CrossSection3. This
-cross section specifies a plane that differs from the one specified in CrossSection1 ("Figure 96 —
-Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis)") in the following
-way:
-
-| • | Perpendicular to the X axis, parallel to the Y axis, and rotated 30 degrees around the Z axis: /O |
-
-[null 0 30]
+• Perpendicular to the X axis, parallel to the Y axis, and rotated 30 degrees around the Z axis: /O [null 0 30]
 
 
 ## Page 689
 
-Figure 99 — Rendering of the 3D artwork using View4
-(cross section rotated around the y axis by -30 degrees and around the z axis by 30 degrees)
+Figure 99 — Rendering of the 3D artwork using View4 (cross section rotated around the y axis by -30 degrees and around the z axis by 30 degrees)
 
-"Figure 99 — Rendering of the 3D artwork using View4" shows the cross section specified for the
-3DView that references CrossSection4. This cross section specifies a plane that differs from the one
-specified in CrossSection1 ("Figure 96 — Rendering of the 3D artwork using View1 (cross section
-perpendicular to the x axis)") in the following way:
+"Figure 99 — Rendering of the 3D artwork using View4" shows the cross section specified for the 3DView that references CrossSection4. This cross section specifies a plane that differs from the one specified in CrossSection1 ("Figure 96 — Rendering of the 3D artwork using View1 (cross section perpendicular to the x axis)") in the following way:
 
-| • | Perpendicular to the X axis, rotated -30 degrees around the Y axis, and rotated 30 degrees around |
-
-the Z axis: /O [null -30 30]
+• Perpendicular to the X axis, rotated -30 degrees around the Y axis, and rotated 30 degrees around the Z axis: /O [null -30 30]
 | 13.6.4.7 | 3D node dictionaries |
 
-A 3D view may specify a 3D node dictionary (PDF 1.7), which specifies particular areas of 3D artwork
-and the opacity and visibility with which individual nodes shall be displayed. The 3D artwork shall be
-contained in the parent 3D stream object. The NA entry of the 3D views dictionary may specify
-multiple 3D node dictionaries for a particular view.
+A 3D view may specify a 3D node dictionary (PDF 1.7), which specifies particular areas of 3D artwork and the opacity and visibility with which individual nodes shall be displayed. The 3D artwork shall be contained in the parent 3D stream object. The NA entry of the 3D views dictionary may specify multiple 3D node dictionaries for a particular view.
 
-NOTE 1       While many PDF dictionaries reference 3D artwork in its entirety, it is often useful to reference
-3D artwork at a more granular level. This enables properties such as visibility, opacity, and
-orientation to be applied to subsets of the 3D artwork. These controls enable underlying nodes
-to be revealed, by making the overlying nodes transparent or by moving them out of the way.
-NOTE 2       Do not confuse nodes with view nodes. A node is a PDF dictionary that specifies an area in 3D
+> **NOTE 1** While many PDF dictionaries reference 3D artwork in its entirety, it is often useful to reference
+3D artwork at a more granular level. This enables properties such as visibility, opacity, and orientation to be applied to subsets of the 3D artwork. These controls enable underlying nodes to be revealed, by making the overlying nodes transparent or by moving them out of the way.
+
+> **NOTE 2** Do not confuse nodes with view nodes. A node is a PDF dictionary that specifies an area in 3D
 artwork, while a view node is a parameter in the 3D artwork that specifies a view.
 "Table 323 — Entries in a 3D node dictionary" shows the entries in a 3D node dictionary.
 
@@ -2503,11 +2014,10 @@ Table 323 — Entries in a 3D node dictionary
 | U3D | If the Subtype of the corresponding 3D Stream is U3D, this entry shall correspond to the field Node block name, specified in the Universal 3D file format. |  |
 | PRC | (PDF 2.0) If the Subtype of the corresponding 3D Stream is PRC, this entry shall be the Unique Identifier (UUID) as specified in ISO 14739-1. |  |
 
-NOTE 1    When comparing this entry to node names for a particular convention
-(such as Universal 3D or PRC), interactive PDF processors will need to
-translate between the PDF text encoding used by PDF and the
-character encoding specified in the 3D stream.
-NOTE 2    The description of the value of the    N key was clarified in this
+> **NOTE 1** When comparing this entry to node names for a particular convention
+(such as Universal 3D or PRC), interactive PDF processors will need to translate between the PDF text encoding used by PDF and the character encoding specified in the 3D stream.
+
+> **NOTE 2** The description of the value of the N key was clarified in this
 document (2020).
 
 | O | number | (Optional) A number in the range [0, 1] indicating the opacity of the geometry supplied by this node using a standard additive blend mode. If this entry is absent, the viewer shall use the opacity specified for the |
@@ -2528,33 +2038,22 @@ document (2020).
 
 The N entry specifies which node in the 3D stream corresponds to this node dictionary.
 
-The O entry describes the opacity that shall be used when rendering this node, and the V entry shall
-determine whether or not the node is rendered at all. While a node with an opacity of 0 shall be
+The O entry describes the opacity that shall be used when rendering this node, and the V entry shall determine whether or not the node is rendered at all. While a node with an opacity of 0 shall be
 
 
 ## Page 691
 
-rendered in the same way as a non-visible node, having a separate value for the visibility of a node
-allows interactive PDF processors to show/hide partially transparent nodes, without overwriting the
-intended opacity of those nodes.
+rendered in the same way as a non-visible node, having a separate value for the visibility of a node allows interactive PDF processors to show/hide partially transparent nodes, without overwriting the intended opacity of those nodes.
 
-The M entry specifies the node’s matrix relative to its parent, in world coordinates. If an hierarchy of
-nodes is intended to be repositioned while still maintaining its internal structure, then only the node at
-the root of the hierarchy needs to be adjusted.
+The M entry specifies the node’s matrix relative to its parent, in world coordinates. If an hierarchy of nodes is intended to be repositioned while still maintaining its internal structure, then only the node at the root of the hierarchy needs to be adjusted.
 
-The Instance and Data entries provide a reference to an instance array dictionary within the
-Instances array. The content of Data shall be passed to and from the appropriate media run time
-engine by the interactive PDF processor in a rich media context.
+The Instance and Data entries provide a reference to an instance array dictionary within the Instances array. The content of Data shall be passed to and from the appropriate media run time engine by the interactive PDF processor in a rich media context.
 
-The RM provides the facility of specifying a change in render mode for each node. In PDF 1.7, render
-mode could be specified globally or per view. See 13.6.4, "3D views".
+The RM provides the facility of specifying a change in render mode for each node. In PDF 1.7, render mode could be specified globally or per view. See 13.6.4, "3D views".
 
-The RM entry to the 3D node dictionary is applicable both for the 3D node structure within a rich
-media context (see 13.7.2, "RichMedia annotations") and within the existing 3D annotations structure
-(see 13.6.2, "3D Annotations"). The Instances array and additional Data entries are applicable only to
-3D nodes within a rich media context.
+The RM entry to the 3D node dictionary is applicable both for the 3D node structure within a rich media context (see 13.7.2, "RichMedia annotations") and within the existing 3D annotations structure (see 13.6.2, "3D Annotations"). The Instances array and additional Data entries are applicable only to 3D nodes within a rich media context.
 
-EXAMPLE            The following example shows a 3D view specifying an array of node parameters.
+> **EXAMPLE** The following example shows a 3D view specifying an array of node parameters.
 
 | 3 0 obj | %Default node params with all shapes visible and opaque [<</Type /3DNode /N (Sphere) /O 1 /V true /M […]>> <</Type /3DNode /N (Cone) /O 1 /V true>> <</Type /3DNode /N (Cube) /O 1 /V true>> ] |
 
@@ -2568,41 +2067,27 @@ endobj
 ## Page 692
 
 >>
+
 endobj
 
 | 6 0 obj | %View2, using the alternative set of node params << /Type /3DView /XN (View2) /NA 4 0 R … >> |
 
 endobj
 
-Figure 100 — Rendering of the 3D artwork using View1 (all shapes visible and opaque)
-"Figure 100 — Rendering of the 3D artwork using View1 (all shapes visible and opaque)" shows a view
-whose node array includes three nodes, all of which shall be rendered with the appearance opaque (/O
-1) and visible (/V true).
+Figure 100 — Rendering of the 3D artwork using View1 (all shapes visible and opaque) "Figure 100 — Rendering of the 3D artwork using View1 (all shapes visible and opaque)" shows a view whose node array includes three nodes, all of which shall be rendered with the appearance opaque (/O 1) and visible (/V true).
 
-Figure 101 — Rendering of the 3D artwork using View2 (the cone is hidden and the sphere is
-semi-transparent)
-"Figure 101 — Rendering of the 3D artwork using View2 (the cone is hidden and the sphere is semitransparent)" shows a view with a node array that specifies the same three nodes used in "Figure 100
-— Rendering of the 3D artwork using View1 (all shapes visible and opaque)". These nodes have the
-following display characteristics:
+Figure 101 — Rendering of the 3D artwork using View2 (the cone is hidden and the sphere is semi-transparent) "Figure 101 — Rendering of the 3D artwork using View2 (the cone is hidden and the sphere is semitransparent)" shows a view with a node array that specifies the same three nodes used in "Figure 100 — Rendering of the 3D artwork using View1 (all shapes visible and opaque)". These nodes have the following display characteristics:
 
-| • | The node named Sphere is partially transparent (/O 0.5) and visible (/V true) |
-| --- | --- |
-| • | The node named Cone is opaque (/O 1) and invisible (/V false) |
-| • | The node named Cube is opaque (/O 1) and visible (/V true) |
+• The node named Sphere is partially transparent (/O 0.5) and visible (/V true) • The node named Cone is opaque (/O 1) and invisible (/V false) • The node named Cube is opaque (/O 1) and visible (/V true)
 
 
 ## Page 693
 
-13.6.5 Coordinate systems for 3D
+### 13.6.5 Coordinate systems for 3D
 
-3D artwork is a collection of objects whose positions and geometry shall be specified using threedimensional coordinates. 8.3, "Coordinate systems" discusses the concepts of two-dimensional
-coordinate systems, their geometry and transformations. This subclause extends those concepts to
-include the third dimension.
+3D artwork is a collection of objects whose positions and geometry shall be specified using threedimensional coordinates. 8.3, "Coordinate systems" discusses the concepts of two-dimensional coordinate systems, their geometry and transformations. This subclause extends those concepts to include the third dimension.
 
-As described in 8.3, "Coordinate systems" positions shall be defined in terms of pairs of x and y
-coordinates on the Cartesian plane. The origin of the plane specifies the location (0, 0); x values
-increase to the right and y values increase upward. For three-dimensional graphics, a third axis, the z
-axis, shall be used. The origin shall be at (0, 0, 0); positive z values increase going into the page.
+As described in 8.3, "Coordinate systems" positions shall be defined in terms of pairs of x and y coordinates on the Cartesian plane. The origin of the plane specifies the location (0, 0); x values increase to the right and y values increase upward. For three-dimensional graphics, a third axis, the z axis, shall be used. The origin shall be at (0, 0, 0); positive z values increase going into the page.
 
 In two-dimensional graphics, the transformation matrix transforms the position, size, and orientation
 | of objects in a plane. It is a 3-by-3 matrix, where only six of the elements may be changed; therefore | , |
@@ -2614,9 +2099,7 @@ the matrix shall be expressed in PDF as an array of six numbers:
 | [ 𝑐 | 𝑑 | 0]  =  [𝑎 | 𝑏 | 𝑐 | 𝑑 | 𝑡𝑥 | 𝑡𝑦] |
 | 𝑡𝑥 | 𝑡𝑦 | 1 |  |  |  |  |  |
 
-In 3D graphics, a 4-by-4 matrix shall be used to transform the position, size, and orientations of objects
-in a three-dimensional coordinate system. Only the first three columns of the matrix may be changed;
-therefore, the matrix shall be expressed in PDF as an array of 12 numbers:
+In 3D graphics, a 4-by-4 matrix shall be used to transform the position, size, and orientations of objects in a three-dimensional coordinate system. Only the first three columns of the matrix may be changed; therefore, the matrix shall be expressed in PDF as an array of 12 numbers:
 
 | 𝑎 | 𝑏 | 𝑐 | 0 |  |  |  |  |  |  |  |  |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2635,41 +2118,27 @@ therefore, the matrix shall be expressed in PDF as an array of 12 numbers:
 Carrying out the multiplication has the following results:
 | 𝑥′  =  𝑎× | 𝑥 +  𝑑 ×  𝑦  + 𝑔  ×  𝑧 +  𝑡𝑥 |
 
-𝑦′  =  𝑏 ×  𝑥 +  𝑒 ×  𝑦 +  ℎ ×  +𝑡𝑦
+𝑦′ = 𝑏 × 𝑥 + 𝑒 × 𝑦 + ℎ × +𝑡𝑦
 | 𝑧′  =  𝑐 × 𝑥  +  𝑓 ×  𝑦+ | 𝑖 × 𝑧 +  𝑡𝑧 |
 
-Position and orientation of 3D artwork typically involves translation (movement) and rotation along
-any axis. The virtual camera represents the view of the artwork. The relationship between camera and
-artwork may be thought of in two ways:
+Position and orientation of 3D artwork typically involves translation (movement) and rotation along any axis. The virtual camera represents the view of the artwork. The relationship between camera and artwork may be thought of in two ways:
 
-| • | The 3D artwork is in a fixed position and orientation, and the camera moves to different positions |
-
-and orientations.
-| • | The camera is in a fixed location, and the 3D artwork is translated and rotated. |
+• The 3D artwork is in a fixed position and orientation, and the camera moves to different positions and orientations.
+• The camera is in a fixed location, and the 3D artwork is translated and rotated.
 
 
 ## Page 694
 
-Both approaches may achieve the same visual effects; in practice, 3D systems typically use a
-combination of both. Conceptually, there are three distinct coordinate systems:
+Both approaches may achieve the same visual effects; in practice, 3D systems typically use a combination of both. Conceptually, there are three distinct coordinate systems:
 
-•    The artwork coordinate system.
-| • | The camera coordinate system, in which the camera shall be positioned at (0, 0, 0) facing out along |
-
-the positive z axis, with the positive x axis to the right and the positive y axis going straight up.
-| • | An intermediate system called the world coordinate system. |
-
+• The artwork coordinate system.
+• The camera coordinate system, in which the camera shall be positioned at (0, 0, 0) facing out along the positive z axis, with the positive x axis to the right and the positive y axis going straight up.
+• An intermediate system called the world coordinate system.
 Two 3D transformation matrices shall be used in coordinate conversions:
 
-| • | The artwork-to-world matrix specifies the position and orientation of the artwo | rk in the world |
-
-coordinate system. This matrix shall be contained in the 3D stream.
-| • | The camera-to-world matrix specifies the position and orientation of the camera in the world |
-
-coordinate system. This matrix shall be specified by either the C2W or U3DPath entries of the 3D
-view dictionary.
-When drawing 3D artwork in a 3D annotation’s target coordinate system, the following
-transformations take place:
+• The artwork-to-world matrix specifies the position and orientation of the artwo rk in the world coordinate system. This matrix shall be contained in the 3D stream.
+• The camera-to-world matrix specifies the position and orientation of the camera in the world coordinate system. This matrix shall be specified by either the C2W or U3DPath entries of the 3D view dictionary.
+When drawing 3D artwork in a 3D annotation’s target coordinate system, the following transformations take place:
 
 Artwork coordinates shall be transformed to world coordinates:
 
@@ -2681,20 +2150,12 @@ World coordinates shall be transformed to camera coordinates:
 The first two steps can be expressed as a single equation, as follows:
 | [𝑥c 𝑦c 𝑧c 1] | =  [𝑥a 𝑦a 𝑧a 1]× | (aw× | cw−1) |
 
-Finally, the camera coordinates shall be projected into two dimensions, eliminating the z coordinate,
-then scaled and positioned to make the scene contents fit within the annotation’s target coordinate
-system.
+Finally, the camera coordinates shall be projected into two dimensions, eliminating the z coordinate, then scaled and positioned to make the scene contents fit within the annotation’s target coordinate system.
 
-NOTE         The above paragraph was clarified in this document (2020).
+> **NOTE** The above paragraph was clarified in this document (2020).
 | 13.6.6 | 3D markup |
 
-Beginning with PDF 1.7, users may comment on specific views of 3D artwork by using markup
-annotations (see 12.5.6.2, "Markup annotations"). Markup annotations (as other annotations) are
-normally associated with a location on a page. To associate the markup with a specific view of a 3D
-annotation, the annotation dictionary for the markup annotation contains an ExData entry (see "Table
-173 — Additional entries in markup annotation dictionaries specific to external data") that specifies
-the 3D annotation and view. "Table 324 — Entries in an external data dictionary used to markup 3D
-annotations" describes the entries in an external data dictionary used to markup 3D annotations.
+Beginning with PDF 1.7, users may comment on specific views of 3D artwork by using markup annotations (see 12.5.6.2, "Markup annotations"). Markup annotations (as other annotations) are normally associated with a location on a page. To associate the markup with a specific view of a 3D annotation, the annotation dictionary for the markup annotation contains an ExData entry (see "Table 173 — Additional entries in markup annotation dictionaries specific to external data") that specifies the 3D annotation and view. "Table 324 — Entries in an external data dictionary used to markup 3D annotations" describes the entries in an external data dictionary used to markup 3D annotations.
 
 
 ## Page 695
@@ -2715,36 +2176,26 @@ Table 324 — Entries in an external data dictionary used to markup 3D annotatio
 
 | MD5 | byte string | (Optional) A 16-byte string that contains the checksum of the bytes of the 3D stream data that this 3D comment shall be associated with. The checksum shall be calculated by applying the standard MD5 message- digest algorithm (described in Internet RFC 1321) to the bytes of the stream data. This value shall be used to determine if artwork data has changed since this 3D comment was created. |
 
-NOTE      This is strictly a checksum, and is not used for security purposes.
+> **NOTE** This is strictly a checksum, and is not used for security purposes.
 
-In a Markup3D ExData dictionary, the 3DA entry identifies the 3D annotation to which the markup
-shall be associated. Even though the markup annotation exists alongside the associated annotation in
-the page’s Annots array, the markup may be thought of as a child of the 3DA annotation.
+In a Markup3D ExData dictionary, the 3DA entry identifies the 3D annotation to which the markup shall be associated. Even though the markup annotation exists alongside the associated annotation in the page’s Annots array, the markup may be thought of as a child of the 3DA annotation.
 
-The 3DV entry specifies the markup’s associated 3D view. The markup shall only be printed and
-displayed when the specified view is the current view of its parent 3D annotation. This ensures that the
-proper context is preserved when the markup is displayed.
+The 3DV entry specifies the markup’s associated 3D view. The markup shall only be printed and displayed when the specified view is the current view of its parent 3D annotation. This ensures that the proper context is preserved when the markup is displayed.
 
-NOTE         An equivalent view is not sufficient; if more than one markup specify equivalent views
+> **NOTE** An equivalent view is not sufficient; if more than one markup specify equivalent views
 represented by different objects, the markups will not display simultaneously.
-The MD5 entry gives interactive PDF processors a means to detect whether or not the 3D stream of the
-3D annotation specified by 3DA has changed. If the 3D stream has changed, the context provided by
-the 3DV entry may no longer apply, and the markup may no longer be useful. Any action taken as a
-response to such a situation is dependent on the interactive PDF processor, but a warning shall be
-issued to the user.
+The MD5 entry gives interactive PDF processors a means to detect whether or not the 3D stream of the 3D annotation specified by 3DA has changed. If the 3D stream has changed, the context provided by the 3DV entry may no longer apply, and the markup may no longer be useful. Any action taken as a response to such a situation is dependent on the interactive PDF processor, but a warning shall be issued to the user.
 
-EXAMPLE            The following example shows how markup annotations can be associated with particular views.                   This
-example was corrected in this document (2020).
+> **EXAMPLE** The following example shows how markup annotations can be associated with particular views. This
+
+> **EXAMPLE** was corrected in this document (2020).
 
 | 2 0 obj | %3D stream data with two named views << /Type /3D /Subtype /U3D /VA [4 0 R 5 0 R] … >> |
 
 
 ## Page 696
 
-stream
-…
-endstream
-endobj
+stream … endstream endobj
 
 | 3 0 obj | %3D annotation << /Type /Annot /Subtype /3D /3DD 2 0 R … >> |
 
@@ -2765,112 +2216,65 @@ endobj
 | 7 0 obj | %Callout comment on CommentView1 << /Type /Annot /Subtype /FreeText /IT /FreeTextCallout /ExData << /Type /ExData /Subtype /Markup3D /3DA 3 0 R /3DV 4 0 R |
 
 >>
-…
->>
-endobj
+
+… >> endobj
 
 | 8 0 obj | %Dimension comment on CommentView2 << /Type /Annot /Subtype /Line /IT /LineDimension /ExData << /Type /ExData /Subtype /Markup3D /3DA 3 0 R /3DV 5 0 R >> |
 
 
 ## Page 697
 
-…
->>
-endobj
+… >> endobj
 
 | 9 0 obj | %Stamp comment on CommentView2 << /Type /Annot /Subtype /Stamp /ExData << /Type /ExData /Subtype /Markup3D /3DA 3 0 R /3DV 5 0 R >> … >> |
 
 endobj
 
-The following illustrations show the placement of markup on annotations on different views of the
-same 3D artwork.
+The following illustrations show the placement of markup on annotations on different views of the same 3D artwork.
 
-Figure 102 — 3D artwork set to its default view
-"Figure 102 — 3D artwork set to its default view" shows the default view, which has no markup
-annotations.
+Figure 102 — 3D artwork set to its default view "Figure 102 — 3D artwork set to its default view" shows the default view, which has no markup annotations.
 
-Figure 103 — 3D artwork set to CommentView1
-"Figure 103 — 3D artwork set to CommentView1" shows another view to which a markup annotation
-is applied.
+Figure 103 — 3D artwork set to CommentView1 "Figure 103 — 3D artwork set to CommentView1" shows another view to which a markup annotation is applied.
 
 
 ## Page 698
 
-Figure 104 — 3D artwork set to CommentView2
-"Figure 104 — 3D artwork set to CommentView2" shows a view referenced by two markup
-annotations:
+Figure 104 — 3D artwork set to CommentView2 "Figure 104 — 3D artwork set to CommentView2" shows a view referenced by two markup annotations:
 
-| • | A line annotation (/Subtype /Line) with a line dimension intent (/IT/ LineDimension) |
-| --- | --- |
-| • | A stamp annotation (/Subtype /Stamp) |
+• A line annotation (/Subtype /Line) with a line dimension intent (/IT/ LineDimension) • A stamp annotation (/Subtype /Stamp)
 
-13.6.7 Persistence of 3D measurements and markups
+### 13.6.7 Persistence of 3D measurements and markups
 
-13.6.7.1 General
+#### 13.6.7.1 General
 
 Beginning with PDF 2.0, it is possible to add 3D measurement data to an instance of a 3D artwork.
-These measurement data are stored in a 3D measurement/markup dictionary. 3D measurements are
-associated with 3D views, and each 3D view is able to contain zero or more 3D measurement
-dictionaries.
+These measurement data are stored in a 3D measurement/markup dictionary. 3D measurements are associated with 3D views, and each 3D view is able to contain zero or more 3D measurement dictionaries.
 
-After a measurement is associated with view, it shall be visible only when that view is selected or
-active in an interactive PDF processor. As different views are displayed, the measurements associated
-with that view shall be made visible and previously displayed measurements become invisible.
+After a measurement is associated with view, it shall be visible only when that view is selected or active in an interactive PDF processor. As different views are displayed, the measurements associated with that view shall be made visible and previously displayed measurements become invisible.
 
-3D measurements are either simple 3D markups used to add information to the geometric data shown
-in a view, or have an associated comment, in which case they have all the associated functionality of a
-comment. A 3D measurement is able to be promoted or demoted to or from comment status.
+3D measurements are either simple 3D markups used to add information to the geometric data shown in a view, or have an associated comment, in which case they have all the associated functionality of a comment. A 3D measurement is able to be promoted or demoted to or from comment status.
 
 There are three key aspects to defining persistent 3D measurements:
 
-| • | A mechanism to define the units associated with the geometric data being measured. A 3DU entry |
-
-in "Table 309 — Additional entries specific to a 3D annotation", has as its value a 3D units
-dictionary, which stores the units data for this 3D annotation. (See "Table 325 — Entries in a 3D
-units dictionary" for more information.)
-| • | The association between 3D measurements and 3D view is realised through the MA entry in a 3D |
-
-view dictionary (see "Table 315 — Entries in a 3D view dictionary"). The value of this entry is an
-array of 3D measurement/markup dictionaries, where each dictionary represents an instance of a
-3D measurement to be displayed in the context of this view. For more information about 3D
-measurement dictionaries, see 13.6.7.3, "3D measurement/markup dictionary".
-| • | When a 3D measurement is promoted to a comment, a projection annotation ("see 12.5.6.24, |
-
-"Projection annotations") is created to manage the comment and its appearance in the comments
-list. An indirect reference to this projection annotation is placed in the 3D measurement
-dictionary. (See 13.6.7.3, "3D measurement/markup dictionary".)
+• A mechanism to define the units associated with the geometric data being measured. A 3DU entry in "Table 309 — Additional entries specific to a 3D annotation", has as its value a 3D units dictionary, which stores the units data for this 3D annotation. (See "Table 325 — Entries in a 3D units dictionary" for more information.) • The association between 3D measurements and 3D view is realised through the MA entry in a 3D view dictionary (see "Table 315 — Entries in a 3D view dictionary"). The value of this entry is an array of 3D measurement/markup dictionaries, where each dictionary represents an instance of a 3D measurement to be displayed in the context of this view. For more information about 3D measurement dictionaries, see 13.6.7.3, "3D measurement/markup dictionary".
+• When a 3D measurement is promoted to a comment, a projection annotation ("see 12.5.6.24, "Projection annotations") is created to manage the comment and its appearance in the comments list. An indirect reference to this projection annotation is placed in the 3D measurement dictionary. (See 13.6.7.3, "3D measurement/markup dictionary".)
 
 
 ## Page 699
 
-13.6.7.2 The 3D units dictionary
+#### 13.6.7.2 The 3D units dictionary
 
 The data associated with a 3D artwork annotation may be defined in an arbitrary 3D coordinate system.
-For viewing purposes, the interactive PDF processor shall define a camera to map these coordinates
-onto a view surface. (3D coordinate systems are discussed in 13.6.5, "Coordinate systems for 3D".) For
-measurement purposes, distances are computed in this arbitrary coordinate system and assigned
-physical meaning by entries in the 3D units dictionary. These sets of optional units shall be defined:
+For viewing purposes, the interactive PDF processor shall define a camera to map these coordinates onto a view surface. (3D coordinate systems are discussed in 13.6.5, "Coordinate systems for 3D".) For measurement purposes, distances are computed in this arbitrary coordinate system and assigned physical meaning by entries in the 3D units dictionary. These sets of optional units shall be defined:
 
-| • | Creation time units: Units known at the time the 3D artwork annotation is created. |
-| --- | --- |
-| • | User override units: Units defined by the user after the annotation was created. |
-| • | Display units: Units that the user would like used when displaying distances for all newly created |
+• Creation time units: Units known at the time the 3D artwork annotation is created.
+• User override units: Units defined by the user after the annotation was created.
+• Display units: Units that the user would like used when displaying distances for all newly created measurements.
+The first two definitions assign physical meaning to measured distances, and the third defines how the distances are presented. When a 3D annotation is created, the application may have information from external sources that allows it to determine the units of the data being imported. Later the user may want to either override that definition or control what units data are displayed in.
 
-measurements.
-The first two definitions assign physical meaning to measured distances, and the third defines how the
-distances are presented. When a 3D annotation is created, the application may have information from
-external sources that allows it to determine the units of the data being imported. Later the user may
-want to either override that definition or control what units data are displayed in.
+In addition to defining the units, a scaling operation shall be defined that maps one set of units to another. For the creation time and user override units, the mapping states that "m model data units = n real units". For the display units, the mapping states that "m model units = n display units". In most cases, the m and n scale values shall be 1.0 because most data are defined in some well-known units system, such as meters or inches.
 
-In addition to defining the units, a scaling operation shall be defined that maps one set of units to
-another. For the creation time and user override units, the mapping states that "m model data units = n
-real units". For the display units, the mapping states that "m model units = n display units". In most
-cases, the m and n scale values shall be 1.0 because most data are defined in some well-known units
-system, such as meters or inches.
-
-The entries in the 3D units dictionary establish these mappings for each set of units (creation time, user
-override, and display units). The 3D Units dictionary is referenced in "Table 309 — Additional entries
-specific to a 3D annotation" as the value of the 3DU entry.
+The entries in the 3D units dictionary establish these mappings for each set of units (creation time, user override, and display units). The 3D Units dictionary is referenced in "Table 309 — Additional entries specific to a 3D annotation" as the value of the 3DU entry.
 
 Table 325 — Entries in a 3D units dictionary
 
@@ -2882,7 +2286,7 @@ Table 325 — Entries in a 3D units dictionary
 
 | TU | text string | (Optional; PDF 2.0) The creation time units value. A text string specifying a label for displaying the units represented by this dictionary in a user interface. |
 
-NOTE 1   It is recommended that the label use a universally recognised
+> **NOTE 1** It is recommended that the label use a universally recognised
 abbreviation.
 
 | USm | number | (Optional; PDF 2.0) The user defined units m scale value. If omitted, USm defaults to 1.0; if included, UU shall exist. |
@@ -2896,7 +2300,7 @@ abbreviation.
 
 | UU | text string | (Optional; PDF 2.0) The user override units value. A text string specifying a label for displaying the units represented by this dictionary in a user interface. |
 
-NOTE 2   It is recommended that the label use a universally recognised
+> **NOTE 2** It is recommended that the label use a universally recognised
 abbreviation.
 
 | DSm | number | (Optional; PDF 2.0) The display units m scale value. If omitted, DSm defaults to 1.0; if included, DU shall exist. |
@@ -2905,11 +2309,10 @@ abbreviation.
 
 | DU | text string | (Optional; PDF 2.0) The display units value. A text string specifying a label for displaying the units represented by this dictionary in a user interface. |
 
-NOTE 3   It is recommended that the label use a universally recognised
+> **NOTE 3** It is recommended that the label use a universally recognised
 abbreviation.
 
-The following algorithm shall be used to map model space distances for display in 3D measurements
-for each of the three sets of units.
+The following algorithm shall be used to map model space distances for display in 3D measurements for each of the three sets of units.
 
 Starting from these default values:
 
@@ -2929,8 +2332,7 @@ If TSm is defined, then m = TSm
 
 If TSn is defined, then n = TSn
 
-If either TSm or TSn is defined, TU should be included in the 3D Units dictionary; if TU is not defined
-in this case, the unit specification is undefined and shall be ignored.
+If either TSm or TSn is defined, TU should be included in the 3D Units dictionary; if TU is not defined in this case, the unit specification is undefined and shall be ignored.
 
 User override units – The following is the process user override units definition:
 
@@ -2940,8 +2342,7 @@ If USm is defined, then m = USm
 
 If USn is defined, then n = USn
 
-If either USm or USn is defined, UU should be included in the 3D Units dictionary; if UU is not defined
-in this case, the unit specification is undefined and is ignored.
+If either USm or USn is defined, UU should be included in the 3D Units dictionary; if UU is not defined in this case, the unit specification is undefined and is ignored.
 
 
 ## Page 701
@@ -2954,24 +2355,17 @@ If DSm is defined, then m = m × DSm
 
 If DSn is defined, then n = n × DSn
 
-If either DSm or DSn is defined, DU should be included in the 3D Units dictionary; if DU is not defined
-in this case, the unit specification is undefined and is ignored.
+If either DSm or DSn is defined, DU should be included in the 3D Units dictionary; if DU is not defined in this case, the unit specification is undefined and is ignored.
 
-Finally, if X is a model space distance and Y is the displayed value, the functional relationship between
-X and Y is given by the equation Y Units = (m/n) × X.
+Finally, if X is a model space distance and Y is the displayed value, the functional relationship between X and Y is given by the equation Y Units = (m/n) × X.
 
 | 13.6.7.3 | 3D measurement/markup dictionary |
 
-13.6.7.3.1 General
+##### 13.6.7.3.1 General
 
-The MA entry of "Table 315 — Entries in a 3D view dictionary" contains an array of 3D measurement
-dictionaries, where each dictionary represents an instance of a 3D measurement to be displayed in the
-context of this view. Each 3D measurement dictionary describes the type of the 3D measurement
-through the Subtype entry, as well as provides a name for the measurement as it may appear in the
-user interface of an colour PDF processor.
+The MA entry of "Table 315 — Entries in a 3D view dictionary" contains an array of 3D measurement dictionaries, where each dictionary represents an instance of a 3D measurement to be displayed in the context of this view. Each 3D measurement dictionary describes the type of the 3D measurement through the Subtype entry, as well as provides a name for the measurement as it may appear in the user interface of an colour PDF processor.
 
-The entries of the 3D Measurement/Markup dictionary are described in "Table 326 — Entries in a 3D
-measurement/markup dictionary common to all markup subtypes".
+The entries of the 3D Measurement/Markup dictionary are described in "Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes".
 
 Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes
 
@@ -2985,43 +2379,42 @@ Table 326 — Entries in a 3D measurement/markup dictionary common to all markup
 | Key | Type | Value |
 
 | Subtype | name | (Required; PDF 2.0) A name specifying the measurement type for this measurement which shall be chosen from the following: |
-| --- | --- | --- |
-| LD3 | A linear dimension measurement is used to denote the distance between two arbitrary points on a 3D model. See 13.6.7.3.2, "3D linear dimension measurement" for a listing of additional entries in this dictionary. |  |
-| PD3 | A perpendicular dimension measurement is used to denote the perpendicular distance between two geometric entities (normally two lines or a point and a line). See "Table 328 — Additional entries in a 3D measurement/markup dictionary for a 3D perpendicular dimension measurement" for a listing of additional entries in this dictionary. |  |
-| AD3 | An angular dimension measurement is used to denote the angle between two linear entities. See "Table 329 — Additional entries in a 3D measurement/markup dictionary for a 3D angular dimension measurement" for a listing of additional entries in this dictionary. |  |
-| RD3 | A radial dimension measurement is used to define the radius or diameter of a circular 3D entity. See "Table 330 — Additional entries in a 3D measurement/markup dictionary for a 3D radial dimension measurement" for a listing of additional entries in this dictionary. |  |
-| 3DC | A 3D comment note lets users connect a comment to a specific piece of geometry in the 3D model. See "Table 331 — Additional entries in a 3D measurement/markup dictionary for a 3D comment note" for a listing of additional entries in this dictionary. |  |
+
+# LD3 A linear dimension measurement is used to denote the distance between
+
+two arbitrary points on a 3D model. See 13.6.7.3.2, "3D linear dimension measurement" for a listing of additional entries in this dictionary.
+
+# PD3 A perpendicular dimension measurement is used to denote the
+
+perpendicular distance between two geometric entities (normally two lines or a point and a line). See "Table 328 — Additional entries in a 3D measurement/markup dictionary for a 3D perpendicular dimension measurement" for a listing of additional entries in this dictionary.
+
+# AD3 An angular dimension measurement is used to denote the angle
+
+between two linear entities. See "Table 329 — Additional entries in a 3D measurement/markup dictionary for a 3D angular dimension measurement" for a listing of additional entries in this dictionary.
+| RD3 | A radial dimension measurement is used to define the radius or diameter of a circular 3D entity. See "Table 330 — Additional entries in a 3D measurement/markup dictionary for a 3D radial dimension measurement" for a listing of additional entries in this dictionary. |
+
+# 3DC A 3D comment note lets users connect a comment to a specific piece of
+
+geometry in the 3D model. See "Table 331 — Additional entries in a 3D measurement/markup dictionary for a 3D comment note" for a listing of additional entries in this dictionary.
 
 | TRL | text | (Optional; PDF 2.0) A name string that may be associated with a measurement |
 | --- | --- | --- |
 | string | markup. If omitted, an interactive PDF processor may create one. Interactive PDF processors that do not provide a user interface for such elements should ignore this field. |  |
 
-The TRL field contains the current name for the measurement markup. Each measurement markup is
-assigned a name ("Measurement 1", "3D Comment 22", … and so on) when it is created. These names
-may be shown by an interactive PDF processor so that users can see what measurements are
-associated with what views. Users should be allowed to override the initially defined names.
+The TRL field contains the current name for the measurement markup. Each measurement markup is assigned a name ("Measurement 1", "3D Comment 22", … and so on) when it is created. These names may be shown by an interactive PDF processor so that users can see what measurements are associated with what views. Users should be allowed to override the initially defined names.
 
 | 13.6.7.3.2 | 3D linear dimension measurement |
 
-A 3D linear measurement is a markup showing the distance between two arbitrary points on a 3D
-model. "Figure 105 — 3D linear measurement" shows an example.
+A 3D linear measurement is a markup showing the distance between two arbitrary points on a 3D model. "Figure 105 — 3D linear measurement" shows an example.
 
 
 ## Page 703
 
-Figure 105 — 3D linear measurement
-As shown, a 3D linear measurement consists of two filled circles, called anchor points, one at each of the
-two positions being measured, and a line with an arrowhead on each end connecting the two anchor
-points (referred to as the measure line). This line is then labelled with a value representing the
-distance between the two anchor points.
+Figure 105 — 3D linear measurement As shown, a 3D linear measurement consists of two filled circles, called anchor points, one at each of the two positions being measured, and a line with an arrowhead on each end connecting the two anchor points (referred to as the measure line). This line is then labelled with a value representing the distance between the two anchor points.
 
-In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to
-all markup subtypes", "Table 327 — Additional entries in a 3D measurement/markup dictionary for a
-3D linear dimension measurement" lists additional entries for a 3D measurement dictionary with a
-Subtype value of LD3 for 3D linear measurement.
+In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes", "Table 327 — Additional entries in a 3D measurement/markup dictionary for a 3D linear dimension measurement" lists additional entries for a 3D measurement dictionary with a Subtype value of LD3 for 3D linear measurement.
 
-Table 327 — Additional entries in a 3D measurement/markup dictionary for a 3D linear
-dimension measurement
+Table 327 — Additional entries in a 3D measurement/markup dictionary for a 3D linear dimension measurement
 
 | Key | Type | Value |
 
@@ -3029,13 +2422,13 @@ dimension measurement
 
 | A1 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the first anchor point in world space. |
 
-NOTE 1    It is assumed that this is a position on the 3D model associated with this view.
+> **NOTE 1** It is assumed that this is a position on the 3D model associated with this view.
 
 | N1 | text string | (Optional; PDF 2.0) The name of the part (or model tree node) associated with anchor point 1 (A1). The part name is used to verify that the part exists and is visible. If not, the measurement is not displayed. If omitted, no validation occurs. |
 
 | A2 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the second anchor point in world space. |
 
-NOTE 2    It is assumed that this is a position on the 3D model associated with this view.
+> **NOTE 2** It is assumed that this is a position on the 3D model associated with this view.
 
 | N2 | text string | (Optional; PDF 2.0) The name of the part (or model tree node) associated with anchor point 2 (A2). The part name is used to verify that the part exists and is visible. If not, the measurement is not displayed. If omitted, no validation occurs. |
 
@@ -3062,14 +2455,11 @@ NOTE 2    It is assumed that this is a position on the 3D model associated with 
 
 | S | dictionary | (Optional; PDF 2.0) A comment reference is an indirect reference to a projection annotation that may be associated with this 3D measurement. See 13.6.7.4, "3D measurements and projection annotations". |
 
-"Figure 106 — Parameters for a 3D linear measurement" depicts some of the parameters for a 3D
-linear measurement.
+"Figure 106 — Parameters for a 3D linear measurement" depicts some of the parameters for a 3D linear measurement.
 
-The value text should be drawn on the annotation plane (AP) where the horizontal text path is defined
-by the vector from A1 to A2 with the text up direction defined by the vector TY. The lower left corner
-of the text box is positioned at the text anchor point (TP).
+The value text should be drawn on the annotation plane (AP) where the horizontal text path is defined by the vector from A1 to A2 with the text up direction defined by the vector TY. The lower left corner of the text box is positioned at the text anchor point (TP).
 
-NOTE 1        A PDF viewer can choose to display the text aligned to the viewing plane, if it makes more sense
+> **NOTE 1** A PDF viewer can choose to display the text aligned to the viewing plane, if it makes more sense
 in a particular use such as printing a legend.
 
 Figure 106 — Parameters for a 3D linear measurement
@@ -3077,36 +2467,21 @@ Figure 106 — Parameters for a 3D linear measurement
 
 ## Page 705
 
-The actual Y-axis shall be formed by taking the cross product of AP and (A2 - A1). The vector TY shall
-be used only to determine the orientation of this Y-axis.
+The actual Y-axis shall be formed by taking the cross product of AP and (A2 - A1). The vector TY shall be used only to determine the orientation of this Y-axis.
 
-If the text position TP is outside the area between A1 and A2, an extension line collinear to the
-measure line connecting TP to the closest anchor point is generated.
+If the text position TP is outside the area between A1 and A2, an extension line collinear to the measure line connecting TP to the closest anchor point is generated.
 
-There are three parts to the text string displayed with the measurement, a numeric value (V), a units
-string (U), and an optional user string (UT). The display of the numeric value field number is also
-controlled by the precision value (P), which indicates how many digits to display to the right of the
-decimal point. The viewer should convert the numeric value to a string and combine it with the units
-string and user text as appropriate. This process is viewer dependent.
+There are three parts to the text string displayed with the measurement, a numeric value (V), a units string (U), and an optional user string (UT). The display of the numeric value field number is also controlled by the precision value (P), which indicates how many digits to display to the right of the decimal point. The viewer should convert the numeric value to a string and combine it with the units string and user text as appropriate. This process is viewer dependent.
 
 | 13.6.7.3.3 | 3D perpendicular dimension measurement |
 
-A perpendicular measurement is used to denote the perpendicular distance between two geometric
-entities (normally two lines or a point and a line) as illustrated here.
+A perpendicular measurement is used to denote the perpendicular distance between two geometric entities (normally two lines or a point and a line) as illustrated here.
 
-Figure 107 — Perpendicular measurement
-"Figure 107 — Perpendicular measurement" shows a perpendicular measurement markup consists of
-two filled circles at the anchor points, two parallel extension lines (referred to as leader lines) starting
-at the anchor points and extending away from the anchor points. There is also a labelled line with
-arrowheads on both sides (referred to as the measure line) indicating that the distance shown is the
-perpendicular distance between the two parallel lines.
+Figure 107 — Perpendicular measurement "Figure 107 — Perpendicular measurement" shows a perpendicular measurement markup consists of two filled circles at the anchor points, two parallel extension lines (referred to as leader lines) starting at the anchor points and extending away from the anchor points. There is also a labelled line with arrowheads on both sides (referred to as the measure line) indicating that the distance shown is the perpendicular distance between the two parallel lines.
 
-In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to
-all markup subtypes", the following entries are defined for a I with a Subtype value of PD3 for 3D
-perpendicular measurement.
+In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes", the following entries are defined for a I with a Subtype value of PD3 for 3D perpendicular measurement.
 
-Table 328 — Additional entries in a 3D measurement/markup dictionary for a 3D
-perpendicular dimension measurement
+Table 328 — Additional entries in a 3D measurement/markup dictionary for a 3D perpendicular dimension measurement
 
 | Key | Type | Value |
 
@@ -3114,7 +2489,7 @@ perpendicular dimension measurement
 
 | A1 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the first anchor point in world space. |
 
-NOTE 1   It is assumed that this is a position on the 3D model associated with this view.
+> **NOTE 1** It is assumed that this is a position on the 3D model associated with this view.
 
 
 ## Page 706
@@ -3125,7 +2500,7 @@ NOTE 1   It is assumed that this is a position on the 3D model associated with t
 
 | A2 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the second anchor point in world space. |
 
-NOTE 2    It is assumed that this is a position on the 3D model associated with this view.
+> **NOTE 2** It is assumed that this is a position on the 3D model associated with this view.
 
 | N2 | text string | (Optional; PDF 2.0) The name of the part (or model tree node) associated with anchor point 2 (A2). The part name is used to verify that the part exists and is visible. If not, the measurement is not displayed. If omitted, no validation occurs. |
 
@@ -3152,54 +2527,33 @@ NOTE 2    It is assumed that this is a position on the 3D model associated with 
 
 ## Page 707
 
-Figure 108 — Parameters associated with the perpendicular dimension
-"Figure 108 — Parameters associated with the perpendicular dimension" illustrates the parameters
-associated with the perpendicular dimension and shows the measure markup and parameters. All the
-markup items are drawn on the annotation plane (as defined by AP). The text layout is defined in a
-similar manner as for linear dimensions. The lower-left corner of the text box is positioned at the text
+Figure 108 — Parameters associated with the perpendicular dimension "Figure 108 — Parameters associated with the perpendicular dimension" illustrates the parameters associated with the perpendicular dimension and shows the measure markup and parameters. All the markup items are drawn on the annotation plane (as defined by AP). The text layout is defined in a similar manner as for linear dimensions. The lower-left corner of the text box is positioned at the text
 | anchor point (TP), and the text's X-axis is aligned with the | measure line. The text will flow in the |
 | --- | --- |
 | direction defined by a vector from | A1 to A2. The text's up direction is defined as the cross product of |
 
 the annotation plane normal and the text X-axis, in the direction defined by the TY parameter.
 
-In addition to controlling text position, the text anchor point (TP) also controls the lengths of the
-leader lines and the placement of the measure line. Because the leader lines are parallel and the
-measure line is required to be perpendicular to both leader lines, the intersection of the leader lines
-and the measure line is easily computed.
+In addition to controlling text position, the text anchor point (TP) also controls the lengths of the leader lines and the placement of the measure line. Because the leader lines are parallel and the measure line is required to be perpendicular to both leader lines, the intersection of the leader lines and the measure line is easily computed.
 
-If the text position TP is outside the area between A1 and A2, an extension line collinear to the
-measure line connecting TP to the closest anchor point is generated.
+If the text position TP is outside the area between A1 and A2, an extension line collinear to the measure line connecting TP to the closest anchor point is generated.
 
-There are three parts to the text string displayed with the measurement: a numeric value (V), a units
-string (U), and an optional user string (UT). The display of the numeric value field number is also
-controlled by the precision value (P), which indicates how many digits to display to the right of the
-decimal point. The viewer should convert the numeric value to a string and combine it with the units
-string and user text as appropriate. This process is viewer dependent.
+There are three parts to the text string displayed with the measurement: a numeric value (V), a units string (U), and an optional user string (UT). The display of the numeric value field number is also controlled by the precision value (P), which indicates how many digits to display to the right of the decimal point. The viewer should convert the numeric value to a string and combine it with the units string and user text as appropriate. This process is viewer dependent.
 
 | 13.6.7.3.4 | 3D angular dimension measurement |
 
-An angular measurement is used to denote the angle between two linear entities, as shown in "Figure
-109 — 3D Angular Dimension Measurement".
+An angular measurement is used to denote the angle between two linear entities, as shown in "Figure 109 — 3D Angular Dimension Measurement".
 
-Figure 109 — 3D Angular Dimension Measurement
-"Figure 109 — 3D Angular Dimension Measurement" shows an angular measurement markup
-consisting of two anchor points, one located on each of the two linear entities whose angle is being
-measured. Connected to each anchor point is an extension line that is collinear with the edge it
+Figure 109 — 3D Angular Dimension Measurement "Figure 109 — 3D Angular Dimension Measurement" shows an angular measurement markup consisting of two anchor points, one located on each of the two linear entities whose angle is being measured. Connected to each anchor point is an extension line that is collinear with the edge it
 
 
 ## Page 708
 
-measures. A labelled arc, with an arrowhead at each end, connects the two extension lines, making it
-clear which angle is being measured.
+measures. A labelled arc, with an arrowhead at each end, connects the two extension lines, making it clear which angle is being measured.
 
-In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to
-all markup subtypes", "Table 329 — Additional entries in a 3D measurement/markup dictionary for a
-3D angular dimension measurement" lists entries defined for a 3D measurement dictionary with a
-Subtype value of AD3 for 3D angular measurement.
+In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes", "Table 329 — Additional entries in a 3D measurement/markup dictionary for a 3D angular dimension measurement" lists entries defined for a 3D measurement dictionary with a Subtype value of AD3 for 3D angular measurement.
 
-Table 329 — Additional entries in a 3D measurement/markup dictionary for a 3D angular
-dimension measurement
+Table 329 — Additional entries in a 3D measurement/markup dictionary for a 3D angular dimension measurement
 
 | Key | Type | Value |
 
@@ -3207,7 +2561,7 @@ dimension measurement
 
 | A1 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the first anchor point in world space. |
 
-NOTE 1   It is assumed that this is a position on the 3D model associated with this
+> **NOTE 1** It is assumed that this is a position on the 3D model associated with this
 view.
 
 | D1 | array | (Required; PDF 2.0) A three-element array of numbers specifying the direction vector for the leader line associated with the first anchor point (A1). |
@@ -3216,7 +2570,7 @@ view.
 
 | A2 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the second anchor point in world space. |
 
-NOTE 2   It is assumed that this is a position on the 3D model associated with this
+> **NOTE 2** It is assumed that this is a position on the 3D model associated with this
 view.
 
 | D2 | array | (Required; PDF 2.0) A three-element array of numbers specifying the direction vector for the leader line associated with the second anchor point (A2). |
@@ -3248,73 +2602,46 @@ view.
 
 | S | dictionary | (Optional; PDF 2.0) A comment reference is an indirect reference to a projection annotation that may be associated with this 3D measurement. See 13.6.7.4, "3D measurements and projection annotations". |
 
-The key geometric parameters for an angular dimension are shown in "Figure 110 — Geometric
-parameters for an angular dimension".
+The key geometric parameters for an angular dimension are shown in "Figure 110 — Geometric parameters for an angular dimension".
 
-Figure 110 — Geometric parameters for an angular dimension
-The angle is defined by the measurement value V (30 in "Figure 110 — Geometric parameters for an
-angular dimension") and is the angle between the leader direction vectors (D1 and D2). The angular
+Figure 110 — Geometric parameters for an angular dimension The angle is defined by the measurement value V (30 in "Figure 110 — Geometric parameters for an angular dimension") and is the angle between the leader direction vectors (D1 and D2). The angular
 | measurement markup is generated by first computing the centre point of the | angle, cp in this figure. |
 
 | The text position ( | TP) controls the position of the measurement text, the placement of the angle arc, |
 
-and the length and direction of the extension lines. The extension lines are drawn from the anchor
-point to a point at a distance ||TP-cp|| from the centre point cp along the associated direction vector,
+and the length and direction of the extension lines. The extension lines are drawn from the anchor point to a point at a distance ||TP-cp|| from the centre point cp along the associated direction vector,
 
 
 ## Page 710
 
-which is the intersection of the angle arc and the extension line. The angle arc centre is at the centre
-point cp (and its radius is ||TP - cp||) and is drawn between the two extensions lines. The markup text
-is displayed (based on the text orientation parameters) with the lower-left corner of the text string
-starting at the text position (TP).
+which is the intersection of the angle arc and the extension line. The angle arc centre is at the centre point cp (and its radius is ||TP - cp||) and is drawn between the two extensions lines. The markup text is displayed (based on the text orientation parameters) with the lower-left corner of the text string starting at the text position (TP).
 
-The text layout is defined in a similar manner as for other dimensions. The lower-left corner of the text
-box is positioned at the text anchor point (TP), and the text's X-axis is defined by the vector TX. Note
-that the vector TX is expected to be orthogonal with the annotation plane normal. The text's up
-direction is defined as the cross product of the annotation plane normal and the text X-axis, in the
-direction defined by the TY parameter.
+The text layout is defined in a similar manner as for other dimensions. The lower-left corner of the text box is positioned at the text anchor point (TP), and the text's X-axis is defined by the vector TX. Note that the vector TX is expected to be orthogonal with the annotation plane normal. The text's up direction is defined as the cross product of the annotation plane normal and the text X-axis, in the direction defined by the TY parameter.
 
-The measurement value is interpreted as either being in degrees or radians as defined by the (DR)
-value, and the appropriate label string is created.
+The measurement value is interpreted as either being in degrees or radians as defined by the (DR) value, and the appropriate label string is created.
 
-There are three parts to the text string displayed with the measurement: a numeric value (V), a
-degrees or radians string (U), and an optional user string (UT). The display of the numeric value field
-number is also controlled by the precision value (P), which indicates how many digits to display to the
-right of the decimal point. The viewer should convert the numeric value to a string and combine it with
-the degrees or radians string and user text as appropriate. This process is viewer dependent.
+There are three parts to the text string displayed with the measurement: a numeric value (V), a degrees or radians string (U), and an optional user string (UT). The display of the numeric value field number is also controlled by the precision value (P), which indicates how many digits to display to the right of the decimal point. The viewer should convert the numeric value to a string and combine it with the degrees or radians string and user text as appropriate. This process is viewer dependent.
 
 There are some special cases:
 
-| • | Parallel direction vectors (D1 and D2) are invalid, and no markup is generated. |
-| --- | --- |
-| • | If the text position TP is outside the cone of the angle, an extension line is added to connect the |
-
-text with the angle arc.
+• Parallel direction vectors (D1 and D2) are invalid, and no markup is generated.
+• If the text position TP is outside the cone of the angle, an extension line is added to connect the text with the angle arc.
 | 13.6.7.3.5 | 3D radial dimension |
 
 The radial measurement is used to define the radius or diameter of a circular 3D entity. "Figure 111 —
-3D Radial Dimension" illustrates two examples of a radial dimension.
 
-Figure 111 — 3D Radial Dimension
-As shown on the left, the basic markup for a radial dimension consists of an arrow pointing to a circle
-or arc that is connected to a leader line and text label that defines the radius or diameter. If the arrow
-is positioned such that it is off the underlying arc, as in the figure on the right, an extension arc is
-generated that clarifies which arc is being measured.
+# 3D Radial Dimension" illustrates two examples of a radial dimension.
 
-For radius measurements, the measure value is preceded by an "R" in the measure string. For diameter
-values, the measure value is preceded by the diameter symbol (⌀).
+Figure 111 — 3D Radial Dimension As shown on the left, the basic markup for a radial dimension consists of an arrow pointing to a circle or arc that is connected to a leader line and text label that defines the radius or diameter. If the arrow is positioned such that it is off the underlying arc, as in the figure on the right, an extension arc is generated that clarifies which arc is being measured.
+
+For radius measurements, the measure value is preceded by an "R" in the measure string. For diameter values, the measure value is preceded by the diameter symbol (⌀).
 
 
 ## Page 711
 
-In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to
-all markup subtypes", "Table 330 — Additional entries in a 3D measurement/markup dictionary for a
-3D radial dimension measurement" lists entries defined for a 3D measurement dictionary with a
-Subtype value of RD3 for 3D radial measurement.
+In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes", "Table 330 — Additional entries in a 3D measurement/markup dictionary for a 3D radial dimension measurement" lists entries defined for a 3D measurement dictionary with a Subtype value of RD3 for 3D radial measurement.
 
-Table 330 — Additional entries in a 3D measurement/markup dictionary for a 3D radial
-dimension measurement
+Table 330 — Additional entries in a 3D measurement/markup dictionary for a 3D radial dimension measurement
 
 | Key | Type | Value |
 
@@ -3322,11 +2649,11 @@ dimension measurement
 
 | A1 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the first anchor point, called the circle centre point, in world space. |
 
-NOTE 1   It is assumed that this is a position on the 3D model associated with this view.
+> **NOTE 1** It is assumed that this is a position on the 3D model associated with this view.
 
 | A2 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the second anchor point, which is a point on the arc, in world space. |
 
-NOTE 2   It is assumed that this is a position on the 3D model associated with this view.
+> **NOTE 2** It is assumed that this is a position on the 3D model associated with this view.
 
 | N2 | text string | (Optional; PDF 2.0) The name of the part (or model tree node) associated with anchor point 2 (A2). The part name is used to verify that the part exists and is visible. If not, the measurement is not displayed. If omitted, no validation occurs. |
 
@@ -3365,59 +2692,41 @@ NOTE 2   It is assumed that this is a position on the 3D model associated with t
 
 | S | dictionary | (Optional; PDF 2.0) A comment reference is an indirect reference to a projection annotation that may be associated with this 3D measurement. See 13.6.7.4, "3D measurements and projection annotations". |
 
-The parameters for defining the radial measurement for a circle are shown in "Figure 112 — Defining
-the radial measurement for a circle".
+The parameters for defining the radial measurement for a circle are shown in "Figure 112 — Defining the radial measurement for a circle".
 
-Figure 112 — Defining the radial measurement for a circle
-The circle being measured is defined by two points lying on the annotation plane, a circle centre A1,
+Figure 112 — Defining the radial measurement for a circle The circle being measured is defined by two points lying on the annotation plane, a circle centre A1,
 | and a point on the circle A2. For radial measurement, the text position ( | TP) controls the text string |
 
-position, the arrow line orientation, and the extension line. The arrow line is drawn from the text
-position (TP) to the intersection point between the circle and a line from text position to the circle
+position, the arrow line orientation, and the extension line. The arrow line is drawn from the text position (TP) to the intersection point between the circle and a line from text position to the circle
 | centre. The extension line will be drawn from the text position ( | TP) in the direction of the text string' | s |
 | --- | --- | --- |
 | X-axis (TX). The length of the extension line is defined by the | EL parameter. The left centre of measure |  |
 | value string will begin at the end of the extension line. Note that the vector | TX is expected to be |  |
 
-orthogonal with the annotation plane normal. The text's up direction is defined as the cross product of
-the annotation plane normal and the text X-axis, in the direction defined by the TY parameter.
+orthogonal with the annotation plane normal. The text's up direction is defined as the cross product of the annotation plane normal and the text X-axis, in the direction defined by the TY parameter.
 
 
 ## Page 713
 
-The parameters for defining a radial dimension for an arc are very similar, as shown in "Figure 113 —
-Defining a radial dimension for an arc".
+The parameters for defining a radial dimension for an arc are very similar, as shown in "Figure 113 — Defining a radial dimension for an arc".
 
-Figure 113 — Defining a radial dimension for an arc
-There are three parts to the text string displayed with the measurement: a numeric value (V), a units
-string (U), and an optional user string (UT). The display of the numeric value field number is also
-controlled by the precision value (P), which indicates how many digits to display to the right of the
-decimal point. The viewer should convert the numeric value to a string and combine it with the units
-string and user text as appropriate. This process is viewer dependent.
+Figure 113 — Defining a radial dimension for an arc There are three parts to the text string displayed with the measurement: a numeric value (V), a units string (U), and an optional user string (UT). The display of the numeric value field number is also controlled by the precision value (P), which indicates how many digits to display to the right of the decimal point. The viewer should convert the numeric value to a string and combine it with the units string and user text as appropriate. This process is viewer dependent.
 
 | 13.6.7.3.6 | 3D comment note |
 
-3D comment notes let users connect a comment to a specific piece of geometry in the 3D model. The
-markup consists of a leader line that connects the model to a text box placed in the 3D scene. The text
-box is rendered so that the text is always facing the user.
+3D comment notes let users connect a comment to a specific piece of geometry in the 3D model. The markup consists of a leader line that connects the model to a text box placed in the 3D scene. The text box is rendered so that the text is always facing the user.
 
-Commenting functionality is specified by creating a projection annotation that represents the 3D
-measurement/ markup within the commenting system. See 13.6.7.4, "3D measurements and projection
-annotations" for additional details.
+Commenting functionality is specified by creating a projection annotation that represents the 3D measurement/ markup within the commenting system. See 13.6.7.4, "3D measurements and projection annotations" for additional details.
 
-In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to
-all markup subtypes", "Table 331 — Additional entries in a 3D measurement/markup dictionary for a
-3D comment note" lists entries defined for a 3D measurement dictionary with a Subtype value of 3DC
-for 3D comment notes.
+In addition to the entries in "Table 326 — Entries in a 3D measurement/markup dictionary common to all markup subtypes", "Table 331 — Additional entries in a 3D measurement/markup dictionary for a 3D comment note" lists entries defined for a 3D measurement dictionary with a Subtype value of 3DC for 3D comment notes.
 
-Table 331 — Additional entries in a 3D measurement/markup dictionary for a 3D comment
-note
+Table 331 — Additional entries in a 3D measurement/markup dictionary for a 3D comment note
 
 | Key | Type | Value |
 
 | A1 | array | (Required; PDF 2.0) A three-element array of numbers specifying the model space position of the first anchor point in world space. |
 
-NOTE     It is assumed that this is a position on the 3D model associated with this view.
+> **NOTE** It is assumed that this is a position on the 3D model associated with this view.
 
 | N1 | text string | (Optional; PDF 2.0) The name of the part (or model tree node) associated with anchor point 1 (A1). The part name is used to verify that the part exists and is visible. If not, the measurement is not displayed. If omitted, no validation occurs. |
 
@@ -3438,24 +2747,14 @@ NOTE     It is assumed that this is a position on the 3D model associated with t
 
 | S | dictionary | (Optional; PDF 2.0) A comment reference is an indirect reference to a projection annotation that may be associated with this 3D measurement. See "Table 341 — Entries in a RichMediaContent dictionary". |
 
-The first anchor point (A1) defines the connection to the model. The model space text position TP field
-defines placement of the corner of the text box that lies closest to anchor point 1 (A1) in the current
-view. The user string field contains the text to be fitted into the text box.
+The first anchor point (A1) defines the connection to the model. The model space text position TP field defines placement of the corner of the text box that lies closest to anchor point 1 (A1) in the current view. The user string field contains the text to be fitted into the text box.
 
 | 13.6.7.4 | 3D measurements and projection annotations |
 
-Associations between a 3D measurement and a projection annotation are created by defining an
-indirect reference to a dictionary in both the projection annotation and the 3D measurement.
+Associations between a 3D measurement and a projection annotation are created by defining an indirect reference to a dictionary in both the projection annotation and the 3D measurement.
 
-| • | Projection annotation: When the projection annotation (see 12.5.6.24, "Projection annotations") |
-
-is created, the ExData entry (an external data dictionary) is defined and used to manage the
-association between the 3D measurement and the comment. "Table 332 — Entries in the external
-data dictionary of a projection annotation" describes the entries in the external data dictionary of
-the projection annotation that are used for referencing a 3D measurement.
-| • | 3D measurement: The value of the S entry in the 3D measurement dictionary is an indirect |
-
-reference to a projection annotation dictionary of the associated comment.
+• Projection annotation: When the projection annotation (see 12.5.6.24, "Projection annotations") is created, the ExData entry (an external data dictionary) is defined and used to manage the association between the 3D measurement and the comment. "Table 332 — Entries in the external data dictionary of a projection annotation" describes the entries in the external data dictionary of the projection annotation that are used for referencing a 3D measurement.
+• 3D measurement: The value of the S entry in the 3D measurement dictionary is an indirect reference to a projection annotation dictionary of the associated comment.
 
 Table 332 — Entries in the external data dictionary of a projection annotation
 
@@ -3472,38 +2771,21 @@ Table 332 — Entries in the external data dictionary of a projection annotation
 
 | M3DREF | dictionary | (Required; PDF 2.0) An indirect reference to a 3D measurement dictionary for which this projection annotation is a comment. See 12.5.6.24, "Projection annotations". |
 
-13.7 Rich media
+## 13.7 Rich media
 
-13.7.1 General
+### 13.7.1 General
 
-PDF 2.0 introduces rich media annotations providing a common framework for video, audio,
-animations and other multimedia presentations. For the allowed instances of rich media see "Table
-342 — Entries in a RichMediaConfiguration dictionary". The framework includes general controls most
-of which are commonly needed to stage, present and control an animation, video or other interactive
-presentation. Such features as: when to activate and deactivate the presentation, supplying scripts that
-control the presentation, setting viewing parameters such as lighting and camera angles (e.g., for 3D
-interactive presentations), setting animation parameters such as speed and looping behaviour,
-supplying assets including the base video, audio and animations files as well as any necessary auxiliary
-files (e.g., scripts), determining how the rich media annotation relates to the page display (e.g., within a
-fixed rectangle on the page, or having its own window), and details determining configuration of
-toolbars, navigation and other controls.
+PDF 2.0 introduces rich media annotations providing a common framework for video, audio, animations and other multimedia presentations. For the allowed instances of rich media see "Table 342 — Entries in a RichMediaConfiguration dictionary". The framework includes general controls most of which are commonly needed to stage, present and control an animation, video or other interactive presentation. Such features as: when to activate and deactivate the presentation, supplying scripts that control the presentation, setting viewing parameters such as lighting and camera angles (e.g., for 3D interactive presentations), setting animation parameters such as speed and looping behaviour, supplying assets including the base video, audio and animations files as well as any necessary auxiliary files (e.g., scripts), determining how the rich media annotation relates to the page display (e.g., within a fixed rectangle on the page, or having its own window), and details determining configuration of toolbars, navigation and other controls.
 
-Not all of these common framework features are appropriate for all rich media types and selected
-media types have additional features defined specific to that type. The details for the framework and
-specific controls are given in the following subclauses.
+Not all of these common framework features are appropriate for all rich media types and selected media types have additional features defined specific to that type. The details for the framework and specific controls are given in the following subclauses.
 
-13.7.2 RichMedia annotations
+### 13.7.2 RichMedia annotations
 
-13.7.2.1 General
+#### 13.7.2.1 General
 
-The annotation subtype RichMedia shares many low-level structural similarities with the 3D Artwork
-defined in 13.6, "3D Artwork". At the top level, the rich media annotation has two primary custom
-structures. The RichMediaSettings dictionary is unique to each annotation, while the RichMediaContent
-dictionary can be shared across rich-media annotations.
+The annotation subtype RichMedia shares many low-level structural similarities with the 3D Artwork defined in 13.6, "3D Artwork". At the top level, the rich media annotation has two primary custom structures. The RichMediaSettings dictionary is unique to each annotation, while the RichMediaContent dictionary can be shared across rich-media annotations.
 
-The rich media annotation may contain any of the entries of an annotation dictionary (see 12.5.2,
-"Annotation dictionaries"). "Table 333 — Additional entries specific to a RichMedia annotation" shows
-the additional annotation entries specific to this type of annotation.
+The rich media annotation may contain any of the entries of an annotation dictionary (see 12.5.2, "Annotation dictionaries"). "Table 333 — Additional entries specific to a RichMedia annotation" shows the additional annotation entries specific to this type of annotation.
 
 Table 333 — Additional entries specific to a RichMedia annotation
 
@@ -3520,39 +2802,21 @@ Table 333 — Additional entries specific to a RichMedia annotation
 
 | RichMediaSettings | dictionary | (Optional; PDF 2.0) A RichMediaSettings dictionary that stores conditions and responses that determine when the annotation should be activated and deactivated by an interactive PDF processor and the initial state of artwork in those states. See "Table 334 — Entries in a RichMediaSettings dictionary". Default value: If no RichMediaSettings dictionary is present, the first configuration is loaded. |
 
-In addition to these entries, a RichMedia annotation shall provide an appearance stream in its AP entry
-(see "Table 166 — Entries common to all annotation dictionaries ") that has a normal appearance (the
-N entry in "Table 170 — Entries in an appearance dictionary"). This appearance may be used by
-applications that do not support RichMedia annotations and by all applications for the initial display of
-the annotation
+In addition to these entries, a RichMedia annotation shall provide an appearance stream in its AP entry (see "Table 166 — Entries common to all annotation dictionaries ") that has a normal appearance (the N entry in "Table 170 — Entries in an appearance dictionary"). This appearance may be used by applications that do not support RichMedia annotations and by all applications for the initial display of the annotation
 
-As with 3D annotations defined in 13.6.2, "3D Annotations", RichMedia annotations can be in one of
-two states:
+As with 3D annotations defined in 13.6.2, "3D Annotations", RichMedia annotations can be in one of two states:
 
-| • | Inactive: (the default initial state) The annotation displays the normal appearance of the |
+• Inactive: (the default initial state) The annotation displays the normal appearance of the annotation.
 
-annotation.
-NOTE         Typically, the normal appearance is a 2D bitmap portraying a rendering of the default view of the
+> **NOTE** Typically, the normal appearance is a 2D bitmap portraying a rendering of the default view of the
 artwork within the RichMedia annotation.
-| • | Active: The annotation displays a rendering of the artwork. This rendering is specified by the |
+• Active: The annotation displays a rendering of the artwork. This rendering is specified by the annotation’s RichMediaSettings entry. (See "Table 334 — Entries in a RichMediaSettings dictionary".) The subsequent clauses describe the structural components of a rich media annotation, beginning with the RichMediaSettings dictionary and its subcomponents, followed by the RichMediaContent dictionary, and its subcomponents. See Example 3 for a detailed and comprehensive example of a rich media annotation.
 
-annotation’s RichMediaSettings entry. (See "Table 334 — Entries in a RichMediaSettings
-dictionary".)
-The subsequent clauses describe the structural components of a rich media annotation, beginning with
-the RichMediaSettings dictionary and its subcomponents, followed by the RichMediaContent
-dictionary, and its subcomponents. See Example 3 for a detailed and comprehensive example of a rich
-media annotation.
+#### 13.7.2.2 RichMediaSettings dictionary
 
-13.7.2.2 RichMediaSettings dictionary
+##### 13.7.2.2.1 General
 
-13.7.2.2.1 General
-
-The RichMediaSettings dictionary has a purpose similar to that of the 3D activation dictionary ("Table
-310 — Entries in a 3D activation dictionary") with the 3D Annotation described in 13.6.2, "3D
-Annotations". The RichMediaSettings dictionary stores the conditions and responses that occur in
-response to certain events, such as activation and deactivation of the annotation, and contains two
-dictionaries. "Table 334 — Entries in a RichMediaSettings dictionary" gives the details of the content of
-this dictionary.
+The RichMediaSettings dictionary has a purpose similar to that of the 3D activation dictionary ("Table 310 — Entries in a 3D activation dictionary") with the 3D Annotation described in 13.6.2, "3D Annotations". The RichMediaSettings dictionary stores the conditions and responses that occur in response to certain events, such as activation and deactivation of the annotation, and contains two dictionaries. "Table 334 — Entries in a RichMediaSettings dictionary" gives the details of the content of this dictionary.
 
 Table 334 — Entries in a RichMediaSettings dictionary
 
@@ -3569,21 +2833,13 @@ Table 334 — Entries in a RichMediaSettings dictionary
 
 | Deactivation | dictionary | (Optional; PDF 2.0) A RichMediaDeactivation dictionary (see "Table 336 — Entries in a RichMediaDeactivation dictionary") that specifies the condition and type of unloading (restart or pause) that occurs during deactivation. |
 
-13.7.2.2.2 RichMediaActivation dictionary
+##### 13.7.2.2.2 RichMediaActivation dictionary
 
-The RichMediaActivation dictionary specifies the style of presentation, default script behavior, default
-view information, and animation style when the annotation is activated. "Table 335 — Entries in a
-RichMediaActivation dictionary" details the contents of the dictionary.
+The RichMediaActivation dictionary specifies the style of presentation, default script behavior, default view information, and animation style when the annotation is activated. "Table 335 — Entries in a RichMediaActivation dictionary" details the contents of the dictionary.
 
-The activation dictionary includes a script array. Each element contains an indirect object reference to
-file specification objects that are also referenced by the Assets name tree of the RichMediaContent
-dictionary. When the annotation is activated, each script in the array shall be executed in order in a
-common environment per annotation by the rich media run time ECMAScript interpreter.
+The activation dictionary includes a script array. Each element contains an indirect object reference to file specification objects that are also referenced by the Assets name tree of the RichMediaContent dictionary. When the annotation is activated, each script in the array shall be executed in order in a common environment per annotation by the rich media run time ECMAScript interpreter.
 
-There may be an optional reference to a view in the scene’s Views array (see "Table 341 — Entries in a
-RichMediaContent dictionary") that acts as the default view for the annotation. If not specified, the first
-view in the views array shall be used. If there are no views specified, default values shall be used for all
-camera and display parameters.
+There may be an optional reference to a view in the scene’s Views array (see "Table 341 — Entries in a RichMediaContent dictionary") that acts as the default view for the annotation. If not specified, the first view in the views array shall be used. If there are no views specified, default values shall be used for all camera and display parameters.
 
 Table 335 — Entries in a RichMediaActivation dictionary
 
@@ -3597,7 +2853,7 @@ Table 335 — Entries in a RichMediaActivation dictionary
 | PO | the annotation is activated as soon as the page that contains the annotation receives focus as the current page. |  |
 | PV | the annotation is activated as soon as any part of the page that contains the annotation becomes visible. |  |
 
-NOTE     One example is in a multiple-page presentation. Only one page is the current page
+> **NOTE** One example is in a multiple-page presentation. Only one page is the current page
 although several are visible.
 Default value: XA.
 
@@ -3614,10 +2870,9 @@ Default value: XA.
 
 | Presentation | dictionary | (Optional; PDF 2.0) A RichMediaPresentation dictionary (see "Table 338 — Entries in a RichMediaPresentation dictionary") that contains information as to how the annotation and user interface elements will be visually laid out and drawn. |
 
-13.7.2.2.3 RichMediaDeactivation dictionary
+##### 13.7.2.2.3 RichMediaDeactivation dictionary
 
-The second component of the RichMediaSettings dictionary is the RichMediaDeactivation dictionary,
-which specifies the condition that causes deactivation of the annotation.
+The second component of the RichMediaSettings dictionary is the RichMediaDeactivation dictionary, which specifies the condition that causes deactivation of the annotation.
 
 Table 336 — Entries in a RichMediaDeactivation dictionary
 
@@ -3631,20 +2886,18 @@ Table 336 — Entries in a RichMediaDeactivation dictionary
 | PC | the annotation is deactivated as soon as the page that contains the annotation loses focus as the current page. |  |
 | PI | the annotation is deactivated as soon as the entire page that contains the annotation is no longer visible. Default value: XD. |  |
 
-13.7.2.2.4 RichMediaAnimation dictionary
+##### 13.7.2.2.4 RichMediaAnimation dictionary
 
-A RichMediaAnimation dictionary specifies the preferred method that interactive PDF processors
-should use to apply timeline scaling to keyframe animations. It can also specify that keyframe
-animations be played repeatedly. The Animation entry of the RichMediaActivation dictionary ("Table
-335 — Entries in a RichMediaActivation dictionary") can specify a RichMediaAnimation dictionary.
+# A RichMediaAnimation dictionary specifies the preferred method that interactive PDF processors
+
+should use to apply timeline scaling to keyframe animations. It can also specify that keyframe animations be played repeatedly. The Animation entry of the RichMediaActivation dictionary ("Table 335 — Entries in a RichMediaActivation dictionary") can specify a RichMediaAnimation dictionary.
 
 
 ## Page 719
 
-A keyframe animation can be provided as part of 3D model content. "Table 337 — Entries in a
-RichMediaAnimation dictionary" shows the entries in a RichMediaAnimation dictionary.
+A keyframe animation can be provided as part of 3D model content. "Table 337 — Entries in a RichMediaAnimation dictionary" shows the entries in a RichMediaAnimation dictionary.
 
-NOTE          Keyframe animation is an interactive feature that is highly dependent on the behaviour and
+> **NOTE** Keyframe animation is an interactive feature that is highly dependent on the behaviour and
 controls provided by the interactive PDF processor.
 
 Table 337 — Entries in a RichMediaAnimation dictionary
@@ -3659,11 +2912,10 @@ Table 337 — Entries in a RichMediaAnimation dictionary
 
 | Speed | number | (Optional; PDF 2.0) A positive number specifying the speed that shall be used when running the animation. A value greater than one shall shorten the time it takes to play the animation, or effectively speed up the animation. |
 
-NOTE     This allows authors to change the desired speed of animations without reauthoring the content.
-This value shall be ignored for an animation subtype of type None. Default
-value: 1
+> **NOTE** This allows authors to change the desired speed of animations without reauthoring the content.
+This value shall be ignored for an animation subtype of type None. Default value: 1
 
-EXAMPLE            A RichMediaSettings dictionary
+> **EXAMPLE** A RichMediaSettings dictionary
 
 | 20 0 obj | %RichMediaSettings dictionary <</Type /RichMediaSettings /Activation |
 | --- | --- |
@@ -3679,23 +2931,19 @@ EXAMPLE            A RichMediaSettings dictionary
 
 endobj
 
-13.7.2.2.5 RichMediaPresentation dictionary
+##### 13.7.2.2.5 RichMediaPresentation dictionary
 
-The RichMediaPresentation dictionary contains information about how the annotation and user
-interface elements should be visually laid out and drawn by an interactive PDF processor. The visibility
-of the Toolbar is specified, and it will only take effect if the RichMediaConfiguration subtype is 3D.
+The RichMediaPresentation dictionary contains information about how the annotation and user interface elements should be visually laid out and drawn by an interactive PDF processor. The visibility of the Toolbar is specified, and it will only take effect if the RichMediaConfiguration subtype is 3D.
 (See "Table 342 — Entries in a RichMediaConfiguration dictionary")
 
 User interface items such as a navigation panes and toolbars can be displayed or hidden by default.
-Such user interface elements may only be implemented by those interactive PDF processors where it is
-appropriate to do so.
+Such user interface elements may only be implemented by those interactive PDF processors where it is appropriate to do so.
 
-NOTE          The navigation pane is a user interface item that would be used to display the hierarchical
+> **NOTE** The navigation pane is a user interface item that would be used to display the hierarchical
 relationship of entities within the artwork. (See 13.6.2, "3D Annotations".)
 | The Style of the annotation can be presented | Embedded within the PDF page or separately | Windowed. |
 
-If a Windowed state is chosen, the default dimensions and position of the window may be given. "Table
-338 — Entries in a RichMediaPresentation dictionary" contains a description of each element.
+If a Windowed state is chosen, the default dimensions and position of the window may be given. "Table 338 — Entries in a RichMediaPresentation dictionary" contains a description of each element.
 
 Table 338 — Entries in a RichMediaPresentation dictionary
 
@@ -3720,31 +2968,22 @@ Table 338 — Entries in a RichMediaPresentation dictionary
 
 | PassContextClick | boolean | (Optional; PDF 2.0) A flag that indicates whether a contextual click on the rich media annotation is passed to the media player run time or shall be handled natively by the interactive PDF processor. |
 
-NOTE      A context click is usually generated by a mouse right-click
-although it can be invoked by other means. This can include,
-but is not limited to, an explicit context-menu keyboard key
-or the combination of a mouse click and a keyboard modifier
-key.
-If false, the interactive PDF processor shall handle the context
-click. If true, the interactive PDF processor shall allow the media
-runtime to provide any user interface it wishes.
+> **NOTE** A context click is usually generated by a mouse right-click
+although it can be invoked by other means. This can include, but is not limited to, an explicit context-menu keyboard key or the combination of a mouse click and a keyboard modifier key.
+If false, the interactive PDF processor shall handle the context click. If true, the interactive PDF processor shall allow the media runtime to provide any user interface it wishes.
 Default value: false
 
-13.7.2.2.6 RichMediaWindow dictionary
+##### 13.7.2.2.6 RichMediaWindow dictionary
 
-The RichMediaWindow dictionary stores the dimensions and position of the floating window that an
-interactive PDF processor may present. It is used only if Style (see "Table 339 — Entries in a
-RichMediaWindow dictionary") is set to Windowed. The window described is a non-printing user
+The RichMediaWindow dictionary stores the dimensions and position of the floating window that an interactive PDF processor may present. It is used only if Style (see "Table 339 — Entries in a RichMediaWindow dictionary") is set to Windowed. The window described is a non-printing user
 | interface element. An interactive PDF processor that supports | Windowed styles shall constrain the |
 | --- | --- |
 | window extent to be within the presentation area of the interactive P | DF processor. |
 
-All coordinates shall be expressed in default user space units although do not rotate or scale the
-window to match the orientation and magnification of the page. The expected behavior of the
+All coordinates shall be expressed in default user space units although do not rotate or scale the window to match the orientation and magnification of the page. The expected behavior of the
 | interactive PDF processor is similar to how it pres | ents an annotation when the flags NoZoom and |
 
-NoRotate are set to true. (See 12.5.3, "Annotation flags".) "Table 339 — Entries in a RichMediaWindow
-dictionary" details the contents of this dictionary.
+NoRotate are set to true. (See 12.5.3, "Annotation flags".) "Table 339 — Entries in a RichMediaWindow dictionary" details the contents of this dictionary.
 
 Table 339 — Entries in a RichMediaWindow dictionary
 
@@ -3763,10 +3002,7 @@ Table 339 — Entries in a RichMediaWindow dictionary
 
 | Position | dictionary | (Optional; PDF 2.0) A RichMediaPosition dictionary describing the position of the RichMediaWindow. See "Table 340 — Entries in a RichMediaPosition dictionary" for a detailed description. |
 
-The position of the window in the interactive PDF processor presentation area is described by the
-RichMediaPosition dictionary. The position of the window shall remain fixed, regardless of the page
-translation. "Table 340 — Entries in a RichMediaPosition dictionary" details the contents of this
-dictionary.
+The position of the window in the interactive PDF processor presentation area is described by the RichMediaPosition dictionary. The position of the window shall remain fixed, regardless of the page translation. "Table 340 — Entries in a RichMediaPosition dictionary" details the contents of this dictionary.
 
 Table 340 — Entries in a RichMediaPosition dictionary
 
@@ -3782,21 +3018,18 @@ Table 340 — Entries in a RichMediaPosition dictionary
 
 | VOffset | number | (Optional; PDF 2.0) The offset from the alignment point specified by the VAlign key. A positive value for VOffset, when VAlign is either Near or Center, shall offset the position towards the Far direction. A positive value for VOffset, when VAlign is Far, shall offset the position towards the Near direction. Default value: 18 |
 
-The descriptions of the values of the HAlign and VAlign entries depend on the primary logical content
-order as defined by the value of the Lang entry in the document's catalog dictionary. For left-to-right
-reading languages, the descriptions follow.
+The descriptions of the values of the HAlign and VAlign entries depend on the primary logical content order as defined by the value of the Lang entry in the document's catalog dictionary. For left-to-right reading languages, the descriptions follow.
 
 HAlign: Near represents the left edge of the window, and Far represents the right edge of the window.
 
-VAlign: Near represents the top edge of the window, and Far represents the bottom edge of the
-window.
+VAlign: Near represents the top edge of the window, and Far represents the bottom edge of the window.
 
 
 ## Page 723
 
 | For right-to-left reading languages, the above descriptions for | HAlign are reversed. |
 
-EXAMPLE            A RichMediaPresentation Dictionary
+> **EXAMPLE** A RichMediaPresentation Dictionary
 
 | 24 0 obj | %RichMediaPresentation dictionary <</Type /RichMediaPresentation /Toolbar false /NavigationPane false /PassContextClick false /Style /Windowed /Window 25 0 R >> |
 
@@ -3808,20 +3041,14 @@ endobj
 
 endobj
 
-In the above example, the toolbar or the navigation pane shall not be displayed on initial activation of
-the annotation. Context click events shall be handled by the interactive PDF processor and shall not be
-passed to the annotation handler. The annotation appears as a separate window with an initial width
-of four inches and an initial height of three inches and will be aligned 0.25 inches off the top right (in
-left to right reading languages) corner of the document area.
+In the above example, the toolbar or the navigation pane shall not be displayed on initial activation of the annotation. Context click events shall be handled by the interactive PDF processor and shall not be passed to the annotation handler. The annotation appears as a separate window with an initial width of four inches and an initial height of three inches and will be aligned 0.25 inches off the top right (in left to right reading languages) corner of the document area.
 
-13.7.2.3 RichMediaContent dictionary
+#### 13.7.2.3 RichMediaContent dictionary
 
-13.7.2.3.1 General
+##### 13.7.2.3.1 General
 
-The RichMediaContent dictionary contains content that is present within the annotation as referenced
-by the RichMediaSettings dictionary (see "Table 334 — Entries in a RichMediaSettings dictionary").
-"Table 341 — Entries in a RichMediaContent dictionary" details the elements of the RichMediaContent
-dictionary.
+The RichMediaContent dictionary contains content that is present within the annotation as referenced by the RichMediaSettings dictionary (see "Table 334 — Entries in a RichMediaSettings dictionary").
+"Table 341 — Entries in a RichMediaContent dictionary" details the elements of the RichMediaContent dictionary.
 
 Table 341 — Entries in a RichMediaContent dictionary
 
@@ -3840,34 +3067,23 @@ Table 341 — Entries in a RichMediaContent dictionary
 
 | Views | array | (Optional; PDF 2.0) An array where each element is an indirect object reference to a 3D view dictionary. See "Table 315 — Entries in a 3D view dictionary" for the details of the entries of this dictionary. Default value: If no views are specified, default values shall be used for the components of a view dictionary, including rendering/lighting modes, background colour, and camera data. |
 
-13.7.2.3.2 The assets name tree
+##### 13.7.2.3.2 The assets name tree
 
-The Assets entry takes a name tree of embedded file specification dictionaries. (For usage, see "Table
-341 — Entries in a RichMediaContent dictionary" and "Table 343 — Entries in a RichMediaInstance
-dictionary".)
+The Assets entry takes a name tree of embedded file specification dictionaries. (For usage, see "Table 341 — Entries in a RichMediaContent dictionary" and "Table 343 — Entries in a RichMediaInstance dictionary".)
 
-The text string that represents the file name in the name tree shall match the values stored for both the
-F and UF keys, which shall be the same value. The file name shall be encoded as a relative URI and has
-the following naming restrictions:
+The text string that represents the file name in the name tree shall match the values stored for both the F and UF keys, which shall be the same value. The file name shall be encoded as a relative URI and has the following naming restrictions:
 
-| • | The string shall be a PDF text string. |
-| --- | --- |
-| • | The string shall not contain any embedded NULL (U+0000) characters. |
-| • | The number of characters in the string shall be between 1 and 255 inclusive. |
-| • | The string shall not contain any of these six characters: COLON (U+003A) (:), ASTERISK (U+002A) |
+• The string shall be a PDF text string.
+• The string shall not contain any embedded NULL (U+0000) characters.
+• The number of characters in the string shall be between 1 and 255 inclusive.
+• The string shall not contain any of these six characters: COLON (U+003A) (:), ASTERISK (U+002A) (*), QUOTATION MARK (U+0022) ("), LESS-THAN SIGN (U+003C) (<), GREATER-THAN SIGN (U+003E) (>), and VERTICAL LINE (U+007C) (|).
+• The last character shall not be a FULL STOP (U+002E) (.).
 
-(*), QUOTATION MARK (U+0022) ("), LESS-THAN SIGN (U+003C) (<), GREATER-THAN SIGN
-(U+003E) (>), and VERTICAL LINE (U+007C) (|).
-| • | The last character shall not be a FULL STOP (U+002E) (.). |
-
-EXAMPLE            Assets name tree
+> **EXAMPLE** Assets name tree
 
 | 29 0 obj | % Assets name tree << /Names [(3D.prc) 30 0 R … more name value pairs where each value is a file specification dictionary reference |
 
-…
-]
->>
-endobj
+… ] >> endobj
 
 | 30 0 obj | % File specification dictionary for 3D file <</Type /Filespec /F (3D.prc) /UF (3D.prc) |
 | --- | --- |
@@ -3882,20 +3098,11 @@ endobj
 
 ## Page 725
 
-/Filter …
->>
-stream
-… Data for 3D.prc …
-endstream
-endobj
+/Filter … >> stream … Data for 3D.prc … endstream endobj
 
-13.7.2.3.3 RichMediaConfiguration dictionary
+##### 13.7.2.3.3 RichMediaConfiguration dictionary
 
-The RichMediaConfiguration dictionary describes a set of instances that are loaded for a given scene
-configuration. The configuration that shall be loaded when an annotation is activated is referenced by
-the Configuration key in the RichMediaActivation dictionary specified in the RichMediaSettings
-dictionary. "Table 342 — Entries in a RichMediaConfiguration dictionary" details the elements of the
-RichMediaConfiguration dictionary.
+The RichMediaConfiguration dictionary describes a set of instances that are loaded for a given scene configuration. The configuration that shall be loaded when an annotation is activated is referenced by the Configuration key in the RichMediaActivation dictionary specified in the RichMediaSettings dictionary. "Table 342 — Entries in a RichMediaConfiguration dictionary" details the elements of the RichMediaConfiguration dictionary.
 
 Table 342 — Entries in a RichMediaConfiguration dictionary
 
@@ -3909,19 +3116,15 @@ Table 342 — Entries in a RichMediaConfiguration dictionary
 
 | Instances | array | (Optional; PDF 2.0) An array of indirect object references to RichMediaInstance dictionaries. (See "Table 343 — Entries in a RichMediaInstance dictionary".) |
 
-A RichMediaConfiguration may be an aggregate of several RichMediaInstance dictionaries with
-different values for subtype. The Subtype entry helps to describe the behavior for the collection of
-those RichMediaInstance dictionaries.
+# A RichMediaConfiguration may be an aggregate of several RichMediaInstance dictionaries with
 
-Setting the Subtype suggests the author’s intended use of the assets, which better informs the choices
-when presenting content-specific user interfaces during the authoring or editing process.
+different values for subtype. The Subtype entry helps to describe the behavior for the collection of those RichMediaInstance dictionaries.
 
-13.7.2.3.4 RichMediaInstance dictionary
+Setting the Subtype suggests the author’s intended use of the assets, which better informs the choices when presenting content-specific user interfaces during the authoring or editing process.
 
-The RichMediaInstance dictionary, referenced by the Instances entry of the RichMediaConfiguration
-dictionary ("Table 342 — Entries in a RichMediaConfiguration dictionary"), describes a single instance
-of an asset with settings to populate the artwork of an annotation, as described in "Table 343 —
-Entries in a RichMediaInstance dictionary".
+##### 13.7.2.3.4 RichMediaInstance dictionary
+
+The RichMediaInstance dictionary, referenced by the Instances entry of the RichMediaConfiguration dictionary ("Table 342 — Entries in a RichMediaConfiguration dictionary"), describes a single instance of an asset with settings to populate the artwork of an annotation, as described in "Table 343 — Entries in a RichMediaInstance dictionary".
 
 
 ## Page 726
@@ -3936,7 +3139,7 @@ Table 343 — Entries in a RichMediaInstance dictionary
 
 | Asset | dictionary | (Required; PDF 2.0) A dictionary that shall be an indirect object reference to a file specification dictionary that is also referenced in the Assets name tree specified in the RichMediaContent dictionary of the annotation. |
 
-EXAMPLE 1           RichMediaInstance dictionaries
+> **EXAMPLE 1** RichMediaInstance dictionaries
 
 | 15 0 obj | %RichMediaInstances array [16 0 R … more references to RichMediaInstance dictionaries … ] endobj |
 
@@ -3944,13 +3147,9 @@ EXAMPLE 1           RichMediaInstance dictionaries
 | --- | --- |
 | /Asset 30 0 R | %Reference to 3D filespec in Assets >> endobj |
 
-13.7.2.3.5 View dictionary
+##### 13.7.2.3.5 View dictionary
 
-View dictionaries specify a unique view of the artwork that may be used when the annotation is
-activated or selected. A View dictionary entry in a rich media annotation contains a superset of the
-information present in a 3D view (3DV) dictionary as specified in "Table 315 — Entries in a 3D view
-dictionary". "Table 344 — Additional entries in a 3D view dictionary" describes the entries in addition
-to those present within a 3D view dictionary.
+View dictionaries specify a unique view of the artwork that may be used when the annotation is activated or selected. A View dictionary entry in a rich media annotation contains a superset of the information present in a 3D view (3DV) dictionary as specified in "Table 315 — Entries in a 3D view dictionary". "Table 344 — Additional entries in a 3D view dictionary" describes the entries in addition to those present within a 3D view dictionary.
 
 Table 344 — Additional entries in a 3D view dictionary
 
@@ -3960,24 +3159,20 @@ Table 344 — Additional entries in a 3D view dictionary
 
 | Params | array | (Optional; PDF 2.0) An array containing View Params dictionaries (see 13.7.2.3.6, "View params dictionary"). Default value: an empty array. |
 
-NOTE      (2020) The Params key was accidently omitted from earlier PDF 2.0
+> **NOTE** (2020) The Params key was accidently omitted from earlier PDF 2.0
 specifications and was reinstated in this document.
 
 
 ## Page 727
 
 If the Snapshot entry exists, the image it describes shall be displayed in place of the current artwork.
-Because the snapshot image should be integrated by the player with other elements, such as user
-interface controls for video playback, the colour space of the image may be modified by the interactive
-PDF processor.
+Because the snapshot image should be integrated by the player with other elements, such as user interface controls for video playback, the colour space of the image may be modified by the interactive PDF processor.
 
-13.7.2.3.6 View params dictionary
+##### 13.7.2.3.6 View params dictionary
 
-13.7.2.3.6.1 General
+###### 13.7.2.3.6.1 General
 
-The View Params dictionary provides a reference to a RichMediaInstance dictionary within the
-Instances array, and additional Data that is passed to the instance. This data may be formatted to
-serve the individual purpose of the content being referenced.
+The View Params dictionary provides a reference to a RichMediaInstance dictionary within the Instances array, and additional Data that is passed to the instance. This data may be formatted to serve the individual purpose of the content being referenced.
 
 Table 345 — Entries in a View Params dictionary
 
@@ -3989,24 +3184,18 @@ Table 345 — Entries in a View Params dictionary
 | --- | --- | --- |
 | or stream | shall be passed to the instance when the view is triggered. |  |
 
-The Data entry ("Table 345 — Entries in a View Params dictionary") is used to store and load opaque
-data specific to the Instance referenced in the same dictionary when a View is activated.
+The Data entry ("Table 345 — Entries in a View Params dictionary") is used to store and load opaque data specific to the Instance referenced in the same dictionary when a View is activated.
 
-NOTE         This system allows content-specific state information to be stored when a view is created, such
+> **NOTE** This system allows content-specific state information to be stored when a view is created, such
 as during a comment or drawing markup.
 
-13.7.2.3.6.2 Saving state data
+###### 13.7.2.3.6.2 Saving state data
 
-When the View is created, the run time shall iterate through all active instances for the current
-configuration and query them for state data. For 3D content, an ECMAScript StateEvent is invoked with
-the type property set to the value save. After the event is handled, the value for the data property, if it
-is present and can be interpreted as a string, shall be stored as the value for Data.
+When the View is created, the run time shall iterate through all active instances for the current configuration and query them for state data. For 3D content, an ECMAScript StateEvent is invoked with the type property set to the value save. After the event is handled, the value for the data property, if it is present and can be interpreted as a string, shall be stored as the value for Data.
 
-13.7.2.3.6.3 Loading state data
+###### 13.7.2.3.6.3 Loading state data
 
-When the View is activated, the run time shall iterate through each View Params dictionary and load
-the state data for each instance referenced. For 3D content, an ECMAScript StateEvent is invoked with
-the type property set to the value load and the data property set to the value stored for Data.
+When the View is activated, the run time shall iterate through each View Params dictionary and load the state data for each instance referenced. For 3D content, an ECMAScript StateEvent is invoked with the type property set to the value load and the data property set to the value stored for Data.
 
 
 ## Page 728

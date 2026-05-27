@@ -29,16 +29,6 @@ def is_likely_table_row(line, in_table):
     if not stripped:
         return False
 
-    # Check for bullets and list markers
-    if re.match(r'^\s*[•\-\*]\s+', line):
-        return False
-    if re.match(r'^\s*[a-z]\)\s+', line):
-        return False
-
-    # Exclude Table of Contents lines with dots
-    if re.search(r'\.{5,}', stripped):
-        return False
-
     parts = re.split(r'\s{3,}', stripped)
 
     if len(parts) < 2:
@@ -48,10 +38,10 @@ def is_likely_table_row(line, in_table):
 
     first_part = parts[0].strip()
     # If it's a section header, it's not a table row
-    # Adjust regex to catch "2   Normative references" or "A.2  Context"
-    if re.match(r'^[A-Q\d]+(\.\d+)*\s{2,}[A-Z]', stripped):
+    # Adjust regex to catch "2   Normative references" with multiple spaces
+    if re.match(r'^\d+(\.\d+)*\s{2,}[A-Z]', stripped):
         return False
-    if re.match(r'^[A-Q\d]+(\.\d+)*\s+[A-Z]', stripped):
+    if re.match(r'^\d+(\.\d+)*\s+[A-Z]', stripped):
         return False
 
     # If it's just a number, but has other columns, it might be a table
@@ -129,57 +119,21 @@ def process_layout_page(text):
                     cleaned_lines.append("")
                 continue
 
-            # Collapse excessive internal spaces
-            stripped = re.sub(r'\s{2,}', ' ', stripped)
-
             if cleaned_lines and cleaned_lines[-1] and cleaned_lines[-1].endswith('-'):
                 if not re.match(r'^[0-9A-Z]', stripped):
                     cleaned_lines[-1] = cleaned_lines[-1][:-1] + stripped
-                    continue
+                else:
+                    cleaned_lines.append(stripped)
+            else:
+                # Catch headers and normalize them to single space for splitter
+                header_match = re.match(r'^(\d+(\.\d+)*)\s{2,}([A-Z].*)', stripped)
+                if header_match:
+                    stripped = f"{header_match.group(1)} {header_match.group(3)}"
 
-            # Catch headers and convert to Markdown headers
-            # Exclude lines that look like Table of Contents entries (ending in dots and page numbers)
-            is_toc = re.search(r'\.{3,}\s*\d+$', stripped)
-            # Matches "7 Syntax", "7.1 General", "A.1 General", etc.
-            header_match = re.match(r'^([A-Q\d]+(\.\d+)*)\s+([A-Z].*)', stripped)
-            if header_match and not is_toc:
-                level = header_match.group(1).count('.') + 1
-                level = min(max(level, 1), 6)
-                header_text = f"{'#' * level} {header_match.group(1)} {header_match.group(3)}"
-                if cleaned_lines and cleaned_lines[-1] != "":
-                    cleaned_lines.append("")
-                cleaned_lines.append(header_text)
-                cleaned_lines.append("")
-                continue
-
-            # Format NOTE and EXAMPLE blocks
-            # Look for lines starting with NOTE or EXAMPLE, often followed by a number or space
-            note_match = re.match(r'^((?:NOTE|EXAMPLE)\s*\d*)\s+(.*)', stripped, re.IGNORECASE)
-            if note_match:
-                prefix = note_match.group(1).upper().strip()
-                rest = note_match.group(2).strip()
-                note_text = f"> **{prefix}** {rest}"
-                if cleaned_lines and cleaned_lines[-1] != "":
-                    cleaned_lines.append("")
-                cleaned_lines.append(note_text)
-                continue
-
-            # Smarter paragraph reconstruction
-            if (cleaned_lines and cleaned_lines[-1] != "" and
-                not cleaned_lines[-1].startswith('#') and
-                not cleaned_lines[-1].startswith('|') and
-                not cleaned_lines[-1].startswith('>') and
-                not re.match(r'^\s*[•\-\*a-z]\)\s+', cleaned_lines[-1]) and
-                not re.match(r'^\s*[•\-\*a-z]\)\s+', stripped)):
-
-                # If current line starts with lowercase or previous line didn't end with a sentence terminator
-                if re.match(r'^[a-z]', stripped) or not re.search(r'[.!?]$', cleaned_lines[-1]):
-                    cleaned_lines[-1] = (cleaned_lines[-1] + " " + stripped).strip()
-                    continue
-
-            cleaned_lines.append(stripped)
-            if stripped.startswith('#') or stripped.startswith('|') or stripped.startswith('>'):
-                cleaned_lines.append("")
+                if re.match(r'^\d+(\.\d+)*\s+[A-Z]', stripped):
+                    if cleaned_lines and cleaned_lines[-1] != "":
+                        cleaned_lines.append("")
+                cleaned_lines.append(stripped)
 
     if in_table:
         table_md = format_table(table_rows)

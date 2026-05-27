@@ -1,34 +1,19 @@
-Annex D
-(normative)
-Character sets and encodings
+Annex D (normative) Character sets and encodings
 
-D.1      General
+## D.1 General
 
-This annex lists the character sets and encodings that shall be predefined in any PDF processor. Simple
-fonts, encompassing Latin text and some symbols, are described here. See 9.7.5.2, "Predefined CMaps"
-for a list of predefined CMaps for CID-keyed fonts.
+This annex lists the character sets and encodings that shall be predefined in any PDF processor. Simple fonts, encompassing Latin text and some symbols, are described here. See 9.7.5.2, "Predefined CMaps" for a list of predefined CMaps for CID-keyed fonts.
 
 “Table D.1 — Latin-text encodings” describes Latin-text encodings.
 
-D.2, "Latin character set and encodings" describes the entire character set for the Standard Latin-text
-fonts. For each named character, an octal character code is defined for four different encodings:
-StandardEncoding, MacRomanEncoding, WinAnsiEncoding, and PDFDocEncoding (see "Table D.1 —
-Latin-text encodings"). Unencoded characters are indicated by a dash (—).
+D.2, "Latin character set and encodings" describes the entire character set for the Standard Latin-text fonts. For each named character, an octal character code is defined for four different encodings: StandardEncoding, MacRomanEncoding, WinAnsiEncoding, and PDFDocEncoding (see "Table D.1 — Latin-text encodings"). Unencoded characters are indicated by a dash (—).
 
-All characters listed in D.2, "Latin character set and encodings" shall be supported for the Times,
-Helvetica, and Courier font families, as listed in 9.6.2.2, "Standard Type 1 fonts (standard 14 fonts)
-(PDF 1.0-1.7)" by a PDF processor that supports PDF 1.0 to 1.7.
+All characters listed in D.2, "Latin character set and encodings" shall be supported for the Times, Helvetica, and Courier font families, as listed in 9.6.2.2, "Standard Type 1 fonts (standard 14 fonts) (PDF 1.0-1.7)" by a PDF processor that supports PDF 1.0 to 1.7.
 
-D.4, "Expert set and MacExpert encoding" describes the "expert" character set, which contains
-additional characters useful for sophisticated typography, such as small capitals, ligatures, and
-fractions. For each named character, an octal character code is given in MacExpertEncoding.
+D.4, "Expert set and MacExpert encoding" describes the "expert" character set, which contains additional characters useful for sophisticated typography, such as small capitals, ligatures, and fractions. For each named character, an octal character code is given in MacExpertEncoding.
 
-NOTE         The built-in encoding in an expert font program can be different from MacExpertEncoding.
-D.5, "Symbol set and encoding" and D.6, "ZapfDingbats set and encoding" describe the character sets
-and built-in encodings for the Symbol and ZapfDingbats (ITC Zapf Dingbats) font programs, which
-belong to the standard 14 predefined fonts. These fonts have built-in encodings that are unique to each
-font. The characters for ZapfDingbats are ordered by code instead of by name, since the names in that
-font are meaningless.
+> **NOTE** The built-in encoding in an expert font program can be different from MacExpertEncoding.
+D.5, "Symbol set and encoding" and D.6, "ZapfDingbats set and encoding" describe the character sets and built-in encodings for the Symbol and ZapfDingbats (ITC Zapf Dingbats) font programs, which belong to the standard 14 predefined fonts. These fonts have built-in encodings that are unique to each font. The characters for ZapfDingbats are ordered by code instead of by name, since the names in that font are meaningless.
 
 Table D.1 — Latin-text encodings
 
@@ -49,7 +34,7 @@ Table D.1 — Latin-text encodings
 
 | MacExpertEncoding | An encoding for use with expert fonts — ones containing the expert character set. PDF processors shall have a predefined encoding named MacExpertEncoding. Despite its name, it is not a platform-specific encoding; however, only certain fonts have the appropriate character set for use with this encoding. No such fonts are among the standard 14 predefined fonts. |
 
-| D.2 | Latin character set and encodings |
+## D.2 Latin character set and encodings
 
 Table D.2 — Latin character set and encodings
 
@@ -57,7 +42,7 @@ Table D.2 — Latin character set and encodings
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | STD | MAC | WIN | PDF | STD | MAC | WIN | PDF |
 
-| A | A | 101 | 101 | 101 | 101 | Œ | OE | 352 | 316 | 214 | 226 |
+# A A 101 101 101 101 Œ OE 352 316 214 226
 
 | Æ | AE | 341 | 256 | 306 | 306 | Ó | Oacute | — | 356 | 323 | 323 |
 
@@ -73,15 +58,15 @@ Table D.2 — Latin character set and encodings
 
 | Ã | Atilde | — | 314 | 303 | 303 | P | P | 120 | 120 | 120 | 120 |
 
-| B | B | 102 | 102 | 102 | 102 | Q | Q | 121 | 121 | 121 | 121 |
+# B B 102 102 102 102 Q Q 121 121 121 121
 
-| C | C | 103 | 103 | 103 | 103 | R | R | 122 | 122 | 122 | 122 |
+# C C 103 103 103 103 R R 122 122 122 122
 
 | Ç | Ccedilla | — | 202 | 307 | 307 | S | S | 123 | 123 | 123 | 123 |
 
-| D | D | 104 | 104 | 104 | 104 | Š | Scaron | — | — | 212 | 227 |
+# D D 104 104 104 104 Š Scaron — — 212 227
 
-| E | E | 105 | 105 | 105 | 105 | T | T | 124 | 124 | 124 | 124 |
+# E E 105 105 105 105 T T 124 124 124 124
 
 | É | Eacute | — | 203 | 311 | 311 | Þ | Thorn | — | — | 336 | 336 |
 
@@ -102,13 +87,13 @@ Table D.2 — Latin character set and encodings
 
 | € | Euro1 | — | — | 200 | 240 | Ù | Ugrave | — | 364 | 331 | 331 |
 
-| F | F | 106 | 106 | 106 | 106 | V | V | 126 | 126 | 126 | 126 |
+# F F 106 106 106 106 V V 126 126 126 126
 
-| G | G | 107 | 107 | 107 | 107 | W | W | 127 | 127 | 127 | 127 |
+# G G 107 107 107 107 W W 127 127 127 127
 
-| H | H | 110 | 110 | 110 | 110 | X | X | 130 | 130 | 130 | 130 |
+# H H 110 110 110 110 X X 130 130 130 130
 
-| I | I | 111 | 111 | 111 | 111 | Y | Y | 131 | 131 | 131 | 131 |
+# I I 111 111 111 111 Y Y 131 131 131 131
 
 | Í | Iacute | — | 352 | 315 | 315 | Ý | Yacute | — | — | 335 | 335 |
 
@@ -118,21 +103,21 @@ Table D.2 — Latin character set and encodings
 
 | Ì | Igrave | — | 355 | 314 | 314 | Ž | Zcaron2 | — | — | 216 | 231 |
 
-| J | J | 112 | 112 | 112 | 112 | a | a | 141 | 141 | 141 | 141 |
+# J J 112 112 112 112 a a 141 141 141 141
 
-| K | K | 113 | 113 | 113 | 113 | á | aacute | — | 207 | 341 | 341 |
+# K K 113 113 113 113 á aacute — 207 341 341
 
-| L | L | 114 | 114 | 114 | 114 | â | acircumflex | — | 211 | 342 | 342 |
+# L L 114 114 114 114 â acircumflex — 211 342 342
 
 | Ł | Lslash | 350 | — | — | 225 | ´ | acute | 302 | 253 | 264 | 264 |
 
-| M | M | 115 | 115 | 115 | 115 | ä | adieresis | — | 212 | 344 | 344 |
+# M M 115 115 115 115 ä adieresis — 212 344 344
 
-| N | N | 116 | 116 | 116 | 116 | æ | ae | 361 | 276 | 346 | 346 |
+# N N 116 116 116 116 æ ae 361 276 346 346
 
 | Ñ | Ntilde | — | 204 | 321 | 321 | à | agrave | — | 210 | 340 | 340 |
 
-| O | O | 117 | 117 | 117 | 117 | & | ampersand | 046 | 046 | 046 | 046 |
+# O O 117 117 117 117 & ampersand 046 046 046 046
 
 | å | aring | — | 214 | 345 | 345 | ð | eth | — | — | 360 | 360 |
 
@@ -140,7 +125,7 @@ Table D.2 — Latin character set and encodings
 
 | ~ | asciitilde | 176 | 176 | 176 | 176 | ¡ | exclamdown | 241 | 301 | 241 | 241 |
 
-| * | asterisk | 052 | 052 | 052 | 052 | f | f | 146 | 146 | 146 | 146 |
+* asterisk 052 052 052 052 f f 146 146 146 146
 
 | @ | at | 100 | 100 | 100 | 100 | fi | fi | 256 | 336 | — | 223 |
 
@@ -171,7 +156,7 @@ Table D.2 — Latin character set and encodings
 
 | ¦ | brokenbar | — | — | 246 | 246 | « | guillemotleft4 | 253 | 307 | 253 | 253 |
 
-| • | bullet3 | 267 | 245 | 225 | 200 | » | guillemotright4 | 273 | 310 | 273 | 273 |
+• bullet3 267 245 225 200 » guillemotright4 273 310 273 273
 
 | c | c | 143 | 143 | 143 | 143 | ‹ | guilsinglleft | 254 | 334 | 213 | 210 |
 
@@ -328,21 +313,17 @@ Table D.2 — Latin character set and encodings
 | 5. | The hyphen (U+002D) character is also encoded as 255 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the soft hyphen (U+00AD) character. If the PDF producer intends to map this character code to the "softhyphen" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below. |
 | 6. | The space (U+0020) character is also encoded as 312 (octal) in MacRomanEncoding and as 240 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the non-breaking space (U+00A0) character. If the PDF producer intends to map this character code to the "nonbreakingspace" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below. |
 
-EXAMPLE           Encoding dictionaries use decimal numbers for character codes, instead of octal values.
+> **EXAMPLE** Encoding dictionaries use decimal numbers for character codes, instead of octal values.
 
-<< /Type /Encoding
-/BaseEncoding /WinAnsiEncoding
-/Differences [ 160 /nonbreakingspace 173 /softhyphen ]
->>
-NOTE         This document clarifies list items 5 and 6 above (2020).
+<< /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [ 160 /nonbreakingspace 173 /softhyphen ] >>
 
-| D.3 | PDFDocEncoding character set |
+> **NOTE** This document clarifies list items 5 and 6 above (2020).
+
+## D.3 PDFDocEncoding character set
 
 The column titled Notes uses the following abbreviations:
 
-| • | U | Undefined code point in PDFDocEncoding |
-| --- | --- | --- |
-| • | SR | Unicode codepoint that may require special representation in XML in some contexts. |
+• U Undefined code point in PDFDocEncoding • SR Unicode codepoint that may require special representation in XML in some contexts.
 
 Table D.3 — PDFDocEncoding character set
 
@@ -442,13 +423,13 @@ Table D.3 — PDFDocEncoding character set
 
 | ) | 41 | 0x29 | 0051 | U+0029 | RIGHT PARENTHESIS |
 
-| * | 42 | 0x2a | 0052 | U+002A | ASTERISK |
+* 42 0x2a 0052 U+002A ASTERISK
 
 | + | 43 | 0x2b | 0053 | U+002B | PLUS SIGN |
 
 | , | 44 | 0x2c | 0054 | U+002C | COMMA |
 
-| - | 45 | 0x2d | 0055 | U+002D | HYPHEN-MINUS |
+- 45 0x2d 0055 U+002D HYPHEN-MINUS
 
 | . | 46 | 0x2e | 0056 | U+002E | FULL STOP (period) |
 
@@ -629,7 +610,7 @@ Table D.3 — PDFDocEncoding character set
 
 | 127 | 0x7f | 0177 | Undefined | U |
 
-| • | 128 | 0x80 | 0200 | U+2022 | BULLET |
+• 128 0x80 0200 U+2022 BULLET
 
 | † | 129 | 0x81 | 0201 | U+2020 | DAGGER |
 
@@ -910,7 +891,7 @@ Table D.3 — PDFDocEncoding character set
 
 | ÿ | 255 | 0xff | 0377 | U+00FF |
 
-| D.4 | Expert set and MacExpert encoding |
+## D.4 Expert set and MacExpert encoding
 
 Table D.4 — Expert set and MacExpert encoding
 
@@ -971,11 +952,11 @@ Table D.4 — Expert set and MacExpert encoding
 
 | ᴆ | Ethsmall | 104 | ˜ | Tildesmall |
 
-| F | Fsmall | 146 | ᴛ | Tsmall |
+# F Fsmall 146 ᴛ Tsmall
 
 | ` | Gravesmall | 140 | Ú | Uacutesmall |
 
-| G | Gsmall | 147 | Û | Ucircumflexsmall | 236 |
+# G Gsmall 147 Û Ucircumflexsmall 236
 
 | ʜ | Hsmall | 150 | Ü | Udieresissmall |
 
@@ -989,7 +970,7 @@ Table D.4 — Expert set and MacExpert encoding
 
 | Ì | Igravesmall | 223 | X | Xsmall |
 
-| I | Ismall | 151 | Ý | Yacutesmall |
+# I Ismall 151 Ý Yacutesmall
 
 | Ÿ | Ydieresissmall | 330 | 4 | fouroldstyle |
 
@@ -1097,7 +1078,7 @@ Table D.4 — Expert set and MacExpert encoding
 
 | ¾ | threequarters | 111 |
 
-D.5       Symbol set and encoding
+## D.5 Symbol set and encoding
 
 Table D.5 — Symbol set and encoding
 
@@ -1281,7 +1262,7 @@ Table D.5 — Symbol set and encoding
 | σ | sigma | 163 | ζ | zeta |
 | ς | sigma1 |  |  |  |
 
-| D.6 | ZapfDingbats set and encoding |
+## D.6 ZapfDingbats set and encoding
 
 Table D.6 — ZapfDingbats set and encoding
 
