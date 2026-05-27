@@ -6,32 +6,23 @@ Elements in the standard structure namespace for PDF 2.0 shall not have child or
 
 The containment rules specified in Table L.2 shall also apply to structure elements that are role mapped into the standard structure namespace for PDF 2.0.
 
-An informative matrix representation of Table L.2 is attached to the PDF of this document as "ISO32000-2_AnnexL_matrix-version2020.pdf" and in machine-readable form, as "ISO32000- 2_AnnexL_matrix-version2020.xlsx."
+An informative matrix representation of Table L.2 is attached to the PDF of this document as "ISO32000-2_AnnexL_matrix-version2020.pdf" and in machine-readable form, as "ISO320002_AnnexL_matrix-version2020.xlsx."
 
 Table L.1 provides a legend for use in interpreting Table L.2.
 
 Table Annex L.1 — Legend for Table L.2
 
 | Value | Valid usage relative to other standard structure types |
-
-ø shall not occur
-
+| --- | --- |
+| ø | shall not occur |
 | ø* | shall not occur unless the parent element is used as a grouping level element |
-
 | 0..n | may be a child element with one or several occurrences, but is not required to be present |
-
 | 1..n | shall be present as a child element with one or several occurrences |
-
 | 0..1 | may occur, but not more than once |
-
 | ‡ | for containment rules, refer to the respective structure element type’s description |
-
 | [a] | for specific provisions when and how these structure elements or content can be contained inside a Ruby structure element see 14.8.4.7.3, "Ruby and warichu elements" |
-
 | [b] | for specific provisions when and how these structure elements or content can be contained inside a Warichu structure element see 14.8.4.7.3, "Ruby and warichu elements". |
 
-
-## Page 963
 
 ISO 32000-2:2020
 
@@ -64,12 +55,9 @@ Table Annex L.2 — Parent-child relationships between the standard structure el
 | 0..n | Artifact |  |  |  |
 
 
-## Page 964
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | DocumentFragment | 0..n | Document | 0..n | Document |
 | 0..n | DocumentFragment | 0..n | DocumentFragment |  |
 | 0..n | Part | ‡ | Part |  |
@@ -90,9 +78,7 @@ Table Annex L.2 — Parent-child relationships between the standard structure el
 | 0..n | Figure |  |  |  |
 | 0..n | Formula |  |  |  |
 | 0..n | Artifact |  |  |  |
-
 | Part | ‡ | Document | 0..n | Document |
-| --- | --- | --- | --- | --- |
 | ‡ | DocumentFragment | 0..n | DocumentFragment |  |
 | ‡ | Part | ‡ | Part |  |
 | ‡ | Div | ‡ | Div |  |
@@ -117,14 +103,11 @@ Table Annex L.2 — Parent-child relationships between the standard structure el
 | ‡ | Artifact |  |  |  |
 
 
-## Page 965
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Div | ‡ | Document | 0..n | Document |
 | ‡ | DocumentFragment | 0..n | DocumentFragment |  |
 | ‡ | Part | ‡ | Part |  |
@@ -168,12 +151,9 @@ ISO 32000-2:2020
 | ‡ | Artifact |  |  |  |
 
 
-## Page 966
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Sect | 0..n | DocumentFragment | 0..n | Document |
 | 0..n | Part | 0..n | DocumentFragment |  |
 | 0..n | Div | ‡ | Part |  |
@@ -195,9 +175,7 @@ ISO 32000-2:2020
 | 0..n | Figure |  |  |  |
 | 0..n | Formula |  |  |  |
 | 0..n | Artifact |  |  |  |
-
 | Aside | 0..n | Document | 0..n | Document |
-| --- | --- | --- | --- | --- |
 | 0..n | DocumentFragment | 0..n | DocumentFragment |  |
 | 0..n | Part | ‡ | Part |  |
 | 0..n | Div | ‡ | Div |  |
@@ -220,14 +198,11 @@ ISO 32000-2:2020
 | 0..n | content item |  |  |  |
 
 
-## Page 967
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | NonStruct | ‡ | Document | 0..n | Document |
 | ‡ | DocumentFragment | 0..n | DocumentFragment |  |
 | ‡ | Part | ‡ | Part |  |
@@ -272,12 +247,9 @@ ISO 32000-2:2020
 | ‡ | content item |  |  |  |
 
 
-## Page 968
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Title | 0..n | Part | 0..n | Document |
 | 0..n | Div | 0..n | DocumentFragment |  |
 | 0..n | Aside | ‡ | Part |  |
@@ -300,9 +272,7 @@ ISO 32000-2:2020
 | 0..n | Formula |  |  |  |
 | 0..n | Artifact |  |  |  |
 | 0..n | content item |  |  |  |
-
 | Sub | 0..n | NonStruct | ‡ | Part |
-| --- | --- | --- | --- | --- |
 | 0..n | Lbl | ‡ | Div |  |
 | 0..n | Em | ‡ | NonStruct |  |
 | 0..n | Strong | 0..n | P |  |
@@ -327,14 +297,11 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 969
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | P | 0..n | NonStruct | 0..n | Document |
 | 0..n | Sub | 0..n | DocumentFragment |  |
 | 0..n | Lbl | ‡ | Part |  |
@@ -374,12 +341,9 @@ ISO 32000-2:2020
 | 0..n | content item |  |  |  |
 
 
-## Page 970
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | H | 0..1 | Sect | 0..1 | Document |
 | 0..n | NonStruct | 0..1 | DocumentFragment |  |
 | 0..n | Sub | ‡ | Part |  |
@@ -397,9 +361,7 @@ ISO 32000-2:2020
 | 0..n | Formula | 0..1 | Formula |  |
 | 0..n | Artifact | 0..1 | Artifact |  |
 | 0..n | content item |  |  |  |
-
 | Lbl | 0..n | NonStruct | ‡ | Part |
-| --- | --- | --- | --- | --- |
 | 0..n | Sub | ‡ | Div |  |
 | 0..n | Em | 0..n | Sect |  |
 | 0..n | Strong | 0..n | Aside |  |
@@ -425,14 +387,11 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 971
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Em | 0..n | NonStruct | ‡ | Div |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Lbl | 0..n | Title |  |
@@ -461,12 +420,9 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 972
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Strong | 0..n | NonStruct | ‡ | Div |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Lbl | 0..n | Title |  |
@@ -495,14 +451,11 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 973
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Span | 0..n | NonStruct | ‡ | Div |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Lbl | 0..n | Title |  |
@@ -531,12 +484,9 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 974
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Link | ∅* | DocumentFragment | 0..n | Document |
 | ∅* | Part | 0..n | DocumentFragment |  |
 | 0..n | Div | ‡ | Part |  |
@@ -569,14 +519,11 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 975
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Annot | ∅* | DocumentFragment | 0..n | Document |
 | ∅* | Part | 0..n | DocumentFragment |  |
 | 0..n | Div | ‡ | Part |  |
@@ -610,12 +557,9 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 976
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Form | ∅* | Part | 0..n | Document |
 | 0..n | Div | 0..n | DocumentFragment |  |
 | 0..n | NonStruct | ‡ | Part |  |
@@ -649,14 +593,11 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 977
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Ruby | 0..n | NonStruct | ‡ | Div |
 | [a] | RB | ‡ | NonStruct |  |
 | [a] | RT | 0..n | Title |  |
@@ -678,9 +619,7 @@ ISO 32000-2:2020
 | 0..n | Figure |  |  |  |
 | 0..n | Formula |  |  |  |
 | 0..n | Artifact |  |  |  |
-
 | RB | 0..n | NonStruct | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Em | [a] | Ruby |  |
 | 0..n | Strong | 0..n | Artifact |  |
@@ -690,9 +629,7 @@ ISO 32000-2:2020
 | 0..n | Form |  |  |  |
 | 0..n | Artifact |  |  |  |
 | ‡ | content item |  |  |  |
-
 | RT | 0..n | NonStruct | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Em | [a] | Ruby |  |
 | 0..n | Strong | 0..n | Artifact |  |
@@ -704,12 +641,9 @@ ISO 32000-2:2020
 | ‡ | content item |  |  |  |
 
 
-## Page 978
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | RP | 0..n | NonStruct | ‡ | Div |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Em | [a] | Ruby |  |
@@ -720,9 +654,7 @@ ISO 32000-2:2020
 | 0..n | Form |  |  |  |
 | 0..n | Artifact |  |  |  |
 | ‡ | content item |  |  |  |
-
 | Warichu | 0..n | NonStruct | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | [b] | WT | ‡ | NonStruct |  |
 | [b] | WP | 0..n | Title |  |
 | 0..n | content item | 0..n | Sub |  |
@@ -743,9 +675,7 @@ ISO 32000-2:2020
 | 0..n | Figure |  |  |  |
 | 0..n | Formula |  |  |  |
 | 0..n | Artifact |  |  |  |
-
 | WT | 0..n | NonStruct | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Em | [b] | Warichu |  |
 | 0..n | Strong | 0..n | Artifact |  |
@@ -757,14 +687,11 @@ ISO 32000-2:2020
 | ‡ | content item |  |  |  |
 
 
-## Page 979
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | WP | 0..n | NonStruct | ‡ | Div |
 | 0..n | Sub | ‡ | NonStruct |  |
 | 0..n | Em | [b] | Warichu |  |
@@ -776,9 +703,7 @@ ISO 32000-2:2020
 | c | Figure |  |  |  |
 | 0..n | Artifact |  |  |  |
 | ‡ | content item |  |  |  |
-
 | FENote | ∅* | DocumentFragment | 0..n | Document |
-| --- | --- | --- | --- | --- |
 | 0..n | Part | 0..n | DocumentFragment |  |
 | 0..n | Div | ‡ | Part |  |
 | 0..n | Sect | ‡ | Div |  |
@@ -807,12 +732,9 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 
 
-## Page 980
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | L | 0..n | NonStruct | 0..n | Document |
 | 0..n | L | 0..n | DocumentFragment |  |
 | 0..n | LI | ‡ | Part |  |
@@ -835,9 +757,7 @@ ISO 32000-2:2020
 | 0..n | Figure |  |  |  |
 | 0..n | Formula |  |  |  |
 | 0..n | Artifact |  |  |  |
-
 | LI | 0..n | Div | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | NonStruct | ‡ | NonStruct |  |
 | 0..n | Lbl | 0..n | L |  |
 | 0..n | LBody | 0..n | Artifact |  |
@@ -845,14 +765,11 @@ ISO 32000-2:2020
 | 0..n | content item |  |  |  |
 
 
-## Page 981
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | LBody | 0..n | Part | ‡ | Div |
 | 0..n | Div | ‡ | NonStruct |  |
 | 0..n | Sect | 0..n | LI |  |
@@ -901,12 +818,9 @@ Table 0..n NonStruct 0..n Document
 | 0..n | Artifact |  |  |
 
 
-## Page 982
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | TR | 0..n | NonStruct | ‡ | Div |
 | 0..n | TH | ‡ | NonStruct |  |
 | 0..n | TD | 0..n | Table |  |
@@ -914,9 +828,7 @@ Table 0..n NonStruct 0..n Document
 | 0..n | TBody |  |  |  |
 | 0..n | TFoot |  |  |  |
 | 0..n | Artifact |  |  |  |
-
 | TH | 0..n | Div | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | Sect | ‡ | NonStruct |  |
 | 0..n | NonStruct | 0..n | TR |  |
 | 0..n | P | 0..n | Artifact |  |
@@ -940,14 +852,11 @@ Table 0..n NonStruct 0..n Document
 | 0..n | content item |  |  |  |
 
 
-## Page 983
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | TD | 0..n | Div | ‡ | Div |
 | 0..n | Sect | ‡ | NonStruct |  |
 | 0..n | NonStruct | 0..n | TR |  |
@@ -970,32 +879,23 @@ ISO 32000-2:2020
 | 0..n | Formula |  |  |  |
 | 0..n | Artifact |  |  |  |
 | 0..n | content item |  |  |  |
-
 | THead | 0..n | NonStruct | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | TR | ‡ | NonStruct |  |
 | 0..n | Artifact | 0..1 | Table |  |
 | 0..n | Artifact |  |  |  |
-
 | TBody | 0..n | NonStruct | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | TR | ‡ | NonStruct |  |
 | 0..n | Artifact | 0..n | Table |  |
 | 0..n | Artifact |  |  |  |
-
 | TFoot | 0..n | NonStruct | ‡ | Div |
-| --- | --- | --- | --- | --- |
 | 0..n | TR | ‡ | NonStruct |  |
 | 0..n | Artifact | 0..1 | Table |  |
 | 0..n | Artifact |  |  |  |
 
 
-## Page 984
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Caption | ∅* | DocumentFragment | ‡ | Part |
 | 0..n | Part | ‡ | Div |  |
 | 0..n | Div | 0..n | Sect |  |
@@ -1024,12 +924,10 @@ ISO 32000-2:2020
 | 0..n | content item |  |  |  |
 
 
-## Page 985
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
+| Structure Type | Children | Parents |  |
+| --- | --- | --- | --- |
 | Occ. | Structure Type | Occ. | Structure Type |
 
 Figure 0..n Part 0..n Document
@@ -1063,12 +961,9 @@ Figure 0..n Part 0..n Document
 | 0..n | Artifact |  |  |
 
 
-## Page 986
-
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Formula | 0..n | Part | 0..n | Document |
 | 0..n | Div | 0..n | DocumentFragment |  |
 | 0..n | Aside | ‡ | Part |  |
@@ -1098,14 +993,11 @@ Figure 0..n Part 0..n Document
 | 0..n | Artifact |  |  |  |
 
 
-## Page 987
-
 ISO 32000-2:2020
 
-| Structure Type | Children | Parents |
-
-| Occ. | Structure Type | Occ. | Structure Type |  |
+| Structure Type | Children | Parents |  |  |
 | --- | --- | --- | --- | --- |
+| Occ. | Structure Type | Occ. | Structure Type |  |
 | Artifact | 0..n | Document | 0..n | Document |
 | 0..n | DocumentFragment | 0..n | DocumentFragment |  |
 | 0..n | Part | ‡ | Part |  |
@@ -1149,6 +1041,4 @@ ISO 32000-2:2020
 | 0..n | Artifact |  |  |  |
 | 0..n | content item |  |  |  |
 
-
-## Page 988
 

@@ -6,6 +6,7 @@ from pypdf import PdfReader
 def format_table(rows):
     if not rows:
         return ""
+    # Filter out empty rows
     rows = [r for r in rows if any(cell.strip() for cell in r)]
     if not rows:
         return ""
@@ -24,55 +25,34 @@ def format_table(rows):
 
     return "\n".join(md_rows)
 
-def is_likely_table_row(line, in_table):
+def is_likely_table_row(line, in_table=False):
     stripped = line.strip()
     if not stripped:
         return False
 
-    # Check for bullets and list markers
+    # Exclude bullets and list markers
     if re.match(r'^\s*[•\-\*]\s+', line):
         return False
     if re.match(r'^\s*[a-z]\)\s+', line):
         return False
-
-    # Exclude Table of Contents lines with dots
+    # Exclude TOC lines
     if re.search(r'\.{5,}', stripped):
+        return False
+    # Exclude section headers
+    if re.match(r'^([A-Q\d]+(\.\d+)*)\s{2,}([A-Z].*)', stripped):
+        return False
+
+    # Exclude lines starting with NOTE, EXAMPLE, Figure, Table (unless it's a known header)
+    if re.match(r'^(NOTE|EXAMPLE|Figure|Table|Clause|Annex)\b', stripped, re.IGNORECASE):
         return False
 
     parts = re.split(r'\s{3,}', stripped)
-
-    if len(parts) < 2:
-        if in_table and line.startswith(' ' * 8):
-            return True
-        return False
-
-    first_part = parts[0].strip()
-    # If it's a section header, it's not a table row
-    # Adjust regex to catch "2   Normative references" or "A.2  Context"
-    if re.match(r'^[A-Q\d]+(\.\d+)*\s{2,}[A-Z]', stripped):
-        return False
-    if re.match(r'^[A-Q\d]+(\.\d+)*\s+[A-Z]', stripped):
-        return False
-
-    # If it's just a number, but has other columns, it might be a table
-    if re.match(r'^\d+(\.\d+)*$', first_part):
-        if len(parts) >= 2: return True
-        return False
-
-    if re.match(r'^(EXAMPLE|NOTE|Table|Figure|Key|Sequence|FILTER name)\s*\d*', first_part, re.IGNORECASE):
-        if "FILTER name" in first_part: return True
-        if "Key" == first_part and "Type" in stripped: return True
-        if "Dash Array" in first_part: return True
-        return False
-
-    if len(parts) >= 3:
+    if len(parts) >= 2:
         return True
 
-    if len(parts) == 2:
-        if len(stripped) > 35:
-            return True
-        if in_table:
-            return True
+    # Indented lines might be continuations of the last cell
+    if in_table and line.startswith(' ' * 8) and len(stripped) > 0:
+        return True
 
     return False
 
@@ -80,20 +60,101 @@ def process_layout_page(text):
     lines = text.split('\n')
     cleaned_lines = []
 
-    in_table = False
-    table_rows = []
+    table_buffer = []
 
+    # Artifact patterns
     watermark_p1 = re.compile(r"Sold by the PDF Association to Olivier Chatelain.*", re.IGNORECASE)
     watermark_p2 = re.compile(r"Single user only, copying and networking prohibited\.", re.IGNORECASE)
     header_footer_p1 = re.compile(r"ISO 32000-2:2020\(E\)")
     header_footer_p2 = re.compile(r"©\s*ISO\s*2020\s*[–-]\s*All rights reserved")
+    combined_footer = re.compile(r"^\s*\d+\s+©\s*ISO\s*2020.*", re.IGNORECASE)
     page_num_p = re.compile(r"^\s*\d+\s*$")
+    standard_header = re.compile(r"^INTERNATIONAL STANDARD.*", re.IGNORECASE)
+
+    def add_regular_line(stripped, lines_list):
+        if not stripped:
+            if lines_list and lines_list[-1] != "":
+                lines_list.append("")
+            return
+
+        # Paragraph reconstruction
+        if (lines_list and lines_list[-1] != "" and
+            not lines_list[-1].startswith('#') and
+            not lines_list[-1].startswith('|') and
+            not re.match(r'^\s*[•\-\*a-z]\)\s+', lines_list[-1]) and
+            not re.match(r'^\s*[•\-\*a-z]\)\s+', stripped)):
+
+            if (re.match(r'^[a-z]', stripped) or
+                not re.search(r'[.!?]$', lines_list[-1]) or
+                re.search(r'[,;:]$', lines_list[-1])):
+
+                if lines_list[-1].endswith('-'):
+                    lines_list[-1] = lines_list[-1][:-1] + stripped
+                else:
+                    lines_list[-1] = (lines_list[-1] + " " + stripped).strip()
+                return
+
+        # Header detection
+        is_toc = re.search(r'\.{3,}\s*\d+$', stripped)
+        # Require 2+ spaces after the number/letter for headers
+        # Use more inclusive regex for the first word in the title
+        header_match = re.match(r'^([A-Q\d]+(\.\d+)*)\s{2,}([A-Z\(].*)', stripped)
+        if header_match and not is_toc:
+            # Collapse multiple spaces in title only
+            num = header_match.group(1)
+            title = re.sub(r'\s{2,}', ' ', header_match.group(3).strip())
+            level = num.count('.') + 1
+            if "Annex" in stripped: level = 1
+            level = min(max(level, 1), 6)
+            header_text = f"{'#' * level} {num} {title}"
+            if lines_list and lines_list[-1] != "":
+                lines_list.append("")
+            lines_list.append(header_text)
+            lines_list.append("")
+            return
+
+        # Collapse multiple spaces for all other regular text
+        stripped = re.sub(r'\s{2,}', ' ', stripped)
+
+        # NOTE/EXAMPLE blocks
+        note_match = re.match(r'^((?:NOTE|EXAMPLE)\s*\d*)\s+(.*)', stripped, re.IGNORECASE)
+        if note_match:
+            prefix = note_match.group(1).upper().strip()
+            rest = note_match.group(2).strip()
+            note_text = f"> **{prefix}** {rest}"
+            if lines_list and lines_list[-1] != "":
+                lines_list.append("")
+            lines_list.append(note_text)
+            return
+
+        lines_list.append(stripped)
+        if stripped.startswith('#') or stripped.startswith('|') or stripped.startswith('>'):
+            lines_list.append("")
+
+    def flush_table(buffer, lines_list):
+        if not buffer:
+            return
+
+        # Check if we have enough "real" table rows (non-empty, multiple parts)
+        real_rows = [r for r in buffer if len(r) >= 2]
+
+        if len(real_rows) >= 2:
+            table_md = format_table(buffer)
+            if table_md:
+                lines_list.append(table_md)
+                lines_list.append("")
+        else:
+            for row in buffer:
+                add_regular_line(" ".join(row), lines_list)
+        buffer.clear()
 
     for line in lines:
         cleaned_line = watermark_p1.sub("", line)
         cleaned_line = watermark_p2.sub("", cleaned_line)
         cleaned_line = header_footer_p1.sub("", cleaned_line)
         cleaned_line = header_footer_p2.sub("", cleaned_line)
+        cleaned_line = combined_footer.sub("", cleaned_line)
+        cleaned_line = standard_header.sub("", cleaned_line)
 
         if page_num_p.match(cleaned_line):
             cleaned_line = ""
@@ -103,89 +164,24 @@ def process_layout_page(text):
 
         stripped = cleaned_line.strip()
 
-        if is_likely_table_row(cleaned_line, in_table):
-            if not in_table:
-                in_table = True
-                table_rows = []
-
-            parts = re.split(r'\s{3,}', stripped)
-            if len(parts) == 1 and in_table:
-                if table_rows:
-                    table_rows[-1][-1] = table_rows[-1][-1] + " " + stripped
+        if is_likely_table_row(cleaned_line, in_table=bool(table_buffer)):
+            row_parts = re.split(r'\s{3,}', stripped)
+            if len(row_parts) == 1 and table_buffer:
+                table_buffer[-1][-1] = table_buffer[-1][-1] + " " + stripped
             else:
-                table_rows.append(parts)
-            continue
+                table_buffer.append(row_parts)
+        elif not stripped and table_buffer:
+            # Keep table open for one empty line
+            if len(table_buffer) > 0 and table_buffer[-1] != [""]:
+                table_buffer.append([""])
+            else:
+                flush_table(table_buffer, cleaned_lines)
+                add_regular_line(stripped, cleaned_lines)
         else:
-            if in_table:
-                table_md = format_table(table_rows)
-                if table_md:
-                    cleaned_lines.append(table_md)
-                    cleaned_lines.append("")
-                table_rows = []
-                in_table = False
+            flush_table(table_buffer, cleaned_lines)
+            add_regular_line(stripped, cleaned_lines)
 
-            if not stripped:
-                if cleaned_lines and cleaned_lines[-1] != "":
-                    cleaned_lines.append("")
-                continue
-
-            # Collapse excessive internal spaces
-            stripped = re.sub(r'\s{2,}', ' ', stripped)
-
-            if cleaned_lines and cleaned_lines[-1] and cleaned_lines[-1].endswith('-'):
-                if not re.match(r'^[0-9A-Z]', stripped):
-                    cleaned_lines[-1] = cleaned_lines[-1][:-1] + stripped
-                    continue
-
-            # Catch headers and convert to Markdown headers
-            # Exclude lines that look like Table of Contents entries (ending in dots and page numbers)
-            is_toc = re.search(r'\.{3,}\s*\d+$', stripped)
-            # Matches "7 Syntax", "7.1 General", "A.1 General", etc.
-            header_match = re.match(r'^([A-Q\d]+(\.\d+)*)\s+([A-Z].*)', stripped)
-            if header_match and not is_toc:
-                level = header_match.group(1).count('.') + 1
-                level = min(max(level, 1), 6)
-                header_text = f"{'#' * level} {header_match.group(1)} {header_match.group(3)}"
-                if cleaned_lines and cleaned_lines[-1] != "":
-                    cleaned_lines.append("")
-                cleaned_lines.append(header_text)
-                cleaned_lines.append("")
-                continue
-
-            # Format NOTE and EXAMPLE blocks
-            # Look for lines starting with NOTE or EXAMPLE, often followed by a number or space
-            note_match = re.match(r'^((?:NOTE|EXAMPLE)\s*\d*)\s+(.*)', stripped, re.IGNORECASE)
-            if note_match:
-                prefix = note_match.group(1).upper().strip()
-                rest = note_match.group(2).strip()
-                note_text = f"> **{prefix}** {rest}"
-                if cleaned_lines and cleaned_lines[-1] != "":
-                    cleaned_lines.append("")
-                cleaned_lines.append(note_text)
-                continue
-
-            # Smarter paragraph reconstruction
-            if (cleaned_lines and cleaned_lines[-1] != "" and
-                not cleaned_lines[-1].startswith('#') and
-                not cleaned_lines[-1].startswith('|') and
-                not cleaned_lines[-1].startswith('>') and
-                not re.match(r'^\s*[•\-\*a-z]\)\s+', cleaned_lines[-1]) and
-                not re.match(r'^\s*[•\-\*a-z]\)\s+', stripped)):
-
-                # If current line starts with lowercase or previous line didn't end with a sentence terminator
-                if re.match(r'^[a-z]', stripped) or not re.search(r'[.!?]$', cleaned_lines[-1]):
-                    cleaned_lines[-1] = (cleaned_lines[-1] + " " + stripped).strip()
-                    continue
-
-            cleaned_lines.append(stripped)
-            if stripped.startswith('#') or stripped.startswith('|') or stripped.startswith('>'):
-                cleaned_lines.append("")
-
-    if in_table:
-        table_md = format_table(table_rows)
-        if table_md:
-            cleaned_lines.append(table_md)
-
+    flush_table(table_buffer, cleaned_lines)
     return "\n".join(cleaned_lines)
 
 def convert_pdf_to_md(pdf_path, md_path):
@@ -194,7 +190,6 @@ def convert_pdf_to_md(pdf_path, md_path):
     with open(md_path, "w", encoding="utf-8") as f:
         for i, page in enumerate(reader.pages):
             text = page.extract_text(extraction_mode="layout")
-            f.write(f"## Page {i + 1}\n\n")
             processed_text = process_layout_page(text)
             f.write(processed_text)
             f.write("\n\n")

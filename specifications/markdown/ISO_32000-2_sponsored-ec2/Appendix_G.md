@@ -20,10 +20,8 @@ The PDF processor can now decide whether to continue reading the remainder of th
 
 The PDF processor may be requested to open a PDF file at an arbitrary page. The page can be specified in one of three ways:
 
-• By page number (remote go-to action, integer page specifier) • By named destination (remote go-to action, name or string page specifier)
+• By page number (remote go-to action, integer page specifier) •    By named destination (remote go-to action, name or string page specifier)
 
-
-## Page 917
 
 ISO 32000-2:2020
 
@@ -46,8 +44,6 @@ Given a page number and the information in the hint tables, it is now straightfo
 • The objects of the page itself, whose byte range can be determined from the entry in the page offset hint table.
 
 
-## Page 918
-
 • The portion of the main cross-reference table referring to those objects. This can be computed from main cross-reference table location (the T entry in the linearization parameter dictionary) and the cumulative object number in the page offset hint table.
 • The shared objects referenced from the page, whose byte ranges can be determined from information in the shared object hint table.
 • The portion or portions of the main cross-reference table referring to those objects, as described above.
@@ -60,30 +56,23 @@ The ordering of objects in pages and the organisation of the hint tables are int
 a) Activate the annotations, but do not draw them yet. Also activate the cursor feedback for any article
 threads in the page.
 b) Begin drawing the contents. Whenever there is a reference to an image XObject that has not yet arrived,
-skip over it. Whenever there is a reference to a font whose definition is an embedded font file that has
-| not yet arrived, draw the text using | a substitute font (if that is possible). |
-
+skip over it. Whenever there is a reference to a font whose definition is an embedded font file that has not yet arrived, draw the text using a substitute font (if that is possible).
 c) Draw the annotations.
 d) Draw the images as they arrive, together with anything that overlaps them.
 e) Once the embedded font definitions have arrived, redraw the text using the correct fonts, together with
 anything t hat overlaps the text.
-| The last two steps should be done using an off | -screen buffer, if possible, to avoid objectionable flashing |
-
-during the redraw process.
+The last two steps should be done using an off -screen buffer, if possible, to avoid objectionable flashing during the redraw process.
 
 | On encountering a reference XObject ( | see 8.10.4, "Reference XObjects | "), the PDF processor may choose |
 | --- | --- | --- |
 | to initially display the object as a proxy and defer the retrieval and | rendering of the imported content. |  |
 
-> **NOTE** that, since all XObjects in a Linearized PDF file follow the content stream of the page on which
-they appear, their retrieval is already deferred; the use of a reference XObject results in an additional level of deferral.
+> **NOTE** that, since all XObjects in a Linearized PDF file follow the content stream of the page on which they appear, their retrieval is already deferred; the use of a reference XObject results in an additional level of deferral.
 
 ## G.6 Following an article thread
 
 As indicated earlier, the bead dictionaries for any article thread that visits a given page are located with that page. This enables the bead rectangles to be activated and proper cursor feedback to be shown.
 
-
-## Page 919
 
 ISO 32000-2:2020
 
@@ -96,10 +85,6 @@ As stated earlier, if a Linearized PDF file subsequently has an incremental upda
 
 When the PDF processor sees that the PDF file is longer than the length given in the linearization parameter dictionary, it could issue an additional transaction to read everything that was appended and analyse the objects in that update to see whether any of them modify objects that are in the first page or that are the targets of hints. If so, augmenting the PDF file’s internal data structures as necessary to take the updates into account is strongly recommended.
 
-| For a PDF file that has received only a small update, this approach m | ay be worthwhile. Accessing the |
+For a PDF file that has received only a small update, this approach m ay be worthwhile. Accessing the PDF file this way is quicker than accessing it without hints or retrieving the entire file before displaying any of it.
 
-PDF file this way is quicker than accessing it without hints or retrieving the entire file before displaying any of it.
-
-
-## Page 920
 

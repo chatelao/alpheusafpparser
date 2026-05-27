@@ -5,13 +5,11 @@ This annex lists the differences in the sets of standard structure elements defi
 
 Standard structure elements defined in the standard structure namespace for PDF 1.7, but not in the standard structure namespace for PDF 2.0 are:
 
-• Art • BlockQuote • TOC • TOCI • Index • Private • Quote • Note • Reference • BibEntry • Code All the remaining standard structure elements defined in the standard structure namespace for PDF 1.7 are also part of the standard structure namespace for PDF 2.0, but are often defined differently.
+• Art •    BlockQuote •    TOC •    TOCI •    Index •    Private •    Quote •    Note •    Reference •    BibEntry •    Code All the remaining standard structure elements defined in the standard structure namespace for PDF 1.7 are also part of the standard structure namespace for PDF 2.0, but are often defined differently.
 
 Standard structure elements that are only defined in the standard structure namespace for PDF 2.0 are:
 
-• DocumentFragment • Aside • Hn (where n > 6) • Title • FENote • Sub • Em • Strong • Artifact
+• DocumentFragment •    Aside •    Hn (where n > 6) •    Title •    FENote •    Sub •    Em •    Strong •    Artifact
 
-
-## Page 989
 
 ISO 32000-2:2020
