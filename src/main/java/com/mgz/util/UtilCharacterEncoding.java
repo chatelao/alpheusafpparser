@@ -869,19 +869,7 @@ public class UtilCharacterEncoding {
       return s;
     }
 
-    boolean needsSanitization = false;
-    for (int i = 0; i < s.length(); i++) {
-      int codePoint = s.codePointAt(i);
-      if (!isValidXml10CodePoint(codePoint)) {
-        needsSanitization = true;
-        break;
-      }
-      if (Character.isSupplementaryCodePoint(codePoint)) {
-        i++;
-      }
-    }
-
-    if (!needsSanitization) {
+    if (!needsXmlSanitization(s)) {
       return s;
     }
 
@@ -900,7 +888,116 @@ public class UtilCharacterEncoding {
     return sb.toString();
   }
 
-  private static boolean isValidXml10CodePoint(int cp) {
+  /**
+   * Checks if a string needs XML 1.0 sanitization.
+   *
+   * @param s the string to check
+   * @return true if it contains invalid XML 1.0 characters
+   */
+  public static boolean needsXmlSanitization(String s) {
+    if (s == null || s.isEmpty()) {
+      return false;
+    }
+    for (int i = 0; i < s.length(); i++) {
+      int codePoint = s.codePointAt(i);
+      if (!isValidXml10CodePoint(codePoint)) {
+        return true;
+      }
+      if (Character.isSupplementaryCodePoint(codePoint)) {
+        i++;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks if a character array needs XML 1.0 sanitization.
+   *
+   * @param text the character array to check
+   * @param start the start offset
+   * @param len the length to check
+   * @return true if it contains invalid XML 1.0 characters
+   */
+  public static boolean needsXmlSanitization(char[] text, int start, int len) {
+    if (text == null || len <= 0) {
+      return false;
+    }
+    for (int i = start; i < start + len; i++) {
+      char c = text[i];
+      int codePoint = c;
+      if (Character.isHighSurrogate(c)) {
+        if (i + 1 < start + len) {
+          char next = text[i + 1];
+          if (Character.isLowSurrogate(next)) {
+            codePoint = Character.toCodePoint(c, next);
+            i++;
+          }
+        }
+      }
+      if (!isValidXml10CodePoint(codePoint)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Sanitizes a character array for XML 1.0 by replacing invalid characters with a space.
+   *
+   * @param text the character array to sanitize
+   * @param start the start offset
+   * @param len the length to sanitize
+   * @return the sanitized character array, or the original if no changes were needed
+   */
+  public static char[] sanitizeForXml(char[] text, int start, int len) {
+    if (!needsXmlSanitization(text, start, len)) {
+      if (start == 0 && len == text.length) {
+        return text;
+      }
+      char[] result = new char[len];
+      System.arraycopy(text, start, result, 0, len);
+      return result;
+    }
+
+    char[] result = new char[len];
+    int resultIdx = 0;
+    for (int i = start; i < start + len; i++) {
+      char c = text[i];
+      int codePoint = c;
+      boolean isSurrogate = false;
+      if (Character.isHighSurrogate(c)) {
+        if (i + 1 < start + len) {
+          char next = text[i + 1];
+          if (Character.isLowSurrogate(next)) {
+            codePoint = Character.toCodePoint(c, next);
+            isSurrogate = true;
+          }
+        }
+      }
+
+      if (isValidXml10CodePoint(codePoint)) {
+        result[resultIdx++] = c;
+        if (isSurrogate) {
+          result[resultIdx++] = text[++i];
+        }
+      } else {
+        result[resultIdx++] = ' ';
+        if (isSurrogate) {
+          // Replace the whole surrogate pair with a single space and adjust length
+          i++;
+        }
+      }
+    }
+
+    if (resultIdx < len) {
+      char[] trimmed = new char[resultIdx];
+      System.arraycopy(result, 0, trimmed, 0, resultIdx);
+      return trimmed;
+    }
+    return result;
+  }
+
+  public static boolean isValidXml10CodePoint(int cp) {
     return (cp == 0x9)
         || (cp == 0xA)
         || (cp == 0xD)
