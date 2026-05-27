@@ -17,6 +17,7 @@ def generate_coverage():
     ]
 
     output = ["# Granular Test Coverage - CMOCA\n", "| Requirement ID | Summary | Coverage |", "| :--- | :--- | :---: |"]
+    all_requirements = []
 
     for filename in logical_order:
         file_path = os.path.join(spec_dir, filename)
@@ -63,8 +64,26 @@ def generate_coverage():
                     if len(summary) > 100:
                         summary = summary[:97] + "..."
 
-                    # Default to ✅ to match current project state as reflected in ROADMAP.md
-                    output.append(f"| {req_id} | {summary} | ✅ |")
+                    all_requirements.append((req_id, summary))
+
+    # Sort requirements numerically by ID
+    # ID format: CMOCA-X-YYY
+    def sort_key(req):
+        parts = req[0].split('-')
+        chapter = parts[1]
+        number = int(parts[2])
+        # A, B, C should come after 1-6
+        if chapter.isdigit():
+            chapter_val = int(chapter)
+        else:
+            chapter_val = 100 + ord(chapter)
+        return (chapter_val, number)
+
+    all_requirements.sort(key=sort_key)
+
+    for req_id, summary in all_requirements:
+        # Default to ✅ to match current project state as reflected in ROADMAP.md
+        output.append(f"| {req_id} | {summary} | ✅ |")
 
     with open('TEST_COVERAGE_CMOCA.md', 'w') as f:
         f.write('\n'.join(output) + '\n')

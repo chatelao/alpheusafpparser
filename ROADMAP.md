@@ -153,11 +153,11 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ⏳ XMD (XML Descriptor).
         - ⏳ Appendices A-B and Front Matter.
     - ⏳ Verify all other files in `specifications/markdown` and subdirectories meet the standards (BCOCA, DB2Z, GOCA, IOCA, IPDS, MOCA, PTOCA).
-    - 🚧 Improve all `specifications/markdown/cmoca-reference-02` chapters:
+    - ✅ Improve all `specifications/markdown/cmoca-reference-02` chapters:
         - ✅ Chapters 1-3 complete.
         - ✅ Chapters 4-5 complete.
-        - ⏳ Chapter 6.
-        - ⏳ Appendices A-C.
+        - ✅ Chapter 6 complete.
+        - ✅ Appendices A-C complete.
     - 🚧 Improve all `specifications/markdown/foca-reference-06` chapters:
         - ⏳ Chapters 1-5.
         - ✅ Chapter 6 complete.
@@ -179,6 +179,17 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Appendices A-G complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_CMOCA.md` complete.
+- 🚧 Analyzing and updating the `TEST_COVERAGE_MODCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-4.
+    - ⏳ Chapter 5: BAG-BSG (Begin Fields).
+    - ⏳ Chapter 5: CDD-ESG (End Fields).
+    - ⏳ Chapter 5: GAD-IEL.
+    - ⏳ Chapter 5: IMM-IPS (Include Fields).
+    - ⏳ Chapter 5: LLE-MIO (Map Fields i).
+    - ⏳ Chapter 5: MMC-MSU (Map Fields ii).
+    - ⏳ Chapter 5: NOP-TLE (Object & Page Fields).
+    - ⏳ Chapters 6-8.
+    - ⏳ Appendices A-F.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
