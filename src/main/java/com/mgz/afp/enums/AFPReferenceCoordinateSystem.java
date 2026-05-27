@@ -21,8 +21,8 @@ package com.mgz.afp.enums;
 
 /**
  * MO:DCA, page 301.
- * <p>
- * Specifies the reference coordinate system.
+ *
+ * <p>Specifies the reference coordinate system.
  */
 public enum AFPReferenceCoordinateSystem {
   /**

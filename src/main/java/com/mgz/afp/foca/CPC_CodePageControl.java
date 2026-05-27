@@ -39,8 +39,8 @@ public class CPC_CodePageControl extends StructuredField {
 
   /**
    * Default graphic character global identifier.
-   * <p>
-   * "This parameter is EBCDIC encoded using CPGID 500 (International #5) and GCSGID 103
+   *
+   * <p>"This parameter is EBCDIC encoded using CPGID 500 (International #5) and GCSGID 103
    * (International DP 94 (ASCII))."
    */
   @AFPField

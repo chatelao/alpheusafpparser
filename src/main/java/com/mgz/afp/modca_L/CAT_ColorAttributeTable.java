@@ -34,8 +34,8 @@ import java.io.OutputStream;
  * The color table is preceded by the Begin Color Attribute Table structured field and is terminated
  * by the End Color Attribute Table structured field. Within this bracket, the color table
  * definition is carried in a set of Color Attribute Table structured fields.
- * <p>
- * The definition consists of a base part, followed by one or more self-defining parameters (SDP).
+ *
+ * <p>The definition consists of a base part, followed by one or more self-defining parameters (SDP).
  * Each SDP defines a set of entries to be loaded into the color table.
  */
 public class CAT_ColorAttributeTable extends StructuredField {

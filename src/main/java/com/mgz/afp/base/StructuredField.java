@@ -208,8 +208,8 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
 
   /**
    * Sets the padding bytes of this structured field and set the padding flag.
-   * <p>
-   * If the given padding is null the padding flag is revoked.
+   *
+   * <p>If the given padding is null the padding flag is revoked.
    *
    * @param padding the padding bytes of this structured field, may be null.
    */
@@ -228,8 +228,8 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
 
   /**
    * Sets the padding buffer of this structured field and set the padding flag.
-   * <p>
-   * If the given padding buffer is null the padding flag is revoked.
+   *
+   * <p>If the given padding buffer is null the padding flag is revoked.
    *
    * @param paddingBuffer the padding buffer of this structured field, may be null.
    */
@@ -248,8 +248,8 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
 
   /**
    * Writes out the SFI, the given net payload, and padding data.
-   * <p>
-   * Sets the length byte[0,1] of resulting SF Data and updates the {@link
+   *
+   * <p>Sets the length byte[0,1] of resulting SF Data and updates the {@link
    * StructuredFieldIntroducer#sfLength}.
    *
    * @param os                             {@link OutputStream} to write to.
@@ -349,8 +349,8 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
    * Returns true, if this structured field indicates the begin a complex structured field that may
    * contain other structured fields. Returns false, if this structured field is not the begin a
    * complex structured field.
-   * <p>
-   * Examples: {@link BPG_BeginPage}, {@link
+   *
+   * <p>Examples: {@link BPG_BeginPage}, {@link
    * BBC_BeginBarCodeObject},
    *
    * @return true, if this structured field indicates the begin a complex structured field, false
@@ -368,8 +368,8 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
    * Returns true, if this structured field indicates the end of a complex structured field that may
    * contain other structured fields. Returns false, if this structured field is not the end a
    * complex structured field.
-   * <p>
-   * Examples: {@link EPG_EndPage}, {@link EBC_EndBarCodeObject},
+   *
+   * <p>Examples: {@link EPG_EndPage}, {@link EBC_EndBarCodeObject},
    *
    * @return true, if this structured field indicates the end of a complex structured field, false
    * otherwise.

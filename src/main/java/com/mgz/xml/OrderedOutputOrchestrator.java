@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 2. Streams are written in the order they were registered.
  * 3. Future streams are buffered until the current stream is completed.
  *
- * This addresses the memory bottleneck when converting multiple files to a single
+ * <p>This addresses the memory bottleneck when converting multiple files to a single
  * output stream (like stdout), reducing memory pressure from O(FileSize) to
  * O(PageSize * Threads).
  */

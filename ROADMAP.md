@@ -187,7 +187,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ⏳ Fix Javadoc-related violations (~1,000 warnings):
         - ⏳ `MissingJavadocMethod` (~530).
         - ⏳ `MissingJavadocType` (~380).
-        - ⏳ `JavadocParagraph` (~64).
+        - ✅ `JavadocParagraph`
         - ✅ `SummaryJavadoc`.
     - 🚧 Fix Naming and Abbreviation violations (~1,270 warnings):
         - ⏳ `AbbreviationAsWordInName` (~715).
