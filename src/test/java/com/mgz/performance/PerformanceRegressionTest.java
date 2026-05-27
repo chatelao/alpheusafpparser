@@ -7,6 +7,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.ParallelAfpConverter;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.xml.AfpJacksonXmlWriter;
+import com.mgz.xml.XmlHandlerFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -57,7 +58,7 @@ public class PerformanceRegressionTest {
         long startPar = System.currentTimeMillis();
         AFPParserConfiguration parConfig = new AFPParserConfiguration();
         parConfig.setAFPFile(tempAfp);
-        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, null);
+        ParallelAfpConverter converter = new ParallelAfpConverter(parConfig, 0, new XmlHandlerFactory());
         converter.convert(new ByteArrayOutputStream());
         long durationPar = System.currentTimeMillis() - startPar;
         System.out.println("10MB AFP to Jackson XML (Parallel) took: " + durationPar + "ms");
@@ -76,7 +77,7 @@ public class PerformanceRegressionTest {
             runConversion(tempAfp);
             AFPParserConfiguration config = new AFPParserConfiguration();
             config.setAFPFile(tempAfp);
-            ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, null);
+            ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, new XmlHandlerFactory());
             converter.convert(new ByteArrayOutputStream(1024*1024));
         }
 
@@ -90,7 +91,7 @@ public class PerformanceRegressionTest {
         long startParallel = System.currentTimeMillis();
         AFPParserConfiguration config = new AFPParserConfiguration();
         config.setAFPFile(tempAfp);
-        ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, null);
+        ParallelAfpConverter converter = new ParallelAfpConverter(config, 0, new XmlHandlerFactory());
         ByteArrayOutputStream bos = new ByteArrayOutputStream(20 * 1024 * 1024);
         converter.convert(bos);
         long durationParallel = System.currentTimeMillis() - startParallel;

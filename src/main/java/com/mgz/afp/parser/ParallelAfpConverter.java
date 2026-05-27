@@ -20,10 +20,11 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.parser;
 
 import com.mgz.afp.base.StructuredField;
+import com.mgz.afp.base.handler.HandlerFactory;
+import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.PTXPerformanceMonitor;
-import com.mgz.xml.AfpJacksonXmlWriter;
 import com.mgz.xml.OrderedResultCollector;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -46,19 +47,19 @@ public class ParallelAfpConverter {
 
   private final AFPParserConfiguration config;
   private final int numThreads;
-  private final String xpathExpression;
+  private final HandlerFactory handlerFactory;
 
   /**
    * Constructs a ParallelAfpConverter.
    *
    * @param config the parser configuration
    * @param numThreads number of threads to use
-   * @param xpathExpression optional XPath expression for filtering
+   * @param handlerFactory factory for creating field handlers
    */
-  public ParallelAfpConverter(AFPParserConfiguration config, int numThreads, String xpathExpression) {
+  public ParallelAfpConverter(AFPParserConfiguration config, int numThreads, HandlerFactory handlerFactory) {
     this.config = config;
     this.numThreads = numThreads > 0 ? numThreads : Runtime.getRuntime().availableProcessors();
-    this.xpathExpression = xpathExpression;
+    this.handlerFactory = handlerFactory;
   }
 
   /**
@@ -94,25 +95,25 @@ public class ParallelAfpConverter {
     int sequence = 0;
 
     // Correct approach:
-    // Create a master writer that is NOT in fragment mode.
+    // Create a master handler that is NOT in fragment mode.
     // It will write the header.
     // We will then write fragments directly to the underlying 'out' via the collector.
-    // Finally, we close the master writer.
+    // Finally, we close the master handler.
 
-    try (AfpJacksonXmlWriter masterWriter = new AfpJacksonXmlWriter(out, xpathExpression, false)) {
-        processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterWriter);
+    try (StructuredFieldHandler masterHandler = handlerFactory.createHandler(out, false)) {
+        processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterHandler);
     }
   }
 
   private void processPreambleAndPages(long firstPageOffset, List<Long> pageOffsets, long fileSize,
-      OrderedResultCollector collector, int sequence, AfpJacksonXmlWriter masterWriter) throws Exception {
+      OrderedResultCollector collector, int sequence, StructuredFieldHandler masterHandler) throws Exception {
     // 1. Parse and write Preamble sequentially
     if (firstPageOffset > 0) {
       AFPParser preambleParser = new AFPParser(config);
       while (preambleParser.getCountReadByte() < firstPageOffset) {
         StructuredField sf = preambleParser.parseNextSF();
         if (sf == null) break;
-        masterWriter.writeField(sf);
+        masterHandler.handle(sf);
         sf.release();
       }
     }
@@ -126,7 +127,7 @@ public class ParallelAfpConverter {
       for (int i = 0; i < pageOffsets.size(); i++) {
         long start = pageOffsets.get(i);
         long end = (i + 1 < pageOffsets.size()) ? pageOffsets.get(i + 1) : fileSize;
-        futures.add(executor.submit(new PageConversionTask(config.clone(), start, end, i, collector, xpathExpression)));
+        futures.add(executor.submit(new PageConversionTask(config.clone(), start, end, i, collector, handlerFactory)));
       }
 
       for (Future<Void> future : futures) {
@@ -144,16 +145,16 @@ public class ParallelAfpConverter {
     private final long endOffset;
     private final int sequence;
     private final OrderedResultCollector collector;
-    private final String xpathExpression;
+    private final HandlerFactory handlerFactory;
 
     PageConversionTask(AFPParserConfiguration config, long start, long end, int seq,
-        OrderedResultCollector collector, String xpath) {
+        OrderedResultCollector collector, HandlerFactory handlerFactory) {
       this.taskConfig = config;
       this.startOffset = start;
       this.endOffset = end;
       this.sequence = seq;
       this.collector = collector;
-      this.xpathExpression = xpath;
+      this.handlerFactory = handlerFactory;
     }
 
     @Override
@@ -178,10 +179,10 @@ public class ParallelAfpConverter {
              }
         }
 
-        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, xpathExpression, true)) {
+        try (StructuredFieldHandler handler = handlerFactory.createHandler(baos, true)) {
           StructuredField sf;
           while ((sf = parser.parseNextSF()) != null) {
-            writer.writeField(sf);
+            handler.handle(sf);
             sf.release();
             if (parser.getCountReadByte() >= endOffset) break;
           }
