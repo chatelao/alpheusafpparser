@@ -28,7 +28,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | Specification | Covered | Total | % |
 | :--- | :---: | :---: | :---: |
 | [BCOCA](TEST_COVERAGE_BCOCA.md) | 1237 | 1237 | 100.0% |
-| [CMOCA](TEST_COVERAGE_CMOCA.md) | 1085 | 1085 | 100.0% |
+| [CMOCA](TEST_COVERAGE_CMOCA.md) | 0 | 1085 | 0.0% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 1391 | 1391 | 100.0% |
 | [GOCA](TEST_COVERAGE_GOCA.md) | 2144 | 2144 | 100.0% |
@@ -156,8 +156,15 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - 🚧 Improve all `specifications/markdown/cmoca-reference-02` chapters:
         - ✅ Chapters 1-3 complete.
         - ✅ Chapters 4-5 complete.
-        - ⏳ Chapter 6.
-        - ⏳ Appendices A-C.
+        - 🚧 Chapter 6 in-progress:
+            - ⏳ Overview, Applicable and Selected CMRs.
+            - ⏳ Link CMRs and ICC DeviceLink Precedence.
+            - ⏳ Indexed CMRs, Processing Modes, and Defaults.
+            - ⏳ Media Matching and Specialized Object Usage (EPS/PDF/TIFF).
+        - 🚧 Appendices A-C in-progress:
+            - ⏳ Appendix A (Tag Registry).
+            - ⏳ Appendix B (Generic CMR Name Registry).
+            - ⏳ Appendix C (Compliance).
     - 🚧 Improve all `specifications/markdown/foca-reference-06` chapters:
         - ⏳ Chapters 1-5.
         - ✅ Chapter 6 complete.
@@ -178,7 +185,11 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Chapter 7 (Function Sets) complete.
     - ✅ Appendices A-G complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` complete.
-- ✅ Analyzing and updating the `TEST_COVERAGE_CMOCA.md` complete.
+- 🚧 Analyzing and updating the `TEST_COVERAGE_CMOCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-3.
+    - ⏳ Chapters 4-5.
+    - ⏳ Chapter 6.
+    - ⏳ Appendices A-C.
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
