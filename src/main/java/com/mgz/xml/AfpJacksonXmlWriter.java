@@ -46,6 +46,7 @@ import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.MnemonicPerformanceMonitor;
+import com.mgz.util.SFSizeEstimator;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -778,7 +779,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       cachedDocumentBuilder = DBF.newDocumentBuilder();
     }
 
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    int initialCapacity = (int) SFSizeEstimator.estimateXmlSize(sf);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream(initialCapacity);
     try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
         tempWriter.writeField(sf);
     }

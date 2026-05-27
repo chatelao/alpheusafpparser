@@ -45,8 +45,9 @@ Optimize large single-file conversions by mapping output files directly into mem
   - ✅ **Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
   - ✅ **Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences. (Ratio-based Estimation implemented).
 - ⏳ **Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
-- ⏳ **Atomic Pre-allocation**: Efficiently grow output files on the filesystem.
-  - ⏳ **Estimate-based Pre-allocation**: Use `SFSizeEstimator` to determine initial file size.
+- ⏳ **Atomic Pre-allocation**: Efficiently grow output files and in-memory buffers.
+  - ✅ **In-memory Buffer Pre-allocation**: Use `SFSizeEstimator` to pre-size `ByteArrayOutputStream` in parallel and filtered paths.
+  - ⏳ **File-system Pre-allocation**: Use `SFSizeEstimator` to determine initial file size for physical disks.
   - ⏳ **Allocation Strategy**: Evaluate `fallocate` (Linux) vs. zero-fill for efficient growth.
 
 ## Phase 4: Asynchronous & Non-Blocking I/O (Strategy A) ⏳
