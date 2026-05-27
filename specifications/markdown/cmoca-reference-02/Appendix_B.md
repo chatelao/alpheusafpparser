@@ -74,7 +74,7 @@ A device-specific TTC would specify both the Look-and-Feel and the Halftone Char
 Example of a device-specific TTC reference:
 ```text
 Prop # ...............................................1......2.....3....4....5..........
-@@@@@@@@ TC 001.200 IBM@@ @@@@@@ @@@ @@@ @@@ @@ @@@ @@@@@ accutn 141@ @@@@ @@@@ @@@@@@@@
+@@@@@@@@ TC 001.200 IBM@@ @@@@@@ @@@ @@@ @@@ @@ @@@ @@@@@ accutn 141@ @@@@ @@@@ @@@@ @@@@@@@@
 ```
 
 If the printer has device-specific halftones at 75, 104, and 141 lpi, it would need to have 12 device-specific TTCs available to cover all combinations of the 4 generic TTC appearances and 3 halftones. [CMOCA-B-017]
