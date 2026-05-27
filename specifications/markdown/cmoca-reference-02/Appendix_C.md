@@ -12,7 +12,7 @@ In order to claim that the baseline Color Management Object Content Architecture
 | Link Color Conversion | No [CMOCA-C-005]|
 | Indexed | No [CMOCA-C-006]|
 
-In order to claim that the baseline Color Management Object Content Architecture is supported, a device is required to support generic CMRs and device defaults as specified in the architecture reference. [CMOCA-C-007]
+In order to claim that the baseline Color Management Object Content Architecture is supported, a device is required to support **generic** CMRs and device defaults as specified in the architecture reference. [CMOCA-C-007]
 
 ---
 
