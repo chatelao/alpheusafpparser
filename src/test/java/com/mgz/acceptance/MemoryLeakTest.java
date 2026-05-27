@@ -16,7 +16,7 @@ public class MemoryLeakTest {
 
         System.out.println("Starting memory usage test...");
         for (int i = 0; i < 100; i++) {
-            Afp2Xml.main(new String[]{"-x", "//AFPDocument", inputPath.toAbsolutePath().toString(), outputFile.getAbsolutePath()});
+            Afp2Xml.execute(new String[]{"-x", "//AFPDocument", inputPath.toAbsolutePath().toString(), outputFile.getAbsolutePath()});
             if (i % 10 == 0) {
                 System.gc();
                 long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
