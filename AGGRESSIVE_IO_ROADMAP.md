@@ -35,7 +35,7 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
   - ⏳ Refactor writers to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
 - ✅ **Typed Access API**: (From `STAX2_GAP.md`) Implement direct numeric writing in `AfpJacksonXmlWriter` to eliminate `String.valueOf()` overhead.
 - ✅ **Optimized Sanitization**: Refactor `SanitizingXMLStreamWriter` to avoid redundant string allocations when no sanitization is required.
-- ⏳ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation.
+- ✅ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation. (Implemented via `XmlIndenter`).
 
 ## Phase 3: Memory-Mapped I/O for Output (Strategy B) ⏳
 Optimize large single-file conversions by mapping output files directly into memory.
@@ -67,8 +67,9 @@ Extreme performance optimization for massive-scale conversion.
 ## Phase 6: StAX Writer Rework (Integration) ⏳
 To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`) should be refactored to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
 
-- ⏳ **ByteBuffer-Based Writing**: Refactor `AfpJacksonXmlWriter` and other StAX writers to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
-- ⏳ **Zero-Copy Integration**: Support Zero-Copy strategies by allowing the StAX writer to write into memory that is already pre-mapped to the kernel.
+- ⏳ **6.1. ByteBuffer-backed OutputStream**: Implement a pooled `OutputStream` that writes directly into `DirectByteBuffer`s from `DirectBufferPool`.
+- ⏳ **6.2. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` or similar extensions for non-blocking `ByteBuffer` output.
+- ⏳ **6.3. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that eliminates `OutputStream` overhead by writing directly into memory that is already pre-mapped to the kernel.
 
 ---
 
