@@ -177,94 +177,184 @@ public class CMR_ColorManagementResource extends StructuredField {
   }
 
   // Getters and Setters
-  public long getLength() { return length; }
+  public long getLength() {
+    return length;
+  }
 
-  public void setLength(long length) { this.length = length; }
+  public void setLength(long length) {
+    this.length = length;
+  }
 
-  public String getSignature() { return signature; }
+  public String getSignature() {
+    return signature;
+  }
 
-  public void setSignature(String signature) { this.signature = signature; }
+  public void setSignature(String signature) {
+    this.signature = signature;
+  }
 
-  public int getReserved1() { return reserved1; }
+  public int getReserved1() {
+    return reserved1;
+  }
 
-  public void setReserved1(int reserved1) { this.reserved1 = reserved1; }
+  public void setReserved1(int reserved1) {
+    this.reserved1 = reserved1;
+  }
 
-  public String getAlias() { return alias; }
+  public String getAlias() {
+    return alias;
+  }
 
   @JacksonXmlProperty(localName = "text")
   public String getText() {
     return UtilCharacterEncoding.sanitizeForXml(alias);
   }
 
-  public void setAlias(String alias) { this.alias = alias; }
+  public void setAlias(String alias) {
+    this.alias = alias;
+  }
 
-  public String getType() { return type; }
+  public String getType() {
+    return type;
+  }
 
-  public void setType(String type) { this.type = type; }
+  public void setType(String type) {
+    this.type = type;
+  }
 
-  public String getVersion() { return version; }
+  public String getVersion() {
+    return version;
+  }
 
-  public void setVersion(String version) { this.version = version; }
+  public void setVersion(String version) {
+    this.version = version;
+  }
 
-  public String getManufacturerName() { return manufacturerName; }
+  public String getManufacturerName() {
+    return manufacturerName;
+  }
 
-  public void setManufacturerName(String manufacturerName) { this.manufacturerName = manufacturerName; }
+  public void setManufacturerName(String manufacturerName) {
+    this.manufacturerName = manufacturerName;
+  }
 
-  public String getDeviceType() { return deviceType; }
+  public String getDeviceType() {
+    return deviceType;
+  }
 
-  public void setDeviceType(String deviceType) { this.deviceType = deviceType; }
+  public void setDeviceType(String deviceType) {
+    this.deviceType = deviceType;
+  }
 
-  public String getDeviceModel() { return deviceModel; }
+  public String getDeviceModel() {
+    return deviceModel;
+  }
 
-  public void setDeviceModel(String deviceModel) { this.deviceModel = deviceModel; }
+  public void setDeviceModel(String deviceModel) {
+    this.deviceModel = deviceModel;
+  }
 
-  public String getMediaBrightness() { return mediaBrightness; }
+  public String getMediaBrightness() {
+    return mediaBrightness;
+  }
 
-  public void setMediaBrightness(String mediaBrightness) { this.mediaBrightness = mediaBrightness; }
+  public void setMediaBrightness(String mediaBrightness) {
+    this.mediaBrightness = mediaBrightness;
+  }
 
-  public String getMediaColor() { return mediaColor; }
+  public String getMediaColor() {
+    return mediaColor;
+  }
 
-  public void setMediaColor(String mediaColor) { this.mediaColor = mediaColor; }
+  public void setMediaColor(String mediaColor) {
+    this.mediaColor = mediaColor;
+  }
 
-  public String getMediaFinish() { return mediaFinish; }
+  public String getMediaFinish() {
+    return mediaFinish;
+  }
 
-  public void setMediaFinish(String mediaFinish) { this.mediaFinish = mediaFinish; }
+  public void setMediaFinish(String mediaFinish) {
+    this.mediaFinish = mediaFinish;
+  }
 
-  public String getMediaWeight() { return mediaWeight; }
+  public String getMediaWeight() {
+    return mediaWeight;
+  }
 
-  public void setMediaWeight(String mediaWeight) { this.mediaWeight = mediaWeight; }
+  public void setMediaWeight(String mediaWeight) {
+    this.mediaWeight = mediaWeight;
+  }
 
-  public String getProp1() { return prop1; }
+  public String getProp1() {
+    return prop1;
+  }
 
-  public void setProp1(String prop1) { this.prop1 = prop1; }
+  public void setProp1(String prop1) {
+    this.prop1 = prop1;
+  }
 
-  public String getProp2() { return prop2; }
+  public String getProp2() {
+    return prop2;
+  }
 
-  public void setProp2(String prop2) { this.prop2 = prop2; }
+  public void setProp2(String prop2) {
+    this.prop2 = prop2;
+  }
 
-  public String getProp3() { return prop3; }
+  public String getProp3() {
+    return prop3;
+  }
 
-  public void setProp3(String prop3) { this.prop3 = prop3; }
+  public void setProp3(String prop3) {
+    this.prop3 = prop3;
+  }
 
-  public String getProp4() { return prop4; }
+  public String getProp4() {
+    return prop4;
+  }
 
-  public void setProp4(String prop4) { this.prop4 = prop4; }
+  public void setProp4(String prop4) {
+    this.prop4 = prop4;
+  }
 
-  public String getProp5() { return prop5; }
+  public String getProp5() {
+    return prop5;
+  }
 
-  public void setProp5(String prop5) { this.prop5 = prop5; }
+  public void setProp5(String prop5) {
+    this.prop5 = prop5;
+  }
 
-  public String getReserved2() { return reserved2; }
+  public String getReserved2() {
+    return reserved2;
+  }
 
-  public void setReserved2(String reserved2) { this.reserved2 = reserved2; }
+  public void setReserved2(String reserved2) {
+    this.reserved2 = reserved2;
+  }
 
-  public long getReserved3() { return reserved3; }
+  public long getReserved3() {
+    return reserved3;
+  }
 
-  public void setReserved3(long reserved3) { this.reserved3 = reserved3; }
+  public void setReserved3(long reserved3) {
+    this.reserved3 = reserved3;
+  }
 
-  public byte[] getCmrData() { return cmrData; }
+  public byte[] getCmrData() {
+    return cmrData;
+  }
 
-  public void setCmrData(byte[] cmrData) { this.cmrData = cmrData; }
-  public List<CMRTag> getTags() { return tags; }
-  public void setTags(List<CMRTag> tags) { this.tags = tags; }
+  public void setCmrData(byte[] cmrData) {
+    this.cmrData = cmrData;
+  }
+
+  public List<CMRTag> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<CMRTag> tags) {
+    this.tags = tags;
+  }
 }

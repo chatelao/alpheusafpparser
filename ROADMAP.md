@@ -224,7 +224,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ `CustomImportOrder` (~528).
         - ✅ `EmptyLineSeparator`.
         - ✅ `Indentation`.
-        - ⏳ `LeftCurly` / `RightCurly` (~180).
+        - ✅ `LeftCurly` / `RightCurly`.
     - ⏳ Address remaining miscellaneous violations (~130 warnings):
         - ✅ `FileTabCharacter` resolved.
         - ✅ `CommentsIndentation`.

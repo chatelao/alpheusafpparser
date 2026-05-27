@@ -421,10 +421,15 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   @JacksonXmlRootElement(localName = "BLN_BeginLine")
   public static final class BLN_BeginLine extends PTOCAControlSequence {
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException { /* NOP */}
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
+      /* NOP */
+    }
 
     @Override
-    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException { /* NOP */}
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      /* NOP */
+    }
 
   }
 
