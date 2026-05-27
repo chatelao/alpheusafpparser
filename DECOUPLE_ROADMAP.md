@@ -41,11 +41,14 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
   - ⏳ **4.2.3.1 Hotspot Identification:** Use async-profiler to find bottlenecks in the handler interface path.
   - ⏳ **4.2.3.2 Allocation Tracking:** Verify that the decoupled path does not introduce additional garbage collection pressure.
 3.  **Concurrency & Stability:**
-  - ⏳ **4.3.1.1 Multi-threaded Stress Test:** Execute parallel conversion on files with 10,000+ pages.
+  - 🚧 **4.3.1.1 Multi-threaded Stress Test:**
+    - ⏳ **4.3.1.1.1 1,000 Page Benchmark:** Baseline stability test for medium documents.
+    - ⏳ **4.3.1.1.2 10,000 Page Stress Test:** High-concurrency validation.
+    - ⏳ **4.3.1.1.3 100,000 Page Endurance Test:** Verify long-running stability and GC behavior.
   - ⏳ **4.3.1.2 Thread-Safety Audit:** Verify thread-safety of shared resource pools (SFI, Triplet, SF pools).
   - ⏳ **4.3.1.3 Global State Consistency:** Ensure LID-to-Charset mappings are correctly synchronized/merged across workers.
   - ⏳ **4.3.2.1 Heap Dump Analysis:** Perform memory analysis on 100MB+ file conversions to ensure no leaks.
-  - ⏳ **4.3.2.2 Native Memory Tracking:** Monitor DirectBuffer usage when `--aggressive-io` is enabled.
+  - ✅ **4.3.2.2 Native Memory Tracking:** Monitor DirectBuffer usage when `--aggressive-io` is enabled.
 
 ## Phase 5: PDF Generator Foundation
 **Goal:** Prepare for high-performance PDF generation.
