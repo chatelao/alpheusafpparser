@@ -23,6 +23,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
+import com.mgz.util.SFSizeEstimator;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.PTXPerformanceMonitor;
 import com.mgz.xml.OrderedResultCollector;
@@ -140,6 +141,9 @@ public class ParallelAfpConverter {
   }
 
   private static class PageConversionTask implements Callable<Void> {
+    private static final byte[] START_TAG = "<AfpFragments>".getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    private static final byte[] END_TAG = "</AfpFragments>".getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
     private final AFPParserConfiguration taskConfig;
     private final long startOffset;
     private final long endOffset;
@@ -159,7 +163,8 @@ public class ParallelAfpConverter {
 
     @Override
     public Void call() throws Exception {
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      int initialCapacity = (int) SFSizeEstimator.estimateXmlSize((int) (endOffset - startOffset));
+      ByteArrayOutputStream baos = new ByteArrayOutputStream(initialCapacity);
       try {
         if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
           int pageSize = (int) (endOffset - startOffset);
@@ -194,28 +199,29 @@ public class ParallelAfpConverter {
 
       byte[] fullData = baos.toByteArray();
       // Strip <AfpFragments> and </AfpFragments>
-      byte[] stripped = stripFragments(fullData);
+      ByteBuffer stripped = stripFragments(ByteBuffer.wrap(fullData));
       collector.put(sequence, stripped);
       return null;
     }
 
-    private byte[] stripFragments(byte[] data) {
-      if (data == null || data.length == 0) return data;
-      String startTag = "<AfpFragments>";
-      String endTag = "</AfpFragments>";
+    private ByteBuffer stripFragments(ByteBuffer data) {
+      if (data == null || !data.hasRemaining()) return data;
 
       int startIdx = -1;
+      int len = data.remaining();
+      int pos = data.position();
+
       // Search for start tag
-      for (int i = 0; i <= data.length - startTag.length(); i++) {
+      for (int i = 0; i <= len - START_TAG.length; i++) {
         boolean match = true;
-        for (int j = 0; j < startTag.length(); j++) {
-          if (data[i + j] != startTag.charAt(j)) {
+        for (int j = 0; j < START_TAG.length; j++) {
+          if (data.get(pos + i + j) != START_TAG[j]) {
             match = false;
             break;
           }
         }
         if (match) {
-          startIdx = i + startTag.length();
+          startIdx = i + START_TAG.length;
           break;
         }
       }
@@ -224,10 +230,10 @@ public class ParallelAfpConverter {
 
       int endIdx = -1;
       // Search for end tag from the end
-      for (int i = data.length - endTag.length(); i >= startIdx; i--) {
+      for (int i = len - END_TAG.length; i >= startIdx; i--) {
         boolean match = true;
-        for (int j = 0; j < endTag.length(); j++) {
-          if (data[i + j] != endTag.charAt(j)) {
+        for (int j = 0; j < END_TAG.length; j++) {
+          if (data.get(pos + i + j) != END_TAG[j]) {
             match = false;
             break;
           }
@@ -240,9 +246,9 @@ public class ParallelAfpConverter {
 
       if (endIdx == -1) return data;
 
-      byte[] result = new byte[endIdx - startIdx];
-      System.arraycopy(data, startIdx, result, 0, result.length);
-      return result;
+      data.position(pos + startIdx);
+      data.limit(pos + endIdx);
+      return data.slice();
     }
   }
 }
