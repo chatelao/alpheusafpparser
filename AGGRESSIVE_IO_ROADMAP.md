@@ -30,9 +30,9 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
   - ✅ **ByteBuffer-based API**: Refactor orchestrators to accept `ByteBuffer` instead of `byte[]`.
   - ✅ **Fragment Batching**: Logic to group consecutive ready fragments.
   - ✅ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
-- ⏳ **Direct Buffer Integration**:
+- ✅ **Direct Buffer Integration**:
   - ✅ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
-  - ⏳ Refactor writers to use `DirectByteBuffer` to enable zero-copy transfers to the kernel.
+  - ✅ **Writers Integration**: Refactor `AfpJacksonXmlWriter` and orchestrators to use `DirectBufferOutputStream` and `ByteBuffer` for zero-copy transfers.
 - ✅ **Typed Access API**: (From `STAX2_GAP.md`) Implement direct numeric writing in `AfpJacksonXmlWriter` to eliminate `String.valueOf()` overhead.
 - ✅ **Optimized Sanitization**: Refactor `SanitizingXMLStreamWriter` to avoid redundant string allocations when no sanitization is required.
 - ✅ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation. (Implemented via `XmlIndenter`).
@@ -55,6 +55,8 @@ Optimize large single-file conversions by mapping output files directly into mem
 Decouple serialization from I/O to improve performance on high-latency storage (Cloud/NAS).
 
 - ⏳ **4.1. NIO.2 Integration**: Transition `OrderedResultCollector` to use `AsynchronousFileChannel`.
+  - ⏳ **4.1.1. Buffer lifecycle**: Manage buffer ownership between worker threads and NIO.2 handlers.
+  - ⏳ **4.1.2. Error handling**: Implement robust error propagation for async failures.
 - ⏳ **4.2. Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
 - ⏳ **4.3. Async OutputStream Wrapper**: Create an `OutputStream` implementation that uses `AsynchronousFileChannel` for non-blocking background writes.
 - ✅ **4.4. Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
