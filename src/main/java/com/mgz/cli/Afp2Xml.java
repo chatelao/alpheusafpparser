@@ -72,6 +72,7 @@ public class Afp2Xml {
     var measure = false;
     var ptxDebug = false;
     var parallel = false;
+    var aggressiveIo = false;
     var useCharsetOptimizations = false;
     var threadCount = 0;
     String inputPath = null;
@@ -111,6 +112,9 @@ public class Afp2Xml {
         }
         case "-p", "--parallel" -> {
           parallel = true;
+        }
+        case "--aggressive-io" -> {
+          aggressiveIo = true;
         }
         case "-t", "--threads" -> {
           if (i + 1 < args.length) {
@@ -214,6 +218,7 @@ public class Afp2Xml {
         try {
           final int totalThreads = threadCount;
           final boolean finalParallel = parallel;
+          final boolean finalAggressiveIo = aggressiveIo;
           final boolean finalCharsetOpt = useCharsetOptimizations;
 
           for (var f : files) {
@@ -244,9 +249,26 @@ public class Afp2Xml {
                     convertToXml(f, bos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   }
                 } else {
-                  try (var fos = new FileOutputStream(outputFile);
-                       var bos = new BufferedOutputStream(fos)) {
-                    convertToXml(f, bos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                  try (var fos = new FileOutputStream(outputFile)) {
+                    if (finalAggressiveIo) {
+                        long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
+                        if (estimatedSize > 0) {
+                            fos.getChannel().position(estimatedSize - 1);
+                            fos.write(0);
+                            fos.getChannel().position(0);
+                        }
+                    }
+                    if (useInternalParallel) {
+                        convertToXml(f, fos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                    } else {
+                        try (var bos = new BufferedOutputStream(fos)) {
+                            convertToXml(f, bos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                            bos.flush();
+                        }
+                    }
+                    if (finalAggressiveIo) {
+                        fos.getChannel().truncate(fos.getChannel().position());
+                    }
                   }
                   System.out.println("Export successful: " + outputFile.getPath());
                 }
@@ -280,9 +302,26 @@ public class Afp2Xml {
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
-          try (var fos = new FileOutputStream(outputFile);
-               var bos = new BufferedOutputStream(fos)) {
-            convertToXml(input, bos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+          try (var fos = new FileOutputStream(outputFile)) {
+            if (aggressiveIo) {
+                long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length());
+                if (estimatedSize > 0) {
+                    fos.getChannel().position(estimatedSize - 1);
+                    fos.write(0);
+                    fos.getChannel().position(0);
+                }
+            }
+            if (parallel) {
+                convertToXml(input, fos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+            } else {
+                try (var bos = new BufferedOutputStream(fos)) {
+                    convertToXml(input, bos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+                    bos.flush();
+                }
+            }
+            if (aggressiveIo) {
+                fos.getChannel().truncate(fos.getChannel().position());
+            }
           }
           System.out.println("Export successful: " + outputFile.getPath());
         }
@@ -317,6 +356,7 @@ public class Afp2Xml {
     out.println("  --ptx-debug               Detailed PTX/PTOCA performance analysis.");
     out.println("  -c, --charset-opt         Enable optimized character set decoding.");
     out.println("  -p, --parallel            Enable parallel conversion for single files.");
+    out.println("  --aggressive-io           Enable experimental high-performance I/O (pre-allocation).");
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -h, --help                Show this help message.");
