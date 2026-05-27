@@ -19,27 +19,19 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base.handler;
 
-import java.io.OutputStream;
+import java.nio.ByteBuffer;
 
 /**
- * Factory interface for creating {@link StructuredFieldHandler} instances.
+ * Interface for assembling or post-processing output fragments.
+ * This is used to transform the raw output of a handler before it is collected.
  */
-public interface HandlerFactory {
+public interface FragmentAssembler {
 
   /**
-   * Creates a new structured field handler.
+   * Assembles or processes the given data fragment.
    *
-   * @param os           the output stream to write to
-   * @param fragmentMode if true, the handler should operate in fragment mode (e.g., skip XML headers)
-   * @return a new handler instance
-   * @throws Exception if creation fails
+   * @param data the raw data fragment
+   * @return the processed data fragment, ready for collection
    */
-  StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception;
-
-  /**
-   * Creates a new fragment assembler.
-   *
-   * @return a new fragment assembler instance
-   */
-  FragmentAssembler createAssembler();
+  ByteBuffer assemble(ByteBuffer data);
 }

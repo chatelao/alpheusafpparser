@@ -19,7 +19,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.mgz.afp.base.handler.FragmentAssembler;
 import com.mgz.afp.base.handler.HandlerFactory;
+import com.mgz.afp.base.handler.IdentityFragmentAssembler;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import java.io.OutputStream;
 
@@ -32,5 +34,10 @@ public class PdfHandlerFactory implements HandlerFactory {
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     return new PdfHandler();
+  }
+
+  @Override
+  public FragmentAssembler createAssembler() {
+    return new IdentityFragmentAssembler();
   }
 }
