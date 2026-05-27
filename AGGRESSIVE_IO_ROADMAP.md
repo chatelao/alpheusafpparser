@@ -64,8 +64,12 @@ Decouple serialization from I/O to improve performance on high-latency storage (
 ## Phase 5: Zero-Copy Ring-Buffer (Strategy D) ⏳
 Extreme performance optimization for massive-scale conversion.
 
-- ⏳ **5.1. Shared Ring-Buffer**: Implement a Disruptor-like ring buffer for page-aligned `DirectByteBuffer`s.
+- ⏳ **5.1. Shared Ring-Buffer Infrastructure**:
+  - ⏳ **5.1.1. Ring-Buffer Interface**: Define the producer/consumer contract for `DirectByteBuffer` slots.
+  - ⏳ **5.1.2. Contention Analysis**: Audit `DirectBufferPool` for lock contention under high-frequency ring-buffer usage.
+  - ⏳ **5.1.3. Page-Aligned Allocator**: Ensure ring-buffer slots are aligned to physical memory pages (typically 4KB) for O_DIRECT compatibility.
 - ⏳ **5.2. Dedicated I/O Consumer**: Move all disk writes to a single dedicated thread pinned to a specific core to minimize context switches.
+- ⏳ **5.3. Wait-Free Synchronization**: Implement a wait-free sequence barrier for multi-producer coordination.
 
 ## Phase 6: StAX Writer Rework (Integration) 🚧
 To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`) should be refactored to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
