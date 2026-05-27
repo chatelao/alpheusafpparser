@@ -118,6 +118,8 @@ public class OrderedResultCollector {
           for (ByteBuffer fragment : readyFragments) {
             if (out instanceof com.mgz.util.DirectBufferOutputStream dbos) {
               dbos.write(fragment);
+            } else if (out instanceof com.mgz.util.MappedBufferOutputStream mbos) {
+              mbos.write(fragment);
             } else {
               int fragmentLen = fragment.remaining();
               if (fragment.hasArray()) {

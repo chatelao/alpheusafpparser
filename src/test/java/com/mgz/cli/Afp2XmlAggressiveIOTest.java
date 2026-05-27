@@ -40,6 +40,30 @@ class Afp2XmlAggressiveIOTest {
     }
 
     @Test
+    void testAggressiveIOSequentialMMapConversion() throws Exception {
+        File afpFile = new File("src/test/resources/afp/perf_ptx.afp");
+        if (!afpFile.exists()) return;
+
+        Path stdOutput = tempDir.resolve("std_seq.xml");
+        Path aggOutput = tempDir.resolve("agg_seq_mmap.xml");
+
+        // Standard run
+        Afp2Xml.execute(new String[]{afpFile.getAbsolutePath(), stdOutput.toString()});
+
+        // Aggressive I/O (Sequential, should trigger MMap)
+        Afp2Xml.execute(new String[]{"--aggressive-io", afpFile.getAbsolutePath(), aggOutput.toString()});
+
+        assertTrue(Files.exists(stdOutput), "Standard output should exist");
+        assertTrue(Files.exists(aggOutput), "Aggressive MMap output should exist");
+
+        String stdXml = Files.readString(stdOutput).trim();
+        String aggXml = Files.readString(aggOutput).trim();
+
+        assertEquals(stdXml, aggXml, "XML output should be identical with aggressive I/O (MMap)");
+        assertEquals(Files.size(stdOutput), Files.size(aggOutput), "File sizes should be identical (truncation check)");
+    }
+
+    @Test
     void testAggressiveIODirectoryToStdout() throws Exception {
         File afpDir = new File("src/test/resources/afp/afp-goca-reference-03/");
         if (!afpDir.exists() || !afpDir.isDirectory()) return;
