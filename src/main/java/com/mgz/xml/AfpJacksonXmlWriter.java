@@ -47,10 +47,11 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.SFSizeEstimator;
+import com.mgz.util.DirectBufferOutputStream;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.xml.namespace.QName;
@@ -788,12 +789,19 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
 
     int initialCapacity = (int) SFSizeEstimator.estimateXmlSize(sf);
-    ByteArrayOutputStream baos = new ByteArrayOutputStream(initialCapacity);
-    try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
+    String xml;
+    try (DirectBufferOutputStream dbos = new DirectBufferOutputStream(initialCapacity)) {
+      try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(dbos, null, true)) {
         tempWriter.handle(sf);
+      }
+      ByteBuffer buffer = dbos.getBufferAndDetach();
+      try {
+        xml = StandardCharsets.UTF_8.decode(buffer).toString();
+      } finally {
+        com.mgz.util.DirectBufferPool.release(buffer);
+      }
     }
 
-    String xml = baos.toString(StandardCharsets.UTF_8);
     xml = xml.replace("<AfpFragments>", "<AFPDocument>").replace("</AfpFragments>", "</AFPDocument>");
 
     Document doc = cachedDocumentBuilder.parse(

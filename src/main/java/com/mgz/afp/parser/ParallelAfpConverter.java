@@ -24,10 +24,10 @@ import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.util.SFSizeEstimator;
+import com.mgz.util.DirectBufferOutputStream;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.PTXPerformanceMonitor;
 import com.mgz.xml.OrderedResultCollector;
-import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -162,7 +162,7 @@ public class ParallelAfpConverter {
     @Override
     public Void call() throws Exception {
       int initialCapacity = (int) SFSizeEstimator.estimateXmlSize((int) (endOffset - startOffset));
-      ByteArrayOutputStream baos = new ByteArrayOutputStream(initialCapacity);
+      try (DirectBufferOutputStream dbos = new DirectBufferOutputStream(initialCapacity)) {
       try {
         if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
           int pageSize = (int) (endOffset - startOffset);
@@ -182,7 +182,7 @@ public class ParallelAfpConverter {
              }
         }
 
-        try (StructuredFieldHandler handler = handlerFactory.createHandler(baos, true)) {
+        try (StructuredFieldHandler handler = handlerFactory.createHandler(dbos, true)) {
           StructuredField sf;
           while ((sf = parser.parseNextSF()) != null) {
             handler.handle(sf);
@@ -195,9 +195,10 @@ public class ParallelAfpConverter {
         PTXPerformanceMonitor.merge();
       }
 
-      byte[] fullData = baos.toByteArray();
-      ByteBuffer stripped = handlerFactory.stripFragmentWrapper(ByteBuffer.wrap(fullData));
+      ByteBuffer fullData = dbos.getBufferAndDetach();
+      ByteBuffer stripped = handlerFactory.stripFragmentWrapper(fullData);
       collector.put(sequence, stripped);
+      }
       return null;
     }
   }
