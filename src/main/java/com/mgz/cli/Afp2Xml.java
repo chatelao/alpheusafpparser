@@ -25,6 +25,7 @@ import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
+import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.DirectBufferOutputStream;
 import com.mgz.xml.XmlHandlerFactory;
 import com.mgz.xml.OrderedOutputOrchestrator;
@@ -206,11 +207,12 @@ public class Afp2Xml {
 
         final OrderedOutputOrchestrator orchestrator;
         if ("-".equals(outputPath)) {
-          WritableByteChannel stdoutChannel = Channels.newChannel(System.out);
+          OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
+          WritableByteChannel stdoutChannel = Channels.newChannel(nonClosingStdout);
           if (stdoutChannel instanceof GatheringByteChannel gbc) {
-            orchestrator = new OrderedOutputOrchestrator(System.out, gbc);
+            orchestrator = new OrderedOutputOrchestrator(nonClosingStdout, gbc);
           } else {
-            orchestrator = new OrderedOutputOrchestrator(System.out);
+            orchestrator = new OrderedOutputOrchestrator(nonClosingStdout);
           }
         } else {
           orchestrator = null;
@@ -300,12 +302,13 @@ public class Afp2Xml {
         HandlerFactory handlerFactory = new XmlHandlerFactory(xpathExpression);
         if ("-".equals(outputPath)) {
           WritableByteChannel wbc = null;
+          OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
           if (aggressiveIo) {
-            wbc = Channels.newChannel(System.out);
+            wbc = Channels.newChannel(nonClosingStdout);
           }
           OutputStream os = (aggressiveIo && wbc != null) ?
               new DirectBufferOutputStream(128 * 1024, wbc) :
-              new BufferedOutputStream(System.out);
+              new BufferedOutputStream(nonClosingStdout);
           try {
             convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
             os.flush();

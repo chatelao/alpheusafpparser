@@ -46,6 +46,7 @@ import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.MnemonicPerformanceMonitor;
+import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.SFSizeEstimator;
 import com.mgz.util.DirectBufferOutputStream;
 import com.mgz.util.UtilCharacterEncoding;
@@ -134,7 +135,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode)
       throws Exception {
     this.os = os;
-    this.cos = new com.mgz.util.CountingOutputStream(os);
+    this.cos = new com.mgz.util.CountingOutputStream(new NonClosingOutputStream(os));
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
     this.fragmentMode = fragmentMode;
     this.mapper = JacksonXmlMapperProvider.getMapper();
