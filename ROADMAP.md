@@ -179,6 +179,29 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Appendices A-G complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` complete.
 - ✅ Analyzing and updating the `TEST_COVERAGE_CMOCA.md` complete.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_MODCA.md` in reasonable chunks:
+    - ⏳ Chapters 1–3 (Overview, Document Hierarchy, SF Syntax).
+    - ⏳ Chapter 4 (Document Structure).
+    - ⏳ Chapter 5 (Structured Field Definitions).
+    - ⏳ Chapter 6 (Triplets).
+    - ⏳ Chapters 7–8 (Interchange & Function Sets).
+    - ⏳ Appendices A–F (Tables, RATs, Migration, OIDs).
+- ⏳ Analyzing and updating the `TEST_COVERAGE_IPDS.md` in reasonable chunks:
+    - ⏳ Chapters 1–3 (Introduction, Presentation Model, Concepts).
+    - ⏳ Chapter 4 (Device Control Command Set).
+    - ⏳ Chapter 5 (Presentation Text Command Set).
+    - ⏳ Chapters 6–7 (IM & IO Image Command Sets).
+    - ⏳ Chapters 8–9 (Graphics & Bar Code Command Sets).
+    - ⏳ Chapters 10–13 (Object Container, Metadata, Overlay, Page Segment).
+    - ⏳ Chapter 14 (Loaded-Font Command Set).
+    - ⏳ Chapters 15–17 (Triplets, Exceptions, Color).
+    - ⏳ Appendices A–D.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_LINEDATA.md` in reasonable chunks:
+    - ⏳ Chapters 1–3 (Overview, Concepts, Page Definitions).
+    - ⏳ Chapter 4 (Line Data Formatting).
+    - ⏳ Chapter 5 (Structured Fields).
+    - ⏳ Appendices A–B.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_DB2Z.md` (659 requirements).
 - ⏳ Improve Javadoc quality and compliance:
     - ✅ Add missing comments for classes, constructors, methods, and enums (Improved AFPDocument, AFPException, AFPColorSpace, AFPColorValue, AFPParser, AFPParserConfiguration, AFPParserException, AFPValidationException, AFPReferenceCoordinateSystem, AFPUnitBase, IAFPWriter, AFPWriterHumanReadable, BAG, BBC, BCA, BCF, BCP, UtilBinaryDecoding, UtilCharacterEncoding).
     - ✅ Add missing `@return` tags in annotations (Improved AFPField, IHasTriplets, StructuredField).
