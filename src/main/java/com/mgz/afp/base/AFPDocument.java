@@ -32,39 +32,39 @@ import java.util.List;
 @XmlRootElement(name = "AFPDocument")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AFPDocument {
-    @XmlAnyElement(lax = true)
-    private List<Object> structuredFields = new ArrayList<>();
+  @XmlAnyElement(lax = true)
+  private List<Object> structuredFields = new ArrayList<>();
 
-    /**
-     * Default constructor for AFPDocument.
-     */
-    public AFPDocument() {
-    }
+  /**
+   * Default constructor for AFPDocument.
+   */
+  public AFPDocument() {
+  }
 
-    /**
-     * Gets the list of structured fields in this document.
-     *
-     * @return the list of structured fields
-     */
-    public List<Object> getStructuredFields() {
-        return structuredFields;
-    }
+  /**
+   * Gets the list of structured fields in this document.
+   *
+   * @return the list of structured fields
+   */
+  public List<Object> getStructuredFields() {
+    return structuredFields;
+  }
 
-    /**
-     * Sets the list of structured fields in this document.
-     *
-     * @param structuredFields the list of structured fields to set
-     */
-    public void setStructuredFields(List<Object> structuredFields) {
-        this.structuredFields = structuredFields;
-    }
+  /**
+   * Sets the list of structured fields in this document.
+   *
+   * @param structuredFields the list of structured fields to set
+   */
+  public void setStructuredFields(List<Object> structuredFields) {
+    this.structuredFields = structuredFields;
+  }
 
-    /**
-     * Adds a structured field to this document.
-     *
-     * @param sf the structured field to add
-     */
-    public void addStructuredField(Object sf) {
-        this.structuredFields.add(sf);
-    }
+  /**
+   * Adds a structured field to this document.
+   *
+   * @param sf the structured field to add
+   */
+  public void addStructuredField(Object sf) {
+    this.structuredFields.add(sf);
+  }
 }

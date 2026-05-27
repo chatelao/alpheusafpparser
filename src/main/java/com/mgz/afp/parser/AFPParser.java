@@ -419,12 +419,12 @@ public class AFPParser {
         // Try to capture raw SFI if possible
         int lenToCapture = Math.min(8, buffer.limit() - sfiStart);
         if (lenToCapture > 0) {
-            byte[] rawSfi = new byte[lenToCapture];
-            int oldPos = buffer.position();
-            buffer.position(sfiStart);
-            buffer.get(rawSfi);
-            buffer.position(oldPos);
-            errSf.setRawIntroducer(rawSfi);
+          byte[] rawSfi = new byte[lenToCapture];
+          int oldPos = buffer.position();
+          buffer.position(sfiStart);
+          buffer.get(rawSfi);
+          buffer.position(oldPos);
+          errSf.setRawIntroducer(rawSfi);
         }
         throw e;
       }
@@ -481,7 +481,7 @@ public class AFPParser {
         errSf.setStructuredFieldIntroducer(sfi != null ? sfi : new StructuredFieldIntroducer());
         errSf.setFileOffset(pos);
         if (sfi != null) {
-            errSf.setTypeId(sfi.getSFTypeID());
+          errSf.setTypeId(sfi.getSFTypeID());
         }
       }
       errSf.setCausingException(e);
@@ -657,8 +657,8 @@ public class AFPParser {
         errSf = new StructuredFieldErrornouslyBuilt();
         errSf.setStructuredFieldIntroducer(sfi);
         if (sfi != null) {
-            errSf.setFileOffset(sfi.getFileOffset());
-            errSf.setTypeId(sfi.getSFTypeID());
+          errSf.setFileOffset(sfi.getFileOffset());
+          errSf.setTypeId(sfi.getSFTypeID());
         }
       }
 

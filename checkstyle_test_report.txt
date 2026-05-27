@@ -1,0 +1,14 @@
+
+> Configure project :
+Source Compatibility: 21
+
+> Task :compileJava UP-TO-DATE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava UP-TO-DATE
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+> Task :checkstyleTest UP-TO-DATE
+
+BUILD SUCCESSFUL in 1s
+4 actionable tasks: 4 up-to-date

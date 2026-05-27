@@ -200,7 +200,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ `LineLength` (~700).
         - ⏳ `CustomImportOrder` (~528).
         - ✅ `EmptyLineSeparator`.
-        - ⏳ `Indentation` (~182).
+        - ✅ `Indentation`.
         - ⏳ `LeftCurly` / `RightCurly` (~180).
     - ⏳ Address remaining miscellaneous violations (~130 warnings):
         - ✅ `FileTabCharacter` resolved.

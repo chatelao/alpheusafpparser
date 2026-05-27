@@ -78,10 +78,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
     XOF.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
     try {
-        // Try to disable structure validation to allow multiple roots in fragment mode
-        XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+      // Try to disable structure validation to allow multiple roots in fragment mode
+      XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
     } catch (Exception e) {
-        // Ignore if not supported
+      // Ignore if not supported
     }
   }
   private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
@@ -141,10 +141,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     // Fragment mapper to avoid repeated XML declarations
     this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper();
 
-      if (fragmentMode) {
-        // Ensure Aalto doesn't complain about multiple roots when we are just writing fragments
-        // But the generator is created from xsw, which is an Aalto XMLStreamWriter.
-      }
+    if (fragmentMode) {
+      // Ensure Aalto doesn't complain about multiple roots when we are just writing fragments
+      // But the generator is created from xsw, which is an Aalto XMLStreamWriter.
+    }
 
     if (this.xpathExpression == null) {
       XMLStreamWriter2 rawXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(cos, "UTF-8");
@@ -302,7 +302,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeTriplet(Triplet triplet, String indent) throws Exception {
     int level = indent.length() / 2; // Rough estimate of level if indent is spaces or \n + spaces
     if (indent.startsWith("\n")) {
-        level = (indent.length() - 1) / 2;
+      level = (indent.length() - 1) / 2;
     }
     String childIndent = XmlIndenter.getIndent(level + 1);
     if (triplet instanceof Triplet.FullyQualifiedName fqn) {

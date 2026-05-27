@@ -88,13 +88,13 @@ public class UtilReflection {
   public static boolean isNumeric(Class<?> fieldType) {
     return Number.class.isAssignableFrom(fieldType)
         || fieldType.isPrimitive() && (
-        double.class.isAssignableFrom(fieldType)
+            double.class.isAssignableFrom(fieldType)
             || float.class.isAssignableFrom(fieldType)
             || long.class.isAssignableFrom(fieldType)
             || int.class.isAssignableFrom(fieldType)
             || short.class.isAssignableFrom(fieldType)
             || byte.class.isAssignableFrom(fieldType)
-    );
+        );
   }
 
   public static boolean isAfpType(Class<?> clazz) {
