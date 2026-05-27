@@ -20,9 +20,12 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.cli;
 
 import com.mgz.afp.base.StructuredField;
+import com.mgz.afp.base.handler.HandlerFactory;
+import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
+import com.mgz.xml.XmlHandlerFactory;
 import com.mgz.xml.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -194,6 +197,7 @@ public class Afp2Xml {
 
         var hasErrors = new AtomicBoolean(false);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        final HandlerFactory handlerFactory = new XmlHandlerFactory(xpathExpression);
 
         final OrderedOutputOrchestrator orchestrator;
         if ("-".equals(outputPath)) {
@@ -213,7 +217,6 @@ public class Afp2Xml {
           final boolean finalCharsetOpt = useCharsetOptimizations;
 
           for (var f : files) {
-            final String finalXpath = xpathExpression;
             final boolean finalPtxDebug = ptxDebug;
             final String finalOutputPath = outputPath;
             final int streamId = (orchestrator != null) ? orchestrator.registerStream() : -1;
@@ -238,12 +241,12 @@ public class Afp2Xml {
                 if ("-".equals(finalOutputPath)) {
                   try (OutputStream orchestratedOs = orchestrator.createStreamOutputStream(streamId);
                        OutputStream bos = new BufferedOutputStream(orchestratedOs)) {
-                    convertToXml(f, bos, finalXpath, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                    convertToXml(f, bos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   }
                 } else {
                   try (var fos = new FileOutputStream(outputFile);
                        var bos = new BufferedOutputStream(fos)) {
-                    convertToXml(f, bos, finalXpath, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                    convertToXml(f, bos, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                   }
                   System.out.println("Export successful: " + outputFile.getPath());
                 }
@@ -269,16 +272,17 @@ public class Afp2Xml {
         }
         return hasErrors.get() ? 1 : 0;
       } else {
+        HandlerFactory handlerFactory = new XmlHandlerFactory(xpathExpression);
         if ("-".equals(outputPath)) {
           var bos = new BufferedOutputStream(System.out);
-          convertToXml(input, bos, xpathExpression, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+          convertToXml(input, bos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
           bos.flush();
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
           try (var fos = new FileOutputStream(outputFile);
                var bos = new BufferedOutputStream(fos)) {
-            convertToXml(input, bos, xpathExpression, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+            convertToXml(input, bos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
           }
           System.out.println("Export successful: " + outputFile.getPath());
         }
@@ -318,7 +322,7 @@ public class Afp2Xml {
     out.println("  -h, --help                Show this help message.");
   }
 
-  private static void convertToXml(File inputFile, java.io.OutputStream os, String xpathExpression,
+  private static void convertToXml(File inputFile, java.io.OutputStream os, HandlerFactory handlerFactory,
       boolean ptxDebug, boolean parallel, int threadCount, boolean useCharsetOptimizations) throws Exception {
     var config = new AFPParserConfiguration();
     config.setAFPFile(inputFile);
@@ -327,14 +331,14 @@ public class Afp2Xml {
     config.setUseCharsetOptimizations(useCharsetOptimizations);
 
     if (parallel) {
-      var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, xpathExpression);
+      var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, handlerFactory);
       converter.convert(os);
       return;
     }
 
     var parser = new AFPParser(config);
     try {
-      try (var writer = new com.mgz.xml.AfpJacksonXmlWriter(os, xpathExpression)) {
+      try (StructuredFieldHandler handler = handlerFactory.createHandler(os, false)) {
         StructuredField sf;
         while ((sf = parser.parseNextSF()) != null) {
           if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
@@ -343,7 +347,7 @@ public class Afp2Xml {
                   + inputFile.getName() + ": " + errSf.getErrorMessage());
             }
           }
-          writer.writeField(sf);
+          handler.handle(sf);
           sf.release();
         }
       }

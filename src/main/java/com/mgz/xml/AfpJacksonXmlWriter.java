@@ -167,16 +167,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   @Override
   public void handle(StructuredField sf) throws Exception {
-    writeField(sf);
-  }
-
-  /**
-   * Writes a single structured field to the XML output.
-   *
-   * @param sf the structured field to write
-   * @throws Exception if writing fails
-   */
-  public void writeField(StructuredField sf) throws Exception {
     boolean isPtx = sf instanceof PTX_PresentationTextData;
     long startTime = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? System.nanoTime() : 0;
     long startCount = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? cos.getCount() : 0;
@@ -188,10 +178,24 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
     } finally {
       if (startTime > 0) {
-        xsw.flush();
+        if (xsw != null) {
+          xsw.flush();
+        }
         com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(System.nanoTime() - startTime, cos.getCount() - startCount);
       }
     }
+  }
+
+  /**
+   * Writes a single structured field to the XML output.
+   *
+   * @param sf the structured field to write
+   * @throws Exception if writing fails
+   * @deprecated Use {@link #handle(StructuredField)} instead.
+   */
+  @Deprecated
+  public void writeField(StructuredField sf) throws Exception {
+    handle(sf);
   }
 
   private void writeFieldDirectly(StructuredField sf) throws Exception {
@@ -758,7 +762,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
-        tempWriter.writeField(sf);
+        tempWriter.handle(sf);
     }
 
     String xml = baos.toString(StandardCharsets.UTF_8);

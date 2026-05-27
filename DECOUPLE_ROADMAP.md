@@ -9,19 +9,19 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 - ✅ **Define `HandlerFactory`**: Create the interface for handler instantiation.
 - ✅ **Create `XmlHandlerFactory`**: A concrete implementation that instantiates `AfpJacksonXmlWriter`.
 
-## Phase 2: Refactoring Output Modules (XML) ⏳
+## Phase 2: Refactoring Output Modules (XML) ✅
 **Goal:** Adapt the Jackson XML writer to the new abstraction.
 
 - ✅ **Update `AfpJacksonXmlWriter`**: Implement `StructuredFieldHandler`.
-- ⏳ **Unify XML Writing Logic**: Ensure the writer uses the `handle(sf)` method for field processing.
+- ✅ **Unify XML Writing Logic**: Ensure the writer uses the `handle(sf)` method for field processing.
 
-## Phase 3: Integration (Orchestrators & CLI) ⏳
+## Phase 3: Integration (Orchestrators & CLI) ✅
 **Goal:** Update the parser's consumers to use the abstraction.
 
-1.  **Refactor `ParallelAfpConverter`:**
+1.  ✅ **Refactor `ParallelAfpConverter`:**
     - Replace `useJackson` and `xpathExpression` flags with a `HandlerFactory` instance.
     - Update `PageConversionTask` to use the factory.
-2.  **Refactor `Afp2Xml` CLI:**
+2.  ✅ **Refactor `Afp2Xml` CLI:**
     - Update the `convertToXml` method to instantiate an `XmlHandlerFactory`.
     - Adapt the sequential parsing loop to use the `StructuredFieldHandler` interface.
 
@@ -38,3 +38,4 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 1.  **Stub `PdfHandler`:** Create a skeleton implementation for performance testing (parsing without output).
 2.  **Benchmark PDF vs XML:** Measure the throughput of the parsing stage alone to establish a ceiling for PDF generation speed.
 3.  **Finalize iText 9-based integration design:** Document the mapping and parallel assembly strategy in [PDF_INTEGRATION_CONCEPT.md](PDF_INTEGRATION_CONCEPT.md).
+4.  **Decouple fragment assembly from XML-specific stripping:** Replace the manual XML tag stripping in `ParallelAfpConverter` with a generic assembly mechanism in `OrderedResultCollector` or via a specialized `FragmentAssembler`.
