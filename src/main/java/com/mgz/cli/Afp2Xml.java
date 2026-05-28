@@ -27,7 +27,9 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.DirectBufferOutputStream;
+import com.mgz.util.FileChannelMappedBufferProvider;
 import com.mgz.util.MappedBufferOutputStream;
+import com.mgz.util.SegmentedMappedBufferOutputStream;
 import com.mgz.xml.XmlHandlerFactory;
 import com.mgz.xml.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
@@ -258,14 +260,15 @@ public class Afp2Xml {
                 } else {
                   if (finalAggressiveIo) {
                     long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
-                    if (estimatedSize > 0 && estimatedSize < 2L * 1024 * 1024 * 1024) {
+                    if (estimatedSize > 0) {
                       try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
                         raf.setLength(estimatedSize);
-                        MappedByteBuffer mbb = raf.getChannel().map(FileChannel.MapMode.READ_WRITE, 0, estimatedSize);
-                        try (var os = new MappedBufferOutputStream(mbb)) {
+                        FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
+                        int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
+                        try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
                           convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                           os.flush();
-                          long finalSize = mbb.position();
+                          long finalSize = os.getGlobalPosition();
                           raf.getChannel().truncate(finalSize);
                         }
                       }
@@ -326,15 +329,16 @@ public class Afp2Xml {
 
           if (aggressiveIo) {
             long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length());
-            // Use MMap for single-file mode if aggressive IO is on and size is reasonable
-            if (estimatedSize > 0 && estimatedSize < 2L * 1024 * 1024 * 1024) {
+            // Use MMap for single-file mode if aggressive IO is on
+            if (estimatedSize > 0) {
               try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
                 raf.setLength(estimatedSize);
-                MappedByteBuffer mbb = raf.getChannel().map(FileChannel.MapMode.READ_WRITE, 0, estimatedSize);
-                try (var os = new MappedBufferOutputStream(mbb)) {
+                FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
+                int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
+                try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
                   convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
                   os.flush();
-                  long finalSize = mbb.position();
+                  long finalSize = os.getGlobalPosition();
                   raf.getChannel().truncate(finalSize);
                 }
               }
