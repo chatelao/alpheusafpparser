@@ -1,4 +1,4 @@
-Annex I (normative) PDF versions and compatibility
+# Annex I (normative) PDF versions and compatibility
 
 ## I.1 General
 

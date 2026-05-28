@@ -1,4 +1,4 @@
-Annex G (informative) Linearized PDF access strategies
+# Annex G (informative) Linearized PDF access strategies
 
 ## G.1 General
 

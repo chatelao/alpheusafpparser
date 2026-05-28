@@ -1,4 +1,4 @@
-Annex B (informative) Operators in Type 4 Functions
+# Annex B (informative) Operators in Type 4 Functions
 
 ## B.1 General
 

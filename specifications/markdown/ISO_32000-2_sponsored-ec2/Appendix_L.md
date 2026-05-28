@@ -1,4 +1,4 @@
-Annex L (normative) Parent-child relationships between the standard structure elements in the standard structure namespace for PDF 2.0
+# Annex L (normative) Parent-child relationships between the standard structure elements in the standard structure namespace for PDF 2.0
 
 > **NOTE** This annex was corrected (2020).
 This annex defines the acceptable children of the standard structure elements defined in PDF 2.0.

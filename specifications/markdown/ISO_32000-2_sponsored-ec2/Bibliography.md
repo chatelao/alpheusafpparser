@@ -1,4 +1,4 @@
-Bibliography
+# Bibliography
 
 PDF Reference, First Edition, version 1.0 (June 1993), Addison-Wesley, 0-201-62628-4
 
@@ -464,5 +464,3 @@ Figure 1c - EBNF diagram for a PDF object number
 Figure 1d - EBNF diagram for a PDF generation number
 
 © 2024 – All rights reserved ~ Errata pages are made possible by:
-
-
