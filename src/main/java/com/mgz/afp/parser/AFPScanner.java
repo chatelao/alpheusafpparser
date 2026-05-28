@@ -159,7 +159,8 @@ public class AFPScanner {
         }
         currentFilePos += chunkPos;
       }
-    } catch (Exception e) {
+    } catch (Exception expected) {
+      // ignored
     }
     return offsets;
   }
@@ -183,7 +184,8 @@ public class AFPScanner {
       for (Future<Void> future : futures) {
         future.get();
       }
-    } catch (Exception e) {
+    } catch (Exception expected) {
+      // ignored
     } finally {
       executor.shutdown();
     }
@@ -219,7 +221,8 @@ public class AFPScanner {
       for (Future<Void> future : futures) {
         future.get();
       }
-    } catch (Exception e) {
+    } catch (Exception expected) {
+      // ignored
     } finally {
       executor.shutdown();
     }
@@ -283,7 +286,8 @@ public class AFPScanner {
           currentFilePos++;
         }
       }
-    } catch (Exception e) {
+    } catch (Exception expected) {
+      // ignored
     }
     return offsets;
   }

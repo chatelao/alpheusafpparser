@@ -227,8 +227,8 @@ public class PTXPerformanceMonitor {
       System.out.println("| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |");
       new TreeMap<>(ptocaFunctionCounts).forEach((name, fCount) -> {
         long countValue = fCount.sum();
-        long pTime = ptocaFunctionParseTimes.getOrDefault(name, new LongAdder()).sum();
-        long wTime = ptocaFunctionWriteTimes.getOrDefault(name, new LongAdder()).sum();
+        long parseTime = ptocaFunctionParseTimes.getOrDefault(name, new LongAdder()).sum();
+        long writeTime = ptocaFunctionWriteTimes.getOrDefault(name, new LongAdder()).sum();
         long maxWTime = ptocaFunctionMaxWriteTimes.getOrDefault(name, new LongAdder()).sum();
         long payload = ptocaFunctionPayloadSizes.getOrDefault(name, new LongAdder()).sum();
         long xmlSize = ptocaFunctionXmlSizes.getOrDefault(name, new LongAdder()).sum();
@@ -237,7 +237,7 @@ public class PTXPerformanceMonitor {
         double avgPayload = countValue > 0 ? (double) payload / countValue : 0;
         double ratio = payload > 0 ? (double) xmlSize / payload : 0;
         System.out.println(String.format("| %-30s | %10d | %12d | %12d | %12d | %15d | %15.2f | %10.2f | %s |",
-            name, countValue, pTime / 1_000_000, wTime / 1_000_000, maxWTime / 1_000_000, payload, avgPayload, ratio, maxPayload));
+            name, countValue, parseTime / 1_000_000, writeTime / 1_000_000, maxWTime / 1_000_000, payload, avgPayload, ratio, maxPayload));
       });
 
       long totalPtocaWriteTime = ptocaFunctionWriteTimes.values().stream().mapToLong(LongAdder::sum).sum();
