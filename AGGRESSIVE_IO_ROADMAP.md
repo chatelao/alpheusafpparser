@@ -45,9 +45,9 @@ Optimize large single-file conversions by mapping output files directly into mem
     - ✅ **3.1.1.1. Utility implementation**: Create `MappedBufferOutputStream` to wrap `MappedByteBuffer`.
     - ✅ **3.1.1.2. Integration**: Integrate `MappedBufferOutputStream` into `Afp2Xml` and `ParallelAfpConverter`.
   - ⏳ **3.1.2. Size-aware re-mapping**: Logic to unmap and re-map with larger capacity when estimates are exceeded.
-    - ⏳ **3.1.2.1. Overflow detection**: Robust detection of `BufferOverflowException` in `MappedBufferOutputStream`.
+    - ✅ **3.1.2.1. Overflow detection**: Robust detection of `BufferOverflowException` and segment switching in `SegmentedMappedBufferOutputStream`.
     - ⏳ **3.1.2.2. Buffer chaining/re-mapping logic**: Implement multi-segment mapping or re-mapping to larger segments.
-      - ⏳ **3.1.2.2.1. Segmented Output Integration**: Refactor `Afp2Xml` to use `SegmentedMappedBufferOutputStream` for single-file mode.
+      - ✅ **3.1.2.2.1. Segmented Output Integration**: Refactor `Afp2Xml` to use `SegmentedMappedBufferOutputStream` for single-file and directory modes.
   - ⏳ **3.1.3. Benchmarking**: Comparative analysis of MMap vs. standard NIO on different SSD/HDD tiers.
     - ⏳ **3.1.3.1. MMap vs. Standard NIO comparison**: Direct throughput measurement for large single files.
     - ⏳ **3.1.3.2. SSD vs. HDD tier analysis**: Verify MMap performance impact across different storage types.
@@ -58,7 +58,9 @@ Optimize large single-file conversions by mapping output files directly into mem
 - ⏳ **3.3. Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
   - ✅ **3.3.1. Segmented OutputStream Design**: Prototype an OutputStream that transparently handles multiple MappedByteBuffers. (Implemented as `SegmentedMappedBufferOutputStream`).
   - ⏳ **3.3.2. Multi-segment mapping logic**: Logic to map/unmap 2GB segments based on current position and file size.
-  - ⏳ **3.3.3. Boundary handling for cross-segment fragments**: Ensure large structured fields crossing a 2GB boundary are handled without corruption.
+    - ✅ **3.3.2.1. Implementation of FileChannel provider**: Create `FileChannelMappedBufferProvider` to back `SegmentedMappedBufferOutputStream`.
+    - ⏳ **3.3.2.2. Robust unmapping strategy**: Implement explicit unmapping for old segments to avoid virtual address space exhaustion.
+  - ✅ **3.3.3. Boundary handling for cross-segment fragments**: Ensure large structured fields crossing a 2GB boundary are handled without corruption. (Implemented in `SegmentedMappedBufferOutputStream`).
 - ✅ **3.4. Atomic Pre-allocation**: Efficiently grow output files and in-memory buffers.
   - ✅ **3.4.1. In-memory Buffer Pre-allocation**: Use `SFSizeEstimator` to pre-size `ByteArrayOutputStream` in parallel and filtered paths.
   - ✅ **3.4.2. File-system Pre-allocation**: Use `SFSizeEstimator` to determine initial file size for physical disks. (Enabled via `--aggressive-io` CLI flag).
