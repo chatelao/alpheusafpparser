@@ -256,7 +256,7 @@ public class Afp2Xml {
                     os.flush();
                   }
                 } else {
-                  if (finalAggressiveIo && !useInternalParallel) {
+                  if (finalAggressiveIo) {
                     long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
                     if (estimatedSize > 0 && estimatedSize < 2L * 1024 * 1024 * 1024) {
                       try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
@@ -324,9 +324,9 @@ public class Afp2Xml {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
 
-          if (aggressiveIo && !parallel) {
+          if (aggressiveIo) {
             long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length());
-            // Use MMap for single-file sequential mode if aggressive IO is on and size is reasonable
+            // Use MMap for single-file mode if aggressive IO is on and size is reasonable
             if (estimatedSize > 0 && estimatedSize < 2L * 1024 * 1024 * 1024) {
               try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
                 raf.setLength(estimatedSize);
