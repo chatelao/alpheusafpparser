@@ -27,18 +27,18 @@ Verification is currently initialized to 0% and will progress as granular tests 
 
 | Specification | Covered | Total | % |
 | :--- | :---: | :---: | :---: |
-| [BCOCA](TEST_COVERAGE_BCOCA.md) | 1237 | 1237 | 100.0% |
+| [BCOCA](TEST_COVERAGE_BCOCA.md) | 0 | 1237 | 0.0% |
 | [CMOCA](TEST_COVERAGE_CMOCA.md) | 1085 | 1085 | 100.0% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
-| [FOCA](TEST_COVERAGE_FOCA.md) | 1391 | 1391 | 100.0% |
-| [GOCA](TEST_COVERAGE_GOCA.md) | 2144 | 2144 | 100.0% |
-| [IOCA](TEST_COVERAGE_IOCA.md) | 1587 | 1587 | 100.0% |
+| [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
+| [GOCA](TEST_COVERAGE_GOCA.md) | 0 | 2144 | 0.0% |
+| [IOCA](TEST_COVERAGE_IOCA.md) | 0 | 1587 | 0.0% |
 | [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
 | [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
-| [MOCA](TEST_COVERAGE_MOCA.md) | 173 | 173 | 100.0% |
+| [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
 | [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4139 | 0.0% |
-| [PTOCA](TEST_COVERAGE_PTOCA.md) | 1488 | 1488 | 100.0% |
-| **Total** | **8825** | **21052** | **41.9%** |
+| [PTOCA](TEST_COVERAGE_PTOCA.md) | 0 | 1488 | 0.0% |
+| **Total** | **1085** | **21052** | **5.2%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -136,9 +136,9 @@ Verification is currently initialized to 0% and will progress as granular tests 
             - ✅ SF Groups J-O (Complete).
             - ✅ SF Groups P-T (Complete).
             - ✅ SF Groups U-Z (XMD moved to Line Data).
-        - ⏳ Chapter 6 (Triplets).
-        - ⏳ Chapter 7 (Interchange Sets).
-        - ⏳ Chapter 8 (Function Sets).
+        - ✅ Chapter 6 (Triplets).
+        - ✅ Chapter 7 (Interchange Sets).
+        - ✅ Chapter 8 (Function Sets).
         - ⏳ Appendix A (Color Resources).
         - ⏳ Appendix B (Standard OCA Color Value Table).
         - ⏳ Appendix C (MO:DCA Registry).
@@ -163,21 +163,21 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ✅ Chapter 6 complete.
         - ⏳ Chapter 7.
         - ⏳ Appendices A-C, Glossary, and Front Matter.
-- ✅ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
-- ✅ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks.
-- ✅ Analyzing and updating the `TEST_COVERAGE_FOCA.md` complete.
-- ✅ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
-    - ✅ Chapters 1-3 complete.
-    - ✅ Chapter 4 complete.
-    - ✅ Chapters 5-6 complete.
-    - ✅ Chapter 7 (Commands and Drawing Orders) complete.
-    - ✅ Chapters 8-9 complete.
-    - ✅ Appendices A-D complete.
-- ✅ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks:
-    - ✅ Chapters 1-6 complete.
-    - ✅ Chapter 7 (Function Sets) complete.
-    - ✅ Appendices A-G complete.
-- ✅ Analyzing and updating the `TEST_COVERAGE_BCOCA.md` complete.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_PTOCA.md` in reasonable chunks.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_MOCA.md` in reasonable chunks.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_FOCA.md`.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_GOCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-3.
+    - ⏳ Chapter 4.
+    - ⏳ Chapters 5-6.
+    - ⏳ Chapter 7 (Commands and Drawing Orders).
+    - ⏳ Chapters 8-9.
+    - ⏳ Appendices A-D.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_IOCA.md` in reasonable chunks:
+    - ⏳ Chapters 1-6.
+    - ⏳ Chapter 7 (Function Sets).
+    - ⏳ Appendices A-G.
+- ⏳ Analyzing and updating the `TEST_COVERAGE_BCOCA.md`.
 - ✅ Analyzing and updating the `TEST_COVERAGE_CMOCA.md` complete.
 - ⏳ Analyzing and updating the `TEST_COVERAGE_MODCA.md` in reasonable chunks:
     - ⏳ Chapters 1–3 (Overview, Document Hierarchy, SF Syntax).
@@ -208,28 +208,31 @@ Verification is currently initialized to 0% and will progress as granular tests 
     - ✅ Fix malformed HTML and empty `<p>` tags (Fixed MCA).
 - ⏳ Resolve Checkstyle violations (~4,400 warnings):
     - ⏳ Fix Javadoc-related violations (~1,000 warnings):
-        - ⏳ `MissingJavadocMethod` (~530).
-        - ⏳ `MissingJavadocType` (~380).
+        - ⏳ `MissingJavadocMethod` (~552).
+        - ⏳ `MissingJavadocType` (~359).
         - ✅ `JavadocParagraph`
         - ✅ `SummaryJavadoc`.
     - 🚧 Fix Naming and Abbreviation violations (~1,270 warnings):
-        - ⏳ `AbbreviationAsWordInName` (~715).
+        - ⏳ `AbbreviationAsWordInName` (~734).
         - ⏳ `TypeName` (~318).
         - ⏳ `GoogleNonConstantFieldName` (~124).
         - ⏳ `ParameterName` (~107).
-        ✅ `LocalVariableName`.
+        - 🚧 `LocalVariableName` (~2).
     - ✅ Fix `AvoidStarImport` violations.
     - 🚧 Fix Formatting and Layout violations (~2,000 warnings):
-        - ⏳ `LineLength` (~700).
-        - ⏳ `CustomImportOrder` (~528).
-        - ✅ `EmptyLineSeparator`.
+        - ⏳ `LineLength` (~918).
+        - ⏳ `CustomImportOrder` (~432).
+        - 🚧 `EmptyLineSeparator` (~40).
         - ✅ `Indentation`.
         - ✅ `LeftCurly` / `RightCurly`.
     - ⏳ Address remaining miscellaneous violations (~130 warnings):
         - ✅ `FileTabCharacter` resolved.
         - ✅ `CommentsIndentation`.
         - ✅ `AnnotationLocation`.
-        - ✅ Miscellaneous low-count violations (`EmptyCatchBlock`, `ArrayTypeStyle`, `MultipleVariableDeclarations`).
+        - 🚧 `NeedBraces` (~45).
+        - 🚧 `EmptyCatchBlock` (~4).
+        - ✅ `ArrayTypeStyle`.
+        - ✅ `MultipleVariableDeclarations`.
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
 - ✅ Add a comprehensive contributing guide (`CONTRIBUTING.md`).
 - ✅ Implement a SECURITY.md policy.
