@@ -21,25 +21,56 @@ package com.mgz.pdf;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
+import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
+import com.mgz.afp.modca.ENG_EndNamedPageGroup;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Skeleton implementation of {@link StructuredFieldHandler} for PDF generation.
- * Initially used as a stub for performance benchmarking the parsing stage.
+ * Tracks the structural hierarchy of the MO:DCA stream to build the PDF/VT DPart hierarchy.
  */
 public class PdfHandler implements StructuredFieldHandler {
 
   private final AtomicLong fieldCount = new AtomicLong(0);
+  private final Deque<String> groupStack = new ArrayDeque<>();
 
   @Override
   public void handle(StructuredField sf) throws Exception {
     fieldCount.incrementAndGet();
+
+    if (sf instanceof BNG_BeginNamedPageGroup bng) {
+      groupStack.push(bng.getName() != null ? bng.getName() : "UNNAMED");
+    } else if (sf instanceof ENG_EndNamedPageGroup) {
+      if (!groupStack.isEmpty()) {
+        groupStack.pop();
+      }
+    }
     // TODO: Implement iText 9 based translation logic
   }
 
   @Override
   public void close() throws Exception {
     // No resources to release in the stub
+  }
+
+  /**
+   * Returns the current depth of the MO:DCA group hierarchy.
+   *
+   * @return the nesting level
+   */
+  public int getGroupDepth() {
+    return groupStack.size();
+  }
+
+  /**
+   * Returns the name of the current active group, or null if not in a group.
+   *
+   * @return the current group name
+   */
+  public String getCurrentGroupName() {
+    return groupStack.peek();
   }
 
   /**
