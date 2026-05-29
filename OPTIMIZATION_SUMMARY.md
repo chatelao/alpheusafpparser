@@ -323,22 +323,8 @@ if (channel != null) {
 }
 ```
 
-## 22. Tiered Direct Buffer Pooling
-**Explanation:** To minimize the high cost of `DirectByteBuffer` allocation and the resulting pressure on the native memory manager, the project uses a tiered, thread-safe pool. Buffers are bucketed by powers of two (8KB to 4MB) to ensure efficient recycling for varying fragment sizes.
-**Code Sample (`DirectBufferPool.java`):**
-```java
-public static ByteBuffer acquire(int capacity) {
-    int bucketIdx = getBucketIndex(capacity);
-    // ...
-    ByteBuffer buffer = BUCKETS[bucketIdx].poll();
-    if (buffer == null) {
-        int bucketCapacity = 1 << (bucketIdx + MIN_POWER);
-        return ByteBuffer.allocateDirect(bucketCapacity);
-    }
-    buffer.clear();
-    return buffer;
-}
-```
+## 22. [REMOVED] Tiered Direct Buffer Pooling
+**Explanation:** (This technique was removed in June 2026 to simplify the I/O pipeline). Previously, it used a tiered, thread-safe pool to minimize the cost of `DirectByteBuffer` allocation by bucketing buffers by powers of two (8KB to 4MB).
 
 ## 23. Memory-Aware Back-pressure
 **Explanation:** Parallel conversion of high-volume AFP data can easily overwhelm the output stream, especially when piping to stdout. A blocking back-pressure mechanism limits the total size of buffered fragments (default 64MB), pausing producers until the consumer catches up.

@@ -24,7 +24,6 @@ import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.util.SFSizeEstimator;
-import com.mgz.util.DirectBufferOutputStream;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.PTXPerformanceMonitor;
 import com.mgz.xml.OrderedResultCollector;
@@ -162,43 +161,42 @@ public class ParallelAfpConverter {
     @Override
     public Void call() throws Exception {
       int initialCapacity = (int) SFSizeEstimator.estimateXmlSize((int) (endOffset - startOffset));
-      try (DirectBufferOutputStream dbos = new DirectBufferOutputStream(initialCapacity)) {
-        try {
-          if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
-            int pageSize = (int) (endOffset - startOffset);
-            ByteBuffer pageData = ByteBuffer.allocateDirect(pageSize);
-            Future<Integer> readFuture = taskConfig.getAsyncFileChannel().read(pageData, startOffset);
-            readFuture.get();
-            pageData.flip();
-            taskConfig.setByteBuffer(pageData);
-          }
-
-          AFPParser parser = new AFPParser(taskConfig);
-          if (taskConfig.getByteBuffer() != null && startOffset < taskConfig.getByteBuffer().limit()) {
-            // If we pre-loaded, offsets in the buffer are 0-based
-            // but if we are using the original mapped buffer, we need to set start position
-            if (taskConfig.getByteBuffer().capacity() > (endOffset - startOffset)) {
-              parser.setNrOfBytesRead(startOffset);
-            }
-          }
-
-          try (StructuredFieldHandler handler = handlerFactory.createHandler(dbos, true)) {
-            StructuredField sf;
-            while ((sf = parser.parseNextSF()) != null) {
-              handler.handle(sf);
-              sf.release();
-              if (parser.getCountReadByte() >= endOffset) break;
-            }
-          }
-        } finally {
-          MnemonicPerformanceMonitor.merge();
-          PTXPerformanceMonitor.merge();
+      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(initialCapacity);
+      try {
+        if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
+          int pageSize = (int) (endOffset - startOffset);
+          ByteBuffer pageData = ByteBuffer.allocateDirect(pageSize);
+          Future<Integer> readFuture = taskConfig.getAsyncFileChannel().read(pageData, startOffset);
+          readFuture.get();
+          pageData.flip();
+          taskConfig.setByteBuffer(pageData);
         }
 
-        ByteBuffer fullData = dbos.getBufferAndDetach();
-        ByteBuffer stripped = handlerFactory.stripFragmentWrapper(fullData);
-        collector.put(sequence, stripped);
+        AFPParser parser = new AFPParser(taskConfig);
+        if (taskConfig.getByteBuffer() != null && startOffset < taskConfig.getByteBuffer().limit()) {
+          // If we pre-loaded, offsets in the buffer are 0-based
+          // but if we are using the original mapped buffer, we need to set start position
+          if (taskConfig.getByteBuffer().capacity() > (endOffset - startOffset)) {
+            parser.setNrOfBytesRead(startOffset);
+          }
+        }
+
+        try (StructuredFieldHandler handler = handlerFactory.createHandler(baos, true)) {
+          StructuredField sf;
+          while ((sf = parser.parseNextSF()) != null) {
+            handler.handle(sf);
+            sf.release();
+            if (parser.getCountReadByte() >= endOffset) break;
+          }
+        }
+      } finally {
+        MnemonicPerformanceMonitor.merge();
+        PTXPerformanceMonitor.merge();
       }
+
+      ByteBuffer fullData = ByteBuffer.wrap(baos.toByteArray());
+      ByteBuffer stripped = handlerFactory.stripFragmentWrapper(fullData);
+      collector.put(sequence, stripped);
       return null;
     }
   }

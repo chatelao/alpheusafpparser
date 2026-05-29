@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.xml;
 
-import com.mgz.util.DirectBufferPool;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -185,25 +184,19 @@ public class OrderedOutputOrchestrator {
           }
         } else {
           for (ByteBuffer fragment : readyFragments) {
-            if (out instanceof com.mgz.util.DirectBufferOutputStream dbos) {
-              dbos.write(fragment);
+            int fragmentLen = fragment.remaining();
+            if (fragment.hasArray()) {
+              out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
             } else {
-              int fragmentLen = fragment.remaining();
-              if (fragment.hasArray()) {
-                out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
-              } else {
-                byte[] temp = new byte[fragmentLen];
-                fragment.get(temp);
-                out.write(temp);
-              }
+              byte[] temp = new byte[fragmentLen];
+              fragment.get(temp);
+              out.write(temp);
             }
           }
           out.flush();
         }
       } finally {
-        for (ByteBuffer fragment : readyFragments) {
-          DirectBufferPool.release(fragment);
-        }
+        // No pooling needed
       }
       notifyAll();
     }
@@ -229,7 +222,7 @@ public class OrderedOutputOrchestrator {
     public void write(byte[] b, int off, int len) throws IOException {
       if (len == 0) return;
       // We must copy the data because the caller might reuse the buffer (e.g. BufferedOutputStream)
-      ByteBuffer data = (channel != null) ? DirectBufferPool.acquire(len) : ByteBuffer.allocate(len);
+      ByteBuffer data = ByteBuffer.allocate(len);
       data.put(b, off, len);
       data.flip();
       put(streamId, nextSequence++, data);
