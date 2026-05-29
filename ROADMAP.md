@@ -217,7 +217,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ⏳ `TypeName` (~318).
         - ⏳ `GoogleNonConstantFieldName` (~124).
         - ⏳ `ParameterName` (~107).
-        - 🚧 `LocalVariableName` (~2).
+        - ✅ `LocalVariableName`.
     - ✅ Fix `AvoidStarImport` violations.
     - 🚧 Fix Formatting and Layout violations (~2,000 warnings):
         - ⏳ `LineLength` (~918).
@@ -230,7 +230,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ✅ `CommentsIndentation`.
         - ✅ `AnnotationLocation`.
         - 🚧 `NeedBraces` (~45).
-        - 🚧 `EmptyCatchBlock` (~4).
+        - ✅ `EmptyCatchBlock`.
         - ✅ `ArrayTypeStyle`.
         - ✅ `MultipleVariableDeclarations`.
 - ⏳ Set up Dependabot or Renovate for automated dependency and Gradle updates.
