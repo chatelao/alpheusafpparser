@@ -265,12 +265,13 @@ public class Afp2Xml {
                         raf.setLength(estimatedSize);
                         FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
                         int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
+                        long finalSize = 0;
                         try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
                           convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
                           os.flush();
-                          long finalSize = os.getGlobalPosition();
-                          raf.getChannel().truncate(finalSize);
+                          finalSize = os.getGlobalPosition();
                         }
+                        raf.getChannel().truncate(finalSize);
                       }
                       System.out.println("Export successful (MMap): " + outputFile.getPath());
                     } else {
@@ -335,12 +336,13 @@ public class Afp2Xml {
                 raf.setLength(estimatedSize);
                 FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
                 int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
+                long finalSize = 0;
                 try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
                   convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
                   os.flush();
-                  long finalSize = os.getGlobalPosition();
-                  raf.getChannel().truncate(finalSize);
+                  finalSize = os.getGlobalPosition();
                 }
+                raf.getChannel().truncate(finalSize);
               }
               System.out.println("Export successful (MMap): " + outputFile.getPath());
               return 0;
