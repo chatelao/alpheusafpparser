@@ -1,4 +1,4 @@
-Annex J (informative) XObject comparison
+# Annex J (informative) XObject comparison
 
 ## J.1 Background
 

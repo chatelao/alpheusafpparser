@@ -1,4 +1,4 @@
-Annex P (informative) An algorithm to determine the actual blending colour space of a transparency group
+# Annex P (informative) An algorithm to determine the actual blending colour space of a transparency group
 
 The diagram in this annex illustrates a possible algorithm to determine the blending colour space of a transparency group:
 

@@ -1,4 +1,4 @@
-Annex M (informative) Differences between the standard structure namespaces
+# Annex M (informative) Differences between the standard structure namespaces
 
 > **NOTE** This annex was corrected (2020).
 This annex lists the differences in the sets of standard structure elements defined by the standard structure namespaces (see 14.8.6, "Standard structure namespaces").
