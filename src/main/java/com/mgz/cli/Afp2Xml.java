@@ -26,7 +26,6 @@ import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.NonClosingOutputStream;
-import com.mgz.util.DirectBufferOutputStream;
 import com.mgz.util.FileChannelMappedBufferProvider;
 import com.mgz.util.MappedBufferOutputStream;
 import com.mgz.util.SegmentedMappedBufferOutputStream;
@@ -305,24 +304,10 @@ public class Afp2Xml {
       } else {
         HandlerFactory handlerFactory = new XmlHandlerFactory(xpathExpression);
         if ("-".equals(outputPath)) {
-          WritableByteChannel wbc = null;
           OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
-          if (aggressiveIo) {
-            wbc = Channels.newChannel(nonClosingStdout);
-          }
-          OutputStream os = (aggressiveIo && wbc != null) ?
-              new DirectBufferOutputStream(128 * 1024, wbc) :
-              new BufferedOutputStream(nonClosingStdout);
-          try {
+          try (OutputStream os = new BufferedOutputStream(nonClosingStdout)) {
             convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
             os.flush();
-          } finally {
-            if (!(os instanceof DirectBufferOutputStream)) {
-              os.close();
-            } else {
-              // DirectBufferOutputStream.close() flushes and releases but doesn't close underlying channel
-              os.close();
-            }
           }
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
@@ -361,9 +346,7 @@ public class Afp2Xml {
             if (parallel) {
               convertToXml(input, fos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
             } else {
-              try (OutputStream os = aggressiveIo ?
-                  new DirectBufferOutputStream(128 * 1024, fos.getChannel()) :
-                  new BufferedOutputStream(fos)) {
+              try (OutputStream os = new BufferedOutputStream(fos)) {
                 convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
                 os.flush();
               }
@@ -387,9 +370,6 @@ public class Afp2Xml {
       if (ptxDebug) {
         com.mgz.util.PTXPerformanceMonitor.printSummary();
       }
-      if (aggressiveIo) {
-        com.mgz.util.DirectBufferPool.printPoolStats(System.out);
-      }
     }
   }
 
@@ -407,9 +387,7 @@ public class Afp2Xml {
       if (parallel) {
         convertToXml(f, fos, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
       } else {
-        try (OutputStream os = aggressiveIo ?
-            new DirectBufferOutputStream(128 * 1024, fos.getChannel()) :
-            new BufferedOutputStream(fos)) {
+        try (OutputStream os = new BufferedOutputStream(fos)) {
           convertToXml(f, os, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
           os.flush();
         }

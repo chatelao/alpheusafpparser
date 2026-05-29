@@ -37,7 +37,7 @@ Optimize the serialization of raw byte arrays by leveraging StAX2 binary streami
 ## Phase 3: Zero-Copy & ByteBuffer Integration 🚧
 Align XML generation with the project's aggressive I/O goals by bypassing `OutputStream` overhead.
 
-- ✅ **6.1. ByteBuffer-backed OutputStream**: Implement `DirectBufferOutputStream` to bridge StAX to `DirectBufferPool`. (Completed).
+- ❌ **6.1. ByteBuffer-backed OutputStream**: (Removed) `DirectBufferOutputStream` was removed.
 - ⏳ **6.2. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` for non-blocking `ByteBuffer` output.
 - ⏳ **6.3. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that writes directly into memory-mapped regions.
 

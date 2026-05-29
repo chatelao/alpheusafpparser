@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.xml;
 
-import com.mgz.util.DirectBufferPool;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -69,9 +68,7 @@ public class OrderedResultCollector {
    * @throws IOException if writing to the output stream fails
    */
   public synchronized void put(int sequence, byte[] data) throws IOException {
-    ByteBuffer bb = (channel != null) ? DirectBufferPool.acquire(data.length) : ByteBuffer.allocate(data.length);
-    bb.put(data);
-    bb.flip();
+    ByteBuffer bb = ByteBuffer.wrap(data);
     put(sequence, bb);
   }
 
@@ -116,9 +113,7 @@ public class OrderedResultCollector {
           }
         } else {
           for (ByteBuffer fragment : readyFragments) {
-            if (out instanceof com.mgz.util.DirectBufferOutputStream dbos) {
-              dbos.write(fragment);
-            } else if (out instanceof com.mgz.util.MappedBufferOutputStream mbos) {
+            if (out instanceof com.mgz.util.MappedBufferOutputStream mbos) {
               mbos.write(fragment);
             } else {
               int fragmentLen = fragment.remaining();
@@ -134,9 +129,7 @@ public class OrderedResultCollector {
           out.flush();
         }
       } finally {
-        for (ByteBuffer fragment : readyFragments) {
-          DirectBufferPool.release(fragment);
-        }
+        // No pooling needed for standard ByteBuffers
       }
       notifyAll();
     }

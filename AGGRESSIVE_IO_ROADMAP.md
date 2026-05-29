@@ -7,7 +7,7 @@ This document outlines the phased implementation plan for maximizing I/O through
 - **Directory Mode Optimization:** ✅ Completed
 - **Vectorized Writes:** ✅ Completed
 - **File-system Pre-allocation:** ✅ Completed
-- **Asynchronous I/O:** ⏳ Pending
+- **Asynchronous I/O**: ❌ Removed (Deprecated)
 
 ---
 
@@ -30,9 +30,9 @@ Enhance the efficiency of fragment flushing in both sequential and parallel mode
   - ✅ **ByteBuffer-based API**: Refactor orchestrators to accept `ByteBuffer` instead of `byte[]`.
   - ✅ **Fragment Batching**: Logic to group consecutive ready fragments.
   - ✅ **Vectorized FileChannel Writes**: Use `write(ByteBuffer[])` for flushing batches.
-- ✅ **Direct Buffer Integration**:
-  - ✅ **Direct Buffer Pooling**: Implement a recycler for `DirectByteBuffer`s to avoid allocation overhead.
-  - ✅ **Writers Integration**: Refactor `AfpJacksonXmlWriter` and orchestrators to use `DirectBufferOutputStream` and `ByteBuffer` for zero-copy transfers.
+- ❌ **Direct Buffer Integration**: (Removed/Deprecated)
+  - ❌ **Direct Buffer Pooling**: (Removed)
+  - ❌ **Writers Integration**: (Removed) Reverted to standard `ByteArrayOutputStream` and `ByteBuffer.wrap`.
 - ✅ **Typed Access API**: (From `STAX2_GAP.md`) Implement direct numeric writing in `AfpJacksonXmlWriter` to eliminate `String.valueOf()` overhead.
 - ✅ **Optimized Sanitization**: Refactor `SanitizingXMLStreamWriter` to avoid redundant string allocations when no sanitization is required.
 - ✅ **Vectorized Indentation**: (From `PTX_OPTIMIZATION_ROADMAP.md`) Use pre-filled buffers for XML indentation to avoid redundant string creation. (Implemented via `XmlIndenter`).
@@ -66,15 +66,12 @@ Optimize large single-file conversions by mapping output files directly into mem
   - ✅ **3.4.2. File-system Pre-allocation**: Use `SFSizeEstimator` to determine initial file size for physical disks. (Enabled via `--aggressive-io` CLI flag).
   - 🚧 **3.4.3. Allocation Strategy**: Evaluate `fallocate` (Linux) vs. zero-fill for efficient growth. (Initial zero-fill implemented in CLI).
 
-## Phase 4: Asynchronous & Non-Blocking I/O (Strategy A) ⏳
+## Phase 4: Asynchronous & Non-Blocking I/O (Strategy A) ❌
 Decouple serialization from I/O to improve performance on high-latency storage (Cloud/NAS).
 
-- ⏳ **4.1. NIO.2 Integration**: Transition `OrderedResultCollector` to use `AsynchronousFileChannel`.
-  - ⏳ **4.1.1. Buffer lifecycle management**: Manage buffer ownership between worker threads and NIO.2 handlers.
-  - ⏳ **4.1.2. Error propagation for async failures**: Implement robust error propagation for async failures.
-  - ⏳ **4.1.3. Parallel collector integration**: Refactor `ParallelAfpConverter` to utilize async completion.
-- ⏳ **4.2. Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
-- ✅ **4.3. Async OutputStream Wrapper**: Create an `OutputStream` implementation that uses `AsynchronousFileChannel` for non-blocking background writes. (Implemented as `AsynchronousBufferOutputStream`).
+- ❌ **4.1. NIO.2 Integration**: (Cancelled)
+- ❌ **4.2. Completion Handlers**: (Cancelled)
+- ❌ **4.3. Async OutputStream Wrapper**: (Removed) `AsynchronousBufferOutputStream` was removed due to dependency on deprecated pooling.
 - ✅ **4.4. Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
 
 ## Phase 5: Zero-Copy Ring-Buffer (Strategy D) ⏳
@@ -84,7 +81,7 @@ Extreme performance optimization for massive-scale conversion.
   - ⏳ **5.1.1. Ring-Buffer Interface**: Define the producer/consumer contract for `DirectByteBuffer` slots.
     - ⏳ **5.1.1.1. Producer/Consumer API**: Define the standard interface for slot acquisition.
     - ⏳ **5.1.1.2. Wait Strategies**: Implement spin-lock and parking-based wait strategies.
-  - ⏳ **5.1.2. Contention Analysis**: Audit `DirectBufferPool` for lock contention under high-frequency ring-buffer usage.
+  - ❌ **5.1.2. Contention Analysis**: (Cancelled) `DirectBufferPool` was removed.
   - ⏳ **5.1.3. Page-Aligned Allocator**: Ensure ring-buffer slots are aligned to physical memory pages (typically 4KB) for O_DIRECT compatibility.
 - ⏳ **5.2. Dedicated I/O Consumer**: Move all disk writes to a single dedicated thread pinned to a specific core to minimize context switches.
 - ⏳ **5.3. Wait-Free Synchronization**: Implement a wait-free sequence barrier for multi-producer coordination.
@@ -92,8 +89,8 @@ Extreme performance optimization for massive-scale conversion.
 ## Phase 6: StAX Writer Rework (Integration) 🚧
 To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`) should be refactored to work directly with `ByteBuffer`s or `ByteBuf`s (similar to Netty) instead of `OutputStream`.
 
-- ✅ **6.1. ByteBuffer-backed OutputStream**: Implement a pooled `OutputStream` that writes directly into `DirectByteBuffer`s from `DirectBufferPool`. (Implemented as `DirectBufferOutputStream`).
-- ✅ **6.2. Streaming Vectorized Output**: Enhance `DirectBufferOutputStream` to support periodic flushes to a `GatheringByteChannel`, enabling high-performance sequential I/O with minimal copying.
+- ❌ **6.1. ByteBuffer-backed OutputStream**: (Removed) `DirectBufferOutputStream` was removed.
+- ❌ **6.2. Streaming Vectorized Output**: (Removed)
 - ⏳ **6.3. Async StAX Writer Research**: Evaluate Aalto's `AsyncXMLStreamWriter` or similar extensions for non-blocking `ByteBuffer` output.
   - ⏳ **6.3.1. Aalto AsyncXMLStreamWriter evaluation**: Analysis of feature parity and performance.
   - ⏳ **6.3.2. Non-blocking ByteBuffer writer prototype**: Implementation of a minimal async writer wrapper.
