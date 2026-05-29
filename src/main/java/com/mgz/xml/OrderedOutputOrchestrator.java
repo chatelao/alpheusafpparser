@@ -177,7 +177,9 @@ public class OrderedOutputOrchestrator {
         if (channel != null) {
           ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
           long totalBytes = 0;
-          for (ByteBuffer b : srcs) totalBytes += b.remaining();
+          for (ByteBuffer b : srcs) {
+            totalBytes += b.remaining();
+          }
           long written = 0;
           while (written < totalBytes) {
             written += channel.write(srcs);
@@ -220,7 +222,9 @@ public class OrderedOutputOrchestrator {
 
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
-      if (len == 0) return;
+      if (len == 0) {
+        return;
+      }
       // We must copy the data because the caller might reuse the buffer (e.g. BufferedOutputStream)
       ByteBuffer data = ByteBuffer.allocate(len);
       data.put(b, off, len);

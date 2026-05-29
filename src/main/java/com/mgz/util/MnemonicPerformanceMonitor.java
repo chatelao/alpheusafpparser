@@ -58,19 +58,29 @@ public class MnemonicPerformanceMonitor {
   }
 
   public static void startParse(Object obj) {
-    if (!enabled) return;
+    if (!enabled) {
+      return;
+    }
     String mnemonic = extractMnemonic(obj);
-    if (mnemonic == null) return;
+    if (mnemonic == null) {
+      return;
+    }
     activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), true));
   }
 
   public static void endParse() {
-    if (!enabled) return;
+    if (!enabled) {
+      return;
+    }
     long endTime = System.nanoTime();
     Deque<Measurement> stack = activeMeasurements.get();
-    if (stack.isEmpty()) return;
+    if (stack.isEmpty()) {
+      return;
+    }
     Measurement m = stack.peek();
-    if (!m.isParse) return;
+    if (!m.isParse) {
+      return;
+    }
     stack.pop();
     long duration = endTime - m.startTime;
     LocalStats stats = localStatsMap.get().computeIfAbsent(m.mnemonic, k -> new LocalStats());
@@ -79,19 +89,29 @@ public class MnemonicPerformanceMonitor {
   }
 
   public static void startWrite(String name) {
-    if (!enabled) return;
+    if (!enabled) {
+      return;
+    }
     String mnemonic = extractMnemonicFromString(name);
-    if (mnemonic == null) return;
+    if (mnemonic == null) {
+      return;
+    }
     activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false));
   }
 
   public static void endWrite() {
-    if (!enabled) return;
+    if (!enabled) {
+      return;
+    }
     long endTime = System.nanoTime();
     Deque<Measurement> stack = activeMeasurements.get();
-    if (stack.isEmpty()) return;
+    if (stack.isEmpty()) {
+      return;
+    }
     Measurement m = stack.peek();
-    if (m.isParse) return;
+    if (m.isParse) {
+      return;
+    }
     stack.pop();
     long duration = endTime - m.startTime;
     LocalStats stats = localStatsMap.get().computeIfAbsent(m.mnemonic, k -> new LocalStats());
@@ -99,15 +119,21 @@ public class MnemonicPerformanceMonitor {
   }
 
   public static void recordCharset(Charset charset) {
-    if (!enabled || charset == null) return;
+    if (!enabled || charset == null) {
+      return;
+    }
     String name = charset.name();
     Map<String, Long> local = localCharsetMap.get();
     local.put(name, local.getOrDefault(name, 0L) + 1);
   }
 
   public static String extractMnemonic(Object obj) {
-    if (obj == null) return null;
-    if (obj instanceof String s) return extractMnemonicFromString(s);
+    if (obj == null) {
+      return null;
+    }
+    if (obj instanceof String s) {
+      return extractMnemonicFromString(s);
+    }
 
     String className = obj.getClass().getName();
     String cached = mnemonicCache.get(className);
@@ -131,7 +157,9 @@ public class MnemonicPerformanceMonitor {
   }
 
   private static String extractMnemonicFromString(String name) {
-    if (name == null || name.isEmpty()) return null;
+    if (name == null || name.isEmpty()) {
+      return null;
+    }
 
     String cached = mnemonicCache.get(name);
     if (cached != null) {
@@ -187,7 +215,9 @@ public class MnemonicPerformanceMonitor {
   public static long getWriteTime(String name) {
     merge();
     String mnemonic = extractMnemonicFromString(name);
-    if (mnemonic == null) return 0;
+    if (mnemonic == null) {
+      return 0;
+    }
     MnemonicStats stats = globalStatsMap.get(mnemonic);
     return stats != null ? stats.writeTime.sum() : 0;
   }

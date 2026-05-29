@@ -106,7 +106,9 @@ public class OrderedResultCollector {
         if (channel != null) {
           ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
           long totalBytes = 0;
-          for (ByteBuffer b : srcs) totalBytes += b.remaining();
+          for (ByteBuffer b : srcs) {
+            totalBytes += b.remaining();
+          }
           long written = 0;
           while (written < totalBytes) {
             written += channel.write(srcs);

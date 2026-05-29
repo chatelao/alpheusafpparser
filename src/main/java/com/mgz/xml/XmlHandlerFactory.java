@@ -58,7 +58,9 @@ public class XmlHandlerFactory implements HandlerFactory {
 
   @Override
   public ByteBuffer stripFragmentWrapper(ByteBuffer data) {
-    if (data == null || !data.hasRemaining()) return data;
+    if (data == null || !data.hasRemaining()) {
+      return data;
+    }
 
     int startIdx = -1;
     int len = data.remaining();
@@ -79,7 +81,9 @@ public class XmlHandlerFactory implements HandlerFactory {
       }
     }
 
-    if (startIdx == -1) return data;
+    if (startIdx == -1) {
+      return data;
+    }
 
     int endIdx = -1;
     // Search for end tag from the end
@@ -97,7 +101,9 @@ public class XmlHandlerFactory implements HandlerFactory {
       }
     }
 
-    if (endIdx == -1) return data;
+    if (endIdx == -1) {
+      return data;
+    }
 
     data.position(pos + startIdx);
     data.limit(pos + endIdx);

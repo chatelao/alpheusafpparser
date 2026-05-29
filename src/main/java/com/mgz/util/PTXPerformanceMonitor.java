@@ -92,9 +92,13 @@ public class PTXPerformanceMonitor {
    */
   public static double getGlobalPtocaExpansionRatio(String functionName) {
     LongAdder payloadAdder = ptocaFunctionPayloadSizes.get(functionName);
-    if (payloadAdder == null) return 0;
+    if (payloadAdder == null) {
+      return 0;
+    }
     long payload = payloadAdder.sum();
-    if (payload <= 0) return 0;
+    if (payload <= 0) {
+      return 0;
+    }
     LongAdder xmlSizeAdder = ptocaFunctionXmlSizes.get(functionName);
     return xmlSizeAdder != null ? (double) xmlSizeAdder.sum() / payload : 0;
   }
@@ -181,13 +185,17 @@ public class PTXPerformanceMonitor {
         if (v == null) {
           v = new LongAdder();
           v.add(stats.maxWriteTime);
-          if (stats.maxPayload != null) ptocaFunctionMaxPayloads.put(name, stats.maxPayload);
+          if (stats.maxPayload != null) {
+            ptocaFunctionMaxPayloads.put(name, stats.maxPayload);
+          }
           return v;
         }
         if (stats.maxWriteTime > v.sum()) {
           v.reset();
           v.add(stats.maxWriteTime);
-          if (stats.maxPayload != null) ptocaFunctionMaxPayloads.put(name, stats.maxPayload);
+          if (stats.maxPayload != null) {
+            ptocaFunctionMaxPayloads.put(name, stats.maxPayload);
+          }
         }
         return v;
       });
@@ -233,7 +241,9 @@ public class PTXPerformanceMonitor {
         long payload = ptocaFunctionPayloadSizes.getOrDefault(name, new LongAdder()).sum();
         long xmlSize = ptocaFunctionXmlSizes.getOrDefault(name, new LongAdder()).sum();
         String maxPayload = ptocaFunctionMaxPayloads.getOrDefault(name, "N/A");
-        if (maxPayload.length() > 50) maxPayload = maxPayload.substring(0, 47) + "...";
+        if (maxPayload.length() > 50) {
+          maxPayload = maxPayload.substring(0, 47) + "...";
+        }
         double avgPayload = countValue > 0 ? (double) payload / countValue : 0;
         double ratio = payload > 0 ? (double) xmlSize / payload : 0;
         System.out.println(String.format("| %-30s | %10d | %12d | %12d | %12d | %15d | %15.2f | %10.2f | %s |",
