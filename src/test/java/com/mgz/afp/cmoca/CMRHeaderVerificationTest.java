@@ -72,4 +72,31 @@ public class CMRHeaderVerificationTest {
         cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
         assertEquals(man, cmr.getManufacturerName());
     }
+
+    @Test
+    public void testInvalidSignature() {
+        // [CMOCA-3-254] EC-EFF110 Invalid Field Value: The specified value for CMRSig is not X'434D5239'.
+        byte[] data = createCmrHeaderShell();
+        data[13] = 'B'; // Invalid signature "BMR9"
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        assertThrows(Exception.class, () -> {
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        });
+    }
+
+    @Test
+    public void testReservedFields() throws Exception {
+        // [CMOCA-3-047] Reserved; should be set to zero
+        // [CMOCA-3-101] Reserved; should be set to zero
+        byte[] data = createCmrHeaderShell();
+        data[18] = 0x01; // reserved1 (offset 9 in payload, but offset 8 is MSB of 2-byte int)
+        data[172] = 0x01; // reserved3 (offset 163 in payload, but offset 156 is MSB of 8-byte long)
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        // Should not throw, but we verify it can parse even if reserved are non-zero (robustness)
+        cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        assertEquals(1, cmr.getReserved1());
+        assertEquals(1, cmr.getReserved3());
+    }
 }

@@ -80,8 +80,20 @@ public class CMRTag {
     }
 
     int offset = 0;
+    int lastTagId = -1;
     while (offset + 12 <= cmrData.length) {
       int tagId = UtilBinaryDecoding.parseInt(cmrData, offset, 2);
+      // [CMOCA-5-018] The tags in a CMR must be specified in increasing order by their TagIDs.
+      if (tagId <= lastTagId && tagId != 0xFFFF) {
+        throw new AFPParserException(String.format("CMR tags must be in increasing order. Found 0x%04X after 0x%04X", tagId, lastTagId));
+      }
+
+      int reserved = cmrData[offset + 2] & 0xFF;
+      // [CMOCA-5-004] Reserved X'00' Should be set to zero
+      if (reserved != 0) {
+        // Ignored or logged
+      }
+
       int fieldType = cmrData[offset + 3] & 0xFF;
       long count = UtilBinaryDecoding.parseLong(cmrData, offset + 4, 4);
       long valueOffset = UtilBinaryDecoding.parseLong(cmrData, offset + 8, 4);
@@ -89,6 +101,7 @@ public class CMRTag {
       CMRTag tag = new CMRTag(tagId, fieldType, count, valueOffset);
       tags.add(tag);
 
+      lastTagId = tagId;
       offset += 12;
       if (tagId == 0xFFFF) {
         break;

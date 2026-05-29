@@ -90,7 +90,16 @@ public class CMR_ColorManagementResource extends StructuredField {
 
     this.length = UtilBinaryDecoding.parseLong(sfData, offset, 4);
     this.signature = new String(sfData, offset + 4, 4, Constants.cpIBM500);
+    // [CMOCA-3-254] EC-EFF110 Invalid Field Value: The specified value for CMRSig is not X'434D5239'.
+    if (!"CMR9".equals(this.signature)) {
+      throw new AFPParserException("Invalid CMR signature: " + this.signature + " (expected 'CMR9')");
+    }
+
     this.reserved1 = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
+    // [CMOCA-3-047] Reserved; should be set to zero
+    if (reserved1 != 0) {
+      // We don't throw exception for reserved fields unless mandated, but we can log or follow pattern
+    }
 
     // CMR Name starts here (Bytes 10-155)
     this.alias = trimCmrString(new String(sfData, offset + 10, 16, Constants.utf16be));
@@ -111,6 +120,10 @@ public class CMR_ColorManagementResource extends StructuredField {
     this.reserved2 = trimCmrString(new String(sfData, offset + 140, 16, Constants.utf16be));
 
     this.reserved3 = UtilBinaryDecoding.parseLong(sfData, offset + 156, 8);
+    // [CMOCA-3-101] Reserved; should be set to zero
+    if (reserved3 != 0) {
+      // informational/ignored
+    }
 
     if (actualLength > 164) {
       this.cmrData = new byte[actualLength - 164];
