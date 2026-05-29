@@ -17,12 +17,17 @@ OUTPUT_DIR="test_output_bench"
 
 mkdir -p "$OUTPUT_DIR"
 
-# Stash current changes to allow checkout, and track if we stashed anything
-STASH_OUT=$(git stash push --quiet)
+# Stash current changes to allow checkout
+STASH_LIST_BEFORE=$(git stash list)
+git stash push --quiet
+STASH_LIST_AFTER=$(git stash list)
 STASHED=0
-if [[ "$STASH_OUT" != "No local changes to save" ]]; then
+if [[ "$STASH_LIST_BEFORE" != "$STASH_LIST_AFTER" ]]; then
     STASHED=1
 fi
+
+# Use stderr for info messages
+echo "Benchmarking: ${RELEASES[*]}" >&2
 
 echo "| Release | Optimization Flags | Total Time (10 runs of 10 files) | Avg Time per run |"
 echo "| :--- | :--- | :--- | :--- |"
@@ -38,7 +43,7 @@ for rel in "${RELEASES[@]}"; do
         continue
     fi
 
-    JAR_FILE=$(ls build/libs/*.jar | head -n 1)
+    JAR_FILE=$(ls build/libs/*.jar 2>/dev/null | head -n 1)
     if [ ! -f "$JAR_FILE" ]; then
         echo "Error: JAR not found for $rel" >&2
         continue
