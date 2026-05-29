@@ -3,20 +3,26 @@
 This document outlines the phased implementation plan for converting the Alpheus AFP object model (ADF) to **PDF/VT (ISO 16612-2)**, as defined in `ADF_TO_PDF_CONCEPT.md`.
 
 ## Status Summary
-- **PDF/VT Structural Implementation**: ⏳ Pending
+- **PDF/VT Structural Implementation**: 🚧 In Progress
 - **Resource Management & Optimization**: ⏳ Pending
 - **Content Conversion (Base Operators)**: ⏳ Pending
 - **Verification & Compliance**: ⏳ Pending
 
 ---
 
-## Phase 1: PDF/VT Structural Implementation ⏳
+## Phase 1: PDF/VT Structural Implementation 🚧
 Initialize the core PDF/VT structure and map the MO:DCA document hierarchy.
 
-- ⏳ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog.
-- ⏳ **MO:DCA BNG Mapping**: Implement recursive mapping of MO:DCA `BNG` (Begin Named Group) to PDF `/DPart` objects.
-- ⏳ **TLE Metadata Mapping**: Map `TLE` (Tag Logical Element) values to record-level metadata within the `/DPart` hierarchy.
-- ⏳ **Output Intents**: Define `/OutputIntents` for PDF/X compliance as required by ISO 16612-2.
+- 🚧 **1.1 Structural State Tracking**:
+    - ✅ **1.1.1 BNG/ENG Stack**: Implement internal stack-based tracking of Named Page Groups in `PdfHandler`.
+    - ⏳ **1.1.2 TLE Accumulation**: Buffer TLE triplets at the current group level for later metadata mapping.
+- ⏳ **1.2 PDF/VT Catalog & Root**:
+    - ⏳ **1.2.1 DPartRoot Initialization**: Create `/DPartRoot` and `/DPartMetadata` dictionaries in the PDF Catalog.
+    - ⏳ **1.2.2 OutputIntents**: Define `/OutputIntents` for PDF/X-4 compliance (ISO 15930-7).
+- ⏳ **1.3 MO:DCA to DPart Mapping**:
+    - ⏳ **1.3.1 DPart Node Creation**: Map MO:DCA `BNG` nodes to PDF `/DPart` dictionary objects.
+    - ⏳ **1.3.2 Metadata Injection**: Map accumulated TLE values to `/Property` entries within the corresponding `/DPart`.
+    - ⏳ **1.3.3 DPart Hierarchy Verification**: Ensure correct parent-child relationships in the multi-level `/DPart` tree.
 
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
