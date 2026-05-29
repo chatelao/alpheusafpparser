@@ -50,6 +50,9 @@ public class SegmentedMappedBufferOutputStream extends OutputStream {
 
   private void ensureBuffer() throws IOException {
     if (currentBuffer == null || !currentBuffer.hasRemaining()) {
+      if (currentBuffer != null) {
+        MMapUtil.unmap(currentBuffer);
+      }
       currentBuffer = provider.nextSegment(globalPosition, requestedSegmentSize);
       if (currentBuffer == null) {
         throw new IOException("No more mapped segments available at position " + globalPosition);
@@ -128,7 +131,10 @@ public class SegmentedMappedBufferOutputStream extends OutputStream {
 
   @Override
   public void close() throws IOException {
-    currentBuffer = null;
+    if (currentBuffer != null) {
+      MMapUtil.unmap(currentBuffer);
+      currentBuffer = null;
+    }
   }
 
   /**

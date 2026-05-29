@@ -46,7 +46,7 @@ Optimize large single-file conversions by mapping output files directly into mem
     - ✅ **3.1.1.2. Integration**: Integrate `MappedBufferOutputStream` into `Afp2Xml` and `ParallelAfpConverter`.
   - ⏳ **3.1.2. Size-aware re-mapping**: Logic to unmap and re-map with larger capacity when estimates are exceeded.
     - ✅ **3.1.2.1. Overflow detection**: Robust detection of `BufferOverflowException` and segment switching in `SegmentedMappedBufferOutputStream`.
-    - ⏳ **3.1.2.2. Buffer chaining/re-mapping logic**: Implement multi-segment mapping or re-mapping to larger segments.
+    - ✅ **3.1.2.2. Buffer chaining/re-mapping logic**: Implement multi-segment mapping or re-mapping to larger segments. (Implemented via `SegmentedMappedBufferOutputStream`).
       - ✅ **3.1.2.2.1. Segmented Output Integration**: Refactor `Afp2Xml` to use `SegmentedMappedBufferOutputStream` for single-file and directory modes.
   - ⏳ **3.1.3. Benchmarking**: Comparative analysis of MMap vs. standard NIO on different SSD/HDD tiers.
     - ⏳ **3.1.3.1. MMap vs. Standard NIO comparison**: Direct throughput measurement for large single files.
@@ -55,11 +55,11 @@ Optimize large single-file conversions by mapping output files directly into mem
   - ✅ **3.2.1. Heuristic Analysis**: Analyze correlation between AFP structured field sizes (PTX, GAD, etc.) and their XML representation. (Integrated in `PTXPerformanceMonitor`).
   - ✅ **3.2.2. Static Estimator**: Implement a basic multiplier-based estimator for non-PTOCA fields. (See `SFSizeEstimator`).
   - ✅ **3.2.3. Dynamic PTOCA Estimator**: Leverage `PTXPerformanceMonitor` data to predict XML size for PTOCA sequences based on character count and control sequences. (Ratio-based Estimation implemented).
-- ⏳ **3.3. Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
+- ✅ **3.3. Mapping Segment Manager**: Coordinate multiple `MappedByteBuffer` segments for files > 2GB.
   - ✅ **3.3.1. Segmented OutputStream Design**: Prototype an OutputStream that transparently handles multiple MappedByteBuffers. (Implemented as `SegmentedMappedBufferOutputStream`).
-  - ⏳ **3.3.2. Multi-segment mapping logic**: Logic to map/unmap 2GB segments based on current position and file size.
+  - ✅ **3.3.2. Multi-segment mapping logic**: Logic to map/unmap 2GB segments based on current position and file size.
     - ✅ **3.3.2.1. Implementation of FileChannel provider**: Create `FileChannelMappedBufferProvider` to back `SegmentedMappedBufferOutputStream`.
-    - ⏳ **3.3.2.2. Robust unmapping strategy**: Implement explicit unmapping for old segments to avoid virtual address space exhaustion.
+    - ✅ **3.3.2.2. Robust unmapping strategy**: Implement explicit unmapping for old segments to avoid virtual address space exhaustion. (Implemented via `MMapUtil`).
   - ✅ **3.3.3. Boundary handling for cross-segment fragments**: Ensure large structured fields crossing a 2GB boundary are handled without corruption. (Implemented in `SegmentedMappedBufferOutputStream`).
 - ✅ **3.4. Atomic Pre-allocation**: Efficiently grow output files and in-memory buffers.
   - ✅ **3.4.1. In-memory Buffer Pre-allocation**: Use `SFSizeEstimator` to pre-size `ByteArrayOutputStream` in parallel and filtered paths.
@@ -72,6 +72,7 @@ Decouple serialization from I/O to improve performance on high-latency storage (
 - ⏳ **4.1. NIO.2 Integration**: Transition `OrderedResultCollector` to use `AsynchronousFileChannel`.
   - ⏳ **4.1.1. Buffer lifecycle management**: Manage buffer ownership between worker threads and NIO.2 handlers.
   - ⏳ **4.1.2. Error propagation for async failures**: Implement robust error propagation for async failures.
+  - ⏳ **4.1.3. Parallel collector integration**: Refactor `ParallelAfpConverter` to utilize async completion.
 - ⏳ **4.2. Completion Handlers**: Implement efficient buffer recycling using NIO.2 completion handlers.
 - ✅ **4.3. Async OutputStream Wrapper**: Create an `OutputStream` implementation that uses `AsynchronousFileChannel` for non-blocking background writes. (Implemented as `AsynchronousBufferOutputStream`).
 - ✅ **4.4. Pressure-Aware Serialization**: Implement back-pressure mechanisms to pause serialization when the I/O queue is full. (Implemented via memory-aware sliding window in `OrderedResultCollector` and `OrderedOutputOrchestrator`).
@@ -81,6 +82,8 @@ Extreme performance optimization for massive-scale conversion.
 
 - ⏳ **5.1. Shared Ring-Buffer Infrastructure**:
   - ⏳ **5.1.1. Ring-Buffer Interface**: Define the producer/consumer contract for `DirectByteBuffer` slots.
+    - ⏳ **5.1.1.1. Producer/Consumer API**: Define the standard interface for slot acquisition.
+    - ⏳ **5.1.1.2. Wait Strategies**: Implement spin-lock and parking-based wait strategies.
   - ⏳ **5.1.2. Contention Analysis**: Audit `DirectBufferPool` for lock contention under high-frequency ring-buffer usage.
   - ⏳ **5.1.3. Page-Aligned Allocator**: Ensure ring-buffer slots are aligned to physical memory pages (typically 4KB) for O_DIRECT compatibility.
 - ⏳ **5.2. Dedicated I/O Consumer**: Move all disk writes to a single dedicated thread pinned to a specific core to minimize context switches.
@@ -96,6 +99,8 @@ To support Zero-Copy strategies, the writers (specifically `AfpJacksonXmlWriter`
   - ⏳ **6.3.2. Non-blocking ByteBuffer writer prototype**: Implementation of a minimal async writer wrapper.
 - ⏳ **6.4. Zero-Copy Writer Implementation**: Prototype a version of `AfpJacksonXmlWriter` that eliminates `OutputStream` overhead by writing directly into memory that is already pre-mapped to the kernel.
   - ⏳ **6.4.1. Direct ByteBuffer access in AfpJacksonXmlWriter**: Expose methods to write structured fields directly to a provided `ByteBuffer`.
+    - ⏳ **6.4.1.1. Vectorized Primitive Serialization**: Direct writing of numeric values to `ByteBuffer` without intermediate strings.
+    - ⏳ **6.4.1.2. Optimized Text Encoding**: Direct UTF-8 encoding of EBCDIC fields into target buffers.
   - ⏳ **6.4.2. Structured Field fragment pooling**: Reuse pre-serialized XML fragments for repeating structured fields.
   - ⏳ **6.4.3. Zero-copy fragment merging**: Use `FileChannel.transferTo` or similar for merging massive XML fragments.
 
