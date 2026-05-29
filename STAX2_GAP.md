@@ -39,7 +39,7 @@ Aalto XML supports non-blocking parsing.
 
 ## Strategic Recommendations
 
-1.  **Primitives Overloads**: Implement `writeElement(String indent, String name, int value)` and `long` equivalent in `AfpJacksonXmlWriter` using StAX2 typed methods.
+1.  **Primitives Overloads** ✅: Implement `writeElement(String indent, String name, int value)` and `long` equivalent in `AfpJacksonXmlWriter` using StAX2 typed methods. (Completed May 2026)
 2.  **Binary Fast-Path**: Transition `bytesToHexString` callers in `AfpJacksonXmlWriter` to use `writeBinary()`. Note: This may change XML output from Hex to Base64 depending on the StAX2 configuration; parity must be considered.
-3.  **Sanitization Optimization**: Refactor `SanitizingXMLStreamWriter` to avoid temporary `String` allocations during `char[]` processing.
+3.  **Sanitization Optimization** ✅: Refactor `SanitizingXMLStreamWriter` to avoid temporary `String` allocations during `char[]` processing. (Completed May 2026)
 4.  **ByteBuffer Integration**: Research Aalto-specific `AsyncXMLStreamWriter` or similar extensions for direct `ByteBuffer` output.
