@@ -140,20 +140,38 @@ public class FNO_FontOrientation extends StructuredField {
 
     public static EnumSet<FnoControlFlag> valueOf(byte b) {
       var result = EnumSet.noneOf(FnoControlFlag.class);
-      if ((b & 0x80) != 0) result.add(BaselineCoordinateSystem_XAxisDown);
-      if ((b & 0x40) != 0) result.add(UniformASpace);
-      if ((b & 0x20) != 0) result.add(FontIndexNumberPresent);
-      if ((b & 0x10) != 0) result.add(KerningDataPresent);
+      if ((b & 0x80) != 0) {
+        result.add(BaselineCoordinateSystem_XAxisDown);
+      }
+      if ((b & 0x40) != 0) {
+        result.add(UniformASpace);
+      }
+      if ((b & 0x20) != 0) {
+        result.add(FontIndexNumberPresent);
+      }
+      if ((b & 0x10) != 0) {
+        result.add(KerningDataPresent);
+      }
       return result;
     }
 
     public static byte toByte(EnumSet<FnoControlFlag> flags) {
       byte result = 0;
-      if (flags == null) return result;
-      if (flags.contains(BaselineCoordinateSystem_XAxisDown)) result |= 0x80;
-      if (flags.contains(UniformASpace)) result |= 0x40;
-      if (flags.contains(FontIndexNumberPresent)) result |= 0x20;
-      if (flags.contains(KerningDataPresent)) result |= 0x10;
+      if (flags == null) {
+        return result;
+      }
+      if (flags.contains(BaselineCoordinateSystem_XAxisDown)) {
+        result |= 0x80;
+      }
+      if (flags.contains(UniformASpace)) {
+        result |= 0x40;
+      }
+      if (flags.contains(FontIndexNumberPresent)) {
+        result |= 0x20;
+      }
+      if (flags.contains(KerningDataPresent)) {
+        result |= 0x10;
+      }
       return result;
     }
   }

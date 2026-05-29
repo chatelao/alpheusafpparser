@@ -503,7 +503,9 @@ public class AFPParser {
       nrOfSFBuilt++;
       nrOfErrSFBuilt++;
       if (parserConf.isEscalateParsingErrors()) {
-        if (e instanceof AFPParserException) throw (AFPParserException) e;
+        if (e instanceof AFPParserException) {
+          throw (AFPParserException) e;
+        }
         throw new AFPParserException("Error parsing SF from buffer", e);
       }
       return errSf;

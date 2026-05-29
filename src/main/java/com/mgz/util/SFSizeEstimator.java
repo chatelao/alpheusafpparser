@@ -48,7 +48,9 @@ public class SFSizeEstimator {
 
     if (sf instanceof PTX_PresentationTextData ptx && PTXPerformanceMonitor.hasData()) {
       long dynamic = estimateDynamicPtxSize(ptx);
-      if (dynamic > 0) return dynamic;
+      if (dynamic > 0) {
+        return dynamic;
+      }
     }
 
     int afpSize = sf.getStructuredFieldIntroducer().getSFLength();
@@ -78,12 +80,16 @@ public class SFSizeEstimator {
 
     double totalEstimatedXmlSize = 0;
     double globalPtxRatio = PTXPerformanceMonitor.getGlobalPtxExpansionRatio();
-    if (globalPtxRatio <= 0) globalPtxRatio = PTX_MULTIPLIER;
+    if (globalPtxRatio <= 0) {
+      globalPtxRatio = PTX_MULTIPLIER;
+    }
 
     for (var cs : sequences) {
       String name = cs.getClass().getSimpleName();
       double ratio = PTXPerformanceMonitor.getGlobalPtocaExpansionRatio(name);
-      if (ratio <= 0) ratio = globalPtxRatio;
+      if (ratio <= 0) {
+        ratio = globalPtxRatio;
+      }
 
       int payloadSize = 0;
       if (cs instanceof com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters gc) {

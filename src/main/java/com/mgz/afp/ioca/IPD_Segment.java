@@ -1787,7 +1787,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
       os.write(bandNumber);
       os.write(reserved5_6);
-      if (bandData != null) os.write(bandData);
+      if (bandData != null) {
+        os.write(bandData);
+      }
     }
   }
 }

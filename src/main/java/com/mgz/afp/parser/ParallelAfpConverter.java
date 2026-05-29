@@ -112,13 +112,17 @@ public class ParallelAfpConverter {
       AFPParser preambleParser = new AFPParser(config);
       while (preambleParser.getCountReadByte() < firstPageOffset) {
         StructuredField sf = preambleParser.parseNextSF();
-        if (sf == null) break;
+        if (sf == null) {
+          break;
+        }
         masterHandler.handle(sf);
         sf.release();
       }
     }
 
-    if (pageOffsets.isEmpty()) return;
+    if (pageOffsets.isEmpty()) {
+      return;
+    }
 
     // 2. Parallel Page Processing
     ExecutorService executor = Executors.newFixedThreadPool(numThreads);
@@ -186,7 +190,9 @@ public class ParallelAfpConverter {
           while ((sf = parser.parseNextSF()) != null) {
             handler.handle(sf);
             sf.release();
-            if (parser.getCountReadByte() >= endOffset) break;
+            if (parser.getCountReadByte() >= endOffset) {
+              break;
+            }
           }
         }
       } finally {

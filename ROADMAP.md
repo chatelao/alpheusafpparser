@@ -235,7 +235,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
         - ✅ `FileTabCharacter` resolved.
         - ✅ `CommentsIndentation`.
         - ✅ `AnnotationLocation`.
-        - 🚧 `NeedBraces` (~45).
+        - ✅ `NeedBraces` resolved.
         - ✅ `EmptyCatchBlock`.
         - ✅ `ArrayTypeStyle`.
         - ✅ `MultipleVariableDeclarations`.
