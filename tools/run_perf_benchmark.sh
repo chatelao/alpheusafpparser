@@ -3,13 +3,18 @@
 # Capture current branch to return to it later
 INITIAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-# Selected releases around the v5.0 optimum
-RELEASES=("v4.3" "v5.0" "v5.1" "v5.2" "v5.3")
+# Selected releases to investigate further
+RELEASES=("v3.4" "v3.5" "v4.0" "v4.1" "v4.2" "v4.3" "v5.0" "v5.1" "v5.2" "v5.3")
 TEST_DIR="perf_test"
 ITERATIONS=10
 OUTPUT_DIR="test_output_bench"
 
 mkdir -p "$OUTPUT_DIR"
+
+echo "### Performance Investigation: v3.4 to v5.3"
+echo ""
+echo "| Release | Optimization Flags | Total Time (10 runs of 10 files) | Avg Time per run |"
+echo "| :--- | :--- | :--- | :--- |"
 
 # Stash current changes (like 10x10.md) to allow checkout
 git stash push --quiet
@@ -56,7 +61,6 @@ for rel in "${RELEASES[@]}"; do
     FLAGS_DISPLAY=$(echo "$SUPPORTED_FLAGS" | xargs)
     if [ -z "$FLAGS_DISPLAY" ]; then FLAGS_DISPLAY="(None)"; fi
 
-    # Output to stderr so it doesn't get captured by mistake if someone redirects stdout
     echo "| **$rel** | \`$FLAGS_DISPLAY\` | $TOTAL_TIME ms | $AVG_TIME ms |"
 done
 
