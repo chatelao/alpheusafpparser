@@ -625,16 +625,144 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (orders != null) {
       for (GAD_DrawingOrder order : orders) {
         xsw.writeCharacters(indent);
-        writeDrawingOrder(order, indent);
+        writeDrawingOrderDirectly(order, indent);
       }
     }
     XmlIndenter.writeIndent(xsw, 1);
     xsw.writeEndElement();
   }
 
-  private void writeDrawingOrder(GAD_DrawingOrder order, String indent) throws Exception {
-    String rootName = order.getClass().getSimpleName();
-    fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, order);
+  private void writeDrawingOrderDirectly(GAD_DrawingOrder order, String indent) throws Exception {
+    String childIndent = indent + "  ";
+    if (order instanceof GAD_DrawingOrder.GSCP_SetCurrentPosition gcp) {
+      xsw.writeStartElement("GSCP_SetCurrentPosition");
+      writeElement(childIndent, "coordinateX", gcp.getCoordinateX());
+      writeElement(childIndent, "coordinateY", gcp.getCoordinateY());
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCOL_SetColor gsc) {
+      xsw.writeStartElement("GSCOL_SetColor");
+      if (gsc.getColor() != null) {
+        writeElement(childIndent, "color", gsc.getColor().name());
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCS_SetCharacterSet gscs) {
+      xsw.writeStartElement("GSCS_SetCharacterSet");
+      writeElement(childIndent, "characterSetLocalID", gscs.getCharacterSetLocalID());
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GCCHST_CharacterStringAtCurrentPosition gcchst) {
+      xsw.writeStartElement("GCCHST_CharacterStringAtCurrentPosition");
+      writeElement(childIndent, "text", gcchst.getText());
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition gchst) {
+      xsw.writeStartElement("GCHST_CharacterStringAtGivenPosition");
+      if (gchst.getOriginPoint() != null) {
+        xsw.writeCharacters(childIndent);
+        xsw.writeStartElement("originPoint");
+        writeElement(childIndent + "  ", "xCoordinate", gchst.getOriginPoint().xCoordinate());
+        writeElement(childIndent + "  ", "yCoordinate", gchst.getOriginPoint().yCoordinate());
+        xsw.writeCharacters(childIndent);
+        xsw.writeEndElement();
+      }
+      writeElement(childIndent, "text", gchst.getText());
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GESEG_EndSegment) {
+      xsw.writeEmptyElement("GESEG_EndSegment");
+    } else if (order instanceof GAD_DrawingOrder.GBSEG_BeginSegment gbseg) {
+      xsw.writeStartElement("GBSEG_BeginSegment");
+      writeElement(childIndent, "nameOfSegment", gbseg.getNameOfSegment());
+      writeElement(childIndent, "text", gbseg.getText());
+      if (gbseg.getDrawingOrders() != null) {
+        for (GAD_DrawingOrder childOrder : gbseg.getDrawingOrders()) {
+          xsw.writeCharacters(childIndent);
+          writeDrawingOrderDirectly(childOrder, childIndent);
+        }
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
+      xsw.writeStartElement(order.getClass().getSimpleName());
+      if (dohp.getPoints() != null) {
+        xsw.writeCharacters(childIndent);
+        xsw.writeStartElement("points");
+        String pointIndent = childIndent + "  ";
+        for (GAD_DrawingOrder.GOCA_Point p : dohp.getPoints()) {
+          xsw.writeCharacters(pointIndent);
+          xsw.writeStartElement("GOCA_Point");
+          writeElement(pointIndent + "  ", "xCoordinate", p.xCoordinate());
+          writeElement(pointIndent + "  ", "yCoordinate", p.yCoordinate());
+          xsw.writeCharacters(pointIndent);
+          xsw.writeEndElement();
+        }
+        xsw.writeCharacters(childIndent);
+        xsw.writeEndElement();
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else {
+      // Fallback to Jackson
+      String rootName = order.getClass().getSimpleName();
+      fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, order);
+    }
+  }
+
+  private void writeIpdSegmentDirectly(IPD_Segment segment, String indent) throws Exception {
+    String childIndent = indent + "  ";
+    if (segment instanceof IPD_Segment.ImageData id) {
+      xsw.writeStartElement("ImageData");
+      if (id.getImageData() != null) {
+        writeElement(childIndent, "imageData", UtilCharacterEncoding.bytesToHexString(id.getImageData()));
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (segment instanceof IPD_Segment.BandImageData bid) {
+      xsw.writeStartElement("BandImageData");
+      writeElement(childIndent, "bandNumber", bid.getBandNumber());
+      if (bid.getBandData() != null) {
+        writeElement(childIndent, "bandData", UtilCharacterEncoding.bytesToHexString(bid.getBandData()));
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (segment instanceof IPD_Segment.BeginImageContent bic) {
+      xsw.writeStartElement("BeginImageContent");
+      writeElement(childIndent, "objectType", bic.getObjectType());
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (segment instanceof IPD_Segment.EndImageContent) {
+      xsw.writeEmptyElement("EndImageContent");
+    } else if (segment instanceof IPD_Segment.ImageSize is) {
+      xsw.writeStartElement("ImageSize");
+      if (is.getUnitBase() != null) {
+        writeElement(childIndent, "unitBase", is.getUnitBase().name());
+      }
+      writeElement(childIndent, "xUnitsPerUnitBase", is.getxUnitsPerUnitBase());
+      writeElement(childIndent, "yUnitsPerUnitBase", is.getyUnitsPerUnitBase());
+      writeElement(childIndent, "xImageSize", is.getxImageSize());
+      writeElement(childIndent, "yImageSize", is.getyImageSize());
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (segment instanceof IPD_Segment.ImageEncoding ie) {
+      xsw.writeStartElement("ImageEncoding");
+      if (ie.getCompressionAlgorithm() != null) {
+        writeElement(childIndent, "compressionAlgorithm", ie.getCompressionAlgorithm().name());
+      }
+      if (ie.getRecordingAlgorithm() != null) {
+        writeElement(childIndent, "recordingAlgorithm", ie.getRecordingAlgorithm().name());
+      }
+      if (ie.getBitOrder() != null) {
+        writeElement(childIndent, "bitOrder", ie.getBitOrder().name());
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else {
+      // Fallback to Jackson
+      String rootName = segment.getClass().getSimpleName();
+      fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, segment);
+    }
   }
 
   private void writeIpdDirectly(IPD_ImagePictureData ipd) throws Exception {
@@ -644,8 +772,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (segments != null) {
       for (IPD_Segment segment : segments) {
         xsw.writeCharacters(indent);
-        String rootName = segment.getClass().getSimpleName();
-        fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, segment);
+        writeIpdSegmentDirectly(segment, indent);
       }
     }
     XmlIndenter.writeIndent(xsw, 1);
@@ -702,6 +829,45 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     xsw.writeEndElement();
   }
 
+  private void writeIddSelfDefiningFieldDirectly(IDD_SelfDefiningField sdf, String indent) throws Exception {
+    String childIndent = indent + "  ";
+    if (sdf instanceof IDD_SelfDefiningField.SetBilevelImageColor sbic) {
+      xsw.writeStartElement("SetBilevelImageColor");
+      writeElement(childIndent, "applicabilityArea", sbic.getApplicabilityArea());
+      if (sbic.getColor() != null) {
+        writeElement(childIndent, "color", sbic.getColor().name());
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (sdf instanceof IDD_SelfDefiningField.SetExtendedBilevelImageColor sebic) {
+      xsw.writeStartElement("SetExtendedBilevelImageColor");
+      if (sebic.getColorSpace() != null) {
+        writeElement(childIndent, "colorSpace", sebic.getColorSpace().name());
+      }
+      writeElement(childIndent, "nrOfBitsComponent1", sebic.getNrOfBitsComponent1());
+      writeElement(childIndent, "nrOfBitsComponent2", sebic.getNrOfBitsComponent2());
+      writeElement(childIndent, "nrOfBitsComponent3", sebic.getNrOfBitsComponent3());
+      writeElement(childIndent, "nrOfBitsComponent4", sebic.getNrOfBitsComponent4());
+      if (sebic.getColorValue() != null) {
+        writeElement(childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(sebic.getColorValue()));
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (sdf instanceof IDD_SelfDefiningField.IOCAFunctionSetIdentification fsi) {
+      xsw.writeStartElement("IOCAFunctionSetIdentification");
+      writeElement(childIndent, "functionSetCategory", fsi.getFunctionSetCategory());
+      if (fsi.getFunctionSetIdentifier() != null) {
+        writeElement(childIndent, "functionSetIdentifier", fsi.getFunctionSetIdentifier().name());
+      }
+      xsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else {
+      // Fallback to Jackson
+      String rootName = sdf.getClass().getSimpleName();
+      fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, sdf);
+    }
+  }
+
   private void writeIddDirectly(IDD_ImageDataDescriptor idd) throws Exception {
     xsw.writeStartElement("IDD_ImageDataDescriptor");
     String indent = XmlIndenter.getIndent(2);
@@ -716,8 +882,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (idd.getSelfDefiningFields() != null) {
       for (IDD_SelfDefiningField sdf : idd.getSelfDefiningFields()) {
         xsw.writeCharacters(indent);
-        String rootName = sdf.getClass().getSimpleName();
-        fragmentMapper.writer().withRootName(rootName).writeValue(fragmentGenerator, sdf);
+        writeIddSelfDefiningFieldDirectly(sdf, indent);
       }
     }
     XmlIndenter.writeIndent(xsw, 1);

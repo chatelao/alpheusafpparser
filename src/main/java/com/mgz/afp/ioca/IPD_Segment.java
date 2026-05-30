@@ -415,6 +415,14 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 1));
       os.write(objectType);
     }
+
+    public short getObjectType() {
+      return objectType;
+    }
+
+    public void setObjectType(short objectType) {
+      this.objectType = objectType;
+    }
   }
 
   public static final class EndImageContent extends IPD_Segment.IPD_SegmentLong {
@@ -474,6 +482,46 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.shortToByteArray(xImageSize, 2));
       os.write(UtilBinaryDecoding.shortToByteArray(yImageSize, 2));
     }
+
+    public AFPUnitBase getUnitBase() {
+      return unitBase;
+    }
+
+    public void setUnitBase(AFPUnitBase unitBase) {
+      this.unitBase = unitBase;
+    }
+
+    public short getxUnitsPerUnitBase() {
+      return xUnitsPerUnitBase;
+    }
+
+    public void setxUnitsPerUnitBase(short xUnitsPerUnitBase) {
+      this.xUnitsPerUnitBase = xUnitsPerUnitBase;
+    }
+
+    public short getyUnitsPerUnitBase() {
+      return yUnitsPerUnitBase;
+    }
+
+    public void setyUnitsPerUnitBase(short yUnitsPerUnitBase) {
+      this.yUnitsPerUnitBase = yUnitsPerUnitBase;
+    }
+
+    public short getxImageSize() {
+      return xImageSize;
+    }
+
+    public void setxImageSize(short xImageSize) {
+      this.xImageSize = xImageSize;
+    }
+
+    public short getyImageSize() {
+      return yImageSize;
+    }
+
+    public void setyImageSize(short yImageSize) {
+      this.yImageSize = yImageSize;
+    }
   }
 
   public static final class ImageEncoding extends IPD_Segment.IPD_SegmentLong {
@@ -514,6 +562,30 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       if (bitOrder != null) {
         os.write(bitOrder.toByte());
       }
+    }
+
+    public IPD_Segment.IPD_CompressionAlgorithm getCompressionAlgorithm() {
+      return compressionAlgorithm;
+    }
+
+    public void setCompressionAlgorithm(IPD_Segment.IPD_CompressionAlgorithm compressionAlgorithm) {
+      this.compressionAlgorithm = compressionAlgorithm;
+    }
+
+    public IPD_Segment.IPD_RecordingAlgorithm getRecordingAlgorithm() {
+      return recordingAlgorithm;
+    }
+
+    public void setRecordingAlgorithm(IPD_Segment.IPD_RecordingAlgorithm recordingAlgorithm) {
+      this.recordingAlgorithm = recordingAlgorithm;
+    }
+
+    public IPD_Segment.IPD_BitOrder getBitOrder() {
+      return bitOrder;
+    }
+
+    public void setBitOrder(IPD_Segment.IPD_BitOrder bitOrder) {
+      this.bitOrder = bitOrder;
     }
   }
 
@@ -1746,6 +1818,14 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
       os.write(imageData);
     }
+
+    public byte[] getImageData() {
+      return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+      this.imageData = imageData;
+    }
   }
 
   public static final class BandImageData extends IPD_Segment.IPD_SegmentExtended {
@@ -1790,6 +1870,22 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       if (bandData != null) {
         os.write(bandData);
       }
+    }
+
+    public short getBandNumber() {
+      return bandNumber;
+    }
+
+    public void setBandNumber(short bandNumber) {
+      this.bandNumber = bandNumber;
+    }
+
+    public byte[] getBandData() {
+      return bandData;
+    }
+
+    public void setBandData(byte[] bandData) {
+      this.bandData = bandData;
     }
   }
 }
