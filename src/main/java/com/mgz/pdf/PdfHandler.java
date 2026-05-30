@@ -19,6 +19,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.kernel.colors.Color;
+import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.AffineTransform;
 import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
@@ -88,6 +90,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfDictionary dpartRoot;
   private final PdfTextState textState;
   private PdfPage currentPage;
+  private PdfCanvas currentCanvas;
   private float defaultPageWidth = -1;
   private float defaultPageHeight = -1;
   private float defaultScaleX = 1.0f;
@@ -137,8 +140,10 @@ public class PdfHandler implements StructuredFieldHandler {
 
         if (sf instanceof BPG_BeginPage) {
           this.currentPage = pdfDoc.addNewPage();
+          this.currentCanvas = new PdfCanvas(currentPage);
           currentPage.put(PdfName.DPart, dpart);
           textState.reset();
+          currentCanvas.setFillColor(DeviceRgb.BLACK);
 
           // Apply default page size and transformation if defined (from PGD)
           if (defaultPageWidth > 0 && defaultPageHeight > 0) {
@@ -266,9 +271,18 @@ public class PdfHandler implements StructuredFieldHandler {
       textState.setFontLid(scfl.getCodedFontLocalID());
     } else if (cs instanceof STC_SetTextColor stc) {
       textState.setTextColor(stc.getForegroundColor());
+      if (currentCanvas != null) {
+        currentCanvas.setFillColor(ColorHandler.getColor(stc.getForegroundColor()));
+      }
     } else if (cs instanceof SEC_SetExtendedTextColor sec) {
       textState.setExtendedColorSpace(sec.getColorSpace());
       textState.setExtendedColorValue(sec.getColorValue());
+      if (currentCanvas != null) {
+        Color color = ColorHandler.getExtendedColor(sec.getColorSpace(), sec.getColorValue());
+        if (color != null) {
+          currentCanvas.setFillColor(color);
+        }
+      }
     } else if (cs instanceof SIA_SetIntercharacterAdjustment sia) {
       textState.setIntercharacterAdjustment(sia.getAdjustment());
     } else if (cs instanceof SVI_SetVariableSpaceCharacterIncrement svi) {
@@ -281,10 +295,9 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void applyTransformation(float heightPoints, float scaleX, float scaleY) {
-    if (currentPage != null) {
-      PdfCanvas canvas = new PdfCanvas(currentPage);
+    if (currentCanvas != null) {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
-      canvas.concatMatrix(at);
+      currentCanvas.concatMatrix(at);
     }
   }
 
