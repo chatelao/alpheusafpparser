@@ -1483,8 +1483,16 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       return resourceType;
     }
 
+    public void setResourceType(RLI_ResourceType resourceType) {
+      this.resourceType = resourceType;
+    }
+
     public short getResourceLocalID() {
       return resourceLocalID;
+    }
+
+    public void setResourceLocalID(short resourceLocalID) {
+      this.resourceLocalID = resourceLocalID;
     }
 
     public enum RLI_ResourceType {

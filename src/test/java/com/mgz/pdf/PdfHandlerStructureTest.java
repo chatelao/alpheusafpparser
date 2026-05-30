@@ -27,6 +27,8 @@ import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
+import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -50,6 +52,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -288,6 +291,46 @@ public class PdfHandlerStructureTest {
     assertEquals(20, state.getVariableSpaceIncrement());
     assertEquals(30, state.getInlineMargin());
     assertEquals(40, state.getBaselineIncrement());
+  }
+
+  @Test
+  public void testFontTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    // MCF Format 1
+    MCF_MapCodedFont_Format1 mcf1 = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg1 = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rg1.setCodedFontLocalID((short) 1);
+    rg1.setCodedFontName("X0H200  ");
+    mcf1.addRepeatingGroup(rg1);
+    handler.handle(mcf1);
+
+    Map<Short, String> fontMap = handler.getFontMap();
+    assertEquals(1, fontMap.size());
+    assertEquals("X0H200  ", fontMap.get((short) 1));
+
+    // MCF Format 2
+    MCF_MapCodedFont_Format2 mcf2 = new MCF_MapCodedFont_Format2();
+    MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg2 = new MCF_MapCodedFont_Format2.MCF_RepeatingGroup();
+
+    Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+    rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+    rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont);
+    rli.setResourceLocalID((short) 2);
+    rg2.addTriplet(rli);
+
+    Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+    fqn.setTripletID(Triplet.TripletID.FullyQualifiedName);
+    fqn.setType(Triplet.GlobalID_Use.CodedFontNameReference);
+    fqn.setNameAsString("X0H300");
+    rg2.addTriplet(fqn);
+
+    mcf2.addRepeatingGroup(rg2);
+    handler.handle(mcf2);
+
+    fontMap = handler.getFontMap();
+    assertEquals(2, fontMap.size());
+    assertEquals("X0H300", fontMap.get((short) 2));
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
