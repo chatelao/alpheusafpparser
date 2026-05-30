@@ -22,7 +22,7 @@ Establish the technical foundation and select the primary PDF engine.
 Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9.
 
 - ✅ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog.
-- ⏳ **MO:DCA Boundary Mapping**:
+- ✅ **MO:DCA Boundary Mapping**:
     - ✅ **Structural Boundary Tracking**: Implement a stack-based mechanism to track nested MO:DCA groups (`BDT`/`EDT`, `BNG`/`ENG`, `BPG`/`EPG`).
     - ✅ **DPart Node Creation**: Create iText 9 `/DPart` objects corresponding to tracked MO:DCA boundaries.
     - ✅ **Page-to-DPart Assignment**: Connect PDF page objects to their respective leaf `/DPart` nodes.
@@ -31,8 +31,8 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
     - ✅ **Tag Extraction**: Extract key/value pairs from `TLE` structured fields.
     - ✅ **Metadata Injection**: Write extracted tags to the `/DPart` dictionary as `/Property` entries.
 - ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
-    - ⏳ **ICC Profile Loading**: Load standard ICC profiles (FOGRA39, GRACoL).
-    - ⏳ **Catalog Registration**: Register `/OutputIntent` in the PDF Catalog.
+    - ⏳ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
+    - ⏳ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL).
 
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
@@ -50,6 +50,7 @@ Optimize resource handling for high-performance variable data printing.
 Implement the drivers for converting AFP content architectures to PDF operators.
 
 - ⏳ **Coordinate Transformation**: Implement Pel/1440-to-Points mapping and Y-axis flip.
+    - 🚧 **Page Size Initialization**: Map `PGD` (Page Descriptor) dimensions to PDF `MediaBox`.
     - ⏳ **Scale Calculation**: Map 1440 LPI or Pel resolution to 72 DPI.
     - ⏳ **Y-Axis Flip**: Apply `cm` operator to move origin from top-left to bottom-left.
 - ⏳ **PTOCA Driver**: Map PTOCA control sequences to PDF Text Objects (`BT`/`ET`) and positioning operators (`Td`/`Tm`).

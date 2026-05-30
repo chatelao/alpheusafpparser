@@ -21,6 +21,7 @@ package com.mgz.pdf;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldIntroducer;
+import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BPG_BeginPage;
@@ -28,6 +29,7 @@ import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.triplets.Triplet;
 import org.junit.jupiter.api.Test;
@@ -129,6 +131,27 @@ public class PdfHandlerStructureTest {
     Set<String> mpsResources = handler.getMpsResources();
     assertEquals(1, mpsResources.size());
     assertTrue(mpsResources.contains("S1RESOUR"));
+  }
+
+  @Test
+  public void testPgdHandling() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    PGD_PageDescriptor pgd = new PGD_PageDescriptor();
+    pgd.setxUnitBase(AFPUnitBase.Inches10);
+    pgd.setyUnitBase(AFPUnitBase.Inches10);
+    pgd.setxUnitsPerUnitBase((short) 2400);
+    pgd.setyUnitsPerUnitBase((short) 2400);
+    pgd.setxSize(2400);
+    pgd.setySize(2400);
+
+    // Should not throw and processes field
+    handler.handle(pgd);
+    assertEquals(2, handler.getFieldCount());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
