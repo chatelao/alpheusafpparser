@@ -42,6 +42,11 @@ public class CMRRoundTripTest {
             data[i] = 0x00;
             data[i+1] = 0x40;
         }
+        // Set valid Type to pass validation
+        data[35] = 0x00;
+        data[36] = 0x43;
+        data[37] = 0x00;
+        data[38] = 0x43;
 
         // Data
         data[173] = 0x01;
@@ -90,6 +95,11 @@ public class CMRRoundTripTest {
             sf[i] = 0x00;
             sf[i+1] = 0x40;
         }
+        // Set valid Type to pass validation
+        sf[35] = 0x00;
+        sf[36] = 0x43;
+        sf[37] = 0x00;
+        sf[38] = 0x43;
 
         // Tags start at offset 9 + 164 = 173
         int tagsOffset = 173;
@@ -171,6 +181,11 @@ public class CMRRoundTripTest {
             sf[i] = 0x00;
             sf[i+1] = 0x40;
         }
+        // Set valid Type to pass validation
+        sf[35] = 0x00;
+        sf[36] = 0x43;
+        sf[37] = 0x00;
+        sf[38] = 0x43;
 
         int tagsOffset = 173;
         // Tag 1: Comment (0x0004)

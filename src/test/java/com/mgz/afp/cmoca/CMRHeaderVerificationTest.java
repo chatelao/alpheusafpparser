@@ -29,7 +29,29 @@ public class CMRHeaderVerificationTest {
             data[i] = 0x00;
             data[i+1] = 0x40;
         }
+
+        // Set default type to CC to pass validation [CMOCA-3-255]
+        data[35] = 0x00;
+        data[36] = 0x43;
+        data[37] = 0x00;
+        data[38] = 0x43;
+
         return data;
+    }
+
+    @Test
+    public void testAllCmrTypes() throws Exception {
+        // [CMOCA-3-050] to [CMOCA-3-055]
+        String[] types = {"CC", "DL", "HT", "IX", "LK", "TC"};
+        for (String type : types) {
+            byte[] data = createCmrHeaderShell();
+            byte[] typeBytes = type.getBytes(Constants.utf16be);
+            System.arraycopy(typeBytes, 0, data, 35, typeBytes.length);
+
+            CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+            assertEquals(type, cmr.getType());
+        }
     }
 
     @Test
@@ -140,6 +162,20 @@ public class CMRHeaderVerificationTest {
     }
 
     @Test
+    public void testInvalidCmrType() throws Exception {
+        // [CMOCA-3-255] EC-EFF210 Invalid Field Value: The specified CMRType is invalid.
+        byte[] data = createCmrHeaderShell();
+        String type = "XX";
+        byte[] typeBytes = type.getBytes(Constants.utf16be);
+        System.arraycopy(typeBytes, 0, data, 35, typeBytes.length);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        assertThrows(Exception.class, () -> {
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        });
+    }
+
+    @Test
     public void testReservedFields() throws Exception {
         // [CMOCA-3-047] Reserved; should be set to zero
         // [CMOCA-3-101] Reserved; should be set to zero
@@ -152,5 +188,31 @@ public class CMRHeaderVerificationTest {
         cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
         assertEquals(1, cmr.getReserved1());
         assertEquals(1, cmr.getReserved3());
+    }
+
+    @Test
+    public void testArchitectedName() throws Exception {
+        // [CMOCA-3-042] to [CMOCA-3-044]
+        byte[] data = createCmrHeaderShell();
+        // createCmrHeaderShell already sets Type to "CC" at 35-38
+
+        // CMRAlias (10-25)
+        System.arraycopy("JohnMay4".getBytes(Constants.utf16be), 0, data, 19, 16);
+        // CMRType (26-29) is "HT" in example [CMOCA-3-043]
+        System.arraycopy("HT".getBytes(Constants.utf16be), 0, data, 35, 4);
+        // CMRVersion (30-43)
+        System.arraycopy("1.2".getBytes(Constants.utf16be), 0, data, 39, 6);
+        // ManufacturerName (44-53)
+        System.arraycopy("IBM".getBytes(Constants.utf16be), 0, data, 53, 6);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+
+        String name = cmr.getArchitectedName();
+        assertNotNull(name);
+        assertTrue(name.startsWith("JohnMay4HT"));
+        assertTrue(name.contains("1.2"));
+        assertTrue(name.contains("IBM"));
+        assertEquals(73, name.length()); // 146 bytes / 2
     }
 }
