@@ -1,22 +1,30 @@
 # ADF to PDF/VT Conversion Roadmap
 
-This document outlines the phased implementation plan for converting the Alpheus AFP object model (ADF) to **PDF/VT (ISO 16612-2)**, as defined in `ADF_TO_PDF_CONCEPT.md`.
+This document outlines the phased implementation plan for converting the Alpheus AFP object model (ADF) to **PDF/VT (ISO 16612-2)**, as defined in `ADF_TO_PDF_CONCEPT.md` and `ADF_TO_PDF_DESIGN.md`.
 
 ## Status Summary
-- **PDF/VT Structural Implementation**: ⏳ Pending
-- **Resource Management & Optimization**: ⏳ Pending
-- **Content Conversion (Base Operators)**: ⏳ Pending
-- **Verification & Compliance**: ⏳ Pending
+- **Phase 0: Design & Library Selection**: ✅ Complete
+- **Phase 1: PDF/VT Structural Implementation**: ⏳ Pending
+- **Phase 2: Resource Management & Optimization**: ⏳ Pending
+- **Phase 3: Content Conversion (Base Operators)**: ⏳ Pending
+- **Phase 4: Verification & Compliance**: ⏳ Pending
 
 ---
 
-## Phase 1: PDF/VT Structural Implementation ⏳
-Initialize the core PDF/VT structure and map the MO:DCA document hierarchy.
+## Phase 0: Design & Library Selection ✅
+Establish the technical foundation and select the primary PDF engine.
 
-- ⏳ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog.
-- ⏳ **MO:DCA BNG Mapping**: Implement recursive mapping of MO:DCA `BNG` (Begin Named Group) to PDF `/DPart` objects.
+- ✅ **Library Selection**: Chose **iText 9** for native PDF/VT support and performance.
+- ✅ **Architectural Design**: Defined `PdfHandler` and `PdfHandlerFactory` integration with the decoupled handler architecture.
+- ✅ **Structural Mapping Strategy**: Defined MO:DCA to DPart hierarchy mapping.
+
+## Phase 1: PDF/VT Structural Implementation ⏳
+Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9.
+
+- ⏳ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog using `PdfStructTreeController`.
+- ⏳ **MO:DCA Boundary Mapping**: Implement recursive mapping of MO:DCA `BNG`/`BDT` boundaries to PDF `/DPart` objects.
 - ⏳ **TLE Metadata Mapping**: Map `TLE` (Tag Logical Element) values to record-level metadata within the `/DPart` hierarchy.
-- ⏳ **Output Intents**: Define `/OutputIntents` for PDF/X compliance as required by ISO 16612-2.
+- ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
 
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
