@@ -590,7 +590,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class IDESize extends IPD_Segment.IPD_SegmentLong {
-    short numberOfBitsInEachIDE;
+    public short numberOfBitsInEachIDE;
 
     @Override
     public void reset() {
@@ -684,10 +684,10 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class IDEStructure extends IPD_Segment.IPD_SegmentLong {
-    EnumSet<IDEStructure.IDEStructureFlag> flags;
-    AFPColorSpace colorSpace;
-    byte[] reserved4_6 = new byte[] {0x00, 0x00, 0x00};
-    List<Short> componentSizes;
+    public EnumSet<IDEStructure.IDEStructureFlag> flags;
+    public AFPColorSpace colorSpace;
+    public byte[] reserved4_6 = new byte[] {0x00, 0x00, 0x00};
+    public List<Short> componentSizes;
 
     @Override
     public void reset() {
@@ -819,7 +819,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
   public static final class ExternalAlgorithmSpecification extends IPD_Segment.IPD_SegmentLong {
     ExternalAlgorithmSpecification.AlgorithmType algorithmType;
-    short reserved3 = 0x00;
+    public short reserved3 = 0x00;
     IPD_Segment.AlgorithmSpecification algorithmSpecification;
 
     @Override
@@ -985,7 +985,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   public static final class JPEGCompressionAlgorithmSpecification extends IPD_Segment.AlgorithmSpecificationCompression {
     short reserved1 = 0x00;
     short version;
-    short reserved3 = 0x00;
+    public short reserved3 = 0x00;
     JPEGCompressionAlgorithmSpecificationMarker marker;
     byte[] reserved5_7 = new byte[] {0x00, 0x00, 0x00};
 
@@ -1311,8 +1311,8 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class TilePosition extends IPD_Segment.IPD_SegmentLong {
-    int horizontalOffset;
-    int verticalOffset;
+    public int horizontalOffset;
+    public int verticalOffset;
 
     @Override
     public void reset() {
@@ -1339,9 +1339,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class TileSize extends IPD_Segment.IPD_SegmentLong {
-    int horizontalSizeInImagePoints;
-    int verticalSizeInImagePoints;
-    TileSize.RelativeTileResolution relativeResolution;
+    public int horizontalSizeInImagePoints;
+    public int verticalSizeInImagePoints;
+    public TileSize.RelativeTileResolution relativeResolution;
 
     @Override
     public void reset() {
@@ -1406,13 +1406,13 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class TileSetColor extends IPD_Segment.IPD_SegmentLong {
-    AFPColorSpace colorSpace;
-    byte[] reserved3_5 = new byte[] {0x00, 0x00, 0x00};
+    public AFPColorSpace colorSpace;
+    public byte[] reserved3_5 = new byte[] {0x00, 0x00, 0x00};
     public short nrOfBitsIDEsComponent1;
     public short nrOfBitsIDEsComponent2;
     public short nrOfBitsIDEsComponent3;
     public short nrOfBitsIDEsComponent4;
-    public byte[] color;
+    byte[] color;
 
     @Override
     public void reset() {
@@ -1457,7 +1457,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class IncludeTile extends IPD_Segment.IPD_SegmentExtended {
-    long tileResourceLocalID;
+    public long tileResourceLocalID;
 
     @Override
     public void reset() {
@@ -1603,9 +1603,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class SetBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
-    short area;
-    short reserved3 = 0x00;
-    short nameColor;
+    public short area;
+    public short reserved3 = 0x00;
+    public short nameColor;
 
     @Override
     public void reset() {
@@ -1636,14 +1636,14 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class SetExtendedBilevelImageColor extends IPD_Segment.IPD_SegmentLong {
-    short reserved2 = 0x00;
-    AFPColorSpace colorSpace;
-    byte[] reserved4_7 = new byte[] {0x00, 0x00, 0x00, 0x00};
+    public short reserved2 = 0x00;
+    public AFPColorSpace colorSpace;
+    public byte[] reserved4_7 = new byte[] {0x00, 0x00, 0x00, 0x00};
     public byte colSize1;
     public byte colSize2;
     public byte colSize3;
     public byte colSize4;
-    public byte[] color;
+    byte[] color;
 
     @Override
     public void reset() {
@@ -1695,8 +1695,8 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class FunctionSetIdentification extends IPD_Segment.IPD_SegmentLong {
-    short category = 0x01;
-    short functionSet;
+    public short category = 0x01;
+    public short functionSet;
 
     @Override
     public void reset() {

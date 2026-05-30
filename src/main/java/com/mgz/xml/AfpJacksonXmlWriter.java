@@ -1520,4 +1520,35 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
     }
   }
+
+  private void writeColorSpecification(GAD_DrawingOrder.ColorSpecification cs, String indent, String rootName) throws Exception {
+    String childIndent = indent + "  ";
+    xsw.writeStartElement(rootName);
+    writeElement(childIndent, "length", cs.length);
+    writeElement(childIndent, "reserved", cs.reserved);
+    if (cs.colorSpace != null) {
+      writeElement(childIndent, "colorSpace", cs.colorSpace.name());
+    }
+    writeElement(childIndent, "reserved4_7", cs.reserved4_7);
+    writeElement(childIndent, "nrOfBitsComponent1", cs.nrOfBitsComponent1);
+    writeElement(childIndent, "nrOfBitsComponent2", cs.nrOfBitsComponent2);
+    writeElement(childIndent, "nrOfBitsComponent3", cs.nrOfBitsComponent3);
+    writeElement(childIndent, "nrOfBitsComponent4", cs.nrOfBitsComponent4);
+    if (cs.colorValue != null) {
+      writeElement(childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(cs.colorValue));
+    }
+    xsw.writeCharacters(indent);
+    xsw.writeEndElement();
+  }
+
+  private void writeColorStop(GAD_DrawingOrder.ColorStop stop, String indent) throws Exception {
+    String childIndent = indent + "  ";
+    xsw.writeStartElement("ColorStop");
+    writeElement(childIndent, "offset", stop.offset);
+    if (stop.colorValue != null) {
+      writeElement(childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(stop.colorValue));
+    }
+    xsw.writeCharacters(indent);
+    xsw.writeEndElement();
+  }
 }
