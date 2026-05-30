@@ -26,7 +26,12 @@ import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.triplets.Triplet;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -64,6 +69,35 @@ public class PdfHandlerStructureTest {
 
     handler.handle(edt);
     assertEquals(0, handler.getStructureDepth());
+  }
+
+  @Test
+  public void testTleHandling() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BDT_BeginDocument bdt = new BDT_BeginDocument();
+    bdt.setStructuredFieldIntroducer(createSfi(SFTypeID.BDT_BeginDocument));
+    handler.handle(bdt);
+
+    TLE_TagLogicalElement tle = new TLE_TagLogicalElement();
+    tle.setStructuredFieldIntroducer(createSfi(SFTypeID.TLE_TagLogicalElement));
+
+    List<Triplet> triplets = new ArrayList<>();
+    Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+    fqn.setType(Triplet.GlobalID_Use.AttributeGID);
+    fqn.setNameAsString("Account");
+    triplets.add(fqn);
+
+    Triplet.AttributeValue av = new Triplet.AttributeValue();
+    av.setAttributeValue("12345");
+    triplets.add(av);
+
+    tle.setTriplets(triplets);
+
+    // This should not throw any exceptions and increments field count
+    handler.handle(tle);
+    assertEquals(2, handler.getFieldCount());
+    assertEquals(1, handler.getStructureDepth()); // BDT still open
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
