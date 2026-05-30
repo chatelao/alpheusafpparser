@@ -242,6 +242,48 @@ public class CMRHeaderVerificationTest {
     }
 
     @Test
+    public void testMediaRecommendedValues() throws Exception {
+        // [CMOCA-3-066/068] MediaColor blu, gdr
+        // [CMOCA-3-081/084] MediaFinish cm, hg
+        String[] colors = {"blu", "buf", "gdr", "grn", "gry", "ivy", "noc", "org", "pnk", "red", "wht", "ylw"};
+        String[] finishes = {"cm", "ct", "gl", "hg", "mt", "no", "np", "sg", "st", "tr"};
+
+        for (String color : colors) {
+            byte[] data = createCmrHeaderShell();
+            System.arraycopy(color.getBytes(Constants.utf16be), 0, data, 87, color.length() * 2);
+            CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+            assertEquals(color, cmr.getMediaColor());
+        }
+
+        for (String finish : finishes) {
+            byte[] data = createCmrHeaderShell();
+            System.arraycopy(finish.getBytes(Constants.utf16be), 0, data, 93, finish.length() * 2);
+            CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+            assertEquals(finish, cmr.getMediaFinish());
+        }
+    }
+
+    @Test
+    public void testReservedFieldStructure() throws Exception {
+        // [CMOCA-3-099] Bytes 140-155 @@@@@@@@ Reserved
+        // [CMOCA-3-101] Bytes 156-163 X'00...00' Reserved
+        byte[] data = createCmrHeaderShell();
+        // createCmrHeaderShell already pads name area with @ [CMOCA-3-041]
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+
+        // reserved2 is bytes 140-155 (offset 149 in SF)
+        // Since it's padded with @ and trimCmrString removes them, it should be empty
+        assertEquals("", cmr.getReserved2());
+
+        // reserved3 is bytes 156-163 (offset 165 in SF)
+        assertEquals(0, cmr.getReserved3());
+    }
+
+    @Test
     public void testArchitectedName() throws Exception {
         // [CMOCA-3-042] to [CMOCA-3-044]
         byte[] data = createCmrHeaderShell();

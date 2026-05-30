@@ -164,31 +164,31 @@
 | CMOCA-3-063 | 6   72–77   UTF16   MediaBrightness   0–100   For print media, percentage of light reflected | ✅ |
 | CMOCA-3-064 | Zxy   For screen, a CIE illuminant | ❓ |
 | CMOCA-3-065 | 6   78–83   UTF16   MediaColor     Color of the media: | ✅ |
-| CMOCA-3-066 | blu   blue | ❓ |
-| CMOCA-3-067 | buf   buff | ❓ |
-| CMOCA-3-068 | gdr   goldenrod | ❓ |
-| CMOCA-3-069 | grn   green | ❓ |
-| CMOCA-3-070 | gry   gray | ❓ |
-| CMOCA-3-071 | ivy   ivory | ❓ |
-| CMOCA-3-072 | noc   no-color | ❓ |
-| CMOCA-3-073 | org   orange | ❓ |
-| CMOCA-3-074 | pnk   pink | ❓ |
-| CMOCA-3-075 | red   red | ❓ |
-| CMOCA-3-076 | wht   white | ❓ |
-| CMOCA-3-077 | ylw   yellow | ❓ |
+| CMOCA-3-066 | blu   blue | ✅ |
+| CMOCA-3-067 | buf   buff | ✅ |
+| CMOCA-3-068 | gdr   goldenrod | ✅ |
+| CMOCA-3-069 | grn   green | ✅ |
+| CMOCA-3-070 | gry   gray | ✅ |
+| CMOCA-3-071 | ivy   ivory | ✅ |
+| CMOCA-3-072 | noc   no-color | ✅ |
+| CMOCA-3-073 | org   orange | ✅ |
+| CMOCA-3-074 | pnk   pink | ✅ |
+| CMOCA-3-075 | red   red | ✅ |
+| CMOCA-3-076 | wht   white | ✅ |
+| CMOCA-3-077 | ylw   yellow | ✅ |
 | CMOCA-3-078 | custom   three upper-case characters [A,Z] | ❓ |
 | CMOCA-3-079 | @@@   not specified | ❓ |
 | CMOCA-3-080 | 4   84–87   UTF16   MediaFinish     Surface characteristics: | ✅ |
-| CMOCA-3-081 | cm   commodity | ❓ |
-| CMOCA-3-082 | ct   coated | ❓ |
-| CMOCA-3-083 | gl   glossy | ❓ |
-| CMOCA-3-084 | hg   high-gloss | ❓ |
-| CMOCA-3-085 | mt   matte | ❓ |
-| CMOCA-3-086 | no   none | ❓ |
-| CMOCA-3-087 | np   newsprint | ❓ |
-| CMOCA-3-088 | sg   semi-gloss | ❓ |
-| CMOCA-3-089 | st   satin | ❓ |
-| CMOCA-3-090 | tr   treated | ❓ |
+| CMOCA-3-081 | cm   commodity | ✅ |
+| CMOCA-3-082 | ct   coated | ✅ |
+| CMOCA-3-083 | gl   glossy | ✅ |
+| CMOCA-3-084 | hg   high-gloss | ✅ |
+| CMOCA-3-085 | mt   matte | ✅ |
+| CMOCA-3-086 | no   none | ✅ |
+| CMOCA-3-087 | np   newsprint | ✅ |
+| CMOCA-3-088 | sg   semi-gloss | ✅ |
+| CMOCA-3-089 | st   satin | ✅ |
+| CMOCA-3-090 | tr   treated | ✅ |
 | CMOCA-3-091 | custom   two upper-case characters [A,Z] | ❓ |
 | CMOCA-3-092 | @@   not specified | ❓ |
 | CMOCA-3-093 | 6   88–93   UTF16   MediaWeight   1–999   The basic weight of the paper | ✅ |
@@ -532,8 +532,8 @@
 | CMOCA-5-037 | Count: Number of characters | ❓ |
 | CMOCA-5-038 | This tag defines arbitrary comment text, ignored by receivers. There is no default. | ❓ |
 | CMOCA-5-039 | EC-000406 Invalid Field Type: The specified Field Type is invalid for the tag. | ✅ |
-| CMOCA-5-040 | EC-00040F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ❓ |
-| CMOCA-5-041 | EC-000410 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ❓ |
+| CMOCA-5-040 | EC-00040F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ✅ |
+| CMOCA-5-041 | EC-000410 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ✅ |
 | CMOCA-5-042 | TagID: X'0008' | ❓ |
 | CMOCA-5-043 | Field Type: X'05' (BYTE) | ❓ |
 | CMOCA-5-044 | Count: 10 | ❓ |
@@ -559,8 +559,8 @@
 | CMOCA-5-064 | X'02': Behind UTC. UTCDiffH/M specify the difference. (Suffix -hhmm) | ❓ |
 | CMOCA-5-065 | EC-000805 Invalid Count Value: The specified Count field value is invalid for the tag. | ✅ |
 | CMOCA-5-066 | EC-000806 Invalid Field Type: The specified Field Type is invalid for the tag. | ✅ |
-| CMOCA-5-067 | EC-00080F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ❓ |
-| CMOCA-5-068 | EC-000810 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ❓ |
+| CMOCA-5-067 | EC-00080F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ✅ |
+| CMOCA-5-068 | EC-000810 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ✅ |
 | CMOCA-5-069 | TagID: X'0011' | ❓ |
 | CMOCA-5-070 | Field Type: X'01' (1-byte UBIN) | ❓ |
 | CMOCA-5-071 | Count: 1 | ❓ |
@@ -582,8 +582,8 @@
 | CMOCA-5-087 | The components are numbered according to the order in the ICC data tag. Additional color spaces c... | ❓ |
 | CMOCA-5-088 | EC-001105 Invalid Count Value | ✅ |
 | CMOCA-5-089 | EC-001106 Invalid Field Type | ✅ |
-| CMOCA-5-090 | EC-00110F Invalid Sequence | ❓ |
-| CMOCA-5-091 | EC-001110 Invalid Value: number of components is zero or greater than 15. | ❓ |
+| CMOCA-5-090 | EC-00110F Invalid Sequence | ✅ |
+| CMOCA-5-091 | EC-001110 Invalid Value: number of components is zero or greater than 15. | ✅ |
 | CMOCA-5-092 | TagID: X'1011' | ❓ |
 | CMOCA-5-093 | Field Type: X'08' (CODE) | ❓ |
 | CMOCA-5-094 | Count: 1 | ❓ |
@@ -660,11 +660,11 @@
 | CMOCA-5-165 | I ∈ [60, 120)   1   85 | ❓ |
 | CMOCA-5-166 | I ∈ [120, 200)   2   170 | ❓ |
 | CMOCA-5-167 | I ∈ [200, 255]   3   255 | ❓ |
-| CMOCA-5-168 | TagID: X'2004' | ❓ |
-| CMOCA-5-169 | Field Type: X'08' (CODE) | ❓ |
-| CMOCA-5-170 | Count: 1 | ❓ |
-| CMOCA-5-171 | X'01'   ToneTransferCurve Array | ❓ |
-| CMOCA-5-172 | X'02'   ToneTransferCurve Identity | ❓ |
+| CMOCA-5-168 | TagID: X'2004' | ✅ |
+| CMOCA-5-169 | Field Type: X'08' (CODE) | ✅ |
+| CMOCA-5-170 | Count: 1 | ✅ |
+| CMOCA-5-171 | X'01'   ToneTransferCurve Array | ✅ |
+| CMOCA-5-172 | X'02'   ToneTransferCurve Identity | ✅ |
 | CMOCA-5-173 | TagID: X'2011' | ❓ |
 | CMOCA-5-174 | Field Type: X'08' (CODE) | ❓ |
 | CMOCA-5-175 | Count: Number of color components | ❓ |
@@ -676,19 +676,19 @@
 | CMOCA-5-181 | TagID: X'2020' | ❓ |
 | CMOCA-5-182 | Field Type: X'05' (Byte) | ❓ |
 | CMOCA-5-183 | Count: Total length of the data | ❓ |
-| CMOCA-5-184 | TagID: X'3011' | ❓ |
-| CMOCA-5-185 | Field Type: X'08' (CODE) | ❓ |
-| CMOCA-5-186 | Count: 1 | ❓ |
-| CMOCA-5-187 | X'01'   Monochrome input profile | ❓ |
-| CMOCA-5-188 | X'02'   Monochrome display profile | ❓ |
-| CMOCA-5-189 | X'03'   Monochrome output profile | ❓ |
-| CMOCA-5-190 | X'04'   Three-component matrix-based input profile | ❓ |
-| CMOCA-5-191 | X'05'   Three-component matrix-based display profile | ❓ |
-| CMOCA-5-192 | X'06'   N-component LUT-based input profile | ❓ |
-| CMOCA-5-193 | X'07'   N-component LUT-based display profile | ❓ |
-| CMOCA-5-194 | X'08'   N-component LUT-based output profiles | ❓ |
-| CMOCA-5-195 | X'09'   ColorSpace conversion profile | ❓ |
-| CMOCA-5-196 | X'0A'   Retired item 3 (Abstract profile) | ❓ |
+| CMOCA-5-184 | TagID: X'3011' | ✅ |
+| CMOCA-5-185 | Field Type: X'08' (CODE) | ✅ |
+| CMOCA-5-186 | Count: 1 | ✅ |
+| CMOCA-5-187 | X'01'   Monochrome input profile | ✅ |
+| CMOCA-5-188 | X'02'   Monochrome display profile | ✅ |
+| CMOCA-5-189 | X'03'   Monochrome output profile | ✅ |
+| CMOCA-5-190 | X'04'   Three-component matrix-based input profile | ✅ |
+| CMOCA-5-191 | X'05'   Three-component matrix-based display profile | ✅ |
+| CMOCA-5-192 | X'06'   N-component LUT-based input profile | ✅ |
+| CMOCA-5-193 | X'07'   N-component LUT-based display profile | ✅ |
+| CMOCA-5-194 | X'08'   N-component LUT-based output profiles | ✅ |
+| CMOCA-5-195 | X'09'   ColorSpace conversion profile | ✅ |
+| CMOCA-5-196 | X'0A'   Retired item 3 (Abstract profile) | ✅ |
 | CMOCA-5-197 | TagID: X'3015' | ❓ |
 | CMOCA-5-198 | Field Type: X'05' (BYTE) | ❓ |
 | CMOCA-5-199 | Count: The number of bytes in the profile | ❓ |
@@ -713,12 +713,12 @@
 | CMOCA-5-218 | TagID: X'3025' | ❓ |
 | CMOCA-5-219 | Field Type: X'06' (ASCII), X'07' (UTF16) | ❓ |
 | CMOCA-5-220 | Count: Number of characters | ❓ |
-| CMOCA-5-221 | TagID: X'4011' | ❓ |
-| CMOCA-5-222 | Field Type: X'08' (CODE) | ❓ |
-| CMOCA-5-223 | Count: 1 | ❓ |
-| CMOCA-5-224 | X'01'   LinkColorConversion LUT | ❓ |
-| CMOCA-5-225 | X'02'   LinkColorConversion Identity | ❓ |
-| CMOCA-5-226 | X'03'   ICC DeviceLink | ❓ |
+| CMOCA-5-221 | TagID: X'4011' | ✅ |
+| CMOCA-5-222 | Field Type: X'08' (CODE) | ✅ |
+| CMOCA-5-223 | Count: 1 | ✅ |
+| CMOCA-5-224 | X'01'   LinkColorConversion LUT | ✅ |
+| CMOCA-5-225 | X'02'   LinkColorConversion Identity | ✅ |
+| CMOCA-5-226 | X'03'   ICC DeviceLink | ✅ |
 | CMOCA-5-227 | TagID: X'4015' | ❓ |
 | CMOCA-5-228 | Field Type: X'05' (BYTE) | ❓ |
 | CMOCA-5-229 | Count: Number of bytes in the OID | ❓ |
@@ -757,10 +757,10 @@
 | CMOCA-5-262 | TagID: X'4090' | ❓ |
 | CMOCA-5-263 | Field Type: X'07' (UTF16) | ❓ |
 | CMOCA-5-264 | Count: Number of characters | ❓ |
-| CMOCA-5-265 | TagID: X'5011' | ❓ |
-| CMOCA-5-266 | Field Type: X'08' (CODE) | ❓ |
-| CMOCA-5-267 | Count: 1 | ❓ |
-| CMOCA-5-268 | X'01'   Multi-output color spaces | ❓ |
+| CMOCA-5-265 | TagID: X'5011' | ✅ |
+| CMOCA-5-266 | Field Type: X'08' (CODE) | ✅ |
+| CMOCA-5-267 | Count: 1 | ✅ |
+| CMOCA-5-268 | X'01'   Multi-output color spaces | ✅ |
 | CMOCA-5-269 | TagID: X'5015' | ❓ |
 | CMOCA-5-270 | Field Type: X'01' (1-byte UBIN) | ❓ |
 | CMOCA-5-271 | Count: 1 | ❓ |

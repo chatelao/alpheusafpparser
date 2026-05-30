@@ -17,6 +17,7 @@ public class CMRTagVerificationTest {
         cmrData[1] = 0x11;
         cmrData[3] = 0x01; // Field type 1
         cmrData[7] = 0x01; // Count 1
+        cmrData[11] = 0x01; // Value 1
 
         // Tag 2: ID 0x0004 (Out of order!)
         cmrData[12] = 0x00;
@@ -28,9 +29,10 @@ public class CMRTagVerificationTest {
         cmrData[24] = (byte) 0xFF;
         cmrData[25] = (byte) 0xFF;
 
-        assertThrows(Exception.class, () -> {
+        Exception e = assertThrows(Exception.class, () -> {
             CMRTag.parseTags(cmrData);
         });
+        assertTrue(e.getMessage().contains("EC-00040F"), "Expected EC-00040F, got: " + e.getMessage());
     }
 
     @Test
@@ -87,6 +89,22 @@ public class CMRTagVerificationTest {
     }
 
     @Test
+    public void testTagOutOfBounds() throws Exception {
+        // [CMOCA-5-028] EC-xxxx10 Invalid Value: offset causes data to be outside CMR
+        byte[] cmrData = new byte[24];
+        cmrData[1] = 0x04; // Tag X'0004' (Comment)
+        cmrData[3] = 0x06; // Field Type 6 (ASCII)
+        cmrData[7] = 0x05; // Count 5 ( > 4 bytes, so uses offset)
+        cmrData[11] = 0x20; // Offset 32 (too large for 24-byte array)
+
+        cmrData[13] = (byte) 0xFF;
+        cmrData[12] = (byte) 0xFF;
+
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000410"), "Expected EC-000410, got: " + e.getMessage());
+    }
+
+    @Test
     public void testTagStructuralValidation() throws Exception {
         // [CMOCA-5-039] Comment tag invalid Field Type
         byte[] cmrData = new byte[24];
@@ -117,6 +135,18 @@ public class CMRTagVerificationTest {
 
         assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData3));
 
+        // [CMOCA-5-091] Num Components invalid Value
+        byte[] cmrData3v = new byte[24];
+        cmrData3v[1] = 0x11; // Tag X'0011'
+        cmrData3v[3] = 0x01; // Field Type 1
+        cmrData3v[7] = 0x01; // Count 1
+        cmrData3v[11] = 0x10; // Value 16 (invalid, expected 1-15)
+        cmrData3v[13] = (byte) 0xFF;
+        cmrData3v[12] = (byte) 0xFF;
+
+        Exception e3 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData3v));
+        assertTrue(e3.getMessage().contains("EC-001110"), "Expected EC-001110, got: " + e3.getMessage());
+
         // [CMOCA-5-100] Halftone Subset invalid Value
         byte[] cmrData4 = new byte[24];
         cmrData4[0] = 0x10;
@@ -128,6 +158,58 @@ public class CMRTagVerificationTest {
         cmrData4[12] = (byte) 0xFF;
 
         assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData4));
+
+        // TTC Subset [CMOCA-5-171/172]
+        byte[] cmrData5 = new byte[24];
+        cmrData5[0] = 0x20;
+        cmrData5[1] = 0x04; // Tag X'2004'
+        cmrData5[3] = 0x08;
+        cmrData5[7] = 0x01;
+        cmrData5[11] = 0x03; // Invalid Value 3 (expected 1-2)
+        cmrData5[13] = (byte) 0xFF;
+        cmrData5[12] = (byte) 0xFF;
+
+        Exception e5 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData5));
+        assertTrue(e5.getMessage().contains("EC-200410"));
+
+        // ICC Profile Subset [CMOCA-5-187..196]
+        byte[] cmrData6 = new byte[24];
+        cmrData6[0] = 0x30;
+        cmrData6[1] = 0x11; // Tag X'3011'
+        cmrData6[3] = 0x08;
+        cmrData6[7] = 0x01;
+        cmrData6[11] = 0x0B; // Invalid Value 11 (expected 1-10)
+        cmrData6[13] = (byte) 0xFF;
+        cmrData6[12] = (byte) 0xFF;
+
+        Exception e6 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData6));
+        assertTrue(e6.getMessage().contains("EC-301110"));
+
+        // Link Subset [CMOCA-5-224..226]
+        byte[] cmrData7 = new byte[24];
+        cmrData7[0] = 0x40;
+        cmrData7[1] = 0x11; // Tag X'4011'
+        cmrData7[3] = 0x08;
+        cmrData7[7] = 0x01;
+        cmrData7[11] = 0x04; // Invalid Value 4 (expected 1-3)
+        cmrData7[13] = (byte) 0xFF;
+        cmrData7[12] = (byte) 0xFF;
+
+        Exception e7 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData7));
+        assertTrue(e7.getMessage().contains("EC-401110"));
+
+        // Indexed Subset [CMOCA-5-268]
+        byte[] cmrData8 = new byte[24];
+        cmrData8[0] = 0x50;
+        cmrData8[1] = 0x11; // Tag X'5011'
+        cmrData8[3] = 0x08;
+        cmrData8[7] = 0x01;
+        cmrData8[11] = 0x02; // Invalid Value 2 (expected 1)
+        cmrData8[13] = (byte) 0xFF;
+        cmrData8[12] = (byte) 0xFF;
+
+        Exception e8 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData8));
+        assertTrue(e8.getMessage().contains("EC-501110"));
     }
 
     @Test
@@ -144,11 +226,11 @@ public class CMRTagVerificationTest {
         int[] types = {0x01, 0x02, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09};
         int[] sizes = {1, 2, 4, 1, 1, 2, 1, 1};
 
-        // Use tag IDs starting from 0x2000 to avoid special validation rules for 0x0004, 0x0008, 0x0011, 0x1011
+        // Use tag IDs starting from 0x6000 to avoid special validation rules for architected tags
         byte[] cmrData = new byte[types.length * 12 + 12];
         for (int i = 0; i < types.length; i++) {
             int offset = i * 12;
-            int tagId = 0x2000 + i;
+            int tagId = 0x6000 + i;
             System.arraycopy(UtilBinaryDecoding.intToByteArray(tagId, 2), 0, cmrData, offset, 2);
             cmrData[offset + 3] = (byte) types[i];
             System.arraycopy(UtilBinaryDecoding.longToByteArray(1, 4), 0, cmrData, offset + 4, 4);
