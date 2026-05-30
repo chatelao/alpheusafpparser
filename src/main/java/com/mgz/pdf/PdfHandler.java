@@ -67,6 +67,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
+  private final PdfTextState textState;
   private PdfPage currentPage;
   private float defaultPageWidth = -1;
   private float defaultPageHeight = -1;
@@ -76,6 +77,7 @@ public class PdfHandler implements StructuredFieldHandler {
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
     this.document = new Document(pdfDoc);
+    this.textState = new PdfTextState();
 
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
     this.dpartRoot = new PdfDictionary();
