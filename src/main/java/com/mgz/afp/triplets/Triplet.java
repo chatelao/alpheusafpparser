@@ -3671,6 +3671,14 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       levelNumber = UtilBinaryDecoding.parseInt(sfData, offset + 6, 4);
     }
 
+    public int getSequenceNumber() {
+      return sequenceNumber;
+    }
+
+    public int getLevelNumber() {
+      return levelNumber;
+    }
+
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       length = 10;

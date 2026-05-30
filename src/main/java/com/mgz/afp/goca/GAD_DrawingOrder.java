@@ -66,7 +66,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     this.drawingOrderType = drawingOrderType;
   }
 
-  protected static abstract sealed class DrawingOrder_HasPoints extends GAD_DrawingOrder {
+  public static abstract sealed class DrawingOrder_HasPoints extends GAD_DrawingOrder {
     @AFPField(isHidden = true)
     protected boolean isAtCurrentPosition;
     @AFPField

@@ -453,6 +453,26 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       yImageSize = 0;
     }
 
+    public AFPUnitBase getUnitBase() {
+      return unitBase;
+    }
+
+    public short getxUnitsPerUnitBase() {
+      return xUnitsPerUnitBase;
+    }
+
+    public short getyUnitsPerUnitBase() {
+      return yUnitsPerUnitBase;
+    }
+
+    public short getxImageSize() {
+      return xImageSize;
+    }
+
+    public short getyImageSize() {
+      return yImageSize;
+    }
+
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       segmentType = IPD_SegmentType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
@@ -487,6 +507,18 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       compressionAlgorithm = null;
       recordingAlgorithm = null;
       bitOrder = null;
+    }
+
+    public IPD_Segment.IPD_CompressionAlgorithm getCompressionAlgorithm() {
+      return compressionAlgorithm;
+    }
+
+    public IPD_Segment.IPD_RecordingAlgorithm getRecordingAlgorithm() {
+      return recordingAlgorithm;
+    }
+
+    public IPD_Segment.IPD_BitOrder getBitOrder() {
+      return bitOrder;
     }
 
     @Override
