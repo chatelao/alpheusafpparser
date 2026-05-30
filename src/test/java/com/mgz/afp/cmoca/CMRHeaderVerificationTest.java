@@ -37,8 +37,6 @@ public class CMRHeaderVerificationTest {
         // [CMOCA-3-049] CMRAlias (offset 10 in payload, 19 in SF)
         byte[] data = createCmrHeaderShell();
         String alias = "MYALIAS";
-        // To match .trim(), we shouldn't pad manually here if we want exact match,
-        // but the decoder trims. If we want to test correct extraction:
         byte[] aliasBytes = alias.getBytes(Constants.utf16be);
         System.arraycopy(aliasBytes, 0, data, 19, aliasBytes.length);
 
@@ -61,6 +59,19 @@ public class CMRHeaderVerificationTest {
     }
 
     @Test
+    public void testCmrVersion() throws Exception {
+        // [CMOCA-3-056] CMRVersion (offset 30 in payload, 39 in SF)
+        byte[] data = createCmrHeaderShell();
+        String version = "001.000";
+        byte[] versionBytes = version.getBytes(Constants.utf16be);
+        System.arraycopy(versionBytes, 0, data, 39, versionBytes.length);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        assertEquals(version, cmr.getVersion());
+    }
+
+    @Test
     public void testCmrManufacturer() throws Exception {
         // [CMOCA-3-060] Manufacturer Name (offset 44 in payload, 53 in SF)
         byte[] data = createCmrHeaderShell();
@@ -71,6 +82,49 @@ public class CMRHeaderVerificationTest {
         CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
         cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
         assertEquals(man, cmr.getManufacturerName());
+    }
+
+    @Test
+    public void testCmrDevice() throws Exception {
+        // [CMOCA-3-061] DeviceType (offset 54 in payload, 63 in SF) - 12 bytes (6 chars)
+        // [CMOCA-3-062] DeviceModel (offset 66 in payload, 75 in SF) - 6 bytes (3 chars)
+        byte[] data = createCmrHeaderShell();
+        String type = "4100";
+        String model = "HD3";
+        byte[] typeBytes = type.getBytes(Constants.utf16be);
+        byte[] modelBytes = model.getBytes(Constants.utf16be);
+        System.arraycopy(typeBytes, 0, data, 63, typeBytes.length);
+        System.arraycopy(modelBytes, 0, data, 75, modelBytes.length);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        assertEquals(type, cmr.getDeviceType());
+        assertEquals(model, cmr.getDeviceModel());
+    }
+
+    @Test
+    public void testMediaFields() throws Exception {
+        // [CMOCA-3-063] MediaBrightness (offset 72 in payload, 81 in SF) - 6 bytes
+        // [CMOCA-3-065] MediaColor (offset 78 in payload, 87 in SF) - 6 bytes
+        // [CMOCA-3-080] MediaFinish (offset 84 in payload, 93 in SF) - 4 bytes
+        // [CMOCA-3-093] MediaWeight (offset 88 in payload, 97 in SF) - 6 bytes
+        byte[] data = createCmrHeaderShell();
+        String brightness = "100";
+        String color = "wht";
+        String finish = "gl";
+        String weight = "90";
+
+        System.arraycopy(brightness.getBytes(Constants.utf16be), 0, data, 81, brightness.length() * 2);
+        System.arraycopy(color.getBytes(Constants.utf16be), 0, data, 87, color.length() * 2);
+        System.arraycopy(finish.getBytes(Constants.utf16be), 0, data, 93, finish.length() * 2);
+        System.arraycopy(weight.getBytes(Constants.utf16be), 0, data, 97, weight.length() * 2);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        assertEquals(brightness, cmr.getMediaBrightness());
+        assertEquals(color, cmr.getMediaColor());
+        assertEquals(finish, cmr.getMediaFinish());
+        assertEquals(weight, cmr.getMediaWeight());
     }
 
     @Test
