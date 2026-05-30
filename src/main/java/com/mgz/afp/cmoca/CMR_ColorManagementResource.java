@@ -215,6 +215,10 @@ public class CMR_ColorManagementResource extends StructuredField {
     checkDataLength(sfData, offset, actualLength, 164);
 
     this.length = UtilBinaryDecoding.parseLong(sfData, offset, 4);
+    // [CMOCA-3-253] EC-EFF003 Invalid Length Value
+    if (this.length < 164) {
+      throw new AFPParserException("EC-EFF003: Invalid Length Value: " + this.length);
+    }
     this.signature = new String(sfData, offset + 4, 4, Constants.cpIBM500);
     // [CMOCA-3-254] EC-EFF110 Invalid Field Value: The specified value for CMRSig is not X'434D5239'.
     if (!"CMR9".equals(this.signature)) {
@@ -259,6 +263,8 @@ public class CMR_ColorManagementResource extends StructuredField {
     if (reserved3 != 0) {
       // informational/ignored
     }
+
+    validateHeader();
 
     if (actualLength > 164) {
       this.cmrData = new byte[actualLength - 164];
@@ -313,12 +319,58 @@ public class CMR_ColorManagementResource extends StructuredField {
     if (s == null) {
       return null;
     }
-    return s.replace('@', ' ').trim();
+    String result = s.replace('\u0000', ' ').replace('@', ' ').trim();
+    return result;
   }
 
   private boolean isValidCmrType(String type) {
     return "CC".equals(type) || "DL".equals(type) || "HT".equals(type) ||
            "IX".equals(type) || "LK".equals(type) || "TC".equals(type);
+  }
+
+  private void validateHeader() throws AFPParserException {
+    // [CMOCA-3-256] EC-EFF310 Invalid Field Value: The specified CMRVersion is invalid.
+    if (version != null && !version.isEmpty()) {
+      boolean validVersion = version.matches("\\d{1,3}\\.\\d{1,3}") ||
+                             "generic".equals(version) ||
+                             "pasthru".equals(version) ||
+                             version.startsWith("AFP .");
+      if (!validVersion) {
+        throw new AFPParserException("EC-EFF310: Invalid CMRVersion: " + version);
+      }
+    }
+
+    // [CMOCA-3-257] EC-EFF410 Invalid Field Value: The specified MediaBrightness is invalid.
+    if (mediaBrightness != null && !mediaBrightness.isEmpty() && !"@@@".equals(mediaBrightness)) {
+      if (mediaBrightness.startsWith("Z")) {
+        // [CMOCA-3-064] Zxy For screen, a CIE illuminant
+        if (mediaBrightness.length() != 3) {
+          throw new AFPParserException("EC-EFF410: Invalid MediaBrightness (CIE illuminant): " + mediaBrightness);
+        }
+      } else {
+        // [CMOCA-3-063] 0–100 For print media, percentage of light reflected
+        try {
+          int val = Integer.parseInt(mediaBrightness);
+          if (val < 0 || val > 100) {
+            throw new AFPParserException("EC-EFF410: Invalid MediaBrightness (0-100): " + mediaBrightness);
+          }
+        } catch (NumberFormatException e) {
+          throw new AFPParserException("EC-EFF410: Invalid MediaBrightness (numeric expected): " + mediaBrightness);
+        }
+      }
+    }
+
+    // [CMOCA-3-260] EC-EFF710 Invalid Field Value: The specified MediaWeight is invalid.
+    if (mediaWeight != null && !mediaWeight.isEmpty() && !"@@@".equals(mediaWeight)) {
+      try {
+        int val = Integer.parseInt(mediaWeight.trim());
+        if (val < 1 || val > 999) {
+          throw new AFPParserException("EC-EFF710: Invalid MediaWeight (1-999): " + mediaWeight);
+        }
+      } catch (NumberFormatException e) {
+        throw new AFPParserException("EC-EFF710: Invalid MediaWeight (numeric expected): " + mediaWeight);
+      }
+    }
   }
 
   private void writeUTF16Padded(byte[] target, int offset, String value, int lengthInBytes) {

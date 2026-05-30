@@ -87,6 +87,50 @@ public class CMRTagVerificationTest {
     }
 
     @Test
+    public void testTagStructuralValidation() throws Exception {
+        // [CMOCA-5-039] Comment tag invalid Field Type
+        byte[] cmrData = new byte[24];
+        cmrData[1] = 0x04; // Tag X'0004'
+        cmrData[3] = 0x01; // Invalid field type 1 (expected 6 or 7)
+        cmrData[13] = (byte) 0xFF; // End Data
+        cmrData[12] = (byte) 0xFF;
+
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+
+        // [CMOCA-5-065] Date/Time tag invalid Count
+        byte[] cmrData2 = new byte[24];
+        cmrData2[1] = 0x08; // Tag X'0008'
+        cmrData2[3] = 0x05; // Field Type 5
+        cmrData2[7] = 0x09; // Invalid Count 9 (expected 10)
+        cmrData2[13] = (byte) 0xFF;
+        cmrData2[12] = (byte) 0xFF;
+
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData2));
+
+        // [CMOCA-5-088] Num Components tag invalid Count
+        byte[] cmrData3 = new byte[24];
+        cmrData3[1] = 0x11; // Tag X'0011'
+        cmrData3[3] = 0x01; // Field Type 1
+        cmrData3[7] = 0x02; // Invalid Count 2 (expected 1)
+        cmrData3[13] = (byte) 0xFF;
+        cmrData3[12] = (byte) 0xFF;
+
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData3));
+
+        // [CMOCA-5-100] Halftone Subset invalid Value
+        byte[] cmrData4 = new byte[24];
+        cmrData4[0] = 0x10;
+        cmrData4[1] = 0x11; // Tag X'1011'
+        cmrData4[3] = 0x08; // Field Type 8
+        cmrData4[7] = 0x01; // Count 1
+        cmrData4[11] = 0x05; // Invalid Value 5 (expected 1-4)
+        cmrData4[13] = (byte) 0xFF;
+        cmrData4[12] = (byte) 0xFF;
+
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData4));
+    }
+
+    @Test
     public void testAllFieldTypes() throws Exception {
         // [CMOCA-5-005] X'01' 1-byte UBIN
         // [CMOCA-5-006] X'02' 2-byte UBIN
@@ -100,10 +144,11 @@ public class CMRTagVerificationTest {
         int[] types = {0x01, 0x02, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09};
         int[] sizes = {1, 2, 4, 1, 1, 2, 1, 1};
 
+        // Use tag IDs starting from 0x2000 to avoid special validation rules for 0x0004, 0x0008, 0x0011, 0x1011
         byte[] cmrData = new byte[types.length * 12 + 12];
         for (int i = 0; i < types.length; i++) {
             int offset = i * 12;
-            int tagId = i + 1;
+            int tagId = 0x2000 + i;
             System.arraycopy(UtilBinaryDecoding.intToByteArray(tagId, 2), 0, cmrData, offset, 2);
             cmrData[offset + 3] = (byte) types[i];
             System.arraycopy(UtilBinaryDecoding.longToByteArray(1, 4), 0, cmrData, offset + 4, 4);

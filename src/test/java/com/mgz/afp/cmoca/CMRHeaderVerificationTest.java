@@ -176,6 +176,57 @@ public class CMRHeaderVerificationTest {
     }
 
     @Test
+    public void testInvalidVersion() throws Exception {
+        // [CMOCA-3-256] EC-EFF310 Invalid Field Value: The specified CMRVersion is invalid.
+        byte[] data = createCmrHeaderShell();
+        String version = "invalid";
+        byte[] versionBytes = version.getBytes(Constants.utf16be);
+        System.arraycopy(versionBytes, 0, data, 39, versionBytes.length);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        assertThrows(Exception.class, () -> {
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        });
+    }
+
+    @Test
+    public void testInvalidMediaBrightness() throws Exception {
+        // [CMOCA-3-257] EC-EFF410 Invalid Field Value: The specified MediaBrightness is invalid.
+        byte[] data = createCmrHeaderShell();
+        String brightness = "101"; // > 100
+        byte[] bytes = brightness.getBytes(Constants.utf16be);
+        System.arraycopy(bytes, 0, data, 81, 6);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        assertThrows(Exception.class, () -> {
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        });
+    }
+
+    @Test
+    public void testInvalidMediaWeight() throws Exception {
+        // [CMOCA-3-260] EC-EFF710 Invalid Field Value: The specified MediaWeight is invalid.
+        byte[] data = createCmrHeaderShell();
+        String weight = "000"; // < 1
+        byte[] bytes = weight.getBytes(Constants.utf16be);
+        System.arraycopy(bytes, 0, data, 97, 6);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        assertThrows(Exception.class, () -> {
+            cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        }, "Should throw for 000");
+
+        // Test non-numeric
+        byte[] data2 = createCmrHeaderShell();
+        String weight2 = "abc";
+        byte[] bytes2 = weight2.getBytes(Constants.utf16be);
+        System.arraycopy(bytes2, 0, data2, 97, 6);
+        assertThrows(Exception.class, () -> {
+            new CMR_ColorManagementResource().decodeAFP(data2, 9, 164, new AFPParserConfiguration());
+        }, "Should throw for abc");
+    }
+
+    @Test
     public void testReservedFields() throws Exception {
         // [CMOCA-3-047] Reserved; should be set to zero
         // [CMOCA-3-101] Reserved; should be set to zero
@@ -213,6 +264,6 @@ public class CMRHeaderVerificationTest {
         assertTrue(name.startsWith("JohnMay4HT"));
         assertTrue(name.contains("1.2"));
         assertTrue(name.contains("IBM"));
-        assertEquals(73, name.length()); // 146 bytes / 2
+        assertEquals(146/2, name.length()); // 146 bytes / 2
     }
 }

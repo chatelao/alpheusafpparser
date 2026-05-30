@@ -117,22 +117,20 @@ public class CMRTag {
       }
 
       int dataLength = (int) (tag.getCount() * getFieldTypeSize(tag.getFieldType()));
-      if (dataLength <= 0) {
-        currentTagOffset += 12;
-        continue;
-      }
-
-      byte[] tagData = new byte[dataLength];
-      if (dataLength <= 4) {
-        // Data is inline in ValueOffset field, left-aligned
-        System.arraycopy(cmrData, currentTagOffset + 8, tagData, 0, dataLength);
-      } else {
-        // Data is at valueOffset
-        if (tag.getValueOffset() + dataLength <= cmrData.length) {
-          System.arraycopy(cmrData, (int) tag.getValueOffset(), tagData, 0, dataLength);
+      if (dataLength > 0) {
+        byte[] tagData = new byte[dataLength];
+        if (dataLength <= 4) {
+          // Data is inline in ValueOffset field, left-aligned
+          System.arraycopy(cmrData, currentTagOffset + 8, tagData, 0, dataLength);
+        } else {
+          // Data is at valueOffset
+          if (tag.getValueOffset() + dataLength <= cmrData.length) {
+            System.arraycopy(cmrData, (int) tag.getValueOffset(), tagData, 0, dataLength);
+          }
         }
+        tag.setData(tagData);
       }
-      tag.setData(tagData);
+      tag.validate();
       currentTagOffset += 12;
     }
 
@@ -154,6 +152,59 @@ public class CMRTag {
         return 4;
       default:
         return 1;
+    }
+  }
+
+  public void validate() throws AFPParserException {
+    switch (tagId) {
+      case 0x0004: // Comment [CMOCA-5-035]
+        // [CMOCA-5-039] EC-000406 Invalid Field Type
+        if (fieldType != 0x06 && fieldType != 0x07) {
+          throw new AFPParserException(String.format("EC-000406: Invalid Field Type 0x%02X for Comment tag", fieldType));
+        }
+        break;
+
+      case 0x0008: // Date and Time Stamp [CMOCA-5-042]
+        // [CMOCA-5-065] EC-000805 Invalid Count Value
+        if (count != 10) {
+          throw new AFPParserException(String.format("EC-000805: Invalid Count %d for Date/Time tag", count));
+        }
+        // [CMOCA-5-066] EC-000806 Invalid Field Type
+        if (fieldType != 0x05) {
+          throw new AFPParserException(String.format("EC-000806: Invalid Field Type 0x%02X for Date/Time tag", fieldType));
+        }
+        break;
+
+      case 0x0011: // Number of Components [CMOCA-5-069]
+        // [CMOCA-5-088] EC-001105 Invalid Count Value
+        if (count != 1) {
+          throw new AFPParserException(String.format("EC-001105: Invalid Count %d for Number of Components tag", count));
+        }
+        // [CMOCA-5-089] EC-001106 Invalid Field Type
+        if (fieldType != 0x01) {
+          throw new AFPParserException(String.format("EC-001106: Invalid Field Type 0x%02X for Number of Components tag", fieldType));
+        }
+        break;
+
+      case 0x1011: // Halftone Subset [CMOCA-5-092]
+        if (count != 1) {
+          throw new AFPParserException(String.format("EC-101105: Invalid Count %d for Halftone Subset tag", count));
+        }
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-101106: Invalid Field Type 0x%02X for Halftone Subset tag", fieldType));
+        }
+        // [CMOCA-5-100] EC-101110 Invalid Value
+        if (data != null && data.length > 0) {
+          int subset = data[0] & 0xFF;
+          if (subset < 0x01 || subset > 0x04) {
+            throw new AFPParserException(String.format("EC-101110: Invalid Halftone Subset value 0x%02X", subset));
+          }
+        }
+        break;
+
+      default:
+        // No specific structural validation for other tags yet
+        break;
     }
   }
 
