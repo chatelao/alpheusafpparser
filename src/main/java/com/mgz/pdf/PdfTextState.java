@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 
@@ -30,6 +31,9 @@ public class PdfTextState {
 
   private short fontLid = -1;
   private AFPColorValue textColor = AFPColorValue.DeviceDefault_0x00;
+  private boolean extendedColor = false;
+  private AFPColorSpace extendedColorSpace = null;
+  private byte[] extendedColorValue = null;
   private AFPOrientation iOrientation = AFPOrientation.ori0;
   private AFPOrientation bOrientation = AFPOrientation.ori90;
   private int inlinePos = 0;
@@ -45,6 +49,9 @@ public class PdfTextState {
   public void reset() {
     this.fontLid = -1;
     this.textColor = AFPColorValue.DeviceDefault_0x00;
+    this.extendedColor = false;
+    this.extendedColorSpace = null;
+    this.extendedColorValue = null;
     this.iOrientation = AFPOrientation.ori0;
     this.bOrientation = AFPOrientation.ori90;
     this.inlinePos = 0;
@@ -69,6 +76,33 @@ public class PdfTextState {
 
   public void setTextColor(AFPColorValue textColor) {
     this.textColor = textColor;
+    this.extendedColor = false;
+  }
+
+  public boolean isExtendedColor() {
+    return extendedColor;
+  }
+
+  public void setExtendedColor(boolean extendedColor) {
+    this.extendedColor = extendedColor;
+  }
+
+  public AFPColorSpace getExtendedColorSpace() {
+    return extendedColorSpace;
+  }
+
+  public void setExtendedColorSpace(AFPColorSpace extendedColorSpace) {
+    this.extendedColorSpace = extendedColorSpace;
+    this.extendedColor = true;
+  }
+
+  public byte[] getExtendedColorValue() {
+    return extendedColorValue;
+  }
+
+  public void setExtendedColorValue(byte[] extendedColorValue) {
+    this.extendedColorValue = extendedColorValue;
+    this.extendedColor = true;
   }
 
   public AFPOrientation getIOrientation() {
