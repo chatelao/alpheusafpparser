@@ -86,7 +86,7 @@ class Afp2XmlAggressiveIOTest {
     @Test
     void testAggressiveIOSmallFile() throws Exception {
         File afpFile = new File("perf_test/test_00.afp");
-        if (!afpFile.exists()) return;
+        assertTrue(afpFile.exists(), "Test file perf_test/test_00.afp should exist");
 
         Path stdOutput = tempDir.resolve("std_small.xml");
         Path aggOutput = tempDir.resolve("agg_small.xml");
