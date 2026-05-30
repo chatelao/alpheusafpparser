@@ -21,19 +21,31 @@ package com.mgz.pdf;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Skeleton implementation of {@link StructuredFieldHandler} for PDF generation.
- * Initially used as a stub for performance benchmarking the parsing stage.
+ * Tracks MO:DCA structural boundaries to facilitate PDF/VT DPart mapping.
  */
 public class PdfHandler implements StructuredFieldHandler {
 
   private final AtomicLong fieldCount = new AtomicLong(0);
+  private final Deque<StructuredField> structureStack = new ArrayDeque<>();
 
   @Override
   public void handle(StructuredField sf) throws Exception {
     fieldCount.incrementAndGet();
+
+    if (sf.isBeginSF()) {
+      structureStack.push(sf);
+    } else if (sf.isEndSF()) {
+      if (!structureStack.isEmpty()) {
+        structureStack.pop();
+      }
+    }
+
     // TODO: Implement iText 9 based translation logic
   }
 
@@ -49,5 +61,14 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public long getFieldCount() {
     return fieldCount.get();
+  }
+
+  /**
+   * Returns the current depth of the MO:DCA structure stack.
+   *
+   * @return the structure depth
+   */
+  public int getStructureDepth() {
+    return structureStack.size();
   }
 }

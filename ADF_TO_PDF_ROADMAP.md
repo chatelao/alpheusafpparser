@@ -22,7 +22,10 @@ Establish the technical foundation and select the primary PDF engine.
 Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9.
 
 - ⏳ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog using `PdfStructTreeController`.
-- ⏳ **MO:DCA Boundary Mapping**: Implement recursive mapping of MO:DCA `BNG`/`BDT` boundaries to PDF `/DPart` objects.
+- ⏳ **MO:DCA Boundary Mapping**:
+    - ✅ **Structural Boundary Tracking**: Implement a stack-based mechanism to track nested MO:DCA groups (`BDT`/`EDT`, `BNG`/`ENG`, `BPG`/`EPG`).
+    - ⏳ **DPart Node Creation**: Create iText 9 `/DPart` objects corresponding to tracked MO:DCA boundaries.
+    - ⏳ **Page-to-DPart Assignment**: Connect PDF page objects to their respective leaf `/DPart` nodes.
 - ⏳ **TLE Metadata Mapping**: Map `TLE` (Tag Logical Element) values to record-level metadata within the `/DPart` hierarchy.
 - ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
 
