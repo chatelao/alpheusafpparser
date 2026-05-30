@@ -198,7 +198,7 @@ public class MnemonicPerformanceMonitor {
       }
     }
     // Common false positives in XML output
-    if ("AFPDocument".equals(s)) {
+    if ("AFPDocument".equals(s) || "GOCA".equals(s)) {
       return false;
     }
     return true;
