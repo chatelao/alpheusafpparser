@@ -83,6 +83,8 @@ public class CMR_ColorManagementResource extends StructuredField {
 
   private List<CMRTag> tags;
 
+  private byte[] rawCmrName;
+
   /**
    * Validates that all mandatory tags for the current CMR type and subset are present.
    * CMOCA Reference, Chapter 4.
@@ -243,6 +245,15 @@ public class CMR_ColorManagementResource extends StructuredField {
     this.prop5 = trimCmrString(new String(sfData, offset + 132, 8, Constants.utf16be));
     this.reserved2 = trimCmrString(new String(sfData, offset + 140, 16, Constants.utf16be));
 
+    // Store raw CMR name for architected name retrieval [CMOCA-3-042]
+    this.rawCmrName = new byte[146];
+    System.arraycopy(sfData, offset + 10, this.rawCmrName, 0, 146);
+
+    // [CMOCA-3-255] EC-EFF210 Invalid Field Value: The specified CMRType is invalid.
+    if (!isValidCmrType(this.type)) {
+      throw new AFPParserException("Invalid CMRType: " + this.type);
+    }
+
     this.reserved3 = UtilBinaryDecoding.parseLong(sfData, offset + 156, 8);
     // [CMOCA-3-101] Reserved; should be set to zero
     if (reserved3 != 0) {
@@ -303,6 +314,11 @@ public class CMR_ColorManagementResource extends StructuredField {
       return null;
     }
     return s.replace('@', ' ').trim();
+  }
+
+  private boolean isValidCmrType(String type) {
+    return "CC".equals(type) || "DL".equals(type) || "HT".equals(type) ||
+           "IX".equals(type) || "LK".equals(type) || "TC".equals(type);
   }
 
   private void writeUTF16Padded(byte[] target, int offset, String value, int lengthInBytes) {
@@ -500,5 +516,18 @@ public class CMR_ColorManagementResource extends StructuredField {
 
   public void setTags(List<CMRTag> tags) {
     this.tags = tags;
+  }
+
+  /**
+   * Returns the architected CMR name as defined in CMOCA-3-042.
+   * It is the concatenated fields in bytes 10–155, exactly in the order specified.
+   *
+   * @return the architected CMR name string.
+   */
+  public String getArchitectedName() {
+    if (rawCmrName == null) {
+      return null;
+    }
+    return new String(rawCmrName, Constants.utf16be);
   }
 }

@@ -140,20 +140,20 @@
 | CMOCA-3-039 | In reality, the processing of sequential steps can be combined to improve performance. A Link Col... | ❓ |
 | CMOCA-3-040 | The Indexed CMR does not fit into the scheme discussed above. It is used to define how to produce... | ❓ |
 | CMOCA-3-041 | This is the syntax of a CMR. Bytes 0–163 represent the CMR Header. Each field in the CMR header h... | ✅ |
-| CMOCA-3-042 | The CMR name is the concatenated fields in bytes 10–155, exactly in the order specified in the CM... | ❓ |
-| CMOCA-3-043 | Alias=JohnMay4, CMRType=HT, CMRVersion=1.2, ManufacturerName=IBM, DeviceType=4100, DeviceModel=PD... | ❓ |
-| CMOCA-3-044 | `JohnMay4HT001.200IBM@@4100@@PD194@whtgl90@2@@@@rnd@@@141@600@proc@@@@@@@@` | ❓ |
+| CMOCA-3-042 | The CMR name is the concatenated fields in bytes 10–155, exactly in the order specified in the CM... | ✅ |
+| CMOCA-3-043 | Alias=JohnMay4, CMRType=HT, CMRVersion=1.2, ManufacturerName=IBM, DeviceType=4100, DeviceModel=PD... | ✅ |
+| CMOCA-3-044 | `JohnMay4HT001.200IBM@@4100@@PD194@whtgl90@2@@@@rnd@@@141@600@proc@@@@@@@@` | ✅ |
 | CMOCA-3-045 | 4   0–3   4-byte UBIN   Length   X'000000A4'–X'FFFFFFFF'   CMR length, including length field | ✅ |
 | CMOCA-3-046 | 4   4–7   CODE   CMRSig   X'434D5239'   Signature of this CMR | ✅ |
 | CMOCA-3-047 | 2   8–9     Reserved   X'0000'   Reserved; should be set to zero | ✅ |
 | CMOCA-3-048 | (CMR Name starts here. It is composed of bytes 10–155.) | ❓ |
 | CMOCA-3-049 | 16   10–25   UTF16   CMRAlias   No restriction   Human-readable alias | ✅ |
 | CMOCA-3-050 | 4   26–29   UTF16   CMRType   CC (X'0043 0043')   Color Conversion | ✅ |
-| CMOCA-3-051 | DL (X'0044 004C')   ICC DeviceLink Color Conversion | ❓ |
-| CMOCA-3-052 | HT (X'0048 0054')   Halftone | ❓ |
-| CMOCA-3-053 | IX (X'0049 0058')   Indexed | ❓ |
-| CMOCA-3-054 | LK (X'004C 004B')   Link Color Conversion | ❓ |
-| CMOCA-3-055 | TC (X'0054 0043')   Tone Transfer Curve | ❓ |
+| CMOCA-3-051 | DL (X'0044 004C')   ICC DeviceLink Color Conversion | ✅ |
+| CMOCA-3-052 | HT (X'0048 0054')   Halftone | ✅ |
+| CMOCA-3-053 | IX (X'0049 0058')   Indexed | ✅ |
+| CMOCA-3-054 | LK (X'004C 004B')   Link Color Conversion | ✅ |
+| CMOCA-3-055 | TC (X'0054 0043')   Tone Transfer Curve | ✅ |
 | CMOCA-3-056 | 14   30–43   UTF16   CMRVersion   ddd.ddd   CMRVersion number | ✅ |
 | CMOCA-3-057 | AFP .ddd   Special AFP version number | ❓ |
 | CMOCA-3-058 | generic   “generic” | ❓ |
@@ -353,7 +353,7 @@
 | CMOCA-3-252 | The exception conditions are as follows: | ❓ |
 | CMOCA-3-253 | EC-EFF003 Invalid Length Value: The specified Length is invalid. | ❓ |
 | CMOCA-3-254 | EC-EFF110 Invalid Field Value: The specified value for CMRSig is not X'434D5239'. | ✅ |
-| CMOCA-3-255 | EC-EFF210 Invalid Field Value: The specified CMRType is invalid. | ❓ |
+| CMOCA-3-255 | EC-EFF210 Invalid Field Value: The specified CMRType is invalid. | ✅ |
 | CMOCA-3-256 | EC-EFF310 Invalid Field Value: The specified CMRVersion is invalid. | ❓ |
 | CMOCA-3-257 | EC-EFF410 Invalid Field Value: The specified MediaBrightness is invalid. | ❓ |
 | CMOCA-3-258 | EC-EFF510 Retired item 1. | ❓ |
@@ -498,13 +498,13 @@
 | CMOCA-5-003 | 0–1   CODE   TagID   X'0000'–X'FFFF'   Unique identifier for the tag | ✅ |
 | CMOCA-5-004 | 2     Reserved   X'00'   Should be set to zero | ✅ |
 | CMOCA-5-005 | 3   CODE   Field Type   X'01'   1-byte UBIN | ✅ |
-| CMOCA-5-006 | X'02'   2-byte UBIN | ❓ |
-| CMOCA-5-007 | X'04'   4-byte UBIN | ❓ |
-| CMOCA-5-008 | X'05'   BYTE (8 bits) | ❓ |
-| CMOCA-5-009 | X'06'   ASCII | ❓ |
-| CMOCA-5-010 | X'07'   UTF16 (UTF-16BE) | ❓ |
-| CMOCA-5-011 | X'08'   CODE (8 bit architected constant) | ❓ |
-| CMOCA-5-012 | X'09'   BITS | ❓ |
+| CMOCA-5-006 | X'02'   2-byte UBIN | ✅ |
+| CMOCA-5-007 | X'04'   4-byte UBIN | ✅ |
+| CMOCA-5-008 | X'05'   BYTE (8 bits) | ✅ |
+| CMOCA-5-009 | X'06'   ASCII | ✅ |
+| CMOCA-5-010 | X'07'   UTF16 (UTF-16BE) | ✅ |
+| CMOCA-5-011 | X'08'   CODE (8 bit architected constant) | ✅ |
+| CMOCA-5-012 | X'09'   BITS | ✅ |
 | CMOCA-5-013 | 4–7   UBIN   Count   X'00000000' – X'FFFFFFFF'   Number of values of the indicated Field Type (ma... | ✅ |
 | CMOCA-5-014 | 8–11     ValueOffset   Any   Data, left-aligned, if it fits into 4 bytes. Otherwise, offset to da... | ✅ |
 | CMOCA-5-015 | Field Type X'05' (BYTE) is used for the tags whose data has a defined structure, such as OID, Dat... | ❓ |

@@ -85,4 +85,40 @@ public class CMRTagVerificationTest {
         assertEquals(count, tag.getCount());
         assertArrayEquals(UtilBinaryDecoding.longToByteArray(value, 4), tag.getData());
     }
+
+    @Test
+    public void testAllFieldTypes() throws Exception {
+        // [CMOCA-5-005] X'01' 1-byte UBIN
+        // [CMOCA-5-006] X'02' 2-byte UBIN
+        // [CMOCA-5-007] X'04' 4-byte UBIN
+        // [CMOCA-5-008] X'05' BYTE
+        // [CMOCA-5-009] X'06' ASCII
+        // [CMOCA-5-010] X'07' UTF16
+        // [CMOCA-5-011] X'08' CODE
+        // [CMOCA-5-012] X'09' BITS
+
+        int[] types = {0x01, 0x02, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09};
+        int[] sizes = {1, 2, 4, 1, 1, 2, 1, 1};
+
+        byte[] cmrData = new byte[types.length * 12 + 12];
+        for (int i = 0; i < types.length; i++) {
+            int offset = i * 12;
+            int tagId = i + 1;
+            System.arraycopy(UtilBinaryDecoding.intToByteArray(tagId, 2), 0, cmrData, offset, 2);
+            cmrData[offset + 3] = (byte) types[i];
+            System.arraycopy(UtilBinaryDecoding.longToByteArray(1, 4), 0, cmrData, offset + 4, 4);
+            // Just use inline data for simplicity where it fits
+        }
+        // End Data
+        cmrData[types.length * 12] = (byte) 0xFF;
+        cmrData[types.length * 12 + 1] = (byte) 0xFF;
+
+        List<CMRTag> tags = CMRTag.parseTags(cmrData);
+        assertEquals(types.length + 1, tags.size());
+
+        for (int i = 0; i < types.length; i++) {
+            assertEquals(types[i], tags.get(i).getFieldType());
+            assertEquals(sizes[i], tags.get(i).getData().length);
+        }
+    }
 }
