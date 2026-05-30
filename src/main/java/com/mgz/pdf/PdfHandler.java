@@ -30,17 +30,23 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
+import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.MMO_MapMediumOverlay;
+import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -52,6 +58,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private final AtomicLong fieldCount = new AtomicLong(0);
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
+  private final Set<String> mmoResources = new HashSet<>();
+  private final Set<String> mpsResources = new HashSet<>();
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
@@ -132,6 +140,22 @@ public class PdfHandler implements StructuredFieldHandler {
           property.put(new PdfName(key), new PdfString(value));
         }
       }
+    } else if (sf instanceof MMO_MapMediumOverlay mmo) {
+      if (mmo.getRepeatingGroups() != null) {
+        for (IRepeatingGroup rg : mmo.getRepeatingGroups()) {
+          if (rg instanceof MMO_MapMediumOverlay.MMO_RepeatingGroup mmorg) {
+            mmoResources.add(mmorg.getNameOfMediumOverlay());
+          }
+        }
+      }
+    } else if (sf instanceof MPS_MapPageSegment mps) {
+      if (mps.getRepeatingGroups() != null) {
+        for (IRepeatingGroup rg : mps.getRepeatingGroups()) {
+          if (rg instanceof MPS_MapPageSegment.MPS_RepeatingGroup mpsrg) {
+            mpsResources.add(mpsrg.getNameOfPageSegment());
+          }
+        }
+      }
     }
 
     // TODO: Implement iText 9 based translation logic
@@ -161,5 +185,23 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public int getStructureDepth() {
     return structureStack.size();
+  }
+
+  /**
+   * Returns an unmodifiable set of the Medium Overlay names tracked by this handler.
+   *
+   * @return the set of MMO resource names
+   */
+  public Set<String> getMmoResources() {
+    return Collections.unmodifiableSet(mmoResources);
+  }
+
+  /**
+   * Returns an unmodifiable set of the Page Segment names tracked by this handler.
+   *
+   * @return the set of MPS resource names
+   */
+  public Set<String> getMpsResources() {
+    return Collections.unmodifiableSet(mpsResources);
   }
 }
