@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.kernel.geom.AffineTransform;
 import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -26,6 +27,7 @@ import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
@@ -68,6 +70,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private PdfPage currentPage;
   private float defaultPageWidth = -1;
   private float defaultPageHeight = -1;
+  private float defaultScaleX = 1.0f;
+  private float defaultScaleY = 1.0f;
 
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
@@ -114,9 +118,10 @@ public class PdfHandler implements StructuredFieldHandler {
           this.currentPage = pdfDoc.addNewPage();
           currentPage.put(PdfName.DPart, dpart);
 
-          // Apply default page size if defined (from PGD)
+          // Apply default page size and transformation if defined (from PGD)
           if (defaultPageWidth > 0 && defaultPageHeight > 0) {
             currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
+            applyTransformation(defaultPageHeight, defaultScaleX, defaultScaleY);
           }
         }
       }
@@ -170,28 +175,32 @@ public class PdfHandler implements StructuredFieldHandler {
         }
       }
     } else if (sf instanceof PGD_PageDescriptor pgd) {
-      float widthPoints = convertToPoints(pgd.getxSize(), pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
-      float heightPoints = convertToPoints(pgd.getySize(), pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
+      float scaleX = CoordinateTransformer.getScaleFactor(pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
+      float scaleY = CoordinateTransformer.getScaleFactor(pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
+      float widthPoints = pgd.getxSize() * scaleX;
+      float heightPoints = pgd.getySize() * scaleY;
 
       if (currentPage != null) {
         currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
+        applyTransformation(heightPoints, scaleX, scaleY);
       } else {
         // Store as default if no page is active
         this.defaultPageWidth = widthPoints;
         this.defaultPageHeight = heightPoints;
+        this.defaultScaleX = scaleX;
+        this.defaultScaleY = scaleY;
       }
     }
 
     // TODO: Implement iText 9 based translation logic
   }
 
-  private float convertToPoints(int units, AFPUnitBase base, short unitsPerBase) {
-    if (base == AFPUnitBase.Inches10) {
-      return (units * 72.0f) / (unitsPerBase / 10.0f);
-    } else if (base == AFPUnitBase.Centimeter10) {
-      return (units * 72.0f) / (unitsPerBase / 10.0f * 2.54f);
+  private void applyTransformation(float heightPoints, float scaleX, float scaleY) {
+    if (currentPage != null) {
+      PdfCanvas canvas = new PdfCanvas(currentPage);
+      AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
+      canvas.concatMatrix(at);
     }
-    return 0.0f;
   }
 
   @Override
