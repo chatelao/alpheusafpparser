@@ -770,8 +770,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "MODCAInterchangeSet")
   public static final class MODCAInterchangeSet extends Triplet {
-    MODCAInterchangeSet_Type type;
-    MODCAInterchangeSet_Identifier identifier;
+    public MODCAInterchangeSet_Type type;
+    public MODCAInterchangeSet_Identifier identifier;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -881,13 +881,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "FontDescriptorSpecification")
   public static final class FontDescriptorSpecification extends Triplet {
-    FDS_FontWeigthClass fontWeigthClass;
-    FDS_FontWidthClass fontWidthClass;
+    public FDS_FontWeigthClass fontWeigthClass;
+    public FDS_FontWidthClass fontWidthClass;
     short fontHeight;
     short fontWidth;
-    EnumSet<FDS_FontDsFlag> fontDsFlags;
+    public EnumSet<FDS_FontDsFlag> fontDsFlags;
     byte[] reserved9_18;
-    EnumSet<FDS_FontUsFlag> fontUsFlags;
+    public EnumSet<FDS_FontUsFlag> fontUsFlags;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1218,7 +1218,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ResourceObjectType")
   public static final class ResourceObjectType extends Triplet {
-    ResourceObjectType.ROT_ObjectType objectType;
+    public ResourceObjectType.ROT_ObjectType objectType;
     byte[] constantData;
 
     @Override
@@ -1297,7 +1297,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ObjectFunctionSetSpecification_Retired")
   public static final class ObjectFunctionSetSpecification_Retired extends Triplet {
-    ResourceObjectType.ROT_ObjectType objectType;
+    public ResourceObjectType.ROT_ObjectType objectType;
     byte ocaArchitectureLevel;
     int modcaFunctionSetIdentifier;
     OCAFunctionSet ocaFunctionSet;
@@ -2481,7 +2481,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "EncodingSchemeID")
   public static final class EncodingSchemeID extends Triplet {
-    EnumSet<EncodingScheme> encodingSchemeForCodePage;
+    public EnumSet<EncodingScheme> encodingSchemeForCodePage;
     EnumSet<EncodingScheme> encodingSchemeForUserData;
 
     @Override
@@ -2688,8 +2688,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ObjectByteExtent")
   public static final class ObjectByteExtent extends Triplet {
-    long byteExtentLow;
-    long byteExtentHigh;
+    public long byteExtentLow;
+    public long byteExtentHigh;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

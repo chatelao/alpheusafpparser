@@ -628,7 +628,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeDrawingOrderDirectly(GAD_DrawingOrder order, String indent) throws Exception {
     String childIndent = indent + "  ";
-    if (order instanceof GAD_DrawingOrder.GSCP_SetCurrentPosition gcp) {
+    if (order instanceof GAD_DrawingOrder.GNOP1_NopOperation) {
+      xsw.writeEmptyElement("GNOP1_NopOperation");
+    } else if (order instanceof GAD_DrawingOrder.GCOMT_Comment gcomt) {
+      xsw.writeStartElement("GCOMT_Comment");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gcomt.getLengthOfFollowingData());
+      if (gcomt.comment != null) {
+        writeElement(baseXsw, childIndent, "comment", UtilCharacterEncoding.bytesToHexString(gcomt.comment));
+      }
+      writeElement(baseXsw, childIndent, "text", gcomt.getText());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCP_SetCurrentPosition gcp) {
       xsw.writeStartElement("GSCP_SetCurrentPosition");
       writeElement(baseXsw, childIndent, "coordinateX", gcp.getCoordinateX());
       writeElement(baseXsw, childIndent, "coordinateY", gcp.getCoordinateY());
@@ -644,6 +655,38 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GSCS_SetCharacterSet gscs) {
       xsw.writeStartElement("GSCS_SetCharacterSet");
       writeElement(baseXsw, childIndent, "characterSetLocalID", gscs.getCharacterSetLocalID());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSPS_SetPatternSet gsps) {
+      xsw.writeStartElement("GSPS_SetPatternSet");
+      writeElement(baseXsw, childIndent, "patternLocalID", gsps.patternLocalID);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSMX_SetMix gsmx) {
+      xsw.writeStartElement("GSMX_SetMix");
+      writeElement(baseXsw, childIndent, "mixMode", gsmx.mixMode);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSBMX_SetBackgroundMix gsbmx) {
+      xsw.writeStartElement("GSBMX_SetBackgroundMix");
+      writeElement(baseXsw, childIndent, "mixMode", gsbmx.mixMode);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSFLW_SetFractionLineWidth gsflw) {
+      xsw.writeStartElement("GSFLW_SetFractionLineWidth");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsflw.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "integralMultiplier", gsflw.integralMultiplier);
+      writeElement(baseXsw, childIndent, "fractionalMultiplier", gsflw.fractionalMultiplier);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSLT_SetLineType gslt) {
+      xsw.writeStartElement("GSLT_SetLineType");
+      writeElement(baseXsw, childIndent, "lineType", gslt.lineType);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSPIK_SetPickIdentifier gspik) {
+      xsw.writeStartElement("GSPIK_SetPickIdentifier");
+      writeElement(baseXsw, childIndent, "pickIdentifier", gspik.pickIdentifier);
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSGCH_SegmentCharacteristics gsgch) {
@@ -701,6 +744,55 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsmc.lengthOfFollowingData);
       writeElement(baseXsw, childIndent, "widthOfMarkerCell", gsmc.getWidthOfMarkerCell());
       writeElement(baseXsw, childIndent, "heightOfMarkerCell", gsmc.getHeightOfMarkerCell());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSLW_SetLineWidth gslw) {
+      xsw.writeStartElement("GSLW_SetLineWidth");
+      writeElement(baseXsw, childIndent, "lineWidth", gslw.lineWidth);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSLE_SetLineEnd gsle) {
+      xsw.writeStartElement("GSLE_SetLineEnd");
+      if (gsle.lineEnd != null) {
+        writeElement(baseXsw, childIndent, "lineEnd", gsle.lineEnd.name());
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSLJ_SetLineJoin gslj) {
+      xsw.writeStartElement("GSLJ_SetLineJoin");
+      if (gslj.lineJoin != null) {
+        writeElement(baseXsw, childIndent, "lineJoin", gslj.lineJoin.name());
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSPT_SetPatternSymbol gspt) {
+      xsw.writeStartElement("GSPT_SetPatternSymbol");
+      writeElement(baseXsw, childIndent, "patternSymbolCodePoint", gspt.patternSymbolCodePoint);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSMT_SetMarkerSymbol gsmt) {
+      xsw.writeStartElement("GSMT_SetMarkerSymbol");
+      writeElement(baseXsw, childIndent, "markerSymbolCodePoint", gsmt.markerSymbolCodePoint);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCR_SetCharacterPrecision gscr) {
+      xsw.writeStartElement("GSCR_SetCharacterPrecision");
+      writeElement(baseXsw, childIndent, "characterPrecision", gscr.characterPrecision);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCD_SetCharacterDirection gscd) {
+      xsw.writeStartElement("GSCD_SetCharacterDirection");
+      writeElement(baseXsw, childIndent, "characterDirection", gscd.characterDirection);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSMP_SetMarkerPrecision gsmp) {
+      xsw.writeStartElement("GSMP_SetMarkerPrecision");
+      writeElement(baseXsw, childIndent, "markerPrecision", gsmp.markerPrecision);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSMS_SetMarkerSet gsms) {
+      xsw.writeStartElement("GSMS_SetMarkerSet");
+      writeElement(baseXsw, childIndent, "markerSetLocalID", gsms.markerSetLocalID);
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSCLT_SetCustomLineType gsclt) {
@@ -872,6 +964,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GESEG_EndSegment) {
       xsw.writeEmptyElement("GESEG_EndSegment");
+    } else if (order instanceof GAD_DrawingOrder.GEPROL_EndProlog geprol) {
+      xsw.writeStartElement("GEPROL_EndProlog");
+      writeElement(baseXsw, childIndent, "reserved0", geprol.getReserved0());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GBSEG_BeginSegment gbseg) {
       xsw.writeStartElement("GBSEG_BeginSegment");
       writeElement(baseXsw, childIndent, "nameOfSegment", gbseg.getNameOfSegment());
@@ -882,6 +979,34 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           writeDrawingOrderDirectly(childOrder, childIndent);
         }
       }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GBCP_BeginCustomPattern gbcp) {
+      xsw.writeStartElement("GBCP_BeginCustomPattern");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gbcp.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "reserved2_3", gbcp.reserved2_3);
+      writeElement(baseXsw, childIndent, "flags", gbcp.flags);
+      writeElement(baseXsw, childIndent, "patternSet", gbcp.patternSet);
+      writeElement(baseXsw, childIndent, "patternSymbol", gbcp.patternSymbol);
+      writeElement(baseXsw, childIndent, "xLeftWindow", gbcp.xLeftWindow);
+      writeElement(baseXsw, childIndent, "xRightWindow", gbcp.xRightWindow);
+      writeElement(baseXsw, childIndent, "yBottomWindow", gbcp.yBottomWindow);
+      writeElement(baseXsw, childIndent, "yTopWindow", gbcp.yTopWindow);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GDPT_DeletePattern gdpt) {
+      xsw.writeStartElement("GDPT_DeletePattern");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gdpt.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "reserved2_3", gdpt.reserved2_3);
+      writeElement(baseXsw, childIndent, "patternSet", gdpt.patternSet);
+      if (gdpt.patternSymbol != null) {
+        writeElement(baseXsw, childIndent, "patternSymbol", gdpt.patternSymbol);
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GECP_EndCustomPattern gecp) {
+      xsw.writeStartElement("GECP_EndCustomPattern");
+      writeElement(baseXsw, childIndent, "reserved0", gecp.getReserved0());
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GBAR_BeginArea gbar) {
@@ -898,6 +1023,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.writeStartElement("GIMD_ImageData");
       if (gimd.getImageData() != null) {
         writeElement(baseXsw, childIndent, "imageData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gimd.getImageData()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GEIMG_EndImage geimg) {
+      xsw.writeStartElement("GEIMG_EndImage");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", geimg.getLengthOfFollowingData());
+      if (geimg.reservedData != null) {
+        writeElement(baseXsw, childIndent, "reservedData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(geimg.reservedData));
       }
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
@@ -987,6 +1120,72 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           writeElement(baseXsw, offsetIndent + "  ", "yOffset", rp.yOffset());
           baseXsw.writeCharacters(offsetIndent);
           baseXsw.writeEndElement();
+        }
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GLGD_LinearGradient glgd) {
+      xsw.writeStartElement("GLGD_LinearGradient");
+      writeElement(baseXsw, childIndent, "qualifier", glgd.qualifier);
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", glgd.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "reserved4_5", glgd.reserved4_5);
+      writeElement(baseXsw, childIndent, "patternSet", glgd.patternSet);
+      writeElement(baseXsw, childIndent, "patternSymbol", glgd.patternSymbol);
+      writeElement(baseXsw, childIndent, "xStart", glgd.xStart);
+      writeElement(baseXsw, childIndent, "yStart", glgd.yStart);
+      writeElement(baseXsw, childIndent, "xEnd", glgd.xEnd);
+      writeElement(baseXsw, childIndent, "yEnd", glgd.yEnd);
+      if (glgd.startColorSpec != null) {
+        baseXsw.writeCharacters(childIndent);
+        writeColorSpecification(glgd.startColorSpec, childIndent, "startColorSpec");
+      }
+      if (glgd.endColorValue != null) {
+        writeElement(baseXsw, childIndent, "endColorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(glgd.endColorValue));
+      }
+      writeElement(baseXsw, childIndent, "outsideStart", glgd.outsideStart);
+      writeElement(baseXsw, childIndent, "outsideEnd", glgd.outsideEnd);
+      if (glgd.colorStops != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("colorStops");
+        for (GAD_DrawingOrder.ColorStop stop : glgd.colorStops) {
+          writeColorStop(stop, childIndent + "  ");
+        }
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GRGD_RadialGradient grgd) {
+      xsw.writeStartElement("GRGD_RadialGradient");
+      writeElement(baseXsw, childIndent, "qualifier", grgd.qualifier);
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", grgd.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "reserved4_5", grgd.reserved4_5);
+      writeElement(baseXsw, childIndent, "patternSet", grgd.patternSet);
+      writeElement(baseXsw, childIndent, "patternSymbol", grgd.patternSymbol);
+      writeElement(baseXsw, childIndent, "xStart", grgd.xStart);
+      writeElement(baseXsw, childIndent, "yStart", grgd.yStart);
+      writeElement(baseXsw, childIndent, "mhStart", grgd.mhStart);
+      writeElement(baseXsw, childIndent, "mfrStart", grgd.mfrStart);
+      writeElement(baseXsw, childIndent, "xEnd", grgd.xEnd);
+      writeElement(baseXsw, childIndent, "yEnd", grgd.yEnd);
+      writeElement(baseXsw, childIndent, "mhEnd", grgd.mhEnd);
+      writeElement(baseXsw, childIndent, "mfrEnd", grgd.mfrEnd);
+      if (grgd.startColorSpec != null) {
+        baseXsw.writeCharacters(childIndent);
+        writeColorSpecification(grgd.startColorSpec, childIndent, "startColorSpec");
+      }
+      if (grgd.endColorValue != null) {
+        writeElement(baseXsw, childIndent, "endColorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(grgd.endColorValue));
+      }
+      writeElement(baseXsw, childIndent, "outsideStart", grgd.outsideStart);
+      writeElement(baseXsw, childIndent, "outsideEnd", grgd.outsideEnd);
+      if (grgd.colorStops != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("colorStops");
+        for (GAD_DrawingOrder.ColorStop stop : grgd.colorStops) {
+          writeColorStop(stop, childIndent + "  ");
         }
         baseXsw.writeCharacters(childIndent);
         baseXsw.writeEndElement();
@@ -1314,5 +1513,36 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         xsw.close();
       }
     }
+  }
+
+  private void writeColorSpecification(GAD_DrawingOrder.ColorSpecification cs, String indent, String rootName) throws Exception {
+    String childIndent = indent + "  ";
+    xsw.writeStartElement(rootName);
+    writeElement(childIndent, "length", cs.length);
+    writeElement(childIndent, "reserved", cs.reserved);
+    if (cs.colorSpace != null) {
+      writeElement(childIndent, "colorSpace", cs.colorSpace.name());
+    }
+    writeElement(childIndent, "reserved4_7", cs.reserved4_7);
+    writeElement(childIndent, "nrOfBitsComponent1", cs.nrOfBitsComponent1);
+    writeElement(childIndent, "nrOfBitsComponent2", cs.nrOfBitsComponent2);
+    writeElement(childIndent, "nrOfBitsComponent3", cs.nrOfBitsComponent3);
+    writeElement(childIndent, "nrOfBitsComponent4", cs.nrOfBitsComponent4);
+    if (cs.colorValue != null) {
+      writeElement(childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(cs.colorValue));
+    }
+    xsw.writeCharacters(indent);
+    xsw.writeEndElement();
+  }
+
+  private void writeColorStop(GAD_DrawingOrder.ColorStop stop, String indent) throws Exception {
+    String childIndent = indent + "  ";
+    xsw.writeStartElement("ColorStop");
+    writeElement(childIndent, "offset", stop.offset);
+    if (stop.colorValue != null) {
+      writeElement(childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(stop.colorValue));
+    }
+    xsw.writeCharacters(indent);
+    xsw.writeEndElement();
   }
 }
