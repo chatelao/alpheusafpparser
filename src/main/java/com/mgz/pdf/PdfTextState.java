@@ -1,0 +1,97 @@
+/*
+Copyright 2026 Rudolf Fiala
+
+This file is part of Alpheus AFP Parser.
+
+Alpheus AFP Parser is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Alpheus AFP Parser is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
+*/
+
+package com.mgz.pdf;
+
+import com.mgz.afp.enums.AFPColorValue;
+import com.mgz.afp.enums.AFPOrientation;
+
+/**
+ * Tracks the active PTOCA text state for PDF conversion.
+ * Stores attributes like font LID, color, orientation, and position.
+ */
+public class PdfTextState {
+
+  private short fontLid = -1;
+  private AFPColorValue textColor = AFPColorValue.DeviceDefault_0x00;
+  private AFPOrientation iOrientation = AFPOrientation.ori0;
+  private AFPOrientation bOrientation = AFPOrientation.ori90;
+  private int inlinePos = 0;
+  private int baselinePos = 0;
+
+  /**
+   * Resets the text state to default values.
+   */
+  public void reset() {
+    this.fontLid = -1;
+    this.textColor = AFPColorValue.DeviceDefault_0x00;
+    this.iOrientation = AFPOrientation.ori0;
+    this.bOrientation = AFPOrientation.ori90;
+    this.inlinePos = 0;
+    this.baselinePos = 0;
+  }
+
+  public short getFontLid() {
+    return fontLid;
+  }
+
+  public void setFontLid(short fontLid) {
+    this.fontLid = fontLid;
+  }
+
+  public AFPColorValue getTextColor() {
+    return textColor;
+  }
+
+  public void setTextColor(AFPColorValue textColor) {
+    this.textColor = textColor;
+  }
+
+  public AFPOrientation getIOrientation() {
+    return iOrientation;
+  }
+
+  public void setIOrientation(AFPOrientation iOrientation) {
+    this.iOrientation = iOrientation;
+  }
+
+  public AFPOrientation getBOrientation() {
+    return bOrientation;
+  }
+
+  public void setBOrientation(AFPOrientation bOrientation) {
+    this.bOrientation = bOrientation;
+  }
+
+  public int getInlinePos() {
+    return inlinePos;
+  }
+
+  public void setInlinePos(int inlinePos) {
+    this.inlinePos = inlinePos;
+  }
+
+  public int getBaselinePos() {
+    return baselinePos;
+  }
+
+  public void setBaselinePos(int baselinePos) {
+    this.baselinePos = baselinePos;
+  }
+}
