@@ -48,6 +48,7 @@ The conversion process follows a three-stage pipeline, optimized for PDF/VT requ
 - [ ] Implement MO:DCA `BNG` to PDF `/DPart` recursive mapping.
 - [ ] Map `TLE` values to Record-level metadata.
 - [ ] Define `/OutputIntents` (PDF/X compliance) as required by ISO 16612-2.
+- [ ] **CLI Integration**: Add `-f` / `--format` flag to the `Afp2Xml` utility to support PDF output.
 
 ### Phase 2: Resource Management & Optimization
 - [ ] **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to the global Page Tree resources.

@@ -85,6 +85,7 @@ public class Afp2Xml {
     String inputPath = null;
     String outputPath = null;
     String xpathExpression = null;
+    String format = "xml";
 
     for (var i = 0; i < args.length; i++) {
       var arg = args[i];
@@ -105,6 +106,18 @@ public class Afp2Xml {
           } else {
             System.err.println("Error: --xpath requires an expression.");
             printUsage(System.err);
+            return 1;
+          }
+        }
+        case "-f", "--format" -> {
+          if (i + 1 < args.length) {
+            format = args[++i].toLowerCase();
+            if (!"xml".equals(format) && !"pdf".equals(format)) {
+              System.err.println("Error: Unsupported format: " + format);
+              return 1;
+            }
+          } else {
+            System.err.println("Error: --format requires a value (xml or pdf).");
             return 1;
           }
         }
@@ -179,7 +192,7 @@ public class Afp2Xml {
       }
 
       var isTxt = xpathExpression != null && xpathExpression.endsWith("/text()");
-      var extension = isTxt ? ".txt" : ".xml";
+      var extension = "pdf".equals(format) ? ".pdf" : (isTxt ? ".txt" : ".xml");
 
       if (isDirectoryMode) {
         if (!input.isDirectory()) {
@@ -208,7 +221,9 @@ public class Afp2Xml {
 
         var hasErrors = new AtomicBoolean(false);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-        final HandlerFactory handlerFactory = new XmlHandlerFactory(xpathExpression);
+        final HandlerFactory handlerFactory = "pdf".equals(format)
+            ? new com.mgz.pdf.PdfHandlerFactory()
+            : new XmlHandlerFactory(xpathExpression);
 
         final OrderedOutputOrchestrator orchestrator;
         if ("-".equals(outputPath)) {
@@ -302,7 +317,9 @@ public class Afp2Xml {
         }
         return hasErrors.get() ? 1 : 0;
       } else {
-        HandlerFactory handlerFactory = new XmlHandlerFactory(xpathExpression);
+        HandlerFactory handlerFactory = "pdf".equals(format)
+            ? new com.mgz.pdf.PdfHandlerFactory()
+            : new XmlHandlerFactory(xpathExpression);
         if ("-".equals(outputPath)) {
           OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
           try (OutputStream os = new BufferedOutputStream(nonClosingStdout)) {
@@ -401,14 +418,14 @@ public class Afp2Xml {
 
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
-        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-m|--measure] "
-        + "[-p|--ptx-debug] [-c|--charset-opt] [-P|--parallel] [-a|--aggressive-io] [-t|--threads <n>] <input-afp-file/dir> [output-xml-file]");
+        + "[-d|--directory <dir>] [-x|--xpath <expression>] [-f|--format <type>] [-m|--measure] "
+        + "[-p|--ptx-debug] [-c|--charset-opt] [-P|--parallel] [-a|--aggressive-io] [-t|--threads <n>] <input-afp-file/dir> [output-file]");
     out.println("Options:");
-    out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory "
-        + "to XML.");
+    out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory.");
     out.println("                            If a directory is provided as a positional "
         + "argument, directory mode is enabled automatically.");
     out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
+    out.println("  -f, --format <type>       Output format: xml (default) or pdf.");
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
     out.println("  -p, --ptx-debug           Detailed PTX/PTOCA performance analysis.");

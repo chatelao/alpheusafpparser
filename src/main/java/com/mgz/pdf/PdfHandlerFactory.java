@@ -31,6 +31,6 @@ public class PdfHandlerFactory implements HandlerFactory {
 
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
-    return new PdfHandler();
+    return new PdfHandler(os);
   }
 }
