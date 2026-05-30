@@ -44,6 +44,15 @@ import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.ptoca.PTX_PresentationTextData;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
@@ -119,6 +128,7 @@ public class PdfHandler implements StructuredFieldHandler {
         if (sf instanceof BPG_BeginPage) {
           this.currentPage = pdfDoc.addNewPage();
           currentPage.put(PdfName.DPart, dpart);
+          textState.reset();
 
           // Apply default page size and transformation if defined (from PGD)
           if (defaultPageWidth > 0 && defaultPageHeight > 0) {
@@ -192,9 +202,34 @@ public class PdfHandler implements StructuredFieldHandler {
         this.defaultScaleX = scaleX;
         this.defaultScaleY = scaleY;
       }
+    } else if (sf instanceof PTX_PresentationTextData ptx) {
+      if (ptx.getControlSequences() != null) {
+        for (PTOCAControlSequence cs : ptx.getControlSequences()) {
+          handleControlSequence(cs);
+        }
+      }
     }
 
     // TODO: Implement iText 9 based translation logic
+  }
+
+  private void handleControlSequence(PTOCAControlSequence cs) {
+    if (cs instanceof AMI_AbsoluteMoveInline ami) {
+      textState.setInlinePos(ami.getDisplacement());
+    } else if (cs instanceof RMI_RelativeMoveInline rmi) {
+      textState.setInlinePos(textState.getInlinePos() + rmi.getIncrement());
+    } else if (cs instanceof AMB_AbsoluteMoveBaseline amb) {
+      textState.setBaselinePos(amb.getDisplacement());
+    } else if (cs instanceof RMB_RelativeMoveBaseline rmb) {
+      textState.setBaselinePos(textState.getBaselinePos() + rmb.getIncrement());
+    } else if (cs instanceof STO_SetTextOrientation sto) {
+      textState.setIOrientation(sto.getxOrientation());
+      textState.setBOrientation(sto.getyOrientation());
+    } else if (cs instanceof SCFL_SetCodedFontLocal scfl) {
+      textState.setFontLid(scfl.getCodedFontLocalID());
+    } else if (cs instanceof STC_SetTextColor stc) {
+      textState.setTextColor(stc.getForegroundColor());
+    }
   }
 
   private void applyTransformation(float heightPoints, float scaleX, float scaleY) {
@@ -247,5 +282,14 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public Set<String> getMpsResources() {
     return Collections.unmodifiableSet(mpsResources);
+  }
+
+  /**
+   * Returns the current PTOCA text state.
+   *
+   * @return the text state
+   */
+  public PdfTextState getTextState() {
+    return textState;
   }
 }

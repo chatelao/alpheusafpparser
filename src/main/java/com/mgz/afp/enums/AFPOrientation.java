@@ -33,6 +33,10 @@ public enum AFPOrientation {
     this.code = orientationCode;
   }
 
+  public int getCode() {
+    return code;
+  }
+
   public static AFPOrientation valueOf(int orientationCode) {
     for (AFPOrientation ori : values()) {
       if (ori.code == orientationCode) {

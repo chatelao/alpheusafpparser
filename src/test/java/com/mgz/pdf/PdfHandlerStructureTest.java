@@ -31,6 +31,16 @@ import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.ptoca.PTX_PresentationTextData;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
+import com.mgz.afp.enums.AFPColorValue;
+import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
 import org.junit.jupiter.api.Test;
 
@@ -176,6 +186,64 @@ public class PdfHandlerStructureTest {
     assertEquals(2, handler.getFieldCount());
     // Verification of the actual PDF page size is harder without low-level iText access
     // but the code path is covered and no exception was thrown.
+  }
+
+  @Test
+  public void testPtxStateTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+    ptx.setStructuredFieldIntroducer(createSfi(SFTypeID.PTX_PresentationTextData));
+
+    // STO: Set Orientation
+    STO_SetTextOrientation sto = new STO_SetTextOrientation();
+    sto.setxOrientation(AFPOrientation.ori90);
+    sto.setyOrientation(AFPOrientation.ori180);
+    ptx.addControlSequence(sto);
+
+    // AMI: Absolute Move Inline
+    AMI_AbsoluteMoveInline ami = new AMI_AbsoluteMoveInline();
+    ami.setDisplacement((short) 1000);
+    ptx.addControlSequence(ami);
+
+    // AMB: Absolute Move Baseline
+    AMB_AbsoluteMoveBaseline amb = new AMB_AbsoluteMoveBaseline();
+    amb.setDisplacement((short) 2000);
+    ptx.addControlSequence(amb);
+
+    // RMI: Relative Move Inline
+    RMI_RelativeMoveInline rmi = new RMI_RelativeMoveInline();
+    rmi.setIncrement((short) 500);
+    ptx.addControlSequence(rmi);
+
+    // RMB: Relative Move Baseline
+    RMB_RelativeMoveBaseline rmb = new RMB_RelativeMoveBaseline();
+    rmb.setIncrement((short) -200);
+    ptx.addControlSequence(rmb);
+
+    // SCFL: Set Coded Font Local
+    SCFL_SetCodedFontLocal scfl = new SCFL_SetCodedFontLocal();
+    scfl.setCodedFontLocalID((short) 5);
+    ptx.addControlSequence(scfl);
+
+    // STC: Set Text Color
+    STC_SetTextColor stc = new STC_SetTextColor();
+    stc.setForegroundColor(AFPColorValue.Red_0x02);
+    ptx.addControlSequence(stc);
+
+    handler.handle(ptx);
+
+    PdfTextState state = handler.getTextState();
+    assertEquals(AFPOrientation.ori90, state.getIOrientation());
+    assertEquals(AFPOrientation.ori180, state.getBOrientation());
+    assertEquals(1500, state.getInlinePos());
+    assertEquals(1800, state.getBaselinePos());
+    assertEquals(5, state.getFontLid());
+    assertEquals(AFPColorValue.Red_0x02, state.getTextColor());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
