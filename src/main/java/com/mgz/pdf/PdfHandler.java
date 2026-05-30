@@ -19,7 +19,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
@@ -44,6 +46,12 @@ public class PdfHandler implements StructuredFieldHandler {
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
     this.document = new Document(pdfDoc);
+
+    // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
+    // DPartRoot is an optional key in PDF 2.0 Catalog, but required for PDF/VT
+    PdfDictionary dpartRoot = new PdfDictionary();
+    dpartRoot.put(PdfName.Type, new PdfName("DPartRoot"));
+    pdfDoc.getCatalog().put(new PdfName("DPartRoot"), dpartRoot);
   }
 
   @Override
