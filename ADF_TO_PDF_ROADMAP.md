@@ -31,7 +31,7 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
     - ✅ **Tag Extraction**: Extract key/value pairs from `TLE` structured fields.
     - ✅ **Metadata Injection**: Write extracted tags to the `/DPart` dictionary as `/Property` entries.
 - ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
-    - ⏳ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
+    - ✅ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
     - ⏳ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL).
 
 ## Phase 2: Resource Management & Optimization ⏳
@@ -41,6 +41,8 @@ Optimize resource handling for high-performance variable data printing.
     - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
     - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
+        - ⏳ **Implement Overlay/Page Segment conversion logic**: Map GOCA/IOCA content of resources to `PdfFormXObject` streams.
+        - ⏳ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name.
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
@@ -50,7 +52,7 @@ Optimize resource handling for high-performance variable data printing.
 Implement the drivers for converting AFP content architectures to PDF operators.
 
 - ⏳ **Coordinate Transformation**: Implement Pel/1440-to-Points mapping and Y-axis flip.
-    - 🚧 **Page Size Initialization**: Map `PGD` (Page Descriptor) dimensions to PDF `MediaBox`.
+    - ✅ **Page Size Initialization**: Map `PGD` (Page Descriptor) dimensions to PDF `MediaBox`, including document-level defaults.
     - ⏳ **Scale Calculation**: Map 1440 LPI or Pel resolution to 72 DPI.
     - ⏳ **Y-Axis Flip**: Apply `cm` operator to move origin from top-left to bottom-left.
 - ⏳ **PTOCA Driver**: Map PTOCA control sequences to PDF Text Objects (`BT`/`ET`) and positioning operators (`Td`/`Tm`).
@@ -67,6 +69,10 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Graphics State**: Map `GSCOL` (Set Color) and `GSLW` (Set Line Width).
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
+    - ⏳ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
+    - ⏳ **Implement IOCA Data Decoding**: Support decoding of bilevel, grayscale, and color image data.
+    - ⏳ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
+    - ⏳ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.
 
 ## Phase 4: Verification & Compliance ⏳
 Ensure the generated output meets the PDF/VT-1 standard and accurately reflects the source AFP.

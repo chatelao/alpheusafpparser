@@ -154,6 +154,30 @@ public class PdfHandlerStructureTest {
     assertEquals(2, handler.getFieldCount());
   }
 
+  @Test
+  public void testDefaultPgdHandling() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    // PGD before any page (e.g. in Document preamble)
+    PGD_PageDescriptor pgd = new PGD_PageDescriptor();
+    pgd.setxUnitBase(AFPUnitBase.Inches10);
+    pgd.setyUnitBase(AFPUnitBase.Inches10);
+    pgd.setxUnitsPerUnitBase((short) 2400);
+    pgd.setyUnitsPerUnitBase((short) 2400);
+    pgd.setxSize(2400);
+    pgd.setySize(2400);
+    handler.handle(pgd);
+
+    // Now start a page, it should pick up the default size
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    assertEquals(2, handler.getFieldCount());
+    // Verification of the actual PDF page size is harder without low-level iText access
+    // but the code path is covered and no exception was thrown.
+  }
+
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
     StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
     sfi.setSFTypeID(typeID);

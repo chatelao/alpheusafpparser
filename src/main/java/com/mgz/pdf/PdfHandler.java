@@ -66,6 +66,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Document document;
   private final PdfDictionary dpartRoot;
   private PdfPage currentPage;
+  private float defaultPageWidth = -1;
+  private float defaultPageHeight = -1;
 
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
@@ -80,6 +82,9 @@ public class PdfHandler implements StructuredFieldHandler {
     PdfDictionary dtreeRoot = new PdfDictionary();
     dtreeRoot.put(PdfName.Type, new PdfName("DPart"));
     dpartRoot.put(new PdfName("DTree"), dtreeRoot);
+
+    // Initialize OutputIntents array for PDF/X and PDF/VT compliance
+    pdfDoc.getCatalog().put(PdfName.OutputIntents, new PdfArray());
   }
 
   @Override
@@ -108,6 +113,11 @@ public class PdfHandler implements StructuredFieldHandler {
         if (sf instanceof BPG_BeginPage) {
           this.currentPage = pdfDoc.addNewPage();
           currentPage.put(PdfName.DPart, dpart);
+
+          // Apply default page size if defined (from PGD)
+          if (defaultPageWidth > 0 && defaultPageHeight > 0) {
+            currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
+          }
         }
       }
     } else if (sf.isEndSF()) {
@@ -165,6 +175,10 @@ public class PdfHandler implements StructuredFieldHandler {
 
       if (currentPage != null) {
         currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
+      } else {
+        // Store as default if no page is active
+        this.defaultPageWidth = widthPoints;
+        this.defaultPageHeight = heightPoints;
       }
     }
 
