@@ -77,9 +77,9 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
   }
 
   public static class SetBilevelImageColor extends IDD_SelfDefiningField {
-    short applicabilityArea;
-    short reserved3 = 0x00;
-    AFPColorValue color;
+    public short applicabilityArea;
+    public short reserved3 = 0x00;
+    public AFPColorValue color;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -126,14 +126,14 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
   }
 
   public static class SetExtendedBilevelImageColor extends IDD_SelfDefiningField {
-    short reserved2 = 0x00;
-    AFPColorSpace colorSpace;
-    byte[] reserved4_7 = new byte[] {0x00, 0x00};
-    byte nrOfBitsComponent1;
-    byte nrOfBitsComponent2;
-    byte nrOfBitsComponent3;
-    byte nrOfBitsComponent4;
-    byte[] colorValue;
+    public short reserved2 = 0x00;
+    public AFPColorSpace colorSpace;
+    public byte[] reserved4_7 = new byte[] {0x00, 0x00};
+    public byte nrOfBitsComponent1;
+    public byte nrOfBitsComponent2;
+    public byte nrOfBitsComponent3;
+    public byte nrOfBitsComponent4;
+    public byte[] colorValue;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -233,8 +233,8 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
   }
 
   public static class IOCAFunctionSetIdentification extends IDD_SelfDefiningField {
-    short functionSetCategory;
-    IOCAFunctionSetIdentification.FunctionSetIdentifier functionSetIdentifier;
+    public short functionSetCategory;
+    public IOCAFunctionSetIdentification.FunctionSetIdentifier functionSetIdentifier;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

@@ -1723,7 +1723,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class ImageData extends IPD_Segment.IPD_SegmentExtended {
-    byte[] imageData;
+    public byte[] imageData;
 
     @Override
     public void reset() {
@@ -1749,9 +1749,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class BandImageData extends IPD_Segment.IPD_SegmentExtended {
-    short bandNumber;
-    byte[] reserved5_6 = new byte[] {0x00, 0x00};
-    byte[] bandData;
+    public short bandNumber;
+    public byte[] reserved5_6 = new byte[] {0x00, 0x00};
+    public byte[] bandData;
 
     @Override
     public void reset() {

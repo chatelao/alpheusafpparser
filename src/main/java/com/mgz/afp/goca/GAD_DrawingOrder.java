@@ -66,13 +66,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     this.drawingOrderType = drawingOrderType;
   }
 
-  protected static abstract sealed class DrawingOrder_HasPoints extends GAD_DrawingOrder {
+  public static abstract sealed class DrawingOrder_HasPoints extends GAD_DrawingOrder {
     @AFPField(isHidden = true)
-    protected boolean isAtCurrentPosition;
+    public boolean isAtCurrentPosition;
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
-    List<GOCA_Point> points;
+    public List<GOCA_Point> points;
 
     @Override
     public void reset() {
@@ -267,22 +267,22 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
   public static final class GBSEG_BeginSegment extends GAD_DrawingOrder {
     public static short COMMANDCODE_BeginSegment = 0x70;
     @AFPField
-    short commandCode = COMMANDCODE_BeginSegment;
+    public short commandCode = COMMANDCODE_BeginSegment;
     @AFPField
-    short lengthOfFollowingParameters = 0x0C;
+    public short lengthOfFollowingParameters = 0x0C;
     @AFPField
-    String nameOfSegment;
+    public String nameOfSegment;
     @AFPField
-    byte flagAnyValue;
+    public byte flagAnyValue;
     @AFPField
-    EnumSet<SegmentPropertiesFlag> segmentPropertiesFlags = EnumSet.noneOf(SegmentPropertiesFlag.class);
+    public EnumSet<SegmentPropertiesFlag> segmentPropertiesFlags = EnumSet.noneOf(SegmentPropertiesFlag.class);
     @AFPField
-    int segmentDataLength;
+    public int segmentDataLength;
     @AFPField
-    String nameOfPredecessorSuccessorSegment;
+    public String nameOfPredecessorSuccessorSegment;
     @AFPField
-    List<GAD_DrawingOrder> drawingOrders;
-    String text;
+    public List<GAD_DrawingOrder> drawingOrders;
+    public String text;
 
     @Override
     public void reset() {
