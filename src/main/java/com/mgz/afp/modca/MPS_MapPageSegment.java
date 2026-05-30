@@ -119,5 +119,13 @@ public class MPS_MapPageSegment extends StructuredFieldBaseRepeatingGroups {
       os.write(reserved0_3);
       os.write(UtilCharacterEncoding.stringToByteArray(nameOfPageSegment, config.getAfpCharSet(), 8, Constants.EBCDIC_ID_FILLER));
     }
+
+    public String getNameOfPageSegment() {
+      return nameOfPageSegment;
+    }
+
+    public void setNameOfPageSegment(String nameOfPageSegment) {
+      this.nameOfPageSegment = nameOfPageSegment;
+    }
   }
 }

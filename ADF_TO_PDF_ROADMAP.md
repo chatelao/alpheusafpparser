@@ -38,8 +38,8 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
 Optimize resource handling for high-performance variable data printing.
 
 - ⏳ **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to global Page Tree resources.
-    - ⏳ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
-    - ⏳ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
+    - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
+    - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name.
@@ -56,8 +56,16 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Text State Management**: Track active font, color, and positioning.
     - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
     - ⏳ **Basic Text Rendering**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF positioning.
+    - ⏳ **Color Control Sequences**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color).
+    - ⏳ **Advanced Positioning**: Map `SIA` (Set Intercharacter Adjustment) and `SIM` (Set Inline Margin).
+    - ⏳ **Data Handling**: Map `TRN` (Transparent Data) to UTF-8 encoded PDF strings.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
+    - ⏳ **Line Drawing**: Map `GRLINE` and `GCRLINE` to `lineTo`.
+    - ⏳ **Box Drawing**: Map `GBOX` and `GCBOX` to `rectangle`.
+    - ⏳ **Area Filling**: Map `GAREA` (Begin/End Area) to PDF path filling.
+    - ⏳ **Graphics State**: Map `GSCOL` (Set Color) and `GSLW` (Set Line Width).
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
+- ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
 
 ## Phase 4: Verification & Compliance ⏳
 Ensure the generated output meets the PDF/VT-1 standard and accurately reflects the source AFP.

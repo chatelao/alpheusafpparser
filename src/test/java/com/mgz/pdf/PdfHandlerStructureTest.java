@@ -26,14 +26,18 @@ import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.MMO_MapMediumOverlay;
+import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.triplets.Triplet;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Verifies that {@link PdfHandler} correctly tracks MO:DCA structural boundaries.
@@ -98,6 +102,33 @@ public class PdfHandlerStructureTest {
     handler.handle(tle);
     assertEquals(2, handler.getFieldCount());
     assertEquals(1, handler.getStructureDepth()); // BDT still open
+  }
+
+  @Test
+  public void testResourceTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    // MMO Tracking
+    MMO_MapMediumOverlay mmo = new MMO_MapMediumOverlay();
+    MMO_MapMediumOverlay.MMO_RepeatingGroup mmorg = new MMO_MapMediumOverlay.MMO_RepeatingGroup();
+    mmorg.setNameOfMediumOverlay("O1RESOUR");
+    mmo.addRepeatingGroup(mmorg);
+    handler.handle(mmo);
+
+    Set<String> mmoResources = handler.getMmoResources();
+    assertEquals(1, mmoResources.size());
+    assertTrue(mmoResources.contains("O1RESOUR"));
+
+    // MPS Tracking
+    MPS_MapPageSegment mps = new MPS_MapPageSegment();
+    MPS_MapPageSegment.MPS_RepeatingGroup mpsrg = new MPS_MapPageSegment.MPS_RepeatingGroup();
+    mpsrg.setNameOfPageSegment("S1RESOUR");
+    mps.addRepeatingGroup(mpsrg);
+    handler.handle(mps);
+
+    Set<String> mpsResources = handler.getMpsResources();
+    assertEquals(1, mpsResources.size());
+    assertTrue(mpsResources.contains("S1RESOUR"));
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
