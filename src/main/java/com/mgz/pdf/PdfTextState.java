@@ -21,6 +21,7 @@ package com.mgz.pdf;
 
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment.SIA_Direction;
 
 /**
  * Tracks the active PTOCA text state for PDF conversion.
@@ -34,6 +35,10 @@ public class PdfTextState {
   private AFPOrientation bOrientation = AFPOrientation.ori90;
   private int inlinePos = 0;
   private int baselinePos = 0;
+  private short intercharacterAdjustment = 0;
+  private SIA_Direction intercharacterAdjustmentDirection = SIA_Direction.PositiveIDirection;
+  private short variableSpaceCharacterIncrement = 0;
+  private short inlineMargin = 0;
 
   /**
    * Resets the text state to default values.
@@ -45,6 +50,10 @@ public class PdfTextState {
     this.bOrientation = AFPOrientation.ori90;
     this.inlinePos = 0;
     this.baselinePos = 0;
+    this.intercharacterAdjustment = 0;
+    this.intercharacterAdjustmentDirection = SIA_Direction.PositiveIDirection;
+    this.variableSpaceCharacterIncrement = 0;
+    this.inlineMargin = 0;
   }
 
   public short getFontLid() {
@@ -93,5 +102,37 @@ public class PdfTextState {
 
   public void setBaselinePos(int baselinePos) {
     this.baselinePos = baselinePos;
+  }
+
+  public short getIntercharacterAdjustment() {
+    return intercharacterAdjustment;
+  }
+
+  public void setIntercharacterAdjustment(short intercharacterAdjustment) {
+    this.intercharacterAdjustment = intercharacterAdjustment;
+  }
+
+  public SIA_Direction getIntercharacterAdjustmentDirection() {
+    return intercharacterAdjustmentDirection;
+  }
+
+  public void setIntercharacterAdjustmentDirection(SIA_Direction intercharacterAdjustmentDirection) {
+    this.intercharacterAdjustmentDirection = intercharacterAdjustmentDirection;
+  }
+
+  public short getVariableSpaceCharacterIncrement() {
+    return variableSpaceCharacterIncrement;
+  }
+
+  public void setVariableSpaceCharacterIncrement(short variableSpaceCharacterIncrement) {
+    this.variableSpaceCharacterIncrement = variableSpaceCharacterIncrement;
+  }
+
+  public short getInlineMargin() {
+    return inlineMargin;
+  }
+
+  public void setInlineMargin(short inlineMargin) {
+    this.inlineMargin = inlineMargin;
   }
 }
