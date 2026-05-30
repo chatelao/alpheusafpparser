@@ -28,7 +28,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | Specification | Covered | Total | % |
 | :--- | :---: | :---: | :---: |
 | [BCOCA](TEST_COVERAGE_BCOCA.md) | 0 | 1237 | 0.0% |
-| [CMOCA](TEST_COVERAGE_CMOCA.md) | 154 | 992 | 15.5% |
+| [CMOCA](TEST_COVERAGE_CMOCA.md) | 225 | 992 | 22.7% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
 | [GOCA](TEST_COVERAGE_GOCA.md) | 0 | 2144 | 0.0% |

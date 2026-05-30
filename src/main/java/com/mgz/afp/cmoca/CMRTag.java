@@ -85,7 +85,7 @@ public class CMRTag {
       int tagId = UtilBinaryDecoding.parseInt(cmrData, offset, 2);
       // [CMOCA-5-018] The tags in a CMR must be specified in increasing order by their TagIDs.
       if (tagId <= lastTagId && tagId != 0xFFFF) {
-        throw new AFPParserException(String.format("CMR tags must be in increasing order. Found 0x%04X after 0x%04X", tagId, lastTagId));
+        throw new AFPParserException(String.format("EC-%04X0F: CMR tags must be in increasing order. Found 0x%04X after 0x%04X", tagId, tagId, lastTagId));
       }
 
       int reserved = cmrData[offset + 2] & 0xFF;
@@ -124,9 +124,12 @@ public class CMRTag {
           System.arraycopy(cmrData, currentTagOffset + 8, tagData, 0, dataLength);
         } else {
           // Data is at valueOffset
-          if (tag.getValueOffset() + dataLength <= cmrData.length) {
-            System.arraycopy(cmrData, (int) tag.getValueOffset(), tagData, 0, dataLength);
+          // [CMOCA-5-028] EC-xxxx10 Invalid Value: offset causes data to be outside CMR (CMRData field)
+          if (tag.getValueOffset() + dataLength > cmrData.length) {
+            throw new AFPParserException(String.format("EC-%04X10: Tag 0x%04X data offset %d with length %d is outside CMRData (total length %d)",
+                tag.getTagId(), tag.getTagId(), tag.getValueOffset(), dataLength, cmrData.length));
           }
+          System.arraycopy(cmrData, (int) tag.getValueOffset(), tagData, 0, dataLength);
         }
         tag.setData(tagData);
       }
@@ -183,6 +186,77 @@ public class CMRTag {
         // [CMOCA-5-089] EC-001106 Invalid Field Type
         if (fieldType != 0x01) {
           throw new AFPParserException(String.format("EC-001106: Invalid Field Type 0x%02X for Number of Components tag", fieldType));
+        }
+        // [CMOCA-5-091] EC-001110 Invalid Value: number of components is zero or greater than 15.
+        if (data != null && data.length > 0) {
+          int components = data[0] & 0xFF;
+          if (components == 0 || components > 15) {
+            throw new AFPParserException(String.format("EC-001110: Invalid Number of Components value %d (expected 1-15)", components));
+          }
+        }
+        break;
+
+      case 0x5011: // Indexed Subset [CMOCA-5-265]
+        if (count != 1) {
+          throw new AFPParserException(String.format("EC-501105: Invalid Count %d for Indexed Subset tag", count));
+        }
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-501106: Invalid Field Type 0x%02X for Indexed Subset tag", fieldType));
+        }
+        // [CMOCA-5-268] EC-501110 Invalid Value
+        if (data != null && data.length > 0) {
+          int subset = data[0] & 0xFF;
+          if (subset != 0x01) {
+            throw new AFPParserException(String.format("EC-501110: Invalid Indexed Subset value 0x%02X (expected 0x01)", subset));
+          }
+        }
+        break;
+
+      case 0x4011: // Link Color Conversion Subset [CMOCA-5-221]
+        if (count != 1) {
+          throw new AFPParserException(String.format("EC-401105: Invalid Count %d for Link Color Conversion Subset tag", count));
+        }
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-401106: Invalid Field Type 0x%02X for Link Color Conversion Subset tag", fieldType));
+        }
+        // [CMOCA-5-224..226] EC-401110 Invalid Value
+        if (data != null && data.length > 0) {
+          int subset = data[0] & 0xFF;
+          if (subset < 0x01 || subset > 0x03) {
+            throw new AFPParserException(String.format("EC-401110: Invalid Link Color Conversion Subset value 0x%02X (expected 0x01 to 0x03)", subset));
+          }
+        }
+        break;
+
+      case 0x2004: // Tone Transfer Curve Subset [CMOCA-5-168]
+        if (count != 1) {
+          throw new AFPParserException(String.format("EC-200405: Invalid Count %d for Tone Transfer Curve Subset tag", count));
+        }
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-200406: Invalid Field Type 0x%02X for Tone Transfer Curve Subset tag", fieldType));
+        }
+        // [CMOCA-5-171/172] EC-200410 Invalid Value
+        if (data != null && data.length > 0) {
+          int subset = data[0] & 0xFF;
+          if (subset != 0x01 && subset != 0x02) {
+            throw new AFPParserException(String.format("EC-200410: Invalid Tone Transfer Curve Subset value 0x%02X (expected 0x01 or 0x02)", subset));
+          }
+        }
+        break;
+
+      case 0x3011: // ICC Profile Subset [CMOCA-5-184]
+        if (count != 1) {
+          throw new AFPParserException(String.format("EC-301105: Invalid Count %d for ICC Profile Subset tag", count));
+        }
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-301106: Invalid Field Type 0x%02X for ICC Profile Subset tag", fieldType));
+        }
+        // [CMOCA-5-187..196] EC-301110 Invalid Value
+        if (data != null && data.length > 0) {
+          int subset = data[0] & 0xFF;
+          if (subset < 0x01 || subset > 0x0A) { // 0x01 to 0x0A (Retired item 3 is 0x0A)
+            throw new AFPParserException(String.format("EC-301110: Invalid ICC Profile Subset value 0x%02X (expected 0x01 to 0x0A)", subset));
+          }
         }
         break;
 
