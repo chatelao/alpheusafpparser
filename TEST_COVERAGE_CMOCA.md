@@ -155,9 +155,9 @@
 | CMOCA-3-054 | LK (X'004C 004B')   Link Color Conversion | ✅ |
 | CMOCA-3-055 | TC (X'0054 0043')   Tone Transfer Curve | ✅ |
 | CMOCA-3-056 | 14   30–43   UTF16   CMRVersion   ddd.ddd   CMRVersion number | ✅ |
-| CMOCA-3-057 | AFP .ddd   Special AFP version number | ❓ |
-| CMOCA-3-058 | generic   “generic” | ❓ |
-| CMOCA-3-059 | pasthru   “passthrough” | ❓ |
+| CMOCA-3-057 | AFP .ddd   Special AFP version number | ✅ |
+| CMOCA-3-058 | generic   “generic” | ✅ |
+| CMOCA-3-059 | pasthru   “passthrough” | ✅ |
 | CMOCA-3-060 | 10   44–53   UTF16   Manufacturer Name   See description   Name of the manufacturer | ✅ |
 | CMOCA-3-061 | 12   54–65   UTF16   DeviceType   See description   Type of the device | ✅ |
 | CMOCA-3-062 | 6   66–71   UTF16   DeviceModel   See description   Model of the device | ✅ |
@@ -222,10 +222,10 @@
 | CMOCA-3-121 | 2.  The device types and model numbers specified in the XOH-OPC reply and in the CMR header's Dev... | ❓ |
 | CMOCA-3-122 | Media-specific fields describe the media and consist of four attributes: media brightness, media ... | ❓ |
 | CMOCA-3-123 | To use an instruction CMR, its media type must match the media currently being used by the device... | ❓ |
-| CMOCA-3-124 | MediaBrightness: For print media, indicates the percentage of light reflected from the media. The... | ❓ |
+| CMOCA-3-124 | MediaBrightness: For print media, indicates the percentage of light reflected from the media. The... | ✅ |
 | CMOCA-3-125 | MediaColor: Indicates the color of the media being specified. CMOCA-recommended values exist to e... | ❓ |
 | CMOCA-3-126 | MediaFinish: Indicates the surface characteristics of the media. CMOCA-recommended values exist t... | ❓ |
-| CMOCA-3-127 | MediaWeight: Indicates the weight of the media rounded to the nearest whole number of grams per s... | ❓ |
+| CMOCA-3-127 | MediaWeight: Indicates the weight of the media rounded to the nearest whole number of grams per s... | ✅ |
 | CMOCA-3-128 | Note: These fields are informational only. They are not checked for validity. Any value may be en... | ❓ |
 | CMOCA-3-129 | Prop1: Number of Device Levels | ✅ |
 | CMOCA-3-130 | Prop2: Halftone Type | ✅ |
@@ -351,14 +351,14 @@
 | CMOCA-3-250 | X'03' Invalid length | ❓ |
 | CMOCA-3-251 | X'10' Invalid or unsupported field value | ❓ |
 | CMOCA-3-252 | The exception conditions are as follows: | ❓ |
-| CMOCA-3-253 | EC-EFF003 Invalid Length Value: The specified Length is invalid. | ❓ |
+| CMOCA-3-253 | EC-EFF003 Invalid Length Value: The specified Length is invalid. | ✅ |
 | CMOCA-3-254 | EC-EFF110 Invalid Field Value: The specified value for CMRSig is not X'434D5239'. | ✅ |
 | CMOCA-3-255 | EC-EFF210 Invalid Field Value: The specified CMRType is invalid. | ✅ |
-| CMOCA-3-256 | EC-EFF310 Invalid Field Value: The specified CMRVersion is invalid. | ❓ |
-| CMOCA-3-257 | EC-EFF410 Invalid Field Value: The specified MediaBrightness is invalid. | ❓ |
+| CMOCA-3-256 | EC-EFF310 Invalid Field Value: The specified CMRVersion is invalid. | ✅ |
+| CMOCA-3-257 | EC-EFF410 Invalid Field Value: The specified MediaBrightness is invalid. | ✅ |
 | CMOCA-3-258 | EC-EFF510 Retired item 1. | ❓ |
 | CMOCA-3-259 | EC-EFF610 Retired item 2. | ❓ |
-| CMOCA-3-260 | EC-EFF710 Invalid Field Value: The specified MediaWeight is invalid. | ❓ |
+| CMOCA-3-260 | EC-EFF710 Invalid Field Value: The specified MediaWeight is invalid. | ✅ |
 | CMOCA-3-261 | Prop 1–5 are informational. The values are not checked. | ❓ |
 | CMOCA-4-001 | The following CMRTypes are defined: | ❓ |
 | CMOCA-4-002 | Halftone | ❓ |
@@ -531,7 +531,7 @@
 | CMOCA-5-036 | Field Type: X'06' (ASCII), X'07' (UTF16) | ❓ |
 | CMOCA-5-037 | Count: Number of characters | ❓ |
 | CMOCA-5-038 | This tag defines arbitrary comment text, ignored by receivers. There is no default. | ❓ |
-| CMOCA-5-039 | EC-000406 Invalid Field Type: The specified Field Type is invalid for the tag. | ❓ |
+| CMOCA-5-039 | EC-000406 Invalid Field Type: The specified Field Type is invalid for the tag. | ✅ |
 | CMOCA-5-040 | EC-00040F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ❓ |
 | CMOCA-5-041 | EC-000410 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ❓ |
 | CMOCA-5-042 | TagID: X'0008' | ❓ |
@@ -557,8 +557,8 @@
 | CMOCA-5-062 | X'00': Time is specified in UTC. UTCDiffH/M should be X'00'. (Suffix Z) | ❓ |
 | CMOCA-5-063 | X'01': Ahead of UTC. UTCDiffH/M specify the difference. (Suffix +hhmm) | ❓ |
 | CMOCA-5-064 | X'02': Behind UTC. UTCDiffH/M specify the difference. (Suffix -hhmm) | ❓ |
-| CMOCA-5-065 | EC-000805 Invalid Count Value: The specified Count field value is invalid for the tag. | ❓ |
-| CMOCA-5-066 | EC-000806 Invalid Field Type: The specified Field Type is invalid for the tag. | ❓ |
+| CMOCA-5-065 | EC-000805 Invalid Count Value: The specified Count field value is invalid for the tag. | ✅ |
+| CMOCA-5-066 | EC-000806 Invalid Field Type: The specified Field Type is invalid for the tag. | ✅ |
 | CMOCA-5-067 | EC-00080F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ❓ |
 | CMOCA-5-068 | EC-000810 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ❓ |
 | CMOCA-5-069 | TagID: X'0011' | ❓ |
@@ -580,8 +580,8 @@
 | CMOCA-5-085 | 3CLR   Component 1   Component 2   Component 3 | ❓ |
 | CMOCA-5-086 | 4CLR   Component 1   Component 2   Component 3   Component 4 | ❓ |
 | CMOCA-5-087 | The components are numbered according to the order in the ICC data tag. Additional color spaces c... | ❓ |
-| CMOCA-5-088 | EC-001105 Invalid Count Value | ❓ |
-| CMOCA-5-089 | EC-001106 Invalid Field Type | ❓ |
+| CMOCA-5-088 | EC-001105 Invalid Count Value | ✅ |
+| CMOCA-5-089 | EC-001106 Invalid Field Type | ✅ |
 | CMOCA-5-090 | EC-00110F Invalid Sequence | ❓ |
 | CMOCA-5-091 | EC-001110 Invalid Value: number of components is zero or greater than 15. | ❓ |
 | CMOCA-5-092 | TagID: X'1011' | ❓ |
@@ -592,7 +592,7 @@
 | CMOCA-5-097 | X'02'   Multilevel Point-Operation Halftone | ❓ |
 | CMOCA-5-098 | X'03'   Bilevel Error Diffusion Halftone | ❓ |
 | CMOCA-5-099 | X'04'   Multilevel Error Diffusion Halftone | ❓ |
-| CMOCA-5-100 | EC-101110 Invalid Value: specified subset value is none of X'01', X'02', X'03', or X'04'. | ❓ |
+| CMOCA-5-100 | EC-101110 Invalid Value: specified subset value is none of X'01', X'02', X'03', or X'04'. | ✅ |
 | CMOCA-5-101 | TagID: X'1021' | ❓ |
 | CMOCA-5-102 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ❓ |
 | CMOCA-5-103 | Count: Number of color components | ❓ |
