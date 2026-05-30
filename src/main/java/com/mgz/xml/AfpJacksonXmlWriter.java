@@ -381,7 +381,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         long csStartCount = ptxDebug ? cos.getCount() : 0;
         writeControlSequence(cs, XmlIndenter.getIndent(2));
         if (csStart > 0) {
-          xsw.flush();
+          // Performance: We removed the xsw.flush() here. This significantly improves performance
+          // but means individual PTOCA xmlSize metrics in -P mode will be inaccurate (often 0 due to buffering).
+          // Aggregate PTX metrics remain accurate as handle() flushes at the end of the field.
           int payloadSize = 0;
           if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
             payloadSize = gc.getData() != null ? gc.getData().length : 0;
@@ -411,20 +413,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
-      xsw.writeStartElement("AMI_AbsoluteMoveInline");
-      writeElement(baseXsw, childIndent, "displacement", ami.getDisplacement());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEmptyElement("AMI_AbsoluteMoveInline");
+      baseXsw.writeAttribute("displacement", String.valueOf(ami.getDisplacement()));
     } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
-      xsw.writeStartElement("AMB_AbsoluteMoveBaseline");
-      writeElement(baseXsw, childIndent, "displacement", amb.getDisplacement());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEmptyElement("AMB_AbsoluteMoveBaseline");
+      baseXsw.writeAttribute("displacement", String.valueOf(amb.getDisplacement()));
     } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
-      xsw.writeStartElement("SCFL_SetCodedFontLocal");
-      writeElement(baseXsw, childIndent, "codedFontLocalID", scfl.getCodedFontLocalID());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEmptyElement("SCFL_SetCodedFontLocal");
+      baseXsw.writeAttribute("codedFontLocalID", String.valueOf(scfl.getCodedFontLocalID()));
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
       xsw.writeStartElement("STO_SetTextOrientation");
       if (sto.getxOrientation() != null) {
@@ -444,10 +440,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (cs instanceof PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi) {
-      xsw.writeStartElement("SVI_SetVariableSpaceCharacterIncrement");
-      writeElement(baseXsw, childIndent, "increment", svi.getIncrement());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEmptyElement("SVI_SetVariableSpaceCharacterIncrement");
+      baseXsw.writeAttribute("increment", String.valueOf(svi.getIncrement()));
     } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
       xsw.writeStartElement("SEC_SetExtendedTextColor");
       writeElement(baseXsw, childIndent, "colorSpace", sec.getColorSpace().name());
