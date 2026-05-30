@@ -40,6 +40,8 @@ import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
+import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -63,7 +65,9 @@ import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -78,6 +82,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
+  private final Map<Short, String> fontMap = new HashMap<>();
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
@@ -191,6 +196,33 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
       }
+    } else if (sf instanceof MCF_MapCodedFont_Format1 mcf1) {
+      if (mcf1.getRepeatingGroups() != null) {
+        for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
+          fontMap.put(rg.getCodedFontLocalID(), rg.getCodedFontName());
+        }
+      }
+    } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
+      if (mcf2.getRepeatingGroups() != null) {
+        for (IRepeatingGroup irg : mcf2.getRepeatingGroups()) {
+          if (irg instanceof MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg && rg.getTriplets() != null) {
+            Short lid = null;
+            String name = null;
+            for (Triplet t : rg.getTriplets()) {
+              if (t instanceof Triplet.ResourceLocalIdentifier rli
+                  && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+                lid = rli.getResourceLocalID();
+              } else if (t instanceof Triplet.FullyQualifiedName fqn
+                  && fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference) {
+                name = fqn.getNameAsString();
+              }
+            }
+            if (lid != null && name != null) {
+              fontMap.put(lid, name);
+            }
+          }
+        }
+      }
     } else if (sf instanceof PGD_PageDescriptor pgd) {
       float scaleX = CoordinateTransformer.getScaleFactor(pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
       float scaleY = CoordinateTransformer.getScaleFactor(pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
@@ -262,6 +294,15 @@ public class PdfHandler implements StructuredFieldHandler {
       document.add(new Paragraph("AFP to PDF conversion in progress..."));
     }
     document.close();
+  }
+
+  /**
+   * Returns an unmodifiable map of the Coded Font Local IDs to font resource names.
+   *
+   * @return the font map
+   */
+  public Map<Short, String> getFontMap() {
+    return Collections.unmodifiableMap(fontMap);
   }
 
   /**
