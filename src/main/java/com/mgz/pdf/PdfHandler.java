@@ -19,14 +19,22 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
+import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
+import com.mgz.afp.modca.BDT_BeginDocument;
+import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
+import com.mgz.afp.modca.BPG_BeginPage;
+import com.mgz.afp.modca.EDT_EndDocument;
+import com.mgz.afp.modca.ENG_EndNamedPageGroup;
+import com.mgz.afp.modca.EPG_EndPage;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -40,18 +48,24 @@ public class PdfHandler implements StructuredFieldHandler {
 
   private final AtomicLong fieldCount = new AtomicLong(0);
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
+  private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
   private final PdfDocument pdfDoc;
   private final Document document;
+  private final PdfDictionary dpartRoot;
 
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
     this.document = new Document(pdfDoc);
 
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
-    // DPartRoot is an optional key in PDF 2.0 Catalog, but required for PDF/VT
-    PdfDictionary dpartRoot = new PdfDictionary();
+    this.dpartRoot = new PdfDictionary();
     dpartRoot.put(PdfName.Type, new PdfName("DPartRoot"));
     pdfDoc.getCatalog().put(new PdfName("DPartRoot"), dpartRoot);
+
+    // Initialize DTree root node
+    PdfDictionary dtreeRoot = new PdfDictionary();
+    dtreeRoot.put(PdfName.Type, new PdfName("DPart"));
+    dpartRoot.put(new PdfName("DTree"), dtreeRoot);
   }
 
   @Override
@@ -60,9 +74,36 @@ public class PdfHandler implements StructuredFieldHandler {
 
     if (sf.isBeginSF()) {
       structureStack.push(sf);
+      if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
+        PdfDictionary dpart = new PdfDictionary();
+        dpart.makeIndirect(pdfDoc);
+        dpart.put(PdfName.Type, PdfName.DPart);
+
+        PdfDictionary parent = dpartStack.isEmpty() ? dpartRoot.getAsDictionary(new PdfName("DTree")) : dpartStack.peek();
+        dpart.put(PdfName.Parent, parent);
+
+        PdfArray dparts = parent.getAsArray(new PdfName("DParts"));
+        if (dparts == null) {
+          dparts = new PdfArray();
+          dparts.makeIndirect(pdfDoc);
+          parent.put(new PdfName("DParts"), dparts);
+        }
+        dparts.add(dpart);
+        dpartStack.push(dpart);
+
+        if (sf instanceof BPG_BeginPage) {
+          PdfPage page = pdfDoc.addNewPage();
+          page.put(PdfName.DPart, dpart);
+        }
+      }
     } else if (sf.isEndSF()) {
       if (!structureStack.isEmpty()) {
-        structureStack.pop();
+        StructuredField begin = structureStack.pop();
+        if (begin instanceof BDT_BeginDocument || begin instanceof BNG_BeginNamedPageGroup || begin instanceof BPG_BeginPage) {
+          if (!dpartStack.isEmpty()) {
+            dpartStack.pop();
+          }
+        }
       }
     }
 

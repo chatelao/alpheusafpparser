@@ -24,11 +24,15 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
 - ✅ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog.
 - ⏳ **MO:DCA Boundary Mapping**:
     - ✅ **Structural Boundary Tracking**: Implement a stack-based mechanism to track nested MO:DCA groups (`BDT`/`EDT`, `BNG`/`ENG`, `BPG`/`EPG`).
-    - ⏳ **DPart Node Creation**: Create iText 9 `/DPart` objects corresponding to tracked MO:DCA boundaries.
-    - ⏳ **Page-to-DPart Assignment**: Connect PDF page objects to their respective leaf `/DPart` nodes.
+    - ✅ **DPart Node Creation**: Create iText 9 `/DPart` objects corresponding to tracked MO:DCA boundaries.
+    - ✅ **Page-to-DPart Assignment**: Connect PDF page objects to their respective leaf `/DPart` nodes.
 - ✅ **CLI Integration**: Add `-f` / `--format` flag to `Afp2Xml` to enable PDF output and manual testing. (Standard flags `-p` for parallel and `-P` for PTX debug are supported).
 - ⏳ **TLE Metadata Mapping**: Map `TLE` (Tag Logical Element) values to record-level metadata within the `/DPart` hierarchy.
+    - ⏳ **Tag Extraction**: Extract key/value pairs from `TLE` structured fields.
+    - ⏳ **Metadata Injection**: Write extracted tags to the `/DPart` dictionary as `/Property` entries.
 - ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
+    - ⏳ **ICC Profile Loading**: Load standard ICC profiles (FOGRA39, GRACoL).
+    - ⏳ **Catalog Registration**: Register `/OutputIntent` in the PDF Catalog.
 
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
@@ -38,13 +42,18 @@ Optimize resource handling for high-performance variable data printing.
     - ⏳ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
+    - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name.
+    - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
 - ⏳ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
 ## Phase 3: Content Conversion (Base Operators) ⏳
 Implement the drivers for converting AFP content architectures to PDF operators.
 
 - ⏳ **Coordinate Transformation**: Implement Pel/1440-to-Points mapping and Y-axis flip.
+    - ⏳ **Scale Calculation**: Map 1440 LPI or Pel resolution to 72 DPI.
+    - ⏳ **Y-Axis Flip**: Apply `cm` operator to move origin from top-left to bottom-left.
 - ⏳ **PTOCA Driver**: Map PTOCA control sequences to PDF Text Objects (`BT`/`ET`) and positioning operators (`Td`/`Tm`).
+    - ⏳ **Text State Management**: Track active font, color, and positioning.
     - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
     - ⏳ **Basic Text Rendering**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF positioning.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
@@ -54,8 +63,10 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 Ensure the generated output meets the PDF/VT-1 standard and accurately reflects the source AFP.
 
 - ⏳ **PDF/VT-1 Validation**: Validate generated files against PDF/VT-1 profiles using preflight tools.
+    - ⏳ **Preflight Automation**: Integrate with VeraPDF or Callas pdfToolbox for automated compliance checks.
 - ⏳ **DPart Hierarchy Verification**: Verify navigation and structure in PDF/VT-aware viewers.
 - ⏳ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values.
+    - ⏳ **Visual Regression**: Compare rendered PDF output against XML/Baseline snapshots.
 
 ---
 
