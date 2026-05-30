@@ -28,17 +28,17 @@ Verification is currently initialized to 0% and will progress as granular tests 
 | Specification | Covered | Total | % |
 | :--- | :---: | :---: | :---: |
 | [BCOCA](TEST_COVERAGE_BCOCA.md) | 0 | 1237 | 0.0% |
-| [CMOCA](TEST_COVERAGE_CMOCA.md) | 21 | 1085 | 1.9% |
+| [CMOCA](TEST_COVERAGE_CMOCA.md) | 138 | 992 | 13.9% |
 | [DB2Z](TEST_COVERAGE_DB2Z.md) | 0 | 659 | 0.0% |
 | [FOCA](TEST_COVERAGE_FOCA.md) | 0 | 1391 | 0.0% |
 | [GOCA](TEST_COVERAGE_GOCA.md) | 0 | 2144 | 0.0% |
 | [IOCA](TEST_COVERAGE_IOCA.md) | 0 | 1587 | 0.0% |
-| [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 6286 | 0.0% |
-| [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 863 | 0.0% |
+| [IPDS](TEST_COVERAGE_IPDS.md) | 0 | 5840 | 0.0% |
+| [LINEDATA](TEST_COVERAGE_LINEDATA.md) | 0 | 726 | 0.0% |
 | [MOCA](TEST_COVERAGE_MOCA.md) | 0 | 173 | 0.0% |
-| [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 4139 | 0.0% |
+| [MODCA](TEST_COVERAGE_MODCA.md) | 0 | 3222 | 0.0% |
 | [PTOCA](TEST_COVERAGE_PTOCA.md) | 0 | 1488 | 0.0% |
-| **Total** | **21** | **21052** | **0.1%** |
+| **Total** | **138** | **10780** | **1.3%** |
 
 ## Goals
 - ✅ Ensure all artifacts (JARs, POM) are correctly generated.
@@ -181,7 +181,7 @@ Verification is currently initialized to 0% and will progress as granular tests 
 - ✅ Analyzing and updating the `TEST_COVERAGE_CMOCA.md` complete.
 - 🚧 Verifying the `TEST_COVERAGE_CMOCA.md` in reasonable chunks:
     - 🚧 Chapters 1–3 (Overview, Concepts, CMR Header).
-    - ⏳ Chapter 4 (CMR Types).
+    - 🚧 Chapter 4 (CMR Types).
     - 🚧 Chapter 5 (CMR Tags).
     - ⏳ Chapter 6 (Hierarchical Search).
     - ⏳ Appendices A–C.

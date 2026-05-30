@@ -83,6 +83,130 @@ public class CMR_ColorManagementResource extends StructuredField {
 
   private List<CMRTag> tags;
 
+  /**
+   * Validates that all mandatory tags for the current CMR type and subset are present.
+   * CMOCA Reference, Chapter 4.
+   *
+   * @throws AFPParserException if a mandatory tag is missing.
+   */
+  public void validate() throws AFPParserException {
+    if (tags == null || tags.isEmpty()) {
+      // End Data tag X'FFFF' is mandatory for all [CMOCA-4-008]
+      throw new AFPParserException("CMR is missing mandatory End Data tag (X'FFFF')");
+    }
+
+    boolean hasEndData = tags.stream().anyMatch(t -> t.getTagId() == 0xFFFF);
+    if (!hasEndData) {
+      throw new AFPParserException("CMR is missing mandatory End Data tag (X'FFFF')");
+    }
+
+    if ("HT".equals(type)) {
+      validateHalftone();
+    } else if ("TC".equals(type)) {
+      validateToneTransferCurve();
+    } else if ("CC".equals(type)) {
+      validateColorConversion();
+    } else if ("LK".equals(type) || "DL".equals(type)) {
+      validateLinkColorConversion();
+    } else if ("IX".equals(type)) {
+      validateIndexed();
+    }
+  }
+
+  private void validateHalftone() throws AFPParserException {
+    int subset = getSubset(0x1011);
+    checkTag(0x1011, "Halftone Subset");
+    checkTag(0x1021, "Array Width");
+    checkTag(0x1025, "Array Height");
+
+    switch (subset) {
+      case 0x01: // Bilevel Point-Operation
+        checkTag(0x1045, "Bilevel Point-Operation Screen Data");
+        break;
+      case 0x02: // Multilevel Point-Operation
+        checkTag(0x1030, "Max Image Value");
+        checkTag(0x1035, "Number of Device Levels");
+        checkTag(0x1050, "Multilevel Point-Operation Screen Data");
+        break;
+      case 0x03: // Bilevel Error Diffusion
+        checkTag(0x1055, "Error Diffusion Filter");
+        checkTag(0x1060, "Location of Current Pixel");
+        checkTag(0x1065, "Raster Direction");
+        checkTag(0x1070, "Boundary Condition");
+        checkTag(0x1075, "Threshold Value");
+        break;
+      case 0x04: // Multilevel Error Diffusion
+        checkTag(0x1035, "Number of Device Levels");
+        checkTag(0x1055, "Error Diffusion Filter");
+        checkTag(0x1060, "Location of Current Pixel");
+        checkTag(0x1065, "Raster Direction");
+        checkTag(0x1070, "Boundary Condition");
+        checkTag(0x1080, "Quantization Boundary Table");
+        break;
+      default:
+        // Unknown subset, but basic tags checked
+    }
+  }
+
+  private void validateToneTransferCurve() throws AFPParserException {
+    int subset = getSubset(0x2004);
+    checkTag(0x2004, "Tone Transfer Curve Subset");
+    if (subset == 0x01) {
+      checkTag(0x2015, "Tone Transfer Curve Data");
+    }
+  }
+
+  private void validateColorConversion() throws AFPParserException {
+    checkTag(0x3011, "ICC Profile Subset");
+    checkTag(0x3015, "ICC Profile Data");
+  }
+
+  private void validateLinkColorConversion() throws AFPParserException {
+    int subset = getSubset(0x4011);
+    checkTag(0x4011, "Link Color Conversion Subset");
+    if (subset == 0x01 || subset == 0x02) {
+      checkTag(0x4015, "Link Audit CMR OID");
+      checkTag(0x4020, "Link Instruction CMR OID");
+      checkTag(0x4025, "Link Audit CMR Name");
+      checkTag(0x4030, "Link Instruction CMR Name");
+      if (subset == 0x01) {
+        checkTag(0x4035, "Default Rendering Intent");
+        checkTag(0x4040, "Link LUT Perceptual");
+      }
+    } else if (subset == 0x03) {
+      checkTag(0x3015, "ICC Profile Data");
+    }
+  }
+
+  private void validateIndexed() throws AFPParserException {
+    checkTag(0x5011, "Indexed Subset");
+    boolean hasPalette = tags.stream().anyMatch(t ->
+        t.getTagId() == 0x5020 || t.getTagId() == 0x5025 ||
+        t.getTagId() == 0x5030 || t.getTagId() == 0x5035 ||
+        t.getTagId() == 0x5040);
+    if (!hasPalette) {
+      // [CMOCA-4-133] EC-50400E Missing Required Tag: At least one Color Palette tag is required
+      throw new AFPParserException("Indexed CMR missing mandatory Color Palette tag");
+    }
+  }
+
+  private void checkTag(int tagId, String name) throws AFPParserException {
+    if (tags.stream().noneMatch(t -> t.getTagId() == tagId)) {
+      throw new AFPParserException("CMR type " + type + " missing mandatory tag: " + name + " (X'" + String.format("%04X", tagId) + "')");
+    }
+  }
+
+  private int getSubset(int subsetTagId) {
+    return tags.stream()
+        .filter(t -> t.getTagId() == subsetTagId)
+        .findFirst()
+        .map(t -> {
+          byte[] d = t.getData();
+          return (d != null && d.length > 0) ? (d[0] & 0xFF) : -1;
+        })
+        .orElse(-1);
+  }
+
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
