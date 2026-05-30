@@ -54,6 +54,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Command line utility to convert AFP files to XML.
  */
 public class Afp2Xml {
+  private static final long MMAP_THRESHOLD = 5 * 1024 * 1024; // 5MB
+
   /**
    * Main entry point for the CLI.
    *
@@ -272,25 +274,21 @@ public class Afp2Xml {
                     os.flush();
                   }
                 } else {
-                  if (finalAggressiveIo) {
-                    long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
-                    if (estimatedSize > 0) {
-                      try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
-                        raf.setLength(estimatedSize);
-                        FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
-                        int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
-                        long finalSize = 0;
-                        try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
-                          convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
-                          os.flush();
-                          finalSize = os.getGlobalPosition();
-                        }
-                        raf.getChannel().truncate(finalSize);
+                  long estimatedSize = finalAggressiveIo ? com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length()) : 0;
+                  if (finalAggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
+                    try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
+                      raf.setLength(estimatedSize);
+                      FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
+                      int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
+                      long finalSize = 0;
+                      try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
+                        convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                        os.flush();
+                        finalSize = os.getGlobalPosition();
                       }
-                      System.out.println("Export successful (MMap): " + outputFile.getPath());
-                    } else {
-                      writeWithFileOutputStream(f, outputFile, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo);
+                      raf.getChannel().truncate(finalSize);
                     }
+                    System.out.println("Export successful (MMap): " + outputFile.getPath());
                   } else {
                     writeWithFileOutputStream(f, outputFile, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo);
                   }
@@ -330,30 +328,27 @@ public class Afp2Xml {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
 
-          if (aggressiveIo) {
-            long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length());
-            // Use MMap for single-file mode if aggressive IO is on
-            if (estimatedSize > 0) {
-              try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
-                raf.setLength(estimatedSize);
-                FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
-                int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
-                long finalSize = 0;
-                try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
-                  convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
-                  os.flush();
-                  finalSize = os.getGlobalPosition();
-                }
-                raf.getChannel().truncate(finalSize);
+          long estimatedSize = aggressiveIo ? com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length()) : 0;
+          if (aggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
+            // Use MMap for single-file mode if aggressive IO is on and file is large
+            try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
+              raf.setLength(estimatedSize);
+              FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
+              int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
+              long finalSize = 0;
+              try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
+                convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
+                os.flush();
+                finalSize = os.getGlobalPosition();
               }
-              System.out.println("Export successful (MMap): " + outputFile.getPath());
-              return 0;
+              raf.getChannel().truncate(finalSize);
             }
+            System.out.println("Export successful (MMap): " + outputFile.getPath());
+            return 0;
           }
 
           try (var fos = new FileOutputStream(outputFile)) {
             if (aggressiveIo) {
-              long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length());
               if (estimatedSize > 0) {
                 fos.getChannel().position(estimatedSize - 1);
                 fos.write(0);
@@ -363,7 +358,7 @@ public class Afp2Xml {
             if (parallel) {
               convertToXml(input, fos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
             } else {
-              try (OutputStream os = new BufferedOutputStream(fos)) {
+              try (OutputStream os = new BufferedOutputStream(new NonClosingOutputStream(fos))) {
                 convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
                 os.flush();
               }
@@ -404,7 +399,7 @@ public class Afp2Xml {
       if (parallel) {
         convertToXml(f, fos, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
       } else {
-        try (OutputStream os = new BufferedOutputStream(fos)) {
+        try (OutputStream os = new BufferedOutputStream(new NonClosingOutputStream(fos))) {
           convertToXml(f, os, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
           os.flush();
         }

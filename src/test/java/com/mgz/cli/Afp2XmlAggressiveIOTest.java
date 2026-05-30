@@ -82,4 +82,28 @@ class Afp2XmlAggressiveIOTest {
         assertTrue(output.contains("</AFPDocument>"), "Output should contain closing AFPDocument tag");
         assertTrue(output.length() > 1000, "Output should be of significant size");
     }
+
+    @Test
+    void testAggressiveIOSmallFile() throws Exception {
+        File afpFile = new File("perf_test/test_00.afp");
+        assertTrue(afpFile.exists(), "Test file perf_test/test_00.afp should exist");
+
+        Path stdOutput = tempDir.resolve("std_small.xml");
+        Path aggOutput = tempDir.resolve("agg_small.xml");
+
+        // Standard run
+        Afp2Xml.execute(new String[]{afpFile.getAbsolutePath(), stdOutput.toString()});
+
+        // Aggressive I/O (should bypass MMap because it's small)
+        Afp2Xml.execute(new String[]{"--aggressive-io", afpFile.getAbsolutePath(), aggOutput.toString()});
+
+        assertTrue(Files.exists(stdOutput), "Standard output should exist");
+        assertTrue(Files.exists(aggOutput), "Aggressive output should exist");
+
+        String stdXml = Files.readString(stdOutput).trim();
+        String aggXml = Files.readString(aggOutput).trim();
+
+        assertEquals(stdXml, aggXml, "XML output should be identical for small files");
+        assertEquals(Files.size(stdOutput), Files.size(aggOutput), "File sizes should be identical");
+    }
 }
