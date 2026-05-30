@@ -40,6 +40,9 @@ public class RepeatingGroupBase implements IRepeatingGroup {
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     repeatingGroupLength = UtilBinaryDecoding.parseInt(sfData, offset, 2);
+    if (repeatingGroupLength < 2) {
+      throw new AFPParserException("Invalid repeating group length: " + repeatingGroupLength + ". Minimum is 2.");
+    }
   }
 
   @Override

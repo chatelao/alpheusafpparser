@@ -50,6 +50,9 @@ public class MMO_MapMediumOverlay extends StructuredFieldBaseRepeatingGroups {
     System.arraycopy(sfData, offset + 1, reserved1_3, 0, reserved1_3.length);
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 4) {
+      if (lengthOfEachRepeatingGroup < 1) {
+        throw new AFPParserException("Invalid length of repeating group: " + lengthOfEachRepeatingGroup);
+      }
       int pos = 4;
       while (pos < actualLength) {
         MMO_RepeatingGroup rg = RepeatingGroupPool.acquire(MMO_RepeatingGroup.class);

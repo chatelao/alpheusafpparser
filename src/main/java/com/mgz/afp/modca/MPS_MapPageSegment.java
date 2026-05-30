@@ -50,6 +50,9 @@ public class MPS_MapPageSegment extends StructuredFieldBaseRepeatingGroups {
 
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 4) {
+      if (lengthOfRepeatingGroup < 1) {
+        throw new AFPParserException("Invalid length of repeating group: " + lengthOfRepeatingGroup);
+      }
       int pos = 4;
       while (pos < actualLength) {
         MPS_RepeatingGroup rg = RepeatingGroupPool.acquire(MPS_RepeatingGroup.class);
