@@ -636,70 +636,385 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     String childIndent = indent + "  ";
     if (order instanceof GAD_DrawingOrder.GSCP_SetCurrentPosition gcp) {
       xsw.writeStartElement("GSCP_SetCurrentPosition");
-      writeElement(childIndent, "coordinateX", gcp.getCoordinateX());
-      writeElement(childIndent, "coordinateY", gcp.getCoordinateY());
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "coordinateX", gcp.getCoordinateX());
+      writeElement(baseXsw, childIndent, "coordinateY", gcp.getCoordinateY());
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSCOL_SetColor gsc) {
       xsw.writeStartElement("GSCOL_SetColor");
       if (gsc.getColor() != null) {
-        writeElement(childIndent, "color", gsc.getColor().name());
+        writeElement(baseXsw, childIndent, "color", gsc.getColor().name());
       }
-      xsw.writeCharacters(indent);
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSCS_SetCharacterSet gscs) {
       xsw.writeStartElement("GSCS_SetCharacterSet");
-      writeElement(childIndent, "characterSetLocalID", gscs.getCharacterSetLocalID());
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "characterSetLocalID", gscs.getCharacterSetLocalID());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSGCH_SegmentCharacteristics gsgch) {
+      xsw.writeStartElement("GSGCH_SegmentCharacteristics");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsgch.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "identificationCode", gsgch.getIdentificationCode());
+      if (gsgch.getParameters() != null) {
+        writeElement(baseXsw, childIndent, "parameters", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gsgch.getParameters()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSECOL_SetExtendedColor gsecol) {
+      xsw.writeStartElement("GSECOL_SetExtendedColor");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsecol.lengthOfFollowingData);
+      if (gsecol.getColor() != null) {
+        writeElement(baseXsw, childIndent, "color", gsecol.getColor().name());
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCC_SetCharacterCell gscc) {
+      xsw.writeStartElement("GSCC_SetCharacterCell");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gscc.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "widthOfCharacterCellIntegerPart", gscc.getWidthOfCharacterCellIntegerPart());
+      writeElement(baseXsw, childIndent, "heightOfCharacterCellIntegerPart", gscc.getHeightOfCharacterCellIntegerPart());
+      if (gscc.getWidthOfCharacterCellFractionalPart() != null) {
+        writeElement(baseXsw, childIndent, "widthOfCharacterCellFractionalPart", gscc.getWidthOfCharacterCellFractionalPart());
+      }
+      if (gscc.getHeightOfCharacterCellFractionalPart() != null) {
+        writeElement(baseXsw, childIndent, "heightOfCharacterCellFractionalPart", gscc.getHeightOfCharacterCellFractionalPart());
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCA_SetCharacterAngle gsca) {
+      xsw.writeStartElement("GSCA_SetCharacterAngle");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsca.lengthOfFollowingData);
+      if (gsca.getAnglePoint() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("anglePoint");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gsca.getAnglePoint().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gsca.getAnglePoint().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCH_SetCharacterShear gsch) {
+      xsw.writeStartElement("GSCH_SetCharacterShear");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsch.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "dividendOfShearRatio", gsch.getDividendOfShearRatio());
+      writeElement(baseXsw, childIndent, "divisorOfShearRatio", gsch.getDivisorOfShearRatio());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSMC_SetMarkerCell gsmc) {
+      xsw.writeStartElement("GSMC_SetMarkerCell");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsmc.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "widthOfMarkerCell", gsmc.getWidthOfMarkerCell());
+      writeElement(baseXsw, childIndent, "heightOfMarkerCell", gsmc.getHeightOfMarkerCell());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSCLT_SetCustomLineType gsclt) {
+      xsw.writeStartElement("GSCLT_SetCustomLineType");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsclt.lengthOfFollowingData);
+      if (gsclt.repeatingGroups != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("repeatingGroups");
+        String rgIndent = childIndent + "  ";
+        for (GAD_DrawingOrder.GSCLT_SetCustomLineType.DashMoveRepeatingGroup rg : gsclt.repeatingGroups) {
+          baseXsw.writeCharacters(rgIndent);
+          baseXsw.writeStartElement("DashMoveRepeatingGroup");
+          writeElement(baseXsw, rgIndent + "  ", "dashInteger", rg.dashInteger());
+          writeElement(baseXsw, rgIndent + "  ", "dashFractional", rg.dashFractional());
+          writeElement(baseXsw, rgIndent + "  ", "moveInteger", rg.moveInteger());
+          writeElement(baseXsw, rgIndent + "  ", "moveFractional", rg.moveFractional());
+          baseXsw.writeCharacters(rgIndent);
+          baseXsw.writeEndElement();
+        }
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSAP_SetArcParameters gsap) {
+      xsw.writeStartElement("GSAP_SetArcParameters");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsap.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "arcTransformP", gsap.getArcTransformP());
+      writeElement(baseXsw, childIndent, "arcTransformQ", gsap.getArcTransformQ());
+      writeElement(baseXsw, childIndent, "arcTransformR", gsap.getArcTransformR());
+      writeElement(baseXsw, childIndent, "arcTransformS", gsap.getArcTransformS());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSPRP_SetPatternReferencePoint gsprp) {
+      xsw.writeStartElement("GSPRP_SetPatternReferencePoint");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsprp.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "flags", gsprp.getFlags());
+      writeElement(baseXsw, childIndent, "reserved3", gsprp.getReserved3());
+      writeElement(baseXsw, childIndent, "coordinateX", gsprp.getCoordinateX());
+      writeElement(baseXsw, childIndent, "coordinateY", gsprp.getCoordinateY());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition gcparc) {
+      xsw.writeStartElement("GCPARC_PartialArcAtCurrentPosition");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gcparc.lengthOfFollowingData);
+      if (gcparc.getArcCenter() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("arcCenter");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gcparc.getArcCenter().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gcparc.getArcCenter().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      writeElement(baseXsw, childIndent, "multiplierIntegerPortion", gcparc.getMultiplierIntegerPortion());
+      writeElement(baseXsw, childIndent, "multiplierFractionalPortion", gcparc.getMultiplierFractionalPortion());
+      writeElement(baseXsw, childIndent, "startAngle", gcparc.getStartAngle());
+      writeElement(baseXsw, childIndent, "sweepAngle", gcparc.getSweepAngle());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSPCOL_SetProcessColor gspcol) {
+      xsw.writeStartElement("GSPCOL_SetProcessColor");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gspcol.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "reserved2", gspcol.getReserved2());
+      if (gspcol.getColorSpace() != null) {
+        writeElement(baseXsw, childIndent, "colorSpace", gspcol.getColorSpace().name());
+      }
+      writeElement(baseXsw, childIndent, "reserved4_7", gspcol.getReserved4_7());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent1", gspcol.getNrOfBitsComponent1());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent2", gspcol.getNrOfBitsComponent2());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent3", gspcol.getNrOfBitsComponent3());
+      writeElement(baseXsw, childIndent, "nrOfBitsComponent4", gspcol.getNrOfBitsComponent4());
+      if (gspcol.getColorValue() != null) {
+        writeElement(baseXsw, childIndent, "colorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gspcol.getColorValue()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GFARC_FullArcAtGivenPosition gfarc) {
+      xsw.writeStartElement("GFARC_FullArcAtGivenPosition");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gfarc.lengthOfFollowingData);
+      if (gfarc.getArcCenter() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("arcCenter");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gfarc.getArcCenter().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gfarc.getArcCenter().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      writeElement(baseXsw, childIndent, "multiplierIntegerPortion", gfarc.getMultiplierIntegerPortion());
+      writeElement(baseXsw, childIndent, "multiplierFractionalPortion", gfarc.getMultiplierFractionalPortion());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GCBIMG_BeginImageAtCurrentPosition gcbimg) {
+      xsw.writeStartElement("GCBIMG_BeginImageAtCurrentPosition");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gcbimg.lengthOfFollowingData);
+      writeElement(baseXsw, childIndent, "formatOfImageData", gcbimg.getFormatOfImageData());
+      writeElement(baseXsw, childIndent, "reserved3", gcbimg.getReserved3());
+      writeElement(baseXsw, childIndent, "widthOfImageInImagePoints", gcbimg.getWidthOfImageInImagePoints());
+      writeElement(baseXsw, childIndent, "heightOfImageInImagePoints", gcbimg.getHeightOfImageInImagePoints());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GBIMG_BeginImageAtGivenPosition gbimg) {
+      xsw.writeStartElement("GBIMG_BeginImageAtGivenPosition");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gbimg.lengthOfFollowingData);
+      if (gbimg.getOrigin() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("origin");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gbimg.getOrigin().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gbimg.getOrigin().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      writeElement(baseXsw, childIndent, "formatOfImageData", gbimg.getFormatOfImageData());
+      writeElement(baseXsw, childIndent, "reserved3", gbimg.getReserved3());
+      writeElement(baseXsw, childIndent, "widthOfImageInImagePoints", gbimg.getWidthOfImageInImagePoints());
+      writeElement(baseXsw, childIndent, "heightOfImageInImagePoints", gbimg.getHeightOfImageInImagePoints());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition gparc) {
+      xsw.writeStartElement("GPARC_PartialArcAtGivenPosition");
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gparc.lengthOfFollowingData);
+      if (gparc.getLineStartPoint() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("lineStartPoint");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gparc.getLineStartPoint().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gparc.getLineStartPoint().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      if (gparc.getArcCenter() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("arcCenter");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gparc.getArcCenter().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gparc.getArcCenter().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      writeElement(baseXsw, childIndent, "multiplierIntegerPortion", gparc.getMultiplierIntegerPortion());
+      writeElement(baseXsw, childIndent, "multiplierFractionalPortion", gparc.getMultiplierFractionalPortion());
+      writeElement(baseXsw, childIndent, "startAngle", gparc.getStartAngle());
+      writeElement(baseXsw, childIndent, "sweepAngle", gparc.getSweepAngle());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GEXO_ExtendedOrder gexo) {
+      xsw.writeStartElement("GEXO_ExtendedOrder");
+      writeElement(baseXsw, childIndent, "qualifier", gexo.qualifier);
+      writeElement(baseXsw, childIndent, "lengthOfFollowingData", gexo.lengthOfFollowingData);
+      if (gexo.getExtendedData() != null) {
+        writeElement(baseXsw, childIndent, "extendedData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gexo.getExtendedData()));
+      }
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCCHST_CharacterStringAtCurrentPosition gcchst) {
       xsw.writeStartElement("GCCHST_CharacterStringAtCurrentPosition");
-      writeElement(childIndent, "text", gcchst.getText());
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "text", gcchst.getText());
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition gchst) {
       xsw.writeStartElement("GCHST_CharacterStringAtGivenPosition");
       if (gchst.getOriginPoint() != null) {
-        xsw.writeCharacters(childIndent);
-        xsw.writeStartElement("originPoint");
-        writeElement(childIndent + "  ", "xCoordinate", gchst.getOriginPoint().xCoordinate());
-        writeElement(childIndent + "  ", "yCoordinate", gchst.getOriginPoint().yCoordinate());
-        xsw.writeCharacters(childIndent);
-        xsw.writeEndElement();
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("originPoint");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gchst.getOriginPoint().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gchst.getOriginPoint().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
       }
-      writeElement(childIndent, "text", gchst.getText());
-      xsw.writeCharacters(indent);
+      writeElement(baseXsw, childIndent, "text", gchst.getText());
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GESEG_EndSegment) {
       xsw.writeEmptyElement("GESEG_EndSegment");
     } else if (order instanceof GAD_DrawingOrder.GBSEG_BeginSegment gbseg) {
       xsw.writeStartElement("GBSEG_BeginSegment");
-      writeElement(childIndent, "nameOfSegment", gbseg.getNameOfSegment());
-      writeElement(childIndent, "text", gbseg.getText());
+      writeElement(baseXsw, childIndent, "nameOfSegment", gbseg.getNameOfSegment());
+      writeElement(baseXsw, childIndent, "text", gbseg.getText());
       if (gbseg.getDrawingOrders() != null) {
         for (GAD_DrawingOrder childOrder : gbseg.getDrawingOrders()) {
-          xsw.writeCharacters(childIndent);
+          baseXsw.writeCharacters(childIndent);
           writeDrawingOrderDirectly(childOrder, childIndent);
         }
       }
-      xsw.writeCharacters(indent);
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GBAR_BeginArea gbar) {
+      xsw.writeStartElement("GBAR_BeginArea");
+      writeElement(baseXsw, childIndent, "internalFlags", gbar.getInternalFlags());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GEAR_EndArea gear) {
+      xsw.writeStartElement("GEAR_EndArea");
+      writeElement(baseXsw, childIndent, "text", gear.getText());
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GIMD_ImageData gimd) {
+      xsw.writeStartElement("GIMD_ImageData");
+      if (gimd.getImageData() != null) {
+        writeElement(baseXsw, childIndent, "imageData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gimd.getImageData()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition gcbox) {
+      xsw.writeStartElement("GCBOX_BoxAtCurrentPosition");
+      writeElement(baseXsw, childIndent, "reserved2_3", gcbox.getReserved2_3());
+      if (gcbox.getDiagonalCorner() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("diagonalCorner");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gcbox.getDiagonalCorner().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gcbox.getDiagonalCorner().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      if (gcbox.getxAxisLengthForRoundCorner() != null) {
+        writeElement(baseXsw, childIndent, "xAxisLengthForRoundCorner", gcbox.getxAxisLengthForRoundCorner());
+      }
+      if (gcbox.getyAxisLengthForRoundCorner() != null) {
+        writeElement(baseXsw, childIndent, "yAxisLengthForRoundCorner", gcbox.getyAxisLengthForRoundCorner());
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GBOX_BoxAtGivenPosition gbox) {
+      xsw.writeStartElement("GBOX_BoxAtGivenPosition");
+      writeElement(baseXsw, childIndent, "reserved2_3", gbox.getReserved2_3());
+      if (gbox.getFirstCorner() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("firstCorner");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gbox.getFirstCorner().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gbox.getFirstCorner().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      if (gbox.getDiagonalCorner() != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("diagonalCorner");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gbox.getDiagonalCorner().xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gbox.getDiagonalCorner().yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      if (gbox.getxAxisLengthForRoundCorner() != null) {
+        writeElement(baseXsw, childIndent, "xAxisLengthForRoundCorner", gbox.getxAxisLengthForRoundCorner());
+      }
+      if (gbox.getyAxisLengthForRoundCorner() != null) {
+        writeElement(baseXsw, childIndent, "yAxisLengthForRoundCorner", gbox.getyAxisLengthForRoundCorner());
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition gcrline) {
+      xsw.writeStartElement("GCRLINE_RelativeLineAtCurrentPosition");
+      if (gcrline.relativeOffsets != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("relativeOffsets");
+        String offsetIndent = childIndent + "  ";
+        for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
+          baseXsw.writeCharacters(offsetIndent);
+          baseXsw.writeStartElement("GOCA_RelativePoint");
+          writeElement(baseXsw, offsetIndent + "  ", "xOffset", rp.xOffset());
+          writeElement(baseXsw, offsetIndent + "  ", "yOffset", rp.yOffset());
+          baseXsw.writeCharacters(offsetIndent);
+          baseXsw.writeEndElement();
+        }
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition grline) {
+      xsw.writeStartElement("GRLINE_RelativeLineAtGivenPosition");
+      if (grline.startPoint != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("startPoint");
+        writeElement(baseXsw, childIndent + "  ", "xCoordinate", grline.startPoint.xCoordinate());
+        writeElement(baseXsw, childIndent + "  ", "yCoordinate", grline.startPoint.yCoordinate());
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      if (grline.relativeOffsets != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("relativeOffsets");
+        String offsetIndent = childIndent + "  ";
+        for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
+          baseXsw.writeCharacters(offsetIndent);
+          baseXsw.writeStartElement("GOCA_RelativePoint");
+          writeElement(baseXsw, offsetIndent + "  ", "xOffset", rp.xOffset());
+          writeElement(baseXsw, offsetIndent + "  ", "yOffset", rp.yOffset());
+          baseXsw.writeCharacters(offsetIndent);
+          baseXsw.writeEndElement();
+        }
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
       xsw.writeStartElement(order.getClass().getSimpleName());
       if (dohp.getPoints() != null) {
-        xsw.writeCharacters(childIndent);
-        xsw.writeStartElement("points");
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("points");
         String pointIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GOCA_Point p : dohp.getPoints()) {
-          xsw.writeCharacters(pointIndent);
-          xsw.writeStartElement("GOCA_Point");
-          writeElement(pointIndent + "  ", "xCoordinate", p.xCoordinate());
-          writeElement(pointIndent + "  ", "yCoordinate", p.yCoordinate());
-          xsw.writeCharacters(pointIndent);
-          xsw.writeEndElement();
+          baseXsw.writeCharacters(pointIndent);
+          baseXsw.writeStartElement("GOCA_Point");
+          writeElement(baseXsw, pointIndent + "  ", "xCoordinate", p.xCoordinate());
+          writeElement(baseXsw, pointIndent + "  ", "yCoordinate", p.yCoordinate());
+          baseXsw.writeCharacters(pointIndent);
+          baseXsw.writeEndElement();
         }
-        xsw.writeCharacters(childIndent);
-        xsw.writeEndElement();
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
       }
       xsw.writeCharacters(indent);
       xsw.writeEndElement();

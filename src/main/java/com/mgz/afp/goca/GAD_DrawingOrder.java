@@ -526,7 +526,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSGCH_SegmentCharacteristics extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short identificationCode;
     @AFPField(maxSize = 255)
@@ -1004,9 +1004,9 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSCLT_SetCustomLineType extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
-    List<DashMoveRepeatingGroup> repeatingGroups;
+    public List<DashMoveRepeatingGroup> repeatingGroups;
 
     @Override
     public void reset() {
@@ -1115,7 +1115,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSAP_SetArcParameters extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short arcTransformP;
     @AFPField
@@ -1199,7 +1199,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSECOL_SetExtendedColor extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     AFPColorValue color;
 
@@ -1305,7 +1305,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSCC_SetCharacterCell extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short widthOfCharacterCellIntegerPart;
     @AFPField
@@ -1408,7 +1408,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSCA_SetCharacterAngle extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     GOCA_Point anglePoint;
 
@@ -1467,7 +1467,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSCH_SetCharacterShear extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short dividendOfShearRatio;
     @AFPField
@@ -1526,7 +1526,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSMC_SetMarkerCell extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short widthOfMarkerCell;
     @AFPField
@@ -2261,7 +2261,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GFARC_FullArcAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     GOCA_Point arcCenter;
     @AFPField
@@ -2333,7 +2333,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GCBIMG_BeginImageAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short formatOfImageData;
     @AFPField
@@ -2482,7 +2482,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSPRP_SetPatternReferencePoint extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short flags;
     @AFPField
@@ -2630,9 +2630,9 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GCRLINE_RelativeLineAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
-    List<GOCA_RelativePoint> relativeOffsets;
+    public List<GOCA_RelativePoint> relativeOffsets;
 
     @Override
     public void reset() {
@@ -2678,7 +2678,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GCPARC_PartialArcAtCurrentPosition extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     GOCA_Point arcCenter;
     @AFPField
@@ -2818,7 +2818,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSPCOL_SetProcessColor extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     short reserved2 = 0x00;
     @AFPField
@@ -3235,7 +3235,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GBIMG_BeginImageAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     GOCA_Point origin;
     @AFPField
@@ -3334,11 +3334,11 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GRLINE_RelativeLineAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
-    GOCA_Point startPoint;
+    public GOCA_Point startPoint;
     @AFPField
-    List<GOCA_RelativePoint> relativeOffsets;
+    public List<GOCA_RelativePoint> relativeOffsets;
 
     @Override
     public void reset() {
@@ -3390,7 +3390,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GPARC_PartialArcAtGivenPosition extends GAD_DrawingOrder {
     @AFPField
-    short lengthOfFollowingData;
+    public short lengthOfFollowingData;
     @AFPField
     GOCA_Point lineStartPoint;
     @AFPField
@@ -3520,9 +3520,9 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GEXO_ExtendedOrder extends GAD_DrawingOrder {
     @AFPField
-    short qualifier;
+    public short qualifier;
     @AFPField
-    int lengthOfFollowingData;
+    public int lengthOfFollowingData;
     @AFPField(maxSize = 65535, isOptional = true)
     byte[] extendedData;
 
