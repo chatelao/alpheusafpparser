@@ -43,8 +43,10 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontL
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIM_SetInlineMargin;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BLN_BeginLine;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
@@ -92,6 +94,43 @@ public class PdfHandlerStructureTest {
 
     handler.handle(edt);
     assertEquals(0, handler.getStructureDepth());
+  }
+
+  @Test
+  public void testTextRenderingState() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+    ptx.setStructuredFieldIntroducer(createSfi(SFTypeID.PTX_PresentationTextData));
+
+    // SIM: Set Inline Margin
+    SIM_SetInlineMargin sim = new SIM_SetInlineMargin();
+    sim.setDisplacement((short) 100);
+    ptx.addControlSequence(sim);
+
+    // SBI: Set Baseline Increment
+    SBI_SetBaselineIncrement sbi = new SBI_SetBaselineIncrement();
+    sbi.setIncrement((short) 200);
+    ptx.addControlSequence(sbi);
+
+    // TRN: Transparent Data
+    TRN_TransparentData trn = new TRN_TransparentData();
+    trn.setTransparentData("Hello AFP");
+    ptx.addControlSequence(trn);
+
+    // BLN: Begin Line
+    BLN_BeginLine bln = new BLN_BeginLine();
+    ptx.addControlSequence(bln);
+
+    handler.handle(ptx);
+
+    PdfTextState state = handler.getTextState();
+    assertEquals(100, state.getInlinePos());
+    assertEquals(200, state.getBaselinePos());
   }
 
   @Test

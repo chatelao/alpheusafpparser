@@ -20,6 +20,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.pdf;
 
 import com.itextpdf.kernel.geom.AffineTransform;
+import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
 
 /**
@@ -64,5 +65,35 @@ public class CoordinateTransformer {
     // x' = a*x + c*y + e
     // y' = b*x + d*y + f
     return new AffineTransform(scaleX, 0, 0, -scaleY, 0, pageHeightPoints);
+  }
+
+  /**
+   * Calculates the AFP X coordinate from PTOCA (I, B) coordinates.
+   *
+   * @param iPos the inline position
+   * @param bPos the baseline position
+   * @param iOri the inline orientation
+   * @param bOri the baseline orientation
+   * @return the AFP X coordinate
+   */
+  public static int getAfpX(int iPos, int bPos, AFPOrientation iOri, AFPOrientation bOri) {
+    double iRad = Math.toRadians(iOri.getCode() / 128.0);
+    double bRad = Math.toRadians(bOri.getCode() / 128.0);
+    return (int) Math.round(iPos * Math.cos(iRad) + bPos * Math.cos(bRad));
+  }
+
+  /**
+   * Calculates the AFP Y coordinate from PTOCA (I, B) coordinates.
+   *
+   * @param iPos the inline position
+   * @param bPos the baseline position
+   * @param iOri the inline orientation
+   * @param bOri the baseline orientation
+   * @return the AFP Y coordinate
+   */
+  public static int getAfpY(int iPos, int bPos, AFPOrientation iOri, AFPOrientation bOri) {
+    double iRad = Math.toRadians(iOri.getCode() / 128.0);
+    double bRad = Math.toRadians(bOri.getCode() / 128.0);
+    return (int) Math.round(iPos * Math.sin(iRad) + bPos * Math.sin(bRad));
   }
 }
