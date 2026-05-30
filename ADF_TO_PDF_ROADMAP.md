@@ -68,8 +68,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ⏳ **Baseline Positioning**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
         - ⏳ **Direction Control**: Map `STOC` (Set Text Orientation) to coordinate rotation.
     - ⏳ **Advanced Text Control**:
-        - ⏳ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
-        - ⏳ **Margin Control**: Map `SIM` (Set Inline Margin).
+        - ✅ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
+        - ✅ **Margin Control**: Map `SIM` (Set Inline Margin).
     - ⏳ **Data Rendering**:
         - ⏳ **Transparent Data**: Map `TRN` to UTF-8 encoded PDF strings using the resolved font.
         - ⏳ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.

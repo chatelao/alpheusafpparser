@@ -21,6 +21,7 @@ package com.mgz.pdf;
 
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment.SIA_Direction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +40,10 @@ public class PdfTextStateTest {
     assertEquals(AFPOrientation.ori90, state.getBOrientation());
     assertEquals(0, state.getInlinePos());
     assertEquals(0, state.getBaselinePos());
+    assertEquals(0, state.getIntercharacterAdjustment());
+    assertEquals(SIA_Direction.PositiveIDirection, state.getIntercharacterAdjustmentDirection());
+    assertEquals(0, state.getVariableSpaceCharacterIncrement());
+    assertEquals(0, state.getInlineMargin());
   }
 
   @Test
@@ -58,6 +63,16 @@ public class PdfTextStateTest {
     assertEquals(AFPOrientation.ori270, state.getBOrientation());
     assertEquals(1440, state.getInlinePos());
     assertEquals(720, state.getBaselinePos());
+
+    state.setIntercharacterAdjustment((short) 10);
+    state.setIntercharacterAdjustmentDirection(SIA_Direction.NegativeIDirection);
+    state.setVariableSpaceCharacterIncrement((short) 20);
+    state.setInlineMargin((short) 30);
+
+    assertEquals(10, state.getIntercharacterAdjustment());
+    assertEquals(SIA_Direction.NegativeIDirection, state.getIntercharacterAdjustmentDirection());
+    assertEquals(20, state.getVariableSpaceCharacterIncrement());
+    assertEquals(30, state.getInlineMargin());
   }
 
   @Test
@@ -67,6 +82,10 @@ public class PdfTextStateTest {
     state.setFontLid((short) 5);
     state.setTextColor(AFPColorValue.Red_0x02);
     state.setInlinePos(100);
+    state.setIntercharacterAdjustment((short) 10);
+    state.setIntercharacterAdjustmentDirection(SIA_Direction.NegativeIDirection);
+    state.setVariableSpaceCharacterIncrement((short) 20);
+    state.setInlineMargin((short) 30);
 
     state.reset();
 
@@ -74,5 +93,9 @@ public class PdfTextStateTest {
     assertEquals(AFPColorValue.DeviceDefault_0x00, state.getTextColor());
     assertEquals(0, state.getInlinePos());
     assertEquals(AFPOrientation.ori0, state.getIOrientation());
+    assertEquals(0, state.getIntercharacterAdjustment());
+    assertEquals(SIA_Direction.PositiveIDirection, state.getIntercharacterAdjustmentDirection());
+    assertEquals(0, state.getVariableSpaceCharacterIncrement());
+    assertEquals(0, state.getInlineMargin());
   }
 }
