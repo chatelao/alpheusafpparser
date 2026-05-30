@@ -1408,11 +1408,11 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   public static final class TileSetColor extends IPD_Segment.IPD_SegmentLong {
     AFPColorSpace colorSpace;
     byte[] reserved3_5 = new byte[] {0x00, 0x00, 0x00};
-    short nrOfBitsIDEsComponent1;
-    short nrOfBitsIDEsComponent2;
-    short nrOfBitsIDEsComponent3;
-    short nrOfBitsIDEsComponent4;
-    byte[] color;
+    public short nrOfBitsIDEsComponent1;
+    public short nrOfBitsIDEsComponent2;
+    public short nrOfBitsIDEsComponent3;
+    public short nrOfBitsIDEsComponent4;
+    public byte[] color;
 
     @Override
     public void reset() {
@@ -1482,7 +1482,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
 
   public static final class TileTOC extends IPD_Segment.IPD_SegmentExtended {
     byte[] reserved4_5 = new byte[] {0x00, 0x00};
-    List<TileTOC.TileTOC_RepeatingGroup> listOfRepeatingGroups;
+    public List<TileTOC.TileTOC_RepeatingGroup> listOfRepeatingGroups;
 
     @Override
     public void reset() {
@@ -1639,11 +1639,11 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     short reserved2 = 0x00;
     AFPColorSpace colorSpace;
     byte[] reserved4_7 = new byte[] {0x00, 0x00, 0x00, 0x00};
-    byte colSize1;
-    byte colSize2;
-    byte colSize3;
-    byte colSize4;
-    byte[] color;
+    public byte colSize1;
+    public byte colSize2;
+    public byte colSize3;
+    public byte colSize4;
+    public byte[] color;
 
     @Override
     public void reset() {
