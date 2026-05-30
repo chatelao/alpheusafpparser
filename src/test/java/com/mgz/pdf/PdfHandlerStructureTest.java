@@ -36,9 +36,13 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBa
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIM_SetInlineMargin;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
@@ -244,6 +248,46 @@ public class PdfHandlerStructureTest {
     assertEquals(1800, state.getBaselinePos());
     assertEquals(5, state.getFontLid());
     assertEquals(AFPColorValue.Red_0x02, state.getTextColor());
+  }
+
+  @Test
+  public void testAdvancedPtxStateTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+    ptx.setStructuredFieldIntroducer(createSfi(SFTypeID.PTX_PresentationTextData));
+
+    // SIA: Set Intercharacter Adjustment
+    SIA_SetIntercharacterAdjustment sia = new SIA_SetIntercharacterAdjustment();
+    sia.setAdjustment((short) 10);
+    ptx.addControlSequence(sia);
+
+    // SVI: Set Variable-space Character Increment
+    SVI_SetVariableSpaceCharacterIncrement svi = new SVI_SetVariableSpaceCharacterIncrement();
+    svi.setIncrement((short) 20);
+    ptx.addControlSequence(svi);
+
+    // SIM: Set Inline Margin
+    SIM_SetInlineMargin sim = new SIM_SetInlineMargin();
+    sim.setDisplacement((short) 30);
+    ptx.addControlSequence(sim);
+
+    // SBI: Set Baseline Increment
+    SBI_SetBaselineIncrement sbi = new SBI_SetBaselineIncrement();
+    sbi.setIncrement((short) 40);
+    ptx.addControlSequence(sbi);
+
+    handler.handle(ptx);
+
+    PdfTextState state = handler.getTextState();
+    assertEquals(10, state.getIntercharacterAdjustment());
+    assertEquals(20, state.getVariableSpaceIncrement());
+    assertEquals(30, state.getInlineMargin());
+    assertEquals(40, state.getBaselineIncrement());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {

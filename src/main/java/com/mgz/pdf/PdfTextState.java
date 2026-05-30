@@ -34,6 +34,10 @@ public class PdfTextState {
   private AFPOrientation bOrientation = AFPOrientation.ori90;
   private int inlinePos = 0;
   private int baselinePos = 0;
+  private short intercharacterAdjustment = 0;
+  private short variableSpaceIncrement = 0;
+  private short inlineMargin = 0;
+  private short baselineIncrement = 0;
 
   /**
    * Resets the text state to default values.
@@ -45,6 +49,10 @@ public class PdfTextState {
     this.bOrientation = AFPOrientation.ori90;
     this.inlinePos = 0;
     this.baselinePos = 0;
+    this.intercharacterAdjustment = 0;
+    this.variableSpaceIncrement = 0;
+    this.inlineMargin = 0;
+    this.baselineIncrement = 0;
   }
 
   public short getFontLid() {
@@ -93,5 +101,37 @@ public class PdfTextState {
 
   public void setBaselinePos(int baselinePos) {
     this.baselinePos = baselinePos;
+  }
+
+  public short getIntercharacterAdjustment() {
+    return intercharacterAdjustment;
+  }
+
+  public void setIntercharacterAdjustment(short intercharacterAdjustment) {
+    this.intercharacterAdjustment = intercharacterAdjustment;
+  }
+
+  public short getVariableSpaceIncrement() {
+    return variableSpaceIncrement;
+  }
+
+  public void setVariableSpaceIncrement(short variableSpaceIncrement) {
+    this.variableSpaceIncrement = variableSpaceIncrement;
+  }
+
+  public short getInlineMargin() {
+    return inlineMargin;
+  }
+
+  public void setInlineMargin(short inlineMargin) {
+    this.inlineMargin = inlineMargin;
+  }
+
+  public short getBaselineIncrement() {
+    return baselineIncrement;
+  }
+
+  public void setBaselineIncrement(short baselineIncrement) {
+    this.baselineIncrement = baselineIncrement;
   }
 }
