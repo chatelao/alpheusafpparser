@@ -122,6 +122,6 @@ public class SFSizeEstimator {
   public static long estimateXmlSize(long afpSize) {
     // Use a slightly conservative average multiplier for unknown content
     // and a minimum floor for small files to account for XML overhead (headers, namespaces).
-    return Math.max(16384L, (long) (afpSize * 10.0));
+    return Math.max(4096L, (long) (afpSize * 10.0));
   }
 }
