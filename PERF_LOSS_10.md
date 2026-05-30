@@ -7,8 +7,8 @@ This document analyzes the significant performance regression observed between v
 | Version | Flags | Time | Notes |
 | :--- | :--- | :--- | :--- |
 | v9.5 | `-p -m --ptx-debug` | 0:03.81 | `-p` meant `--parallel` in v9.5 |
-| v10.0 | `-p -m --ptx-debug` | 1:01.00 | `-p` means `--ptx-debug` in v10.0 (Sequential) |
-| v10.0 | `--aggressive-io -p -m --ptx-debug` | 1:18.00 | Extra overhead for MMAP on small files |
+| v10.0 | `-P -m --ptx-debug` | 1:01.00 | `-P` means `--ptx-debug` in v10.0 (Sequential) |
+| v10.0 | `--aggressive-io -P -m --ptx-debug` | 1:18.00 | Extra overhead for MMAP on small files |
 
 ## 2. Table of Time-Consuming Steps (v10.0 Sequential)
 
@@ -32,9 +32,9 @@ The following table breaks down the execution time of 61.0 seconds, identifying 
 ## 3. Detailed Analysis of Root Causes
 
 ### 3.1 Flag Redefinition (Parallel vs Sequential)
-The most significant "loss" is actually a change in default behavior. In v9.5, the `-p` flag stood for `--parallel`. In v10.0, `-p` was redefined to `--ptx-debug` (aliased to `-p` and `--ptx-debug`), and `--parallel` was moved to `-P`.
-- **v9.5**: Ran with multi-core parallelism.
-- **v10.0**: Ran sequentially on a single thread.
+The most significant "loss" is actually a change in default behavior. In v9.5, the `-p` flag stood for `--parallel`. In early v10.0, `-p` was briefly redefined to `--ptx-debug`, but this was reverted to ensure better compatibility with v9.x usage.
+- **v9.5**: Ran with multi-core parallelism (flag `-p`).
+- **v10.0**: Now uses `-p` for `--parallel` and `-P` for `--ptx-debug`.
 
 ### 3.2 Excessive I/O Flushing (`--ptx-debug`)
 In `AfpJacksonXmlWriter.java`, when `ptxDebug` is enabled, the writer calls `xsw.flush()` after writing **every single** PTOCA control sequence.

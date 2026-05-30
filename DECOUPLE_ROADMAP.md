@@ -32,7 +32,7 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
   - ✅ **4.1.1 Identify Reference Suite:** Select a representative set of AFP files (PTOCA, GOCA, IOCA, BCOCA).
   - ⏳ **4.1.2 Archive Gold Standards:** Generate and store reference XML outputs from a known stable version.
   - ✅ **4.1.3 Automated Comparison:** Implement `Afp2XmlRegressionTest.java` for automated XML diffing.
-  - ✅ **4.1.4 Mode Verification:** Verify bit-for-bit equality for both sequential and parallel (`-P`) modes.
+  - ✅ **4.1.4 Mode Verification:** Verify bit-for-bit equality for both sequential and parallel (`-p`) modes.
 2.  **Performance Benchmarking:**
   - ⏳ **4.2.1.1 Warm-up and JIT Stabilization:** Implement a benchmark runner that performs adequate warm-up cycles.
   - ⏳ **4.2.1.2 Throughput Measurement:** Capture MB/s and SF/s for sequential vs. parallel modes.
