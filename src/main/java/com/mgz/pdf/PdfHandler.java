@@ -50,9 +50,13 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBa
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIM_SetInlineMargin;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
@@ -229,6 +233,14 @@ public class PdfHandler implements StructuredFieldHandler {
       textState.setFontLid(scfl.getCodedFontLocalID());
     } else if (cs instanceof STC_SetTextColor stc) {
       textState.setTextColor(stc.getForegroundColor());
+    } else if (cs instanceof SIA_SetIntercharacterAdjustment sia) {
+      textState.setIntercharacterAdjustment(sia.getAdjustment());
+    } else if (cs instanceof SVI_SetVariableSpaceCharacterIncrement svi) {
+      textState.setVariableSpaceIncrement(svi.getIncrement());
+    } else if (cs instanceof SIM_SetInlineMargin sim) {
+      textState.setInlineMargin(sim.getDisplacement());
+    } else if (cs instanceof SBI_SetBaselineIncrement sbi) {
+      textState.setBaselineIncrement(sbi.getIncrement());
     }
   }
 
