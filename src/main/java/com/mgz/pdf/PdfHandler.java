@@ -31,6 +31,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
@@ -39,6 +40,7 @@ import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
@@ -63,6 +65,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
+  private PdfPage currentPage;
 
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
@@ -103,8 +106,8 @@ public class PdfHandler implements StructuredFieldHandler {
         dpartStack.push(dpart);
 
         if (sf instanceof BPG_BeginPage) {
-          PdfPage page = pdfDoc.addNewPage();
-          page.put(PdfName.DPart, dpart);
+          this.currentPage = pdfDoc.addNewPage();
+          currentPage.put(PdfName.DPart, dpart);
         }
       }
     } else if (sf.isEndSF()) {
@@ -156,9 +159,25 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
       }
+    } else if (sf instanceof PGD_PageDescriptor pgd) {
+      float widthPoints = convertToPoints(pgd.getxSize(), pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
+      float heightPoints = convertToPoints(pgd.getySize(), pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
+
+      if (currentPage != null) {
+        currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
+      }
     }
 
     // TODO: Implement iText 9 based translation logic
+  }
+
+  private float convertToPoints(int units, AFPUnitBase base, short unitsPerBase) {
+    if (base == AFPUnitBase.Inches10) {
+      return (units * 72.0f) / (unitsPerBase / 10.0f);
+    } else if (base == AFPUnitBase.Centimeter10) {
+      return (units * 72.0f) / (unitsPerBase / 10.0f * 2.54f);
+    }
+    return 0.0f;
   }
 
   @Override
