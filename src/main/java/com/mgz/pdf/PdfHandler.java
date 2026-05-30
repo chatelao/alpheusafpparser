@@ -24,6 +24,7 @@ import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
@@ -35,6 +36,8 @@ import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -103,6 +106,30 @@ public class PdfHandler implements StructuredFieldHandler {
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
           }
+        }
+      }
+    } else if (sf instanceof TLE_TagLogicalElement tle) {
+      if (!dpartStack.isEmpty()) {
+        PdfDictionary dpart = dpartStack.peek();
+        String key = null;
+        String value = null;
+        if (tle.getTriplets() != null) {
+          for (Triplet triplet : tle.getTriplets()) {
+            if (triplet instanceof Triplet.FullyQualifiedName fqn && fqn.getType() == Triplet.GlobalID_Use.AttributeGID) {
+              key = fqn.getNameAsString();
+            } else if (triplet instanceof Triplet.AttributeValue av) {
+              value = av.getAttributeValue();
+            }
+          }
+        }
+        if (key != null && value != null) {
+          PdfDictionary property = dpart.getAsDictionary(new PdfName("Property"));
+          if (property == null) {
+            property = new PdfDictionary();
+            property.makeIndirect(pdfDoc);
+            dpart.put(new PdfName("Property"), property);
+          }
+          property.put(new PdfName(key), new PdfString(value));
         }
       }
     }
