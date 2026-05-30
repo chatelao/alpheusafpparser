@@ -51,22 +51,40 @@ Optimize resource handling for high-performance variable data printing.
 ## Phase 3: Content Conversion (Base Operators) ⏳
 Implement the drivers for converting AFP content architectures to PDF operators.
 
-- ⏳ **Coordinate Transformation**: Implement Pel/1440-to-Points mapping and Y-axis flip.
+- ✅ **Coordinate Transformation**: Implement Pel/1440-to-Points mapping and Y-axis flip.
     - ✅ **Page Size Initialization**: Map `PGD` (Page Descriptor) dimensions to PDF `MediaBox`, including document-level defaults.
-    - ⏳ **Scale Calculation**: Map 1440 LPI or Pel resolution to 72 DPI.
-    - ⏳ **Y-Axis Flip**: Apply `cm` operator to move origin from top-left to bottom-left.
+    - ✅ **Scale Calculation**: Map 1440 LPI or Pel resolution to 72 DPI.
+    - ✅ **Y-Axis Flip**: Apply `cm` operator to move origin from top-left to bottom-left.
 - ⏳ **PTOCA Driver**: Map PTOCA control sequences to PDF Text Objects (`BT`/`ET`) and positioning operators (`Td`/`Tm`).
-    - ⏳ **Text State Management**: Track active font, color, and positioning.
-    - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
-    - ⏳ **Basic Text Rendering**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF positioning.
-    - ⏳ **Color Control Sequences**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color).
-    - ⏳ **Advanced Positioning**: Map `SIA` (Set Intercharacter Adjustment) and `SIM` (Set Inline Margin).
-    - ⏳ **Data Handling**: Map `TRN` (Transparent Data) to UTF-8 encoded PDF strings.
+    - ⏳ **Text State Management**:
+        - ⏳ **Text State Container**: Track active font (LID), color, rotation, and current position (I,B).
+        - ⏳ **Coordinate Conversion**: Map (I,B) coordinates to PDF (x,y) user space.
+    - ⏳ **Font & Color Resolution**:
+        - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances via `Map Coded Font` (MCF).
+        - ⏳ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB` or `DeviceCMYK`.
+    - ⏳ **Positioning Operators**:
+        - ⏳ **Inline Positioning**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF.
+        - ⏳ **Baseline Positioning**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
+        - ⏳ **Direction Control**: Map `STOC` (Set Text Orientation) to coordinate rotation.
+    - ⏳ **Advanced Text Control**:
+        - ⏳ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
+        - ⏳ **Margin Control**: Map `SIM` (Set Inline Margin).
+    - ⏳ **Data Rendering**:
+        - ⏳ **Transparent Data**: Map `TRN` to UTF-8 encoded PDF strings using the resolved font.
+        - ⏳ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
-    - ⏳ **Line Drawing**: Map `GRLINE` and `GCRLINE` to `lineTo`.
-    - ⏳ **Box Drawing**: Map `GBOX` and `GCBOX` to `rectangle`.
-    - ⏳ **Area Filling**: Map `GAREA` (Begin/End Area) to PDF path filling.
-    - ⏳ **Graphics State**: Map `GSCOL` (Set Color) and `GSLW` (Set Line Width).
+    - ⏳ **Graphics State Management**:
+        - ⏳ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), and line type (`GSLT`).
+        - ⏳ **Transformation Matrix**: Implement segment-level transformations (`GSMX`, `GSBMX`).
+    - ⏳ **Path Construction**:
+        - ⏳ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
+        - ⏳ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.
+        - ⏳ **Arcs and Fillets**: Map `GARC`, `GCARC` and `GFILLET` to iText curve operators.
+    - ⏳ **Area and Filling**:
+        - ⏳ **Area Control**: Map `GAREA` (Begin/End Area) to PDF path closing and filling.
+        - ⏳ **Pattern Handling**: Map pattern-based fills to PDF Tiling Patterns.
+    - ⏳ **Resource Mapping**:
+        - ⏳ **Segment Mapping**: Convert GOCA segments (`GBSEG`, `GESEG`) to PDF Form XObjects if they are reusable.
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ⏳ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
