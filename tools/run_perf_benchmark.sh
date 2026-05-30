@@ -28,8 +28,7 @@ for rel in "${RELEASES[@]}"; do
     HELP_OUTPUT=$(java -jar "$JAR_FILE" -h 2>&1)
     SUPPORTED_FLAGS=""
 
-    # Priority flags: -p (parallel or ptx-debug), -a (aggressive-io), -c (charset-opt)
-    # Also check -P for parallel in newer versions
+    # Priority flags: -p (parallel), -P (ptx-debug), -a (aggressive-io), -c (charset-opt)
     if echo "$HELP_OUTPUT" | grep -q -- "-p"; then
         SUPPORTED_FLAGS="$SUPPORTED_FLAGS -p"
     fi
