@@ -19,11 +19,16 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Verifies that {@link PdfTextState} correctly tracks and resets PTOCA attributes.
@@ -35,6 +40,9 @@ public class PdfTextStateTest {
     PdfTextState state = new PdfTextState();
     assertEquals(-1, state.getFontLid());
     assertEquals(AFPColorValue.DeviceDefault_0x00, state.getTextColor());
+    assertFalse(state.isExtendedColor());
+    assertNull(state.getExtendedColorSpace());
+    assertNull(state.getExtendedColorValue());
     assertEquals(AFPOrientation.ori0, state.getIOrientation());
     assertEquals(AFPOrientation.ori90, state.getBOrientation());
     assertEquals(0, state.getInlinePos());
@@ -61,17 +69,38 @@ public class PdfTextStateTest {
   }
 
   @Test
+  public void testExtendedColor() {
+    PdfTextState state = new PdfTextState();
+    byte[] colorValue = new byte[] {0x00, 0x7F, (byte) 0xFF, 0x00};
+
+    state.setExtendedColorSpace(AFPColorSpace.RGB);
+    state.setExtendedColorValue(colorValue);
+
+    assertTrue(state.isExtendedColor());
+    assertEquals(AFPColorSpace.RGB, state.getExtendedColorSpace());
+    assertArrayEquals(colorValue, state.getExtendedColorValue());
+
+    // Setting standard color should disable extended color
+    state.setTextColor(AFPColorValue.Blue_0x01);
+    assertFalse(state.isExtendedColor());
+    assertEquals(AFPColorValue.Blue_0x01, state.getTextColor());
+  }
+
+  @Test
   public void testReset() {
     PdfTextState state = new PdfTextState();
 
     state.setFontLid((short) 5);
     state.setTextColor(AFPColorValue.Red_0x02);
+    state.setExtendedColorSpace(AFPColorSpace.CMYK);
     state.setInlinePos(100);
 
     state.reset();
 
     assertEquals(-1, state.getFontLid());
     assertEquals(AFPColorValue.DeviceDefault_0x00, state.getTextColor());
+    assertFalse(state.isExtendedColor());
+    assertNull(state.getExtendedColorSpace());
     assertEquals(0, state.getInlinePos());
     assertEquals(AFPOrientation.ori0, state.getIOrientation());
   }

@@ -58,7 +58,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 - ⏳ **PTOCA Driver**: Map PTOCA control sequences to PDF Text Objects (`BT`/`ET`) and positioning operators (`Td`/`Tm`).
     - ⏳ **Text State Management**:
         - ✅ **Text State Container**: Track active font (LID), color, rotation, and current position (I,B).
-        - ✅ **PTOCA State Tracking**: Update text state from positioning (`AMI`, `RMI`, `AMB`, `RMB`), orientation (`STO`), font (`SCFL`), and color (`STC`) control sequences.
+        - ✅ **PTOCA State Tracking**: Update text state from positioning (`AMI`, `RMI`, `AMB`, `RMB`), orientation (`STO`), font (`SCFL`), and color (`STC`, `SEC`) control sequences.
         - ⏳ **Coordinate Conversion**: Map (I,B) coordinates to PDF (x,y) user space.
     - ⏳ **Font & Color Resolution**:
         - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances via `Map Coded Font` (MCF).
