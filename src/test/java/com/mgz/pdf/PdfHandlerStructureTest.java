@@ -37,7 +37,7 @@ public class PdfHandlerStructureTest {
 
   @Test
   public void testStructureDepthTracking() throws Exception {
-    PdfHandler handler = new PdfHandler();
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
 
     BDT_BeginDocument bdt = new BDT_BeginDocument();
     bdt.setStructuredFieldIntroducer(createSfi(SFTypeID.BDT_BeginDocument));

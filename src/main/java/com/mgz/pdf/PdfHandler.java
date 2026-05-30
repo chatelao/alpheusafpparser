@@ -19,8 +19,13 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
+import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.atomic.AtomicLong;
@@ -33,6 +38,13 @@ public class PdfHandler implements StructuredFieldHandler {
 
   private final AtomicLong fieldCount = new AtomicLong(0);
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
+  private final PdfDocument pdfDoc;
+  private final Document document;
+
+  public PdfHandler(OutputStream os) {
+    this.pdfDoc = new PdfDocument(new PdfWriter(os));
+    this.document = new Document(pdfDoc);
+  }
 
   @Override
   public void handle(StructuredField sf) throws Exception {
@@ -51,7 +63,10 @@ public class PdfHandler implements StructuredFieldHandler {
 
   @Override
   public void close() throws Exception {
-    // No resources to release in the stub
+    if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
+      document.add(new Paragraph("AFP to PDF conversion in progress..."));
+    }
+    document.close();
   }
 
   /**

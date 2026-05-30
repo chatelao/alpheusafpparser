@@ -16,7 +16,21 @@ This document specifies the technical design for converting the Alpheus AFP obje
 
 ---
 
-## 2. Component Architecture
+## 2. CLI Integration
+
+To facilitate early testing and integration, the `Afp2Xml` CLI utility is extended to support PDF as an output format.
+
+### 2.1. New Command Line Flag
+-   **Flag**: `-f, --format <type>`
+-   **Supported Types**: `xml` (default), `pdf`.
+-   **Behavior**:
+    -   If `pdf` is specified, the CLI uses `PdfHandlerFactory` instead of `XmlHandlerFactory`.
+    -   If the output path is not explicitly provided, the output file extension will be `.pdf` instead of `.xml`.
+    -   Parallel processing (`-P`) and Directory mode (`-d`) are supported for PDF output.
+
+---
+
+## 3. Component Architecture
 
 The integration utilizes the decoupled `StructuredFieldHandler` architecture defined in `DECOUPLE_DESIGN.md`.
 
@@ -36,7 +50,7 @@ Tracks active AFP attributes and maps them to iText's `Canvas` properties:
 
 ---
 
-## 3. PDF/VT Structural Mapping
+## 4. PDF/VT Structural Mapping
 
 ### 3.1. DPart Hierarchy (ISO 16612-2, §10)
 -   **Root**: The `PdfCatalog` will contain a `/DPartRoot` entry.
@@ -51,7 +65,7 @@ To comply with PDF/VT (and the base PDF/X-4), an `/OutputIntent` must be defined
 
 ---
 
-## 4. Resource Management & Optimization
+## 5. Resource Management & Optimization
 
 ### 4.1. Global Resource Pool
 AFP Overlays and Page Segments are shared resources. To minimize file size:
@@ -64,7 +78,7 @@ All fonts used in the AFP stream (FOCA) must be fully embedded and subsetted to 
 
 ---
 
-## 5. Content Translation Details
+## 6. Content Translation Details
 
 ### 5.1. Coordinate Transformation
 -   **AFP Space**: Origin typically at top-left, units in Pel or 1/1440 inch.
@@ -84,7 +98,7 @@ All fonts used in the AFP stream (FOCA) must be fully embedded and subsetted to 
 
 ---
 
-## 6. Parallel Assembly Design
+## 7. Parallel Assembly Design
 
 To support Alpheus's parallel engine:
 1.  **Worker Tasks**: Each thread generates a `PdfDocument` fragment containing its assigned pages.
