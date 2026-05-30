@@ -263,6 +263,10 @@ public class GAD_GraphicsData extends StructuredField {
         }
       }
 
+      if (dotLength <= 0) {
+        throw new AFPParserException("Invalid drawing order length: " + dotLength);
+      }
+
       MnemonicPerformanceMonitor.startParse(drawingOrder);
       try {
         drawingOrder.decodeAFP(sfData, offset + pos, dotLength, config);
