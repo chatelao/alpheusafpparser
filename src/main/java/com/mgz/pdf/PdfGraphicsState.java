@@ -30,6 +30,8 @@ public class PdfGraphicsState {
   private AFPColorValue color = AFPColorValue.DeviceDefault_0x00;
   private short lineWidth = 0;
   private short lineType = 0;
+  private int currentX = 0;
+  private int currentY = 0;
 
   /**
    * Resets the graphics state to default values.
@@ -38,6 +40,8 @@ public class PdfGraphicsState {
     this.color = AFPColorValue.DeviceDefault_0x00;
     this.lineWidth = 0;
     this.lineType = 0;
+    this.currentX = 0;
+    this.currentY = 0;
   }
 
   public AFPColorValue getColor() {
@@ -62,5 +66,21 @@ public class PdfGraphicsState {
 
   public void setLineType(short lineType) {
     this.lineType = lineType;
+  }
+
+  public int getCurrentX() {
+    return currentX;
+  }
+
+  public void setCurrentX(int currentX) {
+    this.currentX = currentX;
+  }
+
+  public int getCurrentY() {
+    return currentY;
+  }
+
+  public void setCurrentY(int currentY) {
+    this.currentY = currentY;
   }
 }

@@ -40,7 +40,12 @@ import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.goca.GAD_DrawingOrder;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
@@ -293,6 +298,76 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setLineWidth(gslw.getLineWidth());
     } else if (order instanceof GSLT_SetLineType gslt) {
       graphicsState.setLineType(gslt.getLineType());
+    } else if (order instanceof GSCP_SetCurrentPosition gscp) {
+      graphicsState.setCurrentX(gscp.getCoordinateX());
+      graphicsState.setCurrentY(gscp.getCoordinateY());
+    } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints line && (line instanceof GLINE_LineAtGivenPosition || line instanceof GCLINE_LineAtCurrentPosition)) {
+      if (currentCanvas != null) {
+        applyGraphicsState();
+        if (line instanceof GLINE_LineAtGivenPosition) {
+          boolean first = true;
+          for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
+            if (first) {
+              currentCanvas.moveTo(p.xCoordinate(), p.yCoordinate());
+              first = false;
+            } else {
+              currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+            }
+            graphicsState.setCurrentX(p.xCoordinate());
+            graphicsState.setCurrentY(p.yCoordinate());
+          }
+        } else {
+          currentCanvas.moveTo(graphicsState.getCurrentX(), graphicsState.getCurrentY());
+          for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
+            currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+            graphicsState.setCurrentX(p.xCoordinate());
+            graphicsState.setCurrentY(p.yCoordinate());
+          }
+        }
+        currentCanvas.stroke();
+      }
+    } else if (order instanceof GRLINE_RelativeLineAtGivenPosition grline) {
+      if (currentCanvas != null) {
+        applyGraphicsState();
+        int curX = grline.startPoint.xCoordinate();
+        int curY = grline.startPoint.yCoordinate();
+        currentCanvas.moveTo(curX, curY);
+        if (grline.relativeOffsets != null) {
+          for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
+            curX += rp.xOffset();
+            curY += rp.yOffset();
+            currentCanvas.lineTo(curX, curY);
+          }
+        }
+        graphicsState.setCurrentX(curX);
+        graphicsState.setCurrentY(curY);
+        currentCanvas.stroke();
+      }
+    } else if (order instanceof GCRLINE_RelativeLineAtCurrentPosition gcrline) {
+      if (currentCanvas != null) {
+        applyGraphicsState();
+        int curX = graphicsState.getCurrentX();
+        int curY = graphicsState.getCurrentY();
+        currentCanvas.moveTo(curX, curY);
+        if (gcrline.relativeOffsets != null) {
+          for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
+            curX += rp.xOffset();
+            curY += rp.yOffset();
+            currentCanvas.lineTo(curX, curY);
+          }
+        }
+        graphicsState.setCurrentX(curX);
+        graphicsState.setCurrentY(curY);
+        currentCanvas.stroke();
+      }
+    }
+  }
+
+  private void applyGraphicsState() {
+    if (currentCanvas != null) {
+      currentCanvas.setStrokeColor(ColorHandler.getColor(graphicsState.getColor()));
+      // TODO: Map GOCA line width and type to PDF line width and dash pattern
+      currentCanvas.setLineWidth(graphicsState.getLineWidth() > 0 ? graphicsState.getLineWidth() : 1.0f);
     }
   }
 
