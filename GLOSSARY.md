@@ -9,7 +9,7 @@ This glossary contains abbreviations and terms used throughout the Advanced Func
 | AFPC | AFP Consortium | A formal open standards body that develops and maintains AFP architecture. |
 | ASCII | American Standard Code for Information Interchange | A standard code used for information exchange among data processing systems, data communication systems, and associated equipment. ASCII uses a coded character set consisting of 7-bit coded characters. |
 | **BCO**CA | **Bar Code Object** Content Architecture | A data architecture for describing bar code objects, using a number of different symbologies. Specification of the data to be encoded and the symbology attributes to be used are included in the architecture definition. |
-| CCSID | Coded Character Set Identifier | A 16-bit number identifying a specific set consisting of an encoding scheme identifier, character set identifiers, code page identifiers, and other relevant information that uniquely identifies the coded graphic character representation used. |
+| **CCS**ID | Coded Character Set Identifier | A 16-bit number identifying a specific set consisting of an encoding scheme identifier, character set identifiers, code page identifiers, and other relevant information that uniquely identifies the coded graphic character representation used. |
 | **CMO**CA | Color Management Object Content Architecture | A resource architecture used to carry the color management information required to render presentation data. |
 | CMR | Color Management Resource | An architected object that provides color management in presentation environments. |
 | **CPG**ID | Code Page Global Identifier | A unique code page identifier that can be expressed as either a two-byte binary or a five-digit decimal value. |
@@ -27,7 +27,7 @@ This glossary contains abbreviations and terms used throughout the Advanced Func
 | ISO | International Organization for Standardization | An organization of national standards bodies from various countries established to promote development of standards to facilitate international exchange of goods and services. |
 | **MO:D**CA | **Mixed Object Document** Content Architecture | An architected, presentation-system-independent data stream for interchanging documents. |
 | **MO**CA | **Metadata Object** Content Architecture | A resource architecture used to carry metadata in an AFP environment. |
-| OCA | Object Content Architecture | A family of architectures that define the structure and content of objects that can be embedded in a document or a printer data stream. |
+| **O**CA | Object Content Architecture | A family of architectures that define the structure and content of objects that can be embedded in a document or a printer data stream. |
 | OEG | Object Environment Group | A group of structured fields that defines the environment for a data object. |
 | **O**ID | Object Identifier | A unique identifier for an object, based on a fixed sequence of nodes in the ISO OID naming tree. |
 | **PTO**CA | **Presentation Text Object** Content Architecture | A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. |
