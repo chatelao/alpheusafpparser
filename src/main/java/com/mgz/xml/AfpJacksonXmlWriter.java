@@ -37,10 +37,12 @@ import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
+import com.mgz.afp.modca.MMC_MediumModificationControl;
 import com.mgz.afp.modca.MGO_MapGraphicsObject;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MIO_MapImageObject;
 import com.mgz.afp.modca.MPO_MapPageOverlay;
+import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.modca.NOP_NoOperation;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
@@ -237,6 +239,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeMioDirectly(mio);
     } else if (sf instanceof MDR_MapDataResource mdr) {
       writeMdrDirectly(mdr);
+    } else if (sf instanceof MSU_MapSuppression msu) {
+      writeMsuDirectly(msu);
+    } else if (sf instanceof MMC_MediumModificationControl mmc) {
+      writeMmcDirectly(mmc);
     } else if (sf instanceof MGO_MapGraphicsObject mgo) {
       writeMgoDirectly(mgo);
     } else if (sf instanceof MPO_MapPageOverlay mpo) {
@@ -336,6 +342,58 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, indent2, "text", tle.getText());
     }
     baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMsuDirectly(MSU_MapSuppression msu) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MSU");
+    baseXsw.writeStartElement("MSU_MapSuppression");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent3 = XmlIndenter.getIndent(3);
+    if (msu.getRepeatingGroups() != null) {
+      for (IRepeatingGroup rg : msu.getRepeatingGroups()) {
+        if (rg instanceof MSU_MapSuppression.MSU_RepeatingGroup msuRg) {
+          baseXsw.writeCharacters(indent2);
+          baseXsw.writeStartElement("msuRepeatingGroup");
+          writeElement(baseXsw, indent3, "nameOfTextSuppresstion", msuRg.getNameOfTextSuppresstion());
+          writeElement(baseXsw, indent3, "reserved8", msuRg.getReserved8());
+          writeElement(baseXsw, indent3, "localID", msuRg.getLocalID());
+          baseXsw.writeCharacters(indent2);
+          baseXsw.writeEndElement();
+        }
+      }
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMmcDirectly(MMC_MediumModificationControl mmc) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MMC");
+    baseXsw.writeStartElement("MMC_MediumModificationControl");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent3 = XmlIndenter.getIndent(3);
+    String indent4 = XmlIndenter.getIndent(4);
+    writeElement(baseXsw, indent2, "mmcIdentifier", mmc.getMmcIdentifier());
+    writeElement(baseXsw, indent2, "constantData1", mmc.getConstantData1());
+    if (mmc.getKeywords() != null && !mmc.getKeywords().isEmpty()) {
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeStartElement("keywords");
+      for (MMC_MediumModificationControl.MMC_KeyWord kw : mmc.getKeywords()) {
+        baseXsw.writeCharacters(indent3);
+        baseXsw.writeStartElement("keyword");
+        if (kw.keywordID() != null) {
+          writeElement(baseXsw, indent4, "keywordID", kw.keywordID().name());
+        }
+        writeElement(baseXsw, indent4, "parameter", kw.parameter());
+        baseXsw.writeCharacters(indent3);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeEndElement();
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }

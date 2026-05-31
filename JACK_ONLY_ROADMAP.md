@@ -58,4 +58,4 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - [x] Implement fast-path for `MDR_MapDataResource`.
     - [x] Implement fast-path for `MGO_MapGraphicsObject`.
     - [x] Implement fast-path for `MPO_MapPageOverlay`.
-    - [ ] Identify and implement fast-paths for other high-frequency structured fields (e.g., `MSU`, `MMC`).
+    - [x] Identify and implement fast-paths for other high-frequency structured fields (e.g., `MSU`, `MMC`).
