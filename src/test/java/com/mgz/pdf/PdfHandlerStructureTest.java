@@ -24,7 +24,12 @@ import com.mgz.afp.base.StructuredFieldIntroducer;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
@@ -467,6 +472,46 @@ public class PdfHandlerStructureTest {
     assertEquals(AFPColorValue.DeviceDefault_0x00, state2.getColor());
     assertEquals(0, state2.getLineWidth());
     assertEquals(0, state2.getLineType());
+  }
+
+  @Test
+  public void testGocaLinePrimitives() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GSCP: Set Current Position
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 200);
+    orders.add(gscp);
+
+    // GCLINE: Line at Current Position (to 300, 400)
+    GCLINE_LineAtCurrentPosition gcline = new GCLINE_LineAtCurrentPosition();
+    List<GAD_DrawingOrder.GOCA_Point> points = new ArrayList<>();
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 300, (short) 400));
+    gcline.setPoints(points);
+    orders.add(gcline);
+
+    // GCRLINE: Relative Line at Current Position (delta 50, 50 -> to 350, 450)
+    GCRLINE_RelativeLineAtCurrentPosition gcrline = new GCRLINE_RelativeLineAtCurrentPosition();
+    List<GAD_DrawingOrder.GOCA_RelativePoint> relOffsets = new ArrayList<>();
+    relOffsets.add(new GAD_DrawingOrder.GOCA_RelativePoint((byte) 50, (byte) 50));
+    gcrline.relativeOffsets = relOffsets;
+    orders.add(gcrline);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertEquals(350, state.getCurrentX());
+    assertEquals(450, state.getCurrentY());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {

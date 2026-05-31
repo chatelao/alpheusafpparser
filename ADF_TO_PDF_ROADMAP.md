@@ -81,7 +81,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), and line type (`GSLT`).
         - ⏳ **Transformation Matrix**: Implement segment-level transformations (`GSMX`, `GSBMX`).
     - ⏳ **Path Construction**:
-        - ⏳ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
+        - ✅ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
         - ⏳ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.
         - ⏳ **Arcs and Fillets**: Map `GARC`, `GCARC` and `GFILLET` to iText curve operators.
     - ⏳ **Area and Filling**:
