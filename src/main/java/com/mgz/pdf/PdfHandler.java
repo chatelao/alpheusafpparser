@@ -39,6 +39,12 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.goca.GAD_DrawingOrder;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
+import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
@@ -96,6 +102,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Document document;
   private final PdfDictionary dpartRoot;
   private final PdfTextState textState;
+  private final PdfGraphicsState graphicsState;
   private PdfFont fallbackFont;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
@@ -108,6 +115,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
     this.document = new Document(pdfDoc);
     this.textState = new PdfTextState();
+    this.graphicsState = new PdfGraphicsState();
 
     try {
       this.fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
@@ -157,6 +165,7 @@ public class PdfHandler implements StructuredFieldHandler {
           this.currentCanvas = new PdfCanvas(currentPage);
           currentPage.put(PdfName.DPart, dpart);
           textState.reset();
+          graphicsState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
 
           // Apply default page size and transformation if defined (from PGD)
@@ -264,9 +273,27 @@ public class PdfHandler implements StructuredFieldHandler {
           handleControlSequence(cs);
         }
       }
+    } else if (sf instanceof GAD_GraphicsData gad) {
+      if (gad.getDrawingOrders() != null) {
+        for (GAD_DrawingOrder order : gad.getDrawingOrders()) {
+          handleDrawingOrder(order);
+        }
+      }
     }
 
     // TODO: Implement iText 9 based translation logic
+  }
+
+  private void handleDrawingOrder(GAD_DrawingOrder order) {
+    if (order instanceof GSCOL_SetColor gscol) {
+      graphicsState.setColor(gscol.getColor());
+    } else if (order instanceof GSECOL_SetExtendedColor gsecol) {
+      graphicsState.setColor(gsecol.getColor());
+    } else if (order instanceof GSLW_SetLineWidth gslw) {
+      graphicsState.setLineWidth(gslw.getLineWidth());
+    } else if (order instanceof GSLT_SetLineType gslt) {
+      graphicsState.setLineType(gslt.getLineType());
+    }
   }
 
   private void handleControlSequence(PTOCAControlSequence cs) {
@@ -425,5 +452,14 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public PdfTextState getTextState() {
     return textState;
+  }
+
+  /**
+   * Returns the current GOCA graphics state.
+   *
+   * @return the graphics state
+   */
+  public PdfGraphicsState getGraphicsState() {
+    return graphicsState;
   }
 }

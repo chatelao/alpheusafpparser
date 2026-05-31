@@ -78,7 +78,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
     - ⏳ **Graphics State Management**:
-        - ⏳ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), and line type (`GSLT`).
+        - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), and line type (`GSLT`).
         - ⏳ **Transformation Matrix**: Implement segment-level transformations (`GSMX`, `GSBMX`).
     - ⏳ **Path Construction**:
         - ⏳ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
