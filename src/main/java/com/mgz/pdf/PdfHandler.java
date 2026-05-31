@@ -48,6 +48,7 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSAP_SetArcParameters;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
@@ -57,6 +58,7 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
@@ -314,6 +316,18 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setMixMode(gsmx.getMixMode());
     } else if (order instanceof GSBMX_SetBackgroundMix gsbmx) {
       graphicsState.setBackgroundMixMode(gsbmx.getMixMode());
+    } else if (order instanceof GSAP_SetArcParameters gsap) {
+      graphicsState.setArcTransformP(gsap.getArcTransformP());
+      graphicsState.setArcTransformQ(gsap.getArcTransformQ());
+      graphicsState.setArcTransformR(gsap.getArcTransformR());
+      graphicsState.setArcTransformS(gsap.getArcTransformS());
+    } else if (order instanceof GSPCOL_SetProcessColor gspcol) {
+      graphicsState.setProcessColorSpace(gspcol.getColorSpace());
+      graphicsState.setNrOfBitsComponent1(gspcol.getNrOfBitsComponent1());
+      graphicsState.setNrOfBitsComponent2(gspcol.getNrOfBitsComponent2());
+      graphicsState.setNrOfBitsComponent3(gspcol.getNrOfBitsComponent3());
+      graphicsState.setNrOfBitsComponent4(gspcol.getNrOfBitsComponent4());
+      graphicsState.setProcessColorValue(gspcol.getColorValue());
     } else if (order instanceof GSCP_SetCurrentPosition gscp) {
       graphicsState.setCurrentX(gscp.getCoordinateX());
       graphicsState.setCurrentY(gscp.getCoordinateY());

@@ -78,21 +78,28 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
     - ⏳ **Graphics State Management**:
-        - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), line type (`GSLT`), line end (`GSLE`), and line join (`GSLJ`).
+        - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), line type (`GSLT`), line end (`GSLE`), line join (`GSLJ`), arc parameters (`GSAP`), and process color (`GSPCOL`).
         - ✅ **Mix Attribute Tracking**: Implement mix mode attributes (`GSMX`, `GSBMX`).
     - ⏳ **Path Construction**:
         - ✅ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
         - ✅ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.
-        - ⏳ **Arcs and Fillets**: Map `GARC`, `GCARC` and `GFILLET` to iText curve operators.
+        - ⏳ **Arcs and Fillets**:
+            - ⏳ **Full Arcs**: Map `GFARC` and `GCFARC` to iText `ellipse` or `arc`.
+            - ⏳ **Partial Arcs**: Map `GPARC` and `GCPARC` to iText `arc`.
+            - ⏳ **Fillets**: Map `GFLT` and `GCFLT` to iText `curveTo` (approximated).
     - ✅ **Area and Filling**:
         - ✅ **Area Control**: Map `GAREA` (Begin/End Area) to PDF path closing and filling.
-        - ⏳ **Pattern Handling**: Map pattern-based fills to PDF Tiling Patterns.
+        - ⏳ **Pattern Handling**:
+            - ⏳ **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
+            - ⏳ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
     - ⏳ **Resource Mapping**:
         - ⏳ **Segment Mapping**: Convert GOCA segments (`GBSEG`, `GESEG`) to PDF Form XObjects if they are reusable.
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ⏳ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
-    - ⏳ **Implement IOCA Data Decoding**: Support decoding of bilevel, grayscale, and color image data.
+    - ⏳ **Implement IOCA Data Decoding**:
+        - ⏳ **Function Set Support**: Support FS10 (Bilevel), FS11 (Grayscale/Color), and FS40 (Tiled).
+        - ⏳ **Compression Algorithms**: Implement G3/G4, LZW, and JPEG decompression.
     - ⏳ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
     - ⏳ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.
 
