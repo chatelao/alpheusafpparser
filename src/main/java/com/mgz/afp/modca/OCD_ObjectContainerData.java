@@ -23,7 +23,7 @@ import com.mgz.afp.base.StructuredFieldBaseData;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.moca.MetadataObject;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import javax.xml.bind.annotation.XmlElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * MO:DCA, page 304.<br> <br> The Object Container Data structured field contains the data for an
@@ -56,7 +56,7 @@ public class OCD_ObjectContainerData extends StructuredFieldBaseData {
     }
   }
 
-  @XmlElement(name = "MetadataObject")
+  @JacksonXmlProperty(localName = "MetadataObject")
   public MetadataObject getMetadataObject() {
     return metadataObject;
   }

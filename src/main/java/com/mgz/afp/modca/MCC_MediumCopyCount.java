@@ -17,9 +17,8 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 
-
 package com.mgz.afp.modca;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
@@ -93,7 +92,7 @@ public class MCC_MediumCopyCount extends StructuredField {
     repeatingGroups.remove(rg);
   }
 
-  @XmlRootElement
+  @JacksonXmlRootElement
   public record MCC_RepeatingGroup(
       @AFPField short startingCopyNumber,
       @AFPField short endingCopyNumber,

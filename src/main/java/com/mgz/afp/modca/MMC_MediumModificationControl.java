@@ -17,9 +17,8 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 
-
 package com.mgz.afp.modca;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
@@ -122,7 +121,7 @@ public class MMC_MediumModificationControl extends StructuredField {
     }
   }
 
-  @XmlRootElement
+  @JacksonXmlRootElement
   public record MMC_KeyWord(@AFPField MMC_KeyWordID keywordID, @AFPField short parameter) {
     public enum MMC_KeyWordID {
       HorizontalPrintAdjustment_RetiredFor3800(0x0E),

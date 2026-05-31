@@ -21,14 +21,15 @@ package com.mgz.afp.base;
 
 import com.mgz.afp.base.annotations.AFPField;
 
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class StructuredFieldBaseRepeatingGroups extends StructuredField implements IHasRepeatingGroups {
   @AFPField
-  @XmlTransient
+  @JsonIgnore
   protected List<IRepeatingGroup> repeatingGroups;
 
   @Override
@@ -37,13 +38,14 @@ public abstract class StructuredFieldBaseRepeatingGroups extends StructuredField
     repeatingGroups = null;
   }
 
-  @XmlTransient
+  @JsonIgnore
   @Override
   public final List<IRepeatingGroup> getRepeatingGroups() {
     return repeatingGroups;
   }
 
-  @XmlAnyElement(lax = true)
+  @JacksonXmlElementWrapper(useWrapping = false)
+  @JacksonXmlProperty(localName = "repeatingGroups")
   public final List<IRepeatingGroup> getRepeatingGroupsXml() {
     return repeatingGroups;
   }

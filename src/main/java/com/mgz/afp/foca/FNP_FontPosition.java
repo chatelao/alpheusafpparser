@@ -26,7 +26,7 @@ import com.mgz.afp.exceptions.IAFPDecodeableWriteable;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -116,7 +116,7 @@ public class FNP_FontPosition extends StructuredField {
   /**
    * FNP Repeating Group.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement
   public static class FNP_RepeatingGroup implements IAFPDecodeableWriteable {
     @AFPField(size = 2)
     private byte[] reserved0_1 = new byte[] {0x00, 0x00};

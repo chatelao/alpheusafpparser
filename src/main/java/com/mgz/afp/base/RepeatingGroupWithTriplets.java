@@ -19,8 +19,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.exceptions.AFPValidationException;
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IHasTriplets {
-  @XmlTransient
+  @JsonIgnore
   protected List<Triplet> triplets;
 
   @Override
@@ -42,13 +43,14 @@ public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IH
     triplets = null;
   }
 
-  @XmlTransient
+  @JsonIgnore
   @Override
   public List<Triplet> getTriplets() {
     return triplets;
   }
 
-  @XmlAnyElement(lax = true)
+  @JacksonXmlElementWrapper(useWrapping = false)
+  @JacksonXmlProperty(localName = "triplets")
   public List<Triplet> getTripletsXml() {
     return triplets;
   }

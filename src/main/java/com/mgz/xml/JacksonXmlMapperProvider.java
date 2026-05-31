@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import com.mgz.util.UtilCharacterEncoding;
 import java.io.IOException;
 
@@ -50,8 +49,6 @@ public class JacksonXmlMapperProvider {
         .nameForTextElement("text")
         .addModule(module)
         .build();
-    // Honor JAXB annotations
-    XML_MAPPER.registerModule(new JaxbAnnotationModule());
     // Match current JAXB output formatting
     XML_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
     XML_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
