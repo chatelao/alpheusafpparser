@@ -41,8 +41,8 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - [x] Replace `@XmlAnyElement(lax = true)` with `@JacksonXmlProperty` + custom serializers if needed for polymorphic lists.
 - [x] Remove `JaxbAnnotationModule` from `JacksonXmlMapperProvider`.
 
-## Phase 4: Test Suite Modernization 🚧
-- [ ] Implement `Afp2XmlGoldStandardTest` to compare against "Gold Standard" files (replaces removed `Afp2XmlComparisonTest`).
+## Phase 4: Test Suite Modernization ✅
+- [x] Implement `Afp2XmlGoldStandardTest` to compare against "Gold Standard" files (replaces removed `Afp2XmlComparisonTest`).
 - [x] Remove JAXB-specific tests (Completed).
 - [x] Update `JacksonSerializationTest` and others to be the primary verification suite.
 
@@ -58,4 +58,4 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - [x] Implement fast-path for `MDR_MapDataResource`.
     - [x] Implement fast-path for `MGO_MapGraphicsObject`.
     - [x] Implement fast-path for `MPO_MapPageOverlay`.
-    - [x] Identify and implement fast-paths for other high-frequency structured fields (e.g., `MSU`, `MMC`).
+    - [x] Identify and implement fast-paths for other high-frequency structured fields (e.g., `MSU`, `MMC`, `BDI/EDI`, `BMO/EMO`, `BPS/EPS`, `BRG/ERG`).
