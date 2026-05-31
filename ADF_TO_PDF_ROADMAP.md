@@ -65,16 +65,17 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **Font Resource Tracking (MCF)**: Track LID-to-font name mappings from `MCF` (Format 1 & 2) structured fields.
             - ⏳ **PdfFont Resolution**: Resolve tracked font names to embedded `PdfFont` instances via MCF/MDR registry.
         - ✅ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB` or `DeviceCMYK`.
-    - ⏳ **Positioning Operators**:
-        - ⏳ **Inline Positioning**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF.
-        - ⏳ **Baseline Positioning**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
-        - ⏳ **Direction Control**: Map `STOC` (Set Text Orientation) to coordinate rotation.
+    - ✅ **Positioning Operators**:
+        - ✅ **Inline Positioning**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF.
+        - ✅ **Baseline Positioning**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
+        - ✅ **Direction Control**: Map `STOC` (Set Text Orientation) to coordinate rotation.
     - ✅ **Advanced Text Control**:
         - ✅ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
         - ✅ **Margin Control**: Map `SIM` (Set Inline Margin).
     - ⏳ **Data Rendering**:
         - ✅ **Transparent Data**: Map `TRN` to UTF-8 encoded PDF strings using the resolved font.
-        - ⏳ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
+        - ✅ **Graphic Characters**: Map `GraphicCharacters` to UTF-8 encoded PDF strings.
+        - ✅ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
     - ⏳ **Graphics State Management**:
         - ⏳ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), and line type (`GSLT`).

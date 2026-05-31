@@ -56,6 +56,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BLN_BeginLine;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
@@ -67,6 +68,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
@@ -308,6 +310,10 @@ public class PdfHandler implements StructuredFieldHandler {
       textState.setBaselinePos(textState.getBaselinePos() + textState.getBaselineIncrement());
     } else if (cs instanceof TRN_TransparentData trn) {
       renderText(trn.getTransparentData());
+    } else if (cs instanceof GraphicCharacters gc) {
+      renderText(gc.getText());
+    } else if (cs instanceof UCT_UnicodeComplexText uct) {
+      renderText(uct.getText());
     }
   }
 
@@ -330,9 +336,14 @@ public class PdfHandler implements StructuredFieldHandler {
       // AFP coordinates are already in 1/1440 or similar, but the CTM will scale them to points.
       // However, text must be drawn without being flipped upside down.
       // We use a text matrix that sets the position but compensates for Y-flipping.
+      // Rotation is also applied to the text matrix.
+      double rad = Math.toRadians(textState.getIOrientation().getCode() / 128.0);
+      float cos = (float) Math.cos(rad);
+      float sin = (float) Math.sin(rad);
+
       currentCanvas.beginText()
           .setFontAndSize(font, 10)
-          .setTextMatrix(1, 0, 0, -1, afpX, afpY)
+          .setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
           .showText(text)
           .endText();
 
