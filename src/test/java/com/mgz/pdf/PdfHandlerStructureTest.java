@@ -47,6 +47,11 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BLN_BeginLine;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceFunctionType;
+import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
@@ -370,6 +375,41 @@ public class PdfHandlerStructureTest {
     fontMap = handler.getFontMap();
     assertEquals(2, fontMap.size());
     assertEquals("X0H300", fontMap.get((short) 2));
+  }
+
+  @Test
+  public void testUctAndGraphicCharactersHandling() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+    ptx.setStructuredFieldIntroducer(createSfi(SFTypeID.PTX_PresentationTextData));
+
+    // UCT: Unicode Complex Text
+    UCT_UnicodeComplexText uct = new UCT_UnicodeComplexText();
+    ControlSequenceIntroducer uctCsi = new ControlSequenceIntroducer();
+    uctCsi.setLength((short) 14); // Minimum length for UCT
+    uctCsi.setControlSequenceFunctionType(ControlSequenceFunctionType.UCT_UnicodeComplexText);
+    uct.setCsi(uctCsi);
+    uct.setComplexText("Unicode".getBytes(java.nio.charset.StandardCharsets.UTF_16BE));
+    ptx.addControlSequence(uct);
+
+    // Graphic Characters
+    GraphicCharacters gc = new GraphicCharacters();
+    ControlSequenceIntroducer gcCsi = new ControlSequenceIntroducer();
+    gcCsi.setLength((short) 4);
+    gcCsi.setControlSequenceFunctionType(ControlSequenceFunctionType.GraphicCharacters);
+    gc.setCsi(gcCsi);
+    // GraphicCharacters.text is usually set during decodeAFP, but we can set it manually for testing
+    // Since we want to verify it calls renderText, we need to ensure getText() returns something
+    gc.decodeAFP(new byte[] { (byte)0xC1, (byte)0xC2 }, 0, 2, new AFPParserConfiguration()); // "AB" in EBCDIC (simplified)
+    ptx.addControlSequence(gc);
+
+    handler.handle(ptx);
+    assertEquals(2, handler.getFieldCount());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
