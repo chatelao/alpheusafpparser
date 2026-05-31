@@ -39,7 +39,7 @@ import java.util.List;
 public abstract class StructuredFieldBaseTriplets extends StructuredField implements IHasTriplets {
   @AFPField
   @XmlTransient
-  protected List<Triplet> triplets;
+  public List<Triplet> triplets;
 
   @Override
   public void reset() {

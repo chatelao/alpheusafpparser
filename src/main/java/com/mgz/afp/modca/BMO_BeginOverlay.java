@@ -37,7 +37,7 @@ import java.util.List;
 
 public class BMO_BeginOverlay extends StructuredFieldBaseName implements IHasTriplets {
   @AFPField
-  protected List<Triplet> triplets;
+  public List<Triplet> triplets;
   @AFPField(maxSize = 2)
   byte[] reserved8_9 = {0x00, 0x00};
 

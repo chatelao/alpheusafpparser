@@ -37,7 +37,7 @@ import java.nio.charset.Charset;
  */
 public abstract class StructuredFieldBaseName extends StructuredField implements IHasName {
   @AFPField(maxSize = 8)
-  protected String name;
+  public String name;
 
   @Override
   public void reset() {
