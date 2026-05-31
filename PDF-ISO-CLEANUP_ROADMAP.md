@@ -32,27 +32,27 @@ The following criteria must be verified for each file:
 ### Phase 1: Front Matter & Intro 🚧
 - `Front_Matter.md`
 - ✅ `Chapter_1.md` (Scope)
-- `Chapter_2.md` (Normative references)
-- `Chapter_3.md` (Terms and definitions)
+- ✅ `Chapter_2.md` (Normative references)
+- ✅ `Chapter_3.md` (Terms and definitions)
 - ✅ `Chapter_4.md` (Notation)
 - ✅ `Chapter_5.md` (Version designations)
 - ✅ `Chapter_6.md` (Conformance)
 
 ### Phase 2: Syntax & Graphics ⏳
-- `Chapter_7.md` (Syntax)
-- `Chapter_8.md` (Graphics)
+- ⏳ **2.1. Chapter 7**: Syntax (broken tables and figures).
+- ⏳ **2.2. Chapter 8**: Graphics (coordinate systems and patterns).
 
 ### Phase 3: Text, Rendering & Transparency ⏳
-- `Chapter_9.md` (Text)
-- `Chapter_10.md` (Rendering)
-- `Chapter_11.md` (Transparency)
+- ⏳ **3.1. Chapter 9**: Text (fragmented formulas and notes).
+- ⏳ **3.2. Chapter 10**: Rendering.
+- ⏳ **3.3. Chapter 11**: Transparency.
 
 ### Phase 4: Interactive & Multimedia ⏳
-- `Chapter_12.md` (Interactive features)
-- `Chapter_13.md` (Multimedia features)
+- ⏳ **4.1. Chapter 12**: Interactive features.
+- ⏳ **4.2. Chapter 13**: Multimedia features.
 
 ### Phase 5: Document Interchange & Parts ⏳
-- `Chapter_14.md` (Document interchange)
+- ⏳ **5.1. Chapter 14**: Document interchange (large tables and examples).
 
 ### Phase 6: Appendices & Bibliography ⏳
 - ⏳ **6.1. Appendix A to E**: Basic structural cleanup.
@@ -66,19 +66,19 @@ The following criteria must be verified for each file:
 | :--- | :--- | :--- | :--- |
 | `Front_Matter.md` | ⏳ Pending | 1 | |
 | `Chapter_1.md` | ✅ Completed | 1 | Formatted "does not specify" list. |
-| `Chapter_2.md` | ⏳ Pending | 1 | |
-| `Chapter_3.md` | ⏳ Pending | 1 | |
+| `Chapter_2.md` | ✅ Completed | 1 | Merged fragmented references and fixed tables. |
+| `Chapter_3.md` | ✅ Completed | 1 | Bolded terms and fixed line breaks. |
 | `Chapter_4.md` | ✅ Completed | 1 | Fixed headings and merged paragraphs. |
 | `Chapter_5.md` | ✅ Completed | 1 | Verified as clean. |
 | `Chapter_6.md` | ✅ Completed | 1 | Fixed paragraph breakage in 6.3.2.1. |
-| `Chapter_7.md` | ⏳ Pending | 2 | Verified: Broken tables and figures. |
-| `Chapter_8.md` | ⏳ Pending | 2 | |
-| `Chapter_9.md` | ⏳ Pending | 3 | Verified: Fragmented formulas and notes. |
-| `Chapter_10.md` | ⏳ Pending | 3 | |
-| `Chapter_11.md` | ⏳ Pending | 3 | |
-| `Chapter_12.md` | ⏳ Pending | 4 | |
-| `Chapter_13.md` | ⏳ Pending | 4 | |
-| `Chapter_14.md` | ⏳ Pending | 5 | Verified: Large tables and examples. |
+| `Chapter_7.md` | ⏳ Pending | 2.1 | Verified: Broken tables and figures. |
+| `Chapter_8.md` | ⏳ Pending | 2.2 | |
+| `Chapter_9.md` | ⏳ Pending | 3.1 | Verified: Fragmented formulas and notes. |
+| `Chapter_10.md` | ⏳ Pending | 3.2 | |
+| `Chapter_11.md` | ⏳ Pending | 3.3 | |
+| `Chapter_12.md` | ⏳ Pending | 4.1 | |
+| `Chapter_13.md` | ⏳ Pending | 4.2 | |
+| `Chapter_14.md` | ⏳ Pending | 5.1 | Verified: Large tables and examples. |
 | `Appendix_A.md` | ⏳ Pending | 6.1 | |
 | `Appendix_B.md` | ⏳ Pending | 6.1 | |
 | `Appendix_C.md` | ⏳ Pending | 6.1 | |
