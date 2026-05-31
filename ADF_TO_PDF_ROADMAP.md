@@ -102,7 +102,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
     - ⏳ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
-    - ⏳ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
+    - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:
         - ⏳ **Function Set Support**: Support FS10 (Bilevel), FS11 (Grayscale/Color), and FS40 (Tiled).
         - ⏳ **Compression Algorithms**: Implement G3/G4, LZW, and JPEG decompression.

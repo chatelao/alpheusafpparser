@@ -40,6 +40,8 @@ import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
@@ -73,9 +75,11 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.modca.BDT_BeginDocument;
+import com.mgz.afp.modca.BIM_BeginImageObject;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
+import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
@@ -132,6 +136,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfTextState textState;
   private final PdfGraphicsState graphicsState;
   private final PdfBarcodeState barcodeState;
+  private final PdfImageState imageState;
   private PdfFont fallbackFont;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
@@ -146,6 +151,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.textState = new PdfTextState();
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
+    this.imageState = new PdfImageState();
 
     try {
       this.fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
@@ -173,7 +179,9 @@ public class PdfHandler implements StructuredFieldHandler {
 
     if (sf.isBeginSF()) {
       structureStack.push(sf);
-      if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
+      if (sf instanceof BIM_BeginImageObject) {
+        imageState.startNewImage();
+      } else if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
         PdfDictionary dpart = new PdfDictionary();
         dpart.makeIndirect(pdfDoc);
         dpart.put(PdfName.Type, PdfName.DPart);
@@ -197,6 +205,7 @@ public class PdfHandler implements StructuredFieldHandler {
           textState.reset();
           graphicsState.reset();
           barcodeState.reset();
+          imageState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
 
           // Apply default page size and transformation if defined (from PGD)
@@ -213,6 +222,9 @@ public class PdfHandler implements StructuredFieldHandler {
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
           }
+        } else if (begin instanceof BIM_BeginImageObject) {
+          imageState.setInImageObject(false);
+          // TODO: Trigger image conversion and placement
         }
       }
     } else if (sf instanceof TLE_TagLogicalElement tle) {
@@ -321,6 +333,14 @@ public class PdfHandler implements StructuredFieldHandler {
       barcodeState.setElementHeight(bdd.getElementHeight());
       barcodeState.setHeightMultiplier(bdd.getHeightMultiplier());
       barcodeState.setWideToNarrowRatio(bdd.getWideToNarrowRatio());
+    } else if (sf instanceof IDD_ImageDataDescriptor idd) {
+      if (imageState.isInImageObject()) {
+        imageState.setDescriptor(idd);
+      }
+    } else if (sf instanceof IPD_ImagePictureData ipd) {
+      if (imageState.isInImageObject()) {
+        imageState.addImageSegment(ipd);
+      }
     }
 
     // TODO: Implement iText 9 based translation logic
@@ -882,5 +902,14 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public PdfBarcodeState getBarcodeState() {
     return barcodeState;
+  }
+
+  /**
+   * Returns the current IOCA image state.
+   *
+   * @return the image state
+   */
+  public PdfImageState getImageState() {
+    return imageState;
   }
 }
