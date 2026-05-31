@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+ /** [PTOCA-3-011] [PTOCA-3-101] [PTOCA-4-005] [PTOCA-A-016] */
 public class PTX_PresentationTextData extends StructuredField {
   @AFPField
   @JsonIgnore

@@ -37,6 +37,7 @@ public class ColorHandler {
    * @param afpColor the AFP color value
    * @return the iText color (DeviceRgb)
    */
+  /** [PTOCA-3-154] [PTOCA-3-158] [PTOCA-3-197] [PTOCA-3-198] [PTOCA-3-248] [PTOCA-3-253] */
   public static Color getColor(AFPColorValue afpColor) {
     if (afpColor == null) {
       return DeviceRgb.BLACK;

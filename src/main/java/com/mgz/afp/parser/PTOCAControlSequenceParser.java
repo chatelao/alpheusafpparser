@@ -76,6 +76,7 @@ public class PTOCAControlSequenceParser {
     CS_SUPPLIERS.put(ControlSequenceFunctionType.GraphicCharacters, PTOCAControlSequence.GraphicCharacters::new);
     CS_SUPPLIERS.put(ControlSequenceFunctionType.Undefined, com.mgz.afp.ptoca.controlSequence.Undefined::new);
   }
+   /** [PTOCA-3-075] [PTOCA-3-077] [PTOCA-4-045] [PTOCA-4-103] */
   public static List<PTOCAControlSequence> parseControlSequences(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
 
     List<PTOCAControlSequence> controlSequences = new ArrayList<PTOCAControlSequence>();

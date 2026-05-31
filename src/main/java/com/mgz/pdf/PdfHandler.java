@@ -596,25 +596,25 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void handleControlSequence(PTOCAControlSequence cs) {
-    if (cs instanceof AMI_AbsoluteMoveInline ami) {
+    if (cs instanceof AMI_AbsoluteMoveInline /* [PTOCA-3-134] [PTOCA-3-149] [PTOCA-3-174] [PTOCA-3-226] [PTOCA-4-133] */ ami) {
       textState.setInlinePos(ami.getDisplacement());
-    } else if (cs instanceof RMI_RelativeMoveInline rmi) {
+    } else if (cs instanceof RMI_RelativeMoveInline /* [PTOCA-3-149] [PTOCA-3-175] [PTOCA-3-240] [PTOCA-4-333] */ rmi) {
       textState.setInlinePos(textState.getInlinePos() + rmi.getIncrement());
-    } else if (cs instanceof AMB_AbsoluteMoveBaseline amb) {
+    } else if (cs instanceof AMB_AbsoluteMoveBaseline /* [PTOCA-3-133] [PTOCA-3-148] [PTOCA-3-178] [PTOCA-3-225] [PTOCA-4-123] */ amb) {
       textState.setBaselinePos(amb.getDisplacement());
-    } else if (cs instanceof RMB_RelativeMoveBaseline rmb) {
+    } else if (cs instanceof RMB_RelativeMoveBaseline /* [PTOCA-3-148] [PTOCA-3-179] [PTOCA-3-239] [PTOCA-4-324] */ rmb) {
       textState.setBaselinePos(textState.getBaselinePos() + rmb.getIncrement());
-    } else if (cs instanceof STO_SetTextOrientation sto) {
+    } else if (cs instanceof STO_SetTextOrientation /* [PTOCA-3-159] [PTOCA-3-181] [PTOCA-3-254] [PTOCA-4-502] */ sto) {
       textState.setIOrientation(sto.getxOrientation());
       textState.setBOrientation(sto.getyOrientation());
-    } else if (cs instanceof SCFL_SetCodedFontLocal scfl) {
+    } else if (cs instanceof SCFL_SetCodedFontLocal /* [PTOCA-3-152] [PTOCA-3-201] [PTOCA-3-246] [PTOCA-4-365] */ scfl) {
       textState.setFontLid(scfl.getCodedFontLocalID());
-    } else if (cs instanceof STC_SetTextColor stc) {
+    } else if (cs instanceof STC_SetTextColor /* [PTOCA-3-158] [PTOCA-3-197] [PTOCA-3-253] [PTOCA-4-480] */ stc) {
       textState.setTextColor(stc.getForegroundColor());
       if (currentCanvas != null) {
         currentCanvas.setFillColor(ColorHandler.getColor(stc.getForegroundColor()));
       }
-    } else if (cs instanceof SEC_SetExtendedTextColor sec) {
+    } else if (cs instanceof SEC_SetExtendedTextColor /* [PTOCA-3-154] [PTOCA-3-198] [PTOCA-3-248] [PTOCA-4-393] */ sec) {
       textState.setExtendedColorSpace(sec.getColorSpace());
       textState.setExtendedColorValue(sec.getColorValue());
       if (currentCanvas != null) {
@@ -623,22 +623,22 @@ public class PdfHandler implements StructuredFieldHandler {
           currentCanvas.setFillColor(color);
         }
       }
-    } else if (cs instanceof SIA_SetIntercharacterAdjustment sia) {
+    } else if (cs instanceof SIA_SetIntercharacterAdjustment /* [PTOCA-3-156] [PTOCA-3-172] [PTOCA-3-250] [PTOCA-4-430] */ sia) {
       textState.setIntercharacterAdjustment(sia.getAdjustment());
-    } else if (cs instanceof SVI_SetVariableSpaceCharacterIncrement svi) {
+    } else if (cs instanceof SVI_SetVariableSpaceCharacterIncrement /* [PTOCA-3-161] [PTOCA-3-173] [PTOCA-3-255] [PTOCA-4-534] */ svi) {
       textState.setVariableSpaceIncrement(svi.getIncrement());
-    } else if (cs instanceof SIM_SetInlineMargin sim) {
+    } else if (cs instanceof SIM_SetInlineMargin /* [PTOCA-3-155] [PTOCA-3-171] [PTOCA-3-251] [PTOCA-4-457] */ sim) {
       textState.setInlineMargin(sim.getDisplacement());
-    } else if (cs instanceof SBI_SetBaselineIncrement sbi) {
+    } else if (cs instanceof SBI_SetBaselineIncrement /* [PTOCA-3-151] [PTOCA-3-177] [PTOCA-3-245] [PTOCA-4-356] */ sbi) {
       textState.setBaselineIncrement(sbi.getIncrement());
-    } else if (cs instanceof BLN_BeginLine) {
+    } else if (cs instanceof BLN_BeginLine /* [PTOCA-3-135] [PTOCA-3-180] [PTOCA-3-227] [PTOCA-4-143] */) {
       textState.setInlinePos(textState.getInlineMargin());
       textState.setBaselinePos(textState.getBaselinePos() + textState.getBaselineIncrement());
-    } else if (cs instanceof TRN_TransparentData trn) {
+    } else if (cs instanceof TRN_TransparentData /* [PTOCA-3-166] [PTOCA-3-190] [PTOCA-3-242] [PTOCA-4-589] */ trn) {
       renderText(trn.getTransparentData());
-    } else if (cs instanceof GraphicCharacters gc) {
+    } else if (cs instanceof GraphicCharacters /* [PTOCA-3-011] [PTOCA-3-061] [PTOCA-3-077] [PTOCA-4-004] */ gc) {
       renderText(gc.getText());
-    } else if (cs instanceof UCT_UnicodeComplexText uct) {
+    } else if (cs instanceof UCT_UnicodeComplexText /* [PTOCA-3-168] [PTOCA-3-183] [PTOCA-3-243] [PTOCA-4-632] */ uct) {
       renderText(uct.getText());
     }
   }

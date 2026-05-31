@@ -34,6 +34,7 @@ import java.io.OutputStream;
  * specifies the size of a text object presentation space and the measurement units used for the
  * size and for all linear measurements within the text object.
  */
+ /** [PTOCA-3-010] [PTOCA-3-101] [PTOCA-4-006] [PTOCA-4-695] [PTOCA-A-012] */
 public class PTD_PresentationTextDataDescriptor_Format1 extends StructuredField {
   AFPUnitBase xUnitBase;
   AFPUnitBase yUnitBase;

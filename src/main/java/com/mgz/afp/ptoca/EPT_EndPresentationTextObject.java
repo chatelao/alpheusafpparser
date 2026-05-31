@@ -21,5 +21,6 @@ package com.mgz.afp.ptoca;
 
 import com.mgz.afp.base.StructuredFieldBaseNameAndTriplets;
 
+ /** [PTOCA-2-004] */
 public class EPT_EndPresentationTextObject extends StructuredFieldBaseNameAndTriplets {
 }

@@ -18,30 +18,28 @@ def extract_ids_from_file(filepath):
         # Get text between last ID (or start of file) and this ID
         raw_text = content[last_end:start].strip()
 
-        # Take the last paragraph or line
-        lines = raw_text.split('\n')
-        if not lines:
-            summary = "No summary available"
-        else:
-            # Look for the last non-empty line
-            summary = ""
-            for line in reversed(lines):
-                if line.strip():
-                    summary = line.strip()
-                    break
-            if not summary:
-                summary = "No summary available"
+        # Find the last paragraph.
+        # Paragraphs are separated by double newlines or single newlines if they are list items.
+        # Let's try to find the text after the last empty line.
+        parts = re.split(r'\n\s*\n', raw_text)
+        last_block = parts[-1].strip()
+
+        # If it's a list item, we might only want that item.
+        lines = last_block.split('\n')
+        summary = " ".join(l.strip() for l in lines if l.strip())
 
         # Cleanup summary
         # Remove markdown headers
         summary = re.sub(r'^#+\s+', '', summary)
-        # Remove list markers
+        # Remove list markers like '* ', '- ', '1. '
         summary = re.sub(r'^[\s\*\-\d\.]+\s+', '', summary)
         # Remove bold/italic markers
         summary = summary.replace('**', '').replace('__', '').replace('*', '').replace('_', '')
         # Remove multiple spaces
         summary = re.sub(r'\s+', ' ', summary)
-        # Trim to reasonable length if needed, but usually these are short sentences
+
+        if not summary:
+            summary = "No summary available"
 
         results.append((req_id, summary))
         last_end = match.end()
@@ -85,8 +83,9 @@ def main():
 
     sorted_ids = sorted(unique_data.keys(), key=lambda x: sort_key((x, "")))
 
-    for req_id in sorted_ids:
-        print(f"{req_id}\t{unique_data[req_id]}")
+    with open('ptoca_data.txt', 'w', encoding='utf-8') as f:
+        for req_id in sorted_ids:
+            f.write(f"{req_id}\t{unique_data[req_id]}\n")
 
 if __name__ == "__main__":
     main()

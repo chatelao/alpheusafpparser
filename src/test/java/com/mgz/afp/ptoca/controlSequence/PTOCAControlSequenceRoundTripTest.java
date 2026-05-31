@@ -46,49 +46,58 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+        // [PTOCA-3-133] [PTOCA-3-148] [PTOCA-3-178] [PTOCA-3-225] [PTOCA-4-123]
     public void testAMB_AbsoluteMoveBaselineRoundTrip() throws Exception {
         assertCSRoundTrip(new AMB_AbsoluteMoveBaseline(), new byte[]{0x00, 0x64}, false);
     }
 
     @Test
     public void testAMI_AbsoluteMoveInlineRoundTrip() throws Exception {
+        // [PTOCA-3-134] [PTOCA-3-149] [PTOCA-3-174] [PTOCA-3-226] [PTOCA-4-133]
         // [PTOCA-5-001] [PTOCA-5-002] [PTOCA-5-003]
         assertCSRoundTrip(new AMI_AbsoluteMoveInline(), new byte[]{0x00, 0x64}, false);
     }
 
     @Test
+        // [PTOCA-3-135] [PTOCA-3-180] [PTOCA-3-227] [PTOCA-4-143]
     public void testBLN_BeginLineRoundTrip() throws Exception {
         assertCSRoundTrip(new BLN_BeginLine(), new byte[]{}, false);
     }
 
     @Test
+        // [PTOCA-3-136] [PTOCA-3-202] [PTOCA-3-228] [PTOCA-4-149]
     public void testBSU_BeginSuppressionRoundTrip() throws Exception {
         assertCSRoundTrip(new BSU_BeginSuppression(), new byte[]{0x01}, false);
     }
 
     @Test
+        // [PTOCA-3-138] [PTOCA-3-195] [PTOCA-3-229] [PTOCA-4-166]
     public void testDBR_DrawBaxisRuleRoundTrip() throws Exception {
         assertCSRoundTrip(new DBR_DrawBaxisRule(), new byte[]{0x00, 0x64}, false);
         assertCSRoundTrip(new DBR_DrawBaxisRule(), new byte[]{0x00, 0x64, 0x00, 0x05, 0x00}, false);
     }
 
     @Test
+        // [PTOCA-3-139] [PTOCA-3-194] [PTOCA-3-230] [PTOCA-4-183]
     public void testDIR_DrawIaxisRuleRoundTrip() throws Exception {
         assertCSRoundTrip(new DIR_DrawIaxisRule(), new byte[]{0x00, 0x64}, false);
         assertCSRoundTrip(new DIR_DrawIaxisRule(), new byte[]{0x00, 0x64, 0x00, 0x05, 0x00}, false);
     }
 
     @Test
+        // [PTOCA-3-141] [PTOCA-3-203] [PTOCA-3-232] [PTOCA-4-221]
     public void testESU_EndSuppressionRoundTrip() throws Exception {
         assertCSRoundTrip(new ESU_EndSuppression(), new byte[]{0x01}, false);
     }
 
     @Test
+        // [PTOCA-3-192] [PTOCA-3-238] [PTOCA-4-276]
     public void testNOP_NoOperationRoundTrip() throws Exception {
         assertCSRoundTrip(new NOP_NoOperation(), new byte[]{0x01, 0x02, 0x03}, false);
     }
 
     @Test
+        // [PTOCA-3-147] [PTOCA-3-205] [PTOCA-3-257] [PTOCA-4-281]
     public void testOVS_OverstrikeRoundTrip() throws Exception {
         assertCSRoundTrip(new OVS_Overstrike(), new byte[]{0x01, 0x00, 0x64}, false);
         OVS_Overstrike ovs = new OVS_Overstrike();
@@ -97,31 +106,37 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+        // [PTOCA-3-148] [PTOCA-3-179] [PTOCA-3-239] [PTOCA-4-324]
     public void testRMB_RelativeMoveBaselineRoundTrip() throws Exception {
         assertCSRoundTrip(new RMB_RelativeMoveBaseline(), new byte[]{0x00, 0x64}, false);
     }
 
     @Test
+        // [PTOCA-3-149] [PTOCA-3-175] [PTOCA-3-240] [PTOCA-4-333]
     public void testRMI_RelativeMoveInlineRoundTrip() throws Exception {
         assertCSRoundTrip(new RMI_RelativeMoveInline(), new byte[]{0x00, 0x64}, false);
     }
 
     @Test
+        // [PTOCA-3-150] [PTOCA-3-191] [PTOCA-3-241] [PTOCA-4-343]
     public void testRPS_RepeatStringRoundTrip() throws Exception {
         assertCSRoundTrip(new RPS_RepeatString(), new byte[]{0x00, 0x05, 0x01, 0x02}, false);
     }
 
     @Test
+        // [PTOCA-3-151] [PTOCA-3-177] [PTOCA-3-245] [PTOCA-4-356]
     public void testSBI_SetBaselineIncrementRoundTrip() throws Exception {
         assertCSRoundTrip(new SBI_SetBaselineIncrement(), new byte[]{0x00, 0x64}, false);
     }
 
     @Test
+        // [PTOCA-3-152] [PTOCA-3-201] [PTOCA-3-246] [PTOCA-4-365]
     public void testSCFL_SetCodedFontLocalRoundTrip() throws Exception {
         assertCSRoundTrip(new SCFL_SetCodedFontLocal(), new byte[]{0x01}, false);
     }
 
     @Test
+        // [PTOCA-3-154] [PTOCA-3-198] [PTOCA-3-248] [PTOCA-4-393]
     public void testSEC_SetExtendedTextColorRoundTrip() throws Exception {
         byte[] payload = new byte[14];
         payload[1] = 0x01; // ColorSpace RGB
@@ -130,17 +145,20 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+        // [PTOCA-3-156] [PTOCA-3-172] [PTOCA-3-250] [PTOCA-4-430]
     public void testSIA_SetIntercharacterAdjustmentRoundTrip() throws Exception {
         assertCSRoundTrip(new SIA_SetIntercharacterAdjustment(), new byte[]{0x00, 0x05}, false);
         assertCSRoundTrip(new SIA_SetIntercharacterAdjustment(), new byte[]{0x00, 0x05, 0x01}, false);
     }
 
     @Test
+        // [PTOCA-3-155] [PTOCA-3-171] [PTOCA-3-251] [PTOCA-4-457]
     public void testSIM_SetInlineMarginRoundTrip() throws Exception {
         assertCSRoundTrip(new SIM_SetInlineMargin(), new byte[]{0x00, 0x64}, false);
     }
 
     @Test
+        // [PTOCA-3-158] [PTOCA-3-197] [PTOCA-3-253] [PTOCA-4-480]
     public void testSTC_SetTextColorRoundTrip() throws Exception {
         assertCSRoundTrip(new STC_SetTextColor(), new byte[]{0x00, 0x01}, false);
         assertCSRoundTrip(new STC_SetTextColor(), new byte[]{0x00, 0x01, 0x00}, false);
@@ -148,16 +166,19 @@ public class PTOCAControlSequenceRoundTripTest {
 
     @Test
     public void testSTO_SetTextOrientationRoundTrip() throws Exception {
+        // [PTOCA-3-159] [PTOCA-3-181] [PTOCA-3-254] [PTOCA-4-502]
         // [PTOCA-5-041]
         assertCSRoundTrip(new STO_SetTextOrientation(), new byte[]{0x00, 0x00, 0x2D, 0x00}, false);
     }
 
     @Test
+        // [PTOCA-3-161] [PTOCA-3-173] [PTOCA-3-255] [PTOCA-4-534]
     public void testSVI_SetVariableSpaceCharacterIncrementRoundTrip() throws Exception {
         assertCSRoundTrip(new SVI_SetVariableSpaceCharacterIncrement(), new byte[]{0x00, 0x64}, false);
     }
 
     @Test
+        // [PTOCA-3-164] [PTOCA-3-207] [PTOCA-3-259] [PTOCA-4-562]
     public void testTBM_TemporaryBaselineMoveRoundTrip() throws Exception {
         assertCSRoundTrip(new TBM_TemporaryBaselineMove(), new byte[]{0x01}, false);
         assertCSRoundTrip(new TBM_TemporaryBaselineMove(), new byte[]{0x02, 0x00}, false);
@@ -165,16 +186,19 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+        // [PTOCA-3-166] [PTOCA-3-190] [PTOCA-3-242] [PTOCA-4-589]
     public void testTRN_TransparentDataRoundTrip() throws Exception {
         assertCSRoundTrip(new TRN_TransparentData(), new byte[]{0x01, 0x02, 0x03}, false);
     }
 
     @Test
+        // [PTOCA-3-167] [PTOCA-3-206] [PTOCA-3-258] [PTOCA-4-599]
     public void testUSC_UnderscoreRoundTrip() throws Exception {
         assertCSRoundTrip(new USC_Underscore(), new byte[]{0x01}, false);
     }
 
     @Test
+        // [PTOCA-3-168] [PTOCA-3-183] [PTOCA-3-243] [PTOCA-4-632]
     public void testUCT_UnicodeComplexTextRoundTrip() throws Exception {
         UCT_UnicodeComplexText uct = new UCT_UnicodeComplexText();
         byte[] params = new byte[14];
@@ -241,21 +265,25 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+        // [PTOCA-3-140] [PTOCA-3-188] [PTOCA-3-231] [PTOCA-4-202]
     public void testENC_EncryptedDataRoundTrip() throws Exception {
         assertCSRoundTrip(new ENC_EncryptedData(), new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03}, false);
     }
 
     @Test
+        // [PTOCA-3-157] [PTOCA-3-200] [PTOCA-3-252] [PTOCA-4-465]
     public void testSKI_SetKeyInformationRoundTrip() throws Exception {
         assertCSRoundTrip(new SKI_SetKeyInformation(), new byte[]{0x00, 0x00, 0x00, 0x00, (byte) 0xAA, (byte) 0xBB, (byte) 0xCC}, false);
     }
 
     @Test
+        // [PTOCA-3-153] [PTOCA-3-189] [PTOCA-3-247] [PTOCA-4-383]
     public void testSEA_SetEncryptedAlternateRoundTrip() throws Exception {
         assertCSRoundTrip(new SEA_SetEncryptedAlternate(), new byte[]{0x00, 0x00, 0x00, 0x00, (byte) 0xC1, (byte) 0xC2, (byte) 0xC3}, false);
     }
 
     @Test
+        // [PTOCA-3-011] [PTOCA-3-061] [PTOCA-3-077] [PTOCA-4-004]
     public void testGraphicCharactersRoundTrip() throws Exception {
         GraphicCharacters gc = new GraphicCharacters();
         byte[] payload = new byte[]{(byte) 0xC1, (byte) 0xC2, (byte) 0xC3}; // "ABC" in CP500
@@ -269,6 +297,7 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+        // [PTOCA-3-144] [PTOCA-3-184] [PTOCA-3-236] [PTOCA-4-246]
     public void testGLC_GlyphLayoutControlRoundTrip() throws Exception {
         GLC_GlyphLayoutControl glc = new GLC_GlyphLayoutControl();
         byte[] payload = new byte[8 + 13 + 4]; // 8 reserved/metadata + 13 OID + 4 name
@@ -285,16 +314,19 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+        // [PTOCA-3-143] [PTOCA-3-185] [PTOCA-3-235] [PTOCA-4-237]
     public void testGIR_GlyphIdRunRoundTrip() throws Exception {
         assertCSRoundTrip(new GIR_GlyphIdRun(), new byte[]{0x00, 0x00, 0x00, 0x01, 0x00, 0x02}, false);
     }
 
     @Test
+        // [PTOCA-3-142] [PTOCA-3-186] [PTOCA-3-234] [PTOCA-4-229]
     public void testGAR_GlyphAdvanceRunRoundTrip() throws Exception {
         assertCSRoundTrip(new GAR_GlyphAdvanceRun(), new byte[]{0x00, 0x00, 0x00, 0x64, 0x00, (byte) 0xC8}, false);
     }
 
     @Test
+        // [PTOCA-3-145] [PTOCA-3-187] [PTOCA-3-237] [PTOCA-4-268]
     public void testGOR_GlyphOffsetRunRoundTrip() throws Exception {
         assertCSRoundTrip(new GOR_GlyphOffsetRun(), new byte[]{0x00, 0x00, 0x00, 0x0A, (byte) 0xFF, (byte) 0xF6}, false);
     }

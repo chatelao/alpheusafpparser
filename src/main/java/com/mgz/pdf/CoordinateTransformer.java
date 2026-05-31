@@ -76,6 +76,7 @@ public class CoordinateTransformer {
    * @param bOri the baseline orientation
    * @return the AFP X coordinate
    */
+  /** [PTOCA-3-021] [PTOCA-3-022] [PTOCA-3-023] [PTOCA-3-028] [PTOCA-3-030] [PTOCA-3-084] */
   public static int getAfpX(int iPos, int bPos, AFPOrientation iOri, AFPOrientation bOri) {
     double iRad = Math.toRadians(iOri.getCode() / 128.0);
     double bRad = Math.toRadians(bOri.getCode() / 128.0);

@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+ /** [PTOCA-3-010] [PTOCA-3-101] [PTOCA-4-006] [PTOCA-4-695] [PTOCA-A-012] */
 public class PTD_PresentationTextDataDescriptor_Format2 extends StructuredField {
   AFPUnitBase xUnitBase;
   AFPUnitBase yUnitBase;
