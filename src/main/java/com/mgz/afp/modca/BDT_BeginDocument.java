@@ -37,9 +37,9 @@ import java.util.List;
 
 public class BDT_BeginDocument extends StructuredFieldBaseName implements IHasTriplets {
   @AFPField
-  protected List<Triplet> triplets;
+  public List<Triplet> triplets;
   @AFPField(maxSize = 2)
-  byte[] reserved8_9 = {0x00, 0x00};
+  public byte[] reserved8_9 = {0x00, 0x00};
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

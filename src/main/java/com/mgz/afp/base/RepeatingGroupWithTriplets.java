@@ -34,7 +34,7 @@ import java.util.List;
 
 public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IHasTriplets {
   @XmlTransient
-  protected List<Triplet> triplets;
+  public List<Triplet> triplets;
 
   @Override
   public void reset() {

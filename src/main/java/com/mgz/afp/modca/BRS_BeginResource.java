@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BRS_BeginResource extends StructuredFieldBaseName {
-  protected List<Triplet> triplets;
+  public List<Triplet> triplets;
   byte[] reserved8_9 = {0x00, 0x00};
 
   @Override

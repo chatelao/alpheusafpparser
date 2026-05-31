@@ -1,22 +1,24 @@
 package com.mgz.xml;
 
-import com.mgz.afp.foca.FNC_FontControl;
-import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.modca.BDT_BeginDocument;
+import com.mgz.afp.triplets.Triplet;
 import org.junit.jupiter.api.Test;
-import java.io.ByteArrayOutputStream;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JacksonOutputInspectorTest {
     @Test
-    public void inspectFnc() throws Exception {
-        FNC_FontControl fnc = new FNC_FontControl();
-        // Minimal data to decode, let's see what's enough
-        byte[] data = new byte[100];
-        fnc.decodeAFP(data, 0, data.length, new AFPParserConfiguration());
+    public void inspectBdt() throws Exception {
+        BDT_BeginDocument bdt = new BDT_BeginDocument();
+        bdt.setName("MYDOC");
+        List<Triplet> triplets = new ArrayList<>();
+        Triplet.Comment c = new Triplet.Comment();
+        c.comment = "Hello";
+        triplets.add(c);
+        bdt.setTriplets(triplets);
 
-        XmlMapper mapper = JacksonXmlMapperProvider.getMapper();
-        System.out.println("--- FNC JACKSON START ---");
-        System.out.println(mapper.writer().withRootName("FNC_FontControl").writeValueAsString(fnc));
-        System.out.println("--- FNC JACKSON END ---");
+        String xml = JacksonXmlMapperProvider.getMapper().writerWithDefaultPrettyPrinter().withRootName("BDT_BeginDocument").writeValueAsString(bdt);
+        System.out.println("Jackson BDT output:");
+        System.out.println(xml);
     }
 }
