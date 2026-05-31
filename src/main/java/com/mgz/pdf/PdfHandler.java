@@ -43,10 +43,12 @@ import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFLT_FilletAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
@@ -102,6 +104,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentDat
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
@@ -512,6 +515,88 @@ public class PdfHandler implements StructuredFieldHandler {
             gcparc.getMultiplierIntegerPortion(), gcparc.getMultiplierFractionalPortion(),
             gcparc.getStartAngle(), gcparc.getSweepAngle());
       }
+    } else if (order instanceof GFLT_FilletAtGivenPosition gflt) {
+      renderFillet(gflt.getPoints(), false);
+    } else if (order instanceof GCFLT_FilletAtCurrentPosition gcflt) {
+      renderFillet(gcflt.getPoints(), true);
+    }
+  }
+
+  private void renderFillet(List<GAD_DrawingOrder.GOCA_Point> points, boolean atCurrentPosition) {
+    if (currentCanvas == null || points == null || points.isEmpty()) {
+      return;
+    }
+    if (atCurrentPosition && points.size() < 1) {
+      return;
+    }
+    if (!atCurrentPosition && points.size() < 2) {
+      return;
+    }
+
+    applyGraphicsState();
+    float x0, y0;
+    int startIdx;
+
+    if (atCurrentPosition) {
+      x0 = graphicsState.getCurrentX();
+      y0 = graphicsState.getCurrentY();
+      startIdx = 0;
+    } else {
+      x0 = points.get(0).xCoordinate();
+      y0 = points.get(0).yCoordinate();
+      startIdx = 1;
+    }
+
+    currentCanvas.moveTo(x0, y0);
+    int n = points.size();
+
+    // If only two points total (including current position if applicable), it's a straight line
+    if ((atCurrentPosition && n == 1) || (!atCurrentPosition && n == 2)) {
+      GAD_DrawingOrder.GOCA_Point pEnd = points.get(n - 1);
+      currentCanvas.lineTo(pEnd.xCoordinate(), pEnd.yCoordinate());
+      graphicsState.setCurrentX(pEnd.xCoordinate());
+      graphicsState.setCurrentY(pEnd.yCoordinate());
+    } else {
+      // Fillet logic: sequence of quadratic Beziers
+      float currX = x0;
+      float currY = y0;
+
+      for (int i = startIdx; i < n - 1; i++) {
+        GAD_DrawingOrder.GOCA_Point pControl = points.get(i);
+        GAD_DrawingOrder.GOCA_Point pNext = points.get(i + 1);
+
+        float nextX, nextY;
+        if (i == n - 2) {
+          // Last segment ends at the last point
+          nextX = pNext.xCoordinate();
+          nextY = pNext.yCoordinate();
+        } else {
+          // Intermediate segments end at the midpoint of PiPi+1
+          nextX = (pControl.xCoordinate() + pNext.xCoordinate()) / 2.0f;
+          nextY = (pControl.yCoordinate() + pNext.yCoordinate()) / 2.0f;
+        }
+
+        // Convert quadratic to cubic Bezier
+        // C1 = A + 2/3 * (C - A)
+        // C2 = B + 2/3 * (C - B)
+        float cx = pControl.xCoordinate();
+        float cy = pControl.yCoordinate();
+        float c1x = currX + 2.0f / 3.0f * (cx - currX);
+        float c1y = currY + 2.0f / 3.0f * (cy - currY);
+        float c2x = nextX + 2.0f / 3.0f * (cx - nextX);
+        float c2y = nextY + 2.0f / 3.0f * (cy - nextY);
+
+        currentCanvas.curveTo(c1x, c1y, c2x, c2y, nextX, nextY);
+
+        currX = nextX;
+        currY = nextY;
+      }
+      graphicsState.setCurrentX(Math.round(currX));
+      graphicsState.setCurrentY(Math.round(currY));
+    }
+
+    if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+      currentCanvas.stroke();
     }
   }
 

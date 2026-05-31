@@ -27,9 +27,11 @@ import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFLT_FilletAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
@@ -700,6 +702,43 @@ public class PdfHandlerStructureTest {
     // End point: (300 + 50*cos(270), 300 + 50*sin(270)) = (300, 250)
     assertEquals(300, handler.getGraphicsState().getCurrentX());
     assertEquals(250, handler.getGraphicsState().getCurrentY());
+  }
+
+  @Test
+  public void testGocaFilletRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GFLT: Fillet at Given Position (100,100), (200,200), (300,100)
+    GFLT_FilletAtGivenPosition gflt = new GFLT_FilletAtGivenPosition();
+    List<GAD_DrawingOrder.GOCA_Point> points = new ArrayList<>();
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 100));
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 200, (short) 200));
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 300, (short) 100));
+    gflt.setPoints(points);
+    orders.add(gflt);
+
+    // GCFLT: Fillet at Current Position (400,200), (500,100)
+    GCFLT_FilletAtCurrentPosition gcflt = new GCFLT_FilletAtCurrentPosition();
+    List<GAD_DrawingOrder.GOCA_Point> gcpoints = new ArrayList<>();
+    gcpoints.add(new GAD_DrawingOrder.GOCA_Point((short) 400, (short) 200));
+    gcpoints.add(new GAD_DrawingOrder.GOCA_Point((short) 500, (short) 100));
+    gcflt.setPoints(gcpoints);
+    orders.add(gcflt);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(2, handler.getFieldCount());
+    assertEquals(500, handler.getGraphicsState().getCurrentX());
+    assertEquals(100, handler.getGraphicsState().getCurrentY());
   }
 
   @Test
