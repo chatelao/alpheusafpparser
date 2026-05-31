@@ -61,6 +61,11 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSBMX_SetBackgroundMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSMP_SetMarkerPrecision;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSMS_SetMarkerSet;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSMT_SetMarkerSymbol;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
@@ -335,6 +340,16 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setMixMode(gsmx.getMixMode());
     } else if (order instanceof GSBMX_SetBackgroundMix gsbmx) {
       graphicsState.setBackgroundMixMode(gsbmx.getMixMode());
+    } else if (order instanceof GSPS_SetPatternSet gsps) {
+      graphicsState.setPatternSet(gsps.getPatternLocalID());
+    } else if (order instanceof GSPT_SetPatternSymbol gspt) {
+      graphicsState.setPatternSymbol(gspt.getPatternSymbolCodePoint());
+    } else if (order instanceof GSMS_SetMarkerSet gsms) {
+      graphicsState.setMarkerSet(gsms.getMarkerSetLocalID());
+    } else if (order instanceof GSMT_SetMarkerSymbol gsmt) {
+      graphicsState.setMarkerSymbol(gsmt.getMarkerSymbolCodePoint());
+    } else if (order instanceof GSMP_SetMarkerPrecision gsmp) {
+      graphicsState.setMarkerPrecision(gsmp.getMarkerPrecision());
     } else if (order instanceof GSAP_SetArcParameters gsap) {
       graphicsState.setArcTransformP(gsap.getArcTransformP());
       graphicsState.setArcTransformQ(gsap.getArcTransformQ());
