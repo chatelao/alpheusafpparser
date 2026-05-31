@@ -49,8 +49,8 @@ public class JacksonXmlMapperProvider {
         .nameForTextElement("text")
         .addModule(module)
         .build();
-    // Match current JAXB output formatting
-    XML_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+    // Disable indentation for better performance in high-throughput environments
+    XML_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
     XML_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
     // Do not serialize empty or null fields, similar to JAXB default behavior in many cases
     XML_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
