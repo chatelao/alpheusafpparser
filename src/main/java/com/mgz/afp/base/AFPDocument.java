@@ -19,20 +19,18 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents an AFP document containing a list of structured fields.
  */
-@XmlRootElement(name = "AFPDocument")
-@XmlAccessorType(XmlAccessType.FIELD)
+
+
 public class AFPDocument {
-  @XmlAnyElement(lax = true)
+  @JacksonXmlProperty
   private List<Object> structuredFields = new ArrayList<>();
 
   /**

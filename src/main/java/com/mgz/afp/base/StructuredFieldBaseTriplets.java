@@ -19,12 +19,12 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import com.mgz.util.UtilCharacterEncoding;
 import com.mgz.afp.base.annotations.AFPField;
 
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.TripletParser;
@@ -38,7 +38,7 @@ import java.util.List;
 
 public abstract class StructuredFieldBaseTriplets extends StructuredField implements IHasTriplets {
   @AFPField
-  @XmlTransient
+  @JsonIgnore
   public List<Triplet> triplets;
 
   @Override
@@ -47,18 +47,18 @@ public abstract class StructuredFieldBaseTriplets extends StructuredField implem
     triplets = null;
   }
 
-  @XmlTransient
+  @JsonIgnore
   @Override
   public final List<Triplet> getTriplets() {
     return triplets;
   }
 
-  @XmlAnyElement(lax = true)
+  @JacksonXmlProperty
   public final List<Triplet> getTripletsXml() {
     return triplets;
   }
 
-  @XmlElement(name = "text")
+  @JacksonXmlProperty(localName = "text")
   public String getText() {
     if (triplets == null || triplets.isEmpty()) {
       return null;

@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 
 package com.mgz.afp.modca;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
@@ -64,7 +63,6 @@ public class MMT_MapMediaType extends StructuredFieldBaseRepeatingGroups {
     writeFullStructuredField(os, baos.toByteArray());
   }
 
-  @XmlRootElement
   public static class MMT_RepeatingGroup extends RepeatingGroupWithTriplets {
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

@@ -28,7 +28,6 @@ import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,7 +36,6 @@ import java.util.List;
 /**
  * Font Descriptor (FND).
  */
-@XmlRootElement
 public class FND_FontDescriptor extends StructuredField {
 
   @AFPField(size = 32)

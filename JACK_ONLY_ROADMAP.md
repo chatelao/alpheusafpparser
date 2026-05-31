@@ -32,9 +32,9 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - [x] Migrated `com.mgz.afp.goca`
     - [x] Migrated `com.mgz.afp.triplets`
     - [x] Migrated `com.mgz.afp.lineData`
-    - [ ] Migrated `com.mgz.afp.base`
-    - [ ] Migrated `com.mgz.afp.foca`
-    - [ ] Migrated `com.mgz.afp.modca`
+    - [x] Migrated `com.mgz.afp.base`
+    - [x] Migrated `com.mgz.afp.foca`
+    - [x] Migrated `com.mgz.afp.modca`
 - [ ] Standardize model properties for Jackson:
     - [ ] Replace `@XmlTransient` with `@JsonIgnore`.
     - [ ] Replace `@XmlElement(name = "...")` with `@JacksonXmlProperty(localName = "...")`.

@@ -19,16 +19,17 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import com.mgz.afp.base.annotations.AFPField;
 
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class StructuredFieldBaseRepeatingGroups extends StructuredField implements IHasRepeatingGroups {
   @AFPField
-  @XmlTransient
+  @JsonIgnore
   protected List<IRepeatingGroup> repeatingGroups;
 
   @Override
@@ -37,13 +38,13 @@ public abstract class StructuredFieldBaseRepeatingGroups extends StructuredField
     repeatingGroups = null;
   }
 
-  @XmlTransient
+  @JsonIgnore
   @Override
   public final List<IRepeatingGroup> getRepeatingGroups() {
     return repeatingGroups;
   }
 
-  @XmlAnyElement(lax = true)
+  @JacksonXmlProperty
   public final List<IRepeatingGroup> getRepeatingGroupsXml() {
     return repeatingGroups;
   }
