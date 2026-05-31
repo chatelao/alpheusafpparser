@@ -44,6 +44,11 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSMP_SetMarkerPrecision;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSMS_SetMarkerSet;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSMT_SetMarkerSymbol;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_GraphicsData;
@@ -737,6 +742,54 @@ public class PdfHandlerStructureTest {
     assertEquals(AFPColorSpace.RGB, state.getProcessColorSpace());
     assertEquals(8, state.getNrOfBitsComponent1());
     assertEquals((byte) 0xFF, state.getProcessColorValue()[0]);
+  }
+
+  @Test
+  public void testGocaPatternAndMarkerTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GSPS: Set Pattern Set
+    GSPS_SetPatternSet gsps = new GSPS_SetPatternSet();
+    gsps.setPatternLocalID((short) 1);
+    orders.add(gsps);
+
+    // GSPT: Set Pattern Symbol
+    GSPT_SetPatternSymbol gspt = new GSPT_SetPatternSymbol();
+    gspt.setPatternSymbolCodePoint((short) 0x40);
+    orders.add(gspt);
+
+    // GSMS: Set Marker Set
+    GSMS_SetMarkerSet gsms = new GSMS_SetMarkerSet();
+    gsms.setMarkerSetLocalID((short) 2);
+    orders.add(gsms);
+
+    // GSMT: Set Marker Symbol
+    GSMT_SetMarkerSymbol gsmt = new GSMT_SetMarkerSymbol();
+    gsmt.setMarkerSymbolCodePoint((short) 0x2A);
+    orders.add(gsmt);
+
+    // GSMP: Set Marker Precision
+    GSMP_SetMarkerPrecision gsmp = new GSMP_SetMarkerPrecision();
+    gsmp.setMarkerPrecision((short) 1); // Character precision
+    orders.add(gsmp);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertEquals(1, state.getPatternSet());
+    assertEquals(0x40, state.getPatternSymbol());
+    assertEquals(2, state.getMarkerSet());
+    assertEquals(0x2A, state.getMarkerSymbol());
+    assertEquals(1, state.getMarkerPrecision());
   }
 
   @Test

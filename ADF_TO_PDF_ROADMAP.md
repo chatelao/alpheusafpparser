@@ -78,7 +78,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
     - ⏳ **Graphics State Management**:
-        - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), line type (`GSLT`), line end (`GSLE`), line join (`GSLJ`), arc parameters (`GSAP`), and process color (`GSPCOL`).
+        - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), line type (`GSLT`), line end (`GSLE`), line join (`GSLJ`), arc parameters (`GSAP`), marker attributes (`GSMS`, `GSMT`, `GSMP`), and process color (`GSPCOL`).
         - ✅ **Mix Attribute Tracking**: Implement mix mode attributes (`GSMX`, `GSBMX`).
     - ⏳ **Path Construction**:
         - ✅ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
@@ -90,6 +90,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Area and Filling**:
         - ✅ **Area Control**: Map `GAREA` (Begin/End Area) to PDF path closing and filling.
         - ⏳ **Pattern Handling**:
+        - ✅ **Pattern State Tracking**: Track active pattern attributes (`GSPS`, `GSPT`).
             - ⏳ **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
             - ⏳ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
     - ⏳ **Resource Mapping**:

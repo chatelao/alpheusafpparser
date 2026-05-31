@@ -35,6 +35,11 @@ public class PdfGraphicsState {
   private short lineType = 0;
   private LineEnd lineEnd = LineEnd.Default;
   private LineJoin lineJoin = LineJoin.Default;
+  private short patternSet = 0;
+  private short patternSymbol = 0;
+  private short markerSet = 0;
+  private short markerSymbol = 0;
+  private short markerPrecision = 0;
   private short mixMode = 0;
   private short backgroundMixMode = 0;
   private int currentX = 0;
@@ -64,6 +69,11 @@ public class PdfGraphicsState {
     this.lineType = 0;
     this.lineEnd = LineEnd.Default;
     this.lineJoin = LineJoin.Default;
+    this.patternSet = 0;
+    this.patternSymbol = 0;
+    this.markerSet = 0;
+    this.markerSymbol = 0;
+    this.markerPrecision = 0;
     this.mixMode = 0;
     this.backgroundMixMode = 0;
     this.currentX = 0;
@@ -121,6 +131,46 @@ public class PdfGraphicsState {
 
   public void setLineJoin(LineJoin lineJoin) {
     this.lineJoin = lineJoin;
+  }
+
+  public short getPatternSet() {
+    return patternSet;
+  }
+
+  public void setPatternSet(short patternSet) {
+    this.patternSet = patternSet;
+  }
+
+  public short getPatternSymbol() {
+    return patternSymbol;
+  }
+
+  public void setPatternSymbol(short patternSymbol) {
+    this.patternSymbol = patternSymbol;
+  }
+
+  public short getMarkerSet() {
+    return markerSet;
+  }
+
+  public void setMarkerSet(short markerSet) {
+    this.markerSet = markerSet;
+  }
+
+  public short getMarkerSymbol() {
+    return markerSymbol;
+  }
+
+  public void setMarkerSymbol(short markerSymbol) {
+    this.markerSymbol = markerSymbol;
+  }
+
+  public short getMarkerPrecision() {
+    return markerPrecision;
+  }
+
+  public void setMarkerPrecision(short markerPrecision) {
+    this.markerPrecision = markerPrecision;
   }
 
   public int getCurrentX() {
